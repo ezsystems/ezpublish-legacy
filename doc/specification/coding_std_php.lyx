@@ -1,0 +1,825 @@
+#LyX 1.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 218
+\textclass book
+\begin_preamble
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\lhead{\resizebox{1in}{!}{\includegraphics{images/ezsystems.eps}}}
+\lfoot{}
+\chead{}
+\rhead{}
+\end_preamble
+\language english
+\inputencoding latin1
+\fontscheme times
+\graphics default
+\float_placement !htbp
+\paperfontsize 10
+\spacing single 
+\papersize Default
+\paperpackage widemarginsa4
+\use_geometry 0
+\use_amsmath 0
+\paperorientation portrait
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation skip
+\defskip smallskip
+\quotes_language english
+\quotes_times 2
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+
+\layout Title
+
+PHP coding standard for eZ publish
+\layout Author
+
+
+\begin_inset Figure size 297 49
+file images/ezsystems.eps
+width 4 100
+flags 11
+
+\end_inset 
+
+
+\layout Standard
+
+
+\begin_inset Figure size 84 14
+file images/ezsystems.eps
+height 2 0.2
+flags 11
+
+\end_inset 
+
+The double squares and eZ are trademarks belonging to eZ systems of Norway,
+ registration number NO 981 601 564 (http://www.brreg.no/oppslag/enhet/detalj.ssc?o
+rgnr=981601564).
+\layout Standard
+
+eZ publish is a software package released under the GPL licence (http://www.gnu.or
+g/copyleft/gpl.html), its primary point of distribution and information is
+ http://ez.no/developer
+\layout Standard
+
+
+\begin_inset LatexCommand \tableofcontents{}
+
+\end_inset 
+
+
+\layout Chapter
+
+Introduction
+\layout Standard
+
+This coding standard defines how the code in eZ publish should be formatted.
+ The code in eZ publish must follow this standard to ensure a coherent looking
+ code base.
+\layout Standard
+
+To easier comply with this coding standard we recommend using emacs with
+ our configuration files which handles proper indenting and other nice features.
+\layout Chapter
+
+Files 
+\layout Standard
+
+All files uses lower case.
+ PHP files are named .php, SQL dump files are named .sql, template files are
+ named .tpl and language/setting files are named .ini.
+\layout Section
+
+Headers
+\layout Standard
+
+All files should have the following syntax:
+\layout LyX-Code
+
+<?php 
+\layout LyX-Code
+
+// 
+\layout LyX-Code
+
+// $Id: articlelist.php,v 1.81.2.2 2001/11/17 10:49:14 bf Exp $ 
+\layout LyX-Code
+
+// 
+\layout LyX-Code
+
+// Created on: <18-Oct-2000 14:41:37 bf> 
+\layout LyX-Code
+
+// 
+\layout LyX-Code
+
+// This source file is part of eZ publish, publishing software.
+ 
+\layout LyX-Code
+
+// 
+\layout LyX-Code
+
+// Copyright (C) 1999-2001 eZ Systems.
+ All rights reserved.
+ 
+\layout LyX-Code
+
+// 
+\layout LyX-Code
+
+// This program is free software; you can redistribute it and/or 
+\layout LyX-Code
+
+// modify it under the terms of the GNU General Public License 
+\layout LyX-Code
+
+// as published by the Free Software Foundation; either version 2 
+\layout LyX-Code
+
+// of the License, or (at your option) any later version.
+ 
+\layout LyX-Code
+
+// 
+\layout LyX-Code
+
+// This program is distributed in the hope that it will be useful, 
+\layout LyX-Code
+
+// but WITHOUT ANY WARRANTY; without even the implied warranty of 
+\layout LyX-Code
+
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ See the 
+\layout LyX-Code
+
+// GNU General Public License for more details.
+ 
+\layout LyX-Code
+
+// 
+\layout LyX-Code
+
+// You should have received a copy of the GNU General Public License 
+\layout LyX-Code
+
+// along with this program; if not, write to the Free Software 
+\layout LyX-Code
+
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
+ US 
+\layout LyX-Code
+
+//
+\layout LyX-Code
+
+\layout Chapter
+
+PHP
+\layout Section
+
+Indenting
+\layout Standard
+
+Indenting is 4 characters, real tab characters should not be used.
+ Spaces are used for indenting.
+\layout Section
+
+Placement of brackets
+\layout Standard
+
+Start and end brackets should be placed on the same column.
+ 
+\layout Standard
+
+Examples: 
+\layout LyX-Code
+
+multiply( $x, $y ) 
+\layout LyX-Code
+
+{ 
+\layout LyX-Code
+
+    // function body 
+\layout LyX-Code
+
+} 
+\layout LyX-Code
+
+\layout LyX-Code
+
+if ( x == y ) 
+\layout LyX-Code
+
+{ 
+\layout LyX-Code
+
+  ..
+ 
+\layout LyX-Code
+
+} 
+\layout LyX-Code
+
+\layout LyX-Code
+
+else if ( x > y ) 
+\layout LyX-Code
+
+{ 
+\layout LyX-Code
+
+    ..
+ 
+\layout LyX-Code
+
+} 
+\layout LyX-Code
+
+else 
+\layout LyX-Code
+
+{
+\layout LyX-Code
+
+    ..
+ 
+\layout LyX-Code
+
+}
+\layout LyX-Code
+
+\layout LyX-Code
+
+class foo
+\layout LyX-Code
+
+{
+\layout LyX-Code
+
+    function foo( )
+\layout LyX-Code
+
+    {
+\layout LyX-Code
+
+        ..
+ 
+\layout LyX-Code
+
+    }
+\layout LyX-Code
+
+}
+\layout Section
+
+Parenthesis, brackets and comma
+\layout Standard
+
+It should always be a space after a start parenthesis and one space before
+ an end parenthesis.
+ One space is placed after every comma.
+ Square brackets [] should not have space after the start bracket and before
+ the end bracket.
+ It should be a space between each type.
+\layout Standard
+
+Empty lines should be used to group variables and code lines which have
+ a connection.
+ Variable names which is grouped should be indented to the same level.
+\layout Standard
+
+Empty lines should not only appear empty, but they should also be empty,
+ all tab and space characters should be removed.
+\layout Standard
+
+Use more parenthesis than necessary if you're not sure on the sequence the
+ expression is executed.
+\layout Section
+
+If and while statements
+\layout Standard
+
+Nested if statements should always use {}.
+ If you have a lot of if, else statements these should probably be replaced
+ with case statements, or it should be redesign to use object oriented methods.
+ If and while statements should be constructed of logic statements, no assignmen
+t or changing of data should occur.
+\layout Section
+
+Naming
+\layout Standard
+
+All names should be English and grammatically correct.
+ Names like 
+\begin_inset Quotes eld
+\end_inset 
+
+foo
+\begin_inset Quotes erd
+\end_inset 
+
+ and 
+\begin_inset Quotes eld
+\end_inset 
+
+tmp
+\begin_inset Quotes erd
+\end_inset 
+
+ should be avoided since they do not describe anything.
+ Names should not contain numbers, numbers should be described with letters
+ unless there is a good reason for it.
+\layout Standard
+
+Example:
+\layout LyX-Code
+
+$ValueOne 
+\layout Standard
+
+Function names can be constructed by several words, all words should have
+ lower case unless the first letter which should be a capital letter.
+ Exception for this is the first letter which always should be in lower
+ case.
+ If the first letter is part of an abbreviation the whole abbreviation should
+ be in lower case.
+\layout Standard
+
+Example:
+\layout LyX-Code
+
+setText(..);
+\layout LyX-Code
+
+id();
+\layout LyX-Code
+
+setID();
+\layout LyX-Code
+
+getTheValuesForThis();
+\layout Standard
+
+Constants should be constructed by only capital letters, _ should be used
+ to separate words.
+\layout Standard
+
+Example:
+\layout LyX-Code
+
+define( "MY_CONSTANT", 42 );
+\layout Standard
+
+Member variables can be constructed of several words, every word is spelled
+ in lower case with capital first letter.
+ It should not be too many words, 1-3 is normal, they can be abbreviated
+ as long as it's understandable.
+\layout Standard
+
+Example:
+\layout LyX-Code
+
+$Len; 
+\layout LyX-Code
+
+$X, $Y; 
+\layout LyX-Code
+
+$FirstName
+\layout Standard
+
+Local variables can also consist of several words with lower case, the first
+ character is a capital letter except the first word.
+ The number of words should be as few as possible and the words can be abbreviat
+ed.
+\layout LyX-Code
+
+$index, $x, $y, i; 
+\layout LyX-Code
+
+$xAdd;
+\layout LyX-Code
+
+$firstName, $lastName;
+\layout Standard
+
+Parameters are names like local variables.
+\layout Standard
+
+Class names can consist of several words, every word should be in lower
+ case with the first letter in capital.
+ All class names should begin with eZ.
+\layout Standard
+
+Example:
+\layout LyX-Code
+
+eZUser
+\layout LyX-Code
+
+eZArticleGenerator
+\layout Standard
+
+Global variables are not used, place them in a class and make them static.
+\layout Subsubsection
+
+Singleton
+\layout Standard
+
+Singleton functions should return the current instance of the object.
+ 
+\layout LyX-Code
+
+class eZDB
+\layout LyX-Code
+
+{
+\layout LyX-Code
+
+  /*!
+\layout LyX-Code
+
+    
+\backslash 
+static
+\layout LyX-Code
+
+    Returns the current database object.
+\layout LyX-Code
+
+  */
+\layout LyX-Code
+
+  function instance()
+\layout LyX-Code
+
+  {
+\layout LyX-Code
+
+    ..
+ 
+\layout LyX-Code
+
+  }
+\layout LyX-Code
+
+}
+\layout LyX-Code
+
+\layout Subsection
+
+Template naming
+\layout Standard
+
+eZ publish uses templates to define the XHTML which will be presented as
+ a webpage.
+ Theese templates contain variables.
+ There are two types of variables, POST variables and template variables.
+ 
+\layout Standard
+
+The syntax for template variables are as follows:
+\layout LyX-Code
+
+{value_one}
+\layout LyX-Code
+
+{first_name}
+\layout LyX-Code
+
+{long_variable_with_good_description}
+\layout LyX-Code
+
+{category_id}
+\layout Standard
+
+POST variables should have the following syntax (since they will be global
+ variables in the php receiver script ):
+\layout LyX-Code
+
+FirstName
+\layout LyX-Code
+
+ValueOne
+\layout LyX-Code
+
+CategoryID
+\layout LyX-Code
+
+LongVariable
+\layout Section
+
+Functions
+\layout Standard
+
+All functions should be placed in classes unless there is a good reason
+ not to.
+\layout Standard
+
+Functions should be short and do one thing.
+ The length of a function depends on the complexity of the function, the
+ more complex the function is the shorter should the function be.
+ If it gets too complex then divide the function up into helper functions.
+\layout Standard
+
+The number of local variables in a function should not be larger than 7,
+ 7 is a known limit to the number of things people can control at one time.
+ Split up the function if it gets too large.
+\layout Standard
+
+Default parameters should be used with care.
+\layout Standard
+
+You should let the parameter line go over several lines with grouping of
+ the similar parameters, if it gets long.
+\layout Section
+
+Classes
+\layout Standard
+
+Classes should have one responsibility.
+ All member variables are private 
+\begin_float footnote 
+\layout Standard
+
+Since PHP does not have private variables it is up to the programmer to
+ follow these rules.
+\end_float 
+.
+ Help functions should also be private
+\begin_float footnote 
+\layout Standard
+
+PHP does not allow private member functions, but this should be commented
+ in the function header with the 
+\backslash 
+private tag.
+\end_float 
+.
+ Functions which does not access member variables should be static
+\begin_float footnote 
+\layout Standard
+
+PHP does not differentiate between static and non static functions so this
+ should be commented in the function header with the 
+\backslash 
+static tag.
+ A static function doesn't use the $this variable.
+\end_float 
+.
+\layout Section
+
+Commenting
+\layout Standard
+
+The comments used should be written to comply with the syntax of the eZ
+ phpdoc tool.
+ This tool is used to generate class reference documentation which is available
+ at http://doc.ez.no.
+\layout LyX-Code
+
+//!! Module Name 
+\layout LyX-Code
+
+//! A brief description of the class 
+\layout LyX-Code
+
+/*! 
+\layout LyX-Code
+
+  This is a more complete description of the class.
+ 
+\layout LyX-Code
+
+  Here is an code example:
+\layout LyX-Code
+
+\layout LyX-Code
+
+  
+\backslash 
+code 
+\layout LyX-Code
+
+  $myObj = new MyClass(); 
+\layout LyX-Code
+
+  
+\backslash 
+endcode 
+\layout LyX-Code
+
+\layout LyX-Code
+
+  See also theese classes:
+\layout LyX-Code
+
+  
+\backslash 
+sa eZUser, eZArticle
+\layout LyX-Code
+
+*/
+\layout LyX-Code
+
+\layout LyX-Code
+
+/*!TODO 
+\layout LyX-Code
+
+  First thing to do.
+\layout LyX-Code
+
+\layout LyX-Code
+
+  Second thing to do.
+\layout LyX-Code
+
+\layout LyX-Code
+
+  Yet, another thing to do.
+ 
+\layout LyX-Code
+
+*/
+\layout LyX-Code
+
+\layout LyX-Code
+
+class MyClass 
+\layout LyX-Code
+
+{ 
+\layout LyX-Code
+
+    /*! 
+\layout LyX-Code
+
+      This is the contructor of MyClass.
+ It handles....
+ 
+\layout LyX-Code
+
+    */ 
+\layout LyX-Code
+
+    function MyClass() 
+\layout LyX-Code
+
+    { 
+\layout LyX-Code
+
+        ...
+\layout LyX-Code
+
+    }
+\layout LyX-Code
+
+\layout LyX-Code
+
+    /*!
+\layout LyX-Code
+
+      
+\backslash 
+private
+\layout LyX-Code
+
+      This is a private helper function.
+\layout LyX-Code
+
+    */
+\layout LyX-Code
+
+    function doSomething()
+\layout LyX-Code
+
+    {
+\layout LyX-Code
+
+        ...
+\layout LyX-Code
+
+    }
+\layout LyX-Code
+
+\layout LyX-Code
+
+    /// This is a variable description.
+ 
+\layout LyX-Code
+
+    var MyVar; 
+\layout LyX-Code
+
+}
+\layout LyX-Code
+
+\layout Chapter
+
+SQL
+\layout Section
+
+Syntax
+\layout Standard
+
+SQL commands are written in all capital letters.
+\layout LyX-Code
+
+SELECT * FROM Person 
+\layout LyX-Code
+
+WHERE ID='$personID' 
+\layout LyX-Code
+
+HAVING Age>'42' 
+\layout LyX-Code
+
+LIMIT 0,20; 
+\layout Section
+
+Tables
+\layout Standard
+
+Table names should be in English.
+ The names should be grammatically correct.
+ Table names with several words should be separated with capital letters.
+ The tables should be prefixed with the module name, e.g.
+ eZUser.
+\layout Standard
+
+Example:
+\layout LyX-Code
+
+eZUser_User
+\layout LyX-Code
+
+eZArticle_Category
+\layout LyX-Code
+
+eZTrade_ProductCategoryLink
+\layout Standard
+
+Row names should be named with capital first letters for each word.
+\layout Standard
+
+Example:
+\layout LyX-Code
+
+eZUser_User
+\layout LyX-Code
+
+{
+\layout LyX-Code
+
+  ID int,
+\layout LyX-Code
+
+  FirstName char,
+\layout LyX-Code
+
+  LastName char,
+\layout LyX-Code
+
+  Login char
+\layout LyX-Code
+
+}
+\layout Chapter
+
+HTML / XHTML
+\layout Standard
+
+All HTML should be written in XHTML 1.0 (or higher).
+ It should also be written with no browser specific tags, this is to ensure
+ that the application works in as many browsers as possible.
+ Java/Ecma script should be avoided.
+ Frames is not recommended, eZ publish is designed to work without frames.
+\layout Standard
+
+Reasons for not using frames are:
+\layout Itemize
+
+Hard to bookmark
+\layout Itemize
+
+Hard to print
+\layout Itemize
+
+Does not work correctly in all browsers
+\layout Section
+
+Syntax
+\layout Standard
+
+HTML code should be written in lower case.
+\layout LyX-Code
+
+\the_end

@@ -48,11 +48,6 @@
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
 
-define( 'EZ_UPLOADEDFILE_OK', 0 );
-define( 'EZ_UPLOADEDFILE_DOES_NOT_EXIST', -1 );
-define( 'EZ_UPLOADEDFILE_EXCEEDS_PHP_LIMIT', -2 );
-define( 'EZ_UPLOADEDFILE_EXCEEDS_MAX_SIZE', -3 );
-
 class eZHTTPFile
 {
     /*!
@@ -89,7 +84,7 @@ class eZHTTPFile
     /*!
      Stores the temporary file to the destination dir $dir.
     */
-    function store( $sub_dir = false, $suffix = false, $mimeData = false )
+    function store( $sub_dir = false, $suffix=false )
     {
         include_once( 'lib/ezfile/classes/ezdir.php' );
         if ( !$this->IsTemporary )
@@ -101,19 +96,17 @@ class eZHTTPFile
         $this->IsTemporary = false;
 
         $ini =& eZINI::instance();
-//         $storage_dir = $ini->variable( "FileSettings", "VarDir" ) . '/' . $ini->variable( "FileSettings", "StorageDir" );
-        $storage_dir = eZSys::storageDirectory();
+        $storage_dir = $ini->variable( "FileSettings", "VarDir" ) . '/' . $ini->variable( "FileSettings", "StorageDir" );
         if ( $sub_dir !== false )
             $dir = $storage_dir . "/$sub_dir/";
         else
             $dir = $storage_dir . "/";
-        if ( $mimeData )
-            $dir = $mimeData['dirpath'];
 
         if ( !file_exists( $dir ) )
         {
             $oldumask = umask( 0 );
-            if ( !eZDir::mkdir( $dir, eZDir::directoryPermission(), true ) )
+            $perm = $ini->variable( "FileSettings", "TemporaryPermissions" );
+            if ( !eZDir::mkdir( $dir, octdec( $perm ), true ) )
             {
                 umask( $oldumask );
                 return false;
@@ -121,49 +114,42 @@ class eZHTTPFile
             umask( $oldumask );
         }
 
-        if ( !$mimeData )
+        $dir .= $this->MimeCategory;
+        if ( !file_exists( $dir ) )
         {
-            $dir .= $this->MimeCategory;
-            if ( !file_exists( $dir ) )
+            $oldumask = umask( 0 );
+            $perm = $ini->variable( "FileSettings", "TemporaryPermissions" );
+            if ( !eZDir::mkdir( $dir, octdec( $perm ), true ) )
             {
-                $oldumask = umask( 0 );
-                $perm = $ini->variable( "FileSettings", "StorageDirPermissions" );
-                if ( !eZDir::mkdir( $dir, octdec( $perm ), true ) )
-                {
-                    umask( $oldumask );
-                    return false;
-                }
                 umask( $oldumask );
+                return false;
             }
+            umask( $oldumask );
         }
 
         $suffixString = false;
         if ( $suffix != false )
             $suffixString = ".$suffix";
 
-        if ( $mimeData )
-        {
-            $dest_name = $mimeData['url'];
-        }
-        else
-        {
-            $dest_name = $dir .  "/". basename( $this->Filename ) . $suffixString;
-        }
+//        $dest_name = tempnam( $dir, $this->MimePart . "-" );
+//        $dest_name = tempnam( $dir , '');
+        // the above code does not work on windows.
+        $dest_name = $dir .  "/". basename( $this->Filename );
 
-//         eZDebug::writeDebug( $this->Filename );
-        if ( !move_uploaded_file( $this->Filename, $dest_name ) )
+        eZDebug::writeDebug( $this->Filename . " " . $dest_name . $suffixString );
+        if ( !move_uploaded_file( $this->Filename, $dest_name . $suffixString ) )
         {
-            eZDebug::writeError( "Failed moving uploaded file " . $this->Filename . " to destination $dest_name" );
-            unlink( $dest_name );
+            eZDebug::writeError( "Failed moving uploaded file " . $this->Filename . " to destination $dest_name$suffixString" );
+            unlink( $dest_name . $suffixString );
             $ret = false;
         }
         else
         {
             $ret = true;
-            $this->Filename = $dest_name;
-            $perm = $ini->variable( "FileSettings", "StorageFilePermissions" );
+            $this->Filename = $dest_name . $suffixString;
+            $perm = $ini->variable( "FileSettings", "TemporaryPermissions" );
             $oldumask = umask( 0 );
-            chmod( $dest_name, octdec( $perm ) );
+            chmod( $dest_name . $suffixString, octdec( $perm ) );
             umask( $oldumask );
 
             // Write log message to storage.log
@@ -217,60 +203,18 @@ class eZHTTPFile
     }
 
     /*!
-     \return true if the HTTP file $http_name can be fetched. If $maxSize is given,
-     the function returns
-        0 (EZ_UPLOADEDFILE_OK) if the file can be fetched,
-       -1 (EZ_UPLOADEDFILE_DOES_NOT_EXIST) if there has been no file uploaded,
-       -2 (EZ_UPLOADEDFILE_EXCEEDS_PHP_LIMIT) if the file was uploaded but size
-          exceeds the upload_max_size limit (set in the PHP configuration),
-       -3 (EZ_UPLOADEDFILE_EXCEEDS_MAX_SIZE) if the file was uploaded but size
-          exceeds $maxSize or MAX_FILE_SIZE variable in the form.
+     \return true if the HTTP file $http_name can be fetched.
     */
-    function canFetch( $http_name, $maxSize = false )
+    function canFetch( $http_name )
     {
         $file =& $GLOBALS["eZHTTPFile-$http_name"];
         if ( get_class( $file ) != "ezhttpfile" )
         {
-            if ( $maxSize === false )
-            {
-                return isset( $_FILES[$http_name] ) and $_FILES[$http_name]['name'] != "" and $_FILES[$http_name]['error'] == 0;
-            }
+            global $_FILES;
 
-            if ( isset( $_FILES[$http_name] ) and $_FILES[$http_name]['name'] != "" )
-            {
-                switch ( $_FILES[$http_name]['error'] )
-                {
-                    case ( UPLOAD_ERR_NO_FILE ):
-                    {
-                        return EZ_UPLOADEDFILE_DOES_NOT_EXIST;
-                    }break;
-
-                    case ( UPLOAD_ERR_INI_SIZE ):
-                    {
-                        return EZ_UPLOADEDFILE_EXCEEDS_PHP_LIMIT;
-                    }break;
-
-                    case ( UPLOAD_ERR_FORM_SIZE ):
-                    {
-                        return EZ_UPLOADEDFILE_EXCEEDS_MAX_SIZE;
-                    }break;
-
-                    default:
-                    {
-                        return ( $maxSize == 0 || $_FILES[$http_name]['size'] <= $maxSize )? EZ_UPLOADEDFILE_OK:
-                                                                                             EZ_UPLOADEDFILE_EXCEEDS_MAX_SIZE;
-                    }
-                }
-            }
-            else
-            {
-                return EZ_UPLOADEDFILE_DOES_NOT_EXIST;
-            }
+            return isset( $_FILES[$http_name] ) and $_FILES[$http_name]["name"] != "";
         }
-        if ( $maxSize === false )
-            return EZ_UPLOADEDFILE_OK;
-        else
-            return true;
+        return true;
     }
 
     /*!
@@ -284,13 +228,11 @@ class eZHTTPFile
         {
             $file = null;
 
+            global $_FILES;
+
             if ( isset( $_FILES[$http_name] ) and
                  $_FILES[$http_name]["name"] != "" )
             {
-                include_once( 'lib/ezutils/classes/ezmimetype.php' );
-                include_once( 'lib/ezfile/classes/ezfile.php' );
-                $mimeType = eZMimeType::findByURL( $_FILES[$http_name]['name'] );
-                $_FILES[$http_name]['type'] = $mimeType['name'];
                 $file = new eZHTTPFile( $http_name, $_FILES[$http_name] );
             }
             else

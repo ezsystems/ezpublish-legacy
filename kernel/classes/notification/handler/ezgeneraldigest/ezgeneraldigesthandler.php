@@ -218,6 +218,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
             $items[] =& new eZNotificationCollectionItem( $itemRow );
         }
         return $items;
+        
     }
 
 
@@ -257,14 +258,6 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
             $settings->setAttribute( 'receive_digest', 0 );
             $settings->store();
         }
-    }
-
-    /*!
-     \reimp
-    */
-    function cleanup()
-    {
-        eZGeneralDigestUserSettings::cleanup();
     }
 
 }

@@ -227,26 +227,6 @@ class eZWishList extends eZPersistentObject
         }
         return $currentWishList;
     }
-
-    /*!
-     \static
-     Removes all wishlists from the database.
-    */
-    function cleanup()
-    {
-        $db =& eZDB::instance();
-        $rows = $db->arrayQuery( "SELECT productcollection_id FROM ezwishlist" );
-        if ( count( $rows ) > 0 )
-        {
-            $productCollectionIDList = array();
-            foreach ( $rows as $row )
-            {
-                $productCollectionIDList[] = $row['productcollection_id'];
-            }
-            eZProductCollection::cleanupList( $productCollectionIDList );
-        }
-        $db->query( "DELETE FROM ezwishlist" );
-    }
 }
 
 ?>

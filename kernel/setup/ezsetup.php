@@ -93,7 +93,7 @@ $result = null;
 // process previous step
 $previousStepClass = null;
 $step = null;
-$currentStep = null;
+
 
 if ( $http->hasPostVariable( 'eZSetup_back_button' ) ) // previous step selected
 {

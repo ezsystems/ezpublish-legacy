@@ -90,45 +90,25 @@ class eZSelectionType extends eZDataType
         if ( $http->hasPostVariable( $base . "_ezselection_option_name_array_" . $classAttributeID ) )
         {
             $nameArray = $http->postVariable( $base . "_ezselection_option_name_array_" . $classAttributeID );
-
             // Fill in new names for options
             foreach ( array_keys( $currentOptions ) as $key )
             {
                 $currentOptions[$key]['name'] = $nameArray[$currentOptions[$key]['id']];
             }
-            $hasPostData = true;
+                    $hasPostData = true;
 
         }
 
         if ( $http->hasPostVariable( $base . "_ezselection_newoption_button_" . $classAttributeID ) )
         {
-            $currentCount = 0;
-            foreach ( $currentOptions as $option )
-            {
-                $currentCount = max( $currentCount, $option['id'] );
-            }
-            $currentCount += 1;
-
-            $currentOptions[] = array( 'id' => $currentCount,
+            eZDebug::writeDebug( $currentOptions, '$currentOptions' );
+            $currentOptions[] = array( 'id' => count( $currentOptions ) + 1,
                                        'name' => '' );
-            $hasPostData = true;
+            eZDebug::writeDebug( $currentOptions, '$currentOptions' );
+                    $hasPostData = true;
 
         }
 
-        if ( $http->hasPostVariable( $base . "_ezselection_removeoption_button_" . $classAttributeID ) )
-        {
-            if ( $http->hasPostVariable( $base . "_ezselection_option_remove_array_". $classAttributeID ) )
-            {
-                $removeArray = $http->postVariable( $base . "_ezselection_option_remove_array_". $classAttributeID );
-
-                foreach ( array_keys( $currentOptions ) as $key )
-                {
-                    if ( $removeArray[$currentOptions[$key]['id']] )
-                        unset( $currentOptions[$key] );
-                }
-                $hasPostData = true;
-            }
-        }
 
         if ( $hasPostData )
         {
@@ -188,6 +168,22 @@ class eZSelectionType extends eZDataType
     }
 
     /*!
+     \reimp
+    */
+    function &sortKey( &$contentObjectAttribute )
+    {
+        return strtolower( $contentObjectAttribute->attribute( 'data_text' ) );
+    }
+
+    /*!
+     \reimp
+    */
+    function &sortKeyType()
+    {
+        return 'string';
+    }
+
+    /*!
      Returns the selected options by id.
     */
     function &objectAttributeContent( &$contentObjectAttribute )
@@ -229,24 +225,7 @@ class eZSelectionType extends eZDataType
     */
     function metaData( $contentObjectAttribute )
     {
-        $selected = $this->objectAttributeContent( $contentObjectAttribute );
-        $classContent = $this->classAttributeContent( $contentObjectAttribute->attribute( 'contentclass_attribute' ) );
-        $return = '';
-        if ( count( $selected ) == 0)
-        {
-            return '';
-        }
-
-        $count = 0;
-        foreach ( $selected as $id )
-        {
-            if ( $count != 0 )
-                $return .= ' ';
-            $return .= $classContent['options'][$id]['name'];
-            $count++;
-        }
-
-        return $return;
+        return $this->objectAttributeContent( $contentObjectAttribute );
     }
 
     /*!
@@ -265,38 +244,13 @@ class eZSelectionType extends eZDataType
         $count = 0;
         foreach ( $selected as $id )
         {
-            /*if ( $id == 0 ) // first object gets id==0, while rest of objects get id with offset from 1
+            if ( $id == 0 ) // first object gets id==0, while rest of objects get id with offset from 1
                 $id++;
             if ( $count++ != 0 )
                 $return .= ', ';
-            $return .= $classContent['options'][$id-1]['name'];*/
-            if ( $count != 0 )
-                $return .= ', ';
-            $return .= $classContent['options'][$id]['name'];
-            $count++;
+            $return .= $classContent['options'][$id-1]['name'];
         }
         return $return;
-    }
-
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        return true;
-    }
-
-    /*!
-     \reimp
-    */
-    function &sortKey( &$contentObjectAttribute )
-    {
-        return strtolower( $contentObjectAttribute->attribute( 'data_text' ) );
-    }
-
-    /*!
-     \reimp
-    */
-    function sortKeyType()
-    {
-        return 'string';
     }
 
     /*!

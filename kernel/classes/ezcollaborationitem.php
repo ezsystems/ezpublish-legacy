@@ -131,7 +131,8 @@ class eZCollaborationItem extends eZPersistentObject
 
     function &create( $typeIdentifier, $creatorID, $status = EZ_COLLABORATION_STATUS_ACTIVE )
     {
-        $date_time = time();
+        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+        $date_time = eZDateTime::currentTimeStamp();
         $row = array(
             'id' => null,
             'type_identifier' => $typeIdentifier,
@@ -370,7 +371,7 @@ class eZCollaborationItem extends eZPersistentObject
         if ( $userID === false )
             $userID = eZUser::currentUserID();
         if ( $timestamp === false )
-            $timestamp = time();
+            $timestamp = eZDateTime::currentTimeStamp();
         $collaborationID = $this->attribute( 'id' );
 
         eZCollaborationItemStatus::setLastRead( $collaborationID, $userID, $timestamp );
@@ -532,30 +533,6 @@ class eZCollaborationItem extends eZPersistentObject
             $itemCount =& $db->arrayQuery( $sql );
             return $itemCount[0]['count'];
         }
-    }
-
-    function handleView( $viewMode )
-    {
-        $handler =& $this->handler();
-        $handler->readItem( $this, $viewMode );
-        return true;
-    }
-
-    /*!
-     \static
-     Removes all collaboration items by fetching them and calling remove on them.
-    */
-    function cleanup()
-    {
-        $db =& eZDB::instance();
-        $db->query( "DELETE FROM ezcollab_item" );
-        $db->query( "DELETE FROM ezcollab_item_group_link" );
-        $db->query( "DELETE FROM ezcollab_item_message_link" );
-        $db->query( "DELETE FROM ezcollab_item_participant_link" );
-        $db->query( "DELETE FROM ezcollab_item_status" );
-        $db->query( "DELETE FROM ezcollab_notification_rule" );
-        $db->query( "DELETE FROM ezcollab_profile" );
-        $db->query( "DELETE FROM ezcollab_simple_message" );
     }
 
     /// \privatesection

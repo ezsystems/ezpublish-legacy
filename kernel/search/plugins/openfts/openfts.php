@@ -44,7 +44,7 @@
 */
 include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
-include_once( 'lib/ezfile/classes/ezdir.php' );
+include_once( "lib/ezutils/classes/ezdir.php" );
 include_once( "lib/ezutils/classes/ezdebug.php" );
 
 class openFts
@@ -105,7 +105,7 @@ class openFts
         fclose( $fp );
         $tmpFname = realpath( $tmpFname );
         eZDebugSetting::writeDebug( 'kernel-search-openfts', "/home/sp/projects/php/ezpublish3/bin/openfts/index.pl nextgen_test $contentObjectID $tmpFname","indexing command");
-        $retStr = system( "/home/sp/projects/php/ezpublish3/bin/openfts/index.pl nextgen_test $contentObjectID $tmpFname", $foo );
+        $retStr = system( "/home/sp/projects/php/ezpublish3/bin/openfts/index.pl nextgen_test $contentObjectID $tmpFname", &$foo );
         eZDebugSetting::writeDebug( 'kernel-search-openfts', $retStr.$foo, "error string" );
         //  unlink($tmpFname);
 

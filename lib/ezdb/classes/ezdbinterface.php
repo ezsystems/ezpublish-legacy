@@ -75,7 +75,6 @@ class eZDBInterface
         $slaveDB =  $parameters['slave_database'];
         $socketPath = $parameters['socket'];
         $charset = $parameters['charset'];
-		$isInternalCharset = $parameters['is_internal_charset'];
         $builtinEncoding = $parameters['builtin_encoding'];
         $connectRetries = $parameters['connect_retries'];
 
@@ -95,28 +94,17 @@ class eZDBInterface
         $this->SlaveUser = $slaveUser;
         $this->SlavePassword = $slavePassword;
         $this->Charset = $charset;
-		$this->IsInternalCharset = $isInternalCharset;
         $this->UseBuiltinEncoding = $builtinEncoding;
         $this->ConnectRetries = $connectRetries;
         $this->DBConnection = false;
         $this->DBWriteConnection = false;
         $this->TransactionCounter = 0;
 
-        $this->OutputTextCodec = null;
-        $this->InputTextCodec = null;
-/*
-        This is pseudocode, there is no such function as
-        mysql_supports_charset() of course
-        if ( $this->UseBuiltinEncoding and mysql_supports_charset( $charset ) )
-        {
-            mysql_session_set_charset( $charset );
-        }
-        else
-*/
+        if ( $this->UseBuiltinEncoding )
         {
             include_once( "lib/ezi18n/classes/eztextcodec.php" );
-            $this->OutputTextCodec =& eZTextCodec::instance( $charset, false, false );
-            $this->InputTextCodec =& eZTextCodec::instance( false, $charset, false );
+            $this->OutputTextCodec =& eZTextCodec::instance( $charset );
+            $this->InputTextCodec =& eZTextCodec::instance( eZTextCodec::internalCharset(), $charset );
         }
 
         $ini =& eZINI::instance();
@@ -135,55 +123,7 @@ class eZDBInterface
         $this->StartTime = false;
         $this->EndTime = false;
         $this->TimeTaken = false;
-
-		$this->AttributeVariableMap =
-		array(
-		    'database_name' => 'DB',
-            'database_server' => 'Server',
-            'database_socket_path' => 'SocketPath',
-            'database_user' => 'User',
-            'use_slave_server' => 'UseSlaveServer',
-            'slave_database_name' => 'SlaveDB',
-            'slave_database_server' => 'SlaveServer',
-            'slave_database_user' => 'SlaveUser',
-            'charset' => 'Charset',
-			'is_internal_charset' => 'IsInternalCharset',
-	        'use_builting_encoding' => 'UseBuiltinEncoding',
-        	'retry_count' => 'ConnectRetries' );
     }
-
-    /*!
-	 \return the available attributes for this database handler.
-	*/
-	function attributes()
-	{
-		return array_keys( $this->AttributeVariableMap );
-	}
-
-    /*!
-	 \return \c true if the attribute \a $name exists for this database handler.
-	*/
-	function hasAttribute( $name )
-	{
-		if ( isset( $this->AttributeVariableMap[$name] ) )
-		{
-		    return true;
-		}
-		return false;
-	}
-
-    /*!
-	 \return the value of the attribute \a $name if it exists, otherwise \c null.
-	*/
-	function &attribute( $name )
-	{
-		if ( isset( $this->AttributeVariableMap[$name] ) )
-		{
-		    $memberVariable = $this->AttributeVariableMap[$name];
-			return $this->$memberVariable;
-		}
-		return null;
-	}
 
     /*!
      \private
@@ -203,11 +143,9 @@ class eZDBInterface
                 // Fix SQL file by deleting all comments and newlines
 //            eZDebug::writeDebug( $buffer, "read data" );
                 $sqlQuery = preg_replace( array( "/^#.*\n" . "/m",
-                                                 "#^/\*.*\*/\n" . "#m",
                                                  "/^--.*\n" . "/m",
                                                  "/\n|\r\n|\r/m" ),
                                           array( "",
-                                                 "",
                                                  "",
                                                  "\n" ),
                                           $buffer );
@@ -244,7 +182,7 @@ class eZDBInterface
     {
         $type = $this->databaseName();
 
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        include_once( 'lib/ezutils/classes/ezdir.php' );
         if ( $usePathType )
             $sqlFileName = eZDir::path( array( $path, $type, $sqlFile ) );
         else
@@ -599,7 +537,6 @@ class eZDBInterface
     }
 
     /*!
-      \protected
       Returns true if we're connected to the database backend.
     */
     function isConnected()

@@ -62,18 +62,17 @@ $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
                                                                'insert',
                                                                'remove',
                                                                'replace',
-                                                               'unique',
-                                                               'array_sum'
+                                                               'unique'
                                                                ) );
 
 
 
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateexecuteoperator.php',
                                     'class' => 'eZTemplateExecuteOperator',
-                                    'operator_names' => array( 'fetch', 'fetch_alias' ) );
+                                    'operator_names' => array( 'fetch' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatelocaleoperator.php',
                                     'class' => 'eZTemplateLocaleOperator',
-                                    'operator_names' => array( 'l10n', 'datetime', 'currentdate', 'maketime', 'makedate', 'gettime' ) );
+                                    'operator_names' => array( 'l10n', 'datetime', 'currentdate' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateattributeoperator.php',
                                     'class' => 'eZTemplateAttributeOperator',
                                     'operator_names' => array( 'attribute' ) );
@@ -108,9 +107,7 @@ $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
                                                                'div', 'mod', 'mul',
                                                                'max', 'min',
                                                                'abs', 'ceil', 'floor', 'round',
-                                                               'int', 'float',
-                                                               'count',
-                                                               'roman' ) );
+                                                               'count' ) );
 
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateimageoperator.php',
                                     'class' => 'eZTemplateImageOperator',
@@ -179,14 +176,6 @@ $eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
 $eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatecachefunction.php',
                                     'class' => 'eZTemplateCacheFunction',
                                     'function_names' => array( 'cache-block' ) );
-
-$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatetoolbarfunction.php',
-                                    'class' => 'eZTemplateToolbarFunction',
-                                    'function_names' => array( 'tool_bar' ) );
-
-$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatemenufunction.php',
-                                    'class' => 'eZTemplateMenuFunction',
-                                    'function_names' => array( 'menu' ) );
 
 // eZTemplatePHPOperator is not autoload due to it's generic use
 // it's up to the users of eZTemplate to initiate a proper usage

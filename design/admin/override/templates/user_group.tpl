@@ -4,8 +4,7 @@
          is_editable=true()
          is_standalone=true()}
 {let page_limit=15
-     list_count=and( $with_children, fetch( content, list_count, hash( parent_node_id, $node.node_id ) ) )
-     policies=fetch( 'user', 'user_role', hash( user_id, $node.object.id ) )}
+     list_count=and( $with_children, fetch( content, list_count, hash( parent_node_id, $node.node_id ) ) )}
 {default content_object=$node.object
          content_version=$node.contentobject_version_object
          node_name=$node.name}
@@ -15,7 +14,7 @@
 {/section}
 
 <div class="objectheader">
-    <h2>{$node_name|wash} [{'User group'|i18n('design/admin/node/view')}], {'Node ID'|i18n( 'design/standard/node/view' )}: {$node.node_id}, {'Object ID'|i18n( 'design/standard/node/view' )}: {$node.object.id}</h2>
+    <h2>{$node_name|wash} [{'User group'|i18n('design/admin/node/view')}]</h2>
 </div>
 
 <div class="object">
@@ -133,7 +132,20 @@
                     </td>
                 {/section}
                 <td>
-			<a href={$Child:item.url_alias|ezurl}>{node_view_gui view=line content_node=$Child:item}</a>
+			<a href={concat('content/view/full/',$Child:item.node_id)|ezurl}>
+			{switch match=$Child:item.object.contentclass_id}
+			{case match=4}
+			    <img src={"user.gif"|ezimage} border="0" alt="{'User'|i18n('design/standard/node/view')}" />
+			{/case}
+			{case match=3}
+			     <img src={"usergroup.gif"|ezimage} border="0" alt="{'User group'|i18n('design/standard/node/view')}" />
+			{/case}
+			{case}
+			    <img src={"class_2.png"|ezimage} border="0" alt="{'Document'|i18n('design/standard/node/view')}" />
+			{/case}
+			{/switch}
+			&nbsp;
+			{$Child:item.name|wash}</a>
                 </td>
                 <td>
                     {$Child:item.object.class_name|wash}
@@ -191,64 +203,6 @@
              item_limit=$page_limit}
 
 
-{/section}
-
-{default member_groups=fetch( user, member_of, hash( id, $content_object.id ) )}
-{section show=count($member_groups)|gt(0)}
-
-<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-    <th>
-         {"Member of roles"|i18n("design/standard/node/view")}
-    </th>
-</tr>
-{section loop=$member_groups sequence=array( bglight, bgdark )}
-    <tr class="{$:sequence}">
-        <td><a href={concat("/role/view/",$:item.id)|ezurl}>{$:item.name|wash}</a></td>
-    </tr>
-{/section}
-</table>
-
-{/section}
-{/default}
-
-{section show=ne($node.node_id,5)}
-<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-    <th colspan="3">
-         {"Role list"|i18n("design/standard/node/view")}
-    </th>
-</tr>
-<tr>
-    <td><h3>{"Module"|i18n("design/standard/role")}</h3></td>
-    <td><h3>{"Function"|i18n("design/standard/role")}</h3></td>
-    <td><h3>{"Limitation"|i18n("design/standard/role")}</h3></td>
-</tr>
-    {section var=Policy loop=$policies sequence=array(bglight,bgdark)}
-    <tr class="{$Policy.sequence}">
-        <td>
-            {$Policy.moduleName}
-        </td>
-        <td>
-            {$Policy.functionName}
-        </td>
-        <td>
-            {section show=eq($Policy.limitation,'*')}
-                {$Policy.limitation}
-            {section-else}
-                {section var=Limitation loop=$Policy.limitation}
-                  {$Limitation.identifier|wash}(
-                      {section var=LimitationValues loop=$Limitation.values_as_array_with_names}
-                          {$LimitationValues.Name|wash}
-                          {delimiter}, {/delimiter}
-                      {/section})
-                      {delimiter}, {/delimiter}
-                {/section}
-             {/section}
-        </td>
-    </tr>
-    {/section}
-</table>
 {/section}
 
 {section show=$is_standalone}

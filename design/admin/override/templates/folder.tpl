@@ -14,24 +14,22 @@
 {/section}
 
 <div class="objectheader">
-    <h2>{$node_name|wash} [{'Folder'|i18n('design/admin/node/view')}], {'Node ID'|i18n( 'design/standard/node/view' )}: {$node.node_id}, {'Object ID'|i18n( 'design/standard/node/view' )}: {$node.object.id}</h2>
+    <h2>{$node_name|wash} [{'Folder'|i18n('design/admin/node/view')}]</h2>
 </div>
 
 <div class="object">
 
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 
-    <p>{attribute_view_gui attribute=$node.object.data_map.short_description}</p>
-
     <p>{attribute_view_gui attribute=$node.object.data_map.description}</p>
 
     <div class="buttonblock">
-    <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
     {section show=and($is_editable,$content_object.can_edit)}
+        <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
         <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/standard/node/view' )}" />
     {/section}
     <input class="button" type="submit" name="ActionPreview" value="{'Preview'|i18n('design/standard/node/view')}" />
-    {*<input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/standard/node/view')}" />*}
+    <input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/standard/node/view')}" />
     <input class="button" type="submit" name="ActionAddToBookmarks" value="{'Bookmark'|i18n('design/standard/node/view')}" />
     <input class="button" type="submit" name="ActionAddToNotification" value="{'Keep me updated'|i18n('design/standard/node/view')}" />
 
@@ -114,7 +112,7 @@
             <th>
                 {"Section"|i18n("design/standard/node/view")}
             </th>
-            {section show=and( $content_object.can_edit,eq( $node.sort_array[0][0], 'priority' ) )}
+            {section show=eq( $node.sort_array[0][0], 'priority' )}
                 <th>
                     {"Priority"|i18n( "design/standard/node/view" )}
                 </th>
@@ -140,7 +138,7 @@
                     </td>
                 {/section}
                 <td>
-                    <a href={$:item.url_alias|ezurl}>{node_view_gui view=line content_node=$:item}</a>
+                    <a href={concat( 'content/view/full/', $:item.node_id )|ezurl}>{node_view_gui view=line content_node=$:item}</a>
                     {* {node_view_gui view=line content_node=$:item} *}
                 </td>
                 <td>
@@ -149,7 +147,7 @@
                 <td>
                     {$Child:item.object.section_id}
                 </td>
-                {section show=and( $content_object.can_edit,eq( $node.sort_array[0][0], 'priority' ) )}
+                {section show=eq( $node.sort_array[0][0], 'priority' )}
                     <td width="40" align="left">
                         <input type="text" name="Priority[]" size="2" value="{$Child:item.priority}">
                         <input type="hidden" name="PriorityID[]" value="{$Child:item.node_id}">
@@ -177,8 +175,6 @@
             {section show=and( $content_object.can_edit,eq( $node.sort_array[0][0], 'priority' ) )}
                  <input class="button" type="submit"  name="UpdatePriorityButton" value="{'Update'|i18n('design/standard/node/view')}" />
             {/section}
-        {/section}
-        {section show=and( $content_object.can_edit,eq( $node.sort_array[0][0], 'priority' ) )}
         {/section}
         {section show=$:can_edit}
         {/section}

@@ -1,0 +1,137 @@
+<XMI xmi.version="1.1" >
+ <XMI.header>
+  <XMI.metamodel href="/home/amos/src/ez/php/nextgen/doc/design/uml/workflow-state.xmi" version="1.0.4" name="UML" />
+  <XMI.model href="/home/amos/src/ez/php/nextgen/doc/design/uml/workflow-state.xmi" version="1" name="/home/amos/src/ez/php/nextgen/doc/design/uml/workflow-state.xmi" />
+ </XMI.header>
+ <XMI.content>
+  <docsettings viewid="44" documentation="" uniqueid="56" />
+  <umlobjects/>
+  <diagrams>
+   <diagram snapgrid="0" showattsig="0" fillcolor="#ffffc0" showgrid="0" showopsig="0" usefillcolor="1" snapx="10" snapy="10" showatts="1" xmi.id="44" documentation="" type="404" showops="1" showpackage="0" name="state diagram" localid="30000" showstereotype="0" showscope="0" font="Arial,11,-1,5,50,0,0,0,0,0" linecolor="#ff0000" >
+    <widgets>
+     <UML:StateWidget statetype="0" statename="State" x="201" y="83" usefillcolor="1" xmi.id="45" documentation="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="2" statename="State" x="149" y="432" usefillcolor="1" xmi.id="47" documentation="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="store current event" x="734" y="226" usefillcolor="1" xmi.id="48" documentation="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="fetch next event" x="507" y="225" usefillcolor="1" xmi.id="49" documentation="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="run event type" x="696" y="66" usefillcolor="1" xmi.id="50" documentation="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="check events" x="338" y="148" usefillcolor="1" xmi.id="51" documentation="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="update modification date" x="404" y="399" usefillcolor="1" xmi.id="52" documentation="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="store activation date" x="568" y="311" usefillcolor="1" xmi.id="54" documentation="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="remove process" x="88" y="227" usefillcolor="1" xmi.id="55" documentation="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="store current state" x="669" y="387" usefillcolor="1" xmi.id="56" documentation="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+    </widgets>
+    <messages/>
+    <associations>
+     <UML:AssocWidget totalcounta="3" indexa="2" totalcountb="2" indexb="1" widgetbid="50" widgetaid="51" documentation="" type="514" >
+      <UML:FloatingTextWidget x="443" y="88" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="has current event" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="402" starty="148" />
+       <endpoint endx="696" endy="82" />
+       <point x="486" y="77" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="3" indexb="1" widgetbid="55" widgetaid="51" documentation="" type="514" >
+      <UML:FloatingTextWidget x="232" y="195" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="no more events" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="338" starty="164" />
+       <endpoint endx="126" endy="227" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="3" indexb="1" widgetbid="49" widgetaid="51" documentation="" type="514" >
+      <UML:FloatingTextWidget x="480" y="153" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="no current event" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="434" starty="164" />
+       <endpoint endx="544" endy="225" />
+       <point x="522" y="148" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="3" indexa="1" totalcountb="3" indexb="2" widgetbid="49" widgetaid="50" documentation="" type="514" >
+      <UML:FloatingTextWidget x="655" y="162" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="accepted" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="729" starty="99" />
+       <endpoint endx="581" endy="225" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="3" indexa="2" totalcountb="2" indexb="1" widgetbid="48" widgetaid="50" documentation="" type="514" >
+      <UML:FloatingTextWidget x="781" y="162" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="deferred" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="763" starty="99" />
+       <endpoint endx="800" endy="226" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="54" widgetaid="48" documentation="" type="514" >
+      <linepath>
+       <startpoint startx="800" starty="259" />
+       <endpoint endx="638" endy="311" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="47" widgetaid="55" documentation="" type="514" >
+      <linepath>
+       <startpoint startx="146" starty="260" />
+       <endpoint endx="154" endy="432" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="51" widgetaid="49" documentation="" type="514" >
+      <linepath>
+       <startpoint startx="563" starty="258" />
+       <endpoint endx="386" endy="181" />
+       <point x="532" y="335" />
+       <point x="363" y="293" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="52" widgetaid="54" documentation="" type="514" >
+      <linepath>
+       <startpoint startx="638" starty="344" />
+       <endpoint endx="488" endy="399" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="47" widgetaid="52" documentation="" type="514" >
+      <linepath>
+       <startpoint startx="404" starty="415" />
+       <endpoint endx="159" endy="437" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="3" indexb="1" widgetbid="51" widgetaid="45" documentation="" type="514" >
+      <linepath>
+       <startpoint startx="211" starty="88" />
+       <endpoint endx="370" endy="148" />
+       <point x="262" y="106" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="52" widgetaid="56" documentation="" type="514" >
+      <linepath>
+       <startpoint startx="669" starty="403" />
+       <endpoint endx="572" endy="415" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="56" widgetaid="50" documentation="" type="514" >
+      <UML:FloatingTextWidget x="850" y="85" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="denied" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="797" starty="82" />
+       <endpoint endx="798" endy="403" />
+       <point x="903" y="89" />
+       <point x="869" y="389" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="3" indexb="2" widgetbid="55" widgetaid="50" documentation="" type="514" >
+      <UML:FloatingTextWidget x="469" y="22" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="cancelled" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="746" starty="66" />
+       <endpoint endx="165" endy="227" />
+       <point x="727" y="37" />
+       <point x="130" y="67" />
+      </linepath>
+     </UML:AssocWidget>
+    </associations>
+   </diagram>
+  </diagrams>
+  <listview>
+   <listitem open="1" type="800" id="-1" label="Views" >
+    <listitem open="1" type="801" id="-1" label="Logical View" >
+     <listitem open="1" type="808" id="44" label="state diagram" />
+    </listitem>
+    <listitem open="1" type="802" id="-1" label="Use Case View" />
+   </listitem>
+  </listview>
+ </XMI.content>
+</XMI>

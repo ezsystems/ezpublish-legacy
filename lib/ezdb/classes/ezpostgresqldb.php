@@ -126,8 +126,8 @@ class eZPostgreSQLDB extends eZDBInterface
         {
             if ( $this->OutputSQL )
             {
-                eZDebug::accumulatorStart( 'postgresql_query', 'postgresql_total', 'Postgresql_queries' );
                 $this->startTimer();
+                eZDebug::accumulatorStart( 'postgresql_query', 'postgresql_total', 'Postgresql_queries' );
 
             }
             $result = @pg_exec( $this->DBConnection, $sql );
@@ -377,16 +377,11 @@ class eZPostgreSQLDB extends eZDBInterface
         $array = array();
         if ( $this->isConnected() )
         {
-            foreach ( array ( EZ_DB_RELATION_TABLE, EZ_DB_RELATION_SEQUENCE ) as $relationType )
-            {
-                $sql = "SELECT relname FROM pg_class WHERE relkind='" . $this->relationKind( $relationType ) . "' AND relname like 'ez%'";
-                foreach ( $this->arrayQuery( $sql, array( 'column' => '0' ) ) as $result )
-                {
-                    $array[$result] = $relationType;
-                }
-            }
+            $sql = "SELECT relname FROM pg_class WHERE relkind='r' AND relname like 'ez%'";
+            $array = $this->arrayQuery( $sql, array( 'column' => '0' ) );
         }
         return $array;
+
     }
 
     /*!
@@ -417,24 +412,7 @@ class eZPostgreSQLDB extends eZDBInterface
         $this->begin();
         if ( $this->isConnected() )
         {
-            if ( is_array( $table ) )
-            {
-                $lockQuery = "LOCK TABLE";
-                $first = true;
-                foreach( array_keys( $table ) as $tableKey )
-                {
-                    if ( $first == true )
-                        $first = false;
-                    else
-                        $lockQuery .= ",";
-                    $lockQuery .= " " . $table[$tableKey]['table'];
-                }
-                $this->query( $lockQuery );
-            }
-            else
-            {
-                $this->query( "LOCK TABLE $table" );
-            }
+             $this->query( "LOCK TABLE $table" );
         }
     }
 
@@ -567,55 +545,6 @@ class eZPostgreSQLDB extends eZDBInterface
     function isCharsetSupported( $charset )
     {
         return true;
-    }
-
-     /*!
-     \reimp
-    */
-    function databaseServerVersion()
-    {
-        if ( $this->isConnected() )
-        {
-            $sql = "SELECT version()";
-            $result = @pg_exec( $this->DBConnection, $sql );
-            if ( !$result )
-            {
-                eZDebug::writeError( "Error: error executing query: $sql " . pg_errormessage( $this->DBConnection ), "eZPostgreSQLDB" );
-            }
-
-            if ( $result )
-            {
-                $array = pg_fetch_row( $result, 0 );
-                $versionText = $array[0];
-            }
-            list ( $dbType, $versionInfo ) = split( " ", $versionText );
-            $versionArray = explode( '.', $versionInfo );
-            return array( 'string' => $versionInfo,
-                          'values' => $versionArray );
-        }
-        return false;
-    }
-
-    /*!
-     Sets PostgreSQL sequence values to the maximum values used in the corresponding columns.
-    */
-    function correctSequenceValues()
-    {
-        if ( $this->isConnected() )
-        {
-            $rows =& $this->arrayQuery( "SELECT pg_class.relname AS table, pg_attribute.attname AS column
-                FROM pg_class,pg_attribute,pg_attrdef
-                WHERE pg_attrdef.adsrc LIKE 'nextval(%'
-                    AND pg_attrdef.adrelid=pg_attribute.attrelid
-                    AND pg_attrdef.adnum=pg_attribute.attnum
-                    AND pg_attribute.attrelid=pg_class.oid" );
-            foreach ( $rows as $row )
-            {
-                $this->query( "SELECT setval('".$row['table']."_s', max(".$row['column'].")) from ".$row['table'] );
-            }
-            return true;
-        }
-        return false;
     }
 
     /// \privatesection

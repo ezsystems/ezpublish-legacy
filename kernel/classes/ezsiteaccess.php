@@ -55,7 +55,8 @@ class eZSiteAccess
     function siteAccessList()
     {
         $ini =& eZINI::instance();
-        $siteAccessArray =& $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
+        $siteAccessArray =& $ini->variable( 'SiteAccessSettings', 'SiteAccessList' );
+        eZDebug::writeDebug( $ini->variable( 'RoleSettings', 'PolicyOmitList' ) );
 
         $siteAccessList = array();
         reset( $siteAccessArray );

@@ -14,20 +14,18 @@
 {/section}
 
 <div class="objectheader">
-    <h2>{$node_name|wash} [{'Product'|i18n('design/admin/node/view')}], {'Node ID'|i18n( 'design/standard/node/view' )}: {$node.node_id}, {'Object ID'|i18n( 'design/standard/node/view' )}: {$node.object.id}</h2>
+    <h2>{$node_name|wash} [{'Product'|i18n('design/admin/node/view')}]</h2>
 </div>
 
 <div class="object">
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
-    <p class="small">{$node.object.data_map.product_number.contentclass_attribute.name} {attribute_view_gui attribute=$node.object.data_map.product_number}</p>
+    <p class="small">{$node.object.data_map.product_nr.contentclass_attribute.name} {attribute_view_gui attribute=$node.object.data_map.product_nr}</p>
+    
+    <div class="imageright">
+    {attribute_view_gui attribute=$node.object.data_map.photo image_class=medium}
+    </div>
 
-    {section show=$node.object.data_map.image.content}
-        <div class="imageright">
-        {attribute_view_gui attribute=$node.object.data_map.image.content.data_map.image image_class=medium}
-        </div>
-    {/section}
-
-    {attribute_view_gui attribute=$node.object.data_map.short_description}
+    {attribute_view_gui attribute=$node.object.data_map.intro}
 
     {attribute_view_gui attribute=$node.object.data_map.description}
 
@@ -47,7 +45,7 @@
             <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
         {/section}
     <input class="button" type="submit" name="ActionPreview" value="{'Preview'|i18n('design/standard/node/view')}" />
-    {*<input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/standard/node/view')}" />*}
+    <input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/standard/node/view')}" />
     <input class="button" type="submit" name="ActionAddToBookmarks" value="{'Bookmark'|i18n('design/standard/node/view')}" />
     <input class="button" type="submit" name="ActionAddToNotification" value="{'Keep me updated'|i18n('design/standard/node/view')}" />
 
@@ -155,7 +153,7 @@
 	            </td>
                 {/section} 
 	        <td>
-                    <a href={$:item.url_alias|ezurl}>{node_view_gui view=line content_node=$:item}</a>
+                    <a href={concat('content/view/full/',$:item.node_id)|ezurl}>{node_view_gui view=line content_node=$:item}</a>
                     {* {node_view_gui view=line content_node=$:item} *}
 	        </td>
                 <td>
@@ -182,7 +180,7 @@
                     <td>
                         <a href={concat("content/copy/",$Child:item.contentobject_id)|ezurl}><img src={"copy.gif"|ezimage} alt="{'Copy'|i18n('design/standard/node/view')}" /></a>
                     </td>
-                {/section}
+                {/section}    
             </tr>
         {/section}
         </table>

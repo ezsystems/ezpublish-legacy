@@ -78,38 +78,6 @@ class eZKernelOperator
                                                                 'default' => false ) ) );
     }
 
-    function operatorTemplateHints()
-    {
-        return array( 'ezpreference' => array( 'input' => false,
-                                               'output' => true,
-                                               'parameters' => 1,
-                                               'element-transformation' => true,
-                                               'transform-parameters' => true,
-                                               'input-as-parameter' => false,
-                                               'element-transformation-func' => 'preferencesTransformation') );
-    }
-
-    function preferencesTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                        &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
-    {
-        if ( count( $parameters[0] ) == 0 )
-            return false;
-        $values = array();
-        if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
-        {
-            $name = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
-            $nameText = eZPHPCreator::variableText( $name, 0, 0, false );
-        }
-        else
-        {
-            $nameText = '%1%';
-            $values[] = $parameters[0];
-        }
-        return array( eZTemplateNodeTool::createCodePieceElement( "include_once( 'kernel/classes/ezpreferences.php' );\n" .
-                                                                  "%output% = eZPreferences::value( $nameText );\n",
-                                                                  $values ) );
-    }
-
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
         switch ( $operatorName )

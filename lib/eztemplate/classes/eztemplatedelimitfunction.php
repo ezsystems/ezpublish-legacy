@@ -65,10 +65,10 @@ class eZTemplateDelimitFunction
      Initializes the object with a name for the left and right delimiter.
      Default is ldelim for left and rdelim for right.
     */
-    function eZTemplateDelimitFunction()
+    function eZTemplateDelimitFunction( $lname = "ldelim", $rname = "rdelim" )
     {
-        $this->LName = 'ldelim';
-        $this->RName = 'rdelim';
+        $this->LName = $lname;
+        $this->RName = $rname;
     }
 
     /*!
@@ -77,33 +77,6 @@ class eZTemplateDelimitFunction
     function &functionList()
     {
         return array( $this->LName, $this->RName );
-    }
-
-    /*!
-     Returns an array with hints for the template compiler.
-    */
-    function functionTemplateHints()
-    {
-        return array(
-            $this->LName => array( 'parameters' => false, 'static' => false, 'tree-transformation' => true ),
-            $this->RName => array( 'parameters' => false, 'static' => false, 'tree-transformation' => true )
-        );
-    }
-
-    function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, $parameters, $privateData )
-    {
-        $newNodes = array();
-
-        if ( $functionName == $this->LName )
-        {
-            $newNodes = array ( eZTemplateNodeTool::createTextNode( $tpl->leftDelimiter() ) );
-        }
-        else
-        {
-            $newNodes = array ( eZTemplateNodeTool::createTextNode( $tpl->rightDelimiter() ) );
-        }
-        return $newNodes;
     }
 
     /*!

@@ -47,7 +47,6 @@ function eZSetupTestTable()
                   'database_extensions' => array( 'eZSetupTestExtension' ),
                   'database_all_extensions' => array( 'eZSetupTestExtension' ),
                   'php_magicquotes' => array( 'eZSetupCheckMagicQuotes' ),
-                  'magic_quotes_runtime' => array( 'eZSetupCheckMagicQuotesRuntime' ),
                   'php_register_globals' => array( 'eZSetupCheckRegisterGlobals' ),
                   'mbstring_extension' => array( 'eZSetupMBStringExtension' ),
                   'zlib_extension' => array( 'eZSetupTestExtension' ),
@@ -55,12 +54,11 @@ function eZSetupTestTable()
                   'open_basedir' => array( 'eZSetupTestOpenBasedir' ),
                   'safe_mode' => array( 'eZSetupTestSafeMode' ),
                   'image_conversion' => array( 'eZSetupCheckTestFunctions' ),
-                  'imagegd_extension' => array( 'eZSetupCheckGDVersion' ),
+                  'imagegd_extension' => array( 'eZSetupTestExtension' ),
                   'texttoimage_functions' => array( 'eZSetupTestFunctionExists' ),
                   'imagemagick_program' => array( 'eZSetupCheckExecutable' ),
                   'memory_limit' => array( 'eZSetupTestMemLimit' ),
-                  'execution_time' => array( 'eZSetupTestExecutionTime' ),
-                  'accept_path_info' => array( 'eZSetupTestAcceptPathInfo' ) );
+                  'execution_time' => array( 'eZSetupTestExecutionTime' ));
 }
 
 function eZSetupConfigVariable( $type, $name )
@@ -168,14 +166,6 @@ function eZSetupTestFileUpload( $type, &$arguments )
                   'persistent_data' => array( 'result' => array( 'value' => $result ) ) );
 }
 
-function eZSetupCheckMagicQuotesRuntime( $type, &$arguments )
-{
-    $magicQuote = get_magic_quotes_runtime();
-    $result = ( $magicQuote == 0 );
-    return array( 'result' => $result,
-                  'persistent_data' => array( 'result' => array( 'value' => $result ) ) );
-}
-
 function eZSetupCheckMagicQuotes( $type, &$arguments )
 {
     $magicQuote = get_magic_quotes_gpc();
@@ -237,19 +227,6 @@ function eZSetupTestPhpVersion( $type, &$arguments )
                   'needed_version' => $neededVersion,
                   'current_version' => $currentVersion,
                   'warning_version' => $warningVersion );
-}
-
-/*!
-  Test if Apache setting for AcceptPathInfo is enabled
-*/
-function eZSetupTestAcceptPathInfo( $type, &$arguments )
-{
-    $testPath = $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'] . '/eZ_accept_path_info_test';
-    $testPath = 'http://' . str_replace( '//', '/', $testPath );
-    $fp = fopen( $testPath, 'r' );
-
-    return array( 'result' => ( $fp !== false ),
-                  'persistent_data' => array( 'result' => array( 'value' => ( $fp !== false ) ) ) );
 }
 
 function eZSetupTestFunctionExists( $type, &$arguments )
@@ -344,7 +321,7 @@ function eZSetupTestExtension( $type, &$arguments )
 function eZSetupTestFilePermissions( $type, &$arguments )
 {
     $fileList = eZSetupConfigVariableArray( $type, 'CheckList' );
-    include_once( 'lib/ezfile/classes/ezdir.php' );
+    include_once( 'lib/ezutils/classes/ezdir.php' );
 
     $ini =& eZINI::instance();
     $dirPermission = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
@@ -430,7 +407,7 @@ function eZSetupTestFilePermissions( $type, &$arguments )
 function eZSetupCheckExecutable( $type, &$arguments )
 {
     include_once( 'lib/ezutils/classes/ezsys.php' );
-    include_once( 'lib/ezfile/classes/ezdir.php' );
+    include_once( 'lib/ezutils/classes/ezdir.php' );
     include_once( 'lib/ezutils/classes/ezhttptool.php' );
     $http =& eZHTTPTool::instance();
 
@@ -452,7 +429,7 @@ function eZSetupCheckExecutable( $type, &$arguments )
             {
                 if ( strpos( $path, $program) == strlen( $path ) - strlen( $program ) )
                 {
-                    $extraPath[] = substr( $path, strpos( $path, $program) );
+                    $extraPath[] = $substr( $path, strpos( $path, $program) );
                 }
             }
         }
@@ -557,16 +534,6 @@ function testPHPIni( $parameters )
 	return array( "status" => $status, "pass" => $pass );
 }
 
-
-/*!
-  Test GD version
-*/
-function eZSetupCheckGDVersion( $type, &$arguments )
-{
-    $result = function_exists( 'imagegd2' );
-    return array( 'result' => $result,
-                  'persistent_data' => array( 'result' => array( 'value' => $result ) ) );
-}
 
 /*!
 	Test if mbstring is available

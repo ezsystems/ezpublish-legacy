@@ -62,76 +62,10 @@ class eZShopFunctionCollection
         return array( 'result' => $basket );
     }
 
-    function fetchBestSellList( $topParentNodeID, $limit )
-    {
-        include_once( 'kernel/classes/ezcontentobject.php' );
-        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-        $node = eZContentObjectTreeNode::fetch( $topParentNodeID );
-        $nodePath = $node->attribute( 'path_string' );
 
-        $query="SELECT sum(ezproductcollection_item.item_count) as count, ezproductcollection_item.contentobject_id
-                  FROM ezcontentobject_tree,
-                       ezproductcollection_item,
-                       ezorder
-                 WHERE ezcontentobject_tree.contentobject_id=ezproductcollection_item.contentobject_id AND
-                       ezorder.productcollection_id=ezproductcollection_item.productcollection_id AND
-                       ezcontentobject_tree.path_string like '$nodePath%'
-                 GROUP BY ezproductcollection_item.contentobject_id
-                 ORDER BY count desc
-                 LIMIT $limit";
 
-        $db =& eZDB::instance();
-        $topList=& $db->arrayQuery( $query );
 
-        $contentObjectList = array();
-        foreach ( array_keys ( $topList ) as $key )
-        {
-            $objectID = $topList[$key]['contentobject_id'];
-            $contentObject =& eZContentObject::fetch( $objectID );
-            if ( $contentObject === null )
-                return array( 'error' => array( 'error_type' => 'kernel',
-                                                'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-            $contentObjectList[] = $contentObject;
-        }
-        return array( 'result' => $contentObjectList );
-    }
-
-    function fetchRelatedPurchaseList( $contentObjectID, $limit )
-    {
-        include_once( 'kernel/classes/ezcontentobject.php' );
-        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-
-        $db =& eZDB::instance();
-        $db->createTempTable( "CREATE TEMPORARY TABLE ezproductcollection_tmp( productcollection_id int )" );
-        $db->query( "INSERT INTO ezproductcollection_tmp SELECT ezorder.productcollection_id
-                                                           FROM ezorder, ezproductcollection_item
-                                                          WHERE ezorder.productcollection_id=ezproductcollection_item.productcollection_id
-                                                            AND ezproductcollection_item.contentobject_id=$contentObjectID" );
-
-        $query="SELECT sum(ezproductcollection_item.item_count) as count, contentobject_id FROM ezproductcollection_item, ezproductcollection_tmp
-                 WHERE ezproductcollection_item.productcollection_id=ezproductcollection_tmp.productcollection_id
-                   AND ezproductcollection_item.contentobject_id<>$contentObjectID
-              GROUP BY ezproductcollection_item.contentobject_id
-              ORDER BY count desc
-                 LIMIT $limit";
-
-        $db =& eZDB::instance();
-        $objectList=& $db->arrayQuery( $query );
-
-        $db->dropTempTable( "DROP TABLE ezproductcollection_tmp" );
-        $contentObjectList = array();
-        foreach ( array_keys ( $objectList ) as $key )
-        {
-            $objectID = $objectList[$key]['contentobject_id'];
-            $contentObject =& eZContentObject::fetch( $objectID );
-            if ( $contentObject === null )
-                return array( 'error' => array( 'error_type' => 'kernel',
-                                                'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-            $contentObjectList[] = $contentObject;
-        }
-        return array( 'result' => $contentObjectList );
-    }
 }
 
 ?>

@@ -55,22 +55,16 @@ if ( count( $deleteIDArray ) <= 0 )
 
 if ( array_key_exists( 'Limitation', $Params ) )
 {
-    $limitationList =& $Params['Limitation'];
+    $Limitation =& $Params['Limitation'];
+    foreach ( $Limitation as $policy )
+    {
+        $limitationList[] = $policy->attribute( 'limitations' );
+    }
 }
 
 $contentObjectID = $http->sessionVariable( 'ContentObjectID' );
 $contentNodeID = $http->sessionVariable( 'ContentNodeID' );
 
-$moveToTrash = true;
-if ( $http->hasPostVariable( 'SupportsMoveToTrash' ) )
-{
-    if ( $http->hasPostVariable( 'MoveToTrash' ) )
-        $moveToTrash = true;
-    else
-        $moveToTrash = false;
-}
-
-$moveToTrashAllowed = true;
 $deleteResult = array();
 $ChildObjectsCount = 0;
 foreach ( $deleteIDArray as $deleteID )
@@ -82,15 +76,6 @@ foreach ( $deleteIDArray as $deleteID )
         $NodeName = $object->attribute( 'name' );
         $contentObject = $node->attribute( 'object' );
         $nodeID = $node->attribute( 'node_id' );
-        if ( $moveToTrashAllowed )
-        {
-            $class = $contentObject->attribute( 'content_class' );
-            if ( $class->attribute( 'identifier' ) == 'user' )
-            {
-                $moveToTrashAllowed = false;
-            }
-        }
-
         $additionalWarning = '';
         if ( $node->attribute( 'main_node_id' ) == $nodeID )
         {
@@ -107,16 +92,13 @@ foreach ( $deleteIDArray as $deleteID )
                     if ( $assignedNodeID != $nodeID )
                     {
                         $additionalNode =& eZContentObjectTreeNode::fetch( $assignedNodeID );
-                        if ( $additionalNode )
-                        {
-                            $additionalChildrenCount = $additionalNode->subTreeCount( array( 'MainNodeOnly' => true ) ) . " ";
-                            if (  $additionalChildrenCount == 0 )
-                                $additionalNodeIDList[] = $assignedNodeID;
-                            else if (  $additionalChildrenCount == 1 )
-                                $additionalNodeIDList[] = $assignedNodeID . " and its 1 child";
-                            else
-                                $additionalNodeIDList[] = $assignedNodeID . " and its " . $additionalChildrenCount . " children";
-                        }
+                        $additionalChildrenCount = $additionalNode->subTreeCount( array( 'MainNodeOnly' => true ) ) . " ";
+                        if (  $additionalChildrenCount == 0 )
+                            $additionalNodeIDList[] = $assignedNodeID;
+                        else if (  $additionalChildrenCount == 1 )
+                            $additionalNodeIDList[] = $assignedNodeID . " and its 1 child";
+                        else
+                            $additionalNodeIDList[] = $assignedNodeID . " and its " . $additionalChildrenCount . " children";
                     }
                 }
                 $additionalWarning .= implode( ', ',  $additionalNodeIDList );
@@ -127,9 +109,15 @@ foreach ( $deleteIDArray as $deleteID )
             return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
         if ( $object === null )
             return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
-
-        $ChildObjectsCount = $node->subTreeCount( array( 'MainNodeOnly' => true ) );
-
+        $ChildObjectsCount = $node->subTreeCount( array( 'MainNodeOnly' => true ) ) . " ";
+        if ( $ChildObjectsCount == 1 )
+            $ChildObjectsCount .= ezi18n( 'kernel/content/removeobject',
+                                          'child',
+                                          '1 child' );
+        else
+            $ChildObjectsCount .= ezi18n( 'kernel/content/removeobject',
+                                          'children',
+                                          'several children' );
         $item = array( "nodeName" => $NodeName,
                        "childCount" => $ChildObjectsCount,
                        "additionalWarning" => $additionalWarning );
@@ -142,11 +130,6 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
     foreach ( $deleteIDArray as $deleteID )
     {
         $node =& eZContentObjectTreeNode::fetch( $deleteID );
-        if ( !$node )
-        {
-            eZDebug::writeError( 'Could not fetch node for deletion : ' . $deleteID );
-            continue;
-        }
         $object = $node->attribute( 'object' );
         if ( $node != null )
         {
@@ -176,8 +159,6 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
                             $childObject =& $child->attribute( 'object' );
                             $childNodeID = $child->attribute( 'node_id' );
                             $childObject->remove( true, $childNodeID );
-                            if ( !$moveToTrash )
-                                $childObject->purge();
                         }
                         else
                         {
@@ -186,8 +167,6 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
                     }
                 }
                 $object->remove( true, $deleteID );
-                if ( !$moveToTrash )
-                    $object->purge();
             }
             else
             {
@@ -200,8 +179,6 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
                         $childObject =& $child->attribute( 'object' );
                         $childNodeID = $child->attribute( 'node_id' );
                         $childObject->remove( true, $childNodeID );
-                        if ( !$moveToTrash )
-                            $childObject->purge();
                     }
                     else
                     {
@@ -223,8 +200,9 @@ $Module->setTitle( ezi18n( 'kernel/content', 'Remove' ) . ' ' . $NodeName );
 
 $tpl =& templateInit();
 
-$tpl->setVariable( 'moveToTrashAllowed', $moveToTrashAllowed );
 $tpl->setVariable( "module", $Module );
+//$tpl->setVariable( "NodeID", $NodeID );
+//$tpl->setVariable( "NodeName", $NodeName );
 $tpl->setVariable( "ChildObjectsCount", $ChildObjectsCount );
 $tpl->setVariable( "DeleteResult",  $deleteResult );
 $Result = array();

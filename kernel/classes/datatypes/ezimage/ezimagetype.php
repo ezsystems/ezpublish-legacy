@@ -42,8 +42,10 @@
 */
 
 include_once( "kernel/classes/ezdatatype.php" );
-include_once( "lib/ezfile/classes/ezdir.php" );
+include_once( "kernel/classes/datatypes/ezimage/ezimage.php" );
+include_once( "lib/ezutils/classes/ezdir.php" );
 include_once( "lib/ezutils/classes/ezhttpfile.php" );
+include_once( "lib/ezutils/classes/ezdir.php" );
 
 define( 'EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_FIELD', 'data_int1' );
 define( 'EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_VARIABLE', '_ezimage_max_filesize_' );
@@ -55,6 +57,16 @@ class eZImageType extends eZDataType
     {
         $this->eZDataType( EZ_DATATYPESTRING_IMAGE, ezi18n( 'kernel/classes/datatypes', "Image", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
+    }
+
+    function hasAttribute( $name )
+    {
+        return eZDataType::hasAttribute( $name );
+    }
+
+    function &attribute( $name )
+    {
+        return eZDataType::attribute( $name );
     }
 
     function repairContentObjectAttribute( &$contentObjectAttribute )
@@ -97,184 +109,220 @@ class eZImageType extends eZDataType
     }
 
     /*!
-     \reimp
+     Sets value according to current version
     */
     function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
-        $contentObjectAttributeID = $originalContentObjectAttribute->attribute( "id" );
-        $version = $contentObjectAttribute->attribute( "version" );
-        if ( $currentVersion != false )
+        if ( $currentVersion !== false )
         {
-            $imageHandler =& $contentObjectAttribute->attribute( 'content' );
-            if ( $imageHandler )
+            $contentObjectAttributeID = $originalContentObjectAttribute->attribute( "id" );
+            $version = $contentObjectAttribute->attribute( "version" );
+            $oldimage =& eZImage::fetch( $contentObjectAttributeID, $currentVersion );
+            if ( $oldimage != null )
             {
-                $imageHandler->setOriginalAttributeDataFromAttribute( $originalContentObjectAttribute );
-                $imageHandler->store();
+                $oldimage->setAttribute( 'contentobject_attribute_id', $contentObjectAttribute->attribute( 'id' ) );
+                $oldimage->setAttribute( "version",  $version );
+                $oldimage->store();
             }
         }
     }
 
     /*!
-     \reimp
+     Delete stored attribute
     */
     function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
     {
-        if ( $version === null )
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
+        $sys =& eZsys::instance();
+        $storage_dir = $sys->storageDirectory();
+        $orig_dir = $storage_dir . "/original/image";
+        $ref_dir =  $storage_dir . "/reference/image";
+        $vari_dir = $storage_dir . "/variations/image";
+        $images =& eZImage::fetch( $contentObjectAttributeID );
+        if ( $version == null )
         {
-            include_once( "kernel/classes/datatypes/ezimage/ezimagealiashandler.php" );
-            eZImageAliasHandler::removeAllAliases( $contentObjectAttribute );
+            foreach ( $images as $image )
+            {
+                $fileName = $image->attribute( "filename" );
+                $variationFileName = preg_replace('/\.(.*)$/', "", $fileName );
+                $additionalPath = eZDir::getPathFromFilename( $fileName );
+                if ( file_exists( $orig_dir . "/" . $variationFileName ) )
+                    unlink( $orig_dir . "/" . $variationFileName );
+                if ( file_exists( $orig_dir . "/" .$fileName ) )
+                    unlink( $orig_dir . "/" . $fileName );
+                if ( file_exists( $ref_dir . "/" . $variationFileName ) )
+                    unlink( $ref_dir . "/" . $variationFileName );
+                if ( file_exists( $ref_dir . "/" . $fileName ) )
+                    unlink( $ref_dir . "/" . $fileName );
+                $dir = opendir(  $vari_dir . "/" . $additionalPath );
+                while ( $file = readdir($dir))
+                {
+                    if( preg_match( "/$variationFileName/", $file ) )
+                         unlink( $vari_dir . "/" . $additionalPath . "/" . $file );
+                }
+            }
         }
         else
         {
-            $imageHandler =& $contentObjectAttribute->attribute( 'content' );
-            if ( $imageHandler )
-                $imageHandler->removeAliases();
+            $count = 0;
+            $currentImage =& eZImage::fetch( $contentObjectAttributeID, $version );
+            if ( $currentImage !== null )
+                $currentFileName = $currentImage->attribute( "filename" );
+            foreach ( $images as $image )
+            {
+                $fileName = $image->attribute( "filename" );
+                if( $currentFileName == $fileName )
+                     $count += 1;
+            }
+            if ( $count == 1 )
+            {
+                $variationFileName = preg_replace('/\.(.*)$/', "", $currentFileName ) ;
+                $additionalPath = eZDir::getPathFromFilename( $currentFileName );
+                if ( file_exists( $orig_dir . "/" . $currentFileName ) )
+                    unlink( $orig_dir . "/" .  $currentFileName );
+                if ( file_exists( $orig_dir . "/" . $variationFileName ) )
+                    unlink( $orig_dir . "/" . $variationFileName );
+                if ( file_exists( $ref_dir . "/" .  $currentFileName ) )
+                    unlink( $ref_dir . "/" .  $currentFileName );
+                if ( file_exists( $ref_dir . "/" . $variationFileName ) )
+                    unlink( $ref_dir . "/" . $variationFileName );
+                $dir = opendir(  $vari_dir . "/" . $additionalPath );
+                while ( $file = readdir($dir))
+                {
+                    if ( preg_match( "/$variationFileName/", $file ) )
+                    {
+                         unlink( $vari_dir . "/" . $additionalPath . "/" . $file );
+                    }
+                }
+            }
         }
+        eZImage::remove( $contentObjectAttributeID, $version );
+        eZImageVariation::removeVariation( $contentObjectAttributeID, $version );
+
     }
 
     /*!
-     \reimp
+     Validates the input and returns true if the input was
+     valid for this datatype.
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-        $httpFileName = $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" );
-        $maxSize = 1024 * 1024 * $classAttribute->attribute( EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_FIELD );
-        $mustUpload = false;
-
         if( $classAttribute->attribute( "is_required" ) == true )
         {
-            $tmpImgObj =& $contentObjectAttribute->attribute( 'content' );
-            $original =& $tmpImgObj->attribute( 'original' );
-            if ( !$original['is_valid'] )
+            $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
+            $version = $contentObjectAttribute->attribute( "version" );
+            $image =& eZImage::fetch( $contentObjectAttributeID, $version );
+            if ( $image === null )
             {
-                $mustUpload = true;
+                $file =& eZHTTPFile::fetch( $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" ) );
+                if ( $file === null )
+                {
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                         'A valid image is required.' ) );
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                }
             }
-        }
-
-        $canFetchResult = eZHTTPFile::canFetch( $httpFileName, $maxSize );
-        if ( $mustUpload && $canFetchResult == EZ_UPLOADEDFILE_DOES_NOT_EXIST )
-        {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                'A valid file is required.' ) );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
-        }
-        if ( $canFetchResult == EZ_UPLOADEDFILE_EXCEEDS_PHP_LIMIT ) 
-        {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                'Size of uploaded file exceeds limit set by upload_max_filesize directive in php.ini.' ) );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
-        }
-        if ( $canFetchResult == EZ_UPLOADEDFILE_EXCEEDS_MAX_SIZE )
-        {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                'Size of uploaded file exceeds %1 bytes.' ), $maxSize );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
         }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
 
     /*!
-     \reimp
+     Fetches the http post var integer input and stores it in the data instance.
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        $result = false;
-        $imageAltText = false;
-        $hasImageAltText = false;
+        // Fetch the alt name
         if ( $http->hasPostVariable( $base . "_data_imagealttext_" . $contentObjectAttribute->attribute( "id" ) ) )
-        {
-            $imageAltText =& eZHTTPTool::postVariable( $base . "_data_imagealttext_" . $contentObjectAttribute->attribute( "id" ) );
-            $hasImageAltText = true;
-        }
+             $imageAltText =& eZHTTPTool::postVariable( $base . "_data_imagealttext_" . $contentObjectAttribute->attribute( "id" ) );
 
-        $content =& $contentObjectAttribute->attribute( 'content' );
-        $httpFileName = $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" );
-
-        if ( eZHTTPFile::canFetch( $httpFileName ) )
+        if ( !eZHTTPFile::canFetch( $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
-            $httpFile =& eZHTTPFile::fetch( $httpFileName );
-            if ( $httpFile )
+            $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
+            $version = $contentObjectAttribute->attribute( "version" );
+            $image =& eZImage::fetch( $contentObjectAttributeID, $version );
+            if ( $image )
             {
-                if ( $content )
-                {
-                    $content->setHTTPFile( $httpFile );
-                    $result = true;
-                }
+                $image->setAttribute( "alternative_text", $imageAltText );
+
+                $image->store();
             }
+
+            eZDebug::writeError( "Could not get image file, is fileupload enabled in PHP?", "ezimagetype" );
+            return false;
         }
 
-        if ( $content )
+        $imageFile =& eZHTTPFile::fetch( $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" ) );
+        $contentObjectAttribute->setContent( $imageFile );
+
+        if ( get_class( $imageFile ) == "ezhttpfile" )
         {
-            if ( $hasImageAltText )
-                $content->setAttribute( 'alternative_text', $imageAltText );
-            $result = true;
-        }
+            $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
+            $version = $contentObjectAttribute->attribute( "version" );
 
-        return $result;
+            include_once( "kernel/common/image.php" );
+
+            $img =& imageInit();
+
+            $mime = $img->mimeTypeFor( $imageFile->attribute( "original_filename" ), true );
+            $imageFile->Type = $mime['mime-type'];
+            $mimeParts = explode( "/", $mime['mime-type'] );
+            $imageFile->MimeCategory = $mimeParts[0];
+            $imageFile->MimePart = $mimeParts[1];
+
+            if ( !$imageFile->store( "original", $mime["suffix"], $mime['mime-type'] ) )
+            {
+                eZDebug::writeError( "Failed to store http-file: " . $imageFile->attribute( "original_filename" ),
+                                     "eZImageType" );
+                return false;
+            }
+
+            $image =& eZImage::fetch( $contentObjectAttributeID, $version );
+            if ( $image === null )
+                $image =& eZImage::create( $contentObjectAttributeID , $version );
+
+            $orig_dir = $imageFile->storageDir( "original" );
+            $ref_dir = $imageFile->storageDir( "reference" );
+
+            $image->setAttribute( "contentobject_attribute_id", $contentObjectAttributeID );
+            $image->setAttribute( "version", $version );
+            $image->setAttribute( "filename", basename( $imageFile->attribute( "filename" ) ) );
+            $image->setAttribute( "original_filename", $imageFile->attribute( "original_filename" ) );
+            $image->setAttribute( "mime_type", $imageFile->attribute( "mime_type" ) );
+            $image->setAttribute( "alternative_text", $imageAltText );
+
+            $image->store();
+
+            if ( !file_exists( $ref_dir ) )
+            {
+                $ini =& eZINI::instance();
+                $perm = $ini->variable( "ImageSettings", "NewDirPermissions" );
+                eZDir::mkdir( $ref_dir, octdec( $perm ), true );
+            }
+
+            $ini =& eZINI::instance();
+            $width = $ini->variable( "ImageSettings", "ReferenceSizeWidth" );
+            $height = $ini->variable( "ImageSettings", "ReferenceSizeHeight" );
+            /*$ref_imagename = $img->convert( $imageFile->attribute( "filename" ),
+                                            $ref_dir, array( "width" => 400, "height" => 300 ),
+                                            false, $mime );*/
+
+            $ref_imagename = $img->convert( $imageFile->attribute( "filename" ),
+                                            $ref_dir, array( "width" => $width, "height" => $height ),
+                                            false, $mime );
+
+            $contentObjectAttribute->setContent( $image );
+        }
+        return true;
     }
 
     /*!
-     \reimp
+     Does nothing, since the image has been stored. See fetchObjectAttributeHTTPInput for the actual storing.
     */
     function storeObjectAttribute( &$contentObjectAttribute )
     {
-        $imageHandler =& $contentObjectAttribute->attribute( 'content' );
-        if ( $imageHandler )
-        {
-            $httpFile =& $imageHandler->httpFile( true );
-            if ( $httpFile )
-            {
-                $imageAltText = $imageHandler->attribute( 'alternative_text' );
-
-                $imageHandler->initializeFromHTTPFile( $httpFile, $imageAltText );
-            }
-            if ( $imageHandler->isStorageRequired() )
-            {
-                $imageHandler->store();
-            }
-        }
     }
 
-    /*!
-     \reimp
-    */
-    function onPublish( &$contentObjectAttribute, &$contentObject, &$publishedNodes )
-    {
-        $imageHandler =& $contentObjectAttribute->attribute( 'content' );
-        if ( $imageHandler )
-        {
-            $mainNode = false;
-            foreach ( array_keys( $publishedNodes ) as $publishedNodeKey )
-            {
-                $publishedNode =& $publishedNodes[$publishedNodeKey];
-                if ( $publishedNode->attribute( 'main_node_id' ) )
-                {
-                    $mainNode =& $publishedNode;
-                    break;
-                }
-            }
-            if ( $mainNode )
-            {
-                $dirpath = $imageHandler->imagePathByNode( $contentObjectAttribute, $mainNode );
-                $oldDirpath =& $imageHandler->directoryPath();
-                if ( $oldDirpath != $dirpath )
-                {
-                    $name = $imageHandler->imageNameByNode( $contentObjectAttribute, $mainNode );
-                    $imageHandler->updateAliasPath( $dirpath, $name );
-                }
-            }
-            if ( $imageHandler->isStorageRequired() )
-            {
-                $imageHandler->store();
-                $contentObjectAttribute->store();
-            }
-        }
-    }
-
-    /*!
-     \reimp
-    */
     function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
     {
         $filesizeName = $base . EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_VARIABLE . $classAttribute->attribute( 'id' );
@@ -287,72 +335,54 @@ class eZImageType extends eZDataType
         return false;
     }
 
-    /*!
-     \reimp
-    */
     function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )
     {
         if( $action == "delete_image" )
         {
-            $content =& $contentObjectAttribute->attribute( 'content' );
-            if ( $content )
-            {
-                $content->removeAliases();
-            }
+            $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
+            $version = $contentObjectAttribute->attribute( "version" );
+            $this->deleteStoredObjectAttribute( $contentObjectAttribute, $version );
         }
     }
 
     /*!
-     \reimp
-     Will return one of the following items from the original alias.
-     - alternative_text - If it's not empty
-     - Default paramater in \a $name if it exists
-     - original_filename, this is the default fallback.
+     Returns attribute of an image, default will return filename of the image.
     */
-    function title( &$contentObjectAttribute, $name = 'original_filename' )
+    function title( &$contentObjectAttribute, $name = "original_filename" )
     {
-        $content =& $contentObjectAttribute->content();
-        $original = $content->attribute( 'original' );
-        $value = $original['alternative_text'];
-        if ( trim( $value ) == '' )
+        $image =& eZImage::fetch( $contentObjectAttribute->attribute( "id" ),
+                                  $contentObjectAttribute->attribute( "version" ) );
+
+        $value = $image->attribute( $name );
+
+        return $value;
+    }
+
+    /*!
+    */
+    function &objectAttributeContent( $contentObjectAttribute )
+    {
+        // Cache the attribute
+        $cacheString = "eZImageTypeCache-".$contentObjectAttribute->attribute( "id" ) . "-" . $contentObjectAttribute->attribute( "version" );
+
+        if ( !isset( $GLOBALS[$cacheString] ) )
         {
-            if ( array_key_exists( $name, $original ) )
-                $value = $original[$name];
-            else
-                $value = $original['original_filename'];
+            $image =& eZImage::fetch( $contentObjectAttribute->attribute( "id" ),
+                                      $contentObjectAttribute->attribute( "version" ) );
+            $GLOBALS[$cacheString] =& $image;
         }
-
-        return $value;
-    }
-
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        $handler =& $contentObjectAttribute->content();
-        if ( !$handler )
+        else
+        {
+            $image =& $GLOBALS[$cacheString];
+        }
+        if ( !$image )
             return false;
-        return $handler->attribute( 'is_valid' );
+        return $image;
     }
 
-    /*!
-     \reimp
-    */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function metaData()
     {
-        include_once( "kernel/classes/datatypes/ezimage/ezimagealiashandler.php" );
-        $imageHandler = new eZImageAliasHandler( $contentObjectAttribute );
-
-        return $imageHandler;
-    }
-
-    /*!
-     \reimp
-    */
-    function metaData( $contentObjectAttribute )
-    {
-        $content =& $contentObjectAttribute->content();
-        $original = $content->attribute( 'original' );
-        $value = $original['alternative_text'];
-        return $value;
+        return "";
     }
 
     /*!
@@ -374,47 +404,6 @@ class eZImageType extends eZDataType
         $sizeNode = $attributeParametersNode->elementByName( 'max-size' );
         $unitSize = $sizeNode->attributeValue( 'unit-size' );
         $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_FIELD, $maxSize );
-    }
-
-
-    /*!
-     \reimp
-     \return a DOM representation of the content object attribute
-    */
-    function &serializeContentObjectAttribute( &$package, &$objectAttribute )
-    {
-        $node = new eZDOMNode();
-
-        $node->setPrefix( 'ezobject' );
-        $node->setName( 'attribute' );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $objectAttribute->attribute( 'id' ), 'ezremote' ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'identifier', $objectAttribute->contentClassAttributeIdentifier(), 'ezremote' ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
-
-        $content = $objectAttribute->content();
-        $original = $content->attribute( 'original' );
-        $imageKey = md5( mt_rand() );
-
-        $package->appendSimpleFile( $imageKey, $original['url'] );
-        $node->appendAttribute( eZDomDocument::createAttributeNode( 'image-file-key', $imageKey ) );
-        $node->appendAttribute( eZDomDocument::createAttributeNode( 'alternativ-text', $original['alternative_text'] ) );
-
-        return $node;
-    }
-
-    /*!
-     \reimp
-     \param package
-     \param contentobject attribute object
-     \param ezdomnode object
-    */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
-    {
-        $alternativText = $attributeNode->attributeValue( 'alternativ-text' );
-        $content =& $objectAttribute->attribute( 'content' );
-        $content->initializeFromFile( $package->simpleFilePath( $attributeNode->attributeValue( 'image-file-key' ) ), $alternativText );
-        $content->store();
     }
 }
 

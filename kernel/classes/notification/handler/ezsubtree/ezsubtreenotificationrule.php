@@ -60,8 +60,8 @@ class eZSubtreeNotificationRule extends eZPersistentObject
                                                         'datatype' => 'integer',
                                                         'default' => 0,
                                                         'required' => true ),
-                                         "user_id" => array( 'name' => "UserID",
-                                                             'datatype' => 'integer',
+                                         "address" => array( 'name' => "Address",
+                                                             'datatype' => 'string',
                                                              'default' => '',
                                                              'required' => true ),
                                          "use_digest" => array( 'name' => "UseDigest",
@@ -97,18 +97,18 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         return eZPersistentObject::attribute( $attr );
     }
 
-    function &create( $nodeID, $userID, $useDigest = 0 )
+    function &create( $nodeID, $address, $useDigest = 0 )
     {
-        $rule =& new eZSubtreeNotificationRule( array( 'user_id' => $userID,
-                                                       'use_digest' => $useDigest,
-                                                       'node_id' => $nodeID ) );
+        $rule =& new eZSubtreeNotificationRule( array( 'address' => $address,
+                                                        'use_digest' => $useDigest,
+                                                        'node_id' => $nodeID ) );
         return $rule;
     }
 
-    function &fetchNodesForUserID( $userID, $asObject = true )
+    function &fetchNodesForAddress( $email, $asObject = true )
     {
         $nodeIDList =& eZPersistentObject::fetchObjectList( eZSubtreeNotificationRule::definition(),
-                                                            array( 'node_id' ), array( 'user_id' => $userID ),
+                                                            array( 'node_id' ), array( 'address' => $email ),
                                                             null,null,false );
         $nodes = array();
         if ( $asObject )
@@ -128,36 +128,232 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         return $nodes;
     }
 
-    function &fetchList( $userID, $asObject = true )
+    function &fetchList( $email, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZSubtreeNotificationRule::definition(),
-                                                    null, array( 'user_id' => $userID ),
+                                                    null, array( 'address' => $email ),
                                                     null,null,true );
     }
 
     /*!
-      \return an array of arrays with user_id, address and use_digest
-    */
-    function &fetchUserList( $nodeIDList )
-    {
-        $db =& eZDB::instance();
+     Fetch allowed subtreenotification rules based upon node id list and array pf nodes
 
-        $rules = array();
-        if ( count( $nodeIDList ) > 0 )
+     \param node id list for notification event.
+     \param content object to add
+
+     \return array of eZSubtreeNotificationRule objects
+    */
+    function &fetchUserList( $nodeIDList, $contentObject )
+    {
+        if ( count( $nodeIDList ) == 0 )
         {
-            $nodeIDWhereString = implode( ',', $nodeIDList );
-            $rules =& $db->arrayQuery( "SELECT rule.user_id, rule.use_digest, ezuser.email as address
-                                        FROM ezsubtree_notification_rule as rule, ezuser
-                                        WHERE rule.user_id=ezuser.contentobject_id AND rule.node_id IN ( $nodeIDWhereString )" );
+            return array();
         }
 
-        /*
+        $db =& eZDB::instance();
+        $concatString = $db->concatString(  array( 'user_tree.path_string', "'%'" ) );
+
+        $sql = 'SELECT DISTINCT policy.id as policy_id, ezuser.contentobject_id as user_id, ezuser.email as email
+                  FROM ezcontentobject_tree AS user_tree, ezcontentobject_tree AS user_node, ezuser_role AS user_role, ezuser,
+                       ezsubtree_notification_rule AS subtree_rule, ezpolicy AS policy, ezpolicy_limitation AS limitation, ezpolicy_limitation_value AS value
+                  WHERE subtree_rule.node_id IN ( ' . implode( ', ', $nodeIDList ) . ' ) AND
+                        ezuser.email=subtree_rule.address AND
+                        user_node.contentobject_id=ezuser.contentobject_id AND
+	                    user_node.path_string like ' . $concatString . " AND
+                        user_role.contentobject_id=user_tree.contentobject_id AND
+                        ( user_role.role_id=policy.role_id AND ( policy.module_name='*' OR ( policy.module_name='content' AND ( policy.function_name='*' OR policy.function_name='read' ) ) ) )";
+
+        $resultArray = $db->arrayQuery( $sql );
+
+
+        $policyArray = array();
+        $userIDArray = array();
+        foreach( $resultArray as $result )
+        {
+            $userIDArray[(string)$result['user_id']] = array( 'email' => $result['email'],
+                                                              'id' => (int)$result['user_id'] );
+        }
+        foreach( $resultArray as $result )
+        {
+            $policyIDArray[(string)$result['policy_id']][] =& $userIDArray[(string)$result['user_id']]['id'];
+        }
+
+        $acceptedUserArray = array();
+        foreach( array_keys( $policyIDArray ) as $policyID )
+        {
+            foreach( array_keys( $policyIDArray[$policyID] ) as $key )
+            {
+                if ( $policyIDArray[$policyID][$key] === false )
+                {
+                    unset( $policyIDArray[$policyID][$key] );
+                }
+            }
+
+            if ( count( $policyIDArray[$policyID] ) == 0 )
+            {
+                continue;
+            }
+
+            $userArray = eZSubtreeNotificationRule::checkObjectAccess( $contentObject, $policyID, $policyIDArray[$policyID] );
+            $acceptedUserArray = array_unique( array_merge( $acceptedUserArray, $userArray ) );
+
+            foreach ( $userArray as $userID )
+            {
+                $userIDArray[(string)$userID]['id'] = false;
+            }
+        }
+
+        $emailArray = array();
+        foreach( $acceptedUserArray as $userID )
+        {
+            if ( is_int( $userID ) && $userID != 0 )
+            {
+                $emailArray[] = $userIDArray[(string)$userID]['email'];
+            }
+        }
+
+        if ( count( $emailArray ) == 0 )
+        {
+            return array();
+        }
+
         $rules =& eZPersistentObject::fetchObjectList( eZSubtreeNotificationRule::definition(),
-                                                      array(), array( 'node_id' => array( $nodeIDList ) ),
-                                                      array( 'user_id' => 'asc' , 'use_digest' => 'desc'  ),null,
-                                                      false, false, array( array( 'operation' => 'distinct address,use_digest' ) )  );
-        */
+                                                       array(),
+                                                       array( 'node_id' => array( $nodeIDList ),
+                                                              'address' => array( $emailArray ) ),
+                                                       array( 'address' => 'asc' , 'use_digest' => 'desc'  ),
+                                                       null,
+                                                       false,
+                                                       false,
+                                                       array( array( 'operation' => 'distinct address,use_digest' ) ) );
         return $rules;
+    }
+
+    /*!
+     \private
+
+     Check access for specified policy on object, and user list.
+
+     \param Content object
+     \param policyID
+     \param userID array
+
+     \return array of user ID's which has access to object
+    */
+    function checkObjectAccess( $contentObject, $policyID, $userIDArray )
+    {
+        $policy = eZPolicy::fetch( $policyID );
+        $limitationArray = $policy->limitationList( false );
+        $accessUserIDArray = $userIDArray;
+
+        if ( count( $limitationArray ) == 0 )
+        {
+            $returnArray = array();
+            foreach ( $accessUserIDArray as $userID )
+            {
+                $returnArray[] = $userID;
+            }
+            return $returnArray;
+        }
+
+        $user =& eZUser::currentUser();
+        $classID = $contentObject->attribute( 'contentclass_id' );
+        $nodeArray = $contentObject->attribute( 'assigned_nodes' );
+
+        foreach ( $limitationArray as $limitation  )
+        {
+            if ( $limitation->attribute( 'identifier' ) == 'Class' )
+            {
+                if ( !in_array( $contentObject->attribute( 'contentclass_id' ), $limitation->attribute( 'values_as_array' )  )  )
+                {
+                    $accessUserIDArray = array();
+                    break;
+                }
+            }
+            elseif ( $limitation->attribute( 'identifier' ) == 'ParentClass' )
+            {
+                if ( !in_array( $contentObject->attribute( 'contentclass_id' ), $limitation->attribute( 'values_as_array' )  ) )
+                {
+                    $accessUserIDArray = array();
+                    break;
+                }
+            }
+            elseif ( $limitation->attribute( 'identifier' ) == 'Section' )
+            {
+                if ( !in_array( $contentObject->attribute( 'section_id' ), $limitation->attribute( 'values_as_array' )  ) )
+                {
+                    $accessUserIDArray = array();
+                    break;
+                }
+            }
+            elseif ( $limitation->attribute( 'identifier' ) == 'Owner' )
+            {
+                if ( in_array( $contentObject->attribute( 'owner_id' ), $userIDArray ) )
+                {
+                    $accessUserIDArray = array_intersect( $contentObject->attribute( 'owner_id' ), $accessUserIDArray );
+                }
+                else if ( in_array( $contentObject->ID, $userIDArray ) )
+                {
+                    $accessUserIDArray = array_intersect( $contentObject->ID, $accessUserIDArray );
+                }
+                else
+                {
+                    $accessUserIDArray = array();
+                    break;
+                }
+            }
+            elseif ( $limitation->attribute( 'identifier' ) == 'Node' )
+            {
+                $nodeLimit = true;
+                foreach ( $nodeArray as $node )
+                {
+                    if( in_array( $node->attribute( 'node_id' ), $limitation->attribute( 'values_as_array' ) ) )
+                    {
+                        $nodeLimit = false;
+                        break;
+                    }
+                }
+                if ( $nodeLimit )
+                {
+                    $accessUserIDArray = array();
+                    break;
+                }
+            }
+            elseif ( $limitation->attribute( 'identifier' ) == 'Subtree' )
+            {
+                $nodeLimit = true;
+                foreach ( $nodeArray as $node )
+                {
+                    $path =  $node->attribute( 'path_string' );
+                    $subtreeArray = $limitation->attribute( 'values_as_array' );
+                    $validSubstring = false;
+                    foreach ( $subtreeArray as $subtreeString )
+                    {
+                        if ( strstr( $path, $subtreeString ) )
+                        {
+                            $nodeLimit = false;
+                            break;
+                        }
+                    }
+                    if ( !$nodeLimit )
+                    {
+                        break;
+                    }
+                }
+                if ( $nodeLimit )
+                {
+                    $accessUserIDArray = array();
+                    break;
+                }
+            }
+        }
+
+        $returnArray = array();
+        foreach ( $accessUserIDArray as $userID )
+        {
+            $returnArray[] = $userID;
+        }
+        return $returnArray;
     }
 
     function node()
@@ -169,34 +365,11 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         return $this->Node;
     }
 
-    function removeByNodeAndUserID( $userID, $nodeID )
+    function removeByNodeAndAddress( $address, $nodeID )
     {
-        eZPersistentObject::removeObject( eZSubtreeNotificationRule::definition(), array( 'user_id' => $userID,
+        eZPersistentObject::removeObject( eZSubtreeNotificationRule::definition(), array( 'address' => $address,
                                                                                           'node_id' => $nodeID ) );
     }
-
-    /*!
-     \static
-
-     Remove notifications by user id
-
-     \param userID
-    */
-    function removeByUserID( $userID )
-    {
-        eZPersistentObject::removeObject( eZSubtreeNotificationRule::definition(), array( 'user_id' => $userID ) );
-    }
-
-    /*!
-     \static
-     Cleans up all notification rules for all users.
-    */
-    function cleanup()
-    {
-        $db =& eZDB::instance();
-        $db->query( "DELETE FROM ezsubtree_notification_rule" );
-    }
-
     var $Node = null;
 }
 

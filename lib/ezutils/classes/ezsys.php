@@ -33,8 +33,6 @@
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
 //
-// Portions are modifications on patches by Andreas Böckler and Francis Nart
-//
 
 /*!
   \class eZSys ezsys.php
@@ -78,7 +76,6 @@ class eZSys
             $this->FileSeparator = "\\";
             $this->LineSeparator= "\r\n";
             $this->EnvSeparator = ";";
-            $this->ShellEscapeCharacter = '"';
             $this->BackupFilename = '.bak';
         }
         else if ( substr( php_uname(), 0, 3 ) == "Mac" )
@@ -88,7 +85,6 @@ class eZSys
             $this->FileSeparator = "/";
             $this->LineSeparator= "\r";
             $this->EnvSeparator = ":";
-            $this->ShellEscapeCharacter = "'";
             $this->BackupFilename = '~';
         }
         else
@@ -98,7 +94,6 @@ class eZSys
             $this->FileSeparator = "/";
             $this->LineSeparator= "\n";
             $this->EnvSeparator = ":";
-            $this->ShellEscapeCharacter = "'";
             $this->BackupFilename = '~';
         }
 
@@ -159,210 +154,6 @@ class eZSys
     }
 
     /*!
-     \static
-     \return the PHP version as text.
-     \note Calls phpversion().
-    */
-    function phpVersionText()
-    {
-        return phpversion();
-    }
-
-    /*!
-     \static
-     \return the PHP version as an array with the version elements.
-     \example
-     array( 4, 3, 4 )
-     \endexample
-    */
-    function phpVersion()
-    {
-        $text = eZSys::phpVersionText();
-        $elements = explode( '.', $text );
-        return $elements;
-    }
-
-    /*!
-     \return \c true if the PHP version is equal or higher than \a $requiredVersion.
-     \param $requiredVersion must be an array with version number.
-
-     \code
-     eZSys::isPHPVersionSufficient( array( 4, 1, 0 ) );
-     \endcode
-    */
-    function isPHPVersionSufficient( $requiredVersion )
-    {
-        if ( !is_array( $requiredVersion ) )
-            return false;
-        $phpVersion = eZSys::phpVersion();
-        $len = min( count( $phpVersion ), count( $requiredVersion ) );
-         for ( $i = 0; $i < $len; ++$i )
-        {
-            if ( $phpVersion[$i] > $requiredVersion[$i] )
-                return true;
-            if ( $phpVersion[$i] < $requiredVersion[$i] )
-                return false;
-        }
-        return true;
-    }
-
-    /*!
-     \static
-     Escape a string to be used as a shell argument and return it.
-    */
-    function escapeShellArgument( $argument )
-    {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        $escapeChar = $this->ShellEscapeCharacter;
-        $argument = str_replace( "\\", "\\\\", $argument );
-        $argument = str_replace( $escapeChar, "\\" . $escapeChar, $argument );
-        $argument = $escapeChar . $argument . $escapeChar;
-        return $argument;
-    }
-
-    /*!
-     \static
-     Replaces % elements in the argument text \a $argumentText using the replace list \a $replaceList.
-     It will also properly escape the argument.
-     \sa splitArgumentIntoElements, mergeArgumentElements
-    */
-    function createShellArgument( $argumentText, $replaceList )
-    {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        $elements = $this->splitArgumentIntoElements( $argumentText );
-        $replacedElements = array();
-        foreach ( $elements as $element )
-        {
-            if ( is_string( $element ) )
-            {
-                $replacedElements[] = strtr( $element, $replaceList );
-                continue;
-            }
-            $replacedElements[] = $element;
-        }
-        $text = $this->mergeArgumentElements( $replacedElements );
-        return $text;
-    }
-
-    /*!
-     \static
-     Splits the argument text into argument array elements.
-     It will split text on spaces and set them as strings in the array,
-     spaces will be counted and inserted as integers with the space count.
-     Text placed in quotes will also be parsed, this allows for spaces in the text.
-     \code
-     $list = splitArgumentIntoElements( "-geometry 100x100" );
-
-     var_dump( $list ); // will give: array( "-geometry", 1, "100x100" );
-     \endcode
-
-     You can then easily modify the elements separately and create the argument text with mergeArgumentElements().
-    */
-    function splitArgumentIntoElements( $argumentText )
-    {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        $argumentElements = array();
-        $pos = 0;
-
-        while ( $pos < strlen( $argumentText ) )
-        {
-            if ( $argumentText[$pos] == '"' )
-            {
-                $quoteStartPos = $pos + 1;
-                $quoteEndPos = $pos + 1;
-                while ( $quoteEndPos < strlen( $argumentText ) )
-                {
-                    $tmpPos = strpos( $argumentText, '"', $quoteEndPos );
-                    if ( $tmpPos !== false and
-                         $argumentText[$tmpPos - 1] != "\\" );
-                    {
-                        $quoteEndPos = $tmpPos;
-                        break;
-                    }
-                    if ( $tmpPos === false )
-                    {
-                        $quoteEndPos = strlen( $argumentText );
-                        break;
-                    }
-                    $quoteEndPos = $tmpPos + 1;
-                }
-                $argumentElements[] = substr( $argumentText, $quoteStartPos, $quoteEndPos - $quoteStartPos );
-                $pos = $quoteEndPos + 1;
-            }
-            else if ( $argumentText[$pos] == ' ' )
-            {
-                $spacePos = $pos;
-                $spaceEndPos = $pos;
-                while ( $spaceEndPos < strlen( $argumentText ) )
-                {
-                    if ( $argumentText[$spaceEndPos] != ' ' )
-                        break;
-                    ++$spaceEndPos;
-                }
-                $spaceText = substr( $argumentText, $spacePos, $spaceEndPos - $spacePos );
-                $spaceCount = strlen( $spaceText );
-                if ( $spaceCount > 0 )
-                    $argumentElements[] = $spaceCount;
-                $pos = $spaceEndPos;
-            }
-            else
-            {
-                $spacePos = strpos( $argumentText, ' ', $pos );
-                if ( $spacePos !== false )
-                {
-                    $argumentElements[] = substr( $argumentText, $pos, $spacePos - $pos );
-                    $spaceEndPos = $spacePos + 1;
-                    while ( $spaceEndPos < strlen( $argumentText ) )
-                    {
-                        if ( $argumentText[$spaceEndPos] != ' ' )
-                            break;
-                        ++$spaceEndPos;
-                    }
-                    $spaceText = substr( $argumentText, $spacePos, $spaceEndPos - $spacePos );
-                    $spaceCount = strlen( $spaceText );
-                    if ( $spaceCount > 0 )
-                        $argumentElements[] = $spaceCount;
-                    $pos = $spaceEndPos;
-                }
-                else
-                {
-                    $argumentElements[] = substr( $argumentText, $pos );
-                    $pos = strlen( $argumentText );
-                }
-            }
-        }
-        return $argumentElements;
-    }
-
-    /*!
-     \static
-     Merges an argument list created by splitArgumentIntoElements() back into a text string.
-     The argument text will be properly quoted.
-    */
-    function mergeArgumentElements( $argumentElements )
-    {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        $argumentText = '';
-        foreach ( $argumentElements as $element )
-        {
-            if ( is_int( $element ) )
-            {
-                $argumentText .= str_repeat( ' ', $element );
-            }
-            else if ( is_string( $element ) )
-            {
-                $argumentText .= $this->escapeShellArgument( $element );
-            }
-        }
-        return $argumentText;
-    }
-
-    /*!
-     \static
      \return the backup filename for this platform, returns .bak for win32 and ~ for unix and mac.
     */
     function backupFilename()
@@ -402,8 +193,7 @@ class eZSys
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance();
-        include_once( 'lib/ezfile/classes/ezdir.php' );
-        return eZDir::path( array( $ini->variable( 'FileSettings', 'VarDir' ) ) );
+        return $ini->variable( 'FileSettings', 'VarDir' );
     }
 
     /*!
@@ -414,7 +204,7 @@ class eZSys
     function storageDirectory()
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        include_once( 'lib/ezutils/classes/ezdir.php' );
         $ini =& eZINI::instance();
         $varDir = eZSys::varDirectory();
         $storageDir = $ini->variable( 'FileSettings', 'StorageDir' );
@@ -432,7 +222,7 @@ class eZSys
         $ini =& eZINI::instance();
         $cacheDir = $ini->variable( 'FileSettings', 'CacheDir' );
 
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        include_once( 'lib/ezutils/classes/ezdir.php' );
         if ( $cacheDir[0] == "/" )
         {
             return eZDir::path( array( $cacheDir ) );
@@ -441,35 +231,6 @@ class eZSys
         {
             return eZDir::path( array( eZSys::varDirectory(), $cacheDir ) );
         }
-    }
-
-    /*!
-     The absolute path to the root directory.
-     \static
-    */
-    function rootDir()
-    {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        if ( $this->RootDir )
-        {
-            return $this->RootDir;
-        }
-        $cwd  = getcwd();
-        $self  = $this->serverVariable( 'PHP_SELF' );
-        if ( file_exists( $cwd.$this->FileSeparator.$self ) )
-        {
-            $this->RootDir = $cwd;
-        }
-        else if ( file_exists( $cwd.$this->FileSeparator.$this->IndexFile ) )
-        {
-            $this->Root = $cwd;
-        }
-        else
-        {
-            $this->RootDir=null;
-        }
-        return $this->RootDir;
     }
 
     /*!
@@ -515,19 +276,11 @@ class eZSys
         if ( !isset( $this ) or get_class( $this ) != "ezsys" )
             $this =& eZSys::instance();
         $text = $this->IndexFile;
-
         if ( $withAccessList and count( $this->AccessPath ) > 0 )
         {
-            if ( php_sapi_name() == 'cgi' )
-            {
-                if ( $text != "" )
-                    $text .= "/";
-                $text .= implode( '/', $this->AccessPath );
-            }
-            else
-            {
-                $text .= '/' . implode( '/', $this->AccessPath );
-            }
+//             if ( $text != "" )
+                $text .= "/";
+            $text .= implode( '/', $this->AccessPath );
         }
         return $text;
     }
@@ -586,6 +339,7 @@ class eZSys
     */
     function &serverVariable( $variableName, $quiet = false )
     {
+        $_SERVER;
         if ( !isset( $_SERVER[$variableName] ) )
         {
             if ( !$quiet )
@@ -700,17 +454,6 @@ class eZSys
 
     /*!
      \static
-     Empties the access path.
-    */
-    function clearAccessPath()
-    {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        $this->AccessPath = array();
-    }
-
-    /*!
-     \static
      \return true if debugging of internals is enabled, this will display
      which server variables are read.
       Set the option with setIsDebugEnabled().
@@ -737,10 +480,8 @@ class eZSys
      stated in the parameter list.
      \static
     */
-    function init( $def_index = "index.php", $force_VirtualHost = false )
+    function init( $def_index = "index.php", $force_VirtualHost = false)
     {
-        $isCGI = ( php_sapi_name() == 'cgi' );
-
         if ( !isset( $this ) or get_class( $this ) != "ezsys" )
             $this =& eZSys::instance();
 
@@ -772,10 +513,6 @@ class eZSys
             $siteDir = "./";
             $index = "/$def_index";
         }
-        if ( $isCGI )
-        {
-            $index .= '?';
-        }
 
         // Setting the right include_path
         $includePath = ini_get( "include_path" );
@@ -794,7 +531,7 @@ class eZSys
         $scriptName = eZSys::serverVariable( 'SCRIPT_NAME' );
         // Get the webdir.
 
-        if ( $force_VirtualHost && ! $isCGI )
+        if ( $force_VirtualHost )
         {
             $wwwDir = "";
         } else
@@ -805,53 +542,30 @@ class eZSys
                 $wwwDir = $regs[1];
         }
 
-        if ( ! $isCGI )
-        {
-            $requestURI = eZSys::serverVariable( 'REQUEST_URI' );
-        }
-        else
-        {
-            $requestURI = eZSys::serverVariable( 'QUERY_STRING' );
-
-            /* take out PHPSESSID, if url-encoded */
-            if ( preg_match( "/(.*)&PHPSESSID=[^&]+(.*)/", $requestURI, $matches ) )
-            {
-                $requestURI = $matches[1].$matches[2];
-            }
-        }
+        $requestURI = eZSys::serverVariable( 'REQUEST_URI' );
+        $requestURI = urldecode( $requestURI );
 
         // Fallback... Finding the paths above failed, so $_SERVER['PHP_SELF'] is not set right.
         if ( $siteDir == "./" )
             $phpSelf = $requestURI;
 
-        if ( ! $isCGI )
+        $def_index_reg = str_replace( ".", "\\.", $def_index );
+        // Trick: Rewrite setup doesn't have index.php in $_SERVER['PHP_SELF'], so we don't want an $index
+        if ( ! ereg( ".*$def_index_reg.*", $phpSelf ) )
+            $index = "";
+        else
         {
-            $def_index_reg = str_replace( ".", "\\.", $def_index );
-            // Trick: Rewrite setup doesn't have index.php in $_SERVER['PHP_SELF'], so we don't want an $index
-            if ( ! ereg( ".*$def_index_reg.*", $phpSelf ) )
-                $index = "";
-            else
+            if ( eZSys::isDebugEnabled() )
+                eZDebug::writeNotice( "$wwwDir$index", '$wwwDir$index' );
+            // Get the right $_SERVER['REQUEST_URI'], when using nVH setup.
+            if ( ereg( "^$wwwDir$index(.*)", $phpSelf, $req ) )
             {
-                if ( eZSys::isDebugEnabled() )
-                    eZDebug::writeNotice( "$wwwDir$index", '$wwwDir$index' );
-                // Get the right $_SERVER['REQUEST_URI'], when using nVH setup.
-                if ( ereg( "^$wwwDir$index(.*)", $phpSelf, $req ) )
-                {
-                    $requestURI = $req[1];
-                }
+                $requestURI = $req[1];
             }
         }
 
         // Remove url parameters
-        if ( $isCGI )
-        {
-            $pattern = "(\/[^&]+)";
-        }
-        else
-        {
-            $pattern = "([^?]+)";
-        }
-        if ( ereg( $pattern, $requestURI, $regs ) )
+        if ( ereg( "([^?]+)", $requestURI, $regs ) )
         {
             $requestURI = $regs[1];
         }
@@ -918,8 +632,6 @@ class eZSys
     var $FileSeparator;
     /// The list separator used for env variables
     var $EnvSeparator;
-    /// The absolute path to the root directory.
-    var $RootDir;
     /// The path to where all the code resides
     var $SiteDir;
     /// The access path of the current site view
@@ -932,8 +644,6 @@ class eZSys
     var $RequestURI;
     /// The type of filesystem, is either win32 or unix. This often used to determine os specific paths.
     var $FileSystemType;
-    /// The character to be used in shell escaping, this character is OS specific
-    var $ShellEscapeCharacter;
     var $OSType;
 }
 

@@ -47,7 +47,7 @@ $Module =& $Params['Module'];
 $offset = $Params['Offset'];
 $limit = 15;
 
-if ( $http->hasPostVariable( 'RemoveButton' )  )
+if ( $http->hasPostVariable( 'RemoveButton' ) )
 {
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
@@ -70,9 +70,9 @@ if ( $Module->isCurrentAction( 'AssignRole' ) )
     }
 }
 
-if ( $http->hasPostVariable( 'NewButton' )  )
+if ( $http->hasPostVariable( 'NewButton' ) )
 {
-    $role =& eZRole::createNew( );
+    $role =& eZRole::createNew();
     return $Module->redirectToView( 'edit', array( $role->attribute( 'id' ) ) );
 }
 

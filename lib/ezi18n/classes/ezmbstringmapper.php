@@ -78,42 +78,22 @@ class eZMBStringMapper
             eZDebug::writeError( "No mbstring functions available", "eZMBStringMapper" );
     }
 
-    /*!
-     \static
-     \note This function is duplicated in eZTextCodec::eZTextCodec(), remember to update both places.
-    */
     function &charsetList()
     {
         $charsets =& $GLOBALS["eZMBCharsetList"];
         if ( !is_array( $charsets ) )
         {
-            $charsetList = array( "ucs-4", "ucs-4be", "ucs-4le", "ucs-2", "ucs-2be", "ucs-2le", "utf-32", "utf-32be", "utf-32le", "utf-16",
-                                  "utf-16be", "utf-16le", "utf-8", "utf-7", "ascii", "euc-jp", "sjis", "eucjp-win", "sjis-win", "iso-2022-jp", "jis",
-                                  "iso-8859-1", "iso-8859-2", "iso-8859-3", "iso-8859-4", "iso-8859-5", "iso-8859-6", "iso-8859-7", "iso-8859-8",
-                                  "iso-8859-9", "iso-8859-10", "iso-8859-13", "iso-8859-14", "iso-8859-15", "byte2be", "byte2le", "byte4be",
-                                  "byte4le", "base64", "7bit", "8bit", "utf7-imap" );
-            $charsets = array();
-            foreach ( $charsetList as $charset )
-            {
-                $charsets[$charset] = $charset;
-            }
+            $charsets = array( "ucs-4", "ucs-4be", "ucs-4le", "ucs-2", "ucs-2be", "ucs-2le", "utf-32", "utf-32be", "utf-32le", "utf-16",
+                               "utf-16be", "utf-16le", "utf-8", "utf-7", "ascii", "euc-jp", "sjis", "eucjp-win", "sjis-win", "iso-2022-jp", "jis",
+                               "iso-8859-1", "iso-8859-2", "iso-8859-3", "iso-8859-4", "iso-8859-5", "iso-8859-6", "iso-8859-7", "iso-8859-8",
+                               "iso-8859-9", "iso-8859-10", "iso-8859-13", "iso-8859-14", "iso-8859-15", "byte2be", "byte2le", "byte4be",
+                               "byte4le", "base64", "7bit", "8bit", "utf7-imap" );
         }
         return $charsets;
     }
 
     /*!
      \static
-     \return \c true if the mbstring can be used.
-     \note The following function must be present for the function to return \c true.
-           mb_convert_encoding
-           mb_substitute_character
-           mb_strcut
-           mb_strlen
-           mb_strpos
-           mb_strrpos
-           mb_strwidth
-           mb_substr
-     \note This function is duplicated in eZTextCodec::eZTextCodec(), remember to update both places.
     */
     function hasMBStringExtension()
     {

@@ -664,6 +664,15 @@ WHERE
                                            "_",
                                            "" ),
                                       $urlElement );
+        $urlElement = preg_replace( array( "#[^a-z0-9_ ]#",
+                                           "/ /",
+                                           "/__+/",
+                                           "/^_|_$/" ),
+                                    array( " ",
+                                           "_",
+                                           "_",
+                                           "" ),
+                                      $urlElement );
         if ( strlen( $urlElement ) == 0 )
         {
             if ( $defaultValue === false )
@@ -726,30 +735,12 @@ WHERE
         }
         $uriString = eZURLAlias::cleanURL( $uriString );
 
-        $ini =& eZIni::instance();
-        if ( $ini->hasVariable( 'SiteAccessSettings', 'PathPrefix' ) &&
-             $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) )
-        {
-            $prefix = $ini->variable( 'SiteAccessSettings', 'PathPrefix' );
-            // Only prepend the path prefix if it's not already the first element of the url.
-            if ( !preg_match( "#^$prefix(/.*)?$#", $uriString )  )
-            {
-                $internalURIString = eZUrlAlias::cleanURL( $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) ) . '/' . $uriString;
-            }
-            else
-            {
-                $internalURIString = $uriString;
-            }
-        }
-        else
-            $internalURIString = $uriString;
-
         $db =& eZDB::instance();
         if ( $reverse )
         {
             $query = "SELECT source_url as destination_url, forward_to_id
 FROM ezurlalias
-WHERE destination_url = '" . $db->escapeString( $internalURIString ) . "' AND
+WHERE destination_url = '" . $db->escapeString( $uriString ) . "' AND
       forward_to_id = 0 AND
       is_wildcard = 0
 ORDER BY forward_to_id ASC";
@@ -758,7 +749,7 @@ ORDER BY forward_to_id ASC";
         {
             $query = "SELECT destination_url, forward_to_id
 FROM ezurlalias
-WHERE source_md5 = '" . md5( $internalURIString ) . "' AND
+WHERE source_md5 = '" . md5( $uriString ) . "' AND
       is_wildcard = 0
 ORDER BY forward_to_id ASC";
         }
@@ -807,7 +798,13 @@ ORDER BY forward_to_id ASC";
     */
     function cleanURL( $url )
     {
-        return trim( $url, '/ ' );
+        if ( strlen( $url ) > 0 and
+             $url[0] == '/' )
+            $url = substr( $url, 1 );
+        if ( strlen( $url ) > 0 and
+             $url[strlen( $url ) - 1] == '/' )
+            $url = substr( $url, 0, strlen( $url ) - 1 );
+        return $url;
     }
 }
 

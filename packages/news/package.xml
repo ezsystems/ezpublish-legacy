@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="3.2-1"
+         development="false"
+         xmlns:ezpackage="http://ez.no/ezpackage">
+  <name modified="1061309397">news</name>
+  <summary modified="1061309407">News</summary>
+  <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
+    <version>3.2-1</version>
+    <named-version>3.2</named-version>
+  </ezpublish>
+  <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
+    <maintainer modified="1061309397">
+      <name>Anonymous User</name>
+      <email>nospam@ez.no</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
+    <timestamp>1061309397</timestamp>
+    <host>bf.ez.no</host>
+  </packaging>
+  <documents>
+    <document mime-type="text/plain"
+              name="README"
+              modified="1061309397" />
+  </documents>
+  <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
+    <entry timestamp="1061309397"
+           person="Anonymous User"
+           email="nospam@ez.no"
+           release="1"
+           modified="1061309397">
+      <change>Creation of package</change>
+    </entry>
+  </changelog>
+  <files xmlns:ezfile="http://ez.no/ezpackage">
+    <collection name="default">
+      <file-list type="design"
+                 design="news"
+                 modified="1061309398" />
+      <file-list type="ini"
+                 role="siteaccess"
+                 role-value="news"
+                 variable-name="user_siteaccess">
+        <file name="override.ini.append"
+              path="settings/siteaccess/news/override.ini.append"
+              md5sum="e1dd5ea39c5dc492041d22664c02e7a8"
+              modified="1061309400" />
+        <file name="site.ini.append"
+              path="settings/siteaccess/news/site.ini.append"
+              md5sum="cbd00572973fc961f800bf188d82e96b"
+              modified="1061309401" />
+      </file-list>
+      <file-list type="ini"
+                 role="siteaccess"
+                 role-value="admin"
+                 variable-name="admin_siteaccess">
+        <file name="override.ini.append"
+              path="settings/siteaccess/admin/override.ini.append"
+              md5sum="50f4805254652ccea3c0191a23ce5c21"
+              modified="1061309403" />
+        <file name="site.ini.append"
+              path="settings/siteaccess/admin/site.ini.append"
+              md5sum="47a0ba3f8010fba23cc881208bf4bfc1"
+              modified="1061309403" />
+      </file-list>
+      <file-list type="thumbnail">
+        <file name="thumbnail.png"
+              path="newsthumbnail.png"
+              md5sum="ac4fc22bd08c13f9ee5e02ae575ff941"
+              modified="1061309406" />
+      </file-list>
+    </collection>
+  </files>
+  <version xmlns:ezversion="http://ez.no/ezpackage">
+    <number modified="1061309397">1.0</number>
+    <release modified="1061309397">1</release>
+  </version>
+  <licence modified="1061309397">GPL</licence>
+  <state modified="1061309397">alpha</state>
+  <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
+    <provides>
+      <provide type="ezfile"
+               name="collection"
+               value="default"
+               modified="1061309398" />
+    </provides>
+    <requires>
+      <require type="ezdb"
+               name="mysql"
+               modified="1061309404" />
+      <require type="ezdb"
+               name="postgresql"
+               modified="1061309405" />
+    </requires>
+    <obsoletes />
+    <conflicts />
+  </dependencies>
+  <install xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1061309398"
+          collection="default" />
+    <item type="sql"
+          modified="1061309404"
+          filename="news.sql"
+          original-path="packages/news.sql"
+          database-type="mysql" />
+    <item type="sql"
+          modified="1061309405"
+          filename="news_postgresql.sql"
+          original-path="packages/news_postgresql.sql"
+          database-type="postgresql" />
+  </install>
+  <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1061309398"
+          collection="default" />
+  </uninstall>
+</package>

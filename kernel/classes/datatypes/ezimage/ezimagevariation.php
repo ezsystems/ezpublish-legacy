@@ -204,7 +204,7 @@ class eZImageVariation extends eZPersistentObject
         }
 
         include_once( "lib/ezutils/classes/ezini.php" );
-        include_once( "lib/ezfile/classes/ezdir.php" );
+        include_once( "lib/ezutils/classes/ezdir.php" );
 
         $ini =& eZINI::instance();
         $sys =& eZSys::instance();
@@ -226,19 +226,43 @@ class eZImageVariation extends eZPersistentObject
 
         $imgINI =& eZINI::instance( 'image.ini' );
         $ruleList = $imgINI->variableArray( 'Rules', 'Rules' );
+
+        $origImageMIME = $ezimageobj->attribute( 'mime_type' );
+        $conversionRuleFound = false;
+
         foreach ( $ruleList as $items )
         {
             $sourceMIME = $items[0];
-            $destMIME = $items[1];
-            $type = $items[2];
-            if ( $type == 'convert' or
-                 $type == 'gd' )
+            if ( $sourceMIME == $origImageMIME )
             {
-               $sourceMIME = str_replace("image/", "", $sourceMIME );
-               $destMIME = str_replace("image/", "", $destMIME );
-               $convertedName = str_replace( $sourceMIME, $destMIME, $convertedName );
+                $conversionRuleFound = true;
+                $destMIME = $items[1];
+                $type = $items[2];
+                break;
             }
         }
+
+        if ( !$conversionRuleFound )
+        {
+            $defaultRule = $imgINI->variableArray( 'Rules', 'DefaultRule' );
+            $destMIME = $defaultRule[0];
+            $type = $defaultRule[1];
+        }
+
+        if ( $type == 'convert' or $type == 'gd' )
+        {
+            $origImageMIME = str_replace( 'image/', '', $origImageMIME );
+            $mimeInfo = $img->mimeInfo( $destMIME );
+            if ( $mimeInfo )
+                $suffix = $mimeInfo['suffix'];
+            else
+                $suffix = str_replace( 'image/', '', $destMIME );
+            if ( preg_match( "#^(.+\.)([^.]+)$#", $convertedName, $matches ) )
+            {
+                $convertedName = $matches[1] . $suffix;
+            }
+        }
+
 
         $refImagename = $img->convert( $referencePath . '/' . $convertedName,
                                        $variationPath . '/' . $additionalPath . '/' . $destFilename,

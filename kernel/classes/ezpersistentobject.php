@@ -62,6 +62,7 @@ class MyClass extends eZPersistentObject
 */
 
 include_once( "lib/ezdb/classes/ezdb.php" );
+include_once( "lib/ezutils/classes/eztexttool.php" );
 include_once( "lib/ezutils/classes/ezdebug.php" );
 
 class eZPersistentObject
@@ -92,15 +93,16 @@ class eZPersistentObject
             return;
         $def =& $this->definition();
         $fields =& $def["fields"];
-
-        foreach ( $fields as $key => $value )
+        reset( $fields );
+        while ( ($key = key( $fields ) ) !== null )
         {
-            $item = $fields[$key];
+            $item =& $fields[$key];
             if ( is_array( $item ) )
             {
-                $item = $item['name'];
+                $item =& $item['name'];
             }
             $this->$item =& $row[$key];
+            next( $fields );
         }
     }
 
@@ -234,6 +236,7 @@ class eZPersistentObject
                     if ( array_key_exists( 'default', $field_def ) && ! is_null( $field_def[ 'default' ] ) )
                     {
                         $obj->setAttribute( $field_name, $field_def[ 'default' ] );
+                        eZDebug::writeDebug( $field_def[ 'default' ], "changing value of $field_name to default" );
                     }
                     else
                     {
@@ -251,6 +254,7 @@ class eZPersistentObject
                  !is_null( $field_def[ 'default' ] ) )
             {
                 $obj->setAttribute( $field_name, $field_def[ 'default' ] );
+                eZDebug::writeDebug( $field_def[ 'default' ], "changing value of $field_name to default" );
             }
         }
         $key_conds = array();
@@ -262,18 +266,14 @@ class eZPersistentObject
         $important_keys = $keys;
         if ( is_array( $relations ) )
         {
-//            $important_keys = array();
+            $important_keys = array();
             foreach( $relations as $relation => $relation_data )
             {
                 if ( !in_array( $relation, $keys ) )
                     $important_keys[] = $relation;
             }
         }
-        if ( count( $important_keys ) == 0 )
-        {
-            $insert_object = true;
-        }
-        else if ( !$insert_object )
+        if ( !$insert_object and count( $important_keys ) != 1  )
         {
             $rows =& eZPersistentObject::fetchObjectList( $def, $keys, $key_conds,
                                                           array(), null, false,
@@ -309,6 +309,7 @@ class eZPersistentObject
             }
             $value_text = implode( ", ", $use_values );
             $sql = "INSERT INTO $table ($field_text) VALUES($value_text)";
+//             eZDebug::writeNotice( $sql );
             $db->query( $sql );
 
             if ( isset( $def["increment_key"] ) && !($obj->attribute( $def["increment_key"]) > 0) )
@@ -352,6 +353,7 @@ class eZPersistentObject
             }
             $cond_text = eZPersistentObject::conditionText( $key_conds );
             $sql = "UPDATE $table\nSET $field_text$cond_text";
+//             eZDebug::writeNotice( $sql );
             $db->query( $sql );
         }
         $obj->setHasDirtyData( false );
@@ -641,6 +643,8 @@ class eZPersistentObject
         {
             $swapSQL1 = eZPersistentObject::swapRow( $table, $keys, $order_id, $rows, 1, 0 );
             $swapSQL2 = eZPersistentObject::swapRow( $table, $keys, $order_id, $rows, 0, 1 );
+//             eZDebug::writeDebug( $swapSQL1, 'swapSQL1' );
+//             eZDebug::writeDebug( $swapSQL2, 'swapSQL2' );
             $db->query( $swapSQL1 );
             $db->query( $swapSQL2 );
         }
@@ -720,6 +724,46 @@ function definition()
         return $out;
     }
 
+    // Too slow
+//     function updateObjectList2( $parameters )
+//     {
+//         $db =& eZDB::instance();
+//         $def =& $parameters['definition'];
+//         $table =& $def['name'];
+//         $fields =& $def['fields'];
+//         $keys =& $def['keys'];
+
+//         $updateFields =& eZPersistentObject::escapeArray( $parameters['update_fields'] );
+//         $conditions =& eZPersistentObject::escapeArray( $parameters['conditions'] );
+
+//         $query = array( 'UPDATE ',
+//                         $table,
+//                         ' SET ' );
+//         $query[] = eZTextTool::arrayAddDelimiter( eZTextTool::arrayElevateKeys( $updateFields, '', "='", "'" ), ', ' );
+//         $query[] = ' WHERE ';
+//         $conditionArray = array();
+//         foreach( $conditions as $conditionKey => $condition )
+//         {
+//             if ( is_array( $condition ) )
+//             {
+//                 $conditionArray[] = array( $conditionKey,
+//                                            ' IN (',
+//                                            eZTextTool::arrayAddDelimiter( $condition, ', ', "'", "'" ),
+//                                            ')' );
+//             }
+//             else
+//                 $conditionArray[] = array( $conditionKey,
+//                                            "='",
+//                                            $condition,
+//                                            "'" );
+//         }
+//         $query[] = eZTextTool::arrayAddDelimiter( $conditionArray, ' AND ' );
+//         return implode( '', eZTextTool::arrayFlatten( $query ) );
+
+//         // UPDATE ez... SET is_enabled='1' WHERE (ID='1' OR ID='2') AND version='0';
+//         // UPDATE ez... SET is_enabled='1' WHERE ID IN ('1', '2') AND version='0';
+//     }
+
     function updateObjectList( $parameters )
     {
         $db =& eZDB::instance();
@@ -764,20 +808,84 @@ function definition()
             ++$i;
         }
         $db->query( $query );
+
+        // UPDATE ez... SET is_enabled='1' WHERE (ID='1' OR ID='2') AND version='0';
+        // UPDATE ez... SET is_enabled='1' WHERE ID IN ('1', '2') AND version='0';
     }
+
+    // Slower than #1
+//     function updateObjectList3( $parameters )
+//     {
+//         $db =& eZDB::instance();
+//         $def =& $parameters['definition'];
+//         $table =& $def['name'];
+//         $fields =& $def['fields'];
+//         $keys =& $def['keys'];
+
+//         $updateFields =& eZPersistentObject::escapeArray( $parameters['update_fields'] );
+//         $conditions =& eZPersistentObject::escapeArray( $parameters['conditions'] );
+
+//         $query = array( 'UPDATE ',
+//                         $table,
+//                         ' SET ' );
+//         $i = 0;
+//         foreach( $updateFields as $field => $value )
+//         {
+//             if ( $i > 0 )
+//                 $query[] = ', ';
+//             $query[] = $field;
+//             $query[] = "='";
+//             $query[] = $value;
+//             $query[] = "'";
+//             ++$i;
+//         }
+//         $query[] = ' WHERE ';
+//         $i = 0;
+//         foreach( $conditions as $conditionKey => $condition )
+//         {
+//             if ( $i > 0 )
+//                 $query[] = ' AND ';
+//             if ( is_array( $condition ) )
+//             {
+//                 $query[] = $conditionKey;
+//                 $query[] = ' IN (';
+//                 $j = 0;
+//                 foreach( $condition as $conditionValue )
+//                 {
+//                     if ( $j > 0 )
+//                         $query[] = ', ';
+//                     $query[] = "'";
+//                     $query[] = $conditionValue;
+//                     $query[] = "'";
+//                     ++$j;
+//                 }
+//                 $query[] = ')';
+//             }
+//             else
+//             {
+//                 $query[] = $conditionKey;
+//                 $query[] = "='";
+//                 $query[] = $condition;
+//                 $query[] = "'";
+//             }
+//             ++$i;
+//         }
+//         return implode( '', $query );
+
+//         // UPDATE ez... SET is_enabled='1' WHERE (ID='1' OR ID='2') AND version='0';
+//         // UPDATE ez... SET is_enabled='1' WHERE ID IN ('1', '2') AND version='0';
+//     }
 
     /*!
      \return the attributes for this object, taken from the definition fields and
              function attributes.
     */
-    function attributes()
+    function &attributes()
     {
         $def =& $this->definition();
         $attrs = array_keys( $def["fields"] );
         if ( isset( $def["function_attributes"] ) )
             $attrs = array_merge( $attrs, array_keys( $def["function_attributes"] ) );
-        if ( isset( $def["functions"] ) )
-            $attrs = array_merge( $attrs, array_keys( $def["functions"] ) );
         return $attrs;
     }
 
@@ -790,8 +898,6 @@ function definition()
         $has_attr = isset( $def["fields"][$attr] );
         if ( !$has_attr and isset( $def["function_attributes"] ) )
             $has_attr = isset( $def["function_attributes"][$attr] );
-        if ( !$has_attr and isset( $def["functions"] ) )
-            $has_attr = isset( $def["functions"][$attr] );
         return $has_attr;
     }
 
@@ -804,30 +910,31 @@ function definition()
         $def =& $this->definition();
         $fields =& $def["fields"];
         $functions =& $def["functions"];
-        $attrFunctions =& $def["function_attributes"];
+        $attr_functions =& $def["function_attributes"];
         if ( isset( $fields[$attr] ) )
         {
-            $attrName = $fields[$attr];
-            if ( is_array( $attrName ) )
+            $attr_name = $fields[$attr];
+            if ( is_array( $attr_name ) )
             {
-                $attrName =& $attrName['name'];
+                $attr_name =& $attr_name['name'];
             }
-            return $this->$attrName;
+            return $this->$attr_name;
+
         }
-        else if ( isset( $attrFunctions[$attr] ) )
+        else if ( isset( $attr_functions[$attr] ) )
         {
-            $functionName = $attrFunctions[$attr];
-            return $this->$functionName();
+            $function_name = $attr_functions[$attr];
+            return $this->$function_name();
         }
         else if ( isset( $functions[$attr] ) )
         {
-            $functionName = $functions[$attr];
-            return $this->$functionName();
+            $function_name = $functions[$attr];
+            return $this->$function_name();
         }
         else
         {
             eZDebug::writeError( "Undefined attribute '$attr', cannot get",
-                                  $def['class_name'] );
+                                 $def['class_name'] );
             return null;
         }
     }
@@ -841,32 +948,27 @@ function definition()
         $def =& $this->definition();
         $fields =& $def["fields"];
         $functions =& $def["set_functions"];
-        if ( isset( $fields[$attr] ) )
-        {
-            $attrName = $fields[$attr];
-            if ( is_array( $attrName ) )
-            {
-                $attrName =& $attrName['name'];
-            }
-
-            $oldValue = null;
-            if ( isset( $this->$attrName ) )
-                $oldValue = $this->$attrName;
-            $this->$attrName = $val;
-            if ( $oldValue === null or $oldValue !== $val )
-                $this->setHasDirtyData( true );
-        }
-        else if ( isset( $functions[$attr] ) )
-        {
-            $functionName = $functions[$attr];
-            $oldValue = $this->$functionName( $val );
-            if ( $oldValue === null or $oldValue !== $val )
-                $this->setHasDirtyData( true );
-        }
-        else
+        if ( !isset( $fields[$attr] ) )
         {
             eZDebug::writeError( "Undefined attribute '$attr', cannot set",
                                  $def['class_name'] );
+            return;
+        }
+        if ( isset( $functions[$attr] ) )
+        {
+            $function_name = $functions[$attr];
+            $this->$function_name( $val );
+        }
+        else
+        {
+            $attr_name = $fields[$attr];
+            if ( is_array( $attr_name ) )
+            {
+                $attr_name =& $attr_name['name'];
+            }
+
+            $this->$attr_name = $val;
+            $this->setHasDirtyData( true );
         }
     }
 

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="3.2-1"
+         development="false"
+         xmlns:ezpackage="http://ez.no/ezpackage">
+  <name modified="1061309323">plain</name>
+  <summary modified="1061309331">Plain</summary>
+  <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
+    <version>3.2-1</version>
+    <named-version>3.2</named-version>
+  </ezpublish>
+  <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
+    <maintainer modified="1061309323">
+      <name>Anonymous User</name>
+      <email>nospam@ez.no</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
+    <timestamp>1061309323</timestamp>
+    <host>bf.ez.no</host>
+  </packaging>
+  <documents>
+    <document mime-type="text/plain"
+              name="README"
+              modified="1061309323" />
+  </documents>
+  <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
+    <entry timestamp="1061309323"
+           person="Anonymous User"
+           email="nospam@ez.no"
+           release="1"
+           modified="1061309323">
+      <change>Creation of package</change>
+    </entry>
+  </changelog>
+  <files xmlns:ezfile="http://ez.no/ezpackage">
+    <collection name="default">
+      <file-list type="design"
+                 design="plain"
+                 modified="1061309324" />
+      <file-list type="ini"
+                 role="siteaccess"
+                 role-value="plain"
+                 variable-name="user_siteaccess">
+        <file name="override.ini.append"
+              path="settings/siteaccess/plain/override.ini.append"
+              md5sum="5391d5d8d766d5fb6def3def2fd18a8e"
+              modified="1061309324" />
+        <file name="site.ini.append"
+              path="settings/siteaccess/plain/site.ini.append"
+              md5sum="b74a9c350cb3879084a6d09b29f32dab"
+              modified="1061309325" />
+      </file-list>
+      <file-list type="ini"
+                 role="siteaccess"
+                 role-value="admin"
+                 variable-name="admin_siteaccess">
+        <file name="override.ini.append"
+              path="settings/siteaccess/admin/override.ini.append"
+              md5sum="50f4805254652ccea3c0191a23ce5c21"
+              modified="1061309326" />
+        <file name="site.ini.append"
+              path="settings/siteaccess/admin/site.ini.append"
+              md5sum="47a0ba3f8010fba23cc881208bf4bfc1"
+              modified="1061309326" />
+      </file-list>
+      <file-list type="thumbnail">
+        <file name="thumbnail.png"
+              path="plainthumbnail.png"
+              md5sum="a7b2259dacddd2c32399604e3f60e69f"
+              modified="1061309330" />
+      </file-list>
+    </collection>
+  </files>
+  <version xmlns:ezversion="http://ez.no/ezpackage">
+    <number modified="1061309323">1.0</number>
+    <release modified="1061309323">1</release>
+  </version>
+  <licence modified="1061309323">GPL</licence>
+  <state modified="1061309323">alpha</state>
+  <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
+    <provides>
+      <provide type="ezfile"
+               name="collection"
+               value="default"
+               modified="1061309324" />
+    </provides>
+    <requires>
+      <require type="ezdb"
+               name="mysql"
+               modified="1061309327" />
+      <require type="ezdb"
+               name="mysql"
+               modified="1061309328" />
+      <require type="ezdb"
+               name="postgresql"
+               modified="1061309328" />
+      <require type="ezdb"
+               name="postgresql"
+               modified="1061309329" />
+    </requires>
+    <obsoletes />
+    <conflicts />
+  </dependencies>
+  <install xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1061309324"
+          collection="default" />
+    <item type="sql"
+          modified="1061309327"
+          filename="kernel_schema.sql"
+          original-path="kernel/sql/mysql/kernel_schema.sql"
+          database-type="mysql" />
+    <item type="sql"
+          modified="1061309328"
+          filename="cleandata.sql"
+          original-path="kernel/sql/mysql/cleandata.sql"
+          database-type="mysql" />
+    <item type="sql"
+          modified="1061309328"
+          filename="kernel_schema.sql"
+          original-path="kernel/sql/postgresql/kernel_schema.sql"
+          database-type="postgresql" />
+    <item type="sql"
+          modified="1061309329"
+          filename="cleandata.sql"
+          original-path="kernel/sql/postgresql/cleandata.sql"
+          database-type="postgresql" />
+  </install>
+  <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1061309324"
+          collection="default" />
+  </uninstall>
+</package>

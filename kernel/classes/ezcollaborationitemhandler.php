@@ -44,7 +44,7 @@
 */
 
 include_once( 'lib/ezutils/classes/ezini.php' );
-include_once( "lib/ezfile/classes/ezdir.php" );
+include_once( 'lib/ezutils/classes/ezdir.php' );
 
 /*
  Definitions for notification handling for collaboration handlers.
@@ -361,16 +361,7 @@ class eZCollaborationItemHandler
      it can be used by handlers to update when the item was last read.
      \note Default implementation does nothing.
     */
-    function readItem( &$collaborationItem, $viewMode = false )
-    {
-    }
-
-    /*!
-     This is called whenever a collaboration item is to be removed.
-     Reimplementing this function can be used to cleanup external tables
-     or other resources.
-    */
-    function removeItem( &$collaborationItem )
+    function readItem( &$collaborationItem )
     {
     }
 

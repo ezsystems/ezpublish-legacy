@@ -77,53 +77,13 @@ class eZTemplatePHPOperator
         return $this->Operators;
     }
 
-    function operatorTemplateHints()
-    {
-        $hints = array();
-        foreach ( array_keys( $this->PHPNames ) as $name )
-        {
-            $hints[$name] = array( 'input' => true,
-                                   'output' => true,
-                                   'parameters' => false,
-                                   'element-transformation' => true,
-                                   'transform-parameters' => true,
-                                   'input-as-parameter' => 'always',
-                                   'element-transformation-func' => 'phpOperatorTransformation');
-        }
-        return $hints;
-    }
-
-    function phpOperatorTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                        &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
-    {
-        $values = array();
-        $function = $operatorName;
-
-        if ( ( count( $parameters ) != 1) )
-        {
-            return false;
-        }
-        $newElements = array();
-        $phpname = $this->PHPNames[$operatorName];
-
-        $values[] = $parameters[0];
-        $code = "%output% = $phpname( %1% );\n";
-
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
-        return $newElements;
-    }
-
     /*!
      Executes the PHP function for the operator $op_name.
     */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value )
     {
         $phpname = $this->PHPNames[$operatorName];
-        if ( $value !== null )
-            $operand = $value;
-        else
-            $operand = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
-        $value = $phpname( $operand );
+        $value = $phpname( $value );
     }
 
     /// The array of operators, used for registering operators

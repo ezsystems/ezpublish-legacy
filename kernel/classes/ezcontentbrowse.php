@@ -147,21 +147,6 @@ class eZContentBrowse
         if ( !isset( $parameters['start_node'] ) )
             $parameters['start_node'] = $ini->variable( $parameters['type'], 'StartNode' );
 
-        if ( !isset( $parameters['ignore_nodes'] ) )
-            $parameters['ignore_nodes'] = array();
-
-        if ( !isset( $parameters['class_array'] ) )
-        {
-            if ( $ini->hasVariable( $parameters['type'], 'Class' ) )
-            {
-                $parameters['class_array'] = $ini->variable( $parameters['type'], 'Class' );
-            }
-            else
-            {
-                $parameters['class_array'] = false;
-            }
-        }
-
         if ( isset( $parameters['keys'] ) )
         {
             $overrideStartNode = false;
@@ -245,8 +230,6 @@ class eZContentBrowse
             return $contentINI->variable( 'NodeSettings', 'UserRootNode' );
         else if ( $nodeName == 'media' )
             return $contentINI->variable( 'NodeSettings', 'MediaRootNode' );
-        else if ( $nodeName == 'setup' )
-            return $contentINI->variable( 'NodeSettings', 'SetupRootNode' );
         else
             return false;
     }

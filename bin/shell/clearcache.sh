@@ -12,9 +12,6 @@ CLEAR_TEMPLATE_OVERRIDE="0"
 CLEAR_TRANSLATION="0"
 CLEAR_EXPIRY="0"
 CLEAR_URLALIAS="0"
-CLEAR_SORTKEY="0"
-CLEAR_CLASSIDENTIFIER="0"
-CLEAR_RSS="0"
 CLEAR_CODEPAGE="0"
 
 # Check parameters
@@ -36,10 +33,7 @@ for arg in $*; do
 	    echo "         --clear-ts                 Remove translation cache"
 	    echo "         --clear-expiry             Remove expiry cache"
 	    echo "         --clear-urlalias           Remove url alias cache"
-	    echo "         --clear-sortkey            Remove sort key cache"
-            echo "         --clear-classidentifiers   Remove class identifier cache"
-	    echo "         --clear-rss                Remove RSS cache"
-            echo "         --clear-all                Remove all above caches"
+	    echo "         --clear-all                Remove all above caches"
             echo
             echo "Example:"
             echo "$0 --clear-image --clear-tpl"
@@ -82,16 +76,6 @@ for arg in $*; do
 	--clear-urlalias)
 	    CLEAR_URLALIAS="1"
 	    ;;
-       --clear-sortkey)
-            CLEAR_SORTKEY="1"
-            ;;
-       --clear-classidentifiers)
-            CLEAR_CLASSIDENTIFIER="1"
-            ;;
-       --clear-rss)
-	    CLEAR_RSS="1"
-	    ;;
-
 	--clear-all)
 	    CLEAR_CONTENT="1"
 	    CLEAR_IMAGE="1"
@@ -103,9 +87,6 @@ for arg in $*; do
 	    CLEAR_TRANSLATION="1"
 	    CLEAR_EXPIRY="1"
 	    CLEAR_URLALIAS="1"
-            CLEAR_SORTKEY="1"
-            CLEAR_CLASSIDENTIFIER="1"
-	    CLEAR_RSS="1"
 	    ;;
 	*)
 	    echo "$arg: unkown option specified"
@@ -126,11 +107,6 @@ SETTINGS_DIR="settings"
 for dir in $SETTINGS_DIR/siteaccess/*; do
     if [ -d "$dir" ]; then
 	dirname=`basename $dir`
-	if echo $dirname | grep -e "_user$" >/dev/null; then
-	    dirname=`echo $dirname | sed 's/_user//'`
-	elif echo $dirname | grep -e "_admin$" >/dev/null; then
-	    dirname=`echo $dirname | sed 's/_admin//'`
-	fi
 	SITEACCESS_DIR="$SITEACCESS_DIR $dirname"
     fi
 done
@@ -157,11 +133,6 @@ for DIR in $VAR_DIRS; do
 	TRANSLATION_CACHEDIR="$DIR/cache/translation"
 	EXPIRY_CACHEFILE="$DIR/cache/expiry.php"
 	URLALIAS_CACHEDIR="$DIR/cache/wildcard"
- 	SORTKEY_CACHEFILE="$DIR/cache/sortkey_"
-        CLASSIDENTIFIER_CACHEFILE="$DIR/cache/classidentifiers_"
-        CLASSATTRIBUTEIDENTIFIER_CACHEFILE="$DIR/cache/classattributeidentifiers_"
-	RSS_CACHEDIR="$DIR/cache/rss"
-   
 
 	if [ "$CLEAR_CONTENT" -eq 1 ]; then
 	    if [ -d "$CONTENT_CACHEDIR" ]; then
@@ -232,24 +203,5 @@ for DIR in $VAR_DIRS; do
 		rm -rf "$URLALIAS_CACHEDIR"
 	    fi
 	fi
-
-        if [ "$CLEAR_SORTKEY" -eq 1 ]; then
-            echo "Removing sortkey cache files in $SORTKEY_CACHEFILE"
-            rm -f "$SORTKEY_CACHEFILE"*.php
-        fi
-
-	if [ "$CLEAR_RSS" -eq 1 ]; then
-	    if [ -d "$RSS_CACHEDIR" ]; then
-		echo "Removing RSS cache files in $RSS_CACHEDIR"
-		rm -rf "$RSS_CACHEDIR"
-	    fi
-	fi
-
-        if [ "$CLEAR_CLASSIDENTIFIER" -eq 1 ]; then
-            echo "Removing class identifier cache files in $CLASSIDENTIFIER_CACHEFILE"
-            rm -f "$CLASSIDENTIFIER_CACHEFILE"*.php
-            echo "Removing class attribute identifier cache files in $CLASSATTRIBUTEIDENTIFIER_CACHEFILE"
-            rm -f "$CLASSATTRIBUTEIDENTIFIER_CACHEFILE"*.php
-        fi
     fi
 done

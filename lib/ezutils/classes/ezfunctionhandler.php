@@ -67,53 +67,6 @@ class eZFunctionHandler
         return $moduleFunctionInfo;
     }
 
-    /*!
-     \static
-     Execute alias fetch for simplified fetching of objects
-    */
-    function &executeAlias( $aliasFunctionName, $functionParameters )
-    {
-        $aliasSettings =& eZINI::instance( 'fetchalias.ini' );
-        if ( $aliasSettings->hasSection( $aliasFunctionName ) )
-        {
-            $moduleFunctionInfo =& eZFunctionHandler::moduleFunctionInfo( $aliasSettings->variable( $aliasFunctionName, 'Module' ) );
-            if ( !$moduleFunctionInfo->isValid() )
-            {
-                eZDebug::writeError( "Cannot execute function '$aliasFunctionName' in module '$moduleName', no valid data",
-                                     'eZFunctionHandler::executeAlias' );
-                return null;
-            }
-
-            $functionName =& $aliasSettings->variable( $aliasFunctionName, 'FunctionName' );
-
-            $functionArray = array();
-            if ( $aliasSettings->hasVariable( $aliasFunctionName, 'Parameter' ) )
-            {
-                $parameterTranslation =& $aliasSettings->variable( $aliasFunctionName, 'Parameter' );
-                foreach( array_keys( $parameterTranslation ) as $functionKey )
-                {
-                    $functionArray[$functionKey] = $functionParameters[$parameterTranslation[$functionKey]];
-                }
-            }
-
-            if ( $aliasSettings->hasVariable( $aliasFunctionName, 'Constant' ) )
-            {
-                $constantParameterArray =& $aliasSettings->variable( $aliasFunctionName, 'Constant' );
-                foreach ( array_keys( $constantParameterArray ) as $constKey )
-                {
-                    if ( $moduleFunctionInfo->isParameterArray( $functionName, $constKey ) )
-                        $functionArray[$constKey] = explode( ';', $constantParameterArray[$constKey] );
-                    else
-                        $functionArray[$constKey] = $constantParameterArray[$constKey];
-                }
-            }
-
-            return $moduleFunctionInfo->execute( $functionName, $functionArray );
-        }
-        eZDebug::writeWarning( 'Could not execute. Function ' . $aliasFunctionName. ' not found.' ,
-                               'eZFunctionHandler::executeAlias' );
-    }
-
     function &execute( $moduleName, $functionName, $functionParameters )
     {
         $moduleFunctionInfo =& eZFunctionHandler::moduleFunctionInfo( $moduleName );

@@ -48,19 +48,14 @@ class eZTemplateDigestOperator
     /*!
      Constructor.
     */
-    function eZTemplateDigestOperator()
+    function eZTemplateDigestOperator( $crc32Name = 'crc32',
+                                       $md5Name   = 'md5',
+                                       $rot13Name = 'rot13')
     {
-        $this->Operators = array( 'crc32', 'md5', 'rot13' );
-        if ( function_exists( 'sha1' ) )
-        {
-            $this->Operators[] = 'sha1';
-        }
-        foreach ( $this->Operators as $operator )
-        {
-            $name = $operator . 'Name';
-            $name[0] = $name[0] & "\xdf";
-            $this->$name = $operator;
-        }
+        $this->Operators = array( $crc32Name, $md5Name, $rot13Name );
+        $this->Crc32Name = $crc32Name;
+        $this->Md5Name   = $md5Name;
+        $this->Rot13Name = $rot13Name;
     }
 
     /*!
@@ -71,38 +66,6 @@ class eZTemplateDigestOperator
         return $this->Operators;
     }
 
-    function operatorTemplateHints()
-    {
-        return array( $this->Crc32Name => array( 'input' => true,
-                                                 'output' => true,
-                                                 'parameters' => false,
-                                                 'element-transformation' => true,
-                                                 'transform-parameters' => true,
-                                                 'input-as-parameter' => 'always',
-                                                 'element-transformation-func' => 'hashTransformation'),
-                      $this->Md5Name => array( 'input' => true,
-                                               'output' => true,
-                                               'parameters' => true,
-                                               'element-transformation' => true,
-                                               'transform-parameters' => true,
-                                               'input-as-parameter' => 'always',
-                                               'element-transformation-func' => 'hashTransformation'),
-                      $this->Sha1Name => array( 'input' => true,
-                                                'output' => true,
-                                                'parameters' => true,
-                                                'element-transformation' => true,
-                                                'transform-parameters' => true,
-                                                'input-as-parameter' => 'always',
-                                                'element-transformation-func' => 'hashTransformation'),
-                      $this->Rot13Name => array( 'input' => true,
-                                                 'output' => true,
-                                                 'parameters' => true,
-                                                 'element-transformation' => true,
-                                                 'transform-parameters' => true,
-                                                 'input-as-parameter' => 'always',
-                                                 'element-transformation-func' => 'hashTransformation') );
-    }
-
     /*!
      \return true to tell the template engine that the parameter list exists per operator type.
     */
@@ -110,7 +73,6 @@ class eZTemplateDigestOperator
     {
         return true;
     }
-
     /*!
      See eZTemplateOperator::namedParameterList()
     */
@@ -118,56 +80,29 @@ class eZTemplateDigestOperator
     {
         return false;
     }
-
-    function hashTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                 &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
-    {
-        $values = array();
-        $function = $operatorName != 'rot13' ? $operatorName : 'str_rot13';
-
-        if ( ( count( $parameters ) != 1) )
-        {
-            return false;
-        }
-        $newElements = array();
-
-        $values[] = $parameters[0];
-        $code = "%output% = $function( %1% );\n";
-
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
-        return $newElements;
-    }
-
     /*!
      Display the variable.
     */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
-        $digestData = $operatorValue;
         switch ( $operatorName )
         {
             // Calculate and return crc32 polynomial.
             case $this->Crc32Name:
             {
-                $operatorValue = crc32( $digestData );
+                $operatorValue = crc32( $operatorValue );
             }break;
 
             // Calculate the MD5 hash.
             case $this->Md5Name:
             {
-                $operatorValue = md5( $digestData );
-            }break;
-
-            // Calculate the SHA1 hash.
-            case $this->Sha1Name:
-            {
-                $operatorValue = sha1( $digestData );
+                $operatorValue = md5( $operatorValue );
             }break;
 
             // Preform rot13 transform on the string.
             case $this->Rot13Name:
             {
-                $operatorValue = str_rot13( $digestData );
+                $operatorValue = str_rot13( $operatorValue );
             }break;
 
             // Default case: something went wrong - unknown things...

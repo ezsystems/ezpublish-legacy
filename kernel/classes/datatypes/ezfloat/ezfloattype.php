@@ -61,8 +61,7 @@ class eZFloatType extends eZDataType
     function eZFloatType()
     {
         $this->eZDataType( EZ_DATATYPESTRING_FLOAT, ezi18n( 'kernel/classes/datatypes', "Float", 'Datatype name' ),
-                           array( 'serialize_supported' => true,
-                                  'object_serialize_map' => array( 'data_float' => 'value' ) ) );
+                           array( 'serialize_supported' => true ) );
         $this->FloatValidator = new eZFloatValidator();
     }
 
@@ -354,11 +353,6 @@ class eZFloatType extends eZDataType
         return $contentObjectAttribute->attribute( "data_float" );
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        return true;
-    }
-
     /*!
      \reimp
     */
@@ -384,11 +378,11 @@ class eZFloatType extends eZDataType
         $minValue = $attributeParametersNode->elementTextContentByName( 'min-value' );
         $maxValue = $attributeParametersNode->elementTextContentByName( 'max-value' );
 
-        if ( strlen( $minValue ) > 0 and strlen( $maxValue ) > 0 )
+        if ( $minValue and $maxValue )
             $minMaxState = EZ_FLOAT_HAS_MIN_MAX_VALUE;
-        else if ( strlen( $minValue ) > 0 )
+        else if ( $minValue )
             $minMaxState = EZ_FLOAT_HAS_MIN_VALUE;
-        else if ( strlen( $maxValue ) > 0 )
+        else if ( $maxValue )
             $minMaxState = EZ_FLOAT_HAS_MAX_VALUE;
         else
             $minMaxState = EZ_FLOAT_NO_MIN_MAX_VALUE;

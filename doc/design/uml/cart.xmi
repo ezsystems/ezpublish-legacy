@@ -1,0 +1,406 @@
+<XMI xmi.version="1.1" >
+ <XMI.header>
+  <XMI.metamodel href="/home/bf/projects/php/nextgen/doc/design/uml/cart.xmi" version="1.0.4" name="UML" />
+  <XMI.model href="/home/bf/projects/php/nextgen/doc/design/uml/cart.xmi" version="1" name="/home/bf/projects/php/nextgen/doc/design/uml/cart.xmi" />
+ </XMI.header>
+ <XMI.content>
+  <docsettings viewid="59" documentation="" uniqueid="91" />
+  <umlobjects>
+   <UML:Class stereotype="" package="" xmi.id="60" abstract="0" documentation="" name="eZCart" scope="200" >
+    <UML:Operation stereotype="" package="" xmi.id="74" type="void" abstract="0" documentation="" name="productCollection" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="87" type="void" abstract="0" documentation="" name="session" scope="200" />
+   </UML:Class>
+   <UML:Class stereotype="" package="" xmi.id="61" abstract="0" documentation="" name="eZWishList" scope="200" >
+    <UML:Operation stereotype="" package="" xmi.id="85" type="void" abstract="0" documentation="" name="productCollection" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="88" type="void" abstract="0" documentation="" name="user" scope="200" />
+   </UML:Class>
+   <UML:Class stereotype="" package="" xmi.id="62" abstract="0" documentation="" name="eZOrder" scope="200" >
+    <UML:Operation stereotype="" package="" xmi.id="81" type="void" abstract="0" documentation="" name="orderID" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="82" type="void" abstract="0" documentation="" name="billingAddress" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="83" type="void" abstract="0" documentation="" name="shippingAddress" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="84" type="void" abstract="0" documentation="" name="user" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="86" type="void" abstract="0" documentation="" name="productCollection" scope="200" />
+   </UML:Class>
+   <UML:Class stereotype="" package="" xmi.id="64" abstract="0" documentation="" name="eZCartItem" scope="200" />
+   <UML:Class stereotype="" package="" xmi.id="65" abstract="0" documentation="" name="eZOrderItem" scope="200" />
+   <UML:Class stereotype="" package="" xmi.id="66" abstract="0" documentation="" name="eZWishListItem" scope="200" />
+   <UML:Class stereotype="" package="" xmi.id="67" abstract="0" documentation="" name="eZProductCollection" scope="200" >
+    <UML:Operation stereotype="" package="" xmi.id="78" type="void" abstract="0" documentation="" name="items" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="90" type="void" abstract="0" documentation="" name="addItem" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="77" value="" type="int" abstract="0" documentation="" name="ID" scope="200" />
+   </UML:Class>
+   <UML:Class stereotype="" package="" xmi.id="68" abstract="0" documentation="" name="eZProductCollectionItem" scope="200" >
+    <UML:Operation stereotype="" package="" xmi.id="70" type="void" abstract="0" documentation="" name="contentObject" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="75" type="void" abstract="0" documentation="" name="recalculate" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="76" type="float" abstract="0" documentation="" name="price" scope="200" >
+     <UML:Parameter stereotype="" package="" xmi.id="1" value="true" type="bool" abstract="0" documentation="" name="includeVAT" scope="200" />
+    </UML:Operation>
+    <UML:Operation stereotype="" package="" xmi.id="80" type="void" abstract="0" documentation="" name="count" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="89" type="float" abstract="0" documentation="" name="unitPrice" scope="200" >
+     <UML:Parameter stereotype="" package="" xmi.id="1" value="true" type="bool" abstract="0" documentation="" name="includeVAT" scope="200" />
+    </UML:Operation>
+    <UML:Operation stereotype="" package="" xmi.id="91" type="void" abstract="0" documentation="" name="contentObjectName" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="71" value="" type="int" abstract="0" documentation="" name="ContentObjectID" scope="200" />
+   </UML:Class>
+   <UML:Class stereotype="" package="" xmi.id="69" abstract="0" documentation="" name="eZProductCollectionItemOption" scope="200" >
+    <UML:Operation stereotype="" package="" xmi.id="72" type="void" abstract="0" documentation="" name="key" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="73" type="void" abstract="0" documentation="" name="value" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="79" type="void" abstract="0" documentation="" name="price" scope="200" />
+   </UML:Class>
+  </umlobjects>
+  <diagrams>
+   <diagram snapgrid="0" showattsig="0" fillcolor="#ffffc0" showgrid="0" showopsig="0" usefillcolor="1" snapx="10" snapy="10" showatts="1" xmi.id="21" documentation="" type="402" showops="1" showpackage="0" name="class diagram" localid="30000" showstereotype="0" showscope="0" font="helvetica,10,-1,5,50,0,0,0,0,0" linecolor="#ff0000" >
+    <widgets/>
+    <messages/>
+    <associations/>
+   </diagram>
+   <diagram snapgrid="0" showattsig="0" fillcolor="#ffffc0" showgrid="0" showopsig="0" usefillcolor="1" snapx="10" snapy="10" showatts="1" xmi.id="22" documentation="" type="404" showops="1" showpackage="0" name="Cart" localid="30000" showstereotype="0" showscope="0" font="helvetica,10,-1,5,50,0,0,0,0,0" linecolor="#ea181b" >
+    <widgets>
+     <UML:StateWidget statetype="0" statename="State" x="53" y="29" usefillcolor="1" xmi.id="23" documentation="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="2" statename="State" x="572" y="149" usefillcolor="1" xmi.id="24" documentation="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="view product" x="169" y="28" usefillcolor="1" xmi.id="25" documentation="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="show cart" x="258" y="132" usefillcolor="1" xmi.id="26" documentation="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:FloatingTextWidget x="439" y="153" operation="" role="700" usefillcolor="1" seqnum="" xmi.id="30" text="Start checkout" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="modifying quantity" x="236" y="238" usefillcolor="1" xmi.id="33" documentation="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:FloatingTextWidget x="229" y="275" operation="" role="700" usefillcolor="1" seqnum="" xmi.id="34" text="remove product if qty=0" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+    </widgets>
+    <messages/>
+    <associations>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="25" widgetaid="23" documentation="" type="514" >
+      <UML:FloatingTextWidget x="116" y="40" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="63" starty="34" />
+       <endpoint endx="169" endy="46" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="24" widgetaid="26" documentation="" type="514" >
+      <UML:FloatingTextWidget x="455" y="152" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="338" starty="150" />
+       <endpoint endx="572" endy="154" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="3" indexa="1" totalcountb="3" indexb="1" widgetbid="25" widgetaid="26" documentation="" type="514" >
+      <UML:FloatingTextWidget x="243" y="98" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="continue shopping" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="284" starty="132" />
+       <endpoint endx="202" endy="64" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="3" indexa="2" totalcountb="3" indexb="2" widgetbid="26" widgetaid="25" documentation="" type="514" >
+      <UML:FloatingTextWidget x="253" y="78" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="add product" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="236" starty="64" />
+       <endpoint endx="311" endy="132" />
+       <point x="270" y="93" />
+       <point x="270" y="93" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="26" widgetaid="26" documentation="" type="514" >
+      <UML:FloatingTextWidget x="267" y="142" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="remove product" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="258" starty="141" />
+       <endpoint endx="258" endy="159" />
+       <point x="277" y="144" />
+       <point x="187" y="150" />
+       <point x="185" y="178" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="3" indexa="1" totalcountb="3" indexb="1" widgetbid="33" widgetaid="26" documentation="" type="514" >
+      <UML:FloatingTextWidget x="283" y="203" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="change quantity" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="284" starty="168" />
+       <endpoint endx="283" endy="238" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="3" indexa="2" totalcountb="3" indexb="2" widgetbid="26" widgetaid="33" documentation="" type="514" >
+      <UML:FloatingTextWidget x="320" y="203" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="330" starty="238" />
+       <endpoint endx="311" endy="168" />
+      </linepath>
+     </UML:AssocWidget>
+    </associations>
+   </diagram>
+   <diagram snapgrid="0" showattsig="0" fillcolor="#ffffc0" showgrid="0" showopsig="0" usefillcolor="1" snapx="10" snapy="10" showatts="1" xmi.id="35" documentation="" type="404" showops="1" showpackage="0" name="Wishlist" localid="30000" showstereotype="0" showscope="0" font="helvetica,10,-1,5,50,0,0,0,0,0" linecolor="#ff0000" >
+    <widgets>
+     <UML:StateWidget statetype="0" statename="State" x="15" y="84" usefillcolor="1" xmi.id="36" documentation="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="view product" x="111" y="72" usefillcolor="1" xmi.id="37" documentation="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="view wish list" x="367" y="92" usefillcolor="1" xmi.id="38" documentation="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="2" statename="State" x="552" y="110" usefillcolor="1" xmi.id="39" documentation="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="2" statename="State" x="555" y="49" usefillcolor="1" xmi.id="41" documentation="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="send wish list" x="383" y="13" usefillcolor="1" xmi.id="42" documentation="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+    </widgets>
+    <messages/>
+    <associations>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="37" widgetaid="36" documentation="" type="514" >
+      <UML:FloatingTextWidget x="68" y="89" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="25" starty="89" />
+       <endpoint endx="111" endy="90" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="5" indexb="1" widgetbid="38" widgetaid="37" documentation="" type="514" >
+      <UML:FloatingTextWidget x="223" y="57" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="add product" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="161" starty="72" />
+       <endpoint endx="387" endy="92" />
+       <point x="285" y="42" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="38" widgetaid="38" documentation="" type="514" >
+      <UML:FloatingTextWidget x="392" y="153" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="remove product" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="392" starty="128" />
+       <endpoint endx="444" endy="128" />
+       <point x="392" y="178" />
+       <point x="444" y="178" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="37" widgetaid="38" documentation="" type="514" >
+      <UML:FloatingTextWidget x="318" y="116" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="continue shopping" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="367" starty="110" />
+       <endpoint endx="212" endy="90" />
+       <point x="269" y="122" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="5" indexa="2" totalcountb="2" indexb="1" widgetbid="41" widgetaid="38" documentation="" type="514" >
+      <UML:FloatingTextWidget x="481" y="73" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="add to cart" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="408" starty="92" />
+       <endpoint endx="555" endy="54" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="5" indexa="3" totalcountb="3" indexb="1" widgetbid="42" widgetaid="38" documentation="" type="514" >
+      <UML:FloatingTextWidget x="423" y="70" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="428" starty="92" />
+       <endpoint endx="418" endy="49" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="3" indexa="2" totalcountb="5" indexb="4" widgetbid="38" widgetaid="42" documentation="" type="514" >
+      <UML:FloatingTextWidget x="451" y="70" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="453" starty="49" />
+       <endpoint endx="449" endy="92" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="39" widgetaid="38" documentation="" type="514" >
+      <UML:FloatingTextWidget x="511" y="112" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="470" starty="110" />
+       <endpoint endx="552" endy="115" />
+      </linepath>
+     </UML:AssocWidget>
+    </associations>
+   </diagram>
+   <diagram snapgrid="0" showattsig="0" fillcolor="#ffffc0" showgrid="0" showopsig="0" usefillcolor="1" snapx="10" snapy="10" showatts="1" xmi.id="43" documentation="" type="403" showops="1" showpackage="0" name="sequence diagram" localid="30000" showstereotype="0" showscope="0" font="helvetica,10,-1,5,50,0,0,0,0,0" linecolor="#ff0000" >
+    <widgets/>
+    <messages/>
+    <associations/>
+   </diagram>
+   <diagram snapgrid="0" showattsig="0" fillcolor="#ffffc0" showgrid="0" showopsig="0" usefillcolor="1" snapx="10" snapy="10" showatts="1" xmi.id="44" documentation="" type="404" showops="1" showpackage="0" name="Shopping overview" localid="30000" showstereotype="0" showscope="0" font="helvetica,10,-1,5,50,0,0,0,0,0" linecolor="#ff0000" >
+    <widgets>
+     <UML:StateWidget statetype="0" statename="State" x="11" y="10" usefillcolor="1" xmi.id="45" documentation="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="show search result" x="118" y="42" usefillcolor="1" xmi.id="46" documentation="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="view cart" x="492" y="39" usefillcolor="1" xmi.id="47" documentation="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="login/create user" x="529" y="110" usefillcolor="1" xmi.id="48" documentation="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="select shipping" x="78" y="176" usefillcolor="1" xmi.id="49" documentation="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="view product" x="302" y="41" usefillcolor="1" xmi.id="50" documentation="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="2" statename="State" x="623" y="260" usefillcolor="1" xmi.id="51" documentation="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="select address" x="79" y="108" usefillcolor="1" xmi.id="52" documentation="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="choose encryption" x="243" y="132" usefillcolor="1" xmi.id="53" documentation="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="custom event" x="84" y="238" usefillcolor="1" xmi.id="54" documentation="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="confirm order" x="238" y="241" usefillcolor="1" xmi.id="55" documentation="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="payment" x="265" y="177" usefillcolor="1" xmi.id="56" documentation="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="order confirmed" x="410" y="171" usefillcolor="1" xmi.id="57" documentation="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:StateWidget statetype="1" statename="post payment event" x="390" y="248" usefillcolor="1" xmi.id="58" documentation="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+    </widgets>
+    <messages/>
+    <associations>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="46" widgetaid="45" documentation="" type="514" >
+      <UML:FloatingTextWidget x="30" y="28" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="find product" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="21" starty="15" />
+       <endpoint endx="190" endy="42" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="50" widgetaid="46" documentation="" type="514" >
+      <linepath>
+       <startpoint startx="263" starty="60" />
+       <endpoint endx="302" endy="59" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="3" indexb="1" widgetbid="47" widgetaid="50" documentation="" type="514" >
+      <UML:FloatingTextWidget x="406" y="26" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="add to cart" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="403" starty="59" />
+       <endpoint endx="492" endy="51" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="48" widgetaid="47" documentation="" type="514" >
+      <linepath>
+       <startpoint startx="529" starty="75" />
+       <endpoint endx="593" endy="110" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="53" widgetaid="48" documentation="" type="514" >
+      <linepath>
+       <startpoint startx="529" starty="128" />
+       <endpoint endx="384" endy="150" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="3" indexa="2" totalcountb="2" indexb="1" widgetbid="53" widgetaid="47" documentation="" type="514" >
+      <UML:FloatingTextWidget x="402" y="97" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="start checkout" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="492" starty="63" />
+       <endpoint endx="313" endy="132" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="52" widgetaid="53" documentation="" type="514" >
+      <linepath>
+       <startpoint startx="243" starty="150" />
+       <endpoint endx="193" endy="126" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="49" widgetaid="52" documentation="" type="514" >
+      <linepath>
+       <startpoint startx="136" starty="144" />
+       <endpoint endx="136" endy="176" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="54" widgetaid="49" documentation="" type="514" >
+      <linepath>
+       <startpoint startx="136" starty="212" />
+       <endpoint endx="138" endy="238" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="55" widgetaid="54" documentation="" type="514" >
+      <linepath>
+       <startpoint startx="192" starty="256" />
+       <endpoint endx="238" endy="259" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="56" widgetaid="55" documentation="" type="514" >
+      <linepath>
+       <startpoint startx="290" starty="241" />
+       <endpoint endx="301" endy="213" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="57" widgetaid="56" documentation="" type="514" >
+      <linepath>
+       <startpoint startx="338" starty="195" />
+       <endpoint endx="410" endy="189" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="58" widgetaid="57" documentation="" type="514" >
+      <linepath>
+       <startpoint startx="471" starty="207" />
+       <endpoint endx="467" endy="248" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="51" widgetaid="58" documentation="" type="514" >
+      <linepath>
+       <startpoint startx="544" starty="266" />
+       <endpoint endx="623" endy="265" />
+      </linepath>
+     </UML:AssocWidget>
+    </associations>
+   </diagram>
+   <diagram snapgrid="0" showattsig="0" fillcolor="#ffffc0" showgrid="0" showopsig="0" usefillcolor="1" snapx="10" snapy="10" showatts="1" xmi.id="59" documentation="" type="402" showops="1" showpackage="0" name="shopping" localid="30000" showstereotype="0" showscope="0" font="helvetica,10,-1,5,50,0,0,0,0,0" linecolor="#ff0000" >
+    <widgets>
+     <UML:ConceptWidget showattsigs="603" x="47" y="149" showopsigs="602" usefillcolor="1" showattributes="0" xmi.id="68" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="119" y="20" showopsigs="603" usefillcolor="1" showattributes="0" xmi.id="67" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="66" y="382" showopsigs="602" usefillcolor="1" showattributes="1" xmi.id="69" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="520" y="364" showopsigs="603" usefillcolor="1" showattributes="0" xmi.id="62" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="527" y="121" showopsigs="603" usefillcolor="1" showattributes="0" xmi.id="60" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="519" y="12" showopsigs="603" usefillcolor="1" showattributes="0" xmi.id="61" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+    </widgets>
+    <messages/>
+    <associations>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="67" widgetaid="68" documentation="" type="510" >
+      <linepath>
+       <startpoint startx="194" starty="149" />
+       <endpoint endx="196" endy="83" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="68" widgetaid="69" documentation="" type="510" >
+      <linepath>
+       <startpoint startx="183" starty="382" />
+       <endpoint endx="194" endy="296" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="3" indexb="2" widgetbid="67" widgetaid="60" documentation="" type="503" >
+      <linepath>
+       <startpoint startx="527" starty="152" />
+       <endpoint endx="274" endy="62" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="3" indexb="1" widgetbid="67" widgetaid="61" documentation="" type="503" >
+      <linepath>
+       <startpoint startx="519" starty="43" />
+       <endpoint endx="274" endy="41" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="69" widgetaid="62" documentation="" type="503" >
+      <linepath>
+       <startpoint startx="520" starty="427" />
+       <endpoint endx="301" endy="429" />
+      </linepath>
+     </UML:AssocWidget>
+    </associations>
+   </diagram>
+  </diagrams>
+  <listview>
+   <listitem open="1" type="800" id="-1" label="Views" >
+    <listitem open="1" type="801" id="-1" label="Logical View" >
+     <listitem open="1" type="808" id="22" label="Cart" />
+     <listitem open="0" type="807" id="21" label="class diagram" />
+     <listitem open="1" type="812" id="60" label="eZCart" >
+      <listitem open="0" type="814" id="74" label="productCollection" />
+      <listitem open="0" type="814" id="87" label="session" />
+     </listitem>
+     <listitem open="1" type="812" id="64" label="eZCartItem" />
+     <listitem open="1" type="812" id="62" label="eZOrder" >
+      <listitem open="0" type="814" id="82" label="billingAddress" />
+      <listitem open="0" type="814" id="81" label="orderID" />
+      <listitem open="0" type="814" id="86" label="productCollection" />
+      <listitem open="0" type="814" id="83" label="shippingAddress" />
+      <listitem open="0" type="814" id="84" label="user" />
+     </listitem>
+     <listitem open="1" type="812" id="65" label="eZOrderItem" />
+     <listitem open="1" type="812" id="67" label="eZProductCollection" >
+      <listitem open="0" type="814" id="90" label="addItem" />
+      <listitem open="0" type="813" id="77" label="ID" />
+      <listitem open="0" type="814" id="78" label="items" />
+     </listitem>
+     <listitem open="1" type="812" id="68" label="eZProductCollectionItem" >
+      <listitem open="0" type="814" id="70" label="contentObject" />
+      <listitem open="0" type="813" id="71" label="ContentObjectID" />
+      <listitem open="0" type="814" id="91" label="contentObjectName" />
+      <listitem open="0" type="814" id="80" label="count" />
+      <listitem open="0" type="814" id="76" label="price" />
+      <listitem open="0" type="814" id="75" label="recalculate" />
+      <listitem open="0" type="814" id="89" label="unitPrice" />
+     </listitem>
+     <listitem open="1" type="812" id="69" label="eZProductCollectionItemOption" >
+      <listitem open="0" type="814" id="72" label="key" />
+      <listitem open="0" type="814" id="79" label="price" />
+      <listitem open="0" type="814" id="73" label="value" />
+     </listitem>
+     <listitem open="1" type="812" id="61" label="eZWishList" >
+      <listitem open="0" type="814" id="85" label="productCollection" />
+      <listitem open="0" type="814" id="88" label="user" />
+     </listitem>
+     <listitem open="1" type="812" id="66" label="eZWishListItem" />
+     <listitem open="1" type="809" id="43" label="sequence diagram" />
+     <listitem open="1" type="807" id="59" label="shopping" />
+     <listitem open="1" type="808" id="44" label="Shopping overview" />
+     <listitem open="1" type="808" id="35" label="Wishlist" />
+    </listitem>
+    <listitem open="1" type="802" id="-1" label="Use Case View" />
+   </listitem>
+  </listview>
+ </XMI.content>
+</XMI>

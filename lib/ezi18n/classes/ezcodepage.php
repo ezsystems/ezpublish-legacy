@@ -498,8 +498,7 @@ $str
             // Store the old umask and set a new one.
             $oldPermissionSetting = umask( 0 );
 
-            include_once( 'lib/ezfile/classes/ezdir.php' );
-            if ( ! eZDir::mkdir( $cache_dir, $permissionArray['dir_permission'], true ) )
+            if ( ! @mkdir( $cache_dir, $permissionArray['dir_permission'] ) )
                 eZDebug::writeError( "Couldn't create cache directory $cache_dir, perhaps wrong permissions", "eZCodepage" );
 
             // Restore the old umask.
@@ -570,8 +569,7 @@ $str
         if ( isset( $GLOBALS['eZSiteBasics'] ) )
         {
             $siteBasics = $GLOBALS['eZSiteBasics'];
-            if ( isset( $siteBasics['no-cache-adviced'] ) and
-                 $siteBasics['no-cache-adviced'] )
+            if ( $siteBasics['no-cache-adviced'] )
                 $use_cache = false;
         }
         if ( file_exists( $cache ) and $use_cache )
@@ -861,13 +859,6 @@ $str
     var $Valid;
     /// The character to use when an alternative doesn't exist
     var $SubstituteChar;
-}
-
-// Checks if index.php or any other script has set any codepage permissions
-if ( isset( $GLOBALS['EZCODEPAGEPERMISSIONS'] ) and
-     $GLOBALS['EZCODEPAGEPERMISSIONS'] !== false )
-{
-    eZCodepage::flushCacheObject();
 }
 
 ?>

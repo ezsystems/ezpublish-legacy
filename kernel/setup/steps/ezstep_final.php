@@ -77,37 +77,26 @@ class eZStepFinal extends eZStepInstaller
     */
     function &display()
     {
-        $siteTypes = $this->chosenSiteTypes();
-//         for ( $counter = 0; $counter < $this->PersistenceList['site_templates']['count']; $counter++ )
-        $counter = 0;
-        foreach ( array_keys( $siteTypes ) as $siteTypeKey )
+        for ( $counter = 0; $counter < $this->PersistenceList['site_templates']['count']; $counter++ )
         {
-            $siteType =& $siteTypes[$siteTypeKey];
-//             $templates[$counter] = $this->PersistenceList['site_templates_'.$counter];
-//             eZDebug::writeDebug( $templates[$counter], '$templates[$counter]' );
-//             $url = $templates[$counter]['url'];
-            $url = $siteType['url'];
+            $templates[$counter] = $this->PersistenceList['site_templates_'.$counter];
+            eZDebug::writeDebug( $templates[$counter], '$templates[$counter]' );
+            $url = $templates[$counter]['url'];
             if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url ) )
             {
                 $url = 'http://' . $url;
             }
             $currentURL = $url;
             $adminURL = $url;
-//             if ( $templates[$counter]['access_type'] == 'url' )
-            if ( $siteType['access_type'] == 'url' )
+            if ( $templates[$counter]['access_type'] == 'url' )
             {
-//                 $url .= '/' . $templates[$counter]['access_type_value'];
-//                 $adminURL .= '/' . $templates[$counter]['admin_access_type_value'];
-                $url .= '/' . $siteType['access_type_value'];
-                $adminURL .= '/' . $siteType['admin_access_type_value'];
+                $url .= '/' . $templates[$counter]['access_type_value'];
+                $adminURL .= '/' . $templates[$counter]['admin_access_type_value'];
             }
-//             else if ( $templates[$counter]['access_type'] == 'hostname' )
-            else if ( $siteType['access_type'] == 'hostname' )
+            else if ( $templates[$counter]['access_type'] == 'hostname' )
             {
-//                 $url = $templates[$counter]['access_type_value'];
-//                 $adminURL = $templates[$counter]['admin_access_type_value'];
-                $url = $siteType['access_type_value'];
-                $adminURL = $siteType['admin_access_type_value'];
+                $url = $templates[$counter]['access_type_value'];
+                $adminURL = $templates[$counter]['admin_access_type_value'];
                 if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url ) )
                     $url = 'http://' . $url;
                 if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $adminURL ) )
@@ -115,22 +104,16 @@ class eZStepFinal extends eZStepInstaller
                 $url .= eZSys::indexDir( false );
                 $adminURL .= eZSys::indexDir( false );
             }
-//             else if ( $templates[$counter]['access_type'] == 'port' )
-            else if ( $siteType['access_type'] == 'port' )
+            else if ( $templates[$counter]['access_type'] == 'port' )
             {
-//                 $url = eZHTTPTool::createRedirectURL( $currentURL, array( 'override_port' => $templates[$counter]['access_type_value'] ) );
-//                 $adminURL = eZHTTPTool::createRedirectURL( $currentURL, array( 'override_port' => $templates[$counter]['admin_access_type_value'] ) );
-                $url = eZHTTPTool::createRedirectURL( $currentURL, array( 'override_port' => $siteType['access_type_value'] ) );
-                $adminURL = eZHTTPTool::createRedirectURL( $currentURL, array( 'override_port' => $siteType['admin_access_type_value'] ) );
+                $url = eZHTTPTool::createRedirectURL( $currentURL, array( 'override_port' => $templates[$counter]['access_type_value'] ) );
+                $adminURL = eZHTTPTool::createRedirectURL( $currentURL, array( 'override_port' => $templates[$counter]['admin_access_type_value'] ) );
             }
-//             $templates[$counter]['url'] = $url;
-//             $templates[$counter]['admin_url'] = $adminURL;
-            $siteType['url'] = $url;
-            $siteType['admin_url'] = $adminURL;
-            ++$counter;
+            $templates[$counter]['url'] = $url;
+            $templates[$counter]['admin_url'] = $adminURL;
         }
 
-        $this->Tpl->setVariable( 'site_templates', $siteTypes );
+        $this->Tpl->setVariable( 'site_templates', $templates );
 
         $this->Tpl->setVariable( 'setup_previous_step', 'Final' );
         $this->Tpl->setVariable( 'setup_next_step', 'Final' );

@@ -241,7 +241,7 @@ class eZSOAPRequest extends eZSOAPEnvelope
                     }
                     $returnValue =& $node;
                 }
-            } break;
+            }break;
         }
 
         return $returnValue;

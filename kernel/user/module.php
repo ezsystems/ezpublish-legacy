@@ -32,15 +32,15 @@
 // you.
 //
 
-$Module = array( 'name' => 'User management',
-                 'variable_params' => true );
+$Module = array( "name" => "User management",
+                 "variable_params" => true );
 
 $ViewList = array();
-$ViewList['logout'] = array(
-    'script' => 'logout.php',
-    'params' => array( ) );
-$ViewList['login'] = array(
-    'script' => 'login.php',
+$ViewList["logout"] = array(
+    "script" => "logout.php",
+    "params" => array( ) );
+$ViewList["login"] = array(
+    "script" => "login.php",
     'default_action' => array( array( 'name' => 'Login',
                                       'type' => 'post',
                                       'parameters' => array( 'Login',
@@ -49,69 +49,67 @@ $ViewList['login'] = array(
     'post_action_parameters' => array( 'Login' => array( 'UserLogin' => 'Login',
                                                          'UserPassword' => 'Password',
                                                          'UserRedirectURI' => 'RedirectURI' ) ),
-    'params' => array( ) );
-$ViewList['setting'] = array(
-    'functions' => array( 'preferences' ),
-    'script' => 'setting.php',
-    'params' => array( 'UserID' ) );
+    "params" => array( ) );
+$ViewList["setting"] = array(
+    "functions" => array( "preferences" ),
+    "script" => "setting.php",
+    "params" => array( "UserID" ) );
 
-$ViewList['preferences'] = array(
-    'functions' => array( 'login' ),
-    'script' => 'preferences.php',
-    'params' => array( 'Function', 'Key', 'Value' ) );
+$ViewList["preferences"] = array(
+    "functions" => array( "preferences" ),
+    "script" => "preferences.php",
+    "params" => array( "Function", "Key", "Value" ) );
 
-$ViewList['password'] = array(
-    'functions' => array( 'password' ),
-    'script' => 'password.php',
-    'default_navigation_part' => 'ezmynavigationpart',
-    'params' => array( 'UserID' ) );
+$ViewList["password"] = array(
+    "functions" => array( "password" ),
+    "script" => "password.php",
+    "default_navigation_part" => 'ezmynavigationpart',
+    "params" => array( "UserID" ) );
 
 /// \deprecated This view is kept for compatability
-$ViewList['forgetpassword'] = array(
-    'functions' => array( 'password' ),
-    'script' => 'forgotpassword.php',
+$ViewList["forgetpassword"] = array(
+    "functions" => array( "password" ),
+    "script" => "forgotpassword.php",
     'deprecated' => true,
-    'params' => array( ),
+    "params" => array( ),
     'single_post_actions' => array( 'GenerateButton' => 'Generate' ),
     'post_action_parameters' => array( 'Generate' => array( 'Login' => 'UserLogin',
                                                             'Email' => 'UserEmail' ) ),
-    'params' => array( 'HashKey' ) );
+    "params" => array( "HashKey" ) );
 
 /// Note the function above is misspelled and should be removed
-$ViewList['forgotpassword'] = array(
-    'functions' => array( 'password' ),
-    'script' => 'forgotpassword.php',
-    'params' => array( ),
+$ViewList["forgotpassword"] = array(
+    "functions" => array( "password" ),
+    "script" => "forgotpassword.php",
+    "params" => array( ),
     'single_post_actions' => array( 'GenerateButton' => 'Generate' ),
     'post_action_parameters' => array( 'Generate' => array( 'Login' => 'UserLogin',
                                                             'Email' => 'UserEmail' ) ),
-    'params' => array( 'HashKey' ) );
+    "params" => array( "HashKey" ) );
 
-$ViewList['edit'] = array(
-    'function' => array( 'login' ),
-    'script' => 'edit.php',
+$ViewList["edit"] = array(
+    "script" => "edit.php",
     'single_post_actions' => array( 'ChangePasswordButton' => 'ChangePassword',
                                     'ChangeSettingButton' => 'ChangeSetting',
                                     'CancelButton' => 'Cancel',
                                     'EditButton' => 'Edit' ),
-    'params' => array( 'UserID' ) );
+    "params" => array( "UserID" ) );
 
-$ViewList['register'] = array(
-    'script' => 'register.php',
-    'params' => array( ),
-    'default_navigation_part' => 'ezmynavigationpart',
+$ViewList["register"] = array(
+    "script" => "register.php",
+    "params" => array( ),
+    "default_navigation_part" => 'ezmynavigationpart',
     'single_post_actions' => array( 'PublishButton' => 'Publish',
-                                    'CancelButton' => 'Cancel',
-                                    'CustomActionButton' => 'CustomAction' ) );
+                                    'CancelButton' => 'Cancel' ) );
+$ViewList["activate"] = array(
+    "script" => "activate.php",
+    "params" => array( "Hash" ) );
 
-$ViewList['activate'] = array(
-    'script' => 'activate.php',
-    'params' => array( 'Hash' ) );
+$ViewList["success"] = array(
+    "script" => "success.php",
+    "default_navigation_part" => 'ezmynavigationpart',
+    "params" => array( ) );
 
-$ViewList['success'] = array(
-    'script' => 'success.php',
-    'default_navigation_part' => 'ezmynavigationpart',
-    'params' => array( ) );
 
 
 $SiteAccess = array(

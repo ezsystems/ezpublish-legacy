@@ -36,125 +36,23 @@ $Module = array( 'name' => 'eZPackage' );
 
 $ViewList = array();
 $ViewList['list'] = array(
-    'functions' => array( 'list' ),
     'script' => 'list.php',
     'default_navigation_part' => 'ezsetupnavigationpart',
-    'single_post_actions' => array( 'ChangeRepositoryButton' => 'ChangeRepository',
-                                    'InstallPackageButton' => 'InstallPackage',
-                                    'RemovePackageButton' => 'RemovePackage',
-                                    'ConfirmRemovePackageButton' => 'ConfirmRemovePackage',
-                                    'CancelRemovePackageButton' => 'CancelRemovePackage',
-                                    'CreatePackageButton' => 'CreatePackage' ),
-    'post_action_parameters' => array( 'ChangeRepository' => array( 'RepositoryID' => 'RepositoryID' ),
-                                       'RemovePackage' => array( 'PackageSelection' => 'PackageSelection' ),
-                                       'ConfirmRemovePackage' => array( 'PackageSelection' => 'PackageSelection' ) ),
+    'single_post_actions' => array( 'InstallPackageButton' => 'InstallPackage' ),
     "unordered_params" => array( "offset" => "Offset" ),
-    'params' => array( 'RepositoryID' ) );
+    'params' => array() );
 
 $ViewList['upload'] = array(
-    'functions' => array( 'import' ),
     'script' => 'upload.php',
     'default_navigation_part' => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'UploadPackageButton' => 'UploadPackage' ),
+    'post_action_parameters' => array( 'UploadPackage' => array( 'InstallPackage' => 'InstallPackageCheck' ) ),
+    "unordered_params" => array( "offset" => "Offset" ),
     'params' => array() );
-
-$ViewList['create'] = array(
-    'functions' => array( 'create' ),
-    'script' => 'create.php',
-    'default_navigation_part' => 'ezsetupnavigationpart',
-    'single_post_actions' => array( 'CreatePackageButton' => 'CreatePackage',
-                                    'PackageStep' => 'PackageStep' ),
-    'post_action_parameters' => array( 'CreatePackage' => array( 'CreatorItemID' => 'CreatorItemID' ),
-                                       'PackageStep' => array( 'CreatorItemID' => 'CreatorItemID',
-                                                               'CreatorStepID' => 'CreatorStepID',
-                                                               'PreviousStep' => 'PreviousStepButton',
-                                                               'NextStep' => 'NextStepButton' ) ),
-    'params' => array() );
-
-$ViewList['export'] = array(
-    'functions' => array( 'export' ),
-    'script' => 'export.php',
-    'default_navigation_part' => 'ezsetupnavigationpart',
-    'params' => array( 'PackageName' ) );
 
 $ViewList['view'] = array(
-    'functions' => array( 'read' ),
     'script' => 'view.php',
     'default_navigation_part' => 'ezsetupnavigationpart',
-    'single_post_actions' => array( 'InstallButton' => 'Install',
-                                    'UninstallButton' => 'Uninstall',
-                                    'ExportButton' => 'Export' ),
-    'params' => array( 'ViewMode', 'PackageName', 'RepositoryID' ) );
-
-$ViewList['install'] = array(
-    'functions' => array( 'install' ),
-    'script' => 'install.php',
-    'default_navigation_part' => 'ezsetupnavigationpart',
-    'single_post_actions' => array( 'InstallPackageButton' => 'InstallPackage',
-                                    'PackageStep' => 'PackageStep',
-                                    'SkipPackageButton' => 'SkipPackage' ),
-    'post_action_parameters' => array( 'InstallPackage' => array( 'InstallItemID' => 'InstallItemID' ),
-                                       'PackageStep' => array( 'InstallItemID' => 'InstallItemID',
-                                                               'InstallStepID' => 'InstallStepID',
-                                                               'PreviousStep' => 'PreviousStepButton',
-                                                               'NextStep' => 'NextStepButton' ) ),
-
-    'params' => array( 'PackageName' ) );
-
-$ViewList['uninstall'] = array(
-    'functions' => array( 'install' ),
-    'script' => 'uninstall.php',
-    'default_navigation_part' => 'ezsetupnavigationpart',
-    'single_post_actions' => array( 'UninstallPackageButton' => 'UninstallPackage',
-                                    'SkipPackageButton' => 'SkipPackage' ),
-    'params' => array( 'PackageName' ) );
-
-$TypeID = array(
-    'name'=> 'Type',
-    'values'=> array(),
-    'path' => 'classes/',
-    'file' => 'ezpackage.php',
-    'class' => 'eZPackage',
-    'function' => 'typeList',
-    'parameter' => array(  false )
-    );
-
-$CreatorTypeID = array(
-    'name'=> 'CreatorType',
-    'values'=> array(),
-    'path' => 'classes/',
-    'file' => 'ezpackagecreationhandler.php',
-    'class' => 'eZPackageCreationHandler',
-    'function' => 'creatorLimitationList',
-    'parameter' => array(  false )
-    );
-
-$RoleID = array(
-    'name'=> 'Role',
-    'values'=> array(),
-    'path' => 'classes/',
-    'file' => 'ezpackage.php',
-    'class' => 'eZPackage',
-    'function' => 'maintainerRoleListForRoles',
-    'parameter' => array(  false )
-    );
-
-$FunctionList['read'] = array( 'Type' => $TypeID );
-
-$FunctionList['list'] = array( 'Type' => $TypeID );
-
-$FunctionList['create'] = array( 'Type' => $TypeID,
-                                 'CreatorType' => $CreatorTypeID,
-                                 'Role' => $RoleID );
-$FunctionList['edit'] = array( 'Type' => $TypeID );
-
-$FunctionList['remove'] = array( 'Type' => $TypeID );
-
-
-$FunctionList['install'] = array( 'Type' => $TypeID );
-
-$FunctionList['import'] = array( 'Type' => $TypeID );
-
-$FunctionList['export'] = array( 'Type' => $TypeID );
+    'params' => array( 'ViewMode', 'PackageName' ) );
 
 ?>

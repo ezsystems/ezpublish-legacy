@@ -1,6 +1,6 @@
 <?php
 //
-// Definition of eZMediaType class
+// Definition of eZBinaryFileType class
 //
 // Created on: <30-Apr-2002 13:06:21 bf>
 //
@@ -35,18 +35,18 @@
 //
 
 /*!
-  \class eZMediaType ezmediatype.php
+  \class eZMediaFileType ezbinaryfiletype.php
   \ingroup eZKernel
-  \brief The class eZMediaType handles storage and playback of media files.
+  \brief The class eZMediaFileType handles image accounts and association with content objects
 
 */
 
 include_once( "kernel/classes/ezdatatype.php" );
 include_once( "kernel/classes/datatypes/ezmedia/ezmedia.php" );
-include_once( "lib/ezfile/classes/ezfile.php" );
+include_once( "lib/ezutils/classes/ezfile.php" );
 include_once( "lib/ezutils/classes/ezmimetype.php" );
 include_once( "lib/ezutils/classes/ezhttpfile.php" );
-include_once( "lib/ezfile/classes/ezdir.php" );
+include_once( "lib/ezutils/classes/ezdir.php" );
 
 define( "EZ_DATATYPESTRING_MEDIA", "ezmedia" );
 define( 'EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD', 'data_int1' );
@@ -147,10 +147,6 @@ class eZMediaType extends eZDataType
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-        $httpFileName = $base . "_data_mediafilename_" . $contentObjectAttribute->attribute( "id" );
-        $maxSize = 1024 * 1024 * $classAttribute->attribute( EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD );
-        $mustUpload = false;
-
         if ( $classAttribute->attribute( "is_required" ) == true )
         {
             $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
@@ -158,28 +154,14 @@ class eZMediaType extends eZDataType
             $media =& eZMedia::fetch( $contentObjectAttributeID, $version );
             if ( $media === null )
             {
-                $mustUpload = true;
+                $file =& eZHTTPFile::fetch( $base . "_data_mediafilename_" . $contentObjectAttribute->attribute( "id" ) );
+                if ( $file === null )
+                {
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                         'A valid file is required.' ) );
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                }
             }
-        }
-
-        $canFetchResult = eZHTTPFile::canFetch( $httpFileName, $maxSize );
-        if ( $mustUpload && $canFetchResult == EZ_UPLOADEDFILE_DOES_NOT_EXIST )
-        {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                'A valid file is required.' ) );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
-        }
-        if ( $canFetchResult == EZ_UPLOADEDFILE_EXCEEDS_PHP_LIMIT )
-        {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                'Size of uploaded file exceeds limit set by upload_max_filesize directive in php.ini.' ) );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
-        }
-        if ( $canFetchResult == EZ_UPLOADEDFILE_EXCEEDS_MAX_SIZE )
-        {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                'Size of uploaded file exceeds %1 bytes.' ), $maxSize );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
         }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
@@ -220,9 +202,8 @@ class eZMediaType extends eZDataType
 
         if ( get_class( $mediaFile ) == "ezhttpfile" )
         {
-            $mimeData =& eZMimeType::findByFileContents( $mediaFile->attribute( "original_filename" ) );
-            $mime = $mimeData['name'];
-
+            $mimeObj = new  eZMimeType();
+            $mime = $mimeObj->mimeTypeFor( $mediaFile->attribute( "original_filename" ), true );
             if ( $mime == '' )
             {
                 $mime = $mediaFile->attribute( "mime_type" );
@@ -372,16 +353,6 @@ class eZMediaType extends eZDataType
         return $value;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        $mediaFile =& eZMedia::fetch( $contentObjectAttribute->attribute( "id" ),
-                                      $contentObjectAttribute->attribute( "version" ) );
-
-        if ( $mediaFile != null )
-            return true;
-        return false;
-    }
-
     function &objectAttributeContent( $contentObjectAttribute )
     {
         $mediaFile =& eZMedia::fetch( $contentObjectAttribute->attribute( "id" ),
@@ -420,106 +391,7 @@ class eZMediaType extends eZDataType
         $unitSize = $sizeNode->attributeValue( 'unit-size' );
         $type = $attributeParametersNode->elementTextContentByName( 'type' );
         $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD, $maxSize );
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_TYPE_FIELD, $type );
-    }
-
-    /*!
-     \param package
-     \param content attribute
-
-     \return a DOM representation of the content object attribute
-    */
-    function &serializeContentObjectAttribute( &$package, &$objectAttribute )
-    {
-        $node = new eZDOMNode();
-
-        $node->setPrefix( 'ezobject' );
-        $node->setName( 'attribute' );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $objectAttribute->attribute( 'id' ), 'ezremote' ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'identifier', $objectAttribute->contentClassAttributeIdentifier(), 'ezremote' ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
-
-        $mediaFile =& $objectAttribute->attribute( 'content' );
-        $fileKey = md5( mt_rand() );
-        include_once( 'kernel/classes/ezbinaryfilehandler.php' );
-        $package->appendSimpleFile( $fileKey, eZBinaryFileHandler::storedFilename( $mediaFile ) );
-
-        $mediaNode =& eZDOMDocument::createElementNode( 'media-file' );
-        $mediaNode->appendAttribute( eZDOMDocument::createAttributeNode( 'filesize', $mediaFile->attribute( 'filesize' ) ) );
-        $mediaNode->appendAttribute( eZDOMDocument::createAttributeNode( 'filename', $mediaFile->attribute( 'filename' ) ) );
-        $mediaNode->appendAttribute( eZDOMDocument::createAttributeNode( 'original-filename', $mediaFile->attribute( 'original_filename' ) ) );
-        $mediaNode->appendAttribute( eZDOMDocument::createAttributeNode( 'mime-type', $mediaFile->attribute( 'mime_type' ) ) );
-        $mediaNode->appendAttribute( eZDOMDocument::createAttributeNode( 'filekey', $fileKey ) );
-
-        $mediaNode->appendAttribute( eZDOMDocument::createAttributeNode( 'width', $mediaFile->attribute( 'width' ) ) );
-        $mediaNode->appendAttribute( eZDOMDocument::createAttributeNode( 'height', $mediaFile->attribute( 'height' ) ) );
-        $mediaNode->appendAttribute( eZDOMDocument::createAttributeNode( 'has-controller', $mediaFile->attribute( 'has_controller' ) ) );
-        $mediaNode->appendAttribute( eZDOMDocument::createAttributeNode( 'controls', $mediaFile->attribute( 'controls' ) ) );
-        $mediaNode->appendAttribute( eZDOMDocument::createAttributeNode( 'is-autoplay', $mediaFile->attribute( 'is_autoplay' ) ) );
-        $mediaNode->appendAttribute( eZDOMDocument::createAttributeNode( 'plugins-page', $mediaFile->attribute( 'plugingspage' ) ) );
-        $mediaNode->appendAttribute( eZDOMDocument::createAttributeNode( 'quality', $mediaFile->attribute( 'quality' ) ) );
-        $mediaNode->appendAttribute( eZDOMDocument::createAttributeNode( 'is-loop', $mediaFile->attribute( 'is_loop' ) ) );
-        $node->appendChild( $mediaNode );
-
-        return $node;
-    }
-
-    /*!
-     \reimp
-     \param package
-     \param contentobject attribute object
-     \param ezdomnode object
-    */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
-    {
-        $mediaNode = $attributeNode->elementByName( 'media-file' );
-        $mediaFile =& eZMedia::create( $objectAttribute->attribute( 'id' ), $objectAttribute->attribute( 'version' ) );
-
-        $sourcePath = $package->simpleFilePath( $mediaNode->attributeValue( 'filekey' ) );
-
-        include_once( 'lib/ezfile/classes/ezdir.php' );
-        $ini =& eZINI::instance();
-        $mimeType = $mediaNode->attributeValue( 'mime-type' );
-        list( $mimeTypeCategory, $mimeTypeName ) = explode( '/', $mimeType );
-        $destinationPath = eZSys::storageDirectory() . '/original/' . $mimeTypeCategory . '/';
-        if ( !file_exists( $destinationPath ) )
-        {
-            $oldumask = umask( 0 );
-            if ( !eZDir::mkdir( $destinationPath, eZDir::directoryPermission(), true ) )
-            {
-                umask( $oldumask );
-                return false;
-            }
-            umask( $oldumask );
-        }
-
-        $basename = basename( $mediaNode->attributeValue( 'filename' ) );
-        while ( file_exists( $destinationPath . $basename ) )
-        {
-            $basename = substr( md5( mt_rand() ), 0, 8 ) . '.' . eZFile::suffix( $mediaNode->attributeValue( 'filename' ) );
-        }
-
-        include_once( 'lib/ezfile/classes/ezfilehandler.php' );
-        eZFileHandler::copy( $sourcePath, $destinationPath . $basename );
-        eZDebug::writeNotice( 'Copied: ' . $sourcePath . ' to: ' . $destinationPath . $basename,
-                              'eZMediaType::unserializeContentObjectAttribute()' );
-
-        $mediaFile->setAttribute( 'contentobject_attribute_id', $objectAttribute->attribute( 'id' ) );
-        $mediaFile->setAttribute( 'filename', $basename );
-        $mediaFile->setAttribute( 'original_filename', $mediaNode->attributeValue( 'original-filename' ) );
-        $mediaFile->setAttribute( 'mime_type', $mediaNode->attributeValue( 'mime-type' ) );
-
-        $mediaFile->setAttribute( 'width', $mediaNode->attributeValue( 'width' ) );
-        $mediaFile->setAttribute( 'height', $mediaNode->attributeValue( 'height' ) );
-        $mediaFile->setAttribute( 'has_controller', $mediaNode->attributeValue( 'has-controller' ) );
-        $mediaFile->setAttribute( 'controls', $mediaNode->attributeValue( 'controls' ) );
-        $mediaFile->setAttribute( 'is_autoplay', $mediaNode->attributeValue( 'is-autoplay' ) );
-        $mediaFile->setAttribute( 'pluginspage', $mediaNode->attributeValue( 'plugins-page' ) );
-        $mediaFile->setAttribute( 'quality', $mediaNode->attributeValue( 'quality' ) );
-        $mediaFile->setAttribute( 'is_loop', $mediaNode->attributeValue( 'is-loop' ) );
-
-        $mediaFile->store();
+        $classAttribute->attribute( EZ_DATATYPESTRING_TYPE_FIELD, $type );
     }
 }
 

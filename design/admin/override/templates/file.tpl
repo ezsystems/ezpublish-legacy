@@ -12,7 +12,7 @@
 {/section}
 
 <div class="objectheader">
-    <h2>{'File'|i18n('design/admin/node/view')}, {'Node ID'|i18n( 'design/standard/node/view' )}: {$node.node_id}, {'Object ID'|i18n( 'design/standard/node/view' )}: {$node.object.id}</h2>
+    <h2>{'File'|i18n('design/admin/node/view')}</h2>
 </div>
 
 <div class="object">
@@ -29,7 +29,7 @@
             <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
         {/section}
     <input class="button" type="submit" name="ActionPreview" value={"Preview"|i18n('design/standard/node/view')} />
-    {*<input class="button" type="submit" name="ActionRemove" value={"Remove"|i18n('design/standard/node/view')} />*}
+    <input class="button" type="submit" name="ActionRemove" value={"Remove"|i18n('design/standard/node/view')} />
     <input class="button" type="submit" name="ActionAddToBookmarks" value="{'Bookmark'|i18n('design/standard/node/view')}" />
     <input class="button" type="submit" name="ActionAddToNotification" value="{'Keep me updated'|i18n('design/standard/node/view')}" />
 

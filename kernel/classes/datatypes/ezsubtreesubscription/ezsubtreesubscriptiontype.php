@@ -66,9 +66,8 @@ class eZSubtreeSubscriptionType extends eZDataType
         include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
         $user =& eZUser::currentUser();
         $address = $user->attribute( 'email' );
-        $userID = $user->attribute( 'contentobject_id' );
 
-        $nodeIDList =& eZSubtreeNotificationRule::fetchNodesForUserID( $user->attribute( 'contentobject_id' ), false );
+        $nodeIDList =& eZSubtreeNotificationRule::fetchNodesForAddress( $user->attribute( 'email' ), false );
 
         if ( $attribute->attribute( 'data_int' ) == '1' )
         {
@@ -86,7 +85,7 @@ class eZSubtreeSubscriptionType extends eZDataType
             foreach ( $newSubscriptions as $nodeID )
             {
 
-                $rule =& eZSubtreeNotificationRule::create( $nodeID, $userID );
+                $rule =& eZSubtreeNotificationRule::create( $nodeID, $address );
                 $rule->store();
             }
         }
@@ -97,7 +96,7 @@ class eZSubtreeSubscriptionType extends eZDataType
                 $node =& $publishedNodes[$key];
                 if ( in_array( $node->attribute( 'node_id' ), $nodeIDList ) )
                 {
-                    eZSubtreeNotificationRule::removeByNodeAndAddress( $user->attribute( 'contentobject_id' ), $node->attribute( 'node_id' ) );
+                    eZSubtreeNotificationRule::removeByNodeAndAddress( $address, $node->attribute( 'node_id' ) );
                 }
             }
         }
@@ -123,10 +122,6 @@ class eZSubtreeSubscriptionType extends eZDataType
         return true;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        return true;
-    }
 
 }
 

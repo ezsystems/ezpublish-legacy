@@ -45,7 +45,7 @@
 */
 
 include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( 'lib/ezfile/classes/ezdir.php' );
+include_once( "lib/ezutils/classes/ezdir.php" );
 
 class eZFile
 {
@@ -106,44 +106,6 @@ class eZFile
         return false;
     }
 
-    /*!
-     \static
-     Read all content of file.
-
-     \param filename
-
-     \return file contents, false if error
-    */
-    function getContents( $filename )
-    {
-        if ( function_exists( 'file_get_contents' ) )
-        {
-            return file_get_contents( $filename );
-        }
-        else
-        {
-            $fp = fopen( $filename, 'r' );
-            if ( !$fp )
-            {
-                eZDebug::writeError( 'Could not read contents of ' . $filename, 'eZFile::getContents()' );
-                return false;
-            }
-
-            return fread( $fp, filesize( $filename ) );
-        }
-    }
-
-    /*!
-     \static
-     Get suffix from filename
-
-     \param filename
-     \return suffix, extends: file/to/readme.txt return txt
-    */
-    function suffix( $filename )
-    {
-        return array_pop( explode( '.', $filename) );
-    }
 }
 
 ?>

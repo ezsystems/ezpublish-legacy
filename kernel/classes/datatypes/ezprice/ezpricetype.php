@@ -56,8 +56,7 @@ class eZPriceType extends eZDataType
     function eZPriceType()
     {
         $this->eZDataType( EZ_DATATYPESTRING_PRICE, ezi18n( 'kernel/classes/datatypes', "Price", 'Datatype name' ),
-                           array( 'serialize_supported' => true,
-                                  'object_serialize_map' => array( 'data_float' => 'price' ) ) );
+                           array( 'serialize_supported' => true ) );
     }
 
     /*!
@@ -170,11 +169,6 @@ class eZPriceType extends eZDataType
     function title( &$contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( "data_float" );
-    }
-
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        return true;
     }
 
     /*!

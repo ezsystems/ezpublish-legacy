@@ -1,0 +1,2 @@
+<input type="radio" name="WorkflowEvent_event_ezpublish_publish_{$event.id}" value="0" {$event.data_int1|not|choose("",'checked="checked"')} />&nbsp;<label class="check">{"Unpublish object"|i18n("design/standard/workflow/eventtype/edit")}</label><div class="labelbreak"></div>
+<input type="radio" name="WorkflowEvent_event_ezpublish_publish_{$event.id}" value="1" {$event.data_int1|not|choose('checked="checked"',"")} />&nbsp;<label class="check">{"Publish object"|i18n("design/standard/workflow/eventtype/edit")}</label><div class="labelbreak"></div>

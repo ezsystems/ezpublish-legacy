@@ -200,6 +200,7 @@ Changes from 3.2.0-2 to 3.2-1
 - Fixed bug of user can't read own account information using policy read Class( User ), Owner( Self ).
 - Fixed bug with notification system crashing when dirty data is present in the database.
   http://ez.no/developer/ez_publish_3/bug_reports/notification_crashes
+- Fixed bug in the generateoverridesettings.php script for upgrading override templates from 3.0 to 3.1
 - Fixed bug with phrase search
   http://ez.no/developer/ez_publish_3/bug_reports/problem_with_phrase_search
 - Fixed storing SMTP settings during setup, http://ez.no/developer/ez_publish_3/bug_reports/setup_does_not_store_smtp_settings

@@ -44,6 +44,8 @@ include_once( "kernel/classes/datatypes/ezmedia/ezmedia.php" );
 
 $contentObjectID = $Params['ContentObjectID'];
 $contentObjectAttributeID = $Params['ContentObjectAttributeID'];
+//$version = $Params['version'];
+//$version = 4;
 $contentObject = eZContentObject::fetch( $contentObjectID );
 if ( !is_object( $contentObject ) )
 {
@@ -56,6 +58,7 @@ if ( !is_object( $contentObjectAttribute ) )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE );
 }
 $contentObjectID = $contentObjectAttribute->attribute( 'contentobject_id' );
+//$version = $contentObjectAttribute->attribute( 'version' );
 
 if ( ! $contentObject->attribute( 'can_read' ) )
 {
@@ -70,5 +73,51 @@ if ( $result == EZ_BINARY_FILE_RESULT_UNAVAILABLE )
     eZDebug::writeError( "The specified file could not be found." );
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 }
+
+/*
+
+$binaryType =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
+$mediaType =& eZMedia::fetch( $contentObjectAttributeID, $version );
+
+if( $binaryType != null )
+    $binary = $binaryType
+elseif( $mediaType != null )
+    $binary = $mediaType;
+else
+{
+    eZDebug::writeError( "No specified file exist." );
+}
+
+$sys =& eZSys::instance();
+$storage_dir = $sys->storageDirectory();
+$origDir = $storage_dir . '/original';
+
+$fileName = $origDir . "/" . $binary->attribute( 'mime_type_category' ) . '/'.  $binary->attribute( "filename" );
+if ( $binary->attribute( "filename" ) != "" and file_exists( $fileName ) )
+{
+    $fileSize = filesize ( $fileName );
+    $mimeType =  $binary->attribute( 'mime_type' );
+    $originalFileName = $binary->attribute( 'original_filename' );
+
+    header( "Cache-Control:" );
+    header( "Content-Length: $fileSize" );
+    header( "Content-Type: $mimeType" );
+    header( "X-Powered-By: eZ publish" );
+    header( "Content-disposition: attachment; filename=$originalFileName" );
+    header( "Content-Transfer-Encoding: binary" );
+
+    $fh = fopen( "$fileName", "rb" );
+
+    ob_end_clean();
+    fpassthru( $fh );
+    fflush();
+    eZExecution::cleanExit();
+}
+else
+{
+    eZDebug::writeNotice( $binary, 'binary');
+    eZDebug::writeNotice( $fileName, 'fileName');
+}
+*/
 
 ?>

@@ -1,0 +1,187 @@
+<XMI xmi.version="1.1" >
+<XMI.header>
+<XMI.metamodel href="/home/sp/projects/php/ezpublish3/doc/design/uml/permissions.xmi" version="1.0.4" name="UML" />
+  <XMI.model href="/home/sp/projects/php/ezpublish3/doc/design/uml/permissions.xmi" version="1" name="/home/sp/projects/php/ezpublish3/doc/design/uml/permissions.xmi" /> </XMI.header>
+ <XMI.content>
+<docsettings viewid="69" documentation="" uniqueid="128" />
+  <umlobjects>
+<UML:Actor stereotype="" package="" xmi.id="58" abstract="0" documentation="" name="User" scope="200" />
+   <UML:UseCase stereotype="" package="" xmi.id="59" abstract="0" documentation="" name="User group" scope="200" />
+   <UML:Class stereotype="" package="" xmi.id="60" abstract="0" documentation="" name="eZRole" scope="200" >
+<UML:Operation stereotype="" package="" xmi.id="75" type="void" abstract="0" documentation="" name="policyList" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="83" type="void" abstract="0" documentation="" name="fetchByUser" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="84" type="void" abstract="0" documentation="" name="fetch" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="105" type="void" abstract="0" documentation="" name="fetchList" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="62" value="" type="int" abstract="0" documentation="" name="Name" scope="200" />   </UML:Class>
+   <UML:Class stereotype="" package="" xmi.id="63" abstract="0" documentation="" name="Module" scope="200" >
+<UML:Attribute stereotype="" package="" xmi.id="66" value="" type="int" abstract="0" documentation="" name="ID" scope="200" />   </UML:Class>
+   <UML:Class stereotype="" package="" xmi.id="64" abstract="0" documentation="" name="Function" scope="200" >
+<UML:Attribute stereotype="" package="" xmi.id="67" value="" type="int" abstract="0" documentation="" name="ID" scope="200" />   </UML:Class>
+   <UML:Class stereotype="" package="" xmi.id="65" abstract="0" documentation="" name="Parameters" scope="200" >
+<UML:Attribute stereotype="" package="" xmi.id="68" value="" type="int" abstract="0" documentation="" name="ID" scope="200" />   </UML:Class>
+   <UML:Class stereotype="" package="" xmi.id="70" abstract="0" documentation="" name="User" scope="200" />
+   <UML:Class stereotype="" package="" xmi.id="71" abstract="0" documentation="" name="eZPolicy" scope="200" >
+<UML:Operation stereotype="" package="" xmi.id="92" type="void" abstract="0" documentation="" name="addParameter" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="106" type="void" abstract="0" documentation="" name="createNew" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="107" type="void" abstract="0" documentation="" name="limitationList" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="108" type="void" abstract="0" documentation="" name="fetch" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="109" value="" type="int" abstract="0" documentation="" name="role_id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="110" value="" type="int" abstract="0" documentation="" name="module_name" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="111" value="" type="int" abstract="0" documentation="" name="function_name" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="112" value="" type="int" abstract="0" documentation="" name="limitation" scope="200" />   </UML:Class>
+   <UML:Class stereotype="" package="" xmi.id="72" abstract="0" documentation="" name="Group" scope="200" />
+   <UML:Class stereotype="" package="" xmi.id="82" abstract="0" documentation="" name="eZPolicyLimitation" scope="200" >
+<UML:Operation stereotype="" package="" xmi.id="95" type="void" abstract="0" documentation="" name="fetch" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="96" type="void" abstract="0" documentation="" name="values" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="113" type="void" abstract="0" documentation="" name="createNew" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="114" type="void" abstract="0" documentation="" name="valueList" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="115" type="void" abstract="0" documentation="" name="remove" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="116" value="" type="int" abstract="0" documentation="" name="policy_id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="117" value="" type="int" abstract="0" documentation="" name="identifier" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="118" value="" type="int" abstract="0" documentation="" name="role_id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="119" value="" type="int" abstract="0" documentation="" name="function_name" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="120" value="" type="int" abstract="0" documentation="" name="module_name" scope="200" />   </UML:Class>
+   <UML:Class stereotype="" package="" xmi.id="121" abstract="0" documentation="" name="eZPolicyLimitationValue" scope="200" >
+<UML:Operation stereotype="" package="" xmi.id="122" type="void" abstract="0" documentation="" name="createNew" scope="200" />
+    <UML:Operation stereotype="" package="" xmi.id="123" type="void" abstract="0" documentation="" name="remove" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="124" value="" type="int" abstract="0" documentation="" name="limitation_id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="125" value="" type="int" abstract="0" documentation="" name="value" scope="200" />   </UML:Class>
+   <UML:Class stereotype="" package="" xmi.id="126" abstract="0" documentation="" name="eZModule" scope="200" >
+<UML:Attribute stereotype="" package="" xmi.id="127" value="" type="int" abstract="0" documentation="" name="aviable_functions" scope="200" />   </UML:Class>  </umlobjects>
+  <diagrams>
+<diagram snapgrid="0" showattsig="0" fillcolor="#ffffc0" showgrid="0" showopsig="0" usefillcolor="1" snapx="10" snapy="10" showatts="1" xmi.id="56" documentation="" type="402" showops="1" showpackage="0" name="Database structure" localid="30000" showstereotype="0" showscope="0" font="helvetica,10,-1,5,50,0,0,0,0,0" linecolor="#ff0000" >
+<widgets>
+<UML:ConceptWidget showattsigs="603" x="178" y="44" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="60" showoperations="0" showpackage="0" showscope="0" showstereotype="0" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="359" y="44" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="63" showoperations="0" showpackage="0" showscope="0" showstereotype="0" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="172" y="152" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="64" showoperations="0" showpackage="0" showscope="0" showstereotype="0" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="335" y="152" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="65" showoperations="0" showpackage="0" showscope="0" showstereotype="0" font="helvetica,10,-1,5,50,0,0,0,0,0" />    </widgets>
+    <messages/>
+    <associations>
+<UML:AssocWidget totalcounta="3" indexa="1" totalcountb="2" indexb="1" widgetbid="64" widgetaid="63" documentation="" type="503" >
+<UML:FloatingTextWidget x="349" y="56" operation="" role="701" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="203" y="130" operation="" role="702" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="280" y="103" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <linepath>
+<startpoint startx="359" starty="54" />
+       <endpoint endx="201" endy="152" />      </linepath>     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="64" widgetaid="65" documentation="" type="503" >
+<UML:FloatingTextWidget x="325" y="170" operation="" role="701" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="233" y="170" operation="" role="702" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="283" y="168" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <linepath>
+<startpoint startx="335" starty="168" />
+       <endpoint endx="231" endy="168" />      </linepath>     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="3" indexa="2" totalcountb="2" indexb="1" widgetbid="60" widgetaid="63" documentation="" type="503" >
+<UML:FloatingTextWidget x="349" y="43" operation="" role="701" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="231" y="62" operation="" role="702" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="294" y="62" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <linepath>
+<startpoint startx="359" starty="65" />
+       <endpoint endx="229" endy="60" />      </linepath>     </UML:AssocWidget>    </associations>   </diagram>
+   <diagram snapgrid="0" showattsig="0" fillcolor="#ffffc0" showgrid="0" showopsig="0" usefillcolor="1" snapx="10" snapy="10" showatts="1" xmi.id="57" documentation="" type="400" showops="1" showpackage="0" name="Permissions" localid="30000" showstereotype="0" showscope="0" font="helvetica,10,-1,5,50,0,0,0,0,0" linecolor="#ff0000" >
+<widgets>
+<UML:ActorWidget x="74" y="61" usefillcolor="1" xmi.id="58" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:UseCaseWidget x="281" y="33" usefillcolor="1" xmi.id="59" font="helvetica,10,-1,5,50,0,0,0,0,0" />    </widgets>
+    <messages/>
+    <associations>
+<UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="58" widgetaid="59" documentation="" type="503" >
+<UML:FloatingTextWidget x="195" y="74" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <linepath>
+<startpoint startx="281" starty="58" />
+       <endpoint endx="109" endy="91" />      </linepath>     </UML:AssocWidget>    </associations>   </diagram>
+   <diagram snapgrid="0" showattsig="0" fillcolor="#ffffc0" showgrid="0" showopsig="0" usefillcolor="1" snapx="10" snapy="10" showatts="1" xmi.id="69" documentation="" type="402" showops="1" showpackage="0" name="Permissions" localid="30000" showstereotype="0" showscope="0" font="helvetica,10,-1,5,50,0,0,0,0,0" linecolor="#ff0000" >
+<widgets>
+<UML:ConceptWidget showattsigs="603" x="333" y="14" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="70" showoperations="0" showpackage="0" showscope="0" showstereotype="0" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="31" y="23" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="60" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="29" y="157" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="71" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="425" y="113" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="72" showoperations="0" showpackage="0" showscope="0" showstereotype="0" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:FloatingTextWidget x="198" y="31" operation="" role="700" usefillcolor="1" seqnum="" xmi.id="73" text="has role" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:FloatingTextWidget x="412" y="62" operation="" role="700" usefillcolor="1" seqnum="" xmi.id="81" text="Member of" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="194" y="180" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="82" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="26" y="373" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="121" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="354" y="222" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="126" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+     <UML:FloatingTextWidget x="370" y="180" operation="" role="700" usefillcolor="1" seqnum="" xmi.id="128" text="each function has limitation values for it " font="helvetica,12,-1,5,50,0,0,0,0,0" />    </widgets>
+    <messages/>
+    <associations>
+<UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="60" widgetaid="71" documentation="" type="510" >
+<UML:FloatingTextWidget x="66" y="130" operation="" role="701" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,12,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="75" y="121" operation="" role="702" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,12,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="74" y="138" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,12,-1,5,50,0,0,0,0,0" />
+      <linepath>
+<startpoint startx="76" starty="157" />
+       <endpoint endx="73" endy="119" />      </linepath>     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="70" widgetaid="60" documentation="" type="503" >
+<UML:FloatingTextWidget x="118" y="49" operation="" role="701" usefillcolor="1" seqnum="" xmi.id="-1" text="*" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="318" y="28" operation="" role="702" usefillcolor="1" seqnum="" xmi.id="-1" text="*" font="helvetica,10,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="224" y="48" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,12,-1,5,50,0,0,0,0,0" />
+      <linepath>
+<startpoint startx="116" starty="71" />
+       <endpoint endx="333" endy="26" />      </linepath>     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="70" widgetaid="72" documentation="" type="503" >
+<UML:FloatingTextWidget x="438" y="86" operation="" role="701" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,12,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="358" y="40" operation="" role="702" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,12,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="402" y="75" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,12,-1,5,50,0,0,0,0,0" />
+      <linepath>
+<startpoint startx="448" starty="113" />
+       <endpoint endx="356" endy="38" />      </linepath>     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="3" indexa="1" totalcountb="2" indexb="1" widgetbid="71" widgetaid="82" documentation="" type="510" >
+<UML:FloatingTextWidget x="184" y="211" operation="" role="701" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,12,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="126" y="231" operation="" role="702" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,12,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="159" y="233" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="helvetica,12,-1,5,50,0,0,0,0,0" />
+      <linepath>
+<startpoint startx="194" starty="238" />
+       <endpoint endx="124" endy="229" />      </linepath>     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="3" indexb="2" widgetbid="82" widgetaid="121" documentation="" type="510" >
+<linepath>
+<startpoint startx="99" starty="373" />
+       <endpoint endx="194" endy="297" />      </linepath>     </UML:AssocWidget>    </associations>   </diagram>  </diagrams>
+  <listview>
+<listitem open="1" type="800" id="-1" label="Views" >
+<listitem open="1" type="801" id="-1" label="Logical View" >
+<listitem open="0" type="807" id="56" label="Database structure" />
+     <listitem open="1" type="812" id="126" label="eZModule" >
+<listitem open="0" type="813" id="127" label="aviable_functions" />     </listitem>
+     <listitem open="1" type="812" id="71" label="eZPolicy" >
+<listitem open="0" type="814" id="92" label="addParameter" />
+      <listitem open="0" type="814" id="106" label="createNew" />
+      <listitem open="0" type="814" id="108" label="fetch" />
+      <listitem open="0" type="813" id="111" label="function_name" />
+      <listitem open="0" type="813" id="112" label="limitation" />
+      <listitem open="0" type="814" id="107" label="limitationList" />
+      <listitem open="0" type="813" id="110" label="module_name" />
+      <listitem open="0" type="813" id="109" label="role_id" />     </listitem>
+     <listitem open="1" type="812" id="82" label="eZPolicyLimitation" >
+<listitem open="0" type="814" id="113" label="createNew" />
+      <listitem open="0" type="814" id="95" label="fetch" />
+      <listitem open="0" type="813" id="119" label="function_name" />
+      <listitem open="0" type="813" id="117" label="identifier" />
+      <listitem open="0" type="813" id="120" label="module_name" />
+      <listitem open="0" type="813" id="116" label="policy_id" />
+      <listitem open="0" type="814" id="115" label="remove" />
+      <listitem open="0" type="813" id="118" label="role_id" />
+      <listitem open="0" type="814" id="114" label="valueList" />
+      <listitem open="0" type="814" id="96" label="values" />     </listitem>
+     <listitem open="1" type="812" id="121" label="eZPolicyLimitationValue" >
+<listitem open="0" type="814" id="122" label="createNew" />
+      <listitem open="0" type="813" id="124" label="limitation_id" />
+      <listitem open="0" type="814" id="123" label="remove" />
+      <listitem open="0" type="813" id="125" label="value" />     </listitem>
+     <listitem open="1" type="812" id="60" label="eZRole" >
+<listitem open="0" type="814" id="84" label="fetch" />
+      <listitem open="0" type="814" id="83" label="fetchByUser" />
+      <listitem open="0" type="814" id="105" label="fetchList" />
+      <listitem open="0" type="813" id="62" label="Name" />
+      <listitem open="0" type="814" id="75" label="policyList" />     </listitem>
+     <listitem open="1" type="812" id="64" label="Function" >
+<listitem open="0" type="813" id="67" label="ID" />     </listitem>
+     <listitem open="1" type="812" id="72" label="Group" />
+     <listitem open="1" type="812" id="63" label="Module" >
+<listitem open="0" type="813" id="66" label="ID" />     </listitem>
+     <listitem open="1" type="812" id="65" label="Parameters" >
+<listitem open="0" type="813" id="68" label="ID" />     </listitem>
+     <listitem open="1" type="807" id="69" label="Permissions" />
+     <listitem open="1" type="812" id="70" label="User" />    </listitem>
+    <listitem open="1" type="802" id="-1" label="Use Case View" >
+<listitem open="1" type="805" id="57" label="Permissions" />
+     <listitem open="1" type="810" id="58" label="User" />
+     <listitem open="1" type="811" id="59" label="User group" />    </listitem>   </listitem>  </listview> </XMI.content></XMI>

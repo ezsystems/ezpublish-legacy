@@ -163,17 +163,6 @@ class eZLocale
         $this->DateTimeSlashOutputArray = preg_replace( '/.+/', '\\\\$0', $this->DateTimePHPArray );
 
         $this->HTTPLocaleCode = '';
-        $this->functionMap = array(
-            'time' => 'formatTime',
-            'shorttime' => 'formatShortTime',
-            'date' => 'formatDate',
-            'shortdate' => 'formatShortDate',
-            'datetime' => 'formatDateTime',
-            'shortdatetime' => 'formatShortDateTime',
-            'currency' => 'formatCurrency',
-            'clean_currency' => 'formatCleanCurrency',
-            'number' => 'formatNumber',
-        );
 
         $this->DayNames = array( 0 => 'sun', 1 => 'mon', 2 => 'tue',
                                  3 => 'wed', 4 => 'thu', 5 => 'fri', 6 => 'sat' );
@@ -210,6 +199,11 @@ class eZLocale
         }
 
         $this->reset();
+
+        if ( $this->MondayFirst )
+            $this->WeekDays = array( 1, 2, 3, 4, 5, 6, 0 );
+        else
+            $this->WeekDays = array( 0, 1, 2, 3, 4, 5, 6 );
 
         $this->IsValid = true;
         // Load language information
@@ -250,11 +244,6 @@ class eZLocale
             $this->initCountry( $countryVariationINI );
         }
 
-        if ( $this->MondayFirst )
-            $this->WeekDays = array( 1, 2, 3, 4, 5, 6, 0 );
-        else
-            $this->WeekDays = array( 0, 1, 2, 3, 4, 5, 6 );
-
         // Load language information
         if ( $languageVariationINI !== null )
         {
@@ -277,7 +266,7 @@ class eZLocale
         $this->DateTimeFormat = '';
         $this->ShortDateTimeFormat = '';
 
-        $this->MondayFirst = false;
+        $this->MondayFirst = false;;
 
         $this->Country = '';
         $this->CountryComment = '';
@@ -384,6 +373,9 @@ class eZLocale
         $languageINI->assign( "RegionalSettings", "LanguageComment", $this->LanguageComment );
         $languageINI->assign( 'RegionalSettings', 'TranslationCode', $this->TranslationCode );
 
+//         $languageINI->assign( 'HTTP', 'ContentLanguage', $this->HTTPLocaleCode );
+//         $httpLocaleCode =& $languageINI->variable( 'HTTP', 'ContentLanguage' );
+//         $this->HTTPLocaleCode = $httpLocaleCode;
         if ( $this->OverrideCharset == '' )
         {
             $charset = false;
@@ -404,50 +396,41 @@ class eZLocale
                 $this->AllowedCharsets[] = $languageINI->variable( 'Charset', 'Preferred' );
         }
 
-        
         if ( !is_array( $this->ShortDayNames ) )
             $this->ShortDayNames = array();
         if ( !is_array( $this->LongDayNames ) )
             $this->LongDayNames = array();
-
-        $tmpShortDayNames = $languageINI->variableMulti( 'ShortDayNames', $this->DayNames );
-        $tmpLongDayNames = $languageINI->variableMulti( 'LongDayNames', $this->DayNames );
-        foreach ( $this->DayNames as $key => $day )
+        foreach ( $this->DayNames as $day )
         {
-            if ( $tmpShortDayNames[$key] !== null )
-                $this->ShortDayNames[$day] = $tmpShortDayNames[$key];
-            if ( $tmpLongDayNames[$key] !== null )
-                $this->LongDayNames[$day] = $tmpLongDayNames[$key];
+            if ( $languageINI->hasVariable( 'ShortDayNames', $day ) )
+                $this->ShortDayNames[$day] = $languageINI->variable( 'ShortDayNames', $day );
+            if ( $languageINI->hasVariable( 'LongDayNames', $day ) )
+                $this->LongDayNames[$day] = $languageINI->variable( 'LongDayNames', $day );
         }
 
-        
         if ( !is_array( $this->ShortMonthNames ) )
             $this->LongMonthNames = array();
         if ( !is_array( $this->ShortMonthNames ) )
             $this->LongMonthNames = array();
-
-        $tmpShortMonthNames = $languageINI->variableMulti( 'ShortMonthNames', $this->MonthNames );
-        $tmpLongMonthNames = $languageINI->variableMulti( 'LongMonthNames', $this->MonthNames );
-        foreach ( $this->MonthNames as $key => $day )
+        foreach ( $this->MonthNames as $month )
         {
-            if ( $tmpShortMonthNames[$key] !== null )
-                $this->ShortMonthNames[$day] = $tmpShortMonthNames[$key];
-            if ( $tmpLongMonthNames[$key] !== null )
-                $this->LongMonthNames[$day] = $tmpLongMonthNames[$key];
+            if ( $languageINI->hasVariable( 'ShortMonthNames', $month ) )
+                $this->ShortMonthNames[$month] = $languageINI->variable( 'ShortMonthNames', $month );
+            if ( $languageINI->hasVariable( 'LongMonthNames', $month ) )
+                $this->LongMonthNames[$month] = $languageINI->variable( 'LongMonthNames', $month );
         }
-
 
         if ( !is_array( $this->ShortWeekDayNames ) )
             $this->ShortWeekDayNames = array();
         if ( !is_array( $this->LongWeekDayNames ) )
             $this->LongWeekDayNames = array();
-
-        foreach ( $this->WeekDays as $key => $day )
+        foreach( $this->WeekDays as $wday )
         {
-            if ( $tmpShortDayNames[$key] !== null )
-                $this->ShortWeekDayNames[$day] = $tmpShortDayNames[$key];
-            if ( $tmpLongDayNames[$key] !== null )
-                $this->LongWeekDayNames[$day] = $tmpLongDayNames[$key];
+            $code = $this->DayNames[$wday];
+            if ( $languageINI->hasVariable( 'ShortDayNames', $code ) )
+                $this->ShortWeekDayNames[$wday] = $languageINI->variable( 'ShortDayNames', $code );
+            if ( $languageINI->hasVariable( 'LongDayNames', $code ) )
+                $this->LongWeekDayNames[$wday] = $languageINI->variable( 'LongDayNames', $code );
         }
     }
 
@@ -569,16 +552,6 @@ class eZLocale
                       'locale_code' => 'localeCode',
                       'locale_full_code' => 'localeFullCode',
                       'http_locale_code' => 'httpLocaleCode',
-                      'decimal_symbol' => 'decimalSymbol',
-                      'thousands_separator' => 'thousandsSeparator',
-                      'decimal_count' => 'decimalCount',
-                      'negative_symbol' => 'negativeSymbol',
-                      'positive_symbol' => 'positiveSymbol',
-                      'currency_decimal_symbol' => 'currencyDecimalSymbol',
-                      'currency_thousands_separator' => 'currencyThousandsSeparator',
-                      'currency_decimal_count' => 'currencyDecimalCount',
-                      'currency_negative_symbol' => 'currencyNegativeSymbol',
-                      'currency_positive_symbol' => 'currencyPositiveSymbol',
                       'currency_symbol' => 'currencySymbol',
                       'currency_name' => 'currencyName',
                       'currency_short_name' => 'currencyShortName',
@@ -771,86 +744,6 @@ class eZLocale
     }
 
     /*!
-     \return the decimal symbol for normal numbers.
-    */
-    function decimalSymbol()
-    {
-        return $this->DecimalSymbol;
-    }
-
-    /*!
-     \return the thousand separator for normal numbers.
-    */
-    function thousandsSeparator()
-    {
-        return $this->ThousandsSeparator;
-    }
-
-    /*!
-     \return the number of decimals for normal numbers.
-    */
-    function decimalCount()
-    {
-        return $this->FractDigits;
-    }
-
-    /*!
-     \return the negative symbol for normal numbers.
-    */
-    function negativeSymbol()
-    {
-        return $this->NegativeSymbol;
-    }
-
-    /*!
-     \return the positive symbol for normal numbers.
-    */
-    function positiveSymbol()
-    {
-        return $this->PositiveSymbol;
-    }
-
-    /*!
-     \return the decimal symbol for currencies.
-    */
-    function currencyDecimalSymbol()
-    {
-        return $this->CurrencyDecimalSymbol;
-    }
-
-    /*!
-     \return the thousand separator for currencies.
-    */
-    function currencyThousandsSeparator()
-    {
-        return $this->CurrencyThousandsSeparator;
-    }
-
-    /*!
-     \return the number of decimals for currencies.
-    */
-    function currencyDecimalCount()
-    {
-        return $this->CurrencyFractDigits;
-    }
-
-    /*!
-     \return the negative symbol for currencies.
-    */
-    function currencyNegativeSymbol()
-    {
-        return $this->CurrencyNegativeSymbol;
-    }
-
-    /*!
-     \return the positive symbol for currencies.
-    */
-    function currencyPositiveSymbol()
-    {
-        return $this->CurrencyPositiveSymbol;
-    }
-
-    /*!
      Returns an array with the days of the week according to locale information.
      Each entry in the array can be supplied to the shortDayName() and longDayName() functions.
      \sa isMondayFirst(), weekDayNames()
@@ -878,21 +771,6 @@ class eZLocale
             return $this->ShortWeekDayNames;
         else
             return $this->LongWeekDayNames;
-    }
-
-    /*!
-     Returns the method name belonging to a qualifier
-    */
-    function getFormattingFunction( $qualifier )
-    {
-        if (isset ( $this->functionMap[$qualifier] ) )
-        {
-            return $this->functionMap[$qualifier];
-        }
-        else
-        {
-            return false;
-        }
     }
 
     /*!
@@ -1069,12 +947,12 @@ class eZLocale
     */
     function &internalNumber( $number )
     {
-        $number = str_replace( ' ', '', $number );
-        if ( $this->PositiveSymbol )
-            $number = str_replace( $this->PositiveSymbol, '', $number );
-        $number = str_replace( $this->ThousandsSeparator, '', $number );
-        $number = str_replace( $this->DecimalSymbol, '.', $number );
-        return $number;
+        $neg = $number < 0;
+        $num = $neg ? -$number : $number;
+        $num = str_replace( $this->ThousandsSeparator, '', (string)$num );
+        $num = str_replace( $this->DecimalSymbol, '.', (string)$num );
+        $num = ( $neg ? '-' : '' ) . $num;
+        return $num;
     }
 
     /*!
@@ -1119,12 +997,13 @@ class eZLocale
     */
     function &internalCurrency( $number )
     {
-        $number = str_replace( ' ', '', $number );
-        if ( $this->CurrencyPositiveSymbol )
-            $number = str_replace( $this->CurrencyPositiveSymbol, '', $number );
-        $number = str_replace( $this->CurrencyThousandsSeparator, '', $number );
-        $number = str_replace( $this->CurrencyDecimalSymbol, '.', $number );
-        return $number;
+        $number = str_replace( ' ' , '', $number );
+        $neg = $number < 0;
+        $num = $neg ? -$number : $number;
+        $num = str_replace( $this->CurrencyThousandsSeparator, '', (string)$num );
+        $num = str_replace( $this->CurrencyDecimalSymbol, '.', (string)$num );
+        $num = ( $neg ? '-' : '' ) . $num;
+        return $num;
     }
 
     /*!

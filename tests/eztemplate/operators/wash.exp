@@ -1,9 +1,0 @@
-foo &lt;bar&gt;
-foo &lt;bar&gt;
-&lt;a href='http://www.ez.no'&gt;www.ez.no&lt;/a&gt;
-&lt;a href='http://www.ez.no'&gt;www.ez.no&lt;/a&gt;
-<C:callTab><a<C:callSpace>href='http://www.ez.no'>www.ez.no</a>
-<C:callTab><a<C:callSpace>href='http://www.ez.no'>www.ez.no</a>
-
-info<span class="spamfilter">SPAMFILTER</span>@ez.no
-info<span class="spamfilter">SPAMFILTER</span>@ez.no

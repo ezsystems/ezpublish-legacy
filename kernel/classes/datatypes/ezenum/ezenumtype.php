@@ -45,9 +45,9 @@
 */
 
 include_once( 'kernel/classes/ezdatatype.php' );
-include_once( 'kernel/classes/datatypes/ezenum/ezenum.php' );
-include_once( 'kernel/classes/ezcontentobjectattribute.php' );
-define( 'EZ_DATATYPESTRING_ENUM', 'ezenum' );
+include_once( "kernel/classes/datatypes/ezenum/ezenum.php" );
+include_once( "kernel/classes/ezcontentobjectattribute.php" );
+define( "EZ_DATATYPESTRING_ENUM", "ezenum" );
 define( 'EZ_DATATYPESTRING_ENUM_ISMULTIPLE_FIELD', 'data_int1' );
 define( 'EZ_DATATYPESTRING_ENUM_ISMULTIPLE_VARIABLE', '_ezenum_ismultiple_value_' );
 define( 'EZ_DATATYPESTRING_ENUM_ISOPTION_FIELD', 'data_int2' );
@@ -60,7 +60,7 @@ class eZEnumType extends eZDataType
     */
     function eZEnumType()
     {
-         $this->eZDataType( EZ_DATATYPESTRING_ENUM, ezi18n( 'kernel/classes/datatypes', 'Enum', 'Datatype name' ),
+         $this->eZDataType( EZ_DATATYPESTRING_ENUM, ezi18n( 'kernel/classes/datatypes', "Enum", 'Datatype name' ),
                             array( 'serialize_supported' => true ) );
     }
 
@@ -81,21 +81,15 @@ class eZEnumType extends eZDataType
     {
         if ( $currentVersion !== false )
         {
-            $originalContentObjectAttributeID = $originalContentObjectAttribute->attribute( 'id' );
-            $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
-            $contentObjectAttributeVersion = $contentObjectAttribute->attribute( 'version' );
-
-            // Delete stored object attributes when initialize translated attribute.
-            if ( $originalContentObjectAttributeID != $contentObjectAttributeID )
-                $this->deleteStoredObjectAttribute( $contentObjectAttribute, $currentVersion );
-
-            $newVersionEnumObject =& eZEnumObjectValue::fetchAllElements( $originalContentObjectAttributeID, $currentVersion );
+            $contentObjectAttributeID = $originalContentObjectAttribute->attribute( "id" );
+            $contentObjectAttributeVersion = $contentObjectAttribute->attribute( "version" );
+            $newVersionEnumObject =& eZEnumObjectValue::fetchAllElements( $contentObjectAttributeID, $currentVersion );
 
             for ( $i = 0; $i < count( $newVersionEnumObject ); ++$i )
             {
                 $enumobjectvalue =  $newVersionEnumObject[$i];
                 $enumobjectvalue->setAttribute( 'contentobject_attribute_id', $contentObjectAttribute->attribute( 'id' ) );
-                $enumobjectvalue->setAttribute( 'contentobject_attribute_version',  $contentObjectAttributeVersion );
+                $enumobjectvalue->setAttribute( "contentobject_attribute_version",  $contentObjectAttributeVersion );
                 $enumobjectvalue->store();
             }
         }
@@ -106,14 +100,14 @@ class eZEnumType extends eZDataType
     */
     function cloneClassAttribute( &$oldClassAttribute, &$newClassAttribute )
     {
-        $oldContentClassAttributeID = $oldClassAttribute->attribute( 'id' );
+        $oldContentClassAttributeID = $oldClassAttribute->attribute( "id" );
         $oldEnums =& eZEnumValue::fetchAllElements( $oldContentClassAttributeID, 0 );
 
         foreach ( $oldEnums as $oldEnum )
         {
             $enum =& $oldEnum->clone();
-            $enum->setAttribute( 'contentclass_attribute_id', $newClassAttribute->attribute( 'id' ) );
-            $enum->setAttribute( 'contentclass_attribute_version', $newClassAttribute->attribute( 'version' ) );
+            $enum->setAttribute( "contentclass_attribute_id", $newClassAttribute->attribute( 'id' ) );
+            $enum->setAttribute( "contentclass_attribute_version", $newClassAttribute->attribute( 'version' ) );
             $enum->store();
         }
     }
@@ -123,12 +117,12 @@ class eZEnumType extends eZDataType
     */
     function initializeClassAttribute( &$classAttribute )
     {
-        $contentClassAttributeID = $classAttribute->attribute( 'id' );
+        $contentClassAttributeID = $classAttribute->attribute( "id" );
         $enums =& eZEnumValue::fetchAllElements( $contentClassAttributeID, 0 );
 
         foreach ( $enums as $enum )
         {
-            $enum->setAttribute( 'contentclass_attribute_version', 1 );
+            $enum->setAttribute( "contentclass_attribute_version", 1 );
             $enum->store();
         }
     }
@@ -138,7 +132,7 @@ class eZEnumType extends eZDataType
     */
     function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
     {
-        $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
         eZEnumObjectValue::removeAllElements( $contentObjectAttributeID, $version );
 
     }
@@ -148,7 +142,7 @@ class eZEnumType extends eZDataType
     */
     function deleteStoredClassAttribute( &$contentClassAttribute, $version = null )
     {
-        $contentClassAttributeID = $contentClassAttribute->attribute( 'id' );
+        $contentClassAttributeID = $contentClassAttribute->attribute( "id" );
         eZEnumValue::removeAllElements( $contentClassAttributeID, $version );
 
     }
@@ -158,12 +152,12 @@ class eZEnumType extends eZDataType
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
-        $contentObjectAttributeVersion = $contentObjectAttribute->attribute( 'version' );
-        $enumID =  $base . '_data_enumid_' . $contentObjectAttributeID;
-        $enumElement = $base . '_data_enumelement_' . $contentObjectAttributeID;
-        $enumValue = $base . '_data_enumvalue_' . $contentObjectAttributeID;
-        $selectedEnumElement = $base . '_select_data_enumelement_' . $contentObjectAttributeID;
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
+        $contentObjectAttributeVersion = $contentObjectAttribute->attribute( "version" );
+        $enumID =  $base . "_data_enumid_" . $contentObjectAttributeID;
+        $enumElement = $base . "_data_enumelement_" . $contentObjectAttributeID;
+        $enumValue = $base . "_data_enumvalue_" . $contentObjectAttributeID;
+        $selectedEnumElement = $base . "_select_data_enumelement_" . $contentObjectAttributeID;
         if ( $http->hasPostVariable( $enumID ) &&
              $http->hasPostVariable( $enumElement ) &&
              $http->hasPostVariable( $enumValue ) )
@@ -207,12 +201,12 @@ class eZEnumType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        if ( $http->hasPostVariable( $base . '_data_enumid_' . $contentObjectAttribute->attribute( 'id' ) ) )
+        if ( $http->hasPostVariable( $base . "_data_enumid_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
-            $array_enumID = $http->postVariable( $base . '_data_enumid_' . $contentObjectAttribute->attribute( 'id' ) );
+            $array_enumID = $http->postVariable( $base . "_data_enumid_" . $contentObjectAttribute->attribute( "id" ) );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-            if ( ( $classAttribute->attribute( 'is_required' ) == true )  &&
-                 ( !$http->hasPostVariable( $base . '_select_data_enumelement_' . $contentObjectAttribute->attribute( 'id' ) ) ) )
+            if ( ( $classAttribute->attribute( "is_required" ) == true )  &&
+                 ( !$http->hasPostVariable( $base . "_select_data_enumelement_" . $contentObjectAttribute->attribute( "id" ) ) ) )
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                      'At least one field should be chosen.' ) );
@@ -235,13 +229,13 @@ class eZEnumType extends eZDataType
 	*/
 	function &objectAttributeContent( &$contentObjectAttribute )
 	{
-        $contentObjectAttributeID =& $contentObjectAttribute->attribute( 'id' );
-        $contentObjectAttributeVersion =& $contentObjectAttribute->attribute( 'version' );
+        $contentObjectAttributeID =& $contentObjectAttribute->attribute( "id" );
+        $contentObjectAttributeVersion =& $contentObjectAttribute->attribute( "version" );
         $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
-        $id = $contentClassAttribute->attribute( 'id' );
-        $version = $contentClassAttribute->attribute( 'version' );
-        $ismultiple = $contentClassAttribute->attribute( 'data_int1' );
-        $isoption = $contentClassAttribute->attribute( 'data_int2' );
+        $id = $contentClassAttribute->attribute( "id" );
+        $version = $contentClassAttribute->attribute( "version" );
+        $ismultiple = $contentClassAttribute->attribute( "data_int1" );
+        $isoption = $contentClassAttribute->attribute( "data_int2" );
         $enum = new eZEnum( $id, $version );
         $enum->setIsmultipleValue( $ismultiple );
         $enum->setIsoptionValue( $isoption );
@@ -265,11 +259,11 @@ class eZEnumType extends eZDataType
     {
         $ismultiple = $base . EZ_DATATYPESTRING_ENUM_ISMULTIPLE_VARIABLE . $contentClassAttribute->attribute( 'id' );
         $isoption = $base . EZ_DATATYPESTRING_ENUM_ISOPTION_VARIABLE . $contentClassAttribute->attribute( 'id' );
-        $enumID =  $base . '_data_enumid_' . $contentClassAttribute->attribute( 'id' );
-        $enumElement = $base . '_data_enumelement_' . $contentClassAttribute->attribute( 'id' );
-        $enumValue = $base . '_data_enumvalue_' . $contentClassAttribute->attribute( 'id' );
-        $enumRemove = $base . '_data_enumremove_' . $contentClassAttribute->attribute( 'id' );
-        $version = $contentClassAttribute->attribute( 'version' );
+        $enumID =  $base . "_data_enumid_" . $contentClassAttribute->attribute( "id" );
+        $enumElement = $base . "_data_enumelement_" . $contentClassAttribute->attribute( "id" );
+        $enumValue = $base . "_data_enumvalue_" . $contentClassAttribute->attribute( "id" );
+        $enumRemove = $base . "_data_enumremove_" . $contentClassAttribute->attribute( "id" );
+        $version = $contentClassAttribute->attribute( "version" );
         if ( $http->hasPostVariable( $enumID ) &&
              $http->hasPostVariable( $enumElement ) &&
              $http->hasPostVariable( $enumValue ) &&
@@ -277,20 +271,20 @@ class eZEnumType extends eZDataType
         {
             if ( $http->hasPostVariable( $ismultiple ) )
             {
-                $contentClassAttribute->setAttribute( EZ_DATATYPESTRING_ENUM_ISMULTIPLE_FIELD, '1' );
+                $contentClassAttribute->setAttribute( EZ_DATATYPESTRING_ENUM_ISMULTIPLE_FIELD, "1" );
             }else{
-                $contentClassAttribute->setAttribute( EZ_DATATYPESTRING_ENUM_ISMULTIPLE_FIELD, '0' );
+                $contentClassAttribute->setAttribute( EZ_DATATYPESTRING_ENUM_ISMULTIPLE_FIELD, "0" );
             }
             if ( $http->hasPostVariable( $isoption ) )
             {
                  $optionValue = $http->postVariable( $isoption );
                  if( $optionValue == 1 )
                  {
-                     $contentClassAttribute->setAttribute( EZ_DATATYPESTRING_ENUM_ISOPTION_FIELD, '1' );
+                     $contentClassAttribute->setAttribute( EZ_DATATYPESTRING_ENUM_ISOPTION_FIELD, "1" );
                  }
                  else
                  {
-                     $contentClassAttribute->setAttribute( EZ_DATATYPESTRING_ENUM_ISOPTION_FIELD, '0' );
+                     $contentClassAttribute->setAttribute( EZ_DATATYPESTRING_ENUM_ISOPTION_FIELD, "0" );
                  }
             }
             $array_enumID = $http->postVariable(  $enumID );
@@ -310,7 +304,7 @@ class eZEnumType extends eZDataType
 
     function storeDefinedClassAttribute( &$contentClassAttribute )
     {
-        $id = $contentClassAttribute->attribute( 'id' );
+        $id = $contentClassAttribute->attribute( "id" );
         $version = 1;
         $enumVersion1 = new eZEnum( $id, $version );
         $enumVersion1->setVersion( 0 );
@@ -322,8 +316,8 @@ class eZEnumType extends eZDataType
     */
     function &classAttributeContent( &$contentClassAttribute )
     {
-        $id = $contentClassAttribute->attribute( 'id' );
-        $version = $contentClassAttribute->attribute( 'version' );
+        $id = $contentClassAttribute->attribute( "id" );
+        $version = $contentClassAttribute->attribute( "version" );
         $enum = new eZEnum( $id, $version );
         return $enum;
     }
@@ -332,19 +326,19 @@ class eZEnumType extends eZDataType
     */
     function customClassAttributeHTTPAction( $http, $action, &$contentClassAttribute )
     {
-        $id = $contentClassAttribute->attribute( 'id' );
+        $id = $contentClassAttribute->attribute( "id" );
         switch ( $action )
         {
-            case 'new_enumelement' :
+            case "new_enumelement" :
             {
                 $enum =& $contentClassAttribute->content( );
-                $enum->addEnumeration('');
+                $enum->addEnumeration("");
                 $contentClassAttribute->setContent( $enum );
             }break;
-            case 'remove_selected' :
+            case "remove_selected" :
             {
-                $version = $contentClassAttribute->attribute( 'version' );
-                $postvarname = 'ContentClass' . '_data_enumremove_' . $contentClassAttribute->attribute( 'id' );
+                $version = $contentClassAttribute->attribute( "version" );
+                $postvarname = "ContentClass" . "_data_enumremove_" . $contentClassAttribute->attribute( "id" );
                 $array_remove = $http->postVariable( $postvarname );
                 foreach( $array_remove as $enumid )
                 {
@@ -353,7 +347,7 @@ class eZEnumType extends eZDataType
             }break;
             default :
             {
-                eZDebug::writeError( 'Unknown custom HTTP action: ' . $action, 'eZEnumType' );
+                eZDebug::writeError( "Unknown custom HTTP action: " . $action, "eZEnumType" );
             }break;
         }
     }
@@ -372,7 +366,7 @@ class eZEnumType extends eZDataType
         foreach ( $enumObjectList as $count => $enumObjectValue )
         {
             if ( $count != 0 )
-                $value .= ', ';
+                $value .= ", ";
             $value .= $enumObjectValue->attribute( 'enumelement' );
         }
 
@@ -384,24 +378,24 @@ class eZEnumType extends eZDataType
     */
     function metaData( $contentObjectAttribute )
     {
-        $contentObjectAttributeID =& $contentObjectAttribute->attribute( 'id' );
-        $contentObjectAttributeVersion =& $contentObjectAttribute->attribute( 'version' );
+        $contentObjectAttributeID =& $contentObjectAttribute->attribute( "id" );
+        $contentObjectAttributeVersion =& $contentObjectAttribute->attribute( "version" );
         $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
-        $id =& $contentClassAttribute->attribute( 'id' );
-        $version =& $contentClassAttribute->attribute( 'version' );
-        $ismultiple = $contentClassAttribute->attribute( 'data_int1' );
-        $isoption = $contentClassAttribute->attribute( 'data_int2' );
+        $id = $contentClassAttribute->attribute( "id" );
+        $version = $contentClassAttribute->attribute( "version" );
+        $ismultiple = $contentClassAttribute->attribute( "data_int1" );
+        $isoption = $contentClassAttribute->attribute( "data_int2" );
 
         $enum = new eZEnum( $id, $version );
         $enum->setIsmultipleValue( $ismultiple );
         $enum->setIsoptionValue( $isoption );
         $enum->setObjectEnumValue( $contentObjectAttributeID, $contentObjectAttributeVersion );
 
-        $return = '';
+        $return = "";
         foreach ( $enum->attribute( 'enumobject_list' ) as $enumElement )
         {
-            $return .= $enumElement->attribute( 'enumvalue' ) . ' ';
-            $return .= $enumElement->attribute( 'enumelement' ) . ' ';
+            $return .= $enumElement->attribute( 'enumvalue' ) . " ";
+            $return .= $enumElement->attribute( 'enumelement' ) . " ";
         }
         return $return;
     }
@@ -422,13 +416,13 @@ class eZEnumType extends eZDataType
         include_once( 'lib/ezxml/classes/ezdomdocument.php' );
         include_once( 'lib/ezxml/classes/ezdomnode.php' );
 
-        $contentObjectAttributeID =& $contentObjectAttribute->attribute( 'id' );
-        $contentObjectAttributeVersion =& $contentObjectAttribute->attribute( 'version' );
+        $contentObjectAttributeID =& $contentObjectAttribute->attribute( "id" );
+        $contentObjectAttributeVersion =& $contentObjectAttribute->attribute( "version" );
         $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
-        $id = $contentClassAttribute->attribute( 'id' );
-        $version = $contentClassAttribute->attribute( 'version' );
-        $ismultiple = $contentClassAttribute->attribute( 'data_int1' );
-        $isoption = $contentClassAttribute->attribute( 'data_int2' );
+        $id = $contentClassAttribute->attribute( "id" );
+        $version = $contentClassAttribute->attribute( "version" );
+        $ismultiple = $contentClassAttribute->attribute( "data_int1" );
+        $isoption = $contentClassAttribute->attribute( "data_int2" );
 
         $enum = new eZEnum( $id, $version );
         $enum->setIsmultipleValue( $ismultiple );
@@ -453,14 +447,6 @@ class eZEnumType extends eZDataType
 
 
         return $node;
-    }
-
-    /*!
-     \reimp
-    */
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        return true;
     }
 
     /*!
@@ -515,6 +501,6 @@ class eZEnumType extends eZDataType
         }
     }
 }
-eZDataType::register( EZ_DATATYPESTRING_ENUM, 'ezenumtype' );
+eZDataType::register( EZ_DATATYPESTRING_ENUM, "ezenumtype" );
 
 ?>

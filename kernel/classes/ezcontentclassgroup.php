@@ -84,7 +84,8 @@ class eZContentClassGroup extends eZPersistentObject
 
     function &create( $userID )
     {
-        $dateTime = time();
+        include_once( "lib/ezlocale/classes/ezdatetime.php" );
+        $dateTime = eZDateTime::currentTimeStamp();
         if ( !$userID )
             $userID = eZUser::currentUserID();
         $row = array(
@@ -127,21 +128,6 @@ class eZContentClassGroup extends eZPersistentObject
     {
         eZPersistentObject::removeObject( eZContentClassGroup::definition(),
                                           array( "id" => $id ) );
-    }
-
-    /*!
-     Fetch Class group by name, and return first result.
-
-     \param name
-     \param asObject
-    */
-    function &fetchByName( $name, $asObject = true )
-    {
-        $conds = array( 'name' => $name );
-        return eZPersistentObject::fetchObject( eZContentClassGroup::definition(),
-                                                null,
-                                                $conds,
-                                                $asObject );
     }
 
     function &fetch( $id, $user_id = false, $asObject = true )

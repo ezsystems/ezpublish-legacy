@@ -136,7 +136,6 @@ if ( $http->hasPostVariable( "RemoveProductItemButton" ) )
             $item->setAttribute( "item_count", $itemCountList[$i] );
             $item->store();
         }
-        
 
         $i++;
     }

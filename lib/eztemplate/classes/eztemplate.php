@@ -249,49 +249,20 @@ define( "EZ_TEMPLATE_NODE_TEXT", 2 );
 define( "EZ_TEMPLATE_NODE_VARIABLE", 3 );
 define( "EZ_TEMPLATE_NODE_FUNCTION", 4 );
 define( "EZ_TEMPLATE_NODE_OPERATOR", 5 );
-
-
 define( "EZ_TEMPLATE_NODE_INTERNAL", 100 );
 define( "EZ_TEMPLATE_NODE_INTERNAL_CODE_PIECE", 101 );
-
-define( "EZ_TEMPLATE_NODE_INTERNAL_VARIABLE_SET", 105 );
 define( "EZ_TEMPLATE_NODE_INTERNAL_VARIABLE_UNSET", 102 );
-
 define( "EZ_TEMPLATE_NODE_INTERNAL_NAMESPACE_CHANGE", 103 );
 define( "EZ_TEMPLATE_NODE_INTERNAL_NAMESPACE_RESTORE", 104 );
-
-define( "EZ_TEMPLATE_NODE_INTERNAL_WARNING", 120 );
-define( "EZ_TEMPLATE_NODE_INTERNAL_ERROR", 121 );
-
-define( "EZ_TEMPLATE_NODE_INTERNAL_RESOURCE_ACQUISITION", 140 );
-
-define( "EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_ASSIGN", 150 );
-define( "EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_READ", 151 );
-define( "EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_INCREASE", 152 );
-define( "EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_DECREASE", 153 );
-
-define( "EZ_TEMPLATE_NODE_INTERNAL_SPACING_INCREASE", 160 );
-define( "EZ_TEMPLATE_NODE_INTERNAL_SPACING_DECREASE", 161 );
-
 define( "EZ_TEMPLATE_NODE_USER_CUSTOM", 1000 );
-
 
 define( "EZ_TEMPLATE_TYPE_VOID", 0 );
 define( "EZ_TEMPLATE_TYPE_STRING", 1 );
 define( "EZ_TEMPLATE_TYPE_NUMERIC", 2 );
 define( "EZ_TEMPLATE_TYPE_IDENTIFIER", 3 );
-define( "EZ_TEMPLATE_TYPE_BOOLEAN", 7 );
-define( "EZ_TEMPLATE_TYPE_ARRAY", 8 );
-define( "EZ_TEMPLATE_TYPE_DYNAMIC_ARRAY", 9 );
 define( "EZ_TEMPLATE_TYPE_VARIABLE", 4 );
 define( "EZ_TEMPLATE_TYPE_ATTRIBUTE", 5 );
 define( "EZ_TEMPLATE_TYPE_OPERATOR", 6 );
-
-define( "EZ_TEMPLATE_TYPE_INTERNAL", 100 );
-define( "EZ_TEMPLATE_TYPE_INTERNAL_CODE_PIECE", 101 );
-define( "EZ_TEMPLATE_TYPE_INTERNAL_STOP", 999 );
-define( "EZ_TEMPLATE_TYPE_PHP_VARIABLE", 102 );
-
 
 define( "EZ_TEMPLATE_TYPE_STRING_BIT", (1 << (EZ_TEMPLATE_TYPE_STRING - 1)) );
 define( "EZ_TEMPLATE_TYPE_NUMERIC_BIT", (1 << (EZ_TEMPLATE_TYPE_NUMERIC - 1)) );
@@ -349,8 +320,6 @@ class eZTemplate
 
         $this->Resources = array();
         $this->Text = null;
-
-        $this->IsCachingAllowed = true;
 
         $this->AutoloadPathList = array( 'lib/eztemplate/classes/' );
         $this->Variables = array();
@@ -452,14 +421,7 @@ class eZTemplate
                 $root =& $resourceData['root-node'];
         }
         eZDebug::accumulatorStop( 'template_load' );
-        if ( $resourceData['locales'] && count( $resourceData['locales'] ) )
-        {
-            $savedLocale = setlocale( LC_CTYPE, null );
-            setlocale( LC_CTYPE, $resourceData['locales'] );
-        }
-
         $text = "";
-
         if ( $root !== null or
              $resourceData['compiled-template'] )
         {
@@ -486,13 +448,7 @@ class eZTemplate
             if ( $this->ShowDetails )
                 eZDebug::addTimingPoint( "Process done" );
         }
-
         eZDebug::accumulatorStop( 'template_total' );
-
-        if ( $resourceData['locales'] && count( $resourceData['locales'] ) )
-        {
-            setlocale( LC_CTYPE, $savedLocale );
-        }
         return $text;
     }
 
@@ -609,40 +565,29 @@ class eZTemplate
 
     function &loadURIData( &$resourceObject, $uri, $resourceName, $template, &$extraParameters, $displayErrors = true )
     {
-        $resourceData = $this->resourceData( $resourceObject, $uri, $resourceName, $template );
-
+//         $text = "";
+//         $tstamp = null;
+//         $resourceData = false;
+//         $templateRoot = null;
+//         $keyData = null;
+        $resourceData = array();
         $resourceData['text'] = null;
         $resourceData['root-node'] = null;
         $resourceData['compiled-template'] = false;
         $resourceData['time-stamp'] = null;
         $resourceData['key-data'] = null;
-        $resourceData['locales'] = null;
-
+        $resourceData['uri'] = $uri;
+        $resourceData['resource'] = $resourceName;
+        $resourceData['template-name'] = $template;
+        $resourceData['template-filename'] = $template;
+        $resourceData['handler'] =& $resourceObject;
+        // $templateRoot, $text, $tstamp, $uri, $resourceName, $template, $keyData
         if ( !$resourceObject->handleResource( $this, $resourceData, EZ_RESOURCE_FETCH, $extraParameters ) )
         {
             $resourceData = null;
             if ( $displayErrors )
                 $this->warning( "", "No template could be loaded for \"$template\" using resource \"$resourceName\"" );
         }
-        return $resourceData;
-    }
-
-    /*!
-     \static
-     Creates a resource data structure of the parameters and returns it.
-     This structure is passed to various parts of the template system.
-
-     \note If you only have the URI you should call resourceFor() first to
-           figure out the resource handler.
-    */
-    function resourceData( &$resourceObject, $uri, $resourceName, $templateName )
-    {
-        $resourceData = array();
-        $resourceData['uri'] = $uri;
-        $resourceData['resource'] = $resourceName;
-        $resourceData['template-name'] = $templateName;
-        $resourceData['template-filename'] = $templateName;
-        $resourceData['handler'] =& $resourceObject;
         return $resourceData;
     }
 
@@ -666,8 +611,6 @@ class eZTemplate
         }
         $canCache = true;
         if ( !$resobj->servesStaticData() )
-            $canCache = false;
-        if ( !$this->isCachingAllowed() )
             $canCache = false;
 
         $resourceData = null;
@@ -710,13 +653,6 @@ class eZTemplate
                $resourceData['root-node'] === null ) )
             return;
         $templateCompilationUsed = false;
-
-        if ( $resourceData['locales'] && count( $resourceData['locales'] ) )
-        {
-            $savedLocale = setlocale( LC_CTYPE, null );
-            setlocale( LC_CTYPE, $resourceData['locales'] );
-        }
-
         if ( $resourceData['compiled-template'] )
         {
             if ( $this->executeCompiledTemplate( $resourceData, $textElements, $rootNamespace, $currentNamespace, $extraParameters ) )
@@ -730,11 +666,6 @@ class eZTemplate
             $this->setIncludeOutput( $uri, $text );
             $textElements[] = $text;
         }
-
-        if ( $resourceData['locales'] && count( $resourceData['locales'] ) )
-        {
-            setlocale( LC_CTYPE, $savedLocale );
-        }
     }
 
     function canCompileTemplate( &$resourceData, &$extraParameters )
@@ -746,29 +677,6 @@ class eZTemplate
         return $canGenerate;
     }
 
-    function compileTemplateFile( $file )
-    {
-        if ( !file_exists( $file ) )
-            return false;
-        $resourceHandler =& $this->resourceFor( $file, $resourceName, $templateName );
-        if ( !$resourceHandler )
-            return false;
-        $resourceData =& $this->resourceData( $resourceHandler, $file, $resourceName, $templateName );
-        $keyData =& $resourceData['key-data'];
-        $keyData = "file:" . $file;
-        $key = md5( $keyData );
-        $extraParameters = array();
-        $resourceHandler->handleResource( $this, $resourceData, EZ_RESOURCE_FETCH, $extraParameters );
-
-        $root =& $resourceData['root-node'];
-        $root = array( EZ_TEMPLATE_NODE_ROOT, false );
-        $templateText =& $resourceData["text"];
-        $rootNamespace = '';
-        $this->parse( $templateText, $root, $rootNamespace, $resourceData );
-
-        return eZTemplateCompiler::compileTemplate( $this, $key, $resourceData );
-    }
-
     function compileTemplate( &$resourceData, &$extraParameters )
     {
         $resourceObject =& $resourceData['handler'];
@@ -778,6 +686,7 @@ class eZTemplate
         $uri = $resourceData['uri'];
         $resourceName = $resourceData['resource'];
         $templatePath = $resourceData['template-name'];
+//         eZDebug::writeDebug( 'Generating compiled template', 'eztemplate' );
         return $resourceObject->compileTemplate( $this, $keyData, $uri, $resourceName, $templatePath, $extraParameters, $resourceData );
     }
 
@@ -791,6 +700,7 @@ class eZTemplate
         $resourceName = $resourceData['resource'];
         $templatePath = $resourceData['template-name'];
         $timestamp = $resourceData['time-stamp'];
+//         eZDebug::writeDebug( 'Executing compiled template', 'eztemplate' );
         return $resourceObject->executeCompiledTemplate( $this, $textElements,
                                                          $keyData, $uri, $resourceData, $templatePath,
                                                          $extraParameters, $timestamp,
@@ -822,21 +732,6 @@ class eZTemplate
             $resobj =& $this->Resources[$res];
         }
         return $resobj;
-    }
-
-    /*!
-     \return The resource handler object for resource name \a $resourceName.
-     \sa resourceFor
-    */
-    function &resourceHandler( $resourceName )
-    {
-        $resource =& $this->DefaultResource;
-        if ( isset( $this->Resources[$resourceName] ) and
-             is_object( $this->Resources[$resourceName] ) )
-        {
-            $resource =& $this->Resources[$resourceName];
-        }
-        return $resource;
     }
 
     function hasChildren( &$function, $functionName )
@@ -902,8 +797,6 @@ class eZTemplate
                 case EZ_TEMPLATE_TYPE_STRING:
                 case EZ_TEMPLATE_TYPE_NUMERIC:
                 case EZ_TEMPLATE_TYPE_IDENTIFIER:
-                case EZ_TEMPLATE_TYPE_BOOLEAN:
-                case EZ_TEMPLATE_TYPE_ARRAY:
                 {
                     $value = $dataElement[1];
                 } break;
@@ -955,7 +848,7 @@ class eZTemplate
                                 unset( $tempValue );
                                 $tempValue =& $value[$attributeValue];
                                 unset( $value );
-                                $value =& $tempValue;
+                                $value = $tempValue;
                             }
                             else
                             {
@@ -983,7 +876,7 @@ class eZTemplate
                                     unset( $tempValue );
                                     $tempValue =& $value->attribute( $attributeValue );
                                     unset( $value );
-                                    $value =& $tempValue;
+                                    $value = $tempValue;
                                 }
                                 else
                                 {
@@ -1036,11 +929,8 @@ class eZTemplate
                     $operatorParameters = $dataElement[1];
                     $operatorName = $operatorParameters[0];
                     $operatorParameters = array_splice( $operatorParameters, 1 );
-                    $valueData = array( 'value' => $value );
                     $this->processOperator( $operatorName, $operatorParameters, $rootNamespace, $currentNamespace,
-                                            $valueData, $placement, $checkExistance );
-                    unset( $value );
-                    $value = $valueData['value'];
+                                            $value, $placement, $checkExistance );
                 } break;
                 default:
                 {
@@ -1050,11 +940,6 @@ class eZTemplate
                     return null;
                 }
             }
-        }
-        if ( is_object( $value ) and
-             method_exists( $value, 'templateValue' ) )
-        {
-            $value =& $value->templateValue();
         }
         return $value;
     }
@@ -1092,7 +977,7 @@ class eZTemplate
     }
 
     function processOperator( $operatorName, $operatorParameters, $rootNamespace, $currentNamespace,
-                              &$valueData, $placement = false, $checkExistance = false )
+                              &$value, $placement = false, $checkExistance = false )
     {
         $namedParameters = array();
         $operatorParameterDefinition = $this->operatorParameterList( $operatorName );
@@ -1131,11 +1016,7 @@ class eZTemplate
         if ( isset( $op ) )
         {
             if ( is_object( $op ) and method_exists( $op, 'modify' ) )
-            {
-                $value = $valueData['value'];
                 $op->modify( $this, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, $value, $namedParameters );
-                $valueData['value'] = $value;
-            }
             else
                 $this->error( '', "Object problem with operator '$operatorName' ",
                               $placement );
@@ -1289,6 +1170,7 @@ class eZTemplate
         if ( isset( $this->Operators[$name] ) and
              is_array( $this->Operators[$name] ) )
         {
+//             eZDebug::writeDebug( $this->Operators[$name], "\$this->Operators[$name]" );
             $this->loadAndRegisterOperators( $this->Operators[$name] );
         }
         $op =& $this->Operators[$name];
@@ -1315,6 +1197,7 @@ class eZTemplate
     {
         if ( is_array( $this->Operators[$operatorName] ) )
         {
+//             eZDebug::writeDebug( $this->Operators[$operatorName], "\$this->Operators[$operatorName]" );
             $this->loadAndRegisterOperators( $this->Operators[$operatorName] );
         }
         $op =& $this->Operators[$operatorName];
@@ -1380,6 +1263,7 @@ class eZTemplate
     */
     function unsetVariable( $var, $namespace = "" )
     {
+//         if ( isset( $this->Variables[$namespace][$var] ) )
         if ( array_key_exists( $namespace, $this->Variables ) and
              array_key_exists( $var, $this->Variables[$namespace] ) )
             unset( $this->Variables[$namespace][$var] );
@@ -1395,6 +1279,7 @@ class eZTemplate
     {
         $exists = ( array_key_exists( $namespace, $this->Variables ) and
                     array_key_exists( $var, $this->Variables[$namespace] ) );
+//         $exists = isset( $this->Variables[$namespace][$var] );
         if ( $exists and count( $attrs ) > 0 )
         {
             $ptr =& $this->Variables[$namespace][$var];
@@ -1435,6 +1320,7 @@ class eZTemplate
         $val = null;
         $exists = ( array_key_exists( $namespace, $this->Variables ) and
                     array_key_exists( $var, $this->Variables[$namespace] ) );
+//         $exists = isset( $this->Variables[$namespace][$var] );
         if ( $exists )
         {
             if ( count( $attrs ) > 0 )
@@ -1524,13 +1410,7 @@ class eZTemplate
     {
         if ( !is_array( $textElements ) )
             $textElements = array();
-        if ( is_object( $item ) and
-             method_exists( $item, 'templateValue' ) )
-        {
-            $item =& $item->templateValue();
-            $textElements[] = "$item";
-        }
-        else if ( is_object( $item ) )
+        if ( is_object( $item ) )
         {
             $hasTemplateData = false;
             if ( method_exists( $item, 'templateData' ) )
@@ -1550,6 +1430,9 @@ class eZTemplate
                         include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
                         $this->setVariableRef( $templateVariableName, $item, $name );
                         eZTemplateIncludeFunction::handleInclude( $textElements, $templateURI, $this, $nspace, $name );
+//                         $this->appendElement( $text, $templateText, $nspace, $name );
+//                         eZDebug::writeDebug( $templateText, 'appendElementText' );
+//                         $this->appendElementText( $textElements, $templateText, $nspace, $name );
                         $hasTemplateData = true;
                     }
                 }
@@ -1601,12 +1484,14 @@ class eZTemplate
                 $functionNames = $functionDefinition['function_names'];
             foreach ( $functionNames as $functionName )
             {
+//                 eZDebug::writeDebug( "Autoload for function $functionName", 'eztemplate:registerAutoloadFunctions' );
                 $this->Functions[$functionName] =& $functionDefinition;
             }
             if ( isset( $functionDefinition['function_attributes'] ) )
             {
                 foreach ( $functionDefinition['function_attributes'] as $functionAttributeName )
                 {
+//                     eZDebug::writeDebug( "Autoload for function attribute $functionAttributeName", 'eztemplate:registerAutoloadFunctions' );
                     unset( $this->FunctionAttributes[$functionAttributeName] );
                     $this->FunctionAttributes[$functionAttributeName] =& $functionDefinition;
                 }
@@ -1619,11 +1504,14 @@ class eZTemplate
     function loadAndRegisterFunctions( $functionDefinition )
     {
         eZDebug::accumulatorStart( 'template_register_function', 'template_total', 'Template load and register function' );
+//         if ( is_object( $this->Functions[$functionName] ) )
+//             return true;
+//         $functionDefinition =& $this->Functions[$functionName];
         $functionObject = null;
         if ( isset( $functionDefinition['function'] ) )
         {
             $function = $functionDefinition['function'];
-//             print( "loadAndRegisterFunction: $function<br/>" );
+//             eZDebug::writeDebug( "registering with function=$function", 'eztemplate:loadAndRegisterFunctions' );
             if ( function_exists( $function ) )
                 $functionObject =& $function();
         }
@@ -1631,7 +1519,7 @@ class eZTemplate
         {
             $script = $functionDefinition['script'];
             $class = $functionDefinition['class'];
-//             print( "loadAndRegisterFunction: $script<br/>" );
+//             eZDebug::writeDebug( "registering with script=$script and class=$class", 'eztemplate:loadAndRegisterFunctions' );
             include_once( $script );
             if ( class_exists( $class ) )
                 $functionObject = new $class();
@@ -1640,8 +1528,10 @@ class eZTemplate
         if ( is_object( $functionObject ) )
         {
             $this->registerFunctionsInternal( $functionObject, true );
+//             eZDebug::writeDebug( "registering was succesful", 'eztemplate:loadAndRegisterFunctions' );
             return true;
         }
+//         eZDebug::writeDebug( "registering failed", 'eztemplate:loadAndRegisterFunctions' );
         return false;
     }
 
@@ -1655,6 +1545,8 @@ class eZTemplate
             return false;
         foreach ( $functionObject->functionList() as $functionName )
         {
+//             if ( $debug )
+//                 eZDebug::writeDebug( "Registering function $functionName", 'eztemplate:registerFunctionsInternal' );
             $this->Functions[$functionName] =& $functionObject;
         }
         if ( method_exists( $functionObject, "attributeList" ) )
@@ -1664,6 +1556,11 @@ class eZTemplate
             {
                 unset( $this->FunctionAttributes[$attributeName] );
                 $this->FunctionAttributes[$attributeName] = $hasChildren;
+//                 if ( $debug )
+//                 {
+//                     eZDebug::writeDebug( "Registering function attribute $attributeName, hasChildren=$hasChildren", 'eztemplate:registerFunctionsInternal' );
+//                     eZDebug::writeDebug( $this->FunctionAttributes[$attributeName], "\$this->FunctionAttributes[$attributeName] #3" );
+//                 }
             }
         }
         return true;
@@ -1731,6 +1628,7 @@ class eZTemplate
                 $operatorNames = $operatorDefinition['operator_names'];
             foreach ( $operatorNames as $operatorName )
             {
+//                 eZDebug::writeDebug( "Autoload for operator $operatorName", 'eztemplate:registerAutoloadOperators' );
                 $this->Operators[$operatorName] =& $operatorDefinition;
             }
         }
@@ -1744,7 +1642,7 @@ class eZTemplate
         if ( isset( $operatorDefinition['function'] ) )
         {
             $function = $operatorDefinition['function'];
-//             print( "loadAndRegisterOperator: $function<br/>" );
+//             eZDebug::writeDebug( "registering with function=$function", 'eztemplate:loadAndRegisterOperators' );
             if ( function_exists( $function ) )
                 $operatorObject =& $function();
         }
@@ -1752,7 +1650,7 @@ class eZTemplate
         {
             $script = $operatorDefinition['script'];
             $class = $operatorDefinition['class'];
-//             print( "loadAndRegisterOperator: $script<br/>" );
+//             eZDebug::writeDebug( "registering with script=$script and class=$class", 'eztemplate:loadAndRegisterOperators' );
             include_once( $script );
             if ( class_exists( $class ) )
             {
@@ -1765,8 +1663,10 @@ class eZTemplate
         if ( is_object( $operatorObject ) )
         {
             $this->registerOperatorsInternal( $operatorObject, true );
+//             eZDebug::writeDebug( "registering was succesful", 'eztemplate:loadAndRegisterOperators' );
             return true;
         }
+//         eZDebug::writeDebug( "registering failed", 'eztemplate:loadAndRegisterOperators' );
         return false;
     }
 
@@ -1788,6 +1688,8 @@ class eZTemplate
             return false;
         foreach( $operatorObject->operatorList() as $operatorName )
         {
+//             if ( $debug )
+//                 eZDebug::writeDebug( "Registering operator $operatorName", 'eztemplate:registerOperatorsInternal' );
             $this->Operators[$operatorName] =& $operatorObject;
         }
     }
@@ -2055,43 +1957,6 @@ class eZTemplate
     }
 
     /*!
-     Resets all template functions and operators by calling the resetFunction and resetOperator
-     on all elements that supports it.
-    */
-    function resetElements()
-    {
-        foreach ( array_keys( $this->Functions ) as $functionName )
-        {
-            $functionObject =& $this->Functions[$functionName];
-            if ( is_object( $functionObject ) and
-                 method_exists( $functionObject, 'resetFunction' ) )
-            {
-                $functionObject->resetFunction( $functionName );
-            }
-        }
-
-        foreach ( array_keys( $this->Operators ) as $operatorName )
-        {
-            $operatorObject =& $this->Operators[$operatorName];
-            if ( is_object( $operatorObject ) and
-                 method_exists( $operatorObject, 'resetOperator' ) )
-            {
-                $operatorObject->resetOperator( $operatorName );
-            }
-        }
-    }
-
-    /*!
-     Resets all template variables, functions and operators.
-    */
-    function reset()
-    {
-        $this->resetVariables();
-        $this->resetElements();
-        $this->IsCachingAllowed = true;
-    }
-
-    /*!
      Returns the globale template instance, creating it if it does not exist.
     */
     function &instance()
@@ -2116,22 +1981,6 @@ class eZTemplate
 
     /*!
      \static
-     \return true if special XHTML code should be included before the included template file.
-             This code will display the template filename in the browser but will eventually
-             break the design.
-    */
-    function isXHTMLCodeIncluded()
-    {
-        if ( !isset( $GLOBALS['eZTemplateDebugXHTMLCodeEnabled'] ) )
-        {
-            $ini =& eZINI::instance();
-            $GLOBALS['eZTemplateDebugXHTMLCodeEnabled'] = $ini->variable( 'TemplateSettings', 'ShowXHTMLCode' ) == 'enabled';
-        }
-        return $GLOBALS['eZTemplateDebugXHTMLCodeEnabled'];
-    }
-
-    /*!
-     \static
      \return true if debugging of internals is enabled, this will display
      which files are loaded and when cache files are created.
       Set the option with setIsDebugEnabled().
@@ -2152,29 +2001,6 @@ class eZTemplate
         $GLOBALS['eZTemplateDebugInternalsEnabled'] = $debug;
     }
 
-    /*!
-      \return \c true if caching is allowed (default) or \c false otherwise.
-              This also affects template compiling.
-      \sa setIsCachingAllowed
-    */
-    function isCachingAllowed()
-    {
-        return $this->IsCachingAllowed;
-    }
-
-    /*!
-      Sets whether caching/compiling is allowed or not. This is useful
-      if you need to make sure templates are parsed and processed
-      without any caching mechanisms.
-      \note The default is to allow caching.
-      \sa isCachingAllowed
-    */
-    function setIsCachingAllowed( $allowed )
-    {
-        $this->IsCachingAllowed = $allowed;
-    }
-
-    /// \privatesection
     /// Associative array of resource objects
     var $Resources;
     /// Reference to the default resource object
@@ -2206,8 +2032,6 @@ class eZTemplate
     var $Literals;
     /// True if output details is to be shown
     var $ShowDetails = false;
-    /// \c true if caching is allowed
-    var $IsCachingAllowed;
 
     var $AutoloadPathList;
 

@@ -49,8 +49,7 @@ class eZBooleanType extends eZDataType
     function eZBooleanType()
     {
         $this->eZDataType( EZ_DATATYPESTRING_BOOLEAN, ezi18n( 'kernel/classes/datatypes', "Checkbox", 'Datatype name' ),
-                           array( 'serialize_supported' => true,
-                                  'object_serialize_map' => array( 'data_int' => 'value' ) ) );
+                           array( 'serialize_supported' => true ) );
     }
 
     /*!
@@ -75,7 +74,7 @@ class eZBooleanType extends eZDataType
         {
             $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
             $default = $contentClassAttribute->attribute( "data_int3" );
-            $contentObjectAttribute->setAttribute( "data_int", $default );
+	    $contentObjectAttribute->setAttribute( "data_int", $default );
         }
     }
 
@@ -97,21 +96,6 @@ class eZBooleanType extends eZDataType
         }
         $contentObjectAttribute->setAttribute( "data_int", $data );
         return true;
-    }
-
-   /*!
-    \reimp
-    Fetches the http post variables for collected information
-   */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
-    {
-        if ( $http->hasPostVariable( $base . "_data_boolean_" . $contentObjectAttribute->attribute( "id" ) ) )
-        {
-            $collectionAttribute->setAttribute( 'data_int', 1 );
-            $attr =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
-            return true;
-        }
-        return false;
     }
 
     function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
@@ -183,17 +167,12 @@ class eZBooleanType extends eZDataType
         return $contentObjectAttribute->attribute( "data_int" );
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        return true;
-    }
-
     /*!
      \reimp
     */
     function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $defaultValue = $classAttribute->attribute( 'data_int3' );
+        $defaultValue = $classAttribute->attribute( 'data_int' );
         $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-value',
                                                                                  array( 'is-set' => $defaultValue ? 'true' : 'false' ) ) );
     }
@@ -204,7 +183,7 @@ class eZBooleanType extends eZDataType
     function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $defaultValue = strtolower( $attributeParametersNode->elementTextContentByName( 'default-value' ) ) == 'true';
-        $classAttribute->setAttribute( 'data_int3', $defaultValue );
+        $classAttribute->setAttribute( 'data_int', $defaultValue );
     }
 }
 

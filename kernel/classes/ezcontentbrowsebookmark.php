@@ -196,16 +196,6 @@ class eZContentBrowseBookmark extends eZPersistentObject
             return $node->attribute( 'contentobject_id' );
         return null;
     }
-
-    /*!
-     \static
-     Removes all bookmark entries for all users.
-    */
-    function cleanup()
-    {
-        $db =& eZDB::instance();
-        $db->query( "DELETE FROM ezcontentbrowsebookmark" );
-    }
 }
 
 ?>

@@ -39,23 +39,7 @@
 
 /*!
   \class eZMimeType ezmimetype.php
-  \ingroup eZUtils
-  \brief Detection and management of MIME types.
-
-  The MIME type structure is an array with the following items:
-  - name     - The name of MIME type, eg. image/jpeg
-  - suffixes - An array with possible suffixes for the filename, the first entry can be used as when creating filenames of the type.
-               If no known suffixes exists this value is \a false
-  - prefixes - An array with possible prefixes for the filename, the first entry can be used as when creating filenames of the type.
-               If no known prefixes exists this value is \a false
-  - is_valid - Boolean which tells whether this MIME type is valid or not, usually this is set to \c false if no
-               match for the file was found in which case the name will also be application/octet-stream
-  - url      - The original url or file supplied to the matching system, can be \c false if buffer matching was used.
-  - filename - Just the filename part of the url
-  - dirpath  - The directory path part of the url
-  - basename - The basename of the filename without suffix or prefix
-  - suffix   - The suffix of the file or \c false if none
-  - prefix   - The prefix of the file or \c false if none
+  \brief The class eZMimeType does
 
 */
 
@@ -66,550 +50,200 @@ class eZMimeType
     */
     function eZMimeType()
     {
-        $this->SuffixList = array();
-        $this->PrefixList = array();
-        $this->MIMEList = array();
-
-        foreach ( $this->QuickMIMETypes as $quickMIMEType )
-        {
-            $mimeEntry =& $this->MIMEList[$quickMIMEType[1]];
-            if ( !isset( $mimeEntry ) )
-                $mimeEntry = array( 'suffixes' => array(),
-                                    'prefixes' => false );
-            $mimeEntry['suffixes'][] = $quickMIMEType[0];
-        }
-
-        eZMimeType::prepareSuffixList( $this->SuffixList, $this->MIMEList );
-        eZMimeType::preparePrefixList( $this->PrefixList, $this->MIMEList );
     }
 
-    /*!
-     \static
-     \return the default MIME-Type, this is used for all files that are not recognized.
-    */
-    function defaultMimeType()
-    {
-        return array( 'name' => 'application/octet-stream',
-                      'url' => false,
-                      'filename' => false,
-                      'dirpath' => false,
-                      'basename' => false,
-                      'suffix' => false,
-                      'prefix' => false,
-                      'suffixes' => false,
-                      'prefixes' => false,
-                      'is_valid' => true );
-    }
-
-    /*!
-     \static
-     \return the defaultMimeType if \a $returnDefault is \c true, otherwise returns \c false.
-    */
-    function defaultValue( $url, $returnDefault )
-    {
-        if ( $returnDefault )
-        {
-            $mime = eZMimeType::defaultMimeType();
-            $mime['url'] = $url;
-            $mime['is_valid'] = false;
-            return $mime;
-        }
-        else
-            return false;
-    }
-
-    /*!
-     Changes the MIME type attribute for the MIME info structure \a $mimeInfo to \a $mimetype,
-     and recreates all the affected fields.
-    */
-    function changeMIMEType( &$mimeInfo, $mimetype )
-    {
-        $mimeInfo['name'] = $mimetype;
-        $newMimeInfo = eZMimeType::findByName( $mimetype );
-        $mimeInfo['suffixes'] = $newMimeInfo['suffixes'];
-        $mimeInfo['prefixes'] = $newMimeInfo['prefixes'];
-        $mimeInfo['suffix'] = $newMimeInfo['suffix'];
-        $mimeInfo['prefix'] = $newMimeInfo['prefix'];
-        $filename = $mimeInfo['filename'];
-        $dotPosition = strrpos( $filename, '.' );
-        $basename = $filename;
-        if ( $dotPosition !== false )
-            $basename = substr( $filename, 0, $dotPosition );
-        $mimeInfo['filename'] = $basename . '.' . $mimeInfo['suffix'];
-        if ( $mimeInfo['dirpath'] )
-            $mimeInfo['url'] = $mimeInfo['dirpath'] . '/' . $mimeInfo['filename'];
-        else
-            $mimeInfo['url'] = $mimeInfo['filename'];
-    }
-
-    /*!
-     Changes the basename attribute for the MIME info structure \a $mimeInfo to \a $basename,
-     and recreates all the affected fields.
-    */
-    function changeBasename( &$mimeInfo, $basename )
-    {
-        $mimeInfo['basename'] = $basename;
-        $mimeInfo['filename'] = $basename . '.' . $mimeInfo['suffix'];
-        if ( $mimeInfo['dirpath'] )
-            $mimeInfo['url'] = $mimeInfo['dirpath'] . '/' . $mimeInfo['filename'];
-        else
-            $mimeInfo['url'] = $mimeInfo['filename'];
-    }
-
-    /*!
-     Changes the basename attribute for the MIME info structure \a $mimeInfo to \a $basename,
-     and recreates all the affected fields.
-    */
-    function changeDirectoryPath( &$mimeInfo, $dirpath )
-    {
-        $mimeInfo['dirpath'] = $dirpath;
-        if ( $mimeInfo['dirpath'] )
-            $mimeInfo['url'] = $mimeInfo['dirpath'] . '/' . $mimeInfo['filename'];
-        else
-            $mimeInfo['url'] = $mimeInfo['filename'];
-    }
-
-    /*!
-     Changes the basename attribute for the MIME info structure \a $mimeInfo to \a $basename,
-     and recreates all the affected fields.
-    */
-    function changeFileData( &$mimeInfo, $dirpath = false, $basename = false, $suffix = false, $filename = false )
-    {
-        if ( $basename !== false )
-            $mimeInfo['basename'] = $basename;
-        if ( $suffix !== false )
-            $mimeInfo['suffix'] = $suffix;
-        if ( $filename !== false )
-        {
-            $mimeInfo['filename'] = $filename;
-        }
-        else
-        {
-            $mimeInfo['filename'] = $mimeInfo['basename'];
-            $mimeInfo['filename'] .= '.' . $mimeInfo['suffix'];
-        }
-        if ( $dirpath !== false )
-            $mimeInfo['dirpath'] = $dirpath;
-
-        if ( $mimeInfo['dirpath'] )
-            $mimeInfo['url'] = $mimeInfo['dirpath'] . '/' . $mimeInfo['filename'];
-        else
-            $mimeInfo['url'] = $mimeInfo['filename'];
-    }
-
-    /*!
-     \return the MIME structure for the MIME type \a $mimeName.
-     If \a $returnDefault is set to \c true then it will always return a MIME structure,
-     if not it will return \c false if none were found.
-    */
-    function findByName( $mimeName, $returnDefault = true )
-    {
-        if ( !isset( $this ) or
-             get_class( $this ) != 'ezmimetype' )
-            $this =& eZMimeType::instance();
-        $mimeList =& $this->MIMEList;
-        if ( isset( $mimeList[$mimeName] ) )
-        {
-            $mime = $mimeList[$mimeName];
-            $mime['name'] = $mimeName;
-            $mime['url'] = false;
-            $mime['filename'] = false;
-            $mime['dirpath'] = false;
-            $mime['basename'] = false;
-            $mime['suffix'] = false;
-            if ( isset( $mime['suffixes'][0] ) )
-                $mime['suffix'] = $mime['suffixes'][0];
-            $mime['prefix'] = false;
-            if ( isset( $mime['prefixes'][0] ) )
-                $mime['prefix'] = $mime['prefixes'][0];
-            $mime['is_valid'] = true;
-            return $mime;
-        }
-        return eZMimeType::defaultValue( false, $returnDefault );
-    }
-
-    /*!
-     \static
-     Finds the MIME type for the url \a $url by examining the url itself (not the content) and returns it.
-     If \a $returnDefault is set to \c true then it will always return a MIME structure,
-     if not it will return \c false if none were found.
-    */
-    function findByURL( $url, $returnDefault = true )
-    {
-        if ( !isset( $this ) or
-             get_class( $this ) != 'ezmimetype' )
-            $this =& eZMimeType::instance();
-        $protocol = 'file';
-        if ( preg_match( "#^([a-zA-Z0-9]+):#", $url, $matches ) )
-        {
-            $protocol = $matches[1];
-        }
-        if ( $protocol != 'file' )
-        {
-            return eZMimeType::defaultValue( $url, $returnDefault );
-        }
-        $file = $url;
-        $dirPosition = strrpos( $url, '/' );
-        if ( $dirPosition !== false )
-            $file = substr( $url, $dirPosition + 1 );
-        $suffixPosition = strrpos( $file, '.' );
-        $suffix = false;
-        $prefix = false;
-        $mimeName = false;
-        if ( $suffixPosition !== false )
-        {
-            $suffix = strtolower( substr( $file, $suffixPosition + 1 ) );
-            if ( $suffix )
-            {
-                $subURL = substr( $file, 0, $suffixPosition );
-                $suffixList =& $this->SuffixList;
-                if ( array_key_exists( $suffix, $suffixList ) )
-                {
-                    $mimeName = $suffixList[$suffix];
-                }
-            }
-            if ( !$mimeName )
-            {
-                $prefixPosition = strpos( $file, '.' );
-                if ( $prefixPosition !== false )
-                {
-                    $prefix = strtolower( substr( $file, 0, $prefixPosition ) );
-                }
-                if ( $prefix )
-                {
-                    $subURL = substr( $file, $suffixPosition + 1 );
-                    $prefixList =& $this->PrefixList;
-                    if ( array_key_exists( $prefix, $prefixList ) )
-                    {
-                        $mimeName = $prefixList[$prefix];
-                    }
-                }
-            }
-            if ( $mimeName )
-            {
-                $mimeList =& $this->MIMEList;
-                if ( array_key_exists( $mimeName, $mimeList ) )
-                {
-                    $lastDirPosition = strrpos( $url, '/' );
-                    $filename = $url;
-                    $dirpath = false;
-                    if ( $lastDirPosition !== false )
-                    {
-                        $filename = substr( $url, $lastDirPosition + 1 );
-                        $dirpath = substr( $url, 0, $lastDirPosition );
-                    }
-                    $lastDirPosition = strrpos( $subURL, '/' );
-                    $basename = $subURL;
-                    if ( $lastDirPosition !== false )
-                        $basename = substr( $subURL, $lastDirPosition + 1 );
-                    $mime = $mimeList[$mimeName];
-                    $mime['name'] = $mimeName;
-                    $mime['url'] = $url;
-                    $mime['filename'] = $filename;
-                    $mime['dirpath'] = $dirpath;
-                    $mime['basename'] = $basename;
-                    $mime['suffix'] = $suffix;
-                    $mime['prefix'] = $prefix;
-                    $mime['is_valid'] = true;
-                    return $mime;
-                }
-            }
-        }
-        return eZMimeType::defaultValue( $url, $returnDefault );
-    }
-
-    /*!
-     \static
-     Finds the MIME type for the url \a $url by examining the contents of the url and returns it.
-     If \a $returnDefault is set to \c true then it will always return a MIME structure,
-     if not it will return \c false if none were found.
-     \note Currently it only calls findByURL()
-    */
-    function findByFileContents( $url, $returnDefault = true )
-    {
-        return eZMimeType::findByURL( $url, $returnDefault );
-    }
-
-    /*!
-     \static
-     Finds the MIME type for the buffer \a $buffer by examining the contents and returns it.
-     If \a $returnDefault is set to \c true then it will always return a MIME structure,
-     if not it will return \c false if none were found.
-     \param $length If specified it will limit how far the \a $buffer is examined
-     \param $offset If specified it will set the starting point for the \a $buffer examination
-     \param $url If specified the url will be used for MIME determination if buffer examination gives no results.
-     \note Currently it only calls findByURL()
-    */
-    function findByBuffer( $buffer, $length = false, $offset = false, $url = false, $returnDefault = true )
-    {
-        return eZMimeType::findByURL( $url, $returnDefault );
-    }
-
-    /*!
-     \static
-     \return the unique instance of the eZMimeType class.
-    */
-    function instance()
-    {
-        $instance =& $GLOBALS['eZMIMETypeInstance'];
-        if ( !isset( $instance ) )
-        {
-            $instance = new eZMimeType();
-        }
-        return $instance;
-    }
-
-    /*!
-     \deprecated
-     \static
-     \return the MIME-Type name for the file \a $file.
-    */
     function mimeTypeFor( $path, $file )
     {
-        eZDebug::writeWarning( 'eZMimeType::mimeTypeFor() is deprecated, use eZMimeType::findByURL() instead',
-                               'DEPRECATED FUNCTION eZMimeType::mimeTypeFor' );
-        $url = $path;
-        if ( $url )
-            $url .= '/' . $file;
-        else
-            $url = $file;
-        $match = eZMimeType::findByURL( $url, false );
-        if ( $match )
-            return $match['name'];
-        else
-            return false;
-    }
-
-    /*!
-     \private
-     Goes trough the mime list and creates a reference to the mime entry using the primary suffix.
-    */
-    function prepareSuffixList( &$suffixList, $mimeList )
-    {
-        foreach ( $mimeList as $mimeName => $mimeData )
+        $extension = false;
+        if ( preg_match( "/\.([^.]+)$/", $file, $matches ) )
         {
-            if ( is_array( $mimeData['suffixes'] ) )
-            {
-                foreach ( $mimeData['suffixes'] as $suffix )
-                {
-                    if ( !isset( $suffixList[$suffix] ) )
-                        $suffixList[$suffix] = $mimeName;
-                }
-            }
+            $extension = strtolower( $matches[1] );
+        }
+        eZDebug::writeNotice( $extension, 'extension' );
+        if ( array_key_exists ( $extension, $this->MIMETypes ) )
+        {
+            return $this->MIMETypes[$extension];
+        }
+        else
+        {
+            return '';
         }
     }
 
-    /*!
-     \private
-     Goes trough the mime list and creates a reference to the mime entry using the primary prefix.
-    */
-    function preparePrefixList( &$prefixList, $mimeList )
-    {
-        foreach ( $mimeList as $mimeName => $mimeData )
-        {
-            if ( is_array( $mimeData['prefixes'] ) )
-            {
-                foreach ( $mimeData['prefixes'] as $prefix )
-                {
-                    if ( !isset( $prefixList[$prefix] ) )
-                        $prefixList[$prefix] = $mimeName;
-                }
-            }
-        }
-    }
 
-    /// \privatesection
-
-    /// An associative array which maps from suffix name to MIME type name.
-    var $SuffixList;
-    /// An associative array which maps from prefix name to MIME type name.
-    var $PrefixList;
-    /// An associative array which maps MIME type name to MIME structure.
-    var $MIMEList;
-
-    var $QuickContentMatch = array(
-        array( array( 0, 'string', 'GIF87a', 'image/gif' ),
-               array( 0, 'string', 'GIF89a', 'image/gif' ) )
+    var $MIMETypes = array(
+        'ez' => 'application/andrew-inset',
+        'hqx' => 'application/mac-binhex40',
+        'cpt' => 'application/mac-compactpro',
+        'doc' => 'application/msword',
+        'bin' => 'application/octet-stream',
+        'dms' => 'application/octet-stream',
+        'lha' => 'application/octet-stream',
+        'lzh' => 'application/octet-stream',
+        'exe' => 'application/octet-stream',
+        'class' => 'application/octet-stream',
+        'oda' => 'application/oda',
+        'pdf' => 'application/pdf',
+        'ai' => 'application/postscript',
+        'eps' => 'application/postscript',
+        'ps' => 'application/postscript',
+        'rtf' => 'application/rtf',
+        'sgml' => 'application/sgml',
+        'ppt' => 'application/vnd.ms-powerpoint',
+        'slc' => 'application/vnd.wap.slc',
+        'sic' => 'application/vnd.wap.sic',
+        'wmlc' => 'application/vnd.wap.wmlc',
+        'wmlsc' => 'application/vnd.wap.wmlscriptc',
+        'bcpio' => 'application/x-bcpio',
+        'bz2' => 'application/x-bzip2',
+        'vcd' => 'application/x-cdlink',
+        'pgn' => 'application/x-chess-pgn',
+        'cpio' => 'application/x-cpio',
+        'csh' => 'application/x-csh',
+        'dcr' => 'application/x-director',
+        'dir' => 'application/x-director',
+        'dxr' => 'application/x-director',
+        'dvi' => 'application/x-dvi',
+        'spl' => 'application/x-futuresplash',
+        'gtar' => 'application/x-gtar',
+        'gz' => 'application/x-gzip',
+        'tgz' => 'application/x-gzip',
+        'hdf' => 'application/x-hdf',
+        'js' => 'application/x-javascript',
+        'kwd' => 'application/x-kword',
+        'kwt' => 'application/x-kword',
+        'ksp' => 'application/x-kspread',
+        'kpr' => 'application/x-kpresenter',
+        'kpt' => 'application/x-kpresenter',
+        'chrt' => 'application/x-kchart',
+        'kil' => 'application/x-killustrator',
+        'skp' => 'application/x-koan',
+        'skd' => 'application/x-koan',
+        'skt' => 'application/x-koan',
+        'skm' => 'application/x-koan',
+        'latex' => 'application/x-latex',
+        'nc' => 'application/x-netcdf',
+        'cdf' => 'application/x-netcdf',
+        'rpm' => 'application/x-rpm',
+        'sh' => 'application/x-sh',
+        'shar' => 'application/x-shar',
+        'swf' => 'application/x-shockwave-flash',
+        'sit' => 'application/x-stuffit',
+        'sv4cpio' => 'application/x-sv4cpio',
+        'sv4crc' => 'application/x-sv4crc',
+        'tar' => 'application/x-tar',
+        'tcl' => 'application/x-tcl',
+        'tex' => 'application/x-tex',
+        'texinfo' => 'application/x-texinfo',
+        'texi' => 'application/x-texinfo',
+        't' => 'application/x-troff',
+        'tr' => 'application/x-troff',
+        'roff' => 'application/x-troff',
+        'man' => 'application/x-troff-man',
+        'me' => 'application/x-troff-me',
+        'ms' => 'application/x-troff-ms',
+        'ustar' => 'application/x-ustar',
+        'src' => 'application/x-wais-source',
+        'zip' => 'application/zip',
+        'mid' => 'audio/midi',
+        'midi' => 'audio/midi',
+        'kar' => 'audio/midi',
+        'mpga' => 'audio/mpeg',
+        'mp2' => 'audio/mpeg',
+        'mp3' => 'audio/mpeg',
+        'ra' => 'audio/x-realaudio',
+        'pdb' => 'chemical/x-pdb',
+        'xyz' => 'chemical/x-pdb',
+        'gif' => 'image/gif',
+        'ief' => 'image/ief',
+        'jpeg' => 'image/jpeg',
+        'jpg' => 'image/jpeg',
+        'jpe' => 'image/jpeg',
+        'png' => 'image/png',
+        'tiff' => 'image/tiff',
+        'tif' => 'image/tiff',
+        'wbmp' => 'image/vnd.wap.wbmp',
+        'ras' => 'image/x-cmu-raster',
+        'pnm' => 'image/x-portable-anymap',
+        'pbm' => 'image/x-portable-bitmap',
+        'pgm' => 'image/x-portable-graymap',
+        'ppm' => 'image/x-portable-pixmap',
+        'psd' => 'application/x-photoshop',
+        'rgb' => 'image/x-rgb',
+        'xbm' => 'image/x-xbitmap',
+        'xpm' => 'image/x-xpixmap',
+        'xwd' => 'image/x-xwindowdump',
+        'igs' => 'model/iges',
+        'iges' => 'model/iges',
+        'msh' => 'model/mesh',
+        'mesh' => 'model/mesh',
+        'silo' => 'model/mesh',
+        'wrl' => 'model/vrml',
+        'vrml' => 'model/vrml',
+        'css' => 'text/css',
+        'asc' => 'text/plain',
+        'txt' => 'text/plain',
+        'rtx' => 'text/richtext',
+        'rtf' => 'text/rtf',
+        'sgml' => 'text/sgml',
+        'sgm' => 'text/sgml',
+        'tsv' => 'text/tab-separated-values',
+        'sl' => 'text/vnd.wap.sl',
+        'si' => 'text/vnd.wap.si',
+        'wml' => 'text/vnd.wap.wml',
+        'wmls' => 'text/vnd.wap.wmlscript',
+        'etx' => 'text/x-setext',
+        'xml' => 'text/xml',
+        'mpeg' => 'video/mpeg',
+        'mpg' => 'video/mpeg',
+        'mpe' => 'video/mpeg',
+        'qt' => 'video/quicktime',
+        'mov' => 'video/quicktime',
+        'avi' => 'video/x-msvideo',
+        'movie' => 'video/x-sgi-movie',
+        'ice' => 'x-conference/x-cooltalk',
+        'rmm' => 'audio/x-pn-realaudio',
+        'ram' => 'audio/x-pn-realaudio',
+        'ra' => 'audio/vnd.rn-realaudio',
+        'smi' => 'application/smil',
+        'smil' => 'application/smil',
+        'rt' => 'text/vnd.rn-realtext',
+        'rv' => 'video/vnd.rn-realvideo',
+        'rf' => 'image/vnd.rn-realflash',
+        'swf' => 'image/vnd.rn-realflash',
+        'rf' => 'application/x-shockwave-flash2-preview',
+        'swf' => 'application/x-shockwave-flash2-preview',
+        'sdp' => 'application/sdp',
+        'sdp' => 'application/x-sdp',
+        'rm' => 'application/vnd.rn-realmedia',
+        'rp' => 'image/vnd.rn-realpix',
+        'wav' => 'audio/wav',
+        'wav' => 'audio/x-wav',
+        'wav' => 'audio/x-pn-wav',
+        'wav' => 'audio/x-pn-windows-acm',
+        'au' => 'audio/basic',
+        'au' => 'audio/x-pn-au',
+        'aiff' => 'audio/aiff',
+        'af' => 'audio/aiff',
+        'aiff' => 'audio/x-aiff',
+        'af' => 'audio/x-aiff',
+        'aiff' => 'audio/x-pn-aiff',
+        'af' => 'audio/x-pn-aiff',
+        'html' => 'text/html',
+        'htm' => 'text/html'
         );
 
-    /// A list of suffixes and their MIME types, this is used to quickly initialize the system.
-    /// Should be removed to a .ini file or other external file
-    var $QuickMIMETypes = array(
-        array( 'ezpkg', 'application/x-ezpublish-package' ),
-        array( 'ez', 'application/andrew-inset' ),
-        array( 'hqx', 'application/mac-binhex40' ),
-        array( 'cpt', 'application/mac-compactpro' ),
-        array( 'doc', 'application/msword' ),
-        array( 'bin', 'application/octet-stream' ),
-        array( 'dms', 'application/octet-stream' ),
-        array( 'lha', 'application/octet-stream' ),
-        array( 'lzh', 'application/octet-stream' ),
-        array( 'exe', 'application/octet-stream' ),
-        array( 'class', 'application/octet-stream' ),
-        array( 'oda', 'application/oda' ),
-        array( 'pdf', 'application/pdf' ),
-        array( 'ps', 'application/postscript' ),
-        array( 'eps', 'application/postscript' ),
-        array( 'ai', 'application/postscript' ),
-        array( 'rtf', 'application/rtf' ),
-        array( 'sgml', 'application/sgml' ),
-        array( 'ppt', 'application/vnd.ms-powerpoint' ),
-        array( 'xls', 'application/vnd.ms-excel' ),
-        array( 'slc', 'application/vnd.wap.slc' ),
-        array( 'sic', 'application/vnd.wap.sic' ),
-        array( 'wmlc', 'application/vnd.wap.wmlc' ),
-        array( 'wmlsc', 'application/vnd.wap.wmlscriptc' ),
-        array( 'bcpio', 'application/x-bcpio' ),
-        array( 'bz2', 'application/x-bzip2' ),
-        array( 'vcd', 'application/x-cdlink' ),
-        array( 'pgn', 'application/x-chess-pgn' ),
-        array( 'cpio', 'application/x-cpio' ),
-        array( 'csh', 'application/x-csh' ),
-        array( 'dcr', 'application/x-director' ),
-        array( 'dir', 'application/x-director' ),
-        array( 'dxr', 'application/x-director' ),
-        array( 'dvi', 'application/x-dvi' ),
-        array( 'spl', 'application/x-futuresplash' ),
-        array( 'gtar', 'application/x-gtar' ),
-        array( 'gz', 'application/x-gzip' ),
-        array( 'tgz', 'application/x-gzip' ),
-        array( 'hdf', 'application/x-hdf' ),
-        array( 'js', 'application/x-javascript' ),
-        array( 'kwd', 'application/x-kword' ),
-        array( 'kwt', 'application/x-kword' ),
-        array( 'ksp', 'application/x-kspread' ),
-        array( 'kpr', 'application/x-kpresenter' ),
-        array( 'kpt', 'application/x-kpresenter' ),
-        array( 'chrt', 'application/x-kchart' ),
-        array( 'kil', 'application/x-killustrator' ),
-        array( 'skp', 'application/x-koan' ),
-        array( 'skd', 'application/x-koan' ),
-        array( 'skt', 'application/x-koan' ),
-        array( 'skm', 'application/x-koan' ),
-        array( 'latex', 'application/x-latex' ),
-        array( 'nc', 'application/x-netcdf' ),
-        array( 'cdf', 'application/x-netcdf' ),
-        array( 'rpm', 'application/x-rpm' ),
-        array( 'sh', 'application/x-sh' ),
-        array( 'shar', 'application/x-shar' ),
-        array( 'swf', 'application/x-shockwave-flash' ),
-        array( 'sit', 'application/x-stuffit' ),
-        array( 'sv4cpio', 'application/x-sv4cpio' ),
-        array( 'sv4crc', 'application/x-sv4crc' ),
-        array( 'tar', 'application/x-tar' ),
-        array( 'tcl', 'application/x-tcl' ),
-        array( 'tex', 'application/x-tex' ),
-        array( 'texinfo', 'application/x-texinfo' ),
-        array( 'texi', 'application/x-texinfo' ),
-        array( 't', 'application/x-troff' ),
-        array( 'tr', 'application/x-troff' ),
-        array( 'roff', 'application/x-troff' ),
-        array( 'man', 'application/x-troff-man' ),
-        array( 'me', 'application/x-troff-me' ),
-        array( 'ms', 'application/x-troff-ms' ),
-        array( 'ustar', 'application/x-ustar' ),
-        array( 'src', 'application/x-wais-source' ),
-        array( 'zip', 'application/zip' ),
-        array( 'mid', 'audio/midi' ),
-        array( 'midi', 'audio/midi' ),
-        array( 'kar', 'audio/midi' ),
-        array( 'mpga', 'audio/mpeg' ),
-        array( 'mp2', 'audio/mpeg' ),
-        array( 'mp3', 'audio/mpeg' ),
-        array( 'ra', 'audio/x-realaudio' ),
-        array( 'pdb', 'chemical/x-pdb' ),
-        array( 'xyz', 'chemical/x-pdb' ),
-        array( 'gif', 'image/gif' ),
-        array( 'ief', 'image/ief' ),
-        array( 'jpg', 'image/jpeg' ),
-        array( 'jpeg', 'image/jpeg' ),
-        array( 'jpe', 'image/jpeg' ),
-        array( 'png', 'image/png' ),
-        array( 'tif', 'image/tiff' ),
-        array( 'tiff', 'image/tiff' ),
-        array( 'pcx', 'image/x-pcx' ),
-        array( 'svg', 'image/svg+xml' ),
-        array( 'svgz', 'image/svg+xml' ),
-        array( 'wbmp', 'image/vnd.wap.wbmp' ),
-        array( 'ras', 'image/x-cmu-raster' ),
-        array( 'pnm', 'image/x-portable-anymap' ),
-        array( 'pbm', 'image/x-portable-bitmap' ),
-        array( 'pgm', 'image/x-portable-graymap' ),
-        array( 'ppm', 'image/x-portable-pixmap' ),
-        array( 'rgb', 'image/x-rgb' ),
-        array( 'xbm', 'image/x-xbitmap' ),
-        array( 'xpm', 'image/x-xpixmap' ),
-        array( 'xwd', 'image/x-xwindowdump' ),
-        array( 'bmp', 'image/bmp' ),
-        array( 'pict', 'image/x-pict' ),
-        array( 'pct', 'image/x-pict' ),
-        array( 'tga', 'image/tga' ),
-        array( 'xcf', 'image/x-xcf-gimp' ),
-        array( 'psd', 'application/x-photoshop' ),
-        array( 'igs', 'model/iges' ),
-        array( 'iges', 'model/iges' ),
-        array( 'msh', 'model/mesh' ),
-        array( 'mesh', 'model/mesh' ),
-        array( 'silo', 'model/mesh' ),
-        array( 'wrl', 'model/vrml' ),
-        array( 'vrml', 'model/vrml' ),
-        array( 'css', 'text/css' ),
-        array( 'txt', 'text/plain' ),
-        array( 'asc', 'text/plain' ),
-        array( 'rtx', 'text/richtext' ),
-        array( 'rtf', 'text/rtf' ),
-        array( 'sgml', 'text/sgml' ),
-        array( 'sgm', 'text/sgml' ),
-        array( 'tsv', 'text/tab-separated-values' ),
-        array( 'sl', 'text/vnd.wap.sl' ),
-        array( 'si', 'text/vnd.wap.si' ),
-        array( 'wml', 'text/vnd.wap.wml' ),
-        array( 'wmls', 'text/vnd.wap.wmlscript' ),
-        array( 'etx', 'text/x-setext' ),
-        array( 'xml', 'text/xml' ),
-        array( 'mpeg', 'video/mpeg' ),
-        array( 'mpg', 'video/mpeg' ),
-        array( 'mpe', 'video/mpeg' ),
-        array( 'qt', 'video/quicktime' ),
-        array( 'mov', 'video/quicktime' ),
-        array( 'avi', 'video/x-msvideo' ),
-        array( 'movie', 'video/x-sgi-movie' ),
-        array( 'ice', 'x-conference/x-cooltalk' ),
-        array( 'rmm', 'audio/x-pn-realaudio' ),
-        array( 'ram', 'audio/x-pn-realaudio' ),
-        array( 'ra', 'audio/vnd.rn-realaudio' ),
-        array( 'smi', 'application/smil' ),
-        array( 'smil', 'application/smil' ),
-        array( 'rt', 'text/vnd.rn-realtext' ),
-        array( 'rv', 'video/vnd.rn-realvideo' ),
-        array( 'rf', 'image/vnd.rn-realflash' ),
-        array( 'swf', 'image/vnd.rn-realflash' ),
-        array( 'rf', 'application/x-shockwave-flash2-preview' ),
-        array( 'swf', 'application/x-shockwave-flash2-preview' ),
-        array( 'sdp', 'application/sdp' ),
-        array( 'sdp', 'application/x-sdp' ),
-        array( 'rm', 'application/vnd.rn-realmedia' ),
-        array( 'rp', 'image/vnd.rn-realpix' ),
-        array( 'wav', 'audio/wav' ),
-        array( 'wav', 'audio/x-wav' ),
-        array( 'wav', 'audio/x-pn-wav' ),
-        array( 'wav', 'audio/x-pn-windows-acm' ),
-        array( 'au', 'audio/basic' ),
-        array( 'au', 'audio/x-pn-au' ),
-        array( 'aiff', 'audio/aiff' ),
-        array( 'af', 'audio/aiff' ),
-        array( 'aiff', 'audio/x-aiff' ),
-        array( 'af', 'audio/x-aiff' ),
-        array( 'aiff', 'audio/x-pn-aiff' ),
-        array( 'af', 'audio/x-pn-aiff' ),
-        array( 'html', 'text/html' ),
-        array( 'htm', 'text/html' ),
-        array( 'sxw', 'application/vnd.sun.xml.writer' ),
-        array( 'sxc', 'application/vnd.sun.xml.calc' ),
-        array( 'sxi', 'application/vnd.sun.xml.impress' ),
-        array( 'asf', 'video/x-ms-asf' ),
-        array( 'wmv', 'video/x-ms-wmv' )
-        );
+
+
+
+
+
 }
+
+
+
+
+
+
 
 ?>

@@ -100,106 +100,6 @@ class eZTemplateBlockFunction
         return array( $this->BlockName, $this->AppendBlockName, $this->OnceName );
     }
 
-    function functionTemplateHints()
-    {
-        return array( $this->BlockName => array( 'parameters' => true,
-                                                 'static' => false,
-                                                 'transform-children' => true,
-                                                 'tree-transformation' => true,
-                                                 'transform-parameters' => true ),
-                      $this->AppendBlockName => array( 'parameters' => true,
-                                                       'static' => false,
-                                                       'transform-children' => true,
-                                                       'tree-transformation' => true,
-                                                       'transform-parameters' => true ),
-                      $this->OnceName => array( 'parameters' => false,
-                                                'static' => false,
-                                                'transform-children' => true,
-                                                'tree-transformation' => true ) );
-    }
-
-    function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, $parameters, $privateData )
-    {
-        if ( $functionName == $this->BlockName or
-             $functionName == $this->AppendBlockName )
-        {
-            if ( !isset( $parameters['variable'] ) )
-                return false;
-
-            $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE;
-            if ( isset( $parameters['scope'] ) )
-            {
-                if ( !eZTemplateNodeTool::isStaticElement( $parameters['scope'] ) )
-                    return false;
-                $scopeText = eZTemplateNodeTool::elementStaticValue( $parameters['scope'] );
-                if ( $scopeText == 'relative' )
-                    $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE;
-                else if ( $scopeText == 'root' )
-                    $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL;
-                else if ( $scopeText == 'global' )
-                    $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_GLOBAL;
-            }
-
-            $name = '';
-            if ( isset( $parameters['name'] ) )
-            {
-                if ( !eZTemplateNodeTool::isStaticElement( $parameters['name'] ) )
-                    return false;
-                $name = eZTemplateNodeTool::elementStaticValue( $parameters['name'] );
-            }
-            $variableName = eZTemplateNodeTool::elementStaticValue( $parameters['variable'] );
-
-            $newNodes = array();
-
-            $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
-
-            $newNodes[] = eZTemplateNodeTool::createOutputVariableIncreaseNode();
-            $newNodes = array_merge( $newNodes, $children );
-            $newNodes[] = eZTemplateNodeTool::createAssignFromOutputVariableNode( 'blockText' );
-            if ( $functionName == $this->AppendBlockName )
-            {
-                $data = array( eZTemplateNodeTool::createVariableElement( $variableName, $name, $scope ) );
-                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $data, false, array(),
-                                                                      'blockData' );
-                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$blockData[] = \$blockText;" );
-                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'blockData', false, array(),
-                                                                      array( $name, $scope, $variableName ), false, true, true );
-                $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( 'blockData' );
-            }
-            else
-            {
-                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'blockText', false, array(),
-                                                                      array( $name, $scope, $variableName ), false, true, true );
-            }
-            $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( 'blockText' );
-            $newNodes[] = eZTemplateNodeTool::createOutputVariableDecreaseNode();
-
-            return $newNodes;
-        }
-        else if ( $functionName == $this->OnceName )
-        {
-            $functionPlacement = eZTemplateNodeTool::extractFunctionNodePlacement( $node );
-            $key = $this->placementKey( $functionPlacement );
-            $newNodes = array();
-            if ( $key !== false )
-            {
-                $keyText = eZPHPCreator::variableText( $key, 0, 0, false );
-                $placementText = eZPHPCreator::variableText( $functionPlacement, 0, 0, false );
-                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( !isset( \$GLOBALS['eZTemplateRunOnceKeys'][$keyText] ) )\n" .
-                                                                       "{\n" .
-                                                                       "    \$GLOBALS['eZTemplateRunOnceKeys'][$keyText] = $placementText;" );
-                $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
-                $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode( 4 );
-                $newNodes = array_merge( $newNodes, $children );
-                $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode( 4 );
-                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}" );
-            }
-            return $newNodes;
-        }
-        return false;
-    }
-
     /*!
      Processes the function with all it's children.
     */
@@ -293,14 +193,6 @@ class eZTemplateBlockFunction
                     }
                 }
             } break;
-        }
-    }
-
-    function resetFunction( $functionName )
-    {
-        if ( $functionName == $this->OnceName )
-        {
-            unset( $GLOBALS['eZTemplateRunOnceKeys'] );
         }
     }
 

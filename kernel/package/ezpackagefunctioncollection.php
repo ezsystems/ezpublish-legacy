@@ -54,217 +54,25 @@ class eZPackageFunctionCollection
     {
     }
 
-    function &fetchList( $filterArray = false, $offset, $limit, $repositoryID )
+    function &fetchList( $offset, $limit )
     {
-        $filterParams = array();
-        $filterList = false;
-        if ( isset( $filterArray ) and
-             is_array( $filterArray ) and
-             count( $filterArray ) > 0 )
-        {
-            $filterList = $filterArray;
-            if ( count( $filterArray ) > 1 and
-                 !is_array( $filterArray[0] ) )
-            {
-                $filterList = array( $filterArray );
-            }
-        }
-        if ( $filterList !== false )
-        {
-            foreach ( $filterList as $filter )
-            {
-                if ( is_array( $filter ) and count( $filter ) > 0 )
-                {
-                    $filterName = $filter[0];
-                    switch ( $filterName )
-                    {
-                        case 'type':
-                        {
-                            $typeValue = $filter[1];
-                            $typeParam = array( 'type' => $typeValue );
-                            $filterParams = array_merge( $filterParams, $typeParam );
-                        } break;
-                        case 'priority':
-                        {
-                            $priorityValue = $filter[1];
-                            $priorityParam = array( 'priority' => $priorityValue );
-                            $filterParams = array_merge( $filterParams, $priorityParam );
-                        } break;
-                        case 'vendor':
-                        {
-                            $vendorValue = $filter[1];
-                            $vendorParam = array( 'vendor' => $vendorValue );
-                            $filterParams = array_merge( $filterParams, $vendorParam );
-                        } break;
-                        case 'extension':
-                        {
-                            $extensionValue = $filter[1];
-                            $extensionParam = array( 'extension' => $extensionValue );
-                            $filterParams = array_merge( $filterParams, $extensionParam );
-                        } break;
-                        default:
-                        {
-                            eZDebug::writeWarning( 'Unknown package filter name: ' . $filterName );
-                            continue;
-                        };
-                    }
-                }
-            }
-        }
-        $params = array( 'offset' => $offset,
-                         'limit' => $limit );
-        if ( $repositoryID )
-            $params['repository_id'] = $repositoryID;
-
         include_once( 'kernel/classes/ezpackage.php' );
-        $packageList =& eZPackage::fetchPackages( $params,
-                                                  $filterParams );
+        $packageList =& eZPackage::fetchPackages( array( 'offset' => $offset,
+                                                         'limit' => $limit ) );
         if ( $packageList === null )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
         return array( 'result' => $packageList );
     }
 
-    function &fetchPackage( $packageName, $repositoryID )
+    function &fetchPackage( $packageName )
     {
         include_once( 'kernel/classes/ezpackage.php' );
-        $package =& eZPackage::fetch( $packageName, false, $repositoryID );
+        $package =& eZPackage::fetch( $packageName );
         if ( $package === false )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
         return array( 'result' => $package );
-    }
-
-    function &fetchDependentPackageList( $packageName, $filterArray = false, $repositoryID )
-    {
-        $filterParams = array();
-        $filterList = false;
-        if ( isset( $filterArray ) and
-             is_array( $filterArray ) and
-             count( $filterArray ) > 0 )
-        {
-            $filterList = $filterArray;
-            if ( count( $filterArray ) > 1 and
-                 !is_array( $filterArray[0] ) )
-            {
-                $filterList = array( $filterArray );
-            }
-        }
-        if ( $filterList !== false )
-        {
-            foreach ( $filterList as $filter )
-            {
-                if ( is_array( $filter ) and count( $filter ) > 0 )
-                {
-                    $filterName = $filter[0];
-                    switch ( $filterName )
-                    {
-                        case 'type':
-                        {
-                            $typeValue = $filter[1];
-                            $typeParam = array( 'type' => $typeValue );
-                            $filterParams = array_merge( $filterParams, $typeParam );
-                        } break;
-                        case 'name':
-                        {
-                            $nameValue = $filter[1];
-                            $nameParam = array( 'name' => $nameValue );
-                            $filterParams = array_merge( $filterParams, $nameParam );
-                        } break;
-                        case 'priority':
-                        {
-                            $priorityValue = $filter[1];
-                            $priorityParam = array( 'priority' => $priorityValue );
-                            $filterParams = array_merge( $filterParams, $priorityParam );
-                        } break;
-                        case 'vendor':
-                        {
-                            $vendorValue = $filter[1];
-                            $vendorParam = array( 'vendor' => $vendorValue );
-                            $filterParams = array_merge( $filterParams, $vendorParam );
-                        } break;
-                        case 'extension':
-                        {
-                            $extensionValue = $filter[1];
-                            $extensionParam = array( 'extension' => $extensionValue );
-                            $filterParams = array_merge( $filterParams, $extensionParam );
-                        } break;
-                        default:
-                        {
-                            eZDebug::writeWarning( 'Unknown package filter name: ' . $filterName );
-                            continue;
-                        };
-                    }
-                }
-            }
-        }
-        include_once( 'kernel/classes/ezpackage.php' );
-        $package =& eZPackage::fetch( $packageName, false, $repositoryID );
-        $packageList =& $package->fetchDependentPackages( $filterParams );
-        if ( $packageList === false )
-            return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-        return array( 'result' => $packageList );
-    }
-
-    function &fetchMaintainerRoleList( $packageType, $checkRoles )
-    {
-        include_once( 'kernel/classes/ezpackage.php' );
-        $list =& eZPackage::fetchMaintainerRoleList( $packageType, $checkRoles );
-        if ( $list === false )
-            return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-        return array( 'result' => $list );
-    }
-
-    function &fetchRepositoryList()
-    {
-        include_once( 'kernel/classes/ezpackage.php' );
-        $list =& eZPackage::packageRepositories();
-        if ( $list === false )
-            return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-        return array( 'result' => $list );
-    }
-
-    function &canCreate()
-    {
-        return array( 'result' => eZPackage::canUsePolicyFunction( 'create' ) );
-    }
-
-    function &canEdit()
-    {
-        return array( 'result' => eZPackage::canUsePolicyFunction( 'edit' ) );
-    }
-
-    function &canImport()
-    {
-        return array( 'result' => eZPackage::canUsePolicyFunction( 'import' ) );
-    }
-
-    function &canInstall()
-    {
-        return array( 'result' => eZPackage::canUsePolicyFunction( 'install' ) );
-    }
-
-    function &canExport()
-    {
-        return array( 'result' => eZPackage::canUsePolicyFunction( 'export' ) );
-    }
-
-    function &canRead()
-    {
-        return array( 'result' => eZPackage::canUsePolicyFunction( 'read' ) );
-    }
-
-    function &canList()
-    {
-        return array( 'result' => eZPackage::canUsePolicyFunction( 'list' ) );
-    }
-
-    function &canRemove()
-    {
-        return array( 'result' => eZPackage::canUsePolicyFunction( 'remove' ) );
     }
 }
 

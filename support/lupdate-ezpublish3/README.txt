@@ -10,7 +10,7 @@ Translation/Internationalization (i18n) of eZ publish 3
 
 Copyrights
 ----------
-"eZ publish" is Copyright (C) 1999-2003 eZ systems as. All rights reserved.
+"eZ publish" is Copyright (C) 1999-2004 eZ systems as. All rights reserved.
 "Trolltech", "Qt" and "Qt Linguist" are Copyright (C) 2000-2001 Trolltech AS.
 All rights reserved.
 

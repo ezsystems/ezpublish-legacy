@@ -211,10 +211,7 @@ function &generateNodeViewTemplate( &$http, $template, $fileName )
             $fp = fopen( $fileName, 'rb' );
             if ( $fp )
             {
-                $codeFromFile = fread( $fp, filesize( $fileName ) );
-
-                // Remove the "{* DO NOT EDIT... *}" first line (if exists).
-                $templateCode = preg_replace('@^{\*\s*DO\sNOT\sEDIT.*?\*}\n(.*)@s', '$1', $codeFromFile);
+                $templateCode = fread( $fp, filesize( $fileName ) );
             }
             else
             {
@@ -306,10 +303,7 @@ function &generateObjectViewTemplate( &$http, $template, $fileName )
             $fp = fopen( $fileName, 'rb' );
             if ( $fp )
             {
-                $codeFromFile = fread( $fp, filesize( $fileName ) );
-
-                // Remove the "{* DO NOT EDIT... *}" first line (if exists).
-                $templateCode = preg_replace('@^{\*\s*DO\sNOT\sEDIT.*?\*}\n(.*)@s', '$1', $codeFromFile);
+                $templateCode = fread( $fp, filesize( $fileName ) );
             }
             else
             {
@@ -359,10 +353,7 @@ function &generatePagelayoutTemplate( &$http, $template, $fileName )
             $fp = fopen( $fileName, 'rb' );
             if ( $fp )
             {
-                $codeFromFile = fread( $fp, filesize( $fileName ) );
-
-                // Remove the "{* DO NOT EDIT... *}" first line (if exists).
-                $templateCode = preg_replace('@^{\*\s*DO\sNOT\sEDIT.*?\*}\n(.*)@s', '$1', $codeFromFile);
+                $templateCode = fread( $fp, filesize( $fileName ) );
             }
             else
             {
@@ -408,10 +399,7 @@ function &generateDefaultTemplate( &$http, $template, $fileName )
             $fp = fopen( $fileName, 'rb' );
             if ( $fp )
             {
-                $codeFromFile = fread( $fp, filesize( $fileName ) );
-
-                // Remove the "{* DO NOT EDIT... *}" first line (if exists).
-                $templateCode = preg_replace('@^{\*\s*DO\sNOT\sEDIT.*?\*}\n(.*)@s', '$1', $codeFromFile);
+                $templateCode = fread( $fp, filesize( $fileName ) );
             }
             else
             {

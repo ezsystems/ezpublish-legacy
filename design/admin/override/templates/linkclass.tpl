@@ -1,5 +1,5 @@
 {* Link admin view template *}
-
+        
 {default with_children=false()
          is_editable=true()
 	 is_standalone=true()
@@ -12,15 +12,16 @@
 {/section}
 
 <div class="objectheader">
-    <h2>{$node_name|wash} [{'Link'|i18n('design/admin/node/view')}], {'Node ID'|i18n( 'design/standard/node/view' )}: {$node.node_id}, {'Object ID'|i18n( 'design/standard/node/view' )}: {$node.object.id}</h2>
+    <h2>{'Link'|i18n('design/admin/node/view')}</h2>
 </div>
 
 <div class="object">
+    <h1>{$node_name|wash}</h1>
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
     <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
     {attribute_view_gui attribute=$node.object.data_map.description}
 
-    <p>{attribute_view_gui attribute=$node.object.data_map.location}</p>
+    <p>{attribute_view_gui attribute=$node.object.data_map.link}</p>
 
     <div class="buttonblock">
         {section show=and($is_editable,$content_object.can_edit)}
@@ -28,7 +29,7 @@
             <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
         {/section}
     <input class="button" type="submit" name="ActionPreview" value="{'Preview'|i18n('design/standard/node/view')}" />
-    {*<input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/standard/node/view')}" />*}
+    <input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/standard/node/view')}" />
     <input class="button" type="submit" name="ActionAddToBookmarks" value="{'Bookmark'|i18n('design/standard/node/view')}" />
     <input class="button" type="submit" name="ActionAddToNotification" value="{'Keep me updated'|i18n('design/standard/node/view')}" />
     </div>

@@ -77,17 +77,14 @@ if ( $Module->isCurrentAction( 'Login' ) and
             if ( $http->hasSessionVariable( "LastAccessesURI" ) )
                 $userRedirectURI = $http->sessionVariable( "LastAccessesURI" );
         }
-
-        if ( $http->hasSessionVariable( "RedirectAfterLogin" ) )
-        {
-            $userRedirectURI = $http->sessionVariable( "RedirectAfterLogin" );
-        }
     }
 
     $user = false;
     if ( $userLogin != '' )
     {
-        $http->removeSessionVariable( 'RedirectAfterLogin' );
+        /* $user = eZUser::loginUser( $userLogin, $userPassword );
+        if ( get_class( $user ) != 'ezuser' )
+            $loginWarning = true;*/
 
         $ini =& eZINI::instance();
         if ( $ini->hasVariable( 'UserSettings', 'LoginHandler' ) )

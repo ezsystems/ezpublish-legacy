@@ -53,7 +53,6 @@ class eZApproveType extends eZWorkflowEventType
     function eZApproveType()
     {
         $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_APPROVE_ID, ezi18n( 'kernel/workflow/event', "Approve" ) );
-        $this->setTriggerTypes( array( 'content' => array( 'publish' => array( 'before' ) ) ) );
     }
 
     function &attributeDecoder( &$event, $attr )
@@ -106,15 +105,13 @@ class eZApproveType extends eZWorkflowEventType
             {
                 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
                 $users =& eZUser::fetchContentList();
-                $userList = array();
                 foreach ( array_keys( $users ) as $key )
                 {
                     $user =& $users[$key];
                     $user['Name'] = $user['name'];
                     $user['value'] = $user['id'];
-                    $userList[] = $user;
                 }
-                return $userList;
+                return $users;
             }break;
             case 'usergroups':
             {

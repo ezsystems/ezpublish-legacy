@@ -79,6 +79,7 @@ class eZTemplateRoot
     function process( &$tpl, &$text, $nspace, $current_nspace )
     {
         reset( $this->Children );
+//         while ( list( $key, $child ) = each( $this->Children ) )
         while( ( $key = key( $this->Children ) ) !== null )
         {
             $child =& $this->Children[$key];

@@ -58,11 +58,12 @@ function accessType( &$uri, $host, $port, $file )
         }
     }
 
-    list( $siteAccessList, $order ) =
-        $ini->variableMulti( 'SiteAccessSettings', array( 'AvailableSiteAccessList', 'MatchOrder' ) );
+    $siteAccessList = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
+
     $access = array( 'name' => $ini->variable( 'SiteSettings', 'DefaultAccess' ),
                      'type' => EZ_ACCESS_TYPE_DEFAULT );
 
+    $order = $ini->variable( 'SiteAccessSettings', 'MatchOrder' );
 
     if ( $order == 'none' )
         return $access;
@@ -190,7 +191,7 @@ function accessType( &$uri, $host, $port, $file )
         else if ( $match_type == 'text' )
             $name = accessMatchText( $match_item, $matcher_pre, $matcher_post );
 
-        if ( ( isset( $name ) && $name != '' ) || $type == EZ_ACCESS_TYPE_URI )
+        if ( isset( $name ) && $name != '' )
         {
             $name = preg_replace( array( '/[^a-z0-9]+/',
                                          '/_+/',
@@ -212,11 +213,6 @@ function accessType( &$uri, $host, $port, $file )
 
                 $access['type'] = $type;
                 $access['name'] = $name;
-                return $access;
-            }
-            else if ( $type == EZ_ACCESS_TYPE_URI )
-            {
-                $access['type'] = $type;
                 return $access;
             }
         }

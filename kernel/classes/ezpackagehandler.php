@@ -72,17 +72,7 @@ class eZPackageHandler
     */
     function install( &$package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      &$content, $installParameters, &$installData )
-    {
-    }
-
-    /*!
-     \pure
-     Uninstalls the package item
-    */
-    function uninstall( &$package, $installType, $parameters,
-                        $name, $os, $filename, $subdirectory,
-                        $installParameters, &$installData )
+                      &$content, $installParameters )
     {
     }
 
@@ -99,18 +89,6 @@ class eZPackageHandler
      Resets all data in the handler so that it's ready to handle a new package.
     */
     function reset()
-    {
-    }
-
-    /*!
-     \pure
-     Returns an explanation (human readable) for the install item \a $installItem.
-     The explanation is an array with the following items.
-     - description - Textual description of what will be installed
-
-     \note This must be implemented for package handlers.
-    */
-    function explainInstallItem( &$package, $installItem )
     {
     }
 

@@ -13,6 +13,9 @@ Changes from 3.2-2 to 3.2-3
 - Fixed the path from content/edit to show the path of main assignment if possible.
   This should help figuring out where the object goes with custom made edit templates
   where the path selection is hidden.
+- Improved the image conversion to properly recognize different fileformats, the
+  correct suffix is also used for the reference name. Thanks to Volker Lenz for
+  a patch solving the default rule problem.
 - Added != (not equal) to the list of possible operators in attribute sorting and filtering.
 - Added parent_class and parent_class_identifier design keys to content/edit
   and subtree notification handler.
@@ -84,6 +87,8 @@ Changes from 3.2-2 to 3.2-3
 - http://ez.no/developer/ez_publish_3/bug_reports/iteration_count_advances_even_when_item_is_excluded_with_sectionexclude
   The maximum value now only applies to used elements, some sanity checks were added to the
   'max' and 'offset' parameter.
+- http://ez.no/developer/ez_publish_3/bug_reports/advanced_search_template_doesnt_show_stop_words
+  Added stop words to advanced search template.
 
 *Library :
 

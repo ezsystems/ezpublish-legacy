@@ -69,11 +69,6 @@ if ( $http->hasPostVariable( "AssignRoleButton" ) )
 
     return;
 }
-else if ( $http->hasPostVariable( 'AssignRoleLimitedButton' ) )
-{
-    $Module->redirectTo( '/role/assign/' . $roleID . '/' . $http->postVariable( 'AssignRoleType' ) );
-    return;
-}
 
 // Assign the role for a user or group
 if ( $Module->isCurrentAction( 'AssignRole' ) )
@@ -93,11 +88,11 @@ if ( $Module->isCurrentAction( 'AssignRole' ) )
 // Remove the role assignment
 if ( $http->hasPostVariable( "RemoveRoleAssignmentButton" ) )
 {
-    $idArray = $http->postVariable( "IDArray" );
+    $userIDArray = $http->postVariable( "UserIDArray" );
 
-    foreach ( $idArray as $id )
+    foreach ( $userIDArray as $userID )
     {
-        $role->removeUserAssignmentByID( $id );
+        $role->removeUserAssignment( $userID );
     }
 }
 

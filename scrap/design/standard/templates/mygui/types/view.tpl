@@ -1,2 +1,0 @@
-Types:
-Viewing {$obj.name}

@@ -138,7 +138,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
                               array( 'class_identifier', $contentClass->attribute( 'identifier' ) ),
                               array( 'parent_node', $contentNode->attribute( 'parent_node_id' ) ),
                               array( 'parent_class', $parentContentObject->attribute( 'contentclass_id' ) ),
-                              array( 'parent_class_identifier', ( $parentContentClass != null ? $parentContentClass->attribute( 'identifier' ) : 0 ) ),
+                              array( 'parent_class_identifier', $parentContentClass->attribute( 'identifier' ) ),
                               array( 'depth', $contentNode->attribute( 'depth' ) ),
                               array( 'url_alias', $contentNode->attribute( 'url_alias' ) )
                               ) );
@@ -188,9 +188,9 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         }
         $nodeIDList = array_unique( $nodeIDList );
 
-        $userList =& eZSubtreeNotificationRule::fetchUserList( $nodeIDList );
+        $userList =& eZSubtreeNotificationRule::fetchUserList( $nodeIDList, $contentObject );
 
-        //// needs to be rebuilt
+//// needs to be rebuilt
         $locale =& eZLocale::instance();
         $weekDayNames = $locale->attribute( 'weekday_list' );
         $weekDays = $locale->attribute( 'weekday_name_list' );
@@ -199,7 +199,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         {
             $weekDaysByName[$weekDayNames[$weekDay]] = $weekDay;
         }
-
+///////////
         foreach( $userList  as $subscriber )
         {
             $item =& $collection->addItem( $subscriber['address'] );
@@ -249,9 +249,9 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         {
             $user =& eZUser::currentUser();
         }
-        $userID = $user->attribute( 'contentobject_id' );
+        $email = $user->attribute( 'email' );
 
-        $nodeList =& eZSubtreeNotificationRule::fetchNodesForUserID( $userID );
+        $nodeList =& eZSubtreeNotificationRule::fetchNodesForAddress( $email );
         return $nodeList;
     }
 
@@ -261,9 +261,9 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         {
             $user =& eZUser::currentUser();
         }
-        $userID = $user->attribute( 'contentobject_id' );
+        $email = $user->attribute( 'email' );
 
-        $ruleList =& eZSubtreeNotificationRule::fetchList( $userID );
+        $ruleList =& eZSubtreeNotificationRule::fetchList( $email );
         return $ruleList;
     }
 
@@ -284,35 +284,28 @@ class eZSubTreeHandler extends eZNotificationEventHandler
             {
                 eZPersistentObject::removeObject( eZSubtreeNotificationRule::definition(), array( 'id' => $ruleID ) );
             }
-            $existingNodes =& eZSubtreeNotificationRule::fetchNodesForUserID( $email, false );
+            $existingNodes =& eZSubtreeNotificationRule::fetchNodesForAddress( $email, false );
         }
         else if ( $http->hasPostVariable( "BrowseActionName" ) and
                   $http->postVariable( "BrowseActionName" ) == "AddSubtreeSubscribingNode" )
         {
             $selectedNodeIDArray = $http->postVariable( "SelectedNodeIDArray" );
             $user =& eZUser::currentUser();
+            $email = $user->attribute( 'email' );
 
-            $existingNodes =& eZSubtreeNotificationRule::fetchNodesForUserID( $user->attribute( 'contentobject_id' ), false );
+            $existingNodes =& eZSubtreeNotificationRule::fetchNodesForAddress( $email, false );
 
             foreach ( $selectedNodeIDArray as $nodeID )
             {
                 if ( ! in_array( $nodeID, $existingNodes ) )
                 {
-                    $rule =& eZSubtreeNotificationRule::create( $nodeID, $user->attribute( 'contentobject_id' ) );
+                    $rule =& eZSubtreeNotificationRule::create(  $nodeID, $email );
                     $rule->store();
                 }
             }
 //            $Module->redirectTo( "//list/" );
         }
 
-    }
-
-    /*!
-     \reimp
-    */
-    function cleanup()
-    {
-        eZSubtreeNotificationRule::cleanup();
     }
 }
 

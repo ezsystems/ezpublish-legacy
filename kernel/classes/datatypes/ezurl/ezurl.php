@@ -94,7 +94,8 @@ class eZURL extends eZPersistentObject
 
     function &create( $url )
     {
-        $dateTime = time();
+        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+        $dateTime = eZDateTime::currentTimeStamp();
         $row = array(
             'id' => null,
             'url' => $url,
@@ -187,8 +188,8 @@ class eZURL extends eZPersistentObject
     */
     function setIsValid( $id, $isValid )
     {
-        $dateTime = time();
-        $isValid = (int) $isValid;
+        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+        $dateTime = eZDateTime::currentTimeStamp();
         eZPersistentObject::updateObjectList( array( 'definition' => eZURL::definition(),
                                                      'update_fields' => array( 'is_valid' => $isValid,
                                                                                'modified' => $dateTime ),
@@ -203,7 +204,8 @@ class eZURL extends eZPersistentObject
     {
         if ( $dateTime === false )
         {
-            $dateTime = time();
+            include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+            $dateTime = eZDateTime::currentTimeStamp();
         }
         $this->Modified = $dateTime;
     }
@@ -216,7 +218,8 @@ class eZURL extends eZPersistentObject
     {
         if ( $dateTime === false )
         {
-            $dateTime = time();
+            include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+            $dateTime = eZDateTime::currentTimeStamp();
         }
         eZPersistentObject::updateObjectList( array( 'definition' => eZURL::definition(),
                                                      'update_fields' => array( 'last_checked' => $dateTime ),

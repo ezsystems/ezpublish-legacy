@@ -306,29 +306,6 @@ class eZProductCollectionItem extends eZPersistentObject
         }
         return false;
     }
-
-    /*!
-     \static
-     Removes all product collection items which related to the product collections specified in the array \a $productCollectionIDList.
-    */
-    function cleanupList( $productCollectionIDList )
-    {
-        $db =& eZDB::instance();
-        $idText = implode( ', ', $productCollectionIDList );
-        $rows = $db->arrayQuery( "SELECT id FROM ezproductcollection_item WHERE productcollection_id IN ( $idText )" );
-        if ( count( $rows ) > 0 )
-        {
-            $itemIDList = array();
-            foreach ( $rows as $row )
-            {
-                $itemIDList[] = $row['id'];
-            }
-            include_once( 'kernel/classes/ezproductcollectionitemoption.php' );
-            eZProductCollectionItemOption::cleanupList( $itemIDList );
-        }
-        $db->query( "DELETE FROM ezproductcollection_item WHERE productcollection_id IN ( $idText )" );
-    }
-
     /// Stores the content object
     var $ContentObject = null;
 }

@@ -25,6 +25,7 @@ Changes from 3.2-3 to 3.2-4
 - Added edit button for all object relation list (datatype) items.
 - New template operator 'simpletags' which can do simple replacement of tags listed in template.ini.
 - Fixed the content view to only accept node IDs higher or equal to 2, if lower 2 is used.
+- Fixed copyversion function which returns the old version, not the cloned version.
 - The clearcache.sh will now also clear the var directories for all siteaccess.
 - Changed behaviour when deleting nodes fra tree. Objects placed in the tree as secondary location are now NOT deleted. Please see
   this bug report for more information : http://ez.no/developer/ez_publish_3/bug_reports/critical_deleting_a_node_not_the_main_causes_unwanted_removal_of_object
@@ -88,6 +89,8 @@ Changes from 3.2-3 to 3.2-4
   http://ez.no/developer/ez_publish_3/bug_reports/php_error_in_admin_role_edition
 - Fixed ImageGD bug during setup : http://ez.no/developer/ez_publish_3/bug_reports/setup_wizard_fails_to_write_rules_to_imageiniappendphp_when_using_gd
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/typo_in_custom_tag_removes_all_content_in_xml_text_field
+- Removed unneeded template user variable instantiation in kernel/notification/runfilter.php
+- Fixed wrong variable name in kernel/classes/notification/ezmailnotificationtransport.php
 - Fixed missing argument 1 for ezuser() in kernel\classes\datatypes\ezuser\ezuser.php bug 
   http://www.ez.no/developer/ez_publish_3/bug_reports/ezuserloginhandler_php_warning
 - Fixed bug eZContentObjectTreeNode::findMainNodeArray when $objectIDArray is empty

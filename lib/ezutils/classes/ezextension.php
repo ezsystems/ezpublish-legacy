@@ -111,8 +111,10 @@ class eZExtension
         $ini =& eZINI::instance();
         foreach ( $activeExtensions as $activeExtension )
         {
-            $extensionSettingsPath = $extensionDirectory . '/' . $activeExtension . '/settings';
-            if ( file_exists( $extensionSettingsPath ) )
+            $extensionPath = $extensionDirectory . '/' . $activeExtension;
+            $extensionSettingsPath = $extensionPath . '/settings';
+            if ( file_exists( $extensionPath ) and
+                 file_exists( $extensionSettingsPath ) )
             {
                 $ini->prependOverrideDir( $extensionSettingsPath, true );
                 $hasExtensions = true;

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="3.2-1"
+         development="false"
+         xmlns:ezpackage="http://ez.no/ezpackage">
+  <name modified="1061309367">gallery</name>
+  <summary modified="1061309381">Gallery</summary>
+  <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
+    <version>3.2-1</version>
+    <named-version>3.2</named-version>
+  </ezpublish>
+  <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
+    <maintainer modified="1061309367">
+      <name>Anonymous User</name>
+      <email>nospam@ez.no</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
+    <timestamp>1061309367</timestamp>
+    <host>bf.ez.no</host>
+  </packaging>
+  <documents>
+    <document mime-type="text/plain"
+              name="README"
+              modified="1061309367" />
+  </documents>
+  <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
+    <entry timestamp="1061309367"
+           person="Anonymous User"
+           email="nospam@ez.no"
+           release="1"
+           modified="1061309367">
+      <change>Creation of package</change>
+    </entry>
+  </changelog>
+  <files xmlns:ezfile="http://ez.no/ezpackage">
+    <collection name="default">
+      <file-list type="design"
+                 design="gallery"
+                 modified="1061309368" />
+      <file-list type="ini"
+                 role="siteaccess"
+                 role-value="gallery"
+                 variable-name="user_siteaccess">
+        <file name="override.ini.append"
+              path="settings/siteaccess/gallery/override.ini.append"
+              md5sum="15f8d5b4559939731f7a834ada52cd7c"
+              modified="1061309368" />
+        <file name="site.ini.append"
+              path="settings/siteaccess/gallery/site.ini.append"
+              md5sum="8d3ef9eef47688fcc950d056a0b80662"
+              modified="1061309369" />
+      </file-list>
+      <file-list type="ini"
+                 role="siteaccess"
+                 role-value="admin"
+                 variable-name="admin_siteaccess">
+        <file name="override.ini.append"
+              path="settings/siteaccess/admin/override.ini.append"
+              md5sum="50f4805254652ccea3c0191a23ce5c21"
+              modified="1061309370" />
+        <file name="site.ini.append"
+              path="settings/siteaccess/admin/site.ini.append"
+              md5sum="47a0ba3f8010fba23cc881208bf4bfc1"
+              modified="1061309370" />
+      </file-list>
+      <file-list type="file">
+        <file name="php2Kecsf.jpg"
+              sub-directory="var/gallery/storage/original/image"
+              path="var/gallery/storage/original/image/php2Kecsf.jpg"
+              md5sum="1250ca1dc055130a8836649dd8b9e0fa"
+              modified="1061309372" />
+        <file name="phpRFANTu.jpg"
+              sub-directory="var/gallery/storage/original/image"
+              path="var/gallery/storage/original/image/phpRFANTu.jpg"
+              md5sum="216fbd307b1341521743d72936ee1940"
+              modified="1061309373" />
+        <file name="phph8inGr.jpg"
+              sub-directory="var/gallery/storage/original/image"
+              path="var/gallery/storage/original/image/phph8inGr.jpg"
+              md5sum="dc0abff38b849d0ad05d4921a93e9347"
+              modified="1061309374" />
+        <file name="phpUQzr4Z.jpg"
+              sub-directory="var/gallery/storage/original/image"
+              path="var/gallery/storage/original/image/phpUQzr4Z.jpg"
+              md5sum="f90fb05654496543fb41a3bf9b4de592"
+              modified="1061309375" />
+        <file name="php2Kecsf.jpg"
+              sub-directory="var/gallery/storage/reference/image"
+              path="var/gallery/storage/reference/image/php2Kecsf.jpg"
+              md5sum="fba642618aa68dc4c4a9b72a2d14c4a4"
+              modified="1061309376" />
+        <file name="phpRFANTu.jpg"
+              sub-directory="var/gallery/storage/reference/image"
+              path="var/gallery/storage/reference/image/phpRFANTu.jpg"
+              md5sum="216fbd307b1341521743d72936ee1940"
+              modified="1061309377" />
+        <file name="phph8inGr.jpg"
+              sub-directory="var/gallery/storage/reference/image"
+              path="var/gallery/storage/reference/image/phph8inGr.jpg"
+              md5sum="a94bbce2155a67f350b8b25e21acae27"
+              modified="1061309378" />
+        <file name="phpUQzr4Z.jpg"
+              sub-directory="var/gallery/storage/reference/image"
+              path="var/gallery/storage/reference/image/phpUQzr4Z.jpg"
+              md5sum="ebf5bde8e7d6adaeb6422a50052d6e67"
+              modified="1061309379" />
+      </file-list>
+      <file-list type="thumbnail">
+        <file name="thumbnail.png"
+              path="gallerythumbnail.png"
+              md5sum="7cb8dda550bd33191330e7e77eaff024"
+              modified="1061309380" />
+      </file-list>
+    </collection>
+  </files>
+  <version xmlns:ezversion="http://ez.no/ezpackage">
+    <number modified="1061309367">1.0</number>
+    <release modified="1061309367">1</release>
+  </version>
+  <licence modified="1061309367">GPL</licence>
+  <state modified="1061309367">alpha</state>
+  <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
+    <provides>
+      <provide type="ezfile"
+               name="collection"
+               value="default"
+               modified="1061309368" />
+    </provides>
+    <requires>
+      <require type="ezdb"
+               name="mysql"
+               modified="1061309371" />
+      <require type="ezdb"
+               name="postgresql"
+               modified="1061309372" />
+    </requires>
+    <obsoletes />
+    <conflicts />
+  </dependencies>
+  <install xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1061309368"
+          collection="default" />
+    <item type="sql"
+          modified="1061309371"
+          filename="gallery.sql"
+          original-path="packages/gallery.sql"
+          database-type="mysql" />
+    <item type="sql"
+          modified="1061309372"
+          filename="gallery_postgresql.sql"
+          original-path="packages/gallery_postgresql.sql"
+          database-type="postgresql" />
+  </install>
+  <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1061309368"
+          collection="default" />
+  </uninstall>
+</package>

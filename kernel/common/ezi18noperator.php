@@ -40,6 +40,8 @@
 
 */
 
+include_once( 'kernel/common/i18n.php' );
+
 function make_seed() {
     list($usec, $sec) = explode(' ', microtime());
     return (float) $sec + ((float) $usec * 100000);
@@ -100,74 +102,12 @@ class eZi18nOperator
                                                                            'default' => false ) ) );
     }
 
-    function operatorTemplateHints()
-    {
-        return array( $this->Name => array( 'input' => true,
-                                            'output' => true,
-                                            'parameters' => true,
-                                            'element-transformation' => true,
-                                            'transform-parameters' => true,
-                                            'input-as-parameter' => 'always',
-                                            'element-transformation-func' => 'i18nTrans') );
-    }
-
-    function i18nTrans( $operatorName, &$node, &$tpl, &$resourceData,
-                        &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
-    {
-        include_once( 'kernel/common/i18n.php' );
-        $value = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
-        $context = ( count ( $parameters ) > 1 ) ? eZTemplateNodeTool::elementStaticValue( $parameters[1] ) : null;
-        $comment = ( count ( $parameters ) > 2 ) ? eZTemplateNodeTool::elementStaticValue( $parameters[2] ) : null;
-
-        if ( count ( $parameters ) < 4 )
-        {
-            return array ( eZTemplateNodeTool::createStringElement( ezi18n( $context, $value, $comment, null ) ) );
-        }
-
-        $values = array();
-
-        $ini =& eZINI::instance();
-        if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
-        {
-            $language = ezcurrentLanguage();
-            if ( $language != "eng-GB" ) // eng-GB does not need translation
-            {
-                $file = 'translation.ts';
-                $ini =& eZINI::instance();
-                $useCache = $ini->variable( 'RegionalSettings', 'TranslationCache' ) != 'disabled';
-                eZTSTranslator::initialize( $context, $language, $file, $useCache );
-
-                $man =& eZTranslatorManager::instance();
-                $newValue = $man->translate( $context, $value, $comment );
-                if ( $newValue )
-                {
-                    $value = $newValue;
-                }
-            }
-        }
-
-        $values[] = array( eZTemplateNodeTool::createStringElement( $value ) );
-        $values[] = $parameters[3];
-
-        $code = '%tmp1% = array();' . "\n" .
-             'foreach ( %2% as %tmp2% => %tmp3% )' . "\n" .
-             '{' . "\n" .
-             '  if ( is_int( %tmp2% ) )' . "\n" .
-             '    %tmp1%[\'%\' . ( (%tmp2%%9) + 1 )] = %tmp3%;' . "\n" .
-             '  else' . "\n" .
-             '    %tmp1%[%tmp2%] = %tmp3%;' . "\n" .
-             '}' . "\n" .
-             '%output% = strtr( %1%, %tmp1% );' . "\n";
-
-        return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 3 ) );
-    }
-
     /*!
      \reimp
     */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters )
     {
-        include_once( 'kernel/common/i18n.php' );
+
         switch ( $operatorName )
         {
             case $this->Name:

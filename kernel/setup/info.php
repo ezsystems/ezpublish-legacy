@@ -49,20 +49,9 @@ $phpAcceleratorInfo = false;
 if ( isset( $GLOBALS['_PHPA'] ) )
 {
     $phpAcceleratorInfo = array();
-    $phpAcceleratorInfo['name'] = "ionCube PHP Accelerator";
-    $phpAcceleratorInfo['url'] = "http://www.php-accelerator.co.uk";
     $phpAcceleratorInfo['enabled'] = $GLOBALS['_PHPA']['ENABLED'];
     $phpAcceleratorInfo['version_integer'] = $GLOBALS['_PHPA']['iVERSION'];
     $phpAcceleratorInfo['version_string'] = $GLOBALS['_PHPA']['VERSION'];
-}
-if ( extension_loaded( "Turck MMCache" ) )
-{
-    $phpAcceleratorInfo = array();
-    $phpAcceleratorInfo['name'] = "Turck MMCache";
-    $phpAcceleratorInfo['url'] = "http://turck-mmcache.sourceforge.net";
-    $phpAcceleratorInfo['enabled'] = true;
-    $phpAcceleratorInfo['version_integer'] = false;
-    $phpAcceleratorInfo['version_string'] = false;
 }
 
 $tpl->setVariable( 'ezpublish_version', eZPublishSDK::version() . " (" . eZPublishSDK::alias() . ")" );
@@ -73,7 +62,6 @@ $tpl->setVariable( 'php_accelerator', $phpAcceleratorInfo );
 $tpl->setVariable( 'apache_version', eZPublishSDK::version() . " (" . eZPublishSDK::alias() . ")" );
 $tpl->setVariable( 'database_info', $db->databaseName() );
 $tpl->setVariable( 'database_charset', $db->charset() );
-$tpl->setVariable( 'database_object', $db );
 $tpl->setVariable( 'php_loaded_extensions', get_loaded_extensions() );
 $phpINI = array();
 foreach ( array( 'safe_mode', 'register_globals', 'open_basedir', 'file_uploads', 'post_max_size', 'memory_limit', 'max_execution_time' ) as $iniName )

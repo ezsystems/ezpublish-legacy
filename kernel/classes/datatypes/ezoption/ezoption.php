@@ -161,7 +161,7 @@ class eZOption
             $this->OptionCount = 0;
             foreach ( $optionArray as $option )
             {
-//                 eZDebug::writeDebug( $option->attributeValue( 'additional_price' ), "attributeValue" );
+                eZDebug::writeDebug( $option->attributeValue( 'additional_price' ), "attributeValue" );
                 $this->addOption( array( 'value' => $option->textContent(),
                                          'additional_price' => $option->attributeValue( 'additional_price' ) ) );
             }

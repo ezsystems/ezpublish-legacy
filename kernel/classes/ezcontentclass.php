@@ -64,7 +64,6 @@ class eZContentClass extends eZPersistentObject
             if ( isset( $row["version_count"] ) )
                 $this->VersionCount = $row["version_count"];
         }
-        $this->DataMap = false;
     }
 
     function &definition()
@@ -73,6 +72,7 @@ class eZContentClass extends eZPersistentObject
                                                         'datatype' => 'integer',
                                                         'default' => 0,
                                                         'required' => true ),
+//                                         "contentclass_id" => "ID",
                                          "version" => array( 'name' => 'Version',
                                                              'datatype' => 'integer',
                                                              'default' => 0,
@@ -101,16 +101,11 @@ class eZContentClass extends eZPersistentObject
                                                              'datatype' => 'integer',
                                                              'default' => 0,
                                                              'required' => true ),
-                                         "remote_id" => array( 'name' => "RemoteID",
-                                                               'datatype' => 'string',
-                                                               'default' => '',
-                                                               'required' => true ),
                                          "modified" => array( 'name' => "Modified",
                                                               'datatype' => 'integer',
                                                               'default' => 0,
                                                               'required' => true ) ),
                       "keys" => array( "id", "version" ),
-                      "function_attributes" => array( "data_map" => "dataMap" ),
                       "increment_key" => "id",
                       "class_name" => "eZContentClass",
                       "sort" => array( "id" => "asc" ),
@@ -135,7 +130,8 @@ class eZContentClass extends eZPersistentObject
 
     function &create( $userID = false, $optionalValues = array() )
     {
-        $dateTime = time();
+        include_once( "lib/ezlocale/classes/ezdatetime.php" );
+        $dateTime = eZDateTime::currentTimeStamp();
         if ( !$userID )
             $userID = eZUser::currentUserID();
         $row = array(
@@ -147,7 +143,6 @@ class eZContentClass extends eZPersistentObject
             "creator_id" => $userID,
             "modifier_id" => $userID,
             "created" => $dateTime,
-            'remote_id' => md5( (string)mt_rand() . (string)mktime() ),
             "modified" => $dateTime );
         $row = array_merge( $row, $optionalValues );
         $contentClass = new eZContentClass( $row );
@@ -156,12 +151,8 @@ class eZContentClass extends eZPersistentObject
 
     /*!
      Creates a new content object instance and stores it.
-
-     \param user ID (optional), current user if not set
-     \param section ID (optional), 0 if not set
-     \param version number, create initial version if not set
     */
-    function &instantiate( $userID = false, $sectionID = 0, $versionNumber = false )
+    function &instantiate( $userID = false, $sectionID = 0 )
     {
         $attributes =& $this->fetchAttributes();
 
@@ -179,15 +170,7 @@ class eZContentClass extends eZPersistentObject
         //  $object->setName( "New " . $this->attribute( "name" ) );
         $object->setName( ezi18n( "kernel/contentclass", "New %1", null, array( $this->attribute( "name" ) ) ) );
 
-        if ( !$versionNumber )
-        {
-            $version =& $object->createInitialVersion( $userID );
-        }
-        else
-        {
-            $version =& eZContentObjectVersion::create( $object->attribute( "id" ), $userID, $versionNumber );
-        }
-
+        $version = $object->createInitialVersion( $userID );
         $version->store();
 
         foreach ( array_keys( $attributes ) as $attributeKey )
@@ -234,7 +217,7 @@ class eZContentClass extends eZPersistentObject
             }
         }
         $user =& eZUser::currentUser();
-        $accessResult = $user->hasAccessTo( 'content' , 'create', $accessList );
+        $accessResult = $user->hasAccessTo( 'content' , 'create' );
         $accessWord = $accessResult['accessWord'];
         $canInstantiateClasses = 1;
         if ( $accessWord == 'no' )
@@ -286,7 +269,7 @@ class eZContentClass extends eZPersistentObject
 
         //
         $user =& eZUser::currentUser();
-        $accessResult =  $user->hasAccessTo( 'content' , 'create', $accessList );
+        $accessResult =  $user->hasAccessTo( 'content' , 'create' );
         $accessWord = $accessResult['accessWord'];
 
         $classIDArray = array();
@@ -309,25 +292,30 @@ class eZContentClass extends eZPersistentObject
             foreach ( array_keys( $policies ) as $policyKey )
             {
                 $policy =& $policies[$policyKey];
+                $limitationArray =& $policy->attribute( 'limitations' );
 
+                $hasClassIDLimitation = false;
                 $classIDArrayPart = '*';
-                if ( isset( $policy['Class'] ) )
+                foreach ( array_keys( $limitationArray ) as $limitationKey )
                 {
-                    $classIDArrayPart =& $policy['Class'];
+                    $limitation =& $limitationArray[$limitationKey];
+                    if ( $limitation->attribute( 'identifier' ) == 'Class' )
+                    {
+                        $classIDArrayPart =& $limitation->attribute( 'values_as_array' );
+                    }
                 }
 
                 if ( $classIDArrayPart == '*' )
                 {
                     $classList =& eZContentClass::fetchList( EZ_CLASS_VERSION_STATUS_DEFINED, false,false, null, array( 'id', 'name' ) );
                     break;
-                }
-                else
+//                    return $classList;
+                }else
                 {
                     $classIDArray = array_merge( $classIDArray, array_diff( $classIDArrayPart, $classIDArray ) );
                     unset( $classIDArrayPart );
                 }
             }
-
             if( count( $classIDArray ) == 0 && count( $classList ) == 0 )
             {
                 $classList = array();
@@ -352,7 +340,7 @@ class eZContentClass extends eZPersistentObject
 
     function hasAttribute( $attr )
     {
-        return ( $attr == "object_count" or $attr == "version_status" or $attr == "version_count" or
+        return ( $attr == "version_status" or $attr == "version_count" or
                  $attr == "creator" or $attr == "modifier" or
                  $attr == "ingroup_list" or $attr == "ingroup_id_list" or  $attr == "group_list" or
                  $attr == "defined_list" or $attr == "mixed_list" or $attr == "temporary_list" or
@@ -363,21 +351,10 @@ class eZContentClass extends eZPersistentObject
     {
         switch( $attr )
         {
-            case 'data_map':
-            {
-                return $this->dataMap();
-            } break;
-
-            case "object_count":
-            {
-                return $this->objectCount();
-            } break;
-
             case "version_count":
             {
                 return $this->VersionCount;
             } break;
-
             case "version_status":
             {
                 return $this->versionStatus();
@@ -389,10 +366,6 @@ class eZContentClass extends eZPersistentObject
             case "modifier":
             {
                 $user_id = $this->ModifierID;
-            } break;
-            case 'remote_id':
-            {
-                return $this->remoteID();
             } break;
             case "ingroup_list":
             {
@@ -434,38 +407,6 @@ class eZContentClass extends eZPersistentObject
         return eZContentClassClassGroup::classInGroup( $this->attribute( 'id' ),
                                                        $this->attribute( 'version' ),
                                                        $groupID );
-    }
-
-    /*!
-     \static
-     Will remove all temporary classes from the database.
-    */
-    function removeTemporary()
-    {
-        $version = EZ_CLASS_VERSION_STATUS_TEMPORARY;
-        $temporaryClasses =& eZContentClass::fetchList( $version, true );
-        foreach ( $temporaryClasses as $class )
-        {
-            $class->remove( true, $version );
-        }
-        eZPersistentObject::removeObject( eZContentClassAttribute::definition(),
-                                          array( 'version' => $version ) );
-    }
-
-    /*!
-     Get remote id of content node
-    */
-    function remoteID()
-    {
-        $remoteID = eZPersistentObject::attribute( 'remote_id' );
-        if ( !$remoteID )
-        {
-            $this->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)mktime() ) );
-            $this->sync( array( 'remote_id' ) );
-            $remoteID = eZPersistentObject::attribute( 'remote_id' );
-        }
-
-        return $remoteID;
     }
 
     function remove( $remove_childs = false, $version = EZ_CLASS_VERSION_STATUS_DEFINED )
@@ -567,8 +508,7 @@ class eZContentClass extends eZPersistentObject
             for ( $i = 0; $i < count( $attributes ); ++$i )
             {
                 $attribute =& $attributes[$i];
-                if ( is_object ( $attribute ) )
-                    $attribute->store();
+                $attribute->store();
             }
         }
 
@@ -590,7 +530,7 @@ class eZContentClass extends eZPersistentObject
         $user =& eZUser::currentUser();
         $user_id = $user->attribute( "contentobject_id" );
         $this->setAttribute( "modifier_id", $user_id );
-        $this->setAttribute( "modified", time() );
+        $this->setAttribute( "modified", eZDateTime::currentTimeStamp() );
         $this->adjustAttributePlacements( $attributes );
 
         for ( $i = 0; $i < count( $attributes ); ++$i )
@@ -670,61 +610,11 @@ class eZContentClass extends eZPersistentObject
         return new eZContentClass( $row );
     }
 
-    function &fetchByRemoteID( $remoteID, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
-    {
-        $conds = array( "remote_id" => $remoteID,
-                        "version" => $version );
-        if ( $user_id !== false and is_numeric( $user_id ) )
-            $conds["creator_id"] = $user_id;
-        $version_sort = "desc";
-        if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
-            $version_sort = "asc";
-        $rows =& eZPersistentObject::fetchObjectList( eZContentClass::definition(),
-                                                      null,
-                                                      $conds,
-                                                      array( "version" => $version_sort ),
-                                                      array( "offset" => 0,
-                                                             "length" => 2 ),
-                                                      false );
-        if ( count( $rows ) == 0 )
-        {
-            return null;
-        }
-        $row =& $rows[0];
-        $row["version_count"] = count( $rows );
-        return new eZContentClass( $row );
-    }
-
-    function &fetchByIdentifier( $identifier, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
-    {
-        $conds = array( "identifier" => $identifier,
-                        "version" => $version );
-        if ( $user_id !== false and is_numeric( $user_id ) )
-            $conds["creator_id"] = $user_id;
-        $version_sort = "desc";
-        if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
-            $version_sort = "asc";
-        $rows =& eZPersistentObject::fetchObjectList( eZContentClass::definition(),
-                                                      null,
-                                                      $conds,
-                                                      array( "version" => $version_sort ),
-                                                      array( "offset" => 0,
-                                                             "length" => 2 ),
-                                                      false );
-        if ( count( $rows ) > 0 )
-        {
-            $row =& $rows[0];
-            $row["version_count"] = count( $rows );
-            return new eZContentClass( $row );
-        }
-        return null;
-    }
-
     /*!
      \static
     */
     function &fetchList( $version = EZ_CLASS_VERSION_STATUS_DEFINED, $asObject = true, $user_id = false,
-                         $sorts = null, $fields = null, $classFilter = false, $limit = null )
+                         $sorts = null, $fields = null, $classFilter = false )
     {
         $conds = array();
         if ( is_numeric( $version ) )
@@ -761,32 +651,12 @@ class eZContentClass extends eZPersistentObject
             else if ( $classIdentifierCount == 1 )
                 $conds['identifier'] = $classIdentifierFilter[0];
         }
-
         return eZPersistentObject::fetchObjectList( eZContentClass::definition(),
                                                     $fields,
                                                     $conds,
                                                     $sorts,
-                                                    $limit,
+                                                    null,
                                                     $asObject );
-    }
-
-    /*!
-     Returns all attributes as an associative array with the key taken from the attribute identifier.
-    */
-    function &dataMap()
-    {
-        $map =& $this->DataMap[$this->Version];
-        if ( !isset( $map ) )
-        {
-            $map = array();
-            $attributes =& $this->fetchAttributes( false, true, $this->Version );
-            foreach ( array_keys( $attributes ) as $attributeKey )
-            {
-                $attribute =& $attributes[$attributeKey];
-                $map[$attribute->attribute( 'identifier' )] =& $attribute;
-            }
-        }
-        return $map;
     }
 
     function &fetchAttributes( $id = false, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED )
@@ -805,25 +675,6 @@ class eZContentClass extends eZPersistentObject
 
         return eZContentClassAttribute::fetchFilteredList( array( "contentclass_id" => $id,
                                                                   "version" => $version ) );
-    }
-
-    /*!
-     Fetch class attribute by identifier, return null if none exist.
-
-     \param attribute identifier.
-
-     \return Class Attribute, null if none matched
-    */
-    function &fetchAttributeByIdentifier( $identifier, $asObject = true )
-    {
-        $attributeArray =& eZContentClassAttribute::fetchFilteredList( array( 'contentclass_id' => $this->ID,
-                                                                              'version' => $this->Version,
-                                                                              'identifier' => $identifier ), $asObject );
-        if ( count( $attributeArray ) == 0 )
-        {
-            return null;
-        }
-        return $attributeArray[0];
     }
 
     function fetchSearchableAttributes( $id = false, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED )
@@ -880,37 +731,15 @@ class eZContentClass extends eZPersistentObject
             $tagName = str_replace( "<", "", $tag );
             $tagName = str_replace( ">", "", $tagName );
 
-            $tagParts = explode( '|', $tagName );
-
-            $namePart = "";
-            foreach ( $tagParts as $name )
+            // get the value of the attribute to use in name
+            if ( isset( $dataMap[$tagName] ) )
             {
-                // get the value of the attribute to use in name
-                if ( isset( $dataMap[$name] ) )
-                {
-                    $namePart =& $dataMap[$name]->title();
-                    if ( $namePart != "" )
-                        break;
-                }
+                $namePart =& $dataMap[$tagName]->title();
             }
-
             // replace tag with object name part
             $contentObjectName =& str_replace( $tag, $namePart, $contentObjectName );
         }
         return $contentObjectName;
-    }
-
-    /*!
-     \return will return the number of objects published by this class.
-    */
-    function &objectCount()
-    {
-        $db =& eZDB::instance();
-
-        $countRow = $db->arrayQuery( "SELECT count(*) AS count FROM ezcontentobject, ezcontentobject_tree
-                                      WHERE ezcontentobject_tree.contentobject_id=ezcontentobject.id AND ezcontentobject.contentclass_id=$this->ID" );
-
-        return $countRow[0]['count'];
     }
 
     /// \privatesection

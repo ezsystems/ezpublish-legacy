@@ -95,10 +95,6 @@ class eZWaitUntilDate
     */
     function addEntry( $contentClassAttributeID, $contentClassID = false )
     {
-        if ( !isset( $contentClassAttributeID ) )
-        {
-            return;
-        }
         if ( !$contentClassID )
         {
             $contentClassAttribute = eZContentClassAttribute::fetch( $contentClassAttributeID );

@@ -1,0 +1,274 @@
+<?xml version="1.0"?>
+<package version="3.2-1" development="true" xmlns:ezpackage="http://ez.no/ezpackage">
+
+// version of the package format
+// development is set to true when exported using development implementation
+//  of the package system. development packages cannot be imported to stable versions
+
+  <name>forum</name>
+// name of package, must be the same for all releases
+  <summary>Simple forum</summary>
+// short summary
+  <description>Creates a simple forum:
+* Straight lists</description>
+// more elobaret description, text only
+  <vendor>eZ systems</vendor>
+// Who owns the package, either company name, organization or person
+  <priority type='9' /> // 1 - 10, 5 is normal
+// how important the package is, bugfixes etc should have high (6 and up) priority.
+// OPTIONAL (default is 5)
+  <type></type> // hotfix, feature, bugfix
+// Type of package, can be used to filter out features from bugfixes etc.
+// OPTIONAL (default is feature)
+  <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
+    <version>3.2-2</version>
+    <named-version>3.2 release 2</named-version>
+  </ezpublish>
+// Describes the ezpublish which exported it
+  <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
+    <maintainer>
+      <name>Jan Borsodi</name>
+      <email>jb@ez.no</email>
+      <role>lead</role>
+// can be lead, developer, tester or writer
+    </maintainer>
+  </maintainers>
+// People involved in package
+  <packaging>
+    <timestamp>32523452345</timestamp>
+// timestamp when the package was made
+    <host>jb.ez.no</host>
+// which host it was made on
+    <packager>eZ systems. &lt;http://ez.no&gt;</packager>
+// Who packaged it
+  </packaging>
+// information on the packaging
+  <signature type="dsa/sha1">86cd29baf</signature>
+// signature of the package. can be used to 'validate' the package as something real
+// OPTIONAL
+// UNFINISHED
+  <source>http://ez.no/developer</source>
+// Where can the package be retrieved, either direct location or a webpage
+  <documents>
+    <document mime-type="text/plain">README</document>
+// mime-type, the mime-type of the document
+// audience, who is the document for, can be end-user, developer, installer, site-admin, customizer (OPTIONAL)
+// os, which operating system it works for. can be win32, unix, freebsd or linux
+    <document audience="end-user" mime-type="text/plain">README-enduser</document>
+    <document mime-type="text/plain">INSTALL</document>
+    <document mime-type="text/plain" os='win32'>INSTALL-Windows.txt</document>
+    <document mime-type="text/html">readme.html</document>
+  </documents>
+// Various documents for installing and readmes.
+  <groups>
+   <group name="design" />
+   <group name="community/forum" />
+  </groups>
+// which groups the package belongs in, used for categorization
+  <release>
+    <version xmlns:ezversion="http://ez.no/ezpackage">
+      <number>1.5.0</number>
+      <release>1</release>
+    </version>
+// the version of this release
+    <timestamp>21342345435</timestamp>
+// timestamp of the release date
+    <license>GPL</license>
+// which licence it uses
+    <state>stable</state>
+// the state of the release, can be stable, prealpha, alpha, beta
+    <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
+      <entry>
+        <timestamp>293459235</timestamp>
+        <person>Jan Borsodi</person>
+        <email>jb@ez.no</email>
+        <change>Next/previous on forum lists</change>
+      </entry>
+    </changelog>
+// the changelog for the package
+    <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
+      <provides>
+        <function name="array_reverse" />
+        <symbol name="ezsimpleforum" value="1" />
+      </provides>
+      <requires>
+        <symbol name="ezsimpleforum" value="0" />
+        <package name="ezpublish" version="3.2" />
+        <file name="index.php" md5sum="" />
+        <library name="eztemplate" version="3.0" />
+        <any>
+          <module name="content" view="view" />
+          <template name="node/view/full.tpl" design="standard" />
+          <all>
+            <module name="content" />
+            <module name="notification" />
+            <module name="content" />
+          </all>
+        </any>
+      </requires>
+      <obsoletes>
+       <package name="vbulletin" />
+      </obsoletes>
+      <conflicts>
+       <package name="simple-forum" />
+      </conflicts>
+    <dependencies>
+
+    <provides xmlns:ezprovision="http://ez.no/ezpackage">
+      <function name="array_change_key_case" />
+      <file-list role="template" design="standard">
+        <file role="override" md5sum="60f4bee62caad5819386a7083cdf8bef" name="forum.tpl" />
+      </file-list>
+      <file-list role="image" design="standard">
+        <file md5sum="60f4bee62caad5819386a7083cdf8bef" name="size.png"/>
+      </file-list>
+      <file-list role="css" design="standard">
+        <file md5sum="60f4bee62caad5819386a7083cdf8bef" name="forum.css"/>
+      </file-list>
+    </provides>
+  </release>
+  <install xmlns:ezinstall="http://ez.no/ezpackage">
+    <pre>
+      <run type="php" name="setup.php" />
+      <run type="shell" os='unix' name="init.sh" />
+      <run type="shell" os='win32' name="init.bat" />
+      <database import="forum.sql" />
+      <database import="forum_common.sql" driver='all' />
+      <database>
+        <table name="ezforum">
+          <field name='id' type='integer' autoincrement="true" />
+          <field name='name' type='varchar' size="50" />
+        </table>
+        <insert>
+          <field name='name'>First forum</field>
+        </insert>
+      </database>
+      <part os='unix'>
+       <content-object class='folder'>
+          <placement node='root' />
+          <attribute name='title'>Forums</attribute>
+        </content-object>
+      </part>
+    </pre>
+    <post>
+      <operation name="clearcache" clear="template-override" />
+    </post>
+  </install>
+  <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
+    <pre>
+      <part>
+        <content-class>
+          <identifier>ezforum</identifier>
+        </content-class>
+      </part>
+    </pre>
+    <post>
+      <run type="php" name="uninstall.php" />
+      <operation name="clearcache" clear="template-override" />
+    </post>
+  </uninstall>
+</package>
+
+
+
+<content-class version="3.2-1" development="true"
+               xmlns:ezcontentclass="http://ez.no/ezcontentclass">
+  <remote>
+    <url>http://nextgen.amos.dvh1.ez.no/class/view/2</url>
+    <site-url>http://nextgen.amos.dvh1.ez.no</site-url>
+    <class-id value="2" />
+    <class-groups>
+      <class-group id="1" name="Content" />
+    </class-groups>
+  </remote>
+  <name>Article</name>
+  <identifier>article</name>
+  <object-name-pattern>&lt;title&gt;</object-name-pattern>
+  <meta-data>
+    <created>1024392098</created>
+    <modified>1024392098</modified>
+    <creator user-id='14' user-login='admin' />
+    <modifier user-id='14' user-login='admin' />
+  </meta-data>
+  <attributes xmlns:ezcontentclass-attribute="http://ez.no/ezcontentclass/attribute">
+    <attribute datatype="ezstring" required="true" searchable="true" />
+      <name>Title</name>
+      <identifier>title</identifier>
+      <datatype-parameters>
+        <default-value>New article</default-value>
+        <max-string-length>255</max-string-length>
+      </datatype-parameters>
+    </attribute>
+
+    <attribute datatype="ezxmltext" required="true" searchable="true" />
+      <name>Intro</name>
+      <identifier>intro</identifier>
+      <datatype-parameters>
+        <preferred-row-count>10</preferred-row-count>
+      </datatype-parameters>
+    </attribute>
+
+    <attribute datatype="ezxmltext" searchable="true" />
+      <name>Body</name>
+      <identifier>body</identifier>
+      <datatype-parameters>
+        <preferred-row-count>20</preferred-row-count>
+      </datatype-parameters>
+    </attribute>
+
+    <attribute datatype="ezimage" />
+      <name>Thumbnail</name>
+      <identifier>thumbnail</identifier>
+      <datatype-parameters>
+        <max-file-size size='mega'>2</max-file-size>
+      </datatype-parameters>
+    </attribute>
+
+    <attribute type="ezboolean" />
+      <name>Enable comments</name>
+      <identifier>emable_comments</identifier>
+      <datatype-parameters>
+        <default-value enabled="false" />
+      </datatype-parameters>
+    </attribute>
+  </attributes>
+</class>
+
+<template-override version="3.2" development="true"
+                   xmlns:eztemplate-override="http://ez.no/eztemplate/override">
+  <remote>
+    <site-url>http://nextgen.amos.dvh1.ez.no</site-url>
+    <site-access>admin</site-access>
+  </remote>
+  <override name='folder'>
+    <source>node/view/full.tpl</source>
+    <destination>
+      <file>folder.tpl</file>
+      <sub-directory>templates</sub-directory>
+    </destination>
+    <match type='class' value='1' />
+  </override>
+  <override name='folder_plain'>
+    <source>node/view/plain.tpl</source>
+    <destination>
+      <file>folder_plain.tpl</file>
+      <sub-directory>templates</sub-directory>
+    </destination>
+    <match type='class' value='1' />
+  </override>
+  <override name='article>
+    <source>node/view/full.tpl</source>
+    <destination>
+      <file>article.tpl</file>
+      <sub-directory>templates</sub-directory>
+    </destination>
+    <match type='class' value='2' />
+  </override>
+  <override name='search'>
+    <source>content/search.tpl</source>
+    <destination>
+      <file>search.tpl</file>
+      <sub-directory>templates</sub-directory>
+    </destination>
+  </override>
+</template-override>

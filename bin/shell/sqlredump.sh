@@ -24,15 +24,11 @@ function help
 	    echo "         --sql-data-only            Only dump table data"
 	    echo "         --sql-schema-only          Only dump table definitions"
 	    echo "         --sql-full                 Dump table definition and data (default)"
-	    echo "         --clean                    Cleanup various data entries before dumping (e.g. session, drafts)"
-	    echo "         --clean-search             Cleanup search index (implies --clean)"
 	    echo "         --mysql                    Redump using MySQL"
 	    echo "         --postgresql               Redump using PostgreSQL"
 	    echo "         --schema-sql=FILE          Schema sql file to use before the SQLFILE,"
 	    echo "                                    useful for data only redumping"
-	    echo "         --setval-file=FILE         File to write setval statements to*"
             echo
-	    echo "* Postgresql only"
             echo "Example:"
             echo "$0 tmp data.sql"
 }
@@ -58,31 +54,11 @@ for arg in $*; do
 	    NODATAARG=""
 	    NOCREATEINFOARG=""
 	    ;;
-	--clean)
-	    CLEAN="1"
-	    ;;
-	--clean-search)
-	    CLEAN="1"
-	    CLEAN_SEARCH="1"
-	    ;;
 	--mysql)
 	    USE_MYSQL="yes"
 	    ;;
-	--pause)
-	    USE_PAUSE="yes"
-	    ;;
-	--setval-file=*)
-	    if echo $arg | grep -e "--setval-file=" >/dev/null; then
-		SETVALFILE=`echo $arg | sed 's/--setval-file=//'`
-	    fi
-	    ;;
 	--postgresql)
 	    USE_POSTGRESQL="yes"
-	    ;;
-	--postgresql-user=*)
-	    if echo $arg | grep -e "--postgresql-user=" >/dev/null; then
-		POST_USER=`echo $arg | sed 's/--postgresql-user=//'`
-	    fi
 	    ;;
 	--schema-sql=*)
 	    if echo $arg | grep -e "--schema-sql=" >/dev/null; then
@@ -129,37 +105,21 @@ if [ "$USE_MYSQL" == "" -a "$USE_POSTGRESQL" == "" ]; then
     exit 1
 fi
 
-if [ -z $POST_USER ]; then
-    POST_USER=$USER
-fi
-
 USERARG="-u$USER"
 
 if [ "$USE_MYSQL" != "" ]; then
     mysqladmin "$USERARG" -f drop "$DBNAME"
-    mysqladmin "$USERARG" create "$DBNAME" || exit 1
+    mysqladmin "$USERARG" create "$DBNAME"
     for sql in $SCHEMAFILES; do
 	echo "Importing schema SQL file $sql"
-	mysql "$USERARG" "$DBNAME" < "$sql" || exit 1
+	mysql "$USERARG" "$DBNAME" < "$sql"
     done
     echo "Importing SQL file $SQLFILE"
-    mysql "$USERARG" "$DBNAME" < "$SQLFILE" || exit 1
+    mysql "$USERARG" "$DBNAME" < "$SQLFILE"
     for sql in $SQLFILES; do
 	echo "Importing SQL file $sql"
-	mysql "$USERARG" "$DBNAME" < "$sql" || exit 1
+	mysql "$USERARG" "$DBNAME" < "$sql"
     done
-
-    if [ ! -z $USE_PAUSE ]; then
-	read -p "`$SETCOLOR_EMPHASIZE`SQL dump paused, press any key to continue.`$SETCOLOR_NORMAL`" TMP
-    fi
-
-    if [[ "$SQLDUMP" != "schema" && -n $CLEAN ]]; then
-	./update/common/scripts/flatten.php --db-driver=ezmysql --db-server=localhost --db-database=$DBNAME --db-user=$USER all
-	[ $CLEAN_SEARCH ] && ./update/common/scripts/updatesearchindex.php --db-driver=ezmysql --db-server=localhost --db-database=$DBNAME --db-user=$USER --clean
-	./update/common/scripts/updateniceurls.php --db-driver=ezmysql --db-server=localhost --db-database=$DBNAME --db-user=$USER
-	./update/common/scripts/cleanup.php --db-driver=ezmysql --db-server=localhost --db-database=$DBNAME --db-user=$USER all
-    fi
-
     echo "Dumping to SQL file $SQLFILE"
 # mysqldump "$USERARG" -c --quick "$NODATAARG" "$NOCREATEINFOARG" -B"$DBNAME" > "$SQLFILE".0
     if [ "$SQLDUMP" == "schema" ]; then
@@ -169,37 +129,19 @@ if [ "$USE_MYSQL" != "" ]; then
     else
 	mysqldump "$USERARG" -c --quick "$DBNAME" | perl -pi -e "s/(^--.*$)|(^#.*$)//g" > "$SQLFILE".0
     fi
-    perl -pi -e "s/(^--.*$)|(^#.*$)//g" "$SQLFILE".0
 else
-    psql --version | grep 'psql (PostgreSQL) 7.3' &>/dev/null
-    if [ $? -ne 0 ]; then
-	echo "You cannot run this command on your PostgreSQL version, requires 7.3"
-	exit 1
-    fi
     dropdb "$DBNAME"
-    createdb "$DBNAME" || exit 1
+    createdb "$DBNAME"
     for sql in $SCHEMAFILES; do
 	echo "Importing schema SQL file $sql"
-	psql "$DBNAME" < "$sql" &>/dev/null || exit 1
+	psql "$DBNAME" < "$sql" &>/dev/null
     done
     echo "Importing SQL file $SQLFILE"
-    psql "$DBNAME" < "$SQLFILE" &>/dev/null || exit 1
+    psql "$DBNAME" < "$SQLFILE" &>/dev/null
     for sql in $SQLFILES; do
 	echo "Importing SQL file $sql"
-	psql "$DBNAME" < "$sql" &>/dev/null || exit 1
+	psql "$DBNAME" < "$sql" &>/dev/null
     done
-
-    if [ ! -z $USE_PAUSE ]; then
-	read -p "`$SETCOLOR_EMPHASIZE`SQL dump paused, press any key to continue.`$SETCOLOR_NORMAL`" TMP
-    fi
-
-    if [[ "$SQLDUMP" != "schema" && -n $CLEAN ]]; then
-	./update/common/scripts/flatten.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME --db-user=$POST_USER all
-	[ $CLEAN_SEARCH ] && ./update/common/scripts/updatesearchindex.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME --db-user=$POST_USER --clean
-	./update/common/scripts/updateniceurls.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME --db-user=$POST_USER
-	./update/common/scripts/cleanup.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME --db-user=$POST_USER all
-    fi
-
     echo "Dumping to SQL file $SQLFILE"
 # mysqldump "$USERARG" -c --quick "$NODATAARG" "$NOCREATEINFOARG" -B"$DBNAME" > "$SQLFILE".0
     if [ "$SQLDUMP" == "schema" ]; then
@@ -209,21 +151,15 @@ else
     else
 	pg_dump --no-owner --inserts "$DBNAME" > "$SQLFILE".0
     fi
-    if [ -n $SETVALFILE ]; then
-	(echo "select 'SELECT setval(\'' || relname || '_s\',max(id)+1) FROM ' || relname || ';' as query from pg_class where relname in (  select trim(  trailing '_s' from relname) from pg_class where relname like 'ez%\_s' and  relname != 'ezcontentobject_tree_s'  and relkind='S' );" | psql "$DBNAME" -P format=unaligned -t > "$SETVALFILE".0 && echo "SELECT setval('ezcontentobject_tree_s', max(node_id)+1) FROM ezcontentobject_tree;" >> "$SETVALFILE".0) || exit 1
-    fi
-    perl -pi -e "s/SET search_path = public, pg_catalog;//g" "$SQLFILE".0
     perl -pi -e "s/(^--.*$)|(^#.*$)//g" "$SQLFILE".0
 fi
 
 if [ $? -eq 0 ]; then
     mv "$SQLFILE" "$SQLFILE"~
     mv "$SQLFILE".0 "$SQLFILE"
-    [ -z $SETVALFILE ] || mv "$SETVALFILE".0 "$SETVALFILE"
     echo "Redumped $SQLFILE using $DBNAME database"
 else
     rm "$SQLFILE".0
-    [ -z $SETVALFILE ] || rm "$SETVALFILE".0
     echo "Failed dumping database $DBNAME to $SQLFILE"
     exit 1
 fi

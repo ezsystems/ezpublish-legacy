@@ -148,7 +148,7 @@ class eZDB
         $class = get_class( $impl );
 
         $fetchInstance = false;
-        if ( strstr( $class, 'db' ) === false )
+        if ( !preg_match( '/.*?db/', $class ) )
             $fetchInstance = true;
 
         if ( $forceNewInstance  )
@@ -165,9 +165,11 @@ class eZDB
             if ( $databaseImplementation === false )
                 $databaseImplementation = $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' );
 
-            list( $server, $user, $pwd, $db, $usePersistentConnection ) =
-                $ini->variableMulti( 'DatabaseSettings', array( 'Server', 'User', 'Password', 'Database', 'UsePersistentConnection' ) );
-
+            $server = $ini->variable( 'DatabaseSettings', 'Server' );
+            $user = $ini->variable( 'DatabaseSettings', 'User' );
+            $pwd = $ini->variable( 'DatabaseSettings', 'Password' );
+            $db = $ini->variable( 'DatabaseSettings', 'Database' );
+            $usePersistentConnection = $ini->variable( 'DatabaseSettings', 'UsePersistentConnection' );
             $socketPath = false;
             $socket = $ini->variable( 'DatabaseSettings', 'Socket' );
             if ( trim( $socket != "" ) and $socket != "disabled" )
@@ -200,20 +202,15 @@ class eZDB
                 $slaveServerDatabase = $slaveServerDatabases[$index];
             }
 
-            list( $charset, $retries ) =
-                $ini->variableMulti( 'DatabaseSettings', array( 'Charset', 'ConnectRetries' ) );
 
-            $isInternalCharset = false;
-            if ( trim( $charset ) == '' )
-            {
-                $charset = eZTextCodec::internalCharset();
-                $isInternalCharset = true;
-            }
+            $charset = $ini->variable( 'DatabaseSettings', 'Charset' );
+            $retries = $ini->variable( 'DatabaseSettings', 'ConnectRetries' );
             $builtinEncoding = ( $ini->variable( 'DatabaseSettings', 'UseBuiltinEncoding' ) == 'true' );
 
             $extraPluginPathArray = $ini->variableArray( 'DatabaseSettings', 'DatabasePluginPath' );
             $pluginPathArray = array_merge( array( 'lib/ezdb/classes/' ),
                                             $extraPluginPathArray );
+//             eZDebug::writeDebug( $pluginPathArray, 'pluginPath' );
             $impl = null;
 
             $useSlaveServer = false;
@@ -229,7 +226,6 @@ class eZDB
                                                 'slave_password' => $slaveServerPassword,
                                                 'slave_database' => $slaveServerDatabase,
                                                 'charset' => $charset,
-												'is_internal_charset' => $isInternalCharset,
                                                 'socket' => $socketPath,
                                                 'builtin_encoding' => $builtinEncoding,
                                                 'connect_retries' => $retries,
@@ -255,10 +251,7 @@ class eZDB
             if ( isset( $b['slave_database'] ) )
                 $databaseParameters['slave_database'] = $b['slave_database'];
             if ( isset( $b['charset'] ) )
-			{
                 $databaseParameters['charset'] = $b['charset'];
-				$databaseParameters['is_internal_charset'] = false;
-			}
             if ( isset( $b['socket'] ) )
                 $databaseParameters['socket'] = $b['socket'];
             if ( isset( $b['builtin_encoding'] ) )
@@ -267,7 +260,18 @@ class eZDB
                 $databaseParameters['connect_retries'] = $b['connect_retries'];
             if ( isset( $b['use_persistent_connection'] ) )
                 $databaseParameters['use_persistent_connection'] = $b['use_persistent_connection'];
+/*            if ( $databaseParameters === false )
+            {
+                $databaseParameters = $defaultDatabaseParameters;
+            }
+            else
+            {
+                $b = $databaseParameters;
+                $c = $defaultDatabaseParameters;
 
+                $databaseParameters =& array_merge( $c, $b );
+
+            }*/
             foreach( $pluginPathArray as $pluginPath )
             {
                 $dbFile = $pluginPath . $databaseImplementation . 'db.php';

@@ -308,25 +308,6 @@ class eZDOMNode
     }
 
     /*!
-     \param attribute name
-     \param attribute value
-
-     \return element by attribute value
-    */
-    function &elementByAttributeValue( $attr, $value )
-    {
-        foreach ( array_keys( $this->Children ) as $key )
-        {
-            $child =& $this->Children[$key];
-            if ( $child->attributeValue( $attr ) == $value )
-            {
-                return $child;
-            }
-        }
-        return false;
-    }
-
-    /*!
      \return an array with elements that is named \a $name.
      \sa elementByName
     */
@@ -520,14 +501,6 @@ class eZDOMNode
     }
 
     /*!
-      Removes all attribute from the node.
-    */
-    function removeAttributes()
-    {
-        $this->Attributes = array();
-    }
-
-    /*!
       Removes the child(s) node named \a $name.
     */
     function removeNamedChildren( $name )
@@ -545,14 +518,6 @@ class eZDOMNode
         unset( $this->Childs );
         $this->Children =& $childArray;
         return $removed;
-    }
-
-    /*!
-      Removes all children from the node.
-    */
-    function removeChildren()
-    {
-        $this->Children = array();
     }
 
     /*!
@@ -637,10 +602,6 @@ class eZDOMNode
                     $attrStr = " xmlns" . $attrPrefix . "=\"" . $this->namespaceURI() . "\"";
                 }
 
-                $prefix = "";
-                if ( $this->Prefix != false )
-                    $prefix = $this->Prefix. ":";
-
                 // generate attributes string
                 if ( count( $this->Attributes ) > 0 )
                 {
@@ -652,18 +613,10 @@ class eZDOMNode
                             $attrPrefix = $attr->prefix(). ":";
 
                         if ( $i > 0 )
-                            $attrStr .= "\n" . $spacer . str_repeat( " ", strlen( $prefix . $this->Name ) + 1 + 1  );
+                            $attrStr .= "\n" . $spacer . str_repeat( " ", strlen( $this->Name ) + 1 + 1  );
                         else
                             $attrStr .= ' ';
-
-                        $attrContent = $attr->content();
-                        $attrContent =& str_replace( "&", "&amp;", $attrContent );
-                        $attrContent =& str_replace( ">", "&gt;", $attrContent );
-                        $attrContent =& str_replace( "<", "&lt;", $attrContent );
-                        $attrContent =& str_replace( "'", "&apos;", $attrContent );
-                        $attrContent =& str_replace( '"', "&quot;", $attrContent );
-
-                        $attrStr .=  $attrPrefix . $attr->name() . "=\"" . $attrContent . "\"";
+                        $attrStr .=  $attrPrefix . $attr->name() . "=\"" . $attr->content() . "\"";
                         ++$i;
                     }
                 }
@@ -672,6 +625,11 @@ class eZDOMNode
                     $oneLinerEnd = " /";
                 else
                     $oneLinerEnd = "";
+
+
+                $prefix = "";
+                if ( $this->Prefix != false )
+                    $prefix = $this->Prefix. ":";
 
                 $ret = '';
                 if ( $level > 0 )

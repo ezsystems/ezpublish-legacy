@@ -111,11 +111,10 @@
      </td>
     <td class="headlink" width="66">
     {* Content menu *}
-
     {section show=eq($navigation_part.identifier,'ezcontentnavigationpart')}
-    {include uri="design:page_menuheadselected.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','RootNode','content.ini'))}</td>
+    {include uri="design:page_menuheadselected.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}</td>
     {section-else}
-    {include uri="design:page_menuheadgray.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','RootNode','content.ini'))}</td>
+    {include uri="design:page_menuheadgray.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}</td>
     {/section}
 
     <td class="menuheadspacer" width="3">
@@ -159,9 +158,9 @@
 
     {* Set up menu *}
     {section show=eq($navigation_part.identifier,'ezsetupnavigationpart')}
-    {include uri="design:page_menuheadselected.tpl" menu_text='Set up'|i18n('design/admin/layout') menu_url="/setup/menu/"}
+    {include uri="design:page_menuheadselected.tpl" menu_text='Set up'|i18n('design/admin/layout') menu_url="/class/grouplist/"}
     {section-else}
-    {include uri="design:page_menuheadgray.tpl" menu_text='Set up'|i18n('design/admin/layout') menu_url="/setup/menu/"}
+    {include uri="design:page_menuheadgray.tpl" menu_text='Set up'|i18n('design/admin/layout') menu_url="/class/grouplist/"}
     {/section}
 
     </td>
@@ -204,7 +203,7 @@
 {include uri="design:parts/media/menu.tpl"}
 {/section}
 
-{cache-block keys=array($current_user.contentobject_id,ezpreference('bookmark_menu'),ezpreference('history_menu'),ezpreference('advanced_menu'),$navigation_part.identifier)}
+{cache-block keys=array($current_user.contentobject_id,ezpreference('bookmark_menu'),ezpreference('history_menu'),$navigation_part.identifier)}
 
 {section show=eq($navigation_part.identifier,'ezshopnavigationpart')}
 {include uri="design:parts/shop/menu.tpl"}

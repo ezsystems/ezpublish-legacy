@@ -65,7 +65,7 @@ class eZMySQLDB extends eZDBInterface
         if ( $this->DBWriteConnection == false )
         {
             $connection = $this->connect( $this->Server, $this->DB, $this->User, $this->Password, $socketPath );
-            if ( $this->IsConnected )
+            if ( $this->isConnected() )
             {
                 $this->DBWriteConnection = $connection;
             }
@@ -141,7 +141,7 @@ class eZMySQLDB extends eZDBInterface
             $this->IsConnected = false;
         }
 
-        if ( $this->IsConnected && $db != null )
+        if ( $this->isConnected() && $db != null )
         {
             $ret = @mysql_select_db( $db, $connection );
             $this->setError();
@@ -167,12 +167,13 @@ class eZMySQLDB extends eZDBInterface
     */
     function &query( $sql )
     {
-        if ( $this->IsConnected )
+        if ( $this->isConnected() )
         {
             eZDebug::accumulatorStart( 'mysql_query', 'mysql_total', 'Mysql_queries' );
             $orig_sql = $sql;
             // The converted sql should not be output
-            if ( $this->InputTextCodec )
+            if ( $this->UseBuiltinEncoding and
+                 $this->InputTextCodec->conversionRequired() )
             {
                 eZDebug::accumulatorStart( 'mysql_conversion', 'mysql_total', 'String conversion in mysql' );
                 $sql =& $this->InputTextCodec->convertString( $sql );
@@ -226,11 +227,13 @@ class eZMySQLDB extends eZDBInterface
             else
             {
                 eZDebug::writeError( "Query error: " . mysql_error( $connection ) . ". Query: ". $sql, "eZMySQLDB"  );
+                $this->RecordError = false;
                 $this->unlock();
                 $this->RecordError = true;
 
                 return false;
             }
+            mysql_free_result( $result );
         }
         else
         {
@@ -246,7 +249,7 @@ class eZMySQLDB extends eZDBInterface
     function &arrayQuery( $sql, $params = array() )
     {
         $retArray = array();
-        if ( $this->IsConnected )
+        if ( $this->isConnected() )
         {
             $limit = false;
             $offset = 0;
@@ -280,15 +283,15 @@ class eZMySQLDB extends eZDBInterface
                 return false;
             }
 
-            $numRows = mysql_num_rows( $result );
-            if ( $numRows > 0 )
+            if ( mysql_num_rows( $result ) > 0 )
             {
                 if ( !is_string( $column ) )
                 {
                     eZDebug::accumulatorStart( 'mysql_loop', 'mysql_total', 'Looping result' );
-                    for ( $i=0; $i < $numRows; $i++ )
+                    for ( $i=0; $i < mysql_num_rows($result); $i++ )
                     {
-                        if ( $this->InputTextCodec )
+                        if ( $this->UseBuiltinEncoding and
+                             $this->InputTextCodec->conversionRequired() )
                         {
                             $tmp_row =& mysql_fetch_array( $result, MYSQL_ASSOC );
                             unset( $conv_row );
@@ -312,10 +315,11 @@ class eZMySQLDB extends eZDBInterface
                 else
                 {
                     eZDebug::accumulatorStart( 'mysql_loop', 'mysql_total', 'Looping result' );
-                    for ( $i=0; $i < $numRows; $i++ )
+                    for ( $i=0; $i < mysql_num_rows($result); $i++ )
                     {
                         $tmp_row =& mysql_fetch_array( $result, MYSQL_ASSOC );
-                        if ( $this->InputTextCodec )
+                        if ( $this->UseBuiltinEncoding and
+                             $this->InputTextCodec->conversionRequired() )
                         {
                             eZDebug::accumulatorStart( 'mysql_conversion', 'mysql_total', 'String conversion in mysql' );
                             $retArray[$i + $offset] =& $this->OutputTextCodec->convertString( $tmp_row[$column] );
@@ -394,7 +398,7 @@ class eZMySQLDB extends eZDBInterface
             return false;
         }
         $count = false;
-        if ( $this->IsConnected )
+        if ( $this->isConnected() )
         {
             $result =& mysql_list_tables( $this->DB, $this->DBConnection );
             $count = mysql_num_rows( $result );
@@ -414,7 +418,7 @@ class eZMySQLDB extends eZDBInterface
             return false;
         }
         $tables = array();
-        if ( $this->IsConnected )
+        if ( $this->isConnected() )
         {
             $result =& mysql_list_tables( $this->DB, $this->DBConnection );
             $count = mysql_num_rows( $result );
@@ -433,7 +437,7 @@ class eZMySQLDB extends eZDBInterface
     function eZTableList()
     {
         $tables = array();
-        if ( $this->IsConnected )
+        if ( $this->isConnected() )
         {
             $result =& mysql_list_tables( $this->DB, $this->DBConnection );
             $count = mysql_num_rows( $result );
@@ -442,7 +446,7 @@ class eZMySQLDB extends eZDBInterface
                 $tableName = mysql_tablename( $result, $i );
                 if ( substr( $tableName, 0, 2 ) == 'ez' )
                 {
-                    $tables[$tableName] = EZ_DB_RELATION_TABLE;
+                    $tables[] = $tableName;
                 }
             }
             mysql_free_result( $result );
@@ -462,7 +466,7 @@ class eZMySQLDB extends eZDBInterface
             return false;
         }
 
-        if ( $this->IsConnected )
+        if ( $this->isConnected() )
         {
             $sql = "DROP $relationTypeName $relationName";
             return $this->query( $sql );
@@ -475,26 +479,9 @@ class eZMySQLDB extends eZDBInterface
     */
     function lock( $table )
     {
-        if ( $this->IsConnected )
+        if ( $this->isConnected() )
         {
-            if ( is_array( $table ) )
-            {
-                $lockQuery = "LOCK TABLES";
-                $first = true;
-                foreach( array_keys( $table ) as $tableKey )
-                {
-                    if ( $first == true )
-                        $first = false;
-                    else
-                        $lockQuery .= ",";
-                    $lockQuery .= " " . $table[$tableKey]['table'] . " WRITE";
-                }
-                $this->query( $lockQuery );
-            }
-            else
-            {
-                $this->query( "LOCK TABLES $table WRITE" );
-            }
+            $this->query( "LOCK TABLES $table WRITE" );
         }
     }
 
@@ -503,7 +490,7 @@ class eZMySQLDB extends eZDBInterface
     */
     function unlock()
     {
-        if ( $this->IsConnected )
+        if ( $this->isConnected() )
         {
             $this->query( "UNLOCK TABLES" );
         }
@@ -514,7 +501,7 @@ class eZMySQLDB extends eZDBInterface
     */
     function begin()
     {
-        if ( $this->IsConnected )
+        if ( $this->isConnected() )
         {
             $this->query( "BEGIN WORK" );
         }
@@ -525,7 +512,7 @@ class eZMySQLDB extends eZDBInterface
     */
     function commit()
     {
-        if ( $this->IsConnected )
+        if ( $this->isConnected() )
         {
             $this->query( "COMMIT" );
         }
@@ -536,7 +523,7 @@ class eZMySQLDB extends eZDBInterface
     */
     function rollback()
     {
-        if ( $this->IsConnected )
+        if ( $this->isConnected() )
         {
             $this->query( "ROLLBACK" );
         }
@@ -545,9 +532,9 @@ class eZMySQLDB extends eZDBInterface
     /*!
      \reimp
     */
-    function lastSerialID( $table = false, $column = false )
+    function lastSerialID( $table = false, $column = false)
     {
-        if ( $this->IsConnected )
+        if ( $this->isConnected() )
         {
             $id = mysql_insert_id( $this->DBWriteConnection );
             return $id;
@@ -569,7 +556,7 @@ class eZMySQLDB extends eZDBInterface
     */
     function close()
     {
-        if ( $this->IsConnected )
+        if ( $this->isConnected() )
         {
             @mysql_close( $this->DBConnection );
             @mysql_close( $this->DBWriteConnection );
@@ -610,7 +597,7 @@ class eZMySQLDB extends eZDBInterface
     */
     function availableDatabases()
     {
-        $databaseArray = mysql_list_dbs( $this->DBConnection );
+        $databaseArray = $this->arrayQuery( 'show databases' );
 
         if ( $this->errorNumber() != 0 )
         {
@@ -618,17 +605,12 @@ class eZMySQLDB extends eZDBInterface
         }
 
         $databases = array();
-        $i = 0;
-        $numRows = mysql_num_rows( $databaseArray );
-        if ( count( $numRows ) == 0 )
+        foreach ( $databaseArray as $key => $database )
         {
-            return false;
-        }
-
-        while ( $i < $numRows )
-        {
-            $databases[] = mysql_db_name($databaseArray, $i);
-            ++$i;
+            if ( $database['Database'] != 'mysql' )
+            {
+                $databases[] = $database['Database'];
+            }
         }
         return $databases;
     }

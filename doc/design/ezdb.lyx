@@ -1,0 +1,228 @@
+#LyX 1.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 218
+\textclass book
+\language english
+\inputencoding latin1
+\fontscheme times
+\graphics default
+\paperfontsize default
+\spacing single 
+\papersize Default
+\paperpackage widemarginsa4
+\use_geometry 0
+\use_amsmath 0
+\paperorientation portrait
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\quotes_times 2
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+
+\layout Title
+
+eZ publish 3.0 design for eZ db
+\layout Date
+
+Version 1.0 - 20.2.2002
+\layout Author
+
+eZ publish core team ( bf@ez.no, jb@ez.no )
+\layout Chapter
+
+Introduction
+\layout Chapter
+
+Goals
+\layout Standard
+
+eZ db is a library for cross database communication in PHP.
+ eZ db supports MySQL, PostgreSQL and Oracle.
+\layout Chapter
+
+Class hierarchy
+\layout Chapter
+
+Syntax
+\layout Standard
+
+eZ db is the database interface class used in eZ publish.
+ The eZ db interface handles database connections, queries and serials.
+ Serials are used to auto increment unique table id's.
+\layout LyX-Code
+
+// Get the current database instance.
+\layout LyX-Code
+
+// The settings are read from the site.ini 
+\layout LyX-Code
+
+// configuration file
+\layout LyX-Code
+
+$db = eZDB::instance();
+\layout LyX-Code
+
+\layout LyX-Code
+
+// Insert 
+\layout LyX-Code
+
+$db->query( 
+\begin_inset Quotes eld
+\end_inset 
+
+INSERT INTO table_a ( id, name ) VALUES ( '42', 'Foo' );
+\layout LyX-Code
+
+\layout LyX-Code
+
+// Fetch the last autoincremented id from table_a
+\layout LyX-Code
+
+// This feature requires the serial to be named table_a_seq
+\layout LyX-Code
+
+// In mysql this feature uses last_insert_id() for auto_increment fields
+\layout LyX-Code
+
+$lastID = $db->lastID( 
+\begin_inset Quotes eld
+\end_inset 
+
+table_a
+\begin_inset Quotes erd
+\end_inset 
+
+ );
+\layout LyX-Code
+
+\layout LyX-Code
+
+// Fetch some data
+\layout LyX-Code
+
+$rows = $db->arrayQuery( 
+\begin_inset Quotes eld
+\end_inset 
+
+SELECT * FROM table_a
+\begin_inset Quotes erd
+\end_inset 
+
+ );
+\layout LyX-Code
+
+\layout LyX-Code
+
+// Fetch data with limit, offset
+\layout LyX-Code
+
+$rows = $db->arrayQuery( 
+\begin_inset Quotes eld
+\end_inset 
+
+SELECT * FROM table_a
+\begin_inset Quotes erd
+\end_inset 
+
+, array( 
+\begin_inset Quotes eld
+\end_inset 
+
+Limit
+\begin_inset Quotes erd
+\end_inset 
+
+ => $limit, 
+\begin_inset Quotes eld
+\end_inset 
+
+Offset
+\begin_inset Quotes erd
+\end_inset 
+
+ => $offset ) );
+\layout LyX-Code
+
+\layout LyX-Code
+
+// close the connection
+\layout LyX-Code
+
+$db->close();
+\layout LyX-Code
+
+\layout Section
+
+Serials
+\layout Standard
+
+Serials are used to generate unique id's.
+ The following naming conventions are used in eZ db.
+\layout Standard
+
+Table structures are as follows.
+\layout LyX-Code
+
+MySQL:
+\layout LyX-Code
+
+CREATE TABLE tablea( ID int auto_increment, Name char(100) );
+\layout LyX-Code
+
+\layout LyX-Code
+
+PostgreSQL:
+\layout LyX-Code
+
+CREATE TABLE tablea( id serial, name char(100) );
+\layout LyX-Code
+
+// will create sequence: tablea_id_seq
+\layout LyX-Code
+
+\layout LyX-Code
+
+Oracle:
+\layout LyX-Code
+
+create table tablea( id int, name varchar2(20));
+\layout LyX-Code
+
+\layout LyX-Code
+
+// In Oracle you must manually create the sequence
+\layout LyX-Code
+
+// and create a trigger to automatically insert the values in the 
+\layout LyX-Code
+
+// table
+\layout LyX-Code
+
+create sequence tablea_id_seq; 
+\layout LyX-Code
+
+create or replace trigger tablea_seq_ins
+\layout LyX-Code
+
+        before insert on tablea
+\layout LyX-Code
+
+        for each row
+\layout LyX-Code
+
+        begin
+\layout LyX-Code
+
+        select tablea_seq.nextval into :new.seq from dual;
+\layout LyX-Code
+
+        end;  
+\layout LyX-Code
+
+\the_end

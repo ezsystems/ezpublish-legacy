@@ -211,15 +211,6 @@ class eZNotificationEvent extends eZPersistentObject
                                                     true );
     }
 
-    /*!
-     \static
-     Removes all notification events.
-    */
-    function cleanup()
-    {
-        $db =& eZDB::instance();
-        $db->query( "DELETE FROM eznotificationevent" );
-    }
 
     var $Content = null;
 }

@@ -226,7 +226,7 @@ class eZDateTime
     */
     function &currentTimeStamp()
     {
-        return time();
+        return mktime();
     }
 
     /*!
@@ -335,7 +335,7 @@ class eZDateTime
     function setHour( $hour )
     {
         $arr =& getdate( $this->DateTime );
-        $this->DateTime =& mktime( $hour, $arr['minutes'], $arr['seconds'],
+        $this->DateTimeTime =& mktime( $hour, $arr['minutes'], $arr['seconds'],
                                        $arr['mon'], $arr['mday'], $arr['year'] );
     }
 
@@ -345,7 +345,7 @@ class eZDateTime
     function setMinute( $min )
     {
         $arr =& getdate( $this->DateTime );
-        $this->DateTime =& mktime( $arr['hours'], $min, $arr['seconds'],
+        $this->DateTimeTime =& mktime( $arr['hours'], $min, $arr['seconds'],
                                        $arr['mon'], $arr['mday'], $arr['year'] );
     }
 
@@ -355,7 +355,7 @@ class eZDateTime
     function setSecond( $sec )
     {
         $arr =& getdate( $this->DateTime );
-        $this->DateTime =& mktime( $arr['hours'], $arr['minutes'], $sec,
+        $this->DateTimeTime =& mktime( $arr['hours'], $arr['minutes'], $sec,
                                        $arr['mon'], $arr['mday'], $arr['year'] );
     }
 
@@ -364,7 +364,7 @@ class eZDateTime
     */
     function setHMS( $hour, $min = 0, $sec = 0 )
     {
-        $this->DateTime =& mktime( $hour, $min, $sec,
+        $this->DateTimeTime =& mktime( $hour, $min, $sec,
                                        $arr['mon'], $arr['mday'], $arr['year'] );
     }
 

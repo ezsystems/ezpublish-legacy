@@ -91,8 +91,7 @@ class eZNotificationEventFilter
         $baseDirectory = eZExtension::baseDirectory();
         $notificationINI =& eZINI::instance( 'notification.ini' );
         $availableHandlers = $notificationINI->variable( 'NotificationEventHandlerSettings', 'AvailableNotificationEventTypes' );
-//        $repositoryDirectories = $notificationINI->variable( 'NotificationEventHandlerSettings', 'RepositoryDirectories' );
-        $repositoryDirectories = array();
+        $repositoryDirectories = $notificationINI->variable( 'NotificationEventHandlerSettings', 'RepositoryDirectories' );
         $extensionDirectories = $notificationINI->variable( 'NotificationEventHandlerSettings', 'ExtensionDirectories' );
         foreach ( $extensionDirectories as $extensionDirectory )
         {
@@ -114,21 +113,7 @@ class eZNotificationEventFilter
     {
         $foundHandler = false;
         $includeFile = '';
-
-
-        include_once( 'lib/ezutils/classes/ezextension.php' );
-        $baseDirectory = eZExtension::baseDirectory();
-        $notificationINI =& eZINI::instance( 'notification.ini' );
-        $repositoryDirectories = $notificationINI->variable( 'NotificationEventHandlerSettings', 'RepositoryDirectories' );
-        $extensionDirectories = $notificationINI->variable( 'NotificationEventHandlerSettings', 'ExtensionDirectories' );
-        foreach ( $extensionDirectories as $extensionDirectory )
-        {
-            $extensionPath = $baseDirectory . '/' . $extensionDirectory . '/notification/handler/';
-            if ( file_exists( $extensionPath ) )
-                $repositoryDirectories[] = $extensionPath;
-        }
-
-        foreach ( $repositoryDirectories as $repositoryDirectory )
+        foreach ( $directories as $repositoryDirectory )
         {
             $includeFile = "$repositoryDirectory/$handlerString/" . $handlerString . "handler.php";
             if ( file_exists( $includeFile ) )
@@ -145,23 +130,6 @@ class eZNotificationEventFilter
         include_once( $includeFile );
         $className = $handlerString . "handler";
         return new $className();
-    }
-
-    /*!
-     \static
-     Goes trough all event handlers and tells them to cleanup.
-    */
-    function cleanup()
-    {
-        $availableHandlers =& eZNotificationEventFilter::availableHandlers();
-        foreach( array_keys( $availableHandlers ) as $handlerKey )
-        {
-            $handler =& $availableHandlers[$handlerKey];
-            if ( $handler !== false )
-            {
-                $handler->cleanup();
-            }
-        }
     }
 
 }

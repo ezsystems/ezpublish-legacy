@@ -51,7 +51,7 @@
 \code
 // Example of template code
 {* Loop 5 times *}
-{section loop = 5}
+{section loop=5}
 {$item}
 {/section}
 \endcode
@@ -79,8 +79,6 @@ asdfasdf
 
 */
 
-
-include_once( 'lib/eztemplate/classes/eztemplatesectioniterator.php' );
 
 class eZTemplateSectionFunction
 {
@@ -118,565 +116,59 @@ class eZTemplateSectionFunction
     {
         return array( $this->Name => array( 'parameters' => true,
                                             'static' => false,
-                                            'transform-children' => false,
-                                            'tree-transformation' => true,
-                                            'transform-parameters' => true ) );
-    }
-
-    function functionTemplateStatistics( $functionName, &$node, &$tpl, $resourceData, $namespace, &$stats )
-    {
-        if ( $functionName != $this->Name )
-            return false;
-        $newNamespace = $namespace;
-        $parameters = eZTemplateNodeTool::extractFunctionNodeParameters( $node );
-        if ( isset( $parameters['name'] ) )
-        {
-            $nameData = $parameters['name'];
-            $nameDataInspection = eZTemplateCompiler::inspectVariableData( $tpl,
-                                                                           $nameData, false,
-                                                                           $resourceData );
-            if ( $nameDataInspection['is-constant'] and
-                 !$nameDataInspection['has-operators'] and
-                 !$nameDataInspection['has-attributes'] )
-            {
-                $parameterNamespace = $nameDataInspection['new-data'][0][1];
-                $newNamespace = $tpl->mergeNamespace( $namespace, $parameterNamespace );
-            }
-        }
-        $parameterNames = array( 'loop', 'show', 'var', 'last-value', 'reverse', 'sequence', 'max', 'offset' );
-        foreach ( $parameterNames as $parameterName )
-        {
-            if ( isset( $parameters[$parameterName] ) )
-            {
-                eZTemplateCompiler::calculateVariableNodeStatistics( $tpl, $parameters[$parameterName], false, $resourceData, $namespace, $stats );
-            }
-        }
-
-        if ( !isset( $parameters['var'] ) )
-        {
-            if ( isset( $parameters['loop'] ) )
-            {
-                $newVariables = array( 'key', 'item', 'index', 'number' );
-                foreach ( $newVariables as $newVariableName )
-                {
-                    eZTemplateCompiler::setVariableStatistics( $stats, $newNamespace, $newVariableName, array( 'is_created' => true,
-                                                                                                               'is_removed' => true ) );
-                }
-            }
-            if ( isset( $parameters['sequence'] ) )
-            {
-                $newVariables = array( 'sequence' );
-                foreach ( $newVariables as $newVariableName )
-                {
-                    eZTemplateCompiler::setVariableStatistics( $stats, $newNamespace, $newVariableName, array( 'is_created' => true,
-                                                                                                               'is_removed' => true ) );
-                }
-            }
-        }
-        else
-        {
-            if ( isset( $parameters['loop'] ) )
-            {
-                $varDataInspection = eZTemplateCompiler::inspectVariableData( $tpl,
-                                                                              $parameters['var'], false,
-                                                                              $resourceData );
-                if ( $varDataInspection['is-constant'] and
-                     !$varDataInspection['has-operators'] and
-                     !$varDataInspection['has-attributes'] )
-                {
-                    $varName = $varDataInspection['new-data'][0][1];
-                    eZTemplateCompiler::setVariableStatistics( $stats, $newNamespace, $varName, array( 'is_created' => true,
-                                                                                                       'is_removed' => true ) );
-                }
-            }
-        }
-
-        $functionChildren = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
-        if ( is_array( $functionChildren ) )
-        {
-            eZTemplateCompiler::calculateVariableStatisticsChildren( $tpl, $functionChildren, $resourceData, $newNamespace, $stats );
-        }
+                                            'transform-children' => true,
+                                            'tree-transformation' => true ) );
     }
 
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, $parameters, $privateData )
+                                         &$tpl, &$resourceData )
     {
-        $useLastValue = false;
-        if ( isset( $parameters['last-value'] ) and
-             !eZTemplateNodeTool::isStaticElement( $parameters['last-value'] ) )
+        $parameters = eZTemplateNodeTool::extractFunctionNodeParameters( $node );
+        if ( isset( $parameters['loop'] ) )
             return false;
-        if ( isset( $parameters['name'] ) and
-             !eZTemplateNodeTool::isStaticElement( $parameters['name'] ) )
-            return false;
-        if ( isset( $parameters['var'] ) and
-             !eZTemplateNodeTool::isStaticElement( $parameters['var'] ) )
-            return false;
-        if ( isset( $parameters['reverse'] ) and
-             !eZTemplateNodeTool::isStaticElement( $parameters['reverse'] ) )
-            return false;
-
-        $varName = false;
-        if ( isset( $parameters['var'] ) )
-            $varName = eZTemplateNodeTool::elementStaticValue( $parameters['var'] );
-        if ( isset( $parameters['last-value'] ) )
-            $useLastValue = (bool)eZTemplateNodeTool::elementStaticValue( $parameters['last-value'] );
-        if ( !$varName )
-            $useLastValue = false;
-        $reverseLoop = false;
-        if ( isset( $parameters['reverse'] ) )
-            $reverseLoop = eZTemplateNodeTool::elementStaticValue( $parameters['reverse'] );
-
-        $useLoop = isset( $parameters['loop'] );
-        $allowLoop = true;
         $newNodes = array();
-
-        $maxText = "false";
-        $useMax = false;
-        $maxPopText = false;
-        if ( isset( $parameters['max'] ) )
-        {
-            if ( eZTemplateNodeTool::isStaticElement( $parameters['max'] ) )
-            {
-                $maxValue = eZTemplateNodeTool::elementStaticValue( $parameters['max'] );
-                if ( $maxValue > 0 )
-                {
-                    $maxText = eZPHPCreator::variableText( $maxValue );
-                    $useMax = true;
-                }
-                else
-                    return array( eZTemplateNodeTool::createTextNode( '' ) );
-            }
-            else
-            {
-                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['max'], eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                      array(), 'max' );
-                $maxText = "\$max";
-                $maxPopText = ", \$max";
-                $useMax = true;
-            }
-        }
-
-        $useShow = false;
-        $spacing = 0;
         if ( isset( $parameters['show'] ) )
-        {
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['show'], eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                  array(), 'show' );
-            $spacing = 4;
-            $useShow = true;
-        }
+                                                                  array( 'variable-name' => 'show',
+                                                                         'text-result' => false ) );
+        else
+            $newNodes[] = eZTemplateNodeTool::createVariableNode( false, true, eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
+                                                                  array( 'variable-name' => 'show',
+                                                                         'text-result' => false ) );
         $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
-        if ( $useShow )
-        {
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$show )\n{\n" );
-            $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode( $spacing );
-            $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( 'show' );
-        }
-        if ( isset( $parameters['name'] ) and !$useLoop )
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$show )\n{\n" );
+        $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( 'show' );
+        if ( isset( $parameters['name'] ) )
             $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $parameters['name'] );
         $mainNodes = eZTemplateNodeTool::extractNodes( $children,
                                                        array( 'match' => array( 'type' => 'before',
+                                                                                'matches' => array( array( 'type' => 'before',
+                                                                                                           'match-keys' => array( 0 ),
+                                                                                                           'match-with' => EZ_TEMPLATE_NODE_FUNCTION ),
+                                                                                                    array( 'match-keys' => array( 2 ),
+                                                                                                           'match-with' => 'section-else' ) )
+                                                                                ) ) );
+        $newNodes = array_merge( $newNodes, $mainNodes );
+        if ( isset( $parameters['name'] ) )
+            $newNodes[] = eZTemplateNodeTool::createNamespaceRestoreNode();
+        $elseNodes = eZTemplateNodeTool::extractNodes( $children,
+                                                       array( 'match' => array( 'type' => 'after',
                                                                                 'matches' => array( array( 'match-keys' => array( 0 ),
                                                                                                            'match-with' => EZ_TEMPLATE_NODE_FUNCTION ),
                                                                                                     array( 'match-keys' => array( 2 ),
-                                                                                                           'match-with' => 'section-else' ) ),
-                                                                                'filter' => array( array( array( 'match-keys' => array( 0 ),
-                                                                                                                 'match-with' => EZ_TEMPLATE_NODE_FUNCTION ),
-                                                                                                          array( 'match-keys' => array( 2 ),
-                                                                                                                 'match-with' => array( 'delimiter', 'section-exclude', 'section-include' ) ) ) ) ) ) );
-        $delimiterNodes = eZTemplateNodeTool::extractNodes( $children,
-                                                            array( 'match' => array( 'type' => 'equal',
-                                                                                     'matches' => array( array( 'match-keys' => array( 0 ),
-                                                                                                               'match-with' => EZ_TEMPLATE_NODE_FUNCTION ),
-                                                                                                         array( 'match-keys' => array( 2 ),
-                                                                                                                'match-with' => 'delimiter' ) ) ) ) );
-        $filterNodes = eZTemplateNodeTool::extractNodes( $children,
-                                                         array( 'match' => array( 'type' => 'equal',
-                                                                                  'matches' => array( array( 'match-keys' => array( 0 ),
-                                                                                                             'match-with' => EZ_TEMPLATE_NODE_FUNCTION ),
-                                                                                                      array( 'match-keys' => array( 2 ),
-                                                                                                             'match-with' => array( 'section-exclude', 'section-include' ) ) ) ) ) );
-
-        $delimiterNode = false;
-        if ( count( $delimiterNodes ) > 0 )
-            $delimiterNode = $delimiterNodes[0];
-
-        $mainNodes = eZTemplateCompiler::processNodeTransformationNodes( $tpl, $node, $mainNodes, $privateData );
-
-        if ( $useLoop )
+                                                                                                           'match-with' => 'section-else' ) )
+                                                                                ) ) );
+        if ( count( $elseNodes ) > 0 )
         {
-            $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['loop'], eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                  array(), 'loopItem' );
-            $hasSequence = false;
-            if ( isset( $parameters['sequence'] ) )
-            {
-                $sequenceParameter = $parameters['sequence'];
-                $hasSequence = true;
-                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $sequenceParameter, eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                      array(), 'sequence' );
-            }
-
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\nelse\n{\n" );
+            $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( 'show' );
             if ( isset( $parameters['name'] ) )
                 $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $parameters['name'] );
-
-            $code = ( "if ( !isset( \$sectionStack ) )\n" .
-                      "    \$sectionStack = array();\n" );
-
-            $variableValuePushText = '';
-            $variableValuePopText = '';
-            if ( $varName )
-            {
-                $code .= ( "include_once( 'lib/eztemplate/classes/eztemplatesectioniterator.php' );\n" .
-                           "\$variableValue = new eZTemplateSectionIterator();\n" .
-                           "\$lastVariableValue = false;\n" );
-                $variableValuePushText = "&\$variableValue, ";
-                $variableValuePopText = "\$variableValue, ";
-            }
-            $code .= ( "\$index = 0;\n" .
-                       "\$currentIndex = 1;\n" );
-
-
-            $arrayCode = '';
-            $numericCode = '';
-            $stringCode = '';
-            $offsetText = '0';
-            if ( isset( $parameters['offset'] ) )
-            {
-                $offsetParameter = $parameters['offset'];
-                if ( eZTemplateNodeTool::isStaticElement( $offsetParameter ) )
-                {
-                    $iterationValue = (int)eZTemplateNodeTool::elementStaticValue( $offsetParameter );
-                    if ( $iterationValue > 0 )
-                    {
-                        $arrayCode = "    \$loopKeys = array_splice( \$loopKeys, $iterationValue );\n";
-                    }
-                    $offsetText = $iterationValue;
-                }
-                else
-                {
-                    $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $offsetParameter, eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                          array(), 'offset' );
-                    $arrayCode = ( "    if ( \$offset > 0 )\n" .
-                                   "        \$loopKeys = array_splice( \$loopKeys, \$offset );\n" );
-                    $offsetText = "\$offset";
-                }
-            }
-
-            // Initialization for array
-            $code .= ( "if ( is_array( \$loopItem ) )\n{\n" .
-                       "    \$loopKeys = array_keys( \$loopItem );\n" );
-            if ( $reverseLoop )
-                $code .= "    \$loopKeys = array_reverse( \$loopKeys );\n";
-            $code .= $arrayCode;
-            $code .= "    \$loopCount = count( \$loopKeys );\n";
-            $code .= "}\n";
-
-            // Initialization for numeric
-            $code .= ( "else if ( is_numeric( \$loopItem ) )\n{\n" .
-                       "    \$loopKeys = false;\n" .
-                       $numericCode .
-                       "    if ( \$loopItem < 0 )\n" .
-                       "        \$loopCountValue = -\$loopItem;\n" .
-                       "    else\n" .
-                       "        \$loopCountValue = \$loopItem;\n" .
-                       "    \$loopCount = \$loopCountValue - $offsetText;\n" .
-                       "}\n" );
-
-            // Initialization for string
-            $code .= ( "else if ( is_string( \$loopItem ) )\n{\n" .
-                       "    \$loopKeys = false;\n" .
-                       $stringCode .
-                       "    \$loopCount = strlen( \$loopItem ) - $offsetText;\n" .
-                       "}\n" );
-            // Fallback for no item
-            $code .= ( "else\n{\n" .
-                       "    \$loopKeys = false;\n" .
-                       "    \$loopCount = 0;\n" .
-                       "}" );
-            // Initialization end
-
-
-
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code );
-            $code = ( "while ( \$index < \$loopCount )\n" .
-                      "{\n"  );
-            if ( $useMax )
-                $code .= ( "    if ( \$currentIndex > $maxText )\n" .
-                           "        break;\n" .
-                           "    unset( \$item );\n" );
-
-
-            // Iterator check for array
-            $code .= ( "    if ( is_array( \$loopItem ) )\n" .
-                       "    {\n" .
-                       "        \$loopKey = \$loopKeys[\$index];\n" .
-                       "        unset( \$item );\n" .
-                       "        \$item = \$loopItem[\$loopKey];\n" .
-                       "    }\n" );
-
-            // Iterator check for numeric
-            $code .= ( "    else if ( is_numeric( \$loopItem ) )\n" .
-                       "    {\n" .
-                       "        unset( \$item );\n" );
-            if ( $reverseLoop )
-                $code .= "        \$item = \$loopCountValue - \$index - $offsetText;\n";
-            else
-                $code .= "        \$item = \$index + $offsetText + 1;\n";
-            $code .= ( "        if ( \$loopItem < 0 )\n" .
-                       "            \$item = -\$item;\n" );
-            if ( $reverseLoop )
-                $code .= "        \$loopKey = \$loopCountValue - \$index - $offsetText - 1;\n";
-            else
-                $code .= "        \$loopKey = \$index + $offsetText;\n";
-            $code .= "    }\n";
-
-            // Iterator check for string
-            $code .= ( "    else if ( is_string( \$loopItem ) )\n" .
-                       "    {\n" .
-                       "        unset( \$item );\n" );
-            if ( $reverseLoop )
-                $code .= "        \$loopKey = \$loopCount - \$index - $offsetText + 1;\n";
-            else
-                $code .= "        \$loopKey = \$index + $offsetText;\n";
-            $code .= ( "        \$item = \$loopItem[\$loopKey];\n" .
-                       "    }\n" );
-            // Iterator check end
-
-            $code .= ( "    unset( \$last );\n" .
-                       "    \$last = false;\n" );
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code );
-            $code = '';
-            if ( $useLastValue )
-            {
-                $code .= ( "    if ( \$currentIndex > 1 )\n" .
-                           "    {\n" .
-                           "        \$last = \$lastVariableValue;\n" .
-                           "        \$variableValue = new eZTemplateSectionIterator();\n" .
-                           "    }\n" );
-            }
-            if ( $varName )
-            {
-                $code .= "    \$variableValue->setIteratorValues( \$item, \$loopKey, \$currentIndex - 1, \$currentIndex, false, \$last );";
-                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code );
-                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'variableValue', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                      array( 'spacing' => 4 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $varName ), false, true, true );
-            }
-            else
-            {
-                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'loopKey', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                      array( 'spacing' => 4 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'key' ), false, true, true );
-                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'item', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                      array( 'spacing' => 4 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'item' ), false, true, true );
-                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$currentIndexInc = \$currentIndex - 1;\n" );
-                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'currentIndexInc', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                      array( 'spacing' => 4 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'index' ), false, true, true );
-                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'currentIndex', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                      array( 'spacing' => 4 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'number' ), false, true, true );
-            }
-
-            $mainSpacing = 0;
-            $hasFilter = false;
-            if ( count( $filterNodes ) > 0 )
-            {
-                $newFilterNodes = array();
-                $matchValue = true;
-                $hasDynamicFilter = false;
-                foreach ( $filterNodes as $filterNode )
-                {
-                    $filterParameters = eZTemplateNodeTool::extractFunctionNodeParameters( $filterNode );
-                    if ( !isset( $filterParameters['match'] ) )
-                        continue;
-                    $hasFilter = true;
-                    $filterParameterMatch = $filterParameters['match'];
-                    $filterParameterMatch = eZTemplateCompiler::processElementTransformationList( $tpl, $filterNode, $filterParameterMatch, $privateData );
-                    if ( eZTemplateNodeTool::isStaticElement( $filterParameterMatch ) )
-                    {
-                        $matchValue = eZTemplateNodeTool::elementStaticValue( $filterParameterMatch );
-                        if ( eZTemplateNodeTool::extractFunctionNodeName( $filterNode ) == 'section-exclude' )
-                        {
-                            if ( $matchValue )
-                                $matchValue = false;
-                        }
-                        else
-                        {
-                            if ( $matchValue )
-                                $matchValue = true;
-                        }
-                        $newFilterNodes = array();
-                        $hasDynamicFilter = false;
-                    }
-                    else
-                    {
-                        $newFilterNodes[] = eZTemplateNodeTool::createVariableNode( false, $filterParameterMatch, eZTemplateNodeTool::extractFunctionNodePlacement( $filterNode ),
-                                                                                    array( 'spacing' => 4 ), 'tmpMatchValue' );
-                        if ( eZTemplateNodeTool::extractFunctionNodeName( $filterNode ) == 'section-exclude' )
-                        {
-                            $newFilterNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$tmpMatchValue )\n    \$matchValue = false;",
-                                                                                         array( 'spacing' => 4 ) );
-                        }
-                        else
-                        {
-                            $newFilterNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$tmpMatchValue )\n    \$matchValue = true;",
-                                                                                         array( 'spacing' => 4 ) );
-                        }
-                        $hasDynamicFilter = true;
-                    }
-                }
-                if ( $hasFilter )
-                {
-                    $mainSpacing += 4;
-                    $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $matchValue, eZTemplateNodeTool::extractFunctionNodePlacement( $filterNode ),
-                                                                          array( 'spacing' => 4 ), 'matchValue' );
-                    if ( $hasDynamicFilter )
-                    {
-                        $newNodes = array_merge( $newNodes, $newFilterNodes );
-                    }
-                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$matchValue )\n{\n", array( 'spacing' => 4 ) );
-                }
-            }
-
-            $sequencePopText = '';
-            if ( $hasSequence )
-            {
-                $sequencePopText = ", \$sequence";
-                if ( $varName )
-                {
-                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( is_array( \$sequence ) )\n" .
-                                                                           "{\n" .
-                                                                           "    \$sequenceValue = array_shift( \$sequence );\n" .
-                                                                           "    \$variableValue->setSequence( \$sequenceValue );\n" .
-                                                                           "    \$sequence[] = \$sequenceValue;\n" .
-                                                                           "    unset( \$sequenceValue );\n" .
-                                                                           "}", array( 'spacing' => $mainSpacing + 4 ) );
-                    $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'variableValue', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                          array( 'spacing' => 4 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $varName ), false, true, true );
-                }
-                else
-                {
-                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( is_array( \$sequence ) )\n" .
-                                                                           "{\n" .
-                                                                           "    \$sequenceValue = array_shift( \$sequence );\n", array( 'spacing' => $mainSpacing + 4 ) );
-                    $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'sequenceValue', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                          array( 'spacing' => $mainSpacing + 4 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'sequence' ), false, true, true );
-                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "    \$sequence[] = \$sequenceValue;\n" .
-                                                                           "    unset( \$sequenceValue );\n" .
-                                                                           "}", array( 'spacing' => $mainSpacing + 4 ) );
-                }
-            }
-            $code = "\$sectionStack[] = array( " . $variableValuePushText . "&\$loopItem, \$loopKeys, \$loopCount, \$currentIndex, \$index" . $sequencePopText . $maxPopText . " );\n";
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => $mainSpacing + 4 ) );
-
-            $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode( $mainSpacing + 4 );
-
-            if ( $delimiterNode )
-            {
-                $delimiterChildren = eZTemplateNodeTool::extractFunctionNodeChildren( $delimiterNode );
-                $delimiterParameters = eZTemplateNodeTool::extractFunctionNodeParameters( $delimiterNode );
-                $delimiterChildren = eZTemplateCompiler::processNodeTransformationNodes( $tpl, $node, $delimiterChildren, $privateData );
-                $delimiterModulo = false;
-                $matchCode = false;
-                $useModulo = true;
-                if ( isset( $delimiterParameters['match'] ) )
-                {
-                    $delimiterMatch = $delimiterParameters['match'];
-                    $delimiterMatch = eZTemplateCompiler::processElementTransformationList( $tpl, $delimiterNode, $delimiterMatch, $privateData );
-                    if ( eZTemplateNodeTool::isStaticElement( $delimiterMatch ) )
-                    {
-                        $moduloValue = eZTemplateNodeTool::elementStaticValue( $delimiterMatch );
-                        $useModulo = false;
-                    }
-                    else
-                    {
-                        $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $delimiterMatch, eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                              array( 'spacing' => 0 ), 'matchValue' );
-                        $matchCode = " and \$matchValue";
-                    }
-                }
-                else if ( isset( $delimiterParameters['modulo'] ) )
-                {
-                    $delimiterModulo = $delimiterParameters['modulo'];
-                    $delimiterModulo = eZTemplateCompiler::processElementTransformationList( $tpl, $delimiterModulo, $delimiterModulo, $privateData );
-                    if ( eZTemplateNodeTool::isStaticElement( $delimiterModulo ) )
-                    {
-                        $moduloValue = (int)eZTemplateNodeTool::elementStaticValue( $delimiterModulo );
-                        $matchCode = " and ( ( \$currentIndex - 1 ) % $moduloValue ) == 0";
-                    }
-                    else
-                    {
-                        $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $delimiterModulo, eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                              array( 'spacing' => 0 ), 'moduloValue' );
-                        $matchCode = " and ( ( \$currentIndex - 1 ) % \$moduloValue ) == 0";
-                    }
-                }
-                if ( $useModulo )
-                {
-                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$currentIndex > 1$matchCode )\n{" );
-
-                    $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode( 4 );
-                    $newNodes = array_merge( $newNodes, $delimiterChildren );
-                    $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode( 4 );
-
-                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\n" );
-                }
-            }
-            $newNodes = array_merge( $newNodes, $mainNodes );
-            $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode( $mainSpacing + 4 );
-
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "list( " . $variableValuePopText . "\$loopItem, \$loopKeys, \$loopCount, \$currentIndex, \$index" . $sequencePopText. $maxPopText . " ) = array_pop( \$sectionStack );",
-                                                                   array( 'spacing' => $mainSpacing + 4 ) );
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "++\$currentIndex;\n", array( 'spacing' => $mainSpacing + 4 ) );
-            if ( $varName )
-                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$lastVariableValue = \$variableValue;", array( 'spacing' => $mainSpacing + 4 ) );
-            if ( $hasFilter )
-            {
-                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "    }" );
-                $mainSpacing -= 4;
-            }
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "++\$index;\n", array( 'spacing' => $mainSpacing + 4 ) );
-            $code = ( "}\n" .
-                      "unset( \$loopKeys, \$loopCount, \$index, \$last, \$loopIndex, \$loopItem" );
-            if ( $hasSequence )
-                $code .= ", \$sequence";
-            $code .= " );";
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code );
+            $newNodes = array_merge( $newNodes, $elseNodes );
+            if ( isset( $parameters['name'] ) )
+                $newNodes[] = eZTemplateNodeTool::createNamespaceRestoreNode();
         }
-        else
-        {
-            $newNodes = array_merge( $newNodes, $mainNodes );
-        }
-
-        if ( isset( $parameters['name'] ) )
-            $newNodes[] = eZTemplateNodeTool::createNamespaceRestoreNode();
-
-        if ( $useShow )
-        {
-            $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode( $spacing );
-        }
-
-        if ( $useShow )
-        {
-            $elseNodes = eZTemplateNodeTool::extractNodes( $children,
-                                                           array( 'match' => array( 'type' => 'after',
-                                                                                    'matches' => array( array( 'match-keys' => array( 0 ),
-                                                                                                               'match-with' => EZ_TEMPLATE_NODE_FUNCTION ),
-                                                                                                        array( 'match-keys' => array( 2 ),
-                                                                                                               'match-with' => 'section-else' ) )
-                                                                                    ) ) );
-            $elseNodes = eZTemplateCompiler::processNodeTransformationNodes( $tpl, $node, $elseNodes, $privateData );
-            if ( count( $elseNodes ) > 0 )
-            {
-                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\nelse\n{\n" );
-                $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode( $spacing );
-                $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( 'show' );
-                if ( isset( $parameters['name'] ) )
-                    $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $parameters['name'] );
-                $newNodes = array_merge( $newNodes, $elseNodes );
-                if ( isset( $parameters['name'] ) )
-                    $newNodes[] = eZTemplateNodeTool::createNamespaceRestoreNode();
-                $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode( $spacing );
-            }
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\n" );
-        }
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\n" );
         return $newNodes;
     }
 
@@ -685,6 +177,7 @@ class eZTemplateSectionFunction
     */
     function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
+//         $text = "";
         $children = $functionChildren;
         $parameters = $functionParameters;
         $name = null;
@@ -699,7 +192,6 @@ class eZTemplateSectionFunction
             if ( $currentNamespace != "" )
                 $name = "$currentNamespace:$name";
         }
-
         $loopItem = null;
         $hasLoopItemParameter = false;
         if ( isset( $parameters["loop"] ) )
@@ -707,36 +199,14 @@ class eZTemplateSectionFunction
             $hasLoopItemParameter = true;
             $loopItem =& $tpl->elementValue( $parameters["loop"], $rootNamespace, $currentNamespace, $functionPlacement );
         }
-
-        $variableIterator = null;
-        if ( isset( $parameters['var'] ) )
-        {
-            $variableIterator =& $tpl->elementValue( $parameters['var'], $rootNamespace, $currentNamespace, $functionPlacement );
-        }
-
-        $noLastValue = true;
-        if ( isset( $parameters['last-value'] ) )
-        {
-            $lastValue =& $tpl->elementValue( $parameters['last-value'], $rootNamespace, $currentNamespace, $functionPlacement );
-            $noLastValue = !$lastValue;
-        }
-
-        $reverseLoop = false;
-        if ( isset( $parameters['reverse'] ) )
-        {
-            $reverseLoop =& $tpl->elementValue( $parameters['reverse'], $rootNamespace, $currentNamespace, $functionPlacement );
-        }
         if ( $hasLoopItemParameter and $loopItem === null )
             return;
-
         $showItem = null;
         if ( isset( $parameters["show"] ) )
             $showItem =& $tpl->elementValue( $parameters["show"], $rootNamespace, $currentNamespace, $functionPlacement );
-
         $sequenceStructure = null;
         if ( isset( $parameters["sequence"] ) )
             $sequenceStructure = $tpl->elementValue( $parameters["sequence"], $rootNamespace, $currentNamespace, $functionPlacement );
-
         $iterationMaxCount = false;
         if ( isset( $parameters["max"] ) )
         {
@@ -751,7 +221,6 @@ class eZTemplateSectionFunction
             }
             $iterationMaxCount = (int)$iterationMaxCount;
         }
-
         $iterationOffset = false;
         if ( isset( $parameters["offset"] ) )
         {
@@ -832,7 +301,6 @@ class eZTemplateSectionFunction
         }
         else
         {
-            $iteratorData = array( 'iterator' => false );
             $showMainBody = true;
             if ( $showItem !== null )
             {
@@ -847,20 +315,15 @@ class eZTemplateSectionFunction
                 {
                     $array =& $loopItem;
                     $arrayKeys =& array_keys( $array );
-                    if ( $reverseLoop )
-                        $arrayKeys = array_reverse( $arrayKeys );
                     if ( $iterationOffset !== false )
                         $arrayKeys = array_splice( $arrayKeys, $iterationOffset );
                     $currentCount = 0;
                     foreach ( $arrayKeys as $key )
                     {
-                        unset( $item );
                         $item =& $array[$key];
                         $usedElement = $this->processChildren( $textElements, $items[1], $key, $item, $index, $isFirstRun,
                                                                $delimiterStructure, $sequenceStructure, $filterStructure,
-                                                               $tpl, $rootNamespace, $name, $functionPlacement,
-                                                               $variableIterator, $noLastValue,
-                                                               $iteratorData );
+                                                               $tpl, $rootNamespace, $name, $functionPlacement );
                         if ( $usedElement )
                         {
                             if ( $iterationMaxCount !== false )
@@ -884,28 +347,19 @@ class eZTemplateSectionFunction
                     $currentCount = 0;
                     for ( $i = $loopStart; $i < $count; ++$i )
                     {
-                        unset( $iterator );
-                        if ( $reverseLoop )
-                            $iterator = ( $count - $i ) - 1;
-                        else
-                            $iterator = $i;
-                        unset( $key );
-                        unset( $item );
                         if ( $value < 0 )
                         {
-                            $key = $iterator;
-                            $item = -$iterator - 1;
+                            $key = -$i;
+                            $item = -$i - 1;
                         }
                         else
                         {
-                            $key = $iterator;
-                            $item = $iterator + 1;
+                            $key = $i;
+                            $item = $i + 1;
                         }
                         $usedElement = $this->processChildren( $textElements, $items[1], $key, $item, $index, $isFirstRun,
                                                                $delimiterStructure, $sequenceStructure, $filterStructure,
-                                                               $tpl, $rootNamespace, $name, $functionPlacement,
-                                                               $variableIterator, $noLastValue,
-                                                               $iteratorData );
+                                                               $tpl, $rootNamespace, $name, $functionPlacement );
                         if ( $usedElement )
                         {
                             if ( $iterationMaxCount !== false )
@@ -927,19 +381,11 @@ class eZTemplateSectionFunction
                     $currentCount = 0;
                     for ( $i = $loopStart; $i < $stringLength; ++$i )
                     {
-                        if ( $reverseLoop )
-                            $iterator = ($stringLength - $i) - 1;
-                        else
-                            $iterator = $i;
-                        unset( $key );
-                        unset( $item );
-                        $key = $iterator;
-                        $item = $text[$iterator];
+                        $key = $i;
+                        $item = $text[$i];
                         $usedElement = $this->processChildren( $textElements, $items[1], $key, $item, $index, $isFirstRun,
                                                                $delimiterStructure, $sequenceStructure, $filterStructure,
-                                                               $tpl, $rootNamespace, $name, $functionPlacement,
-                                                               $variableIterator, $noLastValue,
-                                                               $iteratorData );
+                                                               $tpl, $rootNamespace, $name, $functionPlacement );
                         if ( $usedElement )
                         {
                             if ( $iterationMaxCount !== false )
@@ -953,19 +399,12 @@ class eZTemplateSectionFunction
                 }
                 if ( !$isFirstRun )
                 {
-                    if ( $variableIterator !== null )
-                    {
-                        $tpl->unsetVariable( $variableIterator, $name );
-                    }
-                    else
-                    {
-                        $tpl->unsetVariable( "key", $name );
-                        $tpl->unsetVariable( "item", $name );
-                        $tpl->unsetVariable( "index", $name );
-                        $tpl->unsetVariable( "number", $name );
-                        if ( $sequenceStructure !== null and is_array( $sequenceStructure ) )
-                            $tpl->unsetVariable( "sequence", $name );
-                    }
+                    $tpl->unsetVariable( "key", $name );
+                    $tpl->unsetVariable( "item", $name );
+                    $tpl->unsetVariable( "index", $name );
+                    $tpl->unsetVariable( "number", $name );
+                    if ( $sequenceStructure !== null and is_array( $sequenceStructure ) )
+                        $tpl->unsetVariable( "sequence", $name );
                 }
             }
             else
@@ -976,7 +415,6 @@ class eZTemplateSectionFunction
     }
 
     /*!
-     \private
      Goes trough all children and process them into text.
      \return \c true.
     */
@@ -991,7 +429,6 @@ class eZTemplateSectionFunction
     }
 
     /*!
-     \private
      Goes trough all children and process them into text. It will skip the processing
      if the current item is filtered away.
      \return \c true if the element was processed, \c false otherwise.
@@ -999,36 +436,12 @@ class eZTemplateSectionFunction
     function processChildren( &$textElements,
                               &$children, $key, &$item, &$index, &$isFirstRun,
                               &$delimiterStructure, &$sequenceStructure, &$filterStructure,
-                              &$tpl, $rootNamespace, $name, $functionPlacement,
-                              &$variableIterator, $noLastValue,
-                              &$iteratorData )
+                              &$tpl, $rootNamespace, $name, $functionPlacement )
     {
-        if ( $variableIterator !== null )
-        {
-            unset( $last );
-            if ( !$noLastValue and $iteratorData['iterator'] !== false )
-            {
-                $last =& $iteratorData['iterator'];
-            }
-            else
-            {
-                $last = false;
-            }
-            unset( $iteratorData['iterator'] );
-            $iteratorData['iterator'] = new eZTemplateSectionIterator();
-            $iteratorData['iterator']->setIteratorValues( $item, $key, $index, $index + 1, false, $last );
-            unset( $last );
-
-            $iteratorObject =& $iteratorData['iterator'];
-            $tpl->setVariableRef( $variableIterator, $iteratorObject, $name );
-        }
-        else
-        {
-            $tpl->setVariable( "key", $key, $name );
-            $tpl->setVariable( "item", $item, $name );
-            $tpl->setVariable( "index", $index, $name );
-            $tpl->setVariable( "number", $index + 1, $name );
-        }
+        $tpl->setVariable( "key", $key, $name );
+        $tpl->setVariable( "item", $item, $name );
+        $tpl->setVariable( "index", $index, $name );
+        $tpl->setVariable( "number", $index + 1, $name );
         if ( count( $filterStructure ) > 0 )
         {
             $filterCount = count( $filterStructure );
@@ -1081,14 +494,7 @@ class eZTemplateSectionFunction
         if ( $sequenceStructure !== null and is_array( $sequenceStructure ) )
         {
             $sequenceValue = array_shift( $sequenceStructure );
-            if ( $variableIterator !== null )
-            {
-                $iteratorData['iterator']->setSequence( $sequenceValue );
-            }
-            else
-            {
-                $tpl->setVariable( "sequence", $sequenceValue, $name );
-            }
+            $tpl->setVariable( "sequence", $sequenceValue, $name );
             $sequenceStructure[] = $sequenceValue;
         }
         foreach ( array_keys( $children ) as $childKey )

@@ -82,25 +82,12 @@ class eZSearchEngine
 
             if ( $classAttribute->attribute( "is_searchable" ) == 1 )
             {
+                // strip tags
                 $metaData =& $attribute->metaData( );
                 if( ! is_array( $metaData ) )
                 {
                     $metaData = array( array( 'id' => '',
                                               'text' => $metaData ) );
-                }
-
-                // Fetch attribute translations
-                $attributeTranslations = $attribute->fetchAttributeTranslations();
-
-                foreach ( $attributeTranslations as $translation )
-                {
-                    $tmpMetaData = $translation->metaData();
-                    if( ! is_array( $tmpMetaData ) )
-                    {
-                        $tmpMetaData = array( array( 'id' => '',
-                                                  'text' => $tmpMetaData ) );
-                    }
-                    $metaData = array_merge( $metaData, $tmpMetaData );
                 }
 
                 foreach( $metaData as $metaDataPart )
@@ -300,8 +287,8 @@ class eZSearchEngine
             $prevWordID = $wordID;
             $placement++;
         }
-        $dbName = $db->databaseName();
 
+        $dbName = $db->databaseName();
         if ( $dbName == 'mysql' )
         {
             if ( count( $valuesStringList ) > 0 )
@@ -560,7 +547,7 @@ class eZSearchEngine
                         } break;
                         case 5:
                         {
-                            $adjustment = 365*24*60*60; //seconds for one year
+                            $adjustment = 365*24*60*60;; //seconds for one year
                             $publishedDate = $timestamp - $adjustment;
                         } break;
                         default:
@@ -608,9 +595,7 @@ class eZSearchEngine
             $wordIDArrays =& $this->prepareWordIDArrays( $searchText );
             $wordIDArray =& $wordIDArrays['wordIDArray'];
             $wordIDHash =& $wordIDArrays['wordIDHash'];
-            $wildIDArray =& $wordIDArrays['wildIDArray'];
-            $wildCardCount = $wordIDArrays['wildCardCount'];
-            $searchPartsArray =& $this->buildSearchPartArray( $phraseTextArray, $nonPhraseText, $wordIDHash, $wildIDArray );
+            $searchPartsArray =& $this->buildSearchPartArray( $phraseTextArray, $nonPhraseText, $wordIDHash );
 
             /// OR search, not used in this version
             $doOrSearch = false;
@@ -711,19 +696,41 @@ class eZSearchEngine
             }
             else if ( isset( $GLOBALS['ezpolicylimitation_list']['content']['read'] ) )
             {
-                $limitationList =& $GLOBALS['ezpolicylimitation_list']['content']['read'];
+                $policyList =& $GLOBALS['ezpolicylimitation_list']['content']['read'];
+                $limitationList = array();
+                foreach ( array_keys( $policyList ) as $key )
+                {
+                    $policy =& $policyList[$key];
+                    $limitationList[] =& $policy->attribute( 'limitations' );
+                }
             }
             else
             {
                 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
                 $currentUser =& eZUser::currentUser();
-                $accessResult = $currentUser->hasAccessTo( 'content', 'read', $accessList );
+                $accessResult = $currentUser->hasAccessTo( 'content', 'read' );
                 if ( $accessResult['accessWord'] == 'limited' )
                 {
-                    $limitationList =& $accessResult['policies'];
-                    $GLOBALS['ezpolicylimitation_list']['content']['read'] =& $limitationList;
+                    $params['Limitation'] =& $accessResult['policies'];
+                    $limitationList = array();
+                    foreach ( array_keys( $params['Limitation'] ) as $key )
+                    {
+                        $policy =& $params['Limitation'][$key];
+                        $limitationList[] =& $policy->attribute( 'limitations' );
+                    }
+                    $GLOBALS['ezpolicylimitation_list']['content']['read'] =& $params['Limitation'];
                 }
             }
+            /* else if ( isset( $GLOBALS['ezpolicylimitation_list'] ) )
+            {
+                $policyList =& $GLOBALS['ezpolicylimitation_list'];
+                $limitationList = array();
+                foreach( array_keys( $policyList ) as $key )
+                {
+                    $policy =& $policyList[$key];
+                    $limitationList[] =& $policy->attribute( 'limitations' );
+                }
+            }*/
 
             $sqlPermissionCheckingString = '';
             if ( count( $limitationList ) > 0 )
@@ -732,57 +739,26 @@ class eZSearchEngine
                 foreach( $limitationList as $limitationArray )
                 {
                     $sqlPartPart = array();
-                    $hasNodeLimitation = false;
-                    foreach ( array_keys( $limitationArray ) as $ident )
+                    foreach ( $limitationArray as $limitation )
                     {
-                        switch( $ident )
+                        if ( $limitation->attribute( 'identifier' ) == 'Class' )
                         {
-                            case 'Class':
-                            {
-                                $sqlPartPart[] = 'ezcontentobject.contentclass_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
-                            } break;
-
-                            case 'Section':
-                            {
-                                $sqlPartPart[] = 'ezcontentobject.section_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
-                            } break;
-
-                            case 'Owner':
-                            {
-                                $user =& eZUser::currentUser();
-                                $userID = $user->attribute( 'contentobject_id' );
-                                $sqlPartPart[] = "ezcontentobject.owner_id = '" . $db->escapeString( $userID ) . "'";
-                            } break;
-
-                            case 'Node':
-                            {
-                                $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
-                                $hasNodeLimitation = true;
-                            } break;
-
-                            case 'Subtree':
-                            {
-                                $pathArray =& $limitationArray[$ident];
-                                $sqlPartPartPart = array();
-                                foreach ( $pathArray as $limitationPathString )
-                                {
-                                    $sqlPartPartPart[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
-                                }
-                                $sqlPartPart[] = implode( ' OR ', $sqlPartPartPart );
-                            } break;
+                            $sqlPartPart[] = 'ezcontentobject.contentclass_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
+                        }
+                        elseif ( $limitation->attribute( 'identifier' ) == 'Section' )
+                        {
+                            $sqlPartPart[] = 'ezcontentobject.section_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
+                        }
+                        elseif( $limitation->attribute( 'name' ) == 'Owner' )
+                        {
+                            eZDebug::writeWarning( $limitation, 'System is not configured to check Assigned in search objects' );
                         }
                     }
+                    $sqlParts[] = implode( ' AND ', $sqlPartPart );
+                }
+                $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
+                $this->GeneralFilter['sqlPermissionCheckingString'] = $sqlPermissionCheckingString;
 
-                    if ( count( $sqlPartPart ) > 0 )
-                    {
-                        $sqlParts[] = implode( ' AND ', $sqlPartPart );
-                    }
-                }
-                if ( count( $sqlParts ) > 0 )
-                {
-                    $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
-                    $this->GeneralFilter['sqlPermissionCheckingString'] = $sqlPermissionCheckingString;
-                }
             }
 
             $useVersionName = true;
@@ -822,8 +798,7 @@ class eZSearchEngine
 
             $i = $this->TempTablesCount;
 
-            // Loop every word and insert result in temporary table
-
+// Loop every word and insert result in temporary table
             if ( $i <= 0 && count( $searchPartsArray ) == 0 )
             {
                 $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_0 ( contentobject_id int primary key not null, published int )" );
@@ -926,21 +901,21 @@ class eZSearchEngine
                     }
                     else
                     {
-                        $stopWordArray[] = array( 'word' => $searchPart['text'] );
+                        $stopWordArray[] = array( 'word' => $searchPart['word'] );
                     }
                 }
             }
 
-            $nonExistingWordCount = count( array_unique( $searchWordArray ) ) - count( $wordIDHash ) - $wildCardCount;
+            $nonExistingWordCount = count( $searchWordArray ) - count( $wordIDHash );
             $excludeWordCount = $searchWordCount - count( $stopWordArray );
 
-            if ( ( count( $stopWordArray ) + $nonExistingWordCount ) == $searchWordCount && $this->TempTablesCount == 0 )
+/*            if ( ( count( $stopWordArray ) + $nonExistingWordCount ) == $searchWordCount && $this->TempTablesCount == 0 )
             {
                 // No words to search for, return empty result
                 return array( "SearchResult" => array(),
                           "SearchCount" => 0,
                           "StopWordArray" => $stopWordArray );
-            }
+            }*/
             $tmpTablesFrom = "";
             $tmpTablesWhere = "";
             /// tmp tables
@@ -1068,9 +1043,10 @@ class eZSearchEngine
             }
 
             $objectRes = array();
+
             $searchCount = 0;
 
-            if ( $nonExistingWordCount <= 0 )
+            if ( $nonExistingWordCount == 0 )
             {
                 // execute search query
                 $objectResArray =& $db->arrayQuery( $searchQuery, array( "limit" => $searchLimit, "offset" => $searchOffset ) );
@@ -1087,8 +1063,6 @@ class eZSearchEngine
             {
                 $db->dropTempTable( "DROP TABLE ezsearch_tmp_$i" );
             }
-
-
             return array( "SearchResult" => $objectRes,
                           "SearchCount" => $searchCount,
                           "StopWordArray" => $stopWordArray );
@@ -1393,12 +1367,7 @@ class eZSearchEngine
         $text =& str_replace("\\", " ", $text );
         $text =& str_replace("<", " ", $text );
         $text =& str_replace(">", " ", $text );
-
-        $ini =& eZINI::instance();
-        if ( $ini->variable( 'SearchSettings', 'EnableWildcard' ) != 'true' )
-        {
-            $text =& str_replace("*", " ", $text );
-        }
+        $text =& str_replace("*", " ", $text );
 
         $text =& str_replace("\n", " ", $text );
         $text =& str_replace("\t", " ", $text );
@@ -1683,7 +1652,6 @@ class eZSearchEngine
 
 
         $this->buildTempTablesForFullTextSearch( $searchPartsArray, array() );
-        $this->GeneralFilter['classAttributeQuery'] = '';
         return true;
 
     }
@@ -1931,54 +1899,31 @@ class eZSearchEngine
                       'fullText' => $fullText );
     }
 
-    function &buildSearchPartArray( $phraseTextArray, $nonPhraseText, &$wordIDHash, &$wildIDArray )
+    function &buildSearchPartArray( $phraseTextArray, $nonPhraseText, &$wordIDHash )
     {
         $searchPartsArrayForPhrases =& $this->buildSearchPartArrayForPhrases( $phraseTextArray, $wordIDHash );
-        $searchPartsArrayForWords =& $this->buildSearchPartArrayForWords( $nonPhraseText, $wordIDHash, $wildIDArray );
+        $searchPartsArrayForWords =& $this->buildSearchPartArrayForWords( $nonPhraseText, $wordIDHash );
         $searchPartsArray =& array_merge( $searchPartsArrayForPhrases, $searchPartsArrayForWords );
         return $searchPartsArray;
     }
 
-    function &buildSearchPartArrayForWords( $nonPhraseText, &$wordIDHash, &$wildIDArray )
+    function &buildSearchPartArrayForWords( $nonPhraseText, &$wordIDHash )
     {
         $searchPartsArray = array();
         $nonPhraseWordArray =& $this->splitString( $nonPhraseText );
-        $uniqueWordArray = array();
-
-        $searchPart = array();
-        if ( isset( $wildIDArray ) && count( $wildIDArray ) > 0 )
+        foreach ( $nonPhraseWordArray as $word )
         {
-            $searchPart['sql_part'] = '( ';
-            $i = 0;
-            $objectCount = -1;
-
-            foreach( $wildIDArray as $wordInfo )
+            if ( isset( $wordIDHash[$word] ) )
             {
-
-                if ( $i > 0 )
-                    $searchPart['sql_part'] .= ' or ';
-                $searchPart['sql_part'] .= "ezsearch_object_word_link.word_id='". $wordInfo['id'] ."'";
-                if ( $objectCount < intval($wordInfo['object_count']) )
-                    $objectCount = intval($wordInfo['object_count']);
-                $i++;
+                $searchPart = array();
+                $searchPart['text'] = $word;
+                $wordID = $wordIDHash[$word]['id'];
+                $searchPart['sql_part'] =& $this->buildSqlPartForWord( $wordID );
+                $searchPart['is_phrase'] = 0;
+                $searchPart['object_count'] = $wordIDHash[$word]['object_count'];
+                $searchPartsArray[] =& $searchPart;
+                unset ( $searchPart );
             }
-            $searchPart['sql_part'] .= ' ) AND ';
-            $searchPart['object_count'] = $objectCount;
-            $searchPart['is_phrase'] = 0;
-            $searchPartsArray[] =& $searchPart;
-            unset ( $searchPart );
-        }
-
-        foreach( array_keys( $wordIDHash ) as $word )
-        {
-            $searchPart = array();
-            $searchPart['text'] = $word;
-            $wordID = $wordIDHash[$word]['id'];
-            $searchPart['sql_part'] =& $this->buildSqlPartForWord( $wordID );
-            $searchPart['is_phrase'] = 0;
-            $searchPart['object_count'] = $wordIDHash[$word]['object_count'];
-            $searchPartsArray[] =& $searchPart;
-            unset ( $searchPart );
         }
         return $searchPartsArray;
     }
@@ -2101,37 +2046,12 @@ class eZSearchEngine
         $db =& eZDB::instance();
         $searchWordArray = $this->splitString( $searchText );
 
-        $wildCardWordArray = array();
+
+        // fetch the word id
         $i = 0;
-        $wildCardQueryString = array();
         $wordQueryString = '';
-
-        $ini =& eZINI::instance();
-        $wildSearchEnabled = ( $ini->variable( 'SearchSettings', 'EnableWildcard' ) == 'true' );
-        if ( $wildSearchEnabled )
-        {
-            $minCharacters =& $ini->variable( 'SearchSettings', 'MinCharacterWildcard' );
-        }
-
         foreach ( $searchWordArray as $searchWord )
         {
-            $wordLength = strlen( $searchWord ) - 1;
-
-            if ( $wildSearchEnabled && ( $wordLength >= $minCharacters ) )
-            {
-                if ( $searchWord[$wordLength] == '*' )
-                {
-                    $baseWord = substr( $searchWord, 0, $wordLength );
-                    $wildCardQueryString[] = " word LIKE '". $baseWord ."%' ";
-                    continue;
-                }
-                else if ( $searchWord[0] == '*' ) /* Change this to allow searching for shorter/longer words using wildcard */
-                {
-                    $baseWord = substr( $searchWord, 1, $wordLength );
-                    $wildCardQueryString[] = " word LIKE '%". $baseWord ."' ";
-                    continue;
-                }
-            }
             if ( $i > 0 )
                 $wordQueryString .= " or ";
 
@@ -2139,17 +2059,12 @@ class eZSearchEngine
             $i++;
         }
 
-        if ( strlen( $wordQueryString ) > 0 )
-            $wordIDArrayRes =& $db->arrayQuery( "SELECT id, word, object_count FROM ezsearch_word where $wordQueryString order by object_count" );
-        foreach ( $wildCardQueryString as $wildCardQuery )
-        {
-            $wildCardWordArray[] = $db->arrayQuery( "SELECT id, word, object_count FROM ezsearch_word where $wildCardQuery order by object_count" );
-        }
+        $wordIDArrayRes =& $db->arrayQuery( "SELECT id, word, object_count FROM ezsearch_word where $wordQueryString order by object_count" );
 
         // create the word hash
         $wordIDArray = array();
         $wordIDHash = array();
-        if ( isset( $wordIDArrayRes ) && is_array( $wordIDArrayRes ) )
+        if ( is_array( $wordIDArrayRes ) )
         {
             foreach ( $wordIDArrayRes as $wordRes )
             {
@@ -2158,23 +2073,8 @@ class eZSearchEngine
             }
         }
 
-        $wildIDArray = array();
-        $wildCardCount = 0;
-        foreach ( array_keys( $wildCardWordArray ) as $key )
-        {
-            if ( is_array( $wildCardWordArray[$key] ) && count( $wildCardWordArray[$key] ) > 0 )
-            {
-                $wildCardCount++;
-                foreach ( $wildCardWordArray[$key] as $wordRes )
-                {
-                    $wildIDArray[] = array( 'id' => $wordRes['id'], 'object_count' => $wordRes['object_count'] );
-                }
-            }
-        }
         return array( 'wordIDArray' => &$wordIDArray,
-                      'wordIDHash' => &$wordIDHash,
-                      'wildIDArray' => &$wildIDArray,
-                      'wildCardCount' => $wildCardCount );
+                      'wordIDHash' => &$wordIDHash );
     }
 
     function fetchTotalObjectCount()
@@ -2211,16 +2111,6 @@ class eZSearchEngine
                 //call_user_func_array( array( $this, $methodName ), $parameterArray );
                 //
                 //
-    }
-
-    /*!
-     Will remove all search words and object/word relations.
-    */
-    function cleanup()
-    {
-        $db =& eZDB::instance();
-        $db->query( "DELETE FROM ezsearch_word" );
-        $db->query( "DELETE FROM ezsearch_object_word_link" );
     }
 
 

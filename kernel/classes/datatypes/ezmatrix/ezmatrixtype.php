@@ -109,18 +109,6 @@ class eZMatrixType extends eZDataType
         return $matrix;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        $matrix =& $contentObjectAttribute->content();
-        $columnsArray =& $matrix->attribute( 'columns' );
-        $columns =& $columnsArray['sequential'];
-        $count = 0;
-        foreach ( $columns as $column )
-        {
-            $count += count( $column['rows'] );
-        }
-        return $count > 0;
-    }
 
     /*!
      Returns the meta data used for storing search indeces.
@@ -160,9 +148,6 @@ class eZMatrixType extends eZDataType
             }
             $matrix =& $contentObjectAttribute->attribute( 'content' );
             $matrix->Cells =& $cells;
-
-            $contentObjectAttribute->setAttribute( 'data_text', $matrix->xmlString() );
-            $matrix->decodeXML( $contentObjectAttribute->attribute( 'data_text' ) );
             $contentObjectAttribute->setContent( $matrix );
         }
         return true;
@@ -191,7 +176,6 @@ class eZMatrixType extends eZDataType
                 $contentObjectAttribute->setAttribute( 'data_text', $matrix->xmlString() );
                 $matrix->decodeXML( $contentObjectAttribute->attribute( 'data_text' ) );
                 $contentObjectAttribute->setContent( $matrix );
-                $contentObjectAttribute->store();
             }break;
             case 'remove_selected' :
             {
@@ -207,7 +191,6 @@ class eZMatrixType extends eZDataType
                 $contentObjectAttribute->setAttribute( 'data_text', $matrix->xmlString() );
                 $matrix->decodeXML( $contentObjectAttribute->attribute( 'data_text' ) );
                 $contentObjectAttribute->setContent( $matrix );
-                $contentObjectAttribute->store();
             }break;
             default :
             {
@@ -226,6 +209,24 @@ class eZMatrixType extends eZDataType
         $value = $matrix->attribute( $name );
 
         return $value;
+    }
+
+
+    /*!
+     \return a DOM representation of the content object attribute
+    */
+    function &serializeContentObjectAttribute( $objectAttribute )
+    {
+/*        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
+        include_once( 'lib/ezxml/classes/ezdomnode.php' );
+
+        $node = new eZDOMNode();
+        $node->setName( 'attribute' );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', 'ezoption' ) );
+
+        return $node;
+*/
     }
 
     /*!
@@ -386,6 +387,14 @@ class eZMatrixType extends eZDataType
      \reimp
     */
     function isIndexable()
+    {
+        return true;
+    }
+
+    /*!
+     \reimp
+    */
+    function isInformationCollector()
     {
         return true;
     }

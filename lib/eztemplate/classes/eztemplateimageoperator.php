@@ -108,22 +108,6 @@ class eZTemplateImageOperator
         $this->ImageGDSupported = count( $this->MissingGDFunctions ) == 0;
     }
 
-    function operatorTemplateHints()
-    {
-        return array( 'texttoimage' => array( 'input' => true,
-                                              'output' => true,
-                                              'output-type' => array( 'objectproxy', 'keep' ),
-                                              'parameters' => true ),
-                      'image' => array( 'input' => false,
-                                        'output' => true,
-                                        'output-type' => array( 'objectproxy', 'keep' ),
-                                        'parameters' => true ),
-                      'imagefile' => array( 'input' => false,
-                                            'output' => true,
-                                            'output-type' => 'objectproxy',
-                                            'parameters' => true ) );
-    }
-
     /*!
      Performs image conversion using Image GD and returns the html
      text for the image.
@@ -234,7 +218,7 @@ class eZTemplateImageOperator
                  count( $textcol ) < 3 )
                 $textcol = array( 0, 0, 0 );
 
-            $alternativeText = htmlspecialchars( $inputValue );
+            $alternativeText = $inputValue;
             if ( is_string( $usecache ) )
                 $md5Text = $usecache;
             else

@@ -94,16 +94,6 @@ class eZForgotPassword extends eZPersistentObject
                                                 true );
     }
 
-    /*!
-     \static
-     Removes all password reminders in the database.
-    */
-    function cleanup()
-    {
-        $db =& eZDB::instance();
-        $db->query( "DELETE FROM ezforgot_password" );
-    }
-
 }
 
 ?>

@@ -1,0 +1,887 @@
+#LyX 1.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 218
+\textclass book
+\language english
+\inputencoding latin1
+\fontscheme times
+\graphics default
+\float_placement !htbp
+\paperfontsize 10
+\spacing single 
+\papersize Default
+\paperpackage widemarginsa4
+\use_geometry 0
+\use_amsmath 0
+\paperorientation portrait
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation skip
+\defskip smallskip
+\quotes_language english
+\quotes_times 2
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+
+\layout Title
+
+eZ publish 3.0 requirements specification
+\layout Date
+
+Version 1.0 - 11.2.2002
+\layout Author
+
+eZ publish core team ( bf@ez.no, jb@ez.no )
+\layout Chapter
+
+Introduction
+\layout Standard
+
+This document describes what functionality eZ publish 3.0 should have.
+ The main goals with 3.0 is to create a more modularized core with common
+ classes to make it quicker to develop new modules.
+ This document will serve as the basis for the 3.0 design documents.
+\layout Standard
+
+The 3.0 version is a refactoring of the 2.2 version of eZ publish.
+ The main changes with eZ publish will be generalization and redesign of
+ base objects and extend the functionality of exisiting modules.
+\layout Standard
+
+The main goals for 3.0 are:
+\layout Itemize
+
+Speed 
+\layout Itemize
+
+Code reuse 
+\layout Itemize
+
+Database indenpendence 
+\layout Itemize
+
+XML 
+\layout Itemize
+
+Cross-Browser 
+\layout Itemize
+
+Platform independence 
+\layout Itemize
+
+Localiced 
+\layout Itemize
+
+Secure
+\layout Itemize
+
+User friendly
+\layout Itemize
+
+Stability 
+\layout Itemize
+
+Easy installation 
+\layout Itemize
+
+Reusable Libs (template, xml, xml-rpc, ini files, DB) 
+\layout Itemize
+
+Caching, scalability 
+\layout Itemize
+
+Central search 
+\layout Itemize
+
+Virtualhost less 
+\layout Itemize
+
+Search frendly 
+\layout Itemize
+
+Code standard
+\layout Standard
+
+
+\begin_inset LatexCommand \tableofcontents{}
+
+\end_inset 
+
+
+\layout Chapter
+
+eZ publish core libraries
+\layout Standard
+
+The eZ publish core will be the basis for all modules developed.
+ The core functionality will be separated into core functionality, like
+ the moduleloader, and core libraries.
+ The core functionality is eZ publish specific core functionality which
+ enables plugging in new eZ publish modules and is the framework for the
+ site.
+ The core libraries have a very central point, but is more general purpose
+ and can be released as separate libraries to enable reuse of the libraries
+ for 3rd party developers.
+\layout Section
+
+eZ ini
+\layout Standard
+
+eZ ini is a general settings library used in eZ publish and eZ publish libraries.
+ The ini file will read settings from a file with the following format:
+\layout LyX-Code
+
+# Comment in the file
+\layout LyX-Code
+
+[SettingsBlock]
+\layout LyX-Code
+
+Setting=Value
+\layout LyX-Code
+
+Foo=Bar
+\layout Standard
+
+On first pass a .php file will be generated so that this file can just be
+ included when needed.
+\layout Section
+
+eZ debug
+\layout Standard
+
+eZ debug is a library which handles debug information, logging and timing.
+ The library can log messages in three levels; notice, warning and error.
+\layout Standard
+
+Files used by the eZ debug library:
+\layout LyX-Code
+
+/log/error.log
+\layout LyX-Code
+
+/log/notice.log
+\layout LyX-Code
+
+/log/warning.log
+\layout Standard
+
+The log functionality can also be logged to a custom file e.g.
+\layout LyX-Code
+
+/log/payment.log
+\layout Standard
+
+You will be able to set up specific IP's which are used for logging to the
+ screen.
+ You can use an array of IP's or enable debug to every visitor.
+ The log information can also be written to a specific frame.
+\layout Subsection
+
+Timing
+\layout Standard
+
+The debug library should have means of benchmarking/profiling code.
+ You should be able to set 
+\begin_inset Quotes eld
+\end_inset 
+
+timing points
+\begin_inset Quotes erd
+\end_inset 
+
+ in the code which will be reported if debug is turned on.
+ The timing report can also be logged to a specific frame for easy access.
+\layout Section
+
+eZ template
+\layout Standard
+
+The eZ template library handles content and code separation.
+ You will be able to define blocks in XHTML files which can be used to display
+ variables and other dynamic content.
+ It should be possible to most of the page layout within the template files
+ with the aid of pluggable functions and operators.
+\layout Standard
+
+The template class itself handles only simple text management with template
+ caching.
+ Internationalization (i18n) and localization (l10n) is handled by plugging
+ in extra functionality externally.
+\layout Standard
+
+Templates should be safe, this means that they cannot access files or other
+ resources directly.
+ All access is done trough the template class which may restrict the templates
+ usage of resources.
+ Secondly templates should allow for page designers to perform 
+\begin_inset Quotes eld
+\end_inset 
+
+code
+\begin_inset Quotes erd
+\end_inset 
+
+ pieces, this does not mean that they can embed PHP code when they want
+ special features, instead the focus is to use user-defined functions and
+ operators.
+\layout Standard
+
+Templates must be fast, therefore they must be compiled.
+ The compilation is done by transforming the template into a php script
+ which is included.
+ This allows for the template class to create highly optimized results and
+ also aids from the use of PHP accellerators such as Zend and APC.
+\layout Standard
+
+Altough alot of the data processing is done in the templates we will still
+ allow PHP code parse parts of the template, this allows PHP code using
+ templates to perform more advanced processing than template code can handle.
+\layout Section
+
+eZ cache
+\layout Standard
+
+eZ cache handles cached files.
+ It handles storage, checking, timeout and clearing of cache files.
+ 
+\layout Section
+
+eZ db
+\layout Standard
+
+eZ db is a library for cross database communication in PHP.
+ eZ db supports MySQL, PostgreSQL, Oracle and ODBC.
+ The databases then supported via ODBC includes: Adabas D, IBM DB2, iODBC,
+ Solid, and Sybase SQL Anywhere.
+\layout LyX-Code
+
+\layout Section
+
+eZ xml
+\layout Standard
+
+The XML parser will be a DOM parser which is compatible with libXML.
+ It will also have a fast mode where it creates a arrary hierarchy instead
+ of object hierarchy, this should be quickes and less memory intensive.
+\layout Standard
+
+eZ xml must support XML namespaces.
+\layout Standard
+
+eZ xml must support XML schema validation.
+\layout Section
+
+eZ soap
+\layout Standard
+
+eZ soap will implement the SOAP protocoll for RPC communication over HTTP
+ 1.1.
+\layout Section
+
+eZ xmlrpc
+\layout Standard
+
+XML RPC communication library.
+ Implementation of the XML-RPC protocoll.
+\layout Section
+
+eZ locale
+\layout Standard
+
+The locale library handles localization, l10n.
+\layout Section
+
+eZ validator
+\layout Standard
+
+The eZ validator library handles
+\layout Section
+
+eZ xmlrenderer
+\layout Standard
+
+The eZ xmlrenderer library converts XML documents to other documents based
+ on templates.
+\layout Standard
+
+The syntax highlight library will be used as a general syntax highlighter.
+ Used in the XML renderer library among other.
+ The syntax highlighter will highlight text based on a regular expression
+ rule set.
+ 
+\layout Standard
+
+It should be divided into two parts, one that finds the start and length
+ of the word(s) that should be highlighted and one part that uses this informati
+on to return the XML/HTML highlighted text.
+\layout Section
+
+eZ session
+\layout Standard
+
+To fetch the current session for the user you can use the currentSession()
+ function.
+ The currentSession() function will return the users current session object.
+ If that object does not exist, one will be created.
+\layout LyX-Code
+
+$session =& eZSession::currentSession( );
+\layout Standard
+
+To set a session variable you use the setVariable function:
+\layout LyX-Code
+
+$session->setVariable( 
+\begin_inset Quotes eld
+\end_inset 
+
+CartID
+\begin_inset Quotes erd
+\end_inset 
+
+, 42 );
+\layout Standard
+
+To fetch a session variable you must use the variable() function, if the
+ variable does not exist false is returned:
+\layout LyX-Code
+
+$cartID = $session->variable( 
+\begin_inset Quotes eld
+\end_inset 
+
+CartID
+\begin_inset Quotes erd
+\end_inset 
+
+ );
+\layout Subsection
+
+Shared memory
+\layout Standard
+
+It should be possible to store the sessions to both database and e.g.
+ shared memory.
+ This is to prevent database calls on heavy loaded sites.
+\layout Section
+
+eZ file
+\layout Standard
+
+The eZ file library handles file uploads.
+\layout Section
+
+eZ imagefile
+\layout Standard
+
+The eZ image library handles image scaling and conversion.
+ Both GD and Image Magick will be supported in the initial version of eZ
+ imagefile.
+\layout Section
+
+eZ mail
+\layout Standard
+
+eZ mail handles sending of POP mail.
+ The library handles both plain e-mails and e-mails with attachments.
+ Used with the eZ encryption library you can send and receive GPG encrypted
+ e-mails.
+\layout Section
+
+eZ encryption
+\layout Standard
+
+eZ encryption handles encryption and decription of mails.
+\layout Section
+
+eZ search
+\layout Standard
+
+eZ search is a module for indexing of eZ publish objects.
+ 
+\layout Chapter
+
+eZ publish core
+\layout Standard
+
+eZ publish core is the kernel and moduleloader of eZ publish.
+ The core handles all low level eZ publish functionality like module loading,
+ url decoding etc.
+\layout Section
+
+eZ publish core and libraries
+\layout Standard
+
+The eZ publish kernel is responsible for displaying the objects and functions.
+ An example of an object is a normal new article, functions can be article
+ lists, search results, shopping cart and such.
+\layout Section
+
+Module loader
+\layout Standard
+
+The module loader is resposible for giving the requested module the correct
+ URL information.
+ It's responsible for decoding ur's and to show the correct frame design
+ for the given object or function.
+ 
+\layout Standard
+
+The module loader is also responsible for setting the correct language,
+ characterset, templates and other section configurable settings.
+\layout Standard
+
+The eZ publish modules must be 100% plug and play.
+ Cache folders should be automatically created.
+ Each module should have default site.ini values inside the module so that
+ it does not have to be set in the global site.ini.
+ This makes importing new modules very smooth.
+\layout Standard
+
+Teh module system must also handle variable scopes so that global variables
+ are not used.
+ The module system should call a function in the given module which returns
+ the desired output.
+ 
+\layout Section
+
+eZ publish module
+\layout Standard
+
+The eZ publish module should be a 100% stand alone object which can be truly
+ plugged into eZ publish.
+ Each module must have a list of requirements, e.g.
+ ImageMagick is needed for this module and it must be able to run a self
+ test which checks the database and the needed libraries.
+\layout Section
+
+eZ folder system
+\layout Standard
+
+The main source used for categorizing in eZ publish is the folder system.
+ This system handles the structural layout of the eZ publish site.
+ Permissions are also set on a folder level so that all objects will fetch
+ the permissions from the nearest folder.
+ 
+\layout Section
+
+eZ permission system
+\layout Standard
+
+The permissions are set pr folder.
+ Each folder has the following permission settings:
+\layout Itemize
+
+Read
+\layout Itemize
+
+Edit
+\layout Itemize
+
+Write/Upload
+\layout Standard
+
+Read permission will control the number of users who can read from the folder.
+ When you try to read from a folder without permissions you will be redirected
+ to a 403 permission denied page explaining that you don't have acces to
+ view the requested object.
+\layout Standard
+
+The read permissions are fetched from the nearest object.
+ For example if you have a restricted image stored in your local image database
+ also attach this image to an article then the permissions from the article
+ will control the access to the article with images.
+ This means that permissions are only used in one level from the nearest
+ folder object.
+ 
+\layout Standard
+
+Edit permissions control the right to alter the folder object itself.
+ When editing the folder object you can set the autorization level and set
+ the workflow which should be used etc.
+\layout Standard
+
+Write/upload permissions is the permission you must have to be able to create
+ new items in a folder.
+ E.g.
+ if you need to publish an article, upload an image or similar you need
+ this permission.
+ However the workflow for the current folder controls the approval path,
+ so that you can create a more fine grained permission/approval system for
+ the given folder.
+\layout Standard
+
+Note: there are no longer possible to set permissions on a pr object basis
+ as there were in the 2.2 release of eZ publish.
+ This is due to the fact that we don't see the need for a pr object permission
+ system.
+\layout Section
+
+Workflow system
+\layout Standard
+
+The workflow system handles what should happen to an object when it gets
+ 
+\begin_inset Quotes eld
+\end_inset 
+
+published
+\begin_inset Quotes erd
+\end_inset 
+
+ to a folder.
+ Each folder has a corresponding workflow.
+ The workflow is a list of events.
+ The default workflow is to directly publish the object.
+ You can use the following events, and you can also create custom events
+ if you need it:
+\layout Itemize
+
+Publish
+\layout Itemize
+
+Approve by group
+\layout Itemize
+
+Approve by user
+\layout Itemize
+
+Un-publish
+\layout Itemize
+
+Wait until ( for delayed publishing and un-publishing )
+\layout Subsection
+
+General Content Object
+\layout Standard
+
+There will be a master object which all content objects inherit functionality
+ from.
+ This is a low level object which has the standard functionality which handles
+ storing, updatating and fetching an object from the database.
+ 
+\layout Standard
+
+Example: you want to create an article object with the following fields:
+\layout Itemize
+
+Object type ( ezarticle_article ) ID, int autoincrement ( automatically
+ created and incremented ) 
+\layout Itemize
+
+Name, string 255 characters, search index
+\layout Itemize
+
+Content, XML string full tag support ( with images and formatting ), search
+ index 
+\layout Itemize
+
+Link text, string 255 characters, optional 
+\layout Itemize
+
+Category, category relation
+\layout Standard
+
+When you've defined these values you will be able to store, update and fetch
+ an object of this type.
+ When data is read from the database it will be automatically converted
+ to the displayable format by the renderer engine ( see below ).
+ This object will also handle indecing of object values as well as relations
+ to other objects.
+\layout Subsection
+
+General time stamps
+\layout Standard
+
+All objects should have timestamps for when it was created, published and
+ last altered.
+ This should also be integrated into the workflow and logging system to
+ get a time trace with which users have done what to which object and when.
+\layout Subsection
+
+General object system
+\layout Standard
+
+An object can be related to one or several other objects.
+ E.g.
+ add a forum to an article or procut.
+ Every object will get a unique ID.
+ 
+\layout Subsection
+
+General delete system
+\layout Standard
+
+Every module will get a notice when an object are deleted this is done without
+ the modules knowing about each other.
+ 
+\layout Subsection
+
+SQL builder
+\layout Standard
+
+The SQL builder should dynamically create SQL statements and be able to
+ cache them for later reuse.
+ E.g.
+ all SELECT statements can use this to fetch one or more elements from the
+ database.
+ It should also be able to create relations to other objects and return
+ objects or ID's automatically.
+ This should be tightly integrated into the general content object.
+\layout Subsection
+
+Update - cache coherence
+\layout Standard
+
+A general system to let other objects know when an object is changed.
+ E.g.
+ if you've included a poll, forum and a picture to an article you need to
+ clear the cache and regenerate the page when either the poll, forum or
+ picture are changed.
+ The eZ cache library will be used to get cache coherence.
+\layout Subsection
+
+Common folders
+\layout Standard
+
+All content objects can be placed in the common folder hierarchy.
+ This folder hierarcy will define the structure of the site and will replace
+ the different categories used in the 2.2 series.
+\layout Subsection
+
+Validator
+\layout Standard
+
+A central part of the eZ publish engine will be the validator.
+ The validator will check values for validity.
+ This will be done internally in the object when storing and updating or
+ upon request.
+ That way you only have to define which fields are required and which are
+ optional, the rest is handled by the validator.
+ Error repporting is also handled by the validator.
+\layout Subsection
+
+Rendrer engine 
+\layout Standard
+
+Since the objects can store fields of different types we need a renderer
+ to display this.
+ The renderer will convert the XML/text/float if necessary and return the
+ correct values.
+ This can be HTML, LaTeX or any other format supported by the renderer.
+ The renderer will use templates when converting XML.
+ The localization engine will be used when converting numbers, dates and
+ currencies.
+\layout Standard
+
+To prevent speed impact when displaying the objects the renderer will cache
+ the fields upon storage or, if the cache has been cleared, when displaying
+ the object.
+\layout Subsection
+
+Localization
+\layout Standard
+
+The localization engine will handle conversion of numbers, dates and currencies
+ to a localized format.
+ 
+\layout Standard
+
+The localization engine must also support setting correct character set
+ in the admin site for storage so that articles with special characters
+ are stored correctly to the database.
+\layout Subsection
+
+Search
+\layout Standard
+
+The search will be done by a central module.
+ That way you will be able to search all types of objects at the same time.
+ You will be able to search only selected object types and categories.
+\layout Standard
+
+If a modules needs more specialized or advanced search this should be handled
+ by that particular module.
+\layout Subsection
+
+Permissions / security
+\layout Standard
+
+The permissions should be set on a pr folder.
+ This should be handled by the folder and content object on a low level.
+ It should be possible to ommit permissions for a whole site if not needed.
+\layout Subsection
+
+Workflow / event system
+\layout Standard
+
+All objects which will be created can be assigned a workflow.
+ This is done on a pr category level.
+ A workflow can consist of several levels of editor approval.
+ A workflow can also be connected to available events.
+ Standard event is to send a message or e-mail to the affected users.
+ The workflow normally changes the status of an object when done.
+\layout Standard
+
+An example of a workflow: a pr release is written by a developer, it's send
+ to proof reading, after it's proof read the editor can publish it.
+ E-mails will be sent at all stages, if enabled.
+\layout Standard
+
+The workflow is logged so that you can see how long a person has used to
+ complete a task.
+\layout Standard
+
+The workflow must be designed so that it does not have any speed impact
+ on published items.
+ It must also be created so that it will be possible to have several events
+ on publishing.
+ E.g.
+ create PDF version of document, send bulkmail notice and publish on site.
+\layout Subsection
+
+Version control
+\layout Standard
+
+All content objects should be able to have version control.
+ This should be handled at a low level and not have any impact on live site
+ performance.
+\layout Standard
+
+The main benefit from version control is to separate creation of new content
+ and the live proof read content.
+ You will also be able to have a specific version valid for a time period
+ and then republish the old version.
+\layout Standard
+
+Goals for the versions are:
+\layout Standard
+
+Work in progress: to handle a work in progress object without interfering
+ with the live content.
+\layout Standard
+
+Differentiate production from test: To be able to separate the production
+ from the test versions of documents.
+\layout Standard
+
+Track changes: to be able to see who did what and when.
+\layout Standard
+
+Bulk versioning: have n number of articles with the same version 
+\begin_inset Quotes eld
+\end_inset 
+
+alias
+\begin_inset Quotes erd
+\end_inset 
+
+ and publish/unpublish all at the same time.
+ This is handy when doing changes on a large number of documents.
+\layout Standard
+
+Snapshot: to create a snapshot of the site at a point in time.
+\layout Standard
+
+The version control system can also be used to create temporary versions,
+ for instance while editing an article a new version is created and used
+ for editing, the last version is then still visible on the user page.
+\layout Standard
+
+Locking is handled when someone opens a write access to a specific version
+ of an object, this means that no other person can edit this object until
+ the it is unlocked or the lock is stolen.
+ Information on how long the object is locked and who has locked it should
+ be available.
+\layout Standard
+
+Information about version control can be found here:
+\layout Standard
+
+
+\begin_inset LatexCommand \htmlurl[Zope]{http://dev.zope.org/Wikis/DevSite/Projects/ZopeVersionControl/VisionStatement}
+
+\end_inset 
+
+
+\layout Standard
+
+Other ideas for version control can be found here:
+\layout Standard
+
+
+\begin_inset LatexCommand \htmlurl[Subversion]{http://subversion.tigris.org/servlets/ProjectDocumentList}
+
+\end_inset 
+
+
+\layout Section
+
+User hierachy
+\layout Standard
+
+The user permission system should be able to have a tree like structure.
+ That way you can let a user create subusers if he has permissions to do
+ it.
+\layout Section
+
+Hiearchy- site encapsulation
+\layout Standard
+
+It should be possible to create subsites which look and behave like a totally
+ different site.
+ That way you can have two different customers on the same installation
+ and database without then knowing about each other.
+\layout Section
+
+Internal Error handling
+\layout Standard
+
+There should be a good error handling system.
+ This will report errors like, Access denied, Page/Object not found, Module
+ not found etc.
+ 
+\layout Section
+
+Cache system
+\layout Standard
+
+eZ publish should be aware of all the pages that can be accessed and have
+ the possibility to cache all the pages internally on demand.
+ The internal cache system will use the core cache library.
+ The cache system should work on all modules and can be turned off.
+ The cache system should automatically cache a file upon publishing.
+ This will generate a pure static page which will be served when a user
+ accesses the site.
+ 
+\layout Standard
+
+The cache system must have the possibility to cache files for different
+ user roles.
+ E.g.
+ cache lists for a specific user/group, the default will be to create the
+ public available cached version.
+\layout Standard
+
+If the cache is cleared it must be simple to regenerate the whole cache
+ as a cron batch job.
+\layout Section
+
+Dynamic menu boxes
+\layout Standard
+
+The menu boxes should be designed by the site administrator.
+ Every element in a box can either be a static element or a dynamic element.
+ Example of a dynamic element can be a link to an article or article category
+ to be shown in the menu.
+\layout Standard
+
+The number of levels pr menu are decided by the site admin.
+ The placement of the menuboxes are decided by the admin, if it's placed
+ on the left or right side and if they're shown at all.
+ The menyboxes can be specific to a section of the site.
+\layout Standard
+
+This should be tightly connected to the features of the eZ template library.
+\the_end

@@ -45,12 +45,8 @@ $order = eZOrder::fetch( $orderID );
 
 if ( get_class( $order ) == 'ezorder' )
 {
-    if (  $order->attribute( 'is_temporary' ) )
-    {
-        $email =& $order->accountEmail();
-        $order->setAttribute( 'email', $email );
-        $order->store();
-
+   if (  $order->attribute( 'is_temporary' ) )
+   {
         $operationResult = eZOperationHandler::execute( 'shop', 'checkout', array( 'order_id' => $order->attribute( 'id' ) ) );
         switch( $operationResult['status'] )
         {

@@ -6,25 +6,27 @@
 # The last version which changelogs and db updates are related to
 # For the first development release this should be empty, in
 # wich case $LAST_STABLE is used.
-PREVIOUS_VERSION="3.4.0alpha4"
+PREVIOUS_VERSION="3.2-5"
 # The last version of the newest stable branch
-LAST_STABLE="3.3-4"
+LAST_STABLE="3.2-5"
 
 MAJOR=3
-MINOR=4
-RELEASE=0
-# Starts at 1 for the first release in a branch and increases with one
-REAL_RELEASE=5
-STATE="beta1"
-VERSION=$MAJOR"."$MINOR"."$RELEASE""$STATE
-VERSION_ONLY=$MAJOR"."$MINOR
-BRANCH_VERSION=$MAJOR"."$MINOR
-# Is automatically set to 'true' when $STATE contains some text
+MINOR=2
+RELEASE=6
+REAL_RELEASE=$RELEASE
+STATE=""
 DEVELOPMENT="false"
+DEV_TEXT=""
+[ "$DEVELOPMENT" = "true" ] && DEV_TEXT=".0"
+VERSION=$MAJOR"."$MINOR$DEV_TEXT"-"$RELEASE
+VERSION_NORELEASE=$MAJOR"."$MINOR$DEV_TEXT
+VERSION_ONLY=$MAJOR"."$MINOR
+VERSION_ALIAS="$VERSION_NORELEASE release $RELEASE"
+BRANCH_VERSION=$MAJOR"."$MINOR
 # If non-empty the script will check for changelog and db update from $LAST_STABLE
 FIRST_STABLE=""
-
-[ -n $STATE ] && DEVELOPMENT="true"
+# If non-empty the script will check for database version updates
+FIRST_RELEASE=""
 
 # Check parameters
 for arg in $*; do
@@ -71,21 +73,11 @@ if ! grep "VERSION_ONLY=\"$VERSION_ONLY\"" bin/shell/common.sh &>/dev/null; then
     [ -n "$EXIT_AT_ONCE" ] && exit 1
 fi
 
-if ! grep "VERSION_STATE=\"$STATE\"" bin/shell/common.sh &>/dev/null; then
-    echo "`$SETCOLOR_FAILURE`Version state mismatch`$SETCOLOR_NORMAL`"
-    echo "Wrong version state in `$SETCOLOR_EXE`bin/shell/common.sh`$SETCOLOR_NORMAL` for variable VERSION_STATE"
+if ! grep "VERSION_NICK=\"$VERSION_ALIAS\"" bin/shell/common.sh &>/dev/null; then
+    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+    echo "Wrong version number in `$SETCOLOR_EXE`bin/shell/common.sh`$SETCOLOR_NORMAL` for variable VERSION_NICK"
     echo "Should be:"
-    echo "VERSION_STATE=\"`$SETCOLOR_EMPHASIZE`$STATE`$SETCOLOR_NORMAL`\""
-    echo
-    MAIN_ERROR="1"
-    [ -n "$EXIT_AT_ONCE" ] && exit 1
-fi
-
-if ! grep "VERSION_PREVIOUS=\"$PREVIOUS_VERSION\"" bin/shell/common.sh &>/dev/null; then
-    echo "`$SETCOLOR_FAILURE`Previous version mismatch`$SETCOLOR_NORMAL`"
-    echo "Wrong previous version in `$SETCOLOR_EXE`bin/shell/common.sh`$SETCOLOR_NORMAL` for variable VERSION_PREVIOUS"
-    echo "Should be:"
-    echo "VERSION_PREVIOUS=\"`$SETCOLOR_EMPHASIZE`$PREVIOUS_VERSION`$SETCOLOR_NORMAL`\""
+    echo "VERSION_NICK=\"`$SETCOLOR_EMPHASIZE`$VERSION_ALIAS`$SETCOLOR_NORMAL`\""
     echo
     MAIN_ERROR="1"
     [ -n "$EXIT_AT_ONCE" ] && exit 1
@@ -123,21 +115,21 @@ if ! grep "define( \"EZ_SDK_VERSION_RELEASE\", $RELEASE );" lib/version.php &>/d
     [ -n "$EXIT_AT_ONCE" ] && exit 1
 fi
 
-if ! grep "define( \"EZ_SDK_VERSION_STATE\", '$STATE' );" lib/version.php &>/dev/null; then
-    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-    echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for variable EZ_SDK_VERSION_STATE"
-    echo "Should be:"
-    echo "define( \"EZ_SDK_VERSION_STATE\", '`$SETCOLOR_EMPHASIZE`$STATE`$SETCOLOR_NORMAL`' );"
-    echo
-    MAIN_ERROR="1"
-    [ -n "$EXIT_AT_ONCE" ] && exit 1
-fi
-
 if ! grep "define( \"EZ_SDK_VERSION_DEVELOPMENT\", $DEVELOPMENT );" lib/version.php &>/dev/null; then
     echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
     echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for variable EZ_SDK_VERSION_DEVELOPMENT"
     echo "Should be:"
     echo "define( \"EZ_SDK_VERSION_DEVELOPMENT\", `$SETCOLOR_EMPHASIZE`$DEVELOPMENT`$SETCOLOR_NORMAL` );"
+    echo
+    MAIN_ERROR="1"
+    [ -n "$EXIT_AT_ONCE" ] && exit 1
+fi
+
+if ! grep "define( 'EZ_SDK_VERSION_ALIAS', \"$VERSION_ALIAS\" );" lib/version.php &>/dev/null; then
+    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+    echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for variable EZ_SDK_VERSION_ALIAS"
+    echo "Should be:"
+    echo "define( \"EZ_SDK_VERSION_ALIAS\", \"`$SETCOLOR_EMPHASIZE`$VERSION_ALIAS`$SETCOLOR_NORMAL`\" );"
     echo
     MAIN_ERROR="1"
     [ -n "$EXIT_AT_ONCE" ] && exit 1
@@ -157,21 +149,32 @@ fi
 
 # kernel/sql/common/cleandata.sql
 
-SQL_LIST="kernel/sql/common/cleandata.sql"
+SQL_LIST=""
+for driver in $DRIVERS; do
+    SQL_LIST="$SQL_LIST kernel/sql/$driver/cleandata.sql"
+done
+
+for package in $PACKAGES; do
+    SQL_LIST="$SQL_LIST packages/"$package".sql packages/"$package"_postgresql.sql"
+done
 SQL_ERROR_LIST=""
 
 for sql in $SQL_LIST; do
     SQL_FILE_ERROR=""
-    if ! grep -e "INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-version','$VERSION');" $sql &>/dev/null; then
-	MAIN_ERROR="1"
-	SQL_ERROR="1"
-	SQL_FILE_ERROR="1"
+    if ! grep -e "INSERT INTO ezsite_data (name, value) VALUES ( *'ezpublish-version', *'$VERSION_NORELEASE' *);" $sql &>/dev/null; then
+	if ! grep -e "INSERT INTO ezsite_data VALUES ( *'ezpublish-version', *'$VERSION_NORELEASE' *);" $sql &>/dev/null; then
+	    MAIN_ERROR="1"
+	    SQL_ERROR="1"
+	    SQL_FILE_ERROR="1"
+	fi
     fi
 
-    if ! grep -e "INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-release','$REAL_RELEASE');" $sql &>/dev/null; then
-	MAIN_ERROR="1"
-	SQL_ERROR="1"
-	SQL_FILE_ERROR="1"
+    if ! grep -e "INSERT INTO ezsite_data (name, value) VALUES ( *'ezpublish-release', *'$REAL_RELEASE' *);" $sql &>/dev/null; then
+	if ! grep -e "INSERT INTO ezsite_data VALUES ( *'ezpublish-release', *'$REAL_RELEASE' *);" $sql &>/dev/null; then
+	    MAIN_ERROR="1"
+	    SQL_ERROR="1"
+	    SQL_FILE_ERROR="1"
+	fi
     fi
     [ -n "$SQL_FILE_ERROR" ] && SQL_ERROR_LIST="$SQL_ERROR_LIST $sql"
 done
@@ -187,26 +190,33 @@ if [ -n "$SQL_ERROR" ]; then
     echo "For the variable ezpublish-version"
     echo
     echo "Should be:"
-    echo "INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-version','`$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`');"
-    echo "and"
+    echo "INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-version','`$SETCOLOR_EMPHASIZE`$VERSION_NORELEASE`$SETCOLOR_NORMAL`');"
     echo "INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-release','`$SETCOLOR_EMPHASIZE`$REAL_RELEASE`$SETCOLOR_NORMAL`');"
+    echo "or"
+    echo "INSERT INTO ezsite_data VALUES ('ezpublish-version','`$SETCOLOR_EMPHASIZE`$VERSION_NORELEASE`$SETCOLOR_NORMAL`');"
+    echo "INSERT INTO ezsite_data VALUES ('ezpublish-release','`$SETCOLOR_EMPHASIZE`$REAL_RELEASE`$SETCOLOR_NORMAL`');"
     echo
     echo "To fix this the following should be done:"
     echo
-    echo "Create a file called `$SETCOLOR_FILE`data.sql`$SETCOLOR_NORMAL` and add the following"
-    echo "`$SETCOLOR_EMPHASIZE`UPDATE ezsite_data set value='$VERSION' WHERE name='ezpublish-version';`$SETCOLOR_NORMAL`"
+    echo "Create the file called `$SETCOLOR_FILE`mysql_data.sql`$SETCOLOR_NORMAL` and `$SETCOLOR_FILE`postgresql_data.sql`$SETCOLOR_NORMAL`"
+    echo "Then add the following to both files"
+    echo "`$SETCOLOR_EMPHASIZE`UPDATE ezsite_data set value='$VERSION_NORELEASE' WHERE name='ezpublish-version';`$SETCOLOR_NORMAL`"
     echo "`$SETCOLOR_EMPHASIZE`UPDATE ezsite_data set value='$REAL_RELEASE' WHERE name='ezpublish-release';`$SETCOLOR_NORMAL`"
-    echo "then run `$SETCOLOR_EXE`./bin/shell/redumpall.sh --data tmp`$SETCOLOR_NORMAL`,"
+    echo "then run `$SETCOLOR_EXE`./bin/shell/redumpall.sh --mysql tmp`$SETCOLOR_NORMAL`,"
+    echo "         `$SETCOLOR_EXE`./bin/shell/redumpall.sh --postgresql tmp`$SETCOLOR_NORMAL`,"
     echo "check the changes with `$SETCOLOR_EXE`svn diff`$SETCOLOR_NORMAL` and them commit them if everything is ok"
     echo
     echo "You can copy and paste the following in your shell"
     echo "--------------------------------------8<----------------------------------------"
     echo
-    echo "rm -f data.sql"
-    echo "echo \"`$SETCOLOR_EMPHASIZE`UPDATE ezsite_data set value='$VERSION' WHERE name='ezpublish-version';`$SETCOLOR_NORMAL`\" > data.sql"
-    echo "echo \"`$SETCOLOR_EMPHASIZE`UPDATE ezsite_data set value='$REAL_RELEASE' WHERE name='ezpublish-release';`$SETCOLOR_NORMAL`\" >> data.sql"
+    echo "rm -f mysql_schema.sql mysql_data.sql postgresql_schema.sql postgresql_data.sql"
+    echo "echo '' > mysql_schema.sql; echo '' > postgresql_schema.sql"
+    echo "echo \"`$SETCOLOR_EMPHASIZE`UPDATE ezsite_data set value='$VERSION_NORELEASE' WHERE name='ezpublish-version';`$SETCOLOR_NORMAL`\" > mysql_data.sql"
+    echo "echo \"`$SETCOLOR_EMPHASIZE`UPDATE ezsite_data set value='$REAL_RELEASE' WHERE name='ezpublish-release';`$SETCOLOR_NORMAL`\" >> mysql_data.sql"
+    echo "cp mysql_data.sql postgresql_data.sql"
     echo
-    echo "`$SETCOLOR_EXE`./bin/shell/redumpall.sh --data tmp`$SETCOLOR_NORMAL`"
+    echo "`$SETCOLOR_EXE`./bin/shell/redumpall.sh --mysql tmp`$SETCOLOR_NORMAL`"
+    echo "`$SETCOLOR_EXE`./bin/shell/redumpall.sh --postgresql tmp`$SETCOLOR_NORMAL`"
     echo
     echo "--------------------------------------8<----------------------------------------"
     echo
@@ -233,11 +243,7 @@ else
     prev="$PREVIOUS_VERSION"
 fi
 
-if [ "$DEVELOPMENT" == "true" ]; then
-    file="doc/changelogs/$BRANCH_VERSION/unstable/CHANGELOG-$prev-to-$VERSION"
-else
-    file="doc/changelogs/$BRANCH_VERSION/CHANGELOG-$prev-to-$VERSION"
-fi
+file="doc/changelogs/$BRANCH_VERSION/CHANGELOG-$VERSION"
 if [ ! -f $file ]; then
     echo "`$SETCOLOR_FAILURE`Missing changelog file`$SETCOLOR_NORMAL`"
     echo "The changelog file `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` is missing"
@@ -264,11 +270,7 @@ fi
 
 if [ -n "$FIRST_STABLE" ]; then
     prev="$PREVIOUS_VERSION"
-    if [ "$DEVELOPMENT" == "true" ]; then
-	file="doc/changelogs/$BRANCH_VERSION/unstable/CHANGELOG-$prev-to-$VERSION"
-    else
-	file="doc/changelogs/$BRANCH_VERSION/CHANGELOG-$prev-to-$VERSION"
-    fi
+    file="doc/changelogs/$BRANCH_VERSION/CHANGELOG-$prev-to-$VERSION"
     if [ ! -f $file ]; then
 	echo "`$SETCOLOR_FAILURE`Missing changelog file`$SETCOLOR_NORMAL`"
 	echo "The changelog file `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` is missing"
@@ -300,11 +302,7 @@ for driver in $DRIVERS; do
 	prev="$PREVIOUS_VERSION"
     fi
 
-    if [ "$DEVELOPMENT" == "true" ]; then
-	file="update/database/$driver/$BRANCH_VERSION/unstable/dbupdate-$prev-to-$VERSION.sql"
-    else
-	file="update/database/$driver/$BRANCH_VERSION/dbupdate-$prev-to-$VERSION.sql"
-    fi
+    file="update/database/$driver/$BRANCH_VERSION/dbupdate-$prev-to-$VERSION.sql"
     if [ ! -f $file ]; then
 	echo "`$SETCOLOR_FAILURE`Missing database update file`$SETCOLOR_NORMAL`"
 	echo "The database update file `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` is missing"
@@ -313,14 +311,16 @@ for driver in $DRIVERS; do
 	MAIN_ERROR="1"
 	[ -n "$EXIT_AT_ONCE" ] && exit 1
     else
-	if ! grep -E "UPDATE ezsite_data SET value='$VERSION' WHERE name='ezpublish-version';" $file &>/dev/null; then
-	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-	    echo "Wrong/missing version number in `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` for variable ezpublish-version"
-	    echo "Should be:"
-	    echo "UPDATE ezsite_data SET value='`$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`' WHERE name='ezpublish-version';"
-	    echo
-	    MAIN_ERROR="1"
-	    [ -n "$EXIT_AT_ONCE" ] && exit 1
+	if [[ -n "$FIRST_STABLE" || -n "$FIRST_RELEASE" ]]; then
+	    if ! grep -E "UPDATE ezsite_data SET value='$VERSION_NORELEASE' WHERE name='ezpublish-version';" $file &>/dev/null; then
+		echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+		echo "Wrong/missing version number in `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` for variable ezpublish-version"
+		echo "Should be:"
+		echo "UPDATE ezsite_data SET value='`$SETCOLOR_EMPHASIZE`$VERSION_NORELEASE`$SETCOLOR_NORMAL`' WHERE name='ezpublish-version';"
+		echo
+		MAIN_ERROR="1"
+		[ -n "$EXIT_AT_ONCE" ] && exit 1
+	    fi
 	fi
 	if ! grep -E "UPDATE ezsite_data SET value='$REAL_RELEASE' WHERE name='ezpublish-release';" $file &>/dev/null; then
 	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
@@ -335,11 +335,7 @@ for driver in $DRIVERS; do
 
     if [ -n "$FIRST_STABLE" ]; then
 	prev="$LAST_STABLE"
-	if [ "$DEVELOPMENT" == "true" ]; then
-	    file="update/database/$driver/$BRANCH_VERSION/unstable/dbupdate-$prev-to-$VERSION.sql"
-	else
-	    file="update/database/$driver/$BRANCH_VERSION/dbupdate-$prev-to-$VERSION.sql"
-	fi
+	file="update/database/$driver/$BRANCH_VERSION/dbupdate-$prev-to-$VERSION.sql"
 	if [ ! -f $file ]; then
 	    echo "`$SETCOLOR_FAILURE`Missing database update file`$SETCOLOR_NORMAL`"
 	    echo "The database update file `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` is missing"
@@ -349,14 +345,16 @@ for driver in $DRIVERS; do
 	    MAIN_ERROR="1"
 	    [ -n "$EXIT_AT_ONCE" ] && exit 1
 	else
-	    if ! grep -E "UPDATE ezsite_data SET value='$VERSION' WHERE name='ezpublish-version';" $file &>/dev/null; then
-		echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-		echo "Wrong/missing version number in `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` for variable ezpublish-version"
-		echo "Should be:"
-		echo "UPDATE ezsite_data SET value='`$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`' WHERE name='ezpublish-version';"
-		echo
-		MAIN_ERROR="1"
-		[ -n "$EXIT_AT_ONCE" ] && exit 1
+	    if [ -n "$FIRST_RELEASE" ]; then
+		if ! grep -E "UPDATE ezsite_data SET value='$VERSION_NORELEASE' WHERE name='ezpublish-version';" $file &>/dev/null; then
+		    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+		    echo "Wrong/missing version number in `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` for variable ezpublish-version"
+		    echo "Should be:"
+		    echo "UPDATE ezsite_data SET value='`$SETCOLOR_EMPHASIZE`$VERSION_NORELEASE`$SETCOLOR_NORMAL`' WHERE name='ezpublish-version';"
+		    echo
+		    MAIN_ERROR="1"
+		    [ -n "$EXIT_AT_ONCE" ] && exit 1
+		fi
 	    fi
 	    if ! grep -E "UPDATE ezsite_data SET value='$REAL_RELEASE' WHERE name='ezpublish-release';" $file &>/dev/null; then
 		echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"

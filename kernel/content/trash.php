@@ -53,7 +53,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
 {
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
-        $access = $user->hasAccessTo( 'content', 'cleantrash', $accessList );
+        $access = $user->hasAccessTo( 'content', 'cleantrash' );
         if ( $access['accessWord'] == 'yes' )
         {
             $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
@@ -74,7 +74,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
 
 if ( $http->hasPostVariable( 'EmptyButton' )  )
 {
-    $access = $user->hasAccessTo( 'content', 'cleantrash', $accessList );
+    $access = $user->hasAccessTo( 'content', 'cleantrash' );
     if ( $access['accessWord'] == 'yes' )
     {
         $objectList =& eZPersistentObject::fetchObjectList( eZContentObject::definition(),

@@ -63,43 +63,18 @@ class eZSimpleShopAccountHandler
     }
 
     /*!
-     \return custom email for the given order
+     \return the account information for the given order
     */
     function email( $order )
     {
         $xml = new eZXML();
         $xmlDoc =& $order->attribute( 'data_text_1' );
-        if( $xmlDoc != null )
-        {
-            $dom =& $xml->domTree( $xmlDoc );
-            $email =& $dom->elementsByName( "email" );
-            return $email[0]->textContent();
-        }
-        else
-            return false;
+        $dom =& $xml->domTree( $xmlDoc );
+        $email =& $dom->elementsByName( "email" );
+
+        return $email[0]->textContent();
     }
 
-    /*!
-     \return custom name for the given order
-    */
-    function accountName( $order )
-    {
-        $accountName = "";
-        $xml = new eZXML();
-        $xmlDoc =& $order->attribute( 'data_text_1' );
-        if( $xmlDoc != null )
-        {
-            $dom =& $xml->domTree( $xmlDoc );
-            $firstName = $dom->elementsByName( "first-name" );
-            $lastName = $dom->elementsByName( "last-name" );
-            $accountName = $firstName[0]->textContent() . " " . $lastName[0]->textContent();
-        }
-        return $accountName;
-    }
-
-    /*!
-     \return the account information for the given order
-    */
     function accountInformation( $order )
     {
         $xml = new eZXML();

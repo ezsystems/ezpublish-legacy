@@ -365,26 +365,6 @@ class eZBasket extends eZPersistentObject
             $item->store();
         }
     }
-
-    /*!
-     \static
-     Removes all baskets for all users.
-    */
-    function cleanup()
-    {
-        $db =& eZDB::instance();
-        $rows = $db->arrayQuery( "SELECT productcollection_id FROM ezbasket" );
-        if ( count( $rows ) > 0 )
-        {
-            $productCollectionIDList = array();
-            foreach ( $rows as $row )
-            {
-                $productCollectionIDList[] = $row['productcollection_id'];
-            }
-            eZProductCollection::cleanupList( $productCollectionIDList );
-        }
-        $db->query( "DELETE FROM ezbasket" );
-    }
 }
 
 ?>

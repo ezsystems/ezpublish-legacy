@@ -8,14 +8,6 @@ stable/3.1:
 - Revision=2708
 - Date 12-Jun-2003
 
-stable/3.2:
-- Revision=3240
-- Date 26-Aug-2003
-
-stable/3.3:
-- Revision=4648
-- Date 02-Jan-2004
-
 Various development branches:
 
 unstable/datatype-development-20030530:

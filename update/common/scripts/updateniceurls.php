@@ -70,11 +70,6 @@ function help()
                   "  -q,--quiet         do not give any output except when errors occur\n" .
                   "  -s,--siteaccess    selected siteaccess for operations, if not specified default siteaccess is used\n" .
                   "  -d,--debug         display debug output at end of execution\n" .
-                  "  --db-host=HOST     Use database host HOST\n" .
-                  "  --db-user=USER     Use database user USER\n" .
-                  "  --db-password=PWD  Use database password PWD\n" .
-                  "  --db-database=DB   Use database named DB\n" .
-                  "  --db-driver=DRIVER Use database driver DRIVER\n" .
                   "  -c,--colors        display output using ANSI colors\n" .
                   "  --sql              display sql queries\n" .
                   "  --logfiles         create log files\n" .
@@ -110,12 +105,6 @@ $isQuiet = false;
 $useLogFiles = false;
 $showSQL = false;
 
-$dbUser = false;
-$dbPassword = false;
-$dbHost = false;
-$dbName = false;
-$dbImpl = false;
-
 $optionsWithData = array( 's' );
 $longOptionsWithData = array( 'siteaccess' );
 
@@ -145,26 +134,6 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             else if ( $flag == 'siteaccess' )
             {
                 changeSiteAccessSetting( $siteaccess, $optionData );
-            }
-            else if ( preg_match( "/^db-host=(.*)$/", $flag, $matches ) )
-            {
-                $dbHost = $matches[1];
-            }
-            else if ( preg_match( "/^db-user=(.*)$/", $flag, $matches ) )
-            {
-                $dbUser = $matches[1];
-            }
-            else if ( preg_match( "/^db-password=(.*)$/", $flag, $matches ) )
-            {
-                $dbPassword = $matches[1];
-            }
-            else if ( preg_match( "/^db-database=(.*)$/", $flag, $matches ) )
-            {
-                $dbName = $matches[1];
-            }
-            else if ( preg_match( "/^db-driver=(.*)$/", $flag, $matches ) )
-            {
-                $dbImpl = $matches[1];
             }
             else if ( $flag == 'debug' )
             {
@@ -295,25 +264,6 @@ include_once( 'lib/ezdb/classes/ezdb.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 $db =& eZDb::instance();
-
-if ( $dbHost or $dbName or $dbUser or $dbImpl )
-{
-    $params = array();
-    if ( $dbHost !== false )
-        $params['server'] = $dbHost;
-    if ( $dbUser !== false )
-    {
-        $params['user'] = $dbUser;
-        $params['password'] = '';
-    }
-    if ( $dbPassword !== false )
-        $params['password'] = $dbPassword;
-    if ( $dbName !== false )
-        $params['database'] = $dbName;
-    $db =& eZDB::instance( $dbImpl, $params, true );
-    eZDB::setInstance( $db );
-}
-
 $db->setIsSQLOutputEnabled( $showSQL );
 
 $fetchLimit = 30;

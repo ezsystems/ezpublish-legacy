@@ -65,8 +65,7 @@ class eZStringType extends eZDataType
     function eZStringType()
     {
         $this->eZDataType( EZ_DATATYPESTRING_STRING, ezi18n( 'kernel/classes/datatypes', 'Text line', 'Datatype name' ),
-                           array( 'serialize_supported' => true,
-                                  'object_serialize_map' => array( 'data_text' => 'text' ) ) );
+                           array( 'serialize_supported' => true ) );
         $this->MaxLenValidator = new eZIntegerValidator();
     }
 
@@ -95,31 +94,22 @@ class eZStringType extends eZDataType
     }
 
     /*!
-     \reimp
+     Validates the input and returns true if the input was
+     valid for this datatype.
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
-    {
-        return $this->validateAttributeHTTPInput( $http, $base, $contentObjectAttribute, false );
-    }
-
-    /*!
-    */
-    function validateAttributeHTTPInput( &$http, $base, &$contentObjectAttribute, $isInformationCollector )
     {
         if ( $http->hasPostVariable( $base . '_ezstring_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $data =& $http->postVariable( $base . '_ezstring_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-            if ( $isInformationCollector == $classAttribute->attribute( 'is_information_collector' ) )
+            if( $classAttribute->attribute( "is_required" ) == true )
             {
-                if ( $classAttribute->attribute( "is_required" ) )
+                if( $data == "" )
                 {
-                    if ( $data == "" )
-                    {
-                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Text line is empty, content required.' ) );
-                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                    }
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                         'Text line is empty, content required.' ) );
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }
             $maxLen = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_LEN_FIELD );
@@ -148,26 +138,6 @@ class eZStringType extends eZDataType
             return true;
         }
         return false;
-    }
-
-    /*!
-     \reimp
-    */
-    function validateCollectionAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
-    {
-        return $this->validateAttributeHTTPInput( $http, $base, $contentObjectAttribute, true );
-    }
-
-    /*!
-     Fetches the http post variables for collected information
-    */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
-    {
-        $dataText =& $http->postVariable( $base . "_ezstring_data_text_" . $contentObjectAttribute->attribute( "id" ) );
-
-        $collectionAttribute->setAttribute( 'data_text', $dataText );
-
-        return true;
     }
 
     /*!
@@ -267,16 +237,26 @@ class eZStringType extends eZDataType
     }
 
     /*!
+     \reuturn the collect information action if enabled
+    */
+    function contentActionList( &$classAttribute )
+    {
+        if ( $classAttribute->attribute( 'is_information_collector' ) == true )
+        {
+            return array( array( 'name' => ezi18n( 'kernel/classes/datatypes', 'Send' ),
+                                 'action' => 'ActionCollectInformation'
+                                 ) );
+        }
+        else
+            return array();
+    }
+
+    /*!
      Returns the content of the string for use as a title
     */
     function title( &$contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_text' );
-    }
-
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        return trim( $contentObjectAttribute->attribute( 'data_text' ) ) != '';
     }
 
     /*!
@@ -334,6 +314,25 @@ class eZStringType extends eZDataType
         $defaultString = $attributeParametersNode->elementTextContentByName( 'default-string' );
         $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_LEN_FIELD, $maxLength );
         $classAttribute->setAttribute( EZ_DATATYPESTRING_DEFAULT_STRING_FIELD, $defaultString );
+    }
+
+    /*!
+     \return a DOM representation of the content object attribute
+    */
+    function &serializeContentObjectAttribute( $objectAttribute )
+    {
+        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
+        include_once( 'lib/ezxml/classes/ezdomnode.php' );
+
+//         $node = new eZDOMNode();
+//         $node->setName( 'attribute' );
+//         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
+//         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', 'ezstring' ) );
+        $node =& eZDataType::contentObjectAttributeDOMNode( $objectAttribute );
+
+        $node->appendChild( eZDOMDocument::createTextNode( $objectAttribute->attribute( 'data_text' ) ) );
+
+        return $node;
     }
 
     /// \privatesection

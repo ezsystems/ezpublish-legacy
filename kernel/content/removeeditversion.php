@@ -44,19 +44,7 @@ $objectID = $http->sessionVariable( "DiscardObjectID" );
 $version = $http->sessionVariable( "DiscardObjectVersion" );
 $editLanguage = $http->sessionVariable( "DiscardObjectLanguage" );
 
-$isConfirmed = false;
 if ( $http->hasPostVariable( "ConfirmButton" ) )
-    $isConfirmed = true;
-
-if ( $http->hasSessionVariable( "DiscardConfirm" ) )
-{
-    $discardConfirm = $http->sessionVariable( "DiscardConfirm" );
-    if ( !$discardConfirm )
-        $isConfirmed = true;
-}
-
-
-if ( $isConfirmed )
 {
     $object =& eZContentObject::fetch( $objectID );
     if ( $object === null )
@@ -88,14 +76,6 @@ if ( $isConfirmed )
     }
 
     $hasRedirected = false;
-    if ( $http->hasSessionVariable( 'RedirectIfDiscarded' ) )
-    {
-        $Module->redirectTo( $http->sessionVariable( 'RedirectIfDiscarded' ) );
-        $http->removeSessionVariable( 'RedirectIfDiscarded' );
-        $http->removeSessionVariable( 'ParentObject' );
-        $http->removeSessionVariable( 'NewObjectID' );
-        $hasRedirected = true;
-    }
     if ( $http->hasSessionVariable( 'ParentObject' ) && $http->sessionVariable( 'NewObjectID' ) == $objectID )
     {
         $parentArray = $http->sessionVariable( 'ParentObject' );
@@ -126,15 +106,10 @@ if ( $http->hasPostVariable( "CancelButton" ) )
 {
     $Module->redirectTo( '/content/edit/' . $objectID . '/' . $version . '/' );
 }
-
 $Module->setTitle( "Remove Editing Version" );
-
 include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 $tpl->setVariable( "Module", $Module );
-$tpl->setVariable( "object_id", $objectID );
-$tpl->setVariable( "object_version", $version );
-$tpl->setVariable( "object_language", $editLanguage );
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:content/removeeditversion.tpl" );
 $Result['path'] = array( array( 'url' => '/content/removeeditversion/',

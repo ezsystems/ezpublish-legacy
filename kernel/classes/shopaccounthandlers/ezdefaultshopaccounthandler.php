@@ -70,34 +70,11 @@ class eZDefaultShopAccountHandler
         $user =& eZUser::currentUser();
         return $user->attribute( 'email' );
     }
-
-    /*!
-     \return the custom name for the given order
-    */
-    function accountName( $order )
-    {
-        $user =& eZUser::currentUser();
-        $accountName = $user->attribute( 'name' );
-        return $accountName;
-    }
-
     function fetchAccountInformation( &$module )
     {
-        eZHTTPTool::setSessionVariable( 'RedirectAfterLogin', '/shop/basket/' );
+        eZHTTPTool::setSessionVariable( 'RedirectAfterUserRegister', '/shop/basket/' );
         eZHTTPTool::setSessionVariable( 'DoCheckoutAutomatically', true );
         $module->redirectTo( '/user/login/' );
-    }
-
-    function accountInformation( $order )
-    {
-        $user =& $order->user();
-        $userObject =& $user->attribute( "contentobject" );
-        $dataMap =& $object->dataMap();
-
-        return array( 'first_name' => $dataMap['first_name']->content(),
-                      'last_name' => $dataMap['last_name']->content(),
-                      'email' => $user->attribute( "email" )
-                      );
     }
 }
 

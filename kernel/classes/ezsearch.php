@@ -96,18 +96,6 @@ class eZSearch
 
     /*!
      \static
-     */
-    function reindexObjectList( $contentObjectList )
-    {
-        foreach ( $contentObjectList as $contentObject)
-        {
-            eZSearch::removeObject( $contentObject );
-            eZSearch::addObject( $contentObject );
-        }
-    }
-
-    /*!
-     \static
      Runs a query to the search engine.
     */
     function &search( $searchText, $params, $searchTypes = array() )
@@ -415,30 +403,6 @@ class eZSearch
 
         eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $searchArray, 'search array' );
         return $searchArray;
-    }
-
-    /*!
-     \static
-     Tells the current search engine to cleanup up all data.
-    */
-    function cleanup()
-    {
-        $ini =& eZINI::instance();
-
-        $searchEngineString = 'ezsearch';
-        if ( $ini->hasVariable( 'SearchSettings', 'SearchEngine' ) == true )
-        {
-            $searchEngineString = $ini->variable( 'SearchSettings', 'SearchEngine' );
-        }
-
-        // fetch the correct search engine implementation
-        include_once( 'kernel/search/plugins/' . strToLower( $searchEngineString ) . '/' . strToLower( $searchEngineString ) . '.php' );
-        $searchEngine = new $searchEngineString;
-
-        if ( method_exists( $searchEngine, 'cleanup' ) )
-        {
-            $searchEngine->cleanup();
-        }
     }
 
 }

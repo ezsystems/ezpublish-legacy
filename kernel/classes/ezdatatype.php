@@ -82,13 +82,10 @@ class eZDataType
 
         $translationAllowed = true;
         $serializeSupported = false;
-        $objectSerializeMap = false;
         if ( isset( $properties['translation_allowed'] ) )
             $translationAllowed = $properties['translation_allowed'];
         if ( isset( $properties['serialize_supported'] ) )
             $serializeSupported = $properties['serialize_supported'];
-        if ( isset( $properties['object_serialize_map'] ) )
-            $objectSerializeMap = $properties['object_serialize_map'];
 
         $this->Attributes = array();
         $this->Attributes["is_indexable"] = $this->isIndexable();
@@ -97,8 +94,7 @@ class eZDataType
         $this->Attributes["information"] = array( "string" => $this->DataTypeString,
                                                   "name" => $this->Name );
         $this->Attributes["properties"] = array( "translation_allowed" => $translationAllowed,
-                                                 'serialize_supported' => $serializeSupported,
-                                                 'object_serialize_map' => $objectSerializeMap );
+                                                 'serialize_supported' => $serializeSupported );
     }
 
     /*!
@@ -141,20 +137,6 @@ class eZDataType
     }
 
     /*!
-     \return the template name to use for result view of an information collection attribute.
-     \note Default is to return the datatype string which is OK
-           for most datatypes, if you want dynamic templates
-           reimplement this function and return a template name.
-     \note The returned template name does not include the .tpl extension.
-     \note \a $collectionAttribute can in some cases be a eZContentObjectAttribute, so any
-           datatype that overrides this must be able to handle both types.
-    */
-    function &resultTemplate( &$collectionAttribute )
-    {
-        return $this->DataTypeString;
-    }
-
-    /*!
      \static
      Crates a datatype instance of the datatype string id \a $dataTypeString.
      \note It only creates one instance for each datatype.
@@ -163,11 +145,6 @@ class eZDataType
     {
         $types =& $GLOBALS["eZDataTypes"];
         $def = null;
-        if ( !isset( $types[$dataTypeString] ) )
-        {
-            eZDataType::loadAndRegisterType( $dataTypeString );
-        }
-
         if ( isset( $types[$dataTypeString] ) )
         {
             $className = $types[$dataTypeString];
@@ -260,14 +237,6 @@ class eZDataType
     }
 
     /*!
-     \return \c true if the datatype finds any content in the attribute \a $contentObjectAttribute.
-    */
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        return false;
-    }
-
-    /*!
      Returns the content data for the given content class attribute.
     */
     function &classAttributeContent( &$classAttribute )
@@ -328,12 +297,7 @@ class eZDataType
     {
     }
 
-
     function storeDefinedClassAttribute( &$classAttribute )
-    {
-    }
-
-    function preStoreDefinedClassAttribute( &$classAttribute )
     {
     }
 
@@ -418,33 +382,6 @@ class eZDataType
     }
 
     /*!
-     Validates the input for an object attribute and returns a validation
-     state as defined in eZInputValidator.
-     \note Default implementation does nothing and returns accepted.
-    */
-    function validateCollectionAttributeHTTPInput( &$http, $base, &$objectAttribute )
-    {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-    }
-
-    /*!
-     Tries to do a fixup on the input text so that it's acceptable as
-     object attribute input.
-     \note Default implementation does nothing.
-    */
-    function fixupCollectionAttributeHTTPInput( &$http, $base, &$objectAttribute )
-    {
-    }
-
-    /*!
-     Fetches the HTTP collected information for the content object attribute.
-     \note Default implementation does nothing.
-    */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$objectAttribute )
-    {
-    }
-
-    /*!
      Executes a custom action for an object attribute which was defined on the web page.
      \note Default implementation does nothing.
     */
@@ -497,14 +434,6 @@ class eZDataType
     }
 
     /*!
-     Initializes the object attribute with some data after object attribute is already stored. It means that for initial version you allready have an attribute_id and you can store data somewhere using this id.
-     \note Default implementation does nothing.
-    */
-    function postInitializeObjectAttribute( &$objectAttribute, $currentVersion, &$originalContentObjectAttribute )
-    {
-    }
-
-    /*!
      Clean up stored object attribute
      \note Default implementation does nothing.
     */
@@ -526,20 +455,7 @@ class eZDataType
     */
     function contentActionList( &$classAttribute )
     {
-        $actionList = array();
-        if ( is_object( $classAttribute ) )
-        {
-            if ( $classAttribute->attribute( 'is_information_collector' ) == true )
-            {
-                $actionList[] = array( 'name' => ezi18n( 'kernel/classes/datatypes', 'Send', 'Datatype information collector action' ),
-                                       'action' => 'ActionCollectInformation' );
-            }
-        }
-        else
-        {
-            eZDebug::writeError( '$classAttribute isn\'t an object.', 'eZDataType::contentActionList' );
-        }
-        return $actionList;
+        return array();
     }
 
     /*!
@@ -623,13 +539,23 @@ class eZDataType
     }
 
     /*!
-     \param package
-     \param content attribute
-
      \return a DOM representation of the content object attribute
     */
-    function &serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function &serializeContentObjectAttribute( &$objectAttribute )
     {
+        $node =& $this->contentObjectAttributeDOMNode( $objectAttribute );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'unsupported', 'true' ) );
+        return $node;
+    }
+
+    /*!
+     \return a DOM representation of the content object attribute
+    */
+    function &contentObjectAttributeDOMNode( &$objectAttribute )
+    {
+        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
+        include_once( 'lib/ezxml/classes/ezdomnode.php' );
+
         $node = new eZDOMNode();
 
         $node->setPrefix( 'ezobject' );
@@ -638,73 +564,7 @@ class eZDataType
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'identifier', $objectAttribute->contentClassAttributeIdentifier(), 'ezremote' ) );
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
-
-        if ( $this->Attributes["properties"]['object_serialize_map'] )
-        {
-            $map = $this->Attributes["properties"]['object_serialize_map'];
-            foreach ( $map as $attributeName => $xmlName )
-            {
-                if ( $objectAttribute->hasAttribute( $attributeName ) )
-                {
-                    $value = $objectAttribute->attribute( $attributeName );
-                    $node->appendChild( eZDOMDocument::createElementTextNode( $xmlName, (string)$value ) );
-                }
-                else
-                {
-                    eZDebug::writeError( "The attribute '$attributeName' does not exists for contentobject attribute " . $objectAttribute->attribute( 'id' ),
-                                         'eZDataType::serializeContentObjectAttribute' );
-                }
-            }
-        }
-        else
-        {
-            $node->appendChild( eZDOMDocument::createElementTextNode( 'data-int', (string)$objectAttribute->attribute( 'data_int' ) ) );
-            $node->appendChild( eZDOMDocument::createElementTextNode( 'data-float', (string)$objectAttribute->attribute( 'data_float' ) ) );
-            $node->appendChild( eZDOMDocument::createElementTextNode( 'data-text', $objectAttribute->attribute( 'data_text' ) ) );
-        }
         return $node;
-    }
-
-    /*!
-     Unserailize contentobject attribute
-
-     \param package
-     \param contentobject attribute object
-     \param ezdomnode object
-    */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
-    {
-        if ( $this->Attributes["properties"]['object_serialize_map'] )
-        {
-            $map = $this->Attributes["properties"]['object_serialize_map'];
-            foreach ( $map as $attributeName => $xmlName )
-            {
-                if ( $objectAttribute->hasAttribute( $attributeName ) )
-                {
-                    $value = $attributeNode->elementTextContentByName( $xmlName );
-                    if ( $value !== false )
-                    {
-                        $objectAttribute->setAttribute( $attributeName, $value );
-                    }
-                    else
-                    {
-                        eZDebug::writeError( "The xml element '$xmlName' does not exist for contentobject attribute " . $objectAttribute->attribute( 'id' ),
-                                             'eZDataType::unserializeContentObjectAttribute' );
-                    }
-                }
-                else
-                {
-                    eZDebug::writeError( "The attribute '$attributeName' does not exist for contentobject attribute " . $objectAttribute->attribute( 'id' ),
-                                         'eZDataType::unserializeContentObjectAttribute' );
-                }
-            }
-        }
-        else
-        {
-            $objectAttribute->setAttribute( 'data_int', (int)$attributeNode->elementTextContentByName( 'data-int' ) );
-            $objectAttribute->setAttribute( 'data_float', (float)$attributeNode->elementTextContentByName( 'data-float' ) );
-            $objectAttribute->setAttribute( 'data_text', $attributeNode->elementTextContentByName( 'data-text' ) );
-        }
     }
 
     function allowedTypes()
@@ -733,17 +593,15 @@ class eZDataType
         $types =& $GLOBALS["eZDataTypes"];
         if ( isset( $types[$type] ) )
         {
+            eZDebug::writeError( "Datatype already registered: $type", "eZDataType::loadAndRegisterType" );
             return false;
         }
 
         include_once( 'lib/ezutils/classes/ezextension.php' );
         $baseDirectory = eZExtension::baseDirectory();
         $contentINI =& eZINI::instance( 'content.ini' );
-
-        $extensionDirectories = $contentINI->variable( 'DataTypeSettings', 'ExtensionDirectories' );
-        $extensionDirectories = array_unique( $extensionDirectories );
         $repositoryDirectories = $contentINI->variable( 'DataTypeSettings', 'RepositoryDirectories' );
-
+        $extensionDirectories = $contentINI->variable( 'DataTypeSettings', 'ExtensionDirectories' );
         foreach ( $extensionDirectories as $extensionDirectory )
         {
             $extensionPath = $baseDirectory . '/' . $extensionDirectory . '/datatypes';
@@ -751,7 +609,6 @@ class eZDataType
                 $repositoryDirectories[] = $extensionPath;
         }
         $foundEventType = false;
-        $repositoryDirectories = array_unique( $repositoryDirectories );
         foreach ( $repositoryDirectories as $repositoryDirectory )
         {
             $includeFile = "$repositoryDirectory/$type/" . $type . "type.php";
@@ -776,5 +633,7 @@ class eZDataType
     /// The descriptive name of the datatype, usually used for displaying to the user
     var $Name;
 }
+
+eZDataType::loadAndRegisterAllTypes();
 
 ?>

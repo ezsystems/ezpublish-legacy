@@ -110,7 +110,7 @@ if ( $Module->isCurrentAction( 'Publish' ) and
         }
         else
         {
-            $Module->redirectToView( 'view', array( 'full', $object->attribute( 'main_parent_node_id' ) ) );
+            $Module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );
         }
     }
     else
@@ -167,17 +167,6 @@ else if ( !$placementID && count( $nodeAssignments ) )
         }
     }
 }
-$parentNodeID = false;
-$mainAssignment = false;
-foreach ( array_keys( $nodeAssignments ) as $key )
-{
-    if ( $nodeAssignments[$key]->attribute( 'is_main' ) == 1 )
-    {
-        $mainAssignment =& $nodeAssignments[$key];
-        $parentNodeID = $mainAssignment->attribute( 'parent_node' );
-        break;
-    }
-}
 
 $contentINI =& eZINI::instance( 'content.ini' );
 if ( $contentINI->hasVariable( 'VersionView', 'AvailableSiteDesigns' ) )
@@ -199,9 +188,6 @@ if ( count( $sitedesignList ) == 1 )
     $sitedesign = $sitedesignList[0];
     $hasCustomSitedesign = true;
 }
-
-$allowChangeButtons = $contentINI->variable( 'VersionView', 'AllowChangeButtons' ) == 'enabled';
-$allowVersionsButton = $contentINI->variable( 'VersionView', 'AllowVersionsButton' ) == 'enabled';
 
 if ( $Module->isCurrentAction( 'ChangeSettings' ) )
 {
@@ -298,84 +284,17 @@ $class =& eZContentClass::fetch( $contentObject->attribute( 'contentclass_id' ) 
 $objectName = $class->contentObjectName( $contentObject );
 $contentObject->setCachedName( $objectName );
 $contentObject->ContentObjectAttributeArray;
-if ( $assignment )
-    $assignment->setName( $objectName );
 
 $node = new eZContentObjectTreeNode();
 $node->setAttribute( 'contentobject_version', $EditVersion );
 $node->setAttribute( 'contentobject_id', $ObjectID );
-$node->setAttribute( 'parent_node_id', $parentNodeID );
+$node->setAttribute( 'parent_node_id', $placementID );
 $node->setAttribute( 'main_node_id', $virtualNodeID );
 $node->setAttribute( 'node_id', $virtualNodeID );
 $node->setAttribute( 'path', array() );
 $node->setName( $objectName );
 
 $node->setContentObject( $contentObject );
-
-$path = array();
-$titlePath = array();
-
-$hasPath = false;
-if ( $mainAssignment )
-{
-    $parentNode =& $mainAssignment->attribute( 'parent_node_obj' );
-    if ( $parentNode )
-    {
-        $parents =& $parentNode->attribute( 'path' );
-
-        foreach ( $parents as $parent )
-        {
-            $path[] = array( 'text' => $parent->attribute( 'name' ),
-                             'url' => '/content/view/full/' . $parent->attribute( 'node_id' ),
-                             'url_alias' => $parent->attribute( 'url_alias' ),
-                             'node_id' => $parent->attribute( 'node_id' )
-                             );
-        }
-        $path[] = array( 'text' => $parentNode->attribute( 'name' ),
-                         'url' => '/content/view/full/' . $parentNode->attribute( 'node_id' ),
-                         'url_alias' => $parentNode->attribute( 'url_alias' ),
-                         'node_id' => $parentNode->attribute( 'node_id' ) );
-        $objectPathElement = array( 'text' => $contentObject->attribute( 'name' ),
-                                    'url' => false,
-                                    'url_alias' => false );
-        $existingNode = $contentObject->attribute( 'main_node' );
-        if ( $existingNode )
-        {
-            $objectPathElement['url'] = '/content/view/full/' . $existingNode->attribute( 'node_id' );
-            $objectPathElement['url_alias'] = $existingNode->attribute( 'url_alias' );
-            $objectPathElement['node_id'] = $existingNode->attribute( 'node_id' );
-        }
-        $path[] = $objectPathElement;
-        $hasPath = true;
-    }
-}
-if ( !$hasPath )
-{
-    $existingNode = $contentObject->attribute( 'main_node' );
-    if ( $existingNode )
-    {
-        $parents =& $existingNode->attribute( 'path' );
-
-        foreach ( $parents as $parent )
-        {
-            $path[] = array( 'text' => $parent->attribute( 'name' ),
-                             'url' => '/content/view/full/' . $parent->attribute( 'node_id' ),
-                             'url_alias' => $parent->attribute( 'url_alias' ),
-                             'node_id' => $parent->attribute( 'node_id' )
-                             );
-        }
-        $path[] = array( 'text' => $existingNode->attribute( 'name' ),
-                         'url' => '/content/view/full/' . $existingNode->attribute( 'node_id' ),
-                         'url_alias' => $existingNode->attribute( 'url_alias' ),
-                         'node_id' => $existingNode->attribute( 'node_id' ) );
-        $hasPath = true;
-    }
-}
-if ( !$hasPath )
-{
-    $path[] = array( 'text' => $contentObject->attribute( 'name' ),
-                     'url' => false );
-}
 
 $tpl->setVariable( 'node', $node );
 
@@ -390,8 +309,6 @@ $tpl->setVariable( 'placement', $placementID );
 $tpl->setVariable( 'assignment', $assignment );
 $tpl->setVariable( 'sitedesign', $sitedesign );
 $tpl->setVariable( 'is_creator', $isCreator );
-$tpl->setVariable( 'allow_change_buttons', $allowChangeButtons );
-$tpl->setVariable( 'allow_versions_button', $allowVersionsButton );
 
 $tpl->setVariable( 'related_contentobject_array', $relatedObjectArray );
 $tpl->setVariable('view_parameters', $viewParameters );
@@ -400,6 +317,5 @@ $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:content/view/versionview.tpl' );
 $Result['path'] = array( array( 'text' => $contentObject->attribute( 'name' ),
                                 'url' => false ) );
-$Result['path'] = $path;
 
 ?>

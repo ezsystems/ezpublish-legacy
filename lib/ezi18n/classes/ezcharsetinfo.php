@@ -63,8 +63,7 @@ class eZCharsetInfo
         $aliasTable =& $GLOBALS['eZCharsetInfoTable'];
         if ( !is_array( $aliasTable ) )
         {
-            $aliasTable = array( 'ascii' => 'us-ascii',
-                                 'latin1' => 'iso-8859-1',
+            $aliasTable = array( 'latin1' => 'iso-8859-1',
                                  'latin2' => 'iso-8859-2',
                                  'latin3' => 'iso-8859-3',
                                  'latin4' => 'iso-8859-4',
@@ -223,10 +222,9 @@ class eZCharsetInfo
      Either returns the found encoding scheme or 'singlebyte' if no scheme was found.
      \sa realCharsetCode
     */
-    function characterEncodingScheme( $charsetCode, $isRealCharset = false )
+    function characterEncodingScheme( $charsetCode )
     {
-        if ( !$isRealCharset )
-            $charsetCode = eZCharsetInfo::realCharsetCode( $charsetCode );
+        $charsetCode = eZCharsetInfo::realCharsetCode( $charsetCode );
         $reverseEncodingTable =& eZCharsetInfo::reverseEncodingTable();
         if ( isset( $reverseEncodingTable[$charsetCode] ) )
             return $reverseEncodingTable[$charsetCode];

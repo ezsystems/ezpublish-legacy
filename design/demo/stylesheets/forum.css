@@ -1,0 +1,138 @@
+body
+{
+	background-color: #ffffff;
+	margin: 0px;
+	padding: 0px;
+}
+
+h1
+{
+    font-size: 120%;
+}
+
+h2
+{
+    font-size: 110%;
+}
+
+h3
+{
+    font-size: 80%;
+}
+
+a
+{
+    color: #000000;
+    text-decoration: none;
+}
+
+a:hover
+{
+    color: #000000;
+    text-decoration: underline;
+}
+
+td.path
+{
+    font-size: 65%;
+    padding: 8px;
+    padding-top: 16px;
+    padding-left: 32px;
+}
+
+td.maincontent
+{
+    padding-top: 8px;
+    padding-left: 32px;
+    padding-right: 32px;
+    padding-bottom: 16px;
+}
+
+div.credits
+{
+    text-align: center;
+}
+
+div.credits p
+{
+    padding-top: 8px;
+    font-size: 65%;
+}
+
+table.topmenu
+{
+    border-left: 1px solid #ff9900;
+}
+
+table.topmenu td.menuitem
+{
+    font-size: 80%;
+    padding: 3px;
+    border: 1px solid #ff9900;
+    border-left: none;
+    background-color: #990000;
+    text-align: center;
+}
+
+table.topmenu td.menuitem a
+{
+    color: #ffffff;
+    font-weight: bold;
+}
+
+table.forummessage, table.forumanswer
+{
+    margin-bottom: 16px;
+}
+
+th.forumheader, th.answerheader, th.linkheader
+{
+    font-size: 80%;
+    border: 1px solid #000000;
+    padding: 4px;
+}
+
+th.forumheader, th.dateheader, th.postedheader, th.linkheader
+{
+    background-color: #ff9900;
+}
+
+th.dateheader, th.answerdateheader, th.postedheader
+{
+    font-size: 65%;
+    border: 1px solid #000000;
+    border-left: none;
+    padding: 4px;
+    text-align: right;
+}
+
+th.postedheader
+{
+    font-size: 80%;
+}
+
+td.forumimage
+{
+    border: 1px solid #000000;
+    text-align: center;
+    padding: 4px;
+}
+
+td.messagecontent, td.answercontent, td.messageauthor, td.messagetopic, td.linkcontent
+{
+    padding: 4px;
+    border: 1px solid #000000;
+    border-top: none;
+}
+
+td.messagetopic
+{
+    font-size: 80%;
+}
+
+td.messageauthor
+{
+    font-size: 65%;
+    border-left: none;
+    text-align: right;
+}

@@ -35,7 +35,7 @@
   \ingroup eZXML
   \brief eZXML handles parsing of well formed XML documents.
 
-1  eZXML will create a DOM tree from well formed XML documents.
+  eZXML will create a DOM tree from well formed XML documents.
 
  \sa eZDOMDocument eZDOMNode
 */
@@ -52,7 +52,7 @@ define( "EZ_NODE_TYPE_CDATASECTION", 4 );
 class eZXML
 {
     /*!
-      Constructor
+      Constructor, should not be used all functions are static.
     */
     function eZXML( )
     {
@@ -105,11 +105,8 @@ class eZXML
         if ( $charset !== false )
         {
             include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-            $codec =& eZTextCodec::instance( $charset, false, false );
-            if ( $codec )
-            {
-                $xmlDoc =& $codec->convertString( $xmlDoc );
-            }
+            $codec =& eZTextCodec::instance( $charset );
+            $xmlDoc =& $codec->convertString( $xmlDoc );
         }
 
         $xmlDoc =& preg_replace( "#<\?.*?\?>#", "", $xmlDoc );
@@ -304,7 +301,8 @@ class eZXML
                     if ( $isCDATASection == false )
                         if ( $tagName[strlen($tagName) - 1]  != "/" )
                         {
-                            $TagStack[] = array( "TagName" => $justName, "ParentNodeObject" => &$currentNode );
+                            array_push( $TagStack,
+                            array( "TagName" => $justName, "ParentNodeObject" => &$currentNode ) );
 
                             unset( $currentNode );
                             $currentNode =& $subNode;
@@ -403,12 +401,6 @@ class eZXML
                 // remove " from value part
                 $attributeValue = substr( $attributeValue, 0, strlen( $attributeValue ) - 1);
 
-                $attributeValue = str_replace( "&gt;", ">", $attributeValue );
-                $attributeValue = str_replace( "&lt;", "<", $attributeValue );
-                $attributeValue = str_replace( "&apos;", "'", $attributeValue );
-                $attributeValue = str_replace( "&quot;", '"', $attributeValue );
-                $attributeValue = str_replace( "&amp;", "&", $attributeValue );
-
                 // check for namespace definition
                 if ( $attributePrefix == "xmlns" )
                 {
@@ -424,7 +416,7 @@ class eZXML
                     $attributeNamespaceURI = $attributeValue;
 
                     // change the default namespace
-                    $this->NamespaceStack[] = $attributeNamespaceURI;
+                    array_push( $this->NamespaceStack, $attributeNamespaceURI );
                 }
 
                 unset( $attrNode );

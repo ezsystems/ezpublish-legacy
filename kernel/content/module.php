@@ -8,24 +8,24 @@
 // Management System.
 //
 // This file may be distributed and/or modified under the terms of the
-// 'GNU General Public License' version 2 as published by the Free
+// "GNU General Public License" version 2 as published by the Free
 // Software Foundation and appearing in the file LICENSE.GPL included in
 // the packaging of this file.
 //
-// Licencees holding valid 'eZ publish professional licences' may use this
-// file in accordance with the 'eZ publish professional licence' Agreement
+// Licencees holding valid "eZ publish professional licences" may use this
+// file in accordance with the "eZ publish professional licence" Agreement
 // provided with the Software.
 //
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING
 // THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE.
 //
-// The 'eZ publish professional licence' is available at
+// The "eZ publish professional licence" is available at
 // http://ez.no/products/licences/professional/. For pricing of this licence
 // please contact us via e-mail to licence@ez.no. Further contact
 // information is available at http://ez.no/home/contact/.
 //
-// The 'GNU General Public License' (GPL) is available at
+// The "GNU General Public License" (GPL) is available at
 // http://www.gnu.org/copyleft/gpl.html.
 //
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
@@ -70,17 +70,6 @@ $ViewList['removenode'] = array(
     'script' => 'removenode.php',
     'params' => array( 'ObjectID', 'EditVersion', 'EditLanguage', 'NodeID' ) );
 
-$ViewList['pdf'] = array(
-    'functions' => array( 'pdf' ),
-    'default_navigation_part' => 'ezcontentnavigationpart',
-    'script' => 'pdf.php',
-    'params' => array( 'NodeID' ),
-    'unordered_params' => array( 'language' => 'Language',
-                                 'offset' => 'Offset',
-                                 'year' => 'Year',
-                                 'month' => 'Month',
-                                 'day' => 'Day' )
-    );
 
 $ViewList['view'] = array(
     'functions' => array( 'read' ),
@@ -88,14 +77,11 @@ $ViewList['view'] = array(
     'script' => 'view.php',
     'params' => array( 'ViewMode', 'NodeID' ),
     'unordered_params' => array( 'language' => 'Language',
-                                 'offset' => 'Offset',
-                                 'year' => 'Year',
-                                 'month' => 'Month',
-                                 'day' => 'Day' )
+                                 'offset' => 'Offset' )
     );
 
 $ViewList['copy'] = array(
-    'functions' => array( 'read' ),
+    'functions' => array( 'edit' ),
     'default_navigation_part' => 'ezcontentnavigationpart',
     'script' => 'copy.php',
     'single_post_actions' => array( 'CopyButton' => 'Copy',
@@ -182,9 +168,7 @@ $ViewList['collectinformation'] = array(
     'default_navigation_part' => 'ezcontentnavigationpart',
     'script' => 'collectinformation.php',
     'single_post_actions' => array( 'ActionCollectInformation' => 'CollectInformation' ),
-    'post_action_parameters' => array( 'CollectInformation' => array( 'ContentObjectID' => 'ContentObjectID',
-                                                                      'ContentNodeID' => 'ContentNodeID',
-                                                                      'ViewMode' => 'ViewMode' ) ),
+    'post_action_parameters' => array( 'CollectInformation' => array( 'ContentObjectID' => 'ContentObjectID' ) ),
     'params' => array(  ) );
 
 $ViewList['versions'] = array(
@@ -254,19 +238,6 @@ $ViewList['tipafriend'] = array(
     'functions' => array( 'read' ),
     'default_navigation_part' => 'ezcontentnavigationpart',
     'script' => 'tipafriend.php',
-    'params' => array( 'NodeID' ) );
-
-$ViewList['keyword'] = array(
-    'functions' => array( 'read' ),
-    'default_navigation_part' => 'ezcontentnavigationpart',
-    'script' => 'keyword.php',
-    'params' => array( 'alphabet'=>'Alphabet' ),
-    'unordered_params' => array( 'offset' => 'Offset', 'classid' => 'ClassID' ) );
-
-$ViewList['collectedinfo'] = array(
-    'functions' => array( 'read' ),
-    'default_navigation_part' => 'ezcontentnavigationpart',
-    'script' => 'collectedinfo.php',
     'params' => array( 'NodeID' ) );
 
 $ViewList['bookmark'] = array(
@@ -393,12 +364,6 @@ $FunctionList['versionread'] = array( 'Class' => $ClassID,
                                       'Status' => $Status,
                                       'Node' => $Node,
                                       'Subtree' => $Subtree);
-$FunctionList['pdf'] = array( 'Class' => $ClassID,
-                              'Section' => $SectionID,
-                              'Owner' => $Assigned,
-                              'Node' => $Node,
-                              'Subtree' => $Subtree );
-
 $FunctionList['translations'] = array();
 $FunctionList['urltranslator'] = array();
 $FunctionList['pendinglist'] = array();

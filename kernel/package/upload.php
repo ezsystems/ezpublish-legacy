@@ -38,49 +38,19 @@ include_once( "lib/ezutils/classes/ezhttpfile.php" );
 
 $module =& $Params['Module'];
 
-if ( !eZPackage::canUsePolicyFunction( 'import' ) )
-    return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
-
-$package = false;
-$installElements = false;
-$errorList = array();
-
 if ( $module->isCurrentAction( 'UploadPackage' ) )
 {
+    $installPackage = $module->actionParameter( 'InstallPackage' );
     if ( eZHTTPFile::canFetch( 'PackageBinaryFile' ) )
     {
         $file =& eZHTTPFile::fetch( 'PackageBinaryFile' );
         if ( $file )
         {
-            $packageFilename = $file->attribute( 'filename' );
-            $packageName = $file->attribute( 'original_filename' );
-            if ( preg_match( "#^(.+)-[0-9](\.[0-9]+)-[0-9].ezpkg$#", $packageName, $matches ) )
-                $packageName = $matches[1];
-            $packageName = preg_replace( array( "#[^a-zA-Z0-9]+#",
-                                                "#_+#",
-                                                "#(^_)|(_$)#" ),
-                                         array( '_',
-                                                '_',
-                                                '' ), $packageName );
-            $package =& eZPackage::import( $packageFilename, $packageName );
-            if ( is_object( $package ) )
+            print( "Got package file<br/>" );
+            if ( $installPackage )
             {
-                if ( $package->attribute( 'install_type' ) != 'install' or
-                     !$package->attribute( 'can_install' ) )
-                {
-                    return $module->redirectToView( 'view', array( 'full', $package->attribute( 'name' ) ) );
-                }
-                else if ( $package->attribute( 'install_type' ) == 'install' )
-                {
-                    return $module->redirectToView( 'install', array( $package->attribute( 'name' ) ) );
-                }
+                print( "Installing package file<br/>" );
             }
-            else if ( $package == EZ_PACKAGE_STATUS_ALREADY_EXISTS )
-            {
-                $errorList[] = array( 'description' => ezi18n( 'kernel/package', 'Package %packagename already exists, cannot import the package', false, array( '%packagename' => $packageName ) ) );
-            }
-            else
-                eZDebug::writeError( "Uploaded file is not an eZ publish package" );
         }
         else
             eZDebug::writeError( "Failed fetching upload package file" );
@@ -92,9 +62,6 @@ if ( $module->isCurrentAction( 'UploadPackage' ) )
 }
 
 $tpl =& templateInit();
-
-$tpl->setVariable( 'package', $package );
-$tpl->setVariable( 'error_list', $errorList );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:package/upload.tpl" );

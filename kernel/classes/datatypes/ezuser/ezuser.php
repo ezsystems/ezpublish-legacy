@@ -42,11 +42,13 @@
 */
 
 include_once( 'kernel/classes/ezpersistentobject.php' );
+include_once( 'kernel/classes/ezrole.php' );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
+include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
 include_once( "kernel/classes/ezcontentobject.php" );
 
 $ini =& eZINI::instance();
-define( 'EZ_USER_ANONYMOUS_ID', (int)$ini->variable( 'UserSettings', 'AnonymousUserID' ) );
+define( 'EZ_USER_ANONYMOUS_ID', $ini->variable( 'UserSettings', 'AnonymousUserID' ) );
 
 /// MD5 of password
 define( 'EZ_USER_PASSWORD_HASH_MD5_PASSWORD', 1 );
@@ -107,8 +109,7 @@ class eZUser extends eZPersistentObject
                                                       'original_password_confirm' => 'originalPasswordConfirm',
                                                       'roles' => 'roles',
                                                       'role_id_list' => 'roleIDList',
-                                                      'is_logged_in' => 'isLoggedIn',
-                                                      'is_enabled' => 'isEnabled'
+                                                      'is_logged_in' => 'isLoggedIn'
                                                       ),
                       'relations' => array( 'contentobject_id' => array( 'class' => 'ezcontentobject',
                                                                          'field' => 'id' ) ),
@@ -153,73 +154,8 @@ class eZUser extends eZPersistentObject
             include_once( 'kernel/classes/ezcontentobject.php' );
             return eZContentObject::fetch( $this->ContentObjectID );
         }
-        else if ( $name == 'is_enabled' )
-        {
-            return $this->isEnabled();
-        }
         else
             return eZPersistentObject::attribute( $name );
-    }
-
-    /*!
-     \return a textual identifier for the hash type $id
-    */
-    function passwordHashTypeName( $id )
-    {
-        switch ( $id )
-        {
-            case EZ_USER_PASSWORD_HASH_MD5_PASSWORD:
-            {
-                return 'md5_password';
-            } break;
-            case EZ_USER_PASSWORD_HASH_MD5_USER:
-            {
-                return 'md5_user';
-            } break;
-            case EZ_USER_PASSWORD_HASH_MD5_SITE:
-            {
-                return 'md5_site';
-            } break;
-            case EZ_USER_PASSWORD_HASH_MYSQL:
-            {
-                return 'mysql';
-            } break;
-            case EZ_USER_PASSWORD_HASH_PLAINTEXT:
-            {
-                return 'plaintext';
-            } break;
-        }
-    }
-
-    /*!
-     \return the hash type for the textual identifier $identifier
-    */
-    function passwordHashTypeID( $identifier )
-    {
-        switch ( $identifier )
-        {
-            case 'md5_password':
-            {
-                return EZ_USER_PASSWORD_HASH_MD5_PASSWORD;
-            } break;
-            default:
-            case 'md5_user':
-            {
-                return EZ_USER_PASSWORD_HASH_MD5_USER;
-            } break;
-            case 'md5_site':
-            {
-                return EZ_USER_PASSWORD_HASH_MD5_SITE;
-            } break;
-            case 'mysql':
-            {
-                return EZ_USER_PASSWORD_HASH_MYSQL;
-            } break;
-            case 'plaintext':
-            {
-                return EZ_USER_PASSWORD_HASH_PLAINTEXT;
-            } break;
-        }
     }
 
     function &create( $contentObjectID )
@@ -241,12 +177,10 @@ class eZUser extends eZPersistentObject
         $handler =& eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-info-cache', mktime() );
         $handler->setTimestamp( 'user-groups-cache', mktime() );
-        $handler->setTimestamp( 'user-access-cache', mktime() );
+        $handler->setTimestamp( 'user-role-cache', mktime() );
         $handler->store();
-        $userID = $this->attribute( 'contentobject_id' );
         // Clear memory cache
-        unset( $GLOBALS['eZUserObject_' . $userID] );
-        $GLOBALS['eZUserObject_' . $userID] =& $this;
+        unset( $GLOBALS["eZUserObject_$userID"] );
         eZPersistentObject::store();
     }
 
@@ -333,251 +267,8 @@ class eZUser extends eZPersistentObject
         return $user;
     }
 
-    /*!
-     \static
-     \return a list of the logged in users.
-     \param $asObject If false it will return a list with only the names of the users as elements and user ID as key,
-                      otherwise each entry is a eZUser object.
-     \sa fetchLoggedInCount
-    */
-    function fetchLoggedInList( $asObject = false, $offset = false, $limit = false, $sortBy = false )
-    {
-        $db =& eZDB::instance();
-        $time = mktime();
-        $ini =& eZINI::instance();
-        $activityTimeout = $ini->variable( 'Session', 'ActivityTimeout' );
-        $sessionTimeout = $ini->variable( 'Session', 'SessionTimeout' );
-        $time = $time + $sessionTimeout - $activityTimeout;
-
-        $parameters = array();
-        if ( $offset )
-            $parameters['offset'] = $offset;
-        if ( $limit )
-            $parameters['limit'] = $limit;
-        $sortText = '';
-        if ( $asObject )
-        {
-            $selectArray = array( "ezuser.*" );
-        }
-        else
-        {
-            $selectArray = array( "ezuser.contentobject_id as user_id", "ezcontentobject.name" );
-        }
-        if ( $sortBy !== false )
-        {
-            $sortElements = array();
-            if ( !is_array( $sortBy ) )
-            {
-                $sortBy = array( array( $sortBy, true ) );
-            }
-            else if ( !is_array( $sortBy[0] ) )
-                $sortBy = array( $sortBy );
-            $sortColumns = array();
-            foreach ( $sortBy as $sortElements )
-            {
-                $sortColumn = $sortElements[0];
-                $sortOrder = $sortElements[1];
-                $orderText = $sortOrder ? 'asc' : 'desc';
-                switch ( $sortColumn )
-                {
-                    case 'user_id':
-                    {
-                        $sortColumn = "ezuser.contentobject_id $orderText";
-                    } break;
-
-                    case 'login':
-                    {
-                        $sortColumn = "ezuser.login $orderText";
-                    } break;
-
-                    case 'activity':
-                    {
-                        $selectArray[] = "( ezsession.expiration_time -  " . ( $sessionTimeout - $activityTimeout ) . " ) AS activity";
-                        $sortColumn = "activity $orderText";
-                    } break;
-
-                    case 'email':
-                    {
-                        $sortColumn = "ezuser.email $orderText";
-                    } break;
-
-                    default:
-                    {
-                        eZDebug::writeError( "Unkown sort column '$sortColumn'", 'eZUser::fetchLoggedInList' );
-                        $sortColumn = false;
-                    } break;
-                }
-                if ( $sortColumn )
-                    $sortColumns[] = $sortColumn;
-            }
-            if ( count( $sortColumns ) > 0 )
-                $sortText = "ORDER BY " . implode( ', ', $sortColumns );
-        }
-        if ( $asObject )
-        {
-            $selectText = implode( ', ',  $selectArray );
-            $sql = "SELECT $selectText
-FROM ezsession, ezuser
-WHERE ezsession.user_id != '" . EZ_USER_ANONYMOUS_ID . "' AND
-      ezsession.expiration_time > '$time' AND
-      ezuser.contentobject_id = ezsession.user_id
-$sortText";
-            $rows = $db->arrayQuery( $sql, $parameters );
-            $list = array();
-            foreach ( $rows as $row )
-            {
-                $list[] = new eZUser( $row );
-            }
-        }
-        else
-        {
-            $selectText = implode( ', ',  $selectArray );
-            $sql = "SELECT $selectText
-FROM ezsession, ezuser, ezcontentobject
-WHERE ezsession.user_id != '" . EZ_USER_ANONYMOUS_ID . "' AND
-      ezsession.expiration_time > '$time' AND
-      ezuser.contentobject_id = ezsession.user_id AND
-      ezcontentobject.id = ezuser.contentobject_id
-$sortText";
-            $rows = $db->arrayQuery( $sql, $parameters );
-            $list = array();
-            foreach ( $rows as $row )
-            {
-                $list[$row['user_id']] = $row['name'];
-            }
-        }
-        return $list;
-    }
-
-    /*!
-     \return the number of logged in users in the system.
-     \note The count will be cached for the current page if caching is allowed.
-     \sa fetchAnonymousCount
-    */
-    function fetchLoggedInCount()
-    {
-        if ( isset( $GLOBALS['eZSiteBasics']['no-cache-adviced'] ) and
-             !$GLOBALS['eZSiteBasics']['no-cache-adviced'] and
-             isset( $GLOBALS['eZUserLoggedInCount'] ) )
-            return $GLOBALS['eZUserLoggedInCount'];
-        $db =& eZDB::instance();
-        $time = mktime();
-        $ini =& eZINI::instance();
-        $activityTimeout = $ini->variable( 'Session', 'ActivityTimeout' );
-        $sessionTimeout = $ini->variable( 'Session', 'SessionTimeout' );
-        $time = $time + $sessionTimeout - $activityTimeout;
-
-        $sql = "SELECT count( DISTINCT user_id ) as count
-FROM ezsession
-WHERE user_id != '" . EZ_USER_ANONYMOUS_ID . "' AND
-      user_id > 0 AND
-      expiration_time > '$time'";
-        $rows = $db->arrayQuery( $sql );
-        $count = $rows[0]['count'];
-        $GLOBALS['eZUserLoggedInCount'] = $count;
-        return $count;
-    }
-
-    /*!
-     \static
-     \return the number of anonymous users in the system.
-     \sa fetchLoggedInCount
-    */
-    function fetchAnonymousCount()
-    {
-        if ( isset( $GLOBALS['eZSiteBasics']['no-cache-adviced'] ) and
-             !$GLOBALS['eZSiteBasics']['no-cache-adviced'] and
-             isset( $GLOBALS['eZUserAnonymousCount'] ) )
-            return $GLOBALS['eZUserAnonymousCount'];
-        $db =& eZDB::instance();
-        $time = mktime();
-        $ini =& eZINI::instance();
-        $activityTimeout = $ini->variable( 'Session', 'ActivityTimeout' );
-        $sessionTimeout = $ini->variable( 'Session', 'SessionTimeout' );
-        $time = $time + $sessionTimeout - $activityTimeout;
-
-        $sql = "SELECT count( session_key ) as count
-FROM ezsession
-WHERE user_id = '" . EZ_USER_ANONYMOUS_ID . "' AND
-      expiration_time > '$time'";
-        $rows = $db->arrayQuery( $sql );
-        $count = $rows[0]['count'];
-        $GLOBALS['eZUserAnonymousCount'] = $count;
-        return $count;
-    }
-
-    /*!
-     \static
-     \return true if the user with ID $userID is currently logged into the system.
-     \note The information will be cached for the current page if caching is allowed.
-     \sa fetchLoggedInList
-    */
-    function isUserLoggedIn( $userID )
-    {
-        $userID = (int)$userID;
-        if ( isset( $GLOBALS['eZSiteBasics']['no-cache-adviced'] ) and
-             !$GLOBALS['eZSiteBasics']['no-cache-adviced'] and
-             isset( $GLOBALS['eZUserLoggedInMap'][$userID] ) )
-            return $GLOBALS['eZUserLoggedInMap'][$userID];
-        $db =& eZDB::instance();
-        $time = mktime();
-        $ini =& eZINI::instance();
-        $activityTimeout = $ini->variable( 'Session', 'ActivityTimeout' );
-        $sessionTimeout = $ini->variable( 'Session', 'SessionTimeout' );
-        $time = $time + $sessionTimeout - $activityTimeout;
-
-        $sql = "SELECT DISTINCT user_id
-FROM ezsession
-WHERE user_id = '" . $userID . "' AND
-      expiration_time > '$time'";
-        $rows = $db->arrayQuery( $sql, array( 'limit' => 2 ) );
-        $isLoggedIn = count( $rows ) > 0;
-        $GLOBALS['eZUserLoggedInMap'][$userID] = $isLoggedIn;
-        return $isLoggedIn;
-    }
-
-    /*!
-     \static
-     Removes any cached session information, this is:
-     - logged in user count
-     - anonymous user count
-     - logged in user map
-    */
-    function clearSessionCache()
-    {
-        unset( $GLOBALS['eZUserLoggedInCount'] );
-        unset( $GLOBALS['eZUserAnonymousCount'] );
-        unset( $GLOBALS['eZUserLoggedInMap'] );
-    }
-
-    /*!
-     \static
-     Remove session data for user \a $userID.
-    */
-    function removeSessionData( $userID )
-    {
-        eZUser::clearSessionCache();
-        $db =& eZDB::instance();
-        $userID = (int)$userID;
-        $db->query( 'DELETE FROM ezsession WHERE user_id = \'' . $userID . '\'' );
-    }
-
-    /*!
-     Removes the user from the ezuser table.
-     \note Will also remove any notifications and session related to the user.
-    */
     function &removeUser( $userID )
     {
-        include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
-
-        $user =& eZUser::fetch( $userID );
-        if ( $user )
-        {
-            eZUser::removeSessionData( $userID );
-        }
-
-        eZSubtreeNotificationRule::removeByUserID( $userID );
-
         eZPersistentObject::removeObject( eZUser::definition(),
                                           array( 'contentobject_id' => $userID ) );
     }
@@ -711,13 +402,7 @@ WHERE user_id = '" . $userID . "' AND
         if ( $authenticationMatch & EZ_USER_AUTHENTICATE_LOGIN )
             $loginArray[] = "login='$loginEscaped'";
         if ( $authenticationMatch & EZ_USER_AUTHENTICATE_EMAIL )
-        {
-            include_once( 'lib/ezutils/classes/ezmail.php' );
-            if ( eZMail::validate( $login ) )
-            {
-                $loginArray[] = "email='$loginEscaped'";
-            }
-        }
+            $loginArray[] = "email='$loginEscaped'";
         if ( count( $loginArray ) == 0 )
             $loginArray[] = "login='$loginEscaped'";
         $loginText = implode( ' OR ', $loginArray );
@@ -779,7 +464,6 @@ WHERE user_id = '" . $userID . "' AND
                 eZDebugSetting::writeDebug( 'kernel-user', $hash, "stored hash" );
                 if ( $exists )
                 {
-                    include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
                     $userSetting = eZUserSetting::fetch( $userID );
                     $isEnabled = $userSetting->attribute( "is_enabled" );
                     if ( $hashType != eZUser::hashType() and
@@ -796,7 +480,6 @@ WHERE user_id = '" . $userID . "' AND
         }
         if ( $exists and $isEnabled )
         {
-            $oldUserID = $contentObjectID = $http->sessionVariable( "eZUserLoggedInID" );
             eZDebugSetting::writeDebug( 'kernel-user', $userRow, 'user row' );
             $user =& new eZUser( $userRow );
             eZDebugSetting::writeDebug( 'kernel-user', $user, 'user' );
@@ -805,7 +488,6 @@ WHERE user_id = '" . $userID . "' AND
             $http->setSessionVariable( 'eZUserLoggedInID', $userRow['contentobject_id'] );
             eZSessionRegenerate();
             $user->cleanup();
-            eZSessionSetUserID( $userRow['contentobject_id'] );
             return $user;
         }
         else
@@ -818,20 +500,23 @@ WHERE user_id = '" . $userID . "' AND
      where you must ensure that the cache user values are refetched.
      \param depricated
     */
-    function cleanup()
+    function cleanup( $contentObjectID = false )
     {
         $http =& eZHTTPTool::instance();
         $http->setSessionVariable( 'eZUserGroupsCache_Timestamp', false );
+        if ( !$contentObjectID )
+            $contentObjectID = $this->attribute( 'contentobject_id' );
         $http->removeSessionVariable( 'eZUserGroupsCache' );
 
         $http->removeSessionVariable( 'eZUserInfoCache' );
 
-        $http->removeSessionVariable( 'AccessArray' );
+        $http->removeSessionVariable( 'UserPolicies' );
+        $http->removeSessionVariable( 'UserRoles' );
+        $http->removeSessionVariable( 'UserLimitations' );
+        $http->removeSessionVariable( 'UserLimitationValues' );
         $http->removeSessionVariable( 'CanInstantiateClassesCachedForUser' );
         $http->removeSessionVariable( 'CanInstantiateClassList' );
         $http->removeSessionVariable( 'ClassesCachedForUser' );
-        $http->removeSessionVariable( 'eZRoleIDList' );
-        $http->setSessionVariable( 'eZRoleIDList_Timestamp', 0 );
 
         // Note: This must be done more generic with an internal
         //       callback system.
@@ -845,7 +530,6 @@ WHERE user_id = '" . $userID . "' AND
     function loginCurrent()
     {
         eZHTTPTool::setSessionVariable( 'eZUserLoggedInID', $this->ContentObjectID );
-        eZSessionSetUserID( $this->ContentObjectID );
         $this->cleanup();
     }
 
@@ -858,11 +542,9 @@ WHERE user_id = '" . $userID . "' AND
         $id = false;
         $GLOBALS["eZUserGlobalInstance_$id"] = false;
         $contentObjectID = $http->sessionVariable( "eZUserLoggedInID" );
-        $newUserID = EZ_USER_ANONYMOUS_ID;
-        $http->setSessionVariable( 'eZUserLoggedInID', $newUserID );
-        eZSessionSetUserID( $newUserID );
+        $http->removeSessionVariable( "eZUserLoggedInID" );
         if ( $contentObjectID )
-            eZUser::cleanup();
+            eZUser::cleanup( $contentObjectID );
     }
 
     /*!
@@ -888,11 +570,7 @@ WHERE user_id = '" . $userID . "' AND
             $id = $http->sessionVariable( 'eZUserLoggedInID' );
 
             if ( !is_numeric( $id ) )
-            {
                 $id = EZ_USER_ANONYMOUS_ID;
-                $http->setSessionVariable( 'eZUserLoggedInID', $id );
-                eZSessionSetUserID( $id );
-            }
         }
 
         // Check cache
@@ -918,7 +596,7 @@ WHERE user_id = '" . $userID . "' AND
 
                 if ( is_numeric( $userArray['contentobject_id'] ) )
                 {
-                    $currentUser =& new eZUser( $userArray );
+                    $currentUser = new eZUser( $userArray );
                     $fetchFromDB = false;
                 }
             }
@@ -957,12 +635,6 @@ WHERE user_id = '" . $userID . "' AND
     */
     function isEnabled()
     {
-        if ( $this == eZUser::currentUser() )
-        {
-            return true;
-        }
-
-        include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
         $setting =& eZUserSetting::fetch( $this->attribute( 'contentobject_id' ) );
         if ( $setting and !$setting->attribute( 'is_enabled' ) )
         {
@@ -1012,13 +684,25 @@ WHERE user_id = '" . $userID . "' AND
         $table =& $GLOBALS['eZUserPasswordCharacterTable'];
         if ( isset( $table ) )
             return $table;
-        $table = array_merge( range( 'a', 'z' ), range( 'A', 'Z' ), range( 0, 9 ) );
-
+        $table = array();
+        for ( $i = ord( 'a' ); $i <= ord( 'z' ); ++$i )
+        {
+            $char = chr( $i );
+            $table[] = $char;
+            $table[] = strtoupper( $char );
+        }
+        for ( $i = 0; $i <= 9; ++$i )
+        {
+            $table[] = "$i";
+        }
         $ini =& eZINI::instance();
         if ( $ini->variable( 'UserSettings', 'UseSpecialCharacters' ) == 'true' )
         {
             $specialCharacters = '!#%&{[]}+?;:*';
-            $table = array_merge( $table, preg_split( '//', $specialCharacters, -1, PREG_SPLIT_NO_EMPTY ) );
+            for ( $i = 0; $i < strlen( $specialCharacters ); ++$i )
+            {
+                $table[] = $specialCharacters[$i];
+            }
         }
         // Remove some characters that are too similar visually
         $table = array_diff( $table, array( 'I', 'l', 'o', 'O', '0' ) );
@@ -1097,81 +781,45 @@ WHERE user_id = '" . $userID . "' AND
         return $str;
     }
 
-    function &hasAccessTo( $module, $function, &$accessList )
+    function &hasAccessTo( $module, $function )
     {
-        $accessArray = null;
-        $ini =& eZINI::instance();
-        if ( $ini->variable( 'RoleSettings', 'EnableCaching' ) == 'true' )
+        $roles =& $this->attribute( 'roles' );
+        $access = 'no';
+        $limitationPolicyList = array();
+        reset( $roles );
+        foreach ( array_keys( $roles ) as $key )
         {
-            $http =& eZHTTPTool::instance();
-            if ( $http->hasSessionVariable( 'AccessArray' ) )
+            $role =& $roles[$key];
+            $policies =& $role->attribute( 'policies');
+            foreach ( array_keys( $policies ) as $policy_key )
             {
-                $expiredTimeStamp = 0;
-                $handler =& eZExpiryHandler::instance();
-                if ( $handler->hasTimestamp( 'user-access-cache' ) )
+                $policy =& $policies[$policy_key];
+                if ( $policy->attribute( 'module_name' ) == '*' )
                 {
-                    $expiredTimeStamp = $handler->timestamp( 'user-access-cache' );
+                    return array( 'accessWord' => 'yes' );
                 }
-                $userAccessTimestamp = $http->sessionVariable( 'AccessArrayTimestamp' );
-                if ( $userAccessTimestamp > $expiredTimeStamp )
+                elseif ( $policy->attribute( 'module_name' ) == $module )
                 {
-                    $accessArray = $http->sessionVariable( 'AccessArray' );
+                    if ( $policy->attribute( 'function_name' ) == '*' )
+                    {
+                        return array( 'accessWord' => 'yes' );
+                    }
+                    elseif ( $policy->attribute( 'function_name' ) == $function )
+                    {
+                        if ( $policy->attribute( 'limitation' ) == '*' )
+                        {
+                            return array( 'accessWord' => 'yes' );
+                        }
+                        else
+                        {
+                            $access = 'limited';
+                            $limitationPolicyList[] =& $policy;
+                        }
+                    }
                 }
             }
         }
-
-        if ( $accessArray == null )
-        {
-            include_once( 'kernel/classes/ezrole.php' );
-            $accessArray =& eZRole::accessArrayByUserID( array_merge( $this->groups(), array( $this->attribute( 'contentobject_id' ) ) ) );
-        }
-
-        $access = 'no';
-
-        if ( isset( $accessArray['*'] ) )
-        {
-            $moduleArray =& $accessArray['*'];
-        }
-        else if ( isset( $accessArray[$module] ) )
-        {
-            $moduleArray =& $accessArray[$module];
-        }
-        else
-        {
-            $accessList = array(
-                'FunctionRequired' => array ( 'Module' => $module,
-                                              'Function' => $function,
-                                              'ClassID' => '',
-                                              'MainNodeID' => '' ),
-                'PolicyList' => array() );
-            return array( 'accessWord' => 'no' );
-        }
-
-        if ( isset( $moduleArray['*'] ) )
-        {
-            $functionArray =& $moduleArray['*'];
-        }
-        else if ( isset( $moduleArray[$function] ) )
-        {
-            $functionArray =& $moduleArray[$function];
-        }
-        else
-        {
-            $accessList = array(
-                'FunctionRequired' => array ( 'Module' => $module,
-                                              'Function' => $function,
-                                              'ClassID' => '',
-                                              'MainNodeID' => '' ),
-                'PolicyList' => array() );
-            return array( 'accessWord' => 'no' );
-        }
-
-        if ( isset( $functionArray['*'] ) && $functionArray['*'] == '*' )
-        {
-            return array( 'accessWord' => 'yes' );
-        }
-
-        return array( 'accessWord' => 'limited', 'policies' => $functionArray );
+        return array( 'accessWord' => $access, 'policies' => $limitationPolicyList );
     }
 
     /*!
@@ -1179,10 +827,14 @@ WHERE user_id = '" . $userID . "' AND
     */
     function &roles()
     {
-        include_once( 'kernel/classes/ezrole.php' );
-        $groups = $this->attribute( 'groups' );
-        $groups[] = $this->attribute( 'contentobject_id' );
-        return eZRole::fetchByUser( $groups );
+        if ( !isset( $this->Roles ) )
+        {
+            $groups = $this->attribute( 'groups' );
+            $groups[] = $this->attribute( 'contentobject_id' );
+            $roles =& eZRole::fetchByUser( $groups );
+            $this->Roles =& $roles;
+        }
+        return $this->Roles;
     }
 
     /*!
@@ -1190,31 +842,9 @@ WHERE user_id = '" . $userID . "' AND
     */
     function &roleIDList()
     {
-        $http =& eZHTTPTool::instance();
-
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $handler =& eZExpiryHandler::instance();
-        $expiredTimeStamp = 0;
-        $userGroupTimestamp =& $http->sessionVariable( 'eZRoleIDList_Timestamp' );
-        if ( $handler->hasTimestamp( 'user-info-cache' ) )
-            $expiredTimeStamp = $handler->timestamp( 'user-info-cache' );
-
-        if ( $userGroupTimestamp > $expiredTimeStamp )
-        {
-            $userGroupsInfo = array();
-            if ( $http->hasSessionVariable( 'eZRoleIDList' ) )
-            {
-                return $http->sessionVariable( 'eZRoleIDList' );
-            }
-        }
-
-        include_once( 'kernel/classes/ezrole.php' );
         $groups = $this->attribute( 'groups' );
         $groups[] = $this->attribute( 'contentobject_id' );
         $roleList = eZRole::fetchIDListByUser( $groups );
-
-        $http->setSessionVariable( 'eZRoleIDList', $roleList );
-        $http->setSessionVariable( 'eZRoleIDList_Timestamp', mktime() );
         return $roleList;
     }
 
@@ -1253,7 +883,7 @@ WHERE user_id = '" . $userID . "' AND
                 {
                     $contentobjectID = $this->attribute( 'contentobject_id' );
                 }
-				$userGroups =& $db->arrayQuery( "SELECT d.*, c.path_string
+                $userGroups =& $db->arrayQuery( "SELECT d.*
                                                 FROM ezcontentobject_tree  b,
                                                      ezcontentobject_tree  c,
                                                      ezcontentobject d
@@ -1262,31 +892,11 @@ WHERE user_id = '" . $userID . "' AND
                                                       d.id = c.contentobject_id
                                                 ORDER BY c.contentobject_id  ");
                 $userGroupArray = array();
-                $pathArray = array();
+
                 foreach ( $userGroups as $group )
                 {
-                    $pathItems = explode( '/', $group["path_string"] );
-                    array_pop( $pathItems );
-                    array_pop( $pathItems );
-                    foreach ( $pathItems as $pathItem )
-                    {
-                        if ( $pathItem != '' && $pathItem > 1 )
-                            $pathArray[] = $pathItem;
-                    }
                     $userGroupArray[] = new eZContentObject( $group );
                 }
-                $pathArray = array_unique( $pathArray );
-                $extraGroups =& $db->arrayQuery( "SELECT d.*
-                                                FROM ezcontentobject_tree  c,
-                                                     ezcontentobject d
-                                                WHERE c.node_id in ( " . implode( ', ', $pathArray ) . " ) AND
-                                                      d.id = c.contentobject_id
-                                                ORDER BY c.contentobject_id  ");
-                foreach ( $extraGroups as $group )
-                {
-                    $userGroupArray[] = new eZContentObject( $group );
-                }
-
                 $this->GroupsAsObjects =& $userGroupArray;
             }
             return $this->GroupsAsObjects;
@@ -1295,24 +905,6 @@ WHERE user_id = '" . $userID . "' AND
         {
             if ( !isset( $this->Groups ) )
             {
-                $userGroupTimestamp =& $http->sessionVariable( 'eZUserGroupsCache_Timestamp' );
-
-                include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-                $handler =& eZExpiryHandler::instance();
-                $expiredTimeStamp = 0;
-                if ( $handler->hasTimestamp( 'user-info-cache' ) )
-                    $expiredTimeStamp = $handler->timestamp( 'user-info-cache' );
-
-                if ( $userGroupTimestamp > $expiredTimeStamp )
-                {
-                    $userGroupsInfo = array();
-                    if ( $http->hasSessionVariable( 'eZUserGroupsCache' ) )
-                    {
-                        $this->Groups =& $http->sessionVariable( 'eZUserGroupsCache' );
-                        return $this->Groups;
-                    }
-                }
-
                 if ( $userID )
                 {
                     $contentobjectID = $userID;
@@ -1324,45 +916,54 @@ WHERE user_id = '" . $userID . "' AND
 
                 $userGroups = false;
 
-                $userGroups =& $db->arrayQuery( "SELECT  c.contentobject_id as id,c.path_string
+                $userGroupTimestamp =& $http->sessionVariable( 'eZUserGroupsCache_Timestamp' );
+
+                include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+                $handler =& eZExpiryHandler::instance();
+                $expiredTimeStamp = 0;
+                if ( $handler->hasTimestamp( 'user-info-cache' ) )
+                    $expiredTimeStamp = $handler->timestamp( 'user-info-cache' );
+
+                // check for cached version
+                if ( $userGroupTimestamp > $expiredTimeStamp )
+                {
+                    $userGroupsInfo = array();
+                    if ( $http->hasSessionVariable( 'eZUserGroupsCache' ) )
+                        $userGroupsInfo =& $http->sessionVariable( 'eZUserGroupsCache' );
+
+                    if ( isset( $userGroupsInfo[$contentobjectID] ) )
+                    {
+                        $userGroupsTmp =& $userGroupsInfo[$contentobjectID];
+
+                        if ( count( $userGroupsTmp ) > 0 )
+                        {
+                            $userGroups =& $userGroupsTmp;
+                        }
+                    }
+                }
+
+                if ( $userGroups === false or
+                     count( $userGroups ) == 0 )
+                {
+                    $userGroupsInfo = array();
+                    $userGroups =& $db->arrayQuery( "SELECT  c.contentobject_id as id
                                                 FROM ezcontentobject_tree  b,
                                                      ezcontentobject_tree  c
                                                 WHERE b.contentobject_id='$contentobjectID' AND
                                                       b.parent_node_id = c.node_id
                                                 ORDER BY c.contentobject_id  ");
+                    $userGroupsInfo[$contentobjectID] =& $userGroups;
+
+                    $http->setSessionVariable( 'eZUserGroupsCache', $userGroupsInfo );
+                    $http->setSessionVariable( 'eZUserGroupsCache_Timestamp', mktime() );
+                }
+
                 $userGroupArray = array();
 
-                $pathArray = array();
                 foreach ( $userGroups as $group )
                 {
-                    $pathItems = explode( '/', $group["path_string"] );
-                    array_pop( $pathItems );
-                    array_pop( $pathItems );
-                    foreach ( $pathItems as $pathItem )
-                    {
-                        if ( $pathItem != '' && $pathItem > 1 )
-                            $pathArray[] = $pathItem;
-                    }
                     $userGroupArray[] = $group['id'];
                 }
-
-                if ( count( $pathArray ) > 0 )
-                {
-                    $pathArray = array_unique ($pathArray);
-                    $extraGroups =& $db->arrayQuery( "SELECT c.contentobject_id as id
-                                                    FROM ezcontentobject_tree  c,
-                                                         ezcontentobject d
-                                                    WHERE c.node_id in ( " . implode( ', ', $pathArray ) . " ) AND
-                                                          d.id = c.contentobject_id
-                                                    ORDER BY c.contentobject_id  ");
-                    foreach ( $extraGroups as $group )
-                    {
-                        $userGroupArray[] = $group['id'];
-                    }
-                }
-
-                $http->setSessionVariable( 'eZUserGroupsCache', $userGroupArray );
-                $http->setSessionVariable( 'eZUserGroupsCache_Timestamp', mktime() );
                 $this->Groups =& $userGroupArray;
             }
             return $this->Groups;
@@ -1375,6 +976,7 @@ WHERE user_id = '" . $userID . "' AND
     var $PasswordHash;
     var $PasswordHashType;
     var $Groups;
+    var $Roles;
     var $OriginalPassword;
     var $OriginalPasswordConfirm;
 }

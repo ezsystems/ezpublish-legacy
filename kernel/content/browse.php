@@ -95,32 +95,7 @@ $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $tpl->setVariable( 'path', false );
 
-
-
-
 $Result = array();
-
-// Fetch the navigation part from the section information
-include_once( 'kernel/classes/ezsection.php' );
-$section =& eZSection::fetch( $contentObject->attribute( 'section_id' ) );
-if ( $section )
-    $Result['navigation_part'] = $section->attribute( 'navigation_part_identifier' );
-
-//setting keys for override
-$res =& eZTemplateDesignResource::instance();
-
-$object = $node->attribute( 'object' );
-
-$res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
-                      array( 'node', $node->attribute( 'node_id' ) ), // Node ID
-                      array( 'parent_node', $node->attribute( 'parent_node_id' ) ), // Parent Node ID
-                      array( 'class', $object->attribute( 'contentclass_id' ) ), // Class ID
-                      array( 'view_offset', $Offset ),
-                      array( 'navigation_part_identifier', $Result['navigation_part'] ),
-                      array( 'depth', $node->attribute( 'depth' ) ),
-                      array( 'url_alias', $node->attribute( 'url_alias' ) )
-                      ) );
-
 $Result['path'] =& $path;
 $Result['content'] =& $tpl->fetch( 'design:content/browse.tpl' );
 
@@ -143,5 +118,10 @@ else
     $Result['path'] = $path;
 }
 
+// Fetch the navigation part from the section information
+include_once( 'kernel/classes/ezsection.php' );
+$section =& eZSection::fetch( $contentObject->attribute( 'section_id' ) );
+if ( $section )
+    $Result['navigation_part'] = $section->attribute( 'navigation_part_identifier' );
 
 ?>

@@ -107,6 +107,7 @@ class eZTemplateFunctionElement
         if ( $tmp === false )
             return;
         $tpl->appendElement( $text, $tmp, $nspace, $current_nspace );
+//         $text .= $tmp;
     }
 
     /*!

@@ -57,15 +57,6 @@ $ViewList["register"] = array(
                                     ),
     "params" => array(  ) );
 
-$ViewList["userregister"] = array(
-    "functions" => array( 'buy' ),
-    "script" => "userregister.php",
-    "default_navigation_part" => 'ezshopnavigationpart',
-    'single_post_actions' => array( 'StoreButton' => 'Store',
-                                    'CancelButton' => 'Cancel'
-                                    )
-    );
-
 $ViewList["wishlist"] = array(
     "functions" => array( 'buy' ),
     "script" => "wishlist.php",
@@ -78,31 +69,6 @@ $ViewList["orderlist"] = array(
     "default_navigation_part" => 'ezshopnavigationpart',
     "unordered_params" => array( "offset" => "Offset" ),
     "params" => array(  ) );
-
-$ViewList["removeorder"] = array(
-    "functions" => array( 'adminstrate' ),
-    "script" => "removeorder.php",
-    "default_navigation_part" => 'ezshopnavigationpart',
-    "params" => array() );
-
-$ViewList["customerlist"] = array(
-    "functions" => array( 'adminstrate' ),
-    "script" => "customerlist.php",
-    "default_navigation_part" => 'ezshopnavigationpart',
-    "unordered_params" => array( 'offset' => 'Offset' ),
-    "params" => array(  ) );
-
-$ViewList["customerorderview"] = array(
-    "functions" => array( 'adminstrate' ),
-    "script" => "customerorderview.php",
-    "default_navigation_part" => 'ezshopnavigationpart',
-    "params" => array( "CustomerID", "Email" ) );
-
-$ViewList["statistics"] = array(
-    "functions" => array( 'adminstrate' ),
-    "script" => "orderstatistics.php",
-    "default_navigation_part" => 'ezshopnavigationpart',
-    "params" => array( 'Year', 'Month' ) );
 
 $ViewList["confirmorder"] = array(
     "functions" => array( 'buy' ),

@@ -47,10 +47,10 @@ extern void fetchtr_php( QFileInfo *fi, MetaTranslator *tor, bool mustExist );
 extern void fetchtr_tpl( QFileInfo *fi, MetaTranslator *tor, bool mustExist );
 
 // defined in merge.cpp
-extern void merge( MetaTranslator *tor, const MetaTranslator *virginTor, const QString &language, bool verbose );
+extern void merge( MetaTranslator *tor, const MetaTranslator *virginTor, bool verbose );
 
 static int verbose = 0;
-static QString version = "3.4.0beta1"; // eZ publish version plus local version
+static QString version = "3.2-6"; // eZ publish version plus local version
 static QStringList dirs;          // Additional scan directories
 static bool extension = false;    // Extension mode
 static QDir extension_dir;        // Extension directory
@@ -66,7 +66,7 @@ static void printUsage()
               "    -e, --extension EXT       Extension mode. Scans extension EXT instead of\n"
               "                              kernel, lib and design\n"
               "    -d, --dirs DIR [DIR]...   Directories to scan in addition to kernel, lib\n"
-              "                              and designs\n"
+              "                              and design\n"
               "    -u, --untranslated        Create/update the untranslated file as well\n"
               "    -no, --noobsolete         Drop all obsolete strings\n"
               "    -v, --verbose             Explain what is being done\n"
@@ -286,7 +286,7 @@ int main( int argc, char **argv )
         tor.load( fi.filePath() );
         if ( verbose )
             qWarning( "Updating '%s'", fi.filePath().latin1() );
-        merge( &tor, &fetchedTor, language, verbose );
+        merge( &tor, &fetchedTor, verbose );
         if ( noObsolete )
             tor.stripObsoleteMessages();
         tor.stripEmptyContexts();

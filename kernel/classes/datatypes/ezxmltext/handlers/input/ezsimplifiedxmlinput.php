@@ -37,22 +37,30 @@
 include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php' );
 include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'lib/ezutils/classes/ezini.php' );
+include_once( "lib/ezutils/classes/ezini.php" );
 
 class eZSimplifiedXMLInput extends eZXMLInputHandler
 {
     function eZSimplifiedXMLInput( &$xmlData, $aliasedType, $contentObjectAttribute )
     {
         // Initialize size array for image.
+        $sizeArray = array( 'small', 'medium', 'large', 'reference', 'original' );
         $imageIni =& eZINI::instance( 'image.ini' );
-        if ( $imageIni->hasVariable( 'AliasSettings', 'AliasList' ) )
+        if ( $imageIni->hasVariable( 'ImageSizes', 'Height' ) )
         {
-            $sizeArray = $imageIni->variable( 'AliasSettings', 'AliasList' );
-            $sizeArray[] = 'original';
+            $heightList =& $imageIni->variable( 'ImageSizes', 'Height' );
+            if ( $heightList != null )
+            {
+                foreach ( array_keys ( $heightList ) as $key )
+                {
+                    if ( $key != "small" and $key != "medium" and $key != "large" and
+                         $key != "reference" and $key != "original" )
+                    {
+                        $sizeArray[] = $key;
+                    }
+                }
+            }
         }
-        else
-            $sizeArray = array( 'original' );
-
         $this->eZXMLInputHandler( $xmlData, $aliasedType, $contentObjectAttribute );
         $this->SubTagArray['section'] = $this->SectionArray;
         $this->SubTagArray['paragraph'] = array_merge( $this->BlockTagArray, $this->InLineTagArray );
@@ -136,7 +144,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         {
             $data =& $http->postVariable( $base . "_data_text_" . $contentObjectAttributeID );
 
-//             eZDebug::writeDebug($data, "input data");
+            eZDebug::writeDebug($data, "input data");
             // Set original input to a global variable
             $originalInput = "originalInput_" . $contentObjectAttributeID;
             $GLOBALS[$originalInput] = $data;
@@ -284,7 +292,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                 if ( $links !== null )
                 {
-                    /* $editVersion = $contentObjectAttribute->attribute( 'version' );
+                    $editVersion = $contentObjectAttribute->attribute( 'version' );
                     $editObjectID = $contentObjectAttribute->attribute( 'contentobject_id' );
                     foreach ( array_keys( $links ) as $linkKey )
                     {
@@ -311,7 +319,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 }
                             }
                         }
-                    }*/
+                    }
 
 
                     $urlArray = array();
@@ -326,25 +334,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                             if ( !in_array( $url, $urlArray ) )
                                 $urlArray[] = $url;
-                        }
-
-                        if ( $link->attributeValue( 'id' ) != null )
-                        {
-                            $linkID = $link->attributeValue( 'id' );
-                            $url =& eZURL::url( $linkID );
-                            if ( $url == null )
-                            {
-                                $GLOBALS[$isInputValid] = false;
-                                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                                     'Link %1 does not exist.',
-                                                                                     false, array( $linkID ) ) );
-                                return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                            }
-                            else
-                            {
-                                if ( !in_array( $url, $urlArray ) )
-                                    $urlArray[] = $url;
-                            }
                         }
                     }
 
@@ -366,15 +355,14 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         $url = $link->attributeValue( 'href' );
                         $linkID = $linkIDArray[$url];
 
-                        if ( $link->attributeValue( 'id' ) == null )
-                            $link->appendAttribute( $dom->createAttributeNode( 'id', $linkID ) );
+                        $link->appendAttribute( $dom->createAttributeNode( 'id', $linkID ) );
                         $link->removeNamedAttribute( 'href' );
                     }
                 }
 
                 $domString =& eZXMLTextType::domString( $dom );
 
-//                 eZDebug::writeDebug( $domString, "unprocessed xml" );
+                eZDebug::writeDebug( $domString, "unprocessed xml" );
                 $domString = preg_replace( "#<paragraph> </paragraph>#", "<paragraph>&nbsp;</paragraph>", $domString );
                 $domString = str_replace ( "<paragraph />" , "", $domString );
                 $domString = str_replace ( "<line />" , "", $domString );
@@ -385,13 +373,13 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $domString = preg_replace( "#[\n]+#", "", $domString );
                 $domString = preg_replace( "#&lt;/line&gt;#", "\n", $domString );
                 $domString = preg_replace( "#&lt;paragraph&gt;#", "\n\n", $domString );
-//                 eZDebug::writeDebug( $domString, "domstring" );
+                eZDebug::writeDebug( $domString, "domstring" );
 
                 $xml = new eZXML();
                 $tmpDom =& $xml->domTree( $domString, array( 'CharsetConversion' => false ) );
                 $domString = eZXMLTextType::domString( $tmpDom );
 
-//                 eZDebug::writeDebug($domString, "stored xml");
+                eZDebug::writeDebug($domString, "stored xml");
                 $contentObjectAttribute->setAttribute( "data_text", $domString );
                 $contentObjectAttribute->setValidationLog( $message );
 
@@ -402,11 +390,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 if ( $classAttribute->attribute( "is_required" ) == true )
                 {
                     if ( count( $paragraphs ) == 0  && count( $headers ) == 0  )
-                    {
-                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Content required' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                    }
                     else
                         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
                 }
@@ -463,7 +447,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $domDocument->registerElement( $subNode );
                 $currentNode->appendChild( $subNode );
                 $childTag = $this->SubTagArray['paragraph'];
-                $TagStack[] = array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag );
+                array_push( $TagStack,
+                            array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
                 $currentNode =& $subNode;
                 $parentNodeTag = "paragraph";
                 unset( $subNode );
@@ -483,7 +468,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $parentNodeTag = $parentNodeArray["TagName"];
                     $parentNode =& $parentNodeArray["ParentNodeObject"];
                     $parentChildTag = $parentNodeArray["ChildTag"];
-                    $TagStack[] = array( "TagName" => $parentNodeTag, "ParentNodeObject" => &$parentNode, "ChildTag" => $parentChildTag );
+                    array_push( $TagStack,
+                                array( "TagName" => $parentNodeTag, "ParentNodeObject" => &$parentNode, "ChildTag" => $parentChildTag ) );
                 }
                 if ( $parentNodeTag == "section" )
 				{
@@ -494,7 +480,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 					$domDocument->registerElement( $subNode );
 					$currentNode->appendChild( $subNode );
 					$childTag = $this->SubTagArray['paragraph'];
-					$TagStack[] = array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag );
+					array_push( $TagStack,
+								array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
 					$currentNode =& $subNode;
 					$parentNodeTag = "paragraph";
 					unset( $subNode );
@@ -518,7 +505,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                  $parentNodeTag = $parentNodeArray["TagName"];
                  $parentNode =& $parentNodeArray["ParentNodeObject"];
                  $parentChildTag = $parentNodeArray["ChildTag"];
-                 $TagStack[] = array( "TagName" => $parentNodeTag, "ParentNodeObject" => &$parentNode, "ChildTag" => $parentChildTag );
+                 array_push( $TagStack,
+                             array( "TagName" => $parentNodeTag, "ParentNodeObject" => &$parentNode, "ChildTag" => $parentChildTag ) );
              }
         }
 
@@ -537,7 +525,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $parentNodeTag = $parentNodeArray["TagName"];
                 $parentNode =& $parentNodeArray["ParentNodeObject"];
                 $parentChildTag = $parentNodeArray["ChildTag"];
-                $TagStack[] = array( "TagName" => $parentNodeTag, "ParentNodeObject" => &$parentNode, "ChildTag" => $parentChildTag );
+                array_push( $TagStack,
+                            array( "TagName" => $parentNodeTag, "ParentNodeObject" => &$parentNode, "ChildTag" => $parentChildTag ) );
             }
 
             // If last inserted tag is paragraph, pop up it.
@@ -554,7 +543,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $parentNodeTag = $parentNodeArray["TagName"];
                     $parentNode =& $parentNodeArray["ParentNodeObject"];
                     $parentChildTag = $parentNodeArray["ChildTag"];
-                    $TagStack[] = array( "TagName" => $parentNodeTag, "ParentNodeObject" => &$parentNode, "ChildTag" => $parentChildTag );
+                    array_push( $TagStack,
+                                array( "TagName" => $parentNodeTag, "ParentNodeObject" => &$parentNode, "ChildTag" => $parentChildTag ) );
                 }
             }
         }
@@ -706,29 +696,11 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $subNode->Attributes = $allowedAttr;
             }
 
-            if ( $currentTag == "link" )
+            if ( $allowedAttr == null and $currentTag == "link" )
             {
-                if ( $allowedAttr == null )
-                {
-                    //Set input invalid
-                    $this->IsInputValid = false;
-                    $message[] = "Tag 'link' must have attribute 'href' or valid 'id' (need fix)";
-                }
-                else
-                {
-                    foreach ( $allowedAttr as $allowedAttrNode )
-                    {
-                        if ( $allowedAttrNode->name() == 'href' )
-                        {
-                            $content = $allowedAttrNode->content();
-                            if ( strlen( trim( $content ) ) == 0 )
-                            {
-                                $this->IsInputValid = false;
-                                $message[] = "Attribute 'href' in tag 'link' cannot be empty";
-                            }
-                        }
-                    }
-                }
+                //Set input invalid
+                $this->IsInputValid = false;
+                $message[] = "Tag 'link' must have attribute 'href' or valid 'id' (need fix)";
             }
 
             $domDocument->registerElement( $subNode );
@@ -738,7 +710,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
             if ( $tagName[strlen($tagName) - 1]  != "/" )
             {
-                $TagStack[] = array( "TagName" => $currentTag, "ParentNodeObject" =>& $currentNode, "ChildTag" => $childTag );
+                array_push( $TagStack,
+                            array( "TagName" => $currentTag, "ParentNodeObject" =>& $currentNode, "ChildTag" => $childTag ) );
                 unset( $currentNode );
                 $currentNode =& $subNode;
             }
@@ -758,7 +731,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $domDocument->registerElement( $subNode );
                 $currentNode->appendChild( $subNode );
                 $childTag = $this->SubTagArray['paragraph'];
-                $TagStack[] = array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag );
+                array_push( $TagStack,
+                            array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
                 $currentNode =& $subNode;
                 $parentNodeTag = "paragraph";
             }
@@ -796,7 +770,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
         $data = $text;
 
-//         eZDebug::writeDebug($data, "input");
+        eZDebug::writeDebug($data, "input");
         $domDocument = new eZDOMDocument();
         $currentNode =& $domDocument;
         $TagStack = array();
@@ -824,7 +798,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $lastInsertedNode =& $lastInsertedNodeArray["ParentNodeObject"];
                     $parentTag = $lastInsertedNode["TagName"];
                     $lastInsertedChildTag = $lastInsertedNodeArray["ChildTag"];
-                    $TagStack[] = array( "TagName" => $lastInsertedNodeTag, "ParentNodeObject" => &$lastInsertedNode, "ChildTag" => $lastInsertedChildTag );
+                    array_push( $TagStack,
+                                array( "TagName" => $lastInsertedNodeTag, "ParentNodeObject" => &$lastInsertedNode, "ChildTag" => $lastInsertedChildTag ) );
                 }
                 // find tag name
                 $endTagPos = strpos( $data, ">", $pos );
@@ -952,7 +927,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                             if ( $convertedTag == 'custom' and $lastInsertedNodeTag != 'custom' )
                             {
-                                $TagStack[] = array( "TagName" => $lastInsertedNodeTag, "ParentNodeObject" => &$lastInsertedNode, "ChildTag" => $lastInsertedChildTag );
+                                array_push( $TagStack,
+                                             array( "TagName" => $lastInsertedNodeTag, "ParentNodeObject" => &$lastInsertedNode, "ChildTag" => $lastInsertedChildTag ) );
                                 break;
                             }
                         }
@@ -960,7 +936,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                     if ( $lastInsertedNodeTag != $convertedTag )
                     {
-                        $TagStack[] = array( "TagName" => $lastInsertedNodeTag, "ParentNodeObject" => &$lastInsertedNode, "ChildTag" => $lastInsertedChildTag );
+                        array_push( $TagStack,
+                                    array( "TagName" => $lastInsertedNodeTag, "ParentNodeObject" => &$lastInsertedNode, "ChildTag" => $lastInsertedChildTag ) );
 
                         if ( $convertedTag == "line" and  $withNewLine )
                         {
@@ -973,7 +950,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             $domDocument->registerElement( $subNode );
                             $currentNode->appendChild( $subNode );
                             $childTag = $this->LineTagArray;
-                            $TagStack[] = array( "TagName" => "line", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag );
+                            array_push( $TagStack,
+                                        array( "TagName" => "line", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
                             unset( $currentNode );
                             $currentNode =& $subNode;
                             $lastInsertedNodeTag = "line";
@@ -1003,12 +981,13 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             $domDocument->registerElement( $subNode );
                             $currentNode->appendChild( $subNode );
                             $childTag = $this->LineTagArray;
-                            $TagStack[] = array( "TagName" => "line", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag );
+                            array_push( $TagStack,
+                                        array( "TagName" => "line", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
                             unset( $currentNode );
                             $currentNode =& $subNode;
                             $lastInsertedNodeTag = "line";
                             $lastInsertedChildTag = $childTag;
-//                             eZDebug::writeDebug( "line tag added");
+                            eZDebug::writeDebug( "line tag added");
                         }
 
                         // If end tag header found, add paragraph node.
@@ -1024,7 +1003,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             $domDocument->registerElement( $subNode );
                             $currentNode->appendChild( $subNode );
                             $childTag = array_merge( $this->BlockTagArray, $this->InLineTagArray );
-                            $TagStack[] = array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag );
+                            array_push( $TagStack,
+                                        array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
                             unset( $currentNode );
                             $currentNode =& $subNode;
                             $lastInsertedNodeTag = "paragraph";
@@ -1050,7 +1030,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             $domDocument->registerElement( $subNode );
                             $currentNode->appendChild( $subNode );
                             $childTag = array_merge( $this->BlockTagArray, $this->InLineTagArray );
-                            $TagStack[] = array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag );
+                            array_push( $TagStack,
+                                        array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
                             unset( $currentNode );
                             $currentNode =& $subNode;
                             $lastInsertedNodeTag = "paragraph";
@@ -1099,7 +1080,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         $childTag = $this->SectionArray;
                         if ( $tagName[strlen($tagName) - 1]  != "/" )
                         {
-                            $TagStack[] = array( "TagName" => $covertedName, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag );
+                            array_push( $TagStack,
+                                        array( "TagName" => $covertedName, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
                             unset( $currentNode );
                             $currentNode =& $subNode;
                         }
@@ -1127,7 +1109,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 $lastInsertedNode =& $lastInsertedNodeArray["ParentNodeObject"];
                                 $parentTag = $lastInsertedNode["TagName"];
                                 $lastInsertedChildTag = $lastInsertedNodeArray["ChildTag"];
-                                $TagStack[] = array( "TagName" => $lastInsertedNodeTag, "ParentNodeObject" => &$lastInsertedNode, "ChildTag" => $lastInsertedChildTag );
+                                array_push( $TagStack,
+                                            array( "TagName" => $lastInsertedNodeTag, "ParentNodeObject" => &$lastInsertedNode, "ChildTag" => $lastInsertedChildTag ) );
                             }
                         }
 
@@ -1245,7 +1228,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             $domDocument->registerElement( $subNode );
                             $currentNode->appendChild( $subNode );
                             $childTag = $this->SectionArray;
-                            $TagStack[] = array( "TagName" => "section", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag );
+                            array_push( $TagStack,
+                                        array( "TagName" => "section", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
                             $currentNode =& $subNode;
                             $covertedName = 'header';
                             unset( $subNode );
@@ -1260,7 +1244,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             $childTag = array( );
                             if ( $tagName[strlen($tagName) - 1]  != "/" )
                             {
-                                $TagStack[] = array( "TagName" => $covertedName, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag );
+                                array_push( $TagStack,
+                                            array( "TagName" => $covertedName, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
                                 unset( $currentNode );
                                 $currentNode =& $subNode;
                             }
@@ -1335,7 +1320,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             $childTag = $this->InLineTagArray;
                             if ( $tagName[strlen($tagName) - 1]  != "/" )
                             {
-                                $TagStack[] = array( "TagName" => $covertedName, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag );
+                                array_push( $TagStack,
+                                            array( "TagName" => $covertedName, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
                                 unset( $currentNode );
                                 $currentNode =& $subNode;
                             }
@@ -1352,7 +1338,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     if ( $justName == "literal" )
                     {
                         // Find the end tag and create override contents
-                        $preEndTagPos = strpos( strtolower( $data ), "</literal>", $pos );
+                        $preEndTagPos = strpos( $data, "</literal>", $pos );
                         $overrideContent = substr( $data, $pos + 5, $preEndTagPos - ( $pos + 5 ) );
                         $pos = $preEndTagPos - 1;
                     }
@@ -1545,7 +1531,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $attributeNamespaceURI = $attributeValue;
 
                     // change the default namespace
-                    $this->NamespaceStack[] = $attributeNamespaceURI;
+                    array_push( $this->NamespaceStack, $attributeNamespaceURI );
                 }
 
                 unset( $attrNode );
@@ -1619,8 +1605,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         {
             $xml = new eZXML();
             $dom =& $xml->domTree( $this->XMLData, array( 'CharsetConversion' => false ) );
-            $links = array();
-            $node = array();
 
             if ( $dom )
             {
@@ -1629,16 +1613,14 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 // Fetch all links and cache the url's
                 $links =& $dom->elementsByName( "link" );
             }
+
             if ( count( $links ) > 0 )
             {
                 $linkIDArray = array();
                 // Find all Link id's
                 foreach ( $links as $link )
                 {
-                    $linkIDValue = $link->attributeValue( 'id' );
-                    if ( !$linkIDValue )
-                        continue;
-                    if ( !in_array( $linkIDValue, $linkIDArray ) )
+                    if ( !in_array( $link->attributeValue( 'id' ), $linkIDArray ) )
                          $linkIDArray[] = $link->attributeValue( 'id' );
                 }
 
@@ -2034,7 +2016,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             case 'tr' :
             case 'td' :
             case 'th' :
-            case 'li' :
             case 'paragraph' :
             {
             }break;
@@ -2052,7 +2033,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
     var $InLineTagArray = array( 'emphasize', 'strong', 'link', 'anchor', 'line' );
 
-    var $LineTagArray = array( 'emphasize', 'strong', 'link', 'anchor', 'li' );
+    var $LineTagArray = array( 'emphasize', 'strong', 'link', 'anchor' );
 
     var $TagAliasArray = array( 'strong' => array( 'b', 'bold', 'strong' ), 'emphasize' => array( 'em', 'i', 'emphasize' ), 'link' => array( 'link', 'a' ) , 'header' => array( 'header', 'h' ) );
 

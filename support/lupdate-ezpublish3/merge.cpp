@@ -30,7 +30,7 @@ typedef QValueList<MetaTranslatorMessage> TML;
   extracted from the source code, without any translation yet.
 */
 
-void merge( MetaTranslator *tor, const MetaTranslator *virginTor, const QString &language, bool verbose )
+void merge( MetaTranslator *tor, const MetaTranslator *virginTor, bool verbose )
 {
     int known = 0;
     int neww = 0;
@@ -104,6 +104,6 @@ void merge( MetaTranslator *tor, const MetaTranslator *virginTor, const QString 
     */
     applyNumberHeuristic( tor, verbose );
 
-    qWarning( " %s: %d known, %d new and %d obsoleted messages",
-              language.latin1(), known, neww, obsoleted );
+    qWarning( " %d known, %d new and %d obsoleted messages",
+              known, neww, obsoleted );
 }

@@ -195,21 +195,20 @@ class eZKeywordType extends eZDataType
         return $return;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        $keyword = new eZKeyword();
-        $keyword->fetch( $contentObjectAttribute );
-        $array =& $keyword->keywordArray();
-
-        return count( $array ) > 0;
-    }
-
     /*!
      \reimp
     */
     function isIndexable()
     {
         return true;
+    }
+
+    /*!
+     \reimp
+    */
+    function isInformationCollector()
+    {
+        return false;
     }
 }
 

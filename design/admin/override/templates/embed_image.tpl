@@ -5,7 +5,7 @@
 {section show=is_set($attribute_parameters.size)}
 {set image_variation=$object.data_map.image.content[$attribute_parameters.size]}
 {section-else}
-{set image_variation=$object.data_map.image.content[ezini( 'ImageSettings', 'DefaultEmbedAlias', 'content.ini' )]}
+{set image_variation=$object.data_map.image.content["medium"]}
 {/section}
 
 {section show=is_set($attribute_parameters.align)}
@@ -44,7 +44,6 @@
 </div>
 {/case}
 {case}
-
 <div class="imagecenter">
 {section show=$href}<a href={$href|ezurl} target="{$attribute_parameters.target}">{/section}
 <img src={$image_variation.full_path|ezroot} alt="{$object.data_map.image.content.alternative_text|wash(xhtml)}"  />

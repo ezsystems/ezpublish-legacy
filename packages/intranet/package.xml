@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="3.2-1"
+         development="false"
+         xmlns:ezpackage="http://ez.no/ezpackage">
+  <name modified="1061309332">intranet</name>
+  <summary modified="1061309338">Intranet</summary>
+  <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
+    <version>3.2-1</version>
+    <named-version>3.2</named-version>
+  </ezpublish>
+  <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
+    <maintainer modified="1061309332">
+      <name>Anonymous User</name>
+      <email>nospam@ez.no</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
+    <timestamp>1061309332</timestamp>
+    <host>bf.ez.no</host>
+  </packaging>
+  <documents>
+    <document mime-type="text/plain"
+              name="README"
+              modified="1061309332" />
+  </documents>
+  <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
+    <entry timestamp="1061309332"
+           person="Anonymous User"
+           email="nospam@ez.no"
+           release="1"
+           modified="1061309332">
+      <change>Creation of package</change>
+    </entry>
+  </changelog>
+  <files xmlns:ezfile="http://ez.no/ezpackage">
+    <collection name="default">
+      <file-list type="design"
+                 design="intranet"
+                 modified="1061309333" />
+      <file-list type="ini"
+                 role="siteaccess"
+                 role-value="intranet"
+                 variable-name="user_siteaccess">
+        <file name="override.ini.append"
+              path="settings/siteaccess/intranet/override.ini.append"
+              md5sum="ee6c2358f777a184ad76ef4249535e25"
+              modified="1061309333" />
+        <file name="site.ini.append"
+              path="settings/siteaccess/intranet/site.ini.append"
+              md5sum="d0591744ba4cd6f40a39392132797619"
+              modified="1061309334" />
+      </file-list>
+      <file-list type="ini"
+                 role="siteaccess"
+                 role-value="admin"
+                 variable-name="admin_siteaccess">
+        <file name="override.ini.append"
+              path="settings/siteaccess/admin/override.ini.append"
+              md5sum="50f4805254652ccea3c0191a23ce5c21"
+              modified="1061309335" />
+        <file name="site.ini.append"
+              path="settings/siteaccess/admin/site.ini.append"
+              md5sum="47a0ba3f8010fba23cc881208bf4bfc1"
+              modified="1061309335" />
+      </file-list>
+      <file-list type="thumbnail">
+        <file name="thumbnail.png"
+              path="intranetthumbnail.png"
+              md5sum="80ab419e64e12e27a592913a7e4a1a86"
+              modified="1061309337" />
+      </file-list>
+    </collection>
+  </files>
+  <version xmlns:ezversion="http://ez.no/ezpackage">
+    <number modified="1061309332">1.0</number>
+    <release modified="1061309332">1</release>
+  </version>
+  <licence modified="1061309332">GPL</licence>
+  <state modified="1061309332">alpha</state>
+  <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
+    <provides>
+      <provide type="ezfile"
+               name="collection"
+               value="default"
+               modified="1061309333" />
+    </provides>
+    <requires>
+      <require type="ezdb"
+               name="mysql"
+               modified="1061309336" />
+      <require type="ezdb"
+               name="postgresql"
+               modified="1061309337" />
+    </requires>
+    <obsoletes />
+    <conflicts />
+  </dependencies>
+  <install xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1061309333"
+          collection="default" />
+    <item type="sql"
+          modified="1061309336"
+          filename="intranet.sql"
+          original-path="packages/intranet.sql"
+          database-type="mysql" />
+    <item type="sql"
+          modified="1061309337"
+          filename="intranet_postgresql.sql"
+          original-path="packages/intranet_postgresql.sql"
+          database-type="postgresql" />
+  </install>
+  <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1061309333"
+          collection="default" />
+  </uninstall>
+</package>

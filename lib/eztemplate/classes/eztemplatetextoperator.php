@@ -43,21 +43,19 @@
 
 */
 
+include_once( "lib/ezutils/classes/eztexttool.php" );
+
 class eZTemplateTextOperator
 {
     /*!
      Constructor
     */
-    function eZTemplateTextOperator()
+    function eZTemplateTextOperator( $concatName = 'concat',
+                                     $indentName = 'indent' )
     {
-        $this->Operators= array( 'concat', 'indent' );
-
-        foreach ( $this->Operators as $operator )
-        {
-            $name = $operator . 'Name';
-            $name[0] = $name[0] & "\xdf";
-            $this->$name = $operator;
-        }
+        $this->Operators = array( $concatName, $indentName );
+        $this->ConcatName = $concatName;
+        $this->IndentName = $indentName;
     }
 
     /*!
@@ -66,24 +64,6 @@ class eZTemplateTextOperator
     function &operatorList()
     {
         return $this->Operators;
-    }
-
-    function operatorTemplateHints()
-    {
-        return array( $this->ConcatName => array( 'input' => true,
-                                                  'output' => true,
-                                                  'parameters' => true,
-                                                  'element-transformation' => true,
-                                                  'transform-parameters' => true,
-                                                  'input-as-parameter' => true,
-                                                  'element-transformation-func' => 'concatTransformation'),
-                      $this->IndentName => array( 'input' => true,
-                                                  'output' => true,
-                                                  'parameters' => 3,
-                                                  'element-transformation' => true,
-                                                  'transform-parameters' => true,
-                                                  'input-as-parameter' => true,
-                                                  'element-transformation-func' => 'indentTransformation') ) ;
     }
 
     /*!
@@ -110,117 +90,6 @@ class eZTemplateTextOperator
                                                                             'default' => false ) ) );
     }
 
-    function indentTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                   &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
-    {
-        $values = array();
-        $count = $type = $filler = false;
-        $paramCount = count( $parameters );
-
-        if ( $paramCount == 4 )
-        {
-            if ( eZTemplateNodeTool::isStaticElement( $parameters[3] ) )
-            {
-                $filler = eZTemplateNodeTool::elementStaticValue( $parameters[3] );
-            }
-        }
-        if ( $paramCount >= 3)
-        {
-            if ( eZTemplateNodeTool::isStaticElement( $parameters[2] ) )
-            {
-                $type = eZTemplateNodeTool::elementStaticValue( $parameters[2] );
-                if ( $type == 'space' )
-                {
-                    $filler = ' ';
-                }
-                else if ( $type == 'tab' )
-                {
-                    $filler = "\t";
-                }
-                else if ( $type != 'custom' )
-                {
-                    $filler = ' ';
-                }
-            }
-        }
-        if ( $paramCount >= 2 )
-        {
-            if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
-            {
-                $count = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
-            }
-            if ( !$type )
-            {
-                $type = 'space';
-                $filler = ' ';
-            }
-        }
-        $newElements = array();
-
-        if ( $count && $type && $filler )
-        {
-            $values[] = $parameters[0];
-            $indentation = str_repeat( $filler, $count );
-            $code = "%output% = '$indentation' . %1%;\n";
-        }
-        else
-        {
-            $code = "if ( %3% == 'tab' )\n{\n\t%tmp1% = \"\\t\";\n}\nelse ";
-            $code .= "if ( %3% == 'space' )\n{\n\t%tmp1% = ' ';\n}\nelse\n";
-            if ( count ( $parameters ) == 4 )
-            {
-                $code .= "{\n\t%tmp1% = %4%;\n}\n";
-            }
-            else
-            {
-                $code.= "{\n\t%tmp1% = ' ';\n}\n";
-            }
-            $code .= "%output% = str_repeat(%tmp1%, %2%) . %1%;\n";
-            foreach ( $parameters as $parameter )
-            {
-                $values[] = $parameter;
-            }
-        }
-
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values, 'false', 1 );
-        return $newElements;
-    }
-
-    function concatTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                   &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
-    {
-        $values = array();
-        $function = $operatorName;
-
-        if ( ( count( $parameters ) < 1 ) )
-        {
-            return false;
-        }
-        if ( ( count( $parameters ) == 1 ) and
-             eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
-        {
-            return array( eZTemplateNodeTool::createStaticElement( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) ) );
-        }
-        $newElements = array();
-
-        $counter = 1;
-        $code = "%output% = ( ";
-        foreach ( $parameters as $parameter )
-        {
-            $values[] = $parameter;
-            if ( $counter > 1 )
-            {
-                $code .= ' . ';
-            }
-            $code .= "%$counter%";
-            $counter++;
-        }
-        $code .= " );\n";
-
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
-        return $newElements;
-    }
-
     /*!
      Handles concat and indent operators.
     */
@@ -231,15 +100,13 @@ class eZTemplateTextOperator
             case $this->ConcatName:
             {
                 $operands = array();
-                if ( $operatorValue !== null )
-                    $operands[] = $operatorValue;
                 for ( $i = 0; $i < count( $operatorParameters ); ++$i )
                 {
                     $operand = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
                     if ( !is_object( $operand ) )
                         $operands[] = $operand;
                 }
-                $operatorValue = implode( '', $operands );
+                $operatorValue = eZTextTool::concat( $operands );
             } break;
             case $this->IndentName:
             {

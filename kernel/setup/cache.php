@@ -38,7 +38,7 @@ $module =& $Params["Module"];
 include_once( "kernel/common/template.php" );
 include_once( "kernel/classes/ezcache.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'lib/ezfile/classes/ezdir.php' );
+include_once( 'lib/ezutils/classes/ezdir.php' );
 
 $ini =& eZINI::instance( );
 $tpl =& templateInit();

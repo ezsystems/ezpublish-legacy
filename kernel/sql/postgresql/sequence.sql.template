@@ -4,11 +4,6 @@
 
 -- Prepares all sequences for PostgreSQL
 
-
-SELECT setval( sequence_name, max(id)) from table_name;
-
-select 'select setval(\'' || relname || '_s\',max(id)+1) from ' || relname || ';' as query from pg_class where relname in (  select trim(  trailing '_s' from relname) from pg_class where relname like 'ez%\_s' and  relname != 'ezcontentobject_tree_s'  and relkind='S' );
-
 SELECT setval('ezapprove_items_s', max(id)) , 'ezapprove_items' as tablename FROM ezapprove_items;
 SELECT setval('ezbasket_s', max(id)) , 'ezbasket' as tablename FROM ezbasket;
 SELECT setval('ezcollab_group_s', max(id)) , 'ezcollab_group' as tablename FROM ezcollab_group;
@@ -77,5 +72,4 @@ SELECT setval('ezworkflow_process_s', max(id)) , 'ezworkflow_process' as tablena
 
 --
 -- Sequence preparation end
--- command to generate sequence queries
---  echo "select 'select setval(\'' || relname || '_s\',max(id)) from ' || relname || ';' as query from pg_class where relname in (  select trim(  trailing '_s' from relname) from pg_class where relname like 'ez%\_s' and  relname != 'ezcontentobject_tree_s'  and relkind='S' );" | psql -q -t  sp
+--

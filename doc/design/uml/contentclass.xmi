@@ -1,0 +1,93 @@
+<XMI xmi.version="1.1" >
+ <XMI.header>
+  <XMI.metamodel href="/home/amos/src/ez/php/nextgen/doc/design/uml/contentclass.xmi" version="1.0.4" name="UML" />
+  <XMI.model href="/home/amos/src/ez/php/nextgen/doc/design/uml/contentclass.xmi" version="1" name="/home/amos/src/ez/php/nextgen/doc/design/uml/contentclass.xmi" />
+ </XMI.header>
+ <XMI.content>
+  <docsettings viewid="1" documentation="" uniqueid="27" />
+  <umlobjects>
+   <UML:Class stereotype="" package="" xmi.id="2" abstract="0" documentation="" name="ezcontentclass" scope="200" >
+    <UML:Attribute stereotype="" package="" xmi.id="4" value="" type="int" abstract="0" documentation="" name="id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="5" value="" type="int" abstract="0" documentation="" name="version" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="6" value="" type="int" abstract="0" documentation="" name="name" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="7" value="" type="int" abstract="0" documentation="" name="identifier" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="8" value="" type="int" abstract="0" documentation="" name="creator_id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="9" value="" type="int" abstract="0" documentation="" name="modifier_id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="10" value="" type="int" abstract="0" documentation="" name="created" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="11" value="" type="int" abstract="0" documentation="" name="modified" scope="200" />
+   </UML:Class>
+   <UML:Class stereotype="" package="" xmi.id="3" abstract="0" documentation="" name="ezcontentclass_attribute" scope="200" >
+    <UML:Attribute stereotype="" package="" xmi.id="12" value="" type="int" abstract="0" documentation="" name="id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="13" value="" type="int" abstract="0" documentation="" name="version" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="14" value="" type="int" abstract="0" documentation="" name="contentclass_id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="15" value="" type="int" abstract="0" documentation="" name="identifier" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="16" value="" type="int" abstract="0" documentation="" name="name" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="17" value="" type="int" abstract="0" documentation="" name="data_type_string" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="18" value="" type="int" abstract="0" documentation="" name="is_searchable" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="19" value="" type="int" abstract="0" documentation="" name="placement" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="20" value="" type="int" abstract="0" documentation="" name="data_int1" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="21" value="" type="int" abstract="0" documentation="" name="data_int2" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="22" value="" type="int" abstract="0" documentation="" name="data_int3" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="23" value="" type="int" abstract="0" documentation="" name="data_int4" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="24" value="" type="int" abstract="0" documentation="" name="data_text1" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="25" value="" type="int" abstract="0" documentation="" name="data_text2" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="26" value="" type="int" abstract="0" documentation="" name="data_text3" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="27" value="" type="int" abstract="0" documentation="" name="data_text4" scope="200" />
+   </UML:Class>
+  </umlobjects>
+  <diagrams>
+   <diagram snapgrid="0" showattsig="0" fillcolor="#ffffc0" showgrid="0" showopsig="0" usefillcolor="1" snapx="10" snapy="10" showatts="1" xmi.id="1" documentation="" type="402" showops="1" showpackage="0" name="class diagram" localid="30000" showstereotype="0" showscope="0" font="Arial,11,-1,5,50,0,0,0,0,0" linecolor="#ff0000" >
+    <widgets>
+     <UML:ConceptWidget showattsigs="603" x="204" y="68" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="2" showoperations="0" showpackage="0" showscope="0" showstereotype="0" font="Arial,11,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="535" y="65" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="3" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="Arial,11,-1,5,50,0,0,0,0,0" />
+    </widgets>
+    <messages/>
+    <associations>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="2" widgetaid="3" documentation="" type="503" >
+      <UML:FloatingTextWidget x="373" y="153" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="contentclass_id" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="535" starty="222" />
+       <endpoint endx="313" endy="149" />
+      </linepath>
+     </UML:AssocWidget>
+    </associations>
+   </diagram>
+  </diagrams>
+  <listview>
+   <listitem open="1" type="800" id="-1" label="Views" >
+    <listitem open="1" type="801" id="-1" label="Logical View" >
+     <listitem open="0" type="807" id="1" label="class diagram" />
+     <listitem open="1" type="812" id="2" label="ezcontentclass" >
+      <listitem open="0" type="813" id="10" label="created" />
+      <listitem open="0" type="813" id="8" label="creator_id" />
+      <listitem open="0" type="813" id="4" label="id" />
+      <listitem open="0" type="813" id="7" label="identifier" />
+      <listitem open="0" type="813" id="11" label="modified" />
+      <listitem open="0" type="813" id="9" label="modifier_id" />
+      <listitem open="0" type="813" id="6" label="name" />
+      <listitem open="0" type="813" id="5" label="version" />
+     </listitem>
+     <listitem open="1" type="812" id="3" label="ezcontentclass_attribute" >
+      <listitem open="0" type="813" id="14" label="contentclass_id" />
+      <listitem open="0" type="813" id="20" label="data_int1" />
+      <listitem open="0" type="813" id="21" label="data_int2" />
+      <listitem open="0" type="813" id="22" label="data_int3" />
+      <listitem open="0" type="813" id="23" label="data_int4" />
+      <listitem open="0" type="813" id="24" label="data_text1" />
+      <listitem open="0" type="813" id="25" label="data_text2" />
+      <listitem open="0" type="813" id="26" label="data_text3" />
+      <listitem open="0" type="813" id="27" label="data_text4" />
+      <listitem open="0" type="813" id="17" label="data_type_string" />
+      <listitem open="0" type="813" id="12" label="id" />
+      <listitem open="0" type="813" id="15" label="identifier" />
+      <listitem open="0" type="813" id="18" label="is_searchable" />
+      <listitem open="0" type="813" id="16" label="name" />
+      <listitem open="0" type="813" id="19" label="placement" />
+      <listitem open="0" type="813" id="13" label="version" />
+     </listitem>
+    </listitem>
+    <listitem open="1" type="802" id="-1" label="Use Case View" />
+   </listitem>
+  </listview>
+ </XMI.content>
+</XMI>

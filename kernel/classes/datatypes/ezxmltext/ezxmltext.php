@@ -57,7 +57,6 @@ class eZXMLText
     {
         if ( $name == 'input' or
              $name == 'output' or
-             $name == 'pdf_output' or
              $name == 'xml_data' or
              $name == 'is_empty' )
         {
@@ -87,15 +86,6 @@ class eZXMLText
                 if ( $this->XMLOutputHandler === null )
                 {
                     $this->XMLOutputHandler =& $this->outputHandler( $this->XMLData );
-                }
-                return $this->XMLOutputHandler;
-            }break;
-
-            case 'pdf_output' :
-            {
-                if ( $this->XMLOutputHandler === null )
-                {
-                    $this->XMLOutputHandler =& $this->outputHandler( $this->XMLData, 'ezpdf' );
                 }
                 return $this->XMLOutputHandler;
             }break;

@@ -156,16 +156,6 @@ class eZOrderItem extends eZPersistentObject
 
     }
 
-    /*!
-     \static
-     Removes all order items from the database.
-    */
-    function cleanup()
-    {
-        $db =& eZDB::instance();
-        $db->query( "DELETE FROM ezorder_item" );
-    }
-
     /// Cached value of the vat percentage
     var $VATValue = false;
     var $IsVATIncluded = false;

@@ -1,0 +1,144 @@
+<XMI xmi.version="1.1" >
+ <XMI.header>
+  <XMI.metamodel href="/home/amos/src/ez/php/nextgen/doc/design/uml/workflow-database.xmi" version="1.0.4" name="UML" />
+  <XMI.model href="/home/amos/src/ez/php/nextgen/doc/design/uml/workflow-database.xmi" version="1" name="/home/amos/src/ez/php/nextgen/doc/design/uml/workflow-database.xmi" />
+ </XMI.header>
+ <XMI.content>
+  <docsettings viewid="37" documentation="" uniqueid="78" />
+  <umlobjects>
+   <UML:Class stereotype="" package="" xmi.id="38" abstract="0" documentation="" name="ezworkflow_process" scope="200" >
+    <UML:Attribute stereotype="" package="" xmi.id="62" value="" type="int" abstract="0" documentation="" name="id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="55" value="" type="int" abstract="0" documentation="" name="workflow_id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="56" value="" type="int" abstract="0" documentation="" name="user_id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="57" value="" type="int" abstract="0" documentation="" name="content_id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="64" value="" type="int" abstract="0" documentation="" name="content_version" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="58" value="" type="int" abstract="0" documentation="" name="content_parent_id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="60" value="" type="int" abstract="0" documentation="" name="event_id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="59" value="" type="int" abstract="0" documentation="" name="event_position" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="66" value="" type="int" abstract="0" documentation="" name="last_event_id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="67" value="" type="int" abstract="0" documentation="" name="last_event_position" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="78" value="" type="int" abstract="0" documentation="" name="last_event_status" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="61" value="" type="int" abstract="0" documentation="" name="status" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="63" value="" type="int" abstract="0" documentation="" name="created" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="68" value="" type="int" abstract="0" documentation="" name="modified" scope="200" />
+   </UML:Class>
+   <UML:Class stereotype="" package="" xmi.id="39" abstract="0" documentation="" name="ezworkflow" scope="200" >
+    <UML:Attribute stereotype="" package="" xmi.id="41" value="" type="int" abstract="0" documentation="" name="id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="42" value="" type="int" abstract="0" documentation="" name="version" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="43" value="" type="varchar" abstract="0" documentation="" name="workflow_type_string" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="44" value="" type="varchar" abstract="0" documentation="" name="name" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="45" value="" type="int" abstract="0" documentation="" name="creator_id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="46" value="" type="int" abstract="0" documentation="" name="modifier_id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="47" value="" type="int" abstract="0" documentation="" name="created" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="48" value="" type="int" abstract="0" documentation="" name="modified" scope="200" />
+   </UML:Class>
+   <UML:Class stereotype="" package="" xmi.id="40" abstract="0" documentation="" name="ezworkflow_event" scope="200" >
+    <UML:Attribute stereotype="" package="" xmi.id="49" value="" type="int" abstract="0" documentation="" name="id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="50" value="" type="int" abstract="0" documentation="" name="version" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="51" value="" type="int" abstract="0" documentation="" name="parent_id" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="65" value="" type="int" abstract="0" documentation="" name="parent_type" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="52" value="" type="varchar" abstract="0" documentation="" name="workflow_type_string" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="53" value="" type="varchar" abstract="0" documentation="" name="description" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="54" value="" type="int" abstract="0" documentation="" name="placement" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="69" value="" type="int" abstract="0" documentation="" name="data_int1" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="70" value="" type="int" abstract="0" documentation="" name="data_int2" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="71" value="" type="int" abstract="0" documentation="" name="data_int3" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="72" value="" type="int" abstract="0" documentation="" name="data_int4" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="73" value="" type="int" abstract="0" documentation="" name="data_text1" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="74" value="" type="int" abstract="0" documentation="" name="data_text2" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="75" value="" type="int" abstract="0" documentation="" name="data_text3" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="76" value="" type="int" abstract="0" documentation="" name="data_text4" scope="200" />
+   </UML:Class>
+  </umlobjects>
+  <diagrams>
+   <diagram snapgrid="0" showattsig="0" fillcolor="#ffffc0" showgrid="0" showopsig="0" usefillcolor="1" snapx="10" snapy="10" showatts="1" xmi.id="37" documentation="" type="402" showops="1" showpackage="0" name="class diagram" localid="30000" showstereotype="0" showscope="0" font="Arial,11,-1,5,50,0,0,0,0,0" linecolor="#ff0000" >
+    <widgets>
+     <UML:ConceptWidget showattsigs="602" x="210" y="265" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="38" showoperations="0" showpackage="0" showscope="0" showstereotype="0" font="Arial,11,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="602" x="61" y="47" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="39" showoperations="0" showpackage="0" showscope="0" showstereotype="0" font="Arial,11,-1,5,50,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="602" x="434" y="48" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="40" showoperations="0" showpackage="0" showscope="0" showstereotype="0" font="Arial,11,-1,5,50,0,0,0,0,0" />
+    </widgets>
+    <messages/>
+    <associations>
+     <UML:AssocWidget totalcounta="3" indexa="1" totalcountb="2" indexb="1" widgetbid="39" widgetaid="40" documentation="" type="503" >
+      <UML:FloatingTextWidget x="418" y="120" operation="" role="701" usefillcolor="1" seqnum="" xmi.id="-1" text="*" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="262" y="130" operation="" role="702" usefillcolor="1" seqnum="" xmi.id="-1" text="1" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="347" y="136" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="434" starty="144" />
+       <endpoint endx="260" endy="128" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="3" indexb="2" widgetbid="40" widgetaid="38" documentation="" type="503" >
+      <UML:FloatingTextWidget x="288" y="241" operation="" role="701" usefillcolor="1" seqnum="" xmi.id="-1" text="*" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="416" y="242" operation="" role="702" usefillcolor="1" seqnum="" xmi.id="-1" text="1" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="360" y="252" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="286" starty="265" />
+       <endpoint endx="434" endy="240" />
+      </linepath>
+     </UML:AssocWidget>
+     <UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="39" widgetaid="38" documentation="" type="503" >
+      <UML:FloatingTextWidget x="194" y="376" operation="" role="701" usefillcolor="1" seqnum="" xmi.id="-1" text="*" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="162" y="211" operation="" role="702" usefillcolor="1" seqnum="" xmi.id="-1" text="1" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <UML:FloatingTextWidget x="185" y="304" operation="" role="703" usefillcolor="1" seqnum="" xmi.id="-1" text="" font="Arial,11,-1,5,50,0,0,0,0,0" />
+      <linepath>
+       <startpoint startx="210" starty="400" />
+       <endpoint endx="160" endy="209" />
+      </linepath>
+     </UML:AssocWidget>
+    </associations>
+   </diagram>
+  </diagrams>
+  <listview>
+   <listitem open="1" type="800" id="-1" label="Views" >
+    <listitem open="1" type="801" id="-1" label="Logical View" >
+     <listitem open="0" type="807" id="37" label="class diagram" />
+     <listitem open="1" type="812" id="39" label="ezworkflow" >
+      <listitem open="0" type="813" id="47" label="created" />
+      <listitem open="0" type="813" id="45" label="creator_id" />
+      <listitem open="0" type="813" id="41" label="id" />
+      <listitem open="0" type="813" id="48" label="modified" />
+      <listitem open="0" type="813" id="46" label="modifier_id" />
+      <listitem open="0" type="813" id="44" label="name" />
+      <listitem open="0" type="813" id="42" label="version" />
+      <listitem open="0" type="813" id="43" label="workflow_type_string" />
+     </listitem>
+     <listitem open="1" type="812" id="40" label="ezworkflow_event" >
+      <listitem open="0" type="813" id="69" label="data_int1" />
+      <listitem open="0" type="813" id="70" label="data_int2" />
+      <listitem open="0" type="813" id="71" label="data_int3" />
+      <listitem open="0" type="813" id="72" label="data_int4" />
+      <listitem open="0" type="813" id="73" label="data_text1" />
+      <listitem open="0" type="813" id="74" label="data_text2" />
+      <listitem open="0" type="813" id="75" label="data_text3" />
+      <listitem open="0" type="813" id="76" label="data_text4" />
+      <listitem open="0" type="813" id="53" label="description" />
+      <listitem open="0" type="813" id="49" label="id" />
+      <listitem open="0" type="813" id="51" label="parent_id" />
+      <listitem open="0" type="813" id="65" label="parent_type" />
+      <listitem open="0" type="813" id="54" label="placement" />
+      <listitem open="0" type="813" id="50" label="version" />
+      <listitem open="0" type="813" id="52" label="workflow_type_string" />
+     </listitem>
+     <listitem open="1" type="812" id="38" label="ezworkflow_process" >
+      <listitem open="0" type="813" id="57" label="content_id" />
+      <listitem open="0" type="813" id="58" label="content_parent_id" />
+      <listitem open="0" type="813" id="64" label="content_version" />
+      <listitem open="0" type="813" id="63" label="created" />
+      <listitem open="0" type="813" id="60" label="event_id" />
+      <listitem open="0" type="813" id="59" label="event_position" />
+      <listitem open="0" type="813" id="62" label="id" />
+      <listitem open="0" type="813" id="66" label="last_event_id" />
+      <listitem open="0" type="813" id="67" label="last_event_position" />
+      <listitem open="0" type="813" id="78" label="last_event_status" />
+      <listitem open="0" type="813" id="68" label="modified" />
+      <listitem open="0" type="813" id="61" label="status" />
+      <listitem open="0" type="813" id="56" label="user_id" />
+      <listitem open="0" type="813" id="55" label="workflow_id" />
+     </listitem>
+    </listitem>
+    <listitem open="1" type="802" id="-1" label="Use Case View" />
+   </listitem>
+  </listview>
+ </XMI.content>
+</XMI>

@@ -71,17 +71,13 @@ class eZModuleFunctionInfo
 
     function loadDefinition()
     {
-        $definitionFile = null;
         $pathList = eZModule::globalPathList();
-        if ( $pathList )
+        foreach ( $pathList as $path )
         {
-            foreach ( $pathList as $path )
-            {
-                $definitionFile = $path . '/' . $this->ModuleName . '/function_definition.php';
-                if ( file_exists( $definitionFile ) )
-                    break;
-                $definitionFile = null;
-            }
+            $definitionFile = $path . '/' . $this->ModuleName . '/function_definition.php';
+            if ( file_exists( $definitionFile ) )
+                break;
+            $definitionFile = null;
         }
         if ( $definitionFile === null )
         {
@@ -100,97 +96,6 @@ class eZModuleFunctionInfo
         $this->FunctionList = $FunctionList;
         $this->IsValid = true;
         return true;
-    }
-
-    /*!
-      Check if a parameter for a function is an array
-
-      \param function name
-      \param parameter name
-
-      \return true if parameter is supposed to be array
-     */
-    function isParameterArray( $functionName, $parameterName )
-    {
-        if ( isset( $this->FunctionList[$functionName]['parameters'] ) )
-        {
-            $parameterList =& $this->FunctionList[$functionName]['parameters'];
-            foreach ( array_keys( $parameterList ) as $key )
-            {
-                if ( $parameterList[$key]['name'] == $parameterName )
-                {
-                    if ( $parameterList[$key]['type'] == 'array' )
-                        return true;
-                    return false;
-                }
-            }
-        }
-        return false;
-    }
-
-    /*!
-     Pre execute, used by template compilation to check as much as possible before runtime.
-
-     \param function name
-
-     \return function definition, false if fails.
-    */
-    function &preExecute( $functionName )
-    {
-        /* Code copied from this->execute() */
-        $moduleName = $this->ModuleName;
-        if ( !isset( $this->FunctionList[$functionName] ) )
-        {
-            eZDebug::writeError( "No such function '$functionName' in module '$moduleName'",
-                                 'eZModuleFunctionInfo::execute' );
-            return false;
-        }
-        $functionDefinition =& $this->FunctionList[$functionName];
-        if ( !isset( $functionName['call_method'] ) )
-        {
-            eZDebug::writeError( "No call method defined for function '$functionName' in module '$moduleName'",
-                                 'eZModuleFunctionInfo::execute' );
-            return false;
-        }
-        if ( !isset( $functionName['parameters'] ) )
-        {
-            eZDebug::writeError( "No parameters defined for function '$functionName' in module '$moduleName'",
-                                 'eZModuleFunctionInfo::execute' );
-            return false;
-        }
-        $callMethod =& $functionDefinition['call_method'];
-        if ( isset( $callMethod['include_file'] ) and
-             isset( $callMethod['class'] ) and
-             isset( $callMethod['method'] ) )
-        {
-            $extension = false;
-            if ( isset( $callMethod['extension'] ) )
-                $extension = $callMethod['extension'];
-
-            if ( $extension )
-            {
-                include_once( 'lib/ezutils/classes/ezextension.php' );
-                $extensionDir = eZExtension::baseDirectory();
-                $callMethod['include_file'] = $extensionDir . '/' . $extension . '/modules/' . $callMethod['include_file'];
-            }
-            include_once( $callMethod['include_file'] );
-            if ( !class_exists( $callMethod['class'] ) )
-            {
-                return false;
-            }
-            $classObject =& $this->objectForClass( $callMethod['class'] );
-            if ( $classObject === null )
-            {
-                return false;
-            }
-            if ( !method_exists( $classObject, $callMethod['method'] ) )
-            {
-                return false;
-            }
-
-            return $functionDefinition;
-        }
-        return false;
     }
 
     function execute( $functionName, $functionParameters )
@@ -366,11 +271,6 @@ class eZModuleFunctionInfo
 
     function callClassMethod( $methodName, &$classObject, $parameterArray )
     {
-/*        echo "*********** fetching START **************** <br>";
-        var_dump( $methodName );
-        var_dump( $classObject );
-        var_dump( $parameterArray );
-        echo "*********** fetching END ******************<br><br><br>";*/
         if ( $this->UseOldCall )
             return call_user_method_array( $methodName, $classObject, $parameterArray );
         else

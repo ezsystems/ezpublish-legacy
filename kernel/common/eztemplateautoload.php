@@ -38,7 +38,6 @@
 // Operator autoloading
 
 $eZTemplateOperatorArray = array();
-
 $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezurloperator.php',
                                     'class' => 'eZURLOperator',
                                     'operator_names' => array( 'ezurl', 'ezroot', 'ezdesign', 'ezimage', 'exturl',
@@ -46,10 +45,6 @@ $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezurloperator.php
 $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezi18noperator.php',
                                     'class' => 'eZI18NOperator',
                                     'operator_names' => array( 'i18n', 'x18n' ) );
-
-$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezdateoperatorcollection.php',
-                                    'class' => 'eZDateOperatorCollection',
-                                    'operator_names' => array( 'month_overview' ) );
 
 $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezautolinkoperator.php',
                                     'class' => 'eZAutoLinkOperator',
@@ -63,9 +58,17 @@ $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/eztreemenuoperato
                                     'class' => 'eZTreeMenuOperator',
                                     'operator_names' => array( 'treemenu' ) );
 
+$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezhiomenuoperator.php',
+                                    'class' => 'eZHiOMenuOperator',
+                                    'operator_names' => array( 'hiomenu' ) );
+
+$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezhiosortoperator.php',
+                                    'class' => 'eZHiOSortOperator',
+                                    'operator_names' => array( 'hiosort' ) );
+
 $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezwordtoimageoperator.php',
                                     'class' => 'eZWordToImageOperator',
-                                    'operator_names' => array( 'wordtoimage', 'mimetype_icon', 'class_icon', 'classgroup_icon' ) );
+                                    'operator_names' => array( 'wordtoimage' ) );
 
 $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezkerneloperator.php',
                                     'class' => 'eZKernelOperator',
@@ -79,21 +82,14 @@ $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezmoduleparamsope
                                     'class' => 'eZModuleParamsOperator',
                                     'operator_names' => array( 'module_params' ) );
 
-$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezpackageoperator.php',
-                                    'class' => 'eZPackageOperator',
-                                    'operator_names' => array( 'ezpackage' ) );
-
 // Function autoloading
 
 $eZTemplateFunctionArray = array();
 $eZTemplateFunctionArray[] = array( 'function' => 'eZObjectForwardInit',
                                     'function_names' => array( 'attribute_edit_gui',
                                                                'attribute_view_gui',
-                                                               'attribute_result_gui',
-                                                               'attribute_pdf_gui',
                                                                'node_view_gui',
                                                                'content_view_gui',
-                                                               'content_pdf_gui',
                                                                'shop_account_view_gui',
                                                                'content_version_view_gui',
                                                                'collaboration_view_gui',
@@ -101,7 +97,6 @@ $eZTemplateFunctionArray[] = array( 'function' => 'eZObjectForwardInit',
                                                                'collaboration_simple_message_view',
                                                                'collaboration_participation_view',
                                                                'event_edit_gui',
-                                                               'class_attribute_view_gui',
                                                                'class_attribute_edit_gui' ) );
 
 if ( !function_exists( 'eZPHPOperatorInit' ) )
@@ -135,17 +130,8 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                'input_name' => 'attribute',
                                                'output_name' => 'attribute',
                                                'namespace' => 'ContentAttribute',
-                                               'attribute_keys' => array( 'attribute_identifier' => array( 'contentclass_attribute_identifier' ) ),
                                                'attribute_access' => array( array( 'edit_template' ) ),
                                                'use_views' => false ),
-
-                'attribute_pdf_gui' => array( 'template_root' => 'content/datatype/pdf',
-                                              'input_name' => 'attribute',
-                                              'output_name' => 'attribute',
-                                              'namespace' => 'ContentAttribute',
-                                              'attribute_keys' => array( 'attribute_identifier' => array( 'contentclass_attribute_identifier' ) ),
-                                              'attribute_access' => array( array( 'view_template' ) ),
-                                              'use_views' => false ),
 
                 'attribute_view_gui' => array( 'template_root' => array( 'type' => 'multi_match',
                                                                          'attributes' => array( 'contentclass_attribute',
@@ -153,24 +139,14 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                                          'matches' => array( array( false,
                                                                                                     'content/datatype/view' ),
                                                                                              array( true,
-                                                                                                    'content/datatype/collect' ) ) ),
+                                                                                                    'content/datatype/edit' ) ) ),
                                                'render_mode' => false,
                                                'input_name' => 'attribute',
                                                'output_name' => 'attribute',
                                                'namespace' => 'ContentAttribute',
-                                               'attribute_keys' => array( 'attribute_identifier' => array( 'contentclass_attribute_identifier' ) ),
                                                'attribute_access' => array( array( 'view_template' ) ),
                                                'optional_views' => true,
                                                'use_views' => 'view' ),
-
-                'attribute_result_gui' => array( 'template_root' => 'content/datatype/result',
-                                                 'render_mode' => false,
-                                                 'input_name' => 'attribute',
-                                                 'output_name' => 'attribute',
-                                                 'namespace' => 'CollectionAttribute',
-                                                 'attribute_access' => array( array( 'result_template' ) ),
-                                                 'optional_views' => true,
-                                                 'use_views' => 'view' ),
 
                 'shop_account_view_gui' => array( 'template_root' => "shop/accounthandlers",
                                                   'input_name' => 'order',
@@ -180,17 +156,6 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                   'use_views' => 'view' ),
 
                 'content_view_gui' => array( 'template_root' => 'content/view',
-                                             'input_name' => 'content_object',
-                                             'output_name' => 'object',
-                                             'namespace' => 'ContentView',
-                                             'attribute_keys' => array( 'object' => array( 'id' ),
-                                                                        'class' => array( 'contentclass_id' ),
-                                                                        'section' => array( 'section_id' ) ),
-                                             'attribute_access' => array(),
-                                             'use_views' => 'view' ),
-
-
-                'content_pdf_gui' => array( 'template_root' => 'content/pdf',
                                              'input_name' => 'content_object',
                                              'output_name' => 'object',
                                              'namespace' => 'ContentView',
@@ -216,8 +181,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                           'attribute_keys' => array( 'node' => array( 'node_id' ),
                                                                      'object' => array( 'contentobject_id' ),
                                                                      'class' => array( 'object', 'contentclass_id' ),
-                                                                     'section' => array( 'object', 'section_id' ),
-                                                                     'class_identifier' => array( 'object', 'class_identifier' ) ),
+                                                                     'section' => array( 'object', 'section_id' ) ),
                                           'attribute_access' => array(),
                                           'use_views' => 'view' ),
 
@@ -265,15 +229,6 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                            'namespace' => 'WorkflowEvent',
                                            'attribute_access' => array( array( 'workflow_type_string' ) ),
                                            'use_views' => false ),
-
-                'class_attribute_view_gui' => array( 'template_root' => 'class/datatype/view',
-                                                     'input_name' => 'class_attribute',
-                                                     'output_name' => 'class_attribute',
-                                                     'namespace' => 'ClassAttribute',
-                                                     'attribute_access' => array( array( 'data_type',
-                                                                                         'information',
-                                                                                         'string' ) ),
-                                                     'use_views' => false ),
 
                 'class_attribute_edit_gui' => array( 'template_root' => 'class/datatype/edit',
                                                      'input_name' => 'class_attribute',

@@ -107,16 +107,6 @@ class eZGeneralDigestUserSettings extends eZPersistentObject
                                                               null,null,true );
         return $settingsList[0];
     }
-
-    /*!
-     \static
-     Removes all general digest settings for all users.
-    */
-    function cleanup()
-    {
-        $db =& eZDB::instance();
-        $db->query( "DELETE FROM ezgeneral_digest_user_settings" );
-    }
 }
 
 ?>

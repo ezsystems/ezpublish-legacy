@@ -66,8 +66,7 @@ class eZIntegerType extends eZDataType
     function eZIntegerType()
     {
         $this->eZDataType( EZ_DATATYPESTRING_INTEGER, ezi18n( 'kernel/classes/datatypes', "Integer", 'Datatype name' ),
-                           array( 'serialize_supported' => true,
-                                  'object_serialize_map' => array( 'data_int' => 'value' ) ) );
+                           array( 'serialize_supported' => true ) );
         $this->IntegerValidator = new eZIntegerValidator();
     }
 
@@ -94,17 +93,17 @@ class eZIntegerType extends eZDataType
                 case EZ_INTEGER_NO_MIN_MAX_VALUE:
                 {
                     $state = $this->IntegerValidator->validate( $data );
-                    if( $state === EZ_INPUT_VALIDATOR_STATE_INVALID )
+                    if( $state===1 )
+                        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                    else
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'Input is not integer.' ) );
-                    else
-                        return $state;
                 } break;
                 case EZ_INTEGER_HAS_MIN_VALUE:
                 {
                     $this->IntegerValidator->setRange( $min, false );
                     $state = $this->IntegerValidator->validate( $data );
-                    if( $state === EZ_INPUT_VALIDATOR_STATE_ACCEPTED )
+                    if( $state===1 )
                         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
                     else
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
@@ -355,11 +354,6 @@ class eZIntegerType extends eZDataType
         return $contentObjectAttribute->attribute( "data_int" );
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        return true;
-    }
-
     /*!
      \return true if the datatype can be indexed
     */
@@ -382,6 +376,23 @@ class eZIntegerType extends eZDataType
     function &sortKeyType()
     {
         return 'int';
+    }
+
+    /*!
+     \return a DOM representation of the content object attribute
+    */
+    function &serializeContentObjectAttribute( $objectAttribute )
+    {
+        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
+        include_once( 'lib/ezxml/classes/ezdomnode.php' );
+
+        $node = new eZDOMNode();
+        $node->setName( 'attribute' );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', 'ezinteger' ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'value', $objectAttribute->attribute( "data_int" ) ) );
+
+        return $node;
     }
 
     /*!
@@ -409,11 +420,11 @@ class eZIntegerType extends eZDataType
         $minValue = $attributeParametersNode->elementTextContentByName( 'min-value' );
         $maxValue = $attributeParametersNode->elementTextContentByName( 'max-value' );
 
-        if ( strlen( $minValue ) > 0 and strlen( $maxValue ) > 0 )
+        if ( $minValue and $maxValue )
             $minMaxState = EZ_INTEGER_HAS_MIN_MAX_VALUE;
-        else if ( strlen( $minValue ) > 0 )
+        else if ( $minValue )
             $minMaxState = EZ_INTEGER_HAS_MIN_VALUE;
-        else if ( strlen( $maxValue ) > 0 )
+        else if ( $maxValue )
             $minMaxState = EZ_INTEGER_HAS_MAX_VALUE;
         else
             $minMaxState = EZ_INTEGER_NO_MIN_MAX_VALUE;

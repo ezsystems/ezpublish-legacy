@@ -80,10 +80,12 @@ class eZModule
             $this->Name = $moduleName;
             $this->Path = $path;
             $this->Title = "";
-
-            foreach( $this->Functions as $key => $dummy)
+            reset( $this->Functions );
+            while( ( $key = key( $this->Functions ) ) !== null )
             {
-                $this->Functions[$key]["uri"] = "/$moduleName/$key";
+                $func =& $this->Functions[$key];
+                $func["uri"] = "/$moduleName/$key";
+                next( $this->Functions );
             }
         }
         else
@@ -218,7 +220,7 @@ class eZModule
      Tries to run the error module with the error code \a $errorCode.
      Sets the state of the module object to \c failed and sets the error code.
     */
-    function &handleError( $errorCode, $errorType = false, $parameters = array(), $userParameters = false )
+    function &handleError( $errorCode, $errorType = false, $parameters = array() )
     {
         if ( !$errorType )
         {
@@ -228,11 +230,9 @@ class eZModule
         }
         $errorModule =& eZModule::errorModule();
         $module =& eZModule::findModule( $errorModule['module'], $this );
-
         if ( $module === null )
             return false;
-
-        $result =& $module->run( $errorModule['view'], array( $errorType, $errorCode, $parameters, $userParameters ) );
+        $result =& $module->run( $errorModule['view'], array( $errorType, $errorCode, $parameters ) );
         // The error module may want to redirect to another URL, see error.ini
         if ( $this->exitStatus() != EZ_MODULE_STATUS_REDIRECT and
              $this->exitStatus() != EZ_MODULE_STATUS_RERUN )
@@ -406,11 +406,6 @@ class eZModule
     */
     function redirectTo( $uri )
     {
-        $originalURI = $uri;
-        $uri = preg_replace( "#(^.*)(/+)$#", "\$1", $uri );
-        if ( strlen( $originalURI ) != 0 and
-             strlen( $uri ) == 0 )
-            $uri = '/';
         $this->RedirectURI = $uri;
         $this->setExitStatus( EZ_MODULE_STATUS_REDIRECT );
     }
@@ -703,19 +698,20 @@ class eZModule
             $hookEntries = array();
         $entry = array( 'function' => $function,
                         'expand_parameters' => $expandParameters );
-
-        $position = $priority;
         if ( $append )
         {
+            $position = $priority;
             while ( isset( $hookEntries[$position] ) )
                 ++$position;
+            $hookEntries[$position] = $entry;
         }
         else
         {
+            $position = $priority;
             while ( isset( $hookEntries[$position] ) )
                 --$position;
+            $hookEntries[$position] = $entry;
         }
-        $hookEntries[$position] = $entry;
     }
 
     /*!
@@ -774,7 +770,6 @@ class eZModule
                 }
                 else
                     eZDebug::writeError( 'Unknown entry type ' . gettype( $function ) . 'in hook: ' . $hookName, 'eZModule::runHooks' );
-
                 switch( $retVal )
                 {
                     case EZ_MODULE_HOOK_STATUS_OK:
@@ -831,7 +826,7 @@ class eZModule
                                defined parameters.
      \return null if function could not be run or no return value was found.
     */
-    function &run( $functionName, $parameters, $overrideParameters = false, $userParameters = false )
+    function &run( $functionName, $parameters, $overrideParameters = false )
     {
         if ( count( $this->Functions ) > 0 and
              !isset( $this->Functions[$functionName] ) )
@@ -881,7 +876,8 @@ class eZModule
         {
             $unorderedParams =& $function["unordered_params"];
 
-            foreach ( $unorderedParams as $urlParamName => $variableParamName )
+            reset( $unorderedParams );
+            while ( list( $urlParamName, $variableParamName ) = each( $unorderedParams ) )
             {
                 if ( in_array( $urlParamName, $parameters ) )
                 {
@@ -896,35 +892,6 @@ class eZModule
                 }
             }
         }
-
-        // Loop through user defines parameters
-        if ( $userParameters !== false )
-        {
-            if ( !isset( $params['UserParameters'] ) or
-                 !is_array( $params['UserParameters'] ) )
-            {
-                $params['UserParameters'] = array();
-            }
-
-            if ( is_array( $userParameters ) && count( $userParameters ) > 0 )
-            {
-                foreach ( array_keys( $userParameters ) as $paramKey )
-                {
-                    if( isset( $function['unordered_params'] ) &&
-                        $unorderedParams != null )
-                    {
-                        if ( array_key_exists( $paramKey, $unorderedParams ) )
-                        {
-                            $params[$unorderedParams[$paramKey]] = $userParameters[$paramKey];
-                            $unorderedParametersList[$unorderedParams[$paramKey]] = $userParameters[$paramKey];
-                        }
-                    }
-
-                    $params['UserParameters'][$paramKey] = $userParameters[$paramKey];
-                }
-            }
-        }
-
         $this->OriginalUnorderedParameters = $unorderedParametersList;
 
         if ( is_array( $overrideParameters ) )
@@ -974,7 +941,6 @@ class eZModule
             if ( isset( $function['default_navigation_part'] ) )
                 $Return['navigation_part'] = $function['default_navigation_part'];
         }
-
         return $Return;
     }
 

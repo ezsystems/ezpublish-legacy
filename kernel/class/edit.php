@@ -87,21 +87,9 @@ if ( is_numeric( $ClassID ) )
         $timeOut =& $contentIni->variable( 'ClassSettings', 'DraftTimeout' );
 
         if ( $class->attribute( 'modifier_id' ) != $user->attribute( 'contentobject_id' ) &&
-             $class->attribute( 'modified' ) + $timeOut > time() )
+             $class->attribute( 'modified' ) + $timeOut > eZDateTime::currentTimeStamp() )
         {
-            include_once( 'kernel/common/template.php' );
-            $tpl =& templateInit();
-
-            $res =& eZTemplateDesignResource::instance();
-            $res->setKeys( array( array( 'class', $class->attribute( 'id' ) ) ) ); // Class ID
-            $tpl->setVariable( 'class', $class );
-            $tpl->setVariable( 'lock_timeout', $timeOut );
-
-            $Result = array();
-            $Result['content'] =& $tpl->fetch( 'design:class/edit_denied.tpl' );
-            $Result['path'] = array( array( 'url' => '/class/grouplist/',
-                                            'text' => ezi18n( 'kernel/class', 'Class list' ) ) );
-            return $Result;
+            return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
         }
     }
 }
@@ -139,14 +127,7 @@ if ( $http->hasPostVariable( 'DiscardButton' ) )
     $class->setVersion( EZ_CLASS_VERSION_STATUS_TEMPORARY );
     $class->remove( true, $ClassVersion );
     eZContentClassClassGroup::removeClassMembers( $ClassID, $ClassVersion );
-    if ( $fromGroupID === false )
-    {
-        $Module->redirectToView( 'grouplist' );
-    }
-    else
-    {
-        $Module->redirectTo( $Module->functionURI( 'classlist' ) . '/' . $fromGroupID . '/' );
-    }
+    $Module->redirectTo( $Module->functionURI( 'classlist' ) . '/' . $fromGroupID . '/' );
     return;
 }
 
@@ -176,7 +157,6 @@ if ( $http->hasPostVariable( 'RemoveGroupButton' ) )
 // Fetch attributes and definitions
 $attributes =& $class->fetchAttributes();
 include_once( 'kernel/classes/ezdatatype.php' );
-eZDataType::loadAndRegisterAllTypes();
 $datatypes =& eZDataType::registeredDataTypes();
 
 $customAction = false;
@@ -341,7 +321,8 @@ if ( $customAction )
 }
 
 // Set new modification date
-$date_time = time();
+include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+$date_time = eZDateTime::currentTimeStamp();
 $class->setAttribute( 'modified', $date_time );
 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 $user =& eZUser::currentUser();
@@ -382,14 +363,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
     $firstStoreAttemt =& eZSessionRead( $http->sessionVariable( 'CanStoreTicket' ) );
     if ( !$firstStoreAttemt )
     {
-        if ( $fromGroupID === false )
-        {
-            $Module->redirectToView( 'grouplist' );
-        }
-        else
-        {
-            $Module->redirectTo( $Module->functionURI( 'classlist' ) . '/' . $fromGroupID . '/' );
-        }
+        $Module->redirectTo( $Module->functionURI( 'classlist' ) . '/' . $fromGroupID . '/' );
         return;
     }
     eZSessionDestroy( $http->sessionVariable( 'CanStoreTicket' ) );
@@ -500,7 +474,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
 //     $user =& eZUser::currentUser();
 //     $user_id = $user->attribute( 'contentobject_id' );
 //     $class->setAttribute( 'modifier_id', $user_id );
-//     $class->setAttribute( 'modified', time() );
+//     $class->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
 //     $class->adjustAttributePlacements( $attributes );
 //     $class->store( $attributes );
 
@@ -509,14 +483,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
 
     $http->removeSessionVariable( 'CanStoreTicket' );
 
-    if ( $fromGroupID === false )
-    {
-        $Module->redirectToView( 'grouplist' );
-    }
-    else
-    {
-        $Module->redirectTo( $Module->functionURI( 'classlist' ) . '/' . $fromGroupID . '/' );
-    }
+    $Module->redirectTo( $Module->functionURI( 'classlist' ) . '/' . $fromGroupID . '/' );
     return;
 }
 // Store changes

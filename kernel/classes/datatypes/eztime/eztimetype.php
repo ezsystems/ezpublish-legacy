@@ -185,7 +185,7 @@ class eZTimeType extends eZDataType
     */
     function metaData( $contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( 'data_int' );
+        return $contentObjectAttribute->attribute( 'date_int' );
     }
 
     /*!
@@ -194,11 +194,6 @@ class eZTimeType extends eZDataType
     function title( &$contentObjectAttribute )
     {
         return "";
-    }
-
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        return $contentObjectAttribute->attribute( 'data_int' ) != 0;
     }
 
     /*!

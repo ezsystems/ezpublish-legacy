@@ -34,7 +34,7 @@
 // you.
 //
 
-ob_start();
+
 
 // Turn off session stuff, isn't needed for WebDAV operations.
 $GLOBALS['eZSiteBasics']['session-required'] = false;

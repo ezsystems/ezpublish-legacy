@@ -117,18 +117,11 @@ class eZContentClassClassGroup extends eZPersistentObject
 
     function &fetchClassList( $contentclass_version, $group_id, $asObject = true )
     {
-        $versionCond = '';
-        if ( $contentclass_version !== null )
-        {
-            $versionCond = "AND class_group.contentclass_version='$contentclass_version'
-                            AND contentclass.version='$contentclass_version'\n";
-        }
-
         $db =& eZDB::instance();
-        $sql = "SELECT contentclass.*
-                FROM ezcontentclass  contentclass, ezcontentclass_classgroup AS class_group
-                WHERE contentclass.id=class_group.contentclass_id
-                $versionCond
+        $sql = "SELECT contentclass.* \n FROM ezcontentclass  contentclass, ezcontentclass_classgroup  class_group\n
+                WHERE contentclass.id=class_group.contentclass_id \n
+                AND class_group.contentclass_version='$contentclass_version' \n
+                AND contentclass.version='$contentclass_version' \n
                 AND class_group.group_id='$group_id'";
         $rows =& $db->arrayQuery( $sql );
         return eZPersistentObject::handleRows( $rows, "eZContentClass", $asObject );

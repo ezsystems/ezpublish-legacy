@@ -674,7 +674,7 @@ class eZDebug
         $fileName = $logDir . $logName;
         if ( !file_exists( $logDir ) )
         {
-            include_once( 'lib/ezfile/classes/ezdir.php' );
+            include_once( 'lib/ezutils/classes/ezdir.php' );
             eZDir::mkdir( $logDir, 0775, true );
         }
         $oldumask = @umask( 0 );
@@ -795,10 +795,9 @@ class eZDebug
     */
     function isDebugEnabled()
     {
-        if ( isset( $GLOBALS['eZDebugEnabled'] ) )
-        {
-            return $GLOBALS['eZDebugEnabled'];
-        }
+        $debugEnabled =& $GLOBALS['eZDebugEnabled'];
+        if ( isset( $debugEnabled ) )
+            return $debugEnabled;
 
         return false;
     }
@@ -833,18 +832,8 @@ class eZDebug
         if ( $settings['debug-enabled'] and
              $settings['debug-by-ip'] )
         {
-            $ipAddress = eZSys::serverVariable( 'REMOTE_ADDR', true );
-            if ( $ipAddress )
-            {
-                $debugEnabled = in_array( $ipAddress, $settings['debug-ip-list'] );
-            }
-            else
-            {
-                $debugEnabled = (
-                    in_array( 'commandline', $settings['debug-ip-list'] ) &&
-                    (php_sapi_name() == 'cli')
-                );
-            }
+            $ipAddress = eZSys::serverVariable( 'REMOTE_ADDR' );
+            $debugEnabled = in_array( $ipAddress, $settings['debug-ip-list'] );
         }
         eZDebug::setHandleType( $oldHandleType );
     }

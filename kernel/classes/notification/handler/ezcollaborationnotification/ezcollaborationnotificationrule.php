@@ -177,16 +177,6 @@ class eZCollaborationNotificationRule extends eZPersistentObject
 //                                                                                                 'node_id' => $nodeID ) );
 //     }
 //     var $Node = null;
-
-    /*!
-     \static
-     Removes all notification rules for all collaboration items for all users.
-    */
-    function cleanup()
-    {
-        $db =& eZDB::instance();
-        $db->query( "DELETE FROM ezcollab_notification_rule" );
-    }
 }
 
 ?>

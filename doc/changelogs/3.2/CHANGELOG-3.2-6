@@ -14,6 +14,10 @@ Changes from 3.2-5 to 3.2-6
   http://ez.no/community/bug_reports/error_in_confirmorder_php
 - Made sure the SubTreeArray parameter is remembered on next/previous links in advanced search.
   http://ez.no/community/bug_reports/ez_no_documentation_search_problem
+- Fixed missing {section} start in ezrangeoption.tpl.
+  http://ez.no/community/bug_reports/design_standard_content_datatype_view_plain_ezrangeoption_tpl_missing_section
+- Fixed bug in permissions for versionview.
+  http://ez.no/community/bug_reports/unable_to_use_versionview_without_create_permission
 - Fixed bug in shorten template operator.
   http://ez.no/community/bug_reports/bug_in_template_operator_shorten
 - Fixed bug with pre and post text for the 'text' tag in the simpletags operator.
@@ -28,11 +32,35 @@ Changes from 3.2-5 to 3.2-6
   it if it was previously deferred.
 - Fixed a bug with login of user when running mysql, the number of returned rows would
   increase exponentially.
+- Added default setting for UserSettings: UseSpecialCharacters to site.ini
+  http://ez.no/community/bug_reports/site_ini_missing_entry
+- Fixed a bug with eZPersistentObject and limit/offset parameters
+  http://ez.no/community/bug_reports/ezdebug_trigger_error
+- Fixed bug with getting a translation of an objectattribute.
+  http://ez.no/community/bug_reports/getting_a_translation_of_an_objectattribute_is_not_possible
+- Fixed undefined variables in ezenumtype
+  http://ez.no/community/bug_reports/ezenumtype_php_undefined_vars_metadata
+- Fixed misuse of in_array() function
+  http://ez.no/community/bug_reports/class_ezhttpfile_function_hasattribute
+- Fixed bug in checking number of parameters to array_merge()
+  http://ez.no/community/bug_reports/merge_array_operator_doesn_t_work_with_only_one_array_as_parameter
 - Removed the hardcoded field list in eZContentObject::fetchList.
+- Fixed bug in the autolink operator.
+  http://ez.no/community/bug_reports/autolink_operator__1
+- Fixed bug in copying objects; the old object's publish date was not updated.
+  http://ez.no/community/bug_reports/object_copy_also_copies_creation_date
+- Fixed security bug in notification system.
 
 *Setup:
+
+*Translations:
+- Updated ger-DE translation.
 
 *Library :
 eZDebug:
 - Made sure the dumpVariable function don't mess up any existing output buffers
   or start a new unneeded one.
+
+eZ template:
+- Fixed a major bug in the si operator, the calculations and prefixes
+  were wrong in many cases.

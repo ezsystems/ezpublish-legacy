@@ -54,25 +54,13 @@ $ViewList["cache"] = array(
                                     'ClearINICacheButton' => 'ClearINICache',
                                     'ClearTemplateCacheButton' => 'ClearTemplateCache' ),
     'post_action_parameters' => array( 'ClearCache' => array( 'CacheList' => 'CacheList' ) ),
-    "params" => array() );
-
-
-
-
-$ViewList['session'] = array(
-    'script'                  => 'session.php',
-    'default_navigation_part' => 'ezsetupnavigationpart',
-    'single_post_actions'     => array( 'RemoveAllSessionsButton' => 'RemoveAllSessions',
-                                        'RemoveTimedOutSessionsButton' => 'RemoveTimedOutSessions',
-                                        'RemoveSelectedSessionsButton' => 'RemoveSelectedSessions' ),
-    'params' => array() );
-
-
+    "params" => array( ) );
 
 $ViewList["info"] = array(
     "script" => "info.php",
     "default_navigation_part" => 'ezsetupnavigationpart',
     "params" => array( ) );
+
 
 $ViewList["rad"] = array(
     "script" => "rad.php",
@@ -104,7 +92,6 @@ $ViewList["templateview"] = array(
     "default_navigation_part" => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'SelectCurrentSiteAccessButton' => 'SelectCurrentSiteAccess',
                                     'RemoveOverrideButton' => 'RemoveOverride',
-                                    'UpdateOverrideButton' => 'UpdateOverride',
                                     'NewOverrideButton' => 'NewOverride' ),
     "params" => array( ) );
 
@@ -128,33 +115,4 @@ $ViewList["extensions"] = array(
     'single_post_actions' => array( 'ActivateExtensionsButton' => 'ActivateExtensions' ),
     "params" => array( ) );
 
-$ViewList['menu'] = array(
-    'script' => 'setupmenu.php',
-    'default_navigation_part' => 'ezsetupnavigationpart',
-    'params' => array( ) );
-
-$ViewList['systemupgrade'] = array(
-    'script' => 'systemupgrade.php',
-    'default_navigation_part' => 'ezsetupnavigationpart',
-    'single_post_actions' => array( 'MD5CheckButton' => 'MD5Check',
-                                    'DBCheckButton' => 'DBCheck' ),
-    'params' => array( ) );
-
-$ViewList["toolbarlist"] = array(
-    "script" => "toolbarlist.php",
-    "default_navigation_part" => 'ezsetupnavigationpart',
-    "params" => array( 'SiteAccess' ) );
-
-$ViewList["toolbar"] = array(
-    "script" => "toolbar.php",
-    "default_navigation_part" => 'ezsetupnavigationpart',
-    'post_actions' => array( 'BrowseActionName' ),
-    "params" => array( 'SiteAccess', 'Position' ) );
-
-$ViewList["menuconfig"] = array(
-    "script" => "menuconfig.php",
-    'default_navigation_part' => 'ezsetupnavigationpart',
-    'single_post_actions' => array( 'StoreButton' => 'Store',
-                                    'SelectCurrentSiteAccessButton' => 'SelectCurrentSiteAccess' ),
-    "params" => array() );
 ?>

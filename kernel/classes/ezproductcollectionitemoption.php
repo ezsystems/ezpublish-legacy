@@ -135,18 +135,6 @@ class eZProductCollectionItemOption extends eZPersistentObject
                                                                     $asObject );
         return $productItemOptions;
     }
-
-    /*!
-     \static
-     Removes all product collections options which are related to the collection items specified in the array \a $itemIDList.
-    */
-    function cleanupList( $itemIDList )
-    {
-        $db =& eZDB::instance();
-        $idText = implode( ', ', $itemIDList );
-        $db->query( "DELETE FROM ezproductcollection_item_opt WHERE item_id IN ( $idText )" );
-    }
-
 }
 
 ?>

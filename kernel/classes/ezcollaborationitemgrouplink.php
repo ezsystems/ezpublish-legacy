@@ -99,7 +99,8 @@ class eZCollaborationItemGroupLink extends eZPersistentObject
 
     function &create( $collaborationID, $groupID, $userID )
     {
-        $date_time = time();
+        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+        $date_time = eZDateTime::currentTimeStamp();
         $row = array(
             'collaboration_id' => $collaborationID,
             'group_id' => $groupID,

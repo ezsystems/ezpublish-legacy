@@ -1,0 +1,8 @@
+create index ezcontentobject_tree_crc32_path on ezcontentobject_tree(crc32_path);
+create unique index ezuser_contentobject_id on ezuser(contentobject_id);
+create index ezuser_role_contentobject_id on ezuser_role(contentobject_id);
+create index ezcontentobject_attribute_contentobject_id on ezcontentobject_attribute(contentobject_id);
+create index ezcontentobject_attribute_language_code on  ezcontentobject_attribute(language_code);
+create index ezcontentclass_version on ezcontentclass(version);
+create index ezenumvalue_co_cl_attr_id_co_class_att_ver on ezenumvalue(contentclass_attribute_id,contentclass_attribute_version);
+create index ezenumobjectvalue_co_attr_id_co_attr_ver on ezenumobjectvalue(contentobject_attribute_id,contentobject_attribute_version);

@@ -297,7 +297,6 @@ TODO: add encoding checks with schema validation.
     */
     function &stripHTTPHeader( $data )
     {
-        $missingxml = false;
         $start = strpos( $data, "<?xml" );
         if ( $start == 0 )
         {

@@ -1,0 +1,148 @@
+body
+{
+	background-color: #ffffff;
+	margin: 0px;
+	padding: 0px;
+}
+
+h1
+{
+    font-size: 120%;
+}
+
+div.listitem h2, table.rightmenu th
+{
+    font-size: 80%;
+    background-color:  #663366;
+    padding: 2px;
+    padding-left: 6px;
+    padding-bottom: 4px;
+	color: #ffffff;
+    font-weight: bold;
+}
+
+h2
+{
+    font-size: 110%;
+}
+
+h3
+{
+    font-size: 80%;
+}
+
+div.byline
+{
+    padding-top: 0px;
+    margin-top: 0px;
+}
+
+a
+{
+    color: #000000;
+    text-decoration: none;
+}
+
+a:hover
+{
+    color: #000000;
+    text-decoration: underline;
+}
+
+td.date, td.path, td.maincontent
+{
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+td.maincontent, td.leftcolumn, td.rightcolumn
+{
+    padding-bottom: 16px;
+}
+
+td.date
+{
+    font-size: 65%;
+    color: #ffffff;
+    background-color: #000000;
+    padding-bottom: 4px;
+}
+
+td.path
+{
+    font-size: 65%;
+}
+
+td.leftcolumn
+{
+    background-color: #ff9900;
+}
+
+td.rightcolumn
+{
+    background-color: #fff4ea;
+}
+
+table.rightmenu td.menuitem 
+{
+    font-size: 100%;
+}
+
+table.leftmenu td.menuitem
+{
+    border: 1px solid #ff9900;
+    border-bottom: none;
+    padding: 6px;
+    background-color: #ffd2a6;
+}
+
+div.searchblock
+{
+    padding-top: 16px;
+    padding-bottom: 8px;
+    text-align: center;
+}
+
+input.searchtext
+{
+    font-size: 65%;
+    width: 90px;
+}
+
+input.searchbutton
+{
+    margin: 4px;
+}
+
+p.readmore
+{
+    font-size: 65%;
+    font-weight: normal;
+}
+
+table.rightmenu td.menuitem p.readmore
+{
+    font-size: 80%;
+}
+
+p.readmore a
+{
+    text-decoration: underline;
+}
+
+div.listitem
+{
+    padding-bottom: 16px;
+}
+
+
+div.credits
+{
+    text-align: center;
+}
+
+div.credits p
+{
+    padding-top: 8px;
+    font-size: 65%;
+}

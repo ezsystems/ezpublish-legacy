@@ -59,10 +59,6 @@ function eZCheckValidity( &$siteBasics, &$uri )
         $siteBasics['db-required'] = false;
         $siteBasics['no-cache-adviced'] = true;
         $siteBasics['site-design-override'] = $ini->variable( 'SetupSettings', 'OverrideSiteDesign' );
-        $access = array( 'name' => 'setup',
-                         'type' => EZ_ACCESS_TYPE_URI );
-        $access = changeAccess( $access );
-        $GLOBALS['eZCurrentAccess'] = $access;
     }
     return $check;
 }
@@ -105,6 +101,8 @@ function eZCheckUser( &$siteBasics, &$uri )
     $moduleName = $uri->element();
     $viewName = $uri->element( 1 );
     $anonymousAccessList = $ini->variable( "SiteAccessSettings", "AnonymousAccessList" );
+    $anonymousAccessList[] = 'user/register';
+    $anonymousAccessList[] = 'user/success';
     $anonymousAccessList[] = 'ezinfo';
     foreach ( $anonymousAccessList as $anonymousAccess )
     {

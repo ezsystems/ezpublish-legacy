@@ -90,7 +90,8 @@ class eZCollaborationProfile extends eZPersistentObject
 
     function &create( $userID, $mainGroup = 0 )
     {
-        $date_time = time();
+        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+        $date_time = eZDateTime::currentTimeStamp();
         $row = array(
             'id' => null,
             'user_id' => $userID,

@@ -111,45 +111,12 @@ class eZBinaryFileHandler
         return false;
     }
 
-    /*!
-     Figures out the filename from the binary object \a $binary.
-     Currently supports eZBinaryFile, eZMedia and eZImageAliasHandler.
-     \return \c false if no file was found.
-     \param $returnMimeData If this is set to \c true then it will return a mime structure, otherwise it returns the filename.
-    */
-    function storedFilename( &$binary, $returnMimeData = false )
+    function storedFilename( &$binary )
     {
         $origDir = eZSys::storageDirectory() . '/original';
 
-        $class = get_class( $binary );
-        $fileName = false;
-        $originalFilename = false;
-        if ( in_array( $class, array( 'ezbinaryfile', 'ezmedia' ) ) )
-        {
-            $fileName = $origDir . "/" . $binary->attribute( 'mime_type_category' ) . '/'.  $binary->attribute( "filename" );
-            $originalFilename = $binary->attribute( 'original_filename' );
-        }
-        else if ( $class == 'ezimagealiashandler' )
-        {
-            $alias = $binary->attribute( 'original' );
-            if ( $alias )
-                $fileName = $alias['url'];
-            $originalFilename = $binary->attribute( 'original_filename' );
-        }
-        if ( $fileName )
-        {
-            $mimeData = eZMimeType::findByFileContents( $fileName );
-            $mimeData['original_filename'] = $originalFilename;
-
-            if ( !isSet( $mimeData['name'] ) )
-                $mimeData['name'] = 'application/octet-stream';
-
-            if ( $returnMimeData )
-                return $mimeData;
-            else
-                return $mimeData['url'];
-        }
-        return false;
+        $fileName = $origDir . "/" . $binary->attribute( 'mime_type_category' ) . '/'.  $binary->attribute( "filename" );
+        return $fileName;
     }
 
     function handleUpload()
@@ -217,34 +184,6 @@ class eZBinaryFileHandler
     }
 
     function handleDownload( &$contentObject, &$contentObjectAttribute, $type )
-    {
-        include_once( 'lib/ezutils/classes/ezmimetype.php' );
-        include_once( 'kernel/classes/datatypes/ezimage/ezimagealiashandler.php' );
-        $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
-        $version = $contentObject->attribute( 'current_version' );
-        $fileObject =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
-        if ( $fileObject === null )
-            $fileObject =& eZMedia::fetch( $contentObjectAttributeID, $version );
-        if ( $fileObject === null )
-        {
-            if ( $contentObjectAttribute->attribute( 'data_type_string' ) == 'ezimage' )
-            {
-                $fileObject = new eZImageAliasHandler( $contentObjectAttribute );
-            }
-        }
-
-        if ( $fileObject === null )
-            return EZ_BINARY_FILE_RESULT_UNAVAILABLE;
-
-        $mimeData = $this->storedFilename( $fileObject, true );
-        if ( !$mimeData )
-            return EZ_BINARY_FILE_RESULT_UNAVAILABLE;
-
-//         $fileObject->attribute( 'mime_type' );
-        return $this->handleFileDownload( $contentObject, $contentObjectAttribute, $type, $mimeData );
-    }
-
-    function handleFileDownload( &$contentObject, &$contentObjectAttribute, $type, $mimeData )
     {
         return false;
     }

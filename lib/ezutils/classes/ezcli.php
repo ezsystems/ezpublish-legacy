@@ -80,10 +80,8 @@ class eZCLI
         $this->WebOutput = $webOutput;
         $this->TerminalStyles = array( 'warning' => "\033[1;35m",
                                        'warning-end' => "\033[0;39m",
-                                       'error' => "\033[1;31m",
+                                       'error' => "\033[0;31m",
                                        'error-end' => "\033[0;39m",
-                                       'failure' => "\033[1;31m",
-                                       'failure-end' => "\033[0;39m",
                                        'notice' => "\033[0;32m",
                                        'notice-end' => "\033[0;39m",
                                        'debug' => "\033[0;30m",
@@ -98,72 +96,10 @@ class eZCLI
                                        'dir-end' => "\033[0;39m",
                                        'link' => "\033[0;36m",
                                        'link-end' => "\033[0;39m",
-                                       'exe' => "\033[1;32m",
-                                       'exe-end' => "\033[0;39m",
-                                       'archive' => "\033[1;31m",
-                                       'archive-end' => "\033[0;39m",
-                                       'image' => "\033[1;35m",
-                                       'image-end' => "\033[0;39m",
-
-                                       'red' => "\033[1;31m",
-                                       'red-end' => "\033[0;39m",
-                                       'green' => "\033[1;32m",
-                                       'green-end' => "\033[0;39m",
-                                       'yellow' => "\033[1;33m",
-                                       'yellow-end' => "\033[0;39m",
-                                       'blue' => "\033[1;34m",
-                                       'blue-end' => "\033[0;39m",
-                                       'magenta' => "\033[1;35m",
-                                       'magenta-end' => "\033[0;39m",
-                                       'cyan' => "\033[1;36m",
-                                       'cyan-end' => "\033[0;39m",
-                                       'white' => "\033[1;37m",
-                                       'white-end' => "\033[0;39m",
-                                       'gray' => "\033[1;30m",
-                                       'gray-end' => "\033[0;39m",
-
-                                       'dark-red' => "\033[0;31m",
-                                       'dark-red-end' => "\033[0;39m",
-                                       'dark-green' => "\033[0;32m",
-                                       'dark-green-end' => "\033[0;39m",
-                                       'dark-yellow' => "\033[0;33m",
-                                       'dark-yellow-end' => "\033[0;39m",
-                                       'dark-blue' => "\033[0;34m",
-                                       'dark-blue-end' => "\033[0;39m",
-                                       'dark-magenta' => "\033[0;35m",
-                                       'dark-magenta-end' => "\033[0;39m",
-                                       'dark-cyan' => "\033[0;36m",
-                                       'dark-cyan-end' => "\033[0;39m",
-                                       'dark-white' => "\033[0;37m",
-                                       'dark-white-end' => "\033[0;39m",
-                                       'dark-gray' => "\033[0;30m",
-                                       'dark-gray-end' => "\033[0;39m",
-
-                                       'red-bg' => "\033[1;41m",
-                                       'red-bg-end' => "\033[0;39m",
-                                       'green-bg' => "\033[1;42m",
-                                       'green-bg-end' => "\033[0;39m",
-                                       'yellow-bg' => "\033[1;43m",
-                                       'yellow-bg-end' => "\033[0;39m",
-                                       'blue-bg' => "\033[1;44m",
-                                       'blue-bg-end' => "\033[0;39m",
-                                       'magenta-bg' => "\033[1;45m",
-                                       'magenta-bg-end' => "\033[0;39m",
-                                       'cyan-bg' => "\033[1;46m",
-                                       'cyan-bg-end' => "\033[0;39m",
-                                       'white-bg' => "\033[1;47m",
-                                       'white-bg-end' => "\033[0;39m",
-
-                                       'text' => "\033[0;39m",
-                                       'text-end' => "\033[0;39m",
-                                       'variable' => "\033[1;34m",
-                                       'variable-end' => "\033[0;39m",
                                        'symbol' => "\033[0;37m",
                                        'symbol-end' => "\033[0;39m",
                                        'emphasize' => "\033[1;38m",
                                        'emphasize-end' => "\033[0;39m",
-                                       'header' => "\033[1;38m",
-                                       'header-end' => "\033[0;39m",
                                        'strong' => "\033[1;39m",
                                        'strong-end' => "\033[0;39m",
                                        'mark' => "\033[1;30m",
@@ -177,16 +113,11 @@ class eZCLI
                                        'paragraph' => "\033[0;39m",
                                        'paragraph-end' => "\033[0;39m",
                                        'normal' => "\033[0;39m",
-                                       'normal-end' => "\033[0;39m",
-
-                                       );
-
+                                       'normal-end' => "\033[0;39m" );
         $this->WebStyles = array( 'warning' => "<font color=\"orange\">",
                                   'warning-end' => "</font>",
                                   'error' => "<font color=\"red\">",
                                   'error-end' => "</font>",
-                                  'failure' => "<font color=\"red\">",
-                                  'failure-end' => "</font>",
                                   'notice' => "<font color=\"green\">",
                                   'notice-end' => "</font>",
                                   'debug' => "<font color=\"brown\">",
@@ -205,8 +136,6 @@ class eZCLI
                                   'symbol-end' => "</i>",
                                   'emphasize' => "<i>",
                                   'emphasize-end' => "</i>",
-                                  'header' => "<h1>",
-                                  'header-end' => "</h1>",
                                   'strong' => "<b>",
                                   'strong-end' => "</b>",
                                   'mark' => "",
@@ -221,14 +150,12 @@ class eZCLI
                                   'paragraph-end' => "</p>",
                                   'normal' => "",
                                   'normal-end' => "" );
-
         $this->EmptyStyles = array();
         foreach ( $this->TerminalStyles as $styleName => $styleValue )
         {
             $this->EmptyStyles[$styleName] = false;
         }
         $this->UseStyles = false;
-        $this->IsQuiet = false;
     }
 
     /*!
@@ -314,33 +241,6 @@ class eZCLI
     }
 
     /*!
-     \static
-     \returns an ANSI sequence which will store the current position.
-    */
-    function storePosition()
-    {
-        return "\033[s";
-    }
-
-    /*!
-     \static
-     \returns an ANSI sequence which will restore the current position.
-    */
-    function restorePosition()
-    {
-        return "\033[u";
-    }
-
-    /*!
-     \static
-     \return an ANSI sequence which will tell the console go to the specified column.
-    */
-    function gotoColumn( $column )
-    {
-        return "\033[" . $column . "G";
-    }
-
-    /*!
      Controls whether styles are to be used or not. If disabled
      empty strings are returned when asking for styles.
      \note This only controls the style() function.
@@ -364,8 +264,6 @@ class eZCLI
     */
     function output( $string = false, $addEOL = true )
     {
-        if ( $this->isQuiet() )
-            return;
         print( $string );
         if ( $addEOL )
             print( $this->endlineString() );
@@ -377,8 +275,6 @@ class eZCLI
     */
     function notice( $string = false, $addEOL = true )
     {
-        if ( $this->isQuiet() )
-            return;
         print( $string );
         if ( $addEOL )
             print( $this->endlineString() );
@@ -390,9 +286,6 @@ class eZCLI
     */
     function warning( $string = false, $addEOL = true )
     {
-        if ( $this->isQuiet() )
-            return;
-        $string = $this->stylize( 'warning', $string );
         print( $string );
         if ( $addEOL )
             print( $this->endlineString() );
@@ -404,292 +297,9 @@ class eZCLI
     */
     function error( $string = false, $addEOL = true )
     {
-        if ( $this->isQuiet() )
-            return;
-        $string = $this->stylize( 'error', $string );
         print( $string );
         if ( $addEOL )
             print( $this->endlineString() );
-    }
-
-    /*!
-     Sets whether the output(), notice(), warning() and error() methods should print out anything.
-     \sa isQuiet, isLoud
-    */
-    function setIsQuiet( $isQuiet )
-    {
-        $this->IsQuiet = $isQuiet;
-    }
-
-    /*!
-     \return \c true if output is not allowed.
-     \sa isLoud
-    */
-    function isQuiet()
-    {
-        return $this->IsQuiet;
-    }
-
-    /*!
-     \return \c true if output is allowed.
-     \sa isQuiet
-    */
-    function isLoud()
-    {
-        return !$this->IsQuiet;
-    }
-
-    function parseOptionString( $configString, &$optionConfig )
-    {
-        $len = strlen( $configString );
-        $i = 0;
-        if ( !is_array( $optionConfig ) )
-        {
-            $optionConfig = array( 'list' => array(),
-                                   'short' => array(),
-                                   'long' => array() );
-        }
-        while ( $i < $len )
-        {
-            $option = $configString[$i];
-            if ( $option == '[' )
-            {
-                $end = strpos( $configString, ']', $i + 1 );
-                if ( $end === false )
-                {
-                    eZDebug::writeError( "Missing end marker ] in option string at position $i",
-                                         'eZCLI::parseOptionString' );
-                    return $optionConfig;
-                }
-                $optionList = substr( $configString, $i + 1, $end - $i - 1 );
-                $i += 1 + ( $end - $i );
-                $startMarkerPos = strpos( $optionList, '[' );
-                if ( $startMarkerPos !== false )
-                {
-                    eZDebug::writeError( "Start marker [ found in option string at position, it should not be present. Skipping current option" . ( $i + 1 + $startMarkerPos ),
-                                         'eZCLI::parseOptionString' );
-                    continue;
-                }
-                $optionList = explode( '|', $optionList );
-            }
-            else
-            {
-                $text = $option;
-                ++$i;
-                if ( $i < $len and
-                     in_array( $configString[$i], array( ':', ';' ) ) )
-                {
-                    $text .= $configString[$i];
-                    ++$i;
-                }
-                if ( $i < $len and
-                     in_array( $configString[$i], array( '?', '*', '+' ) ) )
-                {
-                    $text .= $configString[$i];
-                    ++$i;
-                }
-                $optionList = array( $text );
-            }
-            $optionStoreName = false;
-            unset( $optionConfigList );
-            $optionConfigList = array();
-            foreach ( $optionList as $optionItem )
-            {
-                $optionLen = strlen( $optionItem );
-                $hasValue = false;
-                $optionName = $optionItem;
-                $quantifierText = false;
-                $quantifier = array( 'min' => 0,
-                                     'max' => 0 );
-                if ( $optionLen > 0 and in_array( $optionName[$optionLen - 1], array( '?', '*', '+' ) ) )
-                {
-                    $quantifierText = $optionName[$optionLen - 1];
-                    $optionName = substr( $optionName, 0, $optionLen - 1 );
-                    --$optionLen;
-                    if ( $quantifierText == '?' )
-                        $quantifier = array( 'min' => 0,
-                                             'max' => 1 );
-                    else if ( $quantifierText == '*' )
-                        $quantifier = array( 'min' => 0,
-                                             'max' => false );
-                    else if ( $quantifierText == '+' )
-                        $quantifier = array( 'min' => 1,
-                                             'max' => false );
-                }
-                if ( $optionLen > 0 and in_array( $optionName[$optionLen - 1], array( ':', ';' ) ) )
-                {
-                    $valueText = $optionName[$optionLen - 1];
-                    $optionName = substr( $optionName, 0, $optionLen - 1 );
-                    --$optionLen;
-                    if ( $valueText == ':' )
-                        $hasValue = true;
-                    else if ( $valueText == ';' )
-                        $hasValue = 'optional';
-                }
-                $optionLen = strlen( $optionName );
-                if ( $optionLen == 0 )
-                    continue;
-                $optionStoreName = $optionName;
-                $optionConfigItem = array( 'name' => $optionName,
-                                           'has-value' => $hasValue,
-                                           'quantifier' => $quantifier,
-                                           'store-name' => false,
-                                           'is-long-option' => strlen( $optionName ) > 1 );
-                $optionConfigList[] = $optionConfigItem;
-            }
-            foreach ( array_keys( $optionConfigList ) as $optionConfigItemKey )
-            {
-                $optionConfigItem =& $optionConfigList[$optionConfigItemKey];
-                $optionName = $optionConfigItem['name'];
-                $optionConfigItem['store-name'] = $optionStoreName;
-                $optionConfig['list'][] = $optionConfigItem;
-                if ( $optionConfigItem['is-long-option'] )
-                    $optionConfig['long'][$optionName] = $optionConfigItem;
-                else
-                    $optionConfig['short'][$optionName] = $optionConfigItem;
-            }
-        }
-        return $optionConfig;
-    }
-
-    function getOptions( $config, $argumentConfig, $arguments = false )
-    {
-        if ( $arguments === false )
-        {
-            $arguments = $GLOBALS['argv'];
-            $program = $arguments[0];
-            array_shift( $arguments );
-        }
-
-        if ( isset( $this ) and get_class( $this ) == 'ezcli' )
-            $cli =& $this;
-        else
-            $cli =& eZCLI::instance();
-
-        if ( is_string( $config ) )
-            $config = eZCLI::parseOptionString( $config, $optionConfig );
-        if ( is_string( $argumentConfig ) )
-            $argumentConfig = eZCLI::parseOptionString( $argumentConfig, $tmpArgumentConfig );
-
-        $options = array();
-
-        $helpOption = false;
-        $helpText = false;
-        if ( isset( $config['short']['h'] ) )
-            $helpOption = '-h';
-        else if ( isset( $config['short']['help'] ) )
-            $helpOption = '--help';
-        if ( $helpOption )
-            $helpText = "\n" . "Try `$program $helpOption' for more information.";
-
-        $options['arguments'] = array();
-
-        $argumentCount = count( $arguments );
-        for ( $i = 0; $i < $argumentCount; ++$i )
-        {
-            $argument = $arguments[$i];
-            $argumentLen = strlen( $argument );
-            if ( $argumentLen > 1 and
-                 $argument[0] == '-' )
-            {
-                $argumentValue = false;
-                if ( $argumentLen > 2 and
-                     $argument[1] == '-' )
-                {
-                    $optionName = substr( $argument, 2 );
-                    $assignPosition = strpos( $optionName, '=' );
-                    if ( $assignPosition !== false )
-                    {
-                        $argumentValue = substr( $optionName, $assignPosition + 1 );
-                        $optionName = substr( $optionName, 0, $assignPosition );
-                    }
-                    $optionType = 'long';
-                    $optionPrefix = '--';
-                    $checkNext = false;
-                }
-                else
-                {
-                    $optionName = $argument[1];
-                    if ( $argumentLen > 2 )
-                    {
-                        $argumentValue = substr( $argument, 2 );
-                    }
-                    $optionType = 'short';
-                    $optionPrefix = '-';
-                    $checkNext = true;
-                }
-                $configItem =& $config[$optionType][$optionName];
-                if ( isset( $configItem ) )
-                {
-                    $value = true;
-                    $hasValue = $configItem['has-value'];
-                    $hasMultipleValues = ( $configItem['quantifier']['min'] > 1 or
-                                           $configItem['quantifier']['max'] === false or
-                                           $configItem['quantifier']['max'] > 1 );
-                    if ( $hasValue )
-                    {
-                        $hasArgumentValue = false;
-                        if ( $argumentValue !== false )
-                        {
-                            $value = $argumentValue;
-                        }
-                        else if ( $checkNext and $configItem['has-value'] !== 'optional' )
-                        {
-                            ++$i;
-                            if ( $i < $argumentCount )
-                            {
-                                $hasArgumentValue = true;
-                            }
-                            else
-                            {
-                                --$i;
-                                $cli->error( "$program: option `$optionPrefix$optionName' requires an argument" . $helpText );
-                                return false;
-                            }
-                            if ( $hasArgumentValue )
-                                $value = $arguments[$i];
-                        }
-                        else
-                        {
-                            if ( $configItem['has-value'] !== 'optional' )
-                            {
-                                $cli->error( "$program: option `$optionPrefix$optionName' requires an argument" . $helpText );
-                                return false;
-                            }
-                        }
-                    }
-                    $optionStoreName = $configItem['store-name'];
-                    if ( !$optionStoreName )
-                        $optionStoreName = $optionName;
-                    if ( $hasMultipleValues )
-                    {
-                        if ( !isset( $options[$optionStoreName] ) )
-                            $options[$optionStoreName] = array();
-                        $options[$optionStoreName][] = $value;
-                    }
-                    else
-                    {
-                        $options[$optionStoreName] = $value;
-                    }
-                }
-                else
-                {
-                    $cli->error( "$program: invalid option `$optionPrefix$optionName'" . $helpText );
-                    return false;
-                }
-            }
-            else
-            {
-                $options['arguments'][] = $argument;
-            }
-        }
-        foreach ( $config['list'] as $configItem )
-        {
-            $optionStoreName = $configItem['store-name'];
-            if ( $optionStoreName and !isset( $options[$optionStoreName] ) )
-                $options[$optionStoreName] = null;
-        }
-        return $options;
     }
 
     /*!

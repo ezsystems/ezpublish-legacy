@@ -61,15 +61,15 @@ class eZTemplateLocaleOperator
      Initializes the object with the default locale.
      \note Add support for specifying the locale object.
     */
-    function eZTemplateLocaleOperator()
+    function eZTemplateLocaleOperator( $localeName = 'l10n', $dateTimeName = 'datetime',
+                                       $currentDateName = 'currentdate' )
     {
-        $this->Operators = array( 'l10n', 'datetime', 'currentdate', 'maketime', 'makedate', 'gettime' );
-        $this->LocaleName = 'l10n';
-        $this->DateTimeName = 'datetime';
-        $this->CurrentDateName = 'currentdate';
-        $this->MakeTimeName = 'maketime';
-        $this->MakeDateName = 'makedate';
-        $this->GetTimeName = 'gettime';
+        $this->Operators = array( $localeName, $dateTimeName,
+                                  $currentDateName );
+        $this->LocaleName = $localeName;
+        $this->DateTimeName = $dateTimeName;
+        $this->CurrentDateName = $currentDateName;
+//         $this->Locale =& eZLocale::instance();
     }
 
     /*!
@@ -78,40 +78,6 @@ class eZTemplateLocaleOperator
     function &operatorList()
     {
         return $this->Operators;
-    }
-
-    /*!
-     Returns a list with hints for the template compiler.
-    */
-    function operatorTemplateHints()
-    {
-        $hints = array(
-            $this->LocaleName      => array( 'input' => true, 'output' => true, 'parameters' => true,
-                                             'transform-parameters' => true, 'input-as-parameter' => 'always',
-                                             'element-transformation' => true,
-                                             'element-transformation-func' => 'l10nTransformation' ),
-            $this->DateTimeName    => array( 'input' => true, 'output' => true, 'parameters' => true,
-                                             'transform-parameters' => true, 'input-as-parameter' => 'always',
-                                             'element-transformation' => true,
-                                             'element-transformation-func' => 'dateTimeTransformation' ),
-            $this->CurrentDateName => array( 'input' => false, 'output' => true, 'parameters' => false,
-                                             'transform-parameters' => true, 'input-as-parameter' => false,
-                                             'element-transformation' => true,
-                                             'element-transformation-func' => 'currentDateTransformation' ),
-            $this->MakeTimeName    => array( 'input' => true, 'output' => true, 'parameters' => true,
-                                             'transform-parameters' => true, 'input-as-parameter' => false,
-                                             'element-transformation' => true,
-                                             'element-transformation-func' => 'makeDateTimeTransformation' ),
-            $this->MakeDateName    => array( 'input' => true, 'output' => true, 'parameters' => true,
-                                             'transform-parameters' => true, 'input-as-parameter' => false,
-                                             'element-transformation' => true,
-                                             'element-transformation-func' => 'makeDateTimeTransformation' ),
-            $this->GetTimeName     => array( 'input' => true, 'output' => true, 'parameters' => 1,
-                                             'transform-parameters' => true, 'input-as-parameter' => 'always',
-                                             'element-transformation' => true,
-                                             'element-transformation-func' => 'getTimeTransformation' ),
-        );
-        return $hints;
     }
 
     /*!
@@ -127,174 +93,15 @@ class eZTemplateLocaleOperator
     */
     function namedParameterList()
     {
-        return array( 'l10n' =>     array( 'type' =>      array( 'type' => 'string',  'required' => true,  'default' => false ) ),
-                      'datetime' => array( 'class' =>     array( 'type' => 'string',  'required' => true,  'default' => false ),
-                                           'data' =>      array( 'type' => 'mixed',   'required' => false, 'default' => false ) ),
-                      'gettime' =>  array( 'timestamp' => array( 'type' => 'integer', 'required' => false, 'default' => false ) ),
-                      'maketime' => array( 'hour' =>      array( 'type' => 'integer', 'required' => false, 'default' => false ),
-                                           'minute' =>    array( 'type' => 'integer', 'required' => false, 'default' => false ),
-                                           'second' =>    array( 'type' => 'integer', 'required' => false, 'default' => false ),
-                                           'month' =>     array( 'type' => 'integer', 'required' => false, 'default' => false ),
-                                           'day' =>       array( 'type' => 'integer', 'required' => false, 'default' => false ),
-                                           'year' =>      array( 'type' => 'integer', 'required' => false, 'default' => false ),
-                                           'dst' =>       array( 'type' => 'integer', 'required' => false, 'default' => false ) ),
-                      'makedate' => array( 'month' =>     array( 'type' => 'integer', 'required' => false, 'default' => false ),
-                                           'day' =>       array( 'type' => 'integer', 'required' => false, 'default' => false ),
-                                           'year' =>      array( 'type' => 'integer', 'required' => false, 'default' => false ),
-                                           'dst' =>       array( 'type' => 'integer', 'required' => false, 'default' => false ) ) );
-    }
-
-    /*!
-     Transforms
-     */
-    function l10nTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                 &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
-    {
-        $values = array();
-        $newElements = array();
-
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( 'include_once("lib/ezlocale/classes/ezlocale.php");' . "\n" );
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( '$locale =& eZLocale::instance();' . "\n" );
-        $values[] = $parameters[0];
-
-        if ( !eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
-        {
-            $values[] = $parameters[1];
-            $newElements[] = eZTemplateNodeTool::createCodePieceElement( "%tmp1% = \$locale->getFormattingFunction( %2% );\n%output% = \$locale->%tmp1%( %1% );\n", $values, false, 1 );
-
-            return $newElements;
-        }
-        else
-        {
-            if ( ( $function = eZTemplateNodeTool::elementStaticValue( $parameters[1] ) ) !== false )
-            {
-                $locale =& eZLocale::instance();
-                $method = $locale->getFormattingFunction( $function );
-                if ( $method )
-                {
-                    $newElements[] = eZTemplateNodeTool::createCodePieceElement( "%output% = \$locale->$method( %1% );\n", $values, false, 1 );
-                    return $newElements;
-                }
-            }
-        }
-        return false;
-    }
-
-    function dateTimeTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                     &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
-    {
-        $values = array();
-        $newElements = array();
-        $paramCount = count( $parameters );
-        if ( $paramCount < 2 )
-        {
-            return false;
-        }
-        if ( !eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
-        {
-            return false;
-        }
-        else
-        {
-            $class = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
-        }
-        if ( ( $class == 'custom' ) && ( $paramCount != 3 ) )
-        {
-            return false;
-        }
-
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( 'include_once("lib/ezlocale/classes/ezlocale.php");' . "\n" );
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( '$locale =& eZLocale::instance();' . "\n" );
-
-        if ( $class == 'custom' )
-        {
-            $values[] = $parameters[0];
-            $values[] = $parameters[2];
-            $newElements[] = eZTemplateNodeTool::createCodePieceElement( "%output% = \$locale->formatDateTimeType( %2%, %1% );\n", $values );
-            return $newElements;
-
-        }
-        else
-        {
-            $dtINI =& eZINI::instance( 'datetime.ini' );
-            $formats = $dtINI->variable( 'ClassSettings', 'Formats' );
-            if ( array_key_exists( $class, $formats ) )
-            {
-                $classFormat = addcslashes( $formats[$class], "'" );
-                $values[] = $parameters[0];
-                $newElements[] = eZTemplateNodeTool::createCodePieceElement( "%output% = \$locale->formatDateTimeType( '$classFormat', %1% );\n", $values );
-                return $newElements;
-            }
-        }
-        return false;
-    }
-
-    function currentDateTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                        &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
-    {
-        $newElements = array();
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( "%output% = time();\n" );
-        return $newElements;
-    }
-
-    function makeDateTimeTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                         &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
-    {
-        $values = array();
-        $arguments = array();
-        $newElements = array();
-        $paramCount = count( $parameters );
-
-        $code = '%output% = mktime( ';
-        if ( $operatorName == 'makedate' )
-        {
-            $arguments = array ( 0, 0, 0 );
-        }
-        for ( $i = 0; $i < $paramCount; ++$i )
-        {
-            $values[] = $parameters[$i];
-            $arguments[] = '%' . ($i + 1) . '%';
-        }
-        $code .= implode( ', ', $arguments ) . " );\n";
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
-        return $newElements;
-    }
-
-    function getTimeTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                    &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
-    {
-        $newElements = array();
-        $values = array();
-        $paramCount = count( $parameters );
-
-        if (count( $parameters ) == 1 )
-        {
-            $values[] = $parameters[0];
-            $code = "%tmp1% = %1%;\n";
-        }
-        else if ( $paramCount == 0 )
-        {
-            $code = "%tmp1% = time();\n";
-        }
-        else
-        {
-            return false;
-        }
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement(
-            $code .
-            "%tmp2% = getdate( %tmp1% );\n".
-            "%tmp3% = date( 'W', %tmp1% );\n".
-            "if ( %tmp2%['wday'] == 0 )\n{\n\t++%tmp3%;\n}\n".
-            "%output% = array( 'seconds' => %tmp2%['seconds'],
-              'minutes' => %tmp2%['minutes'],
-              'hours' => %tmp2%['hours'],
-              'day' => %tmp2%['mday'],
-              'month' => %tmp2%['mon'],
-              'year' => %tmp2%['year'],
-              'weekday' => %tmp3%,
-              'yearday' => %tmp2%['yday'],
-              'epoch' => %tmp2%[0] );\n", $values, false, 3);
-        return $newElements;
+        return array( 'l10n' => array( 'type' => array( 'type' => 'string',
+                                                        'required' => true,
+                                                        'default' => false ) ),
+                      'datetime' => array( 'class' => array( 'type' => 'string',
+                                                             'required' => true,
+                                                             'default' => false ),
+                                           'data' => array( 'type' => 'mixed',
+                                                            'required' => false,
+                                                            'default' => false ) ) );
     }
 
     /*!
@@ -311,72 +118,9 @@ class eZTemplateLocaleOperator
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
         $locale =& eZLocale::instance();
-        if ( $operatorName == $this->GetTimeName )
+        if ( $operatorName == $this->CurrentDateName )
         {
-            $timestamp = $operatorValue;
-            if ( $timestamp === null )
-                $timestamp = $namedParameters['timestamp'];
-            $info = getdate( $timestamp );
-            $week = date( 'W', $timestamp );
-            if ( $info['wday'] == 0 )
-                ++$week;
-            $operatorValue = array( 'seconds' => $info['seconds'],
-                                    'minutes' => $info['minutes'],
-                                    'hours' => $info['hours'],
-                                    'day' => $info['mday'],
-                                    'month' => $info['mon'],
-                                    'year' => $info['year'],
-                                    'weekday' => $week,
-                                    'yearday' => $info['yday'],
-                                    'epoch' => $info[0] );
-        }
-        else if ( $operatorName == $this->MakeTimeName )
-        {
-            $parameters = array();
-            if ( $namedParameters['hour'] !== false )
-                $parameters[] = $namedParameters['hour'];
-            if ( $namedParameters['minute'] !== false )
-                $parameters[] = $namedParameters['minute'];
-            if ( $namedParameters['second'] !== false )
-                $parameters[] = $namedParameters['second'];
-            if ( $namedParameters['month'] !== false )
-                $parameters[] = $namedParameters['month'];
-            {
-                if ( $namedParameters['day'] !== false )
-                    $parameters[] = $namedParameters['day'];
-                {
-                    if ( $namedParameters['year'] !== false )
-                        $parameters[] = $namedParameters['year'];
-                    {
-                        if ( $namedParameters['dst'] !== false )
-                            $parameters[] = $namedParameters['dst'];
-                    }
-                }
-            }
-            $operatorValue = call_user_func_array( 'mktime', $parameters );
-        }
-        else if ( $operatorName == $this->MakeDateName )
-        {
-            $parameters = array( 0, 0, 0 );
-            if ( $namedParameters['month'] !== false )
-                $parameters[] = $namedParameters['month'];
-            {
-                if ( $namedParameters['day'] !== false )
-                    $parameters[] = $namedParameters['day'];
-                {
-                    if ( $namedParameters['year'] !== false )
-                        $parameters[] = $namedParameters['year'];
-                    {
-                        if ( $namedParameters['dst'] !== false )
-                            $parameters[] = $namedParameters['dst'];
-                    }
-                }
-            }
-            $operatorValue = call_user_func_array( 'mktime', $parameters );
-        }
-        else if ( $operatorName == $this->CurrentDateName )
-        {
-            $operatorValue = time();
+            $operatorValue = eZDateTime::currentTimestamp();
         }
         else if ( $operatorName == $this->DateTimeName )
         {
@@ -405,14 +149,56 @@ class eZTemplateLocaleOperator
             $type = $namedParameters['type'];
             if ( $type === null )
                 return;
-            $method = $locale->getFormattingFunction( $type );
-            if ( $method )
+            switch ( $type )
             {
-                $operatorValue = $locale->$method( $operatorValue );
-            }
-            else
-            {
-                $tpl->error( $operatorName, "Unknown locale type: '$type'" );
+                case 'time':
+                {
+                    $operatorValue = $locale->formatTime( $operatorValue );
+                } break;
+
+                case 'shorttime':
+                {
+                    $operatorValue = $locale->formatShortTime( $operatorValue );
+                } break;
+
+                case 'date':
+                {
+                    $operatorValue = $locale->formatDate( $operatorValue );
+                } break;
+
+                case 'shortdate':
+                {
+                    $operatorValue = $locale->formatShortDate( $operatorValue );
+                } break;
+
+                case 'datetime':
+                {
+                    $operatorValue = $locale->formatDateTime( $operatorValue );
+                } break;
+
+                case 'shortdatetime':
+                {
+                    $operatorValue = $locale->formatShortDateTime( $operatorValue );
+                } break;
+
+                case 'currency':
+                {
+                    $operatorValue = $locale->formatCurrency( $operatorValue );
+                } break;
+
+                case 'clean_currency':
+                {
+                    $operatorValue = $locale->formatCleanCurrency( $operatorValue );
+                } break;
+
+                case 'number':
+                {
+                    $operatorValue = $locale->formatNumber( $operatorValue );
+                } break;
+
+                default:
+                    $tpl->error( $operatorName, "Unknown locale type: '$type'" );
+                break;
             }
         }
     }

@@ -59,19 +59,11 @@ function help()
                   "eZ publish search index updater.\n" .
                   "Goes trough all objects and reindexes the meta data to the search engine\n" .
                   "\n" .
-                  "Search options:\n" .
-                  "  --clean            will remove all search data before beginning indexing\n" .
-                  "\n" .
                   "General options:\n" .
                   "  -h,--help          display this help and exit \n" .
                   "  -q,--quiet         do not give any output except when errors occur\n" .
                   "  -s,--siteaccess    selected siteaccess for operations, if not specified default siteaccess is used\n" .
                   "  -d,--debug         display debug output at end of execution\n" .
-                  "  --db-host=HOST     Use database host HOST\n" .
-                  "  --db-user=USER     Use database user USER\n" .
-                  "  --db-password=PWD  Use database password PWD\n" .
-                  "  --db-database=DB   Use database named DB\n" .
-                  "  --db-driver=DRIVER Use database driver DRIVER\n" .
                   "  -c,--colors        display output using ANSI colors\n" .
                   "  --sql              display sql queries\n" .
                   "  --logfiles         create log files\n" .
@@ -106,13 +98,6 @@ $useColors = false;
 $isQuiet = false;
 $useLogFiles = false;
 $showSQL = false;
-$cleanupSearch = false;
-
-$dbUser = false;
-$dbPassword = false;
-$dbHost = false;
-$dbName = false;
-$dbImpl = false;
 
 $optionsWithData = array( 's' );
 $longOptionsWithData = array( 'siteaccess' );
@@ -143,30 +128,6 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             else if ( $flag == 'siteaccess' )
             {
                 changeSiteAccessSetting( $siteaccess, $optionData );
-            }
-            else if ( preg_match( "/^db-host=(.*)$/", $flag, $matches ) )
-            {
-                $dbHost = $matches[1];
-            }
-            else if ( preg_match( "/^db-user=(.*)$/", $flag, $matches ) )
-            {
-                $dbUser = $matches[1];
-            }
-            else if ( preg_match( "/^db-password=(.*)$/", $flag, $matches ) )
-            {
-                $dbPassword = $matches[1];
-            }
-            else if ( preg_match( "/^db-database=(.*)$/", $flag, $matches ) )
-            {
-                $dbName = $matches[1];
-            }
-            else if ( preg_match( "/^db-driver=(.*)$/", $flag, $matches ) )
-            {
-                $dbImpl = $matches[1];
-            }
-            else if ( $flag == 'clean' )
-            {
-                $cleanupSearch = true;
             }
             else if ( $flag == 'debug' )
             {
@@ -305,39 +266,14 @@ include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 $db =& eZDB::instance();
-
-if ( $dbHost or $dbName or $dbUser or $dbImpl )
-{
-    $params = array();
-    if ( $dbHost !== false )
-        $params['server'] = $dbHost;
-    if ( $dbUser !== false )
-    {
-        $params['user'] = $dbUser;
-        $params['password'] = '';
-    }
-    if ( $dbPassword !== false )
-        $params['password'] = $dbPassword;
-    if ( $dbName !== false )
-        $params['database'] = $dbName;
-    $db =& eZDB::instance( $dbImpl, $params, true );
-    eZDB::setInstance( $db );
-}
-
 $db->setIsSQLOutputEnabled( $showSQL );
-
-if ( $cleanupSearch )
-{
-    print( "{eZSearchEngine: Cleaning up search data" );
-    eZSearch::cleanup();
-    print( "}$endl" );
-}
 
 // Get top node
 $topNodeArray =& eZPersistentObject::fetchObjectList( eZContentObjectTreeNode::definition(),
                                                       null,
                                                       array( 'parent_node_id' => 1,
                                                              'depth' => 1 ) );
+
 $subTreeCount = 0;
 foreach ( array_keys ( $topNodeArray ) as $key  )
 {

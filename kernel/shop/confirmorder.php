@@ -51,9 +51,6 @@ if ( !is_object( $order ) )
 
 include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 
-$basket =& eZBasket::currentBasket();
-$basket->updatePrices();
-
 if ( get_class( $order ) == 'ezorder' )
 {
 

@@ -51,8 +51,7 @@ class eZTextType extends eZDataType
     function eZTextType()
     {
         $this->eZDataType( EZ_DATATYPESTRING_TEXT, ezi18n( 'kernel/classes/datatypes', "Text field", 'Datatype name' ),
-                           array( 'serialize_supported' => true,
-                                  'object_serialize_map' => array( 'data_text' => 'text' ) ) );
+                           array( 'serialize_supported' => true ) );
     }
 
     /*!
@@ -88,8 +87,7 @@ class eZTextType extends eZDataType
         {
             $data =& $http->postVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-            if( $classAttribute->attribute( "is_required" ) and
-                !$classAttribute->attribute( 'is_information_collector' ) )
+            if( $classAttribute->attribute( "is_required" ) == true )
             {
                 if( $data == "" )
                 {
@@ -124,18 +122,6 @@ class eZTextType extends eZDataType
     }
 
     /*!
-     Fetches the http post variables for collected information
-    */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
-    {
-        $dataText =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
-
-        $collectionAttribute->setAttribute( 'data_text', $dataText );
-
-        return true;
-    }
-
-    /*!
      Returns the content.
     */
     function &objectAttributeContent( &$contentObjectAttribute )
@@ -163,11 +149,6 @@ class eZTextType extends eZDataType
         return $contentObjectAttribute->attribute( "data_text" );
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        return trim( $contentObjectAttribute->attribute( 'data_text' ) ) != '';
-    }
-
     /*!
      Returns the text.
     */
@@ -193,6 +174,21 @@ class eZTextType extends eZDataType
     }
 
     /*!
+     \reuturn the collect information action if enabled
+    */
+    function contentActionList( &$classAttribute )
+    {
+        if ( $classAttribute->attribute( 'is_information_collector' ) == true )
+        {
+            return array( array( 'name' => ezi18n( 'kernel/classes/datatypes', 'Send' ),
+                                 'action' => 'ActionCollectInformation'
+                                 ) );
+        }
+        else
+            return array();
+    }
+
+    /*!
      \reimp
     */
     function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
@@ -208,6 +204,25 @@ class eZTextType extends eZDataType
     {
         $textColumns = $attributeParametersNode->elementTextContentByName( 'text-column-count' );
         $classAttribute->setAttribute( EZ_DATATYPESTRING_TEXT_COLS_FIELD, $textColumns );
+    }
+
+    /*!
+     \return a DOM representation of the content object attribute
+    */
+    function &serializeContentObjectAttribute( $objectAttribute )
+    {
+        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
+        include_once( 'lib/ezxml/classes/ezdomnode.php' );
+
+//         $node = new eZDOMNode();
+//         $node->setName( 'attribute' );
+//         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
+//         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', 'eztext' ) );
+        $node =& eZDataType::contentObjectAttributeDOMNode( $objectAttribute );
+
+        $node->appendChild( eZDOMDocument::createTextNode( $objectAttribute->attribute( 'data_text' ) ) );
+
+        return $node;
     }
 
 }

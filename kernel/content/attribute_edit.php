@@ -148,7 +148,7 @@ $inputValidated = true;
 $requireFixup = false;
 $validatedAttributes = array();
 
-if ( $storingAllowed && $hasObjectInput)
+if ( $storingAllowed and $hasObjectInput )
 {
     // Validate input
     include_once( 'lib/ezutils/classes/ezinputvalidator.php' );
@@ -185,7 +185,8 @@ if ( $storingAllowed && $hasObjectInput)
         if ( $Module->runHooks( 'pre_commit', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage ) ) )
             return;
 
-        $version->setAttribute( 'modified', time() );
+        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+        $version->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
         $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
         $version->store();
 
@@ -288,12 +289,9 @@ if ( $mainAssignment )
         if ( $parentObject )
         {
             $parentClass =& $parentObject->attribute( 'content_class' );
-            if ( $parentClass )
-            {
-                $res->setKeys( array( array( 'parent_class', $parentClass->attribute( 'id' ) ),
-                                      array( 'parent_class_identifier', $parentClass->attribute( 'identifier' ) )
-                                      ) );
-            }
+            $res->setKeys( array( array( 'parent_class', $parentClass->attribute( 'id' ) ),
+                                  array( 'parent_class_identifier', $parentClass->attribute( 'identifier' ) )
+                                  ) );
         }
     }
 }
@@ -306,20 +304,11 @@ if ( $OmitSectionSetting !== true )
     eZSection::setGlobalID( $object->attribute( 'section_id' ) );
 }
 
-$contentObjectDataMap = array();
-foreach ( array_keys( $contentObjectAttributes ) as $contentObjectAttributeKey )
-{
-    $contentObjectAttribute =& $contentObjectAttributes[$contentObjectAttributeKey];
-    $contentObjectAttributeIdentifier = $contentObjectAttribute->attribute( 'contentclass_attribute_identifier' );
-    $contentObjectDataMap[$contentObjectAttributeIdentifier] =& $contentObjectAttribute;
-}
-
 $tpl->setVariable( 'edit_version', $EditVersion );
 $tpl->setVariable( 'edit_language', $EditLanguage );
 $tpl->setVariable( 'content_version', $version );
 $tpl->setVariable( 'http', $http );
 $tpl->setVariable( 'content_attributes', $contentObjectAttributes );
-$tpl->setVariable( 'content_attributes_data_map', $contentObjectDataMap );
 $tpl->setVariable( 'class', $class );
 $tpl->setVariable( 'object', $object );
 $tpl->setVariable( 'attribute_base', $attributeDataBaseName );

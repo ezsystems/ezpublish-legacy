@@ -44,10 +44,8 @@ $obj =& eZContentObject::fetch( $ObjectID );
 if ( !$obj )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-//if ( !$obj->attribute( 'can_edit' ) )
-//    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
-if ( !$obj->canEdit( $accessList ) )
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $accessList ) );
+if ( !$obj->attribute( 'can_edit' ) )
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
 $classID = $obj->attribute( 'contentclass_id' );
 $class =& eZContentClass::fetch( $classID );
@@ -274,6 +272,25 @@ if ( !function_exists( 'checkForExistingVersion'  ) )
 }
 $Module->addHook( 'pre_fetch', 'checkForExistingVersion' );
 
+if ( !function_exists ( 'registerSearchObject'  ) )
+{
+    function registerSearchObject( &$module, $parameters )
+    {
+        eZDebug::createAccumulatorGroup( 'search_total', 'Search Total' );
+
+        include_once( "kernel/classes/ezsearch.php" );
+        $object =& $parameters[1];
+        // Register the object in the search engine.
+        eZDebug::accumulatorStart( 'remove_object', 'search_total', 'remove object' );
+        eZSearch::removeObject( $object );
+        eZDebug::accumulatorStop( 'remove_object', 'search_total', 'remove object' );
+        eZDebug::accumulatorStart( 'add_object', 'search_total', 'add object' );
+        eZSearch::addObject( $object );
+        eZDebug::accumulatorStop( 'add_object', 'search_total', 'add object' );
+    }
+}
+$Module->addHook( 'post_publish', 'registerSearchObject', 1, false );
+
 if ( !function_exists( 'checkContentActions' ) )
 {
     function checkContentActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage )
@@ -312,15 +329,9 @@ if ( !function_exists( 'checkContentActions' ) )
         {
             $http =& eZHTTPTool::instance();
             $objectID = $object->attribute( 'id' );
-            $discardConfirm = true;
-            if ( $http->hasPostVariable( 'DiscardConfirm' ) )
-                $discardConfirm = $http->postVariable( 'DiscardConfirm' );
-            if ( $http->hasPostVariable( 'RedirectIfDiscarded' ) )
-                $http->setSessionVariable( 'RedirectIfDiscarded', $http->postVariable( 'RedirectIfDiscarded' ) );
             $http->setSessionVariable( 'DiscardObjectID', $objectID );
             $http->setSessionVariable( 'DiscardObjectVersion', $EditVersion );
             $http->setSessionVariable( 'DiscardObjectLanguage', $EditLanguage );
-            $http->setSessionVariable( 'DiscardConfirm', $discardConfirm );
             $module->redirectTo( $module->functionURI( 'removeeditversion' ) . '/' );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
@@ -354,19 +365,6 @@ if ( !function_exists( 'checkContentActions' ) )
                 $module->redirectTo( $parentURL );
                 $hasRedirected = true;
             }
-            if ( $http->hasSessionVariable( 'RedirectURIAfterPublish' ) && !$hasRedirected )
-            {
-                $uri =& $http->sessionVariable( 'RedirectURIAfterPublish' );
-                $http->removeSessionVariable( 'RedirectURIAfterPublish' );
-                $module->redirectTo( $uri );
-                $hasRedirected = true;
-            }
-            if ( $http->hasPostVariable( 'RedirectURIAfterPublish' )  && !$hasRedirected )
-            {
-                $uri =& $http->postVariable( 'RedirectURIAfterPublish' );
-                $module->redirectTo( $uri );
-                $hasRedirected = true;
-            }
             if ( !$hasRedirected )
             {
                 if ( $http->hasPostVariable( 'RedirectURI' ) )
@@ -378,9 +376,7 @@ if ( !function_exists( 'checkContentActions' ) )
                 {
                     $parentNode = $node->attribute( 'parent_node_id' );
                     if ( $parentNode == 1 )
-                    {
-                        $parentNode = $node->attribute( 'node_id' );
-                    }
+                        $parentNode = 2;
                     $module->redirectToView( 'view', array( 'full', $parentNode ) );
                 }
                 else
@@ -390,14 +386,12 @@ if ( !function_exists( 'checkContentActions' ) )
             }
             $ini =& eZINI::instance();
             $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
-
             eZDebug::accumulatorStart( 'check_cache', '', 'Check cache' );
             if ( $viewCacheEnabled )
             {
 
                 include_once( 'kernel/classes/ezcontentcache.php' );
                 $nodeList = array();
-                $nodeAliasList = array();
 
                 $parentNodes =& $object->parentNodes( $EditVersion );
                 foreach ( array_keys( $parentNodes ) as $parentNodeKey )
@@ -411,7 +405,6 @@ if ( !function_exists( 'checkContentActions' ) )
                 {
                     $assignedNode =& $assignedNodes[$assignedNodeKey];
                     $nodeList[] = $assignedNode->attribute( 'node_id' );
-                    $nodeAliasList[] = $assignedNode->attribute( 'url_alias' );
 
                     if ( $oldObjectName != $newObjectName )
                     {
@@ -437,7 +430,6 @@ if ( !function_exists( 'checkContentActions' ) )
                 eZDebugSetting::writeDebug( 'kernel-content-edit', count( $nodeList ), "count in nodeList " );
                 eZDebug::accumulatorStart( 'node_cleanup', '', 'Node cleanup' );
                 eZContentObject::expireComplexViewModeCache();
-                eZContentCache::subtreeCleanup( $nodeAliasList );
                 $cleanupValue = eZContentCache::calculateCleanupValue( count( $nodeList ) );
                 if ( eZContentCache::inCleanupThresholdRange( $cleanupValue ) )
                 {
@@ -456,60 +448,6 @@ if ( !function_exists( 'checkContentActions' ) )
 
             }
             eZDebug::accumulatorStop( 'check_cache' );
-
-            // Generate the view cache
-            include_once( 'kernel/classes/eznodeviewfunctions.php' );
-            eZDebug::accumulatorStart( 'generate_cache', '', 'Generating view cache' );
-            if ( $ini->variable( 'ContentSettings', 'PreViewCache' ) == 'enabled' )
-            {
-                $preCacheSiteaccessArray = $ini->variable( 'ContentSettings', 'PreCacheSiteaccessArray' );
-
-                $currentSiteAccess = $GLOBALS['eZCurrentAccess']['name'];
-
-                foreach ( $preCacheSiteaccessArray as $changeToSiteAccess )
-                {
-                    $GLOBALS['eZCurrentAccess']['name'] = $changeToSiteAccess;
-
-                    if ( $GLOBALS['eZCurrentAccess']['type'] == EZ_ACCESS_TYPE_URI )
-                    {
-                        eZSys::clearAccessPath();
-                        eZSys::addAccessPath( $changeToSiteAccess );
-                    }
-
-                    include_once( 'kernel/common/template.php' );
-                    $tpl =& templateInit();
-                    $res =& eZTemplateDesignResource::instance();
-
-                    $res->setDesignSetting( $changeToSiteAccess, 'site' );
-                    $res->setOverrideAccess( $changeToSiteAccess );
-
-                    $language = false; // Needs to be specified if you want to generate the cache for a specific language
-                    $viewMode = 'full';
-
-                    // Cache the current node
-                    $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $user, $node->attribute( 'node_id' ), 0, false, $language, $viewMode );
-                    $tmpRes = eZNodeviewfunctions::generateNodeView( $tpl, $node, $node->attribute( 'object' ), $language, $viewMode, 0, $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], true );
-
-                    // Cache the parent nodes
-                    foreach ( $parentNodes as $parentNode )
-                    {
-                        $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $user, $parentNode->attribute( 'node_id' ), 0, false, $language, $viewMode );
-                        $tmpRes = eZNodeviewfunctions::generateNodeView( $tpl, $parentNode, $parentNode->attribute( 'object' ), $language, $viewMode, 0, $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], true );
-                    }
-                }
-
-                $GLOBALS['eZCurrentAccess']['name'] = $currentSiteAccess;
-                $res->setDesignSetting( $currentSiteAccess, 'site' );
-                $res->setOverrideAccess( false );
-                if ( $GLOBALS['eZCurrentAccess']['type'] == EZ_ACCESS_TYPE_URI )
-                {
-                    eZSys::clearAccessPath();
-                    eZSys::addAccessPath( $currentSiteAccess );
-                }
-            }
-
-            eZDebug::accumulatorStop( 'generate_cache' );
-
         }
     }
 }

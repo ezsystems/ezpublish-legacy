@@ -178,7 +178,7 @@ class eZStepDatabaseInit extends eZStepInstaller
              !$this->PersistenceList['database_info']['password'] )
             $this->PersistenceList['database_info']['password'] = $config->variable( 'DatabaseSettings', 'DefaultPassword' );
 
-        if ( $this->Http->postVariable( 'eZSetup_current_step' ) == 'SiteDetails' ) // Failed to connect to tables in database
+        if ( $this->Http->postVariable( 'setup_previous_step' ) == 'SiteDetails' ) // Failed to connect to tables in database
         {
             $this->Error = EZ_SETUP_DB_ERROR_CONNECTION_FAILED;
         }
@@ -198,23 +198,9 @@ class eZStepDatabaseInit extends eZStepInstaller
         {
             case EZ_SETUP_DB_ERROR_CONNECTION_FAILED:
             {
-                if ( $this->PersistenceList['database_info']['type'] == 'pgsql' )
-                {
-                    $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
-                                                        'Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.'
-                                                        .'<br>See the %documentation for more information about this.'
-                                                        .'<br>Remember to start postmaster with the -i option.'
-                                                        .'<br>Note that PostgreSQL 7.2 is not supported.', null,
-                                                        array( '%documentation' => '<a href="http://www.php.net/manual/en/ref.pgsql.php">PHP documentation</a>' ) ),
-                                      'number' => EZ_SETUP_DB_ERROR_CONNECTION_FAILED );
-                }
-                else
-                {
-                    $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
-                                                        'The database would not accept the connection, please review your settings and try again.' ),
-                                      'number' => EZ_SETUP_DB_ERROR_CONNECTION_FAILED );
-                }
-
+                $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
+                                                    'The database would not accept the connection, please review your settings and try again.' ),
+                                  'number' => EZ_SETUP_DB_ERROR_CONNECTION_FAILED );
                 break;
             }
             case EZ_SETUP_DB_ERROR_NONMATCH_PASSWORD:

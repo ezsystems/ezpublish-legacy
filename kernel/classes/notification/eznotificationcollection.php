@@ -188,17 +188,6 @@ class eZNotificationCollection extends eZPersistentObject
             eZPersistentObject::removeObject( eZNotificationCollection::definition(), array( 'id' => $id['id'] ) );
         }
     }
-
-    /*!
-     \static
-     Removes all notification collections.
-    */
-    function cleanup()
-    {
-        $db =& eZDB::instance();
-        eZNotificationCollectionItem::cleanup();
-        $db->query( "DELETE FROM eznotificationcollection" );
-    }
 }
 
 ?>

@@ -192,8 +192,7 @@ class eZContentObjectAssignmentHandler
                 eZDebug::writeDebug( "Checking for '$nodeID'" );
                 if ( $parentContentObject->checkAccess( 'create',
                                                         $contentClassID,
-                                                        $parentContentObject->attribute( 'contentclass_id' ),
-                                                        $accessList ) == '1' )
+                                                        $parentContentObject->attribute( 'contentclass_id' ) ) == '1' )
                 {
                     eZDebug::writeDebug( "Adding to '$nodeID' and main = '$mainID'" );
                     if ( $mainID === false )

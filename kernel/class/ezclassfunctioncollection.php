@@ -71,20 +71,6 @@ class eZClassFunctionCollection
         return array( 'result' => $contentClassList );
     }
 
-    function &fetchLatestClassList( $offset, $limit )
-    {
-        $contentClassList = array();
-        include_once( 'kernel/classes/ezcontentclass.php' );
-        $limitData = null;
-        if ( $limit )
-            $limitData = array( 'offset' => $offset,
-                                'length' => $limit );
-        $contentClassList =& eZContentClass::fetchList( 0, true, false,
-                                                        array( 'modified' => 'desc' ), null,
-                                                        false, $limitData );
-        return array( 'result' => $contentClassList );
-    }
-
     function &fetchClassAttributeList( $classID )
     {
         include_once( 'kernel/classes/ezcontentclass.php' );
@@ -94,50 +80,6 @@ class eZClassFunctionCollection
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
         return array( 'result' => $contentClassAttributeList );
     }
-
-    function &fetchOverrideTemplateList( $classID )
-    {
-        $class = eZContentClass::fetch( $classID );
-        $classIdentifier = $class->attribute( 'identifier' );
-
-        $result = array ();
-
-        $ini =& eZINI::instance();
-
-        $siteAccessArray = $ini->variable('SiteAccessSettings', 'AvailableSiteAccessList' );
-
-        foreach ( $siteAccessArray as $siteAccess )
-        {
-            $overrides = eZTemplateDesignResource::overrideArray( $siteAccess );
-
-            foreach( $overrides as $override )
-            {
-                foreach( $override['custom_match'] as $customMatch )
-                {
-                    if( $customMatch['conditions']['class_identifier'] == $classIdentifier )
-                    {
-                        $result[] = array( 'siteaccess' => $siteAccess,
-                                           'block'      => $customMatch['override_name'],
-                                           'source'     => $override['template'],
-                                           'target'     => $customMatch['match_file'] );
-                    }
-
-                    if( $customMatch['conditions']['class'] == $classID )
-                    {
-
-                        $result[] = array( 'siteaccess' => $siteAccess,
-                                           'block'      => $customMatch['override_name'],
-                                           'source'     => $override['template'],
-                                           'target'     => $customMatch['match_file'] );
-                    }
-                }
-            }
-
-        }
-
-        return array( 'result' => $result );
-    }
-
 }
 
 ?>

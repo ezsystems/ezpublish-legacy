@@ -49,8 +49,7 @@ class eZEmailType extends eZDataType
     function eZEmailType()
     {
         $this->eZDataType( EZ_DATATYPESTRING_EMAIL, ezi18n( 'kernel/classes/datatypes', "Email", 'Datatype name' ),
-                           array( 'serialize_supported' => true,
-                                  'object_serialize_map' => array( 'data_text' => 'email' ) ) );
+                           array( 'serialize_supported' => true ) );
     }
 
     /*!
@@ -115,11 +114,6 @@ class eZEmailType extends eZDataType
         return $contentObjectAttribute->attribute( "data_text" );
     }
 
-    function isIndexable()
-    {
-        return true;
-    }
-
     /*!
      Returns the meta data used for storing search indeces.
     */
@@ -133,28 +127,7 @@ class eZEmailType extends eZDataType
     */
     function title( &$contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( "data_text" );
-    }
-
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        return trim( $contentObjectAttribute->attribute( "data_text" ) ) != '';
-    }
-
-    /*!
-     \reimp
-    */
-    function &sortKey( &$contentObjectAttribute )
-    {
-        return strtolower( $contentObjectAttribute->attribute( 'data_text' ) );
-    }
-
-    /*!
-     \reimp
-    */
-    function &sortKeyType()
-    {
-        return 'string';
+        return  $contentObjectAttribute->attribute( "data_text" );
     }
 }
 

@@ -167,21 +167,14 @@ class eZFileHandler
      Links the file \a $sourceFilename to \a $destinationFilename.
      If \a $destinationFilename is a directory then the filename is taken from \a $sourceFilename and appended to the destination.
      It will use symbolic links for the operating system that support it and file copy for all others.
-     \param $symbolicLink if \c true then the files will be made as symbolic links, otherwise as hard links.
      \return \c true if sucessful or \c false if the copy failed.
     */
-    function linkCopy( $sourceFilename, $destinationFilename, $symbolicLink = true )
+    function linkCopy( $sourceFilename, $destinationFilename )
     {
         if ( in_array( eZSys::osType(),
                        array( 'unix', 'linux', 'mac' ) ) )
         {
-            if ( $symbolicLink )
-                $result = eZFileHandler::symlink( $sourceFilename, $destinationFilename );
-            else
-                $result = eZFileHandler::link( $sourceFilename, $destinationFilename );
-            if ( $result )
-                return $result;
-            return eZFileHandler::copy( $sourceFilename, $destinationFilename );
+            return eZFileHandler::symlink( $sourceFilename, $destinationFilename );
         }
         else
         {
@@ -198,8 +191,7 @@ class eZFileHandler
     */
     function symlink( $sourceFilename, $destinationFilename )
     {
-        if ( !file_exists( $sourceFilename ) and
-             !is_link( $sourceFilename ) )
+        if ( !file_exists( $sourceFilename ) )
         {
             eZDebug::writeError( "Cannot symbolicly link to file $sourceFilename, it does not exist",
                                  'eZFileHandler::symlink' );
@@ -220,24 +212,7 @@ class eZFileHandler
                 $destinationFilename .= '/' . substr( $sourceFilename, $filePosition );
         }
         $destinationFilename = preg_replace( "#/+#", '/', $destinationFilename );
-        $sourceDir = $sourceFilename;
-        $sourceName = false;
-        $sourceDirPos = strrpos( $sourceDir, '/' );
-        if ( $sourceDirPos !== false )
-        {
-            $sourceName = substr( $sourceDir, $sourceDirPos + 1 );
-            $sourceDir = substr( $sourceDir, 0, $sourceDirPos );
-        }
-        $commonOffset = 0;
-        for ( $i = 0; $i < strlen( $sourceFilename ) and $i < strlen( $sourceDir ); ++$i )
-        {
-            if ( $sourceFilename[$i] != $sourceDir[$i] )
-                break;
-            $commonOffset = $i;
-        }
-        if ( $commonOffset > 0 )
-            $sourceDir = substr( $sourceDir, $commonOffset + 1 );
-        $directoryCount = substr_count( $sourceDir, '/' );
+        $directoryCount = substr_count( $destinationFilename, '/' );
         $cdupText = str_repeat( '../', $directoryCount );
         if ( file_exists( $destinationFilename ) and
              !is_dir( $destinationFilename ) )
@@ -249,66 +224,12 @@ class eZFileHandler
                 return false;
             }
         }
-        if ( $sourceDir )
-            $sourceDir = $sourceDir . '/' . $sourceName;
-        else
-            $sourceDir = $sourceName;
-        if ( symlink( $cdupText . $sourceDir, $destinationFilename ) )
+        if ( symlink( $cdupText . $sourceFilename, $destinationFilename ) )
         {
             return true;
         }
         eZDebug::writeError( "Failed to symbolicly link to $sourceFilename on destination $destinationFilename",
                              'eZFileHandler::symlink' );
-        return false;
-    }
-
-    /*!
-     Creates a symbolic link to the file \a $sourceFilename on the destination \a $destinationFilename.
-     This means that if someone tries to open \a $destinationFilename they will infact open \a $sourceFilename.
-     If \a $destinationFilename is a directory then the filename is taken from \a $sourceFilename and appended to the destination.
-     It will first try to rename the file and if that does not work copy the file and unlink.
-     \return \c true if sucessful or \c false if the copy failed.
-    */
-    function link( $sourceFilename, $destinationFilename )
-    {
-        if ( !file_exists( $sourceFilename ) and
-             !is_link( $sourceFilename ) )
-        {
-            eZDebug::writeError( "Cannot link to file $sourceFilename, it does not exist",
-                                 'eZFileHandler::link' );
-            return false;
-        }
-        $isDir = false;
-        if ( is_dir( $destinationFilename ) )
-        {
-            $isDir = true;
-            $dirPosition = strrpos( $sourceFilename, '/' );
-            $filePosition = 0;
-            if ( $dirPosition !== false )
-                $filePosition = $dirPosition + 1;
-            if ( strlen( $destinationFilename ) > 0 and
-                 $destinationFilename[strlen( $destinationFilename ) - 1] == '/' )
-                $destinationFilename .= substr( $sourceFilename, $filePosition );
-            else
-                $destinationFilename .= '/' . substr( $sourceFilename, $filePosition );
-        }
-        $destinationFilename = preg_replace( "#/+#", '/', $destinationFilename );
-        if ( file_exists( $destinationFilename ) and
-             !is_dir( $destinationFilename ) )
-        {
-            if ( !@unlink( $destinationFilename ) )
-            {
-                eZDebug::writeError( "Cannot link to file $sourceFilename on destination $destinationFilename, destination file cannot be removed",
-                                     'eZFileHandler::link' );
-                return false;
-            }
-        }
-        if ( link( $sourceFilename, $destinationFilename ) )
-        {
-            return true;
-        }
-        eZDebug::writeError( "Failed to link to $sourceFilename on destination $destinationFilename",
-                             'eZFileHandler::link' );
         return false;
     }
 
@@ -320,8 +241,7 @@ class eZFileHandler
     */
     function move( $sourceFilename, $destinationFilename )
     {
-        if ( !file_exists( $sourceFilename ) and
-             !is_link( $sourceFilename ) )
+        if ( !file_exists( $sourceFilename ) )
         {
             eZDebug::writeError( "Cannot rename file $sourceFilename, it does not exist",
                                  'eZFileHandler::move' );
@@ -351,13 +271,7 @@ class eZFileHandler
                 return false;
             }
         }
-        $isLink = false;
-        if ( is_link( $sourceFilename ) )
-        {
-            $isLink = true;
-        }
-        if ( !$isLink and
-             @rename( $sourceFilename, $destinationFilename ) )
+        if ( @rename( $sourceFilename, $destinationFilename ) )
         {
             return true;
         }
@@ -425,7 +339,9 @@ class eZFileHandler
             @fwrite( $destinationFD, $data );
             $bytesCopied += strlen( $data );
         } while( true );
-
+//         eZDebugSetting::writeNotice( 'lib-ezfile-copy',
+//                                      "Copied file $sourceFilename ($bytesCopied) to destination $destinationFilename",
+//                                      'eZFileHandler::copy' );
         @fclose( $sourceFD );
         @fclose( $destinationFD );
         return true;

@@ -53,7 +53,6 @@ class eZNodeAssignment extends eZPersistentObject
     function eZNodeAssignment( $row )
     {
         $this->TempNode = null;
-        $this->Name = false;
         $this->eZPersistentObject( $row );
     }
 
@@ -94,11 +93,7 @@ class eZNodeAssignment extends eZPersistentObject
                                          'from_node_id' => array( 'name' => 'FromNodeID',
                                                                   'datatype' => 'integer',
                                                                   'default' => 0,
-                                                                  'required' => true ),
-                                         'parent_remote_id' => array( 'name' => 'ParentRemoteID',
-                                                                    'datatype' => 'string',
-                                                                    'default' => '',
-                                                                    'required' => false ) ),
+                                                                  'required' => true ) ),
                       'keys' => array( 'id' ),
                       "function_attributes" => array( "parent_node_obj" => "getParentNode",
                                                       'temp_node' => 'tempNode' ),
@@ -128,18 +123,7 @@ class eZNodeAssignment extends eZPersistentObject
                                                            $this->attribute( 'contentobject_version' ),
                                                            $this->attribute( 'sort_field' ),
                                                            $this->attribute( 'sort_order' ) );
-        $this->TempNode->setName( $this->Name );
         return $this->TempNode;
-    }
-
-    function setName( $name )
-    {
-        return $this->Name = $name;
-    }
-
-    function name()
-    {
-        return $this->Name;
     }
 
     function &create( $parameters = array() )
@@ -167,37 +151,20 @@ class eZNodeAssignment extends eZPersistentObject
         }
         if ( !isset( $parameters['sort_field'] ) )
         {
-            $parameters['sort_field'] = 2; // Published
+            $parameters['sort_field'] = 1;
         }
         if ( !isset( $parameters['sort_order'] ) )
         {
-            $parameters['sort_order'] = 0; // Desc
+            $parameters['sort_order'] = 1;
         }
         if ( !isset( $parameters['from_node_id'] ) )
         {
             $parameters['from_node_id'] = 0;
         }
-        if ( !isset( $parameters['parent_remote_id'] ) )
-        {
-            $parameters['parent_remote_id'] = '';
-        }
         return new eZNodeAssignment( $parameters );
     }
 
-    /*!
-     Remove specified nodeassignment.
-
-     \param parent node
-     \param content object id
-     */
-    function remove( $parentNodeID, $contentObjectID )
-    {
-        $sqlQuery = "DELETE FROM eznode_assignment WHERE parent_node='$parentNodeID' AND contentobject_id='$contentObjectID'";
-        $db =& eZDB::instance();
-        $db->query( $sqlQuery );
-    }
-
-    function &fetchForObject( $contentObjectID, $version = 1, $main = 0, $asObject = true )
+    function &fetchForObject( $contentObjectID, $version = 1, $main = 0 ,$asObject = true )
     {
         $cond = array( 'contentobject_id' => $contentObjectID,
                        'contentobject_version' => $version );
@@ -241,8 +208,7 @@ class eZNodeAssignment extends eZPersistentObject
                                 'parent_node' => $this->attribute( 'parent_node' ),
                                 'sort_field' => $this->attribute( 'sort_field' ),
                                 'sort_order' => $this->attribute( 'sort_order' ),
-                                'is_main' => $this->attribute( 'is_main' ),
-                                'parent_remote_id' => $this->attribute( 'parent_remote_id' ) );
+                                'is_main' => $this->attribute( 'is_main' ) );
         if ( $contentObjectID !== false )
             $assignmentRow['contentobject_id'] = $contentObjectID;
         return eZNodeAssignment::create( $assignmentRow );
@@ -258,7 +224,6 @@ class eZNodeAssignment extends eZPersistentObject
     /// Used for giving unique values to an assignment which can later be checked.
     /// This is often used in templates to provide limited choices for assignments.
     var $RemoteID;
-    var $ParentRemoteID;
     var $ContentobjectID;
     var $ContentObjectVersion;
     var $ParentNode;

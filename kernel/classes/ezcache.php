@@ -73,12 +73,6 @@ class eZCache
                                        'tag' => array( 'content' ),
                                        'enabled' => $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled',
                                        'path' => $ini->variable( 'ContentSettings', 'CacheDir' ) ),
-                                array( 'name' => 'Global INI cache',
-                                       'id' => 'global_ini',
-                                       'tag' => array( 'ini' ),
-                                       'enabled' => true,
-                                       'path' => 'var/cache/ini',
-                                       'function' => 'eZCacheClearGlobalINI' ),
                                 array( 'name' => 'INI cache',
                                        'id' => 'ini',
                                        'tag' => array( 'ini' ),
@@ -94,29 +88,11 @@ class eZCache
                                        'tag' => array( 'content', 'template' ),
                                        'enabled' => true,
                                        'path' => 'expiry.php' ),
-                                array( 'name' => 'Class identifier cache',
-                                       'id' => 'classid',
-                                       'tag' => array( 'content' ),
-                                       'enabled' => true,
-                                       'path' => false,
-                                       'function' => 'eZCacheClearClassID'),
-                                array( 'name' => 'Sort key cache',
-                                       'id' => 'sortkey',
-                                       'tag' => array( 'content' ),
-                                       'enabled' => true,
-                                       'path' => false,
-                                       'function' => 'eZCacheClearSortKey' ),
                                 array( 'name' => 'URL alias cache',
                                        'id' => 'urlalias',
                                        'tag' => array( 'content' ),
                                        'enabled' => true,
                                        'path' => 'wildcard' ),
-                                array( 'name' => 'Image alias',
-                                       'id' => 'imagealias',
-                                       'tag' => array( 'image' ),
-                                       'path' => false,
-                                       'enabled' => true,
-                                       'function' => 'eZCacheClearImageAlias' ),
                                 array( 'name' => 'Template cache',
                                        'id' => 'template',
                                        'tag' => array( 'template' ),
@@ -131,12 +107,7 @@ class eZCache
                                        'id' => 'template-override',
                                        'tag' => array( 'template' ),
                                        'enabled' => true,
-                                       'path' => 'override' ),
-                                array( 'name' => 'RSS cache',
-                                       'id' => 'rss_cache',
-                                       'tag' => array( 'content' ),
-                                       'enabled' => true,
-                                       'path' => 'rss' )
+                                       'path' => 'override' )
                                 );
         }
         return $cacheList;
@@ -206,127 +177,17 @@ class eZCache
     */
     function clearItem( $cacheItem )
     {
-        if ( isset( $cacheItem['function'] ) )
+        $cachePath = eZSys::cacheDirectory() . "/" . $cacheItem['path'];
+        if ( is_file( $cachePath ) )
         {
-            $function= $cacheItem['function'];
-            $function( $cacheItem );
+            $handler =& eZFileHandler::instance( false );
+            $handler->unlink( $cachePath );
         }
         else
         {
-            $cachePath = eZSys::cacheDirectory() . "/" . $cacheItem['path'];
-            if ( is_file( $cachePath ) )
-            {
-                $handler =& eZFileHandler::instance( false );
-                $handler->unlink( $cachePath );
-            }
-            else
-            {
-                eZDir::recursiveDelete( $cachePath );
-            }
+            eZDir::recursiveDelete( $cachePath );
         }
     }
-
-    /*!
-     Sets the image alias timestamp to the current timestamp,
-     this causes all image aliases to be recreated on viewing.
-    */
-    function clearImageAlias( $cacheItem )
-    {
-        $expiryHandler = eZExpiryHandler::instance();
-        $expiryHandler->setTimestamp( 'image-manager-alias', time() );
-        $expiryHandler->store();
-    }
-
-    /*!
-    */
-    function clearClassID( $cacheItem )
-    {
-        $cachePath = eZSys::cacheDirectory();
-
-        $files = array();
-        if ( $dh = opendir( $cachePath ) )
-        {
-            while ( false !== ( $file = readdir( $dh ) ) )
-            {
-                if ( $file != "." && $file != ".." )
-                {
-                    $files[] = $file;
-                }
-            }
-            closedir( $dh );
-        }
-
-        foreach ( $files as $file )
-        {
-            if ( strpos( $file, 'classidentifiers_' ) === 0 )
-                unlink( "$cachePath/$file" );
-        }
-    }
-
-    /*!
-    */
-    function clearSortKey( $cacheItem )
-    {
-        $cachePath = eZSys::cacheDirectory();
-
-        $files = array();
-        if ( $dh = opendir( $cachePath ) )
-        {
-            while ( false !== ( $file = readdir( $dh ) ) )
-            {
-                if ( $file != "." && $file != ".." )
-                {
-                    $files[] = $file;
-                }
-            }
-            closedir( $dh );
-        }
-
-        foreach ( $files as $file )
-        {
-            if ( strpos( $file, 'sortkey_' ) === 0 )
-                unlink( "$cachePath/$file" );
-        }
-    }
-
-    /*!
-     \static
-     Clear global ini cache
-    */
-    function clearGlobalINICache()
-    {
-        eZDir::recursiveDelete( 'var/cache/ini' );
-    }
-}
-
-/*!
- Helper function for eZCache::clearImageAlias
-*/
-function eZCacheClearImageAlias( $cacheItem )
-{
-    eZCache::clearImageAlias( $cacheItem );
-}
-
-/*!
- */
-function eZCacheClearClassID( $cacheItem )
-{
-    eZCache::clearClassID( $cacheItem );
-}
-
-/*!
- */
-function eZCacheClearGlobalINI( $cacheItem )
-{
-    eZCache::clearGlobalINICache();
-}
-
-
-/*!
- */
-function eZCacheClearSortKey( $cacheItem )
-{
-    eZCache::clearSortKey( $cacheItem );
 }
 
 ?>

@@ -51,24 +51,51 @@ class eZFilePasstroughHandler extends eZBinaryFileHandler
         $this->eZBinaryFileHandler( EZ_FILE_PASSTROUGH_ID, "PHP passtrough", EZ_BINARY_FILE_HANDLE_DOWNLOAD );
     }
 
-    function handleFileDownload( &$contentObject, &$contentObjectAttribute, $type,
-                                 $mimeData )
+    function handleDownload( &$contentObject, &$contentObjectAttribute, $type )
     {
-        $fileName = $mimeData['url'];
-        if ( $fileName != "" and file_exists( $fileName ) )
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
+        $version = $contentObject->attribute( 'current_version' );
+        $fileObject =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
+        if ( $fileObject === null )
+            $fileObject =& eZMedia::fetch( $contentObjectAttributeID, $version );
+//         switch ( $type )
+//         {
+//             case EZ_BINARY_FILE_TYPE_FILE:
+//             {
+//                 $fileObject =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
+//             } break;
+//             case EZ_BINARY_FILE_TYPE_MEDIA:
+//             {
+//                 $fileObject =& eZMedia::fetch( $contentObjectAttributeID, $version );
+//             } break;
+//         }
+        if ( $fileObject === null )
+            return EZ_BINARY_FILE_RESULT_UNAVAILABLE;
+        $fileName = $this->storedFilename( $fileObject );
+        if ( $fileObject->attribute( "filename" ) != "" and file_exists( $fileName ) )
         {
             $fileSize = filesize( $fileName );
-            $mimeType =  $mimeData['name'];
-            $originalFileName = $mimeData['original_filename'];
+            $mimeType =  $fileObject->attribute( 'mime_type' );
+            $originalFileName = $fileObject->attribute( 'original_filename' );
+
+//             print( "<pre>" );
+//             var_dump( $_SERVER );
+//             print( "</pre>" );
+//             exit;
+//             eZDebug::writeDebug( $_SERVER, "\$_SERVER" );
+
             $contentLength = $fileSize;
             $fileOffset = false;
             $fileLength = false;
             if ( isset( $_SERVER['HTTP_RANGE'] ) )
             {
                 $httpRange = trim( $_SERVER['HTTP_RANGE'] );
+//                 eZDebug::writeDebug( $httpRange, "httpRange" );
                 if ( preg_match( "/^bytes=([0-9]+)-$/", $httpRange, $matches ) )
                 {
                     $fileOffset = $matches[1];
+//                     eZDebug::writeDebug( $fileOffset, "fileoffset" );
+//                     eZDebug::writeDebug( "Content-Range: bytes $fileOffset" . "-" . ($fileSize - 1) . "/$fileSize" );
                     header( "Content-Range: bytes $fileOffset-" . $fileSize - 1 . "/$fileSize" );
                     header( "HTTP/1.1 206 Partial content" );
                     $contentLength -= $fileOffset;
@@ -93,6 +120,11 @@ class eZFilePasstroughHandler extends eZBinaryFileHandler
 
             ob_end_clean();
             fpassthru( $fh );
+//             while ( !feof( $fh ) )
+//             {
+//                 $buffer = fread( $fh, 4096 );
+//                 print( $buffer );
+//             }
             fclose( $fh );
             fflush();
             eZExecution::cleanExit();

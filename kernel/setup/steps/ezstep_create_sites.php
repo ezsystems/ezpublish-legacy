@@ -74,6 +74,7 @@ class eZStepCreateSites extends eZStepInstaller
 
         $ini =& eZINI::create();
 
+        $siteCount = $this->PersistenceList['site_templates']['count'];
         include_once( 'kernel/classes/ezpackage.php' );
         $accessMap = array( 'url' => array(),
                             'hostname' => array(),
@@ -123,37 +124,38 @@ class eZStepCreateSites extends eZStepInstaller
         if ( !$charset )
             return 'LanguageOptions';
 
-        include_once( 'kernel/setup/ezsetuptypes.php' );
-        $siteTypes = eZSetupTypes();
-
-//         $siteCount = $this->PersistenceList['site_templates']['count'];
-//         $siteCount = 1;
-        $siteTypes = $this->chosenSiteTypes();
-//         for ( $counter = 0; $counter < $siteCount; ++$counter )
-        foreach ( array_keys( $siteTypes ) as $siteTypeKey )
+        for ( $counter = 0; $counter < $siteCount; ++$counter )
         {
-            $siteType =& $siteTypes[$siteTypeKey];
-//             $sitePackage = $this->PersistenceList['site_templates_'.$counter];
-            $accessType = $siteType['access_type'];
-//             $package =& eZPackage::fetch( $siteType['identifier'], 'kernel/setup/packages' );
-            $this->initializePackage( //$package,
-                                      $siteType, $accessMap, $charset,
-                                      $allLanguageCodes, $allLanguages, $primaryLanguage, $this->PersistenceList['admin'] );
+            $sitePackage = $this->PersistenceList['site_templates_'.$counter];
+            $accessType = $sitePackage['access_type'];
+            $package =& eZPackage::fetch( $sitePackage['identifier'], 'kernel/setup/packages' );
+            $this->initializePackage( $package, $sitePackage, $accessMap, $charset,
+                                      $allLanguageCodes, $allLanguages, $primaryLanguage );
         }
 
         $regionalInfo = $this->PersistenceList['regional_info'];
         $emailInfo = $this->PersistenceList['email_info'];
 
         $imageINI = eZINI::create( 'image.ini' );
-        $imageINI->setVariable( 'ImageMagick', 'IsEnabled', 'false' );
+        $imageINI->setVariable( 'ConverterSettings', 'UseConvert', 'false' );
+        $imageINI->setVariable( 'ConverterSettings', 'UseGD', 'false' );
         if ( $this->PersistenceList['imagemagick_program']['result'] )
         {
-            $imageINI->setVariable( 'ImageMagick', 'ExecutablePath', $this->PersistenceList['imagemagick_program']['path'] );
-            $imageINI->setVariable( 'ImageMagick', 'Executable', $this->PersistenceList['imagemagick_program']['program'] );
-
-            $imageINI->setVariable( 'ImageMagick', 'IsEnabled', 'true' );
+            $imageINI->setVariable( 'ConverterSettings', 'UseConvert', 'true' );
+            $imageINI->setVariable( 'ShellSettings', 'ConvertPath', $this->PersistenceList['imagemagick_program']['path'] );
+            $imageINI->setVariable( 'ShellSettings', 'ConvertExecutable', $this->PersistenceList['imagemagick_program']['program'] );
         }
+        if ( $this->PersistenceList['imagegd_extension']['result'] )
+        {
+            $imageINI->setVariable( 'ConverterSettings', 'UseGD', 'true' );
 
+            $imageINI->setVariable( 'Rules', 'DefaultRule', 'image/jpeg;gd' );
+            $imageINI->setVariable( 'Rules', 'Rules', array( 'image/jpeg;image/jpeg;gd',
+                                                             'image/png;image/png;gd',
+                                                             'image/gif;image/png;gd',
+                                                             'image/xpm;image/png;gd',
+                                                             'image/tiff;image/png;gd' ) );
+        }
         $saveResult = false;
         if ( !$saveData )
             $saveResult = true;
@@ -202,12 +204,10 @@ class eZStepCreateSites extends eZStepInstaller
             $ini->setVariable( 'PortAccessSettings', $port, $siteAccessName );
         }
         $ini->setVariable( 'SiteSettings', 'SiteList', $accessMap['sites'] );
+        $ini->setVariable( 'SiteAccessSettings', 'SiteAccessList', $accessMap['accesses'] );
         $ini->setVariable( 'SiteAccessSettings', 'AvailableSiteAccessList', $accessMap['accesses'] );
         $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
         $ini->setVariable( 'Session', 'SessionNameHandler', 'custom' );
-        $ini->setVariable( 'MailSettings', 'AdminEmail', $admin['email'] );
-        $ini->setVariable( 'MailSettings', 'EmailSender', false );
-
         $defaultAccess = 'admin';
         if ( isset( $accessMap['accesses'][0] ) )
             $defaultAccess = $accessMap['accesses'][0];
@@ -242,41 +242,39 @@ class eZStepCreateSites extends eZStepInstaller
     {
     }
 
-    function initializePackage( // &$package,
-                                $siteType,
+    function initializePackage( &$package, $sitePackage,
                                 &$accessMap, $charset,
-                                &$allLanguageCodes, &$allLanguages, &$primaryLanguage,
-                                &$admin)
+                                &$allLanguageCodes, &$allLanguages, &$primaryLanguage )
     {
-        switch ( $siteType['access_type'] )
+        switch ( $sitePackage['access_type'] )
         {
             case 'port':
             {
-                $userSiteaccessName = $siteType['identifier'] . '_' . 'user';
-                $adminSiteaccessName = $siteType['identifier'] . '_' . 'admin';
-                $accessMap['port'][$siteType['access_type_value']] = $userSiteaccessName;
-                $accessMap['port'][$siteType['admin_access_type_value']] = $adminSiteaccessName;
+                $userSiteaccessName = $sitePackage['identifier'] . '_' . 'user';
+                $adminSiteaccessName = $sitePackage['identifier'] . '_' . 'admin';
+                $accessMap['port'][$sitePackage['access_type_value']] = $userSiteaccessName;
+                $accessMap['port'][$sitePackage['admin_access_type_value']] = $adminSiteaccessName;
             } break;
             case 'hostname':
             {
-                $userSiteaccessName = $siteType['identifier'] . '_' . 'user';
-                $adminSiteaccessName = $siteType['identifier'] . '_' . 'admin';
-                $accessMap['hostname'][$siteType['access_type_value']] = $userSiteaccessName;
-                $accessMap['hostname'][$siteType['admin_access_type_value']] = $adminSiteaccessName;
+                $userSiteaccessName = $sitePackage['identifier'] . '_' . 'user';
+                $adminSiteaccessName = $sitePackage['identifier'] . '_' . 'admin';
+                $accessMap['hostname'][$sitePackage['access_type_value']] = $userSiteaccessName;
+                $accessMap['hostname'][$sitePackage['admin_access_type_value']] = $adminSiteaccessName;
             } break;
             case 'url':
             default:
             {
-                $userSiteaccessName = $siteType['access_type_value'];
-                $adminSiteaccessName = $siteType['admin_access_type_value'];
-                $accessMap['url'][$siteType['access_type_value']] = $userSiteaccessName;
-                $accessMap['url'][$siteType['admin_access_type_value']] = $adminSiteaccessName;
+                $userSiteaccessName = $sitePackage['access_type_value'];
+                $adminSiteaccessName = $sitePackage['admin_access_type_value'];
+                $accessMap['url'][$sitePackage['access_type_value']] = $userSiteaccessName;
+                $accessMap['url'][$sitePackage['admin_access_type_value']] = $adminSiteaccessName;
             } break;
         }
         $accessMap['accesses'][] = $userSiteaccessName;
         $accessMap['accesses'][] = $adminSiteaccessName;
         $accessMap['sites'][] = $userSiteaccessName;
-        $userDesignName = $siteType['identifier'];
+        $userDesignName = $sitePackage['identifier'];
 
         $languages = $allLanguageCodes;
         $languageObjects = $allLanguages;
@@ -294,7 +292,7 @@ class eZStepCreateSites extends eZStepInstaller
         $dbCharset = $charset;
         $dbDriver = $databaseInfo['info']['driver'];
 
-        $dbName = $siteType['database'];
+        $dbName = $sitePackage['database'];
         $dbParameters = array( 'server' => $dbServer,
                                'user' => $dbUser,
                                'password' => $dbPwd,
@@ -303,61 +301,47 @@ class eZStepCreateSites extends eZStepInstaller
                                'charset' => $dbCharset );
         $db =& eZDB::instance( $dbDriver, $dbParameters, true );
         eZDB::setInstance( $db );
-
-//         if ( $package )
+        if ( $package )
         {
-            if ( $siteType['existing_database'] == 2 )
+            if ( $sitePackage['existing_database'] == 2 )
             {
-                include_once( 'lib/ezdb/classes/ezdbtool.php' );
-//                 print( "cleaning up DB!<br/>\n" );
-                eZDBTool::cleanup( $db );
-//                 $tableArray = $db->eZTableList();
-//                 foreach ( array_keys( $tableArray ) as $table )
-//                 {
-//                     $db->removeRelation( $table, $tableArray[$table] );
-//                 }
-            }
-            if ( $siteType['existing_database'] != 3 )
-            {
-                $setupINI =& eZINI::instance( 'setup.ini' );
-                $sqlSchemaFile = $setupINI->variable( 'DatabaseSettings', 'SQLSchema' );
-                $sqlFile = $setupINI->variable( 'DatabaseSettings', 'CleanSQLData' );
-//                 print( "inserting SQL $sqlSchemaFile!<br/>\n" );
-                $result = $db->insertFile( 'kernel/sql/', $sqlSchemaFile );
-//                 print( "inserting SQL $sqlFile!<br/>\n" );
-                $result = $result && $db->insertFile( 'kernel/sql/common', $sqlFile, false );
-                if ( $db->databaseName() == 'postgresql' )
+                $tableArray = $db->eZTableList();
+                foreach ( $tableArray as $table )
                 {
-                    $db->correctSequenceValues();
+                    $db->removeRelation( $table, EZ_DB_RELATION_TABLE );
                 }
             }
             $installParameters = array( 'path' => '.' );
             $installParameters['ini'] = array();
             $siteINIChanges = array();
-            $url = $siteType['url'];
+            $url = $sitePackage['url'];
             if ( preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url, $matches ) )
             {
                 $url = $matches[1];
             }
             $siteINIChanges['ContentSettings'] = array( 'TranslationList' => implode( ';', $languages ) );
-            $siteINIChanges['SiteSettings'] = array( 'SiteName' => $siteType['title'],
+            $siteINIChanges['SiteSettings'] = array( 'SiteName' => $sitePackage['title'],
                                                      'SiteURL' => $url );
             $siteINIChanges['DatabaseSettings'] = array( 'DatabaseImplementation' => $dbDriver,
                                                          'Server' => $dbServer,
                                                          'Database' => $dbName,
                                                          'User' => $dbUser,
                                                          'Password' => $dbPwd,
-                                                         'Charset' => false );
-            $siteINIChanges['FileSettings'] = array( 'VarDir' => 'var/' . $siteType['identifier'] );
+                                                         'Charset' => $charset );
+            $siteINIChanges['FileSettings'] = array( 'VarDir' => 'var/' . $sitePackage['identifier'] );
             if ( trim( $dbSocket ) != '' )
                 $siteINIChanges['DatabaseSettings']['Socket'] = $dbSocket;
             else
                 $siteINIChanges['DatabaseSettings']['Socket'] = 'disabled';
-            if ( $admin['email'] )
+            if ( $sitePackage['email'] )
             {
+//                 $siteINIChanges['InformationCollectionSettings'] = array( 'EmailReceiver' => $sitePackage['email'] );
+//                 $siteINIChanges['UserSettings'] = array( 'RegistrationEmail' => $sitePackage['email'] );
+//                 $siteINIChanges['MailSettings'] = array( 'AdminEmail' => $sitePackage['email'],
+//                                                          'EmailSender' => $sitePackage['email'] );
                 $siteINIChanges['InformationCollectionSettings'] = array( 'EmailReceiver' => false );
                 $siteINIChanges['UserSettings'] = array( 'RegistrationEmail' => false );
-                $siteINIChanges['MailSettings'] = array( 'AdminEmail' =>  $admin['email'],
+                $siteINIChanges['MailSettings'] = array( 'AdminEmail' => $sitePackage['email'],
                                                          'EmailSender' => false );
             }
             $siteINIChanges['RegionalSettings'] = array( 'Locale' => $primaryLanguage->localeFullCode(),
@@ -366,266 +350,16 @@ class eZStepCreateSites extends eZStepInstaller
                 $siteINIChanges['RegionalSettings']['TextTranslation'] = 'disabled';
             else
                 $siteINIChanges['RegionalSettings']['TextTranslation'] = 'enabled';
-
             $installParameters['ini']['siteaccess'][$adminSiteaccessName]['site.ini.append'] = $siteINIChanges;
             $installParameters['ini']['siteaccess'][$userSiteaccessName]['site.ini.append'] = $siteINIChanges;
             $installParameters['ini']['siteaccess'][$userSiteaccessName]['site.ini']['DesignSettings'] = array( 'SiteDesign' => $userDesignName );
             $installParameters['variables']['user_siteaccess'] = $userSiteaccessName;
             $installParameters['variables']['admin_siteaccess'] = $adminSiteaccessName;
             $installParameters['variables']['design'] = $userDesignName;
-
-            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $user = eZUser::instance( 14 );  // Must be initialized to make node assignments work correctly
-            $ini =& eZINI::instance();
-            $ini->setVariable( 'FileSettings', 'VarDir', $siteINIChanges['FileSettings']['VarDir'] );
-
-            $typeFunctionality = eZSetupFunctionality( $siteType['identifier'] );
-            $extraFunctionality = array_merge( $this->PersistenceList['additional_packages'],
-                                               $typeFunctionality['required'] );
-            $extraFunctionality = array_unique( $extraFunctionality );
-            foreach ( $extraFunctionality as $packageName )
-            {
-                $package = eZPackage::fetch( $packageName, 'packages/addons' );
-                if ( is_object( $package ) )
-                {
-                    $package->install( array( 'site_access_map' => array( '*' => $userSiteaccessName ),
-                                              'top_nodes_map' => array( '*' => 2 ),
-                                              'design_map' => array( '*' => $userDesignName ),
-                                              'restore_dates' => true,
-                                              'user_id' => $user->attribute( 'contentobject_id' ) ) );
-                }
-                else
-                {
-                    eZDebug::writeError( "Failed to fetch package $packageName" );
-                }
-                unset( $package );
-            }
-
-            $nodeRemoteMap = array();
-            $rows = $db->arrayQuery( "SELECT node_id, remote_id FROM ezcontentobject_tree" );
-            foreach ( $rows as $row )
-            {
-                $remoteID = $row['remote_id'];
-                if ( strlen( trim( $remoteID ) ) > 0 )
-                    $nodeRemoteMap[$remoteID] = $row['node_id'];
-            }
-
-            $objectRemoteMap = array();
-            $rows = $db->arrayQuery( "SELECT id, remote_id FROM ezcontentobject" );
-            foreach ( $rows as $row )
-            {
-                $remoteID = $row['remote_id'];
-                if ( strlen( trim( $remoteID ) ) > 0 )
-                    $objectRemoteMap[$remoteID] = $row['id'];
-            }
-
-            $classRemoteMap = array();
-            $rows = $db->arrayQuery( "SELECT id, identifier, remote_id FROM ezcontentclass" );
-            foreach ( $rows as $row )
-            {
-                $remoteID = $row['remote_id'];
-                if ( strlen( trim( $remoteID ) ) > 0 )
-                    $classRemoteMap[$remoteID] = array( 'id' => $row['id'],
-                                                        'identifier' => $row['identifier'] );
-            }
-
-            $siteCSS = false;
-            $classesCSS = false;
-
-            $themePackage = false;
-            if ( isset( $typeFunctionality['theme'] ) )
-            {
-                $themeName = $typeFunctionality['theme'];
-                $themePackage =& eZPackage::fetch( $themeName, false, 'styles' );
-                if ( is_object( $themePackage ) )
-                {
-                    $fileList = $themePackage->fileList( 'default' );
-                    foreach ( array_keys( $fileList ) as $key )
-                    {
-                        $file =& $fileList[$key];
-                        $fileIdentifier = $file["variable-name"];
-                        if ( $fileIdentifier == 'sitecssfile' )
-                        {
-                            $siteCSS = $themePackage->fileItemPath( $file, 'default' );
-                        }
-                        else if ( $fileIdentifier == 'classescssfile' )
-                        {
-                            $classesCSS = $themePackage->fileItemPath( $file, 'default' );
-                        }
-                    }
-                }
-            }
-
-            $parameters = array( 'node_remote_map' => $nodeRemoteMap,
-                                 'object_remote_map' => $objectRemoteMap,
-                                 'class_remote_map' => $classRemoteMap,
-                                 'extra_functionality' => $extraFunctionality,
-                                 'preview_design' => $userDesignName,
-                                 'design_list' => array( $userDesignName, 'admin' ) );
-
-            $siteINIStored = false;
-            $siteINIAdminStored = false;
-            $designINIStored = false;
-
-            $extraSettings = eZSetupINISettings( $siteType['identifier'], $parameters );
-            $extraAdminSettings = eZSetupAdminINISettings( $siteType['identifier'], $parameters );
-            foreach ( $extraSettings as $extraSetting )
-            {
-                $iniName = $extraSetting['name'];
-                $settings = $extraSetting['settings'];
-                $resetArray = false;
-                if ( isset( $extraSetting['reset_arrays'] ) )
-                    $resetArray = $extraSetting['reset_arrays'];
-                $tmpINI =& eZINI::create( $iniName );
-                $tmpINI->setVariables( $settings );
-                if ( $iniName == 'site.ini' )
-                {
-                    $siteINIStored = true;
-                    $tmpINI->setVariables( $siteINIChanges );
-                    $tmpINI->setVariable( 'DesignSettings', 'SiteDesign', $userDesignName );
-                    $tmpINI->setVariable( 'DesignSettings', 'AdditionalSiteDesignList', array( 'base' ) );
-                }
-                else if ( $iniName == 'design.ini' )
-                {
-                    if ( $siteCSS )
-                        $tmpINI->setVariable( 'StylesheetSettings', 'SiteCSS', $siteCSS );
-                    if ( $classesCSS )
-                        $tmpINI->setVariable( 'StylesheetSettings', 'ClassesCSS', $classesCSS );
-                    $designINIStored = true;
-                }
-                $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName", $resetArray );
-            }
-            foreach ( $extraAdminSettings as $extraSetting )
-            {
-                $iniName = $extraSetting['name'];
-                $settings = $extraSetting['settings'];
-                $resetArray = false;
-                if ( isset( $extraSetting['reset_arrays'] ) )
-                    $resetArray = $extraSetting['reset_arrays'];
-                $tmpINI =& eZINI::create( $iniName );
-                $tmpINI->setVariables( $settings );
-                if ( $iniName == 'site.ini' )
-                {
-                    $siteINIAdminStored = true;
-                    $tmpINI->setVariables( $siteINIChanges );
-                    $tmpINI->setVariable( 'SiteAccessSettings', 'RequireUserLogin', 'true' );
-                    $tmpINI->setVariable( 'DesignSettings', 'SiteDesign', 'admin' );
-                    $tmpINI->setVariable( 'SiteSettings', 'LoginPage', 'custom' );
-                }
-                $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$adminSiteaccessName", $resetArray );
-            }
-
-            if ( !$siteINIAdminStored )
-            {
-                $siteINI =& eZINI::create( 'site.ini' );
-                $siteINI->setVariables( $siteINIChanges );
-                $siteINI->setVariable( 'SiteAccessSettings', 'RequireUserLogin', 'true' );
-                $siteINI->setVariable( 'DesignSettings', 'SiteDesign', 'admin' );
-                $siteINI->setVariable( 'SiteSettings', 'LoginPage', 'custom' );
-                $siteINI->save( false, '.append.php', false, true, "settings/siteaccess/$adminSiteaccessName", true );
-            }
-            if ( !$siteINIStored )
-            {
-                $siteINI =& eZINI::create( 'site.ini' );
-                $siteINI->setVariables( $siteINIChanges );
-                $siteINI->setVariable( 'DesignSettings', 'SiteDesign', $userDesignName );
-                $siteINI->setVariable( 'DesignSettings', 'AdditionalSiteDesignList', array( 'base' ) );
-                $siteINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName", true );
-            }
-            if ( !$designINIStored )
-            {
-                $designINI =& eZINI::create( 'design.ini' );
-                if ( $siteCSS )
-                    $designINI->setVariable( 'StylesheetSettings', 'SiteCSS', $siteCSS );
-                if ( $classesCSS )
-                    $designINI->setVariable( 'StylesheetSettings', 'ClassesCSS', $classesCSS );
-                $designINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName" );
-            }
-
-            $extraRoles = eZSetupRoles( $siteType['identifier'], $parameters );
-            include_once( 'kernel/classes/ezrole.php' );
-            foreach ( $extraRoles as $extraRole )
-            {
-                if ( !$extraRole )
-                    continue;
-                $extraRoleName = $extraRole['name'];
-                $role =& eZRole::fetchByName( $extraRoleName );
-                if ( !is_object( $role ) )
-                {
-                    $role =& eZRole::create( $extraRoleName );
-                    $role->store();
-                }
-                $roleID = $role->attribute( 'id' );
-                if ( isset( $extraRole['policies'] ) )
-                {
-                    $extraPolicies = $extraRole['policies'];
-                    foreach ( $extraPolicies as $extraPolicy )
-                    {
-                        if ( isset( $extraPolicy['limitation'] ) )
-                        {
-                            $role->appendPolicy( $extraPolicy['module'], $extraPolicy['function'], $extraPolicy['limitation'] );
-                        }
-                        else
-                        {
-                            $role->appendPolicy( $extraPolicy['module'], $extraPolicy['function'] );
-                        }
-                    }
-                }
-                if ( isset( $extraRole['assignments'] ) )
-                {
-                    $roleAssignments = $extraRole['assignments'];
-                    foreach ( $roleAssignments as $roleAssignment )
-                    {
-                        $assignmentIdentifier = false;
-                        $assignmentValue = false;
-                        if ( isset( $roleAssignment['limitation'] ) )
-                        {
-                            $assignmentIdentifier = $roleAssignment['limitation']['identifier'];
-                            $assignmentValue = $roleAssignment['limitation']['value'];
-                        }
-                        $role->assignToUser( $roleAssignment['user_id'], $assignmentIdentifier, $assignmentValue );
-                    }
-                }
-            }
-
-            eZDir::mkdir( "design/" . $userDesignName );
-            eZDir::mkdir( "design/" . $userDesignName . "/templates" );
-            eZDir::mkdir( "design/" . $userDesignName . "/stylesheets" );
-            eZDir::mkdir( "design/" . $userDesignName . "/images" );
-            eZDir::mkdir( "design/" . $userDesignName . "/override" );
-            eZDir::mkdir( "design/" . $userDesignName . "/override/templates" );
-
-//             $package->install( $installParameters );
-
-            $publishAdmin = false;
-            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $userAccount =& eZUser::fetch( 14 );
-            $userObject =& $userAccount->attribute( 'contentobject' );
-            if ( trim( $admin['email'] ) )
-            {
-                $userAccount->setInformation( 14, 'admin', $admin['email'], $admin['password'], $admin['password'] );
-            }
-            if ( trim( $admin['first_name'] ) or trim( $admin['last_name'] ) )
-            {
-                $dataMap =& $userObject->attribute( 'data_map' );
-                $dataMap['first_name']->setAttribute( 'data_text', $admin['first_name'] );
-                $dataMap['first_name']->store();
-                $dataMap['last_name']->setAttribute( 'data_text', $admin['last_name'] );
-                $dataMap['last_name']->store();
-                $userObject->store();
-                $publishAdmin = true;
-            }
-            $userAccount->store();
-
-            if ( $publishAdmin )
-            {
-                include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-                $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $userObject->attribute( 'id' ),
-                                                                                             'version' => $userObject->attribute( 'version' ) ) );
-            }
+            $package->install( $installParameters );
         }
-//         else
-//             eZDebug::writeError( "Failed fetching package " . $siteType['identifier'] );
+        else
+            eZDebug::writeError( "Failed fetching package " . $sitePackage['identifier'] );
 
         $saveResult = true;
 

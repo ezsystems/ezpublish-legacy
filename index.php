@@ -29,12 +29,6 @@
 // you.
 //
 
-// if ( file_exists( 'ezp.xt' ) )
-// {
-//     $fd = fopen( 'ezp.xt', 'w' ); fclose( $fd );
-// }
-// xdebug_start_trace( 'ezp' );
-
 $scriptStartTime = microtime();
 ob_start();
 
@@ -92,9 +86,10 @@ eZDebugSetting::setDebugINI( $debugINI );
 function eZUpdateDebugSettings()
 {
     $ini =& eZINI::instance();
-
-    list( $debugSettings['debug-enabled'], $debugSettings['debug-by-ip'], $debugSettings['debug-ip-list'] ) =
-        $ini->variableMulti( 'DebugSettings', array( 'DebugOutput', 'DebugByIP', 'DebugIPList' ), array ( 'enabled', 'enabled' ) );
+    $debugSettings = array();
+    $debugSettings['debug-enabled'] = $ini->variable( 'DebugSettings', 'DebugOutput' ) == 'enabled';
+    $debugSettings['debug-by-ip'] = $ini->variable( 'DebugSettings', 'DebugByIP' ) == 'enabled';
+    $debugSettings['debug-ip-list'] = $ini->variable( 'DebugSettings', 'DebugIPList' );
     eZDebug::updateSettings( $debugSettings );
 }
 
@@ -104,10 +99,10 @@ function eZUpdateDebugSettings()
 function eZUpdateTextCodecSettings()
 {
     $ini =& eZINI::instance( 'i18n.ini' );
-
-    list( $i18nSettings['internal-charset'], $i18nSettings['http-charset'], $i18nSettings['mbstring-extension'] ) =
-        $ini->variableMulti( 'CharacterSettings', array( 'Charset', 'HTTPCharset', 'MBStringExtension' ), array( false, false, 'enabled' ) );
-
+    $i18nSettings = array();
+    $i18nSettings['internal-charset'] = $ini->variable( 'CharacterSettings', 'Charset' );
+    $i18nSettings['http-charset'] = $ini->variable( 'CharacterSettings', 'HTTPCharset' );
+    $i18nSettings['mbstring-extension'] = $ini->variable( 'CharacterSettings', 'MBStringExtension' ) == 'enabled';
     include_once( 'lib/ezi18n/classes/eztextcodec.php' );
     eZTextCodec::updateSettings( $i18nSettings );
 }
@@ -121,17 +116,13 @@ eZUpdateDebugSettings();
 
 // Set the different permissions/settings.
 $ini =& eZINI::instance();
-
-list( $iniFilePermission, $iniDirPermission ) =
-    $ini->variableMulti( 'FileSettings', array( 'StorageFilePermissions', 'StorageDirPermissions' ) );
-
+$iniFilePermission = $ini->variable( 'FileSettings', 'StorageFilePermissions' );
+$iniDirPermission = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
 $iniVarDirectory = eZSys::cacheDirectory() ;
 
-// OPTIMIZATION:
-// Sets permission array as global variable, this avoids the eZCodePage include
-$GLOBALS['EZCODEPAGEPERMISSIONS'] = array( 'file_permission' => octdec( $iniFilePermission ),
-                                           'dir_permission'  => octdec( $iniDirPermission ),
-                                           'var_directory'   => $iniVarDirectory );
+eZCodepage::setPermissionSetting( array( 'file_permission' => octdec( $iniFilePermission ),
+                                         'dir_permission'  => octdec( $iniDirPermission ),
+                                         'var_directory'   => $iniVarDirectory ) );
 
 //
 $warningList = array();
@@ -321,12 +312,11 @@ $check = eZHandlePreChecks( $siteBasics, $uri );
 include_once( 'kernel/common/i18n.php' );
 
 if ( $sessionRequired )
-{
-	$dbRequired = true;
-}
+    $dbRequired = true;
 
 $db = false;
-if ( $dbRequired )
+if ( $dbRequired or
+     $sessionRequired )
 {
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
@@ -346,11 +336,6 @@ if ( $dbRequired )
 include_once( "lib/ezlocale/classes/ezlocale.php" );
 $locale =& eZLocale::instance();
 $languageCode =& $locale->httpLocaleCode();
-$phpLocale = trim( $ini->variable( 'RegionalSettings', 'SystemLocale' ) );
-if ( $phpLocale != '' )
-{
-    setlocale( LC_ALL, explode( ',', $phpLocale ) );
-}
 
 // send header information
 header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
@@ -408,16 +393,13 @@ while ( $moduleRunRequired )
 {
     $objectHasMovedError = false;
     $objectHasMovedURI = false;
-    $actualRequestedURI = $uri->uriString();
     // Check for URL translation
     if ( $urlTranslatorAllowed and
          $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled' and
          !$uri->isEmpty() )
     {
         include_once( 'kernel/classes/ezurlalias.php' );
-        $userParameters = $uri->userParameters();
         $translateResult =& eZURLAlias::translate( $uri );
-
 
         if ( !$translateResult )
         {
@@ -524,21 +506,26 @@ while ( $moduleRunRequired )
             $runningFunctions = false;
             if ( isset( $availableViewsInModule[$function_name][ 'functions' ] ) )
                 $runningFunctions = $availableViewsInModule[$function_name][ 'functions' ];
-            $siteAccessResult = $currentUser->hasAccessTo( 'user', 'login', $accessList );
-
+            $siteAccessResult = $currentUser->hasAccessTo( 'user', 'login' );
             $hasAccessToSite = false;
             if ( $siteAccessResult[ 'accessWord' ] == 'limited' )
             {
                 foreach ( array_keys( $siteAccessResult['policies'] ) as $key )
                 {
                     $policy =& $siteAccessResult['policies'][$key];
-                    if ( isset( $policy['SiteAccess'] ) )
+                    $limitations =& $policy->attribute( 'limitations' );
+                    foreach ( array_keys( $limitations ) as $limitationKey )
                     {
-                        eZDebugSetting::writeDebug( 'kernel-siteaccess', $policy['SiteAccess'], crc32( $access[ 'name' ] ));
-                        if ( in_array( crc32( $access[ 'name' ] ), $policy['SiteAccess'] ) )
+                        $limitation =& $limitations[$limitationKey];
+                        if ( $limitation->attribute( 'identifier' ) == 'SiteAccess' )
                         {
-                            $hasAccessToSite = true;
-                            break;
+                            $limitationValues =& $limitation->attribute( 'values_as_array' );
+                            eZDebugSetting::writeDebug( 'kernel-siteaccess', $limitationValues, crc32( $access[ 'name' ] ));
+                            if ( in_array( crc32( $access[ 'name' ] ), $limitationValues ) )
+                            {
+                                $hasAccessToSite = true;
+                                break;
+                            }
                         }
                     }
                     if ( $hasAccessToSite )
@@ -553,7 +540,7 @@ while ( $moduleRunRequired )
 
             if ( $hasAccessToSite )
             {
-                $accessResult = $currentUser->hasAccessTo( $module->attribute( 'name' ), $runningFunctions[0], $accessList );
+                $accessResult = $currentUser->hasAccessTo( $module->attribute( 'name' ), $runningFunctions[0] );
                 if ( $accessResult['accessWord'] == 'limited' )
                 {
                     $moduleName = $module->attribute( 'name' );
@@ -593,19 +580,11 @@ while ( $moduleRunRequired )
             }
             else if ( !$moduleAccessAllowed )
             {
-                if ( isset( $accessList ) )
-                    $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $accessList ) );
-                else
-                    $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+                $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
             }
             else
             {
-                if ( !isset( $userParameters ) )
-                {
-                    $userParameters = false;
-                }
-
-                $moduleResult =& $module->run( $function_name, $params, false, $userParameters );
+                $moduleResult =& $module->run( $function_name, $params );
 
                 if ( $module->exitStatus() == EZ_MODULE_STATUS_FAILED and
                      $moduleResult == null )
@@ -843,7 +822,6 @@ if ( $show_page_layout )
 
         $tpl->setVariable( 'navigation_part', $navigationPart );
         $tpl->setVariable( 'uri_string', $uri->uriString() );
-        $tpl->setVariable( 'requested_uri_string', $actualRequestedURI );
         $templateResult =& $tpl->fetch( $resource . $show_page_layout );
     }
 }
@@ -861,7 +839,5 @@ ob_end_flush();
 
 eZExecution::cleanup();
 eZExecution::setCleanExit();
-
-//xdebug_dump_function_profile( 4 );
 
 ?>

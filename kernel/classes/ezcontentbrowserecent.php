@@ -230,10 +230,11 @@ class eZContentBrowseRecent extends eZPersistentObject
             $eldest->remove();
         }
 
+        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
         $recent =& new eZContentBrowseRecent( array( 'user_id' => $userID,
                                                      'node_id' => $nodeID,
                                                      'name' => $nodeName,
-                                                     'created' => time() ) );
+                                                     'created' => eZDateTime::currentTimeStamp() ) );
         $recent->store();
         return $recent;
     }
@@ -255,16 +256,6 @@ class eZContentBrowseRecent extends eZPersistentObject
         if ( $node )
             return $node->attribute( 'contentobject_id' );
         return null;
-    }
-
-    /*!
-     \static
-     Removes all recent entries for all users.
-    */
-    function cleanup()
-    {
-        $db =& eZDB::instance();
-        $db->query( "DELETE FROM ezcontentbrowserecent" );
     }
 }
 

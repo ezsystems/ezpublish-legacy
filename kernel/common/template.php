@@ -42,9 +42,10 @@ function &templateInit( $name = false )
     if ( get_class( $tpl ) == "eztemplate" )
         return $tpl;
     include_once( "lib/eztemplate/classes/eztemplate.php" );
-    include_once( 'kernel/common/eztemplatedesignresource.php' );
-    include_once( 'lib/ezutils/classes/ezextension.php' );
 
+    include_once( 'kernel/common/eztemplatedesignresource.php' );
+
+// Init template
     $tpl = eZTemplate::instance();
 
     include_once( 'lib/ezutils/classes/ezini.php' );
