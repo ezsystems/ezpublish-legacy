@@ -2141,7 +2141,7 @@ class eZPDFTable extends Cezpdf
 
         foreach( array_keys( $params ) as $key )
         {
-            $params[$key] = urldecode( $params[$key] );
+            $params[$key] = $this->fixWhitespace( urldecode( $params[$key] ) );
         }
 
         $text = $params['text'];
