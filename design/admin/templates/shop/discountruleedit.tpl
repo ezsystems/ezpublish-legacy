@@ -15,7 +15,7 @@
 {* Name *}
 <div class="block">
 <label>{'Name'|i18n( 'design/admin/shop/discountruleedit' )}:</label>
-<input class="box" type="text" name="discountrule_name" value="{$discountrule.name|wash}" size="40" />
+<input class="box" id="discountruleName" type="text" name="discountrule_name" value="{$discountrule.name|wash}" size="40" />
 </div>
 
 {* Discount precent *}
@@ -117,3 +117,15 @@
 
 </div>
 </form>
+
+{literal}
+<script language="JavaScript" type="text/javascript">
+<!--
+    window.onload=function()
+    {
+        document.getElementById('discountruleName').select();
+        document.getElementById('discountruleName').focus();
+    }
+-->
+</script>
+{/literal}
