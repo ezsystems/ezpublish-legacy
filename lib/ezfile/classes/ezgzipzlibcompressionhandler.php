@@ -56,7 +56,7 @@ class eZGZIPZLIBCompressionHandler extends eZCompressionHandler
     function eZGZIPZLIBCompressionHandler()
     {
         $this->File = false;
-        $thus->Level = false;
+        $this->Level = false;
         $this->eZCompressionHandler( 'GZIP (zlib)', 'gzipzlib' );
     }
 
