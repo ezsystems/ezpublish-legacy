@@ -132,10 +132,6 @@
 <table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td width="120" valign="top" style="padding-right: 4px; padding-left: 15px; padding-top: 15px;">
-    <table>
-<tr>
-    <td valign="top">
-
 
 {* Left menu START *}
 
