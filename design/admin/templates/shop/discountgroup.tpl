@@ -19,9 +19,9 @@
 </tr>
 {section var=Groups loop=$discountgroup_array sequence=array( bglight, bgdark )}
 <tr class="{$Groups.sequence}">
-    <td><input type="checkbox" name="discountGroupIDList[]" value="{$Groups.item.id}"></td>
+    <td><input type="checkbox" name="discountGroupIDList[]" value="{$Groups.item.id}" title="{'Select discount group for removal.'|i18n( 'design/admin/shop/discountgroup' )}"></td>
     <td><a href={concat( $module.functions.discountgroupview.uri, '/', $Groups.item.id )|ezurl}>{$Groups.item.name}</a></td>
-    <td><a href={concat( $module.functions.discountgroupedit.uri, '/', $Groups.item.id )|ezurl}><img class="button" src={'edit.png'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/shop/discountgroup' )}" /></a></td>
+    <td><a href={concat( $module.functions.discountgroupedit.uri, '/', $Groups.item.id )|ezurl}><img class="button" src={'edit.png'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/shop/discountgroup' )}" title="{'Edit the <%discountgroup_name> discount group.'|i18n( 'design/admin/shop/discountgroup',, hash( '%discountgroup_name', $Groups.item.name ) )|wash}" /></a></td>
 </tr>
 {/section}
 </table>
@@ -38,11 +38,11 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
     {section show=$discountgroup_array}
-    <input class="button" type="submit" name="RemoveDiscountGroupButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroup' )}" />
+    <input class="button" type="submit" name="RemoveDiscountGroupButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroup' )}" title="{'Remove the selected discount groups.'|i18n( 'design/admin/shop/discountgroup' )}" />
     {section-else}
     <input class="button-disabled" type="submit" name="RemoveDiscountGroupButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroup' )}" disabled="disabled" />
     {/section}
-    <input class="button" type="submit" name="AddDiscountGroupButton" value="{'New discount group'|i18n( 'design/admin/shop/discountgroup' )}" />
+    <input class="button" type="submit" name="AddDiscountGroupButton" value="{'New discount group'|i18n( 'design/admin/shop/discountgroup' )}" title="{'Create a new discount group. A discount group can be used to set up discounts for specific products and customers.'|i18n( 'design/admin/shop/discountgroup' )}" />
 </div>
 </div>
 

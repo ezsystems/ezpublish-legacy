@@ -20,7 +20,7 @@
 
 {section var=Vattypes loop=$vattype_array sequence=array( bglight, bgdark )}
 <tr class="{$Vattypes.sequence}">
-    <td><input type="checkbox" name="vatTypeIDList[]" value="{$Vattypes.item.id}" /></td>
+    <td><input type="checkbox" name="vatTypeIDList[]" value="{$Vattypes.item.id}" title="{'Select VAT type for removal.'|i18n( 'design/admin/shop/vattype' )}" /></td>
     <td><input type="text" name="vattype_name_{$Vattypes.item.id}" value="{$Vattypes.item.name}" size="24"></td>
     <td><input type="text" name="vattype_percentage_{$Vattypes.item.id}" value="{$Vattypes.item.percentage}" size="4">&nbsp;%</td>
 </tr>
@@ -39,15 +39,15 @@
 <div class="block">
 <div class="button-left">
     {section show=$vattype_array}
-    <input class="button" type="submit" name="RemoveVatTypeButton" value="{'Remove selected'|i18n( 'design/admin/shop/vattype' )}" />
+    <input class="button" type="submit" name="RemoveVatTypeButton" value="{'Remove selected'|i18n( 'design/admin/shop/vattype' )}" title="{'Remove the selected VAT types.'|i18n( 'design/admin/shop/vattype' )}" />
     {section-else}
     <input class="button-disabled" type="submit" name="RemoveVatTypeButton" value="{'Remove selected'|i18n( 'design/admin/shop/vattype' )}" disabled="disabled" />
     {/section}
-    <input class="button" type="submit" name="AddVatTypeButton" value="{'New VAT type'|i18n( 'design/admin/shop/vattype' )}" />
+    <input class="button" type="submit" name="AddVatTypeButton" value="{'New VAT type'|i18n( 'design/admin/shop/vattype' )}" title="{'Create a new VAT type.'|i18n( 'design/admin/shop/vattype' )}" />
 </div>
 <div class="button-right">
     {section show=$vattype_array}
-    <input class="button" type="submit" name="SaveVatTypeButton" value="{'Apply changes'|i18n( 'design/admin/shop/vattype' )}" />
+    <input class="button" type="submit" name="SaveVatTypeButton" value="{'Apply changes'|i18n( 'design/admin/shop/vattype' )}" title="{'Use this button to store changes if you have modified any of the fields above.'|i18n( 'design/admin/shop/vattype' )}" />
     {section-else}
     <input class="button-disabled" type="submit" name="SaveVatTypeButton" value="{'Apply changes'|i18n( 'design/admin/shop/vattype' )}" disabled="disabled" />
     {/section}

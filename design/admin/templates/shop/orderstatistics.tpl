@@ -36,7 +36,7 @@
 </table>
 {section-else}
 <div class="block">
-<p>{'There list is empty.'|i18n( 'design/admin/shop/orderstatistics' )}
+<p>{'The list is empty.'|i18n( 'design/admin/shop/orderstatistics' )}
 </div>
 {/section}
 
@@ -46,21 +46,21 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 
-<select name="Year">
+<select name="Year" title="{'Select the year for which you wish to view statistics.'|i18n( 'design/admin/shop/orderstatistics' )}">
     <option value="0" {section show=eq($year,0)}selected="selected"{/section}>[{'All years'|i18n( 'design/admin/shop/orderstatistics' )}]</option>
     {section var=YearValue loop=$year_list}
         <option value="{$YearValue}" {section show=eq($YearValue,$year)}selected="selected"{/section}>{$YearValue}</option>
     {/section}
 </select>
 
-<select name="Month">
+<select name="Month" title="{'Select the month for which you wish to view statistics.'|i18n( 'design/admin/shop/orderstatistics' )}">
     <option value="0" {section show=eq($month,0)}selected="selected"{/section}>[{'All months'|i18n( 'design/admin/shop/orderstatistics' )}]</option>
     {section var=MonthItem loop=$month_list}
         <option value="{$MonthItem.value}" {section show=eq($MonthItem.value,$month)}selected="selected"{/section}>{$MonthItem.name}</option>
     {/section}
 </select>
 
-<input class="button" type="submit" name="View" value="{'Show'|i18n( 'design/admin/shop/orderstatistics' )}" />
+<input class="button" type="submit" name="View" value="{'Show'|i18n( 'design/admin/shop/orderstatistics' )}" title="{'Update the list using the values specified by the menus on the left.'|i18n( 'design/admin/shop/orderstatistics' )}" />
 
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>

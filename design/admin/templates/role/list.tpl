@@ -54,7 +54,7 @@
 {section var=Roles loop=$roles sequence=array( bglight, bgdark )}
     {let role_name=$Roles.item.name}
     <tr class="{$Roles.sequence}">
-    <td class="tight"><input type="checkbox" name="DeleteIDArray[]" value="{$Roles.item.id}" /></td>
+    <td class="tight"><input type="checkbox" name="DeleteIDArray[]" value="{$Roles.item.id}" title="{'Select role for removal.'|i18n( 'design/admin/role/list' )}" /></td>
     <td>{'role'|icon( 'small', 'Role'|i18n( 'design/admin/role/list' ) )}&nbsp;<a href={concat( '/role/view/', $Roles.item.id)|ezurl}>{$Roles.item.name}</a></td>
     <td><a href={concat( '/role/assign/', $Roles.item.id)|ezurl}><img src={'attach.png'|ezimage} alt="{'Assign'|i18n( 'design/admin/role/list')}" title="{'Assign the <%role_name> role to a user or a user group.'|i18n( 'design/admin/role/list',, hash( '%role_name', $role_name ) )|wash}" /></a></td>
     <td><a href={concat( '/role/edit/', $Roles.item.id)|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/role/list' )}" title="{'Edit the <%role_name> role.'|i18n( 'design/admin/role/list',, hash( '%role_name', $Roles.item.name  ) )|wash}" /></a></td>
