@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. ./bin/shell/common.sh
+
 USER="root"
 
 SQLFILES=""
