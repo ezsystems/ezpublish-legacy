@@ -47,6 +47,7 @@ $ViewList['edit'] = array(
                                     'PublishButton' => 'Publish',
                                     'DiscardButton' => 'Discard',
                                     'BrowseNodeButton' => 'BrowseForNodes',
+                                    'RemoveAssignmentButton' => 'RemoveAssignments',
                                     'EditLanguageButton' => 'EditLanguage',
                                     'TranslateLanguageButton' => 'TranslateLanguage',
                                     'BrowseObjectButton' => 'BrowseForObjects',
@@ -83,6 +84,16 @@ $ViewList['removelocation'] = array(
     'single_post_actions' => array( 'ConfirmRemovalButton' => 'ConfirmRemoval',
                                     'CancelRemovalButton' => 'CancelRemoval' ),
     'script' => 'removelocation.php',
+    'params' => array() );
+
+$ViewList['removeassignment'] = array(
+    'functions' => array( 'edit' ),
+    'default_navigation_part' => 'ezcontentnavigationpart',
+    'ui_context' => 'edit',
+    'ui_component' => 'location',
+    'single_post_actions' => array( 'ConfirmRemovalButton' => 'ConfirmRemoval',
+                                    'CancelRemovalButton' => 'CancelRemoval' ),
+    'script' => 'removeassignment.php',
     'params' => array() );
 
 $ViewList['pdf'] = array(

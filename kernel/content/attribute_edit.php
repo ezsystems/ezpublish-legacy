@@ -161,6 +161,7 @@ $storeActions = array( 'Preview',
                        'BrowseForObjects',
                        'NewObject',
                        'BrowseForNodes',
+                       'RemoveAssignments',
                        'DeleteRelation',
                        'DeleteNode',
                        'MoveNode' );

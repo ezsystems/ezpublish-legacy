@@ -76,6 +76,10 @@ function checkNodeAssignments( &$module, &$class, &$object, &$version, &$content
         if ( !$hasMainNode )
             $setMainNode = true;
 
+        // prevent PHP warning
+        if ( !isset( $selectedNodeIDArray ) || !is_array( $selectedNodeIDArray ) )
+             $selectedNodeIDArray = array();
+
         foreach ( $selectedNodeIDArray as $nodeID )
         {
             if ( !in_array( $nodeID, $assignedIDArray ) )
@@ -368,10 +372,20 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
             foreach ( $assigned as $ass )
             {
                 if ( $ass->attribute( 'parent_node' ) == $element['parent_node_id'] )
-                {
                     $append = true;
-                }
             }
+
+            /* If the current version (draft) has no assigned nodes then
+             * we should disallow adding assignments under nodes
+             * the previous published version is assignned to.
+             * Thus we avoid fatal errors in eZ Publish.
+             */
+            if ( count($assigned) == 0 )
+            {
+                $ignoreNodesSelect[] = $element['node_id'];
+                $ignoreNodesClick[]  = $element['node_id'];
+            }
+
             if ( $append )
             {
                 $ignoreNodesSelect[] = $element['node_id'];
@@ -469,6 +483,76 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                 $version->removeAssignment( $nodeID );
             }
         }
+    }
+
+    if ( $module->isCurrentAction( 'RemoveAssignments' ) )
+    {
+        if( $http->hasPostVariable( 'AssignmentIDSelection' ) )
+        {
+            $selected       = $http->postVariable( 'AssignmentIDSelection' );
+            $objectID       = $object->attribute( 'id' );
+            $versionInt     = $version->attribute( 'version' );
+            $hasChildren    = false;
+            $assignmentsIDs = array();
+            $assignments    = array();
+
+            // Determine if at least one node of ones we remove assignments for has children.
+            foreach ( $selected as $parentNodeID )
+            {
+                $assignment = eZNodeAssignment::fetch( $objectID, $versionInt, $parentNodeID );
+                if( !$assignment )
+                {
+                    eZDebug::writeWarning( "No assignment found for object $objectID version $versionInt, parent node $parentNodeID" );
+                    continue;
+                }
+
+                $assignmentID     =  $assignment->attribute( 'id' );
+                $assignmentsIDs[] =  $assignmentID;
+                $assignments[]    =& $assignment;
+                $node             =& $assignment->attribute( 'node' );
+
+                if( !$node )
+                    continue;
+
+                if( $node->childrenCount( false ) > 0 )
+                    $hasChildren = true;
+
+                unset( $assignment );
+            }
+
+            if ( $hasChildren )
+            {
+                // We need user confirmation if at least one node we want to remove assignment for contains children.
+                // Aactual removal is done in content/removeassignment in this case.
+                $http->setSessionVariable( 'AssignmentRemoveData',
+                                           array( 'remove_list'   => $assignmentsIDs,
+                                                  'object_id'     => $objectID,
+                                                  'edit_version'  => $versionInt,
+                                                  'edit_language' => $editLanguage ) );
+                $module->redirectToView( 'removeassignment' );
+                return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+
+            }
+            else
+            {
+                // Just remove all the selected locations.
+                $mainNodeChanged = false;
+                foreach ( $assignments as $assignment )
+                {
+                    $assignmentID = $assignment->attribute( 'id' );
+                    if ( $assignment->attribute( 'is_main' ) )
+                        $mainNodeChanged = true;
+                    eZNodeAssignment::removeByID( $assignmentID );
+                }
+                if ( $mainNodeChanged )
+                    eZNodeAssignment::setNewMainAssignment( $objectID, $versionInt );
+                unset( $mainNodeChanged );
+            }
+            unset( $assignmentsIDs, $assignments );
+
+        }
+        else
+            eZDebug::writeNotice( 'No nodes to remove selected' );
     }
 
     if ( $module->isCurrentAction( 'MoveNode' ) )

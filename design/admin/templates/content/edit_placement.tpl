@@ -51,7 +51,8 @@
     {section show=$:has_top_levels|not}
         <th colspan="1">{"Main"|i18n("design/standard/content/edit")}</th>
         <th colspan="1">{"Move"|i18n("design/standard/content/edit")}</th>
-        <th colspan="1">{"Remove"|i18n("design/standard/content/edit")}</th>
+        <th colspan="1">{"Remove0"|i18n("design/standard/content/edit")}</th>
+	<th colspan="1">{"Remove"|i18n("design/standard/content/edit")}</th>
 	<th colspan="1">{"Current status"|i18n("design/standard/content/edit")}</th>
 	<th colspan="1">{"After publishing"|i18n("design/standard/content/edit")}</th>
     {/section}
@@ -115,14 +116,22 @@
 {*     {/section}*}
         </td>
         {/section}
-
+	
         {section show=$:has_top_levels|not}
-        <td class="{$Node:sequence}" align="right">
+
+	{* Remove assignment checkbox *}
+	<td class="{$Node:sequence}" align="right">
+	    <input type="checkbox" name="AssignmentIDSelection[]"
+	           {section show=and( $Node:item.node, $Node:item.node.can_remove|not )}disabled="disabled"{/section}
+		   value="{$Node:item.parent_node}" />
+        </td>
+	
+	<td class="{$Node:sequence}" align="right">
         {section show=$Node:item.node}
         {$Node:item.node.hidden_status_string}
         {section-else}
 	 {* If the location is new ($Node:item.node is not set) then we determine current node visibility by parent node *}
-	 {section show=$Node:item.parent_node_obj.is_invisible}
+	 {section show=$parent_node.is_invisible}
 	Hidden by parent
 	 {section-else}
 	Visible
@@ -153,6 +162,7 @@
 {/section}
 {section show=$:has_top_levels|not}
     <div align="left" class="buttonblock">
+        <input class="button{section show=$assigned_node_array|count|lt( 1 )}-disabled{/section}" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/standard/content/edit' )}" title="{'Remove selected locations from the list above.'|i18n( 'design/standard/content/edit' )}" {section show=$assigned_node_array|count|lt( 1 )}disabled="disabled"{/section} />
         <input class="button" type="submit" name="BrowseNodeButton" value="{'Add locations'|i18n('design/standard/content/edit')}" />
     </div>
 {/section}
