@@ -21,3 +21,5 @@ Changes from 3.1-1 to 3.1-2
 - Fixed bug with translations and extensions. Now translations for extensions are
   properly read from the cache.
 - Changed default fontsize of textareas
+- Fixed bug with attribute listings on objects when a locale was specified in which
+  attributes did not exist.
