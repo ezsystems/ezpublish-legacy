@@ -984,7 +984,7 @@ class eZPDFTable extends Cezpdf
     {
         $this->ezNewPage();
         $fontSize = $this->fontSize();
-        Cezpdf::ezText("Index<C:callInsertTOC:Index,1>\n", 26, array('justification'=>'centre'));
+        Cezpdf::ezText( ezi18n( 'lib/ezpdf/classes', 'Index', 'Keyword index name' ) . '<C:callInsertTOC:Index,1>'."\n", 26, array('justification'=>'centre'));
 
         if ( count( $this->KeywordArray ) == 0 )
             return;
@@ -1030,7 +1030,7 @@ class eZPDFTable extends Cezpdf
 
         $this->ezInsertMode(1,1,'before');
         $this->ezNewPage();
-        Cezpdf::ezText("Contents\n", 26, array('justification'=>'centre'));
+        Cezpdf::ezText( ezi18n( 'lib/ezpdf/classes', 'Contents', 'Table of contents' ) ."\n", 26, array('justification'=>'centre'));
 
         foreach($this->TOC as $k=>$v){
             if ( $v['level'] <= $level )
