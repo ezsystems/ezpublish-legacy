@@ -189,6 +189,9 @@ eztc.php:
   http://ez.no/community/bug_reports/ini_settings_editing_causes_change_of_the_current_layout
 - Fixed bug
   http://ez.no/community/bug_reports/metadataarray_description_problem
+- Fixed bug with extract operator when input value was a variable and when both
+  input and parameters are static values.
+  http://ez.no/community/bug_reports/extract_doesn_t_work_properly
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.

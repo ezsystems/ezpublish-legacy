@@ -1309,15 +1309,22 @@ class eZTemplateArrayOperator
         {
             if ( count( $values ) == 0 )
             {
-                if ( $operatorName == $this->ExtractRightName )
+                $input = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+                if ( $operatorName == $this->ExtractRightName or !$length )
                 {
-                    $array = array_slice( eZTemplateNodeTool::elementStaticValue( $parameters[0] ), $offset );
+                    if ( is_string( $input ) )
+                        $output = substr( $input, $offset );
+                    else
+                        $output = array_slice( $input, $offset );
                 }
                 else
                 {
-                    $array = array_slice( eZTemplateNodeTool::elementStaticValue( $parameters[0] ), $offset, $length );
+                    if ( is_string( $input ) )
+                        $output = substr( $input, $offset, $length );
+                    else
+                        $output = array_slice( $input, $offset, $length );
                 }
-                return array( eZTemplateNodeTool::createArrayElement( $array ) );
+                return array( eZTemplateNodeTool::createStaticElement( $output ) );
             }
             else
             {
