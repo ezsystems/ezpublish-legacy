@@ -175,6 +175,8 @@ class eZContentBrowseBookmark extends eZPersistentObject
     */
     function &createNew( $userID, $nodeID, $nodeName )
     {
+        $db =& eZDB::instance();
+        $db->query( "DELETE FROM ezcontentbrowsebookmark WHERE node_id=$nodeID and user_id=$userID" );
         $bookmark = new eZContentBrowseBookmark( array( 'user_id' => $userID,
                                                         'node_id' => $nodeID,
                                                         'name' => $nodeName ) );
