@@ -41,6 +41,8 @@ $indexes[] = array( "identifier" => "view/workflows",
                     "name" => "Custom workflow" );
 $indexes[] = array( "identifier" => "view/datatypes",
                     "name" => "Datatypes" );
+$indexes[] = array( "identifier" => "view/permissions",
+                    "name" => "Permissions and sections" );
 
 
 ?>
