@@ -53,6 +53,10 @@ access.php:
 - Siteaccess has been changed to prepend as an override dir instead of overwriting,
   that way personal overrides will always work.
 
+access.php:
+- Added support for map type in hostmatching, it allows one to map a hostname to a specific
+  access type. Multiple entries are allowed.
+
 site.ini:
 - HashType is now set to md5_user instead of md5_site as default.
 
