@@ -72,7 +72,7 @@
         <form action={"/content/search/"|ezurl} method="get">
         <input type="hidden" name="SectionID" value="3">
         <input class="searchtext" type="text" size="10" name="SearchText" id="Search" value="" />
-        <input class="searchbutton" name="SearchButton" type="image" src={"search.gif"|ezimage} value="{"Search"|i18n('pagelayout')}" />
+        <input class="searchbutton" name="SearchButton" type="image" src={"search.gif"|ezimage} value="Search" />
 	</form>
     </div>
 

@@ -14,7 +14,7 @@
         {section name=UnvalidatedAttributes loop=$validation.attributes show=$validation.attributes}
 
         <div class="warning">
-        <h2>{"Input did not validate"|i18n("design/standard/content/edit")}</h2>
+        <h2>Input did not validate</h2>
         <ul>
         	<li>{$UnvalidatedAttributes:item.identifier}: {$UnvalidatedAttributes:item.name}</li>
         </ul>
@@ -23,7 +23,7 @@
         {section-else}
 
         <div class="feedback">
-        <h2>{"Input was stored successfully"|i18n("design/standard/content/edit")}</h2>
+        <h2>Input was stored successfully</h2>
         </div>
 
         {/section}
@@ -41,8 +41,8 @@
     {/section}
 
     <div class="buttonblock">
-    <input class="button" type="submit" name="PublishButton" value="{'Post'|i18n('design/standard/content/edit')}" />
-    <input class="button" type="submit" name="DiscardButton" value="{'Discard'|i18n('design/standard/content/edit')}" />
+    <input class="button" type="submit" name="PublishButton" value="Post" />
+    <input class="button" type="submit" name="DiscardButton" value="Discard" />
     </div>
     <!-- Left part end -->
     </td>

@@ -96,7 +96,7 @@ function OpenWindow ( URL, WinName, Features ) {
         <input  type="text" size="10" name="SearchText" id="Search" value="" style="font-family: verdana; width: 80px; font-size: 9px; margin: 0px; background: #ffffff;"/>&nbsp;
 	</td>
 	<td align="right" width="30">
-        <input name="SearchButton" type="image" src={"search.gif"|ezimage} value="{"Search"|i18n('pagelayout')}" style="font-size: 7px; margin: 0px; padding: 0px;" />
+        <input name="SearchButton" type="image" src={"search.gif"|ezimage} value="Search" style="font-size: 7px; margin: 0px; padding: 0px;" />
         </td>
     </tr>
     </table>    

@@ -18,8 +18,8 @@
     {attribute_view_gui attribute=$map.photo border_size=1 hspace=10 alignment=right image_class=medium}
 
 <div class="byline">
-    <p class="price">{"Our Price"|i18n("bookstore")}: {attribute_view_gui attribute=$map.price}</p>
-    <p class="number">{"Product nr."|i18n("bookstore")}: {attribute_view_gui attribute=$map.product_nr}</p>
+    <p class="price">Our Price: {attribute_view_gui attribute=$map.price}</p>
+    <p class="number">Product nr: {attribute_view_gui attribute=$map.product_nr}</p>
 </div>
 
     {attribute_view_gui attribute=$map.intro}
@@ -30,7 +30,7 @@
     <!-- Action START -->
     <div class="buttonblock">
     {section name=ContentAction loop=$content_object.content_action_list show=$content_object.content_action_list}
-    <input class="button" type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name|i18n('bookstore')}" />
+    <input class="button" type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name" />
     {/section}
     </div>
     <!-- Action END -->
@@ -63,7 +63,7 @@
 {section show=$is_editable}
 <div class="buttonblock">
 <input type="hidden" name="NodeID" value="{$node.node_id}" />
-<input class="button" type="submit" name="NewButton" value="{'New review'|i18n('bookstore')}" />
+<input class="button" type="submit" name="NewButton" value="New review" />
 <input type="hidden" name="ClassID" value="23" />
 
 <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />

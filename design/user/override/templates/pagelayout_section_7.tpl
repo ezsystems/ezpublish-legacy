@@ -61,7 +61,7 @@
     <input class="searchbox" type="text" size="10" name="SearchText" id="Search" value="" />
     </td>
     <td class="topline" width="1%" background={"intranet-top-background-repeat.gif"|ezimage} >
-    <input name="SearchButton" type="submit" value="{"Search"|i18n('pagelayout')}" />
+    <input name="SearchButton" type="submit" value="Search" />
     </td>
     <td class="topline" width="98%" align="right" background={"intranet-top-background-repeat.gif"|ezimage} ><img src={"intranet-top-background-image.gif"|ezimage} width="160" height="48" alt="" /></td>
 </tr>

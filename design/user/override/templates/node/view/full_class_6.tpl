@@ -11,10 +11,10 @@
 <table class="forumlist" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <th class="forumheader">
-    {"Topic"|i18n("forum")}
+    Topic
     </th>
     <th class="postedheader">
-    {"Posted"|i18n("forum")}
+    Posted
     </th>
 </tr>
 {section name=Message loop=fetch('content','list',hash(parent_node_id,$node.node_id,limit,$page_limit,offset,$view_parameters.offset)) sequence=array(FDF4D9,FDF1CE)}
@@ -39,7 +39,7 @@
 {section show=$is_editable}
 <div class="buttonblock">
 <input type="hidden" name="NodeID" value="{$node.node_id}" />
-<input class="button" type="submit" name="NewButton" value="{"New topic"|i18n('forum')}" />
+<input class="button" type="submit" name="NewButton" value="New topic" />
 <input type="hidden" name="ClassID" value="8" />
 
 <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />

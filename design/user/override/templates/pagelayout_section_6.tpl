@@ -94,7 +94,7 @@ function OpenWindow ( URL, WinName, Features ) {
         <input class="searchtext" type="text" size="10" name="SearchText" id="Search" value="" />&nbsp;
     	</td>
 	    <td align="right" width="1%">
-        <input class="searchbutton" name="SearchButton" type="image" src={"search.gif"|ezimage} value="{"Search"|i18n('pagelayout')}" />
+        <input class="searchbutton" name="SearchButton" type="image" src={"search.gif"|ezimage} value="Search" />
         </td>
     </tr>
     </table>    
