@@ -225,10 +225,14 @@ class eZModule
      Tries to run the error module with the error code \a $errorCode.
      Sets the state of the module object to \c failed and sets the error code.
     */
-    function &handleError( $errorCode, $errorType, $parameters = array() )
+    function &handleError( $errorCode, $errorType = false, $parameters = array() )
     {
-//         $this->setExitStatus( EZ_MODULE_STATUS_FAILED );
-//         $this->setErrorCode( $errorCode );
+        if ( !$errorType )
+        {
+            eZDebug::writeWarning( "No error type specified for error code $errorCode, assuming kernel.\nA specific error type should be supplied, please check your code.",
+                                   'eZModule::handleError' );
+            $errorType = 'kernel';
+        }
         $errorModule =& eZModule::errorModule();
         $module =& eZModule::findModule( $errorModule['module'], $this );
         if ( $module === null )

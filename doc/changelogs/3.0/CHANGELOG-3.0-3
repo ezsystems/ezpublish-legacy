@@ -6,9 +6,12 @@ Changes from 3.0-2 to 3.0-3
 - Fixed bug with next and previous in sitemap and full view.
 - Fixed proper escaping of PHP session id keys, fixes possible security problem.
 - Fixed problem with not being able to unset the information collector setting in class edit.
+- Fixed missing error type in kernel/content/copy.php when no object was found.
 
 *Library :
 - The handleChecked function in eZHTTPPersistence is now deprecated.
+- Added check for error type in eZModule::handleError, if no type is specified
+  kernel is assumed and a warning is issued.
 
 eZ I18N:
 - The charset conversion from UTF8 to codepage has been optimized by inlining some UTF8 code.
@@ -20,5 +23,4 @@ eZ XML:
 - Fixed a security exploit in user edit which would allow
   anyone to edit the user content of a specific user.
   Now the only users who have content/edit permission on
-  the user object can changed the settings and profile.
-
+  the user object can change the settings and profile.

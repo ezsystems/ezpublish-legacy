@@ -40,7 +40,7 @@ include_once( 'kernel/classes/ezcontentobject.php' );
 $object =& eZContentObject::fetch( $ObjectID );
 
 if ( $object === null )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE );
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
 if ( $Module->isCurrentAction( 'Cancel' ) )
 {
