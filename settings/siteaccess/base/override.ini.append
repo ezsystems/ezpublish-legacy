@@ -189,6 +189,13 @@ MatchFile=line/product.tpl
 Subdir=templates
 Match[class_identifier]=product
 
+[product_embed]
+Source=content/view/embed.tpl
+MatchFile=embed/product.tpl
+Subdir=templates
+#Match[class]=18
+Match[class_identifier]=product
+
 [review_line]
 Source=node/view/line.tpl
 MatchFile=line/review.tpl
