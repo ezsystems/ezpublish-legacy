@@ -111,7 +111,7 @@ class eZDir
             for ( $i = 1; $i < count( $dirElements ); ++$i )
             {
                 $dirElement = $dirElements[$i];
-                if ( !$dirElements )
+                if ( !$dirElement )
                     continue;
                 $currentDir .= '/' . $dirElement;
                 $result = true;
