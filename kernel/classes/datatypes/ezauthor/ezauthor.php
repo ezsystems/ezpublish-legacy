@@ -110,6 +110,11 @@ class eZAuthor
         $this->AuthorCount -= $shiftvalue;
     }
 
+    function attributes()
+    {
+        return array( 'author_list', 'name', 'is_empty' );
+    }
+
     function hasAttribute( $name )
     {
         if ( ( $name == "author_list" ) || ( $name == "name" ) || ( $name == "is_empty" ) )

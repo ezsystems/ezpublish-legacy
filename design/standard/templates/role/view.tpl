@@ -60,7 +60,7 @@
 {section name=User loop=$user_array sequence=array(bglight,bgdark)}
 <tr>
     <td class="{$User:sequence}">
-        {$User:item.user_object.name|wash}
+        {$User:item.user_object.content_class.identifier|class_icon( 'small', $User:item.user_object.content_class.name )}{$User:item.user_object.name|wash}
     </td>
     <td class="{$User:sequence}">
         {section show=$User:item.limit_ident}
