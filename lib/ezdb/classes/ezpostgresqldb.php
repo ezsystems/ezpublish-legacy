@@ -377,11 +377,16 @@ class eZPostgreSQLDB extends eZDBInterface
         $array = array();
         if ( $this->isConnected() )
         {
-            $sql = "SELECT relname FROM pg_class WHERE relkind='r' AND relname like 'ez%'";
-            $array = $this->arrayQuery( $sql, array( 'column' => '0' ) );
+            foreach ( $this->supportedRelationTypes() as $relationKind )
+            {
+                $sql = "SELECT relname FROM pg_class WHERE relkind='" . $this->relationKind( $relationKind ) . "' AND relname like 'ez%'";
+                foreach ( $this->arrayQuery( $sql, array( 'column' => '0' ) ) as $result )
+                {
+                    $array[$result] = $relationKind;
+                }
+            }
         }
         return $array;
-
     }
 
     /*!
