@@ -281,6 +281,9 @@ CREATE TABLE ezcontentobject_tree (
   md5_path varchar(15) default NULL,
   left_margin int(11) NOT NULL default '0',
   right_margin int(11) NOT NULL default '0',
+  sort_field int default 1,
+  sort_order int(1) default 1,
+  priority int not null default '0',
   path_identification_string text,
   PRIMARY KEY  (node_id),
   KEY ezcontentobject_tree_path (path_string),
@@ -340,8 +343,8 @@ CREATE TABLE ezenumobjectvalue (
   contentobject_attribute_id int(11) NOT NULL default '0',
   contentobject_attribute_version int(11) NOT NULL default '0',
   enumid int(11) NOT NULL default '0',
-  enumelement varchar(50) NOT NULL default '',
-  enumvalue varchar(50) NOT NULL default '',
+  enumelement varchar(255) NOT NULL default '',
+  enumvalue varchar(255) NOT NULL default '',
   PRIMARY KEY  (contentobject_attribute_id,contentobject_attribute_version,enumid)
 ) TYPE=MyISAM;
 
@@ -359,8 +362,8 @@ CREATE TABLE ezenumvalue (
   id int(11) NOT NULL auto_increment,
   contentclass_attribute_id int(11) NOT NULL default '0',
   contentclass_attribute_version int(11) NOT NULL default '0',
-  enumelement varchar(50) NOT NULL default '',
-  enumvalue varchar(50) NOT NULL default '',
+  enumelement varchar(255) NOT NULL default '',
+  enumvalue varchar(255) NOT NULL default '',
   placement int(11) NOT NULL default '0',
   PRIMARY KEY  (id,contentclass_attribute_id,contentclass_attribute_version)
 ) TYPE=MyISAM;
@@ -469,6 +472,8 @@ CREATE TABLE eznode_assignment (
   contentobject_id int(11) default NULL,
   contentobject_version int(11) default NULL,
   parent_node int(11) default NULL,
+  sort_field int default 1,
+  sort_order int(1) default 1,
   main int(11) default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
@@ -635,6 +640,8 @@ CREATE TABLE ezsearch_object_word_link (
   prev_word_id int(11) NOT NULL default '0',
   next_word_id int(11) NOT NULL default '0',
   contentclass_id int(11) NOT NULL default '0',
+  published int not null,
+  section_id int not null,
   contentclass_attribute_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY ezsearch_object_word_link_object (contentobject_id),
