@@ -303,7 +303,6 @@ class eZFloatType extends eZDataType
 
     function storeClassAttribute( &$attribute, $version )
     {
-        eZDebug::writeWarning( "Storing ezfloat with version $version" );
     }
 
     function metaData( $contentObjectAttribute )

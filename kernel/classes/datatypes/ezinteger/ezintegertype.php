@@ -196,7 +196,6 @@ class eZIntegerType extends eZDataType
 
     function storeClassAttribute( &$attribute, $version )
     {
-        eZDebug::writeWarning( "Storing ezinteger with version $version" );
     }
 
     /*!

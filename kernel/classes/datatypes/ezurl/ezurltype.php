@@ -147,37 +147,6 @@ class eZURLType extends eZDataType
     }
 
     /*!
-     \reimp
-    */
-    function fixupClassAttributeHTTPInput( &$http, $base, &$classAttribute )
-    {
-    }
-
-    /*!
-     \reimp
-    */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
-    {
-        $maxLenName = $base . EZ_DATATYPEURL_MAX_LEN_VARIABLE . $classAttribute->attribute( 'id' );
-        $defaultValueName = $base . EZ_DATATYPEURL_DEFAULT_URL_VARIABLE . $classAttribute->attribute( 'id' );
-        if ( $http->hasPostVariable( $maxLenName ) )
-        {
-            $maxLenValue = $http->postVariable( $maxLenName );
-            $classAttribute->setAttribute( EZ_DATATYPEURL_MAX_LEN_FIELD, $maxLenValue );
-        }
-        if ( $http->hasPostVariable( $defaultValueName ) )
-        {
-            $defaultValueValue = $http->postVariable( $defaultValueName );
-
-            if ($defaultValueValue == ""){
-                $defaultValueValue = "";
-            }
-            $classAttribute->setAttribute( EZ_DATATYPEURL_DEFAULT_URL_FIELD, $defaultValueValue );
-        }
-        return true;
-    }
-
-    /*!
      Returns the content.
     */
     function &objectAttributeContent( &$contentObjectAttribute )
@@ -200,17 +169,6 @@ class eZURLType extends eZDataType
     {
         return  $contentObjectAttribute->attribute( 'data_text' );
     }
-
-    /*!
-     \reimp
-    */
-    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
-    {
-    }
-
-    /// \privatesection
-    /// The max len validator
-    var $MaxLenValidator;
 }
 
 eZDataType::register( EZ_DATATYPEURL_URL, 'ezurltype' );

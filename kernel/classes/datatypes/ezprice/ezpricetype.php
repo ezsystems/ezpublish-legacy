@@ -142,7 +142,8 @@ class eZPriceType extends eZDataType
     */
     function &classAttributeContent( &$classAttribute )
     {
-        $price = new eZPrice( $classAttribute );
+        $contentObjectAttribute = false;
+        $price = new eZPrice( $classAttribute, $contentObjectAttribute );
         return $price;
     }
 

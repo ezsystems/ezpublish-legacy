@@ -130,6 +130,10 @@ Changes from 3.1-1 to 3.2.0-1
 - Added previous/next function for section list.
 - Added login support using textfile which saved user account information.
 - Added login support using LDAP server.
+- Added empty class edit templates for datatypes which don't have them already.
+  This was done to get rid of the warnings.
+- Removed some old debug messages from datatypes.
+- Fixed variable name typo in ezextension class.
 
 *Export:
 - Added start of export system. Currently only the generic package is exported.

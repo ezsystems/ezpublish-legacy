@@ -134,7 +134,7 @@ class eZExtension
     {
         $pathList = array();
         $extensionBase = eZExtension::baseDirectory();
-        foreach ( $extensionAutoloadPath as $extensionName )
+        foreach ( $extensionList as $extensionName )
         {
             $path = $extensionBase . '/' . $extensionName;
             if ( $subdirectory )
