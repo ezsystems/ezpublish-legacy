@@ -59,7 +59,7 @@ if ( $http->hasPostVariable( "AssignRoleButton" )  )
     $http->setSessionVariable( "BrowseActionName", "AssignRole" );
     $http->setSessionVariable( "BrowseReturnType", "ObjectID" );
 
-    $Module->redirectTo( "/content/browse/4/" );
+    $Module->redirectTo( "/content/browse/5/" );
     return;
 }
 
