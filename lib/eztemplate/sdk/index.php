@@ -62,12 +62,12 @@ $featureArray[] = array( "uri" => "basic_namespaces",
 $featureArray[] = array( "uri" => "basic_attributes",
                          "level" => 0,
                          "name" => "Attributes" );
-$featureArray[] = array( "uri" => "basic_functions",
-                         "level" => 0,
-                         "name" => "Functions" );
 $featureArray[] = array( "uri" => "basic_operators",
                          "level" => 0,
                          "name" => "Operators" );
+$featureArray[] = array( "uri" => "basic_functions",
+                         "level" => 0,
+                         "name" => "Functions" );
 
 $featureArray[] = array( "level" => 0,
                          "name" => "Operators" );

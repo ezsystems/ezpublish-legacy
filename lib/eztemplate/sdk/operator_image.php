@@ -42,18 +42,20 @@ $tpl->registerOperators( $imgop );
 $tpl->setVariable( "curdate", mktime() );
 $tpl->setVariable( "myvar", "Typewriter font output" );
 
-print( "<p>With the <i>texttoimage</i> operator it's possible to create images out of text
+print( "<p>With the <i>texttoimage</i> operator it's possible to create images out of text at
 runtime. This is useful when you want to display text with other fonts than the standard web fonts
 or want some special charset support. Normally you would create the images manually in a image
 manipulation program and upload to the site, however this is very time consuming.</p>
-<p>The operator has several parameters which can be modifed, some, as directory information, can only
-be modified in PHP code while others as size, family etc. has default values which can be overriden
+
+<p>The operator has several parameters that can be modified, some, as directory information, can only
+be modified in PHP code while others as size, family etc. has default values which can be overridden
 in the template.</p>
+
 <p>The parameters below are listed sequentially as they are entered in the template, if you want
-the default value simply use a , (comma)</p>
+the default value simply use a ',' (comma)</p>
 <table>
 <tr><th>Name</th><th>Default</th><th>Description</th></tr>
-<tr><td>family</td><td>\"" . $imgop->family() . "\"</td><td>The name of the font family (eg. arial) which must be in TrueType format</td></tr>
+<tr><td>family</td><td>\"" . $imgop->family() . "\"</td><td>The name of the font family (e.g. arial) which must be in TrueType format</td></tr>
 <tr><td>pointsize</td><td>" . $imgop->pointSize() . "</td><td>The fonts pointsize</td></tr>
 <tr><td>angle</td><td>" . $imgop->angle() . "</td><td>The angle of the font rendering in degrees</td></tr>
 <tr><td>bgcolor</td><td>(" . implode( ",", $imgop->color( "bgcolor" ) ) . ")</td><td>The background color</td></tr>
