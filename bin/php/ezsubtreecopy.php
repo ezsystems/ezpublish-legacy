@@ -259,10 +259,9 @@ while ( count( $sourceNodeList ) > 0 )
         else
         {
             $sourceObject =& $sourceNodeList[ $i ]->object();
-            $copyResult = copyPublishContentObject( $sourceObject, $syncNodeIDListSrc,
-                                                                   $syncNodeIDListNew,
-                                                                   $syncObjectIDListSrc,
-                                                                   $syncObjectIDListNew );
+            $copyResult = copyPublishContentObject( $sourceObject, $syncNodeIDListSrc, $syncNodeIDListNew,
+                                                                   $syncObjectIDListSrc, $syncObjectIDListNew,
+                                                    $allVersions );
             if ( $copyResult === 0 )
             {   // if copying successful then remove $sourceNode from $sourceNodeList
                 array_splice( $sourceNodeList, $i, 1 );
