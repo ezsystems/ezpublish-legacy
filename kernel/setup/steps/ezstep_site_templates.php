@@ -72,7 +72,9 @@ class eZStepSiteTemplates extends eZStepInstaller
 
             foreach ( $siteTemplates as $key => $template )
             {
-                $this->PersistenceList['site_templates_' . $key]['identifier'] = $template;
+                $this->PersistenceList['site_templates_' . $key]['identifier'] = $template['identifier'];
+                $this->PersistenceList['site_templates_' . $key]['name'] = $template['name'];
+                $this->PersistenceList['site_templates_' . $key]['image_file_name'] = $template['image'];
 //                 $this->PersistenceList['site_templates_' . $key]['image_file_name'] = $thumbnailBase.'_'.$template.'.'.$thumbnailExtension;
             }
         }
@@ -120,7 +122,12 @@ class eZStepSiteTemplates extends eZStepInstaller
             $package =& $packages[$key];
             $site_templates[$key]['name'] = $package->attribute( 'summary' );
             $site_templates[$key]['identifier'] = $package->attribute( 'name' );
-            $site_templates[$key]['image_file_name'] = $thumbnailBase.'_' . $package->attribute( 'name' ) . '.' . $thumbnailExtension;
+            $thumbnails = $package->thumbnailList( 'default' );
+//                 $site_templates[$key]['image_file_name'] = $thumbnailBase.'_' . $package->attribute( 'name' ) . '.' . $thumbnailExtension;
+            if ( count( $thumbnails ) > 0 )
+                $site_templates[$key]['image_file_name'] = $package->fileItemPath( $thumbnails[0], 'default', 'kernel/setup/packages' );
+            else
+                $site_templates[$key]['image_file_name'] = false;
         }
 
         $this->Tpl->setVariable( 'site_templates', $site_templates );

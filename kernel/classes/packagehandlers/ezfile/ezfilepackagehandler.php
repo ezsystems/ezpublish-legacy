@@ -126,6 +126,11 @@ class eZFilePackageHandler extends eZPackageHandler
             $currentType = 'design';
             $currentRole = 'template';
         }
+        else if ( $packageType == 'thumbnail' )
+        {
+            $currentType = 'thumbnail';
+            $currentRole = false;
+        }
         for ( $i = 0; $i < count( $arguments ); ++$i )
         {
             $argument = $arguments[$i];
@@ -154,9 +159,9 @@ class eZFilePackageHandler extends eZPackageHandler
                         }
                         if ( $flag == 't' )
                         {
-                            if ( !in_array( $data, array( 'design', 'file' ) ) )
+                            if ( !in_array( $data, array( 'design', 'file', 'thumbnail' ) ) )
                             {
-                                $cli->error( "Unknown file type $data, allowed values are design and file" );
+                                $cli->error( "Unknown file type $data, allowed values are design, thumbnail and file" );
                                 return false;
                             }
                             $currentType = $data;
@@ -257,6 +262,23 @@ class eZFilePackageHandler extends eZPackageHandler
             {
                 if ( file_exists( $file ) )
                     return $file;
+                $triedFiles[] = $file;
+            } break;
+            case 'thumbnail':
+            {
+                if ( file_exists( $file ) )
+                {
+                    $filePath = $file;
+//                     if ( preg_match( "#^(.+)/([^/]+)$#", $file, $matches ) )
+//                     {
+//                         $file = $matches[2];
+//                     }
+                    if ( preg_match( "#^(.+)\.([^.]+)$#", $file, $matches ) )
+                    {
+                        $file = 'thumbnail.' . $matches[2];
+                    }
+                    return $filePath;
+                }
                 $triedFiles[] = $file;
             } break;
             case 'design':
@@ -403,7 +425,7 @@ class eZFilePackageHandler extends eZPackageHandler
     */
     function parseInstallNode( &$package, &$installNode, &$installParameters, $isInstall )
     {
-        $collection = $installNode->attributeValue( 'name' );
+        $collection = $installNode->attributeValue( 'collection' );
         $installParameters['collection'] = $collection;
     }
 }

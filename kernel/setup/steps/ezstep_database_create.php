@@ -117,9 +117,14 @@ class eZStepDatabaseCreate extends eZStepInstaller
                 $setupINI =& eZINI::instance( 'setup.ini' );
                 $sqlSchemaFile = $setupINI->variable( 'DatabaseSettings', 'SQLSchema' );
                 $sqlFile = $setupINI->variable( 'DatabaseSettings', 'CleanSQLData' );
+                $siteCount = $this->PersistenceList['site_templates']['count'];
+                $useKernelClean = $siteCount == 0;
 
                 $result = $db->insertFile( 'kernel/sql/', $sqlSchemaFile );
-                $result = $result && $db->insertFile( 'kernel/sql/', $sqlFile );
+                if ( $useKernelClean )
+                {
+                    $result = $result && $db->insertFile( 'kernel/sql/', $sqlFile );
+                }
             }
         }
 

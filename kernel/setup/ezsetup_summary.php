@@ -88,7 +88,8 @@ class eZSetupSummary
         $sites = array();
         for ( $counter = 0; $counter < $siteCount; $counter++ )
         {
-            $sites[$counter] = $this->PersistenceList['site_templates_'.$counter]['name'];
+            $sites[$counter]['identifier'] = $this->PersistenceList['site_templates_'.$counter]['identifier'];
+            $sites[$counter]['name'] = $this->PersistenceList['site_templates_'.$counter]['identifier'];
         }
         $this->Tpl->setVariable( 'sites', $sites );
 

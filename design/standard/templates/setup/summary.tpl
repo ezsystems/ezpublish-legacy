@@ -27,12 +27,12 @@
   </tr>
 {/section}
 
-{section show=count($sites)}
+{section show=$sites}
   <tr>
       <td>{"Sitedesign"|i18n("design/standard/setup")}</td>
     <td>
       {section name=Sites loop=$sites}
-        {$:item}<br/>
+        {$:item.identifier}<br/>
       {/section}
     </td>
   </tr>

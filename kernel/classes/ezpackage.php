@@ -366,7 +366,14 @@ class eZPackage
     function md5sum( $file )
     {
         if ( function_exists( 'md5_file' ) )
-            return md5_file( $file );
+        {
+            if ( file_exists( $file ) )
+            {
+                return md5_file( $file );
+            }
+            else
+                eZDebug::writeError( "Could not open file $file for md5sum calculation" );
+        }
         else
         {
             $fd = @fopen( $file, 'r' );
@@ -384,12 +391,42 @@ class eZPackage
         return false;
     }
 
+    function fileItemPath( $fileItem, $collectionName, $path = false )
+    {
+        if ( !$path )
+            $path = $this->path();
+        $typeDir = $fileItem['type'];
+        if ( $fileItem['type'] == 'design' )
+            $typeDir .= '.' . $fileItem['design'];
+        if ( $fileItem['role'] )
+            $typeDir .= '.' . $fileItem['role'];
+        $path .= '/' . $this->attribute( 'name' ) . '/' . eZPackage::filesDirectory() . '/' . $collectionName . '/' . $typeDir;
+        if ( $fileItem['subdirectory'] )
+            $path .= '/' . $fileItem['subdirectory'];
+        $path .= '/' . $fileItem['name'];
+        return $path;
+    }
+
     function fileList( $collectionName )
     {
         $fileCollections = $this->Parameters['file-list'];
         if ( isset( $fileCollections[$collectionName] ) )
             return $fileCollections[$collectionName];
         return false;
+    }
+
+    function thumbnailList( $collectionName )
+    {
+        $thumbnails = array();
+        $fileList = $this->fileList( $collectionName );
+        foreach ( $fileList as $fileItem )
+        {
+            if ( $fileItem['type'] == 'thumbnail' )
+            {
+                $thumbnails[] = $fileItem;
+            }
+        }
+        return $thumbnails;
     }
 
     function appendFile( $file, $type, $role,
@@ -1190,7 +1227,6 @@ class eZPackage
                         else
                             $filepath = $filename . '.xml';
 
-                        print( $filepath . "\n" );
                         $dom =& $this->fetchDOMFromFile( $filepath );
                         if ( $dom )
                             $content =& $dom->root();
@@ -1693,12 +1729,16 @@ class eZPackage
                                                                 $collectionAttributes );
                 unset( $fileLists );
                 unset( $fileDesignLists );
+                unset( $fileThumbnailLists );
                 $fileList = array();
                 $fileDesignList = array();
+                $fileThumbnailList = array();
                 foreach ( $fileCollection as $fileItem )
                 {
                     if ( $fileItem['type'] == 'design' )
                         $fileListNode =& $fileDesignLists[$fileItem['design']][$fileItem['role']];
+                    else if ( $fileItem['type'] == 'thumbnail' )
+                        $fileListNode =& $fileThumbnailLists[$fileItem['role']];
                     else
                         $fileListNode =& $fileLists[$fileItem['type']][$fileItem['role']];
                     if ( !isset( $fileListNode ) )
@@ -1742,6 +1782,8 @@ class eZPackage
                         $destinationPath = $exportPath . '/' . eZPackage::filesDirectory() . '/' . $fileCollectionName . '/' . $typeDir;
                         if ( $fileItem['subdirectory'] )
                             $path .= '/' . $fileItem['subdirectory'];
+                        if ( $fileItem['name'] )
+                            $path .= '/' . $fileItem['name'];
                         if ( !file_exists( $destinationPath ) )
                             eZDir::mkdir( $destinationPath, eZDir::directoryPermission(), true );
                         if ( is_dir( $path ) )

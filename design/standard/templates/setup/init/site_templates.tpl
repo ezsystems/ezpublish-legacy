@@ -18,10 +18,17 @@
 
       <td class="setup_site_templates">
         <div align="top">
-          <img src={concat( "/design/standard/images/setup/", $:item.image_file_name )|ezroot}>
+          {section show=$:item.image_file_name}
+            <img src={$:item.image_file_name|ezroot}>
+            <input type="hidden" name="eZSetup_site_templates[{$:index}][image]" value="{$:item.image_file_name}" />
+          {section-else}
+            <img src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot}>
+            <input type="hidden" name="eZSetup_site_templates[{$:index}][image]" value="" />
+          {/section}
         </div>
         <div align="bottom">
-          <input type="checkbox" name="eZSetup_site_templates[]" value="{$:item.identifier}">{$:item.name}</input>
+          <input type="checkbox" name="eZSetup_site_templates[{$:index}][identifier]" value="{$:item.identifier}">{$:item.name}</input>
+          <input type="hidden" name="eZSetup_site_templates[{$:index}][name]" value="{$:item.name}" />
         </div>
       </td>
 

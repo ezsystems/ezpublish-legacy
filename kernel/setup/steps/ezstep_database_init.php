@@ -133,14 +133,15 @@ class eZStepDatabaseInit extends eZStepInstaller
             $this->PersistenceList['demo_data']['can_unpack'] = true;
             if ( !extension_loaded( 'zlib' ) )
                 $this->PersistenceList['demo_data']['can_unpack'] = false;
-            if ( strtolower( $databaseInfo['info']['name'] ) =='mysql' )
-            {
-                $db->query( 'show tables' );
-                if ( $db->errorNumber() != 0 )
-                {
-                    $this->Error = EZ_SETUP_DB_ERROR_CONNECTION_FAILED;
-                }
-            }
+            // Do we really need this?
+//             if ( strtolower( $databaseInfo['info']['name'] ) == 'mysql' )
+//             {
+//                 $db->query( 'show tables' );
+//                 if ( $db->errorNumber() != 0 )
+//                 {
+//                     $this->Error = EZ_SETUP_DB_ERROR_CONNECTION_FAILED;
+//                 }
+//             }
 
             $this->DBEmpty = eZDBTool::isEmpty( $db );
 

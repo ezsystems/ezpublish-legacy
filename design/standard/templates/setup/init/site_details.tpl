@@ -8,7 +8,7 @@
   </div>
 
   <p>
-    {"You need to specify some information about every site you've installed."|i18n("design/standard/setup/init")}
+    {"You need to specify some information about every site you've chosen to install."|i18n("design/standard/setup/init")}
   </p>
 
   <p>
@@ -19,7 +19,11 @@
 
       <td class="setup_site_templates">
         <div align="top">
-          <img src={concat( "/design/standard/images/setup/", $:item.image_file_name )|ezroot}>
+          {section show=$:item.image_file_name}
+            <img src={$:item.image_file_name|ezroot}>
+          {section-else}
+            <img src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot}>
+          {/section}
         </div>
         <div align="bottom">
 
@@ -30,11 +34,11 @@
 	    </tr>
 	    <tr>
 	      <td>{"URL"|i18n("design/standard/setup/init")}: </td>
-	      <td><input type="text" size="20" name="eZSetup_site_templates_{$:index}_url" value="http://" /></td>
+	      <td><input type="text" size="20" name="eZSetup_site_templates_{$:index}_url" value="{$:item.url}" /></td>
 	    </tr>
 	    <tr>
 	      <td>{"Admin e-mail"|i18n("design/standard/setup/init")}: </td>
-	      <td><input type="text" size="20" name="eZSetup_site_templates_{$:index}_email" value="admin@localhost" /></td>
+	      <td><input type="text" size="20" name="eZSetup_site_templates_{$:index}_email" value="{$:item.email}" /></td>
 	    </tr>
 	    <tr>
 	      <td>{"Site access"|i18n("design/standard/setup/init")} {$:item.access_type|wash}: </td>
@@ -45,10 +49,10 @@
         </div>
       </td>
 
-      {section show=eq( mod( $:index, 2 ), 1 )}
+      {delimiter modulo=2}
         </tr>
         <tr>
-      {/section}
+      {/delimiter}
 
     {/section}
     </tr>

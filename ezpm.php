@@ -628,14 +628,14 @@ foreach ( $commandList as $commandItem )
         $packages = eZPackage::fetchPackages();
         if ( count( $packages ) > 0 )
         {
-            $cli->output( "The following packages are installed:" );
+            $cli->output( "The following packages are in the repository:" );
             foreach ( $packages as $package )
             {
                 $cli->output( $package->attribute( 'name' ) . '-' . $package->attribute( 'version-number' ) . '-' . $package->attribute( 'release-number' ) . ' (' . $package->attribute( 'summary' ) . ')' );
             }
         }
         else
-            $cli->output( "No packages are installed" );
+            $cli->output( "No packages are available in the repository" );
     }
     else if ( $command == 'info' )
     {
@@ -689,7 +689,7 @@ foreach ( $commandList as $commandItem )
 //             print_r( $package->Parameters );
         }
         else
-            $cli->output( "package " . $commandItem['name'] . " is not installed" );
+            $cli->output( "package " . $commandItem['name'] . " is not in the repository" );
     }
     else if ( $command == 'add' )
     {
@@ -733,7 +733,7 @@ foreach ( $commandList as $commandItem )
             }
         }
         else
-            $cli->output( "package " . $commandItem['name'] . " is not installed" );
+            $cli->output( "package " . $commandItem['name'] . " is not in the repository" );
     }
     else if ( $command == 'set' )
     {
@@ -774,7 +774,7 @@ foreach ( $commandList as $commandItem )
                 $package->store();
             }
             else
-                $cli->output( "package " . $commandItem['name'] . " is not installed" );
+                $cli->output( "package " . $commandItem['name'] . " is not in repository" );
         }
     }
     else if ( $command == 'import' )

@@ -93,6 +93,10 @@ class eZStepSiteDetails extends eZStepInstaller
         for ( $counter = 0; $counter < $this->PersistenceList['site_templates']['count']; $counter++ )
         {
             $templates[$counter] = $this->PersistenceList['site_templates_'.$counter];
+            if ( !isset( $templates[$counter]['url'] ) )
+                $templates[$counter]['url'] = 'http://';
+            if ( !isset( $templates[$counter]['email'] ) )
+                $templates[$counter]['email'] = 'admin@localhost';
         }
 
         $this->Tpl->setVariable( 'site_templates', $templates );
