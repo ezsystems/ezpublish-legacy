@@ -341,8 +341,11 @@ class eZModule
         {
             if ( !isset( $parameters[$parameterIndex] ) )
             {
-                eZDebug::writeWarning( "Missing parameter(s) " . implode( ', ', array_slice( $viewParameters, $parameterIndex ) ) .
-                                       " in view '$viewName'", 'eZModule::redirect' );
+                // We don't show a warning anymore since some parameters can be optional
+                // In future versions we will need required and optional parameters
+                // for modules and give warnings for required ones.
+//                 eZDebug::writeWarning( "Missing parameter(s) " . implode( ', ', array_slice( $viewParameters, $parameterIndex ) ) .
+//                                        " in view '$viewName'", 'eZModule::redirect' );
                 if ( $hasUnorderedParameter )
                     $uri .= $unorderedURI;
             }
