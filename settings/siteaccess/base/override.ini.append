@@ -113,7 +113,7 @@ MatchFile=datatype/ezbinaryfile.tpl
 Subdir=templates
 
 # Link templates
-
+	
 [full_link]
 Source=node/view/full.tpl
 MatchFile=full/link.tpl
@@ -324,6 +324,12 @@ MatchFile=embed/product.tpl
 Subdir=templates
 Match[class_identifier]=product
 
+[product_listitem]
+Source=node/view/listitem.tpl
+MatchFile=listitem/product.tpl
+Subdir=templates
+Match[class_identifier]=product
+
 [review_line]
 Source=node/view/line.tpl
 MatchFile=line/review.tpl
@@ -388,6 +394,9 @@ Match[class_identifier]=poll
 Source=content/datatype/view/ezxmltags/factbox.tpl
 MatchFile=datatype/ezxmltext/factbox.tpl
 Subdir=templates
-# TODO: remove override when tpl compiling is fixed -> before 3.4 final
-Match[class_identifier]=folder
+
+[price]
+Source=content/datatype/view/ezprice.tpl
+MatchFile=datatype/price.tpl
+Subdir=templates
 

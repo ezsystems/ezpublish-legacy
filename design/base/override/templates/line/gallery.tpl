@@ -3,6 +3,7 @@
 <div class="view-line">
     <div class="class-gallery">
 
+TEST
         <h1>{$node.name|wash()}</h1>
 
         <div class="content-short">

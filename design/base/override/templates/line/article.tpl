@@ -8,7 +8,7 @@
         </div>
     {/section}
 
-    <h2><a href={$node.url_alias|ezurl}>{$node.object.data_map.title.content|wash}</a></h2>
+    <a href={$node.url_alias|ezurl}><h2>{$node.object.data_map.title.content|wash}</h2></a>
 
     {section show=$node.object.data_map.intro.content.is_empty|not}
     <div class="content-short">

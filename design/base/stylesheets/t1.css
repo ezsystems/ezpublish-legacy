@@ -355,6 +355,13 @@ div#maincontent-design h1
     margin-bottom: 0px;
 }
 
+div#maincontent-design h2
+{ 
+    font: 12pt bold;
+    color: #099;
+    margin-bottom: 0px;
+}
+
 /*
 div#maincontent-design h2
 { 
@@ -382,14 +389,18 @@ div#maincontent-design div.content-long p
 
 div.content-byline p.author
 {
-    font: 9pt;
+    font: 8pt;
     color: #036;
+    padding: 0px;
+    margin: 0px;
 }
 
 div.content-byline p.date
 {
-    font: 9pt;
+    font: 8pt;
     color: #036;
+    padding: 0px;
+    margin: 0px;
 }
 
 
@@ -409,11 +420,11 @@ div.factbox-design
     border: 1px solid #369;
 }
 
-div.factbox-design h2
+div#maincontent-design div.factbox-design h2
 { 
     width: 100%;
     position: relative;
-    left: -10px;
+    left: -6px;
     padding-left: 10px;
     padding-top: 0px;
     margin-top: 0px;
@@ -439,14 +450,13 @@ div.factbox div.content-file p
     color: #036;
 }
 
-
-
 /* list item styles  */
 div.view-listitem h3
 { 
     margin-top: 6px;
 }
 
+/* list item image */
 div.view-listitem div.class-image div.content-image p
 { 
     padding: 0px;
@@ -454,6 +464,45 @@ div.view-listitem div.class-image div.content-image p
 }
 
 div.view-listitem div.class-image div.content-caption p
+{ 
+    font: 9pt regular;
+    padding: 0px;
+    margin: 0px;
+    color: #666;
+}
+
+/* list item product */
+div.view-listitem div.class-product div.content-short p
+{ 
+    font: 9pt regular;
+    padding: 0px;
+    margin: 0px;
+    color: #666;
+}
+
+div.view-listitem div.class-product div.content-price p
+{ 
+    font: 9pt regular;
+    padding: 0px;
+    margin: 0px;
+    color: #000;
+}
+
+div.view-listitem div.class-product div.content-link a
+{ 
+    font: 9pt regular;
+    padding: 0px;
+    margin: 0px;
+    color: #369;
+}
+
+/*! article style */
+div.class-article div.content-image div.imagecaption
+{ 
+    width: 170px;
+}
+
+div.class-article div.content-image div.imagecaption p
 { 
     font: 9pt regular;
     padding: 0px;
