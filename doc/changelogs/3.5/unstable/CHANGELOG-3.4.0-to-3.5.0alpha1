@@ -53,9 +53,6 @@ Changes from 3.4.0 to 3.5.0alpha1
 - Improved support for using short attribute names with persistent objects.
 - Added content_structure_tree operator which allows retrieve a tree of content.
 - Added HTTP Post to URL redirection.
-- Fixed problem with fetch function content/checkAccess and the
-  content class id parameter being false.
-  (Merged from stable/3.4 rev. 7350)
 - Made sure the current viewmode is available as the variable $viewmode in content/view.
 - New INI setting EmbedNodeAssignmentHandling in content.ini which controls whether
   location controls are available in content/edit, it is disabled by default.
@@ -70,20 +67,6 @@ Changes from 3.4.0 to 3.5.0alpha1
 - Added new 'move' permission to content module, this will be used to do checking
   when trying to move nodes. By default this permission will deny all attempts
   to move top-level nodes.
-- Fixed writing the expiry.php file to be an atomic operation so that multiple
-  content updates can not mangle the file.
-- Fixed concurrency issue with cached files.
-  http://ez.no/community/bug_reports/critical_at_high_traffic_sites_files_aren_t_locked_at_writing_process
-- Fixed double listing of the notification tool. (Merged from stable/3.4, rev 7819)
-  http://ez.no/community/bug_reports/notification_toolbox_is_listed_twice
-- Fixed broken XHTML code. (Merged from stable/3.4, rev. 7824)
-  http://ez.no/community/bug_reports/layout_break_in_line_file_tpl
-- Fixed MySQL 4.1 incompatibility. (Merged from stable/3.4, rev. 7827)
-  http://ez.no/community/bug_reports/mysql_4_incompatibility
-- Fixed a warning with conditional overrides. (Merged from stable/3.4, rev. 7831)
-  http://ez.no/community/bug_reports/php_warning_eztemplatedesignresource_php
-- Fixed a couple of warnings about the navigationPartIdentifier (Merged from stable/3.4, rev 7833)
-  http://ez.no/community/bug_reports/with_debug_enabled_i_am_getting_the_following_error
   
 eZDatatype:
 - Added new interface for querying datatypes for option information. This replaces
@@ -402,6 +385,9 @@ Workflow:
 - Fixed incorrect API doc for eZUser.
   http://ez.no/community/bug_reports/ezuser_api_correction
   (Merged from stable/3.4 rev. 7317)
+- Fixed problem with fetch function content/checkAccess and the
+  content class id parameter being false.
+  (Merged from stable/3.4 rev. 7350)
 - Fixed problem with autolink operator not allowing semi-colons in the url.
   http://ez.no/community/bug_reports/xml_text_text_to_a_links_does_not_work_correctly
   (Merged from stable/3.4 rev. 7355)
@@ -420,9 +406,23 @@ Workflow:
   http://ez.no/community/bug_reports/un_wanted_line_breaks_added_in_xml_text_field ( Merged from stable 3.4 r7588 )
 - Fixed bug with missing ul start tag ( Merged from stable/3.4 rev. 7618 )
   http://ez.no/community/bug_reports/missing_ul_in_eztemplatetoolbarfunction_php
+- Fixed writing the expiry.php file to be an atomic operation so that multiple
+  content updates can not mangle the file.
+- Fixed concurrency issue with cached files.
+  http://ez.no/community/bug_reports/critical_at_high_traffic_sites_files_aren_t_locked_at_writing_process
+- Fixed double listing of the notification tool. (Merged from stable/3.4, rev 7819)
+  http://ez.no/community/bug_reports/notification_toolbox_is_listed_twice
+- Fixed broken XHTML code. (Merged from stable/3.4, rev. 7824)
+  http://ez.no/community/bug_reports/layout_break_in_line_file_tpl
+- Fixed MySQL 4.1 incompatibility. (Merged from stable/3.4, rev. 7827)
+  http://ez.no/community/bug_reports/mysql_4_incompatibility
 - Fixed bug with incorrect fetching of user roles when user is more then in one user group.
   http://ez.no/community/bug_reports/adding_a_user_to_a_user_group_doesn_t_automatically_apply_all_roles 
   (Merged from stable/3.4 rev. 7829)
+- Fixed a warning with conditional overrides. (Merged from stable/3.4, rev. 7831)
+  http://ez.no/community/bug_reports/php_warning_eztemplatedesignresource_php
+- Fixed a couple of warnings about the navigationPartIdentifier (Merged from stable/3.4, rev 7833)
+  http://ez.no/community/bug_reports/with_debug_enabled_i_am_getting_the_following_error
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
