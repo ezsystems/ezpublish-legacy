@@ -434,7 +434,7 @@ class eZPersistentObject
                                $field_filters = null,
                                /*! An array of conditions which determines which rows are fetched*/
                                $conds = null,
-                               /*! An array of sorting conditions */
+                               /*! An array of sorting conditions, if set to false, ignore settings in $def */
                                $sorts = null,
                                /*! Offset and limit */
                                $limit = null,
@@ -481,7 +481,7 @@ class eZPersistentObject
 
         $where_text = eZPersistentObject::conditionText( $conds );
         $sort_text = "";
-        if ( isset( $def["sort"] ) or is_array( $sorts ) )
+        if ( $sorts !== false and ( isset( $def["sort"] ) or is_array( $sorts ) ) )
         {
             $sort_list =& $def["sort"];
             if ( is_array( $sorts ) )
