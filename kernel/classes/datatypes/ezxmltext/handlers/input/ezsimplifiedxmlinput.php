@@ -220,6 +220,15 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                                                                      'ezXMLTextType' ) );
                                 return EZ_INPUT_VALIDATOR_STATE_INVALID;
                             }
+                            else
+                            {
+                                $linkObjectLink =& eZURLObjectLink::fetch( $urlID, $contentObjectAttributeID, $contentObjectAttributeVersion );
+                                if ( $linkObjectLink == null )
+                                {
+                                    $linkObjectLink =& eZURLObjectLink::create( $urlID, $contentObjectAttributeID, $contentObjectAttributeVersion );
+                                    $linkObjectLink->store();
+                                }
+                            }
                         }
                     }
                 }
@@ -243,6 +252,15 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                                                                      'Link '. $linkID .' does not exist.',
                                                                                      'ezXMLTextType' ) );
                                 return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                            }
+                            else
+                            {
+                                $linkObjectLink =& eZURLObjectLink::fetch( $linkID, $contentObjectAttributeID, $contentObjectAttributeVersion );
+                                if ( $linkObjectLink == null )
+                                {
+                                    $linkObjectLink =& eZURLObjectLink::create( $linkID, $contentObjectAttributeID, $contentObjectAttributeVersion );
+                                    $linkObjectLink->store();
+                                }
                             }
                         }
                         if ( $link->attributeValue( 'href' ) != null )
