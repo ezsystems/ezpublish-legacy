@@ -696,13 +696,13 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         $overrideINIArray = array();
         foreach( $overrideListNode->elementsByName( 'block' ) as $blockNode )
         {
-            if ( isset( $installParameters['site_access_map'][$blockNode->attributeValue( 'site-access' )] ) )
+            if ( isset( $parameters['site_access_map'][$blockNode->attributeValue( 'site-access' )] ) )
             {
-                $newSiteAccess = $installParameters['site_access_map'][$blockNode->attributeValue( 'site-access' )];
+                $newSiteAccess = $parameters['site_access_map'][$blockNode->attributeValue( 'site-access' )];
             }
             else
             {
-                $newSiteAccess = $installParameters['site_access_map']['*'];
+                $newSiteAccess = $parameters['site_access_map']['*'];
             }
 
             if ( !$newSiteAccess )
@@ -786,13 +786,13 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         $fetchAliasINIArray = array();
         foreach( $fetchAliasListNode->elementsByName( 'fetch-alias' ) as $blockNode )
         {
-            if ( isset( $installParameters['site_access_map'][$blockNode->attributeValue( 'site-access' )] ) )
+            if ( isset( $parameters['site_access_map'][$blockNode->attributeValue( 'site-access' )] ) )
             {
-                $newSiteAccess = $installParameters['site_access_map'][$blockNode->attributeValue( 'site-access' )];
+                $newSiteAccess = $parameters['site_access_map'][$blockNode->attributeValue( 'site-access' )];
             }
             else
             {
-                $newSiteAccess = $installParameters['site_access_map']['*'];
+                $newSiteAccess = $parameters['site_access_map']['*'];
             }
 
             if ( !isset( $fetchAliasINIArray[$newSiteAccess] ) )
