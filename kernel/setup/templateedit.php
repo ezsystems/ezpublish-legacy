@@ -1,7 +1,5 @@
 <?php
 //
-// Definition of Templateedit class
-//
 // Created on: <21-Oct-2004 19:38:12 jb>
 //
 // Copyright (C) 1999-2004 eZ systems as. All rights reserved.
@@ -35,7 +33,9 @@
 // you.
 //
 
+// Redirect to visual module which is the correct place for this functionality
 $module =& $Params['Module'];
-return $module->redirectTo( '/visual/templateedit' );
+$module->setCurrentName( 'visual' );
+return $module->redirectCurrent();
 
 ?>
