@@ -1,4 +1,4 @@
-<td valign="top">
+<td valign="top"{section show=$class} class="{$class}"{/section}{section show=$colspan} colspan="{$colspan}"{/section}{section show=$rowspan} rowspan="{$rowspan}"{/section}{section show=$width} width="{$width}"{/section}>
 {switch name=Sw match=$content}
   {case match=""}
   &nbsp;
