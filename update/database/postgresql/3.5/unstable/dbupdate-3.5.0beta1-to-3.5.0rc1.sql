@@ -268,6 +268,7 @@ UPDATE ezrss_export_item SET description=description_tmp;
 ALTER TABLE ezrss_export_item DROP COLUMN description_tmp;
 
 --- ezpdf_export
+--- Added support for versioning (class-type)
 
 ALTER TABLE ezpdf_export
     DROP CONSTRAINT ezpdf_export_pkey;
@@ -284,6 +285,7 @@ ALTER TABLE ezpdf_export
     ADD CONSTRAINT ezpdf_export_pkey PRIMARY KEY (id,version);
 
 --- ezrss_import
+--- Added support for versioning (class-type) by reusing status attribute
 
 ALTER TABLE ezrss_import
     DROP CONSTRAINT ezrss_import_pkey;
@@ -297,6 +299,7 @@ ALTER TABLE ezrss_import
     ADD CONSTRAINT ezrss_import_pkey PRIMARY KEY (id,status);
 
 --- ezrss_export
+--- Added support for versioning (class-type) by reusing status attribute
 
 ALTER TABLE ezrss_export
     DROP CONSTRAINT ezrss_export_pkey;
@@ -310,6 +313,7 @@ ALTER TABLE ezrss_export
     ADD CONSTRAINT ezrss_export_pkey PRIMARY KEY (id,status);
 
 --- ezrss_export_item
+--- Added support for versioning (class-type) by introducing status attribute
 
 ALTER TABLE ezrss_export_item
     DROP CONSTRAINT ezrss_export_item_pkey;
