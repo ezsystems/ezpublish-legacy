@@ -268,6 +268,9 @@ class eZContentObject extends eZPersistentObject
         $this->Name = $name;
     }
 
+    /*!
+     Sets the name of the object in all translations.
+    */
     function setName( $objectName, $versionNum = false, $translation = false )
     {
         $db =& eZDB::instance();
@@ -331,7 +334,8 @@ class eZContentObject extends eZPersistentObject
                                       '$translation',
                                       '$translation' )";
                     $db->query( $query );
-                }else if ( ! in_array( $needTranslation, $existingTranslationList ) )
+                }
+                else if ( ! in_array( $needTranslation, $existingTranslationList ) )
                 {
                     $query = "insert into ezcontentobject_name( contentobject_id,name,content_version,content_translation,real_translation )
                               values( $objectID,
@@ -341,9 +345,15 @@ class eZContentObject extends eZPersistentObject
                                       '$translation' )";
                     $db->query( $query );
                 }
+                else
+                {
+                    // Update non-translated names
+                    $query = "UPDATE ezcontentobject_name SET
+                                      name = '$objectName'
+                              WHERE contentobject_id = $objectID and content_version = $versionNum and real_translation ='$translation'";
+                    $db->query( $query );
+                }
             }
-
-
         }
     }
 
