@@ -16,7 +16,7 @@
 
 <div class="block">
     <label>{'Name'|i18n( 'design/admin/workflow/groupedit' )}:</label>
-    <input class="box" type="text" name="WorkflowGroup_name" value="{$workflow_group.name}" />
+    <input class="box" type="text" name="WorkflowGroup_name" value="{$workflow_group.name|wash}" />
 </div>
 
 </div>

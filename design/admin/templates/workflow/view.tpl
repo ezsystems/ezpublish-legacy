@@ -19,7 +19,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'%workflow_name [Workflow]'|i18n( 'design/admin/workflow/view' ,, hash( '%workflow_name', $workflow.name ) )}</h1>
+<h1 class="context-title">{'%workflow_name [Workflow]'|i18n( 'design/admin/workflow/view' ,, hash( '%workflow_name', $workflow.name ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -102,7 +102,7 @@
         <select name="Workflow_group">
         {section var=Groups loop=$workflow.group_list}
             {section show=$workflow.ingroup_id_list|contains($Groups.item.id)|not}
-                <option value="{$Groups.item.id}/{$Groups.item.name}">{$Groups.item.name|wash}</option>
+                <option value="{$Groups.item.id}/{$Groups.item.name|wash}">{$Groups.item.name|wash}</option>
             {/section}
         {/section}
         </select>

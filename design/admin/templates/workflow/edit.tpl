@@ -36,7 +36,7 @@
 
 <div class="block">
 <label>{'Name'|i18n( 'design/admin/workflow/edit' )}:</label>
-<input class="halfbox" type="text" name="Workflow_name" value="{$workflow.name}" />
+<input class="halfbox" type="text" name="Workflow_name" value="{$workflow.name|wash}" />
 </div>
 
 {section show=$event_list}
