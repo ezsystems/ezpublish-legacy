@@ -90,6 +90,14 @@ div#toolbar-top div.search-line form, div#toolbar-bottom div.search-line form
     display: inline;
 }
 
+div#toolbar-top div.search-line div.optionblock input,
+div#toolbar-top div.search-line div.optionblock label,
+div#toolbar-right div.search-full div.optionblock input,
+div#toolbar-right div.search-full div.optionblock label
+{ 
+    display: inline;
+}
+
 div#toolbar-top input.searchinput, div#toolbar-bottom input.searchinput
 {
     height: 1.6em;
