@@ -221,6 +221,9 @@ class eZTemplateSwitchFunction
         $name = "";
         if ( isset( $params["name"] ) )
             $name = $tpl->elementValue( $params["name"], $rootNamespace, $currentNamespace, $functionPlacement );
+        $varName = false;
+        if ( isset( $params["var"] ) )
+            $varName = $tpl->elementValue( $params["var"], $rootNamespace, $currentNamespace, $functionPlacement );
         if ( $currentNamespace != "" )
         {
             if ( $name != "" )
@@ -342,7 +345,10 @@ class eZTemplateSwitchFunction
 
         if ( $case !== null )
         {
-            $tpl->setVariable( "match", $match, $name );
+            if ( $varName !== false )
+                $tpl->setVariable( $varName, $match, $name );
+            else
+                $tpl->setVariable( "match", $match, $name );
             $case_children =& $case[1];
             if ( $case_children )
             {

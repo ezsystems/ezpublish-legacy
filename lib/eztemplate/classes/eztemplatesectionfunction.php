@@ -376,9 +376,10 @@ class eZTemplateSectionFunction
                        "    \$loopKeys = false;\n" .
                        $numericCode .
                        "    if ( \$loopItem < 0 )\n" .
-                       "        \$loopCount = -\$loopItem;\n" .
+                       "        \$loopCountValue = -\$loopItem;\n" .
                        "    else\n" .
-                       "        \$loopCount = \$loopItem;\n" .
+                       "        \$loopCountValue = \$loopItem;\n" .
+                       "    \$loopCount = \$loopCountValue - $offsetText;\n" .
                        "}\n" );
 
             // Initialization for string
@@ -416,9 +417,9 @@ class eZTemplateSectionFunction
             $code .= ( "    else if ( is_numeric( \$loopItem ) )\n" .
                        "    {\n" );
             if ( $reverseLoop )
-                $code .= "        \$item = \$loopCount - \$index - $offsetText + 1;\n";
+                $code .= "        \$item = \$loopCountValue - \$index;\n";
             else
-                $code .= "        \$item = \$index + $offsetText;\n";
+                $code .= "        \$item = \$index + $offsetText + 1;\n";
             $code .= ( "        if ( \$loopItem < 0 )\n" .
                        "            \$item = -\$item;\n" .
                        "        \$loopKey = \$item;\n" .
@@ -876,7 +877,7 @@ class eZTemplateSectionFunction
                     for ( $i = $loopStart; $i < $count; ++$i )
                     {
                         if ( $reverseLoop )
-                            $iterator = ($count - $i) + $loopStart - 1;
+                            $iterator = ($count - $i) + 1;
                         else
                             $iterator = $i;
                         if ( $value < 0 )
