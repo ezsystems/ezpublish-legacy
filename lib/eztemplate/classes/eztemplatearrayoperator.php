@@ -1019,102 +1019,189 @@ class eZTemplateArrayOperator
     function compareTrans( $operatorName, &$node, &$tpl, &$resourceData,
                            &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
-        return false; //TODO - Does not work using string input.
         $isArray = false;
         $isString = false;
+        $inParam = null;
+        $inParamCode = '';
+        $compareParams = array();
+        $compareParamsCode = array();
         $offset = 0;
-        $length = count( $parameters ) - 1;
         $values = array();
-        $values[] = array( eZTemplateNodeTool::createNumericElement( $length ) );
-        $code = '';
-        $array = null;
+        $tmpCount = 0;
 
         if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
         {
-            $array = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
-            $code .= '%tmp1% = ' . eZPHPCreator::variableText( $array, 0, 0, false ) . ';';
-            $isString = is_string( $array );
-            $isArray = is_array( $array );
+            $inParam = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+            $inParamCode = eZPHPCreator::variableText( $inParam, 0, 0, false );
+            $isString = is_string( $inParam );
+            $isArray = is_array( $inParam );
         }
         else
         {
             $values[] = $parameters[0];
-            $code .= '%tmp1% = %'. count( $values ) . '%;';
+            $inParamCode = '%' . count( $values ) . '%';
         }
 
-        $code .= "\n" . '%tmp2% = true;' . "\n";
-
-        if ( $operatorName == $this->EndsWithName )
+        for( $i = 1; $i < count( $parameters ); $i++ )
         {
-            if ( $array )
+            if ( eZTemplateNodeTool::isStaticElement( $parameters[$i] ) )
             {
-                $offset = count( $array ) - $length;
-                $code .= '%tmp5% = ' . $offset . ';' . "\n";
+                $compareParams[] = eZTemplateNodeTool::elementStaticValue( $parameters[$i] );
+                $compareParamsCode[] = eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false );
             }
             else
             {
-                $code .= '%tmp5% = count( %tmp1% ) - ' . $length . ';' . "\n";
+                $values[] = $parameters[$i];
+                $compareParamsCode[] = '%' . count( $values ) . '%';
             }
         }
-        else
-        {
-            $code .= '%tmp5% = 0;' . "\n";
-        }
 
-        $code .= '%tmp4% = array( ';
-        $match = true;
-        for( $i = 0; $i < $length; $i++ )
+        switch( $operatorName )
         {
-            if ( $i != 0 )
+            case $this->EndsWithName:
             {
-                $code .= ', ';
-            }
-
-            if ( eZTemplateNodeTool::isStaticElement( $parameters[$i + 1] ) )
-            {
-                $staticElement = eZTemplateNodeTool::elementStaticValue( $parameters[$i +1] );
-                if ( count( $values ) == 1 )
+                if ( count( $values ) == 0 )
                 {
-                    if ( $array[$offset + $i] != $staticElement )
+                    if ( $isString )
                     {
-                        $match = false;
-                        break;
+                        $result = ( strpos ( $inParam, $compareParams[0] ) === ( strlen( $inParam ) - strlen ( $compareParams[0] ) ) );
                     }
+                    else if ( $isArray )
+                    {
+                        $length = count( $inParam );
+                        $params = count( $compareParams );
+                        $start = $length - $params;
+
+                        $result = true;
+                        for ( $i = 0; $i < $params; ++$i )
+                        {
+                            if ( $inParam[$start + $i] != $compareParams[$i] )
+                            {
+                                $result = false;
+                                break;
+                            }
+                        }
+                    }
+
+                    return array( eZTemplateNodeTool::createBooleanElement( $result ) );
                 }
-                $code .= eZPHPCreator::variableText( $staticElement, 0, 0, false );
-            }
-            else
+
+                if ( $isString )
+                {
+                    $code = '%output% = ( strpos( ' . $inParamCode . ', ' . $compareParamsCode[0] . ' ) === ( strlen( ' . $inParamCode . ' ) - strlen( ' . $compareParamsCode[0] . ' ) ) );';
+                }
+                else if ( $isArray )
+                {
+                    $code = '%tmp4% = ' . $inParamCode . ';' . "\n" .
+                         '%tmp1% = count( %tmp4% );' . "\n" .
+                         '%tmp2% = ' . count( $compareParamsCode  ) . ';' . "\n" .
+                         '%tmp3% = %tmp1% - %tmp2%;' . "\n" .
+                         '%output% = true;' . "\n";
+                    for( $i = 0 ; $i < count( $compareParamsCode ); ++$i )
+                    {
+                        if( $i != 0 )
+                            $code .= 'else ';
+                        $code .= 'if ( %tmp4%[%tmp3% + ' . $i . '] != ' . $compareParamsCode[$i] . ')' . "\n" .
+                             '  %output% = false;' . "\n";
+                    }
+
+                    $tmpCount = 4;
+                }
+                else
+                {
+                    $code = '%tmp4% = ' . $inParamCode . ';' . "\n" .
+                         'if ( is_string( %tmp4% ) )' . "\n" .
+                         '{' . "\n" .
+                         '  %output% = ( strpos( %tmp4%, ' . $compareParamsCode[0] . ' ) === ( strlen( %tmp4% ) - strlen( ' . $compareParamsCode[0] . ' ) ) );' . "\n" .
+                         '}' . "\n" .
+                         'else if( is_array( %tmp4% ) )' . "\n" .
+                         '{' . "\n" .
+                         '  %tmp1% = count( %tmp4% );' . "\n" .
+                         '  %tmp2% = ' . count( $compareParamsCode  ) . ';' . "\n" .
+                         '  %tmp3% = %tmp1% - %tmp2%;' . "\n" .
+                         '  %output% = true;' . "\n";
+                    for( $i = 0 ; $i < count( $compareParamsCode ); ++$i )
+                    {
+                        if( $i != 0 )
+                            $code .= '  else ';
+                        $code .= 'if ( %tmp4%[%tmp3% + ' . $i . '] != ' . $compareParamsCode[$i] . ')' . "\n" .
+                             '    %output% = false;' . "\n";
+                    }
+                    $code .= '}';
+
+                    $tmpCount = 4;
+                }
+
+                return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, $tmpCount ) );
+            } break;
+
+            case $this->BeginsWithName:
             {
-                $values[] = $parameters[$i + 1];
-                $code .= '%' . count( $values ) . '%';
-            }
+                if ( count( $values ) == 0 )
+                {
+                    if ( $isString )
+                    {
+                        $result = ( strpos ( $inParam, $compareParams[0] ) == 0 );
+                    }
+                    else if ( $isArray )
+                    {
+                        $result = true;
+                        for ( $i = 0; $i < count( $compareParams ); ++$i )
+                        {
+                            if ( $inParam[$i] != $compareParams[$i] )
+                            {
+                                $result = false;
+                                break;
+                            }
+                        }
+                    }
+
+                    return array( eZTemplateNodeTool::createBooleanElement( $result ) );
+                }
+
+                if ( $isString )
+                {
+                    $code = '%output% = ( strpos( ' . $inParamCode . ', ' . $compareParamsCode[0] . ' ) == 0 );';
+                }
+                else if ( $isArray )
+                {
+                    $code = '%tmp1% = ' . $inParamCode . ';' . "\n" .
+                         '%output% = true;' . "\n";
+                    for( $i = 0 ; $i < count( $compareParamsCode ); ++$i )
+                    {
+                        if( $i != 0 )
+                            $code .= 'else ';
+                        $code .= 'if ( %tmp1%[' . $i . '] != ' . $compareParamsCode[$i] . ')' . "\n" .
+                             '  %output% = false;' . "\n";
+                    }
+
+                    $tmpCount = 1;
+                }
+                else
+                {
+                    $code = '%tmp1% = ' . $inParamCode . ';' . "\n" .
+                         'if ( is_string( %tmp1% ) )' . "\n" .
+                         '{' . "\n" .
+                         '  %output% = ( strpos( %tmp1%, ' . $compareParamsCode[0] . ' ) == 0 );' . "\n" .
+                         '}' . "\n" .
+                         'else if( is_array( %tmp1% ) )' . "\n" .
+                         '{' . "\n" .
+                         '  %output% = true;' . "\n";
+                    for( $i = 0 ; $i < count( $compareParamsCode ); ++$i )
+                    {
+                        if( $i != 0 )
+                            $code .= '  else ';
+                        $code .= 'if ( %tmp1%[' . $i . '] != ' . $compareParamsCode[$i] . ')' . "\n" .
+                             '    %output% = false;' . "\n";
+                    }
+                    $code .= '}';
+
+                    $tmpCount = 1;
+                }
+
+                return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, $tmpCount ) );
+            } break;
         }
-        $code .= ' );' . "\n";
-
-        if ( count( $values ) == 1 )
-        {
-            if ( $isString )
-            {
-                return array( eZTemplateNodeTool::createBooleanElement( strpos( $array, eZTemplateNodeTool::elementStaticValue( $parameters[1] ) ) == 0 ) );
-            }
-            else if ( $isArray )
-            {
-                return array( eZTemplateNodeTool::createBooleanElement( $match ) );
-            }
-        }
-
-        // TODO : fix begins_with and ends_with for strings
-        $code .= 'for( %tmp3% = 0; %tmp3% < %1%; ++%tmp3% )' . "\n" .
-             '{' . "\n" .
-             '  if ( %tmp1%[%tmp5% + %tmp3%] != %tmp4%[%tmp3%] )' . "\n" .
-             '  {' . "\n" .
-             '    %tmp2% = false;' . "\n" .
-             '    break;' . "\n" .
-             '  }' . "\n" .
-             '}' . "\n" .
-             '%output% = %tmp2%;';
-
-        return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 5 ) );
     }
 
     /*!

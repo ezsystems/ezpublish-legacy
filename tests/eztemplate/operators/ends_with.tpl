@@ -9,3 +9,15 @@
 {let kake=4}
 {array( 1, 2, 3, $kake)|begins_with( 4, 3) }
 {/let}
+
+{"Kake mann"|ends_with( "Kake" )}
+
+{let arr="Kake mann"}
+{$arr|ends_with( "Kake" )}
+{/let}
+
+{"Kake mann"|ends_with( "mann" )}
+
+{let arr="Kake mann"}
+{$arr|ends_with( "mann" )}
+{/let}
