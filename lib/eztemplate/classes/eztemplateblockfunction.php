@@ -349,7 +349,9 @@ class eZTemplateBlockFunction
 
     /// \privatesection
     /// Name of the function
-    var $Name;
+    var $BlockName;
+    var $AppendBlockName;
+    var $OnceName;
 }
 
 ?>
