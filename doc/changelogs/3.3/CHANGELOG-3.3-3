@@ -20,7 +20,7 @@ Changes from 3.3-2 to 3.3-3
 - Changed text_linked.tpl to use url_alias attribute instead of hardcoded content/view/full/*
 
 *Setup:
-- Added check for AcceptPathInfo setting in apache.
+- Added check for AcceptPathInfo setting in apache2.
 
 *DataTypes:
 
@@ -104,6 +104,8 @@ eZTime:
   http://ez.no/community/bug_reports/lack_i18n_and_translate_problem_with_linquist
 - Fixed eZContentObjectTreeNode::subTree, so ez publish won't crash on bad parameters
   http://ez.no/community/bug_reports/fetch_content_tree_fatal_error_if_tpl_contains_user_errors
+- Fixed role/edit.php for undefined post parameters.
+  http://ez.no/community/bug_reports/undefined_post_variables_in_role_edit_php
 
 *Library:
 
