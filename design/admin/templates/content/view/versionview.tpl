@@ -155,7 +155,7 @@
 {/section}
 {section-else}
 <p>
-<input type="radio" name="SelectedPlacement" value="{$version.node_assignments[0]}" checked="checked" disabled="disabled" />&nbsp;{$version.node_assignments[0].parent_node_obj.name|wash}
+<input type="radio" name="SelectedPlacement" value="{$version.node_assignments[0].id}" checked="checked" disabled="disabled" />&nbsp;{$version.node_assignments[0].parent_node_obj.name|wash}
 </p>
 {/section}
 </div>
