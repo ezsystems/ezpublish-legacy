@@ -45,6 +45,8 @@ Changes from 3.2-4 to 3.2-5
   http://ez.no/community/bug_reports/updatesearchindex_php_don_t_support_emails
 - Fixed sql query for getting search statistics.
   http://ez.no/community/bug_reports/search_statistics_and_postgresql
+- Fixed typo in kernel/content/node_edit.php
+  http://ez.no/community/bug_reports/typo_in_kernel_content_node_edit_php
 
 *Setup:
 - Fixed setup to only check for existing eZ publish tables.
