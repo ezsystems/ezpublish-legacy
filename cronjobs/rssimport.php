@@ -198,6 +198,16 @@ function importRSSItem( &$item, &$rssImport, &$cli )
     $rssImportID =& $rssImport->attribute( 'id' );
     $rssOwnerID =& $rssImport->attribute( 'object_owner_id' ); // Get owner user id
     $parentContentObjectTreeNode =& eZContentObjectTreeNode::fetch( $rssImport->attribute( 'destination_node_id' ) ); // Get parent treenode object
+
+    if ( $parentContentObjectTreeNode == null )
+    {
+        if ( !$isQuiet )
+        {
+            $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Destination tree node seems to be unavailable' );
+        }
+        return 0;
+    }
+
     $parentContentObject =& $parentContentObjectTreeNode->attribute( 'object' ); // Get parent content object
 
     $title =& $item->elementByName( 'title' );
@@ -217,8 +227,8 @@ function importRSSItem( &$item, &$rssImport, &$cli )
         if ( !$isQuiet )
         {
             $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Object with URL: '.$link->textContent().' already exists' );
-            return 0;
         }
+        return 0;
     }
 
     // Fetch class, and create ezcontentobject from it.
