@@ -344,7 +344,7 @@ class eZModule
                 eZDebug::writeWarning( "Missing parameter(s) " . implode( ', ', array_slice( $viewParameters, $parameterIndex ) ) .
                                        " in view '$viewName'", 'eZModule::redirect' );
                 if ( $hasUnorderedParameter )
-                    $uri .= '/';
+                    $uri .= $unorderedURI;
             }
             else
                 $uri .= $parameters[$parameterIndex] . '/';
