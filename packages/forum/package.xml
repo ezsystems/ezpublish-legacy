@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package version="3.2-1"
-         development="true"
+         development="false"
          xmlns:ezpackage="http://ez.no/ezpackage">
-  <warning>This format was made with a development version and will not work with any release versions.
-The format of this file is also subject to change until the release version.
-Upgrades to the development format will not be supported.</warning>
   <name modified="1061309339">forum</name>
   <summary modified="1061309346">Forum</summary>
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
-    <version>3.2.0-1</version>
-    <named-version>3.2 beta1</named-version>
+    <version>3.2-1</version>
+    <named-version>3.2</named-version>
   </ezpublish>
   <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
     <maintainer modified="1061309339">

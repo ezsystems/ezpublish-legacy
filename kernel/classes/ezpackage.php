@@ -49,7 +49,7 @@ include_once( 'lib/ezutils/classes/ezdir.php' );
 include_once( 'lib/ezfile/classes/ezfilehandler.php' );
 
 define( 'EZ_PACKAGE_VERSION', '3.2-1' );
-define( 'EZ_PACKAGE_DEVELOPMENT', true );
+define( 'EZ_PACKAGE_DEVELOPMENT', false );
 define( 'EZ_PACKAGE_USE_CACHE', false );
 define( 'EZ_PACKAGE_CACHE_CODEDATE', 1061114927 );
 
@@ -87,6 +87,7 @@ class eZPackage
         $ezpublish = array( 'version' => $ezpublishVersion,
                             'named-version' => $ezpublishNamedVersion );
         $defaults = array( 'name' => false,
+                           'development' => EZ_PACKAGE_DEVELOPMENT,
                            'summary' => false,
                            'description' => false,
                            'vendor' => false,
@@ -153,7 +154,8 @@ class eZPackage
     function setAttribute( $attributeName, $attributeValue )
     {
         if ( !in_array( $attributeName,
-                        array( 'name', 'summary', 'description',
+                        array( 'development',
+                               'name', 'summary', 'description',
                                'vendor', 'priority', 'type',
                                'extension', 'source',
                                'licence', 'state' ) ) )
@@ -174,7 +176,8 @@ class eZPackage
     function hasAttribute( $attributeName /*, $attributeList = false*/ )
     {
         return in_array( $attributeName,
-                         array( 'name', 'summary', 'description',
+                         array( 'development',
+                                'name', 'summary', 'description',
                                 'vendor', 'priority', 'type',
                                 'extension', 'source',
                                 'version-number', 'release-number', 'release-timestamp',
@@ -193,7 +196,8 @@ class eZPackage
     function attribute( $attributeName /*, $attributeList = false*/ )
     {
         if ( in_array( $attributeName,
-                       array( 'name', 'summary', 'description',
+                       array( 'development',
+                              'name', 'summary', 'description',
                               'vendor', 'priority', 'type',
                               'extension', 'source',
                               'version-number', 'release-number', 'release-timestamp',
@@ -1064,6 +1068,21 @@ class eZPackage
             $package =& new eZPackage();
             $parameters = $package->parseDOMTree( $dom );
 
+            if ( !$parameters )
+                return false;
+
+            if ( $package and
+                 !EZ_PACKAGE_DEVELOPMENT )
+            {
+                $development = $package->attribute( 'development' );
+                if ( $development )
+                {
+                    $cli =& eZCLI::instance();
+                    $cli->warning( "Could not load package from file " . $cli->stylize( 'emphasize', $filename ) );
+                    return false;
+                }
+            }
+
             return $package;
         }
     }
@@ -1131,6 +1150,15 @@ class eZPackage
                 if ( isset( $Parameters ) and
                      isset( $ModifiedParameters ) )
                 {
+                    if ( !EZ_PACKAGE_DEVELOPMENT )
+                    {
+                        if ( !isset( $Parameters['development'] ) or
+                             $Parameters['development'] )
+                        {
+                            $cli->warning( "Could not load package from cache " . $cli->stylize( 'emphasize', $packageName ) );
+                            return false;
+                        }
+                    }
                     $package = new eZPackage( $Parameters, array(), $RepositoryPath );
                     $package->ModifiedParameters = $ModifiedParameters;
                     return $package;
@@ -1306,11 +1334,14 @@ class eZPackage
                     $package = false;
                     $cacheExpired = false;
                     if ( eZPackage::useCache() )
+                    {
                         $package =& eZPackage::fetchFromCache( $file, $fileModification, $cacheExpired );
+                    }
                     if ( !$package )
                     {
                         $package =& eZPackage::fetchFromFile( $filePath );
-                        if ( $cacheExpired and
+                        if ( $package and
+                             $cacheExpired and
                              eZPackage::useCache() )
                         {
                             $package->storeCache( $dirPath . '/' . eZPackage::cacheDirectory() );
@@ -1395,6 +1426,15 @@ class eZPackage
         if ( !$root )
             return false;
 
+        if ( !EZ_PACKAGE_DEVELOPMENT )
+        {
+            // If it has a warning we don't read it in production mode
+            if ( $root->elementByName( 'warning' ) )
+            {
+                return false;
+            }
+        }
+
         // Read basic info
         $parameters = array();
         $parameters['name'] = $root->elementTextContentByName( 'name' );
@@ -1404,6 +1444,7 @@ class eZPackage
         $parameters['priority'] = $root->elementAttributeValueByName( 'priority', 'value' );
         $parameters['type'] = $root->elementAttributeValueByName( 'type', 'value' );
         $parameters['source'] = $root->elementTextContentByName( 'source' );
+        $parameters['development'] = $root->attributeValue( 'development' ) == 'true';
         $extensionNode =& $root->elementByName( 'extension' );
         if ( $extensionNode )
             $parameters['extension'] = $extensionNode->attributeValue( 'name' );
@@ -1588,6 +1629,7 @@ class eZPackage
         $uninstallList =& $root->elementChildrenByName( 'uninstall' );
         $this->parseInstallTree( $installList, true );
         $this->parseInstallTree( $uninstallList, false );
+        return true;
     }
 
     /*!
