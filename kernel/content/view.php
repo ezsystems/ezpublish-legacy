@@ -127,10 +127,24 @@ $tpl->setVariable( "children_count", $childrenCount );
 
 $tpl->setVariable( "related_contentobject_array", $relatedObjectArray );
 
-
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( 'classes', $classes );
 
-$Result =& $tpl->fetch( "design:content/view/$ViewMode.tpl" );
+//$Result =& $tpl->fetch( "design:content/view/$ViewMode.tpl" );
+//$Path = array( array( "test" =>"ez.no" ) );
 
+// create path
+$path = array();
+foreach ( $parents as $parent )
+{
+    $path[] = array( "text" => $parent->attribute( "name" ),
+                    "url" => "/content/view/full/" . $parent->attribute( "node_id" )
+                    );
+}
+$path[] = array( "text" => $object->attribute( "name" ),
+                 "url" => false );
+
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:content/view/$ViewMode.tpl" );
+$Result['path'] =& $path;
 ?>

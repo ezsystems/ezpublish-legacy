@@ -46,7 +46,12 @@ include_once( "kernel/classes/ezproductcollectionitem.php" );
 if ( $http->hasPostVariable( "ActionAddToBasket" ) )
 {
     $objectID = $http->postVariable( "ContentObjectID" );
+    $optionList =& $http->postVariable( "eZOption" );
 
+    foreach ( $optionList as $option )
+    {
+        print( $option );
+    }
     $object = eZContentObject::fetch( $objectID );
 
     $price = 0.0;

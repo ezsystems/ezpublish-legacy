@@ -50,21 +50,23 @@ class eZModuleManager
     */
     function eZModuleManager()
     {
-     
+
     }
 
     function aviableModules()
     {
         $modules = array();
-        if ($handle = opendir('kernel/')) {
-            while (false !== ($file = readdir($handle))) {
+        if ($handle = opendir('kernel/'))
+        {
+            while ( false !== ( $file = readdir( $handle ) ) )
+            {
 
                 if ( is_dir ( 'kernel/' . $file ) && file_exists( 'kernel/' . $file . '/module.php' )  )
                 {
                     $modules[] = $file;
                 }
             }
-            closedir($handle); 
+            closedir($handle);
         }
         return $modules;
     }

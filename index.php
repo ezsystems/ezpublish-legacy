@@ -272,6 +272,8 @@ if ( $show_page_layout )
 {
     include_once( "kernel/common/template.php" );
     $tpl =& templateInit();
+    $tpl->setVariable( "module_result", $result );
+
     if ( $module->exitStatus() == EZ_MODULE_STATUS_OK )
     {
         $tpl->setVariable( "content", $content );

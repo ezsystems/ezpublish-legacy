@@ -362,3 +362,29 @@ h1.top
 {
     display: none;
 }
+
+/* Debug stylesheets */
+td.debugheader
+{
+	background-color : #eeeeee;
+	border-top : 1px solid #444488;
+	border-bottom : 1px solid #444488;
+	font-size : 65%;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+td.timingpoint1
+{
+	background-color : #ffffff;
+	border-top : 1px solid #444488;
+	font-size : 65%;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+td.timingpoint2
+{
+	background-color : #eeeeee;
+	border-top : 1px solid #444488;
+	font-size : 65%;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}

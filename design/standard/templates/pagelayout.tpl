@@ -5,7 +5,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 
 <head>
-    <title>{$site.title}{section show=$site.page_title} - {$site.page_title}{/section}</title>
+    <title>{$site.title} - {section name=Path loop=$module_result.path}{$Path:item.text}{delimiter} / {/delimiter}{/section}</title>
+
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
     <link rel="stylesheet" type="text/css" href={"stylesheets/admin.css"|ezdesign} />
 
@@ -49,8 +50,6 @@
     <td class="topbox" valign="bottom" width="20%">
     <label class="topline">Name: {$current_user.login}</label>
     <p class="menuitem"><a class="menuitem" href="/user/logout/">Log out</a></p>
-
-
     </td>
 </tr>
 </table>
@@ -71,7 +70,19 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" align="middle" hspace="2" /><br />
     </td>
     <td width="99%">
-    <p class="path"><a class="path" href="/">Browse</a> <span class="slash">/</span> <a class="path" href="/">Toplevel</a> <span class="slash">/</span> <a class="path" href="/">Subcategory</a> <span class="slash">/</span> <a class="path" href="/">Subsubcategory</a></p>
+    <p class="path">
+    {section name=Path loop=$module_result.path}
+        {section show=$Path:item.url}
+        <a class="path" href="{$Path:item.url}">{$Path:item.text}</a> 
+        {section-else}
+        {$Path:item.text}
+        {/section}
+
+        {delimiter}
+        <span class="slash">/</span>
+        {/delimiter}
+    {/section}
+    </p>
     </td>
 </tr>
 </table>
