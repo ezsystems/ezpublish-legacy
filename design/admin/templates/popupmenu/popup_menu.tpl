@@ -103,8 +103,7 @@ menuArray['BookmarkMenu']['elements']['bookmark-edit']['url'] = {"/content/edit/
         <div class="window-close" onclick="ezpopmenu_hide( 'Advanced' )"><p>X</p></div>
         <div class="break"></div>
     </div>
-    <a id="menu-swap" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )" onclick="ezpopmenu_submitForm( 'menu-form-swap' ); return false;">{'Swap node'|i18n( 'design/admin/node/view/full' )}</a>
-    <hr />
+    <a id="menu-swap" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )" onclick="ezpopmenu_submitForm( 'menu-form-swap' ); return false;">{'Swap with another node'|i18n( 'design/admin/node/view/full' )}</a>
     <a id="menu-hide" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )" onclick="ezpopmenu_submitForm( 'menu-form-swap' ); return false;">{'Hide / unhide'|i18n( 'design/admin/node/view/full' )}</a>
 </div>
 
