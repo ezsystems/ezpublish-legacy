@@ -116,7 +116,7 @@ class eZModuleOperationInfo
         }
         return $keyArray;
     }
-    
+
     function execute( $operationName, $operationParameters, $lastTrigger = null )
     {
         $moduleName = $this->ModuleName;
@@ -160,7 +160,11 @@ class eZModuleOperationInfo
             if ( count( $mementoList ) > 0 )
             {
                  ///restoring running operation
-                
+                foreach ( array_keys( $mementoList ) as $key )
+                {
+                    $memento =& $mementoList[$key ];
+                }
+
             }
             else
             {
@@ -370,7 +374,13 @@ class eZModuleOperationInfo
 
                         $Result = array();
                         $triggerStatus =  eZTrigger::runTrigger( $triggerName, $this->ModuleName, $operationName, $triggerParameters, $Result );
+
+                        if ( $triggerStatus == EZ_TRIGGER_STATUS_CRON_JOB || $triggerStatus == EZ_TRIGGER_FETCH_TEMPLATE )
+                        {
+                            $memento = eZOperationMemento::create( )
+                        }
 */
+
 
 
                         // Hack to get trigger for node id 16
