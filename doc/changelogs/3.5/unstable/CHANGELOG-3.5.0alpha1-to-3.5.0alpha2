@@ -12,6 +12,9 @@ Changes from 3.5.0alpha1 to 3.5.0alpha2
   that clears view cache for a given subtree.
 - Added default SOAP server support. Added soap.php, which will include specified SOAP extensions.
 - Added function to swap two nodes without changing any other content structure.
+- Added third optional boolean parameter to template operators
+  'mimetype_icon', 'class_icon', 'classgroup_icon' and 'icon'.
+  If it's specified and set to true(), the operators return only the icon URI instead of the whole HTML code.
 
 *Datatype:
 - Added default function canRemovable( $contentClassAttribute ) in ezdatatype.php. This 

@@ -63,9 +63,15 @@ class eZWordToImageOperator
 
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
+        // Determine whether we should return only the image URI instead of the whole HTML code.
+        if ( isset( $operatorParameters[2] ) )
+            $returnURIOnly = $tpl->elementValue( $operatorParameters[2], $rootNamespace, $currentNamespace );
+        else
+            $returnURIOnly = false;
+
         switch ( $operatorName )
         {
-            case "wordtoimage" :
+        case "wordtoimage" :
             {
                 include_once( "lib/ezutils/classes/ezini.php" );
                 $ini =& eZINI::instance("wordtoimage.ini");
@@ -85,7 +91,7 @@ class eZWordToImageOperator
                 $operatorValue = str_replace( $replaceText, $icons, $operatorValue );
             }break;
 
-            case 'flag_icon' :
+        case 'flag_icon' :
             {
                 $ini =& eZINI::instance( 'icon.ini' );
                 $repository = $ini->variable( 'FlagIcons', 'Repository' );
@@ -98,10 +104,10 @@ class eZWordToImageOperator
                 $operatorValue = $wwwDirPrefix . $iconPath;
             }break;
 
-            case 'mimetype_icon':
-            case 'class_icon':
-            case 'classgroup_icon':
-            case 'icon':
+        case 'mimetype_icon':
+        case 'class_icon':
+        case 'classgroup_icon':
+        case 'icon':
             {
                 $ini =& eZINI::instance( 'icon.ini' );
                 $repository = $ini->variable( 'IconSettings', 'Repository' );
@@ -220,7 +226,10 @@ class eZWordToImageOperator
                     $sizeText = ' width="' . $width . '" height="' . $height . '"';
                 }
 
-                $operatorValue = '<img src="' . $wwwDirPrefix . $iconPath . '"' . $sizeText . ' alt="' .  htmlspecialchars( $altText ) . '" title="' . htmlspecialchars( $altText ) . '" />';
+                if ( $returnURIOnly )
+                    $operatorValue = $wwwDirPrefix . $iconPath;
+                else
+                    $operatorValue = '<img src="' . $wwwDirPrefix . $iconPath . '"' . $sizeText . ' alt="' .  htmlspecialchars( $altText ) . '" title="' . htmlspecialchars( $altText ) . '" />';
             } break;
 
             default:
