@@ -207,9 +207,9 @@ class eZCLI
         if ( $this->UseStyles )
         {
             if ( $this->isWebOutput() )
-                return $this->terminalStyle( $name );
-            else
                 return $this->webStyle( $name );
+            else
+                return $this->terminalStyle( $name );
         }
         return false;
     }

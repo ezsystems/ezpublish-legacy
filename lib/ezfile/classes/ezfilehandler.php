@@ -1,0 +1,828 @@
+<?php
+//
+// Definition of eZFileHandler class
+//
+// Created on: <13-Aug-2003 16:20:19 amos>
+//
+// Copyright (C) 1999-2003 eZ systems as. All rights reserved.
+//
+// This source file is part of the eZ publish (tm) Open Source Content
+// Management System.
+//
+// This file may be distributed and/or modified under the terms of the
+// "GNU General Public License" version 2 as published by the Free
+// Software Foundation and appearing in the file LICENSE.GPL included in
+// the packaging of this file.
+//
+// Licencees holding valid "eZ publish professional licences" may use this
+// file in accordance with the "eZ publish professional licence" Agreement
+// provided with the Software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING
+// THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+// PURPOSE.
+//
+// The "eZ publish professional licence" is available at
+// http://ez.no/products/licences/professional/. For pricing of this licence
+// please contact us via e-mail to licence@ez.no. Further contact
+// information is available at http://ez.no/home/contact/.
+//
+// The "GNU General Public License" (GPL) is available at
+// http://www.gnu.org/copyleft/gpl.html.
+//
+// Contact licence@ez.no if any conditions of this licencing isn't clear to
+// you.
+//
+
+/*! \file ezfilehandler.php
+*/
+
+/*!
+  \class eZFileHandler ezfilehandler.php
+  \brief Interface for file handlers
+
+  Generic interface for all file handlers.
+
+  Using this class i divided into five areas, they are:
+
+  File handling using open(), close(), read(), write() and flush().
+
+  File position handling using seek(), tell(), rewind() and eof().
+
+  Quick output of the file using passtrough().
+
+  Error handling with error(), errorString() and errorNumber().
+
+  \h1 Creating specific handlers
+
+  The file handlers must inherit from this class and reimplement
+  some virtual functions.
+
+  For dealing with files the following functions must be reimplemented.
+  doOpen(), doClose(), doRead(), doWrite() and doFlush().
+
+  For dealing with file positions the following functions must be reimplemented.
+  doSeek(), doTell(), doRewind() and doEOF().
+
+  For dealing with quick output the passtrough() function must be reimplemented,
+  if not reimplemented the default implemententation will simply read n bytes
+  using read() and output it with print.
+
+  Also the errorString() and errorNumber() functions must be reimplemented
+  to provide proper error handler. The error() function is not required
+  to be implemented since it has a default implementation, for speed
+  it might be wise to implement the function.
+
+  This class will handle most of the generic logic, like checking that
+  the filename is correct and if the open succeded, and give error
+  messages based on this.
+  The actual implementations will only have to execute the specific
+  code and return a result.
+
+*/
+
+class eZFileHandler
+{
+    /*!
+     Initializes the handler. Optionally the parameters \a $filename
+     and \a $mode may be provided to automatically open the file.
+    */
+    function eZFileHandler( $handlerIdentifier = false, $handlerName = false )
+    {
+        if ( !$handlerIdentifier )
+        {
+            $handlerIdentifier = 'plain';
+            $handlerName = 'Plain';
+        }
+        $this->Name = $handlerName;
+        $this->Identifier = $handlerIdentifier;
+        $this->FileName = false;
+        $this->FileHandler = false;
+        $this->Mode = false;
+        $this->IsOpen = false;
+        $this->IsBinary = false;
+    }
+
+    /*!
+     \return \c true if a file is opened, \c false otherwise.
+    */
+    function isOpen()
+    {
+        return $this->IsOpen;
+    }
+
+    /*!
+     \return \c true if the file was opened in binary mode.
+    */
+    function isBinaryMode()
+    {
+        return $this->IsBinary;
+    }
+
+    /*!
+     \return the filename currently in use.
+    */
+    function filename()
+    {
+        return $this->FileName;
+    }
+
+    /*!
+     \return the mode which was used to open the currently used file.
+    */
+    function mode()
+    {
+        return $this->Mode;
+    }
+
+    /*!
+     \return the name of current handler.
+     \sa identifier
+    */
+    function name()
+    {
+        return $this->Name;
+    }
+
+    /*!
+     \return the identifier of the current handler.
+     \sa name
+    */
+    function identifier()
+    {
+        return $this->Identifier;
+    }
+
+    /*!
+     \virtual
+     \return true if this handler can be used.
+     \note The default implementation is to return \c true for all handlers.
+    */
+    function isAvailable()
+    {
+        return true;
+    }
+
+    /*!
+     Copies the file \a $sourceFilename to \a $destinationFilename.
+     \return \c true if sucessful or \c false if the copy failed.
+    */
+    function copy( $sourceFilename, $destinationFilename )
+    {
+        $sourceFD = @fopen( $sourceFilename, 'rb' );
+        if ( !$sourceFD )
+        {
+            eZDebug::writeError( "Unable to open source file $sourceFilename in read mode",
+                                 'eZFileHandler::copy' );
+            return false;
+        }
+        $destinationFD = @fopen( $destinationFilename, 'wb' );
+        if ( !$destinationFD )
+        {
+            @fclose( $sourceFD );
+            eZDebug::writeError( "Unable to open destination file $destinationFilename in write mode",
+                                 'eZFileHandler::copy' );
+            return false;
+        }
+        while ( $data = @fread( $sourceFD, 4096 ) )
+        {
+            @fwrite( $destinationFD, $data );
+        }
+        eZDebugSetting::writeNotice( 'lib-ezfile-copy',
+                                     "Copied file $sourceFilename to destination $destinationFilename",
+                                     'eZFileHandler::copy' );
+        @fclose( $sourceFD );
+        @fclose( $destinationFD );
+        return true;
+    }
+
+    /*!
+     \return \c true if the filename \a $filename exists.
+     If \a $filename is not specified the filename is taken from the one used in open().
+    */
+    function exists( $filename = false )
+    {
+        if ( !$filename )
+            $filename = $this->FileName;
+        return $this->doExists( $filename );
+    }
+
+    /*!
+     \return \c true if \a $filename is a directory.
+    */
+    function isDirectory( $filename = false )
+    {
+        if ( !$filename )
+            $filename = $this->FileName;
+        return $this->doIsDirectory( $filename );
+    }
+
+    /*!
+     \return \c true if \a $filename is executable.
+    */
+    function isExecutable( $filename = false )
+    {
+        if ( !$filename )
+            $filename = $this->FileName;
+        return $this->doIsExecutable( $filename );
+    }
+
+    /*!
+     \return \c true if \a $filename is a file.
+    */
+    function isFile( $filename = false )
+    {
+        if ( !$filename )
+            $filename = $this->FileName;
+        return $this->doIsFile( $filename );
+    }
+
+    /*!
+     \return \c true if \a $filename is a link.
+    */
+    function isLink( $filename = false )
+    {
+        if ( !$filename )
+            $filename = $this->FileName;
+        return $this->doIsLink( $filename );
+    }
+
+    /*!
+     \return \c true if \a $filename is readable.
+    */
+    function isReadable( $filename = false )
+    {
+        if ( !$filename )
+            $filename = $this->FileName;
+        return $this->doIsReadable( $filename );
+    }
+
+    /*!
+     \return \c true if \a $filename is writeable.
+    */
+    function isWriteable( $filename = false )
+    {
+        if ( !$filename )
+            $filename = $this->FileName;
+        return $this->doIsWriteable( $filename );
+    }
+
+    /*!
+     \return the statitistics for the file \a $filename.
+    */
+    function statistics( $filename = false )
+    {
+        if ( !$filename )
+            $filename = $this->FileName;
+        return $this->doStatistics( $filename );
+    }
+
+    /*!
+     Tries to open the file \a $filename with mode \a $mode and returns
+     the file resource if succesful.
+     \return \c false if the file could not be opened.
+     \param $mode If false the file will be opened in read mode using 'r'
+     \param $binaryFile If true file will be opened in binary mode (default),
+                        otherwise text mode is used.
+     \note Parameter $binaryFile will only have effect on the Windows operating system.
+    */
+    function open( $filename, $mode, $binaryFile = true )
+    {
+        if ( $this->isOpen() )
+        {
+            eZDebug::writeError( "A file is already open (" . $this->FileName . "), close the file before opening a new one.",
+                                 'eZFileHandler::open' );
+            return false;
+        }
+        if ( !$filename and
+             !$this->FileName )
+        {
+            eZDebug::writeError( "The supplied filename is empty and no filename set for object, cannot open any file",
+                                 'eZFileHandler::open' );
+            return false;
+        }
+        if ( !$filename )
+            $filename = $this->FileName;
+        if ( !$mode )
+            $mode = 'r';
+        if ( strpos( $mode, 'b' ) !== false )
+            $binaryFile = true;
+        $mode = str_replace( 'b', '', $mode );
+        if ( $binaryFile )
+            $mode .= 'b';
+        $this->IsBinary = $binaryFile;
+        $result = $this->doOpen( $filename, $mode );
+        if ( $result )
+        {
+            eZDebugSetting::writeNotice( 'lib-ezfile-openclose',
+                                         "Opened file $filename with mode '$mode'",
+                                         'eZFileHandler::open' );
+            $this->FileName = $filename;
+            $this->Mode = $mode;
+            $this->IsOpen = true;
+        }
+        else
+            eZDebug::writeError( "Failed opening file $filename with mode $mode",
+                                 'eZFileHandler::open' );
+        return $result;
+    }
+
+    /*!
+     Tries to close an open file and returns \c true if succesful, \c false otherwise.
+    */
+    function close()
+    {
+        if ( !$this->isOpen() )
+        {
+            eZDebug::writeError( "A file is not currently opened, cannot close.",
+                                 'eZFileHandler::close' );
+            return false;
+        }
+        eZDebugSetting::writeNotice( 'lib-ezfile-openclose',
+                                     "Closing file $filename with previously opened mode '" . $this->mode() . "'",
+                                     'eZFileHandler::close' );
+        $result = $this->doClose();
+        if ( !$result )
+            eZDebug::writeError( "Failed closing file " . $this->FileName . " opened with mode " . $this->Mode,
+                                 'eZFileHandler::close' );
+        else
+            $this->IsOpen = false;
+        return $result;
+    }
+
+    /*!
+     Tries to unlink the file from the file system.
+    */
+    function unlink( $filename = false )
+    {
+        if ( !$filename )
+        {
+            if ( $this->isOpen() )
+                $this->close();
+            $filename = $this->FileName;
+        }
+        $result = $this->doUnlink( $filename );
+        if ( $result )
+            eZDebugSetting::writeNotice( 'lib-ezfile-openclose',
+                                         "Unlinked file $filename",
+                                         'eZFileHandler::unlink' );
+        if ( !$result )
+            eZDebug::writeError( "Failed unlinking file " . $filename,
+                                 'eZFileHandler::unlink' );
+        return $result;
+    }
+
+    /*!
+     Renames the file \a $sourceFilename to \a $destinationFilename.
+     If \a $sourceFilename is not supplied then filename() is used,
+     it will also close the current file connection and reopen it again if
+     was already open.
+    */
+    function rename( $destinationFilename, $sourceFilename = false )
+    {
+        if ( !$sourceFilename )
+        {
+            $wasOpen = $this->isOpen();
+            if ( $wasOpen )
+                $this->close();
+            $result = $this->doRename( $destinationFilename, $this->filename() );
+            if ( $wasOpen and
+                 $result )
+                $this->open( $destinationFilename, $this->mode() );
+        }
+        else
+            $result = $this->doRename( $destinationFilename, $sourceFilename );
+        return $result;
+    }
+
+    /*!
+     Reads up to \a $length bytes from file. Reading stops when
+     \a $length has been read or \c EOF is reached, whichever comes first.
+     If the optional parameter \a $length is not specified it will
+     read bytes until \c EOF is reached.
+     \return a \c string or \c false if something fails.
+    */
+    function read( $length = false )
+    {
+        if ( !$this->isOpen() )
+        {
+            eZDebug::writeError( "A file is not currently opened, cannot read.",
+                                 'eZFileHandler::read' );
+            return false;
+        }
+        if ( $length < 0 )
+        {
+            eZDebug::writeError( "length cannot be negative ($length)",
+                                 'eZFileHandler::read' );
+            return false;
+        }
+        if ( $length )
+        {
+            return $this->doRead( $length );
+        }
+        else
+        {
+            $string = '';
+            $data = false;
+            do
+            {
+                $data = $this->doRead( 1024 );
+                if ( $data )
+                    $string .= $data;
+            } while( $data );
+            return $string;
+        }
+    }
+
+    /*!
+     Writes the content of the string \a $data to the file.
+     If optional \c $length parameter is supplied writing will stop after
+     length is reached or the end of the string is reached, whichever comes first.
+     \return the number of bytes that was written.
+    */
+    function write( $data, $length = false )
+    {
+        if ( !$this->isOpen() )
+        {
+            eZDebug::writeError( "A file is not currently opened, cannot write.",
+                                 'eZFileHandler::write' );
+            return false;
+        }
+        if ( $length < 0 )
+        {
+            eZDebug::writeError( "length cannot be negative ($length)",
+                                 'eZFileHandler::write' );
+            return false;
+        }
+        return $this->doWrite( $data, $length );
+    }
+
+    /*!
+     Force a write of all buffered data.
+     \return \c true if succesful or \c false if something failed.
+    */
+    function flush()
+    {
+        if ( !$this->isOpen() )
+        {
+            eZDebug::writeError( "A file is not currently opened, cannot flush.",
+                                 'eZFileHandler::flush' );
+            return false;
+        }
+        return $this->doFlush();
+    }
+
+    /*!
+     Seeks to position in file determined by \a $offset and \a $whence.
+     - SEEK_SET - Set position equal to offset bytes.
+     - SEEK_CUR - Set position to current location plus offset.
+     - SEEK_END - Set position to end-of-file plus offset. (To move to a position before the end-of-file, you need to pass a negative value in offset.)
+
+     \note Not all handlers supports all types for \a $whence
+     \return \c 0 if succesful or \c -1 if something failed.
+    */
+    function seek( $offset, $whence = SEEK_SET )
+    {
+        if ( !$this->isOpen() )
+        {
+            eZDebug::writeError( "A file is not currently opened, cannot seek.",
+                                 'eZFileHandler::seek' );
+            return false;
+        }
+        return $this->doSeek( $offset, $whence );
+    }
+
+    /*!
+     Rewinds the file position to the beginning of the file.
+     \return \c 0 if something went wrong.
+    */
+    function rewind()
+    {
+        if ( !$this->isOpen() )
+        {
+            eZDebug::writeError( "A file is not currently opened, cannot rewind.",
+                                 'eZFileHandler::rewind' );
+            return false;
+        }
+        return $this->doRewind();
+    }
+
+    /*!
+     Tells the current file position.
+     \return \c false if something failed.
+    */
+    function tell()
+    {
+        if ( !$this->isOpen() )
+        {
+            eZDebug::writeError( "A file is not currently opened, cannot tell position.",
+                                 'eZFileHandler::tell' );
+            return false;
+        }
+        return $this->doTell();
+    }
+
+    /*!
+     \return \c true if the file pointer is at the end of the file or an error occured, otherwise \c false.
+    */
+    function eof()
+    {
+        if ( !$this->isOpen() )
+        {
+            eZDebug::writeError( "A file is not currently opened, cannot report EOF status.",
+                                 'eZFileHandler::eof' );
+            return false;
+        }
+        return $this->doEOF();
+    }
+
+    /*!
+     Passes the data from the file to the standard output.
+     \param $closeFile If \c true the file will be closed after output is done.
+     \return \c false if something failed.
+    */
+    function passtrough( $closeFile = true )
+    {
+        if ( !$this->isOpen() )
+        {
+            eZDebug::writeError( "A file is not currently opened, cannot do a data passtrough.",
+                                 'eZFileHandler::passtrough' );
+            return false;
+        }
+        return $this->doPasstrough( $closeFile );
+    }
+
+    /*!
+     \pure
+     Does the actual file opening.
+     \sa open
+    */
+    function doOpen( $filename, $mode )
+    {
+        $this->FileHandler = @fopen( $filename, $mode );
+        return $this->FileHandler;
+    }
+
+    /*!
+     \pure
+     Does the actual file closing.
+     \sa close
+    */
+    function doClose()
+    {
+        $result = @fclose( $this->FileHandler );
+        $this->FileHandler = false;
+        return $result;
+    }
+
+    /*!
+     \pure
+     Does the actual file unlinking.
+     \sa unlink
+    */
+    function doUnlink( $filename )
+    {
+        return @unlink( $filename );
+    }
+
+    /*!
+     \pure
+     Does the actual file exists checking.
+     \sa exists
+    */
+    function doExists( $filename )
+    {
+        return file_exists( $filename );
+    }
+
+    /*!
+     \pure
+     Does the actual directory checking.
+     \sa isDirectory
+    */
+    function doIsDirectory( $filename )
+    {
+        return @is_dir( $filename );
+    }
+
+    /*!
+     \pure
+     Does the actual executable checking.
+     \sa isExecutable
+    */
+    function doIsExecutable( $filename )
+    {
+        return @is_executable( $filename );
+    }
+
+    /*!
+     \pure
+     Does the actual file checking.
+     \sa isFile
+    */
+    function doIsFile( $filename )
+    {
+        return @is_file( $filename );
+    }
+
+    /*!
+     \pure
+     Does the actual link checking.
+     \sa isLink
+    */
+    function doIsLink( $filename )
+    {
+        return @is_link( $filename );
+    }
+
+    /*!
+     \pure
+     Does the actual readable checking.
+     \sa isReadable
+    */
+    function doIsReadable( $filename )
+    {
+        return @is_readable( $filename );
+    }
+
+    /*!
+     \pure
+     Does the actual writeable checking.
+     \sa isWriteable
+    */
+    function doIsWriteable( $filename )
+    {
+        return @is_writable( $filename );
+    }
+
+    /*!
+     \pure
+     Does the actual writeable checking.
+     \sa isWriteable
+    */
+    function doStatistics( $filename )
+    {
+        return @stat( $filename );
+    }
+
+    /*!
+     \pure
+     Does the actual file seek.
+     \sa seek
+    */
+    function doSeek( $offset, $whence )
+    {
+        return @fseek( $this->FileHandler, $offset, $whence );
+    }
+
+    /*!
+     \virtual
+     Does the actual file rewind.
+     \sa rewind
+     \note Default implementation calls seek with offset set to 0 from the file start.
+    */
+    function doRewind()
+    {
+        $this->doSeek( $offset, SEEK_SET );
+    }
+
+    /*!
+     \pure
+     Does the actual file telling.
+     \sa tell
+    */
+    function doTell()
+    {
+        return @ftell( $this->FileHandler );
+    }
+
+    /*!
+     \pure
+     Does the actual file eof detection.
+     \sa eof
+    */
+    function doEOF()
+    {
+        return @feof( $this->FileHandler );
+    }
+
+    /*!
+     \pure
+     Does the actual file passtrough.
+     \sa eof
+    */
+    function doPasstrough( $closeFile = true )
+    {
+        $result = @fpasstru( $this->FileHandler );
+        if ( $closeFile )
+        {
+            @fclose( $this->FileHandler );
+            $this->FileHandler = false;
+        }
+    }
+
+    /*!
+     \pure
+     Does the actual file reading.
+     \sa read
+    */
+    function doRead( $length = false )
+    {
+        return @fread( $this->FileHandler, $length );
+    }
+
+    /*!
+     \pure
+     Does the actual file writing.
+     \sa write
+    */
+    function doWrite( $data, $length = false )
+    {
+        return @fwrite( $this->FileHandler, $data, $length );
+    }
+
+    /*!
+     \pure
+     Does the actual file flushing.
+     \sa flush
+    */
+    function doFlush()
+    {
+        return @fflush( $this->FileHandler );
+    }
+
+    /*!
+     \virtual
+     Returns error data as an associative array, the array contains:
+     - string - The error string
+     - number - The error number
+     \note The default implementation calls errorString() and errorNumber().
+    */
+    function error()
+    {
+        return array( 'string' => $this->errorString(),
+                      'number' => $this->errorNumber() );
+    }
+
+    /*!
+     \pure
+     \return the error string from the last error that occured.
+    */
+    function errorString()
+    {
+        return false;
+    }
+
+    /*!
+     \pure
+     \return the error number from the last error that occured.
+    */
+    function errorNumber()
+    {
+        return false;
+    }
+
+    /*!
+     Returns the handler for the identifier \a $identifier.
+             The parameters \a $filename, \a $mode and \a $binaryFile is passed to the handler.
+     \return \c false if the handler could not be created.
+    */
+    function &instance( $identifier, $filename = false, $mode = false, $binaryFile = true )
+    {
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini =& eZINI::instance( 'file.ini' );
+        $handlers = $ini->variable( 'FileSettings', 'Handlers' );
+        $instance = false;
+        if ( !$identifier )
+        {
+            $instance =& new eZFileHandler();
+        }
+        else if ( isset( $handlers[$identifier] ) )
+        {
+            $className = $handlers[$identifier];
+            $includeFile = 'lib/ezfile/classes/' . $className . '.php';
+            include_once( $includeFile );
+            $instance = new $className();
+            if ( $instance->isAvailable() )
+            {
+                if ( $filename )
+                    $instance->open( $filename, $mode, $binaryFile );
+            }
+            else
+            {
+                unset( $instance );
+                $instance = false;
+            }
+        }
+        return $instance;
+    }
+
+    /// \privatesection
+    var $Name;
+    var $FileName;
+    var $Mode;
+    var $IsBinary;
+    var $IsOpen;
+}
+
+?>

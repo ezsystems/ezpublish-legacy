@@ -852,13 +852,14 @@ class eZDebug
       \static
       Prints the debug report
     */
-    function &printReport( $newWindow = false, $as_html = true, $returnReport = false )
+    function &printReport( $newWindow = false, $as_html = true, $returnReport = false,
+                           $allowedDebugLevels = false, $useAccumulators = true, $useTiming = true )
     {
         if ( !eZDebug::isDebugEnabled() )
             return null;
 
         $debug =& eZDebug::instance();
-        $report =& $debug->printReportInternal( $as_html );
+        $report =& $debug->printReportInternal( $as_html, $allowedDebugLevels, $useAccumulators, $useTiming );
 
 
         if ( $newWindow == true )
@@ -1039,7 +1040,8 @@ ezdebug.reload();
       \private
       Prints a full debug report with notice, warnings, errors and a timing report.
     */
-    function &printReportInternal( $as_html = true )
+    function &printReportInternal( $as_html = true, $allowedDebugLevels = false,
+                                   $useAccumulators = true, $useTiming = true )
     {
         $styles = array( 'warning' => false,
                          'warning-end' => false,
@@ -1059,6 +1061,9 @@ ezdebug.reload();
                          'bold-end' => false );
         if ( isset( $GLOBALS['eZDebugStyles'] ) )
             $styles = $GLOBALS['eZDebugStyles'];
+        if ( !$allowedDebugLevels )
+            $allowedDebugLevels = array( EZ_LEVEL_NOTICE, EZ_LEVEL_WARNING, EZ_LEVEL_ERROR,
+                                         EZ_LEVEL_DEBUG, EZ_LEVEL_TIMING_POINT );
         $endTime = microtime();
         $returnText = "";
         if ( $as_html )
@@ -1104,6 +1109,8 @@ td.timingpoint2
 
         foreach ( $this->DebugStrings as $debug )
         {
+            if ( !in_array( $debug['Level'], $allowedDebugLevels ) )
+                continue;
             $time = strftime ("%b %d %Y %H:%M:%S", strtotime( "now" ) );
 
             $outputData = $this->OutputFormat[$debug["Level"]];
@@ -1136,79 +1143,82 @@ td.timingpoint2
         $startTime = false;
         $elapsed = 0.00;
         $relElapsed = 0.00;
-        for ( $i = 0; $i < count( $this->TimePoints ); ++$i )
+        if ( $useTiming )
         {
-            $point = $this->TimePoints[$i];
-            $nextPoint = false;
-            if ( isset( $this->TimePoints[$i + 1] ) )
-               $nextPoint = $this->TimePoints[$i + 1];
-            $time = $this->timeToFloat( $point["Time"] );
-            $nextTime = false;
-            if ( $nextPoint !== false )
-                $nextTime = $this->timeToFloat( $nextPoint["Time"] );
-            if ( $startTime === false )
-                $startTime = $time;
-            $elapsed = $time - $startTime;
-            $relElapsed = $nextTime - $time;
-
-            $memory = $point["MemoryUsage"];
-            $nextMemory = 0;
-            // Calculate relative memory usage
-            if ( $nextPoint !== false )
+            for ( $i = 0; $i < count( $this->TimePoints ); ++$i )
             {
-                $nextMemory = $nextPoint["MemoryUsage"];
-                $relMemory = $nextMemory - $memory;
+                $point = $this->TimePoints[$i];
+                $nextPoint = false;
+                if ( isset( $this->TimePoints[$i + 1] ) )
+                    $nextPoint = $this->TimePoints[$i + 1];
+                $time = $this->timeToFloat( $point["Time"] );
+                $nextTime = false;
+                if ( $nextPoint !== false )
+                    $nextTime = $this->timeToFloat( $nextPoint["Time"] );
+                if ( $startTime === false )
+                    $startTime = $time;
+                $elapsed = $time - $startTime;
+                $relElapsed = $nextTime - $time;
+
+                $memory = $point["MemoryUsage"];
+                $nextMemory = 0;
+                // Calculate relative memory usage
+                if ( $nextPoint !== false )
+                {
+                    $nextMemory = $nextPoint["MemoryUsage"];
+                    $relMemory = $nextMemory - $memory;
+                }
+
+                // Convert memeory usage to human readable
+                $memory = number_format( $memory / 1024, $this->TimingAccuracy ) . "KB";
+                $relMemory = number_format( $relMemory / 1024, $this->TimingAccuracy ) . "KB";
+
+                if ( $i % 2 == 0 )
+                    $class = "timingpoint1";
+                else
+                    $class = "timingpoint2";
+
+                if ( $as_html )
+                {
+                    $returnText .= "<tr><td class='$class'>" . $point["Description"] . "</td><td class='$class'>" .
+    number_format( ( $elapsed ), $this->TimingAccuracy ) . " sec</td><td class='$class'>".
+    ( empty( $nextPoint ) ? "&nbsp;" : number_format( ( $relElapsed ), $this->TimingAccuracy ) . " sec" ) . "</td>"
+    . "<td class='$class'>" . $memory . "</td><td class='$class'>". $relMemory . "</td></tr>";
+                }
+                else
+                {
+                    $returnText .= $point["Description"] . ' ' .
+    number_format( ( $elapsed ), $this->TimingAccuracy ) . " sec".
+    ( empty( $nextPoint ) ? "" : number_format( ( $relElapsed ), $this->TimingAccuracy ) . " sec" ) . "\n";
+                }
             }
 
-            // Convert memeory usage to human readable
-            $memory = number_format( $memory / 1024, $this->TimingAccuracy ) . "KB";
-            $relMemory = number_format( $relMemory / 1024, $this->TimingAccuracy ) . "KB";
+            if ( count( $this->TimePoints ) > 0 )
+            {
+                $tTime = explode( " ", $endTime );
+                ereg( "0\.([0-9]+)", "" . $tTime[0], $t1 );
+                $endTime = $tTime[1] . "." . $t1[1];
 
-            if ( $i % 2 == 0 )
-               $class = "timingpoint1";
+                $totalElapsed = $endTime - $startTime;
+
+                if ( $as_html )
+                {
+                    $returnText .= "<tr><td><b>Total runtime:</b></td><td><b>" .
+    number_format( ( $totalElapsed ), $this->TimingAccuracy ) . " sec</b></td><td></td></tr>";
+                }
+                else
+                {
+                    $returnText .= "Total runtime: " .
+    number_format( ( $totalElapsed ), $this->TimingAccuracy ) . " sec\n";
+                }
+            }
             else
-               $class = "timingpoint2";
-
-            if ( $as_html )
             {
-                $returnText .= "<tr><td class='$class'>" . $point["Description"] . "</td><td class='$class'>" .
-                               number_format( ( $elapsed ), $this->TimingAccuracy ) . " sec</td><td class='$class'>".
-                               ( empty( $nextPoint ) ? "&nbsp;" : number_format( ( $relElapsed ), $this->TimingAccuracy ) . " sec" ) . "</td>"
-                               . "<td class='$class'>" . $memory . "</td><td class='$class'>". $relMemory . "</td></tr>";
+                if ( $as_html )
+                    $returnText .= "<tr><td> No timing points defined</td><td>";
+                else
+                    $returnText .= "No timing points defined\n";
             }
-            else
-            {
-                $returnText .= $point["Description"] . ' ' .
-                               number_format( ( $elapsed ), $this->TimingAccuracy ) . " sec".
-                               ( empty( $nextPoint ) ? "" : number_format( ( $relElapsed ), $this->TimingAccuracy ) . " sec" ) . "\n";
-            }
-        }
-
-        if ( count( $this->TimePoints ) > 0 )
-        {
-            $tTime = explode( " ", $endTime );
-            ereg( "0\.([0-9]+)", "" . $tTime[0], $t1 );
-            $endTime = $tTime[1] . "." . $t1[1];
-
-            $totalElapsed = $endTime - $startTime;
-
-            if ( $as_html )
-            {
-                $returnText .= "<tr><td><b>Total runtime:</b></td><td><b>" .
-                       number_format( ( $totalElapsed ), $this->TimingAccuracy ) . " sec</b></td><td></td></tr>";
-            }
-            else
-            {
-                $returnText .= "Total runtime: " .
-                       number_format( ( $totalElapsed ), $this->TimingAccuracy ) . " sec\n";
-            }
-        }
-        else
-        {
-            if ( $as_html )
-                $returnText .= "<tr><td> No timing points defined</td><td>";
-            else
-                $returnText .= "No timing points defined\n";
         }
         if ( $as_html )
         {
@@ -1259,87 +1269,90 @@ td.timingpoint2
                                            'children' => $timeList );
         }
 
-        $j = 0;
-        foreach ( $groupList as $group )
+        if ( $useAccumulators )
         {
-            if ( $j % 2 == 0 )
-               $class = "timingpoint1";
-            else
-               $class = "timingpoint2";
-            ++$j;
-            $groupName = $group['name'];
-            $groupChildren = $group['children'];
-            if ( count( $groupChildren ) == 0 and
-                 !array_key_exists( 'time_data', $group ) )
-                continue;
-            if ( $as_html )
-                $returnText .= "<tr><td class='$class'><b>$groupName</b></td>";
-            else
-                $returnText .= "Group " . $styles['mark'] . "$groupName:" . $styles['mark-end'] . " ";
-            if ( array_key_exists( 'time_data', $group ) )
+            $j = 0;
+            foreach ( $groupList as $group )
             {
-                $groupData = $group['time_data'];
-                $groupElapsed = number_format( ( $groupData['time'] ), $this->TimingAccuracy );
-                $groupPercent = number_format( ( $groupData['time'] * 100.0 ) / $totalElapsed, 1 );
-                $groupCount = $groupData['count'];
-                $groupAverage = number_format( ( $groupData['time'] / $groupData['count'] ), $this->TimingAccuracy );
-                if ( $as_html )
-                {
-                    $returnText .= ( "<td class=\"$class\">$groupElapsed sec</td>".
-                                     "<td class=\"$class\" align=\"right\"> $groupPercent%</td>".
-                                     "<td class=\"$class\" align=\"right\"> $groupCount</td>".
-                                     "<td class=\"$class\" align=\"right\"> $groupAverage sec</td>" );
-                }
+                if ( $j % 2 == 0 )
+                    $class = "timingpoint1";
                 else
+                    $class = "timingpoint2";
+                ++$j;
+                $groupName = $group['name'];
+                $groupChildren = $group['children'];
+                if ( count( $groupChildren ) == 0 and
+                     !array_key_exists( 'time_data', $group ) )
+                    continue;
+                if ( $as_html )
+                    $returnText .= "<tr><td class='$class'><b>$groupName</b></td>";
+                else
+                    $returnText .= "Group " . $styles['mark'] . "$groupName:" . $styles['mark-end'] . " ";
+                if ( array_key_exists( 'time_data', $group ) )
                 {
-                    $returnText .= $styles['emphasize'] . "$groupElapsed" . $styles['emphasize-end'] . " sec ($groupPercent%), $groupAverage avg sec ($groupCount)";
+                    $groupData = $group['time_data'];
+                    $groupElapsed = number_format( ( $groupData['time'] ), $this->TimingAccuracy );
+                    $groupPercent = number_format( ( $groupData['time'] * 100.0 ) / $totalElapsed, 1 );
+                    $groupCount = $groupData['count'];
+                    $groupAverage = number_format( ( $groupData['time'] / $groupData['count'] ), $this->TimingAccuracy );
+                    if ( $as_html )
+                    {
+                        $returnText .= ( "<td class=\"$class\">$groupElapsed sec</td>".
+                                         "<td class=\"$class\" align=\"right\"> $groupPercent%</td>".
+                                         "<td class=\"$class\" align=\"right\"> $groupCount</td>".
+                                         "<td class=\"$class\" align=\"right\"> $groupAverage sec</td>" );
+                    }
+                    else
+                    {
+                        $returnText .= $styles['emphasize'] . "$groupElapsed" . $styles['emphasize-end'] . " sec ($groupPercent%), $groupAverage avg sec ($groupCount)";
+                    }
                 }
-            }
-            else if ( $as_html )
-            {
+                else if ( $as_html )
+                {
                     $returnText .= ( "<td class=\"$class\"></td>".
                                      "<td class=\"$class\"></td>".
                                      "<td class=\"$class\"></td>".
                                      "<td class=\"$class\"></td>" );
-            }
-            if ( $as_html )
-                $returnText .= "</tr>";
-            else
-                $returnText .= "\n";
-
-            $i = 0;
-            foreach ( $groupChildren as $child )
-            {
-                $childName = $child['name'];
-                $childElapsed = number_format( ( $child['time'] ), $this->TimingAccuracy );
-                $childPercent = number_format( ( $child['time'] * 100.0 ) / $totalElapsed, $this->PercentAccuracy );
-                $childCount = $child['count'];
-                $childAverage = 0.0;
-                if ( $childCount > 0 )
-                {
-                    $childAverage = $child['time'] / $childCount;
                 }
-                $childAverage = number_format( $childAverage, $this->PercentAccuracy );
-
                 if ( $as_html )
-                {
-                    if ( $i % 2 == 0 )
-                        $class = "timingpoint1";
-                    else
-                        $class = "timingpoint2";
-                    ++$i;
-
-                    $returnText .= ( "<tr>" .
-                                     "<td class=\"$class\">$childName</td>" .
-                                     "<td class=\"$class\">$childElapsed sec</td>" .
-                                     "<td class=\"$class\" align=\"right\">$childPercent%</td>" .
-                                     "<td class=\"$class\" align=\"right\">$childCount</td>" .
-                                     "<td class=\"$class\" align=\"right\">$childAverage sec</td>" .
-                                     "</tr>" );
-                }
+                    $returnText .= "</tr>";
                 else
+                    $returnText .= "\n";
+
+                $i = 0;
+                foreach ( $groupChildren as $child )
                 {
-                    $returnText .= "$childName: " . $styles['emphasize'] . $childElapsed . $styles['emphasize-end'] . " sec ($childPercent%), $childAverage avg sec ($childCount)\n";
+                    $childName = $child['name'];
+                    $childElapsed = number_format( ( $child['time'] ), $this->TimingAccuracy );
+                    $childPercent = number_format( ( $child['time'] * 100.0 ) / $totalElapsed, $this->PercentAccuracy );
+                    $childCount = $child['count'];
+                    $childAverage = 0.0;
+                    if ( $childCount > 0 )
+                    {
+                        $childAverage = $child['time'] / $childCount;
+                    }
+                    $childAverage = number_format( $childAverage, $this->PercentAccuracy );
+
+                    if ( $as_html )
+                    {
+                        if ( $i % 2 == 0 )
+                            $class = "timingpoint1";
+                        else
+                            $class = "timingpoint2";
+                        ++$i;
+
+                        $returnText .= ( "<tr>" .
+                                         "<td class=\"$class\">$childName</td>" .
+                                         "<td class=\"$class\">$childElapsed sec</td>" .
+                                         "<td class=\"$class\" align=\"right\">$childPercent%</td>" .
+                                         "<td class=\"$class\" align=\"right\">$childCount</td>" .
+                                         "<td class=\"$class\" align=\"right\">$childAverage sec</td>" .
+                                         "</tr>" );
+                    }
+                    else
+                    {
+                        $returnText .= "$childName: " . $styles['emphasize'] . $childElapsed . $styles['emphasize-end'] . " sec ($childPercent%), $childAverage avg sec ($childCount)\n";
+                    }
                 }
             }
         }

@@ -192,6 +192,9 @@ function changeSiteAccessSetting( &$siteaccess, $optionData )
 
 $siteaccess = false;
 $debugOutput = false;
+$allowedDebugLevels = false;
+$useDebugAccumulators = false;
+$useDebugTimingpoints = false;
 $useColors = false;
 $isQuiet = false;
 $useLogFiles = false;
@@ -347,6 +350,41 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             else if ( $flag == 'd' )
             {
                 $debugOutput = true;
+                if ( strlen( $arg ) > 2 )
+                {
+                    $levels = explode( ',', substr( $arg, 2 ) );
+                    $allowedDebugLevels = array();
+                    foreach ( $levels as $level )
+                    {
+                        if ( $level == 'all' )
+                        {
+                            $useDebugAccumulators = true;
+                            $allowedDebugLevels = false;
+                            break;
+                        }
+                        if ( $level == 'accumulator' )
+                        {
+                            $useDebugAccumulators = true;
+                            continue;
+                        }
+                        if ( $level == 'timing' )
+                        {
+                            $useDebugTimingpoints = true;
+                            continue;
+                        }
+                        if ( $level == 'error' )
+                            $level = EZ_LEVEL_ERROR;
+                        else if ( $level == 'warning' )
+                            $level = EZ_LEVEL_WARNING;
+                        else if ( $level == 'debug' )
+                            $level = EZ_LEVEL_DEBUG;
+                        else if ( $level == 'notice' )
+                            $level = EZ_LEVEL_NOTICE;
+                        else if ( $level == 'timing' )
+                            $level = EZ_LEVEL_TIMING;
+                        $allowedDebugLevels[] = $level;
+                    }
+                }
             }
             else if ( $flag == 's' )
             {
@@ -449,31 +487,29 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             }
             else if ( $commandItem['command'] == 'import' )
             {
-                if ( $package['file'] === false )
-                    $package['file'] = $arg;
+                if ( $commandItem['name'] === false )
+                    $commandItem['name'] = $arg;
             }
             else if ( $commandItem['command'] == 'export' )
             {
+                if ( $commandItem['name'] === false )
+                    $commandItem['name'] = $arg;
             }
         }
     }
 }
 $script->setUseDebugOutput( $debugOutput );
+$script->setAllowedDebugLevels( $allowedDebugLevels );
+$script->setUseDebugAccumulators( $useDebugAccumulators );
+$script->setUseDebugTimingPoints( $useDebugTimingpoints );
+
 
 appendCommandItem( $commandList, $commandItem );
 
 // Check all commands
 foreach ( $commandList as $commandItem )
 {
-    if ( $commandItem['command'] == 'import' )
-    {
-        if ( !$commandItem['file'] )
-        {
-            helpImport();
-            exit();
-        }
-    }
-    else if ( $commandItem['command'] == 'add' )
+    if ( $commandItem['command'] == 'add' )
     {
         if ( !$commandItem['name'] and
              !$commandItem['item'] )
@@ -505,6 +541,22 @@ foreach ( $commandList as $commandItem )
         if ( !$commandItem['name'] )
         {
             helpInfo();
+            exit();
+        }
+    }
+    else if ( $commandItem['command'] == 'export' )
+    {
+        if ( !$commandItem['name'] )
+        {
+            helpExport();
+            exit();
+        }
+    }
+    else if ( $commandItem['command'] == 'import' )
+    {
+        if ( !$commandItem['name'] )
+        {
+            helpImport();
             exit();
         }
     }
@@ -659,7 +711,27 @@ foreach ( $commandList as $commandItem )
     }
     else if ( $command == 'import' )
     {
-        $cli->notice( 'Disabled for now' );
+        $archiveNames = array();
+        $archiveName = $commandItem['name'];
+        $archiveNames[] = $archiveName;
+        if ( !file_exists( $archiveName ) )
+        {
+            $archiveName .= '.' . eZPackage::suffix();
+            $archiveNames[] = $archiveName;
+        }
+        if ( file_exists( $archiveName ) )
+        {
+            $package =& eZPackage::import( $archiveName, $commandItem['name'] );
+            if ( $package )
+            {
+                $cli->notice( "Package " . $package->attribute( 'name' ) . " sucessfully imported" );
+            }
+            else
+                $cli->error( "Failed importing package $archiveName" );
+        }
+        else
+            $cli->error( "Could not open package " . $commandItem['name'] . ", none of these files were found: " . implode( ',', $archiveNames ) );
+//         $cli->notice( 'Disabled for now' );
 //     $package =& eZPackage::fetchFromFile( $packageFile );
 //     if ( $package )
 //     {
@@ -672,7 +744,11 @@ foreach ( $commandList as $commandItem )
     }
     else if ( $command == 'export' )
     {
-        $cli->notice( 'Disabled for now' );
+        $package =& eZPackage::fetch( $commandItem['name'] );
+        $exportPath = $package->archive( $package->exportName() );
+        $cli->notice( "Package " . $package->attribute( 'name' ) . " exported to file $exportPath" );
+
+//         $cli->notice( 'Disabled for now' );
 //     $packageName = 'mytest';
 //     $packageSummary = 'hm';
 //     $packageExtension = 'myext';

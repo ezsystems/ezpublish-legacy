@@ -164,9 +164,8 @@ Changes from 3.1-1 to 3.2.0-1
 - Moved database initialization to end of installation
 - Added support to hide steps which to not need user interaction
 
-*Export:
-- Added start of export system. Currently only the generic package is exported.
-- Added support for class export in all kernel datatypes.
+*Package system:
+- Implemented the first version of the new package system.
 
 *Templates:
 - Made default size of textarea fields like text line fields.
@@ -220,6 +219,8 @@ eZ extension:
 
 *eZ debug:
 - Added support for stylized output when using plain text.
+- Added support for suppressing the various debug levels, accumulators and timing points.
+  Default is to show all of them, as before.
 
 eZ cli:
 - New class to handle terminal and CLI specific functionality.
@@ -230,3 +231,6 @@ eZ file:
 eZ dir:
 - Added function directoryPermission() which returns the permission mask
   which should be used to create directories.
+
+*eZ file:
+- New library for dealing with files, directories, archives and compressed files.

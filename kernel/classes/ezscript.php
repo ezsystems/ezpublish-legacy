@@ -87,6 +87,9 @@ class eZScript
     {
         $settings = array_merge( array( 'debug-message' => false,
                                         'debug-output' => false,
+                                        'debug-levels' => false,
+                                        'debug-accumulator' => false,
+                                        'debug-timing' => false,
                                         'use-session' => false,
                                         'use-extensions' => false,
                                         'use-modules' => false,
@@ -95,6 +98,9 @@ class eZScript
                                  $settings );
         $this->DebugMessage = $settings['debug-message'];
         $this->UseDebugOutput = $settings['debug-output'];
+        $this->AllowedDebugLevels = $settings['debug-levels'];
+        $this->UseDebugAccumulators = $settings['debug-accumulator'];
+        $this->UseDebugTimingPoints = $settings['debug-timing'];
         $this->UseSession = $settings['use-session'];
         $this->UseModules = $settings['use-modules'];
         $this->UseExtensions = $settings['use-extensions'];
@@ -230,7 +236,8 @@ class eZScript
         {
             if ( $this->DebugMessage )
                 print( $this->DebugMessage );
-            print( eZDebug::printReport( false, $webOutput, true ) );
+            print( eZDebug::printReport( false, $webOutput, true,
+                                         $this->AllowedDebugLevels, $this->UseDebugAccumulators, $this->UseDebugTimingPoints ) );
         }
 
         eZExecution::cleanup();
@@ -245,6 +252,21 @@ class eZScript
     function setUseDebugOutput( $useDebug )
     {
         $this->UseDebugOutput = $useDebug;
+    }
+
+    function setUseDebugAccumulators( $useAccumulators )
+    {
+        $this->UseDebugAccumulators = $useAccumulators;
+    }
+
+    function setUseDebugTimingPoints( $useTimingPoints )
+    {
+        $this->UseDebugTimingPoints = $useTimingPoints;
+    }
+
+    function setAllowedDebugLevels( $allowedDebugLevels )
+    {
+        $this->AllowedDebugLevels = $allowedDebugLevels;
     }
 
     function setUseSession( $useSession )
@@ -315,9 +337,21 @@ function eZFatalError()
     $par = $cli->style( 'paragraph' );
     $unpar = $cli->style( 'paragraph-end' );
 
+    $allowedDebugLevels = true;
+    $useDebugAccumulators = true;
+    $useDebugTimingpoints = true;
+
+//     $script =& $GLOBALS['eZScriptInstance'];
+//     if ( isset( $script ) )
+//     {
+//         $allowedDebugLevels = $script->AllowedDebugLevels;
+//         $useDebugAccumulators = $script->UseDebugAccumulators;
+//         $useDebugTimingpoints = $script->UseDebugTimingPoints;
+//     }
+
     eZDebug::setHandleType( EZ_HANDLE_NONE );
     print( $bold . "Fatal error" . $unbold . ": eZ publish did not finish it's request$endl" );
-    print( $par . "The execution of eZ publish was abruptly ended, the debug output is present below." . $unpar );
+    print( $par . "The execution of eZ publish was abruptly ended, the debug output is present below." . $unpar . $endl );
     print( eZDebug::printReport( false, $webOutput, true ) );
 }
 
