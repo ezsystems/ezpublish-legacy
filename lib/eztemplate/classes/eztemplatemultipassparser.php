@@ -437,7 +437,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                                 } break;
                                 case EZ_ELEMENT_COMMENT:
                                 {
-                                    $text .= "$leftDelimiter*" . $element["text"] . "*$rightDelimiter";
+                                    $text .= $leftDelimiter . "*" . $element["text"] . "*$rightDelimiter";
                                     next( $textElements );
                                     $key = key( $textElements );
                                 } break;

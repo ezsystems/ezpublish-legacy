@@ -135,11 +135,30 @@ function accessType( &$uri, $host, $port, $file )
             {
                 $match_type = $ini->variable( 'SiteAccessSettings', 'HostMatchType' );
                 if ( $match_type != 'text' and
+                     $match_type != 'map' and
                      $match_type != 'regexp' )
                     continue;
                 $match_item = $host;
                 $tmp_type = EZ_ACCESS_TYPE_HTTP_HOST;
-                if ( $match_type == 'element' )
+                if ( $match_type == 'map' )
+                {
+                    if ( $ini->hasVariable( 'SiteAccessSettings', 'HostMatchMapItems' ) )
+                    {
+                        $matchMapItems = $ini->variableArray( 'SiteAccessSettings', 'HostMatchMapItems' );
+                        foreach ( $matchMapItems as $matchMapItem )
+                        {
+                            $matchMapHost = $matchMapItem[0];
+                            $matchMapAccess = $matchMapItem[1];
+                            if ( $matchMapHost == $host )
+                            {
+                                $type = $tmp_type;
+                                $access['name'] = $matchMapAccess;
+                                break;
+                            }
+                        }
+                    }
+                }
+                else if ( $match_type == 'element' )
                 {
                     $match_index = $ini->variable( 'SiteAccessSettings', 'HostMatchElement' );
                     $type = $tmp_type;
@@ -219,6 +238,10 @@ function accessType( &$uri, $host, $port, $file )
             }
         }
         else if ( $match_type == 'port' )
+        {
+            break;
+        }
+        else if ( $match_type == 'map' )
         {
             break;
         }
