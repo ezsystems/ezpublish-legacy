@@ -2,7 +2,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'Remove order?'|i18n( 'design/admin/shop/removeorder' )}</h1>
+<h1 class="context-title">{'Confirm order removal'|i18n( 'design/admin/shop/removeorder' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -12,9 +12,12 @@
 
 <div class="message-confirmation">
 
-<h2>{'Are you sure that you want to remove the following order(s)?'|i18n( 'design/admin/shop/removeorder' )}</h2>
-
+{section show=$delete_result|count|eq(1)}
+<h2>{'Are you sure you want to remove order #%order_number?'|i18n( 'design/admin/shop/removeorder',, hash( '%order_number', $delete_result ) )}</h2>
+{section-else}
+<h2>{'Are you sure you want to remove the following orders?'|i18n( 'design/admin/shop/removeorder' )}</h2>
 {$delete_result}
+{/section}
 
 </div>
 
