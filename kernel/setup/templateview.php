@@ -81,6 +81,7 @@ if ( isset( $overrideArray[$template] ) )
 }
 
 $tpl->setVariable( 'template_settings', $templateSettings );
+$tpl->setVariable( 'current_siteaccess', $siteAccess );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:setup/templateview.tpl" );

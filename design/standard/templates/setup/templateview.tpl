@@ -12,7 +12,11 @@
     <td>
     <select name="CurrentSiteAccess">
     {section name=SiteAccess loop=ezini('SiteAccessSettings','AvailableSiteAccessList')}
-    <option value="{$SiteAccess:item}">{$SiteAccess:item}</option>
+        {section show=eq($current_siteaccess,$:item)}
+            <option value="{$SiteAccess:item}" selected="selected">{$:item}</option>
+        {section-else}
+            <option value="{$SiteAccess:item}">{$:item}</option>
+        {/section}
     {/section}    
     </select>
     <input type="submit" value="Set" name="SelectCurrentSiteAccessButton" />
