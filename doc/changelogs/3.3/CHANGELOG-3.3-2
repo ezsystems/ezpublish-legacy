@@ -17,3 +17,5 @@ Changes from 3.3-1 to 3.3-2
 - Fixed override bug when writing override rules for non-existing overrides. http://ez.no/developer/ez_publish_3/bug_reports/template_override_and_multiple_designs
 - Fixed ezxml literal imput bug when using &amp;, &quot;, etc. ( merged from 3.2 stable )
   http://ez.no/developer/ez_publish_3/bug_reports/html_no_break_space_in_literal_block_doesn_t_work
+- Fixed PHP 4 reference bug related stuff using eZContentObject::defaultLanguage() ( merged from 3.2 stable )
+  http://ez.no/developer/ez_publish_3/bug_reports/fatal_error_at_content_saving_image_problem
