@@ -663,4 +663,12 @@ Related objects/browse
  + Ability to limit/set the node where the browse function starts from and to limit users to a specific node and it's children
  + Ability to Limit users to choose related objects of a specific type
  + Limitations should be dependant on roles.
- 
+
+Creating users
+----------------
+Now the "Create here" button in the user tree pops up a browser for placement.
+This is probably because a wrong name for the button is used, this should be fixed.
+
+Mails
+---------------
+Mails contain duplicate Subject and To fields.
