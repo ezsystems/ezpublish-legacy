@@ -88,13 +88,13 @@
     {* Current/previous visibility status. *}
     <td>
     {section show=$Node:item.node}
-    {$Node:item.node.hidden_status_string}
+        {$Node:item.node.hidden_status_string}
     {section-else}
-	{section show=$parent_node.is_invisible}
-	{'Hidden by parent'|i18n( 'design/admin/content/edit' )}
-	{section-else}
-	{'Visible'|i18n( 'design/admin/content/edit' )}
-	{/section}
+        {section show=$Node:item.parent_node_obj.is_invisible}
+            {'Hidden by parent'|i18n( 'design/admin/content/edit' )}
+        {section-else}
+            {'Visible'|i18n( 'design/admin/content/edit' )}
+        {/section}
     {/section}
     </td>
 
