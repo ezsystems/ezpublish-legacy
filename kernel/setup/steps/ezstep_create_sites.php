@@ -133,12 +133,8 @@ class eZStepCreateSites extends eZStepInstaller
                                       $allLanguageCodes, $allLanguages, $primaryLanguage );
         }
 
-//        $db->query ( 'show tables');
-
         $regionalInfo = $this->PersistenceList['regional_info'];
-//         $demoData = $this->PersistenceList['demo_data'];
         $emailInfo = $this->PersistenceList['email_info'];
-//         $siteInfo = $this->PersistenceList['site_info'];
 
         $imageINI = eZINI::create( 'image.ini' );
         $imageINI->setVariable( 'ConverterSettings', 'UseConvert', 'false' );
@@ -179,9 +175,6 @@ class eZStepCreateSites extends eZStepInstaller
                 $saveResult = $i18nINI->save( false, '.php', 'append', true );
         }
 
-//             if ( $demoData['use'] )
-//                 $ini->setVariable( 'SiteSettings', 'DefaultAccess', 'demo' );
-//             else
         switch ( $accessType )
         {
             case 'port':
@@ -323,7 +316,6 @@ class eZStepCreateSites extends eZStepInstaller
             $installParameters = array( 'path' => '.' );
             $installParameters['ini'] = array();
             $siteINIChanges = array();
-//             $siteInfo = $this->PersistenceList['site_info'];
             $url = $sitePackage['url'];
             if ( preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url, $matches ) )
             {
