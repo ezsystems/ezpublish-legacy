@@ -64,7 +64,8 @@ eZ persistentobject :
 
 eZ db :
 - Detect how long time a query takes and add it to the sql debug output with the number of rows
-  affected. Must be done separately in mysql, postgresl and oracle implementations.
+  affected. Must be done separately in mysql, postgresl and oracle implementations. MySQL is done,
+  PostgreSQL and Oracle is missing.
 
 eZ xml :
 -7 Test eZ xml against the W3C XML test suite.
@@ -72,9 +73,6 @@ eZ xml :
 eZ user :
 -4 Make sure the root and anonymous user is created as real db users when the site is first
    initialized.
-
-eZ module:
--7 Change module /functions/ into module /views/ and module /features/ into module /functions/.
 
 eZ i18n :
 - Report non translated strings to screen, file and db.

@@ -275,13 +275,16 @@ function loadItemlog( $file,
             $name = substr( $name, 1 );
             $header_size = "h2";
         }
-        $entries = explode( "-", $section["data"] );
+        $entries = explode( "\n-", $section["data"] );
         $templateSectionVars["name"] = $name;
         $templateSectionVars["header_size"] = $header_size;
         $entry_text =& $templateSectionVars["entries"];
         $entry_text = "";
         foreach( $entries as $entry )
         {
+            if ( strlen( $entry ) > 0 and
+                 $entry[0] == "-" )
+                $entry = substr( $entry, 1 );
             $entry = trim( $entry );
             $pri = 1;
             if ( preg_match( "/^([1-9])/", $entry, $regs ) )

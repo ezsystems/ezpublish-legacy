@@ -140,7 +140,7 @@ eZ locale :
   file named as the locale string or try to find the language and country separately.
 
 eZ language:
-- Removed, see eZ locale:
+- Removed, see eZ locale
 
 eZ i18n :
 - New class eZCodePageAlias which converts alias charset names into real charset names.
