@@ -14,17 +14,23 @@ include_once( "lib/eztemplate/classes/eztemplateswitchfunction.php" );
 include_once( "lib/ezlocale/classes/ezlocale.php" );
 
 print( "<p>Operators allows the template engine to modify variable types or create new values.
-Operators receives data input from the left and outputs the result to the right, how the
+Operators receive data input from the left and outputs the result to the right. How the
 operator modifies the data is up to each operator. For instance some operators behave differently
-depending on whether the type is an array or not, while other may ignore the input and create and
+depending on whether the input data is an array or not, while others may ignore the input and create an
 output variable.</p>
-<p>The operators can also take extra parameters separated by <i>,</i> and enclosed in <i>(</i> and
-<i>)</i>. The parameters can be constants, variables or operators which means that you can nest
-operators. For instance theres no bultin syntax for creating booleans or arrays, instead you use
-an operator. <i>true</i> creates a boolean with a true value and <i>false</i> creates a boolean with a
-false value. <i>array</i> takes all it's parameters and creates an array out of it.</p>
-<p>Some operators work only on the logical level, meaning that they only see values as true or false,
-for consistency all operators should follow these following rules. Arrays are <i>true</i> if the count is larger than
+<p><img src='/doc/images/operator.png'/></p>
+<p>The operators can also take extra parameters separated by ',' (comma) and enclosed in '(' and
+')' (brackets). The parameters can be constants, variables or operators which means that you can nest
+operators. For instance, there's no bultin syntax for creating booleans or arrays, instead you use
+an operator. <i>true()</i> creates a boolean with a true value and <i>false()</i> creates a boolean with a
+false value. <i>array()</i> takes all its parameters and creates an array out of it.</p>
+<p>The general syntax for an operator is: <b>{input|operator(parameter1,parameter2...)}</b> Remember that both the input
+and the parameters can be operators. You could for instance write: {cond(\$b|ne(0),div(\$a,\$b),0)} This example will divide \$a by \$b and return the result. If \$b is null, however, it not attempt to divide, and return null instead.</p>
+<p>If you want to send input to the operator, then the input and the operator must be separated by '|' (the pipe symbol).
+If for instance you are calling an operator that takes three parameters, and you want to omit the second parameter, just write nothing at that position, e.g. {operator(parameter1,,parameter2)}.
+</p>
+<p>Some operators work only on the logical level, meaning that they only see values as true or false.
+For consistency, all operators should follow these following rules: Arrays are <i>true</i> if the count is larger than
 0, numerics are <i>true</i> if the values is different than 0, booleans behave as normal, null is always
 <i>false</i> and all other values are <i>false</i>.</p>
 " );

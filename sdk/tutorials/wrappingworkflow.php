@@ -2,7 +2,7 @@
 //
 // Definition of Wrappingworkflow class
 //
-// Created on: <12-äÅË-2002 20:00:29 sp>
+// Created on: <12-Dec-2002 20:00:29 sp>
 //
 // Copyright (C) 1999-2003 eZ systems as. All rights reserved.
 //
@@ -27,10 +27,10 @@
 // please contact us via e-mail to licence@ez.no. Further contact
 // information is available at http://ez.no/home/contact/.
 //
-// The "GNU General Public License" (GPL) is available at
+// The "GNU General Public Licence" (GPL) is available at
 // http://www.gnu.org/copyleft/gpl.html.
 //
-// Contact licence@ez.no if any conditions of this licencing isn't clear to
+// Contact licence@ez.no if any conditions of this licensing isn't clear to
 // you.
 //
 
@@ -40,21 +40,21 @@
 <h1>Wrapping workflow</h1>
 
 <p>
-Allows you to ask user before he confirms the order if he wants to pack his goods into Ghristmas paper.
+Allows you to ask the user, before he confirms the order, if he wants to pack his goods into Christmas paper.
 </p>
-To create that workflow you need to do the folowing steps
+To create this workflow you need to do the following steps
 <ul>
-<li>Create new event_type </li>
+<li>Create new event_type</li>
 <li>Create workflow with that event</li>
 <li>Connect that workflow to the shop/confirm operation</li>
 </ul>
 <p>
-To now how to create event type look to the tutorial <a href="/sdk/tutorials/view/workflows">Custom workflows</a>
-go there to part called "Creating workflows". Create a skeleton of workflow event.
+To know how to create event type read the tutorial <a href="/sdk/tutorials/view/workflows">Custom workflows</a>,
+go to the part called "Creating workflows". Create a skeleton of a workflow event.
 </p>
+
+<br>
 File <i>ezwrappingtype.php</i>
-
-
 <pre class="example">
 define( "EZ_WORKFLOW_TYPE_WRAPPING_ID", "ezwrapping" );
 
@@ -76,11 +76,12 @@ class eZWrappingType extends eZWorkflowEventType
 
 eZWorkflowEventType::registerType( EZ_WORKFLOW_TYPE_WRAPPING_ID, "ezwrappingtype" );
 </pre>
+
+<br>
 <p>
-We will modify "execute" function to improve functionality of the workflow.
+We will modify the "execute" function to improve the functionality of the workflow.
 </p>
 <pre class="example">
-
     function execute( &$process, &$event )
     {
 1
@@ -120,20 +121,22 @@ We will modify "execute" function to improve functionality of the workflow.
 35                                    );
 36       return EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE_REPEAT;
      }
-
 </pre>
-Comments
+
+<h2>Comments</h2>
 <p>
-line 2 - get eZHTTPTool instance to fetch postvariable from<br/>
-Conditional operators (4-6) which checks if the needed http variables exists needed to check if that is the answer from user or not <br/>
-If we get answer from user and if answer is yes we need to create order item with wraping<br/>
+line 2 - get eZHTTPTool instance to fetch postvariable from.<br/>
+Conditional operators (4-6) which check if the needed http variables exist.
+This is needed to check whether this is the answer from the user.<br/>
+If we get an answer from user and if answer is yes we need to create an order item with wrapping.<br/>
 OrderID is a workflow parameter (defined by operation) so you can fetch it from parameters list (12,14)<br/>
-If answer is "no" we "accept" event<br/>
-When the event runs first we need to say to the system that we need to halt an operation and show additional page to the user (32-36)<br/>
+If the answer is "no" we "accept" event.<br/>
+When the event runs first we need to say to the system that we need to halt an operation
+and show an additional page to the user (32-36)<br/>
 </p>
 
-Create result template
 
+<h2>Create result template</h2>
 <pre class="example">
 
 <?php  print( htmlspecialchars ( '<form action={$return_uri|ezurl} method="post" >
@@ -149,16 +152,21 @@ Create result template
 ' ) ); ?>
 
 </pre>
-<p>
-The page wiil look that way:
-</p>
-<img src="/doc/images/preconfirmorder.png" alt="Confirm" /> 
 
-<h5>Createing and connecting workflow </h5>
-To now how to connect workflow to the operation look thrue the <a href="sdk/tutorials/view/publishworkflow">Approval workflow</a> tutorial
-When connect to the operation (triggers) select the name of created workflow in the front of "shop-confirm-before".
+<br>
+<p>
+The page will look like this:
+</p>
+<img src="/doc/images/preconfirmorder.png" alt="Confirm" />
+
+<h2>Creating and connecting the workflow </h2>
+<p>
+To know how to connect the workflow to the operation look through the <a href="/sdk/tutorials/view/publishworkflow">Approval workflow</a>
+tutorial.
+When connecting to the operation (triggers) select the name of the created workflow in the front of "shop-confirm-before".
+</p>
 <img src="/doc/images/triggers1.png" alt="Triggers" />
-<p>
-So now you can use the workflow
-</p>
 
+<p>
+So now you can use the workflow.
+</p>

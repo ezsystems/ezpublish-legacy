@@ -94,12 +94,12 @@ for eZ publish.
 <dl>
 <dt>si</dt>
 <dd>Handles unit display of values, most often used for showing sizes of files but can also be used for displaying units on other items such as meters, grams etc. The operator reads two parameters. The first tells the kind of unit type we're dealing with, for instance: byte, length. The second determines the behaviour of prefixes and is optional.</dd>
-<dd>E.g.<br>
-{1025|si(byte)}<br>
-{1025|si(byte,binary)}<br>
-{1025|si(byte,decimal)}<br>
-{1025|si(byte,none)}<br>
-{1025|si(byte,auto)}<br>
+<dd>E.g.<br/>
+{1025|si(byte)}<br/>
+{1025|si(byte,binary)}<br/>
+{1025|si(byte,decimal)}<br/>
+{1025|si(byte,none)}<br/>
+{1025|si(byte,auto)}<br/>
 {1025|si(byte,mebi)}</dd>
 </dl>
 
@@ -114,52 +114,52 @@ for eZ publish.
 <dt>ge</dt>
 <dd>Returns true if the input value is greater than or equal to the first parameter. E.g. {1|le(1)} and {2|le(1)} returns true.</dd>
 <dt>eq</dt>
-<dd>Returns true if the input value is equal to the first parameter, or if no input value is available it returns true if all parameters are equal E.g. {1|eq(1)} returns true. {eq(1,true(),false()|not,0|inc)} returns true.</dd>
+<dd>Returns true if the input value is equal to the first parameter, or if no input value is available it returns true if all parameters are equal. E.g. {1|eq(1)} returns true. {eq(1,true(),false()|not,0|inc)} returns true.</dd>
 <dt>null</dt>
 <dd>Returns true if the input value is null, which is not the same as 0. E.g. {0|null()} returns false.</dd>
 <dt>not</dt>
 <dd>Returns true if the input value is false. E.g. {false()|not()} returns true.</dd>
 <dt>true</dt>
-<dd>Returns a true boolean.</dd>
+<dd>Returns a true boolean. Remember to use brackets, e.g. {true()}.</dd>
 <dt>false</dt>
-<dd>Returns a false boolean.</dd>
+<dd>Returns a false boolean. Remember to use brackets, e.g. {false()}.</dd>
 <dt>or</dt>
 <dd>Evaluates all parameter values until one is found to be true, then returns that value. The remaining parameters are not evaluated at all. If there are no parameters or all elements were false it returns false. E.g. {or(false(),false(),true(),false())} returns true.</dd>
 <dt>and</dt>
-<dd>Evaluates all parameter values until one is found to be false, then returns that value. The remaining parameters are not evaluated at all. If there are no parameters it returns false, if no elements were false it returns the last parameter value. E.g. {or(false(),false(),true(),false())} returns false.</dd>
+<dd>Evaluates all parameter values until one is found to be false, then returns that value. The remaining parameters are not evaluated at all. If there are no parameters it returns false, if no elements were false it returns the last parameter value. E.g. {and(false(),false(),true(),false())} returns false.</dd>
 <dt>choose</dt>
 <dd>Uses the input count to pick one of the parameter elements. The input count equals the parameter index. E.g. {0|choose("a","b","c")} returns "a".</dd>
 </dl>
 
 <h2>Type operators</h2>
-<p>These operators correspond to the PHP functions of the same name.</p>
+<p>These operators generally correspond to the PHP functions of the same name, where they exist.</p>
 <dl>
 <dt>is_array</dt>
-<dd></dd>
+<dd>Returns true if the input or the first parameter is an array. If both input and parameter are supplied, the parameter will be used.</dd>
 <dt>is_boolean</dt>
-<dd></dd>
+<dd>Returns true if the input or the first parameter is a boolean (true or false). If both input and parameter are supplied, the parameter will be used.</dd>
 <dt>is_integer</dt>
-<dd></dd>
+<dd>Returns true if the input or the first parameter is an integer. If both input and parameter are supplied, the parameter will be used.</dd>
 <dt>is_float</dt>
-<dd></dd>
+<dd>Returns true if the input or the first parameter is a floating point number. If both input and parameter are supplied, the parameter will be used.</dd>
 <dt>is_numeric</dt>
-<dd></dd>
+<dd>Returns true if the input or the first parameter is a number or a numberic string (a string consisting of numbers). If both input and parameter are supplied, the parameter will be used.</dd>
 <dt>is_string</dt>
-<dd></dd>
+<dd>Returns true if the input or the first parameter is a string. If both input and parameter are supplied, the parameter will be used.</dd>
 <dt>is_object</dt>
-<dd></dd>
+<dd>Returns true if the input or the first parameter is an object (as opposed to a simple type like integer or float). If both input and parameter are supplied, the parameter will be used.</dd>
 <dt>is_class</dt>
-<dd></dd>
+<dd>Returns true if the input or the first parameter is a class. If both input and parameter are supplied, the parameter will be used.</dd>
 <dt>is_null</dt>
-<dd></dd>
+<dd>Returns true if the input or the first parameter is null. Note: The integer 0 is not the same as 'null', if you want to test for 0 use {$var|eq(0)} or {eq($var,0)} instead. If both input and parameter are supplied, the parameter will be used.</dd>
 <dt>is_set</dt>
-<dd></dd>
+<dd>Returns true if the first parameter is not false. is_set does not take an input.</dd>
 <dt>is_unset</dt>
-<dd></dd>
+<dd>Returns true if the first parameter is false. is_unset does not take an input.</dd>
 <dt>get_type</dt>
-<dd></dd>
+<dd>Returns the type of the input or the first parameter as a string. If both input and parameter are supplied, the parameter will be used. If the data is an object, then the string 'object' and the classname will be returned. If the data is an array, then the string 'array' and the array count will be returned. If the data is a string, then the string 'string' and the string length will be returned.</dd>
 <dt>get_class</dt>
-<dd></dd>
+<dd>Returns the class of the input or the first parameter as a string. If both input and parameter are supplied, the parameter will be used. If the data is not an object, false will be returned.</dd>
 </dl>
 
 <h2>Control operators</h2>
@@ -201,25 +201,63 @@ for eZ publish.
 <dd>Returns the rounded value of input value.</dd>
 <dt>count</dt>
 <dd>Returns the count of the input value.</dd>
-<dd>How counts are interpreted:<br>
-  - If the data is an array the array count is used<br>
-  - If the data is an object the object attribute count is used<br>
-  - If the data is a numeric the value is used<br>
-  - If the data is a boolean false is 0 and true is 1<br>
-  - For all other data 0 is used</dd>
+<dd>How counts are interpreted:<br/>
+- If the data is an array the array count is used<br/>
+- If the data is an object the object attribute count is used<br/>
+- If the data is a numeric the value is used<br/>
+- If the data is a boolean false is 0 and true is 1<br/>
+- For all other data 0 is used</dd>
 </dl>
 
 <h2>Image handling operators</h2>
-<p>These operators require the ImageMagick or ImageGD extension to work.</p>
+<p>These operators require the ImageMagick and/or ImageGD extension to work.</p>
 <dl>
 <dt>image</dt>
-<dd></dd>
+<dd>Creates and returns an image by flattening the image layers given as parameters.
+This requires the ImageMagick or the ImageGD extension.<br/>
+Example: {image(imagefile('image1.png'|ezimage),imagefile('image2.png'|ezimage))</dd>
 <dt>imagefile</dt>
-<dd></dd>
-<dt>imagelabel</dt>
-<dd></dd>
+<dd>Creates and returns an image layer for the image file given as the first parameter.
+This requires the ImageMagick or the ImageGD extension. See the 'image' example.</dd>
 <dt>texttoimage</dt>
-<dd></dd>
+<dd>Converts the input value, which should be a string, into an image. This requires the ImageGD extension.</dd>
+<dd>Accepts the following parameters:<br/>
+- class: The font class, which is specified in settings/texttoimage.ini. Use for instance 'archtura'.<br/>
+The following parameters will override the settings in the font class.<br/>
+- family: The font family.<br/>
+- pointsize: The point size of the font.<br/>
+- angle: The angle, in degrees counterclockwise from horizontal, at which the text should be shown.<br/>
+- bgcolor: The background color, specified as an array of three numbers from 0 to 255.<br/>
+- textcolor: The text color, specified as an array of three numbers from 0 to 255.<br/>
+- x: The horizontal text offset in pixels from the left side of the image.<br/>
+- y: The vertical text offset in pixels from the top of the image.<br/>
+- w: A number of pixels that specify how much wider than the default the image should be.<br/>
+- h: A number of pixels that specify how much taller than the default the image should be.<br/>
+- usecache: A boolean that decides whether to use cache, must be true() or false().<br/>
+Examples:<br/>
+{"This is not a text"|texttoimage('archtura')}<br/>
+{"This is not a text"|texttoimage('archtura',,50,0,array(200,255,255),array(255,0,0),10,10,28,26,true())}
+</dd>
+<dt>imagelabel</dt>
+<dd>Adds the input value, which should be a string, as a text label on an image. This requires the ImageGD extension.</dd>
+<dd>Accepts the following parameters:<br/>
+- filename: The path to the image file.<br/>
+The following parameters are the same as for texttoimage.<br/>
+- class: The font class, which is specified in settings/texttoimage.ini. Use for instance 'archtura'.<br/>
+The following parameters will override the settings in the font class.<br/>
+- family: The font family.<br/>
+- pointsize: The point size of the font.<br/>
+- angle: The angle, in degrees counterclockwise from horizontal, at which the text should be shown.<br/>
+- bgcolor: The background color, specified as an array of three numbers from 0 to 255.<br/>
+- textcolor: The text color, specified as an array of three numbers from 0 to 255.<br/>
+- x: The horizontal text offset in pixels from the left side of the image.<br/>
+- y: The vertical text offset in pixels from the top of the image.<br/>
+- w: A number of pixels that specify how much wider than the default the image should be.<br/>
+- h: A number of pixels that specify how much taller than the default the image should be.<br/>
+- usecache: A boolean that decides whether to use cache, must be true() or false().<br/>
+Examples:<br/>
+{"This foto was taken last summer."|imagelabel('summerfoto.jpg'|ezimage,'archtura')}<br/>
+</dd>
 </dl>
 
 <h2>eZ publish kernel operators</h2>
