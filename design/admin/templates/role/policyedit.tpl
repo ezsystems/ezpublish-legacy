@@ -76,7 +76,13 @@
 {'The node list is empty.'|i18n( 'design/admin/role/policyedit' )}
 </p>
 {/section}
-<input class="button" type="submit" name="DeleteNodeButton" value="{'Remove selected'|i18n( 'design/admin/role/policyedit' )}" {section show=$node_list|not}disabled="disabled"{/section} />
+
+{section show=$node_list}
+<input class="button" type="submit" name="DeleteNodeButton" value="{'Remove selected'|i18n( 'design/admin/role/policyedit' )}" />
+{section-else}
+<input class="button-disabled" type="submit" name="DeleteNodeButton" value="{'Remove selected'|i18n( 'design/admin/role/policyedit' )}" disabled="disabled" />
+{/section}
+
 <input class="button" type="submit" name="BrowseLimitationNodeButton" value="{'Add nodes'|i18n( 'design/admin/role/policyedit' )}" />
 </div>
 {/case}
@@ -101,8 +107,15 @@
 {section-else}
 <p>{'The subtree list is empty.'|i18n( 'design/admin/role/policyedit' )}</p>
 {/section}
-<input class="button" type="submit" name="DeleteSubtreeButton" value="{'Remove selected'|i18n( 'design/admin/role/policyedit' )}" {section show=$subtree_list|not}disabled="disabled"{/section} />
+
+{section show=$subtree_list}
+<input class="button" type="submit" name="DeleteSubtreeButton" value="{'Remove selected'|i18n( 'design/admin/role/policyedit' )}" />
+{section-else}
+<input class="button-disabled" type="submit" name="DeleteSubtreeButton" value="{'Remove selected'|i18n( 'design/admin/role/policyedit' )}" disabled="disabled" />
+{/section}
+
 <input class="button" type="submit" name="BrowseLimitationSubtreeButton" value="{'Add subtrees'|i18n( 'design/admin/role/policyedit' )}" />
+
 </div>
 {/case}
 

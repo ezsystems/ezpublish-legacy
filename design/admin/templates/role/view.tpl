@@ -1,7 +1,9 @@
-<form name="role" action={concat( $module.functions.view.uri, '/', $role.id, '/')|ezurl} method="post" >
+<form name="role" method="post" action={concat( $module.functions.view.uri, '/', $role.id, '/')|ezurl}>
 
 <div class="context-block">
+
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
 <h1 class="context-title">{'role'|icon( 'normal', 'Role'|i18n( 'design/admin/role/view' ) )}&nbsp;{'%role_name [Role]'|i18n( 'design/admin/role/view',, hash( '%role_name', $role.name ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
@@ -11,6 +13,7 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="context-attributes">
+
 <div class="block">
 
 {section show=$policies}
@@ -23,41 +26,45 @@
 </tr>
 {section var=Policies loop=$policies sequence=array( bglight, bgdark )}
 <tr class="{$Policies.sequence}">
+
+    {* Module. *}
     <td>
-         {section show=eq( $Policies.item.module_name, '*' )}
-             <i>{'all modules'|i18n( 'design/admin/role/view' )} </i>
-             {section-else}
-             {$Policies.item.module_name}
+        {section show=eq( $Policies.item.module_name, '*' )}
+            <i>{'all modules'|i18n( 'design/admin/role/view' )} </i>
+        {section-else}
+            {$Policies.item.module_name}
         {/section}
     </td>
+
+    {* Function. *}
     <td>
-         {section show=eq( $Policies.item.function_name, '*' )}
-             <i>{'all functions'|i18n( 'design/admin/role/view' )} </i>
-             {section-else}
-             {$Policies.item.function_name}
+        {section show=eq( $Policies.item.function_name, '*' )}
+            <i>{'all functions'|i18n( 'design/admin/role/view' )} </i>
+        {section-else}
+            {$Policies.item.function_name}
         {/section}
     </td>
+
+    {* Limitations. *}
     <td>
         {section show=$Policies.item.limitations}
-          {section var=Limitations loop=$Policies.item.limitations}
-              {$Limitations.item.identifier|wash}(
-              {section var=LimitationValues loop=$Limitations.item.values_as_array_with_names}
-                  {$LimitationValues.item.Name|wash}
-                  {delimiter}, {/delimiter}
-              {/section})
-              {delimiter}, {/delimiter}
-          {/section}
+            {section var=Limitations loop=$Policies.item.limitations}
+                {$Limitations.item.identifier|wash}(
+                {section var=LimitationValues loop=$Limitations.item.values_as_array_with_names}
+                    {$LimitationValues.item.Name|wash}
+                    {delimiter}, {/delimiter}
+                {/section})
+                {delimiter}, {/delimiter}
+            {/section}
         {section-else}
-        <i>{'No limitations'|i18n( 'design/admin/role/view' )}</i>
+            <i>{'No limitations'|i18n( 'design/admin/role/view' )}</i>
         {/section}
     </td>
 </tr>
 {/section}
 </table>
 {section-else}
-<p>
-{'There are no policies set up for this role.'|i18n( 'design/admin/role/view' )}
-</p>
+<p>{'There are no policies set up for this role.'|i18n( 'design/admin/role/view' )}</p>
 {/section}
 
 </div>
@@ -123,7 +130,13 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-<input class="button" type="submit" name="RemoveRoleAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/role/view' )}" title="{'Remove selected assignments'|i18n( 'design/admin/role/view' )}" {section show=$user_array|not}disabled="disabled"{/section} />
+
+{section show=$user_array}
+<input class="button" type="submit" name="RemoveRoleAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/role/view' )}" title="{'Remove selected assignments'|i18n( 'design/admin/role/view' )}" />
+{section-else}
+<input class="button-disabled" type="submit" name="RemoveRoleAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/role/view' )}" title="{'Remove selected assignments'|i18n( 'design/admin/role/view' )}" disabled="disabled" />
+{/section}
+
 <input class="button" type="submit" name="AssignRoleButton" value="{'Assign'|i18n( 'design/admin/role/view' )}" title="{'Assign role to user or group'|i18n( 'design/admin/role/view' )}" />
 <input class="button" type="submit" name="AssignRoleLimitedButton" value="{'Assign limited'|i18n( 'design/admin/role/view' )}" title="{'Assign role to user or group'|i18n( 'design/admin/role/view' )}" />on
 <select name="AssignRoleType">
@@ -137,4 +150,3 @@
 </div>
 
 </form>
-
