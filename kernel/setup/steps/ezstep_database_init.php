@@ -128,14 +128,54 @@ class eZStepDatabaseInit extends eZStepInstaller
         $db =& eZDB::instance( $dbDriver, $dbParameters, true );
         $availDatabases = $db->availableDatabases();
         $this->PersistenceList['database_use_unicode'] = false;
-        print( "<pre>" ); print_r( $db->databaseServerVersion() ); print( "</pre>" );
         if ( $db->isCharsetSupported( 'utf-8' ) )
         {
-            print( "Can use Unicode<br/>" );
             $this->PersistenceList['database_use_unicode'] = true;
         }
         else
-            print( "Can't use Unicode<br/>" );
+        {
+            $this->PersistenceList['database_use_unicode'] = false;
+
+            $primaryLanguage = null;
+            $allLanguages = array();
+            $allLanguageCodes = array();
+            $extraLanguages = array();
+            $primaryLanguageCode = $this->PersistenceList['regional_info']['primary_language'];
+            $extraLanguageCodes = array();
+            if ( isset( $this->PersistenceList['regional_info']['languages'] ) )
+                $extraLanguageCodes = $this->PersistenceList['regional_info']['languages'];
+            if ( isset( $this->PersistenceList['regional_info']['variations'] ) )
+            {
+                $variations = $this->PersistenceList['regional_info']['variations'];
+                foreach ( $variations as $variation )
+                {
+                    $locale = eZLocale::create( $variation );
+                    if ( $locale->localeCode() == $primaryLanguageCode )
+                    {
+                        $primaryLanguage = $locale;
+                    }
+                    else
+                    {
+                        $extraLanguages[] = $locale;
+                    }
+                }
+            }
+            $allLanguages[] =& $primaryLanguage;
+            foreach ( $extraLanguageCodes as $extraLanguageCode )
+            {
+                $allLanguages[] =& eZLocale::create( $extraLanguageCode );
+                $allLanguageCodes[] = $extraLanguageCode;
+            }
+
+            if ( $primaryLanguage === null )
+                $primaryLanguage = eZLocale::create( $this->PersistenceList['regional_info']['primary_language'] );
+
+            $charset = $this->findAppropriateCharset( $primaryLanguage, $allLanguages, false );
+            if ( !$charset )
+            {
+                return 'LanguageOptions';
+            }
+        }
 
         if ( $availDatabases === false ) // not possible to determine if username and password is correct here
         {

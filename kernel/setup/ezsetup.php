@@ -198,7 +198,7 @@ while( !$done && $step != null )
     }
     else
     {
-        print '<h1>Step '.$step['class'].' is not valid, no such file '.$includeFile.'. I\'m exiting...</h1>'; //TODO : i18n
+        print( '<h1>Step '.$step['class'].' is not valid, no such file '.$includeFile.'. I\'m exiting...</h1>' ); //TODO : i18n
         eZDisplayResult( $templateResult, eZDisplayDebug() );
         eZExecution::cleanExit();
     }

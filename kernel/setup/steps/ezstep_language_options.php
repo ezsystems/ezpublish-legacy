@@ -62,15 +62,20 @@ class eZStepLanguageOptions extends eZStepInstaller
      */
     function processPostData()
     {
-        if( ! $this->Http->hasPostVariable( 'eZSetupLanguages' ) )
-        {
-            return false;
-        }
+//         if( !$this->Http->hasPostVariable( 'eZSetupLanguages' ) or
+//             !$this->Http->hasPostVariable( 'eZSetupDefaultLanguage' ) )
+//         {
+//             return false;
+//         }
 
         $regionalInfo = array();
         $regionalInfo['language_type'] = 1 ;
-        $regionalInfo['primary_language'] = $this->Http->postVariable( 'eZSetupDefaultLanguage' );
-        $regionalInfo['languages'] = $this->Http->postVariable( 'eZSetupLanguages' );
+        $primaryLanguage = $this->Http->postVariable( 'eZSetupDefaultLanguage' );
+        $languages = $this->Http->postVariable( 'eZSetupLanguages' );
+        if ( !in_array( $primaryLanguage, $languages ) )
+            $languages[] = $primaryLanguage;
+        $regionalInfo['primary_language'] = $primaryLanguage;
+        $regionalInfo['languages'] = $languages;
         $this->PersistenceList['regional_info'] = $regionalInfo;
 
         return true;
@@ -99,6 +104,13 @@ class eZStepLanguageOptions extends eZStepInstaller
         }
 
         $this->Tpl->setVariable( 'language_list', $languages );
+        $showUnicodeError = false;
+        if ( isset( $this->PersistenceList['database_use_unicode'] ) )
+        {
+            $showUnicodeError = !$this->PersistenceList['database_use_unicode'];
+            unset( $this->PersistenceList['database_use_unicode'] );
+        }
+        $this->Tpl->setVariable( 'show_unicode_error', $showUnicodeError );
 
         $this->Tpl->setVariable( 'setup_previous_step', 'LanguageOptions' );
         $this->Tpl->setVariable( 'setup_next_step', 'EmailSettings' );

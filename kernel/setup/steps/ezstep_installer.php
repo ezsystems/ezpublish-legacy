@@ -96,6 +96,62 @@ class eZStepInstaller
         return null;
     }
 
+    function findAppropriateCharset( &$primaryLanguage, &$allLanguages, $canUseUnicode )
+    {
+        include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
+        $allCharsets = array();
+        for ( $i = 0; $i < count( $allLanguages ); ++$i )
+        {
+            $language =& $allLanguages[$i];
+            $charsets = $language->allowedCharsets();
+            foreach ( $charsets as $charset )
+            {
+                $charset = eZCharsetInfo::realCharsetCode( $charset );
+                $allCharsets[] = $charset;
+            }
+        }
+        $allCharsets = array_unique( $allCharsets );
+        eZDebug::writeDebug( $allCharsets, 'allCharsets' );
+        $commonCharsets = $allCharsets;
+        for ( $i = 0; $i < count( $allLanguages ); ++$i )
+        {
+            $language =& $allLanguages[$i];
+            $charsets = $language->allowedCharsets();
+            $realCharsets = array();
+            foreach ( $charsets as $charset )
+            {
+                $charset = eZCharsetInfo::realCharsetCode( $charset );
+                $realCharsets[] = $charset;
+            }
+            $realCharsets = array_unique( $realCharsets );
+            $commonCharsets = array_intersect( $commonCharsets, $realCharsets );
+        }
+        $usableCharsets = array_values( $commonCharsets );
+        eZDebug::writeDebug( $usableCharsets, 'usableCharsets' );
+        $charset = false;
+        if ( count( $usableCharsets ) > 0 )
+        {
+            if ( in_array( $primaryLanguage->charset(), $usableCharsets ) )
+                $charset = $primaryLanguage->charset();
+            else // Pick the first charset
+                $charset = $usableCharsets[0];
+        }
+        else
+        {
+            if ( $canUseUnicode )
+            {
+                $charset = eZCharsetInfo::realCharsetCode( 'utf-8' );
+            }
+//             else
+//             {
+//                 // Pick preferred primary language
+//                 $charset = $primaryLanguage->charset();
+//             }
+        }
+        eZDebug::writeDebug( $charset, 'charset' );
+        return $charset;
+    }
+
     var $Tpl;
     var $Http;
     var $Ini;

@@ -80,13 +80,55 @@ class eZStepCreateSites extends eZStepInstaller
                             'hostname' => array(),
                             'port' => array(),
                             'accesses' => array() );
+
+        include_once( 'lib/ezlocale/classes/ezlocale.php' );
+
+        $primaryLanguage = null;
+        $allLanguages = array();
+        $allLanguageCodes = array();
+        $extraLanguages = array();
+        $primaryLanguageCode = $this->PersistenceList['regional_info']['primary_language'];
+        $extraLanguageCodes = array();
+        if ( isset( $this->PersistenceList['regional_info']['languages'] ) )
+            $extraLanguageCodes = $this->PersistenceList['regional_info']['languages'];
+        if ( isset( $this->PersistenceList['regional_info']['variations'] ) )
+        {
+            $variations = $this->PersistenceList['regional_info']['variations'];
+            foreach ( $variations as $variation )
+            {
+                $locale = eZLocale::create( $variation );
+                if ( $locale->localeCode() == $primaryLanguageCode )
+                {
+                    $primaryLanguage = $locale;
+                }
+                else
+                {
+                    $extraLanguages[] = $locale;
+                }
+            }
+        }
+        $allLanguages[] =& $primaryLanguage;
+        foreach ( $extraLanguageCodes as $extraLanguageCode )
+        {
+            $allLanguages[] =& eZLocale::create( $extraLanguageCode );
+            $allLanguageCodes[] = $extraLanguageCode;
+        }
+
+        if ( $primaryLanguage === null )
+            $primaryLanguage = eZLocale::create( $this->PersistenceList['regional_info']['primary_language'] );
+
+        $charset = $this->findAppropriateCharset( $primaryLanguage, $allLanguages, $canUseUnicode );
+        if ( !$charset )
+            return 'LanguageOptions';
+
         for ( $counter = 0; $counter < $siteCount; ++$counter )
         {
             $sitePackage = $this->PersistenceList['site_templates_'.$counter];
             $accessType = $sitePackage['access_type'];
             eZDebug::writeDebug( $sitePackage, "sitepackage_$counter" );
             $package =& eZPackage::fetch( $sitePackage['identifier'], 'kernel/setup/packages' );
-            $this->initializePackage( $package, $sitePackage, $accessMap, $charset );
+            $this->initializePackage( $package, $sitePackage, $accessMap, $charset,
+                                      $allLanguageCodes, $allLanguages, $primaryLanguage );
         }
 
 //        $db->query ( 'show tables');
@@ -210,71 +252,9 @@ class eZStepCreateSites extends eZStepInstaller
     {
     }
 
-    function findAppropriateCharset( &$primaryLanguage, &$extraLanguages, &$allLanguages, $canUseUnicode )
-    {
-        include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
-//         $charset = $primaryLanguage->charset();
-//         if ( $charset == '' )
-//             $charset = 'iso-8859-1';
-
-//         if ( $this->PersistenceList['regional_info']['language_type'] == 3 )
-//             $charset = 'utf-8';
-//         return $charset;
-        $allCharsets = array();
-        for ( $i = 0; $i < count( $allLanguages ); ++$i )
-        {
-            $language =& $allLanguages[$i];
-            $charsets = $language->allowedCharsets();
-            foreach ( $charsets as $charset )
-            {
-                $charset = eZCharsetInfo::realCharsetCode( $charset );
-                $allCharsets[] = $charset;
-            }
-        }
-        $allCharsets = array_unique( $allCharsets );
-        eZDebug::writeDebug( $allCharsets, 'allCharsets' );
-        $commonCharsets = $allCharsets;
-        for ( $i = 0; $i < count( $allLanguages ); ++$i )
-        {
-            $language =& $allLanguages[$i];
-            $charsets = $language->allowedCharsets();
-            $realCharsets = array();
-            foreach ( $charsets as $charset )
-            {
-                $charset = eZCharsetInfo::realCharsetCode( $charset );
-                $realCharsets[] = $charset;
-            }
-            $realCharsets = array_unique( $realCharsets );
-            $commonCharsets = array_intersect( $commonCharsets, $realCharsets );
-        }
-        $usableCharsets = array_values( $commonCharsets );
-        eZDebug::writeDebug( $usableCharsets, 'usableCharsets' );
-        $charset = false;
-        if ( count( $usableCharsets ) > 0 )
-        {
-            if ( in_array( $primaryLanguage->charset(), $usableCharsets ) )
-                $charset = $primaryLanguage->charset();
-            else // Pick the first charset
-                $charset = $usableCharsets[0];
-        }
-        else
-        {
-            if ( $canUseUnicode )
-            {
-                $charset = eZCharsetInfo::realCharsetCode( 'utf-8' );
-            }
-            else
-            {
-                // Pick preferred primary language
-                $charset = $primaryLanguage->charset();
-            }
-        }
-        eZDebug::writeDebug( $charset, 'charset' );
-        return $charset;
-    }
-
     function initializePackage( &$package, $sitePackage,
-                                &$accessMap, &$charset )
+                                &$accessMap, $charset,
+                                &$allLanguageCodes, &$allLanguages, &$primaryLanguage )
     {
         eZDebug::writeDebug( $sitePackage, 'sitePackage' );
 //         $sitePackage['admin_access_type_value'] = $sitePackage['access_type_value'] . '_admin';
@@ -310,55 +290,8 @@ class eZStepCreateSites extends eZStepInstaller
         $accessMap['accesses'][] = $adminSiteaccessName;
         $userDesignName = $sitePackage['identifier'];
 
-        include_once( 'lib/ezlocale/classes/ezlocale.php' );
-
-        $primaryLanguage = null;
-        $allLanguages = array();
-        $allLanguageCodes = array();
-        $extraLanguages = array();
-        $primaryLanguageCode = $this->PersistenceList['regional_info']['primary_language'];
-        $extraLanguageCodes = array();
-        if ( isset( $this->PersistenceList['regional_info']['languages'] ) )
-            $extraLanguageCodes = $this->PersistenceList['regional_info']['languages'];
-        if ( isset( $this->PersistenceList['regional_info']['variations'] ) )
-        {
-            $variations = $this->PersistenceList['regional_info']['variations'];
-            foreach ( $variations as $variation )
-            {
-                $locale = eZLocale::create( $variation );
-                if ( $locale->localeCode() == $primaryLanguageCode )
-                {
-                    $primaryLanguage = $locale;
-                }
-                else
-                {
-                    $extraLanguages[] = $locale;
-                }
-            }
-        }
-        $allLanguages[] =& $primaryLanguage;
-        foreach ( $extraLanguageCodes as $extraLanguageCode )
-        {
-            $allLanguages[] =& eZLocale::create( $extraLanguageCode );
-            $allLanguageCodes[] = $extraLanguageCode;
-        }
-
-        if ( $primaryLanguage === null )
-            $primaryLanguage = eZLocale::create( $this->PersistenceList['regional_info']['primary_language'] );
-
-        $charset = $this->findAppropriateCharset( $primaryLanguage, $extraLanguages, $allLanguages, $canUseUnicode );
-
         $languages = $allLanguageCodes;
         $languageObjects = $allLanguages;
-//         $languages = array( $primaryLanguage->localeFullCode() );
-//         $languageObjects = array();
-//         $languageObjects[] = $primaryLanguage;
-//         foreach ( array_keys( $extraLanguages ) as $extraLanguageKey )
-//         {
-//             $extraLanguage = $extraLanguages[$extraLanguageKey];
-//             $languages[] = $extraLanguage->localeFullCode();
-//             $languageObjects[] = $extraLanguage;
-//         }
 
         $databaseMap = eZSetupDatabaseMap();
 
@@ -442,51 +375,11 @@ class eZStepCreateSites extends eZStepInstaller
         {
             eZSetupChangeEmailSetting( $this->PersistenceList['email_info'] );
 
-//             $ini->setVariable( "SiteSettings", "SiteName", $siteInfo['title'] );
-//             if ( $siteInfo['admin_email'] )
-//             {
-//                 $ini->setVariable( 'InformationCollectionSettings', 'EmailReceiver', $siteInfo['admin_email'] );
-//                 $ini->setVariable( 'UserSettings', 'RegistrationEmail', $siteInfo['admin_email'] );
-//                 $ini->setVariable( 'MailSettings', 'AdminEmail', $siteInfo['admin_email'] );
-//                 $ini->setVariable( 'MailSettings', 'EmailSender', $siteInfo['admin_email'] );
-//             }
-//             $ini->setVariable( "SiteSettings", "SiteURL", $url );
-
-//             $ini->setVariable( "DatabaseSettings", "DatabaseImplementation", $databaseInfo['info']['driver'] );
-//             $ini->setVariable( "DatabaseSettings", "Server", $databaseInfo['server'] );
-//             $ini->setVariable( "DatabaseSettings", "Database", $databaseInfo['dbname'] );
-//             if ( trim( $databaseInfo['socket'] ) != '' )
-//                 $ini->setVariable( "DatabaseSettings", "Socket", $databaseInfo['socket'] );
-//             else
-//                 $ini->setVariable( "DatabaseSettings", "Socket", 'disabled' );
-//             $ini->setVariable( "DatabaseSettings", "User", $databaseInfo['user'] );
-//             $ini->setVariable( "DatabaseSettings", "Password", $databaseInfo['password'] );
-
-//             $ini->setVariable( 'RegionalSettings', 'Locale', $primaryLanguage->localeFullCode() );
-//             $ini->setVariable( 'RegionalSettings', 'ContentObjectLocale', $primaryLanguage->localeCode() );
-//             if ( $primaryLanguage->localeCode() == 'eng-GB' )
-//                 $ini->setVariable( 'RegionalSettings', 'TextTranslation', 'disabled' );
-//             else
-//                 $ini->setVariable( 'RegionalSettings', 'TextTranslation', 'enabled' );
-
             $primaryLanguageLocaleCode = $primaryLanguage->localeCode();
 
             if ( $primaryLanguageLocaleCode != 'eng-GB' )
             {
-//                 $siteCount = $this->PersistenceList['site_templates']['count'];
-//                 for ( $counter = 0; $counter < $siteCount; ++$counter )
-//                 {
-//                     $dbName = $this->PersistenceList['site_templates_'.$counter]['database'];
-//                     $dbParameters = array( 'server' => $dbServer,
-//                                            'user' => $dbUser,
-//                                            'password' => $dbPwd,
-//                                            'socket' => $dbSocket,
-//                                            'database' => $dbName,
-//                                            'charset' => $dbCharset );
-//                     $db =& eZDB::instance( $dbDriver, $dbParameters, true );
-
-
-// Updates databases that have eng-GB data to the new locale.
+                // Updates databases that have eng-GB data to the new locale.
                 $updateSql = "UPDATE ezcontentobject_name
 SET
   content_translation='$primaryLanguageLocaleCode',
