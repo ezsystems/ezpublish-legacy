@@ -60,6 +60,8 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/demo_forum
 - Fixed bug missing definition of attribute
   http://ez.no/community/bug_reports/error_undefined_attribute_attribute_original_id_cannot_set
+- Fixed bug, 'a' and 'l' in the format string was not handled correctly by the datetime opperator
+  http://ez.no/community/bug_reports/bug_in_datetime
 
 *Library:
 
