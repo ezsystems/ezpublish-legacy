@@ -210,7 +210,7 @@ textarea
 
 input.box, textarea.box
 {
-    width: 100%;
+    width: 98%;
 }
 
 input.halfbox, textarea.halfbox
@@ -381,9 +381,4 @@ div.imageleft p.picturetext, div.imageright p.picturetext, span.picturetext, p.f
 span.spamfilter
 {
      display: none;
-}
-
-span.strike
-{
-    text-decoration: line-through;
 }

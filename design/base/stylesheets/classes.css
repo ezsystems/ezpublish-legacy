@@ -169,6 +169,18 @@ div.content-view-listitem div.class-product div.attribute-link-disabled a
     vertical-align: center;
 }
 
+span.oldprice
+{
+    text-decoration: line-through;
+}
+
+span.currentprice
+{
+}
+
+span.pricesave
+{
+}
 
 /* GALLERY */
 
