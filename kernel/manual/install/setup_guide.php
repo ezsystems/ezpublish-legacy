@@ -1,8 +1,21 @@
 <h1>eZ publish installation using the setup gude</h1>
 
-<ul>
 
+<ul>
+	<li><a href="#Requirements">Requirements</a></li>
+	<li><a href="#Linux_FreeBSD_Macos">Installation on Linux, FreeBSD and Mac OS X</a></li>
+	<ul>
+		<li><a href="#Linux_FreeBSD_Macos_Database">Database setup</a></li>
+		<li><a href="#Linux_FreeBSD_Macos_Starting">Starting the setup guide</a></li>
+	</ul>
+
+	<li><a href="#Windows_Installation">Installation on Windows</a></li>
+	<ul>
+		<li><a href="#Windows_Database">Database setup</a></li>
+		<li><a href="#Windows_Starting">Staritn the setup guide</a></li>
+	</ul>
 </ul>
+
 
 <h2 id="Requirements"> eZ publish 3 requirements</h2>
 <p>
@@ -52,6 +65,8 @@
 	<li>Create a database <pre class="example">$ createdb &lt;name_of_database&gt;</pre></li>
 </ol>
 
+<h3 id="Linux_FreeBSD_Macos_Starting">Starting the setup guide</h3>
+
 <ol>
 	<li>Make sure you have met the eZ publish requirements</li>
 	<li>Go to <a href="http://ez.no/download">http://ez.no/download</a> and download the latest release of eZ publish</li>
@@ -61,7 +76,12 @@
 	<li>Follow the setup guide instructions</li>
 </ol>
 
+<p class="important"> <b>Note:</b>The setup guide creates a new settings/site.ini.php which overrides the default settings/site.ini</p>
+
+
 <h2 id="Windows">Using the setup guide on Windows</h2>
+
+<h3 id="Windows_Database">Database setup</h3>
 
 <h4>MySQL</h4>
 <p>
@@ -76,6 +96,8 @@
 	<li>Grant permissions <pre class="example"> mysql&gt; grant all on <name_of_database>.* to &lt;user&gt;@localhost identified
 	by '&lt;password&gt;';</pre>
 </ol>
+
+<h3 id="Windows_Starting">Starting the setup guide</h3>
 
 <ol>
 	<li>Make sure you have met the eZ publish requirements</li>
