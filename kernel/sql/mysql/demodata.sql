@@ -1,6 +1,6 @@
 -- MySQL dump 8.22
 --
--- Host: localhost    Database: demodemo2
+-- Host: localhost    Database: testdb
 ---------------------------------------------------------
 -- Server version	3.23.54
 
@@ -1255,13 +1255,17 @@ INSERT INTO eznotificationevent (id, status, event_type_string, data_int1, data_
 
 
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (308,2,'*','*','*');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (338,17,'read','content','');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (333,13,'read','content','');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (339,17,'login','user','*');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (323,5,'*','*','*');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (324,3,'*','content','*');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (325,3,'login','user','*');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (326,9,'read','content','');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (340,17,'read','content','');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (341,17,'login','user','*');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (342,17,'create','content','');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (343,17,'create','content','');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (344,17,'create','content','');
+INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (345,17,'*','shop','*');
 
 --
 -- Dumping data for table 'ezpolicy_limitation'
@@ -1271,7 +1275,13 @@ INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUE
 INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (257,333,'Subtree',0,'read','content');
 INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (259,333,'Class',0,'read','content');
 INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (248,326,'Subtree',0,'read','content');
-INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (261,338,'Class',0,'read','content');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (262,340,'Class',0,'read','content');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (263,342,'Class',0,'create','content');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (264,342,'ParentClass',0,'create','content');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (265,343,'Class',0,'create','content');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (266,343,'ParentClass',0,'create','content');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (267,344,'Class',0,'create','content');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (268,344,'ParentClass',0,'create','content');
 
 --
 -- Dumping data for table 'ezpolicy_limitation_value'
@@ -1281,28 +1291,7 @@ INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_na
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (516,257,0);
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (515,257,0);
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (414,248,0);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (570,261,12);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (569,261,11);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (568,261,10);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (567,261,9);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (566,261,8);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (565,261,7);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (564,261,6);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (563,261,5);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (562,261,2);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (561,261,13);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (560,261,12);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (559,261,11);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (558,261,10);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (557,261,9);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (556,261,8);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (555,261,7);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (554,261,6);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (553,261,5);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (552,261,2);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (551,261,1);
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (517,257,0);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (571,261,13);
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (549,259,7);
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (548,259,6);
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (547,259,5);
@@ -1314,6 +1303,36 @@ INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (542,259
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (541,259,4);
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (540,259,3);
 INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (539,259,2);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (572,262,1);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (573,262,2);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (574,262,2);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (575,262,5);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (576,262,5);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (577,262,6);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (578,262,6);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (579,262,7);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (580,262,7);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (581,262,8);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (582,262,8);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (583,262,9);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (584,262,9);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (585,262,10);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (586,262,10);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (587,262,11);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (588,262,11);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (589,262,12);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (590,262,12);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (591,262,13);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (592,262,13);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (593,263,7);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (594,264,6);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (595,264,6);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (596,265,13);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (597,266,2);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (598,266,2);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (599,267,9);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (600,268,8);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (601,268,8);
 
 --
 -- Dumping data for table 'ezproductcollection'
