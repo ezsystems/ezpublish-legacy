@@ -33,7 +33,11 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
     <input type="hidden" name="DeleteIDArray[]" value="{$translation.id}" />
+    {section show=ne( false()|locale.locale_code, $translation.locale_object.locale_code )}
     <input class="button" type="submit" name="RemoveButton" value="{'Remove'|i18n( 'design/admin/content/translationview' )}" />
+    {section-else}
+    <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove'|i18n( 'design/admin/content/translationview' )}" disabled="disabled" />
+    {/section}
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
