@@ -44,16 +44,6 @@
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
-{* Trashcan. *}
-<br />
-
-{* Trashcan. *}
-<div id="trash">
-<ul>
-    <li><img src={'trash-icon-16x16.gif'|ezimage} width="16" height="16" alt="Trash" />&nbsp;<a href={concat( '/content/trash/', ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )|ezurl} title="{'View and manage the contents of the trash bin.'|i18n( 'design/admin/parts/content/menu' )}">{'Trash'|i18n( 'design/admin/parts/content/menu' )}</a></li>
-</ul>
-</div>
-
 {* Left menu width control. *}
 <p>
 <a href={'/user/preferences/set/admin_left_menu_width/13'|ezurl} title="{'Change the left menu width to small size.'|i18n( 'design/admin/parts/content/menu' )}">{'Small'|i18n( 'design/admin/parts/content/menu' )}</a>
