@@ -88,14 +88,14 @@ foreach( $TemplateData as $tpldata )
 {
     $tplname = $tpldata["name"];
     
-    $list = & eZContentClassClassGroup::fetchClassList( 0, $GroupID, $asObject = true );
+    $groupInfo = & eZContentClassGroup::fetch( $GroupID );
 
-    if( !$list )
+    if( !$groupInfo )
     {
        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
     }
-       
-    $groupInfo = & eZContentClassGroup::fetch( $GroupID );
+
+    $list = & eZContentClassClassGroup::fetchClassList( 0, $GroupID, $asObject = true );
     $groupModifier =& eZContentObject::fetch( $groupInfo->attribute( 'modifier_id') );
     $tpl->setVariable( $tplname, $list );
     $tpl->setVariable( "class_count", count( $list ) );
