@@ -104,7 +104,7 @@ class eZShopOperationCollection
 
         $mail->setReceiver( $email );
         $mail->setSender( $emailSender );
-        $mail->setSubject( 'order' );
+        $mail->setSubject( $subject' );
         $mail->setBody( $templateResult );
         $mailResult = eZMailTransport::send( $mail );
 
@@ -121,7 +121,7 @@ class eZShopOperationCollection
 
         $mail->setReceiver( $email );
         $mail->setSender( $emailSender );
-        $mail->setSubject( 'order' );
+        $mail->setSubject( $subject );
         $mail->setBody( $templateResult );
         $mailResult = eZMailTransport::send( $mail );
 
