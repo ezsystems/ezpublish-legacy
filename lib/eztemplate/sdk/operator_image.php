@@ -8,9 +8,7 @@ include_once( "lib/eztemplate/classes/eztemplatelogicoperator.php" );
 
 include_once( "lib/ezlocale/classes/ezlocale.php" );
 
-$lang =& eZLanguage::instance();
 $locale =& eZLocale::instance();
-$locale->setLanguage( $lang );
 
 // Init template
 $tpl =& eZTemplate::instance();

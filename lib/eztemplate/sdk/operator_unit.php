@@ -24,10 +24,6 @@ bytes and bits by either editing the ini file or specifying it to the operator.<
 <p class=\"footnote\">Note: Derivative bases and conversion is not supported yet.</p>
 " );
 
-// $lang =& eZLanguage::instance();
-// $locale =& eZLocale::instance();
-// $locale->setLanguage( $lang );
-
 // Init template
 $tpl =& eZTemplate::instance();
 $tpl->setShowDetails( true );
