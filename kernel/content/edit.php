@@ -73,6 +73,21 @@ if ( !function_exists ( 'checkForExistingVersion'  ) )
 
         if ( $version !== null )
         {
+            $currentVersion = $object->currentVersion();
+            /*
+            print( "have draft" );
+            // Check if the published version is newer than the draft
+            if ( $version->attribute( 'modified' ) < $currentVersion->attribute( 'modified' ) )
+            {
+                print( "Draft is older than currentversion" );
+            }
+            else
+            {
+                print( "Draft is newer than currentversion" );
+            }
+            print( $version->attribute( 'modified' ) . "<br>" );
+            print( $currentVersion->attribute( 'modified' ) . "<br>" );
+            */
             if ( $version->attribute( 'status' ) != EZ_VERSION_STATUS_DRAFT or
                  $version->attribute( 'creator_id' ) != $user->id() )
             {
