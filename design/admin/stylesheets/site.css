@@ -239,28 +239,6 @@ div#maincontent-design
     overflow: visible;
 }
 
-div#footer
-{
-    text-align: center;
-}
-
-/* ------------ */
-
-h4
-{
-    margin: 0.5em 0 0 0;
-    padding: 0.25em 0.5em 0.25em 0.5em;
-    border: 1px solid #f8f8f8;
-    border-bottom-color: #d0d0d0;
-    border-right-color: #d0d0d0;
-}
-
-input#searchbutton, input.menubutton
-{
-    font-weight: normal;
-    background-color: #e0e0e0;
-}
-
 div.mainobject-vindow
 {
     height: 200px;
@@ -303,6 +281,45 @@ div.controlbar
 div.controlbar div.createblock
 {
     margin-top: 0.5em;    
+}
+
+div.pagenavigator
+{
+    text-align: center;
+}
+
+div.pagenavigator span.previous
+{
+    display: block;
+    float: left;
+}
+
+div.pagenavigator span.next
+{
+    display: block;
+    float: right;
+}
+
+div#footer
+{
+    text-align: center;
+}
+
+/* ------------ */
+
+h4
+{
+    margin: 0.5em 0 0 0;
+    padding: 0.25em 0.5em 0.25em 0.5em;
+    border: 1px solid #f8f8f8;
+    border-bottom-color: #d0d0d0;
+    border-right-color: #d0d0d0;
+}
+
+input#searchbutton, input.menubutton
+{
+    font-weight: normal;
+    background-color: #e0e0e0;
 }
 
 div.admin-childlist

@@ -153,9 +153,6 @@
 <div class="controlbar">
 {/section}
 
-<br />
-
-
 {* The "Create new here" thing: *}
 {section show=$node.object.can_create}
 <div class="createblock">

@@ -176,7 +176,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 {* --- Bookmarks --- *}
 <div id="bookmarks">
 {section show=eq(ezpreference('bookmark_menu'),'on')}
- <h4><a href={"/content/bookmark/"|ezurl}>{"My bookmarks"|i18n("design/admin/layout")}</a> <a class="showhide" href={"/user/preferences/set/bookmark_menu/off"|ezurl}>[-]</a></h4> 
+ <h4><a href={"/content/bookmark/"|ezurl}>{"Bookmarks"|i18n("design/admin/layout")}</a> <a class="showhide" href={"/user/preferences/set/bookmark_menu/off"|ezurl}>[-]</a></h4> 
 <ul>
 {let bookmark_list=fetch(content,bookmarks)}
 {section name=BookMark loop=$bookmark_list}
@@ -193,14 +193,14 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 {section show=$node.node_id|is_set()}
 <form method="post" action={"content/action"|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-<input class="button" type="submit" name="ActionAddToBookmarks" value="{'Add to my bookmarks'|i18n('design/standard/node/view')}" />
+<input class="button" type="submit" name="ActionAddToBookmarks" value="{'Add bookmark'|i18n('design/standard/node/view')}" />
 </form>
 {/section}
 
 {* --- History --- *}
 <div id="history">
 {section show=eq(ezpreference('history_menu'),'on')}
-<h4>{"My history"|i18n("design/admin/layout")} <a class="showhide" href={"/user/preferences/set/history_menu/off"|ezurl}>[-]</a></h4> 
+<h4>{"History"|i18n("design/admin/layout")} <a class="showhide" href={"/user/preferences/set/history_menu/off"|ezurl}>[-]</a></h4> 
 <ul>
 {let history_list=fetch(content,recent)}
 {section name=History loop=$history_list}
@@ -214,12 +214,12 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 </div>
 
 {* --- Notifications --- *}
-<h4><a href={"/notification/settings"|ezurl}>{"My notifications"|i18n("design/admin/layout")}</a></h4> 
+<h4><a href={"/notification/settings"|ezurl}>{"Notifications"|i18n("design/admin/layout")}</a></h4> 
 {* Show "Add to notification" button if we're viewing an actual node. *}
 {section show=$node.node_id|is_set()}
 <form method="post" action={"content/action"|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-<input class="button" type="submit" name="ActionAddToNotification" value="{'Add to my notifications'|i18n('design/standard/node/view')}" />
+<input class="button" type="submit" name="ActionAddToNotification" value="{'Add notification'|i18n('design/standard/node/view')}" />
 </form>
 {/section}
 
