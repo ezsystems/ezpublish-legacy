@@ -2647,12 +2647,20 @@ WHERE
         $classID = $originalClassID;
         $user =& eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
+
+        $origFunctionName = $functionName;
+        // The 'move' function simply reuses 'edit' for generic access
+        // but adds another top-level check below
+        // The original function is still available in $origFunctionName
+        if ( $functionName == 'move' )
+            $functionName = 'edit';
+
         $accessResult = $user->hasAccessTo( 'content' , $functionName );
         $accessWord = $accessResult['accessWord'];
         $contentObject =& $this->attribute( 'object' );
 
-        if ( $functionName == 'remove' or
-             $functionName == 'move' )
+        if ( $origFunctionName == 'remove' or
+             $origFunctionName == 'move' )
         {
             // We do not allow these actions on top-level nodes
             // - remove
@@ -2814,7 +2822,7 @@ WHERE
             if ( $access == 'denied' )
             {
                 $accessList = array( 'FunctionRequired' => array ( 'Module' => 'content',
-                                                                   'Function' => $functionName,
+                                                                   'Function' => $origFunctionName,
                                                                    'ClassID' => $classID,
                                                                    'MainNodeID' => $this->attribute( 'main_node_id' ) ),
                                      'PolicyList' => $policyList );

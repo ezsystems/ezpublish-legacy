@@ -1932,11 +1932,19 @@ class eZContentObject extends eZPersistentObject
         $classID = $originalClassID;
         $user =& eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
+        $origFunctionName = $functionName;
+
+        // The 'move' function simply reuses 'edit' for generic access
+        // but adds another top-level check below
+        // The original function is still available in $origFunctionName
+        if ( $functionName == 'move' )
+            $functionName = 'edit';
+
         $accessResult = $user->hasAccessTo( 'content' , $functionName );
         $accessWord = $accessResult['accessWord'];
 
-        if ( $functionName == 'remove' or
-             $functionName == 'move' )
+        if ( $origFunctionName == 'remove' or
+             $origFunctionName == 'move' )
         {
             $mainNode =& $this->attribute( 'main_node' );
             // We do not allow these actions on objects placed at top-level
@@ -2148,7 +2156,7 @@ class eZContentObject extends eZPersistentObject
                 else
                 {
                     return array( 'FunctionRequired' => array ( 'Module' => 'content',
-                                                                'Function' => $functionName,
+                                                                'Function' => $origFunctionName,
                                                                 'ClassID' => $classID,
                                                                 'MainNodeID' => $this->attribute( 'main_node_id' ) ),
                                   'PolicyList' => $policyList );
