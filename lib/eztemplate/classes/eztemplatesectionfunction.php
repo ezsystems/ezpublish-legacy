@@ -123,9 +123,14 @@ class eZTemplateSectionFunction
         if ( isset( $parameters["name"] ) )
              $name = $tpl->elementValue( $parameters["name"], $nspace );
         if ( $name === null )
-            $name = "";
-        if ( $current_nspace != "" )
-            $name = "$current_nspace:$name";
+        {
+            $name = $current_nspace;
+        }
+        else
+        {
+            if ( $current_nspace != "" )
+                $name = "$current_nspace:$name";
+        }
         $loopItem = null;
         $hasLoopItemParameter = false;
         if ( isset( $parameters["loop"] ) )
