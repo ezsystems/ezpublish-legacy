@@ -112,8 +112,19 @@
 <div class="block">
 <div class="button-left">
 {section show=$node.can_edit}
-    <input class="button{section show=$assignment_count|le( 1 )}-disabled{/section}" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'Remove selected locations from the list above.'|i18n( 'design/admin/node/view/full' )}" {section show=$assignment_count|le( 1 )}disabled="disabled"{/section} />
-    <input class="button{section show=or( eq( $node.node_id, ezini( 'NodeSettings', 'RootNode','content.ini' ) ), eq( $node.node_id, ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) ), eq( $node.node_id, ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) ) )}-disabled{/section}" type="submit" name="AddAssignmentButton" value="{'Add locations'|i18n( 'design/admin/node/view/full' )}" title="{'Add one or more new locations.'|i18n( 'design/admin/node/view/full' )}" {section show=or( eq( $node.node_id, ezini( 'NodeSettings', 'RootNode','content.ini' ) ), eq( $node.node_id, ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) ), eq( $node.node_id, ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) ) )}disabled="disabled"{/section} />
+
+    {section show=$assignment_count|gt( 1 )}
+    <input class="button" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'Remove selected locations from the list above.'|i18n( 'design/admin/node/view/full' )}" />
+    {section-else}
+    <input class="button-disabled" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'There are no removalbe locations.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
+    {/section}
+
+    {section show=and( ne( $node.node_id, ezini( 'NodeSettings', 'RootNode','content.ini' ) ), ne( $node.node_id, ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) ), ne( $node.node_id, ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) ) )}
+    <input class="button" type="submit" name="AddAssignmentButton" value="{'Add locations'|i18n( 'design/admin/node/view/full' )}" title="{'Add one or more new locations.'|i18n( 'design/admin/node/view/full' )}" />
+    {section-else}
+    <input class="button-disabled" type="submit" name="AddAssignmentButton" value="{'Add locations'|i18n( 'design/admin/node/view/full' )}" title="{'It is not possible to add locations to a top level node.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
+    {/section}
+
 {section-else}
     <input class="button-disabled" type="submit" name="" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title={'You can not remove any locations because you do not have permissions to edit the current item.'|i18n( 'design/admin/node/view/full' )} />
     <input class="button-disabled" type="submit" name="" value="{'Add locations'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title={'You can not add new locations because you do not have permissions to edit the current item.'|i18n( 'design/admin/node/view/full' )} />
