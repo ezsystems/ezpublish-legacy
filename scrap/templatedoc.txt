@@ -313,6 +313,12 @@ Template Node Types:
 120 - Warning
 121 - Error
 140 - Resource Acquisition
+150 - Output variable assign
+151 - Output variable read
+152 - Output variable increase
+153 - Output variable decrease
+160 - Spacing increase
+161 - Spacing decrease
 
 1000 - Custom type (From 1001 and up user specific types can be added)
 
@@ -393,25 +399,25 @@ Variable Element Types:
 4 - Variable (Variable data is an array)
 5 - Attribute (Variable data is an array with Variable Elements)
 6 - Operator (Variable data is an array)
+7 - Boolean (value in Variable data)
+8 - Array (value in Variable data)
 
 100 - Internal (Not used, only used as starting value)
 101 - Code piece (Custom PHP code)
-//102 - Variable unset (Unsetting of a variable)
-//103 - Namespace change (Changing the namespace)
-//104 - Namespace restore (Restoring the namespace)
-//105 - Variable set (Changing a variable)
-120 - Warning
-121 - Error
 
 Code Piece Element:
 0 - 101
 1 - PHP code with %% markers, %input% is the input value or variable,
-    %output% is the output variable.
+    %output% is the output variable., %[0-9]+% is the indexed value element
+    %code[0-9]+% is the code for the index value element
+    %tmp[0-9]+% is a temporary variable (guaranteed unique), number of    
+    temporary variables are defined in 4
 2 - Placement
 3 - Array of sub Variable Elements,
     each element will be processed before the code and placed
     in variables. The first entry will be %1%, the second %2% etc.
     Is optional so it might be omitted.
+4 - Numer of temporary variables or false
 
 String Element Type:
 Example:
