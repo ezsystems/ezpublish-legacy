@@ -2863,6 +2863,7 @@ WHERE
      -- can_remove         - Boolean which tells if the user has permission to remove the node
      -- can_remove_subtree - Boolean which tells if the user has permission to remove items in the subtree
      -- new_main_node_id   - The new main node ID for the node if it needs to be moved, or \c false if not
+     -- object_node_count  - The number of nodes the object has (before removal)
     */
     function subtreeRemovalInformation( $deleteIDArray )
     {
@@ -2912,6 +2913,7 @@ WHERE
 
             $childCount = 0;
             $newMainNodeID = false;
+            $objectNodeCount = 0;
             if ( $canRemove )
             {
                 if ( $moveToTrashAllowed and
@@ -2928,6 +2930,7 @@ WHERE
                 if ( $node->attribute( 'main_node_id' ) == $nodeID )
                 {
                     $allAssignedNodes =& $object->attribute( 'assigned_nodes' );
+                    $objectNodeCount = count( $allAssignedNodes );
                     if ( count( $allAssignedNodes ) > 1 )
                     {
                         foreach( $allAssignedNodes as $assignedNode )
@@ -2991,6 +2994,7 @@ WHERE
                            'class' => $class,
                            'node_name' => $nodeName,
                            'child_count' => $childCount,
+                           'object_node_count' => $objectNodeCount,
                            'can_remove' => $canRemove,
                            'can_remove_subtree' => $canRemoveSubtree,
                            'real_child_count' => $readableChildCount,
