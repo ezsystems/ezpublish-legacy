@@ -1,0 +1,1 @@
+<td {section show=$colspan}:colspan:{$colspan}{/section}>{$content|wash(pdf)}</td>

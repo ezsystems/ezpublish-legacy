@@ -123,7 +123,6 @@ class eZPDFTable extends Cezpdf
      */
     function ezTable(&$data,$cols='',$title='',$options='')
     {
-
         if (!is_array($data)){
             return;
         }
@@ -777,7 +776,7 @@ class eZPDFTable extends Cezpdf
     {
         $paramArray = explode( ':', $info['p'] );
 
-        $this->addDestination( $paramArray[0], $paramArray[1], $this->offsetY() );
+        $this->addDestination( $paramArray[0], $paramArray[1], $this->offsetY() + $this->getFontHeight( $this->fontSize ) );
     }
 
     /**
@@ -803,6 +802,30 @@ class eZPDFTable extends Cezpdf
         $level = $params['level'];
 
         return '<C:callInsertTOC:'. $label .','. $level .'>';
+    }
+
+    /**
+     * Function for insert image
+     */
+    function callImage( $info )
+    {
+        $params = array();
+
+        $paramString = $info['p'].'>';
+
+        $this->extractParameters( $paramString, 0, $params, true );
+
+        $xOffset = $this->ez['leftMargin'];
+        if ( isset( $params['xOffset'] ) )
+        {
+            $xOffset = $params['xOffset'];
+        }
+
+        $this->addJpegFromFile( rawurldecode( $params['src'] ),
+                                $xOffset,
+                                $this->offsetY()-$params['height'],
+                                $params['width'],
+                                $params['height'] );
     }
 
     /**
@@ -950,33 +973,26 @@ class eZPDFTable extends Cezpdf
             {
                 if ( strcmp( substr($text, $offSet+1, strlen( 'ezCall' ) ), 'ezCall' ) == 0 ) // ez library preprocessing call.
                 {
-                    $this->addDocSpecification( $newText );
-
-                    $offSet++;
-                    $offSet += strlen( 'ezCall:' );
-                    $funcEnd = strpos( $text, ':', $offSet );
-                    $funcName = substr( $text, $offSet, $funcEnd - $offSet );
-
-                    $offSet = $funcEnd;
-                    $endOffset = strpos( $text, '>', $offSet );
-                    $params = array();
-                    $offSet++;
-                    while ( $offSet < $endOffset )
+                    $newTextLength = strlen( $newText );
+                    if ( $newTextLength > 0 && $newText[$newTextLength - 1] == "\n" )
                     {
-                        $nameEnd = strpos( $text, ':', $offSet );
-                        $valueEnd = strpos( $text, ':', $nameEnd+1 );
-                        if ( $valueEnd > $endOffset || $valueEnd === false )
-                        {
-                            $valueEnd = $endOffset;
-                        }
-                        $paramName = substr( $text, $offSet, $nameEnd-$offSet);
-                        ++$nameEnd;
-                        $paramValue = substr( $text, $nameEnd, $valueEnd-$nameEnd );
-                        $params[$paramName] = $paramValue;
-                        $offSet = ++$valueEnd;
+                        unset( $newText[$newTextLength - 1] );
+                        $this->addDocSpecification( $newText );
+                        $newText = "\n";
                     }
-                    $newText = $this->$funcName( $params );
-                    $offSet = $endOffset;
+                    else
+                    {
+                        $this->addDocSpecification( $newText );
+                        $newText = '';
+                    }
+
+                    $params = array();
+                    $funcName = '';
+
+                    $offSet = $this->extractFunction( $text, $offSet, $funcName, $params, 'ezCall' );
+
+                    $newText .= $this->$funcName( $params );
+
                     continue;
                 }
                 else if ( strcmp( substr($text, $offSet+1, strlen( '/ezCall' ) ), '/ezCall' ) == 0 )
@@ -986,6 +1002,21 @@ class eZPDFTable extends Cezpdf
                     $offSet = strpos( $text, '>', $offSet );
                     $offSet++;
                     $newText = '';
+                    continue;
+                }
+                else if ( strcmp( substr($text, $offSet+1, strlen( 'ezGroup' ) ), 'ezGroup' ) == 0 ) // special call for processing whole text group, used by extends table.
+                {
+                    $params = array();
+                    $funcName = '';
+
+                    $offSet = $this->extractFunction( $text, $offSet, $funcName, $params, 'ezGroup' );
+                    $offSet++;
+                    $endGroup = strpos( $text, '</ezGroup:', $offSet );
+                    $groupText = substr( $text, $offSet, $endGroup - $offSet );
+
+                    $this->$funcName( $params, $groupText );
+
+                    $offSet = strpos( $text, '>', $endGroup );
                     continue;
                 }
             }
@@ -1000,6 +1031,138 @@ class eZPDFTable extends Cezpdf
     }
 
     /**
+     * Function for generating table definition. Called by ezGroup specification
+     *
+     * \param parameters
+     * \param text in ezGroup
+     */
+    function callTable( $params, $text )
+    {
+        $textLen = strlen( $text );
+        $tableData = array();
+        $cellData = array();
+        $rowCount = 0;
+        $columnCount = 0;
+
+        $columnText = '';
+
+        for ( $offSet = 0; $offSet < $textLen; $offSet++ )
+        {
+            if ( $text[$offSet] == '<' )
+            {
+                if ( strcmp( substr($text, $offSet+1, strlen( 'tr' ) ), 'tr' ) == 0 )
+                {
+                    $tableData[] = array();
+                    $offSet++;
+                    $offSet += strlen( 'tr' );
+                    continue;
+                }
+                else if ( strcmp( substr($text, $offSet+1, strlen( 'td' ) ), 'td' ) == 0 )
+                {
+                    $params = array();
+                    $offSet++;
+                    $offSet += strlen( 'td' );
+                    $offSet = $this->extractParameters( $text, $offSet, $params );
+
+                    if ( count( $params ) > 0 )
+                    {
+                        $cellData[$columnCount. ',' .$rowCount] = array();
+                        if ( isset( $params['colspan'] ) )
+                        {
+                            $cellData[$columnCount. ',' .$rowCount]['size'] = array( (int)$params['colspan'], 1 );
+                        }
+                        if ( isset( $params['align'] ) )
+                        {
+                            $cellData[$columnCount. ',' .$rowCount]['justification'] = array( $params['align'], 1 );
+                        }
+                    }
+                    continue;
+                }
+                else if ( strcmp( substr($text, $offSet+1, strlen( '/tr' ) ), '/tr' ) == 0 )
+                {
+                    $rowCount++;
+                    $columnCount = 0;
+                    $offSet++;
+                    $offSet += strlen( '/tr' );
+                    continue;
+                }
+                else if ( strcmp( substr($text, $offSet+1, strlen( '/td' ) ), '/td' ) == 0 )
+                {
+                    if ( $columnCount == 0 )
+                    {
+                        $tableData[$rowCount] = array();
+                    }
+                    $tableData[$rowCount][$columnCount] = $columnText;
+                    $columnText = '';
+                    $columnCount++;
+                    $offSet++;
+                    $offSet += strlen( '/td' );
+                    continue;
+                }
+            }
+            $columnText .= $text[$offSet];
+        }
+        $this->addDocSpecFunction( 'ezTable', array( $tableData, '', '', array( 'cellData' => $cellData,
+                                                                                'showLines' => 2 ) ) );
+    }
+
+    /**
+     * Function for extracting function name and parameters from text.
+     *
+     * \param text
+     * \param offset
+     * \param function name (reference)
+     * \param parameters array (reference)
+     *
+     * \return end offset of function
+     */
+    function extractFunction( &$text, $offSet, &$functionName, &$parameters, $type='ezCall' )
+    {
+        $offSet++;
+        $offSet += strlen( $type.':' );
+        $funcEnd = strpos( $text, ':', $offSet );
+        if ( $funcEnd === false || strpos( $text, '>', $offSet ) < $funcEnd )
+        {
+            $funcEnd = strpos( $text, '>', $offSet );
+        }
+        $functionName = substr( $text, $offSet, $funcEnd - $offSet );
+
+        return $this->extractParameters( $text, $funcEnd, $parameters );
+    }
+
+    /**
+     * Function for extracting parameters from : separated key:value list callback functions
+     *
+     * \param text
+     * \param offset
+     * \param parameters array (reference)
+     *
+     * \return end offset of function
+     */
+    function extractParameters( &$text, $offSet, &$parameters, $skipFirstChar=false )
+    {
+        $endOffset = strpos( $text, '>', $offSet );
+        if ( $skipFirstChar === false )
+            $offSet++;
+        while ( $offSet < $endOffset )
+        {
+            $nameEnd = strpos( $text, ':', $offSet );
+            $valueEnd = strpos( $text, ':', $nameEnd+1 );
+            if ( $valueEnd > $endOffset || $valueEnd === false )
+            {
+                $valueEnd = $endOffset;
+            }
+            $paramName = substr( $text, $offSet, $nameEnd-$offSet);
+            ++$nameEnd;
+            $paramValue = substr( $text, $nameEnd, $valueEnd-$nameEnd );
+            $parameters[$paramName] = $paramValue;
+            $offSet = ++$valueEnd;
+        }
+
+        return $endOffset;
+    }
+
+    /**
       Loop through all document specification settings and print specified text
 
       \return new Y offset
@@ -1009,6 +1172,7 @@ class eZPDFTable extends Cezpdf
         foreach( array_keys( $this->DocSpecification ) as $key )
         {
             $outputElement =& $this->DocSpecification[$key];
+
             $documentSpec =& $outputElement['docSpec'];
 
             if ( isset( $documentSpec['fontName'] ) )
@@ -1025,9 +1189,16 @@ class eZPDFTable extends Cezpdf
                 $size = $this->fontSize();
             }
 
-            $return = Cezpdf::ezText( $outputElement['text'],
-                                      $size,
-                                      array( 'justification' => $documentSpec['justification'] ) );
+            if ( isset( $outputElement['isFunction'] ) && $outputElement['isFunction'] === true )
+            {
+                $return = call_user_func_array( array( &$this, $outputElement['functionName'] ), $outputElement['parameters'] );
+            }
+            else
+            {
+                $return = Cezpdf::ezText( $outputElement['text'],
+                                          $size,
+                                          array( 'justification' => $documentSpec['justification'] ) );
+            }
         }
         return $return;
     }
@@ -1082,6 +1253,22 @@ class eZPDFTable extends Cezpdf
                                             'text' => $text );
         array_push( $this->PreStack, $docSpec );
     }
+
+    /**
+     * Function for adding function to doc specification
+     *
+     * param - text to add
+     */
+    function addDocSpecFunction( $functionName, $parameters )
+    {
+        $docSpec = array_pop( $this->PreStack );
+        $this->DocSpecification[] = array ( 'docSpec' => $docSpec,
+                                            'isFunction' => true,
+                                            'functionName' => $functionName,
+                                            'parameters' => $parameters );
+        array_push( $this->PreStack, $docSpec );
+    }
+
 
     /**
      * function for adding font specification to PreStack array

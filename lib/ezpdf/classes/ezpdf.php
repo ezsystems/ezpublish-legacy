@@ -116,11 +116,16 @@ class eZPDF
                 eZDebug::writeNotice( 'PDF: Changed font, name: '. $font['name'] .', size: '. $font['size'], 'eZPDF::modify' );
             } break;
 
-            case 'table': //TODO
+            case 'table':
             {
                 $table = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
-                $this->PDF->ezTable( $table['data'], '', '', $table['options'] );
+                $operatorValue = str_replace( array( ' ', "\t", "\r\n", "\n" ),
+                                              '',
+                                              '<ezGroup:callTable>'. $table . '</ezGroup:callTable><C:callNewLine>' );
+
+                eZDebug::writeNotice( 'PDF: Added table to PDF',
+                                      'eZPDF::modify' );
             } break;
 
             case 'header':
@@ -162,7 +167,15 @@ class eZPDF
                 $width = isset( $image['width'] ) ? $image['width']: 100;
                 $height = isset( $image['height'] ) ? $image['height']: 100;
 
-                $this->PDF->addJpegFromFile( $image['src'], 0, $this->PDF->offsetY()-$height, $width, $height );
+                $operatorValue = '<C:callImage:src:'. rawurlencode( $image['src'] ) .':width:'. $width .':height:'. $height;
+
+                if ( isset( $image['xOffset'] ) )
+                {
+                    $operatorValue .= ':xOffset:'. $image['xOffset'];
+                }
+
+                $operatorValue .= '>';
+
                 eZDebug::writeNotice( 'PDF: Added Image '.$image['src'].' to PDF file', 'eZPDF::modify' );
             } break;
 
@@ -281,8 +294,6 @@ class eZPDF
     /// The array of operators, used for registering operators
     var $Operators;
     var $PDF;
-
-    var $bufferedText = '';
 }
 
 

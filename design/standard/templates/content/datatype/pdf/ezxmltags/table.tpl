@@ -1,1 +1,1 @@
-{* TODO *}
+{pdf(table, $rows)}
