@@ -9,6 +9,7 @@
 <tr>
     <th width="97%">{"Name"|i18n("design/standard/role")}</th>
     <th width="1%">{"Edit"|i18n("design/standard/role")}</th>
+    <th width="1%">{"Copy"|i18n("design/standard/role")}</th>
     <th width="1%">{"Assign"|i18n("design/standard/role")}</th>
 {*    <th width="1%">{"Subtree"|i18n("design/standard/role")}</th> *}
     <th>{"Remove"|i18n("design/standard/role")}</th>
@@ -23,6 +24,9 @@
 	<a href={concat("/role/edit/",$All:item.id)|ezurl}><img src={"edit.gif"|ezimage} alt="{'Edit'|i18n('design/standard/role')}" title="{'Edit role'|i18n('design/standard/role')}" /></a>
     </td>
     <td class="{$All:sequence}">
+	<a href={concat("/role/copy/",$All:item.id)|ezurl}><img src={"copy.gif"|ezimage} alt="{'Copy'|i18n('design/standard/role')}" title="{'Copy role'|i18n('design/standard/role')}" /></a>
+    </td>
+    <td class="{$All:sequence}">
 	<a href={concat("/role/assign/",$All:item.id)|ezurl}><img src={"assign.gif"|ezimage} alt="{'Assign'|i18n('design/standard/role')}" title="{'Assign role to user or group'|i18n('design/standard/role')}" /></a>
     </td>
 {*    <td class="{$All:sequence}">
@@ -34,7 +38,7 @@
 </tr>
 {/section}
 <tr>
-  <td colspan="3">
+  <td colspan="4">
     <input class="button" type="submit" name="NewButton" value="{'New'|i18n('design/standard/role')}" />
   </td>
   <td align="right" width="1">
