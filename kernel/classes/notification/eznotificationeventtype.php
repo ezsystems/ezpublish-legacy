@@ -86,11 +86,6 @@ class eZNotificationEventType
     }
 
 
-    function loadAndRegisterType( $typeString )
-    {
-    }
-
-
     function &attributes()
     {
         return array_merge( array_keys( $this->Attributes ), "description" );
