@@ -1176,6 +1176,10 @@ class eZCodeMapper
                     {
                         if ( count( $toCode ) == 1 )
                             $toCode = $toCode[0];
+                        // If the mapping already exists we skip it
+                        if ( isset( $unicodeMap[$fromCode] ) )
+                            continue;
+
                         $unicodeMap[$fromCode] = $toCode;
                         eZCodeMapper::mapExistingCodes( $unicodeMap, $fromCode, $toCode );
                     }
@@ -1221,6 +1225,10 @@ class eZCodeMapper
                         {
                             if ( count( $toCode ) == 1 )
                                 $toCode = $toCode[0];
+
+                            // If the mapping already exists we skip it
+                            if ( isset( $unicodeMap[$fromCode] ) )
+                                continue;
 
                             eZCodeMapper::mapExistingCodes( $unicodeMap, $fromCode, $toCode );
 
@@ -1277,6 +1285,11 @@ class eZCodeMapper
                             else if ( count( $replace ) == 1 )
                                 $replace = $replace[0];
                             eZCodeMapper::mapExistingCodes( $unicodeMap, $i, $replace );
+
+                            // If the mapping already exists we skip it
+                            if ( isset( $unicodeMap[$i] ) )
+                                continue;
+
                             $unicodeMap[$i] = $replace;
                         }
                         else
@@ -1299,6 +1312,10 @@ class eZCodeMapper
                                 $replace = $newReplace[0];
                             else
                                 $replace = $newReplace;
+
+                            // If the mapping already exists we skip it
+                            if ( isset( $unicodeMap[$i] ) )
+                                continue;
 
                             eZCodeMapper::mapExistingCodes( $unicodeMap, $i, $replace );
                             $unicodeMap[$i] = $replace;
@@ -1328,6 +1345,10 @@ class eZCodeMapper
                             $replace = $replace[0];
                         for ( $i = $start; $i <= $stop; ++$i )
                         {
+                            // If the mapping already exists we skip it
+                            if ( isset( $unicodeMap[$i] ) )
+                                continue;
+
                             eZCodeMapper::mapExistingCodes( $unicodeMap, $i, $replace );
                             $unicodeMap[$i] = $replace;
                         }
@@ -1366,6 +1387,10 @@ class eZCodeMapper
                             }
                             if ( $allowed )
                             {
+                                // If the mapping already exists we skip it
+                                if ( isset( $unicodeMap[$i] ) )
+                                    continue;
+
                                 eZCodeMapper::mapExistingCodes( $unicodeMap, $i, $replace );
                                 $unicodeMap[$i] = $replace;
                             }
