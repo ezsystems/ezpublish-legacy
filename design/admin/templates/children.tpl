@@ -37,16 +37,16 @@
     <table class="list" cellspacing="0">
     <tr>
         <th class="remove"> &nbsp; </th>
-        <th class="name">{"Name"|i18n("design/standard/node/view")}</th>
-        <th class="class">{"Type"|i18n("design/standard/node/view")}</th>
-        <th class="section">{"Section"|i18n("design/standard/node/view")}</th>
+        <th class="name">{"Name"|i18n("design/standard/node/view")}:</th>
+        <th class="class">{"Type"|i18n("design/standard/node/view")}:</th>
+        <th class="section">{"Section"|i18n("design/standard/node/view")}:</th>
         {section show=eq( $node.sort_array[0][0], 'priority' )}
-            <th class="priority">{"Priority"|i18n( "design/standard/node/view" )}</th>
+            <th class="priority">{"Priority"|i18n( "design/standard/node/view" )}:</th>
         {/section}
         {section show=$:can_edit}
-            <th class="edit">{"Edit"|i18n("design/standard/node/view")}</th>
+            <th class="edit">{"Edit"|i18n("design/standard/node/view")}:</th>
         {/section}
-            <th class="copy">{"Copy"|i18n("design/standard/node/view")}</th>
+            <th class="copy">{"Copy"|i18n("design/standard/node/view")}:</th>
         {/section}
     </tr>
 

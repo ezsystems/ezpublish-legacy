@@ -133,9 +133,14 @@ div#contentstructure
     overflow: scroll;
 }
 
-div#contentstructure ul#content_tree_menu
+div#contentstructure ul#content_tree_menu, div#contentstructure ul#content_tree_menu ul
 {
     margin-left: 0;
+}
+
+div#contentstructure ul#content_tree_menu ul ul
+{
+    margin-left: 20px;
 }
 
 div#contentstructure ul#content_tree_menu li
@@ -304,3 +309,14 @@ div.admin-childlist
 {
     margin-top: 2em;
 }
+
+div.admin-childlist table.list th
+{
+    width: 1%;
+}
+
+div.admin-childlist table.list th.name
+{
+    width: 99%;
+}
+

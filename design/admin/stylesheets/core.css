@@ -231,6 +231,7 @@ input.button
 {
     font-weight: normal;
     margin: 0 0.5em 0 0;
+    padding: 0;
     background-color: #e0e0e0;
 }
 
