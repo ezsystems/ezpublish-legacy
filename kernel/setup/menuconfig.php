@@ -68,8 +68,12 @@ if ( $http->hasPostVariable( 'SelectCurrentSiteAccessButton' ) )
     $http->setSessionVariable( 'eZTemplateAdminCurrentSiteAccess', $siteAccess );
 }
 
-$iniPath = "settings/siteaccess/$siteAccess";
-$menuINI = eZINI::instance( 'menu.ini.append.php', $iniPath, null, false, null, true );
+$menuINI =& eZINI::instance( "menu.ini" );
+$menuINI->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
+$menuINI->loadCache();
+
+/*$iniPath = "settings/siteaccess/$siteAccess";
+$menuINI = eZINI::instance( 'menu.ini.append.php', $iniPath, null, false, null, true );*/
 
 if ( $module->isCurrentAction( 'Store' ) )
 {
@@ -79,7 +83,9 @@ if ( $module->isCurrentAction( 'Store' ) )
     $menuINI->setVariable( 'SelectedMenu', 'TopMenu', $menuINI->variable( $menuType, "TopMenu" ) );
     $menuINI->setVariable( 'SelectedMenu', 'LeftMenu', $menuINI->variable( $menuType, "LeftMenu" ) );
 
-    $menuINI->save( false, false, false, false, true, true );
+    //$menuINI->save( false, false, false, false, true, true );
+
+    $menuINI->save( "menu.ini.append.php", false, false, false, "settings/siteaccess/$siteAccess", true );
 
     // Delete compiled template
     $iniPath = "settings/siteaccess/$siteAccess";
