@@ -1,5 +1,4 @@
 {* Default object admin view template *}
-
 {default with_children=true()
          is_editable=true()
 	 is_standalone=true()}
@@ -93,6 +92,9 @@
     </td>
 </tr>
 </table>
+<input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
+<input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
+<input type="hidden" name="ViewMode" value="full" />
 
 {section show=$with_children}
 
@@ -134,12 +136,8 @@
 {/case}
 {/switch}
 
-<input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-<input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
-<input type="hidden" name="ViewMode" value="full" />
 
 </div>
-
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
