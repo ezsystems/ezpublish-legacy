@@ -146,6 +146,16 @@ table.list tr.bglight:hover, table.list tr.bgdark:hover
     background-color: #ffffff;
 }
 
+table.list tr.object-cannot-remove td
+{
+    color: #ff0000;
+}
+
+td.tight
+{
+    width: 1%;
+}
+
 th.tight
 {
     width: 1%;
