@@ -408,6 +408,50 @@ class eZContentFunctionCollection
         include_once( 'kernel/classes/ezsection.php' );
         return array( 'result' => eZSection::fetchList() );
     }
+
+    function fetchTipafriendTopList( $offset, $limit )
+    {
+        include_once( 'kernel/classes/eztipafriendcounter.php' );
+        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+
+        $topList = & eZPersistentObject::fetchObjectList( eZTipafriendCounter::definition(),
+                                                       null,
+                                                       null,
+                                                       null,
+                                                       array( 'length' => $limit, 'offset' => $offset ),
+                                                       true );
+
+        $contentNodeList = array();
+        foreach ( array_keys ( $topList ) as $key )
+        {
+            $nodeID = $topList[$key]->attribute( 'node_id' );
+            $contentNode =& eZContentObjectTreeNode::fetch( $nodeID );
+            if ( $contentNode === null )
+                return array( 'error' => array( 'error_type' => 'kernel',
+                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+            $contentNodeList[] = $contentNode;
+        }
+        return array( 'result' => $contentNodeList );
+    }
+
+    function fetchMostViewedTopList( $classID, $sectionID, $offset, $limit )
+    {
+        include_once( 'kernel/classes/ezviewcounter.php' );
+        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+
+        $topList =& eZViewCounter::fetchTopList( $classID, $sectionID, $offset, $limit );
+        $contentNodeList = array();
+        foreach ( array_keys ( $topList ) as $key )
+        {
+            $nodeID = $topList[$key]['node_id'];
+            $contentNode =& eZContentObjectTreeNode::fetch( $nodeID );
+            if ( $contentNode === null )
+                return array( 'error' => array( 'error_type' => 'kernel',
+                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+            $contentNodeList[] = $contentNode;
+        }
+        return array( 'result' => $contentNodeList );
+    }
 }
 
 ?>
