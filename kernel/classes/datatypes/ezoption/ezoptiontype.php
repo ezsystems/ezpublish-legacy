@@ -241,11 +241,14 @@ class eZOptionType extends eZDataType
     */
     function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
-        $option =& $contentObjectAttribute->content();
-        $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
-        $option->setName( $contentClassAttribute->attribute( 'data_text1' ) );
-        $contentObjectAttribute->setAttribute( "data_text", $option->xmlString() );
-        $contentObjectAttribute->setContent( $option );
+        if ( $currentVersion === false )
+        {
+            $option =& $contentObjectAttribute->content();
+            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $option->setName( $contentClassAttribute->attribute( 'data_text1' ) );
+            $contentObjectAttribute->setAttribute( "data_text", $option->xmlString() );
+            $contentObjectAttribute->setContent( $option );
+        }
     }
 
     /*!
