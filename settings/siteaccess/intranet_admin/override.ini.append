@@ -167,4 +167,11 @@ Match[class]=5
 Source=content/datatype/edit/ezmatrix.tpl
 MatchFile=datatype_edit_ezmatrix.tpl
 Subdir=templates
+
+[front_page_image]
+Source=content/datatype/edit/ezinteger.tpl
+MatchFile=frontpageimage.tpl
+Subdir=templates
+Match[class]=2
+
 */ ?>
