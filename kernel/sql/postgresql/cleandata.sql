@@ -107,7 +107,7 @@ INSERT INTO ezcontentclassgroup VALUES (3, 'Media', 8, 14, 1032009743, 103392212
 
 
 INSERT INTO ezcontentobject VALUES (1, 14, 1, 1, 'Root folder', 1, 0, 1033917596, 1033917596, 1, NULL);
-INSERT INTO ezcontentobject VALUES (4, 14, 2, 3, 'Users', 1, 0, 0, 0, 1, NULL);
+INSERT INTO ezcontentobject VALUES (4, 14, 2, 3, 'Users', 1, 0, 1033917596, 1033917596, 1, NULL);
 INSERT INTO ezcontentobject VALUES (10, 14, 2, 4, 'Anonymous User', 1, 0, 1033920665, 1033920665, 1, NULL);
 INSERT INTO ezcontentobject VALUES (11, 14, 2, 3, 'Guest accounts', 1, 0, 1033920746, 1033920746, 1, NULL);
 INSERT INTO ezcontentobject VALUES (12, 14, 2, 3, 'Administrator users', 1, 0, 1033920775, 1033920775, 1, NULL);
@@ -122,12 +122,10 @@ INSERT INTO ezcontentobject VALUES (41, 14, 3, 1, 'Media', 1, 0, 1060695457, 106
 
 
 
-INSERT INTO ezcontentobject_attribute VALUES (1, 'eng-GB', 1, 1, 4, 'My folder', NULL, NULL, 0, 0, '');
+INSERT INTO ezcontentobject_attribute VALUES (1, 'eng-GB', 1, 1, 4, 'Root folder', NULL, NULL, 0, 0, '');
 INSERT INTO ezcontentobject_attribute VALUES (2, 'eng-GB', 1, 1, 119, '<?xml version="1.0"><section><paragraph>This folder contains some information about...</paragraph></section>', NULL, NULL, 0, 0, '');
 INSERT INTO ezcontentobject_attribute VALUES (7, 'eng-GB', 1, 4, 7, 'Main group', NULL, NULL, 0, 0, '');
 INSERT INTO ezcontentobject_attribute VALUES (8, 'eng-GB', 1, 4, 6, 'Users', NULL, NULL, 0, 0, '');
-INSERT INTO ezcontentobject_attribute VALUES (1, 'eng-GB', 2, 1, 4, 'My folder', 0, 0, 0, 0, '');
-INSERT INTO ezcontentobject_attribute VALUES (2, 'eng-GB', 2, 1, 119, '<?xml version="1.0"><section><paragraph>This folder contains some information about...</paragraph></section>', 0, 0, 0, 0, '');
 INSERT INTO ezcontentobject_attribute VALUES (21, 'eng-GB', 1, 10, 12, '', 0, 0, 0, 0, '');
 INSERT INTO ezcontentobject_attribute VALUES (22, 'eng-GB', 1, 11, 6, 'Guest accounts', 0, 0, 0, 0, '');
 INSERT INTO ezcontentobject_attribute VALUES (19, 'eng-GB', 1, 10, 8, 'Anonymous', 0, 0, 0, 0, '');
@@ -195,9 +193,8 @@ INSERT INTO ezcontentobject_tree VALUES (43, 1, 41, 1, 1, 1, '/1/43/', 9, 1, 0, 
 
 
 
-INSERT INTO ezcontentobject_version VALUES (1, 1, 14, 1, 0, 0, 1, 1, 0);
-INSERT INTO ezcontentobject_version VALUES (4, 4, 14, 1, 0, 0, 1, 1, 0);
-INSERT INTO ezcontentobject_version VALUES (436, 1, 14, 2, 1033919080, 1033919080, 1, 1, 0);
+INSERT INTO ezcontentobject_version VALUES (1, 1, 14, 1, 1033919080, 1033919080, 1, 1, 0);
+INSERT INTO ezcontentobject_version VALUES (4, 4, 14, 1, 1033919080, 1033919080, 1, 1, 0);
 INSERT INTO ezcontentobject_version VALUES (438, 10, 14, 1, 1033920649, 1033920665, 1, 0, 0);
 INSERT INTO ezcontentobject_version VALUES (439, 11, 14, 1, 1033920737, 1033920746, 1, 0, 0);
 INSERT INTO ezcontentobject_version VALUES (440, 12, 14, 1, 1033920760, 1033920775, 1, 0, 0);

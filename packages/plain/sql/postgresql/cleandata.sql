@@ -107,7 +107,7 @@ INSERT INTO ezcontentclassgroup VALUES (3, 'Media', 8, 14, 1032009743, 103392212
 
 
 INSERT INTO ezcontentobject VALUES (1, 14, 1, 1, 'Root folder', 1, 0, 1033917596, 1033917596, 1, NULL);
-INSERT INTO ezcontentobject VALUES (4, 14, 2, 3, 'Users', 1, 0, 0, 0, 1, NULL);
+INSERT INTO ezcontentobject VALUES (4, 14, 2, 3, 'Users', 1, 0, 1033917596, 1033917596, 1, NULL);
 INSERT INTO ezcontentobject VALUES (10, 14, 2, 4, 'Anonymous User', 1, 0, 1033920665, 1033920665, 1, NULL);
 INSERT INTO ezcontentobject VALUES (11, 14, 2, 3, 'Guest accounts', 1, 0, 1033920746, 1033920746, 1, NULL);
 INSERT INTO ezcontentobject VALUES (12, 14, 2, 3, 'Administrator users', 1, 0, 1033920775, 1033920775, 1, NULL);
@@ -122,12 +122,10 @@ INSERT INTO ezcontentobject VALUES (41, 14, 3, 1, 'Media', 1, 0, 1060695457, 106
 
 
 
-INSERT INTO ezcontentobject_attribute VALUES (1, 'eng-GB', 1, 1, 4, 'My folder', NULL, NULL, 0, 0, '');
+INSERT INTO ezcontentobject_attribute VALUES (1, 'eng-GB', 1, 1, 4, 'Root folder', NULL, NULL, 0, 0, '');
 INSERT INTO ezcontentobject_attribute VALUES (2, 'eng-GB', 1, 1, 119, '<?xml version="1.0"><section><paragraph>This folder contains some information about...</paragraph></section>', NULL, NULL, 0, 0, '');
 INSERT INTO ezcontentobject_attribute VALUES (7, 'eng-GB', 1, 4, 7, 'Main group', NULL, NULL, 0, 0, '');
 INSERT INTO ezcontentobject_attribute VALUES (8, 'eng-GB', 1, 4, 6, 'Users', NULL, NULL, 0, 0, '');
-INSERT INTO ezcontentobject_attribute VALUES (1, 'eng-GB', 2, 1, 4, 'My folder', 0, 0, 0, 0, '');
-INSERT INTO ezcontentobject_attribute VALUES (2, 'eng-GB', 2, 1, 119, '<?xml version="1.0"><section><paragraph>This folder contains some information about...</paragraph></section>', 0, 0, 0, 0, '');
 INSERT INTO ezcontentobject_attribute VALUES (21, 'eng-GB', 1, 10, 12, '', 0, 0, 0, 0, '');
 INSERT INTO ezcontentobject_attribute VALUES (22, 'eng-GB', 1, 11, 6, 'Guest accounts', 0, 0, 0, 0, '');
 INSERT INTO ezcontentobject_attribute VALUES (19, 'eng-GB', 1, 10, 8, 'Anonymous', 0, 0, 0, 0, '');
@@ -195,9 +193,8 @@ INSERT INTO ezcontentobject_tree VALUES (43, 1, 41, 1, 1, 1, '/1/43/', 9, 1, 0, 
 
 
 
-INSERT INTO ezcontentobject_version VALUES (1, 1, 14, 1, 0, 0, 1, 1, 0);
-INSERT INTO ezcontentobject_version VALUES (4, 4, 14, 1, 0, 0, 1, 1, 0);
-INSERT INTO ezcontentobject_version VALUES (436, 1, 14, 2, 1033919080, 1033919080, 1, 1, 0);
+INSERT INTO ezcontentobject_version VALUES (1, 1, 14, 1, 1033919080, 1033919080, 1, 1, 0);
+INSERT INTO ezcontentobject_version VALUES (4, 4, 14, 1, 1033919080, 1033919080, 1, 1, 0);
 INSERT INTO ezcontentobject_version VALUES (438, 10, 14, 1, 1033920649, 1033920665, 1, 0, 0);
 INSERT INTO ezcontentobject_version VALUES (439, 11, 14, 1, 1033920737, 1033920746, 1, 0, 0);
 INSERT INTO ezcontentobject_version VALUES (440, 12, 14, 1, 1033920760, 1033920775, 1, 0, 0);
@@ -396,10 +393,6 @@ INSERT INTO ezpolicy VALUES (308, 2, '*', '*', '*');
 INSERT INTO ezpolicy VALUES (326, 1, 'read', 'content', ' ');
 INSERT INTO ezpolicy VALUES (325, 1, 'login', 'user', '*');
 INSERT INTO ezpolicy VALUES (319, 3, 'login', 'user', '*');
-INSERT INTO ezpolicy VALUES (323, 5, '*', 'content', '*');
-INSERT INTO ezpolicy VALUES (324, 5, 'login', 'user', '*');
-
-
 
 
 
@@ -472,11 +465,6 @@ INSERT INTO ezpolicy_limitation_value VALUES (455, 249, '9');
 INSERT INTO ezrole VALUES (1, 0, 'Anonymous', ' ');
 INSERT INTO ezrole VALUES (2, 0, 'Administrator', '*');
 INSERT INTO ezrole VALUES (3, 0, 'Editor', ' ');
-INSERT INTO ezrole VALUES (5, 3, 'Editor', NULL);
-
-
-
-
 
 
 
@@ -516,29 +504,6 @@ INSERT INTO ezsearch_word VALUES (6, 'media', 1);
 INSERT INTO ezsection VALUES (1, 'Standard section', 'nor-NO', 'ezcontentnavigationpart');
 INSERT INTO ezsection VALUES (2, 'Users', '', 'ezusernavigationpart');
 INSERT INTO ezsection VALUES (3, 'Media', '', 'ezmedianavigationpart');
-
-
-
-
-
-
-
-INSERT INTO ezsession VALUES ('bc038fad359d92172ab11d5b1f1cb461', 1061301451, 'LastAccessesURI|s:21:"/content/view/full/43";eZUserInfoCache_Timestamp|i:1061041383;eZUserInfoCache_10|a:5:{s:16:"contentobject_id";s:2:"10";s:5:"login";s:9:"anonymous";s:5:"email";s:12:"nospam@ez.no";s:13:"password_hash";s:32:"4e6f6184135228ccd45f8233d72a0363";s:18:"password_hash_type";s:1:"2";}eZUserLoggedInID|s:2:"14";eZUserInfoCache_14|a:5:{s:16:"contentobject_id";s:2:"14";s:5:"login";s:5:"admin";s:5:"email";s:12:"nospam@ez.no";s:13:"password_hash";s:32:"c78e3b0f3d9244ed8c6d1c29464bdff9";s:18:"password_hash_type";s:1:"2";}eZUserGroupsCache_Timestamp|i:1061041383;eZUserGroupsCache_14|a:1:{i:0;a:1:{s:2:"id";s:2:"12";}}PermissionCachedForUserID|s:2:"14";PermissionCachedForUserIDTimestamp|i:1061041383;UserRoles|a:1:{i:0;a:2:{s:2:"id";s:1:"2";s:4:"name";s:13:"Administrator";}}UserPolicies|a:1:{i:2;a:1:{i:0;a:5:{s:2:"id";s:3:"308";s:7:"role_id";s:1:"2";s:11:"module_name";s:1:"*";s:13:"function_name";s:1:"*";s:10:"limitation";s:1:"*";}}}eZUserDiscountRulesTimestamp|i:1061041383;eZUserDiscountRules14|a:0:{}eZGlobalSection|a:1:{s:2:"id";s:1:"3";}Preferences-bookmark_menu|b:0;Preferences-history_menu|b:0;canInstantiateClassesCachedForUser|s:2:"14";classesCachedTimestamp|i:1061041387;canInstantiateClasses|i:1;classesCachedForUser|s:2:"14";canInstantiateClassList|a:13:{i:0;a:2:{s:2:"id";s:1:"1";s:4:"name";s:6:"Folder";}i:1;a:2:{s:2:"id";s:1:"2";s:4:"name";s:7:"Article";}i:2;a:2:{s:2:"id";s:1:"3";s:4:"name";s:10:"User group";}i:3;a:2:{s:2:"id";s:1:"4";s:4:"name";s:4:"User";}i:4;a:2:{s:2:"id";s:1:"5";s:4:"name";s:5:"Image";}i:5;a:2:{s:2:"id";s:1:"6";s:4:"name";s:5:"Forum";}i:6;a:2:{s:2:"id";s:1:"7";s:4:"name";s:13:"Forum message";}i:7;a:2:{s:2:"id";s:1:"8";s:4:"name";s:7:"Product";}i:8;a:2:{s:2:"id";s:1:"9";s:4:"name";s:14:"Product review";}i:9;a:2:{s:2:"id";s:2:"10";s:4:"name";s:9:"Info page";}i:10;a:2:{s:2:"id";s:2:"11";s:4:"name";s:4:"Link";}i:11;a:2:{s:2:"id";s:2:"12";s:4:"name";s:4:"File";}i:12;a:2:{s:2:"id";s:2:"13";s:4:"name";s:7:"Comment";}}FromGroupID|s:0:"";');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -683,73 +648,71 @@ INSERT INTO ezworkflow_group_link VALUES (1, 1, 0, 'Standard');
 
 
 
-SELECT setval('ezapprove_items_s', max(id)) , 'ezapprove_items' as tablename FROM ezapprove_items;
-SELECT setval('ezbasket_s', max(id)) , 'ezbasket' as tablename FROM ezbasket;
-SELECT setval('ezcollab_group_s', max(id)) , 'ezcollab_group' as tablename FROM ezcollab_group;
-SELECT setval('ezcollab_item_s', max(id)) , 'ezcollab_item' as tablename FROM ezcollab_item;
-SELECT setval('ezcollab_item_message_link_s', max(id)) , 'ezcollab_item_message_link' as tablename FROM ezcollab_item_message_link;
-SELECT setval('ezcollab_notification_rule_s', max(id)) , 'ezcollab_notification_rule' as tablename FROM ezcollab_notification_rule;
-SELECT setval('ezcollab_profile_s', max(id)) , 'ezcollab_profile' as tablename FROM ezcollab_profile;
-SELECT setval('ezcollab_simple_message_s', max(id)) , 'ezcollab_simple_message' as tablename FROM ezcollab_simple_message;
-SELECT setval('ezcontent_translation_s', max(id)) , 'ezcontent_translation' as tablename FROM ezcontent_translation;
-SELECT setval('ezcontentbrowsebookmark_s', max(id)) , 'ezcontentbrowsebookmark' as tablename FROM ezcontentbrowsebookmark;
-SELECT setval('ezcontentbrowserecent_s', max(id)) , 'ezcontentbrowserecent' as tablename FROM ezcontentbrowserecent;
-SELECT setval('ezcontentclass_s', max(id)) , 'ezcontentclass' as tablename FROM ezcontentclass;
-SELECT setval('ezcontentclass_attribute_s', max(id)) , 'ezcontentclass_attribute' as tablename FROM ezcontentclass_attribute;
-SELECT setval('ezcontentclassgroup_s', max(id)) , 'ezcontentclassgroup' as tablename FROM ezcontentclassgroup;
-SELECT setval('ezcontentobject_s', max(id)) , 'ezcontentobject' as tablename FROM ezcontentobject;
-SELECT setval('ezcontentobject_attribute_s', max(id)) , 'ezcontentobject_attribute' as tablename FROM ezcontentobject_attribute;
-SELECT setval('ezcontentobject_link_s', max(id)) , 'ezcontentobject_link' as tablename FROM ezcontentobject_link;
-SELECT setval('ezcontentobject_tree_s', max(node_id)) , 'ezcontentobject_tree' as tablename FROM ezcontentobject_tree;
-SELECT setval('ezcontentobject_version_s', max(id)) , 'ezcontentobject_version' as tablename FROM ezcontentobject_version;
-SELECT setval('ezdiscountrule_s', max(id)) , 'ezdiscountrule' as tablename FROM ezdiscountrule;
-SELECT setval('ezdiscountsubrule_s', max(id)) , 'ezdiscountsubrule' as tablename FROM ezdiscountsubrule;
-SELECT setval('ezenumvalue_s', max(id)) , 'ezenumvalue' as tablename FROM ezenumvalue;
-SELECT setval('ezforgot_password_s', max(id)) , 'ezforgot_password' as tablename FROM ezforgot_password;
-SELECT setval('ezgeneral_digest_user_settings_s', max(id)) , 'ezgeneral_digest_user_settings' as tablename FROM ezgeneral_digest_user_settings;
-SELECT setval('ezinfocollection_s', max(id)) , 'ezinfocollection' as tablename FROM ezinfocollection;
-SELECT setval('ezinfocollection_attribute_s', max(id)) , 'ezinfocollection_attribute' as tablename FROM ezinfocollection_attribute;
-SELECT setval('ezkeyword_s', max(id)) , 'ezkeyword' as tablename FROM ezkeyword;
-SELECT setval('ezkeyword_attribute_link_s', max(id)) , 'ezkeyword_attribute_link' as tablename FROM ezkeyword_attribute_link;
-SELECT setval('ezmessage_s', max(id)) , 'ezmessage' as tablename FROM ezmessage;
-SELECT setval('ezmodule_run_s', max(id)) , 'ezmodule_run' as tablename FROM ezmodule_run;
-SELECT setval('eznode_assignment_s', max(id)) , 'eznode_assignment' as tablename FROM eznode_assignment;
-SELECT setval('eznotificationcollection_s', max(id)) , 'eznotificationcollection' as tablename FROM eznotificationcollection;
-SELECT setval('eznotificationcollection_item_s', max(id)) , 'eznotificationcollection_item' as tablename FROM eznotificationcollection_item;
-SELECT setval('eznotificationevent_s', max(id)) , 'eznotificationevent' as tablename FROM eznotificationevent;
-SELECT setval('ezoperation_memento_s', max(id)) , 'ezoperation_memento' as tablename FROM ezoperation_memento;
-SELECT setval('ezorder_s', max(id)) , 'ezorder' as tablename FROM ezorder;
-SELECT setval('ezorder_item_s', max(id)) , 'ezorder_item' as tablename FROM ezorder_item;
-SELECT setval('ezpolicy_s', max(id)) , 'ezpolicy' as tablename FROM ezpolicy;
-SELECT setval('ezpolicy_limitation_s', max(id)) , 'ezpolicy_limitation' as tablename FROM ezpolicy_limitation;
-SELECT setval('ezpolicy_limitation_value_s', max(id)) , 'ezpolicy_limitation_value' as tablename FROM ezpolicy_limitation_value;
-SELECT setval('ezpreferences_s', max(id)) , 'ezpreferences' as tablename FROM ezpreferences;
-SELECT setval('ezproductcollection_s', max(id)) , 'ezproductcollection' as tablename FROM ezproductcollection;
-SELECT setval('ezproductcollection_item_s', max(id)) , 'ezproductcollection_item' as tablename FROM ezproductcollection_item;
-SELECT setval('ezproductcollection_item_opt_s', max(id)) , 'ezproductcollection_item_opt' as tablename FROM ezproductcollection_item_opt;
-SELECT setval('ezrole_s', max(id)) , 'ezrole' as tablename FROM ezrole;
-SELECT setval('ezsearch_object_word_link_s', max(id)) , 'ezsearch_object_word_link' as tablename FROM ezsearch_object_word_link;
-SELECT setval('ezsearch_return_count_s', max(id)) , 'ezsearch_return_count' as tablename FROM ezsearch_return_count;
-SELECT setval('ezsearch_search_phrase_s', max(id)) , 'ezsearch_search_phrase' as tablename FROM ezsearch_search_phrase;
-SELECT setval('ezsearch_word_s', max(id)) , 'ezsearch_word' as tablename FROM ezsearch_word;
-SELECT setval('ezsection_s', max(id)) , 'ezsection' as tablename FROM ezsection;
-SELECT setval('ezsubtree_notification_rule_s', max(id)) , 'ezsubtree_notification_rule' as tablename FROM ezsubtree_notification_rule;
-SELECT setval('eztrigger_s', max(id)) , 'eztrigger' as tablename FROM eztrigger;
-SELECT setval('ezurl_s', max(id)) , 'ezurl' as tablename FROM ezurl;
-SELECT setval('ezurlalias_s', max(id)) , 'ezurlalias' as tablename FROM ezurlalias;
-SELECT setval('ezuser_accountkey_s', max(id)) , 'ezuser_accountkey' as tablename FROM ezuser_accountkey;
-SELECT setval('ezuser_discountrule_s', max(id)) , 'ezuser_discountrule' as tablename FROM ezuser_discountrule;
-SELECT setval('ezuser_role_s', max(id)) , 'ezuser_role' as tablename FROM ezuser_role;
-SELECT setval('ezvattype_s', max(id)) , 'ezvattype' as tablename FROM ezvattype;
-SELECT setval('ezwaituntildatevalue_s', max(id)) , 'ezwaituntildatevalue' as tablename FROM ezwaituntildatevalue;
-SELECT setval('ezwishlist_s', max(id)) , 'ezwishlist' as tablename FROM ezwishlist;
-SELECT setval('ezworkflow_s', max(id)) , 'ezworkflow' as tablename FROM ezworkflow;
-SELECT setval('ezworkflow_assign_s', max(id)) , 'ezworkflow_assign' as tablename FROM ezworkflow_assign;
-SELECT setval('ezworkflow_event_s', max(id)) , 'ezworkflow_event' as tablename FROM ezworkflow_event;
-SELECT setval('ezworkflow_group_s', max(id)) , 'ezworkflow_group' as tablename FROM ezworkflow_group;
-SELECT setval('ezworkflow_process_s', max(id)) , 'ezworkflow_process' as tablename FROM ezworkflow_process;
+SELECT setval ('ezapprove_items_s', 1, false);
+SELECT setval ('ezbasket_s', 1, false);
+SELECT setval ('ezcollab_group_s', 1, false);
+SELECT setval ('ezcollab_item_s', 1, false);
+SELECT setval ('ezcollab_item_message_link_s', 1, false);
+SELECT setval ('ezcollab_notification_rule_s', 1, false);
+SELECT setval ('ezcollab_profile_s', 1, false);
+SELECT setval ('ezcollab_simple_message_s', 1, false);
+SELECT setval ('ezcontent_translation_s', 1, false);
+SELECT setval ('ezcontentbrowsebookmark_s', 1, false);
+SELECT setval ('ezcontentbrowserecent_s', 1, true);
+SELECT setval ('ezcontentclass_s', 13, true);
+SELECT setval ('ezcontentclass_attribute_s', 151, true);
+SELECT setval ('ezcontentclassgroup_s', 3, true);
+SELECT setval ('ezcontentobject_s', 41, true);
+SELECT setval ('ezcontentobject_attribute_s', 99, true);
+SELECT setval ('ezcontentobject_link_s', 1, false);
+SELECT setval ('ezcontentobject_tree_s', 43, true);
+SELECT setval ('ezcontentobject_version_s', 472, true);
+SELECT setval ('ezdiscountrule_s', 1, false);
+SELECT setval ('ezdiscountsubrule_s', 1, false);
+SELECT setval ('ezenumvalue_s', 3, true);
+SELECT setval ('ezforgot_password_s', 1, false);
+SELECT setval ('ezgeneral_digest_user_settings_s', 1, false);
+SELECT setval ('ezinfocollection_s', 1, false);
+SELECT setval ('ezinfocollection_attribute_s', 1, false);
+SELECT setval ('ezkeyword_s', 1, false);
+SELECT setval ('ezkeyword_attribute_link_s', 1, false);
+SELECT setval ('ezmessage_s', 1, false);
+SELECT setval ('ezmodule_run_s', 1, false);
+SELECT setval ('eznode_assignment_s', 182, true);
+SELECT setval ('eznotificationcollection_s', 1, false);
+SELECT setval ('eznotificationcollection_item_s', 1, false);
+SELECT setval ('eznotificationevent_s', 1, true);
+SELECT setval ('ezoperation_memento_s', 1, false);
+SELECT setval ('ezorder_s', 1, false);
+SELECT setval ('ezorder_item_s', 1, false);
+SELECT setval ('ezpolicy_s', 326, true);
+SELECT setval ('ezpolicy_limitation_s', 249, true);
+SELECT setval ('ezpolicy_limitation_value_s', 455, true);
+SELECT setval ('ezpreferences_s', 1, false);
+SELECT setval ('ezproductcollection_s', 1, false);
+SELECT setval ('ezproductcollection_item_s', 1, false);
+SELECT setval ('ezproductcollection_item_opt_s', 1, false);
+SELECT setval ('ezrole_s', 5, true);
+SELECT setval ('ezsearch_object_word_link_s', 28, true);
+SELECT setval ('ezsearch_return_count_s', 1, false);
+SELECT setval ('ezsearch_search_phrase_s', 1, false);
+SELECT setval ('ezsearch_word_s', 6, true);
+SELECT setval ('ezsection_s', 3, true);
+SELECT setval ('ezsubtree_notification_rule_s', 1, false);
+SELECT setval ('eztrigger_s', 1, false);
+SELECT setval ('ezurl_s', 1, false);
+SELECT setval ('ezurlalias_s', 20, true);
+SELECT setval ('ezuser_accountkey_s', 1, false);
+SELECT setval ('ezuser_discountrule_s', 1, false);
+SELECT setval ('ezuser_role_s', 30, true);
+SELECT setval ('ezvattype_s', 1, true);
+SELECT setval ('ezwaituntildatevalue_s', 1, false);
+SELECT setval ('ezwishlist_s', 1, false);
+SELECT setval ('ezworkflow_s', 1, false);
+SELECT setval ('ezworkflow_assign_s', 1, false);
+SELECT setval ('ezworkflow_event_s', 1, false);
+SELECT setval ('ezworkflow_group_s', 1, true);
+SELECT setval ('ezworkflow_process_s', 1, false);
 
-CREATE INDEX ezorder_item_order_id ON ezorder_item( order_id );
-CREATE INDEX ezproductcollection_item_productcollection_id ON ezproductcollection_item( productcollection_id );
-CREATE INDEX ezurlalias_source_url ON ezurlalias(source_url(255));
-CREATE INDEX ezcontentobject_attribute_co_id_ver_lang_code ON ezcontentobject_attribute( contentobject_id, version, language_code);
+INSERT INTO ezsite_data (name, value) VALUES('ezpublish-version', '3.2');
+INSERT INTO ezsite_data (name, value) VALUES('ezpublish-release', '1');
