@@ -7,6 +7,7 @@ Changes from 3.3.0-2 to 3.3-1
 - Fixed several layout and functionality bugs in blog package
 - Fixed calendar operator bug
 - Fixed several UI issues in forum package
+- Fixed several bugs reported in bugreport ( merged from stable 4503 ): http://ez.no/developer/ez_publish_3/bug_reports/kernel_errors
 
 *RSS:
 
