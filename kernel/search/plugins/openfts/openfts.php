@@ -73,7 +73,7 @@ class openFts
         $allText = '';
 
         $sys =& eZSys::instance();
-        $storagePath = $sys->storageDirectory
+        $storagePath = $sys->storageDirectory;
 
         $tmpFname = tempnam ( $storagePath, "txt$contentObjectID" );
         $fp = fopen( $tmpFname, "w" );
