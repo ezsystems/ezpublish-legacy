@@ -42,7 +42,6 @@ div#toolbar-top
     height: 70px;
     padding: 0;
     text-align: right;
-    position: relative;
     margin-bottom: 8px;
     margin-top: 8px;
 }
@@ -84,7 +83,6 @@ div#toolbar-bottom
     height: 22px;
     padding: 0;
     text-align: center;
-    position: relative;
 }
 
 div#toolbar-bottom div.toolbar-item
@@ -262,7 +260,6 @@ div.toolbox-design h2
     background-color: #336699;
     color: #fff;
 }
-
 
 /* Tool list design */
 div.toollist
