@@ -86,49 +86,34 @@ class eZWordToImageOperator
 
             case "mimetype_icon" :
             {
-                switch( $operatorValue )
+                $ini =& eZINI::instance( 'binaryfile.ini' );
+                $repository = $ini->variable( 'IconSettings', 'Repository' );
+                $theme = $ini->variable( 'IconSettings', 'Theme' );
+                $size = $ini->variable( 'IconSettings', 'Size' );
+                $mimeMap = $ini->variable( 'IconSettings', 'MimeMap' );
+                $mimeType = $operatorValue;
+                $icon = false;
+                if ( isset( $mimeMap[$mimeType] ) )
                 {
-                    case "text/plain":
-                    {
-                        $icon = "ascii.png";
-                    }break;
-
-                    case "image/jpeg":
-                    {
-                        $icon = "image.png";
-                    }break;
-
-                    case "application/x-gzip":
-                    {
-                        $icon = "tgz.png";
-                    }break;
-
-                    case "application/pdf":
-                    {
-                        $icon = "pdf.png";
-                    }break;
-
-                    case "application/vnd.ms-powerpoint":
-                    {
-                        $icon = "powerpoint.png";
-                    }break;
-
-                    case "application/msword":
-                    {
-                        $icon = "word.png";
-                    }break;
-
-                    case "application/vnd.ms-excel":
-                    {
-                        $icon = "excel.png";
-                    }break;
-
-                    default:
-                    {
-                        $icon = "document.png";
-                    }break;
+                    $icon = $mimeMap[$mimeType];
                 }
-                $iconPath = '/share/icons/mimetypes/32x32/' . $icon;
+                else
+                {
+                    $pos = strpos( $mimeType, '/' );
+                    if ( $pos !== false )
+                    {
+                        $mimeGroup = substr( $mimeType, 0, $pos );
+                        if ( isset( $mimeMap[$mimeGroup] ) )
+                        {
+                            $icon = $mimeMap[$mimeGroup];
+                        }
+                    }
+                }
+                if ( $icon === false )
+                {
+                    $icon = $ini->variable( 'IconSettings', 'DefaultMime' );
+                }
+                $iconPath = '/' . $repository . '/' . $theme . '/mimetypes/' . $size . '/' . $icon;
 
                 $wwwDirPrefix = "";
                 if ( strlen( eZSys::wwwDir() ) > 0 )
