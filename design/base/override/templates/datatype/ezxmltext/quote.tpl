@@ -1,9 +1,9 @@
 <div class="object-right">
-   <div class="quote">
+   <blockquote>
       <div class="quote-design">
-      <div class="quote-up"><span class="hide">"</span></div>
+      <div class="quote-begin"><span class="hide">"</span></div>
       {$content}
-      <div class="quote-down"><span class="hide">"</span></div>
+      <div class="quote-end"><span class="hide">"</span></div>
       </div>
-   </div>
+   </blockquote>
 </div>
