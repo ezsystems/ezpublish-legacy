@@ -1323,22 +1323,40 @@ class eZContentObject extends eZPersistentObject
                 }
 
                 // Custom Action Code
-                $customActionParameters['base_name'] = $attributeDataBaseName;
-                if ( isset( $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )] ) )
-                {
-                    $customActionAttributeID = $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )]['id'];
-                    $customAction = $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )]['value'];
-                    $contentObjectAttribute->customHTTPAction( $http, $customAction, $customActionParameters );
-                }
+                $this->handleCustomHTTPActions( $contentObjectAttribute, $attributeDataBaseName,
+                                                $customActionAttributeArray, $customActionParameters );
+//                 $customActionParameters['base_name'] = $attributeDataBaseName;
+//                 if ( isset( $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )] ) )
+//                 {
+//                     $customActionAttributeID = $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )]['id'];
+//                     $customAction = $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )]['value'];
+//                     $contentObjectAttribute->customHTTPAction( $http, $customAction, $customActionParameters );
+//                 }
 
-                $contentObjectAttribute->handleCustomHTTPActions( $http, $attributeDataBaseName,
-                                                                  $customActionAttributeArray, $customActionParameters );
+//                 $contentObjectAttribute->handleCustomHTTPActions( $http, $attributeDataBaseName,
+//                                                                   $customActionAttributeArray, $customActionParameters );
             }
+
 
         }
         return $result;
     }
 
+    function handleCustomHTTPActions( &$contentObjectAttribute, $attributeDataBaseName,
+                                      $customActionAttributeArray, $customActionParameters )
+    {
+        $http =& eZHTTPTool::instance();
+        $customActionParameters['base_name'] = $attributeDataBaseName;
+        if ( isset( $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )] ) )
+        {
+            $customActionAttributeID = $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )]['id'];
+            $customAction = $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )]['value'];
+            $contentObjectAttribute->customHTTPAction( $http, $customAction, $customActionParameters );
+        }
+
+        $contentObjectAttribute->handleCustomHTTPActions( $http, $attributeDataBaseName,
+                                                          $customActionAttributeArray, $customActionParameters );
+    }
 
     function handleAllCustomHTTPActions( $attributeDataBaseName,
                                          $customActionAttributeArray, $customActionParameters,

@@ -139,12 +139,16 @@ $storingAllowed = in_array( $Module->currentAction(), $storeActions );
 if ( $http->hasPostVariable( 'CustomActionButton' ) )
     $storingAllowed = true;
 
+$hasObjectInput = true;
+if ( $http->hasPostVariable( 'HasObjectInput' ) )
+    $hasObjectInput =  $http->postVariable( 'HasObjectInput' );
+
 // These variables will be modified according to validation
 $inputValidated = true;
 $requireFixup = false;
 $validatedAttributes = array();
 
-if ( $storingAllowed )
+if ( $storingAllowed and $hasObjectInput )
 {
     // Validate input
     include_once( 'lib/ezutils/classes/ezinputvalidator.php' );
@@ -196,6 +200,20 @@ if ( $storingAllowed )
     $validation['attributes'] = $unvalidatedAttributes;
 
     $object->setName( $class->contentObjectName( $object ), $version->attribute( 'version' ), $EditLanguage );
+}
+elseif ( $storingAllowed )
+{
+    if ( !isset( $currentRedirectionURI ) )
+        $currentRedirectionURI = $Module->redirectionURI( 'content', 'edit', array( $ObjectID, $EditVersion, $EditLanguage ) );
+    foreach( array_keys( $contentObjectAttributes ) as $key )
+    {
+        $contentObjectAttribute =& $contentObjectAttributes[$key];
+        $object->handleCustomHTTPActions( $contentObjectAttribute,  $attributeDataBaseName,
+                                          $customActionAttributeArray,
+                                          array( 'module' => &$Module,
+                                                 'current-redirection-uri' => $currentRedirectionURI ) );
+        $contentObjectAttribute->setContent( $contentObjectAttribute->attribute( 'content' ) );
+    }
 }
 
 if ( $Module->isCurrentAction( 'Publish' ) )

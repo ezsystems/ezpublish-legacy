@@ -151,6 +151,7 @@ class eZObjectRelationType extends eZDataType
                                                     'type' => 'AddRelatedObjectToDataType',
                                                     'browse_custom_action' => array( 'name' => 'CustomActionButton[' . $contentObjectAttribute->attribute( 'id' ) . '_set_object_relation]',
                                                                                      'value' => $contentObjectAttribute->attribute( 'id' ) ),
+                                                    'persistent_data' => array( 'HasObjectInput' => 0 ),
                                                     'from_page' => $redirectionURI ),
                                              $module );
 
