@@ -118,6 +118,19 @@ class eZTemplateToolbarFunction
 
                 $uriString = "design:toolbar/$viewMode/$tool.tpl";
 
+                if ( $placement == 1 )
+                {
+                    $newNodes[] = eZTemplateNodeTool::createTextNode( "<div class='toolbar-item first'>" );
+                }
+                else if ( $placement == count( $toolArray ) )
+                {
+                    $newNodes[] = eZTemplateNodeTool::createTextNode( "<div class='toolbar-item last'>" );
+                }
+                else
+                {
+                    $newNodes[] = eZTemplateNodeTool::createTextNode( "<div class='toolbar-item'>" );
+                }
+
                 $resourceName = "";
                 $templateName = "";
                 $resource =& $tpl->resourceFor( $uriString, $resourceName, $templateName );
@@ -162,6 +175,8 @@ class eZTemplateToolbarFunction
                 {
                     $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $variableName ) );
                 }
+
+                $newNodes[] = eZTemplateNodeTool::createTextNode( "</div>" );
             }
         }
         return $newNodes;
@@ -230,7 +245,20 @@ class eZTemplateToolbarFunction
                             $definedVariables[] = $key;
                         }
                         $uri = "design:toolbar/$viewMode/$tool.tpl";
+                        if ( $placement == 1 )
+                        {
+                            $textElements[] = "<div class='toolbar-item first'>";
+                        }
+                        else if ( $placement == count( $toolArray ) )
+                        {
+                            $textElements[] = "<div class='toolbar-item last'>";
+                        }
+                        else
+                        {
+                            $textElements[] = "<div class='toolbar-item'>";
+                        }
                         $tpl->processURI( $uri, true, $extraParameters, $textElements, $name, $name );
+                        $textElements[] = "</div>";
                         foreach ( $definedVariables as $variable )
                         {
                             $tpl->unsetVariable( $variable, $currentNamespace );
