@@ -136,5 +136,6 @@ eZ sys:
 - Fixed the eng-CA locale, it previously reported eng-GB as it's locale code.
 - Updated chinese translation (chi-CN), thanks to Frank Lee.
 - Updated portuguese translation to 3.2.
+- Updated spanish and catalan translation.
 
 *Miscellaneous:
