@@ -140,6 +140,8 @@ Datatype:
 - Fixed bug of fatal error occurs if class id or parent node id is not exist when creating new object.
   http://ez.no/community/bug_reports/kernel_content_action_php_fatal_error_at_wrong_classid
   (Merged from stable/3.4 (3.4.5) rev. 9752)
+- Fixed bug with cache-block expiration in content tree menu.
+  http://ez.no/community/bug_reports/contentstructure_and_cache_key
 
 *Library:
 - Added eZWizardBase for creating web based wizards. The class contain a framework for wizards, 
