@@ -14,5 +14,7 @@ Changes from 3.5.0rc1 to 3.5.0rc2
   http://ez.no/community/bug_reports/pdf_on_the_fly_issue_with_ie_wrong_header
 - Fixed bug: Calendar toolbar and PostgreSQL.
   http://ez.no/community/bug_reports/calendar_toolbar_and_postgresql
+- Fixed bug: Wrong redirection after clearing view-cache from popupmenu.
+  http://ez.no/community/bug_reports/delete_view_cache_problem
 
 *Library:

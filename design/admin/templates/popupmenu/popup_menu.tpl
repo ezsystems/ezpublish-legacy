@@ -196,7 +196,7 @@ menuArray['BookmarkMenu']['elements']['bookmark-edit']['url'] = {"/content/edit/
 <form id="menu-form-view-cache-delete" method="post" action={"/content/action"|ezurl}>
   <input type="hidden" name="NodeID" value="%nodeID%" />
   <input type="hidden" name="ObjectID" value="%objectID%" />
-  <input type="hidden" name="CurrentURL" value={"%currentURL%"|ezurl} />
+  <input type="hidden" name="CurrentURL" value={"%currentURL%"} />
   <input type="hidden" name="ClearViewCacheButton" value="x" />
 </form>
 
@@ -204,6 +204,6 @@ menuArray['BookmarkMenu']['elements']['bookmark-edit']['url'] = {"/content/edit/
 <form id="menu-form-recursive-view-cache-delete" method="post" action={"/content/action"|ezurl}>
   <input type="hidden" name="NodeID" value="%nodeID%" />
   <input type="hidden" name="ObjectID" value="%objectID%" />
-  <input type="hidden" name="CurrentURL" value={"%currentURL%"|ezurl} />
+  <input type="hidden" name="CurrentURL" value={"%currentURL%"} />
   <input type="hidden" name="ClearViewCacheSubtreeButton" value="x" />
 </form>
