@@ -116,6 +116,8 @@ if [ "$USE_MYSQL" != "" ]; then
 	mysql "$USERARG" "$DBNAME" < "$sql"
     done
     ./update/common/scripts/flatten.php --db-driver=ezmysql --db-database=$DBNAME --db-user=$USER all
+    ./update/common/scripts/updatesearchindex.php --db-driver=ezmysql --db-database=$DBNAME --db-user=$USER --clean
+    ./update/common/scripts/updateniceurls.php --db-driver=ezmysql --db-database=$DBNAME --db-user=$USER
     ./update/common/scripts/cleanup.php --db-driver=ezmysql --db-database=$DBNAME --db-user=$USER all
 
     echo "Dumping to SQL file $SQLFILE"
