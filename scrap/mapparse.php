@@ -21,7 +21,8 @@ include_once( 'lib/ezi18n/classes/ezcodemapper.php' );
 $map = new eZCodeMapper();
 
 $map->parseTransformationFile( "share/transformations/basic.tr" );
-//var_dump( $map->TransformationTables );
+// var_dump( $map->TransformationTables['ascii_uppercase'] );
+// var_dump( $map->mappingTable( 'ascii_uppercase' ) );
 
 $script->shutdown();
 

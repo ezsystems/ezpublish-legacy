@@ -64,8 +64,8 @@ if ( $http->hasPostVariable( 'IdentifierList' ) )
 $newstr = $trans->transform( $str, $identifierList, 'utf8' );
 
 // small test using a different charset
-$newstr2 = $trans->transform( "ut på kjøretur!!!¿", $identifierList, 'iso-8859-1' );
-$codec2 =& eZTextCodec::instance( 'iso-8859-1', 'utf8' );
+// $newstr2 = $trans->transform( "ut på kjøretur!!!¿", $identifierList, 'iso-8859-1' );
+// $codec2 =& eZTextCodec::instance( 'iso-8859-1', 'utf8' );
 
 // xdebug_stop_trace();
 

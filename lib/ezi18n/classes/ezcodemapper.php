@@ -171,6 +171,7 @@ class eZCodeMapper
                 $sourceEndValue = false;
                 $destinationValues = false;
                 $transposeValue = false;
+                $transposeAdd = true;
                 // source, marker, range_input, range_marker, map_input, transpose_input, replace_input
                 $state = 'source';
                 // map, transpose, replace
@@ -522,6 +523,7 @@ class eZCodeMapper
                                 else if ( $char == '-' or
                                           $char == '+' )
                                 {
+                                    $transposeAdd = ( $char == '+' ? true : false );
                                     $state = 'transpose_input';
                                     ++$pos;
                                 }
@@ -644,7 +646,7 @@ class eZCodeMapper
                             else if ( $type == 'transpose' )
                             {
 //                                 print( "***transposing***:\n" . $sourceValue . ' - ' . $sourceEndValue . ' + ' . $transposeValue . "\n\n" );
-                                $this->appendTransposeMapping( $tbl[$identifier], $identifier, $sourceValue, $sourceEndValue, $transposeValue );
+                                $this->appendTransposeMapping( $tbl[$identifier], $identifier, $sourceValue, $sourceEndValue, $transposeValue, $transposeAdd );
                             }
                         }
 //                         else
@@ -670,6 +672,7 @@ class eZCodeMapper
         fclose( $fd );
 
         $this->TransformationTables = $tbl;
+//        var_dump( $this->TransformationTables );
     }
 
     function appendDirectMapping( &$block, $identifier, $sourceValue, $destinationValues )
@@ -712,19 +715,22 @@ class eZCodeMapper
         }
     }
 
-    function appendTransposeMapping( &$block, $identifier, $sourceValue, $sourceEndValue, $transposeValue )
+    /*!
+     \param $addValue If \c true the $transposeValue is added to the range if not it is subtracted.
+    */
+    function appendTransposeMapping( &$block, $identifier, $sourceValue, $sourceEndValue, $transposeValue, $addValue )
     {
         $count = count( $block );
         if ( isset( $block[$count - 1] ) and
              $block[$count - 1][0] == EZ_CODEMAPPER_TYPE_RANGE and
              $block[$count - 1][2] == $identifier )
         {
-            $block[$count - 1][1][] = array( $sourceValue, $sourceEndValue, $transposeValue );
+            $block[$count - 1][1][] = array( $sourceValue, $sourceEndValue, $addValue ? $transposeValue : -$transposeValue );
         }
         else
         {
             $block[] = array( EZ_CODEMAPPER_TYPE_RANGE,
-                              array( array( $sourceValue, $sourceEndValue, $transposeValue ) ),
+                              array( array( $sourceValue, $sourceEndValue, $addValue ? $transposeValue : -$transposeValue ) ),
                               $identifier );
 
         }
@@ -1002,7 +1008,7 @@ class eZCodeMapper
                                       'latin1_transliterate' ) );
             return $latinMap;
         }
-        else if ( $identifier == 'diacritical' )
+        else if ( $identifier == 'diacritical_remove' )
         {
             // Diacriticals
             $diacriticMap = array( array( EZ_CODEMAPPER_TYPE_REPLACE,
@@ -1087,7 +1093,7 @@ class eZCodeMapper
         {
             foreach ( $list as $item )
             {
-                $ordinals = array_merge( eZCodeMapper::ordinalValues( $table, $item ) );
+                $ordinals = array_merge( $ordinals, eZCodeMapper::ordinalValues( $table, $item ) );
             }
         }
         $ordinals = eZCodeMapper::mapOrdinals( $table, $ordinals );
@@ -1179,7 +1185,15 @@ class eZCodeMapper
                 foreach ( $item as $fromCode => $toCode )
                 {
 //                    print( "from: $fromCode, to: $toCode\n" );
+//                     if ( $fromCode == 1026 )
+//                     {
+//                         print( "<pre>oldcode<br/>" ); var_dump( $toCode ); print( "</pre>" );
+//                     }
                     $toCode = eZCodeMapper::ordinalValues( $unicodeMap, $toCode );
+//                     if ( $fromCode == 1026 )
+//                     {
+//                         print( "<pre>newcode<br/>" ); var_dump( $toCode ); print( "</pre>" );
+//                     }
                     if ( count( $allowedRanges ) == 0 )
                     {
                         if ( count( $toCode ) == 1 )
