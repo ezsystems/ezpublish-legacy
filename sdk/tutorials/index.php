@@ -56,6 +56,10 @@ $featureArray[] = array( "uri" => "content_classes",
                          "level" => 0,
                          "name" => "Custom content" );
 
+$featureArray[] = array( "uri" => "templateissues",
+                         "level" => 0,
+                         "name" => "Common template issues" );
+
 $featureArray[] = array( "uri" => "workflows",
                          "level" => 0,
                          "name" => "Custom workflow" );
@@ -75,8 +79,6 @@ $featureArray[] = array( "uri" => "publishworkflow",
 $featureArray[] = array( "uri" => "translation",
                          "level" => 0,
                          "name" => "Translation and i18n" );
-
-
 
 $featureArray[] = array( "uri" => "datatypes",
                          "level" => 0,

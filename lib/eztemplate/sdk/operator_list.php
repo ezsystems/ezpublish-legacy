@@ -45,6 +45,8 @@ for eZ publish.
 <h2>Array handling</h2>
 
 <dl>
+<dt>array</dt>
+<dd>Creates an array. E.g. array(6,8,42)</dd>
 <dt>hash</dt>
 <dd>Creates an associative array. E.g. hash(name,'Ola Norman',age,26)</dd>
 </dl>
@@ -52,13 +54,13 @@ for eZ publish.
 <h2>Execute</h2>
 <dl>
 <dt>fetch</dt>
-<dd>Executes a given fetch operation</dd>
+<dd>Executes a given fetch operation.</dd>
 </dl>
 
 <h2>Locale</h2>
 <dl>
 <dt>l10n</dt>
-<dd>Localizes values. e.g. {42.50|l10n(price)}</dd>
+<dd>Localizes values, e.g. {42.50|l10n(currency)}. Allowed types are: time, shorttime, date, shortdate, currency or number.</dd>
 </dl>
 
 <h2>Debug</h2>
@@ -76,7 +78,7 @@ for eZ publish.
 <h2>Text operations</h2>
 <dl>
 <dt>concat</dt>
-<dd>Concatenates values to one string. {concat('/var/',$node.node_id,'/')}</dd>
+<dd>Concatenates values to one string. E.g. {concat('/var/',$node.node_id,'/')}</dd>
 </dl>
 
 <h2>Unit operators</h2>
@@ -88,32 +90,33 @@ for eZ publish.
 <h2>Logical operators</h2>
 <dl>
 <dt>lt</dt>
-<dd>Check if a value is less than the given value, returns true if the value is greater. Example: {1|gt(2)} {1|gt(2)} </dd>
+<dd>Returns true if the value to the left is less than the value to the right. E.g. {1|lt(2)} returns true.</dd>
 <dt>gt</dt>
-<dd>Greater than.</dd>
+<dd>Returns true if the value to the left is greater than the value to the right. E.g. {2|gt(1)} returns true.</dd>
 <dt>le</dt>
-<dd>Less or equal</dd>
+<dd>Returns true if the value to the left is less than or equal to the value to the right. E.g. {1|le(1)} and {1|le(2)} returns true.</dd>
 <dt>ge</dt>
-<dd>Greater or equal</dd>
+<dd>Returns true if the value to the left is greater than or equal to the value to the right. E.g. {1|le(1)} and {2|le(1)} returns true.</dd>
 <dt>eq</dt>
-<dd>Checks for equal values</dd>
+<dd>Returns true if the value to the left is equal to the value to the right. E.g. {1|le(1)} returns true.</dd>
 <dt>null</dt>
-<dd>Checks for null values</dd>
+<dd>Returns true if the value to the left is null, which is not the same as 0. E.g. {0|null()} returns false.</dd>
 <dt>not</dt>
-<dd></dd>
+<dd>Returns true if the value to the left is false. E.g. {false()|not()} returns true.</dd>
 <dt>true</dt>
-<dd></dd>
+<dd>Returns a true boolean.</dd>
 <dt>false</dt>
-<dd></dd>
+<dd>Returns a false boolean.</dd>
 <dt>or</dt>
-<dd></dd>
+<dd>Evaluates all parameter values until one is found to be true, then returns that value. The remaining parameters are not evaluated at all. If there are no parameters or all elements were false it returns false. E.g. {or(false(),false(),true(),false())} returns true.</dd>
 <dt>and</dt>
-<dd></dd>
+<dd>Evaluates all parameter values until one is found to be false, then returns that false. The remaining parameters are not evaluated at all. If there are no parameters it returns false, if no elements were false it returns the last parameter value. E.g. {or(false(),false(),true(),false())} returns false.</dd>
 <dt>choose</dt>
-<dd></dd>
+<dd>Uses the input count to pick one of the parameter elements. The input count equals the parameter index. E.g. {0|choose("a","b","c")} returns "a".</dd>
 </dl>
 
 <h2>Type operators</h2>
+<p>These operators correspond to the same PHP functions.</p>
 <dl>
 <dt>is_array</dt>
 <dd></dd>
@@ -195,7 +198,7 @@ for eZ publish.
 <dd></dd>
 </dl>
 
-<h2>eZ publish URL operators</h2>
+<h2>eZ publish operators</h2>
 <dl>
 <dt>ezurl</dt>
 <dd></dd>
@@ -210,7 +213,9 @@ for eZ publish.
 <dt>exturl</dt>
 <dd></dd>
 <dt>i18n</dt>
-<dd></dd>
+<dd>Marks a string for translation. E.g. {"I like %1!"|i18n("design/standard",,array($food))} See the tutorial <a href="/sdk/sdk/tutorials/view/translation">Translation and i18n</a> for more information.</dd>
+<dt>x18n</dt>
+<dd>Marks a string in an extension template for translation. E.g. {"I like %1!"|i18n("myextension","design/standard",,array($food))} See the tutorial <a href="/sdk/sdk/tutorials/view/translation">Translation and i18n</a> for more information.</dd>
 <dt>upcase</dt>
 <dd></dd>
 <dt>upcase</dt>
@@ -220,8 +225,4 @@ for eZ publish.
 <dt>nl2br</dt>
 <dd></dd>
 </dl>
-
-
-
-
 

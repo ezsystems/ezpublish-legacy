@@ -49,7 +49,7 @@
   -# If the data is a boolean false is 0 and true is 1
   -# For all other data 0 is used
 
-  Data is considered null(or false) if the data count is 0(see above) or
+  Data is considered null (or false) if the data count is 0 (see above) or
   the data is really null (is_null). Data is considered true if it is not null.
 
   The supported operators are:
@@ -77,11 +77,11 @@
   - false\n
     Creates a true/false boolean
   - or\n
-    Evaluates all parameter values until one is found to be true(see above), then
+    Evaluates all parameter values until one is found to be true (see above), then
     returns that value. The remaining parameters are not evaluated at all.
     If there are no parameter or all elements were false it returns false.
   - and\n
-    Evaluates all parameter values until one is found to be false(see above), then
+    Evaluates all parameter values until one is found to be false (see above), then
     returns that false. The remaining parameters are not evaluated at all.
     If there are no parameter it returns false, if no elements were false it returns the last parameter value.
   - choose\n
