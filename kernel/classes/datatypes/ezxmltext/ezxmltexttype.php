@@ -348,7 +348,7 @@ class eZXMLTextType extends eZDataType
                         $cellContent = "";
                         foreach ( $tableCell->children() as $tableCellChildNode )
                         {
-                            $cellContent =& $this->renderXHTMLTag( $tpl, $tableCellChildNode );
+                            $cellContent .= $this->renderXHTMLTag( $tpl, $tableCellChildNode );
                         }
                         $tpl->setVariable( 'content', $cellContent, 'xmltagns' );
                         $uri = "design:content/datatype/view/ezxmltags/td.tpl";
@@ -502,7 +502,7 @@ class eZXMLTextType extends eZDataType
                     $listItemContent = "";
                     foreach ( $listItemNode->children() as $itemChildNode )
                     {
-                        $listItemContent =& $this->inputTagXML( $itemChildNode );
+                        $listItemContent .= $this->inputTagXML( $itemChildNode );
                     }
                     $listContent .= "  <li>$listItemContent</li>\n";
                 }
@@ -521,7 +521,7 @@ class eZXMLTextType extends eZDataType
                         $cellContent = "";
                         foreach ( $tableCell->children() as $tableCellChildNode )
                         {
-                            $cellContent =& $this->inputTagXML( $tableCellChildNode );
+                            $cellContent .= $this->inputTagXML( $tableCellChildNode );
                         }
                         $tableData .= "  <td>\n" . trim( $cellContent ) . "\n  </td>\n";
                     }

@@ -1,11 +1,10 @@
 <form method="post" action="/content/action/">
 
-<h2>View {$class.name}</h2>
+<h2>View {$object.class_name}</h2>
 <table width="100%" cellspacing="0" cellpadding="0">
 <tr>
 	<td>
-{*	{$object.name|texttoimage('1942')} *}
- 	<h1>{$object.name}</h1>
+	{$object.name|texttoimage('archtura')}
 	</td>
 </tr>
 </table>
