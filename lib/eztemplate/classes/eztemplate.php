@@ -959,7 +959,11 @@ class eZTemplate
         $op =& $this->Operators[$operatorName];
         if ( isset( $op ) )
         {
-            $op->modify( $this, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, $value, $namedParameters );
+            if ( is_object( $op ) and method_exists( $op, 'modify' ) )
+                $op->modify( $this, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, $value, $namedParameters );
+            else
+                $this->error( '', "Object problem with operator '$operatorName' ",
+                              $placement );
         }
         else if ( !$checkExistance )
             $this->warning( "", "Operator '$operatorName' is not registered",

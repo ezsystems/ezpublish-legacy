@@ -180,6 +180,7 @@ eZ template:
   display attributes for objects and arrays to pick from.
 - New template operator /contains/ which will return true if the input variable (which should
   be an array) contains the value specified as input.
+- Template debugging will now add an HTML comment as well as normal text output in the result.
 
 eZ image:
 - Image object and layer classes has been moved from eZ template to eZ image

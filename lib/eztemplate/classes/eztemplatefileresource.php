@@ -228,7 +228,9 @@ class eZTemplateFileResource
                 eZDebug::accumulatorStop( 'templage_resource_conversion', 'template_total', 'String conversion in template resource' );
                 $result = true;
                 if ( eZTemplate::isDebugEnabled() )
-                    $text = "<p class=\"small\">$path</p><br/>\n" . $text;
+                {
+                    $text = "<!-- including template $path -->\n<p class=\"small\">$path</p><br/>\n" . $text;
+                }
             }
         }
         else if ( $method == EZ_RESOURCE_QUERY )

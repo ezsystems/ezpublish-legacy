@@ -66,6 +66,7 @@ $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezhiosortoperator
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatephpoperator.php',
                                     'class' => 'eZTemplatePHPOperator',
                                     'class_parameter' => array( 'upcase' => 'strtoupper',
+                                                                'downcase' => 'strtolower',
                                                                 'reverse' => 'strrev',
                                                                 'nl2br' => 'nl2br' ),
                                     'operator_names' => array( 'upcase', 'reverse', 'nl2br' ) );
