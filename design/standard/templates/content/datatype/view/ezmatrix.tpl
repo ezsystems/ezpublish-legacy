@@ -6,7 +6,6 @@
 <th>{$ColumnNames.item.name}</th>
 {/section}
 </tr>
-
 {section var=Rows loop=$matrix.rows.sequential sequence=array( bglight, bgdark )}
 <tr class="{$Rows.sequence}">
     {section var=Columns loop=$Rows.item.columns}
