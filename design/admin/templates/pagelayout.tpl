@@ -213,6 +213,8 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
     {include uri='design:parts/my/menu.tpl'}
 {/section}
 
+{/section}
+
 </div>
 </div>
 
