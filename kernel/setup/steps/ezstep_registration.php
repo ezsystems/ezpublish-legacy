@@ -69,8 +69,6 @@ class eZStepRegistration extends eZStepInstaller
         include_once( 'lib/ezutils/classes/ezmail.php' );
         include_once( 'lib/ezutils/classes/ezmailtransport.php' );
 
-        eZSetupChangeEmailSetting( $this->PersistenceList['email_info'] );
-
         $databaseMap = eZSetupDatabaseMap();
         $databaseInfo = $this->PersistenceList['database_info'];
         $databaseInfo['info'] = $databaseMap[$databaseInfo['type']];
@@ -188,7 +186,6 @@ class eZStepRegistration extends eZStepInstaller
         include_once( 'lib/ezutils/classes/ezmail.php' );
         include_once( 'lib/ezutils/classes/ezmailtransport.php' );
 
-        eZSetupChangeEmailSetting( $this->PersistenceList['email_info'] );
         $databaseMap = eZSetupDatabaseMap();
         $databaseInfo = $this->PersistenceList['database_info'];
         $databaseInfo['info'] = $databaseMap[$databaseInfo['type']];
