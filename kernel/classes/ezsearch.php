@@ -165,6 +165,7 @@ class eZSearch
 
             $searchPart = array();
             $valuesFetched = false;
+            $valuesMissing = false;
             foreach ( $searchType['params'] as $parameter )
             {
                 eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $postVariablePrefix . $parameter, "post var to check" );
@@ -177,6 +178,15 @@ class eZSearch
 
                     for ( $i = 0; $i < $valuesCount; $i++ )
                     {
+                        // Empty values are excluded from the search
+                        // Need to add more cases here
+                        if ( ( $searchType['subtype'] == 'byrange' && $values[$i] == '' ) ||
+                             ( $searchType['subtype'] == 'byidentifierrange' && $values[$i] == '' ) )
+                        {
+                            eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $values, "empty value" );
+                            $valuesMissing = true;
+                            break;
+                        }
                         $searchArrayPartForType[$i][$parameter] = $values[$i] ;
                         $valuesFetched = true;
                     }
@@ -184,11 +194,13 @@ class eZSearch
                 else
                 {
                     eZDebugSetting::writeDebug( 'kernel-search-ezsearch', "variable does not exist" );
+                    $valuesMissing = true;
                     break;
                 }
             }
-            if ( $valuesFetched == true )
+            if ( $valuesFetched == true && $valuesMissing == false )
             {
+                eZDebugSetting::writeDebug( 'kernel-search-ezsearch', "adding values to search" );
                 foreach ( array_keys( $searchArrayPartForType ) as $key )
                 {
                     $part =& $searchArrayPartForType[$key];
