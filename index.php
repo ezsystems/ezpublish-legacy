@@ -50,6 +50,31 @@ function &eZDisplayDebug()
     return null;
 }
 
+function eZDisplayResult( &$templateResult, &$debugReport )
+{
+    eZDebug::setHandleType( EZ_HANDLE_NONE );
+
+    if ( $debugReport !== null )
+    {
+        if ( $templateResult !== null )
+        {
+            $debugMarker = '<!--DEBUG_REPORT-->';
+            $pos = strpos( $templateResult, $debugMarker );
+            if ( $pos !== false )
+            {
+                $debugMarkerLength = strlen( $debugMarker );
+                $templateResult = substr_replace( $templateResult, $debugReport, $pos, $debugMarkerLength );
+            }
+            else
+                $templateResult = implode( '', array( $templateResult, $debugReport ) );
+        }
+        else
+            $templateResult = $debugReport;
+    }
+
+    print( $templateResult );
+}
+
 function fetchModule( &$uri, &$check, &$module, &$module_name, &$function_name, &$params )
 {
     $module_name = $uri->element();
@@ -337,11 +362,11 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
         include_once( "kernel/common/template.php" );
         $tpl =& templateInit();
         $tpl->setVariable( 'redirect_uri', $redirectURI );
-        $tpl->display( 'design:redirect.tpl' );
+        $templateResult =& $tpl->fetch( 'design:redirect.tpl' );
 
         eZDebug::addTimingPoint( "End" );
 
-        eZDisplayDebug();
+        eZDisplayResult( $templateResult, eZDisplayDebug() );
     }
 
     exit;
@@ -617,29 +642,7 @@ else
 
 eZDebug::addTimingPoint( "End" );
 
-$debugReport =& eZDisplayDebug();
-
-eZDebug::setHandleType( EZ_HANDLE_NONE );
-
-if ( $debugReport !== null )
-{
-    if ( $templateResult !== null )
-    {
-        $debugMarker = '<!--DEBUG_REPORT-->';
-        $pos = strpos( $templateResult, $debugMarker );
-        if ( $pos !== false )
-        {
-            $debugMarkerLength = strlen( $debugMarker );
-            $templateResult = substr_replace( $templateResult, $debugReport, $pos, $debugMarkerLength );
-        }
-        else
-            $templateResult = implode( '', array( $templateResult, $debugReport ) );
-    }
-    else
-        $templateResult = $debugReport;
-}
-
-print( $templateResult );
+eZDisplayResult( $templateResult, eZDisplayDebug() );
 
 ob_end_flush();
 ?>
