@@ -189,7 +189,7 @@ function db_validate_failure
     echo "`$POSITION_RESTORE``$SETCOLOR_FAILURE`Validating`$SETCOLOR_NORMAL`"
     echo "$type_name database `$SETCOLOR_EMPHASIZE`$db_name`$SETCOLOR_NORMAL` did not validate, this probably means the update file is incorrect"
     echo "Check the database difference with"
-    echo "./bin/php/ezsqldiff.php --type=$type $db_name share/db_""$type""_schema.dat"
+    echo "./bin/php/ezsqldiff.php --type=$type $db_name share/db_schema.dba"
 }
 
 
@@ -246,7 +246,7 @@ if [ "$DB_TYPE" == "mysql" ]; then
 
     echo -n " "
     db_step_start "Validating" ""
-    ./bin/php/ezsqldiff.php --type=mysql "$DATABASE_NAME" share/db_mysql_schema.dat &>/dev/null
+    ./bin/php/ezsqldiff.php --type=mysql "$DATABASE_NAME" share/db_schema.dba &>/dev/null
     if [ $? -ne 0 ]; then
 	db_validate_failure $DB_TYPE "$DATABASE_NAME"
 	exit 1
@@ -330,7 +330,7 @@ elif [ "$DB_TYPE" == "postgresql" ]; then
 
     echo -n " "
     db_step_start "Validating" ""
-    ./bin/php/ezsqldiff.php --type=postgresql "$DATABASE_NAME" share/db_postgresql_schema.dat &>/dev/null
+    ./bin/php/ezsqldiff.php --type=postgresql "$DATABASE_NAME" share/db_schema.dba &>/dev/null
     if [ $? -ne 0 ]; then
 	db_validate_failure $DB_TYPE "$DATABASE_NAME"
 	exit 1
