@@ -240,6 +240,40 @@ class eZImageType extends eZDataType
 
     /*!
      \reimp
+     HTTP file insertion is supported.
+    */
+    function isHTTPFileInsertionSupported()
+    {
+        return true;
+    }
+
+    /*!
+     \reimp
+     Inserts the file using the Image Handler eZImageAliasHandler.
+    */
+    function insertHTTPFile( &$object, $objectVersion, $objectLanguage,
+                             &$objectAttribute, &$httpFile, $mimeData,
+                             &$result )
+    {
+        $result = array( 'errors' => array(),
+                         'require_storage' => false );
+//        $errors =& $result['errors'];
+
+        $handler =& $objectAttribute->content();
+        if ( !$handler )
+        {
+            $errors[] = array( 'description' => ezi18n( 'kernel/classe/datatypes/ezimage',
+                                                        'Failed to fetch Image Handler.' ) );
+            return false;
+        }
+
+        $status = $handler->initializeFromHTTPFile( $httpFile );
+        $result['require_storage'] = $handler->isStorageRequired();
+        return $status;
+    }
+
+    /*!
+     \reimp
     */
     function onPublish( &$contentObjectAttribute, &$contentObject, &$publishedNodes )
     {

@@ -338,6 +338,52 @@ class eZBinaryFileType extends eZDataType
         }
     }
 
+    /*!
+     \reimp
+     HTTP file insertion is supported.
+    */
+    function isHTTPFileInsertionSupported()
+    {
+        return true;
+    }
+
+    /*!
+     \reimp
+     Inserts the file using the eZBinaryFile class.
+    */
+    function insertHTTPFile( &$object, $objectVersion, $objectLanguage,
+                             &$objectAttribute, &$httpFile, $mimeData,
+                             &$result )
+    {
+        $result = array( 'errors' => array(),
+                         'require_storage' => false );
+        $errors =& $result['errors'];
+        $attributeID = $objectAttribute->attribute( 'id' );
+
+        $binary =& eZBinaryFile::fetch( $attributeID, $objectVersion );
+        if ( $binary === null )
+            $binary =& eZBinaryFile::create( $attributeID, $objectVersion );
+
+        if ( !$httpFile->store( "original", false, false ) )
+        {
+            $errors[] = array( 'description' => ezi18n( 'kernel/classe/datatypes/ezbinaryfile',
+                                                        'Failed to store HTTP file %filename.', null,
+                                                        array( '%filename' => $httpFile->attribute( "original_filename" ) ) ) );
+            return false;
+        }
+
+        $binary->setAttribute( "contentobject_attribute_id", $attributeID );
+        $binary->setAttribute( "version", $objectVersion );
+        $binary->setAttribute( "filename", basename( $httpFile->attribute( "filename" ) ) );
+        $binary->setAttribute( "original_filename", $httpFile->attribute( "original_filename" ) );
+        $binary->setAttribute( "mime_type", $mimeData['name'] );
+
+        $binary->store();
+
+        $objectAttribute->setContent( $binary );
+        return true;
+    }
+
     function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
     {
         $filesizeName = $base . EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_VARIABLE . $classAttribute->attribute( 'id' );

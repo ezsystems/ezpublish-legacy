@@ -179,6 +179,30 @@ class eZStringType extends eZDataType
     {
     }
 
+    /*!
+     \reimp
+     Simple string insertion is supported.
+    */
+    function isSimpleStringInsertionSupported()
+    {
+        return true;
+    }
+
+    /*!
+     \reimp
+     Inserts the string \a $string in the \c 'data_text' database field.
+    */
+    function insertSimpleString( &$object, $objectVersion, $objectLanguage,
+                                 &$objectAttribute, $string,
+                                 &$result )
+    {
+        $result = array( 'errors' => array(),
+                         'require_storage' => true );
+        $objectAttribute->setContent( $string );
+        $objectAttribute->setAttribute( 'data_text', $string );
+        return true;
+    }
+
     function storeClassAttribute( &$attribute, $version )
     {
     }

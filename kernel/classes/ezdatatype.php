@@ -256,6 +256,116 @@ class eZDataType
     }
 
     /*!
+     \return \c true if the datatype support insertion of HTTP files or \c false (default) otherwise.
+
+     \sa insertHTTPFile()
+    */
+    function isHTTPFileInsertionSupported()
+    {
+        return false;
+    }
+
+    /*!
+     \return \c true if the datatype support insertion of files or \c false (default) otherwise.
+
+     \sa insertRegularFile()
+    */
+    function isRegularFileInsertionSupported()
+    {
+        return false;
+    }
+
+    /*!
+     \return \c true if the datatype support insertion of simple strings or \c false (default) otherwise.
+
+     \sa insertSimpleString()
+    */
+    function isSimpleStringInsertionSupported()
+    {
+        return false;
+    }
+
+    /*!
+     \virtual
+     Inserts the HTTP file \a $httpFile to the content object attribute \a $objectAttribute.
+
+     \param $object The contentobject in which the attribute is contained
+     \param $objectVersion The current version of the object it is being worked on
+     \param $objectLanguage The current language being worked on
+     \param $objectAttribute The attribute which will get the file
+     \param $httpFile Object of type eZHTTPFile which contains information on the uploaded file
+     \param $mimeData MIME-Type information on the file, can be used to figure out a storage name
+     \param[out] $result Array which will be filled with information on the process, it will contain:
+                 - errors - Array with error elements, each element is an array with \c 'description' containing the text
+                 - require_storage - \c true if the attribute must be stored after this call, or \c false if not required at all
+
+     \return \c true if the file was stored correctly in the attribute or \c false if something failed.
+     \note The datatype will return \c null (the default) if does not support HTTP files.
+     \note \a $result will not be defined if the return value is \c null
+     \note The \a $httpFile must not be stored prior to calling this, the datatype will handle this internally
+
+     \sa isHTTPFileInsertionSupported()
+    */
+    function insertHTTPFile( &$object, $objectVersion, $objectLanguage,
+                             &$objectAttribute, &$httpFile, $mimeData,
+                             &$result )
+    {
+        return null;
+    }
+
+    /*!
+     \virtual
+     Inserts the file named \a $filePath to the content object attribute \a $objectAttribute.
+
+     \param $object The contentobject in which the attribute is contained
+     \param $objectVersion The current version of the object it is being worked on
+     \param $objectLanguage The current language being worked on
+     \param $objectAttribute The attribute which will get the file
+     \param $filePath Full path including the filename
+     \param[out] $result Array which will be filled with information on the process, it will contain:
+                 - errors - Array with error elements, each element is an array with \c 'description' containing the text
+                 - require_storage - \c true if the attribute must be stored after this call, or \c false if not required at all
+
+     \return \c true if the file was stored correctly in the attribute or \c false if something failed.
+     \note The datatype will return \c null (the default) if does not support HTTP files.
+     \note \a $result will not be defined if the return value is \c null
+
+     \sa isRegularFileInsertionSupported()
+    */
+    function insertRegularFile( &$object, $objectVersion, $objectLanguage,
+                                &$objectAttribute, $filePath,
+                                &$result )
+    {
+        return null;
+    }
+
+    /*!
+     \virtual
+     Inserts the string \a $string to the content object attribute \a $objectAttribute.
+
+     \param $object The contentobject in which the attribute is contained
+     \param $objectVersion The current version of the object it is being worked on
+     \param $objectLanguage The current language being worked on
+     \param $objectAttribute The attribute which will get the file
+     \param $filePath Full path including the filename
+     \param[out] $result Array which will be filled with information on the process, it will contain:
+                 - errors - Array with error elements, each element is an array with \c 'description' containing the text
+                 - require_storage - \c true if the attribute must be stored after this call, or \c false if not required at all
+
+     \return \c true if the file was stored correctly in the attribute or \c false if something failed.
+     \note The datatype will return \c null (the default) if does not support HTTP files.
+     \note \a $result will not be defined if the return value is \c null
+
+     \sa isSimpleStringInsertionSupported()
+    */
+    function insertSimpleString( &$object, $objectVersion, $objectLanguage,
+                                 &$objectAttribute, $string,
+                                 &$result )
+    {
+        return null;
+    }
+
+    /*!
      Returns the content data for the given content object attribute.
     */
     function &objectAttributeContent( &$objectAttribute )
