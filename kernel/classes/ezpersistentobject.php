@@ -1027,9 +1027,9 @@ function definition()
         $def =& $this->definition();
         $attrs = array_keys( $def["fields"] );
         if ( isset( $def["function_attributes"] ) )
-            $attrs = array_merge( $attrs, array_keys( $def["function_attributes"] ) );
+            $attrs = array_unique( array_merge( $attrs, array_keys( $def["function_attributes"] ) ) );
         if ( isset( $def["functions"] ) )
-            $attrs = array_merge( $attrs, array_keys( $def["functions"] ) );
+            $attrs = array_unique( array_merge( $attrs, array_keys( $def["functions"] ) ) );
         return $attrs;
     }
 
