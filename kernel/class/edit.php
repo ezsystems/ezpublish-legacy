@@ -430,6 +430,8 @@ $tpl->setVariable( "attributes", $attributes );
 $tpl->setVariable( "datatypes", $datatypes );
 $tpl->setVariable( "datatype", $cur_datatype );
 
-$Result =& $tpl->fetch( "design:class/edit.tpl" );
+$Result['content'] =& $tpl->fetch( "design:class/edit.tpl" );
+$Result['path'] = array( array( 'url' => '/class/edit/',
+                                'text' => 'Class edit' ) );
 
 ?>
