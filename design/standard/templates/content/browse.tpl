@@ -62,7 +62,7 @@
 	{$Object:item.contentobject_id}
 	</td>
 	<td class="{$Object:sequence}">
-	<img src="1x1.gif" width="10" height="1" alt="" />
+	<img src={"1x1-transparent.gif"|ezimage} width="10" height="1" alt="" />
 	<a href={concat("/content/browse/",$Object:item.node_id,"/")|ezurl}>
 	{$Object:item.name}
         </a>

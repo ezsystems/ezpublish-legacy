@@ -49,7 +49,7 @@
     <td valign="top" bgcolor="#333333"><a href={concat("content/view/full/",62)|ezurl}><img src={"booklogo-green.gif"|ezimage} width="700" border="0"></a></td>
 </tr>
 <tr>
-    <td valign="top" bgcolor="#ffffff"><img src={"1x1.gif"|ezimage} width="1" height="1" border="0"></td>
+    <td valign="top" bgcolor="#ffffff"><img src={"1x1-transparent.gif"|ezimage} width="1" height="1" border="0"></td>
 </tr>
 <tr>
     <td bgcolor="#96dc50">
