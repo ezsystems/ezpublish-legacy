@@ -48,6 +48,7 @@ Regional info:
 Type       - {switch match=$regional_info.language_type}{case match=1}Monolingual{/case}{case match=2}Multilingual{/case}{case match=3}Unicode{/case}{case/}{/switch}
 
 Primary    - {$regional_info.primary_language}
+
 {section show=$regional_info.languages}
 Additional - {section name=Language loop=$regional_info.languages}{$:item}{delimiter}, {/delimiter}{/section}
 {/section}
