@@ -43,7 +43,7 @@
 
 */
 
-class eZTemplateWashOperator
+class eZTemplateNl2BrOperator
 {
     /*!
      Initializes the object with the name $name, default is "nl2br".
