@@ -401,7 +401,6 @@ class eZImageHandler
                 if ( !$this->isOutputMIMETypeSupported( $rule['to'] ) or
                      !in_array( $rule['to'], $supportedFormats ) )
                     continue;
-                var_dump( $rule );
 
                 $matchRule = false;
                 if ( strpos( $rule['from'], '*' ) !== false )

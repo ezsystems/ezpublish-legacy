@@ -144,6 +144,8 @@ class eZINI
         if ( !isset( $GLOBALS['eZSiteBasics'] ) )
             return false;
         $siteBasics = $GLOBALS['eZSiteBasics'];
+        if ( !isset( $siteBasics['no-cache-adviced'] ) )
+            return false;
         return $siteBasics['no-cache-adviced'];
     }
 

@@ -1018,7 +1018,7 @@ class eZImageAliasHandler
      Optionally you may also specify the alternative text in the parameter \a $imageAltText.
      \sa initialize
     */
-    function initializeFromFile( $filename, $imageAltText = false )
+    function initializeFromFile( $filename, $imageAltText = false, $originalFilename = false )
     {
         $contentObjectAttribute =& $this->ContentObjectAttribute;
         if ( !file_exists( $filename ) )
@@ -1030,7 +1030,9 @@ class eZImageAliasHandler
 
         $this->increaseImageSerialNumber();
 
-        $mimeData = eZMimeType::findByFileContents( $filename );
+        if ( !$originalFilename )
+            $originalFilename = $filename;
+        $mimeData = eZMimeType::findByFileContents( $originalFilename );
         $contentVersion =& eZContentObjectVersion::fetchVersion( $contentObjectAttribute->attribute( 'version' ),
                                                                  $contentObjectAttribute->attribute( 'contentobject_id' ) );
         $objectName = $this->imageName( $contentObjectAttribute, $contentVersion );
@@ -1067,6 +1069,7 @@ class eZImageAliasHandler
         if ( $imageManager->createImageAlias( 'original', $aliasList, array( 'basename' => $mimeData['basename'] ) ) )
         {
             $mimeData = $aliasList['original'];
+            $mimeData['name'] = $mimeData['mime_type'];
         }
 
         $imageManager->analyzeImage( $mimeData );

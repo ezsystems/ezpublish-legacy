@@ -569,7 +569,8 @@ $str
         if ( isset( $GLOBALS['eZSiteBasics'] ) )
         {
             $siteBasics = $GLOBALS['eZSiteBasics'];
-            if ( $siteBasics['no-cache-adviced'] )
+            if ( isset( $siteBasics['no-cache-adviced'] ) and
+                 $siteBasics['no-cache-adviced'] )
                 $use_cache = false;
         }
         if ( file_exists( $cache ) and $use_cache )

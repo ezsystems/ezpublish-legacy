@@ -553,95 +553,12 @@ function getContent( $target )
 /*! Creates a new instance of an ezimage object, stores it
     in the database. Sets the necessary object attributes.
     The image that was uploaded is copied to its
-    final location (original and reference).
+    final location.
  */
 function storeImage( $imageFileName, $originalImageFileName, $caption, &$contentObjectAttribute )
 {
-    // Get the file/base-name part of the filepath.
-    $filename = basename( $imageFileName );
-
-    // Attempt to reveal the MIME type for this image.
-    $mimeObj = new eZMimeType();
-    $mime = $mimeObj->mimeTypeFor( false, strtolower( $originalImageFileName ) );
-
-    // Extract stuff from the MIME string.
-    list( $type, $extension ) = split ("/", $mime );
-
-    // Get contentobjectattributeid and version.
-    $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
-    $version = $contentObjectAttribute->attribute( "version" );
-
-    // Necessary for eZImage stuff.
-    include_once( "kernel/common/image.php" );
-
-    // Create a new instance of an image object.
-    $image =& eZImage::create( $contentObjectAttributeID , $version );
-
-    // Set the attributes of the newly created image object.
-    $image->setAttribute( "filename", $filename . '.' . $extension );
-    $image->setAttribute( "original_filename", $originalImageFileName );
-    $image->setAttribute( "mime_type", $mime );
-    $image->setAttribute( "alternative_text", $caption );
-
-    // Store the object in the database.
-    $image->store();
-
-    // Get the path to the storage directory.
-    $sys =& eZSys::instance();
-    $storageDir = $sys->storageDirectory();
-
-    // Get original & reference directory paths.
-    $originalDir  = getPathToOriginalImageDir();
-    $referenceDir = getPathToReferenceImageDir();
-
-    // Check if the original dir for images exists, if not: create it!
-    if ( !file_exists( $originalDir ) )
-    {
-        eZDir::mkdir( $originalDir, eZDir::directoryPermission(), true);
-    }
-
-    // Check if the reference dir for images exists, if not: create it!
-    if ( !file_exists( $referenceDir ) )
-    {
-        eZDir::mkdir( $referenceDir, eZDir::directoryPermission(), true);
-    }
-
-    // Set the location of the source, original and reference files.
-    $originalFile  = $originalDir  . '/' . $filename . '.' . $extension;
-    $referenceFile = $referenceDir . '/' . $filename . '.' . $extension;
-
-    // Attempt to copy the source file to the original location.
-    $result = copy( $imageFileName, $originalFile );
-    append_to_log( "storeImage result: " . ( $result ? 'true' : 'false' ) );
-
-    if (!$result)
-    {
-        append_to_log( "storeImage failed to copy original $originalFile" );
-        // Remove the object from the databse.
-        eZImage::remove( $contentObjectAttributeID , $version );
-
-        // Bail...
-        return false;
-    }
-
-    // Attempt to copy the source file to the reference location.
-    $result = copy( $imageFileName, $referenceFile );
-
-    if (!$result)
-    {
-        append_to_log( "storeImage failed to copy reference $referenceFile" );
-        // Remove the object from the databse.
-        eZImage::remove( $contentObjectAttributeID , $version );
-
-        // Bail...
-        return false;
-    }
-
-    // Get rid of the uploaded/source file.
-    unlink( $imageFileName );
-
-    // If we got this far: everything is OK.
-    return true;
+    $handler =& $contentObjectAttribute->content();
+    return $handler->initializeFromFile( $imageFileName, false, $originalImageFileName );
 }
 
 
@@ -707,7 +624,7 @@ function storeFile( $fileFileName, $fileOriginalFileName, &$contentObjectAttribu
     else
     {
         // Remove the object from the databse.
-        eZImage::remove( $contentObjectAttributeID , $version );
+        eZBinaryFile::remove( $contentObjectAttributeID , $version );
 
         // Bail...
         return false;
@@ -991,18 +908,16 @@ function getNodeInfo( $node )
             // If the file being uploaded is an image:
             case 'ezimage':
             {
-                $mime         = $attributeContent->attribute( 'mime_type' );
-                $filename     = $attributeContent->attribute( 'filename' );
-                $originalName = $attributeContent->attribute( 'original_filename' );
+                $originalAlias =& $attributeContent->attribute( 'original' );
+                $mime = $originalAlias['mime_type'];
+                $originalName = $originalAlias['original_filename'];
+                $imageFile = $originalAlias['url'];
+                $suffix = $originalAlias['suffix'];
 
-                $pathInfo  = pathinfo( $originalName );
-                $extension = '.'.$pathInfo["extension"];
-
-                $originalImageDir = getPathToOriginalImageDir();
-
-                $entry["size"]      = filesize( $originalImageDir.'/'.$filename );
+                $entry["size"]      = filesize( $imageFile );
                 $entry["mimetype"]  = $mime;
-                $entry["name"]      .= $extension;
+                $entry["name"]      .= '.' . $suffix;
+                $entry["href"] = '/' . $imageFile;
             }break;
 
 
@@ -1025,7 +940,8 @@ function getNodeInfo( $node )
     }
 
     // Set the href attribute (note that it doesn't just equal the name).
-    $entry["href"] = $_SERVER["SCRIPT_URL"].'/'.$entry['name'];
+    if ( !isset( $entry['href'] ) )
+        $entry["href"] = $_SERVER["SCRIPT_URL"].'/'.$entry['name'];
 
     // Return array of attributes/properties (name, size, mime, times, etc.).
     return $entry;
@@ -1175,25 +1091,22 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
                         //
                         $attributeContent = $attribute->content();
+                        $attributeDataTypeString = $attribute->attribute( 'data_type_string' );
 
                         // Get the type of class.
                         $attributeClass = get_class( $attributeContent );
 
-                        switch ( $attributeClass )
+                        switch ( $attributeDataTypeString )
                         {
                             case 'ezimage':
                             {
-                                // Grab the filename.
-                                $filename = $attributeContent->attribute( 'filename' );
-
-                                // The actual location of the image.
-                                $filePath = getPathToOriginalImageDir().'/'.$filename;
+                                $originalAlias = $attributeContent->attribute( 'original' );
+                                $filePath = $originalAlias['url'];
                             }break;
 
 
                             case 'ezbinaryfile':
                             {
-                                // The actual location of the file.
                                 $filePath = $attributeContent->attribute( 'filepath' );
                             }break;
                         }
@@ -1299,21 +1212,16 @@ class eZWebDAVContentServer extends eZWebDAVServer
                         $attributeID = $iniDefaultSetting;
                     }
 
-                    //
                     switch ( $attributeID )
                     {
-                        // Image case: image upload.
                         case 'image':
                         {
-                            // Attempt to create image object, store in DB, copy file, etc.
                             return putImage( $target, $tempFile, $parentNodeID );
                         }
                         break;
 
-                        // Default case (regular file upload).
                         default:
                         {
-                            // Attempt to create file object, store in DB, copy file, etc.
                             return putFile( $target, $tempFile, $parentNodeID );
                         }
                         break;

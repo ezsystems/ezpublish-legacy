@@ -443,6 +443,8 @@ class eZWebDAVServer
         // want to use chunked transfer encoding.
         // header( 'Content-Length: '.strlen( $xml ) );
 
+        while( @ob_end_clean() );
+
         // Dump the actual XML data containing collection list.
         print( $xml );
 
@@ -477,7 +479,7 @@ class eZWebDAVServer
                 $eTag = md5_file( $realPath );
                 $size = filesize( $realPath );
 
-                $dir  =  dirname( $realPath );
+                $dir  = dirname( $realPath );
                 $file = basename( $realPath );
 
                 $mime     = new eZMimeType ();
@@ -489,6 +491,8 @@ class eZWebDAVServer
                 header( 'Content-Length: '.$size );
                 header( 'Content-Type: '.$mimeType );
                 header( 'ETag: '.$eTag );
+
+                while( @ob_end_clean() );
 
                 // Attempt to open the file.
                 $fp = fopen( $realPath, "rb" );
@@ -515,7 +519,11 @@ class eZWebDAVServer
         }
         else
         {
-            // __FIX_ME__ Her burde det komme noe info om at man glemte å sende med data/fil.
+            append_to_log( "outputData: No file specified");
+
+            while( @ob_end_clean() );
+
+            return( EZ_WEBDAV_FAILED_NOT_FOUND );
         }
     }
 
