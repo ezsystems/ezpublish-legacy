@@ -27,7 +27,7 @@ for arg in $*; do
 	    fi
 	    ;;
 	-*)
-	    echo "$arg: unkown option specified"
+	    echo "$arg: unknown option specified"
             show_help
 	    exit 1
 	    ;;
