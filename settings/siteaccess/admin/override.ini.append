@@ -156,9 +156,15 @@ Subdir=templates
 Match[navigation_part_identifier]=ezusernavigationpart
 
 
-
-
-
-
+###############################################################################
+#
+# Miscellaneous overrides
+#
+###############################################################################
+[embed_image]
+Source=content/view/embed.tpl
+MatchFile=embed_image.tpl
+Subdir=templates
+Match[class_identifier]=image
 
 */ ?>
