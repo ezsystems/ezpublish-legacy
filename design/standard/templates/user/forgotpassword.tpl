@@ -37,4 +37,3 @@ user is getting the new password.
    </form>
 {/section}
 {/section}
-

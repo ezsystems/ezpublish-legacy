@@ -15,5 +15,4 @@ New password: {$password}
 
 {section}
 
-
 {/let}
