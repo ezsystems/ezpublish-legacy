@@ -781,7 +781,7 @@ class eZUser extends eZPersistentObject
 
     function &hasAccessTo( $module, $function )
     {
-        $accessArray =& eZRole::accessArrayByUserID( $this->groups() ); // todo : optimize this fetching.
+        $accessArray =& eZRole::accessArrayByUserID( array_merge( $this->groups(), array( $this->attribute( 'contentobject_id' ) ) ) ); // todo : optimize this fetching.
 
         $access = 'no';
 
