@@ -1,7 +1,7 @@
 #!/bin/bash
 
-VERSION="3.2.0-2"
-VERSION_NICK="3.2 beta2"
+VERSION="3.3.0-1"
+VERSION_NICK="3.3 alpha"
 
 RES_COL=60
 # terminal sequence to move to that column. You could change this
