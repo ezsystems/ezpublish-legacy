@@ -1126,15 +1126,17 @@ WHERE user_id = '" . $userID . "' AND
         }
 
         $access = 'no';
+        $moduleArray = array();
         if ( isset( $accessArray['*'] ) )
         {
-            $moduleArray =& $accessArray['*'];
+            $moduleArray = $accessArray['*'];
         }
-        else if ( isset( $accessArray[$module] ) )
+        if ( isset( $accessArray[$module] ) )
         {
-            $moduleArray =& $accessArray[$module];
+            $moduleArray = array_merge( $moduleArray, $accessArray[$module] );
         }
-        else
+
+        if ( count( $moduleArray ) == 0 )
         {
             $accessList = array(
                 'FunctionRequired' => array ( 'Module' => $module,
@@ -1145,15 +1147,17 @@ WHERE user_id = '" . $userID . "' AND
             return array( 'accessWord' => 'no' );
         }
 
+        $functionArray = array();
         if ( isset( $moduleArray['*'] ) )
         {
-            $functionArray =& $moduleArray['*'];
+            $functionArray = $moduleArray['*'];
         }
-        else if ( isset( $moduleArray[$function] ) )
+        if ( isset( $moduleArray[$function] ) )
         {
-            $functionArray =& $moduleArray[$function];
+            $functionArray = array_merge( $functionArray, $moduleArray[$function] );
         }
-        else
+
+        if ( count( $functionArray ) == 0 )
         {
             $accessList = array(
                 'FunctionRequired' => array ( 'Module' => $module,
