@@ -85,9 +85,11 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
         foreach ( $deleteClassIDList as $deleteClassID )
         {
             $deleteClass =& eZContentClass::fetch( $deleteClassID );
-            $deleteClass->remove( true );
-            $deleteClass =& eZContentClass::fetch( $deleteClassID, true, 1 );
-            $deleteClass->remove( true );
+            if ( $deleteClass )
+                $deleteClass->remove( true );
+            $deleteClass =& eZContentClass::fetch( $deleteClassID, true, EZ_CLASS_VERSION_STATUS_TEMPORARY );
+            if ( $deleteClass )
+                $deleteClass->remove( true );
         }
     }
     $Module->redirectTo( '/class/grouplist/' );

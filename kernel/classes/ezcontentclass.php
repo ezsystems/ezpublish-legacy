@@ -818,6 +818,9 @@ You will need to change the class of the node by using the swap functionality.' 
                                                              "length" => 2 ),
                                                       false );
 
+        if ( count( $rows ) == 0 )
+            return null;
+
         $row =& $rows[0];
         $row["version_count"] = count( $rows );
         return new eZContentClass( $row );

@@ -154,7 +154,8 @@ Payment:
 - Fixed bug: user should not be able to create a class with with empty name,identifier, etc.
   http://ez.no/community/bug_reports/you_can_create_a_class_with_empty_name_identifier_etc
   (Merged from stable/3.4 rev.9043)
-
+- Fixed bug: Fixed SQL error that happened when removing classes along with removing class group.
+  (Merged from stable/3.3 rev. 9059, also in stable/3.4 rev. 9061)
 
 *Library:
 
