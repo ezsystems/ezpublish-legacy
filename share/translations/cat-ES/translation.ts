@@ -32,7 +32,7 @@
     <name>content/pdf</name>
     <message>
         <source>PDF Export</source>
-        <translation type="obsolete"></translation>
+        <translation type="obsolete">Exporta a PDF</translation>
     </message>
 </context>
 <context>
@@ -189,16 +189,16 @@
     <message>
         <source>RSS</source>
         <comment>Really Simple Syndication</comment>
-        <translation type="unfinished"></translation>
+        <translation>Sindicació per RSS</translation>
     </message>
     <message>
         <source>Advanced</source>
-        <translation type="unfinished">Avançada</translation>
+        <translation>Avançat</translation>
     </message>
     <message>
         <source>PDF export</source>
         <comment>PDF export</comment>
-        <translation type="unfinished"></translation>
+        <translation>Exporta a PDF</translation>
     </message>
 </context>
 <context>
@@ -268,39 +268,39 @@
     <name>design/blog/layout</name>
     <message>
         <source>Log entries</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrades de diari</translation>
     </message>
     <message>
         <source>Description:</source>
-        <translation type="unfinished"></translation>
+        <translation>Descripció:</translation>
     </message>
     <message>
         <source>Categories</source>
-        <translation type="unfinished"></translation>
+        <translation>Categories</translation>
     </message>
     <message>
         <source>Latest blogs</source>
-        <translation type="unfinished"></translation>
+        <translation>Darreres bitàcoles</translation>
     </message>
     <message>
         <source>Log Archive by Entry</source>
-        <translation type="unfinished"></translation>
+        <translation>Arxiu de diari per entrada</translation>
     </message>
     <message>
         <source>Comments disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Comentaris desactivats</translation>
     </message>
     <message>
         <source>Result</source>
-        <translation type="unfinished"></translation>
+        <translation>Resultat</translation>
     </message>
     <message>
         <source>Poll</source>
-        <translation type="unfinished"></translation>
+        <translation>Enquesta</translation>
     </message>
     <message>
         <source>Recent links</source>
-        <translation type="unfinished"></translation>
+        <translation>Enllaços recents</translation>
     </message>
     <message>
         <source>Create new blog entry</source>
@@ -311,70 +311,70 @@
     <name>design/corporate/layout</name>
     <message>
         <source>Read more</source>
-        <translation type="unfinished"></translation>
+        <translation>Llegeix més</translation>
     </message>
     <message>
         <source>Send</source>
-        <translation type="unfinished">Tramet</translation>
+        <translation>Tramet</translation>
     </message>
     <message>
         <source>Latest news</source>
-        <translation type="unfinished"></translation>
+        <translation>Darreres notícies</translation>
     </message>
 </context>
 <context>
     <name>design/forum/layout</name>
     <message>
         <source>Read more</source>
-        <translation type="unfinished"></translation>
+        <translation>Llegeix més</translation>
     </message>
     <message>
         <source>Subject</source>
-        <translation type="unfinished">Tema</translation>
+        <translation>Assumpte</translation>
     </message>
     <message>
         <source>Message</source>
-        <translation type="unfinished">Missatge</translation>
+        <translation>Missatge</translation>
     </message>
     <message>
         <source>Post</source>
-        <translation type="unfinished"></translation>
+        <translation>Tramet</translation>
     </message>
     <message>
         <source>Author</source>
-        <translation type="unfinished">Autor</translation>
+        <translation>Autor</translation>
     </message>
     <message>
         <source>Replies</source>
-        <translation type="unfinished"></translation>
+        <translation>Respostes</translation>
     </message>
     <message>
         <source>Last reply</source>
-        <translation type="unfinished"></translation>
+        <translation>Darrera resposta</translation>
     </message>
     <message>
         <source>Number of Topics:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre de temes:</translation>
     </message>
     <message>
         <source>Number of Posts:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre de trameses:</translation>
     </message>
     <message>
         <source>Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Notificacions</translation>
     </message>
     <message>
         <source>Edit account</source>
-        <translation type="unfinished"></translation>
+        <translation>Edita el compte</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Connecta</translation>
     </message>
     <message>
         <source>Logout</source>
-        <translation type="unfinished">Desconnecta</translation>
+        <translation>Desconnecta</translation>
     </message>
     <message>
         <source>Latest posts</source>
@@ -382,92 +382,92 @@
     </message>
     <message>
         <source>Latest news</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Darreres notícies</translation>
     </message>
 </context>
 <context>
     <name>design/gallery/layout</name>
     <message>
         <source>Read more</source>
-        <translation type="unfinished"></translation>
+        <translation>Llegeix més</translation>
     </message>
     <message>
         <source>Galleries</source>
-        <translation type="unfinished"></translation>
+        <translation>Galeries</translation>
     </message>
     <message>
         <source>Latest images</source>
-        <translation type="unfinished"></translation>
+        <translation>Darreres imatges</translation>
     </message>
     <message>
         <source>Latest news</source>
-        <translation type="unfinished"></translation>
+        <translation>Darreres notícies</translation>
     </message>
     <message>
         <source>Latest comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Darrers comentaris</translation>
     </message>
     <message>
         <source>Edit gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Edita la galeria</translation>
     </message>
     <message>
         <source>Create a new gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea una nova galeria</translation>
     </message>
     <message>
         <source>Name of your album</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom del teu àlbum</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Descripció</translation>
+        <translation>Descripció</translation>
     </message>
     <message>
         <source>Number of columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre de columnes</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation type="unfinished"></translation>
+        <translation>Àlbums</translation>
     </message>
     <message>
         <source>Gallery list</source>
-        <translation type="unfinished"></translation>
+        <translation>Llista de galeries</translation>
     </message>
     <message>
         <source>Logout</source>
-        <translation type="unfinished">Desconnecta</translation>
+        <translation>Desconnecta</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Connecta</translation>
     </message>
 </context>
 <context>
     <name>design/intranet/layout</name>
     <message>
         <source>Comment this article!</source>
-        <translation type="unfinished"></translation>
+        <translation>Comenta aquest article!</translation>
     </message>
     <message>
         <source>Read more</source>
-        <translation type="unfinished"></translation>
+        <translation>Llegeix més</translation>
     </message>
     <message>
         <source>Latest news</source>
-        <translation type="unfinished"></translation>
+        <translation>Darreres notícies</translation>
     </message>
     <message>
         <source>Contact information</source>
-        <translation type="unfinished"></translation>
+        <translation>Infromació de contacte</translation>
     </message>
 </context>
 <context>
     <name>design/news/content/poll</name>
     <message>
         <source>Results</source>
-        <translation type="unfinished"></translation>
+        <translation>Resultats</translation>
     </message>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
@@ -475,7 +475,7 @@
     </message>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ja has votat en aquesta enquesta.</translation>
     </message>
 </context>
 <context>
@@ -492,7 +492,7 @@
 <byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="obsolete"></translation>
+        <translation type="obsolete">Ja has votat en aquesta enquesta.</translation>
     </message>
 </context>
 <context>
@@ -505,54 +505,54 @@
     &lt;p&gt;{</name>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="obsolete"></translation>
+        <translation type="obsolete">Els usuars anònims no poden votar en aquesta enquesta. Registra&apos;t abans.</translation>
     </message>
 </context>
 <context>
     <name>design/news/layout</name>
     <message>
         <source>Related stories</source>
-        <translation type="unfinished"></translation>
+        <translation>Notícies relacionades</translation>
     </message>
     <message>
         <source>Tip a friend</source>
-        <translation type="unfinished">Recomana a un amic</translation>
+        <translation>Recomana a un amic</translation>
     </message>
     <message>
         <source>Comments</source>
-        <translation type="unfinished">Comentaris</translation>
+        <translation>Comentaris</translation>
     </message>
     <message>
         <source>Comment this article!</source>
-        <translation type="unfinished"></translation>
+        <translation>Comenta aquest article!</translation>
     </message>
     <message>
         <source>Read more</source>
-        <translation type="unfinished"></translation>
+        <translation>Llegeix més</translation>
     </message>
     <message>
         <source>Latest news</source>
-        <translation type="unfinished"></translation>
+        <translation>Darreres notícies</translation>
     </message>
     <message>
         <source>Result</source>
-        <translation type="unfinished"></translation>
+        <translation>Resultat</translation>
     </message>
     <message>
         <source>View all polls</source>
-        <translation type="unfinished"></translation>
+        <translation>Veure totes les enquestes</translation>
     </message>
     <message>
         <source>News</source>
-        <translation type="unfinished"></translation>
+        <translation>Notícies</translation>
     </message>
     <message>
         <source>Most popular</source>
-        <translation type="unfinished"></translation>
+        <translation>Els més populars</translation>
     </message>
     <message>
         <source>Poll</source>
-        <translation type="unfinished"></translation>
+        <translation>Enquesta</translation>
     </message>
 </context>
 <context>
@@ -566,75 +566,75 @@
     <name>design/shop/layout</name>
     <message>
         <source>login</source>
-        <translation type="unfinished"></translation>
+        <translation>connecta</translation>
     </message>
     <message>
         <source>logout</source>
-        <translation type="unfinished"></translation>
+        <translation>desconnecta</translation>
     </message>
     <message>
         <source>Read more</source>
-        <translation type="unfinished"></translation>
+        <translation>Llegeix més</translation>
     </message>
     <message>
         <source>Write your own review</source>
-        <translation type="unfinished"></translation>
+        <translation>Dóna la teva opinió</translation>
     </message>
     <message>
         <source>Write a review and share your opinion. Please make sure your comments are devoted to the product.</source>
-        <translation type="unfinished"></translation>
+        <translation>Comparteix la teva opinió. Assegura&apos;t que els teus comentaris es refereixen al producte escollit.</translation>
     </message>
     <message>
         <source>How do you rate the product?</source>
-        <translation type="unfinished"></translation>
+        <translation>Com valores el producte?</translation>
     </message>
     <message>
         <source>Title of your review:</source>
-        <translation type="unfinished"></translation>
+        <translation>Posa-li un títol a la teva opinió:</translation>
     </message>
     <message>
         <source>Your review:</source>
-        <translation type="unfinished"></translation>
+        <translation>La teva opinió:</translation>
     </message>
     <message>
         <source>Related products</source>
-        <translation type="unfinished"></translation>
+        <translation>Productes relacionats</translation>
     </message>
     <message>
         <source>People who bought this also bought</source>
-        <translation type="unfinished"></translation>
+        <translation>Les persones que han comprat això també van comprar</translation>
     </message>
     <message>
         <source>Reviews</source>
-        <translation type="unfinished"></translation>
+        <translation>Opinions</translation>
     </message>
     <message>
         <source>Write a review</source>
-        <translation type="unfinished"></translation>
+        <translation>Dóna la teva opinió</translation>
     </message>
     <message>
         <source>No rating</source>
-        <translation type="unfinished"></translation>
+        <translation>Sense valorar</translation>
     </message>
     <message>
         <source>Products</source>
-        <translation type="unfinished"></translation>
+        <translation>Productes</translation>
     </message>
     <message>
         <source>Latest products</source>
-        <translation type="unfinished"></translation>
+        <translation>Els productes més nous</translation>
     </message>
     <message>
         <source>Your basket is empty</source>
-        <translation type="unfinished"></translation>
+        <translation>La teva cistella és buida</translation>
     </message>
     <message>
         <source>Best sellers</source>
-        <translation type="unfinished"></translation>
+        <translation>Els més venuts</translation>
     </message>
     <message>
         <source>Latest news</source>
-        <translation type="unfinished"></translation>
+        <translation>Darreres notícies</translation>
     </message>
 </context>
 <context>
@@ -808,155 +808,159 @@
     </message>
     <message>
         <source>Pretext</source>
-        <translation type="unfinished"></translation>
+        <translation>Text previ</translation>
     </message>
     <message>
         <source>Posttext</source>
-        <translation type="unfinished"></translation>
+        <translation>Text posterior</translation>
     </message>
     <message>
         <source>Current value: </source>
-        <translation type="unfinished"></translation>
+        <translation>Valor actual:</translation>
     </message>
     <message>
         <source> (This value are the current identifier)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Aquest valor és l&apos;identificador actual)</translation>
     </message>
     <message>
         <source>Current temporary value: </source>
-        <translation type="unfinished"></translation>
+        <translation>Valor temporal actual:</translation>
     </message>
     <message>
         <source> (This value is a copy of the original identifier)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Aquest valor és una còpia de l&apos;identificador original)</translation>
     </message>
     <message>
         <source>Digits</source>
-        <translation type="unfinished"></translation>
+        <translation>Dígits</translation>
     </message>
     <message>
         <source>Start value</source>
-        <translation type="unfinished">Valor d&apos;arrencada</translation>
+        <translation>Valor d&apos;inici</translation>
     </message>
     <message>
         <source>Update identifier</source>
-        <translation type="unfinished"></translation>
+        <translation>Identificador de la actualització</translation>
     </message>
     <message>
         <source>Ini file</source>
-        <translation type="unfinished"></translation>
+        <translation>Arxiu Ini</translation>
     </message>
     <message>
         <source>Ini Section</source>
-        <translation type="unfinished"></translation>
+        <translation>Secció Ini</translation>
     </message>
     <message>
         <source>Ini Parameter</source>
-        <translation type="unfinished"></translation>
+        <translation>Paràmetre Ini</translation>
     </message>
     <message>
         <source>Ini file location</source>
-        <translation type="unfinished"></translation>
+        <translation>Ubicació de l&apos;arxiu Ini</translation>
     </message>
     <message>
         <source>Ini setting type</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipus de configuració Ini</translation>
     </message>
     <message>
         <source>Text</source>
-        <translation type="unfinished">Text</translation>
+        <translation>Text</translation>
     </message>
     <message>
         <source>Enable/Disable</source>
-        <translation type="unfinished"></translation>
+        <translation>Activat/Desactivat</translation>
     </message>
     <message>
         <source>True/False</source>
-        <translation type="unfinished"></translation>
+        <translation>Verdader/Fals</translation>
     </message>
     <message>
         <source>Integer</source>
-        <translation type="unfinished">Integre</translation>
+        <translation>Enter</translation>
     </message>
     <message>
         <source>Float</source>
-        <translation type="unfinished">Decimal</translation>
+        <translation>Decimal</translation>
     </message>
     <message>
         <source>Array</source>
-        <translation type="unfinished"></translation>
+        <translation>Taula</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Tipus</translation>
+        <translation>Tipus</translation>
     </message>
     <message>
         <source>Create or browse objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Crear o explorar objectes</translation>
     </message>
     <message>
         <source>New and existing objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Objectes nous i existents</translation>
     </message>
     <message>
         <source>Only new objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Només objectes nous</translation>
     </message>
     <message>
         <source>Only existing objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Només objectes existents</translation>
     </message>
     <message>
-        <source>Select which classes user can create</source>
-        <translation type="unfinished"></translation>
+        <source>Select which class user can create</source>
+        <translation type="obsolete">Selecciona quina classe pot crear l&apos;usuari</translation>
     </message>
     <message>
         <source>Package Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipus de paquet</translation>
     </message>
     <message>
         <source>Checked</source>
-        <translation type="unfinished"></translation>
+        <translation>Comprovat</translation>
     </message>
     <message>
         <source>Unchecked</source>
-        <translation type="unfinished"></translation>
+        <translation>No comprovat</translation>
     </message>
     <message>
         <source>Single choice</source>
-        <translation type="unfinished"></translation>
+        <translation>Elecció senzilla</translation>
     </message>
     <message>
         <source>Warning, the ini file settings value and object value does not match.</source>
-        <translation type="unfinished"></translation>
+        <translation>Atenció: el valor de la configuració de l&apos;arxiu Ini i el valor de l&apos;objecte no coincideixen.</translation>
     </message>
     <message>
         <source>The ini file has probably been modified manually since last time.</source>
-        <translation type="unfinished"></translation>
+        <translation>Probablement, l&apos;arxiu Ini s&apos;ha modificat manualment des de la darrera vegada.</translation>
     </message>
     <message>
         <source>Ini File : </source>
-        <translation type="unfinished"></translation>
+        <translation>Arxiu Ini:</translation>
     </message>
     <message>
         <source>Ini Value: </source>
-        <translation type="unfinished"></translation>
+        <translation>Valor Ini:</translation>
     </message>
     <message>
         <source>Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Activat</translation>
     </message>
     <message>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Desactivat</translation>
     </message>
     <message>
         <source>True</source>
-        <translation type="unfinished"></translation>
+        <translation>Verdader</translation>
     </message>
     <message>
         <source>False</source>
-        <translation type="unfinished"></translation>
+        <translation>Fals</translation>
+    </message>
+    <message>
+        <source>Select which classes user can create</source>
+        <translation>Tria quines classes pot crear un usuari</translation>
     </message>
 </context>
 <context>
@@ -1123,39 +1127,39 @@
     </message>
     <message>
         <source>Class - %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Classe - %1</translation>
     </message>
     <message>
         <source>Is required</source>
-        <translation type="unfinished"></translation>
+        <translation>És requerit</translation>
     </message>
     <message>
         <source>Is not required</source>
-        <translation type="unfinished"></translation>
+        <translation>No és requerit</translation>
     </message>
     <message>
         <source>Is searchable</source>
-        <translation type="unfinished"></translation>
+        <translation>Es permet la cerca</translation>
     </message>
     <message>
         <source>Is not searchable</source>
-        <translation type="unfinished"></translation>
+        <translation>No permet la cerca</translation>
     </message>
     <message>
         <source>Collects information</source>
-        <translation type="unfinished"></translation>
+        <translation>Recull informació</translation>
     </message>
     <message>
         <source>Does not collect information</source>
-        <translation type="unfinished"></translation>
+        <translation>No recull informació</translation>
     </message>
     <message>
         <source>Translation is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>La traducció està desactivada</translation>
     </message>
     <message>
         <source>Translation is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>La traducció està activada</translation>
     </message>
     <message>
         <source>Retry</source>
@@ -1198,35 +1202,35 @@
     </message>
     <message>
         <source>Last modified classes</source>
-        <translation type="unfinished"></translation>
+        <translation>Darreres classes modificades</translation>
     </message>
     <message>
         <source>PDF Exports</source>
-        <translation type="obsolete"></translation>
+        <translation type="obsolete">Exportacions PDF</translation>
     </message>
     <message>
         <source>New Export</source>
-        <translation type="obsolete"></translation>
+        <translation type="obsolete">Nova exportació</translation>
     </message>
     <message>
         <source>RSS Feeds</source>
-        <translation type="obsolete"></translation>
+        <translation type="obsolete">Subministraments RSS</translation>
     </message>
     <message>
         <source>RSS Exports</source>
-        <translation type="obsolete"></translation>
+        <translation type="obsolete">Exportacions RSS</translation>
     </message>
     <message>
         <source>RSS Imports</source>
-        <translation type="obsolete"></translation>
+        <translation type="obsolete">Importacions RSS</translation>
     </message>
     <message>
         <source>New Import</source>
-        <translation type="obsolete"></translation>
+        <translation type="obsolete">Nova importació</translation>
     </message>
     <message>
         <source>Setup menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Menú de configuració</translation>
     </message>
 </context>
 <context>
@@ -1277,7 +1281,7 @@
     </message>
     <message>
         <source>Click on the &apos;New&apos; button to create a class.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fes clic en el botó &apos;Nou&apos; per crear una classe.</translation>
     </message>
 </context>
 <context>
@@ -1352,7 +1356,7 @@
     </message>
     <message>
         <source>[more]</source>
-        <translation type="unfinished"></translation>
+        <translation>[més]</translation>
     </message>
 </context>
 <context>
@@ -1597,70 +1601,70 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
     </message>
     <message>
         <source>PDF Export</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportació  PDF</translation>
     </message>
     <message>
         <source>Title</source>
-        <translation type="unfinished">Títol</translation>
+        <translation>Títol</translation>
     </message>
     <message>
         <source>Intro text</source>
-        <translation type="unfinished"></translation>
+        <translation>Text introductori</translation>
     </message>
     <message>
         <source>Sub text</source>
-        <translation type="unfinished"></translation>
+        <translation>Text secundari</translation>
     </message>
     <message>
         <source>Source node</source>
-        <translation type="unfinished"></translation>
+        <translation>Node d&apos;origen</translation>
     </message>
     <message>
         <source>Browse</source>
-        <translation type="unfinished">Explora</translation>
+        <translation>Explora</translation>
     </message>
     <message>
         <source>Export structure</source>
-        <translation type="unfinished"></translation>
+        <translation>Estructura d&apos;exportació</translation>
     </message>
     <message>
         <source>Tree</source>
-        <translation type="unfinished"></translation>
+        <translation>Arbre</translation>
     </message>
     <message>
         <source>Node</source>
-        <translation type="unfinished">Node</translation>
+        <translation>Node</translation>
     </message>
     <message>
         <source>Export classes</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporta les classes</translation>
     </message>
     <message>
         <source>Site access</source>
-        <translation type="unfinished">Accés al lloc</translation>
+        <translation>Accés al lloc</translation>
     </message>
     <message>
         <source>Export destination</source>
-        <translation type="unfinished"></translation>
+        <translation>Destinació de l&apos;exportació</translation>
     </message>
     <message>
         <source>Export to URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporta a URL</translation>
     </message>
     <message>
         <source>Export for direct download</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporta per a una descàrrega directa</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporta</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/browse</name>
     <message>
         <source>Create new</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea&apos;n un de nou</translation>
     </message>
 </context>
 <context>
@@ -1977,43 +1981,47 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
     </message>
     <message>
         <source>View Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipus de vista</translation>
     </message>
     <message>
         <source>Local image file for upload</source>
-        <translation type="unfinished"></translation>
+        <translation>Arxiu d&apos;imatge local per carregar</translation>
     </message>
     <message>
         <source>Image preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Previsualització de la imatge</translation>
     </message>
     <message>
         <source>Original filename for image</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom de l&apos;arxiu original per a la imatge</translation>
+    </message>
+    <message>
+        <source>Browse objects</source>
+        <translation type="obsolete">Explora objectes</translation>
     </message>
     <message>
         <source>Existing original filename</source>
-        <translation type="unfinished"></translation>
+        <translation>El nom de l&apos;arxiu original ja existeix</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished">Edita</translation>
+        <translation>Edita</translation>
     </message>
     <message>
         <source>Open objects for edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Obre objectes per editar</translation>
     </message>
     <message>
         <source>Browse for objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Explorar objectes</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Afegeix</translation>
+        <translation>Afegeix</translation>
     </message>
     <message>
         <source>Value (optional)</source>
-        <translation type="unfinished"></translation>
+        <translation>Valor (opcional)</translation>
     </message>
 </context>
 <context>
@@ -2191,97 +2199,100 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
         <translation>Nou esborrany</translation>
     </message>
     <message>
-        <source>Store</source>
-        <translation type="unfinished">Emmagatzema</translation>
+        <source>Post</source>
+        <translation>Tramet</translation>
     </message>
     <message>
-        <source>Post</source>
-        <translation type="unfinished"></translation>
+        <source>Store</source>
+        <translation>Emmagatzema</translation>
     </message>
     <message>
         <source>Feedback from %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Feedback de %1</translation>
     </message>
     <message>
         <source>The following feedback was collected:</source>
-        <translation type="unfinished"></translation>
+        <translation>S&apos;ha recollit el següent feedback:</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to discard the draft %versionname?</source>
+        <translation>Estàs segur que vols descartar l&apos;esborrany %versionname?</translation>
     </message>
     <message>
         <source>The currently published version is %version and was published at %time.</source>
-        <translation type="unfinished"></translation>
+        <translation>La versió publicada actualment és la %version i va ser publicada el %time.</translation>
     </message>
     <message>
         <source>The last modification was done at %modified.</source>
-        <translation type="unfinished"></translation>
+        <translation>La darrera modificació va ser el %modified.</translation>
     </message>
     <message>
         <source>The object is owned by %owner.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;objecte és propietat de %owner.</translation>
     </message>
     <message>
         <source>This object is already being edited by someone else including you.
     You can either continue editing one of your drafts or you can create a new draft.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aquest objecte ja està sent editat per algú més, a banda de tu mateix.
+Pots continuar editant un dels teus esborranys o en pots crear un de nou.</translation>
     </message>
     <message>
         <source>This object is already being edited by you.
         You can either continue editing one of your drafts or you can create a new draft.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aquest objecte ja està sent editat per tu.
+Pots continuar editant un dels teus esborranys o en pots crear un de nou.</translation>
     </message>
     <message>
         <source>This object is already being edited by someone else.
         You should either contact the person about the draft or create a new draft for personal editing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aquest objecte ja està sent editat per algú altre.
+Posa&apos;t en contacte amb aquesta persona per l&apos;esborrany o crea&apos;n un de nou per editar-lo personalment.</translation>
     </message>
     <message>
         <source>Current drafts</source>
-        <translation type="unfinished"></translation>
+        <translation>Esborranys actuals</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versió</translation>
     </message>
     <message>
         <source>Owner</source>
-        <translation type="unfinished">Propietari</translation>
+        <translation>Propietari</translation>
     </message>
     <message>
         <source>Last modified</source>
-        <translation type="unfinished">Última modificació</translation>
+        <translation>Última modificació</translation>
     </message>
     <message>
         <source>Input was partially stored</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to discard the draft %versionname?</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;entrada s&apos;ha emmagatzemat parcialment</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/ezoption</name>
     <message>
         <source>No value chosen</source>
-        <translation type="unfinished"></translation>
+        <translation>No s&apos;ha escollit cap valor</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/feedback</name>
     <message>
         <source>Feedback for %feedbackname</source>
-        <translation type="unfinished"></translation>
+        <translation>Feedback per a %feedbackname</translation>
     </message>
     <message>
         <source>Thanks for your feedback, the following information was collected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gràcies pel teu feedback. S&apos;ha recollit la següent informació.</translation>
     </message>
     <message>
         <source>Return to site</source>
-        <translation type="unfinished"></translation>
+        <translation>Torna al lloc</translation>
     </message>
     <message>
         <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ja has tramès dades a aquest feedback. Les dades que s&apos;han tramès prèviament han estat les següents.</translation>
     </message>
 </context>
 <context>
@@ -2293,22 +2304,22 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
 &lt;p&gt;{</name>
     <message>
         <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
-        <translation type="obsolete"></translation>
+        <translation type="obsolete">Ja has tramès dades a aquest feedback. Les dades que s&apos;han tramès prèviament han estat les següents.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/form</name>
     <message>
         <source>Form %formname</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulari %formname</translation>
     </message>
     <message>
         <source>Return to site</source>
-        <translation type="unfinished"></translation>
+        <translation>Torna al lloc</translation>
     </message>
     <message>
         <source>You have already submitted data to this form. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ja has tramès dades a aquest formulari. Les dades que s&apos;han tramès prèviament han estat les següents.</translation>
     </message>
 </context>
 <context>
@@ -2330,53 +2341,53 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
 &lt;a href={$node.parent.url|ezurl}&gt;{</name>
     <message>
         <source>You have already submitted data to this form. The previously submitted data was the following.</source>
-        <translation type="obsolete"></translation>
+        <translation type="obsolete">Ja has tramès dades a aquest formulari. Les dades que s&apos;han tramès prèviament han estat les següents.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/pdf</name>
     <message>
         <source>eZ publish PDF export</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportació PDF d&apos;eZ publish</translation>
     </message>
     <message>
         <source>#page of #total</source>
-        <translation type="unfinished"></translation>
+        <translation>#page de #total</translation>
     </message>
     <message>
         <source>#level1 - #level2</source>
-        <translation type="unfinished"></translation>
+        <translation>#level1 - #level2</translation>
     </message>
     <message>
         <source>#levelIndex1:#levelIndex2</source>
-        <translation type="unfinished"></translation>
+        <translation>#levelIndex1:#levelIndex2</translation>
     </message>
     <message>
         <source>Content</source>
-        <translation type="unfinished">Contingut</translation>
+        <translation>Contingut</translation>
     </message>
     <message>
         <source>Versionview not supported in PDF yet</source>
-        <translation type="unfinished"></translation>
+        <translation>La vista de versions (versionview) no està encara suportada en PDF</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/poll</name>
     <message>
         <source>Poll %pollname</source>
-        <translation type="unfinished"></translation>
+        <translation>Enquesta %pollname</translation>
     </message>
     <message>
         <source>Results</source>
-        <translation type="unfinished"></translation>
+        <translation>Resultats</translation>
     </message>
     <message>
         <source>%count total votes</source>
-        <translation type="unfinished"></translation>
+        <translation>el %count del total de vots </translation>
     </message>
     <message>
         <source>Poll results</source>
-        <translation type="unfinished"></translation>
+        <translation>Resultats de l&apos;enquesta</translation>
     </message>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
@@ -2384,7 +2395,7 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
     </message>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ja has votat en aquesta enquesta.</translation>
     </message>
 </context>
 <context>
@@ -2401,7 +2412,7 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
 <byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="obsolete"></translation>
+        <translation type="obsolete">Ja has votat en aquesta enquesta.</translation>
     </message>
 </context>
 <context>
@@ -2435,7 +2446,7 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
 {&quot;%count total votes&quot;|i18n( </name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="obsolete"></translation>
+        <translation type="obsolete">Ja has votat en aquesta enquesta.</translation>
     </message>
 </context>
 <context>
@@ -2448,7 +2459,7 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
     &lt;p&gt;{</name>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="obsolete"></translation>
+        <translation type="obsolete">Els usuaris anònims no poden votar en aquesta enquesta. Si us plau, registra&apos;t.</translation>
     </message>
 </context>
 <context>
@@ -3117,19 +3128,26 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.
       If you want to add more objects to this list click the %emphasize_startAdd bookmarks%emphasize_stop button.
 
       Removing objects will only remove them from this list.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>To select objects, choose the appropriate radiobutton or checkbox(es), and click the &quot;Choose&quot; button.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aquests són objectes que tu has marcat. Fes clic en l&apos;objecte per veure&apos;l; si tens suficients privilegis, pots editar-lo fent clic en el botó d&apos;edició.
+Si vols afegir més objectes a aquesta llista, fes clic al botó %emphasize_startAfegeix preferit%emphasize_stop.
+
+Si esborres cap objecte, només s&apos;esborrarà de la llista.</translation>
     </message>
     <message>
         <source>Creator</source>
-        <translation type="obsolete"></translation>
+        <translation type="obsolete">Creat per</translation>
     </message>
     <message>
         <source>Created</source>
         <translation type="obsolete">Creat</translation>
+    </message>
+    <message>
+        <source>Regenerate</source>
+        <translation type="obsolete">Regenera</translation>
+    </message>
+    <message>
+        <source>To select objects, choose the appropriate radiobutton or checkbox(es), and click the &quot;Choose&quot; button.</source>
+        <translation>Per seleccionar objectes, tria l&apos;opció més adient, i fes clic al botó &quot;Tria&quot;.</translation>
     </message>
 </context>
 <context>
@@ -3288,7 +3306,7 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.
     </message>
     <message>
         <source>You are currently not logged in to the site, to get proper access create a new user or login with an existing user.</source>
-        <translation type="unfinished"></translation>
+        <translation>Actualment, no estàs registrat en aquest lloc. Per tenir un accés adequat crea un nou usuari o connecta&apos;t amb un usuari existent.</translation>
     </message>
 </context>
 <context>
@@ -3385,11 +3403,11 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.
     </message>
     <message>
         <source>Site:</source>
-        <translation>Lloc:</translation>
+        <translation type="unfinished">Lloc:</translation>
     </message>
     <message>
         <source>Version:</source>
-        <translation>Versió:</translation>
+        <translation type="unfinished">Versió:</translation>
     </message>
     <message>
         <source>Personal</source>
@@ -3486,28 +3504,32 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.
         <translation type="obsolete">Si esborres %1 esborraràs el mateix node i també els seus %2 fills. %3</translation>
     </message>
     <message>
-        <source>Removing this assignment will also remove its %1 children.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Are you sure you want to remove these items?</source>
-        <translation type="unfinished"></translation>
+        <translation>Estàs segur de voler esborrar aquests ítems?</translation>
     </message>
     <message>
-        <source>%nodename and its %childcount children. %additionalwarning</source>
-        <translation type="unfinished"></translation>
+        <source>%nodename and it&apos;s %childcount children. %additionalwarning</source>
+        <translation type="obsolete">%nodename i els seus %childcount fills. %additionalwarning</translation>
     </message>
     <message>
         <source>%nodename %additionalwarning</source>
-        <translation type="unfinished"></translation>
+        <translation>%nodename %additionalwarning</translation>
     </message>
     <message>
         <source>Move to trash</source>
-        <translation type="unfinished"></translation>
+        <translation>Mou a la paperera</translation>
     </message>
     <message>
         <source>If %trashname is checked you will find the removed items in the trash afterwards.</source>
-        <translation type="unfinished"></translation>
+        <translation>Si %trashname ha passat la comprovació, trobaràs els ítems esborrats a la paperera més tard.</translation>
+    </message>
+    <message>
+        <source>Removing this assignment will also remove its %1 children.</source>
+        <translation>Si esborres aquesta assignació també esborraràs el(s) seu(s) %1 fill(s).</translation>
+    </message>
+    <message>
+        <source>%nodename and its %childcount children. %additionalwarning</source>
+        <translation>%nodename i el(s) seu(s) %childcount fill(s). %additionalwarning</translation>
     </message>
 </context>
 <context>
@@ -3610,43 +3632,39 @@ iew</name>
     </message>
     <message>
         <source>New image</source>
-        <translation type="unfinished"></translation>
+        <translation>Nova imatge</translation>
     </message>
     <message>
         <source>New gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Nova galeria</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished"></translation>
+        <translation>Nou àlbum</translation>
     </message>
     <message>
         <source>New file</source>
-        <translation type="unfinished"></translation>
+        <translation>Nou arxiu</translation>
     </message>
     <message>
         <source>New article</source>
-        <translation type="unfinished"></translation>
+        <translation>Nou article</translation>
     </message>
     <message>
         <source>New person</source>
-        <translation type="unfinished"></translation>
+        <translation>Nova persona</translation>
     </message>
     <message>
         <source>New company</source>
-        <translation type="unfinished"></translation>
+        <translation>Nova empresa</translation>
     </message>
     <message>
         <source>Input did not validate</source>
-        <translation type="unfinished">L&apos;entrada no s&apos;ha validat</translation>
+        <translation>L&apos;entrada no s&apos;ha validat</translation>
     </message>
     <message>
         <source>Default object view.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New log</source>
-        <translation type="unfinished"></translation>
+        <translation>Vista d&apos;objecte predeterminada.</translation>
     </message>
     <message>
         <source>Node ID</source>
@@ -3654,6 +3672,10 @@ iew</name>
     </message>
     <message>
         <source>Object ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New log</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3842,244 +3864,257 @@ Pots veure l&apos;objecte en la URL de sota.</translation>
     </message>
     <message>
         <source>Please provide information on the changes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Si us plau, subministra informació sobre els canvis.</translation>
     </message>
     <message>
         <source>E-Mail</source>
-        <translation type="unfinished">Correu electrònic</translation>
+        <translation>Correu electrònic</translation>
     </message>
     <message>
         <source>Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Canvis</translation>
     </message>
     <message>
         <source>Start an entry with a marker ( %emstart-%emend (dash) or %emstart*%emend (asterix) ) at the beginning of the line.
 The change will continue to the next change marker.</source>
-        <translation type="unfinished"></translation>
+        <translation>Comença una entrada amb un marcador (%emstart-%emend (guionet) o %emstart*%emend (asterisc)) a l&apos;inici de la línia.
+
+El canvi es mantindrà fins al proper marcador de canvi.</translation>
     </message>
     <message>
         <source>Please provide some basic information for your package.</source>
-        <translation type="unfinished"></translation>
+        <translation>Si us plau, subministra alguna informació bàsica d&apos;aquest paquet.</translation>
     </message>
     <message>
         <source>Package name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom del paquet</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Descripció</translation>
+        <translation>Descripció</translation>
     </message>
     <message>
         <source>Licence</source>
-        <translation type="unfinished"></translation>
+        <translation>Llicència</translation>
     </message>
     <message>
         <source>Package host</source>
-        <translation type="unfinished"></translation>
+        <translation>Allotjament del paquet</translation>
     </message>
     <message>
         <source>Packager</source>
-        <translation type="unfinished"></translation>
+        <translation>Empaquetador</translation>
     </message>
     <message>
         <source>Please provide information on the maintainer of the package.</source>
-        <translation type="unfinished"></translation>
+        <translation>Si us plau, subministra informació sobre el qui manté el paquet.</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Maintainer name</comment>
-        <translation type="unfinished">Nom</translation>
+        <translation>Cognom</translation>
     </message>
     <message>
         <source>Role</source>
         <comment>Maintainer role</comment>
-        <translation type="unfinished">Rol</translation>
+        <translation>Rol</translation>
     </message>
     <message>
         <source>Please select a thumbnail file to be included in the package,
 if you do not wish to have a thumbnail simply click Next.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecciona un fitxer de miniatura perquè sigui inclòs en el paquet.
+Si no desitges tenir una miniatura, només cal que facis clic a Següent.</translation>
     </message>
     <message>
         <source>Create package</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea el paquet</translation>
     </message>
     <message>
         <source>Available wizards</source>
-        <translation type="unfinished"></translation>
+        <translation>Assistents disponibles</translation>
     </message>
     <message>
         <source>Choose one of the following wizards for creating a package</source>
-        <translation type="unfinished"></translation>
+        <translation>Tria un dels següents assistents per crear un paquet</translation>
     </message>
     <message>
         <source>Please choose the content classes you wish to be included in the package.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tria les classes de contingut que vols incloure en el paquet.</translation>
     </message>
     <message>
         <source>Class list</source>
-        <translation type="unfinished">Llista de classes</translation>
+        <translation>Llista de classes</translation>
     </message>
     <message>
         <source>Please select a CSS file to be included in the package.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecciona un arxiu CSS per incloure en el paquet.</translation>
     </message>
     <message>
         <source>Select an image file to be included in the package and click Next.
 When you are done with adding images click Next without choosing an image.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tria un arxiu d&apos;imatge per incloure en el paquet i fes clic a Següent.
+Quan hagis acabat d&apos;afegir imatges, fes clic a Següent sense escollir una imatge.</translation>
     </message>
     <message>
         <source>Currently added image files</source>
-        <translation type="unfinished"></translation>
+        <translation>Arxius d&apos;imatge afegits actualment</translation>
     </message>
     <message>
         <source>Package wizard: %wizardname</source>
-        <translation type="unfinished"></translation>
+        <translation>Assistent de paquets: %wizardname</translation>
     </message>
     <message>
         <source>The package can be installed on your system, installing the package will copy files, create content classes etc. all depending on the package.
 If you do not wish to install the package at this time you can do so later on the view page for the package.</source>
-        <translation type="unfinished"></translation>
+        <translation>El paquet es pot instal·lar en el teu sistema. Amb la instal·lació, es copiaran arxius, es crearan classes de contingut, etc., depenent del paquet.
+Si no vols instal·lar ara el paquet, ho pots fer més tard en la pàgina de vista per al paquet.</translation>
     </message>
     <message>
         <source>Install items</source>
-        <translation type="unfinished"></translation>
+        <translation>Instal·la els ítems</translation>
     </message>
     <message>
         <source>Skip installation</source>
-        <translation type="unfinished"></translation>
+        <translation>Salta la instal·lació</translation>
     </message>
     <message>
         <source>Removal of packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminació de paquets</translation>
     </message>
     <message>
         <source>Are you sure you wish to remove the following packages?
 The packages will be lost forever.
 Note: The packages will not be uninstalled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Estàs segur de voler esborrar els següents paquets?
+Els paquets es perdran definitivament.
+Nota: Els paquets no seran desinstal·lats.</translation>
     </message>
     <message>
         <source>Confirm removal</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirma l&apos;eliminació</translation>
     </message>
     <message>
         <source>Keep packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Manté els paquets</translation>
     </message>
     <message>
         <source>Package removal was cancelled.</source>
-        <translation type="unfinished"></translation>
+        <translation>S&apos;ha cancel·lat l&apos;eliminació de paquets.</translation>
     </message>
     <message>
         <source>Selection</source>
-        <translation type="unfinished">Selecció</translation>
+        <translation>Selecció</translation>
     </message>
     <message>
         <source>Installed</source>
-        <translation type="unfinished"></translation>
+        <translation>Instal·lat</translation>
     </message>
     <message>
         <source>Not installed</source>
-        <translation type="unfinished"></translation>
+        <translation>No instal·lat</translation>
     </message>
     <message>
         <source>Imported</source>
-        <translation type="unfinished"></translation>
+        <translation>Importat</translation>
     </message>
     <message>
         <source>Remove package</source>
-        <translation type="unfinished"></translation>
+        <translation>Esborra paquet</translation>
     </message>
     <message>
         <source>Import package</source>
-        <translation type="unfinished"></translation>
+        <translation>Importa paquet</translation>
     </message>
     <message>
         <source>Next %arrowright</source>
-        <translation type="unfinished"></translation>
+        <translation>Següent %arrowright</translation>
     </message>
     <message>
         <source>Finish</source>
-        <translation type="unfinished"></translation>
+        <translation>Finalitza</translation>
     </message>
     <message>
         <source>Uninstall package</source>
-        <translation type="unfinished"></translation>
+        <translation>Desinstal·la el paquet</translation>
     </message>
     <message>
         <source>The package can be uninstalled from your system, uninstalling the package will remove any installed files, content classes etc. all depending on the package.
 If you do not wish to uninstall the package at this time you can do so later on the view page for the package.
 You may also remove the package without uninstalling it from the package list.</source>
-        <translation type="unfinished"></translation>
+        <translation>El paquet es pot desinstal·lar del teu sistema. En desinstal·lar-lo, s&apos;esborraran els arxius copiats, les classes de contingut, etc., depenent del paquet.
+Si no vols desintal·lar ara el paquet, ho pots fer més tard en la pàgina de vista del paquet.
+També pots esborrar el paquet sense desinstal·lar-lo de la llista de paquets.</translation>
     </message>
     <message>
         <source>Uninstall items</source>
-        <translation type="unfinished"></translation>
+        <translation>Desinstal·la els ítems</translation>
     </message>
     <message>
         <source>Skip uninstallation</source>
-        <translation type="unfinished"></translation>
+        <translation>Salta la desinstal·lació</translation>
     </message>
     <message>
         <source>Files [%collectionname]</source>
-        <translation type="unfinished"></translation>
+        <translation>Arxius [%collectionname]</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished">Detalls</translation>
+        <translation>Detalls</translation>
     </message>
     <message>
         <source>Uninstall</source>
-        <translation type="unfinished"></translation>
+        <translation>Desinstal·la</translation>
     </message>
     <message>
         <source>Install</source>
-        <translation type="unfinished"></translation>
+        <translation>Instal·la</translation>
     </message>
     <message>
         <source>Export to file</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporta a un arxiu</translation>
     </message>
     <message>
         <source>State</source>
-        <translation type="unfinished"></translation>
+        <translation>Estat</translation>
     </message>
     <message>
         <source>Maintainers</source>
-        <translation type="unfinished"></translation>
+        <translation>Mantenidors</translation>
     </message>
     <message>
         <source>Regarding eZ publish package &apos;%packagename&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>En relació al paquet eZ publish &apos;%packagename&apos;</translation>
     </message>
     <message>
         <source>Send E-Mail to the maintainer</source>
-        <translation type="unfinished"></translation>
+        <translation>Tramet un correu electrònic al mantenidor</translation>
     </message>
     <message>
         <source>Documents</source>
-        <translation type="unfinished"></translation>
+        <translation>Documents</translation>
     </message>
     <message>
         <source>Changelog</source>
-        <translation type="unfinished"></translation>
+        <translation>Registre de canvis</translation>
     </message>
     <message>
         <source>File list</source>
-        <translation type="unfinished">Llista de fitxers</translation>
+        <translation>Seguretat del lloc</translation>
     </message>
 </context>
 <context>
     <name>design/standard/pdf/list</name>
     <message>
+        <source>PDF Exports</source>
+        <translation type="unfinished">Exportacions PDF</translation>
+    </message>
+    <message>
         <source>Name</source>
-        <translation type="unfinished">Nom</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Creator</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Creat per</translation>
     </message>
     <message>
         <source>Created</source>
@@ -4094,12 +4129,8 @@ You may also remove the package without uninstalling it from the package list.</
         <translation type="unfinished">Esborra</translation>
     </message>
     <message>
-        <source>PDF Exports</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>New Export</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nova exportació</translation>
     </message>
 </context>
 <context>
@@ -4404,7 +4435,7 @@ en el menú superior.</translation>
     <name>design/standard/rss</name>
     <message>
         <source>Choose export node</source>
-        <translation type="unfinished"></translation>
+        <translation>Tria un node d&apos;exportació</translation>
     </message>
     <message>
         <source>Please choose where to export from.
@@ -4412,15 +4443,20 @@ en el menú superior.</translation>
     Select your placements and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tria des d&apos;on vols exportar.
+
+Selecciona les teves ubicacions i fes clic al botó %buttonname.
+També pots fer servir les opcions de Recents i Preferits per fer seleccions de forma ràpida.
+Fes clic en els noms d&apos;ubicació per canviar la llista de navegació.
+</translation>
     </message>
     <message>
         <source>Select</source>
-        <translation type="unfinished">Selecciona</translation>
+        <translation>Selecciona</translation>
     </message>
     <message>
         <source>Choose import destination</source>
-        <translation type="unfinished"></translation>
+        <translation>Tria la destinació de la importació</translation>
     </message>
     <message>
         <source>Please choose where to store imported items.
@@ -4428,11 +4464,15 @@ en el menú superior.</translation>
     Select your placements and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tria on vols emmagatzemar els ítems importats.
+
+Selecciona les teves ubicacions i fes clic al botó %buttonname.
+També pots fer servir les opcions de Recents i Preferits per fer ubicacions de forma ràpida.
+Fes clic en els noms d&apos;ubicació per canviar la llista de navegació.</translation>
     </message>
     <message>
         <source>Choose RSS image</source>
-        <translation type="unfinished"></translation>
+        <translation>Tria la imatge RSS</translation>
     </message>
     <message>
         <source>Please choose image to use in RSS export.
@@ -4440,15 +4480,19 @@ en el menú superior.</translation>
     Select your placements and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tria la imatge que vols usar en la exportació RSS.
+
+Selecciona les teves ubicacions i fes clic al botó %buttonname.
+També pots fer servir les opcions de Recents i Preferit per fer ubicacions de forma ràpida.
+Fes clic en els noms d&apos;ubicació per canviar la llista de navegació.</translation>
     </message>
     <message>
         <source>Choose export source</source>
-        <translation type="unfinished"></translation>
+        <translation>Tria l&apos;origen de l&apos;exportació</translation>
     </message>
     <message>
         <source>Choose owner of imported objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Tria el propietari dels objectes importats</translation>
     </message>
     <message>
         <source>Please select the owner of the objects to import
@@ -4456,165 +4500,169 @@ en el menú superior.</translation>
     Select the user and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tria el propietari dels objectes per importar.
+
+Selecciona les teves ubicacions i fes clic al botó %buttonname.
+També pots fer servir les opcions de Recents i Preferit per fer ubicacions de forma ràpida.
+Fes clic en els noms d&apos;ubicació per canviar la llista de navegació.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/rss/edit</name>
     <message>
         <source>Display frontpage</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra portada</translation>
     </message>
     <message>
         <source>RSS Export</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportació RSS</translation>
     </message>
     <message>
         <source>Title</source>
-        <translation type="unfinished">Títol</translation>
+        <translation>Títol</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Descripció</translation>
+        <translation>Descripció</translation>
     </message>
     <message>
         <source>Site URL</source>
-        <translation type="unfinished"></translation>
+        <translation>URL del lloc</translation>
     </message>
     <message>
         <source>Image</source>
-        <translation type="unfinished">Imatge</translation>
+        <translation>Imatge</translation>
     </message>
     <message>
         <source>Browse</source>
-        <translation type="unfinished">Explora</translation>
+        <translation>Explora</translation>
     </message>
     <message>
         <source>Site Access</source>
-        <translation type="unfinished"></translation>
+        <translation>Accés al lloc</translation>
     </message>
     <message>
         <source>RSS version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versió del RSS</translation>
     </message>
     <message>
         <source>Active</source>
-        <translation type="unfinished"></translation>
+        <translation>Actiu</translation>
     </message>
     <message>
         <source>Access URL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Note. Each source only fetch 5 objects from 1 level below.</source>
-        <translation type="unfinished"></translation>
+        <translation>URL d&apos;accés</translation>
     </message>
     <message>
         <source>Source path</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruta d&apos;origen</translation>
     </message>
     <message>
         <source>Class</source>
-        <translation type="unfinished">Classe</translation>
+        <translation>Classe</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation type="unfinished">Actualitza</translation>
+        <translation>Actualitza</translation>
     </message>
     <message>
         <source>Store</source>
-        <translation type="unfinished">Emmagatzema</translation>
+        <translation>Emmagatzema</translation>
     </message>
     <message>
         <source>Add Source</source>
-        <translation type="unfinished"></translation>
+        <translation>Afegeix origen</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Esborra</translation>
+        <translation>Esborra</translation>
     </message>
     <message>
         <source>RSS Import</source>
-        <translation type="unfinished"></translation>
+        <translation>Importació de RSS</translation>
     </message>
     <message>
         <source>URL</source>
-        <translation type="unfinished">URL</translation>
+        <translation>URL</translation>
     </message>
     <message>
         <source>Destination path</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruta de destinació</translation>
     </message>
     <message>
         <source>Imported objects owner</source>
-        <translation type="unfinished"></translation>
+        <translation>Propietari dels objectes importats</translation>
     </message>
     <message>
         <source>Select</source>
-        <translation type="unfinished">Selecciona</translation>
+        <translation>Selecciona</translation>
     </message>
     <message>
         <source>Ignore</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignora</translation>
+    </message>
+    <message>
+        <source>Note. Each source only fetch 5 objects from 1 level below.</source>
+        <translation>Nota: Cada origen només abasta 5 objectes d&apos;un nivell inferior.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/rss/list</name>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Nom</translation>
+        <translation>Nom</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versió</translation>
     </message>
     <message>
         <source>Active</source>
-        <translation type="unfinished"></translation>
+        <translation>Actiu</translation>
     </message>
     <message>
         <source>Modifier</source>
-        <translation type="unfinished">Modificador</translation>
+        <translation>Modificador</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation type="unfinished">Modificat</translation>
+        <translation>Modificat</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished">Edita</translation>
+        <translation>Edita</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Esborra</translation>
+        <translation>Esborra</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished">Sí</translation>
+        <translation>Sí</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="unfinished">No</translation>
+        <translation>No</translation>
     </message>
     <message>
         <source>RSS Feeds</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Subministraments RSS</translation>
     </message>
     <message>
         <source>RSS Exports</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Exportacions RSS</translation>
     </message>
     <message>
         <source>New Export</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nova exportació</translation>
     </message>
     <message>
         <source>RSS Imports</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Importacions RSS</translation>
     </message>
     <message>
         <source>New Import</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nova importació</translation>
     </message>
 </context>
 <context>
@@ -5543,59 +5591,59 @@ El codi predeterminat s&apos;ha fet a partir dels paràmetres bàsics que tu vas
     <message>
         <source>Name</source>
         <comment>PHP Accelerator name</comment>
-        <translation type="unfinished">Nom</translation>
+        <translation>Nom</translation>
     </message>
     <message>
         <source>Could not detect version</source>
-        <translation type="unfinished"></translation>
+        <translation>No s&apos;ha pogut detectar la versió</translation>
     </message>
     <message>
         <source>The PHP Accelerator is enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;accelerador PHP està actiu.</translation>
     </message>
     <message>
         <source>The PHP Accelerator is disabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;accelerador PHP està inactiu.</translation>
     </message>
     <message>
         <source>Server</source>
         <comment>Database server</comment>
-        <translation type="unfinished"></translation>
+        <translation>Servidor</translation>
     </message>
     <message>
         <source>Socket path</source>
         <comment>Database socket path</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ruta del sòcol</translation>
     </message>
     <message>
         <source>Database</source>
         <comment>Database name</comment>
-        <translation type="unfinished">Base de dades</translation>
+        <translation>Base de dades</translation>
     </message>
     <message>
         <source>Connection retry count</source>
         <comment>Database retry count</comment>
-        <translation type="unfinished"></translation>
+        <translation>Comptador de reintents de connexió</translation>
     </message>
     <message>
         <source>Internal</source>
-        <translation type="unfinished"></translation>
+        <translation>Intern</translation>
     </message>
     <message>
         <source>Current read-only database (Slave)</source>
-        <translation type="unfinished"></translation>
+        <translation>Base de dades actualment només de lectura (esclau)</translation>
     </message>
     <message>
         <source>Language:</source>
-        <translation type="unfinished"></translation>
+        <translation>Idioma:</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation type="unfinished">Prioritat</translation>
+        <translation>Prioritat</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation type="unfinished">Actualitza</translation>
+        <translation>Actualitza</translation>
     </message>
 </context>
 <context>
@@ -7068,19 +7116,19 @@ Per solucionar aquest problema cal que facis el següent:</translation>
     </message>
     <message>
         <source>eZ publish has been installed with the following sites. You will find the username and password mentioned for each site.</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish s&apos;ha instal·lat amb els següents llocs. Trobaràs el nom d&apos;usuari i la contrasenya esmentats per a cada lloc.</translation>
     </message>
     <message>
         <source>Site security</source>
-        <translation type="unfinished"></translation>
+        <translation>Seguretat del lloc</translation>
     </message>
     <message>
         <source>Please choose the access method you wish to use for your site. The access method determines how the site will be accessed from within a web browser. If unsure: choose URL.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tria el mètode d&apos;accés que vols fer servir per al teu lloc. Aquest mètode determina com s&apos;accedirà al lloc amb un navegador web. Si no n&apos;estàs segur, tria URL.</translation>
     </message>
     <message>
         <source>Use the refresh button to update the database listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fes servir el botó de refresc per actualitzar la llista de la base de dades.</translation>
     </message>
 </context>
 <context>
@@ -7406,67 +7454,67 @@ Per solucionar aquest problema cal que facis el següent:</translation>
     </message>
     <message>
         <source>Insufficient execution time allowed to install eZ publish</source>
-        <translation type="unfinished"></translation>
+        <translation>Temps permès insuficient per instal·lar eZ publish</translation>
     </message>
     <message>
         <source>eZ publish will not work correctly with a execution time limit of %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish no funcionarà correctament amb un temps límit d&apos;execució de %1.</translation>
     </message>
     <message>
         <source>It&apos;s highly recommended that you fix this.</source>
-        <translation type="unfinished"></translation>
+        <translation>És molt recomanable que solucionis això.</translation>
     </message>
     <message>
         <source>Locate the php.ini settings file for your PHP installation. On unix systems, this is normally located at /etc/php.ini, on windows systems check the PHP installation path.</source>
-        <translation type="unfinished"></translation>
+        <translation>Localitza l&apos;arxiu de configuració php.ini per a la teva instal·lació PHP. En sistemes Unix, normalment és a /etc/php.ini; en Windows, comprova la ruta d&apos;instal·lació de PHP.</translation>
     </message>
     <message>
         <source>Open the php.ini file and change the max_execution_time value to at least %1, and press %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Obre l&apos;arxiu php.ini i canvia el valor del temps màxim d&apos;execució (max_execution_time) a un mínim de %1, i prem %2</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Següent</translation>
+        <translation>Següent</translation>
     </message>
     <message>
         <source>If you are running eZ publish in a shared host environment, contant your ISP to perform the changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Si estàs fent anar eZ publish en un entorn d&apos;allotjament compartit, posa&apos;t en contacte amb el teu ISP per efectuar els canvis</translation>
     </message>
     <message>
         <source>Insufficient memory allocated to install eZ publish</source>
-        <translation type="unfinished"></translation>
+        <translation>Memòria assignada insuficient per instal·lar eZ publish</translation>
     </message>
     <message>
         <source>eZ publish will not work correctly with a memory limit of %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish no funcionarà correctament amb un límit de memòria de %1.</translation>
     </message>
     <message>
         <source>Open the php.ini file and change the memory_limit value to at least %1, and press %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Obre l&apos;arxiu php.ini i canvia el valor del límit de memòria (memory_limit) a un mínim de %1, i prem %2</translation>
     </message>
     <message>
         <source>It&apos;s recommended that the option is turned off. To turn it off edit your %phpini configuration and set %magic_quotes_gpc and %magic_quotes_runtime to %offtext.</source>
-        <translation type="unfinished"></translation>
+        <translation>És recomanable que l&apos;opció estigui deshabilitada. Per fer-ho, edita la configuració %phpini i posa %magic_quotes_gpc i %magic_quotes_runtime a %offtext.</translation>
     </message>
     <message>
         <source>eZ publish will not work properly with this option on.</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish no funcionarà correctament amb l&apos;opció habilitada.</translation>
     </message>
     <message>
         <source>To turn it off edit your %phpini configuration and set %magic_quotes_runtime to %offtext.</source>
-        <translation type="unfinished"></translation>
+        <translation>Per deshabilitar-la, edita la configuració %phpini i posa %magic_quotes_runtime a %offtext.</translation>
     </message>
     <message>
         <source>Unstable PHP version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versió PHP inestable</translation>
     </message>
     <message>
         <source>, is known to be unstable</source>
-        <translation type="unfinished"></translation>
+        <translation>, és coneguda per ser inestable</translation>
     </message>
     <message>
         <source>Another version of PHP can be download at</source>
-        <translation type="unfinished"></translation>
+        <translation>Pots descarregar una altra versió de PHP a</translation>
     </message>
 </context>
 <context>
@@ -7513,15 +7561,15 @@ Per solucionar aquest problema cal que facis el següent:</translation>
     </message>
     <message>
         <source>Order summary:</source>
-        <translation type="unfinished">Resum de comanda:</translation>
+        <translation>Resum de comanda:</translation>
     </message>
     <message>
         <source>Subtotal of items:</source>
-        <translation type="unfinished">Subtotal d&apos;articles:</translation>
+        <translation>Subtotal d&apos;articles:</translation>
     </message>
     <message>
         <source>Order total:</source>
-        <translation type="unfinished">Total comanda:</translation>
+        <translation>Total comanda:</translation>
     </message>
     <message>
         <source>Confirm</source>
@@ -7830,11 +7878,11 @@ Per solucionar aquest problema cal que facis el següent:</translation>
     </message>
     <message>
         <source>ez.no: Orderconfirmation %1</source>
-        <translation type="unfinished"></translation>
+        <translation>ez.no: Confirmació de comanda %1</translation>
     </message>
     <message>
         <source>Remove items</source>
-        <translation type="unfinished"></translation>
+        <translation>Esborra els ítems</translation>
     </message>
 </context>
 <context>
@@ -8034,7 +8082,7 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.</transl
     </message>
     <message>
         <source>version</source>
-        <translation type="unfinished"></translation>
+        <translation>versió</translation>
     </message>
 </context>
 <context>
@@ -8234,7 +8282,7 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>You need to log in to get access to the intranet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cal que et registris per tenir accés a la intranet.</translation>
     </message>
 </context>
 <context>
@@ -8727,7 +8775,7 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Modify publish date</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica la data de publicació</translation>
     </message>
 </context>
 <context>
@@ -9333,31 +9381,31 @@ per activar el teu compte.</translation>
     <message>
         <source>Identifier</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished">Identificador</translation>
+        <translation>Identificador</translation>
     </message>
     <message>
         <source>image</source>
         <comment>Default image name</comment>
-        <translation type="unfinished"></translation>
+        <translation>imatge</translation>
     </message>
     <message>
         <source>Ini Setting</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Configuració Ini</translation>
     </message>
     <message>
         <source>Could not locate ini file</source>
-        <translation type="unfinished"></translation>
+        <translation>No s&apos;ha pogut localitzar l&apos;arxiu Ini</translation>
     </message>
     <message>
         <source>Package</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Paquet</translation>
     </message>
     <message>
         <source>Send</source>
         <comment>Datatype information collector action</comment>
-        <translation type="unfinished">Tramet</translation>
+        <translation>Tramet</translation>
     </message>
 </context>
 <context>
@@ -9463,11 +9511,11 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Keywords</source>
-        <translation type="unfinished"></translation>
+        <translation>Paraules clau</translation>
     </message>
     <message>
         <source>PDF Export</source>
-        <translation type="obsolete"></translation>
+        <translation type="obsolete">Exportació  PDF</translation>
     </message>
 </context>
 <context>
@@ -9555,135 +9603,135 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Package information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informació del paquet</translation>
     </message>
     <message>
         <source>Package maintainer</source>
-        <translation type="unfinished"></translation>
+        <translation>Mantenidor del paquet</translation>
     </message>
     <message>
         <source>Package changelog</source>
-        <translation type="unfinished"></translation>
+        <translation>Registre de canvis del paquet</translation>
     </message>
     <message>
         <source>Package thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Miniatura del paquet</translation>
     </message>
     <message>
         <source>Package name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom del paquet</translation>
     </message>
     <message>
         <source>Package name is missing</source>
-        <translation type="unfinished"></translation>
+        <translation>No es troba el nom del paquet</translation>
     </message>
     <message>
         <source>A package named %packagename already exists, please give another name</source>
-        <translation type="unfinished"></translation>
+        <translation>Ja existeix un paquet anomenat %packagename. Dóna-li un altre nom</translation>
     </message>
     <message>
         <source>Summary</source>
-        <translation type="unfinished">Sumari</translation>
+        <translation>Resum</translation>
     </message>
     <message>
         <source>Summary is missing</source>
-        <translation type="unfinished"></translation>
+        <translation>No s&apos;ha trobat el resum</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versió</translation>
     </message>
     <message>
         <source>The version must only contain numbers and must be delimited by dots (.), e.g. 1.0</source>
-        <translation type="unfinished"></translation>
+        <translation>La versió només pot contenir números, i han d&apos;estar delimitats per punts. Per exemple, 1.0</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Nom</translation>
+        <translation>Nom</translation>
     </message>
     <message>
         <source>You must enter a name for the changelog</source>
-        <translation type="unfinished"></translation>
+        <translation>Cal que introdueixis un nom per al registre de canvis</translation>
     </message>
     <message>
         <source>E-Mail</source>
-        <translation type="unfinished">Correu electrònic</translation>
+        <translation>Correu electrònic</translation>
     </message>
     <message>
         <source>You must enter an e-mail for the changelog</source>
-        <translation type="unfinished"></translation>
+        <translation>Cal que introdueixis un correu electrònic per al registre de canvis</translation>
     </message>
     <message>
         <source>Changelog</source>
-        <translation type="unfinished"></translation>
+        <translation>Registre de canvis</translation>
     </message>
     <message>
         <source>You must supply some text for the changelog entry</source>
-        <translation type="unfinished"></translation>
+        <translation>Cal que posis algun text per a l&apos;entrada del registre de canvis</translation>
     </message>
     <message>
         <source>You must enter a name of the maintainer</source>
-        <translation type="unfinished"></translation>
+        <translation>Cal que introdueixis el nom del mantenidor</translation>
     </message>
     <message>
         <source>You must enter an e-mail address of the maintainer</source>
-        <translation type="unfinished"></translation>
+        <translation>Cal que introdueixis una adreça de correu electrònic del mantenidor</translation>
     </message>
     <message>
         <source>Content classes to include</source>
-        <translation type="unfinished"></translation>
+        <translation>Classes de contingut per incloure</translation>
     </message>
     <message>
         <source>Content class export</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportació de classes de contingut</translation>
     </message>
     <message>
         <source>Class list</source>
-        <translation type="unfinished">Llista de classes</translation>
+        <translation>Llista de classes</translation>
     </message>
     <message>
         <source>You must select at least one class for inclusion</source>
-        <translation type="unfinished"></translation>
+        <translation>Cal que seleccionis almenys una classe per incloure</translation>
     </message>
     <message>
         <source>CSS file</source>
-        <translation type="unfinished"></translation>
+        <translation>Arxiu CSS</translation>
     </message>
     <message>
         <source>Image files</source>
-        <translation type="unfinished"></translation>
+        <translation>Arxius d&apos;imatge</translation>
     </message>
     <message>
         <source>Site style</source>
-        <translation type="unfinished"></translation>
+        <translation>Estil del lloc</translation>
     </message>
     <message>
         <source>You must upload a CSS file</source>
-        <translation type="unfinished"></translation>
+        <translation>Cal que carreguis un arxiu CSS</translation>
     </message>
     <message>
         <source>File did not have a .css suffix, this is most likely not a CSS file</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;arxiu no té un sufix .css. Probablement no és un arxiu CSS</translation>
     </message>
     <message>
         <source>Content class %classname (%classidentifier)</source>
-        <translation type="unfinished"></translation>
+        <translation>Classe de contingut %classname (%classidentifier)</translation>
     </message>
     <message>
         <source>Create package</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea el paquet</translation>
     </message>
     <message>
         <source>Install</source>
-        <translation type="unfinished"></translation>
+        <translation>Instal·la</translation>
     </message>
     <message>
         <source>Uninstall</source>
-        <translation type="unfinished"></translation>
+        <translation>Desinstal·la</translation>
     </message>
     <message>
         <source>Package %packagename already exists, cannot import the package</source>
-        <translation type="unfinished"></translation>
+        <translation>El paquet %packagename ja existeix. El paquet no es pot importar</translation>
     </message>
 </context>
 <context>
@@ -9727,7 +9775,7 @@ per activar el teu compte.</translation>
     <name>kernel/rss</name>
     <message>
         <source>Really Simple Syndication</source>
-        <translation type="unfinished"></translation>
+        <translation>Really Simple Syndication (RSS)</translation>
     </message>
 </context>
 <context>
@@ -9792,7 +9840,7 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Setup menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Menú de configuració</translation>
     </message>
 </context>
 <context>
@@ -10012,12 +10060,12 @@ per activar el teu compte.</translation>
     <message>
         <source>Contents</source>
         <comment>Table of contents</comment>
-        <translation type="unfinished"></translation>
+        <translation>Continguts</translation>
     </message>
     <message>
         <source>Index</source>
         <comment>Keyword index name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Índex</translation>
     </message>
 </context>
 <context>
