@@ -1,4 +1,6 @@
+*Title: content_structure_tree operator chages
 
+*Documentation:
 Added new parameter in content_structure_tree operator: unfold_node_id.
 Then unfold_node_id not set or equal 0, content_structure_operator works
 in the same way. Otherwise, unfold_node_id define a node among first-level

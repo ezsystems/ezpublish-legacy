@@ -1,5 +1,6 @@
-Subtree Copy Script.
+*Title: Subtree Copy Script
 
+*Documentation:
 Copies subtree under the specified node.
 
 Files:
@@ -24,8 +25,7 @@ copied use --login and --password options. Use --keep-creator option to leave cr
 of contentobjects unchanged. If none of the --keep-creator or --login options are given
 then creator of new contentobjects will be default Anonymous User.
 
-Examples:
-
+*Examples:
   $php bin/php/ezsubtreecopy.php --siteaccess=gallery_admin --src-node-id=74 --dst-node-id=87
   $php bin/php/ezsubtreecopy.php --src-node-id=74 --dst-node-id=87 --all-versions --keep-creator
   $php bin/php/ezsubtreecopy.php --src-node-id=74 --dst-node-id=87 --login=admin --password=publish
