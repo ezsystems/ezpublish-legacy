@@ -72,7 +72,9 @@ class eZRole extends eZPersistentObject
                                          "name" => array( 'name' => "Name",
                                                           'datatype' => 'string',
                                                           'default' => '',
-                                                          'required' => true ) ,
+                                                          'required' => true ) ),
+
+/* Commented out because it causes bogus behaviour. KK will fix it. :-)
 
                                          "limit_identifier" => array( 'name' => "LimitIdentifier",
                                                           'datatype' => 'string',
@@ -83,7 +85,7 @@ class eZRole extends eZPersistentObject
                                                           'datatype' => 'string',
                                                           'default' => false,
                                                           'required' => true ) ),
-							  
+*/							  
                       "function_attributes" => array( "policies" => "policyList" ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
