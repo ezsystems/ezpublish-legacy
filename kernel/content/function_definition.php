@@ -412,7 +412,7 @@ $FunctionList['pending_count'] = array( 'name' => 'pending_count',
                                         'parameter_type' => 'standard',
                                         'parameters' => array(  ) );
 
-$FunctionList['pending_list'] = array( 'name' => 'draft_version_list',
+$FunctionList['pending_list'] = array( 'name' => 'pending_list',
                                        'operation_types' => array( 'read' ),
                                        'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
                                                                'class' => 'eZContentFunctionCollection',
