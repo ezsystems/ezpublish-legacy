@@ -282,6 +282,9 @@ eztc.php:
 - Removed debug output from eZMatrix datatype
   http://ez.no/community/bug_reports/remove_verbose_line_from_ezmatrixtype_php
   (Merged from stable/3.4 rev. 7208)
+- Fixed missing quotes and washing in link tool.
+  http://ez.no/community/bug_reports/toolbar_line_link_tpl_href_need_to_put_quotes_around_to_validate
+  (Merged from stable/3.4 rev. 7221)
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
