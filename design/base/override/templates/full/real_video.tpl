@@ -17,7 +17,9 @@
         <param name="controls" value="{$attribute.content.controls}" />
         <param name="autostart" value="{section show=$attribute.content.is_autoplay}true{/section}" />
         <embed src={concat("content/download/",$attribute.contentobject_id,"/",$attribute.content.contentobject_attribute_id,"/",$attribute.content.original_filename)|ezurl}
-               pluginspage="{$attribute.content.pluginspage}"
+               {*pluginspage="{$attribute.content.pluginspage}"*}
+               pluginspage="http://real.com"
+               type="audio/x-pn-realaudio-plugin"
                width="{$attribute.content.width}" height="{$attribute.content.height}" autostart="{section show=$attribute.content.is_autoplay}true{/section}"
                controls="{$attribute.content.controls}" >
         </embed>
