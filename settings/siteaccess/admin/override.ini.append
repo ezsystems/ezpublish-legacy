@@ -66,9 +66,9 @@ MatchFile=comment.tpl
 Subdir=templates
 Match[class]=13
 
-[link]
+[linkclass]
 Source=node/view/full.tpl
-MatchFile=link.tpl
+MatchFile=linkclass.tpl
 Subdir=templates
 Match[class]=11
 
