@@ -76,6 +76,10 @@ $featureArray[] = array( "uri" => "operator_unit",
                          "level" => 0,
                          "name" => "Units" );
 
+$featureArray[] = array( "uri" => "operator_list",
+                         "level" => 0,
+                         "name" => "Operator list" );
+
 $featureArray[] = array( "level" => 0,
                          "name" => "Functions" );
 $featureArray[] = array( "uri" => "function_delimit",
