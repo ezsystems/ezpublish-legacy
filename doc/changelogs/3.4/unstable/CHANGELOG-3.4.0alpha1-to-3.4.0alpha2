@@ -73,6 +73,7 @@ eZ Utils:
   works on MySQL, PostGreSQL and Oracle.
   http://ez.no/community/bug_reports/ezsession_truncate_instead_of_delete
 - Added eZMath library.
+- Added function to find the absolute Path to the eZ publish root directory. eZSys::rootDir()
 
 eZ PDF:
 - Added more functionality.

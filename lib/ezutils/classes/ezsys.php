@@ -443,6 +443,35 @@ class eZSys
     }
 
     /*!
+     The absolute path to the root directory.
+     \static
+    */
+    function rootDir()
+    {
+        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
+            $this =& eZSys::instance();
+        if ( $this->RootDir )
+        {
+            return $this->RootDir;
+        }
+        $cwd  = getcwd();
+        $self  = $this->serverVariable( 'PHP_SELF' );
+        if ( file_exists( $cwd.$this->FileSeparator.$self ) )
+        {
+            $this->RootDir = $cwd;
+        }
+        else if ( file_exists( $cwd.$this->FileSeparator.$this->IndexFile ) )
+        {
+            $this->Root = $cwd;
+        }
+        else
+        {
+            $this->RootDir=null;
+        }
+        return $this->RootDir;
+    }
+
+    /*!
      The path to where all the code resides.
      \static
     */
@@ -878,6 +907,8 @@ class eZSys
     var $FileSeparator;
     /// The list separator used for env variables
     var $EnvSeparator;
+    /// The absolute path to the root directory.
+    var $RootDir;
     /// The path to where all the code resides
     var $SiteDir;
     /// The access path of the current site view
