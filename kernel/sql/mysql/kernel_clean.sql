@@ -549,21 +549,6 @@ CREATE TABLE eznotification_user_link (
 #
 
 
-#
-# Table structure for table 'ezoperation_memento'
-#
-
-CREATE TABLE ezoperation_memento (
-  id int(11) NOT NULL auto_increment,
-  main_key int(11) NOT NULL default '0',
-  memento_key varchar(32) NOT NULL default '',
-  memento_data text NOT NULL,
-  PRIMARY KEY  (id,memento_key)
-) TYPE=MyISAM;
-
-#
-# Dumping data for table 'ezoperation_memento'
-#
 
 
 #
