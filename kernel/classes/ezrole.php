@@ -279,13 +279,6 @@ class eZRole extends eZPersistentObject
         {
             $role->remove();
         }
-        $realRoles =& eZRole::fetchList( false );
-        foreach ( $realRoles as $role )
-        {
-            $policies =& $role->policyList();
-            if ( count( $policies ) == 0 )
-                $role->remove();
-        }
     }
 
     /*!
@@ -756,7 +749,7 @@ class eZRole extends eZPersistentObject
     {
         $db =& eZDB::instance();
 
-        $countArray = $db->arrayQuery(  "SELECT count( * ) AS count FROM ezrole" );
+        $countArray = $db->arrayQuery(  "SELECT count( * ) AS count FROM ezrole WHERE version=0" );
         return $countArray[0]['count'];
     }
 
