@@ -8,3 +8,11 @@ alter table ezcontentobject_tree add sort_order int(1) default 1 after path_iden
 alter table eznode_assignment add sort_field int default 1 after main;
 alter table eznode_assignment add sort_order int(1) default 1 after main;
 
+# Change the length of enum fields
+alter table ezenumvalue change enumelement enumelement varchar(255);
+alter table ezenumvalue change enumvalue enumvalue varchar(255);
+
+alter table ezenumobjectvalue change enumelement enumelement varchar(255);
+alter table ezenumobjectvalue change enumvalue enumvalue varchar(255);
+
+

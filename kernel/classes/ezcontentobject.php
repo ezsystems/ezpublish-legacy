@@ -80,6 +80,7 @@ class eZContentObject extends eZPersistentObject
                       "function_attributes" => array( "current" => "currentVersion",
                                                       "class_name" => "className",
                                                       "contentobject_attributes" => "contentObjectAttributes",
+                                                      "owner" => "owner",
                                                       "related_contentobject_array" => "relatedContentObjectArray",
                                                       "children" => "children",
                                                       "can_read" => "canRead",
@@ -103,6 +104,7 @@ class eZContentObject extends eZPersistentObject
     {
         if ( $attr == "current" or
              $attr == "class_name" or
+             $attr == "owner" or
              $attr == "contentobject_attributes" or
              $attr == "related_contentobject_array" or
              $attr == "can_read" or
@@ -119,6 +121,8 @@ class eZContentObject extends eZPersistentObject
                 return $this->currentVersion();
             if ( $attr == "class_name" )
                 return $this->className();
+            if ( $attr == "owner" )
+                return $this->owner();
             else if ( $attr == "can_read" )
                 return $this->canRead();
             else if ( $attr == "can_create" )
@@ -201,11 +205,20 @@ class eZContentObject extends eZPersistentObject
         }
         return $ret;
     }
+
     function resetDataMap()
     {
         $this->ContentObjectAttributeArray = false;
         $this->DataMap = false;
         return $this->DataMap;
+    }
+
+    /*!
+     Returns the owner of the object as a content object.
+    */
+    function &owner()
+    {
+        return eZContentObject::fetch( $this->OwnerID );
     }
 
     /*!

@@ -479,8 +479,8 @@ CREATE TABLE ezenumvalue (
 id int auto_increment not null,
 contentclass_attribute_id int not null,
 contentclass_attribute_version int not null,
-enumelement varchar(50) not null,
-enumvalue varchar(50) not null,
+enumelement varchar(255) not null,
+enumvalue varchar(255) not null,
 placement int not null,
 primary key( id, contentclass_attribute_id, contentclass_attribute_version ) );
 
@@ -490,8 +490,8 @@ CREATE TABLE ezenumobjectvalue (
 contentobject_attribute_id int not null,
 contentobject_attribute_version int not null,
 enumid int not null,
-enumelement varchar(50) not null,
-enumvalue varchar(50) not null,
+enumelement varchar(255) not null,
+enumvalue varchar(255) not null,
 primary key( contentobject_attribute_id,contentobject_attribute_version,enumid ) );
 
 # eZURLType
