@@ -50,6 +50,7 @@ Changes from 2.9-6 to 2.9-7
   section id and creator id. It also made sure the registration session variable was removed
   when cancelling.
 - Made enum attributes searchable
+- Fixed correct rendering of XML block tags in XHTML.
 - Fixed path to storage directory
 
 contentclass:
