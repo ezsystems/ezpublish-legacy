@@ -29,6 +29,11 @@ Changes from 3.2-1 to 3.2-2
 
 *Files:
 - Made sure ezpublish.cron is included in the release (Was missing in 3.2-1).
+- Fixed problem with stop words in search not being returned.
+  http://ez.no/developer/ez_publish_3/bug_reports/stop_words_are_not_correctly_displayed
+- Added setting for how to handled empty search strings, default is to now allow
+  empty search strings and return 0 matches. If needed this can be enabled.
+  http://ez.no/developer/ez_publish_3/bug_reports/empty_search_causes_slowdown_of_site
 
 *Setup:
 
