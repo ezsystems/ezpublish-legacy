@@ -50,12 +50,16 @@ class eZTemplateTextOperator
     /*!
      Constructor
     */
-    function eZTemplateTextOperator( $concatName = 'concat',
-                                     $indentName = 'indent' )
+    function eZTemplateTextOperator()
     {
-        $this->Operators = array( $concatName, $indentName );
-        $this->ConcatName = $concatName;
-        $this->IndentName = $indentName;
+        $this->Operators= array( 'concat', 'indent' );
+
+        foreach ( $this->Operators as $operator )
+        {
+            $name = $operator . 'Name';
+            $name[0] = $name[0] & "\xdf";
+            $this->$name = $operator;
+        }
     }
 
     /*!
@@ -70,10 +74,18 @@ class eZTemplateTextOperator
     {
         return array( $this->ConcatName => array( 'input' => true,
                                                   'output' => true,
-                                                  'parameters' => true ),
+                                                  'parameters' => true,
+                                                  'element-transformation' => true,
+                                                  'transform-parameters' => true,
+                                                  'input-as-parameter' => true,
+                                                  'element-transformation-func' => 'concatTransformation'),
                       $this->IndentName => array( 'input' => true,
                                                   'output' => true,
-                                                  'parameters' => 3 ) );
+                                                  'parameters' => 3,
+                                                  'element-transformation' => true,
+                                                  'transform-parameters' => true,
+                                                  'input-as-parameter' => true,
+                                                  'element-transformation-func' => 'indentTransformation') ) ;
     }
 
     /*!
@@ -98,6 +110,36 @@ class eZTemplateTextOperator
                                                   'indent_filler' => array( 'type' => 'string',
                                                                             'required' => false,
                                                                             'default' => false ) ) );
+    }
+
+    function concatTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+                                   &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    {
+        $values = array();
+        $function = $operatorName;
+
+        if ( ( count( $parameters ) < 2) )
+        {
+            return false;
+        }
+        $newElements = array();
+
+        $counter = 1;
+        $code = "%output% = ( ";
+        foreach ( $parameters as $parameter )
+        {
+            $values[] = $parameter;
+            $code .= "%$counter%";
+            if ( $counter == 1 )
+            {
+                $code .= '. ';
+            }
+            $counter++;
+        }
+        $code .= " );\n";
+
+        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
+        return $newElements;
     }
 
     /*!
