@@ -1,5 +1,6 @@
 /* CLASSES CSS 20040217 */
 
+
 /* GENERAL CLASS STYLES */
 
 div.view-full h1
@@ -30,10 +31,78 @@ div.content-byline p.date
     width: 48%;*/
 }
 
-/* FOLDER STYLES */
 
-div.class-folder
-{
+/* "READ MORE" TEXT FOR ALL CHILDREN OBJECTS */
+
+div#maincontent div.content-view-line div.attribute-link p
+{ 
+    font-weight: normal;
+    padding-left: 8px;
+}
+
+div#maincontent div.content-view-line div.attribute-link-disabled p
+{ 
+    font-weight: normal;
+    padding-left: 8px;
+    vertical-align: middle;
+}
+
+
+/* CONTENT LINK FOR ALL MAIN OBJECTS, E.G. " AND "THUMBNAIL/SLIDESHOW VIEW" */
+
+div#maincontent div.content-view-full div.attribute-link p, div#maincontent div.view-slideshow div.attribute-link p, div#maincontent div.content-view-full div.attribute-tipafriend p
+{ 
+    padding-left: 8px;
+    font-weight: normal;
+}
+
+div#maincontent div.content-view-full div.attribute-link-disabled p, div#maincontent div.view-slideshow div.attribute-link-disabled p
+{ 
+    font-weight: normal;
+    padding-left: 8px;
+    vertical-align: center;
+}
+
+
+/* AUTHOR AND DATE FOR ALL FULL OBJECTS */
+
+div.content-view-full div.attribute-byline p.author
+{ 
+    margin-right: 0.2em;
+    display: inline;
+}
+
+div.content-view-full div.attribute-byline p.date
+{ 
+    margin: 0 0.2em 0 0.2em;
+    display: inline;
+}
+
+div.content-view-full div.attribute-byline p.placement
+{ 
+    margin-left: 0.2em;
+    display: inline;
+}
+
+
+/* AUTHOR AND DATE FOR ALL CHILD OBJECTS */
+
+div.content-view-full div.content-view-line div.attribute-byline p.author, div.content-view-full div.content-view-line div.attribute-byline p.date
+{ 
+    display: inline;
+}
+
+
+/* FOLDER */
+
+div#maincontent div.class-folder div.attribute-short p
+{ 
+    font-weight: bold;
+}
+
+div#maincontent div.class-folder div.content-view-children div.attribute-short p
+{ 
+    font-weight: normal;
 }
 
 div.relatedinfo
@@ -48,16 +117,419 @@ div.relatedinfo
 }
 
 
-/* ARTICLE STYLES */
+/* ARTICLE */
 
-div.view-full div.class-article div.content-short
-{
+div#maincontent div.content-view-full div.class-article div.attribute-short p
+{ 
     font-weight: bold;
 }
 
-/* COMMENT STYLES */
+div#maincontent div.content-view-full div.content-view-children div.class-article div.attribute-short p
+{ 
+    font-weight: normal;
+}
+
+
+/* COMMENT */
 
 div.class-comment h3
 {
     margin-bottom: 0.2em;
 }
+
+
+/* PRODUCT */
+
+div#maincontent div.content-view-full div.class-product div.attribute-short p
+{ 
+    font-weight: bold;
+}
+
+div#maincontent div.content-view-children div.class-product div.attribute-short p
+{ 
+    font-weight: normal;
+}
+
+div#maincontent div.class-product div.attribute-price p
+{ 
+    float: right;
+    font-weight: normal;
+}
+
+div.content-view-listitem div.class-product div.attribute-link-disabled a
+{ 
+    font-weight: normal;
+    padding-left: 8px;
+    vertical-align: center;
+}
+
+
+/* GALLERY */
+
+
+div#maincontent div.class-folder div.class-gallery div.attribute-link-disabled p
+{ 
+    font-weight: normal;
+    padding-left: 8px;
+    vertical-align: center;
+}
+
+
+div#maincontent div.class-gallery div.attribute-short p
+{ 
+    font-weight: bold;
+}
+
+div#maincontent div.class-gallery div.content-view-children table
+{ 
+    width: 100%;
+}
+
+div#maincontent div.class-gallery div.content-view-children table td
+{ 
+    width: 25%;
+    padding: 6px;
+    border: 1px solid;
+    text-align: center;
+    vertical-align: top;
+}
+
+
+/* EMBEDDED TAGS IN XML FIELDS */
+
+div.factbox, div.content-view-embed 
+{ 
+    width: 14em;
+}
+
+div.factbox-design, div.content-view-embed 
+{ 
+    padding: 0px;
+    border: 1px solid;
+}
+
+div#maincontent div.factbox-design h2, div#maincontent div.content-view-embed h2
+{ 
+    font: 1.2em;
+    margin-top: 0px;
+    padding: 2px 0 3px 10px;
+}
+
+div#maincontent div.content-view-embed div.content-view-children, div.factbox-content, div#maincontent div.content-view-embed div.content-body
+{ 
+    margin-top: 0;
+    padding: 2px 10px 3px 3px;
+}
+
+div#maincontent-design div.content-view-embed h3
+{ 
+    font-size: 1em;
+    margin: 0;
+    text-decoration: underline;
+}
+
+blockquote
+{ 
+    width: 14em;
+    padding: 0px;
+}
+
+div.quote-begin
+{ 
+    margin: 0 0.2em 0.2em 0;
+    float: left;
+    width: 16px;
+    height: 16px;
+}
+
+div.quote-end
+{ 
+    margin: 0.2em 0 0 0.2em;
+    float: right;
+    width: 16px;
+    height: 16px;
+}
+
+div#maincontent-design blockquote p
+{ 
+    font-weight: bold;
+    width: 14em;
+    display: inline;
+}
+
+div.object-right
+{ 
+    margin: 3px;
+    float: right;
+}
+
+div.object-left
+{ 
+    margin: 3px;
+    float: left;
+}
+
+div.object-center
+{ 
+    float: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.factbox h3
+{ 
+    font: 1em;
+    margin: 0px;
+}
+
+div.factbox div.attribute-file p
+{ 
+    font-weight: normal;
+}
+
+/* list item styles  */
+/*
+div.content-view-listitem h3
+{ 
+    margin-top: 6px;
+}
+*/
+
+
+/* LIST ITEM IMAGE */
+
+div.content-view-listitem div.class-image div.attribute-caption p
+{ 
+    color: #666666;
+}
+
+
+/* CALENDAR */
+
+div.calendar table.calendar
+{
+    margin-top: 0.5em;
+}
+
+div.calendar table
+{
+    width: 100%;
+}
+
+div.calendar a
+{
+    border: none;
+}
+
+div.calendar tr.calendar-navigator table.calendar-navigator div
+{
+    display: inline;
+}
+
+div.calendar tr.calendar-navigator div.calendar-previous
+{
+    float: left;
+}
+
+div.calendar tr.calendar-navigator div.calendar-next
+{
+    float: right;
+}
+
+div.calendar tr.calendar-navigator span.calendar-arrow
+{
+    font-size: 1.5em;
+}
+
+
+div.calendar tr.calendar-navigator div.calendar-date span
+{
+    font-size: 1.3em;
+}
+
+div.calendar tr.calendar-navigator div.calendar-date span.calendar-month
+{
+    text-align: left;
+    text-transform: lowercase;
+}
+
+div.calendar tr.calendar-navigator div.calendar-previous a, div.calendar tr.calendar-navigator div.calendar-next a
+{
+    text-decoration: none;
+    border-bottom: none;
+}
+
+div.calendar th
+{
+    text-align: center;
+    text-transform: lowercase;
+}
+
+div.calendar tr.calendar-day-names th
+{
+    font-size: 70%;
+}
+
+div.calendar td
+{
+    padding: 0 2px 0 2px;
+    text-align: center;
+    font-size: 0.7em;
+}
+
+div.calendar td.calendar-week
+{
+    padding: 0 2px 0 2px;
+    border: none;
+    text-align: center;
+}
+
+div.calendar tr.calendar-days td.calendar-day-selected
+{
+    border: 1px solid;
+}
+
+div.calendar tr.calendar-days td.calendar-day-selected-today
+{
+    border: 1px solid;
+}
+
+div.calendar tr.calendar-days strong.calendar-day-highlight
+{
+    font-weight: bold;
+}
+
+div.calendar div.selected
+{
+    font-weight: bold;
+}
+
+div.calendar td a, div.calendar td a:visited, div.calendar td a:hover
+{
+    font-weight: bold;
+    border-bottom: none;
+    text-decoration: underline;
+}
+
+
+/* POLL RESULT STYLE */
+
+div#poll-result td.small
+{  
+    font-style: italic;
+}
+
+div#poll-result div.attribute-byline
+{  
+    font-weight: bold;
+}
+
+
+/* SHOP TABLES */
+
+div.shop-basket table, div.shop-confirmorder table, div.shop-orderview table
+{
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+div.shop-basket table th, div.shop-confirmorder th, div.shop-orderview th
+{
+    margin: 0px;
+    padding: 3px;
+}
+
+div.shop-basket table td, div.shop-confirmorder td, div.shop-orderview td
+{
+    margin: 0px;
+    padding: 3px;
+}
+
+div.shop-basket table td.product-details, div.shop-confirmorder td.product-details, div.shop-orderview td.product-details
+{
+    border-bottom: 1px solid;
+}
+
+div.shop-basket table td.product-price, div.shop-confirmorder table td.product-price, div.shop-orderview table td.product-price
+{
+    text-align: right;
+}
+
+div.shop-basket table td.product-subtotal, div.shop-confirmorder table td.product-subtotal, div.shop-orderview table td.product-subtotal
+{
+    border-bottom: 1px solid;
+    text-align: right;
+}
+
+
+/* RENDERED TABLE */
+
+table.renderedtable td
+{ 
+    margin: 0px;
+    padding: 3px;
+    border-top: 1px solid;
+    border-left: 1px solid;
+}
+
+table.renderedtable
+{ 
+    border-right: 1px solid;
+    border-bottom: 1px solid;
+}
+
+
+/* FORUM */
+
+div.infoline p
+{
+    float: left;
+    margin-right: 1em;
+}
+
+div.infoline
+{
+    margin: -0.5em 0 -0.5em 0;
+}
+
+table.forum div.attribute-byline p.author, table.forum div.attribute-byline p.date
+{
+    display: block;
+}
+
+table.forum p.date
+{
+    font-size: 0.8em;
+}
+
+div.content-view-children table.forum th.topic
+{
+    width: 45%;
+}
+
+div.content-view-children table.forum th.replies
+{
+    width: 10%;
+}
+
+div.content-view-children table.forum th.lastreply
+{
+    width: 45%;
+}
+
+div.content-view-children table.forum th.author
+{
+    width: 25%;
+}
+
+div.content-view-children table.forum th.message
+{
+    width: 75%;
+}
+
+table.forum tr.bglight td, table.forum tr.bgdark td
+{
+    border-top: 1px solid;
+}
+

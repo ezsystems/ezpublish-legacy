@@ -1,7 +1,6 @@
 div#maincontent
 {
-    margin-right: 22px;
-    height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
+    margin-right: 10px;
 }
 
 div.class-article div.content-image div.imagecaption
