@@ -700,6 +700,17 @@ class eZSys
 
     /*!
      \static
+     Empties the access path.
+    */
+    function clearAccessPath()
+    {
+        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
+            $this =& eZSys::instance();
+        $this->AccessPath = array();
+    }
+
+    /*!
+     \static
      \return true if debugging of internals is enabled, this will display
      which server variables are read.
       Set the option with setIsDebugEnabled().

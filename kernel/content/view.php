@@ -35,8 +35,8 @@
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/classes/ezcontentclass.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+include_once( 'kernel/classes/eznodeviewfunctions.php' );
 
-include_once( 'lib/ezutils/classes/ezmoduleoperationdefinition.php' );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 include_once( 'kernel/common/template.php' );
@@ -122,46 +122,12 @@ $viewParameters = array( 'offset' => $Offset,
 
 $viewParameters = array_merge( $viewParameters, $UserParameters );
 
-/*$templateResult =& $tpl->fetch( 'design:content/view/full.tpl' );*/
-
-// Should we load the cache now, or check operation
-if ( $viewCacheEnabled and ( $useTriggers == false ) )
-{
-    // Note: this code is duplicate, see about 100 lines down
-    include_once( 'kernel/classes/ezcontentcache.php' );
-    $cacheInfo = eZContentObject::cacheInfo( $Params );
-    $language = $cacheInfo['language'];
-    $roleList = $cacheInfo['role_list'];
-    $discountList = $cacheInfo['discount_list'];
-    $designSetting = eZTemplateDesignResource::designSetting( 'site' );
-    if ( eZContentCache::exists( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList, $layout,
-                                 array( 'view_parameters' => $viewParameters ) ) )
-    {
-        $Result = eZContentCache::restore( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList, $layout,
-                                           array( 'view_parameters' => $viewParameters ) );
-        if ( $Result )
-        {
-            $res =& eZTemplateDesignResource::instance();
-            $res->setKeys( array( array( 'object', $Result['content_info']['object_id'] ),
-                                  array( 'node', $Result['content_info']['node_id'] ),
-                                  array( 'parent_node', $Result['content_info']['parent_node_id'] ),
-                                  array( 'class', $Result['content_info']['class_id'] ),
-                                  array( 'view_offset', $Result['content_info']['offset'] ),
-                                  array( 'viewmode', $Result['content_info']['viewmode'] ),
-                                  array( 'navigation_part_identifier', $Result['content_info']['navigation_part_identifier'] ),
-                                  array( 'depth', $Result['content_info']['node_depth'] ),
-                                  array( 'url_alias', $Result['content_info']['url_alias'] )
-                                  ) );
-            if ( isset( $Result['content_info']['class_identifier'] ) )
-                $res->setKeys( array( array( 'class_identifier', $Result['content_info']['class_identifier'] ) ) );
-            return $Result;
-        }
-    }
-}
-
 $user =& eZUser::currentUser();
 
 eZDebugSetting::addTimingPoint( 'kernel-content-view', 'Operation start' );
+
+
+include_once( 'lib/ezutils/classes/ezmoduleoperationdefinition.php' );
 
 if ( $useTriggers == true )
 {
@@ -174,36 +140,75 @@ if ( $useTriggers == true )
 }
 else
 {
-    if ( $LanguageCode != '' )
+    if ( $viewCacheEnabled )
     {
-        $node =& eZContentObjectTreeNode::fetch( $NodeID, $LanguageCode );
+        $user =& eZUser::currentUser();
+
+        $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $user, $NodeID, $Offset, $layout, $Params['Language'], $ViewMode );
+
+        // Read Cache file
+        $fp = @fopen( $cacheFileArray['cache_path'], 'r' );
+        if ( $fp )
+        {
+            // TODO add expiry checking, get from ezcontentcache.php
+            $contents = fread( $fp, filesize( $cacheFileArray['cache_path'] ) );
+            $Result = unserialize( $contents );
+            fclose( $fp );
+
+            // set section id
+            include_once( 'kernel/classes/ezsection.php' );
+            eZSection::setGlobalID( $Result['section_id'] );
+
+            if ( $Result )
+            {
+                $res =& eZTemplateDesignResource::instance();
+                $res->setKeys( array( array( 'object', $Result['content_info']['object_id'] ),
+                                      array( 'node', $Result['content_info']['node_id'] ),
+                                      array( 'parent_node', $Result['content_info']['parent_node_id'] ),
+                                      array( 'class', $Result['content_info']['class_id'] ),
+                                      array( 'view_offset', $Result['content_info']['offset'] ),
+                                      array( 'navigation_part_identifier', $Result['content_info']['navigation_part_identifier'] ),
+                                      array( 'viewmode', $Result['content_info']['viewmode'] ),
+                                      array( 'depth', $Result['content_info']['node_depth'] ),
+                                      array( 'url_alias', $Result['content_info']['url_alias'] )
+                                      ) );
+                if ( isset( $Result['content_info']['class_identifier'] ) )
+                    $res->setKeys( array( array( 'class_identifier', $Result['content_info']['class_identifier'] ) ) );
+
+                return $Result;
+            }
+
+            return $Result;
+        }
+    }
+
+    if ( $Params['Language'] != '' )
+    {
+        $node =& eZContentObjectTreeNode::fetch( $NodeID, $Params['Language'] );
     }
     else
     {
         $node =& eZContentObjectTreeNode::fetch( $NodeID );
     }
 
-    if ( $node === null )
+    $object = $node->attribute( 'object' );
+
+    if ( $Params['Language'] != '' )
+    {
+        $object->setCurrentLanguage( $Params['Language'] );
+    }
+
+    if ( !get_class( $object ) == 'ezcontentobject' )
         return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-    $object = $node->attribute( 'object' );
+    if ( $node === null )
+        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
     if ( $object === null )
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
-    if ( $LanguageCode != '' )
-    {
-        $object->setCurrentLanguage( $LanguageCode );
-    }
-    $operationResult = array( 'status' => true, 'object' => $object, 'node' => $node );
+    $Result = eZNodeviewfunctions::generateNodeView( $tpl, $node, $object, $Params['Language'], $ViewMode, $Offset, $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], $viewCacheEnabled );
 }
-
-
-
-eZDebugSetting::writeDebug( 'kernel-content-view', $operationResult, 'operationResult' );
-eZDebugSetting::addTimingPoint( 'kernel-content-view', 'Operation end' );
-
-eZDebugSetting::writeDebug( 'kernel-content-view', $NodeID, "Fetching node" );
 
 switch( $operationResult['status'] )
 {
@@ -213,182 +218,7 @@ switch( $operationResult['status'] )
              !isset( $operationResult['result'] ) &&
              ( !isset( $operationResult['redirect_url'] ) || $operationResult['redirect_url'] == null ) )
         {
-            if ( $viewCacheEnabled )
-            {
-                // Note: this code is duplicate, see about 100 lines up
-                include_once( 'kernel/classes/ezcontentcache.php' );
-                $cacheInfo = eZContentObject::cacheInfo( $Params );
-                $language = $cacheInfo['language'];
-                $roleList = $cacheInfo['role_list'];
-                $discountList = $cacheInfo['discount_list'];
-                $designSetting = eZTemplateDesignResource::designSetting( 'site' );
-                if ( eZContentCache::exists( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList, $layout,
-                                             array( 'view_parameters' => $viewParameters ) ) )
-                {
-                    eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'found cache', 'content/view' );
-                    $Result = eZContentCache::restore( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList, $layout,
-                                                       array( 'view_parameters' => $viewParameters ) );
-                    if ( $Result )
-                    {
-                        $res =& eZTemplateDesignResource::instance();
-                        $res->setKeys( array( array( 'object', $Result['content_info']['object_id'] ),
-                                              array( 'node', $Result['content_info']['node_id'] ),
-                                              array( 'parent_node', $Result['content_info']['parent_node_id'] ),
-                                              array( 'class', $Result['content_info']['class_id'] ),
-                                              array( 'view_offset', $Result['content_info']['offset'] ),
-                                              array( 'navigation_part_identifier', $Result['content_info']['navigation_part_identifier'] ),
-                                              array( 'viewmode', $Result['content_info']['viewmode'] ),
-                                              array( 'depth', $Result['content_info']['node_depth'] ),
-                                              array( 'url_alias', $Result['content_info']['url_alias'] )
-                                              ) );
-                        if ( isset( $Result['content_info']['class_identifier'] ) )
-                            $res->setKeys( array( array( 'class_identifier', $Result['content_info']['class_identifier'] ) ) );
-                        return $Result;
-                    }
-                }
-            }
-
-            $object = $operationResult[ 'object' ];
-
-            if ( !get_class( $object ) == 'ezcontentobject' )
-                return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
-
-            $node =& $operationResult[ 'node' ];
-
-            if ( $node === null )
-                return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
-
-            if ( $object === null )
-                return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
-
-            if ( !$object->attribute( 'can_read' ) )
-                return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
-
-            if ( ! is_object( $object ) )
-            {
-//                 eZDebug::printReport();
-            }
-
-            include_once( 'kernel/classes/ezsection.php' );
-            eZSection::setGlobalID( $object->attribute( 'section_id' ) );
-
-            $section =& eZSection::fetch( $object->attribute( 'section_id' ) );
-            if ( $section )
-                $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
-
-            $class =& $object->attribute( 'content_class' );
-
-            $res =& eZTemplateDesignResource::instance();
-            $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),
-                                  array( 'node', $node->attribute( 'node_id' ) ),
-                                  array( 'parent_node', $node->attribute( 'parent_node_id' ) ),
-                                  array( 'class', $object->attribute( 'contentclass_id' ) ),
-                                  array( 'class_identifier', $class->attribute( 'identifier' ) ),
-                                  array( 'view_offset', $Offset ),
-                                  array( 'viewmode', $ViewMode ),
-                                  array( 'navigation_part_identifier', $navigationPartIdentifier ),
-                                  array( 'depth', $node->attribute( 'depth' ) ),
-                                  array( 'url_alias', $node->attribute( 'url_alias' ) )
-                                  ) );
-
-            $tpl->setVariable( 'node', $node );
-            $tpl->setVariable( 'language_code', $LanguageCode );
-            $tpl->setVariable( 'view_parameters', $viewParameters );
-            $tpl->setVariable( 'collection_attributes', $collectionAttributes );
-            $tpl->setVariable( 'validation', $validation );
-
-            $parents =& $node->attribute( 'path' );
-
-            $path = array();
-            $titlePath = array();
-            foreach ( $parents as $parent )
-            {
-                $path[] = array( 'text' => $parent->attribute( 'name' ),
-                                 'url' => '/content/view/full/' . $parent->attribute( 'node_id' ),
-                                 'url_alias' => $parent->attribute( 'url_alias' ),
-                                 'node_id' => $parent->attribute( 'node_id' )
-                                 );
-            }
-            $path[] = array( 'text' => $object->attribute( 'name' ),
-                             'url' => false,
-                             'url_alias' => false,
-                             'node_id' => $node->attribute( 'node_id' ) );
-
-            array_shift( $parents );
-            foreach ( $parents as $parent )
-            {
-                $titlePath[] = array( 'text' => $parent->attribute( 'name' ),
-                                      'url' => '/content/view/full/' . $parent->attribute( 'node_id' ),
-                                      'url_alias' => $parent->attribute( 'url_alias' ),
-                                      'node_id' => $parent->attribute( 'node_id' )
-                                      );
-            }
-            $titlePath[] = array( 'text' => $object->attribute( 'name' ),
-                                  'url' => false,
-                                  'url_alias' => false );
-
-            $tpl->setVariable( 'node_path', $path );
-
-            $Result = array();
-            $Result['content'] =& $tpl->fetch( 'design:node/view/' . $ViewMode . '.tpl' );
-            $Result['view_parameters'] =& $viewParameters;
-            $Result['path'] =& $path;
-            $Result['title_path'] =& $titlePath;
-            $Result['section_id'] =& $object->attribute( 'section_id' );
-            $Result['node_id'] =& $NodeID;
-            $Result['navigation_part'] = $navigationPartIdentifier;
-            $Result['content_info'] = array( 'object_id' => $object->attribute( 'id' ),
-                                             'node_id' => $node->attribute( 'node_id' ),
-                                             'parent_node_id' => $node->attribute( 'parent_node_id' ),
-                                             'class_id' => $object->attribute( 'contentclass_id' ),
-                                             'class_identifier' => $class->attribute( 'identifier' ),
-                                             'offset' => $Offset,
-                                             'viewmode' => $ViewMode,
-                                             'navigation_part_identifier' => $navigationPartIdentifier,
-                                             'node_depth' => $node->attribute( 'depth' ),
-                                             'url_alias' => $node->attribute( 'url_alias' ) );
-
-
-            // Check if time to live is set in template
-            if ( $tpl->hasVariable( 'cache_ttl' ) )
-            {
-                $cacheTTL =& $tpl->variable( 'cache_ttl' );
-            }
-
-            if ( !isset( $cacheTTL ) )
-            {
-                $cacheTTL = -1;
-            }
-
-            // Check if cache time = 0 (disabled)
-            if ( $cacheTTL == 0 )
-            {
-                $viewCacheEnabled = false;
-            }
-
-            if ( $viewCacheEnabled  )
-            {
-                include_once( 'kernel/classes/ezcontentcache.php' );
-                $cacheInfo = eZContentObject::cacheInfo( $Params );
-                $language = $cacheInfo['language'];
-                $roleList = $cacheInfo['role_list'];
-                $discountList = $cacheInfo['discount_list'];
-                $sectionID = $object->attribute( 'section_id' );
-                $objectID = $object->attribute( 'id' );
-                $parentNodeID = $node->attribute( 'parent_node_id' );
-                $classID = $object->attribute( 'contentclass_id' );
-                $classIdentifier = $class->attribute( 'identifier' );
-                $nodeDepth = $node->attribute( 'depth' );
-                $urlAlias = $node->attribute( 'url_alias' );
-
-                if ( eZContentCache::store( $designSetting, $objectID, $classID, $classIdentifier,
-                                            $NodeID, $parentNodeID, $nodeDepth, $urlAlias, $ViewMode, $sectionID, $language,
-                                            $Offset, $roleList, $discountList, $layout, $navigationPartIdentifier, $Result, $cacheTTL,
-                                            array( 'view_parameters' => $viewParameters ) ) )
-                {
-                    eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'cache written', 'content/view' );
-                }
-            }
+            // TODO make it work with workflows
         }
     }break;
     case EZ_MODULE_OPERATION_HALTED:

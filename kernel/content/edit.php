@@ -388,6 +388,7 @@ if ( !function_exists( 'checkContentActions' ) )
             }
             $ini =& eZINI::instance();
             $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
+
             eZDebug::accumulatorStart( 'check_cache', '', 'Check cache' );
             if ( $viewCacheEnabled )
             {
@@ -453,6 +454,60 @@ if ( !function_exists( 'checkContentActions' ) )
 
             }
             eZDebug::accumulatorStop( 'check_cache' );
+
+            // Generate the view cache
+            include_once( 'kernel/classes/eznodeviewfunctions.php' );
+            eZDebug::accumulatorStart( 'generate_cache', '', 'Generating view cache' );
+            if ( $ini->variable( 'ContentSettings', 'PreViewCache' ) == 'enabled' )
+            {
+                $preCacheSiteaccessArray = $ini->variable( 'ContentSettings', 'PreCacheSiteaccessArray' );
+
+                $currentSiteAccess = $GLOBALS['eZCurrentAccess']['name'];
+
+                foreach ( $preCacheSiteaccessArray as $changeToSiteAccess )
+                {
+                    $GLOBALS['eZCurrentAccess']['name'] = $changeToSiteAccess;
+
+                    if ( $GLOBALS['eZCurrentAccess']['type'] == EZ_ACCESS_TYPE_URI )
+                    {
+                        eZSys::clearAccessPath();
+                        eZSys::addAccessPath( $changeToSiteAccess );
+                    }
+
+                    include_once( 'kernel/common/template.php' );
+                    $tpl =& templateInit();
+                    $res =& eZTemplateDesignResource::instance();
+
+                    $res->setDesignSetting( $changeToSiteAccess, 'site' );
+                    $res->setOverrideAccess( $changeToSiteAccess );
+
+                    $language = false; // Needs to be specified if you want to generate the cache for a specific language
+                    $viewMode = 'full';
+
+                    // Cache the current node
+                    $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $user, $node->attribute( 'node_id' ), 0, false, $language, $viewMode );
+                    $tmpRes = eZNodeviewfunctions::generateNodeView( $tpl, $node, $node->attribute( 'object' ), $language, $viewMode, 0, $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], true );
+
+                    // Cache the parent nodes
+                    foreach ( $parentNodes as $parentNode )
+                    {
+                        $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $user, $parentNode->attribute( 'node_id' ), 0, false, $language, $viewMode );
+                        $tmpRes = eZNodeviewfunctions::generateNodeView( $tpl, $parentNode, $parentNode->attribute( 'object' ), $language, $viewMode, 0, $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], true );
+                    }
+                }
+
+                $GLOBALS['eZCurrentAccess']['name'] = $currentSiteAccess;
+                $res->setDesignSetting( $currentSiteAccess, 'site' );
+                $res->setOverrideAccess( false );
+                if ( $GLOBALS['eZCurrentAccess']['type'] == EZ_ACCESS_TYPE_URI )
+                {
+                    eZSys::clearAccessPath();
+                    eZSys::addAccessPath( $currentSiteAccess );
+                }
+            }
+
+            eZDebug::accumulatorStop( 'generate_cache' );
+
         }
     }
 }
