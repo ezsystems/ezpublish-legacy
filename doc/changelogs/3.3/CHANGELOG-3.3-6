@@ -48,6 +48,9 @@ eZINI:
   http://ez.no/community/bug_reports/ezsoap_registerfunction_is_useless_invalid_code
 - Fixed bug of not changing Object's Section assignment when object is moved to another section
   http://ez.no/community/bug_reports/change_object_s_section_assignment
+- Fixed bug related to errors in postgres when storing 'sort_key_string' 
+  attribute, which is longer then 50 characters.
+  http://ez.no/community/bug_reports/postgresql_sort_key_string_raises_error_and_blocks_titles_longer_than_50_characters
 *Library:
 
 eZ Locale:
