@@ -39,7 +39,7 @@ Module:
   the specific code out of it.
 Redirects:
 - Change all redirect code to use redirectToView instead of redirectTo which
-  requires the url to be created by the client, directToView takes care of this
+  requires the url to be created by the client, redirectToView takes care of this
   automatically.
 Errors:
 - Make sure input data is validated before using it, if they are invalid issue
@@ -76,6 +76,8 @@ too make sure we send out valid mails.
 Sender, receiver etc.. should not have their own functions instead a setAttribute style
 should be used, emails can have many different kinds of attributes(or what it's called in mails)
 including custom made. The body is the only exception i believe.
+Also i18n system should be expanded to allow quoted-printable which is often used in mails.
+(it's an encoding scheme not a charset).
 
 Classes:
 Add a checkbox to each attribute which tells whether the attribute is considered a content
