@@ -9,7 +9,7 @@
     <a href={"/user/preferences/set/advanced_menu/off"|ezurl}><img src={"down.gif"|ezimage} alt="" width="11" height="6" /></a>
         <ul>
         <li><a href={"/class/grouplist/"|ezurl}>{"Classes"|i18n("design/admin/layout")}</a></li>
-        <li><a href={"/setup/extensions/"|ezurl}>{"Extension setup"|i18n("design/admin/layout")}</a></li>
+        <li><a href={"/setup/extensions/"|ezurl}>{"Extensions"|i18n("design/admin/layout")}</a></li>
         <li><a href={"/settings/view"|ezurl}>{"Ini settings"|i18n("design/admin/layout")}</a></li>
         <li><a href={"/notification/runfilter/"|ezurl}>{"Notification"|i18n("design/admin/layout")}</a></li>
         <li><a href={"/pdf/list/"|ezurl}>{"PDF export"|i18n("design/admin/layout",'PDF export')}</a></li>
