@@ -58,7 +58,7 @@
 
 {include name=navigator
          uri='design:navigator/google.tpl'
-         page_uri=concat('/content/urltranslator/')
+         page_uri='/content/urltranslator'
          item_count=$alias_count
          view_parameters=$view_parameters
          item_limit=$alias_limit}

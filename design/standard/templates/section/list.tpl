@@ -43,7 +43,7 @@
 
 {include name=navigator
          uri='design:navigator/google.tpl'
-         page_uri=concat('/section/list/')
+         page_uri='/section/list'
          item_count=$section_count
          view_parameters=$view_parameters
          item_limit=$limit}
