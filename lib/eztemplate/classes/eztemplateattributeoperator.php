@@ -89,7 +89,7 @@ class eZTemplateAttributeOperator
                                               "default" => "" ),
                       "max_val" => array( "type" => "numerical",
                                           "required" => false,
-                                          "default" => false ),
+                                          "default" => 10 ),
                       "as_html" => array( "type" => "boolean",
                                           "required" => false,
                                           "default" => true ) );
@@ -98,22 +98,22 @@ class eZTemplateAttributeOperator
     /*!
      Display the variable.
     */
-    function modify( &$element, &$tpl, &$op_name, &$op_params, &$namespace, &$current_nspace, &$value, &$named_params )
+    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
-        $max = $named_params["max_val"];
-        $as_html = $named_params["as_html"];
-        $show_values = $named_params["show_values"] == "show";
+        $max = $namedParameters["max_val"];
+        $as_html = $namedParameters["as_html"];
+        $show_values = $namedParameters["show_values"] == "show";
         $txt = "";
-        $this->displayVariable( $value, $as_html, $show_values, $max, 0, $txt );
+        $this->displayVariable( $operatorValue, $as_html, $show_values, $max, 0, $txt );
         if ( $as_html )
         {
             $headers = "<th align=\"left\">Attribute</th>\n<th align=\"left\">Type</th>\n";
             if ( $show_values )
                 $headers .= "<th align=\"left\">Value</th>\n";
-            $value = "<table><tr>$headers</tr>\n$txt</table>\n";
+            $operatorValue = "<table><tr>$headers</tr>\n$txt</table>\n";
         }
         else
-            $value = $txt;
+            $operatorValue = $txt;
     }
 
     /*!

@@ -82,9 +82,8 @@ class eZTemplateArrayOperator
     /*!
      Creates an array of all it's input parameters and sets $operatorValue.
     */
-    function modify( &$element,
-                     &$tpl, &$operatorName, /*! Contains all array elements */ &$operatorParameters,
-                     &$namespace, &$current_nspace, &$operatorValue, &$named_params )
+    function modify( &$tpl, &$operatorName, /*! Contains all array elements */ &$operatorParameters,
+                     &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
         if ( $operatorName == $this->HashName )
         {
@@ -92,10 +91,10 @@ class eZTemplateArrayOperator
             $hashCount = (int)( count( $operatorParameters ) / 2 );
             for ( $i = 0; $i < $hashCount; ++$i )
             {
-                $hashName = $tpl->elementValue( $operatorParameters[$i*2], $namespace );
+                $hashName = $tpl->elementValue( $operatorParameters[$i*2], $rootNamespace, $currentNamespace );
                 if ( is_string( $hashName ) or
                      is_numerical( $hashName ) )
-                    $operatorValue[$hashName] =& $tpl->elementValue( $operatorParameters[($i*2)+1], $namespace );
+                    $operatorValue[$hashName] =& $tpl->elementValue( $operatorParameters[($i*2)+1], $rootNamespace, $currentNamespace );
                 else
                     $tpl->error( $operatorName,
                                  "Unknown hash key type '" . gettype( $hashName ) . "', skipping" );
@@ -123,12 +122,12 @@ class eZTemplateArrayOperator
                                  "Requires an array and at least one item" );
                     return;
                 }
-                $mainArray =& $tpl->elementValue( $operatorParameters[$i++], $namespace );
+                $mainArray =& $tpl->elementValue( $operatorParameters[$i++], $rootNamespace, $currentNamespace );
             }
             $tmpArray = array();
             for ( ; $i < count( $operatorParameters ); ++$i )
             {
-                $tmpArray[] =& $tpl->elementValue( $operatorParameters[$i], $namespace );
+                $tmpArray[] =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
             }
             if ( $operatorName == $this->ArrayPrependName )
                 $operatorValue = array_merge( $tmpArray, $mainArray );
@@ -159,7 +158,7 @@ class eZTemplateArrayOperator
             }
             for ( $i = 0; $i < count( $operatorParameters ); ++$i )
             {
-                $tmpArray[] =& $tpl->elementValue( $operatorParameters[$i], $namespace );
+                $tmpArray[] =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
             }
             $operatorValue = call_user_func_array( 'array_merge', $tmpArray );
         }
@@ -168,7 +167,7 @@ class eZTemplateArrayOperator
             $operatorValue = array();
             for ( $i = 0; $i < count( $operatorParameters ); ++$i )
             {
-                $operatorValue[] =& $tpl->elementValue( $operatorParameters[$i], $namespace );
+                $operatorValue[] =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
             }
         }
     }

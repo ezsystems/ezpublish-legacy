@@ -1,9 +1,11 @@
 <?php
 
 include_once( "lib/eztemplate/classes/eztemplate.php" );
-
+include_once( "lib/eztemplate/classes/eztemplateelementparser.php" );
+include_once( "lib/ezutils/classes/ezphpcreator.php" );
 
 $tpl = new eZTemplate();
+$parser =& eZTemplateElementParser::instance();
 
 // $quotes = array( "'a simple \\'test'",
 //                  '"another quote \\"test"',
@@ -39,31 +41,64 @@ $tpl = new eZTemplate();
 //     print( "Numeric end=$numeric_end, numeric=/" . substr( $numeric_str, 0, $numeric_end - 0 ) . "/, orig=/$numeric_str/\n" );
 // }
 
-$vars = array( "gt",
-               "lt",
-               "lt()",
-               "lt(1,2)",
-               "lt(1,2)|gt(1)",
-               "\$my_advanced",
-               "\$Name:var",
-               "\$Name:space:var",
-               "\$Name:var.attr",
-               "\$Name:var.attr.\$index.first",
-               "\$Name:var.attr[\$index.first]",
-               "\$Name:var.attr[\$index].first",
-               "\$nspace:myvar[\$index]",
-               "\$nspace:myvar[\$index|gt(4)|choose('a','b')]",
-               "\$nspace:myvar[\$index[\$index2.abc[\$index3]]]",
-               "\$a|test(,,b)",
-               "\$b|image(abc)|do_it"
-               );
+$vars = array( "\"some text 'quoted' \"",
+               "'and some more \"quote again\"' ",
+               "   'and some more \"quote again\"'    'and some more text'  " );
+// $vars = array( "1",
+//                "20",
+//                "300 345 234.234234" );
+// $vars = array( "gt",
+//                "lt",
+//                "   lt bt at sk tm long veryextremlylong __and_some_underscores___ -and-some-lines--yes   " );
+// $vars = array(
+//     "lt(,)"
+//     "lt()",
+//     "lt(1,2)",
+//     "lt(1,2)|gt(1)",
+//     "or(and(true(),false()),\$test)|not"
+//     );
+$vars = array(
+//     "\$test",
+    "'translation test'|i18n" );
+// $vars = array(
+//                "\$simple",
+//                "\$a-dash",
+//                "\$my_advanced",
+//                "\$Name:var",
+//                "\$:var",
+//                "\$:Relative:Name:var",
+//                "\$#Global:Name:var",
+//                "       \$Name:var \$:var \$:Relative:Name:var \$#Global:Name:var     ",
+//                "\$Name:space:var",
+//                "\$Name:var   .attr",
+//                "\$Name:var.attr",
+//                "\$Name:var.attr.\$index.first",
+//                "\$Name:var.attr[\$index.first]",
+//                "\$Name:var.attr[\$index].first",
+//                "\$nspace:myvar[\$index]",
+//                "\$nspace:myvar[\$index|gt(4)|choose('a','b')]",
+//                "\$nspace:myvar[\$index[\$index2.abc[\$index3]]]"
+//                );
+// $vars = array( "\$a|test(,,b)",
+//                "\$b|image(abc)|do_it"
+//                );
 // $vars = array( "array(1,2,4).1" );
-$vars = array( "\$a.a.abc" );
+// $vars = array( "\$a.a.abc" );
 foreach( $vars as $var_str )
 {
-    $var_struct = $tpl->parseVariableTag( $var_str, 0, $var_end, strlen( $var_str ), "" );
+    $var_struct = $parser->parseVariableTag( $tpl, $var_str, 0, $var_end, strlen( $var_str ), "" );
     print( "Var end=$var_end, var=/" . substr( $var_str, 0, $var_end - 0 ) . "/, orig=/$var_str/\n" );
-    print_r( $var_struct );
+//     print_r( $var_struct );
+    $i = 0;
+    foreach ( $var_struct as $var )
+    {
+        $start = "$i => ";
+        $len = strlen( $start );
+        print( $start );
+        $contenttypetext = eZPHPCreator::variableText( $var, $len );
+        print( "$contenttypetext\n" );
+        ++$i;
+    }
 }
 
 eZDebug::printReport( false, false );

@@ -71,7 +71,7 @@ class eZi18nOperator
     function namedParameterList()
     {
         return array( "file" => array( "type" => "string",
-                                       "required" => true,
+                                       "required" => false,
                                        "default" => "" ),
                       "comment" => array( "type" => "string",
                                           "required" => false,
@@ -83,17 +83,17 @@ class eZi18nOperator
 
     /*!
      */
-    function modify( &$element, &$tpl, &$op_name, &$op_params, &$namespace, &$current_nspace, &$value, &$named_params )
+    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters )
     {
-        $file = $named_params["file"];
-        $context = $named_params["context"];
-        $comment = $named_params["comment"];
-        if ( $context == "" )
-        {
-            $context = $element->templateNameRelation();
-            if ( preg_match( "/^(.+)(\.tpl)$/", $context, $regs ) )
-                $context = $regs[1];
-        }
+        $file = $namedParameters["file"];
+        $context = $namedParameters["context"];
+        $comment = $namedParameters["comment"];
+//         if ( $context == "" )
+//         {
+//             $context = $element->templateNameRelation();
+//             if ( preg_match( "/^(.+)(\.tpl)$/", $context, $regs ) )
+//                 $context = $regs[1];
+//         }
         $value = ezi18n( $file, $context, $value, $comment );
         /*
         srand(make_seed());

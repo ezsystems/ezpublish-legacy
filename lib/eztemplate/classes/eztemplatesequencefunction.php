@@ -77,27 +77,27 @@ class eZTemplateSequenceFunction
     /*!
      Either initializes the sequence or iterates it.
     */
-    function &process( &$tpl, &$func_name, &$func_obj, $nspace, $current_nspace )
+    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
-        $params =& $func_obj->parameters();
+        $params = $functionParameters;
         $loop = null;
         if ( isset( $params["loop"] ) )
         {
-            $loop = $tpl->elementValue( $params["loop"], $nspace );
+            $loop = $tpl->elementValue( $params["loop"], $rootNamespace, $currentNamespace, $functionPlacement );
         }
         if ( $loop !== null and !is_array( $loop ) )
         {
             $tpl->error( $func_name, "Can only loop arrays" );
-            return null;
+            return;
         }
 
         $name = "";
         if ( !isset( $params["name"] ) )
         {
             $tpl->missingVariable( $func_name, "name" );
-            return null;
+            return;
         }
-        $name = $tpl->elementValue( $params["name"], $nspace );
+        $name = $tpl->elementValue( $params["name"], $rootNamespace, $currentNamespace, $functionPlacement );
 
         $seq_var =& $GLOBALS["eZTemplateSequence-$name"];
         if ( !is_array( $seq_var ) )
@@ -119,7 +119,6 @@ class eZTemplateSequenceFunction
         }
         $tpl->setVariable( "item", $seq_var["loop"][$seq_var["index"]], $name );
         $tpl->setVariable( "iteration", $seq_var["iteration"], $name );
-        return null;
     }
 
     /*!

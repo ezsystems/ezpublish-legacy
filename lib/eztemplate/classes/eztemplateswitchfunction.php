@@ -88,29 +88,23 @@ class eZTemplateSwitchFunction
     /*!
      Processes the function with all it's children.
     */
-    function &process( &$tpl, &$func_name, &$func_obj, $nspace, $current_nspace )
+    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
-        $text = "";
-        $children =& $func_obj->children();
-        $params =& $func_obj->parameters();
+//         $text = "";
+        $children = $functionChildren;
+        $params = $functionParameters;
         $name = "";
         if ( isset( $params["name"] ) )
-//              and
-//              $tpl->hasVariableValue( $params["name"], $nspace ) )
-//             $name = $tpl->variableValue( $params["name"], $nspace );
-            $name = $tpl->elementValue( $params["name"], $nspace );
-        if ( $current_nspace != "" )
+            $name = $tpl->elementValue( $params["name"], $rootNamespace, $currentNamespace, $functionPlacement );
+        if ( $currentNamespace != "" )
         {
             if ( $name != "" )
-                $name = "$current_nspace:$name";
+                $name = "$currentNamespace:$name";
             else
-                $name = $current_nspace;
+                $name = $currentNamespace;
         }
         if ( isset( $params["match"] ) )
-//             and
-//              $tpl->hasVariableValue( $params["match"], $nspace ) )
-//             $match =& $tpl->variableValue( $params["match"], $nspace );
-            $match = $tpl->elementValue( $params["match"], $nspace );
+            $match = $tpl->elementValue( $params["match"], $rootNamespace, $currentNamespace, $functionPlacement );
         else
         {
             $tpl->missingParameter( $this->Name, "match" );
@@ -125,20 +119,18 @@ class eZTemplateSwitchFunction
         while ( ( $child_key = key( $children ) ) !== null )
         {
             $child =& $children[$child_key];
-            if ( get_class( $child ) == "eztemplatefunctionelement" )
+            $childType = $child[0];
+            if ( $childType == EZ_TEMPLATE_NODE_FUNCTION )
             {
-                switch ( $child->name() )
+                switch ( $child[2] )
                 {
                     case "case":
                     {
-                        $child_params =& $child->parameters();
+                        $child_params = $child[3];
                         if ( isset( $child_params["match"] ) )
                         {
                             $child_match = $child_params["match"];
-                            $child_match = $tpl->elementValue( $child_match, $nspace );
-//                             if ( $tpl->hasVariableValue( $child_match, $nspace ) )
-//                             {
-//                                 $child_match =& $tpl->variableValue( $child_match, $nspace );
+                            $child_match = $tpl->elementValue( $child_match, $rootNamespace, $currentNamespace, $functionPlacement );
                             if ( !isset( $items[$child_match] ) )
                             {
                                 $items[$child_match] =& $child;
@@ -160,17 +152,10 @@ class eZTemplateSwitchFunction
                             if ( isset( $child_params["key"] ) )
                             {
                                 $child_key = $child_params["key"];
-                                $key_name = $tpl->elementValue( $child_key, $nspace );
-//                                 if ( $tpl->hasVariableValue( $child_key, $nspace ) )
-//                                 {
-//                                     $key_name =& $tpl->variableValue( $child_key, $nspace );
-//                                 }
+                                $key_name = $tpl->elementValue( $child_key, $rootNamespace, $currentNamespace, $functionPlacement );
                             }
                             $child_in = $child_params["in"];
-//                             if ( $tpl->hasVariableValue( $child_in, $nspace ) )
-//                             {
-                            $child_in = $tpl->elementValue( $child_in, $nspace );
-//                                 $child_in =& $tpl->variableValue( $child_in, $nspace );
+                            $child_in = $tpl->elementValue( $child_in, $rootNamespace, $currentNamespace, $functionPlacement );
                             if ( is_null( $case ) )
                             {
                                 if ( is_null( $key_name ) and
@@ -214,7 +199,7 @@ class eZTemplateSwitchFunction
                     } break;
                 }
             }
-            else if ( get_class( $child ) == "eztemplatetextelement" )
+            else if ( $childType == EZ_TEMPLATE_NODE_TEXT )
             {
                 // Ignore text.
             }
@@ -231,18 +216,18 @@ class eZTemplateSwitchFunction
         if ( $case !== null )
         {
             $tpl->setVariable( "match", $match, $name );
-            $case_children =& $case->children();
+            $case_children =& $case[1];
             reset( $case_children );
             while ( ( $key = key( $case_children ) ) !== null )
             {
                 $case_child =& $case_children[$key];
-                $case_child->process( $tpl, $text, $nspace, $name );
+                $tpl->processNode( $case_child, $textElements, $rootNamespace, $name );
                 next( $case_children );
             }
         }
         else
             $tpl->warning( $this->Name, "No case match and no default case" );
-        return $text;
+        return;
     }
 
     /*!

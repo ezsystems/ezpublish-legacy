@@ -102,16 +102,16 @@ class eZTemplateLocaleOperator
      - currency
      - number
     */
-    function modify( &$element, &$tpl, &$op_name, &$op_params, &$namespace, &$current_nspace, &$value, &$named_params )
+    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters )
     {
-        if ( $op_name == 'currentdate' )
+        if ( $operatorName == 'currentdate' )
         {
             include_once( 'lib/ezlocale/classes/ezdatetime.php' );
             $value = eZDateTime::currentTimestamp();
         }
         else
         {
-            $type = $named_params["type"];
+            $type = $namedParameters["type"];
             if ( $type === null )
                 return;
             switch ( $type )
@@ -157,7 +157,7 @@ class eZTemplateLocaleOperator
                 } break;
 
                 default:
-                    $tpl->error( $op_name, "Unknown locale type: '$type'" );
+                    $tpl->error( $operatorName, "Unknown locale type: '$type'" );
                 break;
             }
         }

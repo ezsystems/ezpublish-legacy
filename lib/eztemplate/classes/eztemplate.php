@@ -371,13 +371,96 @@ class eZTemplate
             if ( $this->ShowDetails )
                 eZDebug::addTimingPoint( "Process" );
             eZDebug::accumulatorStart( 'template_processing', 'template_total', 'Template processing' );
-            $root->process( $this, $text, "", "" );
+//             $root->process( $this, $text, "", "" );
+            $this->process( $root, $text, "", "" );
             eZDebug::accumulatorStop( 'template_processing' );
             if ( $this->ShowDetails )
                 eZDebug::addTimingPoint( "Process done" );
         }
         eZDebug::accumulatorStop( 'template_total' );
         return $text;
+    }
+
+    function process( &$root, &$text, $rootNamespace, $currentNamespace )
+    {
+        $textElements = array();
+        $this->processNode( $root, $textElements, $rootNamespace, $currentNamespace );
+        if ( is_array( $textElements ) )
+            $text = implode( '', $textElements );
+        else
+            $text = $textElements;
+    }
+
+    function processNode( &$node, &$textElements, $rootNamespace, $currentNamespace )
+    {
+        $nodeType = $node[0];
+        if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
+        {
+            $children = $node[1];
+            if ( $children )
+            {
+                foreach ( $children as $child )
+                {
+                    $this->processNode( $child, $textElements, $rootNamespace, $currentNamespace );
+                    if ( !is_array( $textElements ) )
+                        eZDebug::writeError( "Textelements is no longer array: '$textElements'",
+                                             'eztemplate::processNode::root' );
+                }
+            }
+        }
+        else if ( $nodeType == EZ_TEMPLATE_NODE_TEXT )
+        {
+            $textElements[] = $node[2];
+        }
+        else if ( $nodeType == EZ_TEMPLATE_NODE_VARIABLE )
+        {
+            $variableData = $node[2];
+            $variablePlacement = $node[3];
+            $this->processVariable( $textElements, $variableData, $variablePlacement, $rootNamespace, $currentNamespace );
+            if ( !is_array( $textElements ) )
+                eZDebug::writeError( "Textelements is no longer array: '$textElements'",
+                                     'eztemplate::processNode::variable' );
+        }
+        else if ( $nodeType == EZ_TEMPLATE_NODE_FUNCTION )
+        {
+//             eZDebug::writeDebug( $node, '$node' );
+            $functionChildren = $node[1];
+            $functionName = $node[2];
+            $functionParameters = $node[3];
+            $functionPlacement = $node[4];
+            $this->processFunction( $functionName, $textElements, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace );
+            if ( !is_array( $textElements ) )
+                eZDebug::writeError( "Textelements is no longer array: '$textElements'",
+                                     "eztemplate::processNode::function( '$functionName' )" );
+        }
+    }
+
+    function processVariable( &$textElements, $variableData, $variablePlacement, $rootNamespace, $currentNamespace )
+    {
+        $value = $this->elementValue( $variableData, $rootNamespace, $currentNamespace, $variablePlacement );
+        $this->appendElementText( $textElements, $value, $rootNamespace, $currentNamespace );
+    }
+
+    function processFunction( $functionName, &$textElements, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    {
+//         eZDebug::writeDebug( $functionChildren, '$functionChildren' );
+        $func =& $this->Functions[$functionName];
+        if ( is_array( $func ) )
+        {
+            $this->loadAndRegisterFunctions( $this->Functions[$functionName] );
+            $func =& $this->Functions[$functionName];
+        }
+        if ( isset( $func ) and
+             is_object( $func ) )
+        {
+            return $func->process( $this, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace );
+        }
+        else
+        {
+            $this->warning( "", "Function \"$functionName\" is not registered" );
+        }
+//         $value = $this->elementValue( $variableData, $rootNamespace, $currentNamespace );
+//         return $this->elementText( $value, $rootNamespace, $currentNamespace );
     }
 
     /*!
@@ -564,63 +647,213 @@ class eZTemplate
         return array( "type" => "null" );
     }
 
+    function mergeNamespace( $rootNamespace, $additionalNamespace )
+    {
+        $namespace = $rootNamespace;
+        if ( $namespace == '' )
+            $namespace = $additionalNamespace;
+        else if ( $additionalNamespace != '' )
+            $namespace = "$namespace:$additionalNamespace";
+        return $namespace;
+    }
+
     /*!
      Returns the actual value of a template type or null if an unknown type.
     */
-    function &elementValue( &$data, $nspace )
+    function &elementValue( &$dataElements, $rootNamespace, $currentNamespace, $placement = false )
     {
         $value = null;
-        if ( !is_array( $data ) or
-             !isset( $data['type'] ) )
+        if ( !is_array( $dataElements ) )
         {
             $this->error( "elementValue",
                           "Missing data structure" );
             return null;
         }
-        switch ( $data["type"] )
+        foreach ( $dataElements as $dataElement )
         {
-            case "text":
+            if ( is_null( $dataElement ) )
             {
-                $value =& $data["content"];
-            } break;
-            case "numerical":
-            {
-                $value =& $data["content"];
-            } break;
-            case "null":
-            {
-                $value = null;
-            } break;
-            case "operators":
-            {
-                $value = null;
-            } break;
-            case "variable":
-            {
-                $value =& $this->variableElementValue( $data, $nspace );
-            } break;
-            default:
-            {
-                $this->error( "elementValue",
-                              "Unknown variable type: '" . $data["type"] . "'" );
                 return null;
             }
-        }
-        $ops =& $data["operators"];
-        if ( count( $ops ) > 0 )
-        {
-            reset( $ops );
-            while ( ( $key = key( $ops ) ) !== null )
+            $dataType = $dataElement[0];
+            switch ( $dataType )
             {
-                $op =& $ops[$key];
-                unset( $tmp_value );
-                $tmp_value = $value;
-                $op->process( $this, $tmp_value, $nspace, $nspace );
-                $value =& $tmp_value;
-                next( $ops );
+                case EZ_TEMPLATE_TYPE_VOID:
+                {
+                    $this->warning( 'elementValue',
+                                    'Found void datatype, should not be used' );
+                } break;
+                case EZ_TEMPLATE_TYPE_STRING:
+                case EZ_TEMPLATE_TYPE_NUMERIC:
+                case EZ_TEMPLATE_TYPE_IDENTIFIER:
+                {
+                    $value = $dataElement[1];
+                } break;
+                case EZ_TEMPLATE_TYPE_VARIABLE:
+                {
+                    $variableData = $dataElement[1];
+                    $variableNamespace = $variableData[0];
+                    $variableNamespaceScope = $variableData[1];
+                    $variableName = $variableData[2];
+                    if ( $variableNamespaceScope == EZ_TEMPLATE_NAMESPACE_SCOPE_GLOBAL )
+                        $namespace = $variableNamespace;
+                    else if ( $variableNamespaceScope == EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL )
+                        $namespace = $this->mergeNamespace( $rootNamespace, $variableNamespace );
+                    else if ( $variableNamespaceScope == EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE )
+                        $namespace = $this->mergeNamespace( $currentNamespace, $variableNamespace );
+                    else
+                        $namespace = false;
+                    if ( $this->hasVariable( $variableName, $namespace ) )
+                    {
+                        $value = $this->variable( $variableName, $namespace );
+                    }
+                    else
+                        $this->error( '', "Unknown template variable '$variableName' in namespace '$namespace'", $placement );
+                } break;
+                case EZ_TEMPLATE_TYPE_ATTRIBUTE:
+                {
+                    $attributeData = $dataElement[1];
+                    $attributeValue = $this->elementValue( $attributeData, $rootNamespace, $currentNamespace );
+
+                    if ( !is_null( $attributeValue ) )
+                    {
+                        if ( !is_numeric( $attributeValue ) and
+                             !is_string( $attributeValue ) )
+                        {
+                            $this->error( "",
+                                          "Cannot use type " . gettype( $attributeValue ) . " for attribute lookup", $placement );
+                            return null;
+                        }
+                        if ( is_array( $value ) )
+                        {
+                            if ( isset( $value[$attributeValue] ) )
+                                $value = $value[$attributeValue];
+                            else
+                            {
+                                $this->error( "",
+                                              "No such attribute for array: $attributeValue", $placement );
+                                return null;
+                            }
+                        }
+                        else if ( is_object( $value ) )
+                        {
+                            if ( method_exists( $value, "attribute" ) and
+                                 method_exists( $value, "hasattribute" ) )
+                            {
+                                if ( $value->hasAttribute( $attributeValue ) )
+                                {
+                                    unset( $tempValue );
+                                    $tempValue =& $value->attribute( $attributeValue );
+                                    unset( $value );
+                                    $value =& $tempValue;
+                                }
+                                else
+                                {
+                                    $this->error( "",
+                                                  "No such attribute for object: $attributeValue", $placement );
+                                    return null;
+                                }
+                            }
+                            else
+                            {
+                                $this->error( "",
+                                              "Cannot retrieve attribute of object(" . get_class( $value ) .
+                                              "), no attribute functions available",
+                                              $placement );
+                                return null;
+                            }
+                        }
+                        else
+                        {
+                            $this->error( "",
+                                          "Cannot retrieve attribute of a " . gettype( $value ),
+                                          $placement );
+                            return null;
+                        }
+                    }
+                    else
+                    {
+                        $this->error( '',
+                                      'Attribute value was null, cannot get attribute',
+                                      $placement );
+                        return null;
+                    }
+                } break;
+                case EZ_TEMPLATE_TYPE_OPERATOR:
+                {
+                    $operatorParameters = $dataElement[1];
+                    $operatorName = $operatorParameters[0];
+                    $operatorParameters = array_splice( $operatorParameters, 1 );
+                    $this->processOperator( $operatorName, $operatorParameters, $rootNamespace, $currentNamespace,
+                                            $value, $placement );
+                } break;
+                default:
+                {
+                    $this->error( "elementValue",
+                                  "Unknown data type: '$dataType'" );
+                    return null;
+                }
             }
+//             $ops =& $dataElement["operators"];
+//             if ( count( $ops ) > 0 )
+//             {
+//                 reset( $ops );
+//                 while ( ( $key = key( $ops ) ) !== null )
+//                 {
+//                     $op =& $ops[$key];
+//                     unset( $tmp_value );
+//                     $tmp_value = $value;
+//                     $op->process( $this, $tmp_value, $rootNamespace, $rootNamespace );
+//                     $value =& $tmp_value;
+//                     next( $ops );
+//                 }
+//             }
         }
         return $value;
+    }
+
+    function processOperator( $operatorName, $operatorParameters, $rootNamespace, $currentNamespace,
+                              &$value, $placement = false )
+    {
+        $namedParameters = array();
+        $operatorParameterDefinition = $this->operatorParameterList( $operatorName );
+        $i = 0;
+        foreach ( $operatorParameterDefinition as $parameterName => $parameterType )
+        {
+            if ( !isset( $operatorParameters[$i] ) or
+                 $operatorParameters[$i][0] == EZ_TEMPLATE_TYPE_VOID )
+            {
+                if ( $parameterType["required"] )
+                {
+                    $this->warning( "eZTemplateOperatorElement", "Parameter '$parameterName' ($i) missing",
+                                    $placement );
+                    $namedParameters[$parameterName] = $parameterType["default"];
+                }
+                else
+                {
+                    $namedParameters[$parameterName] = $parameterType["default"];
+                }
+            }
+            else
+            {
+                $parameterData = $operatorParameters[$i];
+                $namedParameters[$parameterName] = $this->elementValue( $parameterData, $rootNamespace, $currentNamespace );
+            }
+            ++$i;
+        }
+
+        if ( is_array( $this->Operators[$operatorName] ) )
+        {
+            $this->loadAndRegisterOperators( $this->Operators[$operatorName] );
+        }
+        $op =& $this->Operators[$operatorName];
+        if ( isset( $op ) )
+        {
+            $op->modify( $this, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, $value, $namedParameters );
+        }
+        else
+            $this->warning( "", "Operator '$operatorName' is not registered",
+                            $placement );
     }
 
     /*!
@@ -988,6 +1221,16 @@ class eZTemplate
     */
     function appendElement( &$text, &$item, $nspace, $name )
     {
+        $this->appendElementText( $textElements, $item, $nspace, $name );
+        $text .= implode( '', $textElements );
+    }
+
+    /*!
+    */
+    function appendElementText( &$textElements, &$item, $nspace, $name )
+    {
+        if ( !is_array( $textElements ) )
+            $textElements = array();
         if ( is_object( $item ) )
         {
             $hasTemplateData = false;
@@ -1008,16 +1251,18 @@ class eZTemplate
                         include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
                         $this->setVariableRef( $templateVariableName, $item, $name );
                         eZTemplateIncludeFunction::handleInclude( $templateText, $templateURI, $this, $nspace, $name );
-                        $this->appendElement( $text, $templateText, $nspace, $name );
+//                         $this->appendElement( $text, $templateText, $nspace, $name );
+                        $this->appendElementText( $textElements, $templateText, $nspace, $name );
                         $hasTemplateData = true;
                     }
                 }
             }
             if ( !$hasTemplateData )
-                $text .= 'Object(' . get_class( $item ) . ')';
+                $textElements[] = 'Object(' . get_class( $item ) . ')';
         }
         else
-            $text .= $item;
+            $textElements[] = "$item";
+        return $textElements;
     }
 
     /*!
@@ -1340,26 +1585,41 @@ class eZTemplate
         $this->error( "", "Undefined function: $func_name" );
     }
 
+    function placementText( $placement = false )
+    {
+        $placementText = false;
+        if ( $placement !== false )
+        {
+            $line = $placement[0][0];
+            $column = $placement[0][1];
+            $templateFile = $placement[2];
+            $placementText = " @ $templateFile:$line" . "[$column]";
+        }
+        return $placementText;
+    }
+
     /*!
      Displays a warning for the function/operator $name and text $txt.
     */
-    function warning( $name, $txt )
+    function warning( $name, $txt, $placement = false )
     {
+        $placementText = $this->placementText( $placement );
         if ( $name != "" )
-            eZDebug::writeWarning( $txt, "eZTemplate:$name" );
+            eZDebug::writeWarning( $txt, "eZTemplate:$name" . $placementText );
         else
-            eZDebug::writeWarning( $txt, "eZTemplate" );
+            eZDebug::writeWarning( $txt, "eZTemplate" . $placementText );
     }
 
     /*!
      Displays an error for the function/operator $name and text $txt.
     */
-    function error( $name, $txt )
+    function error( $name, $txt, $placement = false )
     {
+        $placementText = $this->placementText( $placement );
         if ( $name != "" )
-            eZDebug::writeError( $txt, "eZTemplate:$name" );
+            eZDebug::writeError( $txt, "eZTemplate:$name" . $placementText );
         else
-            eZDebug::writeError( $txt, "eZTemplate" );
+            eZDebug::writeError( $txt, "eZTemplate" . $placementText );
     }
 
     /*!

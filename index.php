@@ -656,7 +656,7 @@ if ( $show_page_layout )
 //      }
         $tpl->setVariable( 'menuitems', $pathArray );
         /// end HiO code
-   
+
         $templateResult =& $tpl->fetch( $resource . $show_page_layout );
     }
 }

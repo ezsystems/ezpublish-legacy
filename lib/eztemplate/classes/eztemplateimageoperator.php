@@ -406,7 +406,7 @@ class eZTemplateImageOperator
      text for the image.
      \todo Change the output to not use HTML but rather the path to the image.
     */
-    function modify( &$element, &$tpl, &$operatorName, &$operatorParameters, &$namespace, &$current_nspace, &$inputValue, &$namedParameters )
+    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$inputValue, &$namedParameters )
     {
         if ( !$this->ImageGDSupported )
             return;
@@ -531,7 +531,7 @@ class eZTemplateImageOperator
             $md5Input = 'image' . count( $operatorParameters );
             foreach ( array_keys( $operatorParameters ) as $operatorParameterKey )
             {
-                $operatorParameter =& $tpl->elementValue( $operatorParameters[$operatorParameterKey], $namespace );
+                $operatorParameter =& $tpl->elementValue( $operatorParameters[$operatorParameterKey], $rootNamespace, $currentNamespace );
                 if ( get_class( $operatorParameter ) == 'eztemplateimagelayer' )
                 {
                     $md5Input .= $operatorParameter->attribute( 'imagepath' ) . "\n";

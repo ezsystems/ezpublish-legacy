@@ -114,45 +114,45 @@ class eZTemplateSectionFunction
     /*!
      Processes the function with all it's children.
     */
-    function &process( &$tpl, &$functionName, &$func_obj, $nspace, $current_nspace )
+    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
-        $text = "";
-        $children =& $func_obj->children();
-        $parameters =& $func_obj->parameters();
+//         $text = "";
+        $children = $functionChildren;
+        $parameters = $functionParameters;
         $name = null;
         if ( isset( $parameters["name"] ) )
-             $name = $tpl->elementValue( $parameters["name"], $nspace );
+             $name = $tpl->elementValue( $parameters["name"], $rootNamespace, $currentNamespace, $functionPlacement );
         if ( $name === null )
         {
-            $name = $current_nspace;
+            $name = $currentNamespace;
         }
         else
         {
-            if ( $current_nspace != "" )
-                $name = "$current_nspace:$name";
+            if ( $currentNamespace != "" )
+                $name = "$currentNamespace:$name";
         }
         $loopItem = null;
         $hasLoopItemParameter = false;
         if ( isset( $parameters["loop"] ) )
         {
             $hasLoopItemParameter = true;
-            $loopItem =& $tpl->elementValue( $parameters["loop"], $nspace );
+            $loopItem =& $tpl->elementValue( $parameters["loop"], $rootNamespace, $currentNamespace, $functionPlacement );
         }
 //         eZDebug::writeNotice( $hasLoopItemParameter, "\$hasLoopItemParameter" );
 //         eZDebug::writeNotice( $loopItem, "\$loopItem" );
         /// \todo Check if this needs removing
         if ( $hasLoopItemParameter and $loopItem === null )
-            return $text;
+            return;
         $showItem = null;
         if ( isset( $parameters["show"] ) )
-            $showItem =& $tpl->elementValue( $parameters["show"], $nspace );
+            $showItem =& $tpl->elementValue( $parameters["show"], $rootNamespace, $currentNamespace, $functionPlacement );
         $sequenceStructure = null;
         if ( isset( $parameters["sequence"] ) )
-            $sequenceStructure = $tpl->elementValue( $parameters["sequence"], $nspace );
+            $sequenceStructure = $tpl->elementValue( $parameters["sequence"], $rootNamespace, $currentNamespace, $functionPlacement );
         $iterationMaxCount = false;
         if ( isset( $parameters["max"] ) )
         {
-            $iterationMaxCount =& $tpl->elementValue( $parameters["max"], $nspace );
+            $iterationMaxCount =& $tpl->elementValue( $parameters["max"], $rootNamespace, $currentNamespace, $functionPlacement );
             if ( is_array( $iterationMaxCount ) )
             {
                 $iterationMaxCount = count( $iterationMaxCount );
@@ -165,7 +165,7 @@ class eZTemplateSectionFunction
         $iterationOffset = false;
         if ( isset( $parameters["offset"] ) )
         {
-            $iterationOffset =& $tpl->elementValue( $parameters["offset"], $nspace );
+            $iterationOffset =& $tpl->elementValue( $parameters["offset"], $rootNamespace, $currentNamespace, $functionPlacement );
             if ( is_array( $iterationOffset ) )
             {
                 $iterationOffset = count( $iterationOffset );
@@ -187,12 +187,14 @@ class eZTemplateSectionFunction
         $items = array();
         $items[0] = array();
         $items[1] = array();
+//         eZDebug::writeDebug( $children, 'children' );
         foreach ( array_keys( $children ) as $childKey )
         {
             $child =& $children[$childKey];
-            if ( get_class( $child ) == "eztemplatefunctionelement" )
+            $childType = $child[0];
+            if ( $childType == EZ_TEMPLATE_NODE_FUNCTION )
             {
-                switch ( $child->name() )
+                switch ( $child[2] )
                 {
                     case "delimiter":
                     {
@@ -240,7 +242,7 @@ class eZTemplateSectionFunction
         if ( ( $showItem === null or ( $showItem !== null and $canShowBlock ) ) and $loopItem === null )
         {
 //             eZDebug::writeNotice( "Running default looping" );
-            $this->processChildrenOnce( $items[1], $tpl, $text, $nspace, $name );
+            $this->processChildrenOnce( $textElements, $items[1], $tpl, $rootNamespace, $name );
         }
         else
         {
@@ -261,7 +263,7 @@ class eZTemplateSectionFunction
                 $index = 0;
                 if ( is_array( $loopItem ) )
                 {
-//                     eZDebug::writeNotice( "Running array looping" );
+//                     eZDebug::writeDebug( "Running array looping" );
                     $array =& $loopItem;
                     $arrayKeys =& array_keys( $array );
                     if ( $iterationOffset !== false )
@@ -271,9 +273,9 @@ class eZTemplateSectionFunction
                     foreach ( $arrayKeys as $key )
                     {
                         $item =& $array[$key];
-                        $this->processChildren( $items[1], $key, $item, $index, $isFirstRun,
+                        $this->processChildren( $textElements, $items[1], $key, $item, $index, $isFirstRun,
                                                 $delimiterStructure, $sequenceStructure, $filterStructure,
-                                                $tpl, $text, $nspace, $name );
+                                                $tpl, $rootNamespace, $name, $functionPlacement );
                     }
                 }
                 else if ( is_numeric( $loopItem ) )
@@ -300,9 +302,9 @@ class eZTemplateSectionFunction
                             $key = $i;
                             $item = $i + 1;
                         }
-                        $this->processChildren( $items[1], $key, $item, $index, $isFirstRun,
+                        $this->processChildren( $textElements, $items[1], $key, $item, $index, $isFirstRun,
                                                 $delimiterStructure, $sequenceStructure, $filterStructure,
-                                                $tpl, $text, $nspace, $name );
+                                                $tpl, $rootNamespace, $name, $functionPlacement );
                     }
                 }
                 else if ( is_string( $loopItem ) )
@@ -319,9 +321,9 @@ class eZTemplateSectionFunction
                     {
                         $key = $i;
                         $item = $text[$i];
-                        $this->processChildren( $items[1], $key, $item, $index, $isFirstRun,
+                        $this->processChildren( $textElements, $items[1], $key, $item, $index, $isFirstRun,
                                                 $delimiterStructure, $sequenceStructure, $filterStructure,
-                                                $tpl, $text, $nspace, $name );
+                                                $tpl, $rootNamespace, $name, $functionPlacement );
                     }
                 }
                 if ( !$isFirstRun )
@@ -337,24 +339,24 @@ class eZTemplateSectionFunction
             else
             {
 //                 eZDebug::writeNotice( "no loop items" );
-                $this->processChildrenOnce( $items[0], $tpl, $text, $nspace, $name );
+                $this->processChildrenOnce( $textElements, $items[0], $tpl, $rootNamespace, $name );
             }
         }
-        return $text;
     }
 
-    function processChildrenOnce( &$children, &$tpl, &$text, $nspace, $name )
+    function processChildrenOnce( &$textElements, &$children, &$tpl, $rootNamespace, $name )
     {
         foreach ( array_keys( $children ) as $childKey )
         {
             $child =& $children[$childKey];
-            $child->process( $tpl, $text, $nspace, $name );
+            $tpl->processNode( $child, $textElements, $rootNamespace, $name );
         }
     }
 
-    function processChildren( &$children, $key, &$item, &$index, &$isFirstRun,
+    function processChildren( &$textElements,
+                              &$children, $key, &$item, &$index, &$isFirstRun,
                               &$delimiterStructure, &$sequenceStructure, &$filterStructure,
-                              &$tpl, &$text, $nspace, $name )
+                              &$tpl, $rootNamespace, $name, $functionPlacement )
     {
         $tpl->setVariable( "key", $key, $name );
         $tpl->setVariable( "item", $item, $name );
@@ -372,7 +374,7 @@ class eZTemplateSectionFunction
                 $filterMatch = null;
                 if ( isset( $filterParameters["match"] ) )
                 {
-                    $filterMatch = $tpl->elementValue( $filterParameters["match"], $nspace );
+                    $filterMatch = $tpl->elementValue( $filterParameters["match"], $rootNamespace, $name, $functionPlacement );
                     if ( $filterMatch )
                         $includeElement = $filterName == "section-exclude" ? false : true;
                 }
@@ -384,23 +386,27 @@ class eZTemplateSectionFunction
         }
         if ( $delimiterStructure !== null and !$isFirstRun )
         {
-            $delimiterParameters =& $delimiterStructure->parameters();
+            $delimiterParameters = $delimiterStructure[2];
             $delimiterMatch = true;
             if ( isset( $delimiterParameters["modulo"] ) )
             {
-                $modulo = $tpl->elementValue( $delimiterParameters["modulo"], $nspace );
+                $delimiterModulo = $delimiterParameters["modulo"];
+                $modulo = $tpl->elementValue( $delimiterModulo, $rootNamespace, $name, $functionPlacement );
                 if ( is_numeric( $modulo ) )
                     $delimiterMatch = ( $index % $modulo ) == 0;
             }
             if ( isset( $delimiterParameters["match"] ) )
-                $delimiterMatch = $tpl->elementValue( $delimiterParameters["match"], $nspace );
+            {
+                $delimiterMatchParameter = $delimiterParameters["match"];
+                $delimiterMatch = $tpl->elementValue( $delimiterMatchParameter, $rootNamespace, $name, $functionPlacement );
+            }
             if ( $delimiterMatch )
             {
                 $delimiterChildren =& $delimiterStructure->children();
                 foreach ( array_keys( $delimiterChildren ) as $delimiterChildKey )
                 {
                     $delimiterChild =& $delimiterChildren[$delimiterChildKey];
-                    $delimiterChild->process( $tpl, $text, $nspace, $name );
+                    $tpl->processNode( $delimiterChild, $textElements, $rootNamespace, $name );
                 }
             }
         }
@@ -414,7 +420,7 @@ class eZTemplateSectionFunction
         foreach ( array_keys( $children ) as $childKey )
         {
             $child =& $children[$childKey];
-            $child->process( $tpl, $text, $nspace, $name );
+            $tpl->processNode( $child, $textElements, $rootNamespace, $name );
         }
         ++$index;
     }

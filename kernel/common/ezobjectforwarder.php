@@ -55,31 +55,31 @@ class eZObjectForwarder
         return array_keys( $this->Rules );
     }
 
-    function &process( &$tpl, &$func_name, &$func_obj, $nspace, $current_nspace )
+    function &process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
-        if ( !isset( $this->Rules[$func_name] ) )
+        if ( !isset( $this->Rules[$functionName] ) )
         {
-            $tpl->undefinedFunction( $func_name );
-            return null;
+            $tpl->undefinedFunction( $functionName );
+            return;
         }
-        $rule =& $this->Rules[$func_name];
+        $rule =& $this->Rules[$functionName];
         $template_dir = $rule["template_root"];
         $input_name =& $rule["input_name"];
 
-        $params =& $func_obj->parameters();
+        $params = $functionParameters;
         if ( !isset( $params[$input_name] ) )
         {
-            $tpl->missingParameter( $func_name, $input_name );
-            return null;
+            $tpl->missingParameter( $functionName, $input_name );
+            return;
         }
 
-        $old_nspace = $nspace;
+        $old_nspace = $rootNamespace;
 
-        $input_var =& $tpl->elementValue( $params[$input_name], $nspace );
+        $input_var =& $tpl->elementValue( $params[$input_name], $rootNamespace, $currentNamespace, $functionPlacement );
         if ( !is_object( $input_var ) )
         {
-            $tpl->warning( $func_name, "Parameter $input_name is not an object" );
-            return null;
+            $tpl->warning( $functionName, "Parameter $input_name is not an object" );
+            return;
         }
 
         $txt = "";
@@ -92,11 +92,11 @@ class eZObjectForwarder
             $view_var =& $rule["use_views"];
             if ( !isset( $params[$view_var] ) )
             {
-                $tpl->warning( $func_name, "No view specified, skipping views" );
+                $tpl->warning( $functionName, "No view specified, skipping views" );
             }
             else
             {
-                $view_mode =& $tpl->elementValue( $params[$view_var], $nspace );
+                $view_mode =& $tpl->elementValue( $params[$view_var], $rootNamespace, $currentNamespace, $functionPlacement );
                 $view_dir = "/" . $view_mode;
             }
         }
@@ -128,15 +128,15 @@ class eZObjectForwarder
             $templateRoot = $template_dir;
             $template_dir = '';
             if ( !isset( $templateRoot['type'] ) )
-                $tpl->error( $func_name,
+                $tpl->error( $functionName,
                              'No template root type defined' );
             else if ( $templateRoot['type'] == 'multi_match' )
             {
                 if ( !isset( $templateRoot['attributes'] ) )
-                    $tpl->error( $func_name,
+                    $tpl->error( $functionName,
                                  'No template root attributes defined' );
                 else if ( !isset( $templateRoot['attributes'] ) )
-                    $tpl->error( $func_name,
+                    $tpl->error( $functionName,
                                  'No template root matches defined' );
                 else
                 {
@@ -153,7 +153,7 @@ class eZObjectForwarder
                 }
             }
             else
-                $tpl->error( $func_name,
+                $tpl->error( $functionName,
                              'Unknown template root type: ' . $templateRoot['type'] );
         }
 
@@ -208,9 +208,10 @@ class eZObjectForwarder
             if ( $root === null and
                  $res )
             {
-                $root = new eZTemplateRoot();
+//                 $root = new eZTemplateRoot();
+                $root = array( EZ_TEMPLATE_NODE_ROOT, false );
                 $tpl_text =& $res["text"];
-                $nspace = $rule["namespace"];
+                $rootNamespace = $rule["namespace"];
                 $tpl->setIncludeText( $uri, $tpl_text );
                 $tpl->parse( $tpl_text, $root, "", $res );
                 if ( $canCache )
@@ -223,15 +224,15 @@ class eZObjectForwarder
                 $designUsedKeys = $extraParameters['ezdesign:used_keys'];
             if ( isset( $extraParameters['ezdesign:matched_keys'] ) )
                 $designMatchedKeys = $extraParameters['ezdesign:matched_keys'];
-            if ( $current_nspace != '' )
-                $designKeyNamespace = $current_nspace . ':DesignKeys';
+            if ( $currentNamespace != '' )
+                $designKeyNamespace = $currentNamespace . ':DesignKeys';
             else
                 $designKeyNamespace = 'DesignKeys';
 
             $sub_text = "";
             $output_name =& $rule["output_name"];
             $setVariableArray = array();
-            $tpl->setVariableRef( $output_name, $input_var, $current_nspace );
+            $tpl->setVariableRef( $output_name, $input_var, $currentNamespace );
             $setVariableArray[] = $output_name;
             // Set design keys
             $tpl->setVariable( 'used', $designUsedKeys, $designKeyNamespace );
@@ -242,8 +243,8 @@ class eZObjectForwarder
                 if ( $paramName == $input_name or
                      $paramName == $view_var )
                     continue;
-                $paramValue =& $tpl->elementValue( $params[$paramName], $old_nspace );
-                $tpl->setVariableRef( $paramName, $paramValue, $current_nspace );
+                $paramValue =& $tpl->elementValue( $params[$paramName], $old_nspace, $currentNamespace, $functionPlacement );
+                $tpl->setVariableRef( $paramName, $paramValue, $currentNamespace );
                 $setVariableArray[] = $paramName;
             }
             // Set constant variables
@@ -253,32 +254,31 @@ class eZObjectForwarder
                 {
                     if ( $constantTemplateVariableKey == $input_name or
                          $constantTemplateVariableKey == $view_var or
-                         $tpl->hasVariable( $constantTemplateVariableKey, $current_nspace ) )
+                         $tpl->hasVariable( $constantTemplateVariableKey, $currentNamespace ) )
                         continue;
-                    $tpl->setVariableRef( $constantTemplateVariableKey, $constantTemplateVariableValue, $current_nspace );
+                    $tpl->setVariableRef( $constantTemplateVariableKey, $constantTemplateVariableValue, $currentNamespace );
                     $setVariableArray[] = $constantTemplateVariableKey;
                 }
             }
 
             if ( $root )
             {
-                $root->process( $tpl, $sub_text, $current_nspace, $current_nspace );
+                $tpl->process( $root, $sub_text, $currentNamespace, $currentNamespace );
                 $tpl->setIncludeOutput( $uri, $sub_text );
 
-                $txt =& $sub_text;
+                $textElements[] = $sub_text;
             }
             foreach ( $setVariableArray as $setVariableName )
             {
-                $tpl->unsetVariable( $setVariableName, $current_nspace );
+                $tpl->unsetVariable( $setVariableName, $currentNamespace );
             }
         }
         else
         {
-            $tpl->warning( $func_name,
+            $tpl->warning( $functionName,
                            "None of the templates " . implode( ", ", $tried_files ) .
                            " could be found" );
         }
-        return $txt;
     }
 
     function hasChildren()

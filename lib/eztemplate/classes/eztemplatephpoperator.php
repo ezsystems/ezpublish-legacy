@@ -80,9 +80,9 @@ class eZTemplatePHPOperator
     /*!
      Executes the PHP function for the operator $op_name.
     */
-    function modify( &$element, &$tpl, &$op_name, &$op_params, &$namespace, &$current_nspace, &$value )
+    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value )
     {
-        $phpname = $this->PHPNames[$op_name];
+        $phpname = $this->PHPNames[$operatorName];
         $value = $phpname( $value );
     }
 

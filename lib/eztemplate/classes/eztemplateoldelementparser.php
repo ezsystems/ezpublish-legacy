@@ -114,7 +114,7 @@ class eZTemplateElementParser
                                $allowedType = false, $maxElements = false, $endMarker = false,
                                $undefinedType = EZ_TEMPLATE_TYPE_ATTRIBUTE )
     {
-//         eZDebug::writeDebug( "text='" . substr( $text, $startPosition ) . "', startPosition=$startPosition, textLength=$textLength,\nallowedType=$allowedType, maxElements=$maxElements, endMarker=$endMarker, undefinedType=$undefinedType", "parseVariableTag" );
+        eZDebug::writeDebug( "text='" . substr( $text, $startPosition ) . "', startPosition=$startPosition, textLength=$textLength,\nallowedType=$allowedType, maxElements=$maxElements, endMarker=$endMarker, undefinedType=$undefinedType", "parseVariableTag" );
         $currentPosition = $startPosition;
         $elements = array();
         $lastPosition = false;
@@ -132,8 +132,6 @@ class eZTemplateElementParser
             }
             $lastPosition = $currentPosition;
             $currentPosition = $this->whitespaceEndPos( &$tpl, &$text, $currentPosition, $textLength );
-            if ( $currentPosition >= $textLength )
-                continue;
             if ( $endMarker !== false )
             {
                 if ( $currentPosition < $textLength and
@@ -151,12 +149,12 @@ class eZTemplateElementParser
                 $operatorEndMarker = false;
                 $currentOperatorPosition = $currentPosition + 1;
                 $operatorEndPosition = false;
-//                 eZDebug::writeDebug( "currentOperatorPosition=$currentOperatorPosition, text=" . substr( $text, $currentOperatorPosition ),
-//                                      'operator marker start' );
+                eZDebug::writeDebug( "currentOperatorPosition=$currentOperatorPosition, text=" . substr( $text, $currentOperatorPosition ),
+                                     'operator marker start' );
                 $operatorElements = $this->parseVariableTag( $tpl, $text, $currentOperatorPosition, $operatorEndPosition, $textLength, $defaultNamespace,
                                                              EZ_TEMPLATE_TYPE_OPERATOR_BIT, $maxOperatorElements, $operatorEndMarker, EZ_TEMPLATE_TYPE_OPERATOR );
-//                 eZDebug::writeDebug( "currentOperatorPosition=$currentOperatorPosition, operatorEndPosition=$operatorEndPosition, text=" . substr( $text, $currentOperatorPosition, $operatorEndPosition - $currentOperatorPosition ),
-//                                      'operator marker' );
+                eZDebug::writeDebug( "currentOperatorPosition=$currentOperatorPosition, operatorEndPosition=$operatorEndPosition, text=" . substr( $text, $currentOperatorPosition, $operatorEndPosition - $currentOperatorPosition ),
+                                     'operator marker' );
                 if ( $operatorEndPosition > $currentOperatorPosition )
                 {
                     $elements = array_merge( $elements, $operatorElements );
@@ -234,7 +232,7 @@ class eZTemplateElementParser
                                   );
                 $elements[] = $element;
                 $currentPosition = $quoteEndPosition + 1;
-                $allowedType = EZ_TEMPLATE_TYPE_OPERATOR_BIT;
+                $allowedType = EZ_TEMPLATE_TYPE_NONE;
             }
             else
             {
@@ -264,7 +262,7 @@ class eZTemplateElementParser
                 else
                 {
                     $identifierEndPosition = $this->identifierEndPosition( $tpl, $text, $currentPosition, $textLength );
-//                     eZDebug::writeDebug( "identifierEndPosition=$identifierEndPosition, currentPosition=$currentPosition, textLength=$textLength", 'identifier' );
+                    eZDebug::writeDebug( "identifierEndPosition=$identifierEndPosition, currentPosition=$currentPosition, textLength=$textLength", 'identifier' );
                     if ( $currentPosition == $identifierEndPosition )
                     {
                         $currentPosition = $lastPosition;
@@ -285,7 +283,7 @@ class eZTemplateElementParser
                         if ( $identifierEndPosition < $textLength and
                              $text[$identifierEndPosition] == '(' )
                         {
-//                             eZDebug::writeDebug( "Operator with parameters" );
+                            eZDebug::writeDebug( "Operator with parameters" );
                             $currentPosition = $identifierEndPosition + 1;
                             $currentOperatorPosition = $currentPosition;
                             $operatorDone = false;
@@ -295,7 +293,7 @@ class eZTemplateElementParser
                                 $operatorEndPosition = false;
                                 $operatorParameterElement = $this->parseVariableTag( $tpl, $text, $currentOperatorPosition, $operatorEndPosition, $textLength, $defaultNamespace,
                                                                                      EZ_TEMPLATE_TYPE_BASIC, false, ',)' );
-//                                 eZDebug::writeDebug( "operatorName=$operatorName, currentOperatorPosition=$currentOperatorPosition, operatorEndPosition=$operatorEndPosition, textLength=$textLength, text='" . substr( $text, $currentOperatorPosition, $operatorEndPosition - $currentOperatorPosition ) . "'", 'operator' );
+                                eZDebug::writeDebug( "operatorName=$operatorName, currentOperatorPosition=$currentOperatorPosition, operatorEndPosition=$operatorEndPosition, textLength=$textLength, text='" . substr( $text, $currentOperatorPosition, $operatorEndPosition - $currentOperatorPosition ) . "'", 'operator' );
                                 if ( $operatorEndPosition < $textLength and
                                      $text[$operatorEndPosition] == ',' )
                                 {
@@ -340,11 +338,11 @@ class eZTemplateElementParser
                         }
                         else
                         {
-//                             eZDebug::writeDebug( "Operator without parameters" );
+                            eZDebug::writeDebug( "Operator without parameters" );
                             $operatorEndPosition = $identifierEndPosition;
                         }
 
-//                         eZDebug::writeDebug( "operatorName=$operatorName, currentPosition=$currentPosition, operatorEndPosition=$operatorEndPosition, textLength=$textLength, text='" . substr( $text, $currentPosition, $operatorEndPosition - $currentPosition ) . "'", 'operator' );
+                        eZDebug::writeDebug( "operatorName=$operatorName, currentPosition=$currentPosition, operatorEndPosition=$operatorEndPosition, textLength=$textLength, text='" . substr( $text, $currentPosition, $operatorEndPosition - $currentPosition ) . "'", 'operator' );
                         $element = array( EZ_TEMPLATE_TYPE_OPERATOR, // type
                                           $operatorParameterElements, // content
                                           false // debug
@@ -356,15 +354,15 @@ class eZTemplateElementParser
                     }
                     else
                     {
-//                         eZDebug::writeDebug( "Found identifier: allowedType=$allowedType, identifierEndPosition=$identifierEndPosition, currentPosition=$currentPosition, textLength=$textLength", 'idenifier' );
+                        eZDebug::writeDebug( "Found identifier: allowedType=$allowedType, identifierEndPosition=$identifierEndPosition, currentPosition=$currentPosition, textLength=$textLength", 'idenifier' );
                         if ( !( $allowedType & EZ_TEMPLATE_TYPE_IDENTIFIER_BIT ) )
                         {
-//                             eZDebug::writeDebug( "Identifier not allowed: identifierEndPosition=$identifierEndPosition, currentPosition=$currentPosition, textLength=$textLength", 'idenifier' );
+                            eZDebug::writeDebug( "Identifier not allowed: identifierEndPosition=$identifierEndPosition, currentPosition=$currentPosition, textLength=$textLength", 'idenifier' );
                             $currentPosition = $lastPosition;
                             break;
                         }
                         $identifier = substr( $text, $currentPosition, $identifierEndPosition - $currentPosition );
-//                         eZDebug::writeDebug( "Found identifier '$identifier'" );
+                        eZDebug::writeDebug( "Found identifier '$identifier'" );
                         $element = array( EZ_TEMPLATE_TYPE_IDENTIFIER, // type
                                           $identifier, // content
                                           false // debug
@@ -378,6 +376,269 @@ class eZTemplateElementParser
         }
         $endPosition = $currentPosition;
         return $elements;
+    }
+
+    /*!
+     Parses the variable and operators into a structure.
+    */
+    function &parseVariableTag2( &$tpl, &$text, $start_pos, &$end, $len, $def_nspace )
+    {
+        eZDebug::writeDebug( "text='$text', start_pos=$start_pos, len=$len", "parseVariableTag2" );
+        $pos = $start_pos;
+        $struct = array();
+        $end_pos = $pos;
+//         while( $pos < $len )
+//         {
+            if ( $text[$pos] == "$" )
+            {
+                ++$pos;
+//                 eZDebug::writeDebug( "parseVariableAndAttributes", "parseVariableTag:choice" );
+                $struct = $this->parseVariableAndAttributes( $tpl, $text, $pos, $var_end, $len, $def_nspace );
+                $end_pos = $var_end;
+            }
+            else if ( $text[$pos] == "'" or
+                      $text[$pos] == '"' )
+            {
+                $quote = $text[$pos];
+                ++$pos;
+//                 eZDebug::writeDebug( "quoteEndPos", "parseVariableTag:choice" );
+                $end_pos = $this->quoteEndPos( $tpl, $text, $pos, $len, $quote );
+                $struct["type"] = "text";
+                $struct["content"] = substr( $text, $pos, $end_pos - $pos );
+                ++$end_pos;
+            }
+            else
+            {
+                $end_pos = $this->numericEndPos( $tpl, $text, $pos, $len );
+                if ( $end_pos == $pos )
+                {
+                    $end_pos = $this->identifierEndPosition( $tpl, $text, $pos, $len );
+                    if ( $end_pos < $len and
+                         $text[$end_pos] == "(" )
+                    {
+//                         eZDebug::writeDebug( "parseOperators", "parseVariableTag:choice" );
+                        $operators = $this->parseOperators( $tpl, $text, $pos, $end_pos, $len, $def_nspace, true );
+                        $struct["type"] = "operators";
+                        $struct["operators"] = $operators;
+                    }
+                    else
+                    {
+                        $struct["type"] = "text";
+                        $struct["content"] = substr( $text, $pos, $end_pos - $pos );
+                    }
+                }
+                else
+                {
+                    $struct["type"] = "numerical";
+                    $struct["content"] = substr( $text, $pos, $end_pos - $pos );
+                }
+            }
+//             if ( $end_pos > $start_pos and
+//                  ( $text[$end_pos] == "." or
+//                    $text[$end_pos] == "[" ) )
+//             {
+//                 if ( $text[$end_pos] == "." )
+//                 {
+//                     ++$end_pos;
+//                     $attribute = $this->parseAttribute( $tpl, $text, $end_pos, $attr_end, $len, $def_nspace );
+//                     if ( count( $struct ) == 0 )
+//                         $struct = $attribute;
+//                     else
+//                     {
+//                         if ( $struct["type"] == "container" )
+//                         {
+//                         }
+//                         else
+//                         {
+//                             $old_struct = $struct;
+//                             $struct = array();
+//                             $struct["type"] = "container";
+//                             $struct["content"] = $old_struct;
+//                             $struct["attributes"] = $attribute;
+//                         }
+//                     }
+//                     $end_pos = $attr_end;
+//                 }
+//                 else if ( $text[$end_pos] == "[" )
+//                 {
+//                     ++$end_pos;
+//                     $attribute = $this->parseAttribute( $tpl, $text, $end_pos, $attr_end, $len, $def_nspace );
+//                     $end_pos = $attr_end;
+//                     if ( $text[$attr_end] == "]" )
+//                     {
+//                         ++$end_pos;
+//                     }
+//                     else
+//                         echo( "Indexing didn't end with a ]\n" );
+//                 }
+//                 $attributes[] = $attribute;
+//             }
+            if ( $end_pos < $len and
+                 $text[$end_pos] == "|" )
+            {
+                $pos = $end_pos;
+//                 eZDebug::writeDebug( "parseOperators#2", "parseVariableTag:choice" );
+                $struct["operators"] = $this->parseOperators( $tpl, $text, $pos, $end_pos, $len, $def_nspace );
+            }
+            if ( $pos == $end_pos )
+            {
+                break;
+            }
+            $pos = $end_pos;
+//         }
+        $end = $end_pos;
+        return $struct;
+    }
+
+    /*!
+     Parses operator syntax.
+    */
+    function &parseOperators( &$tpl, &$text, $start_pos, &$end, $len, $def_nspace, $start_with_oper = false )
+    {
+//         eZDebug::writeDebug( "text='$text', start_pos=$start_pos, len=$len, start_with_oper=$start_with_oper", "parseOperators" );
+        $pos = $start_pos;
+        $operators = array();
+        $i = 0;
+        while ( $pos < $len and
+                ( ( $i == 0 and $start_with_oper ) or $text[$pos] == "|" ) )
+        {
+            if ( $i != 0 or !$start_with_oper )
+                ++$pos;
+            $end_pos = $this->identifierEndPosition( $tpl, $text, $pos, $len );
+            $operator_name = substr( $text, $pos, $end_pos - $pos );
+            $pos = $end_pos;
+            $params = array();
+            if ( $pos < $len and
+                 $text[$pos] == "(" )
+            {
+                ++$pos;
+                while ( $pos < $len and
+                        $text[$pos] != ")" )
+                {
+                    if ( $text[$pos] == "," )
+                    {
+                        $param = $tpl->emptyVariable();
+                        ++$pos;
+                    }
+                    else
+                    {
+                        $param = $this->parseVariableTag( $tpl, $text, $pos, $end_pos, $len, $def_nspace );
+                        $pos = $end_pos;
+                        if ( $text[$pos] == "," )
+                            ++$pos;
+                        else if ( $text[$pos] != ")" )
+                            eZDebug::writeWarning( "Parameter didn't end with a ) or , \{pos=$pos,text='" .
+                                                   $text[$pos] . "',before=\"" .
+                                                   substr( $text, max( $pos - 5, 0 ), 5 ) . "\",after=\"" .
+                                                   substr( $text, min( $pos + 1, $len - 1 ), 5 ) . "\"}", "eZTemplate" );
+                    }
+                    $params[] = $param;
+                }
+                ++$pos;
+            }
+            $operator = array( EZ_TEMPLATE_NODE_OPERATOR, false, $operator_name, $params );
+//             $operator = new eZTemplateOperatorElement( $operator_name, $params );
+//             $tpl->setRelation( $operator, $tpl->CurrentRelatedResource, $tpl->CurrentRelatedTemplateName );
+            $operators[] = $operator;
+            ++$i;
+        }
+        $end = $pos;
+//         eZDebug::writeDebug( "text='$text', end=$end, len=$len", "parseOperators:end" );
+        return $operators;
+    }
+
+    /*!
+     Parses attribute syntax.
+    */
+    function &parseAttribute( &$tpl, &$text, $start_pos, &$end, $len, $def_nspace )
+    {
+//         eZDebug::writeDebug( "text='$text', start_pos=$start_pos, len=$len", "parseAttribute" );
+        $pos = $start_pos;
+        $struct = array();
+        if ( $text[$pos] == "$" )
+        {
+            $var = $this->parseVariableTag( $tpl, $text, $pos, $end_pos, $len, $def_nspace );
+            $struct["type"] = "variable";
+            $struct["content"] = $var;
+        }
+        else if ( preg_match( "/^[0-9]$/", $text[$pos] ) )
+        {
+            $end_pos = $this->numericEndPos( $tpl, $text, $pos, $len );
+            $struct["type"] = "index";
+            $struct["content"] = substr( $text, $pos, $end_pos - $pos );
+        }
+        else
+        {
+            $end_pos = $this->identifierEndPosition( $tpl, $text, $pos, $len );
+            $struct["type"] = "map";
+            $struct["content"] = substr( $text, $pos, $end_pos - $pos );
+        }
+        $end = $end_pos;
+        return $struct;
+    }
+
+    /*!
+     Parses variables and attributes.
+    */
+    function &parseVariableAndAttributes( &$tpl, &$text, $start_pos, &$end, $len, $def_nspace )
+    {
+//         eZDebug::writeDebug( "text='$text', start_pos=$start_pos, len=$len", "parseVariableAndAttributes" );
+        $pos = $start_pos;
+        $nspace = false;
+        $var = "";
+        $end_pos = $pos;
+        do
+        {
+            if ( $text[$end_pos] == ":" )
+            {
+                if ( $nspace !== false )
+                    $nspace = "$nspace:$var";
+                else
+                    $nspace = $var;
+                ++$pos;
+            }
+            $end_pos = $this->identifierEndPosition( $tpl, $text, $pos, $len );
+            $var = substr( $text, $pos, $end_pos - $pos );
+            $pos = $end_pos;
+        } while( $end_pos < $len and $text[$end_pos] == ":" );
+        if ( $def_nspace != "" )
+        {
+            if ( $nspace != "" )
+                $nspace = "$def_nspace:$nspace";
+            else
+                $nspace = $def_nspace;
+        }
+        $struct["namespace"] = $nspace;
+        $struct["type"] = "variable";
+        $struct["name"] = $var;
+        $attributes = array();
+        $pos = $end_pos;
+        while ( $pos < $len and
+                ( $text[$pos] == "." or $text[$pos] == "[" ) )
+        {
+            if ( $text[$pos] == "." )
+            {
+                ++$pos;
+                $attribute = $this->parseAttribute( $tpl, $text, $pos, $attr_end, $len, $def_nspace );
+                $pos = $attr_end;
+            }
+            else if ( $text[$pos] == "[" )
+            {
+                ++$pos;
+                $attribute = $this->parseAttribute( $tpl, $text, $pos, $attr_end, $len, $def_nspace );
+                $pos = $attr_end;
+                if ( $text[$attr_end] == "]" )
+                {
+                    ++$pos;
+                }
+                else
+                    eZDebug::writeWarning( "Indexing didn't end with a ]", "eZTemplate::parseVariableAndAttributes" );
+            }
+            $attributes[] = $attribute;
+        }
+        $struct["attributes"] = $attributes;
+        $end = $pos;
+        return $struct;
     }
 
     /*!
@@ -422,7 +683,7 @@ class eZTemplateElementParser
             else
             {
                 $identifierEndPosition = $this->identifierEndPosition( $tpl, $text, $currentPosition, $textLength );
-//                 eZDebug::writeDebug( "currentPosition=$currentPosition, identifierEndPosition=$identifierEndPosition, textLength=$textLength" );
+                eZDebug::writeDebug( "currentPosition=$currentPosition, identifierEndPosition=$identifierEndPosition, textLength=$textLength" );
                 if ( $identifierEndPosition > $currentPosition )
                 {
                     $identifier = substr( $text, $currentPosition, $identifierEndPosition - $currentPosition );
@@ -471,12 +732,12 @@ class eZTemplateElementParser
         {
             if ( !preg_match( "/^[a-zA-Z0-9_-]$/", $text[$pos] ) )
             {
-//                 eZDebug::writeDebug( "start_pos=$start_pos, pos=$pos, " . substr( $text, $start_pos, $pos - $start_pos ), 'identifierEndPosition' );
+                eZDebug::writeDebug( "start_pos=$start_pos, pos=$pos, " . substr( $text, $start_pos, $pos - $start_pos ), 'identifierEndPosition' );
                 return $pos;
             }
             ++$pos;
         }
-//         eZDebug::writeDebug( "start_pos=$start_pos, pos=$pos, " . substr( $text, $start_pos, $pos - $start_pos ), 'identifierEndPosition' );
+        eZDebug::writeDebug( "start_pos=$start_pos, pos=$pos, " . substr( $text, $start_pos, $pos - $start_pos ), 'identifierEndPosition' );
         return $pos;
     }
 
@@ -516,7 +777,7 @@ class eZTemplateElementParser
             {
                 ++$pos;
                 $numberPos = $pos;
-//                 eZDebug::writeDebug( "Possible negative number at $pos", 'numericEndPos' );
+                eZDebug::writeDebug( "Possible negative number at $pos", 'numericEndPos' );
             }
         }
         while ( $pos < $len )
@@ -530,7 +791,7 @@ class eZTemplateElementParser
             }
             else if ( !preg_match( "/^[0-9]$/", $text[$pos] ) )
             {
-//                 eZDebug::writeDebug( "pos=$pos, numberPos=$numberPos", 'numericEndPos' );
+                eZDebug::writeDebug( "pos=$pos, numberPos=$numberPos", 'numericEndPos' );
                 if ( $pos < $len and
                      $has_comma and
                      $pos == $has_comma + 1 )
@@ -549,7 +810,7 @@ class eZTemplateElementParser
         if ( !$has_comma and
              $float )
             $float = false;
-//         eZDebug::writeDebug( substr( $text, $start_pos, $pos - $start_pos ), 'numericEndPos' );
+        eZDebug::writeDebug( substr( $text, $start_pos, $pos - $start_pos ), 'numericEndPos' );
         return $pos;
     }
 

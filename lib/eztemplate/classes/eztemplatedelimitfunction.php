@@ -82,21 +82,19 @@ class eZTemplateDelimitFunction
     /*!
      Outputs the left or right delimiter if the function names match.
     */
-    function &process( &$tpl, &$func_name, &$func_obj, $nspace, $current_nspace )
+    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $nspace, $current_nspace )
     {
-        $text = "";
-        switch ( $func_name )
+        switch ( $functionName )
         {
             case $this->LName:
             {
-                $text = $tpl->leftDelimiter();
+                $textElements[] = $tpl->leftDelimiter();
             } break;
             case $this->RName:
             {
-                $text = $tpl->rightDelimiter();
+                $textElements[] = $tpl->rightDelimiter();
             } break;
         }
-        return $text;
     }
 
     /*!

@@ -4,3 +4,16 @@ Changes from 2.9-5 to 2.9-6
 
 *Kernel :
 - Added correct calculations for complex discount rules
+
+*Library :
+
+eZ template:
+- New template parser created, and all related template functions and operators have been updated.
+  The new internal structure is lighter and should give faster processing.
+- The line and column of all elements in a template file are remembedered with the filename, this
+  makes it much easier to track down errors.
+- Whitespace handling is improved, it's now possible to have whitespaces inbetween variable, operator
+  and attribute elements.
+- Better namespace handling, it's now possible to specify a global namespace by adding a # to the start
+  of the namespace or a relative one by adding a : to the start of the namespace.
+- Attribute lookup of operator result are now possible.

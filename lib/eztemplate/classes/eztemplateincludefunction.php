@@ -76,25 +76,25 @@ class eZTemplateIncludeFunction
     /*!
      Loads the file specified in the parameter "uri" with namespace "name".
     */
-    function &process( &$tpl, &$func_name, &$func_obj, $nspace, $current_nspace )
+    function &process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
-        $text = "";
-        $params =& $func_obj->parameters();
+//         $text = "";
+        $params = $functionParameters;
         if ( !isset( $params["uri"] ) )
         {
             $tpl->missingParameter( $this->IncludeName, "uri" );
             return false;
         }
-        $uri = $tpl->elementValue( $params["uri"], $nspace );
+        $uri = $tpl->elementValue( $params["uri"], $rootNamespace, $currentNamespace, $functionPlacement );
         $name = "";
         if ( isset( $params["name"] ) )
-            $name = $tpl->elementValue( $params["name"], $nspace );
-        if ( $current_nspace != "" )
+            $name = $tpl->elementValue( $params["name"], $rootNamespace, $currentNamespace, $functionPlacement );
+        if ( $currentNamespace != "" )
         {
             if ( $name != "" )
-                $name = "$current_nspace:$name";
+                $name = "$currentNamespace:$name";
             else
-                $name = $current_nspace;
+                $name = $currentNamespace;
         }
         reset( $params );
         while ( ( $key = key( $params ) ) !== null )
@@ -108,21 +108,21 @@ class eZTemplateIncludeFunction
 
                 default:
                 {
-                    $item_value = $tpl->elementValue( $item, $nspace );
+                    $item_value = $tpl->elementValue( $item, $rootNamespace, $currentNamespace, $functionPlacement );
                     $tpl->setVariable( $key, $item_value, $name );
                 } break;
             }
             next( $params );
         }
-        eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, $nspace, $name );
-        return $text;
+        eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, $rootNamespace, $name );
+//         return $text;
     }
 
     /*!
      \static
      Takes care of loading the template file and set it in the \a $text parameter.
     */
-    function handleInclude( &$text, &$uri, &$tpl, $nspace, $name )
+    function handleInclude( &$textElements, &$uri, &$tpl, $rootNamespace, $name )
     {
         $canCache = true;
         $resource =& $tpl->resourceFor( $uri, $resourceName, $templateName );
@@ -139,7 +139,8 @@ class eZTemplateIncludeFunction
             $res =& $tpl->loadURI( $uri, true, $extraParameters );
             if ( $res )
             {
-                $root = new eZTemplateRoot();
+//                 $root = new eZTemplateRoot();
+                $root = array( EZ_TEMPLATE_NODE_ROOT, false );
                 $tpl_text =& $res["text"];
                 $tpl->setIncludeText( $uri, $tpl_text );
                 $tpl->parse( $tpl_text, $root, "", $res );
@@ -150,9 +151,9 @@ class eZTemplateIncludeFunction
         if ( $root )
         {
             $sub_text = "";
-            $root->process( $tpl, $sub_text, $name, $name );
+            $tpl->process( $root, $sub_text, $name, $name );
             $tpl->setIncludeOutput( $uri, $sub_text );
-            $text = $sub_text;
+            $textElements[] = $sub_text;
         }
     }
 

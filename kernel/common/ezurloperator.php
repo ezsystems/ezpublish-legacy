@@ -79,9 +79,9 @@ class eZURLOperator
 
     /*!
      */
-    function modify( &$element, &$tpl, &$op_name, &$op_params, &$current_nspace, &$namespace, &$value, &$named_params )
+    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters )
     {
-        switch ( $op_name )
+        switch ( $operatorName )
         {
             case $this->URLName:
             {
@@ -101,13 +101,13 @@ class eZURLOperator
 
             case $this->SysName:
             {
-                if ( count( $op_params ) == 0 )
-                    $tpl->warning( 'eZURLOperator' . $op_name, 'Requires attributename' );
+                if ( count( $operatorParameters ) == 0 )
+                    $tpl->warning( 'eZURLOperator' . $operatorName, 'Requires attributename' );
                 else
                 {
-                    $sysAttribute = $tpl->elementValue( $op_params[0], $namespace );
+                    $sysAttribute = $tpl->elementValue( $op_params[0], $rootNamespace, $currentNamespace );
                     if ( !$this->Sys->hasAttribute( $sysAttribute ) )
-                        $tpl->warning( 'eZURLOperator' . $op_name, "No such attribute '$sysAttribute' for eZSys" );
+                        $tpl->warning( 'eZURLOperator' . $operatorName, "No such attribute '$sysAttribute' for eZSys" );
                     else
                         $value = $this->Sys->attribute( $sysAttribute );
                 }
@@ -147,11 +147,11 @@ class eZURLOperator
                     $value = $this->Sys->wwwDir() . "/$std_file";
                 else
                     $tpl->warning( 'eZURLOperator', "Design element $value does not exist in any design" );
-//                 $value = $this->Sys->wwwDir() . '/design/' . $tpl->variableValue( '$site.design', $namespace ) . "/$value";
+//                 $value = $this->Sys->wwwDir() . '/design/' . $tpl->variableValue( '$site.design', $rootNamespace ) . "/$value";
             } break;
         }
         $quote = "\"";
-        $val = $named_params['quote_val'];
+        $val = $namedParameters['quote_val'];
         if ( $val == 'single' )
             $quote = "'";
         else if ( $val == 'no' )

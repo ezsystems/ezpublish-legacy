@@ -179,12 +179,12 @@ class eZTemplateLogicOperator
     /*!
      Examines the input value and outputs a boolean value. See class documentation for more information.
     */
-    function modify( &$element, &$tpl, &$op_name, &$op_params, &$namespace, &$current_nspace, &$value, &$named_params )
+    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters )
     {
-        if ( $op_name == $this->LTName or $op_name == $this->GTName or
-             $op_name == $this->LEName or $op_name == $this->GEName )
+        if ( $operatorName == $this->LTName or $operatorName == $this->GTName or
+             $operatorName == $this->LEName or $operatorName == $this->GEName )
         {
-            $val = $named_params["threshold"];
+            $val = $namedParameters["threshold"];
             if ( is_array( $val ) )
                 $val_cnt = count( $val );
             else if ( is_object( $val ) and
@@ -194,34 +194,34 @@ class eZTemplateLogicOperator
                 $val_cnt = $val;
             else
             {
-                $tpl->warning( $op_name, "Unsupported input type: " . gettype( $val ) . "( $val ), must be either array, attribute object or numerical" );
+                $tpl->warning( $operatorName, "Unsupported input type: " . gettype( $val ) . "( $val ), must be either array, attribute object or numerical" );
                 return;
             }
         }
-        switch ( $op_name )
+        switch ( $operatorName )
         {
             case $this->TrueName:
             case $this->FalseName:
             {
-                $value = ( $op_name == $this->TrueName );
+                $value = ( $operatorName == $this->TrueName );
             } break;
             case $this->NEName:
             {
-                if ( count( $op_params ) >= 1 )
+                if ( count( $operatorParameters ) >= 1 )
                 {
-                    if ( count( $op_params ) == 1 )
+                    if ( count( $operatorParameters ) == 1 )
                     {
-                        $lastOperand =& $tpl->elementValue( $op_params[0], $namespace );
+                        $lastOperand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
                         $value = ( $lastOperand != $value );
                     }
                     else
                     {
                         $similar = false;
                         $value = false;
-                        $lastOperand =& $tpl->elementValue( $op_params[0], $namespace );
-                        for ( $i = 1; $i < count( $op_params ); ++$i )
+                        $lastOperand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
+                        for ( $i = 1; $i < count( $operatorParameters ); ++$i )
                         {
-                            $operand =& $tpl->elementValue( $op_params[$i], $namespace );
+                            $operand =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
                             if ( $operand != $lastOperand )
                             {
                                 $value = true;
@@ -235,26 +235,26 @@ class eZTemplateLogicOperator
                 else
                 {
                     $value = false;
-                    $tpl->warning( $op_name, "Requires one parameter for input checking or two or more for parameter checking" );
+                    $tpl->warning( $operatorName, "Requires one parameter for input checking or two or more for parameter checking" );
                 }
             } break;
             case $this->EQName:
             {
-                if ( count( $op_params ) >= 1 )
+                if ( count( $operatorParameters ) >= 1 )
                 {
-                    if ( count( $op_params ) == 1 )
+                    if ( count( $operatorParameters ) == 1 )
                     {
-                        $lastOperand =& $tpl->elementValue( $op_params[0], $namespace );
+                        $lastOperand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
                         $value = ( $lastOperand == $value );
                     }
                     else
                     {
                         $similar = false;
                         $value = true;
-                        $lastOperand =& $tpl->elementValue( $op_params[0], $namespace );
-                        for ( $i = 1; $i < count( $op_params ); ++$i )
+                        $lastOperand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
+                        for ( $i = 1; $i < count( $operatorParameters ); ++$i )
                         {
-                            $operand =& $tpl->elementValue( $op_params[$i], $namespace );
+                            $operand =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
                             if ( $operand != $lastOperand )
                             {
                                 $value = false;
@@ -268,14 +268,14 @@ class eZTemplateLogicOperator
                 else
                 {
                     $value = false;
-                    $tpl->warning( $op_name, "Requires one parameter for input checking or two or more for parameter checking" );
+                    $tpl->warning( $operatorName, "Requires one parameter for input checking or two or more for parameter checking" );
                 }
             } break;
             case $this->OrName:
             {
-                for ( $i = 0; $i < count( $op_params ); ++$i )
+                for ( $i = 0; $i < count( $operatorParameters ); ++$i )
                 {
-                    $operand = $tpl->elementValue( $op_params[$i], $namespace );
+                    $operand = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
                     $operand_logic = false;
                     if ( is_array( $operand ) )
                         $operand_logic = count( $operand ) > 0;
@@ -299,9 +299,9 @@ class eZTemplateLogicOperator
             case $this->AndName:
             {
                 $operand = null;
-                for ( $i = 0; $i < count( $op_params ); ++$i )
+                for ( $i = 0; $i < count( $operatorParameters ); ++$i )
                 {
-                    $operand = $tpl->elementValue( $op_params[$i], $namespace );
+                    $operand = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
                     $operand_logic = false;
                     if ( is_array( $operand ) )
                         $operand_logic = count( $operand ) > 0;
@@ -328,7 +328,7 @@ class eZTemplateLogicOperator
                      ( is_object( $value ) and
                        method_exists( $value, "attributes" ) ) )
                 {
-                    $tpl->error( $op_name, "Only supports numeric and boolean values" );
+                    $tpl->error( $operatorName, "Only supports numeric and boolean values" );
                     return;
                 }
                 else if ( is_numeric( $value ) )
@@ -338,12 +338,12 @@ class eZTemplateLogicOperator
                 else
                     $index = $value ? 1 : 0;
                 if ( $index < 0 or
-                     $index > count( $op_params ) )
+                     $index > count( $operatorParameters ) )
                 {
-                    $tpl->error( $op_name, "Index $index out of range" );
+                    $tpl->error( $operatorName, "Index $index out of range" );
                     return;
                 }
-                $value = $tpl->elementValue( $op_params[$index], $namespace );
+                $value = $tpl->elementValue( $operatorParameters[$index], $rootNamespace, $currentNamespace );
             } break;
             case $this->LTName:
             case $this->GTName:
@@ -359,16 +359,16 @@ class eZTemplateLogicOperator
                     $cnt = $value;
                 else
                 {
-                    $tpl->warning( $op_name, "Unsupported type: " . gettype( $value ) . "( $value ), must be either array, attribute object or numerical" );
+                    $tpl->warning( $operatorName, "Unsupported type: " . gettype( $value ) . "( $value ), must be either array, attribute object or numerical" );
                     return;
                 }
-                if ( $op_name == $this->LTName )
+                if ( $operatorName == $this->LTName )
                     $value = ( $cnt < $val_cnt );
-                else if ( $op_name == $this->GTName )
+                else if ( $operatorName == $this->GTName )
                     $value = ( $cnt > $val_cnt );
-                else if ( $op_name == $this->LEName )
+                else if ( $operatorName == $this->LEName )
                     $value = ( $cnt <= $val_cnt );
-                else if ( $op_name == $this->GEName )
+                else if ( $operatorName == $this->GEName )
                     $value = ( $cnt >= $val_cnt );
             } break;
             case $this->NullName:

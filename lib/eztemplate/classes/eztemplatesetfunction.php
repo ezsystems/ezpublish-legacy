@@ -82,22 +82,22 @@ class eZTemplateSetFunction
     /*!
      Loads the file specified in the parameter 'uri' with namespace 'name'.
     */
-    function &process( &$tpl, &$functionName, &$functionObject, $nspace, $current_nspace )
+    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         if ( $functionName != $this->SetName and
              $functionName != $this->LetName and
              $functionName != $this->DefaultName )
             return null;
-        $parameters =& $functionObject->parameters();
+        $parameters = $functionParameters;
         $name = '';
         if ( isset( $parameters['name'] ) )
-            $name = $tpl->elementValue( $parameters['name'], $nspace );
-        if ( $current_nspace != '' )
+            $name = $tpl->elementValue( $parameters['name'], $rootNamespace, $currentNamespace, $functionPlacement );
+        if ( $currentNamespace != '' )
         {
             if ( $name != '' )
-                $name = "$current_nspace:$name";
+                $name = "$currentNamespace:$name";
             else
-                $name = $current_nspace;
+                $name = $currentNamespace;
         }
         $definedVariables = array();
         foreach ( array_keys( $parameters ) as $key )
@@ -115,7 +115,7 @@ class eZTemplateSetFunction
                     {
                         if ( $tpl->hasVariable( $key, $name ) )
                         {
-                            $itemValue = $tpl->elementValue( $item, $nspace );
+                            $itemValue = $tpl->elementValue( $item, $rootNamespace, $currentNamespace, $functionPlacement );
                             $tpl->setVariableRef( $key, $itemValue, $name );
                         }
                         else
@@ -130,7 +130,7 @@ class eZTemplateSetFunction
                     {
                         if ( !$tpl->hasVariable( $key, $name ) )
                         {
-                            $itemValue =& $tpl->elementValue( $item, $nspace );
+                            $itemValue =& $tpl->elementValue( $item, $rootNamespace, $currentNamespace, $functionPlacement );
 //                             eZDebug::writeError( "setting key '$key' to '$itemValue' in namespace '$name'" );
                             $tpl->setVariableRef( $key, $itemValue, $name );
                             $definedVariables[] = $key;
@@ -140,7 +140,7 @@ class eZTemplateSetFunction
                     {
                         if ( !$tpl->hasVariable( $key, $name ) )
                         {
-                            $itemValue =& $tpl->elementValue( $item, $nspace );
+                            $itemValue =& $tpl->elementValue( $item, $rootNamespace, $currentNamespace, $functionPlacement );
                             $tpl->setVariableRef( $key, $itemValue, $name );
                             $definedVariables[] = $key;
                         }
@@ -158,20 +158,18 @@ class eZTemplateSetFunction
         if ( $functionName == $this->LetName or
              $functionName == $this->DefaultName )
         {
-            $text = '';
-            $children =& $functionObject->children();
+            $children = $functionChildren;
             foreach ( array_keys( $children ) as $childKey )
             {
                 $child =& $children[$childKey];
-                $child->process( $tpl, $text, $nspace, $name );
+                $tpl->processNode( $child, $textElements, $rootNamespace, $name );
             }
             foreach ( $definedVariables as $variable )
             {
                 $tpl->unsetVariable( $variable, $name );
             }
-            return $text;
         }
-        return null;
+        return;
     }
 
     /*!

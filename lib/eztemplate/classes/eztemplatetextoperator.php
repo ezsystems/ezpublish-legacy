@@ -67,16 +67,16 @@ class eZTemplateTextOperator
     /*!
      Examines the input value and outputs a boolean value. See class documentation for more information.
     */
-    function modify( &$element, &$tpl, &$op_name, &$op_params, &$namespace, &$current_nspace, &$value )
+    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value )
     {
-        switch ( $op_name )
+        switch ( $operatorName )
         {
             case $this->ConcatName:
             {
                 $operands = array();
-                for ( $i = 0; $i < count( $op_params ); ++$i )
+                for ( $i = 0; $i < count( $operatorParameters ); ++$i )
                 {
-                    $operand = $tpl->elementValue( $op_params[$i], $namespace );
+                    $operand = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
                     if ( !is_object( $operand ) )
                         $operands[] = $operand;
                 }
