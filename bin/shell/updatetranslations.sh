@@ -45,19 +45,19 @@ for translation in *; do
     echo -n " `$POSITION_STORE``$SETCOLOR_EMPHASIZE`$translation`$SETCOLOR_NORMAL`"
 
     if [ "$translation" == "untranslated" ]; then
-	(cd  $dir && $dir/bin/linux/ezlupdate -u &>/dev/null )
-	if [ $? -ne 0 ]; then
-	    echo
-	    echo "Error updating translations"
-	    exit 1
-	fi
+        (cd  $dir && $dir/bin/linux/ezlupdate -u &>/dev/null )
+        if [ $? -ne 0 ]; then
+            echo
+            echo "Error updating translations for untranslated"
+            exit 1
+        fi
     else
-	(cd  $dir && $dir/bin/linux/ezlupdate "$translation" &>/dev/null )
-	if [ $? -ne 0 ]; then
-	    echo
-	    echo "Error updating translations"
-	    exit 1
-	fi
+        (cd  $dir && $dir/bin/linux/ezlupdate "$translation" &>/dev/null )
+        if [ $? -ne 0 ]; then
+            echo
+            echo "Error updating translations for $translation"
+            exit 1
+        fi
     fi
     echo -n "`$POSITION_RESTORE``$SETCOLOR_COMMENT`$translation`$SETCOLOR_NORMAL`"
 done

@@ -584,14 +584,14 @@ if [ -z "$SKIPTRANSLATION" ]; then
 		(cd  $DEST && $dir/bin/linux/ezlupdate -u -d "$dir/design" &>/dev/null )
 		if [ $? -ne 0 ]; then
 		    echo
-		    echo "Error updating translations"
+		    echo "Error updating translations for untranslated"
 		    exit 1
 		fi
 	    else
-		(cd  $DEST && $dir/bin/linux/ezlupdate -d "$dir/design" "$translation" &>/dev/null )
+		(cd  $DEST && $dir/bin/linux/ezlupdate "$translation" -d "$dir/design" &>/dev/null )
 		if [ $? -ne 0 ]; then
 		    echo
-		    echo "Error updating translations"
+		    echo "Error updating translations for $translation"
 		    exit 1
 		fi
 	    fi
@@ -611,26 +611,30 @@ if [ -z "$SKIPTRANSLATION" ]; then
     rm -rf $DEST/share/translations.org
 fi
 
-echo "Removing obsolete translation strings"
-cd $DEST/share/translations
-for translation in *; do
-    if [ -z $SKIPTRANSLATION ]; then
+if [ -z $SKIPTRANSLATION ]; then
+    echo -n "Removing obsolete strings: "
+    cd $DEST/share/translations
+    for translation in *; do
+	echo -n " `$POSITION_STORE``$SETCOLOR_EMPHASIZE`$translation`$SETCOLOR_NORMAL`"
 	if [ "$translation" == "untranslated" ]; then
-	    (cd  $DEST && $dir/bin/linux/ezlupdate -no -d "$dir/design" -u &>/dev/null)
+	    (cd  $DEST && $dir/bin/linux/ezlupdate -no -u -d "$dir/design" &>/dev/null)
 	    if [ $? -ne 0 ]; then
-		echo "Error removing obsolete entries"
+	        echo
+		echo "Error removing obsolete entries for untranslated"
 		exit 1
 	    fi
 	else
-	    (cd  $DEST && $dir/bin/linux/ezlupdate -no -d "$dir/design" "$translation" &>/dev/null)
+	    (cd  $DEST && $dir/bin/linux/ezlupdate -no "$translation" -d "$dir/design" &>/dev/null)
 	    if [ $? -ne 0 ]; then
-		echo "Error removing obsolete entries"
+	        echo
+		echo "Error removing obsolete entries for $translation"
 		exit 1
 	    fi
 	fi
-    fi
-done
-cd $dir
+	echo -n "`$POSITION_RESTORE``$SETCOLOR_COMMENT`$translation`$SETCOLOR_NORMAL`"
+    done
+    cd $dir
+fi
 
 #
 # *****   Handle changelogs from earlier versions   *****
