@@ -46,6 +46,13 @@ if ( file_exists( $includeFile ) )
     $result =& ob_get_contents();
     ob_end_clean();
 }
+else
+{
+    ob_start();
+    include_once( "kernel/manual/about/about.php" );
+    $result =& ob_get_contents();
+    ob_end_clean();
+}
 
 $Result = array();
 $Result["content"] = $result;
