@@ -429,7 +429,7 @@ class eZTemplateCompiler
         $php->addComment( 'URI:       ' . $resourceData['uri'] );
         $php->addComment( 'Filename:  ' . $resourceData['template-filename'] );
         $php->addComment( 'Timestamp: ' . $resourceData['time-stamp'] . ' (' . date( 'D M j G:i:s T Y', $resourceData['time-stamp'] ) . ')' );
-        $php->addCodePiece( "print( \"" . $resourceData['template-filename'] . " ($cacheFileName)<br/>\n\" );" );
+//         $php->addCodePiece( "print( \"" . $resourceData['template-filename'] . " ($cacheFileName)<br/>\n\" );" );
         if ( $useComments )
         {
             $templateFilename = $resourceData['template-filename'];
