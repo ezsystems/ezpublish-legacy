@@ -182,7 +182,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
     function &fetchUsersForDigest( $timestamp )
     {
         return eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
-                                                    array(), array( 'send_date' => array( '', array( 1, $timestamp ) ) ),
+                                                    null, array( 'send_date' => array( '', array( 1, $timestamp ) ) ),
                                                     array( 'address' => 'asc' ),null,
                                                     false,false,array( array( 'operation' => 'distinct address' ) ) );
 
