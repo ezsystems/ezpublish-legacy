@@ -44,7 +44,9 @@
 
   To create PHP code you must create an instance of this class,
   add any number of elements you choose with
-  addDefine(), addVariable(), addVariableUnset(), addSpace(), addText(), addMethodCall(), addCodePiece(), addComment() and addInclude().
+  addDefine(), addVariable(), addVariableUnset(), addVariableUnsetList(),
+  addSpace(), addText(), addMethodCall(), addCodePiece(), addComment() and
+  addInclude().
   After that you call store() to write all changes to disk.
 
 \code
@@ -1055,9 +1057,9 @@ print( $values['MyValue'] );
         if ( isset( $parameters['spacing'] ) )
             $spacing = $parameters['spacing'];
         $text = 'unset( ';
-		array_walk( $variableNames, create_function( '&$variableName,$key', '$variableName = "\$" . $variableName;') );
-		$text .= join( ', ', $variableNames );
-		$text .= " );\n";
+        array_walk( $variableNames, create_function( '&$variableName,$key', '$variableName = "\$" . $variableName;') );
+        $text .= join( ', ', $variableNames );
+        $text .= " );\n";
         $text = eZPHPCreator::prependSpacing( $text, $spacing );
         $this->write( $text );
     }
@@ -1101,5 +1103,7 @@ print( $values['MyValue'] );
     var $Elements;
     var $TextChunks;
 }
-
+/*
+ * vim:et
+ */
 ?>
