@@ -6,6 +6,17 @@
         <translation>Maksimum filstÃ¸rrelse:</translation>
     </message>
     <message>
+	<source>Default value:</source>
+	<translation>Standardverdi</translation>
+    <message>
+    <message>
+	<source>Empty</source>
+	<translation>Ingen verdi</translation>
+    <message>
+    <message>
+	<source>Current time</source>
+	<translation>Nåværende tidspunkt</translation>
+    <message>
         <source>Multiple choice</source>
         <translation>Flere valg</translation>
     </message>
