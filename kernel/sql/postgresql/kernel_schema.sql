@@ -1204,7 +1204,7 @@ CREATE TABLE ezcontentobject_attribute (
     attribute_original_id integer DEFAULT 0,
     sort_key_int integer DEFAULT 0 NOT NULL,
     sort_key_string character varying(255) DEFAULT ''::character varying NOT NULL,
-    data_type_string character varying(50)
+    data_type_string character varying(50) DEFAULT ''
 );
 
 
@@ -1472,12 +1472,12 @@ CREATE TABLE ezmedia (
     mime_type character varying(50) DEFAULT ''::character varying NOT NULL,
     width integer,
     height integer,
-    has_controller integer,
-    is_autoplay integer,
     pluginspage character varying(255),
     quality character varying(50),
     controls character varying(50),
-    is_loop integer
+    has_controller integer DEFAULT '0',
+    is_autoplay integer DEFAULT '0',
+    is_loop integer DEFAULT '0'
 );
 
 
@@ -1699,10 +1699,10 @@ CREATE TABLE ezproductcollection_item (
     productcollection_id integer DEFAULT 0 NOT NULL,
     contentobject_id integer DEFAULT 0 NOT NULL,
     item_count integer DEFAULT 0 NOT NULL,
-    price double precision,
     is_vat_inc integer,
     vat_value double precision,
-    discount double precision
+    discount double precision,
+    price double precision DEFAULT '0'
 );
 
 
@@ -2215,7 +2215,7 @@ CREATE TABLE ezrss_export_item (
     source_node_id integer,
     class_id integer,
     title character varying(255),
-    description character varying(255) DEFAULT ''
+    description character varying(255)
 );
 
 
