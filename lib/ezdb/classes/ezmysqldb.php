@@ -83,7 +83,7 @@ class eZMySQLDB extends eZDBInterface
                 $connection =& $this->DBWriteConnection;
             }
 
-            if ( $connection )
+            if ( $connection and $this->DBWriteConnection )
             {
                 $this->DBConnection = $connection;
                 $this->IsConnected = true;
