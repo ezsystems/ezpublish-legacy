@@ -14,7 +14,7 @@
     {include uri="design:gui/lineedit.tpl" id_name="Title" value=$pdf_export.title|wash }
     <br/>
 
-    <input type="checkbox" name="DisplayFrontpage" {section show=$pdf_export.show_frontpage}checked="checked"{/section}>{"Display frontpage"|i18n("design/standard/rss/edit")}</input>
+    <input type="checkbox" name="DisplayFrontpage" {section show=$pdf_export.show_frontpage|eq(1)}checked="checked"{/section}>{"Display frontpage"|i18n("design/standard/rss/edit")}</input>
     <br/>
     &nbsp;&nbsp;<label>{"Intro text"|i18n("design/standard/content")}</label><div class="labelbreak"></div>
     &nbsp;&nbsp;<textarea name="IntroText" cols="64" rows="3">{$pdf_export.intro_text|wash}</textarea>
@@ -26,7 +26,7 @@
     <label>{"Source node"|i18n("design/standard/content")}</label><div class="labelbreak"></div>
     <input type="text" readonly="readonly" size="45" value="{section show=$pdf_export.source_node}{$pdf_export.source_node..path_identification_string|wash}{/section}" maxlength="60" />
     {include uri="design:gui/button.tpl" id_name="ExportPDFBrowse" value="Browse"|i18n("design/standard/content")}
-    <input type="hidden" name="PDFSourceNode" value="{$pdf_export.source_node_id|wash}" />
+    <input type="hidden" name="SourceNode" value="{$pdf_export.source_node_id|wash}" />
     <br/>
 
     <label>{"Export structure"|i18n("design/standard/content")}</label><div class="labelbreak"></div>

@@ -201,11 +201,10 @@ class eZPDF
 
             case 'close':
             {
-//                include_once( 'lib/ezutils/classes/eztexttool.php' );
                 include_once( 'lib/ezfile/classes/ezfile.php' );
-                $filename = 'tmp.pdf';
-                eZFile::create( $filename, eZSys::storageDirectory() .'/pdf', $this->PDF->ezOutput() );
-                eZDebug::writeNotice( 'PDF file closed and saved to '. eZSys::storageDirectory() .'/pdf/'. $filename, 'eZPDF::modify' );
+                $filename = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+                eZFile::create( $filename, false, $this->PDF->ezOutput() );
+                eZDebug::writeNotice( 'PDF file closed and saved to '. $filename, 'eZPDF::modify' );
             } break;
 
             case 'strike':

@@ -77,7 +77,7 @@ if ( isset( $pdfExport ) &&
     $pdfExport->setAttribute( 'site_access', $Module->actionParameter( 'SiteAccess' ) );
     $pdfExport->setAttribute( 'export_structure', $Module->actionParameter( 'ExportType' ) );
     $pdfExport->setAttribute( 'export_classes', implode( ':', $Module->actionParameter( 'ClassList' ) ) );
-    $pdfExport->setAttribute( 'pdf_file_name', $Module->actionParameter( 'DestinationFile' ) );
+    $pdfExport->setAttribute( 'pdf_filename', $Module->actionParameter( 'DestinationFile' ) );
     $pdfExport->store( );
 }
 
@@ -135,9 +135,10 @@ else if ( $Module->isCurrentAction( 'Export' ) )
 
         $tpl->setVariable( 'pdf_definition', $pdf_definition );
 
+
+        $tpl->setVariable( 'filename', $pdfExport->attribute( 'filepath' ) );
         $tpl->fetch( 'design:node/view/execute_pdf.tpl' );
 
-        echo $Module->actionParameter( 'DestinationType' );
         if ( $Module->actionParameter( 'DestinationType' ) != 'download' )
         {
             $pdfExport->store( 1 );

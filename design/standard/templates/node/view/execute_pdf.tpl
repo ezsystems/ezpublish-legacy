@@ -6,5 +6,5 @@
 {/section}
 
 {section show=$generate_file|eq(1)}
-  {pdf(close)}
+  {pdf(close, $filename)}
 {/section}

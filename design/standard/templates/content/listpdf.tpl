@@ -15,7 +15,7 @@
 
 {section name=PDFExport loop=$pdfexport_list sequence=array(bglight,bgdark)}
 <tr>
-    <td class="{$PDFExport:sequence}"><a href={$PDFExport:item.filepath|ezurl}>{$PDFExport:item.title|wash}</a></td>
+    <td class="{$PDFExport:sequence}"><a href={$PDFExport:item.filepath|ezroot}>{$PDFExport:item.title|wash}</a></td>
     <td class="{$PDFExport:sequence}">{content_view_gui view=text_linked content_object=$PDFExport:item.modifier.contentobject}</td>
     <td class="{$PDFExport:sequence}"><span class="small">{$PDFExport:item.modified|l10n(shortdatetime)}</span></td>
     <td class="{$PDFExport:sequence}"><a href={"content/exportpdf/"}>{"Regenerate"|i18n("design/standard/content/view")}</a></td>
