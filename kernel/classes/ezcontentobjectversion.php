@@ -81,7 +81,8 @@ class eZContentObjectVersion extends eZPersistentObject
                                                       'main_parent_node_id' => 'mainParentNodeID',
                                                       'parent_nodes' => 'parentNodes',
                                                       'node_assignments' => 'nodeAssignments',
-                                                      'contentobject' => 'contentObject'
+                                                      'contentobject' => 'contentObject',
+                                                      'translation_list' => 'translations'
                                                       ),
                       'class_name' => "eZContentObjectVersion",
                       'sort' => array( 'version' => 'asc' ),
@@ -98,6 +99,7 @@ class eZContentObjectVersion extends eZPersistentObject
             or $attr == 'parent_nodes'
             or $attr == 'node_assignments'
             or $attr == 'contentobject'
+            or $attr == 'translation_list'
             or eZPersistentObject::hasAttribute( $attr );
     }
 
@@ -135,6 +137,10 @@ class eZContentObjectVersion extends eZPersistentObject
         elseif ( $attr == 'contentobject' )
         {
             return  $this->contentObject();
+        }
+        elseif ( $attr == 'translation_list' )
+        {
+            return  $this->translations();
         }
         else
         {
@@ -267,7 +273,7 @@ class eZContentObjectVersion extends eZPersistentObject
         foreach ( array_keys( $contentObjectTranslations ) as $contentObjectTranslationKey )
         {
             $contentObjectTranslation =& $contentObjectTranslations[$contentObjectTranslationKey];
-            $contentObjectAttributes =& $contentObjectTranslation->attributes();
+            $contentObjectAttributes =& $contentObjectTranslation->objectAttributes();
             foreach ( array_keys( $contentObjectAttributes ) as $attributeKey )
             {
                 $attribute =& $contentObjectAttributes[$attributeKey];

@@ -106,6 +106,7 @@ class eZLocale
     */
     function eZLocale( $localeString )
     {
+        $this->IsValid = false;
         $this->TimePHPArray = array( 'g', 'G', 'h', 'H', 'i', 's', 'U', 'l' );
         $this->DatePHPArray = array( 'd', 'j', 'm', 'n', 'O', 'T', 'U', 'w', 'W', 'Y', 'y', 'z', 'Z' );
         $this->DateTimePHPArray = array( 'd', 'j', 'm', 'n', 'O', 'T', 'U', 'w', 'W', 'Y', 'y', 'z', 'Z',
@@ -159,13 +160,17 @@ class eZLocale
         else
             $this->WeekDays = array( 0, 1, 2, 3, 4, 5 );
 
+        $this->IsValid = true;
         // Load language information
         if ( $languageINI !== null )
         {
             $this->initLanguage( $languageINI );
         }
         else
+        {
+            $this->IsValid = false;
             eZDebug::writeError( 'Could not load language settings for ' . $this->LanguageCode, 'eZLocale' );
+        }
 
         // Load country information
         if ( $countryINI !== null )
@@ -173,7 +178,10 @@ class eZLocale
             $this->initCountry( $countryINI );
         }
         else
+        {
+            $this->IsValid = false;
             eZDebug::writeError( 'Could not load country settings for ' . $this->CountryCode, 'eZLocale' );
+        }
 
         // Load variation if any
         $localeVariationINI =& $this->localeFile( true );
@@ -263,6 +271,14 @@ class eZLocale
             $this->ShortWeekDayNames[$wday] = '';
             $this->LongWeekDayNames[$wday] = '';
         }
+    }
+
+    /*!
+     \return true if the locale is valid, ie the locale file could be loaded.
+    */
+    function isValid()
+    {
+        return $this->IsValid;
     }
 
     /*!
@@ -405,6 +421,59 @@ class eZLocale
         if ( $charset === false )
             $charset = $this->Language->code();
         setlocale( LC_ALL, $charset );
+    }
+
+    function attributes()
+    {
+        return array_keys( eZLocale::attributeFunctionMap() );
+    }
+
+    function hasAttribute( $attribute )
+    {
+        $attributeMap = eZLocale::attributeFunctionMap();
+        if ( isset( $attributeMap[$attribute] ) )
+            return true;
+    }
+
+    function &attribute( $attribute )
+    {
+        $attributeMap = eZLocale::attributeFunctionMap();
+        if ( isset( $attributeMap[$attribute] ) )
+        {
+            $method = $attributeMap[$attribute];
+            if ( method_exists( $this, $method ) )
+            {
+                $value = $this->$method();
+                return $value;
+            }
+            else
+                eZDebug::writeError( "Unknown method '$method' specified for attribute '$attribute'", 'eZLocale::attribute' );
+        }
+        eZDebug::writeError( "Unknown attribute '$attribute'", 'eZLocale::attribute' );
+        return null;
+    }
+
+    function attributeFunctionMap()
+    {
+        return array( 'country_name' => 'countryName',
+                      'country_comment' => 'countryComment',
+                      'country_code' => 'countryCode',
+                      'country_variation' => 'countryVariation',
+                      'language_name' => 'languageName',
+                      'intl_language_name' => 'internationalLanguageName',
+                      'language_code' => 'languageCode',
+                      'language_comment' => 'languageComment',
+                      'locale_code' => 'localeCode',
+                      'http_locale_code' => 'httpLocaleCode',
+                      'currency_symbol' => 'currencySymbol',
+                      'currency_name' => 'currencyName',
+                      'currency_short_name' => 'currencyShortName',
+                      'is_monday_first' => 'isMondayFirst',
+                      'weekday_list' => 'weekDayNames',
+                      'weekday_name_list' => 'weekDays',
+                      'month_list' => 'months',
+                      'is_valid' => 'isValid'
+                      );
     }
 
     /*!
@@ -1064,6 +1133,10 @@ class eZLocale
     {
         $GLOBALS['eZLocaleDebugInternalsEnabled'] = $debug;
     }
+
+    //@{
+    var $IsValid;
+    //@}
 
     //@{
     /// Format of dates

@@ -36,6 +36,13 @@
 */
 
 $FunctionList = array();
+$FunctionList['translation_list'] = array( 'name' => 'object',
+                                           'operation_types' => array( 'read' ),
+                                           'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                                   'class' => 'eZContentFunctionCollection',
+                                                                   'method' => 'fetchTranslationList' ),
+                                           'parameter_type' => 'standard',
+                                           'parameters' => array( ) );
 $FunctionList['object'] = array( 'name' => 'object',
                                  'operation_types' => array( 'read' ),
                                  'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',

@@ -52,7 +52,7 @@ if ( $http->hasPostVariable( "BackButton" )  )
     return;
 }
 
-$translateToLanguage = "no_NO";
+$translateToLanguage = "nor-NO";
 if ( $http->hasPostVariable( "SelectLanguageButton" )  )
 {
     $translateToLanguage = $http->postVariable( "TranslateToLanguage" );
@@ -64,13 +64,16 @@ $tpl =& templateInit();
 
 $object =& eZContentObject::fetch( $ObjectID );
 
-if ( ! $object->attribute( 'can_edit' ) )
-{
-        $Module->redirectTo( '/error/403' );
-        return;
-}
+if ( $object === null  )
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+
+if ( !$object->attribute( 'can_edit' ) )
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
 $version =& $object->version( $EditVersion );
+
+if ( $version === null  )
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
 $classID = $object->attribute( "contentclass_id" );
 $class =& eZContentClass::fetch( $classID );
@@ -89,6 +92,21 @@ if ( count( $translateContentAttributes ) == 0 )
         $contentAttribute->store();
     }
     $translateContentAttributes =& $version->contentObjectAttributes( $translateToLanguage );
+}
+
+$translateContentMap = array();
+foreach ( array_keys( $translateContentAttributes ) as $contentAttributeKey )
+{
+    $contentAttribute =& $translateContentAttributes[$contentAttributeKey];
+    $translateContentMap[$contentAttribute->attribute( 'contentclassattribute_id' )] =& $contentAttribute;
+}
+
+foreach ( array_keys( $originalContentAttributes ) as $originalContentAttributeKey )
+{
+    $originalContentAttribute =& $originalContentAttributes[$originalContentAttributeKey];
+    $originalContentAttributeID = $originalContentAttribute->attribute( 'contentclassattribute_id' );
+    if ( !isset( $translateContentMap[$originalContentAttributeID] ) )
+        $translateContentMap[$originalContentAttributeID] = false;
 }
 
 if ( $http->hasPostVariable( "StoreButton" )  )
@@ -146,10 +164,16 @@ if ( $http->hasPostVariable( "StoreButton" )  )
 
 $tpl->setVariable( "object", $object );
 $tpl->setVariable( "edit_version", $EditVersion );
+$tpl->setVariableRef( "content_version", $version );
 $tpl->setVariable( "content_attributes", $originalContentAttributes );
 $tpl->setVariable( "content_attributes_language", $translateContentAttributes );
+$tpl->setVariable( "content_attribute_map", $translateContentMap );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:content/translate.tpl" );
+$Result['path'] = array( array( 'text' => 'Translate',
+                                'url' => false ),
+                         array( 'text' => $object->attribute( 'name' ),
+                                'url' => false ) );
 
 ?>

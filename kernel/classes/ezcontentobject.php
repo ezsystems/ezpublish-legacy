@@ -278,7 +278,7 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-      Returns the given object version.
+      \return an array of versions for the current object.
     */
     function versions( $asObject = true )
     {
@@ -336,7 +336,7 @@ class eZContentObject extends eZPersistentObject
         foreach ( array_keys( $contentObjectTranslations ) as $contentObjectTranslationKey )
         {
             $contentObjectTranslation =& $contentObjectTranslations[$contentObjectTranslationKey];
-            $contentObjectAttributes =& $contentObjectTranslation->attributes();
+            $contentObjectAttributes =& $contentObjectTranslation->objectAttributes();
             foreach ( array_keys( $contentObjectAttributes ) as $attributeKey )
             {
                 $attribute =& $contentObjectAttributes[$attributeKey];
@@ -990,6 +990,40 @@ class eZContentObject extends eZPersistentObject
     function setClassName( $name )
     {
         $this->ClassName = $name;
+    }
+
+    /*!
+     \returns an array with locale strings, these strings represents the languages which content objects are allowed to be translated into.
+     \note the setting ContentSettings/TranslationList in site.ini determines the array.
+     \sa translationList
+    */
+    function translationStringList()
+    {
+        $translationList =& $GLOBALS['eZContentTranslationStringList'];
+        if ( isset( $translationList ) )
+            return $translationList;
+        $ini =& eZINI::instance();
+        $translationList = $ini->variableArray( 'ContentSettings', 'TranslationList' );
+        return $translationList;
+    }
+
+    /*!
+     \returns an array with locale objects, these objects represents the languages the content objects are allowed to be translated into.
+     \note the setting ContentSettings/TranslationList in site.ini determines the array.
+     \sa translationStringList
+    */
+    function &translationList()
+    {
+        $translationList =& $GLOBALS['eZContentTranslationList'];
+        if ( isset( $translationList ) )
+            return $translationList;
+        $translationList = array();
+        $translationStringList = eZContentObject::translationStringList();
+        foreach ( $translationStringList as $translationString )
+        {
+            $translationList[] =& eZLocale::instance( $translationString );
+        }
+        return $translationList;
     }
 
     var $ID;

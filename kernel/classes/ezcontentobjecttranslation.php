@@ -47,6 +47,7 @@ class eZContentObjectTranslation
         $this->ContentObjectID = $contentObjectID;
         $this->Version = $version;
         $this->LanguageCode = $languageCode;
+        $this->Locale = null;
     }
 
     function languageCode()
@@ -54,10 +55,43 @@ class eZContentObjectTranslation
         return $this->LanguageCode;
     }
 
+    function attributes()
+    {
+        return array( 'contentobject_id', 'version', 'language_code', 'locale' );
+    }
+
+    function hasAttribute( $attribute )
+    {
+        return in_array( $attribute, $this->attributes() );
+    }
+
+    function &attribute( $attribute )
+    {
+        if ( $attribute == 'contentobject_id' )
+            return $this->ContentObjectID;
+        else if ( $attribute == 'version' )
+            return $this->Version;
+        else if ( $attribute == 'language_code' )
+            return $this->LanguageCode;
+        else if ( $attribute == 'locale' )
+            return $this->locale();
+        else
+            return null;
+    }
+
+    function &locale()
+    {
+        if ( $this->Locale !== null )
+            return $this->Locale;
+        include_once( 'lib/ezlocale/classes/ezlocale.php' );
+        $this->Locale =& eZLocale::instance( $this->LanguageCode );
+        return $this->Locale;
+    }
+
     /*!
      Returns the attributes for the current content object translation.
     */
-    function attributes( $asObject = true )
+    function objectAttributes( $asObject = true )
     {
         return eZContentObjectVersion::fetchAttributes( $this->Version, $this->ContentObjectID, $this->LanguageCode, $asObject );
     }
