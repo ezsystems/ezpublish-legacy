@@ -169,6 +169,14 @@ class eZXMLTextType extends eZDataType
         $text =& preg_replace( "#<em>#", "<emphasize>", $text );
         $text =& preg_replace( "#</em>#", "</emphasize>", $text );
 
+        $text =& preg_replace( "#<td><paragraph>#", "<tdtag><paragraph>", $text );
+        $text =& preg_replace( "#</paragraph></td>#", "</paragraph></tdtag>", $text );
+        $text =& preg_replace( "#<td>#", "<tdtag><paragraph>", $text );
+        $text =& preg_replace( "#</td>#", "</paragraph></tdtag>", $text );
+
+        $text =& preg_replace( "#<tdtag>#", "<td>", $text );
+        $text =& preg_replace( "#</tdtag>#", "</td>", $text );
+
         $text =& preg_replace( "#\n[\n]+#", "\n\n", $text );
 
         // Convert headers
@@ -219,10 +227,6 @@ class eZXMLTextType extends eZDataType
                 }
             }
         }
-        /* if ( $sectionLevel > 1 )
-        {
-            $sectionData .= str_repeat( "\n</section>\n", $sectionLevel - 1 );
-        }*/
 
         while ( $unMatchedSection > 0 )
         {
@@ -232,7 +236,6 @@ class eZXMLTextType extends eZDataType
         $sectionData .= "</section>";
 
         $data =& $sectionData;
-
         $domDocument = new eZDOMDocument();
         $currentNode =& $domDocument;
         $TagStack = array();
@@ -286,6 +289,21 @@ class eZXMLTextType extends eZDataType
                                         array( "TagName" => $lastTag, "ParentNodeObject" => &$lastNode ) );
                             $unMatchedParagraph = true;
                         }
+                        /* elseif ( $tagName == "paragraph" and $lastTag == "td" )
+                        {
+                            array_push( $TagStack,
+                                        array( "TagName" => $lastTag, "ParentNodeObject" => &$lastNode ) );
+                        }
+                        elseif ( $lastInsertedNodeTag == "paragraph"  and  $tagName == "td" )
+                        {
+                            unset( $currentNode );
+                            $currentNode =& $lastNode;
+                            $lastNodeArray = array_pop( $TagStack );
+                            $lastTag = $lastNodeArray["TagName"];
+                            $lastNode =& $lastNodeArray["ParentNodeObject"];
+                            unset( $currentNode );
+                            $currentNode =& $lastNode;
+                        }*/
                         elseif ( ( $lastTag  == "header" ) and $headerSubtag )
                         {
                             array_push( $TagStack,
@@ -424,6 +442,7 @@ class eZXMLTextType extends eZDataType
                 }
             }
         }
+        eZDebug::writeDebug($domDocument->toString(),"9999999");
         $output = array( $domDocument, $message );
         return $output;
     }
@@ -625,7 +644,6 @@ class eZXMLTextType extends eZDataType
                     $border = 0;
                 if ( $borderColor == "red" )
                 {
-                    
                 }
                 else
                 {
@@ -638,9 +656,11 @@ class eZXMLTextType extends eZDataType
                             $cellContent = "";
                             foreach ( $tableCell->children() as $tableCellChildNode )
                             {
-                                $cellContent .= $this->renderXHTMLTag( $tpl, $tableCellChildNode );
+                                // $cellContent .= $this->renderXHTMLTag( $tpl, $tableCellChildNode );
+                                $cellContent .= $this->renderXHTMLParagraph( $tpl, $tableCellChildNode );
                             }
                             $tpl->setVariable( 'content', $cellContent, 'xmltagns' );
+                            eZDebug::writeDebug($cellContent,"8888");
                             $uri = "design:content/datatype/view/ezxmltags/td.tpl";
                             $textElements = array();
                             eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );

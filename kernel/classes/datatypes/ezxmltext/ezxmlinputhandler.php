@@ -166,6 +166,31 @@ class eZXMLInputHandler
      \private
      \return the user input format for the given section
     */
+    function &inputTdXML( &$tdNode )
+    {
+        $output = "";
+        if ( get_class( $tdNode ) == "ezdomnode" )
+            $tagName = $tdNode->name();
+        else
+            $tagName = "";
+        switch ( $tagName )
+        {
+            case 'paragraph' :
+            {
+                $output .= "<paragraph>" . trim( $this->inputParagraphXML( $tdNode ) ) . "</paragraph>";
+            }break;
+
+            default :
+            {
+                eZDebug::writeError( "Unsupported tag at this level: $tagName", "eZXMLTextType::inputTdXML()" );
+            }break;
+        }
+        return $output;
+    }
+    /*!
+     \private
+     \return the user input format for the given section
+    */
     function &inputSectionXML( &$section,  $currentSectionLevel )
     {
         $output = "";
@@ -289,9 +314,9 @@ class eZXMLInputHandler
                         $cellContent = "";
                         foreach ( $tableCell->children() as $tableCellChildNode )
                         {
-                            $cellContent .= $this->inputTagXML( $tableCellChildNode );
+                            $cellContent .= $this->inputTdXML( $tableCellChildNode );
                         }
-                        $tableData .= "  <td>\n" . trim( $cellContent ) . "\n  </td>\n";
+                        $tableData .= "  <td>" . trim( $cellContent ) . "</td>";
                     }
                     $tableRows .= "<tr>\n $tableData</tr>\n";
                 }
@@ -328,6 +353,11 @@ class eZXMLInputHandler
                 $output .= "<$tagName href='$href'>" . $childTagText . "</$tagName>";
             }break;
 
+            case 'tr' :
+            case 'td' :
+            case 'paragraph' :
+            {
+            }break;
             default :
             {
                 eZDebug::writeError( "Unsupported tag: $tagName", "eZXMLTextType::inputParagraphXML()" );
