@@ -113,10 +113,13 @@ class eZMimeType
             $mime = eZMimeType::defaultMimeType();
             $mime['url'] = $url;
             $suffixPos = strpos( $url, '.' );
+
             if ( $suffixPos !== false )
             {
-                $mime['basename'] = substr( $url, 0, $suffixPos );
                 $mime['suffix'] = substr( $url, $suffixPos + 1 );
+                $mime['dirpath'] = dirname( $url );
+                $mime['basename'] = basename( $url, '.' . $mime['suffix'] );
+                $mime['filename'] = $mime['basename'] . '.' . $mime['suffix'];
             }
             else
             {

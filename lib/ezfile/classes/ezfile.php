@@ -184,6 +184,52 @@ class eZFile
         }
         rename( $srcFile, $destFile );
     }
+
+    /*!
+     \static
+     Prepares a file for Download and terminates the execution.
+
+     \param $file Filename
+     \param $isAttached Download Determines weather to download the file as an attachment ( download popup box ) or not. 
+     
+     \return false if error
+    */
+    function download( $file, $isAttachedDownload = true )
+    {
+        if ( file_exists( $file ) )
+        {
+            include_once( 'lib/ezutils/classes/ezmimetype.php' );
+            $mimeinfo = eZMimeType::findByURL( $file );
+
+            ob_clean();
+
+            header( 'X-Powered-By: eZ publish' );
+            header( 'Content-Length: ' . filesize( $file ) );
+            header( 'Content-Type: ' . $mimeinfo['name'] );
+
+            if ( $isAttachedDownload )
+            {
+                header( 'Content-Disposition: attachment; filename='.$mimeinfo['filename'] );
+            }
+            else
+            {
+                header( 'Content-Disposition: inline; filename='.$mimeinfo['filename'] );
+            }
+            header( 'Content-Transfer-Encoding: binary' );
+            header( 'Accept-Ranges: bytes' );
+
+            ob_end_clean();
+
+            @readfile( $file );
+
+            include_once( 'lib/ezutils/classes/ezexecution.php' );
+            eZExecution::cleanExit();
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
 
 ?>
