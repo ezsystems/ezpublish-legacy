@@ -394,7 +394,7 @@ while ( $moduleRunRequired )
 
     // Store the last URI for access history for login redirection
     // Only if database is connected
-    if ( $db->isConnected() )
+    if ( is_object( $db ) and $db->isConnected() )
     {
         $currentURI = $uri->uriString( true );
         $lastAccessedURI = "";
