@@ -59,6 +59,9 @@ eZ template:
 - Added reset() and resetElements() function which calls a reset function
   on all functions and operators. This ensures that the run-once function
   can be reused for automated testing.
+- Added wordbreak operator to split long words. ( Added in rev. 5013 )
+  Usage : {"ThisIsALongWord"|wordbreak(6)} => "ThisIs ALongW ord"
+  Default word length is set to 30 characters.
 
 *Bugs:
 - Fixed several minor bugs with url prefix.
