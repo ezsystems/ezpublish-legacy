@@ -60,7 +60,7 @@ function registerSearchObject( &$module, $parameters )
     eZSearch::removeObject( $object );
     eZSearch::addObject( $object );
 }
-$Module->addHook( 'post_publish', 'registerSearchObject', false );
+$Module->addHook( 'post_publish', 'registerSearchObject', 1, false );
 
 function checkContentActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion )
 {
