@@ -41,5 +41,9 @@ $Number = $Params['Number'];
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:error/$Type/$Number.tpl" );
+$Result['path'] = array( array( 'text' => 'Error',
+                                'url' => false ),
+                         array( 'text' => "$Type ($Number)",
+                                'url' => false ) );
 
 ?>
