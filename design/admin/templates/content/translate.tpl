@@ -263,8 +263,8 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
 <div class="block">
-<input class="button" type="submit" name="EditArray[{$object.id}][{$edit_version}][{$translation_locale.locale_code}]" value="{'Edit'|i18n( 'design/admin/content/translate' )}" />
 <input class="button" type="submit" name="StoreButton" value="{'Store draft'|i18n( 'design/admin/content/translate' )}" />
+<input class="button" type="submit" name="EditArray[{$object.id}][{$edit_version}][{$translation_locale.locale_code}]" value="{'Go to edit mode'|i18n( 'design/admin/content/translate' )}" />
 </div>
 
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
