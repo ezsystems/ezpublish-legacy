@@ -347,6 +347,9 @@ Workflow:
   (Merged from stable/3.4 rev. 7355)
 - Fixed typos in mysql/kernel_schema.sql.
   Merged from stable/3.3 rev. 7374, also in stable/3.4 rev. 7375.
+- Fixed bug in div and mul template operators when input parameter was used.
+  http://ez.no/community/bug_reports/operator_mul_does_not_work_as_documented
+  (Merged from stable/3.4 rev. 7388)
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.

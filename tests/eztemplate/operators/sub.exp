@@ -8,3 +8,7 @@
 -6=-6
 -1=-1
 1=1
+
+Test of input + parameters:
+2|sub( 3, 4 )=-5: -5
+$a|sub( $b, $c )=-5: -5
