@@ -167,7 +167,8 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
                                                                                   'contentobject_version' => $version->attribute( 'version' )
                                                                                   ),
                                                                            true );
-                        $originalNode =& eZContentObjectTreeNode::fetchNode( $originalObjectID, $fromNodeID );
+// This is no longer used, can probably be removed
+//                         $originalNode =& eZContentObjectTreeNode::fetchNode( $originalObjectID, $fromNodeID );
 
                         $realNode = & eZContentObjectTreeNode::fetchNode( $version->attribute( 'contentobject_id' ), $oldAssignment->attribute( 'parent_node' ) );
 

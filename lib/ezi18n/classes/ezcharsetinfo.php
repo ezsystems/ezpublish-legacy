@@ -60,92 +60,93 @@ class eZCharsetInfo
     */
     function &aliasTable()
     {
-        $aliasTable =& $GLOBALS["eZCharsetInfoTable"];
+        $aliasTable =& $GLOBALS['eZCharsetInfoTable'];
         if ( !is_array( $aliasTable ) )
         {
-            $aliasTable = array( "latin1" => "iso-8859-1",
-                                 "latin2" => "iso-8859-2",
-                                 "latin3" => "iso-8859-3",
-                                 "latin4" => "iso-8859-4",
-                                 "latin5" => "iso-8859-9",
-                                 "latin6" => "iso-8859-10",
-                                 "latin7" => "iso-8859-13",
-                                 "latin8" => "iso-8859-14",
-                                 "latin9" => "iso-8859-15",
-                                 "cyrillic" => "iso-8859-5",
-                                 "arabic" => "iso-8859-6",
-                                 "greek" => "iso-8859-7",
-                                 "hebrew" => "iso-8859-8",
-                                 "thai" => "iso-8859-11",
+            $aliasTable = array( 'latin1' => 'iso-8859-1',
+                                 'latin2' => 'iso-8859-2',
+                                 'latin3' => 'iso-8859-3',
+                                 'latin4' => 'iso-8859-4',
+                                 'latin5' => 'iso-8859-9',
+                                 'latin6' => 'iso-8859-10',
+                                 'latin7' => 'iso-8859-13',
+                                 'latin8' => 'iso-8859-14',
+                                 'latin9' => 'iso-8859-15',
+                                 'cyrillic' => 'iso-8859-5',
+                                 'arabic' => 'iso-8859-6',
+                                 'greek' => 'iso-8859-7',
+                                 'hebrew' => 'iso-8859-8',
+                                 'thai' => 'iso-8859-11',
 
                                  'koi8-r' => 'koi8-r',
                                  'koi-8-r' => 'koi8-r',
 
-                                 "cp1250" => "windows-1250",
-                                 "cp1251" => "windows-1251",
-                                 "cp1252" => "windows-1252",
-                                 "cp1253" => "windows-1253",
-                                 "cp1254" => "windows-1254",
-                                 "cp1255" => "windows-1255",
-                                 "cp1256" => "windows-1256",
-                                 "cp1257" => "windows-1257",
-                                 "cp1258" => "windows-1258",
-                                 "winlatin1" => "windows-1252",
-                                 "winlatin2" => "windows-1250",
-                                 "wincyrillic" => "windows-1251",
-                                 "wingreek" => "windows-1253",
-                                 "winturkish" => "windows-1254",
-                                 "winhebrew" => "windows-1255",
-                                 "winarabic" => "windows-1256",
-                                 "winbaltic" => "windows-1257",
-                                 "winvietnamese" => "windows-1258",
+                                 'cp1250' => 'windows-1250',
+                                 'cp1251' => 'windows-1251',
+                                 'cp1252' => 'windows-1252',
+                                 'cp1253' => 'windows-1253',
+                                 'cp1254' => 'windows-1254',
+                                 'cp1255' => 'windows-1255',
+                                 'cp1256' => 'windows-1256',
+                                 'cp1257' => 'windows-1257',
+                                 'cp1258' => 'windows-1258',
+                                 'winlatin1' => 'windows-1252',
+                                 'winlatin2' => 'windows-1250',
+                                 'wincyrillic' => 'windows-1251',
+                                 'wingreek' => 'windows-1253',
+                                 'winturkish' => 'windows-1254',
+                                 'winhebrew' => 'windows-1255',
+                                 'winarabic' => 'windows-1256',
+                                 'winbaltic' => 'windows-1257',
+                                 'winvietnamese' => 'windows-1258',
 
-                                 "doslatinus" => "cp437",
-                                 "dosgreek" => "cp737",
-                                 "dosbaltrim" => "cp775",
-                                 "doslatin1" => "cp850",
-                                 "doslatin2" => "cp852",
-                                 "doscyrillic" => "cp855",
-                                 "dosturkish" => "cp857",
-                                 "dosportuguese" => "cp860",
-                                 "dosicelandic" => "cp861",
-                                 "doshebrew" => "cp862",
-                                 "doscanadaf" => "cp863",
-                                 "dosarabic" => "cp864",
-                                 "dosnordic" => "cp865",
-                                 "dosgreek2" => "cp869",
-                                 "doscyrillicrussian" => "cp866",
-                                 "dosthai" => "cp874",
+                                 'doslatinus' => 'cp437',
+                                 'dosgreek' => 'cp737',
+                                 'dosbaltrim' => 'cp775',
+                                 'doslatin1' => 'cp850',
+                                 'doslatin2' => 'cp852',
+                                 'doscyrillic' => 'cp855',
+                                 'dosturkish' => 'cp857',
+                                 'dosportuguese' => 'cp860',
+                                 'dosicelandic' => 'cp861',
+                                 'doshebrew' => 'cp862',
+                                 'doscanadaf' => 'cp863',
+                                 'dosarabic' => 'cp864',
+                                 'dosnordic' => 'cp865',
+                                 'dosgreek2' => 'cp869',
+                                 'doscyrillicrussian' => 'cp866',
+                                 'dosthai' => 'cp874',
 
-                                 "macroman" => "macintosh",
-                                 "nextstep" => "next",
+                                 'macroman' => 'macintosh',
+                                 'nextstep' => 'next',
 
-                                 "utf8" => "utf-8",
-                                 "utf7" => "utf-7",
+                                 'utf8' => 'utf-8',
+                                 'utf7' => 'utf-7',
 
-                                 "utf16" => "utf-16",
-                                 "utf16be" => "utf-16be",
-                                 "utf16le" => "utf-16le",
+                                 'utf16' => 'utf-16',
+                                 'utf16be' => 'utf-16be',
+                                 'utf16le' => 'utf-16le',
 
-                                 "utf32" => "utf-32",
-                                 "utf32be" => "utf-32be",
-                                 "utf32le" => "utf-32le",
+                                 'utf32' => 'utf-32',
+                                 'utf32be' => 'utf-32be',
+                                 'utf32le' => 'utf-32le',
 
-                                 "ucs2le" => "ucs-2le",
+                                 'ucs2le' => 'ucs-2le',
 
-                                 "ucs4" => "ucs-4",
-                                 "ucs4be" => "ucs-4be",
-                                 "ucs4le" => "ucs-4le",
+                                 'ucs4' => 'ucs-4',
+                                 'ucs4be' => 'ucs-4be',
+                                 'ucs4le' => 'ucs-4le',
 
-                                 "ucs2" => "ucs-2",
-                                 "ucs2be" => "ucs-2be",
-                                 "ucs2le" => "ucs-2le",
+                                 'ucs2' => 'ucs-2',
+                                 'ucs2be' => 'ucs-2be',
+                                 'ucs2le' => 'ucs-2le',
 
-                                 "shift-jis" => "cp932",
-                                 "gbk" => "euc-cn",
-                                 "unifiedhangul" => "cp849",
-                                 "uhc" => "cp849",
-                                 "big5" => "cp850"
+                                 'shift-jis' => 'cp932',
+                                 'gbk' => 'gbk',
+                                 'euc-cn' => 'euc-cn',
+                                 'unifiedhangul' => 'cp849',
+                                 'uhc' => 'cp849',
+                                 'big5' => 'cp850'
                                  );
             for ( $i = 1; $i <= 15; ++$i )
                 $aliasTable["iso8859-$i"] = "iso-8859-$i";
@@ -163,15 +164,16 @@ class eZCharsetInfo
     */
     function &encodingTable()
     {
-        $encodingTable =& $GLOBALS["eZCharsetInfoEncodingTable"];
+        $encodingTable =& $GLOBALS['eZCharsetInfoEncodingTable'];
         if ( !is_array( $encodingTable ) )
         {
-            $encodingTable = array( "doublebyte" => array( "cp932",
-                                                           "euc-cn",
-                                                           "cp849",
-                                                           "cp850" ),
+            $encodingTable = array( 'doublebyte' => array( 'cp932',
+                                                           'GBK',
+                                                           'euc-cn',
+                                                           'cp849',
+                                                           'cp850' ),
                                     'unicode' => array( 'unicode' ),
-                                    "utf-8" => array( "utf-8" ) );
+                                    'utf-8' => array( 'utf-8' ) );
         }
         return $encodingTable;
     }
@@ -185,7 +187,7 @@ class eZCharsetInfo
     */
     function &reverseEncodingTable()
     {
-        $reverseEncodingTable =& $GLOBALS["eZCharsetInfoReverseEncodingTable"];
+        $reverseEncodingTable =& $GLOBALS['eZCharsetInfoReverseEncodingTable'];
         if ( !is_array( $reverseEncodingTable ) )
         {
             $encodingTable =& eZCharsetInfo::encodingTable();
