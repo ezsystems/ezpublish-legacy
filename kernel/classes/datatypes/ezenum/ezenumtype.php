@@ -446,6 +446,14 @@ class eZEnumType extends eZDataType
     /*!
      \reimp
     */
+    function hasObjectAttributeContent( &$contentObjectAttribute )
+    {
+        return true;
+    }
+
+    /*!
+     \reimp
+    */
     function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $isOption = $classAttribute->attribute( EZ_DATATYPESTRING_ENUM_ISOPTION_FIELD );
