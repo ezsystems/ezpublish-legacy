@@ -151,6 +151,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       "children_count" => "childrenCount",
                                                       'contentobject_version_object' => 'contentObjectVersionObject',
                                                       'sort_array' => 'sortArray',
+                                                      'can_read' => 'canRead',
+                                                      'can_create' => 'canCreate',
+                                                      'can_edit' => 'canEdit',
+                                                      'can_remove' => 'canRemove',
                                                       'creator' => 'creator',
                                                       "path" => "fetchPath",
                                                       'path_array' => 'pathArray',
@@ -385,6 +389,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $return = $identifierHash[$identifier];
 
         return $return;
+    }
+
+    function canRead( )
+    {
+        if ( !isset( $this->Permissions["can_read"] ) )
+        {
+            $this->Permissions["can_read"] = $this->checkAccess( 'read' );
+        }
+        $p = ( $this->Permissions["can_read"] == 1 );
+        return $p;
     }
 
     /*!
@@ -2495,6 +2509,177 @@ WHERE
                                  path_string = '$oldPath' ";
             $db->query( $moveQuery );
             $db->query( $moveQuery1 );
+        }
+    }
+
+    function checkAccess( $functionName, $originalClassID = false, $parentClassID = false, &$accessList )
+    {
+        $classID = $originalClassID;
+        $user =& eZUser::currentUser();
+        $userID = $user->attribute( 'contentobject_id' );
+        $accessResult = $user->hasAccessTo( 'content' , $functionName, $accessList );
+        $accessWord = $accessResult['accessWord'];
+        $contentObject =& $this->attribute( 'object' );
+        if ( $classID === false )
+        {
+            $classID = $contentObject->attribute( 'contentclass_id' );
+        }
+        if ( $accessWord == 'yes' )
+        {
+            return 1;
+        }
+        else if ( $accessWord == 'no' )
+        {
+            return 0;
+        }
+        else
+        {
+            $policies =& $accessResult['policies'];
+            $access = 'denied';
+
+            foreach ( array_keys( $policies ) as $pkey  )
+            {
+                if ( $access == 'allowed' )
+                {
+                    break;
+                }
+
+                $limitationArray =& $policies[$pkey];
+                $limitationList = array();
+                foreach ( array_keys( $limitationArray ) as $key  )
+                {
+                    switch( $key )
+                    {
+                        case 'Class':
+                        {
+                            if ( $functionName == 'create' and
+                                 !$originalClassID )
+                            {
+                                $access = 'allowed';
+                            }
+                            else if ( $functionName == 'create' and
+                                      in_array( $classID, $limitationArray[$key] ) )
+                            {
+                                $access = 'allowed';
+                            }
+                            else if ( in_array( $contentObject->attribute( 'contentclass_id' ), $limitationArray[$key] )  )
+                            {
+                                $access = 'allowed';
+                            }
+                            else
+                            {
+                                $access = 'denied';
+                                $limitationList = array( 'Limitation' => $key,
+                                                         'Required' => $limitationArray[$key] );
+                            }
+                        } break;
+
+                        case 'ParentClass':
+                        {
+
+                            if (  in_array( $contentObject->attribute( 'contentclass_id' ), $limitationArray[$key]  ) )
+                            {
+                                $access = 'allowed';
+                            }
+                            else
+                            {
+                                $access = 'denied';
+                                $limitationList = array( 'Limitation' => $key,
+                                                         'Required' => $limitationArray[$key] );
+                            }
+                        } break;
+
+                        case 'Section':
+                        {
+                            if ( in_array( $contentObject->attribute( 'section_id' ), $limitationArray[$key]  ) )
+                            {
+                                $access = 'allowed';
+                            }
+                            else
+                            {
+                                $access = 'denied';
+                                $limitationList = array( 'Limitation' => $key,
+                                                         'Required' => $limitationArray[$key] );
+                            }
+                        } break;
+
+                        case 'Owner':
+                        {
+                            if ( $contentObject->attribute( 'owner_id' ) == $userID || $contentObject->attribute( 'id' ) == $userID )
+                            {
+                                $access = 'allowed';
+                            }
+                            else
+                            {
+                                $access = 'denied';
+                                $limitationList = array ( 'Limitation' => $key );
+                            }
+                        } break;
+
+                        case 'Node':
+                        {
+                            $mainNodeID = $this->attribute( 'main_node_id' );
+                            foreach ( $limitationArray[$key] as $nodeID )
+                            {
+                                $node = eZContentObjectTreeNode::fetch( $nodeID );
+                                $limitationNodeID = $node->attribute( 'main_node_id' );
+                                if ( $mainNodeID == $limitationNodeID )
+                                {
+                                    $access = 'allowed';
+                                    break;
+                                }
+                            }
+                            if ( $access != 'allowed' )
+                            {
+                                $access = 'denied';
+                                $limitationList = array( 'Limitation' => $key,
+                                                         'Required' => $limitationArray[$key] );
+                                break;
+                            }
+                        } break;
+
+                        case 'Subtree':
+                        {
+                            $path =  $this->attribute( 'path_string' );
+                            $subtreeArray = $limitationArray[$key];
+                            foreach ( $subtreeArray as $subtreeString )
+                            {
+                                if (  strstr( $path, $subtreeString ) )
+                                {
+                                    $access = 'allowed';
+                                }
+                            }
+                            if ( $access != 'allowed' )
+                            {
+                                $access = 'denied';
+                                $limitationList = array( 'Limitation' => $key,
+                                                         'Required' => $limitationArray[$key] );
+                            }
+                        } break;
+                    }
+
+                    if ( $access == 'denied' )
+                    {
+                        break;
+                    }
+                }
+
+                $policyList[] = array( 'PolicyID' => $pkey,
+                                       'LimitationList' => $limitationList );
+            }
+            if ( $access == 'denied' )
+            {
+                $accessList = array( 'FunctionRequired' => array ( 'Module' => 'content',
+                                                                   'Function' => $functionName,
+                                                                   'ClassID' => $classID,
+                                                                   'MainNodeID' => $this->attribute( 'main_node_id' ) ),
+                                     'PolicyList' => $policyList );
+                return 0;
+            }
+            else
+            {
+                return 1;
+            }
         }
     }
 

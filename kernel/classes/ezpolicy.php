@@ -15,7 +15,7 @@
 // the packaging of this file.
 //
 // Licencees holding valid "eZ publish professional licences" may use this
-// file in accordance with the "eZ publish professional licence" Agreement
+// file in accordance with the 'eZ publish professional licence' Agreement
 // provided with the Software.
 //
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING
@@ -43,8 +43,7 @@
 
 */
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezpolicylimitation.php" );
+include_once( 'kernel/classes/ezpolicylimitation.php' );
 
 class eZPolicy extends eZPersistentObject
 {
@@ -59,7 +58,7 @@ class eZPolicy extends eZPersistentObject
 
     function &definition()
     {
-        return array( "fields" => array( "id" => array( 'name' => 'ID',
+        return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
                                                         'default' => 0,
                                                         'required' => true ),
@@ -75,12 +74,12 @@ class eZPolicy extends eZPersistentObject
                                                                    'datatype' => 'string',
                                                                    'default' => '',
                                                                    'required' => true ) ),
-                      "keys" => array( "id" ),
-                      "function_attributes" => array( 'limitations' => 'limitationList' ),
-                      "increment_key" => "id",
-                      "sort" => array( "id" => "asc" ),
-                      "class_name" => "eZPolicy",
-                      "name" => "ezpolicy" );
+                      'keys' => array( 'id' ),
+                      'function_attributes' => array( 'limitations' => 'limitationList' ),
+                      'increment_key' => 'id',
+                      'sort' => array( 'id' => 'asc' ),
+                      'class_name' => 'eZPolicy',
+                      'name' => 'ezpolicy' );
     }
 
     function attributes()
@@ -92,11 +91,6 @@ class eZPolicy extends eZPersistentObject
     {
         switch( $attr )
         {
-            case 'limitations':
-            {
-                return $this->limitationList();
-            } break;
-
             case 'limit_identifier':
             {
                 return $this->LimitIdentifier;
@@ -238,6 +232,7 @@ class eZPolicy extends eZPersistentObject
             $delID = $this->ID;
         }
 
+        include_once( 'lib/ezdb/classes/ezdb.php' );
         $db =& eZDB::instance();
         foreach ( $policy->attribute( 'limitations' ) as $limitation )
         {
@@ -271,9 +266,14 @@ class eZPolicy extends eZPersistentObject
         return array( $this->attribute( 'module_name' ) => array ( $this->attribute( 'function_name' ) => array( 'p_' . $this->attribute( 'id' ) => $limitArray ) ) );
     }
 
-    function &limitationList()
+    /*!
+     Fetch limitaion array()
+
+     \param use limitation cache, true by default.
+    */
+    function &limitationList( $useCache = true )
     {
-        if ( !isset( $this->Limitations ) )
+        if ( !isset( $this->Limitations ) || !$useCache )
         {
 
             $limitations =& eZPersistentObject::fetchObjectList( eZPolicyLimitation::definition(),

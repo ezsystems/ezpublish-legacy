@@ -318,17 +318,36 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
     {
         include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
         $user =& eZUser::currentUser();
-        $nodeIDList =& eZSubtreeNotificationRule::fetchNodesForUserID( $user->attribute( 'contentobject_id' ), false );
+
         $nodeID = $http->postVariable( 'ContentNodeID' );
+
+        if ( $http->hasPostVariable( 'ViewMode' ) )
+            $viewMode = $http->postVariable( 'ViewMode' );
+        else
+            $viewMode = 'full';
+
+        if ( !$user->isLoggedIn() )
+        {
+            eZDebug::writeError( 'User not logged in trying to subscribe for notification, node ID: ' . $nodeID,
+                                 'kernel/content/action.php' );
+            $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $nodeID . '/' );
+            return;
+        }
+        $contentNode = eZContentObjectTreeNode::fetch( $nodeID );
+        if ( !$contentNode->attribute( 'can_read' ) )
+        {
+            eZDebug::writeError( 'User does not have access to subscribue for notification, node ID: ' . $nodeID . ', user ID: ' . $user->attribute( 'contentobject_id' ),
+                                 'kernel/content/action.php' );
+            $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $nodeID . '/' );
+            return;
+        }
+
+        $nodeIDList =& eZSubtreeNotificationRule::fetchNodesForUserID( $user->attribute( 'contentobject_id' ), false );
         if ( !in_array( $nodeID, $nodeIDList ) )
         {
             $rule =& eZSubtreeNotificationRule::create( $nodeID, $user->attribute( 'contentobject_id' ) );
             $rule->store();
         }
-        if ( $http->hasPostVariable( 'ViewMode' ) )
-            $viewMode = $http->postVariable( 'ViewMode' );
-        else
-            $viewMode = 'full';
         $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $nodeID . '/' );
         return;
     }

@@ -1881,7 +1881,7 @@ class eZContentObject extends eZPersistentObject
                                 $access = 'allowed';
                             }
                             else if ( $functionName == 'create' and
-                                 in_array( $classID, $limitationArray[$key] ) )
+                                      in_array( $classID, $limitationArray[$key] ) )
                             {
                                 $access = 'allowed';
                             }
@@ -1892,9 +1892,8 @@ class eZContentObject extends eZPersistentObject
                             else
                             {
                                 $access = 'denied';
-                                $limitationList = array (
-                                    'Limitation' => $key,
-                                    'Required' => $limitationArray[$key] );
+                                $limitationList = array( 'Limitation' => $key,
+                                                         'Required' => $limitationArray[$key] );
                             }
                         } break;
 
@@ -1908,9 +1907,8 @@ class eZContentObject extends eZPersistentObject
                             else
                             {
                                 $access = 'denied';
-                                $limitationList = array (
-                                    'Limitation' => $key,
-                                    'Required' => $limitationArray[$key] );
+                                $limitationList = array( 'Limitation' => $key,
+                                                         'Required' => $limitationArray[$key] );
                             }
                         } break;
 
@@ -1923,9 +1921,8 @@ class eZContentObject extends eZPersistentObject
                             else
                             {
                                 $access = 'denied';
-                                $limitationList = array (
-                                    'Limitation' => $key,
-                                    'Required' => $limitationArray[$key] );
+                                $limitationList = array( 'Limitation' => $key,
+                                                         'Required' => $limitationArray[$key] );
                             }
                         } break;
 
@@ -1938,36 +1935,28 @@ class eZContentObject extends eZPersistentObject
                             else
                             {
                                 $access = 'denied';
-                                $limitationList = array (
-                                    'Limitation' => $key );
-//                                    'Required' => $limitationArray[$key] );
+                                $limitationList = array ( 'Limitation' => $key );
                             }
                         } break;
 
                         case 'Node':
                         {
                             $mainNodeID = $this->attribute( 'main_node_id' );
-                            foreach (  $limitationArray[$key] as $nodeID )
+                            foreach ( $limitationArray[$key] as $nodeID )
                             {
                                 $node = eZContentObjectTreeNode::fetch( $nodeID );
                                 $limitationNodeID = $node->attribute( 'main_node_id' );
                                 if ( $mainNodeID == $limitationNodeID )
                                 {
                                     $access = 'allowed';
-                                }
-                                if ( $access == 'allowed' )
                                     break;
+                                }
                             }
-                            if ( $access == 'allowed' )
-                            {
-                                // do nothing
-                            }
-                            else
+                            if ( $access != 'allowed' )
                             {
                                 $access = 'denied';
-                                $limitationList = array (
-                                    'Limitation' => $key,
-                                    'Required' => $limitationArray[$key] );
+                                $limitationList = array( 'Limitation' => $key,
+                                                         'Required' => $limitationArray[$key] );
                                 break;
                             }
                         } break;
@@ -2008,45 +1997,31 @@ class eZContentObject extends eZPersistentObject
                                     }
                                 }
                             }
-                            if ( $access == 'allowed' )
-                            {
-                                // do nothing
-                            }
-                            else
+                            if ( $access != 'allowed' )
                             {
                                 $access = 'denied';
-                                $limitationList = array (
-                                    'Limitation' => $key,
-                                    'Required' => $limitationArray[$key] );
+                                $limitationList = array( 'Limitation' => $key,
+                                                         'Required' => $limitationArray[$key] );
                             }
                         } break;
                     }
 
                     if ( $access == 'denied' )
                     {
-/*                        $limitationList = array (
-                            'Limitation' => 'unknown',
-                            'PolicyID' => '',
-                            'Required' => ''); */
                         break;
                     }
                 }
 
-                $policyList[] = array( 
-                                                   'PolicyID' => $pkey,
-                                                   'LimitationList' => $limitationList
-                                                   );
-
+                $policyList[] = array( 'PolicyID' => $pkey,
+                                       'LimitationList' => $limitationList );
             }
             if ( $access == 'denied' )
             {
-                $accessList = array(
-                    'FunctionRequired' => array ( 'Module' => 'content',
-                            'Function' => $functionName,
-                            'ClassID' => $classID,
-                            'MainNodeID' => $this->attribute( 'main_node_id' ) ),
-                    'PolicyList' => $policyList);
-
+                $accessList = array( 'FunctionRequired' => array ( 'Module' => 'content',
+                                                                   'Function' => $functionName,
+                                                                   'ClassID' => $classID,
+                                                                   'MainNodeID' => $this->attribute( 'main_node_id' ) ),
+                                     'PolicyList' => $policyList );
                 return 0;
             }
             else
