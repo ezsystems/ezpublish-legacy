@@ -470,6 +470,29 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $resourceArray[] = "design/$siteBase/override/templates";
         $resourceArray[] = "design/$siteBase/templates";
 
+        // Add extension paths
+        include_once( 'lib/ezutils/classes/ezextension.php' );
+        $extensionDirectory = eZExtension::baseDirectory();
+
+        $designINI =& eZINI::instance( 'design.ini' );
+        $extensions = $designINI->variable( 'ExtensionSettings', 'DesignExtensions' );
+
+        foreach ( $extensions as $extension )
+        {
+            // Look for standard design in extension
+            $resourceArray[] = "$extensionDirectory/$extension/design/$standardBase/templates";
+
+            // Look for aditional sitedesigns in extension
+            foreach ( $additionalSiteDesignList as $additionalSiteDesign )
+            {
+                $resourceArray[] = "$extensionDirectory/$extension/design/$additionalSiteDesign/override/templates";
+                $resourceArray[] = "$extensionDirectory/$extension/design/$additionalSiteDesign/templates";
+            }
+
+            // Look for site base in extention
+            $resourceArray[] = "$extensionDirectory/$extension/design/$siteBase/override/templates";
+            $resourceArray[] = "$extensionDirectory/$extension/design/$siteBase/templates";
+        }
 
         foreach ( $resourceArray as $resource )
         {
@@ -480,6 +503,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                 $matchFileArray[$sourceFileArray[$sourceKey]]['template'] = $sourceFileArray[$sourceKey];
             }
         }
+
 
         // Load complex/custom override templates
         $overrideSettingGroupArray =& $overrideINI->groups();
