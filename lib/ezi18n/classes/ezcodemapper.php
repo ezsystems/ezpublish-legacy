@@ -305,15 +305,13 @@ class eZCodeMapper
                 $type = false;
 
                 $len = strlen( $line );
-                $colonPos = strpos( $line,  ':' );
-
-                if ( $colonPos !== false )
+                if ( preg_match( '#^(.+):[ \t]*$#', $line, $matches ) )
                 {
-                    $identifier = trim( substr( $line, 0, $colonPos ) );
+                    $identifier = $matches[1];
                     if ( !preg_match( '#^[a-zA-Z_-][a-zA-Z0-9_-]*$#', $identifier ) )
                     {
                         $this->warning( "Invalid identifier '$identifier', can only contain a-z, a-Z - and _",
-                                      array( 'file' => $filename, 'from' => array( $linePos, $colonPos ) ) );
+                                      array( 'file' => $filename, 'from' => array( $linePos, strlen( $identifier ) ) ) );
                         $identifier = false;
                         continue;
                     }
@@ -381,7 +379,7 @@ class eZCodeMapper
                             if ( $hexPos + 4 > $len )
                             {
                                 $col = $hexPos;
-                                $this->warning( "Found U+ value with " . ( $len - $hexPos ) . " missing hex numbers",
+                                $this->warning( "Found U+ value with " . ( 4 - ( $len - $hexPos ) ) . " missing hex numbers",
                                                 array( 'file' => $filename,
                                                        'from' => array( $linePos, $hexPos ) ) );
                                 $failed = true;
@@ -437,7 +435,7 @@ class eZCodeMapper
                             if ( $hexPos + 2 > $len )
                             {
                                 $col = $len;
-                                $this->warning( "Found ASCII value with " . ( $len - $hexPos ) . " missing hex numbers",
+                                $this->warning( "Found ASCII value with " . ( 2 - ( $len - $hexPos ) ) . " missing hex numbers",
                                                 array( 'file' => $filename,
                                                        'from' => array( $linePos, $hexPos ) ) );
                                 $pos = $hexPos;
