@@ -98,6 +98,7 @@ Changes from 3.3-6 to 3.3-7
   (Merged from stable/3.5 (3.5.0) rev. 10404)
 - Fixed: Creation of an unneeded workflow process parameter led to multiple
   workflow processes.
+- Fixed bug #6185: Headers are not correctly rendered for XML-fields
 
 *Library:
 - Changed: Added method to allow datatypes to set mime type.

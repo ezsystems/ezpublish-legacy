@@ -11,6 +11,13 @@
 {case match=4}
 <h5>{$content}</h5>
 {/case}
+{case match=5}
+<h6>{$content}</h6>
+{/case}
+{case}
+{case match=6} {* html does not have h7 *}
+<h6>{$content}</h6>
+{/case}
 {case}
 <h2>{$content}</h2>
 {/case}
