@@ -22,7 +22,7 @@ div#topcontent
     color: #ffffff;
 }
 
-div#maincontent
+div#maincontent-design
 {
     padding-right: 10px;
     margin-bottom: 10px;
@@ -305,6 +305,11 @@ div#footer-design a:hover
 
 a
 { 
+    color: #336699;
+}
+
+a:hover
+{
     color: #336699;
 }
 
