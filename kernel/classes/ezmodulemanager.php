@@ -55,18 +55,22 @@ class eZModuleManager
 
     function aviableModules()
     {
+        include_once( 'lib/ezutils/classes/ezmodule.php' );
+        $pathList = eZModule::globalPathList();
         $modules = array();
-        if ($handle = opendir('kernel/'))
+        foreach ( $pathList as $pathItem )
         {
-            while ( false !== ( $file = readdir( $handle ) ) )
+            if ( $handle = opendir( $pathItem ) )
             {
-
-                if ( is_dir ( 'kernel/' . $file ) && file_exists( 'kernel/' . $file . '/module.php' )  )
+                while ( false !== ( $file = readdir( $handle ) ) )
                 {
-                    $modules[] = $file;
+                    if ( is_dir( $pathItem . '/' . $file ) && file_exists( $pathItem . '/' . $file . '/module.php' )  )
+                    {
+                        $modules[] = $file;
+                    }
                 }
+                closedir( $handle );
             }
-            closedir($handle);
         }
         return $modules;
     }
