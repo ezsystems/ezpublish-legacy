@@ -82,6 +82,7 @@ eZ template:
 - New class eZTemplateToolbarFunction which support template syntac {tool_bar name=$toolbar_name view=$viewmode}.
 - New class eZTemplateMenuFunction which support template syntac {menu name=$menuName}.
 - Added the subtree_expiry option to {cache-block}.
+- Fixed numeric parser to properly recognize float and integers, previously all numbers were float.
 
 eZ cli:
 - Added 'failure' style which is similar to error.

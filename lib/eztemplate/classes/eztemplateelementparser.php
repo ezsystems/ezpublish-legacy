@@ -490,30 +490,42 @@ class eZTemplateElementParser
             if ( $text[$pos] == "." and $float )
             {
                 if ( $has_comma )
+                {
+                    if ( !$has_comma and
+                         $float )
+                        $float = false;
                     return $pos;
+                }
                 $has_comma = $pos;
             }
-            else if ( !preg_match( "/^[0-9]$/", $text[$pos] ) )
+            else if ( $text[$pos] < '0' or $text[$pos] > '9' )
             {
 //                 eZDebug::writeDebug( "pos=$pos, numberPos=$numberPos", 'numericEndPos' );
+                if ( !$has_comma and
+                     $float )
+                    $float = false;
                 if ( $pos < $len and
                      $has_comma and
                      $pos == $has_comma + 1 )
+                {
                     return $start_pos;
+                }
                 if ( $pos == $numberPos )
+                {
                     return $start_pos;
+                }
                 return $pos;
             }
             ++$pos;
         }
+        if ( !$has_comma and
+             $float )
+            $float = false;
         if ( $has_comma and
              $start_pos + 1 == $pos )
         {
             return $start_pos;
         }
-        if ( !$has_comma and
-             $float )
-            $float = false;
 //         eZDebug::writeDebug( substr( $text, $start_pos, $pos - $start_pos ), 'numericEndPos' );
         return $pos;
     }
