@@ -1,0 +1,21 @@
+Changes from 3.3-4 to 3.3-5
+
+*Kernel:
+
+*Setup:
+
+*DataTypes:
+
+*Bugs:
+- Fixed a bug with login of user when running mysql, the number of returned rows would
+  increase exponentially. (Merged from stable/3.2 rev. 5647)
+
+*Library:
+
+eZ Locale:
+
+eZ MIMEType:
+
+eZ Debug:
+
+*Translations:
