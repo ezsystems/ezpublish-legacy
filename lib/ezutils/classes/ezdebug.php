@@ -621,7 +621,7 @@ ezdebug.reload();
         if ( $name == '' )
             $name = $key;
         $debug =& eZDebug::instance();
-        $debug->TimeAccumulatorList[$key] = array( 'name' => $name,  'time' => 0 );
+        $debug->TimeAccumulatorList[$key] = array( 'name' => $name,  'time' => 0, 'count' => 0 );
     }
     function accumulatorStart( $key )
     {
@@ -645,6 +645,7 @@ ezdebug.reload();
         $accumulator =& $debug->TimeAccumulatorList[$key];
         $diffTime = $stopTime - $accumulator['temp_time'];
         $accumulator['time'] = $accumulator['time'] + $diffTime;
+        ++$accumulator['count'];
     }
 
 
@@ -800,7 +801,7 @@ td.timingpoint2
         if ( $as_html )
         {
             $returnText .= "<h2>Time accumulators:</h2>";
-            $returnText .= "<table style='border: 1px dashed black;' cellspacing='0'><tr><th>Accumulator</th><th>Elapsed</th></tr>";
+            $returnText .= "<table style='border: 1px dashed black;' cellspacing='0'><tr><th>&nbsp;Accumulator</th><th>Elapsed</th><th>&nbsp;Increment Count</th><th>&nbsp;Avarage per increment </tr>";
             $i = 0;
         }
 
@@ -815,7 +816,8 @@ td.timingpoint2
                 ++$i;
 
                 $returnText .= "<tr><td class='$class'>" . $accumulator['name'] . "</td><td class='$class'>" .
-                               number_format( ( $accumulator['time'] ), $this->TimingAccuracy ) . " sec</td> "
+                               number_format( ( $accumulator['time'] ), $this->TimingAccuracy ) . " sec</td> <td class='$class' align='right'> " .
+                               $accumulator['count'] . "</td> <td class='$class' align='right'> " . number_format( ( $accumulator['time'] / $accumulator['count'] ), $this->TimingAccuracy ) . " </td> "
                                . "</tr>";
             }
             else
