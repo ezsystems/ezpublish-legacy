@@ -64,6 +64,12 @@ function eZSetupConfigVariable( $type, $name )
     return $config->variable( $type, $name );
 }
 
+function eZSetupImageConfigVariableArray( $type, $name )
+{
+    $config =& eZINI::instance( 'image.ini' );
+    return $config->variableArray( $type, $name );
+}
+
 function eZSetupConfigVariableArray( $type, $name )
 {
     $config =& eZINI::instance( 'setup.ini' );
@@ -373,75 +379,76 @@ function eZSetupCheckExecutable( $type, &$arguments )
     $systemSearchPaths = explode( $envSeparator, eZSys::path() );
 	$additionalSearchPaths = eZSetupConfigVariableArray( $type, $filesystemType . '_SearchPaths' );
 	$excludePaths = eZSetupConfigVariableArray( $type, $filesystemType . '_ExcludePaths' );
+    $imageIniPath = eZSetupImageConfigVariableArray( 'ShellSettings', 'ConvertPath' );
     $extraPath = array();
     if ( $http->hasPostVariable( $type . '_ExtraPath' ) )
         $extraPath = explode( $envSeparator, $http->postVariable( $type . '_ExtraPath' ) );
-    $searchPaths = array_merge( $systemSearchPaths, $additionalSearchPaths, $extraPath );
+    $searchPaths = array_merge( $systemSearchPaths, $additionalSearchPaths, $extraPath, $imageIniPath );
 
 	$result = false;
     $correctPath = false;
     $correctProgram = false;
     foreach ( $programs as $program )
     {
-	foreach( $searchPaths as $path )
-	{
-		$pathProgram = eZDir::path( array( $path, $program ) );
-		if ( file_exists( $pathProgram ) )
-		{
-            if ( $filesystemType == 'unix' )
+        foreach( $searchPaths as $path )
+        {
+            $pathProgram = eZDir::path( array( $path, $program ) );
+            if ( file_exists( $pathProgram ) )
             {
-                $relativePath = $path;
-                if ( preg_match( "#^/(.+)$#", $path, $matches ) )
-                    $relativePath = $matches[1];
-                $relativePath = eZDir::cleanPath( $relativePath );
-            }
-            else
-            {
-                $relativePath = $path;
-                if ( preg_match( "#^[a-zA-Z]:[/\\\\](.+)$#", $path, $matches ) )
-                    $relativePath = $matches[1];
-                $relativePath = eZDir::cleanPath( $relativePath );
-            }
-            $exclude = false;
-            foreach ( $excludePaths as $excludePath )
-            {
-                $excludePath = strtolower( $excludePath );
-                $match = strtolower( $program . "@" . $relativePath );
-                if ( $match == $excludePath )
+                if ( $filesystemType == 'unix' )
                 {
-                    $exclude = true;
-                    break;
+                    $relativePath = $path;
+                    if ( preg_match( "#^/(.+)$#", $path, $matches ) )
+                        $relativePath = $matches[1];
+                    $relativePath = eZDir::cleanPath( $relativePath );
                 }
-                else if ( $relativePath == $excludePath )
+                else // windows
                 {
-                    $exclude = true;
-                    break;
+                    $relativePath = $path;
+                    if ( preg_match( "#^[a-zA-Z]:[/\\\\](.+)$#", $path, $matches ) )
+                        $relativePath = $matches[1];
+                    $relativePath = eZDir::cleanPath( $relativePath );
                 }
-            }
-            if ( $exclude )
-                continue;
-			if ( function_exists( "is_executable" ) )
-			{
-				if ( is_executable( $pathProgram ) )
-				{
-					$result = true;
-					$correctPath = $path;
+                $exclude = false;
+                foreach ( $excludePaths as $excludePath )
+                {
+                    $excludePath = strtolower( $excludePath );
+                    $match = strtolower( $program . "@" . $relativePath );
+                    if ( $match == $excludePath )
+                    {
+                        $exclude = true;
+                        break;
+                    }
+                    else if ( $relativePath == $excludePath )
+                    {
+                        $exclude = true;
+                        break;
+                    }
+                }
+                if ( $exclude )
+                    continue;
+                if ( function_exists( "is_executable" ) )
+                {
+                    if ( is_executable( $pathProgram ) )
+                    {
+                        $result = true;
+                        $correctPath = $path;
+                        $correctProgram = $program;
+                        break;
+                    }
+                }
+                else
+                {
+                    // Windows system
+                    $result = true;
+                    $correctPath = $path;
                     $correctProgram = $program;
-					break;
-				}
-			}
-			else
-			{
-				// Windows system
-                $result = true;
-                $correctPath = $path;
-                $correctProgram = $program;
-				break;
-			}
-		}
-    }
-    if ( $result )
-        break;
+                    break;
+                }
+            }
+        }
+        if ( $result )
+            break;
 	}
 
 	return array( 'result' => $result,
