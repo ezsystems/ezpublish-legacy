@@ -1176,7 +1176,7 @@ class eZSearchEngine
                 $wordID = $word['id'];
                 $searchPart .= "ezsearch_object_word_link.word_id='$wordID' ";
 
-
+                $i++;
             }
             $searchPart .= ' ) AND ';
             $this->createTemporaryTable( $searchPart );
