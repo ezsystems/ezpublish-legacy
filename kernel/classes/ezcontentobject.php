@@ -70,7 +70,9 @@ class eZContentObject extends eZPersistentObject
                                          "owner_id" => "OwnerID",
                                          "contentclass_id" => "ClassID",
                                          "name" => "Name",
-                                         "is_published" => "Published",
+                                         "is_published" => "IsPublished",
+                                         "published" => "Published",
+                                         "modified" => "Modified",
                                          "current_version" => "CurrentVersion",
                                          "permission_id" => "PermissionID" ),
                       "keys" => array( "id" ),
@@ -174,9 +176,9 @@ class eZContentObject extends eZPersistentObject
             while( ( $key = key( $data ) ) !== null )
             {
                 $item =& $data[$key];
-                $attribute =& $item->attribute( "contentclass_attribute" );
 
-                $identifier = $attribute->attribute( "identifier" );
+                $identifier = $item->contentClassAttributeIdentifier();
+
                 $ret[$identifier] =& $item;
 
                 next( $data );
@@ -401,15 +403,29 @@ class eZContentObject extends eZPersistentObject
     /*!
       Fetches the attributes for the current published version of the object.
     */
-    function contentObjectAttributes( $as_object=true )
+    function &contentObjectAttributes( $as_object=true )
     {
-        return eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
-                                                    null, array( "version" => $this->CurrentVersion,
-                                                                 "contentobject_id" => $this->ID,
-                                                                 "language_code" => $this->CurrentLanguage
-                                                                 ),
-                                                    null, null,
-                                                    $as_object );
+        $db =& eZDB::instance();
+
+        $query = "SELECT ezcontentobject_attribute.*, ezcontentclass_attribute.identifier as identifier FROM
+                    ezcontentobject_attribute, ezcontentclass_attribute
+                  WHERE
+                    ezcontentclass_attribute.id = ezcontentobject_attribute.contentclassattribute_id AND
+                    ezcontentobject_attribute.version = '$this->CurrentVersion' AND
+                    ezcontentobject_attribute.contentobject_id = '$this->ID' AND
+                    ezcontentobject_attribute.language_code = '$this->CurrentLanguage'";
+
+        $attributeArray =& $db->arrayQuery( $query );
+
+        $returnAttributeArray = array();
+        foreach ( $attributeArray as $attribute )
+        {
+            $attr = new eZContentObjectAttribute( $attribute );
+            $attr->setContentClassAttributeIdentifier( $attribute['identifier'] );
+            $returnAttributeArray[] = $attr;
+        }
+
+        return $returnAttributeArray;
     }
 
     /*!

@@ -34,13 +34,12 @@
 
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+include_once( "kernel/common/template.php" );
 
-$Module->setExitStatus( EZ_MODULE_STATUS_SHOW_LOGIN_PAGE );
+//$Module->setExitStatus( EZ_MODULE_STATUS_SHOW_LOGIN_PAGE );
 
 $ini =& eZINI::instance();
 $http =& eZHTTPTool::instance();
-eZDebug::writeNotice( $http->postVariable( "Login" ), "login");
-eZDebug::writeNotice( $http->postVariable( "Password" ), "password");
 
 if ( $http->hasPostVariable( "Login" ) &&
      $http->hasPostVariable( "Password" )
@@ -70,4 +69,9 @@ if ( $http->hasPostVariable( "Login" ) &&
         return;
     }
 }
+
+$tpl =& templateInit();
+
+$Result =& $tpl->fetch( "design:user/login.tpl" );
+
 ?>

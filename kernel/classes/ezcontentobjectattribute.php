@@ -58,6 +58,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         $this->Content = null;
         $this->ValidationError = null;
         $this->ContentClassAttributeCatch = null;
+        $ContentClassAttributeIdentifier = null;
     }
 
     function &definition()
@@ -72,6 +73,7 @@ class eZContentObjectAttribute extends eZPersistentObject
                                          "data_float" => "DataFloat" ),
                       "keys" => array( "id", "contentobject_id", "version", "language_code" ),
                       "function_attributes" => array( "contentclass_attribute" => "contentClassAttribute",
+                                                      "contentclass_attribute_identifier" => "contentClassAttributeIdentifier",
                                                       "content" => "content",
                                                       "xml" => "xml",
                                                       "input_xml" => "inputXML",
@@ -111,6 +113,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         if ( $attr == "contentclass_attribute" )
             return $this->contentClassAttribute();
+        if ( $attr == "contentclass_attribute" )
+            return $this->contentClassAttributeIdentifier();
         else if ( $attr == "content" )
             return $this->content( );
         else if ( $attr == "xml" )
@@ -158,6 +162,28 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
         return $classAttribute->attribute( "name" );
+    }
+
+    /*!
+     Sets the cached content class attribute identifier
+    */
+    function setContentClassAttributeIdentifier( $identifier )
+    {
+        $this->ContentClassAttributeIdentifier = $identifier;
+    }
+
+    /*!
+     \return the idenfifier for the content class attribute
+    */
+    function contentClassAttributeIdentifier()
+    {
+        if ( $this->ContentClassAttributeIdentifier === null )
+        {
+            $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
+            $this->ContentClassAttributeIdentifier = $classAttribute->attribute( 'idenfifier' );
+            eZDebug::writeNotice( "Identifier not cached, fetching from db", "eZContentClassAttribute::contentClassAttributeIdentifier()" );
+        }
+        return $this->ContentClassAttributeIdentifier;
     }
 
     /*!
@@ -338,6 +364,9 @@ class eZContentObjectAttribute extends eZPersistentObject
     var $ValidationError;
 
     var $ContentClassAttributeCatch;
+
+    ///
+    var $ContentClassAttributeIdentifier;
 }
 
 ?>

@@ -17,3 +17,5 @@ Probably the same error there.
 Translate
 ---------
 Complex data types, e.g. image, does not work when translating.
+
+Translated objects are not indexed in search.

@@ -97,6 +97,9 @@ $featureArray[] = array( "uri" => "workflows",
 $featureArray[] = array( "uri" => "tasks",
                          "level" => 2,
                          "name" => "Tasks" );
+$featureArray[] = array( "uri" => "notification_system",
+                         "level" => 2,
+                         "name" => "Notification system" );
 
 $featureArray[] = array( "level" => 1,
                          "name" => "Shopping" );

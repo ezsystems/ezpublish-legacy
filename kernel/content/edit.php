@@ -322,6 +322,8 @@ if ( $inputValidated == true )
         $objectName = $class->contentObjectName( $object );
         $oldObjectName =  $object->attribute( "name" );
         $object->setAttribute( "name", $objectName );
+        $object->setAttribute( "published", mktime() );
+        $object->setAttribute( "modified", mktime() );
         $object->store();
 
 

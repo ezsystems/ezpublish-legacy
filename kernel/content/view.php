@@ -91,22 +91,14 @@ $relatedObjectArray =& $object->relatedContentObjectArray( $object->attribute( '
 
 $classID = $object->attribute( "contentclass_id" );
 
-$class =& eZContentClass::fetch( $classID );
-
 $parents =& $node->attribute( 'path' );
-/*
-$classes =& eZContentClass::fetchList( $version = 0, $as_object = true, $user_id = false,
-                                       array("name"=>"name"), $fields = null );
-*/
-$classes = $object->attribute( 'can_create_class_list' );
+$classes =& $object->attribute( 'can_create_class_list' );
 
-
-
-$Module->setTitle( "View " . $class->attribute( "name" ) . " - " . $object->attribute( "name" ) );
+$Module->setTitle( "View " . $object->attribute( "class_name" ) . " - " . $object->attribute( "name" ) );
 
 $res =& eZTemplateDesignResource::instance();
 $res->setKeys( array( array( "object", $object->attribute( "id" ) ), // Object ID
-                      array( "class", $class->attribute( "id" ) ), // Class ID
+                      array( "class", $object->attribute( "contentclass_id" ) ), // Class ID
                       array( "section", 0 ) ) ); // Section ID, 0 so far
 
 $tpl->setVariable( "nodeID", $NodeID );
@@ -114,7 +106,6 @@ $tpl->setVariable( "previous", $Offset - $Limit );
 $tpl->setVariable( "next", $Offset + $Limit );
 $tpl->setVariable( "parents", $parents );
 $tpl->setVariable( "object", $object );
-$tpl->setVariable( "class", $class );
 $tpl->setVariable( "children", $children );
 $tpl->setVariable( "children_count", $childrenCount );
 
