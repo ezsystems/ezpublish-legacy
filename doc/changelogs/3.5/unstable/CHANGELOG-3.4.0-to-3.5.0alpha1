@@ -80,3 +80,6 @@ eztc.php:
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that
   enables compression of compiled template files.
+- Made sure the full-url setting of eZHTTPTool is used for generating the compiled filename.
+  This setting is controlled by layout/set and is used in for instance payment gateways.
+- Updated template compiler script to compile with and without full urls.

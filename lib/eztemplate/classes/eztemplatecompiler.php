@@ -335,7 +335,10 @@ class eZTemplateCompiler
         include_once( 'lib/ezlocale/classes/ezlocale.php' );
         $locale =& eZLocale::instance();
         $language =& $locale->translationCode();
-        $cacheFileKey = $key . '-' . $internalCharset . '-' . $language . $accessText;
+        include_once( 'lib/ezutils/classes/ezhttptool.php' );
+        $http =& eZHTTPTool::instance();
+        $useFullUrlText = $http->UseFullUrl ? 'full' : 'relative';
+        $cacheFileKey = $key . '-' . $internalCharset . '-' . $language . '-' . $useFullUrlText . $accessText;
         $cacheFileName = $extraName . md5( $cacheFileKey ) . '.php';
         return $cacheFileName;
     }

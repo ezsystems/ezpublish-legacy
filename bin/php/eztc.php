@@ -46,16 +46,19 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish Template Co
 
 $script->startup();
 
-$options = $script->getOptions( "[compile-directory:][www-dir:][index-file:][access-path:][force]",
+$options = $script->getOptions( "[compile-directory:][www-dir:][index-file:][access-path:][force][full-url][no-full-url]",
                                 "",
                                 array( 'force' => "Force compilation of template whether it has changed or not",
                                        'compile-directory' => "Where to place compiled files,\ndefault is template/compiled in current cache directory",
+                                       'full-url' => "Makes sure generated urls have http:// in them (i.e. global), used mainly by sites that include the eZ publish HTML (e.g payment gateways)",
+                                       'no-full-url' => "Makes sure generated urls are relative to the site. (default)",
                                        'www-dir' => "The part before the index.php in your URL, you should supply this if you are running in non-virtualhost mode",
                                        'index-file' => "The name of your index.php if you are running in non-virtualhost mode",
                                        'access-path' => "Extra access path" ) );
 $sys =& eZSys::instance();
 
 $forceCompile = false;
+$useFullURL = false;
 
 if ( $options['www-dir'] )
 {
@@ -73,8 +76,21 @@ if ( $options['force'] )
 {
     $forceCompile = true;
 }
+if ( $options['full-url'] )
+{
+    $useFullURL = true;
+}
+if ( $options['no-full-url'] )
+{
+    $useFullURL = false;
+}
 
 $script->initialize();
+
+include_once( 'lib/ezutils/classes/ezhttptool.php' );
+$http =& eZHTTPTool::instance();
+$http->UseFullUrl = $useFullURL;
+
 
 if ( count( $options['arguments'] ) > 0 )
 {
