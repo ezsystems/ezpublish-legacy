@@ -25,3 +25,9 @@ alter table ezcontentobject_tree add priority int not null default '0';
 # storing info about module and function of limitation
 # you should run that query only for kernel_clean db
 update ezpolicy_limitation set function_name='read', module_name='content', identifier='Class' where policy_id=306;
+
+# add session_key for session based workflows
+# note!!!: for PostgreSQL you are not able to set default value when add column. You need to run additional
+# alter command: alter table ezworkflow_process alter  column session_key SET DEFAULT '0';
+alter table ezworkflow_process add column session_key varchar(32) NOT NULL DEFAULT '0';
+alter table ezworkflow_process add column process_key char(32) NOT NULL ;
