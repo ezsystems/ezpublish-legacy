@@ -178,6 +178,9 @@ eztc.php:
 - Removed vardumps from cronjobs/unpublish.php.
   Merged from stable/3.3 rev. 6990, also in stable/3.4 rev. 6991.
   http://ez.no/community/bug_reports/unpublish_event_displays_debug_info
+- Fixed bug unabling to send draft for publishing after denial.
+  Merged from stable/3.4 rev. 6995.
+  http://ez.no/community/bug_reports/problems_with_denied_objects_in_approval_and_drafts
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.

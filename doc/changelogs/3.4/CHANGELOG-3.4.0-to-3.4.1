@@ -139,3 +139,16 @@ Changes from 3.4.0 to 3.4.1
 - Fixed bug causing that the siteaccess names could not be written in capitals
   http://ez.no/community/bug_reports/changing_the_siteaccess_name_causes_a_module_not_found_error
   Merged from stable/3.3 rev. 6970.
+- Fixed bug in  stable/3.4/design/standard/templates/setup/session.tpl and stable/3.4/kernel/setup/session.php
+  http://ez.no/community/bug_reports/session_typo
+- Fixed bugs: semicolons are not escaped in arrays specified in fetchalias.ini
+  (merged from stable/3.3 rev. 6979).
+  Additional fix for:
+  http://ez.no/community/bug_reports/array_data_in_fetchalias_ini_don_t_get_treated_as_arrays_content_search
+- Fixed bug of users always being moved to trash after removal.
+  http://ez.no/community/bug_reports/deleting_user_s_role
+- Removed vardumps from cronjobs/unpublish.php.
+  Merged from stable/3.3 rev. 6990. 
+  http://ez.no/community/bug_reports/unpublish_event_displays_debug_info
+- Fixed bug unabling to send draft for publishing after denial.
+  http://ez.no/community/bug_reports/problems_with_denied_objects_in_approval_and_drafts
