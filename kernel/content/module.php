@@ -126,7 +126,8 @@ $ViewList["download"] = array(
 $ViewList["action"] = array(
     "functions" => array( 'read' ),
     "script" => "action.php",
-    "params" => array(  ) );
+    "params" => array(  ),
+    'post_actions' => array( 'BrowseActionName' ) );
 
 $ViewList["collectinformation"] = array(
     "functions" => array( 'read' ),

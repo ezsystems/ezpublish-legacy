@@ -39,11 +39,21 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
 
-if ( $http->hasPostVariable( 'NewButton' )  )
+if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'SelectParentNode' )  )
 {
-    if ( $http->hasPostVariable( 'ClassID' ) && $http->hasPostVariable( 'NodeID' ) )
+    if ( ( $http->hasPostVariable( 'ClassID' ) && $http->hasPostVariable( 'NodeID' ) ) || $module->isCurrentAction( 'SelectParentNode' ) )
     {
-        $node =& eZContentObjectTreeNode::fetch( $http->postVariable( 'NodeID' ) );
+        if (  $module->isCurrentAction( 'SelectParentNode' ) )
+        {
+            $selectedNodeIDArray = $http->postVariable( 'SelectedNodeIDArray' );
+            $node =& eZContentObjectTreeNode::fetch( $selectedNodeIDArray[0] );
+            $contentClassID = $http->sessionVariable( 'ClassID' );
+        }
+        else
+        {
+            $node =& eZContentObjectTreeNode::fetch( $http->postVariable( 'NodeID' ) );
+            $contentClassID = $http->postVariable( 'ClassID' );
+        }
         $parentContentObject =& $node->attribute( 'object' );
 
         if ( $parentContentObject->checkAccess( 'create', $http->postVariable( 'ClassID' ),  $parentContentObject->attribute( 'contentclass_id' ) ) == '1' )
@@ -51,7 +61,7 @@ if ( $http->hasPostVariable( 'NewButton' )  )
             $user =& eZUser::currentUser();
             $userID =& $user->attribute( 'contentobject_id' );
             $sectionID = $parentContentObject->attribute( 'section_id' );
-            $contentClassID = $http->postVariable( 'ClassID' );
+
             $class =& eZContentClass::fetch( $contentClassID );
             $contentObject =& $class->instantiate( $userID, $sectionID );
             $nodeAssignment =& eZNodeAssignment::create( array(
@@ -71,9 +81,21 @@ if ( $http->hasPostVariable( 'NewButton' )  )
         }
         else
         {
-            $Module->redirectTo( '/error/403' );
+            $module->redirectTo( '/error/403' );
             return;
         }
+
+    }
+    else if ( $http->hasPostVariable( 'ClassID' ) )
+    {
+        //
+        $http->setSessionVariable( "BrowseFromPage", $module->redirectionURI( 'content', 'action', array( ) ) );
+        $http->setSessionVariable( "BrowseActionName", "SelectParentNode" );
+        $http->setSessionVariable( "ClassID", $http->postVariable( 'ClassID' ) );
+        $http->setSessionVariable( "BrowseReturnType", "NodeID" );
+        $http->setSessionVariable( 'BrowseSelectionType', 'Single' );
+
+        $module->redirectToView( 'browse', array( 2 ) );
 
     }
 }

@@ -161,6 +161,20 @@ class eZContentFunctionCollection
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
         return array( 'result' => &$childrenCount );
     }
+
+    function canInstantiateClassList()
+    {
+        include_once( 'kernel/classes/ezcontentclass.php' );
+        return array( 'result' => eZContentClass::canInstantiateClassList() );
+
+    }
+
+    function canInstantiateClasses()
+    {
+        include_once( 'kernel/classes/ezcontentclass.php' );
+        return array( 'result' => eZContentClass::canInstantiateClasses() );
+
+    }
 }
 
 ?>

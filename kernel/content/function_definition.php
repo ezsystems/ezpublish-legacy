@@ -210,4 +210,21 @@ $FunctionList['tree_count'] = array( 'name' => 'tree_count',
                                                                    'default' => false )
                                                             ) );
 
+$FunctionList['can_instantiate_class_list'] = array( 'name' => 'can_instantiate_class_list',
+                                                     'operation_types' => array( 'read' ),
+                                                     'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                                             'class' => 'eZContentFunctionCollection',
+                                                                             'method' => 'canInstantiateClassList' ),
+                                                     'parameter_type' => 'standard',
+                                                     'parameters' => array( ) );
+
+$FunctionList['can_instantiate_classes'] = array( 'name' => 'can_instantiate_classes',
+                                                  'operation_types' => array( 'read' ),
+                                                  'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                                          'class' => 'eZContentFunctionCollection',
+                                                                          'method' => 'canInstantiateClasses' ),
+                                                  'parameter_type' => 'standard',
+                                                  'parameters' => array( ) );
+
+
 ?>

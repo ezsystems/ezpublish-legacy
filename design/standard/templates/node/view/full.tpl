@@ -64,6 +64,22 @@
       {/section}
     {/section}
     </td>
+
+    <td width="120" valign="top">Objects relating this
+
+    {let name=ToObject  reverse_related_objects=$content_version.reverse_related_object_list}
+
+      {section name=ToContentObject  loop=$ToObject:reverse_related_objects show=$ToObject:reverse_related_objects  sequence=array(bglight,bgdark)}
+
+        <div class="block">
+        {content_view_gui view=text_linked content_object=$ToObject:ToContentObject:item}
+        </div>
+    
+      {section-else}
+      {/section}
+    {/let}
+
+    </td>
 </tr>
 </table>
 
