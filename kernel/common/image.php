@@ -162,7 +162,7 @@ function &imageInit()
 // //     $img->setRules( $rules, $img->createRule( '*', 'image/jpeg', 'convert', true, true ) );
 //     $img->setMIMETypes( $mime_rules );
 
-    return $img;
+//     return $img;
 }
 
 ?>
