@@ -30,6 +30,7 @@ menuArray['BookmarkMenu']['elements']['bookmark-edit'] = new Array();
 menuArray['BookmarkMenu']['elements']['bookmark-edit']['url'] = {"/content/edit/%objectID%"|ezurl};
 
 </script>
+<script language="JavaScript" src={"javascript/lib/ezjslibdomsupport.js"|ezdesign}></script>
 <script language="JavaScript" src={"javascript/lib/ezjslibmousetracker.js"|ezdesign}></script>
 <script language="JavaScript" src={"javascript/popupmenu/ezpopupmenu.js"|ezdesign}></script>
 
