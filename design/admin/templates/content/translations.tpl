@@ -9,7 +9,7 @@
     <th>{'Language'|i18n( 'design/admin/content/translations' )}</th>
 	<th>{'Country'|i18n( 'design/admin/content/translations' )}</th>
 	<th>{'Locale'|i18n( 'design/admin/content/translations' )}</th>
-	<th>{'Objects'|i18n( 'design/admin/content/translations' )}</th>
+	<th>{'Translations'|i18n( 'design/admin/content/translations' )}</th>
 </tr>
 
 {section var=Translations loop=$available_translations sequence=array( bglight, bgdark )}
