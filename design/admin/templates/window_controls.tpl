@@ -39,19 +39,19 @@
     </li>
     {/section}
 
-    {* Languages. *}
-    {section show=ezpreference( 'admin_navigation_languages' )}
+    {* Translations. *}
+    {section show=ezpreference( 'admin_navigation_translations' )}
     <li class="enabled">
     <div class="button-bc"><div class="button-tl">
     <div class="button-tr"><div class="button-br">
-        <a href={'/user/preferences/set/admin_navigation_languages/0'|ezurl} title="{'Hide available translations.'|i18n( 'design/admin/node/view/full' )}">{'Languages'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_navigation_translations/0'|ezurl} title="{'Hide available translations.'|i18n( 'design/admin/node/view/full' )}">{'Translations'|i18n( 'design/admin/node/view/full' )}</a>
     </div></div>
     </div></div>
     {section-else}
     <li class="disabled">
     <div class="button-bc"><div class="button-tl">
     <div class="button-tr"><div class="button-br">
-        <a href={'/user/preferences/set/admin_navigation_languages/1'|ezurl} title="{'Show available translations.'|i18n( 'design/admin/node/view/full' )}">{'Languages'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_navigation_translations/1'|ezurl} title="{'Show available translations.'|i18n( 'design/admin/node/view/full' )}">{'Translations'|i18n( 'design/admin/node/view/full' )}</a>
     </div></div>
     </div></div>
     </li>

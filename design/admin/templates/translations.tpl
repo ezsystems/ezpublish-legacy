@@ -4,7 +4,7 @@
 <div class="box-tc"><div class="box-ml"><div class="box-mr">
 <div class="box-tl"><div class="box-tr">
 
-<h2 class="context-title">{'Languages [%translations]'|i18n( 'design/admin/node/view/full',, hash( '%translations', $node.object.current.language_list|count ) )}</h2>
+<h2 class="context-title">{'Translations [%translations]'|i18n( 'design/admin/node/view/full',, hash( '%translations', $node.object.current.language_list|count ) )}</h2>
 
 <div class="header-subline"></div>
 
@@ -25,7 +25,14 @@
 
 {section var=Translations loop=$node.object.current.language_list sequence=array( bglight, bgdark )}
 <tr class="{$Translations.sequence}">
-<td><a href={concat( '/content/view/full/', $node.node_id, '/language/', $Translations.item.language_code )|ezurl}>{$Translations.item.locale.intl_language_name}</a>
+<td>
+{section show=eq( $Translations.item.language_code, $language_code )}
+<b><a href={concat( '/content/view/full/', $node.node_id, '/language/', $Translations.item.language_code )|ezurl}>{$Translations.item.locale.intl_language_name}</a></b>
+{section-else}
+<a href={concat( '/content/view/full/', $node.node_id, '/language/', $Translations.item.language_code )|ezurl}>{$Translations.item.locale.intl_language_name}</a>
+{/section}
+
+
 </td>
 <td>{$Translations.item.language_code}</td>
 {* <td><a href={concat( 'content/edit/', $Nodes.item.contentobject_id, '/', $Translations.item.language_code )|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )}" /></a> *}
