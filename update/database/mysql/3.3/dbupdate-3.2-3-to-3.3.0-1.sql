@@ -83,6 +83,8 @@ delete from ezcontentobject_attribute;
 
 alter table ezcontentobject_attribute add data_type_string varchar(50) not null;
 
+alter table ezcontentobject_version add workflow_event_pos int(11) not null default '0';
+
 insert into ezcontentobject_attribute select * from ezcontent_attribute_tmp;
 drop table ezcontent_attribute_tmp;
 
