@@ -141,6 +141,8 @@ Payment:
 - Fixed bug: Missing serialization implementation for datatype ezkeyword.
   (Merged from stable/3.4 rev. 8939)
   http://ez.no/community/bug_reports/datatype_ezkeyword_no_serialization_supported.
+- Fixed bug: when trying to remove several locations when viewing a node 
+  always only the first location is removed.
 
 *Library:
 

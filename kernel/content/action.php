@@ -833,6 +833,7 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
                 $hasChildren = true;
                 break;
             }
+            unset( $node );
         }
     }
 
