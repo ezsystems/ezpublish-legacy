@@ -61,6 +61,7 @@ define( "EZ_CONTENT_OBJECT_STATUS_DRAFT", 0 );
 define( "EZ_CONTENT_OBJECT_STATUS_PUBLISHED", 1 );
 define( "EZ_CONTENT_OBJECT_STATUS_ARCHIVED", 2 );
 
+
 class eZContentObject extends eZPersistentObject
 {
     function eZContentObject( $row )
@@ -2203,12 +2204,12 @@ class eZContentObject extends eZPersistentObject
         return $return;
     }
 
-    function defaultLanguage()
+    function &defaultLanguage()
     {
         if ( ! isset( $GLOBALS['eZContentObjectDefaultLanguage'] ) )
         {
             $ini =& eZINI::instance();
-            $GLOBALS['eZContentObjectDefaultLanguage'] = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+            $GLOBALS['eZContentObjectDefaultLanguage'] =& $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
         }
 
         return $GLOBALS['eZContentObjectDefaultLanguage'];

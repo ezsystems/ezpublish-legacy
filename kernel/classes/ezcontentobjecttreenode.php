@@ -667,7 +667,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( isset( $params['AttributeFilter'] ) && $params['AttributeFilter'] !== false )
         {
             $filterArray = $params['AttributeFilter'];
-            $language = eZContentObject::defaultLanguage();
 
             // Check if first value of array is a string.
             // To check for and/or filtering
@@ -924,13 +923,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $useVersionName = true;
 
         $versionNameTables = ', ezcontentobject_name ';
-            $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
+        $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
 
-            $lang = eZContentObject::defaultLanguage();
+        $lang = eZContentObject::defaultLanguage();
 
-            $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
-                                  ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
-                                  ezcontentobject_name.content_translation = '$lang' ";
+        $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
+                              ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
+                              ezcontentobject_name.content_translation = '$lang' ";
 
         if ( count( $limitationList) > 0 )
         {
@@ -1334,7 +1333,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             if ( $filterCount > 0 )
                 $attributeFilterWhereSQL .= "\n                            ( " . $attibuteFilterJoinSQL . " ) AND ";
         }
-        
+
         $versionNameTables = '';
         $versionNameTargets = '';
         $versionNameJoins = '';
