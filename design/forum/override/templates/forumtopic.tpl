@@ -4,17 +4,29 @@
 <h1>{$node.name|wash}</h1>
 
 
+<div class="selectedsearch">
+    <form action={"/content/search/"|ezurl} method="get">
+    <input class="searchtext" type="text" size="10" name="SearchText" id="Search" value="" />
+    <input class="searchbutton" name="SearchButton" type="submit" value="Search forum" />
+    <input type="hidden" name="SearchContentClassID" value="22" />
+    <input type="hidden" name="SubTreeArray[]" value="{$node.parent_node_id}" />
+    </form>
+</div>
+
 {section show=$node.depth|le(6)}
+
 <form method="post" action={"content/action/"|ezurl}>
 
 {switch match=$node.object.can_create}
 {case match=1}
+<div class="buttonblock">
 <input class="button" type="submit" name="NewButton" value="New reply" />
 
     <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
     <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id.}" />
     <input class="button" type="submit" name="ActionAddToNotification" value="Keep me updated" />
 
+</div>
 {/case}
 {case match=0}
 <p>
@@ -33,12 +45,13 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
 
 {switch match=$node.object.can_create}
 {case match=1}
-<input class="button" type="submit" name="NewButton" value="New reply" />
+<div class="buttonblock">
+    <input class="button" type="submit" name="NewButton" value="New reply" />
 
     <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
     <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id.}" />
     <input class="button" type="submit" name="ActionAddToNotification" value="Keep me updated" />
-
+</div>
 {/case}
 {case match=0}
 <p>
@@ -48,49 +61,35 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
 {/switch}
 <input type="hidden" name="NodeID" value="{$node.parent_node_id}" />
 <input type="hidden" name="ClassID" value="22" />
-
+</form>
 {/section}
 
-<div class="selectedsearch">
-    <form action={"/content/search/"|ezurl} method="get">
-    <input class="searchtext" type="text" size="10" name="SearchText" id="Search" value="" />
-    <input class="searchbutton" name="SearchButton" type="submit" value="Search forum" />
-    <input type="hidden" name="SearchContentClassID" value="22" />
-    <input type="hidden" name="SubTreeArray[]" value="{$node.parent_node_id}" />
-    </form>
-</div>
-
+<div class="forum_level4">
 <table class="forum" cellspacing="0">
-<tr class="topheader">
-    <th class="messagetopic">
-    Topic: {$node.name|wash}
-    </th>
-    <th class="messageauthor">
+<tr>
+    <th>
     Author
+    </th>
+    <th>
+    Topic: {$node.name|wash}
     </th>
 </tr>
 <tr class="bglightforum">
-    <td>
+    <td class="author">
+    <p>{$node.object.owner.name|wash}<br />
+    {$node.object.owner.data_map.title.content|wash}</p>
+
     <p>
-    {$node.object.data_map.message.content|wash(xhtml)|nl2br|wordtoimage|autolink}
+    {attribute_view_gui attribute=$node.object.owner.data_map.user_image image_class=small}
     </p>
-    </td>
-    <td>
-    <h3>{$node.object.owner.name|wash}</h3>
+
     <p>
-    {$node.object.owner.data_map.title.content|wash}<br /><br />
-
-    {attribute_view_gui attribute=$node.object.owner.data_map.user_image image_class=small}<br />
-
-    Topics:{fetch('content', 'object_count_by_user_id', hash( 'class_id', 22,
-                                                       'user_id', $node.object.owner.id ) )}<br />
+    Topics:&nbsp;{fetch('content', 'object_count_by_user_id', hash( 'class_id', 22,
+                                                       'user_id', $node.object.owner.id ) )}
 						       
-    Replies: {fetch('content', 'object_count_by_user_id', hash( 'class_id', 21,
+    Replies:&nbsp;{fetch('content', 'object_count_by_user_id', hash( 'class_id', 21,
                                                        'user_id', $node.object.owner.id ) )}<br />
     Location:{$node.object.owner.data_map.location.content|wash}<br />
-
-    <br />
-    {$node.object.published|l10n(datetime)}
     </p>
     <p> 	
     {let owner_id=$node.object.owner.id}
@@ -104,42 +103,45 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
 
     {section show$node.object.can_edit}
 <form method="post" action={"content/action/"|ezurl}>
-
-   <br/>
    <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
    <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
 </form>
     {/section}
-    <td>
+    </td>
+    <td class="message">
+    <p class="date">({$Child:item.object.published|l10n(datetime)})</p>
+    <p>
+    {$node.object.data_map.message.content|wash(xhtml)|nl2br|wordtoimage|autolink}
+    </p>
+    </td>
 </tr>
 {section name=Child loop=$child_list sequence=array(bgdarkforum,bglightforum)}
 <tr class="{$Child:sequence}">
-    <td>
-    <a name="msg{$Child:item.node_id}"></a><h3 class="forum">{$Child:item.name|wash}</h3>
+    <td class="author">
+    <p>{$node.object.owner.name|wash}<br />
+    {$node.object.owner.data_map.title.content|wash}</p>
+
     <p>
-    {$Child:item.object.data_map.message.content|wash(xhtml)|nl2br|wordtoimage|autolink}
+    {attribute_view_gui attribute=$node.object.owner.data_map.user_image image_class=small}
     </p>
-    </td>
-    <td>
-    <h3>{$Child:item.object.owner.name|wash}</h3>
+
     <p>
-    {$Child:item.object.owner.data_map.title.content|wash}<br /><br />
-
-    {attribute_view_gui attribute=$Child:item.object.owner.data_map.user_image image_class=small}<br />
-
-
-    Topics:{fetch('content', 'object_count_by_user_id', hash( 'class_id', 22,
-                                                       'user_id', $Child:item.object.owner.id ) )}<br />
+    Topics:&nbsp;{fetch('content', 'object_count_by_user_id', hash( 'class_id', 22,
+                                                       'user_id', $node.object.owner.id ) )}
 						       
-    Replies: {fetch('content', 'object_count_by_user_id', hash( 'class_id', 21,
-                                                       'user_id', $Child:item.object.owner.id ) )}<br />
-
-    Location:{$Child:item.object.owner.data_map.location.content|wash}<br />
-
-
-    <br /> {$Child:item.object.published|l10n(datetime)}
+    Replies:&nbsp;{fetch('content', 'object_count_by_user_id', hash( 'class_id', 21,
+                                                       'user_id', $node.object.owner.id ) )}<br />
+    Location:{$node.object.owner.data_map.location.content|wash}<br />
     </p>
-    <p>
+    <p> 	
+    {let owner_id=$node.object.owner.id}
+        {section name=Author loop=$node.object.author_array}
+            {section  show=eq($owner_id,$Author:item.contentobject_id)|not()}
+                Moderated by: {$Author:item.contentobject.name}
+             {/section}
+         {/section}
+    {/let}
+    </p>
 
     {let owner_id=$Child:item.object.owner.id}
 
@@ -153,8 +155,7 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
 
    {switch match=$Child:item.object.can_edit}
    {case match=1}
-<form method="post" action={"content/action/"|ezurl}>
-   <br/>
+   <form method="post" action={"content/action/"|ezurl}>
    <input type="hidden" name="ContentObjectID" value="{$Child:item.object.id}" />
    <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
    </form>
@@ -163,11 +164,18 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
    {/case}
    {/switch}
 
+    </td>
+    <td class="message">
+    <h3 class="title" id="msg{$Child:item.node_id}">{$Child:item.name|wash}</h3>
+    <p class="date">({$Child:item.object.published|l10n(datetime)})</p>
+    <p>
+    {$Child:item.object.data_map.message.content|wash(xhtml)|nl2br|wordtoimage|autolink}
     </p>
     </td>
 </tr>
 {/section}
 </table>
+</div>
 
  {section show=$node.depth|le(6)}
 <form method="post" action={"content/action/"|ezurl}>

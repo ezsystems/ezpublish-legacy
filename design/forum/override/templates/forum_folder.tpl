@@ -1,5 +1,3 @@
-<div id="folder">
-
 <form method="post" action={"content/action"|ezurl}>
 
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
@@ -29,20 +27,22 @@
     list_count=fetch('content','list_count',hash(parent_node_id,$node.node_id))}
 
 {section name=Child loop=$children sequence=array(bglight,bgdark)}
+<div class="forum_level1">
 <table class="forum" cellspacing="0">
-<tr class="topheader">
-    <th class="" colspan="2">
+<tr>
+    <th colspan="2">
     Topics
     </th>
-    <th class="">
+    <th>
     Posts
     </th>
-    <th class="">
+    <th>
     Replies
     </th>
 </tr>
 {node_view_gui view=forumline content_node=$Child:item}
 </table>
+</div>
 {/section}
 
 {include name=navigator
@@ -77,4 +77,3 @@ iew')}" />
 {/default}
 
 </form>
-</div>

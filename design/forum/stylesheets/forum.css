@@ -46,9 +46,14 @@ div#mainmenu
 
 div#usermenu
 {
-    position: absolute;
-    right: 0;
-    bottom: 0.5em;
+    text-align: right;
+    margin-top: 0.2em;
+}
+
+div#usermenu ul
+{
+    margin-left: 0em;
+    color: #cc0000;
 }
 
 div#mainmenu ul, div#mainmenu li, div#usermenu ul, div#usermenu li
@@ -56,7 +61,7 @@ div#mainmenu ul, div#mainmenu li, div#usermenu ul, div#usermenu li
     display: inline; /* This makes the vertical display of this menu */
 }
 
-div#mainmenu ul, div#usermenu ul
+div#mainmenu ul
 {
     margin-left: 0em;
     margin-top: 1em;
@@ -64,10 +69,16 @@ div#mainmenu ul, div#usermenu ul
     color: #ffffff;
 }
 
-div#mainmenu li a, div#usermenu li a
+div#mainmenu li a
 {
     padding-left: 1em;
     padding-right: 3em;
+}
+
+div#usermenu li a
+{
+    padding-left: 1em;
+    padding-right: 3.1em;
 }
 
 div#mainmenu a, div#usermenu a
@@ -75,6 +86,11 @@ div#mainmenu a, div#usermenu a
     color: #ffffff;
     font-weight: bold;
     text-decoration: none;
+}
+
+div#usermenu a
+{
+    color: #cc0000;
 }
 
 div#mainmenu a:hover, div#usermenu a:hover
@@ -103,7 +119,7 @@ div#searchbox input.searchbutton
 
 div#path
 {
-    margin-top: 1em;
+    margin-top: 0;
     margin-bottom: 0.5em;
 }
 
@@ -120,10 +136,15 @@ div#path a
 
 div#maincontent
 {
-    margin-bottom: 2em;
-    margin-left: 2em;
-    margin-right: 2em;
+    margin: 0 2em 2em 2em;
     clear: none;
+/*  
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 2em;
+    padding-left: 2em;
+    max-width: 800px;
+*/
 }
 
 div#footer
@@ -237,35 +258,7 @@ div.editbutton input
    color: #ffffff;
 }
 
-/* Extra */
-
-th.maintopics
-{
-    font-size: 80%;
-    color: #ffffff;
-    background-color: #ff3300;
-    padding: 0.5em;
-    font-weight: bold;
-    border-right: 1px solid #ffffff;
-    border-bottom: 1px solid #ffffff;
-}
-
-td.forumtopic
-{
-    color: #000000;
-}
-
-td.topiccount, td.replycount
-{
-    font-size: 80%;
-    color: #000000;
-}
-
-td.forumtopics a
-{
-    font-weight: bold;
-    color: #000000;
-}
+/* Forum page templates */
 
 table.forum
 {
@@ -274,62 +267,33 @@ table.forum
     width: 100%;
 }
 
-table.forum tr.topheader th
+table.forum tr.bglightforum
+{
+    background-color: #f0f0f0;
+}
+
+table.forum tr.bgdarkforum
+{
+    background-color: #e8e8e8;
+}
+
+table.forum th
 {
     font-size: 80%;
     color: #ffffff;
     background-color: #cc0000;
     padding: 0.5em;
+    font-weight: bold;
     border-right: 1px solid #ffffff;
     border-bottom: 1px solid #ffffff;
 }
 
-th.messagetopic
+table.forum tr.subheader th
 {
-    width: 80%;
+    background-color: #ff3300;
 }
 
-th.messageauthor
-{
-    width: 20%;
-}
-
-th.forumtopic
-{
-    width: 40%;
-}
-
-th.forumreplies
-{
-    width: 1%;
-}
-
-th.forumauthor
-{
-    width: 24%;
-}
-
-th.forumlastreply
-{
-    width: 35%;
-}
-
-table.forum p.title a
-{
-    font-weight: bold;
-    color: #000000;
-    text-decoration: underline;
-    
-}
-
-table.forum p.lastreply a
-{
-    color: #000000;
-    text-decoration: underline;
-    
-}
-
-td.forumimage
+div.forum_level1 td.image
 {
     border-right: 0 !important;
     width: 1%;
@@ -337,20 +301,113 @@ td.forumimage
 
 table.forum td
 {
-    padding: 0.5em;
+    font-size: 80%;
+    color: #000000;
+    padding: 0.2em 0.5em 0.2em 0.5em;
     vertical-align: top;
     border-right: 1px solid #ffffff;
     border-bottom: 1px solid #ffffff;
 }
 
-tr.bglightforum
+table.forum p, table.forum input
 {
-    background-color: #f0f0f0;
+    font-size: 100%;
 }
 
-tr.bgdarkforum
+table.forum input
 {
-    background-color: #e8e8e8;
+    margin-bottom: 0.2em;
+}
+
+div.forum_level1 td.topics
+{
+    width: 98%;
+}
+
+div.forum_level1 td.topics a
+{
+    font-weight: bold;
+    color: #000000;
+    text-decoration: underline;
+}
+
+div.forum_level1 th.postcount
+{
+    width: 1%;
+}
+
+div.forum_level1 th.replycount
+{
+    width: 1%;
+}
+
+div.forum_level3 td.post
+{
+    width: 40%
+}
+
+div.forum_level3 td.post a
+{
+    font-weight: bold;
+    color: #000000;
+    text-decoration: underline;
+}
+
+div.forum_level3 td.author
+{
+    width: 20%
+}
+
+div.forum_level3 td.replies
+{
+    width: 1%
+}
+
+div.forum_level3 td.lastreply
+{
+    width: 39%
+}
+
+div.forum_level3 td.lastreply a
+{
+    color: #000000;
+    text-decoration: underline; 
+}
+
+div.forum_level4 td.author
+{
+    width: 20%
+}
+
+div.forum_level4 td.author p
+{
+    font-size: 85%
+}
+
+div.forum_level4 td.message
+{
+    width: 80%
+}
+
+div.forum_level4 td.message
+{
+    font-size: 100%
+}
+
+div.forum_level4 td.message p
+{
+    font-size: 80%
+}
+
+div.forum_level4 td.message p.date
+{
+    font-size: 65%
+}
+
+div.selectedsearch
+{
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }
 
 div.selectedsearch input.searchtext

@@ -1,33 +1,25 @@
-<h2>{$node.name|wash}</h2>
+<h1>Message preview</h1>
 
-<table width="100%" cellspacing="0" cellpadding="0" border="1">
+<div class="forum_level4">
+<table class="forum" cellspacing="0">
 <tr>
-    <td class="forumhead" width="80%">
-    <h2>Topic: {$node.name|wash}</h2>
-    </td>
-    <td class="forumhead" width="20%">
+    <th>
     Author
-    </td>
+    </th>
+    <th>
+    Topic
+    </th>
 </tr>
-<tr>
-    <td class="bglightforum">
+<tr class="bglightforum">
+    <td class="author">
+    <p>{$node.object.owner.name|wash}<br />
+    {$node.object.owner.data_map.title.content|wash}</p>
+    
     <p>
-    {$node.object.data_map.message.content|wash(xhtml)|nl2br|wordtoimage|autolink}
+    {attribute_view_gui attribute=$node.object.owner.data_map.user_image image_class=small}
     </p>
-    </td>
-    <td class="bglightforum" valign="top">
-    <h3>{$node.object.owner.name|wash}</h3>
-    <p>
-    {$node.object.owner.data_map.title.content|wash}<br /><br />
 
-    {attribute_view_gui attribute=$node.object.owner.data_map.user_image image_class=small}<br />
-
-
-    Location:{$node.object.owner.data_map.location.content|wash}<br />
-
-    <br />
-    {$node.object.published|l10n(datetime)}
-    </p>
+    <p>Location:{$node.object.owner.data_map.location.content|wash}</p>
     <p> 	
     {let owner_id=$node.object.owner.id}
         {section name=Author loop=$node.object.author_array}
@@ -46,8 +38,15 @@
     <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
     </form>
     {/section}
-    <td>
+    </td>
+    <td class="message">
+    <h3 class="title">{$node.name|wash}</h3>
+    <p class="date">({$node.object.published|l10n(datetime)})</p>
+    <p>
+    {$node.object.data_map.message.content|wash(xhtml)|nl2br|wordtoimage|autolink}
+    </p>
+    </td>
 </tr>
 </table>
-
+</div>
 
