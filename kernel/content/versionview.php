@@ -40,6 +40,9 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 include_once( 'kernel/common/template.php' );
 
+$Offset = $Params['Offset'];
+$viewParameters = array( 'offset' => $Offset );
+
 $tpl =& templateInit();
 $ObjectID = $Params['ObjectID'];
 $Module =& $Params['Module'];
@@ -141,6 +144,10 @@ if ( is_array( $nodeAssignments ) and
      count( $nodeAssignments ) == 1 )
 {
     $placementID = $nodeAssignments[0]->attribute( 'id' );
+    if ( $contentObject->attribute( 'main_node_id' ) != null )
+        $virtualNodeID = $contentObject->attribute( 'main_node_id' );
+    else
+        $virtualNodeID = null;
 }
 else if ( !$placementID && count( $nodeAssignments ) )
 {
@@ -150,6 +157,15 @@ else if ( !$placementID && count( $nodeAssignments ) )
         if ( $nodeAssignment->attribute( 'is_main' ) )
         {
            $placementID = $nodeAssignment->attribute( 'id' );
+           $parentNodeID = $nodeAssignment->attribute( 'parent_node' );
+           $query="SELECT node_id
+                    FROM ezcontentobject_tree
+                    WHERE contentobject_id=$ObjectID
+                      AND parent_node_id=$parentNodeID";
+
+           $db =& eZDB::instance();
+           $nodeListArray =& $db->arrayQuery( $query );
+           $virtualNodeID = $nodeListArray[0]['node_id'];
            break;
         }
     }
@@ -251,7 +267,8 @@ $node = new eZContentObjectTreeNode();
 $node->setAttribute( 'contentobject_version', $EditVersion );
 $node->setAttribute( 'contentobject_id', $ObjectID );
 $node->setAttribute( 'parent_node_id', $placementID );
-$node->setAttribute( 'main_node_id', $placementID );
+$node->setAttribute( 'main_node_id', $virtualNodeID );
+$node->setAttribute( 'node_id', $virtualNodeID );
 $node->setName( $objectName );
 $node->setContentObject( $contentObject );
 
@@ -270,6 +287,7 @@ $tpl->setVariable( 'sitedesign', $sitedesign );
 $tpl->setVariable( 'is_creator', $isCreator );
 
 $tpl->setVariable( 'related_contentobject_array', $relatedObjectArray );
+$tpl->setVariable('view_parameters', $viewParameters );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:content/view/versionview.tpl' );

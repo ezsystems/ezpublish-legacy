@@ -24,3 +24,4 @@ Changes from 3.1-1 to 3.1-2
 - Changed default fontsize of textareas
 - Fixed bug with attribute listings on objects when a locale was specified in which
   attributes did not exist.
+- Fixed bug for content preview which can't show children.
