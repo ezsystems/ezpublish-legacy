@@ -1,0 +1,127 @@
+h1
+{
+    font-size: 120%;
+}
+
+h2
+{
+    font-size: 110%;
+}
+
+h3
+{
+    font-size: 80%;
+}
+
+a
+{
+    color: #000000;
+    text-decoration: none;
+}
+
+a:hover
+{
+    color: #000000;
+    text-decoration: underline;
+}
+
+body
+{
+    background-color: #f0f0f0;
+    margin: 0px;
+    padding: 0px;
+}
+
+h1, h2, h3, p, a, th, td, ul, ol, li, dl, dd, dt, label, div, span, input, textarea
+{
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+table.mainlayout
+{
+    width: 700px; 
+}
+
+td.frontpagetop
+{
+    font-size: 1px;
+}
+
+td.maintop
+{
+    font-size: 1px;
+}
+
+td.path
+{
+    padding: 4px;
+    padding-left: 16px;
+    padding-bottom: 6px;
+    background-color: #333333;
+    color: #ffffff;
+    font-size: 80%;
+}
+
+td.path a
+{
+    color: #ff9900;
+    text-decoration: none;
+}
+
+p.path a:hover, a.menuitem:hover
+{
+    text-decoration: underline;
+}
+
+td.topedge
+{
+    background-color: #000000;
+}
+
+td.image, td.path, td.edge
+{
+    background-color: #333333;
+}
+
+td.rightcolumn
+{
+    background-color: #ff9900;
+    padding-top: 12px;
+    padding-left: 10px;
+}
+
+td.spacer
+{
+    background-color: #999999;
+}
+
+table.menu td
+{
+    padding: 4px;
+    font-size: 80%;
+}
+
+a.menuitem
+{
+    font-weight: bold;
+    text-decoration: none;
+    color: #000000;
+}
+
+td.maincontent, td.extracontent
+{
+    background-color: #bababa;
+    border: solid 1px #585858;
+    padding: 16px;
+}
+
+td.rightcolumn
+{
+    border-left: solid 1px #585858;
+}
+
+p.readmore a
+{
+    text-decoration: underline;
+}
+
