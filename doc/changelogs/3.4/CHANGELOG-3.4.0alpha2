@@ -86,6 +86,9 @@ eZ PHP creator:
   http://ez.no/community/bug_reports/bug_in_template_operator_shorten
 - Fixed bug with pre and post text for the 'text' tag in the simpletags operator. (Merged from stable/3.3 rev. 5517)
   http://ez.no/community/bug_reports/error_in_ezsimpletagsoperator_php
+- Fixed bug with wrong case usage in arithmetic operator.
+  http://ez.no/community/bug_reports/typo_in_eztemplatearithmeticoperator_php
+
 
 *Update
 - Added script addorderemail.php which will add email field content to table ezorder.

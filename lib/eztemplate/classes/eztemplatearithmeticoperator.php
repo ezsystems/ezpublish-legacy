@@ -575,7 +575,7 @@ class eZTemplateArithmeticOperator
 
                 $operatorValue = $this->buildRoman( $value );
             } break;
-            case $this->CountName;
+            case $this->CountName:
             {
                 if ( count( $operatorParameters ) == 0 )
                     $mixedValue =& $operatorValue;
