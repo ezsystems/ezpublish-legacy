@@ -1,16 +1,1 @@
 php_value allow_call_time_pass_reference 0
-
-<FilesMatch ".">
-order allow,deny
-deny from all
-</FilesMatch>
-
-<FilesMatch "(index\.php|\.(gif|jpe?g|png))$">
-order allow,deny
-allow from all
-</FilesMatch>
-
-RewriteEngine On
-RewriteRule !\.(gif|css|jpe?g|png|js)$ index.php
-
-DirectoryIndex index.php
