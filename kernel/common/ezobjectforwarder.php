@@ -79,7 +79,9 @@ class eZObjectForwarder
         $parameters = eZTemplateNodeTool::extractFunctionNodeParameters( $node );
         $inputName = $rule['input_name'];
         if ( !isset( $parameters[$inputName] ) )
+        {
             return false;
+        }
         $inputData = $parameters[$inputName];
         $outputName = $rule['output_name'];
 
@@ -95,7 +97,9 @@ class eZObjectForwarder
         {
             $renderData = $parameters['render-mode'];
             if ( !eZTemplateNodeTool::isStaticElement( $renderData ) )
+            {
                 return false;
+            }
             $renderMode = eZTemplateNodeTool::elementStaticValue( $renderData );
         }
         if ( $renderMode )
@@ -105,15 +109,25 @@ class eZObjectForwarder
         $viewName = false;
         if ( $rule['use_views'] )
         {
+            $optionalViews = isset( $rule['optional_views'] ) ? $rule['optional_views'] : false;
             $viewName = $rule['use_views'];
-            if ( !isset( $parameters[$viewName] ) )
-                return false;
-
-            $viewData = $parameters[$viewName];
-            if ( !eZTemplateNodeTool::isStaticElement( $viewData ) )
-                return false;
-            $viewValue = eZTemplateNodeTool::elementStaticValue( $viewData );
-            $viewDir .= '/' . $viewValue;
+            if ( isset( $parameters[$viewName] ) )
+            {
+                $viewData = $parameters[$viewName];
+                if ( !eZTemplateNodeTool::isStaticElement( $viewData ) )
+                {
+                    return false;
+                }
+                $viewValue = eZTemplateNodeTool::elementStaticValue( $viewData );
+                $viewDir .= '/' . $viewValue;
+            }
+            else
+            {
+                if ( !$optionalViews )
+                {
+                    return false;
+                }
+            }
         }
 
         $namespaceValue = false;
