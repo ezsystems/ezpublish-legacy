@@ -6,7 +6,6 @@
 <label>Name:</label><div class="labelbreak"></div>
 <p class="box">{$role.name} <a href={concat("/role/edit/",$role.id,"/")|ezurl}>[edit]</a></p>
 </div>
-<p class="comment">This "edit" button needs to be done in some other way; maybe by just using the regular edit image button used in lists. th[eZ]</p>
 
 <h2>{"Role policies"|i18n('role/view')}</h2>
 

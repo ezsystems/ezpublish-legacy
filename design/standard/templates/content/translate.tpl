@@ -133,7 +133,6 @@ Remove the following translations from '{$object.name}'?
 
 <input type="hidden" name="TranslationLanguageEdit" value="{$translation_language}" />
 
-<p class="comment">This template need some major work. I'm not sure for the moment; we probably need to discuss this a bit. th[eZ]</p>
 <table class="layout" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td width="50%"><h3>{$translation_locale.intl_language_name} ({$translation_locale.locale_code})</h3></td>

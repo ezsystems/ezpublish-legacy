@@ -1,4 +1,3 @@
-<p class="comment">I don't know anything about the use of this template, and haven't done anything to it yet. BF has said that we should get back to it later. th[eZ]</p>
 
 <h1>{$object.name}</h1>
 

@@ -74,7 +74,6 @@ selected="selected"
 
 {/section}
 <input class="smallbutton" type="submit" name="SelectClass" value="Update attributes"/>
-<p class="comment">The attribute dropdown menu should maybe be visible from the start, with the update button to the right of it. Initial value should only be "any", with no other choices in that case. Or maybe the way it looks now is ok? th[eZ]</p>
 </div>
 
 <div class="break"></div>
