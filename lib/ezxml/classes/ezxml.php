@@ -105,8 +105,11 @@ class eZXML
         if ( $charset !== false )
         {
             include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-            $codec =& eZTextCodec::instance( $charset );
-            $xmlDoc =& $codec->convertString( $xmlDoc );
+            $codec =& eZTextCodec::instance( $charset, false, false );
+            if ( $codec )
+            {
+                $xmlDoc =& $codec->convertString( $xmlDoc );
+            }
         }
 
         $xmlDoc =& preg_replace( "#<\?.*?\?>#", "", $xmlDoc );

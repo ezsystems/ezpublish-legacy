@@ -276,8 +276,11 @@ class eZDOMDocument
         if ( $charsetConversion )
         {
             include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-            $codec =& eZTextCodec::instance( false, $charset );
-            $text =& $codec->convertString( $text );
+            $codec =& eZTextCodec::instance( false, $charset, false );
+            if ( $codec )
+            {
+                $text =& $codec->convertString( $text );
+            }
         }
 
         return $text;
