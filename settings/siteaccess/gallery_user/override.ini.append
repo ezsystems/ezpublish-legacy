@@ -1,4 +1,3 @@
-
 [image]
 Source=node/view/full.tpl
 MatchFile=image.tpl
@@ -51,6 +50,24 @@ Source=node/view/full.tpl
 MatchFile=album.tpl
 Subdir=templates
 Match[class]=28
+
+[folder]
+Source=node/view/full.tpl
+MatchFile=folder.tpl
+Subdir=templates
+Match[class]=1
+
+[article]
+Source=node/view/full.tpl
+MatchFile=article.tpl
+Subdir=templates
+Match[class]=2
+
+[article_line]
+Source=node/view/line.tpl
+MatchFile=article_line.tpl
+Subdir=templates
+Match[class]=2
 
 [gallery_view]
 Source=node/view/full.tpl
