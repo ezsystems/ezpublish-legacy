@@ -43,6 +43,8 @@ Changes from 3.3-2 to 3.3-3
 - Fixed bug when discarding draft of images from 3.2 update.
 - Fixed clearing global ini cache when clearing ini cache in admin interface.
   http://ez.no/developer/ez_publish_3/bug_reports/clear_all_caches_does_not_clear_override_ini_cache
+- Fixed RSS export url bug.
+  http://ez.no/developer/ez_publish_3/bug_reports/rss_export
 
 *Design:
 - Added content for content/datatype/pdf/ezmatrix.tpl
