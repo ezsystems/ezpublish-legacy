@@ -2156,13 +2156,17 @@ $rbracket
                                                 "{\n" );
                             $spacing += 4;
                         }
-                        $php->addCodePiece( "unset( \$vars[$namespaceText][$variableNameText] );",
-                                            array( 'spacing' => $spacing ) );
                         if ( isset( $node[2]['local-variable'] ) )
                         {
-                            $php->addCodePiece( "\n\$tpl->unsetLocalVariable( $variableNameText, $namespaceText );",
+                            $php->addCodePiece( "\$tpl->unsetLocalVariable( $variableNameText, $namespaceText );\n",
                                                 array( 'spacing' => $spacing ) );
                         }
+                        else
+                        {
+                            $php->addCodePiece( "unset( \$vars[$namespaceText][$variableNameText] );",
+                                                array( 'spacing' => $spacing ) );
+                        }
+
                         if ( isset( $node[2]['remember_set'] ) and $node[2]['remember_set'] )
                         {
                             $php->addCodePiece( "\n}\n" );
@@ -2604,13 +2608,17 @@ END;
                     {
                         if ( !$isStaticElement )
                             $unsetVariableText = "\nunset( $variableText );";
-                        $php->addCodePiece( "\$vars[$namespaceText][$variableNameText] = $variableText;$unsetVariableText",
-                                            array( 'spacing' => $spacing ) );
                         if ( isset( $variableParameters['local-variable'] ) && $isStaticElement )
                         {
-                            $php->addCodePiece( "\n\$tpl->setLocalVariable( $variableNameText, 1, $namespaceText );" ,
+                            $php->addCodePiece( "\$tpl->setLocalVariable( $variableNameText, $variableText, $namespaceText );\n" ,
                                                 array( 'spacing' => $spacing ) );
                         }
+                        else
+                        {
+                            $php->addCodePiece( "\$vars[$namespaceText][$variableNameText] = $variableText;$unsetVariableText",
+                                                array( 'spacing' => $spacing ) );
+                        }
+
                     }
                     else if ( $rememberSet )
                     {

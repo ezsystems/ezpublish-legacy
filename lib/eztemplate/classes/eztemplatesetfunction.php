@@ -182,7 +182,7 @@ class eZTemplateSetFunction
             case $this->LetName:
             {
                 $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE;
-                if ( isset( $parameters['scope'] ) )
+                if ( isset( $parameters['scope'] ) && $functionName != $this->SetName )
                 {
                     if ( !eZTemplateNodeTool::isStaticElement( $parameters['scope'] ) )
                         return false;
@@ -197,7 +197,7 @@ class eZTemplateSetFunction
 
                 $parameters = eZTemplateNodeTool::extractFunctionNodeParameters( $node );
                 $namespaceValue = false;
-                if ( isset( $parameters['name'] ) )
+                if ( isset( $parameters['name'] ) && $functionName != $this->SetName )
                 {
                     if ( !eZTemplateNodeTool::isStaticElement( $parameters['name'] ) )
                     {
@@ -211,10 +211,11 @@ class eZTemplateSetFunction
                 $setVarNodes = array();
                 foreach ( array_keys( $parameters ) as $parameterName )
                 {
-                    if ( $parameterName == 'name' or $parameterName == 'scope' )
+                    if ( ( $parameterName == 'name' or $parameterName == 'scope' ) && $functionName != $this->SetName )
                     {
                         continue;
                     }
+
                     $parameterData =& $parameters[$parameterName];
 
                     $setVarNodes[] = eZTemplateNodeTool::createVariableNode(
@@ -361,7 +362,7 @@ class eZTemplateSetFunction
         $parameters = $functionParameters;
 
         $scope = EZ_TEMPLATE_SET_SCOPE_RELATIVE;
-        if ( isset( $parameters["scope"] ) )
+        if ( isset( $parameters["scope"] ) && $functionName != $this->SetName )
         {
             $scopeText = $tpl->elementValue( $parameters["scope"], $rootNamespace, $currentNamespace, $functionPlacement );
             if ( $scopeText == 'relative' )
@@ -375,7 +376,7 @@ class eZTemplateSetFunction
         }
 
         $name = null;
-        if ( isset( $parameters["name"] ) )
+        if ( isset( $parameters["name"] ) && $functionName != $this->SetName )
             $name = $tpl->elementValue( $parameters["name"], $rootNamespace, $currentNamespace, $functionPlacement );
         if ( $name === null )
         {
@@ -402,28 +403,19 @@ class eZTemplateSetFunction
             foreach ( array_keys( $functionParameters ) as $key )
             {
                 $item =& $functionParameters[$key];
-                switch ( $key )
-                {
-                    case 'name':
-                    case 'scope':
-                        break;
 
-                    default:
-                    {
-                        if ( $tpl->hasVariable( $key, $name ) )
-                        {
-                            unset( $itemValue );
-                            $itemValue = $tpl->elementValue( $item, $rootNamespace, $currentNamespace, $functionPlacement );
-                            $tpl->setVariableRef( $key, $itemValue, $name );
-                        }
-                        else
-                        {
-                            $varname = $key;
-                            if ( $name != '' )
-                                $varname = "$name:$varname";
-                            $tpl->warning( $functionName, "Variable '$varname' doesn't exist, cannot set" );
-                        }
-                    } break;
+                if ( $tpl->hasVariable( $key, $name ) )
+                {
+                    unset( $itemValue );
+                    $itemValue = $tpl->elementValue( $item, $rootNamespace, $currentNamespace, $functionPlacement );
+                    $tpl->setVariableRef( $key, $itemValue, $name );
+                }
+                else
+                {
+                    $varname = $key;
+                    if ( $name != '' )
+                        $varname = "$name:$varname";
+                    $tpl->warning( $functionName, "Variable '$varname' doesn't exist, cannot set" );
                 }
             }
         }

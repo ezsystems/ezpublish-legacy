@@ -525,9 +525,11 @@ class eZTemplateMultiPassParser extends eZTemplateParser
 
                     $args = array();
 
-                    if ( $type == EZ_ELEMENT_NORMAL_TAG && in_array( $tag, array( 'if', 'elseif', 'while', 'for', 'foreach', 'def', 'undef' ) ) )
+                    if ( $type == EZ_ELEMENT_NORMAL_TAG &&
+                         in_array( $tag, array( 'if', 'elseif', 'while', 'for', 'foreach', 'def', 'undef', 'set', 'let', 'default' ) ) )
                     {
                         $attr_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $attr_pos, $text_len );
+
 
                         if ( $tag == 'if' || $tag == 'elseif' )
                             $this->parseUnnamedCondition( $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $rootNamespace );
@@ -539,6 +541,9 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                             $this->parseForeachFunction( $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $rootNamespace );
                         elseif ( $tag == 'def' || $tag == 'undef' )
                             $this->parseDefFunction( $tag, $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $rootNamespace );
+                        elseif ( $tag == 'set' || $tag == 'let' || $tag == 'default' )
+                            $this->parseSetFunction( $tag, $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $rootNamespace );
+
 
                     }
                     elseif ( $type == EZ_ELEMENT_END_TAG && $tag == 'do' )
@@ -1065,7 +1070,6 @@ class eZTemplateMultiPassParser extends eZTemplateParser
 
             // skip whitespaces
             $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
-
         }
     }
 
@@ -1092,6 +1096,66 @@ class eZTemplateMultiPassParser extends eZTemplateParser
 
         $this->parseSequenceParameter( true, 'while',
                                        $args, $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $rootNamespace );
+    }
+
+    /*!
+        Parses arguments for {set}/{let}/{default}
+    */
+    function parseSetFunction( $funcName, &$args, &$tpl, &$text, &$text_len, &$cur_pos, &$relatedTemplateName, &$rootNamespace )
+    {
+        while ( $cur_pos < $text_len )
+        {
+            $dollarSignFound = false;
+
+            // skip optional dollar sign
+            if ( $text[$cur_pos] == '$' )
+            {
+                $dollarSignFound = true;
+                $cur_pos++;
+            }
+
+            // parse variable name
+            $wordEndPos = $this->ElementParser->identifierEndPosition( $tpl, $text, $cur_pos, $text_len );
+            $varName = substr( $text, $cur_pos, $wordEndPos-$cur_pos );
+            $cur_pos = $wordEndPos;
+
+            if ( !$varName )
+            {
+                $tpl->error( $funcName, 'Empty variable name.' );
+                $cur_pos = $text_len;
+                return;
+            }
+
+            // 'name' parameter for {let} (and {default} ?) cannot not be preceded by dollar sign
+            if ( $varName == 'name' and $funcName != 'set' and $dollarSignFound )
+            {
+                $tpl->error( $funcName, "'name' parameter to function \{$funcName} cannot be preceded by dollar sign" );
+                $cur_pos = $text_len; // skip processing the rest of the parameters
+                return;
+            }
+
+            // skip whitespaces
+            $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
+
+            // parse variable value
+            if ( $text[$cur_pos] != '=' )
+            {
+                $tpl->error( $funcName, "parser error @ $relatedTemplateName\n" .
+                             "(=) expected." );
+                $cur_pos = $text_len;
+                return;
+            }
+            $cur_pos++;
+
+            // skip whitespaces
+            $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
+
+            $varValue =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
+            $args[$varName] =& $varValue;
+
+            // skip whitespaces
+            $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
+        }
     }
 
 
