@@ -31,7 +31,8 @@ div.menu-block li { width: 19%; } /* Avoid width bug in IE */
 div.notranslations li { width: 24%; } /* Avoid width bug in IE */
 div.context-user div.menu-block li { width: 14%; } /* Avoid width bug in IE */
 input.button, input.button-disabled { padding: 0 0.5em 0 0.5em; overflow: visible; }
-input.box, textarea.box { width: 99%; }
+input.box, textarea.box { width: 98%; }
+td input.box, td textarea.box { width: 97%; }
 div#search p.select { margin-top: 0; }
 div#search p.advanced { margin-top: 0.3em; }
 div.content-navigation div.mainobject-window div.fixedsize { float: none; width: auto; }

@@ -646,3 +646,77 @@ table.forum tr.bglight td, table.forum tr.bgdark td
     border-top: 1px solid;
 }
 
+/* POLL */
+
+div.content-poll-results
+{
+    width: 100%;
+}
+
+div.content-poll-results ul
+{
+    margin-left: 0;
+}
+
+div.content-poll-results li
+{
+    list-style-type: none;
+}
+
+div.content-poll-results span.option
+{
+    font-weight: bold;
+    float: left;
+}
+
+div.content-poll-results span.votes
+{
+    font-weight: normal;
+}
+
+div.content-poll-results span.value
+{
+    font-weight: bold;
+    margin-top: 1.7em;
+    float: right;
+}
+
+div.content-poll-results div.resultblock
+{
+    width: 100%;
+    margin: -1.2em 0 0.5em 0;
+    float: left;
+}
+
+div.content-poll-results div.resultedge-start
+{
+    padding-right: 4em;
+}
+
+div.content-poll-results div.resultedge-end
+{
+    border: 1px solid black;
+}
+
+div.content-poll-results div.resultbox
+{
+    background-image: url(../images/poll-bg.gif);
+    background-repeat: repeat-x;
+    background-position: top;
+    background-color: #bcbbaf;
+    width: 100%;
+}
+
+div.content-poll-results div.resultbar
+{
+    background-image: url(../images/poll-result-bg.gif);
+    background-repeat: repeat-x;
+    background-position: top;
+    background-color: #4b7198;
+    height: 20px;
+}
+
+div.content-poll-results div.result-divider
+{
+    height: 20px;
+}

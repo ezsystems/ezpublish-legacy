@@ -7,37 +7,29 @@
 
 {$contentobject_attribute.content.name}
 
-<table cellspacing="4">
-<tr>
+<div class="content-poll-results">
+<ul>
 
 {section var=Options loop=$contentobject_attribute.content.option_list}
     {let item_count=0}
     {section show=is_set($item_counts[$Options.item.id])}
         {set item_count=$item_counts[$Options.item.id]}
     {/section}
-    <td>
-        {$Options.item.value}
-    </td>
-    <td>
-        <table width="{$poll_width}">
-        <tr>
-            <td bgcolor="ff0000" width="{div( mul( $:item_count, $poll_width ), $total_count )}">&nbsp;</td>
-            <td bgcolor="cccccc" {* width="{sub( $poll_width, div( mul( $:item_count, $poll_width ), $total_count ) )}" *}>&nbsp;</td>
-        </tr>
-        </table>
-    </td>
-    <td>
-        {$:item_count} / <i>{concat( div( mul( $:item_count, 100 ), $total_count ), '' )|extract_left( 5 )}%</i>
-    </td>
+    <li>
+        <span class="option">{$Options.item.value} <span class="votes">({$:item_count})</span></span> <span class="value">{concat( div( mul( $:item_count, 100 ), $total_count ), '' )|extract_left( 5 )}%</span>
+
+        <div class="resultblock"><div class="resultedge-start"><div class="resultedge-end"><div class="resultbox">
+            <div class="resultbar" style="width: {concat( div( mul( $:item_count, 100 ), $total_count ), '' )|extract_left( 5 )}%;">
+            <div class="result-divider">
+            </div>
+            </div>
+        </div></div></div></div>
+        
+    </li>
     {/let}
-
-{delimiter}
-</tr>
-<tr>
-{/delimiter}
-
 {/section}
-</tr>
-</table>
+
+</ul>
+</div>
 
 {/let}
