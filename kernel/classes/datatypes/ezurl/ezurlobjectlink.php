@@ -138,19 +138,22 @@ class eZURLObjectLink extends eZPersistentObject
             $objectAttributeID = $urlObjectLink->attribute( 'contentobject_attribute_id' );
             $objectAttributeVersion = $urlObjectLink->attribute( 'contentobject_attribute_version' );
             $objectAttribute =& eZContentObjectAttribute::fetch( $objectAttributeID, $objectAttributeVersion );
-	    if ( $objectAttribute ) // Object and version has been deleted
-	    {
-        	$objectID = $objectAttribute->attribute( 'contentobject_id' );
-        	$objectVersion = $objectAttribute->attribute( 'version' );
-        	$object =& eZContentObject::fetch( $objectID );
-        	$versionObject =& $object->version( $objectVersion );
-        	$versionID = $versionObject->attribute( 'id' );
-        	if ( !in_array( $versionID, $storedVersionList ) )
-        	{
-            	    $objectVersionList[] =& $versionObject;
-            	    $storedVersionList[] = $versionID;
-        	}
-	    }
+            if ( $objectAttribute ) // Object and version has been deleted
+            {
+                $objectID = $objectAttribute->attribute( 'contentobject_id' );
+                $objectVersion = $objectAttribute->attribute( 'version' );
+                $object =& eZContentObject::fetch( $objectID );
+                if ( $object )
+                {
+                    $versionObject =& $object->version( $objectVersion );
+                    $versionID = $versionObject->attribute( 'id' );
+                    if ( !in_array( $versionID, $storedVersionList ) )
+                    {
+                        $objectVersionList[] =& $versionObject;
+                        $storedVersionList[] = $versionID;
+                    }
+                }
+            }
         }
         return $objectVersionList;
     }
