@@ -275,7 +275,7 @@ div.mainobject-vindow
 
 div.viewbar, div.controlbar
 {
-    background-color: #e8e8e8;
+    background-color: #f0f0f0;
     padding: 0.25em;
     border: 1px solid #f8f8f8;
     border-bottom-color: #d0d0d0;
@@ -339,7 +339,7 @@ div#footer
     text-align: center;
 }
 
-/* ------------ */
+/* GENERAL ITEMS */
 
 h4
 {
@@ -389,13 +389,22 @@ table.list th.icon, table.list td.icon, table.list th.class, table.list td.class
 table.list-thumbnails
 {
     width: 100%;
+    margin-top: 0.5em;
 }
 
 table.list-thumbnails td
 {
+    border: 4px solid #ffffff;
     padding: 0.5em;
-    text-align: center;
     vertical-align: middle;
+    background-color: #f8f8f8;
+    height: 150px;
+    text-align: center;
+}
+
+table.list-thumbnails div.content-view-thumbnail
+{
+    
 }
 
 table.list-thumbnails div.controls
