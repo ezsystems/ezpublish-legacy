@@ -65,6 +65,17 @@ class eZNotificationSchedule
             $day = $days[$settings['day']];
             $sendDate = strtotime( "first $day" ) + $hour * 3600;
 
+            $oneWeek = 3600*24*7;
+
+            if ( $sendDate < time() )
+            {
+                $sendDate += $oneWeek;
+            }
+            else if ( $sendDate > time() + $oneWeek )
+            {
+                $sendDate -= $oneWeek;
+            }
+
             /* Ugly hack to work around a bug in PHP =< 4.3.6. strtotime() will
              * return a time one hour too late if DST is in effect when using
              * "first *". */

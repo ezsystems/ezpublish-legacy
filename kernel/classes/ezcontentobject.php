@@ -2013,7 +2013,7 @@ class eZContentObject extends eZPersistentObject
                 {
                     $node =& eZContentObjectTreeNode::fetch( $mainNodeID );
                     $nodePathString = $node->attribute ('path_string');
-                
+
                     foreach ( $limitation->attribute( 'values') as $limitationValues )
                     {
                         if ( strpos( $nodePathString, $limitationValues->attribute( 'value' ) ) === 0 )
