@@ -10,7 +10,7 @@
     <th>{'Name'|i18n( 'design/admin/workflow/workflowlist' )}</th>
     <th>{'Modifier'|i18n( 'design/admin/workflow/workflowlist' )}</th>
     <th>{'Modified'|i18n( 'design/admin/workflow/workflowlist' )}</th>
-    <th>&nbsp;</th>
+    <th class="tight">&nbsp;</th>
   </tr>
    {section var=Workflows loop=$workflow_list sequence=array( bglight, bgdark )}
     <tr class="{$Workflows.sequence}">

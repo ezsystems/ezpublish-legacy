@@ -8,7 +8,7 @@
 <tr>
     <th class="tight">&nbsp;</th>
     <th>{'Name'|i18n( 'design/admin/workflow/grouplist' )}</th>
-    <th>&nbsp;</th>
+    <th class="tight">&nbsp;</th>
 
 </tr>
 {section var=Groups loop=$groups sequence=array( bglight, bgdark )}

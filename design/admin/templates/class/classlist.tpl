@@ -77,8 +77,8 @@ function toggleCheckboxes( formname, checkboxname )
     <th>{'Modifier'|i18n('design/admin/class/classlist')}</th>
     <th>{'Modified'|i18n('design/admin/class/classlist')}</th>
     <th>{'Objects'|i18n('design/admin/class/classlist')}</th>
-    <th>&nbsp;</th>
-    <th>&nbsp;</th>
+    <th class="tight">&nbsp;</th>
+    <th class="tight">&nbsp;</th>
 </tr>
 
 {section name=Classes loop=$groupclasses sequence=array(bglight,bgdark)}

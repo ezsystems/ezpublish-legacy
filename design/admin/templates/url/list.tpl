@@ -80,7 +80,7 @@
   <th>{'Status'|i18n( 'design/admin/url/list' )}</th>
   <th>{'Checked'|i18n( 'design/admin/url/list' )}</th>
   <th>{'Modified'|i18n( 'design/admin/url/list' )}</th>
-  <th>&nbsp;</th>
+  <th class="tight">&nbsp;</th>
 </tr>
 
 {section var=urls loop=$url_list sequence=array( bglight, bgdark )}

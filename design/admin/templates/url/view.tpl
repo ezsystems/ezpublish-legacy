@@ -66,7 +66,7 @@
 <tr>
     <th>{'Name'|i18n( 'design/admin/url/view' )}</th>
     <th>{'Version'|i18n( 'design/admin/url/view' )}</th>
-    <th>&nbsp;</th>
+    <th class="tight">&nbsp;</th>
 </tr>
 {section var=Objects loop=$object_list sequence=array( bglight, bgdark )}
 

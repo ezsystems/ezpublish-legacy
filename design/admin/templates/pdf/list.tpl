@@ -10,7 +10,7 @@
     <th>{'Name'|i18n( 'design/standard/pdf/list' )}</th>
     <th>{'Modifier'|i18n( 'design/standard/pdf/list' )}</th>
     <th>{'Modified'|i18n( 'design/standard/pdf/list' )}</th>
-    <th>&nbsp;</th>
+    <th class="tight">&nbsp;</th>
 </tr>
 
 {section var=PDFExports loop=$pdfexport_list sequence=array( bglight, bgdark )}

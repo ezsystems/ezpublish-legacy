@@ -42,8 +42,8 @@
     <th class="tight">&nbsp;</th>
     <th>{'Name'|i18n('design/admin/section/list')}</th>
     <th>{'ID'|i18n('design/admin/section/list')}</th>
-    <th>{'Assign'|i18n('design/admin/section/list')}</th>
-    <th>{'Edit'|i18n('design/admin/section/list')}</th>
+    <th class="tight">&nbsp;</th>
+    <th class="tight">&nbsp;</th>
 </tr>
 {section var=Sections loop=$section_array sequence=array( bglight, bgdark )}
 <tr class="{$Sections.sequence}">

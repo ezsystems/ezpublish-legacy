@@ -10,7 +10,7 @@
     <th>{'Name'|i18n( 'design/admin/class/list' )}</th>
     <th>{'Modifier'|i18n( 'design/admin/class/list' )}</th>
     <th>{'Modified'|i18n( 'design/admin/class/list' )}</th>
-    <th>&nbsp;</th>
+    <th class="tight">&nbsp;</th>
 </tr>
 
 {section var=Groups loop=$groups sequence=array( bglight, bgdark )}
@@ -49,7 +49,7 @@
         <th>{'Identifier'|i18n( 'design/admin/class/list' )}</th>
         <th>{'Modifier'|i18n( 'design/admin/class/list' )}</th>
         <th>{'Modified'|i18n( 'design/admin/class/list' )}</th>
-        <th>&nbsp;</th>
+        <th class="tight">&nbsp;</th>
     </tr>
 
     {section var=class loop=$latest_classes sequence=array( bglight, bgdark )}
