@@ -63,6 +63,8 @@ eZINI:
   http://ez.no/community/bug_reports/critical_node_assignments_aren_t_deleted_properly
 - Fixed bug in default account handler for shop
   http://ez.no/community/bug_reports/ezorder_calls_accountinformation_which_ezdefaultaccounthandler_doesnt_implement
+- Fixed bug with user redirection in basket with default account handler
+  http://ez.no/community/bug_reports/redirectafteruserregister_set_by_ezdefaultshopaccounthandler_but_never_used
 
 
 *Library:
