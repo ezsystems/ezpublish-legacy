@@ -100,29 +100,31 @@
     <td  class="pathline">
 
 {* Toolbar *}
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
-<tr>
-    <td width="99">
 {switch match=fetch('content', 'can_instantiate_classes')}
 {case match=1}
-<form method="post" action={"content/action"|ezurl}>
 
+<form method="post" action={"content/action"|ezurl}>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+
+    <td>
          <select name="ClassID">
 	      {section name=Classes loop=fetch('content', 'can_instantiate_class_list')}
 	      <option value="{$Classes:item.id}">{$Classes:item.name}</option>
 	      {/section}
          </select>
+     </td>
+     <td>
          <input class="button" type="submit" name="NewButton" value="{'New'|i18n('design/standard/node/view')}" />
-</form>
+    </td>
+</tr>
+</table>
+
 {/case}
 {case match=0}
 
 {/case}
 {/switch}
-
-    </td>
-</tr>
-</table>
 
     <td class="pathline">
     <p style="padding: 0;"><a class="path" href={concat("/user/password/",$current_user.contentobject_id,"/")|ezurl}>{"Change Password"|i18n("design/standard/layout")}</a></p>
