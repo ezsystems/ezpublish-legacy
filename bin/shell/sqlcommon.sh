@@ -21,3 +21,5 @@ MYSQL_SCHEMA_UPDATES="mysql_schema.sql"
 MYSQL_DATA_UPDATES="mysql_data.sql"
 POSTGRESQL_SCHEMA_UPDATES="postgresql_schema.sql"
 POSTGRESQL_DATA_UPDATES="postgresql_data.sql"
+
+DRIVERS="mysql postgresql"
