@@ -222,13 +222,14 @@ $cli->output( "translated:   " . $data['translated_element_count'] );
 $cli->output( "untranslated: " . $data['untranslated_element_count'] );
 $cli->output( "obsolete:     " . $data['obsolete_element_count'] );
 $cli->output();
-if ( $data['element_count'] == 0 )
+$totalCount = $data['translated_element_count'] + $data['untranslated_element_count'];
+if ( $totalCount == 0 )
 {
     $percentText = "no elements";
 }
 else
 {
-    $percent = ( $data['translated_element_count'] * 100 ) / $data['element_count'];
+    $percent = ( $data['translated_element_count'] * 100 ) / $totalCount;
     $percentText = number_format( $percent, 2 ) . "%";
 }
 
