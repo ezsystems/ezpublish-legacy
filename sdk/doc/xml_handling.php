@@ -35,7 +35,7 @@
 ?>
 
 <p>
-eZ publish uses XML to store content objects. The diagram below shows how
+eZ publish could use XML to store content objects. The diagram below shows how
 eZ publish handles XML. It stores the content object attribute data in XML
 format, except for simple types like float and integer.
 </p>
@@ -56,7 +56,7 @@ The example below shows how the user can input data in a simplified format.
 &lt;header&gt;This is my header&lt;/header&gt;
 Here comes the paragraph text, and &lt;em&gt;this is emphasized&lt;/em&gt;.
 
-This is a new paragraph with a link to &lt;link ez.no&gt;.
+This is a new paragraph with a link to &lt;link href="http://ez.no"&gt;ez.no&lt;/link&gt;.
 </pre>
 
 <p>
@@ -68,7 +68,7 @@ are created by two or more newlines in a row.
 </p>
 
 <pre class="example">
-&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;?xml version="1.0"?&gt;
 &lt;section&gt;
     &lt;title&gt;This is my header&lt;/title&gt;
     &lt;paragraph&gt;
@@ -77,10 +77,33 @@ are created by two or more newlines in a row.
     &lt;/paragraph&gt;
     &lt;paragraph&gt;
     This is a new paragraph with a link to
-    &lt;anchor href="http://ez.no"&gt;ez.no&lt;anchor&gt;.
+    &lt;link href="http://ez.no"&gt;ez.no&lt;/link&gt;.
     &lt;/paragraph&gt;
 &lt;/section&gt;
 </pre>
+
+<h2>Supported tag format</h2>
+<p>
+eZ publish currently support following tags:
+</p>
+<p>
+<ul>
+<li> &lt;em&gt;emphasize text&lt;/em&gt; or &lt;emphasize&gt;emphasize text&lt;/emphasize&gt; </li>
+<li> &lt;bold&gt;bold text&lt;/bold&gt; or &lt;strong&gt;bold text&lt;/strong&gt; </li>
+<li> &lt;ul&gt;unordered list&lt;/ul&gt;</li>
+<li> &lt;ol&gt;ordered list&lt;/ol&gt; </li>
+<li> &lt;li&gt;list element inside  &lt;ul&gt or  &lt;ol&gt tag &lt;/li&gt;</li>
+<li> &lt;header&gt;heading text&lt;/header&gt; or &lt;header level="1-6"&gt;heading text
+with defined size&lt;/header&gt; </li>
+<li> &lt;link href="link url"&gt;link text&lt;/link&gt; </li>
+<li> &lt;object id="id" view="view type" /&gt;</li> where 'id' should be an existing eZ
+object id and 'view type' could be 'embed', 'text_linked' or not specified.
+<li> &lt;table border='0-10' width="1-100%"&gt;table content&lt;/table&gt;</li> where
+attribute 'border' and 'width' could be not presented. Table content should be written as
+normal table syntax with &lt;tr&gt; and &lt;td&gt; tag.
+
+</ul>
+</p>
 
 <h2>Storage</h2>
 <p>

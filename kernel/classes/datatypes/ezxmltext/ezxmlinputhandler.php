@@ -528,8 +528,11 @@ class eZXMLInputHandler
             {
                 $tableRows = "";
                 $border = $tag->attributeValue( 'border' );
+                $width = $tag->attributeValue( 'width' );
                 if ( $border == null )
                     $border = 1;
+                if ( $width == null )
+                    $width = "100%";
                 // find all table rows
                 foreach ( $tag->children() as $tableRow )
                 {
@@ -545,7 +548,7 @@ class eZXMLInputHandler
                     }
                     $tableRows .= "<tr>\n $tableData</tr>\n";
                 }
-                $output .= "<table border='$border'>\n$tableRows</table>\n";
+                $output .= "<table border='$border' width='$width'>\n$tableRows</table>\n";
             }break;
 
             // normal content tags
