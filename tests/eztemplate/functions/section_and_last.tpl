@@ -7,8 +7,8 @@ Value<{$out.sequence}>: {$out}
 {/section}
 
 last({$out.last})
-last.last({$out.last.last})
-last.last.last({$out.last.last.last})
+last.last({first_set( $out.last.last, false() )})
+last.last.last({first_set( $out.last.last.last, false() )})
 
 {delimiter modulo=$:mod} / {/delimiter}
 
@@ -25,8 +25,8 @@ Value<{$out.sequence}>: {$out}
 {/section}
 
 last({$out.last})
-last.last({$out.last.last})
-last.last.last({$out.last.last.last})
+last.last({first_set( $out.last.last, false() )})
+last.last.last({first_set( $out.last.last.last, false() )})
 
 {delimiter modulo=$:mod} / {/delimiter}
 

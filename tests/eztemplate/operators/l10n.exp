@@ -7,7 +7,6 @@ shortdatetime  - 23/02/2004 5:12 pm
 currency       - £ 1,234.57
 clean_currency - 1,234.57
 number         - 1,234.57
-error          - 1234.567
 
 time           - 5:12:55 pm
 shorttime      - 5:12 pm
@@ -18,5 +17,4 @@ shortdatetime  - 23/02/2004 5:12 pm
 currency       - £ 1,234.57
 clean_currency - 1,234.57
 number         - 1,234.57
-error          - 1234.567
 time           - 5:12:55 pm

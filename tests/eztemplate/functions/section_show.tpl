@@ -39,18 +39,18 @@ d is not true
 
 {let arr=hash( a, 5, c, false() )}
 
-A: {section show=$arr[a]}A is true{section-else}A is not true{/section}
+A: {section show=first_set( $arr[a], false() )}A is true{section-else}A is not true{/section}
 
-B: {section show=$arr[b]}B is true{section-else}B is not true{/section}
+B: {section show=first_set( $arr[b], false() )}B is true{section-else}B is not true{/section}
 
-C: {section show=$arr[c]}C is true{section-else}C is not true{/section}
+C: {section show=first_set( $arr[c] )}C is true{section-else}C is not true{/section}
 
 {/let}
 
 Empty string:
 
-{let article=hash(node_id2,'')}
-{section show=$article.node_id}
+{let article=hash( node_id2, '' )}
+{section show=first_set( $article.node_id, false() )}
 We have a non-empty string
 {section-else}
 Empty string
