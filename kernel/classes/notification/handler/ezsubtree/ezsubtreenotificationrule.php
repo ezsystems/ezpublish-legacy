@@ -233,7 +233,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
 
         foreach( $limitedPolicyIDArray as $policyEntry )
         {
-            if ( $limitedPolicyIDArray[$key]['user_id'] === false )
+            if ( $policyEntry['user_id'] === false )
             {
                 continue;
             }
