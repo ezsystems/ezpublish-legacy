@@ -36,7 +36,7 @@
 <p>
 This example sends a string, <b>This is a secret!</b>, to the SOAP server.
 </p>
-<?
+<?php
 include_once( "lib/ezsoap/classes/ezsoapclient.php" );
 include_once( "lib/ezsoap/classes/ezsoaprequest.php" );
 

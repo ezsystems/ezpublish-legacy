@@ -113,7 +113,7 @@ foreach ( $paragraphs as $paragraph )
 </pre>
 
 <h1>The running example</h1>
-<?
+<?php
 include_once( "lib/ezxml/classes/ezxml.php" );
 
 $xml = new eZXML();

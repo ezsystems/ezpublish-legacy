@@ -72,7 +72,7 @@ print( $name->attributeValue( "firstName" ) . "  " . $name->attributeValue( "las
 </pre>
 
 <h1>Running example</h1>
-<?
+<?php
 
 include_once( "lib/ezxml/classes/ezxml.php" );
 

@@ -70,7 +70,7 @@ function addNumbers( $valueA, $valueB )
 </pre>
 
 <h1>The running example</h1>
-<?
+<?php
 include_once( "lib/ezsoap/classes/ezsoapclient.php" );
 include_once( "lib/ezsoap/classes/ezsoaprequest.php" );
 

@@ -9,7 +9,7 @@ Enter locale: <input type="text" name="Locale" value="<?print( $localeString );?
 
 <table><tr><th>Type</th><th>Result</th></tr>
 <tr><td colspan="2"><b>Locale</b></td></tr>
-<?
+<?php
 $infoList = array( 'LanguageCode' => $locale->languageCode(),
                    'Language' => $locale->languageName(),
                    'LanguageComment' => $locale->languageComment(),

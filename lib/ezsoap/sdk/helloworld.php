@@ -115,7 +115,7 @@ function helloWorld()
 <p>
 Below you will see this hello world example in action.
 </p>
-<?
+<?php
 
 include_once( "lib/ezsoap/classes/ezsoapclient.php" );
 include_once( "lib/ezsoap/classes/ezsoaprequest.php" );

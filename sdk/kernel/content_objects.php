@@ -155,7 +155,7 @@ if ( $attribute->isValid() )
 
 
 
-<?
+<?php
 include_once( "kernel/classes/ezcontentobject.php" );
 
 // check current user
