@@ -466,9 +466,8 @@ while ( $moduleRunRequired )
             $lastAccessedURI = $http->sessionVariable( "LastAccessesURI" );
         if ( $currentURI != $lastAccessedURI )
         {
-            // FIXME: these patterns should be specified in a .ini file
-            if ( strpos( $currentURI, '/content/view/' ) !== false or
-                 strpos( $currentURI, '/url/list' )      !== false or
+            // We remember the last URI unless it is content/action or user/preferences
+            if ( !preg_match( "#^(/content/action/.*|/user/preferences/.*)$#", $currentURI  ) or
                  $currentURI === '/' )
             {
                 $http->setSessionVariable( "LastAccessesURI", $currentURI );
