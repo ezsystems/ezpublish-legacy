@@ -15,6 +15,7 @@ Input:
          alignment=false()
          link_to_image=false()
          href=false()
+         target=false()
          hspace=false()
          border_size=0}
 {let image_content=$attribute.content}
@@ -42,7 +43,7 @@ Input:
         <div class="{$css_class|wash}">
     {/section}
 
-    {section show=$href}<a href={$href}>{/section}<img src={$image.url|ezroot} width="{$image.width}" height="{$image.height}" {section show=$hspace}hspace="{$hspace}"{/section} border="{$border_size}" alt="{$image.text|wash(xhtml)}" title="{$image.text|wash(xhtml)}" />{section show=$href}</a>{/section}
+    {section show=$href}<a href={$href} {section show=$target}target={$target}{/section}>{/section}<img src={$image.url|ezroot} width="{$image.width}" height="{$image.height}" {section show=$hspace}hspace="{$hspace}"{/section} border="{$border_size}" alt="{$image.text|wash(xhtml)}" title="{$image.text|wash(xhtml)}" />{section show=$href}</a>{/section}
 
     {section show=$css_class}
         </div>

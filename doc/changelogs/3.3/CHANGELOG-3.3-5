@@ -1,6 +1,7 @@
 Changes from 3.3-4 to 3.3-5
 
 *Kernel:
+- Added shop/register and shop/basket to session variable LastAccessesURI.
 
 *Setup:
 
@@ -14,6 +15,8 @@ eZINI:
 - Fixed a bug with login of user when running mysql, the number of returned rows would
   increase exponentially. (Merged from stable/3.2 rev. 5647)
 - Fixed bug in datatype ezmedia which will crash when upload a media file.
+- Fixed misuse of in_array() function (Merged from 3.2, rev. 5893)
+  http://ez.no/community/bug_reports/class_ezhttpfile_function_hasattribute
 
 *Library:
 
@@ -24,3 +27,7 @@ eZ MIMEType:
 eZ Debug:
 
 *Translations:
+
+*Templates:
+- Added attribute "target" in standard image template which control where to 
+  open a new link if the image has a link.
