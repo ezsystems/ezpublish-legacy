@@ -34,7 +34,7 @@
 
 include_once( "lib/ezutils/classes/ezsys.php" );
 
-$indexPathPrepend = eZSys::wwwDir() .  eZSys::indexFile();
+$indexPathPrepend = eZSys::wwwDir() . eZSys::indexFile();
 
 $infoArray = array();
 $infoArray["name"] = "Tutorials";
@@ -51,6 +51,7 @@ $featureArray = array();
 $featureArray[] = array( "uri" => "main_concepts",
                          "level" => 0,
                          "name" => "Main concepts" );
+
 $featureArray[] = array( "uri" => "content_classes",
                          "level" => 0,
                          "name" => "Custom content" );
@@ -66,10 +67,14 @@ $featureArray[] = array( "uri" => "wrappingworkflow",
 $featureArray[] = array( "uri" => "permissions",
                          "level" => 0,
                          "name" => "Permissions and sections" );
+
 $featureArray[] = array( "uri" => "publishworkflow",
                          "level" => 0,
                          "name" => "Approval workflow" );
 
+$featureArray[] = array( "uri" => "translation",
+                         "level" => 0,
+                         "name" => "Translation and i18n" );
 
 
 

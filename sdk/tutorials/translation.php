@@ -1,6 +1,6 @@
 <?php
 //
-// Created on: <28-Oct-2002 13:05:07 bf>
+// Created on: <12-Dec-2002 22:15:53 gl>
 //
 // Copyright (C) 1999-2002 eZ systems as. All rights reserved.
 //
@@ -32,23 +32,6 @@
 // you.
 //
 
-$indexes = array();
-$indexes[] = array( "identifier" => "view/main_concepts",
-                    "name" => "Main concepts" );
-$indexes[] = array( "identifier" => "view/content_classes",
-                    "name" => "Custom content" );
-$indexes[] = array( "identifier" => "view/workflows",
-                    "name" => "Custom workflow" );
-$indexes[] = array( "identifier" => "view/wrappingworkflow",
-                    "name" => "Example of wrapping workflow" );
-$indexes[] = array( "identifier" => "view/publishworkflow",
-                    "name" => "Approval workflow" );
-$indexes[] = array( "identifier" => "view/datatypes",
-                    "name" => "Datatypes" );
-$indexes[] = array( "identifier" => "view/permissions",
-                    "name" => "Permissions and sections" );
-$indexes[] = array( "identifier" => "view/translation",
-                    "name" => "Translation and i18n" );
-
-
 ?>
+
+<h1>Translation and i18n</h1>
