@@ -52,5 +52,8 @@ Changes from 3.5.0rc1 to 3.5.0rc2
   (Merged from stable/3.3, rev. 10115, also in stable/3.4, rev. 10116)
   http://ez.no/community/bug_reports/xhtml_output_and_attribute_target
 - Fixed bug: runcronjobs.php didn't report database connection error.
+- Fixed bug: ezurl-operator fails on anchors (#) when TemplateCompile=enabled
+  http://ez.no/community/bug_reports/ezurl_operator_fails_on_anchors_when_templatecompile_enabled
+  (Merged from stable/3.4 rev 10125).
 
 *Library:
