@@ -293,10 +293,37 @@ div#rightmenu-design
 
 div#maincontent
 {
+}
+
+
+div.bothmenus#maincontent
+{ 
     margin-left: 14em;
     margin-right: 15em;
     height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
 }
+
+div.noleftmenu#maincontent
+{ 
+    margin-left: 10px;
+    margin-right: 15em;
+    height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
+}
+
+div.norightmenu#maincontent
+{ 
+    margin-left: 14em;
+    margin-right: 10px;
+    height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
+}
+
+div.nomenus#maincontent
+{ 
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
+}
+
 
 div#fix /* This style breaks the unwanted connection between the content of the maincontent box and the menues on the left and right in some browsers */
 {

@@ -14,15 +14,6 @@
     @import url({"stylesheets/classes.css"|ezdesign});
     @import url({"stylesheets/t1/classes-colors.css"|ezdesign}); {* todo -> read from design settings  *}
     @import url({"stylesheets/debug.css"|ezdesign});
-
-    {section show=eq(ezini('SelectedMenu','LeftMenu','menu.ini'),'')}
-    @import url({ezini('StylesheetSettings','NoLeftMenuCSS','design.ini')|ezdesign});
-    {/section}
-
-    {section show=ezini('Toolbar_right','Tool','toolbar.ini')|count|eq(0)}
-    @import url({ezini('StylesheetSettings','NoRightMenuCSS','design.ini')|ezdesign});
-    {/section}
-
 </style>
 
 {literal}
@@ -111,8 +102,26 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
 
 <hr class="hide" />
 
-<div id="maincontent"><div id="fix">
+{cache-block}
+    {let maincontentstyle='bothmenus'}
+
+    {section show=eq(ezini('SelectedMenu','LeftMenu','menu.ini'),'')}
+       {set maincontentstyle='noleftmenu'}
+    {/section}
+
+    {section show=ezini('Toolbar_right','Tool','toolbar.ini')|count|eq(0)}
+       {section show=$maincontentstyle|eq('noleftmenu')}
+           {set maincontentstyle='nomenus'}
+       {section-else}
+           {set maincontentstyle='norightmenu'}
+       {/section}
+    {/section}
+
+<div id="maincontent" class="{$maincontentstyle}"><div id="fix">
 <div id="maincontent-design">
+    {/let}
+
+{/cache-block}
 
 {$module_result.content}
 
