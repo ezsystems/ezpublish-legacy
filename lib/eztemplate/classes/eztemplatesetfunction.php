@@ -60,6 +60,10 @@
 \endcode
 */
 
+define( 'EZ_TEMPLATE_SET_SCOPE_RELATIVE', 1 );
+define( 'EZ_TEMPLATE_SET_SCOPE_ROOT', 2 );
+define( 'EZ_TEMPLATE_SET_SCOPE_GLOBAL', 3 );
+
 class eZTemplateSetFunction
 {
     /*!
@@ -356,16 +360,16 @@ class eZTemplateSetFunction
         $children = $functionChildren;
         $parameters = $functionParameters;
 
-        $scope = EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE;
+        $scope = EZ_TEMPLATE_SET_SCOPE_RELATIVE;
         if ( isset( $parameters["scope"] ) )
         {
             $scopeText = $tpl->elementValue( $parameters["scope"], $rootNamespace, $currentNamespace, $functionPlacement );
             if ( $scopeText == 'relative' )
-                $scope = EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE;
+                $scope = EZ_TEMPLATE_SET_SCOPE_RELATIVE;
             else if ( $scopeText == 'root' )
-                $scope = EZ_TEMPLATE_BLOCK_SCOPE_ROOT;
+                $scope = EZ_TEMPLATE_SET_SCOPE_ROOT;
             else if ( $scopeText == 'global' )
-                $scope = EZ_TEMPLATE_BLOCK_SCOPE_GLOBAL;
+                $scope = EZ_TEMPLATE_SET_SCOPE_GLOBAL;
             else
                 $tpl->warning( $functionName, "Scope value '$scopeText' is not valid, use either 'relative', 'root' or 'global'" );
         }
@@ -375,19 +379,19 @@ class eZTemplateSetFunction
             $name = $tpl->elementValue( $parameters["name"], $rootNamespace, $currentNamespace, $functionPlacement );
         if ( $name === null )
         {
-            if ( $scope == EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE )
+            if ( $scope == EZ_TEMPLATE_SET_SCOPE_RELATIVE )
                 $name = $currentNamespace;
-            else if ( $scope == EZ_TEMPLATE_BLOCK_SCOPE_ROOT )
+            else if ( $scope == EZ_TEMPLATE_SET_SCOPE_ROOT )
                 $name = $rootNamespace;
             else
                 $name = '';
         }
         else
         {
-            if ( $scope == EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE and
+            if ( $scope == EZ_TEMPLATE_SET_SCOPE_RELATIVE and
                  $currentNamespace != '' )
                 $name = "$currentNamespace:$name";
-            else if ( $scope == EZ_TEMPLATE_BLOCK_SCOPE_ROOT and
+            else if ( $scope == EZ_TEMPLATE_SET_SCOPE_ROOT and
                       $rootNamespace != '' )
                 $name = "$rootNamespace:$name";
         }
