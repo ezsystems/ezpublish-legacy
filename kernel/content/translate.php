@@ -70,7 +70,7 @@ if ( $http->hasPostVariable( 'TranslationLanguageEdit' ) )
     $activeTranslationLocale =& eZLocale::instance( $activeTranslation );
 }
 
-if ( $Module->isCurrentAction( 'EditLanguage' ) and  $Module->hasActionParameter( 'SelectedLanguage' ) ) 
+if ( $Module->isCurrentAction( 'EditLanguage' ) and  $Module->hasActionParameter( 'SelectedLanguage' ) )
 {
     $translateToLanguage = $Module->actionParameter( 'SelectedLanguage' );
 }
@@ -302,10 +302,22 @@ if ( $activeTranslation )
                 }
             }
 
-           
+
             foreach( array_keys( $translateContentAttributes ) as $translateContentAttributeKey )
             {
                 $contentObjectAttribute =& $translateContentAttributes[$translateContentAttributeKey];
+
+                $isRequired =& $contentObjectAttribute->attribute( 'is_required' );
+                $content    =& $contentObjectAttribute->attribute( 'content' );
+                $contentClassAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
+                if ( $isRequired && !$content ) // input not validated since a required field is empty
+                {
+
+                    $unvalidatedAttributes[] = array( 'identifier' => $contentClassAttribute->attribute( 'identifier' ),
+                                                      'name' => $contentClassAttribute->attribute( 'name' ),
+                                                      'description' => $contentObjectAttribute->attribute( 'validation_log' ),
+                                                      'id' => $contentObjectAttribute->attribute( 'id' ) );
+                }
 
                 // Check if this is a translation
                 $currentLanguage = $contentObjectAttribute->attribute( 'language_code' );
