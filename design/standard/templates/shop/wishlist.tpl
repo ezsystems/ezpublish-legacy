@@ -51,22 +51,22 @@
 	<input type="text" name="ProductItemCountList[]" value="{$ProductItem:item.item_count}" size="5" />
 
 	</td>
-	<td class="{$ProductItem:sequence}" align="right">
-	{$ProductItem:item.vat_value} %
+	<td class="{$ProductItem:sequence}">
+	{$ProductItem:item.vat_value}%
 	</td>
-	<td class="{$ProductItem:sequence}" align="right">
+	<td class="{$ProductItem:sequence}">
 	{$ProductItem:item.price_ex_vat|l10n(currency)}
 	</td>
-	<td class="{$ProductItem:sequence}" align="right">
+	<td class="{$ProductItem:sequence}">
 	{$ProductItem:item.price_inc_vat|l10n(currency)}
 	</td>
-	<td class="{$ProductItem:ProductItem:sequence}" align="right">
+	<td class="{$ProductItem:sequence}">
 	{$ProductItem:item.discount_percent}%
 	</td>
-	<td class="{$ProductItem:sequence}" align="right">
+	<td class="{$ProductItem:sequence}">
 	{$ProductItem:item.total_price_ex_vat|l10n(currency)}
 	</td>
-	<td class="{$ProductItem:sequence}" align="right">
+	<td class="{$ProductItem:sequence}">
 	{$ProductItem:item.total_price_inc_vat|l10n(currency)}
 	</td>
 	<td>

@@ -45,7 +45,7 @@
 	Total Price inc. VAT:
 	</th>
 	<th>
-    &nbsp;
+	&nbsp;
 	</th>
 </tr>
 {section name=ProductItem loop=$basket.items sequence=array(bglight,bgdark)}
@@ -60,22 +60,22 @@
 	<input type="text" name="ProductItemCountList[]" value="{$Basket:ProductItem:item.item_count}" size="5" />
 
 	</td>
-	<td class="{$Basket:ProductItem:sequence}" align="right">
+	<td class="{$Basket:ProductItem:sequence}">
 	{$Basket:ProductItem:item.vat_value} %
 	</td>
-	<td class="{$Basket:ProductItem:sequence}" align="right">
+	<td class="{$Basket:ProductItem:sequence}">
 	{$Basket:ProductItem:item.price_ex_vat|l10n(currency)}
 	</td>
-	<td class="{$Basket:ProductItem:sequence}" align="right">
+	<td class="{$Basket:ProductItem:sequence}">
 	{$Basket:ProductItem:item.price_inc_vat|l10n(currency)}
 	</td>
-	<td class="{$ProductItem:ProductItem:sequence}" align="right">
-	{$ProductItem:item.discount_percent}%
+	<td class="{$Basket:ProductItem:sequence}">
+	{$Basket:ProductItem:item.discount_percent}%
 	</td>
-	<td class="{$Basket:ProductItem:sequence}" align="right">
+	<td class="{$Basket:ProductItem:sequence}">
 	{$Basket:ProductItem:item.total_price_ex_vat|l10n(currency)}
 	</td>
-	<td class="{$Basket:ProductItem:sequence}" align="right">
+	<td class="{$Basket:ProductItem:sequence}">
 	{$Basket:ProductItem:item.total_price_inc_vat|l10n(currency)}
 	</td>
 	<td>
