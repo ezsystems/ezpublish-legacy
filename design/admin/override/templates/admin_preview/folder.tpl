@@ -21,7 +21,7 @@
         {* Children. *}
         <div class="content-control">
             <label>{'Show children'|i18n( 'design/admin/preview/folder' )}:</label>
-            {section show=$node.object.data_map.show_children.has_content}
+            {section show=$node.object.data_map.show_children.content}
                 <p>{'Yes'|i18n( 'design/admin/preview/folder' )}</p>
                 {section-else}
                 <p>{'No'|i18n( 'design/admin/preview/folder' )}</p>
