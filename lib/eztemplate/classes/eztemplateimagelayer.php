@@ -566,7 +566,13 @@ class eZTemplateImageLayer
     {
         if ( get_class( $font ) != 'eztemplateimagefont' )
             return false;
-        $bbox = @ImageTTFBBox( $font->pointSize(), $angle, $font->file(), $text );
+        if ( !function_exists( 'ImageTTFBBox' ) )
+        {
+            eZDebug::writeError( 'ImageTTFBBox function not in PHP, check PHP compilation', 'eztemplateimagelayer.php' );
+            return false;
+        }
+        $bbox = ImageTTFBBox( $font->pointSize(), $angle, $font->file(), $text );
+
 
        if ( !$bbox )
             return false;
