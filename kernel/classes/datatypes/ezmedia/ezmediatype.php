@@ -149,8 +149,8 @@ class eZMediaType extends eZDataType
                 if ( $file === null )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
-                                                                         'eZMediaType',
-                                                                         'A valid file is required.' ) );
+                                                                         'A valid file is required.',
+                                                                         'eZMediaType' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }

@@ -66,8 +66,8 @@ class eZEmailType extends eZDataType
                 if( $email == "" )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
-                                                                         'eZEmailType',
-                                                                         'A valid email account is required.' ) );
+                                                                         'A valid email account is required.',
+                                                                         'eZEmailType' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }
@@ -77,8 +77,8 @@ class eZEmailType extends eZDataType
                 if ( ! $isValidate )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
-                                                                         'eZEmailType',
-                                                                         'Email address is not valid.' ) );
+                                                                         'Email address is not valid.',
+                                                                         'eZEmailType' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }

@@ -97,8 +97,8 @@ class eZUserType extends eZDataType
                 if ( trim( $loginName ) == "" )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
-                                                                         'eZUserType',
-                                                                         'An user account must be filled up' ) );
+                                                                         'An user account must be filled up',
+                                                                         'eZUserType' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }
@@ -111,8 +111,8 @@ class eZUserType extends eZDataType
                     if ( $userID !=  $contentObjectAttribute->attribute( "contentobject_id" ) )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
-                                                                             'eZUserType',
-                                                                             'Login name exist, please choose another one.' ) );
+                                                                             'Login name exist, please choose another one.',
+                                                                             'eZUserType' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     }
                 }
@@ -120,22 +120,22 @@ class eZUserType extends eZDataType
                 if ( ! $isValidate )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
-                                                                         'eZUserType',
-                                                                         'Email address is not valid.' ) );
+                                                                         'Email address is not valid.',
+                                                                         'eZUserType' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
                 if ( ( $password != $passwodConfirm ) || ( $password == "" ) )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
-                                                                         'eZUserType',
-                                                                         'Please confirm your password.' ) );
+                                                                         'Please confirm your password.',
+                                                                         'eZUserType' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
                 if ( strlen( $password ) < 3 )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
-                                                                         'eZUserType',
-                                                                         'The minimum length of password should be 3.' ) );
+                                                                         'The minimum length of password should be 3.',
+                                                                         'eZUserType' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }

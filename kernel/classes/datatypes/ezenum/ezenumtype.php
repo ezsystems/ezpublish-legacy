@@ -183,8 +183,8 @@ class eZEnumType extends eZDataType
                  ( !$http->hasPostVariable( $base . "_select_data_enumelement_" . $contentObjectAttribute->attribute( "id" ) ) ) )
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
-                                                                     'eZEnumType',
-                                                                     'At least one field should be chosen.' ) );
+                                                                     'At least one field should be chosen.',
+                                                                     'eZEnumType' ) );
                 return EZ_INPUT_VALIDATOR_STATE_INVALID;
             }
         }

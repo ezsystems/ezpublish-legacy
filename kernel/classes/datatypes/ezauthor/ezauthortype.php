@@ -73,8 +73,8 @@ class eZAuthorType extends eZDataType
                 if ( trim( $nameList[0] ) == "" )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
-                                                                         'eZAuthorType',
-                                                                         'At least one author is requied.' ) );
+                                                                         'At least one author is requied.',
+                                                                         'eZAuthorType' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }
@@ -87,8 +87,8 @@ class eZAuthorType extends eZDataType
                     if ( trim( $name )== "" )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
-                                                                             'eZAuthorType',
-                                                                             'Author name should be provided.' ) );
+                                                                             'Author name should be provided.',
+                                                                             'eZAuthorType' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
 
                     }
@@ -96,8 +96,8 @@ class eZAuthorType extends eZDataType
                     if ( ! $isValidate )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
-                                                                             'eZAuthorType',
-                                                                             'Email address is not valid.' ) );
+                                                                             'Email address is not valid.',
+                                                                             'eZAuthorType' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     }
                 }

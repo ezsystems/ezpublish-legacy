@@ -73,8 +73,8 @@ class eZXMLInputHandler
             if ( $message != "" )
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
-                                                                     'ezXMLTextType',
-                                                                     $message ) );
+                                                                     $message,
+                                                                     'ezXMLTextType' ) );
                 return EZ_INPUT_VALIDATOR_STATE_INVALID;
             }
             else
@@ -92,8 +92,8 @@ class eZXMLInputHandler
                     if (  $currentObject == null )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
-                                                                             'ezXMLTextType',
-                                                                             'Object '. $objectID .' does not exist.' ) );
+                                                                             'Object '. $objectID .' does not exist.',
+                                                                             'ezXMLTextType' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     }else
                     {
@@ -120,8 +120,8 @@ class eZXMLInputHandler
                         if (  $url == null )
                         {
                             $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
-                                                                                 'ezXMLTextType',
-                                                                                 'Link '. $linkID .' does not exist.' ) );
+                                                                                 'Link '. $linkID .' does not exist.',
+                                                                                 'ezXMLTextType' ) );
                             return EZ_INPUT_VALIDATOR_STATE_INVALID;
                         }
                     }

@@ -22,21 +22,21 @@ function ezcurrentLanguage()
 $ini =& eZINI::instance();
 if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
 {
-    function &ezi18n( $file, $context, $source, $comment = null )
+    function &ezi18n( $context, $source, $comment = null )
         {
             $man =& eZTranslatorManager::instance();
             $language =& ezcurrentLanguage();
-            eZTSTranslator::initialize( $language . '/' . $file . '.ts' );
+            eZTSTranslator::initialize( $language . '/translation.ts' );
             $trans =& $man->translate( $context, $source, $comment );
             if ( $trans !== null )
                 return $trans;
-            eZDebug::writeWarning( "No translation for file($file) in context($context): '$source' with comment($comment)", "ezi18n" );
+            eZDebug::writeWarning( "No translation for file(translation.ts) in context($context): '$source' with comment($comment)", "ezi18n" );
             return $source;
         }
 }
 else
 {
-    function &ezi18n( $file, $context, $source, $comment = null )
+    function &ezi18n( $context, $source, $comment = null )
         {
             return $source;
         }

@@ -77,15 +77,15 @@ class eZISBNType extends eZDataType
             }else
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
-                                                                     'eZISBNType',
-                                                                     'The ISBN number is not correct. Please recheck the input' ) );
+                                                                     'The ISBN number is not correct. Please recheck the input',
+                                                                     'eZISBNType' ) );
                 return EZ_INPUT_VALIDATOR_STATE_INVALID;
             }
         }else
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
-                                                                 'eZISBNType',
-                                                                 'The ISBN format is not valid.' ) );
+                                                                 'The ISBN format is not valid.',
+                                                                 'eZISBNType' ) );
             return EZ_INPUT_VALIDATOR_STATE_INVALID;
         }
         return EZ_INPUT_VALIDATOR_STATE_INVALID;

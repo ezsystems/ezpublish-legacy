@@ -146,8 +146,8 @@ class eZBinaryFileType extends eZDataType
                 if ( $file === null )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
-                                                                         'eZBinaryFileType',
-                                                                         'A valid file is required.' ) );
+                                                                         'A valid file is required.',
+                                                                         'eZBinaryFileType' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }

@@ -171,8 +171,8 @@ class eZImageType extends eZDataType
                 if ( $file === null )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
-                                                                         'eZImageType',
-                                                                         'A valid image is required.' ) );
+                                                                         'A valid image is required.',
+                                                                         'eZImageType' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }
@@ -190,7 +190,7 @@ class eZImageType extends eZDataType
 
         $imageFile =& eZHTTPFile::fetch( $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" ) );
         $contentObjectAttribute->setContent( $imageFile );
-       
+
         if ( get_class( $imageFile ) == "ezhttpfile" )
         {
             $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );

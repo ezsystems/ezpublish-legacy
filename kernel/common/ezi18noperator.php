@@ -70,22 +70,18 @@ class eZi18nOperator
     */
     function namedParameterList()
     {
-        return array( "file" => array( "type" => "string",
-                                       "required" => false,
-                                       "default" => "" ),
+        return array( "context" => array( "type" => "string",
+                                          "required" => false,
+                                          "default" => false ),
                       "comment" => array( "type" => "string",
                                           "required" => false,
-                                          "default" => "" ),
-                      "context" => array( "type" => "string",
-                                          "required" => false,
-                                          "default" => false ) );
+                                          "default" => "" ) );
     }
 
     /*!
      */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters )
     {
-        $file = $namedParameters["file"];
         $context = $namedParameters["context"];
         $comment = $namedParameters["comment"];
 //         if ( $context == "" )
@@ -94,7 +90,7 @@ class eZi18nOperator
 //             if ( preg_match( "/^(.+)(\.tpl)$/", $context, $regs ) )
 //                 $context = $regs[1];
 //         }
-        $value = ezi18n( $file, $context, $value, $comment );
+        $value = ezi18n( $context, $value, $comment );
         /*
         srand(make_seed());
         $num = rand( 0, 1 );
