@@ -1,0 +1,4 @@
+*Title: Admin Copy Subtree feature
+
+*Documentation:
+To copy subtree click on node icon in content tree menu and choose <Copy Subtree>.

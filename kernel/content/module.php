@@ -121,6 +121,19 @@ $ViewList['copy'] = array(
     'post_actions' => array( 'BrowseActionName' ),
     'params' => array( 'ObjectID' ) );
 
+$ViewList['copysubtree'] = array(
+    'functions' => array( 'create' ),
+    'default_navigation_part' => 'ezcontentnavigationpart',
+    'script' => 'copysubtree.php',
+    'ui_context' => 'edit',
+    'single_post_actions' => array( 'CopyButton' => 'Copy',
+                                    'CancelButton' => 'Cancel' ),
+    'post_action_parameters' => array( 'Copy' => array( 'VersionChoice' => 'VersionChoice',
+                                                        'CreatorChoice' => 'CreatorChoice',
+                                                        'TimeChoice' => 'TimeChoice' ) ),
+    'post_actions' => array( 'BrowseActionName' ),
+    'params' => array( 'NodeID' )
+    );
 
 $ViewList['versionview'] = array(
     'functions' => array( 'versionread' ),
