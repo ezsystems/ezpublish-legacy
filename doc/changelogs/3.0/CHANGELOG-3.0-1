@@ -33,11 +33,16 @@ links to clickable links.
 - Removed all task code.
 - Improved eZUser password creation by removing some characters that look too
   similar visually and added some extra special characters.
+- Fixed problem with multiple content actions appearing when having e.g. multiple information
+  collection fields
+- Added possibility to specify redirect node in information collection template
 
 *SDK :
 
 *Library :
 - Added possibility to send MySQL write queries to a separate server.
+- Made the MySQL database read the UsePersistentConnection from site.ini
+  to provide optional persistent connections to the database.
 
 eZ XML:
 - Added reference to the attributes() function in eZDomNode.

@@ -1476,6 +1476,7 @@ class eZContentObject extends eZPersistentObject
         // Fetch content actions if not already fetched
         if ( $this->ContentActionList === false )
         {
+
             $contentActionList = array();
             foreach ( $this->ContentObjectAttributeArray[$version][$language] as $attribute )
             {
@@ -1483,6 +1484,7 @@ class eZContentObject extends eZPersistentObject
                 if ( count( $contentActions ) > 0 )
                 {
                     $contentActionList =& $attribute->contentActionList();
+
 
                     foreach ( $contentActionList as $action )
                     {
@@ -1503,10 +1505,12 @@ class eZContentObject extends eZPersistentObject
     function hasContentAction( $name )
     {
         $return = false;
-        foreach ( $contentActionList as $action )
+        foreach ( $this->ContentActionList as $action )
         {
             if ( $action['action'] == $name )
+            {
                 $return = true;
+            }
         }
         return $return;
     }

@@ -75,7 +75,6 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
         }
     }
 
-    print( "<hr>" );
     // Send e-mail
     $tpl =& templateInit();
     $tpl->setVariable( 'collection', $collection );
@@ -84,6 +83,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
 
     $subject =& $tpl->variable( 'subject' );
     $receiver =& $tpl->variable( 'email_receiver' );
+    $redirectToNodeID =& $tpl->variable( 'redirect_to_node_id' );
 
     $ini =& eZINI::instance();
     $mail = new eZMail();
@@ -99,7 +99,14 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
     $mail->setBody( $templateResult );
     $mailResult = eZMailTransport::send( $mail );
 
-    $Module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );
+    if ( is_numeric( $redirectToNodeID ) )
+    {
+        $Module->redirectToView( 'view', array( 'full', $redirectToNodeID ) );
+    }
+    else
+    {
+        $Module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );
+    }
     return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
 }
 
