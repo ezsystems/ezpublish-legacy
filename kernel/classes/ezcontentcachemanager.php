@@ -433,7 +433,6 @@ class eZContentCacheManager
         if ( eZContentCache::inCleanupThresholdRange( $cleanupValue ) )
         {
 //                     eZDebug::writeDebug( 'cache file cleanup' );
-print( "clearing " ); print_r( $nodeList ); print( "<br>" );
             if ( eZContentCache::cleanup( $nodeList ) )
             {
 //                     eZDebug::writeDebug( 'cache cleaned up', 'content' );
