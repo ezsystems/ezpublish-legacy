@@ -78,7 +78,10 @@ Datatype:
   http://ez.no/community/bug_reports/search_doesn_t_work
 - Fixed bug: No customer name when using ezdefault shopaccount.
   http://ez.no/community/bug_reports/no_customer_name_when_using_ezdefault_shopaccount
-  (Merged from stable/3.4, rev. 9438
+  (Merged from stable/3.4, rev. 9438)
+- Fixed bug of possible fatal error when viewing url object link.
+  http://ez.no/community/bug_reports/3_5beta_fatal_error_ezurlobjectlink_php
+  (Merged from stable/3.4, rev. 9440)
 
 *Library:
 
