@@ -110,7 +110,8 @@ Changes from 3.5.0rc1 to 3.5.0rc2
   have sorting rule for its subitems.
 - Fixed bug: Incorrectly handled fetchalias.ini file which resulted in wrong function parameters' values were
   set when using fetch aliases.
-
+- Fixed bug: PostgreSQL - empty ezobjectrelation.
+  http://ez.no/community/bug_reports/postgresql_empty_ezobjectrelation
 *Library:
 
 eZURI:

@@ -91,6 +91,8 @@ class eZObjectRelationType extends eZDataType
         if ( $http->hasPostVariable( $postVariableName ) )
         {
             $relatedObjectID =& $http->postVariable( $postVariableName );
+            if ( $relatedObjectID == '' )
+                $relatedObjectID = null;
             $contentObjectAttribute->setAttribute( 'data_int', $relatedObjectID );
             $haveData = true;
         }
