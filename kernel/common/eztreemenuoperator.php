@@ -85,8 +85,14 @@ class eZTreeMenuOperator
         $tmpModulePath = $namedParameters['path'];
         $classFilter = $namedParameters['class_filter'];
 
-        if ( count( $classFilter ) == 0 )
+        if( $classFilter == 'false' )
+        {
+            $classFilter = array();
+        }
+        else if ( count( $classFilter ) == 0 )
+        {
             $classFilter = array( 1 );
+        }
 
         $tmpModulePath[count($tmpModulePath)-1]['url'] = "/content/view/full/" . $namedParameters['node_id'];
 
