@@ -542,7 +542,7 @@ class eZTemplateCompiler
         {
             require_once ('lib/eztemplate/classes/eztemplateoptimizer.php');
             /* Retrieve class information for the attribute lookup table */
-            if ( isset( $resourceData['handler']->Keys ) ) {
+            if ( isset( $resourceData['handler']->Keys ) and isset( $resourceData['handler']->Keys['class'] ) ) {
                 $resourceData['class-info'] = eZTemplateOptimizer::fetchClassDeclaration( $resourceData['handler']->Keys['class'] ); 
             }
             /* Run the optimizations */
