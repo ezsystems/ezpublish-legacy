@@ -172,6 +172,11 @@ class eZKeywordType extends eZDataType
     */
     function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
     {
+        if ( $version != null ) // Do not delete if discarding draft
+        {
+            return;
+        }
+
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
 
         $db =& eZDB::instance();
