@@ -60,6 +60,11 @@ div#search p
     text-align: right;
 }
 
+div#search a
+{
+    color: #000000;
+}
+
 div#search label
 {
     display: inline;
@@ -148,6 +153,16 @@ div#topmenu li a, div#topmenu span.disabled
     text-decoration: none;
 }
 
+div#topmenu li a
+{
+   color: #254b71;
+}
+
+div#topmenu li a:hover
+{
+   color: #000000;
+}
+
 div#topmenu li.selected a
 {
     color: #ffffff;
@@ -159,11 +174,6 @@ div#topmenu li.selected a
     font-weight: bold;
     padding: 0.3em 16px 0.3em 16px; /* Must be set on a-level, not li-level, to work correctly in konqueror */
     text-decoration: none;
-}
-
-div#topmenu li a
-{
-   color: #000000;
 }
 
 div#topmenu div.break
@@ -191,9 +201,15 @@ div#path-design
     padding: 0.5em;
 }
 
-div#path p
+div#path p, div#path a
 {
+    color: #75756c;
     margin: 0;
+}
+
+div#path a:hover
+{
+    color: #000000;
 }
 
 div#path span.disabled
@@ -218,7 +234,7 @@ div#leftmenu
 
 div#leftmenu-design
 {
-    margin: 0.5em;
+    margin: 0.5em 0 0 0.5em;
 }
 
 div#leftmenu div.box-header, div#rightmenu div.box-header
@@ -393,12 +409,13 @@ div#contentstructure ul#content_tree_menu li img
 
 div#contentstructure a.nodetext
 {
-    color: #000000;
+    color: #315578;
     text-decoration: none;
 }
 
 div#contentstructure a.nodetext:hover
 {
+    color: #000000;
     text-decoration: underline;
 }
 
@@ -428,7 +445,7 @@ a.openclose, span.openclose
 
 div#contentstructure a.openclose, div#contentstructure span.openclose
 {
-    color: #000000;
+    color: #315578;
 }
 
 h4
@@ -470,7 +487,7 @@ div#rightmenu
 
 div#rightmenu-design
 {
-    margin: 0.5em;
+    margin: 0.5em 0.5em 0 0;
 }
 
 div#currentuser, div#bookmarks
@@ -603,7 +620,7 @@ div.menu-block li.disabled a
     background-repeat: no-repeat;
 }
 
-div.menu-block a:hover
+div.menu-block li.disabled a:hover
 {
     color: #000000;
     text-decoration: none;
@@ -688,29 +705,32 @@ div.menu-block li.disabled div.button-bc
 
 div.context-block
 {
+    margin: 0.5em 0 1em 0;
 }
 
-div.context-block
+h1.context-title, h2.context-title
 {
-    margin: 0.5em 0 2em 0;
+    font-weight: bold;
+    color: #ffffff;
+    padding: 0.4em 0.2em 0.4em 0.5em;
+    margin: 0;
 }
 
 h1.context-title
 {
     font-size: 1.2em;
-    font-weight: bold;
-    color: #ffffff;
-    padding: 0.2em 0.2em 0.2em 0.5em;
-    margin: 0;
 }
 
 h2.context-title
 {
     font-size: 1em;
-    font-weight: bold;
-    color: #ffffff;
-    padding: 0.2em 0.2em 0.2em 0.5em;
-    margin: 0;
+}
+
+div.header-mainline, div.header-subline
+{
+    font-size: 1px;
+    height: 7px;
+    margin: 0 1px 0 1px;    
 }
 
 div.header-mainline
@@ -719,10 +739,7 @@ div.header-mainline
     background-repeat: repeat-y;
     background-position: top left;
     background-color: #ef8c00;
-    font-size: 1px;
-    height: 7px;
-    margin: 0 1px 0 1px;    
-}
+} 
 
 div.header-subline
 {
@@ -730,9 +747,6 @@ div.header-subline
     background-repeat: repeat-y;
     background-position: top left;
     background-color: #b5bec7;
-    font-size: 1px;
-    height: 7px;
-    margin: 0 1px 0 1px;    
 }
 
 h2.context-content
@@ -899,6 +913,16 @@ div.controlbar input.button
     padding: 0;
 }
 
+div.controlbar input.button-disabled
+{
+    font-size: 0.9em;
+    font-weight: normal;
+    color: #808080;
+    background-color: #e7e8e0;
+    margin: 0;
+    padding: 0;
+}
+
 div.content-control
 {
     margin-top: 1em;
@@ -965,7 +989,8 @@ div#footer
 input#searchbutton, input.menubutton
 {
     font-weight: normal;
-    background-color: #e0e0e0;
+    color: #ffffff;
+    background-color: #2d537a;
 }
 
 div.content-navigation-childlist table.list th
