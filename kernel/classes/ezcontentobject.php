@@ -983,12 +983,13 @@ class eZContentObject extends eZPersistentObject
 
         // We copy related objects before the attributes, this means that the related objects
         // are available once the datatype code is run.
-        $relatedObjects =& $object->relatedContentObjectArray( $currentVersionNumber );
+        $relatedObjects =& $this->relatedContentObjectArray( $currentVersionNumber );
+
         foreach ( array_keys( $relatedObjects ) as $key )
         {
             $relatedObject =& $relatedObjects[$key];
             $objectID = $relatedObject->attribute( 'id' );
-            $object->addContentObjectRelation( $objectID, $newVersionNumber );
+            $newObject->addContentObjectRelation( $objectID, $newVersionNumber );
             eZDebugSetting::writeDebug( 'kernel-content-object-copy', 'Add object relation', 'copyVersion' );
         }
 
@@ -1003,16 +1004,6 @@ class eZContentObject extends eZPersistentObject
                 $clonedAttribute->sync();
                 eZDebugSetting::writeDebug( 'kernel-content-object-copy', $clonedAttribute, 'copyVersion:cloned attribute' );
             }
-        }
-
-        $relatedObjects =& $this->relatedContentObjectArray( $currentVersionNumber );
-
-        foreach ( array_keys( $relatedObjects ) as $key )
-        {
-            $relatedObject =& $relatedObjects[$key];
-            $objectID = $relatedObject->attribute( 'id' );
-            $newObject->addContentObjectRelation( $objectID, $newVersionNumber );
-            eZDebugSetting::writeDebug( 'kernel-content-object-copy', 'Add object relation', 'copyVersion' );
         }
         $db->commit();
 
