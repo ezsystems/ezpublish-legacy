@@ -3651,11 +3651,16 @@ WHERE
                            'parent_node' => $parentNodeID,
                            'parent_remote_id' => $contentNodeDOMNode->attributeValue( 'remote-id' ),
                            'sort_field' => eZContentObjectTreeNode::sortFieldID( $contentNodeDOMNode->attributeValue( 'sort-field' ) ),
-                           'sort_order' => $contentNodeDOMNode->attributeValue( 'sort-order' ),
-                           'priority' => $contentNodeDOMNode->attributeValue( 'priority' ) );
-        $nodeAssignment =& eZNodeAssignment::create( $nodeInfo );
-        $nodeList[] = $nodeInfo;
-        $nodeAssignment->store();
+                           'sort_order' => $contentNodeDOMNode->attributeValue( 'sort-order' ) );
+        $existNodeAssignment = eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
+                                                   null,
+                                                   $nodeInfo );
+        if( !is_object( $existNodeAssignment ) )
+        {
+            $nodeAssignment =& eZNodeAssignment::create( $nodeInfo );
+            $nodeList[] = $nodeInfo;
+            $nodeAssignment->store();
+        }
     }
 
     /*!
