@@ -1254,7 +1254,9 @@ CREATE TABLE ezcontentobject_tree (
     path_identification_string text,
     main_node_id integer,
     modified_subnode integer DEFAULT 0,
-    remote_id character varying(100) DEFAULT '' NOT NULL
+    remote_id character varying(100) DEFAULT '' NOT NULL,
+    hidden integer DEFAULT 0 NOT NULL,
+    invisible integer DEFAULT 0 NOT NULL
 );
 
 

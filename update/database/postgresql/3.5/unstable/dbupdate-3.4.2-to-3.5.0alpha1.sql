@@ -62,3 +62,13 @@ CREATE TABLE ezuservisit
     current_visit_timestamp INT NOT NULL,
     last_visit_timestamp    INT NOT NULL
 );
+
+-- New columns for the hiding functionality
+ALTER TABLE ezcontentobject_tree ADD   hidden INTEGER;
+UPDATE      ezcontentobject_tree SET   hidden = 0;
+ALTER TABLE ezcontentobject_tree ALTER hidden SET NOT NULL;
+ALTER TABLE ezcontentobject_tree ALTER hidden SET DEFAULT 0;
+ALTER TABLE ezcontentobject_tree ADD   invisible INTEGER;
+UPDATE      ezcontentobject_tree SET   invisible = 0;
+ALTER TABLE ezcontentobject_tree ALTER invisible SET NOT NULL;
+ALTER TABLE ezcontentobject_tree ALTER invisible SET DEFAULT 0;
