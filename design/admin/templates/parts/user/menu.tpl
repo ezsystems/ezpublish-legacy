@@ -3,7 +3,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h4><a class="showhide" href={'/user/preferences/set/admin_treemenu/0'|ezurl} title="Hide user accounts"><span class="bracket">[</span>-<span class="bracket">]</span></a> {'User accounts'|i18( 'design/admin/parts/user/menu' )}</h4>
+<h4><a class="showhide" href={'/user/preferences/set/admin_treemenu/0'|ezurl} title="Hide users and user groups."><span class="bracket">[</span>-<span class="bracket">]</span></a> {'User accounts'|i18( 'design/admin/parts/user/menu' )}</h4>
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 
@@ -23,7 +23,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h4><a class="showhide" href={'/user/preferences/set/admin_treemenu/1'|ezurl} title="Show user accounts"><span class="bracket">[</span>+<span class="bracket">]</span></a> {'User accounts'|i18n( 'design/admin/parts/user/menu' )}</h4>
+<h4><a class="showhide" href={'/user/preferences/set/admin_treemenu/1'|ezurl} title="Show users and user groups."><span class="bracket">[</span>+<span class="bracket">]</span></a> {'User accounts'|i18n( 'design/admin/parts/user/menu' )}</h4>
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 
@@ -40,7 +40,7 @@
 {* Trashcan. *}
 <div id="trash">
 <ul>
-    <li><img src={'trash-icon-16x16.gif'|ezimage} width="16" height="16" alt="Trash" /> <a href={concat( '/content/trash/', ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )|ezurl}>{'Trash'|i18n( 'design/admin/parts/user/menu' )}</a></li>
+    <li><img src={'trash-icon-16x16.gif'|ezimage} width="16" height="16" alt="Trash" />&nbsp;<a href={concat( '/content/trash/', ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )|ezurl} title="{'View and manage the contents of the trash bin.'|i18n( 'design/admin/parts/user/menu' )}">{'Trash'|i18n( 'design/admin/parts/user/menu' )}</a></li>
 </ul>
 </div>
 

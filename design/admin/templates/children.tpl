@@ -20,7 +20,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h2 class="context-title"><a href={$node.depth|gt(1)|choose('/'|ezurl,$node.parent.url_alias|ezurl )} title="{'Up one level'|i18n(  'design/admin/node/view/full'  )}"><img src={'back-button-16x16.gif'|ezimage} alt="{'Up one level'|i18n( 'design/admin/node/view/full' )}" title="{'Up one level'|i18n( 'design/admin/node/view/full' )}" /></a>&nbsp;{'Sub items [%children_count]'|i18n( 'design/admin/node/view/full',, hash( '%children_count', $children_count ) )}</h2>
+<h2 class="context-title"><a href={$node.depth|gt(1)|choose('/'|ezurl,$node.parent.url_alias|ezurl )} title="{'Up one level.'|i18n(  'design/admin/node/view/full'  )}"><img src={'back-button-16x16.gif'|ezimage} alt="{'Up one level.'|i18n( 'design/admin/node/view/full' )}" title="{'Up one level.'|i18n( 'design/admin/node/view/full' )}" /></a>&nbsp;{'Sub items [%children_count]'|i18n( 'design/admin/node/view/full',, hash( '%children_count', $children_count ) )}</h2>
 
 {* DESIGN: Subline *}<div class="header-subline"></div>
 
@@ -38,22 +38,22 @@
     <p>
     {switch match=$number_of_items}
     {case match=25}
-        <a href={'/user/preferences/set/items/1'|ezurl}>10</a>
+        <a href={'/user/preferences/set/items/1'|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/pagelayout' )}">10</a>
         <span class="current">25</span>
-        <a href={'/user/preferences/set/items/3'|ezurl}>50</a>
+        <a href={'/user/preferences/set/items/3'|ezurl} title="{'Show 50 items per page.'|i18n( 'design/admin/pagelayout' )}">50</a>
 
         {/case}
 
         {case match=50}
-        <a href={'/user/preferences/set/items/1'|ezurl}>10</a>
-        <a href={'/user/preferences/set/items/2'|ezurl}>25</a>
+        <a href={'/user/preferences/set/items/1'|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/pagelayout' )}">10</a>
+        <a href={'/user/preferences/set/items/2'|ezurl} title="{'Show 25 items per page.'|i18n( 'design/admin/pagelayout' )}">25</a>
         <span class="current">50</span>
         {/case}
 
         {case}
         <span class="current">10</span>
-        <a href={'/user/preferences/set/items/2'|ezurl}>25</a>
-        <a href={'/user/preferences/set/items/3'|ezurl}>50</a>
+        <a href={'/user/preferences/set/items/2'|ezurl} title="{'Show 25 items per page.'|i18n( 'design/admin/pagelayout' )}">25</a>
+        <a href={'/user/preferences/set/items/3'|ezurl} title="{'Show 50 items per page.'|i18n( 'design/admin/pagelayout' )}">50</a>
         {/case}
 
         {/switch}
@@ -63,21 +63,21 @@
         <p>
         {switch match=ezpreference( 'admin_children_viewmode' )}
         {case match='thumbnail'}
-        <a href={'/user/preferences/set/admin_children_viewmode/list'|ezurl}>{'List'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_children_viewmode/list'|ezurl} title="{'Display sub items using a simple list.'|i18n( 'design/admin/pagelayout' )}">{'List'|i18n( 'design/admin/node/view/full' )}</a>
         <span class="current">{'Thumbnail'|i18n( 'design/admin/node/view/full' )}</span>
-        <a href={'/user/preferences/set/admin_children_viewmode/detailed'|ezurl}>Detailed</a>
+        <a href={'/user/preferences/set/admin_children_viewmode/detailed'|ezurl} title="{'Display sub items using a detailed list.'|i18n( 'design/admin/pagelayout' )}">{'Detailed'|i18n( 'design/admin/pagelayout' )}</a>
         {/case}
 
         {case match='detailed'}
-        <a href={'/user/preferences/set/admin_children_viewmode/list'|ezurl}>{'List'|i18n( 'design/admin/node/view/full' )}</a>
-        <a href={'/user/preferences/set/admin_children_viewmode/thumbnail'|ezurl}>{'Thumbnail'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_children_viewmode/list'|ezurl} title="{'Display sub items using a simple list.'|i18n( 'design/admin/pagelayout' )}">{'List'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_children_viewmode/thumbnail'|ezurl} title="{'Display sub items as thumbnails.'|i18n( 'design/admin/pagelayout' )}">{'Thumbnail'|i18n( 'design/admin/node/view/full' )}</a>
         <span class="current">{'Detailed'|i18n( 'design/admin/node/view/full' )}</span>
         {/case}
 
         {case}
         <span class="current">{'List'|i18n( 'design/admin/node/view/full' )}</span>
-        <a href={'/user/preferences/set/admin_children_viewmode/thumbnail'|ezurl}>{'Thumbnail'|i18n( 'design/admin/node/view/full' )}</a>
-        <a href={'/user/preferences/set/admin_children_viewmode/detailed'|ezurl}>{'Detailed'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_children_viewmode/thumbnail'|ezurl} title="{'Disaply sub items as thumbnails.'|i18n( 'design/admin/pagelayout' )}">{'Thumbnail'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_children_viewmode/detailed'|ezurl} title="{'Disaply sub items using a detailed list.'|i18n( 'design/admin/pagelayout' )}">{'Detailed'|i18n( 'design/admin/node/view/full' )}</a>
         {/case}
         {/switch}
         </p>
@@ -184,7 +184,7 @@
           {set can_create_classes=fetch( content, can_instantiate_class_list, hash( group_id, ezini( 'ClassGroupIDs', 'Users', 'content.ini' ), parent_node, $node ) )}
    {/section}
 
-    <select name="ClassID" title="{'Use this menu to select the type of item you wish to create. Click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
+    <select name="ClassID" title="{'Use this menu to select the type of item you wish to create and click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
         {section var=CanCreateClasses loop=$can_create_classes}
         <option value="{$CanCreateClasses.item.id}">{$CanCreateClasses.item.name|wash()}</option>
         {/section}
@@ -222,7 +222,7 @@
     disabled=' disabled="disabled"' }
 
 {section show=and( $node.can_edit, $children_count )}
-    {set title='Use these controls to set the sorting method for the items within the current location.'|i18n( 'design/admin/node/view/full' )}
+    {set title='Use these controls to set the sorting method for the sub items of the current location.'|i18n( 'design/admin/node/view/full' )}
     {set disabled=''}
 {/section}
 
