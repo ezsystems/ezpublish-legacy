@@ -19,7 +19,7 @@
 <p class="box">{$attribute.content.mime_type}</p>
 </div>
 <div class="element">
-<input class="smallbutton" type="submit" name="CustomActionButton[{$attribute.id}_delete_binary]" value="{'Delete'|i18n('design/standard/content/datatype')}" />
+<input class="smallbutton" type="submit" name="CustomActionButton[{$attribute.id}_delete_binary]" value="{'Remove'|i18n('design/standard/content/datatype')}" />
 </div>
 <div class="break"></div>
 </div>

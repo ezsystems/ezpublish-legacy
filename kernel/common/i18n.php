@@ -33,9 +33,9 @@ if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
             // Bork translation: use this to verify that translation works.
             // Will output something different than, but similar to, eng-GB.
             // BEGIN bork translation
-            include_once( 'lib/ezi18n/classes/ezborktranslator.php' );
-            $borktr = new eZBorkTranslator();
-            $man->registerHandler( $borktr );
+//             include_once( 'lib/ezi18n/classes/ezborktranslator.php' );
+//             $borktr = new eZBorkTranslator();
+//             $man->registerHandler( $borktr );
             // END bork translation
 
             eZTSTranslator::initialize( $language . '/translation.ts' );

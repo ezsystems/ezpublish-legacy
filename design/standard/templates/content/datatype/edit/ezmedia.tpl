@@ -216,6 +216,6 @@
 <div class="break"></div>
 </div>
 <div class="buttonblock">
-<input class="button" type="submit" name="CustomActionButton[{$attribute.id}_delete_media]" value="{'Delete'|i18n('design/standard/content/datatype')}" />
+<input class="button" type="submit" name="CustomActionButton[{$attribute.id}_delete_media]" value="{'Remove'|i18n('design/standard/content/datatype')}" />
 </div>
 {/section}
