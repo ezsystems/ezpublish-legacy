@@ -173,7 +173,7 @@ class eZDateOperatorCollection
                     $info = getdate( $timestamp );
                     $weekDay = $weekDaysMap[$info['wday']];
                     $week = date( 'W', $timestamp );
-                    if ( $info['wday'] == 0 )
+                    if ( $weekDay == 0 )
                         ++$week;
                     if ( $week < $lastWeek )
                         $week = $lastWeek;

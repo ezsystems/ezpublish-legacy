@@ -197,11 +197,6 @@ class eZLocale
 
         $this->reset();
 
-        if ( $this->MondayFirst )
-            $this->WeekDays = array( 1, 2, 3, 4, 5, 6, 0 );
-        else
-            $this->WeekDays = array( 0, 1, 2, 3, 4, 5, 6 );
-
         $this->IsValid = true;
         // Load language information
         if ( $languageINI !== null )
@@ -246,6 +241,11 @@ class eZLocale
         {
             $this->initLanguage( $languageVariationINI );
         }
+
+        if ( $this->MondayFirst )
+            $this->WeekDays = array( 1, 2, 3, 4, 5, 6, 0 );
+        else
+            $this->WeekDays = array( 0, 1, 2, 3, 4, 5, 6 );
 
         $this->AM = 'am';
         $this->PM = 'pm';

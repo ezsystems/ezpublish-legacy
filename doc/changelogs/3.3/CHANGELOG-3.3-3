@@ -117,7 +117,8 @@ eZTime:
   http://ez.no/community/bug_reports/no_classes_in
 - Merged error message fix in eZTemplateDesignResource from stable/3.2 rev. 4959.
   http://ez.no/community/bug_reports/debug_output
-
+- Fixed date operator to use correct first day of week.
+  http://ez.no/community/bug_reports/ezdateoperatorcollection_php_doesn_t_fully_support_locales
 
 
 *Library:
