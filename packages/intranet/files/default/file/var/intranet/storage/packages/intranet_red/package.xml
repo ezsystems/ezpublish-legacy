@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="3.3.0-1"
+         development="false"
+         xmlns:ezpackage="http://ez.no/ezpackage"
+         is_active="true"
+         install_type="install">
+  <name modified="1069690724">intranet_red</name>
+  <summary modified="1069690724">Red CSS design for intranet</summary>
+  <type value="css"
+        modified="1069690725" />
+  <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
+    <version>3.3.0-1</version>
+    <named-version>3.3 alpha</named-version>
+  </ezpublish>
+  <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
+    <timestamp>1069690724</timestamp>
+    <host>jb.ez.no</host>
+  </packaging>
+  <documents>
+    <document mime-type="text/plain"
+              name="README"
+              modified="1069690724" />
+  </documents>
+  <files xmlns:ezfile="http://ez.no/ezpackage">
+    <collection name="default">
+      <file-list type="file"
+                 variable-name="cssfile">
+        <file name="intranet_red.css"
+              sub-directory="design/intranet/stylesheets"
+              path="design/intranet/stylesheets/intranet_red.css"
+              md5sum="618f53349ae9148e525870dd178f0561"
+              modified="1069690725" />
+      </file-list>
+      <file-list type="thumbnail"
+                 variable-name="thumbnail">
+        <file name="thumbnail.png"
+              path="design/intranet/images/intranet_right.png"
+              md5sum="fa3dd36d15fdf521a059e393aafa7942"
+              modified="1069690725" />
+      </file-list>
+      <file-list type="file"
+                 variable-name="image">
+        <file name="green_logo.png"
+              sub-directory="design/intranet/images"
+              path="design/intranet/images/green_logo.png"
+              md5sum="2d085abce3dec88d01a9b34fc02c4a66"
+              modified="1069690726" />
+      </file-list>
+    </collection>
+  </files>
+  <version xmlns:ezversion="http://ez.no/ezpackage">
+    <number modified="1069690724">1.0</number>
+    <release modified="1069690724">1</release>
+  </version>
+  <licence modified="1069690724">GPL</licence>
+  <state modified="1069690724">alpha</state>
+  <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
+    <provides>
+      <provide type="ezfile"
+               name="collection"
+               value="default"
+               modified="1069690725" />
+    </provides>
+    <requires />
+    <obsoletes />
+    <conflicts />
+  </dependencies>
+  <install xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1069690725"
+          collection="default" />
+  </install>
+  <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1069690725"
+          collection="default" />
+  </uninstall>
+</package>

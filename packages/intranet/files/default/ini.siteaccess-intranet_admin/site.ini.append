@@ -1,0 +1,36 @@
+<?php /* #?ini charset="utf8"?
+
+[ContentSettings]
+TranslationList=
+
+[SiteSettings]
+SiteName=Plain
+SiteURL=intranet.wy.dvh1.ez.no
+
+[DatabaseSettings]
+DatabasePluginPath=
+# Use either ezmysql or ezpostgresql
+DatabaseImplementation=ezmysql
+Server=bf.ez.no
+User=root
+Password=mofser
+Database=intranet
+
+[FileSettings]
+VarDir=var/intranet
+
+[InformationCollectionSettings]
+EmailReceiver=
+
+[UserSettings]
+RegistrationEmail=
+
+[MailSettings]
+AdminEmail=admin@localhost
+EmailSender=
+
+[RegionalSettings]
+Locale=eng-GB
+ContentObjectLocale=eng-GB
+TextTranslation=disabled
+*/ ?>
