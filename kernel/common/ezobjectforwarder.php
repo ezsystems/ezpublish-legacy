@@ -62,7 +62,9 @@ class eZObjectForwarder
         {
             $hints[$name] = array( 'parameters' => true,
                                    'static' => false,
-                                   'tree-transformation' => true );
+                                   'transform-children' => true,
+                                   'tree-transformation' => true,
+                                   'transform-parameters' => true );
         }
         return $hints;
     }

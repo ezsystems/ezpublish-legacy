@@ -64,7 +64,9 @@ class eZTemplateCacheFunction
     {
         return array( $this->BlockName => array( 'parameters' => true,
                                                  'static' => false,
-                                                 'tree-transformation' => true ) );
+                                                 'transform-children' => true,
+                                                 'tree-transformation' => true,
+                                                 'transform-parameters' => true ) );
     }
 
     function templateNodeTransformation( $functionName, &$node,

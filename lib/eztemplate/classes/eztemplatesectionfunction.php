@@ -117,7 +117,8 @@ class eZTemplateSectionFunction
         return array( $this->Name => array( 'parameters' => true,
                                             'static' => false,
                                             'transform-children' => true,
-                                            'tree-transformation' => true ) );
+                                            'tree-transformation' => true,
+                                            'transform-parameters' => true ) );
     }
 
     function functionTemplateStatistics( $functionName, &$node, &$tpl, $resourceData, $namespace, &$stats )

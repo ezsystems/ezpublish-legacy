@@ -77,7 +77,9 @@ class eZTemplateIncludeFunction
     {
         return array( $this->IncludeName => array( 'parameters' => true,
                                                    'static' => false,
-                                                   'tree-transformation' => true ) );
+                                                   'transform-children' => true,
+                                                   'tree-transformation' => true,
+                                                   'transform-parameters' => true ) );
     }
 
     function templateNodeTransformation( $functionName, &$node,
