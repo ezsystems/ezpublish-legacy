@@ -25,6 +25,12 @@ modfix:
 - Moved url nodepath matching to the new urltranslator class.
 - Added general XML serialization framework
 - Added function to fetch node children by name in eZContentObjectTreeNode
+- Added function of calculating price with real VAT value for module shop
+- Added function of discount for module shop
+
+*DateType :
+- Changed the ezprice interface with VAT type choosing and VAT include/exclude choosing.
+
 
 *Library :
 
