@@ -1,1 +1,1 @@
-{$attribute.data_text|wash(xhtml)}
+{$attribute.data_text|wash(email)}

@@ -82,7 +82,22 @@ class eZTemplateWashOperator
             case "xhtml":
             {
                 $operatorValue = htmlspecialchars( $operatorValue );
-            }break;
+            } break;
+            case "email":
+            {
+                $ini =& $tpl->ini();
+                $dotText = $ini->variable( 'WashSettings', 'EmailDotText' );
+                $atText = $ini->variable( 'WashSettings', 'EmailAtText' );
+                $operatorValue = str_replace( array( '.',
+                                                     '@' ),
+                                              array( $dotText,
+                                                     $atText ),
+                                              $operatorValue );
+            } break;
+            default:
+            {
+                $tpl->warning( $operatorName, "Unkown wash type '$type'" );
+            } break;
         }
     }
 

@@ -95,6 +95,7 @@ class eZEmailType extends eZDataType
         {
             $data =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
             $contentObjectAttribute->setAttribute( "data_text", $data );
+            return true;
         }
         return false;
     }

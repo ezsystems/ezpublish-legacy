@@ -99,6 +99,9 @@ eZ template:
 - The default charset for template can now be controlled by settings/template.ini,
   this means it is no longer required to add charset controls in all template files.
 - Added support for global warning list which is can displayed in pagelayout.tpl.
+- Washing operator now supports email washing as well, @ and . will be converted to
+  straight textual representations which are harder for spam engines to pick up.
+  The representation is configurable in template.ini.
 
 eZ image:
 - Image object and layer classes has been moved from eZ template to eZ image

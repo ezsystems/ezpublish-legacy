@@ -11,7 +11,7 @@
 </div>
 <div class="element">
 <label>{"Email:"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
-<p class="box">{$attribute.content.email|wash(xhtml)}</p>
+<p class="box">{$attribute.content.email|wash(email)}</p>
 </div>
 <div class="break"></div>
 </div>

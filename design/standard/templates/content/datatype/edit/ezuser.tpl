@@ -14,7 +14,7 @@
 </div>
 <div class="element">
 <label>{"E-Mail:"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
-<input type="text" name="ContentObjectAttribute_data_user_email_{$attribute.id}" size="11" value="{$attribute.content.email}">
+<input type="text" name="ContentObjectAttribute_data_user_email_{$attribute.id}" size="11" value="{$attribute.content.email|wash(xhtml)}">
 </div>
 <div class="element">
 <label>{"Password:"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
