@@ -43,6 +43,8 @@ eZImage
 *Package system:
 
 *Bugs:
+- http://ez.no/developer/ez_publish_3/bug_reports/logical_operators_do_not_work
+  The parser has been fixed to properly recognize numbers when operators are present.
 
 *Templates:
 - created templates to override standard browse page when browsing in media folder.
