@@ -1200,6 +1200,27 @@ class eZPDFTable extends Cezpdf
 
         switch( $mimetype['name'] )
         {
+            case 'image/gif':
+            {
+                $newFilename = eZSys::cacheDirectory() . '/' . md5( mt_rand() ) . '.jpg';
+                while( file_exists( $newFilename ) )
+                {
+                    $newFilename = eZSys::cacheDirectory() . '/' . md5( mt_rand() ) . '.jpg';
+                }
+                $newMimetype = eZMimeType::findByFileContents( $newFilename );
+
+                $img =& imageInit();
+                $newImg = $img->convert( $mimetype,
+                                         $newMimetype,
+                                         false,
+                                         array() );
+                $this->addJpegFromFile( $newMimetype['url'],
+                                        $xOffset,
+                                        $yOffset,
+                                        $params['width'],
+                                        $params['height'] );
+            } break;
+
             case 'image/jpeg':
             {
                 $this->addJpegFromFile( $filename,

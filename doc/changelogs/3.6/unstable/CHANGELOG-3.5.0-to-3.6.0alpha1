@@ -1,7 +1,7 @@
 Changes from 3.5.0 to 3.6.0alpha1
 
 *Kernel:
-- Rewritten login hanlder.
+- Rewritten login hanlder. Supports beeing placed in extensions, and interrupt in several stages of the login process.
 
 *Scripts:
 
@@ -33,3 +33,5 @@ Changes from 3.5.0 to 3.6.0alpha1
   (Merged from stable/3.4, rev. 10502 and stable/3.5, rev. 10503)
 
 *Library:
+PDF:
+- Added support for GIF images.
