@@ -28,9 +28,9 @@
 {/section}
 </table>
 {section-else}
-
+<div class="block">
 <p>{'You have not subscribed to recieve notifications about any nodes.'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}</p>
-
+</div>
 {/section}
 
 {* DESIGN: Content END *}</div></div></div>
