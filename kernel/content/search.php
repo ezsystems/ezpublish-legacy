@@ -43,10 +43,6 @@ $http =& eZHTTPTool::instance();
 
 $Module =& $Params["Module"];
 
-$searchSectionID = -1;
-if ( isset( $Params["SectionID"] ) )
-    $searchSectionID =& $Params["SectionID"];
-
 $tpl =& templateInit();
 
 if ( $http->hasVariable( "SearchText" ) )
@@ -54,8 +50,11 @@ if ( $http->hasVariable( "SearchText" ) )
     $searchText = $http->variable( "SearchText" );
 }
 
-$searchSectionID = 3;
-
+$searchSectionID = -1;
+if ( $http->hasVariable( "SectionID" ) )
+{
+    $searchSectionID = $http->variable( "SectionID" );
+}
 
 $searchType = "fulltext";
 if ( $http->hasVariable( "SearchType" ) )
