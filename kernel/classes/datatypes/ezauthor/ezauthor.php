@@ -85,28 +85,35 @@ class eZAuthor
     /*!
      Adds an author
     */
-    function addAuthor( $name, $email )
+    function addAuthor( $id, $name, $email )
     {
-        $this->Authors[] = array( "id" => $this->AuthorCount,
+        if ( $id == -1 )
+            $id = $this->Authors[$this->AuthorCount - 1]['id'] + 1;
+
+        $this->Authors[] = array( "id" => $id,
                                   "name" => $name,
                                   "email" => $email,
                              "is_default" => false );
 
-        $this->AuthorCount += 1;
+        $this->AuthorCount ++;
     }
 
     function removeAuthors( $array_remove )
     {
         $authors =& $this->Authors;
-        $shiftvalue = 0;
-        foreach ( $array_remove as $id )
-        {
-            array_splice( $authors, $id - $shiftvalue, 1 );
-            $shiftvalue++;
-//            eZDebug::writeNotice( $authors, "authors " . $shiftvalue );
-        }
 
-        $this->AuthorCount -= $shiftvalue;
+        if ( count( $array_remove ) > 0 )
+            foreach ( $array_remove as $id )
+            {
+                foreach ( $authors as $authorKey => $author )
+                {
+                    if ( $author['id'] == $id )
+                    {
+                        array_splice( $authors, $authorKey, 1 );
+                        $this->AuthorCount --;
+                    }
+                }
+            }
     }
 
     function attributes()
@@ -179,7 +186,7 @@ class eZAuthor
             {
                 foreach ( $authorArray as $author )
                 {
-                    $this->addAuthor( $author->attributeValue( "name" ), $author->attributeValue( "email" ) );
+                    $this->addAuthor( $author->attributeValue( "id" ), $author->attributeValue( "name" ), $author->attributeValue( "email" ) );
                 }
             }
         }

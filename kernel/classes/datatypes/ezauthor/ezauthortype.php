@@ -61,13 +61,29 @@ class eZAuthorType extends eZDataType
      valid for this datatype.
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
-    {
+    { 
+        $actionRemoveSelected = false;
+        if ( $http->hasPostVariable( 'CustomActionButton' ) )
+        {
+            $customActionArray =& $http->postVariable( 'CustomActionButton' );
+                        
+            if ( isset( $customActionArray[$contentObjectAttribute->attribute( "id" ) . '_remove_selected'] ) )
+                if ( $customActionArray[$contentObjectAttribute->attribute( "id" ) . '_remove_selected'] == 'Remove selected' )
+                    $actionRemoveSelected = true;                                
+        }
+         
         if ( $http->hasPostVariable( $base . "_data_author_id_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
             $idList = $http->postVariable( $base . "_data_author_id_" . $contentObjectAttribute->attribute( "id" ) );
             $nameList = $http->postVariable( $base . "_data_author_name_" . $contentObjectAttribute->attribute( "id" ) );
             $emailList = $http->postVariable( $base . "_data_author_email_" . $contentObjectAttribute->attribute( "id" ) );
+            
+            if ( $http->hasPostVariable( $base . "_data_author_remove_" . $contentObjectAttribute->attribute( "id" ) ) )
+                $removeList = $http->postVariable( $base . "_data_author_remove_" . $contentObjectAttribute->attribute( "id" ) );
+            else
+                $removeList = array();
+
             if ( $classAttribute->attribute( "is_required" ) == true )
             {
                 if ( trim( $nameList[0] ) == "" )
@@ -81,6 +97,10 @@ class eZAuthorType extends eZDataType
             {
                 for ( $i=0;$i<count( $idList );$i++ )
                 {
+                    if ( $actionRemoveSelected ) 
+                        if ( in_array( $idList[$i], $removeList ) )
+                            continue;
+
                     $name =  $nameList[$i];
                     $email =  $emailList[$i];
                     if ( trim( $name )== "" )
@@ -130,7 +150,7 @@ class eZAuthorType extends eZDataType
             $userobject =& $user->attribute( 'contentobject' );
             if ( $userobject )
             {
-                $author->addAuthor( $userobject->attribute( 'name' ), $user->attribute( 'email' ) );
+                $author->addAuthor( $userobject->attribute( 'id' ), $userobject->attribute( 'name' ), $user->attribute( 'email' ) );
             }
          }
 
@@ -169,7 +189,7 @@ class eZAuthorType extends eZDataType
         $i = 0;
         foreach ( $authorIDArray as $id )
         {
-            $author->addAuthor( $authorNameArray[$i], $authorEmailArray[$i] );
+            $author->addAuthor( $authorIDArray[$i], $authorNameArray[$i], $authorEmailArray[$i] );
             $i++;
         }
         $contentObjectAttribute->setContent( $author );
@@ -186,7 +206,7 @@ class eZAuthorType extends eZDataType
             {
                 $author =& $contentObjectAttribute->content( );
 
-                $author->addAuthor( "" );
+                $author->addAuthor( -1, "", "" );
                 $contentObjectAttribute->setContent( $author );
             }break;
             case "remove_selected" :
