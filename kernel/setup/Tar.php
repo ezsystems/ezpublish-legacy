@@ -18,7 +18,7 @@
 //
 // $Id: Tar.php,v 1.5 2002/02/28 08:27:05 sebastian Exp $
 
-require_once 'lib/ezsetup/classes/PEAR.php';
+require_once 'kernel/setup/PEAR.php';
 
 /**
 * Creates a (compressed) Tar archive
