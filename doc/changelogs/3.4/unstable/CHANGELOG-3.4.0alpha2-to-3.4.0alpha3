@@ -145,4 +145,4 @@ eZPDF:
 - Reorganized setup menu (alphabetic list + some elements moved to advanced)
 - Added assign limited on section on roles.
 - Removed "Remove" button from misc. preview templates (dangerous)
-
+- Added list for sessions in "Session admin"

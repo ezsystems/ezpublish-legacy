@@ -6,6 +6,7 @@
          page_uri_suffix=false()
          left_max=$left_max
          right_max=$right_max}
+
 {let item_previous=sub( $view_parameters.offset,
                          $item_limit )
       item_next=sum( $view_parameters.offset,
@@ -18,12 +19,11 @@
       right_length=min(sub($ViewParameter:page_count,$ViewParameter:current_page,1),$:right_max)
       view_parameter_text=""
       offset_text=eq( ezini( 'ControlSettings', 'AllowUserVariables', 'template.ini' ), 'true' )|choose( '/offset/', '/(offset)/' )}
-
 {* Create view parameter text with the exception of offset *}
 {section loop=$view_parameters}
  {section-exclude match=eq($:key,offset)}
  {section-exclude match=$:item|not}
- {set view_parameter_text=concat('(',$:view_parameter_text,')/',$:key,'/',$:item)}
+ {set view_parameter_text=concat($:view_parameter_text,'/(',$:key,')/',$:item)}
 {/section}
 
 

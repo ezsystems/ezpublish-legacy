@@ -32,32 +32,68 @@
 // you.
 //
 
-$http =& eZHTTPTool::instance();
-$module =& $Params["Module"];
+
 
 include_once( 'kernel/common/template.php' );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'lib/ezutils/classes/ezsession.php' );
 
 $tpl =& templateInit();
+$sessionsRemoved = false;
+$http =& eZHTTPTool::instance();
+
+$module =& $Params["Module"];
+$param['limit'] = 5;
 
 if ( $module->isCurrentAction( 'RemoveAllSessions' ) )
 {
     eZSessionEmpty();
     $sessionsRemoved = true;
 }
-
 elseif ( $module->isCurrentAction( 'RemoveTimedOutSessions' ) )
 {
     eZSessionGarbageCollector();
     $sessionsRemoved = true;
 }
+elseif ( $module->isCurrentAction( 'RemoveSelectedSessions' ) )
+{
+    if ( eZHTTPTool::hasPostVariable( 'SessionKeyArray' ) )
+    {
+        $sessionKeyArray = eZHTTPTool::postVariable( 'SessionKeyArray' );
+        foreach( $sessionKeyArray as $sessionKeyItem )
+        {
+            eZSessionDestroy( $sessionKeyItem );
+        }
+    }
+}
 
+$view_parameters = $Params['UserParameters'];
+if ( is_Numeric( $view_parameters['offset'] ) )
+{
+    $param['offset'] = $view_parameters['offset'];
+}
+else
+{
+    $param['offset'] = 0;
+    $view_parameters['offset'] = 0;
+}
 
+$param['sortby'] = $view_parameters['sortby'];
 $sessionsActive = eZSessionCountActive();
+$sessionsList =& eZSessionGetActive( $param );
+
+if ( $param['offset'] >= $sessionsActive && $sessionsActive != 0 )
+{
+    $module->redirectTo( '/setup/session' );
+}
+
 
 $tpl->setVariable( "sessions_removed", $sessionsRemoved );
 $tpl->setVariable( "sessions_active",  $sessionsActive  );
+$tpl->setVariable( "sessions_list",  $sessionsList  );
+$tpl->setVariable( "page_limit",  $param['limit']  );
+$tpl->setVariable( "view_parameters",  $view_parameters  );
+$tpl->setVariable( "form_parameter_string",  $view_parameters  );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:setup/session.tpl" );
