@@ -69,7 +69,7 @@
 <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/bookmark' )}" disabled="disabled" />
 {/section}
 
-<input class="button" type="submit" name="AddButton" value="{'Add bookmarks'|i18n( 'design/admin/content/bookmark' )}" title="{'Add bookmarks to your personal bookmark list.'|i18n( 'design/admin/content/bookmark' )}" />
+<input class="button" type="submit" name="AddButton" value="{'Add items'|i18n( 'design/admin/content/bookmark' )}" title="{'Add items to your personal bookmark list.'|i18n( 'design/admin/content/bookmark' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
