@@ -1,0 +1,3 @@
+
+*Bugfixes:
+- Fixed copy object bug. Current version was not set, multiple version copy did not set object name and redirect did not contain version number. (merged from stable 4293)

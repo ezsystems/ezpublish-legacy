@@ -8,6 +8,7 @@ Changes from 3.2-3 to 3.2-4
   ClassFilterArray just as the subTree() function does.
 
 *Bugfixes:
+- Fixed copy object bug. Current version was not set, multiple version copy did not set object name and redirect did not contain version number.
 - Fixed bug, added check missing check if current preference is set
   http://ez.no/developer/ez_publish_3/bug_reports/ezpreferences_only_one_variable_can_be_stored_in_the_database_for_each_user
    

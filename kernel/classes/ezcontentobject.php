@@ -800,7 +800,7 @@ class eZContentObject extends eZPersistentObject
     {
         eZDebugSetting::writeDebug( 'kernel-content-object-copy', 'Copy start, all versions=' . $allVersions ? 'true' : 'false', 'copy' );
         $contentObject =& $this->clone();
-        $contentObject->setAttribute( 'current_version', 0 );
+        $contentObject->setAttribute( 'current_version', 1 );
         $contentObject->store();
 
         $contentObject->setName( $this->attribute('name') );
@@ -831,8 +831,15 @@ class eZContentObject extends eZPersistentObject
             $contentObjectVersion =& $contentObject->copyVersion( $contentObject, $currentContentObjectVersion,
                                                                   $versionNumber, $contentObject->attribute( 'id' ),
                                                                   false );
+
+            $contentObject->setName( $contentObjectVersion->name(), $versionNumber );
             eZDebugSetting::writeDebug( 'kernel-content-object-copy', $contentObjectVersion, 'Copied version' );
         }
+
+        // Set version number
+        $contentObject->setAttribute( 'current_version', count( $versionList ) );
+        $contentObject->store();
+
         eZDebugSetting::writeDebug( 'kernel-content-object-copy', 'Copy done', 'copy' );
         return $contentObject;
     }
