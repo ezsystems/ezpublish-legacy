@@ -1,13 +1,41 @@
+{* Generic script for toggling the status of a bunch of checkboxes. *}
+{literal}
+<script language="JavaScript1.2" type="text/javascript">
+<!--
+function toggleCheckboxes( formname, checkboxname )
+{
+    with( formname )
+	{
+        for( var i=0; i<elements.length; i++ )
+        {
+            if( elements[i].type == 'checkbox' && elements[i].name == checkboxname && elements[i].disabled == "" )
+            {
+                if( elements[i].checked == true )
+                {
+                    elements[i].checked = false;
+                }
+                else
+                {
+                    elements[i].checked = true;
+                }
+            }
+	    }
+    }
+}
+//-->
+</script>
+{/literal}
+
 {section show=$class_count}
 
 <div class="context-block">
-<h2 class="context-title"><a href={'/class/grouplist'|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Up one level'|i18n( 'design/standard/node/view' )}" title="{'Up one level'|i18n( 'design/standard/node/view' )}" /></a>&nbsp;{'Classes inside'|i18n( 'design/admin/class/classlist' )} {$group_name|wash} [{$class_count}]</h2>
+<h2 class="context-title"><a href={'/class/grouplist'|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Back to class groups'|i18n( 'design/admin/class/classlist' )}" title="{'Back to class groups'|i18n( 'design/standard/node/view' )}" /></a>&nbsp;{'Classes inside'|i18n( 'design/admin/class/classlist' )} {$group_name|wash} [{$class_count}]</h2>
 
 <form action={concat( 'class/classlist/', $GroupID )|ezurl} method="post" name="ClassList">
 <table class="list" cellspacing="0">
 {section show=$groupclasses}
 <tr>
-    <th class="tight">&nbsp;</th>
+    <th class="tight"><a href="" onclick="toggleCheckboxes( document.ClassList, 'DeleteIDArray[]' ); return false;"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" title="{'Invert selection.'|i18n( 'design/admin/class/classlist' )}" /></a></th>
     <th>{'Name'|i18n('design/admin/class/classlist')}</th>
     <th>{'ID'|i18n('design/admin/class/classlist')}</th>
     <th>{'Identifier'|i18n('design/admin/class/classlist')}</th>
