@@ -97,7 +97,7 @@ Examples of element matching.
   <td>/admin/view/something</td><td>1</td><td>admin</td>
 </tr>
 <tr>
-  <td>admin.mysite.com</td><td>0</td><td>admin</td>
+  <td>admin.example.com</td><td>0</td><td>admin</td>
 </tr>
 <tr>
   <td>index_admin.php</td><td>1</td><td>admin</td>
@@ -134,7 +134,7 @@ Examples of subtext matching.
   <th>Source text</th><th>Pre text</th><th>Post text</th><th>Result</th>
 </tr>
 <tr>
-  <td>admin.mysite.com</td><td></td><td>.mysite.com</td><td>admin</td>
+  <td>admin.example.com</td><td></td><td>.example.com</td><td>admin</td>
 </tr>
 <tr>
   <td>index_admin.php</td><td>index_</td><td>.php</td><td>admin</td>
@@ -176,7 +176,7 @@ Examples of regexp matching.
   <td>/admin/view/something</td><td>^/([^/]+)/</td><td>1</td><td>admin</td>
 </tr>
 <tr>
-  <td>admin.mysite.com</td><td>^(.+)\.mysite\.com$</td><td>1</td><td>admin</td>
+  <td>admin.example.com</td><td>^(.+)\.example\.com$</td><td>1</td><td>admin</td>
 </tr>
 <tr>
   <td>index_admin.php</td><td>^index_(.+)\.php$</td><td>1</td><td>admin</td>
@@ -196,7 +196,7 @@ URIMatchType=element
 URIMatchElement=1
 
 HostMatchType=regexp
-HostMatchRegexp=^(.+)\.mysite\.com$
+HostMatchRegexp=^(.+)\.example\.com$
 
 IndexMatchType=text
 IndexMatchSubtextPre=index_
@@ -210,7 +210,7 @@ IndexMatchSubtextPost=.php
 <p>
 Once a match from either URI, index or host a siteaccess setup is checked for existance.
 The setup is located in <i>settings/siteaccess</i> and will have a separate directory for each
-access name. For instance accessing <i>admin.mysite.com</i> would require <i>settings/siteaccess/admin</i>
+access name. For instance accessing <i>admin.example.com</i> would require <i>settings/siteaccess/admin</i>
 to be existant.
 The setup directory will then become the new override directory meaning that you can override
 <i>site.ini</i> or any other INI files present in the original directory.

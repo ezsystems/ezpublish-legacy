@@ -92,7 +92,7 @@ E.g. {fetch('content','class_attribute_list',hash(class_id,4,version_id,0))}
 <dt>concat</dt>
 <dd>Concatenates values to one string. If you give it an array, it will concatenate the elements of the array. E.g. {concat('/var/',$node.node_id,'/')}</dd>
 <dt>autolink</dt>
-<dd>Converts all known links in a text to links that can be clicked. E.g. {"Some links: ftp://ftp.mysite.com me@mysite.com http://www.mysite.com"|autolink}
+<dd>Converts all known links in a text to links that can be clicked. E.g. {"Some links: ftp://ftp.example.com me@example.com http://www.example.com"|autolink}
 </dd>
 </dl>
 

@@ -45,7 +45,7 @@
 
 <h2 id="Linux_FreeBSD_Macos">Installation on Linux, FreeBSD and Mac OS X</h2>
 <ol>
-	<li>Unpack ezpublish-xxx.tar.gz into the <httproot> folder<pre class="example"> $ tar xvfz ezpublish-xxx.tar.gz -C &lt;httproot&gt;</pre></li>
+	<li>Unpack ezpublish-xxx.tar.gz into the &lt;httproot&gt folder<pre class="example"> $ tar xvfz ezpublish-xxx.tar.gz -C &lt;httproot&gt;</pre></li>
 	<li>Now go to the extracted eZ publish directory <pre class="example"> $ cd &lt;httproot&gt;/ezpublish-xxx/</pre></li>
 	<li>Run the modfix.sh script <pre class="example"> $ bin/modfix.sh</pre></li>
 </ol>
@@ -60,7 +60,7 @@
 <ol>
 	<li><pre class="example"> $ mysql -u root -p &lt;password&gt;</pre></li>
 	<li>You should now have a "mysql&gt;" prompt, create a new database <pre class="example"> mysql&gt; create database &lt;name_of_database&gt;</pre></li>
-	<li>Grant permissions <pre class="example"> mysql&gt; grant all on &lt;name_of_database&gt;.* to &lt;user&gt;@localhost
+	<li>Grant permissions (This will also create the user) <pre class="example"> mysql&gt; grant all on &lt;name_of_database&gt;.* to &lt;user&gt;@localhost
 	identified by '&lt;password&gt;';</pre></li>
 	<li>If you don't want to install demodata: <pre class="example"> $ mysql -u &lt;user&gt; -p&lt;password&gt; &lt;name_of_database&gt;
 	&lt; &lt;httproot&gt;/ezpublish-xxx/kernel/sql/mysql/kernel_clean.sql</pre>
@@ -101,6 +101,9 @@
 	and set the correct setting in the [Database Settings] section.
 	You need to select what database implementation you would like to use,
 	hostname of the database server to connect to, username, password and database name.
+    (Instead of using this file, you can create a file called
+    &lt;httproot&gt/ezpublish-xxx/settings/override.site.ini.append
+    Here you can override settings in site.ini. Add only the parts you need.)
 </p>
 
 <pre class="example">[Database Settings]
@@ -167,7 +170,7 @@ Database=&lt;name_of_database&gt;
 	<li>Go to your the location of mysql and find the mysql.exe file (should be under bin\)</li>
 	<li>Run <pre class="example">mysql.exe -u root -p &lt;your_mysql_password&gt;</pre></li>
 	<li>You should now have have a mysql&gt; prompt. Type these mysql statements <pre class="example">mysql&gt; create database &lt;name_of_database&gt;;</pre></li>
-	<li>Grant permissions <pre class="example"> mysql&gt; grant all on <name_of_database>.* to &lt;user&gt;@localhost identified
+	<li>Grant permissions (This will also create the user) <pre class="example"> mysql&gt; grant all on <name_of_database>.* to &lt;user&gt;@localhost identified
 	by '&lt;password&gt;';</pre>
 	<li>If you don't want demodata <pre class="example">$ mysql.exe -u &lt;user&gt; -p&lt;password&gt; &lt;name_of_database&gt;
 	&lt; &lt;httproot&gt;\ezpublish-xxx\kernel\sql\mysql\kernel_clean.sql</pre></li>
@@ -194,6 +197,9 @@ Database=&lt;name_of_database&gt;
 	Open &lt;httproot&gt/ezpublish-xxx/settings/site.ini in notepad and set the correct settings in the [Database Settings] section.
 	You need to set what database implementation you use, hostname of database
 	server to connect to, user name, password, database name.
+    (Instead of using this file, you can create a file called
+    &lt;httproot&gt/ezpublish-xxx/settings/override.site.ini.append
+    Here you can override settings in site.ini. Add only the parts you need.)
 </p>
 <pre class="example">[Database Settings]
 # Use either ezmysql or ezpostgresql

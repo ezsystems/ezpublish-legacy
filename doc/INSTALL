@@ -1,5 +1,6 @@
-eZ publish 3 installation guide (beta)
---------------------------------------
+eZ publish 3 installation guide
+-------------------------------
+
 This document contains a quick guide on how to install
 eZ publish 3 on Windows, Linux and FreeBSD.
 
@@ -73,6 +74,7 @@ insert a database.
 2. You should now have have a mysql> prompt
    mysql> create database <name_of_database>;
 3. mysql> grant all on <name_of_database>.* to <user>@localhost identified by '<password>';
+   (This command will also create the specified user, in addition to granting permissions.)
 4. If you don't want demodata:
    $ mysql -u <user> -p<password> <name_of_database> < <httproot>/ezpublish-xxx/kernel/sql/mysql/kernel_clean.sql
 
@@ -108,6 +110,9 @@ To install the demodata all you have to do is unpack the var.tgz file:
 ------------------------
 Open <httproot>/ezpublish-xxx/settings/site.ini with your favourite editor
 and set the correct setting in the [DatabaseSettings] section.
+(Instead of using this file, you can create a file called
+<httproot>/ezpublish-xxx/settings/override.site.ini.append
+Here you can override settings in site.ini. Add only the parts you need.)
 You need to select what database implementation you would like to use,
 hostname of database server to connect to, username, password
 and database name.
@@ -168,6 +173,7 @@ and insert a database.
 3. You should now have have a mysql> prompt. Type these to mysql statements:
    mysql> create database <name_of_database>;
 4. mysql> grant all on <name_of_database>.* to <user>@localhost identified by '<password>';
+   (This command will also create the specified user, in addition to granting permissions.)
 5. If you don't want demodata:
    $ mysql.exe -u<user> -p<password> <name_of_database> < <httproot>\ezpublish-xxx\kernel\sql\mysql\kernel_clean.sql
    If you do want demodata:
@@ -190,6 +196,9 @@ Open <httproot>/ezpublish-xxx/settings/site.ini in notepad and set
 the correct settings in the [DatabaseSettings] section.
 You need to set what database implementation you use, hostname of database
 server to connect to, user name, password, database name.
+(Instead of using this file, you can create a file called
+<httproot>/ezpublish-xxx/settings/override.site.ini.append
+Here you can override settings in site.ini. Add only the parts you need.)
 
 [DatabaseSettings]
 # Use either ezmysql or ezpostgresql
