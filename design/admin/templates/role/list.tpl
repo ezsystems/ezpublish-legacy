@@ -97,7 +97,7 @@ function toggleCheckboxes( formname, checkboxname )
 <div class="controlbar">
 <div class="block">
     <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/role/list' )}" title="{'Remove selected roles.'|i18n( 'design/admin/role/list' )}" />
-    <input class="button" type="submit" name="NewButton" value="{'Create new'|i18n( 'design/admin/role/list' )}" title="{'Create a new role.'|i18n( 'design/admin/role/list' )}" />
+    <input class="button" type="submit" name="NewButton" value="{'New role'|i18n( 'design/admin/role/list' )}" title="{'Create a new role.'|i18n( 'design/admin/role/list' )}" />
 </div>
 </div>
 </div>

@@ -1,8 +1,8 @@
-{let handlers=fetch( 'notification', 'handler_list' )}
+{let handlers=fetch( notification, handler_list )}
 <form method="post" action={'/notification/settings/'|ezurl}>
 
 <div class="context-block">
-<h2 class="context-title">{'Notification settings'|i18n( 'design/admin/notification/settings' )}</h2>
+<h2 class="context-title">{'My notification settings'|i18n( 'design/admin/notification/settings' )}</h2>
 
 <div class="context-attributes">
 {section var=Handlers loop=$handlers}

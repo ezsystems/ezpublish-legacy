@@ -1,6 +1,6 @@
 {let subscribed_nodes=$handler.rules}
 <div class="context-block">
-<h2 class="context-title">{'Node notifications [%notification_count]'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit',, hash( '%notification_count', $subscribed_nodes|count ) )}</h2>
+<h2 class="context-title">{'My node notifications [%notification_count]'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit',, hash( '%notification_count', $subscribed_nodes|count ) )}</h2>
 
 {section show=$subscribed_nodes}
 <table class="list" cellspacing="0">

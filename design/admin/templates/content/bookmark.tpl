@@ -30,7 +30,7 @@ function toggleCheckboxes( formname, checkboxname )
 <form name="bookmarkaction" action={concat( 'content/bookmark/' )|ezurl} method="post" >
 
 <div class="context-block">
-<h2 class="context-title">{'My bookmarks'|i18n( 'design/admin/content/bookmark' )}</h2>
+<h2 class="context-title">{'My bookmarks [%bookmark_count]'|i18n( 'design/admin/content/bookmark',, hash( '%bookmark_count', $bookmark_list|count ) )}</h2>
 
 {section show=$bookmark_list}
 
