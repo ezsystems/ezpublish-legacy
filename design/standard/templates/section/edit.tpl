@@ -11,6 +11,17 @@
 <input class="box" type="text" name="Name" value="{$section.name}" />
 </div>
 
+<div class="block">
+<label>{"Navigation Part:"|i18n("design/standard/section")}</label><div class="labelbreak"></div>
+<select name="NavigationPartIdentifier">
+<option value="ezcontentnavigationpart" {section show=eq($section.navigation_part_idenfifier,'ezcontentnavigationpart')}selected="selected"{/section}>Content</option>
+<option value="ezshopnavigationpart" {section show=eq($section.navigation_part_idenfifier,'ezshopnavigationpart')}selected="selected"{/section}>Shop</option>
+<option value="ezusernavigationpart" {section show=eq($section.navigation_part_idenfifier,'ezusernavigationpart')}selected="selected"{/section}>Users</option>
+<option value="ezsetupnavigationpart" {section show=eq($section.navigation_part_idenfifier,'ezsetupnavigationpart')}selected="selected"{/section}>Set up</option>
+<option value="ezmynavigationpart" {section show=eq($section.navigation_part_idenfifier,'ezmynavigationpart')}selected="selected"{/section}>My</option>
+</select>
+</div>
+
 {*
 <div class="block">
 <label>Locale:</label><div class="labelbreak"></div>

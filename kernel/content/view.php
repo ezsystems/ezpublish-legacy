@@ -107,7 +107,6 @@ switch( $operationResult['status'] )
             $viewParameters = array( 'offset' => $Offset );
             $object = $operationResult[ 'object' ];
 
-           
             if ( !get_class( $object ) == 'ezcontentobject' )
                 return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
@@ -163,6 +162,10 @@ switch( $operationResult['status'] )
             $Result['path'] =& $path;
             $Result['section_id'] =& $object->attribute( 'section_id' );
             $Result['node_id'] =& $NodeID;
+
+            // Fetch the navigation part from the section information
+            $section =& eZSection::fetch( $object->attribute( 'section_id' ) );
+            $Result['navigation_part'] = $section->attribute( 'navigation_part_idenfifier' );
 
             if ( $viewCacheEnabled )
             {

@@ -362,6 +362,8 @@ foreach ( $extensionRepositories as $extensionRepository )
 $moduleRepositories = array_merge( $moduleRepositories, $globalModuleRepositories, $globalExtensionRepositories );
 eZModule::setGlobalPathList( $moduleRepositories );
 
+include_once( 'kernel/classes/eznavigationpart.php' );
+
 // Start the module loop
 while ( $moduleRunRequired )
 {
@@ -691,6 +693,14 @@ if ( $show_page_layout )
             $show_page_layout = "pagelayout.tpl";
         }
 
+        // Set the navigation part
+        // Check for navigation part settings
+        $navigationPartString = $moduleResult['navigation_part'];
+
+        // Fetch the navigation part
+        $navigationPart = eZNavigationPart::fetchPartByIdentifier( $navigationPartString );
+
+        $tpl->setVariable( 'navigation_part', $navigationPart );
         $templateResult =& $tpl->fetch( $resource . $show_page_layout );
     }
 }

@@ -37,14 +37,17 @@ $Module = array( "name" => "eZNotification" );
 $ViewList = array();
 $ViewList["edit"] = array(
     "functions" => array( 'edit' ),
+    "default_navigation_part" => 'ezmynavigationpart',
     "script" => "edit.php",
     "params" => array( "RuleType", "RuleID" ) );
 $ViewList["list"] = array(
     "functions" => array( 'list' ),
+    "default_navigation_part" => 'ezmynavigationpart',
     "script" => "list.php",
     "params" => array() );
 $ViewList["send"] = array(
     "functions" => array( 'send' ),
+    "default_navigation_part" => 'ezmynavigationpart',
     "script" => "messagedelivery.php",
     "params" => array() );
 

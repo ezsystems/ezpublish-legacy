@@ -191,7 +191,6 @@ class eZContentOperationCollection
             }
         }
 
-
         $existingNode->setAttribute( 'sort_field', $nodeAssignment->attribute( 'sort_field' ) );
         $existingNode->setAttribute( 'sort_order', $nodeAssignment->attribute( 'sort_order' ) );
         $existingNode->setAttribute( 'contentobject_version', $version->attribute( 'version' ) );

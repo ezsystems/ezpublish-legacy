@@ -39,6 +39,7 @@ $ViewList = array();
 
 $ViewList["stats"] = array(
     "script" => "stats.php",
+    "default_navigation_part" => 'ezsetupnavigationpart',
     "params" => array( ) );
 
 ?>

@@ -38,6 +38,7 @@ $Module = array( "name" => "eZContentObject",
 $ViewList = array();
 $ViewList["edit"] = array(
     "functions" => array( 'edit' ),
+    "default_navigation_part" => 'ezcontentnavigationpart',
     'single_post_actions' => array( 'PreviewButton' => 'Preview',
                                     'TranslateButton' => 'Translate',
                                     'VersionsButton' => 'VersionEdit',
@@ -63,6 +64,7 @@ $ViewList["edit"] = array(
 
 $ViewList["removenode"] = array(
     "functions" => array( 'edit' ),
+    "default_navigation_part" => 'ezcontentnavigationpart',
     'single_post_actions' => array( 'ConfirmButton' => 'ConfirmAssignmentRemove',
                                     'CancelButton' => 'CancelAssignmentRemove' ),
     "script" => "removenode.php",
@@ -71,6 +73,7 @@ $ViewList["removenode"] = array(
 
 $ViewList["view"] = array(
     "functions" => array( 'read' ),
+    "default_navigation_part" => 'ezcontentnavigationpart',
     "script" => "view.php",
     "params" => array( "ViewMode", "NodeID", "LanguageCode" ),
     "unordered_params" => array( "language" => "Language",
@@ -79,6 +82,7 @@ $ViewList["view"] = array(
 
 $ViewList["copy"] = array(
     "functions" => array( 'edit' ),
+    "default_navigation_part" => 'ezcontentnavigationpart',
     "script" => "copy.php",
     'single_post_actions' => array( 'CopyButton' => 'Copy',
                                     'CancelButton' => 'Cancel' ),
@@ -88,6 +92,7 @@ $ViewList["copy"] = array(
 
 $ViewList["versionview"] = array(
     "functions" => array( 'versionread' ),
+    "default_navigation_part" => 'ezcontentnavigationpart',
     "script" => "versionview.php",
     'single_post_actions' => array( 'ChangeSettingsButton' => 'ChangeSettings',
                                     'EditButton' => 'Edit',
@@ -102,43 +107,51 @@ $ViewList["versionview"] = array(
 
 $ViewList["search"] = array(
     "functions" => array( 'read' ),
+    "default_navigation_part" => 'ezcontentnavigationpart',
     "script" => "search.php",
     "params" => array( ) );
 
 $ViewList["advancedsearch"] = array(
     "functions" => array( 'read' ),
+    "default_navigation_part" => 'ezcontentnavigationpart',
     "script" => "advancedsearch.php",
     "params" => array( ) );
 
 $ViewList["browse"] = array(
     "functions" => array( 'read' ),
+    "default_navigation_part" => 'ezcontentnavigationpart',
     "script" => "browse.php",
     "params" => array( "NodeID", "ObjectID", "EditVersion" ),
     "unordered_params" => array( "offset" => "Offset" ) );
 
 $ViewList["removeobject"] = array(
     "functions" => array( 'read' ),
+    "default_navigation_part" => 'ezcontentnavigationpart',
     "script" => "removeobject.php",
     "params" => array( ) );
 
 $ViewList["removeeditversion"] = array(
     "functions" => array( 'read' ),
+    "default_navigation_part" => 'ezcontentnavigationpart',
     "script" => "removeeditversion.php",
     "params" => array( ) );
 
 $ViewList["download"] = array(
     "functions" => array( 'read' ),
+    "default_navigation_part" => 'ezcontentnavigationpart',
     "script" => "download.php",
     "params" => array( "ContentObjectID", "ContentObjectAttributeID", "FileType" ) );
 
 $ViewList["action"] = array(
     "functions" => array( 'read' ),
+    "default_navigation_part" => 'ezcontentnavigationpart',
     "script" => "action.php",
     "params" => array(  ),
     'post_actions' => array( 'BrowseActionName' ) );
 
 $ViewList["collectinformation"] = array(
     "functions" => array( 'read' ),
+    "default_navigation_part" => 'ezcontentnavigationpart',
     "script" => "collectinformation.php",
     'single_post_actions' => array( 'ActionCollectInformation' => 'CollectInformation' ),
     'post_action_parameters' => array( 'CollectInformation' => array( 'ContentObjectID' => 'ContentObjectID' ) ),
@@ -146,6 +159,7 @@ $ViewList["collectinformation"] = array(
 
 $ViewList["versions"] = array(
     "functions" => array( 'read', 'edit' ),
+    "default_navigation_part" => 'ezcontentnavigationpart',
     "script" => "versions.php",
     'single_post_actions' => array( 'CopyVersionButton' => 'CopyVersion',
                                     'EditButton' => 'Edit' ),
@@ -157,6 +171,7 @@ $ViewList["versions"] = array(
 
 $ViewList["translate"] = array(
     "functions" => array( 'edit' ),
+    "default_navigation_part" => 'ezcontentnavigationpart',
     "script" => "translate.php",
     'single_post_actions' => array( 'EditObjectButton' => 'EditObject',
                                     'PreviewButton' => 'Preview',
@@ -175,18 +190,19 @@ $ViewList["translate"] = array(
 
 $ViewList["draft"] = array(
     "script" => "draft.php",
+    "default_navigation_part" => 'ezmynavigationpart',
     "params" => array( ),
     "unordered_params" => array( "offset" => "Offset" ) );
 
 $ViewList["trash"] = array(
     "script" => "trash.php",
+    "default_navigation_part" => 'ezcontentnavigationpart',
     "params" => array( ),
     "unordered_params" => array( "offset" => "Offset" ) );
 
-
-
 $ViewList["translations"] = array(
     "functions" => array( 'edit' ),
+    "default_navigation_part" => 'ezsetupnavigationpart',
     "script" => "translations.php",
     'single_post_actions' => array( 'RemoveButton' => 'Remove',
                                     'StoreButton' => 'StoreNew',

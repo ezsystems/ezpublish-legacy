@@ -20,6 +20,8 @@ links to clickable links.
   and allows automatic conversion when older versions are detected.
   Use update/common/scripts/updateurllink.php to update all XML fields.
 - Some fixes to session cleanup.
+- Added navigation parts to provide tabbed interface.
+
 
 *SDK :
 

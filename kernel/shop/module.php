@@ -38,14 +38,17 @@ $Module = array( "name" => "eZShop",
 $ViewList = array();
 $ViewList["orderview"] = array(
     "script" => "orderview.php",
+    "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array( "OrderID" ) );
 
 $ViewList["basket"] = array(
     "script" => "basket.php",
+    "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array(  ) );
 
 $ViewList["register"] = array(
     "script" => "register.php",
+    "default_navigation_part" => 'ezshopnavigationpart',
     'single_post_actions' => array( 'StoreButton' => 'Store',
                                     'CancelButton' => 'Cancel'
                                     ),
@@ -53,35 +56,44 @@ $ViewList["register"] = array(
 
 $ViewList["wishlist"] = array(
     "script" => "wishlist.php",
+    "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array(  ) );
 
 $ViewList["orderlist"] = array(
     "script" => "orderlist.php",
+    "default_navigation_part" => 'ezshopnavigationpart',
     "unordered_params" => array( "offset" => "Offset" ),
     "params" => array(  ) );
 
 $ViewList["confirmorder"] = array(
     "script" => "confirmorder.php",
+    "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array(  ) );
 
 $ViewList["checkout"] = array(
     "script" => "checkout.php",
+    "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array(  ) );
 
 $ViewList["vattype"] = array(
     "script" => "vattype.php",
+    "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array(  ) );
 
 $ViewList["discountgroup"] = array(
     "script" => "discountgroup.php",
+    "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array(  ) );
 $ViewList["discountgroupedit"] = array(
     "script" => "discountgroupedit.php",
+    "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array( 'DiscountGroupID' ) );
 $ViewList["discountruleedit"] = array(
     "script" => "discountruleedit.php",
+    "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array( 'DiscountGroupID', 'DiscountRuleID'  ) );
 $ViewList["discountgroupview"] = array(
     "script" => "discountgroupmembershipview.php",
+    "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array( 'DiscountGroupID' ) );
 ?>

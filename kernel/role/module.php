@@ -37,16 +37,20 @@ $Module = array( "name" => "eZRole" );
 $ViewList = array();
 $ViewList["list"] = array(
     "script" => "list.php",
+    "default_navigation_part" => 'ezusernavigationpart',
     "params" => array(  ) );
 $ViewList["edit"] = array(
     "script" => "edit.php",
+    "default_navigation_part" => 'ezusernavigationpart',
     "params" => array( "RoleID" ) );
 $ViewList["view"] = array(
     "script" => "view.php",
+    "default_navigation_part" => 'ezusernavigationpart',
     "params" => array( "RoleID" ) );
 
 $ViewList["assign"] = array(
     "script" => "assign.php",
+    "default_navigation_part" => 'ezusernavigationpart',
     "params" => array( "RoleID" ) );
 
 

@@ -37,12 +37,17 @@ $Module = array( "name" => "eZSection" );
 $ViewList = array();
 $ViewList['list'] = array(
     'script' => 'list.php',
+    "default_navigation_part" => 'ezsetupnavigationpart',
     'params' => array( ) );
+
 $ViewList['edit'] = array(
     'script' => 'edit.php',
+    "default_navigation_part" => 'ezsetupnavigationpart',
     'params' => array( "SectionID" ) );
+
 $ViewList['assign'] = array(
     'script' => 'assign.php',
+    "default_navigation_part" => 'ezsetupnavigationpart',
     'params' => array( "SectionID" ) );
 
 
