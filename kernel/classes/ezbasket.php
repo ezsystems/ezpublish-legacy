@@ -74,6 +74,8 @@ class eZBasket extends eZPersistentObject
     {
         if ( $attr == "items" )
             return $this->items();
+        else if ( $attr == "total" )
+            return $this->total();
         else if ( $attr == "is_empty" )
             return $this->isEmpty();
         else
@@ -83,6 +85,8 @@ class eZBasket extends eZPersistentObject
     function hasAttribute( $attr )
     {
         if ( $attr == "items" )
+            return true;
+        else if ( $attr == "total" )
             return true;
         else if ( $attr == "is_empty" )
             return true;
@@ -98,6 +102,18 @@ class eZBasket extends eZPersistentObject
                                                           null, null,
                                                           $asObject );
         return $items;
+    }
+
+    function &total()
+    {
+        $items =& $this->items();
+
+        $total = 0.0;
+        foreach ( $items as $item )
+        {
+            $total += $item->totalPrice();
+        }
+        return $total;
     }
 
     function removeItem( $itemID )

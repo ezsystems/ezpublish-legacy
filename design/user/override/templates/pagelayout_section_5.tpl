@@ -72,10 +72,25 @@
         {section name=Folder loop=$folder_list}
         <tr> 
             <td bgcolor="#dddddd">
-            &nbsp;<a class="small" href={concat("/content/view/full/",$Folder:item.node_id,"/")|ezurl}>{$Folder:item.name}</a>
+            &nbsp;<a class="small" href={concat("content/view/full/",$Folder:item.node_id,"/")|ezurl}>{$Folder:item.name}</a>
             </td>
         </tr>
         {/section}
+        <tr> 
+            <td bgcolor="#dddddd">
+            &nbsp;<a class="small" href={"user/login/"|ezurl}>Login</a>
+            </td>
+        </tr>
+        <tr> 
+            <td bgcolor="#dddddd">
+            &nbsp;<a class="small" href={"shop/basket/"|ezurl}>Basket</a>
+            </td>
+        </tr>
+        <tr> 
+            <td bgcolor="#dddddd">
+            &nbsp;<a class="small" href={"shop/wishlist/"|ezurl}>Wish list</a>
+            </td>
+        </tr>
         <tr> 
             <td bgcolor="#ababab">
             <form action={"/content/search/"|ezurl} method="get">
