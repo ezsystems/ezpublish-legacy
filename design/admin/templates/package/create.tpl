@@ -5,7 +5,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 <h1 class="context-title">
-    {'Create package'|i18n('design/standard/package')}
+    {'Create package'|i18n('design/admin/package')}
 </h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
@@ -18,8 +18,8 @@
 
 
 
-    <h2>{'Available wizards'|i18n('design/standard/package')}</h2>
-    <p>{'Choose one of the following wizards for creating a package'|i18n('design/standard/package')}</p>
+    <h2>{'Available wizards'|i18n('design/admin/package')}</h2>
+    <p>{'Choose one of the following wizards for creating a package'|i18n('design/admin/package')}</p>
 
     <div class="creatorlist">
     <ul>
@@ -36,7 +36,7 @@
 
 
     <div class="block">
-        <input class="button" type="submit" name="CreatePackageButton" value="{'Create package'|i18n('design/standard/package')}" />
+        <input class="button" type="submit" name="CreatePackageButton" value="{'Create package'|i18n('design/admin/package')}" />
     </div>
 
     </div>

@@ -11,7 +11,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'Upload package'|i18n('design/standard/package')}</h1>
+<h1 class="context-title">{'Upload package'|i18n('design/admin/package')}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -23,7 +23,7 @@
 
 <form enctype="multipart/form-data" method="post" action={'package/upload'|ezurl}>
 
-    <p>{'Select the file containing your package and click the upload button'|i18n('design/standard/package')}</p>
+    <p>{'Select the file containing your package and click the upload button'|i18n('design/admin/package')}</p>
 
     <input type="hidden" name="MAX_FILE_SIZE" value="32000000" />
     <input name="PackageBinaryFile" type="file" />
@@ -36,7 +36,7 @@
 
 
     <div class="block">
-        <input class="button" type="submit" name="UploadPackageButton" value="{'Import package'|i18n('design/standard/package')}" />
+        <input class="button" type="submit" name="UploadPackageButton" value="{'Import package'|i18n('design/admin/package')}" />
     </div>
 
 </form>

@@ -8,11 +8,11 @@
 
 {section show=$current_step.next_step}
     <div class="block">
-        <input class="button" type="submit" name="NextStepButton" value="{'Next %arrowright'|i18n( 'design/standard/package',, hash( '%arrowright', '&raquo;' ) )}" />
+        <input class="button" type="submit" name="NextStepButton" value="{'Next %arrowright'|i18n( 'design/admin/package',, hash( '%arrowright', '&raquo;' ) )}" />
     </div>
 {section-else}
     <div class="block">
-        <input class="button" type="submit" name="NextStepButton" value="{'Finish'|i18n( 'design/standard/package' )}" />
+        <input class="button" type="submit" name="NextStepButton" value="{'Finish'|i18n( 'design/admin/package' )}" />
     </div>
 {/section}
 
