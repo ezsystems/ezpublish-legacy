@@ -269,10 +269,13 @@ class eZTemplateFileResource
                 }
                 if ( eZTemplate::isDebugEnabled() )
                     eZDebug::writeNotice( "$path, $charset" );
-                $codec =& eZTextCodec::instance( $charset );
-                eZDebug::accumulatorStart( 'templage_resource_conversion', 'template_total', 'String conversion in template resource' );
-                $text = $codec->convertString( $text );
-                eZDebug::accumulatorStop( 'templage_resource_conversion', 'template_total', 'String conversion in template resource' );
+                $codec =& eZTextCodec::instance( $charset, false, false );
+                if ( $codec )
+                {
+                    eZDebug::accumulatorStart( 'templage_resource_conversion', 'template_total', 'String conversion in template resource' );
+                    $text = $codec->convertString( $text );
+                    eZDebug::accumulatorStop( 'templage_resource_conversion', 'template_total', 'String conversion in template resource' );
+                }
                 $result = true;
                 if ( eZTemplate::isDebugEnabled() )
                 {
