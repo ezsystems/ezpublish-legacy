@@ -107,7 +107,15 @@ class eZDBInterface
         }
 
         $ini =& eZINI::instance();
-        $this->OutputSQL = $ini->variable( "DatabaseSettings", "SQLOutput" ) == "enabled";
+        if ( ( $ini->variable( "DatabaseSettings", "SQLOutput" ) == "enabled" ) and
+             ( $ini->variable( "DebugSettings", "DebugOutput" ) == "enabled" ) )
+        {
+            $this->OutputSQL = true;
+        }
+        else
+        {
+            $this->OutputSQL = false;
+        }
 
         $this->IsConnected = false;
         $this->NumQueries = 0;
