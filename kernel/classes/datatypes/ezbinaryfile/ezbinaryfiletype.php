@@ -198,11 +198,33 @@ class eZBinaryFileType extends eZDataType
     }
 
     /*!
+     Checks if file uploads are enabled, if not it gives a warning.
+    */
+    function checkFileUploads()
+    {
+        $isFileUploadsEnabled = ini_get( 'file_uploads' );
+        if ( !$isFileUploadsEnabled )
+        {
+            $isFileWarningAdded =& $GLOBALS['eZBinaryFileTypeWarningAdded'];
+            if ( !isset( $isFileWarningAdded ) or
+                 !$isFileWarningAdded )
+            {
+                eZAppendWarningItem( array( 'error' => array( 'type' => 'kernel',
+                                                              'number' => EZ_ERROR_KERNEL_NOT_AVAILABLE ),
+                                            'text' => ezi18n( 'kernel/classes/datatype/ezbinaryfiletype',
+                                                              'File uploading is not enabled, no file handling can be performed.' ) ) );
+                $isFileWarningAdded = true;
+            }
+        }
+    }
+
+    /*!
      Validates the input and returns true if the input was
      valid for this datatype.
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
+        eZBinaryFileType::checkFileUploads();
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
         if ( $classAttribute->attribute( "is_required" ) == true )
         {
@@ -229,6 +251,7 @@ class eZBinaryFileType extends eZDataType
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
+        eZBinaryFileType::checkFileUploads();
         if ( !eZHTTPFile::canFetch( $base . "_data_binaryfilename_" . $contentObjectAttribute->attribute( "id" ) ) )
             return false;
 
@@ -285,6 +308,7 @@ class eZBinaryFileType extends eZDataType
 
     function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )
     {
+        eZBinaryFileType::checkFileUploads();
         if( $action == "delete_binary" )
         {
             $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );

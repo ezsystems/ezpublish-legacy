@@ -45,6 +45,7 @@ links to clickable links.
 - Added support for custom actions in content/browse.
 - Custom actions now works for more than one datatype in edit page.
 - Fixed problem with relation datatype not storing the selected object.
+- Binary file handler will now give a warning when file uploads are disabled.
 
 *SDK :
 
