@@ -96,15 +96,21 @@ if ( $searchSectionID != -1 )
     $res->setKeys( array( array( 'section', $searchSectionID ) ) );
 }
 
+$viewParameters = array( 'offset' => $Offset );
+
 $tpl->setVariable( "search_section_id", $searchSectionID );
 $tpl->setVariable( "search_result", $searchResult["SearchResult"] );
 $tpl->setVariable( "search_text", $searchText );
 $tpl->setVariable( "search_count", $searchResult["SearchCount"] );
 $tpl->setVariable( "stop_word_array", $searchResult["StopWordArray"] );
 
+$tpl->setVariable( "view_parameters", $viewParameters );
+
+// --- Compatability code start ---
 $tpl->setVariable( "offset", $Offset );
 $tpl->setVariable( "page_limit", $pageLimit );
 $tpl->setVariable( "search_text_enc", urlencode( $searchText ) );
+// --- Compatability code end ---
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:content/search.tpl" );

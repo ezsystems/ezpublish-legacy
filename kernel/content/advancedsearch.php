@@ -54,6 +54,7 @@ if ( $ViewMode == "offset" )
 $tpl =& templateInit();
 
 $searchText = '';
+$originalSearchText = '';
 $phraseSearchText = '';
 
 $pageLimit = 10;
@@ -71,7 +72,8 @@ if ( $http->hasVariable( "SearchText" ) )
 {
     if ( $searchText != "" )
         $searchText .= " ";
-    $searchText .= $http->variable( "SearchText" );
+    $originalSearchText = $http->variable( 'SearchText' );
+    $searchText .= $originalSearchText;
     $fullSearchText = $http->variable( "SearchText" );
 }
 
@@ -135,14 +137,22 @@ $searchResult =& eZSearch::search( $searchText, array( "SearchSectionID" => $sea
                                                        "SearchLimit" => $pageLimit,
                                                        "SearchOffset" => $Offset ) );
 
+$viewParameters = array( 'offset' => $Offset );
+
 $tpl->setVariable( "search_contentclass_id", $searchContentClassID );
+$tpl->setVariable( 'search_contentclass_attribute_id', $searchContentClassAttributeID );
 $tpl->setVariable( "search_section_id", $searchSectionID );
 $tpl->setVariable( "search_date", $searchDate );
 $tpl->setVariable( "search_sub_tree", $subTreeArray );
 
+$tpl->setVariable( "view_parameters", $viewParameters );
+
+// --- Compatability code start ---
 $tpl->setVariable( "offset", $Offset );
 $tpl->setVariable( "page_limit", $pageLimit );
-$tpl->setVariable( "search_text_enc", urlencode( $searchText ) );
+$tpl->setVariable( "search_text_enc", urlencode( $originalSearchText ) );
+$tpl->setVariable( 'phrase_search_text_enc', urlencode( $phraseSearchText ) );
+// --- Compatability code end ---
 
 $tpl->setVariable( "search_result", $searchResult["SearchResult"] );
 $tpl->setVariable( "search_count", $searchResult["SearchCount"] );
