@@ -3,7 +3,7 @@
   <name>Folder</name>
   <identifier>folder</identifier>
   <remote-id>a3d405b81be900468eb153d774f4f0d2</remote-id>
-  <object-name-pattern> &lt;short_name|name&gt;</object-name-pattern>
+  <object-name-pattern>&lt;short_name|name&gt;</object-name-pattern>
   <remote>
     <site-url>http://ez.no/</site-url>
     <url>http://ez.no/class/view/1</url>
@@ -13,7 +13,7 @@
     </groups>
     <id>1</id>
     <created>1024392098</created>
-    <modified>1082454875</modified>
+    <modified>1083915155</modified>
     <creator>
       <user-id>14</user-id>
       <user-login>admin</user-login>

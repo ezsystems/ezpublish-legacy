@@ -17,14 +17,16 @@
         {attribute_view_gui attribute=$node.object.data_map.question}
         </div>
 
+        {section show=is_unset( $versionview_mode )}
         <input class="button" type="submit" name="ActionCollectInformation" value="Vote" />
+        {/section}
 
         </form>
 
         <div class="content-results">
-            <p>
-            <a href={concat( "/content/collectedinfo/", $node.node_id, "/" )|ezurl}>{"Result"|i18n("design/base")}</a>
-            </p>
+            <div class="attribute-link">
+                <p><a href={concat( "/content/collectedinfo/", $node.node_id, "/" )|ezurl}>{"Result"|i18n("design/base")}</a></p>
+            </div>
         </div>
 
     </div>

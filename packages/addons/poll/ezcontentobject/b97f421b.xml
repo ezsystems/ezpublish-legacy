@@ -3,19 +3,21 @@
   <object-list>
     <object xmlns:ezremote="http://ez.no/ezobject"
             ezremote:id="104"
-            name=" Polls"
+            name="Polls"
             ezremote:section_id="1"
             ezremote:owner_id="14"
             ezremote:class_id="1"
-            ezremote:published="Apr 21 2004 15:44:07"
-            ezremote:modified="Apr 21 2004 15:44:07"
+            ezremote:published="Wed, 21 Apr 2004 13:44:07 GMT"
+            ezremote:modified="Fri, 07 May 2004 07:34:04 GMT"
             remote_id="b190034e826df5a844b3ea4f23903269"
             class_remote_id="a3d405b81be900468eb153d774f4f0d2"
             ezremote:class_identifier="folder">
-      <version-list active_version="1"
+      <version-list active_version="2"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version version="1"
-                          status="1">
+        <ezobject:version ezremote:version="2"
+                          ezremote:status="1"
+                          ezremote:created="Fri, 07 May 2004 07:33:57 GMT"
+                          ezremote:modified="Fri, 07 May 2004 07:34:04 GMT">
           <ezobject:object-translation language="eng-GB">
             <ezobject:attribute ezremote:id="281"
                                 ezremote:identifier="name"
@@ -61,7 +63,7 @@
                              remote-id="b190034e826df5a844b3ea4f23903269"
                              sort-field="published"
                              sort-order="0"
-                             priority="0" />
+                             priority="50" />
           </ezobject:node-assignment-list>
         </ezobject:version>
       </version-list>
@@ -72,15 +74,17 @@
             ezremote:section_id="1"
             ezremote:owner_id="14"
             ezremote:class_id="23"
-            ezremote:published="Apr 21 2004 15:45:29"
-            ezremote:modified="Apr 21 2004 15:45:29"
+            ezremote:published="Wed, 21 Apr 2004 13:45:29 GMT"
+            ezremote:modified="Wed, 21 Apr 2004 13:45:29 GMT"
             remote_id="6cdb0055aedee0c1f8287dafd559f7a8"
             class_remote_id="2c36dfb0094fdec1393bf8d6e635f26d"
             ezremote:class_identifier="poll">
       <version-list active_version="1"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version version="1"
-                          status="1">
+        <ezobject:version ezremote:version="1"
+                          ezremote:status="1"
+                          ezremote:created="Wed, 21 Apr 2004 13:44:28 GMT"
+                          ezremote:modified="Wed, 21 Apr 2004 13:45:29 GMT">
           <ezobject:object-translation language="eng-GB">
             <ezobject:attribute ezremote:id="286"
                                 ezremote:identifier="name"
@@ -130,64 +134,6 @@
                              sort-order="0"
                              priority="0" />
           </ezobject:node-assignment-list>
-        </ezobject:version>
-      </version-list>
-    </object>
-    <object xmlns:ezremote="http://ez.no/ezobject"
-            ezremote:id="108"
-            name="Music tase poll"
-            ezremote:section_id="1"
-            ezremote:owner_id="14"
-            ezremote:class_id="23"
-            ezremote:published="Apr 21 2004 17:56:17"
-            ezremote:modified="Apr 22 2004 08:40:25"
-            remote_id="11f82b6115fff83559101249ddad3e80"
-            class_remote_id="2c36dfb0094fdec1393bf8d6e635f26d"
-            ezremote:class_identifier="poll">
-      <version-list active_version="2"
-                    xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version version="2"
-                          status="1">
-          <ezobject:object-translation language="eng-GB">
-            <ezobject:attribute ezremote:id="289"
-                                ezremote:identifier="name"
-                                name="Name"
-                                type="ezstring">
-              <text>Music tase poll</text>
-            </ezobject:attribute>
-            <ezobject:attribute ezremote:id="290"
-                                ezremote:identifier="description"
-                                name="Description"
-                                type="ezxmltext">
-              <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-                       xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-                       xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-                <paragraph>We&apos;re trying to figure out what kind of music our visitors like.</paragraph>
-              </section>
-            </ezobject:attribute>
-            <ezobject:attribute ezremote:id="291"
-                                ezremote:identifier="question"
-                                name="Question"
-                                type="ezoption">
-              <data-int>0</data-int>
-              <data-float>0</data-float>
-              <data-text>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;ezoption&gt;
-  &lt;name&gt;What&amp;apos;s your favourite music?&lt;/name&gt;
-  &lt;options&gt;
-    &lt;option id=&quot;0&quot;
-            additional_price=&quot;&quot;&gt;Pop&lt;/option&gt;
-    &lt;option id=&quot;1&quot;
-            additional_price=&quot;&quot;&gt;Rock&lt;/option&gt;
-    &lt;option id=&quot;2&quot;
-            additional_price=&quot;&quot;&gt;Jazz&lt;/option&gt;
-    &lt;option id=&quot;3&quot;
-            additional_price=&quot;&quot;&gt;Other&lt;/option&gt;
-  &lt;/options&gt;
-&lt;/ezoption&gt;</data-text>
-            </ezobject:attribute>
-          </ezobject:object-translation>
-          <ezobject:node-assignment-list />
         </ezobject:version>
       </version-list>
     </object>
@@ -414,6 +360,6 @@
   </site-access-list>
   <top-node-list>
     <top-node node-id="106"
-              remote-id="b190034e826df5a844b3ea4f23903269"> Polls</top-node>
+              remote-id="b190034e826df5a844b3ea4f23903269">Polls</top-node>
   </top-node-list>
 </content-object>
