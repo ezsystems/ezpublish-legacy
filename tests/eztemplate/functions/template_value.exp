@@ -1,0 +1,4 @@
+Type of $somevar as input is: 'integer'
+Type of $somevar as parameter is: 'integer'
+Equality check as input: '1'
+Equality check as parameter: '1'
