@@ -312,7 +312,7 @@ $ViewList['translations'] = array(
                                                             'TranslationLocale' => 'TranslationLocale' ),
                                        'Remove' => array( 'SelectedTranslationList' => 'DeleteIDArray' ),
                                        'Confirm' => array( 'ConfirmList' => 'ConfirmTranlationID' ) ),
-    'params' => array( ) );
+    'params' => array( 'TranslationID' ) );
 
 $ViewList['tipafriend'] = array(
     'functions' => array( 'read' ),

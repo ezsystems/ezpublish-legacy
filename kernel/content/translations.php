@@ -44,7 +44,6 @@ $tpl =& templateInit();
 $http =& eZHTTPTool::instance();
 $Module =& $Params['Module'];
 
-
 $tpl->setVariable( 'module', $Module );
 
 
@@ -132,6 +131,28 @@ if ( $Module->isCurrentAction( 'Remove' ) )
 }
 
 
+if ( $Params['TranslationID'] )
+{
+
+    $translation =& eZContentTranslation::fetch( $Params['TranslationID'] );
+
+    if( !$translation )
+    {
+        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    }
+
+    $translatedObjectsCount = $translation->translatedObjectsCount();
+
+    $tpl->setVariable( 'translation',  $translation );
+    $tpl->setVariable( 'object_count', $translatedObjectsCount );
+
+    $Result['content'] =& $tpl->fetch( 'design:content/translationview.tpl' );
+    $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Content translations' ),
+                                'url' => false ) );
+    return;
+}
+
+
 $translations = eZContentTranslation::fetchList();
 foreach ( array_keys( $translations ) as $translationKey )
 {
@@ -152,7 +173,6 @@ foreach( $translations as $currentTranslation )
 
 $tpl->setVariable( 'existing_translations', $translations );
 $tpl->setVariable( 'available_translations', $availableTranslations );
-$tpl->setVariable( 'module', $Module );
 
 //$tpl->setVariable( 'workflow_list', $workflowList );
 
