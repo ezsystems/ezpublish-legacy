@@ -3,6 +3,7 @@
 {*{my_gui attribute=$obj}*}
 {*{my_gui_view view=first attribute=$obj}*}
 
+{*
 Sum, Sub and Mul tests
 {sum( 4, 7, 6 )}
 {9|sum( -12 )}
@@ -149,7 +150,6 @@ Ge/Gt/Le/Lt
 
 {"foo"|concat( "bar" )}
 {concat( "baz", "barbara" )}
-*}
 
 {let indent=4}
 {"test"|indent( $indent, 'tab' )}
@@ -160,3 +160,127 @@ Ge/Gt/Le/Lt
 {"test"|indent( 4, 'tab' )}
 {"test"|indent( 4, 'space' )}
 {"test"|indent( 4, 'custom', 'foo ' )}
+
+{upfirst("derick rethans")}
+
+{"Derick Rethans"|countwords}
+{countwords( "Derick Rethans" )}
+                                                                                                                                              
+{let text="Derick Rethans"}
+{$text|countwords}
+{countwords( $text )}
+{/let}
+
+
+{"derick"|ord}
+{ord( 'derick' )}
+
+{let str='derick'}
+{$str|ord}
+{ord( $str )}
+{/let}
+
+{array( 99,98,100,102 )|chr}
+{chr( array( 99,98,100,102 ) )}
+
+{"foo"|pad( 16 )}
+{pad( "foo", 16)}
+
+{"bar"|pad( 16, '<' )}
+{pad( "bar", 16, '<' )}
+
+{let str='barbarella'}
+{$str|pad( 16 )}
+{pad( $str, 16)}
+
+{$str|pad( 16, '<' )}
+{pad( $str, 16, '<' )}
+{/let}
+
+{"Derick Rethans"|shorten( 8 )}
+{"Derick Rethans"|shorten( 9 )}
+{"Derick Rethans"|shorten( 10 )}
+{"Derick Rethans"|shorten( 11 )}
+{"Derick Rethans"|shorten( 12 )}
+{"Derick Rethans"|shorten( 13 )}
+{"Derick Rethans"|shorten( 14 )}
+
+{let str="Derick Rethans"}
+{$str|shorten( 15 )}
+{$str|shorten( 16 )}
+
+{$str|shorten( 8, '....' )}
+{$str|shorten( 9, '....' )}
+{$str|shorten( 10, '....' )}
+{$str|shorten( 11, '....' )}
+{/let}
+
+{"Derick Rethans"|shorten( 12, '....' )}
+{"Derick Rethans"|shorten( 13, '....' )}
+{"Derick Rethans"|shorten( 14, '....' )}
+{"Derick Rethans"|shorten( 15, '....' )}
+{"Derick Rethans"|shorten( 16 )}
+
+{"We    don't    need   no whitespace!"|simplify}
+{"this____string__is___annoying"|simplify( "_" )}
+
+{let str="Blah,   thiis   iis   annoyiing"}
+{simplify( $str )}
+{simplify( $str, 'i' )}
+{$str|simplify( 'i' )}
+{/let}
+
+
+{"    Gizmo is not a gremlin.  "|trim}
+{"    Gizmo is not a gremlin.  "|trim}
+{"    Gizmo is not a gremlin.  "|trim(" .gremlin")}
+
+{let str="	De kat krapt
+"}
+{$str|trim}
+{$str|trim( "	D
+" )}
+{/let}
+
+{"Hello world"|wrap}
+{"Hello world"|wrap( 5 )}
+{"Hello world"|wrap( 8 )}
+{"Hello world"|wrap( 8, '-' )}
+{"Hello_world"|wrap( 8, '-', 1)}
+*}
+
+{"foo <bar>"|wash}
+{"foo <bar>"|wash( 'xhtml' )}
+
+{let str="<a href='http://www.ez.no'>www.ez.no</a>"}
+{$str|wash}
+{$str|wash( 'xhtml' )}
+{/let}
+
+{"	<a href='http://www.ez.no'>www.ez.no</a>"|wash( 'pdf' )}
+
+{let str="	<a href='http://www.ez.no'>www.ez.no</a>"}
+{$str|wash( 'pdf' )}
+{/let}
+
+
+{"info@ez.no"|wash( 'email' )}
+
+{let str="info@ez.no"}
+{$str|wash( 'email' )}
+{/let}
+
+
+{let str="Info <info@ez.no>" type="xhtml"}
+{$str|wash( $type )}
+{/let}
+
+{let str="Info <info@ez.no>" type="email"}
+{$str|wash( $type )}
+{/let}
+
+{let str="Info <info@ez.no>" type="pdf"}
+{$str|wash( $type )}
+{/let}
+
+END
