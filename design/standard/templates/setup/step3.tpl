@@ -39,6 +39,12 @@
 
     <p>
     <table border="0" cellspacing="5" cellpadding="0">
+    {section name=unpackDemo show=$unpackDemo}
+    <tr>
+        <td>Trying to unpack the demo data:</td>
+        <td>{$unpackDemo_msg}</td>
+    </tr>
+    {/section}
     <tr>
         <td>Trying to connect to database:</td>
         <td>{$dbConnect}</td>

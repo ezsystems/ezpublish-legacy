@@ -82,6 +82,10 @@ Now we need information about the database eZ publish should use.<br />
     <input type="hidden" name="{$handover:item.name}" value="{$handover:item.value}" />
     {/section}
 
+    {section name=unpackDemo show=$unpackDemo}
+	<p>Shall we install the demo data? <input type="checkbox" name="unpackDemo" value="true" checked /></p>
+	{/section}
+
     
     {* <input type="hidden" name="prevStep" value="{$prevStep}" /> *}
 	The next step might take some time. Please be patient.<br />
