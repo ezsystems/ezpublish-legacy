@@ -82,7 +82,7 @@ class eZFilePasstroughHandler extends eZBinaryFileHandler
             header( "Content-Length: $contentLength" );
             header( "Content-Type: $mimeType" );
             header( "X-Powered-By: eZ publish" );
-            header( "Content-disposition: attachment; filename=$originalFileName" );
+            header( "Content-disposition: attachment; filename=\"$originalFileName\"" );
             header( "Content-Transfer-Encoding: binary" );
             header( "Accept-Ranges: bytes" );
 
