@@ -1250,8 +1250,6 @@ CREATE TABLE ezpolicy (
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (317,3,'*','content','*');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (308,2,'*','*','*');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (319,3,'login','user','*');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (323,5,'*','content','*');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (324,5,'login','user','*');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (327,1,'login','user','*');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (328,1,'read','content','');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (329,1,'buy','shop','*');
@@ -1417,7 +1415,6 @@ CREATE TABLE ezrole (
 INSERT INTO ezrole (id, version, name, value) VALUES (1,0,'Anonymous','');
 INSERT INTO ezrole (id, version, name, value) VALUES (2,0,'Administrator','*');
 INSERT INTO ezrole (id, version, name, value) VALUES (3,0,'Editor','');
-INSERT INTO ezrole (id, version, name, value) VALUES (5,3,'Editor',NULL);
 
 --
 -- Table structure for table 'ezsearch_object_word_link'
@@ -2552,14 +2549,13 @@ CREATE TABLE ezworkflow_process (
 
 
 CREATE TABLE ezsite_data (
-  id int(11) auto_increment NOT NULL,
   name varchar(60) NOT NULL default '',
   value text NOT NULL default '',
-  PRIMARY KEY (id)
-);
+  PRIMARY KEY (name)
+) TYPE=MyISAM;
 
-INSERT INTO ezsite_data (name, value) VALUES('ezpublish-version', '3.2.0');
-INSERT INTO ezsite_data (name, value) VALUES('ezpublish-release', '2');
+INSERT INTO ezsite_data (name, value) VALUES('ezpublish-version', '3.2');
+INSERT INTO ezsite_data (name, value) VALUES('ezpublish-release', '1');
 
 CREATE INDEX ezorder_item_order_id ON ezorder_item( order_id );
 CREATE INDEX ezproductcollection_item_productcollection_id ON ezproductcollection_item( productcollection_id );

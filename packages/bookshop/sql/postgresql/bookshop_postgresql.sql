@@ -3551,8 +3551,6 @@ INSERT INTO ezorder (id, user_id, productcollection_id, created, is_temporary, o
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (317,3,'*','content','*');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (308,2,'*','*','*');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (319,3,'login','user','*');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (323,5,'*','content','*');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (324,5,'login','user','*');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (327,1,'login','user','*');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (328,1,'read','content','');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (329,1,'buy','shop','*');
@@ -3627,7 +3625,6 @@ INSERT INTO ezproductcollection_item (id, productcollection_id, contentobject_id
 INSERT INTO ezrole (id, version, name, value) VALUES (1,0,'Anonymous','');
 INSERT INTO ezrole (id, version, name, value) VALUES (2,0,'Administrator','*');
 INSERT INTO ezrole (id, version, name, value) VALUES (3,0,'Editor','');
-INSERT INTO ezrole (id, version, name, value) VALUES (5,3,'Editor',NULL);
 
 --
 -- Dumping data for table 'ezsearch_object_word_link'
@@ -4480,3 +4477,12 @@ CREATE INDEX ezproductcollection_item_productcollection_id ON ezproductcollectio
 CREATE INDEX ezurlalias_source_url ON ezurlalias(source_url(255));
 CREATE INDEX ezcontentobject_attribute_co_id_ver_lang_code ON ezcontentobject_attribute( contentobject_id, version, language_code);
 
+
+CREATE TABLE ezsite_data (
+  name varchar(60) NOT NULL default '',
+  value text NOT NULL default '',
+  PRIMARY KEY (name)
+);
+
+INSERT INTO ezsite_data (name, value) VALUES('ezpublish-version', '3.2');
+INSERT INTO ezsite_data (name, value) VALUES('ezpublish-release', '1');
