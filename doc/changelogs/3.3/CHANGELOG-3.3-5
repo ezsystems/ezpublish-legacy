@@ -71,6 +71,8 @@ eZINI:
   http://ez.no/community/bug_reports/wishlist
 - Fixed bug in generated datatype code
   http://ez.no/community/bug_reports/setup_rad_datatype_assistent_ezdatatype_register
+- Fixed bug missing escape of value for attribute filter
+  http://ez.no/community/bug_reports/attributefilter_and_slashes
 
 
 *Library:

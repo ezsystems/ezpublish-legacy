@@ -718,6 +718,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $filterCount = $sortCount;
             $justFilterCount = 0;
 
+            $db =& eZDB::instance();
             if ( is_array( $filterArray ) )
             {
                 // Handle attribute filters and generate SQL
@@ -725,7 +726,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 {
                     $filterAttributeID = $filter[0];
                     $filterType = $filter[1];
-                    $filterValue = $filter[2];
+                    $filterValue = $db->escapeString( $filter[2] );
 
                     $useAttributeFilter = false;
                     switch ( $filterAttributeID )
