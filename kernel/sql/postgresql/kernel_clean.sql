@@ -592,9 +592,9 @@ CREATE TABLE "ezorder" (
 	"user_id" integer NOT NULL,
 	"productcollection_id" integer NOT NULL,
 	"created" integer NOT NULL,
+    "is_temporary" integer not null default '1'
 	Constraint "ezorder_pkey" Primary Key ("id")
 );
-
 
 
 --
@@ -1320,6 +1320,26 @@ CREATE TABLE eznotification_user_link (
   PRIMARY KEY  (rule_id,user_id)
 );
 
+
+
+
+CREATE SEQUENCE "ezdiscountrule_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
+CREATE TABLE ezdiscountrule (
+    id integer DEFAULT nextval('ezdiscountrule_s'::text)  NOT NULL,
+    name varchar(255) NOT NULL,
+    PRIMARY KEY  (id)
+ );
+
+
+CREATE SEQUENCE "ezorder_item_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
+create table ezorder_item(
+    id integer primary key DEFAULT nextval('ezorder_item_s'::text) NOT NULL,
+    order_id int not null,
+    description varchar(255),
+    price float,
+    vat_is_included int,
+    vat_type_id int
+    );
 
 
 

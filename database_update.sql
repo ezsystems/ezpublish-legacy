@@ -147,6 +147,9 @@ alter table eznode_assignment change main is_main int not null;
 alter table ezcontentobject drop main_node_id;
 alter table ezcontentobject drop permission_id;
 alter table ezcontentobject_tree add column main_node_id integer;
+update ezcontentobject_tree set contentobject_version=1;
+update ezcontentobject_tree set contentobject_version=1;
+insert into ezcontentobject_name  select id,name,current_version, 'eng-GB', 'eng-GB' from ezcontentobject;
 
 CREATE TABLE ezdiscountrule (
     id int(11) NOT NULL auto_increment,

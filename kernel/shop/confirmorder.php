@@ -66,39 +66,17 @@ if ( get_class( $order ) == 'ezorder' )
 }
 
 
-// Create a custom order item
 
-$orderItem = new eZOrderItem( array( 'order_id' => $orderID,
-                                     'description' => 'Shipping',
-                                     'price' => 42.0,
-                                     'vat_is_included' => true,
-                                     'vat_type_id' => 1 )
-                              );
-$orderItem->store();
+include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+$operationResult = eZOperationHandler::execute( 'shop', 'confirmorder', array( 'order_id' => $order->attribute( 'id' ) ) );
 
-$orderItem = new eZOrderItem( array( 'order_id' => $orderID,
-                                     'description' => 'Handling',
-                                     'price' => 12.0,
-                                     'vat_is_included' => true,
-                                     'vat_type_id' => 1 )
-                              );
-$orderItem->store();
+switch( $operationResult['status'] )
+{
+    case EZ_MODULE_OPERATION_CONTINUE:
+    {
+    }
+}
 
-$orderItem = new eZOrderItem( array( 'order_id' => $orderID,
-                                     'description' => 'Gift certificate',
-                                     'price' => -10.0,
-                                     'vat_is_included' => true,
-                                     'vat_type_id' => 1 )
-                              );
-$orderItem->store();
-
-$orderItem = new eZOrderItem( array( 'order_id' => $orderID,
-                                     'description' => 'DIll dall',
-                                     'price' => 13.0,
-                                     'vat_is_included' => true,
-                                     'vat_type_id' => 1 )
-                              );
-$orderItem->store();
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:shop/confirmorder.tpl" );
