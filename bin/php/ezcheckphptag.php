@@ -70,6 +70,7 @@ $pathList = $options['arguments'];
 $error = false;
 $badFiles = array();
 
+$shellTag = '#!';
 $startTag = '<?php';
 $shortStartTag = '<?';
 $endTag = '?>';
@@ -102,7 +103,11 @@ foreach ( $pathList as $path )
             $hasCorrectStart = false;
             $hasCorrectEnd = false;
             $errorText = array();
-            if ( $startText == $startTag )
+            if ( substr( $startText, 0, 2 ) == $shellTag )
+            {
+                $hasCorrectStart = true;
+            }
+            else if ( $startText == $startTag )
             {
                 $hasCorrectStart = true;
             }
