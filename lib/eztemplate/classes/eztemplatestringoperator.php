@@ -239,9 +239,11 @@ function modify( &$tpl,
             if ( strlen( $operatorValue <= $namedParameters['chars_to_keep'] ) )
             {
                 $chop = $namedParameters['chars_to_keep'] - strlen( $namedParameters['str_to_append'] );
+                $operatorLength = strlen( $operatorValue );
                 $operatorValue = substr( $operatorValue, 0, $chop );
                 $operatorValue = trim( $operatorValue );
-                $operatorValue = $operatorValue.$namedParameters['str_to_append'];
+                if ( $operatorLength > $chop )
+                    $operatorValue = $operatorValue.$namedParameters['str_to_append'];
             }
         }break;
 

@@ -119,6 +119,7 @@ class eZContentObject extends eZPersistentObject
                       "keys" => array( "id" ),
                       "function_attributes" => array( "current" => "currentVersion",
                                                       'versions' => 'versions',
+                                                      'author_array' => 'authorArray',
                                                       "class_name" => "className",
                                                       "content_class" => "contentClass",
                                                       "contentobject_attributes" => "contentObjectAttributes",
@@ -149,6 +150,7 @@ class eZContentObject extends eZPersistentObject
     {
         if ( $attr == "current" or
              $attr == 'versions' or
+             $attr == 'author_array' or
              $attr == "class_name" or
              $attr == "content_class" or
              $attr == "owner" or
@@ -169,6 +171,8 @@ class eZContentObject extends eZPersistentObject
                 return $this->currentVersion();
             else if ( $attr == 'versions' )
                 return $this->versions();
+            else if ( $attr == 'author_array' )
+                return $this->authorArray();
             else if ( $attr == "class_name" )
                 return $this->className();
             else if ( $attr == 'content_class' )
@@ -2284,6 +2288,27 @@ class eZContentObject extends eZPersistentObject
         if ( $expiryTime > $timestamp )
             return true;
         return false;
+    }
+
+    /*!
+     Returns a list of all the authors for this object. The returned value is an
+     array of eZ user objects.
+    */
+    function &authorArray()
+    {
+        $db =& eZDB::instance();
+
+        $userArray = $db->arrayQuery( "SELECT DISTINCT ezuser.contentobject_id, ezuser.login, ezuser.email, ezuser.password_hash, ezuser.password_hash_type
+                                       FROM ezcontentobject_version, ezuser where ezcontentobject_version.contentobject_id='$this->ID'
+                                       AND ezcontentobject_version.creator_id=ezuser.contentobject_id" );
+
+        $return = array();
+
+        foreach ( $userArray as $userRow )
+        {
+            $return[] = new eZUser( $userRow );
+        }
+        return $return;
     }
 
     var $ID;
