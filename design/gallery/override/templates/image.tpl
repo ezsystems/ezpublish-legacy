@@ -38,8 +38,8 @@
                                             limit, 1,
                                             attribute_filter, array( and, array( 'name', '>', $node.parent.object.name ) ),
                                             sort_by, array( 'name', true() ) ) )
-     previous_album_image=false()
-     next_album_image=false()}
+     previous_album_image=0
+     next_album_image=0}
 
 {section show=$previous_album|gt( 0 )}
     {set previous_album_image=fetch( content, list, hash( parent_node_id, $previous_album[0].node_id,

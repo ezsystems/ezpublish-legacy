@@ -22,8 +22,8 @@
                                             attribute_filter, array( and, array( 'name', '>', $node.object.name ) ),
                                             sort_by, array( 'name', true() ) ) )
      example_list=false()
-     previous_album_image=false()
-     next_album_image=false()
+     previous_album_image=0
+     next_album_image=0
      page_count=ceil( div( $image_count, $image_limit ) )}
 
 {section show=and( $is_preview, $image_list|eq( 0 ) )}
@@ -87,7 +87,7 @@
     {attribute_view_gui attribute=$node.object.data_map.description}
 
     <div class="info">
-      {section show=$page_count_count|gt( 1 )}
+      {section show=$page_count|gt( 1 )}
           <h2>{$image_count} images in this album on {$page_count} pages{section show=$example_list} (Examples only){/section}</h2>
       {section-else}
           <h2>{$image_count} images in this album{section show=$example_list} (Examples only){/section}</h2>
