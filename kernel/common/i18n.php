@@ -15,17 +15,31 @@ function ezcurrentLanguage()
  Translates the source \a $source with context \a $context and optional comment \a $comment
  and returns the translation.
  Uses eZTranslatorMananger::translate() to do the actual translation.
+
+ If the site.ini settings RegionalSettings/TextTranslation is set to disabled this function
+ will only return the source text.
 */
-function &ezi18n( $file, $context, $source, $comment = null )
+$ini =& eZINI::instance();
+if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
 {
-    $man =& eZTranslatorManager::instance();
-    $language =& ezcurrentLanguage();
-    eZTSTranslator::initialize( $language . '/' . $file . '.ts' );
-    $trans =& $man->translate( $context, $source, $comment );
-    if ( $trans !== null )
-        return $trans;
-    eZDebug::writeWarning( "No translation for file($file) in context($context): '$source' with comment($comment)", "ezi18n" );
-    return $source;
+    function &ezi18n( $file, $context, $source, $comment = null )
+        {
+            $man =& eZTranslatorManager::instance();
+            $language =& ezcurrentLanguage();
+            eZTSTranslator::initialize( $language . '/' . $file . '.ts' );
+            $trans =& $man->translate( $context, $source, $comment );
+            if ( $trans !== null )
+                return $trans;
+            eZDebug::writeWarning( "No translation for file($file) in context($context): '$source' with comment($comment)", "ezi18n" );
+            return $source;
+        }
+}
+else
+{
+    function &ezi18n( $file, $context, $source, $comment = null )
+        {
+            return $source;
+        }
 }
 
 ?>

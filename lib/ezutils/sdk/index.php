@@ -21,10 +21,16 @@ files are compiled to PHP files so the library is very fast.
 <li>PHP errors can be captured and handled by eZ debug.</li>
 </ul>
 <p>
-The ezsys class analyzes the system for various settings.
+eZ sys&trade; analyzes the system for various settings.
 The system is checked to see whether a virtualhost-less setup is used
 and sets the appropriate variables which can be easily fetched.
 It also detects file and enviroment separators</p>
+<p>
+eZ module&trade; is interface for doing separated module/view handling. Each module is a separate
+group of views and functions. Each view is linked to a URL in the webpage but may also be reused
+by other modules/views. The class makes sure that the code doesn't have to read any URLs or HTTP
+variables. Instead it relies on having more abstract ways of doing this, such as actions.
+</p>
 <p>
 eZ httptool&trade; has various classes for HTTP access. It can read post, get and session variables,
 make objects persist between page views, fetch posted files and elegantly handle URIs.
@@ -41,6 +47,8 @@ $exampleArray[] = array( "uri" => "debug_settings",
                          "name" => "Debugging" );
 $exampleArray[] = array( "uri" => "sys_settings",
                          "name" => "Detected settings" );
+$exampleArray[] = array( "uri" => "module_handling",
+                         "name" => "Module handling" );
 
 $exampleArray[] = array( "level" => 0,
                          "name" => "HTTP" );
