@@ -41,7 +41,15 @@
 
 /*!
   \class eZTextFileUser eztextfileuser.php
-  \brief The class eZTextFileUser does
+  \brief Handles logins for users defined a simple text file
+
+  The handler will read the users from the text file defined in textfile.ini,
+  the file contains multiple users on separate lines. Each line is again
+  separated by a field-separator (default is tab).
+
+  Once a login is requested by a user the handler will do one of two things:
+  - Login the user with the existing user object found in the system
+  - Creates a new user with the information found in the text file and login with that user.
 
 */
 
@@ -156,8 +164,9 @@ class eZTextFileUser extends eZUser
             $user =& new eZUser( $userRow );
             eZDebugSetting::writeDebug( 'kernel-user', $user, 'user' );
             $userID = $user->attribute( 'contentobject_id' );
-            $GLOBALS["eZUserGlobalInstance_$userID"] =& $user;
-            $http->setSessionVariable( 'eZUserLoggedInID', $userRow['contentobject_id'] );
+
+            eZUser::setCurrentlyLoggedInUser( $user, $userID );
+
             return $user;
         }
         else if ( $textFileIni->variable( 'TextFileSettings', 'TextFileEnabled' ) == "true" )
@@ -283,8 +292,7 @@ class eZTextFileUser extends eZUser
                             $user->setAttribute( 'password_hash_type', 0 );
                             $user->store();
 
-                            $GLOBALS["eZUserGlobalInstance_$userID"] =& $user;
-                            $http->setSessionVariable( 'eZUserLoggedInID', $userID );
+                            eZUser::setCurrentlyLoggedInUser( $user, $userID );
 
                             include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
                             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID,
@@ -325,8 +333,9 @@ class eZTextFileUser extends eZUser
                                 $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $userID,
                                                                                                              'version' => $newVersionNr ) );
                             }
-                            $GLOBALS["eZUserGlobalInstance_$userID"] =& $existUser;
-                            $http->setSessionVariable( 'eZUserLoggedInID', $userID );
+
+                            eZUser::setCurrentlyLoggedInUser( $existUser, $userID );
+
                             return $existUser;
                         }
                     }

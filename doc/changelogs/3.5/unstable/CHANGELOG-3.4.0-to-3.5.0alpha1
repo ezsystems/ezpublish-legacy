@@ -237,6 +237,9 @@ eztc.php:
 - Fixed wrong urls in registration emails.
   http://ez.no/community/bug_reports/user_confirmation_e_mail_sends_bugged_link
   (Merged from stable/3.4 rev. 7167)
+- Updated the LDAP and textfile user handlers to use the new login code for 3.4
+  http://ez.no/community/bug_reports/ldap_login_handler_doesn_t_work
+  (Merged from stable/3.4 rev. 7170)
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
