@@ -36,6 +36,7 @@ include_once( "kernel/common/template.php" );
 
 $tpl =& templateInit();
 
+$Module =& $Params['Module'];
 $Type = $Params['Type'];
 $Number = $Params['Number'];
 $ExtraParameters = $Params['ExtraParameters'];
@@ -63,12 +64,20 @@ else
 
 if ( $Type == 'kernel' )
 {
-    if ( $Number == EZ_ERROR_KERNEL_NOT_FOUND or
-         $Number == EZ_ERROR_KERNEL_NOT_AVAILABLE or
-         $Number == EZ_ERROR_KERNEL_MODULE_NOT_FOUND or
-         $Number == EZ_ERROR_KERNEL_MODULE_VIEW_NOT_FOUND )
+    $error_ini =& eZINI::instance( 'error.ini' );
+
+    // Redirect if error.ini tells us to
+    $errorhandlers =& $error_ini->variable( 'ErrorSettings', 'ErrorHandler' );
+    $redirecturls =& $error_ini->variable( 'ErrorSettings', 'RedirectURL' );
+    if ( $errorhandlers[$Number] == 'redirect' &&
+         isSet( $redirecturls[$Number] ) )
     {
-        // Set apache error headers
+        return $Module->redirectTo( $redirecturls[$Number] );
+    }
+
+    // Set apache error headers if error.ini tells us to
+    if ( in_array( $Number, $error_ini->variableArray( 'ErrorSettings', 'NotFoundErrors' ) ) )
+    {
         header( eZSys::serverVariable( 'SERVER_PROTOCOL' ) . " 404 Not Found" );
         header( "Status: 404 Not Found" );
     }

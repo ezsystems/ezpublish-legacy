@@ -119,6 +119,8 @@ Changes from 3.1-1 to 3.2.0-1
 - Removed unused parameter 'headers' from eZMail::extraHeaders() and updated description
 - Added ContentType setting in MailSettings in site.ini. If set, this will set the content type
   of all mail sent from eZ publish. Default is text/plain.
+- Added error.ini, which allows redirection and 404 on given error numbers.
+  Default is display error as usual.
 
 *Export:
 - Added start of export system. Currently only the generic package is exported.

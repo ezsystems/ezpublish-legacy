@@ -239,8 +239,12 @@ class eZModule
         if ( $module === null )
             return false;
         $result =& $module->run( $errorModule['view'], array( $errorType, $errorCode, $parameters ) );
-        $this->setExitStatus( EZ_MODULE_STATUS_FAILED );
-        $this->setErrorCode( $errorCode );
+        // The error module may want to redirect to another URL, see error.ini
+        if ( $this->exitStatus() != EZ_MODULE_STATUS_REDIRECT )
+        {
+            $this->setExitStatus( EZ_MODULE_STATUS_FAILED );
+            $this->setErrorCode( $errorCode );
+        }
         return $result;
     }
 
