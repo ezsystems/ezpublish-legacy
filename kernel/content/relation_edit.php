@@ -114,7 +114,10 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
         if ( $http->hasPostVariable( 'ClassID' ) )
         {
             $ini =& eZINI::instance();
-            $node =& eZContentObjectTreeNode::fetch( $ini->variable( "ContentSettings", "SurplusNode" ) );
+            $nodeID = $ini->variable( "ContentSettings", "SurplusNode" );
+            if ( !( $nodeID >= 0 ) )
+                $nodeID = 2;
+            $node =& eZContentObjectTreeNode::fetch( $nodeID );
             $parentContentObject =& $node->attribute( 'object' );
 
             if ( $parentContentObject->checkAccess( 'create', $http->postVariable( 'ClassID' ), $parentContentObject->attribute( 'contentclass_id' ) ) == '1' )
