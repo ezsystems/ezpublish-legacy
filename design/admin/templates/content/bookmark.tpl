@@ -26,7 +26,7 @@
     <td><input type="checkbox" name="DeleteIDArray[]" value="{$Bookmarks.item.id}" title="{'Select bookmark for removal.'|i18n( 'design/admin/content/bookmark' )}" /></td>
     <td>{$Bookmarks.item.node.object.content_class.identifier|class_icon( small, $Bookmarks.item.node.object.content_class.name )}&nbsp;<a href={concat( '/content/view/full/', $Bookmarks.item.node_id, '/' )|ezurl}>{$Bookmarks.item.node.name|wash}</a></td>
     <td>{$Bookmarks.item.node.object.content_class.name|wash}</td>
-    <td>{let section_object=fetch( section, object, hash( section_id, $Bookmarks.item.node.object.section_id ) )}{section show=$section_object}{$section_object.name|wash}{section-else}<i>{'Unknown section'|i18n( 'design/admin/content/draft' )}</i>{/section}{/let}</td>
+    <td>{let section_object=fetch( section, object, hash( section_id, $Bookmarks.item.node.object.section_id ) )}{section show=$section_object}{$section_object.name|wash}{section-else}<i>{'Unknown'|i18n( 'design/admin/content/draft' )}</i>{/section}{/let}</td>
     <td>
     {section show=$Bookmarks.item.node.object.can_edit}
         <a href={concat( 'content/edit/', $Bookmarks.item.node.contentobject_id )|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/content/bookmark' )}" title="{'Edit <%bookmark_name>.'|i18n( 'design/admin/content/bookmark',, hash( '%bookmark_name', $Bookmarks.item.node.name ) )|wash}" /></a>
