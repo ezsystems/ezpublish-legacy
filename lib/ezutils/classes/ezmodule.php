@@ -276,7 +276,6 @@ class eZModule
     function redirectModule( &$module, $viewName, $parameters = array(), $unorderedParameters = null )
     {
         $uri = $this->redirectionURIForModule( $module, $viewName, $parameters, $unorderedParameters );
-        $uri = preg_replace( "#(^.*)(//+)$#", "\$1", $uri );
         $this->redirectTo( $uri );
         return true;
     }
@@ -351,6 +350,7 @@ class eZModule
                 $uri .= $parameters[$parameterIndex] . '/';
             ++$parameterIndex;
         }
+        $uri = preg_replace( "#(^.*)(/+)$#", "\$1", $uri );
         return $uri;
     }
 
@@ -770,6 +770,7 @@ class eZModule
                 }
                 else
                     eZDebug::writeError( 'Unknown entry type ' . gettype( $function ) . 'in hook: ' . $hookName, 'eZModule::runHooks' );
+
                 switch( $retVal )
                 {
                     case EZ_MODULE_HOOK_STATUS_OK:
@@ -941,6 +942,7 @@ class eZModule
             if ( isset( $function['default_navigation_part'] ) )
                 $Return['navigation_part'] = $function['default_navigation_part'];
         }
+
         return $Return;
     }
 

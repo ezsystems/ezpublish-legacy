@@ -192,6 +192,7 @@ class eZURLOperator
                     $operatorValue = '/' . $operatorValue;
                 $operatorValue = $this->Sys->indexDir() . $operatorValue;
                 $operatorValue = preg_replace( "#^(//)#", "/", $operatorValue );
+                $operatorValue = preg_replace( "#(^.*)(/+)$#", "\$1", $operatorValue );
                 $operatorValue = htmlspecialchars( $operatorValue );
 
                 if ( $operatorValue == "" )
