@@ -110,7 +110,7 @@ function OpenWindow ( URL, WinName, Features ) {
     &nbsp;<span class="small">&gt;</span>
      {section name=Path loop=$module_result.path offset=2 show=eq($DesignKeys:used.viewmode,'full')}
         {section show=$Path:item.url}
-        <a class="small" href="{$Path:item.url}">{$Path:item.text}</a>
+        <a class="small" href={$Path:item.url|ezurl}>{$Path:item.text}</a>
         {section-else}
 	<span class="small">{$Path:item.text}</span>
         {/section}
@@ -121,7 +121,7 @@ function OpenWindow ( URL, WinName, Features ) {
     {section-else}
      {section name=Path loop=$module_result.path}
         {section show=$Path:Path:item.url}
-        <a class="small" href="{$Path:item.url}">{$Path:Path:item.text}</a>
+        <a class="small" href={$Path:item.url|ezurl}>{$Path:Path:item.text}</a>
         {section-else}
 	<span class="small">{$Path:Path:item.text}</span>
         {/section}
