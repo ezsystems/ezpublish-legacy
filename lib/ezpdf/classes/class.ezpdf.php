@@ -1232,6 +1232,8 @@ class Cezpdf extends Cpdf
     */
     function leftMargin( $yOffset = false )
     {
+        $maxMargin = $this->ez['leftMargin'];
+
         if ( $yOffset === false )
         {
             $yOffset = $this->yOffset();
@@ -1240,13 +1242,14 @@ class Cezpdf extends Cpdf
         foreach ( $this->LeftMarginArray as $leftMargin )
         {
             if ( $yOffset > $leftMargin['start'] &&
-                 $yOffset < $leftMargin['stop'] )
+                 $yOffset < $leftMargin['stop']  &&
+                 $leftMargin['margin'] > $maxMargin )
             {
-                return $leftMargin['margin'];
+                $maxMargin = $leftMargin['margin'];
             }
         }
 
-        return $this->ez['leftMargin'];
+        return $maxMargin;
     }
 
     /*!
