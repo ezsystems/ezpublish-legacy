@@ -370,6 +370,8 @@ Workflow:
 - Fixed bug in div and mul template operators when input parameter was used.
   http://ez.no/community/bug_reports/operator_mul_does_not_work_as_documented
   (Merged from stable/3.4 rev. 7388)
+- Fixed bug rendering Tables in PDF export, merged from stable/3.4 rev. 7478.
+  http://ez.no/community/bug_reports/pdf_article_displays_code
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.

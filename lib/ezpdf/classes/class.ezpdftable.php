@@ -269,6 +269,8 @@ class eZPDFTable extends Cezpdf
             $realColCount = 0;
             for( $columnCount = 0; $columnCount < count( $row ); $columnCount++ )
             {
+                $data[$rowCount][$columnCount] = $this->fixupTableCellText( $row[$columnCount] );
+                $row[$columnCount] = $data[$rowCount][$columnCount];
                 // get col span
                 $colSpan = 1;
                 if ( isset( $options['cellData'][$realColCount.','.$rowCount]['size'] ) )
@@ -304,7 +306,6 @@ class eZPDFTable extends Cezpdf
                     $maxWidth[$colSpan][$realColCount] = $w;
                 }
 
-//                echo "row: $rowCount, column: $columnCount:$realColCount,<br/>";
                 $realColCount += $colSpan;
 
                 if ( $realColCount > $maxRowCount )
@@ -328,9 +329,6 @@ class eZPDFTable extends Cezpdf
                 $maxWidth[$colSpan][$columnCount] = $options['cols'][$colName]['width'] - $options['gap'] - 2*$options['cellPadding'];
             }
         }
-
-//        print_r( $maxWidth );
-//        echo '<br/><br/>';
 
         $pos=array();
         $columnWidths = array();
@@ -365,9 +363,6 @@ class eZPDFTable extends Cezpdf
             }
         }
 
-//        print_r( $columnWidths );
-//        echo '<br/><br/>';
-
         foreach ( $columnWidths as $count => $width )
         {
             $pos[$count]=$t;
@@ -377,10 +372,6 @@ class eZPDFTable extends Cezpdf
             $setWidth += $options['gap'] + 2*$options['cellPadding'];
         }
         $pos['_end_'] = $t;
-
-
-//        print_r( $pos );
-//        echo '<br/><br/>';
 
         // if maxWidth is specified, and the table is too wide, and the width has not been set,
         // then set the width.
@@ -546,7 +537,7 @@ class eZPDFTable extends Cezpdf
 
             $cnt=0;
             $newPage=0;
-
+            $newPageLine = 0;
             foreach($data as $rowCount => $row){
                 $cnt++;
                 // the transaction support will be used to prevent rows being split
@@ -568,7 +559,7 @@ class eZPDFTable extends Cezpdf
                 $secondTurn=0;
                 while(!$abortTable && $ok == 0){
 
-                    $mx=0;
+                    $maxRowHeight=0;
                     $newRow=1;
                     while(!$abortTable && ($newPage || $newRow)){
 
@@ -580,7 +571,7 @@ class eZPDFTable extends Cezpdf
                                 $abortTable = 1;
                             }
 
-                            $y2=$y-$mx+2*$height+$decender-$newRow*$height;
+                            $y2=$y-$maxRowHeight+2*$height+$decender-$newRow*$height;
                             if ($options['showLines']){
                                 if (!$options['showHeadings']){
                                     $y0=$y1;
@@ -612,7 +603,7 @@ class eZPDFTable extends Cezpdf
                             $this->setColor( $options['textCol'], 1 );
                             $y = $this->ez['pageHeight']-$this->ez['topMargin'];
                             $y0=$y+$decender;
-                            $mx=0;
+                            $maxRowHeight=0;
                             if ($options['showHeadings']){
                                 $this->ezPrvtTableColumnHeadings($cols,$pos,$maxWidth,$height,$decender,$options['rowGap'],$options['fontSize'],$y,$options);
                                 $y1=$y;
@@ -646,8 +637,9 @@ class eZPDFTable extends Cezpdf
                             $this->ezSetY($y+$height);
                             $colNewPage=0;
 
+                            $row[$columnCount] = $this->fixWhitespace( $row[$columnCount] );
                             $lines = explode("\n",$row[$columnCount]);
-                            $this->y -= $options['rowGap'];
+                            $this->y -= $options['rowGap'] + $options['cellPadding'];
                             foreach ($lines as $line){
                                 $line = $this->ezProcessText($line);
                                 $start=1;
@@ -659,6 +651,7 @@ class eZPDFTable extends Cezpdf
                                     }
                                     if ($this->y < $this->ez['bottomMargin']){
                                         $newPage=1;
+                                        $newPageLine = 1;
                                         $colNewPage=1;
                                     }
                                     if ($colNewPage){
@@ -679,34 +672,34 @@ class eZPDFTable extends Cezpdf
                                              $options['cellData'][$realColumnCount.','.$rowCount]['title'] === true )
                                         {
                                             $this->setColor( $options['titleTextCMYK'] );
-                                            $textInfo = $this->addTextWrap( $pos[$realColumnCount],
-                                                                            $this->y,
-                                                                            $maxWidth[$colSpan][$realColumnCount],
-                                                                            $options['titleFontSize'],
-                                                                            $line,
-                                                                            $just,
-                                                                            0,
-                                                                            $options['test']);
+                                            $fontSize = $options['titleFontSize'];
                                         }
                                         else
                                         {
                                             $this->setColor( $options['textCol'], 1 );
-                                            $textInfo = $this->addTextWrap($pos[$realColumnCount],$this->y,$maxWidth[$colSpan][$realColumnCount],$options['fontSize'],$line,$just,0,$options['test']);
+                                            $fontSize = $options['fontSize'];
                                         }
+
+                                        $textInfo = $this->addTextWrap( $pos[$realColumnCount],
+                                                                        $this->y,
+                                                                        $maxWidth[$colSpan][$realColumnCount],
+                                                                        $fontSize,
+                                                                        $line,
+                                                                        $just,
+                                                                        0,
+                                                                        $options['test'] );
+
                                         $this->y = $storeY;
                                         $line=$textInfo['text'];
-                                        if ( $textInfo['height'] != -1 )
-                                        {
-                                            $this->y -= $textInfo['height'];
-                                        }
+                                        $this->y -= $textInfo['height'];
                                     }
                                 }
                             }
 
-                            $dy=$y-$this->y+$options['rowGap']+2*$options['cellPadding'];
-                            if ($dy-$height*$newPage>$mx)
+                            $dy=$y-$this->y+$options['rowGap']+$options['cellPadding'];
+                            if ($dy>$maxRowHeight)
                             {
-                                $mx=$dy-$height*$newPage;
+                                $maxRowHeight=$dy;
                             }
 
                             $realColumnCount += $colSpan;
@@ -732,7 +725,7 @@ class eZPDFTable extends Cezpdf
                                 }
                             }
 
-                            $rowHeight = $mx - $height + $decender;
+                            $rowHeight = $maxRowHeight;
                             $realColumnCount = 0;
                             for ( $columnCount = 0; $realColumnCount < $maxRowCount; $columnCount++ )
                             {
@@ -778,17 +771,18 @@ class eZPDFTable extends Cezpdf
                                 $this->saveState();
                                 $this->setStrokeColorRGB($options['lineCol'][0],$options['lineCol'][1],$options['lineCol'][2],1);
 
-                                if ( $rowCount == 0 )
+                                if ( $rowCount == 0 || $newPageLine == 1 )
                                 {
                                     $this->line( $x0-$options['gap']/2, $y+$decender+$height, $x1-$options['gap']/2, $y+$decender+$height );
                                 }
-                                $this->line( $x0-$options['gap']/2, $y+$decender+$height, $x0-$options['gap']/2, $y+$decender+$height-$mx );
-                                $this->line( $x1-$options['gap']/2, $y+$decender+$height, $x1-$options['gap']/2, $y+$decender+$height-$mx );
+                                $this->line( $x0-$options['gap']/2, $y+$decender+$height, $x0-$options['gap']/2, $y+$decender+$height-$maxRowHeight );
+                                $this->line( $x1-$options['gap']/2, $y+$decender+$height, $x1-$options['gap']/2, $y+$decender+$height-$maxRowHeight );
 
                                 if ( $options['showLines'] > 1 )
                                 {
                                     // draw inner lines
-                                    $this->line( $x0-$options['gap']/2, $y+$decender+$height-$mx, $x1-$options['gap']/2, $y+$decender+$height-$mx );
+                                    $this->line( $x0-$options['gap']/2, $y+$decender+$height-$maxRowHeight, $x1-$options['gap']/2, $y+$decender+$height-$maxRowHeight );
+
                                     for ( $posOffset = 0; $posOffset < count( $pos ) - 2; )
                                     {
                                         $colSpan = 1;
@@ -797,13 +791,13 @@ class eZPDFTable extends Cezpdf
                                             $colSpan = $options['cellData'][$posOffset.','.$rowCount]['size'][0];
                                         }
                                         $this->line( $pos[$posOffset+$colSpan]-$options['gap']/2, $y+$decender+$height,
-                                                     $pos[$posOffset+$colSpan]-$options['gap']/2, $y+$decender+$height-$mx );
+                                                     $pos[$posOffset+$colSpan]-$options['gap']/2, $y+$decender+$height-$maxRowHeight );
                                         $posOffset += $colSpan;
                                     }
                                 }
                                 else if ( $rowCount == count( $data ) - 1 )
                                 {
-                                    $this->line( $x0-$options['gap']/2, $y+$decender+$height-$mx, $x1-$options['gap']/2, $y+$decender+$height-$mx );
+                                    $this->line( $x0-$options['gap']/2, $y+$decender+$height-$maxRowHeight, $x1-$options['gap']/2, $y+$decender+$height-$maxRowHeight );
                                 }
                                 $this->restoreState();
                             }
@@ -817,12 +811,12 @@ class eZPDFTable extends Cezpdf
                                 } else {
                                     $this->setLineStyle($options['innerLineThickness']);
                                 }
-                                $this->line($x0-$options['gap']/2,$y+$decender+$height,$x1-$options['gap']/2,$y+$decender+$height);
+                                $this->line($x0-$options['gap']/2,$y+$decender+$height-$maxRowHeight,$x1-$options['gap']/2,$y+$decender+$height-$maxRowHeight);
                                 $this->restoreState();
                             }
                         }
                     } // end of while
-                    $y=$y-$mx+$height;
+                    $y=$y-$maxRowHeight;
 
                     // checking row split over pages
                     if ( $options['splitRows'] == 0 )
@@ -830,6 +824,7 @@ class eZPDFTable extends Cezpdf
                         if ( ( ($this->ezPageCount != $pageStart) || (isset($this->ez['columns']) && $this->ez['columns']['on']==1 && $columnStart != $this->ez['columns']['colNum'] ))  && $secondTurn==0){
                             // then we need to go back and try that again !
                             $newPage=1;
+                            $newPageLine = 1;
                             $secondTurn=1;
                             $this->transaction('rewind');
                             $row = $row_orig;
@@ -900,6 +895,8 @@ class eZPDFTable extends Cezpdf
         }
 
         $this->y=$y;
+        if ( $maxRowHeight != 4 );
+//        exit(0);
         return $y;
     }
 
@@ -1409,6 +1406,21 @@ class eZPDFTable extends Cezpdf
 
         $this->outputDocSpecification();
 
+    }
+
+    /*!
+     \private
+     Fixup table cell text. Removes ezCall tags, and forst C:callNewLine if they exists.
+
+     \param text
+
+     \return text without ezgroup/ezcall tags
+    */
+    function fixupTableCellText( $text )
+    {
+        $text = preg_replace( "/^" . EZ_PDF_LIB_NEWLINE . "/i", "", $text );
+        $text = preg_replace( "/" . EZ_PDF_LIB_NEWLINE . "$/i", "", $text );
+        return preg_replace( "'<[\/]*?ezCall:[^<>]*?>'si", "", $text );
     }
 
     /*!

@@ -6,7 +6,7 @@
 <tr>
 <td>
 {section name=ColumnNames loop=$matrix.columns.sequential}
-{$ColumnNames:item.name}
+{$ColumnNames:item.name|wash(pdf)}
 {delimiter}
 </td>
 <td>
