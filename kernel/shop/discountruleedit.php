@@ -114,16 +114,17 @@ if ( $http->hasPostVariable( "StoreButton" ) )
             //Do not update the percent.
         }
     }
+    $limitation = false;
     if ( $http->hasPostVariable( "Contentclasses" ) )
     {
+        $withClassLimitation = true;
         $classIDList = $http->postVariable( "Contentclasses" );
-        $withLimitation = true;
         foreach ( $classIDList as $classID )
         {
             if ( $classID == -1 )
-                $withLimitation = false;
+                $withClassLimitation = false;
         }
-        if ( $withLimitation )
+        if ( $withClassLimitation )
         {
              foreach ( $classIDList as $classID )
              {
@@ -131,22 +132,19 @@ if ( $http->hasPostVariable( "StoreButton" ) )
                  $ruleValue->store();
              }
              $discountRule->setAttribute( 'limitation', null );
-        }
-        else
-        {
-             $discountRule->setAttribute( 'limitation', '*' );
+             $limitation = true;
         }
     }
     if ( $http->hasPostVariable( "Sections" ) )
     {
         $sectionIDList = $http->postVariable( "Sections" );
-        $withLimitation = true;
+        $withSectionLimitation = true;
         foreach ( $sectionIDList as $sectionID )
         {
             if ( $sectionID == -1 )
-                $withLimitation = false;
+                $withSectionLimitation = false;
         }
-        if ( $withLimitation )
+        if ( $withSectionLimitation )
         {
              foreach ( $sectionIDList as $sectionID )
              {
@@ -154,12 +152,12 @@ if ( $http->hasPostVariable( "StoreButton" ) )
                  $ruleValue->store();
              }
              $discountRule->setAttribute( 'limitation', null );
-        }
-        else
-        {
-             $discountRule->setAttribute( 'limitation', '*' );
+             $limitation = true;
         }
     }
+
+    if ( !$limitation )
+        $discountRule->setAttribute( 'limitation', '*' );
     $discountRule->store();
     $module->redirectTo( $module->functionURI( "discountgroupview" ) . "/". $discountGroupID );
     return;
@@ -203,7 +201,8 @@ foreach ( $sectionLimitationList as $limitation )
     $sectionIDList[] = $limitation['value'];
 }
 $tpl->setVariable( "section_limitation_list", $sectionIDList );
-if ( count( $sectionList ) > 0 )
+
+if ( count( $sectionIDList ) > 0 )
     $tpl->setVariable( "section_any_selected", false );
 else
     $tpl->setVariable( "section_any_selected", true );
@@ -216,12 +215,8 @@ foreach ( $classLimitationList as $limitation )
     $classIDList[] = $limitation['value'];
 }
 $tpl->setVariable( "class_limitation_list", $classIDList );
-/*if ( count( $classList ) > 0 )
-    $tpl->setVariable( "class_any_selected", false );
-else
-    $tpl->setVariable( "class_any_selected", true );*/
 
-if ( count( $productClassList ) > 0 )
+if ( count( $classIDList ) > 0 )
     $tpl->setVariable( "class_any_selected", false );
 else
     $tpl->setVariable( "class_any_selected", true );

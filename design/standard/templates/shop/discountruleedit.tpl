@@ -26,7 +26,7 @@
 <div class="element">
      <label>Section:</label><div class="labelbreak"></div>
      <select name="Sections[]" size="5" multiple >
-     <option value="-1" {section show=$class_any_selected}selected="selected"{/section}>Any</option>
+     <option value="-1" {section show=$section_any_selected}selected="selected"{/section}>Any</option>
      {section name=Sections loop=$section_list}
      <option value="{$Sections:item.id}" {switch match=$Sections:item.id}{case in=$section_limitation_list} selected="selected"{/case}{case}{/case}{/switch}>{$Sections:item.name}
 
