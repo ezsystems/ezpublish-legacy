@@ -2,7 +2,7 @@
     <table class="list" cellspacing="0">
     <tr>
         {* Remove column *}
-        <th class="remove"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/layout' )}" onclick="toggleCheckboxes( document.children, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/layout' )}" /></th>
+        <th class="remove"><a href="" onclick="toggleCheckboxes( document.children, 'DeleteIDArray[]' ); return false;"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/layout' )}" title="{'Invert selection.'|i18n( 'design/admin/layout' )}" /></a></th>
 
         {* Name column *}
         <th class="name">{'Name'|i18n( 'design/admin/layout ')}:</th>
