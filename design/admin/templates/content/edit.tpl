@@ -124,6 +124,7 @@
             {
                 if( elements[i].type == 'text' )
                 {
+                    elements[i].select();
                     elements[i].focus();
                     return;
                 }
