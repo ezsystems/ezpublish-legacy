@@ -419,9 +419,9 @@ class eZModuleOperationInfo
                     return array( 'internal_error' => EZ_MODULE_OPERATION_ERROR_MISSING_PARAMETER,
                                   'internal_error_parameter_name' => $parameterName );
                 }
-                else if ( isset( $operationParameterDefinition['default_value'] ) )
+                else if ( isset( $operationParameterDefinition['default'] ) )
                 {
-                    $parameterArray[] = $operationParameterDefinition['default_value'];
+                    $parameterArray[] = $operationParameterDefinition['default'];
                 }
                 else
                 {
