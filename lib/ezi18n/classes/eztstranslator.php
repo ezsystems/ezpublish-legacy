@@ -314,6 +314,7 @@ class eZTSTranslator extends eZTranslatorHandler
     }
 
     /*!
+     \static
      Validates the DOM tree \a $tree and returns true if it is correct.
      \warning There's no validation done yet, for it returns \c true for all DOM trees.
     */
