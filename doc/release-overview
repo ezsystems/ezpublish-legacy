@@ -262,3 +262,9 @@ Datatype branch:
 - Revision=9444
 - Version url=http://zev.ez.no/svn/nextgen/versions/3.4.4
 - Date  8-Nov-2004
+
+3.5.0rc1:
+- From revision=9995
+- Revision=9996
+- Version url=http://zev.ez.no/svn/nextgen/versions/3.5.0rc1
+- Date 23-Nov-2004
