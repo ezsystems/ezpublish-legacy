@@ -5,9 +5,24 @@
 </div>
 
 {section show=$message}
-<div class="feedback">
-<h2>{$message}</h2>
-</div>
+{section show=or($oldPasswordNotValid,$newPasswordNotMatch)}
+    {section show=$oldPasswordNotValid}
+        <div class="warning">
+            <h2>{'Please retype your old password.'|i18n('design/standard/user')}</h2>
+        </div>
+    {/section}
+    {section show=$newPasswordNotMatch}
+        <div class="warning">
+            <h2>{"Password didn't match, please retype your new password."|i18n('design/standard/user')}</h2>
+        </div>
+    {/section}
+
+{section-else}
+    <div class="feedback">
+        <h2>{'Password successfully updated.'|i18n('design/standard/user')}</h2>
+    </div>
+{/section}
+
 {/section}
 
 <div class="block">

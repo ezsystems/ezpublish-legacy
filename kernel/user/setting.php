@@ -43,6 +43,10 @@ if ( isset( $Params["UserID"] ) )
 $http =& eZHTTPTool::instance();
 
 $userSetting =& eZUserSetting::fetch( $UserID );
+$currentUser =& eZUser::currentUser();
+if ( $currentUser->attribute( 'contentobject_id' ) != $userSetting->attribute( 'contentobject_id' ) or
+     !$currentUser->isLoggedIn() )
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
 if ( $http->hasPostVariable( "UpdateSettingButton" ) )
 {

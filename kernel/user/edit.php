@@ -50,96 +50,47 @@ $Module =& $Params["Module"];
 if ( isset( $Params["UserID"] ) )
     $UserID = $Params["UserID"];
 
-$ini =& eZINI::instance();
-$classID = $ini->variable( 'UserSettings', 'UserClassID' );
-//$classID = 4;
-$userAccount =& eZUser::fetch( $UserID );
-$userClass =& eZContentClass::fetch( $classID );
-$userClassAttributes =& eZContentClassAttribute::fetchFilteredList( array( 'contentclass_id' => $classID, 'version' => 0 ) );
-$userObject =& eZContentObject::fetch( $UserID );
-$currentVersion = $userObject->attribute( 'current_version' );
-$userProfile = array();
-foreach ( $userClassAttributes as $userClassAttribute )
-{
-    $classAttributeID = $userClassAttribute->attribute( 'id' );
-    $classAttributeName = $userClassAttribute->attribute( 'name' );
-    $userObjectAttribute =& eZContentObjectAttribute::fetchObject( eZContentObjectAttribute::definition(),
-                                                                   null,
-                                                                   array( 'contentobject_id' => $UserID,
-                                                                          'contentclassattribute_id' => $classAttributeID,
-                                                                          'version' => $currentVersion ) );
-    $objectAttributeContent = $userObjectAttribute->attribute( 'data_text' );
-    if( $objectAttributeContent != "")
-    {
-        $item = array( "name" => $classAttributeName,
-                       "value" => $objectAttributeContent,
-                       "classAttribute_id" => $classAttributeID  );
-        $userProfile[] = $item;
-    }
-}
-
-if ( $http->hasPostVariable( "UpdateProfileButton" ) )
-{
-    foreach ( $userProfile as $profile )
-    {
-        if ( $http->hasPostVariable( "ContentclassAttribute_" . $profile['classAttribute_id'] ) )
-        {
-            $name = $profile['name'];
-            $classAttributeID = $profile['classAttribute_id'];
-            $value = $http->postVariable( "ContentclassAttribute_" . $profile['classAttribute_id'] );
-            $objectAttribute =& eZContentObjectAttribute::fetchObject( eZContentObjectAttribute::definition(),
-                                                                       null,
-                                                                       array( 'contentobject_id' => $UserID,
-                                                                              'contentclassattribute_id' => $classAttributeID,
-                                                                              'version' => $currentVersion ) );
-            $objectAttribute->setAttribute( 'data_text', $value );
-            $objectAttribute->store();
-        }
-    }
-    if ( $http->hasPostVariable( "email" ) )
-    {
-        $email = $http->postVariable( "email" );
-        $userAccount->setAttribute( "email", $email );
-        $userAccount->store();
-    }
-
-    $userObject =& eZContentObject::fetch( $UserID );
-    $objectName = $userClass->contentObjectName( $userObject );
-    $userObject->setName( $objectName );
-    $userObject->store();
-    $Module->redirectTo( '/content/view/sitemap/5/' );
-    return;
-}
-
-if ( $http->hasPostVariable( "ChangePasswordButton" ) )
+if ( $Module->isCurrentAction( "ChangePassword" ) )
 {
     $Module->redirectTo( $Module->functionURI( "password" ) . "/" . $UserID  );
     return;
 }
 
-if ( $http->hasPostVariable( "ChangeSettingButton" ) )
+if ( $Module->isCurrentAction( "ChangeSetting" ) )
 {
     $Module->redirectTo( $Module->functionURI( "setting" ) . "/" . $UserID );
     return;
 }
 
-if ( $http->hasPostVariable( "CancelButton" ) )
+if ( $Module->isCurrentAction( "Cancel" ) )
 {
     $Module->redirectTo( '/content/view/sitemap/5/' );
     return;
 }
 
-$Module->setTitle( "Edit user information" );
-// Template handling
+if ( $Module->isCurrentAction( "Edit" ) )
+{
+    $Module->redirectTo( '/content/edit/' . $UserID );
+    return;
+}
+
+$userAccount =& eZUser::fetch( $UserID );
+$currentUser =& eZUser::currentUser();
+if ( $currentUser->attribute( 'contentobject_id' ) != $userAccount->attribute( 'contentobject_id' ) or
+     !$currentUser->isLoggedIn() )
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
 include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "http", $http );
 $tpl->setVariable( "userID", $UserID );
 $tpl->setVariable( "userAccount", $userAccount );
-$tpl->setVariable( "userProfile", $userProfile );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:user/edit.tpl" );
+$Result['path'] = array( array( 'text' => 'User profile',
+                                'url' => false ) );
+
 
 ?>

@@ -79,6 +79,10 @@ $ViewList["forgotpassword"] = array(
 
 $ViewList["edit"] = array(
     "script" => "edit.php",
+    'single_post_actions' => array( 'ChangePasswordButton' => 'ChangePassword',
+                                    'ChangeSettingButton' => 'ChangeSetting',
+                                    'CancelButton' => 'Cancel',
+                                    'EditButton' => 'Edit' ),
     "params" => array( "UserID" ) );
 
 $ViewList["register"] = array(
