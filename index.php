@@ -438,7 +438,7 @@ while ( $moduleRunRequired )
             $lastAccessedURI = $http->sessionVariable( "LastAccessesURI" );
         if ( $currentURI != $lastAccessedURI )
         {
-            if ( preg_match( "/\/content\/view\/.*/", $currentURI  ) )
+            if ( preg_match( "/\/content\/view\/.*/", $currentURI  ) or $currentURI === '/' )
             {
                 $http->setSessionVariable( "LastAccessesURI", $currentURI );
             }
