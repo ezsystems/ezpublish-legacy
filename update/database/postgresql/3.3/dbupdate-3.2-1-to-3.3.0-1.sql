@@ -19,6 +19,7 @@ CREATE SEQUENCE ezpdf_export_s
 CREATE TABLE ezpdf_export ( 
   id integer DEFAULT nextval('ezpdf_export_s'::text) NOT NULL
   title varchar(255) default NULL,
+  show_frontpage int default NULL,
   intro_text text default NULL,
   sub_text text default NULL,
   source_node_id int default NULL,

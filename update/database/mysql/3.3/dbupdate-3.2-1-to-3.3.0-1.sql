@@ -9,6 +9,7 @@ ALTER TABLE ezinfocollection_attribute ADD COLUMN contentobject_id int;
 CREATE TABLE ezpdf_export ( 
   id integer NOT NULL auto_increment,
   title varchar(255) default NULL,
+  show_frontpage int default NULL,
   intro_text text default NULL,
   sub_text text default NULL,
   source_node_id int default NULL,
