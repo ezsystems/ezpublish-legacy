@@ -106,6 +106,47 @@ class eZPersistentObject
     }
 
     /*!
+    \private
+    \static
+    For the given array \a fields treats its keys (for associative array) or
+    values (for non-associative array) as table fields names and replaces them
+    with short names (aliases) found in \a fieldDefs.
+    */
+    function replaceFieldsWithShortNames( &$db, &$fieldDefs, &$fields )
+    {
+        if ( !$db->useShortNames() )
+            return;
+
+        $short_fields_names = array();
+        foreach ( $fields as $key => $val )
+        {
+            if( is_numeric( $key ) ) // $fields is not an associative array
+            {
+                if ( array_key_exists( $val,  $fieldDefs ) &&
+                     array_key_exists( 'short_name', $fieldDefs[$val] ) )
+                {
+                    $short_fields_names[$key] = $fieldDefs[$val]['short_name'];
+                }
+                else
+                    $short_fields_names[$key] = $val;
+            }
+            else // $fields is an associative array
+            {
+                if ( array_key_exists( $key,  $fieldDefs ) &&
+                     array_key_exists( 'short_name', $fieldDefs[$key] ) )
+                {
+                    $newkey = $fieldDefs[$key]['short_name'];
+                }
+                else
+                    $newkey = $key;
+                $short_fields_names[$newkey] = $val;
+            }
+
+        }
+        $fields = $short_fields_names;
+    }
+
+    /*!
      Creates an SQL query out of the different parameters and returns an object with the result.
      If \a $asObject is true the returned item is an object otherwise a db row.
      Uses fetchObjectList for the actual SQL handling and just returns the first row item.
@@ -173,21 +214,8 @@ class eZPersistentObject
         /* substitute fields mentioned the conditions whith their
            short names (if any)
          */
-        if ( $db->useShortNames() )
-        {
-            $fields =& $def['fields'];
-            $short_conditions = array();
-            foreach ( $conditions as $key => $val )
-            {
-                if ( array_key_exists( 'short_name', $fields[$key] ) )
-                    $newkey = $fields[$key]['short_name'];
-                else
-                    $newkey = $key;
-                $short_conditions[$newkey] = $val;
-
-            }
-            $conditions =& $short_conditions;
-        }
+        $fields =& $def['fields'];
+        eZPersistentObject::replaceFieldsWithShortNames( $db, $fields, $conditions );
 
         $cond_text = eZPersistentObject::conditionText( $conditions );
 
@@ -330,21 +358,8 @@ class eZPersistentObject
         if ( $insert_object )
         {
             $use_fields = array_diff( array_keys( $fields ), $exclude_fields );
-            $use_field_names = array();
-            if ( $db->useShortNames() )
-            {
-                foreach ( $use_fields as $key )
-                {
-                    if ( is_array( $fields[$key] ) && array_key_exists( 'short_name', $fields[$key] ) && strlen( $fields[$key]['short_name'] ) > 0 )
-                        $use_field_names[] = $fields[$key]['short_name'];
-                    else
-                        $use_field_names[] = $key;
-                }
-            }
-            else
-            {
-                $use_field_names = $use_fields;
-            }
+            $use_field_names = $use_fields;
+            eZPersistentObject::replaceFieldsWithShortNames( $db, $fields, $use_field_names );
 
             $field_text = implode( ", ", $use_field_names );
             $use_values = array();
@@ -482,6 +497,7 @@ class eZPersistentObject
         return $where_text;
     }
 
+
     /*!
      Creates an SQL query out of the different parameters and returns an array with the result.
      If \a $asObject is true the array contains objects otherwise a db row.
@@ -506,6 +522,7 @@ class eZPersistentObject
         $fields =& $def["fields"];
         $table =& $def["name"];
         $class_name =& $def["class_name"];
+        eZPersistentObject::replaceFieldsWithShortNames( $db, $fields, $conds );
         if ( is_array( $field_filters ) )
             $field_array = array_unique( array_intersect(
                                              $field_filters, array_keys( $fields ) ) );
@@ -524,6 +541,7 @@ class eZPersistentObject
                 $field_array[] = $custom_text;
             }
         }
+        eZPersistentObject::replaceFieldsWithShortNames( $db, $fields, $field_array );
         $field_text = '';
         $i = 0;
         foreach ( $field_array as $field_item )
