@@ -207,7 +207,6 @@ class eZPolicy extends eZPersistentObject
                                                                      true );
                 if ( $enableCaching )
                 {
-                    print( "caching is enabled" );
                     $limitationsForCurrentPolicy = array();
                     foreach ( array_keys( $limitations ) as $key )
                     {
