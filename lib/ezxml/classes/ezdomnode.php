@@ -158,7 +158,7 @@ class eZDOMNode
     /*!
       Returns the node children.
     */
-    function children()
+    function &children()
     {
         return $this->Children;
     }
@@ -230,7 +230,7 @@ class eZDOMNode
     */
     function &textContent( )
     {
-        $children = $this->children();
+        $children =& $this->children();
 
         if ( count( $children ) == 1 )
         {

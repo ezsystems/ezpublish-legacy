@@ -64,7 +64,7 @@ class eZXML
 
       $params["TrimWhiteSpace"] = false/true : if the XML parser should ignore whitespace between tags.
     */
-    function domTree( $xmlDoc, $params=array() )
+    function &domTree( $xmlDoc, $params=array() )
     {
         $params["TrimWhiteSpace"] = true;
 
@@ -324,7 +324,7 @@ class eZXML
       \static
       \private
     */
-    function stripComments( &$str )
+    function &stripComments( &$str )
     {
         $str =& preg_replace( "#<\!--.*?-->#s", "", $str );
         return $str;
