@@ -69,6 +69,7 @@
     <input type="hidden" name="ViewMode" value="full" />
 </div>
 
+{*
 {section show=$with_children}
     {let name=Child
         children=fetch( content, list, hash( parent_node_id, $node.node_id,
@@ -205,6 +206,7 @@
 
 
 {/section}
+*}
 
 {section show=$is_standalone}
     </form>

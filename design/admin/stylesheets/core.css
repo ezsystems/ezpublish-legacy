@@ -290,6 +290,16 @@ div.break /* Used this style to terminate floating elements, to clear all floati
     clear: both;
 }
 
+div.button-left
+{
+    float: left;
+}
+
+div.button-right
+{
+    float: right;
+}
+
 /* MESSAGES TO THE USER */
 
 div.message-feedback, div.message-warning, div.message-error

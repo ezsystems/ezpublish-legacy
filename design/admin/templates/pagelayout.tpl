@@ -234,6 +234,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 </div>
 
 
+<h4><a href={"/notification/settings"|ezurl}>{"Notifications"|i18n("design/admin/layout")}</a></h4> 
 {* Show "Add to notification" button if we're viewing an actual node. *}
 {section show=$node.node_id|is_set()}
 <form method="post" action={"content/action"|ezurl}>
