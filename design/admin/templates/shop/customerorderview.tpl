@@ -1,7 +1,9 @@
 <div class="context-block">
 <h2 class="context-title">{'Customer information'|i18n( 'design/admin/shop/customerorderview' )}</h2>
 
+<div class="context-attributes">
 {shop_account_view_gui view=html order=$order_list[0]}
+</div>
 
 </div>
 
