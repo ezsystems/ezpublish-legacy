@@ -573,12 +573,12 @@ class eZINI
             }
 
             // check for variable
-            if ( preg_match("#^(\w+)\\[\\]$#", $line, $valueArray ) )
+            if ( preg_match("#^([ \ta-zA-Z0-9_-]+)\\[\\]$#", $line, $valueArray ) )
             {
                 $varName = trim( $valueArray[1] );
                 $this->BlockValues[$currentBlock][$varName] = array();
             }
-            else if ( preg_match("#^([a-zA-Z0-9_-]+)(\\[([^\\]]*)\\])?=(.*)$#", $line, $valueArray ) )
+            else if ( preg_match("#^([ \ta-zA-Z0-9_-]+)(\\[([^\\]]*)\\])?=(.*)$#", $line, $valueArray ) )
             {
                 $varName = trim( $valueArray[1] );
                 if ( $this->UseTextCodec )
