@@ -205,6 +205,14 @@ U+008C = "OE" # OE ligature
 U+00AA = "a"  # feminine ordinal indicator (spanish)
 U+00BA = "o"  # masculine ordinal indicator (spanish)
 
+# Some german transliteration rules
+U+00E4 = "ae"
+U+00F6 = "oe"
+U+00FC = "ue"
+U+00C4 = "Ae"
+U+00D6 = "Oe"
+U+00DC = "Ue"
+
 latin-exta_transliterate_ascii:
 U+0132 = "IJ"
 U+0133 = "ij"
