@@ -350,7 +350,7 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
     }
 }
 
-function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage )
+function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
 {
     $http =& eZHTTPTool::instance();
 
@@ -408,7 +408,7 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                                             'content' => array( 'object_id' => $objectID,
                                                                 'object_version' => $editVersion,
                                                                 'object_language' => $editLanguage ),
-                                            'from_page' => "/content/edit/$objectID/$editVersion/$editLanguage" ),
+                                            'from_page' => "/content/edit/$objectID/$editVersion/$editLanguage/$fromLanguage" ),
                                      $module );
 
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
@@ -528,7 +528,8 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                                            array( 'remove_list'   => $assignmentsIDs,
                                                   'object_id'     => $objectID,
                                                   'edit_version'  => $versionInt,
-                                                  'edit_language' => $editLanguage ) );
+                                                  'edit_language' => $editLanguage,
+                                                  'from_language' => $fromLanguage ) );
                 $module->redirectToView( 'removeassignment' );
                 return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
 

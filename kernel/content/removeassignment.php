@@ -47,6 +47,7 @@ if ( $http->hasSessionVariable( 'AssignmentRemoveData' ) )
     $objectID     = $data['object_id'];
     $editVersion  = $data['edit_version'];
     $editLanguage = $data['edit_language'];
+    $fromLanguage = $data['from_language'];
 
     $object =& eZContentObject::fetch( $objectID );
     if ( !$object )
@@ -79,13 +80,13 @@ if ( $module->isCurrentAction( 'ConfirmRemoval' ) )
     if ( $mainNodeChanged )
         eZNodeAssignment::setNewMainAssignment( $objectID, $editVersion );
 
-    return $module->redirectToView( 'edit', array( $objectID, $editVersion, $editLanguage ) );
+    return $module->redirectToView( 'edit', array( $objectID, $editVersion, $editLanguage, $fromLanguage ) );
 }
 else if ( $module->isCurrentAction( 'CancelRemoval' ) )
 {
     $http->removeSessionVariable( 'AssignmentRemoveData' );
 
-    return $module->redirectToView( 'edit', array( $objectID, $editVersion, $editLanguage ) );
+    return $module->redirectToView( 'edit', array( $objectID, $editVersion, $editLanguage, $fromLanguage ) );
 }
 
 // default action: show the confirmation dialog
