@@ -71,9 +71,6 @@ class eZSendmailTransport extends eZMailTransport
              $emailSender and
              $mail->sender() == false )
             $mail->setSenderText( $emailSender );
-        include_once( 'lib/version.php' );
-        $version =& eZPublishSDK::version();
-        $mail->addExtraHeader( 'X-Mailer', "eZ publish $version" );
         $message = $mail->body();
         $extraHeaders = $mail->headerText( array( 'exclude-headers' => array( 'To', 'Subject' ) ) );
         if ( $isSafeMode or
