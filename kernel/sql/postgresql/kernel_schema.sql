@@ -2298,6 +2298,17 @@ CREATE TABLE ezsubtree_notification_rule (
 
 
 
+CREATE TABLE ezuser_session_link (
+    user_id integer NOT NULL,
+    session_key character varying(32) NOT NULL
+);
+
+
+
+
+
+
+
 CREATE INDEX ezcollab_group_path62 ON ezcollab_group USING btree (path_string);
 
 
@@ -2651,6 +2662,30 @@ CREATE INDEX ezsubtree_notification_rule_user_id ON ezsubtree_notification_rule 
 
 
 CREATE INDEX ezcontentobject_tree_mod_sub ON ezcontentobject_tree USING btree (modified_subnode);
+
+
+
+
+
+
+
+CREATE INDEX ezuser_session_link_user_idx ON ezuser_session_link USING btree (user_id);
+
+
+
+
+
+
+
+CREATE INDEX ezuser_session_link_session_idx ON ezuser_session_link USING btree (session_key);
+
+
+
+
+
+
+
+CREATE INDEX ezpreferences_user_id_idx ON ezpreferences USING btree (user_id, name);
 
 
 
@@ -3452,5 +3487,14 @@ ALTER TABLE ONLY ezview_counter
 
 ALTER TABLE ONLY ezsubtree_notification_rule
     ADD CONSTRAINT tmp_notification_rule_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezuser_session_link
+    ADD CONSTRAINT ezuser_session_link_pkey PRIMARY KEY (user_id, session_key);
 
 

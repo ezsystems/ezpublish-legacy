@@ -827,7 +827,8 @@ CREATE TABLE ezpreferences (
   name varchar(100) default NULL,
   value varchar(100) default NULL,
   PRIMARY KEY  (id),
-  KEY ezpreferences_name (name)
+  KEY ezpreferences_name (name),
+  KEY ezpreferences_user_id_idx (user_id,name)
 ) TYPE=MyISAM;
 
 
@@ -1173,6 +1174,18 @@ CREATE TABLE ezuser_role (
   limit_value varchar(255) default '',
   PRIMARY KEY  (id),
   KEY ezuser_role_contentobject_id (contentobject_id)
+) TYPE=MyISAM;
+
+
+
+
+
+CREATE TABLE ezuser_session_link (
+  user_id int(11) NOT NULL default '0',
+  session_key varchar(32) NOT NULL default '',
+  PRIMARY KEY  (user_id,session_key),
+  KEY ezuser_session_link_user_idx (user_id),
+  KEY ezuser_session_link_session_idx (session_key)
 ) TYPE=MyISAM;
 
 
