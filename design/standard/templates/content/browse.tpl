@@ -237,6 +237,7 @@
             </td>
         </tr>
         {/section}
+
         </table>
         {* Recent and bookmark end *}
 
@@ -262,5 +263,26 @@
 <input type="hidden" name="{$browse.browse_custom_action.name}" value="{$browse.browse_custom_action.value}" />
 {/section}
 
+</form>
+<form name="test" method="post" action={"content/action"|ezurl}>
+<table>
+        <tr>
+            <th colspan="2">
+                {"Create new"|i18n("design/standard/content/browse")}
+            </th>
+        </tr>
+        <tr class="bgdark">
+        <td colspan="2" align="left">
+	<select	name="ClassID" class="classcreate">
+	    {section name=Classes loop=$main_node.object.can_create_class_list}
+	    <option value="{$Classes:item.id}">{$Classes:item.name}</option>
+	    {/section}
+	</select>
+	<input class="menubutton" type="submit" name="NewButton" value="{'New'|i18n('design/standard/content/edit')}" />
+	<input class="menubutton" type="hidden" name="RedirectURIAfterPublish" value="/content/browse/" />
+	<input class="menubutton" type="hidden" name="NodeID" value="{$main_node.node_id}" />
+	</td>
+        </tr>
+</table>
 </form>
 {/let}

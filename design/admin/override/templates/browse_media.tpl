@@ -111,32 +111,7 @@
     {/section}
     {/let}
 
-{*
-
-        {section name=Object loop=$object_array sequence=array(bgdark,bglight)}
-        <tr class="{$Object:sequence}">
-            <td>
-                <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
-            </td>
-        
-            <td>
-                <img src={"1x1.gif"|ezimage} width="{mul(sub($:item.depth,$main_node.depth),$browse_indentation)}" height="1" alt="" border="0" />
-            <img src={"class_2.png"|ezimage} border="0" alt="{'Document'|i18n('design/standard/node/view')}" />
-            <a href={concat("/content/browse/",$Object:item.node_id,"/")|ezurl}>
-            {$Object:item.name|wash}
-                </a>
-            </td>
-        
-            <td>
-                    {$Object:item.object.content_class.name|wash}
-            </td>
-        
-            <td>
-                    {$:item.object.section_id}
-            </td>
-        </tr>
-        {/section}
-*}        {* Browse listing end *}
+    {* Browse listing end *}
 
     </td>
 
@@ -251,6 +226,7 @@
             </td>
         </tr>
         {/section}
+
         </table>
         {* Recent and bookmark end *}
 
@@ -258,14 +234,6 @@
 
 </tr>
 </table>
-
-{include name=Navigator
-         uri='design:navigator/google.tpl'
-         page_uri=concat('/content/browse/',$main_node.node_id)
-         item_count=$browse_list_count
-         view_parameters=$view_parameters
-         item_limit=$page_limit}
-
 
 {section name=Persistent show=$browse.persistent_data loop=$browse.persistent_data}
     <input type="hidden" name="{$:key|wash}" value="{$:item|wash}" />
@@ -275,8 +243,37 @@
 {section show=$browse.browse_custom_action}
 <input type="hidden" name="{$browse.browse_custom_action.name}" value="{$browse.browse_custom_action.value}" />
 {/section}
+</form>
 
+{include name=Navigator
+         uri='design:navigator/google.tpl'
+         page_uri=concat('/content/browse/',$main_node.node_id)
+         item_count=$browse_list_count
+         view_parameters=$view_parameters
+         item_limit=$page_limit}
+
+<form name="test" method="post" action={"content/action"|ezurl}>
+<table>
+        <tr>
+            <th colspan="2">
+                {"Create new"|i18n("design/standard/content/browse")}
+            </th>
+        </tr>
+        <tr class="bgdark">
+        <td colspan="2" align="left">
+	<select	name="ClassID" class="classcreate">
+	    {section name=Classes loop=$main_node.object.can_create_class_list}
+	    <option value="{$Classes:item.id}">{$Classes:item.name}</option>
+	    {/section}
+	</select>
+	<input class="menubutton" type="submit" name="NewButton" value="{'New'|i18n('design/standard/content/edit')}" />
+	<input class="menubutton" type="hidden" name="RedirectURIAfterPublish" value="/content/browse/" />
+	<input class="menubutton" type="hidden" name="NodeID" value="{$main_node.node_id}" />
+	</td>
+        </tr>
+</table>
 </form>
 {/let}
+
 
 

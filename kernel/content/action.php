@@ -79,7 +79,11 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
             $nodeAssignment->store();
 
 //            $contentObject =& eZContentObjectTreeNode::createObject( $http->postVariable( 'ClassID' ), $http->postVariable( 'NodeID' ) );
-
+            if ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )
+            {
+                $http->setSessionVariable( 'RedirectURIAfterPublish', $http->postVariable( 'RedirectURIAfterPublish' ) );
+            }
+            
             $module->redirectTo( $module->functionURI( 'edit' ) . '/' . $contentObject->attribute( 'id' ) . '/' . $contentObject->attribute( 'current_version' ) );
             return;
 
