@@ -48,10 +48,10 @@
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
 
+</div>
+
 {section name=Persistence loop=$persistent_data}
 <input type="hidden" name="PersistentData[{$:key|wash}]" value="{$:item|wash}" />
 {/section}
-
-</div>
 
 </form>
