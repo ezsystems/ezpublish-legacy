@@ -312,6 +312,14 @@ class eZDataType
     }
 
     /*!
+     Clones the date from the old class attribute to the new one.
+     \note Default implementation does nothing which is good enough for datatypes which does not use external tables.
+    */
+    function cloneClassAttribute( &$oldClassAttribute, &$newClassAttribute )
+    {
+    }
+
+    /*!
      Initializes the object attribute with some data.
      \note Default implementation does nothing.
     */

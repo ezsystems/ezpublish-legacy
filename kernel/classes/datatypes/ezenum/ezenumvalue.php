@@ -72,6 +72,17 @@ class eZEnumValue extends eZPersistentObject
                       "name" => "ezenumvalue" );
     }
 
+    function &clone()
+    {
+        $row = array( "id" => null,
+                      "contentclass_attribute_id" => $this->attribute( 'contentclass_attribute_id' ),
+                      "contentclass_attribute_version" => $this->attribute( 'contentclass_attribute_version' ),
+                      "enumvalue" => $this->attribute( 'enumvalue' ),
+                      "enumelement" => $this->attribute( 'enumelement' ),
+                      "placement" => $this->attribute( 'placement' ) );
+        return new eZEnumValue( $row );
+    }
+
     function &create( $contentClassAttributeID, $contentClassAttributeVersion, $element )
     {
         $row = array( "id" => null,

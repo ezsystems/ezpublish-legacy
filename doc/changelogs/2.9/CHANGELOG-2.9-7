@@ -27,7 +27,6 @@ Changes from 2.9-6 to 2.9-7
 - Extension support for datatypes and content actions.
 - Template object forwarding function now supports render modes, a render mode will
   change the directory it searches for templates to render- and the modename./
-- Moving attributes up in class edit now moves one step instead of two.
 - Fixed redirection for object publishing and removal to go to correct node after it's done.
 - Added function to return creator of version in node
 - Added uri_alias attribute on node.
@@ -35,6 +34,12 @@ Changes from 2.9-6 to 2.9-7
 - Added anchor tag as standard in XMLText 
 - Optimized fetch lists
 - Access denied page now shows a login button if the current user is anonymous.
+
+contentclass:
+- Moving attributes up in class edit now moves one step instead of two.
+- Classes can now be copied, a new function in eZDataType was added which
+  tells datatypes to copy data from the old to the new. This is only required
+  for complexe datatypes which uses external tables for class options.
 
 persistentobject:
 - Added support for between in conditions, it is passed as an array with two elements

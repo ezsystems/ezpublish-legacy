@@ -119,7 +119,7 @@ class eZContentClassClassGroup extends eZPersistentObject
 //         $db =& eZDB::instance();
 //         $sql = 'SELECT contentclass_id, contentclass_version, group_id, group_name
 // FROM   ezcontentclass_classgroup
-// WHERE  contentclass_version='0' AND group_id IN ( '1', '3' ) 
+// WHERE  contentclass_version='0' AND group_id IN ( '1', '3' )
 // ORDER BY contentclass_id ASC';
         if ( is_array( $groupIDList ) )
         {

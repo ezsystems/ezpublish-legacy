@@ -2,14 +2,14 @@
 
 {switch name=Sw1 match=$class_count}
   {case match=0}
-    <div class="warning">
-    <h2>{"No classes have been defined for "|i18n("design/standard/class/view")}{$group_name}.</h2>
-    <p>{"Click on the 'New Class' button to create a class."}</p>
+    <div class="feedback">
+    <h2>{"No classes in "|i18n("design/standard/class/view")}{$group_name}.</h2>
+    <p>{"Click on the 'New' button to create a class."}</p>
     </div>
   {/case}
   {case}
     <div class="maincontentheader">
-    <h1>{"Defined class types for"|i18n("design/standard/class/view")} {$group_name}</h1>
+    <h1>{"Classes in"|i18n("design/standard/class/view")} {$group_name}</h1>
     </div> 
   {/case}
 {/switch}
@@ -22,6 +22,7 @@
     <th>{"Modifier:"|i18n("design/standard/class/view")}</th>
     <th>{"Modified:"|i18n("design/standard/class/view")}</th>
     <th>{"Edit:"|i18n("design/standard/class/view")}</th>
+    <th>{"Copy:"|i18n("design/standard/class/view")}</th>
     <th>{"Remove:"|i18n("design/standard/class/view")}</th>
 </tr>
 
@@ -32,24 +33,26 @@
     <td class="{$Classes:sequence}">{$Classes:item.identifier}</td>
     <td class="{$Classes:sequence}">{content_view_gui view=text_linked content_object=$Classes:item.modifier.contentobject}</td>
     <td class="{$Classes:sequence}"><span class="small">{$Classes:item.modified|l10n(shortdatetime)}</span></td>
-    <td class="{$Classes:sequence}" width="1%"><div class="listbutton"><a href={concat($module.functions.edit.uri,"/",$Classes:item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="edit" /></a></div></td>
+    <td class="{$Classes:sequence}" width="1%"><div class="listbutton"><a href={concat("class/edit/",$Classes:item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="edit" /></a></div></td>
+    <td class="{$Classes:sequence}" width="1%"><div class="listbutton"><a href={concat("class/copy/",$Classes:item.id)|ezurl}><img class="button" src={"copy.png"|ezimage} width="16" height="16" alt="edit" /></a></div></td>
     <td class="{$Classes:sequence}" width="1%"><input type="checkbox" name="DeleteIDArray[]" value="{$Classes:item.id}"></td>
 </tr>
 {/section}
 
+<tr>
+  <td colspan="7">
+    <div class="buttonblock">
+    {include uri="design:gui/button.tpl" name=new id_name=NewButton value="New"|i18n("design/standard/class/view")}
+    </div>
+  </td>
+  <td>
+    {section show=$class_count}
+      {include uri="design:gui/button.tpl" name=remove id_name=RemoveButton value="Remove"|i18n("design/standard/class/view")}
+    {/section}
+  </td>
+</tr>
 </table>
 {/section}
-
-<div class="buttonblock">
-{include uri="design:gui/button.tpl" name=new id_name=NewButton value="New"|i18n("design/standard/class/view")}
-{switch name=Sw match=$class_count}
-  {case match=0}
-  {/case}
-  {case}
-  {include uri="design:gui/button.tpl" name=remove id_name=RemoveButton value="Remove"|i18n("design/standard/class/view")}
-  {/case}
-{/switch}
-</div>
 
 <input type="hidden" name = "CurrentGroupID" value="{$GroupID}" />
 <input type="hidden" name = "CurrentGroupName" value="{$group_name}" />

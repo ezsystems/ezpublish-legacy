@@ -10,26 +10,26 @@
 </div>
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
-<tr><td valign="top">
+<tr>
+  <td valign="top">
+    <div class="block">
+    <label>{"Name:"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
+    {include uri="design:gui/lineedit.tpl" name=Name id_name=ContentClass_name value=$class.name}
+    </div>
 
-<div class="block">
-<label>{"Name:"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
-{include uri="design:gui/lineedit.tpl" name=Name id_name=ContentClass_name value=$class.name}
-</div>
+    <div class="block">
+    <label>{"Identifier:"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
+    {include uri="design:gui/lineedit.tpl" name=Identifier id_name=ContentClass_identifier value=$class.identifier}
+    </div>
 
-<div class="block">
-<label>{"Identifier:"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
-{include uri="design:gui/lineedit.tpl" name=Identifier id_name=ContentClass_identifier value=$class.identifier}
-</div>
+    <div class="block">
+    <label>{"Object name:"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
+    {include uri="design:gui/lineedit.tpl" name=ObjectName id_name=ContentClass_contentobject_name value=$class.contentobject_name}
+    </div>
+  </td>
 
-<div class="block">
-<label>{"Object name:"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
-{include uri="design:gui/lineedit.tpl" name=ObjectName id_name=ContentClass_contentobject_name value=$class.contentobject_name}
-</div>
+  <td valign="top">
 
-</td>
-
-<td valign="top">
 <!-- Class group Start -->
 <table class="list" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
@@ -56,7 +56,10 @@
 </tr>
 </table>
 <!-- Class group End -->
-</td></tr>
+
+  </td>
+</tr>
+
 </table>
 
 
@@ -158,13 +161,17 @@
 
 {/section}
 <tr>
+  <td colspan="7"><hr/></td>
+</tr>
+<tr>
   <td colspan="3">
     <div class="buttonblock">
+    <label>{"Datatypes:"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
     {include uri="design:class/datatypes.tpl" name=DataTypes id_name=DataTypeString datatypes=$datatypes current=$datatype}
     {include uri="design:gui/button.tpl" name=New id_name=NewButton value="New"|i18n("design/standard/class/edit")}
     </div>
   </td>
-  <td colspan="4" align="right">{include uri="design:gui/button.tpl" name=Remove id_name=RemoveButton value="Remove"|i18n("design/standard/class/edit")}</td>
+  <td colspan="4" align="right">{section show=$attributes}{include uri="design:gui/button.tpl" name=Remove id_name=RemoveButton value="Remove"|i18n("design/standard/class/edit")}{section-else}&nbsp;{/section}</td>
 </tr>
 </table>
 

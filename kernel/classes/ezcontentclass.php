@@ -84,6 +84,22 @@ class eZContentClass extends eZPersistentObject
                       "name" => "ezcontentclass" );
     }
 
+    function &clone()
+    {
+        $row = array(
+            "id" => null,
+            "version" => $this->attribute( 'version' ),
+            "name" => $this->attribute( 'name' ),
+            "identifier" => $this->attribute( 'identifier' ),
+            "contentobject_name" => $this->attribute( 'contentobject_name' ),
+            "creator_id" => $this->attribute( 'creator_id' ),
+            "modifier_id" => $this->attribute( 'modifier_id' ),
+            "created" => $this->attribute( 'created' ),
+            "modified" => $this->attribute( 'modified' ) );
+        $tmpClass = new eZContentClass( $row );
+        return $tmpClass;
+    }
+
     function &create( $user_id )
     {
         include_once( "lib/ezlocale/classes/ezdatetime.php" );

@@ -82,11 +82,28 @@ class eZEnumType extends eZDataType
         $contentObjectAttributeVersion = $contentObjectAttribute->attribute( "version" );
         $newVersionEnumObject =& eZEnumObjectValue::fetchAllElements( $contentObjectAttributeID, $currentVersion );
 
-        for ( $i=0;$i<count( $newVersionEnumObject );$i++ )
+        for ( $i = 0; $i < count( $newVersionEnumObject ); ++$i )
         {
             $enumobjectvalue =  $newVersionEnumObject[$i];
             $enumobjectvalue->setAttribute( "contentobject_attribute_version",  $contentObjectAttributeVersion );
             $enumobjectvalue->store();
+        }
+    }
+
+    /*!
+     \reimp
+    */
+    function cloneClassAttribute( &$oldClassAttribute, &$newClassAttribute )
+    {
+        $oldContentClassAttributeID = $oldClassAttribute->attribute( "id" );
+        $oldEnums =& eZEnumValue::fetchAllElements( $oldContentClassAttributeID, 0 );
+
+        foreach ( $oldEnums as $oldEnum )
+        {
+            $enum =& $oldEnum->clone();
+            $enum->setAttribute( "contentclass_attribute_id", $newClassAttribute->attribute( 'id' ) );
+            $enum->setAttribute( "contentclass_attribute_version", $newClassAttribute->attribute( 'version' ) );
+            $enum->store();
         }
     }
 

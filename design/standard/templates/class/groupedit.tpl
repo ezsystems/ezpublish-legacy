@@ -5,8 +5,8 @@
 <div>
 
 <div class="byline">
-<p class="created">{"Created by"|i18n("design/standard/class/edit")} {$classgroup.creator_id} {"on"|i18n("design/standard/class/edit")} {$classgroup.created|l10n(shortdatetime)}</p>
-<p class="modified">{"Modified by"|i18n("design/standard/class/edit")} {$classgroup.modifier_id} {"on"|i18n("design/standard/class/edit")} {$classgroup.modified|l10n(shortdatetime)}</p>
+{*<p class="created">{"Created by"|i18n("design/standard/class/edit")} {content_view_gui view=text_linked content_object=$classgroup.creator.contentobject} {"on"|i18n("design/standard/class/edit")} {$classgroup.created|l10n(shortdatetime)}</p>*}
+<p class="modified">{"Modified by"|i18n("design/standard/class/edit")} {content_view_gui view=text_linked content_object=$classgroup.modifier.contentobject} {"on"|i18n("design/standard/class/edit")} {$classgroup.modified|l10n(shortdatetime)}</p>
 </div>
 
 <div class="block">

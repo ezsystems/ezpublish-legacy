@@ -81,6 +81,7 @@ class eZContentClassGroup extends eZPersistentObject
     function hasAttribute( $attr )
     {
         return ( $attr == "modifier" or
+                 $attr == 'creator' or
                  eZPersistentObject::hasAttribute( $attr ) );
     }
     function attribute( $attr )
@@ -90,6 +91,10 @@ class eZContentClassGroup extends eZPersistentObject
             case "modifier":
             {
                 $user_id = $this->ModifierID;
+            } break;
+            case "creator":
+            {
+                $user_id = $this->CreatorID;
             } break;
             default:
                 return eZPersistentObject::attribute( $attr );

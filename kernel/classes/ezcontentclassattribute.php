@@ -85,6 +85,34 @@ class eZContentClassAttribute extends eZPersistentObject
                       'name' => 'ezcontentclass_attribute' );
     }
 
+    function &clone()
+    {
+        $row = array(
+            'id' => null,
+            'version' => $this->attribute( 'version' ),
+            'contentclass_id' => $this->attribute( 'contentclass_id' ),
+            'identifier' => $this->attribute( 'identifier' ),
+            'name' => $this->attribute( 'name' ),
+            'is_searchable' => $this->attribute( 'is_searchable' ),
+            'is_required' => $this->attribute( 'is_required' ),
+            'is_information_collector' => $this->attribute( 'is_information_collector' ),
+            'data_type_string' => $this->attribute( 'data_type_string' ),
+            'placement' => $this->attribute( 'placement' ),
+            'data_int1' => $this->attribute( 'data_int1' ),
+            'data_int2' => $this->attribute( 'data_int2' ),
+            'data_int3' => $this->attribute( 'data_int3' ),
+            'data_int4' => $this->attribute( 'data_int4' ),
+            'data_float1' => $this->attribute( 'data_float1' ),
+            'data_float2' => $this->attribute( 'data_float2' ),
+            'data_float3' => $this->attribute( 'data_float3' ),
+            'data_float4' => $this->attribute( 'data_float4' ),
+            'data_text1' => $this->attribute( 'data_text1' ),
+            'data_text2' => $this->attribute( 'data_text1' ),
+            'data_text3' => $this->attribute( 'data_text3' ),
+            'data_text4' => $this->attribute( 'data_text4' ) );
+        return new eZContentClassAttribute( $row );
+    }
+
     function &create( $class_id, $data_type_string )
     {
         $row = array(

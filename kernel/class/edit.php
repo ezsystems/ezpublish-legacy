@@ -239,7 +239,7 @@ for ( $i = 0; $i < count( $attributes ); ++$i )
 {
     $attribute =& $attributes[$i];
     $attribute->setAttribute( "version", 1 );
-    $identifier =& $attribute->attribute( "identifier" );
+    $identifier = $attribute->attribute( "identifier" );
     if ( $identifier == "" )
         $identifier = $attribute->attribute( "name" );
     $identifier = strtolower( $identifier );
@@ -254,6 +254,20 @@ for ( $i = 0; $i < count( $attributes ); ++$i )
     $dataType =& $attribute->dataType();
     $dataType->initializeClassAttribute( $attribute );
 }
+// Fixed class identifier to only contain a-z0-9_
+$identifier = $class->attribute( 'identifier' );
+if ( $identifier == "" )
+    $identifier = $class->attribute( "name" );
+$identifier = strtolower( $identifier );
+$identifier = preg_replace( array( "/[^a-z0-9_ ]/" ,
+                                   "/ /",
+                                   "/__+/" ),
+                            array( "",
+                                   "_",
+                                   "_" ),
+                            $identifier );
+$class->setAttribute( "identifier", $identifier );
+
 // Run custom actions if any
 if ( $customAction )
 {
