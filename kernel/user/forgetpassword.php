@@ -37,7 +37,7 @@
 
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-include_once( "kernel/classes/ezforgotpassword.php" );
+include_once( "kernel/classes/datatypes/ezuser/ezforgotpassword.php" );
 
 
 include_once( "kernel/common/template.php" );
