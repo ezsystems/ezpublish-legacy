@@ -21,6 +21,9 @@ eZINI:
   http://ez.no/community/bug_reports/class_ezhttpfile_function_hasattribute
 - Removed the hardcoded field list in eZContentObject::fetchList. (Merged from stable/3.2 rev. 5901)
 - Fixed bug with mime type in ezbinaryhandler (was allways set to application/octet-stream)
+- Fixed bug of undefined field "use_id" in ezcontentobject_version.
+  http://ez.no/community/bug_reports/ezcontentobjectversion
+ 
 
 *Library:
 

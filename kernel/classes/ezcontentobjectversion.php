@@ -105,7 +105,11 @@ class eZContentObjectVersion extends eZPersistentObject
                                          'workflow_event_pos' =>  array( 'name' => 'WorkflowEventPos',
                                                                          'datatype' => 'integer',
                                                                          'default' => 0,
-                                                                         'required' => true ) ),
+                                                                         'required' => true ),
+                                         'user_id' =>  array( 'name' => 'UserID',
+                                                              'datatype' => 'integer',
+                                                              'default' => 0,
+                                                              'required' => true )),
                       'keys' => array( 'id' ),
                       'function_attributes' => array( // 'data' => 'fetchData',
                                                       'creator' => 'creator',
@@ -403,7 +407,6 @@ class eZContentObjectVersion extends eZPersistentObject
             }
             if ( count( $limitationList ) > 0 )
             {
-                eZDebug::writeDebug("goes here 2");
                 $access = 'denied';
                 foreach ( array_keys( $limitationList ) as $key  )
                 {
