@@ -173,8 +173,8 @@ class eZURL extends eZPersistentObject
                 $url =& eZURL::create( $url );
                 $url->store();
                 $urlID = $url->attribute( 'id' );
-
-                $registeredURLArray[$url] = $urlID;
+                $urlText = $url->attribute('url' );
+                $registeredURLArray[$urlText] = $urlID;
             }
         }
 
