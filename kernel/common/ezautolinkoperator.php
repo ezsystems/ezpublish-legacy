@@ -56,7 +56,9 @@ class eZAutoLinkOperator
     */
     function namedParameterList()
     {
-        return array( );
+        return array( 'max_chars' => array( 'type' => 'integer',
+                                            'required' => false,
+                                            'default' => null ) );
     }
 
     /*!
@@ -64,14 +66,34 @@ class eZAutoLinkOperator
     */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
+        $ini =& $tpl->ini();
+        $max = $ini->variable( 'AutoLinkOperator', 'MaxCharacters' );
+        if ( $namedParameters['max_chars'] !== null )
+        {
+            $max = $namedParameters['max_chars'];
+        }
+        $maxHalf = (int)($max / 2);
+
+        $methods = $ini->variable( 'AutoLinkOperator', 'Methods' );
+        $methodText = implode( '|', $methods );
+
         // Replace mail
         $operatorValue = preg_replace( "#(([a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+@([a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+)#", "<a href='mailto:\\1'>\\1</a>", $operatorValue );
 
-        // Replace http link
-        $operatorValue = preg_replace( "#(http://([a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+([\/a-zA-Z0-9_-]+\\.)*([\/a-zA-Z0-9_-])*\?*([a-zA-Z0-9_-]+=[a-zA-Z0-9_-]+&*)*)#", "<a href='\\1' target='_blank'>\\1</a>", $operatorValue );
-
-        // Replace ftp link
-        $operatorValue = preg_replace( "#(ftp://([a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+([\/a-zA-Z0-9_-]+\\.)*([\/a-zA-Z0-9_-])*)#", "<a href='\\1' target='_blank'>\\1</a>", $operatorValue );
+        // Replace http/ftp etc. links
+//        $operatorValue = preg_replace( "#(http://([a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+([\/a-zA-Z0-9_-]+\\.)*([\/a-zA-Z0-9_-])*\?*([a-zA-Z0-9_-]+=[a-zA-Z0-9_-]+&*)*)#", "<a href='\\1'>\\1</a>", $operatorValue );
+        if ( $max )
+        {
+            $operatorValue = preg_replace( "#(((?:$methodText)://)(([a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+(([\/a-zA-Z0-9_+$-]+\\.)*([\/a-zA-Z0-9_+$-])*))(\#[a-zA-Z0-9-]+)?\?*([a-zA-Z0-9_-]+=[a-zA-Z0-9_-]+&*)*)#e",
+                                           "'<a href=\"\\1\" title=\"\\1\">' . ( ( strlen( '\\1' ) > $max - 3 ) ? substr( '\\1', 0, $maxHalf - 3 ) . '...' . substr( '\\1', strlen( '\\1' ) - $maxHalf ) : '\\1' ) . '</a>'",
+                                           $operatorValue );
+        }
+        else
+        {
+            $operatorValue = preg_replace( "#(((?:$methodText)://)(([a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+(([\/a-zA-Z0-9_+$-]+\\.)*([\/a-zA-Z0-9_+$-])*))(\#[a-zA-Z0-9-]+)?\?*([a-zA-Z0-9_-]+=[a-zA-Z0-9_-]+&*)*)#",
+                                           "<a href=\"\\1\" title=\"\\1\">\\3</a>",
+                                           $operatorValue );
+        }
     }
 
     /// \privatesection

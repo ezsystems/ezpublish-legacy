@@ -232,7 +232,7 @@ class eZImageInterface
         foreach ( array_keys( $createdImageArray ) as $createImageKey )
         {
             $createdImage = $createdImageArray[$createImageKey];
-            ImageDestroy( $createdImage );
+            @ImageDestroy( $createdImage );
         }
     }
 
@@ -311,7 +311,7 @@ class eZImageInterface
     {
         if ( $this->ImageObjectRef === null )
             return;
-        ImageDestroy( $this->ImageObject );
+        @ImageDestroy( $this->ImageObject );
         eZImageInterface::unregisterImage( $this->ImageObjectRef );
         unset( $this->ImageObject );
         $this->ImageObject = null;

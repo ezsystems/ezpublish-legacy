@@ -1,5 +1,5 @@
 {*?template charset=latin1?*}
-{default enable_glossary=true() enable_help=true() enable_link=true()}
+{default enable_help=true() enable_link=true()}
 
 {let name=Path
      path=$module_result.path
@@ -45,7 +45,7 @@
     <meta name="generator" content="eZ publish" />
 
 {section show=$enable_link}
-    {include uri="design:link.tpl" enable_glossary=$enable_glossary enable_help=$enable_help enable_link=$enable_link}
+    {include uri="design:link.tpl" enable_help=$enable_help enable_link=$enable_link}
 {/section}
 
 {/default}

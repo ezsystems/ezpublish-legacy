@@ -1,5 +1,6 @@
 Changes from 3.2-1 to 3.3.0-1
 
+
 *Kernel:
 - Added count function for tipafriend and content view.
 - Added support for information collection on option datatype.
@@ -21,3 +22,10 @@ Changes from 3.2-1 to 3.3.0-1
 
 *Library :
 - Added basic PDF library. This will be extended in the following weeks.
+
+eZ template:
+- Added support for using one variable to hold the iterator values instead of multiple variables.
+  This helps with avoiding overuse of namespaces. The new parameter is 'var'.
+- Added support for accessing the last iteration of a section loop, this only work with
+  thew new variable iterator. Can be turned off with the 'no-last-value' parameter.
+- Added support for reversing the loop in a section, the parameter is 'reverse'.
