@@ -123,7 +123,7 @@
     <ul>
         {section var=news loop=$news_list}
         <li>
-            <a href={$news.item.url_alias)|ezurl}>{$news.item.name|wash}</a>
+            <a href={$news.item.url_alias|ezurl}>{$news.item.name|wash}</a>
             <div class="date">
                 ({$news.item.object.published|l10n( shortdate )})
             </div>
