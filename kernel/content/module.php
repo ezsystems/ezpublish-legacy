@@ -84,7 +84,7 @@ $ViewList["browse"] = array(
 $ViewList["download"] = array(
     "functions" => array( 'read' ),
     "script" => "download.php",
-    "params" => array( "ContentObjectAttributeID" ) );
+    "params" => array( "ContentObjectAttributeID", "version" ) );
 
 $ViewList["action"] = array(
     "functions" => array( 'read' ),

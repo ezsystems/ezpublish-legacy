@@ -36,15 +36,17 @@ include_once( "kernel/classes/ezcontentobjectattribute.php" );
 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
+include_once( "kernel/classes/datatypes/ezmedia/ezmedia.php" );
 include_once( "kernel/common/template.php" );
 
 $tpl =& templateInit();
 
 $contentObjectAttributeID = $Params['ContentObjectAttributeID'];
-
-$contentObjectAttribute = eZContentObjectAttribute::fetch( $contentObjectAttributeID, true);
+$version = $Params['version'];
+//$version = 4;
+$contentObjectAttribute = eZContentObjectAttribute::fetch( $contentObjectAttributeID, $version, true);
 $contentObjectID = $contentObjectAttribute->attribute( 'contentobject_id' );
-$version = $contentObjectAttribute->attribute( 'version' );
+//$version = $contentObjectAttribute->attribute( 'version' );
 $contentObject = eZContentObject::fetch( $contentObjectID );
 
 if ( ! $contentObject->attribute( 'can_read' ) )
@@ -53,7 +55,18 @@ if ( ! $contentObject->attribute( 'can_read' ) )
         return;
 }
 
-$binary =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
+$binaryType =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
+$mediaType =& eZMedia::fetch( $contentObjectAttributeID, $version );
+
+if( $binaryType != null )
+    $binary = $binaryType;
+elseif( $mediaType != null )
+    $binary = $mediaType;
+else
+{
+    eZDebug::writeError("No speciafied file exist.");
+}
+
 $ini =& eZINI::instance();
 $origDir = $ini->variable( "FileSettings", "StorageDir" ) . '/original';
 
@@ -77,9 +90,6 @@ if ( $binary->attribute( "filename" ) != "" and file_exists( $fileName ) )
     fpassthru( $fh );
     fflush();
     exit();
-
-
-
 }else
 {
     eZDebug::writeNotice( $binary, 'binary');

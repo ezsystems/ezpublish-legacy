@@ -390,6 +390,25 @@ width int not null,
 height int not null,
 primary key( contentobject_attribute_id,version,requested_width,requested_height) );
 
+
+# Media :
+
+drop table if exists ezmedia;
+CREATE TABLE ezmedia (
+contentobject_attribute_id int not null,
+version int not null,
+filename varchar(255) not null,
+original_filename varchar(255) not null,
+mime_type varchar(50) not null,
+width int,
+height int,
+has_controller int(1),
+is_autoplay int(1),
+pluginspage varchar(255),
+quality varchar(50),
+is_loop int(1),
+primary key(contentobject_attribute_id, version) );
+
 # Binary file:
 
 drop table if exists ezbinaryfile;
