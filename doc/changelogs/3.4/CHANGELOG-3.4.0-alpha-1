@@ -2,6 +2,7 @@ Changes from 3.3 to 3.4.0-alpha-1
 
 *Kernel:
 - Added user specified template values.
+- Added PathPrefix functionality to be able to remove selected parts of the url in the url alias
 
 *Libraries:
 

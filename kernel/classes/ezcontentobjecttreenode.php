@@ -2574,13 +2574,31 @@ WHERE
     function &urlAlias()
     {
         $useURLAlias =& $GLOBALS['eZContentObjectTreeNodeUseURLAlias'];
+        $ini =& eZINI::instance();
         if ( !isset( $useURLAlias ) )
         {
-            $ini =& eZINI::instance();
             $useURLAlias = $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled';
         }
         if ( $useURLAlias )
-            return $this->PathIdentificationString;
+        {
+            if ( $ini->hasVariable( 'SiteAccessSettings', 'PathPrefix' ) &&
+                 $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) != '' )
+            {
+                $prepend = $ini->variable( 'SiteAccessSettings', 'PathPrefix' );
+                if ( substr( $this->PathIdentificationString, 0, strlen( $prepend ) ) )
+                {
+                    return substr( $this->PathIdentificationString, strlen( $prepend ) );
+                }
+                else
+                {
+                    return $this->PathIdentificationString;
+                }
+            }
+            else
+            {
+                return $this->PathIdentificationString;
+            }
+        }
         else
             return '/content/view/full/' . $this->NodeID;
     }
