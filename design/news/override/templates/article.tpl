@@ -9,9 +9,7 @@
 {default content_object=$node.object
          content_version=$node.contentobject_version_object}
 
-<div class="object_title">
-    <h1>{$node.name}</h1>
-</div>
+<h1>{$node.name}</h1>
 
 {section show=$node.object.can_edit}
    <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
@@ -48,7 +46,9 @@
     {/section}
 {/let}
 
-<a href={concat('/content/tipafriend/',$node.node_id)|ezurl}>Tip a friend</a>
+<div class="tipafriend">
+   <a href={concat('/content/tipafriend/',$node.node_id)|ezurl}>Tip a friend</a>
+</div>
 
 
 {section show=$node.object.data_map.enable_comments.data_int}

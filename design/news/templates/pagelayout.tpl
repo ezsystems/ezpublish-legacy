@@ -8,7 +8,7 @@
 
 <style>
     @import url({"stylesheets/core.css"|ezdesign});
-   {* @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});*}
+{*    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot}); *}
     @import url({"stylesheets/news.css"|ezdesign});
 </style>
 
@@ -48,11 +48,9 @@
                 {let folder_list=fetch( content, list, hash( parent_node_id, 2, 
                                                              sort_by, array( array( priority ) ),
   							     class_filter_type, exclude, 
-							     class_filter_array, array( 'gallery' ) ) )}
+							     class_filter_array, array( 'folder' ) ) )}
                 {section var=Folder loop=$folder_list}
-		    {section show=ne($Folder.item.node_id,173)}
-                        <li><a href={concat( "/content/view/full/", $Folder.item.node_id, "/" )|ezurl}>{$Folder.item.name|wash}</a></li>
-		    {/section}        
+                        <li><a href={$Folder.item.url_alias|ezurl}>{$Folder.item.name|wash}</a></li>
 		{/section}
                 {/let}
                 </ul>
@@ -126,14 +124,26 @@
                {/let}
 
 	       {let poll_list=fetch( content, list, hash(  parent_node_id, 173, sort_by, array( array( priority ) ), limit, 1 ) ) }
-	    <div id="pollbox">
+            <div id="pollbox">
             <h3>Poll</h3>
-            <p>
-            {section name=poll loop=$poll_list}
-                {node_view_gui view=full content_node=$poll:item}
-	    {/section}
-            </p> 
-	    </div>
+                <div class="poll">
+                   <form method="post" action={"content/action"|ezurl}>
+
+                   <input type="hidden" name="ContentNodeID" value="{$poll_list[0].node_id}" />
+                   <input type="hidden" name="ContentObjectID" value="{$poll_list[0].object.id}" />
+
+                   <p>{$poll_list[0].name}</p>
+                   {attribute_view_gui attribute=$poll_list[0].object.data_map.option}
+                   {section name=ContentAction loop=$poll_list[0].object.content_action_list show=$poll_list[0].object.content_action_list}
+                      <input class="button" type="submit" name="{$ContentAction:item.action}" value="Vote" />
+                   {/section}
+
+                   <a href={concat( "/content/collectedinfo/", $poll_list[0].node_id, "/" )|ezurl}>Result</a>
+                   </form>
+
+                   <a href={concat( "/content/view/full/", $poll_list[0].parent_node_id, "/" )|ezurl}><h4>View all polls</h4></a>
+                </div>
+            </div>
                {/let}
         </div>
     </div>

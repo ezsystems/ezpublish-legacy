@@ -152,11 +152,12 @@ div#submenu a:hover
 
 div#infobox
 {
+    display: inline;
     margin-top: 0;
     margin-bottom: 2em;
     float: left;
     clear: none;
-    width: 200px;
+    width: 170px;
 }
 
 div#infobox div.design
@@ -215,9 +216,9 @@ div#infobox div.date
 
 div#maincontent
 {
-    clear: none;
+    position:relative;
     margin-bottom: 2em;
-    margin-left: 220px;
+    margin-left: 200px;
     margin-right: 20px;
 }
 
@@ -275,6 +276,19 @@ div#newsblock li
     padding-bottom: 0.1em;
     padding-left: 0em;
 }
+
+/* Poll block */
+
+div#pollbox
+{
+   background-color: #eeeeee;
+}
+
+div#pollbox div.poll
+{
+   padding-left: 1em;
+}
+
 
 div#footer
 {
@@ -391,6 +405,26 @@ div#footer a
     color: #ff6633;
 }
 
+#article div.tipafriend
+{ 
+    border: 1px dashed #aaaaaa;
+    background-color: #eeeeee;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    padding-bottom: 0.5em;
+    padding-top: 0.5em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+#article div.tipafriend a
+{ 
+    font-size: small;
+    border-bottom: 1px dotted #ff6633;
+    text-decoration:none;
+    color: #ff6633;
+}
+
 #article div.articlecomments
 { 
     background-color: #eeeeee;
@@ -501,4 +535,12 @@ div.editbutton input
    font-size: small;
    background-color: #304b82;
    color: #ffffff;
+}
+
+/* Feedback styles */
+div.error, div.warning, div.feedback, div.highlight
+{ 
+    font-size: 80%;
+    color: #ffa113;
+    border-width: 0px;
 }
