@@ -81,3 +81,6 @@ Classes:
 Add a checkbox to each attribute which tells whether the attribute is considered a content
 attribute or a metadata attribute. Metadata attributes are not translated and are generally
 not shown in views but instead used to control objects, like "have comments".
+
+Policy:
+Make policy checking more centralized instead of copying code all the time.
