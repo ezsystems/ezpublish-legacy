@@ -4,6 +4,7 @@ Changes from 2.9-7 to 3.0-1
 - Changed default rendering of headers in XML text to start at h2 instead of h1
 - Added autolink template operator for automatic conversion of e-mail http and ftp
 links to clickable links.
+- Added design on admin interface
 
 *SDK :
 
