@@ -500,10 +500,17 @@ class eZDataType
     function contentActionList( &$classAttribute )
     {
         $actionList = array();
-        if ( $classAttribute->attribute( 'is_information_collector' ) == true )
+        if ( is_object( $classAttribute ) )
         {
-            $actionList[] = array( 'name' => ezi18n( 'kernel/classes/datatypes', 'Send', 'Datatype information collector action' ),
-                                   'action' => 'ActionCollectInformation' );
+            if ( $classAttribute->attribute( 'is_information_collector' ) == true )
+            {
+                $actionList[] = array( 'name' => ezi18n( 'kernel/classes/datatypes', 'Send', 'Datatype information collector action' ),
+                                       'action' => 'ActionCollectInformation' );
+            }
+        }
+        else
+        {
+            eZDebug::writeError( '$classAttribute isn\'t an object.', 'eZDataType::contentActionList' );
         }
         return $actionList;
     }
