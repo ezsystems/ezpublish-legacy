@@ -385,6 +385,11 @@ class eZLocale
         {
             $this->AllowedCharsets = $languageINI->variable( 'Charset', 'Allowed' );
         }
+        else
+        {
+            if ( $languageINI->hasVariable( 'Charset', 'Preferred' ) )
+                $this->AllowedCharsets[] = $languageINI->variable( 'Charset', 'Preferred' );
+        }
 
         if ( !is_array( $this->ShortDayNames ) )
             $this->ShortDayNames = array();

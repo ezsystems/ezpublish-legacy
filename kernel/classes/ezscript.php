@@ -134,6 +134,17 @@ class eZScript
         // Initialize debug settings
         eZUpdateDebugSettings();
 
+        // Set the different permissions/settings.
+        include_once( 'lib/ezi18n/classes/ezcodepage.php' );
+        $ini =& eZINI::instance();
+        $iniFilePermission = $ini->variable( 'FileSettings', 'StorageFilePermissions' );
+        $iniDirPermission = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
+        $iniVarDirectory = eZSys::cacheDirectory() ;
+
+        eZCodepage::setPermissionSetting( array( 'file_permission' => octdec( $iniFilePermission ),
+                                                 'dir_permission'  => octdec( $iniDirPermission ),
+                                                 'var_directory'   => $iniVarDirectory ) );
+
         include_once( 'lib/ezutils/classes/ezexecution.php' );
 
         eZExecution::addCleanupHandler( 'eZDBCleanup' );

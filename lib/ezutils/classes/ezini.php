@@ -289,14 +289,6 @@ class eZINI
         if ( $reset )
             $this->reset();
         $cachedDir = "var/cache/ini/";
-        if ( !file_exists( $cachedDir ) )
-        {
-            include_once( 'lib/ezutils/classes/ezdir.php' );
-            if ( ! eZDir::mkdir( $cachedDir, 0777, true ) )
-            {
-                eZDebug::writeError( "Couldn't create cache directory $cachedDir, perhaps wrong permissions", "eZINI" );
-            }
-        }
 
         $this->findInputFiles( $inputFiles, $iniFile );
         if ( count( $inputFiles ) == 0 )
@@ -371,7 +363,7 @@ class eZINI
         if ( !$useCache )
         {
             $this->parse( $inputFiles, $iniFile, false );
-            $this->saveCache( $cachedFile );
+            $this->saveCache( $cachedDir, $cachedFile );
 
             // Write log message to storage.log
             include_once( 'lib/ezutils/classes/ezlog.php' );
@@ -386,8 +378,16 @@ class eZINI
      \private
      Stores the content of the INI object to the cache file \a $cachedFile.
     */
-    function saveCache( $cachedFile )
+    function saveCache( $cachedDir, $cachedFile )
     {
+        if ( !file_exists( $cachedDir ) )
+        {
+            include_once( 'lib/ezutils/classes/ezdir.php' );
+            if ( !eZDir::mkdir( $cachedDir, 0777, true ) )
+            {
+                eZDebug::writeError( "Couldn't create cache directory $cachedDir, perhaps wrong permissions", "eZINI" );
+            }
+        }
         // save the data to a cached file
         $buffer = "";
         $i = 0;

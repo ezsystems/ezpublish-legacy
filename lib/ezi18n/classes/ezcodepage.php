@@ -45,99 +45,8 @@ include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
 
 define( "EZ_CODEPAGE_CACHE_CODE_DATE", 1028204478 );
 
-
-
-
-
 class eZCodePage
 {
-    /*!
-     \private
-
-     Gets the permission setting for codepage files & returns it.
-     If the permission setting doesnt exists: returns false.
-    */
-    function getPermissionSetting()
-    {
-        eZDebug::writeDebug( "getPermissionSetting was called..." );
-
-        if ( isset ( $GLOBALS['EZCODEPAGEPERMISSIONS'] ) )
-        {
-            return( $GLOBALS['EZCODEPAGEPERMISSIONS'] );
-        }
-        else
-        {
-            return( false );
-        }
-    }
-
-
-
-
-    /*!
-     \private
-
-     Sets the permission setting for codepagefiles.
-    */
-    function setPermissionSetting( $permissionArray )
-    {
-        eZDebug::writeDebug( "setPermissionSetting was called..." );
-
-        $GLOBALS['EZCODEPAGEPERMISSIONS'] = $permissionArray;
-
-        if ( $permissionArray !== false )
-        {
-            eZCodepage::flushCacheObject();
-        }
-    }
-
-
-
-
-    /*!
-     */
-    function flushCacheObject()
-    {
-        eZDebug::writeDebug("flushCacheObject is called... ","");
-
-        // Grab the permission setting for codepage cache files.
-        $permissionArray = eZCodepage::getPermissionSetting();
-
-        // If we were unable to extract the permission setting:
-        if ( $permissionArray === false )
-        {
-            eZDebug::writeDebug( "getPermissionSetting: unable to grab permission setting from global array..." );
-
-            // Bail with false.
-            return( false );
-        }
-        // Else: permission setting is available:
-        else
-        {
-            eZDebug::writeDebug( "getPermissionSetting: grabbed permission setting from global array..." );
-
-            if ( !isset ( $GLOBALS['EZCODEPAGECACHEOBJECTLIST'] ) )
-            {
-                return( false );
-            }
-            // For all the cache objects:
-            foreach( array_keys( $GLOBALS['EZCODEPAGECACHEOBJECTLIST'] ) as $codePageKey )
-            {
-                $codePage =& $GLOBALS['EZCODEPAGECACHEOBJECTLIST'][$codePageKey];
-
-                $filename = $codePage->cacheFilepath();
-
-                // Store __FIX_ME__
-                $codePage->storeCacheObject( $filename, $permissionArray );
-            }
-
-            //
-            unset( $GLOBALS['EZCODEPAGECACHEOBJECTLIST'] );
-        }
-    }
-
-
-
    /*!
      Initializes the codepage with the charset code $charset_code, and then loads it.
     */
@@ -480,9 +389,9 @@ class eZCodePage
 
     function cacheFileName( $charset_code )
     {
-        $permissionArray = eZCodepage::getPermissionSetting();
+        $permissionArray = eZCodepage::permissionSetting();
         $charset_code = eZCharsetInfo::realCharsetCode( $charset_code );
-        $cache_dir = $permissionArray['var_directory']."/cache/codepages/";
+        $cache_dir = $permissionArray['var_directory'] . "/codepages/";
         $cache_filename = md5( $charset_code );
         $cache = $cache_dir . $cache_filename . ".php";
         return $cache;
@@ -522,10 +431,9 @@ class eZCodePage
     function storeCacheObject( $filename, $permissionArray )
     {
         //
-        $cache_dir = $permissionArray['var_directory']."/cache/codepages/";
+        $cache_dir = $permissionArray['var_directory'] . "/codepages/";
 
-        //
-        eZDebug::writeDebug("storeCacheObject is called... filname is: $filename ","");
+//         eZDebug::writeDebug("storeCacheObject is called... filname is: $filename ","");
 
         $str = "\$umap = array();\n\$utf8map = array();\n\$cmap = array();\n\$utf8cmap = array();\n";
         reset( $this->UnicodeMap );
@@ -585,7 +493,7 @@ $str
 
         if ( !file_exists( $cache_dir ) )
         {
-            eZDebug::writeDebug( "Cache dir doesn't exist, attempting to create it with perm.:".$permissionArray['dir_permission'], "");
+//             eZDebug::writeDebug( "Cache dir doesn't exist, attempting to create it with perm.:".$permissionArray['dir_permission'], "");
 
             // Store the old umask and set a new one.
             $oldPermissionSetting = umask( 0 );
@@ -626,12 +534,12 @@ $str
     */
     function cacheFilepath()
     {
-        $permissionArray = eZCodepage::getPermissionSetting();
-        $cache_dir = $permissionArray['var_directory'] . "/cache/codepages/";
+        $permissionArray = eZCodepage::permissionSetting();
+        $cache_dir = $permissionArray['var_directory'] . "/codepages/";
         $cache_filename = md5( $this->CharsetCode );
         $cache = $cache_dir . $cache_filename . ".php";
 
-        return ( $cache );
+        return $cache;
     }
 
 
@@ -644,9 +552,10 @@ $str
     function load( $use_cache = true )
     {
         $file = "share/codepages/" . $this->CharsetCode;
+//         eZDebug::writeDebug( "ezcodepage::load was called for $file..." );
 
-        $permissionArray = eZCodepage::getPermissionSetting();
-        $cache_dir = $permissionArray['var_directory']."/cache/codepages/";
+        $permissionArray = eZCodepage::permissionSetting();
+        $cache_dir = $permissionArray['var_directory'] . "/codepages/";
         $cache_filename = md5( $this->CharsetCode );
         $cache = $cache_dir . $cache_filename . ".php";
 
@@ -768,7 +677,7 @@ $str
         if ( $use_cache )
         {
             // Grab the permission setting(s).
-            $permissionArray = $this->getPermissionSetting();
+            $permissionArray = $this->permissionSetting();
 
             // If there is no setting; do nothing:
             if ( $permissionArray === false )
@@ -845,6 +754,86 @@ $str
             $cp = new eZCodePage( $charset_code, $use_cache );
         }
         return $cp;
+    }
+
+    /*!
+     \private
+
+     Gets the permission setting for codepage files & returns it.
+     If the permission setting doesnt exists: returns false.
+    */
+    function permissionSetting()
+    {
+//         eZDebug::writeDebug( "permissionSetting was called..." );
+
+        if ( isset( $GLOBALS['EZCODEPAGEPERMISSIONS'] ) )
+        {
+            return $GLOBALS['EZCODEPAGEPERMISSIONS'];
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /*!
+     \private
+
+     Sets the permission setting for codepagefiles.
+    */
+    function setPermissionSetting( $permissionArray )
+    {
+//         eZDebug::writeDebug( "setPermissionSetting was called..." );
+
+        $GLOBALS['EZCODEPAGEPERMISSIONS'] = $permissionArray;
+
+        if ( $permissionArray !== false )
+        {
+            eZCodepage::flushCacheObject();
+        }
+    }
+
+    /*!
+     \private
+    */
+    function flushCacheObject()
+    {
+//         eZDebug::writeDebug("flushCacheObject is called... ","");
+        if ( !isset( $GLOBALS['EZCODEPAGECACHEOBJECTLIST'] ) )
+        {
+            return false;
+        }
+
+        // Grab the permission setting for codepage cache files.
+        $permissionArray = eZCodepage::permissionSetting();
+
+        // If we were unable to extract the permission setting:
+        if ( $permissionArray === false )
+        {
+//             eZDebug::writeDebug( "permissionSetting: unable to grab permission setting from global array..." );
+
+            // Bail with false.
+            return false;
+        }
+        // Else: permission setting is available:
+        else
+        {
+//             eZDebug::writeDebug( "permissionSetting: grabbed permission setting from global array..." );
+
+            // For all the cache objects:
+            foreach( array_keys( $GLOBALS['EZCODEPAGECACHEOBJECTLIST'] ) as $codePageKey )
+            {
+                $codePage =& $GLOBALS['EZCODEPAGECACHEOBJECTLIST'][$codePageKey];
+
+                $filename = $codePage->cacheFilepath();
+
+                // Store __FIX_ME__
+                $codePage->storeCacheObject( $filename, $permissionArray );
+            }
+
+            //
+            unset( $GLOBALS['EZCODEPAGECACHEOBJECTLIST'] );
+        }
     }
 
     /// \privatesection

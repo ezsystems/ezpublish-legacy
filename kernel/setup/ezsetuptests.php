@@ -543,7 +543,7 @@ function eZSetupTestSafeMode( $type, &$arguments )
     $safeModeGID = ini_get( 'safe_mode_gid' );
 //     print( "safe_mode_gid=$safeModeGID<br/>" );
     $result = true;
-    if ( $safeMode || strtolower($safemode) == 'off' )
+    if ( $safeMode or strtolower( $safeMode ) == 'off' )
     {
         $result = false;
     }
