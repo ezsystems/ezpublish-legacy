@@ -44,10 +44,10 @@ Creator id's must be converted to real ID's. There should not be used -1 for use
   - Move 
   - Add warning på discard
 
-- Versions: publishing from versions ends up in input did not validate
+[done] sp - Versions: publishing from versions ends up in input did not validate
 
-- Drafts: Show "no drafts" message when empty
-- Move drafts to content module
+[done] bf - Drafts: Show "no drafts" message when empty
+[done] bf - Move drafts to content module
 
 
 Search stats:
@@ -56,8 +56,8 @@ Search stats:
 - Add sorting/limit
 
 SItemap:
-- remove javascript warning on delete
-- Add remove function to [x] icon
+[done] bf - remove javascript warning on delete
+[done] bf- Add remove function to [x] icon
 
 Notification rule:
 - Move to "My" box

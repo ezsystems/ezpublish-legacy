@@ -127,11 +127,15 @@
         </th>
     </tr>
     <tr>
-        <td class="menu">
+        <td class="menu" colspan="2">
 	    <p class="menufieldlabel">{"Created"|i18n('content/object')}:</p>
-        </td>
-        <td class="menu" width="1">
-	    <p class="menufield">{$object.}</p>
+	    {section show=$object.published}
+	    <p class="menufield">{$object.published|l10n(date)}</p>
+	    {section-else}
+	    <p class="menufield">
+	    {"Not yet published"|i18n('content/object')}
+	    </p>
+	    {/section}
         </td>
     </tr>
     <tr>
@@ -227,14 +231,18 @@
     </tr>
     {/section}
     <tr>
-        <td colspan="2" align="right">
+        <td align="left">
           <input class="menubutton" type="submit" name="BrowseObjectButton" value="{'Find'|i18n('content/object')}" />
+	</td>
+        <td align="right">
           <input class="menubutton" type="submit" name="DeleteRelationButton" value="{'Remove'|i18n('content/object')}" />
         </td>
     </tr>
     <tr>
-        <td colspan="2" align="right">
+        <td colspan="1" align="left">
 	<input class="menubutton" type="submit" name="NewButton" value="{'New'|i18n('content/object')}" />
+	</td>
+        <td colspan="1" align="right">
 	<select	name="ClassID">
 	    {section name=Classes loop=$object.can_create_class_list}
 	    <option value="{$Classes:item.id}">{$Classes:item.name}</option>
