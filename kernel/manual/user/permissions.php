@@ -45,14 +45,14 @@ page if you want to edit the rights for the "Anonymous" group.</p>
 
 <p>You will see a list of the "Current policies". This shows what rights you have assigned the "Anonymous".</p> 
 
-<p><img src="/kernel/manual/user/images/roles.gif"></p>
+<p><img src="/kernel/manual/user/images/roles.gif" border="1"></p>
 
 <p>This list shows Module, function and Limitations list. 
 The "Module" shows what function you are allowed to work with. This example shows 3x content and 1 notification. 
 The "Function" shows what you are allowed to do with the module. The "limitations list" indicates where you 
 are allowed to use the functions and modules.</p>
 
-<p> <img src="/kernel/manual/user/images/roles3.jpg"></p>
+<p> <img src="/kernel/manual/user/images/roles3.jpg" border="1"></p>
 
 <p>In this example you have access to create content in a forum in the Crossroad forum. 
 if you want to allow the user better access and possibilities simply click the "Create policy" button. 
@@ -63,7 +63,7 @@ This will take you to the "create policy" window. The next processes are divided
 You can choose all modules or select one or more of them. 
 Let us say you want to let the user work with "Content". next you can decide if you want to let the user
 get full access or give him a limited access. We will choose the "Allow limited". This will take you to step two.
-<p><p><img src="/kernel/manual/user/images/roles4.gif"></p></p>
+<p><p><img src="/kernel/manual/user/images/roles4.gif" border="1"></p></p>
 
 <p><p class="important">Step 2. Specify function in module content.</p>
 <p>Now we will decide what this user can do with the content we have allowed him to work with. 
