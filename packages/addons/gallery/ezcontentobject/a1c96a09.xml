@@ -3,19 +3,21 @@
   <object-list>
     <object xmlns:ezremote="http://ez.no/ezobject"
             ezremote:id="82"
-            name=" Galleries"
+            name="Galleries"
             ezremote:section_id="1"
             ezremote:owner_id="14"
             ezremote:class_id="1"
-            ezremote:published="Apr 21 2004 12:45:06"
-            ezremote:modified="Apr 21 2004 12:45:06"
+            ezremote:published="Wed, 21 Apr 2004 10:45:06 GMT"
+            ezremote:modified="Fri, 07 May 2004 07:33:48 GMT"
             remote_id="1a16f24e9954b76f0340fce5728fc82d"
             class_remote_id="a3d405b81be900468eb153d774f4f0d2"
             ezremote:class_identifier="folder">
-      <version-list active_version="1"
+      <version-list active_version="2"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version version="1"
-                          status="1">
+        <ezobject:version ezremote:version="2"
+                          ezremote:status="1"
+                          ezremote:created="Fri, 07 May 2004 07:33:41 GMT"
+                          ezremote:modified="Fri, 07 May 2004 07:33:48 GMT">
           <ezobject:object-translation language="eng-GB">
             <ezobject:attribute ezremote:id="242"
                                 ezremote:identifier="name"
@@ -61,7 +63,7 @@
                              remote-id="1a16f24e9954b76f0340fce5728fc82d"
                              sort-field="published"
                              sort-order="0"
-                             priority="0" />
+                             priority="60" />
           </ezobject:node-assignment-list>
         </ezobject:version>
       </version-list>
@@ -72,15 +74,17 @@
             ezremote:section_id="1"
             ezremote:owner_id="14"
             ezremote:class_id="22"
-            ezremote:published="Apr 21 2004 12:50:32"
-            ezremote:modified="Apr 21 2004 12:50:32"
+            ezremote:published="Wed, 21 Apr 2004 10:50:32 GMT"
+            ezremote:modified="Wed, 21 Apr 2004 10:50:32 GMT"
             remote_id="ee24204c9b90600531bca6bea97b558c"
             class_remote_id="6a320cdc3e274841b82fcd63a86f80d1"
             ezremote:class_identifier="gallery">
       <version-list active_version="1"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version version="1"
-                          status="1">
+        <ezobject:version ezremote:version="1"
+                          ezremote:status="1"
+                          ezremote:created="Wed, 21 Apr 2004 10:49:48 GMT"
+                          ezremote:modified="Wed, 21 Apr 2004 10:50:31 GMT">
           <ezobject:object-translation language="eng-GB">
             <ezobject:attribute ezremote:id="247"
                                 ezremote:identifier="name"
@@ -134,15 +138,17 @@
             ezremote:section_id="1"
             ezremote:owner_id="14"
             ezremote:class_id="5"
-            ezremote:published="Apr 21 2004 12:51:41"
-            ezremote:modified="Apr 21 2004 12:51:41"
+            ezremote:published="Wed, 21 Apr 2004 10:51:41 GMT"
+            ezremote:modified="Wed, 21 Apr 2004 10:51:41 GMT"
             remote_id="494bf12b5c8b3fbfec6a63167d0c7134"
             class_remote_id="f6df12aa74e36230eb675f364fccd25a"
             ezremote:class_identifier="image">
       <version-list active_version="1"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version version="1"
-                          status="1">
+        <ezobject:version ezremote:version="1"
+                          ezremote:status="1"
+                          ezremote:created="Wed, 21 Apr 2004 10:50:59 GMT"
+                          ezremote:modified="Wed, 21 Apr 2004 10:51:41 GMT">
           <ezobject:object-translation language="eng-GB">
             <ezobject:attribute ezremote:id="251"
                                 ezremote:identifier="name"
@@ -164,7 +170,7 @@
                                 ezremote:identifier="image"
                                 name="Image"
                                 type="ezimage"
-                                image-file-key="c6bec06f797aceb9be418bbc5f0d8eae"
+                                image-file-key="9b47d8aef4c090776bb0feb175850388"
                                 alternativ-text="Foggy trees." />
           </ezobject:object-translation>
           <ezobject:node-assignment-list>
@@ -186,15 +192,17 @@
             ezremote:section_id="1"
             ezremote:owner_id="14"
             ezremote:class_id="5"
-            ezremote:published="Apr 21 2004 12:58:15"
-            ezremote:modified="Apr 21 2004 12:58:15"
+            ezremote:published="Wed, 21 Apr 2004 10:58:15 GMT"
+            ezremote:modified="Wed, 21 Apr 2004 10:58:15 GMT"
             remote_id="bbb31699707d4bb2fa5e4499d6b2e368"
             class_remote_id="f6df12aa74e36230eb675f364fccd25a"
             ezremote:class_identifier="image">
       <version-list active_version="1"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version version="1"
-                          status="1">
+        <ezobject:version ezremote:version="1"
+                          ezremote:status="1"
+                          ezremote:created="Wed, 21 Apr 2004 10:52:04 GMT"
+                          ezremote:modified="Wed, 21 Apr 2004 10:58:15 GMT">
           <ezobject:object-translation language="eng-GB">
             <ezobject:attribute ezremote:id="254"
                                 ezremote:identifier="name"
@@ -216,7 +224,7 @@
                                 ezremote:identifier="image"
                                 name="Image"
                                 type="ezimage"
-                                image-file-key="34f04f8fd3b8f64b284e14b15f8a5258"
+                                image-file-key="1a2934efe0db948bbcdf6bb799ac9b4c"
                                 alternativ-text="Ormevika skyline" />
           </ezobject:object-translation>
           <ezobject:node-assignment-list>
@@ -238,15 +246,17 @@
             ezremote:section_id="1"
             ezremote:owner_id="14"
             ezremote:class_id="5"
-            ezremote:published="Apr 21 2004 12:59:31"
-            ezremote:modified="Apr 21 2004 12:59:31"
+            ezremote:published="Wed, 21 Apr 2004 10:59:31 GMT"
+            ezremote:modified="Wed, 21 Apr 2004 10:59:31 GMT"
             remote_id="24ffaba63b6d40703e220886e732965f"
             class_remote_id="f6df12aa74e36230eb675f364fccd25a"
             ezremote:class_identifier="image">
       <version-list active_version="1"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version version="1"
-                          status="1">
+        <ezobject:version ezremote:version="1"
+                          ezremote:status="1"
+                          ezremote:created="Wed, 21 Apr 2004 10:58:42 GMT"
+                          ezremote:modified="Wed, 21 Apr 2004 10:59:30 GMT">
           <ezobject:object-translation language="eng-GB">
             <ezobject:attribute ezremote:id="257"
                                 ezremote:identifier="name"
@@ -268,7 +278,7 @@
                                 ezremote:identifier="image"
                                 name="Image"
                                 type="ezimage"
-                                image-file-key="37cf813096909799f9443df2ef9c9bd4"
+                                image-file-key="b78cffd09dd580c376ab7023ae6ad29b"
                                 alternativ-text="Bjørkedalen." />
           </ezobject:object-translation>
           <ezobject:node-assignment-list>
@@ -290,15 +300,17 @@
             ezremote:section_id="1"
             ezremote:owner_id="14"
             ezremote:class_id="5"
-            ezremote:published="Apr 21 2004 13:01:03"
-            ezremote:modified="Apr 21 2004 13:01:03"
+            ezremote:published="Wed, 21 Apr 2004 11:01:03 GMT"
+            ezremote:modified="Wed, 21 Apr 2004 11:01:03 GMT"
             remote_id="89cb5acd8bd5971ac907cb298a6021f7"
             class_remote_id="f6df12aa74e36230eb675f364fccd25a"
             ezremote:class_identifier="image">
       <version-list active_version="1"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version version="1"
-                          status="1">
+        <ezobject:version ezremote:version="1"
+                          ezremote:status="1"
+                          ezremote:created="Wed, 21 Apr 2004 11:00:04 GMT"
+                          ezremote:modified="Wed, 21 Apr 2004 11:01:03 GMT">
           <ezobject:object-translation language="eng-GB">
             <ezobject:attribute ezremote:id="260"
                                 ezremote:identifier="name"
@@ -320,7 +332,7 @@
                                 ezremote:identifier="image"
                                 name="Image"
                                 type="ezimage"
-                                image-file-key="5896beff8a3955478ef5f605b45eead1"
+                                image-file-key="821cdadd9b099e8f21364e64cd49b541"
                                 alternativ-text="" />
           </ezobject:object-translation>
           <ezobject:node-assignment-list>
@@ -342,15 +354,17 @@
             ezremote:section_id="1"
             ezremote:owner_id="14"
             ezremote:class_id="22"
-            ezremote:published="Apr 21 2004 13:03:10"
-            ezremote:modified="Apr 21 2004 13:03:10"
+            ezremote:published="Wed, 21 Apr 2004 11:03:10 GMT"
+            ezremote:modified="Wed, 21 Apr 2004 11:03:10 GMT"
             remote_id="2e05b71dc1aa0cbab1cf7a883a47a19a"
             class_remote_id="6a320cdc3e274841b82fcd63a86f80d1"
             ezremote:class_identifier="gallery">
       <version-list active_version="1"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version version="1"
-                          status="1">
+        <ezobject:version ezremote:version="1"
+                          ezremote:status="1"
+                          ezremote:created="Wed, 21 Apr 2004 11:02:49 GMT"
+                          ezremote:modified="Wed, 21 Apr 2004 11:03:10 GMT">
           <ezobject:object-translation language="eng-GB">
             <ezobject:attribute ezremote:id="268"
                                 ezremote:identifier="name"
@@ -404,15 +418,17 @@
             ezremote:section_id="1"
             ezremote:owner_id="14"
             ezremote:class_id="5"
-            ezremote:published="Apr 21 2004 13:04:16"
-            ezremote:modified="Apr 21 2004 13:04:16"
+            ezremote:published="Wed, 21 Apr 2004 11:04:16 GMT"
+            ezremote:modified="Wed, 21 Apr 2004 11:04:16 GMT"
             remote_id="7af81e66a856c9b388da0a541d4db346"
             class_remote_id="f6df12aa74e36230eb675f364fccd25a"
             ezremote:class_identifier="image">
       <version-list active_version="1"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version version="1"
-                          status="1">
+        <ezobject:version ezremote:version="1"
+                          ezremote:status="1"
+                          ezremote:created="Wed, 21 Apr 2004 11:03:38 GMT"
+                          ezremote:modified="Wed, 21 Apr 2004 11:04:16 GMT">
           <ezobject:object-translation language="eng-GB">
             <ezobject:attribute ezremote:id="272"
                                 ezremote:identifier="name"
@@ -434,7 +450,7 @@
                                 ezremote:identifier="image"
                                 name="Image"
                                 type="ezimage"
-                                image-file-key="0c9d80446854534630684fec4922229d"
+                                image-file-key="a8a1d9c7cd769e183100f5ab213dc2f8"
                                 alternativ-text="Blue flower." />
           </ezobject:object-translation>
           <ezobject:node-assignment-list>
@@ -456,15 +472,17 @@
             ezremote:section_id="1"
             ezremote:owner_id="14"
             ezremote:class_id="5"
-            ezremote:published="Apr 21 2004 13:04:58"
-            ezremote:modified="Apr 21 2004 13:04:58"
+            ezremote:published="Wed, 21 Apr 2004 11:04:58 GMT"
+            ezremote:modified="Wed, 21 Apr 2004 11:04:58 GMT"
             remote_id="bde2ee751231a91839ab5c327f1d2d1c"
             class_remote_id="f6df12aa74e36230eb675f364fccd25a"
             ezremote:class_identifier="image">
       <version-list active_version="1"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version version="1"
-                          status="1">
+        <ezobject:version ezremote:version="1"
+                          ezremote:status="1"
+                          ezremote:created="Wed, 21 Apr 2004 11:04:31 GMT"
+                          ezremote:modified="Wed, 21 Apr 2004 11:04:58 GMT">
           <ezobject:object-translation language="eng-GB">
             <ezobject:attribute ezremote:id="275"
                                 ezremote:identifier="name"
@@ -486,7 +504,7 @@
                                 ezremote:identifier="image"
                                 name="Image"
                                 type="ezimage"
-                                image-file-key="b1c75414a402015e52b7ebf04c5eee1b"
+                                image-file-key="d9e71dfaa98a22ae89ff9f1aa65bee6f"
                                 alternativ-text="Purple haze" />
           </ezobject:object-translation>
           <ezobject:node-assignment-list>
@@ -508,15 +526,17 @@
             ezremote:section_id="1"
             ezremote:owner_id="14"
             ezremote:class_id="5"
-            ezremote:published="Apr 21 2004 13:05:53"
-            ezremote:modified="Apr 21 2004 13:05:53"
+            ezremote:published="Wed, 21 Apr 2004 11:05:53 GMT"
+            ezremote:modified="Wed, 21 Apr 2004 11:05:53 GMT"
             remote_id="95f07c780a08c5d18227135f3f038b46"
             class_remote_id="f6df12aa74e36230eb675f364fccd25a"
             ezremote:class_identifier="image">
       <version-list active_version="1"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version version="1"
-                          status="1">
+        <ezobject:version ezremote:version="1"
+                          ezremote:status="1"
+                          ezremote:created="Wed, 21 Apr 2004 11:05:26 GMT"
+                          ezremote:modified="Wed, 21 Apr 2004 11:05:53 GMT">
           <ezobject:object-translation language="eng-GB">
             <ezobject:attribute ezremote:id="278"
                                 ezremote:identifier="name"
@@ -538,7 +558,7 @@
                                 ezremote:identifier="image"
                                 name="Image"
                                 type="ezimage"
-                                image-file-key="c7d48d1846b0c36de507e82b3ff23694"
+                                image-file-key="5897bf31cf079233bf067f2eadfb1fb6"
                                 alternativ-text="Yellow flower." />
           </ezobject:object-translation>
           <ezobject:node-assignment-list>
@@ -882,6 +902,6 @@
   </site-access-list>
   <top-node-list>
     <top-node node-id="84"
-              remote-id="1a16f24e9954b76f0340fce5728fc82d"> Galleries</top-node>
+              remote-id="1a16f24e9954b76f0340fce5728fc82d">Galleries</top-node>
   </top-node-list>
 </content-object>

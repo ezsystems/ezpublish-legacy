@@ -19,23 +19,23 @@
            {attribute_view_gui attribute=$node.object.data_map.description}
         </div>
 
-        <div class="attribute-link">
-            <p>
-            <a href={concat('/content/view/slideshow/',$node.node_id)|ezurl}>View as slideshow</a>
-            </p>
-        </div>
-
         {let page_limit=10
              children=fetch_alias( children, hash( parent_node_id, $node.node_id,
                                                   offset, $view_parameters.offset,
 			        		  limit, $page_limit ) )
-             list_count=fetch_alias( children_count, hash( parent_node_id, $node.node_id ) )}
+             list_count=fetch_alias( children_count, hash( parent_node_id, $node.node_id, sort_by, $node.sort_array ) )}
 
         {section show=$children}
+            <div class="attribute-link">
+                <p>
+                <a href={$children[0].url_alias|ezurl}>{'View as slideshow'|i18n( 'design/base' )}</a>
+                </p>
+            </div>
+
            <div class="content-view-children">
                <table>
                <tr>
-               {section var=child loop=$children sequence=array(bglight,bgdark)}
+               {section var=child loop=$children sequence=array( bglight, bgdark )}
                    <td>
                       {node_view_gui view=galleryline content_node=$child}
                    </td>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package version="3.4.0alpha1"
+<package version="3.4.0beta1"
          development="true"
          xmlns:ezpackage="http://ez.no/ezpackage"
          install_type="install">
@@ -8,12 +8,11 @@ The format of this file is also subject to change until the release version.
 Upgrades to the development format will not be supported.</warning>
   <name>gallery</name>
   <summary>Image gallery</summary>
-  <description>Add this to add image galleries to your website. You can create multiple galleries which can show images either as thumbnails or slideshow.
-</description>
+  <description>Adds image gallery functionality. Allows for creation of multiple galleries which can show images either as thumbnails or slideshow.</description>
   <type value="contentobject" />
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
-    <version>3.4.0alpha3</version>
-    <named-version>3.4.0alpha3-alpha3</named-version>
+    <version>3.4.0beta1</version>
+    <named-version>3.4.0beta1-beta1</named-version>
   </ezpublish>
   <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
     <maintainer>
@@ -23,7 +22,7 @@ Upgrades to the development format will not be supported.</warning>
     </maintainer>
   </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1082621123</timestamp>
+    <timestamp>1083916774</timestamp>
     <host>trunk.ezpublish.drakhendvh1.ez.no</host>
   </packaging>
   <documents>
@@ -31,31 +30,31 @@ Upgrades to the development format will not be supported.</warning>
               name="LICENCE" />
   </documents>
   <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry timestamp="1082621123"
+    <entry timestamp="1083916774"
            person="Administrator User"
            email="nospam@ez.no"
            release="1">
-      <change>Creation of package.</change>
+      <change>Created package for 3.4.0beta1.</change>
     </entry>
   </changelog>
   <simple-files>
-    <c6bec06f797aceb9be418bbc5f0d8eae original-path="var/storage/images-versioned/253/1-eng-GB/foggy_trees1.jpg"
-                                      package-path="simplefiles/7d41d5b8.jpg" />
-    <34f04f8fd3b8f64b284e14b15f8a5258 original-path="var/storage/images-versioned/256/1-eng-GB/ormevika_skyline1.jpg"
-                                      package-path="simplefiles/dcc17802.jpg" />
-    <37cf813096909799f9443df2ef9c9bd4 original-path="var/storage/images-versioned/259/1-eng-GB/pond_reflection1.jpg"
-                                      package-path="simplefiles/4b872d79.jpg" />
-    <5896beff8a3955478ef5f605b45eead1 original-path="var/storage/images/galleries/landscape/water_reflection/262-1-eng-GB/water_reflection.jpg"
-                                      package-path="simplefiles/1c4ddce5.jpg" />
-    <0c9d80446854534630684fec4922229d original-path="var/storage/images-versioned/274/1-eng-GB/blue_flower1.jpg"
-                                      package-path="simplefiles/b81854ff.jpg" />
-    <b1c75414a402015e52b7ebf04c5eee1b original-path="var/storage/images-versioned/277/1-eng-GB/purple_haze1.jpg"
-                                      package-path="simplefiles/6742afd9.jpg" />
-    <c7d48d1846b0c36de507e82b3ff23694 original-path="var/storage/images-versioned/280/1-eng-GB/yellow_flower1.jpg"
-                                      package-path="simplefiles/c7303390.jpg" />
+    <9b47d8aef4c090776bb0feb175850388 original-path="var/storage/images-versioned/253/1-eng-GB/foggy_trees1.jpg"
+                                      package-path="simplefiles/31a64b1b.jpg" />
+    <1a2934efe0db948bbcdf6bb799ac9b4c original-path="var/storage/images-versioned/256/1-eng-GB/ormevika_skyline1.jpg"
+                                      package-path="simplefiles/10c36343.jpg" />
+    <b78cffd09dd580c376ab7023ae6ad29b original-path="var/storage/images-versioned/259/1-eng-GB/pond_reflection1.jpg"
+                                      package-path="simplefiles/282a8915.jpg" />
+    <821cdadd9b099e8f21364e64cd49b541 original-path="var/storage/images/galleries/landscape/water_reflection/262-1-eng-GB/water_reflection.jpg"
+                                      package-path="simplefiles/a0edac05.jpg" />
+    <a8a1d9c7cd769e183100f5ab213dc2f8 original-path="var/storage/images-versioned/274/1-eng-GB/blue_flower1.jpg"
+                                      package-path="simplefiles/8cee6fa4.jpg" />
+    <d9e71dfaa98a22ae89ff9f1aa65bee6f original-path="var/storage/images-versioned/277/1-eng-GB/purple_haze1.jpg"
+                                      package-path="simplefiles/5fa76ea5.jpg" />
+    <5897bf31cf079233bf067f2eadfb1fb6 original-path="var/storage/images-versioned/280/1-eng-GB/yellow_flower1.jpg"
+                                      package-path="simplefiles/090c7e3d.jpg" />
   </simple-files>
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number>1.0</number>
+    <number>3.4.0beta1</number>
     <release>1</release>
   </version>
   <licence>GPL</licence>
@@ -87,7 +86,7 @@ Upgrades to the development format will not be supported.</warning>
           filename="class-image"
           sub-directory="ezcontentclass" />
     <item type="ezcontentobject"
-          filename="4d5e6836"
+          filename="a1c96a09"
           sub-directory="ezcontentobject" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
@@ -101,7 +100,7 @@ Upgrades to the development format will not be supported.</warning>
           filename="class-image"
           sub-directory="ezcontentclass" />
     <item type="ezcontentobject"
-          filename="4d5e6836"
+          filename="a1c96a09"
           sub-directory="ezcontentobject" />
   </uninstall>
 </package>
