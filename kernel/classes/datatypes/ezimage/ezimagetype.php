@@ -221,7 +221,6 @@ class eZImageType extends eZDataType
 
             $mime = $img->mimeTypeFor( $imageFile->attribute( "original_filename" ), true );
 
-            var_dump( $mime );
             if ( !$imageFile->store( "original", $mime["suffix"], $mime['mime-type'] ) )
             {
                 eZDebug::writeError( "Failed to store http-file: " . $imageFile->attribute( "original_filename" ),

@@ -90,6 +90,7 @@ class eZContentObject extends eZPersistentObject
                                                       "contentobject_attributes" => "contentObjectAttributes",
                                                       "owner" => "owner",
                                                       "related_contentobject_array" => "relatedContentObjectArray",
+                                                      "related_contentobject_count" => "relatedContentObjectCount",
                                                       "can_read" => "canRead",
                                                       "can_create" => "canCreate",
                                                       "can_create_class_list" => "canCreateClassList",
@@ -118,6 +119,7 @@ class eZContentObject extends eZPersistentObject
              $attr == "owner" or
              $attr == "contentobject_attributes" or
              $attr == "related_contentobject_array" or
+             $attr == "related_contentobject_count" or
              $attr == "can_read" or
              $attr == "can_create" or
              $attr == "can_create_class_list" or
@@ -151,6 +153,8 @@ class eZContentObject extends eZPersistentObject
                 return $this->contentObjectAttributes();
             else if ( $attr == "related_contentobject_array" )
                 return $this->relatedContentObjectArray();
+            else if ( $attr == 'related_contentobject_count' )
+                return $this->relatedContentObjectCount();
             else if ( $attr == "content_action_list" )
                 return $this->contentActionList();
             else if ( $attr == "data_map" )
@@ -1006,6 +1010,28 @@ class eZContentObject extends eZPersistentObject
     {
         $db =& eZDB::instance();
         $db->query( "DELETE FROM ezcontentobject_link WHERE from_contentobject_id='$this->ID' AND  from_contentobject_version='$version' AND to_contentobject_id='$objectID'" );
+    }
+
+    /*!
+     \return the number of related objects
+    */
+    function &relatedContentObjectCount( $version = false, $objectID = false )
+    {
+        eZDebugSetting::writeDebug( 'kernel-content-object-related-objects', $objectID, "relatedContentObjectArray::objectID" );
+        if ( $version == false )
+            $version = $this->CurrentVersion;
+        if( !$objectID )
+            $objectID = $this->ID;
+        $db =& eZDB::instance();
+        $relatedObjectArray =& $db->arrayQuery( "SELECT
+					       count( ezcontentobject_link.from_contentobject_id ) as count
+					     FROM
+					       ezcontentobject_link
+					     WHERE
+					       ezcontentobject_link.from_contentobject_id='$objectID' AND
+					       ezcontentobject_link.from_contentobject_version='$version'" );
+
+        return $relatedObjectArray[0]['count'];
     }
 
     /*!
