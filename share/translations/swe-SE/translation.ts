@@ -51,7 +51,7 @@ kan du ändra inställningarna på:
     <name>content/pdf</name>
     <message>
         <source>PDF Export</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -650,6 +650,13 @@ kan du ändra inställningarna på:
     </message>
 </context>
 <context>
+    <name>design/standard/class</name>
+    <message>
+        <source>Class is locked</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/standard/class/datatype</name>
     <message>
         <source>Max file size</source>
@@ -1136,6 +1143,10 @@ kan du ändra inställningarna på:
     </message>
     <message>
         <source>Translation is enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Retry</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3017,11 +3028,11 @@ Klicka på objektnamnen för att ändra bläddringslistningen.</translation>
     </message>
     <message>
         <source>Creator</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Created</source>
-        <translation type="unfinished">Skapad</translation>
+        <translation type="obsolete">Skapad</translation>
     </message>
 </context>
 <context>
@@ -3476,6 +3487,14 @@ iew</name>
         <source>New log</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Node ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object ID</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/notification</name>
@@ -3883,6 +3902,29 @@ You may also remove the package without uninstalling it from the package list.</
     <message>
         <source>File list</source>
         <translation type="unfinished">Fillista</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/pdf/list</name>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">Namn</translation>
+    </message>
+    <message>
+        <source>Creator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Created</source>
+        <translation type="unfinished">Skapad</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished">Redigera</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">Ta bort</translation>
     </message>
 </context>
 <context>
@@ -8737,7 +8779,7 @@ aktivera ditt konto.</translation>
     </message>
     <message>
         <source>PDF Export</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -8953,6 +8995,13 @@ aktivera ditt konto.</translation>
     </message>
     <message>
         <source>Package %packagename already exists, cannot import the package</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>kernel/pdf</name>
+    <message>
+        <source>PDF Export</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -9288,6 +9337,13 @@ aktivera ditt konto.</translation>
     <message>
         <source>Some template errors occured, see debug for more information.</source>
         <translation>Några templatefel inträffade, se debug för mer information.</translation>
+    </message>
+</context>
+<context>
+    <name>pdf/edit</name>
+    <message>
+        <source>PDF Export</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

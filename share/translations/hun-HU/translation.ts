@@ -61,7 +61,7 @@ változtassa meg a beállításait itt:</translation>
     <name>content/pdf</name>
     <message>
         <source>PDF Export</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -676,6 +676,13 @@ változtassa meg a beállításait itt:</translation>
     </message>
 </context>
 <context>
+    <name>design/standard/class</name>
+    <message>
+        <source>Class is locked</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/standard/class/datatype</name>
     <message>
         <source>Max file size</source>
@@ -1178,6 +1185,10 @@ változtassa meg a beállításait itt:</translation>
     </message>
     <message>
         <source>Translation is enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Retry</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3125,11 +3136,11 @@ A böngész-lista változtatható az objektum nevek megnyomásával.
     </message>
     <message>
         <source>Creator</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Created</source>
-        <translation type="unfinished">Létrehozva</translation>
+        <translation type="obsolete">Létrehozva</translation>
     </message>
 </context>
 <context>
@@ -3652,6 +3663,14 @@ iew</name>
         <source>New log</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Node ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object ID</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/notification</name>
@@ -4067,6 +4086,29 @@ You may also remove the package without uninstalling it from the package list.</
     <message>
         <source>File list</source>
         <translation type="unfinished">Fàlj lista</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/pdf/list</name>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">Név</translation>
+    </message>
+    <message>
+        <source>Creator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Created</source>
+        <translation type="unfinished">Létrehozva</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished">Szerkesztés</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">Eltávolítás</translation>
     </message>
 </context>
 <context>
@@ -9638,7 +9680,7 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     </message>
     <message>
         <source>PDF Export</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -9854,6 +9896,13 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     </message>
     <message>
         <source>Package %packagename already exists, cannot import the package</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>kernel/pdf</name>
+    <message>
+        <source>PDF Export</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -10189,6 +10238,13 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     <message>
         <source>Some template errors occured, see debug for more information.</source>
         <translation>A sablon(ok)kal gond van, nézze át alább a debug információt.</translation>
+    </message>
+</context>
+<context>
+    <name>pdf/edit</name>
+    <message>
+        <source>PDF Export</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

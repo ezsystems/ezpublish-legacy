@@ -3,7 +3,7 @@
     <name>content/pdf</name>
     <message>
         <source>PDF Export</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -598,6 +598,13 @@
     </message>
 </context>
 <context>
+    <name>design/standard/class</name>
+    <message>
+        <source>Class is locked</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/standard/class/datatype</name>
     <message>
         <source>Empty</source>
@@ -1084,6 +1091,10 @@
     </message>
     <message>
         <source>Translation is enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Retry</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2955,11 +2966,11 @@ Du kan redigere og publisere utkastene, eller fjerne dem hvis du ikke trenger de
     </message>
     <message>
         <source>Creator</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Created</source>
-        <translation type="unfinished">Opprettet</translation>
+        <translation type="obsolete">Opprettet</translation>
     </message>
 </context>
 <context>
@@ -3414,6 +3425,14 @@ iew</name>
         <source>New log</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Node ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object ID</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/notification</name>
@@ -3806,6 +3825,29 @@ You may also remove the package without uninstalling it from the package list.</
     <message>
         <source>File list</source>
         <translation type="unfinished">Fil liste</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/pdf/list</name>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">Navn</translation>
+    </message>
+    <message>
+        <source>Creator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Created</source>
+        <translation type="unfinished">Opprettet</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished">Rediger</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">Fjern</translation>
     </message>
 </context>
 <context>
@@ -8240,7 +8282,7 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     </message>
     <message>
         <source>PDF Export</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -8456,6 +8498,13 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     </message>
     <message>
         <source>Package %packagename already exists, cannot import the package</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>kernel/pdf</name>
+    <message>
+        <source>PDF Export</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8791,6 +8840,13 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     <message>
         <source>Some template errors occured, see debug for more information.</source>
         <translation>Det har oppstått mal-feil, se debug for mer informasjon.</translation>
+    </message>
+</context>
+<context>
+    <name>pdf/edit</name>
+    <message>
+        <source>PDF Export</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

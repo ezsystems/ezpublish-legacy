@@ -32,7 +32,7 @@
     <name>content/pdf</name>
     <message>
         <source>PDF Export</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -638,6 +638,13 @@
     </message>
 </context>
 <context>
+    <name>design/standard/class</name>
+    <message>
+        <source>Class is locked</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/standard/class/datatype</name>
     <message>
         <source>Empty</source>
@@ -1149,6 +1156,10 @@
     <message>
         <source>URL</source>
         <translation type="unfinished">URL</translation>
+    </message>
+    <message>
+        <source>Retry</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3055,11 +3066,11 @@ Puedes editar los borradores o eliminarlos si no los vas a necesitar más.</tran
     </message>
     <message>
         <source>Creator</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Created</source>
-        <translation type="unfinished">Creado</translation>
+        <translation type="obsolete">Creado</translation>
     </message>
     <message>
         <source>My pending list</source>
@@ -3574,6 +3585,14 @@ iew</name>
         <source>Click to create a custom template</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Node ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object ID</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/notification</name>
@@ -3974,6 +3993,29 @@ You may also remove the package without uninstalling it from the package list.</
     <message>
         <source>File list</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/pdf/list</name>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">Nombre</translation>
+    </message>
+    <message>
+        <source>Creator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Created</source>
+        <translation type="unfinished">Creado</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">Eliminar</translation>
     </message>
 </context>
 <context>
@@ -9245,7 +9287,7 @@ your account.</source>
     </message>
     <message>
         <source>PDF Export</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>My pending list</source>
@@ -9469,6 +9511,13 @@ your account.</source>
     </message>
     <message>
         <source>Upload</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>kernel/pdf</name>
+    <message>
+        <source>PDF Export</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -9772,6 +9821,13 @@ your account.</source>
     <message>
         <source>Some template errors occured, see debug for more information.</source>
         <translation>Han ocurrido algunos errores de plantilla. Para más información, mirar el depurador.</translation>
+    </message>
+</context>
+<context>
+    <name>pdf/edit</name>
+    <message>
+        <source>PDF Export</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
