@@ -37,7 +37,7 @@ div#search p.select { margin-top: 0; }
 div#search p.advanced { margin-top: 0.3em; }
 div.content-navigation div.mainobject-window div.fixedsize { float: none; width: auto; }
 div.fixedsize input.box, div.fixedsize textarea.box, div.fixedsize table.list { width: 95%; }
-a.openclose img { margin-right: 4px; }
+a.openclose img, span.openclose img { margin-right: 4px; }
 </style>
 <![endif]-->
 <!--[if lt IE 6.0]>
