@@ -145,7 +145,6 @@ function browse( &$Module, &$object )
     {
         $ignoreNodesSelect[] = $element['node_id'];
         $ignoreNodesClick[]  = $element['node_id'];
-        $ignoreNodesSelect[] = $element['parent_node_id'];
     }
     $ignoreNodesSelect = array_unique( $ignoreNodesSelect );
     $ignoreNodesClick = array_unique( $ignoreNodesClick );
