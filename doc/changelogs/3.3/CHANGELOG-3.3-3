@@ -122,3 +122,7 @@ eZ Locale:
 *Translations:
 - Added Finnish locale
 - Updated fre-CA and fre-FR
+
+*Database:
+- Changed Mysql ezcontentobject_attribute.data_text to MEDIUMTEXT.
+  http://ez.no/community/bug_reports/xml_field_table_code
