@@ -8,7 +8,12 @@ DIR_MODE=777 ##!
 FILE_MODE=666 ##!
 ##!FILE_MODE=666
 
+APACHE_GROUP="apache"
+
 cd $DIR
+
+chown .$APACHE_GROUP -R ../settings
+chown .$APACHE_GROUP -R ../var
 
 chmod $DIR_MODE ../var/cache/
 if [ ! -d ../var/cache/ini ]; then
