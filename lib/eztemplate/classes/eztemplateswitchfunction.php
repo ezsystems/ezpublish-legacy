@@ -195,7 +195,7 @@ class eZTemplateSwitchFunction
                     default:
                     {
                         $tpl->warning( $this->Name, "Only case functions are allowed as children, found \""
-                                       . $child->name() . "\"" );
+                                       . $child[2] . "\"" );
                     } break;
                 }
             }
@@ -206,7 +206,7 @@ class eZTemplateSwitchFunction
             else
             {
                 $tpl->warning( $this->Name, "Only functions are allowed as children, found \""
-                               . get_class( $child ) . "\"" );
+                               . $childType . "\"" );
             }
             next( $children );
         }
@@ -217,12 +217,15 @@ class eZTemplateSwitchFunction
         {
             $tpl->setVariable( "match", $match, $name );
             $case_children =& $case[1];
-            reset( $case_children );
-            while ( ( $key = key( $case_children ) ) !== null )
+            if ( $case_children )
             {
-                $case_child =& $case_children[$key];
-                $tpl->processNode( $case_child, $textElements, $rootNamespace, $name );
-                next( $case_children );
+                reset( $case_children );
+                while ( ( $key = key( $case_children ) ) !== null )
+                {
+                    $case_child =& $case_children[$key];
+                    $tpl->processNode( $case_child, $textElements, $rootNamespace, $name );
+                    next( $case_children );
+                }
             }
         }
         else

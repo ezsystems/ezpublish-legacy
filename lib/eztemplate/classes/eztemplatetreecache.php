@@ -131,7 +131,6 @@ class eZTemplateTreeCache
             include_once( 'lib/ezutils/classes/ezdir.php' );
             include_once( 'lib/ezutils/classes/ezsys.php' );
             $cacheDirectory = eZDir::path( array( eZSys::cacheDirectory(), 'template/tree' ) );
-            eZDebug::writeDebug( $cacheDirectory, 'cache dir' );
         }
         return $cacheDirectory;
     }

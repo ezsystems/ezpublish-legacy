@@ -200,7 +200,6 @@ class eZTemplateSectionFunction
                     {
                         if ( $shown === 1 and $delimiterStructure === null )
                         {
-                            unset( $delimiterStructure );
                             $delimiterStructure =& $child;
                         }
                     } break;
@@ -369,8 +368,8 @@ class eZTemplateSectionFunction
             for ( $i = 0; $i < $filterCount; ++$i )
             {
                 $filterElement =& $filterStructure[$i];
-                $filterParameters =& $filterElement->parameters();
-                $filterName = $filterElement->name();
+                $filterParameters =& $filterElement[3];
+                $filterName = $filterElement[2];
                 $filterMatch = null;
                 if ( isset( $filterParameters["match"] ) )
                 {
@@ -386,7 +385,7 @@ class eZTemplateSectionFunction
         }
         if ( $delimiterStructure !== null and !$isFirstRun )
         {
-            $delimiterParameters = $delimiterStructure[2];
+            $delimiterParameters = $delimiterStructure[3];
             $delimiterMatch = true;
             if ( isset( $delimiterParameters["modulo"] ) )
             {
@@ -402,7 +401,7 @@ class eZTemplateSectionFunction
             }
             if ( $delimiterMatch )
             {
-                $delimiterChildren =& $delimiterStructure->children();
+                $delimiterChildren =& $delimiterStructure[1];
                 foreach ( array_keys( $delimiterChildren ) as $delimiterChildKey )
                 {
                     $delimiterChild =& $delimiterChildren[$delimiterChildKey];

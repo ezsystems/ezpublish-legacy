@@ -694,7 +694,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
 //                         $node =& new eZTemplateFunctionElement( $tag, $args );
 //                         $tpl->setRelation( $node, $relatedResource, $relatedTemplateName );
 //                         $currentRoot->appendChild( $node );
-                        eZDebug::writeDebug( $currentRoot, '$currentRoot' );
+//                         eZDebug::writeDebug( $currentRoot, '$currentRoot' );
                         $this->appendChild( $currentRoot, $node );
                     }
                     unset( $tag );
