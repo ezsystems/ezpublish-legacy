@@ -1,8 +1,7 @@
 <form action={"rss/edit_export"|ezurl} method="post" name="RSSExport">
 
 <div class="context-block">
-<h2 class="context-title">{'Edit'|i18n( 'design/admin/rss/edit_export' )}&nbsp;{$rss_export.title|wash}&nbsp;[{'RSS export'|i18n( 'design/admin/rss/edit_export' )}]</h2>
-
+<h2 class="context-title">{'Edit <%rss_export_name> [RSS Export]'|i18n( '/design/admin/rss/edit_export',, hash( '%rss_export_name', $rss_export.name ) )|wash}</h2>
 <div class="context-attributes">
 
     <div class="block">

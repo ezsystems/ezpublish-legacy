@@ -1,7 +1,7 @@
 <form action={"rss/edit_import"|ezurl} method="post" name="RSSImport">
 
 <div class="context-block">
-<h2 class="context-title">{'Edit'|i18n( '/design/admin/rss/edit_import' )}&nbsp;<i>{$rss_import.name}</i>&nbsp;[{'RSS Import'|i18n( 'design/admin/rss/edit_import' )}]</h2>
+<h2 class="context-title">{'Edit <%rss_import_name> [RSS Import]'|i18n( '/design/admin/rss/edit_import',, hash( '%rss_import_name', $rss_import.name ) )|wash}</h2>
 
 
 <div class="context-attributes">

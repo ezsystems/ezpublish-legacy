@@ -1,5 +1,5 @@
 <div class="context-block">
-<h2 class="context-title">{'RSS exports'|i18n( 'design/admin/rss/list' )}&nbsp;[{$rssexport_list|count}]</h2>
+<h2 class="context-title">{'RSS exports [%exports_count]'|i18n( 'design/admin/rss/list',, hash( '%exports_count', $rssexport_list|count ) )}</h2>
 
 <form action={'rss/list'|ezurl} method="post" name="RSSExport">
 
@@ -51,7 +51,7 @@
 <form action={'rss/list'|ezurl} method="post" name="RSSImport">
 
 <div class="context-block">
-<h2 class="context-title">{'RSS imports'|i18n( 'design/admin/rss/list' )}&nbsp;[{$rssimport_list|count}]</h2>
+<h2 class="context-title">{'RSS imports [%imports_count]'|i18n( 'design/admin/rss/list',, hash( '%imports_count', $rssimport_list|count ) )}</h2>
 
 <table class="list" cellspacing="0">
 {section show=$rssimport_list|count}
