@@ -53,12 +53,76 @@ We were trying to find {$:foobar}
 {/let}*}
 
 
-{let arr=array(1,2)}
+{*{let arr=array(1,2)}
 {$arr|array_prepend(3)|implode(',')}
 {$arr|array_append(3)|implode(',')}
 {$arr|array_merge(3,4)|implode(',')}
+{/let}*}
+
+{*{include name=navigator
+         uri='design:navigator/google.tpl'
+         page_uri=concat('/content/view','/full/',1)
+         item_count=30
+         view_parameters=array()
+         item_limit=6}*}
+
+sub:
+
+{let page_count=6 current_page=0}
+6={sub( $:page_count, $:current_page )}
+5={sub( $:page_count, 1, $:current_page )}
+5={sub( $:page_count, $:current_page, 1 )}
+4={sub( $:page_count, 1, $:current_page, 1 )}
+-5={sub( 1, $:page_count, $:current_page )}
+-6={sub( 1, 1, $:page_count, $:current_page )}
+-1={sub( 1, 1, 1 )}
+1={sub( 1 )}
 {/let}
 
+
+sum:
+
+{let page_count=6 current_page=0}
+6={sum( $:page_count, $:current_page )}
+7={sum( $:page_count, 1, $:current_page )}
+7={sum( $:page_count, $:current_page, 1 )}
+8={sum( $:page_count, 1, $:current_page, 1 )}
+7={sum( 1, $:page_count, $:current_page )}
+8={sum( 1, 1, $:page_count, $:current_page )}
+3={sum( 1, 1, 1 )}
+1={sum( 1 )}
+{/let}
+
+
+mul:
+
+{let page_count=6 current_page=1}
+6={mul( $:page_count, $:current_page )}
+12={mul( $:page_count, 2, $:current_page )}
+12={mul( $:page_count, $:current_page, 2 )}
+24={mul( $:page_count, 2, $:current_page, 2 )}
+12={mul( 2, $:page_count, $:current_page )}
+24={mul( 2, 2, $:page_count, $:current_page )}
+8={mul( 2, 2, 2 )}
+2={mul( 2 )}
+{/let}
+
+
+div:
+
+{let page_count=8 current_page=1}
+8={div( $:page_count, $:current_page )}
+4={div( $:page_count, 2, $:current_page )}
+4={div( $:page_count, $:current_page, 2 )}
+2={div( $:page_count, 2, $:current_page, 2 )}
+2={div( $:page_count, $:current_page, 2, 2 )}
+2={div( 64, $:page_count, $:current_page, 2, 2 )}
+2={div( 128, 2, $:page_count, $:current_page, 2, 2 )}
+0.25={div( 2, $:page_count, $:current_page )}
+0.125={div( 2, 2, $:page_count, $:current_page )}
+0.5={div( 2, 2, 2 )}
+2={div( 2 )}
+{/let}
 
 
 
