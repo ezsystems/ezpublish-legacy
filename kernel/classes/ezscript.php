@@ -139,6 +139,11 @@ class eZScript
         error_reporting( E_ALL );
 
         eZDebug::setHandleType( EZ_HANDLE_TO_PHP );
+
+        if ( php_sapi_name() != 'cli' )
+        {
+            exit( 1 );
+        }
     }
 
     function initialize()

@@ -14,6 +14,7 @@ Changes from 3.4.0alpha2 to 3.4.0alpha3
   content class could not be fetched.
 - New entry in content.ini (SetupRootNode) which controls which node
   is the setup node.
+- Made sure eZScript will exit with code 1 when it is not run in CLI mode.
 
 *Updates:
 - Fixed cleanup.php script to cleanup the user/session link table when
