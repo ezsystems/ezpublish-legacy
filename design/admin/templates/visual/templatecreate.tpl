@@ -1,6 +1,6 @@
 {section show=eq( $error, 'permission_denied' )}
 <div class="message-error">
-<h2>{'Could not create template, permission denied.'|i18n( 'design/admin/design/templatecreate' )}</h2>
+<h2>{'Could not create template, permission denied.'|i18n( 'design/admin/visual/templatecreate' )}</h2>
 </div>
 {/section}
 
