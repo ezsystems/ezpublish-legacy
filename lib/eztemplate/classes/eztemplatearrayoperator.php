@@ -1319,6 +1319,7 @@ class eZTemplateArrayOperator
                          &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
         $code = '';
+        $stringCode = '';
 
         $paramCount = 0;
         $values = array();
@@ -1328,13 +1329,15 @@ class eZTemplateArrayOperator
             if ( $i != 1 )
             {
                 $code .= ', ';
+                $stringCode .= ', ';
             }
 
             if ( !eZTemplateNodeTool::isStaticElement( $parameters[$i] ) )
             {
                 $values[] = $parameters[$i];
                 ++$paramCount;
-                $code .= '%' . $paramCount . '%';
+                $code .= 'array( %' . $paramCount . '% )';
+                $stringCode .= '%' . $paramCount . '%';
             }
             else
             {
@@ -1342,7 +1345,8 @@ class eZTemplateArrayOperator
                 {
                     $staticArray[] = eZTemplateNodeTool::elementStaticValue( $parameters[$i] );
                 }
-                $code .= eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false );
+                $code .= 'array( ' . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false ) . ' )';
+                $stringCode .= eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false );
             }
         }
 
@@ -1414,14 +1418,14 @@ class eZTemplateArrayOperator
         {
             if ( $operatorName == $this->AppendName )
             {
-                $code = 'if ( is_string( ' . $code2 . ' ) )' . "\n" .
-                     '  %output% = ' . $code2 . ' . implode( \'\', array( ' . $code . ' ) );' . "\n" .
-                     'else if( is_array( ' . $code2 . ' ) )' . "\n" .
-                     '  %output% = array_merge( ' . $code2 . ', array( ' . $code . ' ) );';
+                $code = ( 'if ( is_string( ' . $code2 . ' ) )' . "\n" .
+                          '    %output% = ' . $code2 . ' . implode( \'\', array( ' . $stringCode . ' ) );' . "\n" .
+                          'else if( is_array( ' . $code2 . ' ) )' . "\n" .
+                          '    %output% = array_merge( ' . $code2 . ', ' . $code . ' );' );
             }
             else if ( $operatorName == $this->ArrayAppendName )
             {
-                $code = '%output% = array_merge( ' . $code2 . ', array( ' . $code . ' ) );';
+                $code = '%output% = array_merge( ' . $code2 . ', ' . $code . ' );';
             }
             else if ( $operatorName == $this->MergeName )
             {
@@ -1433,10 +1437,10 @@ class eZTemplateArrayOperator
             }
             else if ( $operatorName == $this->PrependName )
             {
-                $code = 'if ( is_string( ' . $code2 . ' ) )' . "\n" .
-                     '  %output% = implode( \'\', array( ' . $code . ' ) ) . ' . $code2 . ';' . "\n" .
-                     'else if( is_array( ' . $code2 . ' ) )' . "\n" .
-                     '  %output% = array_merge( ' . $code . ', ' . $code2 . ' );';
+                $code = ( 'if ( is_string( ' . $code2 . ' ) )' . "\n" .
+                          '    %output% = implode( \'\', array( ' . $stringCode . ' ) ) . ' . $code2 . ';' . "\n" .
+                          'else if( is_array( ' . $code2 . ' ) )' . "\n" .
+                          '    %output% = array_merge( ' . $code . ', ' . $code2 . ' );' );
             }
             else if ( $operatorName == $this->ArrayPrependName )
             {
