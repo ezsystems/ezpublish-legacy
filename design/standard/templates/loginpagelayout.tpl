@@ -67,7 +67,6 @@
 <tr>
     <td colspan="2">
 
-
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 
 {* Header *}
@@ -75,41 +74,22 @@
 	<td>
 <table width="100%"  cellspacing="0" cellpadding="4">
 <tr>
-
-{* This is the main content *}
-<td width="20%" bgcolor="#ffffff">
-</td>
-<td width="30%" bgcolor="#ffffff">
-<form method="post" action="/user/login/">
-
-<b>{"Login"|i18n('logon')}:</b><br />
-<input type="text" name="Login" /><br/>
-<b>{"Password"|i18n('logon')}:</b><br />
-<input type="password" name="Password" /><br/>
-
-
-<input type="submit" value="{'Login'|i18n('logon','Button')}" />
-
-</form>
-
-</td>
-<td width="50%" bgcolor="#ffffff" valign="top">
-<h2>{"Welcome to eZ publish administration"|i18n('logon')}</h2>
-<p>{"To log in enter a valid login and password."|i18n('logon')}</p>
-
-</td>
-
+    {* This is the main content *}
+    <td width="20%" bgcolor="#ffffff">
+    </td>
+    <td width="30%" bgcolor="#ffffff">
+    {$module_result.content}
+    </td>
+    <td width="50%" bgcolor="#ffffff" valign="top">
+    <h2>{"Welcome to eZ publish administration"|i18n('logon')}</h2>
+    <p>{"To log in enter a valid login and password."|i18n('logon')}</p>
+    </td>
 </tr>
 </table>
 
-</td>
+    </td>
 </tr>
-
-{* Bottom *}
-<tr><td></td></tr>
-
 </table>
-
 
 <div align="center" style="padding-top: 0.5em;">
 <p class="small"><a href="http://developer.ez.no">eZ publish&trade;</a> copyright &copy; 1999-2002 <a href="http://ez.no">eZ systems as</a></p>
