@@ -1414,10 +1414,21 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     function updateSubTreePath()
     {
+        include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
         $oldPathString = $this->attribute( 'path_identification_string' );
         $oldPathStringLength = strlen( $oldPathString );
 
         $newPathString = $this->pathWithNames();
+
+        $url =& eZURL::urlByURL( "/" . $oldPathString );
+
+        // Check if any URL's is pointing to this node, if so update it
+        if ( $url )
+        {
+            $url->setAttribute( 'url', '/' . $newPathString );
+            $url->store();
+        }
+
         eZDebugSetting::writeDebug( 'kernel-content-treenode', $oldPathString .'  ' . $oldPathStringLength . '  ' . $newPathString );
         $this->setAttribute( 'path_identification_string', $newPathString );
 
