@@ -45,8 +45,6 @@ include_once( "kernel/classes/webdav/ezwebdavcontentserver.php" );
 include_once( "lib/ezutils/classes/ezsys.php" );
 
 
-
-
 /*! Reads settings from site.ini and passes them to eZDebug.
  */
 function eZUpdateDebugSettings()
@@ -59,13 +57,9 @@ function eZUpdateDebugSettings()
     eZDebug::updateSettings( $debugSettings );
 }
 
-
-
-
 // Grab the main WebDAV setting (enable/disable) from the WebDAV ini file.
 $ini =& eZINI::instance( WEBDAV_INI_FILE );
 $enable = $ini->variable( 'GeneralSettings', 'EnableWebDAV' );
-
 
 // Check and proceed only if WebDAV functionality is enabled:
 if ( $enable == true )
@@ -81,14 +75,14 @@ if ( $enable == true )
          $_SERVER['REQUEST_URI'] == '/webdav.php/' ||
          $_SERVER['REQUEST_URI'] == '/webdav.php' )
     {
-        $testServer = new eZWebDAVContentServer ();
-        $testServer->processClientRequest ();
+        $testServer = new eZWebDAVContentServer();
+        $testServer->processClientRequest();
     }
     // Else: need to login with username/password:
     else
     {
         // Get the name of the site that is being browsed.
-        $currentSite = getCurrentSiteFromPath ( $_SERVER['REQUEST_URI'] );
+        $currentSite = currentSiteFromPath( $_SERVER['REQUEST_URI'] );
 
         // Proceed only if the current site is valid:
         if ( $currentSite )
@@ -96,9 +90,12 @@ if ( $enable == true )
             // Change site to the site being browsed:
             setSiteAccess( $currentSite );
 
+            $loginUsername = "";
             // Get the username and the password.
-            $loginUsername = $_SERVER['PHP_AUTH_USER'];
-            $loginPassword = $_SERVER['PHP_AUTH_PW'];
+            if ( isset( $_SERVER['PHP_AUTH_USER'] ) )
+                $loginUsername = $_SERVER['PHP_AUTH_USER'];
+            if ( isset( $_SERVER['PHP_AUTH_PW'] ) )
+                $loginPassword = $_SERVER['PHP_AUTH_PW'];
 
             // Strip away "domainname\" from a possible "domainname\password" string.
             if ( preg_match( "#(.*)\\\\(.*)$#", $loginUsername, $matches ) )
@@ -107,26 +104,27 @@ if ( $enable == true )
             }
             // Check if username & password contain someting, attempt to login.
             if ( ( !isset( $loginUsername ) ) || ( !isset( $loginPassword ) ) ||
-                 ( !ezuser::loginUser( $loginUsername, $loginPassword ) ) )
+                 ( !eZUser::loginUser( $loginUsername, $loginPassword ) ) )
             {
                 header('HTTP/1.0 401 Unauthorized');
                 header('WWW-Authenticate: Basic realm="'.WEBDAV_AUTH_REALM.'"');
-                print( WEBDAV_AUTH_FAILED );
             }
             // Else: non-empty & valid values were supplied: login successful!
             else
             {
+                append_to_log( "Logged in!" );
+
                 // Create & initialize a new instance of the content server.
-                $testServer = new eZWebDAVContentServer ();
+                $server = new eZWebDAVContentServer();
 
                 // Process the request.
-                $testServer->processClientRequest ();
+                $server->processClientRequest();
             }
         }
         // Else: site-name is invalid (was not among available sites).
         else
         {
-            print( WEBDAV_INVALID_SITE );
+            header( "HTTP/1.1 404 Not Found" );
         }
     }
 }

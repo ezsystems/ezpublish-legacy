@@ -40,21 +40,21 @@ include_once( "lib/ezutils/classes/ezmimetype.php" );
 include_once( 'lib/ezfile/classes/ezdir.php' );
 
 // General status OK return codes:
-define( "EZ_WEBDAV_OK",                   10 ); //
-define( "EZ_WEBDAV_OK_SILENT",            11 ); //
-define( "EZ_WEBDAV_OK_CREATED",           12 ); //
-define( "EZ_WEBDAV_OK_OVERWRITE",         13 ); //
+define( "EZ_WEBDAV_OK", 10 );
+define( "EZ_WEBDAV_OK_SILENT", 11 );
+define( "EZ_WEBDAV_OK_CREATED", 12 );
+define( "EZ_WEBDAV_OK_OVERWRITE", 13 );
 
 // General status FAILED return codes:
-define( "EZ_WEBDAV_FAILED_FORBIDDEN",     30 ); //
-define( "EZ_WEBDAV_FAILED_NOT_FOUND",     31 ); //
-define( "EZ_WEBDAV_FAILED_EXISTS",        32 ); //
-define( "EZ_WEBDAV_FAILED_CONFLICT",      33 ); //
-define( "EZ_WEBDAV_FAILED_PRECONDITION",  34 ); //
-define( "EZ_WEBDAV_FAILED_LOCKED",        35 ); //
-define( "EZ_WEBDAV_FAILED_BAD_GATEWAY",   36 ); //
-define( "EZ_WEBDAV_FAILED_STORAGE_FULL",  37 ); //
-define( "EZ_WEBDAV_FAILED_UNSUPPORTED",   38 ); //
+define( "EZ_WEBDAV_FAILED_FORBIDDEN", 30 );
+define( "EZ_WEBDAV_FAILED_NOT_FOUND", 31 );
+define( "EZ_WEBDAV_FAILED_EXISTS", 32 );
+define( "EZ_WEBDAV_FAILED_CONFLICT", 33 );
+define( "EZ_WEBDAV_FAILED_PRECONDITION", 34 );
+define( "EZ_WEBDAV_FAILED_LOCKED", 35 );
+define( "EZ_WEBDAV_FAILED_BAD_GATEWAY", 36 );
+define( "EZ_WEBDAV_FAILED_STORAGE_FULL", 37 );
+define( "EZ_WEBDAV_FAILED_UNSUPPORTED", 38 );
 
 
 // File timestamp formats (MUST be correct, or else: Won't work in MSIE...).
@@ -154,9 +154,6 @@ class eZWebDAVServer
 {
     var $ServerRootDir = "";
 
-
-
-
     /*! Constructor of eZWebDAVServer;
         disables PHP error messages.
      */
@@ -165,9 +162,6 @@ class eZWebDAVServer
         // Since PHP messages destroy XML output; we should switch them off.
         //ini_set( "display_errors", 0 );
     }
-
-
-
 
     function setServerRoot( $rootDir )
     {
@@ -184,9 +178,6 @@ class eZWebDAVServer
         }
     }
 
-
-
-
     /*! Server process function.
         Dumps a custom header, sets the path and finally
         checks what the clients wants. Calls the appropriate
@@ -197,7 +188,7 @@ class eZWebDAVServer
         append_to_log( "WebDAV server started..." );
 
         // Dump some custom header/info.
-		//header( "WebDAV-Powered-By: eZ publish" );
+//		header( "WebDAV-Powered-By: eZ publish" );
 
         // Clear file status cache (just in case).
         clearstatcache();
@@ -209,6 +200,9 @@ class eZWebDAVServer
         append_to_log( "Client says: ".$_SERVER["REQUEST_METHOD"] );
         append_to_log( "Target: ".$_SERVER["REQUEST_URI"] );
         append_to_log( "----------------------------------------" );
+
+        // Read the XML body, PHP should discard it but it's a bug in some PHP versions
+        $xmlBody = file_get_contents( "php://input" );
 
         // Check what the client wants & do it:
         switch ( $_SERVER["REQUEST_METHOD"] )
@@ -226,8 +220,14 @@ class eZWebDAVServer
             case "PROPFIND":
             {
                 append_to_log( "PROPFIND was issued from client." );
-                $collection = $this->getCollectionContent( $target );
-                $status     = $this->outputCollectionContent( $collection );
+
+                $depth = $_SERVER['HTTP_DEPTH'];
+                if ( $depth != 0 and $depth != 1 and $depth != "infinity" )
+                    $depth = "infinity";
+                append_to_log( "Depth: $depth." );
+
+                $collection = $this->getCollectionContent( $target, $depth );
+                $status = $this->outputCollectionContent( $collection, $xmlBody );
             }break;
 
 
@@ -257,13 +257,15 @@ class eZWebDAVServer
                 $status = EZ_WEBDAV_OK_CREATED;
 
                 // Attempt to get file/resource sent from client/browser.
-                $tempFile = $this->outputGetDataFromClient();
+                $tempFile = $this->createTempFile( $xmlBody );
 
                 // If there was an actual file:
                 if ( $tempFile )
                 {
                     // Attempt to do something with it (copy/whatever).
                     $status = $this->put( $target, $tempFile );
+
+                    unlink( $tempFile );
                 }
                 // Else: something went wrong...
                 else
@@ -278,7 +280,15 @@ class eZWebDAVServer
             case "MKCOL":
             {
                 append_to_log( "MKCOL was issued from client." );
-                $status = $this->mkcol( $target );
+                if ( strlen( $xmlBody ) > 0 )
+                {
+                    append_to_log( "MKCOL body error." );
+                    $status = EZ_WEBDAV_FAILED_FORBIDDEN;
+                }
+                else
+                {
+                    $status = $this->mkcol( $target );
+                }
             }break;
 
 
@@ -324,9 +334,6 @@ class eZWebDAVServer
         $this->handle( $status );
     }
 
-
-
-
     /*! OPTIONS
      */
     function outputOptions( $options )
@@ -340,117 +347,73 @@ class eZWebDAVServer
         return( EZ_WEBDAV_OK_SILENT );
     }
 
-
-
-
     /*!
      */
-    function outputCollectionContent( $collection )
+    function outputCollectionContent( $collection, $xmlBody )
     {
-
-        // Create DOM document.
-        $doc = new eZDOMDocument();
-        $doc->setName( 'collection' );
-
-        // Set the default namespace.
-        $root =& $doc->createElementNodeNS( 'DAV:', 'multistatus' );
-        $root->setPrefix( 'D' );
-        $doc->setRoot( $root );
+        $xmlText = "<?xml version='1.0' encoding='utf-8'?>\n" .
+                  "<D:multistatus xmlns:D='DAV:'>\n";
 
         // For all the entries in this dir/collection-array:
-        foreach( $collection as $entry )
+        foreach ( $collection as $entry )
         {
             // Translate the various UNIX timestamps to WebDAV format:
-            $ctime = date( EZ_WEBDAV_CTIME_FORMAT, $entry['ctime'] );
-            $mtime = date( EZ_WEBDAV_MTIME_FORMAT, $entry['mtime'] );
+            $creationTime = date( EZ_WEBDAV_CTIME_FORMAT, $entry['ctime'] );
+            $modificationTime = date( EZ_WEBDAV_MTIME_FORMAT, $entry['mtime'] );
 
-            // response
-            $response =& $doc->createElementNode( 'response' );
-            $response->setPrefix( 'D' );
-            $root->appendChild( $response );
-
-            // response:href
-            $href =& $doc->createElementNode( 'href' );
-            $href->setPrefix( 'D' );
-            $href->appendChild( $doc->createTextNode( $entry['href'] ) );
-            $response->appendChild( $href );
-
-            // response:propstat
-            $propstat =& $doc->createElementNode( 'propstat' );
-            $propstat->setPrefix( 'D' );
-            $response->appendChild( $propstat );
-
-            // propstat:prop
-            $prop =& $doc->createElementNode( 'prop' );
-            $prop->setPrefix( 'D' );
-            $propstat->appendChild( $prop );
-
-            // prop:displayname
-            $displayname =& $doc->createElementNode( 'displayname' );
-            $displayname->setPrefix( 'D' );
-            $displayname->appendChild( $doc->createTextNode( $entry['name'] ) );
-            $prop->appendChild( $displayname );
-
-            // Check if collection and append/use appropriate tag.
+            // Check if collection and append/use appropriate tags.
             if ( $entry['mimetype'] == 'httpd/unix-directory' )
             {
-                // prop:resourcetype
-                $resourcetype =& $doc->createElementNode( 'resourcetype' );
-                $resourcetype->setPrefix( 'D' );
-                $prop->appendChild( $resourcetype );
-
-                // resourcetype:collection
-                $collection =& $doc->createElementNode( 'collection' );
-                $collection->setPrefix( 'D' );
-                $resourcetype->appendChild( $collection );
+                $xmlText .= "<D:response>\n" .
+                     " <D:href>" . $entry['href'] ."</D:href>\n" .
+                     " <D:propstat>\n" .
+                     "  <D:prop>\n" .
+                     "   <D:displayname>" . $entry['name'] . "</D:displayname>\n" .
+                     "   <D:resourcetype>\n" .
+                     "    <D:collection />\n" .
+                     "   </D:resourcetype>\n" .
+                     "   <D:creationdate>$creationTime</D:creationdate>\n" .
+                     "   <D:getlastmodified>$modificationTime</D:getlastmodified>\n" .
+                     "  </D:prop>\n" .
+                     "  <D:status>HTTP/1.1 200 OK</D:status>\n" .
+                     " </D:propstat>\n";
             }
-            // Else: this is a file, omit resourcetype,
-            // dump getcontenttype+getcontentlength instead! __FIX_ME__ helvete!
             else
             {
-                // prop:getcontenttype
-                $getcontenttype =& $doc->createElementNode( 'getcontenttype' );
-                $getcontenttype->setPrefix( 'D' );
-                $getcontenttype->appendChild( $doc->createTextNode( $entry['mimetype'] ) );
-                $prop->appendChild( $getcontenttype );
-
-                // prop:getcontentlength
-                $getcontentlength =& $doc->createElementNode( 'getcontentlength' );
-                $getcontentlength->setPrefix( 'D' );
-                $getcontentlength->appendChild( $doc->createTextNode( $entry['size'] ) );
-                $prop->appendChild( $getcontentlength );
+                $xmlText .= "<D:response>\n" .
+                     " <D:href>" . $entry['href'] ."</D:href>\n" .
+                     " <D:propstat>\n" .
+                     "  <D:prop>\n" .
+                     "   <D:displayname>" . $entry['name'] . "</D:displayname>\n" .
+                     "   <D:getcontenttype>" . $entry['mimetype'] . "</D:getcontenttype>\n" .
+                     "   <D:getcontentlength>" . $entry['size']  . "</D:getcontentlength>\n" .
+                     "   <D:creationdate>$creationTime</D:creationdate>\n" .
+                     "   <D:getlastmodified>$modificationTime</D:getlastmodified>\n" .
+                     "  </D:prop>\n" .
+                     "  <D:status>HTTP/1.1 200 OK</D:status>\n" .
+                     " </D:propstat>\n";
             }
 
-            // prop:creationdate
-            $creationdate =& $doc->createElementNode( 'creationdate' );
-            $creationdate->setPrefix( 'D' );
-            $creationdate->appendChild( $doc->createTextNode( $ctime ) );
-            $prop->appendChild( $creationdate );
+            // List the non supported properties
+            $xmlText .= "<D:propstat>\n";
+            $xmlText .= " <D:prop>\n";
+            $xmlText .= "  <D:supportedlock />\n";
+            $xmlText .= "  <D:source />\n";
+            $xmlText .= "  <D:executable />\n";
+            $xmlText .= "  <D:getetag />\n";
+            $xmlText .= "  <D:lockdiscovery />\n";
+            $xmlText .= " </D:prop>\n";
+            $xmlText .= "<D:status>HTTP/1.1 404 Not Found</D:status>";
+            $xmlText .= "</D:propstat>\n";
 
-            // prop:getlastmodified
-            $getlastmodified =& $doc->createElementNode( 'getlastmodified' );
-            $getlastmodified->setPrefix( 'D' );
-            $getlastmodified->appendChild( $doc->createTextNode( $mtime ) );
-            $prop->appendChild( $getlastmodified );
 
-            // prop:supportedlock
-            $supportedlock =& $doc->createElementNode( 'supportedlock' );
-            $supportedlock->setPrefix( 'D' );
-            $prop->appendChild( $supportedlock );
-
-            // propstat:status
-            $status =& $doc->createElementNode( 'status' );
-            $status->setPrefix( 'D' );
-            $status->appendChild( $doc->createTextNode( 'HTTP/1.1 200 OK' ) );
-            $propstat->appendChild( $status );
+            $xmlText .= "</D:response>\n";
         }
 
-        // Convert XML data to a string.
-        $xml =& $doc->toString();
-
+        $xmlText .= "</D:multistatus>\n";
         // Send the necessary headers...
         header( 'HTTP/1.1 207 Multi-Status' );
-        header( 'Content-Type: text/xml; charset=utf-8' );
+        header( 'Content-Type: text/xml; charset="utf-8"' );
 
         // Comment out the next line if you don't
         // want to use chunked transfer encoding.
@@ -459,14 +422,18 @@ class eZWebDAVServer
         while( @ob_end_clean() );
 
         // Dump the actual XML data containing collection list.
-        print( $xml );
+        print( $xmlText );
+
+        $xml = new eZXML();
+        $domTree = $xml->domTree( $xmlText );
+        if ( $domTree )
+            append_to_log( "XML was parsed" );
+        else
+            append_to_log( "XML was NOT parsed $xmlText" );
 
         // If we got this far: everything is OK.
         return( EZ_WEBDAV_OK_SILENT );
     }
-
-
-
 
     /*!
      */
@@ -516,7 +483,7 @@ class eZWebDAVServer
                     $status = fpassthru( $fp );
 
                     // Check if the last command succeded..
-                    if ($status == $size)
+                    if ( $status == $size)
                     {
                         return( EZ_WEBDAV_OK_SILENT );
                     }
@@ -547,43 +514,30 @@ class eZWebDAVServer
         }
     }
 
-
-
-
-    function outputGetDataFromClient()
+    /*!
+      Will create a temporary file containing the body of the PUT request.
+      If permission is denied false will be returned.
+    */
+    function createTempFile( &$body )
     {
         $tempFileName = tempnam( EZ_WEBDAV_TEMP_DIRECTORY, EZ_WEBDAV_TEMP_FILE_PREFIX );
 
         $fpWrite = fopen( $tempFileName, "wb" );
 
-        // Check if we're able to open the file...
         if ( $fpWrite )
         {
             header( "HTTP/1.1 201 Created" );
 
-            $fpRead  = fopen( "php://input", "rb" );
-
-            // As long as there is input: write it out in 4096-byte chunks.
-            while ( !feof( $fpRead ) )
-            {
-                fwrite( $fpWrite, fread( $fpRead, 4096 ) );
-            }
-
-            // Close the input/output files.
-            fclose( $fpRead  );
+            fwrite( $fpWrite, $body );
             fclose( $fpWrite );
 
             return( $tempFileName );
         }
-        // Else: unable to open temp file, something went wrong...
         else
         {
             return( FALSE );
         }
     }
-
-
-
 
     /*! Virtual options function.
      */
@@ -591,26 +545,17 @@ class eZWebDAVServer
     {
     }
 
-
-
-
     /*! Virtual getCollectionContent function.
      */
-    function getCollectionContent( $collection )
+    function getCollectionContent( $collection, $depth )
     {
     }
-
-
-
 
     /*! Virtual HEAD function.
      */
     function head( $target )
     {
     }
-
-
-
 
     /*! Virtual GET function.
      */
@@ -627,17 +572,11 @@ class eZWebDAVServer
     {
     }
 
-
-
-
     /*! Virtual MKCOL function.
      */
     function mkcol( $target )
     {
     }
-
-
-
 
     /*! Virtual COPY function.
      */
@@ -645,26 +584,17 @@ class eZWebDAVServer
     {
     }
 
-
-
-
     /*! Virtual MOVE function.
      */
     function move( $source, $destination )
     {
     }
 
-
-
-
     /*! Virtual DELETE function.
      */
     function delete( $target )
     {
     }
-
-
-
 
     /*! Handles return values and sends necessary/corresponding headers.
      */
@@ -755,9 +685,6 @@ class eZWebDAVServer
             {
                 header( "HTTP/1.1 415 Unsupported Media Type" );
             }break;
-
-
-
 
             // Default case: something went wrong...
             default:

@@ -577,7 +577,7 @@ Workflow:
   'weekday_list' changed to 'weekday_name_list'
   'weekday_name_list' changed to 'weekday_number_list'
 
-eZ WEBDav:
+eZ WebDAV:
 - Added removal of temporary files after upload
 - Added support of removal of objects
 - Made sure the server always reads the whole request body to prevent Apache 400 Bad Request responses
@@ -586,6 +586,8 @@ eZ WEBDav:
 - Added permissions to read access
 - Added permissions checking to folder creation
 - Added permission checking to removing of an object
+- Fixed better compatibility by adding support for WebDav depth
+- Added support for managing content under Media via WebDAV
 
 eZ DB:
 - Added support to MySQL driver for setting the character set on the connection
