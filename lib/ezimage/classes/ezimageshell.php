@@ -68,6 +68,7 @@ define( "EZ_IMAGE_REPLACE_SUFFIX", 2 );
 define( "EZ_IMAGE_APPEND_SUFFIX", 3 );
 define( "EZ_IMAGE_PREPEND_SUFFIX_TAG", 4 );
 define( "EZ_IMAGE_NO_SUFFIX", 5 );
+define( "EZ_IMAGE_PREPEND_AND_REPLACE_SUFFIX_TAG", 6 );
 
 define( "EZ_IMAGE_PRE_PARAM", 1 );
 define( "EZ_IMAGE_POST_PARAM", 2 );
@@ -167,6 +168,16 @@ class eZImageShell
                 $str = $from["basename"] . "." . $from["suffix"];
                 if ( $add_dir )
                     $str = $from["dir"] . "/" . $str;
+            } break;
+
+            case EZ_IMAGE_PREPEND_AND_REPLACE_SUFFIX_TAG:
+            {
+                $str = "";
+                if ( $add_dir )
+                    $str = $from["dir"] . "/";
+                $str .= $from["basename"] . "." . $from["suffix"];
+                if ( !$as_pure_file )
+                    $str = $from["suffix"] . ":" . $str;
             } break;
         }
         return $str;
