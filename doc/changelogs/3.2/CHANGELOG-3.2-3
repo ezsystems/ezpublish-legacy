@@ -67,6 +67,8 @@ Changes from 3.2-2 to 3.2-3
 - http://ez.no/developer/ez_publish_3/bug_reports/embedded_object_inline_view_bug
   Fixed correct namespace.
 - Made sure redirects only use reverse url translation if the translation system is enabled.
+- http://ez.no/developer/ez_publish_3/bug_reports/orderviwtpl_closed_form_without_open_tag
+  Removed invalid form tag.
 
 *Setup:
 
