@@ -74,12 +74,12 @@ $featureArray[] = array( "level" => 0,
 $featureArray[] = array( "uri" => "operator_creators",
                          "level" => 0,
                          "name" => "Type creators" );
-$featureArray[] = array( "uri" => "operator_image",
-                         "level" => 0,
-                         "name" => "Text to image" );
-$featureArray[] = array( "uri" => "operator_unit",
-                         "level" => 0,
-                         "name" => "Units" );
+// $featureArray[] = array( "uri" => "operator_image",
+//                          "level" => 0,
+//                          "name" => "Text to image" );
+// $featureArray[] = array( "uri" => "operator_unit",
+//                          "level" => 0,
+//                          "name" => "Units" );
 
 $featureArray[] = array( "uri" => "operator_list",
                          "level" => 0,

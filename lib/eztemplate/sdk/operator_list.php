@@ -42,19 +42,22 @@ templates. Most operators are native to eZ template (general), some are specific
 for eZ publish.
 </p>
 
-<h2>Array handling</h2>
-
-<dl>
-<dt>array</dt>
-<dd>Creates an array. E.g. array(6,8,42)</dd>
-<dt>hash</dt>
-<dd>Creates an associative array. E.g. hash(name,'Ola Norman',age,26)</dd>
-</dl>
-
 <h2>Execute</h2>
 <dl>
 <dt>fetch</dt>
-<dd>Executes a given fetch operation, and returns the result. It accepts three parameters: module_name, function_name and function_parameters. The last parameter should be a hash corresponding to the given function_name in kernel/[module_name]/function_definition.php. E.g. {fetch('content','list_count',hash(parent_node_id,$node.node_id,sort_by,array(published,true()),class_filter_type,exclude,class_filter_array,array(1,24)))}</dd>
+<dd>Executes a given fetch operation, and returns the result. The parameters are the module name, the
+operation name, and a hash of operation parameters corresponding to the given function_name in
+kernel/[module_name]/function_definition.php. A few examples:<br/>
+Fetch the number of items in a list:
+E.g. {fetch('content','list_count',hash(parent_node_id,$node.node_id,sort_by,array(published,true()),class_filter_type,exclude,class_filter_array,array(1,24)))}<br/>
+Fetch a class: Returns the content class defined by class_id. E.g. fetch('content','class',hash(class_id,4))<br/>
+Fetch a class attribute: Returns one specific class attribute defined by attribute_id. The parameter
+version_id is optional (default 0) and defines the version of the attribute.
+E.g. fetch('content','class_attribute',hash(attribute_id,140,version_id,0))<br/>
+Fetch a class attribute list: Returns an array of all attributes for one class defined by class_id.
+The parameter version_id is optional (default 0) and defines the version of the attributes.
+E.g. fetch('content','class_attribute_list',hash(class_id,4,version_id,0))
+</dd>
 </dl>
 
 <h2>Locale</h2>
@@ -88,6 +91,9 @@ for eZ publish.
 <dl>
 <dt>concat</dt>
 <dd>Concatenates values to one string. If you give it an array, it will concatenate the elements of the array. E.g. {concat('/var/',$node.node_id,'/')}</dd>
+<dt>autolink</dt>
+<dd>Converts all known links in a text to links that can be clicked. E.g. {"Some links: ftp://ftp.mysite.com me@mysite.com http://www.mysite.com"|autolink}
+</dd>
 </dl>
 
 <h2>Unit operators</h2>
@@ -101,6 +107,27 @@ for eZ publish.
 {1025|si(byte,none)}<br/>
 {1025|si(byte,auto)}<br/>
 {1025|si(byte,mebi)}</dd>
+</dl>
+
+<h2>Type creators</h2>
+<dl>
+<dt>true</dt>
+<dd>Creates a true boolean. Remember to use brackets, e.g. {true()}.</dd>
+<dt>false</dt>
+<dd>Creates a false boolean. Remember to use brackets, e.g. {false()}.</dd>
+<dt>array</dt>
+<dd>Creates an array. E.g. array(6,8,42)</dd>
+<dt>hash</dt>
+<dd>Creates an associative array. E.g. hash(name,'Ola Norman',age,26)</dd>
+</dl>
+
+<h2>Control operators</h2>
+<dl>
+<dt>cond</dt>
+<dd>Evaluates clauses and returns the value of the first clause whose condition is true. Pairs of parameters are treated as clauses where the first is the condition and the second is the body. The last clause may have one parameter only in which case it is used as condition and body. E.g. {cond($b|ne(0),div($a,$b),0)} returns the result of $a/$b if $b is not 0, or 0 if it is.
+</dd>
+<dt>first_set</dt>
+<dd>Returns the first value which exists, this is useful if you want to make sure that you always have a value to work with, since you can put a constant as the last parameter and constants always exist. E.g. {first_set($a,$b,$c,"&nbsp;")} returns "&nbsp;" if none of the variables are set.</dd>
 </dl>
 
 <h2>Logical operators</h2>
@@ -120,9 +147,9 @@ for eZ publish.
 <dt>not</dt>
 <dd>Returns true if the input value is false. E.g. {false()|not()} returns true.</dd>
 <dt>true</dt>
-<dd>Returns a true boolean. Remember to use brackets, e.g. {true()}.</dd>
+<dd>Creates a true boolean. Remember to use brackets, e.g. {true()}.</dd>
 <dt>false</dt>
-<dd>Returns a false boolean. Remember to use brackets, e.g. {false()}.</dd>
+<dd>Creates a false boolean. Remember to use brackets, e.g. {false()}.</dd>
 <dt>or</dt>
 <dd>Evaluates all parameter values until one is found to be true, then returns that value. The remaining parameters are not evaluated at all. If there are no parameters or all elements were false it returns false. E.g. {or(false(),false(),true(),false())} returns true.</dd>
 <dt>and</dt>
@@ -160,15 +187,6 @@ for eZ publish.
 <dd>Returns the type of the input or the first parameter as a string. If both input and parameter are supplied, the parameter will be used. If the data is an object, then the string 'object' and the classname will be returned. If the data is an array, then the string 'array' and the array count will be returned. If the data is a string, then the string 'string' and the string length will be returned.</dd>
 <dt>get_class</dt>
 <dd>Returns the class of the input or the first parameter as a string. If both input and parameter are supplied, the parameter will be used. If the data is not an object, false will be returned.</dd>
-</dl>
-
-<h2>Control operators</h2>
-<dl>
-<dt>cond</dt>
-<dd>Evaluates clauses and returns the value of the first clause whose condition is true. Pairs of parameters are treated as clauses where the first is the condition and the second is the body. The last clause may have one parameter only in which case it is used as condition and body. E.g. {cond($b|ne(0),div($a,$b),0)} returns the result of $a/$b if $b is not 0, or 0 if it is.
-</dd>
-<dt>first_set</dt>
-<dd>Returns the first value which exists, this is useful if you want to make sure that you always have a value to work with, since you can put a constant as the last parameter and constants always exist. E.g. {first_set($a,$b,$c,"&nbsp;")} returns "&nbsp;" if none of the variables are set.</dd>
 </dl>
 
 <h2>Arithmentic operators</h2>
@@ -213,18 +231,43 @@ for eZ publish.
 <p>These operators require the ImageMagick and/or ImageGD extension to work.</p>
 <dl>
 <dt>image</dt>
-<dd>Creates and returns an image by flattening the image layers given as parameters.
-This requires the ImageMagick or the ImageGD extension.<br/>
-Example: {image(imagefile('image1.png'|ezimage),imagefile('image2.png'|ezimage))</dd>
+<dd>Creates and returns an image by flattening the image layers given as parameters. (This requires the
+ImageMagick or the ImageGD extension.) If a parameter is text it will be used as the alternative text.
+If the parameter is an array it will assume that the first element (0) is the image layer, and the second
+is a hash table with parameters for that layer.<br/>
+The parameters that can be set are:<br/>
+- transparency: float value from 0 to 1.0 (ie 0-100%)<br/>
+- halign: horizontal alignment, use left, right or center<br/>
+- valign: vertical alignment, use top, bottom or center<br/>
+- x: absolute placement (works with left and right align)<br/>
+- y: absolute placement (works with top and bottom align)<br/>
+- xrel: relative placement, float value from 0 to 1.0. (works with left and right align)<br/>
+- xrel: relative placement, float value from 0 to 1.0. (works with top and bottom align)</dd>
+<dd>The x and xrel parameters cannot be used at the same time (same with y and yrel).</dd>
+<dd>When right or bottom alignment is used, the coordinate system will shift to accommodate the alignment.
+This is useful for doing alignment and placement since the placement is relative to the current coordinate
+system. Right alignment will start the axis at the right (0) and go on to the left (width). Bottom
+alignment will start the axis at the bottom (0) and go on to the top (height).</dd>
+<dd>
+Examples:<br/>
+Merge two images: {image(imagefile('image1.png'|ezimage),imagefile('image2.png'|ezimage))}<br/>
+Texttoimage: {'I is cool'|texttoimage('arial')}<br/>
+Similar to above but now wrapped in an image object: {image('I is cool'|texttoimage('arial'))}<br/>
+Loads image from file to display as layer: {imagefile('var/cache/texttoimage/church.jpg')}<br/>
+Creates image object with one file image layer: {image(imagefile('var/cache/texttoimage/church.jpg'))}<br/>
+Creates image object with 80% transparent text aligned in the top right corner:<br/>
+{image("church",imagefile('var/cache/texttoimage/church.jpg'),array('I is cool '|texttoimage('arial'),hash('transparency',0.8,halign,right,valign,top)))}
+</dd>
 <dt>imagefile</dt>
 <dd>Creates and returns an image layer for the image file given as the first parameter.
-This requires the ImageMagick or the ImageGD extension. See the 'image' example.</dd>
+(This requires the ImageMagick or the ImageGD extension.) See the 'image' example.</dd>
 <dt>texttoimage</dt>
-<dd>Converts the input value, which should be a string, into an image. This requires the ImageGD extension.
-It can also be used with the 'image' operator to allow you to merge the output with another image.</dd>
+<dd>Converts the input value, which should be a string, into an image. (This requires the ImageGD
+extension.) It can also be used with the 'image' operator to allow you to merge the output with another
+image. Use only the first parameter if you don't want to override the settings in the font class.
+The font classes are specified in settings/texttoimage.ini.</dd>
 <dd>Accepts the following parameters:<br/>
 - class: The font class, which is specified in settings/texttoimage.ini. Use for instance 'archtura'.<br/>
-The following parameters will override the settings in the font class.<br/>
 - family: The font family.<br/>
 - pointsize: The point size of the font.<br/>
 - angle: The angle, in degrees counterclockwise from horizontal, at which the text should be shown.<br/>
@@ -238,26 +281,6 @@ The following parameters will override the settings in the font class.<br/>
 Examples:<br/>
 {"This is not a text"|texttoimage('archtura')}<br/>
 {"This is not a text"|texttoimage('archtura',,50,0,array(200,255,255),array(255,0,0),10,10,28,26,true())}
-</dd>
-<dt>imagelabel</dt>
-<dd>Adds the input value, which should be a string, as a text label on an image. This requires the ImageGD extension.</dd>
-<dd>Accepts the following parameters:<br/>
-- filename: The path to the image file.<br/>
-The following parameters are the same as for texttoimage.<br/>
-- class: The font class, which is specified in settings/texttoimage.ini. Use for instance 'archtura'.<br/>
-The following parameters will override the settings in the font class.<br/>
-- family: The font family.<br/>
-- pointsize: The point size of the font.<br/>
-- angle: The angle, in degrees counterclockwise from horizontal, at which the text should be shown.<br/>
-- bgcolor: The background color, specified as an array of three numbers from 0 to 255.<br/>
-- textcolor: The text color, specified as an array of three numbers from 0 to 255.<br/>
-- x: The horizontal text offset in pixels from the left side of the image.<br/>
-- y: The vertical text offset in pixels from the top of the image.<br/>
-- w: A number of pixels that specify how much wider than the default the image should be.<br/>
-- h: A number of pixels that specify how much taller than the default the image should be.<br/>
-- usecache: A boolean that decides whether to use cache, must be true() or false().<br/>
-Examples:<br/>
-{"This foto was taken last summer."|imagelabel('summerfoto.jpg'|ezimage,'archtura')}<br/>
 </dd>
 </dl>
 

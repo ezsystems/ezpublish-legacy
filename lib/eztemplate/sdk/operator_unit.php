@@ -14,19 +14,19 @@ include_once( "lib/eztemplate/classes/eztemplateswitchfunction.php" );
 include_once( "lib/ezlocale/classes/ezlocale.php" );
 
 print( "<p>Displaying different units (such as filesize) is possible with the <i>si</i> operator.
-The operator uses a mixture of prefixes and a base*. The base and prefix specifications comes with
-defaults values for the most basic bases and prefixes and can easily be expanded by editing an ini file.</p>
-<p>All prefix values are input as powers of 10 with the exception of bytes and bits which uses
+The operator uses a mixture of prefixes and a base*. The base and prefix specifications come with
+default values for the most common bases and prefixes and can easily be expanded by editing an ini file.</p>
+<p>All prefix values are input as powers of 10, with the exception of bytes and bits which use
 prefixes with the power of 2. However it's possible to still use the same power of 10 prefixes for
 bytes and bits by either editing the ini file or specifying it to the operator.</p>
 <p>Requires: eZINI</p>
 <p class=\"footnote\">*See <a href=\"http://physics.nist.gov/cuu/Units/\">International Systems of Units</a> for more information</p>
-<p class=\"footnote\">Note: Derative bases and conversion is not supported yet.</p>
+<p class=\"footnote\">Note: Derivative bases and conversion is not supported yet.</p>
 " );
 
-$lang =& eZLanguage::instance();
-$locale =& eZLocale::instance();
-$locale->setLanguage( $lang );
+// $lang =& eZLanguage::instance();
+// $locale =& eZLocale::instance();
+// $locale->setLanguage( $lang );
 
 // Init template
 $tpl =& eZTemplate::instance();

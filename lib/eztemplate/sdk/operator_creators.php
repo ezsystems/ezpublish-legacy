@@ -8,7 +8,7 @@
 
 print( "<h1>Type creators</h1>
 <p>Some types can only be created from the PHP side or with the use of operators.
-Arrays are created with the <i>array</i> operator and booleans with the <i>true</i>
+Arrays are created with the <i>array</i> or the <i>hash</i> operator and booleans with the <i>true</i>
 and <i>false</i> operators.</p>
 
 <pre class='example'>
@@ -17,6 +17,9 @@ and <i>false</i> operators.</p>
 
 {* Creating array with strings *}
 {array('red','green','blue')}
+
+{* Creating associative array *}
+{hash(name,'Ola Norman',age,26)}
 
 {* Creating booleans *}
 {true()}
