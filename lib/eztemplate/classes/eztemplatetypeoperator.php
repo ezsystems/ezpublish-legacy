@@ -125,43 +125,176 @@ class eZTemplateTypeOperator
     {
         return array( $this->IsArrayName => array( 'input' => true,
                                                    'output' => true,
-                                                   'parameters' => false ),
+                                                   'parameters' => true,
+                                                   'element-transformation' => true,
+                                                   'transform-parameters' => true,
+                                                   'input-as-parameter' => true,
+                                                   'element-transformation-func' => 'isTransform'),
                       $this->IsBooleanName => array( 'input' => true,
                                                      'output' => true,
-                                                     'parameters' => false ),
+                                                     'parameters' => true,
+                                                     'element-transformation' => true,
+                                                     'transform-parameters' => true,
+                                                     'input-as-parameter' => true,
+                                                     'element-transformation-func' => 'isTransform' ),
                       $this->IsIntegerName => array( 'input' => true,
                                                      'output' => true,
-                                                     'parameters' => false ),
+                                                     'parameters' => true,
+                                                     'element-transformation' => true,
+                                                     'transform-parameters' => true,
+                                                     'input-as-parameter' => true,
+                                                     'element-transformation-func' => 'isTransform' ),
                       $this->IsFloatName => array( 'input' => true,
                                                    'output' => true,
-                                                   'parameters' => false ),
+                                                   'parameters' => true,
+                                                   'element-transformation' => true,
+                                                   'transform-parameters' => true,
+                                                   'input-as-parameter' => true,
+                                                   'element-transformation-func' => 'isTransform' ),
                       $this->IsNumericName => array( 'input' => true,
                                                      'output' => true,
-                                                     'parameters' => false ),
+                                                     'parameters' => true,
+                                                     'element-transformation' => true,
+                                                     'transform-parameters' => true,
+                                                     'input-as-parameter' => true,
+                                                     'element-transformation-func' => 'isTransform' ),
                       $this->IsStringName => array( 'input' => true,
                                                     'output' => true,
-                                                    'parameters' => false ),
+                                                    'parameters' => true,
+                                                    'element-transformation' => true,
+                                                    'transform-parameters' => true,
+                                                    'input-as-parameter' => true,
+                                                    'element-transformation-func' => 'isTransform' ),
                       $this->IsObjectName => array( 'input' => true,
                                                     'output' => true,
-                                                    'parameters' => false ),
+                                                    'parameters' => true,
+                                                    'element-transformation' => true,
+                                                    'transform-parameters' => true,
+                                                    'input-as-parameter' => true,
+                                                    'element-transformation-func' => 'isTransform' ),
                       $this->IsClassName => array( 'input' => true,
                                                    'output' => true,
-                                                   'parameters' => 2 ),
+                                                   'parameters' => true,
+                                                   'element-transformation' => true,
+                                                   'transform-parameters' => true,
+                                                   'input-as-parameter' => true,
+                                                   'element-transformation-func' => 'isTransform' ),
                       $this->IsNullName => array( 'input' => true,
                                                   'output' => true,
-                                                  'parameters' => false ),
+                                                  'parameters' => true,
+                                                  'element-transformation' => true,
+                                                  'transform-parameters' => true,
+                                                  'input-as-parameter' => true,
+                                                  'element-transformation-func' => 'isTransform' ),
                       $this->IsSetName => array( 'input' => true,
                                                  'output' => true,
-                                                 'parameters' => 1 ),
+                                                 'parameters' => true,
+                                                 'element-transformation' => true,
+                                                 'transform-parameters' => true,
+                                                 'input-as-parameter' => true,
+                                                 'element-transformation-func' => 'isTransform' ),
                       $this->IsUnsetName => array( 'input' => true,
                                                    'output' => true,
-                                                   'parameters' => 1 ),
+                                                   'parameters' => true,
+                                                   'element-transformation' => true,
+                                                   'transform-parameters' => true,
+                                                   'input-as-parameter' => true,
+                                                   'element-transformation-func' => 'isTransform' ),
                       $this->GetTypeName => array( 'input' => true,
                                                    'output' => true,
-                                                   'parameters' => 1 ),
+                                                   'parameters' => true,
+                                                   'element-transformation' => true,
+                                                   'transform-parameters' => true,
+                                                   'input-as-parameter' => true,
+                                                   'element-transformation-func' => 'isTransform' ),
                       $this->GetClassName => array( 'input' => true,
-                                                   'output' => true,
-                                                    'parameters' => 1 ) );
+                                                    'output' => true,
+                                                    'parameters' => true,
+                                                    'element-transformation' => true,
+                                                    'transform-parameters' => true,
+                                                    'input-as-parameter' => true,
+                                                    'element-transformation-func' => 'isTransform' ) );
+    }
+
+    /*!
+     \reimp
+    */
+    function isTransform( $operatorName, &$node, &$tpl, &$resourceData,
+                          &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    {
+        $values = array();
+        $values[] = $parameters[0];
+        $code = '%output% = ';
+
+        switch( $operatorName )
+        {
+            case $this->IsArrayName:
+            {
+                $code .= 'is_array( %1% );';
+            } break;
+
+            case $this->IsBooleanName:
+            {
+                $code .= 'is_bool( %1% );';
+            } break;
+
+            case $this->IsIntegerName:
+            {
+                $code .= 'is_int( %1% );';
+            } break;
+
+            case $this->IsFloatName:
+            {
+                $code .= 'is_float( %1% );';
+            } break;
+
+            case $this->IsNumericName:
+            {
+                $code .= 'is_numeric( %1% );';
+            } break;
+
+            case $this->IsStringName:
+            {
+                $code .= 'is_string( %1% );';
+            } break;
+
+            case $this->IsObjectName:
+            {
+                $code .= 'is_object( %1% );';
+            } break;
+
+            case $this->IsClassName:
+            {
+                return false;
+            } break;
+
+            case $this->IsNumericName:
+            {
+                $code .= 'is_null( %1% );';
+            } break;
+
+            case $this->IsSetName:
+            {
+                $code .= 'isset( %1% );';
+            } break;
+
+            case $this->IsUnsetName:
+            {
+                $code .= '!isset( %1% );';
+            } break;
+
+            case $this->GetTypeName:
+            {
+                return false;
+            } break;
+
+            case $this->GetClassName:
+            {
+                $code .= 'get_class( %1% );';
+            } break;
+        }
+
+        return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
     }
 
     /*!
