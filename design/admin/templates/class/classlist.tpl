@@ -48,7 +48,7 @@
 
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h2 class="context-title"><a href={'/class/grouplist'|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Back to class groups'|i18n( 'design/admin/class/classlist' )}" title="{'Back to class groups'|i18n( 'design/admin/class/classlist' )}" /></a>&nbsp;{'Classes inside <%group_name> [%class_count]'|i18n( 'design/admin/class/classlist',, hash( '%group_name', $group.name, '%class_count', $class_count ) )|wash}</h2>
+<h2 class="context-title"><a href={'/class/grouplist'|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Back to class groups.'|i18n( 'design/admin/class/classlist' )}" title="{'Back to class groups.'|i18n( 'design/admin/class/classlist' )}" /></a>&nbsp;{'Classes inside <%group_name> [%class_count]'|i18n( 'design/admin/class/classlist',, hash( '%group_name', $group.name, '%class_count', $class_count ) )|wash}</h2>
 
 {* DESIGN: Mainline *}<div class="header-subline"></div>
 
@@ -70,17 +70,17 @@
     <th class="tight">&nbsp;</th>
 </tr>
 
-{section var=Classes loop=$groupclasses sequence=array(bglight,bgdark)}
+{section var=Classes loop=$groupclasses sequence=array( bglight, bgdark )}
 <tr class="{$Classes.sequence}">
-    <td><input type="checkbox" name="DeleteIDArray[]" value="{$Classes.item.id}"></td>
+    <td><input type="checkbox" name="DeleteIDArray[]" value="{$Classes.item.id}" title="{'Select class for removal.'|i18n( 'design/admin/class/classlist' )}" /></td>
     <td>{$Classes.item.identifier|class_icon( small, $Classes.item.name )}&nbsp;<a href={concat( "/class/view/", $Classes.item.id )|ezurl}>{$Classes.item.name|wash}</a></td>
     <td>{$Classes.item.id}</td>
     <td>{$Classes.item.identifier|wash}</td>
     <td>{content_view_gui view=text_linked content_object=$Classes.item.modifier.contentobject}</td>
     <td>{$Classes.item.modified|l10n( shortdatetime )}</td>
     <td>{$Classes.item.object_count}</td>
-    <td><a href={concat( 'class/copy/', $Classes.item.id )|ezurl}><img class="button" src={'copy.gif'|ezimage} width="16" height="16" alt="edit" /></a></td>
-    <td><a href={concat( 'class/edit/', $Classes.item.id )|ezurl}><img class="button" src={'edit.png'|ezimage} width="16" height="16" alt="edit" /></a></td>
+    <td><a href={concat( 'class/copy/', $Classes.item.id )|ezurl} title="{'Create a duplicate of the <%class_name> class.'|i18n( 'design/admin/class/classlist',, hash( '%class_name', $Classes.item.name ) )|wash}"><img class="button" src={'copy.gif'|ezimage} width="16" height="16" alt="edit" /></a></td>
+    <td><a href={concat( 'class/edit/', $Classes.item.id )|ezurl} title="{'Edit the <%class_name> class.'|i18n( 'design/admin/class/classlist',, hash( '%class_name', $Classes.item.name ) )|wash}"><img class="button" src={'edit.png'|ezimage} width="16" height="16" alt="edit" /></a></td>
 </tr>
 {/section}
 </table>
@@ -97,8 +97,15 @@
 <div class="block">
 <input type="hidden" name = "CurrentGroupID" value="{$GroupID}" />
 <input type="hidden" name = "CurrentGroupName" value="{$group.name}" />
-<input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/class/classlist' )}" {section show=$class_count|not}disabled="disabled"{/section} />
-<input class="button" type="submit" name="NewButton" value="{'New class'|i18n( 'design/admin/class/classlist' )}" />
+
+{section show=$class_count}
+<input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/class/classlist' )}" title="{'Remove selected classes from the <%class_group_name> class group.'|i18n( 'design/admin/class/classlist',, hash( '%class_group_name', $group.name ) )|wash}" />
+{section-else}
+<input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/class/classlist' )}" disabled="disabled" />
+{/section}
+
+<input class="button" type="submit" name="NewButton" value="{'New class'|i18n( 'design/admin/class/classlist' )}" title="{'Create a new class within the <%class_group_name> class group.'|i18n( 'design/admin/class/classlist',, hash( '%class_group_name', $group.name ) )|wash}" />
+
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
