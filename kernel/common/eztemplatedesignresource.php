@@ -352,7 +352,6 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $cacheMap =& $GLOBALS['eZOverrideTemplateCacheMap'][sprintf( "%u", crc32( '/' . $path ) )];
             if ( !is_string( $cacheMap ) and trim( $cacheMap['code'] ) )
             {
-                var_dump($cacheMap['code']);
                 eval( "\$matchFile = " . $cacheMap['code'] . ";" );
             }
             else
