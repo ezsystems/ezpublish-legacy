@@ -450,7 +450,7 @@ class eZHTTPTool
     {
         eZSessionStart();
 //         session_register( $name );
-        $_SESSION[$name] =& $value;
+        $_SESSION[$name] = $value;
     }
 
     /*!
