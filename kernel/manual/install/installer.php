@@ -8,6 +8,7 @@
 		<li><a href="#Linux">Linux installer</a></li>
 		<li><a href="#FreeBSD">FreeBSD installer</a></li>
 	</ul>
+	<li><a href="#Security">Security</a></li>
 </ul>
 
 <p>
@@ -103,3 +104,6 @@
 	Installation of eZ publish 3 is now done. You can access the demo site at:
 	http://localhost:1337 and the default admin site at http://localhost:1338
 </p>
+
+<h2 id="Security">Security</h2>
+<p>It's important that steps are taken to secure the site, more information on this can be read at <a href={"/manual/security/securing"|ezurl}>Securing the site</a>

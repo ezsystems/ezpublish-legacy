@@ -1,11 +1,7 @@
 #!/bin/sh
 
-CONTENT_CACHEDIR="var/cache/content"
-IMAGE_CACHEDIR="var/cache/texttoimage"
-INI_CACHEDIR="var/cache/ini"
-TEMPLATE_CACHEDIR="var/cache/template"
-TRANSLATION_CACHEDIR="var/cache/translation"
-EXPIRY_CACHEFILE="var/cache/expiry.php"
+VAR_DIR="var"
+VAR_SUBDIR=
 
 CLEAR_CONTENT="1"
 CLEAR_IMAGE="0"
@@ -22,6 +18,7 @@ for arg in $*; do
 	    echo
 	    echo "Options: -h"
 	    echo "         --help                     This message"
+	    echo "         --var-subdir=DIR           Use this subdirectory under var as root"
 	    echo "         --clear-image              Remove image cache"
 	    echo "         --clear-content            Remove content cache(default)"
 	    echo "         --clear-ini                Remove ini file cache"
@@ -33,6 +30,13 @@ for arg in $*; do
             echo "Example:"
             echo "$0 --clear-image --clear-tpl"
 	    exit 1
+	    ;;
+	--var-subdir*)
+	    if echo $arg | grep -e "--var-subdir=" >/dev/null; then
+		VAR_SUBDIR=`echo $arg | sed 's/--var-subdir=//'`
+	    else
+		echo "No subdir specified, ignoring"
+	    fi
 	    ;;
 	--clear-content)
 	    CLEAR_CONTENT="1"
@@ -67,6 +71,18 @@ for arg in $*; do
 	    ;;
     esac;
 done
+
+DIR="$VAR_DIR"
+if [ ! -z "$VAR_SUBDIR" ]; then
+    DIR="$DIR/$VAR_SUBDIR"
+fi
+
+CONTENT_CACHEDIR="$DIR/cache/content"
+IMAGE_CACHEDIR="$DIR/cache/texttoimage"
+INI_CACHEDIR="$DIR/cache/ini"
+TEMPLATE_CACHEDIR="$DIR/cache/template"
+TRANSLATION_CACHEDIR="$DIR/cache/translation"
+EXPIRY_CACHEFILE="$DIR/cache/expiry.php"
 
 if [ "$CLEAR_CONTENT" -eq 1 ]; then
     if [ -d "$CONTENT_CACHEDIR" ]; then

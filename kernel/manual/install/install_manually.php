@@ -20,6 +20,7 @@
 		<li><a href="#Windows_VirtualHost">VirtualHost</a></li>
 		<li><a href="#Windows_SiteAccess">Siteaccess</a></li>
 	</ul>
+    <li><a href="#Security">Security</a></li>
 </ul>
 
 <h2 id="Requirements"> eZ publish 3 requirements</h2>
@@ -271,3 +272,6 @@ AddModule mod_rewrite.c</pre>
 <p>
 	For help on how to configure site access, head over to the <a href="siteaccess">site access section</a>
 </p>
+
+<h2 id="Security">Security</h2>
+<p>It's important that steps are taken to secure the site, more information on this can be read at <a href={"/manual/security/securing"|ezurl}>Securing the site</a>

@@ -30,7 +30,7 @@
 
   <div class="buttonblock">
     <input type="hidden" name="ChangeStepAction" value="" />
-    <input class="defaultbutton" type="submit" name="StepButton_11" value="{'Register Site'|i18n('design/standard/setup/init')} >>" />
+    <input class="defaultbutton" type="submit" name="StepButton_11" value="{'Securing Site'|i18n('design/standard/setup/init')} >>" />
   </div>
   {include uri='design:setup/persistence.tpl'}
 </form>

@@ -209,6 +209,23 @@
 <table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <th class="menuheaddark" colspan="2">
+    <p class="menuhead">Security</p>
+    </th>
+</tr>
+<tr>
+    <td class="bullet" width="1">
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
+    </td>
+    <td class="menu" width="99%">
+    <p class="menuitem"><a class="menuitem" href={"/manual/security/securing"|ezurl}>Securing the site</a></p>
+    </td>
+</tr>
+
+</table>
+
+<table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
+<tr>
+    <th class="menuheaddark" colspan="2">
     <p class="menuhead">Setup & design</p>
     </th>
 </tr>
