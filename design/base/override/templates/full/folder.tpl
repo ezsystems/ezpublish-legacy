@@ -16,6 +16,8 @@
             </div>
         {/section}
 
+        {section show=$node.object.data_map.show_children.content}
+
         {let page_limit=10
              children=fetch_alias( children, hash( parent_node_id, $node.node_id,
                                                   offset, $view_parameters.offset,
@@ -35,6 +37,8 @@
                  view_parameters=$view_parameters
                  item_limit=$page_limit}
         {/let}
+
+        {/section}
 
     </div>
 </div>

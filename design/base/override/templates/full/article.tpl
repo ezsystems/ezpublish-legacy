@@ -17,19 +17,22 @@
 
         <div class="content-byline">
         <p class="author">
-             {attribute_view_gui attribute=$node.object.data_map.author} 
+             {attribute_view_gui attribute=$node.object.data_map.author}
         </p>
         <p class="date">
              {$node.object.published|l10n(date)}
         <p/>
         </div>
 
-
         {section show=$node.object.data_map.body.content.is_empty|not}
             <div class="content-long">
                 {attribute_view_gui attribute=$node.object.data_map.body}
             </div>
         {/section}
+
+        <div class="tipafriend">
+          <a href={concat('/content/tipafriend/',$node.node_id)|ezurl}>{"Tip a friend"|i18n("design/news/layout")}</a>
+        </div>
 
         {* Should we allow comments? *}
         {section show=$node.object.data_map.enable_comments.content}
