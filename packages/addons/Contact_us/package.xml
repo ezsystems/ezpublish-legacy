@@ -1,55 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package version="3.4.0alpha1"
+<package version="3.4.0beta1"
          development="true"
          xmlns:ezpackage="http://ez.no/ezpackage"
+         is_active="true"
          install_type="install">
   <warning>This format was made with a development version and will not work with any release versions.
 The format of this file is also subject to change until the release version.
 Upgrades to the development format will not be supported.</warning>
-  <name>contact_us</name>
-  <summary>Feedback form</summary>
-  <description>Functionality for adding feedback forms to your site.
-</description>
-  <type value="contentobject" />
+  <name modified="1083051563">Contact_us</name>
+  <summary modified="1083051563">Provides feedback form functionality</summary>
+  <description modified="1083051563">This package contains the following nodes :
+Contact us - subtree</description>
+  <type value="contentobject"
+        modified="1083051563" />
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
-    <version>3.4.0alpha3</version>
-    <named-version>3.4.0alpha3-alpha3</named-version>
+    <version>3.4.0beta1</version>
+    <named-version>3.4.0beta1-beta1</named-version>
   </ezpublish>
   <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
-    <maintainer>
+    <maintainer modified="1083051563">
       <name>Administrator User</name>
       <email>nospam@ez.no</email>
       <role>lead</role>
     </maintainer>
   </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1082620846</timestamp>
-    <host>trunk.ezpublish.drakhendvh1.ez.no</host>
+    <timestamp>1083051563</timestamp>
+    <host>10.0.2.31</host>
   </packaging>
   <documents>
     <document mime-type="text/plain"
-              name="LICENCE" />
+              name="LICENCE"
+              modified="1083051563" />
   </documents>
   <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry timestamp="1082620846"
+    <entry timestamp="1083051563"
            person="Administrator User"
-           email="nospam@ez.no"
-           release="1">
+           email="bh@ez.no"
+           release="1"
+           modified="1083051563">
       <change>Creation of package.</change>
     </entry>
   </changelog>
   <simple-files />
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number>1.0</number>
-    <release>1</release>
+    <number modified="1083051563">1.0</number>
+    <release modified="1083051563">1</release>
   </version>
-  <licence>GPL</licence>
-  <state>stable</state>
+  <licence modified="1083051563">GPL</licence>
+  <state modified="1083051563">stable</state>
   <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
     <provides>
       <provide type="ezcontentclass"
                name="contentclass"
-               value="feedback_form" />
+               value="feedback_form"
+               modified="1083051563" />
     </provides>
     <requires />
     <obsoletes />
@@ -57,18 +62,22 @@ Upgrades to the development format will not be supported.</warning>
   </dependencies>
   <install xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezcontentclass"
+          modified="1083051563"
           filename="class-feedback_form"
           sub-directory="ezcontentclass" />
     <item type="ezcontentobject"
-          filename="e5f7651b"
+          modified="1083051563"
+          filename="537184b5"
           sub-directory="ezcontentobject" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezcontentclass"
+          modified="1083051563"
           filename="class-feedback_form"
           sub-directory="ezcontentclass" />
     <item type="ezcontentobject"
-          filename="e5f7651b"
+          modified="1083051564"
+          filename="537184b5"
           sub-directory="ezcontentobject" />
   </uninstall>
 </package>
