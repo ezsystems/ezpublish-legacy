@@ -181,6 +181,8 @@ eZ Template
 - Fixed bug in cronjobs/workflow.php
   http://ez.no/community/bug_reports/deleting_the_default_admin_user_disables_workflow
 - Added template override for class_group.
+- Added classification as classname in xmltags
+  http://ez.no/community/bug_reports/many_of_the_ezxmltags_templates_lacks_class
 
 
 
