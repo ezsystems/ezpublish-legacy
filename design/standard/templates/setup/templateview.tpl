@@ -31,6 +31,9 @@
     {"Match conditions"|i18n("design/standard/setup")}
     </th>
     <th>
+    {"Priority"|i18n("design/standard/setup")}
+    </th>
+    <th>
     {"Edit"|i18n("design/standard/setup")}
     </th>
     <th>
@@ -56,6 +59,9 @@
 	{/section}
     </td>
     <td valign="top">
+        <input type="text" name="PriorityArray[{$CustomMatch:item.override_name}]" size="2" value="{$CustomMatch:number}" />
+    </td>
+    <td valign="top">
         <a href={concat('/setup/templateedit/',$CustomMatch:item.match_file)|ezurl}><img src={"edit.png"|ezimage} alt="Edit" /></a>
     </td>
     <td valign="top">
@@ -69,6 +75,7 @@
 
 <div class="buttonblock">
 <input class="button" type="submit" value="{"Create new"|i18n("design/standard/setup")}" name="NewOverrideButton" />
+<input class="button" type="submit" value="{"Update"|i18n("design/standard/setup")}" name="UpdateOverrideButton" />
 <input class="button" type="submit" value="{"Remove"|i18n("design/standard/setup")}" name="RemoveOverrideButton" />
 </div>
 

@@ -78,6 +78,37 @@ if ( $module->isCurrentAction( 'NewOverride' ) )
     return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
 }
 
+if ( $module->isCurrentAction( 'UpdateOverride' ) )
+{
+    if ( $http->hasPostVariable( 'PriorityArray' ) )
+    {
+        $priorityArray = $http->postVariable( 'PriorityArray' );
+
+        // Load override.ini for the current siteaccess
+        $overrideINI = eZINI::instance( 'override.ini', 'settings', null, null, true );
+        $overrideINI->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
+        $overrideINI->loadCache();
+
+        asort( $priorityArray );
+        $currentINIGroups =& $overrideINI->groups();
+
+        $newGroupArray = array();
+        foreach ( array_keys( $priorityArray ) as $key )
+        {
+            $newGroupArray[$key] = $currentINIGroups[$key];
+            unset( $currentINIGroups[$key] );
+        }
+        $overrideINI->setGroups( array_merge( $currentINIGroups, $newGroupArray ) );
+
+        $filePermission = $ini->variable( 'FileSettings', 'StorageFilePermissions' );
+
+        $oldumask = umask( 0 );
+        $overrideINI->save( "siteaccess/$siteAccess/override.ini.append" );
+        chmod( "settings/siteaccess/$siteAccess/override.ini.append", octdec( $filePermission ) );
+        umask( $oldumask );
+    }
+}
+
 if ( $module->isCurrentAction( 'RemoveOverride' ) )
 {
     if ( $http->hasPostVariable( 'RemoveOverrideArray' ) )
@@ -127,7 +158,6 @@ if ( $module->isCurrentAction( 'RemoveOverride' ) )
     }
 }
 
-
 $overrideArray =& eZTemplatedesignresource::overrideArray( $siteAccess );
 
 $templateSettings = false;
@@ -150,4 +180,4 @@ $Result['path'] = array( array( 'url' => "/setup/templatelist/",
                                 'text' => ezi18n( 'kernel/setup', 'Template list' ) ),
                          array( 'url' => false,
                                 'text' => ezi18n( 'kernel/setup', 'Template view' ) ) );
-                         ?>
+?>
