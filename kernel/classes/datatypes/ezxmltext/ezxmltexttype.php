@@ -61,7 +61,8 @@ include_once( "kernel/classes/ezdatatype.php" );
 include_once( "lib/ezxml/classes/ezxml.php" );
 include_once( "kernel/common/template.php" );
 include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
-  include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+include_once( "lib/ezutils/classes/ezini.php" );
 
 define( "EZ_DATATYPESTRING_XML_TEXT", "ezxmltext" );
 define( 'EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD', 'data_int1' );
@@ -103,23 +104,32 @@ class eZXMLTextType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
+        $enableEditor =& $this->showEditor( $contentObjectAttribute );
         if ( $http->hasPostVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $data =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
 
-            $data =& $this->convertInput( $data );
+            if ( $enableEditor )
+            {
+                // Convert the input to eZ XML sloppy input if input is generated from DHTML
+                include_once( "extension/editor/ezconverthtml.php" );
+                $convert = new eZConvertHTML( $data );
+                $inputXML = $convert->convertTags();
+                $data =& $this->convertInput( $inputXML );
+            }else
+            {
+                $data =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
 
-            // \todo add better validation of XML
+                $data =& $this->convertInput( $data );
 
+            }
             $xml = new eZXML();
             $dom =& $xml->domTree( $data );
 
             if ( $dom )
             {
                 $contentObjectAttribute->setAttribute( "data_text", $dom->toString() );
-
                 $objects =& $dom->elementsByName( 'object' );
-
                 foreach ( $objects as $object )
                 {
                     $objectID = $object->attributeValue( 'id' );
@@ -148,7 +158,6 @@ class eZXMLTextType extends eZDataType
                         }
                     }
                 }
-
                 $links =& $dom->elementsByName( 'link' );
                 foreach ( $links as $link )
                 {
@@ -176,10 +185,8 @@ class eZXMLTextType extends eZDataType
             {
                 $contentObjectAttribute->setAttribute( "data_text", "test" );
             }
-
             eZDebug::writeDebug( $data, "eZXMLTextType::XML text" );
         }
-
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
 
