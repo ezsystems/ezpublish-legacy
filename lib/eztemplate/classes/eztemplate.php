@@ -1567,6 +1567,7 @@ class eZTemplate
         if ( isset( $functionDefinition['function'] ) )
         {
             $function = $functionDefinition['function'];
+//             print( "loadAndRegisterFunction: $function<br/>" );
             if ( function_exists( $function ) )
                 $functionObject =& $function();
         }
@@ -1574,6 +1575,7 @@ class eZTemplate
         {
             $script = $functionDefinition['script'];
             $class = $functionDefinition['class'];
+//             print( "loadAndRegisterFunction: $script<br/>" );
             include_once( $script );
             if ( class_exists( $class ) )
                 $functionObject = new $class();
@@ -1686,6 +1688,7 @@ class eZTemplate
         if ( isset( $operatorDefinition['function'] ) )
         {
             $function = $operatorDefinition['function'];
+//             print( "loadAndRegisterOperator: $function<br/>" );
             if ( function_exists( $function ) )
                 $operatorObject =& $function();
         }
@@ -1693,6 +1696,7 @@ class eZTemplate
         {
             $script = $operatorDefinition['script'];
             $class = $operatorDefinition['class'];
+//             print( "loadAndRegisterOperator: $script<br/>" );
             include_once( $script );
             if ( class_exists( $class ) )
             {

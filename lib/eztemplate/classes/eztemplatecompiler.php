@@ -74,7 +74,6 @@
 */
 
 include_once( 'lib/ezutils/classes/ezdebug.php' );
-include_once( 'lib/eztemplate/classes/eztemplatenodetool.php' );
 
 define( 'EZ_TEMPLATE_COMPILE_CODE_DATE', 1074699607 );
 
@@ -421,6 +420,7 @@ class eZTemplateCompiler
             return false;
         $cacheFileName = eZTemplateCompiler::compilationFilename( $key, $resourceData );
 
+        include_once( 'lib/eztemplate/classes/eztemplatenodetool.php' );
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
         $rootNode =& $resourceData['root-node'];
