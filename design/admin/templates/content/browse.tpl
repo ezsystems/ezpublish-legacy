@@ -124,14 +124,18 @@
                                  fetch( content, access, hash( access,          $browse.permission.access,
                                                                contentobject,   $:item ) ) ) ),
                            $browse.ignore_nodes_select|contains($:item.node_id)|not() )}
-        {section show=is_array($browse.class_array)}
+        {section show=is_array( $browse.class_array )}
             {section show=$browse.class_array|contains($:item.object.content_class.identifier)}
                 <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
             {section-else}
                 <input type="{$select_type}" name="" value="" disabled="disabled" />
             {/section}
         {section-else}
-            <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
+            {section show=and( or( ne( $browse.action_name, 'MoveNode' ), ne( $browse.action_name, 'CopyNode' ) ), $Object:item.object.content_class.is_container )}
+                <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
+            {section-else}
+                <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" disabled="disabled" />
+            {/section}
         {/section}
     {section-else}
         <input type="{$select_type}" name="" value="" disabled="disabled" />
@@ -141,7 +145,11 @@
 
     {* Replaces node_view_gui... *}
     {section show=$browse.ignore_nodes_click|contains( $Object:item.node_id )|not}
-        {$Object:item.object.class_identifier|class_icon( small, $Object:item.object.class_name )}&nbsp;<a href={concat( '/content/browse/', $Object:item.node_id )|ezurl}>{$Object:item.name|wash}</a>
+        {section show=and( or( ne( $browse.action_name, 'MoveNode' ), ne( $browse.action_name, 'CopyNode' ) ), $Object:item.object.content_class.is_container )}
+            {$Object:item.object.class_identifier|class_icon( small, $Object:item.object.class_name )}&nbsp;<a href={concat( '/content/browse/', $Object:item.node_id )|ezurl}>{$Object:item.name|wash}</a>
+        {section-else}
+            {$Object:item.object.class_identifier|class_icon( small, $Object:item.object.class_name )}&nbsp;{$Object:item.name|wash}
+        {/section}
     {section-else}
         {$Object:item.object.class_identifier|class_icon( small, $Object:item.object.class_name )}&nbsp;{$Object:item.name|wash}
     {/section}
