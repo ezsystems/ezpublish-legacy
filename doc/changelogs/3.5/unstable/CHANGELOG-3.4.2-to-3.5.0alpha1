@@ -137,6 +137,13 @@ Workflow:
 *eZTranslationCache
 - Implemented usage of the new addRawVariable method.
 
+*LDAP
+- Could support LDAP version 2 or 3 by defining 'LDAPVersion' variable in ldap.ini.
+- Changed variable 'LDAPUserGroup' in ldap.ini to an array which means a ldap user 
+  can be saved in multiple groups in eZ publish.
+- An user who is in multiple groups in LDAP server can be assigned to multiple
+  groups in eZ publish automatically.
+
 *Bugs
 - Added whitespace removal to mail Transport setting (in site.ini file) -
   it is critical that there's no whitespace there.

@@ -162,12 +162,14 @@ class eZLDAPUser extends eZUser
         else if ( $LDAPIni->variable( 'LDAPSettings', 'LDAPEnabled' ) == "true" )
         {
             $createNewUser = true;
+            $extraNodeAssignments = array();
             $existUser =& $this->fetchByName( $login );
             if ( $existUser != null )
             {
                 $createNewUser = false;
             }
 
+            $LDAPVersion = $LDAPIni->variable( 'LDAPSettings', 'LDAPVersion' );
             $LDAPHost = $LDAPIni->variable( 'LDAPSettings', 'LDAPServer' );
             $LDAPPort = $LDAPIni->variable( 'LDAPSettings', 'LDAPPort' );
             $LDAPBaseDN = $LDAPIni->variable( 'LDAPSettings', 'LDAPBaseDn' );
@@ -219,6 +221,7 @@ class eZLDAPUser extends eZUser
 
             if ( $ds )
             {
+                ldap_set_option( $ds, LDAP_OPT_PROTOCOL_VERSION, $LDAPVersion );
                 $r = ldap_bind( $ds );
                 if ( !$r )
                 {
@@ -278,83 +281,150 @@ class eZLDAPUser extends eZUser
                 {
                     if ( $LDAPUserGroupType == "name" )
                     {
-                        $groupName = $LDAPUserGroup;
-                        $groupQuery = "SELECT ezcontentobject_tree.node_id
-                                       FROM ezcontentobject, ezcontentobject_tree
-                                       WHERE ezcontentobject.name='$groupName'
-                                       AND ezcontentobject.id=ezcontentobject_tree.contentobject_id";
-                        $groupObject =& $db->arrayQuery( $groupQuery );
-
-                        if ( count( $groupObject ) > 0  )
+                        if ( is_array( $LDAPUserGroup ) )
                         {
-                            $defaultUserPlacement = $groupObject[0]['node_id'];
+                            foreach ( array_keys( $LDAPUserGroup ) as $key )
+                            {
+                                $groupName = $LDAPUserGroup[$key];
+                                $groupQuery = "SELECT ezcontentobject_tree.node_id
+                                                 FROM ezcontentobject, ezcontentobject_tree
+                                                WHERE ezcontentobject.name like '$groupName'
+                                                  AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
+                                                  AND ezcontentobject.contentclass_id=3";
+                                $groupObject =& $db->arrayQuery( $groupQuery );
+                                if ( count( $groupObject ) > 0 and $key == 0 )
+                                {
+                                    $defaultUserPlacement = $groupObject[0]['node_id'];
+                                }
+                                else if ( count( $groupObject ) > 0 )
+                                {
+                                    $extraNodeAssignments[] = $groupObject[0]['node_id'];
+                                }
+                            }
+                        }
+                        else
+                        {
+                            $groupName = $LDAPUserGroup;
+                            $groupQuery = "SELECT ezcontentobject_tree.node_id
+                                             FROM ezcontentobject, ezcontentobject_tree
+                                            WHERE ezcontentobject.name like '$groupName'
+                                              AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
+                                              AND ezcontentobject.contentclass_id=3";
+                            $groupObject =& $db->arrayQuery( $groupQuery );
+
+                            if ( count( $groupObject ) > 0  )
+                            {
+                                $defaultUserPlacement = $groupObject[0]['node_id'];
+                            }
                         }
                     }
                     else if ( $LDAPUserGroupType == "id" )
                     {
-                        $groupID = $LDAPUserGroup;
-                        $groupQuery = "SELECT ezcontentobject_tree.node_id
-                                           FROM ezcontentobject, ezcontentobject_tree
-                                           WHERE ezcontentobject.id='$groupID'
-                                           AND ezcontentobject.id=ezcontentobject_tree.contentobject_id";
-                        $groupObject =& $db->arrayQuery( $groupQuery );
-
-                        if ( count( $groupObject ) > 0  )
+                        if ( is_array( $LDAPUserGroup ) )
                         {
-                            $defaultUserPlacement = $groupObject[0]['node_id'];
+                            foreach ( array_keys( $LDAPUserGroup ) as $key )
+                            {
+                                $groupID = $LDAPUserGroup[$key];
+                                $groupQuery = "SELECT ezcontentobject_tree.node_id
+                                                 FROM ezcontentobject, ezcontentobject_tree
+                                                WHERE ezcontentobject.id='$groupID'
+                                                  AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
+                                                  AND ezcontentobject.contentclass_id=3";
+                                $groupObject =& $db->arrayQuery( $groupQuery );
+                                if ( count( $groupObject ) > 0 and $key == 0 )
+                                {
+                                    $defaultUserPlacement = $groupObject[0]['node_id'];
+                                }
+                                else if ( count( $groupObject ) > 0 )
+                                {
+                                    $extraNodeAssignments[] = $groupObject[0]['node_id'];
+                                }
+                            }
+                        }
+                        else
+                        {
+                            $groupID = $LDAPUserGroup;
+                            $groupQuery = "SELECT ezcontentobject_tree.node_id
+                                             FROM ezcontentobject, ezcontentobject_tree
+                                            WHERE ezcontentobject.id='$groupID'
+                                              AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
+                                              AND ezcontentobject.contentclass_id=3";
+                            $groupObject =& $db->arrayQuery( $groupQuery );
+
+                            if ( count( $groupObject ) > 0  )
+                            {
+                                $defaultUserPlacement = $groupObject[0]['node_id'];
+                            }
                         }
                     }
                 }
 
                 if ( $LDAPUserGroupAttributeType != null )
                 {
+                    $groupAttributeCount = $info[0][$LDAPUserGroupAttribute]['count'];
                     if ( $LDAPUserGroupAttributeType == "name" )
                     {
-                        if ( $isUtf8Encoding )
+                        for ( $i = 0; $i < $groupAttributeCount; $i++ )
                         {
-                            $groupName = utf8_decode( $info[0][$LDAPUserGroupAttribute][0] );
-                        }
-                        else
-                        {
-                            $groupName = $info[0][$LDAPUserGroupAttribute][0];
-                        }
-                        if ( $groupName != null )
-                        {
-                            $groupQuery = "SELECT ezcontentobject_tree.node_id
-                                               FROM ezcontentobject, ezcontentobject_tree
-                                               WHERE ezcontentobject.name='$groupName'
-                                               AND ezcontentobject.id=ezcontentobject_tree.contentobject_id";
-                            $groupObject =& $db->arrayQuery( $groupQuery );
-
-                            if ( count( $groupObject ) > 0 )
+                            if ( $isUtf8Encoding )
                             {
-                                $defaultUserPlacement = $groupObject[0]['node_id'];
+                                $groupName = utf8_decode( $info[0][$LDAPUserGroupAttribute][$i] );
+                            }
+                            else
+                            {
+                                $groupName = $info[0][$LDAPUserGroupAttribute][$i];
+                            }
+                            if ( $groupName != null )
+                            {
+                                $groupQuery = "SELECT ezcontentobject_tree.node_id
+                                                 FROM ezcontentobject, ezcontentobject_tree
+                                                WHERE ezcontentobject.name like '$groupName'
+                                                  AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
+                                                  AND ezcontentobject.contentclass_id=3";
+                                $groupObject =& $db->arrayQuery( $groupQuery );
+
+                                if ( count( $groupObject ) > 0 and $i == 0 )
+                                {
+                                    $defaultUserPlacement = $groupObject[0]['node_id'];
+                                }
+                                else if ( count( $groupObject ) > 0 )
+                                {
+                                    $extraNodeAssignments[] = $groupObject[0]['node_id'];
+                                }
                             }
                         }
                     }
                     else if ( $LDAPUserGroupAttributeType == "id" )
                     {
-                        if ( $isUtf8Encoding )
+                        for ( $i = 0; $i < $groupAttributeCount; $i++ )
                         {
-                            $groupID = utf8_decode( $info[0][$LDAPUserGroupAttribute][0] );
-                        }
-                        else
-                        {
-                            $groupID = $info[0][$LDAPUserGroupAttribute][0];
-                        }
-
-                        if ( $groupID != null )
-                        {
-                            $groupName = "LDAP " . $groupID;
-                            $groupQuery = "SELECT ezcontentobject_tree.node_id
-                                               FROM ezcontentobject, ezcontentobject_tree
-                                               WHERE ezcontentobject.name='$groupName'
-                                               AND ezcontentobject.id=ezcontentobject_tree.contentobject_id";
-                            $groupObject =& $db->arrayQuery( $groupQuery );
-
-                            if ( count( $groupObject ) > 0 )
+                            if ( $isUtf8Encoding )
                             {
-                                $defaultUserPlacement = $groupObject[0]['node_id'];
+                                $groupID = utf8_decode( $info[0][$LDAPUserGroupAttribute][$i] );
+                            }
+                            else
+                            {
+                                $groupID = $info[0][$LDAPUserGroupAttribute][$i];
+                            }
+
+                            if ( $groupID != null )
+                            {
+                                $groupName = "LDAP " . $groupID;
+                                $groupQuery = "SELECT ezcontentobject_tree.node_id
+                                                 FROM ezcontentobject, ezcontentobject_tree
+                                                WHERE ezcontentobject.name like '$groupName'
+                                                  AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
+                                                  AND ezcontentobject.contentclass_id=3";
+                                $groupObject =& $db->arrayQuery( $groupQuery );
+
+                                if ( count( $groupObject ) > 0 and $i == 0 )
+                                {
+                                    $defaultUserPlacement = $groupObject[0]['node_id'];
+                                }
+                                else if ( count( $groupObject ) > 0 )
+                                {
+                                    $extraNodeAssignments[] = $groupObject[0]['node_id'];
+                                }
                             }
                         }
                     }
@@ -382,7 +452,25 @@ class eZLDAPUser extends eZUser
                                                                      'is_main' => 1
                                                                      )
                                                                  );
+                    $nodeAssignment->setAttribute( 'parent_remote_id', "LDAP_" . $defaultUserPlacement );
                     $nodeAssignment->store();
+
+                    if ( $extraNodeAssignments != null )
+                    {
+                        foreach( $extraNodeAssignments as $extraNodeAssignment )
+                        {
+                            $newNodeAssignment =& eZNodeAssignment::create( array(
+                                                                             'contentobject_id' => $contentObjectID,
+                                                                             'contentobject_version' => 1,
+                                                                             'parent_node' => $extraNodeAssignment,
+                                                                             'is_main' => 0
+                                                                             )
+                                                                         );
+                            $newNodeAssignment->setAttribute( 'parent_remote_id', "LDAP_" . $extraNodeAssignment );
+                            $newNodeAssignment->store();
+                        }
+                    }
+
                     $version =& $contentObject->version( 1 );
                     $version->setAttribute( 'modified', time() );
                     $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );

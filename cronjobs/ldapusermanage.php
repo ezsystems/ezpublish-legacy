@@ -48,7 +48,6 @@ include_once( 'kernel/classes/ezcontentobject.php' );
 eZModule::setGlobalPathList( array( "kernel" ) );
 if ( !$isQuiet )
     $cli->output( "Checking LDAP users ..."  );
-
 $db =& eZDB::instance();
 $query = "SELECT contentobject_id, login
           FROM ezcontentobject, ezuser
@@ -56,10 +55,11 @@ $query = "SELECT contentobject_id, login
           AND ezcontentobject.id=contentobject_id";
 
 $LDAPUsers =& $db->arrayQuery( $query );
-
 $ini =& eZINI::instance();
 $LDAPIni =& eZINI::instance( 'ldap.ini' );
+$LDAPVersion = $LDAPIni->variable( 'LDAPSettings', 'LDAPVersion' );
 $LDAPHost = $LDAPIni->variable( 'LDAPSettings', 'LDAPServer' );
+$LDAPPort = $LDAPIni->variable( 'LDAPSettings', 'LDAPPort' );
 $LDAPBaseDN = $LDAPIni->variable( 'LDAPSettings', 'LDAPBaseDn' );
 $LDAPLogin = $LDAPIni->variable( 'LDAPSettings', 'LDAPLoginAttribute' );
 $LDAPSearchScope = $LDAPIni->variable( 'LDAPSettings', 'LDAPSearchScope' );
@@ -109,41 +109,94 @@ else
 }
 
 $defaultUserPlacement = $ini->variable( "UserSettings", "DefaultUserPlacement" );
+$extraNodeAssignments = array();
 if ( $LDAPUserGroupType != null )
 {
     if ( $LDAPUserGroupType == "name" )
     {
-        $groupName = $LDAPUserGroup;
-        $groupQuery = "SELECT ezcontentobject_tree.node_id
-                       FROM ezcontentobject, ezcontentobject_tree
-                       WHERE ezcontentobject.name='$groupName'
-                       AND ezcontentobject.id=ezcontentobject_tree.contentobject_id";
-        if ( count( $groupObject ) > 0 )
+        if ( is_array( $LDAPUserGroup ) )
         {
-            $defaultUserPlacement = $groupObject[0]['node_id'];
+            foreach ( array_keys( $LDAPUserGroup ) as $key )
+            {
+                $groupName = $LDAPUserGroup[$key];
+                $groupQuery = "SELECT ezcontentobject_tree.node_id
+                                 FROM ezcontentobject, ezcontentobject_tree
+                                WHERE ezcontentobject.name like '$groupName'
+                                  AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
+                                  AND ezcontentobject.contentclass_id=3";
+                $groupObject =& $db->arrayQuery( $groupQuery );
+                if ( count( $groupObject ) > 0 and $key == 0 )
+                {
+                    $defaultUserPlacement = $groupObject[0]['node_id'];
+                }
+                else if ( count( $groupObject ) > 0 )
+                {
+                    $extraNodeAssignments[] = $groupObject[0]['node_id'];
+                }
+            }
+        }
+        else
+        {
+            $groupName = $LDAPUserGroup;
+            $groupQuery = "SELECT ezcontentobject_tree.node_id
+                             FROM ezcontentobject, ezcontentobject_tree
+                            WHERE ezcontentobject.name like '$groupName'
+                              AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
+                              AND ezcontentobject.contentclass_id=3";
+            $groupObject =& $db->arrayQuery( $groupQuery );
+
+            if ( count( $groupObject ) > 0  )
+            {
+                $defaultUserPlacement = $groupObject[0]['node_id'];
+            }
         }
     }
     else if ( $LDAPUserGroupType == "id" )
     {
-        $groupID = $LDAPUserGroup;
-        $groupQuery = "SELECT ezcontentobject_tree.node_id
-                                           FROM ezcontentobject, ezcontentobject_tree
-                                           WHERE ezcontentobject.id='$groupID'
-                                           AND ezcontentobject.id=ezcontentobject_tree.contentobject_id";
-        $groupObject =& $db->arrayQuery( $groupQuery );
-
-        if ( count( $groupObject ) > 0 )
+        if ( is_array( $LDAPUserGroup ) )
         {
-            $defaultUserPlacement = $groupObject[0]['node_id'];
+            foreach ( array_keys( $LDAPUserGroup ) as $key )
+            {
+                $groupID = $LDAPUserGroup[$key];
+                $groupQuery = "SELECT ezcontentobject_tree.node_id
+                                 FROM ezcontentobject, ezcontentobject_tree
+                                WHERE ezcontentobject.id='$groupID'
+                                  AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
+                                  AND ezcontentobject.contentclass_id=3";
+                $groupObject =& $db->arrayQuery( $groupQuery );
+                if ( count( $groupObject ) > 0 and $key == 0 )
+                {
+                    $defaultUserPlacement = $groupObject[0]['node_id'];
+                }
+                else if ( count( $groupObject ) > 0 )
+                {
+                    $extraNodeAssignments[] = $groupObject[0]['node_id'];
+                }
+            }
+        }
+        else
+        {
+            $groupID = $LDAPUserGroup;
+            $groupQuery = "SELECT ezcontentobject_tree.node_id
+                             FROM ezcontentobject, ezcontentobject_tree
+                            WHERE ezcontentobject.id='$groupID'
+                              AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
+                              AND ezcontentobject.contentclass_id=3";
+            $groupObject =& $db->arrayQuery( $groupQuery );
+
+            if ( count( $groupObject ) > 0  )
+            {
+                $defaultUserPlacement = $groupObject[0]['node_id'];
+            }
         }
     }
 }
 
 //connect to LDAP server
-$ds = ldap_connect( $LDAPHost );
-
+$ds = ldap_connect( $LDAPHost, $LDAPPort );
 if ( $ds )
 {
+    ldap_set_option( $ds, LDAP_OPT_PROTOCOL_VERSION, $LDAPVersion );
     $r = ldap_bind( $ds );
     if ( !$r )
     {
@@ -232,106 +285,207 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
         // If user has changed to another group, update it.
         if ( $LDAPUserGroupAttributeType != null )
         {
-            if ( $LDAPUserGroupAttributeType == "name" )
+            $republishRequired = false;
+            $IsLDAPMain = true;
+            $hasOtherNodeType = false;
+            $hasLDAPNodeType = false;
+            $otherNodeArray = array();
+            $LDAPNodeArray = array();
+            $newLDAPNodeArray = array();
+            $parentNodes =& $contentObject->parentNodes( $currentVersion );;
+            foreach(  array_keys( $parentNodes ) as $key )
             {
-                if ( $isUtf8Encoding )
+                $parentNode =& $parentNodes[$key];
+                $parentNodeID = $parentNode->attribute( 'node_id' );
+                $parentNodeName = $parentNode->attribute( 'name' );
+                $nodeAssignment =& eZNodeAssignment::fetch( $contentObject->attribute( 'id' ), $currentVersion, $parentNodeID );
+                $isMain = $nodeAssignment->attribute( 'is_main' );
+                $remoteID = $nodeAssignment->attribute( 'parent_remote_id' );
+                if ( preg_match( "/LDAP/i", $remoteID ) )
                 {
-                     $LDAPGroupName = utf8_decode( $info[0][$LDAPUserGroupAttribute][0] );
+                    $LDAPNodeArray[] = array( 'parent_node_name' => $parentNodeName, 'parent_node_id' => $parentNodeID, 'is_main' => $isMain );
                 }
                 else
                 {
-                    $LDAPGroupName = $info[0][$LDAPUserGroupAttribute][0];
-                }
-                if ( $LDAPGroupName != null )
-                {
-                    $LDAPGroupQuery = "SELECT ezcontentobject_tree.node_id
-                                       FROM ezcontentobject, ezcontentobject_tree
-                                       WHERE ezcontentobject.name='$LDAPGroupName'
-                                       AND ezcontentobject.id=ezcontentobject_tree.contentobject_id";
-                    $LDAPGroupObject =& $db->arrayQuery( $LDAPGroupQuery );
-
-                    if ( count( $LDAPGroupObject ) > 0 )
+                    $otherNodeArray[] = array( 'parent_node_name' => $parentNodeName, 'parent_node_id' => $parentNodeID, 'is_main' => $isMain );
+                    $hasOtherNodeType = true;
+                    if ( $isMain )
                     {
-                        $groupNodeID = $LDAPGroupObject[0]['node_id'];
-                        if ( $groupNodeID != $parentNodeID )
-                        {
-                            $cli->output( $cli->stylize( 'emphasize', $existUser->attribute('login') ) . " has been moved to the group he belongs." );
-                            $newVersion =& $contentObject->createNewVersion();
-                            $newVersion->assignToNode( $groupNodeID, 1 );
-                            $newVersion->removeAssignment( $parentNodeID );
-                            $newVersionNr = $newVersion->attribute( 'version' );
-                            include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-                            $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $userID,
-                                                                                                         'version' => $newVersionNr ) );
-                        }
+                        $IsLDAPMain = false;
+                    }
+                }
+            }
+            $LDAPUserGroupCount = count( $LDAPNodeArray );
+            $groupAttributeCount = $info[0][$LDAPUserGroupAttribute]['count'];
+
+            if ( $LDAPUserGroupAttributeType == "name" )
+            {
+                for ( $i = 0; $i < $groupAttributeCount; $i++ )
+                {
+                    if ( $isUtf8Encoding )
+                    {
+                        $groupName = utf8_decode( $info[0][$LDAPUserGroupAttribute][$i] );
                     }
                     else
                     {
-                        // move user to default group
-                        if ( $defaultUserPlacement != $parentNodeID )
+                        $groupName = $info[0][$LDAPUserGroupAttribute][$i];
+                    }
+
+                    $exist = false;
+                    foreach( $LDAPNodeArray as $LDAPNode )
+                    {
+                        $existGroupName = $LDAPNode['parent_node_name'];
+                        $existGroupID = $LDAPNode['parent_node_id'];
+                        if ( strcasecmp( $existGroupName, $groupName )  == 0 )
                         {
-                            $cli->output( $cli->stylize( 'emphasize', $existUser->attribute('login') ) . " has been moved to default group" );
-                            $newVersion =& $contentObject->createNewVersion();
-                            $newVersion->assignToNode( $defaultUserPlacement, 1 );
-                            $newVersion->removeAssignment( $parentNodeID );
-                            $newVersionNr = $newVersion->attribute( 'version' );
-                            include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-                            $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $userID,
-                                                                                                         'version' => $newVersionNr ) );
+                            $exist = true;
+                            $hasLDAPNodeType = true;
+                            if ( $IsLDAPMain and count( $newLDAPNodeArray ) == 0 )
+                            {
+                                $newLDAPNodeArray[] = array( 'parent_node_name' => $existGroupName, 'parent_node_id' => $existGroupID, 'is_main' => 1 );
+                            }
+                            else
+                            {
+                                $newLDAPNodeArray[] = array( 'parent_node_name' => $existGroupName, 'parent_node_id' => $existGroupID, 'is_main' => 0 );
+                            }
+                            $LDAPUserGroupCount--;
                         }
                     }
+
+                    if ( $exist == false )
+                    {
+                        $groupQuery = "SELECT ezcontentobject_tree.node_id
+                                         FROM ezcontentobject, ezcontentobject_tree
+                                        WHERE ezcontentobject.name like '$groupName'
+                                          AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
+                                          AND ezcontentobject.contentclass_id=3";
+                        $groupObject =& $db->arrayQuery( $groupQuery );
+
+                        if ( count( $groupObject ) > 0 )
+                        {
+                            $hasLDAPNodeType = true;
+                            if ( $IsLDAPMain and count( $newLDAPNodeArray ) == 0 )
+                            {
+                                $newLDAPNodeArray[] = array( 'parent_node_name' => $groupName, 'parent_node_id' => $groupObject[0]['node_id'], 'is_main' => 1 );
+                            }
+                            else
+                            {
+                                $newLDAPNodeArray[] = array( 'parent_node_name' => $groupName, 'parent_node_id' => $groupObject[0]['node_id'], 'is_main' => 0 );
+                            }
+                            $republishRequired = true;
+                        }
+                    }
+                }
+
+                if ( $LDAPUserGroupCount != 0 )
+                {
+                    $republishRequired = true;
                 }
             }
             else if ( $LDAPUserGroupAttributeType == "id" )
             {
-                if ( $isUtf8Encoding )
+                for ( $i = 0; $i < $groupAttributeCount; $i++ )
                 {
-                    $LDAPGroupID = utf8_decode( $info[0][$LDAPUserGroupAttribute][0] );
-                }
-                else
-                {
-                    $LDAPGroupID = $info[0][$LDAPUserGroupAttribute][0];
-                }
-                if ( $LDAPGroupID != null )
-                {
-                    $LDAPGroupName = "LDAP " . $groupID;
-                    $LDAPGroupQuery = "SELECT ezcontentobject_tree.node_id
-                                       FROM ezcontentobject, ezcontentobject_tree
-                                       WHERE ezcontentobject.name='$LDAPGroupName'
-                                       AND ezcontentobject.id=ezcontentobject_tree.contentobject_id";
-                    $LDAPGroupObject =& $db->arrayQuery( $LDAPGroupQuery );
-
-                    if ( count( $LDAPGroupObject ) > 0 )
+                    if ( $isUtf8Encoding )
                     {
-                        $groupNodeID = $LDAPGroupObject[0]['node_id'];
-                        if ( $groupNodeID != $parentNodeID )
-                        {
-                            $cli->output( $cli->stylize( 'emphasize', $existUser->attribute('login') ) . " has been moved to the group he belongs." );
-                            $newVersion =& $contentObject->createNewVersion();
-                            $newVersion->assignToNode( $groupNodeID, 1 );
-                            $newVersion->removeAssignment( $parentNodeID );
-                            $newVersionNr = $newVersion->attribute( 'version' );
-                            include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-                            $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $userID,
-                                                                                                         'version' => $newVersionNr ) );
-                        }
+                        $groupID = utf8_decode( $info[0][$LDAPUserGroupAttribute][$i] );
                     }
                     else
                     {
-                        // move user to default group
-                        if ( $defaultUserPlacement != $parentNodeID )
+                        $groupID = $info[0][$LDAPUserGroupAttribute][$i];
+                    }
+
+                    $groupName = "LDAP " . $groupID;
+
+                    $exist = false;
+                    foreach( $LDAPNodeArray as $LDAPNode )
+                    {
+                        $existGroupName = $LDAPNode['parent_node_name'];
+                        $existGroupID = $LDAPNode['parent_node_id'];
+                        if ( strcasecmp( $existGroupName, $groupName )  == 0 )
                         {
-                            $cli->output( $cli->stylize( 'emphasize', $existUser->attribute('login') ) . " has been moved to default group" );
-                            $newVersion =& $contentObject->createNewVersion();
-                            $newVersion->assignToNode( $defaultUserPlacement, 1 );
-                            $newVersion->removeAssignment( $parentNodeID );
-                            $newVersionNr = $newVersion->attribute( 'version' );
-                            include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-                            $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $userID,
-                                                                                                         'version' => $newVersionNr ) );
+                            $exist = true;
+                            $hasLDAPNodeType = true;
+                            if ( $IsLDAPMain and count( $newLDAPNodeArray ) == 0 )
+                            {
+                                $newLDAPNodeArray[] = array( 'parent_node_name' => $existGroupName, 'parent_node_id' => $existGroupID, 'is_main' => 1 );
+                            }
+                            else
+                            {
+                                $newLDAPNodeArray[] = array( 'parent_node_name' => $existGroupName, 'parent_node_id' => $existGroupID, 'is_main' => 0 );
+                            }
+                            $LDAPUserGroupCount--;
+                        }
+                    }
+
+                    if ( $exist == false )
+                    {
+                        $groupQuery = "SELECT ezcontentobject_tree.node_id
+                                         FROM ezcontentobject, ezcontentobject_tree
+                                        WHERE ezcontentobject.name like '$groupName'
+                                          AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
+                                          AND ezcontentobject.contentclass_id=3";
+                        $groupObject =& $db->arrayQuery( $groupQuery );
+
+                        if ( count( $groupObject ) > 0 )
+                        {
+                            $hasLDAPNodeType = true;
+                            if ( $IsLDAPMain and count( $newLDAPNodeArray ) == 0 )
+                            {
+                                $newLDAPNodeArray[] = array( 'parent_node_name' => $groupName, 'parent_node_id' => $groupObject[0]['node_id'], 'is_main' => 1 );
+                            }
+                            else
+                            {
+                                $newLDAPNodeArray[] = array( 'parent_node_name' => $groupName, 'parent_node_id' => $groupObject[0]['node_id'], 'is_main' => 0 );
+                            }
+                            $republishRequired = true;
                         }
                     }
                 }
+
+                if ( $LDAPUserGroupCount != 0 )
+                {
+                    $republishRequired = true;
+                }
+            }
+            if ( $republishRequired )
+            {
+                $newVersion =& $contentObject->createNewVersion();
+                $newVersionNr = $newVersion->attribute( 'version' );
+                $nodeAssignmentList =& $newVersion->attribute( 'node_assignments' );
+                foreach ( array_keys( $nodeAssignmentList ) as $key  )
+                {
+                    $nodeAssignment =& $nodeAssignmentList[$key];
+                    $nodeAssignment->remove();
+                }
+
+                if ( $hasOtherNodeType )
+                {
+                    foreach ( $otherNodeArray as $otherNode )
+                    {
+                        $newVersion->assignToNode( $otherNode['parent_node_id'], $otherNode['is_main'] );
+                    }
+                }
+
+                if ( $hasLDAPNodeType )
+                {
+                    foreach ( $newLDAPNodeArray as $newLDAPNode )
+                    {
+                        $newVersion->assignToNode( $newLDAPNode['parent_node_id'], $newLDAPNode['is_main'] );
+                        $assignment =& eZNodeAssignment::fetch( $contentObject->attribute( 'id' ), $newVersionNr, $newLDAPNode['parent_node_id'] );
+                        $assignment->setAttribute( 'parent_remote_id', "LDAP_" . $newLDAPNode['parent_node_id'] );
+                        $assignment->store();
+                    }
+                }
+
+                if ( !$hasOtherNodeType and !$hasLDAPNodeType )
+                {
+                    $newVersion->assignToNode( $defaultUserPlacement, 1 );
+                }
+                include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+                $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $userID,
+                                                                                             'version' => $newVersionNr ) );
+                $cli->output( $cli->stylize( 'emphasize', $existUser->attribute('login') ) . " has changed group, updated." );
             }
         }
     }
