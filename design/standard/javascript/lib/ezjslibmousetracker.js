@@ -57,15 +57,15 @@ function ezjslib_mouseHandler( e )
     {
         e = window.event;
     }
-    if ( document.all ) // IE needs special treatment
-    {
-        MouseX = e.clientX + document.body.scrollLeft;
-        MouseY = e.clientY + document.body.scrollTop;
-    }
-    else
+    if( e.pageX || e.pageY )
     {
         MouseX = e.pageX;
         MouseY = e.pageY;
+    }
+    else if ( e.clientX || e.clientY ) // IE needs special treatment
+    {
+        MouseX = e.clientX + document.body.scrollLeft;
+        MouseY = e.clientY + document.body.scrollTop;
     }
 }
 
