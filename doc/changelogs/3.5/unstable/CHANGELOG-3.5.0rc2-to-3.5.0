@@ -13,6 +13,9 @@ Changes from 3.5.0rc2 to 3.5.0
 - Fixed bug: Deleting nodes -> role assignment isn't deleted.
   http://ez.no/community/bug_reports/3_5rc2_deleting_nodes_role_assignment_isn_t_deleted
   (Merged from stable/3.4/ rev. 10363)
+- Fixed bug: Call to undefined function: ezi18n in eztopmenuoperator.php.
+  http://ez.no/community/bug_reports/fatal_error_call_to_undefined_function_ezi18n_in_eztopmenuoperator_php
+
 *Library:
 
 eZDebug:
