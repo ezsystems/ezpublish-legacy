@@ -93,11 +93,6 @@ $user =& eZUser::currentUser();
 
 $list_in_group = & eZWorkflowGroupLink::fetchWorkflowList( 0, $WorkflowGroupID, $asObject = true);
 
-if(!$list_in_group)
-{
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
-}
-
 $workflow_list = & eZWorkflow::fetchList( );
 
 $list = array();
@@ -133,11 +128,16 @@ for ( $i=0;$i<count( $tempworkflow_list );$i++ )
 
 $Module->setTitle( ezi18n( 'kernel/workflow', 'Workflow list of group' ) . ' ' . $WorkflowGroupID );
 
+$WorkflowgroupInfo = & eZWorkflowGroup::fetch( $WorkflowGroupID );
+if ( !$WorkflowgroupInfo )
+{
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+}
+
 include_once( 'kernel/common/template.php' );
 $tpl =& templateInit();
 $tpl->setVariable( "temp_workflow_list", $temp_list );
 $tpl->setVariable( "group_id", $WorkflowGroupID );
-$WorkflowgroupInfo = & eZWorkflowGroup::fetch( $WorkflowGroupID );
 $WorkflowGroupName = $WorkflowgroupInfo->attribute("name");
 $tpl->setVariable( "group", $WorkflowgroupInfo );
 $tpl->setVariable( "group_name", $WorkflowGroupName );

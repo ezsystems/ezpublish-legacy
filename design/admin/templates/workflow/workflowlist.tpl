@@ -1,3 +1,31 @@
+{literal}
+<script language="JavaScript1.2" type="text/javascript">
+<!--
+function toggleCheckboxes( formname, checkboxname )
+{
+    with( formname )
+        {
+        for( var i=0; i<elements.length; i++ )
+        {
+            if( elements[i].type == 'checkbox' && elements[i].name == checkboxname && elements[i].disabled == "" )
+            {
+                if( elements[i].checked == true )
+                {
+                    elements[i].checked = false;
+                }
+                else
+                {
+                    elements[i].checked = true;
+                }
+            }
+            }
+    }
+}
+//-->
+</script>
+{/literal}
+
+
 {* $group|attribute(show) *}
 
 <div class="context-block">
@@ -26,7 +54,7 @@
 
 </div>
 
-<form action={concat( $module.functions.workflowlist.uri, '/', $group_id )|ezurl} method="post" name="WorkflowList">
+<form name="workflowlistform" action={concat( $module.functions.workflowlist.uri, '/', $group_id )|ezurl} method="post" name="WorkflowList">
 
 <div class="context-block">
 <h2 class="context-title"><a href={'/workflow/grouplist'|ezurl} title="{'Back to workflow groups'|i18n( 'design/admin/workflow/workflowlist' )}" /><img src={'back-button-16x16.gif'|ezimage} alt="{'Back to workflow groups'|i18n( 'design/admin/workflow/workflowlist' )}" title="{'Back to workflow groups'|i18n( 'design/admin/workflow/workflowlist' )}" /></a>&nbsp;{'Workflows [%workflow_count]'|i18n( 'design/admin/workflow/workflowlist',, hash( '%workflow_count', $workflow_list|count ) )}</h2>
@@ -34,7 +62,7 @@
 {section show=$workflow_list}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight">&nbsp;</th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="toggleCheckboxes( document.workflowlistform, 'Workflow_id_checked[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/trash' )}" /></th>
     <th>{'Name'|i18n( 'design/admin/workflow/workflowlist' )}</th>
     <th>{'Modifier'|i18n( 'design/admin/workflow/workflowlist' )}</th>
     <th>{'Modified'|i18n( 'design/admin/workflow/workflowlist' )}</th>
