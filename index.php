@@ -299,6 +299,7 @@ $globalModuleRepositories = $ini->variableArray( 'ModuleSettings', 'ModuleReposi
 $moduleRepositories = array_merge( $moduleRepositories, $globalModuleRepositories );
 eZModule::setGlobalPathList( $moduleRepositories );
 
+
 // Start the module loop
 while ( $moduleRunRequired )
 {

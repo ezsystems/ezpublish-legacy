@@ -257,7 +257,7 @@ if ( !function_exists( 'checkContentActions' ) )
                     }
                 }
                 
-/*                $relatedObjects =& $object->relatedContentObjectArray();
+                $relatedObjects =& $object->contentObjectListRelatingThis();
                 foreach ( array_keys( $relatedObjects ) as $relatedObjectKey )
                 {
                     $relatedObject =& $relatedObjects[$relatedObjectKey];
@@ -267,7 +267,7 @@ if ( !function_exists( 'checkContentActions' ) )
                         $assignedNode =& $assignedNodes[$assignedNodeKey];
                         $nodeList[] = $assignedNode->attribute( 'node_id' );
                     }
-                }*/
+                }
 
                 $designSetting = eZTemplateDesignResource::designSetting( 'site' );
                 if ( eZContentCache::cleanup( $designSetting, $nodeList ) )

@@ -90,7 +90,38 @@ class eZTextTool
 
     function arrayFlatten( $array )
     {
-        return array_reduce( $array, "eztexttool_array_flatten_helper", array() );
+//        return array_reduce( $array, "eztexttool_array_flatten_helper", array() );
+        $flatArray = array();
+        $expandItems = $array;
+        $done = false;
+        while ( !$done )
+        {
+            $checkList = $expandItems;
+            $leftOvers = array();
+            $foundArray = false;
+            foreach ( array_keys( $checkList ) as $key )
+            {
+                $item = $checkList[$key];
+                if ( is_array ( $item ) )
+                {
+                    $leftOvers = array_merge( $leftOvers, $item );
+                    $foundArray = true;
+                }
+                else
+                {
+                    if ( $foundArray )
+                        $leftOvers[] = $item;
+                    else
+                        $flatArray[] = $item;
+                }
+            }
+            $expandItems = $leftOvers;
+            if ( count( $expandItems ) == 0 )
+            {
+                $done = true;
+            }
+        }
+        return $flatArray;
     }
 
 //     function &arrayElevateKeys( $array, $pre, $mid, $post )
@@ -141,12 +172,14 @@ class eZTextTool
 //     }
 }
 
+/*
 function eZTextTool_array_flatten_helper( $flattened, $input )
 {
     if ( is_array( $input ) )
-        return array_merge( $flattened, array_reduce( $input, "eztexttool_array_flatten_helper", array() ) );
+        return array_merge( $flattened, array_reduce( $input, "eZTextTool_array_flatten_helper", array() ) );
     array_push( $flattened, $input );
     return $flattened;
 }
+*/
 
 ?>
