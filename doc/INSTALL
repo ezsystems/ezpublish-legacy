@@ -39,7 +39,7 @@ Contents
 - ImageMagick and/or GD compiled in PHP for image conversion (not required)
   http://www.imagemagick.org
 
-The installation process for the above programs are very well documented 
+The installation process for the above programs are very well documented
 on their homepage, so I will not include that here.
 
 
@@ -49,16 +49,13 @@ on their homepage, so I will not include that here.
 1. Unpack ezpublish-2.9-4.tar.gz into the <httproot> folder
    $ tar xvfz ezpublish-2.9-4 -C <httproot>
 2. $ cd <httproot>/ezpublish-2.9-4/
-3. If you are using linux just run
-   $ bin/modfix.sh
-   If you are using FreeBSD just make sure the directory var/cache/ini
-   exists, if not create it.
+3. $ bin/modfix.sh
 
 
 2.1 Database setup
 ------------------
 2.1.1 MySQL
-We need to login, create a new database, grant permissions to a user and 
+We need to login, create a new database, grant permissions to a user and
 insert a database.
 
 1. $ mysql -u root -p <password>
@@ -87,12 +84,13 @@ insert a database.
 
 2.2 Demo data
 -------------
-Demodata is only for MySQL. Before you proceed make sure you 
+Demodata is only for MySQL. Before you proceed make sure you
 installed the demokernel.sql file.
 To install the demodata all you have to do is unpack the var.tgz file:
 
 1. $ cd <httproot>/ezpublish-2.9-4/
 2. $ tar xfvz var.tgz
+3. $ bin/modfix.sh
 
 
 2.3 Configure eZ publish
@@ -141,7 +139,7 @@ your apache config file and restart apache when you are done.
 
 3. eZ publish installation on Windows
 -------------------------------------
-1. Unpack ezpublish-2.9-4.tar.gz into the <httproot> folder. 
+1. Unpack ezpublish-2.9-4.tar.gz into the <httproot> folder.
 Use a program that supports .tar.gz files, like Winzip.
 2. goto <httproot>\ezpublish-2.9-4
 3. Make sure the directory var\cache\ini exists, if not, create it.
@@ -199,6 +197,11 @@ Database=<name_of_database>
 ---------------------
 You can use eZ publish with a virtualhost setup. When using
 a virtualhost you don't need to specify the index.php in the URL.
+
+Make sure these lines exists in your apache configfile and is not commented out:
+ LoadModule rewrite_module modules/mod_rewrite.so
+ AddModule mod_rewrite.c
+
 Below is a sample configuration for virtualhost setup. Include this in
 your apache config file and restart apache when you are done.
 
@@ -208,8 +211,8 @@ your apache config file and restart apache when you are done.
        AllowOverride None
   </Directory>
 
-  RewriteEngine On
-  RewriteRule !\.(gif|css|jpg|png)$ <httproot>/ezpublish-2.9-4/index.php
+   RewriteEngine On
+   RewriteRule !\.(gif|css|jpg|png|jar)$ <httproot>ezpublish-2.9.4/index.php
 
   ServerAdmin root@localhost
   DocumentRoot <httproot>/ezpublish-2.9-4/
