@@ -113,7 +113,6 @@ if ( $http->hasPostVariable( 'WriteSetting' ) )
             $valueArray = explode( "\n", $valueToWrite );
             $valuesToWriteArray = array();
             $settingCount = 0;
-
             foreach( $valueArray as $value )
             {
                 $value = trim( $value );
@@ -123,7 +122,7 @@ if ( $http->hasPostVariable( 'WriteSetting' ) )
                 }
                 else
                 {
-                    $value = substr( strrchr( $value, '=' ), 1 );
+                    $value = substr( strchr( $value, '=' ), 1 );
                     if ( $value == "" )
                     {
                         if ( $settingCount == 0 )
