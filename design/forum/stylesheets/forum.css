@@ -1,138 +1,308 @@
-body
+p, a, th, td, ul, ol, li, dl, dd, dt, label, div, span, input, textarea
 {
-	background-color: #ffffff;
-	margin: 0px;
-	padding: 0px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 h1
 {
+    font-family: Times New Roman, Arial, Helvetica, sans-serif;
     font-size: 120%;
+    font-weight: bold;
 }
 
 h2
 {
-    font-size: 110%;
+    font-family: Times New Roman, Arial, Helvetica, sans-serif;
+    font-size: 105%;
 }
 
 h3
 {
-    font-size: 80%;
+    font-family: Times New Roman, Arial, Helvetica, sans-serif;
+    font-size: 100%;
 }
 
-a
+body
 {
-    color: #000000;
-    text-decoration: none;
+    background-color: #ffffff;
+    margin-top: 0px;
+    margin-left: 0px;
+    padding: 0px;
 }
 
-a:hover
-{
-    color: #000000;
-    text-decoration: underline;
+#mainlayout
+{ 
+    width: 700px;
 }
 
-td.path
-{
-    font-size: 65%;
-    padding: 8px;
-    padding-top: 16px;
-    padding-left: 32px;
+#header
+{ 
+    width: 700px;
+    height: 83px;
+    background: url("../images/forum_backgroud.png") no-repeat;
 }
 
-td.maincontent
-{
-    padding-top: 8px;
-    padding-left: 32px;
-    padding-right: 32px;
-    padding-bottom: 16px;
+#logo
+{ 
+    margin-top: 16px;
+    float: left;
+    margin-left: 10px;
 }
 
-div.credits
-{
-    text-align: center;
+#navigation_bar
+{  
+    font-size: small;
+    width: 690px;
+    height: 20px;
+    padding: 5px;
+    vertical-align: bottom;
+    background-color: #ff3300;
 }
 
-div.credits p
-{
-    padding-top: 8px;
-    font-size: 65%;
-}
-
-table.topmenu
-{
-    border-left: 1px solid #ff9900;
-}
-
-table.topmenu td.menuitem
-{
-    font-size: 80%;
-    padding: 3px;
-    border: 1px solid #ff9900;
-    border-left: none;
-    background-color: #990000;
-    text-align: center;
-}
-
-table.topmenu td.menuitem a
-{
+#navigation_bar a
+{  
     color: #ffffff;
-    font-weight: bold;
 }
 
-table.forummessage, table.forumanswer
-{
-    margin-bottom: 16px;
+.navigation_item
+{  
+    margin-left: 20px;
+    margin-right: 20px;
+    display: inline;
 }
 
-th.forumheader, th.answerheader, th.linkheader
-{
-    font-size: 80%;
-    border: 1px solid #000000;
-    padding: 4px;
+#path
+{ 
+    font-size: small;
+    width: 690px;
+    padding: 5px;
+    background-color: #ffffff;
+    color: #ff3300;
 }
 
-th.forumheader, th.dateheader, th.postedheader, th.linkheader
-{
-    background-color: #ff9900;
+#path a
+{ 
+    color: #ffffff;
 }
 
-th.dateheader, th.answerdateheader, th.postedheader
-{
-    font-size: 65%;
-    border: 1px solid #000000;
-    border-left: none;
-    padding: 4px;
-    text-align: right;
+#path p
+{ 
+    margin: 0px;
+    padding: 0px;
 }
 
-th.postedheader
-{
-    font-size: 80%;
+/* Main menu  */
+#mainmenu
+{  
+display:none;
+    height: 100%;
+    float: left;
+    width: 150px;
+    background-color: #ffeeff;
 }
 
-td.forumimage
+#mainmenu .selected
 {
-    border: 1px solid #000000;
+  background-color: #7c97c2;
+  border-color: #304b82;
+  border-top: 1px solid;
+}
+
+#mainmenu .item
+{
+  background-color: #304b82;
+  border-color: #4c5792;
+  border-top: 1px solid;
+}
+
+#mainmenu .item:hover
+{
+  background-color: #7c97c2;
+  border-color: #aaaaaa;
+}
+
+#mainmenu .level_0
+{
+  padding: 4px; 
+}
+
+#mainmenu .level_1
+{
+  padding: 4px; 
+  margin-left: 15px;
+}
+
+#mainmenu a
+{ 
+   color: #ffffff;
+}
+
+/* Information bar, latest news and search */
+
+#info_bar
+{  
+display:none;
+    float: right;
+    width: 140px;
+    padding: 5px;
+    background-color: #eeeeee;
+}
+
+#info_bar h3 a
+{  
+    color: #304b82;
+}
+
+#info_bar h3
+{  
+    margin-bottom: 0px;
+}
+
+#info_bar p
+{  
+    font-size: small;
+    color: #777777;
+    padding: 0px;
+    margin: 0px;
+}
+
+/* search box */
+
+#search_box
+{  
+display: none;
+    position: absolute;
+    top: 1px;
+    left: 480px;
+    font-size: small;
+}
+
+#search_box input.searchbutton
+{  
+    color: #ffffff;
+    background-color: #304b82;
+}
+
+/* main content area */
+#main_content
+{  
+   padding: 10px;
+   background-color: #ffffff;
+   margin-left: 20px;  
+   margin-right: 20px;  
+}
+
+#footer
+{  
+    font-size: small;
     text-align: center;
-    padding: 4px;
+    float: left;
+    clear: both;
+    width: 100%;
+    background-color: #ff3300;
+    color: #cccccc;
+    padding: 5px;
 }
 
-td.messagecontent, td.answercontent, td.messageauthor, td.messagetopic, td.linkcontent
-{
-    padding: 4px;
-    border: 1px solid #000000;
-    border-top: none;
+#footer a
+{  
+    color: #cccccc;
 }
 
-td.messagetopic
-{
-    font-size: 80%;
+#footer p
+{  
+    padding: 0px;
+    margin: 0px;
+    color: #cccccc;
 }
 
-td.messageauthor
-{
-    font-size: 65%;
-    border-left: none;
-    text-align: right;
+
+/* General child "line view" object settings */
+
+#folder div.child h2
+{ 
+    color: #444444;
+    margin: 0px;
+    padding: 0px;
+    padding-top: 5px;
+}
+
+#folder div.child div.byline
+{ 
+    margin: 0px;
+    padding: 0px;
+}
+
+#folder div.child div.byline p
+{ 
+    color: #888888;
+    font-size: small;
+    margin: 0px;
+    padding: 0px;
+}
+
+#folder div.child div.object_brief p
+{ 
+    margin: 0px;
+    padding: 0px;
+}
+
+#folder div.child div.readmore
+{ 
+    font-size: small;
+}
+
+#folder div.child div.readmore a
+{ 
+    color: #304b82;
+}
+
+#folder div.child div.readmore p
+{ 
+    padding: 0px;
+    margin: 0px;
+}
+
+/* article styles */
+
+#article div.byline p
+{ 
+    color: #888888;
+    font-size: small;
+    margin: 0px;
+    padding: 0px;
+}
+
+#article div.intro p
+{ 
+    font-weight: bold;
+    margin: 0px;
+    padding: 0px;
+}
+
+/* Search */
+
+div.advancedsearchbox
+{ 
+   display: none;
+}
+
+/* General */
+
+h1
+{ 
+    margin-bottom: 5px;
+
+}
+
+div.editbutton
+{ 
+   float: right;
+}
+
+div.editbutton input
+{ 
+   font-size: small;
+   background-color: #304b82;
+   color: #ffffff;
 }
