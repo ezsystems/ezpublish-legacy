@@ -146,9 +146,18 @@ class eZURLAlias extends eZPersistentObject
     function translate( &$uri )
     {
         $db =& eZDB::instance();
-        $query = "SELECT destination_url, forward_to_id
+        if ( get_class( $uri ) == "ezuri" )
+        {
+            $query = "SELECT destination_url, forward_to_id
                   FROM ezurlalias
                   WHERE source_md5 = '" . md5( $uri->elements() ) . "'";
+        }
+        else
+        {
+            $query = "SELECT destination_url, forward_to_id
+                  FROM ezurlalias
+                  WHERE source_md5 = '$uri'";
+        }
 
         $return = false;
         $urlAliasArray = $db->arrayQuery( $query );
