@@ -319,6 +319,7 @@ class eZOrder extends eZPersistentObject
         $totalSumIncVAT = 0;
         $totalSumExVAT = 0;
         $sumCount = 0;
+        $productCount = count( $productArray );
         foreach( $productArray as $productItem )
         {
             $itemCount++;
@@ -329,7 +330,7 @@ class eZOrder extends eZPersistentObject
                 $productObject =& eZContentObject::fetch( $contentObjectID );
                 $currentContentObjectID = $contentObjectID;
             }
-            if ( $currentContentObjectID != $contentObjectID && $itemCount != 1 )
+            if ( $currentContentObjectID != $contentObjectID and $itemCount != 1 )
             {
                 $productItemArray[] = array( "product" => $productObject, "sum_count" => $sumCount, "sum_ex_vat" => $sumExVAT, "sum_inc_vat" => $sumIncVAT );
                 unset( $productObject );
@@ -382,7 +383,8 @@ class eZOrder extends eZPersistentObject
             $sumExVAT += $totalPriceExVAT;
             $sumIncVAT += $totalPriceIncVAT;
         }
-        if ( count( $productItemArray ) != 0 )
+        $productItemArrayCount = count( $productItemArray );
+        if ( $productItemArrayCount != 0 or ( $productCount != 0 and  $productItemArrayCount == 0 ) )
             $productItemArray[] = array( "product" => $productObject, "sum_count" => $sumCount, "sum_ex_vat" => $sumExVAT, "sum_inc_vat" => $sumIncVAT );
 
         $statisticArray[] = array( "product_list" => $productItemArray, "total_sum_ex_vat" => $totalSumExVAT, "total_sum_inc_vat" => $totalSumIncVAT );
@@ -590,10 +592,12 @@ class eZOrder extends eZPersistentObject
             }
             $currentUserID = $userID;
 
+            $order =& eZOrder::fetch( $orderID );
+            $accountName = $order->attribute( 'account_name' );
             // If the custom is anoymous user
             if ( $currentUserID == 10 )
             {
-                $order =& eZOrder::fetch( $orderID );
+                //$order =& eZOrder::fetch( $orderID );
                 $accountEmail = $order->attribute( 'email' );
                 if ( $currentUserEmail == "" )
                 {
