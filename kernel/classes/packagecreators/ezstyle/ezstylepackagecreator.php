@@ -79,7 +79,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
     function finalize( &$package, &$http, &$persistentData )
     {
         $cleanupFiles = array();
-		$this->createPackage( $package, $http, $persistentData, $cleanupFiles );
+		$this->createPackage( $package, $http, $persistentData, $cleanupFiles, false );
 
         $collections = array();
 
@@ -98,6 +98,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
                               $fileItem['design'], $fileItem['path'], $fileItem['collection'],
                               null, null, true, null,
                               $fileItem['file-type'], $fileItem['role-value'], $fileItem['variable-name'] );
+        $cleanupFiles[] = $fileItem['path'];
 
         $classesCssfile = $persistentData['classescssfile'];
         $fileItem = array( 'file' => $classesCssfile['filename'],
@@ -114,10 +115,10 @@ class eZStylePackageCreator extends eZPackageCreationHandler
                               $fileItem['design'], $fileItem['path'], $fileItem['collection'],
                               null, null, true, null,
                               $fileItem['file-type'], $fileItem['role-value'], $fileItem['variable-name'] );
+        $cleanupFiles[] = $fileItem['path'];
 
         if ( !in_array( $fileItem['collection'], $collections ) )
             $collections[] = $fileItem['collection'];
-        $cleanupFiles[] = $fileItem['path'];
 
         $imageFiles = $persistentData['imagefiles'];
         foreach ( $imageFiles as $imageFile )
@@ -137,9 +138,10 @@ class eZStylePackageCreator extends eZPackageCreationHandler
                                   $fileItem['design'], $fileItem['path'], $fileItem['collection'],
                                   $fileItem['subdirectory'], null, true, null,
                                   $fileItem['file-type'], $fileItem['role-value'], $fileItem['variable-name'] );
+            $cleanupFiles[] = $fileItem['path'];
+
             if ( !in_array( $fileItem['collection'], $collections ) )
                 $collections[] = $fileItem['collection'];
-            $cleanupFiles[] = $fileItem['path'];
         }
 
         foreach ( $collections as $collection )
