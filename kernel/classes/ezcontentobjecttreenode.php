@@ -557,6 +557,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $notEqParentString = " and node_id != $nodeID ";
 
                 $sqlPartForOneNodeList[] = " ( path_string like '$childrensPath%'   $depthCond $notEqParentString ) ";
+                $notEqParentString = '';
             }
             $pathStringCond = implode( ' or ', $sqlPartForOneNodeList );
             $pathStringCond = ' (' . $pathStringCond . ') and';
