@@ -31,5 +31,7 @@ echo "Checking for old doc code"
 
 # */
 
-echo "Check templates for <a href=\"\">"
+echo "Check for URIs which will not work with nVH setups"
+#  <a href=\"\">
 rgrep -R '*.tpl' -n -i '<a  *href="' .
+rgrep -R '*.php' -n -i 'header' .
