@@ -688,14 +688,30 @@ class eZSearchEngine
                 $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
             }
 
+            $useVersionName = true;
+            if ( $useVersionName )
+            {
+                $versionNameTables = ', ezcontentobject_name ';
+                $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
+
+                $ini =& eZINI::instance();
+                $lang = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+
+                $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
+                                  ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
+                                  ezcontentobject_name.content_translation = '$lang' ";
+            }
+
 
             $searchQuery = "SELECT DISTINCT ezcontentobject.*, ezsearch_object_word_link.frequency, ezcontentclass.name as class_name, ezcontentobject_tree.*
+                                            $versionNameTargets
                     FROM
                        ezcontentobject,
                        ezsearch_object_word_link
                        $subTreeTable,
                        ezcontentclass,
                        ezcontentobject_tree
+                           $versionNameTables
                     WHERE
                     $searchDateQuery
                     $sectionQuery
@@ -709,6 +725,7 @@ class eZSearchEngine
                     ezcontentclass.version = '0' and
                     ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
+                    $versionNameJoins
                     $sqlPermissionCheckingString
                     ORDER BY ezsearch_object_word_link.published DESC";
 
