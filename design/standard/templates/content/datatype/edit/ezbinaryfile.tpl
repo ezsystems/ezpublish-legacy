@@ -3,7 +3,7 @@
 
 {* Current file. *}
 <div class="block">
-<label>{'Current file'|i18n( 'design/standard/content/datatype' )}</label>
+<label>{'Current file'|i18n( 'design/standard/content/datatype' )}:</label>
 {section show=$attribute.content}
 <table class="list" cellspacing="0">
 <tr>
@@ -30,7 +30,7 @@
 
 {* New file. *}
 <div class="block">
-<label>{'New file for upload'|i18n( 'design/standard/content/datatype' )}</label>
+<label>{'New file for upload'|i18n( 'design/standard/content/datatype' )}:</label>
 <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}000000"/>
 <input class="box" name="{$attribute_base}_data_binaryfilename_{$attribute.id}" type="file" />
 </div>

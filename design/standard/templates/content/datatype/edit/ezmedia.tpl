@@ -3,7 +3,7 @@
 
 {* Type. *}
 <div class="block">
-    <label>{'Type'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'Type'|i18n( 'design/standard/content/datatype' )}:</label>
     <p>
     {switch name=mediaType match=$attribute.contentclass_attribute.data_text1}
     {case match=flash}{'Flash'|i18n( 'design/standard/content/datatype' )}{/case}
@@ -17,7 +17,7 @@
 
 {* Current file. *}
 <div class="block">
-<label>{'Current file'|i18n( 'design/standard/content/datatype' )}</label>
+<label>{'Current file'|i18n( 'design/standard/content/datatype' )}:</label>
 {section show=$attribute.content.filename}
 <table class="list" cellspacing="0">
 <tr>
@@ -51,7 +51,7 @@
 {* Flash. *}
 {case match=flash}
 <div class="block">
-    <label>{'New file for upload'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'New file for upload'|i18n( 'design/standard/content/datatype' )}:</label>
     <input class="box" name="{$attribute_base}_data_mediafilename_{$attribute.id}" type="file" />
     <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}000000" />
 </div>
@@ -59,12 +59,12 @@
 <div class="block">
 
 <div class="element">
-    <label>{'Width'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'Width'|i18n( 'design/standard/content/datatype' )}:</label>
     <input type="text" name="{$attribute_base}_data_media_width_{$attribute.id}" size="5" value="{$attribute.content.width}" />
 </div>
 
 <div class="element">
-    <label>{'Height'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'Height'|i18n( 'design/standard/content/datatype' )}:</label>
     <input type="text" name="{$attribute_base}_data_media_height_{$attribute.id}" size="5" value="{$attribute.content.height}" />
     &nbsp;
     &nbsp;
@@ -72,7 +72,7 @@
 </div>
 
 <div class="element">
-<label>{'Quality'|i18n( 'design/standard/content/datatype' )}</label>
+<label>{'Quality'|i18n( 'design/standard/content/datatype' )}:</label>
 <select name="{$attribute_base}_data_media_quality_{$attribute.id}">
 {switch name=Sw match=$attribute.content.quality}
 {case match=high}
@@ -125,12 +125,12 @@
 </div>
 
 <div class="element">
-    <label>{'Autoplay'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'Autoplay'|i18n( 'design/standard/content/datatype' )}:</label>
     <input type="checkbox" name="{$attribute_base}_data_media_is_autoplay_{$attribute.id}" value="{$attribute.content.is_autoplay}" {section show=$attribute.content.is_autoplay}checked="checked"{/section} />
 </div>
 
 <div class="element">
-    <label>{'Loop'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'Loop'|i18n( 'design/standard/content/datatype' )}:</label>
     <input type="checkbox" name="{$attribute_base}_data_media_is_loop_{$attribute.id}" value="{$attribute.content.is_loop}" {section show=$attribute.content.is_loop}checked="checked"{/section} />
 </div>
 
@@ -142,7 +142,7 @@
 {* Quicktime. *}
 {case match=quick_time}
 <div class="block">
-    <label>{'New file for upload'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'New file for upload'|i18n( 'design/standard/content/datatype' )}:</label>
     <input class="box" name="{$attribute_base}_data_mediafilename_{$attribute.id}" type="file" />
     <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}000000" />
 </div>
@@ -150,12 +150,12 @@
 <div class="block">
 
 <div class="element">
-    <label>{'Width'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'Width'|i18n( 'design/standard/content/datatype' )}:</label>
     <input type="text" name="{$attribute_base}_data_media_width_{$attribute.id}" size="5" value="{$attribute.content.width}" />
 </div>
 
 <div class="element">
-    <label>{'Height'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'Height'|i18n( 'design/standard/content/datatype' )}:</label>
     <input type="text" name="{$attribute_base}_data_media_height_{$attribute.id}" size="5" value="{$attribute.content.height}" />
     &nbsp;
     &nbsp;
@@ -163,17 +163,17 @@
 </div>
 
 <div class="element">
-    <label>{'Controller'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'Controller'|i18n( 'design/standard/content/datatype' )}:</label>
     <input type="checkbox" name="{$attribute_base}_data_media_has_controller_{$attribute.id}" value="{$attribute.content.has_controller}" {section show=$attribute.content.has_controller}checked="checked"{/section} />
 </div>
 
 <div class="element">
-    <label>{'Autoplay'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'Autoplay'|i18n( 'design/standard/content/datatype' )}:</label>
     <input type="checkbox" name="{$attribute_base}_data_media_is_autoplay_{$attribute.id}" value="{$attribute.content.is_autoplay}" {section show=$attribute.content.is_autoplay}checked="checked"{/section} />
 </div>
 
 <div class="element">
-    <label>{'Loop'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'Loop'|i18n( 'design/standard/content/datatype' )}:</label>
     <input type="checkbox" name="{$attribute_base}_data_media_is_loop_{$attribute.id}" value="{$attribute.content.is_loop}" {section show=$attribute.content.is_loop}checked="checked"{/section} />
 </div>
 
@@ -187,7 +187,7 @@
 {case match=real_player}
 <div class="block">
 
-<label>{'New file for upload'|i18n( 'design/standard/content/datatype' )}</label>
+<label>{'New file for upload'|i18n( 'design/standard/content/datatype' )}:</label>
     <input class="box" name="{$attribute_base}_data_mediafilename_{$attribute.id}" type="file" />
     <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}000000" />
 </div>
@@ -195,12 +195,12 @@
 <div class="block">
 
 <div class="element">
-    <label>{'Width'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'Width'|i18n( 'design/standard/content/datatype' )}:</label>
     <input type="text" name="{$attribute_base}_data_media_width_{$attribute.id}" size="5" value="{$attribute.content.width}" />
 </div>
 
 <div class="element">
-    <label>{'Height'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'Height'|i18n( 'design/standard/content/datatype' )}:</label>
     <input type="text" name="{$attribute_base}_data_media_height_{$attribute.id}" size="5" value="{$attribute.content.height}" />
     &nbsp;
     &nbsp;
@@ -208,7 +208,7 @@
 </div>
 
 <div class="element">
-<label>{'Controls'|i18n( 'design/standard/content/datatype' )}</label>
+<label>{'Controls'|i18n( 'design/standard/content/datatype' )}:</label>
 <select name="{$attribute_base}_data_media_controls_{$attribute.id}" >
 {switch name=Sw match=$attribute.content.controls}
 {case match=imagewindow}
@@ -261,7 +261,7 @@
 </div>
 
 <div class="element">
-    <label>{'Autoplay'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'Autoplay'|i18n( 'design/standard/content/datatype' )}:</label>
     <input type="checkbox" name="{$attribute_base}_data_media_is_autoplay_{$attribute.id}" value="{$attribute.content.is_autoplay}" {section show=$attribute.content.is_autoplay}checked="checked"{/section} />
 </div>
 
@@ -276,7 +276,7 @@
 {case match=windows_media_player}
 <div class="block">
 
-<label>{'New file for upload'|i18n( 'design/standard/content/datatype' )}</label>
+<label>{'New file for upload'|i18n( 'design/standard/content/datatype' )}:</label>
     <input class="box" name="{$attribute_base}_data_mediafilename_{$attribute.id}" type="file" />
     <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}000000" />
 </div>
@@ -284,12 +284,12 @@
 <div class="block">
 
 <div class="element">
-    <label>{'Width'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'Width'|i18n( 'design/standard/content/datatype' )}:</label>
     <input type="text" name="{$attribute_base}_data_media_width_{$attribute.id}" size="5" value="{$attribute.content.width}" />
 </div>
 
 <div class="element">
-    <label>{'Height'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'Height'|i18n( 'design/standard/content/datatype' )}:</label>
     <input type="text" name="{$attribute_base}_data_media_height_{$attribute.id}" size="5" value="{$attribute.content.height}" />
     &nbsp;
     &nbsp;
@@ -297,12 +297,12 @@
 </div>
 
 <div class="element">
-    <label>{'Controller'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'Controller'|i18n( 'design/standard/content/datatype' )}:</label>
     <input type="checkbox" name="{$attribute_base}_data_media_has_controller_{$attribute.id}" value="{$attribute.content.has_controller}" {section show=$attribute.content.has_controller}checked="checked"{/section} />
 </div>
 
 <div class="element">
-    <label>{'Autoplay'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'Autoplay'|i18n( 'design/standard/content/datatype' )}:</label>
     <input type="checkbox" name="{$attribute_base}_data_media_is_autoplay_{$attribute.id}" value="{$attribute.content.is_autoplay}" {section show=$attribute.content.is_autoplay}checked="checked"{/section} />
 </div>
 

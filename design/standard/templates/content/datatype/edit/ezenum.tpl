@@ -81,7 +81,7 @@
 	  </select>
         {/case}
 	{case}{/case}
-      {/switch} 
+      {/switch}
    {/case}
    {case}{/case}
 {/switch}

@@ -41,7 +41,7 @@
 {attribute_edit_gui attribute_base=concat( $attribute_base, '_ezorl_edit_object_', $Relation:item.contentobject_id ) html_class='half' attribute=$:item}
 </fieldset>
 {section-else}
-<label>{$:item.contentclass_attribute.name}</label>
+<label>{$:item.contentclass_attribute.name}:</label>
 {attribute_edit_gui attribute_base=concat( $attribute_base, '_ezorl_edit_object_', $Relation:item.contentobject_id ) html_class='half' attribute=$:item}
 {/section}
 

@@ -15,13 +15,13 @@
 <td colspan="3">
 
 <div class="block">
-<label>{'Name'|i18n( 'design/standard/content/datatype' )}</label>
+<label>{'Name'|i18n( 'design/standard/content/datatype' )}:</label>
 <input class="box" type="text" name = "{$attribute_base}_data_multioption_name_{$attribute.id}_{$MultiOptionList.id}" value="{$MultiOptionList.name}" />
 <input type="hidden" name="{$attribute_base}_data_multioption_id_{$attribute.id}[]" value="{$MultiOptionList.id}" />
 </div>
 
 <div class="block">
-<label>{'Options'|i18n( 'design/standard/content/datatype' )}</label>
+<label>{'Options'|i18n( 'design/standard/content/datatype' )}:</label>
 
 {section show=$MultiOptionList.item.optionlist}
 <table class="list" cellspacing="0">

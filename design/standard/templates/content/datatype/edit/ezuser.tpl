@@ -3,7 +3,7 @@
 
 {* User ID. *}
 <div class="block">
-    <label>{'User ID'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'User ID'|i18n( 'design/standard/content/datatype' )}:</label>
     <p>{$attribute.content.contentobject_id}</p>
 </div>
 
@@ -11,7 +11,7 @@
 
 {* Username. *}
 <div class="element">
-    <label>{'Username'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'Username'|i18n( 'design/standard/content/datatype' )}:</label>
     {section show=$attribute.content.has_stored_login}
         <input type="text" name="{$attribute_base}_data_user_login_{$attribute.id}_stored_login" size="16" value="{$attribute.content.login}" disabled="disabled" />
         <input type="hidden" name="{$attribute_base}_data_user_login_{$attribute.id}" value="{$attribute.content.login}" />
@@ -22,19 +22,19 @@
 
 {* Password #1. *}
 <div class="element">
-    <label>{'Password'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'Password'|i18n( 'design/standard/content/datatype' )}:</label>
     <input type="password" name="{$attribute_base}_data_user_password_{$attribute.id}" size="16" value="{section show=$attribute.content.original_password}{$attribute.content.original_password}{section-else}{section show=$attribute.content.has_stored_login}password{/section}{/section}" />
 </div>
 
 {* Password #2. *}
 <div class="element">
-    <label>{'Confirm password'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'Confirm password'|i18n( 'design/standard/content/datatype' )}:</label>
     <input type="password" name="{$attribute_base}_data_user_password_confirm_{$attribute.id}" size="16" value="{section show=$attribute.content.original_password_confirm}{$attribute.content.original_password_confirm}{section-else}{section show=$attribute.content.has_stored_login}password{/section}{/section}" />
 </div>
 
 {* E-mail. *}
 <div class="element">
-    <label>{'E-mail'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'E-mail'|i18n( 'design/standard/content/datatype' )}:</label>
     <input type="text" name="{$attribute_base}_data_user_email_{$attribute.id}" size="28" value="{$attribute.content.email|wash( xhtml )}" />
 </div>
 

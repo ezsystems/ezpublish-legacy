@@ -4,7 +4,7 @@
 
 {* Current image. *}
 <div class="block">
-<label>{'Current image'|i18n( 'design/standard/content/datatype' )}</label>
+<label>{'Current image'|i18n( 'design/standard/content/datatype' )}:</label>
 {section show=$attribute_content.original.is_valid}
 
 <table class="list" cellspacing="0">
@@ -35,13 +35,13 @@
 {* New image file for upload. *}
 <div class="block">
     <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}000000" />
-    <label>{'New image file for upload'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'New image file for upload'|i18n( 'design/standard/content/datatype' )}:</label>
     <input class="box" name="{$attribute_base}_data_imagename_{$attribute.id}" type="file" />
 </div>
 
 {* Alternative image text. *}
 <div class="block">
-    <label>{'Alternative image text'|i18n( 'design/standard/content/datatype' )}</label>
+    <label>{'Alternative image text'|i18n( 'design/standard/content/datatype' )}:</label>
     <input class="box" name="{$attribute_base}_data_imagealttext_{$attribute.id}" type="text" value="{$attribute_content.alternative_text|wash(xhtml)}" />
 </div>
 

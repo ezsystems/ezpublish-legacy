@@ -3,12 +3,12 @@
 <div class="block">
 
     <div class="element">
-        <label>{'Hour'|i18n( 'design/standard/content/datatype' )}</label>
+        <label>{'Hour'|i18n( 'design/standard/content/datatype' )}:</label>
         <input type="text" name="{$attribute_base}_time_hour_{$attribute.id}" size="3" value="{section show=$attribute.content.is_valid}{$attribute.content.hour}{/section}" />
     </div>
 
     <div class="element">
-        <label>{'Minute'|i18n( 'design/standard/content/datatype' )}</label>
+        <label>{'Minute'|i18n( 'design/standard/content/datatype' )}:</label>
         <input type="text" name="{$attribute_base}_time_minute_{$attribute.id}" size="4" value="{section show=$attribute.content.is_valid}{$attribute.content.minute}{/section}" />
     </div>
 

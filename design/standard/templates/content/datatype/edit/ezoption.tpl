@@ -2,18 +2,18 @@
 {default attribute_base=ContentObjectAttribute}
 
 <div class="block">
-<label>{'Name'|i18n( 'design/standard/content/datatype' )}</label>
+<label>{'Name'|i18n( 'design/standard/content/datatype' )}:</label>
 <input class="box" type="text" name="{$attribute_base}_data_option_name_{$attribute.id}" value="{$attribute.content.name}" />
 </div>
 
 <div class="block">
-<label>{'Options'|i18n( 'design/standard/content/datatype' )}</label>
+<label>{'Options'|i18n( 'design/standard/content/datatype' )}:</label>
 
 {section show=$attribute.content.option_list}
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight">&nbsp;</th>
-    <th>{'Option'|i18n( 'design/standard/content/datatype' )}</td>
+    <th>{'Option'|i18n( 'design/standard/content/datatype' )}</th>
     {section show=$attribute.is_information_collector|not}
     <th>{'Additional price'|i18n( 'design/standard/content/datatype' )}</th>
     {/section}

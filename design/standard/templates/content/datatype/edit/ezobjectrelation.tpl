@@ -16,9 +16,9 @@
     <th>{'Section'|i18n( 'design/standard/content/datatype' )}</th>
 </tr>
 <tr>
-    <td>{$attribute.content.class_identifier|class_icon( small, $attribute.content.class_name )}&nbsp;{$attribute.content.name|wash}</th>
-    <td>{$attribute.content.class_name|wash}</th>
-    <td>{fetch( section, object, hash( section_id, $attribute.content.section_id ) ).name|wash}</th>
+    <td>{$attribute.content.class_identifier|class_icon( small, $attribute.content.class_name )}&nbsp;{$attribute.content.name|wash}</td>
+    <td>{$attribute.content.class_name|wash}</td>
+    <td>{fetch( section, object, hash( section_id, $attribute.content.section_id ) ).name|wash}</td>
 </tr>
 </table>
 {section-else}

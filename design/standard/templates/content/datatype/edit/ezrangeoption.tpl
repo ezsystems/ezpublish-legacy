@@ -2,24 +2,24 @@
 {default attribute_base=ContentObjectAttribute}
 <div class="block">
 
-<label>{'Name'|i18n( 'design/standard/content/datatype' )}</label>
+<label>{'Name'|i18n( 'design/standard/content/datatype' )}:</label>
 <input class="box" type="text" name="{$attribute_base}_data_rangeoption_name_{$attribute.id}" value="{$attribute.content.name}" />
 </div>
 
 <div class="block">
 
 <div class="element">
-<label>{'Start value'|i18n( 'design/standard/content/datatype' )}</label>
+<label>{'Start value'|i18n( 'design/standard/content/datatype' )}:</label>
 <input type="text" name="{$attribute_base}_data_rangeoption_start_value_{$attribute.id}" size="3" value="{$attribute.content.start_value}" />
 </div>
 
 <div class="element">
-<label>{'Stop value'|i18n( 'design/standard/content/datatype' )}</label>
+<label>{'Stop value'|i18n( 'design/standard/content/datatype' )}:</label>
 <input type="text" name="{$attribute_base}_data_rangeoption_stop_value_{$attribute.id}" size="3" value="{$attribute.content.stop_value}" />
 </div>
 
 <div class="element">
-<label>{'Step value'|i18n( 'design/standard/content/datatype' )}</label>
+<label>{'Step value'|i18n( 'design/standard/content/datatype' )}:</label>
 <input type="text" name="{$attribute_base}_data_rangeoption_step_value_{$attribute.id}" size="3" value="{$attribute.content.step_value}" />
 </div>
 
