@@ -492,15 +492,10 @@ class eZTemplate
      */
     function unsetLocalVariables()
     {
-        $level = count( $this->LocalVariablesNamesStack );
-
         foreach ( $this->CurrentLocalVariablesNames as $ns => $vars )
         {
             foreach ( $vars as $var => $val )
-            {
-                eZDebug::writeDebug( "Level $level: Destroying local variable '$var' in namespace '$ns'" );
                 $this->unsetLocalVariable( $var, $ns );
-            }
         }
     }
 
