@@ -512,7 +512,7 @@ class eZStepCreateSites extends eZStepInstaller
                 $siteINI->setVariable( 'SiteAccessSettings', 'RequireUserLogin', 'true' );
                 $siteINI->setVariable( 'DesignSettings', 'SiteDesign', 'admin' );
                 $siteINI->setVariable( 'SiteSettings', 'LoginPage', 'custom' );
-                $siteINI->save( false, '.append.php', false, true, "settings/siteaccess/$adminSiteaccessName" );
+                $siteINI->save( false, '.append.php', false, true, "settings/siteaccess/$adminSiteaccessName", true );
             }
             if ( !$siteINIStored )
             {
@@ -520,7 +520,7 @@ class eZStepCreateSites extends eZStepInstaller
                 $siteINI->setVariables( $siteINIChanges );
                 $siteINI->setVariable( 'DesignSettings', 'SiteDesign', $userDesignName );
                 $siteINI->setVariable( 'DesignSettings', 'AdditionalSiteDesignList', array( 'base' ) );
-                $siteINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName" );
+                $siteINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName", true );
             }
             if ( !$designINIStored )
             {

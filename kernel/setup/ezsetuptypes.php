@@ -134,6 +134,10 @@ function eZSetupSiteINISettings( $siteType, $parameters )
     {
         $settings['SiteAccessSettings'] = array_merge( $settings['SiteAccessSettings'], array( 'RequireUserLogin' => 'true' ) );
     }
+    else
+    {
+        $settings['SiteAccessSettings'] = array_merge( $settings['SiteAccessSettings'], array( 'RequireUserLogin' => 'false' ) );
+    }
     return array( 'name' => 'site.ini',
                   'settings' => $settings );
 }
