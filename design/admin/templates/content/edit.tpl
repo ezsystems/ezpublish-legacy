@@ -3,9 +3,25 @@
          content_version=$node.contentobject_version_object
          node_name=$node.name}*}
 
+{literal}
+<script language="JavaScript" type="text/javascript">
+<!--
+    function confirmDiscard( question, id )
+    {
+        // Disable/bypass the reload-based (plain HTML) confirmation interface.
+        document.editform.DiscardConfirm.value = "0";
+
+        // Ask user if she really wants do it, return this to the handler.
+        return confirm( question );
+    }
+-->
+</script>
+{/literal}
+
+
 <div class="content-edit">
 
-<form enctype="multipart/form-data" method="post" action={concat("/content/edit/",$object.id,"/",$edit_version,"/",$edit_language|not|choose(concat($edit_language,"/"),''))|ezurl}>
+<form name="editform" id="editform" enctype="multipart/form-data" method="post" action={concat("/content/edit/",$object.id,"/",$edit_version,"/",$edit_language|not|choose(concat($edit_language,"/"),''))|ezurl}>
 
     <h1>{"Edit %1"|i18n("design/standard/content/edit",,array($class.name|wash))}</h1>
 
@@ -20,7 +36,8 @@
     <div class="controlbar">
     <input class="button" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('design/standard/content/edit')}" />
     <input class="button" type="submit" name="StoreButton" value="{'Store draft'|i18n('design/standard/content/edit')}" />
-    <input class="button" type="submit" name="DiscardButton" value="{'Discard'|i18n('design/standard/content/edit')}" />
+    <input class="button" type="submit" name="DiscardButton" value="{'Cancel'|i18n('design/standard/content/edit')}" onclick="return confirmDiscard( '{'Are you sure that you want to discard the changes?'|i18n( '/design/admin/layout' )}' );" />
+    <input type="hidden" name="DiscardConfirm" value="1" />
     </div>
 
     {include uri="design:content/edit_related.tpl"}
