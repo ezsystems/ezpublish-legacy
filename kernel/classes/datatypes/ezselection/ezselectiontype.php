@@ -115,6 +115,20 @@ class eZSelectionType extends eZDataType
 
         }
 
+        if ( $http->hasPostVariable( $base . "_ezselection_removeoption_button_" . $classAttributeID ) )
+        {
+            if ( $http->hasPostVariable( $base . "_ezselection_option_remove_array_". $classAttributeID ) )
+            {
+                $removeArray = $http->postVariable( $base . "_ezselection_option_remove_array_". $classAttributeID );
+
+                foreach ( array_keys( $currentOptions ) as $key )
+                {
+                    if ( $removeArray[$currentOptions[$key]['id']] )
+                        unset( $currentOptions[$key] );
+                }
+                $hasPostData = true;
+            }
+        }
 
         if ( $hasPostData )
         {

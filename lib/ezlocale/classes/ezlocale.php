@@ -947,12 +947,12 @@ class eZLocale
     */
     function &internalNumber( $number )
     {
-        $neg = $number < 0;
-        $num = $neg ? -$number : $number;
-        $num = str_replace( $this->ThousandsSeparator, '', (string)$num );
-        $num = str_replace( $this->DecimalSymbol, '.', (string)$num );
-        $num = ( $neg ? '-' : '' ) . $num;
-        return $num;
+        $number = str_replace( ' ', '', $number );
+        if ( $this->PositiveSymbol )
+            $number = str_replace( $this->PositiveSymbol, '', $number );
+        $number = str_replace( $this->ThousandsSeparator, '', $number );
+        $number = str_replace( $this->DecimalSymbol, '.', $number );
+        return $number;
     }
 
     /*!
@@ -997,13 +997,12 @@ class eZLocale
     */
     function &internalCurrency( $number )
     {
-        $number = str_replace( ' ' , '', $number );
-        $neg = $number < 0;
-        $num = $neg ? -$number : $number;
-        $num = str_replace( $this->CurrencyThousandsSeparator, '', (string)$num );
-        $num = str_replace( $this->CurrencyDecimalSymbol, '.', (string)$num );
-        $num = ( $neg ? '-' : '' ) . $num;
-        return $num;
+        $number = str_replace( ' ', '', $number );
+        if ( $this->CurrencyPositiveSymbol )
+            $number = str_replace( $this->CurrencyPositiveSymbol, '', $number );
+        $number = str_replace( $this->CurrencyThousandsSeparator, '', $number );
+        $number = str_replace( $this->CurrencyDecimalSymbol, '.', $number );
+        return $number;
     }
 
     /*!

@@ -50,6 +50,15 @@ eZINI:
   http://ez.no/community/bug_reports/objectrelationlist_doesn_t_work_properly
 - Fixed bug of datatype ezenum does not remove unselected value for translated objects
   http://ez.no/community/bug_reports/ezenum_does_not_remove_unselected_value
+- Fixed bug causing the crash of admin interface when setting Wait Until Date event.
+  http://ez.no/community/bug_reports/admin_interface_crash_when_setting_up_date_time_publishing
+- Added the possibility of removing items in selection data type.
+  http://ez.no/community/bug_reports/selection_data_type_items_can_not_be_removed
+- Added file size checking while uploading files of image, media and binaryfile type.
+  http://ez.no/community/bug_reports/upload_file_size_checking_is_not_implemented
+- Fixed bug in ezlocale when converting negative numbers using , (comma) as the decimal
+  separator to the internal form.
+  http://ez.no/community/bug_reports/error_with_negative_numbers_in_float_datatype
 
 *Library:
 - Fixed bug where eZSys::varDirectory was not using eZDir::path
