@@ -46,8 +46,8 @@
 */
 
 include_once( 'lib/ezxml/classes/ezxml.php' );
-include_once( 'lib/ezutils/classes/ezfile.php' );
-include_once( 'lib/ezutils/classes/ezdir.php' );
+include_once( 'lib/ezfile/classes/ezfile.php' );
+include_once( 'lib/ezfile/classes/ezdir.php' );
 include_once( 'lib/ezfile/classes/ezfilehandler.php' );
 
 define( 'EZ_PACKAGE_VERSION', '3.4.0alpha1' );

@@ -44,7 +44,7 @@
 include_once( "kernel/classes/ezdatatype.php" );
 include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
 include_once( "kernel/classes/ezbinaryfilehandler.php" );
-include_once( "lib/ezutils/classes/ezfile.php" );
+include_once( "lib/ezfile/classes/ezfile.php" );
 include_once( "lib/ezutils/classes/ezsys.php" );
 include_once( "lib/ezutils/classes/ezmimetype.php" );
 include_once( "lib/ezutils/classes/ezhttpfile.php" );

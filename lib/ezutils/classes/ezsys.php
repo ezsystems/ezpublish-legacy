@@ -413,7 +413,7 @@ class eZSys
     function storageDirectory()
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
-        include_once( 'lib/ezutils/classes/ezdir.php' );
+        include_once( 'lib/ezfile/classes/ezdir.php' );
         $ini =& eZINI::instance();
         $varDir = eZSys::varDirectory();
         $storageDir = $ini->variable( 'FileSettings', 'StorageDir' );
@@ -431,7 +431,7 @@ class eZSys
         $ini =& eZINI::instance();
         $cacheDir = $ini->variable( 'FileSettings', 'CacheDir' );
 
-        include_once( 'lib/ezutils/classes/ezdir.php' );
+        include_once( 'lib/ezfile/classes/ezdir.php' );
         if ( $cacheDir[0] == "/" )
         {
             return eZDir::path( array( $cacheDir ) );

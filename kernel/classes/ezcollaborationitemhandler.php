@@ -44,7 +44,7 @@
 */
 
 include_once( 'lib/ezutils/classes/ezini.php' );
-include_once( 'lib/ezutils/classes/ezdir.php' );
+include_once( "lib/ezfile/classes/ezdir.php" );
 
 /*
  Definitions for notification handling for collaboration handlers.

@@ -295,7 +295,7 @@ class eZTemplateCompiler
         $compilationDirectory =& $GLOBALS['eZTemplateCompilerDirectory'];
         if ( !isset( $compilationDirectory ) )
         {
-            include_once( 'lib/ezutils/classes/ezdir.php' );
+            include_once( 'lib/ezfile/classes/ezdir.php' );
             include_once( 'lib/ezutils/classes/ezsys.php' );
             $compilationDirectory = eZDir::path( array( eZSys::cacheDirectory(), 'template/compiled' ) );
         }

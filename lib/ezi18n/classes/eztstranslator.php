@@ -123,7 +123,7 @@ class eZTSTranslator extends eZTranslatorHandler
     */
     function loadTranslationFile( $locale, $filename, $requestedContext )
     {
-        include_once( 'lib/ezutils/classes/ezdir.php' );
+        include_once( 'lib/ezfile/classes/ezdir.php' );
 
         // First try for current charset
         $charset = eZTextCodec::internalCharset();

@@ -694,16 +694,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $additionalSiteDesignList =& $ini->variable( 'DesignSettings', 'AdditionalSiteDesignList' );
 
         // Generate match cache for all templates
-        include_once( "lib/ezutils/classes/ezdir.php" );
-
-        // Build arrays of available files, start with base design and end with most prefered design
-        $matchFilesArray = array();
-
-        // For each override dir overwrite current default file
-        // TODO: fetch all resource repositories
-
-        // Generate match cache for all templates
-        include_once( "lib/ezutils/classes/ezdir.php" );
+        include_once( 'lib/ezfile/classes/ezdir.php' );
 
         // Build arrays of available files, start with base design and end with most prefered design
         $matchFilesArray = array();

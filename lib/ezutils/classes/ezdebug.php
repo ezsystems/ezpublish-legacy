@@ -684,7 +684,7 @@ class eZDebug
         $fileName = $logDir . $logName;
         if ( !file_exists( $logDir ) )
         {
-            include_once( 'lib/ezutils/classes/ezdir.php' );
+            include_once( 'lib/ezfile/classes/ezdir.php' );
             eZDir::mkdir( $logDir, 0775, true );
         }
         $oldumask = @umask( 0 );

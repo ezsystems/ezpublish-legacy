@@ -106,7 +106,7 @@ class eZTranslationCache
         if ( !isset( $cacheDirectory ) )
         {
             include_once( 'lib/ezutils/classes/ezini.php' );
-            include_once( 'lib/ezutils/classes/ezdir.php' );
+            include_once( 'lib/ezfile/classes/ezdir.php' );
             include_once( 'lib/ezutils/classes/ezsys.php' );
 
             $ini =& eZINI::instance();

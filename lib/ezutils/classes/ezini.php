@@ -267,7 +267,7 @@ class eZINI
     */
     function findInputFiles( &$inputFiles, &$iniFile )
     {
-        include_once( 'lib/ezutils/classes/ezdir.php' );
+        include_once( 'lib/ezfile/classes/ezdir.php' );
         $inputFiles = array();
         if ( $this->RootDir !== false )
             $iniFile = eZDir::path( array( $this->RootDir, $this->FileName ) );
@@ -430,7 +430,7 @@ class eZINI
     {
         if ( !file_exists( $cachedDir ) )
         {
-            include_once( 'lib/ezutils/classes/ezdir.php' );
+            include_once( 'lib/ezfile/classes/ezdir.php' );
             if ( !eZDir::mkdir( $cachedDir, 0777, true ) )
             {
                 eZDebug::writeError( "Couldn't create cache directory $cachedDir, perhaps wrong permissions", "eZINI" );
@@ -570,7 +570,7 @@ class eZINI
         if ( eZINI::isDebugEnabled() )
             eZDebug::writeNotice( "Parsing file '$file'", 'eZINI' );
 
-        include_once( "lib/ezutils/classes/ezfile.php" );
+        include_once( "lib/ezfile/classes/ezfile.php" );
         $lines =& eZFile::splitLines( $file );
         if ( $lines === false )
         {
@@ -709,7 +709,7 @@ class eZINI
     function &save( $fileName = false, $suffix = false, $useOverride = false,
                     $onlyModified = false, $useRootDir = true, $resetArrays = false )
     {
-        include_once( 'lib/ezutils/classes/ezdir.php' );
+        include_once( 'lib/ezfile/classes/ezdir.php' );
         $lineSeparator = eZSys::lineSeparator();
         $pathArray = array();
         $dirArray = array();
@@ -743,7 +743,7 @@ class eZINI
         if ( !file_exists( $dirPath ) )
             eZDir::mkdir( $dirPath, octdec( '777' ), true );
 
-        include_once( 'lib/ezutils/classes/ezdir.php' );
+        include_once( 'lib/ezfile/classes/ezdir.php' );
         $filePath = eZDir::path( array_merge( $pathArray, $fileName ) );
         $originalFilePath = eZDir::path( array_merge( $pathArray, $originalFileName ) );
         $backupFilePath = eZDir::path( array_merge( $pathArray, $backupFileName ) );

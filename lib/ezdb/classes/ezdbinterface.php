@@ -236,7 +236,7 @@ class eZDBInterface
     {
         $type = $this->databaseName();
 
-        include_once( 'lib/ezutils/classes/ezdir.php' );
+        include_once( 'lib/ezfile/classes/ezdir.php' );
         if ( $usePathType )
             $sqlFileName = eZDir::path( array( $path, $type, $sqlFile ) );
         else

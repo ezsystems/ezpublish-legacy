@@ -45,7 +45,7 @@
 */
 
 include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "lib/ezutils/classes/ezdir.php" );
+include_once( 'lib/ezfile/classes/ezdir.php' );
 
 class eZFile
 {

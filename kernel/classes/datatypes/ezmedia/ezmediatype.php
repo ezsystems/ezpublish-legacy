@@ -43,10 +43,10 @@
 
 include_once( "kernel/classes/ezdatatype.php" );
 include_once( "kernel/classes/datatypes/ezmedia/ezmedia.php" );
-include_once( "lib/ezutils/classes/ezfile.php" );
+include_once( "lib/ezfile/classes/ezfile.php" );
 include_once( "lib/ezutils/classes/ezmimetype.php" );
 include_once( "lib/ezutils/classes/ezhttpfile.php" );
-include_once( "lib/ezutils/classes/ezdir.php" );
+include_once( "lib/ezfile/classes/ezdir.php" );
 
 define( "EZ_DATATYPESTRING_MEDIA", "ezmedia" );
 define( 'EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD', 'data_int1' );

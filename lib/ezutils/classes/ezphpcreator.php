@@ -637,7 +637,7 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
         {
             if ( !file_exists( $this->PHPDir ) )
             {
-                include_once( 'lib/ezutils/classes/ezdir.php' );
+                include_once( 'lib/ezfile/classes/ezdir.php' );
                 $ini =& eZINI::instance();
                 $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
                 eZDir::mkdir( $this->PHPDir, $perm, true );

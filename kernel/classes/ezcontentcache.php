@@ -44,7 +44,7 @@
 */
 
 include_once( 'lib/ezutils/classes/ezsys.php' );
-include_once( 'lib/ezutils/classes/ezdir.php' );
+include_once( "lib/ezfile/classes/ezdir.php" );
 
 // The timestamp for the cache format, will expire
 // cache which differs from this.
