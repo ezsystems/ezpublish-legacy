@@ -6,6 +6,15 @@ Changes from 2.9-6 to 2.9-7
 - Fixed redirection to self when editing top level node
 - The ModuleRepositories setting in ModuleSettings in settings/site.ini
   has been changed to an array.
+- Moved some settings from site.ini into design.ini and workflow.ini
+- Added the notion of extensions, there are some settings in site.ini
+  which controls which extension are active. A new class eZExtension
+  has been made for this purpose.
+- Workflowtype list has been changed to an array in workflow.ini
+- Added DesignExtensions array in design.ini, extensions will
+  add to this list to insert additional design.
+- Added RepositoryDirectories and ExtensionDirectories array to workflow.ini
+  which controls the directories and extensions which have event types.
 
 *SDK :
 

@@ -115,15 +115,39 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $standardBase = eZTemplateDesignResource::designSetting( 'standard' );
         $siteBase = eZTemplateDesignResource::designSetting( 'site' );
 
+        $extensionDirectory = eZExtension::baseDirectory();
+
+        $designINI =& eZINI::instance( 'design.ini' );
+        $extensions = $designINI->variable( 'ExtensionSettings', 'DesignExtensions' );
+
         $matches = array();
+
+        // Override
         $matches[] = array( "file" => "design/$siteBase/override/$element/$path",
                             "type" => "override" );
         $matches[] = array( "file" => "design/$standardBase/override/$element/$path",
                             "type" => "override" );
+        foreach ( $extensions as $extension )
+        {
+            $matches[] = array( 'file' => "$extensionDirectory/$extension/design/$siteBase/override/$element/$path",
+                                'type' => 'override' );
+            $matches[] = array( 'file' => "$extensionDirectory/$extension/design/$standardBase/override/$element/$path",
+                                'type' => 'override' );
+        }
+
+        // Normal
         $matches[] = array( "file" => "design/$siteBase/$element/$path",
                             "type" => "normal" );
         $matches[] = array( "file" => "design/$standardBase/$element/$path",
                             "type" => "normal" );
+        foreach ( $extensions as $extension )
+        {
+            $matches[] = array( 'file' => "$extensionDirectory/$extension/design/$siteBase/$element/$path",
+                                'type' => 'normal' );
+            $matches[] = array( 'file' => "$extensionDirectory/$extension/design/$standardBase/$element/$path",
+                                'type' => 'normal' );
+        }
+
         return $matches;
     }
 

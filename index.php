@@ -238,6 +238,11 @@ print( "HTTP_HOST=" . eZSys::serverVariable( 'HTTP_HOST' ) . "<br/" );
 include( "lib/ezutils/classes/ezsession.php" );
 ob_start();
 
+// Check for extension
+include_once( 'kernel/classes/ezextension.php' );
+eZExtension::activateExtensions();
+// Extension check end
+
 include_once( "access.php" );
 
 $access = accessType( $uri,

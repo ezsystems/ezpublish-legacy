@@ -234,14 +234,23 @@ class eZINI
             $iniFile .= '.php';
         $inputFiles[] = $iniFile;
         $overrideDirs = $this->overrideDirs();
-        foreach ( $overrideDirs as $overrideDir )
+        foreach ( $overrideDirs as $overrideDirItem )
         {
-            $overrideFile = eZDir::path( array( $this->RootDir, $overrideDir, $this->FileName ) );
+            $overrideDir = $overrideDirItem[0];
+            $isGlobal = $overrideDirItem[1];
+            if ( $isGlobal )
+                $overrideFile = eZDir::path( array( $overrideDir, $this->FileName ) );
+            else
+                $overrideFile = eZDir::path( array( $this->RootDir, $overrideDir, $this->FileName ) );
             if ( file_exists( $overrideFile . '.php' ) )
                 $overrideFile .= '.php';
             else if ( file_exists( $overrideFile ) )
                 $inputFiles[] = $overrideFile;
-            $overrideFile = eZDir::path( array( $this->RootDir, $overrideDir, $this->FileName . '.append' ) );
+
+            if ( $isGlobal )
+                $overrideFile = eZDir::path( array( $overrideDir, $this->FileName . '.append' ) );
+            else
+                $overrideFile = eZDir::path( array( $this->RootDir, $overrideDir, $this->FileName . '.append' ) );
             if ( file_exists( $overrideFile . '.php' ) )
                 $overrideFile .= '.php';
             else if ( file_exists( $overrideFile ) )
@@ -668,35 +677,35 @@ class eZINI
     {
         $dirs =& $GLOBALS["eZINIOverrideDirList"];
         if ( !isset( $dirs ) or !is_array( $dirs ) )
-            $dirs = array( "override" );
+            $dirs = array( array( "override", false ) );
         return $dirs;
     }
 
     /*!
      Appends the override directory \a $dir to the override directory list.
     */
-    function prependOverrideDir( $dir )
+    function prependOverrideDir( $dir, $globalDir = false )
     {
         if ( eZINI::isDebugEnabled() )
             eZDebug::writeNotice( "Changing override dir to '$dir'", "eZINI" );
         $dirs =& $GLOBALS["eZINIOverrideDirList"];
         if ( !isset( $dirs ) or !is_array( $dirs ) )
-            $dirs = array( 'override' );
-        $dirs = array_merge( array( $dir ), $dirs );
+            $dirs = array( array( 'override', false ) );
+        $dirs = array_merge( array( array( $dir, $globalDir ) ), $dirs );
         $this->CacheFile = false;
      }
 
     /*!
      Appends the override directory \a $dir to the override directory list.
     */
-    function appendOverrideDir( $dir )
+    function appendOverrideDir( $dir, $globalDir = false )
     {
         if ( eZINI::isDebugEnabled() )
             eZDebug::writeNotice( "Changing override dir to '$dir'", "eZINI" );
         $dirs =& $GLOBALS["eZINIOverrideDirList"];
         if ( !isset( $dirs ) or !is_array( $dirs ) )
             $dirs = array( 'override' );
-        $dirs[] = $dir;
+        $dirs[] = array( $dir, $globalDir );
         $this->CacheFile = false;
     }
 

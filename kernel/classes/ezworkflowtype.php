@@ -58,23 +58,10 @@ define( "EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE", 9 );
 
 // include defined datatypes
 
-$ini =& eZINI::instance();
+$wfINI =& eZINI::instance( 'workflow.ini' );
 $workflowTypes =& $GLOBALS["eZWorkflowTypes"];
-$types = $ini->variableArray( "WorkflowSettings", "AvailableEventTypes" );
-
-// foreach ( $availableTypes as $type )
-// {
-//     list( $group, $type ) = explode( "_", $type );
-//     $includeFile = "kernel/classes/workflowtypes/$group/$type/" . $type . "type.php";
-//     if ( file_exists( $includeFile ) )
-//     {
-//         include_once( $includeFile );
-//     }
-//     else
-//     {
-//         eZDebug::writeError( "Workflow type: $includeFile not found", "eZWorkflowType" );
-//     }
-// }
+$types = $wfINI->variable( 'EventSettings', 'AvailableEventTypes' );
+// eZDebug::writeDebug( $types, 'workflow' );
 
 class eZWorkflowType
 {
@@ -134,7 +121,7 @@ class eZWorkflowType
             $def =& $GLOBALS["eZWorkflowTypeObjects"][$typeString];
             if ( get_class( $def ) != $class_name )
             {
-                eZDebug::writeNotice( "Created type: $typeString", "eZWorkflowType::createType" );
+//                 eZDebug::writeDebug( "Created type: $typeString", "eZWorkflowType::createType" );
                 if ( class_exists( $class_name ) )
                     $def = new $class_name();
                 else
@@ -159,7 +146,7 @@ class eZWorkflowType
                 $def =& $definition_objects[$typeString];
                 if ( get_class( $def ) != $class_name )
                 {
-                    eZDebug::writeNotice( "Created list type: $typeString", "eZWorkflowType::fetchRegisteredTypes" );
+//                     eZDebug::writeDebug( "Created list type: $typeString", "eZWorkflowType::fetchRegisteredTypes" );
                     if ( class_exists( $class_name ) )
                         $def = new $class_name();
                     else
@@ -175,10 +162,11 @@ class eZWorkflowType
         $allowedTypes =& $GLOBALS["eZWorkflowAllowedTypes"];
         if ( !is_array( $allowedTypes ) )
         {
-            $ini =& eZINI::instance();
-            $eventTypes = $ini->variableArray( "WorkflowSettings", "AvailableEventTypes" );
-            $workflowTypes = $ini->variableArray( "WorkflowSettings", "AvailableWorkflowTypes" );
-            $allowedTypes = array_unique( array_merge( $eventTypes, $workflowTypes ) );
+            $wfINI =& eZINI::instance( 'workflow.ini' );
+            $eventTypes = $wfINI->variable( "EventSettings", "AvailableEventTypes" );
+//            $workflowTypes = $wfINI->variableArray( "EventSettings", "AvailableWorkflowTypes" );
+//             $allowedTypes = array_unique( array_merge( $eventTypes, $workflowTypes ) );
+            $allowedTypes = array_unique( $eventTypes );
         }
         return $allowedTypes;
     }
@@ -204,7 +192,7 @@ class eZWorkflowType
         }
         else
         {
-            eZDebug::writeNotice( "Registered type: $typeString", "eZWorkflowType::registerType" );
+//             eZDebug::writeDebug( "Registered type: $typeString", "eZWorkflowType::registerType" );
             $types[$typeString] = array( "class_name" => $class_name );
         }
     }
@@ -213,12 +201,43 @@ class eZWorkflowType
     {
         $types =& $GLOBALS["eZWorkflowTypes"];
         if ( isset( $types[$typeString] ) )
-            return null;
-        list( $group, $type ) = explode( "_", $typeString );
-        $includeFile = "kernel/classes/workflowtypes/$group/$type/" . $type . "type.php";
-        if ( !file_exists( $includeFile ) )
         {
-            eZDebug::writeError( "Workflow type not found: $typeString, include file $includeFile could not be found", "eZWorkflowType::loadAndRegisterType" );
+            eZDebug::writeError( "Workflow type not found: $typeString", "eZWorkflowType::loadAndRegisterType" );
+            return null;
+        }
+        $typeElements = explode( "_", $typeString );
+        if ( count( $typeElements ) < 2 )
+        {
+            eZDebug::writeError( "Workflow type not found: $typeString", "eZWorkflowType::loadAndRegisterType" );
+            return null;
+        }
+        $group = $typeElements[0];
+        $type = $typeElements[1];
+
+        include_once( 'kernel/classes/ezextension.php' );
+        $baseDirectory = eZExtension::baseDirectory();
+        $wfINI =& eZINI::instance( 'workflow.ini' );
+        $repositoryDirectories = $wfINI->variable( 'EventSettings', 'RepositoryDirectories' );
+        $extensionDirectories = $wfINI->variable( 'EventSettings', 'ExtensionDirectories' );
+        foreach ( $extensionDirectories as $extensionDirectory )
+        {
+            $extensionPath = $baseDirectory . '/' . $extensionDirectory . '/eventtypes';
+            if ( file_exists( $extensionPath ) )
+                $repositoryDirectories[] = $extensionPath;
+        }
+        $foundEventType = false;
+        foreach ( $repositoryDirectories as $repositoryDirectory )
+        {
+            $includeFile = "$repositoryDirectory/$group/$type/" . $type . "type.php";
+            if ( file_exists( $includeFile ) )
+            {
+                $foundEventType = true;
+                break;
+            }
+        }
+        if ( !$foundEventType )
+        {
+            eZDebug::writeError( "Workflow type not found: $typeString, searched in these directories: " . implode( ', ', $repositoryDirectories ), "eZWorkflowType::loadAndRegisterType" );
             return false;
         }
         include_once( $includeFile );

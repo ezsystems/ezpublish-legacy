@@ -57,8 +57,8 @@ $Module =& $Params['Module'];
 $moduleName= & $Params['ModuleName1'];
 $functionName= & $Params['FunctionName1'];
 
-$ini =& eZINI::instance();
-$operations = $ini->variableArray( "WorkflowSettings", "AvailableOperations" );
+$wfINI =& eZINI::instance( 'workflow.ini' );
+$operations = $wfINI->variableArray( 'OperationSettings', 'AvailableOperations' );
 $possibleTriggers = array();
 
 $triggers =& makeTriggerArray( eZTrigger::fetchList() );
