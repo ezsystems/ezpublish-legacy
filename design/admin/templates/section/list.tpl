@@ -15,7 +15,7 @@
 {section var=Sections loop=$section_array sequence=array( bglight, bgdark )}
 <tr class="{$Sections.sequence}">
     <td><input type="checkbox" name="SectionIDArray[]" value="{$Sections.item.id}" /></td>
-    <td>{$Sections.item.name}</td>
+    <td>{'section'|icon( 'small', 'section'|i18n( 'design/admin/section/list' ) )}&nbsp;<a href={concat( '/section/view/', $Sections.item.id )|ezurl}>{$Sections.item.name}</a></td>
     <td>{$Sections.item.id}</td>
     <td><a href={concat("/section/assign/",$Sections.item.id,"/")|ezurl}><img src={"attach.png"|ezimage} alt="{'Assign'|i18n('design/standard/section')}" /></a></td>
     <td><a href={concat("/section/edit/",$Sections.item.id,"/")|ezurl}><img src={"edit.png"|ezimage} alt="{'Edit'|i18n('design/standard/section')}" /></a></td>
