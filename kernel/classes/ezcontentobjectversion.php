@@ -183,7 +183,7 @@ class eZContentObjectVersion extends eZPersistentObject
             $this->Permissions["can_versionread"] = $this->checkAccess( 'versionread' );
         }
         $p = ( $this->Permissions["can_versionread"] == 1 );
-        eZDebug::writeDebug( $p ? "true" : "false", 'p' );
+//         eZDebug::writeDebug( $p ? "true" : "false", 'p' );
         return $p;
     }
 
@@ -199,7 +199,7 @@ class eZContentObjectVersion extends eZPersistentObject
         {
             $classID = $objectClassID;
         }
-        eZDebug::writeDebug( $accessWord, 'accessword' );
+//         eZDebug::writeDebug( $accessWord, 'accessword' );
         if ( $accessWord == 'yes' )
         {
             return 1;
@@ -211,7 +211,7 @@ class eZContentObjectVersion extends eZPersistentObject
         else
         {
             $policies  =& $accessResult['policies'];
-            eZDebug::writeDebug( $policies, 'policies' );
+//             eZDebug::writeDebug( $policies, 'policies' );
             foreach ( array_keys( $policies ) as $key  )
             {
                 $policy =& $policies[$key];
@@ -355,7 +355,7 @@ class eZContentObjectVersion extends eZPersistentObject
     {
         $nodeAssignmentList = array();
         $nodeAssignmentList =& eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ),$this->attribute( 'version' ) );
-        eZDebug::writeDebug( $nodeAssignmentList, "nodeAssignmentList" );
+//         eZDebug::writeDebug( $nodeAssignmentList, "nodeAssignmentList" );
         return $nodeAssignmentList;
     }
 
@@ -451,7 +451,7 @@ class eZContentObjectVersion extends eZPersistentObject
 
     function removeTranslation( $languageCode )
     {
-        eZDebug::writeDebug( $this, 'removeTranslation:version' );
+//         eZDebug::writeDebug( $this, 'removeTranslation:version' );
         $versionNum = $this->attribute( 'version' );
 
         $contentObjectAttributes =& $this->contentObjectAttributes( $languageCode );
