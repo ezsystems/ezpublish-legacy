@@ -7,9 +7,8 @@
 </tr>
 <tr>
 	<td class="bglight">
-	<input type="hidden" name="MAX_FILE_SIZE" value="30000000" />
+	<input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}000000"/>
 	<input name="ContentObjectAttribute_data_binaryfilename_{$attribute.id}" type="file" />
-
 	</td>
 </tr>
 {section show=or($attribute.content,$attribute.content.filename)}

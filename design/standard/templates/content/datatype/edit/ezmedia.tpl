@@ -23,7 +23,7 @@
 </tr>
 <tr>
 	<td class="bglight" width="200">
-	<input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}" />
+	<input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}000000" />
 	<input name="ContentObjectAttribute_data_mediafilename_{$attribute.id}" type="file" />
 	</td>
 	<td class="bglight">
@@ -133,3 +133,42 @@
 {/case}
 {/switch}
 </table>
+{section show=or($attribute.content,$attribute.content.filename)}
+<table width="100%" cellpadding="2" cellspacing="0">
+<tr>
+	<td class="bgdark">
+	<b>{"Existing filename"|i18n}</b>:<br/>
+	</td>
+	<td class="bgdark">
+	<b>{"Existing orignal filename"|i18n}</b>:<br/>
+	</td>
+	<td class="bgdark">
+	<b>{"Existing mime/type"|i18n}</b>:<br/>
+	</td>
+	<td class="bgdark">
+	</td>
+</tr>
+<tr>
+	<td class="bgdark">
+	{$attribute.content.filename}
+	</td>
+	<td class="bgdark">
+	{$attribute.content.original_filename}
+	</td>
+	<td class="bgdark">
+	{$attribute.content.mime_type}
+	</td>
+	<td class="bgdark">
+	<input type="submit" name="CustomActionButton[{$attribute.id}_delete_media]" value="{'Delete'|i18n}" />
+	</td>
+</tr>
+</table>
+{/section}
+
+
+
+
+
+
+
+

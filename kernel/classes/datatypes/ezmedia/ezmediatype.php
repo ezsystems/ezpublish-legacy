@@ -49,8 +49,8 @@ include_once( "lib/ezutils/classes/ezhttpfile.php" );
 include_once( "lib/ezutils/classes/ezdir.php" );
 
 define( "EZ_DATATYPESTRING_MEDIA", "ezmedia" );
-define( 'EZ_DATATYPESTRING_MAX_FILESIZE_FIELD', 'data_int1' );
-define( 'EZ_DATATYPESTRING_MAX_FILESIZE_VARIABLE', '_ezmedia_max_filesize_' );
+define( 'EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD', 'data_int1' );
+define( 'EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_VARIABLE', '_ezmedia_max_filesize_' );
 define( "EZ_DATATYPESTRING_TYPE_FIELD", "data_text1" );
 define( "EZ_DATATYPESTRING_TYPE_VARIABLE", "_ezmedia_type_" );
 
@@ -166,62 +166,84 @@ class eZMediaType extends eZDataType
         $height = $http->postVariable( $base . "_data_media_height_" . $contentObjectAttribute->attribute( "id" ) );
         $quality = $http->postVariable( $base . "_data_media_quality_" . $contentObjectAttribute->attribute( "id" ) );
 
-        $media =& eZMedia::fetch( $contentObjectAttributeID, $version );
-        if ( $media === null )
+        $mediaFile =& eZHTTPFile::fetch( $base . "_data_mediafilename_" . $contentObjectAttribute->attribute( "id" ) );
+
+        if ( get_class( $mediaFile ) == "ezhttpfile" )
         {
-            if ( !eZHTTPFile::canFetch( $base . "_data_mediafilename_" . $contentObjectAttribute->attribute( "id" ) ) )
-                return false;
-            $mediaFile =& eZHTTPFile::fetch( $base . "_data_mediafilename_" . $contentObjectAttribute->attribute( "id" ) );
-
-            if ( get_class( $mediaFile ) == "ezhttpfile" )
+            $mimeObj = new  eZMimeType();
+            $mime = $mimeObj->mimeTypeFor( $mediaFile->attribute( "original_filename" ), true );
+            if ( $mime == '' )
             {
-                $mimeObj = new  eZMimeType();
-                $mime = $mimeObj->mimeTypeFor( $mediaFile->attribute( "original_filename" ), true );
-                if ( $mime == '' )
-                {
-                    $mime = $mediaFile->attribute( "mime_type" );
-                }
-                $extension = preg_replace('/.*\.(.+?)$/', '\\1', $mediaFile->attribute( "original_filename" ) );
-                if ( !$mediaFile->store( "original", $extension ) )
-                {
-                    eZDebug::writeError( "Failed to store http-file: " . $mediaFile->attribute( "original_filename" ),
-                                         "eZMediaType" );
-                    return false;
-                }
+                $mime = $mediaFile->attribute( "mime_type" );
+            }
+            $extension = preg_replace('/.*\.(.+?)$/', '\\1', $mediaFile->attribute( "original_filename" ) );
+            if ( !$mediaFile->store( "original", $extension ) )
+            {
+                eZDebug::writeError( "Failed to store http-file: " . $mediaFile->attribute( "original_filename" ),
+                                     "eZMediaType" );
+                return false;
+            }
 
-                $media =& eZMedia::fetch( $contentObjectAttributeID, $version );
-                if ( $media == null )
-                {
-                    $media =& eZMedia::create( $contentObjectAttributeID, $version );
-                }
+            $media =& eZMedia::fetch( $contentObjectAttributeID, $version );
+            if ( $media == null )
+            {
+                $media =& eZMedia::create( $contentObjectAttributeID, $version );
+            }
 
-                $orig_dir = $mediaFile->storageDir( "original" );
-                eZDebug::writeNotice( "dir=$orig_dir" );
+            $orig_dir = $mediaFile->storageDir( "original" );
+            eZDebug::writeNotice( "dir=$orig_dir" );
 
-                $media->setAttribute( "contentobject_attribute_id", $contentObjectAttributeID );
-                $media->setAttribute( "version", $version );
-                $media->setAttribute( "filename", basename( $mediaFile->attribute( "filename" ) ) );
-                $media->setAttribute( "original_filename", $mediaFile->attribute( "original_filename" ) );
-                $media->setAttribute( "mime_type", $mime );
+            $media->setAttribute( "contentobject_attribute_id", $contentObjectAttributeID );
+            $media->setAttribute( "version", $version );
+            $media->setAttribute( "filename", basename( $mediaFile->attribute( "filename" ) ) );
+            $media->setAttribute( "original_filename", $mediaFile->attribute( "original_filename" ) );
+            $media->setAttribute( "mime_type", $mime );
+            $media->setAttribute( "width", $width );
+            $media->setAttribute( "height", $height );
+            $media->setAttribute( "quality", $quality );
+            if ( $http->hasPostVariable( $base . "_data_media_is_autoplay_" . $contentObjectAttribute->attribute( "id" ) ) )
+                $media->setAttribute( "is_autoplay", true );
+            else
+                $media->setAttribute( "is_autoplay", false );
+            if ( $http->hasPostVariable( $base . "_data_media_has_controller_" . $contentObjectAttribute->attribute( "id" ) ) )
+                $media->setAttribute( "has_controller", true );
+            else
+                $media->setAttribute( "has_controller", false );
+            if ( $http->hasPostVariable( $base . "_data_media_is_loop_" . $contentObjectAttribute->attribute( "id" ) ) )
+                $media->setAttribute( "is_loop", true );
+            else
+                $media->setAttribute( "is_loop", false );
+            $media->store();
+            $contentObjectAttribute->setContent( $media );
+        }
+        else
+        {
+            $media =& eZMedia::fetch( $contentObjectAttributeID, $version );
+            if ( $media === null )
+            {
+                eZDebug::writeError("No file uploaded");
+            }
+            else
+            {
+                $media->setAttribute( "width", $width );
+                $media->setAttribute( "height", $height );
+                $media->setAttribute( "quality", $quality );
+                if ( $http->hasPostVariable( $base . "_data_media_is_autoplay_" . $contentObjectAttribute->attribute( "id" ) ) )
+                    $media->setAttribute( "is_autoplay", true );
+                else
+                    $media->setAttribute( "is_autoplay", false );
+                if ( $http->hasPostVariable( $base . "_data_media_has_controller_" . $contentObjectAttribute->attribute( "id" ) ) )
+                    $media->setAttribute( "has_controller", true );
+                else
+                    $media->setAttribute( "has_controller", false );
+                if ( $http->hasPostVariable( $base . "_data_media_is_loop_" . $contentObjectAttribute->attribute( "id" ) ) )
+                    $media->setAttribute( "is_loop", true );
+                else
+                    $media->setAttribute( "is_loop", false );
+                $media->store();
+                $contentObjectAttribute->setContent( $media );
             }
         }
-        $media->setAttribute( "width", $width );
-        $media->setAttribute( "height", $height );
-        $media->setAttribute( "quality", $quality );
-        if ( $http->hasPostVariable( $base . "_data_media_is_autoplay_" . $contentObjectAttribute->attribute( "id" ) ) )
-            $media->setAttribute( "is_autoplay", true );
-        else
-            $media->setAttribute( "is_autoplay", false );
-        if ( $http->hasPostVariable( $base . "_data_media_has_controller_" . $contentObjectAttribute->attribute( "id" ) ) )
-            $media->setAttribute( "has_controller", true );
-        else
-            $media->setAttribute( "has_controller", false );
-        if ( $http->hasPostVariable( $base . "_data_media_is_loop_" . $contentObjectAttribute->attribute( "id" ) ) )
-            $media->setAttribute( "is_loop", true );
-        else
-            $media->setAttribute( "is_loop", false );
-        $media->store();
-        $contentObjectAttribute->setContent( $media );
     }
 
     function storeObjectAttribute( &$contentObjectAttribute )
@@ -268,12 +290,12 @@ class eZMediaType extends eZDataType
     */
     function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
     {
-        $filesizeName = $base . EZ_DATATYPESTRING_MAX_FILESIZE_VARIABLE . $classAttribute->attribute( 'id' );
+        $filesizeName = $base . EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_VARIABLE . $classAttribute->attribute( 'id' );
         $typeName = $base . EZ_DATATYPESTRING_TYPE_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $filesizeName ) )
         {
             $filesizeValue = $http->postVariable( $filesizeName );
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_FILESIZE_FIELD, $filesizeValue );
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD, $filesizeValue );
         }
         if ( $http->hasPostVariable( $typeName ) )
         {

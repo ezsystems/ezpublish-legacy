@@ -47,6 +47,8 @@ include_once( "lib/ezutils/classes/ezfile.php" );
 include_once( "lib/ezutils/classes/ezhttpfile.php" );
 include_once( "lib/ezutils/classes/ezdir.php" );
 
+define( 'EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_FIELD', 'data_int1' );
+define( 'EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_VARIABLE', '_ezimage_max_filesize_' );
 define( "EZ_DATATYPESTRING_IMAGE", "ezimage" );
 
 class eZImageType extends eZDataType
@@ -232,6 +234,16 @@ class eZImageType extends eZDataType
                                             false, $mime );
 
             $contentObjectAttribute->setContent( $image );
+        }
+    }
+
+    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    {
+        $filesizeName = $base . EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_VARIABLE . $classAttribute->attribute( 'id' );
+        if ( $http->hasPostVariable( $filesizeName ) )
+        {
+            $filesizeValue = $http->postVariable( $filesizeName );
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_FIELD, $filesizeValue );
         }
     }
 

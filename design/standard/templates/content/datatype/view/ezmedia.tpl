@@ -8,7 +8,7 @@ width="{$attribute.content.width}" height="{$attribute.content.height}">
 <param name="loop" value="{section show=$attribute.content.is_loop}true{/section}">
 <embed src="/content/download/{$attribute.content.contentobject_attribute_id}/{$attribute.content.version}/{$attribute.content.original_filename}"
  quality="{$attribute.content.quality}" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash"
- width="{$attribute.content.width}" height="{$attribute.content.height}" play="{section show=$attribute.content.is_autoplay}true{/section}" 
+ width="{$attribute.content.width}" height="{$attribute.content.height}" play="{section show=$attribute.content.is_autoplay}true{/section}"
  loop="{section show=$attribute.content.is_loop}true{/section}" >
 </embed> </object>
 {/case}

@@ -47,6 +47,8 @@ include_once( "lib/ezutils/classes/ezfile.php" );
 include_once( "lib/ezutils/classes/ezmimetype.php" );
 include_once( "lib/ezutils/classes/ezhttpfile.php" );
 
+define( 'EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_FIELD', 'data_int1' );
+define( 'EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_VARIABLE', '_ezbinaryfile_max_filesize_' );
 define( "EZ_DATATYPESTRING_BINARYFILE", "ezbinaryfile" );
 
 class eZBinaryFileType extends eZDataType
@@ -216,6 +218,15 @@ class eZBinaryFileType extends eZDataType
         }
     }
 
+    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    {
+        $filesizeName = $base . EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_VARIABLE . $classAttribute->attribute( 'id' );
+        if ( $http->hasPostVariable( $filesizeName ) )
+        {
+            $filesizeValue = $http->postVariable( $filesizeName );
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_FIELD, $filesizeValue );
+        }
+    }
     /*!
      Returns the object title.
     */

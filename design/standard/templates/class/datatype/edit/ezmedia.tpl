@@ -17,7 +17,7 @@
   Max file size
   </td> 
   <td align="left">
-  <input type="text" name="ContentClass_ezmedia_max_filesize_{$class_attribute.id}" value="{$class_attribute.data_int1}" size="8" maxlength="8" />
+  <input type="text" name="ContentClass_ezmedia_max_filesize_{$class_attribute.id}" value="{$class_attribute.data_int1}" size="5" maxlength="5" /> MB
   </td> 
 </tr>
 </table>
