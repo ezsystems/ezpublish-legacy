@@ -286,12 +286,12 @@ div#poll-result td.voted-area
 
 div.shop-basket table td.product-details, div.shop-confirmorder td.product-details, div.shop-orderview td.product-details
 {
-    border-color: #99ccff;
+    border-color: #ff3000;
 }
 
 div.shop-basket table td.product-subtotal, div.shop-confirmorder table td.product-subtotal, div.shop-orderview table td.product-subtotal
 {
-    border-color: #99ccff;
+    border-color: #ff3000;
 }
 
 
@@ -313,7 +313,7 @@ table.renderedtable
 table.forum th
 {
     color: #ffffff;
-    background-color: #99ccff;
+    background-color: #ff3000;
 }
 
 table.forum tr.bglight, table.forum tr.bgdark
@@ -323,7 +323,7 @@ table.forum tr.bglight, table.forum tr.bgdark
 
 table.forum tr.bglight td, table.forum tr.bgdark td
 {
-    border-color: #99ccff;
+    border-color: #ff3000;
 }
 
 
