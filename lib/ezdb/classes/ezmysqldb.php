@@ -504,7 +504,9 @@ class eZMySQLDB extends eZDBInterface
     {
         if ( $this->isConnected() )
         {
-            return mysql_insert_id( $this->DBWriteConnection );
+            $id = mysql_insert_id( $this->DBWriteConnection );
+            print( $id );
+            return $id;
         }
         else
             return false;
@@ -526,6 +528,7 @@ class eZMySQLDB extends eZDBInterface
         if ( $this->isConnected() )
         {
             @mysql_close( $this->DBConnection );
+            @mysql_close( $this->DBWriteConnection );
         }
     }
 
