@@ -89,7 +89,8 @@ class eZContentObject extends eZPersistentObject
                                                       "main_parent_node_id" => "mainParentNodeID",
                                                       "assigned_nodes" => "assignedNodes",
                                                       "parent_nodes" => "parentNodes",
-                                                      "main_node" => "mainNode"),
+                                                      "main_node" => "mainNode",
+                                                      "content_action_list" => "contentActionList" ),
                       "increment_key" => "id",
                       "class_name" => "eZContentObject",
                       "sort" => array( "id" => "asc" ),
@@ -107,7 +108,9 @@ class eZContentObject extends eZPersistentObject
              $attr == "can_create_class_list" or
              $attr == "can_edit" or
              $attr == "can_remove" or
-             $attr == "data_map" )
+             $attr == "data_map" or
+             $attr == "content_action_list"
+             )
         {
             if ( $attr == "current" )
                 return $this->currentVersion();
@@ -127,6 +130,8 @@ class eZContentObject extends eZPersistentObject
                 return $this->contentObjectAttributes();
             else if ( $attr == "related_contentobject_array" )
                 return $this->relatedContentObjectArray();
+            else if ( $attr == "content_action_list" )
+                return $this->contentActionList();
             else if ( $attr == "data_map" )
             {
                 return $this->dataMap();
@@ -873,9 +878,20 @@ class eZContentObject extends eZPersistentObject
      Returns an array of the content actions which can be performed on
      the current object.
     */
-    function contentActionList( )
+    function &contentActionList( )
     {
-        
+        if ( $this->ContentObjectAttributeArray == false )
+        {
+            $this->ContentObjectAttributeArray =& $this->contentObjectAttributes();
+        }
+
+        $contentActionList = array();
+        foreach ( $this->ContentObjectAttributeArray as $attribute )
+        {
+            $contentActionList = array_merge( $attribute->contentActionList(), $contentActionList );
+        }
+//        $contentActionList = array_unique( $contentActionList );
+        return $contentActionList;
     }
 
     function defaultLanguage()

@@ -308,6 +308,15 @@ class eZDataType
     }
 
     /*!
+     \return the content action(s) which can be performed on object containing
+     the current datatype.
+    */
+    function contentActionList( )
+    {
+        return array();
+    }
+
+    /*!
      Returns the title of the current type, this is to form
      the title of the object.
     */

@@ -342,8 +342,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     function metaData()
     {
         $classAttribute =& $this->contentClassAttribute();
-        $definition =& $classAttribute->dataType();
-        return $definition->metaData( $this );
+        $dataType =& $classAttribute->dataType();
+        return $dataType->metaData( $this );
     }
 
 
@@ -353,6 +353,16 @@ class eZContentObjectAttribute extends eZPersistentObject
     function setContent( $content )
     {
         $this->Content =& $content;
+    }
+
+    /*!
+     Returns the content action(s) for this attribute
+    */
+    function &contentActionList()
+    {
+        $classAttribute =& $this->contentClassAttribute();
+        $dataType =& $classAttribute->dataType();
+        return $dataType->contentActionList();
     }
 
     function setValidationError()

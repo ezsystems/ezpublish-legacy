@@ -66,6 +66,14 @@ Current version: {$object.current_version}
 </tr>
 </table>
 
+<h2>Content actions</h2>
+{section name=ContentAction loop=$object.content_action_list show=$object.content_action_list}
+<input type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name|i18n}" />
+{delimiter}
+<br /><br />
+{/delimiter}
+{/section}
+
 <h1>Children</h1>
 <table width="100%">
 {section name=Children loop=$children sequence=array(bglight,bgdark)}

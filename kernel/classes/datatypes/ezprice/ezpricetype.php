@@ -98,9 +98,15 @@ class eZPriceType extends eZDataType
         return $contentObjectAttribute->attribute( "data_float" );
     }
 
-    /*!
-     Returns the price value.
-    */
+    function contentActionList( )
+    {
+        return array( array( 'name' => 'Add to basket',
+                             'action' => 'ActionAddToBasket'
+                             ),
+                      array( 'name' => 'Add to wish list',
+                             'action' => 'ActionAddToWishList'
+                             ) );
+    }
 
     function title( &$contentObjectAttribute )
     {
