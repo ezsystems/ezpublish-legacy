@@ -109,7 +109,7 @@
 
     {* User/group icon + name. *}
     <td>
-        {$Users.item.user_object.content_class.identifier|class_icon( 'small', $Users.item.user_object.content_class.name )}<a href={$Users.item.user_object.main_node.url_alias|ezurl}>{$Users.item.user_object.name|wash}</a>
+        {$Users.item.user_object.content_class.identifier|class_icon( 'small', $Users.item.user_object.content_class.name )}&nbsp;<a href={$Users.item.user_object.main_node.url_alias|ezurl}>{$Users.item.user_object.name|wash}</a>
     </td>
 
     {* Linked limitation (if any). *}
