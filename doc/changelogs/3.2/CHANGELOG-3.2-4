@@ -120,6 +120,7 @@ Changes from 3.2-3 to 3.2-4
 - Fixed bug when editing objects using workflows in apache 2. http://ez.no/developer/ez_publish_3/bug_reports/empty_page_after_editing_if_you_have_a_workflow_on_apache_2
 - Fixed pressing store button multiple times when editing classes. Will no longer cause strange behaviour in objects.
 - Fixed unset and missing parameter in eZDBInterface::lastSerialID implementations. http://ez.no/developer/ez_publish_3/bug_reports/ezkeyword_lastserialid
+- Fixed bookmark links in admin menu template. http://ez.no/developer/ez_publish_3/bug_reports/typo_in_designadmintemplatespartsmediamenutpl
 
 *Setup:
 - Added check for specific unstable PHP versions.
