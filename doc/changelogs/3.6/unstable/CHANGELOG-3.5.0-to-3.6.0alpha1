@@ -221,6 +221,8 @@ eZInformationCollection:
 - Fixed bug #6354: Template compile breaks maketime function
   (Merged from stable 3.4 (3.4.6) rev 11101)
 - Fixed problem with the popupmenu not handling cases with dynamic substitutevalue changing.
+- Fixed bug #6221: Media node linked wrongly in upgrade.
+  (Merged from stable/3.5 (3.5.2) rev. 11176)
 
 *Library:
 PDF:
