@@ -257,7 +257,7 @@ class eZPersistentObject
                 eZDebug::writeDebug( $field_def[ 'default' ], "changing value of $field_name to default" );
             }
 
-	    if ( !is_null( $value )                             &&
+            if ( !is_null( $value )                             &&
                  $field_def['datatype'] === 'string'            &&
                  array_key_exists( 'max_length', $field_def )   &&
                  $field_def['max_length'] > 0                   &&
