@@ -12,11 +12,11 @@
     <th>{'Object ID'|i18n( 'design/admin/node/view/full' )}</th>
 </tr>
 <tr class="bglight">
-    <td>{$node.object.owner.name}</td>
+    <td><a href={$node.object.owner.main_node.url_alias|ezurl}>{$node.object.owner.name}</a></td>
     <td>{$node.object.published|l10n(shortdatetime)}</td>
     <td>{$node.object.versions|count()}</td>
     <td>{$node.contentobject_version_object.language_list|count}</td>
-    <td>{fetch( section, object, hash( section_id, $node.object.section_id ) ).name|wash} ({$node.object.section_id})</td>
+    <td><a href={concat( '/section/view/', $node.object.section_id )|ezurl}>{fetch( section, object, hash( section_id, $node.object.section_id ) ).name|wash} ({$node.object.section_id})</a></td>
     <td>{$node.node_id}</td>
     <td>{$node.object.id}</td>
 </tr>
