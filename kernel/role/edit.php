@@ -50,7 +50,7 @@ $tpl =& templateInit();
 $Module =& $Params["Module"];
 $roleID =& $Params["RoleID"];
 
-$modules = eZModuleManager::aviableModules();
+$modules = eZModuleManager::availableModules();
 sort( $modules );
 
 $role = eZRole::fetch( 0, $roleID );
@@ -163,7 +163,7 @@ if ( $http->hasPostVariable( "AddLimitation" ) )
             $currentFunction = $http->postVariable( 'CurrentFunction' );
 
             $mod = & eZModule::exists( $currentModule );
-            $functions =& $mod->attribute( 'aviable_functions' );
+            $functions =& $mod->attribute( 'available_functions' );
             $currentFunctionLimitations = $functions[ $currentFunction ];
             foreach ( $currentFunctionLimitations as $functionLimitation )
             {
@@ -194,7 +194,7 @@ if ( $http->hasPostVariable( "AddLimitation" ) )
                                                         'Limitation' => '') );
 
         $mod = & eZModule::exists( $currentModule );
-        $functions =& $mod->attribute( 'aviable_functions' );
+        $functions =& $mod->attribute( 'available_functions' );
         $currentFunctionLimitations = $functions[ $currentFunction ];
         eZDebug::writeNotice($currentFunctionLimitations, 'currentFunctionLimitations');
         foreach ( $currentFunctionLimitations as $functionLimitation )
@@ -242,7 +242,7 @@ if ( $http->hasPostVariable( "CustomFunction" ) )
         $mod = & eZModule::exists( $currentModule );
 //    var_dump( $currentModule );
         flush();
-        $functions =& $mod->attribute( 'aviable_functions' );
+        $functions =& $mod->attribute( 'available_functions' );
         $functionNames = array_keys( $functions );
     }
     $showModules = false;
@@ -325,7 +325,7 @@ if ( $http->hasPostVariable( "Limitation" ) or
         $currentModule = $http->postVariable( 'CurrentModule' );
 
     $mod = & eZModule::exists( $currentModule );
-    $functions =& $mod->attribute( 'aviable_functions' );
+    $functions =& $mod->attribute( 'available_functions' );
     $functionNames = array_keys( $functions );
 
     $showModules = false;
@@ -626,7 +626,7 @@ if ( $http->hasPostVariable( "DiscardLimitation" )  || $http->hasPostVariable( "
 {
     $currentModule = $http->postVariable( 'CurrentModule' );
     $mod = & eZModule::exists( $currentModule );
-    $functions =& $mod->attribute( 'aviable_functions' );
+    $functions =& $mod->attribute( 'available_functions' );
     $functionNames = array_keys( $functions );
 
     $showModules = false;

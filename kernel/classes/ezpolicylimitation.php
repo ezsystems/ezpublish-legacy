@@ -206,7 +206,7 @@ class eZPolicyLimitation extends eZPersistentObject
 //        if ( $this->attribute( 'identifier' );
         $currentModule = $this->attribute( 'module_name' );
         $mod = & eZModule::exists( $currentModule );
-        $functions =& $mod->attribute( 'aviable_functions' );
+        $functions =& $mod->attribute( 'available_functions' );
         $functionNames = array_keys( $functions );
 
         $currentFunction = $this->attribute( 'function_name' );

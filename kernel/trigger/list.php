@@ -197,12 +197,12 @@ $moduleList = array();
 if ( $moduleName == '*' )
 {
     $showModuleList = true;
-    $moduleList =& eZModuleManager::aviableModules();
+    $moduleList =& eZModuleManager::availableModules();
 }
 elseif( $functionName == '*' )
 {
     $mod =& eZModule::exists( $moduleName );
-    $functionList =& array_keys( $mod->attribute( 'aviable_functions' ) );
+    $functionList =& array_keys( $mod->attribute( 'available_functions' ) );
     eZDebug::writeNotice( $functionList, "functions" );
     $showFunctionList = true;
 }
@@ -229,4 +229,3 @@ $Result['path'] = array( array( 'text' => ezi18n( 'kernel/trigger', 'Trigger' ),
 
 
 ?>
-

@@ -67,7 +67,7 @@ $nodeList = array();
 $subtreeList = array();
 
 $mod = & eZModule::exists( $currentModule );
-$functions =& $mod->attribute( 'aviable_functions' );
+$functions =& $mod->attribute( 'available_functions' );
 $currentFunctionLimitations = array();
 foreach( array_keys( $functions[ $currentFunction ] ) as $key )
 {

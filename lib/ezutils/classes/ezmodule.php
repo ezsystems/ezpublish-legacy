@@ -430,7 +430,7 @@ class eZModule
     */
     function attributes()
     {
-        return array( "uri", "functions", "name", "path", "info", "aviable_functions" );
+        return array( "uri", "functions", "name", "path", "info", "aviable_functions", "available_functions" );
     }
 
     /*!
@@ -460,7 +460,8 @@ class eZModule
                 return $this->Path;
             case "info":
                 return $this->Module;
-            case "aviable_functions":
+            case 'aviable_functions':
+            case 'available_functions':
                 return $this->FunctionList;
         }
         return null;
