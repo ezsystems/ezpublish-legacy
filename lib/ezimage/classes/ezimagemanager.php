@@ -981,7 +981,7 @@ class eZImageManager
         }
         else
         {
-            $useCopy = true;
+            $useCopy = false;
             if ( $aliasName and
                  $aliasName != 'original' )
             {
@@ -1000,7 +1000,7 @@ class eZImageManager
                 }
                 else
                 {
-                    eZFileHandler::linkCopy( $sourceMimeData['url'], $destinationMimeData['url'] );
+                    eZFileHandler::linkCopy( $sourceMimeData['url'], $destinationMimeData['url'], false );
                 }
                 $currentMimeData = $destinationMimeData;
             }

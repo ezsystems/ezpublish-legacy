@@ -383,7 +383,7 @@ class eZImageAliasHandler
                 else
                 {
 //                     $hasFileCopy = true;
-                    eZFileHandler::linkCopy( $oldURL, $alias['url'] );
+                    eZFileHandler::linkCopy( $oldURL, $alias['url'], false );
                     eZImageFile::appendFilepath( $this->ContentObjectAttribute->attribute( 'id' ), $alias['url'] );
                 }
             }

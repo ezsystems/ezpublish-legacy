@@ -94,6 +94,11 @@ eZ utils:
 eZ soap:
 - Added support for arrays and boolean in ezsoapresponse return values
 
+eZ file:
+- Added support for hard links and added parameter to linkCopy to determine
+  whether symlinks or hardlinks should be used. Also if the sym/hard link fails
+  a normal copy is done.
+
 *Translations:
 - Several strings has been improved in terms of language use and
   to make them easier to translate.
