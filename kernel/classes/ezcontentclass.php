@@ -73,7 +73,6 @@ class eZContentClass extends eZPersistentObject
                                                         'datatype' => 'integer',
                                                         'default' => 0,
                                                         'required' => true ),
-//                                         "contentclass_id" => "ID",
                                          "version" => array( 'name' => 'Version',
                                                              'datatype' => 'integer',
                                                              'default' => 0,
@@ -797,6 +796,25 @@ class eZContentClass extends eZPersistentObject
 
         return eZContentClassAttribute::fetchFilteredList( array( "contentclass_id" => $id,
                                                                   "version" => $version ) );
+    }
+
+    /*!
+     Fetch class attribute by identifier, return null if none exist.
+
+     \param attribute identifier.
+
+     \return Class Attribute, null if none matched
+    */
+    function &fetchAttributeByIdentifier( $identifier, $asObject = true )
+    {
+        $attributeArray =& eZContentClassAttribute::fetchFilteredList( array( 'contentclass_id' => $this->ID,
+                                                                              'version' => $this->Version,
+                                                                              'identifier' => $identifier ), $asObject );
+        if ( count( $attributeArray ) == 0 )
+        {
+            return null;
+        }
+        return $attributeArray[0];
     }
 
     function fetchSearchableAttributes( $id = false, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED )

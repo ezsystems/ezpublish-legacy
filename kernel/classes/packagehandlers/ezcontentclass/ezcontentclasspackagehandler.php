@@ -132,6 +132,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
     {
         $className = $content->elementTextContentByName( 'name' );
         $classIdentifier = $content->elementTextContentByName( 'identifier' );
+        $classRemoteID = $content->elementTextContentByName( 'remote-id' );
         $classObjectNamePattern = $content->elementTextContentByName( 'object-name-pattern' );
 
         $classRemoteNode = $content->elementByName( 'remote' );
@@ -150,19 +151,21 @@ class eZContentClassPackageHandler extends eZPackageHandler
 
         $userID = false;
 
-        $class =& eZContentClass::create( $userID,
-                                          array( 'version' => 0,
-                                                 'name' => $className,
-                                                 'identifier' => $classIdentifier,
-                                                 'contentobject_name' => $classObjectNamePattern,
-                                                 'created' => $classCreated,
-                                                 'modified' => $classModified ) );
-        $wantedClass =& eZContentClass::fetch( $classID );
-        if ( !$wantedClass )
+        $class =& eZContentClass::fetchByRemoteID( $classRemoteID );
+
+        if ( !$class )
         {
+            $class =& eZContentClass::create( $userID,
+                                              array( 'version' => 0,
+                                                     'name' => $className,
+                                                     'identifier' => $classIdentifier,
+                                                     'remote_id' => $classRemoteID,
+                                                     'contentobject_name' => $classObjectNamePattern,
+                                                     'created' => $classCreated,
+                                                     'modified' => $classModified ) );
             $class->setAttribute( 'id', $classID );
+            $class->store();
         }
-        $class->store();
 
         if ( !isset( $installData['classid_list'] ) )
             $installData['classid_list'] = array();
@@ -189,20 +192,24 @@ class eZContentClassPackageHandler extends eZPackageHandler
             $attributePlacement = $classAttributeNode->elementTextContentByName( 'placement' );
             $attributeDatatypeParameterNode = $classAttributeNode->elementByName( 'datatype-parameters' );
 
-            $classAttribute =& eZContentClassAttribute::create( $class->attribute( 'id' ),
-                                                                $attributeDatatype,
-                                                                array( 'version' => 0,
-                                                                       'identifier' => $attributeIdentifier,
-                                                                       'name' => $attributeName,
-                                                                       'is_required' => $attributeIsRequired,
-                                                                       'is_searchable' => $attributeIsSearchable,
-                                                                       'is_information_collector' => $attributeIsInformationCollector,
-                                                                       'can_translate' => $attributeIsTranslatable,
-                                                                       'placement' => $attributePlacement ) );
-            $dataType =& $classAttribute->dataType();
-            $classAttribute->store();
-            $dataType->unserializeContentClassAttribute( $classAttribute, $classAttributeNode, $attributeDatatypeParameterNode );
-            $classAttribute->sync();
+            $classAttribute =& $class->fetchAttributeByIdentifier( $attributeIdentifier );
+            if ( !$classAttribute )
+            {
+                $classAttribute =& eZContentClassAttribute::create( $class->attribute( 'id' ),
+                                                                    $attributeDatatype,
+                                                                    array( 'version' => 0,
+                                                                           'identifier' => $attributeIdentifier,
+                                                                           'name' => $attributeName,
+                                                                           'is_required' => $attributeIsRequired,
+                                                                           'is_searchable' => $attributeIsSearchable,
+                                                                           'is_information_collector' => $attributeIsInformationCollector,
+                                                                           'can_translate' => $attributeIsTranslatable,
+                                                                           'placement' => $attributePlacement ) );
+                $dataType =& $classAttribute->dataType();
+                $classAttribute->store();
+                $dataType->unserializeContentClassAttribute( $classAttribute, $classAttributeNode, $attributeDatatypeParameterNode );
+                $classAttribute->sync();
+            }
         }
 
         $classGroupsList =& $classGroupsNode->children();
@@ -360,6 +367,8 @@ class eZContentClassPackageHandler extends eZPackageHandler
                                                                        $class->attribute( 'name' ) ) );
         $classNode->appendChild( eZDOMDocument::createElementTextNode( 'identifier',
                                                                        $class->attribute( 'identifier' ) ) );
+        $classNode->appendChild( eZDOMDocument::createElementTextNode( 'remote-id',
+                                                                        $class->attribute( 'remote_id' ) ) );
         $classNode->appendChild( eZDOMDocument::createElementTextNode( 'object-name-pattern',
                                                                        $class->attribute( 'contentobject_name' ) ) );
 
@@ -399,11 +408,6 @@ class eZContentClassPackageHandler extends eZPackageHandler
                                                                         $class->attribute( 'created' ) ) );
         $remoteNode->appendChild( eZDOMDocument::createElementTextNode( 'modified',
                                                                         $class->attribute( 'modified' ) ) );
-        if ( !$class->attribute( 'remote_id' ) )
-        {
-            $class->setAttribute( 'remote_id',  md5( mt_rand() ) . md5( mktime() ) );
-            $class->store();
-        }
 
         $creatorNode =& eZDOMDocument::createElementNode( 'creator' );
         $remoteNode->appendChild( $creatorNode );
