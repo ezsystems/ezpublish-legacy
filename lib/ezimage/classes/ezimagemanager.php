@@ -404,6 +404,12 @@ class eZImageManager
             $from_array["original-filename"] = $to_array["original-filename"];
             $from_array["dir"] = $to_array["dir"];
         }
+
+        // Write log message to storage.log
+        include_once( 'lib/ezutils/classes/ezlog.php' );
+        list( $mimeType, $storedFileName ) = split(":", $to_file );
+        eZLog::writeStorageLog( $storedFileName, $dest_dirs );
+
         return $from_array["dir"] . "/" . $out_file;
     }
 

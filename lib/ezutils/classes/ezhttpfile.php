@@ -149,6 +149,11 @@ class eZHTTPFile
             $oldumask = umask( 0 );
             chmod( $dest_name . $suffixString, octdec( $perm ) );
             umask( $oldumask );
+
+            // Write log message to storage.log
+            include_once( 'lib/ezutils/classes/ezlog.php' );
+            $storageDir = $dir . "/";
+            eZLog::writeStorageLog( basename( $this->Filename ), $storageDir );
         }
         return $ret;
     }
