@@ -51,6 +51,8 @@ Changes from 3.4.0 to 3.5.0alpha1
   content class id parameter being false.
   (Merged from stable/3.4 rev. 7350)
 - Made sure the current viewmode is available as the variable $viewmode in content/view.
+- New INI setting EmbedNodeAssignmentHandling in content.ini which controls whether
+  location controls are available in content/edit, it is disabled by default.
 
 eZNodeAssignment:
 - Added attribute 'node' to fetch the node the assignment relates to.
