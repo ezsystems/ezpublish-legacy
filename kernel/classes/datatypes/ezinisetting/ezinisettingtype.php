@@ -288,7 +288,18 @@ class eZIniSettingType extends eZDataType
         if ( $http->hasPostVariable( $base . '_ini_setting_' . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $data =& $http->postVariable( $base . '_ini_setting_' . $contentObjectAttribute->attribute( "id" ) );
-            $contentObjectAttribute->setAttribute( 'data_text', $data );
+            $contentObjectAttribute->setAttribute( 'data_text', trim( $data ) );
+            if ( $http->hasPostVariable( $base . '_ini_setting_make_empty_array_' . $contentObjectAttribute->attribute( "id" ) ) )
+            {
+                $isChecked = $http->postVariable( $base . '_ini_setting_make_empty_array_' . $contentObjectAttribute->attribute( "id" ) );
+                if ( isset( $isChecked ) )
+                    $isChecked = 1;
+                $contentObjectAttribute->setAttribute( 'data_int', $isChecked );
+            }
+            else
+            {
+                $contentObjectAttribute->setAttribute( 'data_int', 0 );
+            }
             return true;
         }
         return false;
@@ -300,12 +311,12 @@ class eZIniSettingType extends eZDataType
     function onPublish( &$contentObjectAttribute, &$contentObject, &$publishedNodes )
     {
         $contentClassAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
-
         $section =& $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SECTION_FIELD );
         $parameter =& $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_PARAMETER_FIELD );
         $iniInstanceArray = explode( ';', $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_INI_INSTANCE_FIELD ) );
         $siteAccessArray = explode( ';', $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SITE_ACCESS_LIST_FIELD ) );
         $filename =& $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_FILE_FIELD );
+        $makeEmptyArray = $contentObjectAttribute->attribute( 'data_int' );
 
         foreach ( $iniInstanceArray as $iniInstance )
         {
@@ -321,12 +332,18 @@ class eZIniSettingType extends eZDataType
                 eZDebug::writeError( 'Could not open ' . $path . '/' . $filename );
                 continue;
             }
-
             if ( $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_TYPE_FIELD ) == EZ_DATATYPEINISETTING_CLASS_TYPE_ARRAY )
             {
-                $iniArray = array();
-                eZIniSettingType::parseArrayInput( $contentObjectAttribute->attribute( 'data_text' ), $iniArray );
-                $config->setVariable( $section, $parameter, $iniArray );
+                if ( $contentObjectAttribute->attribute( 'data_text' ) != null )
+                {
+                    $iniArray = array();
+                    eZIniSettingType::parseArrayInput( $contentObjectAttribute->attribute( 'data_text' ), $iniArray, $makeEmptyArray );
+                    $config->setVariable( $section, $parameter, $iniArray );
+                }
+                else
+                {
+                    $config->removeGroup( $section );
+                }
             }
             else
             {
@@ -349,9 +366,14 @@ class eZIniSettingType extends eZDataType
 
      \return true if parsed successfully, false if illegal syntax
     */
-    function parseArrayInput( &$inputText, &$outputArray )
+    function parseArrayInput( &$inputText, &$outputArray, $makeEmptyArray = false )
     {
         $lineArray = explode( "\n", $inputText );
+
+        if( $makeEmptyArray )
+        {
+            $outputArray[] = "";
+        }
 
         foreach ( array_keys( $lineArray ) as $key )
         {
@@ -364,7 +386,6 @@ class eZIniSettingType extends eZDataType
                 return false;
 
             $lineElements = explode( '=', $line );
-
             if ( count( $lineElements ) == 1 )
             {
                 $outputArray[] = $lineElements[0];
@@ -378,7 +399,6 @@ class eZIniSettingType extends eZDataType
                 $outputArray[$lineElements[0]] = $lineElements[1];
             }
         }
-
         return true;
     }
 

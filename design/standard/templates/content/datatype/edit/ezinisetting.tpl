@@ -16,7 +16,7 @@
 
 {case in=array(1,4,5)}
 
-<input type="text" size="10"
+<input type="text" size="50"
        name="{$attribute_base}_ini_setting_{$attribute.id}"
        value="{$attribute.data_text|wash}" />
 
@@ -41,7 +41,10 @@
 {/case}
 
 {case match=6}
-
+<div class="block">
+<input type="checkbox" name="{$attribute_base}_ini_setting_make_empty_array_{$attribute.id}"  {$attribute.data_int|choose("",checked)} />
+<label>{"Make empty array"|i18n("design/standard/class/datatype")}</label>
+</div>
 <textarea class="box" name="{$attribute_base}_ini_setting_{$attribute.id}" cols="97" rows="5">{$attribute.data_text|wash}</textarea>
 
 {/case}
