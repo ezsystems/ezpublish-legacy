@@ -138,9 +138,6 @@ fi
 # kernel/sql/common/cleandata.sql
 
 SQL_LIST="kernel/sql/common/cleandata.sql"
-for package in $PACKAGES; do
-    SQL_LIST="$SQL_LIST packages/sql/data/$package.sql"
-done
 SQL_ERROR_LIST=""
 
 for sql in $SQL_LIST; do
