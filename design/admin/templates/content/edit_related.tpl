@@ -128,7 +128,7 @@ function deSelectAll()
       	</select>
 
         <input type="hidden" name="MAX_FILE_SIZE" value="50000000" />
-        <input name="UploadRelationFile" type="file" />
+        <input class="button" name="UploadRelationFile" type="file" />
         &nbsp;
         <input class="button" type="submit" name="UploadFileRelationButton" value="{'Add new'|i18n('design/standard/content/edit')}" title="{'Upload a file. The file will be placed within the location that is specified using the dropdown menu to the left. In addition, the file will be automatically related to the item that is currently being edited.'|i18n( 'design/admin/layout' )}" />
 </div>

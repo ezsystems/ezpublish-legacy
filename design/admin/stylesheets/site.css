@@ -728,4 +728,9 @@ div.attribute-byline p.date
     float: right;
 }
 
+div.inline label
+{
+    display: inline;
+}
+
 /* th[eZ] */
