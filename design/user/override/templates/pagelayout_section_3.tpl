@@ -28,71 +28,64 @@
 
 </head>
 
-<body bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<body>
 
-<img src={"toppmeny.gif"|ezimage} alt="" border="" USEMAP="#map" />
+<img src={"toppmeny.gif"|ezimage} alt="" border="0" usemap="#map" /><br /><br />
 
-<MAP NAME="map">
-<AREA SHAPE="RECT" COORDS="1,1,71,25" href={"content/view/full/26/"|ezurl}>
-<AREA SHAPE="RECT" COORDS="73,0,156,24" href={"content/view/full/159/"|ezurl}>
-<AREA SHAPE="RECT" COORDS="157,0,228,23" href={"content/view/full/62/"|ezurl}>
-<AREA SHAPE="RECT" COORDS="229,0,299,24" href={"content/view/full/200/"|ezurl}>
-<AREA SHAPE="RECT" COORDS="300,0,372,24" href={"content/view/full/32/"|ezurl}>
-<AREA SHAPE="RECT" COORDS="374,1,448,24" href={"content/view/full/210/"|ezurl}>
-<AREA SHAPE="RECT" COORDS="450,1,523,24" href={"content/view/full/82/"|ezurl}>
-</MAP>
+<map name="map">
+<area shape="rect" coords="1,1,71,25" href={"content/view/full/26/"|ezurl}>
+<area shape="rect" coords="73,0,156,24" href={"content/view/full/159/"|ezurl}>
+<area shape="rect" coords="157,0,228,23" href={"content/view/full/62/"|ezurl}>
+<area shape="rect" coords="229,0,299,24" href={"content/view/full/200/"|ezurl}>
+<area shape="rect" coords="300,0,372,24" href={"content/view/full/32/"|ezurl}>
+<area shape="rect" coords="374,1,448,24" href={"content/view/full/210/"|ezurl}>
+<area shape="rect" coords="450,1,523,24" href={"content/view/full/82/"|ezurl}>
+</map>
 
 {let folder_list=fetch(content,list,hash(parent_node_id,24,sort_by,array(array(priority))))
      news_list=fetch(content,tree,hash(parent_node_id,24,limit,5,sort_by,array(published,false()),class_filter_type,include,class_filter_array,array(2)))}
 
-<table width="700" border="0" cellpadding="0" cellspacing="0">
+<table class="mainlayout" width="700" border="0" cellpadding="0" cellspacing="0">
 <tr> 
-    <td width="700" valign="bottom" bgcolor="#FFFFFF">
+    <td width="100%">
     <a href={"/content/view/full/26/"|ezurl}><img src={"news_top.gif"|ezimage} width="700" height="67" border="0" /></a></td>
 </tr>
 <tr> 
-<td  valign="top" bgcolor="#ffffff">
+    <td valign="top">
 
-<table width="100%" border="0" cellpadding="0" cellspacing="0" bordercolor="#000000">
+<table class="layout" width="100%" border="0" cellpadding="0" cellspacing="0">
 <tr> 
-    <td width="100" valign="top" cellspacing="0" cellpadding="0" bordercolor="#FFFFFF" bgcolor="#FF9900"> 
-    <table width="100" border="0" align="center" cellpadding="3" cellspacing="1">
+    <td class="leftcolumn" width="1%" rowspan="3" valign="top" cellspacing="0" cellpadding="0"> 
+
+    <table class="leftmenu" width="100%" border="0" cellpadding="0" cellspacing="0">
 
 {section name=Folder loop=$folder_list}
     <tr> 
-        <td bgcolor="#FFD2A6" class="links"> 
-        &nbsp;<a class="small" href={concat("/content/view/full/",$Folder:item.node_id,"/")|ezurl}>{$Folder:item.name}</a>  <font size="2">&nbsp;</font></td>
-    </tr>
-{/section}
-    <tr> 
-        <td valign="top" bgcolor="#FF9900"> 
-	<br />
-        <form action={"/content/search/"|ezurl} method="get">
-        <input type="hidden" name="SectionID" value="3">
-        <input name="SearchButton" type="image" src={"search.gif"|ezimage} value="{"Search"|i18n('pagelayout')}" style="font-size: 7px; margin: 0px; padding: 0px;" /><br />
-        <input  type="text" size="10" name="SearchText" id="Search" value="" style="font-family: verdana; width: 80px; font-size: 9px; margin: 0px; background: #ffffff;" />
-	</form>
-        <br /><br />
-	<a href="http://developer.ez.no"><img src={"powered-by-ezpublish-100x35-orange.gif"|ezimage} alt="eZ publish" border="0" width="100" height="35" /></a>
+        <td class="menuitem"> 
+        <a class="small" href={concat("/content/view/full/",$Folder:item.node_id,"/")|ezurl}>{$Folder:item.name}</a>  
         </td>
     </tr>
+{/section}
     </table>
+
+    <div class="searchblock">
+        <form action={"/content/search/"|ezurl} method="get">
+        <input type="hidden" name="SectionID" value="3">
+        <input class="searchtext" type="text" size="10" name="SearchText" id="Search" value="" />
+        <input class="searchbutton" name="SearchButton" type="image" src={"search.gif"|ezimage} value="{"Search"|i18n('pagelayout')}" />
+	</form>
+    </div>
+
+	<a href="http://developer.ez.no"><img src={"powered-by-ezpublish-100x35-orange.gif"|ezimage} alt="eZ publish" border="0" width="100" height="35" /></a>
+
     </td>
-    <td width="100%" align="left" valign="top" bordercolor="#FFFFFF" bgcolor="#FFFFFF">
-    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-    <tr>
-        <td>
-        <table width="100%" border="0" cellspacing="0" cellpadding="3">
-        <tr> 
-            <td width="100%" bgcolor="#000000" class="links"> 
-             <span class="small"><font color="#fffff">&gt;{currentdate()|l10n(datetime)}</font></span>
-            </td>
-        </tr>
-        <tr>
-            <td class="links">
-            <p class="path">
-            &nbsp;&nbsp;
-                 {section name=Path loop=$module_result.path offset=2}
+    <td class="date" colspan="2" width="99%">
+    {currentdate()|l10n(datetime)}
+    </td>
+</tr>
+<tr>
+    <td class="path" colspan="2">&gt;
+                     {section name=Path loop=$module_result.path offset=2}
                     {section show=$Path:item.url}
                         <a href={$Path:item.url|ezurl}>{$Path:item.text}</a>
                     {section-else}
@@ -102,29 +95,21 @@
 	              /
                    {/delimiter}
                  {/section}
-            </p>
-                </td>
-                </tr>
-               </table>
-            </td>
-         </tr>
-       <tr>
-    <td width="100%" border="0" align="left" cellpadding="0" cellspacing="0">
-    <table width="100%" border="0" align="left" cellpadding="0" cellspacing="0"> 
-    <tr>
-        <td width="20">
-        &nbsp;&nbsp;
-        </td>
-        <td width="100%" valign="top">
-        {$module_result.content}
-        </td>
-        <td width="145" bgcolor="#FFF4EA" valign="top" class="links">
-        <table width="145" border="0" cellspacing="0" cellpadding="8" align="left">
+    </td>
+</tr>               
+<tr>
+    <td class="maincontent" valign="top" width="99%">
+
+    {$module_result.content}
+
+    </td>
+    <td class="rightcolumn" width="1%" valign="top">
+    
+        <table class="rightmenu" width="145" border="0" cellspacing="0" cellpadding="8">
         <tr>             
-             <td valign="top" bgcolor="#663366">
-	     <strong class="small"><font color="#FFFFFF">Latest update....</font> 
-             </strong></font>
-             </td>
+             <th valign="top" bgcolor="#663366">
+	        Latest update.... 
+             </th>
          </tr>
          {section name=News loop=$news_list max=1}
          <tr>
@@ -142,19 +127,15 @@
          </tr>
          {/section}   
          </table>
-         </td>
-       </tr>
-   </table>
+
+    </td>
+</tr>
+</table>
+
   </td>
 </tr>
 <tr>
-     <td>
-     <table width="100%" border="0" cellspacing="0" cellpadding="0">
-     <tr>
-          <td bgcolor="#000000">&nbsp;</td>
-     </tr>
-    </table>
-    </td>
+    <td bgcolor="#000000">&nbsp;</td>
 </tr>
 </table>
 

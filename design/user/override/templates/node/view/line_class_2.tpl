@@ -2,7 +2,6 @@
          content_version=$node.contentobject_version_object}
 
 <div class="listitem">
-
         <h2>{attribute_view_gui attribute=$content_version.data_map.title}</h2>
 
         <div class="imageright">
@@ -17,7 +16,7 @@
 
         <div class="intro">
         {attribute_view_gui attribute=$content_version.data_map.intro}
-        </p>
+        </div>
 
         <p class="readmore"><a href={concat("/content/view/full/",$node.node_id,"/")|ezurl}>Read more...</a></p>
 </div>

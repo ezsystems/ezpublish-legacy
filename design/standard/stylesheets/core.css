@@ -289,7 +289,7 @@ div.labelbreak
 
 input.button
 {
-    font-weight: normal;
+    font-weight: bold;
     margin-right: 8px;
 }
 
@@ -509,18 +509,7 @@ hr
 }
 
 .invisible
+/* This style can be used on element that should only be visible in a browser which doesn't support CSS. */
 {
     display: none;
-}
-
-/* SPECIAL FEATURES */
-
-div.listicon
-{
-    padding-right: 4px;
-}
-
-div.listbutton
-{
-    padding-right: 4px;
 }

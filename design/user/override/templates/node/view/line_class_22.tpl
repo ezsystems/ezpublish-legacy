@@ -13,9 +13,10 @@
 
         <div class="intro">
         {attribute_view_gui attribute=$map.intro}
-        </p>
+        </div>
 
         <p class="readmore"><a href={concat("content/view/full/",$node.node_id)|ezurl}>Product information</a></p>
+
 </div>
 
 {/let}
