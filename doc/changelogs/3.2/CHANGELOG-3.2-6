@@ -34,3 +34,6 @@ Changes from 3.2-5 to 3.2-6
 *Setup:
 
 *Library :
+eZDebug:
+- Made sure the dumpVariable function don't mess up any existing output buffers
+  or start a new unneeded one.
