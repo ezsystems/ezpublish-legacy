@@ -286,7 +286,7 @@ class eZUser extends eZPersistentObject
         $ini =& eZINI::instance();
         $activityTimeout = $ini->variable( 'Session', 'ActivityTimeout' );
         $sessionTimeout = $ini->variable( 'Session', 'SessionTimeout' );
-        $time = $time - $sessionTimeout + $activityTimeout;
+        $time = $time + $sessionTimeout - $activityTimeout;
 
         $parameters = array();
         if ( $offset )
@@ -387,7 +387,7 @@ $sortText";
         $ini =& eZINI::instance();
         $activityTimeout = $ini->variable( 'Session', 'ActivityTimeout' );
         $sessionTimeout = $ini->variable( 'Session', 'SessionTimeout' );
-        $time = $time - $sessionTimeout + $activityTimeout;
+        $time = $time + $sessionTimeout - $activityTimeout;
 
         $sql = "SELECT count( DISTINCT user_id ) as count
 FROM ezsession
@@ -416,7 +416,7 @@ WHERE user_id != '" . EZ_USER_ANONYMOUS_ID . "' AND
         $ini =& eZINI::instance();
         $activityTimeout = $ini->variable( 'Session', 'ActivityTimeout' );
         $sessionTimeout = $ini->variable( 'Session', 'SessionTimeout' );
-        $time = $time - $sessionTimeout + $activityTimeout;
+        $time = $time + $sessionTimeout - $activityTimeout;
 
         $sql = "SELECT count( session_key ) as count
 FROM ezsession
@@ -446,7 +446,7 @@ WHERE user_id = '" . EZ_USER_ANONYMOUS_ID . "' AND
         $ini =& eZINI::instance();
         $activityTimeout = $ini->variable( 'Session', 'ActivityTimeout' );
         $sessionTimeout = $ini->variable( 'Session', 'SessionTimeout' );
-        $time = $time - $sessionTimeout + $activityTimeout;
+        $time = $time + $sessionTimeout - $activityTimeout;
 
         $sql = "SELECT DISTINCT user_id
 FROM ezsession
