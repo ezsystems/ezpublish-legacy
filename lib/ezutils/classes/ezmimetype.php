@@ -208,7 +208,7 @@ class eZMimeType
              get_class( $this ) != 'ezmimetype' )
             $this =& eZMimeType::instance();
         $mimeList =& $this->MIMEList;
-        if ( array_key_exists( $mimeName, $mimeList ) )
+        if ( isset( $mimeList[$mimeName] ) )
         {
             $mime = $mimeList[$mimeName];
             $mime['name'] = $mimeName;
@@ -607,6 +607,8 @@ class eZMimeType
         array( 'sxw', 'application/vnd.sun.xml.writer' ),
         array( 'sxc', 'application/vnd.sun.xml.calc' ),
         array( 'sxi', 'application/vnd.sun.xml.impress' ),
+        array( 'asf', 'video/x-ms-asf' ),
+        array( 'wmv', 'video/x-ms-wmv' )
         );
 }
 

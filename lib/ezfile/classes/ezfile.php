@@ -134,7 +134,7 @@ class eZFile
     }
 
     /*!
-     \private
+     \static
      Get suffix from filename
 
      \param filename
