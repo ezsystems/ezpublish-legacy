@@ -136,23 +136,23 @@
 {* Left menu START *}
 
 {section show=eq($navigation_part.identifier,'ezcontentnavigationpart')}
-{include uri="design:parts/content/menu.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}</td>
+{include uri="design:parts/content/menu.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}
 {/section}
 
 {section show=eq($navigation_part.identifier,'ezshopnavigationpart')}
-{include uri="design:parts/shop/menu.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}</td>
+{include uri="design:parts/shop/menu.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}
 {/section}
 
 {section show=eq($navigation_part.identifier,'ezusernavigationpart')}
-{include uri="design:parts/user/menu.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}</td>
+{include uri="design:parts/user/menu.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}
 {/section}
 
 {section show=eq($navigation_part.identifier,'ezsetupnavigationpart')}
-{include uri="design:parts/setup/menu.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}</td>
+{include uri="design:parts/setup/menu.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}
 {/section}
 
 {section show=eq($navigation_part.identifier,'ezmynavigationpart')}
-{include uri="design:parts/my/menu.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}</td>
+{include uri="design:parts/my/menu.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}
 {/section}
 
 {* {include uri="design:left_menu.tpl"} *}
