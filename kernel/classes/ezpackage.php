@@ -88,6 +88,8 @@ class eZPackage
                            'priority' => false,
                            'type' => false,
                            'extension' => false,
+                           'ezpublish' => array( 'version' => false,
+                                                 'named-version' => false ),
 
                            'maintainers' => array(),
                            'packaging' => $packaging,
@@ -108,66 +110,16 @@ class eZPackage
     }
 
     /*!
-     \private
+     Removes some temporary variables.
     */
-    function &parseDOMTree( &$dom )
+    function cleanup()
     {
-        $root =& $dom->root();
-        if ( !$root )
-            return false;
-        $parameters = array();
-        $parameters['name'] = $root->elementTextContentByName( 'name' );
-        $parameters['summary'] = $root->elementTextContentByName( 'summary' );
-        $extensionNode =& $root->elementByName( 'extension' );
-        if ( $extensionNode )
-            $parameters['extension'] = $extensionNode->attributeValue( 'name' );
-        $this->setParameters( $parameters );
-
-        $releaseNode =& $root->elementByName( 'release' );
-        $installNode =& $releaseNode->elementByName( 'install' );
-        $installPreNode =& $installNode->elementByName( 'pre' );
-        $installPreChildren =& $installPreNode->children();
-        for ( $i = 0; $i < count( $installPreChildren ); ++$i )
+        $documents =& $this->Parameters['documents'];
+        foreach ( array_keys( $documents ) as $documentKey )
         {
-            $installPreChild =& $installPreChildren[$i];
-            $this->importInstallPart( $installPreChild, true );
-        }
-    }
-
-    /*!
-     \private
-    */
-    function importInstallPart( &$child, $isPre )
-    {
-        $installType = $child->name();
-        switch ( $installType )
-        {
-            case 'run':
-            {
-            } break;
-            case 'database':
-            {
-            } break;
-            case 'part':
-            {
-                $os = $child->attributeValue( 'os' );
-                $name = $child->attributeValue( 'name' );
-                $type = $child->attributeValue( 'type' );
-                $filename = $child->attributeValue( 'filename' );
-                $subdirectory = $child->attributeValue( 'sub-directory' );
-                $content = false;
-                if ( !$filename )
-                {
-                    $content =& $child->firstChild();
-                }
-                $this->appendInstall( 'part', $name, $os, $isPre,
-                                      $filename, $subdirectory,
-                                      array( 'type' => $type,
-                                             'content' => $content ) );
-            } break;
-            case 'operation':
-            {
-            } break;
+            $document =& $documents[$documentKey];
+            unset( $document['create-document'] );
+            unset( $document['data'] );
         }
     }
 
@@ -252,6 +204,24 @@ class eZPackage
         $this->ModifiedParameters = array();
     }
 
+    /*!
+     Sets the attribute named \a $attributeName to have the value \a $attributeValue.
+    */
+    function setAttribute( $attributeName, $attributeValue )
+    {
+        if ( array_key_exists( $attributeName, $this->Parameters ) and
+             !is_array( $this->Parameters[$attributeName] ))
+        {
+            $this->Parameters[$attributeName] = $attributeValue;
+            $this->ModifiedParameters[$attributeName] = mktime();
+        }
+    }
+
+    /*!
+     \return the value of the attribute named \a $attributeName.
+     If \a $attributeList is supplied and the value of the attribute is an array,
+     it will fetch the value of keys specified in the list.
+    */
     function attribute( $attributeName, $attributeList = false )
     {
         $attributeValue = null;
@@ -262,7 +232,7 @@ class eZPackage
             foreach ( $attributeList as $attributeKey )
             {
                 if ( !is_array( $attributeValue ) or
-                     !array_key_exists( $attributeValue, $attributeKey ) )
+                     !array_key_exists( $attributeKey, $attributeValue ) )
                     break;
                 $attributeValue = $attributeValue[$attributeKey];
             }
@@ -288,17 +258,21 @@ class eZPackage
         return $attributeValue;
     }
 
-    function appendMaintainer( $name, $email, $role = false )
+    function appendMaintainer( $name, $email, $role = false,
+                               $modified = null )
     {
         $index = count( $this->Parameters['maintainers'] );
         $this->Parameters['maintainers'][$index] = array( 'name' => $name,
                                                           'email' => $email,
                                                           'role' => $role );
-        $this->ModifiedParameters['maintainers'][$index] = mktime();
+        if ( $modified === null )
+            $modified = mktime();
+        $this->ModifiedParameters['maintainers'][$index] = $modified;
     }
 
     function appendDocument( $name, $mimeType = false, $os = false, $audience = false,
-                             $create = false, $data = false )
+                             $create = false, $data = false,
+                             $modified = null )
     {
         if ( !$mimeType )
             $mimeType = 'text/plain';
@@ -309,7 +283,9 @@ class eZPackage
                                                         'create-document' => $create,
                                                         'data' => $data,
                                                         'audience' => $audience );
-        $this->ModifiedParameters['documents'][$index] = mktime();
+        if ( $modified === null )
+            $modified = mktime();
+        $this->ModifiedParameters['documents'][$index] = $modified;
     }
 
     function appendGroup( $name )
@@ -319,17 +295,26 @@ class eZPackage
         $this->ModifiedParameters['groups'][$index] = mktime();
     }
 
-    function appendChange( $person, $email, $changes )
+    function appendChange( $person, $email, $changes,
+                           $release = false, $timestamp = null, $modified = null )
     {
-        $timestamp = mktime();
+        if ( $timestamp === null )
+            $timestamp = mktime();
+        if ( $modified === null )
+            $modified = mktime();
         if ( !is_array( $changes ) )
             $changes = array( $changes );
         $index = count( $this->Parameters['changelog'] );
+        if ( !$release )
+            $release = $this->Parameters['release']['version']['release'];
+        if ( !$release )
+            $release = 1;
         $this->Parameters['changelog'][$index] = array( 'timestamp' => $timestamp,
                                                         'person' => $person,
                                                         'email' => $email,
-                                                        'changes' => $changes );
-        $this->ModifiedParameters['changelog'][$index] = mktime();
+                                                        'changes' => $changes,
+                                                        'release' => $release );
+        $this->ModifiedParameters['changelog'][$index] = $modified;
     }
 
     function appendFileList( $files, $role = false, $subDirectory = false,
@@ -403,38 +388,517 @@ class eZPackage
      \param $state The sate of the release, e.g alpha, beta, stable etc.
     */
     function setRelease( $version = false, $release = false, $timestamp = false,
-                         $licence = false, $state = false )
+                         $licence = false, $state = false,
+                         $modification = false )
     {
+        if ( !$modification )
+            $modification = array();
+        $time = mktime();
+        $modification = array_merge( array( 'number' => $time,
+                                            'release' => $time,
+                                            'timestamp' => $time,
+                                            'licence' => $time,
+                                            'state' => $time ),
+                                     $modification );
         if ( $version )
         {
             $this->Parameters['release']['version']['number'] = $version;
-            $this->ModifiedParameters['release']['version']['number'] = mktime();
+            $this->ModifiedParameters['release']['version']['number'] = $modification['number'];
         }
         if ( $release )
         {
             $this->Parameters['release']['version']['release'] = $release;
-            $this->ModifiedParameters['release']['version']['release'] = mktime();
+            $this->ModifiedParameters['release']['version']['release'] = $modification['release'];
         }
         if ( $timestamp )
         {
             $this->Parameters['release']['timestamp'] = $timestamp;
-            $this->ModifiedParameters['release']['timestamp'] = mktime();
+            $this->ModifiedParameters['release']['timestamp'] = $modification['timestamp'];
         }
         if ( $licence )
         {
             $this->Parameters['release']['licence'] = $licence;
-            $this->ModifiedParameters['release']['licence'] = mktime();
+            $this->ModifiedParameters['release']['licence'] = $modification['licence'];
         }
         if ( $state )
         {
             $this->Parameters['release']['state'] = $state;
-            $this->ModifiedParameters['release']['state'] = mktime();
+            $this->ModifiedParameters['release']['state'] = $modification['state'];
+        }
+    }
+
+    /*!
+     \private
+     \return the package as a string, the string is in xml format.
+    */
+    function toString()
+    {
+        $dom =& $this->domStructure();
+        $string = $dom->toString();
+        return $string;
+    }
+
+    /*!
+     \private
+     Stores a cached version of the package in the cache directory
+     under the repository for the package.
+    */
+    function storeCache( $directory )
+    {
+        if ( !file_exists( $directory ) )
+            eZDir::mkdir( $directory, eZDir::directoryPermission(), true );
+        include_once( 'lib/ezutils/classes/ezphpcreator.php' );
+        $php =& new eZPHPCreator( $directory, 'package.php' );
+        $php->addComment( "Automatically created cache file for the package format\n" .
+                          "Do not modify this file" );
+        $php->addSpace();
+        $php->addVariable( 'Parameters', $this->Parameters, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT,
+                           array( 'full-tree' => true ) );
+        $php->addVariable( 'ModifiedParameters', $this->ModifiedParameters, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT,
+                           array( 'full-tree' => true ) );
+        $php->store();
+    }
+
+    /*!
+     Stores the current package in the repository.
+    */
+    function store()
+    {
+        $path = eZPackage::repositoryPath() . '/' . $this->attribute( 'name' );
+        if ( !file_exists( $path ) )
+        {
+            eZDir::mkdir( $path, eZDir::directoryPermission(), true );
+        }
+        $filePath = $path . '/package.xml';
+        $result = $this->storeString( $filePath, $this->toString() );
+        $this->cleanup();
+        $this->storeCache( $path . '/' . $this->cacheDirectory() );
+        return $result;
+    }
+
+    /*!
+     Stores the current package to the file \a $filename.
+    */
+    function storeToFile( $filename )
+    {
+        print( "Storing package $filename\n" );
+        return $this->storeString( $filename, $this->toString() );
+    }
+
+    /*!
+     Stores the DOM tree \a $dom to the file \a $filename.
+     The DOM tree will be turned into a string before being stored.
+    */
+    function storeDOM( $filename, $dom )
+    {
+        $data = $dom->toString();
+        $this->storeString( $filename, $data );
+    }
+
+    /*!
+     \private
+     \static
+     Stores the string data \a $data into the file \a $filename.
+     \return \c true if successful.
+    */
+    function storeString( $filename, $data )
+    {
+        $file = fopen( $filename, 'w' );
+        if ( $file )
+        {
+            fwrite( $file, $data );
+            fclose( $file );
+            return true;
+        }
+        return false;
+    }
+
+
+    /*!
+     \private
+     Loads the contents of the file \a $filename and parses it into a DOM tree.
+     The DOM tree is returned.
+    */
+    function &fetchDOMFromFile( $filename )
+    {
+        if ( file_exists( $filename ) )
+        {
+            $fd = fopen( $filename, 'r' );
+            if ( $fd )
+            {
+                $xmlText = fread( $fd, filesize( $filename ) );
+                fclose( $fd );
+
+                $xml = new eZXML();
+                $dom =& $xml->domTree( $xmlText );
+                return $dom;
+            }
+        }
+        return false;
+    }
+
+    /*!
+     \static
+     Tries to load the package definition from file \a $filename
+     and create a package object from it.
+     \return \c false if it could be fetched.
+    */
+    function &fetchFromFile( $filename )
+    {
+        if ( !file_exists( $filename ) )
+        {
+            return false;
+        }
+        $fd = fopen( $filename, 'r' );
+        if ( $fd )
+        {
+            $xmlText = fread( $fd, filesize( $filename ) );
+            fclose( $fd );
+
+            $xml = new eZXML();
+            $dom =& $xml->domTree( $xmlText );
+
+            $package =& new eZPackage();
+            $parameters = $package->parseDOMTree( $dom );
+
+            return $package;
+        }
+    }
+
+    /*!
+     \static
+     Tries to load the package named \a $packageName from the repository
+     and returns the package object.
+     \return \c false if no package could be found.
+    */
+    function &fetch( $packageName )
+    {
+        $path = eZPackage::repositoryPath() . '/' . $packageName;
+        $filePath = $path . '/package.xml';
+        if ( file_exists( $filePath ) )
+        {
+            $fileModification = filemtime( $filePath );
+            $packageCachePath = $path . '/' . eZPackage::cacheDirectory() . '/package.php';
+            $cacheExpired = false;
+            if ( file_exists( $packageCachePath ) )
+            {
+                $cacheModification = filemtime( $packageCachePath );
+                if ( $cacheModification >= $fileModification )
+                {
+                    include( $packageCachePath );
+                    if ( isset( $Parameters ) and
+                         isset( $ModifiedParameters ) )
+                    {
+                        $package = new eZPackage( $Parameters );
+                        $package->ModifiedParameters = $ModifiedParameters;
+                        return $package;
+                    }
+                }
+                else
+                    $cacheExpired = true;
+            }
+            $package =& eZPackage::fetchFromFile( $filePath );
+            if ( $cacheExpired )
+            {
+                $package->storeCache( $path . '/' . eZPackage::cacheDirectory() );
+            }
+            return $package;
+        }
+        return false;
+    }
+
+    function handleExportList( $exportList )
+    {
+        $handlers = array();
+        foreach ( $exportList as $exportItem )
+        {
+            $exportType = $exportItem['type'];
+            $exportParameters = $exportItem['parameters'];
+            $exportHandler = 'kernel/classes/packagehandlers/' . $exportType . '/' . $exportType . 'exporthandler.php';
+            if ( file_exists( $exportHandler ) )
+            {
+                include_once( $exportHandler );
+                $exportClass = $exportType . 'ExportHandler';
+                if ( isset( $handlers[$exportType] ) )
+                {
+                    $handler =& $handlers[$exportType];
+                    $handler->reset();
+                }
+                else
+                {
+                    $handler =& new $exportClass;
+                    $handlers[$exportType] =& $handler;
+                }
+                $handler->handle( $this, $exportParameters );
+            }
+        }
+    }
+
+    /*!
+     \return the full path to this package.
+    */
+    function path()
+    {
+        $path = eZPackage::repositoryPath();
+        $path .= '/' . $this->attribute( 'name' );
+        return $path;
+    }
+
+    /*!
+     \static
+     \return the directory name for packages, used in conjunction with eZSys::storageDirectory().
+    */
+    function repositoryDirectory()
+    {
+        $ini =& eZINI::instance( 'package.ini' );
+        return $ini->variable( 'RepositorySettings', 'RepositoryDirectory' );
+    }
+
+    /*!
+     \static
+     \return the path to the package repository.
+    */
+    function repositoryPath()
+    {
+        $path = eZDir::path( array( eZSys::storageDirectory(),
+                                    eZPackage::repositoryDirectory() ) );
+        return $path;
+    }
+
+    /*!
+     \static
+     \return the name of the cache directory for cached package data.
+    */
+    function cacheDirectory()
+    {
+        return '.cache';
+    }
+
+    /*!
+     \static
+     \return the name of the documents directory for cached package data.
+    */
+    function documentDirectory()
+    {
+        return 'documents';
+    }
+
+    /*!
+     Locates all packages in the repository and returns an array with eZPackage objects.
+    */
+    function fetchPackages()
+    {
+        $path = eZPackage::repositoryPath();
+        $packages = array();
+        if ( file_exists( $path ) )
+        {
+            $dir = opendir( $path );
+            while( ( $file = readdir( $dir ) ) !== false )
+            {
+                $dirPath = $path . '/' . $file;
+                if ( !is_dir( $dirPath ) )
+                    continue;
+                $filePath = $dirPath . '/package.xml';
+                if ( file_exists( $filePath ) )
+                {
+                    $name = $file;
+                    $packageCachePath = $dirPath . '/' . eZPackage::cacheDirectory() . '/package.php';
+                    if ( file_exists( $packageCachePath ) )
+                    {
+                        include( $packageCachePath );
+                        if ( isset( $Parameters ) )
+                        {
+                            $package = new eZPackage( $Parameters );
+                        }
+                    }
+                    if ( !$package )
+                    {
+                        $package =& eZPackage::fetchFromFile( $filePath );
+                        $package->storeCache( $dirPath . '/' . eZPackage::cacheDirectory() );
+                    }
+                    $packages[] =& $package;
+                }
+            }
+            closedir( $dir );
+        }
+        return $packages;
+    }
+
+    function parseModification( &$node, $elementName, $attributeName = false, $attributeList = array() )
+    {
+        if ( !$attributeName )
+            $attributeName = $elementName;
+        $modification = $node->elementAttributeValueByName( $elementName, 'modified' );
+        if ( $modification )
+        {
+            $reference =& $this->ModifiedParameters[$attributeName];
+            foreach ( $attributeList as $attributeItem )
+            {
+                $reference =& $reference[$attributeItem];
+            }
+            $reference = $modification;
+        }
+    }
+
+    /*!
+     \private
+    */
+    function &parseDOMTree( &$dom )
+    {
+        $root =& $dom->root();
+        if ( !$root )
+            return false;
+
+        // Read basic info
+        $parameters = array();
+        $parameters['name'] = $root->elementTextContentByName( 'name' );
+        $parameters['summary'] = $root->elementTextContentByName( 'summary' );
+        $parameters['description'] = $root->elementTextContentByName( 'description' );
+        $parameters['vendor'] = $root->elementTextContentByName( 'vendor' );
+        $parameters['priority'] = $root->elementAttributeValueByName( 'priority', 'value' );
+        $parameters['type'] = $root->elementAttributeValueByName( 'type', 'value' );
+        $parameters['source'] = $root->elementTextContentByName( 'source' );
+        $extensionNode =& $root->elementByName( 'extension' );
+        if ( $extensionNode )
+            $parameters['extension'] = $extensionNode->attributeValue( 'name' );
+        $ezpublishNode =& $root->elementByName( 'ezpublish' );
+        $parameters['ezpublish']['version'] = $ezpublishNode->elementTextContentByName( 'version' );
+        $parameters['ezpublish']['named-version'] = $ezpublishNode->elementTextContentByName( 'named-version' );
+        $this->setParameters( $parameters );
+        $this->parseModification( $root, 'name' );
+        $this->parseModification( $root, 'summary' );
+        $this->parseModification( $root, 'description' );
+        $this->parseModification( $root, 'vendor' );
+        $this->parseModification( $root, 'priority' );
+        $this->parseModification( $root, 'type' );
+        $this->parseModification( $root, 'extension' );
+        $this->parseModification( $root, 'source' );
+
+        // Read maintainers
+        $maintainerList =& $root->elementChildrenByName( 'maintainers' );
+        foreach ( array_keys( $maintainerList ) as $maintainerKey )
+        {
+            $maintainerNode =& $maintainerList[$maintainerKey];
+            $maintainerModified = $maintainerNode->attributeValue( 'modified' );
+            $maintainerName = $maintainerNode->elementTextContentByName( 'name' );
+            $maintainerEmail = $maintainerNode->elementTextContentByName( 'email' );
+            $maintainerRole = $maintainerNode->elementTextContentByName( 'role' );
+            $this->appendMaintainer( $maintainerName, $maintainerEmail, $maintainerRole,
+                                     $maintainerModified );
+        }
+
+        // Read packaging info
+        $packagingNode =& $root->elementByName( 'packaging' );
+        $packagingTimestamp = $packagingNode->elementTextContentByName( 'timestamp' );
+        $packagingHost = $packagingNode->elementTextContentByName( 'host' );
+        $packagingPackager = $packagingNode->elementTextContentByName( 'packager' );
+        $this->setPackager( $packagingTimestamp, $packagingHost, $packagingPackager );
+
+        // Read documents
+        $documentList =& $root->elementChildrenByName( 'documents' );
+        foreach ( array_keys( $documentList ) as $documentKey )
+        {
+            $documentNode =& $documentList[$documentKey];
+            $documentModified = $documentNode->attributeValue( 'modified' );
+            $documentName = $documentNode->attributeValue( 'name' );
+            $documentMimeType = $documentNode->attributeValue( 'mime-type' );
+            $documentOS = $documentNode->attributeValue( 'os' );
+            $documentAudience = $documentNode->attributeValue( 'audience' );
+            $this->appendDocument( $documentName, $documentMimeType,
+                                   $documentOS, $documentAudience,
+                                   false, false,
+                                   $documentModified );
+        }
+
+        // Read changelog
+        $changelogList =& $root->elementChildrenByName( 'changelogs' );
+        foreach ( array_keys( $changelogList ) as $changelogKey )
+        {
+            $changelogEntryNode =& $changelogList[$changelogKey];
+            $changelogModified = $changelogEntryNode->attributeValue( 'modified' );
+            $changelogTimestamp = $changelogEntryNode->attributeValue( 'timestamp' );
+            $changelogPerson = $changelogEntryNode->attributeValue( 'person' );
+            $changelogEmail = $changelogEntryNode->attributeValue( 'email' );
+            $changelogRelease = $changelogEntryNode->attributeValue( 'release' );
+            $changelogChangeList = $changelogEntryNode->elementsTextContentByName( 'change' );
+            $this->appendChange( $changelogPerson, $changelogEmail, $changelogChangeList,
+                                 $changelogRelease, $changelogTimestamp, $changelogModified );
+        }
+
+        // Read release info
+        $releaseNode =& $root->elementByName( 'release' );
+
+        $versionNode =& $releaseNode->elementByName( 'version' );
+        $versionNumber = $versionNode->elementTextContentByName( 'number' );
+        $versionRelease = $versionNode->elementTextContentByName( 'release' );
+        $licence = $releaseNode->elementTextContentByName( 'licence' );
+        $state = $releaseNode->elementTextContentByName( 'state' );
+        $releaseModifications = array();
+        $releaseNumberModification = $versionNode->elementAttributeValueByName( 'number', 'modified' );
+        if ( $releaseNumberModification )
+            $releaseModifications['number'] = $releaseNumberModification;
+        $releaseReleaseModification = $versionNode->elementAttributeValueByName( 'release', 'modified' );
+        if ( $releaseReleaseModification )
+            $releaseModifications['release'] = $releaseReleaseModification;
+        $releaseLicenceModification = $releaseNode->elementAttributeValueByName( 'licence', 'modified' );
+        if ( $releaseLicenceModification )
+            $releaseModifications['licence'] = $releaseLicenceModification;
+        $releaseStateModification = $releaseNode->elementAttributeValueByName( 'state', 'modified' );
+        if ( $releaseStateModification )
+            $releaseModifications['state'] = $releaseStateModification;
+        $this->setRelease( $versionNumber, $versionRelease, false,
+                           $licence, $state,
+                           $releaseModifications );
+
+        $installNode =& $releaseNode->elementByName( 'install' );
+        $installPreNode =& $installNode->elementByName( 'pre' );
+        $installPreChildren =& $installPreNode->children();
+        for ( $i = 0; $i < count( $installPreChildren ); ++$i )
+        {
+            $installPreChild =& $installPreChildren[$i];
+            $this->importInstallPart( $installPreChild, true );
+        }
+    }
+
+    /*!
+     \private
+    */
+    function importInstallPart( &$child, $isPre )
+    {
+        $installType = $child->name();
+        switch ( $installType )
+        {
+            case 'run':
+            {
+            } break;
+            case 'database':
+            {
+            } break;
+            case 'part':
+            {
+                $os = $child->attributeValue( 'os' );
+                $name = $child->attributeValue( 'name' );
+                $type = $child->attributeValue( 'type' );
+                $filename = $child->attributeValue( 'filename' );
+                $subdirectory = $child->attributeValue( 'sub-directory' );
+                $content = false;
+                if ( !$filename )
+                {
+                    $content =& $child->firstChild();
+                }
+                $this->appendInstall( 'part', $name, $os, $isPre,
+                                      $filename, $subdirectory,
+                                      array( 'type' => $type,
+                                             'content' => $content ) );
+            } break;
+            case 'operation':
+            {
+            } break;
         }
     }
 
     function &domStructure()
     {
-        print_r( $this->ModifiedParameters );
         $dom = new eZDOMDocument();
         $root = $dom->createElementNode( 'package', array( 'version' => EZ_PACKAGE_VERSION,
                                                            'development' => ( EZ_PACKAGE_DEVELOPMENT ? 'true' : 'false' ) ) );
@@ -469,10 +933,14 @@ class eZPackage
         $extensionAttributes = array( 'name' => $extension );
         if ( $this->isModified( 'extension' ) )
             $extensionAttributes['modified'] = $this->isModified( 'extension' );
+        $source = $this->attribute( 'source' );
+        $sourceAttributes = array();
+        if ( $this->isModified( 'source' ) )
+            $sourceAttributes['modified'] = $this->isModified( 'source' );
 
+        $ezpublish = $this->attribute( 'ezpublish' );
         $maintainers = $this->attribute( 'maintainers' );
         $packaging = $this->attribute( 'packaging' );
-        $source = $this->attribute( 'source' );
         $documents = $this->attribute( 'documents' );
         $groups = $this->attribute( 'groups' );
         $release = $this->attribute( 'release' );
@@ -497,12 +965,20 @@ class eZPackage
             $root->appendChild( $dom->createElementNode( 'type', $typeAttributes ) );
         if ( $extension )
             $root->appendChild( $dom->createElementNode( 'extension', $extensionAttributes ) );
+        if ( $source )
+            $root->appendChild( $dom->createElementTextNode( 'source', $source,
+                                                             $sourceAttributes ) );
 
         $ezpublishNode =& $dom->createElementNode( 'ezpublish' );
         $ezpublishNode->appendAttribute( $dom->createAttributeNode( 'ezpublish', 'http://ez.no/ezpublish', 'xmlns' ) );
-        include_once( 'lib/version.php' );
-        $ezpublishNode->appendChild( $dom->createElementTextNode( 'version', eZPublishSDK::version( true ) ) );
-        $ezpublishNode->appendChild( $dom->createElementTextNode( 'named-version', eZPublishSDK::version( false, true ) ) );
+        if ( !$ezpublish['version'] )
+        {
+            include_once( 'lib/version.php' );
+            $ezpublish['version'] = eZPublishSDK::version( true );
+            $ezpublish['named-version'] = eZPublishSDK::version( false, true );
+        }
+        $ezpublishNode->appendChild( $dom->createElementTextNode( 'version', $ezpublish['version'] ) );
+        $ezpublishNode->appendChild( $dom->createElementTextNode( 'named-version', $ezpublish['named-version'] ) );
         $root->appendChild( $ezpublishNode );
 
         if ( count( $maintainers ) > 0 )
@@ -583,6 +1059,7 @@ class eZPackage
                 $changelogNode->appendAttribute( $dom->createAttributeNode( 'timestamp', $changelog['timestamp'] ) );
                 $changelogNode->appendAttribute( $dom->createAttributeNode( 'person', $changelog['person'] ) );
                 $changelogNode->appendAttribute( $dom->createAttributeNode( 'email', $changelog['email'] ) );
+                $changelogNode->appendAttribute( $dom->createAttributeNode( 'release', $changelog['release'] ) );
                 foreach ( $changelog['changes'] as $change )
                 {
                     $changelogNode->appendChild( $dom->createElementTextNode( 'change', $change ) );
@@ -727,261 +1204,6 @@ class eZPackage
                 } break;
             }
         }
-    }
-
-    /*!
-     \private
-     \return the package as a string, the string is in xml format.
-    */
-    function toString()
-    {
-        $dom =& $this->domStructure();
-        $string = $dom->toString();
-        return $string;
-    }
-
-    /*!
-     \private
-     Stores a cached version of the package in the cache directory
-     under the repository for the package.
-    */
-    function storeCache( $directory )
-    {
-        if ( !file_exists( $directory ) )
-            eZDir::mkdir( $directory, eZDir::directoryPermission(), true );
-        include_once( 'lib/ezutils/classes/ezphpcreator.php' );
-        $php =& new eZPHPCreator( $directory, 'package.php' );
-        $php->addComment( "Automatically created cache file for the package format\n" .
-                          "Do not modify this file" );
-        $php->addSpace();
-        $php->addVariable( 'Parameters', $this->Parameters, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT,
-                           array( 'full-tree' => true ) );
-        $php->addVariable( 'ModifiedParameters', $this->ModifiedParameters, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT,
-                           array( 'full-tree' => true ) );
-        $php->store();
-    }
-
-    /*!
-     Stores the current package in the repository.
-    */
-    function store()
-    {
-        $path = eZPackage::repositoryPath() . '/' . $this->attribute( 'name' );
-        if ( !file_exists( $path ) )
-        {
-            eZDir::mkdir( $path, eZDir::directoryPermission(), true );
-        }
-        $filePath = $path . '/package.xml';
-        $result = $this->storeString( $filePath, $this->toString() );
-        $this->storeCache( $path . '/' . $this->cacheDirectory() );
-        return $result;
-    }
-
-    /*!
-     Stores the current package to the file \a $filename.
-    */
-    function storeToFile( $filename )
-    {
-        print( "Storing package $filename\n" );
-        return $this->storeString( $filename, $this->toString() );
-    }
-
-    /*!
-     Stores the DOM tree \a $dom to the file \a $filename.
-     The DOM tree will be turned into a string before being stored.
-    */
-    function storeDOM( $filename, $dom )
-    {
-        $data = $dom->toString();
-        $this->storeString( $filename, $data );
-    }
-
-    /*!
-     \private
-     \static
-     Stores the string data \a $data into the file \a $filename.
-     \return \c true if successful.
-    */
-    function storeString( $filename, $data )
-    {
-        $file = fopen( $filename, 'w' );
-        if ( $file )
-        {
-            fwrite( $file, $data );
-            fclose( $file );
-            return true;
-        }
-        return false;
-    }
-
-
-    /*!
-     \private
-     Loads the contents of the file \a $filename and parses it into a DOM tree.
-     The DOM tree is returned.
-    */
-    function &fetchDOMFromFile( $filename )
-    {
-        if ( file_exists( $filename ) )
-        {
-            $fd = fopen( $filename, 'r' );
-            if ( $fd )
-            {
-                $xmlText = fread( $fd, filesize( $filename ) );
-                fclose( $fd );
-
-                $xml = new eZXML();
-                $dom =& $xml->domTree( $xmlText );
-                return $dom;
-            }
-        }
-        return false;
-    }
-
-    /*!
-     Tries to load the package definition from file \a $filename
-     and create a package object from it.
-     \return \c false if it could be fetched.
-    */
-    function &fetchFromFile( $filename )
-    {
-        if ( !file_exists( $filename ) )
-        {
-            $filename .= '.ezpkg';
-            if ( !file_exists( $filename ) )
-                return false;
-        }
-        $fd = fopen( $filename, 'r' );
-        if ( $fd )
-        {
-            $xmlText = fread( $fd, filesize( $filename ) );
-            fclose( $fd );
-
-            $xml = new eZXML();
-            $dom =& $xml->domTree( $xmlText );
-
-            $package =& new eZPackage();
-            $parameters = $package->parseDOMTree( $dom );
-
-            return $package;
-        }
-    }
-
-    function handleExportList( $exportList )
-    {
-        $handlers = array();
-        foreach ( $exportList as $exportItem )
-        {
-            $exportType = $exportItem['type'];
-            $exportParameters = $exportItem['parameters'];
-            $exportHandler = 'kernel/classes/packagehandlers/' . $exportType . '/' . $exportType . 'exporthandler.php';
-            if ( file_exists( $exportHandler ) )
-            {
-                include_once( $exportHandler );
-                $exportClass = $exportType . 'ExportHandler';
-                if ( isset( $handlers[$exportType] ) )
-                {
-                    $handler =& $handlers[$exportType];
-                    $handler->reset();
-                }
-                else
-                {
-                    $handler =& new $exportClass;
-                    $handlers[$exportType] =& $handler;
-                }
-                $handler->handle( $this, $exportParameters );
-            }
-        }
-    }
-
-    /*!
-     \return the full path to this package.
-    */
-    function path()
-    {
-        $path = eZPackage::repositoryPath();
-        $path .= '/' . $this->attribute( 'name' );
-        return $path;
-    }
-
-    /*!
-     \static
-     \return the directory name for packages, used in conjunction with eZSys::storageDirectory().
-    */
-    function repositoryDirectory()
-    {
-        $ini =& eZINI::instance( 'package.ini' );
-        return $ini->variable( 'RepositorySettings', 'RepositoryDirectory' );
-    }
-
-    /*!
-     \static
-     \return the path to the package repository.
-    */
-    function repositoryPath()
-    {
-        $path = eZDir::path( array( eZSys::storageDirectory(),
-                                    eZPackage::repositoryDirectory() ) );
-        return $path;
-    }
-
-    /*!
-     \static
-     \return the name of the cache directory for cached package data.
-    */
-    function cacheDirectory()
-    {
-        return '.cache';
-    }
-
-    /*!
-     \static
-     \return the name of the documents directory for cached package data.
-    */
-    function documentDirectory()
-    {
-        return 'documents';
-    }
-
-    /*!
-     Locates all packages in the repository and returns an array with eZPackage objects.
-    */
-    function fetchPackages()
-    {
-        $path = eZPackage::repositoryPath();
-        $packages = array();
-        if ( file_exists( $path ) )
-        {
-            $dir = opendir( $path );
-            while( ( $file = readdir( $dir ) ) !== false )
-            {
-                $dirPath = $path . '/' . $file;
-                if ( !is_dir( $dirPath ) )
-                    continue;
-                $filePath = $dirPath . '/package.xml';
-                if ( file_exists( $filePath ) )
-                {
-                    $name = $file;
-                    $packageCachePath = $dirPath . '/' . eZPackage::cacheDirectory() . '/package.php';
-                    if ( file_exists( $packageCachePath ) )
-                    {
-                        include( $packageCachePath );
-                        if ( isset( $Parameters ) )
-                        {
-                            $package = new eZPackage( $Parameters );
-                        }
-                    }
-                    if ( !$package )
-                    {
-                        $package =& eZPackage::fetchFromFile( $filePath );
-                        $package->storeCache( $dirPath . '/' . eZPackage::cacheDirectory() );
-                    }
-                    $packages[] =& $package;
-                }
-            }
-            closedir( $dir );
-        }
-        return $packages;
     }
 
     /// \privatesection

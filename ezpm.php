@@ -60,6 +60,8 @@ $userPassword = false;
 $command = false;
 
 $packageName = false;
+$packageAttribute = false;
+$packageAttributeValue = false;
 $packageSummary = false;
 $packageLicence = false;
 $packageVersion = false;
@@ -76,13 +78,13 @@ function help()
 {
     $argv = $_SERVER['argv'];
     print( "Usage: " . $argv[0] . " [OPTION]... COMMAND\n" .
-           "Handles ezpublish packages.\n" .
+           "eZ publish package manager.\n" .
            "\n" .
            "Type " . $argv[0] . " help for command overview\n" .
            "\n" .
            "General options:\n" .
            "  -h,--help          display this help and exit \n" .
-           "  -q,--quiet         do not give any output except errors occur\n" .
+           "  -q,--quiet         do not give any output except when errors occur\n" .
            "  -s,--siteaccess    selected siteaccess for operations, if not specified default siteaccess is used\n" .
            "  -d,--debug         display debug output at end of execution\n" .
            "  -c,--colors        display output using ANSI colors\n" .
@@ -146,6 +148,26 @@ function helpAdd()
            );
 }
 
+function helpSet()
+{
+    print( "set: Sets an attribute in the package.\n" .
+           "usage: set PACKAGE ATTRIBUTE ATTRIBUTEVALUE\n" .
+           "\n" .
+           "Attributes:\n" .
+           "  summary     :\n" .
+           "  description :\n" .
+           "  vendor      :\n" .
+           "  priority    :\n" .
+           "  type        :\n" .
+           "  extension   :\n" .
+           "  source      :\n" .
+           "  version     :\n" .
+           "  licence     :\n" .
+           "  state       :\n" .
+           "Note: Will open up a new release if no open releases exists yet."
+           );
+}
+
 function helpDelete()
 {
     print( "delete (del, remove, rm): Removes an eZ publish part from the package.\n" .
@@ -169,6 +191,7 @@ function helpHelp()
            "   import\n" .
            "   export\n" .
            "   add\n" .
+           "   set\n" .
            "   delete (del, remove, rm)\n" .
            "   list\n" .
            "   info\n"
@@ -330,7 +353,7 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             if ( !in_array( $command,
                            array( 'help',
                                   'create', 'import', 'export',
-                                  'add', 'delete',
+                                  'add', 'set', 'delete',
                                   'list', 'info' ) ) )
             {
                 help();
@@ -355,6 +378,8 @@ for ( $i = 1; $i < count( $argv ); ++$i )
                     helpCreate();
                 else if ( $helpTopic == 'add' )
                     helpAdd();
+                else if ( $helpTopic == 'set' )
+                    helpSet();
                 else if ( $helpTopic == 'delete' )
                     helpDelete();
                 else if ( $helpTopic == 'list' )
@@ -375,6 +400,20 @@ for ( $i = 1; $i < count( $argv ); ++$i )
                     $packageLicence = $arg;
                 else if ( $packageVersion === false )
                     $packageVersion = $arg;
+            }
+            else if ( $command == 'set' )
+            {
+                if ( $packageName === false )
+                    $packageName = $arg;
+                else if ( $packageAttribute === false )
+                    $packageAttribute = $arg;
+                else if ( $packageAttributeValue === false )
+                    $packageAttributeValue = $arg;
+            }
+            else if ( $command == 'info' )
+            {
+                if ( $packageName === false )
+                    $packageName = $arg;
             }
             else if ( $command == 'import' )
             {
@@ -412,11 +451,29 @@ else if ( $command == 'export' )
         exit();
     }
 }
+else if ( $command == 'set' )
+{
+    if ( !$packageName and
+         !$packageAttribute and
+         !$packageAttributeValue )
+    {
+        helpSet();
+        exit();
+    }
+}
 else if ( $command == 'create' )
 {
     if ( !$packageName )
     {
         helpCreate();
+        exit();
+    }
+}
+else if ( $command == 'info' )
+{
+    if ( !$packageName )
+    {
+        helpInfo();
         exit();
     }
 }
@@ -435,6 +492,7 @@ if ( $webOutput )
     $useColors = false;
 
 $cli->setUseStyles( $useColors );
+$script->setDebugMessage( "\n\n" . str_repeat( '#', 36 ) . $cli->style( 'emphasize' ) . " DEBUG " . $cli->style( 'emphasize-end' )  . str_repeat( '#', 36 ) . "\n" );
 
 $script->setUseSiteAccess( $siteaccess );
 $script->setUser( $userLogin, $userPassword );
@@ -456,6 +514,64 @@ if ( $command == 'list' )
     }
     else
         $cli->output( "No packages are installed" );
+}
+else if ( $command == 'info' )
+{
+    $package =& eZPackage::fetch( $packageName );
+    if ( $package )
+    {
+        $release = $package->attribute( 'release' );
+        $cli->output( "Name        : " . $package->attribute( 'name' ) . str_repeat( ' ', 30 - strlen( $package->attribute( 'name' ) ) ) . "Vendor  : " . $package->attribute( 'vendor' ) );
+        $cli->output( "Version     : " . $release['version']['number'] . str_repeat( ' ', 30 - strlen( $release['version']['number'] ) ) . "Source  : " . $package->attribute( 'source' ) );
+        $cli->output( "Release     : " . $release['version']['release'] . str_repeat( ' ', 30 - strlen( $release['version']['release'] ) ) . "Licence : " . $package->attribute( 'release', array( 'licence' ) ) );
+        $cli->output( "Summary     : " . $package->attribute( 'summary' ) . str_repeat( ' ', 30 - strlen( $package->attribute( 'summary' ) ) ) . "State   : " . $package->attribute( 'release', array( 'state' ) ) );
+        $cli->output( "eZ publish  : " . $package->attribute( 'ezpublish', array( 'named-version' ) ) .
+                      " (" . $package->attribute( 'ezpublish', array( 'version' ) ) . ")" );
+        $cli->output( "Description : "  );
+        $cli->output( $package->attribute( 'description' ) );
+    }
+    else
+        $cli->output( "package $packageName is not installed" );
+}
+else if ( $command == 'set' )
+{
+    $packageAttributes = array( 'summary',
+                                'description',
+                                'vendor',
+                                'priority',
+                                'type',
+                                'extension',
+                                'source',
+                                'version',
+                                'licence',
+                                'state' );
+    if ( !in_array( $packageAttribute, $packageAttributes ) )
+    {
+        helpSet();
+    }
+    else
+    {
+        $package =& eZPackage::fetch( $packageName );
+        if ( $package )
+        {
+            switch ( $packageAttribute )
+            {
+                case 'summary':
+                case 'description':
+                case 'vendor':
+                case 'extension':
+                case 'source':
+                case 'licence':
+                case 'state':
+                {
+                    $package->setAttribute( $packageAttribute, $packageAttributeValue );
+                } break;
+            }
+            $package->store();
+        }
+        else
+            $cli->output( "package $packageName is not installed" );
+    }
 }
 else if ( $command == 'import' )
 {
@@ -529,6 +645,7 @@ else if ( $command == 'create' )
     if ( !$packageVersion )
         $packageVersion = '1.0';
 
+    $package->setRelease( $packageVersion, '1', false, $packageLicence, 'alpha' );
     $package->appendMaintainer( $userObject->attribute( 'name' ), $user->attribute( 'email' ), 'lead' );
     $package->appendDocument( 'README', false, false, false, true,
                               "$packageName README" .
@@ -542,7 +659,6 @@ else if ( $command == 'create' )
                               "-------\n" .
                               "Insert licence here...\n" );
     $package->appendChange( $userObject->attribute( 'name' ), $user->attribute( 'email' ), 'Creation of package' );
-    $package->setRelease( $packageVersion, '1', false, $packageLicence, 'alpha' );
 
 // $package->appendFileList( array( array( 'role' => 'override',
 //                                         'md5sum' => false,
@@ -555,8 +671,6 @@ else if ( $command == 'create' )
 
     $package->store();
 }
-
-$script->setDebugMessage( "\n\n" . str_repeat( '#', 36 ) . $cli->style( 'emphasize' ) . " DEBUG " . $cli->style( 'emphasize-end' )  . str_repeat( '#', 36 ) . "\n" );
 
 $script->shutdown();
 
