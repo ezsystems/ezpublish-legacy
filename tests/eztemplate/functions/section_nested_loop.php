@@ -1,10 +1,10 @@
 <?php
 
-if ( !class_exists( 'TestContentClass' ) )
+if ( !class_exists( 'NestedTestContentClass' ) )
 {
-    class TestContentClass
+    class NestedTestContentClass
     {
-        function TestContentClass( $id, $identifier, $name, $attributes )
+        function NestedTestContentClass( $id, $identifier, $name, $attributes )
         {
             $this->ID = $id;
             $this->Identifier = $identifier;
@@ -39,11 +39,11 @@ if ( !class_exists( 'TestContentClass' ) )
     }
 }
 
-if ( !class_exists( 'TestContentObject' ) )
+if ( !class_exists( 'NestedTestContentObject' ) )
 {
-    class TestContentObject
+    class NestedTestContentObject
     {
-        function TestContentObject( $id, $name, $section, $attributes, &$class, $list )
+        function NestedTestContentObject( $id, $name, $section, $attributes, &$class, $list = array() )
         {
             $this->ID = $id;
             $this->Name = $name;
@@ -90,11 +90,11 @@ if ( !class_exists( 'TestContentObject' ) )
     }
 }
 
-if ( !class_exists( 'TestContentObjectTreeNode' ) )
+if ( !class_exists( 'NestedTestContentObjectTreeNode' ) )
 {
-    class TestContentObjectTreeNode
+    class NestedTestContentObjectTreeNode
     {
-        function TestContentObjectTreeNode( $id, $name, &$object )
+        function NestedTestContentObjectTreeNode( $id, $name, &$object )
         {
             $this->ID = $id;
             $this->Name = $name;
@@ -137,11 +137,11 @@ if ( !class_exists( 'TestContentObjectTreeNode' ) )
     }
 }
 
-if ( !class_exists( 'TestContentObjectAttribute' ) )
+if ( !class_exists( 'NestedTestContentObjectAttribute' ) )
 {
-    class TestContentObjectAttribute
+    class NestedTestContentObjectAttribute
     {
-        function TestContentObjectAttribute( $id, $dataText = false, $dataInt = false )
+        function NestedTestContentObjectAttribute( $id, $dataText = false, $dataInt = false )
         {
             $this->ID = $id;
 //         $this->DataTypeString = $dataTypeString;
@@ -189,11 +189,11 @@ if ( !class_exists( 'TestContentObjectAttribute' ) )
     }
 }
 
-if ( !class_exists( 'TestContentClassAttribute' ) )
+if ( !class_exists( 'NestedTestContentClassAttribute' ) )
 {
-    class TestContentClassAttribute
+    class NestedTestContentClassAttribute
     {
-        function TestContentClassAttribute( $id, $dataTypeString, $name, $isInformationCollector )
+        function NestedTestContentClassAttribute( $id, $dataTypeString, $name, $isInformationCollector )
         {
             $this->ID = $id;
             $this->DataTypeString = $dataTypeString;
@@ -240,68 +240,68 @@ if ( !class_exists( 'TestContentClassAttribute' ) )
     }
 }
 
-$cattribute1 = new TestContentClassAttribute( 2, 'ezstring', 'Title', false );
-$cattribute2 = new TestContentClassAttribute( 3, 'eztext', 'Message', true );
-$cattribute3 = new TestContentClassAttribute( 4, 'ezstring', 'Author', true );
-$cattribute4 = new TestContentClassAttribute( 5, 'ezstring', 'Author2', false );
-$cattribute5 = new TestContentClassAttribute( 6, 'ezfile', 'File', false );
+$cattribute1 = new NestedTestContentClassAttribute( 2, 'ezstring', 'Title', false );
+$cattribute2 = new NestedTestContentClassAttribute( 3, 'eztext', 'Message', true );
+$cattribute3 = new NestedTestContentClassAttribute( 4, 'ezstring', 'Author', true );
+$cattribute4 = new NestedTestContentClassAttribute( 5, 'ezstring', 'Author2', false );
+$cattribute5 = new NestedTestContentClassAttribute( 6, 'ezfile', 'File', false );
 
 $cattributes1 = array( $cattribute1, $cattribute2, $cattribute3, $cattribute4, $cattribute5 );
-$class1 = new TestContentClass( 1, 'article', 'Article', $cattributes1 );
+$class1 = new NestedTestContentClass( 1, 'article', 'Article', $cattributes1 );
 
-$cattribute2_1 = new TestContentClassAttribute( 12, 'ezstring', 'Title', false );
-$cattribute2_2 = new TestContentClassAttribute( 13, 'eztext', 'Body', false );
+$cattribute2_1 = new NestedTestContentClassAttribute( 12, 'ezstring', 'Title', false );
+$cattribute2_2 = new NestedTestContentClassAttribute( 13, 'eztext', 'Body', false );
 
 $cattributes2 = array( $cattribute2_1, $cattribute2_2 );
-$class2 = new TestContentClass( 2, 'folder', 'Folder', $cattributes2 );
+$class2 = new NestedTestContentClass( 2, 'folder', 'Folder', $cattributes2 );
 
-$attribute1 = new TestContentObjectAttribute( 5, 'New article' );
+$attribute1 = new NestedTestContentObjectAttribute( 5, 'New article' );
 $attribute1->ClassAttribute = $cattribute1;
-$attribute2 = new TestContentObjectAttribute( 6, 'Cool site' );
+$attribute2 = new NestedTestContentObjectAttribute( 6, 'Cool site' );
 $attribute2->ClassAttribute = $cattribute2;
-$attribute3 = new TestContentObjectAttribute( 7, 'John Doe' );
+$attribute3 = new NestedTestContentObjectAttribute( 7, 'John Doe' );
 $attribute3->ClassAttribute = $cattribute3;
-$attribute4 = new TestContentObjectAttribute( 8, 'Arne' );
+$attribute4 = new NestedTestContentObjectAttribute( 8, 'Arne' );
 $attribute4->ClassAttribute = $cattribute4;
-$attribute5 = new TestContentObjectAttribute( 9, 'info.pdf' );
+$attribute5 = new NestedTestContentObjectAttribute( 9, 'info.pdf' );
 $attribute5->ClassAttribute = $cattribute5;
 
-$attribute2_1 = new TestContentObjectAttribute( 15, 'New article' );
+$attribute2_1 = new NestedTestContentObjectAttribute( 15, 'New article' );
 $attribute2_1->ClassAttribute = $cattribute1;
-$attribute2_2 = new TestContentObjectAttribute( 16, 'Cool site' );
+$attribute2_2 = new NestedTestContentObjectAttribute( 16, 'Cool site' );
 $attribute2_2->ClassAttribute = $cattribute2;
-$attribute2_3 = new TestContentObjectAttribute( 17, 'John Doe' );
+$attribute2_3 = new NestedTestContentObjectAttribute( 17, 'John Doe' );
 $attribute2_3->ClassAttribute = $cattribute3;
-$attribute2_4 = new TestContentObjectAttribute( 18, 'Arne' );
+$attribute2_4 = new NestedTestContentObjectAttribute( 18, 'Arne' );
 $attribute2_4->ClassAttribute = $cattribute4;
-$attribute2_5 = new TestContentObjectAttribute( 19, 'test.pdf' );
+$attribute2_5 = new NestedTestContentObjectAttribute( 19, 'test.pdf' );
 $attribute2_5->ClassAttribute = $cattribute5;
 
-$attribute3_1 = new TestContentObjectAttribute( 25, 'New article' );
+$attribute3_1 = new NestedTestContentObjectAttribute( 25, 'New article' );
 $attribute3_1->ClassAttribute = $cattribute1;
-$attribute3_2 = new TestContentObjectAttribute( 26, 'Cool site' );
+$attribute3_2 = new NestedTestContentObjectAttribute( 26, 'Cool site' );
 $attribute3_2->ClassAttribute = $cattribute2;
-$attribute3_3 = new TestContentObjectAttribute( 27, 'John Doe' );
+$attribute3_3 = new NestedTestContentObjectAttribute( 27, 'John Doe' );
 $attribute3_3->ClassAttribute = $cattribute3;
-$attribute3_4 = new TestContentObjectAttribute( 28, 'Arne' );
+$attribute3_4 = new NestedTestContentObjectAttribute( 28, 'Arne' );
 $attribute3_4->ClassAttribute = $cattribute4;
-$attribute3_5 = new TestContentObjectAttribute( 29, 'document.pdf' );
+$attribute3_5 = new NestedTestContentObjectAttribute( 29, 'document.pdf' );
 $attribute3_5->ClassAttribute = $cattribute5;
 
 $attributes1 = array( $attribute1, $attribute2, $attribute3, $attribute4, $attribute5 );
-$object1 = new TestContentObject( 2, 'New article', 1, $attributes1, $class1 );
+$object1 = new NestedTestContentObject( 2, 'New article', 1, $attributes1, $class1 );
 $attributes2 = array( $attribute2_1, $attribute2_2, $attribute2_3, $attribute2_4, $attribute2_5 );
-$object2 = new TestContentObject( 3, 'Sub article', 1, $attributes2, $class1, array( 1, 5, 10 ) );
+$object2 = new NestedTestContentObject( 3, 'Sub article', 1, $attributes2, $class1, array( 1, 5, 10 ) );
 $attributes3 = array( $attribute3_1, $attribute3_2, $attribute3_3, $attribute3_4, $attribute3_5 );
-$object3 = new TestContentObject( 4, 'Sub folder', 1, $attributes3, $class2, array( 2, 4, 12 ) );
+$object3 = new NestedTestContentObject( 4, 'Sub folder', 1, $attributes3, $class2, array( 2, 4, 12 ) );
 $object4 = null;
 
-$node1 = new TestContentObjectTreeNode( 2, 'New article', $object1 );
-$node2 = new TestContentObjectTreeNode( 3, 'Sub article', $object2 );
+$node1 = new NestedTestContentObjectTreeNode( 2, 'New article', $object1 );
+$node2 = new NestedTestContentObjectTreeNode( 3, 'Sub article', $object2 );
 $node1->addChild( $node2 );
-$node3 = new TestContentObjectTreeNode( 4, 'Sub folder', $object3 );
+$node3 = new NestedTestContentObjectTreeNode( 4, 'Sub folder', $object3 );
 $node1->addChild( $node3 );
-$top = new TestContentObjectTreeNode( 5, 'Top folder', $object4 );
+$top = new NestedTestContentObjectTreeNode( 5, 'Top folder', $object4 );
 $top->addChild( $node1 );
 
 $tpl->setVariable( 'object', $object1 );
@@ -312,17 +312,6 @@ $designResource =& eZTemplateDesignResource::instance();
 $designResource->setKeys( array( array( 'object' => $object1->attribute( 'id' ) ),
                                  array( 'section', $object1->attribute( 'section_id' ) ),
                                  array( 'node' , $node1->attribute( 'node_id' ) ) ) );
-if ( !isset( $GLOBALS['TestTemplateOverride'] ) )
-{
-    $GLOBALS['TestTemplateOverride'] = true;
-    eZTemplateDesignResource::addGlobalOverride( 'folder3', 'node/view/element.tpl', 'folder_element.tpl', 'templates', array() );
-    eZTemplateDesignResource::addGlobalOverride( 'folder', 'node/view/line.tpl', 'folder.tpl', 'templates', array( 'class' => 2 ) );
-//    eZTemplateDesignResource::addGlobalOverride( 'folder3', 'node/view/listitem.tpl', 'folder2.tpl', 'templates', array( 'class' => 5 ) );
-    eZTemplateDesignResource::addGlobalOverride( 'folder2', 'node/view/listitem.tpl', 'folder2.tpl', 'templates', array() );
-    eZTemplateDesignResource::addGlobalOverride( 'ezstring', 'content/datatype/view/ezstring.tpl', 'ezstring_view.tpl', 'templates', array() );
-//    eZTemplateDesignResource::addGlobalOverride( 'ezfile2', 'content/datatype/view/ezfile.tpl', 'ezfile_view2.tpl', 'templates', array( 'class' => 2 ) );
-    eZTemplateDesignResource::addGlobalOverride( 'ezfile', 'content/datatype/view/ezfile.tpl', 'ezfile_view.tpl', 'templates', array() );
-}
 
 
 ?>
