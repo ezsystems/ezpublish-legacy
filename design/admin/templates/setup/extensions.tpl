@@ -22,7 +22,7 @@
 <tr class="{$Extensions.sequence}">
 
     {* Status. *}
-    <td><input type="checkbox" name="ActiveExtensionList[]" value="{$Extensions.item}" {section show=$selected_extension_array|contains($Extensions.item)}checked="checked"{/section} /></td>
+    <td><input type="checkbox" name="ActiveExtensionList[]" value="{$Extensions.item}" {section show=$selected_extension_array|contains($Extensions.item)}checked="checked"{/section} title="{'Activate or deactivate extension. Use the "Apply changes" button to apply the changes.'|i18n( 'design/admin/setup/extensions' )|wash}" /></td>
 
     {* Name. *}
     <td>{$Extensions.item}</td>
@@ -42,7 +42,7 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 {section show=$available_extension_array}
-<input class="button" type="submit" name="ActivateExtensionsButton" value="{'Apply changes'|i18n( 'design/admin/setup/extensions' )}" />
+<input class="button" type="submit" name="ActivateExtensionsButton" value="{'Apply changes'|i18n( 'design/admin/setup/extensions' )}" title="{'Click this button to store the changes if you have changed the status of the checkboxes above.'|i18n( 'design/admin/setup/extensions' )}" />
 {section-else}
 <input class="button-disabled" type="submit" name="ActivateExtensionsButton" value="{'Apply changes'|i18n( 'design/admin/setup/extensions' )}" disabled="disabled" />
 {/section}
