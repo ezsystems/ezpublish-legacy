@@ -65,8 +65,9 @@ if ( array_key_exists( 'Limitation', $Params ) )
 }
 
 $node =& eZContentObjectTreeNode::fetch( $NodeID );
+
 if ( $node === null )
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
 $object = $node->attribute( 'object' );
 

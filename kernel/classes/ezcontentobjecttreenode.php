@@ -746,36 +746,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                      $asObject );
     }
 
-    function fetch( $nodeID )
+    function &fetch( $nodeID )
     {
-
+        $returnValue = null;
         $ini =& eZINI::instance();
         $db =& eZDB::instance();
-/*
-        if ( $ini->variable( "AccessSetings", "Access" ) == 'GroupBased' )
-        {
-            eZContentObjectTreeNode::makePermissionTable( $db );
-            $query="SELECT ezcontentobject.*,
-                           ezcontentobject_tree.*,
-                           ezcontentclass.name as class_name,
-                           permission.can_read as can_read,
-                           permission.can_create as can_create,
-                           permission.can_edit as can_edit,
-                           permission.can_remove as can_remove
-                    FROM ezcontentobject_tree,
-                         ezcontentobject,
-                         ezcontentclass,
-                         permission
-                    WHERE node_id = '$nodeID' and
-                          ezcontentobject_tree.contentobject_id=ezcontentobject.id  and
-                          ezcontentobject.permission_id = permission.permission_id and
-                          ezcontentclass.version=0 AND
-                          ezcontentclass.id = ezcontentobject.contentclass_id ";
 
-        }
-        else
-        {
-*/
         if ( $nodeID != 1 )
         {
             $query="SELECT ezcontentobject.*,
@@ -788,19 +764,23 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
                           ezcontentclass.version=0  AND
                           ezcontentclass.id = ezcontentobject.contentclass_id  ";
-        }else
+        }
+        else
         {
             $query="SELECT *
                     FROM ezcontentobject_tree
                     WHERE node_id = $nodeID ";
         }
 
-
-//        }
-        $nodeListArray = $db->arrayQuery( $query );
-        $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
-        return $retNodeArray[0];
+        $nodeListArray =& $db->arrayQuery( $query );
+        if ( count( $nodeListArray ) == 1 )
+        {
+            $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+            $returnValue = $retNodeArray[0];
+        }
+        return $returnValue;
     }
+
     function fetchParent()
     {
         return $this->fetch( $this->attribute( 'parent_node_id' ) );

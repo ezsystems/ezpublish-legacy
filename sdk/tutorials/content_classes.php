@@ -32,7 +32,6 @@
 // you.
 //
 
-
 ?>
 
 <h1>Content Classes Howto</h1>
