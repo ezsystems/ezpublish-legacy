@@ -168,6 +168,22 @@ class eZSelectionType extends eZDataType
     }
 
     /*!
+     \reimp
+    */
+    function &sortKey( &$contentObjectAttribute )
+    {
+        return $contentObjectAttribute->attribute( 'data_text' );
+    }
+
+    /*!
+     \reimp
+    */
+    function &sortKeyType()
+    {
+        return 'string';
+    }
+
+    /*!
      Returns the selected options by id.
     */
     function &objectAttributeContent( &$contentObjectAttribute )

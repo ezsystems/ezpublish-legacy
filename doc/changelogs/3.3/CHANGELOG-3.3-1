@@ -2,6 +2,8 @@ Changes from 3.3.0-2 to 3.3-1
 
 *Kernel:
 - Added support for multiple tag lists for the simpletags template operator.
+- Added sortKeyType and sortKey functions to eZSelection datatype. ( merged from stable 4532 )
+  http://ez.no/developer/ez_publish_3/bug_reports/datatype_ezselection_missing_default_methods_sortkey_sortkeytype
 
 *Bugfixes:
 - Fixed problem with cache block expiry when ignore_content_expiry was set

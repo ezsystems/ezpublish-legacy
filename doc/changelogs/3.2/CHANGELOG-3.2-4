@@ -34,6 +34,7 @@ Changes from 3.2-3 to 3.2-4
 - Changed the caching of user information and user groups in sessions, the new method uses arrays
   and is easier to cleanup.
 - Added support for multiple tag lists for the simpletags template operator.
+- Added sortKeyType and sortKey functions to eZSelection datatype. http://ez.no/developer/ez_publish_3/bug_reports/datatype_ezselection_missing_default_methods_sortkey_sortkeytype
 
 *Bugfixes:
 - Fixed copy object bug. Current version was not set, multiple version copy did not set object name and redirect did not contain version number.
