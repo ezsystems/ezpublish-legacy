@@ -59,21 +59,24 @@ foreach ( array_keys( $linkList ) as $key )
     {
         if ( preg_match("/^(mailto:)/i", $url))
         {
-            $url = trim( preg_replace("/^mailto:(.+)/i", "\\1", $url));
-            list($userName, $host) = split("@", $url);
-            list($host, $junk)= split("\?", $host);
-            $dnsCheck = checkdnsrr( $host,"MX" );
-            if ( !$dnsCheck )
+            if ( eZSys::osType() != 'win32' )
             {
-                if ( $isValid )
-                    eZURL::setIsValid( $linkID, false );
-                $cli->output( $cli->stylize( 'warning', "invalid" ) );
-            }
-            else
-            {
-                if ( !$isValid )
-                    eZURL::setIsValid( $linkID, true );
-                $cli->output( $cli->stylize( 'success', "valid" ) );
+                $url = trim( preg_replace("/^mailto:(.+)/i", "\\1", $url));
+                list($userName, $host) = split("@", $url);
+                list($host, $junk)= split("\?", $host);
+                $dnsCheck = checkdnsrr( $host,"MX" );
+                if ( !$dnsCheck )
+                {
+                    if ( $isValid )
+                        eZURL::setIsValid( $linkID, false );
+                    $cli->output( $cli->stylize( 'warning', "invalid" ) );
+                }
+                else
+                {
+                    if ( !$isValid )
+                        eZURL::setIsValid( $linkID, true );
+                    $cli->output( $cli->stylize( 'success', "valid" ) );
+                }
             }
         }
         else if ( preg_match("/^(http:)/i", $url ) or
