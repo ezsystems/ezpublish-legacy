@@ -1019,6 +1019,7 @@ class eZTemplateArrayOperator
     function compareTrans( $operatorName, &$node, &$tpl, &$resourceData,
                            &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
+        return false; //TODO - Does not work using string input.
         $isArray = false;
         $isString = false;
         $offset = 0;
@@ -1102,6 +1103,7 @@ class eZTemplateArrayOperator
             }
         }
 
+        // TODO : fix begins_with and ends_with for strings
         $code .= 'for( %tmp3% = 0; %tmp3% < %1%; ++%tmp3% )' . "\n" .
              '{' . "\n" .
              '  if ( %tmp1%[%tmp5% + %tmp3%] != %tmp4%[%tmp3%] )' . "\n" .
