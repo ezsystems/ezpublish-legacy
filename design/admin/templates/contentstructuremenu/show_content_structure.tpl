@@ -9,13 +9,13 @@
         {* Fold/Unfold/Empty: [-]/[+]/[ ] *}
             {section show=$:haveChildren}
                <a class="openclose" href="#" title="{'Fold/Unfold'|i18n('contentstructuremenu/show_content_structure')}"
-                  onclick="ezpopmnu_hideAll(); ezcst_onFoldClicked( this.parentNode ); return false;"></a>
+                  onclick="ezpopmenu_hideAll(); ezcst_onFoldClicked( this.parentNode ); return false;"></a>
             {section-else}
                 <span class="openclose"></span>
             {/section}
 
         {* Icon *}
-            <a class="nodeicon" href="#" onclick="ezpopmnu_showTopLevel( 'ContextMenu', ez_createAArray( new Array( '%nodeID%', {$:parentNode.node.node_id}, '%objectID%', {$:parentNode.object.id} ) ) , '{$:parentNode.object.name|shorten(18)}', {$:parentNode.node.node_id} ); return false;">{$:parentNode.object.class_identifier|class_icon( small, "Show 'Edit' menu" )}</a>
+            <a class="nodeicon" href="#" onclick="ezpopmenu_showTopLevel( 'ContextMenu', ez_createAArray( new Array( '%nodeID%', {$:parentNode.node.node_id}, '%objectID%', {$:parentNode.object.id} ) ) , '{$:parentNode.object.name|shorten(18)}', {$:parentNode.node.node_id} ); return false;">{$:parentNode.object.class_identifier|class_icon( small, "Show 'Edit' menu" )}</a>
         {* Label *}
             {* Tooltip *}
             {section show=$:showToolTips|eq('enabled')}

@@ -47,29 +47,29 @@
  1. Set up the HTML/CSS structures for your menus
  Each menu must be defined. The outer element should be a "div". The clickable menuitems should be of type "a".
  Both the menu and the menuitems must be given and "id". This id is used in the menuArray to set up that menu/item.
- Also each item in the menu must have its onmouseover activate the ezpopmnu_mouseOver method with the name of the menu
+ Also each item in the menu must have its onmouseover activate the ezpopmenu_mouseOver method with the name of the menu
  as parameter.
- To open a submenu use the ezpopmnu_ShowSubLevel method. It takes the name of the menu as parameter.
+ To open a submenu use the ezpopmenu_ShowSubLevel method. It takes the name of the menu as parameter.
 
  example with a main menu and a submenu:
  <div class="menu" id="ContextMenu">
-  <a id="menu-view" href="#" onmouseover="ezpopmnu_mouseOver( 'ContextMenu' )">Edit</a>
-  <a id="menu-edit" href="#" onmouseover="ezpopmnu_mouseOver( 'ContextMenu' )">View</a>
+  <a id="menu-view" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )">Edit</a>
+  <a id="menu-edit" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )">View</a>
   <hr />
-  <a id="menu-new" href="#" onmouseover="ezpopmnu_showSubLevel( 'submenu' )" >Create new</a>
+  <a id="menu-new" href="#" onmouseover="ezpopmenu_showSubLevel( 'submenu' )" >Create new</a>
  </div>
  The submenu basically works the same way.
  <div class="menu" id="submenu">
-  <a id="menu-new-article" href="#" onmouseover="ezpopmnu_mouseOver( 'submenu')">Article</a>
-  <a id="menu-new-folder" href="#" onmouseover="ezpopmnu_mouseOver( 'submenu')">Folder</a>
+  <a id="menu-new-article" href="#" onmouseover="ezpopmenu_mouseOver( 'submenu')">Article</a>
+  <a id="menu-new-folder" href="#" onmouseover="ezpopmenu_mouseOver( 'submenu')">Folder</a>
  </div>
 
- To activate the first menu call the method ezpopmnu_showTopLevel. It takes the name of the menu
+ To activate the first menu call the method ezpopmenu_showTopLevel. It takes the name of the menu
  and the node id as parameter.
 
  example:
- <a href="javascript: ezpopmnu_showTopLevel( 'ContextMenu', 42 )"
-   onmouseover="ezpopmnu_showTopLevel( 'ContextMenu', '42' )">show</a><br />
+ <a href="javascript: ezpopmenu_showTopLevel( 'ContextMenu', 42 )"
+   onmouseover="ezpopmenu_showTopLevel( 'ContextMenu', '42' )">show</a><br />
 
 
   Note that the menus need to have the following css properties set:
@@ -107,13 +107,13 @@
 
  Devloper info:
  This script defines the following global constants/variables:
- EZPOPMNU_OFFSET - Added to the x,y position of the mouse when showing the menu.
+ EZPOPMENU_OFFSET - Added to the x,y position of the mouse when showing the menu.
  CurrentNodeID - Used to remember the node we are currently showing the menu for. Used by submenus.
  VisibleMenus - An array containing the currently visible menus.
  */
 
 //Global CONSTANS
-EZPOPMNU_OFFSET = 8;
+EZPOPMENU_OFFSET = 8;
 
 // Global VARS
 // CurrentNodeID holds id of current node to edit for submenu's
@@ -125,19 +125,19 @@ var VisibleMenus = new Array();
 
 
 /*!
-   Shows toplevel menu at the current mouseposition + EZPOPMNU_OFFSET.
+   Shows toplevel menu at the current mouseposition + EZPOPMENU_OFFSET.
    'menuID' is the identification of the menu to use.
    'substituteValues' is an associative array. The string value of each item in the menu will have they keys, substituted by the value in this array.
    'menuHeader' If the menu has a header it is replaced with this value.
    'disableID' If this id is found in the list of known disabled for this menu the item is disabled.
  */
-function ezpopmnu_showTopLevel( menuID, substituteValues, menuHeader, disableID )
+function ezpopmenu_showTopLevel( menuID, substituteValues, menuHeader, disableID )
 {
     if( !document.getElementById( menuID ) ) return;
 
     if ( substituteValues != -1 ) // new topmenu
     { 
-	ezpopmnu_hideAll();
+	ezpopmenu_hideAll();
 	CurrentSubstituteValues = substituteValues;
     }
     if( disableID != -1 )
@@ -146,8 +146,8 @@ function ezpopmnu_showTopLevel( menuID, substituteValues, menuHeader, disableID 
     }
 
     // reposition menu
-    document.getElementById( menuID ).style.left = MouseX + EZPOPMNU_OFFSET;
-    document.getElementById( menuID ).style.top = MouseY + EZPOPMNU_OFFSET;
+    document.getElementById( menuID ).style.left = MouseX + EZPOPMENU_OFFSET;
+    document.getElementById( menuID ).style.top = MouseY + EZPOPMENU_OFFSET;
 
     // Do URL replace for all items in that menu
     for ( var i in menuArray[menuID]['elements'] )
@@ -186,18 +186,18 @@ function ezpopmnu_showTopLevel( menuID, substituteValues, menuHeader, disableID 
 
 /*!
   Show sublevel menu. The current nodeid is remembered from the last call to
-  ezpopmnu_showTopLevel()
+  ezpopmenu_showTopLevel()
  */
-function ezpopmnu_showSubLevel( menuName )
+function ezpopmenu_showSubLevel( menuName )
 {
-    ezpopmnu_showTopLevel( menuName, -1 );
+    ezpopmenu_showTopLevel( menuName, -1 );
 }
 
 /*!
   Submit the form with id formID. All fields of type hidden will have the texts %nodeID%
   and %objectID% replaced with the corresponding real values.
 */
-function ezpopmnu_submitForm( formID )
+function ezpopmenu_submitForm( formID )
 {
     var formElement = document.getElementById( formID );
     if( formElement )
@@ -208,8 +208,8 @@ function ezpopmnu_submitForm( formID )
         {
 	    if( children[i].type == 'hidden' )
             {
-                children[i].value = children[i].value.replace( '%nodeID%', CurrentNodeID );
-                children[i].value = children[i].value.replace( '%objectID%', CurrentObjectID );
+	    	for ( var substItem in CurrentSubstituteValues )
+                    children[i].value = children[i].value.replace( substItem, CurrentSubstituteValues[substItem] );
             }
         }
         formElement.submit();
@@ -219,24 +219,24 @@ function ezpopmnu_submitForm( formID )
 /*!
   Hide menu id and all menu's beneath it
  */
-function ezpopmnu_hide( id )
+function ezpopmenu_hide( id )
 {
     var level = menuArray[id]['depth'];
-    ezpopmnu_hideHigher( level - 1 );
+    ezpopmenu_hideHigher( level - 1 );
 }
 
 /*!
   Hide all menus
 */
-function ezpopmnu_hideAll()
+function ezpopmenu_hideAll()
 {
-    ezpopmnu_hideHigher( -1 );
+    ezpopmenu_hideHigher( -1 );
 }
 
 /*
  * Hide all menus above 'level'
  */
-function ezpopmnu_hideHigher( level )
+function ezpopmenu_hideHigher( level )
 {
     for ( var i = level + 1; i < VisibleMenus.length && VisibleMenus[i] != 'none' ; i++ )
     {
@@ -250,9 +250,9 @@ function ezpopmnu_hideHigher( level )
  * This method should be called by mouseover for all items in the implementation.
  * The method makes sure that no menus on a lower level are shown.
  */
-function ezpopmnu_mouseOver( id )
+function ezpopmenu_mouseOver( id )
 {
-    ezpopmnu_hideHigher( menuArray[id]['depth'] );
+    ezpopmenu_hideHigher( menuArray[id]['depth'] );
 }
 
 /*
