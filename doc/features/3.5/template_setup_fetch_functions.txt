@@ -1,0 +1,60 @@
+*Title: Template 'fetch' functions for 'setup' module'
+
+Incentive:
+Add the ability to retrieve information about version of eZPublish
+out of templates.
+
+*Documentation:
+Function name   : 'version'
+Parameters      : none
+Return value    : full version of eZPublish
+Example         : fetch( setup, version ) => '3.5.0rc1'
+
+Function name   : 'major_version'
+Parameters      : none
+Return value    : major number
+Example         : fetch( setup, major_version ) => '3'
+
+Function name   : 'minor_version'
+Parameters      : none
+Return value    : minor number
+Example         : fetch( setup, minor_version ) => '5'
+
+Function name   : 'release'
+Parameters      : none
+Return value    : release number
+Example         : fetch( setup, release ) => '0'
+
+Function name   : 'state'
+Parameters      : none
+Return value    : state
+Example         : fetch( setup, state ) => 'rc1'
+
+Function name   : 'is_development'
+Parameters      : none
+Return value    : returns 'true' if this is a development version, otherwise 'false'
+Example         : fetch( setup, is_development ) => (bool)true
+
+Function name   : 'revision'
+Parameters      : none
+Return value    : revision number
+Example         : fetch( setup, version ) => '9305'
+
+Function name   : 'database_version'
+Parameters      : if 'with_release' parameter is set to 'false' then release number
+                  will not be added to database version string. 
+                  By default 'with_release' is 'true'
+Return value    : database version
+Example         : fetch( setup, database_version ) => '3.5.0rc1-3'
+                  fetch( setup, database_version, hash( with_release, false() ) => '3.5.0rc1'
+
+Function name   : 'database_release'
+Parameters      : none
+Return value    : number of database release
+Example         : fetch( setup, database_release ) => '3'
+
+*Testing:
+
+*SVN Revisions:
+9309
+
