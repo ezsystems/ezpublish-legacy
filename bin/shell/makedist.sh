@@ -869,6 +869,10 @@ if [ "$BUILD_RC" == "1" ]; then
 
     echo "Copying `$SETCOLOR_FILE`$TGZFILE`$SETCOLOR_NORMAL` to `$SETCOLOR_DIR`$VERSIONROOT`$SETCOLOR_NORMAL`"
     cp "$DEST_ROOT/$TGZFILE" "$VERSIONROOT/"
+    if [ ! -f "$VERSIONROOT/filelist.md5" ]; then
+	touch "$VERSIONROOT/filelist.md5"
+    fi
+    (cd "$VERSIONROOT/"; md5sum "$TGZFILE" >> filelist.md5)
 
     echo
     echo -n "Do you wish to add some comments on the build? (yes/No)? "
@@ -888,12 +892,18 @@ if [ -n "$FINAL" ]; then
     DISTROOT="$HOME/ezpublish-dist"
     VERSIONROOT="$DISTROOT/$VERSION_ONLY/$VERSION"
     mkdir -p $VERSIONROOT
+    if [ ! -f "$VERSIONROOT/filelist.md5" ]; then
+	touch "$VERSIONROOT/filelist.md5"
+    fi
     echo "Archiving files to directory `$SETCOLOR_DIR`$VERSIONROOT`$SETCOLOR_NORMAL`"
     cp "$DEST_ROOT/$TGZFILE" "$VERSIONROOT/"
+    (cd "$VERSIONROOT/"; md5sum "$TGZFILE" >> filelist.md5)
     echo "Copied `$SETCOLOR_FILE`$TGZFILE`$SETCOLOR_NORMAL`"
     cp "$DEST_ROOT/$TBZFILE" "$VERSIONROOT/"
+    (cd "$VERSIONROOT/"; md5sum "$TBZFILE" >> filelist.md5)
     echo "Copied `$SETCOLOR_FILE`$TBZFILE`$SETCOLOR_NORMAL`"
     cp "$DEST_ROOT/$ZIPFILE" "$VERSIONROOT/"
+    (cd "$VERSIONROOT/"; md5sum "$ZIPFILE" >> filelist.md5)
     echo "Copied `$SETCOLOR_FILE`$ZIPFILE`$SETCOLOR_NORMAL`"
 
     CURRENT_SVN_PATH=`svn info | grep 'URL:' | sed 's/URL: //'`
