@@ -2,11 +2,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-{section show=$DeleteResult|count|gt(1)}
-    <h1 class="context-title">{'Remove classes?'|i18n( 'design/admin/class/removeclass' )}</h1>
-{section-else}
-    <h1 class="context-title">{'Remove class?'|i18n( 'design/admin/class/removeclass' )}</h1>
-{/section}
+<h1 class="context-title">{'Confirm class removal'|i18n( 'design/admin/class/removeclass' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -23,33 +19,34 @@
         <h2>{'Are you sure you want to remove this class?'|i18n( 'design/admin/class/removeclass' )}</h2>
     {/section}
 {section-else}
-    <h2>{'Removal is not possible'|i18n( 'design/admin/class/removeclass' )}</h2>
+    <h2>{'You do not have permissions to remove classes.'|i18n( 'design/admin/class/removeclass' )}</h2>
 {/section}
 
 {section show=$already_removed}
     {let class_list=''}
     {section var=class loop=$already_removed}
         {set class_list=concat( $class_list, $class.name )}
-        {delimiter}{set class_list=concat( $class_list, " ," )}{/delimiter}
+        {delimiter}{set class_list=concat( $class_list, ', ' )}{/delimiter}
     {/section}
     {section show=count( $already_removed )|eq( 1 )}
-        {"The class %1 was already removed from the group but still exists in others."|i18n( "design/admin/class/removeclass",, array( $class_list ) )}
+        {'The %1 class was already removed from the group but still exists in other groups.'|i18n( 'design/admin/class/removeclass',, array( $class_list ) )}
     {section-else}
-        {"The classes %1 were already removed from the group but still exist in others."|i18n( "design/admin/class/removeclass",, array( $class_list ) )}
+        {'The %1 classes were already removed from the group but still exist in other groups.'|i18n( 'design/admin/class/removeclass',, array( $class_list ) )}
     {/section}
 {/let}
 {/section}
 
 {section var=Classes loop=$DeleteResult}
-    <h3>{"Class %class_name"|i18n( 'design/admin/class/removeclass',,hash( '%class_name', concat( '<', $Classes.item.className, '>' )|wash ) )}</h3>
     <ul>
     {section show=$Classes.item.objectCount|gt( 0 )}
         {section show=$Classes.item.objectCount|eq( 1 )}
-            <li>{"Removing class '%1' will result in the removal of %2 object!"|i18n( 'design/admin/class/removeclass',, array( $Classes.item.className|wash, $Classes.item.objectCount ) )}</li>
+            <li>{'Removing class <%1> will result in the removal of %2 object.'|i18n( 'design/admin/class/removeclass',, array( $Classes.item.className|wash, $Classes.item.objectCount ) )|wash}</li>
         {section-else}
-            <li>{"Removing class '%1' will result in the removal of %2 objects!"|i18n( 'design/admin/class/removeclass',, array( $Classes.item.className|wash, $Classes.item.objectCount ) )}</li>
+            <li>{'Removing class <%1> will result in the removal of %2 objects.'|i18n( 'design/admin/class/removeclass',, array( $Classes.item.className|wash, $Classes.item.objectCount ) )|wash}</li>
         {/section}
     {/section}
+
+
     {section show=$Classes.item.is_removable|not}
     <li>{$Classes.item.reason.text|wash}
         <ul>
@@ -84,8 +81,11 @@
 
 <form action={concat( $module.functions.removeclass.uri, '/', $GroupID )|ezurl} method="post" name="ClassRemove">
     {section show=$can_remove}
-        <input class="button" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/class/removeclass' )}" />
+    <input class="button" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/class/removeclass' )}" />
+    {section-else}
+    <input class="button-disabled" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/class/removeclass' )}" disabled="disabled" />
     {/section}
+
     <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n( 'design/admin/class/removeclass' )}" />
 </form>
 
