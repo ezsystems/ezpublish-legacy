@@ -413,6 +413,7 @@ class eZContentOperationCollection
     {
         $object =& eZContentObject::fetch( $objectID );
         $version =& $object->version( $versionNum );
+        $moveToTrash = true;
 
         $assignedExistingNodes =& $object->attribute( 'assigned_nodes' );
 
@@ -429,7 +430,7 @@ class eZContentOperationCollection
             if ( $node->attribute( 'contentobject_version' ) < $version->attribute( 'version' ) &&
                  !in_array( $node->attribute( 'parent_node_id' ), $versionParentIDList ) )
             {
-                $node->remove();
+                eZContentObjectTreeNode::removeSubtrees( array( $node->attribute( 'node_id' ) ), $moveToTrash );
             }
         }
     }

@@ -68,7 +68,7 @@ if ( $module->isCurrentAction( 'ConfirmRemoval' ) )
     $http->removeSessionVariable( 'AssignmentRemoveData' );
 
     $assignments     =& eZnodeAssignment::fetchListByID( $removeList );
-    $mainNodeChanged =  false;
+    $mainNodeChanged = false;
 
     foreach ( $assignments as $assignment )
     {
@@ -92,28 +92,55 @@ else if ( $module->isCurrentAction( 'CancelRemoval' ) )
 // default action: show the confirmation dialog
 $assignmentsToRemove = eZNodeAssignment::fetchListByID( $removeList );
 $removeList = array();
-foreach ( $assignmentsToRemove as $ass )
+$canRemoveAll = true;
+foreach ( $assignmentsToRemove as $assignment )
 {
-        $node =& $ass->attribute( 'node' );
+    $node =& $assignment->attribute( 'node' );
 
-        // skip assignments which don't have associated node or node with no children
-        if ( !$node )
-            continue;
-        $count = $node->childrenCount( false );
-        if( $count < 1 )
-            contunue;
+    // skip assignments which don't have associated node or node with no children
+    if ( !$node )
+        continue;
+    $count = $node->subTreeCount( array( 'Limitation' => array() ) );
+    if ( $count < 1 )
+        continue;
 
-        $removeList[] = array( 'node' => $node,
-                               'count' => $count );
+    // Find the number of items in the subtree we are allowed to remove
+    // if this differs from the total count it means we have items we cannot remove
+    // We do this by fetching the limitation list for content/remove
+    // and passing it to the subtre count function.
+    include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+    $currentUser =& eZUser::currentUser();
+    $accessResult = $currentUser->hasAccessTo( 'content', 'remove' );
+    $canRemoveSubtree = true;
+    if ( $accessResult['accessWord'] == 'limited' )
+    {
+        $limitationList =& $accessResult['policies'];
+        $removeableChildCount = $node->subTreeCount( array( 'Limitation' => $limitationList ) );
+        $canRemoveSubtree = ( $removeableChildCount == $count );
+    }
+    if ( !$canRemoveSubtree )
+        $canRemoveAll = false;
+    $object =& $node->object();
+    $class =& $object->contentClass();
+
+    $removeList[] = array( 'node' => $node,
+                           'object' => $object,
+                           'class' => $class,
+                           'count' => $count,
+                           'can_remove' => $canRemoveSubtree,
+                           'child_count' => $count );
 }
 unset( $assignmentsToRemove );
 
 $assignmentData = array( 'object_id'      => $objectID,
                          'object_version' => $editVersion,
                          'remove_list'    => $removeList );
+$info = array( 'can_remove_all' => $canRemoveAll );
 
 $tpl =& templateInit();
 $tpl->setVariable( 'assignment_data', $assignmentData );
+$tpl->setVariable( 'remove_info', $info );
+
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:content/removeassignment.tpl" );
 $Result['path'] = array( array( 'url' => false,

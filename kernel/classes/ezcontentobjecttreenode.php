@@ -2847,6 +2847,226 @@ WHERE
     }
 
     /*!
+     \static
+     Returns information on what will happen if all subtrees in \a $deleteIDArray
+     is removed. The returned structure is:
+     - move_to_trash     - \c true if removed objects can be moved to trash,
+                           some objects are not allowed to be in trash (e.g user).
+     - total_child_count - The total number of childs for all delete items
+     - can_remove_all    - Will be set to \c true if all selected items can be removed, \c false otherwise
+     - delete_list - A list of all subtrees that should be removed, structure:
+     -- node               - The content node
+     -- object             - The content object
+     -- class              - The content class
+     -- node_name          - The name of the node
+     -- child_count        - Total number of child items below the node
+     -- can_remove         - Boolean which tells if the user has permission to remove the node
+     -- can_remove_subtree - Boolean which tells if the user has permission to remove items in the subtree
+     -- new_main_node_id   - The new main node ID for the node if it needs to be moved, or \c false if not
+    */
+    function subtreeRemovalInformation( $deleteIDArray )
+    {
+        return eZContentObjectTreeNode::removeSubtrees( $deleteIDArray, true, true );
+    }
+
+    /*!
+     \static
+     Will remove the nodes in the subtrees defined in \a $deleteIDArray,
+     it will only remove the nodes unless there are no more nodes for
+     an object in which case the object is removed too.
+
+     \param $moveToTrash If \c true it will move the object to trash, if \c false
+                         the object will be purged from the system.
+     \param $infoOnly If set to \c true then it will not remove the subtree
+                      but instead return information on what will happen
+                      if it is removed. See subtreeRemovalInformation() for the
+                      returned structure.
+    */
+    function removeSubtrees( $deleteIDArray, $moveToTrash = true, $infoOnly = false )
+    {
+        if ( !$infoOnly )
+        {
+            include_once( "kernel/classes/ezcontentcachemanager.php" );
+        }
+
+        $moveToTrashAllowed = true;
+        $deleteResult = array();
+        $totalChildCount = 0;
+        $canRemoveAll = true;
+        foreach ( $deleteIDArray as $deleteID )
+        {
+            $node =& eZContentObjectTreeNode::fetch( $deleteID );
+            if ( $node === null )
+                continue;
+
+            $object = $node->attribute( 'object' );
+            if ( $object === null )
+                continue;
+
+            $class = $object->attribute( 'content_class' );
+            $canRemove = $object->attribute( 'can_remove' );
+            $canRemoveSubtree = true;
+
+            $nodeID = $node->attribute( 'node_id' );
+            $nodeName = $object->attribute( 'name' );
+
+            $childCount = 0;
+            $newMainNodeID = false;
+            if ( $canRemove )
+            {
+                if ( $moveToTrashAllowed and
+                     $class->attribute( 'identifier' ) == 'user' )
+                {
+                    $moveToTrashAllowed = false;
+                }
+                $readableChildCount = $node->subTreeCount( array( 'Limitation' => array() ) );
+                $childCount = $node->subTreeCount();
+                $totalChildCount += $childCount;
+
+                // We need to find a new main node ID if we are trying
+                // to remove the current main node.
+                if ( $node->attribute( 'main_node_id' ) == $nodeID )
+                {
+                    $allAssignedNodes =& $object->attribute( 'assigned_nodes' );
+                    if ( count( $allAssignedNodes ) > 1 )
+                    {
+                        foreach( $allAssignedNodes as $assignedNode )
+                        {
+                            $assignedNodeID = $assignedNode->attribute( 'node_id' );
+                            if ( $assignedNodeID == $nodeID )
+                                continue;
+                            $newMainNodeID = $assignedNodeID;
+                            break;
+                        }
+                    }
+                }
+
+                if ( $infoOnly )
+                {
+                    // Find the number of items in the subtree we are allowed to remove
+                    // if this differs from the total count it means we have items we cannot remove
+                    // We do this by fetching the limitation list for content/remove
+                    // and passing it to the subtre count function.
+                    include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+                    $currentUser =& eZUser::currentUser();
+                    $accessResult = $currentUser->hasAccessTo( 'content', 'remove' );
+                    if ( $accessResult['accessWord'] == 'limited' )
+                    {
+                        $limitationList =& $accessResult['policies'];
+                        $removeableChildCount = $node->subTreeCount( array( 'Limitation' => $limitationList ) );
+                        $canRemoveSubtree = ( $removeableChildCount == $childCount );
+                        $canRemove = $canRemoveSubtree;
+                    }
+                }
+
+                // We will only remove the subtree if are allowed
+                // and are told to do so.
+                if ( $canRemove and !$infoOnly )
+                {
+                    $moveToTrashTemp = $moveToTrash;
+                    if ( !$moveToTrashAllowed )
+                        $moveToTrashTemp = false;
+                    $children =& $node->subTree( array( 'Limitation' => array() ) );
+                    foreach ( array_keys( $children ) as $childKey )
+                    {
+                        $child =& $children[$childKey];
+                        $child->removeNodeFromTree( $moveToTrashTemp );
+                    }
+                    $node->removeNodeFromTree( $moveToTrashTemp );
+                    eZContentCacheManager::clearObjectViewCache( $node->attribute( 'contentobject_id' ), true );
+                }
+            }
+            if ( !$canRemove )
+                $canRemoveAll = false;
+
+            // Do not create info list if we are removing subtrees
+            if ( !$infoOnly )
+                continue;
+
+            $item = array( "nodeName" => $nodeName, // Backwards compatability
+                           "childCount" => $childCount, // Backwards compatability
+                           "additionalWarning" => '', // Backwards compatability, this will always be empty
+                           'node' => $node,
+                           'object' => $object,
+                           'class' => $class,
+                           'node_name' => $nodeName,
+                           'child_count' => $childCount,
+                           'can_remove' => $canRemove,
+                           'can_remove_subtree' => $canRemoveSubtree,
+                           'real_child_count' => $readableChildCount,
+                           'new_main_node_id' => $newMainNodeID );
+            $deleteResult[] = $item;
+        }
+
+        if ( !$infoOnly )
+            return true;
+
+        return array( 'move_to_trash' => $moveToTrashAllowed,
+                      'total_child_count' => $totalChildCount,
+                      'can_remove_all' => $canRemoveAll,
+                      'delete_list' => $deleteResult );
+    }
+
+    /*!
+     Will check if you are  removing the main node in which case it relocates
+     the main node before removing it. It will also remove the object if there
+     no more node assignments for it.
+     \param $moveToTrash If \c true it will move the object to trash, if \c false
+                         the object will be purged from the system.
+
+     \note This uses remove() to do the actual node removal but has some extra logic
+    */
+    function removeNodeFromTree( $moveToTrash = true )
+    {
+        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        $nodeID = $this->attribute( 'node_id' );
+        if ( $nodeID == $this->attribute( 'main_node_id' ) )
+        {
+            $object = $this->object();
+            $assignedNodes =& $object->attribute( 'assigned_nodes' );
+            if ( count( $assignedNodes ) > 1 )
+            {
+                $newMainNode = false;
+                foreach ( $assignedNodes as $assignedNode )
+                {
+                    $assignedNodeID = $assignedNode->attribute( 'node_id' );
+                    if ( $assignedNodeID == $nodeID )
+                        continue;
+                    $newMainNode = $assignedNode;
+                    break;
+                }
+
+                // We need to change the main node ID before we remove the current node
+                eZContentObjectTreeNode::updateMainNodeID( $newMainNode->attribute( 'node_id' ),
+                                                           $object->attribute( 'id' ),
+                                                           $object->attribute( 'current_version' ),
+                                                           $newMainNode->attribute( 'parent_node_id' ) );
+                $this->remove();
+                eZContentCacheManager::clearObjectViewCache( $this->attribute( 'contentobject_id' ), true );
+            }
+            else
+            {
+                // This is the last assignment so we remove the object too
+                $this->remove();
+                if ( $moveToTrash )
+                {
+                    $object->remove();
+                }
+                else
+                {
+                    $object->purge();
+                }
+                eZContentCacheManager::clearObjectViewCache( $this->attribute( 'contentobject_id' ), true );
+            }
+        }
+        else
+        {
+            $this->remove();
+            eZContentCacheManager::clearObjectViewCache( $this->attribute( 'contentobject_id' ), true );
+        }
+    }
+
+    /*!
       Moves the node to the given node.
     */
     function move( $newParentNodeID, $nodeID = 0 )

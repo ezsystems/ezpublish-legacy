@@ -116,8 +116,8 @@ else if ( $module->isCurrentAction( 'CancelRemoval' ) )
 
 $tpl =& templateInit();
 
+$deleteIDArray = array();
 $nodeAssignments = eZNodeAssignment::fetchListByID( $removeList );
-$nodeRemoveList = array();
 foreach ( $nodeAssignments as $key => $nodeAssignment )
 {
     $nodeAssignment =& $nodeAssignments[$key];
@@ -125,19 +125,25 @@ foreach ( $nodeAssignments as $key => $nodeAssignment )
 
     if ( $node )
     {
-        // Security checks, removal of current node is not allowed
-        // and we require removal rights as well
-        if ( $node->attribute( 'node_id' ) == $nodeID )
-            continue;
-        if ( !$node->canRemove() )
-            continue;
-
-        $nodeRemoveList[] = array( 'node' => &$node,
-                                   'count' => $node->childrenCount( false ) );
+        $deleteIDArray[] = $node->attribute( 'node_id' );
     }
 }
 
-$tpl->setVariable( 'node_remove_list', $nodeRemoveList );
+$moveToTrashAllowed = true;
+$deleteResult = array();
+$childCount = 0;
+$info = eZContentObjectTreeNode::subtreeRemovalInformation( $deleteIDArray );
+$deleteResult = $info['delete_list'];
+if ( !$info['move_to_trash'] )
+{
+    $moveToTrashAllowed = false;
+}
+$totalChildCount = $info['total_child_count'];
+
+$tpl->setVariable( 'moveToTrashAllowed', $moveToTrashAllowed );
+$tpl->setVariable( 'remove_list', $deleteResult );
+$tpl->setVariable( 'total_child_count', $totalChildCount );
+$tpl->setVariable( 'remove_info', $info );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:content/removelocation.tpl" );
