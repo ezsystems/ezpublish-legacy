@@ -4,8 +4,7 @@
 <table class="list-thumbnails" cellspacing="0">
     <tr>
     {section var=Nodes loop=$children sequence=array( bglight, bgdark )}
-    {let child_name=$Nodes.item.name|wash
-         node_name=$node.name|wash}
+    {let child_name=$Nodes.item.name|wash}
         <td width="25%">
         {node_view_gui view=thumbnail content_node=$Nodes.item}
 
