@@ -2,6 +2,15 @@
 <h1>{"Search"|i18n("design/standard/content/search")}</h1>
 </div>
 
+<form action={"/content/search/"|ezurl} method="get">
+
+<div class="block">
+    <input class="halfbox" type="text" size="20" name="SearchText" id="Search" value="{$search_text|wash}" />
+    <input class="button" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
+</div>
+
+</form>
+
 <div class="block">
 {let adv_url='/content/advancedsearch/'|ezurl}
 <label>{"For more options try the %1Advanced search%2"|i18n("design/standard/content/search","The parameters are link start and end tags.",array(concat("<a href=",$adv_url,">"),"</a>"))}</label>
@@ -25,6 +34,13 @@
   <div class="warning">
   <h2>{'No results were found when searching for "%1"'|i18n("design/standard/content/search",,array($search_text|wash))}</h2>
   </div>
+    <p>Search tips</p>
+    <ul>
+        <li>Check spelling of keywords.</li>
+        <li>Try changing some keywords eg. car instead of cars.</li>
+        <li>Try more general keywords.</li>
+        <li>Fewer keywords gives more results, try reducing keywords until you get a result.</li>
+    </ul>
   {/case}
   {case}
   <div class="feedback">
