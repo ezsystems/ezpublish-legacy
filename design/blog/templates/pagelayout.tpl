@@ -10,8 +10,8 @@
 
 <style>
     @import url({"stylesheets/core.css"|ezdesign});
-     {* @import url({"stylesheets/blog.css"|ezdesign}); *}
-    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});
+    @import url({"stylesheets/blog_blue.css"|ezdesign}); 
+    {* @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});*}
 </style>
 </head>
 
@@ -27,7 +27,7 @@
                 <a href={"/"|ezurl}><img src={$content[logo].full_path|ezroot} /></a>
             </div>
            {/let}
-            <h1>My Personal Blog</h1>  
+           {* <h1>My Personal Blog</h1>  *}
                   
             <div class="break"></div> {* This is needed for proper flow of floating objects *}
 
@@ -70,29 +70,34 @@
     <div id="maincontent">
         <div class="design">
         
-    <div id="path">
+    <div id="subsubheader">
         <div class="design">
-
-           <p>
-           &gt;
-           {section name=Path loop=$module_result.path }
-               {section show=$Path:item.url}
-                        {let pathtest=fetch('content','node',hash('node_id',$Path:item.node_id))}
-                            {section show=and($Path:pathtest.object.main_node.parent_node_id|eq(111),$Path:pathtest.object.main_node.depth|eq(3))|eq(false())} {* Hide a path level on if specific parent and depth *}
-                                <a href={$Path:item.url|ezurl}>{$Path:item.text|wash}</a> /
-                            {/section}
-                        {/let}
-               {section-else}
-    	      {$Path:item.text|wash}
-               {/section}
-    
-            {/section}
-           </p>
-
+	&nbsp;
         </div>
     </div>
 
     <div id="maincol">
+        <div id="path">
+            <div class="design">
+
+	       <p>
+	       &gt;
+	       {section name=Path loop=$module_result.path }
+		   {section show=$Path:item.url}
+			    {let pathtest=fetch('content','node',hash('node_id',$Path:item.node_id))}
+				{section show=and($Path:pathtest.object.main_node.parent_node_id|eq(111),$Path:pathtest.object.main_node.depth|eq(3))|eq(false())} {* Hide a path level on if specific parent and depth *}
+				    <a href={$Path:item.url|ezurl}>{$Path:item.text|wash}</a> /
+				{/section}
+			    {/let}
+		   {section-else}
+		  {$Path:item.text|wash}
+		   {/section}
+
+		{/section}
+	       </p>
+
+	    </div>
+	</div>
         <div class="design">
 
             {$module_result.content}
