@@ -1207,3 +1207,23 @@ CREATE TABLE ezview_counter (
   count int(11) NOT NULL default '0',
   PRIMARY KEY  (node_id)
 ) TYPE=MyISAM;
+
+
+CREATE TABLE ezpdf_export ( 
+  id integer NOT NULL auto_increment,
+  title varchar(255) default NULL,
+  show_frontpage int default NULL,
+  intro_text text default NULL,
+  sub_text text default NULL,
+  source_node_id int default NULL,
+  export_structure varchar(255) default NULL,
+  export_classes varchar(255) default NULL,
+  site_access varchar(255) default NULL,
+  pdf_filename varchar(255) default NULL,
+  modifier_id integer default NULL,
+  modified integer default NULL,
+  created integer default NULL,
+  creator_id integer default NULL,
+  status integer default NULL,
+  PRIMARY KEY (id) 
+) TYPE=MyISAM;
