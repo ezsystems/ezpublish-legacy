@@ -35,7 +35,7 @@ function toggleCheckboxes( formname, checkboxname )
 
 <div class="context-block">
 <form name="trashform" action={'content/trash/'|ezurl} method="post" >
-<h2 class="context-title">{'Trash [%list_count]'|i18n( 'design/admin/content/trash',, hash( '%list_count', $list_count ) )</h2>
+<h2 class="context-title">{'Trash [%list_count]'|i18n( 'design/admin/content/trash',, hash( '%list_count', $list_count ) )}</h2>
 
 {* Items per page selector. *}
 <div class="context-toolbar">
@@ -71,11 +71,11 @@ function toggleCheckboxes( formname, checkboxname )
 
 <table class="list" cellspacing="0">
 <tr>
-    <th><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="toggleCheckboxes( document.trashform, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/trash' )}" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="toggleCheckboxes( document.trashform, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/trash' )}" /></th>
     <th>{'Name'|i18n( 'design/admin/content/trash ')}</th>
     <th>{'Type'|i18n( 'design/admin/content/trash ')}</th>
     <th>{'Section'|i18n( 'design/admin/content/trash ')}</th>
-    <th>&nbsp;</th>
+    <th class="tight">&nbsp;</th>
 </tr>
 {section var=Objects loop=$object_list sequence=array( bglight, bgdark )}
 <tr class="{$Objects.sequence}">
