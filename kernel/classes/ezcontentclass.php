@@ -458,7 +458,8 @@ class eZContentClass extends eZPersistentObject
     function remoteID()
     {
         $remoteID = eZPersistentObject::attribute( 'remote_id' );
-        if ( !$remoteID )
+        if ( !$remoteID &&
+             $this->Version == EZ_CLASS_VERSION_STATUS_DEFINED )
         {
             $this->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)mktime() ) );
             $this->sync( array( 'remote_id' ) );

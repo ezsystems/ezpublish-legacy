@@ -1261,7 +1261,7 @@ class eZPDFTable extends Cezpdf
         $this->line($xpos,$info['y'],$info['x']+5,$info['y']);
         $this->restoreState();
         $this->addText($xpos+5,$info['y'],$size,$lbl);
-        $this->ez['xOffset'] = $xpos+5+$this->getTextWidth($lbl, $size);
+        $this->setXOffset( $xpos+5+$this->getTextWidth($lbl, $size) );
     }
 
     /**
@@ -1512,7 +1512,7 @@ class eZPDFTable extends Cezpdf
 
         if ( isset( $options['x'] ) )
         {
-            $this->ez['xOffset'] = (float)$options['x'];
+            $this->setXOffset( (float)$options['x'] );
         }
 
         if ( isset( $options['y'] ) )
@@ -1568,11 +1568,11 @@ class eZPDFTable extends Cezpdf
         $this->filledEllipse( $params['x'], $params['y'], $params['radius'] );
         if ( isset( $params['indent'] ) )
         {
-            $this->setXOffset( $params['x'] + $params['radius'] + $params['indent'] );
+            $this->setXOffset( $params['x'] + $params['radius'] * 2 + $params['indent'] );
         }
         else
         {
-            $this->setXOffset( $params['x'] + $params['radius'] );
+            $this->setXOffset( $params['x'] + $params['radius'] * 2 );
         }
 
         $this->setStrokeColor( $strokeStackColor );

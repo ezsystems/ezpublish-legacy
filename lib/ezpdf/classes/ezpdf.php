@@ -684,7 +684,7 @@ class eZPDF
                 }
                 if ( !isset ( $params['indent'] ) )
                 {
-                    $params['indent'] = 0;
+                    $params['indent'] = 2;
                 }
                 if ( !isset ( $params['yOffset'] ) )
                 {
@@ -736,9 +736,14 @@ class eZPDF
                      ':pages:' . $options['pages'] .
                      ':x:' . $options['x'] .
                      ':y:' . $options['y'] .
-                     ':radius:' . $options['radius'] .
-                     ':cmyk:' . implode( ',', $options['cmyk'] ) .
-                     '>';
+                     ':radius:' . $options['radius'];
+
+                if ( isset( $options['cmyk'] ) )
+                {
+                    $operatorValue .= ':cmyk:' . implode( ',', $options['cmyk'] );
+                }
+
+                $operatorValue .= '>';
 
                 eZDebug::writeNotice( 'PDF Added circle: ' . $operatorValue );
 
