@@ -1,0 +1,121 @@
+<?php
+//
+// Created on: <29-Jan-2003 15:47:17 gl>
+//
+// Copyright (C) 1999-2003 eZ systems as. All rights reserved.
+//
+// This source file is part of the eZ publish (tm) Open Source Content
+// Management System.
+//
+// This file may be distributed and/or modified under the terms of the
+// "GNU General Public License" version 2 as published by the Free
+// Software Foundation and appearing in the file LICENSE.GPL included in
+// the packaging of this file.
+//
+// Licencees holding valid "eZ publish professional licences" may use this
+// file in accordance with the "eZ publish professional licence" Agreement
+// provided with the Software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING
+// THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+// PURPOSE.
+//
+// The "eZ publish professional licence" is available at
+// http://ez.no/home/licences/professional/. For pricing of this licence
+// please contact us via e-mail to licence@ez.no. Further contact
+// information is available at http://ez.no/home/contact/.
+//
+// The "GNU General Public License" (GPL) is available at
+// http://www.gnu.org/copyleft/gpl.html.
+//
+// Contact licence@ez.no if any conditions of this licencing isn't clear to
+// you.
+//
+
+$DocResult = array();
+$DocResult["title"] = "Key Features in eZ publish 3.0";
+
+?>
+
+<h2>Installation improvements</h2>
+<p>
+eZ publish 3.0 runs with standard Apache 1.3 or 2.0, PHP 4.1 or newer, and MySQL or
+PostgreSQL. No need to compile patches. In addition to this, it has an installation helper
+that lets you do a large part of the installation in your browser.
+</p>
+
+<h2>Custom content</h2>
+<p>
+In eZ publish 3.0 you don't have to make your content fit a predescribed content model.
+eZ publish lets you create your own content classes with exactly the attributes you need.
+Create a class, select attributes and attribute datatypes, and begin creating content.
+Without even editing a template.
+</p>
+
+<h2>Object oriented</h2>
+<p>
+bla bla bla
+</p>
+
+<h2>Advanced template engine</h2>
+<p>
+The new template engine, eZ template, is a sophisticated and integrated
+template engine. The site designers can now quickly do powerful customizations
+without touching PHP code. You can for instance tell an object to display itself in a given mode,
+or add a text label to an image using a single line of template code.
+</p>
+
+<h2>Integrated search engine</h2>
+<p>
+eZ publish has a fully integrated search engine architecture which enables
+you to use the powerful built in search engine or create a plugin for your
+favourite search engine. In custom content you can specify which attributes that can be searched.
+</p>
+
+<h2>Role-based permissions</h2>
+<p>
+The permissions are specified by roles. The role system allows you to specify access
+by module (content, shop, task, etc.), by function (read, create, edit, remove, etc.),
+by object owner, by object class, and by site section. This gives the site administrator
+full freedom to customize who gets access to what.
+</p>
+
+<h2>Events and workflows</h2>
+<p>
+You can specify workflows that are run whenever an event happens. This lets you change how things
+work and extend functionality without changing eZ publish code. For instance, when a shop user
+buys something, you can create a workflow that asks him whether he wants to have his item wrapped
+in gift paper.
+</p>
+
+<h2>Collaboration system</h2>
+<p>
+bla bla bla
+</p>
+
+<h2>Extendability</h2>
+<p>
+Despite the ability to create custom content and workflows, you might run into a situation where
+you need to extend eZ publish code. The extension system lets you keep your code separated from
+eZ publish code, making it safe to update to newer versions of eZ publish.
+</p>
+
+<h2>Translation and internationalization</h2>
+<p>
+eZ publish continues to use the Qt linguist tool for translation, but the process is simplified.
+It is also easier to use translations in templates, and internationalized templates are easier to
+read for the template developer.
+</p>
+
+<h2>Documentation</h2>
+<p>
+The eZ publish SDK has full, crosslinked API documentation with UML diagrams, and several tutorials
+and other documents helping you getting up to speed with the new system.
+</p>
+
+<h2>Reusable Libraries</h2>
+<p>
+eZ publish comes with a set of PHP libraries that can be reused in other situations, such as
+XML document creation, parsing and validating, SOAP communication, database connectivity,
+image manipulation, template engine, and internationalization.
+</p>

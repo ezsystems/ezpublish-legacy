@@ -345,6 +345,23 @@ switch ( $Type )
         $content .= loadTodo();
         $Result["title"] = "Todo";
     } break;
+    case "features":
+    {
+        ob_start();
+        $docFile = "sdk/changes/features.php";
+        if ( file_exists( $docFile ) )
+            include( $docFile );
+        $content = ob_get_contents();
+        ob_end_clean();
+
+        if ( isset( $DocResult ) and
+             is_array( $DocResult ) )
+        {
+            if ( isset( $DocResult["title"] ) )
+                $docName = $DocResult["title"];
+        }
+        $Result["title"] = $docName;
+    } break;
     case "changelog":
     {
         include_once( "lib/version.php" );
