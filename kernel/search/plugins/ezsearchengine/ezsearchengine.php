@@ -1504,6 +1504,7 @@ class eZSearchEngine
         if ( is_numeric( $classAttributeID ) and  $classAttributeID > 0 )
         {
             $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$classAttributeID' AND ";
+            $this->GeneralFilter['classAttributeQuery'] = $classAttributeQuery;
         }
 
         $totalObjectCount = $this->fetchTotalObjectCount();
