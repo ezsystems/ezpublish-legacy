@@ -259,28 +259,6 @@ class eZSys
     }
 
     /*!
-     The defined image size.
-     \static
-    */
-    function imageSize()
-    {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance();
-        $smallWidth = $ini->variable( 'ImageSettings', 'SmallSizeWidth' );
-        $smallHeight = $ini->variable( 'ImageSettings', 'SmallSizeHeight' );
-        $mediumWidth = $ini->variable( 'ImageSettings', 'MediumSizeWidth' );
-        $mediumHeight = $ini->variable( 'ImageSettings', 'MediumSizeHeight' );
-        $largeWidth = $ini->variable( 'ImageSettings', 'LargeSizeWidth' );
-        $largeHeight = $ini->variable( 'ImageSettings', 'LargeSizeHeight' );
-        $sizeString = $smallWidth . "x" . $smallHeight;
-        $sizeString .= "_" . $mediumWidth . "x" . $mediumHeight;
-        $sizeString .= "_" . $largeWidth . "x" . $largeHeight;
-        return $sizeString;
-    }
-
-    /*!
      The filepath for the index file with the access path appended.
      \static
      \sa indexFileName
