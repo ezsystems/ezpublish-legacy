@@ -2,17 +2,19 @@
 <script language=jscript src={"/extension/xmleditor/dhtml/ezeditor.js"|ezroot}></script>
 <link rel="stylesheet" type="text/css" href={"/extension/xmleditor/dhtml/toolbar.css"|ezroot}>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table class="layout" width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
     <td valign="top">
     <!-- Left part start -->
-    <h1 class="top">Edit {$class.name} - {$object.name}</h1>
+    <div class="maincontentheader">
+    <h1>Edit {$class.name} - {$object.name}</h1>
+    </div>
 
     {section show=$validation.processed}
         {section name=UnvalidatedAttributes loop=$validation.attributes show=$validation.attributes}
 
         <div class="warning">
-        <h3 class="warning">Input did not validate</h3>
+        <h2>Input did not validate</h2>
         <ul>
         	<li>{$UnvalidatedAttributes:item.identifier}: {$UnvalidatedAttributes:item.name} ({$UnvalidatedAttributes:item.id})</li>
         </ul>
@@ -21,15 +23,15 @@
         {section-else}
 
         <div class="feedback">
-        <h3 class="feedback">Input was stored successfully</h3>
+        <h2>Input was stored successfully</h3>
         </div>
 
         {/section}
     {/section}
-    <table class="list" width="100%" border="0" cellspacing="0" cellpadding="1">
+    <table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
-        <th width="60%">{"Placement"|i18n('content/object')}</th>
-        <th width="40%" colspan="3">{"Sort by"|i18n('content/object')}</th>
+        <th width="60%">{"Placement"|i18n('content/object')}:</th>
+        <th width="40%" colspan="3">{"Sort by"|i18n('content/object')}:</th>
     </tr>
     {let name=Node sort_fields=hash(1,"Path"|i18n('content/object'),2,"Published"|i18n('content/object'),3,"Modified"|i18n('content/object'),4,"Section"|i18n('content/object'),5,"Depth"|i18n('content/object'),6,"Class Identifier"|i18n('content/object'),7,"Class Name"|i18n('content/object'),8,"Priority"|i18n('content/object'))}
    {let existingParentNodes=$object.parent_nodes}
@@ -37,7 +39,6 @@
     {let parent_node=$Node:item.parent_node_obj}
     <tr>
         <td class="{$Node:sequence}">
-	<span class="normal">
 	{switch match=$Node:parent_node.node_id}
 	{case match=1}
 	Top node
@@ -49,16 +50,13 @@
         {$Node:parent_node.name}
 	{/case}
 	{/switch} / {$object.name}
-	</span>
         </td>
         <td class="{$Node:sequence}">
-        <span class="normal">
           <select name="SortFieldMap[{$Node:item.id}]">
           {section name=Sort loop=$Node:sort_fields}
             <option value="{$Node:Sort:key}" {section show=eq($Node:Sort:key,$Node:item.sort_field)}selected="selected"{/section}>{$Node:Sort:item}</option>
           {/section}
           </select>
-        </span>
         </td>
         <td class="{$Node:sequence}">
         <img src={"move-down.gif"|ezimage} alt="Ascending" />
@@ -99,7 +97,7 @@
 	{case match=1}
 	{/case}
 	{case}
-	 <div align="right" class="buttonblock">
+	 <div class="buttonblock">
 	 <input class="button" type="submit" name="BrowseNodeButton" value="{'Add placement(s)'|i18n('content/object')}" />
 	{* <input class="button" type="submit" name="DeleteNodeButton" value="{'Remove placement'|i18n('content/object')}" />
 	 <input class="button" type="submit" name="MoveNodeButton" value="{'Move placement'|i18n('content/object')}" />*}
@@ -120,7 +118,6 @@
     <div class="buttonblock">
     <input class="button" type="submit" name="StoreButton" value="{'Store Draft'|i18n('content/object')}" />
     <input class="button" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('content/object')}" />
-    &nbsp;
     <input class="button" type="submit" name="CancelButton" value="{'Discard'|i18n('content/object')}" />
     </div>
     <!-- Left part end -->

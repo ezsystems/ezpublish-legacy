@@ -23,3 +23,13 @@ td.timingpoint2
 	font-size : 65%;
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 }
+
+p.comment /* Class to be used during development for quick comments that someone should notice easily */
+{
+    background-color: #ffff00;
+    font-weight: bold;
+    padding: 4px;
+    margin: 4px;
+    border: 2px dashed;
+    display: block; /* Set this attribute to "none" to hide the comments */
+}

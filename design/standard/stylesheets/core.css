@@ -41,7 +41,7 @@ p, ul, ol, dl, label, input, .normal, table.list th, table.list td
     font-size: 80%;
 }
 
-.small, div.byline p, p.picturetext, .factbox
+.small, div.byline p, p.picturetext, .factbox, input.smallbutton
 {
     font-size: 65%;
 }
@@ -243,6 +243,12 @@ div.labelbreak
 input.button
 {
     font-weight: bold;
+    margin-right: 5px;
+}
+
+input.smallbutton
+{
+    font-weight: normal;
     margin-right: 5px;
 }
 

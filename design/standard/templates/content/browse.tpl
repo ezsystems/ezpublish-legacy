@@ -1,25 +1,25 @@
 <form action={concat($return_url)|ezurl} method="post">
-
+<div class="maincontentheader">
 <h1>{"Browse"|i18n}</h1>
-
-<br /><b>Path:</b><br />
+</div>
+<b>Path:</b><br />
 &gt;
 {section name=Path loop=$parents}
  <a href={concat("/content/browse/",$Path:item.node_id,"/")|ezurl}>{$Path:item.name}</a> /
 {/section}
 {$main_node.name}
-<br/>
+<p class="comment">The path should be moved to the designated place outside this template. th[eZ]</p>
 
-<table width="100%">
+<table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-	<th>
-	ID
+	<th width="1%">
+	ID:
 	</th>
-	<th>
-	Name
+	<th width="98%">
+	Name:
 	</th>
-	<th>
-	Select
+	<th width="1%">
+	Select:
 	</th>
 </tr>
 <tr>
@@ -95,9 +95,13 @@
 {/section}
 </table>
 
+<p class="comment">I don't really understand how the list above works... The two first lines getting the same style, and the indenting seems strange. Do this show some kind of parent/child relationship? th[eZ]</p>
+
 <input type="hidden" name="BrowseActionName" value="{$browse_action_name}" />
 {*<input type="hidden" name="CustomActionButton[{$custom_action_button}]" value="{$custom_action_button}" />*}
 
-<input type="submit" name="SelectButton" value="Select" />
+<div class="buttonblock">
+<input class="button" type="submit" name="SelectButton" value="Select" />
+</div>
 
 </form>
