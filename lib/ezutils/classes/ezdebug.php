@@ -1108,7 +1108,7 @@ td.timingpoint2
             }
             else
             {
-                $returnText .= $point["Description"] .
+                $returnText .= $point["Description"] . ' ' .
                                number_format( ( $elapsed ), $this->TimingAccuracy ) . " sec".
                                ( empty( $nextPoint ) ? "" : number_format( ( $relElapsed ), $this->TimingAccuracy ) . " sec" ) . "\n";
             }
