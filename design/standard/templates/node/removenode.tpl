@@ -14,7 +14,7 @@
 
 <h1>{"Removing node assignment of %1"|i18n("design/standard/node",,array($object.name))}</h1>
 
-<input type="hidden" name=RemoveNodeID value={$node.node_id} />
+<input type="hidden" name=RemoveNodeID value={$node.parent_node_id} />
 <div class="buttonblock">
 {include uri="design:gui/button.tpl" name=Store id_name=ConfirmButton value="Confirm"|i18n("design/standard/node")}
 {include uri="design:gui/button.tpl" name=Discard id_name=CancelButton value="Cancel"|i18n("design/standard/node")}
