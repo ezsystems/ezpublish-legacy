@@ -147,6 +147,17 @@ class eZTemplateLocaleOperator
                                                            'default' => false ) ) );
     }
 
+    /*!
+     Converts the variable according to the locale type.
+     Allowed types are:
+     - time
+     - shorttime
+     - date
+     - shortdate
+     - currency
+     - clean_currency
+     - number
+    */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
         $locale =& eZLocale::instance();
@@ -282,6 +293,11 @@ class eZTemplateLocaleOperator
                 case 'currency':
                 {
                     $operatorValue = $locale->formatCurrency( $operatorValue );
+                } break;
+
+                case 'clean_currency':
+                {
+                    $operatorValue = $locale->formatCleanCurrency( $operatorValue );
                 } break;
 
                 case 'number':

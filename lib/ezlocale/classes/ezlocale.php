@@ -939,8 +939,21 @@ class eZLocale
     }
 
     /*!
+     Formats the number according locale to the representation used internally in PHP
+    */
+    function &internalNumber( $number )
+    {
+        $neg = $number < 0;
+        $num = $neg ? -$number : $number;
+        $num = str_replace( $this->ThousandsSeparator, '', (string)$num );
+        $num = str_replace( $this->DecimalSymbol, '.', (string)$num );
+        $num = ( $neg ? '-' : '' ) . $num;
+        return $num;
+    }
+
+    /*!
      Formats the currency $number according to locale information and returns it. If $as_html
-     is true all spaces are converted to &nbsp; before being returned.
+     is true all spaces are converted to &nbsp; before being returned ( depricated ).
     */
     function &formatCurrency( $number, $as_html = true )
     {
@@ -953,9 +966,40 @@ class eZLocale
                                      $neg ? $this->CurrencyNegativeSymbol : $this->CurrencyPositiveSymbol,
                                      $num_text ),
                               $neg ? $this->CurrencyNegativeFormat : $this->CurrencyPositiveFormat );
-//         if ( $as_html )
-//             $text =& str_replace( ' ', '&nbsp;', $text );
         return $text;
+    }
+
+    /*!
+      Formats the same as formatCurrency, but drops the currency sign
+
+      \param currency input
+    */
+    function &formatCleanCurrency( $number )
+    {
+        $neg = $number < 0;
+        $num = $neg ? -$number : $number;
+        $num_text =& number_format( $num, $this->CurrencyFractDigits,
+                                    $this->CurrencyDecimalSymbol, $this->CurrencyThousandsSeparator );
+        $text =& str_replace( array( '%c', '%p', '%q' ),
+                              array( '',
+                                     $neg ? $this->CurrencyNegativeSymbol : $this->CurrencyPositiveSymbol,
+                                     $num_text ),
+                              $neg ? $this->CurrencyNegativeFormat : $this->CurrencyPositiveFormat );
+        return $text;
+    }
+
+    /*!
+     Formats the currency according locale to the representation used internally in PHP
+    */
+    function &internalCurrency( $number )
+    {
+        $number = str_replace( ' ' , '', $number );
+        $neg = $number < 0;
+        $num = $neg ? -$number : $number;
+        $num = str_replace( $this->CurrencyThousandsSeparator, '', (string)$num );
+        $num = str_replace( $this->CurrencyDecimalSymbol, '.', (string)$num );
+        $num = ( $neg ? '-' : '' ) . $num;
+        return $num;
     }
 
     /*!

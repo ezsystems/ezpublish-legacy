@@ -50,6 +50,12 @@ Changes from 3.2-4 to 3.2-5
 
 *Library :
 
+eZ Locale:
+- Fixed eZFloat datatype to to handle locale settings correctly.
+- Fixed eZPrice to handle locale settings correctly.
+- Fixed shop->discount to handle locale settings correctly.
+  http://ez.no/community/bug_reports/floats_and_decimal_point_separator
+
 eZ template:
 - Some changes to the compiled templates. Removed the references when accessing attributes which fixed some of the problems with the image system.
   Use clearcache --clear-tpl after upgrading to be 100% sure they are recreated.

@@ -68,7 +68,11 @@ class eZPriceType extends eZDataType
         if ( $http->hasPostVariable( $base . "_data_price_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $data = $http->postVariable( $base . "_data_price_" . $contentObjectAttribute->attribute( "id" ) );
-            $data = str_replace(" ", "", $data );
+
+            include_once( 'lib/ezlocale/classes/ezlocale.php' );
+            $locale =& eZLocale::instance();
+            $data =& $locale->internalCurrency( $data );
+
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
             if( ( $classAttribute->attribute( "is_required" ) == false ) &&  ( $data == "" ) )
             {
@@ -121,6 +125,11 @@ class eZPriceType extends eZDataType
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
         $data = $http->postVariable( $base . "_data_price_" . $contentObjectAttribute->attribute( "id" ) );
+
+        include_once( 'lib/ezlocale/classes/ezlocale.php' );
+        $locale =& eZLocale::instance();
+        $data =& $locale->internalCurrency( $data );
+
         $contentObjectAttribute->setAttribute( "data_float", $data );
         return true;
     }
