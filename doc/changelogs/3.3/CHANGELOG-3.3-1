@@ -16,6 +16,8 @@ Changes from 3.3.0-2 to 3.3-1
 - Fixed pressing store button multiple times when editing classes. Will no longer cause strange behaviour in objects. ( merged from stable 4524 )
 - Fixed unset and missing parameter in eZDBInterface::lastSerialID implementations. ( merged from stable 4526 )
   http://ez.no/developer/ez_publish_3/bug_reports/ezkeyword_lastserialid
+- Fixed bookmark links in admin menu template. ( merged from stable 4528 )
+  http://ez.no/developer/ez_publish_3/bug_reports/typo_in_designadmintemplatespartsmediamenutpl
 
 *RSS:
 
