@@ -61,6 +61,11 @@ class eZContentBrowse
         }
     }
 
+    function attributes()
+    {
+        return array_keys( $this->Parameters );
+    }
+
     function hasAttribute( $attributeName )
     {
         return array_key_exists( $attributeName, $this->Parameters );
@@ -126,6 +131,13 @@ class eZContentBrowse
             $params['description_template'] = false;
 
         $params['start_node'] = $ini->variable( $params['type'], 'StartNode' );
+
+        if ( !isset( $params['top_level_nodes'] ) )
+        {
+            $params['top_level_nodes'] = $ini->variable( 'BrowseSettings', 'DefaultTopLevelNodes' );
+            if ( $ini->hasVariable( $params['type'], 'TopLevelNodes' ) )
+                $params['top_level_nodes'] = $ini->variable( $params['type'], 'TopLevelNodes' );
+        }
 
         if ( !isset( $params['from_page'] ) )
         {

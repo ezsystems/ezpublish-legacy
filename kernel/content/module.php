@@ -227,8 +227,11 @@ $ViewList["tipafriend"] = array(
     "script" => "tipafriend.php",
     "params" => array( "NodeID" ) );
 
-
-
+$ViewList["bookmark"] = array(
+    "default_navigation_part" => 'ezmynavigationpart',
+    "script" => "bookmark.php",
+    "params" => array(),
+    "unordered_params" => array( "offset" => "Offset" ) );
 
 
 $ClassID = array(

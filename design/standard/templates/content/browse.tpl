@@ -6,10 +6,12 @@
      recent_list=fetch('content','recent',array())
 
      select_name='SelectedObjectIDArray'
-     select_type='checkbox'}
+     select_type='checkbox'
+     select_attribute=contentobject_id}
 
 {section show=eq($browse.return_type,'NodeID')}
-    {set select_name='SelectedNodeIDArray'}
+    {set select_name='SelectedNodeIDArray'
+         select_attribute=node_id}
 {/section}
 {section show=eq($browse.selection,'single')}
     {set select_type='radio'}
@@ -51,7 +53,7 @@
         </tr>
         <tr>
             <td class="bglight">
-                <input type="{$select_type}" name="{$select_name}[]" value="{$main_node.node_id}" />
+                <input type="{$select_type}" name="{$select_name}[]" value="{$main_node[$select_attribute]}" />
             </td>
         
             <td class="bglight">
@@ -75,7 +77,7 @@
         {section name=Object loop=$object_array sequence=array(bgdark,bglight)}
         <tr class="{$Object:sequence}">
             <td>
-                <input type="{$select_type}" name="{$select_name}[]" value="{$:item.node_id}" />
+                <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
             </td>
         
             <td>
@@ -117,7 +119,7 @@
 
         <tr>
             <th colspan="2">
-                {"Top level"|i18n("design/standard/content/view")}
+                {"Top levels"|i18n("design/standard/content/view")}
             </th>
         </tr>
 
@@ -127,23 +129,20 @@
             </td>
         </tr>
         
-        {section name=TopLevel loop=array(hash(name,'Content'|i18n('design/standard/content/view'),
-                                               node_id,ezini('NodeSettings','RootNode','content.ini')),
-                                          hash(name,'Users'|i18n('design/standard/content/view'),
-                                               node_id,ezini('NodeSettings','UserRootNode','content.ini')))
+        {section name=TopLevel loop=$browse.top_level_nodes
                  sequence=array(bgdark,bglight)}
         <tr class="{$:sequence}">
             <td width="1">
-                <input type="{$select_type}" name="{$select_name}[]" value="{$:item.node_id}" />
+                <input type="{$select_type}" name="{$select_name}[]" value="{$:item}" />
             </td>
         
             <td>
                 <img src={"class_2.png"|ezimage} border="0" alt="{'Document'|i18n('design/standard/node/view')}" />
-                {section show=eq($:item.node_id,$main_node.node_id)}
-                    {$:item.name|wash}
+                {section show=eq($:item,$main_node.node_id)}
+                    {fetch(content,node,hash(node_id,$:item)).name|wash}
                 {section-else}
-                    <a href={concat("/content/browse/",$:item.node_id,"/")|ezurl}>
-                        {$:item.name|wash}
+                    <a href={concat("/content/browse/",$:item,"/")|ezurl}>
+                        {fetch(content,node,hash(node_id,$:item)).name|wash}
                     </a>
                 {/section}
             </td>
@@ -159,20 +158,24 @@
         {section name=Bookmark loop=$bookmark_list show=$bookmark_list sequence=array(bgdark,bglight)}
         <tr class="{$:sequence}">
             <td width="1">
-                <input type="{$select_type}" name="{$select_name}[]" value="{$:item.node_id}" />
+                <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
             </td>
         
             <td>
                 <img src={"class_2.png"|ezimage} border="0" alt="{'Document'|i18n('design/standard/node/view')}" />
-                <a href={concat("/content/browse/",$:item.node_id,"/")|ezurl}>
+                {section show=eq($:item.node_id,$main_node.node_id)}
                     {$:item.name|wash}
-                </a>
+                {section-else}
+                    <a href={concat("/content/browse/",$:item.node_id,"/")|ezurl}>
+                        {$:item.name|wash}
+                    </a>
+                {/section}
             </td>
         </tr>
         {section-else}
         <tr>
             <td colspan="2">
-                {'Bookmark items are added using %bookmarkname in the %personalname part.'
+                {'Bookmark items are managed using %bookmarkname in the %personalname part.'
                  |i18n('design/standard/content/view',,
                        hash('%bookmarkname',concat('<i>','My bookmarks'|i18n('design/admin/layout'),'</i>'),
                             '%personalname',concat('<i>','Personal'|i18n('design/admin/layout'),'</i>')))}
@@ -194,14 +197,18 @@
         {section name=Recent loop=$recent_list show=$recent_list sequence=array(bgdark,bglight)}
         <tr class="{$:sequence}">
             <td width="1">
-                <input type="{$select_type}" name="{$select_name}[]" value="{$:item.node_id}" />
+                <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
             </td>
         
             <td>
                 <img src={"class_2.png"|ezimage} border="0" alt="{'Document'|i18n('design/standard/node/view')}" />
-                <a href={concat("/content/browse/",$:item.node_id,"/")|ezurl}>
+                {section show=eq($:item.node_id,$main_node.node_id)}
                     {$:item.name|wash}
-                </a>
+                {section-else}
+                    <a href={concat("/content/browse/",$:item.node_id,"/")|ezurl}>
+                        {$:item.name|wash}
+                    </a>
+                {/section}
             </td>
         </tr>
         {section-else}
