@@ -316,5 +316,7 @@ We need to add a plugin system which generates meta data for binary files based
 on mime. E.g. we need a word and PDF indexer.
 
 
-
-
+Link XML TAG
+-----------
+Store links in link database ( ezlink ). Make upgrade script which will convert
+all links stored without this reference to correct.
