@@ -98,7 +98,8 @@ $tpl->setVariable( "phrase_search_text", $phraseSearchText );
 $tpl->setVariable( "content_class_array", $classArray );
 $tpl->setVariable( "search_content_class_attribute_array", $searchContentClassAttributeArray );
 
-$Result =& $tpl->fetch( "design:content/advancedsearch.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:content/advancedsearch.tpl" );
 
 eZSearchLog::addPhrase( $searchText, $searchResult["SearchCount"] );
 

@@ -145,6 +145,7 @@ $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "workflow_group", $workflowGroup );
 //$tpl->setVariable( "assigned_workflow_list", $assignedWorkflows );
 
-$Result =& $tpl->fetch( "design:workflow/groupedit.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:workflow/groupedit.tpl" );
 
 ?>

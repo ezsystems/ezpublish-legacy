@@ -151,6 +151,7 @@ $tpl->setVariable( "edit_version", $EditVersion );
 
 $tpl->setVariable( "content_attributes", $originalContentAttributes );
 
-$Result =& $tpl->fetch( "design:content/translate.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:content/translate.tpl" );
 
 ?>

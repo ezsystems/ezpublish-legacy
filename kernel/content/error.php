@@ -43,7 +43,8 @@ $Module->setTitle( "Error 404 object " . $NodeID . " not found" );
 
 $tpl->setVariable( "object", $NodeID );
 
-$Result =& $tpl->fetch( "design:content/error.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:content/error.tpl" );
 
 
 ?>

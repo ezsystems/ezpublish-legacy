@@ -292,6 +292,7 @@ $tpl->setVariable( "event_list", $event_list );
 $tpl->setVariable( "workflow_type_list", $type_list );
 $tpl->setVariable( "workflow_type", $cur_type );
 
-$Result =& $tpl->fetch( "design:workflow/edit.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:workflow/edit.tpl" );
 
 ?>

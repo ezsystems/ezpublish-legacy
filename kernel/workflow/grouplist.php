@@ -98,6 +98,7 @@ foreach( $TemplateData as $tpldata )
 
 $tpl->setVariable( "module", $Module );
 
-$Result =& $tpl->fetch( "design:workflow/grouplist.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:workflow/grouplist.tpl" );
 
 ?>

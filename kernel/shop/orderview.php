@@ -43,6 +43,7 @@ $order = eZOrder::fetch( $OrderID );
 
 $tpl->setVariable( "order", $order );
 
-$Result =& $tpl->fetch( "design:shop/orderview.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:shop/orderview.tpl" );
 
 ?>

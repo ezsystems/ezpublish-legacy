@@ -112,7 +112,8 @@ $tpl->setVariable( "process", $process );
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "http", $http );
 
-$Result =& $tpl->fetch( "design:workflow/process.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:workflow/process.tpl" );
 
 
 ?>

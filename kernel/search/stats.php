@@ -48,6 +48,7 @@ $mostFrequentPhraseArray =& eZSearchLog::mostFrequentPhraseArray();
 
 $tpl->setVariable( "most_frequent_phrase_array", $mostFrequentPhraseArray );
 
-$Result =& $tpl->fetch( "design:search/stats.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:search/stats.tpl" );
 
 ?>

@@ -142,6 +142,7 @@ foreach( $TemplateData as $tpldata )
 // $tpl->setVariable( "temp_classes", array() );
 $tpl->setVariable( "module", $Module );
 
-$Result =& $tpl->fetch( "design:class/list.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:class/list.tpl" );
 
 ?>

@@ -141,6 +141,7 @@ $basket = eZBasket::currentBasket();
 
 $tpl->setVariable( "basket", $basket );
 
+$Result = array();
 $Result['content'] =& $tpl->fetch( "design:shop/basket.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => 'Basket' ) );

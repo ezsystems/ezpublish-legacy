@@ -73,6 +73,7 @@ $tpl =& templateInit();
 
 $tpl->setVariable( "section", $section );
 
-$Result =& $tpl->fetch( "design:section/assign.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:section/assign.tpl" );
 
 ?>

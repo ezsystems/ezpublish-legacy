@@ -76,6 +76,7 @@ $tpl->setVariable( 'workflow_list', $workflowList );
 $tpl->setVariable( 'group_list', $groupList );
 $tpl->setVariable( 'module', $Module );
 
-$Result =& $tpl->fetch( 'design:workflow/list.tpl' );
+$Result = array();
+$Result['content'] =& $tpl->fetch( 'design:workflow/list.tpl' );
 
 ?>

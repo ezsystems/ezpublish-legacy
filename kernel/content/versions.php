@@ -121,6 +121,7 @@ $tpl->setVariable( "object", $object );
 
 $tpl->setVariable( "versions", $versions );
 
-$Result =& $tpl->fetch( "design:content/versions.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:content/versions.tpl" );
 
 ?>

@@ -201,6 +201,7 @@ $tpl =& templateInit();
 $tpl->setVariable( 'task', $task );
 $tpl->setVariable( 'module', $Module );
 
-$Result =& $tpl->fetch( 'design:task/edit.tpl' );
+$Result = array();
+$Result['content'] =& $tpl->fetch( 'design:task/edit.tpl' );
 
 ?>

@@ -104,6 +104,7 @@ $tpl->setVariable( "require_fixup", $requireFixup );
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "classgroup", $classgroup );
 
-$Result =& $tpl->fetch( "design:class/groupedit.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:class/groupedit.tpl" );
 
 ?>

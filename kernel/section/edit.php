@@ -55,6 +55,7 @@ $tpl =& templateInit();
 
 $tpl->setVariable( "section", $section );
 
-$Result =& $tpl->fetch( "design:section/edit.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:section/edit.tpl" );
 
 ?>

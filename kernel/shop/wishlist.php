@@ -91,6 +91,7 @@ $wishList =& eZWishList::currentWishList();
 
 $tpl->setVariable( "wish_list", $wishList );
 
+$Result = array();
 $Result['content'] =& $tpl->fetch( "design:shop/wishlist.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => 'Basket' ) );
