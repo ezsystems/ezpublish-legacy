@@ -44,7 +44,11 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
+    {section show=$can_remove}
 	<th colspan="2">
+    {section-else}
+    <th>
+    {/section}
 	{"Version:"|i18n("design/standard/content/version")}
 	</th>
 	<th>
