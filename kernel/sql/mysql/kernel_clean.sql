@@ -850,6 +850,8 @@ CREATE TABLE ezuser_setting (
 # Dumping data for table 'ezuser_setting'
 #
 
+INSERT INTO ezuser_setting VALUES (10,1,1000);
+INSERT INTO ezuser_setting VALUES (14,1,10);
 
 #
 # Table structure for table 'eznotification_rule'
