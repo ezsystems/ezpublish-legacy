@@ -131,6 +131,7 @@ class eZContentObjectVersion extends eZPersistentObject
                                                       'temp_main_node' => 'tempMainNode'
                                                       ),
                       'class_name' => "eZContentObjectVersion",
+                      "increment_key" => "id",
                       'sort' => array( 'version' => 'asc' ),
                       'name' => 'ezcontentobject_version' );
     }

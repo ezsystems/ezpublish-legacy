@@ -758,7 +758,7 @@ class eZContentObject extends eZPersistentObject
         $currentVersionNumber = $version->attribute( "version" );
         $contentObjectTranslations =& $version->translations();
 
-        $clonedVersion = $version->clone( $newVersionNumber, $userID, $contentObjectID, $status );
+        $clonedVersion =& $version->clone( $newVersionNumber, $userID, $contentObjectID, $status );
         if ( $contentObjectID !== false )
         {
             if ( $clonedVersion->attribute( 'status' ) == EZ_VERSION_STATUS_PUBLISHED )
@@ -790,8 +790,7 @@ class eZContentObject extends eZPersistentObject
             eZDebugSetting::writeDebug( 'kernel-content-object-copy', 'Add object relation', 'copyVersion' );
         }
 
-        return $version;
-//        return $clonedVersion;
+        return $clonedVersion;
 
     }
 
