@@ -76,7 +76,7 @@ if ( $http->hasPostVariable( "RemoveRuleButton" ) )
 
 if ( $http->hasPostVariable( "AddCustomerButton" ) )
 {
-    $http->setSessionVariable( "BrowseFromPage", "/shop/discountgroupmembershipview/" . $discountGroupID . "/" );
+    $http->setSessionVariable( "BrowseFromPage", "/shop/discountgroupview/" . $discountGroupID . "/" );
 
     $http->setSessionVariable( "BrowseActionName", "AddCustomer" );
     $http->setSessionVariable( "BrowseReturnType", "ObjectID" );
