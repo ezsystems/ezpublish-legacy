@@ -265,7 +265,7 @@ class eZHTTPTool
                 $protocol = $matches[1];
             $path = $matches[2];
         }
-        if ( preg_match( '#^//((([a-zA-Z0-9_.]+)(:([a-zA-Z0-9_.]+))?)@)?([^./:]+(\.[^./:]+)+)(:([0-9]+))?(.*)$#', $path, $matches ) )
+        if ( preg_match( '#^//((([a-zA-Z0-9_.]+)(:([a-zA-Z0-9_.]+))?)@)?([^./:]+(\.[^./:]+)*)(:([0-9]+))?(.*)$#', $path, $matches ) )
         {
             if ( $matches[6] )
             {
