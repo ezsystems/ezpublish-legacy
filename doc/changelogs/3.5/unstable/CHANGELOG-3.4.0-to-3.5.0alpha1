@@ -132,6 +132,9 @@ eztc.php:
 - Fixed bug in  eZContentClassClassGroup::fetchClassListByGroups on postgresql.
   Merged from stable/3.4 rev. 6893.
   http://ez.no/community/bug_reports/error_in_postgresql_with_ezcontentclassclassgroup_fetchclasslistbygroups
+- Fixed bug with incorrect user identification in ezapprove workflow event when run it from cronjobs.
+  Merged from stable/3.3 rev. 6895.
+  http://ez.no/community/bug_reports/workflow_approve_and_author
 
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that
