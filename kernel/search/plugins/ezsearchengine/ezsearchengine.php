@@ -300,6 +300,7 @@ class eZSearchEngine
             $prevWordID = $wordID;
             $placement++;
         }
+        $dbName = $db->databaseName();
 
         if ( $dbName == 'mysql' )
         {
