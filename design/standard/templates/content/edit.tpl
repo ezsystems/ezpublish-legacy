@@ -25,8 +25,9 @@
 	   <div class="feedback">
 	     <h2>{"Input was stored successfully"|i18n("design/standard/content/edit")}</h2>
 	     {section name=ValidationLog loop=$validation_log show=$validation_log}
+	     <h4>{$UnvalidatedAttributes:ValidationLog:item.identifier}:</h4>
 	     <ul>
-	       <li>{$UnvalidatedAttributes:ValidationLog:item.identifier}: {$UnvalidatedAttributes:ValidationLog:item.message}</li>
+	       {$UnvalidatedAttributes:ValidationLog:item.message}
 	     </ul>
 	     {/section}
 	   </div>
