@@ -47,11 +47,6 @@ div#toolbar-design
     padding: 0;
     margin: 0;
     float: right;
-    /* Test */
-}
-
-div#toolbar-top div.toolbar-item input.searchinput
-{
 }
 
 div#toolbar-top ul
@@ -64,18 +59,24 @@ div#toolbar-top li.toolbar-item
     font-size: 0.9em;
     display: inline;
     color: #339999;
-    font-weight: bold;
     padding: 0 8px 0 8px;
 }
 
 div#toolbar-top div.search-line
 {
     display: inline;
+    vertical-align: middle;
 }
 
 div#toolbar-top div.search-line form
 {
     display: inline;
+}
+
+div#toolbar-top input.searchinput
+{
+    height: 1.6em;
+    width: 7em;
 }
 
 div#toolbar-top li.toolbar-item a
@@ -189,7 +190,6 @@ div#topmenu li div.spacing
 div#topmenu li a
 {
     color: #ffffff;
-    font-weight: normal;
     text-decoration: none;
 }
 
@@ -207,7 +207,6 @@ div#topmenu li.last div.spacing
 div#topmenu li.selected a
 {
     color: #ffffff;
-    font-weight: bold;
 }
 
 div#topmenu li a:hover
