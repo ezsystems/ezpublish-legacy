@@ -1048,8 +1048,10 @@ class eZTemplateMultiPassParser extends eZTemplateParser
 
             if ( $funcName == 'def' )
             {
-                // parse variable value
+                // skip whitespaces
+                $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
 
+                // parse variable value
                 if ( $text[$cur_pos] != '=' )
                 {
                     $tpl->error( $funcName, "parser error @ $relatedTemplateName\n" .
@@ -1058,6 +1060,10 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                     return;
                 }
                 $cur_pos++;
+
+                // skip whitespaces
+                $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
+
                 $varValue =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
                 $args[$varName] =& $varValue;
             }
