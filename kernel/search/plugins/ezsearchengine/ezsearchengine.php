@@ -702,16 +702,38 @@ class eZSearchEngine
                         {
                             $sqlPartPart[] = 'ezcontentobject.section_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
                         }
-                        elseif( $limitation->attribute( 'name' ) == 'Owner' )
+                        elseif( $limitation->attribute( 'identifier' ) == 'Owner' )
                         {
-                            eZDebug::writeWarning( $limitation, 'System is not configured to check Assigned in search objects' );
+                            $user =& eZUser::currentUser();
+                            $userID = $user->attribute( 'contentobject_id' );
+                            $sqlPartPart[] = "ezcontentobject.owner_id = '" . $db->escapeString( $userID ) . "'";
+                        }
+                        elseif( $limitation->attribute( 'identifier' ) == 'Node' )
+                        {
+                            $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
+                            $hasNodeLimitation = true;
+                        }
+                        elseif( $limitation->attribute( 'identifier' ) == 'Subtree' )
+                        {
+                            $pathArray = split( ',', $limitation->attribute( 'values_as_string' ) );
+                            $sqlPartPartPart = array();
+                            foreach ( $pathArray as $limitationPathString )
+                            {
+                                $sqlPartPartPart[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
+                            }
+                            $sqlPartPart[] = implode( ' OR ', $sqlPartPartPart );
                         }
                     }
-                    $sqlParts[] = implode( ' AND ', $sqlPartPart );
+                    if ( count( $sqlPartPart ) > 0 )
+                    {
+                        $sqlParts[] = implode( ' AND ', $sqlPartPart );
+                    }
                 }
-                $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
-                $this->GeneralFilter['sqlPermissionCheckingString'] = $sqlPermissionCheckingString;
-
+                if ( count( $sqlParts ) > 0 )
+                {
+                    $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
+                    $this->GeneralFilter['sqlPermissionCheckingString'] = $sqlPermissionCheckingString;
+                }
             }
 
             $useVersionName = true;
