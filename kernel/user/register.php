@@ -168,6 +168,7 @@ $tpl->setVariable( "http", $http );
 $tpl->setVariable( "userAttributes", $userAttributes );
 $tpl->setVariable( "message", $message );
 
-$Result =& $tpl->fetch( "design:user/register.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:user/register.tpl" );
 
 ?>

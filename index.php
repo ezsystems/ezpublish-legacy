@@ -101,35 +101,41 @@ if ( $access !== null )
 
 session_start();
 
-$nodePathString = $uri->elements();
-$nodePathString = preg_replace( "/\.\w*$/", "", $nodePathString );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+$use_external_css = true;
+$show_page_layout = true;
+$moduleRunRequired = true;
 
-$node = eZContentObjectTreeNode::fetchByCRC(  $nodePathString  );
-
-if ( get_class( $node ) == 'ezcontentobjecttreenode' )
+while ( $moduleRunRequired )
 {
-    $newURI= '/content/view/full/' . $node->attribute( 'node_id' ) . '/';
-    $uri = & eZURI::instance( $newURI );
-}
+    $nodePathString = $uri->elements();
+    $nodePathString = preg_replace( "/\.\w*$/", "", $nodePathString );
+    include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-if ( !accessAllowed( $uri ) )
-{
-    $def_page = $ini->variable( "SiteSettings", "DefaultPage" );
-    $uri->setURIString( $def_page );
-}
+    $node = eZContentObjectTreeNode::fetchByCRC(  $nodePathString  );
 
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-$http =& eZHTTPTool::instance();
-$UserID =& $http->sessionVariable( "eZUserLoggedInID" );
-$currentUser =& eZUser::currentUser();
+    if ( get_class( $node ) == 'ezcontentobjecttreenode' )
+    {
+        $newURI= '/content/view/full/' . $node->attribute( 'node_id' ) . '/';
+        $uri = & eZURI::instance( $newURI );
+    }
 
-$check = eZHandlePreChecks();
+    if ( !accessAllowed( $uri ) )
+    {
+        $def_page = $ini->variable( "SiteSettings", "DefaultPage" );
+        $uri->setURIString( $def_page );
+    }
 
-include_once( "lib/ezutils/classes/ezmodule.php" );
-include_once( 'kernel/error/errors.php' );
+    include_once( "lib/ezutils/classes/ezhttptool.php" );
+    $http =& eZHTTPTool::instance();
+    $UserID =& $http->sessionVariable( "eZUserLoggedInID" );
+    $currentUser =& eZUser::currentUser();
 
-eZModule::setGlobalPathList( array( "kernel" ) );
+    $check = eZHandlePreChecks();
+
+    include_once( "lib/ezutils/classes/ezmodule.php" );
+    include_once( 'kernel/error/errors.php' );
+
+    eZModule::setGlobalPathList( array( "kernel" ) );
 
 // Initialize module name and override it if required
 // $module_name = $uri->element();
@@ -140,75 +146,92 @@ eZModule::setGlobalPathList( array( "kernel" ) );
 // $module =& eZModule::exists( $module_name );
 
 
-$displayMissingModule = false;
-if ( $uri->isEmpty() )
-{
-    $tmp_uri = new eZURI( $ini->variable( "SiteSettings", "IndexPage" ) );
-    $check = null;
-    if ( !fetchModule( $tmp_uri, $check, $module, $module_name, $function_name, $params ) )
-        $displayMissingModule = true;
-}
-else if ( !fetchModule( $uri, $check, $module, $module_name, $function_name, $params ) )
-{
-    if ( $ini->variable( "SiteSettings", "ErrorHandler" ) == "defaultpage" )
+    $displayMissingModule = false;
+    if ( $uri->isEmpty() )
     {
-        $tmp_uri = new eZURI( $ini->variable( "SiteSettings", "DefaultPage" ) );
+        $tmp_uri = new eZURI( $ini->variable( "SiteSettings", "IndexPage" ) );
         $check = null;
         if ( !fetchModule( $tmp_uri, $check, $module, $module_name, $function_name, $params ) )
             $displayMissingModule = true;
     }
+    else if ( !fetchModule( $uri, $check, $module, $module_name, $function_name, $params ) )
+    {
+        if ( $ini->variable( "SiteSettings", "ErrorHandler" ) == "defaultpage" )
+        {
+            $tmp_uri = new eZURI( $ini->variable( "SiteSettings", "DefaultPage" ) );
+            $check = null;
+            if ( !fetchModule( $tmp_uri, $check, $module, $module_name, $function_name, $params ) )
+                $displayMissingModule = true;
+        }
+        else
+            $displayMissingModule = true;
+    }
+
+    if ( !$displayMissingModule and get_class( $module ) == "ezmodule" )
+    {
+        // Run the module/function
+        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+        eZDebug::addTimingPoint( "Module start '" . $module->attribute( 'name' ) . "'" );
+
+        $currentUser =& eZUser::currentUser();
+
+        $aviableViewsInModule = $module->attribute( 'views' );
+        $runningFunctions = false;
+        if ( isset( $aviableViewsInModule[$function_name][ 'functions' ] ) )
+            $runningFunctions = $aviableViewsInModule[$function_name][ 'functions' ];
+        $accessResult = $currentUser->hasAccessTo( $module->attribute( 'name' ), $runningFunctions[0] );
+
+        if ( $accessResult['accessWord'] == 'limited' )
+        {
+            $params['Limitation'] =& $accessResult['policies'];
+        }
+
+        $GLOBALS['eZRequestedModule'] =& $module;
+
+        if ( $accessResult['accessWord'] == 'no' &&
+             $module->attribute( 'name' ) != 'role' &&
+             $module->attribute( 'name' ) != 'error' &&
+             $module->attribute( 'name' ) != 'user' &&
+             !( $module->attribute( 'name' ) == 'content'  &&  $function_name == 'browse' )
+             )
+        {
+            $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        }
+        else
+        {
+            $moduleResult =& $module->run( $function_name, $params );
+        }
+    }
     else
-        $displayMissingModule = true;
-}
-
-$use_external_css = true;
-$show_page_layout = true;
-
-if ( !$displayMissingModule and get_class( $module ) == "ezmodule" )
-{
-    // Run the module/function
-    include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-    eZDebug::addTimingPoint( "Module start '" . $module->attribute( 'name' ) . "'" );
-
-    $currentUser =& eZUser::currentUser();
-
-    $aviableViewsInModule = $module->attribute( 'views' );
-    $runningFunctions = false;
-    if ( isset( $aviableViewsInModule[$function_name][ 'functions' ] ) )
-        $runningFunctions = $aviableViewsInModule[$function_name][ 'functions' ];
-    $accessResult = $currentUser->hasAccessTo( $module->attribute( 'name' ), $runningFunctions[0] );
-
-    if ( $accessResult['accessWord'] == 'limited' )
     {
-        $params['Limitation'] =& $accessResult['policies'];
+        eZDebug::writeError( "Undefined module: $module_name", "index" );
+        $module = new eZModule( "", "", $module_name );
+        $GLOBALS['eZRequestedModule'] =& $module;
+        $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_MODULE_NOT_FOUND, 'kernel' );
+//         $moduleResult = array();
+//         $moduleResult["pagelayout"] = "undefinedmodule.tpl";
+//         $tpl_vars = array( "module" => array( "name" => $module_name ) );
+    }
+    $moduleRunRequired = false;
+    if ( $module->exitStatus() == EZ_MODULE_STATUS_RERUN )
+    {
+        if ( isset( $moduleResult['rerun_uri'] ) )
+        {
+            $uri = & eZURI::instance( $moduleResult['rerun_uri'] );
+            $moduleRunRequired = true;
+        }
+        else
+            eZDebug::writeError( 'No rerun URI specified, cannot continue', 'index.php' );
     }
 
-    $GLOBALS['eZRequestedModule'] =& $module;
-
-    if ( $accessResult['accessWord'] == 'no' &&
-         $module->attribute( 'name' ) != 'role' &&
-         $module->attribute( 'name' ) != 'error' &&
-         $module->attribute( 'name' ) != 'user' &&
-         !( $module->attribute( 'name' ) == 'content'  &&  $function_name == 'browse' )
-         )
+    if ( is_array( $moduleResult ) )
     {
-        $result =& $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
-    }
-    else
-    {
-        $result =& $module->run( $function_name, $params );
+        if ( isset( $moduleResult["pagelayout"] ) )
+            $show_page_layout =& $moduleResult["pagelayout"];
+        if ( isset( $moduleResult["external_css"] ) )
+            $use_external_css =& $moduleResult["external_css"];
     }
 }
-else
-{
-    eZDebug::writeError( "Undefined module: $module_name", "index" );
-    $module = new eZModule( "", "", $module_name );
-    $GLOBALS['eZRequestedModule'] =& $module;
-    $result = array();
-    $result["pagelayout"] = "undefinedmodule.tpl";
-    $tpl_vars = array( "module" => array( "name" => $module_name ) );
-}
-
 
 if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
 {
@@ -257,40 +280,22 @@ Redirecting to: <b>$redirectURI</b><br/>
     exit;
 }
 
-eZDebug::addTimingPoint( "Module end '" .$module->attribute( 'name' ) . "'" );
-if ( is_array( $result ) )
+eZDebug::addTimingPoint( "Module end '" . $module->attribute( 'name' ) . "'" );
+if ( !is_array( $moduleResult ) )
 {
-    $content =& $result["content"];
-    if ( isset( $result["pagelayout"] ) )
-        $show_page_layout =& $result["pagelayout"];
-    if ( isset( $result["external_css"] ) )
-        $use_external_css =& $result["external_css"];
+    eZDebug::writeError( 'Module did not return proper result: ' . $module->attribute( 'name' ), 'index.php' );
+    $moduleResult = array();
+    $moduleResult['content'] = false;
 }
-else
-{
-    $content =& $result;
-}
-
 
 eZDebug::setUseExternalCSS( $use_external_css );
 if ( $show_page_layout )
 {
     include_once( "kernel/common/template.php" );
     $tpl =& templateInit();
-    if ( !isset( $result['path'] ) )
-        $result['path'] = false;
-    $tpl->setVariable( "module_result", $result );
-
-    if ( $module->exitStatus() == EZ_MODULE_STATUS_OK )
-    {
-        $tpl->setVariable( "content", $content );
-    }
-    else if ( $module->exitStatus() == EZ_MODULE_STATUS_FAILED )
-    {
-        $tpl->setVariable( "content", $content );
-//         $tpl->setVariable( "content",
-//                            "Module $module_name failed." );
-    }
+    if ( !isset( $moduleResult['path'] ) )
+        $moduleResult['path'] = false;
+    $tpl->setVariable( "module_result", $moduleResult );
 
     $site = array(
         "title" => "eZ publish 3.0",
@@ -310,10 +315,6 @@ if ( $show_page_layout )
         {
             $tpl->setVariable( $tpl_var_name, $tpl_var_value );
         }
-    }
-    if ( $module->exitStatus() == EZ_MODULE_STATUS_SHOW_LOGIN_PAGE )
-    {
-        $show_page_layout = "loginpagelayout.tpl";
     }
 
     if ( $show_page_layout )
@@ -348,7 +349,7 @@ if ( $show_page_layout )
 }
 else
 {
-    print( $content );
+    print( $moduleResult['content'] );
 }
 
 eZDebug::addTimingPoint( "End" );

@@ -18,7 +18,7 @@
 
 {section name=Child loop=$item_list}
               <tr bordercolor="#000000" bgcolor="#000000"> 
-                <td colspan="4" valign="top" bgcolor="#ffffff">
+                <td colspan="3" valign="top" bgcolor="#ffffff">
                   {node_view_gui view=large content_node=$Child:item}
                 </td>
               </tr>
@@ -36,12 +36,10 @@
        {/case}
      {/switch}
 
-    {let offset_of_page=mul(int(div($view_parameters.offset,$thumbnail_page_limit)),$thumbnail_page_limit)}
-    <td bordercolor="#E2E2E2"> <div align="center"><a href={concat('content/view','/thumbnail/',$node.node_id,$offset_of_page|gt(0)|choose('',concat('/offset/',$offset_of_page)))|ezurl}><img src={"x_close.gif"|ezimage} width="20" height="18" border="0"></a></div></td>
-    {/let}
-    <td bordercolor="#E2E2E2"> <div align="center"><a href="javascript:OpenWindow({concat('layout/set/fullscreen/','content/view/slideshow/',$node.node_id,'/offset/',$view_parameters.offset)|ezurl(single)},'popup','scrollbars=no,resizable=yes,width=500,height=400')">Fullscreen</a></div></td>
-
-
+{*    {let offset_of_page=mul(int(div($view_parameters.offset,$thumbnail_page_limit)),$thumbnail_page_limit)} *}
+{*    <td bordercolor="#E2E2E2"> <div align="center"><a href={concat('content/view','/thumbnail/',$node.node_id,$offset_of_page|gt(0)|choose('',concat('/offset/',$offset_of_page)))|ezurl}><img src={"x_close.gif"|ezimage} width="20" height="18" border="0"></a></div></td> *}
+    <td bordercolor="#E2E2E2"> <div align="center"><a href="javascript:window.close();"><img src={"x_close.gif"|ezimage} width="20" height="18" border="0"></a></div></td>
+{*    {/let} *}
 
     {switch match=$item_next|lt($list_count)}
       {case match=1}

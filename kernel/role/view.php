@@ -101,6 +101,7 @@ $tpl->setVariable( "user_array", $userArray );
 
 $Module->setTitle( "View role - " . $role->attribute( "name" ) );
 
-$Result =& $tpl->fetch( 'design:role/view.tpl' );
+$Result = array();
+$Result['content'] =& $tpl->fetch( 'design:role/view.tpl' );
 
 ?>

@@ -115,7 +115,7 @@
 
 <!-- Main area START -->
 
-{$content}
+{$module_result.content}
 
 <!-- Main area END -->
 

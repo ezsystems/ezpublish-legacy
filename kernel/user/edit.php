@@ -123,6 +123,7 @@ $tpl->setVariable( "userProfile", $userProfile );
 //$tpl->setVariable( "userClassAttributes", $userClassAttributes );
 //$tpl->setVariable( "userObjectAttributes", $userObjectAttributes );
 
-$Result =& $tpl->fetch( "design:user/edit.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:user/edit.tpl" );
 
 ?>

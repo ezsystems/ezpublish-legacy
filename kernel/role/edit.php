@@ -251,6 +251,7 @@ $tpl->setVariable( "role", $role );
 
 $Module->setTitle( "Edit " . $role->attribute( "name" ) );
 
-$Result =& $tpl->fetch( 'design:role/edit.tpl' );
+$Result = array();
+$Result['content'] =& $tpl->fetch( 'design:role/edit.tpl' );
 
 ?>

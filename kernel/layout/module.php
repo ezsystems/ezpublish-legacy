@@ -1,6 +1,6 @@
 <?php
 //
-// Created on: <15-Aug-2002 14:37:29 bf>
+// Created on: <17-Apr-2002 11:05:08 amos>
 //
 // Copyright (C) 1999-2002 eZ systems as. All rights reserved.
 //
@@ -32,44 +32,14 @@
 // you.
 //
 
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/classes/ezcontentclass.php' );
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezrole.php' );
+$Module = array( 'name' => 'eZLayout',
+                 'variable_params' => true );
 
-$http =& eZHTTPTool::instance();
+$ViewList = array();
+$ViewList['set'] = array(
+    'script' => 'set.php',
+    'params' => array( 'LayoutStyle' ),
+    );
 
-
-$Module =& $Params['Module'];
-
-if ( $http->hasPostVariable( 'RemoveButton' )  )
-{
-    if ( $http->hasPostVariable( 'DeleteIDArray' ) )
-    {
-        $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
-        foreach ( $deleteIDArray as $deleteID )
-        {
-            eZRole::remove( $deleteID );
-        }
-    }
-}
-
-if ( $http->hasPostVariable( 'NewButton' )  )
-{
-    $role =& eZRole::createNew( );
-}
-
-$tpl =& templateInit();
-
-$roles =& eZRole::fetchList();
-$tempRoles = & eZRole::fetchList( 'temporaryVersions' );
-$tpl->setVariable( 'roles', $roles );
-$tpl->setVariable( 'temp_roles', $tempRoles );
-$tpl->setVariable( 'module', $Module );
-
-$Result = array();
-$Result['content'] =& $tpl->fetch( 'design:role/list.tpl' );
 
 ?>
-

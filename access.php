@@ -329,7 +329,7 @@ function changeAccess( $access )
     if ( $access['type'] == EZ_ACCESS_TYPE_URI )
     {
         include_once( 'lib/ezutils/classes/ezsys.php' );
-        eZSys::setAccessPath( $name );
+        eZSys::addAccessPath( $name );
     }
     if ( file_exists( "settings/siteaccess/$name" ) )
     {

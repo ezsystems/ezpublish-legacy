@@ -1,6 +1,6 @@
 <?php
 //
-// Created on: <15-Aug-2002 14:37:29 bf>
+// Created on: <09-Oct-2002 15:33:01 amos>
 //
 // Copyright (C) 1999-2002 eZ systems as. All rights reserved.
 //
@@ -32,44 +32,31 @@
 // you.
 //
 
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/classes/ezcontentclass.php' );
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezrole.php' );
-
-$http =& eZHTTPTool::instance();
-
-
+$LayoutStyle = $Params['LayoutStyle'];
 $Module =& $Params['Module'];
 
-if ( $http->hasPostVariable( 'RemoveButton' )  )
-{
-    if ( $http->hasPostVariable( 'DeleteIDArray' ) )
-    {
-        $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
-        foreach ( $deleteIDArray as $deleteID )
-        {
-            eZRole::remove( $deleteID );
-        }
-    }
-}
-
-if ( $http->hasPostVariable( 'NewButton' )  )
-{
-    $role =& eZRole::createNew( );
-}
-
-$tpl =& templateInit();
-
-$roles =& eZRole::fetchList();
-$tempRoles = & eZRole::fetchList( 'temporaryVersions' );
-$tpl->setVariable( 'roles', $roles );
-$tpl->setVariable( 'temp_roles', $tempRoles );
-$tpl->setVariable( 'module', $Module );
-
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:role/list.tpl' );
+$Result['content'] = '';
+$Result['rerun_uri'] = '/' . implode( '/', array_splice( $Params['Parameters'], 1 ) );
+
+$layoutINI =& eZINI::instance( 'layout.ini' );
+if ( $layoutINI->hasGroup( $LayoutStyle ) )
+{
+    if ( $layoutINI->hasVariable( $LayoutStyle, 'PageLayout' ) )
+        $Result['pagelayout'] = $layoutINI->variable( $LayoutStyle, 'PageLayout' );
+
+    include_once( 'kernel/common/eztemplatedesignresource.php' );
+    $res =& eZTemplateDesignResource::instance();
+    $res->setKeys( array( array( 'layout', $LayoutStyle ) ) );
+
+    include_once( 'lib/ezutils/classes/ezsys.php' );
+    eZSys::addAccessPath( array( 'layout', 'set', $LayoutStyle ) );
+
+    $Module->setExitStatus( EZ_MODULE_STATUS_RERUN );
+}
+else
+{
+    eZDebug::writeError( 'No such layout style: ' . $LayoutStyle, 'layout/set' );
+}
 
 ?>
-

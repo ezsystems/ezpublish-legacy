@@ -106,5 +106,7 @@ $tpl->setVariable( "LoginID", $LoginID );
 $tpl->setVariable( "UserIDHash", $UserIDHash );
 $tpl->setVariable( "message", $message );
 
-$Result =& $tpl->fetch( "design:user/activate.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:user/activate.tpl" );
+
 ?>

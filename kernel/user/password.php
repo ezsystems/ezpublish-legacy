@@ -97,6 +97,7 @@ $tpl->setVariable( "userID", $UserID );
 $tpl->setVariable( "userAccount", $user );
 $tpl->setVariable( "message", $message );
 
-$Result =& $tpl->fetch( "design:user/password.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:user/password.tpl" );
 
 ?>

@@ -13,6 +13,25 @@
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
     <link rel="stylesheet" type="text/css" href={"stylesheets/admin.css"|ezdesign} />
 
+<!-- Javascript START -->
+
+<script language="JavaScript">
+<!--
+{literal}
+function OpenWindow ( URL, WinName, Features ) {
+	popup = window.open ( URL, WinName, Features );
+	if ( popup.opener == null ) {
+		remote.opener = window;
+	}
+	popup.focus();
+}
+{/literal}
+
+// -->
+</script>
+
+<!-- Javascript END -->
+
 {* check if we need a http-equiv refresh *}
 {section show=$site.redirect}
 <meta http-equiv="Refresh" content="{$site.redirect.timer}; URL={$site.redirect.location}" />
@@ -84,7 +103,7 @@
 
 <!-- Main area START -->
 
-{$content}
+{$module_result.content}
 
 <!-- Main area END -->
 

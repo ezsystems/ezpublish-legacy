@@ -78,6 +78,7 @@ $tpl->setVariable( "http", $http );
 $tpl->setVariable( "userID", $UserID );
 $tpl->setVariable( "userSetting", $userSetting );
 
-$Result =& $tpl->fetch( "design:user/setting.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:user/setting.tpl" );
 
 ?>

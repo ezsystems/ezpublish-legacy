@@ -166,11 +166,11 @@ class eZSys
         if ( !isset( $this ) or get_class( $this ) != "ezsys" )
             $this =& eZSys::instance();
         $text = $this->IndexFile;
-        if ( $this->AccessPath != "" )
+        if ( count( $this->AccessPath ) > 0 )
         {
-            if ( $text != "" )
+//             if ( $text != "" )
                 $text .= "/";
-            $text .= $this->AccessPath;
+            $text .= implode( '/', $this->AccessPath );
         }
         return $text;
     }
@@ -265,11 +265,13 @@ class eZSys
      Sets the access path which is appended to the index file.
      \sa indexFile
     */
-    function setAccessPath( $path )
+    function addAccessPath( $path )
     {
         if ( !isset( $this ) or get_class( $this ) != "ezsys" )
             $this =& eZSys::instance();
-        $this->AccessPath = $path;
+        if ( !is_array( $path ) )
+            $path = array( $path );
+        $this->AccessPath = array_merge( $this->AccessPath, $path );
     }
 
     /*!
@@ -333,7 +335,7 @@ class eZSys
 //                $REQUEST_URI = "/";
         }
 
-        $this->AccessPath = "";
+        $this->AccessPath = array();
         $this->SiteDir =& $siteDir;
         $this->WWWDir =& $wwwDir;
         $this->IndexFile =& $index;

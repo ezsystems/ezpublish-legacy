@@ -107,6 +107,7 @@ $tpl->setVariable( 'login', $userLogin, 'User' );
 $tpl->setVariable( 'password', $userPassword, 'User' );
 $tpl->setVariable( 'redirect_uri', $userRedirectURI, 'User' );
 
-$Result =& $tpl->fetch( 'design:user/login.tpl' );
+$Result = array();
+$Result['content'] =& $tpl->fetch( 'design:user/login.tpl' );
 
 ?>
