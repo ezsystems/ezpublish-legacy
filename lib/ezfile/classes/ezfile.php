@@ -132,6 +132,18 @@ class eZFile
             return fread( $fp, filesize( $filename ) );
         }
     }
+
+    /*!
+     \private
+     Get suffix from filename
+
+     \param filename
+     \return suffix, extends: file/to/readme.txt return txt
+    */
+    function suffix( $filename )
+    {
+        return array_pop( explode( '.', $filename) );
+    }
 }
 
 ?>

@@ -163,8 +163,8 @@ class eZContentClassPackageHandler extends eZPackageHandler
                                                      'contentobject_name' => $classObjectNamePattern,
                                                      'created' => $classCreated,
                                                      'modified' => $classModified ) );
-            $class->setAttribute( 'id', $classID );
             $class->store();
+            $classID = $class->attributes( 'id' );
         }
 
         if ( !isset( $installData['classid_list'] ) )

@@ -918,10 +918,11 @@ class eZContentObjectVersion extends eZPersistentObject
      \param section ID
      \param new object, true if first version of new object
      \param options
+     \param package
 
      \returns created object, false if could not create object/xml invalid
     */
-    function &unserialize( &$domNode, &$contentObject, $ownerID, $sectionID, $activeVersion, $firstVersion, $options )
+    function &unserialize( &$domNode, &$contentObject, $ownerID, $sectionID, $activeVersion, $firstVersion, $options, &$package )
     {
         $oldVersion =& $domNode->attributeValue( 'version' );
         $status =& $domNode->attributeValue( 'status' );
@@ -964,7 +965,7 @@ class eZContentObjectVersion extends eZPersistentObject
                     continue;
                 }
 
-                $attribute->unserialize( $attributeDomNode );
+                $attribute->unserialize( $package, $attributeDomNode );
                 $attribute->store();
             }
         }
@@ -987,11 +988,12 @@ class eZContentObjectVersion extends eZPersistentObject
     /*!
      \return a DOM structure of the content object version, it's translations and attributes.
 
+     \param package
      \param package options ( optianal )
      \param array of allowed nodes ( optional )
      \param array of top nodes in current package export (optional )
     */
-    function &serialize( $options = false, $contentNodeIDArray = false, $topNodeIDArray = false )
+    function &serialize( &$package, $options = false, $contentNodeIDArray = false, $topNodeIDArray = false )
     {
         include_once( 'lib/ezxml/classes/ezdomdocument.php' );
         include_once( 'lib/ezxml/classes/ezdomnode.php' );
@@ -1021,7 +1023,7 @@ class eZContentObjectVersion extends eZPersistentObject
             eZDebug::writeDebug( "Attribute fetch end", 'eZContentObjectVersion::serialize' );
             foreach ( $attributes as $attribute )
             {
-                $translationNode->appendChild( $attribute->serialize() );
+                $translationNode->appendChild( $attribute->serialize( $package ) );
             }
             $versionNode->appendChild( $translationNode );
         }

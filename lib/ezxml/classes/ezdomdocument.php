@@ -188,6 +188,11 @@ class eZDOMDocument
     */
     function createArrayFromDOMNode( $domNode )
     {
+        if ( !$domNode )
+        {
+            return null;
+        }
+
         $retArray = array();
         foreach ( $domNode->children() as $childNode )
         {

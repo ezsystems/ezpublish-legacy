@@ -235,7 +235,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         $objectArrayNode =& eZDOMDocument::createElementNode( 'object-list' );
         foreach( array_keys( $this->ObjectArray ) as $objectID )
         {
-            $objectArrayNode->appendChild( $this->ObjectArray[$objectID]->serialize( $version, $options, $this->NodeObjectArray, $this->RootNodeIDArray ) );
+            $objectArrayNode->appendChild( $this->ObjectArray[$objectID]->serialize( $this->Package, $version, $options, $this->NodeObjectArray, $this->RootNodeIDArray ) );
         }
 
         return $objectArrayNode;
@@ -386,7 +386,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             $fileAttributes['file-type'] = $filetype;
         }
 
-        $path = substr( $filename, strpos( $siteAccess, $filename ) + strlen( $siteAccess ) + 1 );
+        $path = substr( $filename, strpos( $filename, '/', 7 ) );
 
         $fileDOMNode = eZDOMDocument::createElementNode( 'file', $fileAttributes );
         $fileDOMNode->appendChild( eZDOMDocument::createElementTextNode( 'original-path', $filename ) );
@@ -580,6 +580,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                       &$content, $installParameters,
                       &$installData )
     {
+        $this->Package =& $package;
         $this->installContentObjects( $content->elementByName( 'object-list' ),
                                       $content->elementByName( 'top-node-list' ),
                                       $installParameters );
@@ -609,7 +610,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         include_once( 'kernel/classes/ezcontentobject.php' );
         foreach( $objectListNode->elementsByName( 'object' ) as $objectNode )
         {
-            eZContentobject::unserialize( $objectNode, $installParameters, eZUser::currentUserID() );
+            eZContentobject::unserialize( $this->Package, $objectNode, $installParameters, eZUser::currentUserID() );
         }
     }
 

@@ -619,13 +619,13 @@ class eZDataType
     }
 
     /*!
+     \param package
+     \param content attribute
+
      \return a DOM representation of the content object attribute
     */
-    function &serializeContentObjectAttribute( &$objectAttribute )
+    function &serializeContentObjectAttribute( &$package, &$objectAttribute )
     {
-        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
-        include_once( 'lib/ezxml/classes/ezdomnode.php' );
-
         $node = new eZDOMNode();
 
         $node->setPrefix( 'ezobject' );
@@ -646,10 +646,11 @@ class eZDataType
     /*!
      Unserailize contentobject attribute
 
+     \param package
      \param contentobject attribute object
      \param ezdomnode object
     */
-    function unserializeContentObjectAttribute( &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
         $objectAttribute->setAttribute( 'sort_key_int', (int)$attributeNode->attributeValue( 'sort-key-int' ) );
         $objectAttribute->setAttribute( 'sort_key_string', $attributeNode->attributeValue( 'sort-key-float' ) );

@@ -2334,6 +2334,7 @@ class eZContentObject extends eZPersistentObject
      \static
      Unserialize xml structure. Create object from xml input.
 
+     \param package
      \param XML DOM Node
      \param parent node object.
      \param Options
@@ -2341,7 +2342,7 @@ class eZContentObject extends eZPersistentObject
 
      \returns created object, false if could not create object/xml invalid
     */
-    function &unserialize( &$domNode, $options, $ownerID = false )
+    function &unserialize( &$package, &$domNode, $options, $ownerID = false )
     {
         if ( $domNode->prefix() != 'ez' || $domNode->name() != 'object' )
         {
@@ -2389,7 +2390,8 @@ class eZContentObject extends eZPersistentObject
                                                                          $sectionID,
                                                                          $versionListNode->attributeValue( 'active_version' ),
                                                                          $firstVersion,
-                                                                         $options );
+                                                                         $options,
+                                                                         $package );
 
             $firstVersion = false;
             if ( $versionDOMNode->attributeValue( 'version' ) == $versionListNode->attributeValue( 'active_version' ) )
@@ -2413,12 +2415,13 @@ class eZContentObject extends eZPersistentObject
     /*!
      \return a DOM structure of the content object and it's attributes.
 
+     \param package
      \param Content object version, true for current version, false for all, else array containing specific versions.
      \param package options ( optianal )
      \param array of allowed nodes ( optional )
      \param array of top nodes in current package export (optional )
     */
-    function &serialize( $specificVersion = false, $options = false, $contentNodeIDArray = false, $topNodeIDArray = false )
+    function &serialize( &$package, $specificVersion = false, $options = false, $contentNodeIDArray = false, $topNodeIDArray = false )
     {
         if ( $options['node_assignment'] == 'main' )
         {
@@ -2473,7 +2476,7 @@ class eZContentObject extends eZPersistentObject
         foreach ( array_keys( $versions ) as $versionKey )
         {
             $version =& $versions[$versionKey];
-            $versionNode =& $version->serialize( $options, $contentNodeIDArray, $topNodeIDArray );
+            $versionNode =& $version->serialize( $package, $options, $contentNodeIDArray, $topNodeIDArray );
             $versionsNode->appendChild( $versionNode );
         }
         $objectNode->appendChild( $versionsNode );

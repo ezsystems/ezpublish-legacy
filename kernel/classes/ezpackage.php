@@ -224,7 +224,7 @@ class eZPackage
                                    'extension', 'source',
                                    'version-number', 'release-number', 'release-timestamp',
                                    'maintainers', 'documents', 'groups',
-                                   'file-list', 'file-count',
+                                   'simple-file-list', 'file-list', 'file-count',
                                    'can_read', 'can_export', 'can_import', 'can_install',
                                    'changelog', 'dependencies',
                                    'is_installed', 'is_active', 'install_type',
@@ -270,7 +270,7 @@ class eZPackage
                                 'extension', 'source',
                                 'version-number', 'release-number', 'release-timestamp',
                                 'maintainers', 'documents', 'groups',
-                                'file-list', 'file-count',
+                                'simple-file-list', 'file-list', 'file-count',
                                 'can_read', 'can_export', 'can_import', 'can_install',
                                 'changelog', 'dependencies',
                                 'is_installed', 'is_active', 'install_type',
@@ -293,7 +293,7 @@ class eZPackage
                               'extension', 'source',
                               'version-number', 'release-number', 'release-timestamp',
                               'maintainers', 'documents', 'groups',
-                              'file-list',
+                              'simple-file-list', 'file-list',
                               'changelog', 'dependencies',
                               'install', 'uninstall',
                               'is_installed', 'is_active', 'install_type',
@@ -2015,6 +2015,9 @@ class eZPackage
                                  $changelogRelease, $changelogTimestamp, $changelogModified );
         }
 
+        // Read simple files
+        $this->Parameters['simple-file-list'] = eZDOMDocument::createArrayFromDOMNode( $root->elementByName( 'simple-files' ) );
+
         // Read files
         $filesList =& $root->elementChildrenByName( 'files' );
         if ( $filesList )
@@ -2295,6 +2298,7 @@ class eZPackage
         $licence = $this->attribute( 'licence' );
         $state = $this->attribute( 'state' );
 
+        $simpleFileList = $this->attribute( 'simple-file-list' );
         $fileList = $this->attribute( 'file-list' );
         $dependencies = $this->attribute( 'dependencies' );
         $install = $this->attribute( 'install' );
@@ -2442,6 +2446,41 @@ class eZPackage
             }
             $root->appendChild( $changelogNode );
         }
+
+        // Handle simple files
+        foreach( $simpleFileList as $key => $fileInfo )
+        {
+            if ( $export )
+            {
+                $packagePath = $fileInfo['package-path'];
+                if ( $packagePath )
+                {
+                    $sourcePath = $this->path() . '/' . $packagePath;
+                    $destinationPath = $exportPath . '/' . $packagePath;
+                    eZDir::mkdir( eZDir::dirpath( $destinationPath ), false, true );
+                    eZFileHandler::copy( $sourcePath, $destinationPath );
+                }
+                else
+                {
+                    $suffix = eZFile::suffix( $fileInfo['original-path'] );
+                    $sourcePath = $fileInfo['original-path'];
+                    $simpleFileList[$key]['package-path'] = eZPackage::simpleFilesDirectory() . '/' . substr( md5( mt_rand() ), 0, 8 ) . '.' . $suffix;
+                    $destinationPath = $exportPath . '/' . $simpleFileList[$key]['package-path'];
+                    eZDir::mkdir( eZDir::dirpath( $destinationPath ), false, true );
+                    eZFileHandler::copy( $sourcePath, $destinationPath );
+                }
+            }
+            else if ( $simpleFileList[$key]['package-path'] == '' )
+            {
+                $suffix = eZFile::suffix( $fileInfo['original-path'] );
+                $sourcePath = $fileInfo['original-path'];
+                $simpleFileList[$key]['package-path'] = eZPackage::simpleFilesDirectory() . '/' . substr( md5( mt_rand() ), 0, 8 ) . '.' . $suffix;
+                $destinationPath = $this->path() . '/' . $simpleFileList[$key]['package-path'];
+                eZDir::mkdir( eZDir::dirpath( $destinationPath ), false, true );
+                eZFileHandler::copy( $sourcePath, $destinationPath );
+            }
+        }
+        $root->appendChild( $dom->createElementNodeFromArray( 'simple-files', $simpleFileList ) );
 
         // Handle files
         $filesNode =& $dom->createElementNode( 'files' );
@@ -2643,34 +2682,6 @@ class eZPackage
         $dependencyNode =& $dom->createElementNode( 'dependencies' );
         $dependencyNode->appendAttribute( $dom->createAttributeNode( 'ezdependency', 'http://ez.no/ezpackage', 'xmlns' ) );
 
-//         if ( isset( $release['provides']['file-lists'] ) )
-//         {
-//             foreach ( $release['provides']['file-lists'] as $fileList )
-//             {
-//                 $fileListNode =& $dom->createElementNode( 'file-list' );
-//                 if ( $fileList['role'] )
-//                     $fileListNode->appendAttribute( $dom->createAttributeNode( 'role', $fileList['role'] ) );
-//                 if ( $fileList['sub-directory'] )
-//                     $fileListNode->appendAttribute( $dom->createAttributeNode( 'sub-directory', $fileList['sub-directory'] ) );
-//                 foreach ( $fileList['parameters'] as $parameterName => $parameterValue )
-//                 {
-//                     $fileListNode->appendAttribute( $dom->createAttributeNode( $parameterName, $parameterValue ) );
-//                 }
-//                 $providesNode->appendChild( $fileListNode );
-//                 foreach ( $fileList['files'] as $file )
-//                 {
-//                     $fileNode =& $dom->createElementNode( 'file', array( 'name' => $file['name'] ) );
-//                     if ( $file['role'] )
-//                         $fileNode->appendAttribute( $dom->createAttributeNode( 'role', $file['role'] ) );
-//                     if ( $file['sub-directory'] )
-//                         $fileNode->appendAttribute( $dom->createAttributeNode( 'sub-directory', $file['sub-directory'] ) );
-//                     if ( $file['md5sum'] )
-//                         $fileNode->appendAttribute( $dom->createAttributeNode( 'md5sum', $file['md5sum'] ) );
-//                     $fileListNode->appendChild( $fileNode );
-//                 }
-//             }
-//         }
-
         $providesNode =& $dependencyNode->appendChild( $dom->createElementNode( 'provides' ) );
         $requiresNode =& $dependencyNode->appendChild( $dom->createElementNode( 'requires' ) );
         $obsoletesNode =& $dependencyNode->appendChild( $dom->createElementNode( 'obsoletes' ) );
@@ -2851,6 +2862,52 @@ class eZPackage
             }
         }
         return $handler;
+    }
+
+    /*!
+     Append File to package assosiated with key. The file will be available during installation using the same key.
+
+     \param key
+     \param file path
+    */
+    function appendSimpleFile( $key, $filepath )
+    {
+        if ( !isset( $this->Parameters['simple-file-list'] ) )
+        {
+            $this->Parameters['simple-file-list'] = array();
+        }
+        $this->Parameters['simple-file-list'][$key] = array( 'original-path' => $filepath,
+                                                             'package-path' => '' );
+    }
+
+    /*!
+     Get complete path to file by file key
+
+     \param file key
+
+     \return complete file path
+    */
+    function simpleFilePath( $fileKey )
+    {
+        if ( !isset( $this->Parameters['simple-file-list'] ) )
+        {
+            return false;
+        }
+        if ( !isset( $this->Parameters['simple-file-list'][$fileKey] ) )
+        {
+            return false;
+        }
+
+        return $this->path() . '/' . $this->Parameters['simple-file-list'][$fileKey]['package-path'];
+    }
+
+    /*!
+     \private
+     Get local simple file path
+    */
+    function simpleFilesDirectory()
+    {
+        return 'simplefiles';
     }
 
     /// \privatesection

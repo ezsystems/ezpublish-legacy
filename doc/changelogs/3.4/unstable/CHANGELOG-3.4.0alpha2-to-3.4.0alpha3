@@ -81,6 +81,9 @@ eZUtils:
 eZXML:
 - Added array to XML to array support.
 
+eZFile:
+- Added static function to get suffix from file.
+
 *Unit tests:
 
 *Bugfixes:

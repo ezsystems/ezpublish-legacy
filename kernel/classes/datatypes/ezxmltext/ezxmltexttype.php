@@ -408,6 +408,46 @@ class eZXMLTextType extends eZDataType
         $inputHandler =& $content->attribute( 'input' );
         $inputHandler->customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute );
     }
+
+    /*!
+     \reimp
+     \return a DOM representation of the content object attribute
+    */
+    function &serializeContentObjectAttribute( &$package, &$objectAttribute )
+    {
+        include_once( 'lib/ezutils/classes/ezxml.php' );
+
+        $node = new eZDOMNode();
+
+        $node->setPrefix( 'ezobject' );
+        $node->setName( 'attribute' );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $objectAttribute->attribute( 'id' ), 'ezremote' ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'identifier', $objectAttribute->contentClassAttributeIdentifier(), 'ezremote' ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
+        $node->appendAttribute( eZDomDocument::createAttributeNode( 'sort-key-int', (string)$objectAttribute->attribute( 'sort_key_int' ) ) );
+        $node->appendAttribute( eZDomDocument::createAttributeNode( 'sort-key-string', $objectAttribute->attribute( 'sort_key_string' ) ) );
+
+        $xml = new eZXML();
+        $domDocument = $xml->domTree( $objectAttribute->attribute( 'data_text' ) );
+        $node->appendChild( $domDocument->root() );
+
+        return $node;
+    }
+
+    /*!
+     \reimp
+     \param contentobject attribute object
+     \param ezdomnode object
+    */
+    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    {
+        $objectAttribute->setAttribute( 'sort_key_int', (int)$attributeNode->attributeValue( 'sort-key-int' ) );
+        $objectAttribute->setAttribute( 'sort_key_string', $attributeNode->attributeValue( 'sort-key-float' ) );
+        $rootNode = $attributeNode->firstChild();
+        $objectAttribute->setAttribute( 'data_text', $rootNode->toString( 0 ) );
+    }
+
 }
 
 eZDataType::register( EZ_DATATYPESTRING_XML_TEXT, "ezXMLTextType" );
