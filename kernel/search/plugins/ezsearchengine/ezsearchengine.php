@@ -915,7 +915,7 @@ class eZSearchEngine
                 }
             }
 
-            $nonExistingWordCount = count( $searchWordArray ) - count( $wordIDHash );
+            $nonExistingWordCount = count( array_unique( $searchWordArray ) ) - count( $wordIDHash );
             $excludeWordCount = $searchWordCount - count( $stopWordArray );
 
             if ( ( count( $stopWordArray ) + $nonExistingWordCount ) == $searchWordCount && $this->TempTablesCount == 0 )
