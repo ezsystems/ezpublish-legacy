@@ -10,6 +10,16 @@ Changes from 3.4.0alpha2 to 3.4.0alpha3
   Added eZTemplateDesignResource::allDesignBases().
 - Added the possibility to fetch a node by it's url alias (path), this is also
   possible in the fetch operator content/node.
+- Made sure eZContentClass::fetchByIdentifier returns null when the
+  content class could not be fetched.
+- New entry in content.ini (SetupRootNode) which controls which node
+  is the setup node.
+
+*Updates:
+- Fixed cleanup.php script to cleanup the user/session link table when
+  cleaning session.
+- New script to create any missing top level objects/nodes.
+  It will create Content, Users, Media and Setup.
 
 eZPersistentObject:
 - Fixed a bug which caused some classes to only produce insert statements.
@@ -21,6 +31,12 @@ eZPersistentObject:
 *Shop:
 
 *Libraries:
+
+eZUtils:
+- Added functions for creating an ANSI string which stores and restores the
+  position in eZCLI.
+- Added function for creating an ANSI string which moves the text to a
+  specific column in eZCLI.
 
 *Unit tests:
 

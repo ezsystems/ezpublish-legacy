@@ -637,6 +637,18 @@ class eZUser extends eZPersistentObject
     }
 
     /*!
+     \removes all user<->session links.
+    */
+    function cleanupSessionLink()
+    {
+        include_once( 'lib/ezdb/classes/ezdb.php' );
+        $db =& eZDB::instance();
+        $query = "TRUNCATE TABLE ezuser_session_link";
+
+        $db->query( $query );
+    }
+
+    /*!
      \return logs in the current user object
     */
     function loginCurrent()

@@ -1,0 +1,193 @@
+#!/usr/bin/env php
+<?php
+//
+// Created on: <06-Apr-2004 14:26:28 amos>
+//
+// Copyright (C) 1999-2004 eZ systems as. All rights reserved.
+//
+// This source file is part of the eZ publish (tm) Open Source Content
+// Management System.
+//
+// This file may be distributed and/or modified under the terms of the
+// "GNU General Public License" version 2 as published by the Free
+// Software Foundation and appearing in the file LICENSE.GPL included in
+// the packaging of this file.
+//
+// Licencees holding valid "eZ publish professional licences" may use this
+// file in accordance with the "eZ publish professional licence" Agreement
+// provided with the Software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING
+// THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+// PURPOSE.
+//
+// The "eZ publish professional licence" is available at
+// http://ez.no/products/licences/professional/. For pricing of this licence
+// please contact us via e-mail to licence@ez.no. Further contact
+// information is available at http://ez.no/home/contact/.
+//
+// The "GNU General Public License" (GPL) is available at
+// http://www.gnu.org/copyleft/gpl.html.
+//
+// Contact licence@ez.no if any conditions of this licencing isn't clear to
+// you.
+//
+
+include_once( 'lib/ezutils/classes/ezcli.php' );
+include_once( 'kernel/classes/ezscript.php' );
+
+$cli =& eZCLI::instance();
+$script =& eZScript::instance( array( 'description' => ( "eZ publish Setup Node Creator\n\n" .
+                                                         "This script will create the setup top level node if it does not exist,\n" .
+                                                         "\n" .
+                                                         "createsetup.php" ),
+                                      'use-session' => false,
+                                      'use-modules' => true,
+                                      'use-extensions' => true ) );
+
+$script->startup();
+
+$options = $script->getOptions( "[class-identifier:]", "",
+                                array( 'class-identifier' => "Which class to create top level nodes from, default is 'folder'" ) );
+$script->initialize();
+
+$db =& eZDB::instance();
+
+$contentINI =& eZINI::instance( 'content.ini' );
+
+include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+
+$checkNodes = array( array( 'Content', 'RootNode' ),
+                     array( 'Users', 'UserRootNode' ),
+                     array( 'Media', 'MediaRootNode' ),
+                     array( 'Setup', 'SetupRootNode' ) );
+
+$contentClassIdentifier = 'folder';
+if ( $options['class-identifier'] )
+    $contentClassIdentifier = $options['class-identifier'];
+
+$sectionID = 1;
+$userID = 14;
+$class =& eZContentClass::fetchByIdentifier( $contentClassIdentifier );
+if ( !is_object( $class ) )
+    $script->shutdown( 1, "Failed to load content class for identifier '$contentClassIdentifier'" );
+
+$storeContentINI = false;
+$i = 0;
+foreach ( $checkNodes as $checkNode )
+{
+    if ( $i > 0 )
+        $cli->output();
+    $name = $checkNode[0];
+    $iniVariable = $checkNode[1];
+    $rootNodeID = $contentINI->variable( 'NodeSettings', $iniVariable );
+
+    $cli->output( "Checking node " . $cli->stylize( 'highlight', $name ) . " (" . $cli->stylize( 'emphasize', $rootNodeID ) . ")",
+                  false );
+
+    $rootNode =& eZContentObjectTreeNode::fetch( $rootNodeID );
+
+    $createNode = false;
+    if ( is_object( $rootNode ) )
+    {
+        $parentNodeID = $rootNode->attribute( 'parent_node_id' );
+        if ( $parentNodeID != 1 )
+        {
+            $cli->output( $cli->gotoColumn( 50 ) . $cli->stylize( 'failure', "[ Failed ]" ) );
+            $cli->output( "This is not a top level node, a new one will be created" );
+            $createNode = true;
+        }
+        else
+        {
+            $cli->output( $cli->gotoColumn( 50 ) . $cli->stylize( 'success', "[   OK   ]" ) );
+        }
+    }
+    else
+    {
+        $rootNode =& eZContentObjectTreeNode::fetchByURLPath( $name );
+        if ( is_object( $rootNode ) )
+        {
+            $cli->output( $cli->gotoColumn( 50 ) . $cli->stylize( 'success', "[   OK   ]" ) );
+            $cli->output( "The actual node ID is " . $cli->stylize( 'emphasize', $rootNode->attribute( 'node_id' ) ) . ", will update content.ini with this" );
+            $contentINI->setVariable( 'NodeSettings', $iniVariable, $rootNode->attribute( 'node_id' ) );
+            $cli->output( "Updated content.ini with new ID " );
+            $storeContentINI = true;
+        }
+        else
+        {
+            $cli->output( $cli->gotoColumn( 50 ) . $cli->stylize( 'failure', "[ Failed ]" ) );
+            $cli->output( "The node does not exist, a new one will be created" );
+            $createNode = true;
+        }
+    }
+
+    if ( $createNode )
+    {
+        $cli->output( 'Creating', false );
+
+        $contentObject =& $class->instantiate( $userID, $sectionID );
+
+        if ( is_object( $contentObject ) )
+        {
+            $contentVersion =& $contentObject->version( $contentObject->attribute( 'current_version' ) );
+            $contentObjectAttributes =& $contentVersion->contentObjectAttributes();
+            foreach ( array_keys( $contentObjectAttributes ) as $contentObjectAttributeKey )
+            {
+                $contentObjectAttribute =& $contentObjectAttributes[$contentObjectAttributeKey];
+                $contentClassAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
+                $contentClassAttributeIdentifier = $contentClassAttribute->attribute( 'identifier' );
+                $contentObjectAttributeType = $contentObjectAttribute->attribute( 'data_type_string' );
+                if ( ( $contentObjectAttributeType == 'ezstring' or
+                       $contentObjectAttributeType == 'eztext' ) and
+                     ( $contentClassAttributeIdentifier == 'name' or
+                       $contentClassAttributeIdentifier == 'title' ) )
+                {
+                    $contentObjectAttribute->setAttribute( 'data_text', $name );
+                    $contentObjectAttribute->store();
+                    break;
+                }
+            }
+
+            $nodeAssignment =& eZNodeAssignment::create( array( 'contentobject_id' => $contentObject->attribute( 'id' ),
+                                                                'contentobject_version' => $contentObject->attribute( 'current_version' ),
+                                                                'parent_node' => 1,
+                                                                'is_main' => 1 ) );
+            $nodeAssignment->store();
+
+            include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+            $operationResult = eZOperationHandler::execute( 'content', 'publish',
+                                                            array( 'object_id' => $contentObject->attribute( 'id' ),
+                                                                   'version' => $contentObject->attribute( 'current_version' ) ) );
+            $cli->output( $cli->gotoColumn( 50 ) . $cli->stylize( 'success', " [   OK   ]" ) );
+
+            $contentObject = eZContentObject::fetch( $contentObject->attribute( 'id' ) );
+            $node = $contentObject->mainNode();
+            if ( is_object( $node ) )
+            {
+                $cli->output( "New root node ID: " . $cli->stylize( 'emphasize', $node->attribute( 'node_id' ) ) );
+                if ( $rootNodeID != $node->attribute( 'node_id' ) )
+                {
+                    $contentINI->setVariable( 'NodeSettings', $iniVariable, $node->attribute( 'node_id' ) );
+                    $cli->output( "Updated content.ini with new ID " );
+                    $storeContentINI = true;
+                }
+            }
+        }
+        else
+        {
+            $cli->output( $cli->gotoColumn( 50 ) . $cli->stylize( 'failure', " [ Failed ]" ) );
+        }
+    }
+
+    ++$i;
+}
+if ( $storeContentINI )
+{
+    $cli->output();
+    $cli->output( "Writing back changes to content.ini" );
+    $contentINI->save( false, false, 'append', true );
+}
+
+$script->shutdown();
+
+?>

@@ -361,6 +361,8 @@ if ( $clean['session'] )
 {
     $cli->output( "Removing all sessions" );
     eZSessionEmpty();
+    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+    eZUser::cleanupSessionLink();
 }
 else
 {

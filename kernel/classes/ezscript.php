@@ -698,7 +698,7 @@ class eZScript
         $cli->output( $helpText );
     }
 
-    function getOptions( $config = '', $argumentConfig, $optionHelp = false,
+    function getOptions( $config = '', $argumentConfig = '', $optionHelp = false,
                          $arguments = false, $useStandardOptions = true )
     {
         if ( is_string( $config ) )

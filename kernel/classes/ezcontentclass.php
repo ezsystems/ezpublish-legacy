@@ -643,9 +643,13 @@ class eZContentClass extends eZPersistentObject
                                                       array( "offset" => 0,
                                                              "length" => 2 ),
                                                       false );
-        $row =& $rows[0];
-        $row["version_count"] = count( $rows );
-        return new eZContentClass( $row );
+        if ( count( $rows ) > 0 )
+        {
+            $row =& $rows[0];
+            $row["version_count"] = count( $rows );
+            return new eZContentClass( $row );
+        }
+        return null;
     }
 
     /*!

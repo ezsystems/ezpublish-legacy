@@ -175,7 +175,10 @@ class eZCLI
                                        'paragraph' => "\033[0;39m",
                                        'paragraph-end' => "\033[0;39m",
                                        'normal' => "\033[0;39m",
-                                       'normal-end' => "\033[0;39m" );
+                                       'normal-end' => "\033[0;39m",
+
+                                       );
+
         $this->WebStyles = array( 'warning' => "<font color=\"orange\">",
                                   'warning-end' => "</font>",
                                   'error' => "<font color=\"red\">",
@@ -214,6 +217,7 @@ class eZCLI
                                   'paragraph-end' => "</p>",
                                   'normal' => "",
                                   'normal-end' => "" );
+
         $this->EmptyStyles = array();
         foreach ( $this->TerminalStyles as $styleName => $styleValue )
         {
@@ -303,6 +307,33 @@ class eZCLI
         $preStyle = $this->style( $styleName );
         $postStyle = $this->style( $styleName . '-end' );
         return $preStyle . $text . $postStyle;
+    }
+
+    /*!
+     \static
+     \returns an ANSI sequence which will store the current position.
+    */
+    function storePosition()
+    {
+        return "\033[s";
+    }
+
+    /*!
+     \static
+     \returns an ANSI sequence which will restore the current position.
+    */
+    function restorePosition()
+    {
+        return "\033[u";
+    }
+
+    /*!
+     \static
+     \return an ANSI sequence which will tell the console go to the specified column.
+    */
+    function gotoColumn( $column )
+    {
+        return "\033[" . $column . "G";
     }
 
     /*!
