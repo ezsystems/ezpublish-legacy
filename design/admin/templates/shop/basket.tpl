@@ -51,25 +51,15 @@
 	<td>{$Products.item.total_price_inc_vat|l10n( currency )}</td>
 </tr>
 {section show=$Products.item.item_object.option_list}
-<tr>
-  <td colspan='4'>
-  <table class="shop-option_list">
-  <tr>
-<td colspan='3'>
-{'Selected options'|i18n( 'design/admin/shop/basket' )}
-</td>
-</tr>
-     {section var=Options loop=$Products.item.item_object.option_list}
-      <tr>
-        <td width="33%">{$Options.item.name}</td>
-        <td width="33%">{$Options.item.value}</td>
-        <td width="33%">{$Options.item.price|l10n( currency )}</td>
-      </tr>
-    {/section}
-     </table>
-   </td>
-  <td class="{$Products.sequence}" colspan='5'>
-  </td>
+<tr class="{$Products.sequence}">
+    <td></td>
+    <td colspan="8">
+    {*'Selected options'|i18n( 'design/admin/shop/basket' ): *}
+{section var=Options loop=$Products.item.item_object.option_list}
+{$Options.item.name}: {$Options.item.value}
+{delimiter}, {/delimiter}
+{/section}
+    </td>
 </tr>
 {/section}
 {/section}
