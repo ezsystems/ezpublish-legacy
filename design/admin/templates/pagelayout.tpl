@@ -31,7 +31,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 <div id="header-design">
 
 <div id="logo">
-<a href="/"><img src={"images/ezpublish-logo-200x40.gif"|ezdesign} width="200" height="40" alt="" border="0" /></a>
+<a href="/"><img src={"ezpublish-logo-200x40.gif"|ezimage} width="200" height="40" alt="" border="0" /></a>
 </div>
 
 <div id="userstatus">
