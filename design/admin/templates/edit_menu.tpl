@@ -96,11 +96,10 @@
 </p>
 
 <div class="block">
-<input class="button" type="submit" name="PreviewButton" value="{'Preview'|i18n('design/admin/content/edit')}" />
+<input class="button" type="submit" name="PreviewButton" value="{'Preview'|i18n( 'design/admin/content/edit' )}" />
 </div>
 <div class="block">
-{*<input class="button" type="submit" name="StoreButton" value="{'Store'|i18n('design/standard/content/edit')}" />*}
-<input class="button" type="submit" name="StoreExitButton" value="{'Store and exit'|i18n('design/standard/content/edit')}" />
+<input class="button" type="submit" name="StoreExitButton" value="{'Store and exit'|i18n( 'design/admin/content/edit' )}" />
 </div>
 
 {section show=fetch( content, translation_list )|count|gt( 1 )}
@@ -143,7 +142,7 @@
 <label>
 <input type="radio" name="EditSelectedLanguage" value="{$Translation:item.language_code}" {section show=eq($Translation:index,$Translation:language_index)}checked="checked"{/section} />
 {section show=$Translation:item.locale.is_valid}
-<img src={$Translation:item.language_code|flag_icon} alt="{$Translation:item.language_code}" style="vertical-align: middle;" /> {$Translation:item.locale.intl_language_name|shorten( 16 )}
+<img src={$Translation:item.language_code|flag_icon} alt="{$Translation:item.language_code}" style="vertical-align: middle;" /> {$Translation:item.locale.intl_language_name|shorten( 15 )}
 {section-else}
 {'%1 (No locale information available)'|i18n( 'design/admin/content/edit',, array($Translation:item.language_code))}
 {/section}
