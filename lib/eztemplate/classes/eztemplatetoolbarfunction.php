@@ -260,8 +260,10 @@ class eZTemplateToolbarFunction
                     $definedVariables = array();
                     $toolbarName = "Toolbar_" . $toolbarPosition;
                     $toolArray = $toolbarIni->variable( $toolbarName, 'Tool' );
+		    $actionParameters = array();
                     foreach ( array_keys( $toolArray ) as $toolKey )
                     {
+			$definedVariables = array();
                         $tool = $toolArray[$toolKey];
                         $placement = $toolKey + 1;
                         if ( $toolbarIni->hasGroup( "Tool_" . $tool ) )
@@ -300,15 +302,19 @@ class eZTemplateToolbarFunction
                             else
                             {
                                 $tpl->setVariable( "first", true );
+                                $tpl->setVariable( "last", false );
                                 $tpl->setVariable( "placement", "first" );
                                 $definedVariables[] = "first";
+                                $definedVariables[] = "last";
                                 $definedVariables[] = "placement";
                             }
                         }
                         else if ( $placement == count( $toolArray ) )
                         {
+                            $tpl->setVariable( "first", false );
                             $tpl->setVariable( "last", true );
                             $tpl->setVariable( "placement", "last" );
+                            $definedVariables[] = "first";
                             $definedVariables[] = "last";
                             $definedVariables[] = "placement";
                         }
