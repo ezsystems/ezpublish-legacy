@@ -63,13 +63,13 @@ class eZDateTimeType extends eZDataType
         $day = $http->postVariable( $base . "_datetime_day_" . $contentObjectAttribute->attribute( "id" ) );
         $hour = $http->postVariable( $base . "_datetime_hour_" . $contentObjectAttribute->attribute( "id" ) );
         $minute = $http->postVariable( $base . "_datetime_minute_" . $contentObjectAttribute->attribute( "id" ) );
-        $datetime = $year.$month.$day.$hour.$minute;
+        $dateTime = $year.'-'.$month.'-'.$day.'-'.$hour.'-'.$minute;
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-        if( ( $classAttribute->attribute( "is_required" ) == false ) &&  ( $data == "" ) )
+        if( ( $classAttribute->attribute( "is_required" ) == false ) &&  ( $dateTime == "----" ) )
         {
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         }
-        if ( preg_match( "#^[1-2]{1}[0-9]{3}[1-2]{1}[0-9]{1}[0-3]{1}[0-9]{1}[0-2]{1}[0-9]{1}[0-6]{1}[0-9]{1}$#", $datatime ) )
+        if ( preg_match( "#^[1-2]{1}[0-9]{3}-[0-9]{1,2}-[0-9]{1,2}-[0-9]{1,2}-[0-9]{1,2}$#", $dateTime ) )
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }

@@ -106,6 +106,27 @@ class eZDate
         $this->Locale =& eZLocale::instance();
     }
 
+    function hasAttribute( $attr )
+    {
+        if ( $attr == "year" or
+             $attr == "month" or
+             $attr == "day")
+            return true;
+        else
+            return false;
+    }
+
+    function &attribute( $attr )
+    {
+        if ( $attr == "day"  )
+            return $this->day();
+        else if ( $attr == "year"  )
+            return $this->year();
+        else if ( $attr == "month"  )
+            return $this->month();
+        else
+            return false;
+    }
     /*!
      Sets the locale to $locale which is used in text output.
     */
@@ -130,6 +151,11 @@ class eZDate
     function &timeStamp()
     {
         return $this->Date;
+    }
+
+    function setTimeStamp( $stamp )
+    {
+        $this->Date = $stamp;
     }
 
     /*!

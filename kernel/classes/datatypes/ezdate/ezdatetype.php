@@ -58,18 +58,17 @@ class eZDateType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        if ( $http->hasPostVariable( $base . "_data_date_" . $contentObjectAttribute->attribute( "id" ) ) )
+        $year = $http->postVariable( $base . "_date_year_" . $contentObjectAttribute->attribute( "id" ) );
+        $month = $http->postVariable( $base . "_date_month_" . $contentObjectAttribute->attribute( "id" ) );
+        $day = $http->postVariable( $base . "_date_day_" . $contentObjectAttribute->attribute( "id" ) );
+        $date = $year.$month.$day;
+        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+        if( ( $classAttribute->attribute( "is_required" ) == false ) &&  ( $date == "" ) )
         {
-            $data = $http->postVariable( $base . "_data_date_" . $contentObjectAttribute->attribute( "id" ) );
-            $data = str_replace(" ", "", $data );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-            if( ( $classAttribute->attribute( "is_required" ) == false ) &&  ( $data == "" ) )
-            {
-                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-            }
-            if ( preg_match( "#[0-9]+[/.-][0-9]+[/.-][0-9]+#", $data ) )
-                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         }
+        if ( preg_match( "#^[1-2]{1}[0-9]{3}[0-9]{1,2}[0-9]{1,2}$#", $date ) )
+            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
 
@@ -78,18 +77,22 @@ class eZDateType extends eZDataType
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        if ( $http->hasPostVariable( $base . "_data_date_" . $contentObjectAttribute->attribute( "id" ) ) )
-        {
-            $data = $http->postVariable( $base . "_data_date_" . $contentObjectAttribute->attribute( "id" ) );
-            if( $data != null )
-            {
-                list ( $day, $month, $year) = split ('[/.-]', $data);
-                $date = $day . "." . $month . "." . $year;
-                $contentObjectAttribute->setAttribute( "data_text", $date );
-            }
-            else
-                $contentObjectAttribute->setAttribute( "data_text", null );
-        }
+        $year = $http->postVariable( $base . "_date_year_" . $contentObjectAttribute->attribute( "id" ) );
+        $month = $http->postVariable( $base . "_date_month_" . $contentObjectAttribute->attribute( "id" ) );
+        $day = $http->postVariable( $base . "_date_day_" . $contentObjectAttribute->attribute( "id" ) );
+        $date = new eZDate();
+        $date->setMDY( $month, $day, $year );
+        $contentObjectAttribute->setAttribute( "data_int", $date->timeStamp() );
+    }
+
+    /*!
+     Returns the content.
+    */
+    function &objectAttributeContent( &$contentObjectAttribute )
+    {
+        $date = new eZDate( );
+        $date->setTimeStamp( $contentObjectAttribute->attribute( 'data_int' ) );
+        return $date;
     }
 
     /*!
@@ -97,7 +100,7 @@ class eZDateType extends eZDataType
     */
     function metaData( $contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( 'data_text' );
+        return $contentObjectAttribute->attribute( 'data_int' );
     }
 
     /*!
@@ -105,7 +108,7 @@ class eZDateType extends eZDataType
     */
     function title( &$contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( "data_text" );
+        return $contentObjectAttribute->attribute( "data_int" );
     }
 }
 

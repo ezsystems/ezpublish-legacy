@@ -58,15 +58,16 @@ class eZTimeType extends eZDataType
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
         $hour = $http->postVariable( $base . "_time_hour_" . $contentObjectAttribute->attribute( "id" ) );
-        $minute = $http->postVariable( $base . "_time_minute_" . $contentObjectAttribute->attribute( "id" ) );  $isbn = $field1.'-'.$field2.'-'.$field3.'-'.$field4;
+        $minute = $http->postVariable( $base . "_time_minute_" . $contentObjectAttribute->attribute( "id" ) );
+        $time =  $hour.':'.$minute;
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-        if( ( $classAttribute->attribute( "is_required" ) == false ) &&  ( $hour == ""  or $minute == "" ) )
+        if( ( $classAttribute->attribute( "is_required" ) == false ) &&  ( $time == ":" ) )
         {
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         }
-        if ( preg_match( "#^[0-2]{1}[0-9]{1}$#", $hour ) and  preg_match( "#^[0-6]{1}[0-9]{1}$#", $minute ) )
+        if ( preg_match( "#^[0-9]{1,2}:[0-9]{1,2}$#", $time ) )
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
 
     /*!
