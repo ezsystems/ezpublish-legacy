@@ -69,7 +69,7 @@
 
 <ol>
 	<li>Make sure you have met the eZ publish requirements</li>
-	<li>Go to <a href="http://ez.no/download">http://ez.no/download</a> and download the latest release of eZ publish</li>
+	<li>Go to <a href="http://ez.no/developer/download">http://ez.no/developer/download</a> and download the latest release of eZ publish</li>
 	<li>Extract the downloaded eZ publish file somewhere on Apache's DocumentRoot <pre class="example"> $ tar xvfz ezpublish-xxx.tar.gz -C &lt;apache_document_root&gt;</pre> and rename it to something nice like 'ezpublish'</li>
     <li>Open a browser and enter the url for your eZ publish installation</li>
 	<li>Follow the setup guide instructions</li>
@@ -104,7 +104,7 @@
 
 <ol>
 	<li>Make sure you have met the eZ publish requirements</li>
-	<li>Go to <a href="http://ez.no/download">http://ez.no/download</a> and download the latest release of eZ publish</li>
+	<li>Go to <a href="http://ez.no/developer/download">http://ez.no/developer/download</a> and download the latest release of eZ publish</li>
 	<li>Extract the downloaded eZ publish file somewhere on Apache's DocumentRoot and rename it to something nice like 'ezpublish'</li>
     <li>Open a browser and enter the url for your eZ publish installation</li>
 	<li>Follow the setup guide instructions</li>

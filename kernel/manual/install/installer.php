@@ -41,7 +41,7 @@
 <h3 id="Windows">Windows installer</h3>
 
 <ol>
-	<li>Go to <a href="http://ez.no/download">http://ez.no/download</a></li>
+	<li>Go to <a href="http://ez.no/developer/download">http://ez.no/developer/download</a></li>
 	<li>Find the Windows installer matching your Windows version</li>
 	<li>Download the installer to your hard drive</li>
 	<li>Double click on the downloaded file and follow the instructions*</li>
