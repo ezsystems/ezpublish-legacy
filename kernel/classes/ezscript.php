@@ -140,7 +140,7 @@ class eZScript
 
         eZDebug::setHandleType( EZ_HANDLE_TO_PHP );
 
-        if ( php_sapi_name() != 'cli' )
+        if ( php_sapi_name() != 'cli' and php_sapi_name() != 'cgi-fcgi' )
         {
             exit( 1 );
         }
