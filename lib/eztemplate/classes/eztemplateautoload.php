@@ -134,7 +134,6 @@ $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
                                                                'chr',
                                                                'ord',
                                                                'shorten',
-                                                               'wordbreak',
                                                                'pad') );
 
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatedigestoperator.php',

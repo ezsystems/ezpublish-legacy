@@ -62,7 +62,6 @@ class eZTemplateStringOperator
                                        $chrName        = 'chr',
                                        $ordName        = 'ord',
                                        $shortenName    = 'shorten',
-                                       $wordBreakName  = 'wordbreak',
                                        $padName        = 'pad')
     {
         $this->Operators      = array( $upcaseName,
@@ -79,7 +78,6 @@ class eZTemplateStringOperator
                                        $chrName,
                                        $ordName,
                                        $shortenName,
-                                       $wordBreakName,
                                        $padName );
 
         $this->UpcaseName     = $upcaseName;
@@ -96,7 +94,6 @@ class eZTemplateStringOperator
         $this->ChrName        = $chrName;
         $this->OrdName        = $ordName;
         $this->ShortenName    = $shortenName;
-        $this->WordBreakName  = $wordBreakName;
         $this->PadName        = $padName;
     }
 
@@ -141,9 +138,6 @@ class eZTemplateStringOperator
                                                    'str_to_append' => array( "type" => "string",
                                                                              "required" => false,
                                                                              "default" => "..." ) ),
-                      $this->WordBreakName => array( 'max_word_length' => array( "type" => "integer",
-                                                                                 "required" => false,
-                                                                                 "default" => 30) ),
                       $this->PadName => array(  'desired_length'   => array( "type"     => "integer",
                                                                              "required" => false,
                                                                              "default"  => 80),
@@ -251,11 +245,6 @@ function modify( &$tpl,
                 if ( $operatorLength > $chop )
                     $operatorValue = $operatorValue.$namedParameters['str_to_append'];
             }
-        }break;
-
-        case $this->WordBreakName:
-        {
-            $operatorValue = wordwrap( $operatorValue, $namedParameters['max_word_length'], ' ', 1 );
         }break;
 
             // Wash (translate strings to non-spammable text):
