@@ -1,27 +1,27 @@
-Value<odd>: 8
+Value<odd>: 6
 last()
 last.last()
 last.last.last()
-Value<even>: 7
-last(8)
-last.last()
-last.last.last()
- / Value<odd>: 6
-last(7)
-last.last(8)
-last.last.last()
 Value<even>: 5 [Fiver(5)]
 last(6)
-last.last(7)
-last.last.last(8)
+last.last()
+last.last.last()
  / Value<odd>: 4
 last(5)
 last.last(6)
-last.last.last(7)
+last.last.last()
 Value<even>: 3
 last(4)
 last.last(5)
 last.last.last(6)
+ / Value<odd>: 2
+last(3)
+last.last(4)
+last.last.last(5)
+Value<even>: 1
+last(2)
+last.last(3)
+last.last.last(4)
 
 Value<odd>: 3
 last()

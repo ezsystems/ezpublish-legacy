@@ -74,7 +74,8 @@ class eZTemplateSectionIterator
     */
     function &templateValue()
     {
-        return $this->InternalAttributes['item'];
+        $value =& $this->InternalAttributes['item'];
+        return $value;
     }
 
     /*!
@@ -122,25 +123,29 @@ class eZTemplateSectionIterator
      \return the attribute value of either the internal attributes or
              from the item value if the attribute exists for it.
     */
-    function attribute( $name )
+    function &attribute( $name )
     {
         if ( in_array( $name, $this->InternalAttributeNames ) )
         {
-            return $this->InternalAttributes[$name];
+            unset( $tempValue );
+            $tempValue =& $this->InternalAttributes[$name];
+            return $tempValue;
         }
         $item =& $this->InternalAttributes['item'];
         if ( is_array( $item ) )
         {
-            return $item[$name];
+            $arrayItem = $item[$name];
+            return $arrayItem;
         }
         else if ( is_object( $item ) and
                   method_exists( $item, 'attribute' ) )
         {
             unset( $tempValue );
-            $tempValue = $item->attribute( $name );
+            $tempValue =& $item->attribute( $name );
             return $tempValue;
         }
-        return null;
+        $tempValue = null;
+        return $tempValue;
     }
 
     /*!

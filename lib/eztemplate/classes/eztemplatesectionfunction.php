@@ -417,13 +417,16 @@ class eZTemplateSectionFunction
             $code .= ( "    else if ( is_numeric( \$loopItem ) )\n" .
                        "    {\n" );
             if ( $reverseLoop )
-                $code .= "        \$item = \$loopCountValue - \$index;\n";
+                $code .= "        \$item = \$loopCountValue - \$index - $offsetText;\n";
             else
                 $code .= "        \$item = \$index + $offsetText + 1;\n";
             $code .= ( "        if ( \$loopItem < 0 )\n" .
-                       "            \$item = -\$item;\n" .
-                       "        \$loopKey = \$item;\n" .
-                       "    }\n" );
+                       "            \$item = -\$item;\n" );
+            if ( $reverseLoop )
+                $code .= "        \$loopKey = \$loopCountValue - \$index - $offsetText - 1;\n";
+            else
+                $code .= "        \$loopKey = \$index + $offsetText;\n";
+            $code .= "    }\n";
 
             // Iterator check for string
             $code .= ( "    else if ( is_string( \$loopItem ) )\n" .
@@ -461,7 +464,8 @@ class eZTemplateSectionFunction
                                                                       array( 'spacing' => 4 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'key' ), false, true, true );
                 $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'item', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
                                                                       array( 'spacing' => 4 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'item' ), false, true, true );
-                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'index', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
+                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$currentIndexInc = \$currentIndex - 1;\n" );
+                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'currentIndexInc', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
                                                                       array( 'spacing' => 4 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'index' ), false, true, true );
                 $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'currentIndex', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
                                                                       array( 'spacing' => 4 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'number' ), false, true, true );
@@ -825,7 +829,7 @@ class eZTemplateSectionFunction
         }
         else
         {
-            $variableIteratorValue = false;
+            $iteratorData = array( 'iterator' => false );
             $showMainBody = true;
             if ( $showItem !== null )
             {
@@ -847,12 +851,13 @@ class eZTemplateSectionFunction
                         $arrayKeys = array_reverse( $arrayKeys );
                     foreach ( $arrayKeys as $key )
                     {
+                        unset( $item );
                         $item =& $array[$key];
                         $usedElement = $this->processChildren( $textElements, $items[1], $key, $item, $index, $isFirstRun,
                                                                $delimiterStructure, $sequenceStructure, $filterStructure,
                                                                $tpl, $rootNamespace, $name, $functionPlacement,
                                                                $variableIterator, $noLastValue,
-                                                               $variableIteratorValue );
+                                                               $iteratorData );
                         if ( $usedElement )
                         {
                             if ( $iterationMaxCount !== false )
@@ -876,13 +881,16 @@ class eZTemplateSectionFunction
                     $currentCount = 0;
                     for ( $i = $loopStart; $i < $count; ++$i )
                     {
+                        unset( $iterator );
                         if ( $reverseLoop )
-                            $iterator = ($count - $i) + 1;
+                            $iterator = ( $count - $i ) - 1;
                         else
                             $iterator = $i;
+                        unset( $key );
+                        unset( $item );
                         if ( $value < 0 )
                         {
-                            $key = -$iterator;
+                            $key = $iterator;
                             $item = -$iterator - 1;
                         }
                         else
@@ -894,7 +902,7 @@ class eZTemplateSectionFunction
                                                                $delimiterStructure, $sequenceStructure, $filterStructure,
                                                                $tpl, $rootNamespace, $name, $functionPlacement,
                                                                $variableIterator, $noLastValue,
-                                                               $variableIteratorValue );
+                                                               $iteratorData );
                         if ( $usedElement )
                         {
                             if ( $iterationMaxCount !== false )
@@ -920,13 +928,15 @@ class eZTemplateSectionFunction
                             $iterator = ($stringLength - $i) + $loopStart - 1;
                         else
                             $iterator = $i;
+                        unset( $key );
+                        unset( $item );
                         $key = $iterator;
                         $item = $text[$iterator];
                         $usedElement = $this->processChildren( $textElements, $items[1], $key, $item, $index, $isFirstRun,
                                                                $delimiterStructure, $sequenceStructure, $filterStructure,
                                                                $tpl, $rootNamespace, $name, $functionPlacement,
                                                                $variableIterator, $noLastValue,
-                                                               $variableIteratorValue );
+                                                               $iteratorData );
                         if ( $usedElement )
                         {
                             if ( $iterationMaxCount !== false )
@@ -988,17 +998,26 @@ class eZTemplateSectionFunction
                               &$delimiterStructure, &$sequenceStructure, &$filterStructure,
                               &$tpl, $rootNamespace, $name, $functionPlacement,
                               &$variableIterator, $noLastValue,
-                              &$variableValue )
+                              &$iteratorData )
     {
         if ( $variableIterator !== null )
         {
-            if ( $variableValue === false )
-                $variableValue = new eZTemplateSectionIterator();
-            $last = false;
-            if ( !$noLastValue and $tpl->hasVariable( $variableIterator, $name ) )
-                $last = $tpl->variable( $variableIterator, $name );
-            $variableValue->setIteratorValues( $item, $key, $index, $index + 1, false, $last );
-            $tpl->setVariableRef( $variableIterator, $variableValue, $name );
+            unset( $last );
+            if ( !$noLastValue and $iteratorData['iterator'] !== false )
+            {
+                $last =& $iteratorData['iterator'];
+            }
+            else
+            {
+                $last = false;
+            }
+            unset( $iteratorData['iterator'] );
+            $iteratorData['iterator'] = new eZTemplateSectionIterator();
+            $iteratorData['iterator']->setIteratorValues( $item, $key, $index, $index + 1, false, $last );
+            unset( $last );
+
+            $iteratorObject =& $iteratorData['iterator'];
+            $tpl->setVariableRef( $variableIterator, $iteratorObject, $name );
         }
         else
         {
@@ -1061,7 +1080,7 @@ class eZTemplateSectionFunction
             $sequenceValue = array_shift( $sequenceStructure );
             if ( $variableIterator !== null )
             {
-                $variableValue->setSequence( $sequenceValue );
+                $iteratorData['iterator']->setSequence( $sequenceValue );
             }
             else
             {
