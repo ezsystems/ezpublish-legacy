@@ -88,7 +88,7 @@
             <td>{$LatestClasses.identifier|class_icon( small, $LatestClasses.name )}&nbsp;<a href={concat( '/class/view/', $LatestClasses.item.id )|ezurl}>{$LatestClasses.item.name|wash}</a></td>
 
             {* ID. *}
-            <td>{$LatestClasses.item.id}</td>
+            <td class="number" align="right">{$LatestClasses.item.id}</td>
 
             {* Identifier. *}
             <td>{$LatestClasses.item.identifier|wash}</td>

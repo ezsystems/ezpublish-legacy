@@ -74,11 +74,11 @@
 <tr class="{$Classes.sequence}">
     <td><input type="checkbox" name="DeleteIDArray[]" value="{$Classes.item.id}" title="{'Select class for removal.'|i18n( 'design/admin/class/classlist' )}" /></td>
     <td>{$Classes.item.identifier|class_icon( small, $Classes.item.name )}&nbsp;<a href={concat( "/class/view/", $Classes.item.id )|ezurl}>{$Classes.item.name|wash}</a></td>
-    <td>{$Classes.item.id}</td>
+    <td class="number" align="right">{$Classes.item.id}</td>
     <td>{$Classes.item.identifier|wash}</td>
     <td>{content_view_gui view=text_linked content_object=$Classes.item.modifier.contentobject}</td>
     <td>{$Classes.item.modified|l10n( shortdatetime )}</td>
-    <td>{$Classes.item.object_count}</td>
+    <td class="number" align="right">{$Classes.item.object_count}</td>
     <td><a href={concat( 'class/copy/', $Classes.item.id )|ezurl} title="{'Create a copy of the <%class_name> class.'|i18n( 'design/admin/class/classlist',, hash( '%class_name', $Classes.item.name ) )|wash}"><img class="button" src={'copy.gif'|ezimage} width="16" height="16" alt="edit" /></a></td>
     <td><a href={concat( 'class/edit/', $Classes.item.id )|ezurl} title="{'Edit the <%class_name> class.'|i18n( 'design/admin/class/classlist',, hash( '%class_name', $Classes.item.name ) )|wash}"><img class="button" src={'edit.gif'|ezimage} width="16" height="16" alt="edit" /></a></td>
 </tr>
