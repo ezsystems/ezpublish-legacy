@@ -768,7 +768,7 @@ WHERE user_id = '" . $userID . "' AND
                     $queryMysqlUser = "SELECT contentobject_id, password_hash, password_hash_type, email, login
                               FROM ezuser, ezcontentobject
                               WHERE ezcontentobject.status='$contentObjectStatus' AND
-                                    password_hash_type=4 AND ( $loginText ) AND password_hash=PASSWORD('$password') ";
+                                    password_hash_type=4 AND ( $loginText ) AND password_hash=PASSWORD('$passwordEscaped') ";
                     $mysqlUsers =& $db->arrayQuery( $queryMysqlUser );
                     if ( count( $mysqlUsers ) >= 1 )
                         $exists = true;
