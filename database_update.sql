@@ -19,9 +19,5 @@ alter table ezenumobjectvalue change enumvalue enumvalue varchar(255);
 alter table ezsearch_object_word_link add published int not null after contentclass_attribute_id;
 alter table ezsearch_object_word_link add section_id int not null after published;
 
-
-
-
-
-
-
+# Sorting priority
+alter table ezcontentobject_tree add priority int not null default '0';
