@@ -243,7 +243,7 @@ ENDADDCODE;
             $code .= "\n    and filemtime( $filepathText ) >= ( time() - $expiryText )";
         }
         if ( !$ignoreContentExpiry ) {
-            $code .= "\n    and (time() > \$globalExpiryTime)";
+            $code .= "\n    and ( filemtime( $filepathText ) > \$globalExpiryTime )";
         }
         $code .= " )\n" .
                  "{\n" .
