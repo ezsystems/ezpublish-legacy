@@ -79,6 +79,8 @@ eZ utils:
 - Removed cyclic dependecy between eZDebugSetting and eZINI
 - Fixed automatic removal of magick quotes for _GET variables, if magickquotes is enabled
 - Removed unneeded global definition of $_ENV and $_SERVER
+- eZHTTPTool now has a redirect function which takes care of constructing
+  a HTTP/1.1 compatible redirect string, is to be used instead of pure header().
 
 eZ sys:
 - Added support for Mac specific settings.

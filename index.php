@@ -602,10 +602,10 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
     {
         $redirectURI .= $module->redirectURI();
     }
+
     if ( $automatic_redir )
     {
-
-        header( "Location: " . $redirectURI );
+        eZHTTPTool::redirect( $redirectURI );
     }
     else
     {

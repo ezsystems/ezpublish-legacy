@@ -44,12 +44,12 @@
 
   See PHP manual on <a href="http://www.php.net/manual/fi/language.variables.predefined.php">Predefined Variables</a> for more information.
 
-  \todo All set/get functions should be unified
 */
 
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezsessioncache.php" );
 include_once( "lib/ezutils/classes/ezsession.php" );
+include_once( "lib/ezutils/classes/ezsys.php" );
 
 class eZHTTPTool
 {
@@ -217,6 +217,96 @@ class eZHTTPTool
         return $instance;
     }
 
+    /*!
+     \static
+     Sends a redirect path to the browser telling it to
+     load the new path.
+     By default only \a $path is required, other parameters
+     will be fetched automatically to create a HTTP/1.1
+     compatible header.
+     The input \a $parameters may contain the following keys.
+     - host - the name of the host, default will fetch the currenty hostname
+     - protocol - which protocol to use, default will use HTTP
+     - port - the port on the host
+     - username - a username which is required to login on the site
+     - password - if username is supplied this password will be used for authentication
+
+     The path may be specified relativily \c rel/ative, from root \c /a/root, with hostname
+     change \c //myhost.com/a/root/rel/ative, with protocol \c http://myhost.com/a/root/rel/ative.
+     Also port may be placed in the path string.
+     It is recommended that the path only contain a plain root path and instead send the rest
+     as optional parameters, the support for different kinds of paths is only incase you get
+     URLs externally which contains any of the above cases.
+
+     \note The redirection does not happen immedietaly and the script execution will continue.
+     \todo Add support for username/password in \a $path
+    */
+    function redirect( $path, $parameters = array() )
+    {
+        $parameters = array_merge( array( 'host' => false,
+                                          'protocol' => false,
+                                          'port' => false,
+                                          'username' => false,
+                                          'password' => false ),
+                                   $parameters );
+        $host = $parameters['host'];
+        $protocol = $parameters['protocol'];
+        $port = $parameters['port'];
+        $username = $parameters['username'];
+        $password = $parameters['password'];
+        print( $path . "<br/>" );
+        if ( preg_match( '#^([a-zA-Z0-9]+):(.+)$#', $path, $matches ) )
+        {
+            if ( $matches[1] )
+                $protocol = $matches[1];
+            $path = $matches[2];
+        }
+        if ( preg_match( '#^//([^./:]+(\.[^./:]+)+)(:([0-9]+))?(.*)$#', $path, $matches ) )
+        {
+            if ( $matches[1] )
+                $host = $matches[1];
+            $path = $matches[5];
+            if ( $matches[4] )
+                $port = $matches[4];
+        }
+        if ( strlen( $path ) > 0 and
+             $path[0] != '/' )
+        {
+            $preURL = eZSys::serverVariable( 'SCRIPT_URL' );
+            if ( strlen( $preURL ) > 0 and
+                 $preURL[strlen($preURL) - 1] != '/' )
+                $preURL .= '/';
+            $path = $preURL . $path;
+        }
+        if ( !is_string( $host ) )
+            $host = eZSys::hostname();
+        if ( !is_string( $protocol ) )
+            $protocol = 'http';
+        $uri = $protocol . '://';
+        if ( $username )
+        {
+            $uri .= $username;
+            if ( $password )
+                $uri .= ':' . $password;
+            $uri .= '@';
+        }
+        $uri .= $host;
+        if ( $port )
+            $uri .= ':' . $port;
+        $uri .= $path;
+        eZHTTPTool::headerVariable( 'Location', $uri );
+    }
+
+    /*!
+     \static
+     Sets the header variable \a $headerName to have the data \a $headerData.
+     \note Calls PHPs header() with a constructed string.
+    */
+    function headerVariable( $headerName, $headerData )
+    {
+        header( "$headerName: $headerData" );
+    }
+
 	function removeMagicQuotes()
 	{
         foreach ( array_keys( $GLOBALS["HTTP_POST_VARS"] ) as $key )
@@ -226,7 +316,7 @@ class eZHTTPTool
 				$GLOBALS["HTTP_POST_VARS"][$key] = str_replace( "\'", "'", $GLOBALS["HTTP_POST_VARS"][$key] );
 				$GLOBALS["HTTP_POST_VARS"][$key] = str_replace( '\"', '"', $GLOBALS["HTTP_POST_VARS"][$key] );
 			}
-         }
+        }
         foreach ( array_keys( $GLOBALS["_GET"] ) as $key )
         {
 			if ( !is_array( $GLOBALS["_GET"][$key] ) )
