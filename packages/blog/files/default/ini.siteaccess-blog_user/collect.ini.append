@@ -15,3 +15,7 @@ SendEmailList[poll]=disabled
 # if an email should be sent.
 # If found the setting will override all other settings.
 SendEmailAttribute=collection_email
+
+[CollectionSettings]
+CollectAnonymousDataList[]
+CollectAnonymousDataList[poll]=enabled

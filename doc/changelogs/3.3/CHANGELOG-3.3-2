@@ -57,4 +57,5 @@ Changes from 3.3-1 to 3.3-2
 - Added check for imagegd2. http://ez.no/developer/ez_publish_3/bug_reports/gd_version_requirements
 
 *Packages:
-- Removed user/register right from anonymous users in intranet package
+- Removed user/register right from anonymous users in intranet package.
+- Fixed cache block bug in blog package.
