@@ -8,6 +8,7 @@ Changes from 2.9-3 to 2.9-4
 - Fixed wrong path in header redirects when using nvh setup
 - Updated modfix script to use sh instead of bash
 - Added more user friendly sort order selection in object edit.
+- New script checkcode.sh which lists out files which has programming issues (like not following codinstandard).
 
 *Library :
 
