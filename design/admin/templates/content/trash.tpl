@@ -6,9 +6,17 @@
 
 {section show=$object_list}
 
-<div class="context-block">
 <form name="trashform" action={'content/trash/'|ezurl} method="post" >
-<h2 class="context-title">{'Trash [%list_count]'|i18n( 'design/admin/content/trash',, hash( '%list_count', $list_count ) )}</h2>
+
+<div class="context-block">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+<h1 class="context-title">{'Trash [%list_count]'|i18n( 'design/admin/content/trash',, hash( '%list_count', $list_count ) )}</h1>
+
+{* DESIGN: Mainline *}<div class="header-mainline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {* Items per page selector. *}
 <div class="context-toolbar">
@@ -80,14 +88,20 @@
          item_limit=$number_of_items}
 </div>
 
+{* DESIGN: Content END *}</div></div></div>
+
 <div class="controlbar">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/trash' )}"  title="{'Permanently remove the selected items.'|i18n( 'design/admin/content/trash' )}" />
 <input class="button" type="submit" name="EmptyButton"  value="{'Empty trash'|i18n( 'design/admin/content/trash' )}" title="{'Permanently remove all items from the trash.'|i18n( 'design/admin/content/trash' )}" />
 </div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
+
+</div>
+
 </form>
-</div>
 
 {section-else}
 
