@@ -502,7 +502,18 @@ div#contentstructure a.nodetext:hover
     text-decoration: underline;
 }
 
-div#contentstructure li.currentnode a.nodetext /* Highlighting of current node */
+div#contentstructure li.currentnode a.nodetext:hover
+{
+    text-decoration: none;
+}
+
+div#contentstructure li.currentnode li a.nodetext:hover
+{
+    color: #000000;
+    text-decoration: underline;
+}
+
+div#contentstructure li.currentnode a.nodetext span.node-name /* Highlighting of current node */
 {
     font-weight: bold;
     color: #ffffff;
@@ -510,12 +521,21 @@ div#contentstructure li.currentnode a.nodetext /* Highlighting of current node *
     padding: 0 0.25em 0 0.2em;
 }
 
-div#contentstructure li.currentnode li a.nodetext
+div#contentstructure li.currentnode li a.nodetext span.node-name
 {
     font-weight: normal;
     color: #315578;
     background-color: transparent;
     padding: 0;
+}
+
+div#contentstructure span.node-hidden, div#contentstructure span.node-hiddenbyparent
+{
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.9em;
+    color: #ffffff;
+    background-color: #bfbfb7;
+    padding: 0 0.25em 0 0.2em;
 }
 
 div#leftmenu div.translations label
@@ -731,6 +751,12 @@ div.menu-block li.enabled a
     background-image: url(../images/button-enabled-bl.gif);
     background-position: bottom left;
     background-repeat: no-repeat;
+}
+
+div.menu-block li.enabled a:hover
+{
+    color: #ffffff;
+    text-decoration: none;
 }
 
 div.menu-block li.disabled a

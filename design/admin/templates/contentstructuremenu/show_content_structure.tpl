@@ -38,7 +38,16 @@
 
                 {* Text *}
                 {let defaultItemClickAction = $:parentNode.node.path_identification_string|ezurl(no)}
-                    <a class="nodetext" href="{$:defaultItemClickAction}" onclick="this.href='javascript:ezcst_onItemClicked( {$:parentNode.node.node_id}, \'{$:defaultItemClickAction}\' )'" title="{$:toolTip}">{$:parentNode.object.name|wash}</a>
+                    <a class="nodetext" href="{$:defaultItemClickAction}" onclick="this.href='javascript:ezcst_onItemClicked( {$:parentNode.node.node_id}, \'{$:defaultItemClickAction}\' )'" title="{$:toolTip}">
+                <span class="node-name">{$:parentNode.object.name|wash}</span>
+                {section show=$:parentNode.node.is_hidden}
+                <span class="node-hidden">x</span>
+                {section-else}
+                    {section show=$:parentNode.node.is_invisible}
+                    <span class="node-hiddenbyparent">-</span>
+                    {/section}
+                {/section}
+                </a>
                 {/let}
 
             {* Show children *}
