@@ -63,10 +63,13 @@ div#leftmenu-design { margin: 0.5em 4px 0.5em 0.5em; }
 {/literal}
 
 {section show=ezpreference( 'admin_left_menu_width' )|gt( 0 )}
+{let left_menu_widths=ezini( 'LeftMenuSettings', 'MenuWidth', 'menu.ini' )
+     left_menu_width=$left_menu_widths[ezpreference( 'admin_left_menu_width' )]}
 <style type="text/css">
-div#leftmenu {ldelim} width: {ezpreference( 'admin_left_menu_width' )}em; {rdelim}
-div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width' ), 0.5 )}em; {rdelim}
+div#leftmenu {ldelim} width: {$left_menu_width}em; {rdelim}
+div#maincontent {ldelim} margin-left: {sum( $left_menu_width, 0.5 )}em; {rdelim}
 </style>
+{/let}
 {/section}
 
 <!--[if gte IE 5.5000]>
