@@ -5,8 +5,8 @@
 <div class="context-attributes">
 
 <div class="block">
-    <label>{'Name'|i18n( 'design/admin/shop/editdiscountgroup' )}</label>
-    <input type="text" name="discount_group_name" value="{$discount_group.name}" size=40>
+    <label>{'Name'|i18n( 'design/admin/shop/editdiscountgroup' )}:</label>
+    <input class="box" type="text" name="discount_group_name" value="{$discount_group.name}" />
 </div>
 
 </div>

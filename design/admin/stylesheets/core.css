@@ -213,8 +213,8 @@ dd
 
 form
 {
-    padding: 0em;
-    margin: 0em;
+    padding: 0;
+    margin: 0;
 }
 
 label
@@ -355,4 +355,9 @@ div.message-error
 div.remove
 {
     border: 2px solid #a00000;
+}
+
+input.button
+{
+    cursor: pointer;
 }

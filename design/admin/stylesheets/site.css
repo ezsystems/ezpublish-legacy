@@ -412,6 +412,24 @@ div.context-toolbar div.block
     margin: 0;
 }
 
+div.context-toolbar label
+{
+    display: inline;
+    font-size: 0.85em;
+    vertical-align: middle;
+}
+
+div.context-toolbar select
+{
+    font-size: 0.85em;
+    padding: 0;
+}
+
+div.context-toolbar input.button
+{
+    font-size: 0.85em;
+}
+
 div.context-information p
 {
     background-color: #d0d0d0;
@@ -468,6 +486,7 @@ div.viewbar, div.controlbar
 div.controlbar div.block
 {
     margin: 0.5em 0 0.5em 0;
+    padding: 0;
     border-bottom: 1px solid #606060; /* Set to avoid Mozilla bug */
 }
 
@@ -696,5 +715,19 @@ div.popupmenu hr
     border-top: 1px solid #c0c0c0;
 }
 
+div.attribute-byline p.author
+{
+    float: left;
+}
+
+div.attribute-byline p.date
+{
+    float: right;
+}
+
+div#maincontent label
+{
+    margin-top: 1em;  
+}
 
 /* th[eZ] */

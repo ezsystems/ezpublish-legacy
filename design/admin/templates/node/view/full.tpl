@@ -17,12 +17,14 @@
 
 {* Buttonbar for content window. *}
 <div class="controlbar">
-<div class="block">
 <form method="post" action={"content/action"|ezurl}>
 <input type="hidden" name="TopLevelNode" value="{$node.object.main_node_id}" />
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
 <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
 
+<div class="block">
+
+<div class="left">
 {* Edit button. *}
 {section show=$node.can_edit}
     <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'Edit this item.'|i18n( 'design/admin/node/view/full' )}" />
@@ -43,6 +45,7 @@
 {section-else}
     <input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/admin/node/view/full')}" title="{'You do not have permissions to remove this item.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
 {/section}
+</div>
 
 {* Custom content action buttons. *}
 <div class="right">
@@ -54,8 +57,10 @@
 {* The preview button has been commented out. Might be absent until better preview functionality is implemented. *}
 {* <input class="button" type="submit" name="ActionPreview" value="{'Preview'|i18n('design/admin/node/view/full')}" /> *}
 
-</form>
+<div class="break"></div>
+
 </div>
+</form>
 </div>
 
 </div>

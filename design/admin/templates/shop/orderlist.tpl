@@ -3,28 +3,37 @@
 <div class="context-block">
 <h2 class="context-title">{'Orders [%count]'|i18n( 'design/admin/shop/orderlist',, hash( '%count', $order_list|count ) )}</h2>
 
-{section show=$order_list}
-{'Sorting'|i18n('design/admin/shop/orderlist' )}: <select name="SortField">
-     <option value="order_nr" {switch match=$sort_field}{case match='order_nr'} selected="selected"{/case}{case}{/case}{/switch}>{'Order ID'|i18n('design/admin/shop/orderlist' )}</option>
-     <option value="user_name" {switch match=$sort_field}{case match='user_name'} selected="selected"{/case}{case}{/case}{/switch}>{'Customer'|i18n('design/admin/shop/orderlist' )}</option>
-     <option value="created" {switch match=$sort_field}{case match='created'} selected="selected"{/case}{case}{/case}{/switch}>{'Time'|i18n('design/admin/shop/orderlist' )}</option>
-</select>
+<div class="context-toolbar">
+<div class="block">
+<div class="left">
+    <p>
+        <a href="/">Order ID</a>
+        <span class="current">Customer</span>
+        <a href="/">Time</a>
+    </p>
+</div>
+<div class="right">
+        <p>
+        <span class="current">Ascending</span>
+        <a href="/">Descending</a>
+        </p>
+</div>
+<div class="break"></div>
+</div>
 
-<select name="SortOrder">
-    <option value="asc" {section show=eq( $sort_order, 'asc' )}selected="selected"{/section}>{'Ascending'|i18n( 'design/admin/shop/orderlist' )}</option>
-    <option value="desc" {section show=eq( $sort_order, 'desc' )}selected="selected"{/section}>{'Descending'|i18n( 'design/admin/shop/orderlist' )}</option>
-</select>
+</div>
 
-<input class="button" type="submit" name="SortButton" value="{'Sort'|i18n( 'design/admin/shop/orderlist' )}" />
+    {section show=$order_list}
+
 
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight">&nbsp;</th>
-	<th>{'ID'|i18n( 'design/admin/shop/orderlist' )}</th>
-	<th>{'Customer'|i18n( 'design/admin/shop/orderlist' )}</th>
-	<th>{'Total (ex. VAT)'|i18n( 'design/admin/shop/orderlist' )}</th>
-	<th>{'Total (inc. VAT)'|i18n( 'design/admin/shop/orderlist' )}</th>
-	<th>{'Time'|i18n( 'design/admin/shop/orderlist' )}</th>
+	<th class="tight">{'ID'|i18n( 'design/admin/shop/orderlist' )}</th>
+	<th class="wide">{'Customer'|i18n( 'design/admin/shop/orderlist' )}</th>
+	<th class="tight">{'Total (ex. VAT)'|i18n( 'design/admin/shop/orderlist' )}</th>
+	<th class="tight">{'Total (inc. VAT)'|i18n( 'design/admin/shop/orderlist' )}</th>
+	<th class="wide">{'Time'|i18n( 'design/admin/shop/orderlist' )}</th>
 </tr>
 {section var=Orders loop=$order_list sequence=array( bglight, bgdark )}
 <tr class="{$Orders.sequence}">
@@ -57,4 +66,19 @@
 </div>
 
 </div>
+
+    <label>{'Sorting'|i18n('design/admin/shop/orderlist' )}:</label> <select name="SortField">
+         <option value="order_nr" {switch match=$sort_field}{case match='order_nr'} selected="selected"{/case}{case}{/case}{/switch}>{'Order ID'|i18n('design/admin/shop/orderlist' )}</option>
+         <option value="user_name" {switch match=$sort_field}{case match='user_name'} selected="selected"{/case}{case}{/case}{/switch}>{'Customer'|i18n('design/admin/shop/orderlist' )}</option>
+         <option value="created" {switch match=$sort_field}{case match='created'} selected="selected"{/case}{case}{/case}{/switch}>{'Time'|i18n('design/admin/shop/orderlist' )}</option>
+    </select>
+    
+    <select name="SortOrder">
+        <option value="asc" {section show=eq( $sort_order, 'asc' )}selected="selected"{/section}>{'Ascending'|i18n( 'design/admin/shop/orderlist' )}</option>
+        <option value="desc" {section show=eq( $sort_order, 'desc' )}selected="selected"{/section}>{'Descending'|i18n( 'design/admin/shop/orderlist' )}</option>
+    </select>
+    
+    <input class="button" type="submit" name="SortButton" value="{'Sort'|i18n( 'design/admin/shop/orderlist' )}" />
+
+
 </form>

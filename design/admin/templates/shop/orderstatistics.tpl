@@ -6,10 +6,10 @@
 {section show=$statistic_result}
 <table class="list" cellspacing="0">
 <tr>
-	<th>{'Product'|i18n( 'design/admin/shop/orderstatistics' )}</th>
-	<th>{'Quantity'|i18n( 'design/admin/shop/orderstatistics' )}</th>
-	<th>{'Total (ex. VAT)'|i18n( 'design/admin/shop/orderstatistics' )}</th>
-	<th>{'Total (inc. VAT)'|i18n( 'design/admin/shop/orderstatistics' )}</th>
+	<th class="wide">{'Product'|i18n( 'design/admin/shop/orderstatistics' )}</th>
+	<th class="tight">{'Quantity'|i18n( 'design/admin/shop/orderstatistics' )}</th>
+	<th class="tight">{'Total (ex. VAT)'|i18n( 'design/admin/shop/orderstatistics' )}</th>
+	<th class="tight">{'Total (inc. VAT)'|i18n( 'design/admin/shop/orderstatistics' )}</th>
 </tr>
 {section var=Products loop=$statistic_result[0].product_list sequence=array( bglight, bgdark )}
 <tr class="{$Products.sequence}">

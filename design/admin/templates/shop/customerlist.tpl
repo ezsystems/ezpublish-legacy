@@ -6,10 +6,10 @@
 {section show=$customer_list}
 <table class="list" cellspacing="0">
 <tr>
-	<th>{'Name'|i18n( 'design/admin/shop/customerlist' )}</th>
-	<th>{'Orders'|i18n( 'design/admin/shop/customerlist' )}</th>
-	<th>{'Total (ex. VAT)'|i18n( 'design/admin/shop/customerlist' )}</th>
-	<th>{'Total (inc. VAT)'|i18n( 'design/admin/shop/customerlist' )}</th>
+	<th class="wide">{'Name'|i18n( 'design/admin/shop/customerlist' )}</th>
+	<th class="tight">{'Orders'|i18n( 'design/admin/shop/customerlist' )}</th>
+	<th class="tight">{'Total (ex. VAT)'|i18n( 'design/admin/shop/customerlist' )}</th>
+	<th class="tight">{'Total (inc. VAT)'|i18n( 'design/admin/shop/customerlist' )}</th>
 </tr>
 
 {section var=Customers loop=$customer_list sequence=array( bglight, bgdark )}

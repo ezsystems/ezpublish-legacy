@@ -7,8 +7,8 @@
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight">&nbsp;</th>
-    <th>{'Name'|i18n( 'design/admin/shop/discountgroup' )}</th>
-    <th>&nbsp;</th>
+    <th class="wide">{'Name'|i18n( 'design/admin/shop/discountgroup' )}</th>
+    <th class="tight">&nbsp;</th>
 </tr>
 {section var=Groups loop=$discountgroup_array sequence=array( bglight, bgdark )}
 <tr class="{$Groups.sequence}">
