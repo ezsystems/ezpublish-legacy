@@ -556,7 +556,6 @@ class eZTARArchiveHandler extends eZArchiveHandler
           {
               $blockCount = ( $blockPadding - $modulo ) + 1;
           }
-          print( $blockCount . "\n" );
           // ----- Write the last 0 filled block for end of archive and pad it to 20 blocks
           for ( $i = 0; $i < $blockCount; ++$i )
           {
