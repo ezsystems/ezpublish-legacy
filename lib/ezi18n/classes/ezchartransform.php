@@ -48,7 +48,7 @@
 /// The timestamp for when the format of the cache files were
 /// last changed. This must be updated when the format changes
 /// to invalidate existing cache files.
-define( 'EZ_CHARTRANSFORM_CODEDATE', 1089984686 );
+define( 'EZ_CHARTRANSFORM_CODEDATE', 1101043014 );
 
 class eZCharTransform
 {
@@ -71,7 +71,8 @@ class eZCharTransform
     */
     function transform( $text, $rule, $charset = false, $useCache = true )
     {
-        return strtr( $text, $this->charsetTable( $rule, $charset, $useCache ) );
+        $data = $this->charsetTransformationData( $rule, $charset, $useCache );
+        return strtr( $text, $data['table'] );
     }
 
     /*!
@@ -88,7 +89,8 @@ class eZCharTransform
         $commands = $this->groupCommands( $group );
         if ( $commands === false )
             return false;
-        return strtr( $text, $this->charsetTableForCommands( $group, $commands, $charset, $useCache ) );
+        $data = $this->charsetTransformationDataForCommands( $group, $commands, $charset, $useCache );
+        return strtr( $text, $data['table'] );
     }
 
     /*!
@@ -164,7 +166,9 @@ class eZCharTransform
     /*!
      \private
      \static
-     Returns the charset transformation table for rule \a $rule using charset \a $charset.
+     Returns the charset transformation data for rule \a $rule using charset \a $charset.
+     The data contains:
+     - table - Mapping table for characters/strings for the given charset
 
      It will try to restore the table from a cache file if possible, if not it will recreate it
      and store it on disk then return it.
@@ -172,16 +176,18 @@ class eZCharTransform
      \param $useCache If \c true then it will use cache files for the tables,
                       if not it will have to calculate them each time.
     */
-    function charsetTable( $rule, $charset = false, $useCache = true )
+    function charsetTransformationData( $rule, $charset = false, $useCache = true )
     {
         if ( $useCache )
         {
             // CRC32 is used for speed, MD5 would be more unique but is slower
             $key = crc32( 'Rule: ' . ( is_array( $rule ) ? implode( ',', $rule ) : $rule ) . '-' . $charset );
 
-            $cachedData = $this->restoreCacheFile( $key, false, $filepath );
+            $charsetName = ( $charset === false ? eZTextCodec::internalCharset() : eZCharsetInfo::realCharsetCode( $charset ) );
+            $cachedData = $this->restoreCacheFile( 'rule-', '-' . $charsetName,
+                                                   $key, false, $filepath );
             if ( $cachedData !== false )
-                return $cachedData['table'];
+                return $cachedData;
         }
 
         // Make sure we have a mapper
@@ -198,20 +204,24 @@ class eZCharTransform
         // Then transform that to a table that works with the current charset
         // Any character not available in the current charset will be removed
         $charsetTable = $this->Mapper->generateCharsetMappingTable( $unicodeTable, $charset );
+        $transformationData = array( 'table' => $charsetTable );
         unset( $unicodeTable );
 
         if ( $useCache )
         {
-            $this->writeCacheFile( $filepath, $charsetTable );
+            $this->writeCacheFile( $filepath, $transformationData,
+                                   'Rule', $charsetName );
         }
 
-        return $charsetTable;
+        return $transformationData;
     }
 
     /*!
      \private
      \static
-     Returns the charset transformation table for rule \a $rule using charset \a $charset.
+     Returns the charset transformation data for rule \a $rule using charset \a $charset.
+     The data contains:
+     - table - Mapping table for characters/strings for the given charset
 
      It will try to restore the table from a cache file if possible, if not it will recreate it
      and store it on disk then return it.
@@ -219,7 +229,7 @@ class eZCharTransform
      \param $useCache If \c true then it will use cache files for the tables,
                       if not it will have to calculate them each time.
     */
-    function charsetTableForCommands( $group, $commands, $charset = false, $useCache = true )
+    function charsetTransformationDataForCommands( $group, $commands, $charset = false, $useCache = true )
     {
         if ( $useCache )
         {
@@ -231,9 +241,12 @@ class eZCharTransform
             }
             $key = crc32( $keyText . '-' . $charset );
 
-            $cachedData = $this->restoreCacheFile( $key, false, $filepath );
+            $charsetName = ( $charset === false ? eZTextCodec::internalCharset() : eZCharsetInfo::realCharsetCode( $charset ) );
+            $cachedData = $this->restoreCacheFile( 'g-' . $group . '-', '-' . $charsetName,
+                                                   $key, false, $filepath );
+            eZDebug::writeDebug( $filepath, 'filepath' );
             if ( $cachedData !== false )
-                return $cachedData['table'];
+                return $cachedData;
         }
 
         // Make sure we have a mapper
@@ -257,14 +270,16 @@ class eZCharTransform
         // Then transform that to a table that works with the current charset
         // Any character not available in the current charset will be removed
         $charsetTable = $this->Mapper->generateCharsetMappingTable( $unicodeTable, $charset );
+        $transformationData = array( 'table' => $charsetTable );
         unset( $unicodeTable );
 
         if ( $useCache )
         {
-            $this->storeCacheFile( $filepath, $charsetTable );
+            $this->storeCacheFile( $filepath, $transformationData,
+                                   'Group:' . $group, $charsetName );
         }
 
-        return $charsetTable;
+        return $transformationData;
     }
 
     /*!
@@ -275,9 +290,9 @@ class eZCharTransform
                        pass for instance the timestamp of the INI file.
      \param[out] $filepath The filepath for the cache file will be generated here,
                            this can be used for the storeCacheFile() method.
-     \return The restored transformation table or \c false if there is no cached data.
+     \return The restored transformation data or \c false if there is no cached data.
     */
-    function restoreCacheFile( $key, $timestamp = false, &$filepath )
+    function restoreCacheFile( $prefix, $suffix, $key, $timestamp = false, &$filepath )
     {
         $path = eZCharTransform::cachedTransformationPath();
         if ( !file_exists( $path ) )
@@ -285,28 +300,33 @@ class eZCharTransform
             include_once( 'lib/ezfile/classes/ezdir.php' );
             eZDir::mkdir( $path, false, true );
         }
-        $filepath = $path . '/' . sprintf( "%u", $key ) . '.ctt'; // ctt=charset transform table
+        $filepath = $path . '/' . $prefix . sprintf( "%u", $key ) . $suffix . '.ctt'; // ctt=charset transform table
         if ( file_exists( $filepath ) )
         {
             $time = filemtime( $filepath );
             if ( $time >= max( EZ_CHARTRANSFORM_CODEDATE, $timestamp ) )
             {
-                $data = unserialize( file_get_contents( $filepath ) );
+                $data = eval( file_get_contents( $filepath ) );
                 return $data;
             }
         }
+        return false;
     }
 
     /*!
      \private
      Stores the mapping table \a $table in the cache file \a $filepath.
     */
-    function storeCacheFile( $filepath, $table )
+    function storeCacheFile( $filepath, $transformationData, $type, $charsetName )
     {
         $fd = @fopen( $filepath, 'wb' );
         if ( $fd )
         {
-            @fwrite( $fd, serialize( array( 'table' => $table ) ) );
+            @fwrite( $fd, "// Cached transformation data\n" );
+            @fwrite( $fd, "// Type: $type\n" );
+            @fwrite( $fd, "// Charset: $charsetName\n" );
+            @fwrite( $fd, "// Cached transformation data\n" );
+            @fwrite( $fd, 'return ' . var_export( $transformationData, true ) . ";\n" );
             @fclose( $fd );
         }
         else
