@@ -161,6 +161,11 @@ class eZDebug
                                        EZ_LEVEL_ERROR => true,
                                        EZ_LEVEL_TIMING_POINT => true,
                                        EZ_LEVEL_DEBUG => true );
+        $this->AlwaysLog = array( EZ_LEVEL_NOTICE => false,
+                                  EZ_LEVEL_WARNING => false,
+                                  EZ_LEVEL_ERROR => true, // Error is on by default, due to its importance
+                                  EZ_LEVEL_TIMING_POINT => false,
+                                  EZ_LEVEL_DEBUG => false );
         $this->GlobalLogFileEnabled = true;
         if ( isset( $GLOBALS['eZDebugLogFileEnabled'] ) )
         {
@@ -225,6 +230,28 @@ class eZDebug
     {
         $debug =& eZDebug::instance();
         return $debug->ShowTypes & $type;
+    }
+
+    /*!
+     \return \c true if the debug level \a $level should always log to file.
+    */
+    function alwaysLogMessage( $level )
+    {
+        if ( !isset( $this ) or
+             get_class( $this ) != "ezdebug" )
+            $this =& eZDebug::instance();
+
+        // If there is a global setting for this get the value
+        // and unset it globally
+        if ( isset( $GLOBALS['eZDebugAlwaysLog'] ) )
+        {
+            $this->AlwaysLog = $GLOBALS['eZDebugAlwaysLog'];
+            unset( $GLOBALS['eZDebugAlwaysLog'] );
+        }
+
+        if ( !isset( $this->AlwaysLog[$level] ) )
+            return false;
+        return $this->AlwaysLog[$level];
     }
 
     /*!
@@ -353,9 +380,12 @@ class eZDebug
     */
     function writeNotice( $string, $label="", $backgroundClass="")
     {
-        if ( !eZDebug::isDebugEnabled() )
+        $alwaysLog = eZDebug::alwaysLogMessage( EZ_LEVEL_NOTICE );
+        $enabled = eZDebug::isDebugEnabled();
+        if ( !$alwaysLog and !$enabled )
             return;
-        if ( !eZDebug::showMessage( EZ_SHOW_NOTICE ) )
+        $show = eZDebug::showMessage( EZ_SHOW_NOTICE );
+        if ( !$alwaysLog and !$show )
             return;
         if ( is_object( $string ) || is_array( $string ) )
              $string =& eZDebug::dumpVariable( $string );
@@ -367,12 +397,16 @@ class eZDebug
         $debug =& eZDebug::instance();
         if ( $debug->HandleType == EZ_HANDLE_TO_PHP )
         {
-            if ( $label )
-                $string = "$label: $string";
-            trigger_error( $string, E_USER_NOTICE );
+            // If we get here only because of $alwaysLog we should not trigger a PHP error
+            if ( $enabled and $show )
+            {
+                if ( $label )
+                    $string = "$label: $string";
+                trigger_error( $string, E_USER_NOTICE );
+            }
         }
         else
-            $debug->write( $string, EZ_LEVEL_NOTICE, $label, $backgroundClass );
+            $debug->write( $string, EZ_LEVEL_NOTICE, $label, $backgroundClass, $alwaysLog );
     }
 
     /*!
@@ -383,9 +417,12 @@ class eZDebug
     */
     function writeWarning( $string, $label="" )
     {
-        if ( !eZDebug::isDebugEnabled() )
+        $alwaysLog = eZDebug::alwaysLogMessage( EZ_LEVEL_WARNING );
+        $enabled = eZDebug::isDebugEnabled();
+        if ( !$alwaysLog and !$enabled )
             return;
-        if ( !eZDebug::showMessage( EZ_SHOW_WARNING ) )
+        $show = eZDebug::showMessage( EZ_SHOW_WARNING );
+        if ( !$alwaysLog and !$show )
             return;
         if ( is_object( $string ) || is_array( $string ) )
             $string =& eZDebug::dumpVariable( $string );
@@ -397,12 +434,16 @@ class eZDebug
         $debug =& eZDebug::instance();
         if ( $debug->HandleType == EZ_HANDLE_TO_PHP )
         {
-            if ( $label )
-                $string = "$label: $string";
-            trigger_error( $string, E_USER_WARNING );
+            // If we get here only because of $alwaysLog we should not trigger a PHP error
+            if ( $enabled and $show )
+            {
+                if ( $label )
+                    $string = "$label: $string";
+                trigger_error( $string, E_USER_WARNING );
+            }
         }
         else
-            $debug->write( $string, EZ_LEVEL_WARNING, $label );
+            $debug->write( $string, EZ_LEVEL_WARNING, $label, '', $alwaysLog );
     }
 
     /*!
@@ -413,9 +454,12 @@ class eZDebug
     */
     function writeError( $string, $label="" )
     {
-        if ( !eZDebug::isDebugEnabled() )
+        $alwaysLog = eZDebug::alwaysLogMessage( EZ_LEVEL_ERROR );
+        $enabled = eZDebug::isDebugEnabled();
+        if ( !$alwaysLog and !$enabled )
             return;
-        if ( !eZDebug::showMessage( EZ_SHOW_ERROR ) )
+        $show = eZDebug::showMessage( EZ_SHOW_ERROR );
+        if ( !$alwaysLog and !$show )
             return;
         if ( is_object( $string ) || is_array( $string ) )
             $string =& eZDebug::dumpVariable( $string );
@@ -427,12 +471,18 @@ class eZDebug
         $debug =& eZDebug::instance();
         if ( $debug->HandleType == EZ_HANDLE_TO_PHP )
         {
-            if ( $label )
-                $string = "$label: $string";
-            trigger_error( $string, E_USER_ERROR );
+            // If we get here only because of $alwaysLog we should not trigger a PHP error
+            if ( $enabled and $show )
+            {
+                if ( $label )
+                    $string = "$label: $string";
+                trigger_error( $string, E_USER_ERROR );
+            }
         }
         else
-            $debug->write( $string, EZ_LEVEL_ERROR, $label );
+        {
+            $debug->write( $string, EZ_LEVEL_ERROR, $label, '', $alwaysLog );
+        }
     }
 
     /*!
@@ -443,9 +493,12 @@ class eZDebug
     */
     function writeDebug( $string, $label="" )
     {
-        if ( !eZDebug::isDebugEnabled() )
+        $alwaysLog = eZDebug::alwaysLogMessage( EZ_LEVEL_DEBUG );
+        $enabled = eZDebug::isDebugEnabled();
+        if ( !$alwaysLog and !$enabled )
             return;
-        if ( !eZDebug::showMessage( EZ_SHOW_ERROR ) )
+        $show = eZDebug::showMessage( EZ_SHOW_DEBUG );
+        if ( !$alwaysLog and !$show )
             return;
         if ( is_object( $string ) || is_array( $string ) )
             $string =& eZDebug::dumpVariable( $string );
@@ -457,12 +510,16 @@ class eZDebug
         $debug =& eZDebug::instance();
         if ( $debug->HandleType == EZ_HANDLE_TO_PHP )
         {
-            if ( $label )
-                $string = "$label: $string";
-            trigger_error( $string, E_USER_NOTICE );
+            // If we get here only because of $alwaysLog we should not trigger a PHP error
+            if ( $enabled and $show )
+            {
+                if ( $label )
+                    $string = "$label: $string";
+                trigger_error( $string, E_USER_NOTICE );
+            }
         }
         else
-            $debug->write( $string, EZ_LEVEL_DEBUG, $label );
+            $debug->write( $string, EZ_LEVEL_DEBUG, $label, '', $alwaysLog );
     }
 
     /*!
@@ -559,9 +616,10 @@ class eZDebug
     /*!
       Writes a debug log message.
     */
-    function write( $string, $verbosityLevel = EZ_LEVEL_NOTICE, $label="", $backgroundClass="")
+    function write( $string, $verbosityLevel = EZ_LEVEL_NOTICE, $label="", $backgroundClass="", $alwaysLog = false )
     {
-        if ( !eZDebug::isDebugEnabled() )
+        $enabled = eZDebug::isDebugEnabled();
+        if ( !$alwaysLog and !$enabled )
             return;
         switch ( $verbosityLevel )
         {
@@ -576,7 +634,7 @@ class eZDebug
                 $verbosityLevel = EZ_LEVEL_ERROR;
             break;
         }
-        if ( $this->MessageOutput & EZ_OUTPUT_MESSAGE_SCREEN )
+        if ( $this->MessageOutput & EZ_OUTPUT_MESSAGE_SCREEN and $enabled )
         {
             print( "$verbosityLevel: $string ($label)\n" );
         }
@@ -584,9 +642,9 @@ class eZDebug
         $fileName = false;
         if ( isset( $files[$verbosityLevel] ) )
             $fileName = $files[$verbosityLevel];
-        if ( $this->MessageOutput & EZ_OUTPUT_MESSAGE_STORE )
+        if ( $this->MessageOutput & EZ_OUTPUT_MESSAGE_STORE or $alwaysLog )
         {
-            if ( ! eZDebug::isLogOnlyEnabled() )
+            if ( ! eZDebug::isLogOnlyEnabled() and $enabled )
             {
                 $this->DebugStrings[] = array( "Level" => $verbosityLevel,
                                                "IP" => eZSys::serverVariable( 'REMOTE_ADDR', true ),
@@ -608,7 +666,7 @@ class eZDebug
                             $desc = "Timing Point: " . $tp["Description"];
                             if ( $this->isLogFileEnabled( $verbosityLevel ) )
                             {
-                                $this->writeFile( $fileName, $desc, $verbosityLevel );
+                                $this->writeFile( $fileName, $desc, $verbosityLevel, $alwaysLog );
                             }
                         }
                     }
@@ -616,7 +674,7 @@ class eZDebug
                 }
                 if ( $this->isLogFileEnabled( $verbosityLevel ) )
                 {
-                    $this->writeFile( $fileName, $string, $verbosityLevel );
+                    $this->writeFile( $fileName, $string, $verbosityLevel, $alwaysLog );
                 }
             }
         }
@@ -706,11 +764,12 @@ class eZDebug
      \private
      Writes the log message $string to the file $fileName.
     */
-    function writeFile( &$logFileData, &$string, $verbosityLevel )
+    function writeFile( &$logFileData, &$string, $verbosityLevel, $alwaysLog = false )
     {
-        if ( !eZDebug::isDebugEnabled() )
+        $enabled = eZDebug::isDebugEnabled();
+        if ( !$alwaysLog and !$enabled )
             return;
-        if ( !$this->isLogFileEnabled( $verbosityLevel ) )
+        if ( !$alwaysLog and !$this->isLogFileEnabled( $verbosityLevel ) )
             return;
         $oldHandleType = eZDebug::setHandleType( EZ_HANDLE_TO_PHP );
         $logDir = $logFileData[0];
@@ -910,6 +969,12 @@ class eZDebug
         if ( isset( $settings['debug-styles'] ) )
         {
             $GLOBALS['eZDebugStyles'] = $settings['debug-styles'];
+        }
+
+        if ( isset( $settings['always-log'] ) and
+             is_array( $settings['always-log'] ) )
+        {
+            $GLOBALS['eZDebugAlwaysLog'] = $settings['always-log'];
         }
 
         if ( isset( $settings['log-only'] ) )

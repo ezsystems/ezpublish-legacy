@@ -199,6 +199,8 @@ eZFile:
 eZDebug:
 - Added background highlighting for the queries in a transaction section.
 - Added "templates usage statistics".
+- Added support for choosing which debug levels to always log. By default it
+  will always log errors even if debug output is off.
 
 *SOAP:
 - Added authentication support.
