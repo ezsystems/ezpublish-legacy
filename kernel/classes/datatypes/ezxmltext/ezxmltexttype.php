@@ -815,9 +815,12 @@ class eZXMLTextType extends eZDataType
         $dom =& $xml->domTree( $contentObjectAttribute->attribute( "data_text" ) );
 
         $textNodes =& $dom->elementsByName( "#text" );
-        foreach ( $textNodes as $node )
+        if ( is_array( $textNodes ) )
         {
-            $metaData .= " " . $node->content();
+            foreach ( $textNodes as $node )
+            {
+                $metaData .= " " . $node->content();
+            }
         }
         return $metaData;
     }

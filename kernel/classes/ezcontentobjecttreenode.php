@@ -531,7 +531,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $ini =& eZINI::instance();
         $classCondition = "";
-        if ( ( $params['ClassFilterType'] == 'include' or $params['ClassFilterType'] == 'exclude' )
+        if ( isset( $params['ClassFilterType'] ) and isset( $params['ClassFilterArray'] ) and
+             ( $params['ClassFilterType'] == 'include' or $params['ClassFilterType'] == 'exclude' )
              and count( $params['ClassFilterArray'] ) > 0 )
         {
             $classCondition = ' ( ';

@@ -91,7 +91,7 @@ class eZSearch
         include_once( "kernel/search/plugins/" . strToLower( $searchEngineString ) . "/" . strToLower( $searchEngineString ) . ".php" );
         $searchEngine = new $searchEngineString;
 
-        $searchEngine->addObject( $contentObject, "/content/view/", $metaData );
+        $searchEngine->addObject( $contentObject, "/content/view/" /*, $metaData*/ );
     }
 
     /*!

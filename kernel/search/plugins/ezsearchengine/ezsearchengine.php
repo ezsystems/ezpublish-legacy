@@ -139,10 +139,12 @@ class eZSearchEngine
             {
                 $wordIDArray[] = $wordRes[$i]['id'];
                 $existenWordArray[] = $wordRes[$i]['word'];
-                $wordArray[$wordRes[$i]['word']] = $wordRes[$i]['id'];
+                $wordLowercase = strtolower( $wordRes[$i]['word'] );
+                $wordArray[$wordLowercase] = $wordRes[$i]['id'];
             }
             $wordIDString = implode( ',', $wordIDArray );
-            $db->query( " UPDATE ezsearch_word SET object_count=( object_count + 1 ) WHERE id in ( $wordIDString )" );
+            if ( count( $wordIDArray ) > 0 )
+                $db->query( " UPDATE ezsearch_word SET object_count=( object_count + 1 ) WHERE id in ( $wordIDString )" );
             if ( count( $indexArrayOnlyWords ) > $wordResCount )
             {
                 eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $indexArrayOnlyWords, 'indexArrayOnlyWords' );
@@ -157,7 +159,8 @@ class eZSearchEngine
                 $newWordCount = count( $newWordRes );
                 for ( $i=0;$i<$newWordCount;++$i )
                 {
-                    $wordArray[$wordRes[$i]['word']] = $wordRes[$i]['id'];
+                    $wordLowercase = strtolower( $newWordRes[$i]['word'] );
+                    $wordArray[$wordLowercase] = $newWordRes[$i]['id'];
                 }
             }
             $wordIDArray = $wordArray;
@@ -196,6 +199,8 @@ class eZSearchEngine
         $sectionID = $contentObject->attribute( 'section_id' );
         $published = $contentObject->attribute( 'published' );
         $valuesStringList = array();
+//         eZDebug::writeDebug( $indexArray, 'indexArray' );
+//         eZDebug::writeDebug( $wordIDArray, 'wordIDArray' );
         for ( $i = 0; $i < count( $indexArray ); $i++ )
         {
             $indexWord = $indexArray[$i]['Word'];
@@ -223,11 +228,14 @@ class eZSearchEngine
         }
         if ( $dbName == 'mysql' )
         {
-            $valuesString = implode( ',', $valuesStringList );
-            $db->query( "INSERT DELAYED INTO
+            if ( count( $valuesStringList ) > 0 )
+            {
+                $valuesString = implode( ',', $valuesStringList );
+                $db->query( "INSERT DELAYED INTO
                            ezsearch_object_word_link
                         ( word_id, contentobject_id, frequency, placement, next_word_id, prev_word_id, contentclass_id, contentclass_attribute_id, published, section_id )
                      VALUES $valuesString" );
+            }
         }
         else
         {
@@ -272,7 +280,8 @@ class eZSearchEngine
         if ( count( $wordIDList ) > 0 )
         {
             $wordIDString = implode( ',', $wordIDList );
-            $db->query( "UPDATE ezsearch_word SET object_count=( object_count - 1 ) WHERE id in ( $wordIDString )" );
+            if ( count( $wordIDList ) > 0 )
+                $db->query( "UPDATE ezsearch_word SET object_count=( object_count - 1 ) WHERE id in ( $wordIDString )" );
             $db->query( "DELETE FROM ezsearch_word WHERE object_count='0'" );
             $db->query( "DELETE FROM ezsearch_object_word_link WHERE contentobject_id='$objectID'" );
         }
