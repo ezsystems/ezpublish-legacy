@@ -135,6 +135,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                'input_name' => 'attribute',
                                                'output_name' => 'attribute',
                                                'namespace' => 'ContentAttribute',
+                                               'attribute_keys' => array( 'attribute_identifier' => array( 'contentclass_attribute_identifier' ) ),
                                                'attribute_access' => array( array( 'edit_template' ) ),
                                                'use_views' => false ),
 
@@ -142,6 +143,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                               'input_name' => 'attribute',
                                               'output_name' => 'attribute',
                                               'namespace' => 'ContentAttribute',
+                                              'attribute_keys' => array( 'attribute_identifier' => array( 'contentclass_attribute_identifier' ) ),
                                               'attribute_access' => array( array( 'view_template' ) ),
                                               'use_views' => false ),
 
@@ -156,6 +158,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                'input_name' => 'attribute',
                                                'output_name' => 'attribute',
                                                'namespace' => 'ContentAttribute',
+                                               'attribute_keys' => array( 'attribute_identifier' => array( 'contentclass_attribute_identifier' ) ),
                                                'attribute_access' => array( array( 'view_template' ) ),
                                                'optional_views' => true,
                                                'use_views' => 'view' ),

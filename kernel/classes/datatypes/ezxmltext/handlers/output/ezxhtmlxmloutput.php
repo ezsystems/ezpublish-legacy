@@ -41,9 +41,10 @@ include_once( 'kernel/classes/datatypes/ezxmltext/ezxmloutputhandler.php' );
 
 class eZXHTMLXMLOutput extends eZXMLOutputHandler
 {
-    function eZXHTMLXMLOutput( &$xmlData, $aliasedType )
+    function eZXHTMLXMLOutput( &$xmlData, $aliasedType, &$contentObjectAttribute )
     {
         $this->eZXMLOutputHandler( $xmlData, $aliasedType );
+        $this->ContentObjectAttribute = $contentObjectAttribute;
     }
 
     /*!
@@ -61,6 +62,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     {
         $tpl =& templateInit();
         $xml = new eZXML();
+        $res =& eZTemplateDesignResource::instance();
+        $res->setKeys( array( array( 'attribute_identifier', $this->ContentObjectAttribute->attribute( 'contentclass_attribute_identifier' ) ) ) );
         $dom =& $xml->domTree( $this->XMLData );
         if ( $dom )
         {
@@ -113,6 +116,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $output =& $this->renderXHTMLSection( $tpl, $sectionNode, 0 );
             }
         }
+        $res->removeKey( 'attribute_identifier' );
         return $output;
     }
 

@@ -41,9 +41,10 @@ include_once( 'kernel/classes/datatypes/ezxmltext/ezxmloutputhandler.php' );
 
 class eZPDFXMLOutput extends eZXMLOutputHandler
 {
-    function eZPDFXMLOutput( &$xmlData, $aliasedType )
+    function eZPDFXMLOutput( &$xmlData, $aliasedType, &$contentObjectAttribute )
     {
         $this->eZXMLOutputHandler( $xmlData, $aliasedType );
+        $this->ContentObjectAttribute = $contentObjectAttribute ;
     }
 
     /*!
@@ -61,6 +62,8 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
     {
         $tpl =& templateInit();
         $xml = new eZXML();
+        $res =& eZTemplateDesignResource::instance();
+        $res->setKeys( array( array( 'attribute_identifier', $this->ContentObjectAttribute->attribute( 'contentclass_attribute_identifier' ) ) ) );
         $dom =& $xml->domTree( $this->XMLData );
         if ( $dom )
         {
@@ -114,6 +117,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
             }
         }
 
+        $res->removeKey( 'attribute_identifier' );
         return $output;
     }
 
