@@ -85,3 +85,11 @@ eZDB:
 - Added new method relationMatchRegexp() to eZDBInterface,
   this can be implemented by DB drivers to provide information
   about which tables, triggers etc. belongs to eZ publish.
+
+eZTemplate:
+- New setting ShowMethodDebug in site.ini under TemplateSettings which when enabled
+  will show debug information about function and operator calls.
+- Added debug information for template processing (not compiled mode) which is shown
+  before and the processed template with uri and filename. Only shown when debug
+  is enabled.
+

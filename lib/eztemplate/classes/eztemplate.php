@@ -493,7 +493,14 @@ class eZTemplate
             }
             if ( !$templateCompilationUsed )
             {
+                if ( eZTemplate::isDebugEnabled() )
+                {
+                    $fname = $resourceData['template-filename'];
+                    eZDebug::writeDebug( "FETCH START URI: $template, $fname" );
+                }
                 $this->process( $root, $text, "", "" );
+                if ( eZTemplate::isDebugEnabled() )
+                    eZDebug::writeDebug( "FETCH END URI: $template, $fname" );
             }
 
             eZDebug::accumulatorStop( 'template_processing' );
@@ -588,7 +595,11 @@ class eZTemplate
         if ( isset( $func ) and
              is_object( $func ) )
         {
+            if ( eZTemplate::isMethodDebugEnabled() )
+                eZDebug::writeDebug( "START FUNCTION: $functionName" );
             $value =& $func->process( $this, $textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace );
+            if ( eZTemplate::isMethodDebugEnabled() )
+                eZDebug::writeDebug( "END FUNCTION: $functionName" );
             return $value;
         }
         else
@@ -748,7 +759,14 @@ class eZTemplate
         {
             $root =& $resourceData['root-node'];
             $text = null;
+            if ( eZTemplate::isDebugEnabled() )
+            {
+                $fname = $resourceData['template-filename'];
+                eZDebug::writeDebug( "START URI: $uri, $fname" );
+            }
             $this->process( $root, $text, $rootNamespace, $currentNamespace );
+            if ( eZTemplate::isDebugEnabled() )
+                eZDebug::writeDebug( "END URI: $uri, $fname" );
             $this->setIncludeOutput( $uri, $text );
             $textElements[] = $text;
         }
@@ -1232,7 +1250,12 @@ class eZTemplate
             if ( is_object( $op ) and method_exists( $op, 'modify' ) )
             {
                 $value = $valueData['value'];
-                $op->modify( $this, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, $value, $namedParameters );
+                if ( eZTemplate::isMethodDebugEnabled() )
+                    eZDebug::writeDebug( "START OPERATOR: $operatorName" );
+                $op->modify( $this, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, $value, $namedParameters,
+                             $placement );
+                if ( eZTemplate::isMethodDebugEnabled() )
+                    eZDebug::writeDebug( "END OPERATOR: $operatorName" );
                 $valueData['value'] = $value;
             }
             else
@@ -2270,6 +2293,20 @@ class eZTemplate
             $GLOBALS['eZTemplateDebugXHTMLCodeEnabled'] = $ini->variable( 'TemplateSettings', 'ShowXHTMLCode' ) == 'enabled';
         }
         return $GLOBALS['eZTemplateDebugXHTMLCodeEnabled'];
+    }
+
+    /*!
+     \static
+     \return \c true if debug output of template functions and operators should be enabled.
+    */
+    function isMethodDebugEnabled()
+    {
+        if ( !isset( $GLOBALS['eZTemplateDebugMethodEnabled'] ) )
+        {
+            $ini =& eZINI::instance();
+            $GLOBALS['eZTemplateDebugMethodEnabled'] = $ini->variable( 'TemplateSettings', 'ShowMethodDebug' ) == 'enabled';
+        }
+        return $GLOBALS['eZTemplateDebugMethodEnabled'];
     }
 
     /*!
