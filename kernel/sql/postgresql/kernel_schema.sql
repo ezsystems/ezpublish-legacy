@@ -2642,3 +2642,32 @@ CREATE TABLE ezgeneral_digest_user_settings (
     primary key ( id )
 );
 
+
+CREATE SEQUENCE ezkeyword_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+create table ezkeyword(
+id int NOT NULL DEFAULT nextval('ezkeyword_s'::text),
+keyword varchar(255),
+class_id int not null,
+PRIMARY KEY  (id)
+);
+
+CREATE SEQUENCE ezkeyword_attribute_link_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+create table ezkeyword_attribute_link(
+id int NOT NULL nextval('ezkeyword_attribute_link_s'::text),
+keyword_id int not null,
+objectattribute_id  int not null,
+PRIMARY KEY  (id)
+);
+
