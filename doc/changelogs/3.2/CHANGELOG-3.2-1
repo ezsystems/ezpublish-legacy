@@ -29,6 +29,10 @@ Changes from 3.2.0-2 to 3.2-1
   http://ez.no/developer/ez_publish_3/bug_reports/value_of_datatype_ezselection_not_usable_as_content_object_name_pattern
 
 *Setup:
+- Var directory is now separate for each installed package, this avoids the cache and storage conflict.
+- Made sure gallery files are placed in the var/gallery directory instead of var.
+- The database dropdown in site details will now recognize databasenames that match the package name,
+  if no match is found it assigns one unique database to each package.
 
 *Package system:
 
