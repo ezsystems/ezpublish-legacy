@@ -49,7 +49,6 @@
     <th>{'Name'|i18n( 'design/admin/role/list' )}</th>
     <th class="tight">&nbsp;</th>
     <th class="tight">&nbsp;</th>
-    <th class="tight">&nbsp;</th>
 </tr>
 
 {section var=Roles loop=$roles sequence=array( bglight, bgdark )}
@@ -59,7 +58,6 @@
     <td>{'role'|icon( 'small', 'Role'|i18n( 'design/admin/role/list' ) )}&nbsp;<a href={concat( '/role/view/', $Roles.item.id)|ezurl}>{$role_name}</a></td>
     <td><a href={concat( '/role/assign/', $Roles.item.id)|ezurl}><img src={'assign.gif'|ezimage} alt="{'Assign'|i18n( 'design/admin/role/list')}" title="{'Assign the <%role_name> role to a user or a user group.'|i18n( 'design/admin/role/list',, hash( '%role_name', $role_name ) )|wash}" /></a></td>
     <td><a href={concat( '/role/edit/', $Roles.item.id)|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/role/list' )}" title="{'Edit the <%role_name> role.'|i18n( 'design/admin/role/list',, hash( '%role_name', $role_name ) )|wash}" /></a></td>
-    <td><a href={concat( '/role/copy/', $Roles.item.id)|ezurl}><img src={'copy.gif'|ezimage} alt="{'Copy'|i18n( 'design/admin/role/list' )}" title="{'Copy the <%role_name> role.'|i18n( 'design/admin/role/list',, hash( '%role_name', $role_name ) )|wash}" /></a></td>
     </tr>
 {/let}
 {/section}
