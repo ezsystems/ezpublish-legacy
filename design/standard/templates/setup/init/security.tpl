@@ -3,7 +3,7 @@
 <form method="post" action="{$script}">
 
 <div align="center">
-  <h1>{"Securing site"|i18n("design/standard/setup/init")}</h1>
+  <h1>{"Site security"|i18n("design/standard/setup/init")}</h1>
 </div>
 
 <p>
