@@ -257,6 +257,8 @@ eZINI:
   http://ez.no/community/bug_reports/3_5alpha1_undefined_var_field_filters_in_ezcontentobjectattribute_language
 - Fixed bug: undefined function gettime() was used.
   http://ez.no/community/bug_reports/gettime_no_such_function_with_possible_fix
+- Fixed bug: wrong redirection after changing preferences.
+  http://ez.no/community/bug_reports/wrong_redirection_after_changing_preferences
 
 *Library:
 
