@@ -31,3 +31,5 @@ Changes from 3.5.0beta1 to 3.5.0rc1
   http://www.ez.no/community/bug_reports/rss_part_view_not_found
 - Fixed bug: Previous/Next Links in Gallery are wrong.
   http://ez.no/community/bug_reports/previous_next_links_in_gallery_are_wrong
+- Fixed template warning with ISBN datatype when no number is entered.
+  (Merged from stable/3.4 (3.4.3) rev. 9237)

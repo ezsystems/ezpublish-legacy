@@ -64,21 +64,25 @@ class eZISBNType extends eZDataType
         $field2 = $http->postVariable( $base . "_isbn_field2_" . $contentObjectAttribute->attribute( "id" ) );
         $field3 = $http->postVariable( $base . "_isbn_field3_" . $contentObjectAttribute->attribute( "id" ) );
         $field4 = $http->postVariable( $base . "_isbn_field4_" . $contentObjectAttribute->attribute( "id" ) );
-        $isbn = $field1.'-'.$field2.'-'.$field3.'-'.$field4;
+        $isbn = $field1 . '-' . $field2 . '-' . $field3 . '-' . $field4;
+
         $isbn = strtoupper( $isbn );
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-        if( ( $classAttribute->attribute( "is_required" ) == false ) &&  ( $isbn == "---" ) )
+        if ( !$classAttribute->attribute( "is_required" ) and
+             $isbn == "---" )
         {
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         }
+
         if ( preg_match( "#^[0-9]{1,2}\-[0-9]+\-[0-9]+\-[0-9X]{1}$#", $isbn ) )
         {
-            $digits = str_replace("-", "", $isbn );
+            $digits = str_replace( "-", "", $isbn );
             $valid = $this->validateISBNChecksum ( $digits );
             if ( $valid )
             {
                 return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-            }else
+            }
+            else
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                      'The ISBN number is not correct. Please check the input for mistakes.' ) );
@@ -94,20 +98,27 @@ class eZISBNType extends eZDataType
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
 
+    /*!
+     \private
+     Validates the ISBN number \a $isbnNr.
+     \param $isbnNr A string containing the number without any dashes.
+     \return \c true if it is valid.
+    */
     function validateISBNChecksum ( $isbnNr )
     {
-        $result=0;
+        $result = 0;
         for ( $i = 10; $i > 0; $i-- )
         {
             if ( ( $i == 1 ) and ( $isbnNr{9} == 'X' ) )
+            {
                 $result += 10 * $i;
+            }
             else
+            {
                 $result += $isbnNr{10-$i} * $i;
+            }
         }
-        if (  $result % 11 == 0 )
-            return true;
-        else
-            return false;
+        return ( $result % 11 == 0 );
     }
 
     /*!
@@ -119,7 +130,7 @@ class eZISBNType extends eZDataType
         $field2 = $http->postVariable( $base . "_isbn_field2_" . $contentObjectAttribute->attribute( "id" ) );
         $field3 = $http->postVariable( $base . "_isbn_field3_" . $contentObjectAttribute->attribute( "id" ) );
         $field4 = $http->postVariable( $base . "_isbn_field4_" . $contentObjectAttribute->attribute( "id" ) );
-        $isbn = $field1.'-'.$field2.'-'.$field3.'-'.$field4;
+        $isbn = $field1 . '-' . $field2 . '-' . $field3 . '-' . $field4;
         $isbn = strtoupper( $isbn );
         $contentObjectAttribute->setAttribute( "data_text", $isbn );
         return true;
@@ -138,12 +149,18 @@ class eZISBNType extends eZDataType
     function &objectAttributeContent( &$contentObjectAttribute )
     {
         $data = $contentObjectAttribute->attribute( "data_text" );
-        list ( $field1, $field2, $field3, $field4 ) = split ('[-]', $data );
-        $isbn = array( "field1" => $field1, "field2" => $field2, "field3" => $field3,
-                       "field4" => $field4 );
+        // The array_merge makes sure missing elements gets an empty string instead of NULL
+        list ( $field1, $field2, $field3, $field4 ) = array_merge( preg_split( '#-#', $data ),
+                                                                   array( 0 => '', 1 => '', 2 => '', 3 => '' ) );
+        $isbn = array( "field1" => $field1, "field2" => $field2,
+                       "field3" => $field3, "field4" => $field4 );
         return $isbn;
     }
 
+    /*!
+     \reimp
+     ISBN numbers are indexable, returns \c true.
+    */
     function isIndexable()
     {
         return true;
