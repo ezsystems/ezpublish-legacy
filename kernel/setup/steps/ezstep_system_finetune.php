@@ -82,8 +82,8 @@ class eZStepSystemFinetune extends eZStepInstaller
             $testTable = eZSetupTestTable();
 
             $arguments = array();
-            $runResult = eZSetupRunTests( $criticalTests, $arguments, 'eZSetup:init:system_check' );
-            $optionalRunResult = eZSetupRunTests( $optionalTests, $arguments, 'eZSetup:init:system_check' );
+            $runResult = eZSetupRunTests( $criticalTests, $arguments, 'eZSetup:init:system_check', $this->PersistenceList );
+            $optionalRunResult = eZSetupRunTests( $optionalTests, $arguments, 'eZSetup:init:system_check', $this->PersistenceList );
             $this->Results = $runResult['results'];
             $this->Result = $runResult['result'];
             $this->OptionalResults = $optionalRunResult['results'];
