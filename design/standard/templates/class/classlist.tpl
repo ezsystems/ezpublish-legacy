@@ -13,8 +13,8 @@
     </div> 
   {/case}
 {/switch}
-{section show=$groupclasses}
 <table class="list" width="100%" cellpadding="0" cellspacing="0" border="0">
+{section show=$groupclasses}
 <tr>
     <th>{"ID:"|i18n("design/standard/class/view")}</th>
     <th>{"Name:"|i18n("design/standard/class/view")}</th>
@@ -38,6 +38,7 @@
     <td class="{$Classes:sequence}" width="1%"><div align="center"><input type="checkbox" name="DeleteIDArray[]" value="{$Classes:item.id}"></div></td>
 </tr>
 {/section}
+{/section}
 
 <tr>
   <td>
@@ -52,7 +53,6 @@
   </td>
 </tr>
 </table>
-{/section}
 
 <input type="hidden" name = "CurrentGroupID" value="{$GroupID}" />
 <input type="hidden" name = "CurrentGroupName" value="{$group_name}" />
