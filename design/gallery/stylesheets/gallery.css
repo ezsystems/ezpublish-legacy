@@ -284,8 +284,9 @@ div#footer a
 
 div.image_line img
 { 
-    background-color: #000;
-    padding: 10px;
+    background-color: #ff6600;
+    border: 2px solid #a17000;
+    padding: 7px;
 }
 
 /* image comments */

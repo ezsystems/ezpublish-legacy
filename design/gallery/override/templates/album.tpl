@@ -20,22 +20,38 @@
 
 </form>
 
-<div id="image_thumb">
-{let image_count=fetch( content, list_count, hash( parent_node_id, $node.node_id,
+{let image_limit=2
+     image_count=fetch( content, list_count, hash( parent_node_id, $node.node_id,
                                                    class_filter_type, include,
 						   class_filter_array, array( 5 ) ) )
      image_list=fetch( content, list, hash( parent_node_id, $node.node_id,
+                                            limit, $image_limit,
+                                            offset, $view_parameters.offset,
                                             class_filter_type, include,
                                             class_filter_array, array( 5 ),
                                             sort_by, array( 'published', false() ) ) )}
 
-  <table>
+<table border="1" cellspacing="0" cellpadding="0" width="100%">
+  <tr>
+    <td align="center">{$image_count} images in this album on {ceil(div($image_count,$image_limit))} pages</td>
+  </tr>
+  <tr>
+    <td>{include name=navigator
+         uri='design:navigator/google.tpl'
+         page_uri=concat('/content/view','/full/',$node.node_id)
+         item_count=$image_count
+         view_parameters=$view_parameters
+         item_limit=$image_limit}</td>
+  </tr>
+</table>
+  
+<table>
   <tr> 
-  {section var=image loop=$image_list}
+  {section var=image loop=$image_list}  
      <td>
         {node_view_gui view=line content_node=$image.item}
      </td>
-     {delimiter modulo=4}
+     {delimiter modulo=$node.object.data_map.column.content}
        </tr>
        <tr>
      {/delimiter}
@@ -44,6 +60,14 @@
   </table>
 </div>
 
+<table border="1" cellspacing="0" cellpadding="0" width="100%">
+  <tr>
+    <td>{include name=navigator
+         uri='design:navigator/google.tpl'
+         page_uri=concat('/content/view','/full/',$node.node_id)
+         item_count=$image_count
+         view_parameters=$view_parameters
+         item_limit=$image_limit}</td>
+  </tr>
+</table>    
 {/let}
-
-</div>
