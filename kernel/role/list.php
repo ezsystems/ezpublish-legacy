@@ -35,6 +35,7 @@
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( 'kernel/classes/ezcontentclass.php' );
+include_once( 'kernel/classes/ezcontentbrowse.php' );
 include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezrole.php' );
 
