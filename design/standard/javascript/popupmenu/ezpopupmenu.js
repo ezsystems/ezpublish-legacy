@@ -168,6 +168,19 @@ function ezpopmenu_initOffsets( offsetX, offsetY )
 }
 
 /*!
+ Sets an element of the substitute array.
+ This function can be used if you want to change some substitution values dynamically,
+ E.g based on the element you chose in the menu.
+*/
+function ezpopupmenu_setSubstituteValue( key, value )
+{
+  if( CurrentSubstituteValues != -1 )
+  {
+    CurrentSubstituteValues[key] = value;
+  }
+}
+
+/*!
    Shows toplevel menu at the current mouseposition + EZPOPMENU_OFFSET.
    'event' This parameter is for the mouse event.
    'menuID' is the identification of the menu to use.

@@ -218,6 +218,7 @@ eZInformationCollection:
 - Fixed bug #6307: Ini arrays' definitions were erased when saving ini files.
 - Fixed bug #6354: Template compile breaks maketime function
   (Merged from stable 3.4 (3.4.6) rev 11101)
+- Fixed problem with the popupmenu not handling cases with dynamic substitutevalue changing.
 
 *Library:
 PDF:
