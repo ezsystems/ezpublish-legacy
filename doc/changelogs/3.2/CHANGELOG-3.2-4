@@ -133,6 +133,17 @@ Changes from 3.2-3 to 3.2-4
   http://ez.no/developer/ez_publish_3/bug_reports/admins_cant_edit_classes
 - Fixed updating section id when moving unpublished objects. http://ez.no/developer/ez_publish_3/bug_reports/section_malfunction
 - Fixed bug http://www.ez.no/developer/ez_publish_3/bug_reports/datatype_function_metadata_isnt_part_of_the_datatype_api
+- Fixed bug in policy edit/creation, if node limitations were added the other limitation values would be removed,
+  this no longer happpens.
+- Fixed bug in listing of subtree when the attribute filter and attribute sort were used and the attribute filter
+  was an empty array.
+- Fixed security bug in content module for several views, they now have a separate function access instead
+  of reusing the 'edit' access.
+- Fixed security bug in policy checking for content objects, it was possible to get create access
+  anywhere on the site all depeneding on the role setup. Now creation checking is properly implemented.
+- Fixed security bug in which it was possible to add forbidden locations to an object you could edit.
+- Fixed security bug in which any object could be created using the related object functionality for
+  an existing object edit.
 
 *Setup:
 - Added check for specific unstable PHP versions.

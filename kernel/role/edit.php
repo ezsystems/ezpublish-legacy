@@ -161,7 +161,7 @@ if ( $http->hasPostVariable( 'AddLimitation' ) )
                 }
             }
 
-            if ( !$hasNodeLimitation )
+//             if ( !$hasNodeLimitation )
             {
                 $currentModule = $http->postVariable( 'CurrentModule' );
                 $currentFunction = $http->postVariable( 'CurrentFunction' );

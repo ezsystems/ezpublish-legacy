@@ -64,6 +64,17 @@ Changes from 3.3.0-2 to 3.3-1
 - Fixed bug in hostmatching in eZHTTPTool::redirectURL, it did not find host names without . in them, e.g. localhost. ( merged from stable 4578 )
 - Fixed showing embeded images in blog package. http://ez.no/developer/ez_publish_3/bug_reports/picture_does_not_show_in_package
 - Fixed right alignment of printer friendly link in shop package. http://ez.no/developer/ez_publish_3/bug_reports/move_printerfriendly_pages_message_in_shop_package
+- Fixed bug in policy edit/creation, if node limitations were added the other limitation values would be removed,
+  this no longer happpens.
+- Fixed bug in listing of subtree when the attribute filter and attribute sort were used and the attribute filter
+  was an empty array.
+- Fixed security bug in content module for several views, they now have a separate function access instead
+  of reusing the 'edit' access.
+- Fixed security bug in policy checking for content objects, it was possible to get create access
+  anywhere on the site all depeneding on the role setup. Now creation checking is properly implemented.
+- Fixed security bug in which it was possible to add forbidden locations to an object you could edit.
+- Fixed security bug in which any object could be created using the related object functionality for
+  an existing object edit.
 
 *ezlupdate:
 - Added check for newlines in the context field for templates, usually this means a missing quote.

@@ -370,8 +370,9 @@ class eZContentObjectVersion extends eZPersistentObject
         return $p;
     }
 
-    function checkAccess( $functionName, $classID = false, $parentClassID = false )
+    function checkAccess( $functionName, $originalClassID = false, $parentClassID = false )
     {
+        $classID = $originalClassID;
         $user =& eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
         $accessResult =  $user->hasAccessTo( 'content' , $functionName );
@@ -424,7 +425,13 @@ class eZContentObjectVersion extends eZPersistentObject
 
                         if ( $limitation->attribute( 'identifier' ) == 'Class' )
                         {
-                            if ( $functionName == 'create' )
+                            if ( $functionName == 'create' and
+                                 !$originalClassID )
+                            {
+                                $access = 'allowed';
+                            }
+                            else if ( $functionName == 'create' and
+                                 in_array( $classID, $limitation->attribute( 'values_as_array' ) ) )
                             {
                                 $access = 'allowed';
                             }
@@ -500,6 +507,15 @@ class eZContentObjectVersion extends eZPersistentObject
                                     $access = 'allowed';
                                 }
                             }
+                            if ( $access == 'allowed' )
+                            {
+                                // do nothing
+                            }
+                            else
+                            {
+                                $access = 'denied';
+                                break;
+                            }
                         }
                         elseif ( $limitation->attribute( 'identifier' ) == 'Subtree' )
                         {
@@ -516,6 +532,15 @@ class eZContentObjectVersion extends eZPersistentObject
                                         $access = 'allowed';
                                     }
                                 }
+                            }
+                            if ( $access == 'allowed' )
+                            {
+                                // do nothing
+                            }
+                            else
+                            {
+                                $access = 'denied';
+                                break;
                             }
                         }
                     }

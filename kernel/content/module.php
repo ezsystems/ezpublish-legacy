@@ -116,7 +116,7 @@ $ViewList['search'] = array(
     'unordered_params' => array( 'offset' => 'Offset' ) );
 
 $ViewList['urltranslator'] = array(
-    'functions' => array( 'edit' ),
+    'functions' => array( 'urltranslator' ),
     'default_navigation_part' => 'ezsetupnavigationpart',
     'script' => 'urltranslator.php',
     'single_post_actions' => array( 'NewURLAliasButton' => 'NewURLAlias',
@@ -190,7 +190,7 @@ $ViewList['versions'] = array(
     'unordered_params' => array( 'offset' => 'Offset' ) );
 
 $ViewList['translate'] = array(
-    'functions' => array( 'edit' ),
+    'functions' => array( 'translate' ),
     'default_navigation_part' => 'ezcontentnavigationpart',
     'script' => 'translate.php',
     'single_post_actions' => array( 'EditObjectButton' => 'EditObject',
@@ -223,7 +223,7 @@ $ViewList['trash'] = array(
     'unordered_params' => array( 'offset' => 'Offset' ) );
 
 $ViewList['translations'] = array(
-    'functions' => array( 'edit' ),
+    'functions' => array( 'translations' ),
     'default_navigation_part' => 'ezsetupnavigationpart',
     'script' => 'translations.php',
     'single_post_actions' => array( 'RemoveButton' => 'Remove',
@@ -270,7 +270,7 @@ $ViewList['bookmark'] = array(
     'unordered_params' => array( 'offset' => 'Offset' ) );
 
 $ViewList['pendinglist'] = array(
-    'functions' => array( 'edit' ),
+    'functions' => array( 'pendinglist' ),
     'default_navigation_part' => 'ezmynavigationpart',
     'script' => 'pendinglist.php',
     'params' => array(),
@@ -364,6 +364,11 @@ $FunctionList['edit'] = array( 'Class' => $ClassID,
                                'Owner' => $Assigned,
                                'Node' => $Node,
                                'Subtree' => $Subtree);
+$FunctionList['translate'] = array( 'Class' => $ClassID,
+                                    'Section' => $SectionID,
+                                    'Owner' => $Assigned,
+                                    'Node' => $Node,
+                                    'Subtree' => $Subtree );
 $FunctionList['remove'] = array( 'Class' => $ClassID,
                                  'Section' => $SectionID,
                                  'Owner' => $Assigned,
@@ -377,6 +382,9 @@ $FunctionList['versionread'] = array( 'Class' => $ClassID,
                                       'Status' => $Status,
                                       'Node' => $Node,
                                       'Subtree' => $Subtree);
+$FunctionList['translations'] = array();
+$FunctionList['urltranslator'] = array();
+$FunctionList['pendinglist'] = array();
 
 $FunctionList['restore'] = array( );
 $FunctionList['cleantrash'] = array( );

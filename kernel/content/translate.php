@@ -89,6 +89,9 @@ if ( $object === null  )
 if ( !$object->attribute( 'can_edit' ) )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
+if ( !$object->attribute( 'can_translate' ) )
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
 $version =& $object->version( $EditVersion );
 
 if ( $version === null  )
