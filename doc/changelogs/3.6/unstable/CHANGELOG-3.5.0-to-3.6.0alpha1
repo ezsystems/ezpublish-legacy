@@ -64,6 +64,7 @@ PDF:
 
 eZDebug:
 - Added background highlighting for the queries in a transaction section.
+- Added "templates usage statistics".
 
 *SOAP:
 - Added authentication support.

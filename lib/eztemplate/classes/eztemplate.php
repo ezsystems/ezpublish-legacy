@@ -713,6 +713,12 @@ class eZTemplate
 
         if ( !$resourceData )
             return null;
+
+        if ( eZTemplate::isTemplatesUsageStatisticsEnabled() )
+        {
+            eZDebug::appendTemplateToStatistics( $resourceData['template-name'], $resourceData['template-filename'] );
+        }
+
         if ( !$resourceData['compiled-template'] and
              $resourceData['root-node'] === null )
         {
@@ -2387,6 +2393,35 @@ class eZTemplate
     function setIsCachingAllowed( $allowed )
     {
         $this->IsCachingAllowed = $allowed;
+    }
+
+    /*!
+     \static
+     \return \c true if templates usage statistics should be enabled.
+    */
+    function isTemplatesUsageStatisticsEnabled()
+    {
+        if ( !isset( $GLOBALS['eZTemplateDebugTemplatesUsageStatisticsEnabled'] ) )
+        {
+            $ini =& eZINI::instance();
+            $GLOBALS['eZTemplateDebugTemplatesUsageStatisticsEnabled'] = $ini->variable( 'TemplateSettings', 'ShowTemplatesUsageStatistics' ) == 'enabled';
+        }
+        return ( $GLOBALS['eZTemplateDebugTemplatesUsageStatisticsEnabled'] );
+    }
+
+    /*!
+     \static
+     Sets whether templates usage statistics enabled or not.
+     \return \c true if templates usage statistics was enabled, otherwise \c false.
+    */
+    function setIsTemplatesUsageStatisticsEnabled( $enabled )
+    {
+        $wasEnabled = false;
+        if( isset( $GLOBALS['eZTemplateDebugTemplatesUsageStatisticsEnabled'] ) )
+            $wasEnabled = $GLOBALS['eZTemplateDebugTemplatesUsageStatisticsEnabled'];
+
+        $GLOBALS['eZTemplateDebugTemplatesUsageStatisticsEnabled'] = $enabled;
+        return $wasEnabled;
     }
 
     /// \privatesection

@@ -1,0 +1,29 @@
+*Title: Template Usage Statistics in debug mode
+
+*Documentation:
+The Template Usage Statistics feature in eZ publish 3.6 makes it possible see 
+the list of templates which were used to render a page.
+
+*Settings:
+To enable this feature make sure that your "site.ini.append" contains:
+[DebugSettings]
+DebugOutput=enabled
+
+[TemplateSettings]
+ShowTemplatesUsageStatistics=enabled
+
+*Design:
+After that you will see a table "Template Usage Statistics" at the bottom 
+of the page when you are browsing the site. This table consists of 
+5 columns: "Template", "Requested template", "Full filename", "Edit",
+"Override".
+"Template"           - the name of template which were used.
+"Requested template" - the name of template which were requested. "Requested
+                       Template" may differs from "Template". For example: 
+                       you have an override section which overrides 
+                       "node/view/full.tpl" with "bla.tpl". Thus you will see 
+                       "bla.tpl" in "Template" column and 
+                       "node/view/full.tpl" in "Requsted template".
+"Full filename"      - "design resource" + "requested template".
+"Edit"               - will let you edit template using current siteAccess.
+"Override"           - will let you override template using current siteAccess.

@@ -64,7 +64,11 @@ foreach ( $parameters as $param )
     $i++;
 }
 
-$siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
+$siteAccess = $Params['SiteAccess'];
+if( $siteAccess )
+    $http->setSessionVariable( 'eZTemplateAdminCurrentSiteAccess', $siteAccess );
+else
+    $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
 
 $overrideArray =& eZTemplatedesignresource::overrideArray( $siteAccess );
 

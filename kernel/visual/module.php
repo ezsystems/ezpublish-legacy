@@ -78,7 +78,8 @@ $ViewList["templateedit"] = array(
     "default_navigation_part" => 'ezvisualnavigationpart',
     'single_post_actions' => array( 'SaveButton' => 'Save',
                                     'DiscardButton' => 'Discard' ),
-    "params" => array( ) );
+    "params" => array( ),
+    "unordered_params" => array( "siteAccess" => "SiteAccess" ) );
 
 $ViewList["templatecreate"] = array(
     "script" => "templatecreate.php",
@@ -86,6 +87,7 @@ $ViewList["templatecreate"] = array(
     "default_navigation_part" => 'ezvisualnavigationpart',
     'single_post_actions' => array( 'CreateOverrideButton' => 'CreateOverride',
                                     'CancelOverrideButton' => 'CancelOverride' ),
-    "params" => array( ) );
+    "params" => array( ),
+    "unordered_params" => array( "siteAccess" => "SiteAccess" ) );
 
 ?>
