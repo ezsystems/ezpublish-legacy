@@ -215,14 +215,14 @@ class eZPostgreSQLDB extends eZDBInterface
                 {
                     for($i = 0; $i < pg_numrows($result); $i++)
                     {
-                        $retArray[$i + $offset] =& pg_fetch_array ( $result, $i );
+                        $retArray[$i + $offset] =& pg_fetch_array ( $result, $i, PGSQL_ASSOC );
                     }
                 }
                 else
                 {
                     for ($i = 0; $i < pg_numrows( $result ); $i++ )
                     {
-                        $tmp_row =& pg_fetch_array ( $result, $i );
+                        $tmp_row =& pg_fetch_array ( $result, $i, PGSQL_ASSOC );
                         $retArray[$i + $offset] =& $tmp_row[$column];
                     }
                 }
