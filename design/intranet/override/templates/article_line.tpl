@@ -1,11 +1,9 @@
-<div class="article_line">
+<div class="articleline">
 
 {default content_object=$node.object
          content_version=$node.contentobject_version_object}
 
-<div class="object_title">
 <h2>{attribute_view_gui attribute=$content_version.data_map.title}</h2>
-</div>
 
 <div class="byline">
   <p>
@@ -27,7 +25,7 @@
 
 *}
 
-<div class="object_brief">
+<div class="intro">
   {attribute_view_gui attribute=$content_version.data_map.intro}
 </div>
 

@@ -1,8 +1,14 @@
 <?php /* #?ini charset="iso-8859-1"?
 
-[search]
-Source=content/search.tpl
-MatchFile=search.tpl
+[frontpage_folder]
+Source=node/view/full.tpl
+MatchFile=frontpage_folder.tpl
+Subdir=templates
+Match[node]=2
+
+[advancedsearch]
+Source=content/advancedsearch.tpl
+MatchFile=advancedsearch.tpl
 Subdir=templates
 
 [folder]
@@ -65,6 +71,18 @@ MatchFile=infopage.tpl
 Subdir=templates
 Match[class]=10
 
+[edit_person]
+Source=content/edit.tpl
+MatchFile=edit/person.tpl
+Subdir=templates
+Match[class_identifier]=person
+
+[edit_company]
+Source=content/edit.tpl
+MatchFile=edit/company.tpl
+Subdir=templates
+Match[class_identifier]=company
+
 [edit_article]
 Source=content/edit.tpl
 MatchFile=edit/article.tpl
@@ -73,7 +91,7 @@ Match[class_identifier]=article
 
 [edit_file]
 Source=content/edit.tpl
-MatchFile=edit_file.tpl
+MatchFile=edit/file.tpl
 Subdir=templates
 Match[class_identifier]=file
 
@@ -92,6 +110,11 @@ Match[class]=5
 [datatype_edit_ezmatrix]
 Source=content/datatype/edit/ezmatrix.tpl
 MatchFile=datatype_edit_ezmatrix.tpl
+Subdir=templates
+
+[datatype_view_ezmatrix]
+Source=content/datatype/view/ezmatrix.tpl
+MatchFile=datatype_view_matrix.tpl
 Subdir=templates
 
 [advancedsearch]

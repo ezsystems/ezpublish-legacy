@@ -1,14 +1,11 @@
 <div class="person_line">
 
-<div class="object_title">
-<a href={$node.url_alias|ezurl}><h1>{$node.name} ( {attribute_view_gui attribute=$node.object.data_map.position} )</h1></a>
-</div>
+<a href={$node.url_alias|ezurl}><h2>{$node.name} ( {attribute_view_gui attribute=$node.object.data_map.position} )</h2></a>
 
-<div class="imageright">
-    {attribute_view_gui attribute=$node.object.data_map.picture image_class=medium}
-</div>
+{attribute_view_gui attribute=$node.object.data_map.picture image_class=medium}
 
 <div class="contact">
+<h3>Contact information</h3>
 {attribute_view_gui attribute=$node.object.data_map.person_numbers}
 </div>
 

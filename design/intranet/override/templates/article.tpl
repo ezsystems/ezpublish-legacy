@@ -6,13 +6,10 @@
 <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
 <input type="hidden" name="ViewMode" value="full" />
 
-
 {default content_object=$node.object
          content_version=$node.contentobject_version_object}
 
-<div class="object_title">
-    <h1>{$node.name}</h1>
-</div>
+<h1>{$node.name}</h1>
 
 {section show=$node.object.can_edit}
    <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
@@ -20,7 +17,7 @@
 
 <div class="byline">
   <p>
-   ({$content_object.published|l10n( datetime )})
+   ({$content_object.published|l10n( datetime )} | by {$node.object.owner.name})
   </p>
 </div>
 
@@ -28,8 +25,13 @@
     {attribute_view_gui attribute=$content_version.data_map.thumbnail image_class=medium}
 </div>
 
+<div class="intro">
 {attribute_view_gui attribute=$content_version.data_map.intro}
+</div>
+
+<div class="body">
 {attribute_view_gui attribute=$content_version.data_map.body}
+</div>
 
 {section show=$node.object.data_map.enable_comments.data_int}
     {let message_list=fetch( content, list, hash(

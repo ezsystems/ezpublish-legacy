@@ -13,19 +13,18 @@
     {set stop_word_array=$search['StopWordArray']}
     {set search_data=$search}
 {/section}
+<div id="search">
 
 <form action={"/content/search/"|ezurl} method="get">
 
-<div class="maincontentheader">
 <h1>{"Search"|i18n("design/standard/content/search")}</h1>
-</div>
 
-<div class="block">
+<div class="searchbox">
     <input class="halfbox" type="text" size="20" name="SearchText" id="Search" value="{$search_text|wash}" />
     <input class="button" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
 </div>
 
-<div class="block">
+<div class="advancedsearchbox">
     {let adv_url=concat('/content/advancedsearch/',$search_text|gt(0)|choose('',concat('?SearchText=',$search_text|urlencode)))|ezurl}
     <label>{"For more options try the %1Advanced search%2"|i18n("design/standard/content/search","The parameters are link start and end tags.",array(concat("<a href=",$adv_url,">"),"</a>"))}</label>
     {/let}
@@ -40,7 +39,6 @@
 
 {/section}
 </p>
-
 {/section}
 
 {switch name=Sw match=$search_count}
@@ -67,18 +65,9 @@
 {let use_url_translation=ezini('URLTranslator','Translation')|eq('enabled')}
 
 {section show=$search_result}
-<table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
-<tr>
   {section name=SearchResult loop=$search_result show=$search_result sequence=array(bglight,bgdark)}
       {node_view_gui view=line content_node=$:item}
-  {delimiter modulo=1}
-</tr>
-<tr>
-  {/delimiter}
-  {section-else}
   {/section}
-</tr>
-</table>
 {/section}
 
 {/let}
@@ -91,5 +80,9 @@
          view_parameters=$view_parameters
          item_limit=$page_limit}
 
+
 </form>
+
+</div>
+
 {/let}

@@ -3,26 +3,6 @@
 /* which needs to be included for this one to be correct.      */
 
 
-h1, h2, h3, p, a, th, td, ul, ol, li, dl, dd, dt, label, div, span, input, textarea
-{
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-h1
-{
-    font-size: 120%;
-    font-weight: bold;
-}
-
-h2
-{
-    font-size: 100%;
-}
-
-h3
-{
-    font-size: 90%;
-}
 
 body
 {
@@ -82,40 +62,53 @@ input.defaultbutton
   background: url("../images/06_intranet_logo.png") no-repeat;
 }
 
-/* Top menu */
-#topmenu
+/* Main menu */
+div#mainmenu
 { 
   background-color: #cc0000;
-  display: block;
-  clear: right;
   padding: 6px;  
   margin: 0px;
 }
 
-#topmenu .item
-{ 
-  padding: 10px;  
-  display: inline;
-}
-
-#topmenu .delimiter
-{ 
-  color: #e57b7b;
-  padding: 10px;  
-  display: inline;
+div#mainmenu ul, div#mainmenu li
+{
+    display: inline; /* This makes the vertical display of this menu */
 }
 
 
-#topmenu a
-{ 
-   color: #ffffff;
+div#mainmenu ul
+{
+    margin-left: 0em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    color: #ffffff;
+}
+
+div#mainmenu li a
+{
+    padding-left: 1em;
+    padding-right: 3em;
+}
+
+div#mainmenu a
+{
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+div#mainmenu a:hover
+{
+    text-decoration: underline;
 }
 
 #pathline
 { 
-  width: 100%; 
-  color: #777777;
-  background-color: #ffffff;
+    display: block;
+    clear: both;
+    width: 100%; 
+    color: #777777;
+    background-color: #ffffff;
 }
 
 /* Path */
@@ -173,49 +166,44 @@ input.defaultbutton
    width: 100%;
 }
 
-#mainmenu
+
+
+/* sub menu */
+div#submenu
 { 
-  font-size: 80%;
-  width: 20%;
-  height: 100%;
-  float: left;
-  padding: 0px; 
+   float: left;
+   padding-left: 16px;  
+   margin: 0px;
+   width: 150px;
 }
 
-#mainmenu .selected
-{
-  background-color: #eeeeee;	
-  border-color: #ffffff;
-  border-top: 1px solid;
-}
-
-#mainmenu .item
-{
-  background-color: #ffffff;
-  border-color: #ffffff;
-  border-top: 1px solid;
-}
-
-#mainmenu .item:hover
-{
-  background-color: #eeeeee;
-  border-color: #ffffff;
-}
-
-#mainmenu .level_0
-{
-  padding: 4px; 
-}
-
-#mainmenu .level_1
-{
-  padding: 4px; 
-  margin-left: 15px;
-}
-
-#mainmenu a
+div#submenu a
 { 
-   color: #777777;
+   color: #000;
+}
+
+div#submenu li.level_0
+{ 
+}
+
+div#submenu li.level_1
+{ 
+    margin-left: 0.5em;
+}
+
+div#submenu li.level_2
+{ 
+    margin-left: 1.0em;
+}
+
+div#submenu li.level_3
+{ 
+    margin-left: 1.5em;
+}
+
+div#submenu li.level_4
+{ 
+    margin-left: 2.0em;
 }
 
 
@@ -245,43 +233,112 @@ input.defaultbutton
    color: #ffeeee;
 }
 
+/* folder styles */
 
-/* object templates */
-
-div.object_title
+div#folder h1
 { 
-    color: #df3902;
-    margin: 0px;
+    color: #444;
+    font-size: 110%;
+}
+
+div#folder div.person_line h2
+{ 
+    font-size: 100%;
+    color: #333;
+    padding: 0.5em;
+}
+
+div#folder div.person_line h3
+{ 
+    color: #333;
+}
+
+div#folder div.person_line table
+{ 
     padding: 0px;
+    color: #333;
 }
 
 
-div.object_title h2
+div#folder div.company_line h2
 { 
-    color: #df3902;
-    margin: 0px;
-    padding: 0px;    
+    font-size: 100%;
+    color: #333;
+    padding: 0.5em;
 }
 
-div.byline
+div#folder div.company_line h3
 { 
-    color: #777777;
-    margin: 0px;
+    color: #333;
+}
+
+div#folder div.person_line table
+{ 
     padding: 0px;
+    color: #333;
 }
 
-div.byline p
+
+/* article/news styles */
+div.articleline h2
 { 
-   margin: 0px;
-   padding: 0px;
-   font-size: 80%;
+    font-size: large;
+    color: #c00;    
 }
 
-div.brief
+div.articleline h3
 { 
+    color: #333;
+}
+
+div.articleline div.byline p
+{ 
+    padding: 0px;
     margin: 0px;
-    padding: 0px;    
+    color: #666;
 }
+
+div.articleline div.intro p
+{ 
+    padding: 0px;
+    margin: 0px;
+    color: #333;
+}
+
+div.articleline div.readmore a
+{ 
+    font-size: small;
+    color: #c00;
+}
+
+
+/* person styles */
+
+div#person h1
+{ 
+    color: #444;
+    font-size: 120%;
+}
+
+div#person h2
+{ 
+    color: #444;
+    font-size: 100%;
+}
+
+div#person div.contact table
+{ 
+}
+
+
+div#person div.comment
+{ 
+    clear: both;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    background-color: #eee;
+}
+
 
 /* validation, fixup and feedback */
 .validation .warning, .validation .feedback

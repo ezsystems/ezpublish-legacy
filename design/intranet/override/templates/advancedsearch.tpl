@@ -99,9 +99,16 @@
 {/switch}
 
 
-{include name=Result
-         uri='design:content/searchresult.tpl'
-         search_result=$search_result}
+{let use_url_translation=ezini('URLTranslator','Translation')|eq('enabled')}
+
+{section show=$search_result}
+  {section name=SearchResult loop=$search_result show=$search_result sequence=array(bglight,bgdark)}
+      {node_view_gui view=line content_node=$:item}
+  {/section}
+{/section}
+
+{/let}
+
 {/section}
 
 </div>

@@ -1,5 +1,3 @@
-{* Custom edit template for articles in user view *}
-
 <form enctype="multipart/form-data" method="post" action={concat("/content/edit/",$object.id,"/",$edit_version,"/",$edit_language|not|choose(array($edit_language,"/"),''))|ezurl}>
 
 <div id="article">
@@ -12,6 +10,7 @@
         </div>
 
         {include uri="design:content/edit_dropdown_placement.tpl"}
+
 
         {include uri="design:content/edit_validation.tpl"}
 

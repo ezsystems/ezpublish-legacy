@@ -1,16 +1,41 @@
 {* Placement code for content/edit which handles placement with dropdowns *}
-{default placement=hash( list, array() )}
+
+{let parent_node=2}
+
+{section show=$object.contentclass_id|eq(16)}
+    {set parent_node=55}
+{/section}
+
+{section show=$object.contentclass_id|eq(17)}
+    {set parent_node=55}
+{/section}
+
+{section show=$object.contentclass_id|eq(12)}
+    {set parent_node=62}
+{/section}
+
+{section show=$object.contentclass_id|eq(2)}
+    {set parent_node=50}
+{/section}
+
+{let folder_list=fetch('content','list',hash( parent_node_id, $parent_node,
+                                          sort_by ,$node.sort_array,
+                                          class_filter_type, 'include',
+                                          class_filter_array, array( 'folder' ) ))}
+
+{default placement=hash( list, array( hash( node_list, $folder_list ) ),
+                         main_assignment_element_number, 1 ) }
 
 <div class="placement">
 
-    <input type="hidden" name="MainNodeID" value="" />
+    <input type="hidden" name="MainAssignmentElementNumber" value="{$placement.main_assignment_element_number}" />
 
     {section var=element loop=$placement.list}
 
     <div class="element">
     <select class="element_{$element.number}" name="SetPlacementNodeIDArray[{$element.number}]">
         {section var=node loop=$element.item.node_list}
-            <option value="{$node.key}" {section show=eq($assigned_remote_map[$element.number],$node.key)}selected="selected"{/section}>{$node.item}</option>
+            <option value="{$node.item.node_id}" {section show=eq($assigned_remote_map[$element.number].parent_node,$node.item.node_id)}selected="selected"{/section}>{$node.item.name}</option>
         {/section}
     </select>
     </div>
@@ -21,35 +46,9 @@
     {/delimiter}
 
     {/section}
-
-{*    {let name=Choice
-         list_node1=first_set($:assigned_remote_map[2].parent_node,0)
-         list_node2=first_set($:assigned_remote_map[3].parent_node,31)}
-
-    <input type="hidden" name="MainNodeID" value="26" />
-
-    <input type="hidden" name="SetPlacementNodeIDArray[1]" value="26" />
-    <input type="hidden" name="SetRemoteIDOrderMap[1]" value="1" />
-    <input type="hidden" name="SetRemoteIDFieldMap[1]" value="9" />
-
-    <select name="SetPlacementNodeIDArray[2]">
-    {section loop=hash(0,"None",28,"Feature",29,"Some place",30,"Another place")}
-      <option value="{$:key}" {section show=eq($:list_node1,$:key)}selected="selected"{/section}>{$:item}</option>
-    {/section}
-    </select>
-    <input type="hidden" name="SetRemoteIDOrderMap[2]" value="0" />
-    <input type="hidden" name="SetRemoteIDFieldMap[2]" value="1" />
-
-    <select name="SetPlacementNodeIDArray[3]">
-    {section loop=hash(0,"None",31,"1",32,"2")}
-      <option value="{$:key}" {section show=eq($:list_node2,$:key)}selected="selected"{/section}>{$:item}</option>
-    {/section}
-    </select>
-    <input type="hidden" name="SetRemoteIDOrderMap[3]" value="1" />
-    <input type="hidden" name="SetRemoteIDFieldMap[3]" value="4" />
-
-    {/let}*}
-
-</div>
+{/default}
 
 {/let}
+
+{/let}
+</div>

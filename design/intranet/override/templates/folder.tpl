@@ -20,6 +20,25 @@
 </div>
 
 <div class="children">
+{*
+{let folder_list=fetch('content','list',hash( parent_node_id, $node.node_id,
+                                          sort_by ,$node.sort_array,
+                                          class_filter_type, 'include',
+                                          class_filter_array, array( 'folder' ) ))}
+{section show=$folder_list|is_set()}
+    <div class="subfolders">
+    {section name=folders loop=$folder_list sequence=array(bglight,bgdark)}
+        <div class="{$folders:sequence}">
+            <p><a href={$:item.url_alias|ezurl}>{$:item.name|wash}</a></p>
+        </div>
+    {/section}
+    </div>
+{/section}
+
+{/let}
+
+*}
+
 {let page_limit=20
     children=fetch('content','list',hash( parent_node_id, $node.node_id,
                                           sort_by ,$node.sort_array,
@@ -50,21 +69,44 @@
          content_version=$node.contentobject_version_object
          node_name=$node.name}
 
+</form>
 <div class="buttonblock">
-
 {section show=$content_object.can_create}
+
+{section show=$node.path_array[2]|eq(62)}
+<form method="post" action={"content/action"|ezurl}>
          <input type="hidden" name="NodeID" value="{$node.node_id}" />
-         <select name="ClassID">
-              {section name=Classes loop=$content_object.can_create_class_list}
-              <option value="{$:item.id}">{$:item.name|wash}</option>
-              {/section}
-         </select>
-         <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n('design/standard/node/v
-iew')}" />
+         <input type="hidden" name="ClassID" value="12" />
+         <input class="button" type="submit" name="NewButton" value="{'New file'|i18n('design/standard/node/view')}" />
+</form>
+{/section}
+
+
+{section show=$node.path_array[2]|eq(50)}
+<form method="post" action={"content/action"|ezurl}>
+         <input type="hidden" name="NodeID" value="{$node.node_id}" />
+         <input type="hidden" name="ClassID" value="2" />
+         <input class="button" type="submit" name="NewButton" value="{'New article'|i18n('design/standard/node/view')}" />
+</form>
+{/section}
+
+{section show=$node.path_array[2]|eq(55)}
+<form method="post" action={"content/action"|ezurl}>
+         <input type="hidden" name="NodeID" value="{$node.node_id}" />
+         <input type="hidden" name="ClassID" value="17" />
+         <input class="button" type="submit" name="NewButton" value="{'New person'|i18n('design/standard/node/view')}" />
+</form>
+
+<form method="post" action={"content/action"|ezurl}>
+         <input type="hidden" name="NodeID" value="{$node.node_id}" />
+         <input type="hidden" name="ClassID" value="16" />
+         <input class="button" type="submit" name="NewButton" value="{'New company'|i18n('design/standard/node/view')}" />
+</form>
+
 {/section}
 </div>
 
 {/default}
 
-</form>
+
 </div>

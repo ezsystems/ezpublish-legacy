@@ -1,4 +1,4 @@
-<div class="person">
+<div id="person">
 
 <form method="post" action={"content/action"|ezurl}>
 
@@ -6,9 +6,7 @@
 <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
 <input type="hidden" name="ViewMode" value="full" />
 
-<div class="object_title">
-<a href={$node.url_alias|ezurl}><h1>{$node.name} ( {attribute_view_gui attribute=$node.object.data_map.position} )</h1></a>
-</div>
+<h1>{$node.name} ( {attribute_view_gui attribute=$node.object.data_map.position} )</h1>
 
 {section show=$node.object.can_edit}
    <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
@@ -18,9 +16,14 @@
     {attribute_view_gui attribute=$node.object.data_map.picture image_class=medium}
 </div>
 
+<div class="contact">
+<h2>Contact information</h2>
 {attribute_view_gui attribute=$node.object.data_map.person_numbers}
+</div>
 
+<div class="comment">
 {attribute_view_gui attribute=$node.object.data_map.comment}
+</div>
 
 </form>
 
