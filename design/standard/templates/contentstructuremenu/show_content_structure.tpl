@@ -28,13 +28,7 @@
 
             {* Text *}
             {let defaultItemClickAction = $:parentNode.node.path_identification_string|ezurl(no)}
-                <script language="JavaScript"><!--
-                    document.write( "<a class=\"nodetext\" href=\"#\" onclick=\"this.href='javascript:ezcst_onItemClicked( {$:parentNode.node.node_id}, \\'{$:defaultItemClickAction}\\' )'\" title=\"{$:toolTip}\">{$:parentNode.object.name|wash}</a>" );
-                // -->
-                </script>
-                <noscript>
-                    <a class="nodetext" href="{$:defaultItemClickAction}" title="{$:toolTip}" >{$:parentNode.object.name|wash}</a>
-                </noscript>
+                <a class="nodetext" href="{$:defaultItemClickAction}" onclick="this.href='javascript:ezcst_onItemClicked( {$:parentNode.node.node_id}, \'{$:defaultItemClickAction}\' )'" title="{$:toolTip}">{$:parentNode.object.name|wash}</a>
             {/let}
 
         {* Show children *}
