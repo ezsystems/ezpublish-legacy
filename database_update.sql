@@ -47,6 +47,7 @@ alter table eznode_assignment add from_node_id int default 0;
 # alter table eznode_assignment alter column from_node_id set default 0;
 
 # After beta 3
+alter table eztrigger add column name varchar(255) not null;
 DROP TABLE IF EXISTS ezoperation_memento;
 CREATE TABLE ezoperation_memento (
 id int NOT NULL auto_increment,
@@ -144,9 +145,9 @@ alter table eznode_assignment change main is_main int not null;
 # PostgreSQL
 # alter table eznode_assignment rename column main to is_main;
 
-alter table ezcontentobject drop main_node_id;
+#alter table ezcontentobject drop main_node_id;
 alter table ezcontentobject drop permission_id;
-alter table ezcontentobject_tree add column main_node_id integer;
+alter table ezcontentobject_tree add column main_node_id integer ;
 
 create table ezcontentobject_name(
     contentobject_id int not null,
