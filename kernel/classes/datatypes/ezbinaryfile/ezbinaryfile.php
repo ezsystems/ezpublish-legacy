@@ -127,7 +127,7 @@ class eZBinaryFile extends eZPersistentObject
         return new eZBinaryFile( $row );
     }
 
-    function &fetch( $id, $version, $asObject = true )
+    function &fetch( $id, $version = null, $asObject = true )
     {
         if( $version == null )
         {

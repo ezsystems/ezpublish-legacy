@@ -153,14 +153,16 @@ class eZBinaryFileType extends eZDataType
     function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
-        $binaryFiles =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
+//        $binaryFiles =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
+        $binaryFiles =& eZBinaryFile::fetch( $contentObjectAttributeID );
         $sys =& eZSys::instance();
         $storage_dir = $sys->storageDirectory();
 
         if ( $version == null )
         {
-            foreach ( $binaryFiles as $binaryFile )
+            foreach ( array_keys( $binaryFiles ) as $key )
             {
+                $binaryFile =& $binaryFiles[$key];
                 $mimeType =  $binaryFile->attribute( "mime_type" );
                 list( $prefix, $suffix ) = split ('[/]', $mimeType );
                 $orig_dir = $storage_dir . '/original/' . $prefix;
@@ -181,8 +183,10 @@ class eZBinaryFileType extends eZDataType
                 list( $prefix, $suffix ) = split ('[/]', $mimeType );
 //              $orig_dir = "var/storage/original/" . $prefix;
                 $orig_dir = $storage_dir . "/original/" . $prefix;
-                foreach ( $binaryFiles as $binaryFile )
+
+                foreach ( array_keys ( $binaryFiles ) as $key )
                 {
+                    $binaryFile =& $binaryFiles[$key];
                     $fileName = $binaryFile->attribute( "filename" );
                     if ( $currentFileName == $fileName )
                         $count += 1;
