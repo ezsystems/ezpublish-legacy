@@ -222,6 +222,7 @@ E.g. {fetch('content','class_attribute_list',hash(class_id,4,version_id,0))}
 <dd>How counts are interpreted:<br/>
 - If the data is an array the array count is used<br/>
 - If the data is an object the object attribute count is used<br/>
+- If the data is a string the string length is used<br/>
 - If the data is a numeric the value is used<br/>
 - If the data is a boolean false is 0 and true is 1<br/>
 - For all other data 0 is used</dd>
