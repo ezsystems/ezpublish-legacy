@@ -673,6 +673,7 @@ class eZPackageCreationHandler
         {
             $packageName = trim( $http->postVariable( 'PackageName' ) );
             $packageName = str_replace( " ", "_", $packageName );
+            $packageName = preg_replace( '/[^A-Za-z0-9_]/', '', $packageName );
         }
         if ( $http->hasPostVariable( 'PackageSummary' ) )
             $packageSummary = $http->postVariable( 'PackageSummary' );

@@ -298,6 +298,7 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
         }
 
         $packageInformation['name'] = strtolower( implode( ',', $nodeNames ) );
+        $packageInformation['name'] = preg_replace( '/[^A-Za-z0-9_]/', '', $packageInformation['name'] );
         $packageInformation['summary'] = implode( ', ', $nodeNames );
         $packageInformation['description'] = $description;
     }
