@@ -232,7 +232,7 @@ function eZSetupToolbarINISettings( $siteType, $parameters )
         $createTitle = 'New weblog';
         if ( isset( $nodeRemoteMap['712e4b066aebe1431f8612bf67436d58'] ) )
             $nodeID = $nodeRemoteMap['712e4b066aebe1431f8612bf67436d58'];
-        include_once( 'kernel/classes/ezcontentobjectreenode.php' );
+        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $node =& eZContentObjectTreeNode::fetch( $nodeID );
         if ( is_object( $node ) )
         {
@@ -315,7 +315,7 @@ function eZSetupToolbarINISettings( $siteType, $parameters )
         $title = 'Latest products';
         if ( isset( $nodeRemoteMap['1bd02326e11c6b7fb2d14324c47b5b9a'] ) )
             $nodeID = $nodeRemoteMap['1bd02326e11c6b7fb2d14324c47b5b9a'];
-        include_once( 'kernel/classes/ezcontentobjectreenode.php' );
+        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $node =& eZContentObjectTreeNode::fetch( $nodeID );
         if ( is_object( $node ) )
         {

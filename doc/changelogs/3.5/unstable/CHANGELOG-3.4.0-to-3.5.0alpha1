@@ -35,6 +35,8 @@ Changes from 3.4.0 to 3.5.0alpha1
 - Fixed typo in /kernel/package/install.php which caused package contents
   not to be shown when importing (merged from 3.4 rev. 6782). 
   http://ez.no/community/bug_reports/typo_in_kernel_package_install_php
+- Fixed typos resulting in inclusion of non-existent file (merged from 3.4 rev. 6785).
+  http://ez.no/community/bug_reports/typo_in_kernel_setup_ezsetuptypes_php_included_file_miss_spelled
 
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that
