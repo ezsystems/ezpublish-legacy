@@ -74,7 +74,6 @@ error_reporting ( E_ALL );
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
 include_once( "lib/ezutils/classes/ezdebugsetting.php" );
-eZINI::setIsDebugEnabled( true );
 
 /*!
  Reads settings from site.ini and passes them to eZDebug.
