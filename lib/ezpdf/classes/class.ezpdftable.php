@@ -1096,7 +1096,7 @@ class eZPDFTable extends Cezpdf
         $this->line($xpos,$info['y'],$info['x']+5,$info['y']);
         $this->restoreState();
         $this->addText($xpos+5,$info['y'],$size,$lbl);
-        $this->ez['xOffset'] = $xpos+5+$this->getTextWidth($lbl);
+        $this->ez['xOffset'] = $xpos+5+$this->getTextWidth($lbl, $size);
     }
 
     /**
@@ -1290,7 +1290,7 @@ class eZPDFTable extends Cezpdf
                 $frameCoords =& $this->ezFrame['footer'];
             } break;
 
-            case 'header':
+            case 'frame_header':
             {
                 $frameCoords =& $this->ezFrame['header'];
             } break;

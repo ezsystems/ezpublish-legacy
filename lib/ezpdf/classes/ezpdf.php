@@ -321,7 +321,7 @@ class eZPDF
                 {
                     $frameType = 'Footer';
                 }
-                else if( $namedParameters['operation'] == 'header' )
+                else if( $namedParameters['operation'] == 'frame_header' )
                 {
                     $frameType = 'Header';
                 }
@@ -485,6 +485,7 @@ class eZPDF
                     $operatorValue .= '>';
                 }
 
+                eZDebug::writeNotice( 'PDF: Added frame '.$frameType .': '.$operatorValue, 'eZPDF::modify' );
             } break;
 
             case 'frontpage':
@@ -508,7 +509,7 @@ class eZPDF
 
                 $operatorValue .= '>'. $text .'</ezGroup:callFrontpage>';
 
-                eZDebug::writeNotice( 'Added content to frontpage: '. $operatorValue );
+                eZDebug::writeNotice( 'Added content to frontpage: '. $operatorValue, 'eZPDF::modify' );
             } break;
 
             /* add keyword to pdf document */

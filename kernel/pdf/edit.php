@@ -197,6 +197,7 @@ function generatePDF( &$pdfExport, $toFile = false )
 
         $textElements = array();
         $uri = 'design:node/view/pdf.tpl';
+        $tpl->setVariable( 'pdf_root_template', 1 );
         eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, '', '' );
         $pdf_definition = implode( '', $textElements );
 
@@ -208,7 +209,6 @@ function generatePDF( &$pdfExport, $toFile = false )
                                        $pdf_definition );
 
         $tpl->setVariable( 'pdf_definition', $pdf_definition );
-        $tpl->setVariable( 'pdf_root_template', 1 );
 
         $uri = 'design:node/view/execute_pdf.tpl';
         $textElements = '';
