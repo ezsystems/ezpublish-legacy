@@ -2576,11 +2576,15 @@ class eZContentObject extends eZPersistentObject
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'class_id', $this->ClassID, 'ezremote' ) );
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'published', eZDateUtils::rfc1123Date( $this->attribute( 'published' ) ), 'ezremote' ) );
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'modified', eZDateUtils::rfc1123Date( $this->attribute( 'modified' ) ), 'ezremote' ) );
-        if ( !$this->attribute( 'remote_id' ) )
+
+        
+        $db =& eZDB::instance();
+        $resultArray = $db->arrayQuery( 'SELECT remote_id FROM ezcontentobject WHERE id=\'' . $this->attribute( 'id' ) . '\'' );
+        if ( count( $resultArray ) )
         {
-            $this->setAttribute( 'remote_id', md5( (string)mt_rand() ) . (string)mktime() );
-            $this->store();
+            $this->setAttribute( 'remote_id', $resultArray[0]['remote_id'] );
         }
+
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'remote_id', $this->attribute( 'remote_id' ) ) );
         $contentClass =& $this->attribute( 'content_class' );
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'class_remote_id', $contentClass->attribute( 'remote_id' ) ) );
