@@ -68,6 +68,10 @@ class eZDBInterface
         $user = $parameters['user'];
         $password = $parameters['password'];
         $db = $parameters['database'];
+        $slaveServer = $parameters['slave_server'];
+        $slaveUser = $parameters['slave_user'];
+        $slavePassword = $parameters['slave_password'];
+        $slaveDB =  $parameters['slave_database'];
         $socketPath = $parameters['socket'];
         $charset = $parameters['charset'];
         $builtinEncoding = $parameters['builtin_encoding'];
@@ -83,6 +87,10 @@ class eZDBInterface
         $this->SocketPath = $socketPath;
         $this->User = $user;
         $this->Password = $password;
+        $this->SlaveDB = $slaveDB;
+        $this->SlaveServer = $slaveServer;
+        $this->SlaveUser = $slaveUser;
+        $this->SlavePassword = $slavePassword;
         $this->Charset = $charset;
         $this->UseBuiltinEncoding = $builtinEncoding;
         $this->ConnectRetries = $connectRetries;
@@ -481,6 +489,14 @@ class eZDBInterface
     var $RecordError = true;
     /// If true then the database connection should be persistent
     var $UsePersistentConnection = false;
+    /// The slave database name
+    var $SlaveDB;
+    /// The slave server name
+    var $SlaveServer;
+    /// The slave database user
+    var $SlaveUser;
+    /// The slave database user password
+    var $SlavePassword;
 }
 
 ?>

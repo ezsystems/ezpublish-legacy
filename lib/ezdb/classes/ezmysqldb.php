@@ -63,7 +63,10 @@ class eZMySQLDB extends eZDBInterface
 
         if ( $this->DBConnection == false )
         {
-            $connection =& $this->connect( $this->Server, $this->DB, $this->User, $this->Password, $socketPath );
+            if ( $this->SlaveServer != null )
+                $connection =& $this->connect( $this->SlaveServer, $this->SlaveDB, $this->SlaveUser, $this->SlavePassword, $socketPath );
+            else
+                $connection =& $this->connect( $this->Server, $this->DB, $this->User, $this->Password, $socketPath );
             if ( $connection )
             {
                 $this->DBConnection = $connection;
@@ -74,6 +77,7 @@ class eZMySQLDB extends eZDBInterface
         /// Check if we should try to initialize a write server
         if ( true )
         {
+            $this->DBWriteConnection = $this->DBConnection;
             if ( $this->DBWriteConnection == false )
             {
                 $connection =& $this->connect( $this->Server, $this->DB, $this->User, $this->Password, $socketPath );

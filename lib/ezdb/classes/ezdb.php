@@ -155,6 +155,33 @@ class eZDB
             {
                 $socketPath = $socket;
             }
+
+            // Check slave servers
+            $slaveServer = null;
+            $slaveServerUser = null;
+            $slaveServerPassword = null;
+            $slaveServerDatabase = null;
+            $useSlave = $ini->variable( 'DatabaseSettings', 'SlaveServers' );
+            if ( $useSlave == "enabled" )
+            {
+                $slaveServers = $ini->variable( 'DatabaseSettings', 'SlaveServerArray' );
+                $slaveServerUsers = $ini->variable( 'DatabaseSettings', 'SlaverServerUser' );
+                $slaveServerPasswords = $ini->variable( 'DatabaseSettings', 'SlaverServerPassword' );
+                $slaveServerDatabases = $ini->variable( 'DatabaseSettings', 'SlaverServerDatabase' );
+                $numberServers = count( $slaveServers );
+                if ( $numberServers > 1 )
+                {
+                    $index = rand( 1, $numberServers ) - 1;
+                }
+                else
+                    $index = 0;
+                $slaveServer = $slaveServers[$index];
+                $slaveServerUser = $slaveServerUsers[$index];
+                $slaveServerPassword = $slaveServerPasswords[$index];
+                $slaveServerDatabase = $slaveServerDatabases[$index];
+            }
+
+
             $charset = $ini->variable( 'DatabaseSettings', 'Charset' );
             $retries = $ini->variable( 'DatabaseSettings', 'ConnectRetries' );
             $builtinEncoding = ( $ini->variable( 'DatabaseSettings', 'UseBuiltinEncoding' ) == 'true' );
@@ -168,6 +195,10 @@ class eZDB
                                                 'user' => $user,
                                                 'password' => $pwd,
                                                 'database' => $db,
+                                                'slave_server' => $slaveServer,
+                                                'slave_user' => $slaveServerUser,
+                                                'slave_password' => $slaveServerPassword,
+                                                'slave_database' => $slaveServerDatabase,
                                                 'charset' => $charset,
                                                 'socket' => $socketPath,
                                                 'builtin_encoding' => $builtinEncoding,
