@@ -31,6 +31,8 @@ eZINI:
   http://ez.no/community/bug_reports/objectrelationlist_doesn_t_work_properly
 - Fixed bug of datatype ezenum does not remove unselected value for translated objects
   http://ez.no/community/bug_reports/ezenum_does_not_remove_unselected_value
+- Fixed removing node assignment when deleting nodes.
+  http://ez.no/community/bug_reports/critical_node_assignments_aren_t_deleted_properly
 
 *Library:
 

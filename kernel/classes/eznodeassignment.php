@@ -172,6 +172,19 @@ class eZNodeAssignment extends eZPersistentObject
         return new eZNodeAssignment( $parameters );
     }
 
+    /*!
+     Remove specified nodeassignment.
+
+     \param parent node
+     \param content object id
+     */
+    function remove( $parentNodeID, $contentObjectID )
+    {
+        $sqlQuery = "DELETE FROM eznode_assignment WHERE parent_node='$parentNodeID' AND contentobject_id='$contentObjectID'";
+        $db =& eZDB::instance();
+        $db->query( $sqlQuery );
+    }
+
     function &fetchForObject( $contentObjectID, $version = 1, $main = 0, $asObject = true )
     {
         $cond = array( 'contentobject_id' => $contentObjectID,

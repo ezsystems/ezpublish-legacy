@@ -16,6 +16,9 @@ Changes from 3.4.0alpha3 to 3.4.0alpha4
   http://ez.no/community/bug_reports/eznodeviewfunctions_typos
 - Fixed forgotten return in kernel/content/view.php.
   http://ez.no/community/bug_reports/kernel_content_view_php_undefined_var_operationresult
+- Fixed removing node assignment when deleting nodes from stabel/3.3 rev 6269.
+  http://ez.no/community/bug_reports/critical_node_assignments_aren_t_deleted_properly
+
 
 *Update
 
