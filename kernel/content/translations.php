@@ -114,7 +114,7 @@ if ( $Module->isCurrentAction( 'Remove' ) )
         {
             $item = array();
             $item['translation'] =& $translation;
-            $item['count'] =& $translatedObjectsCount;
+            $item['count'] = $translatedObjectsCount;
             $confirmTranslationList[] = $item;
         }
 
