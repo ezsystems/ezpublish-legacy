@@ -961,19 +961,21 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     }
                 } // end of 'foreach ( $filterArray as $filter )'
 
-                if ( $justFilterCount > 0 )
-                    $attributeFilterWhereSQL .= "\n                            ( " . $attibuteFilterJoinSQL . " ) AND ";
-            }
+                if( $totalAttributesFiltersCount == $invalidAttributesFiltersCount )
+                {
+                    $attributeFilterFromSQL = "";
+                    $attributeFilterWhereSQL = "";
 
-            if( $totalAttributesFiltersCount == $invalidAttributesFiltersCount )
-            {
-                $attributeFilterFromSQL = "";
-                $attributeFilterWhereSQL = "";
-
-                eZDebug::writeNotice( "Attribute filter returned false" );
-                $retNodeList = array();
-                return $retNodeList;
-            }
+                    eZDebug::writeNotice( "Attribute filter returned false" );
+                    $retNodeList = array();
+                    return $retNodeList;
+                }
+                else
+                {
+                    if ( $justFilterCount > 0 )
+                        $attributeFilterWhereSQL .= "\n                            ( " . $attibuteFilterJoinSQL . " ) AND ";
+                }
+            } // endif 'if ( is_array( $filterArray ) )'
         }
 
         // end checking for attribute filtering
@@ -1465,6 +1467,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $attributeFilterFromSQL = "";
         $attributeFilterWhereSQL = "";
 
+        $totalAttributesFiltersCount = 0;
+        $invalidAttributesFiltersCount = 0;
+
         if ( isset( $params['AttributeFilter'] ) )
         {
             $filterArray = $params['AttributeFilter'];
@@ -1491,8 +1496,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
             if ( is_array( $filterArray ) )
             {
                 // Handle attribute filters and generate SQL
+                $totalAttributesFiltersCount = count( $filterArray );
+
                 foreach ( $filterArray as $filter )
                 {
+                    $isFilterValid = true; // by default assumes that filter is valid
+
                     $filterAttributeID = $filter[0];
                     $filterType = $filter[1];
                     $filterValue = $filter[2];
@@ -1551,86 +1560,129 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         if ( !is_numeric( $filterAttributeID ) )
                             $filterAttributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $filterAttributeID );
 
-                        // Use the same joins as we do when sorting,
-                        // if more attributes are filtered by we will append them
-                        $attributeFilterFromSQL .= ", ezcontentobject_attribute a$filterCount ";
-                        $attributeFilterWhereSQL .= "
-                            a$filterCount.contentobject_id = ezcontentobject.id AND
-                               a$filterCount.version = ezcontentobject.current_version AND
-                               a$filterCount.contentclassattribute_id = $filterAttributeID AND
-                               a$filterCount.language_code = '".eZContentObject::defaultLanguage()."' AND ";
-
-                        // Check datatype for filtering
-                        //
-
-                        $filterDataType = eZContentObjectTreeNode::sortKeyByClassAttributeID( $filterAttributeID );
-
-                        $sortKey = false;
-                        if ( $filterDataType == 'string' )
+                        if ( $filterAttributeID === false )
                         {
-                            $sortKey = 'sort_key_string';
+                            $isFilterValid = false;
+                            if( $filterJoinType === 'AND' )
+                            {
+                                // go out
+                                $invalidAttributesFiltersCount = $totalAttributesFiltersCount;
+                                break;
+                            }
+
+                            // check next filter
+                            ++$invalidAttributesFiltersCount;
                         }
                         else
                         {
-                            $sortKey = 'sort_key_int';
+                            // Check datatype for filtering
+                            $filterDataType = eZContentObjectTreeNode::sortKeyByClassAttributeID( $filterAttributeID );
+                            if ( $filterDataType === false )
+                            {
+                                $isFilterValid = false;
+                                if( $filterJoinType === 'AND' )
+                                {
+                                    // go out
+                                    $invalidAttributesFiltersCount = $totalAttributesFiltersCount;
+                                    break;
+                                }
+
+                                // check next filter
+                                ++$invalidAttributesFiltersCount;
+                            }
+                            else
+                            {
+                                $sortKey = false;
+                                if ( $filterDataType == 'string' )
+                                {
+                                    $sortKey = 'sort_key_string';
+                                }
+                                else
+                                {
+                                    $sortKey = 'sort_key_int';
+                                }
+
+                                $filterField = "a$filterCount.$sortKey";
+
+                                // Use the same joins as we do when sorting,
+                                // if more attributes are filtered by we will append them
+                                $attributeFilterFromSQL .= ", ezcontentobject_attribute a$filterCount ";
+                                $attributeFilterWhereSQL .= "
+                                    a$filterCount.contentobject_id = ezcontentobject.id AND
+                                       a$filterCount.version = ezcontentobject.current_version AND
+                                       a$filterCount.contentclassattribute_id = $filterAttributeID AND
+                                       a$filterCount.language_code = '".eZContentObject::defaultLanguage()."' AND ";
+                            }
+
                         }
-
-                        $filterField = "a$filterCount.$sortKey";
-
                     }
 
-                    $hasFilterOperator = true;
-                    switch ( $filterType )
+                    if ( $isFilterValid )
                     {
-                        case '=' :
+                        $hasFilterOperator = true;
+                        switch ( $filterType )
                         {
-                            $filterOperator = '=';
-                        }break;
+                            case '=' :
+                            {
+                                $filterOperator = '=';
+                            }break;
 
-                        case '!=' :
+                            case '!=' :
+                            {
+                                $filterOperator = '<>';
+                            }break;
+
+                            case '>' :
+                            {
+                                $filterOperator = '>';
+                            }break;
+
+                            case '<' :
+                            {
+                                $filterOperator = '<';
+                            }break;
+
+                            case '<=' :
+                            {
+                                $filterOperator = '<=';
+                            }break;
+
+                            case '>=' :
+                            {
+                                $filterOperator = '>=';
+                            }break;
+
+                            default :
+                            {
+                                $hasFilterOperator = false;
+                                eZDebug::writeError( "Unknown attribute filter type: $filterType", "eZContentObjectTreeNode::subTree()" );
+                            }break;
+
+                        }
+                        if ( $hasFilterOperator )
                         {
-                            $filterOperator = '<>';
-                        }break;
-
-                        case '>' :
-                        {
-                            $filterOperator = '>';
-                        }break;
-
-                        case '<' :
-                        {
-                            $filterOperator = '<';
-                        }break;
-
-                        case '<=' :
-                        {
-                            $filterOperator = '<=';
-                        }break;
-
-                        case '>=' :
-                        {
-                            $filterOperator = '>=';
-                        }break;
-
-                        default :
-                        {
-                            $hasFilterOperator = false;
-                            eZDebug::writeError( "Unknown attribute filter type: $filterType", "eZContentObjectTreeNode::subTree()" );
-                        }break;
-
+                            if ( $filterCount > 0 )
+                                $attibuteFilterJoinSQL .= " $filterJoinType ";
+                            $attibuteFilterJoinSQL .= "$filterField $filterOperator '$filterValue' ";
+                            $filterCount++;
+                        }
                     }
-                    if ( $hasFilterOperator )
-                    {
-                        if ( $filterCount > 0 )
-                            $attibuteFilterJoinSQL .= " $filterJoinType ";
-                        $attibuteFilterJoinSQL .= "$filterField $filterOperator '$filterValue' ";
-                        $filterCount++;
-                    }
+                } // end of 'foreach ( $filterArray as $filter )'
+
+                if ( $totalAttributesFiltersCount == $invalidAttributesFiltersCount )
+                {
+                    $attributeFilterFromSQL = "";
+                    $attributeFilterWhereSQL = "";
+
+                    eZDebug::writeNotice( "Attribute filter returned false" );
+                    return 0;
                 }
-            }
-
-            if ( $filterCount > 0 )
-                $attributeFilterWhereSQL .= "\n                            ( " . $attibuteFilterJoinSQL . " ) AND ";
+                else
+                {
+                    if ( $filterCount > 0 )
+                        $attributeFilterWhereSQL .= "\n                            ( " . $attibuteFilterJoinSQL . " ) AND ";
+                }
+            } // end of 'if ( is_array( $filterArray ) )'
         }
 
         $versionNameTables = '';
