@@ -200,6 +200,10 @@ function SQLName( $type )
     {
         return 'PostgreSQL';
     }
+    else if ( $type == 'oracle' )
+    {
+        return 'Oracle';
+    }
 }
 
 include_once( 'lib/ezdbschema/classes/ezdbschemachecker.php' );

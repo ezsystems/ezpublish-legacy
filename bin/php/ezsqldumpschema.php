@@ -154,12 +154,11 @@ if ( file_exists( $database ) and is_file( $database ) )
     if ( $schema === false )
     {
             eZDebug::writeError( "Error reading schema from file $database" );
-            $script->shutdown();
-            exit();
+            $script->shutdown( 1 );
+            exit( 1 );
     }
     $type = ereg_replace( '^ez', '', $type );
-    $dbSchema = eZDBSchema::instance( array( 'type' => $type,
-                                             'schema' => $schema ) );
+    $dbSchema = eZDBSchema::instance( array( 'type' => $type, 'schema' => $schema ) );
 }
 else
 {
@@ -185,6 +184,13 @@ else
 
     include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
     $dbSchema = eZDBSchema::instance( $db );
+}
+
+if ( $dbSchema === false )
+{
+    $cli->error( "Error instantiating the appropriate schema handler" );
+    $script->shutdown( 1 );
+    exit( 1 );
 }
 
 if ( $outputType == 'serialized' )

@@ -243,6 +243,7 @@ class eZDBSchemaInterface
 		if ( $fp )
 		{
             $schema = $this->schema();
+            $this->transformSchemaToLocal( $schema );
             if ( $includeSchema )
             {
                 fputs( $fp, $this->generateSchemaFile( $schema, $params ) );
@@ -658,6 +659,219 @@ class eZDBSchemaInterface
     function isMultiInsertSupported()
     {
         return false;
+    }
+
+    /*!
+     \protected
+     \pure
+
+     Returns schema type string.
+     Examples: 'mysql', 'postgresql', 'oracle'
+    */
+    function schemaType()
+    {
+    }
+
+    /*!
+     \private
+     \static
+     \return array of transformation rules on success, false otherwise
+     */
+    function loadSchemaTransformationRules( $schemaType )
+    {
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini =& eZINI::instance( 'dbschema.ini' );
+
+        if ( !$ini )
+        {
+            eZDebug::writeError( "Error loading $schemaType schema transformation rules" );
+            return false;
+        }
+
+        $transformationRules = array();
+
+        if ( $ini->hasVariable( $schemaType, 'NameTranslation' ) )
+            $transformationRules['column-name'] =& $ini->variable( $schemaType, 'NameTranslation' );
+
+        if ( $ini->hasVariable( $schemaType, 'TypeTranslation' ) )
+        {
+            $transformationRules['column-type'] =& $ini->variable( $schemaType, 'TypeTranslation' );
+
+            // substitute values like "type1;type2" with an appropriate arrays
+            if ( is_array( $transformationRules['column-type'] ) )
+            {
+                foreach ( $transformationRules['column-type'] as $key => $val )
+                {
+                    $types = explode( ';', $val );
+                    $transformationRules['column-type'][$key] = $types;
+                }
+            }
+        }
+
+        if ( $ini->hasVariable( $schemaType, 'FieldsWithoutDefaultValue' ) )
+            $transformationRules['column-empty-default'] =& $ini->variable( $schemaType, 'FieldsWithoutDefaultValue' );
+
+        return $transformationRules;
+    }
+
+    /*!
+    \virtual
+    \protected
+    */
+    function transformSchemaToGeneric( &$schema )
+    {
+        return $this->transformSchema( $schema, false );
+    }
+
+    /*!
+    \virtual
+    \protected
+    */
+    function transformSchemaToLocal( &$schema )
+    {
+        return $this->transformSchema( $schema, true );
+    }
+
+    /*!
+    \private
+    \return true on success, false otherwise
+
+    Transforms database schema to the given direction, either applying local hacks or removing them.
+    */
+    function transformSchema( &$schema, /* bool */ $toLocal )
+    {
+        /* replaces array key $oldKey with $newKey, preserving keys order in array */
+        function arrayReplaceKey( &$a, $oldKey, $newKey )
+        {
+            $tmpArray = array();
+            foreach ( $a as $key => $val )
+            {
+                if ( $key == $oldKey )
+                    $tmpArray[$newKey] =& $a[$key];
+                else
+                    $tmpArray[$key]    =& $a[$key];
+            }
+            $a = $tmpArray;
+        }
+
+        // load the schema transformation rules
+        $schemaType = $this->schemaType();
+        $schemaTransformationRules =& eZDBSchemaInterface::loadSchemaTransformationRules( $schemaType );
+        if ( $schemaTransformationRules === false )
+            return false;
+
+        // prevent PHP warnings in foreach cycles below
+        foreach ( array( 'column-name', 'column-type', 'column-empty-default' ) as $rulesType )
+        {
+            if( !isset( $schemaTransformationRules[$rulesType] ) )
+                $schemaTransformationRules[$rulesType] = array();
+        }
+
+        // transform column names
+        foreach ( $schemaTransformationRules['column-name'] as $key => $val )
+        {
+            list( $tableName, $genericColName ) = explode( '.', $key );
+            $localColName = $val;
+
+            if ( $toLocal )
+            {
+                $searchColName =& $genericColName;
+                $replacementColName =& $localColName;
+            }
+            else
+            {
+                $searchColName =& $localColName;
+                $replacementColName =& $genericColName;
+            }
+
+            if ( !isset( $schema[$tableName] ) )
+                continue;
+
+            // transform column names in tables
+            $fieldsSchema =& $schema[$tableName]['fields'];
+            if ( isset( $fieldsSchema[$searchColName] )  )
+            {
+                arrayReplaceKey( $schema[$tableName]['fields'], $searchColName, $replacementColName );
+                eZDebug::writeDebug( "transformed table column name $tableName.$searchColName to $replacementColName" );
+            }
+
+            // transform column names in indexes
+            $indexesSchema =& $schema[$tableName]['indexes'];
+            foreach ( $indexesSchema as $indexName => $indexSchema )
+            {
+                if ( ( $key = array_search( $searchColName, $indexSchema['fields'] ) ) !== false )
+                {
+                    $indexesSchema[$indexName]['fields'][$key] = $replacementColName;
+                    eZDebug::writeDebug( "transformed index field $schemaType:$indexName.$searchColName to $replacementColName" );
+                }
+            }
+        }
+
+        // tranform columns types
+        foreach ( $schemaTransformationRules['column-type'] as $key => $val )
+        {
+            list( $tableName, $colName ) = explode( '.', $key );
+            list( $genericType, $localType ) = $val;
+
+            if ( !isset( $schema[$tableName] ) )
+                continue;
+
+            preg_match( '/(\w+)\((\d+)\)/', $localType, $matches );
+            $localLength = ( count($matches) == 2 ) ? $matches[2] : null;
+            if ( count($matches) == 2 )
+                $localType = $matches[1];
+
+            preg_match( '/(\w+)\((\d+)\)/', $genericType, $matches );
+            $genericLength = ( count($matches) == 2 ) ? $matches[2] : null;
+            if ( count($matches) == 2 )
+                $genericType = $matches[1];
+
+            $fieldsSchema =& $schema[$tableName]['fields'];
+            if ( !isset( $schema[$tableName]['fields'][$colName] ) )
+                continue;
+
+            $fieldSchema =& $fieldsSchema[$colName];
+
+            if ( $toLocal )
+            {
+                $searchType        =& $genericType;
+                $searchLength      =& $genericLength;
+                $replacementType   =& $localType;
+                $replacementLength =& $localLength;
+            }
+            else // to generic
+            {
+                $searchType        =& $localType;
+                $searchLength      =& $localLength;
+                $replacementType   =& $genericType;
+                $replacementLength =& $genericLength;
+            }
+
+            $fieldSchema['type'] = $replacementType;
+            if ( $replacementLength !== null )
+                $fieldSchema['length'] = $replacementLength;
+            else
+                unset( $fieldSchema['length'] );
+            eZDebug::writeDebug( "transformed table column type $schemaType:$tableName.$colName from $searchType to $replacementType" );
+        }
+
+        // remove default field values (which are supposed to be empty due to bug in mysql)
+        // FIXME: works only $toLocal == false
+        foreach ( $schemaTransformationRules['column-empty-default'] as $tableCol )
+        {
+            list( $tableName, $colName ) = explode( '.', $tableCol );
+            if ( !$tableName || !$colName ||
+                 !array_key_exists( $tableName, $schema ) ||
+                 !array_key_exists( $colName, $schema[$tableName]['fields'] ) )
+            {
+                continue;
+            }
+
+            unset( $schema[$tableName]['fields'][$colName]['default'] );
+            eZDebug::writeDebug( "removed default value from $schemaType:$tableName.$colName" );
+        }
+
+        return true;
     }
 
     /// eZDB instance

@@ -668,5 +668,13 @@ class eZPgsqlSchema extends eZDBSchemaInterface
     {
         return "DROP TABLE $table;\n";
     }
+
+    /*!
+     \reimp
+    */
+    function schemaType()
+    {
+        return 'postgresql';
+    }
 }
 ?>
