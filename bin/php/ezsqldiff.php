@@ -190,22 +190,6 @@ else
     }
 }
 
-function SQLName( $type )
-{
-    if ( $type == 'mysql' )
-    {
-        return 'MySQL';
-    }
-    else if ( $type == 'postgresql' )
-    {
-        return 'PostgreSQL';
-    }
-    else if ( $type == 'oracle' )
-    {
-        return 'Oracle';
-    }
-}
-
 include_once( 'lib/ezdbschema/classes/ezdbschemachecker.php' );
 
 if ( $options['reverse'] )
@@ -213,7 +197,7 @@ if ( $options['reverse'] )
     $differences = eZDbSchemaChecker::diff( $sourceSchema->schema(), $matchSchema->schema(), $sourceType, $matchType );
     if ( !$options['check-only'] )
     {
-        $cli->output( "-- Difference in SQL commands for " . SQLName( $sourceType ) );
+        $cli->output( "-- Difference in SQL commands for " . $sourceSchema->schemaName() );
         $sql = $sourceSchema->generateUpgradeFile( $differences );
         $cli->output( $sql );
     }
@@ -223,7 +207,7 @@ else
     $differences = eZDbSchemaChecker::diff( $matchSchema->schema(), $sourceSchema->schema(), $matchType, $sourceType );
     if ( !$options['check-only'] )
     {
-        $cli->output( "-- Difference in SQL commands from " . SQLName( $sourceType ) . " to " . SQLName( $matchType ) );
+        $cli->output( "-- Difference in SQL commands from " . $sourceSchema->schemaName() . " to " . $matchSchema->schemaName() );
         $sql = $matchSchema->generateUpgradeFile( $differences );
         $cli->output( $sql );
     }
