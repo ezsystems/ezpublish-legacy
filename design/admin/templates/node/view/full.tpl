@@ -7,7 +7,18 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title"><a href={concat( '/class/view/', $node.object.contentclass_id )|ezurl} onclick="ezpopmenu_showTopLevel( event, 'ClassMenu', ez_createAArray( new Array( '%classID%', {$node.object.contentclass_id}) ), '{$node.class_name|wash(javascript)}', -1 ); return false;">{$node.class_identifier|class_icon( normal, $node.class_name )}</a>&nbsp;{$node.name|wash}&nbsp;[{$node.class_name|wash}]</h1>
+{let hide_status=""}
+{section show=$node.is_invisible}
+    {section show=$node.is_hidden}
+        {set hide_status=concat( '(', 'Hidden'|i18n( 'design/admin/node/view/full' ), ')' )}
+    {section-else}
+        {set hide_status=concat( '(', 'Hidden by parent'|i18n( 'design/admin/node/view/full' ), ')' )}
+    {/section}
+{/section}
+
+<h1 class="context-title"><a href={concat( '/class/view/', $node.object.contentclass_id )|ezurl} onclick="ezpopmenu_showTopLevel( event, 'ClassMenu', ez_createAArray( new Array( '%classID%', {$node.object.contentclass_id}) ), '{$node.class_name|wash(javascript)}', -1 ); return false;">{$node.class_identifier|class_icon( normal, $node.class_name )}</a>&nbsp;{$node.name|wash}&nbsp;[{$node.class_name|wash}]&nbsp;{$hide_status}</h1>
+
+{/let}
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -68,14 +79,6 @@
 
 {* Custom content action buttons. *}
 <div class="right">
-{* Hiding *}
-<label>Hidden state:</label>
-{section show=$node.can_edit}
-    <a href={concat( 'content/hide/', $node.node_id )|ezurl}>{$node.hidden_invisible_string}</a>
-{section-else}
-    {$node.hidden_invisible_string}
-{/section}
-
 {section var=ContentActions loop=$node.object.content_action_list}
     <input class="button" type="submit" name="{$ContentActions.item.action}" value="{$ContentActions.item.name}" />
 {/section}
