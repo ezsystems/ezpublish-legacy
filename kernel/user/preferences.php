@@ -43,6 +43,18 @@ include_once( 'kernel/classes/ezpreferences.php' );
 
 eZPreferences::setValue( $key, $value );
 
-return $module->redirectTo( $_SERVER['HTTP_REFERER'] );
+$url = implode( '/', array_splice( $Params['Parameters'], 3 ) );
+if ( $url )
+{
+    foreach( array_keys( $Params['UserParameters'] ) as $key )
+    {
+        $url .= '/('.$key.')/'.$Params['UserParameters'][$key];
+    }
+    $module->redirectTo( '/'.$url );
+}
+else
+{
+    $module->redirectTo( $_SERVER['HTTP_REFERER'] );
+}
 
 ?>
