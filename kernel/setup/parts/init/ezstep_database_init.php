@@ -43,51 +43,75 @@ define( 'EZ_SETUP_DB_ERROR_NONMATCH_PASSWORD', 2 );
 /*!
 	Prepare the sql file so we can create the database.
 */
-function prepareSqlQuery( $path, $type, $file )
+function prepareSqlQuery( &$file, &$buffer )
 {
-    include_once( 'lib/ezutils/classes/ezdir.php' );
-    $sqlFile = eZDir::path( array( $path, $type, $file ) );
-    $sqlQuery = fread( fopen( $sqlFile, 'r' ), filesize( $sqlFile ));
-    if ( $sqlQuery )
+    
+    $sqlQueryArray = array();
+    while( count( $sqlQueryArray ) == 0 && !feof( $file ) )
     {
-	    // Fix SQL file by deleting all comments and newlines
-	    $sqlQuery = preg_replace( array( "/^#.*" . "/m", "/^--.*" . "/m" ), array( " ", " " ), $sqlQuery );
+        $buffer  .= fread( $file, 4096 );
+        if ( $buffer )
+        {
+            // Fix SQL file by deleting all comments and newlines
+//            eZDebug::writeDebug( $buffer, "read data" );
+            $sqlQuery = preg_replace( array( "/^#.*\n" . "/m", "/^--.*\n" . "/m" ), array( "", "" ),  $buffer );
+//            eZDebug::writeDebug( $sqlQuery, "read data" );
 
-	    // Split the query into an array
-	    $sqlQueryArray = preg_split( '/;$/m', $sqlQuery );
+            // Split the query into an array
+            $sqlQueryArray = preg_split( '/;$/m', $sqlQuery );
 
-		return $sqlQueryArray;
-	}
-	else
-	{
-		return false;
-	}
+            if ( preg_match( '/;$/m', $sqlQueryArray[ count( $sqlQueryArray ) -1 ] ) )
+            {
+                $buffer = '';
+            }
+            else
+            {
+                $buffer = $sqlQueryArray[ count( $sqlQueryArray ) -1 ];
+                array_splice( $sqlQueryArray, count( $sqlQueryArray ) -1 , 1 );
+            }
+        }
+        else
+        {
+            return $sqlQueryArray;
+
+        }
+    }
+    return $sqlQueryArray;
+
 }
 
 function doQuery( &$dbObject, $path, $sqlFile )
 {
     $type = $dbObject->databaseName();
 
-	$sqlArray = prepareSqlQuery( $path, $type, $sqlFile );
-
+    include_once( 'lib/ezutils/classes/ezdir.php' );
+    $sqlFileName = eZDir::path( array( $path, $type, $sqlFile ) );
+    $sqlFileHandler = fopen( $sqlFileName, 'r' );
+    $buffer = '';
+    $done = false;
+    while(  count( ( $sqlArray = prepareSqlQuery( $sqlFileHandler, $buffer ) ) ) > 0 )
+    {
 	// Turn unneccessary SQL debug output off
-	$dbObject->OutputSQL = false;
-	if ( $sqlArray && is_array( $sqlArray ) )
-	{
-		foreach( $sqlArray as $singleQuery )
-		{
-            $singleQuery = preg_replace( "/\n|\r\n|\r/", " ", $singleQuery );
-			if ( trim( $singleQuery ) != "" )
-			{
-//                eZDebug::writeDebug( $singleQuery );
-				$dbObject->query( $singleQuery );
-				if ( $dbObject->errorNumber() != 0 )
-					return false;
-			}
-		}
-		return true;
-	}
-    return false;
+        $dbObject->OutputSQL = false;
+        if ( $sqlArray && is_array( $sqlArray ) )
+        {
+            $done = true;
+            foreach( $sqlArray as $singleQuery )
+            {
+                $singleQuery = preg_replace( "/\n|\r\n|\r/", " ", $singleQuery );
+                if ( trim( $singleQuery ) != "" )
+                {
+//                    eZDebug::writeDebug( $singleQuery );
+                    $dbObject->query( $singleQuery );
+                    if ( $dbObject->errorNumber() != 0 )
+                        return false;
+                }
+            }
+
+        }
+    }
+    return $done;
+
 }
 
 /*!
