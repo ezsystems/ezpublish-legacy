@@ -45,7 +45,7 @@ $icID = eZHTTPTool::sessionVariable( 'InformationCollectionID' );
 $icObject =& eZInformationCollection::fetch( $icID );
 
 $tpl->setVariable( 'collection', $icObject );
-$Result['content'] =& $tpl->fetch( 'design:content/collectedinfo.tpl' );
+$Result['content'] =& $tpl->fetch( 'design:content/collectedinfo/poll.tpl' );
 
 $Result['path'] = array( array( 'text' => "Collected information",
                                 'url' => false ) );

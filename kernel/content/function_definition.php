@@ -545,13 +545,24 @@ $FunctionList['collected_info_count'] = array( 'name' => 'collected_info_count',
                                                                        'class' => 'eZContentFunctionCollection',
                                                                        'method' => 'fetchCollectedInfoCount' ),
                                                'parameter_type' => 'standard',
-                                               'parameters' => array( array( 'name' => 'object_id',
+                                               'parameters' => array( array( 'name' => 'object_attribute_id',
                                                                              'type' => 'integer',
                                                                              'required' => true,
                                                                              'default' => false ),
                                                                       array( 'name' => 'value',
                                                                              'type' => 'integer',
                                                                              'required' => false,
+                                                                             'default' => false ) ) );
+
+$FunctionList['collected_info_count_list'] = array( 'name' => 'collected_info_count_list',
+                                               'operation_types' => array( 'read' ),
+                                               'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                                       'class' => 'eZContentFunctionCollection',
+                                                                       'method' => 'fetchCollectedInfoCountList' ),
+                                               'parameter_type' => 'standard',
+                                               'parameters' => array( array( 'name' => 'object_attribute_id',
+                                                                             'type' => 'integer',
+                                                                             'required' => true,
                                                                              'default' => false ) ) );
 
 ?>

@@ -454,22 +454,16 @@ class eZContentFunctionCollection
         return array( 'result' => $contentNodeList );
     }
 
-    function fetchCollectedInfoCount( $objectID, $value )
+    function fetchCollectedInfoCount( $objectAttributeID, $value )
     {
-        // Do a count on the value of collected integer info. Useful for e.g. polls
-        $valueSQL = "";
-        if ( $value !== false )
-        {
-            if ( is_integer( $value ) )
-                $valueSQL = " AND data_int=$value";
-        }
+        $count = eZInformationCollection::fetchCount( $objectAttributeID, $value );
+        return array( 'result' => $count );
+    }
 
-        $db =& eZDB::instance();
-        $resArray =& $db->arrayQuery( "SELECT count(*) as count FROM ezinfocollection_attribute, ezinfocollection
-                                       WHERE ezinfocollection_attribute.informationcollection_id=ezinfocollection.id
-                                       AND ezinfocollection.contentobject_id=$objectID " .  $valueSQL );
-
-        return array( 'result' => $resArray[0]['count'] );
+    function fetchCollectedInfoCountList( $objectAttributeID )
+    {
+        $count = eZInformationCollection::fetchCountList( $objectAttributeID );
+        return array( 'result' => $count );
     }
 }
 

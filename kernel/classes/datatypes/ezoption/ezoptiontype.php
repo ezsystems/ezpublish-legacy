@@ -160,15 +160,12 @@ class eZOptionType extends eZDataType
     /*!
      Fetches the http post variables for collected information
     */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$http, $base, &$contentObjectAttribute )
+    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
     {
         $optionValue =& $http->postVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) );
 
-        $collectionAttribute = eZInformationCollectionAttribute::create( $collection->attribute( 'id' ) );
         $collectionAttribute->setAttribute( 'data_int', $optionValue );
         $attr =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
-        $collectionAttribute->setAttribute( 'contentclass_attribute_id', $attr->attribute( 'id' ) );
-        $collectionAttribute->store();
 
         return true;
     }

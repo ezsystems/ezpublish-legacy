@@ -48,9 +48,18 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
     $version =& $object->currentVersion();
     $contentObjectAttributes =& $version->contentObjectAttributes();
 
-    // Create a new collection
-    $collection =& eZInformationCollection::create( $ObjectID );
-    $collection->store();
+    $newCollection = false;
+    $collection = false;
+    $collection =& eZInformationCollection::fetchByUserIdentifier( eZInformationCollection::currentUserIdentifier() );
+    if ( !$collection )
+    {
+        // Create a new collection
+        $collection =& eZInformationCollection::create( $ObjectID, eZInformationCollection::currentUserIdentifier() );
+        $collection->store();
+        $newCollection = true;
+    }
+    else
+        $collection->setAttribute( 'modified', eZDateTime::currentTimestamp() );
 
     // Check every attribute if it's supposed to collect information
     $unvalidatedAttributes = array();
@@ -61,14 +70,27 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
 
         if ( $contentClassAttribute->attribute( 'is_information_collector' ) )
         {
-            print( "Collecting<br>" );
+            print( "Collecting" );
             // Collect the information for the current attribute
-            if ( $contentObjectAttribute->collectInformation( $collection, $http, "ContentObjectAttribute" ) )
+            if ( $newCollection )
+                $collectionAttribute = eZInformationCollectionAttribute::create( $collection->attribute( 'id' ) );
+            else
+                $collectionAttribute = eZInformationCollectionAttribute::fetchByObjectAttributeID( $collection->attribute( 'id' ), $contentObjectAttribute->attribute( 'id' ) );
+            if ( $collectionAttribute and $contentObjectAttribute->collectInformation( $collection, $collectionAttribute, $http, "ContentObjectAttribute" ) )
             {
+                $collectionAttribute->store();
             }
+            else
+            {
+                print( " - Failed" );
+            }
+            print( "<br/>" );
         }
     }
+    // Store if something is changed
+    $collection->sync();
 
+    /*
     // Send e-mail
     $tpl =& templateInit();
 
@@ -101,15 +123,16 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
     $mail->setSubject( $subject );
     $mail->setBody( $templateResult );
     $mailResult = eZMailTransport::send( $mail );
+    */
 
     // Store the information collection ID in session, so the user can fetch it later.
     eZHTTPTool::setSessionVariable( 'InformationCollectionID', $collection->attribute( 'id' ) );
 
-    if ( is_numeric( $redirectToNodeID ) )
-    {
-        $Module->redirectToView( 'view', array( 'full', $redirectToNodeID ) );
-    }
-    else
+//     if ( is_numeric( $redirectToNodeID ) )
+//     {
+//         $Module->redirectToView( 'view', array( 'full', $redirectToNodeID ) );
+//     }
+//     else
     {
         $Module->redirectToView( 'collectedinfo', array( $object->attribute( 'main_node_id' ) ) );
 //        $Module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );

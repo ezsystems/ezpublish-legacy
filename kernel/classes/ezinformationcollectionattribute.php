@@ -63,20 +63,33 @@ class eZInformationCollectionAttribute extends eZPersistentObject
                                                                                'datatype' => 'integer',
                                                                                'default' => 0,
                                                                                'required' => true ),
-                                         "data_text" => array( 'name' => "DataText",
+                                         'contentobject_attribute_id' => array( 'name' => 'ContentObjectAttributeID',
+                                                                                'datatype' => 'integer',
+                                                                                'default' => 0,
+                                                                                'required' => true ),
+                                         'contentobject_id' => array( 'name' => 'ContentObjectID',
+                                                                      'datatype' => 'integer',
+                                                                      'default' => 0,
+                                                                      'required' => true ),
+                                         'data_text' => array( 'name' => 'DataText',
                                                                'datatype' => 'text',
                                                                'default' => '',
                                                                'required' => true ),
-                                         "data_int" => array( 'name' => "DataInt",
+                                         'data_int' => array( 'name' => 'DataInt',
                                                               'datatype' => 'integer',
                                                               'default' => 0,
                                                               'required' => true ),
-                                         "data_float" => array( 'name' => "DataFloat",
+                                         'data_float' => array( 'name' => 'DataFloat',
                                                                 'datatype' => 'float',
                                                                 'default' => 0,
                                                                 'required' => true ) ),
                       'keys' => array( 'id' ),
-                      "function_attributes" => array( "contentclass_attribute_name" => "ContentClassAttributeName" ),
+                      'function_attributes' => array( 'contentclass_attribute_name' => 'contentClassAttributeName',
+                                                      'contentclass_attribute' => 'contentClassAttribute',
+                                                      'contentobject_attribute' => 'contentObjectAttribute',
+                                                      'contentobject' => 'contentObject',
+                                                      'result_template' => 'resultTemplateName',
+                                                      ),
                       'increment_key' => 'id',
                       'class_name' => 'eZInformationCollectionAttribute',
                       'name' => 'ezinfocollection_attribute' );
@@ -85,11 +98,59 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     function &attribute( $attr )
     {
         if ( $attr == 'contentclass_attribute_name' )
-        {
             return $this->contentClassAttributeName();
-        }
+        else if ( $attr == 'contentclass_attribute' )
+            return $this->contentClassAttribute();
+        else if ( $attr == 'contentobject_attribute' )
+            return $this->contentObjectAttribute();
+        else if ( $attr == 'result_template' )
+            return $this->resultTemplateName();
         else
             return eZPersistentObject::attribute( $attr );
+    }
+
+    /*!
+     \return the template name to use for viewing the attribute
+     \note The returned template name does not include the .tpl extension.
+     \sa informationTemplate
+    */
+    function &resultTemplateName()
+    {
+        $dataType =& $this->dataType();
+        return $dataType->resultTemplate( $this );
+    }
+
+    /*!
+    */
+    function &contentObject()
+    {
+        $contentObject =& eZContentObject::fetch( $this->attribute( 'contentobject_id' ) );
+        return $contentObject;
+    }
+
+    /*!
+    */
+    function &contentObjectAttribute()
+    {
+        $contentObject =& $this->contentObject();
+        $contentObjectAttribute =& eZContentObjectAttribute::fetch( $this->attribute( 'contentobject_attribute_id' ), $contentObject->attribute( 'current_version' ) );
+        return $contentObjectAttribute;
+    }
+
+    /*!
+    */
+    function &contentClassAttribute()
+    {
+        $contentClassAttribute =& eZContentClassAttribute::fetch( $this->attribute( 'contentclass_attribute_id' ) );
+        return $contentClassAttribute;
+    }
+
+    /*!
+    */
+    function &dataType()
+    {
+        $contentClassAttribute =& $this->contentClassAttribute();
+        return $contentClassAttribute->dataType();
     }
 
     /*!
@@ -107,9 +168,21 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     */
     function &create( $informationCollectionID )
     {
-        $row = array(
-            "informationcollection_id" => $informationCollectionID );
+        $row = array( 'informationcollection_id' => $informationCollectionID );
         return new eZInformationCollectionAttribute( $row );
+    }
+
+    /*!
+     \static
+      Fetches the information collection by object attribute ID.
+    */
+    function &fetchByObjectAttributeID( $id, $contentobjectAttributeID, $asObject = true )
+    {
+        return eZPersistentObject::fetchObject( eZInformationCollectionAttribute::definition(),
+                                                null,
+                                                array( 'informationcollection_id' => $id,
+                                                       'contentobject_attribute_id' => $contentobjectAttributeID ),
+                                                $asObject );
     }
 }
 

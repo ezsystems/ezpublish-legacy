@@ -85,6 +85,7 @@ $eZTemplateFunctionArray = array();
 $eZTemplateFunctionArray[] = array( 'function' => 'eZObjectForwardInit',
                                     'function_names' => array( 'attribute_edit_gui',
                                                                'attribute_view_gui',
+                                                               'attribute_result_gui',
                                                                'attribute_pdf_gui',
                                                                'node_view_gui',
                                                                'content_view_gui',
@@ -152,6 +153,15 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                'attribute_access' => array( array( 'view_template' ) ),
                                                'optional_views' => true,
                                                'use_views' => 'view' ),
+
+                'attribute_result_gui' => array( 'template_root' => 'content/datatype/result',
+                                                 'render_mode' => false,
+                                                 'input_name' => 'attribute',
+                                                 'output_name' => 'attribute',
+                                                 'namespace' => 'CollectionAttribute',
+                                                 'attribute_access' => array( array( 'result_template' ) ),
+                                                 'optional_views' => true,
+                                                 'use_views' => 'view' ),
 
                 'shop_account_view_gui' => array( 'template_root' => "shop/accounthandlers",
                                                   'input_name' => 'order',

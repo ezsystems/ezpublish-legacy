@@ -449,11 +449,14 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
      Collects the information entered by the user from http post vars
     */
-    function collectInformation( &$collection, &$http, $base )
+    function collectInformation( &$collection, &$collectionAttribute, &$http, $base )
     {
         $classAttribute =& $this->contentClassAttribute();
         $dataType =& $classAttribute->dataType();
-        return $dataType->fetchCollectionAttributeHTTPInput( $collection, $http, $base, $this );
+        $collectionAttribute->setAttribute( 'contentclass_attribute_id', $classAttribute->attribute( 'id' ) );
+        $collectionAttribute->setAttribute( 'contentobject_attribute_id', $this->attribute( 'id' ) );
+        $collectionAttribute->setAttribute( 'contentobject_id', $this->attribute( 'contentobject_id' ) );
+        return $dataType->fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $this );
     }
 
     /*!

@@ -137,6 +137,18 @@ class eZDataType
     }
 
     /*!
+     \return the template name to use for result view of an information collection attribute.
+     \note Default is to return the datatype string which is OK
+           for most datatypes, if you want dynamic templates
+           reimplement this function and return a template name.
+     \note The returned template name does not include the .tpl extension.
+    */
+    function &resultTemplate( &$collectionAttribute )
+    {
+        return $this->DataTypeString;
+    }
+
+    /*!
      \static
      Crates a datatype instance of the datatype string id \a $dataTypeString.
      \note It only creates one instance for each datatype.
@@ -390,7 +402,7 @@ class eZDataType
      Fetches the HTTP collected information for the content object attribute.
      \note Default implementation does nothing.
     */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$http, $base, &$objectAttribute )
+    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$objectAttribute )
     {
     }
 
