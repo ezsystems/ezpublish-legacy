@@ -687,7 +687,7 @@ class eZSys
      stated in the parameter list.
      \static
     */
-    function init( $def_index = "index.php" )
+    function init( $def_index = "index.php", $force_VirtualHost = false)
     {
         if ( !isset( $this ) or get_class( $this ) != "ezsys" )
             $this =& eZSys::instance();
@@ -737,10 +737,17 @@ class eZSys
 
         $scriptName = eZSys::serverVariable( 'SCRIPT_NAME' );
         // Get the webdir.
-        if ( ereg( "(.*)/([^\/]+\.php)$", $scriptName, $regs ) )
-            $wwwDir = $regs[1];
-		else if ( ereg( "(.*)/([^\/]+\.php)$", $phpSelf, $regs ) )
-			$wwwDir = $regs[1];
+
+        if ( $force_VirtualHost )
+        {
+            $wwwDir = "";
+        } else
+        {
+            if ( ereg( "(.*)/([^\/]+\.php)$", $scriptName, $regs ) )
+                $wwwDir = $regs[1];
+            else if ( ereg( "(.*)/([^\/]+\.php)$", $phpSelf, $regs ) )
+                $wwwDir = $regs[1];
+        }
 
         $requestURI = eZSys::serverVariable( 'REQUEST_URI' );
 
@@ -788,6 +795,7 @@ class eZSys
             eZDebug::writeNotice( $this->IndexFile, 'IndexFile' );
             eZDebug::writeNotice( eZSys::requestURI(), 'eZSys::requestURI()' );
         }
+
     }
 
     /*!
