@@ -87,6 +87,14 @@ class eZDBInterface
     }
 
     /*!
+     Enabled or disables sql output.
+    */
+    function setIsSQLOutputEnabled( $enabled )
+    {
+        $this->OutputSQL = $enabled;
+    }
+
+    /*!
      \private
      Records the current micro time. End the timer with endTimer() and
      fetch the result with timeTaken();

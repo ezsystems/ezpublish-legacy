@@ -55,6 +55,8 @@ class eZMySQLDB extends eZDBInterface
             ini_set( "mysql.default_socket", $socketPath );
         }
 
+//         eZDebug::writeDebug( "server=" . $this->Server . "\nuser=" . $this->User . "\npassword=" . $this->Password,
+//                              'mysqldb' );
         $this->DBConnection = @mysql_pconnect( $this->Server, $this->User, $this->Password );
         $numAttempts = 1;
         while ( $this->DBConnection == false && $numAttempts < 5 )

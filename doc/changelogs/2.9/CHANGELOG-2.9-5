@@ -27,6 +27,8 @@ modfix:
 - Added function to fetch node children by name in eZContentObjectTreeNode
 - Added function of calculating price with real VAT value for module shop
 - Added function of discount for module shop
+- index.php now uses the execution system, this means that controlled exits should be done with the
+  /cleanExit/ function in /eZExecution/.
 
 *DateType :
 - Changed the ezprice interface with VAT type choosing and VAT include/exclude choosing.
@@ -57,6 +59,11 @@ eZ debug:
 - No string conversion is run if it is not required, this means sql queries are much faster.
 - Missing directories will be created.
 - If log file could not be opened for writing it will disable file logging and issue an error.
+- Added @s to some file functions, to avoid that they create error messages.
+
+eZ db:
+- New function /setIsSQLOutputEnabled/ which can enable or disable sql output at runtime,
+  sql output is always disabled at the end of the script to avoid crashes with session.
 
 eZ template:
 - Moved template parser code into separate classes, that way it should be fairly easy to change the
@@ -77,3 +84,6 @@ eZ setup:
 - installs demo data: unpacks it (if zlib module is available) and install database content
 - sets some initial configuration settings (title, domain, charset)
 - sends (if wanted) register email to eZ szstems. Can use SMTP server (w/ login) to send email.
+
+eZ execution:
+- New class which helps in detecting fatal errors and does proper end of execution cleanups.

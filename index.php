@@ -39,6 +39,36 @@ include_once( "lib/ezutils/classes/ezini.php" );
 
 $warningList = array();
 
+// unlink( 'var/log/error.log' );
+// unlink( 'var/log/debug.log' );
+// unlink( 'var/log/notice.log' );
+// unlink( 'var/log/warning.log' );
+// exit;
+
+include_once( 'lib/ezutils/classes/ezexecution.php' );
+
+function eZDBCleanup()
+{
+    if ( class_exists( 'ezdb' ) )
+    {
+        $db =& eZDB::instance();
+        $db->setIsSQLOutputEnabled( false );
+    }
+//     session_write_close();
+}
+
+function eZFatalError()
+{
+    eZDebug::setHandleType( EZ_HANDLE_NONE );
+    print( "<b>Fatal error</b>: eZ publish did not finish it's request<br/>" );
+    print( "<p>The execution of eZ publish was abruptly ended, the debug output is present below.</p>" );
+    $templateResult = null;
+    eZDisplayResult( $templateResult, eZDisplayDebug() );
+}
+
+eZExecution::addCleanupHandler( 'eZDBCleanup' );
+eZExecution::addFatalErrorHandler( 'eZFatalError' );
+
 eZDebug::setScriptStart( $scriptStartTime );
 
 // Enable this line to get eZINI debug output
@@ -183,6 +213,8 @@ if ( $access !== null )
     changeAccess( $access );
 }
 
+include_once( 'lib/ezdb/classes/ezdb.php' );
+$db =& eZDB::instance();
 session_start();
 
 include_once( 'lib/ezdb/classes/ezdb.php' );
@@ -369,7 +401,7 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
         eZDisplayResult( $templateResult, eZDisplayDebug() );
     }
 
-    exit;
+    eZExecution::cleanExit();
 }
 
 eZDebug::addTimingPoint( "Module end '" . $module->attribute( 'name' ) . "'" );
@@ -643,4 +675,8 @@ eZDebug::addTimingPoint( "End" );
 eZDisplayResult( $templateResult, eZDisplayDebug() );
 
 ob_end_flush();
+
+eZExecution::cleanup();
+eZExecution::setCleanExit();
+
 ?>

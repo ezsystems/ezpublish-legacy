@@ -553,22 +553,22 @@ class eZDebug
             include_once( 'lib/ezutils/classes/ezdir.php' );
             eZDir::mkdir( $logDir, 0775, true );
         }
-        $oldumask = umask( 0 );
-        $fileExisted = file_exists( $fileName );
+        $oldumask = @umask( 0 );
+        $fileExisted = @file_exists( $fileName );
         $logFile = @fopen( $fileName, "a" );
         if ( $logFile )
         {
             $time = strftime( "%b %d %Y %H:%M:%S", strtotime( "now" ) );
             $notice = "[ " . $time . " ] [" . eZSys::serverVariable( 'REMOTE_ADDR', true ) . "] " . $string . "\n";
-            fwrite( $logFile, $notice );
-            fclose( $logFile );
+            @fwrite( $logFile, $notice );
+            @fclose( $logFile );
             if ( !$fileExisted )
-                chmod( $fileName, 0664 );
-            umask( $oldumask );
+                @chmod( $fileName, 0664 );
+            @umask( $oldumask );
         }
         else
         {
-            umask( $oldumask );
+            @umask( $oldumask );
             $logEnabled = $this->isLogFileEnabled( $verbosityLevel );
             $this->setLogFileEnabled( false, $verbosityLevel );
             if ( $verbosityLevel != EZ_LEVEL_ERROR or
