@@ -83,7 +83,7 @@
 	<img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
 	</td>
 	<td class="menu" width="99%">
-	<p class="menuitem"><a class="menuitem" href={$Child:item.url_alias|ezurl}>{$Child:item.name|i18n("design/admin/layout")}</a></p>
+	<p class="menuitem"><a class="menuitem" href={$Child:item.url_alias|ezurl}>{$Child:item.name}</a></p>
 	</td>
     </tr>
     {/section}
