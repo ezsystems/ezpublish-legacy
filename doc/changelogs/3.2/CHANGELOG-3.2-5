@@ -13,6 +13,7 @@ Changes from 3.2-4 to 3.2-5
   fix the problem with empty images on a 3.3 upgrade.
 - Added support for sending version number to
   eZContentObjectAttribute::fetchSameClassAttributeIDList
+- Added check if basket item exists before we remove it
 
 
 *Bugfixes:
