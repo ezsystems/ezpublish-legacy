@@ -66,6 +66,12 @@ include_once( 'kernel/common/ezincludefunctions.php' );
 eZExtension::activateExtensions( 'default' );
 // Extension check end
 
+// Make sure site.ini and template.ini reloads its cache incase
+// extensions override it
+$ini =& eZINI::instance( 'site.ini' );
+$ini->loadCache();
+$tplINI =& eZINI::instance( 'template.ini' );
+$tplINI->loadCache();
 
 // Grab the main WebDAV setting (enable/disable) from the WebDAV ini file.
 $ini =& eZINI::instance( WEBDAV_INI_FILE );
