@@ -125,7 +125,10 @@ class eZModuleFunctionInfo
              isset( $callMethod['class'] ) and
              isset( $callMethod['method'] ) )
         {
-            $resultArray =& $this->executeClassMethod( $callMethod['include_file'], $callMethod['class'], $callMethod['method'],
+            $extension = false;
+            if ( isset( $callMethod['extension'] ) )
+                $extension = $callMethod['extension'];
+            $resultArray =& $this->executeClassMethod( $extension, $callMethod['include_file'], $callMethod['class'], $callMethod['method'],
                                                        $functionDefinition['parameters'], $functionParameters );
         }
         else
@@ -210,9 +213,15 @@ class eZModuleFunctionInfo
         return $classObject;
     }
 
-    function executeClassMethod( $includeFile, $className, $methodName,
+    function executeClassMethod( $extension, $includeFile, $className, $methodName,
                                  $functionParameterDefinitions, $functionParameters )
     {
+        if ( $extension )
+        {
+            include_once( 'kernel/classes/ezextension.php' );
+            $extensionDir = eZExtension::baseDirectory();
+            $includeFile = $extensionDir . '/' . $extension . '/modules/' . $includeFile;
+        }
         include_once( $includeFile );
         if ( !class_exists( $className ) )
         {

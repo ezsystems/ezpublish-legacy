@@ -108,4 +108,46 @@ class eZExtension
 
 }
 
+/*!
+ Includes the file named \a $name in extension \a $extension
+ \note This works similar to include() meaning that it always includes the file.
+*/
+function ext_include( $extension, $name )
+{
+    $base = eZExtension::baseDirectory();
+    $include = "$base/$extension/$name";
+    return include( $include );
+}
+
+/*!
+ Activates the file named \a $name in extension \a $extension
+ \note This works similar to include_once() meaning that it's included one time.
+*/
+function ext_activate( $extension, $name )
+{
+    $base = eZExtension::baseDirectory();
+    $include = "$base/$extension/$name";
+    return include_once( $include );
+}
+
+/*!
+ Activates the file named \a $name in extension \a $extension
+ \note This works similar to include_once() meaning that it's included one time.
+*/
+function ext_class( $extension, $name )
+{
+    $base = eZExtension::baseDirectory();
+    $include = "$base/$extension/classes/$name";
+    return include_once( $include );
+}
+
+/*!
+*/
+function lib_include( $libName, $name )
+{
+    $include = "lib/$libName/classes/$name";
+    return include_once( $include );
+}
+
+
 ?>
