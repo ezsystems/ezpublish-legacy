@@ -212,7 +212,9 @@
          item_limit=$alias_limit}
 </div>
 {section-else}
-<p>{'There are no entries in this list.'|i18n( 'design/admin/content/urltranslator' )}</p>
+<div class="block">
+<p>{'There are no custom URL translations.'|i18n( 'design/admin/content/urltranslator' )}</p>
+</div>
 {/section}
 
 {* DESIGN: Content END *}</div></div></div>
