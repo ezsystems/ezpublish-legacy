@@ -359,19 +359,19 @@ class eZLocale
     function localeInformation( $localeString )
     {
         $info = null;
-        if ( preg_match( '/^([a-zA-Z]+)([_-]([a-zA-Z]+))?(@([a-zA-Z0-9]+))?(\.([a-zA-Z-]+))?/', $localeString, $regs ) )
+        if ( preg_match( '/^([a-zA-Z]+)([_-]([a-zA-Z]+))?(\.([a-zA-Z-]+))?(@([a-zA-Z0-9]+))?/', $localeString, $regs ) )
         {
             $info = array();
             $language = strtolower( $regs[1] );
             $country = '';
             if ( isset( $regs[3] ) )
                 $country = strtoupper( $regs[3] );
-            $countryVariation = '';
-            if ( isset( $regs[5] ) )
-                $countryVariation = strtolower( $regs[5] );
             $charset = '';
+            if ( isset( $regs[5] ) )
+                $charset = strtolower( $regs[5] );
+            $countryVariation = '';
             if ( isset( $regs[7] ) )
-                $charset = strtolower( $regs[7] );
+                $countryVariation = strtolower( $regs[7] );
             $locale = $language;
             if ( $country !== '' )
                 $locale .= '-' . $country;
