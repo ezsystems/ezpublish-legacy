@@ -1243,7 +1243,7 @@ class eZINI
      \encode
      \sa setVariable
     */
-    function &setVariables( $variables )
+    function setVariables( $variables )
     {
         foreach ( $variables as $blockName => $blockVariables )
         {
