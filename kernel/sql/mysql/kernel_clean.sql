@@ -108,6 +108,7 @@ CREATE TABLE ezcontentclass_attribute (
   data_text2 varchar(50) default NULL,
   data_text3 varchar(50) default NULL,
   data_text4 varchar(50) default NULL,
+  is_information_collector int(11) NOT NULL default '0',
   PRIMARY KEY  (id,version)
 ) TYPE=MyISAM;
 
@@ -115,23 +116,23 @@ CREATE TABLE ezcontentclass_attribute (
 # Dumping data for table 'ezcontentclass_attribute'
 #
 
-INSERT INTO ezcontentclass_attribute VALUES (119,0,1,'description','Description','ezxmltext',1,0,2,0,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (4,1,1,'name','Name','ezstring',0,0,1,255,0,0,0,0,0,0,0,'Folder','','','');
-INSERT INTO ezcontentclass_attribute VALUES (12,0,4,'user_account','User account','ezuser',1,1,3,0,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (118,0,5,'image','Image','ezimage',0,0,3,2,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (119,1,1,'description','Description','ezxmltext',0,0,2,0,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (122,0,2,'thumbnail','Thumbnail','ezimage',1,0,4,2,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (123,0,2,'enable_comments','Enable comments','ezboolean',1,0,5,0,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (117,0,5,'caption','Caption','ezxmltext',0,0,2,0,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (116,0,5,'name','Name','ezstring',0,0,1,150,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (121,0,2,'body','Body','ezxmltext',1,0,3,0,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (120,0,2,'intro','Intro','ezxmltext',1,1,2,0,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (1,0,2,'title','Title','ezstring',0,1,1,255,0,0,0,0,0,0,0,'New article','','','');
-INSERT INTO ezcontentclass_attribute VALUES (7,0,3,'description','Description','ezstring',1,0,2,255,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (6,0,3,'name','Name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (9,0,4,'last_name','Last name','ezstring',1,1,2,255,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (8,0,4,'first_name','First name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (4,0,1,'name','Name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'Folder','','','');
+INSERT INTO ezcontentclass_attribute VALUES (119,0,1,'description','Description','ezxmltext',1,0,2,0,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (4,1,1,'name','Name','ezstring',0,0,1,255,0,0,0,0,0,0,0,'Folder','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (12,0,4,'user_account','User account','ezuser',1,1,3,0,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (118,0,5,'image','Image','ezimage',0,0,3,2,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (119,1,1,'description','Description','ezxmltext',0,0,2,0,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (122,0,2,'thumbnail','Thumbnail','ezimage',1,0,4,2,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (123,0,2,'enable_comments','Enable comments','ezboolean',1,0,5,0,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (117,0,5,'caption','Caption','ezxmltext',0,0,2,0,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (116,0,5,'name','Name','ezstring',0,0,1,150,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (121,0,2,'body','Body','ezxmltext',1,0,3,0,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (120,0,2,'intro','Intro','ezxmltext',1,1,2,0,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (1,0,2,'title','Title','ezstring',0,1,1,255,0,0,0,0,0,0,0,'New article','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (7,0,3,'description','Description','ezstring',1,0,2,255,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (6,0,3,'name','Name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (9,0,4,'last_name','Last name','ezstring',1,1,2,255,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (8,0,4,'first_name','First name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (4,0,1,'name','Name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'Folder','','','',0);
 
 #
 # Table structure for table 'ezcontentclass_classgroup'
@@ -337,6 +338,40 @@ INSERT INTO ezcontentobject_version VALUES (441,13,8,1,1033920786,1033920794,0,0
 INSERT INTO ezcontentobject_version VALUES (442,14,8,1,1033920808,1033920830,0,0,0);
 
 #
+# Table structure for table 'ezdiscountsubrule'
+#
+
+CREATE TABLE ezdiscountsubrule (
+  id int(11) NOT NULL auto_increment,
+  name varchar(255) NOT NULL default '',
+  discountrule_id int(11) NOT NULL default '0',
+  discount_percent float default NULL,
+  limitation char(1) default NULL,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezdiscountsubrule'
+#
+
+
+#
+# Table structure for table 'ezdiscountsubrule_value'
+#
+
+CREATE TABLE ezdiscountsubrule_value (
+  discountsubrule_id int(11) NOT NULL default '0',
+  value int(11) NOT NULL default '0',
+  issection int(1) NOT NULL default '0',
+  PRIMARY KEY  (discountsubrule_id,value,issection)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezdiscountsubrule_value'
+#
+
+
+#
 # Table structure for table 'ezenumobjectvalue'
 #
 
@@ -409,6 +444,40 @@ CREATE TABLE ezimagevariation (
 
 #
 # Dumping data for table 'ezimagevariation'
+#
+
+
+#
+# Table structure for table 'ezinformationcollection'
+#
+
+CREATE TABLE ezinformationcollection (
+  id int(11) NOT NULL auto_increment,
+  contentobject_id int(11) NOT NULL default '0',
+  created int(11) NOT NULL default '0',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezinformationcollection'
+#
+
+
+#
+# Table structure for table 'ezinformationcollection_attribute'
+#
+
+CREATE TABLE ezinformationcollection_attribute (
+  id int(11) NOT NULL auto_increment,
+  informationcollection_id int(11) NOT NULL default '0',
+  data_text text,
+  data_int int(11) default NULL,
+  data_float float default NULL,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezinformationcollection_attribute'
 #
 
 
@@ -549,6 +618,22 @@ CREATE TABLE eznotification_user_link (
 #
 
 
+#
+# Table structure for table 'ezoperation_memento'
+#
+
+CREATE TABLE ezoperation_memento (
+  id int(11) NOT NULL auto_increment,
+  main_key int(11) NOT NULL default '0',
+  memento_key varchar(32) NOT NULL default '',
+  memento_data text NOT NULL,
+  main int(11) NOT NULL default '0',
+  PRIMARY KEY  (id,memento_key)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezoperation_memento'
+#
 
 
 #
@@ -652,7 +737,6 @@ CREATE TABLE ezproductcollection_item (
   productcollection_id int(11) NOT NULL default '0',
   contentobject_id int(11) NOT NULL default '0',
   item_count int(11) NOT NULL default '0',
-  price_is_inc_vat int(11) NOT NULL default '0',
   price int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
@@ -791,8 +875,6 @@ CREATE TABLE ezsession (
 # Dumping data for table 'ezsession'
 #
 
-#INSERT INTO ezsession VALUES ('beea3def7581c9fac9a3959546d91691',1034181050,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
-#INSERT INTO ezsession VALUES ('c427b1ec51dfaf03fb7675aea7769c85',1034181692,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
 
 #
 # Table structure for table 'eztask'
@@ -847,7 +929,7 @@ CREATE TABLE eztask_message (
 
 CREATE TABLE eztrigger (
   id int(11) NOT NULL auto_increment,
-  name varchar(255),
+  name varchar(255) default NULL,
   module_name varchar(200) NOT NULL default '',
   function_name varchar(200) NOT NULL default '',
   connect_type char(1) NOT NULL default '',
@@ -896,6 +978,23 @@ INSERT INTO ezuser VALUES (10,'anonymous','nospam@ez.no',3,'db52c38a553f88038643
 INSERT INTO ezuser VALUES (14,'admin','nospam@ez.no',3,'adcd37bc8ee8b2845e8419ac0f752e0f');
 
 #
+# Table structure for table 'ezuser_discountrule'
+#
+
+CREATE TABLE ezuser_discountrule (
+  id int(11) NOT NULL auto_increment,
+  discountrule_id int(11) default NULL,
+  contentobject_id int(11) default NULL,
+  name varchar(255) NOT NULL default '',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezuser_discountrule'
+#
+
+
+#
 # Table structure for table 'ezuser_role'
 #
 
@@ -930,6 +1029,22 @@ CREATE TABLE ezuser_setting (
 
 INSERT INTO ezuser_setting VALUES (10,1,1000);
 INSERT INTO ezuser_setting VALUES (14,1,10);
+
+#
+# Table structure for table 'ezvattype'
+#
+
+CREATE TABLE ezvattype (
+  id int(11) NOT NULL auto_increment,
+  name varchar(255) NOT NULL default '',
+  percentage float default NULL,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezvattype'
+#
+
 
 #
 # Table structure for table 'ezwishlist'
@@ -1080,7 +1195,7 @@ CREATE TABLE ezworkflow_process (
   event_state int(11) default NULL,
   status int(11) default NULL,
   parameters text,
-  memento_key char(32),
+  memento_key varchar(32) default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -1089,10 +1204,3 @@ CREATE TABLE ezworkflow_process (
 #
 
 
-CREATE TABLE ezoperation_memento (
-    id int NOT NULL auto_increment,
-    main int NOT NULL default 0,
-    memento_key char(32) NOT NULL,
-    main_key char(32) NOT NULL,
-    memento_data text NOT NULL,
-    PRIMARY KEY(id, memento_key) );
