@@ -62,10 +62,40 @@ class eZShopFunctionCollection
         return array( 'result' => $basket );
     }
 
+    function fetchBestSellList( $topParentNodeID, $limit )
+    {
+        include_once( 'kernel/classes/ezcontentobject.php' );
+        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
+        $node = eZContentObjectTreeNode::fetch( $topParentNodeID );
+        $nodePath = $node->attribute( 'path_string' );
 
+        $query="SELECT sum(ezproductcollection_item.item_count) as count, ezproductcollection_item.contentobject_id
+                  FROM ezcontentobject_tree,
+                       ezproductcollection_item,
+                       ezorder
+                 WHERE ezcontentobject_tree.contentobject_id=ezproductcollection_item.contentobject_id AND
+                       ezorder.productcollection_id=ezproductcollection_item.productcollection_id AND
+                       ezcontentobject_tree.path_string like '/1/2%'
+                 GROUP BY ezproductcollection_item.contentobject_id
+                 ORDER BY count desc
+                 LIMIT $limit";
 
+        $db =& eZDB::instance();
+        $topList=& $db->arrayQuery( $query );
 
+        $contentObjectList = array();
+        foreach ( array_keys ( $topList ) as $key )
+        {
+            $objectID = $topList[$key]['contentobject_id'];
+            $contentObject =& eZContentObject::fetch( $objectID );
+            if ( $contentObject === null )
+                return array( 'error' => array( 'error_type' => 'kernel',
+                                                'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+            $contentObjectList[] = $contentObject;
+        }
+        return array( 'result' => $contentObjectList );
+    }
 }
 
 ?>

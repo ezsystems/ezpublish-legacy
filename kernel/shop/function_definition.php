@@ -44,5 +44,18 @@ $FunctionList['basket'] = array( 'name' => 'basket',
                                  'parameter_type' => 'standard',
                                  'parameters' => array( ) );
 
+$FunctionList['best_sell_list'] = array( 'name' => 'best_sell_list',
+                                         'operation_types' => array( 'read' ),
+                                         'call_method' => array( 'include_file' => 'kernel/shop/ezshopfunctioncollection.php',
+                                                                 'class' => 'eZShopFunctionCollection',
+                                                                 'method' => 'fetchBestSellList' ),
+                                         'parameter_type' => 'standard',
+                                         'parameters' => array( array( 'name' => 'top_parent_node_id',
+                                                                       'type' => 'integer',
+                                                                       'required' => true ),
+                                                                array( 'name' => 'limit',
+                                                                       'type' => 'integer',
+                                                                       'required' => true ) ) );
+
 
 ?>
