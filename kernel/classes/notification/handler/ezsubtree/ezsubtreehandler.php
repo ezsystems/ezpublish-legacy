@@ -291,15 +291,14 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         {
             $selectedNodeIDArray = $http->postVariable( "SelectedNodeIDArray" );
             $user =& eZUser::currentUser();
-            $email = $user->attribute( 'email' );
 
-            $existingNodes =& eZSubtreeNotificationRule::fetchNodesForUserID( $email, false );
+            $existingNodes =& eZSubtreeNotificationRule::fetchNodesForUserID( $user->attribute( 'contentobject_id' ), false );
 
             foreach ( $selectedNodeIDArray as $nodeID )
             {
                 if ( ! in_array( $nodeID, $existingNodes ) )
                 {
-                    $rule =& eZSubtreeNotificationRule::create(  $nodeID, $email );
+                    $rule =& eZSubtreeNotificationRule::create( $nodeID, $user->attribute( 'contentobject_id' ) );
                     $rule->store();
                 }
             }

@@ -36,6 +36,7 @@ Changes from 3.3.0-2 to 3.3-1
   http://ez.no/developer/ez_publish_3/bug_reports/admins_cant_edit_classes
 - Fixed updating section id when moving unpublished objects. ( merged from stable 4545 )
   http://ez.no/developer/ez_publish_3/bug_reports/section_malfunction
+- Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/notification_system_is_not_working
 
 *ezlupdate:
 - Added check for newlines in the context field for templates, usually this means a missing quote.
