@@ -105,6 +105,14 @@ class eZFunctionHandler
                     if ( $moduleFunctionInfo->isParameterArray( $functionName, $constKey ) )
                     {
                         /*
+                         Check if have Constant overriden by function parameter
+                         */
+                        if ( array_key_exists( $constKey, $functionParameters ) )
+                        {
+                            $functionArray[$constKey] =& $functionParameters[$constKey] ;
+                            continue;
+                        }
+                        /*
                          Split given string using semicolon as delimiter.
                          Semicolon may be escaped by prepending it with backslash:
                          in this case it is not treated as delimiter.
@@ -142,6 +150,15 @@ class eZFunctionHandler
                 }
             }
 
+/*
+ */
+            foreach ( $functionParameters as $paramName => $value )
+            {
+                if ( !array_key_exists( $paramName, $functionArray ) )
+                {
+                    $functionArray[$paramName] = $value;
+                }
+            }
             return $moduleFunctionInfo->execute( $functionName, $functionArray );
         }
         eZDebug::writeWarning( 'Could not execute. Function ' . $aliasFunctionName. ' not found.' ,
