@@ -31,6 +31,13 @@ Version - {$phpversion.found}
 OS info
 Name - {$os.name}
 
+{section show=$system.is_valid}
+CPU Type - {$system.cpu_type}
+CPU Speed - {$system.cpu_speed} {$system.cpu_unit}
+Memory Size - {$system.memory_size} ({$system.memory_size|si( byte )})
+
+{/section}
+
 Database info:
 Type - {$database_info.info.name}
 Driver - {$database_info.info.driver}

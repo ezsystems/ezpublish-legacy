@@ -46,5 +46,4 @@
     <input class="defaultbutton" type="submit" name="eZSetupSendRegistration" value="{'Send Registration'|i18n('design/standard/setup/init')} &gt;" /> *}
   </div>
   {include uri='design:setup/persistence.tpl'}
-  {include uri='design:setup/init/steps.tpl'}
 </form>

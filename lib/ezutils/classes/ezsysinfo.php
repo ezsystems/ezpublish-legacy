@@ -79,7 +79,7 @@ class eZSysInfo
     */
     function attributes()
     {
-        return array( 'cpu_type', 'cpu_unit', 'cpu_speed', 'memory_size' );
+        return array( 'is_valid', 'cpu_type', 'cpu_unit', 'cpu_speed', 'memory_size' );
     }
 
     /*!
@@ -88,7 +88,7 @@ class eZSysInfo
     */
     function hasAttribute( $name )
     {
-        return in_array( $name, array( 'cpu_type', 'cpu_unit', 'cpu_speed', 'memory_size' ) );
+        return in_array( $name, array( 'is_valid', 'cpu_type', 'cpu_unit', 'cpu_speed', 'memory_size' ) );
     }
 
     /*!
@@ -97,7 +97,9 @@ class eZSysInfo
     */
     function &attribute( $name )
     {
-        if ( $name == 'cpu_type' )
+        if ( $name == 'is_valid' )
+            return $this->IsValid;
+        else if ( $name == 'cpu_type' )
             return $this->CPUType;
         else if ( $name == 'cpu_unit' )
             return $this->CPUUnit;
@@ -106,6 +108,14 @@ class eZSysInfo
         else if ( $name == 'memory_size' )
             return $this->MemorySize;
         return null;
+    }
+
+    /*!
+     \return \c true if the system has been scanned correctly.
+    */
+    function isValid()
+    {
+        return $this->IsValid;
     }
 
     /*!
@@ -145,6 +155,7 @@ class eZSysInfo
     */
     function scan()
     {
+        $this->IsValid = false;
         $this->CPUSpeed = false;
         $this->CPUType = false;
         $this->CPUUnit = false;
@@ -155,12 +166,14 @@ class eZSysInfo
 
         if ( $osType == 'win32' )
         {
-            eZDebug::writeWarning( "System scan for Windows (win32) machines not supported yet" );
+            // Windows (win32) is not supported yet
+            // eZDebug::writeWarning( "System scan for Windows (win32) machines not supported yet" );
         }
         else if ( $osType == 'mac' )
         {
             // Mac means FreeBSD type of structure?
-            return $this->scanDMesg();
+            $this->IsValid = $this->scanDMesg();
+            return $this->IsValid;
         }
         else if ( $osType == 'unix' )
         {
@@ -168,21 +181,30 @@ class eZSysInfo
             $osName = $sys->osName();
             if ( $osName == 'linux' )
             {
-                return $this->scanProc();
+                $this->IsValid = $this->scanProc();
+                return $this->IsValid;
             }
             else if ( $osName == 'freebsd' )
             {
-                return $this->scanDMesg();
+                $this->IsValid = $this->scanDMesg();
+                return $this->IsValid;
             }
             else
             {
                 // Not known so we just try the various scanners
+                //
                 // /proc for Linux systems
                 if ( $this->scanProc() )
+                {
+                    $this->IsValid = true;
                     return true;
+                }
                 // dmesg.boot for FreeBSD systems
                 if ( $this->scanDMesg() )
+                {
+                    $this->IsValid = true;
                     return true;
+                }
             }
         }
         return false;
@@ -213,7 +235,6 @@ class eZSysInfo
         {
             if ( substr( $line, 0, 7 ) == 'cpu MHz' )
             {
-                print( $line . "<br/>" );
                 $cpu = trim( substr( $line, 11, strlen( $line ) - 11 ) );
                 $this->CPUSpeed = $cpu;
                 $this->CPUUnit = 'MHz';
@@ -318,6 +339,7 @@ class eZSysInfo
     }
 
     /// \privatesection
+    var $IsValid = false;
     var $CPUSpeed = false;
     var $CPUType = false;
     var $CPUUnit = false;

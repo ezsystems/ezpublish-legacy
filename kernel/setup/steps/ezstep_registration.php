@@ -57,152 +57,15 @@ class eZStepRegistration extends eZStepInstaller
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList );
     }
 
-    /*!
-     \reimp
-    */
-    function processPostData()
+    function generateRegistration( &$mailTpl )
     {
-        if ( !$this->Http->hasPostVariable( 'eZSetupSendRegistration' ) )// skip site registration
-        {
-            return true;
-        }
-
-        include_once( 'lib/ezutils/classes/ezmail.php' );
-        include_once( 'lib/ezutils/classes/ezmailtransport.php' );
-
         $databaseMap = eZSetupDatabaseMap();
         $databaseInfo = $this->PersistenceList['database_info'];
         $databaseInfo['info'] = $databaseMap[$databaseInfo['type']];
         $regionalInfo = $this->PersistenceList['regional_info'];
         if ( !isset( $regionalInfo['languages'] ) )
             $regionalInfo['languages'] = array();
-        $demoData = $this->PersistenceList['demo_data'];
-        $emailInfo = $this->PersistenceList['email_info'];
-
-        $siteTemplates = array();
-        $siteTypes = $this->chosenSiteTypes();
-        $counter = 0;
-        foreach ( array_keys( $siteTypes ) as $siteTypeKey )
-        {
-            $siteType =& $siteTypes[$siteTypeKey];
-            $siteTemplates[$counter] = $siteType;
-            $url = $siteTemplates[$counter]['url'];
-            if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url ) )
-            {
-                $url = 'http://' . $url;
-            }
-            $currentURL = $url;
-            $adminURL = $url;
-            if ( $siteTemplates[$counter]['access_type'] == 'url' )
-            {
-                $url .= '/' . $siteTemplates[$counter]['access_type_value'];
-                $adminURL .= '/' . $siteTemplates[$counter]['admin_access_type_value'];
-            }
-            else if ( $siteTemplates[$counter]['access_type'] == 'hostname' )
-            {
-                $url = eZHTTPTool::createRedirectURL( $currentURL, array( 'host' => $siteTemplates[$counter]['access_type_value'] ) );
-                $adminURL = eZHTTPTool::createRedirectURL( $currentURL, array( 'host' => $siteTemplates[$counter]['admin_access_type_value'] ) );
-            }
-            else if ( $siteTemplates[$counter]['access_type'] == 'port' )
-            {
-                $url = eZHTTPTool::createRedirectURL( $currentURL, array( 'port' => $siteTemplates[$counter]['access_type_value'] ) );
-                $adminURL = eZHTTPTool::createRedirectURL( $currentURL, array( 'port' => $siteTemplates[$counter]['admin_access_type_value'] ) );
-            }
-            $siteTemplates[$counter]['url'] = $url;
-            $siteTemplates[$counter]['admin_url'] = $adminURL;
-            ++$counter;
-        }
-
-        $testsRun = $this->PersistenceList['tests_run'];
-        $imageMagickProgram = $this->PersistenceList['imagemagick_program'];
-        $imageGDExtension = $this->PersistenceList['imagegd_extension'];
-        $phpVersion = $this->PersistenceList['phpversion'];
-        $webserverInfo = false;
-        if ( function_exists( 'apache_get_version' ) )
-        {
-            $webserverInfo = array( 'version' => apache_get_version() );
-        }
-
-        $optionalTests = eZSetupOptionalTests();
-        $testTable = eZSetupTestTable();
-
-        $arguments = array();
-        $runResult = eZSetupRunTests( $optionalTests, $arguments, 'eZSetup:init:send_registration', $this->PersistenceList );
-        $testResults = $runResult['results'];
-        $testResult = $runResult['result'];
-        $successCount = $runResult['success_count'];
-        $persistenceData = $runResult['persistence_list'];
-
-        $mail = new eZMail();
-        $mail->setReceiver( 'registerezsite@ez.no', 'eZ Site Registration' );
-        $mail->setSender( 'registerezsite@ez.no' );
-
-        // Send e-mail
-        include_once( 'kernel/common/template.php' );
-        $mailTpl =& templateInit( 'email' );
-
-        $comments = false;
-        if ( $this->Http->hasPostVariable( 'eZSetupRegistrationComment' ) )
-        {
-            $comments = $this->Http->postVariable( 'eZSetupRegistrationComment' );
-        }
-
-        $mailTpl->setVariable( 'comments', $comments );
-        $mailTpl->setVariable( 'database_info', $databaseInfo );
-        $mailTpl->setVariable( 'regional_info', $regionalInfo );
-        $mailTpl->setVariable( 'demo_data', $demoData );
-        $mailTpl->setVariable( 'email_info', $emailInfo );
-        $mailTpl->setVariable( 'site_templates', $siteTemplates );
-        $mailTpl->setVariable( 'tests_run', $testsRun );
-        $mailTpl->setVariable( 'imagemagick_program', $imageMagickProgram );
-        $mailTpl->setVariable( 'imagegd_extension', $imageGDExtension );
-        $mailTpl->setVariable( 'phpversion', $phpVersion );
-        $mailTpl->setVariable( 'webserver', $webserverInfo );
-        $mailTpl->setVariable( 'os', array( 'name' => php_uname() ) );
-        $mailTpl->setVariable( 'optional_tests', $testResults );
-        include_once( 'lib/version.php' );
-        $mailTpl->setVariable( "version", array( "text" => eZPublishSDK::version(),
-                                                 "major" => eZPublishSDK::majorVersion(),
-                                                 "minor" => eZPublishSDK::minorVersion(),
-                                                 "release" => eZPublishSDK::release() ) );
-
-        $bodyText =& $mailTpl->fetch( 'design:setup/registration_email.tpl' );
-
-        $subject =& $mailTpl->variable( 'subject' );
-        $mail->setSubject( $subject );
-        $mail->setBody( $bodyText );
-        $mailResult = eZMailTransport::send( $mail );
-
-        $this->PersistenceList['email_info']['sent'] = true;
-        $this->PersistenceList['email_info']['result'] = $mailResult;
-
-        return true; // Always continue
-    }
-
-    /*!
-     \reimp
-     */
-    function init()
-    {
-        return false; // Always display registration information
-    }
-
-    /*!
-     \reimp
-    */
-    function &display()
-    {
-        // generate email ti display
-        include_once( 'lib/ezutils/classes/ezmail.php' );
-        include_once( 'lib/ezutils/classes/ezmailtransport.php' );
-
-        $databaseMap = eZSetupDatabaseMap();
-        $databaseInfo = $this->PersistenceList['database_info'];
-        $databaseInfo['info'] = $databaseMap[$databaseInfo['type']];
-        $regionalInfo = $this->PersistenceList['regional_info'];
-        if ( !isset( $regionalInfo['languages'] ) )
-            $regionalInfo['languages'] = array();
-        $demoData = $this->PersistenceList['demo_data'];
+//        $demoData = $this->PersistenceList['demo_data'];
         $emailInfo = $this->PersistenceList['email_info'];
 
         $siteTemplates = array();
@@ -214,10 +77,12 @@ class eZStepRegistration extends eZStepInstaller
             $siteTemplates[$counter] = $siteType;
 
             $typeFunctionality = eZSetupFunctionality( $siteType['identifier'] );
-            $extraFunctionality = array_merge( $this->PersistenceList['additional_packages'],
+            $additionalPackages = array();
+            if ( isset( $this->PersistenceList['additional_packages'] ) )
+                $additionalPackages = $this->PersistenceList['additional_packages'];
+            $extraFunctionality = array_merge( $additionalPackages,
                                                $typeFunctionality['required'] );
             $extraFunctionality = array_unique( $extraFunctionality );
-
             $url = $siteTemplates[$counter]['url'];
             if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url ) )
             {
@@ -255,6 +120,9 @@ class eZStepRegistration extends eZStepInstaller
         {
             $webserverInfo = array( 'version' => apache_get_version() );
         }
+        include_once( 'lib/ezutils/classes/ezsysinfo.php' );
+        $systemInfo = new eZSysInfo();
+        $systemInfo->scan();
 
         $optionalTests = eZSetupOptionalTests();
         $testTable = eZSetupTestTable();
@@ -266,16 +134,17 @@ class eZStepRegistration extends eZStepInstaller
         $successCount = $runResult['success_count'];
         $persistenceData = $runResult['persistence_list'];
 
-        $mail = new eZMail();
-        $mail->setReceiver( 'registerezsite@ez.no', 'eZ Site Registration' );
-        $mail->setSender( 'registerezsite@ez.no' );
-
         // Send e-mail
-        include_once( 'kernel/common/template.php' );
-        $mailTpl =& templateInit( 'email' );
+        $comments = false;
+        if ( $this->Http->hasPostVariable( 'eZSetupRegistrationComment' ) )
+        {
+            $comments = $this->Http->postVariable( 'eZSetupRegistrationComment' );
+        }
+
+        $mailTpl->setVariable( 'comments', $comments );
         $mailTpl->setVariable( 'database_info', $databaseInfo );
         $mailTpl->setVariable( 'regional_info', $regionalInfo );
-        $mailTpl->setVariable( 'demo_data', $demoData );
+//        $mailTpl->setVariable( 'demo_data', $demoData );
         $mailTpl->setVariable( 'email_info', $emailInfo );
         $mailTpl->setVariable( 'site_templates', $siteTemplates );
         $mailTpl->setVariable( 'tests_run', $testsRun );
@@ -283,6 +152,7 @@ class eZStepRegistration extends eZStepInstaller
         $mailTpl->setVariable( 'imagegd_extension', $imageGDExtension );
         $mailTpl->setVariable( 'phpversion', $phpVersion );
         $mailTpl->setVariable( 'webserver', $webserverInfo );
+        $mailTpl->setVariable( 'system', $systemInfo );
         $mailTpl->setVariable( 'os', array( 'name' => php_uname() ) );
         $mailTpl->setVariable( 'optional_tests', $testResults );
         include_once( 'lib/version.php' );
@@ -291,10 +161,59 @@ class eZStepRegistration extends eZStepInstaller
                                                  "minor" => eZPublishSDK::minorVersion(),
                                                  "release" => eZPublishSDK::release() ) );
 
-        $bodyText =& $mailTpl->fetch( 'design:setup/registration_email.tpl' );
+        return $mailTpl->fetch( 'design:setup/registration_email.tpl' );
+    }
+
+    /*!
+     \reimp
+    */
+    function processPostData()
+    {
+        if ( !$this->Http->hasPostVariable( 'eZSetupSendRegistration' ) )// skip site registration
+        {
+            return true;
+        }
+
+        include_once( 'kernel/common/template.php' );
+        $mailTpl =& templateInit( 'email' );
+        $bodyText = $this->generateRegistration( $mailTpl );
+        $subject =& $mailTpl->variable( 'subject' );
+
+        // Fill in E-Mail data and send it
+        include_once( 'lib/ezutils/classes/ezmail.php' );
+        include_once( 'lib/ezutils/classes/ezmailtransport.php' );
+        $mail = new eZMail();
+        $mail->setReceiver( 'registerezsite@ez.no', 'eZ Site Registration' );
+        $mail->setSender( 'registerezsite@ez.no' );
+        $mail->setSubject( $subject );
+        $mail->setBody( $bodyText );
+        $mailResult = eZMailTransport::send( $mail );
+
+        $this->PersistenceList['email_info']['sent'] = true;
+        $this->PersistenceList['email_info']['result'] = $mailResult;
+
+        return true; // Always continue
+    }
+
+    /*!
+     \reimp
+     */
+    function init()
+    {
+        return false; // Always display registration information
+    }
+
+    /*!
+     \reimp
+    */
+    function &display()
+    {
+        include_once( 'kernel/common/template.php' );
+        $mailTpl =& templateInit( 'email' );
+        $bodyText = $this->generateRegistration( $mailTpl );
+        $subject =& $mailTpl->variable( 'subject' );
 
         $this->Tpl->setVariable( 'email_body', $bodyText );
-
         $this->Tpl->setVariable( 'setup_previous_step', 'Registration' );
         $this->Tpl->setVariable( 'setup_next_step', 'DatabaseCreate' );
 
