@@ -304,7 +304,7 @@ class eZTemplateCompiler
 
     /*!
      Creates the name for the compiled template and returns it.
-     The name conists of the md5 of the key and charset with the original filename appended.
+     The name conists of original filename with the md5 of the key and charset appended.
     */
     function compilationFilename( $key, $resourceData )
     {
@@ -312,11 +312,11 @@ class eZTemplateCompiler
         $templateFilepath = $resourceData['template-filename'];
         $extraName = '';
         if ( preg_match( "#^.+/(.*)\.tpl$#", $templateFilepath, $matches ) )
-            $extraName = '-' . $matches[1];
+            $extraName = $matches[1] . '-';
         else if ( preg_match( "#^(.*)\.tpl$#", $templateFilepath, $matches ) )
-            $extraName = '-' . $matches[1];
+            $extraName = $matches[1] . '-';
         $cacheFileKey = "$key-$internalCharset";
-        $cacheFileName = md5( $cacheFileKey ) . $extraName . '.php';
+        $cacheFileName = $extraName . md5( $cacheFileKey ) . '.php';
         return $cacheFileName;
     }
 
