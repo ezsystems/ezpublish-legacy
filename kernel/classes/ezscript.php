@@ -114,6 +114,15 @@ class eZScript
         $this->ExitCode = false;
         $this->IsQuiet = false;
         $this->IsInitialized = false;
+
+        $this->IterationTrueString = '.';
+        $this->IterationFalseString = '~';
+        $this->IterationNumericStrings = false;
+        $this->IterationWrapNumeric = false;
+        $this->IterationIndex = 0;
+        $this->IterationColumn = 0;
+        $this->IterationColumnMax = 70;
+        $this->IterationMax = false;
     }
 
     /*!
@@ -121,7 +130,7 @@ class eZScript
     */
     function startup()
     {
-        error_reporting ( E_ALL );
+        error_reporting( E_ALL );
 
         eZDebug::setHandleType( EZ_HANDLE_TO_PHP );
     }
@@ -138,7 +147,7 @@ class eZScript
         eZUpdateTextCodecSettings();
 
         // Initialize debug settings
-        eZUpdateDebugSettings();
+        eZUpdateDebugSettings( $this->UseDebugOutput );
 
         // Set the different permissions/settings.
         include_once( 'lib/ezi18n/classes/ezcodepage.php' );
@@ -375,6 +384,76 @@ class eZScript
         return !$this->IsQuiet;
     }
 
+    function setIterationData( $trueString, $falseString,
+                               $numericStrings = false, $wrapNumeric = false )
+    {
+        $this->IterationTrueString = $trueString;
+        $this->IterationFalseString = $falseString;
+        $this->IterationNumericStrings = $numericStrings;
+        $this->IterationWrapNumeric = $wrapNumeric;
+    }
+
+    function resetIteration( $iterationMax = false, $startIndex = 0 )
+    {
+        $this->IterationIndex = $startIndex;
+        $this->IterationColumn = 0;
+        $this->IterationMax = $iterationMax;
+    }
+
+    function iterate( &$cli, $status, $text = false )
+    {
+        if ( !$this->IterationNumericStrings )
+            $status = (bool)$status;
+        if ( is_bool( $status ) )
+        {
+            $statusText = $status ? $this->IterationTrueString : $this->IterationFalseString;
+        }
+        else
+        {
+            if ( $this->IterationWrapNumeric )
+                $status = $status % count( $this->IterationNumericStrings );
+            if ( $status < count( $this->IterationNumericStrings ) )
+                $statusText = $this->IterationNumericStrings[$status];
+            else
+                $statusText = ' ';
+        }
+        $endLine = false;
+        $changeLine = false;
+        ++$this->IterationIndex;
+        ++$this->IterationColumn;
+        $iterationColumn = $this->IterationColumn;
+        if ( $this->IterationColumn >= $this->IterationColumnMax )
+        {
+            $this->IterationColumn = 0;
+            $changeLine = true;
+        }
+        if ( $this->IterationMax !== false )
+        {
+            if ( $this->IterationIndex >= $this->IterationMax )
+            {
+                $this->IterationColumn = 0;
+                $changeLine = true;
+            }
+        }
+        if ( $changeLine )
+        {
+            if ( $this->IterationMax !== false )
+            {
+                $spacing = $this->IterationColumnMax - $iterationColumn;
+                $percent = ( $this->IterationIndex * 100 ) / $this->IterationMax;
+                if ( $percent > 100.0 )
+                    $percent = 100;
+                else
+                    $spacing += 1;
+                $percentText = number_format( $percent, 2 ) . '%';
+                $statusText .= str_repeat( ' ', $spacing );
+                $statusText .= $percentText;
+            }
+            $endLine = true;
+        }
+        $cli->output( $statusText, $endLine );
+    }
+
     function showHelp( $useStandardOptions, $optionList, $arguments = false )
     {
         if ( $arguments === false )
@@ -492,7 +571,7 @@ class eZScript
         $cli->output( $helpText );
     }
 
-    function getOptions( $config = '', $optionHelp = false,
+    function getOptions( $config = '', $argumentConfig, $optionHelp = false,
                          $arguments = false, $useStandardOptions = true )
     {
         if ( is_string( $config ) )
@@ -711,7 +790,7 @@ function eZFatalError()
 /*!
      Reads settings from site.ini and passes them to eZDebug.
 */
-function eZUpdateDebugSettings()
+function eZUpdateDebugSettings( $useDebug = null )
 {
     global $debugOutput;
     global $useLogFiles;
@@ -719,9 +798,12 @@ function eZUpdateDebugSettings()
     $cli =& eZCLI::instance();
     $debugSettings = array();
     $debugSettings['debug-enabled'] = $ini->variable( 'DebugSettings', 'DebugOutput' ) == 'enabled';
+    if ( $useDebug !== null )
+        $debugSettings['debug-enabled'] = $useDebug;
     $debugSettings['debug-by-ip'] = $ini->variable( 'DebugSettings', 'DebugByIP' ) == 'enabled';
     $debugSettings['debug-ip-list'] = $ini->variable( 'DebugSettings', 'DebugIPList' );
-    $debugSettings['debug-enabled'] = $debugOutput;
+    if ( isset( $debugOutput ) )
+        $debugSettings['debug-enabled'] = $debugOutput;
     $debugSettings['debug-log-files-enabled'] = $useLogFiles;
     if ( $cli->useStyles() and
          !$cli->isWebOutput() )

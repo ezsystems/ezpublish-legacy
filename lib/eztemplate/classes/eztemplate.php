@@ -720,6 +720,29 @@ class eZTemplate
         return $canGenerate;
     }
 
+    function compileTemplateFile( $file )
+    {
+        if ( !file_exists( $file ) )
+            return false;
+        $resourceHandler =& $this->resourceFor( $file, $resourceName, $templateName );
+        if ( !$resourceHandler )
+            return false;
+        $resourceData =& $this->resourceData( $resourceHandler, $file, $resourceName, $templateName );
+        $keyData =& $resourceData['key-data'];
+        $keyData = "file:" . $file;
+        $key = md5( $keyData );
+        $extraParameters = array();
+        $resourceHandler->handleResource( $this, $resourceData, EZ_RESOURCE_FETCH, $extraParameters );
+
+        $root =& $resourceData['root-node'];
+        $root = array( EZ_TEMPLATE_NODE_ROOT, false );
+        $templateText =& $resourceData["text"];
+        $rootNamespace = '';
+        $this->parse( $templateText, $root, $rootNamespace, $resourceData );
+
+        return eZTemplateCompiler::compileTemplate( $this, $key, $resourceData );
+    }
+
     function compileTemplate( &$resourceData, &$extraParameters )
     {
         $resourceObject =& $resourceData['handler'];
