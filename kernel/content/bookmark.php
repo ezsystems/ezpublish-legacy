@@ -68,6 +68,7 @@ if ( $Module->isCurrentAction( 'Remove' )  )
     if ( $http->hasPostVariable( 'NeedRedirectBack' ) and $http->hasSessionVariable( "LastAccessesURI" ) )
     {
         $Module->redirectTo( $http->sessionVariable( "LastAccessesURI" ) );
+        return;
     }
 }
 else if ( $Module->isCurrentAction( 'Add' )  )
@@ -93,6 +94,9 @@ else if ( $Module->isCurrentAction( 'AddBookmark' )  )
         }
     }
 }
+
+// rush: debug
+eZDebug::writeDebug( 'ZHOPA', 'rush: zhopa' );
 
 $tpl =& templateInit();
 $tpl->setVariable('view_parameters', $viewParameters );
