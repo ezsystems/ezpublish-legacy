@@ -2393,6 +2393,38 @@ WHERE
             $urlObject->cleanup();
         }
 
+        // Clean up policies and limitations
+
+        $limitationsToFix =& eZPolicyLimitation::findByType( 'SubTree', $node->attribute( 'path_string' ) );
+        foreach( $limitationsToFix as $limitation )
+        {
+
+            $values =& $limitation->attribute( 'values' );
+
+            $valueCount = count( $values );
+            if ( $valueCount > 0 )
+            {
+                foreach ( $values as $value )
+                {
+                    if ( strpos( $value->attribute( 'value' ), $node->attribute( 'path_string' ) ) === 0 )
+                    {
+                        $value->remove();
+                        $valueCount--;
+                    }
+                }
+            }
+            if( $valueCount == 0 )
+            {
+                $policy =& eZPolicy::fetch( $limitation->attribute( 'policy_id' ) );
+                $policy->remove();
+                eZContentObject::expireAllCache();
+                eZRole::expireCache();
+            }
+
+        }
+
+
+
         // Clean up recent items
         $nodeID = $node->attribute( 'node_id' );
         include_once( 'kernel/classes/ezcontentbrowserecent.php' );
@@ -2446,7 +2478,35 @@ WHERE
                                  path_string = '$oldPath' ";
             $db->query( $moveQuery );
             $db->query( $moveQuery1 );
+
+        /// role system clean up
+        // Clean up policies and limitations
+
+            $limitationsToFix =& eZPolicyLimitation::findByType( 'SubTree', $node->attribute( 'path_string' ), false );
+            if ( count( $limitationsToFix )  > 0 )
+            {
+                $limitationIDString = implode( ',', $limitationsToFix );
+                $limitationIDString = " limitation_id in ( $limitationIDString ) ";
+                $subStringString = $db->subString( 'value', 1, $oldPathLength );
+                $subStringString2 =  $db->subString( 'value', $oldPathLength );
+
+                $query = "UPDATE
+                                 ezpolicy_limitation_value
+                          SET
+                                 value = " . $db->concatString( array( "'$newPath'" , "'$nodeID'",$subStringString2 ) ) . "
+                          WHERE
+                                ( $subStringString = '$childrensPath' OR
+                                 value = '$oldPath' ) AND  $limitationIDString";
+
+                $db->query( $query );
+
+                eZContentObject::expireAllCache();
+                eZRole::expireCache();
+            }
+
+
         }
+
     }
 
     function checkAccess( $functionName, $originalClassID = false, $parentClassID = false )

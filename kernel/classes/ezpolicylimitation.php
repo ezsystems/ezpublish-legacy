@@ -377,6 +377,43 @@ class eZPolicyLimitation extends eZPersistentObject
 
         return $this->Values;
     }
+
+    function findByType( $type, $value, $asObject = true, $useLike = true )
+    {
+        $cond = '';
+        if ( $useLike === true )
+        {
+            $cond = "ezpolicy_limitation_value.value like '$value%' ";
+        }
+        else
+        {
+            $cond = "ezpolicy_limitation_value.value = '$value' ";
+        }
+
+        $query = "SELECT DISTINCT ezpolicy_limitation.*
+                  FROM ezpolicy_limitation,
+                       ezpolicy_limitation_value
+                  WHERE
+                       ezpolicy_limitation.identifier = '$type' AND
+                       $cond AND
+                       ezpolicy_limitation_value.limitation_id =  ezpolicy_limitation.id";
+        $db = eZDB::instance();
+        $dbResult =& $db->arrayQuery( $query );
+        $resultArray = array();
+        $resultCount = count( $dbResult );
+        for( $i = 0; $i < $resultCount; $i++ )
+        {
+            if ( $asObject )
+            {
+                $resultArray[] = new eZPolicyLimitation( $dbResult[$i] );
+            }
+            else
+            {
+                $resultArray[] = $dbResult[$i]['id'];
+            }
+        }
+        return $resultArray;
+    }
 }
 
 ?>

@@ -334,6 +334,26 @@ class eZRole extends eZPersistentObject
     }
 
     /*!
+      Expires all roles, policies and limitations cache. 
+    */
+    function expireCache()
+    {
+        $http =& eZHTTPTool::instance();
+    
+        $http->removeSessionVariable( 'UserPolicies' );
+        $http->removeSessionVariable( 'UserLimitations' );
+        $http->removeSessionVariable( 'UserLimitationValues' );
+        $http->removeSessionVariable( 'CanInstantiateClassesCachedForUser' );
+        $http->removeSessionVariable( 'CanInstantiateClassList' );
+        $http->removeSessionVariable( 'ClassesCachedForUser' );
+
+        // Expire role cache
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        $handler->setTimestamp( 'user-role-cache', mktime() );
+        $handler->store();
+    }
+    /*!
      Returns a list of role ids which the corresponds to the array of content object id's ( Users and user group id's ).
     */
     function &fetchIDListByUser( $idArray )
