@@ -1,0 +1,69 @@
+*Title: ezconvertmysqltabletype script
+
+*Documentation:
+The ezconvertmysqltabletype script converts the MySQL table type to a
+specified type. The type to which the tables can be converted are either
+MyISAM or InnoDB. The conversion of the table types are necessary to support
+transactions in MySQL. The table type that supports transactions is InnoDB. 
+
+The possible parameters for this script are:
+
+ezconvertmysqltabletype.php [--host=VALUE --user=VALUE --database=VALUE 
+   [--password=VALUE]] [--list] [--newtype=TYPE] [--usecopy]
+
+  --host=VALUE      Connect to host database
+  --user=VALUE      User for login to the database
+  --password=VALUE  Password to use when connecting to the database
+  --database=VALUE  The database name
+  --list            List the table types
+  --newtype=VALUE   Convert the database to the given type.
+                      Type can either be: myisam or innodb
+                      Make sure that you have made a BACKUP UP of YOUR 
+					  DATABASE!
+  --usecopy         To convert the table we rename the original table and copy
+					  the data to the new table structure.  This conversion
+					  method is much slower and has a higher risk to corrupt
+					  the data in the database.  However this option may
+					  circumvent the MySQL crash on the ALTER query.
+
+The parameters: host, user, database, and optionally password can only be used
+in combination with each other. This means that if the 'host' parameter is
+specified, also the 'user' and 'database' parameter must be present. If
+needed, the 'password' parameter can be specified as well.
+
+Without the host, user, and database parameters will this script use the
+values from the ini-settings to connect with the appropriate database. 
+
+The 'list' parameter is implicit when the 'newtype' parameter is not given,
+and cannot be used together with the newtype parameter. This parameter will 
+show for each table in the database the table type. 
+
+The 'newtype' parameter converts all the ez publish tables in the database to
+the new type. Make sure you have a backup of your database.
+
+The 'usecopy' parameter uses another method to convert the table type. Instead
+of using the ALTER query, it will copy all the data to the new table
+structure (with the new type). Use this option only if the script without this
+option fails to convert the tables.
+
+*Example:
+The following example will show all the table types from the database
+specified in the ini-settings. 
+
+<code>
+./bin/php/ezconvertmysqltabletype.php 
+</code>
+
+The next example converts all eZ publish tables to InnoDB:
+
+<code>
+./bin/php/ezconvertmysqltabletype.php --host=localhost --user=root
+--password=root --database=ezpublish --newtype=innodb
+</code>
+
+This example will copy the tables to the new innodb table structure. 
+The database is read from the ini-settings. 
+
+<code>
+./bin/php/ezconvertmysqltabletype.php --newtype=innodb --usecopy
+</code>
