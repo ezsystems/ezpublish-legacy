@@ -304,7 +304,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 
 {* --- Notifications --- *}
 {section show=ne( $ui_context, 'edit' )}
-<h4><a href={'/notification/settings'|ezurl} title="{'Click here to manage your personal notification settings.'|i18n( '/design/admin/pagelayout' )}">{'Notifications'|i18n( 'design/admin/pagelayout' )}</a></h4> 
+<h4><a href={'/notification/settings'|ezurl} title="{'Manage your personal notification settings.'|i18n( '/design/admin/pagelayout' )}">{'Notifications'|i18n( 'design/admin/pagelayout' )}</a></h4> 
 {section-else}
 <h4><span class="disabled">{'Notifications'|i18n( 'design/admin/pagelayout' )}</span></h4> 
 {/section}

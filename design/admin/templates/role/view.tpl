@@ -78,7 +78,7 @@ function toggleCheckboxes( formname, checkboxname )
 
 <div class="controlbar">
 <div class="block">
-<input class="button" type="submit" name="EditRoleButton" value="{'Edit'|i18n( 'design/admin/role/view' )}" title="{'Click here to edit this role.'|i18n( 'design/admin/role/view' )}" />
+<input class="button" type="submit" name="EditRoleButton" value="{'Edit'|i18n( 'design/admin/role/view' )}" title="{'Edit this role.'|i18n( 'design/admin/role/view' )}" />
 </div>
 </div>
 </div>

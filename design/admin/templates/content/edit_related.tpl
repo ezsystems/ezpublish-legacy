@@ -96,20 +96,11 @@ function deSelectAll()
 
     {/section}
 
-{* Select/deselect all links: *}
-{*
-{section show=$related_contentobjects|count|gt(1)}
-<a href="" onclick="selectAll(); return false;" title="{'Click here to select all the items that are related to the object that is being edited. Use the "Remove Selected" button to remove the relations.'|i18n( 'design/admin/layout' )|wash()}">[ {'Select all'|i18n( 'design/admin/layout' )} ]</a>
-<a href="" onclick="deSelectAll(); return false;" title="{'Click here to deselect the items that are selected in the lists above.'|i18n( 'design/admin/layout' )}">[ {'Deselect all'|i18n( 'design/admin/layout' )} ]</a>
-{/section}
-*}
-
-<div class="controlbar">
-    <div class="block">
-        <input class="button" type="submit" name="DeleteRelationButton" value="{'Remove selected'|i18n('design/standard/content/edit')}" title="{'Click here to remove the selected items from the list(s) above. It is only the relations that will be removed. The items will not be deleted.'|i18n( 'design/admin/layout' )}" />
-        <input class="button" type="Submit" name="BrowseObjectButton" value="{'Add existing'|i18n('design/standard/content/edit')}" title="{'Click here to add an existing item as a related object.'|i18n( 'design/admin/layout' )}" />
-    </div>
-
+        <div class="controlbar">
+            <div class="block">
+                <input class="button" type="submit" name="DeleteRelationButton" value="{'Remove selected'|i18n('design/standard/content/edit')}" title="{'Remove the selected items from the list(s) above. It is only the relations that will be removed. The items will not be deleted.'|i18n( 'design/admin/layout' )}" />
+                <input class="button" type="Submit" name="BrowseObjectButton" value="{'Add existing'|i18n('design/standard/content/edit')}" title="{'Add an existing item as a related object.'|i18n( 'design/admin/layout' )}" />
+            </div>
         </div>
 </div>
 
@@ -139,7 +130,7 @@ function deSelectAll()
         <input type="hidden" name="MAX_FILE_SIZE" value="50000000" />
         <input name="UploadRelationFile" type="file" />
         &nbsp;
-        <input class="button" type="submit" name="UploadFileRelationButton" value="{'Add new'|i18n('design/standard/content/edit')}" title="{'Click here to upload a file. The file will be placed within the location that is specified using the dropdown menu to the left. In addition, the file will be automatically related to the item that is currently being edited.'|i18n( 'design/admin/layout' )}" />
+        <input class="button" type="submit" name="UploadFileRelationButton" value="{'Add new'|i18n('design/standard/content/edit')}" title="{'Upload a file. The file will be placed within the location that is specified using the dropdown menu to the left. In addition, the file will be automatically related to the item that is currently being edited.'|i18n( 'design/admin/layout' )}" />
 </div>
 </div>
 

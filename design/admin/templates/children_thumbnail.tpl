@@ -4,8 +4,8 @@
 <table class="list-thumbnails" cellspacing="0">
     <tr>
     {section var=Nodes loop=$children sequence=array( bglight, bgdark )}
-    {let quoted_child=concat( '&quot;', $Nodes.item.name|wash(), '&quot;' )
-         quoted_node=concat( '&quot;', $node.name|wash(), '&quot;'  )}
+    {let child_name=$Nodes.item.name
+         node_name=$node.name}
         <td width="25%">
         {node_view_gui view=thumbnail content_node=$Nodes.item}
 
@@ -19,9 +19,9 @@
 
         {* Edit button *}
         {section show=$Nodes.item.can_edit}
-            <a href={concat( 'content/edit/', $Nodes.item.contentobject_id )|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'Click here to edit %quoted_child.'|i18n( 'design/admin/node/view/full',, hash( '%quoted_child', $quoted_child ) )}" /></a>
+            <a href={concat( 'content/edit/', $Nodes.item.contentobject_id )|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'Edit <%child_name>.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name ) )|wash}" /></a>
         {section-else}
-            <img src={'edit_disabled.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permissions to edit %quoted_child.'|i18n( 'design/admin/node/view/full',,hash( '%quoted_child', $quoted_child ) )}" /></a>
+            <img src={'edit_disabled.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permissions to edit <%child_name>.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name ) )|wash}" /></a>
         {/section}
 
         <p><a href={$Nodes.url_alias|ezurl}>{$Nodes.name|wash}</a></p>

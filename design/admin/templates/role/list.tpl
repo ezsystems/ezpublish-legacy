@@ -72,11 +72,11 @@ function toggleCheckboxes( formname, checkboxname )
 </tr>
 
 {section var=Roles loop=$roles sequence=array( bglight, bgdark )}
-    {let quoted_role=concat( '"', $Roles.item.name, '"' )|wash}
+    {let role_name=$Roles.item.name}
     <tr class="{$Roles.sequence}">
     <td><input type="checkbox" name="DeleteIDArray[]" value="{$Roles.item.id}" /></td>
     <td>{'role'|icon( 'small', 'Role'|i18n( 'design/admin/role/list' ) )}&nbsp;<a href={concat( '/role/view/', $Roles.item.id)|ezurl}>{$Roles.item.name}</a></td>
-    <td><a href={concat( '/role/assign/', $Roles.item.id)|ezurl}><img src={'attach.png'|ezimage} alt="{'Assign'|i18n( 'design/admin/role/list ')}" title="{'Assign a user or a user group to the %quoted_role role.'|i18n( 'design/admin/role/list',, hash( '%quoted_role', $quoted_role ) )}" /></a></td>
+    <td><a href={concat( '/role/assign/', $Roles.item.id)|ezurl}><img src={'attach.png'|ezimage} alt="{'Assign'|i18n( 'design/admin/role/list ')}" title="{'Assign a user or a user group to the <%role_name> role.'|i18n( 'design/admin/role/list',, hash( '%role_name', $role_name ) )|wash}" /></a></td>
     <td><a href={concat( '/role/edit/', $Roles.item.id)|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n('design/admin/role/list')}" title="{'Edit the %quoted_role role.'|i18n( 'design/admin/role/list',, hash( '%quoted_role', $quoted_role  ) )}" /></a></td>
     </tr>
 {/let}

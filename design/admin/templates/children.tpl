@@ -162,7 +162,7 @@ function toggleCheckboxes( formname, checkboxname )
     {* Remove button *}
     <div class="left">
     {section show=$can_remove}
-        <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'Click here to remove checked/marked items from the list above.'|i18n( 'design/admin/node/view/full' )}" />
+        <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'Remove the selected items from the list above.'|i18n( 'design/admin/node/view/full' )}" />
     {section-else}
         <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permissions to remove any of the items from the list above.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
     {/section}
@@ -171,7 +171,7 @@ function toggleCheckboxes( formname, checkboxname )
     <div class="right">
     {* Update priorities button *}
     {section show=and( eq( $node.sort_array[0][0], 'priority' ), $node.can_edit, $children_count )}
-        <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n( 'design/admin/node/view/full' )}" title="{'Click here to apply changes to the priorities of the items in the list above.'|i18n( 'design/admin/node/view/full' )}" />
+        <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n( 'design/admin/node/view/full' )}" title="{'Apply changes to the priorities of the items in the list above.'|i18n( 'design/admin/node/view/full' )}" />
     {section-else}
         <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n( 'design/admin/node/view/full' )}" title="{'You can not update the priorities because you do not have permissions to edit the current item or because a non-priority sorting method is used.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
     {/section}
@@ -201,7 +201,7 @@ function toggleCheckboxes( formname, checkboxname )
 
     {/let}
 
-    <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/admin/node/view/full' )}" title="{'Click here to create a new item within the current location. Use the menu on the left to select the type of the item.'|i18n( 'design/admin/node/view/full' )}" />
+    <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/admin/node/view/full' )}" title="{'Create a new item within the current location. Use the menu on the left to select the type of the item.'|i18n( 'design/admin/node/view/full' )}" />
     <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
     <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id}" />
     <input type="hidden" name="ViewMode" value="full" />
