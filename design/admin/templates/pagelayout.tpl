@@ -89,8 +89,8 @@ div#maincontent {ldelim} margin-left: {sum( $left_menu_width, 0.5 )}em; {rdelim}
 <div id="header-design">
 
 <div id="logo">
-<a href={'/'|ezurl}><img src={'ezpublish-logo-200x40.gif'|ezimage} width="200" height="40" alt="eZ publish" border="0" /></a>
-<p>version {fetch(setup,version)}</p>
+<img src={'ezpublish-logo-200x40.gif'|ezimage} width="200" height="40" alt="eZ publish" border="0" />
+<p>version {fetch( setup, version )}</p>
 </div>
 
 {* --- Search ---*}
