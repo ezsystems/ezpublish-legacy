@@ -305,8 +305,8 @@ class eZObjectForwarder
                 if ( $paramName == $input_name or
                      $paramName == $view_var )
                     continue;
-                $paramValue =& $params[$paramName];
-                $tpl->setVariableRef( $paramName, $paramValue );
+                $paramValue =& $tpl->elementValue( $params[$paramName], $nspace );
+                $tpl->setVariableRef( $paramName, $paramValue, $current_nspace );
                 $setVariableArray[] = $paramName;
             }
 
