@@ -1,5 +1,14 @@
+<form action={'shop/discountgroup'|ezurl} method="post">
 <div class="context-block">
-<h2 class="context-title">{'%discount_group [Discount group]'|i18n( 'design/admin/shop/discountgroupmembershipview',, hash( '%discount_group', $discountgroup.name ) )}</h2>
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
+<h1 class="context-title">{'%discount_group [Discount group]'|i18n( 'design/admin/shop/discountgroupmembershipview',, hash( '%discount_group', $discountgroup.name ) )}</h1>
+
+{* DESIGN: Mainline *}<div class="header-mainline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="context-attributes">
 
@@ -10,23 +19,36 @@
 
 </div>
 
+{* DESIGN: Content END *}</div></div></div>
+
 <div class="controlbar">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-<form action={'shop/discountgroup'|ezurl} method="post">
-    <input type="hidden" name="discountGroupIDList[]" value="{$discountgroup.id}" />
-    <input type="hidden" name="EditGroupID" value="{$discountgroup.id}" />
-    <input class="button" type="submit" name="EditGroupButton" value="{'Edit'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
-    <input class="button" type="submit" name="RemoveDiscountGroupButton" value="{'Remove'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
-</form>
+<input type="hidden" name="discountGroupIDList[]" value="{$discountgroup.id}" />
+<input type="hidden" name="EditGroupID" value="{$discountgroup.id}" />
+<input class="button" type="submit" name="EditGroupButton" value="{'Edit'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
+<input class="button" type="submit" name="RemoveDiscountGroupButton" value="{'Remove'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
 </div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
 
 </div>
+</form>
+
+
 
 <form action={concat( $module.functions.discountgroupview.uri, '/', $discountgroup.id )|ezurl} method="post" name="DiscountGroupView">
 
 <div class="context-block">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
 <h2 class="context-title">{'Discount rules [%rule_count]'|i18n( 'design/admin/shop/discountgroupmembershipview',, hash( '%rule_count', $rule_list|count ) )}</h2>
+
+{* DESIGN: Mainline *}<div class="header-subline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {section show=$rule_list}
 <table class="list" cellspacing="0">
@@ -50,23 +72,40 @@
 {section-else}
 {/section}
 
+{* DESIGN: Content END *}</div></div></div>
+
 <div class="controlbar">
+
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+
 <div class="block">
     <input class="button" type="submit" name="RemoveRuleButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" {section show=$rule_list|not}disabled="disabled"{/section}/>
     <input class="button" type="submit" name="AddRuleButton" value="{'New discount rule'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
 </div>
-</div>
+
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 
 </div>
+</div>
+
+
+
 
 <div class="context-block">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 <h2 class="context-title">{'Customers [%customer_count]'|i18n( 'design/admin/shop/discountgroupmembershipview',, hash( '%customer_count', $customers|count) )}</h2>
+
+{* DESIGN: Mainline *}<div class="header-subline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {section show=$customers}
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight">&nbsp;</th>
-    <th>{'Name'|i18n( 'design/admin/shop/discountgroupmembershipview', 'Customer name' )}</th>
+    <th>{'Name'|i18n( 'design/admin/shop/discountgroupmembershipview' )}</th>
 </tr>
 {section var=Customers loop=$customers sequence=array( bglight, bgdark )}
 <tr class="{$Customers.sequence}">
@@ -78,11 +117,15 @@
 {section-else}
 {/section}
 
+{* DESIGN: Content END *}</div></div></div>
+
 <div class="controlbar">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
     <input class="button" type="submit" name="RemoveCustomerButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" {section show=$customers|not}disabled="disabled"{/section} />
     <input class="button" type="submit" name="AddCustomerButton" value="{'Add customer'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
 </div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
 
 </div>
