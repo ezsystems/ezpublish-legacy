@@ -167,8 +167,29 @@ function eZSetupCheckTestFunctions( $type, &$arguments )
 function eZSetupTestFileUpload( $type, &$arguments )
 {
     $fileUploads = ini_get( 'file_uploads' );
-    $result = $fileUploads == "1";
+    $uploadEnabled = $fileUploads == "1";
+    $uploadDir = ini_get( 'upload_tmp_dir' );
+    $uploadDirExists = file_exists( $uploadDir );
+    $uploadDirWriteable = eZDir::isWriteable( $uploadDir );
+    $uploadDirCreateFile = false;
+    $tmpFile = 'ezsetuptmp_' . md5( microtime() ) . '.tmp';
+    $tmpFilePath = $uploadDir . '/' . $tmpFile;
+    if ( $fd = @fopen( $tmpFilePath, 'w' ) )
+    {
+        $uploadDirCreateFile = true;
+        @fclose( $fd );
+        unlink( $tmpFilePath );
+    }
+    $result = ( $uploadEnabled and $uploadDirExists and
+                $uploadDirWriteable and $uploadDirCreateFile );
+    $userInfo = eZSetupPrvPosixExtension();
     return array( 'result' => $result,
+                  'php_upload_is_enabled' => $uploadEnabled,
+                  'php_upload_dir' => $uploadDir,
+                  'upload_dir_exists' => $uploadDirExists,
+                  'upload_dir_writeable' => $uploadDirWriteable,
+                  'upload_dir_create_file' => $uploadDirCreateFile,
+                  'user_info' => $userInfo,
                   'persistent_data' => array( 'result' => array( 'value' => $result ) ) );
 }
 
@@ -400,6 +421,24 @@ function eZSetupTestFilePermissions( $type, &$arguments )
     	}
     }
     $safeMode = ini_get( 'safe_mode' );
+    $userInfo = eZSetupPrvPosixExtension();
+
+    return array( 'result' => $result,
+                  'safe_mode' => $safeMode,
+                  'user_info' => $userInfo,
+                  'persistent_data' => array( 'result' => array( 'value' => $result ) ),
+                  'current_path' => realpath( '.' ),
+                  'result_elements'   => $resultElements );
+}
+
+/*!
+  Figures out current user and group running the system by
+  using the \c posix extension. If this is not available
+  \c has_extension is set to \c false.
+  \return An array with information, if no extension is found only \c has_extension is set.
+*/
+function eZSetupPrvPosixExtension()
+{
     $userInfo = array( 'has_extension' => false );
     if ( extension_loaded( 'posix' ) )
     {
@@ -414,15 +453,8 @@ function eZSetupTestFilePermissions( $type, &$arguments )
         $userInfo['script_user_id'] = getmyuid();
         $userInfo['script_group_id'] = getmygid();
     }
-
-    return array( 'result' => $result,
-                  'safe_mode' => $safeMode,
-                  'user_info' => $userInfo,
-                  'persistent_data' => array( 'result' => array( 'value' => $result ) ),
-                  'current_path' => realpath( '.' ),
-                  'result_elements'   => $resultElements );
+    return $userInfo;
 }
-
 
 
 /*!
