@@ -206,7 +206,6 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
         eZDebug::accumulatorStart( 'override_cache', 'override', 'Cache load' );
 
-        // Create the override cache
         $overrideCacheFile =& $this->createOverrideCache();
 
         if ( $overrideCacheFile )
@@ -316,6 +315,11 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
         $onlyStandard = $this->OnlyStandard;
 
+        $ini =& eZINI::instance( 'site.ini' );
+        $useOverrideCache = true;
+        if ( $ini->hasVariable( 'OverrideSettings', 'Cache' ) )
+            $useOverrideCache = $ini->variable( 'OverrideSettings', 'Cache' ) == 'enabled';
+
         $standardBase = eZTemplateDesignResource::designSetting( 'standard' );
         if ( !$onlyStandard )
             $siteBase = eZTemplateDesignResource::designSetting( 'site' );
@@ -330,7 +334,8 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
         // Build matching cache only of it does not already exists,
         // or override file has been updated
-        if ( !file_exists( $overrideCacheFile ) )
+        if ( !$useOverrideCache or
+             !file_exists( $overrideCacheFile ) )
         {
             $matchFileArray =& eZTemplateDesignResource::overrideArray();
 
@@ -399,14 +404,15 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $phpCode .= "}\n";
 
             $phpCache->addCodePiece( $phpCode );
-            if ( $phpCache->store() == true )
+            if ( $useOverrideCache and
+                 $phpCache->store() )
             {
 
             }
             else
             {
-                // Cache could not be created
-                eZDebug::writeError( "Could not write template override cache file, check permissions in $cacheDir/override/.\nRunning eZ publish without this cache will have a performance impact.", "eZTemplateDesignResource::createOverrideCache" );
+                if ( $useOverrideCache )
+                    eZDebug::writeError( "Could not write template override cache file, check permissions in $cacheDir/override/.\nRunning eZ publish without this cache will have a performance impact.", "eZTemplateDesignResource::createOverrideCache" );
                 $GLOBALS['eZTemplateOverrideArray'] =& $matchFileArray;
                 $eZTemplateOverrideCacheNoPermission = 'nocache';
                 $overrideCacheFile = false;

@@ -1,12 +1,20 @@
 Changes from 3.2.2 to 3.2-3
 
 *Kernel:
+- Fixed wait until date event handler to support backwards dates.
+  If the date is in the past the publishing date is changed to that date.
+- Added support for controlling whether template override cache is to be used or not. If disabled
+  you don't need to clear the cache for new templates until you enable the cache again.
 
 *DataType:
 
 *Optimizations:
 
 *Bugfixes:
+- http://ez.no/developer/ez_publish_3/bug_reports/sum_operator
+  Removed the sum operator from the array operator collection. Implemented support
+  for summarizing arrays put as input value to the operator as well as parameters.
+  The sub operator was also fixed to work with arrays.
 
 *Setup:
 
