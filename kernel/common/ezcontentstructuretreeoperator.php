@@ -106,10 +106,6 @@ class eZContentStructureTreeOperator
         {
             $fetchHidden = true;
         }
-
-        // rush: debug
-        eZDebug::writeDebug( $namedParameters, 'rush: $namedParameters' );
-
         $operatorValue = eZContentStructureTreeOperator::contentStructureTree( $namedParameters['root_node_id'],
                                                                                $namedParameters['class_filter'],
                                                                                $namedParameters['max_depth'],
@@ -327,37 +323,6 @@ class eZContentStructureTreeOperator
         \a $sortBy is a method of sorting one-level children.
         \a $fetchHidden - should or not fetch unpublished/hidden nodes
     */
-    /*
-    function children( &$contentTree, &$classFilter, &$depthLeft, &$nodesLeft, &$sortBy, $fetchHidden, $unfoldNodeID )
-    {
-        if ( $depthLeft == 0 )
-            return false;
-
-        if ( eZContentStructureTreeOperator::oneLevelChildren( $contentTree, $classFilter, $sortBy, $nodesLeft, $fetchHidden ) )
-        {
-            --$depthLeft;
-            if ( $depthLeft != 0 )
-            {
-                $children =& $contentTree['children'];
-
-                $children_keys = array_keys( $children );
-
-                foreach( $children_keys as $key )
-                {
-                    $child =& $children[$key];
-                    $currentDepth = $depthLeft;
-                    if ( !eZContentStructureTreeOperator::children( $child, $classFilter, $currentDepth, $nodesLeft, $sortBy, $fetchHidden, $unfoldNodeID ) )
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-    */
-
     function children( &$contentTree, &$classFilter, &$depthLeft, &$nodesLeft, &$sortBy, $fetchHidden, $unfoldNodeID )
     {
         if ( $depthLeft == 0 )
@@ -379,7 +344,7 @@ class eZContentStructureTreeOperator
                     if ( $unfoldNodeID != 0 and $unfoldNodeID != $child['parent_node']['node']['node_id'] )
                         continue;
 
-                    if ( !eZContentStructureTreeOperator::children( $child, $classFilter, $currentDepth, $nodesLeft, $sortBy, $fetchHidden ) )
+                    if ( !eZContentStructureTreeOperator::children( $child, $classFilter, $currentDepth, $nodesLeft, $sortBy, $fetchHidden, 0 ) )
                     {
                         return false;
                     }
