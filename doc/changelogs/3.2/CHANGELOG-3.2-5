@@ -1,6 +1,7 @@
 Changes from 3.2-4 to 3.2-5
 
 *Kernel:
+- Security fix: Added check when editing tempaltes if the file is actually a template.
 - Specifying language in url ( laguage/eng-GB ) will det default language to specified language for all objects fetched.
 - New function in eZDataType called repairContentObjectAttribute() which is
   called from the updatetranslations.php script. It allows datatypes
@@ -14,6 +15,7 @@ Changes from 3.2-4 to 3.2-5
 - Added support for sending version number to
   eZContentObjectAttribute::fetchSameClassAttributeIDList
 - Added check if basket item exists before we remove it
+
 
 
 *Bugfixes:
