@@ -167,12 +167,19 @@ class eZPolicy extends eZPersistentObject
 
             $ini =& eZINI::instance();
             $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
-//            $enableCaching = false;
+
+            $http =& eZHTTPTool::instance();
+            if ( $http->hasSessionVariable( 'DisableRoleCache' ) and
+                 $http->sessionVariable( 'DisableRoleCache' ) == 1 )
+            {
+                $enableCaching = false;
+            }
+
             $loadFromDb = true;
             $policyID = $this->attribute( 'id' );
             if ( $enableCaching == 'true' )
             {
-                $http =& eZHTTPTool::instance();
+                //  $http =& eZHTTPTool::instance();
 
                 $hasLimitationsInCache = $http->hasSessionVariable( 'userLimitations' );
                 if ( $hasLimitationsInCache )

@@ -10,6 +10,8 @@ Changes from 3.0-? to 3.1
 - Removed overhead checking in database handler when DebugOutput was disabled and SQLOutPut was enabled.
 - Made eZHTTPFile use move_uploaded_file instead of copy when moving an uploaded file
 - Made object preview compatible with simple view templates, the $node object will be available in the same manner as the in the node view
+- Added function for permission policy editing.
+- Added options "Node" and "Subtree" when creating permission policy for content module.
 Binary file:
 - Added support for resuming downloads.
 Search:

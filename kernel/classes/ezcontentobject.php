@@ -1378,7 +1378,46 @@ class eZContentObject extends eZPersistentObject
                                 break;
                             }
                         }
-
+                        elseif ( $limitation->attribute( 'identifier' ) == 'Node' )
+                        {
+                            $mainNodeID = $this->attribute( 'main_node_id' );
+                            foreach (  $limitation->attribute( 'values_as_array' ) as $nodeID )
+                            {
+                                $node = eZContentObjectTreeNode::fetch( $nodeID );
+                                $limitationNodeID = $node->attribute( 'main_node_id' );
+                                if ( $mainNodeID == $limitationNodeID )
+                                {
+                                    $access = 'allowed';
+                                }
+                                if ( $access == 'allowed' )
+                                break;
+                            }
+                        }
+                        elseif ( $limitation->attribute( 'identifier' ) == 'Subtree' )
+                        {
+                            $assignedNodes = $this->attribute( 'assigned_nodes' );
+                            foreach (  $assignedNodes as  $assignedNode )
+                            {
+                                $path =  $assignedNode->attribute( 'path_string' );
+                                $subtreeArray = $limitation->attribute( 'values_as_array' );
+                                foreach ( $subtreeArray as $subtreeString )
+                                {
+                                    if (  strstr( $path, $subtreeString ) )
+                                    {
+                                        $access = 'allowed';
+                                    }
+                                }
+                            }
+                            if ( $access == 'allowed' )
+                            {
+                                // do nothing
+                            }
+                            else
+                            {
+                                $access = 'denied';
+                                break;
+                            }
+                        }
                     }
                 }
                 if ( $access == 'denied' )

@@ -128,6 +128,31 @@ class eZPolicyLimitation extends eZPersistentObject
         return $policyParameter;
     }
 
+    function &removeSelected( $ID )
+    {
+        eZPersistentObject::removeObject( eZPolicyLimitation::definition(),
+                                          array( "id" => $ID ) );
+    }
+
+    function &fetchByIdentifier( $policyID, $identifier, $asObject = true )
+    {
+        return eZPersistentObject::fetchObject( eZPolicyLimitation::definition(),
+                                                null,
+                                                array( "policy_id" => $policyID,
+                                                       "identifier" => $identifier ),
+                                                $asObject );
+    }
+
+    function &fetchByPolicyID( $policyID, $asObject = true )
+    {
+        return eZPersistentObject::fetchObjectList( eZPolicyLimitation::definition(),
+                                                    null,
+                                                    array( "policy_id" => $policyID ),
+                                                    null,
+                                                    null,
+                                                    $asObject );
+    }
+
     function copy( $policyID )
     {
         $newParameter = eZPolicyLimitation::createNew( $policyID, $this->attribute( 'identifier' ),$this->attribute( 'module_name' ),$this->attribute( 'function_name' ) );
@@ -173,6 +198,7 @@ class eZPolicyLimitation extends eZPersistentObject
         }
         return $str;
     }
+
     function &allValuesAsArrayWithNames()
     {
         $valueList =& $this->attribute( 'values_as_array' );
@@ -183,18 +209,18 @@ class eZPolicyLimitation extends eZPersistentObject
         $functions =& $mod->attribute( 'aviable_functions' );
         $functionNames = array_keys( $functions );
 
-
         $currentFunction = $this->attribute( 'function_name' );
         $limitationValueArray =  array();
 
         $limitation =& $functions[ $currentFunction ][$this->attribute( 'identifier' )];
-        eZDebugSetting::writeDebug( 'kernel-policy-limitation', $limitation, "limitation" );
-        if( count( $limitation[ 'values' ] == 0 ) && array_key_exists( 'class', $limitation ) )
+
+//        eZDebugSetting::writeDebug( 'kernel-policy-limitation', $limitation, "limitation" );
+        if ( count( $limitation[ 'values' ] == 0 ) && array_key_exists( 'class', $limitation ) )
         {
             include_once( 'kernel/' . $limitation['path'] . $limitation['file']  );
             $obj = new $limitation['class']( array() );
             $limitationValueList = call_user_func_array ( array( &$obj , $limitation['function']) , $limitation['parameter'] );
-            eZDebugSetting::writeDebug( 'kernel-policy-limitation', $limitationValueList, "limitationList" );
+//            eZDebugSetting::writeDebug( 'kernel-policy-limitation', $limitationValueList, "limitationList" );
             foreach( $limitationValueList as $limitationValue )
             {
                 $limitationValuePair = array();
@@ -202,7 +228,34 @@ class eZPolicyLimitation extends eZPersistentObject
                 $limitationValuePair['value'] = $limitationValue[ 'id' ];
                 $limitationValueArray[] = $limitationValuePair;
             }
-        }else
+        }
+        else if ( $limitation['name'] == "Node" )
+        {
+            include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+            foreach ( $valueList as $value )
+            {
+                $node =& eZContentObjectTreeNode::fetch( $value );
+                $limitationValuePair = array();
+                $limitationValuePair['Name'] = $node->attribute( 'name' );;
+                $limitationValuePair['value'] = $value;
+                $limitationValueArray[] = $limitationValuePair;
+            }
+        }
+        else if ( $limitation['name'] == "Subtree" )
+        {
+            include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+            foreach ( $valueList as $value )
+            {
+                $subtreeObject =& eZContentObjectTreeNode::fetchByPath( $value );
+                $subtreeID = $subtreeObject->attribute( 'node_id' );
+                $subtree =& eZContentObjectTreeNode::fetch( $subtreeID );
+                $limitationValuePair = array();
+                $limitationValuePair['Name'] = $subtree->attribute( 'name' );;
+                $limitationValuePair['value'] = $value;
+                $limitationValueArray[] = $limitationValuePair;
+            }
+        }
+        else
         {
             $limitationValueArray = $limitation[ 'values' ];
         }
@@ -210,7 +263,7 @@ class eZPolicyLimitation extends eZPersistentObject
         foreach ( array_keys( $valueList ) as $key )
         {
             $value = $valueList[$key];
-            eZDebugSetting::writeDebug( 'kernel-policy-limitation', $value, "value" );
+//            eZDebugSetting::writeDebug( 'kernel-policy-limitation', $value, "value" );
 
             reset ( $limitationValueArray );
             foreach ( array_keys( $limitationValueArray ) as $ckey )
@@ -223,6 +276,7 @@ class eZPolicyLimitation extends eZPersistentObject
         }
         return $limitationValuesWithNames;
     }
+
     function & allValues()
     {
         $values = array();
@@ -242,12 +296,19 @@ class eZPolicyLimitation extends eZPersistentObject
 
             $ini =& eZINI::instance();
             $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
-//            $enableCaching = false;
+
+            $http =& eZHTTPTool::instance();
+            if ( $http->hasSessionVariable( 'DisableRoleCache' ) and
+                 $http->sessionVariable( 'DisableRoleCache' ) == 1 )
+            {
+                $enableCaching = false;
+            }
+
             $loadFromDb = true;
             $limitationID = $this->attribute( 'id' );
             if ( $enableCaching == 'true' )
             {
-                $http =& eZHTTPTool::instance();
+//              $http =& eZHTTPTool::instance();
 
                 $hasLimitationValuesInCache = $http->hasSessionVariable( 'userLimitationValues' );
                 if ( $hasLimitationValuesInCache )

@@ -276,6 +276,16 @@ $Assigned = array(
             'value' => '1')
         )
     );
+$Node = array(
+    'name'=> 'Node',
+    'values'=> array()
+    );
+
+$Subtree = array(
+    'name'=> 'Subtree',
+    'values'=> array()
+    );
+
 /*
           array(
             'Name' => 'Frontpage',
@@ -290,23 +300,34 @@ $Assigned = array(
 
 
 $FunctionList['read'] = array( 'Class' => $ClassID,
-                                 'Section' => $SectionID,
-                                 'Owner' => $Assigned );
+                               'Section' => $SectionID,
+                               'Owner' => $Assigned,
+                               'Node' => $Node,
+                               'Subtree' => $Subtree);
 $FunctionList['create'] = array( 'Class' => $ClassID,
                                  'Section' => $SectionID,
-                                 'ParentClass' => $ParentClassID
-                                );
+                                 'ParentClass' => $ParentClassID,
+                                 'Node' => $Node,
+                                 'Subtree' => $Subtree
+                                 );
 $FunctionList['edit'] = array( 'Class' => $ClassID,
-                                 'Section' => $SectionID,
-                                 'Owner' => $Assigned );
+                               'Section' => $SectionID,
+                               'Owner' => $Assigned,
+                               'Node' => $Node,
+                               'Subtree' => $Subtree);
 $FunctionList['remove'] = array( 'Class' => $ClassID,
                                  'Section' => $SectionID,
-                                 'Owner' => $Assigned );
+                                 'Owner' => $Assigned,
+                                 'Node' => $Node,
+                                 'Subtree' => $Subtree
+                                 );
 
 $FunctionList['versionread'] = array( 'Class' => $ClassID,
                                       'Section' => $SectionID,
                                       'Owner' => $Assigned,
-                                      'Status' => $Status);
+                                      'Status' => $Status,
+                                      'Node' => $Node,
+                                      'Subtree' => $Subtree);
 
 /*
 $ViewArray["view"] = array(

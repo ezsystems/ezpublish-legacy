@@ -324,10 +324,12 @@ class eZContentObjectVersion extends eZPersistentObject
             }
             if ( count( $limitationList ) > 0 )
             {
+                eZDebug::writeDebug("goes here 2");
                 $access = 'denied';
                 foreach ( array_keys( $limitationList ) as $key  )
                 {
                     $limitationArray =& $limitationList[ $key ];
+                    eZDebug::writeDebug($limitationArray,"goes here 3");
                     if ( $access == 'allowed' )
                     {
                         break;
@@ -336,6 +338,7 @@ class eZContentObjectVersion extends eZPersistentObject
 //                    foreach ( $limitationArray as $limitation )
                     {
                         $limitation =& $limitationArray[$key];
+                        eZDebug::writeDebug($limitation,"goes here 4");
 //                        if ( $functionName == 'remove' )
 //                        {
 //                            eZDebug::writeNotice( $limitation, 'limitation in check access' );
@@ -407,7 +410,36 @@ class eZContentObjectVersion extends eZPersistentObject
                                 break;
                             }
                         }
-
+                        elseif ( $limitation->attribute( 'identifier' ) == 'Node' )
+                        {
+                            $contentObjectID = $this->attribute( 'contentobject_id' );
+                            foreach ( $limitation->attribute( 'values_as_array' ) as $nodeID )
+                            {
+                                $node = eZContentObjectTreeNode::fetch( $nodeID );
+                                $limitationObjectID = $node->attribute( 'contentobject_id' );
+                                if ( $contentObjectID == $limitationObjectID )
+                                {
+                                    $access = 'allowed';
+                                }
+                            }
+                        }
+                        elseif ( $limitation->attribute( 'identifier' ) == 'Subtree' )
+                        {
+                            $contentObject = $this->attribute( 'contentobject' );
+                            $assignedNodes = $contentObject->attribute( 'assigned_nodes' );
+                            foreach (  $assignedNodes as  $assignedNode )
+                            {
+                                $path =  $assignedNode->attribute( 'path_string' );
+                                $subtreeArray = $limitation->attribute( 'values_as_array' );
+                                foreach ( $subtreeArray as $subtreeString )
+                                {
+                                    if (  strstr( $path, $subtreeString ) )
+                                    {
+                                        $access = 'allowed';
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
                 if ( $access == 'denied' )

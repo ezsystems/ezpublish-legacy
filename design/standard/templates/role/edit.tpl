@@ -16,6 +16,7 @@
     <th width="10%">{"Module"|i18n("design/standard/role")}</th>
     <th width="10%">{"Function"|i18n("design/standard/role")}</th>
     <th width="79%">{"Limitations"|i18n("design/standard/role")}</th>
+    <th>{"Edit"|i18n("design/standard/role")}</th>
     <th>{"Remove"|i18n("design/standard/role")}</th>
 </tr>
 {section name=Policy loop=$policies sequence=array(bglight,bgdark) }
@@ -38,6 +39,9 @@
 
 	   {delimiter},{/delimiter}
         {/section}  
+    </td> 
+    <td class="{$Policy:sequence}" align="right" width="1">
+        <a href={concat("role/policyedit/",$Policy:item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="edit" /></a>
     </td>
     <td class="{$Policy:sequence}" align="right" width="1">
 	<input type="checkbox" name="DeleteIDArray[]" value="{$Policy:item.id}" />
@@ -45,7 +49,7 @@
 </tr>
 {/section}  
 <tr>
-  <td colspan="3">
+  <td colspan="4">
     <input class="button" type="submit" name="CreatePolicy" value="{'New'|i18n('design/standard/role')}" />
   </td>
   <td align="right" width="1">

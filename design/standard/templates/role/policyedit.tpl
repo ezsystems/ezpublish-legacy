@@ -1,56 +1,21 @@
 <div class="maincontentheader">
-<h1>{"Create policy for"|i18n("design/standard/role")} {$role.name}</h1>
+<h1>{"Editor policy"|i18n("design/standard/role")}</h1>
 </div>
 
-<form action={concat($module.functions.edit.uri,"/",$role.id,"/")|ezurl} method="post" >
+<form action={concat($Module.functions.policyedit.uri,"/",$policy_id,"/")|ezurl} method="post" >
 
-<div class="step">
-<table cellspacing="0" cellpadding="4" border="0">
-<tr>
-  <td>
-
-<h2>{"Step 1"|i18n("design/standard/role")}</h2>
-<div class="block">
-   	<div class="element">
-	<label>{"Module"|i18n("design/standard/role")}</label><div class="labelbreak"></div>
+<div class="element">
+    <label>{"Module"|i18n("design/standard/role")}</label><div class="labelbreak"></div>
     <p class="box">{$current_module}</p>
-    </div>
-   	<div class="element">
-	<label>{"Access"|i18n("design/standard/role")}</label><div class="labelbreak"></div>
-    <p class="box">{"Limited"|i18n("design/standard/role")}</p>
-    </div>
-    <div class="break"></div>
 </div>
-<div class="buttonblock">
-  	<input class="button" type="submit" name="Step1" value="{'Go back to step 1'|i18n('design/standard/role')}" />
-</div>
-
-  </td>
-  <td>
-
-<h2>{"Step 2"|i18n("design/standard/role")}</h2>
-<div class="block">
-   	<div class="element">
-	<label>{"Function"|i18n("design/standard/role")}</label><div class="labelbreak"></div>
+<div class="element">
+    <label>{"Function"|i18n("design/standard/role")}</label><div class="labelbreak"></div>
     <p class="box">{$current_function}</p>
-    </div>
-   	<div class="element">
-	<label>{"Access"|i18n("design/standard/role")}</label><div class="labelbreak"></div>
-    <p class="box">{"Limited"|i18n("design/standard/role")}</p>
-    </div>
-    <div class="break"></div>
 </div>
-<div class="buttonblock">
-  	<input class="button" type="submit" name="Step2" value="{'Go back to step 2'|i18n('design/standard/role')}" />
+   
+<div class="break"></div>
 </div>
 
-  </td>
-</tr>
-</table>
-</div>
-
-<h2>{"Step 3"|i18n("design/standard/role")}</h2>
-<p>{"Specify limitations in function"|i18n("design/standard/role")} <b>{$current_function}</b> {"in module"|i18n("design/standard/role")} <b>{$current_module}</b>. {"'Any' means no limitation by this parameter."|i18n("design/standard/role")}</p>
 <div class="block">
 
      {section name=Limitations loop=$function_limitations}
@@ -63,11 +28,12 @@
      {case match=-1} selected="selected"{/case}{case}{/case}{/switch}>{"Any"|i18n("design/standard/role")}</option>
      {section name=LimitationValues loop=$Limitations:item.values}
      <option value="{$Limitations:LimitationValues:item.value}" {switch match=$Limitations:LimitationValues:item.value}
-     {case in=$current_limitation_list[$Limitations:item.name]}selected="selected"{/case}{case}{/case}{/switch}>{$Limitations:LimitationValues:item.Name}</option>
+     {case in=$current_limitation_list[$Limitations:item.name]}selected="selected"{/case}{case}{/case}{/switch}>
+     {$Limitations:LimitationValues:item.Name}</option>
      {/section}   
      </select>
 </div>
-     {/section}  
+     {/section}
 
 {section name=Limitations loop=$function_limitations}
 {switch match=$Limitations:item.name} 
@@ -129,11 +95,10 @@
 <div class="break"></div>
 </div>
 <div class="buttonblock">
-<input class="button" type="submit" name="AddLimitation" value="{'Ok'|i18n('design/standard/role')}" />
+<input class="button" type="submit" name="UpdatePolicy" value="{'Update'|i18n('design/standard/role')}" />
 <input type="hidden" name="CurrentModule" value="{$current_module}" />
 <input type="hidden" name="CurrentFunction" value="{$current_function}" />
 
-{*<input type="submit" name="DiscardLimitation" value="Return to functions" />*}
 <input class="button" type="submit" value="{'Cancel'|i18n('design/standard/role')}" />
 </div>
 </form>

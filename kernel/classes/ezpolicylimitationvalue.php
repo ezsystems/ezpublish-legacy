@@ -102,6 +102,22 @@ class eZPolicyLimitationValue  extends eZPersistentObject
         $newValue = eZPolicyLimitationValue::createNew( $limitationID, $this->attribute( 'value' ) );
     }
 
+    function &fetchList( $limitationID, $asObject = true )
+    {
+        return eZPersistentObject::fetchObjectList( eZPolicyLimitationValue::definition(),
+                                                    null,
+                                                    array( 'limitation_id' => $limitationID ),
+                                                    null,
+                                                    null,
+                                                    $asObject );
+    }
+
+    function removeByValue( $value )
+    {
+        eZPersistentObject::removeObject( eZPolicyLimitationValue::definition(),
+                                          array( "value" => $value ) );
+    }
+
     function remove( $id = false )
     {
         if ( is_numeric( $id ) )

@@ -454,13 +454,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                   ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
                                   ezcontentobject_name.content_translation = '$lang' ";
         }
-
         if ( count( $limitationList ) > 0 )
         {
             $sqlParts = array();
             foreach( $limitationList as $limitationArray )
             {
                 $sqlPartPart = array();
+                $hasNodeLimitation = false;
                 foreach ( $limitationArray as $limitation )
                 {
                     if ( $limitation->attribute( 'identifier' ) == 'Class' )
@@ -471,15 +471,32 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     {
                         $sqlPartPart[] = 'ezcontentobject.section_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
                     }
-                    elseif( $limitation->attribute( 'name' ) == 'Owner' )
+                    elseif( $limitation->attribute( 'identifier' ) == 'Owner' )
                     {
-                        eZDebug::writeWarning( $limitation, 'System is not configured to check Assigned in  objects' );
+                        eZDebug::writeWarning( $limitation, 'System is not configured to check Assigned in objects' );
+                    }
+                    elseif( $limitation->attribute( 'identifier' ) == 'Node' )
+                    {
+                        $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
+                        $hasNodeLimitation = true;
+                    }
+                    elseif( $limitation->attribute( 'identifier' ) == 'Subtree' )
+                    {
+                        $pathArray = split( ',', $limitation->attribute( 'values_as_string' ) );
+                        $sqlPartPartPart = array();
+                        foreach ( $pathArray as $limitationPathString )
+                        {
+                            $sqlPartPartPart[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
+                        }
+                        $sqlPartPart[] = implode( ' OR ', $sqlPartPartPart );
                     }
                 }
-                $sqlParts[] = implode( ' AND ', $sqlPartPart );
+                if ( $hasNodeLimitation )
+                    $sqlParts[] = implode( ' OR ', $sqlPartPart );
+                else
+                    $sqlParts[] = implode( ' AND ', $sqlPartPart );
             }
             $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
-
             $query = "SELECT ezcontentobject.*,
                            ezcontentobject_tree.*,
                            ezcontentclass.name as class_name
@@ -499,7 +516,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           $versionNameJoins
                           $sqlPermissionCheckingString
                     ORDER BY $sortingFields";
-
         }
         else
         {
@@ -605,6 +621,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
             $classCondition .= ' ) AND ';
         }
+
         $useVersionName = true;
         if ( $useVersionName )
         {
@@ -618,12 +635,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                   ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
                                   ezcontentobject_name.content_translation = '$lang' ";
         }
+
         if ( count( $limitationList ) > 0 )
         {
             $sqlParts = array();
             foreach( $limitationList as $limitationArray )
             {
                 $sqlPartPart = array();
+                $hasNodeLimitation = false;
                 foreach ( $limitationArray as $limitation )
                 {
                     if ( $limitation->attribute( 'identifier' ) == 'Class' )
@@ -634,13 +653,31 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     {
                         $sqlPartPart[] = 'ezcontentobject.section_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
                     }
-                    elseif( $limitation->attribute( 'name' ) == 'Owner' )
+                    elseif( $limitation->attribute( 'identifier' ) == 'Owner' )
                     {
                         eZDebug::writeWarning( $limitation, 'System is not configured to check Assigned in  objects' );
                     }
+                    elseif( $limitation->attribute( 'identifier' ) == 'Node' )
+                    {
+                        $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
+                        $hasNodeLimitation = true;
+                    }
+                    elseif( $limitation->attribute( 'identifier' ) == 'Subtree' )
+                    {
+                        $pathArray = split( ',', $limitation->attribute( 'values_as_string' ) );
+                        foreach ( $pathArray as $limitationPathString )
+                        {
+                            $sqlPartPart[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
+                        }
+                        $hasNodeLimitation = true;
+                    }
                 }
-                $sqlParts[] = implode( ' AND ', $sqlPartPart );
+                if ( $hasNodeLimitation )
+                     $sqlParts[] = implode( ' OR ', $sqlPartPart );
+                else
+                    $sqlParts[] = implode( ' AND ', $sqlPartPart );
             }
+            eZDebug::writeDebug($sqlParts,"here 1");
             $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
 
             $query = "SELECT count(*) as count
@@ -941,6 +978,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                      null,
                                                      null,
                                                      $asObject );
+    }
+
+    function &fetchByPath( $pathString, $asObject = true )
+    {
+         return eZPersistentObject::fetchObject( eZContentObjectTreeNode::definition(),
+                                                 null,
+                                                 array( "path_string" => $pathString ),
+                                                 $asObject );
     }
 
     function &findMainNode( $objectID, $asObject = false )
