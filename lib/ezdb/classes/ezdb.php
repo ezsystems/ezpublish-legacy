@@ -243,7 +243,8 @@ class eZDB
                                                 'socket' => $socketPath,
                                                 'builtin_encoding' => $builtinEncoding,
                                                 'connect_retries' => $retries,
-                                                'use_persistent_connection' => $usePersistentConnection );
+                                                'use_persistent_connection' => $usePersistentConnection,
+                                                'show_errors' => true );
             /* This looks funny, but is needed to fix a crash in PHP */
             $b = $databaseParameters;
             $databaseParameters = $defaultDatabaseParameters;
@@ -278,6 +279,8 @@ class eZDB
                 $databaseParameters['connect_retries'] = $b['connect_retries'];
             if ( isset( $b['use_persistent_connection'] ) )
                 $databaseParameters['use_persistent_connection'] = $b['use_persistent_connection'];
+            if ( isset( $b['show_errors'] ) )
+                $databaseParameters['show_errors'] = $b['show_errors'];
 
             // Search for the db interface implementations in active extensions directories.
             include_once( 'lib/ezutils/classes/ezextension.php' );
@@ -317,7 +320,10 @@ class eZDB
                 $impl = new eZNullDB( $databaseParameters );
                 $impl->ErrorMessage = "No database handler was found for '$databaseImplementation'";
                 $impl->ErrorNumber = -1;
-                eZDebug::writeError( 'Database implementation not supported: ' . $databaseImplementation, 'eZDB::instance' );
+                if ( $databaseParameters['show_errors'] )
+                {
+                    eZDebug::writeError( 'Database implementation not supported: ' . $databaseImplementation, 'eZDB::instance' );
+                }
             }
 
         }
