@@ -127,6 +127,44 @@ class eZPackageType extends eZDataType
     */
     function storeObjectAttribute( &$attribute )
     {
+        // Delete compiled template
+        $iniPath = "settings/siteaccess/$siteAccess";
+        $siteINI = eZINI::instance( 'site.ini.append', $iniPath );
+        if ( $siteINI->hasVariable( 'FileSettings', 'CacheDir' ) )
+        {
+            $cacheDir = $siteINI->variable( 'FileSettings', 'CacheDir' );
+            if ( $cacheDir[0] == "/" )
+            {
+                $cacheDir = eZDir::path( array( $cacheDir ) );
+            }
+            else
+            {
+                if ( $siteINI->hasVariable( 'FileSettings', 'VarDir' ) )
+                {
+                    $varDir = $siteINI->variable( 'FileSettings', 'VarDir' );
+                    $cacheDir = eZDir::path( array( $varDir, $cacheDir ) );
+                }
+            }
+        }
+        else if ( $siteINI->hasVariable( 'FileSettings', 'VarDir' ) )
+        {
+            $varDir = $siteINI->variable( 'FileSettings', 'VarDir' );
+            $cacheDir = $ini->variable( 'FileSettings', 'CacheDir' );
+            $cacheDir = eZDir::path( array( $varDir, $cacheDir ) );
+        }
+        else
+        {
+            $cacheDir =  eZSys::cacheDirectory();
+        }
+        $compiledTemplateDir = $cacheDir ."/template/compiled";
+        eZDir::unlinkWildcard( $compiledTemplateDir . "/","pagelayout*.*" );
+
+
+        // Expire content/template cache. Actually we only need cache-block expiration.
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        $handler->setTimestamp( 'content-cache', mktime() );
+        $handler->store();
     }
 
     /*!
