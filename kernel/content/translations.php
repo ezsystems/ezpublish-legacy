@@ -42,6 +42,11 @@ include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezcontenttranslation.php' );
 include_once( 'kernel/classes/ezcontentobject.php' );
 
+function translations_clearCache()
+{
+    eZContentObject::expireAllCache();
+}
+
 $tpl =& templateInit();
 $http =& eZHTTPTool::instance();
 $Module =& $Params['Module'];
@@ -86,6 +91,8 @@ if ( $Module->isCurrentAction( 'StoreNew' ) /* || $http->hasPostVariable( 'Store
         $translation =& eZContentTranslation::createNew( $translationName, $translationLocale );
         $translation->store();
         $translation->updateObjectNames();
+
+        translations_clearCache();
     }
 }
 
@@ -97,6 +104,8 @@ if ( $Module->isCurrentAction( 'Confirm' ) )
         $translation =& eZContentTranslation::fetch( $translationID );
         $translation->remove();
     }
+
+    translations_clearCache();
 }
 
 if ( $Module->isCurrentAction( 'Remove' ) )
@@ -122,7 +131,6 @@ if ( $Module->isCurrentAction( 'Remove' ) )
             $item['count'] = $translatedObjectsCount;
             $confirmTranslationList[] = $item;
         }
-
     }
     if ( count( $confirmTranslationList ) > 0 )
     {
@@ -134,6 +142,8 @@ if ( $Module->isCurrentAction( 'Remove' ) )
                                         'url' => false ) );
         return;
     }
+
+    translations_clearCache();
 }
 
 
