@@ -14,7 +14,6 @@
 <table cellspacing="5" cellpadding="0" border="0">
 <tr>
 	<td>
-{*	{$node.name|texttoimage('archtura')}  *}
  	<div class="maincontentheader">
         <h1>{$node_name}</h1>
         </div>
@@ -97,7 +96,22 @@
 {section name=Child loop=$children  sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$Child:sequence}">
-        <a href={concat('content/view/full/',$Child:item.node_id)|ezurl}>{node_view_gui view=line content_node=$Child:item}</a>
+        <a href={concat('content/view/full/',$Child:item.node_id)|ezurl}>
+<a href={concat('content/view/full/',$Child:item.node_id)|ezurl}>
+{switch match=$Child:item.object.contentclass_id}
+{case match=4}
+ <img src={"user.gif"|ezimage} border="0" alt="{'User'|i18n('design/standard/node/view')}" />
+{/case}
+{case match=3}
+ <img src={"usergroup.gif"|ezimage} border="0" alt="{'User group'|i18n('design/standard/node/view')}" />
+{/case}
+{case}
+ <img src={"class_2.png"|ezimage} border="0" alt="{'Document'|i18n('design/standard/node/view')}" />
+{/case}
+{/switch}
+&nbsp;
+{$Child:item.name}</a>
+</a>
 	</td>
         <td class="{$Child:sequence}">{$Child:item.object.class_name}
 	</td>
@@ -179,20 +193,24 @@
 
 <div class="buttonblock">
 
-{switch match=$content_object.can_create}
-{case match=1}
-         <input type="hidden" name="NodeID" value="{$node.node_id}" />
-         <select name="ClassID">
-	      {section name=Classes loop=$content_object.can_create_class_list}
-	      <option value="{$Classes:item.id}">{$Classes:item.name}</option>
+
+{let user_class_group_id=ezini('UserSettings','UserClassGroupID')
+     user_class_list_allowed=fetch('content','can_instantiate_classes')
+     user_class_list=fetch('content','can_instantiate_class_list',hash(group_id,$user_class_group_id))}
+{section show=$user_class_list_allowed}
+    <form method="post" action={"content/action"|ezurl}>
+         <select name="ClassID" class="classcreate">
+	      {section name=Classes loop=$user_class_list}
+	      <option value="{$:item.id}">{$:item.name}</option>
 	      {/section}
          </select>
-         <input class="button" type="submit" name="NewButton" value="{'New'|i18n('design/standard/node/view')}" />
-{/case}
-{case match=0}
+	 <br />
+         <input type="hidden" name="BrowseNodeID" value="5" />
+         <input class="classbutton" type="submit" name="NewButton" value="{'New'|i18n('design/standard/node/view')}" />
+    </form>
+{/section}
+{/let}
 
-{/case}
-{/switch}
 
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
 <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />

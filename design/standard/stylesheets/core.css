@@ -116,7 +116,7 @@ a
 /* This is the standard formatting of all links if no other style is used. */
 {
     color: #0000a0;
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 a:hover
