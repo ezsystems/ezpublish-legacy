@@ -41,6 +41,10 @@
 */
 
 include_once( "kernel/classes/ezworkflowtype.php" );
+include_once( 'kernel/classes/eztask.php' );
+include_once( 'kernel/classes/eztaskmessage.php' );
+include_once( 'kernel/classes/ezcontentclass.php' );
+include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
 define( "EZ_WORKFLOW_TYPE_MESSAGE_ID", "ezmessage" );
 
@@ -54,7 +58,38 @@ class eZMessageType extends eZWorkflowEventType
     function execute( &$process, &$event )
     {
         $this->setInformation( $event->attribute( "data_text1" ) );
+        $user =& eZUser::currentUser();
+        $this->sendMessage( $process, $event );
+
         return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
+    }
+    function sendMessage( &$process, &$event )
+    {
+        $db = & eZDb::instance();
+        $taskResult = $db->arrayQuery( 'select workflow_process_id, task_id from ezapprovetasks where workflow_process_id = ' . $process->attribute( 'id' )  );
+        $taskID = $taskResult[0]['task_id'];
+        $task =& eZTask::fetch( $taskID );
+
+        $class =& eZContentClass::fetch( 1 );
+        $contentObject =& $class->instantiate( $userID, $sectionID );
+//        $contentObject =& eZContentObject::create( 1 );
+        $creatorType = EZ_TASK_MESSAGE_CREATOR_RECEIVER;
+        if ( $event->attribute( 'data_int1' ) != null && $event->attribute( 'data_int1' ) != 0 )
+        {
+            $recieverID = $event->attribute( 'data_int1' );
+        }
+        else
+        {
+            $recieverID = 8;
+        }
+        $message =& eZTaskMessage::create( $taskID, $creatorType, $recieverID, $contentObject->attribute( 'id' ) );
+        $message->store();
+        eZDebug::writeNotice( $message,  'message object in message event' );
+        $approvedObjectID = $process->attribute( 'content_id' );
+        $contentObject->setAttribute( 'name', "object $approvedObjectID  approved" );
+        $contentObject->store();
+
+
     }
 
     function initializeEvent( &$event )

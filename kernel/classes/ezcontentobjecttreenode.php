@@ -142,7 +142,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      Constructor
     */
-    function eZContentObjectTreeNode($row)
+    function eZContentObjectTreeNode( $row = array() )
     {
         $this->eZPersistentObject( $row );
     }
@@ -182,7 +182,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return eZPersistentObject::attributes();
     }
 
-    function attribute( $attr )
+    function &attribute( $attr )
     {
         if ( $attr == 'name')
         {
@@ -208,7 +208,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         elseif ( $attr == 'parent' )
         {
-            $this->fetchParent();
+            return $this->fetchParent();
         }else
             return eZPersistentObject::attribute( $attr );
     }
@@ -634,16 +634,18 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     }
 
-    function createObject( $contentClassID, $parentNodeID = 1 )
+    function createObject( $contentClassID, $parentNodeID = 2 )
     {
         $user =& eZUser::currentUser();
         $userID =& $user->attribute( 'contentobject_id' );
 
         $class =& eZContentClass::fetch( $contentClassID );
+        $parentNode =& eZContentObjectTreeNode::fetch( $parentNodeID );
+        $parentContentObject =& $parentNode->attribute( 'contentobject' );
+        $sectionID = $parentContentObject->attribute( 'section_is' );
         $object =& $class->instantiate( $userID, $sectionID );
 
-        $parentNode =& eZContentObjectTreeNode::fetch( $parentNodeID );
-        $parentContentObject = $parentNode->attribute( 'contentobject' );
+//        $parentContentObject = $parentNode->attribute( 'contentobject' );
 
         $nodeID = eZContentObjectTreeNode::addChild( $object->attribute( "id" ), $parentNodeID );
         $object->setAttribute( "main_node_id", $nodeID );
@@ -652,7 +654,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $object;
     }
 
-    function addChild( $contentobjectID, $nodeID = 0 )
+    function &addChild( $contentobjectID, $nodeID = 0, $asObject = false )
     {
 
         if ( $nodeID == 0 )
@@ -674,7 +676,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $leftMargin =  $parentRightMargin;
 
 
-        $insertedNode = new eZContentObjectTreeNode();
+        $insertedNode =& new eZContentObjectTreeNode();
         $insertedNode->setAttribute( 'parent_node_id', $parentMainNodeID );
         $insertedNode->setAttribute( 'contentobject_id', $contentobjectID );
         $insertedNode->setAttribute( 'depth', $nodeDepth );
@@ -711,7 +713,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
         eZDebug::writeNotice($insertedNode->pathWithNames(), 'pathWithNames' );
         eZDebug::writeNotice( crc32 ( $insertedNode->pathWithNames() ), "CRC32" );
         $insertedNode->store();
-        return $insertedID;
+        if ( $asObject )
+        {
+            return $insertedNode;
+        }else
+        {
+            return $insertedID;
+        }
     }
 
     function pathWithNames( $nodeID = 0 )
@@ -900,22 +908,40 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     }
 
-    function findNode( $parentNode, $id )
+    function findNode( $parentNode, $id, $asObject = false )
     {
         if ( !isset( $parentNode) || $parentNode == NULL  )
         {
-            $parentNode = 1;
+            $parentNode = 2;
         }
-        var_dump( $parentNode );
+//        var_dump( $parentNode );
+
         $db =& eZDB::instance();
-        $getNodeQuery = "SELECT node_id
+        if( $asObject )
+        {
+            $query="SELECT ezcontentobject.*,
+                           ezcontentobject_tree.*,
+                           ezcontentclass.name as class_name
+                    FROM ezcontentobject_tree,
+                         ezcontentobject,
+                         ezcontentclass
+                    WHERE parent_node_id = $parentNode AND
+                          contentobject_id = $id AND
+                          ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
+                          ezcontentclass.version=0  AND
+                          ezcontentclass.id = ezcontentobject.contentclass_id ";
+            $nodeListArray = $db->arrayQuery( $query );
+            $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+            return $retNodeArray[0];
+        }else{
+            $getNodeQuery = "SELECT node_id
                            FROM ezcontentobject_tree
                            WHERE
                                 parent_node_id=$parentNode AND
                                 contentobject_id = $id ";
-        $nodeArr = $db->arrayQuery( $getNodeQuery );
-        return $nodeArr[0]['node_id'];
-
+            $nodeArr = $db->arrayQuery( $getNodeQuery );
+            return $nodeArr[0]['node_id'];
+        }
     }
 
 

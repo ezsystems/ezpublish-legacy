@@ -41,8 +41,12 @@
 */
 
 include_once( "kernel/classes/ezworkflowtype.php" );
+include_once( 'kernel/classes/eztask.php' );
 
 define( "EZ_WORKFLOW_TYPE_APPROVE_ID", "ezapprove" );
+
+define( "EZ_APPROVE_TYPE_TASK_NOT_CREATED", 0 );
+define( "EZ_APPROVE_TYPE_TASK_CREATED", 1 );
 
 class eZApproveType extends eZWorkflowEventType
 {
@@ -53,12 +57,24 @@ class eZApproveType extends eZWorkflowEventType
 
     function execute( &$process, &$event )
     {
-        $this->setInformation( "Event delayed 3 minutes" );
-        include_once( "lib/ezlocale/classes/ezdatetime.php" );
-        $date = new eZDateTime();
-        $date->adjustDateTime( 0, 3 );
-        $this->setActivationDate( $date->timeStamp() );
-        return EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON;
+        eZDebug::writeNotice( $process, 'process');
+
+        if( $process->attribute( 'event_state') == EZ_APPROVE_TYPE_TASK_NOT_CREATED )
+        {
+            $this->createTask( $process, $event );
+            $this->setInformation( "We are going to create task" );
+            $process->setAttribute( 'event_state', EZ_APPROVE_TYPE_TASK_CREATED );
+            $process->store();
+            eZDebug::writeNotice( $this, 'aprove execute');
+            return EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT;
+
+        }
+        elseif ( $process->attribute( 'event_state') == EZ_APPROVE_TYPE_TASK_CREATED )
+        {
+            $this->setInformation( "we are checking task now" );
+            eZDebug::writeNotice( $event, 'check task' );
+            return $this->checkTask(  $process, $event );
+        }
     }
 
     function initializeEvent( &$event )
@@ -67,6 +83,55 @@ class eZApproveType extends eZWorkflowEventType
 
     function fetchHTTPInput( &$http, $base, &$event )
     {
+    }
+
+    function createTask( &$process, &$event )
+    {
+        $user =& eZUser::currentUser();
+        $task =& eZTask::createAssignment( $user->id() );
+        $task->setAttribute( 'object_id', $process->attribute( 'content_id' ));
+        if ( $event->attribute( 'data_int1' ) != null && $event->attribute( 'data_int1' ) != 0 )
+        {
+            $task->setAttribute( 'receiver_id', $event->attribute( 'data_int1' ) );
+        }
+        else
+        {
+            $task->setAttribute( 'receiver_id', 8 );
+        }
+        $task->setAttribute( 'status',  EZ_TASK_STATUS_OPEN  );
+        $task->store();
+        $db = & eZDb::instance();
+        $db->query( 'insert into ezapprovetasks( workflow_process_id,
+                                                      task_id )
+                                              values(' . $process->attribute( 'id' ) .','. $task->attribute( 'id' ) .' ) '
+                    );
+    }
+    function checkTask( &$process, &$event )
+    {
+        $db = & eZDb::instance();
+        $taskResult = $db->arrayQuery( 'select workflow_process_id, task_id from ezapprovetasks where workflow_process_id = ' . $process->attribute( 'id' )  );
+        $taskID = $taskResult[0]['task_id'];
+        $task =& eZTask::fetch( $taskID );
+        if ( $task->attribute( 'status' ) == EZ_TASK_STATUS_OPEN )
+        {
+            eZDebug::writeNotice( $event, 'task opened ' );
+
+            return EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT;
+        }
+        else if (  $task->attribute( 'status' ) == EZ_TASK_STATUS_CLOSED )
+        {
+            eZDebug::writeNotice( $event, 'task ACCEPTED' );
+            return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
+        }
+        else if ( $task->attribute( 'status' ) == EZ_TASK_STATUS_CANCELLED )
+        {
+            eZDebug::writeNotice( $event, 'task CANCELED' );
+            return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED;
+        }else
+        {
+            eZDebug::writeNotice( $event, 'task CANCELED no status ' );
+            return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED;
+        }
     }
 }
 

@@ -265,6 +265,7 @@ class eZWorkflow extends eZPersistentObject
     function fetchEventIndexed( $index )
     {
         $id = $this->ID;
+        eZDebug::writeNotice( $index, 'index in fetchEventIndexed' );
         $list =& eZPersistentObject::fetchObjectList( eZWorkflowEvent::definition(),
                                                       array( "id", "placement" ),
                                                       array( "workflow_id" => $id,
@@ -274,8 +275,10 @@ class eZWorkflow extends eZPersistentObject
                                                              "length" => 1 ),
                                                       false, null,
                                                       null );
+//        if ( count( $list ) > 0 )
+//            return $list[$index - 1]["id"];
         if ( count( $list ) > 0 )
-            return $list[$index - 1]["id"];
+            return $list[0]["id"];
         return null;
     }
 

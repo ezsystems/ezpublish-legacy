@@ -121,6 +121,10 @@ class eZStringType extends eZDataType
                                                                  'Text line too long, maximum allowed is %1.' ),
                                                          $maxLen );
         }
+        else
+        {
+            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        }
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
 
@@ -133,7 +137,9 @@ class eZStringType extends eZDataType
         {
             $data =& $http->postVariable( $base . '_ezstring_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
             $contentObjectAttribute->setAttribute( 'data_text', $data );
+            return true;
         }
+        return false;
     }
 
     /*!

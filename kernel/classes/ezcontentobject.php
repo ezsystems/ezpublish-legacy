@@ -50,6 +50,7 @@ include_once( "kernel/classes/ezcontentobjectversion.php" );
 include_once( "kernel/classes/ezcontentobjectattribute.php" );
 include_once( "kernel/classes/ezcontentclass.php" );
 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+include_once( "kernel/classes/eznodeassignment.php" );
 
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
@@ -287,13 +288,25 @@ class eZContentObject extends eZPersistentObject
         {
             $version =& $this->version( $copyFromVersion );
         }
+        eZDebug::writeNotice( $version , 'version' );
+        $nodeAssignmentList =& $version->attribute( 'node_assignments' );
+
+        eZDebug::writeNotice( $nodeAssignmentList , 'nodeAssignmentList' );
+        
+        foreach ( array_keys( $nodeAssignmentList ) as $key )
+        {
+            $nodeAssignment =& $nodeAssignmentList[$key];
+            $clonedAssignment =& $nodeAssignment->clone( $nextVersionNumber );
+            $clonedAssignment->store();
+        }
+
 
         $currentVersionNumber = $version->attribute( "version" );
         $contentObjectTranslations =& $version->translations();
 
         $clonedVersion = $version->clone( $nextVersionNumber, $userID );
         $clonedVersion->store();
-
+        
         foreach ( array_keys( $contentObjectTranslations ) as $contentObjectTranslationKey )
         {
             $contentObjectTranslation =& $contentObjectTranslations[$contentObjectTranslationKey];
@@ -548,11 +561,21 @@ class eZContentObject extends eZPersistentObject
     /*!
      \return the parnet nodes for the current object.
     */
-    function &parentNodes( $asobject = true )
+    function &parentNodes( $version = false, $asObject = true )
     {
-        $nodes = $this->attribute( 'assigned_nodes' );
         $retNodes = array();
-        if ( $asobject )
+        if ( $version )
+        {
+            $nodeAssignmentList = eZNodeAssignment::fetchForObject( $this->attribute( 'id' ) );
+            foreach ( array_keys( $nodeAssignmentList ) as $key )
+            {
+                $nodeAssignment =& $nodeAssignmentList[$key];
+                $retNodes[] =& $nodeAssignment->attribute( 'parent_node_obj' );
+            }
+        }
+        $nodes = $this->attribute( 'assigned_nodes' );
+        //  $retNodes = array();
+        if ( $asObject )
         {
             foreach ( $nodes as $node )
             {

@@ -137,6 +137,10 @@ class eZIntegerType extends eZDataType
                 } break;
             }
         }
+        else
+        {
+            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        }
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
 
@@ -177,6 +181,10 @@ class eZIntegerType extends eZDataType
         {
             $data =& $http->postVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) );
             $contentObjectAttribute->setAttribute( "data_int", $data );
+            return true;
+        }else
+        {
+            return false;
         }
     }
 
