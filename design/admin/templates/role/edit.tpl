@@ -16,7 +16,7 @@
 
 {* Name. *}
 <div class="block">
-    <label>{'Name'|i18n( 'design/admin/role/edit' )}</label>
+    <label>{'Name'|i18n( 'design/admin/role/edit' )}:</label>
     <input class="box" type="text" name="NewName" value="{$role.name|wash}" />
 </div>
 

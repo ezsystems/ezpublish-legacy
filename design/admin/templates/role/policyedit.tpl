@@ -15,16 +15,17 @@
 <div class="context-attributes">
 
 <div class="block">
-<label>{'Module'|i18n( 'design/admin/role/policyedit' )}</label>
+<label>{'Module'|i18n( 'design/admin/role/policyedit' )}:</label>
 <p>{$current_module}</p>
 </div>
 
 <div class="block">
-<label>{'Function'|i18n( 'design/admin/role/policyedit' )}</label>
+<label>{'Function'|i18n( 'design/admin/role/policyedit' )}:</label>
 <p>{$current_function}</p>
 </div>
 
-<h2>{'Function limitations'|i18n( 'design/admin/role/policyedit' )}</h2>
+<fieldset>
+<legend>{'Function limitations'|i18n( 'design/admin/role/policyedit' )}</legend>
 
 {section show=$function_limitations}
 
@@ -35,7 +36,7 @@
 {section show=$function_limitations|count|gt( 1 )}
 <div class="element">
 {/section}
-<label>{$Limitations:item.name}</label>
+<label>{$Limitations:item.name}:</label>
 <select name="{$Limitations:item.name}[]" size="8" multiple="multiple">
 <option value="-1" {switch match=$current_limitation_list[$Limitations:item.name]}
 {case match=-1} selected="selected"{/case}{case}{/case}{/switch}>{'Any'|i18n( 'design/admin/role/policyedit' )}</option>
@@ -49,8 +50,8 @@
 {/section}
 {/section}
 </div>
-
-
+<div class="break"></div>
+</fieldset>
 {section var=Limitations loop=$function_limitations}
 
 {switch match=$Limitations.item.name}

@@ -23,7 +23,7 @@
 <h2>{'Step one: select module [completed]'|i18n( 'design/admin/role/createpolicystep2' )}</h2>
 
 <div class="block">
-<label>{'Selected module'|i18n( 'design/admin/role/createpolicystep2' )}</label>
+<label>{'Selected module'|i18n( 'design/admin/role/createpolicystep2' )}:</label>
 {section show=$current_module|eq( '*' )}
 {'All modules'|i18n( 'design/admin/role/createpolicystep2' )}
 {section-else}
@@ -32,7 +32,7 @@
 </div>
 
 <div class="block">
-<label>{'Selected access method'|i18n( 'design/admin/role/createpolicystep2' )}</label>
+<label>{'Selected access method'|i18n( 'design/admin/role/createpolicystep2' )}:</label>
 {'Limited'|i18n( 'design/admin/role/createpolicystep2' )}
 </div>
 
@@ -54,7 +54,7 @@
 </p>
 
 <div class="block">
-<label>{'Function'|i18n( 'design/admin/role/createpolicystep2' )}</label>
+<label>{'Function'|i18n( 'design/admin/role/createpolicystep2' )}:</label>
 <select name="ModuleFunction">
 {section name=Functions loop=$functions}
 <option value="{$Functions:item}">{$Functions:item}</option>

@@ -15,7 +15,7 @@
 <div class="context-attributes">
 
 <div class="block">
-<label>{'Name'|i18n( 'design/admin/role/view' )}</label>
+<label>{'Name'|i18n( 'design/admin/role/view' )}:</label>
 {$role.name|wash}
 </div>
 

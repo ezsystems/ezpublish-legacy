@@ -23,7 +23,7 @@
 <h2>{'Step one: select module [completed]'|i18n( 'design/admin/role/createpolicystep3' )}</h2>
 
 <div class="block">
-<label>{'Selected module'|i18n( 'design/admin/role/createpolicystep3' )}</label>
+<label>{'Selected module'|i18n( 'design/admin/role/createpolicystep3' )}:</label>
 {section show=$current_module|eq( '*' )}
 {'All modules'|i18n( 'design/admin/role/createpolicystep3' )}
 {section-else}
@@ -32,7 +32,7 @@
 </div>
 
 <div class="block">
-<label>{'Selected access method'|i18n( 'design/admin/role/createpolicystep3' )}</label>
+<label>{'Selected access method'|i18n( 'design/admin/role/createpolicystep3' )}:</label>
 {'Limited'|i18n( 'design/admin/role/createpolicystep3' )}
 </div>
 
@@ -41,12 +41,12 @@
 <h2>{'Step two: select function [completed]'|i18n( 'design/admin/role/createpolicystep3' )}</h2>
 
 <div class="block">
-<label>{'Selected function'|i18n( 'design/admin/role/createpolicystep3' )}</label>
+<label>{'Selected function'|i18n( 'design/admin/role/createpolicystep3' )}:</label>
 {$current_function|upfirst()}
 </div>
 
 <div class="block">
-<label>{'Selected access method'|i18n( 'design/admin/role/createpolicystep3' )}</label>
+<label>{'Selected access method'|i18n( 'design/admin/role/createpolicystep3' )}:</label>
 {'Limited'|i18n( 'design/admin/role/createpolicystep3' )}
 </div>
 
@@ -69,7 +69,7 @@
 {section show=$function_limitations|count|gt(1)}
 <div class="element">
 {/section}
-<label>{$Limitations:item.name}</label>
+<label>{$Limitations:item.name}:</label>
 <select name="{$Limitations:item.name}[]" size="8" multiple="multiple" >
 <option value="-1" {switch match=$current_limitation_list[$Limitations:item.name]}
 {case match=-1} selected="selected"{/case}{case}{/case}{/switch}>{'Any'|i18n( 'design/admin/role/createpolicystep3' )}</option>
