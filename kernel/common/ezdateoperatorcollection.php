@@ -145,11 +145,16 @@ class eZDateOperatorCollection
                     }
                 }
                 $currentDay = false;
-                if ( isset( $optional['current'] ) )
+                if ( isset( $optional['current'] ) and $optional['current'] !== false )
                 {
                     $info = getdate( $optional['current'] );
                     $currentDay = $info['yday'];
                 }
+                $today = mktime();
+                $todayInfo = getdate( $today );
+                $todayClass = false;
+                if ( isset( $optional['today_class'] ) )
+                    $todayClass = $optional['today_class'];
                 $dayClass = false;
                 if ( isset( $optional['day_class'] ) )
                     $dayClass = $optional['day_class'];
@@ -195,6 +200,15 @@ class eZDateOperatorCollection
                             $dayData['class'] = $optional['current_class'];
                         $dayData['highlight'] = true;
                     }
+                    if ( $dateInfo['year'] == $todayInfo['year'] and
+                         $dateInfo['mon'] == $todayInfo['mon'] and
+                         $day == $todayInfo['mday'] )
+                    {
+                        if ( $dayData['class'] )
+                            $dayData['class'] .= '-' . $todayClass;
+                        else
+                            $dayData['class'] = $todayClass;
+                    }
                     if ( $days[$day] )
                     {
                         $dayLink = $link;
@@ -211,6 +225,7 @@ class eZDateOperatorCollection
                     }
                     $weeks[$week][$weekDay] = $dayData;
                 }
+//                print( "<pre>" ); var_dump( $weeks[15] ); print( "</pre>" );
                 $next = false;
                 if ( isset( $optional['next'] ) )
                     $next = $optional['next'];

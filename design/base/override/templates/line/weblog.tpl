@@ -5,6 +5,8 @@
 
         <h2>{$node.name|wash()}</h2>
 
+img='{"quote-up.gif"|ezimage}'
+{* img='{$test|ezimage}' *}
         <div class="attribute-byline">
             <p class="author">{$node.object.owner.name|wash(xhtml)}</p>
             <p class="date">{$node.object.published|l10n(date)}</p>
@@ -32,7 +34,7 @@
         </div>
         {section-else}
         <div class="attribute-link-disabled">
-            <p>{'Comments off'|i18n( 'design/base/weblog' )}</p>
+            <p><a href={$node.url_alias|ezurl}>{'Comments off'|i18n( 'design/base/weblog' )}</a><p>
         </div>
         {/section}
    </div>

@@ -1052,11 +1052,9 @@ div.class-article div.attribute-image div.imagecaption p
 
 div.calendar
 {
-    /* Hack to get 10 pixels in toolbox, should be fixed in toolbox general styles */
-    padding-right: 10px;
 }
 
-div.calendar table
+div.calendar table.calendar
 {
     margin-top: .5em;
 }
@@ -1135,24 +1133,37 @@ div.calendar td.calendar-week
     color: #999;
 }
 
-div.calendar div.selected
+div.calendar tr.calendar-days td.calendar-day-today
 {
-    border-color: #960;
-    font-weight: bold;
-    color: #000000;
+    background: #58b;
+    color:      #fff;
 }
 
-div.calendar div.calendar-day-today
+div.calendar tr.calendar-days td.calendar-day-selected
 {
-    background: #333;
-    color: #ccc;
+    border: 1px solid #369;
 }
 
-div.calendar strong.calendar-day-highlight
+div.calendar tr.calendar-days td.calendar-day-selected-today
+{
+    background: #58b;
+    color:      #fff;
+    border:     1px solid #369;
+}
+
+div.calendar tr.calendar-days strong.calendar-day-highlight
 {
     font-weight: bold;
     color: #000;
 }
+
+div.calendar div.selected
+{
+    border-color: #960;
+    font-weight:  bold;
+    color:        #000000;
+}
+
 
 div.calendar td a, div.calendar td a:visited, div.calendar td a:hover
 {

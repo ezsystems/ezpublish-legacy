@@ -3,7 +3,7 @@
 
 <div class="calendar">
 
-<table>
+<table class="calendar">
 <tr class="calendar-navigator">
     <th colspan="{sum( $month.weekdays|count, $show_week|choose( 0, 1 ) )}">
     <table class="calendar-navigator">
@@ -40,7 +40,7 @@
                  day_class=first_set( $day.item.class, false() )
                  day_link=first_set( $day.item.link, false() )
                  day_highlight=first_set( $day.item.highlight, false() )}
-            <td{section show=$day_class|gt( 0 )} class="calendar-{$day_class|wash}"{/section}>{section show=$day_link|count|gt( 0 )}<a href={$day_link|ezurl}>{/section}{section show=and( is_boolean( $day_highlight ), $day_highlight )}<strong class="calendar-day-highlight">{/section}{$day_number}{section show=and( is_boolean( $day_highlight ), $day_highlight )}</strong>{/section}{section show=$day_link|count|gt( 0 )}</a>{/section}</td>
+            <td{section show=$day_class|count|gt( 0 )} class="calendar-day-{$day_class|wash}"{/section}>{section show=$day_link|count|gt( 0 )}<a href={$day_link|ezurl}>{/section}{section show=and( is_boolean( $day_highlight ), $day_highlight )}<strong class="calendar-day-highlight">{/section}{$day_number}{section show=and( is_boolean( $day_highlight ), $day_highlight )}</strong>{/section}{section show=$day_link|count|gt( 0 )}</a>{/section}</td>
             {/let}
         {/section}
     {/section}
