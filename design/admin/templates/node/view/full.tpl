@@ -9,11 +9,7 @@
 
 {let hide_status=""}
 {section show=$node.is_invisible}
-    {section show=$node.is_hidden}
-        {set hide_status=concat( '(', 'Hidden'|i18n( 'design/admin/node/view/full' ), ')' )}
-    {section-else}
-        {set hide_status=concat( '(', 'Hidden by superior'|i18n( 'design/admin/node/view/full' ), ')' )}
-    {/section}
+{set hide_status=concat( '(', $node.hidden_status_string, ')' )}
 {/section}
 
 <h1 class="context-title"><a href={concat( '/class/view/', $node.object.contentclass_id )|ezurl} onclick="ezpopmenu_showTopLevel( event, 'ClassMenu', ez_createAArray( new Array( '%classID%', {$node.object.contentclass_id}, '%objectID%', {$node.contentobject_id}, '%nodeID%', {$node.node_id}, '%currentURL%', '{$node.url|wash( javascript )}' ) ), '{$node.class_name|wash(javascript)}', 20 ); return false;">{$node.class_identifier|class_icon( normal, $node.class_name )}</a>&nbsp;{$node.name|wash}&nbsp;[{$node.class_name|wash}]&nbsp;{$hide_status}</h1>
