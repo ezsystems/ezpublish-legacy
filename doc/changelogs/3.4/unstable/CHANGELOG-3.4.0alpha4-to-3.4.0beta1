@@ -55,6 +55,10 @@ eZ locale:
 *Bugfixes:
 - Fixed bug of not check settings of Utf8Encoding in ldap.ini.
   http://ez.no/community/bug_reports/ldap_utf8encoding
+- Fixed bug of unable to import classes from 3.3 to 3.4.
+  http://ez.no/community/bug_reports/importing_classes_from_3_3_to_3_4_fails
+- Fixed bug of getting fatal error when saving an class.
+  http://ez.no/community/bug_reports/ezcontentclass_store_fatal_error
 
 *Update
 

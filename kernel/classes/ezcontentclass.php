@@ -567,7 +567,8 @@ class eZContentClass extends eZPersistentObject
             for ( $i = 0; $i < count( $attributes ); ++$i )
             {
                 $attribute =& $attributes[$i];
-                $attribute->store();
+                if ( is_object ( $attribute ) )
+                    $attribute->store();
             }
         }
 
@@ -760,6 +761,7 @@ class eZContentClass extends eZPersistentObject
             else if ( $classIdentifierCount == 1 )
                 $conds['identifier'] = $classIdentifierFilter[0];
         }
+
         return eZPersistentObject::fetchObjectList( eZContentClass::definition(),
                                                     $fields,
                                                     $conds,
