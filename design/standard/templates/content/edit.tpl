@@ -216,6 +216,7 @@
     <tr>
         <td class="{$Object:sequence}" align="left">
           {content_view_gui view=text_linked content_object=$Object:item}
+	  <span class="small">&lt;object id='{$Object:item.id}' /&gt;</span>
         </td>
 	<td>
           <input type="checkbox" name="DeleteRelationIDArray[]" value="{$Object:item.id}" />
