@@ -26,6 +26,8 @@ Changes from 3.4.0alpha2 to 3.4.0alpha3
   can be used to fetch nodes regardless of structure.
 - Added class_identifier override key to collectedinformation e-mail template.
 - Added fetch function for listing override template for content classes
+- Added "do not edit" comment to all standard templates + functionality that
+  removes this comment when creating an override based on a standard template.
 
 Updates:
 - Fixed cleanup.php script to cleanup the user/session link table when
