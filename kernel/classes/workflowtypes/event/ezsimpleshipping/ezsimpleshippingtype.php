@@ -1,6 +1,6 @@
 <?php
 //
-// Definition of eZConfirmOrderType class
+// Definition of eZSimpleShippingType class
 //
 // Created on: <09-äÅË-2002 14:42:23 sp>
 //
@@ -34,38 +34,41 @@
 // you.
 //
 
-/*! \file ezconfirmordertype.php
+/*! \file ezsimpleshippingtype.php
 */
 
 /*!
-  \class eZConfirmOrderType ezconfirmordertype.php
-  \brief The class eZConfirmOrderType does
+  \class eZSimpleShippingType ezsimpleshippingtype.php
+  \brief The class eZSimpleshippingType handles adding shipping cost to an order
 
 */
 include_once( 'kernel/classes/ezorder.php' );
 
 
-define( 'EZ_WORKFLOW_TYPE_CONFIRMORDER_ID', 'ezconfirmorder' );
+define( 'EZ_WORKFLOW_TYPE_SIMPLESHIPPING_ID', 'ezsimpleshipping' );
 
-class eZConfirmOrderType extends eZWorkflowEventType
+class eZSimpleShippingType extends eZWorkflowEventType
 {
     /*!
      Constructor
     */
-    function eZConfirmOrderType()
+    function eZSimpleShippingType()
     {
-        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_CONFIRMORDER_ID, "Confirm Order" );
+        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_SIMPLESHIPPING_ID, "Simple shipping" );
     }
 
     function execute( &$process, &$event )
     {
+        $ini =& eZINI::instance();
+
+        $cost = $ini->variable( "SimpleShippingWorkflow", "ShippingCost" );
 
         $parameters = $process->attribute( 'parameter_list' );
         $orderID = $parameters['order_id'];
 
         $orderItem = new eZOrderItem( array( 'order_id' => $orderID,
-                                     'description' => 'Gift certificate',
-                                     'price' => -10.0,
+                                     'description' => 'Shipping',
+                                     'price' => $cost,
                                      'vat_is_included' => true,
                                      'vat_type_id' => 1 )
                               );
@@ -75,6 +78,6 @@ class eZConfirmOrderType extends eZWorkflowEventType
     }
 }
 
-eZWorkflowEventType::registerType( EZ_WORKFLOW_TYPE_CONFIRMORDER_ID, "ezconfirmordertype" );
+eZWorkflowEventType::registerType( EZ_WORKFLOW_TYPE_SIMPLESHIPPING_ID, "ezsimpleshippingtype" );
 
 ?>
