@@ -16,13 +16,13 @@
 
 {* Name. *}
 <div class="block">
-<label>{'Name'|i18n( 'design/admin/section/edit' )}</label>
+<label>{'Name'|i18n( 'design/admin/section/edit' )}:</label>
 <input class="box" type="text" name="Name" value="{$section.name}" />
 </div>
 
 {* Navigation part. *}
 <div class="block">
-<label>{'Navigation Part'|i18n( 'design/admin/section/edit' )}</label><div class="labelbreak"></div>
+<label>{'Navigation Part'|i18n( 'design/admin/section/edit' )}:</label>
 <select name="NavigationPartIdentifier">
 <option value="ezcontentnavigationpart" {section show=eq( $section.navigation_part_identifier, 'ezcontentnavigationpart')}selected="selected"{/section}>{'Content'|i18n( 'design/admin/section/edit' )}</option>
 <option value="ezmedianavigationpart"   {section show=eq( $section.navigation_part_identifier, 'ezmedianavigationpart'  )}selected="selected"{/section}>{'Media'|i18n( 'design/admin/section/edit' )}</option>

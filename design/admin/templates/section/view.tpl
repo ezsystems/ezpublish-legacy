@@ -14,12 +14,12 @@
 <div class="context-attributes">
 
 <div class="block">
-<label>{'Name'|i18n( 'design/admin/section/view' )}</label>
+<label>{'Name'|i18n( 'design/admin/section/view' )}:</label>
 {$section.name}
 </div>
 
 <div class="block">
-<label>{'ID'|i18n( 'design/admin/section/view' )}</label>
+<label>{'ID'|i18n( 'design/admin/section/view' )}:</label>
 {$section.id}
 </div>
 
