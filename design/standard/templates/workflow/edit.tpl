@@ -1,17 +1,17 @@
 <form action={concat($module.functions.edit.uri,"/",$workflow.id)|ezurl} method="post" name="WorkflowEdit">
 
 <div class="maincontentheader">
-<h1>Editing workflow - {$workflow.name}</h1>
+<h1>{"Editing workflow"|i18n("design/standard/workflow")} - {$workflow.name}</h1>
 </div>
 
 {section show=$can_store}
 <div class="feedback">
-<h2>Workflow stored</h2>
+<h2>{"Workflow stored"|i18n("design/standard/workflow")}</h2>
 </div>
 {/section}
 {section show=$require_fixup}
 <div class="warning">
-<h2>Data requires fixup</h2>
+<h2>{"Data requires fixup"|i18n("design/standard/workflow")}</h2>
 </div>
 {/section}
 
@@ -21,11 +21,11 @@
 </div>
 
 <div class="block">
-<label>Name:</label><div class="labelbreak"></div>
+<label>{"Name:"|i18n("design/standard/workflow")}</label><div class="labelbreak"></div>
 {include uri="design:gui/lineedit.tpl" name=Name id_name=Workflow_name value=$workflow.name}
 </div>
 
-<h2>Groups</h2>
+<h2>{"Groups"|i18n("design/standard/workflow")}</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 {section name=InGroups loop=$workflow.ingroup_list sequence=array(bglight,bgdark)}
 <tr>
@@ -37,22 +37,22 @@
 </table>
 
 <div class="buttonblock">
-<select name = "Workflow_group">
+<select name="Workflow_group">
 {section name=AllGroup loop=$workflow.group_list}
-<option name = "Workflow_group[]" value="{$AllGroup:item.id}/{$AllGroup:item.name}">{$AllGroup:item.name}</option>
+<option name="Workflow_group[]" value="{$AllGroup:item.id}/{$AllGroup:item.name}">{$AllGroup:item.name}</option>
 {/section}
 </select>
 {include uri="design:gui/button.tpl" name=AddGroup id_name=AddGroupButton value="Add group"}
 {include uri="design:gui/button.tpl" name=DeleteGroup id_name=DeleteGroupButton value="Delete group"}
 </div>
 
-<h2>Events</h2>
+<h2>{"Events"|i18n("design/standard/workflow")}</h2>
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th width="1%">Pos:</th>
-    <th>Description:</th>
-    <th>Type:</th>
+    <th width="1%">{"Pos:"|i18n("design/standard/workflow")}</th>
+    <th>{"Description:"|i18n("design/standard/workflow")}</th>
+    <th>{"Type:"|i18n("design/standard/workflow")}</th>
     <th width="1%" colspan="3">&nbsp;</th>
 </tr>
 {section name=Event loop=$event_list sequence=array(bglight,bgdark)}
@@ -75,15 +75,15 @@
 
 
 <div class="buttonblock">
-{include uri="design:gui/button.tpl" name=New id_name=NewButton value="New"}{include uri="design:workflow/workflowtypes.tpl" name=WorkflowTypes id_name=WorkflowTypeString workflowtypes=$workflow_type_list current=$workflow_type}
+{include uri="design:gui/button.tpl" name=New id_name=NewButton value="New"|i18n("design/standard/workflow")}{include uri="design:workflow/workflowtypes.tpl" name=WorkflowTypes id_name=WorkflowTypeString workflowtypes=$workflow_type_list current=$workflow_type}
 &nbsp;
-{include uri="design:gui/button.tpl" name=Delete id_name=DeleteButton value="Remove"}
+{include uri="design:gui/button.tpl" name=Delete id_name=DeleteButton value="Remove"|i18n("design/standard/workflow")}
 </div>
 
 <div class="buttonblock">
-{include uri="design:gui/button.tpl" name=Store id_name=StoreButton value=Store}
+{include uri="design:gui/button.tpl" name=Store id_name=StoreButton value="Store"|i18n("design/standard/workflow")}
 {* {include uri="design:gui/button.tpl" name=Apply id_name=ApplyButton value=Apply} *}
-{include uri="design:gui/button.tpl" name=Discard id_name=DiscardButton value=Discard}
+{include uri="design:gui/button.tpl" name=Discard id_name=DiscardButton value="Discard"|i18n("design/standard/workflow")}
 </div>
 
 </form>

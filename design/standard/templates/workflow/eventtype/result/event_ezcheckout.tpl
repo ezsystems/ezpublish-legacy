@@ -1,7 +1,7 @@
 <form action={concat('content/view/',$viewmode,'/',$node.node_id,'/')|ezurl} method="post" >
 
 <div class="maincontentheader">
-<h1>{"Checkout"|i18n('workflow/eventtype/result/event_ezcheckout')}</h1>
+<h1>{"Checkout"|i18n("design/standard/workflow/eventtype/result")}</h1>
 </div>
 
 <div class="block">
@@ -9,8 +9,7 @@
 </div>
 
 <div class="buttonblock">
-<input type="submit" name="Next" value="next" />
+<input type="submit" name="Next" value="{'Next'|i18n('design/standard/workflow/eventtype/result')}" />
 </div>
 
 </form>
-
