@@ -30,7 +30,6 @@
   \ingroup eZSOAP
   \brief eZSOAPResponse handles SOAP response packages
 
-  \todo Add encoding checks with schema validation.
 */
 
 include_once( "lib/ezutils/classes/ezdebug.php" );

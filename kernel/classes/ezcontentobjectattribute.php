@@ -37,7 +37,7 @@
 /*!
   \class eZContentObjectAttribute ezcontentobjectattribute.php
   \ingroup eZKernel
-  \brief handles the document data for the current instance
+  \brief Encapsulates the data for an object attribute
 
   \sa eZContentObject eZContentClass eZContentClassAttribute
 */
@@ -49,7 +49,6 @@ include_once( "kernel/classes/ezcontentclassattribute.php" );
 class eZContentObjectAttribute extends eZPersistentObject
 {
     /*!
-     \todo fetch the class attribute and datatype object directly and cache them
     */
     function eZContentObjectAttribute( $row )
     {
@@ -217,7 +216,6 @@ class eZContentObjectAttribute extends eZPersistentObject
     }
 
     /*!
-     \todo read from cached/static object
     */
     function &object()
     {
@@ -226,7 +224,6 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /*!
       Returns the attribute  for the current data attribute instance
-      \todo read from cached information
     */
     function &contentClassAttribute()
     {
@@ -235,7 +232,6 @@ class eZContentObjectAttribute extends eZPersistentObject
     }
 
     /*!
-      \todo read from cached information
     */
     function &contentClassAttributeName()
     {
@@ -384,7 +380,6 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /*!
      Returns the content for this attribute.
-     \todo instantiate the data type instance directly
     */
     function content()
     {

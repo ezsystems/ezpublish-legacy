@@ -200,7 +200,6 @@ class eZPrice
 
     /*!
      \returns the discountrules for the currrent user
-     \todo optimize and cache values
     */
     function discount()
     {

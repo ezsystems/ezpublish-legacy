@@ -37,9 +37,11 @@
 /*!
   \class eZContentObject ezcontentobject.php
   \ingroup eZKernel
-  \brief The class eZContentObject handles eZ publish content objects
+  \brief Handles eZ publish content objects
 
-  \todo Add version and laguage to the cached attributes
+  It encapsulates the date for an object and provides lots of functions
+  for dealing with versions, translations and attributes.
+
   \sa eZContentClass
 */
 
@@ -303,7 +305,6 @@ class eZContentObject extends eZPersistentObject
     /*!
 	 \return a map with all the content object attributes where the keys are the
              attribute identifiers.
-     \todo return the correct version and language
     */
     function &dataMap()
     {
@@ -855,7 +856,6 @@ class eZContentObject extends eZPersistentObject
       \static
       Fetches the attributes for an array of objects. The objectList parameter
       contains an array of object id's , versions and language to fetch attributes from.
-     \todo fix language fetching
     */
     function &fillNodeListAttributes( &$nodeList, $asObject = true )
     {

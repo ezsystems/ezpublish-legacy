@@ -34,10 +34,9 @@
 // you.
 //
 
-//!! eZKernel
-//! The class eZAuthorType does
 /*!
   \class eZAuthorType ezauthortype.php
+  \ingroup eZKernel
   \brief eZAuthorType handles multiple authors
 
 */
@@ -58,7 +57,6 @@ class eZAuthorType extends eZDataType
     /*!
      Validates the input and returns true if the input was
      valid for this datatype.
-     \todo Use external integer validator
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {

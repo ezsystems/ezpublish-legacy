@@ -100,7 +100,6 @@ class eZTemplateOperatorElement
     /*!
      Process the operator and sets $value.
 
-     \todo Add code for checking the parameter value against the type
     */
     function process( &$tpl, &$value, $nspace, $current_nspace )
     {

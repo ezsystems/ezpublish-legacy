@@ -83,8 +83,6 @@ print( $dt1->isEqualTo( $dt3 ) ? 'true' : 'false' ); // Prints 'true'
 
 \endcode
 
-  \todo Store the result of gettime( $this->DateTime ) in the object for fast retrieval of single elements.
-
   \sa eZDate, eZTime, eZLocale
 */
 

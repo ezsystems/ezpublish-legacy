@@ -1627,7 +1627,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     /*!
-    \todo optimize
     \return the creator of the version published in the node.
     */
     function creator()

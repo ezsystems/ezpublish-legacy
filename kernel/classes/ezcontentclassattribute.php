@@ -34,9 +34,10 @@
 // you.
 //
 
-//!! eZKernel
-//! The class eZContentClassAttribute does
 /*!
+  \class eZContentClassAttribute ezcontentclassattribute.php
+  \ingroup eZKernel
+  \brief Encapsulates data for a class attribute
 
 */
 
@@ -332,7 +333,6 @@ class eZContentClassAttribute extends eZPersistentObject
 
     /*!
      Returns the content for this attribute.
-     \todo instantiate the data type instance directly
     */
     function content()
     {

@@ -104,7 +104,6 @@ class eZTemplateImageOperator
     /*!
      Performs image conversion using Image GD and returns the html
      text for the image.
-     \todo Change the output to not use HTML but rather the path to the image.
     */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$inputValue, &$namedParameters )
     {

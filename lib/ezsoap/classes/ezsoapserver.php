@@ -56,7 +56,6 @@ function addNumbers( $valueA, $valueB )
   \endcode
   \sa eZSOAPClient eZSOAPRequest eZSOAPResponse
 
-  \todo Add better fault handling
 */
 
 include_once( "lib/ezsoap/classes/ezsoaprequest.php" );

@@ -76,7 +76,6 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     }
 
     /*!
-     \todo Optimize reading
     */
     function &contentClassAttributeName()
     {

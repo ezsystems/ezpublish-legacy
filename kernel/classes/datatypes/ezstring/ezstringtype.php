@@ -45,7 +45,6 @@
   It uses the spare field data_text in a content object attribute for storing
   the attribute data.
 
-  \todo Create the class function handlers
 */
 
 include_once( 'kernel/classes/ezdatatype.php' );

@@ -311,7 +311,6 @@ class eZImageType extends eZDataType
     }
 
     /*!
-     \todo use static members for caching when it's available in PHP5
     */
     function &objectAttributeContent( $contentObjectAttribute )
     {

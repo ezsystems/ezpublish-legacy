@@ -43,7 +43,6 @@
   for doing conversions. See http://www.php.net/manual/en/ref.image.php
   for more information.
 
-  \todo Add function which returns the available output types.
 */
 
 include_once( "lib/ezutils/classes/ezdebug.php" );

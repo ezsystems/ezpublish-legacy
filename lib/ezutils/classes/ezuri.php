@@ -47,8 +47,6 @@
   This class also supports the attribute system.
 
   \note The index starts at 0
-  \todo Add support for modifiyin elements and outputting as an URI string
-  \todo Add range checking
 */
 
 class eZURI

@@ -64,7 +64,6 @@ else
 
   \sa eZSOAPServer eZSOAPRequest eZSOAPResponse
 
-  \todo Add support for other than HTTP transports
 */
 
 include_once( "lib/ezsoap/classes/ezsoapresponse.php" );

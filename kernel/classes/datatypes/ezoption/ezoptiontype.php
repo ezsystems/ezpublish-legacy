@@ -58,7 +58,6 @@ class eZOptionType extends eZDataType
     /*!
      Validates the input and returns true if the input was
      valid for this datatype.
-     \todo Use external integer validator
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {

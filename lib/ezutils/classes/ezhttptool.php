@@ -238,7 +238,6 @@ class eZHTTPTool
      URLs externally which contains any of the above cases.
 
      \note The redirection does not happen immedietaly and the script execution will continue.
-     \todo Add support for username/password in \a $path
     */
     function createRedirectUrl( $path, $parameters = array() )
     {

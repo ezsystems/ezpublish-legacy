@@ -225,10 +225,15 @@ E.g. {event_edit_gui event=$myEvent}</dd>
 mode to use, is optional. Any other parameters are passed on as template variables.<br/>
 E.g. {node_view_gui view=full content_node=$myNode}</dd>
 
+<?php
+/*
+Notification is not public yet.
 <dt>notification_edit_gui</dt>
 <dd>Edit a notification, this is used in the notification edit form, for custom notification types. You
 must supply the notification_type parameter. Any other parameters are passed on as template variables.<br/>
 E.g. {notification_edit_gui notification_type=$myNotificationType}</dd>
+*/
+?>
 
 <dt>shop_account_view_gui</dt>
 <dd>Show a shop account. You must supply the order parameter. The view parameter, specifying

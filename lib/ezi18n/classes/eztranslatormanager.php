@@ -53,7 +53,6 @@
    - comment - a variation of the context/source
    - key - the uniquely generated key taken from context, source and eventually comment
 
-  \todo Make instance create a unique instance per language
 
 */
 

@@ -83,7 +83,6 @@ class eZHTTPFile
 
     /*!
      Stores the temporary file to the destination dir $dir.
-     \todo Check that file does not exist before storing file
     */
     function store( $sub_dir = false, $suffix=false )
     {

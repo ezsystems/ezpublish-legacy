@@ -59,10 +59,6 @@ class MyClass extends eZPersistentObject
 }
 \endcode
 
-  \todo Make this class work with more than just SQL databases, for instance
-        data could be fetched from LDAP or files.
-  \todo Add support for caching queries, for instance tables which rarely change
-        but are often fetched from might benefit from this.
 */
 
 include_once( "lib/ezdb/classes/ezdb.php" );

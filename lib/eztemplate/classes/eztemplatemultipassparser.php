@@ -62,8 +62,6 @@ class eZTemplateMultiPassParser extends eZTemplateParser
      Parses the template file $sourceText. See the description of this class
      for more information on the parsing process.
 
-     \todo Use indexes in pass 1 and 2 instead of substrings, this means that strings are not extracted
-     until they are needed.
     */
     function parse( &$tpl, &$sourceText, &$rootElement, $rootNamespace, $relation )
     {
