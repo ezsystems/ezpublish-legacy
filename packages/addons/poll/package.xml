@@ -6,7 +6,7 @@
   <warning>This format was made with a development version and will not work with any release versions.
 The format of this file is also subject to change until the release version.
 Upgrades to the development format will not be supported.</warning>
-  <name>polls</name>
+  <name>poll</name>
   <summary>Polls</summary>
   <description>Adds functionality for handling simple user-surveys/polls.</description>
   <type value="contentobject" />
