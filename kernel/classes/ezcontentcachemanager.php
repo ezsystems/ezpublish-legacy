@@ -486,8 +486,6 @@ class eZContentCacheManager
     */
     function clearTemplateBlockCache( $objectID )
     {
-        $time_start = microtime_float();
-
         // ordinary template block cache
         eZContentObject::expireTemplateBlockCache();
 
@@ -501,9 +499,6 @@ class eZContentCacheManager
 
         include_once( 'kernel/classes/ezsubtreecache.php' );
         eZSubtreeCache::cleanup( $nodeList );
-
-        $time_end = microtime_float();
-        $time = $time_end - $time_start;
     }
 
     /*!
