@@ -157,8 +157,6 @@ class eZDataType
     */
     function &create( $dataTypeString )
     {
-        var_dump($dataTypeString, $GLOBALS["eZDataTypes"]);
-
         $types =& $GLOBALS["eZDataTypes"];
         $def = null;
         if ( !isset( $types[$dataTypeString] ) )
