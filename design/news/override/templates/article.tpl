@@ -68,7 +68,7 @@
     <div class="buttonblock">
         <form method="post" action={"content/action"|ezurl}>
         <input type="hidden" name="NodeID" value="{$node.main_node_id}" />
-        <input type="hidden" name="ClassID" value="13" />
+        <input type="hidden" name="ClassID" value="26" />
         <input class="button" type="submit" name="NewButton" value="New comment" />
         </form>
     </div>
