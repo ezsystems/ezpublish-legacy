@@ -1,6 +1,26 @@
 {* Generic children list for admin interface. *}
-<form method="post" action={"content/action"|ezurl}>
 
+
+<p>Items per page: <a href={'/user/preferences/set/items/1'|ezurl}>10</a> <a href={'/user/preferences/set/items/2'|ezurl}>25</a> <a href={'/user/preferences/set/items/3'|ezurl}>50</a></p>
+{let number_of_items=10}
+
+{switch match=ezpreference( 'items' )}
+
+{case match=2}
+    {set number_of_items=25}
+{/case}
+
+{case match=3}
+    {set number_of_items=50}
+{/case}
+
+{case}
+    {set number_of_items=10}
+{/case}
+
+{/switch}
+</p>
+<form method="post" action={"content/action"|ezurl}>
 {let can_remove=false()
      can_edit=false()
      can_create=false()
@@ -8,7 +28,7 @@
      children_count=fetch( content, list_count, hash( parent_node_id, $node.node_id ) )
      children=fetch( content, list, hash( parent_node_id, $node.node_id,
                                           sort_by, $node.sort_array,
-                                          limit, 10,
+                                          limit, $number_of_items,
                                           offset, $view_parameters.offset ) ) }
 
 {* If there are children: show list and buttons that belong to the list. *}
@@ -129,7 +149,7 @@
          page_uri=concat( '/content/view', '/full/', $node.node_id)
          item_count=$children_count
          view_parameters=$view_parameters
-         item_limit=10}
+         item_limit=$number_of_items}
 
 
 <div class="controlbar">
@@ -177,4 +197,5 @@
 </form>
 </div>
 
+{/let}
 {/let}
