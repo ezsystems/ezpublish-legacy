@@ -1,6 +1,6 @@
 <?php
 //
-// Created on: <28-Jan-2004 15:46:30 dr>
+// Created on: <30-Jan-2004 10:37:22 dr>
 //
 // Copyright (C) 1999-2004 eZ systems as. All rights reserved.
 //
@@ -32,60 +32,21 @@
 // you.
 //
 
-class eZDbSchema {
-	
-	function read($filename)
-	{
-		$this->schema = include( $filename );
-		if ( !$this->schema || !is_array( $this->schema ))
-		{
-			$this->schema = array();
-		}
-		return $this->schema;
-	}
+include ('../classes/ezdbschema.php');
+include ('../classes/ezmysqlschema.php');
+include ('../classes/ezdbschemachecker.php');
 
-	/*!
-	 * \private
-	 */
-	function generateUpgradeFile($differences)
-	{
-		$diff = var_export( $differences, true );
-		return ( "<?php \n\$diff = \n" . $diff . ";\nreturn \$diff;\n?>\n");
-	}
+$c = mysql_connect('localhost', 'root');
+mysql_select_db('dr');
 
-	function writeUpgradeFile($differences, $filename)
-	{
-		$fp = @fopen( $filename, 'w' );
-		if ( $fp )
-		{
-			fputs( $fp, eZDbSchema::generateUpgradeFile( $differences ) );
-			fclose( $fp );
-			return true;
-		} else {
-			return false;
-		}
-	}
+$dbschema1 = new eZMysqlSchema();
+$schema1 = $dbschema1->read( $c );
 
-	/*!
-	 * \private
-	 */
-	function generateSchemaFile($schema)
-	{
-		$schema = var_export( $schema, true );
-		return ( "<?php \n\$schema = \n" . $schema . ";\nreturn \$schema;\n?>\n");
-	}
+$dbschema2 = new eZDbSchema();
+$schema2 = $dbschema2->read( 'ezschemamysql-index.php' );
 
-	function writeSchemaFile($schema, $filename)
-	{
-		$fp = @fopen( $filename, 'w' );
-		if ( $fp )
-		{
-			fputs( $fp, eZDbSchema::generateSchemaFile( $schema ) );
-			fclose( $fp );
-			return true;
-		} else {
-			return false;
-		}
-	}
-}
+$differences = eZDbSchemaChecker::diff( $schema2, $schema1 ); /* empty 2nd param force new script */
+ezDbSchema::writeUpgradeFile( $differences, 'schema-diff2.php' );
+ezMysqlSchema::writeUpgradeFile( $differences, 'schema-diff2.sql' );
+
 ?>

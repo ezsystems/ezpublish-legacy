@@ -39,7 +39,7 @@ $dbschema1 = new eZDbSchema();
 $schema1 = $dbschema1->read( 'schema1.php' );
 
 $dbschema2 = new eZDbSchema();
-$schema2 = $dbschema2->read( 'schema2.php' );
+$schema2 = $dbschema2->read( 'schema3.php' );
 
 $differences = eZDbSchemaChecker::diff( $schema1, $schema2 ); /* empty 2nd param force new script */
 
