@@ -11567,6 +11567,7 @@ CREATE TABLE eztask_message (
 
 CREATE TABLE eztrigger (
   id int(11) NOT NULL auto_increment,
+  name varchar(255),
   module_name varchar(200) NOT NULL default '',
   function_name varchar(200) NOT NULL default '',
   connect_type char(1) NOT NULL default '',

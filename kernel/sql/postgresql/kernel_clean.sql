@@ -961,6 +961,7 @@ CREATE SEQUENCE "eztrigger_s" start 1 increment 1 maxvalue 9223372036854775807 m
 
 CREATE TABLE "eztrigger" (
 	"id" integer DEFAULT nextval('eztrigger_s'::text),
+    "name" varchar(255),
 	"module_name" character varying(255) NOT NULL,
 	"function_name" character varying(255) NOT NULL,
 	"connect_type" character(1) NOT NULL,
@@ -1231,6 +1232,7 @@ memento_key char(32) NOT NULL,
 main_key char(32) NOT NULL,
 memento_data text NOT NULL,
 PRIMARY KEY(id, memento_key) );
+
 
 
 

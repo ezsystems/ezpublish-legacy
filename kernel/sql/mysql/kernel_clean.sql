@@ -862,6 +862,7 @@ CREATE TABLE eztask_message (
 
 CREATE TABLE eztrigger (
   id int(11) NOT NULL auto_increment,
+  name varchar(255),
   module_name varchar(200) NOT NULL default '',
   function_name varchar(200) NOT NULL default '',
   connect_type char(1) NOT NULL default '',
@@ -1093,6 +1094,8 @@ CREATE TABLE ezworkflow_process (
   activation_date int(11) default NULL,
   event_state int(11) default NULL,
   status int(11) default NULL,
+  parameters text,
+  memento_key char(32),
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -1101,3 +1104,10 @@ CREATE TABLE ezworkflow_process (
 #
 
 
+CREATE TABLE ezoperation_memento (
+    id int NOT NULL auto_increment,
+    main int NOT NULL default 0,
+    memento_key char(32) NOT NULL,
+    main_key char(32) NOT NULL,
+    memento_data text NOT NULL,
+    PRIMARY KEY(id, memento_key) );
