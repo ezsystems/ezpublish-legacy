@@ -8,6 +8,7 @@ VERSION_BRANCH="$VERSION_ONLY"
 VERSION_NICK="$VERSION"
 VERSION_STABLE="3.5.0"
 DEVELOPMENT="false"
+DEVELOPMENT_PREVIOUS="true"
 
 # URLs for the various repositories
 REPOSITORY_BASE_URL="http://zev.ez.no/svn/nextgen"

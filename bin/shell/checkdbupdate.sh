@@ -3,10 +3,8 @@
 . ./bin/shell/common.sh
 . ./bin/shell/sqlcommon.sh
 
+CHECK_TYPE="previous"
 SUBPATH=""
-if [ "$DEVELOPMENT" == "true" ]; then
-    SUBPATH="unstable/"
-fi
 
 # Check parameters
 for arg in $*; do
@@ -16,10 +14,18 @@ for arg in $*; do
 	    echo
 	    echo "Options: -h"
 	    echo "         --help                     This message"
+	    echo "         --check-stable             Check against the last stable"
+	    echo "         --check-previous           Check against the last release (Default)"
 	    echo "         --mysql                    Check MySQL schema"
 	    echo "         --postgresql               Check PostgreSQL schema"
             echo
 	    exit 1
+	    ;;
+	--check-stable)
+	    CHECK_TYPE="stable"
+	    ;;
+	--check-previous)
+	    CHECK_TYPE="previous"
 	    ;;
 	--mysql)
 	    DB_TYPE="mysql"
@@ -54,16 +60,32 @@ if [ -z "$DATABASE_NAME" ]; then
     exit 1
 fi
 
+if [ "$CHECK_TYPE" = "previous" ]; then
+    if [ "$DEVELOPMENT_PREVIOUS" == "true" ]; then
+        SUBPATH="unstable/"
+    fi
+else
+    if [ "$DEVELOPMENT" == "true" ]; then
+        SUBPATH="unstable/"
+    fi
+fi
+
 DEST="/tmp/ez-$USER"
 
-if [ -z "$VERSION_PREVIOUS" ]; then
+if [ "$CHECK_TYPE" = "previous" ]; then
+    if [ -z "$VERSION_PREVIOUS" ]; then
+        to="$VERSION"
+        from="$VERSION_STABLE"
+        has_setval="false"
+    else
+        to="$VERSION"
+        from="$VERSION_PREVIOUS"
+        has_setval="true"
+    fi
+else
     to="$VERSION"
     from="$VERSION_STABLE"
     has_setval="false"
-else
-    to="$VERSION"
-    from="$VERSION_PREVIOUS"
-    has_setval="true"
 fi
 
 SCHEMA_URL="http://zev.ez.no/svn/nextgen/versions/$to"

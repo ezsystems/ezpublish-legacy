@@ -24,6 +24,8 @@ VERSION_ONLY=$MAJOR"."$MINOR
 BRANCH_VERSION=$MAJOR"."$MINOR
 # Is automatically set to 'true' when $STATE contains some text
 DEVELOPMENT="false"
+# Whether the previous release is a development release or not.
+DEVELOPMENT_PREVIOUS="true"
 # Is only true when the release is a final release (ie. the first of the stable ones)
 # Will be automatically set to true when $RELEASE is 0 and $DEVELOPMENT is false
 FINAL="false"
@@ -180,6 +182,24 @@ function check_common_version_development
     fi
 }
 
+function check_common_version_development_previous
+{
+    if ! grep "DEVELOPMENT_PREVIOUS=\"$DEVELOPMENT_PREVIOUS\"" bin/shell/common.sh &>/dev/null; then
+	if [ -z "$1" ]; then
+	    echo "`$SETCOLOR_FAILURE`Previous development type mismatch`$SETCOLOR_NORMAL`"
+	    echo "Wrong development type in `$SETCOLOR_EXE`bin/shell/common.sh`$SETCOLOR_NORMAL` for variable DEVELOPMENT_PREVIOUS"
+	    echo "Should be:"
+	    echo "DEVELOPMENT_PREVIOUS=\"`$SETCOLOR_EMPHASIZE`$DEVELOPMENT_PREVIOUS`$SETCOLOR_NORMAL`\""
+	    echo
+	fi
+	MAIN_ERROR="1"
+	[ -n "$EXIT_AT_ONCE" ] && exit 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
+    fi
+}
+
 check_common_version "$FIX"
 if [ $? -ne 0 ]; then
     sed -i 's/^VERSION="[^"]*"/VERSION="'$VERSION'"/' bin/shell/common.sh
@@ -214,6 +234,12 @@ check_common_version_development "$FIX"
 if [ $? -ne 0 ]; then
     sed -i 's/^DEVELOPMENT="[^"]*"/DEVELOPMENT="'$DEVELOPMENT'"/' bin/shell/common.sh
     check_common_version_development ""
+fi
+
+check_common_version_development_previous "$FIX"
+if [ $? -ne 0 ]; then
+    sed -i 's/^DEVELOPMENT_PREVIOUS="[^"]*"/DEVELOPMENT_PREVIOUS="'$DEVELOPMENT_PREVIOUS'"/' bin/shell/common.sh
+    check_common_version_development_previous ""
 fi
 
 # lib/version.php
