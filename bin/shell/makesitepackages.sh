@@ -241,7 +241,7 @@ if [[ -z $SITE || $SITE = 'plain' ]]; then
 	add plain sql -d postgresql kernel/sql/postgresql/kernel_schema.sql -- \
 	add plain sql -d postgresql kernel/sql/common/cleandata.sql -- \
 	add plain sql -d postgresql kernel/sql/postgresql/setval.sql -- \
-	add plain thumbnail design/plain/images/plain.gif
+	add plain thumbnail design/plain/images/plain.gif || exit 1
 fi
 
 for site in $PACKAGES; do
