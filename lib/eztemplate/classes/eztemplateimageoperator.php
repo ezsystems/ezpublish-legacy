@@ -108,6 +108,22 @@ class eZTemplateImageOperator
         $this->ImageGDSupported = count( $this->MissingGDFunctions ) == 0;
     }
 
+    function operatorTemplateHints()
+    {
+        return array( 'texttoimage' => array( 'input' => true,
+                                              'output' => true,
+                                              'output-type' => array( 'object', 'keep' ),
+                                              'parameters' => true ),
+                      'image' => array( 'input' => false,
+                                        'output' => true,
+                                        'output-type' => array( 'object', 'keep' ),
+                                        'parameters' => true ),
+                      'imagefile' => array( 'input' => false,
+                                            'output' => true,
+                                            'output-type' => 'object',
+                                            'parameters' => true ) );
+    }
+
     /*!
      Performs image conversion using Image GD and returns the html
      text for the image.

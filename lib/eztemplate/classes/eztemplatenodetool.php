@@ -434,12 +434,12 @@ class eZTemplateNodeTool
         return $node;
     }
 
-    function createCodePieceElement( $codePiece, $values = false, $placement = false, $tmpValues = false )
+    function createCodePieceElement( $codePiece, $values = false, $placement = false, $tmpValues = false, $knownTypes = true )
     {
         $element = array( EZ_TEMPLATE_TYPE_INTERNAL_CODE_PIECE,
                           $codePiece,
                           $placement,
-                          $values, $tmpValues );
+                          $values, $tmpValues, $knownTypes );
         return $element;
     }
 

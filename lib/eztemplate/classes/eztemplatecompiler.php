@@ -315,7 +315,13 @@ class eZTemplateCompiler
             $extraName = $matches[1] . '-';
         else if ( preg_match( "#^(.*)\.tpl$#", $templateFilepath, $matches ) )
             $extraName = $matches[1] . '-';
-        $cacheFileKey = "$key-$internalCharset";
+        $accessText = false;
+        if ( isset( $GLOBALS['eZCurrentAccess']['name'] ) )
+            $accessText = '-' . $GLOBALS['eZCurrentAccess']['name'];
+        include_once( 'lib/ezlocale/classes/ezlocale.php' );
+        $locale =& eZLocale::instance();
+        $language =& $locale->translationCode();
+        $cacheFileKey = $key . '-' . $internalCharset . '-' . $language . $accessText;
         $cacheFileName = $extraName . md5( $cacheFileKey ) . '.php';
         return $cacheFileName;
     }
@@ -1277,6 +1283,7 @@ class eZTemplateCompiler
                     $hasTransformationSupport = false;
                     $transformParameters = false;
                     $inputAsParameter = false;
+                    $knownType = 'static';
                     if ( method_exists( $operatorObject, 'operatorTemplateHints' ) )
                     {
                         $hints = $operatorObject->operatorTemplateHints();
@@ -1307,6 +1314,15 @@ class eZTemplateCompiler
                              isset( $hints[$operatorName]['input-as-parameter'] ) )
                         {
                             $inputAsParameter = $hints[$operatorName]['input-as-parameter'];
+                        }
+
+                        if ( isset( $hints[$operatorName]['output'] ) and !$hints[$operatorName]['output'] )
+                        {
+                            $knownType = 'null';
+                        }
+                        else if ( isset( $hints[$operatorName]['output-type'] ) )
+                        {
+                            $knownType = $hints[$operatorName]['output-type'];
                         }
                     }
                     if ( $hasTransformationSupport and
@@ -1974,9 +1990,11 @@ $rbracket
                         $namespace = $variableName[0];
                         $namespaceScope = $variableName[1];
                         $variableName = $variableName[2];
-                        eZTemplateCompiler::generateMergeNamespaceCode( $php, $tpl, $namespace, $namespaceScope, array( 'spacing' => $spacing ) );
+                        $namespaceText = eZTemplateCompiler::generateMergeNamespaceCode( $php, $tpl, $namespace, $namespaceScope, array( 'spacing' => $spacing ), true );
+                        if ( !is_string( $namespaceText ) )
+                            $namespaceText = "\$namespace";
                         $variableNameText = $php->variableText( $variableName, 0 );
-                        $php->addCodePiece( "unset( \$vars[\$namespace][$variableNameText] );",
+                        $php->addCodePiece( "unset( \$vars[$namespaceText][$variableNameText] );",
                                             array( 'spacing' => $spacing ) );
                     }
                     else
@@ -2246,6 +2264,7 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
 
                 $isStaticElement = false;
                 $nodeElements = $node[2];
+                $knownTypes = array();
                 if ( eZTemplateNodeTool::isStaticElement( $nodeElements ) and
                      !$variableParameters['text-result'] )
                 {
@@ -2255,7 +2274,7 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
                 else
                 {
                     $variableText = "\$$generatedVariableName";
-                    eZTemplateCompiler::generateVariableCode( $php, $tpl, $node, $dataInspection,
+                    eZTemplateCompiler::generateVariableCode( $php, $tpl, $node, $knownTypes, $dataInspection,
                                                               array( 'spacing' => $spacing,
                                                                      'variable' => $generatedVariableName,
                                                                      'counter' => 0 ) );
@@ -2264,43 +2283,53 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
                 if ( $variableParameters['text-result'] )
                 {
                     $textName = eZTemplateCompiler::currentTextName( $parameters );
-                    $php->addCodePiece( "while ( is_object( \$$generatedVariableName ) and method_exists( \$$generatedVariableName, 'templateValue' ) )
-{
-    \$$generatedVariableName =& \$$generatedVariableName" . "->templateValue();
-}
-if ( is_object( \$$generatedVariableName ) )
-    \$$textName .= compiledFetchText( \$tpl, \$rootNamespace, \$currentNamespace, \$namespace, \$$generatedVariableName );
-else
-    \$$textName .= \$$generatedVariableName;
-unset( \$$generatedVariableName );\n", array( 'spacing' => $spacing ) );
+                    if ( count( $knownTypes ) == 0 or in_array( 'object', $knownTypes ) )
+                    {
+                        $php->addCodePiece( "while ( is_object( \$$generatedVariableName ) and method_exists( \$$generatedVariableName, 'templateValue' ) )\n" .
+                                            "{\n" .
+                                            "    \$$generatedVariableName =& \$$generatedVariableName" . "->templateValue();\n" .
+                                            "}\n" .
+                                            "if ( is_object( \$$generatedVariableName ) )\n" .
+                                            "    \$$textName .= compiledFetchText( \$tpl, \$rootNamespace, \$currentNamespace, \$namespace, \$$generatedVariableName );\n" .
+                                            "else\n" .
+                                            "    \$$textName .= \$$generatedVariableName;\n" .
+                                            "unset( \$$generatedVariableName );\n", array( 'spacing' => $spacing ) );
+                    }
+                    else
+                    {
+                        $php->addCodePiece( "\$$textName .= \$$generatedVariableName;\n" .
+                                            "unset( \$$generatedVariableName );\n", array( 'spacing' => $spacing ) );
+                    }
                 }
                 else if ( $assignVariable )
                 {
                     $namespace = $variableAssignmentName[0];
                     $namespaceScope = $variableAssignmentName[1];
                     $variableName = $variableAssignmentName[2];
-                    eZTemplateCompiler::generateMergeNamespaceCode( $php, $tpl, $namespace, $namespaceScope, array( 'spacing' => $spacing ) );
+                    $namespaceText = eZTemplateCompiler::generateMergeNamespaceCode( $php, $tpl, $namespace, $namespaceScope, array( 'spacing' => $spacing ), true );
+                    if ( !is_string( $namespaceText ) )
+                        $namespaceText = "\$namespace";
                     $variableNameText = $php->variableText( $variableName, 0 );
                     $unsetVariableText = false;
                     if ( $variableOnlyExisting )
                     {
                         if ( !$isStaticElement )
                             $unsetVariableText = "\n    unset( $variableText );";
-                        $php->addCodePiece( "if ( isset( \$vars[\$namespace][$variableNameText] ) )\n{\n    \$vars[\$namespace][$variableNameText] = $variableText;$unsetVariableText\n}",
+                        $php->addCodePiece( "if ( isset( \$vars[$namespaceText][$variableNameText] ) )\n{\n    \$vars[$namespaceText][$variableNameText] = $variableText;$unsetVariableText\n}",
                                             array( 'spacing' => $spacing ) );
                     }
                     else if( $variableOverWrite )
                     {
                         if ( !$isStaticElement )
                             $unsetVariableText = "\nunset( $variableText );";
-                        $php->addCodePiece( "\$vars[\$namespace][$variableNameText] = $variableText;$unsetVariableText",
+                        $php->addCodePiece( "\$vars[$namespaceText][$variableNameText] = $variableText;$unsetVariableText",
                                             array( 'spacing' => $spacing ) );
                     }
                     else
                     {
                         if ( !$isStaticElement )
                             $unsetVariableText = "\n    unset( $variableText );";
-                        $php->addCodePiece( "if ( !isset( \$vars[\$namespace][$variableNameText] ) )\n{\n    \$vars[\$namespace][$variableNameText] = $variableText;$unsetVariableText\n}",
+                        $php->addCodePiece( "if ( !isset( \$vars[$namespaceText][$variableNameText] ) )\n{\n    \$vars[$namespaceText][$variableNameText] = $variableText;$unsetVariableText\n}",
                                             array( 'spacing' => $spacing ) );
                     }
                 }
@@ -2419,7 +2448,8 @@ else
                                 else
                                 {
                                     $persistence = array();
-                                    eZTemplateCompiler::generateVariableCode( $php, $tpl, $nameParameter, $nameInspection,
+                                    $knownTypes = array();
+                                    eZTemplateCompiler::generateVariableCode( $php, $tpl, $nameParameter, $knownTypes, $nameInspection,
                                                                                   $persistence,
                                                                                   array( 'variable' => 'name',
                                                                                          'counter' => 0 ) );
@@ -2501,7 +2531,7 @@ else
      The namespace to merge with is specified in \a $namespace and
      the scope of the merging is defined by \a $namespaceScope.
     */
-    function generateMergeNamespaceCode( &$php, &$tpl, $namespace, $namespaceScope, $parameters = array() )
+    function generateMergeNamespaceCode( &$php, &$tpl, $namespace, $namespaceScope, $parameters = array(), $skipSimpleAssignment = false )
     {
         if ( $namespace != '' )
         {
@@ -2532,29 +2562,36 @@ else
         {
             if ( $namespaceScope == EZ_TEMPLATE_NAMESPACE_SCOPE_GLOBAL )
             {
+                if ( $skipSimpleAssignment )
+                    return "''";
                 $php->addVariable( 'namespace', '', EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, $parameters );
             }
             else if ( $namespaceScope == EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL )
             {
+                if ( $skipSimpleAssignment )
+                    return "\$rootNamespace";
                 $php->addCodePiece( "\$namespace = \$rootNamespace;\n", $parameters );
             }
             else if ( $namespaceScope == EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE )
             {
+                if ( $skipSimpleAssignment )
+                    return "\$currentNamespace";
                 $php->addCodePiece( "\$namespace = \$currentNamespace;\n", $parameters );
             }
         }
+        return true;
     }
 
     /*!
      Generates PHP code for the variable node \a $node.
      Use generateVariableDataCode if you want to create code for arbitrary variable data structures.
     */
-    function generateVariableCode( &$php, &$tpl, $node, $dataInspection,
+    function generateVariableCode( &$php, &$tpl, $node, &$knownTypes, $dataInspection,
                                    $parameters )
     {
         $variableData = $node[2];
         $persistence = array();
-        eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $variableData, $dataInspection, $persistence, $parameters );
+        eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $variableData, $knownTypes, $dataInspection, $persistence, $parameters );
     }
 
     /*!
@@ -2563,8 +2600,14 @@ else
      variable lookup, attribute lookup and operator execution.
      Use generateVariableCode if you want to create code for a variable tree node.
     */
-    function generateVariableDataCode( &$php, &$tpl, $variableData, $dataInspection, &$persistence, $parameters )
+    function generateVariableDataCode( &$php, &$tpl, $variableData, &$knownTypes, $dataInspection, &$persistence, $parameters )
     {
+        $staticTypeMap = array( EZ_TEMPLATE_TYPE_STRING => 'string',
+                                EZ_TEMPLATE_TYPE_NUMERIC => 'numeric',
+                                EZ_TEMPLATE_TYPE_IDENTIFIER => 'string',
+                                EZ_TEMPLATE_TYPE_ARRAY => 'array',
+                                EZ_TEMPLATE_TYPE_BOOLEAN => 'boolean' );
+
         $variableAssignmentName = $parameters['variable'];
         $variableAssignmentCounter = $parameters['counter'];
         $spacing = 0;
@@ -2581,41 +2624,78 @@ else
                  $variableDataType == EZ_TEMPLATE_TYPE_ARRAY or
                  $variableDataType == EZ_TEMPLATE_TYPE_BOOLEAN )
             {
+                $knownTypes = array_unique( array_merge( $knownTypes, array( $staticTypeMap[$variableDataType] ) ) );
                 $dataValue = $variableDataItem[1];
                 $dataText = $php->variableText( $dataValue, 0 );
                 $php->addCodePiece( "\$$variableAssignmentName = $dataText;\n", array( 'spacing' => $spacing ) );
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_VARIABLE )
             {
+                $knownTypes = array();
                 $namespace = $variableDataItem[1][0];
                 $namespaceScope = $variableDataItem[1][1];
                 $variableName = $variableDataItem[1][2];
-                eZTemplateCompiler::generateMergeNamespaceCode( $php, $tpl, $namespace, $namespaceScope, array( 'spacing' => $spacing ) );
+                $namespaceText = eZTemplateCompiler::generateMergeNamespaceCode( $php, $tpl, $namespace, $namespaceScope, array( 'spacing' => $spacing ), true );
+                if ( !is_string( $namespaceText ) )
+                    $namespaceText = "\$namespace";
                 $variableNameText = $php->variableText( $variableName, 0 );
-                $php->addCodePiece( "\$$variableAssignmentName = compiledFetchVariable( \$vars, \$namespace, $variableNameText );\n",
+                $php->addCodePiece( "\$$variableAssignmentName = ( array_key_exists( $namespaceText, \$vars ) and array_key_exists( $variableNameText, \$vars[$namespaceText] ) ) ? \$vars[$namespaceText][$variableNameText] : null;\n",
                                     array( 'spacing' => $spacing ) );
+//                $php->addCodePiece( "\$$variableAssignmentName = compiledFetchVariable( \$vars, $namespaceText, $variableNameText );\n",
+//                                    array( 'spacing' => $spacing ) );
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_ATTRIBUTE )
             {
-                $newParameters = $parameters;
-                $newParameters['counter'] += 1;
-                eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $variableDataItem[1], $dataInspection,
+                $knownTypes = array();
+                if ( eZTemplateNodeTool::isStaticElement( $variableDataItem[1] ) )
+                {
+                    $attributeStaticValue = eZTemplateNodeTool::elementStaticValue( $variableDataItem[1] );
+                    $attributeText = $php->variableText( $attributeStaticValue, 0, 0, false );
+                }
+                else
+                {
+                    $newParameters = $parameters;
+                    $newParameters['counter'] += 1;
+                    $tmpKnownTypes = array();
+                    eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $variableDataItem[1], $tmpKnownTypes, $dataInspection,
                                                                   $persistence, $newParameters );
-                $newVariableAssignmentName = $newParameters['variable'];
-                $newVariableAssignmentCounter = $newParameters['counter'];
-                if ( $newVariableAssignmentCounter > 0 )
-                    $newVariableAssignmentName .= $newVariableAssignmentCounter;
-                $php->addCodePiece( "unset( \$tmp$variableAssignmentName );\n\$tmp$variableAssignmentName = compiledFetchAttribute( \$$variableAssignmentName, \$$newVariableAssignmentName );\nunset( \$$variableAssignmentName );\n\$$variableAssignmentName = \$tmp$variableAssignmentName;\nunset( \$tmp$variableAssignmentName );\n",
+                    $newVariableAssignmentName = $newParameters['variable'];
+                    $newVariableAssignmentCounter = $newParameters['counter'];
+                    if ( $newVariableAssignmentCounter > 0 )
+                        $newVariableAssignmentName .= $newVariableAssignmentCounter;
+                    $attributeText = "\$$newVariableAssignmentName";
+                }
+                $php->addCodePiece( "\$$variableAssignmentName = compiledFetchAttribute( \$$variableAssignmentName, $attributeText );\n",
                                     array( 'spacing' => $spacing ) );
+//                $php->addCodePiece( "unset( \$tmp$variableAssignmentName );\n\$tmp$variableAssignmentName = compiledFetchAttribute( \$$variableAssignmentName, $attributeText );\nunset( \$$variableAssignmentName );\n\$$variableAssignmentName = \$tmp$variableAssignmentName;\nunset( \$tmp$variableAssignmentName );\n",
+//                                    array( 'spacing' => $spacing ) );
 // $php->addVariable( 'attr', $variableDataItem[1] );
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_OPERATOR )
             {
+                $knownTypes = array();
                 $operatorParameters = $variableDataItem[1];
                 $operatorName = $operatorParameters[0];
                 $operatorParameters = array_splice( $operatorParameters, 1 );
                 $operatorNameText = $php->variableText( $operatorName, 0 );
                 $operatorParametersText = $php->variableText( $operatorParameters, 23, 0, false );
+
+                $operatorHint = eZTemplateCompiler::operatorHint( $tpl, $operatorName );
+                if ( isset( $operatorHint['output'] ) and $operatorHint['output'] )
+                {
+                    if ( isset( $operatorHint['output-type'] ) )
+                    {
+                        $knownType = $operatorHint['output-type'];
+                        if ( is_array( $knownType ) )
+                            $knownTypes = array_merge( $knownTypes, $knownType );
+                        else
+                            $knownTypes[] = $knownType;
+                        $knownTypes = array_unique( $knownTypes );
+                    }
+                    else
+                        $knownTypes[] = 'static';
+                }
+
                 $php->addCodePiece( "\$tpl->processOperator( $operatorNameText,
                        $operatorParametersText,
                        \$rootNamespace, \$currentNamespace, \$$variableAssignmentName, false, false );\n",
@@ -2626,6 +2706,7 @@ else
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_DYNAMIC_ARRAY )
             {
+                $knownTypes = array_unique( array_merge( $knownTypes, array( 'array' ) ) );
                 $code = '%output% = array( ';
 
                 $matchMap = array( '%input%', '%output%' );
@@ -2658,7 +2739,8 @@ else
                     $matchMap[] = '%' . $counter . '%';
                     $replaceMap[] = '$' . $newVariableAssignmentName;
                     $unsetList[] = $newVariableAssignmentName;
-                    eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $value, $dataInspection,
+                    $tmpKnownTypes = array();
+                    eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $value, $tmpKnownTypes, $dataInspection,
                                                                   $persistence, $newParameters );
                     ++$counter;
                 }
@@ -2707,7 +2789,8 @@ else
                             if ( preg_match( "/%code$counter%/", $code ) )
                             {
                                 $tmpPHP = new eZPHPCreator();
-                                eZTemplateCompiler::generateVariableDataCode( $tmpPHP, $tpl, $value, $dataInspection,
+                                $tmpKnownTypes = array();
+                                eZTemplateCompiler::generateVariableDataCode( $tmpPHP, $tpl, $value, $tmpKnownTypes, $dataInspection,
                                                                               $persistence, $newParameters );
                                 $newCode = $tmpPHP->fetch( false );
                                 $matchMap[] = '%code' . $counter . '%';
@@ -2715,7 +2798,8 @@ else
                             }
                             else
                             {
-                                eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $value, $dataInspection,
+                                $tmpKnownTypes = array();
+                                eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $value, $tmpKnownTypes, $dataInspection,
                                                                               $persistence, $newParameters );
                             }
                         }
@@ -2737,6 +2821,15 @@ else
                         $replaceMap[] = '$' . $newVariableAssignmentName;
                         $unsetList[] = $newVariableAssignmentName;
                     }
+                }
+                if ( isset( $variableDataItem[5] ) and $variableDataItem[5] )
+                {
+                    if ( is_array( $variableDataItem[5] ) )
+                        $knownTypes = array_unique( array_merge( $knownTypes, $variableDataItem[5] ) );
+                    else if ( is_string( $variableDataItem[5] ) )
+                        $knownTypes = array_unique( array_merge( $knownTypes, array( $variableDataItem[5] ) ) );
+                    else
+                        $knownTypes = array_unique( array_merge( $knownTypes, array( 'static' ) ) );
                 }
                 $code = str_replace( $matchMap, $replaceMap, $code );
                 $php->addCodePiece( $code, array( 'spacing' => $spacing ) );

@@ -329,7 +329,8 @@ class eZTemplateArithmeticOperator
             }
             $code .= ";\n";
         }
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
+        $knownType = 'integer';
+        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values, false, false, $knownType );
         return $newElements;
     }
 
