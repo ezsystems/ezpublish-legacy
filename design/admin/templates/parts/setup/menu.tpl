@@ -20,7 +20,7 @@
     <li><a href={'/section/list/'|ezurl}>{'Sections'|i18n( 'design/admin/parts/setup/menu' )}</a></li>
     <li><a href={'/setup/session'|ezurl}>{'Sessions'|i18n( 'design/admin/parts/setup/menu' )}</a></li>
     <li><a href={'/setup/info/'|ezurl}>{'System information'|i18n( 'design/admin/parts/setup/menu' )}</a></li>
-    <li><a href={'/setup/systemupgrade'|ezurl}>{'System upgrade'|i18n( 'design/admin/parts/setup/menu' )}</a></li>
+    <li><a href={'/setup/systemupgrade'|ezurl}>{'Upgrade check'|i18n( 'design/admin/parts/setup/menu' )}</a></li>
     <li><a href={'/content/translations/'|ezurl}>{'Translations'|i18n( 'design/admin/parts/setup/menu' )}</a></li>
     <li><a href={'/trigger/list/'|ezurl}>{'Triggers'|i18n( 'design/admin/parts/setup/menu' )}</a></li>
     <li><a href={'/url/list/'|ezurl}>{'URL management'|i18n( 'design/admin/parts/setup/menu' )}</a></li>
