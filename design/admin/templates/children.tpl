@@ -26,10 +26,10 @@
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+
 {* If there are children: show list and buttons that belong to the list. *}
 {section show=$children}
-
-{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {* Items per page and view mode selector. *}
 <div class="context-toolbar">
@@ -63,21 +63,21 @@
         <p>
         {switch match=ezpreference( 'admin_children_viewmode' )}
         {case match='thumbnail'}
-        <a href={'/user/preferences/set/admin_children_viewmode/list'|ezurl}>List</a>
-        <span class="current">Thumbnail</span>
+        <a href={'/user/preferences/set/admin_children_viewmode/list'|ezurl}>{'List'|i18n( 'design/admin/node/view/full' )}</a>
+        <span class="current">{'Thumbnail'|i18n( 'design/admin/node/view/full' )}</span>
         <a href={'/user/preferences/set/admin_children_viewmode/detailed'|ezurl}>Detailed</a>
         {/case}
 
         {case match='detailed'}
-        <a href={'/user/preferences/set/admin_children_viewmode/list'|ezurl}>List</a>
-        <a href={'/user/preferences/set/admin_children_viewmode/thumbnail'|ezurl}>Thumbnail</a>
-        <span class="current">Detailed</span>
+        <a href={'/user/preferences/set/admin_children_viewmode/list'|ezurl}>{'List'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_children_viewmode/thumbnail'|ezurl}>{'Thumbnail'|i18n( 'design/admin/node/view/full' )}</a>
+        <span class="current">{'Detailed'|i18n( 'design/admin/node/view/full' )}</span>
         {/case}
 
         {case}
-        <span class="current">List</span>
-        <a href={'/user/preferences/set/admin_children_viewmode/thumbnail'|ezurl}>Thumbnail</a>
-        <a href={'/user/preferences/set/admin_children_viewmode/detailed'|ezurl}>Detailed</a>
+        <span class="current">{'List'|i18n( 'design/admin/node/view/full' )}</span>
+        <a href={'/user/preferences/set/admin_children_viewmode/thumbnail'|ezurl}>{'Thumbnail'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_children_viewmode/detailed'|ezurl}>{'Detailed'|i18n( 'design/admin/node/view/full' )}</a>
         {/case}
         {/switch}
         </p>
@@ -131,20 +131,18 @@
          item_limit=$number_of_items}
 </div>
 
-{* DESIGN: Content END *}</div></div></div>
 
 {* Else: there are no children. *}
 {section-else}
-
-{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="block">
     <p>{'The current item does not contain any sub items.'|i18n( 'design/admin/node/view/full' )}</p>
 </div>
 
+{/section}
+
 {* DESIGN: Content END *}</div></div></div>
 
-{/section}
 
 {* Button bar for remove and update priorities buttons. *}
 <div class="controlbar">
@@ -202,7 +200,7 @@
     {section-else}
     <div class="left">
     <select name="ClassID" disabled="disabled">
-    <option value="">Not available</option>
+    <option value="">{'Not available'|i18n( 'design/admin/node/view/full' )}</option>
     </select>
     <input class="button-disabled" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permissions to create new items within the current location.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
     </div>
@@ -212,8 +210,8 @@
 <div class="right">
 <label>{'Sorting:'|i18n( 'design/admin/node/view/full' )}</label>
 
-{let sort_fields=hash( 6, 'Class Identifier'|i18n( 'design/admin/node/view/full' ),
-                       7, 'Class Name'|i18n( 'design/admin/node/view/full' ),
+{let sort_fields=hash( 6, 'Class identifier'|i18n( 'design/admin/node/view/full' ),
+                       7, 'Class name'|i18n( 'design/admin/node/view/full' ),
                        5, 'Depth'|i18n( 'design/admin/node/view/full' ),
                        3, 'Modified'|i18n( 'design/admin/node/view/full' ),
                        9, 'Name'|i18n( 'design/admin/node/view/full' ),
@@ -239,7 +237,7 @@
     <option value="1"{section show=eq($node.sort_order, 1)} selected="selected"{/section}>{'Down'|i18n( 'design/admin/node/view/full' )}</option>
 </select>
 
-<input {section show=$disabled}class="button-disabled"{section-else}class="button"{/section} type="submit" name="SetSorting" value="{'Set'|i18n( 'design/admin/node/view/full' )}" title="{$title}"{$disabled} />
+<input {section show=$disabled}class="button-disabled"{section-else}class="button"{/section} type="submit" name="SetSorting" value="{'Set'|i18n( 'design/admin/node/view/full' )}" title="{$title}" {$disabled} />
 
 {/let}
 
