@@ -9,6 +9,7 @@ DEFAULT_SVN_SERVER="http://zev.ez.no/svn/nextgen"
 DEFAULT_SVN_RELEASE_PATH="releases"
 DEFAULT_SVN_VERSION_PATH="versions"
 DIST_SRC=`pwd`
+EDITOR='vi'
 
 FULL_EXTRA_DIRS="settings/override var/cache var/storage"
 SDK_EXTRA_DIRS="settings/override var/carhe var/storage doc/generated/html"
@@ -136,7 +137,8 @@ for arg in $*; do
 	    echo "         --help                     This message"
 	    echo "         --final                    Makes the release a final release"
 	    echo "         --build-root=DIR           Set build root, default is /tmp"
-	    echo "         --build-rc                 Make a release candidate, this will add a build number to the name"
+# 	    echo "         --build-rc                 Make a release candidate, this will add a build number to the name"
+	    echo "         --build-snapshot           Make a snapshot, this will add a build number to the name"
 	    echo "         --with-svn-server[=SERVER] Checkout fresh repository"
 	    echo "         --with-release=NAME        Checkout a previous release, default is trunk"
 #	    echo "         --skip-site-creation       Do not build sites*"
@@ -165,8 +167,11 @@ for arg in $*; do
 		DEST_ROOT=`echo $arg | sed 's/--build-root=//'`
 	    fi
 	    ;;
-	--build-rc)
-	    BUILD_RC="1"
+#	--build-rc)
+#	    BUILD_RC="1"
+#	    ;;
+	--build-snapshot)
+	    BUILD_SNAPSHOT="1"
 	    ;;
 	--final)
 	    FINAL="1"
@@ -266,7 +271,7 @@ fi
 
 # We append a build number when creating RCs (release candidate)
 # The build number is also increase and stored at the end if everything was successful
-if [ "$BUILD_RC" == "1" ]; then
+if [ "$BUILD_SNAPSHOT" == "1" ]; then
     echo "Creating RC build #$BUILD_NUMBER"
     CURRENT_BUILD_NUMBER=$BUILD_NUMBER
     BASE="$BASE-build$CURRENT_BUILD_NUMBER"
@@ -861,24 +866,48 @@ else
     echo "`SETCOLOR_WARNING`Could not create `$SETCOLOR_FILE`zip`$SETCOLOR_WARNING` file, `$SETCOLOR_EXE`zip`$SETCOLOR_NORMAL` program not found.`SETCOLOR_NORMAL`"
 fi
 
-if [ "$BUILD_RC" == "1" ]; then
+if [ "$BUILD_SNAPSHOT" == "1" ]; then
     DISTROOT="$HOME/ezpublish-dist"
     VERSIONROOT="$DISTROOT/$VERSION_ONLY/$VERSION"
     mkdir -p $VERSIONROOT
 
     echo "Copying `$SETCOLOR_FILE`$TGZFILE`$SETCOLOR_NORMAL` to `$SETCOLOR_DIR`$VERSIONROOT`$SETCOLOR_NORMAL`"
     cp "$DEST_ROOT/$TGZFILE" "$VERSIONROOT/"
+    if [ ! -f "$VERSIONROOT/filelist.md5" ]; then
+	touch "$VERSIONROOT/filelist.md5"
+    fi
+    (cd "$VERSIONROOT/"; md5sum -b "$TGZFILE" >> filelist.md5)
+
+    echo
+    echo -n "Do you wish to add some comments on the build? (yes/No)? "
+    read add_comment
+    add_comment=`echo $add_comment | tr 'A-Z' 'a-z'`
+    if [ "$add_comment" == "" ]; then
+	add_comment="n"
+    fi
+    case "$add_comment" in
+	y|yes)
+	    $EDITOR "$VERSIONROOT/$TGZFILE"".summary"
+	    ;;
+    esac
+
 fi
 if [ -n "$FINAL" ]; then
     DISTROOT="$HOME/ezpublish-dist"
     VERSIONROOT="$DISTROOT/$VERSION_ONLY/$VERSION"
     mkdir -p $VERSIONROOT
+    if [ ! -f "$VERSIONROOT/filelist.md5" ]; then
+	touch "$VERSIONROOT/filelist.md5"
+    fi
     echo "Archiving files to directory `$SETCOLOR_DIR`$VERSIONROOT`$SETCOLOR_NORMAL`"
     cp "$DEST_ROOT/$TGZFILE" "$VERSIONROOT/"
+    (cd "$VERSIONROOT/"; md5sum -b "$TGZFILE" >> filelist.md5)
     echo "Copied `$SETCOLOR_FILE`$TGZFILE`$SETCOLOR_NORMAL`"
     cp "$DEST_ROOT/$TBZFILE" "$VERSIONROOT/"
+    (cd "$VERSIONROOT/"; md5sum -b "$TBZFILE" >> filelist.md5)
     echo "Copied `$SETCOLOR_FILE`$TBZFILE`$SETCOLOR_NORMAL`"
     cp "$DEST_ROOT/$ZIPFILE" "$VERSIONROOT/"
+    (cd "$VERSIONROOT/"; md5sum -b "$ZIPFILE" >> filelist.md5)
     echo "Copied `$SETCOLOR_FILE`$ZIPFILE`$SETCOLOR_NORMAL`"
 
     CURRENT_SVN_PATH=`svn info | grep 'URL:' | sed 's/URL: //'`
