@@ -25,7 +25,9 @@
 {case match=1} {* Dropdown list *}
     <div class="buttonblock">
     <select name="{$attribute_base}_data_object_relation_id_{$attribute.id}" />
-        <option value="" {section show=eq( $attribute.data_int, '' )}selected="selected"{/section}>{'No relation'|i18n( 'design/standard/content/datatype' )}</option>
+        {section show=$attribute.contentclass_attribute.is_required|not}
+            <option value="" {section show=eq( $attribute.data_int, '' )}selected="selected"{/section}>{'No relation'|i18n( 'design/standard/content/datatype' )}</option>
+        {/section}
         {let parent_node=fetch( content, node, hash( node_id, $class_content.default_selection_node ) )}
         {section var=node loop=fetch( content, list,
                                       hash( parent_node_id, $parent_node.node_id,

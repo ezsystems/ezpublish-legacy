@@ -295,6 +295,22 @@ class eZObjectRelationType extends eZDataType
             return false;
     }
 
+    /*!
+     \reimp
+    */
+    function &sortKey( &$contentObjectAttribute )
+    {
+        return $contentObjectAttribute->attribute( 'data_int' );
+    }
+
+    /*!
+     \reimp
+    */
+    function &sortKeyType()
+    {
+        return 'int';
+    }
+
     function &classAttributeContent( &$classObjectAttribute )
     {
         $selectionType = $classObjectAttribute->attribute( "data_int1" );
