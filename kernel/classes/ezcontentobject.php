@@ -1092,7 +1092,9 @@ class eZContentObject extends eZPersistentObject
         }
 
         // Set version number
-        $contentObject->setAttribute( 'current_version', $this->attribute( 'current_version' ) );
+        if ( $allVersions )
+            $contentObject->setAttribute( 'current_version', $this->attribute( 'current_version' ) );
+
         $contentObject->store();
 
         $db->commit();
