@@ -727,7 +727,13 @@ ORDER BY forward_to_id ASC";
             if ( $uriString == '' )
                 $uriString = '/';
 
-            if ( $urlAliasArray[0]['forward_to_id'] != 0 )
+            if ( $urlAliasArray[0]['forward_to_id'] == -1 )
+            {
+                $uriString = 'error/301';
+
+                $return = $urlAliasArray[0]['destination_url'];
+            }
+            else if ( $urlAliasArray[0]['forward_to_id'] != 0 )
             {
                 $uriString = 'error/301';
 

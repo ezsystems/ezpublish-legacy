@@ -419,6 +419,11 @@ while ( $moduleRunRequired )
             $objectHasMovedURI =& $translateResult->attribute( 'source_url' );
             $objectHasMovedError = true;
         }
+        else if ( is_string( $translateResult ) )
+        {
+            $objectHasMovedURI = $translateResult;
+            $objectHasMovedError = true;
+        }
     }
 
     // Store the last URI for access history for login redirection
