@@ -119,7 +119,7 @@ $Params['TemplateName'] = "design:task/message.tpl";
 $EditVersion = 1;
 
 include_once( "kernel/common/template.php" );
-$tpl = templateInit();
+$tpl =& templateInit();
 
 $tpl->setVariable( 'task_id', $TaskID );
 $tpl->setVariable( 'task', $task );

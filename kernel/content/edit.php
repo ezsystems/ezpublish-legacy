@@ -31,6 +31,7 @@
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
 //
+
 include_once( 'kernel/classes/eztrigger.php' );
 
 $Module =& $Params["Module"];
@@ -41,6 +42,9 @@ initializeRelationEdit( $Module );
 $obj =& eZContentObject::fetch( $ObjectID );
 if ( !$obj )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+
+if ( !$object->attribute( 'can_edit' ) )
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
 if ( !function_exists ( 'checkForExistingVersion'  ) )
 {
@@ -196,161 +200,6 @@ if ( !function_exists( 'checkContentActions' ) )
             {
                 $module->redirectToView( 'view', array( 'sitemap', 2 ) );
             }
-
-/*
-            foreach ( array_keys( $nodeAssignmentList ) as $key )
-            {
-
-                $nodeAssignment =& $nodeAssignmentList[$key];
-                $existingNode =& eZContentObjectTreeNode::findNode( $nodeAssignment->attribute( 'parent_node' ) , $object->attribute( 'id' ), true );
-                $runTrigger = true;
-                $status['Status'] = EZ_TRIGGER_NO_CONNECTED_WORKFLOWS;
-                if ( get_class( $existingNode ) == 'ezcontentobjecttreenode' )
-                {
-                    if ( $existingNode->attribute( 'contentobject_version' ) == $version->attribute( 'version' ) )
-                    {
-                        $runTrigger = false;
-                    }
-                }
-
-                if ( $runTrigger )
-                {
-                    $version->setAttribute( 'status', EZ_VERSION_STATUS_PENDING );
-                    $version->store();
-                    $status = eZTrigger::runTrigger( 'pre_publish',
-                                                     'content',
-                                                     'publish',
-                                                     array( 'contentobject_id'  => $object->attribute( 'id' ),
-                                                            'version' => $version->attribute( 'version' ),
-                                                            'parent_node_id' => $nodeAssignment->attribute( 'parent_node' ),
-                                                            'user_id' => $user->id()
-                                                            )
-                                                     );
-                }
-                if ( $status['Status'] == EZ_TRIGGER_NO_CONNECTED_WORKFLOWS || $status['Status'] == EZ_TRIGGER_WORKFLOW_DONE || !$runTrigger )
-                {
-                    $oldVersion =& $object->attribute( 'current' );
-                    $oldVersion->setAttribute( 'status', EZ_VERSION_STATUS_ARCHIVED );
-                    $oldVersion->store();
-                    $object->setAttribute( 'current_version', $EditVersion );
-                    $object->setAttribute( 'modified', mktime() );
-                    $object->setAttribute( 'published', mktime() );
-                    $object->store();
-
-                    $class =& eZContentClass::fetch( $object->attribute( 'contentclass_id' ) );
-                    $objectName = $class->contentObjectName( $object );
-                    $object->setAttribute( 'name', $objectName );
-                    $object->store();
-
-
-                    $fromNodeID = $nodeAssignment->attribute( 'from_node_id' );
-                    $originalObjectID = $nodeAssignment->attribute( 'contentobject_id' );
-
-                    $nodeID = $nodeAssignment->attribute( 'parent_node' );
-                    $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
-                    $parentNodeId = $parentNode->attribute( 'node_id' );
-                    if ( $existingNode  == null )
-                    {
-                        if ( $fromNodeID == 0 )
-                        {
-                            $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
-                            $existingNode =&  $parentNode->addChild( $object->attribute( 'id' ), 0, true );
-                        }else
-                        {
-                            $originalNode =& eZContentObjectTreeNode::fetchNode( $originalObjectID, $fromNodeID );
-                            $originalNode->move( $parentNodeId );
-                            $existingNode =& eZContentObjectTreeNode::fetchNode( $originalObjectID, $parentNodeId );
-                        }
-                    }
-
-                    $existingNode->setAttribute( 'sort_field', $nodeAssignment->attribute( 'sort_field' ) );
-                    $existingNode->setAttribute( 'sort_order', $nodeAssignment->attribute( 'sort_order' ) );
-                    $existingNode->setAttribute( 'contentobject_version', $version->attribute( 'version' ) );
-                    $existingNode->setAttribute( 'contentobject_is_published', 1 );
-                    if ( $version->attribute( 'main_parent_node_id' ) == $existingNode->attribute( 'parent_node_id' ) )
-                    {
-                        $object->setAttribute( 'main_node_id', $existingNode->attribute( 'node_id' ) );
-                    }
-                    $version->setAttribute( 'status', EZ_VERSION_STATUS_PUBLISHED );
-                    $version->store();
-
-                    $object->store();
-                    $existingNode->store();
-                    $count++;
-                }else if ( $status['Status'] == EZ_TRIGGER_STATUS_CRON_JOB )
-                {
-                    eZModuleRun::createFromModule( $status['Result'], $module );
-                }
-            }
-
-            if( !$count )
-            {
-                $module->redirectToView( 'view', array( 'sitemap',2 ) );
-                return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
-            }
-            else
-            {
-
-                $assignedExistingNodes =& $object->attribute( 'assigned_nodes' );
-                $curentVersionNodeAssignments =& $version->attribute( 'assigned_nodes' );
-                $versionParentIDList = array();
-                foreach ( array_keys( $curentVersionNodeAssignments ) as $key )
-                {
-                    $nodeAssignment =& $curentVersionNodeAssignments[$key];
-                    $versionParentIDList[] = $nodeAssignment->attribute( 'parent_node' );
-                }
-                foreach ( array_keys( $assignedExistingNodes )  as $key )
-                {
-                    $node =& $assignedExistingNodes[$key];
-                    if ( $node->attribute( 'contentobject_version' ) < $version->attribute( 'version' ) &&
-                         !in_array( $node->attribute( 'parent_node_id' ), $versionParentIDList ) )
-                    {
-                        $node->remove();
-                    }
-                }
-
-                $status = $module->runHooks( 'post_publish', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion ) );
-
-//                  clean up nodes for old versions  
-
-//            if ( $status )
-//                return $status;
-//         eZDebug::writeDebug( $object, 'object' );
-
-                $module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );
-
-                include_once( "kernel/notification/eznotificationrule.php" );
-                include_once( "kernel/notification/eznotificationruletype.php" );
-                include_once( "kernel/notification/eznotificationuserlink.php" );
-                include_once( "kernel/notification/ezmessage.php" );
-                $allrules =& eZNotificationRule::fetchList( null );
-                foreach ( $allrules as $rule )
-                {
-                    $ruleClass = $rule->attribute("rule_type");
-                    $ruleID = $rule->attribute( "id" );
-                    if ( $ruleClass->match( &$object, &$rule ) )
-                    {
-                        $users =& eZNotificationUserLink::fetchUserList( $ruleID );
-                        foreach ( $users as $user )
-                        {
-                            $sendMethod = $user->attribute( "send_method" );
-                            $sendWeekday = $user->attribute( "send_weekday" );
-                            $sendTime = $user->attribute( "send_time" );
-                            $destinationAddress = $user->attribute( "destination_address" );
-                            $title = "New publishing notification";
-                            $body = $object->attribute( "name" );
-                            $domain = eZSys::hostname();
-                            $body .= "\nhttp://" .  $domain . "/content/view/full/";
-                            $body .=  $object->attribute( "main_node_id" );
-                            $body .= "\n\n\nAdministrator";
-                            $message =& eZMessage::create( $sendMethod, $sendWeekday, $sendTime, $destinationAddress, $title, $body );
-                            $message->store();
-                        }
-                    }
-                }
-                return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
-            }
-        */
         }
     }
 }
@@ -358,28 +207,5 @@ $Module->addHook( 'action_check', 'checkContentActions' );
 $includeResult = include( 'kernel/content/attribute_edit.php' );
 if ( $includeResult != 1 )
     return $includeResult;
-
-
-/********** Custom Action Code Start ***************/
-// $customAction = false;
-// $customActionAttributeID = null;
-// // Check for custom actions
-// if ( $http->hasPostVariable( "CustomActionButton" ) )
-// {
-//     $customActionArray = $http->postVariable( "CustomActionButton" );
-//     $customActionString = key( $customActionArray );
-
-//     $customActionAttributeID = preg_match( "#^([0-9]+)_(.*)$#", $customActionString, $matchArray );
-
-//     $customActionAttributeID = $matchArray[1];
-//     $customAction = $matchArray[2];
-// }
-/********** Custom Action Code End ***************/
-/********** Custom Action Code Start ***************/
-//         if ( $customActionAttributeID == $contentObjectAttribute->attribute( "id" ) )
-//         {
-//             $contentObjectAttribute->customHTTPAction( $http, $customAction );
-//         }
-/********** Custom Action Code End ***************/
 
 ?>

@@ -36,7 +36,115 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 include_once( "lib/ezutils/classes/ezmail.php" );
 include_once( "kernel/classes/ezcontentclassattribute.php" );
+
+$http =& eZHTTPTool::instance();
 $Module =& $Params["Module"];
+
+$Params['TemplateName'] = "design:user/register.tpl";
+$EditVersion = 1;
+
+include_once( "kernel/common/template.php" );
+$tpl =& templateInit();
+$Params['TemplateObject'] =& $tpl;
+
+// Create new user object if user is not logged in
+$user =& eZUser::currentUser();
+if ( !$user->isLoggedIn() )
+{
+    $ini =& eZINI::instance();
+
+    $defaultUserPlacement = $ini->variable( "UserSettings", "DefaultUserPlacement" );
+
+    $class =& eZContentClass::fetch( 4 );
+
+    // Create object by user 14 in section 1
+    $contentObject =& $class->instantiate( 14, 1 );
+    $objectID = $contentObject->attribute( 'id' );
+
+    $nodeAssignment =& eZNodeAssignment::create( array(
+                                                     'contentobject_id' => $contentObject->attribute( 'id' ),
+                                                     'contentobject_version' => 1,
+                                                     'parent_node' => $defaultUserPlacement,
+                                                     'main' => 1
+                                                     )
+                                                 );
+    $nodeAssignment->store();
+
+}
+
+$Params['ObjectID'] = $objectID;
+
+$Module->addHook( 'post_publish', 'registerSearchObject', 1, false );
+
+if ( !function_exists( 'checkContentActions' ) )
+{
+    function checkContentActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage )
+    {
+        if ( $module->isCurrentAction( 'Cancel' ) )
+        {
+            $module->redirectTo( '/content/view/full/2/' );
+
+            $objectID = $object->attribute( 'id' );
+            $versionCount= $object->getVersionCount();
+            $db =& eZDB::instance();
+            $db->query( "DELETE FROM ezcontentobject_link
+		                 WHERE from_contentobject_id=$objectID AND from_contentobject_version=$EditVersion" );
+            $db->query( "DELETE FROM eznode_assignment
+		                 WHERE contentobject_id=$objectID AND contentobject_version=$EditVersion" );
+            $version->remove();
+            foreach ( $contentObjectAttributes as $contentObjectAttribute )
+            {
+                $objectAttributeID = $contentObjectAttribute->attribute( 'id' );
+                $version = $contentObjectAttribute->attribute( 'version' );
+                if ( $version == $EditVersion )
+                {
+                    $contentObjectAttribute->remove( $objectAttributeID, $version );
+                }
+            }
+            if ( $versionCount == 1 )
+            {
+                $object->remove();
+            }
+            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+        }
+
+        if ( $module->isCurrentAction( 'Publish' ) )
+        {
+            $http =& eZHttpTool::instance();
+            $nodeAssignmentList =& $version->attribute( 'node_assignments' );
+
+            $count = 0;
+            $user =& eZUser::currentUser();
+            include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+            $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
+                                                                                         'version' => $version->attribute( 'version') ) );
+
+            $object = eZContentObject::fetch( $object->attribute( 'id' ) );
+
+            // Check if user should be enabled and logged in
+            $user =& eZUser::fetch( $object->attribute( 'id' ) );
+            $user->loginCurrent();
+
+            // check for redirectionvariable
+            if ( eZHTTPTool::hasSessionVariable( 'RedirectAfterUserRegister' ) )
+            {
+                $module->redirectTo( eZHTTPTool::sessionVariable( 'RedirectAfterUserRegister' ) );
+            }
+            else
+            {
+                $module->redirectTo( '/user/success/' );
+            }
+        }
+    }
+}
+$Module->addHook( 'action_check', 'checkContentActions' );
+
+$includeResult = include( 'kernel/content/attribute_edit.php' );
+if ( $includeResult != 1 )
+    return $includeResult;
+
+
+/*
 $message = 0;
 $userIDNotValid = 0;
 $passwordNotValid = 0;
@@ -121,7 +229,7 @@ if ( $http->hasPostVariable( "StoreButton" ) )
             $object->store();
             $objectName = null;
             $objectAttributes =& $object->contentObjectAttributes();
-            foreach (  $objectAttributes as $objectAttribute )
+            foreach ( $objectAttributes as $objectAttribute )
             {
                 $classAttributeID = $objectAttribute->attribute('contentclassattribute_id');
                 foreach ( $userClassAttributes as $userClassAttribute )
@@ -207,7 +315,5 @@ $tpl->setVariable( "emailNotValid", $emailNotValid );
 $tpl->setVariable( "passwordNotValid", $passwordNotValid );
 $tpl->setVariable( "userIDNotValid", $userIDNotValid );
 
-$Result = array();
-$Result['content'] =& $tpl->fetch( "design:user/register.tpl" );
-
+*/
 ?>

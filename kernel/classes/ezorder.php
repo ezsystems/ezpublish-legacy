@@ -161,8 +161,11 @@ class eZOrder extends eZPersistentObject
                             $isVATIncluded = true;
                         else
                             $isVATIncluded = false;
-                        $VATType =& eZVatType::fetch( $VATID );
-                        $VATValue = $VATType->attribute( 'percentage' );
+                        $vatType =& eZVatType::fetch( $VATID );
+                        if ( get_class( $vatType ) == 'ezvattype' )
+                            $VATValue = $vatType->attribute( 'percentage' );
+                        else
+                            $VATValue = 0.0;
 
                         $priceObj =& $attribute->content();
                         $discountPercent = $priceObj->discount();
@@ -265,6 +268,14 @@ class eZOrder extends eZPersistentObject
     {
         $item = eZProductCollectionItem::fetch( $itemID );
         $item->remove();
+    }
+
+    /*!
+     \return the total VAT value of the order
+    */
+    function &totalVAT()
+    {
+
     }
 
     function &orderItems()

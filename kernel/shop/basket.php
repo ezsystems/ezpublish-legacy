@@ -51,10 +51,6 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
     $objectID = $http->postVariable( "ContentObjectID" );
     $optionList =& $http->postVariable( "eZOption" );
 
-    foreach ( $optionList as $option )
-    {
-        print( $option );
-    }
     $object = eZContentObject::fetch( $objectID );
     $nodeID = $object->attribute( 'main_node_id' );
     $http->setSessionVariable( "FromPage", "/content/view/full/" . $nodeID . "/" );
@@ -126,6 +122,17 @@ if ( $http->hasPostVariable( "ContinueShoppingButton" ) )
 
 if ( $http->hasPostVariable( "CheckoutButton" ) )
 {
+    // Check login
+    $user =& eZUser::currentUser();
+
+    if ( !$user->isLoggedIn() )
+    {
+        eZHTTPTool::setSessionVariable( 'RedirectAfterUserRegister', '/shop/basket/' );
+        $module->redirectTo( '/user/register/' );
+        return;
+    }
+
+    //
     $basket =& eZBasket::currentBasket();
     $productCollectionID = $basket->attribute( 'productcollection_id' );
 
@@ -137,8 +144,6 @@ if ( $http->hasPostVariable( "CheckoutButton" ) )
                                  'is_temporary' => 1,
                                  'created' => mktime() ) );
     $order->store();
-
-//    $basket->remove();
 
     eZHTTPTool::setSessionVariable( 'MyTemporaryOrderID', $order->attribute( 'id' ) );
 

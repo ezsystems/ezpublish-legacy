@@ -95,6 +95,14 @@ $orderItem = new eZOrderItem( array( 'order_id' => $orderID,
                               );
 $orderItem->store();
 
+$orderItem = new eZOrderItem( array( 'order_id' => $orderID,
+                                     'description' => 'DIll dall',
+                                     'price' => 13.0,
+                                     'vat_is_included' => true,
+                                     'vat_type_id' => 1 )
+                              );
+$orderItem->store();
+
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:shop/confirmorder.tpl" );
 $Result['path'] = array( array( 'url' => false,

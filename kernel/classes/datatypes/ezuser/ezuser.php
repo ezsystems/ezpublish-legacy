@@ -267,6 +267,15 @@ class eZUser extends eZPersistentObject
             return false;
     }
 
+
+    /*!
+     \return logs in the current user object
+    */
+    function loginCurrent()
+    {
+        eZHTTPTool::setSessionVariable( 'eZUserLoggedInID', $this->ContentObjectID );
+    }
+
     /*!
      Finds the user with the id \a $id and returns the unique instance of it.
      If the user instance is not created yet it tries to either fetch it from the

@@ -71,10 +71,6 @@ $object =& eZContentObject::fetch( $ObjectID );
 if ( $object === null )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-if ( !$object->attribute( 'can_edit' ) )
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
-
-
 $version =& $object->version( $EditVersion );
 $classID = $object->attribute( 'contentclass_id' );
 

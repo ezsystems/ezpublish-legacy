@@ -59,12 +59,16 @@ $ViewList["password"] = array(
 $ViewList["edit"] = array(
     "script" => "edit.php",
     "params" => array( "UserID" ) );
+
 $ViewList["register"] = array(
     "script" => "register.php",
-    "params" => array( ) );
+    "params" => array( ),
+    'single_post_actions' => array( 'PublishButton' => 'Publish',
+                                    'CancelButton' => 'Cancel' ) );
 $ViewList["activate"] = array(
     "script" => "activate.php",
     "params" => array( "LoginID","UserIDHash" ) );
+
 $ViewList["success"] = array(
     "script" => "success.php",
     "params" => array( ) );
