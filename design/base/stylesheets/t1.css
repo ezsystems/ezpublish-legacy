@@ -25,7 +25,7 @@ div#header-design
 {
     height: 70px;
     width: 400px;
-    loat: left;
+    float: left;
 }
 
 div#header h1
@@ -258,67 +258,6 @@ div#submenu li a:hover
 }
 
 
-/*
-
-div#topmenu
-{
-}
-
-div#topmenu-design
-{
-    height: 22px;
-    text-align: left;
-    vertical-align: middle;
-}
-
-div#topmenu ul
-{
-    height: 22px;
-    background-color: #336699;
-
-    margin: 0 0 0 0;
-    padding: 0;
-}
-
-div#topmenu li, div#topmenu li div
-{
-    display: inline;
-}
-
-div#topmenu li
-{
-}
-
-div#topmenu li a
-{
-    color: #fff;
-    font-size: 9pt;
-    padding: 0 0.5em 0 0.5em; /* This padding must be set on a-level, not li-level, to work correctly in konqueror */
-    text-decoration: none;
-}
-
-div#submenu ul
-{
-    height: 22px;
-    background-color: #7b92bc;
-    margin: 0 0 0 0;
-    padding: 0;
-}
-
-div#submenu li, div#submenu li div
-{
-    display: inline;
-}
-
-div#submenu li a
-{
-    font-size: 9pt;
-    color: #fff;
-    padding: 0 0.5em 0 0.5em; /* This padding must be set on a-level, not li-level, to work correctly in konqueror */
-    text-decoration: none;
-}
-
-*/
 
 div#path
 {

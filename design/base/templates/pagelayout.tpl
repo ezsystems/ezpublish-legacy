@@ -7,10 +7,8 @@
 <style type="text/css">
     @import url({"stylesheets/core.css"|ezdesign});
     @import url({"stylesheets/classes.css"|ezdesign});
-{*    @import url({"stylesheets/site.css"|ezdesign}); *}
     @import url({ezini('StylesheetSettings','MainCSS','design.ini')|ezdesign});
     @import url({"stylesheets/debug.css"|ezdesign});
-{*  @import url({"stylesheets/t1.css"|ezdesign}); *}
 
     {section show=eq(ezini('SelectedMenu','LeftMenu','menu.ini'),'')}
     @import url({ezini('StylesheetSettings','NoLeftMenuCSS','design.ini')|ezdesign});
