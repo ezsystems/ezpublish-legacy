@@ -14,6 +14,7 @@
      itemClickAction        = ezini( 'TreeMenu', 'ItemClickAction'  , 'contentstructuremenu.ini' )
      classIconsSize         = ezini( 'TreeMenu', 'ClassIconsSize'   , 'contentstructuremenu.ini' )
      preloadClassIcons      = ezini( 'TreeMenu', 'PreloadClassIcons', 'contentstructuremenu.ini' )
+     autoopenCurrentNode    = ezini( 'TreeMenu', 'AutoopenCurrentNode', 'contentstructuremenu.ini' )
      contentStructureTree   = false()
      menuID                 = "content_tree_menu" }
 
@@ -97,7 +98,7 @@
             {/section}
         {/section}
 
-        ezcst_initializeMenuState( nodesList, "{$:menuID}",  "{$:itemClickAction}" );
+        ezcst_initializeMenuState( nodesList, "{$:menuID}",  "{$:itemClickAction}", "{$:autoopenCurrentNode}" );
     // -->
     </script>
 

@@ -416,7 +416,7 @@ function ezcst_restoreMenuState( rootNode )
     Restores menu state from cookie, adds current location from
     \a additionalNodesList.
 */
-function ezcst_initializeMenuState( additionalNodesList, menuNodeID, itemClickAction )
+function ezcst_initializeMenuState( additionalNodesList, menuNodeID, itemClickAction, autoopenCurrentNode )
 {
     var menu          = ezjslib_getHTMLNodeById( menuNodeID );
     var currentNodeID = additionalNodesList.pop();           // remove current node;
@@ -444,10 +444,6 @@ function ezcst_initializeMenuState( additionalNodesList, menuNodeID, itemClickAc
             var root_link_node = ezjslib_getHTMLChildNodeByTag( rootNode, "a" );
             ezjslib_removeHTMLChildTextNode( root_link_node );
 
-            // Highlight current node
-            var currentNode = ezjslib_getHTMLNodeById( currentNodeID );
-            ezjslib_setHTMLNodeClassStyle( currentNode, EZCST_HIGHLIGHTED_NODE_CLASS_NAME );
-
             if ( ezcst_getUnfoldedNodesListSize() > 0 )
             {
                 // unfolde nodes which are stored in gUnfoldedNodesList
@@ -458,6 +454,16 @@ function ezcst_initializeMenuState( additionalNodesList, menuNodeID, itemClickAc
                 // reset to default view
                 // probably we never get into this "else".
                 ezcst_resetMenuState  ( rootNode );
+            }
+
+            // Highlight current node
+            var currentNode = ezjslib_getHTMLNodeById( currentNodeID );
+            ezjslib_setHTMLNodeClassStyle( currentNode, EZCST_HIGHLIGHTED_NODE_CLASS_NAME );
+
+            if( autoopenCurrentNode == "enabled" )
+            {
+                // unfold current node.
+                ezcst_foldUnfold( currentNode, true, false, false, true );
             }
         }
 
