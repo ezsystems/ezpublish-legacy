@@ -64,16 +64,6 @@ class eZEnumType extends eZDataType
                             array( 'serialize_supported' => true ) );
     }
 
-    function hasAttribute( $name )
-    {
-        return eZDataType::hasAttribute( $name );
-    }
-
-    function &attribute( $name )
-    {
-        return eZDataType::attribute( $name );
-    }
-
     /*!
      Sets value according to current version
     */

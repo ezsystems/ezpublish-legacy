@@ -54,12 +54,13 @@ class eZContentObjectAttribute extends eZPersistentObject
     function eZContentObjectAttribute( $row )
     {
         $this->Content = null;
+        $this->HTTPValue = null;
         $this->ValidationError = null;
         $this->ValidationLog = null;
         $this->ContentClassAttributeIdentifier = null;
         $this->ContentClassAttributeID = null;
         $this->InputParameters = false;
-        $this->HasValidationError = true;
+        $this->HasValidationError = false;
         $this->DataTypeCustom = null;
         $this->eZPersistentObject( $row );
     }
@@ -119,6 +120,8 @@ class eZContentObjectAttribute extends eZPersistentObject
                       "function_attributes" => array( "contentclass_attribute" => "contentClassAttribute",
                                                       "contentclass_attribute_identifier" => "contentClassAttributeIdentifier",
                                                       "content" => "content",
+                                                      'has_http_value' => 'hasHTTPValue',
+                                                      'value' => 'value',
                                                       'has_content' => 'hasContent',
                                                       "class_content" => "classContent",
                                                       "object" => "object",
@@ -308,8 +311,12 @@ class eZContentObjectAttribute extends eZPersistentObject
             return $this->contentClassAttribute();
         if ( $attr == "contentclass_attribute_identifier" )
             return $this->contentClassAttributeIdentifier();
+        else if ( $attr == "value" )
+            return $this->value();
         else if ( $attr == "content" )
             return $this->content( );
+        else if ( $attr == "has_http_value" )
+            return $this->hasHTTPValue();
         else if ( $attr == "has_content" )
             return $this->hasContent( );
         else if ( $attr == "class_content" )
@@ -675,6 +682,36 @@ class eZContentObjectAttribute extends eZPersistentObject
     }
 
     /*!
+     Sets the content of variable for the content of the relevant value(s) submitted in HTTP form.
+    */
+    function setHTTPValue( &$value )
+    {
+        $this->HTTPValue =& $value;
+    }
+
+    /*!
+     Returns the content of the relevant value(s) submitted in HTTP form.
+    */
+    function &value()
+    {
+        if ( $this->HTTPValue !== null )
+            return $this->HTTPValue;
+        else
+            return $this->content();
+    }
+
+    /*!
+     \return \c true if the attribute has relavant value(s) submitted in HTTP form.
+    */
+    function hasHTTPValue()
+    {
+        if ( $this->HTTPValue !== null )
+            return true;
+        else
+            return false;
+    }
+
+    /*!
      Returns the content for this attribute.
     */
     function &content()
@@ -918,6 +955,9 @@ class eZContentObjectAttribute extends eZPersistentObject
         $dataType =& $this->dataType();
         return $dataType->resultTemplate( $this );
     }
+
+    /// Contains the value(s) submitted in HTTP form
+    var $HTTPValue;
 
     /// Contains the content for this attribute
     var $Content;

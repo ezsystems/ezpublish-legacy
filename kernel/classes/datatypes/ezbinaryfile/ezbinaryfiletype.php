@@ -61,16 +61,6 @@ class eZBinaryFileType extends eZDataType
                            array( 'serialize_supported' => true ) );
     }
 
-    function hasAttribute( $name )
-    {
-        return eZDataType::hasAttribute( $name );
-    }
-
-    function &attribute( $name )
-    {
-        return eZDataType::attribute( $name );
-    }
-
     /*!
      \return the binary file handler.
     */

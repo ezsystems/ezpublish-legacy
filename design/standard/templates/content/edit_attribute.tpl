@@ -10,7 +10,7 @@
         {attribute_view_gui attribute_base=$attribute_base attribute=$ContentObjectAttribute:item}
         </div>
     {section-else}
-        <label>{$ContentObjectAttribute:item.contentclass_attribute.name|wash}</label><div class="labelbreak"></div>
+        <label{section show=$ContentObjectAttribute:item.has_validation_error} class="validation-error"{/section}>{$ContentObjectAttribute:item.contentclass_attribute.name|wash}</label><div class="labelbreak"></div>
         <input type="hidden" name="ContentObjectAttribute_id[]" value="{$ContentObjectAttribute:item.id}" />
         {attribute_edit_gui attribute_base=$attribute_base attribute=$ContentObjectAttribute:item}
         </div>

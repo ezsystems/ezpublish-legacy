@@ -57,17 +57,6 @@ class eZUserType extends eZDataType
                                   'serialize_supported' => true ) );
     }
 
-
-    function hasAttribute( $name )
-    {
-        return eZDataType::hasAttribute( $name );
-    }
-
-    function &attribute( $name )
-    {
-        return eZDataType::attribute( $name );
-    }
-
     /*!
      Delete stored object attribute
     */

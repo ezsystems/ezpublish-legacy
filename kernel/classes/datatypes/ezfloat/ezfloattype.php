@@ -98,6 +98,7 @@ class eZFloatType extends eZDataType
         if ( $http->hasPostVariable( $base . "_data_float_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $data = $http->postVariable( $base . "_data_float_" . $contentObjectAttribute->attribute( "id" ) );
+            $contentObjectAttribute->setHTTPValue( $data );
 
             include_once( 'lib/ezlocale/classes/ezlocale.php' );
             $locale =& eZLocale::instance();

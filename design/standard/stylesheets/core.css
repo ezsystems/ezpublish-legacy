@@ -280,6 +280,11 @@ label
     white-space: nowrap;
 }
 
+label.validation-error
+{
+    color: #ff0000;
+}
+
 div.labelbreak
 /* Used on an empty tag set after the label tag, to make it possible to change the label positioning in a instant. */
 /* Standard display is _block_, but if set to _inline_ the labels will appear to the left of the input fields. */
