@@ -27,9 +27,11 @@
 	<td>{$Customers.sum_ex_vat|l10n( currency )}</td>
 	<td>{$Customers.sum_inc_vat|l10n( currency )}</td>
 </tr>
-{/section}
-
 </table>
+{section-else}
+
+asdf
+{/section}
 
 <div class="context-toolbar">
 {include name=navigator
@@ -41,9 +43,9 @@
 </div>
 
 {section-else}
-
+<div class="block">
 <p>{'The customer list is empty.'|i18n( 'design/admin/shop/customerlist' )}</p>
-
+</div>
 {/section}
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
