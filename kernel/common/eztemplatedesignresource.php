@@ -602,6 +602,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         {
             // Look for standard design in extension
             $resourceArray[] = "$extensionDirectory/$extension/design/$standardBase/templates";
+            $resourceArray[] = "$extensionDirectory/$extension/design/$standardBase/override/templates";
 
             // Look for aditional sitedesigns in extension
             foreach ( $additionalSiteDesignList as $additionalSiteDesign )
