@@ -130,6 +130,8 @@ eZINI:
   http://ez.no/community/bug_reports/selfrelated_include_once_in_lib_ezlocale_classes_ezdatetime_php
 - Fixed typo in user/activate.tpl
   http://ez.no/community/bug_reports/user_activate_template_typo
+- Fixed bug in SQL fetching user list for subtree notification handler
+  resulting in very large query execution times.
 
 *Library:
 
