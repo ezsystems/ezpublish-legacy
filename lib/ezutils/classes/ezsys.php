@@ -67,10 +67,7 @@ class eZSys
     */
     function eZSys()
     {
-        $this->Attributes = array( "wwwdir" => true,
-                                   "sitedir" => true,
-                                   "indexfile" => true,
-                                   "mysqlSupport" => true,
+        $this->Attributes = array( "mysqlSupport" => true,
                                    "postgresqlSupport" => true,
                                    "oracleSupport" => true,
                                    "magickQuotes" => true,
@@ -296,7 +293,11 @@ class eZSys
     */
     function hasAttribute( $attr )
     {
-        return isset( $this->Attributes[$attr] );
+        return ( isset( $this->Attributes[$attr] )
+                 or $attr == "wwwdir"
+                 or $attr == "sitedir"
+                 or $attr == "indexfile"
+                 or $attr == "indexdir" );
     }
 
     /*!
@@ -304,10 +305,31 @@ class eZSys
     */
     function &attribute( $attr )
     {
-        if ( !isset( $this->Attributes[$attr] ) )
+        if ( isset( $this->Attributes[$attr] ) )
+        {
+            $mname = $attr;
+            return $this->$mname();
+        }
+        else if ( $attr == 'wwwdir' )
+        {
+            return $this->wwwDir();
+        }
+        else if ( $attr == 'sitedir' )
+        {
+            return $this->siteDir();
+        }
+        else if ( $attr == 'indexfile' )
+        {
+            return $this->indexFile();
+        }
+        else if ( $attr == 'indexdir' )
+        {
+            return $this->indexDir();
+        }
+        else
+        {
             return null;
-        $mname = $attr;
-        return $this->$mname();
+        }
     }
 
     /*!
@@ -334,6 +356,11 @@ class eZSys
     {
         if ( !isset( $this ) or get_class( $this ) != "ezsys" )
             $this =& eZSys::instance();
+
+        eZDebug::writeDebug( "PHP_SELF=" . eZSys::serverVariable( 'PHP_SELF' ) );
+        eZDebug::writeDebug( "SCRIPT_FILENAME=" . eZSys::serverVariable( 'SCRIPT_FILENAME' ) );
+        eZDebug::writeDebug( "DOCUMENT_ROOT=" . eZSys::serverVariable( 'DOCUMENT_ROOT' ) );
+        eZDebug::writeDebug( "include_path=" . ini_get( 'include_path' ) );
 
         // Find out, where our files are.
         if ( ereg( "(.*/)([^\/]+\.php)$", eZSys::serverVariable( 'SCRIPT_FILENAME' ), $regs ) )
@@ -367,7 +394,7 @@ class eZSys
             $wwwDir = $regs[1];
 		else if ( ereg( "(.*)/([^\/]+\.php)$", eZSys::serverVariable( 'PHP_SELF' ), $regs ) )
 			$wwwDir = $regs[1];
-			
+
         // Fallback... Finding the paths above failed, so $_SERVER['PHP_SELF'] is not set right.
         if ( $siteDir == "./" )
             eZSys::setServerVariable( 'PHP_SELF', eZSys::serverVariable( 'REQUEST_URI' ) );
@@ -389,6 +416,10 @@ class eZSys
         $this->SiteDir =& $siteDir;
         $this->WWWDir =& $wwwDir;
         $this->IndexFile =& $index;
+
+        eZDebug::writeDebug( "SiteDir=" . $this->SiteDir );
+        eZDebug::writeDebug( "WWWDir=" . $this->WWWDir );
+        eZDebug::writeDebug( "IndexFile=" . $this->IndexFile );
     }
 
     /*!

@@ -40,7 +40,7 @@
 $eZTemplateOperatorArray = array();
 $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezurloperator.php',
                                     'class' => 'eZURLOperator',
-                                    'operator_names' => array( 'ezurl', 'ezroot', 'ezdesign', 'ezimage', 'exturl' ) );
+                                    'operator_names' => array( 'ezurl', 'ezroot', 'ezsys', 'ezdesign', 'ezimage', 'exturl' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezi18noperator.php',
                                     'class' => 'eZI18NOperator',
                                     'operator_names' => array( 'i18n' ) );
