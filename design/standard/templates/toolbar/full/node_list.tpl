@@ -1,4 +1,5 @@
 {cache-block}
+{section show=or($subtree|count_chars()|eq(0), $requested_uri_string|begins_with( $subtree ))}
 {let node_list=fetch( content, list, hash( parent_node_id, $parent_node,
                       limit, 5,
 					  sort_by, array( published, false() ) ) )}
@@ -15,4 +16,5 @@
 </div>
 
 {/let}
+{/section}
 {/cache-block}
