@@ -63,9 +63,14 @@ class eZStepSitePackages extends eZStepInstaller
             $sitePackages = $this->Http->postVariable( 'eZSetup_site_packages' );
             $this->PersistenceList['site_packages'] = $sitePackages;
 
-            // need to merge in required manually because disabled checkboxes won't post value.
-            $packageINI = eZINI::instance( 'setup.ini' );
-            $this->PersistenceList['additional_packages'] = array_merge( $this->Http->postVariable( 'AdditionalPackages' ), $packageINI->variable( 'PackageList', 'Required' ) );
+            if ( $this->Http->hasPostVariable( 'AdditionalPackages' ) )
+            {
+                $this->PersistenceList['additional_packages'] = $this->Http->postVariable( 'AdditionalPackages' );
+            }
+            else
+            {
+                $this->PersistenceList['additional_packages'] = array();
+            }
         }
         else
         {
@@ -90,25 +95,34 @@ class eZStepSitePackages extends eZStepInstaller
     */
     function &display()
     {
-        $packageINI = eZINI::instance( 'setup.ini' );
-        $requiredPackages = $packageINI->variable( 'PackageList', 'Required' );
+        $siteTypes = $this->chosenSiteTypes();
+        $siteType = $siteTypes[0]['identifier'];
+
+        $typeFunctionality = eZSetupFunctionality( $siteType );
+        $requiredPackages = $typeFunctionality['required'];
 
         include_once( 'kernel/classes/ezpackage.php' );
         $packageArray = eZPackage::fetchPackages( array( 'path' => 'packages' ) );
 
+        $requiredPackageInfoArray = array();
         $packageInfoArray = array();
         foreach ( $packageArray as $package )
         {
-            $packageInfoArray[] = array( 'required' => in_array( $package->attribute( 'name' ), $requiredPackages ) ? 1 : 0,
-                                         'name' => $package->attribute( 'name' ),
-                                         'description' => $package->attribute( 'description' ) );
+            if ( in_array( strtolower( $package->attribute( 'name' ) ), $requiredPackages ) )
+            {
+                $requiredPackageInfoArray[] = array( 'name' => $package->attribute( 'name' ),
+                                                     'description' => $package->attribute( 'description' ) );
+            }
+            else
+            {
+                $packageInfoArray[] = array( 'name' => $package->attribute( 'name' ),
+                                             'description' => $package->attribute( 'description' ) );
+            }
         }
-
-
-        $siteTypes = $this->chosenSiteTypes();
 
         $this->Tpl->setVariable( 'site_types', $siteTypes );
         $this->Tpl->setVariable( 'error', $this->ErrorMsg );
+        $this->Tpl->setVariable( 'required_package_array', $requiredPackageInfoArray );
         $this->Tpl->setVariable( 'package_array', $packageInfoArray );
 
         // Return template and data to be shown

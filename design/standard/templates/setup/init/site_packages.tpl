@@ -4,11 +4,11 @@
 <form method="post" action="{$script}">
 
   <div align="center">
-    <h1>{"Site elements"|i18n("design/standard/setup/init")}</h1>
+    <h1>{"Site functionality"|i18n("design/standard/setup/init")}</h1>
   </div>
 
   <p>
-    {"Please choose which extra elements you want to include on your site."i18n("design/standard/setup/init")}
+    {"Please choose which extra functionality you want to include on your site."i18n("design/standard/setup/init")}
   </p>
 
 {section show=$error}
@@ -28,15 +28,24 @@
     {section-else}
         <img src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$site_type.name|wash}" />
     {/section}
-
     <input type="hidden" name="eZSetup_site_packages[]" value="" />
+
+    <p>{$site_type.summary|wash}</p>
 
 {/let}
 
-<h2>{"Please select additional packages"|i18n("design/standard/setup/init")}</h2>
+<h2>{"Current site functionality"|i18n("design/standard/setup/init")}</h2>
+
+<ul>
+{section loop=$required_package_array}
+    <li>{$:item.name|wash}</li>
+{/section}
+</ul>
+
+<h2>{"Please select additional functionality"|i18n("design/standard/setup/init")}</h2>
 {section loop=$package_array}
     <div class="block">
-        <input type="checkbox" name="AdditionalPackages[]" value="{$:item.name|wash}" {section show=$:item.required|eq(1)}checked="checked" disabled="disabled"{/section} />
+        <input type="checkbox" name="AdditionalPackages[]" value="{$:item.name|wash}" />
 	&nbsp;{$:item.name|wash} <br />
     </div>
 {/section}

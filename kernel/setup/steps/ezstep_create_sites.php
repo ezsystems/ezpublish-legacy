@@ -374,12 +374,7 @@ class eZStepCreateSites extends eZStepInstaller
 //             print( "admin access: " . $adminSiteaccessName . "<br/>\n" );
 //             exit;
 
-            $siteINI =& eZINI::create( 'site.ini' );
-            $siteINI->setVariables( $siteINIChanges );
-            $siteINI->save( false, '.append.php', false, true, "settings/siteaccess/$adminSiteaccessName" );
-            $siteINI->setVariable( 'DesignSettings', 'SiteDesign', $userDesignName );
-            $siteINI->setVariable( 'DesignSettings', 'AdditionalSiteDesignList', array( 'base' ) );
-            $siteINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName" );
+            $siteINIStored = false;
 
             $extraSettings = eZSetupINISettings( $siteType );
             foreach ( $extraSettings as $extraSetting )
@@ -388,7 +383,24 @@ class eZStepCreateSites extends eZStepInstaller
                 $settings = $extraSetting['settings'];
                 $tmpINI =& eZINI::create( $iniName );
                 $tmpINI->setVariables( $settings );
+                if ( $iniName == 'site.ini' )
+                {
+                    $siteINIStored = true;
+                    $tmpINI->setVariables( $siteINIChanges );
+                    $tmpINI->setVariable( 'DesignSettings', 'SiteDesign', $userDesignName );
+                    $tmpINI->setVariable( 'DesignSettings', 'AdditionalSiteDesignList', array( 'base' ) );
+                }
                 $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName" );
+            }
+
+            $siteINI =& eZINI::create( 'site.ini' );
+            $siteINI->setVariables( $siteINIChanges );
+            $siteINI->save( false, '.append.php', false, true, "settings/siteaccess/$adminSiteaccessName" );
+            if ( !$siteINIStored )
+            {
+                $siteINI->setVariable( 'DesignSettings', 'SiteDesign', $userDesignName );
+                $siteINI->setVariable( 'DesignSettings', 'AdditionalSiteDesignList', array( 'base' ) );
+                $siteINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName" );
             }
 
             eZDir::mkdir( "design/" . $userDesignName );
@@ -467,11 +479,18 @@ WHERE
         }
 
         $user = eZUser::instance( 14 );
-        foreach( $this->PersistenceList['additional_packages'] as $packageName )
+        $typeFunctionality = eZSetupFunctionality( $siteType['identifier'] );
+        $extraFunctionality = array_merge( $this->PersistenceList['additional_packages'],
+                                           $typeFunctionality['required'] );
+        $extraFunctionality = array_unique( $extraFunctionality );
+        foreach ( $extraFunctionality as $packageName )
         {
             $package = eZPackage::fetch( $packageName, 'packages' );
-            $package->install( array( 'site_access_map' => array( '*' => $userSiteaccessName ),
-                                      'top_nodes_map' => array( '*' => 2 ) ) );
+            if ( is_object( $package ) )
+            {
+                $package->install( array( 'site_access_map' => array( '*' => $userSiteaccessName ),
+                                          'top_nodes_map' => array( '*' => 2 ) ) );
+            }
             unset( $package );
         }
     }

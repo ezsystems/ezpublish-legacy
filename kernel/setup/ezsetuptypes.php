@@ -34,22 +34,55 @@
 
 function eZSetupTypes()
 {
-    return array( 'blog' => array( 'name' => 'Blog',
+    return array( 'news' => array( 'name' => 'News',
+                                   'identifier' => 'news',
+                                   'summary' => 'With the eZ publish open source News site solution you can publish articles and news and communicate with your readers in a online newspaper containing the features you would normally need.',
+                                   'thumbnail' => 'news_thumbnail.png' ),
+                  'blog' => array( 'name' => 'Blog',
                                    'identifier' => 'blog',
+                                   'summary' => '',
                                    'thumbnail' => 'blog_thumbnail.png' ),
                   'corporate' => array( 'name' => 'Corporate',
                                         'identifier' => 'corporate',
+                                        'summary' => '',
                                         'thumbnail' => 'corporate_thumbnail.png' ),
                   'forum' => array( 'name' => 'Forum',
                                     'identifier' => 'forum',
+                                    'summary' => '',
                                     'thumbnail' => 'forum_thumbnail.png' ),
                   'gallery' => array( 'name' => 'Gallery',
                                       'identifier' => 'gallery',
+                                      'summary' => '',
                                       'thumbnail' => 'gallery_thumbnail.png' ),
                   'intranet' => array( 'name' => 'Intranet',
                                        'identifier' => 'intranet',
-                                       'thumbnail' => 'intranet_thumbnail.png' )
+                                       'summary' => '',
+                                       'thumbnail' => 'intranet_thumbnail.png' ),
+                  'shop' => array( 'name' => 'Shop',
+                                   'identifier' => 'shop',
+                                   'summary' => '',
+                                   'thumbnail' => 'shop_thumbnail.png' ),
+                  'plain' => array( 'name' => 'Plain',
+                                    'identifier' => 'plain',
+                                    'summary' => "Stripped install.\nContains no special toolbar or menu choices",
+                                    'thumbnail' => 'plain_thumbnail.png' )
                   );
+}
+
+function eZSetupFunctionality( $siteType )
+{
+    if ( $siteType == 'blog' )
+    {
+        return array( 'required' => array( 'blog' ) );
+    }
+    else if ( $siteType == 'news' )
+    {
+        return array( 'required' => array( 'article' ) );
+    }
+    else
+    {
+        return array( 'required' => array() );
+    }
 }
 
 function eZSetupForumINISettings()
@@ -58,16 +91,31 @@ function eZSetupForumINISettings()
                   'settings' => array( 'ForumSettings' => array( 'StickyUserGroupArray' => array( 12 ) ) ) );
 }
 
-function eZSetupMenuINISettings()
+function eZSetupMenuINISettings( $siteType )
 {
+    $default = array( 'CurrentMenu' => 'TopOnly',
+                      'TopMenu' => 'flat_top',
+                      'LeftMenu' => '' );
+    $typeMap = array( 'news' => array( 'CurrentMenu' => 'LeftTop',
+                                       'TopMenu' => 'flat_top',
+                                       'LeftMenu' => 'flat_left' ),
+                      'corporate' => array( 'CurrentMenu' => 'LeftTop',
+                                            'TopMenu' => 'flat_top',
+                                            'LeftMenu' => 'flat_left' ),
+                      'intranet' => array( 'CurrentMenu' => 'LeftTop',
+                                           'TopMenu' => 'flat_top',
+                                           'LeftMenu' => 'flat_left' ),
+                      'shop' => array( 'CurrentMenu' => 'LeftTop',
+                                       'TopMenu' => 'flat_top',
+                                       'LeftMenu' => 'flat_left' ) );
+    if ( isset( $typeMap[$siteType] ) )
+        $default = $typeMap[$siteType];
     return array( 'name' => 'menu.ini',
                   'settings' => array( 'MenuSettings' => array( 'AvailableMenuArray' => array( 'TopOnly',
                                                                                                'LeftOnly',
                                                                                                'DoubleTop',
                                                                                                'LeftTop' ) ),
-                                       'SelectedMenu' => array( 'CurrentMenu' => 'TopOnly',
-                                                                'TopMenu' => 'flat_top',
-                                                                'LeftMenu' => '' ),
+                                       'SelectedMenu' => $default,
                                        'TopOnly' => array( 'TitleText' => 'Only top menu',
                                                            'MenuThumbnail' => 'menu/top_only.jpg',
                                                            'TopMenu' => 'flat_top',
@@ -87,7 +135,44 @@ function eZSetupMenuINISettings()
                                        ) );
 }
 
-function eZSetupOverrideINISettings()
+function eZSetupToolbarINISettings( $siteType )
+{
+    if ( $siteType == 'blog' )
+    {
+        $toolbar = array( 'name' => 'toolbar.ini',
+                          'settings' => array( 'Toolbar_right' => array( 'Tool' => array( 'calendar', 'create_object', 'search', 'users' ) ),
+                                               'Toolbar_top' => array( 'Tool' => array( 'login' ) ),
+                                               'Toolbar_bottom' => array( 'Tool' => array() ),
+                                               'Tool_right_calendar_1' => array( 'show_subtree' => 'blogs',
+                                                                                 'class_identifier' => 'weblog' ),
+                                               'Tool_right_create_object_2' => array( 'subtree' => 'blogs',
+                                                                                      'class_identifier' => 'weblog',
+                                                                                      'node_placement' => 98 ) ) );
+    }
+    else if ( $siteType == 'shop' )
+    {
+        $toolbar = array( 'name' => 'toolbar.ini',
+                          'settings' => array( 'Toolbar_right' => array( 'Tool' => array( 'node_list', 'basket', 'search' ) ),
+                                               'Toolbar_top' => array( 'Tool' => array( 'login' ) ),
+                                               'Toolbar_bottom' => array( 'Tool' => array() ),
+                                               'Tool_right_node_list_1' => array( 'parent_node' => '2',
+                                                                                  'title' => 'Latest news',
+                                                                                  'subtree' => '' ) ) );
+    }
+    else
+    {
+        $toolbar = array( 'name' => 'toolbar.ini',
+                          'settings' => array( 'Toolbar_right' => array( 'Tool' => array( 'node_list' ) ),
+                                               'Toolbar_top' => array( 'Tool' => array( 'login', 'searchbox' ) ),
+                                               'Toolbar_bottom' => array( 'Tool' => array() ),
+                                               'Tool_right_node_list_1' => array( 'parent_node' => '2',
+                                                                                  'title' => 'Latest',
+                                                                                  'subtree' => '' ) ) );
+    }
+    return $toolbar;
+}
+
+function eZSetupOverrideINISettings( $siteType )
 {
     return array (
         'name' => 'override.ini',
@@ -905,20 +990,9 @@ function eZSetupINISettings( $siteType )
 {
     $settings = array();
     $settings[] = eZSetupForumINISettings();
-    $settings[] = eZSetupMenuINISettings();
-    $settings[] = eZSetupOverrideINISettings();
-
-    $toolbar = array( 'name' => 'toolbar.ini',
-                      'settings' => array( 'Toolbar_right' => array( 'Tool' => array( 'calendar', 'create_object', 'node_list', 'node_list' ) ),
-                                           'Toolbar_top' => array( 'Tool' => array( 'login', 'basket', 'searchbox' ) ),
-                                           'Toolbar_bottom' => array( 'Tool' => array( 'link', 'basket' ) ),
-                                           'Tool_right_create_object_2' => array( 'subtree' => 'blogs',
-                                                                                  'class_identifier' => 'weblog',
-                                                                                  'node_placement' => 98 ),
-                                           'Tool_right_node_list_3' => array( 'parent_node' => 54,
-                                                                              'title' => 'Latest news' ),
-                                           'Tool_right_node_list_4' => array( 'parent_node' => 79,
-                                                                              'title' => 'Gallery images' ) ) );
+    $settings[] = eZSetupMenuINISettings( $siteType );
+    $settings[] = eZSetupOverrideINISettings( $siteType );
+    $settings[] = eZSetupToolbarINISettings( $siteType );
 
     $settings[] = $toolbar;
 
