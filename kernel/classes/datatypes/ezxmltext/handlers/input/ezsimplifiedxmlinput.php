@@ -397,8 +397,9 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 else
                     return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
             }
+            return EZ_INPUT_VALIDATOR_STATE_INVALID;
         }
-        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
 
     /*!
