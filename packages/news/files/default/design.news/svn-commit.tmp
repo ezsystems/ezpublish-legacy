@@ -1,6 +1,0 @@
-- Added poll css.
---This line, and those below, will be ignored--
-
-A    override/templates/poll_line.tpl
-A    override/templates/poll_result.tpl
-M    stylesheets/news.css
