@@ -6,8 +6,6 @@
 {set-block scope=root variable=redirect_to_node_id}2{/set-block}
 *}
 
-OVER
-
 {"The following information was collected:"|i18n("design/standard/content/edit")}
 
 {section name=Attribute loop=$collection.attributes}
