@@ -234,7 +234,6 @@ class eZPersistentObject
                     if ( array_key_exists( 'default', $field_def ) && ! is_null( $field_def[ 'default' ] ) )
                     {
                         $obj->setAttribute( $field_name, $field_def[ 'default' ] );
-                        eZDebug::writeDebug( $field_def[ 'default' ], "changing value of $field_name to default" );
                     }
                     else
                     {
@@ -252,7 +251,6 @@ class eZPersistentObject
                  !is_null( $field_def[ 'default' ] ) )
             {
                 $obj->setAttribute( $field_name, $field_def[ 'default' ] );
-                eZDebug::writeDebug( $field_def[ 'default' ], "changing value of $field_name to default" );
             }
         }
         $key_conds = array();
@@ -311,7 +309,6 @@ class eZPersistentObject
             }
             $value_text = implode( ", ", $use_values );
             $sql = "INSERT INTO $table ($field_text) VALUES($value_text)";
-//             eZDebug::writeNotice( $sql );
             $db->query( $sql );
 
             if ( isset( $def["increment_key"] ) && !($obj->attribute( $def["increment_key"]) > 0) )
@@ -355,7 +352,6 @@ class eZPersistentObject
             }
             $cond_text = eZPersistentObject::conditionText( $key_conds );
             $sql = "UPDATE $table\nSET $field_text$cond_text";
-//             eZDebug::writeNotice( $sql );
             $db->query( $sql );
         }
         $obj->setHasDirtyData( false );
@@ -645,8 +641,6 @@ class eZPersistentObject
         {
             $swapSQL1 = eZPersistentObject::swapRow( $table, $keys, $order_id, $rows, 1, 0 );
             $swapSQL2 = eZPersistentObject::swapRow( $table, $keys, $order_id, $rows, 0, 1 );
-//             eZDebug::writeDebug( $swapSQL1, 'swapSQL1' );
-//             eZDebug::writeDebug( $swapSQL2, 'swapSQL2' );
             $db->query( $swapSQL1 );
             $db->query( $swapSQL2 );
         }
