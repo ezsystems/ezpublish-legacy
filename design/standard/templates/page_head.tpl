@@ -1,4 +1,6 @@
 {*?template charset=latin1?*}
+{default enable_glossary=true() enable_help=true()}
+
 {set-block variable=site_title}
 {$site.title} - {section name=Path loop=$module_result.path}{$:item.text}{delimiter} / {/delimiter}{/section}
 {/set-block}
@@ -24,4 +26,5 @@
     <meta name="MSSmartTagsPreventParsing" content="TRUE" />
     <meta name="generator" content="eZ publish" />
 
-{include uri="design:link.tpl"}
+{include uri="design:link.tpl" enable_glossary=$enable_glossary enable_help=$enable_help}
+{/default}
