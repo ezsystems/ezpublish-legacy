@@ -66,11 +66,10 @@ include_once( "lib/ezutils/classes/ezsys.php" );
 
 eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
 
-$GLOBALS['eZGlobalRequestURI'] = $REQUEST_URI;
+$GLOBALS['eZGlobalRequestURI'] = eZSys::serverVariable( 'REQUEST_URI' );
 
 // Initialize basic settings, such as vhless dirs and separators
-eZSys::init( $SCRIPT_FILENAME, $PHP_SELF, $DOCUMENT_ROOT,
-             $SCRIPT_NAME, $REQUEST_URI, "index.php" );
+eZSys::init( 'index.php' );
 
 $ini =& eZINI::instance();
 
@@ -86,11 +85,11 @@ $locale =& eZLocale::instance();
 eZDebug::addTimingPoint( "Script start" );
 
 // Remove url parameters
-ereg( "([^?]+)", $REQUEST_URI, $regs );
-$REQUEST_URI = $regs[1];
+ereg( "([^?]+)", eZSys::serverVariable( 'REQUEST_URI' ), $regs );
+eZSys::setServerVariable( 'REQUEST_URI', $regs[1] );
 include_once( "lib/ezutils/classes/ezuri.php" );
 
-$uri =& eZURI::instance( $REQUEST_URI );
+$uri =& eZURI::instance( eZSys::serverVariable( 'REQUEST_URI' ) );
 $GLOBALS['eZRequestedURI'] =& $uri;
 
 include_once( "pre_check.php" );
@@ -102,8 +101,8 @@ ob_start();
 include_once( "access.php" );
 
 $access = accessType( $uri,
-                      $GLOBALS["HTTP_SERVER_VARS"]["HTTP_HOST"],
-                      $GLOBALS["HTTP_SERVER_VARS"]["SERVER_PORT"],
+                      eZSys::serverVariable( 'HTTP_HOST' ),
+                      eZSys::serverVariable( 'SERVER_PORT' ),
                       eZSys::indexFile() );
 if ( $access !== null )
 {
@@ -247,7 +246,7 @@ while ( $moduleRunRequired )
 if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
 {
     $ini =& eZINI::instance();
-    $uri =& eZURI::instance( $REQUEST_URI );
+    $uri =& eZURI::instance( eZSys::serverVariable( 'REQUEST_URI' ) );
 
     $redir_uri = $ini->variable( "DebugSettings", "DebugRedirection" );
     $automatic_redir = true;
@@ -372,7 +371,7 @@ if ( $show_page_layout )
         $i = 0;
         $pathArray = array();
         $tmpModulePath = $moduleResult['path'];
-        $tmpModulePath[count($tmpModulePath)-1]['url'] = $REQUEST_URI;
+        $tmpModulePath[count($tmpModulePath)-1]['url'] = eZSys::serverVariable( 'REQUEST_URI' );
         $offset = 0;
         if ( $moduleResult['section_id'] == 2 )
             $offset = 2;

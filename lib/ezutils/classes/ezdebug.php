@@ -78,6 +78,7 @@
 */
 
 include_once( "lib/ezutils/classes/ezini.php" );
+include_once( "lib/ezutils/classes/ezsys.php" );
 
 define( "EZ_LEVEL_NOTICE", 1 );
 define( "EZ_LEVEL_WARNING", 2 );
@@ -403,7 +404,7 @@ class eZDebug
         if ( $this->MessageOutput & EZ_OUTPUT_MESSAGE_STORE )
         {
             $this->DebugStrings[] = array( "Level" => $verbosityLevel,
-                                           "IP" => $GLOBALS["REMOTE_ADDR"],
+                                           "IP" => eZSys::serverVariable( 'REMOTE_ADDR' ),
                                            "Time" => time(),
                                            "Label" => $label,
                                            "String" => $string );
@@ -435,7 +436,7 @@ class eZDebug
         if ( $logFile )
         {
             $time = strftime( "%b %d %Y %H:%M:%S", strtotime( "now" ) );
-            $notice = "[ " . $time . " ] [" . $GLOBALS["REMOTE_ADDR"] . "] " . $string . "\n";
+            $notice = "[ " . $time . " ] [" . eZSys::serverVariable( 'REMOTE_ADDR' ) . "] " . $string . "\n";
             fwrite( $logFile, $notice );
             fclose( $logFile );
         }
@@ -461,7 +462,7 @@ class eZDebug
         $debugIPArray = $ini->variableArray( "DebugSettings", "DebugIP" );
 
         if ( !in_array( "enabled", $debugIPArray ) )
-        if ( in_array( $GLOBALS["REMOTE_ADDR"], $debugIPArray ) )
+        if ( in_array( eZSys::serverVariable( 'REMOTE_ADDR' ), $debugIPArray ) )
         {
         }
         else

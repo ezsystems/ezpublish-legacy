@@ -167,7 +167,7 @@ class eZMySQLDB extends eZDBInterface
 
             if ( $result == false )
             {
-                eZDebug::writeError( $this->Error, "eZMySQLDB" );
+                $this->reportQuery( 'eZMySQLDB', $sql, false, false );
                 return false;
             }
 

@@ -241,6 +241,56 @@ class eZSys
     }
 
     /*!
+     \return the variable named \a $variableName in the global \c $_SERVER variable.
+             If the variable is not present an error is shown and \c null is returned.
+    */
+    function &serverVariable( $variableName )
+    {
+        global $_SERVER;
+        if ( !isset( $_SERVER[$variableName] ) )
+        {
+            eZDebug::writeError( "Server variable '$variableName' does not exist", 'eZSys::serverVariable' );
+            return null;
+        }
+        return $_SERVER[$variableName];
+    }
+
+    /*!
+     Sets the server variable named \a $variableName to \a $variableValue.
+     \note Variables are only set for the current page view.
+    */
+    function setServerVariable( $variableName, $variableValue )
+    {
+        global $_SERVER;
+        $_SERVER[$variableName] = $variableValue;
+    }
+
+    /*!
+     \return the variable named \a $variableName in the global \c $_ENV variable.
+             If the variable is not present an error is shown and \c null is returned.
+    */
+    function &enviromentVariable( $variableName )
+    {
+        global $_ENV;
+        if ( !isset( $_ENV[$variableName] ) )
+        {
+            eZDebug::writeError( "Enviroment variable '$variableName' does not exist", 'eZSys::enviromentVariable' );
+            return null;
+        }
+        return $_ENV[$variableName];
+    }
+
+    /*!
+     Sets the enviroment variable named \a $variableName to \a $variableValue.
+     \note Variables are only set for the current page view.
+    */
+    function setEnviromentVariable( $variableName, $variableValue )
+    {
+        global $_ENV;
+        $_ENV[$variableName] = $variableValue;
+    }
+
+    /*!
      Return true if the attribute $attr is set. Available attributes are
      wwwdir, sitedir or indexfile
     */
@@ -280,23 +330,21 @@ class eZSys
      stated in the parameter list.
      \static
     */
-    function init( &$SCRIPT_FILENAME, &$PHP_SELF, &$DOCUMENT_ROOT,
-                   &$SCRIPT_NAME, &$REQUEST_URI,
-                   $def_index = "index.php" )
+    function init( $def_index = "index.php" )
     {
         if ( !isset( $this ) or get_class( $this ) != "ezsys" )
             $this =& eZSys::instance();
 
         // Find out, where our files are.
-        if ( ereg( "(.*/)([^\/]+\.php)$", $SCRIPT_FILENAME, $regs ) )
+        if ( ereg( "(.*/)([^\/]+\.php)$", eZSys::serverVariable( 'SCRIPT_FILENAME' ), $regs ) )
         {
             $siteDir = $regs[1];
             $index = "/" . $regs[2];
         }
-        elseif ( ereg( "(.*/)([^\/]+\.php)/?", $PHP_SELF, $regs ) )
+        elseif ( ereg( "(.*/)([^\/]+\.php)/?", eZSys::serverVariable( 'PHP_SELF' ), $regs ) )
         {
-            // Some people using CGI have their $SCRIPT_FILENAME not right... so we are trying this.
-            $siteDir = $DOCUMENT_ROOT . $regs[1];
+            // Some people using CGI have their $_SERVER['SCRIPT_FILENAME'] not right... so we are trying this.
+            $siteDir = eZSys::serverVariable( 'DOCUMENT_ROOT' ) . $regs[1];
             $index = "/" . $regs[2];
         }
         else
@@ -315,31 +363,30 @@ class eZSys
         ini_set( "include_path", $includePath );
 
         // Get the webdir.
-        if ( ereg( "(.*)/([^\/]+\.php)$", $SCRIPT_NAME, $regs ) )
+        if ( ereg( "(.*)/([^\/]+\.php)$", eZSys::serverVariable( 'SCRIPT_NAME' ), $regs ) )
             $wwwDir = $regs[1];
 
-        // Fallback... Finding the paths above failed, so $PHP_SELF is not set right.
+        // Fallback... Finding the paths above failed, so $_SERVER['PHP_SELF'] is not set right.
         if ( $siteDir == "./" )
-            $PHP_SELF = $REQUEST_URI;
+            eZSys::setServerVariable( 'PHP_SELF', eZSys::serverVariable( 'REQUEST_URI' ) );
 
         $def_index_reg = str_replace( ".", "\\.", $def_index );
-        // Trick: Rewrite setup doesn't have index.php in $PHP_SELF, so we don't want an $index
-        if ( ! ereg( ".*$def_index_reg.*", $PHP_SELF ) )
+        // Trick: Rewrite setup doesn't have index.php in $_SERVER['PHP_SELF'], so we don't want an $index
+        if ( ! ereg( ".*$def_index_reg.*", eZSys::serverVariable( 'PHP_SELF' ) ) )
             $index = "";
         else
         {
-            // Get the right $REQUEST_URI, when using nVH setup.
-            if ( ereg( "^$wwwDir$index(.+)", $PHP_SELF, $req ) )
-                $REQUEST_URI = $req[1];
+            // Get the right $_SERVER['REQUEST_URI'], when using nVH setup.
+            if ( ereg( "^$wwwDir$index(.+)", eZSys::serverVariable( 'PHP_SELF' ), $req ) )
+                eZSys::setServerVariable( 'REQUEST_URI', $req[1] );
 //            else
-//                $REQUEST_URI = "/";
+//                eZSys::setServerVariable( 'REQUEST_URI', "/" );
         }
 
         $this->AccessPath = array();
         $this->SiteDir =& $siteDir;
         $this->WWWDir =& $wwwDir;
         $this->IndexFile =& $index;
-
     }
 
     /*!
