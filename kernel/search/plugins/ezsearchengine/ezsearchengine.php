@@ -329,7 +329,16 @@ class eZSearchEngine
             $searchTypes['subtype'] = array();
             $searchTypes['and'] = array();
         }
-        if ( trim( $searchText ) != "" || count( $searchTypes ) > 0 || true )
+        $allowSearch = trim( $searchText ) != "" || count( $searchTypes ) > 0 || true;
+        if ( trim( $searchText ) == '' )
+        {
+            $ini =& eZINI::instance();
+            if ( $ini->variable( 'SearchSettings', 'AllowEmptySearch' ) != 'enabled' )
+                $allowSearch = false;
+            if ( isset( $params['AllowEmptySearch'] ) )
+                $allowSearch = $params['AllowEmptySearch'];
+        }
+        if ( $allowSearch )
         {
             $searchText =& $this->normalizeText( $searchText );
             $db =& eZDB::instance();
@@ -846,7 +855,7 @@ class eZSearchEngine
                     }
                     else
                     {
-                        $stopWordArray[] = array( 'word' => $searchWord['word'] );
+                        $stopWordArray[] = array( 'word' => $searchPart['word'] );
                     }
                 }
             }
@@ -872,6 +881,11 @@ class eZSearchEngine
                     $tmpTablesFrom .= ", ";
 
             }
+            $tmpTablesSeparator = '';
+            if ( $tmpTableCount > 0 )
+            {
+                $tmpTablesSeparator = ',';
+            }
 
             for ( $i = 1; $i < $tmpTableCount; $i++ )
             {
@@ -879,10 +893,15 @@ class eZSearchEngine
                 if ( $i < ( $tmpTableCount - 1 ) )
                     $tmpTablesWhere .= " AND ";
             }
+            $tmpTablesWhereExtra = '';
+            if ( $tmpTableCount > 0 )
+            {
+                $tmpTablesWhereExtra = 'ezcontentobject.id=ezsearch_tmp_0.contentobject_id AND';
+            }
 
             $and = "";
             if ( $tmpTableCount > 1 )
-            $and = " AND ";
+                $and = " AND ";
 
             // Generate ORDER BY SQL
             $orderBySQLArray = $this->buildSortSQL( $sortArray );
@@ -898,7 +917,7 @@ class eZSearchEngine
                 $searchQuery = "SELECT DISTINCT ezcontentobject.*, ezcontentclass.name as class_name, ezcontentobject_tree.*
                             $versionNameTargets
                     FROM
-                       $tmpTablesFrom,
+                       $tmpTablesFrom $tmpTablesSeparator
                        ezcontentobject,
                        ezcontentclass,
                        ezcontentobject_tree
@@ -906,7 +925,7 @@ class eZSearchEngine
                        $sortFromSQL
                     WHERE
                     $tmpTablesWhere $and
-                    ezcontentobject.id=ezsearch_tmp_0.contentobject_id and
+                    $tmpTablesWhereExtra
                     ezcontentobject.contentclass_id = ezcontentclass.id and
                     ezcontentclass.version = '0' and
                     ezcontentobject.id = ezcontentobject_tree.contentobject_id and
@@ -914,32 +933,68 @@ class eZSearchEngine
                     $versionNameJoins
                     $sortWhereSQL
                     ORDER BY $orderByFieldsSQL";
+                if ( $tmpTableCount == 0 )
+                {
+                    $searchCountQuery = "SELECT count( DISTINCT ezcontentobject.id ) AS count
+                    FROM
+                       ezcontentobject,
+                       ezcontentclass,
+                       ezcontentobject_tree
+                       $versionNameTables
+                    WHERE
+                    $emptyWhere
+                    ezcontentobject.contentclass_id = ezcontentclass.id and
+                    ezcontentclass.version = '0' and
+                    ezcontentobject.id = ezcontentobject_tree.contentobject_id and
+                    ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
+                    $versionNameJoins
+                    $sortWhereSQL";
+                }
             }
             else
             {
                 $searchQuery = "SELECT DISTINCT ezcontentobject.*, ezcontentclass.name as class_name, ezcontentobject_tree.*
                             $versionNameTargets
                     FROM
-                       $tmpTablesFrom,
+                       $tmpTablesFrom $tmpTablesSeparator
                        ezcontentobject,
                        ezcontentclass,
                        ezcontentobject_tree
                        $versionNameTables
                     WHERE
                     $tmpTablesWhere $and
-                    ezcontentobject.id=ezsearch_tmp_0.contentobject_id and
+                    $tmpTablesWhereExtra
                     ezcontentobject.contentclass_id = ezcontentclass.id and
                     ezcontentclass.version = '0' and
                     ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                     $versionNameJoins
                      ";
+                if ( $tmpTableCount == 0 )
+                {
+                    $searchCountQuery = "SELECT count( DISTINCT ezcontentobject.id ) AS count
+                    FROM
+                       ezcontentobject,
+                       ezcontentclass,
+                       ezcontentobject_tree
+                       $versionNameTables
+                    WHERE
+                    ezcontentobject.contentclass_id = ezcontentclass.id and
+                    ezcontentclass.version = '0' and
+                    ezcontentobject.id = ezcontentobject_tree.contentobject_id and
+                    ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
+                    $versionNameJoins
+                     ";
+                }
             }
             // Count query
             $where = "WHERE";
             if ( $tmpTableCount == 1 )
                 $where = "";
-            $searchCountQuery = "SELECT count( * ) AS count FROM $tmpTablesFrom $where $tmpTablesWhere ";
+            if ( $tmpTableCount > 0 )
+            {
+                $searchCountQuery = "SELECT count( * ) AS count FROM $tmpTablesFrom $where $tmpTablesWhere ";
+            }
 
             $objectRes = array();
 
@@ -1758,7 +1813,7 @@ class eZSearchEngine
             }
             else
             {
-                $stopWordArray[] = array( 'word' => $searchWord['word'] );
+                $stopWordArray[] = array( 'word' => $searchPart['word'] );
             }
         }
         $this->TempTablesCount = $i;
