@@ -333,6 +333,37 @@ class eZNodeAssignment extends eZPersistentObject
         return eZContentObject::fetchByNodeID( $this->attribute( 'parent_node' ) );
     }
 
+    /*!
+    \static
+    Chooses and sets new main assignment for the specified object, in case if there's main assignment already.
+    \return false if there is already main assignment, true on success.
+    */
+    function setNewMainAssignment( $objectID, $version )
+    {
+
+        $assignments =& eZNodeAssignment::fetchForObject( $objectID, $version );
+
+        if ( count( $assignments ) == 0 )
+            return true;
+
+        // check: if there is already main assignment for the object then we should do nothing
+        foreach ( $assignments as $key => $assignment )
+        {
+            if ( $assignment->attribute( 'is_main' ) )
+                return false;
+        }
+
+        // choose first assignment as new first assignment
+        $newMainAssignment =& $assignments[0];
+        $parentMainNodeID = $newMainAssignment->attribute( 'parent_node' );
+
+        $db =& eZDB::instance();
+        $db->query( "UPDATE eznode_assignment SET is_main=1 WHERE contentobject_id=$objectID AND contentobject_version=$version AND parent_node=$parentMainNodeID" );
+        $db->query( "UPDATE eznode_assignment SET is_main=0 WHERE contentobject_id=$objectID AND contentobject_version=$version AND parent_node<>$parentMainNodeID" );
+
+        return true;
+    }
+
     /// \privatesection
     var $ID;
     /// Used for giving unique values to an assignment which can later be checked.
