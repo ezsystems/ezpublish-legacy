@@ -352,7 +352,6 @@ class eZSearchEngine
                 }
             }
             $nonPhraseText .= $postPhraseText;
-            eZDebug::writeDebug( $phraseTextArray, "$nonPhraseText Search debug"  );
             $sectionQuery = '';
             if ( is_numeric( $searchSectionID ) and  $searchSectionID > 0 )
             {
@@ -434,7 +433,6 @@ class eZSearchEngine
             }
 
             $searchWordArray = $this->splitString( $searchText );
-            eZDebug::writeDebug( $searchWordArray, "searchWordArray Search debug $searchText"  );
 
             // Get the total number of objects
             $objectCount = array();
@@ -487,7 +485,7 @@ class eZSearchEngine
 //                $phraseSQL .= "( $phraseSearchSQL ) AND ";
                 unset( $phraseSearchSQL );
             }
-            eZDebug::writeDebug(  $phraseSearchSQLArray, "$phraseSQL Search Debug" );
+
 
 
             ///Build search parts array for phrases and normal words
@@ -676,7 +674,7 @@ class eZSearchEngine
             $tmpTableCount = 0;
             $i = 0;
             // Loop every word and insert result in temporary table
-            eZDebug::writeDebug( $wordIDHash, "wordIDhash" );
+
 //            foreach ( $wordIDHash as $searchWord )
             foreach ( $searchPartsArray as $searchPart )
             {
