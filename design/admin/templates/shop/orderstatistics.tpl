@@ -1,7 +1,15 @@
 <form action={'/shop/statistics'|ezurl} method="post" name="Statistics">
 
 <div class="context-block">
-<h2 class="context-title">{'Product statistics [%count]'|i18n( 'design/admin/shop/orderstatistics',, hash( '%count', $statistic_result[0].product_list|count  ) )}</h2>
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
+<h1 class="context-title">{'Product statistics [%count]'|i18n( 'design/admin/shop/orderstatistics',, hash( '%count', $statistic_result[0].product_list|count  ) )}</h1>
+
+{* DESIGN: Mainline *}<div class="header-mainline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {section show=$statistic_result}
 <table class="list" cellspacing="0">
@@ -28,18 +36,21 @@
 </table>
 {/section}
 
+{* DESIGN: Content END *}</div></div></div>
+
 <div class="controlbar">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 
 <select name="Year">
-    <option value="0" {section show=eq($year,0)}selected="selected"{/section}>[{"All years"|i18n( 'design/admin/shop/orderstatistics' )}]</option>
+    <option value="0" {section show=eq($year,0)}selected="selected"{/section}>[{'All years'|i18n( 'design/admin/shop/orderstatistics' )}]</option>
     {section var=YearValue loop=$year_list}
         <option value="{$YearValue}" {section show=eq($YearValue,$year)}selected="selected"{/section}>{$YearValue}</option>
     {/section}
 </select>
 
 <select name="Month">
-    <option value="0" {section show=eq($month,0)}selected="selected"{/section}>[{"All months"|i18n( 'design/admin/shop/orderstatistics' )}]</option>
+    <option value="0" {section show=eq($month,0)}selected="selected"{/section}>[{'All months'|i18n( 'design/admin/shop/orderstatistics' )}]</option>
     {section var=MonthValue loop=$month_list}
         <option value="{$MonthValue}" {section show=eq($MonthValue,$month)}selected="selected"{/section}>{$MonthValue}</option>
     {/section}
@@ -48,8 +59,8 @@
 <input class="button" type="submit" name="View" value="{'Show'|i18n( 'design/admin/shop/orderstatistics' )}" />
 
 </div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
-
 
 </div>
 
