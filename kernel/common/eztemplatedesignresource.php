@@ -297,6 +297,12 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $path =& $resourceData['template-name'];
 
         $matchKeys = $this->Keys;
+        if ( isset( $GLOBALS['eZDesignKeys'] ) )
+        {
+            $matchKeys = array_merge( $matchKeys, $GLOBALS['eZDesignKeys'] );
+            unset( $GLOBALS['eZDesignKeys'] );
+            $this->Keys = $matchKeys;
+        }
         if ( is_array( $extraParameters ) and
              isset( $extraParameters['ezdesign:keys'] ) )
         {
@@ -857,7 +863,13 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     */
     function keys()
     {
-        return $this->Keys;
+        $keys = $this->Keys;
+        if ( isset( $GLOBALS['eZDesignKeys'] ) )
+        {
+            $keys = array_merge( $keys, $GLOBALS['eZDesignKeys'] );
+            $this->Keys = $keys;
+        }
+        return $keys;
     }
 
     /*!

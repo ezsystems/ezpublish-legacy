@@ -601,10 +601,11 @@ class eZINI
             }
         }
 //         $codec =& eZTextCodec::codecForName( $this->Charset );
+        $codec = null;
         if ( $this->UseTextCodec )
         {
             include_once( "lib/ezi18n/classes/eztextcodec.php" );
-            $codec =& eZTextCodec::instance( $this->Charset );
+            $codec =& eZTextCodec::instance( $this->Charset, false, false );
         }
         foreach ( $lines as $line )
         {
@@ -632,7 +633,7 @@ class eZINI
             else if ( preg_match("#^([a-zA-Z0-9_-]+)(\\[([^\\]]*)\\])?=(.*)$#", $line, $valueArray ) )
             {
                 $varName = trim( $valueArray[1] );
-                if ( $this->UseTextCodec )
+                if ( $codec )
                 {
                     eZDebug::accumulatorStart( 'ini_conversion', false, 'INI string conversion' );
                     $varValue = $codec->convertString( $valueArray[4] );
