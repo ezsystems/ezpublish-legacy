@@ -76,7 +76,7 @@ class eZImageType extends eZDataType
         $contentObjectAttributeID = $originalContentObjectAttribute->attribute( "id" );
         $version = $contentObjectAttribute->attribute( "version" );
         $oldimage =& eZImage::fetch( $contentObjectAttributeID, $currentVersion );
-        if( $oldimage != null )
+        if ( $oldimage != null )
         {
             $oldimage->setAttribute( 'contentobject_attribute_id', $contentObjectAttribute->attribute( 'id' ) );
             $oldimage->setAttribute( "version",  $version );

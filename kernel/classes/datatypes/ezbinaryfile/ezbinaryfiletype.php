@@ -74,14 +74,17 @@ class eZBinaryFileType extends eZDataType
     */
     function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
-        $contentObjectAttributeID = $originalContentObjectAttribute->attribute( "id" );
-        $version = $contentObjectAttribute->attribute( "version" );
-        $oldfile =& eZBinaryFile::fetch( $contentObjectAttributeID, $currentVersion );
-        if( $oldfile != null )
+        if ( $currentVersion != false )
         {
-            $oldfile->setAttribute( 'contentobject_attribute_id', $contentObjectAttribute->attribute( 'id ' ) );
-            $oldfile->setAttribute( "version",  $version );
-            $oldfile->store();
+            $contentObjectAttributeID = $originalContentObjectAttribute->attribute( "id" );
+            $version = $contentObjectAttribute->attribute( "version" );
+            $oldfile =& eZBinaryFile::fetch( $contentObjectAttributeID, $currentVersion );
+            if ( $oldfile != null )
+            {
+                $oldfile->setAttribute( 'contentobject_attribute_id', $contentObjectAttribute->attribute( 'id ' ) );
+                $oldfile->setAttribute( "version",  $version );
+                $oldfile->store();
+            }
         }
     }
 
@@ -95,7 +98,7 @@ class eZBinaryFileType extends eZDataType
         $sys =& eZSys::instance();
         $storage_dir = $sys->storageDirectory();
 
-        if( $version == null )
+        if ( $version == null )
         {
             foreach ( $binaryFiles as $binaryFile )
             {
@@ -104,7 +107,7 @@ class eZBinaryFileType extends eZDataType
                 $orig_dir = $storage_dir . '/original/' . $prefix;
 //              $orig_dir = "var/storage/original/" . $prefix;
                 $fileName = $binaryFile->attribute( "filename" );
-                if( file_exists( $orig_dir . "/" .$fileName ) )
+                if ( file_exists( $orig_dir . "/" .$fileName ) )
                     unlink( $orig_dir . "/" . $fileName );
             }
         }
@@ -122,12 +125,12 @@ class eZBinaryFileType extends eZDataType
                 foreach ( $binaryFiles as $binaryFile )
                 {
                     $fileName = $binaryFile->attribute( "filename" );
-                    if( $currentFileName == $fileName )
+                    if ( $currentFileName == $fileName )
                         $count += 1;
                 }
-                if( $count == 1 )
+                if ( $count == 1 )
                 {
-                    if( file_exists( $orig_dir . "/" . $currentFileName ) )
+                    if ( file_exists( $orig_dir . "/" . $currentFileName ) )
                         unlink( $orig_dir . "/" .  $currentFileName );
                 }
             }
