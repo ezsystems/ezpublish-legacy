@@ -57,22 +57,22 @@ function OpenWindow ( URL, WinName, Features ) {
 
 <img src={"toppmeny.gif"|ezimage} alt="" border="" USEMAP="#map" />
 
-<MAP NAME="map">
-<AREA SHAPE="RECT" COORDS="0,2,72,23" HREF="/content/formum/">
-<AREA SHAPE="RECT" COORDS="75,2,142,25" HREF="/news/">
-<AREA SHAPE="RECT" COORDS="145,2,217,23" HREF="/gellery">
-<AREA SHAPE="RECT" COORDS="221,1,283,23" HREF="/shop">
-</MAP>
+<map name="map">
+<area shape="RECT" coords="0,2,72,23" href="/content/formum/">
+<area shape="RECT" coords="75,2,142,25" href="/news/">
+<area shape="RECT" coords="145,2,217,23" href={"content/view/full/82"|ezurl}>
+<area shape="RECT" coords="221,1,283,23" href="/shop">
+</map>
 
 
 <img src={"images/whiteboxlogo.png"|ezdesign} alt="White box - contemporary art gallery" />
 
 <!-- Top box END -->
-{let gallery_list=fetch(content,list,hash(parent_node_id,16))}
+{let gallery_list=fetch(content,list,hash(parent_node_id,16,class_filter_type,include,class_filter_array,array(1)))}
 <table class="layout" width="700" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <td bgcolor="#cccccc">
-    &nbsp;&nbsp;:: about<br /> 
+    &nbsp;&nbsp;:: <a href={"content/view/full/82"|ezurl}>About</a><br /> 
     &nbsp;&nbsp;:: not<br /> 
     &nbsp;&nbsp;:: done<br /> 
     </td>

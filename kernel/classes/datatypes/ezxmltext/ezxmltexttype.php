@@ -82,11 +82,12 @@ class eZXMLTextType extends eZDataType
             $data =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
 
             // Convert the input to eZ XML sloppy input if input is generated from DHTML
-            include_once( "ezconverthtml.php" );
-            $convert = new eZConvertHTML( $data );
-            $inputXML = $convert->convertTags();
+//            include_once( "ezconverthtml.php" );
+//            $convert = new eZConvertHTML( $data );
+//            $inputXML = $convert->convertTags();
+//            $data =& $this->convertInput( $inputXML );
 
-            $data =& $this->convertInput( $inputXML );
+            $data =& $this->convertInput( $data );
 
             // \todo add better validation of XML
 
@@ -235,7 +236,9 @@ class eZXMLTextType extends eZDataType
     function &inputXML( &$contentObjectAttribute )
     {
         eZDebug::writeError( "Temporary code for DHTML", "eZXMLType::inputXML()" );
-        return $this->objectAttributeContent( $contentObjectAttribute );
+//        return $this->objectAttributeContent( $contentObjectAttribute );
+        // end edit code
+
         $xml = new eZXML();
         $dom = $xml->domTree( $contentObjectAttribute->attribute( "data_text" ) );
 
