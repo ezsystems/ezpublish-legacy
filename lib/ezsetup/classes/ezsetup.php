@@ -144,22 +144,36 @@ function configuration()
                                to the newest version of <a href=\"http://www.php.net\">PHP</a>.</p>",
                                     );
     
-    // Databases that eZ publish supports.                          
-    $testItems["database"] = array(
-        array( "desc"       => "PHP module: MySQL",
-               "req"        => "one db", 
-               "modulename" => "mysql",
-               "selectname" => "mySQL", ),            
-        array( "desc"       => "PHP module: PostgreSQL",
-                 "req"        => "one db",
-               "modulename" => "postgresql",
-               "selectname" => "PostegreSQL" ),
-        array( "desc"        => "PHP module: Oracle",
-               "req"        => "one db",
-               "modulename" => "oracle",
-               "selectname" => "Oracle" ),
-                                  );
-                            
+
+	//
+    // Databases that eZ publish supports and their error messages.
+	$testItems["database"]["mysql"]["desc"]       = "PHP module: MySQL";
+	$testItems["database"]["mysql"]["req"]        = "one db";
+	$testItems["database"]["mysql"]["modulename"] = "mysql";
+	$testItems["database"]["mysql"]["selectname"] = "MySQL";
+	$testItems["database"]["mysql"]["error"]["1044"]["message"]    = "Access denied for this user and database combination!";
+	$testItems["database"]["mysql"]["error"]["1044"]["suggestion"] = "You probably have access to only one database and are not allowed to create new ones. Please go back and enter the name of that database.";	
+	$testItems["database"]["mysql"]["error"]["1045"]["message"]    = "Wrong username and/ or password!";
+	$testItems["database"]["mysql"]["error"]["1045"]["suggestion"] = "Please go back and reenter the username and password.";
+	$testItems["database"]["mysql"]["error"]["1049"]["message"]    = "Unknown database!";
+	$testItems["database"]["mysql"]["error"]["1049"]["suggestion"] = "The provided database doesn't exist!";
+	$testItems["database"]["mysql"]["error"]["2005"]["message"]    = "No running MySQL server found on provided hostname!";
+	$testItems["database"]["mysql"]["error"]["2005"]["suggestion"] = "Please go back and enter the correct database hostname.";
+	$testItems["database"]["mysql"]["error"]["1007"]["message"]    = "Database exists.";
+	$testItems["database"]["mysql"]["error"]["1007"]["suggestion"] = "Please go back and choose a different database name.";					
+	
+	$testItems["database"]["postgresql"]["desc"]       = "PHP module: PostgreSQL";
+	$testItems["database"]["postgresql"]["req"]        = "one db";
+	$testItems["database"]["postgresql"]["modulename"] = "postgresql";
+	$testItems["database"]["postgresql"]["selectname"] = "PostgreSQL";
+	
+	$testItems["database"]["oracle"]["desc"] = "PHP module: Oracle";
+	$testItems["database"]["oracle"]["req"] = "one db";
+	$testItems["database"]["oracle"]["modulename"] = "oracle";
+	$testItems["database"]["oracle"]["selectname"] = "Oracle";
+
+	
+    // 
     // Modules that are required or useful for eZ publish
     $testItems["modules"] = array(
         array( "desc"             => "PHP module: libGD",

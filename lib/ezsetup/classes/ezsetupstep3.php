@@ -35,6 +35,11 @@
 //
 
 
+// We will do database tests, so get the needed files
+// The file for the database type will be included later
+include_once( "lib/ezdb/classes/ezdbinterface.php" );
+
+
 /*!
 
     Step 3: Try to create the database etc.
@@ -46,11 +51,11 @@ function stepThree( &$tpl, &$http )
 
     // Get our variables
 	$dbParams = array();
-    $dbParams["type"]     = $http->postVariable( "dbType" );
-    $dbParams["server"]   = $http->postVariable( "dbServer" );
-    $dbParams["name"]     = $http->postVariable( "dbName" );
-    $dbParams["mainuser"] = $http->postVariable( "dbMainUser" );
-    $dbParams["mainpass"] = $http->postVariable( "dbMainPass" );
+    $dbParams["type"]     = trim( $http->postVariable( "dbType" ) );
+    $dbParams["server"]   = trim( $http->postVariable( "dbServer" ) );
+    $dbParams["database"] = trim( $http->postVariable( "dbName" ) );
+    $dbParams["user"]     = trim( $http->postVariable( "dbMainUser" ) );
+    $dbParams["password"] = $http->postVariable( "dbMainPass" );
     /* $dbCreateUser  = $http->postVariable( "dbCreateUser" );
     $dbCreatePass  = $http->postVariable( "dbCreatePass" );
     $dbCreatePass2 = $http->postVariable( "dbCreatePass2" ); */
@@ -58,12 +63,16 @@ function stepThree( &$tpl, &$http )
     // Set template variables
     $tpl->setVariable( "dbType", $dbParams["type"] );
     $tpl->setVariable( "dbServer", $dbParams["server"] );
-    $tpl->setVariable( "dbName", $dbParams["name"] );
-    $tpl->setVariable( "dbMainUser", $dbParams["mainuser"] );
-    $tpl->setVariable( "dbMainPass", $dbParams["mainpass"] );
+    $tpl->setVariable( "dbName", $dbParams["database"] );
+    $tpl->setVariable( "dbMainUser", $dbParams["user"] );
+    $tpl->setVariable( "dbMainPass", $dbParams["password"] );
     /*$tpl->setVariable( "dbCreateUser", $dbCreateUser );
     $tpl->setVariable( "dbCreatePass", $dbCreatePass );*/
     
+	// TODO: Choose charset!
+	$dbParams["charset"] = "iso-8859-1";
+	$dbParams["builtin_encoding"] = "true";
+	
     // Set available db types in case we have to go back to step two
     $availableDatabasesArray = array();
     foreach( $testItems["database"] as $item )
@@ -79,29 +88,51 @@ function stepThree( &$tpl, &$http )
 
     // Only continue, if we are successful
     $continue = false;
-	$error = array();
 	
-    // Try to connect to the database
-    switch ( $dbParams["type"] )
-    {
-        case "mysql":
-        {
-			$dbConnection = testMysqlConnection( $dbParams, $tpl, $continue, $error );
-        }break;
-        default:
-        {
-            $tpl->setVariable( "dbConnect", "don't know server type, sorry." );
-        }
-    }
-
-    if ( $continue )
+    // Include the right database file
+	$dbModule = "ez" . $dbParams["type"] . "db";
+	$dbModuleFile = "lib/ezdb/classes/" . $dbModule . ".php";
+	if ( file_exists( $dbModuleFile ) )
+		include_once( $dbModuleFile );
+	else
+		$tpl->setVariable( "dbConnect", "don't know database type, sorry." );	
+	
+	
+	// Try to get a connection to the database
+	$dbObject = new $dbModule( $dbParams );
+	
+	if ( $dbObject->isConnected() == false && $dbObject->errorNumber() != "1049" )
+	{
+   		$tpl->setVariable( "dbConnect", "unsuccessful." );
+		$error = errorHandling( $testItems, $dbParams, $dbObject );
+	}
+	else
+	{
+   		$tpl->setVariable( "dbConnect", "successful." );
+		$continue = true;
+	}	
+	 
+	//
+	// If database doesn't exist yet, try to create the database
+    if ( $continue && $dbObject->isConnected() == false )
     {
         $continue = false;
-        $tpl->setVariable( "createDb", true );
 
         // Try to create the database    
-		createMysqlDb( $dbParams, $dbConnection, $tpl, $continue, $error );
+		//createMysqlDb( $dbParams, $dbConnection, $tpl, $continue, $error );
+		$dbObject->createDatabase( $dbParams["database"] );
+		if ( $dbObject->errorNumber() == "0" )
+		{
+			$tpl->setVariable( "dbCreate", "successful." );
+            $continue = true;            
+		}
+		else
+		{
+			$tpl->setVariable( "dbCreate", "unsuccessful." );
+			$error = errorHandling( $testItems, $dbParams, $dbObject );
+		}
     }
+  
     
     //
     // Create database structures
@@ -110,7 +141,29 @@ function stepThree( &$tpl, &$http )
     {
         $continue = false;
         $tpl->setVariable( "createSql", true );
-		createMysqlStructures( $dbParams, $dbConnection, $tpl, $continue, $error );
+	    $sqlFile = "kernel/sql/mysql/kernel.sql";
+		$sqlArray = prepareSqlQuery( $sqlFile );
+
+	    foreach( $sqlArray as $singleQuery )
+	    {
+	        if ( trim( $singleQuery ) != "" )
+			{
+				$dbObject->query( $singleQuery );
+				if ( $dbObject->errorNumber() != 0 )
+					break;
+			} 
+		}
+		
+		if ( $dbObject->errorNumber() == 0 )
+	    {
+	        $tpl->setVariable( "dbCreateSql", "successful" );
+	        $continue = true;
+	    }
+	    else
+	    {
+	        $tpl->setVariable( "dbCreateSql", "unsuccessful." );
+			$error = errorHandling( $testItems, $dbParams, $dbObject );
+	    }  	
     }
 
     if ( $continue )
@@ -133,130 +186,49 @@ function stepThree( &$tpl, &$http )
 
 /*!
 
-	Tests for a connection to a mySQL database
+	Try to get some error explanations from config or show database error
 
 */
-function testMysqlConnection( $dbParams, &$tpl, &$continue, &$error )
+function errorHandling( $testItems, $dbParams, $dbObject )
 {
-    $dbConnection = @mysql_connect( $dbParams["server"], $dbParams["mainuser"], $dbParams["mainpass"] );
-    switch( mysql_errno() )
+	$error = array();
+	if ( isset( $testItems["database"][$dbParams["type"]]["error"][$dbObject->errorNumber()] ) )
+	{
+		$error["desc"] = $testItems["database"][$dbParams["type"]]["error"][$dbObject->errorNumber()]["message"];
+		$error["suggest"] = $testItems["database"][$dbParams["type"]]["error"][$dbObject->errorNumber()]["suggestion"];
+	}
+	else
+	{
+		$error["desc"] = "Unknown database error";
+		$error["suggest"] = "Error message of " .  $dbParams["type"] .": " . $dbObject->errorMessage() . " (" . $dbObject->errorNumber() . ")";
+	}
+	return $error;
+}
+
+
+
+/*
+
+	Prepare the sql file so we can create the database.
+ 
+*/
+function prepareSqlQuery( $sqlFile )
+{
+    $sqlQuery = fread( fopen( $sqlFile, 'r' ), filesize( $sqlFile ));
+    if ( $sqlQuery )
     {
-	    case 0:    // Successful login
-	    {
-	        $tpl->setVariable( "dbConnect", "successful" );
-			$continue = true;
-			return $dbConnection;                    
-	    }break;
-	    case 1045:
-	    {
-	        $tpl->setVariable( "dbConnect", "unsuccessful." );
-	        $error["desc"] = "Wrong username and/ or password!";
-	        $error["suggest"] = "Please go back and reenter the username and password.";
-			return $dbConnection;
-	    }break;
-	    case 2005:
-	    {
-	        $tpl->setVariable( "dbConnect", "unsuccessful." );
-	        $error["desc"] = "\"" . $dbParams["server"] . "\" is no MySQL server!";
-	        $error["suggest"] = "Please go back and enter the correct database hostname.";
-			return $dbConnection;
-	    }break;
-	    
-	    default:
-	    {
-	        $tpl->setVariable( "dbConnect", "unsuccessful." );
-	        $error["desc"] = "Unknown error while connecting to database!";
-	        $error["suggest"] = "The mySQL error is: " . mysql_error() . "(" . mysql_errno() . ")";
-			return $dbConnection;
-	    }break;
+	    // Fix SQL file by deleting all comments and newlines
+	    $sqlQuery = preg_replace( array( "/#.*" . "/", "/\n/", "/--.*" . "/" ), array( "", "", "" ), $sqlQuery );
+	
+	    // Split the query into an array (mysql_query doesn't like ";")
+	    $sqlQueryArray = preg_split( "/;/", $sqlQuery );
+		
+		return $sqlQueryArray;
+	}
+	else
+	{
+		return false;
 	}
 }
 
-
-/*!
-
-	Create the database (mysql) 
-
-*/
-function createMysqlDb( $dbParams, &$dbConnection, &$tpl, &$continue, &$error )
-{
-    mysql_create_db( $dbParams["name"], $dbConnection );
-    switch ( mysql_errno() )
-    {
-        case 0:
-        {
-            $tpl->setVariable( "dbCreate", "successful" );
-            $continue = true;            
-        }break;
-        case 1007:
-        {
-            $tpl->setVariable( "dbCreate", "unsuccessful." );
-            $error["desc"] = "Database \"" . $dbParams["name"] . "\" exists.";
-            $error["suggest"] = "Please go back and choose a different name.";        
-        }break;
-        
-        default:
-        {
-            $tpl->setVariable( "dbCreate", "unsuccessful." );
-            $error["desc"] = "Unknown Error! MySQL error: " . mysql_error() . " (" . mysql_errno() . ")";
-            $error["suggest"] = "Please try to fix the error and write to eZ systems about it.";
-        }break;
-    }
-
-}
-
-
-/*!
-
-	Install the SQL structures
-
-*/
-function createMysqlStructures( $dbParams, &$dbConnection, &$tpl, &$continue, &$error )
-{ 
-    // Read in SQL file
-    $sqlFile = "kernel/sql/mysql/kernel.sql";
-    $sqlQuery = @fread( @fopen( $sqlFile, 'r' ), filesize( $sqlFile ));
-    if ( $sqlQuery == false )
-    {
-        $error["desc"] = "Couldn't open file \"$sqlFile\"!";
-        $error["suggest"] = "Please make sure the file is on the server and is readable.";
-    }
-    
-    // Fix SQL file by deleting all comments and newlines
-    $sqlQuery = preg_replace( array( "/#.*" . "/", "/\n/", "/--.*" . "/" ), array( "", "", "" ), $sqlQuery );
-
-    // Split the query into an array (mysql_query doesn't like ";")
-    $sqlQueryArray = preg_split( "/;/", $sqlQuery );
-    
-    // Execute the SQL queries
-    mysql_select_db( $dbParams["name"] );
-    if ( mysql_errno() != 0 )
-    {
-        $error["desc"] = "Couldn't select database \"" . $dbParams["name"] . "\".";
-        $error["suggest"] = "This error shouldn't show as the database was just created, but cannot be 
-                            selected now. Please check the permissions of the database user.";
-    }
-        
-    foreach( $sqlQueryArray as $singleQuery )
-    {
-        if ( trim( $singleQuery ) != "" )
-            mysql_query( $singleQuery );
-        if ( mysql_errno() != 0 )
-            break;
-    }
-    
-    if ( mysql_errno() == 0 )
-    {
-        $tpl->setVariable( "dbCreateSql", "successful" );
-        $continue = true;
-    }
-    else
-    {
-        $tpl->setVariable( "dbCreateSql", "unsuccessful." );
-        $error["desc"] = "Couldn't create SQL structures.";
-        $error["suggest"] = "Please report error to eZ systems or try to fix the SQL in the 
-                            file \"$sqlFile\" yourself.<br />
-                            mySQL error: " . mysql_error() . " (" . mysql_errno() . ")";
-    }  
-}
 ?>
