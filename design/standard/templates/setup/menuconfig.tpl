@@ -1,4 +1,4 @@
-<form method="post" action={"/setup/menu/"|ezurl}>
+<form method="post" action={"/setup/menuconfig/"|ezurl}>
 <h1>{"Menu setup"|i18n("design/standard/setup")}</h1>
 
 <select name="CurrentSiteAccess">
