@@ -46,7 +46,7 @@
 <p>
 <label>{'Published version'|i18n( 'design/admin/content/edit' )}:</label>
 {section show=$object.published}
-{$object.current_version}
+{$object.main_node.contentobject_version}
 {section-else}
 {'Not yet published'|i18n( 'design/admin/content/edit' )}
 {/section}
