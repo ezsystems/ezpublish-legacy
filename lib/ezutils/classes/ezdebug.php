@@ -245,7 +245,10 @@ class eZDebug
         // and unset it globally
         if ( isset( $GLOBALS['eZDebugAlwaysLog'] ) )
         {
-            $this->AlwaysLog = array_merge( $this->AlwaysLog, $GLOBALS['eZDebugAlwaysLog'] );
+            foreach ( $GLOBALS['eZDebugAlwaysLog'] as $level => $value )
+            {
+                $this->AlwaysLog[$level] = $value;
+            }
             unset( $GLOBALS['eZDebugAlwaysLog'] );
         }
 
