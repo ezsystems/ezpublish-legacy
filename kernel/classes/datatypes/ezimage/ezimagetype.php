@@ -223,6 +223,10 @@ class eZImageType extends eZDataType
             $img =& imageInit();
 
             $mime = $img->mimeTypeFor( $imageFile->attribute( "original_filename" ), true );
+            $imageFile->Type = $mime['mime-type'];
+            $mimeParts = explode( "/", $mime['mime-type'] );
+            $imageFile->MimeCategory = $mimeParts[0];
+            $imageFile->MimePart = $mimeParts[1];
 
             if ( !$imageFile->store( "original", $mime["suffix"], $mime['mime-type'] ) )
             {

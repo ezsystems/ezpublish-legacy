@@ -13,6 +13,9 @@ Changes from 3.2-2 to 3.2-3
 - Fixed the path from content/edit to show the path of main assignment if possible.
   This should help figuring out where the object goes with custom made edit templates
   where the path selection is hidden.
+- Improved the image conversion to properly recognize different fileformats, the
+  correct suffix is also used for the reference name. Thanks to Volker Lenz for
+  a patch solving the default rule problem.
 
 *DataType:
 

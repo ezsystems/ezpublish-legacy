@@ -206,6 +206,16 @@ class eZImageManager
     }
 
     /*!
+     Returns the mime info for the mime type $mimeType.
+    */
+    function mimeInfo( $mimeType )
+    {
+        if ( isset( $this->MIMEMap[$mimeType] ) )
+            return $this->MIMEMap[$mimeType];
+        return false;
+    }
+
+    /*!
      Returns the mimetype for the file $file.
      If $as_obj is true the whole mimetype structure is returned.
     */
@@ -221,6 +231,17 @@ class eZImageManager
                 else
                     return $mime["mime-type"];
             }
+        }
+        $mimeHandler = new eZMimeType();
+        $mimeType = $mimeHandler->mimeTypeFor( false, $file );
+        if ( $mimeType )
+        {
+            $suffix = false;
+            if ( preg_match( "/\.([^.]+)$/", $file, $matches ) )
+                $suffix = $matches[1];
+            return array( 'mime-type' => $mimeType,
+                          'match' => "\.(.+?)$",
+                          'suffix' => $suffix );
         }
         if ( $as_obj )
             return $this->MIMEOctet;

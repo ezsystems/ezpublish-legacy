@@ -54,10 +54,13 @@ class eZMimeType
 
     function mimeTypeFor( $path, $file )
     {
-
-        $extension = preg_replace('/.*\.(.+?)$/', '\\1', $file );
+        $extension = false;
+        if ( preg_match( "/\.([^.]+)$/", $file, $matches ) )
+        {
+            $extension = strtolower( $matches[1] );
+        }
         eZDebug::writeNotice( $extension, 'extension' );
-        if( array_key_exists ( $extension , $this->MIMETypes ) )
+        if ( array_key_exists ( $extension, $this->MIMETypes ) )
         {
             return $this->MIMETypes[$extension];
         }
@@ -165,6 +168,7 @@ class eZMimeType
         'pbm' => 'image/x-portable-bitmap',
         'pgm' => 'image/x-portable-graymap',
         'ppm' => 'image/x-portable-pixmap',
+        'psd' => 'application/x-photoshop',
         'rgb' => 'image/x-rgb',
         'xbm' => 'image/x-xbitmap',
         'xpm' => 'image/x-xpixmap',
