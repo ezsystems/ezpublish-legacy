@@ -1,6 +1,8 @@
 Changes from 3.1-1 to 3.2.0-1
 
 *Kernel:
+- Improved admin design. Added media tab and optional bookmarks and history list in menu.
+- Added user preferences functions
 - Added manual URL alias interface
 - Rewritten URL alias handling, quicker and more flexible
 - Added object moved functionality when accessing a re-named object by url alias. Sends correct HTTP 301 header.
