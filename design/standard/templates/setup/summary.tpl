@@ -2,10 +2,18 @@
 
 <table border="0" cellspacing="5" cellpadding="0">
 
-{section show=eq( $system_check, 1)}
+{section show=count( $system_check )}
   <tr>
     <td valign="top">{"System check"|i18n("design/standard/setup")}</td>
     <td>{"Ok"|i18n("design/standard/setup")}</td>
+  </tr>
+{/section}
+
+{section show=count($image_processor)}
+  <tr>
+    <td valign="top">{"Image processing"|i18n("design/standard/setup")}</td>
+    
+    <td>{$image_processor}</td>
   </tr>
 {/section}
 

@@ -11,13 +11,13 @@
     {"Choose one or more site templates for your site"|i18n("design/standard/setup/init")}
   </p>
 
-  <table border="0" cellspacing="0" cellpadding="0">
+  <table border="0" cellspacing="2" cellpadding="0">
     
     <tr>
-    {section name=SiteTemplate loop=$site_templates}
 
+    {section name=SiteTemplate loop=$site_templates}
+    
       <td class="setup_site_templates" valign="top">
-        <div valign="top"> 
             {section show=$:item.image_file_name}
               <img src={$:item.image_file_name|ezroot} alt="{$:item.name|wash}" />
               <input type="hidden" name="eZSetup_site_templates[{$:index}][image]" value="{$:item.image_file_name}" />
@@ -25,13 +25,22 @@
               <img src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$:item.name|wash}" />
               <input type="hidden" name="eZSetup_site_templates[{$:index}][image]" value="" />
             {/section}
-        </div> 
-        <div align="bottom"> 
-	    <input type="checkbox" name="eZSetup_site_templates[{$:index}][checked]" value="{$:item.identifier}">{$:item.name}</input>
-            <input type="hidden" name="eZSetup_site_templates[{$:index}][identifier]" value="{$:item.identifier}" />
-            <input type="hidden" name="eZSetup_site_templates[{$:index}][name]" value="{$:item.name}" />
-        </div>
       </td>
+
+      {section show=eq( mod( $:index, 4 ), 3 )}
+
+	</tr>
+	<tr>
+
+	{section name=SiteTemplateInner loop=$site_templates offset=sub($SiteTemplate:index,3) max=4}
+	  <td align="bottom">
+	    <input type="checkbox" name="eZSetup_site_templates[{sum(sub($SiteTemplate:index, 3), $:index)}][checked]" value="{$:item.identifier}">{$:item.name}</input>
+            <input type="hidden" name="eZSetup_site_templates[{sum(sub($SiteTemplate:index, 3), $:index)}][identifier]" value="{$:item.identifier}" />
+            <input type="hidden" name="eZSetup_site_templates[{sum(sub($SiteTemplate:index, 3), $:index)}][name]" value="{$:item.name}" />
+	  </td>
+        {/section}
+
+      {/section}
 
       {section show=eq( mod( $:index, 4 ), 3 )}
         </tr>
