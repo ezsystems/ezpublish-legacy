@@ -65,6 +65,8 @@ if ( $http->hasPostVariable( 'SelectCurrentSiteAccessButton' ) )
 }
 
 $toolbarIni =& eZINI::instance( "toolbar.ini" );
+$toolbarIni->prependOverrideDir( "siteaccess/$currentSiteAccess", false, 'siteaccess' );
+$toolbarIni->loadCache();
 
 if ( $toolbarIni->hasVariable( "Toolbar", "AvailableToolBarArray" ) )
 {
