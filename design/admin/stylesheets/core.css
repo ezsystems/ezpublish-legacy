@@ -411,7 +411,8 @@ hr /* General formatting for all hr's */
 {
     color: transparent; /* Color must be set to the same as the background color to hide default formatting in IE */
     border: none; /* All borders must be removed as they are default for Opera */
-    border-top: 1px solid #ff0000;
+    border-top: 1px solid #e7e8e0;
+    height: 1px;
     margin: 0.35em 0 0.35em 0;
 }
 

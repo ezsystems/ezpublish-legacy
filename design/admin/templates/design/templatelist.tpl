@@ -1,6 +1,6 @@
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h1 class="context-title">{'Complete template list'|i18n( 'design/standard/design/templatelist' )}</h1>
+<h1 class="context-title">{'Complete template list'|i18n( 'design/admin/design/templatelist' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -11,10 +11,10 @@
 <table class="list" cellspacing="0">
 <tr>
    <th>
-   {'Template'|i18n( 'design/standard/design/templatelist' )}
+   {'Template'|i18n( 'design/admin/design/templatelist' )}
    </th>
    <th>
-   {'Design resource'|i18n( 'design/standard/design/templatelist' )}
+   {'Design resource'|i18n( 'design/admin/design/templatelist' )}
    </th>
 </tr>
 {section var=Templates max=20 offset=$view_parameters.offset loop=$template_array sequence=array( bglight, bgdark )}
@@ -42,7 +42,7 @@
 
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h2 class="context-title">{'Most common templates'|i18n( 'design/standard/design/templatelist' )}</h2>
+<h2 class="context-title">{'Most common templates'|i18n( 'design/admin/design/templatelist' )}</h2>
 
 {* DESIGN: Mainline *}<div class="header-subline"></div>
 
@@ -52,8 +52,8 @@
 
 <table class="list" cellspacing="0">
 <tr>
-   <th>{'Template'|i18n( 'design/standard/design/templatelist' )}</th>
-   <th>{'Design resource'|i18n( 'design/standard/design/templatelist' )}</th>
+   <th>{'Template'|i18n( 'design/admin/design/templatelist' )}</th>
+   <th>{'Design resource'|i18n( 'design/admin/design/templatelist' )}</th>
 </tr>
 {section var=Templates loop=$most_used_template_array sequence=array( bglight, bgdark )}
 <tr class="{$Templates.sequence}">

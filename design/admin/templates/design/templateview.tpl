@@ -1,8 +1,8 @@
-<form method="post" action={concat( '/design/templateview', $template_settings.template )|ezurl}>
+<form method="post" name="templateview" action={concat( '/design/templateview', $template_settings.template )|ezurl}>
 
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h1 class="context-title">{'Overrides for <%template_name> template in <%current_siteaccess> siteaccess [%override_count]'|i18n( 'design/standard/design/templateview',, hash( '%template_name', $template_settings.template, '%current_siteaccess', $current_siteaccess, '%override_count', $template_settings.custom_match|count ) )|wash}</h1>
+<h1 class="context-title">{'Overrides for <%template_name> template in <%current_siteaccess> siteaccess [%override_count]'|i18n( 'design/admin/design/templateview',, hash( '%template_name', $template_settings.template, '%current_siteaccess', $current_siteaccess, '%override_count', $template_settings.custom_match|count ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -12,13 +12,13 @@
 
 <div class="context-attributes">
 <div class="block">
-<label>{'Default template resource'|i18n( 'design/standard/design/templateview' )}:</label>
+<label>{'Default template resource'|i18n( 'design/admin/design/templateview' )}:</label>
 {$template_settings.base_dir}
 </div>
 
 
 <div class="block">
-<label>{'Siteaccess'|i18n( 'design/standard/design/templateview' )}:</label>
+<label>{'Siteaccess'|i18n( 'design/admin/design/templateview' )}:</label>
 
 <select name="CurrentSiteAccess">
 {section name=SiteAccess loop=ezini('SiteAccessSettings','AvailableSiteAccessList')}
@@ -30,7 +30,7 @@
 {/section}
 </select>
 
-<input class="button" type="submit" name="SelectCurrentSiteAccessButton" value="{'Set'|i18n( 'design/standard/design/templateview' )}" />
+<input class="button" type="submit" name="SelectCurrentSiteAccessButton" value="{'Set'|i18n( 'design/admin/design/templateview' )}" />
 
 </div>
 
@@ -42,11 +42,11 @@
 
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight">&nbsp;</th>
-    <th>{'Name'|i18n( 'design/standard/design/templateview' )}</th>
-    <th>{'File'|i18n( 'design/standard/design/templateview' )}</th>
-    <th>{'Match conditions'|i18n( 'design/standard/design/templateview' )}</th>
-    <th class="tight">{'Priority'|i18n( 'design/standard/design/templateview' )}</th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/design/templateview' )}" title="{'Invert selection.'|i18n( 'design/admin/design/templateview' )}" onclick="ezjs_toggleCheckboxes( document.templateview, 'RemoveOverrideArray[]' ); return false;" /></th>
+    <th>{'Name'|i18n( 'design/admin/design/templateview' )}</th>
+    <th>{'File'|i18n( 'design/admin/design/templateview' )}</th>
+    <th>{'Match conditions'|i18n( 'design/admin/design/templateview' )}</th>
+    <th class="tight">{'Priority'|i18n( 'design/admin/design/templateview' )}</th>
     <th class="tight">&nbsp;</th>
 </tr>
 {section var=CustomMatch loop=$template_settings.custom_match sequence=array( bglight, bgdark )}
@@ -78,17 +78,17 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
     <div class="block">
         {section show=$template_settings.custom_match}
-        <input class="button" type="submit" name="RemoveOverrideButton" value="{'Remove selected'|i18n( 'design/standard/design/templateview' )}" title="{'Remove selected template overrides.'|i18n( 'design/admin/design/templateview' )}" />
+        <input class="button" type="submit" name="RemoveOverrideButton" value="{'Remove selected'|i18n( 'design/admin/design/templateview' )}" title="{'Remove selected template overrides.'|i18n( 'design/admin/design/templateview' )}" />
         {section-else}
-        <input class="button-disabled" type="submit" name="RemoveOverrideButton" value="{'Remove selected'|i18n( 'design/standard/design/templateview' )}" disabled="disabled"/>
+        <input class="button-disabled" type="submit" name="RemoveOverrideButton" value="{'Remove selected'|i18n( 'design/admin/design/templateview' )}" disabled="disabled"/>
         {/section}
 
-        <input class="button" type="submit" name="NewOverrideButton" value="{'New override'|i18n( 'design/standard/design/templateview' )}" title="{'Create a new template override.'|i18n( 'design/admin/design/templateview' )}" />
+        <input class="button" type="submit" name="NewOverrideButton" value="{'New override'|i18n( 'design/admin/design/templateview' )}" title="{'Create a new template override.'|i18n( 'design/admin/design/templateview' )}" />
         <div class="right">
             {section show=$template_settings.custom_match}
-            <input class="button" type="submit" name="UpdateOverrideButton" value="{'Update priorities'|i18n( 'design/standard/design/templateview' )}" />
+            <input class="button" type="submit" name="UpdateOverrideButton" value="{'Update priorities'|i18n( 'design/admin/design/templateview' )}" />
             {section-else}
-            <input class="button-disabled" type="submit" name="UpdateOverrideButton" value="{'Update priorities'|i18n( 'design/standard/design/templateview' )}" disabled="disabled"/>
+            <input class="button-disabled" type="submit" name="UpdateOverrideButton" value="{'Update priorities'|i18n( 'design/admin/design/templateview' )}" disabled="disabled"/>
             {/section}
         </div>
     </div>

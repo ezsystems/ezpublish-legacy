@@ -68,7 +68,7 @@
 </div></div></div></div></div></div>
 
 {section show=fetch( content, translation_list )|count|gt( 1 )}
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-content">
+<div class="box-ml"><div class="box-mr"><div class="box-content">
 {section-else}
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 {/section}
@@ -101,7 +101,7 @@
 </div>
 
 {section show=fetch( content, translation_list )|count|gt( 1 )}
-</div></div></div></div>
+</div></div></div>
 {section-else}
 </div></div></div></div></div></div>
 {/section}
@@ -121,9 +121,9 @@
      translation_list=$Translation:other_translation_list|array_prepend($Translation:default_translation)}
 
 {section show=$Translation:translation_list}
-<div class="box-header"><div class="box-ml"><div class="box-mr">
+<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr">
 <h4>{'Translations [%translation_count]'|i18n( 'design/admin/content/edit',, hash( '%translation_count', $Translation:translation_list|count ) )}</h4>
-</div></div></div>
+</div></div></div></div>
 
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
