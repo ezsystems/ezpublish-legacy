@@ -95,8 +95,9 @@ $ViewList['forgotpassword'] = array(
                                                             'Email' => 'UserEmail' ) ),
     'params' => array( 'HashKey' ) );
 
+/// \deprecated Use normal content edit view instead
 $ViewList['edit'] = array(
-    'function' => array( 'login' ),
+    'functions' => array( 'login' ),
     'script' => 'edit.php',
     'ui_context' => 'edit',
     'single_post_actions' => array( 'ChangePasswordButton' => 'ChangePassword',
