@@ -36,6 +36,7 @@
 */
 
 $FunctionList = array();
+
 $FunctionList['object'] = array( 'name' => 'object',
                                  'operation_types' => array( 'read' ),
                                  'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
@@ -93,15 +94,6 @@ $FunctionList['non_translation_list'] = array( 'name' => 'object',
                                                                       array( 'name' => 'version',
                                                                              'type' => 'integer',
                                                                              'required' => true ) ) );
-$FunctionList['object'] = array( 'name' => 'object',
-                                 'operation_types' => array( 'read' ),
-                                 'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
-                                                         'class' => 'eZContentFunctionCollection',
-                                                         'method' => 'fetchObject' ),
-                                 'parameter_type' => 'standard',
-                                 'parameters' => array( array( 'name' => 'object_id',
-                                                               'type' => 'integer',
-                                                               'required' => true ) ) );
 $FunctionList['class'] = array( 'name' => 'object',
                                 'operation_types' => array( 'read' ),
                                 'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
