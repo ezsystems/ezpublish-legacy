@@ -95,50 +95,18 @@ class eZTemplateLogicOperator
     /*!
      Initializes the operator class with the various operator names.
     */
-    function eZTemplateLogicOperator( /*! The name for the "less than" operator */
-                                      $lt_name = "lt",
-                                      /*! The name for the "greater than" operator */
-                                      $gt_name = "gt",
-                                      /*! The name for the "less than or equal" operator */
-                                      $le_name = "le",
-                                      /*! The name for the "greater than or equal" operator */
-                                      $ge_name = "ge",
-                                      /*! The name for the "equal" operator */
-                                      $eq_name = "eq",
-                                      /*! The name for the "not equal" operator */
-                                      $ne_name = "ne",
-                                      /*! The name for the "is null" operator */
-                                      $null_name = "null",
-                                      /*! The name for the "not" operator */
-                                      $not_name = "not",
-                                      /*! The name for the "create true boolean" operator */
-                                      $true_name = "true",
-                                      /*! The name for the "create false boolean" operator */
-                                      $false_name = "false",
-                                      /*! The name for the "logical or" operator */
-                                      $or_name = "or",
-                                      /*! The name for the "logical and" operator */
-                                      $and_name = "and",
-                                      /*! The name for the "choose" operator */
-                                      $choose_name = "choose" )
+    function eZTemplateLogicOperator()
     {
-        $this->Operators = array( $lt_name, $gt_name, $le_name, $ge_name, $eq_name, $ne_name,
-                                  $null_name, $not_name,
-                                  $or_name, $and_name,
-                                  $true_name, $false_name, $choose_name );
-        $this->LTName = $lt_name;
-        $this->GTName = $gt_name;
-        $this->LEName = $le_name;
-        $this->GEName = $ge_name;
-        $this->EQName = $eq_name;
-        $this->NEName = $ne_name;
-        $this->NullName = $null_name;
-        $this->OrName = $or_name;
-        $this->AndName = $and_name;
-        $this->NotName = $not_name;
-        $this->TrueName = $true_name;
-        $this->FalseName = $false_name;
-        $this->ChooseName = $choose_name;
+        $this->Operators = array( 'lt', 'gt', 'le', 'ge', 'eq', 'ne',
+                                  'null', 'not',
+                                  'or', 'and',
+                                  'true', 'false', 'choose' );
+        foreach ( $this->Operators as $operator )
+        {
+            $name = $operator . 'Name';
+            $name[0] = $name[0] & "\xdf";
+            $this->$name = $operator;
+        }
     }
 
     /*!
@@ -159,47 +127,100 @@ class eZTemplateLogicOperator
 
     function operatorTemplateHints()
     {
-        return array( $this->LTName => array( 'input' => true,
+        return array( $this->LtName => array( 'input' => true,
                                               'output' => true,
-                                              'parameters' => 1 ),
-                      $this->GTName => array( 'input' => true,
+                                              'parameters' => 1,
+                                              'element-transformation' => true,
+                                              'transform-parameters' => true,
+                                              'input-as-parameter' => true,
+                                              'element-transformation-func' => 'logicalComparisonTransformation'),
+                      $this->GtName => array( 'input' => true,
                                               'output' => true,
-                                              'parameters' => 1 ),
-                      $this->LEName => array( 'input' => true,
+                                              'parameters' => 1,
+                                              'element-transformation' => true,
+                                              'transform-parameters' => true,
+                                              'input-as-parameter' => true,
+                                              'element-transformation-func' => 'logicalComparisonTransformation'),
+                      $this->LeName => array( 'input' => true,
                                               'output' => true,
-                                              'parameters' => 1 ),
-                      $this->GEName => array( 'input' => true,
+                                              'parameters' => 1,
+                                              'element-transformation' => true,
+                                              'transform-parameters' => true,
+                                              'input-as-parameter' => true,
+                                              'element-transformation-func' => 'logicalComparisonTransformation'),
+                      $this->GeName => array( 'input' => true,
                                               'output' => true,
-                                              'parameters' => 1 ),
-                      $this->EQName => array( 'input' => true,
+                                              'parameters' => 1,
+                                              'element-transformation' => true,
+                                              'transform-parameters' => true,
+                                              'input-as-parameter' => true,
+                                              'element-transformation-func' => 'logicalComparisonTransformation'),
+
+                      $this->EqName => array( 'input' => true,
                                               'output' => true,
-                                              'parameters' => true ),
-                      $this->NEName => array( 'input' => true,
+                                              'parameters' => true,
+                                              'element-transformation' => true,
+                                              'transform-parameters' => true,
+                                              'input-as-parameter' => true,
+                                              'element-transformation-func' => 'logicalComparisonTransformation'),
+                      $this->NeName => array( 'input' => true,
                                               'output' => true,
-                                              'parameters' => true ),
+                                              'parameters' => true,
+                                              'element-transformation' => true,
+                                              'transform-parameters' => true,
+                                              'input-as-parameter' => true,
+                                              'element-transformation-func' => 'logicalComparisonTransformation'),
+
                       $this->NullName  => array( 'input' => true,
                                                  'output' => true,
                                                  'parameters' => false ),
+
                       $this->OrName => array( 'input' => true,
                                               'output' => true,
-                                              'parameters' => true ),
+                                              'parameters' => true,
+                                              'element-transformation' => true,
+                                              'transform-parameters' => true,
+                                              'input-as-parameter' => true,
+                                              'element-transformation-func' => 'logicalComparisonTransformation'),
                       $this->AndName => array( 'input' => true,
                                                'output' => true,
-                                               'parameters' => true ),
+                                               'parameters' => true,
+                                               'element-transformation' => true,
+                                               'transform-parameters' => true,
+                                               'input-as-parameter' => true,
+                                               'element-transformation-func' => 'logicalComparisonTransformation'),
+
                       $this->NotName => array( 'input' => true,
                                                'output' => true,
-                                               'parameters' => false ),
+                                               'parameters' => true,
+                                               'element-transformation' => true,
+                                               'transform-parameters' => true,
+                                               'input-as-parameter' => true,
+                                               'element-transformation-func' => 'negateTransformation'),
+
                       $this->ChooseName => array( 'input' => true,
                                                   'output' => true,
-                                                  'parameters' => true ),
+                                                  'parameters' => true,
+                                                  'element-transformation' => true,
+                                                  'transform-parameters' => true,
+                                                  'input-as-parameter' => true,
+                                                  'element-transformation-func' => 'chooseTransformation'),
                       $this->TrueName => array( 'input' => false,
                                                 'output' => true,
                                                 'parameters' => false,
-                                                'static' => true ),
+                                                'static' => true,
+                                                'element-transformation' => true,
+                                                'transform-parameters' => true,
+                                                'input-as-parameter' => true,
+                                                'element-transformation-func' => 'trueFalseTransformation'),
                       $this->FalseName => array( 'input' => false,
                                                  'output' => true,
                                                  'parameters' => false,
-                                                 'static' => true ) );
+                                                 'static' => true,
+                                                 'element-transformation' => true,
+                                                 'transform-parameters' => true,
+                                                 'input-as-parameter' => true,
+                                                 'element-transformation-func' => 'trueFalseTransformation') );
     }
 
 //     function operatorTemplateStatistics( $name, &$variableItem, $variablePlacement, &$tpl, &$resourceData, $namespace, &$stats )
@@ -241,18 +262,192 @@ class eZTemplateLogicOperator
     */
     function namedParameterList()
     {
-        return array( $this->LTName => array( "threshold" => array( "type" => "mixed",
+        return array( $this->LtName => array( "threshold" => array( "type" => "mixed",
                                                                     "required" => true,
                                                                     "default" => false ) ),
-                      $this->GTName => array( "threshold" => array( "type" => "mixed",
+                      $this->GtName => array( "threshold" => array( "type" => "mixed",
                                                                     "required" => true,
                                                                     "default" => false ) ),
-                      $this->LEName => array( "threshold" => array( "type" => "mixed",
+                      $this->LeName => array( "threshold" => array( "type" => "mixed",
                                                                     "required" => true,
                                                                     "default" => false ) ),
-                      $this->GEName => array( "threshold" => array( "type" => "mixed",
+                      $this->GeName => array( "threshold" => array( "type" => "mixed",
                                                                     "required" => true,
                                                                     "default" => false ) ) );
+    }
+
+
+    function logicalComparisonTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+                                               &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    {
+        $values = array();
+        $function = $operatorName;
+        $minParameterCount = $maxParameterCount = 2;
+
+        switch ( $operatorName )
+        {
+        case 'lt':
+            $operator = '<';
+            break;
+        case 'le':
+            $operator = '<=';
+            break;
+        case 'gt':
+            $operator = '>';
+            break;
+        case 'ge':
+            $operator = '>=';
+            break;
+        case 'and':
+            $operator = 'and';
+            $maxParameterCount = false;
+            break;
+        case 'or':
+            $operator = 'or';
+            $maxParameterCount = false;
+            break;
+        }
+        if ( ( count( $parameters ) < 2 ) ||
+             ( $maxParameterCount && ( count( $parameters ) > $maxParameterCount ) ) )
+        {
+            return false;
+        }
+        $newElements = array();
+
+        /* Check if all variables are integers. This is for optimization */
+        {
+            $code = '%output% = (';
+            $counter = 0;
+            foreach ( $parameters as $parameter )
+            {
+                if ( $counter++ )
+                {
+                    $code .= " $operator";
+                }
+                $code .= " ( %$counter% )";
+                $values[] = $parameter;
+            }
+            $code .= " );\n";
+        }
+        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
+        return $newElements;
+    }
+
+    function negateTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+                                   &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    {
+        $values = array();
+        $function = $operatorName;
+
+        if ( ( count( $parameters ) != 1) )
+        {
+            return false;
+        }
+        $newElements = array();
+
+        $values[] = $parameters[0];
+        $code = "%output% = !( %1% );\n";
+
+        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
+        return $newElements;
+    }
+
+    function trueFalseTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+                                      &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    {
+        $values = array();
+        if ( ( count( $parameters ) != 0 ) )
+        {
+            return false;
+        }
+        $newElements = array();
+
+        /* Check if all variables are integers. This is for optimization */
+        $code = "%output% = $operatorName;\n";
+        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
+        return $newElements;
+    }
+
+    function chooseTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+                                   &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    {
+        $values = array();
+        $function = $operatorName;
+
+        if ( ( count( $parameters ) < 2) )
+        {
+            return false;
+        }
+
+        $newElements = array();
+        /* This is an optimization step, but a worthwhile one if you need to
+         * pick from a large array */
+        if ( $parameters[0][0][0] == EZ_TEMPLATE_TYPE_NUMERIC )
+        {
+            $selected = $parameters[0][0][1];
+
+            if ($selected > ( count( $parameters ) - 1 ) )
+            {
+                return false;
+            }
+
+            $values[] = $parameters[$selected + 1];
+            $code = "%output% = %1%;\n";
+        }
+        else
+        {
+            $tmpName = md5( date( 'r' ) );
+
+            $values[] = $parameters[0];
+            $array = $parameters;
+            unset( $array[0] );
+            
+            $code = "\$tmp$tmpName = array( ";
+            $counter = 2;
+            foreach ($array as $element)
+            {
+                $values[] = $element;
+                $code .= "%$counter%, ";
+                $counter++;
+            }
+            $code .= " );\n";
+            $code .= '%output% = $tmp'. $tmpName. "[%1%];\n";
+            $code .= "unset( \$tmp$tmpName );\n";
+        }
+        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
+        return $newElements;
+    }
+
+    /*!
+     * Returns the 'count' value as described in the introduction or 'false' in
+     * case of an unsupported type
+     */
+    function getValueCount( $val )
+    {
+        $val_cnt = false;
+
+        if ( is_array( $val ) )
+        {
+            $val_cnt = count( $val );
+        }
+        else if ( is_null( $val ) )
+        {
+            $cnt = 0;
+        }
+        else if ( is_object( $val ) and
+                  method_exists( $val, "attributes" ) )
+        {
+            $val_cnt = count( $val->attributes() );
+        }
+        else if ( is_numeric( $val ) )
+        {
+            $val_cnt = $val;
+        }
+        else if ( is_string( $val ) )
+        {
+            $cnt = strlen( $val );
+        }
+        return $val_cnt;
     }
 
     /*!
@@ -260,18 +455,12 @@ class eZTemplateLogicOperator
     */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters )
     {
-        if ( $operatorName == $this->LTName or $operatorName == $this->GTName or
-             $operatorName == $this->LEName or $operatorName == $this->GEName )
+        if ( $operatorName == $this->LtName or $operatorName == $this->GtName or
+             $operatorName == $this->LeName or $operatorName == $this->GeName )
         {
             $val = $namedParameters["threshold"];
-            if ( is_array( $val ) )
-                $val_cnt = count( $val );
-            else if ( is_object( $val ) and
-                      method_exists( $val, "attributes" ) )
-                $val_cnt = count( $val->attributes() );
-            else if ( is_numeric( $val ) )
-                $val_cnt = $val;
-            else
+
+            if ( ( $val_cnt = $this->getValueCount( $val ) ) === false )
             {
                 $tpl->warning( $operatorName, "Unsupported input type: " . gettype( $val ) . "( $val ), must be either array, attribute object or numerical" );
                 return;
@@ -284,7 +473,7 @@ class eZTemplateLogicOperator
             {
                 $value = ( $operatorName == $this->TrueName );
             } break;
-            case $this->NEName:
+            case $this->NeName:
             {
                 if ( count( $operatorParameters ) >= 1 )
                 {
@@ -317,7 +506,7 @@ class eZTemplateLogicOperator
                     $tpl->warning( $operatorName, "Requires one parameter for input checking or two or more for parameter checking" );
                 }
             } break;
-            case $this->EQName:
+            case $this->EqName:
             {
                 if ( count( $operatorParameters ) >= 1 )
                 {
@@ -424,34 +613,23 @@ class eZTemplateLogicOperator
                 }
                 $value = $tpl->elementValue( $operatorParameters[$index], $rootNamespace, $currentNamespace );
             } break;
-            case $this->LTName:
-            case $this->GTName:
-            case $this->LEName:
-            case $this->GEName:
+            case $this->LtName:
+            case $this->GtName:
+            case $this->LeName:
+            case $this->GeName:
             {
-                if ( is_array( $value ) )
-                    $cnt = count( $value );
-                else if ( is_null( $value ) )
-                    $cnt = 0;
-                else if ( is_object( $value ) and
-                          method_exists( $value, "attributes" ) )
-                    $cnt = count( $value->attributes() );
-                else if ( is_numeric( $value ) )
-                    $cnt = $value;
-                else if ( is_string( $value ) )
-                    $cnt = strlen( $value );
-                else
+                if ( ( $cnt = $this->getValueCount( $value ) ) === false )
                 {
-                    $tpl->warning( $operatorName, "Unsupported type: " . gettype( $value ) . "( $value ), must be either array, attribute object or numerical" );
+                    $tpl->warning( $operatorName, "Unsupported input type: " . gettype( $value ) . "( $value ), must be either array, attribute object or numerical" );
                     return;
                 }
-                if ( $operatorName == $this->LTName )
+                if ( $operatorName == $this->LtName )
                     $value = ( $cnt < $val_cnt );
-                else if ( $operatorName == $this->GTName )
+                else if ( $operatorName == $this->GtName )
                     $value = ( $cnt > $val_cnt );
-                else if ( $operatorName == $this->LEName )
+                else if ( $operatorName == $this->LeName )
                     $value = ( $cnt <= $val_cnt );
-                else if ( $operatorName == $this->GEName )
+                else if ( $operatorName == $this->GeName )
                     $value = ( $cnt >= $val_cnt );
             } break;
             case $this->NullName:
@@ -480,17 +658,17 @@ class eZTemplateLogicOperator
     /// The array of operators
     var $Operators;
     /// The "less than" name
-    var $LTName;
+    var $LtName;
     /// The "greater than" name
-    var $GTName;
+    var $GtName;
     /// The "less than or equal" name
-    var $LEName;
+    var $LeName;
     /// The "greater than or equal" name
-    var $GEName;
+    var $GeName;
     /// The "equal" name
-    var $EQName;
+    var $EqName;
     /// The "not equal" name
-    var $NEName;
+    var $NeName;
     /// The "null" name
     var $NullName;
     /// The "not" name
