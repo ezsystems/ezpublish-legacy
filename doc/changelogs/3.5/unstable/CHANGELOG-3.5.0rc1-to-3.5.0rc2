@@ -8,6 +8,7 @@ Changes from 3.5.0rc1 to 3.5.0rc2
   http://ez.no/community/bug_reports/3_5_i18n_operator_doesn_t_take_variables_as_input_anymore
 - Fixed missing error checking of non-existing nodes when fetching subtrees.
   http://ez.no/community/bug_reports/3_5_fatal_error_ezcontentobjecttreenode_php
+- Fixed missing error checking of non-existing nodes when fetching subtree counts.
 - Added a work around for a bug in IE.
   (Merged from stable/3.4, rev. 10012)
   http://ez.no/community/bug_reports/pdf_on_the_fly_issue_with_ie_wrong_header
