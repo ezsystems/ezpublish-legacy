@@ -7,6 +7,7 @@
 
   {section show=is_set($attribute_parameters.align)}
     {set align=$attribute_parameters.align}
+    {set image_class=$attribute_parameters.size}
   {section-else}
     {set align="center"}
   {/section}

@@ -71,6 +71,7 @@ Changes from 3.4.0 to 3.5.0alpha1
 - Added new module function "list" for module section.
 - Zend WinEnabler (Zend Performance Suite) added to list of known accelerators.
 - Removed spam prevention text from PDF version of author datatype
+- Fixed correct image sizes in PDF articles
 
 Database:
 - Added index on ezcontentobject_tree( path_identification_string ),
