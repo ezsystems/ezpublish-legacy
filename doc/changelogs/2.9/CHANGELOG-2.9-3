@@ -6,6 +6,7 @@ Changes from 2.9-2 to 2.9-3
 
 *Kernel :
 - Added support for setting sort by when fetching trees, multiple sorting can be used.
+- Added support for filtering on classes when fetching trees, multiple classes can be included/excluded
 - Added support for specifying sort field and sort order for each node assignment.
 - Made sure generated SQL were a bit more viewer friendly.
 
