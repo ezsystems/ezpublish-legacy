@@ -124,7 +124,7 @@ class eZTemplateTextOperator
                 $filler = eZTemplateNodeTool::elementStaticValue( $parameters[3] );
             }
         }
-        if ( $paramCount >= 3)
+        if ( $paramCount >= 3 )
         {
             if ( eZTemplateNodeTool::isStaticElement( $parameters[2] ) )
             {
@@ -149,7 +149,7 @@ class eZTemplateTextOperator
             {
                 $count = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
             }
-            if ( !$type )
+            if ( $paramCount < 3 )
             {
                 $type = 'space';
                 $filler = ' ';
@@ -157,14 +157,24 @@ class eZTemplateTextOperator
         }
         $newElements = array();
 
-        if ( $count && $type && $filler )
+        if ( $count and $type and $filler )
         {
+            $tmpCount = 0;
             $values[] = $parameters[0];
             $indentation = str_repeat( $filler, $count );
-            $code = "%output% = '$indentation' . %1%;\n";
+            $code = ( "%output% = '$indentation' . str_replace( '\n', '\n$indentation', %1% );\n" );
+        }
+        else if ( $filler and $type )
+        {
+            $tmpCount = 1;
+            $values[] = $parameters[0];
+            $values[] = $parameters[1];
+            $code = ( "%tmp1% = str_repeat( '$filler', %2% );\n" .
+                      "%output% = %tmp1% . str_replace( '\n', '\n' . %tmp1%, %1% );\n" );
         }
         else
         {
+            $tmpCount = 2;
             $code = "if ( %3% == 'tab' )\n{\n\t%tmp1% = \"\\t\";\n}\nelse ";
             $code .= "if ( %3% == 'space' )\n{\n\t%tmp1% = ' ';\n}\nelse\n";
             if ( count ( $parameters ) == 4 )
@@ -175,14 +185,15 @@ class eZTemplateTextOperator
             {
                 $code.= "{\n\t%tmp1% = ' ';\n}\n";
             }
-            $code .= "%output% = str_repeat(%tmp1%, %2%) . %1%;\n";
+            $code .= ( "%tmp2% = str_repeat( %tmp1%, %2% );\n" .
+                       "%output% = %tmp2% . str_replace( '\n', '\n' . %tmp2%, %1% );\n" );
             foreach ( $parameters as $parameter )
             {
                 $values[] = $parameter;
             }
         }
 
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values, 'false', 1 );
+        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values, 'false', $tmpCount );
         return $newElements;
     }
 
@@ -262,14 +273,8 @@ class eZTemplateTextOperator
                         $filler = $namedParameters['indent_filler'];
                     } break;
                 }
-                $text = '';
-                $lines = explode( "\n", $operatorValue );
-                $indentedLines = array();
-                foreach ( $lines as $line )
-                {
-                    $indentedLines[] = str_repeat( $filler, $indentCount ) . $line;
-                }
-                $operatorValue = implode( "\n", $indentedLines );
+                $fillText = str_repeat( $filler, $indentCount );
+                $operatorValue = $fillText . str_replace( "\n", "\n" . $fillText, $operatorValue );
             } break;
         }
     }

@@ -65,3 +65,9 @@ Changes from 3.4.0 to 3.4.1
   http://ez.no/community/bug_reports/selfrelated_include_once_in_lib_ezlocale_classes_ezdatetime_php
 - Fixed typo in user/activate.tpl (merged from 3.3 rev. 6828)
   http://ez.no/community/bug_reports/user_activate_template_typo
+- Fixed bug in SQL fetching user list for subtree notification handler
+  resulting in very large query execution times.
+  Manually merged from 3.3 rev. 6836. 
+- Fixed inability of PostgreSQL-based installation using the setup wizard.
+  http://ez.no/community/bug_reports/database_connection_fails_with_installation_wizard
+- Fixed bug in indent template operator, only the first line was indented.

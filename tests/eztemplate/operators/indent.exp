@@ -1,6 +1,52 @@
-				test
-    test
-foo foo foo foo test
-				test
-    test
-foo foo foo foo test
+**** input=variable, count=variable, type=variable ****
+<				test>
+<    test>
+<foo foo foo foo test>
+<				test
+				test2
+				test3>
+<    test
+    test2
+    test3>
+<foo foo foo foo test
+foo foo foo foo test2
+foo foo foo foo test3>
+**** input=static, count=variable, type=variable ****
+<				test>
+<    test>
+<foo foo foo foo test>
+<				test
+				test2
+				test3>
+<    test
+    test2
+    test3>
+<foo foo foo foo test
+foo foo foo foo test2
+foo foo foo foo test3>
+**** input=static, count=variable, type=static ****
+<				test>
+<    test>
+<foo foo foo foo test>
+<				test
+				test2
+				test3>
+<    test
+    test2
+    test3>
+<foo foo foo foo test
+foo foo foo foo test2
+foo foo foo foo test3>
+**** input=static, count=static, type=static ****
+<				test>
+<    test>
+<foo foo foo foo test>
+<				test
+				test2
+				test3>
+<    test
+    test2
+    test3>
+<foo foo foo foo test
+foo foo foo foo test2
+foo foo foo foo test3>
