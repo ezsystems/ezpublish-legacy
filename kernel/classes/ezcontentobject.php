@@ -160,6 +160,16 @@ class eZContentObject extends eZPersistentObject
         {
             return $this->remoteID();
         }
+        else if ( $attr == "can_read" )
+            return $this->canRead( $accessList );
+        else if ( $attr == "can_create" )
+            return $this->canCreate( $accessList );
+        else if ( $attr == "can_edit" )
+            return $this->canEdit( $accessList );
+        else if ( $attr == "can_translate" )
+            return $this->canTranslate( $accessList );
+        else if ( $attr == "can_remove" )
+            return $this->canRemove( $accessList );
         else
             return eZPersistentObject::attribute( $attr );
     }
