@@ -52,7 +52,7 @@ define( "EZ_NODE_TYPE_CDATASECTION", 4 );
 class eZXML
 {
     /*!
-      Constructor, should not be used all functions are static.
+      Constructor
     */
     function eZXML( )
     {

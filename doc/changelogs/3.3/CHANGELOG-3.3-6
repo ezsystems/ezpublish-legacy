@@ -79,6 +79,9 @@ eZINI:
 - Fixed bug (suggestion) of  Remove object should also remove bookmark
   Also added cleaning up existing bookmarks and recent items for corrupted nodes
   http://ez.no/community/bug_reports/remove_object_should_also_remove_bookmark
+- Fixed comment in source that wrongly said that eZXML should not be instantiated.
+  http://ez.no/community/bug_reports/ezxml_domtree_call_to_undefined_function_parseattributes
+  
 *Library:
 
 eZ Locale:
