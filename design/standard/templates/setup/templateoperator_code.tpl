@@ -31,8 +31,25 @@ under the group TemplateSettings in settings/site.ini
 
 $eZTemplateOperatorArray = array();
 $eZTemplateOperatorArray[] = array( 'script' => '{$file_name}',
-                                    'class' => '$full_class_name',
+                                    'class' => '{$full_class_name}',
                                     'operator_names' => array( '{$operator_name}' ) );
+
+If your template operator is in an extension, you need to add the following settings:
+
+To extension/YOUREXTENSION/settings/site.ini.append:
+---
+[TemplateSettings]
+ExtensionAutoloadPath[]=YOUREXTENSION
+---
+
+To extension/YOUREXTENSION/autoloads/eztemplateautoload.php:
+----
+$eZTemplateOperatorArray = array();
+$eZTemplateOperatorArray[] = array( 'script' => 'extension/YOUEXTENSION/YOURPATH/{$file_name}',
+                                    'class' => '{$full_class_name}',
+                                    'operator_names' => array( '{$operator_name}' ) );
+---
+Create the files if they don't exist, and replace YOUREXTENSION and YOURPATH with the correct values.
 
 */
 
