@@ -60,7 +60,6 @@ class eZFilePackageHandler extends eZPackageHandler
                       $name, $os, $filename, $subdirectory,
                       &$content, $installParameters )
     {
-        print( "name=$name, os=$os, filename=$filename, subdirectory=$subdirectory, $content\n" );
         $collectionName = $parameters['collection'];
         $fileList = $package->fileList( $collectionName );
         if ( $fileList )
@@ -75,12 +74,17 @@ class eZFilePackageHandler extends eZPackageHandler
                     $filePath = $package->fileItemPath( $fileItem, $collectionName );
                     if ( is_dir( $filePath ) )
                     {
-                        $newFilePath = $package->fileItemPath( $fileItem, $collectionName, $installParameters['path'] );
+                        $newFilePath = $package->fileStorePath( $fileItem, $collectionName, $installParameters['path'] );
                         eZDir::mkdir( $newFilePath, eZDir::directoryPermission(), true );
                     }
                     else
                     {
-                        $newFilePath = $package->fileItemPath( $fileItem, $collectionName, $installParameters['path'] );
+                        $newFilePath = $package->fileStorePath( $fileItem, $collectionName, $installParameters['path'] );
+                        if ( preg_match( "#^(.+)/[^/]+$#", $newFilePath, $matches ) )
+                        {
+                            eZDebug::writeDebug( $matches[1], 'mkdir' );
+                            eZDir::mkdir( $matches[1], eZDir::directoryPermission(), true );
+                        }
                         eZFileHandler::copy( $filePath, $newFilePath );
                     }
                 }

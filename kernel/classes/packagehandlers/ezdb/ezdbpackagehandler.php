@@ -63,7 +63,6 @@ class eZDBPackageHandler extends eZPackageHandler
                       $name, $os, $filename, $subdirectory,
                       &$content, $installParameters )
     {
-        print( "ezdb:install=$installType<br/>" );
         if ( $installType == 'sql' )
         {
             $path = $package->path();

@@ -395,6 +395,50 @@ class eZPackage
         return false;
     }
 
+    function fileStorePath( $fileItem, $collectionName, $path = false )
+    {
+        print( "<pre>fileItem\n" );
+        print_r( $fileItem );
+        print( "</pre>" );
+        $type = $fileItem['type'];
+        if ( $type == 'file' )
+        {
+            $pathArray = array( $path, $fileItem['subdirectory'] );
+            if ( $fileItem['file-type'] != 'dir' )
+                $pathArray[] = $fileItem['name'];
+            $path = eZDir::path( $pathArray );
+        }
+        else if ( $type == 'design' )
+        {
+            $roleFileName = false;
+            switch ( $fileItem['role'] )
+            {
+                case 'template':
+                {
+                    $roleFileName = 'templates';
+                } break;
+                case 'image':
+                {
+                    $roleFileName = 'images';
+                } break;
+                case 'stylesheet':
+                {
+                    $roleFileName = 'stylesheets';
+                } break;
+                case 'font':
+                {
+                    $roleFileName = 'fonts';
+                } break;
+            }
+            $pathArray = array( $path, 'design', $fileItem['design'], $roleFileName, $fileItem['subdirectory'] );
+            if ( $fileItem['file-type'] != 'dir' )
+                $pathArray[] = $fileItem['name'];
+            $path = eZDir::path( $pathArray );
+        }
+        print( "path=$path<br/>" );
+        return $path;
+    }
+
     function fileItemPath( $fileItem, $collectionName, $path = false )
     {
         if ( !$path )
@@ -1225,6 +1269,8 @@ class eZPackage
     function install( $installParameters = array() )
     {
         $installs = $this->Parameters['install'];
+        if ( !isset( $installParameters['path'] ) )
+            $installParameters['path'] = false;
         foreach ( $installs as $install )
         {
             $type = $install['type'];
@@ -1805,7 +1851,10 @@ class eZPackage
                         $path = $this->path() . '/' . eZPackage::filesDirectory() . '/' . $fileCollectionName . '/' . $typeDir;
                         $destinationPath = $exportPath . '/' . eZPackage::filesDirectory() . '/' . $fileCollectionName . '/' . $typeDir;
                         if ( $fileItem['subdirectory'] )
+                        {
                             $path .= '/' . $fileItem['subdirectory'];
+                            $destinationPath .= '/' . $fileItem['subdirectory'];
+                        }
                         if ( $fileItem['name'] )
                             $path .= '/' . $fileItem['name'];
                         if ( !file_exists( $destinationPath ) )

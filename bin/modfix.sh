@@ -82,12 +82,8 @@ for LOGFILE in $LOGFILES; do
     fi
 done
 
-if [ -d design/admin/override/templates ]; then
-    chmod $DIR_MODE design/admin/override/templates
-fi
-
-if [ -d design/demo/override/templates ]; then
-    chmod $DIR_MODE design/demo/override/templates
+if [ -d design ]; then
+    chmod $DIR_MODE design
 fi
 
 
