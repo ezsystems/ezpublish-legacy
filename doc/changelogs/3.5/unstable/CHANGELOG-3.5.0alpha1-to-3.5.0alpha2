@@ -115,6 +115,9 @@ Payment:
 - Fixed bug: Page navigation does not work in forum
   (Merged from stable/3.4 rev. 8714)
   http://ez.no/community/bug_reports/page_navigation_does_not_work_in_forum
+- Fixed bug: Need template for toolbar/line/node_list.tpl
+  (Merged from stable/3.4 rev. 8725)
+  http://ez.no/community/bug_reports/need_template_for_toolbar_line_node_list_tpl
 
 
 *Library:
