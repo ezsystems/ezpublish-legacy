@@ -199,8 +199,10 @@ class eZMediaType extends eZDataType
 
         if ( get_class( $mediaFile ) == "ezhttpfile" )
         {
-            $mimeObj = new  eZMimeType();
-            $mime = $mimeObj->mimeTypeFor( $mediaFile->attribute( "original_filename" ), true );
+
+            $mimeData =& eZMimeType::findByFileContents( $binaryFile->attribute( "original_filename" ) );
+            $mime = $mimeData['name'];
+
             if ( $mime == '' )
             {
                 $mime = $mediaFile->attribute( "mime_type" );

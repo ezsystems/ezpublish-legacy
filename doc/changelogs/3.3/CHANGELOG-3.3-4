@@ -21,6 +21,7 @@ Changes from 3.3-3 to 3.3-4
 - Added checkbox 'make empty array' when editing datatype inisetting if ini
   variable is array.
 - Added remove empty ini block function for datatype inisetting.
+- eZMedia now uses eZMimeType for mime type handling.
 
 *Bugs:
 - Fixed broken datatype range option.
