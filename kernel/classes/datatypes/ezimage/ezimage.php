@@ -75,7 +75,8 @@ class eZImage extends eZPersistentObject
 
     function hasAttribute( $attr )
     {
-        return $attr == "mime_type_category" or $attr == "mime_type_part" or eZPersistentObject::hasAttribute( $attr ) or $attr == "small" or $attr == "large" or $attr == "medium" or $attr == "reference" ;
+        return $attr == "mime_type_category" or $attr == "mime_type_part" or eZPersistentObject::hasAttribute( $attr ) or
+            $attr == "small" or $attr == "large" or $attr == "medium" or $attr == "reference" or $attr == "original";
     }
 
     function &attribute( $attr )
@@ -98,33 +99,39 @@ class eZImage extends eZPersistentObject
             case "medium":
             case "large":
             case "reference":
+            case "original":
             {
                 if ( $attr == "small" )
                 {
                     $width = $ini->variable( "ImageSettings" , "SmallSizeWidth" );
                     $height = $ini->variable( "ImageSettings" , "SmallSizeHeight" );
                 }
-                elseif ( $attr == "medium" )
+                else if ( $attr == "medium" )
                 {
                     $width = $ini->variable( "ImageSettings" , "MediumSizeWidth" );
                     $height = $ini->variable( "ImageSettings" , "MediumSizeHeight" );
                 }
-                elseif ( $attr == "large" )
+                else if ( $attr == "large" )
                 {
                     $width = $ini->variable( "ImageSettings" , "LargeSizeWidth" );
                     $height = $ini->variable( "ImageSettings" , "LargeSizeHeight" );
                 }
-                elseif ( $attr == "reference" )
+                else if ( $attr == "reference" )
                 {
                     $width = $ini->variable( "ImageSettings" , "ReferenceSizeWidth" );
                     $height = $ini->variable( "ImageSettings" , "ReferenceSizeHeight" );
                 }
 
                 $cacheString = $this->ContentObjectAttributeID . '-' . $attr . "-" . $width . "-" . $height;
+                if ( $attr == "original" )
+                    $cacheString = $this->ContentObjectAttributeID . '-' . $attr;
 
                 if ( !isset( $GLOBALS[$cacheString] ) )
                 {
-                    $img_variation =& eZImageVariation::requestVariation( $this, $width, $height );
+                    if ( $attr == "original" )
+                        $img_variation =& eZImageVariation::createOriginal( $this->ContentObjectAttributeID, $this->Version, $this->Filename, eZDir::getPathFromFilename( $this->Filename ) );
+                    else
+                        $img_variation =& eZImageVariation::requestVariation( $this, $width, $height );
                     $GLOBALS[$cacheString] =& $img_variation;
                 }
                 else

@@ -92,7 +92,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                'render_mode' => false,
                                                'input_name' => 'attribute',
                                                'output_name' => 'attribute',
-                                               'namespace' => '',
+                                               'namespace' => 'ContentAttribute',
                                                'attribute_access' => array( array( 'contentclass_attribute',
                                                                                    'data_type',
                                                                                    'information',

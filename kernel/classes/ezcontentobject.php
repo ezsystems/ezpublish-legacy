@@ -360,6 +360,15 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
+     \return the content class identifier for the current content object
+    */
+    function &contentClassIdentifier()
+    {
+        $contentClass =& $this->contentClass();
+        return $contentClass->attribute( 'identifier' );
+    }
+
+    /*!
      \return the content class for the current content object
     */
     function &contentClass()

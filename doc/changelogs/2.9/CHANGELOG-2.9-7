@@ -60,6 +60,7 @@ contentclass:
 - Sorting on object name was added (Patch by Bruce Morrison)
 - Added unpublish workflow event.
 - Added unpublish function to ezcontenobjectversion
+- Image datatype can now return info on the original image.
 
 persistentobject:
 - Added support for between in conditions, it is passed as an array with two elements

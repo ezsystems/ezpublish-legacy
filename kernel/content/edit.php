@@ -61,7 +61,7 @@ if ( !function_exists ( 'checkForExistingVersion'  ) )
             $version =& $object->version( $editVersion );
             if ( $version === null )
             {
-                $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+                $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
                 return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
             }
         }
@@ -92,7 +92,7 @@ if ( !function_exists ( 'checkForExistingVersion'  ) )
             // Fetch and create new version
             if ( !$object->attribute( 'can_edit' ) )
             {
-                $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+                $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
                 return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
             }
             $version =& $object->createNewVersion();

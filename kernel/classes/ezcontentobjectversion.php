@@ -653,6 +653,9 @@ class eZContentObjectVersion extends eZPersistentObject
                                                                        ),
                                                           array( 'version' => 'asc' ), null,
                                                           true );
+        if ( $versions === null or
+             count( $versions ) == 0 )
+            return null;
         return $versions[0];
     }
     function &fetchForUser( $userID, $status = EZ_VERSION_STATUS_DRAFT )

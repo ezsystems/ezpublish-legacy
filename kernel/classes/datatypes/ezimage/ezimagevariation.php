@@ -75,6 +75,16 @@ class eZImageVariation extends eZPersistentObject
                       "name" => "ezimagevariation" );
     }
 
+    function &createOriginal( $contentObjectAttributeID, $version, $filename, $additionalPath )
+    {
+        $row = array( 'contentobject_attribute_id' => $contentObjectAttributeID,
+                      'version' => $version,
+                      'filename' => $filename,
+                      'additional_path' => $additionalPath );
+        $variation = new eZImageVariation( $row );
+        return $variation;
+    }
+
     function attributes()
     {
         return eZPersistentObject::attributes();
