@@ -1,13 +1,10 @@
-
+<div class="maincontentheader">
 <h1>{"create policy"|i18n('role/edit')} {$role.name}</h1>
+</div>
 
 <form action={concat($module.functions.edit.uri,"/",$role.id,"/")|ezurl} method="post" >
 
-
-<table width="100%" >
-<tr>
-<td>
-<div class="step" bgcolor="grey" >
+<div class="step">
 <h2>Step 1</h2>
 <div class="block">
    	<div class="element">
@@ -24,38 +21,34 @@
   	<input class="button" type="submit" name="Step1" value="Go back to step 1" />
 </div>
 </div>
-</td>
-</tr>
-</table>
-
-
-
-
 
 {section show=$no_functions}
-
-You are not able to give access to limited functions of module <b>{$current_module}</b> because function list for it is not defined <br/>
-
-
+<div class="warning">
+<p>You are not able to give access to limited functions of module <b>{$current_module}</b> because function list for it is not defined.</p>
+</div>
 {section-else}
 
-
-
-    {$current_module}<br/>
-    to function:
+<h2>Step 2</h2>
+<p>Specify function in module <b>{$current_module}</b>.</p>
+<div class="block">
+	<label>Function:</label><div class="labelbreak"></div>
     <select  name="ModuleFunction" size="1">
     {section name=Functions loop=$functions}
        <option value="{$Functions:item}">{$Functions:item}</option>
     {/section}
     </select>
-    <input type="hidden" name="CurrentModule" value="{$current_module}" /><br />
-    <input type="submit" name="AddFunction" value="Allow all" />
-    <input type="submit" name="Limitation" value="Allow limited" />
+    <input type="hidden" name="CurrentModule" value="{$current_module}" />
+</div>
+
+<div class="buttonblock">
+    <input class="button" type="submit" name="AddFunction" value="Allow all" />
+    <input class="button" type="submit" name="Limitation" value="Allow limited" />
+</div>
    {* <input type="submit" name="DiscardFunction" value="Discard" />*}
 {/section}
-<br/>
-<br/>
-<br/>
-<input type="submit" value="Cancel" />
+
+<div class="buttonblock">
+<input class="button" type="submit" value="Cancel" />
+</div>
 
 </form>

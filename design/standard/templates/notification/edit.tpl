@@ -1,6 +1,8 @@
 <form action={concat($module.functions.edit.uri,"/",$rule_type,"/",$rule_id)|ezurl} method="post" name="Edit">
+<div class="maincontentheader">
 <h1>Notification registration form</h1>
-<table>
+</div>
+
 {switch match=$rule_type}
   {case match=advanced}
    {include uri="design:notification/rules/ezadvanced.tpl"}
@@ -12,23 +14,18 @@
    {include uri="design:notification/rules/ezkeyword.tpl"}
   {/case}
 {/switch}
-<tr>
-<td>
-Send Method:
-</td>
-<td>
+
+<div class="block">
+<div class="element">
+<label>Send Method:</label><div class="labelbreak"></div>
 <select name="sendMethod">
 <option value="email" {section show=eq($userlink_list.send_method,'email')}selected{/section}>Email</option>
 <option value="sms" {section show=eq($userlink_list.send_method,'sms')}selected{/section}>SMS</option>
 <option value="internal message" {section show=eq($userlink_list.send_method,'internal message')}selected{/section}>Internal message</option>
 </select>
-</td>
-</tr>
-<tr>
-<td>
-Send time:
-</td>
-<td>
+</div>
+<div class="element">
+<label>Send day:</label><div class="labelbreak"></div>
 <select name="sendTime_week">
 <option value="-1" {section show=eq($userlink_list.send_weekday,-1)}selected{/section}>Immediately</option>
 <option value="1" {section show=eq($userlink_list.send_weekday,1)}selected{/section}>monday</option>
@@ -39,8 +36,9 @@ Send time:
 <option value="6" {section show=eq($userlink_list.send_weekday,6)}selected{/section}>saturday</option>
 <option value="7" {section show=eq($userlink_list.send_weekday,7)}selected{/section}>sunday</option>
 </select>
-</td>
-<td>
+</div>
+<div class="element">
+<label>Send time:</label><div class="labelbreak"></div>
 <select name="sendTime_hour">
 <option value="-1" {section show=eq($userlink_list.send_time,-1)}selected{/section}>x:00</option>
 <option value="1" {section show=eq($userlink_list.send_time,1)}selected{/section}>1:00</option>
@@ -68,19 +66,16 @@ Send time:
 <option value="23" {section show=eq($userlink_list.send_time,23)}selected{/section}>23:00</option>
 <option value="24" {section show=eq($userlink_list.send_time,24)}selected{/section}>24:00</option>
 </select>
-</td>
-</tr>
-</table>
+</div>
+<div class="break"></div>
+</div>
 
-<br />
-<table width="100%">
-<tr>
 <input type="hidden" name="CurrentRuleID" value="{$rule_id}">
-<td>{include uri="design:gui/button.tpl" name=Store id_name=StoreRuleButton value=Register}</td>
-<td>{include uri="design:gui/button.tpl" name=Discard id_name=DiscardRuleButton value=Discard}</td>
-<td width="99%"></td>
-</tr>
-</table>
+
+<div class="buttonblock">
+{include uri="design:gui/button.tpl" name=Store id_name=StoreRuleButton value=Register}
+{include uri="design:gui/button.tpl" name=Discard id_name=DiscardRuleButton value=Discard}
+</div>
 
 </form>
 

@@ -1,18 +1,23 @@
+<div class="maincontentheader">
 <h1>{"Role view"|i18n('role/view')}</h1>
-
+</div>
 <form action={concat($module.functions.view.uri,"/",$role.id,"/")|ezurl} method="post" >
-View role - {$role.name} <a href={concat("/role/edit/",$role.id,"/")|ezurl}>[edit]</a><br/>
+
+<label>Name:</label><div class="labelbreak"></div>
+<p class="box">{$role.name} <a href={concat("/role/edit/",$role.id,"/")|ezurl}>[edit]</a></p>
 
 
-<table width="100%" cellspacing="0">
+<h2>{"Role policies"|i18n('role/view')}</h2>
+
+<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<th align="left">ID</th>
-	<th align="left">Module</th>
-	<th align="left">Function</th>
-	<th align="left">Limitation</th>
+    <th>ID:</th>
+    <th>Module:</th>
+    <th>Function:</th>
+    <th>Limitation:</th>
 
 </tr>
-<h2>{"Role policies"|i18n('role/view')}</h2>
+
 {section name=Policy loop=$policies sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$Policy:sequence}">{$Policy:item.id}</td>
@@ -43,9 +48,10 @@ View role - {$role.name} <a href={concat("/role/edit/",$role.id,"/")|ezurl}>[edi
 
 <h2>{"Users and groups assigned to this role"|i18n('role/view')}:</h2>
 
-<table width="100%" cellspacing="0">
+<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<th>User</th>
+	<th width="99%">User:</th>
+	<th width="1%">&nbsp;</th>    
 </tr>
 {section name=User loop=$user_array sequence=array(bglight,bgdark)}
 <tr>
@@ -59,8 +65,9 @@ View role - {$role.name} <a href={concat("/role/edit/",$role.id,"/")|ezurl}>[edi
 {/section}
 </table>
 
-<br />
-<input type="submit" name="AssignRoleButton" value="Assign role" /> &nbsp;
-<input type="submit" name="RemoveRoleAssignmentButton" value="Remove role assignment" />
+<div class="buttonblock">
+<input class="button" type="submit" name="AssignRoleButton" value="Assign role" />
+<input class="button" type="submit" name="RemoveRoleAssignmentButton" value="Remove role assignment" />
+</div>
 
 </form>
