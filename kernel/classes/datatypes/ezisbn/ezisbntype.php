@@ -68,8 +68,7 @@ class eZISBNType extends eZDataType
 
         $isbn = strtoupper( $isbn );
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-        if ( !$classAttribute->attribute( "is_required" ) and
-             $isbn == "---" )
+        if ( !$contentObjectAttribute->validateIsRequired() and $isbn == "---" )
         {
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         }

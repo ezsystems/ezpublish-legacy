@@ -666,7 +666,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $headers = $tmpDom->elementsByName( 'header' );
 
                 $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-                if ( $classAttribute->attribute( "is_required" ) == true )
+                if ( $contentObjectAttribute->validateIsRequired() )
                 {
                     if ( count( $paragraphs ) == 0  && count( $headers ) == 0  )
                     {

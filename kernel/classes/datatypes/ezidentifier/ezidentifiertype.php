@@ -123,7 +123,7 @@ class eZIdentifierType extends eZDataType
     function initializeClassAttribute( &$classAttribute )
     {
         if ( $classAttribute->attribute( EZ_DATATYPESTRING_START_VALUE_FIELD ) == null
-          && $classAttribute->attribute( EZ_DATATYPESTRING_DIGITS_FIELD ) == null 
+          && $classAttribute->attribute( EZ_DATATYPESTRING_DIGITS_FIELD ) == null
           && $classAttribute->attribute( EZ_DATATYPESTRING_IDENTIFIER_FIELD ) == null )
         {
             $classAttribute->setAttribute( EZ_DATATYPESTRING_START_VALUE_FIELD, 1 );

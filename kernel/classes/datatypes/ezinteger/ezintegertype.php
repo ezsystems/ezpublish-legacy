@@ -86,7 +86,7 @@ class eZIntegerType extends eZDataType
             $min = $classAttribute->attribute( EZ_DATATYPESTRING_MIN_VALUE_FIELD );
             $max = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_VALUE_FIELD );
             $input_state = $classAttribute->attribute( EZ_DATATYPESTRING_INTEGER_INPUT_STATE_FIELD );
-            if( ( $classAttribute->attribute( "is_required" ) == false ) &&  ( $data == "" ) )
+            if( !$contentObjectAttribute->validateIsRequired() && ( $data == "" ) )
             {
                 return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
             }

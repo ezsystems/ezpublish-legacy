@@ -79,39 +79,45 @@ class eZMultiOptionType extends eZDataType
         if ( $http->hasPostVariable( $base . "_data_multioption_id_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-            $idList = $http->postVariable( $base . "_data_multioption_id_" . $contentObjectAttribute->attribute( "id" ) );
-            $valueList = $http->postVariable( $base . "_data_multioption_value_" . $contentObjectAttribute->attribute( "id" ) );
-            $multioptionAdditionalPriceList =& $http->postVariable( $base . "_data_multioption_additional_price_" . $contentObjectAttribute->attribute( "id" ) );
-            if ( $classAttribute->attribute( "is_required" ) and !$classAttribute->attribute( 'is_information_collector' ) )
+            $multioptionIDArray =& $http->postVariable( $base . "_data_multioption_id_" . $contentObjectAttribute->attribute( "id" ) );
+
+            foreach ( $multioptionIDArray as $id )
             {
-                if ( trim( $valueList[0] ) == "" )
+                $multioptionName =& $http->postVariable( $base . "_data_multioption_name_" . $contentObjectAttribute->attribute( "id" ) . '_' . $id );
+                $optionIDArray =& $http->postVariable( $base . "_data_option_id_" . $contentObjectAttribute->attribute( "id" ) . '_' . $id );
+
+
+                $optionCountArray =& $http->postVariable( $base . "_data_option_option_id_" . $contentObjectAttribute->attribute( "id" ) . '_' . $id );
+                $optionValueArray =& $http->postVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) . '_' . $id );
+                $optionAdditionalPriceArray =& $http->postVariable( $base . "_data_option_additional_price_" . $contentObjectAttribute->attribute( "id" ) . '_' . $id );
+
+                for ( $i = 0; $i < count( $optionIDArray ); $i++ )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'At least one multioption is required.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                }
-            }
-            if ( trim( $valueList[0] ) != "" )
-            {
-                for ( $i = 0; $i < count( $idList ); $i++ )
-                {
-                    $value =  $valueList[$i];
-                    if ( trim( $value ) == "" )
+                    if ( $contentObjectAttribute->validateIsRequired() and !$classAttribute->attribute( 'is_information_collector' ) )
                     {
-                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'The option value must be provided.' ) );
-                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                        if ( trim( $optionValueArray[$i] ) == "" )
+                        {
+                            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                                 'The option value must be provided.' ) );
+                            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                        }
                     }
 
-                    if ( strlen( $multioptionAdditionalPriceList[$i] ) && !preg_match( "#^[-|+]?[0-9]+(\.){0,1}[0-9]{0,2}$#", $multioptionAdditionalPriceList[$i] ) )
+                    if ( trim( $optionValueArray[$i] ) != "" )
                     {
-                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'The additional price for the multioption value is not valid.' ) );
-                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                        eZDebug::writeDebug( $optionAdditionalPriceArray[$i], 'lazy: $optionAdditionalPriceArray[i]' );
+                        if ( strlen( $optionAdditionalPriceArray[$i] ) && !preg_match( "#^[-|+]?[0-9]+(\.){0,1}[0-9]{0,2}$#", $optionAdditionalPriceArray[$i] ) )
+                        {
+                            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                                 'The additional price for the multioption value is not valid.' ) );
+                            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                        }
                     }
+
                 }
             }
         }
+
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
 
@@ -156,7 +162,7 @@ class eZMultiOptionType extends eZDataType
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
         $multioptionIDArray =& $http->postVariable( $base . "_data_multioption_id_" . $contentObjectAttribute->attribute( "id" ) );
-        $multioption = new eZMultiOption( $multioptionName );
+        $multioption = new eZMultiOption( '' );
         foreach ( $multioptionIDArray as $id )
         {
             $multioptionName =& $http->postVariable( $base . "_data_multioption_name_" . $contentObjectAttribute->attribute( "id" ) . '_' . $id );
@@ -164,16 +170,15 @@ class eZMultiOptionType extends eZDataType
             $optionPriority =& $http->postVariable( $base . "_data_multioption_priority_" . $contentObjectAttribute->attribute( "id" ) . '_' . $id );
             $optionDefaultValue =& $http->postVariable( $base . "_data_radio_checked_" . $contentObjectAttribute->attribute("id") . '_' . $id );
             $newID = $multioption->addMultiOption( $multioptionName,$optionPriority, $optionDefaultValue );
-            $i = 0;
-            foreach ( $optionIDArray as $optionID )
-            {
-                $optionCountArray =& $http->postVariable( $base . "_data_option_option_id_" . $contentObjectAttribute->attribute( "id" ) . '_' . $id );
-                $optionValueArray =& $http->postVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) . '_' . $id );
-                $optionAdditionalPriceArray =& $http->postVariable( $base . "_data_option_additional_price_" . $contentObjectAttribute->attribute( "id" ) . '_' . $id );
-        $multioption->addOption( $newID, $optionCountArray[$i], $optionValueArray[$i], $optionAdditionalPriceArray[$i] );
-                $i++;
-            }
+
+            $optionCountArray =& $http->postVariable( $base . "_data_option_option_id_" . $contentObjectAttribute->attribute( "id" ) . '_' . $id );
+            $optionValueArray =& $http->postVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) . '_' . $id );
+            $optionAdditionalPriceArray =& $http->postVariable( $base . "_data_option_additional_price_" . $contentObjectAttribute->attribute( "id" ) . '_' . $id );
+
+            for ( $i = 0; $i < count( $optionIDArray ); $i++ )
+                $multioption->addOption( $newID, $optionCountArray[$i], $optionValueArray[$i], $optionAdditionalPriceArray[$i] );
         }
+
         $multioption->sortMultiOptions();
         $multioption->resetOptionCounter();
         $contentObjectAttribute->setContent( $multioption );

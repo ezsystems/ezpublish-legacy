@@ -84,7 +84,7 @@ class eZAuthorType extends eZDataType
             else
                 $removeList = array();
 
-            if ( $classAttribute->attribute( "is_required" ) == true )
+            if ( $contentObjectAttribute->validateIsRequired() )
             {
                 if ( trim( $nameList[0] ) == "" )
                 {

@@ -202,12 +202,15 @@ class eZEnumType extends eZDataType
         {
             $array_enumID = $http->postVariable( $base . '_data_enumid_' . $contentObjectAttribute->attribute( 'id' ) );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-            if ( ( $classAttribute->attribute( 'is_required' ) == true )  &&
-                 ( !$http->hasPostVariable( $base . '_select_data_enumelement_' . $contentObjectAttribute->attribute( 'id' ) ) ) )
+
+            if ( $contentObjectAttribute->validateIsRequired() )
             {
-                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                     'At least one field must be chosen.' ) );
-                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                if ( !$http->hasPostVariable( $base . '_select_data_enumelement_' . $contentObjectAttribute->attribute( 'id' ) ) )
+                {
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                         'At least one field should be chosen.' ) );
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                }
             }
         }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;

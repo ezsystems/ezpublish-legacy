@@ -77,7 +77,7 @@ class eZPriceType extends eZDataType
             $data =& $locale->internalCurrency( $data );
 
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-            if( ( $classAttribute->attribute( "is_required" ) == false ) &&  ( $data == "" ) )
+            if( !$contentObjectAttribute->validateIsRequired() && ( $data == "" ) )
             {
                 return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
             }
