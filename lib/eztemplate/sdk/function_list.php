@@ -71,25 +71,32 @@ Several input parameters and sub functions are available. Requires an end tag.
 <dd>Creates a sequence that can be iterated over, wrapping around to the beginning when the end is
 reached. Requires no end tag. <a href="/sdk/eztemplate/view/function_sequence/">More...</a></dd>
 
-<dt>let</dt>
-<dd>Assigns one or more variables within its tags. Requires an end tag.</dd>
+<dt>let, default</dt>
+<dd>Assigns one or more variables within its tags. Requires an end tag. "default" assigns the variables
+unless they are already assigned, while "let" always assigns them. The assigned variables are freed
+(released) at the end tag.</dd>
 <dd>E.g.<br/>
 {let var1=42 var2='forty-two'}<br/>
 Variables: {$var1} ({$var2})<br/>
 {/let}<br/>
-This will output "Variables: 42 (forty-two)".</dd>
-
-<dt>default</dt>
-<dd>Assigns one or more variables within its tags, unless they are already assigned.
-Requires an end tag.</dd>
-<dd>E.g.<br/>
+This will output "Variables: 42 (forty-two)".<br/>
+<br/>
 {let var1=42 var2='forty-two'}<br/>
 {default var1=53}<br/>
 Variables: {$var1} ({$var2})<br/>
 {/default}<br/>
 {/let}<br/>
 This will output "Variables: 42 (forty-two)", because the first variable was set before the
-default statement.</dd>
+default statement.<br/>
+<br/>
+By passing name as a parameter all variables will be created in the new namespace:<br/>
+{let name=NewNameSpace ...}<br/>
+<br/>
+You can even use let to change the namespace by passing no assignments:<br/>
+{let name=First}<br/>
+&nbsp;{let name=Second}<br/>
+&nbsp;{/let}<br/>
+{/let}</dd>
 
 <dt>set</dt>
 <dd>Assigns a value to one or more variables. The value must have been created earlier using let
@@ -106,6 +113,11 @@ This will output "Before: 4 After: 42".</dd>
 <dd>Renders all it's children as text and sets it as a template variable. This is useful for allowing
 one template to return multiple text portions, for instance an email template could set subject as a
 block and return the rest as body. Requires an end tag.</dd>
+<dd>The scope parameter can be global, root or relative:<br/>
+global - Sets the variable in the defined subspace (if any) in the global namespace<br/>
+root - Sets the variable in the defined subspace in the root namespace of the current file
+(may be the same as global namespace in some cases)<br/>
+relative - Sets the variable in the defined subspace from the current namespace.</dd>
 <dd>E.g.<br/>
 {set-block name=MyNameSpace scope=global variable=text}<br/>
 {$item} - {$item2}<br/>

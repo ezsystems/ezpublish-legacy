@@ -820,7 +820,7 @@
     </message>
     <message>
         <source>E-Mail</source>
-        <translation></translation>
+        <translation>E-post</translation>
     </message>
     <message>
         <source>Filename</source>
@@ -4394,6 +4394,10 @@
         <source>At least one option is required.</source>
         <comment>eZOptionType</comment>
         <translation>Oppgi minst et valg.</translation>
+    </message>
+    <message>
+        <source>User with this email already exists, if you forgot your password go to the</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
