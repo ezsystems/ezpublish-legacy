@@ -96,6 +96,10 @@ eZContentObjectTreeNode:
 - Fixed fetchNode() to also fetch the name of the object, without the 'name'
   attribute would be empty.
 
+eZMatrix datatype:
+- Fixed bug in matrix datatype when adding new rows, changed the 'max' to a
+  'min' to avoid it inserting 40 rows each time.
+
 Class:
 - Simplified creation of classes by having a 'New class' button on the group
   listing. Radio buttons were added to select the group to place the class

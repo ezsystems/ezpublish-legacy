@@ -652,7 +652,7 @@ class eZMatrix
 
     function addRow( $beforeIndex = false, $addCount = 1 )
     {
-        $addCount = max( $addCount, 40 );
+        $addCount = min( $addCount, 40 );
 
         for ( $r = $addCount; $r > 0; $r-- )
         {
