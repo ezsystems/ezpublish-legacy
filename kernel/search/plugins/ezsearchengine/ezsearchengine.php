@@ -1637,7 +1637,7 @@ class eZSearchEngine
         {
             $searchPart = array();
             $searchPart['text'] = $phraseText;
-            $searchPart['sql_part'] = $phraseSearchSQLArray[$i] . 'AND';
+            $searchPart['sql_part'] = ' ( ' . $phraseSearchSQLArray[$i] . ' ) AND';
             $searchPart['is_phrase'] = 1;
             $searchPart['object_count'] = 0;
             $searchPartsArray[] =& $searchPart;
