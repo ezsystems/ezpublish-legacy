@@ -32,20 +32,32 @@
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
 //
-
-set_time_limit( 0 );
-
+include_once( 'lib/ezutils/classes/ezcli.php' );
+include_once( 'kernel/classes/ezscript.php' );
 include_once( "lib/ezutils/classes/ezini.php" );
-include_once( "lib/ezutils/classes/ezdebug.php" );
 
-$ini =& eZINI::instance();
+$cli =& eZCLI::instance();
+$endl = $cli->endlineString();
+
+$script =& eZScript::instance( array( 'description' => ( "eZ publish overridesettings generate.".
+                                                         "\n" .
+                                                         "generateoverridesettings.php" ),
+                                      'use-session' => false,
+                                      'use-modules' => true,
+                                      'use-extensions' => true ) );
+
+$script->startup();
+
+$options = $script->getOptions( "", "" );
+$script->initialize();
+
+$hasSiteAccess = $options['siteaccess'] ? true : false;
 
 print( "Override settings\n" );
-
-if ( isset( $argv[1] ) )
+if ( $hasSiteAccess )
 {
-    print( "Using siteacces: " . $argv[1] . "\n" );
-    $siteAccess = $argv[1];
+    $siteAccess = $options['siteaccess'];
+    print( "Using siteacces: " . $siteAccess . "\n" );
     $ini =& eZINI::instance( 'site.ini', 'settings', null, null, true );
     $ini->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
     $ini->loadCache();
@@ -54,7 +66,6 @@ if ( isset( $argv[1] ) )
     print( "Looking for override templates in: $siteBase\n" );
 
     $nodeOverrideFileArray =& eZDir::recursiveFindRelative( "design/" . $siteBase . "/override/templates/", "",  "tpl" );
-
     print( "The following override templates where found:\n\n" );
     $overrideTxt = "";
     foreach ( $nodeOverrideFileArray as $overrideFile )
@@ -76,11 +87,12 @@ if ( isset( $argv[1] ) )
     print( "\n" );
     // Generate override for node view
     print( $overrideTxt );
-
 }
 else
 {
-    print( "Please supply the siteacces you want to generate overrides for\n" );
+    $cli->error( "Please supply the siteacces you want to generate overrides for\n" );
+    $script->shutdown( 1 );
 }
+$script->shutdown();
 
 ?>

@@ -3,7 +3,7 @@
 //
 // Definition of Updateniceurls class
 //
-// Created on: <03-ñÎ×-2003 16:05:43 sp>
+// Created on: <03-Apr-2003 16:05:43 sp>
 //
 // Copyright (C) 1999-2004 eZ systems as. All rights reserved.
 //
@@ -39,47 +39,42 @@
 */
 
 set_time_limit ( 0 );
-// chdir ( '../../../' );
 
-include_once( "lib/ezutils/classes/ezextension.php" );
-include_once( "lib/ezutils/classes/ezmodule.php" );
 include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
 $cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'debug-message' => '',
+$script =& eZScript::instance( array( 'description' => ( "eZ publish nice url updater.\n\n" .
+                                                         "Will go trough and remake all nice urls" .
+                                                         "\n" .
+                                                         "updateniceurls.php" ),
                                       'use-session' => true,
                                       'use-modules' => true,
                                       'use-extensions' => true ) );
 
 $script->startup();
 
-$endl = $cli->endlineString();
-$webOutput = $cli->isWebOutput();
+$options = $script->getOptions( "[db-user:][db-password:][db-database:][db-driver:][sql]",
+                                "",
+                                array( 'db-host' => "Database host",
+                                       'db-user' => "Database user",
+                                       'db-password' => "Database password",
+                                       'db-database' => "Database name",
+                                       'db-driver' => "Database driver",
+                                       'sql' => "Display sql queries"
+                                       ) );
+$script->initialize();
 
-function help()
+$dbUser = $options['db-user'] ? $options['db-user'] : false;
+$dbPassword = $options['db-password'] ? $options['db-password'] : false;
+$dbHost = $options['db-host'] ? $options['db-host'] : false;
+$dbName = $options['db-database'] ? $options['db-database'] : false;
+$dbImpl = $options['db-driver'] ? $options['db-driver'] : false;
+$showSQL = $options['sql'] ? true : false;
+$siteAccess = $options['siteaccess'] ? $options['siteaccess'] : false;;
+if ( $siteAccess )
 {
-    $argv = $_SERVER['argv'];
-    $cli =& eZCLI::instance();
-    $cli->output( "Usage: " . $argv[0] . " [OPTION]...\n" .
-                  "eZ publish nice url updater.\n" .
-                  "Will go trough and remake all nice urls\n" .
-                  "\n" .
-                  "General options:\n" .
-                  "  -h,--help          display this help and exit \n" .
-                  "  -q,--quiet         do not give any output except when errors occur\n" .
-                  "  -s,--siteaccess    selected siteaccess for operations, if not specified default siteaccess is used\n" .
-                  "  -d,--debug         display debug output at end of execution\n" .
-                  "  --db-host=HOST     Use database host HOST\n" .
-                  "  --db-user=USER     Use database user USER\n" .
-                  "  --db-password=PWD  Use database password PWD\n" .
-                  "  --db-database=DB   Use database named DB\n" .
-                  "  --db-driver=DRIVER Use database driver DRIVER\n" .
-                  "  -c,--colors        display output using ANSI colors\n" .
-                  "  --sql              display sql queries\n" .
-                  "  --logfiles         create log files\n" .
-                  "  --no-logfiles      do not create log files (default)\n" .
-                  "  --no-colors        do not use ANSI coloring (default)\n" );
+    changeSiteAccessSetting( $siteaccess, $siteAccess );
 }
 
 function changeSiteAccessSetting( &$siteaccess, $optionData )
@@ -98,198 +93,6 @@ function changeSiteAccessSetting( &$siteaccess, $optionData )
             $cli->notice( "Siteaccess $optionData does not exist, using default siteaccess" );
     }
 }
-
-$siteaccess = false;
-$debugOutput = false;
-$allowedDebugLevels = false;
-$useDebugAccumulators = false;
-$useDebugTimingpoints = false;
-$useIncludeFiles = false;
-$useColors = false;
-$isQuiet = false;
-$useLogFiles = false;
-$showSQL = false;
-
-$dbUser = false;
-$dbPassword = false;
-$dbHost = false;
-$dbName = false;
-$dbImpl = false;
-
-$optionsWithData = array( 's' );
-$longOptionsWithData = array( 'siteaccess' );
-
-$readOptions = true;
-
-for ( $i = 1; $i < count( $argv ); ++$i )
-{
-    $arg = $argv[$i];
-    if ( $readOptions and
-         strlen( $arg ) > 0 and
-         $arg[0] == '-' )
-    {
-        if ( strlen( $arg ) > 1 and
-             $arg[1] == '-' )
-        {
-            $flag = substr( $arg, 2 );
-            if ( in_array( $flag, $longOptionsWithData ) )
-            {
-                $optionData = $argv[$i+1];
-                ++$i;
-            }
-            if ( $flag == 'help' )
-            {
-                help();
-                exit();
-            }
-            else if ( $flag == 'siteaccess' )
-            {
-                changeSiteAccessSetting( $siteaccess, $optionData );
-            }
-            else if ( preg_match( "/^db-host=(.*)$/", $flag, $matches ) )
-            {
-                $dbHost = $matches[1];
-            }
-            else if ( preg_match( "/^db-user=(.*)$/", $flag, $matches ) )
-            {
-                $dbUser = $matches[1];
-            }
-            else if ( preg_match( "/^db-password=(.*)$/", $flag, $matches ) )
-            {
-                $dbPassword = $matches[1];
-            }
-            else if ( preg_match( "/^db-database=(.*)$/", $flag, $matches ) )
-            {
-                $dbName = $matches[1];
-            }
-            else if ( preg_match( "/^db-driver=(.*)$/", $flag, $matches ) )
-            {
-                $dbImpl = $matches[1];
-            }
-            else if ( $flag == 'debug' )
-            {
-                $debugOutput = true;
-            }
-            else if ( $flag == 'quiet' )
-            {
-                $isQuiet = true;
-            }
-            else if ( $flag == 'colors' )
-            {
-                $useColors = true;
-            }
-            else if ( $flag == 'no-colors' )
-            {
-                $useColors = false;
-            }
-            else if ( $flag == 'no-logfiles' )
-            {
-                $useLogFiles = false;
-            }
-            else if ( $flag == 'logfiles' )
-            {
-                $useLogFiles = true;
-            }
-            else if ( $flag == 'sql' )
-            {
-                $showSQL = true;
-            }
-        }
-        else
-        {
-            $flag = substr( $arg, 1, 1 );
-            $optionData = false;
-            if ( in_array( $flag, $optionsWithData ) )
-            {
-                if ( strlen( $arg ) > 2 )
-                {
-                    $optionData = substr( $arg, 2 );
-                }
-                else
-                {
-                    $optionData = $argv[$i+1];
-                    ++$i;
-                }
-            }
-            if ( $flag == 'h' )
-            {
-                help();
-                exit();
-            }
-            else if ( $flag == 'q' )
-            {
-                $isQuiet = true;
-            }
-            else if ( $flag == 'c' )
-            {
-                $useColors = true;
-            }
-            else if ( $flag == 'd' )
-            {
-                $debugOutput = true;
-                if ( strlen( $arg ) > 2 )
-                {
-                    $levels = explode( ',', substr( $arg, 2 ) );
-                    $allowedDebugLevels = array();
-                    foreach ( $levels as $level )
-                    {
-                        if ( $level == 'all' )
-                        {
-                            $useDebugAccumulators = true;
-                            $allowedDebugLevels = false;
-                            $useDebugTimingpoints = true;
-                            break;
-                        }
-                        if ( $level == 'accumulator' )
-                        {
-                            $useDebugAccumulators = true;
-                            continue;
-                        }
-                        if ( $level == 'timing' )
-                        {
-                            $useDebugTimingpoints = true;
-                            continue;
-                        }
-                        if ( $level == 'include' )
-                        {
-                            $useIncludeFiles = true;
-                        }
-                        if ( $level == 'error' )
-                            $level = EZ_LEVEL_ERROR;
-                        else if ( $level == 'warning' )
-                            $level = EZ_LEVEL_WARNING;
-                        else if ( $level == 'debug' )
-                            $level = EZ_LEVEL_DEBUG;
-                        else if ( $level == 'notice' )
-                            $level = EZ_LEVEL_NOTICE;
-                        else if ( $level == 'timing' )
-                            $level = EZ_LEVEL_TIMING;
-                        $allowedDebugLevels[] = $level;
-                    }
-                }
-            }
-            else if ( $flag == 's' )
-            {
-                changeSiteAccessSetting( $siteaccess, $optionData );
-            }
-        }
-    }
-}
-$script->setUseDebugOutput( $debugOutput );
-$script->setAllowedDebugLevels( $allowedDebugLevels );
-$script->setUseDebugAccumulators( $useDebugAccumulators );
-$script->setUseDebugTimingPoints( $useDebugTimingpoints );
-$script->setUseIncludeFiles( $useIncludeFiles );
-
-if ( $webOutput )
-    $useColors = true;
-
-$cli->setUseStyles( $useColors );
-$script->setDebugMessage( "\n\n" . str_repeat( '#', 36 ) . $cli->style( 'emphasize' ) . " DEBUG " . $cli->style( 'emphasize-end' )  . str_repeat( '#', 36 ) . "\n" );
-
-$script->setUseSiteAccess( $siteaccess );
-
-$script->initialize();
 
 include_once( 'lib/ezdb/classes/ezdb.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
@@ -324,6 +127,7 @@ $totalChangedNodes = 0;
 $totalNodeCount = 0;
 
 $topLevelNodesArray = $db->arrayQuery( 'SELECT node_id FROM ezcontentobject_tree WHERE depth = 1 ORDER BY node_id' );
+
 foreach ( array_keys( $topLevelNodesArray ) as $key )
 {
     $topLevelNodeID = $topLevelNodesArray[$key]['node_id'];
