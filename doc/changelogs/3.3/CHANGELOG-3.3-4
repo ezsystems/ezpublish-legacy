@@ -32,8 +32,6 @@ Changes from 3.3-3 to 3.3-4
   (e.g. on when creating a new version).
 - Made sure eZImage, eZMedia and eZENUM only copies attribute data when
   supplied version is non-false.
-- Link tags in ezxml fields with empty href values are now handled properly, empty links
-  will signal a validation error.
 
 *Bugs:
 - Fixed broken datatype range option.
@@ -139,13 +137,12 @@ Changes from 3.3-3 to 3.3-4
   it if it was previously deferred. (Merged from stable/3.2 rev. 5533)
 - Fixed wrong override entries for webshop solution.
   http://ez.no/community/bug_reports/confirm_order_bug_in_the_webshop_solution
+- Link tags in ezxml fields with empty href values are now handled properly, empty links
+  will signal a validation error.
+  http://ez.no/community/bug_reports/xml_field_one_empty_link_causes_all_other_links_to_disappear
 
 *Library:
 - Fixed case bug in the Timeout variable in eZSOAPClient.
-
-eZ Template:
-
-eZ DB:
 
 eZ Locale:
 - Removed space between dollar sign and pricevalue in eng-US
@@ -159,11 +156,7 @@ eZ Debug:
 - Made sure the dumpVariable function don't mess up any existing output buffers
   or start a new unneeded one. (Merged in from stable/3.2 rev. 5537)
 
-*Design:
-
 *Translations:
 - Updated nor-NO translation from 3.2
 - Updated dut-NL translation
 - Updated fre-FR translation
-
-*Database:
