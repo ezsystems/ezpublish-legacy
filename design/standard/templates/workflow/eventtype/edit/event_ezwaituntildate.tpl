@@ -1,5 +1,8 @@
 <div class="element">
-<table>
+
+<input type="checkbox" name="WorkflowEvent_data_waituntildate_modifydate_{$event.id}[]" value="1" {section show=$event.data_int1}checked="checked"{/section} /> {'Modify publish date'|i18n('design/standard/workflow/eventtype/edit')}
+
+<table class="list">
 <th> Class name </th>
 <th> ClassAttribute name </th>
 {section name=Entries loop=$event.content.entry_list sequence=array(bglight,bgdark)}
