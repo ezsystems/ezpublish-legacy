@@ -5,12 +5,6 @@ MatchFile=frontpagefolder.tpl
 Subdir=templates
 Match[node]=2
 
-# [link_archive]
-# Source=node/view/full.tpl
-# MatchFile=linkarchive.tpl
-# Subdir=templates
-# Match[node]=161
-
 [archive]
 Source=node/view/full.tpl
 MatchFile=archive.tpl
@@ -42,50 +36,6 @@ Source=navigationbar.tpl
 MatchFile=category_navigatorbar.tpl
 Subdir=templates
 Match[class]=1
-
-# [link_archive_navigation]
-# Source=navigationbar.tpl
-# MatchFile=linkarchive_navigationbar.tpl
-# Subdir=templates
-# Match[node]=161
-
-# [link_category]
-# Source=node/view/full.tpl
-# MatchFile=linkcategory.tpl
-# Subdir=templates
-# Match[class]=1
-# Match[section]=12
-
-# [link_category_navigation]
-# Source=navigationbar.tpl
-# MatchFile=linkcategory_navigationbar.tpl
-# Subdir=templates
-# Match[class]=1
-# Match[section]=12
-
-# [log_archive]
-# Source=node/view/full.tpl
-# MatchFile=logarchive.tpl
-# Subdir=templates
-# Match[node]=50
-
-# [log_archive_navigation]
-# Source=navigationbar.tpl
-# MatchFile=logarchive_navigationbar.tpl
-# Subdir=templates
-# Match[node]=50
-
-# [log_category]
-# Source=node/view/full.tpl
-# MatchFile=logcategory.tpl
-# Subdir=templates
-# Match[class]=1
-
-# [log_category_navigation]
-# Source=navigationbar.tpl
-# MatchFile=logcategory_navigationbar.tpl
-# Subdir=templates
-# Match[class]=1
 
 [link_line]
 Source=node/view/line.tpl
