@@ -4,6 +4,13 @@
     <div class="class-folder">
 
         <h1>{$node.object.data_map.name.content|wash()}</h1>
+
+        {section show=$node.object.data_map.related_information.content.is_empty|not}
+            <div class="relatedinfo">
+                {attribute_view_gui attribute=$node.object.data_map.related_information}
+            </div>
+        {/section}
+
         {section show=$node.object.data_map.summary.content.is_empty|not}
             <div class="content-short">
                 {attribute_view_gui attribute=$node.object.data_map.summary}
@@ -26,12 +33,6 @@
                 {node_view_gui view=line content_node=$Child}
             {/section}
         </div>
-
-        {section show=$node.object.data_map.related_information.content.is_empty|not}
-            <div class="relatedinfo">
-                {attribute_view_gui attribute=$node.object.data_map.related_information}
-            </div>
-        {/section}
 
         {include name=navigator
                  uri='design:navigator/google.tpl'

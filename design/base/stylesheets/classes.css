@@ -38,8 +38,12 @@ div.class-folder
 
 div.relatedinfo
 {  
+    margin-top: 0.3em;
+    margin-bottom: 0.1em;
+    display: inline;
     font-style: italic;
     width: 30%;
+    padding-right: 0.5em;
     float: right;
 }
 
