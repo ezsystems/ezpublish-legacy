@@ -9,7 +9,9 @@
 {default content_object=$node.object}
 
 {section show=$assignment}
-  {node_view_gui view=full with_children=false() versionview_mode=true() is_editable=false() is_standalone=false() content_object=$object node_name=$object.name content_node=$assignment.temp_node node=$node}
+   {node_view_gui view=full with_children=false() versionview_mode=true() is_editable=false() is_standalone=false() content_object=$object node_name=$object.name content_node=$assignment.temp_node node=$node}
+{section-else}
+  {node_view_gui view=full with_children=false() versionview_mode=true() is_editable=false() is_standalone=false() content_object=$object node_name=$object.name content_node=$node node=$node}
 {/section}
 
 <form method="post" action={concat("content/versionview/",$object.id,"/",$object_version,"/",$language)|ezurl}>
@@ -60,14 +62,17 @@
 </div>
 
 {/section}
-{/let}
 <div class="break"></div>
 </div>
 
+{section show=or( $version.language_list|count|gt( 1 ),
+                  $version.node_assignments|count|gt( 1 ),
+                  $Sitedesign:sitedesign_list|count|gt( 1 ) )}
 <div class="buttonblock">
 <input class="button" type="submit" name="ChangeSettingsButton" value="{'Change'|i18n('design/standard/content/view')}" />
 </div>
 {/section}
+{/let}
 
 <input type="hidden" name="ContentObjectID" value="{$object.id}" />
 <input type="hidden" name="ContentObjectVersion" value="{$object_version}" />

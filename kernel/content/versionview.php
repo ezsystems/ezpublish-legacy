@@ -136,6 +136,7 @@ if ( $http->hasPostVariable( 'ContentObjectPlacementID' ) )
     $placementID = $http->postVariable( 'ContentObjectPlacementID' );
 
 $nodeAssignments =& $versionObject->attribute( 'node_assignments' );
+$virtualNodeID = null;
 if ( is_array( $nodeAssignments ) and
      count( $nodeAssignments ) == 1 )
 {
