@@ -231,7 +231,7 @@ if ( !function_exists( 'checkContentActions' ) )
 
 //            if ( $status )
 //                return $status;
-//         eZDebug::writeNotice( $object, 'object' );
+//         eZDebug::writeDebug( $object, 'object' );
 
                 $module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );
 

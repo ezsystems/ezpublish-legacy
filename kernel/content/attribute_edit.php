@@ -69,13 +69,13 @@ if ( !$object->attribute( 'can_edit' ) )
 
 
 $version =& $object->version( $EditVersion );
-eZDebug::writeNotice( $version , "object version" );
+eZDebug::writeDebug( $version , "object version" );
 $classID = $object->attribute( 'contentclass_id' );
 
 $class =& eZContentClass::fetch( $classID );
 $contentObjectAttributes =& $version->contentObjectAttributes();
 
-eZDebug::writeNotice($contentObjectAttributes,"obj attributes" );
+eZDebug::writeDebug($contentObjectAttributes,"obj attributes" );
 
 
 $http =& eZHTTPTool::instance();

@@ -116,8 +116,8 @@ class eZContentClassAttribute extends eZPersistentObject
         $dataType =& $this->dataType();
         // store the content data for this attribute
         $info = $dataType->attribute( "information" );
-        eZDebug::writeWarning( "Storing datatype '" . $info['string'] . "'(" . $info['name'] . ") with version " . $this->attribute( 'version' ),
-                               "eZContentClassAttribute" );
+        eZDebug::writeDebug( "Storing datatype '" . $info['string'] . "'(" . $info['name'] . ") with version " . $this->attribute( 'version' ),
+                             "eZContentClassAttribute::store" );
         $dataType->storeClassAttribute( $this, $this->attribute( 'version' ) );
 
         return $stored;
@@ -130,8 +130,8 @@ class eZContentClassAttribute extends eZPersistentObject
         $dataType =& $this->dataType();
         // store the content data for this attribute
         $info = $dataType->attribute( "information" );
-        eZDebug::writeWarning( "Storing defined datatype '" . $info['string'] . "'(" . $info['name'] . ") with version " . $this->attribute( 'version' ),
-                               "eZContentClassAttribute" );
+        eZDebug::writeDebug( "Storing defined datatype '" . $info['string'] . "'(" . $info['name'] . ") with version " . $this->attribute( 'version' ),
+                             "eZContentClassAttribute::storeDefined" );
         $dataType->storeDefinedClassAttribute( $this );
 
         return $stored;

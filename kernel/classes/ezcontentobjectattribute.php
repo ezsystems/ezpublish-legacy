@@ -56,6 +56,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         $this->eZPersistentObject( $row );
         $this->Content = null;
         $this->ValidationError = null;
+        $this->InputXML = null;
         $ContentClassAttributeIdentifier = null;
         $ContentClassAttributeID = null;
     }
