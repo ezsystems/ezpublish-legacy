@@ -30,7 +30,7 @@ function deSelectAll()
 
 {let number_of_items=min( ezpreference( 'admin_role_list_limit' ), 3)|choose( 10, 10, 25, 50 )}
 
-<h1>{"Roles"|i18n("design/standard/role")}</h1>
+<h1>{"Roles"|i18n( 'design/admin/role/list' )}</h1>
 
 {* Items per page and view mode selector. *}
 <div class="viewbar">
@@ -72,14 +72,15 @@ Items:
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight"> &nbsp; </th>
-    <th>{'Name:'|i18n('design/standard/role')}</th>
+    <th>{'Name:'|i18n( 'design/admin/role/list' )}</th>
     <th class="tight"> &nbsp; </th>
     <th class="tight"> &nbsp; </th>
 </tr>
 
 {section show=$role_count|gt(0)}
 {section var=Roles loop=$roles sequence=array( bglight, bgdark )}
-<tr class="{$Roles.sequence}">
+    {let quoted_role=concat( '"', $Roles.item.name, '"' )|wash}
+    <tr class="{$Roles.sequence}">
     <td>
 	<input type="checkbox" name="DeleteIDArray[]" value="{$Roles.item.id}" />
     </td>
@@ -87,17 +88,18 @@ Items:
     <a href={concat( '/role/view/', $Roles.item.id)|ezurl}>{$Roles.item.name}</a>
     </td>
     <td>
-	<a href={concat( '/role/assign/', $Roles.item.id)|ezurl}><img src={"attach.png"|ezimage} alt="{'Assign'|i18n('design/standard/role')}" title="{'Assign this role to a user or a user group.'|i18n('design/standard/role')}" /></a>
+    <a href={concat( '/role/assign/', $Roles.item.id)|ezurl}><img src={"attach.png"|ezimage} alt="{'Assign'|i18n( 'design/admin/role/list ')}" title="{'Assign a user or a user group to the %quoted_role role.'|i18n( 'design/admin/role/list',, hash( '%quoted_role', $quoted_role ) )}" /></a>
     </td>
     <td>
-	<a href={concat( '/role/edit/', $Roles.item.id)|ezurl}><img src={"edit.png"|ezimage} alt="{'Edit'|i18n('design/standard/role')}" title="{'Edit this role.'|i18n('design/standard/role')}" /></a>
+	<a href={concat( '/role/edit/', $Roles.item.id)|ezurl}><img src={"edit.png"|ezimage} alt="{'Edit'|i18n('design/admin/role/list')}" title="{'Edit the %quoted_role role.'|i18n( 'design/admin/role/list',, hash( '%quoted_role', $quoted_role  ) )}" /></a>
     </td>
 </tr>
+{/let}
 {/section}
 </table>
 
-<a href="" onclick="selectAll(); return false;" title="{'Click here to select all the items that you are allowed to remove. Use the "Remove Selected" button to carry out the actual removal.'|i18n( 'design/admin/layout' )|wash()}">[ {'Select all'|i18n( 'design/admin/layout' )} ]</a>
-<a href="" onclick="deSelectAll(); return false;" title="{'Click here to deselect the items that are selected in the list above.'|i18n( 'design/admin/layout' )}">[ {'Deselect all'|i18n( 'design/admin/layout' )} ]</a>
+<a href="" onclick="selectAll(); return false;" title="{'Select all the items that you are allowed to remove. Use the "Remove Selected" button to carry out the actual removal.'|i18n( 'design/admin/role/list' )|wash}">[ {'Select all'|i18n( 'design/admin/role/list' )} ]</a>
+<a href="" onclick="deSelectAll(); return false;" title="{'Deselect the items that are selected in the list above.'|i18n( 'design/admin/role/list' )}">[ {'Deselect all'|i18n( 'design/admin/role/list' )} ]</a>
 {section-else}
 
 {* __FIX_ME__ Hmmm - is this supposed to happen? If so: maybe we should have a warning here or something. *}
@@ -105,8 +107,8 @@ Items:
 {/section}
 
 <div class="controlbar">
-    <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n('design/standard/role')}" title="{'Click here to remove selected roles.'|i18n('design/standard/role')}" />
-    <input class="button" type="submit" name="NewButton" value="{'Create new role'|i18n('design/standard/role')}" title="{'Create a new role.'|i18n( 'design/admin/layout' )}" />
+    <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/role/list' )}" title="{'Remove selected roles.'|i18n( 'design/admin/role/list' )}" />
+    <input class="button" type="submit" name="NewButton" value="{'Create new role'|i18n( 'design/admin/role/list' )}" title="{'Create a new role.'|i18n( 'design/admin/role/list' )}" />
 </div>
 
 </form>
