@@ -421,6 +421,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     function &subTree( $params = false ,$nodeID = 0 )
     {
+        if ( !is_numeric( $nodeID ) )
+        {
+            return array();
+        }
+
         if ( $params === false )
         {
             $params = array( 'Depth' => false,

@@ -102,6 +102,8 @@ eZTime:
   http://ez.no/community/bug_reports/rss_cache
 - Added l18n operators to design/standard/templates/setup/cache.tpl.
   http://ez.no/community/bug_reports/lack_i18n_and_translate_problem_with_linquist
+- Fixed eZContentObjectTreeNode::subTree, so ez publish won't crash on bad parameters
+  http://ez.no/community/bug_reports/fetch_content_tree_fatal_error_if_tpl_contains_user_errors
 
 *Library:
 
