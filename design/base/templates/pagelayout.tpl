@@ -8,8 +8,11 @@
 
 <style type="text/css">
     @import url({"stylesheets/core.css"|ezdesign});
+{*    @import url({ezini('StylesheetSettings','MainCSS','design.ini')|ezdesign}); *}
+    @import url({"stylesheets/site.css"|ezdesign});
+    @import url({"stylesheets/site-colors.css"|ezdesign});
     @import url({"stylesheets/classes.css"|ezdesign});
-    @import url({ezini('StylesheetSettings','MainCSS','design.ini')|ezdesign});
+    @import url({"stylesheets/classes-colors.css"|ezdesign});
     @import url({"stylesheets/debug.css"|ezdesign});
 
     {section show=eq(ezini('SelectedMenu','LeftMenu','menu.ini'),'')}
@@ -58,6 +61,7 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
     <div class="toolbar-design">
         {tool_bar name=top view=line}
     </div>
+    <div class="break"></div>
 </div>
 {/section}
 
@@ -123,6 +127,7 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
     <div class="toolbar-design">
        {tool_bar name=bottom view=line}
     </div>
+    <div class="break"></div>
 </div>
 {/section}
 
