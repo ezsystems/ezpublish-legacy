@@ -75,6 +75,8 @@ Changes from 3.3.0-1 to 3.3.0-2
 - The multiplexer event type will now forward all workflow parameters to ensure maximum compatability with other
   workflow event types. The event has also gotten more sanity checking of objects and classes.
   http://ez.no/developer/ez_publish_3/bug_reports/multiplexer_and_approval_workflow_long_bug_report_to_illustrate_the_steps_and_errors
+- Fixed collaboration bug when trying to access deleted objects. ( merged from stable 4417 )
+  http://ez.no/developer/ez_publish_3/bug_reports/collaboration_approved_items_cause_crash_when_viewing
 
 *Kernel:
 - Fixed editing PDF exports : http://ez.no/developer/ez_publish_3/bug_reports/pdf_export_must_be_editable_and_schedulable
