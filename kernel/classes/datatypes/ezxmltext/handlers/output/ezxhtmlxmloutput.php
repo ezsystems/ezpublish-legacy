@@ -80,13 +80,21 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
      \private
      \return the XHTML rendered version of the section
     */
-    function &renderXHTMLSection( &$tpl, &$section, $currentSectionLevel )
+    function &renderXHTMLSection( &$tpl, &$section, $currentSectionLevel, $tdSectionLevel = null )
     {
         $output = "";
         eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', "level " . $section->toString( 0 ) );
         foreach ( $section->children() as $sectionNode )
         {
-            $sectionLevel = $currentSectionLevel;
+            if ( $tdSectionLevel == null )
+            {
+                $sectionLevel = $currentSectionLevel;
+            }
+            else
+            {
+                $sectionLevel = $tdSectionLevel;
+                $currentSectionLevel = $currentSectionLevel;
+            }
             $tagName = $sectionNode->name();
             switch ( $tagName )
             {
@@ -104,14 +112,17 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
                 case 'paragraph' :
                 {
-                    $output .= $this->renderXHTMLParagraph( $tpl, $sectionNode, $currentSectionLevel );
+                    $output .= $this->renderXHTMLParagraph( $tpl, $sectionNode, $currentSectionLevel, $tdSectionLevel );
                 }break;
 
                 case 'section' :
                 {
                     $sectionLevel += 1;
                     eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', "level ". $sectionLevel );
-                    $output .= $this->renderXHTMLSection( $tpl, $sectionNode, $sectionLevel );
+                    if ( $tdSectionLevel == null )
+                        $output .= $this->renderXHTMLSection( $tpl, $sectionNode, $sectionLevel );
+                    else
+                        $output .= $this->renderXHTMLSection( $tpl, $sectionNode, $currentSectionLevel, $sectionLevel );
                 }break;
 
                 default :
@@ -127,7 +138,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
      \private
      \return XHTML rendered version of the paragrph
     */
-    function &renderXHTMLParagraph( &$tpl, $paragraph, $currentSectionLevel )
+    function &renderXHTMLParagraph( &$tpl, $paragraph, $currentSectionLevel, $tdSectionLevel = null )
     {
         $insideParagraph = true;
         $paragraphCount = 0;
@@ -137,7 +148,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         foreach ( $paragraph->children() as $paragraphNode )
         {
             $isBlockTag = false;
-            $content =& $this->renderXHTMLTag( $tpl, $paragraphNode, $sectionLevel, $isBlockTag );
+            $content =& $this->renderXHTMLTag( $tpl, $paragraphNode, $sectionLevel, $isBlockTag, $tdSectionLevel );
             if ( $isBlockTag === true )
             {
                 $paragraphCount++;
@@ -176,7 +187,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
      \private
      Will render a tag and return the rendered text.
     */
-    function &renderXHTMLTag( &$tpl, &$tag, $currentSectionLevel, &$isBlockTag )
+    function &renderXHTMLTag( &$tpl, &$tag, $currentSectionLevel, &$isBlockTag, $tdSectionLevel = null )
     {
         // Set to true if tag breaks paragraph flow
         $isBlockTag = false;
@@ -185,13 +196,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         $tagName = $tag->name();
         // render children tags
         $tagChildren = $tag->children();
-        $sectionLevel = $currentSectionLevel + 1;
         foreach ( $tagChildren as $childTag )
         {
             if ( $tag->name() == "literal" )
                 $childTagText .= $childTag->content();
             else
-                $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag );
+                $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel );
         }
 
 
@@ -225,50 +235,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $objectParameters[$attribute->name()] = $attribute->content();
                 }
 
-                /*
-                $domain = getenv( 'HTTP_HOST' );
-                $URL = "http://" . $domain;
-                $URL .= eZSys::wwwDir();
-                if ( $classID == 5 )
-                {
-                    $contentObjectAttributes =& $object->contentObjectAttributes();
-                    foreach ( $contentObjectAttributes as $contentObjectAttribute )
-                    {
-                        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-                        $dataTypeString = $classAttribute->attribute( 'data_type_string' );
-                        if ( $dataTypeString == "ezimage" )
-                        {
-                            $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
-                            $contentObjectAttributeVersion = $contentObjectAttribute->attribute( 'version' );
-                            $content = $contentObjectAttribute->content();
-                            if ( $content != null )
-                            {
-                                $mimeCategory = $content->attribute( 'mime_type_category' );
-                                if ( $size != "small" and  $size != "medium" and $size != "large" )
-                                {
-                                    $size = "small";
-                                }
-                                $imageVariation = $content->attribute( $size );
-                                $path = $imageVariation->attribute( 'additional_path' );
-                                $filename = $imageVariation->attribute( 'filename' );
-                                $storageDir =  eZSys::storageDirectory();
-                                $srcString = $URL . "/" . $storageDir . "/variations/" . $mimeCategory . "/" . $path . $filename;
-                                // $srcString = $URL . "/var/storage/variations/" .  $mimeCategory . "/" . $path . $filename;
-                                $image =& eZImage::fetch( $contentObjectAttributeID, $contentObjectAttributeVersion );
-                                $imageObject = $image->attribute( $size );
-                            }
-                            else
-                            {
-                                $srcString = "";
-                            }
-                        }
-                    }
-                }
-                $parameters = array();
-                $item = array( "alignment" => $alignment ,
-                               "src" => $srcString );
-
-                */
                 $parameters[] = $item;
                 if ( strlen( $view ) == 0 )
                     $view = "embed";
@@ -301,8 +267,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     foreach ( $tableRow->children() as $tableCell )
                     {
                         $cellContent = "";
-                        $sectionLevel -= 1;
-                        $cellContent .= $this->renderXHTMLSection( $tpl, $tableCell, $sectionLevel );
+                        $tdSctionLevel = $currentSectionLevel;
+                        $cellContent .= $this->renderXHTMLSection( $tpl, $tableCell, $currentSectionLevel, $tdSctionLevel );
 
                         $tpl->setVariable( 'content', $cellContent, 'xmltagns' );
                         if ( $tableCell->Name == "th" )
@@ -392,7 +358,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             // custom tags which could added for special custom needs.
             case 'custom' :
             {
-                $childContent = $this->renderXHTMLSection( $tpl, $tag, $sectionLevel );
+                $childContent = $this->renderXHTMLSection( $tpl, $tag, $sectionLevel, $tdSctionLevel );
                 $tpl->setVariable( 'content',  $childContent, 'xmltagns' );
 
                 // Get the name of the custom tag.
