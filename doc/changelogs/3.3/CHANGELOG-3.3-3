@@ -39,6 +39,7 @@ Changes from 3.3-2 to 3.3-3
 - Merged wrong order of forwarding url translator bug fix from stable/3.2 rev. 4828
   http://ez.no/developer/ez_publish_3/bug_reports/url_translator_input_fields_in_wrong_order
 - Fixed removing duplicate // from eZModule::redirectTo( ... )
+- Fixed bug when discarding draft of images from 3.2 update.
 
 *Library:
 
