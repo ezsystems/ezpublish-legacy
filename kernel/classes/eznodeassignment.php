@@ -102,6 +102,7 @@ class eZNodeAssignment extends eZPersistentObject
                                                                     'required' => false ) ),
                       'keys' => array( 'id' ),
                       "function_attributes" => array( "parent_node_obj" => "getParentNode",
+                                                      "parent_contentobject" => "getParentObject",
                                                       'temp_node' => 'tempNode' ),
 
                       "increment_key" => "id",
@@ -261,6 +262,14 @@ class eZNodeAssignment extends eZPersistentObject
     function &getParentNode ( )
     {
         return eZContentObjectTreeNode::fetch( $this->attribute( 'parent_node' ) );
+    }
+
+    /*!
+     \return The contentobject which the parent node points to.
+    */
+    function &getParentObject( )
+    {
+        return eZContentObject::fetchByNodeID( $this->attribute( 'parent_node' ) );
     }
 
     /// \privatesection

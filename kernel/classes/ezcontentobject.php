@@ -575,6 +575,67 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
+     Fetches the contentobject which has a node with the ID \a $nodeID
+     \param $asObject If \c true return the as a PHP object, if \c false return the raw database data.
+    */
+    function &fetchByNodeID( $nodeID, $asObject = true )
+    {
+        global $eZContentObjectContentObjectCache;
+        $nodeID = (int)$nodeID;
+        $language = eZContentObject::defaultLanguage();
+
+        $useVersionName = true;
+        if ( $useVersionName )
+        {
+            $versionNameTables = ', ezcontentobject_name ';
+            $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
+
+            $versionNameJoins = " and  ezcontentobject.id = ezcontentobject_name.contentobject_id and
+                                  ezcontentobject.current_version = ezcontentobject_name.content_version and
+                                  ezcontentobject_name.content_translation = '$language' ";
+        }
+
+        $db =& eZDB::instance();
+
+        $query = "SELECT ezcontentobject.* $versionNameTargets
+                      FROM
+                         ezcontentobject,
+                         ezcontentobject_tree
+                         $versionNameTables
+                      WHERE
+                         ezcontentobject_tree.node_id=$nodeID AND
+                         ezcontentobject.id=ezcontentobject_tree.contentobject_id AND
+                         ezcontentobject.current_version=ezcontentobject_tree.contentobject_version
+                         $versionNameJoins";
+
+        $resArray =& $db->arrayQuery( $query );
+
+        $objectArray = array();
+        if ( count( $resArray ) == 1 && $resArray !== false )
+        {
+            $objectArray =& $resArray[0];
+        }
+        else
+        {
+            eZDebug::writeError( 'Object not found', 'eZContentObject::fetch()' );
+            return null;
+        }
+
+        if ( $asObject )
+        {
+            $obj = new eZContentObject( $objectArray );
+            $obj->CurrentLanguage = $objectArray['real_translation'];
+            $eZContentObjectContentObjectCache[$objectArray['id']] =& $obj;
+        }
+        else
+        {
+            return $objectArray;
+        }
+
+        return $obj;
+    }
+
+    /*!
      Fetches the content object from the ID array
     */
     function &fetchIDArray( $idArray, $asObject = true )

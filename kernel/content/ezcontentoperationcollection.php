@@ -307,14 +307,18 @@ class eZContentOperationCollection
 
     function updateSectionID( $objectID, $versionNum )
     {
-        if ( $versionNum == 1  )
-            return;
-
         $object =& eZContentObject::fetch( $objectID );
         $version =& $object->version( $versionNum );
 
-        if ( $object->attribute( 'current_version' ) == $versionNum )
+        if ( $versionNum == 1 or
+             $object->attribute( 'current_version' ) == $versionNum )
+        {
+            list( $newMainAssignment ) = eZNodeAssignment::fetchForObject( $objectID, $versionNum, 1 );
+            $newParentObject =& $newMainAssignment->getParentObject();
+            $object->setAttribute( 'section_id', $newParentObject->attribute( 'section_id' ) );
+            $object->store();
             return;
+        }
 
         list( $newMainAssignment ) = eZNodeAssignment::fetchForObject( $objectID, $versionNum, 1 );
 
