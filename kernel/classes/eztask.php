@@ -108,7 +108,17 @@ class eZTask extends eZPersistentObject
                       'name' => 'eztask' );
     }
 
-    function &createTask( $creatorID, $receiver, $connectionType = EZ_TASK_CONNECTION_TYPE_USER )
+    function &createTask( $creatorID, $receiver = 0, $connectionType = EZ_TASK_CONNECTION_TYPE_USER )
+    {
+        return eZTask::create( EZ_TASK_TYPE_TASK, $creatorID, $receiver, $connectionType );
+    }
+
+    function &createAssignment( $creatorID, $receiver = 0, $connectionType = EZ_TASK_CONNECTION_TYPE_USER )
+    {
+        return eZTask::create( EZ_TASK_TYPE_ASSIGNMENT, $creatorID, $receiver, $connectionType );
+    }
+
+    function &create( $taskType, $creatorID, $receiver = 0, $connectionType = EZ_TASK_CONNECTION_TYPE_USER )
     {
         include_once( 'lib/ezlocale/classes/ezdatetime.php' );
         $date_time = eZDateTime::currentTimeStamp();
@@ -120,7 +130,7 @@ class eZTask extends eZPersistentObject
             $receiver_id = $receiver;
         $row = array(
             'id' => null,
-            'task_type' => EZ_TASK_TYPE_TASK,
+            'task_type' => $taskType,
             'status' => EZ_TASK_STATUS_TEMPORARY,
             'connection_type' => $connectionType,
             'session_hash' => $session_hash,

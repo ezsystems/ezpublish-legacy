@@ -59,7 +59,11 @@ if ( $http->hasPostVariable( 'CloseTaskButton' ) and
 
 if ( $http->hasPostVariable( 'NewTaskButton' ) )
 {
-    return $Module->run( 'edit', array() );
+    return $Module->run( 'edit', array( 'TaskType' => EZ_TASK_TYPE_TASK ) );
+}
+if ( $http->hasPostVariable( 'NewAssignmentButton' ) )
+{
+    return $Module->run( 'edit', array( 'TaskType' => EZ_TASK_TYPE_ASSIGNMENT ) );
 }
 
 $parentTaskID = 0;

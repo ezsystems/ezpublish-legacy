@@ -57,7 +57,12 @@ if ( isset( $Params['TaskID'] ) and
 }
 else
 {
-    $task = eZTask::createTask( $currentUserID, 0 );
+    $Parameters = $Params['Parameters'];
+    if ( isset( $Parameters['TaskType'] ) and
+         $Parameters['TaskType'] == EZ_TASK_TYPE_ASSIGNMENT )
+        $task = eZTask::createAssignment( $currentUserID );
+    else
+        $task = eZTask::createTask( $currentUserID );
     if ( $http->hasPostVariable( 'Task_id_checked' ) )
     {
         $selectedTasks = $http->postVariable( 'Task_id_checked' );
@@ -69,7 +74,16 @@ else
     }
     $task->store();
     $TaskID =& $task->attribute( 'id' );
-    return $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $TaskID );
+//     return $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $TaskID );
+    $http->setSessionVariable( "BrowseFromPage", $Module->functionURI( 'edit' ) . "/$TaskID" );
+    $http->removeSessionVariable( "CustomBrowseActionAttributeID" );
+
+    $http->setSessionVariable( "BrowseActionName", "SelectTaskReceiver" );
+    $http->setSessionVariable( "BrowseReturnType", "ContentObjectID" );
+
+    $NodeID = 5;
+    $contentModule =& eZModule::exists( "content" );
+    return $Module->redirectTo( $contentModule->functionURI( "browse" ) . "/" . $NodeID . "/" . $ObjectID . "/" . $EditVersion );
 }
 
 if ( $http->hasPostVariable( 'SendTaskButton' ) )
@@ -161,7 +175,7 @@ if ( ( $task->attribute( 'status' ) == EZ_TASK_STATUS_TEMPORARY and
     $http->setSessionVariable( "BrowseActionName", "SelectTaskReceiver" );
     $http->setSessionVariable( "BrowseReturnType", "ContentObjectID" );
 
-    $NodeID = 4;
+    $NodeID = 5;
     $contentModule =& eZModule::exists( "content" );
     return $Module->redirectTo( $contentModule->functionURI( "browse" ) . "/" . $NodeID . "/" . $ObjectID . "/" . $EditVersion );
 }
@@ -174,7 +188,7 @@ if ( $http->hasPostVariable( 'SelectObjectButton' ) )
     $http->setSessionVariable( "BrowseActionName", "SelectAssignmentObject" );
     $http->setSessionVariable( "BrowseReturnType", "ContentObjectID" );
 
-    $NodeID = 1;
+    $NodeID = 2;
     $contentModule =& eZModule::exists( "content" );
     return $Module->redirectTo( $contentModule->functionURI( "browse" ) . "/" . $NodeID . "/" . $ObjectID . "/" . $EditVersion );
 }

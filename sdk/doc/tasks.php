@@ -250,5 +250,3 @@ Take some photos.
 </ul>
 </td></tr>
 </table>
-
-
