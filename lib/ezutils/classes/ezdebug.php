@@ -1564,6 +1564,7 @@ td.timingpoint2
     */
     function printTemplateUsageStatistic( $as_html = true )
     {
+        include_once( 'lib/eztemplate/classes/eztemplate.php' );
         if( !eZTemplate::isTemplatesUsageStatisticsEnabled() )
             return '';
 
