@@ -72,7 +72,7 @@
         {'Maximum execution time is %1 seconds.'|i18n( 'design/admin/setup/info',, array( $php_ini.max_execution_time ) )}<br/>
     </div>
 
-    <h2>{'Webserver'|i18n( 'design/admin/setup/info', 'Webserver title' )}</h2>
+    <h2>{'Webserver (software)'|i18n( 'design/admin/setup/info', 'Webserver title' )}</h2>
 
     {section show=$webserver_info}
 
@@ -99,6 +99,19 @@
         {'eZ publish was unable to extract information from the webserver.'|i18n( 'design/admin/setup/info' )}
     {/section}
 
+
+
+    <h2>{'Webserver (hardware)'|i18n( 'design/admin/setup/info' )}</h2>
+
+    <div class="block">
+        <label>{'CPU'|i18n( 'design/admin/setup/info', 'CPU info' )}</label>
+        {$system_info.cpu_type} {$system_info.cpu_speed} {$system_info.cpu_unit}
+    </div>
+
+    <div class="block">
+        <label>{'Memory'|i18n( 'design/admin/setup/info', 'Memory info' )}</label>
+        {$system_info.memory_size|si( byte )}
+    </div>
 
 
 <h2>PHP Accelerator</h2>
@@ -167,18 +180,6 @@
 <div class="block">
     <label>{'Character set'|i18n( 'design/admin/setup/info', 'Database charset' )}</label>
     {$database_charset|wash}{section show=$database_object.is_internal_charset} ({'Internal'|i18n( 'design/admin/setup/info' )}){/section}
-</div>
-
-<h2>{'Operating system'|i18n( 'design/admin/setup/info' )}</h2>
-
-<div class="block">
-    <label>{'CPU'|i18n( 'design/admin/setup/info', 'CPU info' )}</label>
-    {$system_info.cpu_type} {$system_info.cpu_speed} {$system_info.cpu_unit}
-</div>
-
-<div class="block">
-    <label>{'Memory'|i18n( 'design/admin/setup/info', 'Memory info' )}</label>
-    {$system_info.memory_size|si( byte )}
 </div>
 
 <h2>{'Slave database (read only)'|i18n( 'design/admin/setup/info' )}</h2>
