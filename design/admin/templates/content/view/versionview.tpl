@@ -11,7 +11,7 @@
 
 </div></div></div></div></div></div>
 
-<div class="box-ml"><div class="box-mr"><div class="box-content">
+<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {* Number *}
 <p>
@@ -48,14 +48,14 @@
 {/section}
 </div>
 
-</div></div></div></div>
+</div></div></div></div></div>
 
 
 {* Preview control *}
 <div class="preview-control">
-<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr">
+<div class="box-header"><div class="box-ml"><div class="box-mr">
 <h4>{'Preview control'|i18n( 'design/admin/content/view/versionview' )}</h4>
-</div></div></div></div>
+</div></div></div>
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 {* Translation *}

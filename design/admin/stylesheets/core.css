@@ -254,18 +254,24 @@ optgroup
 
 input.button
 {
+    font-size: 0.9em;
+    font-weight: normal;
     color: #ffffff;
     border: 2px solid #ffffff;
     border-bottom: 2px solid #2f475f;
     border-right: 2px solid #2f475f;
     background-color: #8198b0;
-    font-weight: normal;
-    margin: 0.25em 0.5em 0 0;
 }
 
-input.button[disabled="disabled"]
+input.button-disabled
 {
-    background-color: #aaa38e;
+    font-size: 0.9em;
+    font-weight: normal;
+    color: #404040;
+    border: 2px solid #f0f0f0;
+    border-bottom: 2px solid #b0b0b0;
+    border-right: 2px solid #b0b0b0;
+    background-color: #e7e8e0;
 }
 
 input.button-default

@@ -1158,15 +1158,6 @@ div#footer a
 
 /* GENERAL ITEMS */
 
-input#searchbutton, input.menubutton
-{
-    font-weight: normal;
-    color: #ffffff;
-    background-color: #2d537a;
-    margin-right: 0;
-}
-
-
 div.content-edit div.box-content h3
 {
     margin: 0;
