@@ -334,6 +334,10 @@ if [ -f $DEST/kernel/sql/postgresql/doc.sql ]; then
     rm -f $DEST/kernel/sql/postgresql/doc.sql
 fi
 
+if [ -f $DEST/support/lupdate-ezpublish3/Makefile ]; then
+    (cd $DEST/support/lupdate-ezpublish3 && make clean &>/dev/null && rm -rf Makefile moc obj)
+fi
+
 # Remove old archives
 if [ -f "$DEST_ROOT/$BASE.tar.gz" ]; then
     rm -f "$DEST_ROOT/$BASE.tar.gz";
