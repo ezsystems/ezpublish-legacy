@@ -837,7 +837,6 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
             if ( $count > 0 )
             {
                 $hasChildren = true;
-                break;
             }
             unset( $node );
         }
