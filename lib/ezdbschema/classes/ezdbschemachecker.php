@@ -164,7 +164,7 @@ class eZDbSchemaChecker
         {
 			if ( !isset( $table2Indexes[$name] ) )
             {
-				$table_diff['removed_indexes'][$name] = true;
+				$table_diff['removed_indexes'][$name] = $def;
 			}
 		}
 		/* See if there are any changed definitions */
