@@ -33,3 +33,4 @@ INSERT INTO ezsite_data (name, value) VALUES('ezpublish-release', '1');
 create index ezsearch_word_object_count on ezsearch_word(object_count);
 create index ezcontentobject_status on ezcontentobject( status );
 create index ezcontentobject_tree_path_depth on ezcontentobject_tree( path_string, depth );
+drop index ezcontentobject_tree_depth on ezcontentobject_tree;
