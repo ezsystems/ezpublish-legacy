@@ -17,7 +17,7 @@
     </div>
 
     <div class="block">
-        <label>{'E-Mail'|i18n('design/admin/package')}</label>
+        <label>{'E-mail'|i18n('design/admin/package')}</label>
         <input class="box" type="text" name="PackageChangelogEmail" value="{$persistent_data.changelog_email|wash}" />
     </div>
 

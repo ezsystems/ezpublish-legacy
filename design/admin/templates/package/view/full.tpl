@@ -56,7 +56,7 @@
             <label>{'Maintainers'|i18n('design/admin/package')}</label>
             <p>
                 {section var=maintainer loop=$package.maintainers}
-                    <a href="mailto:{$maintainer.item.email}" subject="{"Regarding eZ publish package '%packagename'"|i18n('design/admin/package',,hash( '%packagename', $package.name ) )}" title="{'Send E-Mail to the maintainer'|i18n('design/admin/package')}">{$maintainer.item.name|wash}</a> ({$maintainer.item.role|wash})
+                    <a href="mailto:{$maintainer.item.email}" subject="{"Regarding eZ publish package '%packagename'"|i18n('design/admin/package',,hash( '%packagename', $package.name ) )}" title="{'Send e-mail to the maintainer'|i18n('design/admin/package')}">{$maintainer.item.name|wash}</a> ({$maintainer.item.role|wash})
                 {delimiter}, {/delimiter}
                 {/section}
             </p>
@@ -83,7 +83,7 @@
             <label>{'Changelog'|i18n('design/admin/package')}</label>
             <p>
                 {section var=log loop=$package.changelog}
-                    <h3><p class="byline"><em class="date">({$log.item.timestamp|l10n( shortdatetime )})</em> <a href="mailto:{$log.item.email}" subject="{"Regarding eZ publish package '%packagename'"|i18n('design/admin/package',,hash( '%packagename', $package.name ) )}" title="{'Send E-Mail to the maintainer'|i18n('design/admin/package')}">{$log.item.person|wash}</a></p></h3>
+                    <h3><p class="byline"><em class="date">({$log.item.timestamp|l10n( shortdatetime )})</em> <a href="mailto:{$log.item.email}" subject="{"Regarding eZ publish package '%packagename'"|i18n('design/admin/package',,hash( '%packagename', $package.name ) )}" title="{'Send e-mail to the maintainer'|i18n('design/admin/package')}">{$log.item.person|wash}</a></p></h3>
                     <ul>
                     {section var=change loop=$log.item.changes}
                     <li>

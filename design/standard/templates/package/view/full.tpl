@@ -47,7 +47,7 @@
             <label>{'Maintainers'|i18n('design/standard/package')}</label>
             <p>
                 {section var=maintainer loop=$package.maintainers}
-                    <a href="mailto:{$maintainer.item.email}" subject="{"Regarding eZ publish package '%packagename'"|i18n('design/standard/package',,hash( '%packagename', $package.name ) )}" title="{'Send E-Mail to the maintainer'|i18n('design/standard/package')}">{$maintainer.item.name|wash}</a> ({$maintainer.item.role|wash})
+                    <a href="mailto:{$maintainer.item.email}" subject="{"Regarding eZ publish package '%packagename'"|i18n('design/standard/package',,hash( '%packagename', $package.name ) )}" title="{'Send e-mail to the maintainer'|i18n('design/standard/package')}">{$maintainer.item.name|wash}</a> ({$maintainer.item.role|wash})
                 {delimiter}, {/delimiter}
                 {/section}
             </p>

@@ -18,7 +18,7 @@
     <td>{"Last name"|i18n("design/standard/shop")}</td>
     <td><input type="text" name="LastName" size="20" value="{$last_name}" /></td>
 <tr>
-    <td>{"E-Mail"|i18n("design/standard/shop")}</td>
+    <td>{"E-mail"|i18n("design/standard/shop")}</td>
     <td><input type="text" name="EMail" size="20" value="{$email}" /></td>
 </tr>
 <tr>

@@ -3,7 +3,7 @@
                                         |i18n("design/standard/notification",,
                                               hash('%date',currentdate()|l10n(datetime),
                                                    '%sitename',ezini("SiteSettings","SiteURL")))}{/set-block}
-{"This digest email is to inform you on new items at %sitename."
+{"This digest e-mail is to inform you on new items at %sitename."
  |i18n('design/standard/notification',,
        hash('%sitename',ezini("SiteSettings","SiteURL")))}
 

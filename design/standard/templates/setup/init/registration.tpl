@@ -6,11 +6,11 @@
 </div>
 
 <p>
- {"If you wish, you can register this installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your details for unsolicited emails."|i18n("design/standard/setup/init")}
+ {"If you wish, you can register this installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your details for unsolicited e-mails."|i18n("design/standard/setup/init")}
 </p>
 
 <table cellpadding="0" cellspacing="0" border="0">
-<tr><th class="normal">{"The registration email"|i18n("design/standard/setup/init")}:</th></tr>
+<tr><th class="normal">{"The registration e-mail"|i18n("design/standard/setup/init")}:</th></tr>
 <tr><td class="normal"><textarea class="box" readonly="readonly" cols="60" rows="10">{$email_body}</textarea></td></tr>
 </table>
 
@@ -31,7 +31,7 @@
 <blockquote class="note">
 <p>
  <b>{"Note"|i18n("design/standard/setup/init")}:</b>
- {"Sending out the email and generating your site will take about 10 to 30 seconds depending on your machine. Please wait until the next page loads. Clicking the button again will only send out duplicate emails, and may corrupt the installation."|i18n("design/standard/setup/init")}
+ {"Sending out the e-mail and generating your site will take about 10 to 30 seconds depending on your machine. Please wait until the next page loads. Clicking the button again will only send out duplicate e-mails, and may corrupt the installation."|i18n("design/standard/setup/init")}
 </p>
 </blockquote>
 <br/>

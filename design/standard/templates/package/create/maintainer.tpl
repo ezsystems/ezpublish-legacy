@@ -18,7 +18,7 @@
     </div>
 
     <div class="maintainer_email">
-        <label>{'E-Mail'|i18n('design/standard/package')}</label>
+        <label>{'E-mail'|i18n('design/standard/package')}</label>
         <input class="textline" type="text" name="PackageMaintainerEmail" value="{$persistent_data.maintainer_email|wash}" />
     </div>
 

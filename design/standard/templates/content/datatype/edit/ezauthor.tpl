@@ -7,7 +7,7 @@
 	{"Name"|i18n("design/standard/content/datatype")}:
 	</th>
 	<th>
-	{"E-Mail"|i18n("design/standard/content/datatype")}:
+	{"E-mail"|i18n("design/standard/content/datatype")}:
 	</th>
 </tr>
 {section name=Author loop=$attribute.content.author_list sequence=array(bglight,bgdark) }

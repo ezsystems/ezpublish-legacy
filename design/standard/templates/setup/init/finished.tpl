@@ -5,9 +5,9 @@
 {section show=and($email_info.sent,$email_info.result|not)}
 <div class="error">
 <p>
-  <h2>{"Email sending failed"|i18n("design/standard/setup/init")}</h2>
+  <h2>{"Sending e-mail failed"|i18n("design/standard/setup/init")}</h2>
   <ul>
-    <li>{"Failed sending registration email using"|i18n("design/standard/setup/init")} {section show=eq($email_info.type,1)}{"sendmail"|i18n("design/standard/setup/init")}{section-else}{"SMTP"|i18n("design/standard/setup/init")}{/section}.</li>
+    <li>{"Failed to send the registration email using"|i18n("design/standard/setup/init")} {section show=eq($email_info.type,1)}{"sendmail"|i18n("design/standard/setup/init")}{section-else}{"SMTP"|i18n("design/standard/setup/init")}{/section}.</li>
   </ul>
 </p>
 </div>
