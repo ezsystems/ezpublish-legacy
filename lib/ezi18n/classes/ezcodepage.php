@@ -522,7 +522,7 @@ $str
             $oldPermissionSetting = umask( 0 );
 
             // Change the permission setting.
-            chmod( $filename, $permissionArray['file_permission'] );
+            @chmod( $filename, $permissionArray['file_permission'] );
 
             // Restore the old umask.
             umask( $oldPermissionSetting );
