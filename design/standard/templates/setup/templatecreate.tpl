@@ -42,10 +42,10 @@
     </p>
     </td>
     <td>
-    <select name="Match[class]">
+    <select name="Match[class_identifier]">
         <option value="-1">{"Any"|i18n("design/standard/setup")}</option>
         {section name=Class loop=fetch('content', 'can_instantiate_class_list')}
-        <option value="{$Class:item.id}">{$Class:item.name}</option>
+        <option value="{fetch( content, class, hash( class_id, $Class:item.id ) ).identifier}">{$Class:item.name}</option>
         {/section}
     </select>
     </td>
@@ -105,10 +105,10 @@
     </p>
     </td>
     <td>
-    <select name="Match[class]">
+    <select name="Match[class_identifier]">
         <option value="-1">{"Any"|i18n("design/standard/setup")}</option>
         {section name=Class loop=fetch('content', 'can_instantiate_class_list')}
-        <option value="{$Class:item.id}">{$Class:item.name}</option>
+        <option value="{fetch( content, class, hash( class_id, $Class:item.id ) ).identifier}">{$Class:item.name}</option>
         {/section}
     </select>
     </td>
