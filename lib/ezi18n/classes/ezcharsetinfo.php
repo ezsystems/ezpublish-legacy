@@ -63,7 +63,8 @@ class eZCharsetInfo
         $aliasTable =& $GLOBALS['eZCharsetInfoTable'];
         if ( !is_array( $aliasTable ) )
         {
-            $aliasTable = array( 'latin1' => 'iso-8859-1',
+            $aliasTable = array( 'ascii' => 'us-ascii',
+                                 'latin1' => 'iso-8859-1',
                                  'latin2' => 'iso-8859-2',
                                  'latin3' => 'iso-8859-3',
                                  'latin4' => 'iso-8859-4',

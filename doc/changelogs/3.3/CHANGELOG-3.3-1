@@ -89,6 +89,7 @@ Changes from 3.3.0-2 to 3.3-1
 - Fixed cache bug in setup menu so the advanced menu was not shown.
 - Fixed Postgres error text during installation. http://ez.no/developer/ez_publish_3/bug_reports/installation_with_postgresql__1
 - Removed debug output http://ez.no/developer/ez_publish_3/bug_reports/ezcontentobjecttreenode_php_debug_statement
+- Added us-ascii to codepages to accept theregister rdf feed. http://ez.no/developer/ez_publish_3/bug_reports/rss_cron_and_admin_bugs
 
 *ezlupdate:
 - Added check for newlines in the context field for templates, usually this means a missing quote.
