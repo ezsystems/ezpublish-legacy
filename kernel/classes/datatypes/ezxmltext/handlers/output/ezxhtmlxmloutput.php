@@ -71,7 +71,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         $dom =& $xml->domTree( $this->XMLData );
         if ( $dom )
         {
-            $node =& $dom->elementsByName( "section" );
+            $domNode =& $dom->elementsByName( "section" );
+
+            $relatedObjectIDArray = array();
 
             // Fetch all links and cache the url's
             $links =& $dom->elementsByName( "link" );
@@ -82,41 +84,71 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 // Find all Link id's
                 foreach ( $links as $link )
                 {
-                    $linkIDValue = $link->attributeValue( 'id' );
-                    if ( !$linkIDValue )
-                        continue;
-                    if ( !in_array( $link->attributeValue( 'id' ), $linkIDArray ) )
-                        $linkIDArray[] = $link->attributeValue( 'id' );
+                    $linkID = $link->attributeValue( 'id' );
+                    if ( $linkID != null )
+                        if ( !in_array( $linkID, $linkIDArray ) )
+                            $linkIDArray[] = $linkID;
+
+                    $objectID = $link->attributeValue( 'object_id' );
+                    if ( $objectID != null )
+                        $relatedObjectIDArray[] = $objectID;
                 }
 
-                $inIDSQL = implode( ', ', $linkIDArray );
-
-                $db =& eZDB::instance();
-
-                $linkArray = $db->arrayQuery( "SELECT * FROM ezurl WHERE id IN ( $inIDSQL ) " );
-
-                foreach ( $linkArray as $linkRow )
+                if ( count( $linkIDArray ) > 0 )
                 {
-                    $this->LinkArray[$linkRow['id']] = $linkRow['url'];
+                    $inIDSQL = implode( ', ', $linkIDArray );
+    
+                    $db =& eZDB::instance();
+    
+                    $linkArray = $db->arrayQuery( "SELECT * FROM ezurl WHERE id IN ( $inIDSQL ) " );
+    
+                    foreach ( $linkArray as $linkRow )
+                    {
+                        $this->LinkArray[$linkRow['id']] = $linkRow['url'];
+                    }
                 }
             }
 
             // Fetch all embeded objects and cache by ID
             $objectArray =& $dom->elementsByName( "object" );
-
+            
             if ( count( $objectArray ) > 0 )
             {
-                $relatedObjectIDArray = array();
                 foreach ( $objectArray as $object )
                 {
                     $objectID = $object->attributeValue( 'id' );
                     $relatedObjectIDArray[] = $objectID;
                 }
-                $this->ObjectArray =& eZContentObject::fetchIDArray( $relatedObjectIDArray );
-
             }
 
-            $sectionNode =& $node[0];
+            $embedTagArray =& $dom->elementsByName( "embed" );
+
+            if ( count( $embedTagArray ) > 0 )
+            {
+                foreach ( $embedTagArray as $embedTag )
+                {
+                    if ( $embedTag->attributeValue( 'object_id' ) !=null )
+                    {
+                        $objectID = $embedTag->attributeValue( 'object_id' );
+                        $relatedObjectIDArray[] = $objectID;
+                    }
+                    if ( $embedTag->attributeValue( 'node_id' ) !=null )
+                    {
+                        $nodeID = $embedTag->attributeValue( 'node_id' );
+                        $node =& eZContentObjectTreeNode::fetch( $nodeID );
+                        $objectID = $node->attribute( 'contentobject_id' );
+
+                        $this->NodeObjectIDArray[$nodeID] = $objectID;
+                        
+                        $relatedObjectIDArray[] = $objectID;
+                    }
+                }
+            }
+
+            if ( $relatedObjectIDArray != null )
+                $this->ObjectArray =& eZContentObject::fetchIDArray( $relatedObjectIDArray );
+
+            $sectionNode =& $domNode[0];
             $output = "";
             if ( get_class( $sectionNode ) == "ezdomnode" )
             {
@@ -405,6 +437,80 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 }
             }break;
 
+        case 'embed' :
+        {
+            $isBlockTag = true;
+
+            if ( $tag->attributeValue( 'object_id' ) != null )
+            {
+                $objectID = $tag->attributeValue( 'object_id' );
+            }
+            elseif ( $tag->attributeValue( 'node_id' ) != null )
+            {
+                $objectID = $this->NodeObjectIDArray[$tag->attributeValue( 'node_id' )];
+            }
+            else
+                break;
+                
+/*            elseif ( $tag->attributeValue( 'node_id' ) != null )
+            {
+                $nodeID = $tag->attributeValue( 'node_id' );
+                $node =& eZContentObjectTreeNode::fetch( $nodeID );          
+                $objectID = $node->attribute('contentobject_id');
+            }
+*/
+            // fetch attributes
+            $embedAttributes =& $tag->attributes();
+            $object =& $this->ObjectArray["$objectID"];
+          
+            // Fetch from cache
+            if ( get_class( $object ) == "ezcontentobject" and
+                 $object->attribute( 'status' ) == EZ_CONTENT_OBJECT_STATUS_PUBLISHED )
+            {
+                $view = $tag->attributeValue( 'view' );
+                if ( $view == null )
+                    $view = 'embed';
+
+                $objectParameters = array();
+
+                foreach ( $objectAttributes as $attribute )
+                {
+                   $attrName = $attribute->name();
+                   if ( $attrName != 'view' )
+                       $objectParameters[$attribute->name()] = $attribute->content();
+                }
+                
+                $tpl->setVariable( 'object', $object, 'xmltagns' );
+                $tpl->setVariable( 'view', $view, 'xmltagns' );
+                $tpl->setVariable( 'object_parameters', $objectParameters, 'xmltagns' );
+
+                $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
+                $textElements = array();
+                eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
+                $tagText = implode( '', $textElements );
+
+                // Set to true if tag breaks paragraph flow as default
+                $isBlockTag = true;
+
+                // Check if the template overrides the block flow setting
+                $isBlockTagOverride = 'true';
+                if ( $tpl->hasVariable( 'is_block', 'xmltagns:ContentView' ) )
+                {
+                    $isBlockTagOverride = $tpl->variable( 'is_block', 'xmltagns:ContentView' );
+                }
+                else if ( $tpl->hasVariable( 'is_block', 'xmltagns' ) )
+                {
+                    $isBlockTagOverride = $tpl->variable( 'is_block', 'xmltagns' );
+                }
+
+                if ( $isBlockTagOverride == 'true' )
+                    $isBlockTag = true;
+                else
+                    $isBlockTag = false;
+
+            }
+        }break;
+
             case 'table' :
             {
                 $tableRows = "";
@@ -638,25 +744,55 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $res =& eZTemplateDesignResource::instance();
                 $res->setKeys( array( array( 'classification', $class ) ) );
 
-                include_once( 'lib/ezutils/classes/ezmail.php' );
-                $linkID = $tag->attributeValue( 'id' );
                 $target = $tag->attributeValue( 'target' );
+                $title = $tag->attributeValue( 'title' );
                 if ( $target == '_self' )
                     $target = false;
-                if ( $linkID != null )
-                {
-                    $href = $this->LinkArray[$linkID];
-                }
-                else
-                    $href = $tag->attributeValue( 'href' );
-                $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
 
-                if ( eZMail::validate( $href ) )
-                    $href = "mailto:" . $href;
+                include_once( 'lib/ezutils/classes/ezmail.php' );
+
+                if ( $tag->attributeValue( 'id' ) != null )
+                {
+                    $linkID = $tag->attributeValue( 'id' );
+                    $href = $this->LinkArray[$linkID];                  
+
+                    if ( eZMail::validate( $href ) )
+                        $href = "mailto:" . $href;
+                }
+                elseif ( $tag->attributeValue( 'node_id' ) != null )
+                {
+                    $nodeID = $tag->attributeValue( 'node_id' );
+                    $node =& eZContentObjectTreeNode::fetch( $nodeID );
+                    $href = $node->attribute( 'url_alias' );
+                }
+                elseif ( $tag->attributeValue( 'object_id' ) != null )
+                {
+                    $objectID = $tag->attributeValue( 'object_id' );
+                
+                  //  $object =& eZContentObject::fetch( $objectID );
+                    $object = $this->ObjectArray["$objectID"];
+                    $node =& $object->attribute( 'main_node' );
+                    $href = $node->attribute( 'url_alias' );
+                }
+                elseif ( $tag->attributeValue( 'href' ) != null )
+                {
+                    $href = $tag->attributeValue( 'href' );
+
+                    if ( eZMail::validate( $href ) )
+                        $href = "mailto:" . $href;
+                }
+
+                if ( $tag->attributeValue( 'anchor_id' ) != null )
+                {
+                    $href .= '#' . $tag->attributeValue( 'anchor_id' );
+                }
+
+                $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
 
                 $tpl->setVariable( 'href', $href, 'xmltagns' );
                 $tpl->setVariable( 'target', $target, 'xmltagns' );
                 $tpl->setVariable( 'classification', $class, 'xmltagns' );
+                $tpl->setVariable( 'title', $title, 'xmltagns' );
 
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
 
@@ -693,6 +829,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
     /// Contains the Objects for the <object> tags hashed by ID
     var $ObjectArray = array();
+
+    var $NodeObjectIDArray = array();
 }
 
 ?>
