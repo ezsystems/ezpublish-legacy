@@ -31,17 +31,17 @@
 
 <div class="block">
 <label>{'Old password'|i18n( 'design/admin/user/password' )}</label>
-<input class="halfbox" type="password" name="oldPassword" size="11" value="{$oldPassword}" />
+<input class="halfbox" type="password" name="oldPassword" value="{$oldPassword}" />
 </div>
 
 <div class="block">
 <label>{'New password'|i18n( 'design/admin/user/password' )}</label>
-<input class="halfbox" type="password" name="newPassword" size="11" value="{$newPassword}" />
+<input class="halfbox" type="password" name="newPassword" value="{$newPassword}" />
 </div>
 
 <div class="block">
 <label>{'New password (retype)'|i18n( 'design/admin/user/password' )}</label>
-<input class="halfbox" type="password" name="confirmPassword" size="11" value="{$confirmPassword}" />
+<input class="halfbox" type="password" name="confirmPassword" value="{$confirmPassword}" />
 </div>
 
 </div>
