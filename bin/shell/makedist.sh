@@ -509,6 +509,22 @@ done
 #fi
 #echo
 
+if [ -z $SKIPSTYLECREATION ]; then
+   echo
+   echo "Creating and exporting styles"
+   rm -rf "$DEST/packages/styles"
+   mkdir -p "$DEST/packages/styles" || exit 1
+   ./bin/shell/makestylepackages.sh -q --export-path="$DEST/packages/styles"
+   if [ $? -ne 0 ]; then
+       echo
+       echo "The package creation of $site failed"
+       echo "Run the following command to see what went wrong"
+       echo "./bin/shell/makesitepackages.sh --site=$site"
+       exit 1
+   fi
+fi
+echo
+
 echo "`$SETCOLOR_COMMENT`Applying filters`$SETCOLOR_NORMAL`"
 for filter in $FILTER_FILES; do
     cat $DEST/$filter | sed 's,^#!\(.*\)$,\1,' | grep -v '^..*##!' > $DEST/$filter.tmp && mv -f $DEST/$filter.tmp $DEST/$filter
@@ -651,22 +667,23 @@ fi
 
 # Create SQL schema definition for later checks
 
-if [ "$DB_PASSWORD"KAKE == KAKE ]; then
-    mysqladmin -u "$DB_USER" -h "$DB_SERVER" drop "$DB_NAME";
-    mysqladmin -u "$DB_USER" -h "$DB_SERVER" create "$DB_NAME";
-    mysql -u "$DB_USER" -h "$DB_SERVER" "$DB_NAME" < kernel/sql/mysql/kernel_schema.sql;
+echo "Creating SQL schema"
+if [ "$DB_PASSWORD"x == x ]; then
+    mysqladmin -u "$DB_USER" -h "$DB_SERVER" -f drop "$DB_NAME" &>/dev/null
+    mysqladmin -u "$DB_USER" -h "$DB_SERVER" create "$DB_NAME" &>/dev/null || exit 1
+    mysql -u "$DB_USER" -h "$DB_SERVER" "$DB_NAME" < kernel/sql/mysql/kernel_schema.sql  &>/dev/null || exit 1
 
-    ./bin/php/ezsqldumpschema.php --type=ezmysql --user="$DB_USER" --host="$DB_SERVER" "$DB_NAME" $DEST/var/storage/db_schema.dat;
+    ./bin/php/ezsqldumpschema.php --type=ezmysql --user="$DB_USER" --host="$DB_SERVER" "$DB_NAME" $DEST/var/storage/db_schema.dat  &>/dev/null || exit 1
 
-    mysqladmin -u "$DB_USER" -h "$DB_SERVER" drop "$DB_NAME";
+    mysqladmin -u "$DB_USER" -h "$DB_SERVER" -f drop "$DB_NAME"  &>/dev/null
 else
-    mysqladmin -u "$DB_USER" -h "$DB_SERVER" -p "$DB_PASSWORD" drop "$DB_NAME";
-    mysqladmin -u "$DB_USER" -h "$DB_SERVER" -p "$DB_PASSWORD" create "$DB_NAME";
-    mysql -u "$DB_USER" -h "$DB_SERVER" -p "$DB_PASSWORD" "$DB_NAME" < kernel/sql/mysql/kernel_schema.sql;
+    mysqladmin -u "$DB_USER" -h "$DB_SERVER" -p "$DB_PASSWORD" -f drop "$DB_NAME" &>/dev/null
+    mysqladmin -u "$DB_USER" -h "$DB_SERVER" -p "$DB_PASSWORD" create "$DB_NAME"  &>/dev/null || exit 1
+    mysql -u "$DB_USER" -h "$DB_SERVER" -p "$DB_PASSWORD" "$DB_NAME" < kernel/sql/mysql/kernel_schema.sql  &>/dev/null || exit 1
 
-    ./bin/php/ezsqldumpschema.php --type=ezmysql --user="$DB_USER" --host="$DB_SERVER" --password="$DB_PASSWORD" "$DB_NAME" $DEST/var/storage/db_schema.dat;
+    ./bin/php/ezsqldumpschema.php --type=ezmysql --user="$DB_USER" --host="$DB_SERVER" --password="$DB_PASSWORD" "$DB_NAME" $DEST/var/storage/db_schema.dat  &>/dev/null || exit 1
 
-    mysqladmin -u "$DB_USER" -h "$DB_SERVER" -p "$DB_PASSWORD" drop "$DB_NAME";
+    mysqladmin -u "$DB_USER" -h "$DB_SERVER" -p "$DB_PASSWORD" -f drop "$DB_NAME" &>/dev/null
 fi
 
 # Create MD5 check sums
