@@ -1302,14 +1302,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $sqlPermissionCheckingString =& eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
 
         // Determine whether we should show invisible nodes.
-        $ini                =& eZINI::instance( 'site.ini' );
-        $showInvisibleNodes =  $ini->hasVariable( 'SiteAccessSettings', 'ShowHiddenNodes' ) ?
-                               $ini->variable( 'SiteAccessSettings', 'ShowHiddenNodes' )    :
-                               false;
-        if ( $showInvisibleNodes == 'true' ) // if user cannot see hidden objects
-            $showInvisibleNodesCond = '';
-        else
+        $ini =& eZINI::instance( 'site.ini' );
+        if( $ini->hasVariable( 'SiteAccessSettings', 'ShowHiddenNodes' ) &&
+            $ini->variable( 'SiteAccessSettings', 'ShowHiddenNodes' ) == 'false' )
+        {
             $showInvisibleNodesCond = 'AND ezcontentobject_tree.invisible = 0';
+        }
+        else
+            $showInvisibleNodesCond = '';
 
         $query = "SELECT ezcontentobject.*,
                        ezcontentobject_tree.*,
