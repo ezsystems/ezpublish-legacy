@@ -624,29 +624,51 @@ if ( !function_exists( 'checkContentActions' ) )
                     $designSetting =& $siteini->variable( "DesignSettings", "SiteDesign" );
                     $res->setDesignSetting( $designSetting, 'site' );
 
-                    // We want to generate the cache for the specified user
-                    $PreViewCacheUserID =& $ini->variable( 'ContentSettings', 'PreViewCacheUserID' );
-                    $PreViewCacheUser =& eZUser::fetch( $PreViewCacheUserID  );
-
                     $res->setOverrideAccess( $changeToSiteAccess );
 
                     $language = false; // Needs to be specified if you want to generate the cache for a specific language
                     $viewMode = 'full';
 
-                    // Cache the current node
                     $assignedNodes =& $object->assignedNodes();
                     $assignedNodes_keys = array_keys( $assignedNodes );
                     foreach ( $assignedNodes_keys as $key )
                     {
                         $node =& $assignedNodes[$key];
 
-                        $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $PreViewCacheUser, $node->attribute( 'node_id' ), 0, false, $language, $viewMode, $viewParameters );
-                        $tmpRes =& eZNodeviewfunctions::generateNodeView( $tpl, $node, $node->attribute( 'object' ), $language, $viewMode, 0, $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], true );
+                        // We want to generate the cache for the specified user
+                        $previewCacheUsers = $ini->variable( 'ContentSettings', 'PreviewCacheUsers' );
+                        foreach ( $previewCacheUsers as $previewCacheUserID )
+                        {
+                            // If the text is 'anon' we need to fetch the Anonymous user ID.
+                            if ( $previewCacheUserID === 'anonymous' )
+                            {
+                                $previewCacheUserID = $siteini->variable( "UserSettings", "AnonymousUserID" );
+                                $previewCacheUser =& eZUser::fetch( $previewCacheUserID  );
+                            }
+                            else if ( $previewCacheUserID === 'current' )
+                            {
+                                $previewCacheUser =& $user;
+                            }
+                            else
+                            {
+                                $previewCacheUser =& eZUser::fetch( $previewCacheUserID  );
+                            }
+                            if ( !$previewCacheUser )
+                                continue;
 
-                        // Cache the parent node
-                        $parentNode =& $node->attribute( 'parent' );
-                        $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $PreViewCacheUser, $parentNode->attribute( 'node_id' ), 0, false, $language, $viewMode, $viewParameters );
-                        $tmpRes =& eZNodeviewfunctions::generateNodeView( $tpl, $parentNode, $parentNode->attribute( 'object' ), $language, $viewMode, 0, $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], true );
+                            // Before we generate the view cache we must change the currently logged in user to $previewCacheUser
+                            // If not the templates might read in wrong personalized data (preferences etc.)
+                            $previewCacheUser->setCurrentlyLoggedInUser( $previewCacheUser, $previewCacheUser->attribute( 'contentobject_id' ) );
+
+                            // Cache the current node
+                            $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $previewCacheUser, $node->attribute( 'node_id' ), 0, false, $language, $viewMode, $viewParameters );
+                            $tmpRes =& eZNodeviewfunctions::generateNodeView( $tpl, $node, $node->attribute( 'object' ), $language, $viewMode, 0, $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], true );
+
+                            // Cache the parent node
+                            $parentNode =& $node->attribute( 'parent' );
+                            $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $previewCacheUser, $parentNode->attribute( 'node_id' ), 0, false, $language, $viewMode, $viewParameters );
+                            $tmpRes =& eZNodeviewfunctions::generateNodeView( $tpl, $parentNode, $parentNode->attribute( 'object' ), $language, $viewMode, 0, $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], true );
+                        }
                     }
                 }
 
