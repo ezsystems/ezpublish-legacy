@@ -51,6 +51,8 @@ Changes from 3.2-3 to 3.3.0-1
   with additional parameters without changing the function signature.
 - Content cache has been extended to take all view parameters into account for the cache key.
   This means that adding new view parameters in view.php will automatically be included for the content cache.
+- Improved the content download system with support for images. Also the handleDownload function has been
+  split into one that figures out the filename and one that does the actual download.
 
 *Templates:
 - navigator/google.tpl has changed the arrows to use arrow characters as HTML entities.

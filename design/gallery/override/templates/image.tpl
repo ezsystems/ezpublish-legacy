@@ -5,7 +5,9 @@
                                           offset, $view_parameters.offset,
                                           class_filter_type, 'include',
                                           class_filter_array, array( 'comment' ) ))
-     comment_count=fetch('content','list_count',hash(parent_node_id,$node.node_id))}
+     comment_count=fetch('content','list_count',hash(parent_node_id,$node.node_id))
+     image_attribute=$node.data_map.image
+     image_content=$image_attribute.content}
 
 <div id="image">
 
@@ -13,10 +15,14 @@
 
 <h1>{$node.name}</h1>
 
-{attribute_view_gui attribute=$node.object.data_map.image image_class=large}
+{attribute_view_gui attribute=$image_attribute image_class=large}
 <p>
   {attribute_view_gui attribute=$node.object.data_map.caption}
 </p>
+
+<div class="download">
+    <a href={concat( "content/download/", $node.contentobject_id, "/", $image_attribute.id, "/image/", $image_content.original_filename )|ezurl}>[download]</a>
+</div>
 
 <div class="commentbutton">
    <input type="hidden" name="ClassID" value="26" />
