@@ -10,7 +10,10 @@ Changes from 3.3-4 to 3.3-5
 - Fixed a bug with login of user when running mysql, the number of returned rows would
   increase exponentially. (Merged from stable/3.2 rev. 5647)
 - Fixed bug in datatype ezmedia which will crash when upload a media file.
-
+- Added default setting for UserSettings: UseSpecialCharacters to site.ini
+  (Merged from stable/3.2 rev. 5938)
+  http://ez.no/community/bug_reports/site_ini_missing_entry
+  
 *Library:
 - Fixed bug where eZSys::varDirectory was not using eZDir::path
 
