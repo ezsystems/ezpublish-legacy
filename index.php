@@ -198,7 +198,7 @@ while ( $moduleRunRequired )
         if ( $accessResult['accessWord'] == 'no' &&
 //             $module->attribute( 'name' ) != 'role' &&
 //             $module->attribute( 'name' ) != 'error' &&
-             $module->attribute( 'name' ) != 'user' 
+             $module->attribute( 'name' ) != 'user'
 //             !( $module->attribute( 'name' ) == 'content'  &&  $function_name == 'browse' )
              )
         {
@@ -370,8 +370,22 @@ if ( $show_page_layout )
         $tmpModulePath = $moduleResult['path'];
         $tmpModulePath[count($tmpModulePath)-1]['url'] = eZSys::serverVariable( 'REQUEST_URI' );
         $offset = 0;
-        if ( $moduleResult['section_id'] == 2 )
+        $sessionIDs = array ( 2,  // Sykepleierutdanning
+                              4,  // Estetiske fag
+                              5,  // Helsefag
+                              6,  // Ingeniørutdanning
+                              7,  // Journalistikk, bibliotek- og informasjonsfag
+                              8,  // Lærerutdanning
+                              9,  // Økonomi, kommunal- og sosialfag
+                              10, // Profesjonsstudier
+                              11, // Internasjonalt og flerkulturelt arbeid
+                              12, // Kompetanseutvikling i den flerkulturelle skolen
+                              13  // Voldsofferarbeid
+                              );
+        if ( in_array( $moduleResult['section_id'], $sessionIDs ) )
             $offset = 2;
+//         if ( $moduleResult['section_id'] == 2 )
+//             $offset = 2;
         while ( !$done )
         {
 
