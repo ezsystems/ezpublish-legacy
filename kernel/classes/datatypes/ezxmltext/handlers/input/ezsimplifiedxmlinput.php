@@ -65,7 +65,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                                    'border' => array( 'required' => false ) );
 
         $this->tagAttributeArray['link'] = array( 'href' => array( 'required' => false ),
-                                                  'id' => array( 'required' => false ) );
+                                                  'id' => array( 'required' => false ),
+                                                  'target' => array( 'required' => false ) );
 
         $this->tagAttributeArray['anchor'] = array( 'name' => array( 'required' => true ) );
 
@@ -76,7 +77,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $this->tagAttributeArray['custom'] = array( 'name' => array( 'required' => true ) );
 
         $this->tagAttributeArray['header'] = array( 'level' => array( 'required' => false ),
-                                                    'anchor_name' => array( 'required' => false ));
+                                                    'anchor_name' => array( 'required' => false ) );
 
         $this->isInputValid = true;
         $this->originalInput = "";
@@ -224,6 +225,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         {
             $convertedTagName = "link";
         }
+        if ( in_array( $tagName, $this->tagAliasArray['header'] ) )
+        {
+            $convertedTagName = "header";
+        }
         return $convertedTagName;
     }
 
@@ -340,6 +345,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 else
                 {
                     // attr is not allowed
+                    $message[] = "Attribute '" .  $attrName . "' in tag " . $currentTag . " does not support (removed)";
                 }
             }
             // Check if there should be any more attributes
@@ -653,6 +659,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             $headerLevel = 1;
                             $attributePart =& substr( $tagName, $tagNameEnd, strlen( $tagName ) );
                             // attributes
+                            $allowedAttr = array();
                             unset( $attr );
                             $attr =& $this->parseAttributes( $attributePart );
                             foreach( $attr as $attrbute )
@@ -661,6 +668,15 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 if ( $attrName == 'level' )
                                 {
                                     $headerLevel = $attrbute->Content;
+                                }
+                                elseif ( $attrName == 'anchor_name' )
+                                {
+                                    $anchorName = $attrbute->Content;
+                                    $allowedAttr[] = $attrbute;
+                                }
+                                else
+                                {
+                                    $message[] = "Attribute '" .  $attrName . "' in tag " . $justName . " does not support (removed)";
                                 }
                             }
 
@@ -718,6 +734,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             $covertedName = 'header';
                             unset( $subNode );
                             $subNode = new eZDOMNode();
+                            $subNode->Attributes = $allowedAttr;
                             $subNode->Name = $covertedName;
                             $subNode->LocalName = $covertedName;
                             $subNode->Type = EZ_NODE_TYPE_ELEMENT;
@@ -1051,7 +1068,11 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 case 'header' :
                 {
                     $level = $sectionLevel;
-                    $output .= "<$tagName level='$level'>" . $sectionNode->textContent(). "</$tagName>\n";
+                    $anchorName = $sectionNode->attributeValue( 'anchor_name' );
+                    if ( $anchorName != null )
+                        $output .= "<$tagName level='$level' anchor_name='$anchorName'>" . $sectionNode->textContent(). "</$tagName>\n";
+                    else
+                        $output .= "<$tagName level='$level'>" . $sectionNode->textContent(). "</$tagName>\n";
                 }break;
 
                 case 'paragraph' :
@@ -1212,13 +1233,12 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             case 'link' :
             {
                 $linkID = $tag->attributeValue( 'id' );
-                $target = false;
+                $target = $tag->attributeValue( 'target' );
                 if ( $linkID != null )
                     $href =& eZURL::url( $linkID );
                 else
                 {
                     $href = $tag->attributeValue( 'href' );
-                    $target = $tag->attributeValue( 'target' );
                 }
                 $attributes = array();
                 $attributes[] = "href='$href'";
@@ -1261,7 +1281,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
     var $inlineTagArray = array( 'emphasize', 'strong', 'link', 'anchor', 'line' );
 
-    var $tagAliasArray = array( 'strong' => array( 'b', 'bold', 'strong' ), 'emphasize' => array( 'em', 'i', 'emphasize' ), 'link' => array( 'link', 'a' ) );
+    var $tagAliasArray = array( 'strong' => array( 'b', 'bold', 'strong' ), 'emphasize' => array( 'em', 'i', 'emphasize' ), 'link' => array( 'link', 'a' ) , 'header' => array( 'header', 'h' ) );
 
     // Contains all supported tag for xml parse
     var $supportedTagArray = array( 'paragraph', 'section', 'header', 'table', 'ul', 'ol', 'literal', 'custom', 'object', 'emphasize', 'strong', 'link', 'anchor', 'tr', 'td', 'th', 'li', 'line' );
