@@ -394,6 +394,12 @@ class eZTemplateNodeTool
         return $element;
     }
 
+    function createTextNode( $text )
+    {
+        $node = array( EZ_TEMPLATE_NODE_TEXT, false, $text, false );
+        return $node;
+    }
+
     function createWarningNode( $text, $label, $placement = false, $parameters = array() )
     {
         $node = array( EZ_TEMPLATE_NODE_INTERNAL_WARNING,

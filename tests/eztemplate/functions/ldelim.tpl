@@ -1,0 +1,2 @@
+{ldelim}foo
+
