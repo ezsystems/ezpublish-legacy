@@ -27,7 +27,14 @@
 <div class="context-block">
 {let current_node=fetch( content, node, hash( node_id, $browse.start_node ) )}
 {section show=$browse.start_node|gt(1)}
-    <h2 class="context-title"><a href={concat("/content/browse/",$main_node.parent_node_id,"/")|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="Back" /></a> {$current_node.object.content_class.identifier|class_icon( small, $current_node.object.content_class.name )}&nbsp;{$current_node.name|wash}&nbsp;[{$current_node.children_count}]</h2>
+    <h2 class="context-title">
+    {* the "up" button will not be active if browsing from a toplevel node *}
+    {section show=$main_node.parent_node_id|eq(1)|not}
+    <a href={concat("/content/browse/",$main_node.parent_node_id,"/")|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="Back" /></a>
+    {section-else}
+    <img src={'back-button-16x16.gif'|ezimage} alt="Back" />
+    {/section}
+    {$current_node.object.content_class.identifier|class_icon( small, $current_node.object.content_class.name )}&nbsp;{$current_node.name|wash}&nbsp;[{$current_node.children_count}]</h2>
 {section-else}
     <h2 class="context-title"><img src={'back-button-16x16.gif'|ezimage} alt="Back" /> {'folder'|class_icon( small, $current_node.object.content_class.name )}&nbsp;{'Top level'|i18n( 'design/admin/content/browse' )}&nbsp;[{$current_node.children_count}]</h2>
 {/section}

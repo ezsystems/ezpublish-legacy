@@ -55,6 +55,10 @@ if ( isset( $Params['NodeID'] ) && is_numeric( $Params['NodeID'] ) )
 }
 
 $NodeID = $browse->attribute( 'start_node' );
+
+if ( $NodeID == 1)
+    return $Module->redirectToView( 'browse', array( 2 ) );
+
 $Offset = $Params['Offset'];
 
 if ( !is_numeric( $Offset ) )
