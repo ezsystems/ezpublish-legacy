@@ -257,7 +257,7 @@ for site in $PACKAGES; do
 	add $site sql -d mysql kernel/sql/mysql/kernel_schema.sql -- \
 	add $site sql -d mysql packages/sql/data/$site.sql -- \
 	add $site sql -d postgresql kernel/sql/postgresql/kernel_schema.sql -- \
-	add $site sql -d postgresql packages/sql/data/$site.sql \
+	add $site sql -d postgresql packages/sql/data/$site.sql -- \
 	add $site sql -d postgresql kernel/sql/postgresql/setval.sql || exit 1
 
     if [ -f "$PACKAGE_FILES/$site/thumbnail.png" ]; then
