@@ -24,6 +24,7 @@ Changes from 3.3.0-2 to 3.3-1
   temporary data etc.
 - Made sure users are logged out whenever their user is disabled, this check is done each time the user is fetched trough the session.
 - Changed permission on user/preferences from preferences to login, if you have a valid account you should be able to set preferences
+- Fixed workflow editing to redirect back to the workflowlist instead of the grouplist on discard and store.
 
 *Bugfixes:
 - Fixed problem with cache block expiry when ignore_content_expiry was set
@@ -79,6 +80,9 @@ Changes from 3.3.0-2 to 3.3-1
   an existing object edit.
 - Fixed showing images in shop package. http://ez.no/developer/ez_publish_3/bug_reports/shop_images_dont_show_when_uploaded
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/ezcontentobject_php_typo_line_133 ( merged from stable 4598 )
+- Fixed problem with approve workflow event which displayed non-published users. Also users that are
+  disabled are no longer shown (merged from stable 4600).
+  http://ez.no/developer/ez_publish_3/bug_reports/bogus_users_in_gallery_package
 
 *ezlupdate:
 - Added check for newlines in the context field for templates, usually this means a missing quote.

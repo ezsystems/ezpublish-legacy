@@ -39,7 +39,7 @@ Changes from 3.2-3 to 3.2-4
 - Fixed bug in updatesearchindex.php which would only reindex objects
   that the anonymous user could read.
 - Made sure users are logged out whenever their user is disabled, this check is done each time the user is fetched trough the session.
-- Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/ezcontentobject_php_typo_line_133
+- Fixed workflow editing to redirect back to the workflowlist instead of the grouplist on discard and store.
 
 *Bugfixes:
 - Fixed copy object bug. Current version was not set, multiple version copy did not set object name and redirect did not contain version number.
@@ -144,6 +144,10 @@ Changes from 3.2-3 to 3.2-4
 - Fixed security bug in which it was possible to add forbidden locations to an object you could edit.
 - Fixed security bug in which any object could be created using the related object functionality for
   an existing object edit.
+- Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/ezcontentobject_php_typo_line_133
+- Fixed problem with approve workflow event which displayed non-published users. Also users that are
+  disabled are no longer shown.
+  http://ez.no/developer/ez_publish_3/bug_reports/bogus_users_in_gallery_package
 
 *Setup:
 - Added check for specific unstable PHP versions.
