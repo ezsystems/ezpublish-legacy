@@ -82,11 +82,15 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
     <div class="block">
-    <label><input type="checkbox" /> Hidden</label>
+    <label><input type="checkbox" />{'Publish as hidden'|i18n( 'design/admin/content/edit' )}</label>
     </div>
     <div class="block">
-    <input class="button" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('design/standard/content/edit')}" />
-    <input class="button" type="submit" name="DiscardButton" value="{'Cancel'|i18n('design/standard/content/edit')}" onclick="return confirmDiscard( '{'Are you sure that you want to discard the changes?'|i18n( '/design/admin/layout' )}' );" />
+<input class="button" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('design/standard/content/edit')}" />
+<input class="button" type="submit" name="DiscardButton" value="{'Discard draft'|i18n('design/standard/content/edit')}" onclick="return confirmDiscard( '{'Are you sure that you want to discard the changes?'|i18n( '/design/admin/layout' )}' );" />
+
+
+
+
     <input type="hidden" name="DiscardConfirm" value="1" />
     </div>
 
