@@ -583,13 +583,25 @@ echo
 echo
 echo -n "Updating MySQL SQL schema"
 ./bin/php/ezsqldumpschema.php --type=mysql --compatible-sql --output-sql --format=local "share/db_schema.dba" "$DEST/kernel/sql/mysql/kernel_schema.sql" 2>.dump.log
-ez_result_file $? .dump.log
+ez_result_file $? .dump.log || exit 1
+
 echo -n "Updating PostgreSQL SQL schema"
 ./bin/php/ezsqldumpschema.php --type=postgresql --compatible-sql --output-sql --format=local "share/db_schema.dba" "$DEST/kernel/sql/postgresql/kernel_schema.sql" 2>.dump.log
-ez_result_file $? .dump.log
-echo -n "Updating cleandata SQL"
-./bin/php/ezsqldumpschema.php --type=mysql --compatible-sql --output-sql --format=generic --output-types=data "share/db_data.dba" "$DEST/kernel/sql/common/cleandata.sql" 2>.dump.log
-ez_result_file $? .dump.log
+ez_result_file $? .dump.log || exit 1
+
+echo -n "Updating generic cleandata SQL"
+./bin/php/ezsqldumpschema.php --type=mysql --compatible-sql --output-sql --format=generic --output-types=data --schema-file "share/db_schema.dba" "share/db_data.dba" "$DEST/kernel/sql/common/cleandata.sql" 2>.dump.log
+ez_result_file $? .dump.log || exit 1
+
+echo -n "Updating MySQL cleandata SQL"
+./bin/php/ezsqldumpschema.php --type=mysql --compatible-sql --output-sql --format=generic --output-types=data --schema-file "share/db_schema.dba" "share/db_data.dba" "$DEST/kernel/sql/mysql/cleandata.sql" 2>.dump.log
+ez_result_file $? .dump.log || exit 1
+
+echo -n "Updating PostgreSQL cleandata SQL"
+./bin/php/ezsqldumpschema.php --type=postgresql --compatible-sql --output-sql --format=generic --output-types=data --schema-file "share/db_schema.dba" "share/db_data.dba" "$DEST/kernel/sql/postgresql/cleandata.sql" 2>.dump.log
+ez_result_file $? .dump.log || exit 1
+
+
 
 EXTRA_DIRS=""
 if [ "$DIST_TYPE" == "sdk" ]; then
