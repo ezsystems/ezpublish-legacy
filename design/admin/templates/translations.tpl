@@ -24,9 +24,9 @@
 <img src="{$Translations.item.language_code|flag_icon}" alt="{$Translations.item.language_code}" />
 &nbsp;
 {section show=and( eq( $Translations.item.language_code, $language_code ), $node.object.current.language_list|gt( 1 ) )}
-<b><a href={concat( '/content/view/full/', $node.node_id, '/language/', $Translations.item.language_code )|ezurl}>{$Translations.item.locale.intl_language_name}</a></b>
+{$Translations.item.locale.intl_language_name}
 {section-else}
-<a href={concat( '/content/view/full/', $node.node_id, '/language/', $Translations.item.language_code )|ezurl}>{$Translations.item.locale.intl_language_name}</a>
+<a href={concat( '/content/view/full/', $node.node_id, '/language/', $Translations.item.language_code )|ezurl} title="{'View translation.'|i18n( 'design/admin/node/view/full' )}">{$Translations.item.locale.intl_language_name}</a>
 {/section}
 </td>
 
