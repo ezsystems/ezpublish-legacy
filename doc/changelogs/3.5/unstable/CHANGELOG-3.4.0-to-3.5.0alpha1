@@ -441,7 +441,10 @@ Workflow:
 - Fixed bug where we relied on http being available in the AcceptPathInfo
   set-up test. (Merged from stable/3.4, rev. 7865)
   http://ez.no/community/bug_reports/acceptpathinfo_and_https
-
+- Fix for incorrect detection of memory and timout settings in setup wizzard.
+  (Merged from stable/3.4 rev. 7870)
+  http://www.ez.no/community/bug_reports/memory_limit_detection_wrong_in_setup_wizard
+  
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
 - Added eZSOAPServer::registerObject() method.
