@@ -1868,6 +1868,32 @@ $rbracket
                         $placementText = $php->variableText( $node[4], 0, 0, false );
                     $php->addCodePiece( "\$tpl->error( " . $errorLabelText . ", " . $errorText . ", " . $placementText . " );\n", array( 'spacing' => $spacing ) );
                 }
+                else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_READ )
+                {
+                    $variableName = $node[1];
+                    $spacing = $currentParameters['spacing'];
+                    if ( isset( $node[2]['spacing'] ) )
+                        $spacing += $node[2]['spacing'];
+                    $textName = eZTemplateCompiler::currentTextName( $parameters );
+                    $php->addCodePiece( "\$$variableName = \$$textName;", array( 'spacing' => $spacing ) );
+                }
+                else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_ASSIGN )
+                {
+                    $variableName = $node[1];
+                    $spacing = $currentParameters['spacing'];
+                    if ( isset( $node[2]['spacing'] ) )
+                        $spacing += $node[2]['spacing'];
+                    $textName = eZTemplateCompiler::currentTextName( $parameters );
+                    $php->addCodePiece( "\$$textName = \$$variableName;", array( 'spacing' => $spacing ) );
+                }
+                else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_INCREASE )
+                {
+                    eZTemplateCompiler::increaseCurrentTextName( $parameters );
+                }
+                else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_DECREASE )
+                {
+                    eZTemplateCompiler::decreaseCurrentTextName( $parameters );
+                }
                 else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_VARIABLE_SET )
                 {
                     $variableName = $node[1];

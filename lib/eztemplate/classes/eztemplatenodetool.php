@@ -407,6 +407,34 @@ class eZTemplateNodeTool
         return $node;
     }
 
+    function createWriteToOutputVariableNode( $variableName, $parameters = array() )
+    {
+        $node = array( EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_ASSIGN,
+                       $variableName,
+                       $parameters );
+        return $node;
+    }
+
+    function createAssignFromOutputVariableNode( $variableName, $parameters = array() )
+    {
+        $node = array( EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_READ,
+                       $variableName,
+                       $parameters );
+        return $node;
+    }
+
+    function createOutputVariableIncreaseNode()
+    {
+        $node = array( EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_INCREASE );
+        return $node;
+    }
+
+    function createOutputVariableDecreaseNode()
+    {
+        $node = array( EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_DECREASE );
+        return $node;
+    }
+
     function createNamespaceChangeNode( $variableData, $parameters = array() )
     {
         if ( is_string( $variableData ) )
