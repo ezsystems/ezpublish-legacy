@@ -25,15 +25,24 @@
 {/section}
 
 <div class="context-block">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
 {let current_node=fetch( content, node, hash( node_id, $browse.start_node ) )}
 {section show=$browse.start_node|gt(1)}
-    <h2 class="context-title">
+    <h1 class="context-title">
     <a href={concat("/content/browse/",$main_node.parent_node_id,"/")|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="Back" /></a>
-    {$current_node.object.content_class.identifier|class_icon( small, $current_node.object.content_class.name )}&nbsp;{$current_node.name|wash}&nbsp;[{$current_node.children_count}]</h2>
+    {$current_node.object.content_class.identifier|class_icon( small, $current_node.object.content_class.name )}&nbsp;{$current_node.name|wash}&nbsp;[{$current_node.children_count}]</h1>
 {section-else}
-    <h2 class="context-title"><img src={'back-button-16x16.gif'|ezimage} alt="Back" /> {'folder'|class_icon( small, $current_node.object.content_class.name )}&nbsp;{'Top level'|i18n( 'design/admin/content/browse' )}&nbsp;[{$current_node.children_count}]</h2>
+    <h1 class="context-title"><img src={'back-button-16x16.gif'|ezimage} alt="Back" /> {'folder'|class_icon( small, $current_node.object.content_class.name )}&nbsp;{'Top level'|i18n( 'design/admin/content/browse' )}&nbsp;[{$current_node.children_count}]</h1>
 {/section}
 {/let}
+
+
+{* DESIGN: Mainline *}<div class="header-mainline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {* Items per page and view mode selector. *}
 <div class="context-toolbar">
@@ -176,19 +185,19 @@
 {section show=$browse.browse_custom_action}
     <input type="hidden" name="{$browse.browse_custom_action.name}" value="{$browse.browse_custom_action.value}" />
 {/section}
-<div class="controlbar">
-<div class="block">
-<input class="button" type="submit" name="SelectButton" value="{'OK'|i18n('design/standard/content/view')}" />
-</div>
-</div>
-</form>
+
+{* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
+<input class="button" type="submit" name="SelectButton" value="{'OK'|i18n('design/standard/content/view')}" />
+</form>
+
 <form name="test" method="post" action={"content/browse"|ezurl}>
     <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n( 'design/standard/content/view' )}" />
-</form>
 </div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
 
 {/let}
