@@ -112,25 +112,26 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
         eZDebugSetting::writeDebug( 'kernel-notification', $event, "trying to handle event" );
         if ( $event->attribute( 'event_type_string' ) == 'ezcollaboration' )
         {
-            $status = $this->handleCollaborationEvent( $event );
+            $parameters = array();
+            $status = $this->handleCollaborationEvent( $event, $parameters );
             if ( $status == EZ_NOTIFICATIONEVENTHANDLER_EVENT_HANDLED )
-                $this->sendMessage( $event );
+                $this->sendMessage( $event, $parameters );
             else
                 return false;
         }
         return true;
     }
 
-    function handleCollaborationEvent( &$event )
+    function handleCollaborationEvent( &$event, &$parameters )
     {
         $collaborationItem =& $event->attribute( 'content' );
         if ( !$collaborationItem )
             return EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
         $collaborationHandler =& $collaborationItem->attribute( 'handler' );
-        return $collaborationHandler->handleCollaborationEvent( $event, $collaborationItem );
+        return $collaborationHandler->handleCollaborationEvent( $event, $collaborationItem, $parameters );
     }
 
-    function sendMessage( &$event )
+    function sendMessage( &$event, $parameters )
     {
         $collections =& eZNotificationCollection::fetchListForHandler( EZ_COLLABORATION_NOTIFICATION_HANDLER_ID,
                                                                        $event->attribute( 'id' ),
@@ -146,7 +147,8 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
                 $items[$key]->remove();
             }
             $transport =& eZNotificationTransport::instance( 'ezmail' );
-            $transport->send( $addressList, $collection->attribute( 'data_subject' ), $collection->attribute( 'data_text' ) );
+            $transport->send( $addressList, $collection->attribute( 'data_subject' ), $collection->attribute( 'data_text' ), null,
+                              $parameters );
             if ( $collection->attribute( 'item_count' ) == 0 )
             {
                 $collection->remove();

@@ -53,7 +53,7 @@ class eZMailNotificationTransport extends eZNotificationTransport
         $this->eZNotificationTransport();
     }
 
-    function send( $addressList = array(), $subject, $body, $transportData = null )
+    function send( $addressList = array(), $subject, $body, $transportData = null, $parameters = array() )
     {
         include_once( 'lib/ezutils/classes/ezmail.php' );
         include_once( 'lib/ezutils/classes/ezmailtransport.php' );
@@ -63,7 +63,7 @@ class eZMailNotificationTransport extends eZNotificationTransport
 
         if ( $addressList == false )
         {
-            eZDebug::writeError( 'Error with reciever', 'eZMailNotificationTransport::send()' );
+            eZDebug::writeError( 'Error with receiver', 'eZMailNotificationTransport::send()' );
             return false;
         }
 
@@ -83,6 +83,14 @@ class eZMailNotificationTransport extends eZNotificationTransport
         $mail->setSender( $emailSender );
         $mail->setSubject( $subject );
         $mail->setBody( $body );
+        if ( isset( $parameters['message_id'] ) )
+            $mail->addExtraHeader( 'Message-ID', $parameters['message_id'] );
+        if ( isset( $parameters['references'] ) )
+            $mail->addExtraHeader( 'References', $parameters['references'] );
+        if ( isset( $parameters['reply_to'] ) )
+            $mail->addExtraHeader( 'In-Reply-To', $parameters['reply_to'] );
+        if ( isset( $parameters['from'] ) )
+            $mail->setSenderText( $parameters['from'] );
         $mailResult = eZMailTransport::send( $mail );
         return $mailResult;
     }

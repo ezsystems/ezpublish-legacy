@@ -1,6 +1,8 @@
 Changes from 3.2.2 to 3.2-3
 
 *Kernel:
+- Added support for setting the From, Message-ID, In-Reply-To and References
+  message headers from the notification templates.
 
 *DataType:
 

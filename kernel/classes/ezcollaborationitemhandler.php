@@ -130,7 +130,7 @@ class eZCollaborationItemHandler
      Handles a notification event for collaboration items.
      \note The default implementation sends out a generic email.
     */
-    function handleCollaborationEvent( &$event, &$item )
+    function handleCollaborationEvent( &$event, &$item, &$parameters )
     {
         include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
         $participantList =& eZCollaborationItemParticipantLink::fetchParticipantList( array( 'item_id' => $item->attribute( 'id' ),
@@ -174,6 +174,14 @@ class eZCollaborationItemHandler
             $tpl->setVariable( 'collaboration_item', $item );
             $result = $tpl->fetch( 'design:notification/handler/ezcollaboration/view/plain.tpl' );
             $subject = $tpl->variable( 'subject' );
+            if ( $tpl->hasVariable( 'message_id' ) )
+                $parameters['message_id'] = $tpl->variable( 'message_id' );
+            if ( $tpl->hasVariable( 'references' ) )
+                $parameters['references'] = $tpl->variable( 'references' );
+            if ( $tpl->hasVariable( 'reply_to' ) )
+                $parameters['reply_to'] = $tpl->variable( 'reply_to' );
+            if ( $tpl->hasVariable( 'from' ) )
+                $parameters['from'] = $tpl->variable( 'from' );
 
             $collection = eZNotificationCollection::create( $event->attribute( 'id' ),
                                                             EZ_COLLABORATION_NOTIFICATION_HANDLER_ID,
@@ -221,6 +229,14 @@ class eZCollaborationItemHandler
                 $tpl->setVariable( 'collaboration_participant_role', $participantRole );
                 $result = $tpl->fetch( 'design:notification/handler/ezcollaboration/view/' . $typeIdentifier . '/' . $templateName );
                 $subject = $tpl->variable( 'subject' );
+                if ( $tpl->hasVariable( 'message_id' ) )
+                    $parameters['message_id'] = $tpl->variable( 'message_id' );
+                if ( $tpl->hasVariable( 'references' ) )
+                    $parameters['references'] = $tpl->variable( 'references' );
+                if ( $tpl->hasVariable( 'reply_to' ) )
+                    $parameters['reply_to'] = $tpl->variable( 'reply_to' );
+                if ( $tpl->hasVariable( 'from' ) )
+                    $parameters['from'] = $tpl->variable( 'from' );
 
                 $collection =& eZNotificationCollection::create( $event->attribute( 'id' ),
                                                                  EZ_COLLABORATION_NOTIFICATION_HANDLER_ID,
