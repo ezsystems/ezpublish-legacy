@@ -43,6 +43,9 @@ include_once( 'kernel/classes/ezpreferences.php' );
 
 eZPreferences::setValue( $key, $value );
 
-return $module->redirectTo( $_SERVER['HTTP_REFERER'] );
+if ( $http->hasSessionVariable( 'LastAccessesURI' ) )
+    return $module->redirectTo( $http->sessionVariable( 'LastAccessesURI' ) );
+else
+    return $module->redirectTo( $_SERVER['HTTP_REFERER'] );
 
 ?>
