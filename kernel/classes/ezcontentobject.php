@@ -131,6 +131,8 @@ class eZContentObject extends eZPersistentObject
                                                       "owner" => "owner",
                                                       "related_contentobject_array" => "relatedContentObjectArray",
                                                       "related_contentobject_count" => "relatedContentObjectCount",
+                                                      'reverse_related_contentobject_array' => 'reverseRelatedObjectList',
+                                                      'reverse_related_contentobject_count' => 'reverseRelatedObjectCount',
                                                       "can_read" => "canRead",
                                                       "can_create" => "canCreate",
                                                       "can_create_class_list" => "canCreateClassList",
@@ -1665,6 +1667,31 @@ class eZContentObject extends eZPersistentObject
             $return[] = new eZContentObject( $object );
         }
         return $return;
+    }
+
+    /*!
+     Returns the number of objects to which this object is related.
+    */
+    function &reverseRelatedObjectCount( $version = false, $objectID = false )
+    {
+        if ( $version == false )
+            $version = $this->CurrentVersion;
+        if( ! $objectID )
+        {
+            $objectID = $this->ID;
+        }
+        $db =& eZDB::instance();
+        $rows =& $db->arrayQuery( "SELECT count( distinct
+					       ezcontentobject.* AS count)
+					     FROM
+					       ezcontentobject, ezcontentobject_link
+					     WHERE
+					       ezcontentobject.id=ezcontentobject_link.from_contentobject_id AND
+					       ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
+					       ezcontentobject_link.to_contentobject_id='$objectID' AND
+					       ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version" );
+
+        return $rows[0]['count'];
     }
 
     /*!
