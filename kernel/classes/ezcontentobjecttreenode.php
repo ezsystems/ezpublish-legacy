@@ -509,9 +509,33 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         $ini =& eZINI::instance();
+        $classCondition = "";
+        if ( ( $params['ClassFilterType'] == 'include' or $params['ClassFilterType'] == 'exclude' )
+             and count( $params['ClassFilterArray'] ) > 0 )
+        {
+            $classCondition = ' ( ';
+            $i = 0;
+            $classCount = count( $params['ClassFilterArray'] );
+            foreach ( $params['ClassFilterArray'] as $classID )
+            {
+                if ( $params['ClassFilterType'] == 'include' )
+                    $classCondition .= " ezcontentobject.contentclass_id = '$classID' ";
+                else
+                    $classCondition .= " ezcontentobject.contentclass_id <> '$classID' ";
 
+                $i++;
+                if ( $i < $classCount )
+                {
+                    if ( $params['ClassFilterType'] == 'include' )
+                        $classCondition .= " OR ";
+                    else
+                        $classCondition .= " AND ";
+                }
+            }
+            $classCondition .= ' ) AND ';
+        }
 
-        if( count( $limitationList ) > 0 )
+        if ( count( $limitationList ) > 0 )
         {
             $sqlParts = array();
             foreach( $limitationList as $limitationArray )
@@ -542,6 +566,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                            ezcontentobject,ezcontentclass
                       WHERE $pathString
                             $depthCond
+                            $classCondition
                             ezcontentclass.version=0 AND
                             node_id != $fromNode AND
                             ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
@@ -560,6 +585,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     WHERE
                            $pathString
                            $depthCond
+                           $classCondition
                            ezcontentclass.version=0 AND
                            node_id != '$fromNode' AND
                            ezcontentobject_tree.contentobject_id = ezcontentobject.id AND

@@ -48,7 +48,7 @@ This is a <emphasize>block</emphasize> of text.
   <section>
   <header>This is a level two header</header>
   <paragraph>
-  This is the second paragraph.
+  This is the second paragraph.<emphasize>emphasized/bold text</emphasize>
   </paragraph>
   </section>
 </section>
@@ -397,10 +397,8 @@ class eZXMLTextType extends eZDataType
             }break;
 
             // normal content tags
-            case 'empahsize' :
+            case 'emphasize' :
             case 'strong' :
-            case 'bold' :
-            case 'italic' :
             {
                 $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
@@ -532,12 +530,16 @@ class eZXMLTextType extends eZDataType
             }break;
 
             // normal content tags
-            case 'empahsize' :
+            case 'emphasize' :
             case 'strong' :
-            case 'bold' :
-            case 'italic' :
             {
                 $output .= "<$tagName>" . $childTagText . $tag->textContent() . "</$tagName>";
+            }break;
+
+            case 'link' :
+            {
+                $href = $tag->attributeValue( 'href' );
+                $output .= "<$tagName href='$href'>" . $childTagText . $tag->textContent() . "</$tagName>";
             }break;
 
             default :

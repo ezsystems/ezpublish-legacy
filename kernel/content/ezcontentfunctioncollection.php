@@ -81,7 +81,7 @@ class eZContentFunctionCollection
         return array( 'result' => &$children );
     }
 
-    function &fetchObjectListCount( $parentNodeID )
+    function &fetchObjectListCount( $parentNodeID, $class_filter_type, $class_filter_array  )
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $node =& eZContentObjectTreeNode::fetch( $parentNodeID );
@@ -93,14 +93,17 @@ class eZContentFunctionCollection
         return array( 'result' => &$childrenCount );
     }
 
-    function &fetchObjectTree( $parentNodeID, $offset, $limit, $sortBy, $classID  )
+    function &fetchObjectTree( $parentNodeID, $offset, $limit, $sortBy, $classID, $class_filter_type, $class_filter_array   )
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $children =& eZContentObjectTreeNode::subTree( array( 'Offset' => $offset,
                                                               'Limit' => $limit,
                                                               'Limitation' => null,
                                                               'sort_by' => $sortBy,
-                                                              'class_id' => $classID ),
+                                                              'class_id' => $classID,
+                                                              'ClassFilterType' => $class_filter_type,
+                                                              'ClassFilterArray' => $class_filter_array
+                                                              ),
                                                        $parentNodeID );
         if ( $children === null )
             return array( 'error' => array( 'error_type' => 'kernel',
@@ -108,11 +111,13 @@ class eZContentFunctionCollection
         return array( 'result' => &$children );
     }
 
-    function &fetchObjectTreeCount( $parentNodeID )
+    function &fetchObjectTreeCount( $parentNodeID, $class_filter_type, $class_filter_array  )
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $node =& eZContentObjectTreeNode::fetch( $parentNodeID );
-        $childrenCount =& $node->subTreeCount( array( 'Limitation' => null ) );
+        $childrenCount =& $node->subTreeCount( array( 'Limitation' => null,
+                                                      'ClassFilterType' => $class_filter_type,
+                                                      'ClassFilterArray' => $class_filter_array ) );
         if ( $childrenCount === null )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );

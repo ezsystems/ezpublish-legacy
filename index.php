@@ -363,6 +363,94 @@ if ( $show_page_layout )
         {
             $show_page_layout = "pagelayout.tpl";
         }
+        /// HiO special menu code tmp
+        eZDebug::writeWarning( "Temporary HiO specific code, remove", "index.php" );
+
+        $level = 0;
+        $done = false;
+        $i = 0;
+        $pathArray = array();
+        $tmpModulePath = $moduleResult['path'];
+        $tmpModulePath[count($tmpModulePath)-1]['url'] = $REQUEST_URI;
+
+        while ( !$done )
+        {
+            // get node id
+            $elements = explode( "/", $tmpModulePath[$i]['url'] );
+            $nodeID = $elements[4];
+            if ( $elements[1] == 'content' and is_numeric( $nodeID ) )
+            {
+                $menuChildren =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
+                                                                          'Offset' => 0,
+                                                                          'ClassFilterType' => 'include',
+                                                                          'ClassFilterArray' => array( 1,6,20 )
+                                                                          ),
+                                                                   $nodeID );
+
+                $tmpPathArray = array();
+                foreach ( $menuChildren as $child )
+                {
+                    $name = $child->attribute( 'name' );
+
+                    $strLimit = 14;
+                    if ( strlen( $name ) > $strLimit )
+                    {
+                        $name = substr( $name, 0, $strLimit ) . "...";
+                    }
+                    $tmpNodeID = $child->attribute( 'node_id' );
+                    $tmpObj = $child->attribute( 'object' );
+                    $className = $tmpObj->attribute( 'class_name' );
+
+                    if ( $className == "Link" )
+                    {
+                        $map = $tmpObj->attribute( "data_map" );
+                        $tmpURL = $map['url']->content();
+                        $url = "$tmpURL";
+                    }
+                    else
+                        $url = "/content/view/full/$tmpNodeID/";
+                    $tmpPathArray[] = array( 'id' => $tmpNodeID,
+                                             'level' => $i,
+                                             'url' => $url,
+                                             'text' => $name );
+                }
+
+                // find insert pos
+                $j = 0;
+                $insertPos = 0;
+                foreach ( $pathArray as $path )
+                {
+                    if ( $path['id'] == $nodeID )
+                        $insertPos = $j;
+                    $j++;
+                }
+                if ( $insertPos == 0 )
+                {
+                    $pathArray = array_merge( $pathArray, $tmpPathArray );
+                }
+                else
+                {
+                    $restArray = array_splice( $pathArray, $insertPos + 1 );
+
+                    $pathArray = array_merge( $pathArray, $tmpPathArray );
+                    $pathArray = array_merge( $pathArray, $restArray  );
+                }
+            }
+            else
+            {
+                $done = true;
+            }
+            ++$level;
+            ++$i;
+        }
+
+//        foreach ( $pathArray as $path )
+//        {
+//          print( $path['level'] . " " . $path['text'] . "<br>");
+//      }
+        $tpl->setVariable( 'menuitems', $pathArray );
+        /// end HiO code
+
         $tpl->display( $resource . $show_page_layout );
     }
 }
