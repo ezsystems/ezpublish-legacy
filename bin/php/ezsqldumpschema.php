@@ -147,28 +147,46 @@ if ( strlen( trim( $type ) ) == 0)
     $script->shutdown( 1 );
 }
 
-if ( strlen( trim( $user ) ) == 0)
+if ( file_exists( $database ) and is_file( $database ) )
 {
-    $cli->error( "No database user chosen" );
-    $script->shutdown( 1 );
+    include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
+    $schema =& eZDBSchema::read( $database );
+    if ( $schema === false )
+    {
+            eZDebug::writeError( "Error reading schema from file $database" );
+            $script->shutdown();
+            exit();
+    }
+    $type = ereg_replace( '^ez', '', $type );
+    $dbSchema = eZDBSchema::instance( array( 'type' => $type,
+                                             'schema' => $schema ) );
+}
+else
+{
+    if ( strlen( trim( $user ) ) == 0)
+    {
+        $cli->error( "No database user chosen" );
+        $script->shutdown( 1 );
+    }
+
+    include_once( 'lib/ezdb/classes/ezdb.php' );
+    $db =& eZDB::instance( $type,
+                           array( 'server' => $host,
+                                  'user' => $user,
+                                  'password' => $password,
+                                  'database' => $database ),
+                           true );
+
+    if ( !$db or !$db->isConnected() )
+    {
+        $cli->error( 'Could not initialize database' );
+        $script->shutdown( 1 );
+    }
+
+    include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
+    $dbSchema = eZDBSchema::instance( $db );
 }
 
-include_once( 'lib/ezdb/classes/ezdb.php' );
-$db =& eZDB::instance( $type,
-                       array( 'server' => $host,
-                              'user' => $user,
-                              'password' => $password,
-                              'database' => $database ),
-                       true );
-
-if ( !$db or !$db->isConnected() )
-{
-    $cli->error( 'Could not initialize database' );
-    $script->shutdown( 1 );
-}
-
-include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
-$dbSchema = eZDBSchema::instance( $db );
 if ( $outputType == 'serialized' )
 {
     $dbSchema->writeSerializedSchemaFile( $filename,
