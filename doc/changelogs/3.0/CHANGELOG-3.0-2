@@ -9,10 +9,13 @@ Changes from 3.0-1 to 3.0-2
 - Implemented cancel button for content object copy. Some minor design fixes.
 - fixed problem with updating prices in basket after user login and if user has discounts
 - Fixed bug with missing include in wrapping workflow event type
-- Fixed bug in forgot password function with that after changing pasword to a new one user object was not 
+- Fixed bug in forgot password function with that after changing pasword to a new one user object was not
   stored and user was not able to login with new password.
 - Renamed forgot password function from forgetpassword to forgotpassword ( old name kept for compatibility )
 - Added missing path to forgotpassword module
+
+User:
+- Fixed bug in password change, the wrong user ID was used which caused the operation to crash.
 
 Shop:
 - Change date in list to datetime since it can be quite important for shops.

@@ -37,6 +37,7 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 
 $currentUser =& eZUser::currentUser();
 $currentUserID = $currentUser->attribute( "contentobject_id" );
+$UserID = $currentUserID;
 $http =& eZHTTPTool::instance();
 $Module =& $Params["Module"];
 $message = 0;
