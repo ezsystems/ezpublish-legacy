@@ -98,10 +98,6 @@
         <translation>Maler</translation>
     </message>
     <message>
-        <source>RAD</source>
-        <translation type="obsolete">RAD</translation>
-    </message>
-    <message>
         <source>Cache</source>
         <translation>Cache</translation>
     </message>
@@ -1388,10 +1384,6 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
     <message>
         <source>Name</source>
         <translation>Navn</translation>
-    </message>
-    <message>
-        <source>For more options try the %1Advanced search%2</source>
-        <translation type="obsolete">For flere valg, prøv %1Avansert søk%2</translation>
     </message>
     <message>
         <source>Display per page</source>
@@ -2924,14 +2916,6 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
     <message>
         <source>Basic information</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="obsolete">Neste</translation>
-    </message>
-    <message>
-        <source>Restart</source>
-        <translation type="obsolete">Restart</translation>
     </message>
     <message>
         <source>Optional information</source>
@@ -4676,10 +4660,6 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
         <translation>Logg inn</translation>
     </message>
     <message>
-        <source>Sign Up</source>
-        <translation type="obsolete">Registrer</translation>
-    </message>
-    <message>
         <source>Activate account</source>
         <translation>Aktiver konto</translation>
     </message>
@@ -5061,10 +5041,6 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
     <message>
         <source>Workflow groups</source>
         <translation>Arbeidsflytgrupper</translation>
-    </message>
-    <message>
-        <source>Workflows in %1</source>
-        <translation type="obsolete">Arbeidsflyt i %1</translation>
     </message>
     <message>
         <source>New group</source>

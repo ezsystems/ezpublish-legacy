@@ -68,7 +68,6 @@
 {section show=$collab_item.is_creator|not}
 <input type="submit" name="CollaborationAction_Accept" value="{'Approve'|i18n('design/standard/collaboration/approval')}" />
 <input type="submit" name="CollaborationAction_Deny" value="{'Deny'|i18n('design/standard/collaboration/approval')}" />
-{*<input type="submit" name="CollaborationAction_Defer" value="{'Pushback'|i18n('design/standard/collaboration/approval')}" />*}
 {/section}
 </div>
 {/section}
