@@ -83,7 +83,11 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
 <div class="block">
-    <input class="button" type="submit" name="RemoveRuleButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" {section show=$rule_list|not}disabled="disabled"{/section}/>
+    {section show=$rule_list}
+    <input class="button" type="submit" name="RemoveRuleButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
+    {section-else}
+    <input class="button-disabled" type="submit" name="RemoveRuleButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" disabled="disabled" />
+    {/section}
     <input class="button" type="submit" name="AddRuleButton" value="{'New discount rule'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
 </div>
 
@@ -97,7 +101,7 @@
 
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h2 class="context-title">{'Customers [%customer_count]'|i18n( 'design/admin/shop/discountgroupmembershipview',, hash( '%customer_count', $customers|count) )}</h2>
+<h2 class="context-title">{'Customers (users and user groups) [%customer_count]'|i18n( 'design/admin/shop/discountgroupmembershipview',, hash( '%customer_count', $customers|count) )}</h2>
 
 {* DESIGN: Mainline *}<div class="header-subline"></div>
 
@@ -110,11 +114,13 @@
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" onclick="ezjs_toggleCheckboxes( document.DiscountGroupView, 'CustomerIDArray[]' ); return false;" /></th>
     <th>{'Name'|i18n( 'design/admin/shop/discountgroupmembershipview' )}</th>
+    <th>{'Type'|i18n( 'design/admin/shop/discountgroupmembershipview' )}</th>
 </tr>
 {section var=Customers loop=$customers sequence=array( bglight, bgdark )}
 <tr class="{$Customers.sequence}">
     <td><input type="checkbox" value="{$Customers.item.id}" name="CustomerIDArray[]" /></td>
-    <td>{content_view_gui view=text_linked content_object=$Customers.item}</td>
+    <td>{$Customers.item.class_identifier|class_icon(small, $Customers.item.class_name )}&nbsp;<a href={$Customers.item.main_node.url_alias|ezurl}>{$Customers.item.name}</a></td>
+    <td>{$Customers.item.class_name}</td>
 </tr>
 {/section}
 </table>
@@ -129,7 +135,11 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-    <input class="button" type="submit" name="RemoveCustomerButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" {section show=$customers|not}disabled="disabled"{/section} />
+    {section show=$customers}
+    <input class="button" type="submit" name="RemoveCustomerButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
+    {section-else}
+    <input class="button-disabled" type="submit" name="RemoveCustomerButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" disabled="disabled" />
+    {/section}
     <input class="button" type="submit" name="AddCustomerButton" value="{'Add customer'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
