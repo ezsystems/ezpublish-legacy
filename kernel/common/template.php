@@ -61,7 +61,8 @@ function &templateInit( $name = false )
 
     $autoLoadPathList = array_unique( array_merge( $compatAutoLoadPath, $autoLoadPathList, $extensionPathList ) );
 
-    $tpl->setAutoloadPathList( $autoLoadPathList );
+    $a =& $autoLoadPathList;
+    $tpl->setAutoloadPathList( $a );
     $tpl->autoload();
 
     $tpl->registerResource( eZTemplateDesignResource::instance() );
