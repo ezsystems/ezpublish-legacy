@@ -93,7 +93,7 @@ class eZContentObject extends eZPersistentObject
                                                       "main_parent_node_id" => "mainParentNodeID",
                                                       "assigned_nodes" => "assignedNodes",
                                                       "parent_nodes" => "parentNodes",
-                                                      "main_node_id" => "MainNodeID",
+                                                      "main_node_id" => "mainNodeID",
                                                       "main_node" => "mainNode",
                                                       "content_action_list" => "contentActionList",
                                                       "name" => "Name" ),

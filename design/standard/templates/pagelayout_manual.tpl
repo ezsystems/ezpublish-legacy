@@ -7,8 +7,7 @@
     <title>{$site.title} - {section name=Path loop=$module_result.path}{$Path:item.text}{delimiter} / {/delimiter}{/section}</title>
 
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
-    <link rel="stylesheet" type="text/css" href={"stylesheets/admin.css"|ezdesign} />
-    <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />
+    <link rel="stylesheet" type="text/css" href={"stylesheets/manual.css"|ezdesign} />
 
 {* check if we need a http-equiv refresh *}
 {section show=$site.redirect}
@@ -35,7 +34,7 @@
 <table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td class="topline" width="40%" colspan="2">
-    <img src={"ezpublish-logo.gif"|ezimage} width="210" height="60" alt="" />
+    <img src={"ezpublish_manuals.gif"|ezimage} alt="" />
    </td>
 </tr>
 <tr>

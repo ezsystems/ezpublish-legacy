@@ -791,6 +791,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                      null,
                                                      $asObject );
     }
+
     function &findMainNode( $objectID, $asObject = false )
     {
         $query="SELECT ezcontentobject.*,
@@ -804,12 +805,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
                           ezcontentclass.version=0  AND
                           ezcontentclass.id = ezcontentobject.contentclass_id  ";
+
         $db =& eZDB::instance();
         $nodeListArray =& $db->arrayQuery( $query );
         if ( count( $nodeListArray ) > 1 )
         {
             eZDebug::writeError( $nodeListArray , "There are more then one main_node for objectID: $objectID" );
-        }else
+        }
+        else
         {
             if ( $asObject )
             {

@@ -348,6 +348,14 @@ class eZEnumType extends eZDataType
     }
 
     /*!
+     \reimp
+    */
+    function isIndexable()
+    {
+        return true;
+    }
+
+    /*!
      \return a DOM representation of the content object attribute
     */
     function &serializeContentObjectAttribute( $contentObjectAttribute )

@@ -20,6 +20,7 @@ Changes from 2.9-6 to 2.9-7
 - Added support for extensions, they use the x18n operator instead of i18n which takes
   an extension name as the first parameter.
 - Fixed problem with missing content action when object has multiple content object actions.
+- Added clearing of content cache for view when sorting priority is updated.
 - Template overrides now check the override dir for the file first without _keyword overrides
   before doing checks with _keywords.
 
