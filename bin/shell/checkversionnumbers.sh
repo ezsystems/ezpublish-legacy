@@ -23,8 +23,6 @@ BRANCH_VERSION=$MAJOR"."$MINOR
 DEVELOPMENT="false"
 # If non-empty the script will check for changelog and db update from $LAST_STABLE
 FIRST_STABLE=""
-# If non-empty the script will check for database version updates
-FIRST_RELEASE=""
 
 [ -n $STATE ] && DEVELOPMENT="true"
 
@@ -275,16 +273,14 @@ for driver in $DRIVERS; do
 	MAIN_ERROR="1"
 	[ -n "$EXIT_AT_ONCE" ] && exit 1
     else
-	if [[ -n "$FIRST_STABLE" || -n "$FIRST_RELEASE" ]]; then
-	    if ! grep -E "UPDATE ezsite_data SET value='$VERSION' WHERE name='ezpublish-version';" $file &>/dev/null; then
-		echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-		echo "Wrong/missing version number in `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` for variable ezpublish-version"
-		echo "Should be:"
-		echo "UPDATE ezsite_data SET value='`$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`' WHERE name='ezpublish-version';"
-		echo
-		MAIN_ERROR="1"
-		[ -n "$EXIT_AT_ONCE" ] && exit 1
-	    fi
+	if ! grep -E "UPDATE ezsite_data SET value='$VERSION' WHERE name='ezpublish-version';" $file &>/dev/null; then
+	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+	    echo "Wrong/missing version number in `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` for variable ezpublish-version"
+	    echo "Should be:"
+	    echo "UPDATE ezsite_data SET value='`$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`' WHERE name='ezpublish-version';"
+	    echo
+	    MAIN_ERROR="1"
+	    [ -n "$EXIT_AT_ONCE" ] && exit 1
 	fi
 	if ! grep -E "UPDATE ezsite_data SET value='$REAL_RELEASE' WHERE name='ezpublish-release';" $file &>/dev/null; then
 	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
@@ -309,16 +305,14 @@ for driver in $DRIVERS; do
 	    MAIN_ERROR="1"
 	    [ -n "$EXIT_AT_ONCE" ] && exit 1
 	else
-	    if [ -n "$FIRST_RELEASE" ]; then
-		if ! grep -E "UPDATE ezsite_data SET value='$VERSION' WHERE name='ezpublish-version';" $file &>/dev/null; then
-		    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-		    echo "Wrong/missing version number in `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` for variable ezpublish-version"
-		    echo "Should be:"
-		    echo "UPDATE ezsite_data SET value='`$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`' WHERE name='ezpublish-version';"
-		    echo
-		    MAIN_ERROR="1"
-		    [ -n "$EXIT_AT_ONCE" ] && exit 1
-		fi
+	    if ! grep -E "UPDATE ezsite_data SET value='$VERSION' WHERE name='ezpublish-version';" $file &>/dev/null; then
+		echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+		echo "Wrong/missing version number in `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` for variable ezpublish-version"
+		echo "Should be:"
+		echo "UPDATE ezsite_data SET value='`$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`' WHERE name='ezpublish-version';"
+		echo
+		MAIN_ERROR="1"
+		[ -n "$EXIT_AT_ONCE" ] && exit 1
 	    fi
 	    if ! grep -E "UPDATE ezsite_data SET value='$REAL_RELEASE' WHERE name='ezpublish-release';" $file &>/dev/null; then
 		echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
