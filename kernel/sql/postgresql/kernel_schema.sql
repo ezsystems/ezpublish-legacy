@@ -1200,7 +1200,7 @@ CREATE TABLE ezcontentobject_attribute (
     data_float double precision,
     attribute_original_id integer DEFAULT 0,
     sort_key_int integer DEFAULT 0 NOT NULL,
-    sort_key_string character varying(255) DEFAULT ''::character varying,
+    sort_key_string character varying(255) DEFAULT ''::character varying NOT NULL,
     data_type_string character varying(50)
 );
 
