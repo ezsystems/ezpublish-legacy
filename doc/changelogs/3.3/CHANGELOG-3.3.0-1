@@ -13,12 +13,15 @@ Changes from 3.2-1 to 3.3.0-1
 - Added validation and fixup methods for the information collection system to eZDataType.
 - Made sure the required field in class defintion is used on information collection submittion
   for attributes that are information collectors.
+- added separate handling of http input and custom actions in ezcontentobject.
 - Added fetching object by identifier to content module. Requires attribute data_text to be unique
+
 
 *DataType:
 - Added new datatype eZIniSetting for editing ini settings.
 - ezauthor datatype modified so in does not adds default author if you have removed it manualy.
 - ezimage datatype modified so you can specify by options if you need to keep original image.
+- ezobjectrelation datatype checks option in content.ini so you can specify per class attibute where to start browsing.
 *Setup:
 
 *Package system:

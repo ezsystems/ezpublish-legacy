@@ -82,8 +82,8 @@ if ( $http->hasPostVariable( 'SendButton' ) )
     if ( $http->hasPostVariable( 'YourName' ) )
         $your_name = $http->variable( 'YourName' );
 
-    if ( $http->hasPostVariable( 'YourEmail' ) )
-        $your_email = $http->variable( 'YourEmail' );
+    if ( $http->hasPostVariable( 'YourEmail' ) && $your_email == '' )
+            $your_email = $http->variable( 'YourEmail' );
 
     if ( $http->hasPostVariable( 'ReceiversName' ) )
         $receivers_name = $http->variable( 'ReceiversName' );
