@@ -194,7 +194,6 @@ class eZStepCreateSites extends eZStepInstaller
             $ini->setVariable( 'PortAccessSettings', $port, $siteAccessName );
         }
         $ini->setVariable( 'SiteSettings', 'SiteList', $accessMap['sites'] );
-        $ini->setVariable( 'SiteAccessSettings', 'SiteAccessList', $accessMap['accesses'] );
         $ini->setVariable( 'SiteAccessSettings', 'AvailableSiteAccessList', $accessMap['accesses'] );
         $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
         $ini->setVariable( 'Session', 'SessionNameHandler', 'custom' );
