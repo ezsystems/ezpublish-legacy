@@ -3068,6 +3068,14 @@ Si esborres cap objecte, només s&apos;esborrarà de la llista.</translation>
         <source>Redirecting to %url</source>
         <translation>S&apos;esta redireccionant a %url</translation>
     </message>
+    <message>
+        <source>Site:</source>
+        <translation type="unfinished">Lloc:</translation>
+    </message>
+    <message>
+        <source>Version:</source>
+        <translation type="unfinished">Versió:</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/navigator</name>
@@ -8069,7 +8077,7 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>The login must be specified</source>
-        <translation>Cal especificar el registre</translation>
+        <translation type="obsolete">Cal especificar el registre</translation>
     </message>
     <message>
         <source>Login name already exists, please choose another one.</source>
@@ -8140,6 +8148,10 @@ per activar el teu compte.</translation>
     <message>
         <source>Missing objectrelation input.</source>
         <translation>No es troba l&apos;entrada de relació d&apos;objectes.</translation>
+    </message>
+    <message>
+        <source>The username must be specified.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8242,6 +8254,10 @@ per activar el teu compte.</translation>
     <message>
         <source>Keywords</source>
         <translation>Paraules clau</translation>
+    </message>
+    <message>
+        <source>The receiver has allready got to many tipafriend mails during past couple of hours</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8448,6 +8464,10 @@ per activar el teu compte.</translation>
     <message>
         <source>Package %packagename already exists, cannot import the package</source>
         <translation>El paquet %packagename ja existeix. El paquet no es pot importar</translation>
+    </message>
+    <message>
+        <source>The package name %packagename is not valid, it can only contain characters in the range a-z, A-Z, 0-9 and underscore.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

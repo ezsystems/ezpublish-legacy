@@ -3067,6 +3067,14 @@ Gracias por tu feedback</translation>
         <source>Redirecting to %url</source>
         <translation>Redireccionando a %url</translation>
     </message>
+    <message>
+        <source>Site:</source>
+        <translation type="unfinished">Sitio:</translation>
+    </message>
+    <message>
+        <source>Version:</source>
+        <translation type="unfinished">Versión:</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/navigator</name>
@@ -8068,7 +8076,7 @@ tu cuenta.</translation>
     </message>
     <message>
         <source>The login must be specified</source>
-        <translation>El login ha de ser especificado</translation>
+        <translation type="obsolete">El login ha de ser especificado</translation>
     </message>
     <message>
         <source>Login name already exists, please choose another one.</source>
@@ -8139,6 +8147,10 @@ tu cuenta.</translation>
     <message>
         <source>Missing objectrelation input.</source>
         <translation>Falta entrada de relación de objeto.</translation>
+    </message>
+    <message>
+        <source>The username must be specified.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8241,6 +8253,10 @@ tu cuenta.</translation>
     <message>
         <source>Keywords</source>
         <translation>Palabras clave</translation>
+    </message>
+    <message>
+        <source>The receiver has allready got to many tipafriend mails during past couple of hours</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8447,6 +8463,10 @@ tu cuenta.</translation>
     <message>
         <source>Package %packagename already exists, cannot import the package</source>
         <translation>El paquete %packagename ya existe, no se puede importar el paquete</translation>
+    </message>
+    <message>
+        <source>The package name %packagename is not valid, it can only contain characters in the range a-z, A-Z, 0-9 and underscore.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

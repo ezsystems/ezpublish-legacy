@@ -10609,7 +10609,7 @@ your account.</source>
     </message>
     <message>
         <source>The login must be specified</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Login name already exists, please choose another one.</source>
@@ -10679,6 +10679,10 @@ your account.</source>
     </message>
     <message>
         <source>Missing objectrelation input.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The username must be specified.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -10790,6 +10794,10 @@ your account.</source>
     <message>
         <source>PDF Export</source>
         <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>The receiver has allready got to many tipafriend mails during past couple of hours</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -11013,6 +11021,10 @@ your account.</source>
     </message>
     <message>
         <source>Package %packagename already exists, cannot import the package</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The package name %packagename is not valid, it can only contain characters in the range a-z, A-Z, 0-9 and underscore.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

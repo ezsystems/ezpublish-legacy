@@ -7940,7 +7940,7 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     </message>
     <message>
         <source>The login must be specified</source>
-        <translation>Du må oppgi brukernavn</translation>
+        <translation type="obsolete">Du må oppgi brukernavn</translation>
     </message>
     <message>
         <source>Login name already exists, please choose another one.</source>
@@ -8142,6 +8142,10 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
         <source>Missing objectrelation input.</source>
         <translation>Objektrelasjon er ikke oppgitt.</translation>
     </message>
+    <message>
+        <source>The username must be specified.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>kernel/collaboration</name>
@@ -8243,6 +8247,10 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     <message>
         <source>Keywords</source>
         <translation>Nøkkelord</translation>
+    </message>
+    <message>
+        <source>The receiver has allready got to many tipafriend mails during past couple of hours</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8449,6 +8457,10 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     <message>
         <source>Package %packagename already exists, cannot import the package</source>
         <translation>Pakken %packagename finnes allerede, kan ikke importere pakken</translation>
+    </message>
+    <message>
+        <source>The package name %packagename is not valid, it can only contain characters in the range a-z, A-Z, 0-9 and underscore.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -8613,7 +8613,7 @@ conteúdo.</translation>
     </message>
     <message>
         <source>The login must be specified</source>
-        <translation>Tem de ser especificado um login</translation>
+        <translation type="obsolete">Tem de ser especificado um login</translation>
     </message>
     <message>
         <source>Login name already exists, please choose another one.</source>
@@ -8684,6 +8684,10 @@ conteúdo.</translation>
         <source>Send</source>
         <comment>Datatype information collector action</comment>
         <translation type="unfinished">Enviar</translation>
+    </message>
+    <message>
+        <source>The username must be specified.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8789,6 +8793,10 @@ conteúdo.</translation>
     </message>
     <message>
         <source>Keywords</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The receiver has allready got to many tipafriend mails during past couple of hours</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -9005,6 +9013,10 @@ conteúdo.</translation>
     </message>
     <message>
         <source>Package %packagename already exists, cannot import the package</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The package name %packagename is not valid, it can only contain characters in the range a-z, A-Z, 0-9 and underscore.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
