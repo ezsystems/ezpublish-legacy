@@ -149,7 +149,7 @@ class eZRSSExport extends eZPersistentObject
                       'url' => 'http://'. $config->variable( 'SiteSettings', 'SiteURL' ),
                       'description' => '',
                       'image_id' => 0,
-                      'active' => 0,
+                      'active' => 1,
                       'access_url' => '' );
         return new eZRSSExport( $row );
     }
