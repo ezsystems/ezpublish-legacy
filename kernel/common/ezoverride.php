@@ -72,6 +72,12 @@ class eZOverride
                 if ( count( $matchKeys ) == 0 )
                     continue;
                 $foundOverrideFile = false;
+                if ( file_exists( $templatePath ) )
+                {
+                    $match = $templateMatch;
+                    $match["file"] = $templatePath;
+                    $foundOverrideFile = true;
+                }
                 if ( !$foundOverrideFile ) // Check for dir/filebase_keyname_keyid.tpl, eg. content/view_section_1.tpl
                 {
                     preg_match( $regexpMatch, $templatePath, $regs );
