@@ -112,9 +112,11 @@ function checkAll()
     {/let}
 </tr>
 {/section}
-<tr valign="bottom">
+</table>
+<table>
+<tr>
     <td>
-        <input type="image" name="RemoveSelectedSessionsButton" value="{"Remove selected sessions"|i18n( "design/standard/setup/session ")}" src={"trash.png"|ezimage} />
+        <input type="button" name="RemoveSelectedSessionsButton" value="{"Remove"|i18n( "design/standard/setup/session ")}" />
     </td>
     <td colspan="5">
         <input name="selectall" onclick=checkAll() type="button" value="Select all">
