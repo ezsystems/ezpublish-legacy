@@ -108,7 +108,7 @@ class eZSearchEngine
 
                 foreach( $metaData as $metaDataPart )
                 {
-                    $text = eZSearchEngine::normalizeText( strip_tags(  $metaDataPart['text'] ) );
+                    $text = eZSearchEngine::normalizeText( strip_tags(  $metaDataPart['text'] ), true );
 
                     // Split text on whitespace
                     if ( is_numeric( trim( $text ) ) )
@@ -404,7 +404,7 @@ class eZSearchEngine
         }
         if ( $allowSearch )
         {
-            $searchText =& $this->normalizeText( $searchText );
+            $searchText =& $this->normalizeText( $searchText, false );
             $db =& eZDB::instance();
 
             $nonExistingWordArray = array();
@@ -1320,11 +1320,22 @@ class eZSearchEngine
         return $retArray;
     }
 
-    function &normalizeText( $text )
+    /*!
+     Normalizes the text \a $text so that it is easily parsable
+     \param $isMetaData If \c true then it expects the text to be meta data from objects,
+                        if not it is the search text and needs special handling.
+    */
+    function &normalizeText( $text, $isMetaData = false )
     {
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans = new eZCharTransform();
         $text = $trans->transformByGroup( $text, 'search' );
+
+        // Remove quotes and asterix when not handling search text by end-user
+        if ( $isMetaData )
+        {
+            $text = str_replace( array( "\"", "*" ), array( " ", " " ), $text );
+        }
 
         return $text;
     }
@@ -1545,7 +1556,7 @@ class eZSearchEngine
 //        $searchPartsArray =& $this->buildSearchPartArrayForPhrases( $phraseTextArray, $nonPhraseText, $wordIDHash );
 
         preg_replace( "/(\w+\*\s)/", " ", $searchText );
-        $nonPhraseText = $this->normalizeText( $searchText );
+        $nonPhraseText = $this->normalizeText( $searchText, false );
 
         $searchPartsArray =& $this->buildSearchPartArrayForWords( $nonPhraseText, $wordIDHash );
 
@@ -1577,7 +1588,7 @@ class eZSearchEngine
         $classAttributeID = $searchParams['classattribute_id'];
         $textValue = $searchParams['value'];
 
-        $searchText = $this->normalizeText( $textValue );
+        $searchText = $this->normalizeText( $textValue, false );
 
         $phrasesResult =& $this->getPhrases( $searchText );
         $phraseTextArray = $phrasesResult['phrases'];
