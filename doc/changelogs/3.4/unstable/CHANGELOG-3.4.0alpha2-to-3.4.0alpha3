@@ -127,6 +127,8 @@ eZFile:
   http://ez.no/community/bug_reports/i18n_template_operator_with_non_eng_gb_translation
 - Fixed typo in include file in rssimport cronjob. (Merged from 3.3, rev. 6040)
   http://ez.no/community/bug_reports/typo_in_rssimport_php
+- Fixed typo in Danish translation
+  http://ez.no/community/bug_reports/typing_error_in_danish_translation
 
 *Update
 
