@@ -111,7 +111,7 @@ function eZSetupStep( &$tpl, &$http, &$ini )
 	if ( $sendEmail )
 	{
 		$params = array();
-		if ( $http->hasPostVariable( "emailServer" ) )
+		if ( $http->hasPostVariable( "emailServer" ) && $http->postVariable("emailServer") != "" )
 		{
 			$params["hostname"] = trim ( $http->postVariable( "emailServer" ) );
 			if ( $http->hasPostVariable( "emailUser" ) )
