@@ -98,6 +98,9 @@ Versionview:
 
 Versions:
 - A link should only be shown for versions which are viewable by the user.
+- Store previous version in new versions, that way it's possible to see the
+  progress of version and show branches. A previous version of 0 is considered
+  a starting version.
 
 Browsers:
 - Create a framework for checking browser type, version and OS and make it
