@@ -26,6 +26,21 @@ Source=visual/templatelist.tpl
 MatchFile=setup/templatelist.tpl
 Subdir=templates
 
+[visual_templateview]
+Source=visual/templateview.tpl
+MatchFile=setup/templateview.tpl
+Subdir=templates
+
+[visual_templateedit]
+Source=visual/templateedit.tpl
+MatchFile=setup/templateedit.tpl
+Subdir=templates
+
+[visual_templatecreate]
+Source=visual/templatecreate.tpl
+MatchFile=setup/templatecreate.tpl
+Subdir=templates
+
 [url_list]
 Source=url/list.tpl
 MatchFile=url/view_url_list.tpl

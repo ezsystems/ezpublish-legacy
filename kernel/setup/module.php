@@ -151,7 +151,7 @@ $ViewList["templatelist"] = array(
 
 $ViewList["templateview"] = array(
     "script" => "templateview.php",
-    "default_navigation_part" => 'ezvisualnavigationpart',
+    "default_navigation_part" => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'SelectCurrentSiteAccessButton' => 'SelectCurrentSiteAccess',
                                     'RemoveOverrideButton' => 'RemoveOverride',
                                     'UpdateOverrideButton' => 'UpdateOverride',
@@ -161,7 +161,7 @@ $ViewList["templateview"] = array(
 $ViewList["templateedit"] = array(
     "script" => "templateedit.php",
     'ui_context' => 'edit',
-    "default_navigation_part" => 'ezvisualnavigationpart',
+    "default_navigation_part" => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'SaveButton' => 'Save',
                                     'DiscardButton' => 'Discard' ),
     "params" => array( ) );
@@ -169,7 +169,7 @@ $ViewList["templateedit"] = array(
 $ViewList["templatecreate"] = array(
     "script" => "templatecreate.php",
     'ui_context' => 'edit',
-    "default_navigation_part" => 'ezvisualnavigationpart',
+    "default_navigation_part" => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'CreateOverrideButton' => 'CreateOverride',
                                     'CancelOverrideButton' => 'CancelOverride' ),
     "params" => array( ) );

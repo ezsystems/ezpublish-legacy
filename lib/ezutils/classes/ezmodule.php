@@ -939,16 +939,22 @@ class eZModule
         return null;
     }
 
-    function &forward( &$module, $functionName )
+    function &forward( &$module, $functionName, $parameters = false )
     {
         if ( $module && $functionName )
         {
             $viewName = eZModule::currentView();
 
-            $parameters = $this->OriginalViewParameters;
+            if ( $parameters === false)
+            {
+                $parameters = array();
+            }
+
+            $parameters = array_merge( $parameters, $this->OriginalViewParameters );
+            $unorderedParameters = $this->OriginalUnorderedParameters;
             $userParameters = $this->UserParameters;
 
-            $Return =& $module->run( $functionName, $parameters, false, $userParameters );
+            $Return =& $module->run( $functionName, $parameters, $unorderedParameters, $userParameters );
 
             // override default navigation part
             if ( $Return['is_default_navigation_part'] === true )
@@ -963,6 +969,9 @@ class eZModule
                     $Return['navigation_part'] = $function['default_navigation_part'];
                 }
             }
+
+            $this->RedirectURI = $module->redirectURI();
+            $this->setExitStatus( $module->exitStatus() );
 
             return $Return;
         }

@@ -184,6 +184,12 @@ $tpl->setVariable( 'current_siteaccess', $siteAccess );
 $tpl->setVariable( 'not_removed', $notRemoved );
 $tpl->setVariable( 'ini_not_saved', $overrideINISaveFailed );
 
+$siteINI =& eZINI::instance( 'site.ini' );
+if ( $siteINI->variable( 'BackwardCompatibilitySettings', 'UsingDesignAdmin34' ) == 'enabled' )
+{
+    $tpl->setVariable( 'custom_match', $templateSettings['custom_match'] );
+}
+
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:visual/templateview.tpl" );
 $Result['path'] = array( array( 'url' => "/visual/templatelist/",
