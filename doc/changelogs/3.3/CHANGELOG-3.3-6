@@ -86,6 +86,7 @@ eZINI:
 - Fixed void "recompile options" field of "Missing database handlers" issue 
   when setting up site without PostgreSQL support in PHP.  
   http://ez.no/community/bug_reports/fine_tune_database_message
+- Fixed bug of datatype ezselection may generate wrong search index.
   
 *Library:
 
