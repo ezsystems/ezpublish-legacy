@@ -79,7 +79,13 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-    <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/shop/orderlist' )}" {section show=$order_list|not}disabled="disabled"{/section} />
+
+{section show=$order_list}
+    <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/shop/orderlist' )}" />
+{section-else}
+    <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/shop/orderlist' )}" disabled="disabled" />
+{/section}
+
 </div>
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
