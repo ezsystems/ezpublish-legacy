@@ -73,6 +73,9 @@ eZ utils:
 - Fixed automatic removal of magick quotes for _GET variables, if magickquotes is enabled
 - Removed unneeded global definition of $_ENV and $_SERVER
 
+eZ sys:
+- Added support for Mac specific settings.
+
 eZ template:
 - imagelabel was removed and image, imagefile and texttoimage was improved
   to handle transparency, alignment and placement.

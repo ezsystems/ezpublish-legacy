@@ -72,16 +72,27 @@ class eZSys
                                    "magickQuotes" => true,
                                    "hostname" => true );
         // Determine OS specific settings
-        if ( substr( php_uname(), 0, 7) == "Windows" )
+        if ( substr( php_uname(), 0, 7 ) == "Windows" )
         {
+            $this->OSType = "win32";
             $this->FileSystemType = "win32";
             $this->FileSeparator = "\\";
             $this->LineSeparator= "\r\n";
             $this->EnvSeparator = ";";
             $this->BackupFilename = '.bak';
         }
+        else if ( substr( php_uname(), 0, 3 ) == "Mac" )
+        {
+            $this->OSType = "mac";
+            $this->FileSystemType = "unix";
+            $this->FileSeparator = "/";
+            $this->LineSeparator= "\r";
+            $this->EnvSeparator = ":";
+            $this->BackupFilename = '~';
+        }
         else
         {
+            $this->OSType = "unix";
             $this->FileSystemType = "unix";
             $this->FileSeparator = "/";
             $this->LineSeparator= "\n";
@@ -114,6 +125,17 @@ class eZSys
 
     /*!
      \static
+     \return the os type, either \c "win32", \c "unix" or \c "mac"
+    */
+    function osType()
+    {
+        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
+            $this =& eZSys::instance();
+        return $this->OSType;
+    }
+
+    /*!
+     \static
      \return the filesystem type, either \c "win32" or \c "unix"
     */
     function filesystemType()
@@ -135,7 +157,7 @@ class eZSys
     }
 
     /*!
-     \return the backup filename for this platform, returns .bak for win32 and ~ for unix.
+     \return the backup filename for this platform, returns .bak for win32 and ~ for unix and mac.
     */
     function backupFilename()
     {
@@ -658,6 +680,7 @@ class eZSys
     var $RequestURI;
     /// The type of filesystem, is either win32 or unix. This often used to determine os specific paths.
     var $FileSystemType;
+    var $OSType;
 }
 
 ?>
