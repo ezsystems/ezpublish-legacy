@@ -6,3 +6,5 @@ Changes from 2.9-7 to 3.0-1
 
 *Library :
 
+eZ XML:
+- Added reference to the attributes() function in eZDomNode.
