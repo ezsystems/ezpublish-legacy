@@ -183,7 +183,7 @@ class eZHTTPFile
     */
     function hasAttribute( $attr )
     {
-        return in_array( $this->attributes(), $attr );
+        return in_array( $attr, $this->attributes() );
     }
 
     /*!
