@@ -376,6 +376,7 @@ class eZTemplateUnitOperator
                 {
                     $prefix_var = $prefix[1];
                     $operatorValue = number_format( $operatorValue / $val, 2 );
+                    break;
                 }
             }
         }
