@@ -116,9 +116,6 @@ class eZStepSiteAccess extends eZStepInstaller
         $this->Tpl->setVariable( 'site_templates', $this->PersistenceList['site_templates'] );
         $this->Tpl->setVariable( 'error', $this->Error );
 
-        $this->Tpl->setVariable( 'setup_previous_step', 'SiteAccess' );
-        $this->Tpl->setVariable( 'setup_next_step', 'SiteDetails' );
-
         // Return template and data to be shown
         $result = array();
         // Display template

@@ -82,6 +82,12 @@ class eZStepSiteTemplates extends eZStepInstaller
 //                 $this->PersistenceList['site_templates_' . $siteTemplatesCount]['image_file_name'] = $thumbnailBase.'_'.$template.'.'.$thumbnailExtension;
                 ++$siteTemplatesCount;
             }
+            if ( $siteTemplatesCount == 0)
+            {
+                $this->ErrorMsg = ezi18n( 'design/standard/setup/init',
+                                          'No templates choosen.' );
+                return false;
+            }
             $this->PersistenceList['site_templates']['count'] = $siteTemplatesCount;
         }
         else
@@ -138,10 +144,6 @@ class eZStepSiteTemplates extends eZStepInstaller
 
         $this->Tpl->setVariable( 'site_templates', $site_templates );
         $this->Tpl->setVariable( 'error', $this->Error );
-
-        // Set install steps
-        $this->Tpl->setVariable( 'setup_previous_step', 'SiteTemplates' );
-        $this->Tpl->setVariable( 'setup_next_step', 'SiteAccess' );
 
         // Return template and data to be shown
         $result = array();

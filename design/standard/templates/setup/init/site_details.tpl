@@ -145,12 +145,7 @@
   </table>      
   </p>
 
-  {include uri="design:setup/init/steps.tpl"}
   {include uri="design:setup/persistence.tpl"}
-
-  <div class="buttonblock">
-      <input class="defaultbutton" type="submit" name="StepButton" value="{"Next"|i18n("design/standard/setup/init", "next button in installation")} &gt;&gt;" />
-  </div>
-
+  {include uri='design:setup/init/navigation.tpl'}
 
 </form>

@@ -112,9 +112,6 @@ class eZStepLanguageOptions extends eZStepInstaller
         }
         $this->Tpl->setVariable( 'show_unicode_error', $showUnicodeError );
 
-        $this->Tpl->setVariable( 'setup_previous_step', 'LanguageOptions' );
-        $this->Tpl->setVariable( 'setup_next_step', 'EmailSettings' );
-
         $result = array();
         // Display template
 

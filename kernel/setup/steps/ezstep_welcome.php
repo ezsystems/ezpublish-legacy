@@ -81,7 +81,7 @@ class eZStepWelcome extends eZStepInstaller
     function &display()
     {
         /* check and test system  settings */
-        $systemCheck = new eZStepSystemCheck( $this->Tpl, $this->Http, $this->Ini, $this->PersistenceList );
+/*        $systemCheck = new eZStepSystemCheck( $this->Tpl, $this->Http, $this->Ini, $this->PersistenceList );
         $systemCheckResult = $systemCheck->init();
         $this->Tpl->setVariable( 'system_check_result', $systemCheckResult );
 
@@ -92,17 +92,14 @@ class eZStepWelcome extends eZStepInstaller
         else
         {
             $this->Tpl->setVariable( 'setup_next_step', 'SystemCheck' );
-        }
+        }*/
 
-        $criticalTests = eZSetupCriticalTests();
+/*        $criticalTests = eZSetupCriticalTests();
 //        $testTable = eZSetupTestTable();
 
         $arguments = array();
         $runResult = eZSetupRunTests( $criticalTests, $arguments, 'eZSetup:init:system_check' );
-        $testResult = $runResult['result'];
-
-        $this->Tpl->setVariable( 'system_test_result', $testResult );
-
+        $testResult = $runResult['result'];*/
 
         $result = array();
         $result['content'] = $this->Tpl->fetch( 'design:setup/init/welcome.tpl' );

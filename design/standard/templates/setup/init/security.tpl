@@ -21,10 +21,7 @@ cp .htaccess_root .htaccess</pre>
   {"If you do not have shell access you will have to copy the file using the ftp client or ask your hosting provider to do this for you."|i18n("design/standard/setup/init")}
 </p>
 
-  <div class="buttonblock">
-    <input type="hidden" name="ChangeStepAction" value="" />
-    <input class="defaultbutton" type="submit" name="StepButton" value="{"Next"|i18n("design/standard/setup/init", "next button in installation")} &gt;&gt;" />
-  </div>
+  {include uri='design:setup/init/navigation.tpl'}
   {include uri="design:setup/persistence.tpl"}
-  {include uri="design:setup/init/steps.tpl"}
+
 </form>

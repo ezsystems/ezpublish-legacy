@@ -84,7 +84,7 @@ class eZStepSiteDetails extends eZStepInstaller
         $siteAccessValues['admin'] = 1; // Add user and admin as illegal site access values
         $siteAccessValues['user'] = 1;
 
-        //todo : check input values
+
         for ( $counter = 0; $counter < $this->PersistenceList['site_templates']['count']; $counter++ )
         {
             $this->PersistenceList['site_templates_'.$counter]['title'] =
@@ -216,9 +216,6 @@ class eZStepSiteDetails extends eZStepInstaller
         $this->Tpl->setVariable( 'database_default', $config->variable( 'DatabaseSettings', 'DefaultName' ) );
         $this->Tpl->setVariable( 'database_available', $this->PersistenceList['database_info_available'] );
         $this->Tpl->setVariable( 'site_templates', $templates );
-
-        $this->Tpl->setVariable( 'setup_previous_step', 'SiteDetails' );
-        $this->Tpl->setVariable( 'setup_next_step', 'Security' );
 
         // Return template and data to be shown
         $result = array();

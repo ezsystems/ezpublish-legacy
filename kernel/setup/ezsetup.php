@@ -87,29 +87,25 @@ if ( $stepData == null )
     eZExecution::cleanExit();
 }
 
-// Test at what step we are
-$step = $stepData->step(0); //step contains file and class
-if ( $http->hasPostVariable( 'setup_next_step' ) )
-{
-    $step = &$stepData->step( $http->postVariable( 'setup_next_step' ) );
-}
-
 $persistenceList = eZSetupFetchPersistenceList();
 $result = null;
 
 // process previous step
 $previousStepClass = null;
-if ( $http->hasPostVariable( 'setup_previous_step' ) )
-{
-    $previousStep =& $stepData->step( $http->postVariable( 'setup_previous_step' ) );
+$step = null;
 
-    $includeFile = $baseDir .'steps/ezstep_'.$previousStep['file'].'.php';
+if ( $http->hasPostVariable( 'eZSetup_next_button' ) ) // next step selected
+{
+    // first, input from step must be processed/checked (processPostData())
+    $currentStep = &$stepData->step( $http->postVariable( 'eZSetup_current_step' ) );
+
+    $includeFile = $baseDir .'steps/ezstep_'.$currentStep['file'].'.php';
     $result = array();
 
     if ( file_exists( $includeFile ) )
     {
         include_once( $includeFile );
-        $className = 'eZStep'.$previousStep['class'];
+        $className = 'eZStep'.$currentStep['class'];
         $previousStepClass = new $className( $tpl, $http, $ini, $persistenceList );
 
         $processPostDataResult = $previousStepClass->processPostData();
@@ -117,14 +113,29 @@ if ( $http->hasPostVariable( 'setup_previous_step' ) )
 
         if ( $processPostDataResult === false ) // processing previous input failed, step must be redone
         {
-            $step = $previousStep;
+            $step = $currentStep;
         }
         else if ( $processPostDataResult !== true ) // step to redo specified
         {
             $step =& $stepData->step( $processPostDataResult );
         }
+        else
+        {
+            $step = $stepData->nextStep( $currentStep );
+        }
     }
+
 }
+else if ( $http->hasPostVariable( 'eZSetup_back_button' ) ) // previous step selected
+{
+    $step = &$stepData->previousStep( $http->postVariable( 'eZSetup_current_step' ) );
+}
+else //First step, no params set.
+{
+    $step = $stepData->step(0); //step contains file and class
+}
+
+print_r( $step );
 
 $done = false;
 $result = null;
@@ -162,7 +173,7 @@ while( !$done && $step != null )
         include_once( $includeFile );
         $className = 'eZStep'.$step['class'];
 
-        if ( $step == $previousStep ) // if processing post data of previous step failed, use same class object.
+        if ( $step == $currentStep ) // if processing post data of current step failed, use same class object.
         {
             $stepInstaller = $previousStepClass;
         }
@@ -183,6 +194,7 @@ while( !$done && $step != null )
         }
         else
         {
+            $tpl->setVariable( 'setup_current_step', $step['class'] ); // set current step
             $result =& $stepInstaller->display();
             $result['help'] =& $tpl->fetch( 'design:setup/init/'.$step['file'].'_help.tpl' );
             $done = true;
