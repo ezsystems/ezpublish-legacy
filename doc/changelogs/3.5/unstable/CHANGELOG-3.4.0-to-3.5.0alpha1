@@ -4,6 +4,9 @@ Changes from 3.4.0 to 3.5.0alpha1
 - Added siteaccess match type 'servervar' that will use a server variable to match a siteaccess.
   Mod_rewrite maps or a mod_perl redirector could be good examples of usage.
 
+*DataType:
+- Supported nested list for datatype ezxmltext.
+
 *Bugs
 - Fixed bug in contentobject, can_create_class_list, merged from stable/3.4 rev. 6781.
 - Fixed bug with non-required ContentObjectID for adding notifications

@@ -66,7 +66,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $this->SubTagArray['literal'] = array( );
         $this->SubTagArray['custom'] = $this->SectionArray;
         $this->SubTagArray['object'] = array( );
-        $this->SubTagArray['li'] = array_merge( $this->InLineTagArray, "paragraph" );
+        $this->SubTagArray['li'] = $this->SubTagArray['section'];
         $this->SubTagArray['strong'] = $this->InLineTagArray;
         $this->SubTagArray['emphasize'] = $this->InLineTagArray;
         $this->SubTagArray['link'] = $this->InLineTagArray;
@@ -743,7 +743,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             }
 
             // Add paragraph tag for td, th and custom
-            if ( $currentTag == "td" or $currentTag == "th" or $currentTag == "custom" )
+            if ( $currentTag == "td" or $currentTag == "th" or $currentTag == "custom" or $currentTag == "li" )
             {
                 // Set variable isInsideTd to true
                 $isInsideTd = true;
@@ -934,7 +934,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             $withNewLine = true;
                         }
                     }
-                    if ( $convertedTag == 'td' or $convertedTag == 'th' or $convertedTag == 'custom' )
+                    if ( $convertedTag == 'td' or $convertedTag == 'th' or $convertedTag == 'custom' or $convertedTag == 'li' )
                     {
                         $isInsideTd = false;
                         // Reset table section level
@@ -1696,6 +1696,39 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         }
         return $output;
     }
+
+
+    /*!
+     \private
+     \return the user input format for the given table cell
+    */
+    function &inputListXML( &$listNode, $currentSectionLevel, $listSectionLevel = null )
+    {
+        $output = "";
+        if ( get_class( $listNode ) == "ezdomnode" )
+            $tagName = $listNode->name();
+        else
+            $tagName = "";
+        switch ( $tagName )
+        {
+            case 'paragraph' :
+            {
+                $output .= trim( $this->inputParagraphXML( $listNode, $currentSectionLevel, $listSectionLevel ) ) . "\n\n";
+            }break;
+            case 'section' :
+            {
+                $listSectionLevel += 1;
+                $output .= $this->inputSectionXML( $tdNode, $currentSectionLevel, $listSectionLevel );
+            }break;
+
+            default :
+            {
+                eZDebug::writeError( "Unsupported tag at this level: $tagName", "eZXMLTextType::inputListXML()" );
+            }break;
+        }
+        return $output;
+    }
+
     /*!
      \private
      \return the user input format for the given section
@@ -1852,9 +1885,13 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $listItemContent = "";
                     foreach ( $listItemNode->children() as $itemChildNode )
                     {
-                        $listItemContent .= $this->inputTagXML( $itemChildNode, $currentSectionLevel, $tdSectionLevel );
+                        $listSectionLevel = $currentSectionLevel;
+                        if ( $itemChildNode->name() == "section" or $itemChildNode->name() == "paragraph" )
+                            $listItemContent .= $this->inputListXML( $itemChildNode, $currentSectionLevel, $listSectionLevel );
+                        else
+                            $listItemContent .= $this->inputTagXML( $itemChildNode, $currentSectionLevel, $tdSectionLevel );
                     }
-                    $listContent .= "  <li>$listItemContent</li>\n";
+                    $listContent .= "  <li>" . trim( $listItemContent ) . "</li>\n";
                 }
                 if ( $className != null )
                     $output .= "<$tagName class='$className'>\n$listContent</$tagName>" .  "\n";

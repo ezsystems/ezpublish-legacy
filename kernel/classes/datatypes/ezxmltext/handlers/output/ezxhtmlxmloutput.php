@@ -200,6 +200,38 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $output;
     }
 
+        /*!
+     \private
+     \return the XHTML rendered version of the section
+    */
+    function &renderList( &$tpl, &$listNode, $currentSectionLevel, $listSectionLevel = null )
+    {
+        $output = "";
+        $tagName = $listNode->name();
+        switch ( $tagName )
+        {
+            case 'paragraph' :
+            {
+                $output .= $this->renderXHTMLParagraph( $tpl, $listNode, $currentSectionLevel, $listSectionLevel );
+            }break;
+
+            case 'section' :
+            {
+                $sectionLevel += 1;
+                if ( $listSectionLevel == null )
+                    $output .= $this->renderXHTMLSection( $tpl, $listNode, $sectionLevel );
+                else
+                    $output .= $this->renderXHTMLSection( $tpl, $listNode, $currentSectionLevel, $sectionLevel );
+            }break;
+
+            default :
+            {
+                eZDebug::writeError( "Unsupported tag at this level: $tagName", "eZXMLTextType::inputSectionXML()" );
+            }break;
+        }
+        return $output;
+    }
+
     /*!
      \private
      \return XHTML rendered version of the paragrph
@@ -418,7 +450,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $uri = "design:content/datatype/view/ezxmltags/tr.tpl";
                     $textElements = array();
                     eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
-                     $tableRows .= implode( '', $textElements );
+                    $tableRows .= implode( '', $textElements );
                     $rowCount++;
                 }
                 $class = $tag->attributeValue( 'class' );
@@ -456,10 +488,21 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 foreach ( $tag->children() as $listItemNode )
                 {
                     $listItemContent = "";
+
+                    $listSctionLevel = $currentSectionLevel;
                     foreach ( $listItemNode->children() as $itemChildNode )
                     {
-                        $listItemContent .= $this->renderXHTMLTag( $tpl, $itemChildNode, 0, $isBlockTag );
+                        $listSectionLevel = $currentSectionLevel;
+                        if ( $itemChildNode->name() == "section" or $itemChildNode->name() == "paragraph" )
+                        {
+                            $listItemContent .= $this->renderList( $tpl, $itemChildNode, $currentSectionLevel, $listSectionLevel );
+                        }
+                        else
+                        {
+                            $listItemContent .= $this->renderXHTMLTag( $tpl, $itemChildNode, 0, $isBlockTag );
+                        }
                     }
+
                     $tpl->setVariable( 'content', $listItemContent, 'xmltagns' );
                     $uri = "design:content/datatype/view/ezxmltags/li.tpl";
 
