@@ -213,7 +213,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         {
             include_once( $overrideCacheFile );
             $cahceMap =& $GLOBALS['eZOverrideTemplateCacheMap'][sprintf( "%u", crc32( '/' . $path ) )];
-            if ( !is_string( $cahceMap ) )
+            if ( !is_string( $cahceMap ) and trim( $cahceMap['code'] ) )
             {
                 eval( "\$matchFile = " . $cahceMap['code'] . ";" );
             }
