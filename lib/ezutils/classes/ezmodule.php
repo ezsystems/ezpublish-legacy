@@ -877,6 +877,7 @@ class eZModule
         $this->ExitStatus = EZ_MODULE_STATUS_OK;
 //        eZDebug::writeNotice( $params, 'module parameters1' );
 
+
         $currentView =& $GLOBALS['eZModuleCurrentView'];
         $viewStack =& $GLOBALS['eZModuleViewStack'];
         if ( !isset( $currentView ) )
@@ -892,8 +893,9 @@ class eZModule
                                    $params_as_var );
         if ( $this->hasViewResult( $functionName ) )
         {
-            $Return =& $this->viewResult( $functionName );
+            $Return = $this->viewResult( $functionName );
         }
+
         if ( count( $viewStack ) > 0 )
             $currentView = array_pop( $viewStack );
         else

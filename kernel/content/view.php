@@ -96,6 +96,7 @@ $operationResult =& eZOperationHandler::execute( 'content', 'read', array( 'node
                                                                           'language_code' => $LanguageCode ) );
 eZDebug::addTimingPoint( 'Operation end' );
 
+
 switch( $operationResult['status'] )
 {
     case EZ_MODULE_OPERATION_CONTINUE:
@@ -148,7 +149,7 @@ switch( $operationResult['status'] )
             $tpl->setVariable( 'node', $node );
             $tpl->setVariable( 'view_parameters', $viewParameters );
 
-// create path
+            // create path
             $parents =& $node->attribute( 'path' );
 
             $path = array();
@@ -180,6 +181,7 @@ switch( $operationResult['status'] )
 //                     eZDebug::writeDebug( 'cache written', 'content/view' );
                 }
             }
+
         }
     }break;
     case EZ_MODULE_OPERATION_HALTED:
@@ -202,5 +204,6 @@ switch( $operationResult['status'] )
                               - Because I think so :)";
     }
 }
+
 
 ?>

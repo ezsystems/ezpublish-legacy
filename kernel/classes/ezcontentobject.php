@@ -293,24 +293,24 @@ class eZContentObject extends eZPersistentObject
     function &fetchDataMap( $version = false, $language = false )
     {
         // Global variable to cache datamaps
-        global $DataMapCache;
+        global $eZContentObjectDataMapCache;
 
         if ( $version == false )
             $version = $this->attribute( 'current_version' );
         if ( $language == false )
             $language = $this->defaultLanguage();
 
-        if ( !isset( $DataMapCache[$this->ID][$version][$language] ) )
+        if ( !isset( $eZContentObjectDataMapCache[$this->ID][$version][$language] ) )
         {
             $data =& $this->contentObjectAttributes( true, $version, $language );
             // Store the attributes for later use
             $this->ContentObjectAttributeArray[$version][$language] =& $data;
 
-            $DataMapCache[$this->ID][$version][$language] =& $data;
+            $eZContentObjectDataMapCache[$this->ID][$version][$language] =& $data;
         }
         else
         {
-            $data =& $DataMapCache[$this->ID][$version][$language];
+            $data =& $eZContentObjectDataMapCache[$this->ID][$version][$language];
         }
 
         if ( !isset( $this->DataMap[$version][$language] ) )
@@ -368,9 +368,9 @@ class eZContentObject extends eZPersistentObject
 
     function &fetch( $id, $asObject = true )
     {
-        global $ContentObjectCache;
+        global $eZContentObjectContentObjectCache;
 
-        if ( !isset( $ContentObjectCache[$id] ) and $asObject )
+        if ( !isset( $eZContentObjectContentObjectCache[$id] ) and $asObject )
         {
             $obj =& eZPersistentObject::fetchObject( eZContentObject::definition(),
                                                      array( 'id',
@@ -385,12 +385,12 @@ class eZContentObject extends eZPersistentObject
                                                             ),
                                                      array( 'id' => $id ),
                                                      $asObject );
-            $ContentObjectCache[$id] =& $obj;
+            $eZContentObjectContentObjectCache[$id] =& $obj;
             return $obj;
         }
         else
         {
-            return $ContentObjectCache[$id];
+            return $eZContentObjectContentObjectCache[$id];
         }
     }
 
