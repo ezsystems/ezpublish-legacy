@@ -16,12 +16,12 @@
 
 <div class="block">
 <label>{'Module'|i18n( 'design/admin/role/policyedit' )}:</label>
-<p>{$current_module}</p>
+{$current_module}
 </div>
 
 <div class="block">
 <label>{'Function'|i18n( 'design/admin/role/policyedit' )}:</label>
-<p>{$current_function}</p>
+{$current_function}
 </div>
 
 <fieldset>
