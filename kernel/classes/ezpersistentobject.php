@@ -67,6 +67,7 @@ class MyClass extends eZPersistentObject
 
 include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( "lib/ezutils/classes/eztexttool.php" );
+include_once( "lib/ezutils/classes/ezdebug.php" );
 
 class eZPersistentObject
 {
@@ -810,7 +811,11 @@ function definition()
         {
             if ( !is_null( $attr_functions ) or
                  !isset( $attr_functions[$attr] ) )
+            {
+                eZDebug::writeError( "Undefined attribute '$attr', cannot get",
+                                     $def['class_name'] );
                 return null;
+            }
         }
         if ( !is_null( $attr_functions ) and isset( $attr_functions[$attr] ) )
         {
@@ -839,7 +844,11 @@ function definition()
         $fields =& $def["fields"];
         $functions =& $def["set_functions"];
         if ( !isset( $fields[$attr] ) )
+        {
+            eZDebug::writeError( "Undefined attribute '$attr', cannot set",
+                                 $def['class_name'] );
             return;
+        }
         if ( isset( $functions[$attr] ) )
         {
             $function_name = $functions[$attr];
