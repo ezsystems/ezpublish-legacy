@@ -131,6 +131,20 @@ class eZFile
 
         return TRUE;
     }
+
+    /*!
+    \static
+    Renames a file atomically on Unix, and provides a workaround for Windows
+    */
+    function rename( $srcFile, $destFile )
+    {
+        /* On windows we need to unlink the destination file first */
+        if ( strtolower( substr( PHP_OS, 0, 3 ) ) == 'win' )
+        {
+            @unlink( $destFile );
+        }
+        rename( $srcFile, $destFile );
+    }
 }
 
 ?>

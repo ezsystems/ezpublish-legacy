@@ -120,7 +120,8 @@ class eZPHPCreator
 
             if ( $this->isAtomic )
             {
-                rename( $this->tmpFilename, $this->requestedFilename );
+                include_once( 'lib/ezfile/classes/ezfile.php' );
+                eZFile::rename( $this->tmpFilename, $this->requestedFilename );
             }
             $this->FileResource = false;
         }
