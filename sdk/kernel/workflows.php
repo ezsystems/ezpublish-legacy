@@ -46,8 +46,8 @@
 <img src="/doc/images/workflows_db.png" /><br/>
 
 
-Workflows are triggered by runTrigger function.
-The code may look like: (like in 'content/edit.php')
+Workflows are triggered by the runTrigger function.
+The code may look like this: (like in 'content/edit.php')
 <pre class="example">
 if ( $Module->isCurrentAction( 'publish' ) )
 {
@@ -65,12 +65,17 @@ if ( $Module->isCurrentAction( 'publish' ) )
 
 Here is how the runTrigger function should work:<br/>
 
- 1. try to look is there workflow connected to that function <br/>
- 2. look if there is already  started workflow process for the same event.<br/>
- 3. If so start the next event<br/>
- 4. if not create new workflow process and start it<br/>
+<ul>
+ <li>Find out if there is a workflow connected to this function</li>
+ <li>Find out if there is already started a workflow process for the same event.</li>
+ <li>If so start the next event</li>
+ <li>If not create new workflow process and start it</li>
+</ul>
 
- If to look to the publish process. Multiplesor workflow looks to parameters and decide what workflow to run next if need it. And shows user a page saying for instance that the object is sent for approval.
+<p>
+If to look to the publish process. Multiplesor workflow looks to parameters and decide what workflow to run next if
+need it. And shows user a page saying for instance that the object is sent for approval.
+</p>
 
 <h2>Example of Publish workflow </h2>
 <img src="/doc/images/publish.png" />
