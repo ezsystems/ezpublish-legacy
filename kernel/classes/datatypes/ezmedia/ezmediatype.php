@@ -386,9 +386,9 @@ class eZMediaType extends eZDataType
     {
         $mediaFile =& eZMedia::fetch( $contentObjectAttribute->attribute( "id" ),
                                       $contentObjectAttribute->attribute( "version" ) );
-        if ( ! $mediaFile )
+        if ( !$mediaFile )
         {
-            $mediaFile =& eZMedia::create( $contentObjectAttribute->attribute( "id" ), $contentObjectAttribute->attribute( "version" ) );
+            return false;
         }
         return $mediaFile;
     }
