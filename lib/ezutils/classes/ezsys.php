@@ -515,7 +515,6 @@ class eZSys
         ini_set( "include_path", $includePath );
 
         $scriptName = eZSys::serverVariable( 'SCRIPT_NAME' );
-        $scriptName = "/index.php";
         // Get the webdir.
         if ( ereg( "(.*)/([^\/]+\.php)$", $scriptName, $regs ) )
             $wwwDir = $regs[1];

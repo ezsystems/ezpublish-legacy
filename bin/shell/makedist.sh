@@ -20,15 +20,16 @@ FILTER_FILES2="bin/modfix.sh"
 
 function make_dir
 {
+    local DIR
     DIR=`echo $1 | sed 's#^\./##'`
     if [ ! -d "$DEST/$DIR" ]; then
-#	echo making dir $DIR
 	mkdir $DEST/$DIR
     fi
 }
 
 function copy_file
 {
+    local SRC_FILE DST_FILE
     SRC_FILE=`echo $1 | sed 's#^\./##'`
     DST_FILE=$SRC_FILE
     cp -f $SRC_FILE $DEST/$DST_FILE
@@ -37,10 +38,14 @@ function copy_file
 
 function scan_dir_normal
 {
+    local file
+    local DIR
+
     DIR=$1
 #    echo "Scanning dir $DIR normally"
     for file in $DIR/*; do
-	if ! echo $file | grep "/\*" &>/dev/null; then
+	if [ -e $file -a ! "$file" = "$DIR/.svn" -a ! "$file" = "$DIR/.." -a ! "$file" = "$DIR/." ]; then
+# 	if ! echo $file | grep "/\*" &>/dev/null; then
 	    if [ -d "$file" ]; then
 	        # Do not include .svn dirs
 		if [ "$file" != ".svn" ]; then
@@ -59,10 +64,16 @@ function scan_dir_normal
 
 function scan_dir
 {
+    local file
+    local DIR
+    local DIST_PROP_TYPE
+    local DIST_DIR
+
     DIR=$1
 #    echo "Scanning dir $DIR"
-    for file in $DIR/*; do
-	if ! echo $file | grep "/\*" &>/dev/null; then
+    for file in $DIR/* $DIR/.*; do
+#	if ! echo $file | grep "/\*" &>/dev/null; then
+	if [ -e $file -a ! "$file" = "$DIR/.svn" -a ! "$file" = "$DIR/.." -a ! "$file" = "$DIR/." ]; then
 	    DIST_PROP_TYPE=`svn propget $DIST_PROP $file 2>/dev/null`
 	    if [ $? -eq 0 ] && [ ! -z "$DIST_PROP_TYPE" ]; then
 		if echo $DIST_PROP_TYPE | grep $DIST_TYPE &>/dev/null; then
@@ -78,10 +89,10 @@ function scan_dir
 			echo -n " "`$SETCOLOR_DIR`"$file"`$SETCOLOR_NORMAL`"/"
 			make_dir $file
 			if [ -z $DIST_DIR_RECURSIVE ]; then
-			    scan_dir $file
+			    scan_dir "$file"
 			else
 			    echo -n "*"
-			    scan_dir_normal $file
+			    scan_dir_normal "$file"
 			fi
 		    else
 			echo -n " "`$SETCOLOR_FILE`"$file"`$SETCOLOR_NORMAL`
@@ -104,6 +115,7 @@ for arg in $*; do
 	    echo
 	    echo "Options: -h"
 	    echo "         --help                     This message"
+	    echo "         --build-root=DIR           Set build root, default is /tmp"
 	    echo "         --release-sdk              Make SDK release"
 	    echo "         --release-full             Make full release(default)"
 	    echo "         --with-svn-server[=SERVER] Checkout fresh repository"
@@ -119,16 +131,21 @@ for arg in $*; do
 	--release-full)
 	    DIST_TYPE="full"
 	    ;;
+	--build-root=*)
+	    if echo $arg | grep -e "--build-root=" >/dev/null; then
+		DEST_ROOT=`echo $arg | sed 's/--build-root=//'`
+	    fi
+	    ;;
 	--with-svn-server*)
 	    if echo $arg | grep -e "--with-svn-server=" >/dev/null; then
-		SVN_SERVER=`echo $arg | sed 's/--with-svn-server=/\1/'`
+		SVN_SERVER=`echo $arg | sed 's/--with-svn-server=//'`
 	    else
 		SVN_SERVER=$DEFAULT_SVN_SERVER
 	    fi
 	    ;;
 	--with-release*)
 	    if echo $arg | grep -e "--with-release=" >/dev/null; then
-		REPOS_RELEASE=`echo $arg | sed 's/--with-release=/\1/'`
+		REPOS_RELEASE=`echo $arg | sed 's/--with-release=//'`
 	    else
 		REPOS_RELEASE="trunk"
 	    fi

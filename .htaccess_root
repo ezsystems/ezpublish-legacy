@@ -1,3 +1,7 @@
+# Copy this file to a new file called .htaccess in your eZ publish root
+# to make the site more secure in non-virtualhost mode (index.php used in urls).
+#
+
 <FilesMatch ".">
 order allow,deny
 deny from all

@@ -101,6 +101,10 @@ eZ DB:
 - Tests more files and directories in bin/modfix.sh for the eZ publish root detection.
 - Datatabase update files were devided in parts for each release and database.
 
+*Removed files:
+- Removed database_update.sql, this file was split into multiple files for each version and database types.
+  See update/database for new files.
+
 *Changed templates:
 - Fixed the problem with creating objects in design/admin/override/templates/node/view/full_class_3.tpl.
   This means that it will no longer ask for placement when using Create Here button.
