@@ -66,12 +66,14 @@ if ( $layoutINI->hasGroup( $LayoutStyle ) )
     $http->UseFullUrl = false;
     if ( $layoutINI->hasVariable( $LayoutStyle, 'PageLayout' ) )
     {
-        if ( $layoutINI->variable( $LayoutStyle, 'UseFullUrl' ) == 'true' )
+        if ( $layoutINI->hasVariable( $LayoutStyle, 'UseFullUrl' ) )
         {
-            $http->UseFullUrl = true;
+            if ( $layoutINI->variable( $LayoutStyle, 'UseFullUrl' ) == 'true' )
+            {
+                $http->UseFullUrl = true;
+            }
         }
     }
-
     $Module->setExitStatus( EZ_MODULE_STATUS_RERUN );
 }
 else
