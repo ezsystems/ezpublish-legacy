@@ -766,6 +766,7 @@ div.widthcontrol a:hover, div.settings a:hover
 {
     color: #ffffff;
     background-color: #2D537A;
+    text-decoration: none;
 }
 
 div.widthcontrol span.current, div.settings span.current
