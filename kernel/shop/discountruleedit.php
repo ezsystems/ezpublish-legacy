@@ -63,6 +63,7 @@ if ( is_numeric( $discountRuleID ) )
 else
 {
     $discountRule =& eZDiscountSubRule::create( $discountGroupID );
+    $discountRule->setAttribute( "name", ezi18n( "design/admin/shop/discountruleedit", "New discount rule" ) );
     $discountRule->store();
     $discountRuleID = $discountRule->attribute( "id" );
     $module->redirectTo( $module->functionURI( "discountruleedit" ) . "/" . $discountGroupID . "/" . $discountRuleID );

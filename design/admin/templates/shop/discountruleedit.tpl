@@ -28,7 +28,7 @@
 
 {* Classes *}
 <div class="element">
-<label>{'Classes'|i18n( 'design/admin/shop/discountruleedit' )}</label>
+<label>{'Product types'|i18n( 'design/admin/shop/discountruleedit' )}</label>
 <select name="Contentclasses[]" size="5" multiple="multiple" >
 <option value="-1" {section show=$class_any_selected}selected="selected"{/section} >{'Any'|i18n( 'design/admin/shop/discountruleedit' )}</option>
 {section name=Classes loop=$product_class_list}
@@ -41,7 +41,7 @@
 
 {* Sections *}
 <div class="element">
-<label>{'Sections'|i18n( 'design/admin/shop/discountruleedit' )}</label>
+<label>{'in sections'|i18n( 'design/admin/shop/discountruleedit' )}</label>
 <select name="Sections[]" size="5" multiple="multiple" >
 <option value="-1" {section show=$section_any_selected}selected="selected"{/section}>{'Any'|i18n( 'design/admin/shop/discountruleedit' )}</option>
 {section name=Sections loop=$section_list}
@@ -53,31 +53,24 @@
 </div>
 
 {* Objects *}
-<div class="element">
-<label>{'Objects'|i18n( 'design/admin/shop/discountruleedit' )}</label>
-<table>
+<div class="block">
+<label>{'Individual products'|i18n( 'design/admin/shop/discountruleedit' )}</label>
+<table class="list" cellspacing="0">
 <tr>
-<th>&nbsp;</th>
+<th class="tight"><img src="/~fh/trunk/design/admin/images/toggle-button-16x16.gif" alt="Invert selection." title="Invert selection." onclick="ezjs_toggleCheckboxes( document.DiscountRuleEdit, 'DeleteProductIDArray[]' ); return false;" /></th>
 <th>{'Name'|i18n( 'design/standard/shop/discountruleedit' )}</th>
 </tr>
-{section show=$product_list name=Products loop=$product_list}
-<tr>
-<td><input type="checkbox" name="DeleteProductIDArray[]" value="{$Products:item.id}" /></td>
-<td>{$Products:item.name|wash}</td>
-</tr>
-{section-else}
-<tr>
-<td>
-{'Not specified.'|i18n( 'design/admin/shop' )}
-</td>
-<td></td>
+{section var=Product show=$product_list loop=$product_list sequence=array( bglight, bgdark )}
+<tr class="{$Product.sequence}">
+<td><input type="checkbox" name="DeleteProductIDArray[]" value="{$Product.id}" /></td>
+<td>{$Product.name|wash}</td>
 </tr>
 {/section}
 </table>
-<input class="menubutton" type="image" name="BrowseProductButton" value="{'Find'|i18n('design/standard/shop')}" src={'find.png'|ezimage} />
-{section show=$product_list}
-<input class="menubutton" type="image" name="DeleteProductButton" value="{'Remove'|i18n('design/standard/shop')}" src={'trash.png'|ezimage} />
-{/section}
+
+
+<input class="button" type="submit" name="DeleteProductButton" value="{'Remove'|i18n('design/standard/shop')}"  />
+<input class="button" type="submit" name="BrowseProductButton" value="{'Add'|i18n('design/standard/shop')}" />
 </div>
 <div class="break"></div>
 </div>
