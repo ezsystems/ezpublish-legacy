@@ -64,6 +64,31 @@ $colors = array( 'warning' => "\033[1;35m",
                  'normal' => "\033[0;39m" );
 
 $optionsWithData = array( 's' );
+$longOptionsWithData = array( 'siteaccess' );
+
+function help()
+{
+    print( "Usage: " . $argv[0] . " [OPTION]... [cronpart]\n" .
+           "Executes eZ publish cronjobs.\n\n" .
+           "  -h,--help          display this help and exit \n" .
+           "  -s,--siteaccess    selected siteaccess for operations, if not specified default siteaccess is used\n" .
+           "  -d,--debug         display debug output at end of execution\n" .
+           "  -c,--colors        display output using ANSI colors\n" .
+           "  --no-colors        do not use ANSI coloring (default)\n" );
+}
+
+function changeSiteAccessSetting( &$siteaccess, $optionData )
+{
+    if ( file_exists( 'settings/siteaccess/' . $optionData ) )
+    {
+        $siteaccess = $optionData;
+        print( "Using siteaccess $siteaccess for cronjob" );
+    }
+    else
+    {
+        print( "Siteaccess $optionData does not exist, using default siteaccess" );
+    }
+}
 
 for ( $i = 1; $i < count( $argv ); ++$i )
 {
@@ -75,7 +100,25 @@ for ( $i = 1; $i < count( $argv ); ++$i )
              $arg[1] == '-' )
         {
             $flag = substr( $arg, 2 );
-            if ( $flag == 'colors' )
+            if ( in_array( $flag, $longOptionsWithData ) )
+            {
+                $optionData = $argv[$i+1];
+                ++$i;
+            }
+            if ( $flag == 'help' )
+            {
+                help();
+                exit();
+            }
+            else if ( $flag == 'siteaccess' )
+            {
+                changeSiteAccessSetting( $siteaccess, $optionData );
+            }
+            else if ( $flag == 'debug' )
+            {
+                $debugOutput = true;
+            }
+            else if ( $flag == 'colors' )
             {
                 $useColors = true;
             }
@@ -86,7 +129,7 @@ for ( $i = 1; $i < count( $argv ); ++$i )
         }
         else
         {
-            $flag = substr( $arg, 1 );
+            $flag = substr( $arg, 1, 1 );
             $optionData = false;
             if ( in_array( $flag, $optionsWithData ) )
             {
@@ -102,13 +145,7 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             }
             if ( $flag == 'h' )
             {
-                print( "Usage: " . $argv[0] . " [OPTION]... [cronpart]\n" .
-                       "Executes eZ publish cronjobs.\n\n" .
-                       "  -h             display this help and exit \n" .
-                       "  -s             selected siteaccess for operations, if not specified default siteaccess is used\n" .
-                       "  -d             display debug output at end of execution\n" .
-                       "  -c,--colors    display output using ANSI colors\n" .
-                       "  --no-colors    do not use ANSI coloring (default)\n" );
+                help();
                 exit();
             }
             else if ( $flag == 'c' )
@@ -121,14 +158,7 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             }
             else if ( $flag == 's' )
             {
-                if ( file_exists( 'settings/siteaccess/' . $optionData ) )
-                {
-                    $siteaccess = $optionData;
-                }
-                else
-                {
-                    print( "Siteaccess $optionData does not exist, using default siteaccess" );
-                }
+                changeSiteAccessSetting( $siteaccess, $optionData );
             }
         }
     }
