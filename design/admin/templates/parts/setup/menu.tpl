@@ -40,7 +40,7 @@
 <li>&#187; <a href={"/content/translations/"|ezurl}>{"Translations"|i18n("design/admin/layout")}</a></li>
 <li>&#187; <a href={"/package/list/"|ezurl}>{"Packages"|i18n("design/admin/layout")}</a></li>
 <li>&#187; <a href={"/notification/runfilter/"|ezurl}>{"Notification"|i18n("design/admin/layout")}</a></li>
-
+<li>&#187; <a href={"/setup/systemupgrade"|ezurl}>{"System upgrade"|i18n("design/admin/layout")}</a></li>
 </ul>
 {section-else}
  <a class="leftmenuitem" href={"/user/preferences/set/advanced_menu/on"|ezurl}>{"Advanced"|i18n("design/admin/layout")}</a>

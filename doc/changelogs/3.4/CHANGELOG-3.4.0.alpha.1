@@ -27,6 +27,7 @@ Changes from 3.3 to 3.4.0-alpha-1
 - Added setting for adjusting default value of ezdatetime datatype based on current date
 - Added ezcontentobject_tree.modified_subnode to eZContentObjectTreeNode to make fetches of last 
   modified subtree faster.
+- Added MD5 check of distribution files. Both scripts and GUI for checking files added.
 
 *Setup
 - Added admin user creation during setup.
@@ -78,8 +79,6 @@ eZ PHP creator:
   returns it.
 - Created new private function writeElements() which writes all elements
   to the text array, this function is now used in both store() and fetch().
-
-
 
 *Bugs:
 - Fixed several minor bugs with url prefix.

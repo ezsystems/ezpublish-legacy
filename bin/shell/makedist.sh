@@ -384,6 +384,23 @@ if [ -f "$DEST_ROOT/$BASE.zip" ]; then
     rm -f "$DEST_ROOT/$BASE.zip";
 fi
 
+# Create MD5 check sums
+echo "Creating MD5 check sums"
+(cd $DEST
+    MD5_FILES=`find * -name "*.php" -or -name "*.ini" -or -name "*.sh" -or -name "*.sql"`
+    
+    for MD5_FILE in $MD5_FILES; do
+        md5sum $MD5_FILE >> var/storage/filelist.md5
+    done
+
+    MD5_FILES=`find design/* -name "*.tpl"`
+
+    for MD5_FILE in $MD5_FILES; do
+        md5sum $MD5_FILE >> var/storage/filelist.md5
+
+    done)
+
+
 # Create archives
 echo -n "Creating `$SETCOLOR_FILE`tar.gz`$SETCOLOR_NORMAL` file"
 (cd $DEST_ROOT

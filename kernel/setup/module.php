@@ -61,7 +61,6 @@ $ViewList["info"] = array(
     "default_navigation_part" => 'ezsetupnavigationpart',
     "params" => array( ) );
 
-
 $ViewList["rad"] = array(
     "script" => "rad.php",
     "default_navigation_part" => 'ezsetupnavigationpart',
@@ -119,6 +118,12 @@ $ViewList["extensions"] = array(
 $ViewList['menu'] = array(
     'script' => 'setupmenu.php',
     'default_navigation_part' => 'ezsetupnavigationpart',
+    'params' => array( ) );
+
+$ViewList['systemupgrade'] = array(
+    'script' => 'systemupgrade.php',
+    'default_navigation_part' => 'ezsetupnavigationpart',
+    'single_post_actions' => array( 'MD5CheckButton' => 'MD5Check' ),
     'params' => array( ) );
 
 ?>
