@@ -14,14 +14,14 @@ div#header
 {
     margin-top: 12px;
     background-color: #cc0000;
-    background-image: url(../images/header-background-top_left.gif);
+/*    background-image: url(../images/header-background-top_left.gif); */
     background-position: top left;
     background-repeat: no-repeat;
 }
 
 div#header div.design
 {
-    background-image: url(../images/header-background-top_right.gif);
+/*    background-image: url(../images/header-background-top_right.gif); */
     background-position: top right;
     background-repeat: no-repeat;
     height: 100px;
@@ -30,7 +30,7 @@ div#header div.design
 div#logo img
 {
     margin-top: 20px;
-    margin-left: 150px;
+    margin-left: 10px;
 }
 
 div#subheader
@@ -131,10 +131,10 @@ div#shoppingmenu li
 
 div#shoppingmenu a
 {
-    padding-left: 2em;
+    padding-left: 1em;
     padding-right: 1em;
     background-image: url(../images/shopping-menu-icon.gif);
-    background-position: top left;
+    background-position: left;
     background-repeat: no-repeat;
     color: #ffffff;
     text-decoration: none;
@@ -185,7 +185,7 @@ div#path a
 
 div#maincolumns
 {
-    background-image: url(../images/left_sidebar-background.gif);
+    background-image: url(../images/left_sidebar-background.gif); 
     background-position: top left;
     background-repeat: repeat-y;
     border-bottom: 1px solid #000000;
