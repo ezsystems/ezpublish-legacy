@@ -247,26 +247,6 @@ class eZContentFunctionCollection
         return array( 'result' => $draftVersionList[0]['count'] );
     }
 
-    function canInstantiateClassList( $groupID )
-    {
-        if ( $groupID > 0 )
-        {
-            include_once( 'kernel/classes/ezcontentclassclassgroup.php' );
-            return array( 'result' => eZContentClassClassGroup::fetchClassList( 0, $groupID ) );
-        }
-        else
-        {
-            include_once( 'kernel/classes/ezcontentclass.php' );
-            return array( 'result' => eZContentClass::canInstantiateClassList() );
-        }
-    }
-
-    function canInstantiateClasses()
-    {
-        include_once( 'kernel/classes/ezcontentclass.php' );
-        return array( 'result' => eZContentClass::canInstantiateClasses() );
-    }
-
     function canInstantiateClassList( $groupID, $parentNode )
     {
         eZDebug::writeDebug( $parentNode, "parent node" );
