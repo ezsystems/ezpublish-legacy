@@ -217,6 +217,12 @@ $ViewList["translations"] = array(
                                        'Confirm' => array( 'ConfirmList' => 'ConfirmTranlationID' ) ),
     "params" => array( ) );
 
+$ViewList["tipafriend"] = array(
+    "functions" => array( 'read' ),
+    "default_navigation_part" => 'ezcontentnavigationpart',
+    "script" => "tipafriend.php",
+    "params" => array( "NodeID" ) );
+
 
 
 

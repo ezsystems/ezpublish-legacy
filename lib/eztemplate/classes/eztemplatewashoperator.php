@@ -96,7 +96,7 @@ class eZTemplateWashOperator
             } break;
             default:
             {
-                $tpl->warning( $operatorName, "Unkown wash type '$type'" );
+                $tpl->warning( $operatorName, "Unknown wash type '$type'" );
             } break;
         }
     }
