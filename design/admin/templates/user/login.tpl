@@ -45,12 +45,12 @@
 
 <div class="block">
     <label for="id1">{"Login"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
-    <input class="halfbox" type="text" size="10" name="Login" id="id1" value="{$User:login}" />
+    <input class="halfbox" type="text" size="10" name="Login" id="id1" value="{$User:login}" tabindex="1"/>
 </div>
 
 <div class="block">
     <label for="id2">{"Password"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
-    <input class="halfbox" type="password" size="10" name="Password" id="id2" value="" />
+    <input class="halfbox" type="password" size="10" name="Password" id="id2" value="" tabindex="1"/>
 </div>
 
 </div>
@@ -65,8 +65,8 @@
 <div class="box-bl"><div class="box-br">
 
 <div class="block">
-    <input class="button" type="submit" name="LoginButton" value="{'Login'|i18n('design/standard/user','Button')}" />
-    <input class="button" type="submit" name="RegisterButton" value="{'Sign Up'|i18n('design/standard/user','Button')}" />
+    <input class="button" type="submit" name="LoginButton" value="{'Login'|i18n('design/standard/user','Button')}" tabindex="1" />
+    <input class="button" type="submit" name="RegisterButton" value="{'Sign Up'|i18n('design/standard/user','Button')}" tabindex="1" />
 </div>
 
 </div></div>
