@@ -411,7 +411,10 @@ class eZXMLInputHandler
         $output = "";
         foreach ( $section->children() as $sectionNode )
         {
-            $tagName = $sectionNode->name();
+            if ( get_class( $sectionNode ) == "ezdomnode" )
+                $tagName = $sectionNode->name();
+            else
+                $tagName = "";
             switch ( $tagName )
             {
                 case 'header' :
