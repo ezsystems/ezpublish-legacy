@@ -64,7 +64,7 @@ class eZURI
      Sets the current URI string to $uri, the URI is then split into array elements
      and index reset to 1.
     */
-    function setURIString( $uri )
+    function setURIString( $uri, $fullInitialize = true )
     {
         if ( strlen( $uri ) > 0 and
              $uri[0] == '/' )
@@ -73,25 +73,31 @@ class eZURI
         $this->URIArray = explode( '/', $uri );
         $this->Index = 0;
 
-        $this->UserArray = array();
-
-        foreach( array_keys( $this->URIArray ) as $key )
+        if ( $fullInitialize )
         {
-            if ( isset( $this->URIArray[$key] ) && preg_match( "(^[\(][a-zA-Z0-9_]+[\)])", $this->URIArray[$key] ) )
+            $this->OriginalURI = $uri;
+
+            $this->UserArray = array();
+
+            foreach( array_keys( $this->URIArray ) as $key )
             {
-                $this->UserArray[substr( $this->URIArray[$key], 1, strlen( $this->URIArray[$key] ) - 2 )] = $this->URIArray[$key+1];
-                unset( $this->URIArray[$key] );
-                unset( $this->URIArray[$key+1] );
+                if ( isset( $this->URIArray[$key] ) && preg_match( "(^[\(][a-zA-Z0-9_]+[\)])", $this->URIArray[$key] ) )
+                {
+                    $this->UserArray[substr( $this->URIArray[$key], 1, strlen( $this->URIArray[$key] ) - 2 )] = $this->URIArray[$key+1];
+                    unset( $this->URIArray[$key] );
+                    unset( $this->URIArray[$key+1] );
+                }
+            }
+            // Remake the URI without any user parameters
+            $this->URI = implode( '/', $this->URIArray );
+
+            include_once( 'lib/ezutils/classes/ezini.php' );
+            $ini =& eZINI::instance( 'template.ini' );
+            if ( $ini->variable( 'ControlSettings', 'AllowUserVariables' ) == 'false' )
+            {
+            $this->UserArray = array();
             }
         }
-
-        include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance( 'template.ini' );
-        if ( $ini->variable( 'ControlSettings', 'AllowUserVariables' ) == 'false' )
-        {
-            $this->UserArray = array();
-        }
-
     }
 
     /*!
@@ -101,6 +107,18 @@ class eZURI
     function &uriString( $withLeadingSlash = false )
     {
         $uri = $this->URI;
+        if ( $withLeadingSlash )
+            $uri = "/$uri";
+        return $uri;
+    }
+
+    /*!
+     \return the URI passed to the object with user parameters (if any).
+     \note the URI will not include the leading \c / if \a $withLeadingSlash is \c true.
+    */
+    function &originalURIString( $withLeadingSlash = false )
+    {
+        $uri = $this->OriginalURI;
         if ( $withLeadingSlash )
             $uri = "/$uri";
         return $uri;
@@ -185,6 +203,12 @@ class eZURI
         $elements = array_slice( $this->URIArray, $this->Index );
         $this->URIArray = $elements;
         $this->URI = implode( '/', $this->URIArray );
+        $uri = $this->URI;
+        foreach ( $this->UserArray as $name => $value )
+        {
+            $uri .= '/(' . $name . ')/' . $value;
+        }
+        $this->OriginalURI = $uri;
         $this->Index = 0;
     }
 
@@ -236,7 +260,7 @@ class eZURI
     */
     function attributes()
     {
-        return array( 'element', 'base', 'tail', 'index', 'uri' );
+        return array( 'element', 'base', 'tail', 'index', 'uri', 'original_uri' );
     }
 
     /*!
@@ -244,7 +268,7 @@ class eZURI
     */
     function hasAttribute( $attr )
     {
-        return $attr == 'element' or $attr == 'base' or $attr == 'tail' or $attr == 'index' or $attr == 'uri';
+        return $attr == 'element' or $attr == 'base' or $attr == 'tail' or $attr == 'index' or $attr == 'uri' or $attr == 'original_uri';
     }
 
     /*!
@@ -264,6 +288,8 @@ class eZURI
                 return $this->index();
             case 'uri':
                 return $this->uriString();
+            case 'original_uri':
+                return $this->originalURIString();
         }
         return null;
     }
