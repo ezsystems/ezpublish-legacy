@@ -410,6 +410,7 @@ class eZTemplateSectionFunction
             $code .= ( "    if ( is_array( \$loopItem ) )\n" .
                        "    {\n" .
                        "        \$loopKey = \$loopKeys[\$index];\n" .
+                       "        unset( \$item );\n" .
                        "        \$item = \$loopItem[\$loopKey];\n" .
                        "    }\n" );
 
