@@ -42,11 +42,15 @@ if ( isset( $Params["UserID"] ) )
 
 $http =& eZHTTPTool::instance();
 
-$userSetting =& eZUserSetting::fetch( $UserID );
-$currentUser =& eZUser::currentUser();
-if ( $currentUser->attribute( 'contentobject_id' ) != $userSetting->attribute( 'contentobject_id' ) or
-     !$currentUser->isLoggedIn() )
+$user =& eZUser::fetch( $UserID );
+if ( !$user )
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+$userObject =& $user->attribute( 'contentobject' );
+if ( !$userObject )
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+if ( !$userObject->canEdit() )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+$userSetting =& eZUserSetting::fetch( $UserID );
 
 if ( $http->hasPostVariable( "UpdateSettingButton" ) )
 {

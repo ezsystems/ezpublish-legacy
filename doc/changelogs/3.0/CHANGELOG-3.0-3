@@ -16,3 +16,6 @@ eZ XML:
 * Security:
 - Fixed a security exploit in user edit which would allow
   anyone to edit the user content of a specific user.
+  Now the only users who have content/edit permission on
+  the user object can changed the settings and profile.
+

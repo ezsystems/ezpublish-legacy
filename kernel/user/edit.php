@@ -40,8 +40,6 @@ include_once( "kernel/classes/ezcontentobject.php" );
 include_once( "kernel/classes/ezcontentobjectattribute.php" );
 
 
-
-
 $currentUser =& eZUser::currentUser();
 $currentUserID = $currentUser->attribute( "contentobject_id" );
 $http =& eZHTTPTool::instance();
@@ -75,9 +73,12 @@ if ( $Module->isCurrentAction( "Edit" ) )
 }
 
 $userAccount =& eZUser::fetch( $UserID );
-$currentUser =& eZUser::currentUser();
-if ( $currentUser->attribute( 'contentobject_id' ) != $userAccount->attribute( 'contentobject_id' ) or
-     !$currentUser->isLoggedIn() )
+if ( !$userAccount )
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+$userObject =& $userAccount->attribute( 'contentobject' );
+if ( !$userObject )
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+if ( !$userObject->canEdit() )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
 include_once( "kernel/common/template.php" );
