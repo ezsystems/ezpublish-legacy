@@ -16,6 +16,7 @@ Changes from 3.2-2 to 3.2-3
 - Improved the image conversion to properly recognize different fileformats, the
   correct suffix is also used for the reference name. Thanks to Volker Lenz for
   a patch solving the default rule problem.
+- Added != (not equal) to the list of possible operators in attribute sorting and filtering.
 
 *DataType:
 
