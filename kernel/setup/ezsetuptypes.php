@@ -431,345 +431,345 @@ function eZSetupAdminOverrideINISettings( $siteType, $parameters )
         'name' => 'override.ini',
         'settings' =>
         array (
-            'browse_media' => 
+            'browse_media' =>
             array (
                 'Source' => 'content/browse.tpl',
                 'MatchFile' => 'browse_media.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'navigation_part_identifier' => 'ezmedianavigationpart',
+                    'navigation_part_identifier' => 'ezmedianavigationpart'
                     ),
                 ),
-            'browse_thumbnail_image' => 
+            'browse_thumbnail_image' =>
             array (
                 'Source' => 'node/view/browse_thumbnail.tpl',
                 'MatchFile' => 'image_browse_thumbnail.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'image',
+                    'class_identifier' => 'image'
                     ),
                 ),
-            'browse_thumbnail_folder' => 
+            'browse_thumbnail_folder' =>
             array (
                 'Source' => 'node/view/browse_thumbnail.tpl',
                 'MatchFile' => 'folder_browse_thumbnail.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'folder',
+                    'class_identifier' => 'folder'
                     ),
                 ),
-            'media_folder' => 
+            'media_folder' =>
             array (
                 'Source' => 'node/view/full.tpl',
                 'MatchFile' => 'media_folder.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
                     'class_identifier' => 'folder',
-                    'navigation_part_identifier' => 'ezmedianavigationpart',
+                    'navigation_part_identifier' => 'ezmedianavigationpart'
                     ),
                 ),
-            'folder' => 
+            'folder' =>
             array (
                 'Source' => 'node/view/full.tpl',
                 'MatchFile' => 'folder.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'folder',
+                    'class_identifier' => 'folder'
                     ),
                 ),
-            'thumbnail_folder' => 
+            'thumbnail_folder' =>
             array (
                 'Source' => 'node/view/thumbnail.tpl',
                 'MatchFile' => 'folder_thumbnail.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'folder',
+                    'class_identifier' => 'folder'
                     ),
                 ),
-            'folder_plain' => 
+            'folder_plain' =>
             array (
                 'Source' => 'node/view/plain.tpl',
                 'MatchFile' => 'folder_plain.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'folder',
+                    'class_identifier' => 'folder'
                     ),
                 ),
-            'article' => 
+            'article' =>
             array (
                 'Source' => 'node/view/full.tpl',
                 'MatchFile' => 'article.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'article',
+                    'class_identifier' => 'article'
                     ),
                 ),
-            'article_plain' => 
+            'article_plain' =>
             array (
                 'Source' => 'node/view/plain.tpl',
                 'MatchFile' => 'article_plain.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'article',
+                    'class_identifier' => 'article'
                     ),
                 ),
-            'user_group' => 
+            'user_group' =>
             array (
                 'Source' => 'node/view/full.tpl',
                 'MatchFile' => 'user_group.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'user_group',
+                    'class_identifier' => 'user_group'
                     ),
                 ),
-            'user_group_plain' => 
+            'user_group_plain' =>
             array (
                 'Source' => 'node/view/plain.tpl',
                 'MatchFile' => 'user_group_plain.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'user_group',
+                    'class_identifier' => 'user_group'
                     ),
                 ),
-            'user' => 
+            'user' =>
             array (
                 'Source' => 'node/view/full.tpl',
                 'MatchFile' => 'user.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'user',
+                    'class_identifier' => 'user'
                     ),
                 ),
-            'user_plain' => 
+            'user_plain' =>
             array (
                 'Source' => 'node/view/plain.tpl',
                 'MatchFile' => 'user_plain.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'user',
+                    'class_identifier' => 'user'
                     ),
                 ),
-            'forum' => 
+            'forum' =>
             array (
                 'Source' => 'node/view/full.tpl',
                 'MatchFile' => 'forum.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'forum',
+                    'class_identifier' => 'forum'
                     ),
                 ),
-            'forum_plain' => 
+            'forum_plain' =>
             array (
                 'Source' => 'node/view/plain.tpl',
                 'MatchFile' => 'forum_plain.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'forum',
+                    'class_identifier' => 'forum'
                     ),
                 ),
-            'product' => 
+            'product' =>
             array (
                 'Source' => 'node/view/full.tpl',
                 'MatchFile' => 'product.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'product',
+                    'class_identifier' => 'product'
                     ),
                 ),
-            'product_plain' => 
+            'product_plain' =>
             array (
                 'Source' => 'node/view/plain.tpl',
                 'MatchFile' => 'product_plain.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'product',
+                    'class_identifier' => 'product'
                     ),
                 ),
-            'file' => 
+            'file' =>
             array (
                 'Source' => 'node/view/full.tpl',
                 'MatchFile' => 'file.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'file',
+                    'class_identifier' => 'file'
                     ),
                 ),
-            'file_line' => 
+            'file_line' =>
             array (
                 'Source' => 'node/view/line.tpl',
                 'MatchFile' => 'file_line.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'file',
+                    'class_identifier' => 'file'
                     ),
                 ),
-            'file_plain' => 
+            'file_plain' =>
             array (
                 'Source' => 'node/view/plain.tpl',
                 'MatchFile' => 'file_plain.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'file',
+                    'class_identifier' => 'file'
                     ),
                 ),
-            'comment' => 
+            'comment' =>
             array (
                 'Source' => 'node/view/full.tpl',
                 'MatchFile' => 'comment.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'comment',
+                    'class_identifier' => 'comment'
                     ),
                 ),
-            'linkclass' => 
+            'linkclass' =>
             array (
                 'Source' => 'node/view/full.tpl',
                 'MatchFile' => 'linkclass.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'link',
+                    'class_identifier' => 'link'
                     ),
                 ),
-            'person' => 
+            'person' =>
             array (
                 'Source' => 'node/view/full.tpl',
                 'MatchFile' => 'person.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'person',
+                    'class_identifier' => 'person'
                     ),
                 ),
-            'company' => 
+            'company' =>
             array (
                 'Source' => 'node/view/full.tpl',
                 'MatchFile' => 'company.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'company',
+                    'class_identifier' => 'company'
                     ),
                 ),
-            'embed_image' => 
+            'embed_image' =>
             array (
                 'Source' => 'content/view/embed.tpl',
                 'MatchFile' => 'embed_image.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'image',
+                    'class_identifier' => 'image'
                     ),
                 ),
-            'thumb_image' => 
+            'thumb_image' =>
             array (
                 'Source' => 'node/view/thumb.tpl',
                 'MatchFile' => 'image_thumb.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'image',
+                    'class_identifier' => 'image'
                     ),
                 ),
-            'image' => 
+            'image' =>
             array (
                 'Source' => 'node/view/full.tpl',
                 'MatchFile' => 'image.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'image',
+                    'class_identifier' => 'image'
                     ),
                 ),
-            'image_plain' => 
+            'image_plain' =>
             array (
                 'Source' => 'node/view/plain.tpl',
                 'MatchFile' => 'image_plain.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'image',
+                    'class_identifier' => 'image'
                     ),
                 ),
-            'edit_common_ini_settings' => 
+            'edit_common_ini_settings' =>
             array (
                 'Source' => 'content/edit.tpl',
                 'MatchFile' => 'edit_common_ini_settings.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'common_ini_settings',
+                    'class_identifier' => 'common_ini_settings'
                     ),
                 ),
-            'edit_template_look' => 
+            'edit_template_look' =>
             array (
                 'Source' => 'content/edit.tpl',
                 'MatchFile' => 'edit_template_look.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'template_look',
+                    'class_identifier' => 'template_look'
                     ),
                 ),
-            'edit_person_datatype_matrix' => 
+            'edit_person_datatype_matrix' =>
             array (
                 'Source' => 'content/datatype/edit/ezmatrix.tpl',
                 'MatchFile' => 'edit_datatype_ezmatrix.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'person',
+                    'class_identifier' => 'person'
                     ),
                 ),
-            'edit_company_datatype_matrix' => 
+            'edit_company_datatype_matrix' =>
             array (
                 'Source' => 'content/datatype/edit/ezmatrix.tpl',
                 'MatchFile' => 'edit_datatype_ezmatrix.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'company',
+                    'class_identifier' => 'company'
                     ),
                 ),
-            'matrix_person_view' => 
+            'matrix_person_view' =>
             array (
                 'Source' => 'content/datatype/view/ezmatrix.tpl',
                 'MatchFile' => 'matrix_view.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'person',
+                    'class_identifier' => 'person'
                     ),
                 ),
-            'matrix_company_view' => 
+            'matrix_company_view' =>
             array (
                 'Source' => 'content/datatype/view/ezmatrix.tpl',
                 'MatchFile' => 'matrix_view.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'company',
+                    'class_identifier' => 'company'
                     ),
                 ),
             ),
@@ -788,7 +788,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'folder',
+                    'class_identifier' => 'folder'
                     ),
                 ),
             'line_folder' =>
@@ -798,7 +798,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'folder',
+                    'class_identifier' => 'folder'
                     ),
                 ),
             'embed_folder_list' =>
@@ -809,7 +809,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Match' =>
                 array (
                     'class_identifier' => 'folder',
-                    'classification' => 'list',
+                    'classification' => 'list'
                     ),
                 ),
             'embed_folder_subtree' =>
@@ -820,7 +820,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Match' =>
                 array (
                     'class_identifier' => 'folder',
-                    'classification' => 'subtreelist',
+                    'classification' => 'subtreelist'
                     ),
                 ),
             'embed_folder_contentlist' =>
@@ -830,7 +830,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'folder',
+                    'class_identifier' => 'folder'
                     ),
                 ),
             'edit_user' =>
@@ -840,7 +840,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'user',
+                    'class_identifier' => 'user'
                     ),
                 ),
             'article_full' =>
@@ -850,7 +850,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'article',
+                    'class_identifier' => 'article'
                     ),
                 ),
             'article_line' =>
@@ -860,7 +860,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'article',
+                    'class_identifier' => 'article'
                     ),
                 ),
             'article_listitem' =>
@@ -870,7 +870,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'article',
+                    'class_identifier' => 'article'
                     ),
                 ),
             'article_embed' =>
@@ -880,7 +880,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'article',
+                    'class_identifier' => 'article'
                     ),
                 ),
             'class_image' =>
@@ -890,7 +890,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'article',
+                    'class_identifier' => 'article'
                     ),
                 ),
             'full_comment' =>
@@ -900,7 +900,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class' => '13',
+                    'class' => '13'
                     ),
                 ),
             'line_comment' =>
@@ -910,7 +910,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'comment',
+                    'class_identifier' => 'comment'
                     ),
                 ),
             'edit_comment' =>
@@ -920,7 +920,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'comment',
+                    'class_identifier' => 'comment'
                     ),
                 ),
             'file_full' =>
@@ -930,7 +930,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'file',
+                    'class_identifier' => 'file'
                     ),
                 ),
             'file_line' =>
@@ -940,7 +940,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'file',
+                    'class_identifier' => 'file'
                     ),
                 ),
             'edit_file' =>
@@ -950,7 +950,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'file',
+                    'class_identifier' => 'file'
                     ),
                 ),
             'embed_file' =>
@@ -960,7 +960,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'file',
+                    'class_identifier' => 'file'
                     ),
                 ),
             'file_listitem' =>
@@ -970,7 +970,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'file',
+                    'class_identifier' => 'file'
                     ),
                 ),
             'file_binaryfile' =>
@@ -986,7 +986,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'link',
+                    'class_identifier' => 'link'
                     ),
                 ),
             'line_link' =>
@@ -996,7 +996,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'link',
+                    'class_identifier' => 'link'
                     ),
                 ),
             'image_full' =>
@@ -1006,7 +1006,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'image',
+                    'class_identifier' => 'image'
                     ),
                 ),
             'image_line' =>
@@ -1016,7 +1016,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'image',
+                    'class_identifier' => 'image'
                     ),
                 ),
             'image_galleryline' =>
@@ -1026,7 +1026,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'image',
+                    'class_identifier' => 'image'
                     ),
                 ),
             'image_galleryslide' =>
@@ -1036,7 +1036,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'image',
+                    'class_identifier' => 'image'
                     ),
                 ),
             'image_listitem' =>
@@ -1046,7 +1046,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'image',
+                    'class_identifier' => 'image'
                     ),
                 ),
             'image_embed' =>
@@ -1056,7 +1056,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'image',
+                    'class_identifier' => 'image'
                     ),
                 ),
             'text_linked_image' =>
@@ -1066,7 +1066,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class' => '5',
+                    'class' => '5'
                     ),
                 ),
             'flash_full' =>
@@ -1076,7 +1076,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'flash',
+                    'class_identifier' => 'flash'
                     ),
                 ),
             'flash_line' =>
@@ -1086,7 +1086,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'flash',
+                    'class_identifier' => 'flash'
                     ),
                 ),
             'embed_flash' =>
@@ -1096,7 +1096,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'flash',
+                    'class_identifier' => 'flash'
                     ),
                 ),
             'quicktime_full' =>
@@ -1106,7 +1106,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'quicktime',
+                    'class_identifier' => 'quicktime'
                     ),
                 ),
             'quicktime_line' =>
@@ -1116,7 +1116,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'quicktime',
+                    'class_identifier' => 'quicktime'
                     ),
                 ),
             'embed_quicktime' =>
@@ -1126,7 +1126,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'quicktime',
+                    'class_identifier' => 'quicktime'
                     ),
                 ),
             'windows_media_full' =>
@@ -1136,7 +1136,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'windows_media',
+                    'class_identifier' => 'windows_media'
                     ),
                 ),
             'windows_media_line' =>
@@ -1146,7 +1146,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'windows_media',
+                    'class_identifier' => 'windows_media'
                     ),
                 ),
             'embed_windows_media' =>
@@ -1156,7 +1156,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'windows_media',
+                    'class_identifier' => 'windows_media'
                     ),
                 ),
             'real_video_full' =>
@@ -1166,7 +1166,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'real_video',
+                    'class_identifier' => 'real_video'
                     ),
                 ),
             'real_video_line' =>
@@ -1176,7 +1176,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'real_video',
+                    'class_identifier' => 'real_video'
                     ),
                 ),
             'embed_real_video' =>
@@ -1186,7 +1186,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'real_video',
+                    'class_identifier' => 'real_video'
                     ),
                 ),
             'forum_full' =>
@@ -1196,7 +1196,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'forum',
+                    'class_identifier' => 'forum'
                     ),
                 ),
             'forum_line' =>
@@ -1206,7 +1206,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'forum',
+                    'class_identifier' => 'forum'
                     ),
                 ),
             'forum_embed' =>
@@ -1216,7 +1216,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'forum',
+                    'class_identifier' => 'forum'
                     ),
                 ),
             'forum_topic_edit' =>
@@ -1226,7 +1226,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'forum_topic',
+                    'class_identifier' => 'forum_topic'
                     ),
                 ),
             'forum_topic_full' =>
@@ -1236,7 +1236,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'forum_topic',
+                    'class_identifier' => 'forum_topic'
                     ),
                 ),
             'forum_topic_line' =>
@@ -1246,7 +1246,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'forum_topic',
+                    'class_identifier' => 'forum_topic'
                     ),
                 ),
             'forum_topic_listitem' =>
@@ -1256,7 +1256,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'forum_topic',
+                    'class_identifier' => 'forum_topic'
                     ),
                 ),
             'forum_reply_full' =>
@@ -1266,7 +1266,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'forum_reply',
+                    'class_identifier' => 'forum_reply'
                     ),
                 ),
             'forum_reply_line' =>
@@ -1276,326 +1276,398 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
-                    'class_identifier' => 'forum_reply',
+                    'class_identifier' => 'forum_reply'
                     ),
                 ),
-            'forum_reply_edit' => 
+            'forum_reply_edit' =>
             array (
                 'Source' => 'content/edit.tpl',
                 'MatchFile' => 'edit/forum_reply.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'forum_reply',
+                    'class_identifier' => 'forum_reply'
                     ),
                 ),
-            'weblog_full' => 
+            'weblog_full' =>
             array (
                 'Source' => 'node/view/full.tpl',
                 'MatchFile' => 'full/weblog.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'weblog',
+                    'class_identifier' => 'weblog'
                     ),
                 ),
-            'weblog_line' => 
+            'weblog_line' =>
             array (
                 'Source' => 'node/view/line.tpl',
                 'MatchFile' => 'line/weblog.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'weblog',
+                    'class_identifier' => 'weblog'
                     ),
                 ),
-            'weblog_edit' => 
+            'weblog_edit' =>
             array (
                 'Source' => 'content/edit.tpl',
                 'MatchFile' => 'edit/weblog.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'weblog',
+                    'class_identifier' => 'weblog'
                     ),
                 ),
-            'product_full' => 
+            'product_full' =>
             array (
                 'Source' => 'node/view/full.tpl',
                 'MatchFile' => 'full/product.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'product',
+                    'class_identifier' => 'product'
                     ),
                 ),
-            'product_line' => 
+            'product_line' =>
             array (
                 'Source' => 'node/view/line.tpl',
                 'MatchFile' => 'line/product.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'product',
+                    'class_identifier' => 'product'
                     ),
                 ),
-            'product_embed' => 
+            'product_embed' =>
             array (
                 'Source' => 'content/view/embed.tpl',
                 'MatchFile' => 'embed/product.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'product',
+                    'class_identifier' => 'product'
                     ),
                 ),
-            'product_listitem' => 
+            'product_listitem' =>
             array (
                 'Source' => 'node/view/listitem.tpl',
                 'MatchFile' => 'listitem/product.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'product',
+                    'class_identifier' => 'product'
                     ),
                 ),
-            'review_line' => 
+            'review_line' =>
             array (
                 'Source' => 'node/view/line.tpl',
                 'MatchFile' => 'line/review.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'review',
+                    'class_identifier' => 'review'
                     ),
                 ),
-            'review_edit' => 
+            'review_edit' =>
             array (
                 'Source' => 'content/edit.tpl',
                 'MatchFile' => 'edit/review.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'review',
+                    'class_identifier' => 'review'
                     ),
                 ),
-            'gallery_full' => 
+            'gallery_full' =>
             array (
                 'Source' => 'node/view/full.tpl',
                 'MatchFile' => 'full/gallery.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'gallery',
+                    'class_identifier' => 'gallery'
                     ),
                 ),
-            'gallery_slideshow' => 
+            'gallery_slideshow' =>
             array (
                 'Source' => 'node/view/slideshow.tpl',
                 'MatchFile' => 'slideshow/gallery.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'gallery',
+                    'class_identifier' => 'gallery'
                     ),
                 ),
-            'gallery_line' => 
+            'gallery_line' =>
             array (
                 'Source' => 'node/view/line.tpl',
                 'MatchFile' => 'line/gallery.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'gallery',
+                    'class_identifier' => 'gallery'
                     ),
                 ),
-            'gallery_embed' => 
+            'gallery_embed' =>
             array (
                 'Source' => 'content/view/embed.tpl',
                 'MatchFile' => 'embed/gallery.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'gallery',
+                    'class_identifier' => 'gallery'
                     ),
                 ),
-            'poll_full' => 
+            'poll_full' =>
             array (
                 'Source' => 'node/view/full.tpl',
                 'MatchFile' => 'full/poll.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'poll',
+                    'class_identifier' => 'poll'
                     ),
                 ),
-            'poll_line' => 
+            'poll_line' =>
             array (
                 'Source' => 'node/view/line.tpl',
                 'MatchFile' => 'line/poll.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'poll',
+                    'class_identifier' => 'poll'
                     ),
                 ),
-            'poll_embed' => 
+            'poll_embed' =>
             array (
                 'Source' => 'content/view/embed.tpl',
                 'MatchFile' => 'embed/poll.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'poll',
+                    'class_identifier' => 'poll'
                     ),
                 ),
-            'poll_result' => 
+            'poll_result' =>
             array (
                 'Source' => 'content/collectedinfo/poll.tpl',
                 'MatchFile' => 'collectedinfo/poll_result.tpl',
                 'Subdir' => 'templates',
                 ),
-            'person_full' => 
+            'person_full' =>
             array (
                 'Source' => 'node/view/full.tpl',
                 'MatchFile' => 'full/person.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'person',
+                    'class_identifier' => 'person'
                     ),
                 ),
-            'person_line' => 
+            'person_line' =>
             array (
                 'Source' => 'node/view/line.tpl',
                 'MatchFile' => 'line/person.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'person',
+                    'class_identifier' => 'person'
                     ),
                 ),
-            'person_embed' => 
+            'person_embed' =>
             array (
                 'Source' => 'content/view/embed.tpl',
                 'MatchFile' => 'embed/person.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'person',
+                    'class_identifier' => 'person'
                     ),
                 ),
-            'edit_person' => 
+            'edit_person' =>
             array (
                 'Source' => 'content/edit.tpl',
                 'MatchFile' => 'edit/person.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'person',
+                    'class_identifier' => 'person'
                     ),
                 ),
-            'company_full' => 
+            'company_full' =>
             array (
                 'Source' => 'node/view/full.tpl',
                 'MatchFile' => 'full/company.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'company',
+                    'class_identifier' => 'company'
                     ),
                 ),
-            'company_line' => 
+            'company_line' =>
             array (
                 'Source' => 'node/view/line.tpl',
                 'MatchFile' => 'line/company.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'company',
+                    'class_identifier' => 'company'
                     ),
                 ),
-            'company_embed' => 
+            'company_embed' =>
             array (
                 'Source' => 'content/view/embed.tpl',
                 'MatchFile' => 'embed/company.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'company',
+                    'class_identifier' => 'company'
                     ),
                 ),
-            'edit_company' => 
+            'edit_company' =>
             array (
                 'Source' => 'content/edit.tpl',
                 'MatchFile' => 'edit/company.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'company',
+                    'class_identifier' => 'company'
                     ),
                 ),
-            'feedback_form_full' => 
+            'feedback_form_full' =>
             array (
                 'Source' => 'node/view/full.tpl',
                 'MatchFile' => 'full/feedback_form.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'feedback_form',
+                    'class_identifier' => 'feedback_form'
                     ),
                 ),
-            'feedback_form_line' => 
+            'feedback_form_line' =>
             array (
                 'Source' => 'node/view/line.tpl',
                 'MatchFile' => 'line/feedback_form.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'feedback_form',
+                    'class_identifier' => 'feedback_form'
                     ),
                 ),
-            'feedback_form_mail' => 
+            'feedback_form_mail' =>
             array (
                 'Source' => 'content/collectedinfomail/form.tpl',
                 'MatchFile' => 'collectedinfomail/feedback_form.tpl',
                 'Subdir' => 'templates',
-                'Match' => 
+                'Match' =>
                 array (
-                    'class_identifier' => 'feedback_form',
+                    'class_identifier' => 'feedback_form'
                     ),
                 ),
-            'factbox' => 
+            'factbox' =>
             array (
                 'Source' => 'content/datatype/view/ezxmltags/factbox.tpl',
                 'MatchFile' => 'datatype/ezxmltext/factbox.tpl',
                 'Subdir' => 'templates',
                 ),
-            'quote' => 
+            'quote' =>
             array (
                 'Source' => 'content/datatype/view/ezxmltags/quote.tpl',
                 'MatchFile' => 'datatype/ezxmltext/quote.tpl',
                 'Subdir' => 'templates',
                 ),
-            'price' => 
+            'price' =>
             array (
                 'Source' => 'content/datatype/view/ezprice.tpl',
                 'MatchFile' => 'datatype/price.tpl',
                 'Subdir' => 'templates',
                 ),
-            'matrix' => 
+            'matrix' =>
             array (
                 'Source' => 'content/datatype/view/ezmatrix.tpl',
                 'MatchFile' => 'datatype/ezmatrix/view.tpl',
                 'Subdir' => 'templates',
                 ),
-            'edit_matrix' => 
+            'edit_matrix' =>
             array (
                 'Source' => 'content/datatype/edit/ezmatrix.tpl',
                 'MatchFile' => 'datatype/ezmatrix/edit.tpl',
                 'Subdir' => 'templates',
                 ),
-            ),
+            'pdf_article_main' =>
+            array (
+                'Source' => 'node/view/pdf.tpl',
+                'MatchFile' => 'pdf/article/main.tpl',
+                'Match' =>
+                array (
+                    'class_identifier' => 'article'
+                    ),
+                'Subdir' => 'templates'
+                ),
+            'pdf_article_title' =>
+            array (
+                'Source' => 'content/datatype/pdf/ezstring.tpl',
+                'MatchFile' => 'pdf/article/title.tpl',
+                'Match' =>
+                array (
+                    'class_identifier' => 'article',
+                    'attribute_identifier' => 'title'
+                    ),
+                'Subdir' => 'templates'
+                ),
+            'pdf_article_author' =>
+            array (
+                'Source' => 'content/datatype/pdf/ezauthor.tpl',
+                'MatchFile' => 'pdf/article/author.tpl',
+                'Match' =>
+                array (
+                    'class_identifier' => 'article',
+                    'attribute_identifier' => 'author'
+                    ),
+                'Subdir' => 'templates'
+                ),
+            'pdf_article_xml_headers' =>
+            array (
+                'Source' => 'content/datatype/pdf/ezxmltags/header.tpl',
+                'MatchFile' => 'pdf/article/xml_header.tpl',
+                'Match' =>
+                array (
+                    'class_identifier' => 'article'
+                    ),
+                'Subdir' => 'templates'
+                ),
+            'pdf_article_xml_paragraph' =>
+            array (
+                'Source' => 'content/datatype/pdf/ezxmltags/paragraph.tpl',
+                'MatchFile' => 'pdf/article/xml_paragraph.tpl',
+                'Match' =>
+                array (
+                    'class_identifier' => 'article'
+                    ),
+                'Subdir' => 'templates'
+                ),
+            'pdf_article_footer' =>
+            array (
+                'Source' => 'content/pdf/footer.tpl',
+                'MatchFile' => 'pdf/article/footer.tpl',
+                'Match' =>
+                array (
+                    'class_identifier' => 'article'
+                    ),
+                'Subdir' => 'templates'
+                ),
+            'pdf_article_embed_image' =>
+            array (
+                'Source' => 'content/pdf/embed.tpl',
+                'MatchFile' => 'pdf/article/image.tpl',
+                'Match' =>
+                array (
+                    'class_identifier' => 'article'
+                    ),
+                'Subdir' => 'templates'
+                )
+            )
         );
 }
 
