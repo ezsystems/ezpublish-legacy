@@ -47,4 +47,26 @@ $ViewList["send"] = array(
     "functions" => array( 'send' ),
     "script" => "messagedelivery.php",
     "params" => array() );
+// BEGIN HiO specific code
+$ViewList["remove"] = array(
+    "functions" => array( 'remove' ),
+    "script" => "remove.php",
+    "params" => array( "RuleID", "UserID", "Hash" ) );
+// END HiO specific code
+
+$Assigned = array(
+    'name'=> 'Owner',
+    'values'=> array(
+        array(
+            'Name' => 'Self',
+            'value' => '1')
+        )
+    );
+
+$FunctionList['create'] = array();
+$FunctionList['edit'] = array( 'Owner' => $Assigned );
+// BEGIN HiO specific code
+$FunctionList['remove'] = array( 'Owner' => $Assigned );
+// END HiO specific code
+
 ?>

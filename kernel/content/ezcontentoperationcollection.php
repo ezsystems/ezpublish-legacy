@@ -213,7 +213,7 @@ class eZContentOperationCollection
     }
 
 
-    function removeOldNodes(  $objectID, $versionNum )
+    function removeOldNodes( $objectID, $versionNum )
     {
         $object =& eZContentObject::fetch( $objectID );
         $version =& $object->version( $versionNum );
@@ -241,7 +241,7 @@ class eZContentOperationCollection
 
     }
 
-    function registerSearchObject(  $objectID, $versionNum )
+    function registerSearchObject( $objectID, $versionNum )
     {
         include_once( "kernel/classes/ezsearch.php" );
         $object =& eZContentObject::fetch( $objectID );
@@ -252,9 +252,8 @@ class eZContentOperationCollection
 
     }
 
-    function checkNotifications(  $objectID, $versionNum )
+    function checkNotifications( $objectID, $versionNum )
     {
-        /*
         include_once( "kernel/notification/eznotificationrule.php" );
         include_once( "kernel/notification/eznotificationruletype.php" );
         include_once( "kernel/notification/eznotificationuserlink.php" );
@@ -263,35 +262,118 @@ class eZContentOperationCollection
         $allrules =& eZNotificationRule::fetchList( null );
         foreach ( $allrules as $rule )
         {
-            $ruleClass = $rule->attribute("rule_type");
             $ruleID = $rule->attribute( "id" );
-            if ( $ruleClass->match( &$object, &$rule ) )
+            $ruleClass = $rule->attribute("rule_type");
+
+            if ( is_object( $ruleClass ) && $ruleClass->match( &$object, &$rule ) )
             {
                 $users =& eZNotificationUserLink::fetchUserList( $ruleID );
                 foreach ( $users as $user )
                 {
+                    $userID = $user->attribute( "user_id" );
                     $sendMethod = $user->attribute( "send_method" );
                     $sendWeekday = $user->attribute( "send_weekday" );
                     $sendTime = $user->attribute( "send_time" );
                     $destinationAddress = $user->attribute( "destination_address" );
-                    $title = "New publishing notification";
-                    $body = $object->attribute( "name" );
-                    $domain = getenv( 'HTTP_HOST' );
-                    $body .= "\nhttp://" .  $domain . "/content/view/full/";
-                    $body .=  $object->attribute( "main_node_id" );
-                    $body .= "\n\n\nAdministrator";
-                    $message =& eZMessage::create( $sendMethod, $sendWeekday, $sendTime, $destinationAddress, $title, $body );
+
+                    // get user domain
+                    $ini = eZINI::instance( "site.ini" );
+                    $domain = $ini->variable( "SiteSettings", "SiteURL" );
+
+// BEGIN HiO specific code
+                    if ( get_class( $ruleClass ) == "ezhiorule" )
+                    {
+                        $userObject = eZUser::fetch( $userID );
+                        ob_start();
+                        print_r( $userObject );
+                        $userString = ob_get_contents();
+                        ob_end_clean();
+                        $userHash = md5( "$ruleID\n$userID\n$userString" );
+
+                        switch ( $sendWeekday )
+                        {
+                            case 1:
+                                $weekday = "Mandag";
+                            break;
+                            case 2:
+                                $weekday = "Tirsdag";
+                            break;
+                            case 3:
+                                $weekday = "Onsdag";
+                            break;
+                            case 4:
+                                $weekday = "Torsdag";
+                            break;
+                            case 5:
+                                $weekday = "Fredag";
+                            break;
+                            case 6:
+                                $weekday = "Lørdag";
+                            break;
+                            case 7:
+                                $weekday = "Søndag";
+                            break;
+                            default:
+                                $weekday = "Med en gang";
+                            break;
+                        }
+
+                        if ( $sendTime == -1 )
+                            $time = "Hver time";
+                        else
+                            $time = $sendTime . ":00";
+
+                        $charset = $ini->variable( "CharacterSettings", "Charset" );
+                        $codec =& eZTextCodec::instance( "ISO-8859-1", $charset );
+
+                        $title = "Oppdatering på " . $domain;
+                        $codec->convertString( $title );
+
+                        $body1 = "Oppdatering på " . $domain;
+                        $body1 .= "\n\nDenne siden er oppdatert:\n";
+                        $codec->convertString( $body1 );
+                        $body1 .= $object->attribute( "name" );
+                        $body1 .= "\nhttp://" . $domain . "/content/view/full/";
+                        $body1 .= $object->attribute( "main_node_id" );
+
+                        $body2 = "\n\nDette er en automatisk generert melding. Den ble sendt til deg";
+                        $body2 .= "\nfordi du har startet et abonnement med følgende regler:";
+                        $body2 .= "\nSøkeord: ";
+                        $codec->convertString( $body2 );
+                        $body2 .= $rule->attribute( "keyword" );
+
+                        $body3 = "\nUkedag: " . $weekday;
+                        $body3 .= "\nTime: " . $time;
+                        $body3 .= "\n\nHvis du vil avslutte abonnementet, følg denne lenken:\n";
+                        $body3 .= "http://" . $domain . "/notification/remove/" . $ruleID;
+                        $body3 .= "/" . $userID . "/" . $userHash;
+                        $body3 .= "\n\n\nAdministrator";
+                        $codec->convertString( $body3 );
+
+                        $body = $body1 . $body2 . $body3;
+                    }
+                    else
+                    {
+// END HiO specific code
+                        $title = "New publishing notification";
+                        $body = $object->attribute( "name" );
+                        $body .= "\nhttp://" .  $domain . "/content/view/full/";
+                        $body .=  $object->attribute( "main_node_id" );
+                        $body .= "\n\n\nAdministrator";
+// BEGIN HiO specific code
+                    }
+// END HiO specific code
+
+                    $message =& eZMessage::create( $sendMethod, $sendWeekday, $sendTime,
+                                                   $destinationAddress, $title, $body );
                     $message->store();
+                    $msgid = $message->attribute( "id" );
+                    $mymsg = eZMessage::fetch( $msgid );
                 }
             }
         }
-
-        */
         eZDebug::writeDebug( "checkNotifications:\$objectID=$objectID<br/>" );
-
     }
-
-
 
 }
 

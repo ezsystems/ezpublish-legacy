@@ -127,13 +127,26 @@ class eZNotificationUserLink extends eZPersistentObject
     }
 
     /*!
-     Fetch all user links of with \a $ruleID
+     Fetch all user links with \a $ruleID
     */
     function &fetchUserList( $ruleID, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZNotificationUserLink::definition(),
                                                     null,
                                                     array( "rule_id" => $ruleID ),
+                                                    null,
+                                                    null,
+                                                    $asObject);
+    }
+
+    /*!
+     Fetch all user links
+    */
+    function &fetchAll( $asObject = true )
+    {
+        return eZPersistentObject::fetchObjectList( eZNotificationUserLink::definition(),
+                                                    null,
+                                                    null,
                                                     null,
                                                     null,
                                                     $asObject);

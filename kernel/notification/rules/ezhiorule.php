@@ -38,28 +38,29 @@
 */
 
 /*!
-  \class eZKeywordRule ezgeneralruletype.php
-  \brief The class eZKeywordRule does
+  \class eZHioRule ezgeneralruletype.php
+  \brief The class eZHioRule does
 
 */
+// BEGIN HiO specific code
 include_once( "kernel/notification/eznotificationrule.php" );
 include_once( "lib/ezdb/classes/ezdb.php" );
 
-define( "EZ_NOTIFICATIONRULESTRING_KEYWORD", "ezkeyword" );
+define( "EZ_NOTIFICATIONRULESTRING_HIO", "ezhio" );
 
-class eZKeywordRule extends eZNotificationRuleType
+class eZHioRule extends eZNotificationRuleType
 {
     /*!
      Constructor
     */
-    function eZKeywordRule()
+    function eZHioRule()
     {
-        $this->eZNotificationRuleType( EZ_NOTIFICATIONRULESTRING_KEYWORD, "keyword" );
+        $this->eZNotificationRuleType( EZ_NOTIFICATIONRULESTRING_HIO, "hio" );
     }
 
     /*!
      Check whether or not the content object \a $contentObject satisfies notification
-     rule \a $notificationRule which rule type is "keyword".
+     rule \a $notificationRule which rule type is "hio".
     */
     function match( &$contentObject, &$notification )
     {
@@ -67,11 +68,22 @@ class eZKeywordRule extends eZNotificationRuleType
         $db =& eZDB::instance();
         $keyword = $notification->attribute( "keyword" );
         $res = array();
-        $res =& $db->arrayQuery( "SELECT DISTINCT contentobject_id
-                                  FROM ezsearch_word, ezsearch_object_word_link
-                                  WHERE word = '$keyword'
-                                        AND contentobject_id = $contentObjectID
-                                        AND ezsearch_word.id = word_id " );
+        if ( $keyword == "" )
+        {
+            $res =& $db->arrayQuery( "SELECT DISTINCT contentobject_id
+                                      FROM ezsearch_word, ezsearch_object_word_link
+                                      WHERE contentobject_id = $contentObjectID
+                                      AND ezsearch_word.id = word_id " );
+        }
+        else
+        {
+            $res =& $db->arrayQuery( "SELECT DISTINCT contentobject_id
+                                      FROM ezsearch_word, ezsearch_object_word_link
+                                      WHERE word = '$keyword'
+                                      AND contentobject_id = $contentObjectID
+                                      AND ezsearch_word.id = word_id " );
+        }
+
         if ( count( $res ) != 0  )
         {
             return true;
@@ -79,5 +91,6 @@ class eZKeywordRule extends eZNotificationRuleType
         return false;
     }
 }
-eZNotificationRuleType::register( EZ_NOTIFICATIONRULESTRING_KEYWORD, "ezkeywordrule" );
+eZNotificationRuleType::register( EZ_NOTIFICATIONRULESTRING_HIO, "ezhiorule" );
+// END HiO specific code
 ?>

@@ -39,6 +39,10 @@ $current = getdate();
 $weekday = $current['wday'];
 $hour = $current['hours'];
 
+$ini = eZINI::instance( "i18n.ini" );
+$charset = $ini->variable( "CharacterSettings", "Charset" );
+$codec =& eZTextCodec::instance( $charset, "ISO-8859-1" );  // This should be more general
+
 $emailMessages = eZMessage::fetchEmailMessages();
 foreach ( $emailMessages as $emailMessage )
 {
@@ -47,21 +51,25 @@ foreach ( $emailMessages as $emailMessage )
     $sendHour =  $emailMessage->attribute( "send_time" );
     if ( $sendWeekday == -1 )
         $send = true;
-    elseif( ( $sendWeekday == $weekday ) and ( $sendHour == -1 or $sendHour <= $hour ) )
+    elseif ( ( $sendWeekday == $weekday ) and ( $sendHour == -1 or $sendHour <= $hour ) )
         $send = true;
-    elseif( $sendWeekday == ( $weekday-1 ) )
+    elseif ( $sendWeekday == ( $weekday - 1 ) )
         $send = true;
-    elseif( $sendWeekday == 7 and $weekday == 1 )
+    elseif ( $sendWeekday == 7 and $weekday == 1 )
         $send = true;
     else
         $send = false;
-    if( $send == true )
+
+    if ( $send == true )
     {
         $destinationAddress = $emailMessage->attribute( "destination_address" );
         $title = $emailMessage->attribute( "title" );
         $body = $emailMessage->attribute( "body" );
         $emailMessage->setAttribute( "is_sent", true );
         $emailMessage->store();
+        $title = $codec->convertString( $title );
+        $body = $codec->convertString( $body );
+
         $email = new eZMail();
         $email->setReceiver( $destinationAddress );
         $email->setSender( "admin@ez.no" );

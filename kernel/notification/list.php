@@ -80,9 +80,20 @@ $Module->setTitle( "Notification rule list " );
 
 $tpl =& templateInit();
 
-$list =array();
+$list = array();
 
-$userRules =& eZNotificationUserLink::fetchRuleList( $UserID );
+// BEGIN HiO specific code
+if ( $UserID == 14 ) // Admin
+{
+    $userRules =& eZNotificationUserLink::fetchAll();
+}
+else
+{
+// END HiO specific code
+    $userRules =& eZNotificationUserLink::fetchRuleList( $UserID );
+// BEGIN HiO specific code
+}
+// END HiO specific code
 
 foreach ( $userRules as $userRule )
 {
@@ -99,6 +110,5 @@ $Result = array();
 $Result['content'] =& $tpl->fetch( "design:notification/list.tpl" );
 $Result['path'] = array( array( 'url' => '/notification/list/',
                                 'text' => 'Notification rule list' ) );
-
 
 ?>
