@@ -601,7 +601,8 @@ class eZUser extends eZPersistentObject
                     }
                 }
 
-                if ( count( $userGroups ) == 0 )
+                if ( $userGroups === false or
+                     count( $userGroups ) == 0 )
                 {
                     $userGroups =& $db->arrayQuery( "SELECT  c.contentobject_id as id
                                                 FROM ezcontentobject_tree  b,
