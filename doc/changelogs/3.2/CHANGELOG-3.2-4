@@ -40,6 +40,7 @@ Changes from 3.2-3 to 3.2-4
 - Fixed bug in updatesearchindex.php which would only reindex objects
   that the anonymous user could read.
 - Made sure users are logged out whenever their user is disabled, this check is done each time the user is fetched trough the session.
+- Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/ezcontentobject_php_typo_line_133
 
 *Bugfixes:
 - Fixed copy object bug. Current version was not set, multiple version copy did not set object name and redirect did not contain version number.
