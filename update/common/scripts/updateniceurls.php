@@ -37,7 +37,7 @@
 /*! \file updateniceurls.php
 */
 set_time_limit ( 0 );
-chdir ( '../' );
+chdir ( '../../../' );
 
 include_once( 'lib/ezdb/classes/ezdb.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
