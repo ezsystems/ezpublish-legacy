@@ -709,7 +709,29 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
         $ipAddress = eZSys::serverVariable( 'REMOTE_ADDR', true );
         if ( $ipAddress )
         {
-            $debugEnabled = in_array( $ipAddress, $debugIPList );
+            $debugEnabled = false;
+            foreach( $debugIPList as $itemToMatch )
+            {
+                if ( preg_match("/^(([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+))(\/([0-9]+)$|$)/", $itemToMatch, $matches ) )
+                {
+                    if ( $matches[6] )
+                    {
+                        if ( eZDebug::isIPInNet( $ipAddress, $matches[1], $matches[7] ) )
+                        {
+                            $debugEnabled=true;
+                            break;
+                        }
+                    }
+                    else 
+                    {
+                        if ( $matches[1] == $ipAddress )
+                        {
+                            $debugEnabled=true;
+                            break;
+                        }
+                    }
+                }
+            }
         }
         else
         {

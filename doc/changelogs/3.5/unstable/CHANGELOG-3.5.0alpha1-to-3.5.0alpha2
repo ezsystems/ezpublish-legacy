@@ -132,6 +132,9 @@ Payment:
 
 *Library:
 
+eZDebug:
+- Added ability to debug by subnet.
+
 eZFile:
 - Tar-handler can store paths longer than 99 characters.
 

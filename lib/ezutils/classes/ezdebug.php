@@ -806,6 +806,22 @@ class eZDebug
 
     /*!
      \static
+     Determine if an ipaddress is in a network. E.G. 120.120.120.120 in 120.120.0.0/24.
+     \return true or false.
+    */
+    function isIPInNet( $ipaddress, $network, $mask=24 )
+    {
+        $lnet = ip2long( $network );
+        $lip = ip2long( $ipaddress );
+        $binnet = str_pad( decbin( $lnet ), 32, "0", "STR_PAD_LEFT" );
+        $firstpart = substr($binnet,0,$mask);
+        $binip = str_pad( decbin( $lip ), 32, "0", "STR_PAD_LEFT" );
+        $firstip = substr( $binip, 0, $mask );                                                                 
+        return( strcmp( $firstpart, $firstip ) == 0 );
+    }
+
+    /*!
+     \static
      Updates the settings for debug handling with the settings array \a $settings.
      The array must contain the following keys.
      - debug-enabled - boolean which controls debug handling
@@ -837,7 +853,29 @@ class eZDebug
             $ipAddress = eZSys::serverVariable( 'REMOTE_ADDR', true );
             if ( $ipAddress )
             {
-                $debugEnabled = in_array( $ipAddress, $settings['debug-ip-list'] );
+                $debugEnabled = false;
+            	foreach( $settings['debug-ip-list'] as $itemToMatch )
+            	{
+                	if ( preg_match("/^(([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+))(\/([0-9]+)$|$)/", $itemToMatch, $matches ) )
+                	{
+                    	if ( $matches[6] )
+                    	{
+                        	if ( eZDebug::isIPInNet( $ipAddress, $matches[1], $matches[7]))
+                        	{
+                            	$debugEnabled=true;
+                            	break;
+                        	}
+                    	}
+                    	else 
+                    	{
+                        	if ( $matches[1] == $ipAddress )
+                        	{
+                            	$debugEnabled=true;
+                            	break;
+                        	}
+                    	}
+                	}
+            	}
             }
             else
             {
