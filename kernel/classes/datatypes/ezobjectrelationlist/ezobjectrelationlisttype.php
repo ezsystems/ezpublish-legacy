@@ -480,6 +480,7 @@ class eZObjectRelationListType extends eZDataType
     */
     function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute, $parameters )
     {
+        $contentobjectID = false;
         if ( eZDataType::fetchActionValue( $action, 'new_class', $classID ) or
              $action == 'new_class' )
         {
@@ -557,7 +558,8 @@ class eZObjectRelationListType extends eZDataType
                 eZDebug::writeError( "Unknown class ID $classID, cannot instantiate object",
                                      'eZObjectRelationListType::customObjectAttributeHTTPAction' );
         }
-        else if ( $action == 'edit_objects' or
+        else if ( eZDataType::fetchActionValue( $action, 'edit_objects', $contentobjectID ) or
+                  $action == 'edit_objects' or
                   $action == 'remove_objects' )
         {
             $base = $parameters['base_name'];
@@ -569,7 +571,10 @@ class eZObjectRelationListType extends eZDataType
                 $selectionMap = $http->postVariable( $selectionBase );
                 $selections = $selectionMap[$contentObjectAttribute->attribute( 'id' )];
             }
-            if ( $action == 'edit_objects' )
+            if ( $contentobjectID !== false )
+                $selections[] = $contentobjectID;
+            if ( $action == 'edit_objects' or
+                 eZDataType::fetchActionValue( $action, 'edit_objects', $contentobjectID ) )
             {
                 $content = $contentObjectAttribute->content();
                 $relationList =& $content['relation_list'];

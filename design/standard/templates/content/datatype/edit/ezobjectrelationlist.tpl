@@ -11,6 +11,8 @@
     <th>
     </th>
     <th>
+    </th>
+    <th>
         Order
     </th>
     <th>
@@ -20,6 +22,11 @@
 <tr class="{$:sequence}">
     <td width="1" align="right">
         <input type="checkbox" name="{$attribute_base}_selection[{$attribute.id}][]" value="{$:item.contentobject_id}" />
+    </td>
+    <td width="1">
+        {section show=$:item.is_modified|not}
+            <input class="button" type="image" name="CustomActionButton[{$attribute.id}_edit_objects_{$:item.contentobject_id}]" value="{'Edit'|i18n('design/standard/content/datatype')}" src={"edit.png"|ezimage} />
+        {/section}
     </td>
     <td width="1">
         <input size="2" type="text" name="{$attribute_base}_priority[{$attribute.id}][]" value="{$:item.priority}" />
@@ -56,28 +63,23 @@
 {/section}
 </table>
 
-{section show=$can_create}
+<div class="buttonblock">
 
-    <div class="objectheader">
-        <h2>{'Add new object to list'}</h2>
-    </div>
-    <div class="object">
-        <select class="combobox" name="{$attribute_base}_new_class[{$attribute.id}]">
-        {section name=Class loop=$class_list}
-            <option value="{$:item.id}">{$:item.name|wash}</option>
-        {/section}
-        </select>
+    <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_remove_objects]" value="{'Remove objects'|i18n('design/standard/content/datatype')}" />
+    <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_edit_objects]" value="{'Open objects for edit'|i18n('design/standard/content/datatype')}" />
+
+{section show=$can_create}
+    <select class="combobox" name="{$attribute_base}_new_class[{$attribute.id}]">
+    {section name=Class loop=$class_list}
+        <option value="{$:item.id}">{$:item.name|wash}</option>
+    {/section}
+    </select>
     {section show=$new_object_initial_node_placement}
         <input type="hidden" name="{$attribute_base}_object_initial_node_placement[{$attribute.id}]" value="{$new_object_initial_node_placement|wash}" />
     {/section}
-        <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new_class]" value="{'Add'|i18n( 'design/standard/content/datatype' )}" />
-    </div>
-
+    <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new_class]" value="{'Add'|i18n( 'design/standard/content/datatype' )}" />
 {/section}
 
-<div class="buttonblock">
-    <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_edit_objects]" value="{'Open objects for edit'|i18n('design/standard/content/datatype')}" />
-    <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_remove_objects]" value="{'Remove objects'|i18n('design/standard/content/datatype')}" />
 </div>
 
 {/let}
