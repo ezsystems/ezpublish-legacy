@@ -79,7 +79,7 @@ class eZSectionFunctionCollection
         if ( $sortOrder === false )
         {
             $sortOrder = array( 'id' => 'desc' );
-        }        
+        }
         $objects = eZPersistentObject::fetchObjectList( eZContentObject::definition(),
                                                         null,
                                                         array( 'section_id' => $sectionID ),
@@ -113,7 +113,7 @@ class eZSectionFunctionCollection
         {
             $policy =& $limitations[$key]->policy();
             $policies[] = $policy;
-    
+
             $roleID= $policy->attribute( 'role_id' );
             $roleIDs[] = $roleID;
             if ( !isset( $roleLimitations[$roleID] ) )
