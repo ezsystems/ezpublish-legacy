@@ -328,8 +328,8 @@
 
 
 <div class="buttonblock">
-    <input class="button" type="submit" name="CancelButton" value="Cancel" />
-    <input class="defaultbutton" type="submit" name="StoreButton" value="Continue" />
+    <input class="button" type="submit" name="CancelButton" value="{"Cancel"|i18n('design/standard/shop')}" />
+    <input class="defaultbutton" type="submit" name="StoreButton" value="{"Continue"|i18n( 'design/standard/shop')}" />
 </div>
 
 </form>

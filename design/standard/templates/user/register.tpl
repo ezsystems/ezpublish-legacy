@@ -32,8 +32,8 @@
 {/section}
 
 <div class="buttonblock">
-<input type="submit" name="PublishButton" value="{'Register'|i18n('design/standard/user')}" />
-<input type="submit" name="CancelButton" value="{'Discard'|i18n('design/standard/user')}" />
+<input class="button" type="submit" name="PublishButton" value="{'Register'|i18n('design/standard/user')}" />
+<input class="button" type="submit" name="CancelButton" value="{'Discard'|i18n('design/standard/user')}" />
 </div>
 
 </form>

@@ -44,7 +44,7 @@
 <input type="radio" name="DigestType_{$handler.id_string}" value="2" {eq( $settings.digest_type, 2)|choose( '', checked )} />
 </td>
 <td>
-{'Once per month, on day number'|i18n( '' )}
+{'Once per month, on day number'|i18n( 'design/admin/notification/handler/ezgeneraldigest/settings/edit' )}
 </td>
 <td>
 <select name="Monthday_{$handler.id_string}">

@@ -35,7 +35,7 @@
         </td>
         <td>
             {section show=eq($Policy.limitation,'*')}
-                <i>{'No limitations'|i18n('')}</i>
+                <i>{'No limitations'|i18n('design/admin/node/view/full')}</i>
             {section-else}
                 {section var=Limitation loop=$Policy.limitation}
                   {$Limitation.identifier|wash}(
