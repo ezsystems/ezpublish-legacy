@@ -330,10 +330,17 @@ input.button
     border-color: #336699;
 }
 
+input.shopbutton
+{
+    color: #333;
+    background-color: #bbd8ed;
+    border-color: #666;
+}
+
 input.searchbutton
 {
     color: #003399;
-    background-color: #99cfcf;
+    background-color: #7b92bc;
     border-color: #336699;
 }
 

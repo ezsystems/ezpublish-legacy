@@ -36,7 +36,8 @@
      	{"Total Price"|i18n("design/base/shop")}
         </th>
         <th>
-        <input type="image" src={"t1/t1-bin.gif"|ezimage} name="RemoveProductItemButton" value="{'Remove'|i18n('design/standard/shop')}" /> &nbsp;
+       {* <input type="image" src={"t1/t1-bin.gif"|ezimage} name="RemoveProductItemButton" value="{'Remove'|i18n('design/standard/shop')}" /> &nbsp; *}
+        <input type="image" class="shop-basketbin" src={"1x1.gif"|ezimage"} name="RemoveProductItemButton" value="{'Remove'|i18n('design/standard/shop')}" />
         </th>
     </tr>
     {section var=product_item loop=$basket.items sequence=array(bglight,bgdark)}
@@ -93,13 +94,12 @@
       </div>
 
      <div class="buttonblock">
-         <input class="defaultbutton" type="submit" name="CheckoutButton" value="{'Checkout'|i18n('design/standard/shop')}" /> &nbsp;
-
+         <input class="shopbutton" type="submit" name="CheckoutButton" value="{'Checkout'|i18n('design/standard/shop')}" /> &nbsp;
      </div>
 
      <div class="buttonblock">
-         <input class="button" type="submit" name="ContinueShoppingButton" value="{'Continue shopping'|i18n('design/standard/shop')}" />
-         <input class="button" type="submit" name="StoreChangesButton" value="{'Store quantities'|i18n('design/base')}" />
+         <input class="shopbutton" type="submit" name="ContinueShoppingButton" value="{'Continue shopping'|i18n('design/standard/shop')}" />
+         <input class="shopbutton" type="submit" name="StoreChangesButton" value="{'Store quantities'|i18n('design/base')}" />
      </div>
 
     {/section}

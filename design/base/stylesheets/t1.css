@@ -59,7 +59,7 @@ div#toolbar-top li.toolbar-item
     display: inline;
     color: #339999;
     padding: 0 6px 0 6px;
-    white-space: nowrap; /* No effect? */
+    /*white-space: nowrap;  No effect? */
 }
 
 div#toolbar-top div.search-line
@@ -104,8 +104,8 @@ div#toolbar-top li.last
 
 div#toolbar-bottom
 {
+    margin-top: 8px;
     background-color: #d9e5f2;
-    height: 22px;
     padding: 0;
     text-align: center;
 }
@@ -481,6 +481,7 @@ div.toolbox-design h2
 { 
     padding-left: 10px;
     padding-top: 3px;
+    margin-top: 0px;
     padding-bottom: 3px;
     font: 12px;
     background-color: #336699;

@@ -41,7 +41,7 @@
         <input class="textinput" type="password" size="10" name="Password" id="id2" value="" />
     </div>
 
-    <input type="image" src={"t1/t1-button.gif"|ezimage} align="bottom" width="18" height="18" alt="{'Login'|i18n( 'design/standard/toolbar' )}" />
+    <input type="image" class="searchimage" src={"1x1.gif"|ezimage"} />
     <div class="content-link">
         <p>
             <a href={"/user/register"|ezurl}>{'Not registered?'|i18n( 'design/standard/toolbar' )}</a>

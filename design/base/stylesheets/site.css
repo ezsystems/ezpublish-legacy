@@ -542,7 +542,6 @@ table th
     background-color: #d9e5f2;
 }
 
-
 /* SUBMIT BUTTONS */
 
 input.defaultbutton
@@ -561,9 +560,16 @@ input.searchbutton
     border: 1px solid;
 }
 
+input.shopbutton
+{
+    border: 1px solid;
+}
+
 input.searchimage
 {
     width: 18px;
     height: 18px;
+    background-image: url(../images/button.gif);
+    background-repeat: no-repeat;
 }
 

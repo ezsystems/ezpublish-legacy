@@ -4,7 +4,7 @@
 
 body
 {
-    background-color: #bbb;
+    background-color: #b0d28e;
 }
 
 div#allcontent
@@ -18,29 +18,29 @@ div#allcontent
 
 div#toolbar-top li.toolbar-item
 {
-    color: #620052;
-    border-color: #620052;
+    color: #336699;
+    border-color: #336699;
 }
 
 div#toolbar-top li.toolbar-item a
 { 
-    color: #620052;
+    color: #336699;
 }
 
 div#toolbar-bottom div.toolbar-design
 {
-    background-color: #ddd;
+    background-color: #e5f2d9;
 }
 
 div#toolbar-bottom li.toolbar-item
 {
-    color: #620052;
-    border-color: #620052;
+    color: #003399;
+    border-color: #003399;
 }
 
 div#toolbar-bottom li.toolbar-item a
 { 
-    color: #620052;
+    color: #003399;
 }
 
 
@@ -48,24 +48,24 @@ div#toolbar-bottom li.toolbar-item a
 
 div#topmenu
 {
-    background-color: #333;
-    border-color: #333;
+    background-color: #5b7e38;
+    border-color: #5b7e38;
 }
 
 div.topmenu-line
 {
-    border-color: #7b92bc;
+    border-color: #5b7e38;
 }
 
 div#topmenu li
 {
-    background-color: #333;
+    background-color: #5b7e38;
     border-color: #ffffff;
 }
 
 div#topmenu li.selected
 {
-    background-color: #620052;
+    background-color: #9fbc7b;
 }
 
 div#topmenu li div.spacing
@@ -91,8 +91,8 @@ div#topmenu li.selected a
 
 div#submenu
 {
-    background-color: #620052;
-    border-color: #620052;
+    background-color: #9fbc7b;
+    border-color: #9fbc7b;
 }
 
 div#submenu li a
@@ -105,12 +105,17 @@ div#submenu li a
 
 div#path p
 {
-    color: #999;
+    color: #336699;
 }
 
 div#path p a
 {
-    color: #999;
+    color: #336699;
+}
+
+div#path p a:hover
+{
+    color: #3366cc;
 }
 
 
@@ -118,12 +123,12 @@ div#path p a
 
 div#leftmenu-design li.menu-level-0
 { 
-    border-color: #99ccff;
+    border-color: #cccc99;
 }
 
 div#leftmenu-design li.menu-level-0 a
 { 
-    color: #339999;
+    color: #336600;
 }
 
 div#leftmenu-design li.menu-level-0 a:hover
@@ -138,7 +143,7 @@ div#leftmenu-design li.menu-level-0 a.selected
 
 div#leftmenu-design li.menu-level-1 a
 { 
-    color: #66cccc;
+    color: #669933;
 }
 
 div#leftmenu-design li.menu-level-1 a:hover
@@ -174,19 +179,19 @@ div.content-navigator div.content-navigator-arrow
 
 div.toolbox-design
 { 
-    background-color: #ddd;
+    background-color: #e5f2d9;
 }
 
 div.toolbox-design h2
 { 
     color: #ffffff;
-    background-color: #620052;
+    background-color: #5b7e38;
 }
 
 div.toolbox-design input.searchtext, div.toolbox-design input.textinput
 {
     background-color: #ffffff;
-    border-color: #620052;
+    border-color: #5b7e38;
 }
 
 div.toolbox-design label
@@ -201,7 +206,7 @@ div.toolbox-design div.info-text p
 
 div.toolbox-design div.attribute-link p
 { 
-    background-image: url(../../images/t6/arrow.gif);
+    background-image: url(../../images/t4/arrow.gif);
     background-position: center left;
     background-repeat: no-repeat;
 }
@@ -217,18 +222,18 @@ div.toolbox-design div.attribute-link-disabled p
 div.toollist-design
 { 
     background-color: #ffffff;
-    border-color: #620052;
+    border-color: #5b7e38;
 }
 
 div.toollist-design h2
 { 
     color: #ffffff;
-    background-color: #620052;
+    background-color: #5b7e38;
 }
 
 div.toollist-design h3
 { 
-    color: #620052;
+    color: #5b7e38;
 }
 
 div.toollist-design div.class-article div.attribute-short p
@@ -251,7 +256,7 @@ div.toollist-design div.class-article div.attribute-link-disabled p
 
 div#footer-design 
 {
-    color: #333;
+    color: #003366;
     background-color: #ffffff;
 }
 
@@ -264,42 +269,42 @@ div#footer-design a:hover
 
 a
 { 
-    color: #620052;
+    color: #003399;
 }
 
 li
 { 
-    color: #333;
+    color: #336699;
 }
 
 div#maincontent h1
 { 
-    color: #620052;
+    color: #003399;
 }
 
 div#maincontent h2
 { 
-    color: #333;
+    color: #669933;
 }
 
 div#maincontent h2 a
 { 
-    color: #333;
+    color: #669933;
 }
 
 div#maincontent h3
 { 
-    color: #333;
+    color: #669933;
 }
 
 div#maincontent h4
 { 
-    color: #333;
+    color: #336600;
 }
 
 div#maincontent-design h5
 { 
-    color: #333;
+    color: #336600;
 }
 
 
@@ -308,32 +313,33 @@ div#maincontent-design h5
 input.defaultbutton
 {
     color: #fff;
-    background-color: #620052;
+    background-color: #5b7e38;
     border-color: #ddd;
 }
 
 input.button
 {
     color: #fff;
-    background-color: #620052;
+    background-color: #5b7e38;
     border-color: #ddd;
 }
 
 input.searchbutton
 {
     color: #fff;
-    background-color: #620052;
+    background-color: #5b7e38;
     border-color: #ddd;
+}
+
+input.shopbutton
+{
+    color: #336600;
+    background-color: #d5fc9e;
+    border-color: #336600;
 }
 
 input.searchimage
 {
-    width: 18px;
-    height: 18px;
-    background-image: url(../../images/t1/t1-button.gif);
+    background-image: url(../../images/t4/button.gif);
     background-repeat: no-repeat;
-    font-size: medium;
-  /* letter-spacing: normal;
-    word-spacing: normal;  */
 }
-

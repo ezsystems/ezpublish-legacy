@@ -6,7 +6,7 @@
 
 div#maincontent div.content-view-line div.attribute-link p
 { 
-    background-image: url(../../images/t1/t1-arrow.gif);
+    background-image: url(../../images/t6/arrow.gif);
     background-position: center left;
     background-repeat: no-repeat;
 }
@@ -14,7 +14,7 @@ div#maincontent div.content-view-line div.attribute-link p
 div#maincontent div.content-view-line div.attribute-link-disabled p
 { 
     color: #666666;
-    background-image: url(../../images/t1/t1-arrow.gif);
+    background-image: url(../../images/t6/arrow.gif);
     background-position: center left;
     background-repeat: no-repeat;
 }
@@ -24,7 +24,7 @@ div#maincontent div.content-view-line div.attribute-link-disabled p
 
 div#maincontent div.content-view-full div.attribute-link p, div#maincontent div.view-slideshow div.attribute-link p, div#maincontent div.content-view-full div.attribute-tipafriend p
 { 
-    background-image: url(../../images/t1/t1-arrow.gif);
+    background-image: url(../../images/t6/arrow.gif);
     background-position: center left;
     background-repeat: no-repeat;
 }
@@ -52,7 +52,7 @@ div.content-view-full div.content-view-line div.attribute-byline p.author, div.c
 
 div.class-product div.content-view-line div.class-review div.attribute-message p
 { 
-    color: #003366;
+    color: #333;
 }
 
 
@@ -60,7 +60,7 @@ div.class-product div.content-view-line div.class-review div.attribute-message p
 
 div#maincontent div.class-folder div.attribute-short p
 { 
-    color: #003366;
+    color: #333;
 }
 
 
@@ -68,7 +68,7 @@ div#maincontent div.class-folder div.attribute-short p
 
 div#maincontent div.content-view-full div.class-article div.attribute-short p
 { 
-    color: #003366;
+    color: #333;
 }
 
 div.class-article div.attribute-image div.imagecaption p
@@ -81,7 +81,7 @@ div.class-article div.attribute-image div.imagecaption p
 
 div#maincontent div.class-folder div.content-view-line div.class-product div.attribute-short p
 { 
-    color: #003366;
+    color: #333;
 }
 
 div#maincontent div.class-product div.attribute-price p
@@ -114,7 +114,7 @@ div.content-view-listitem div.class-product div.attribute-link-disabled a
 
 div#maincontent div.class-folder div.class-gallery div.attribute-short p
 { 
-    color: #003366;
+    color: #333;
 }
 
 div#maincontent div.class-folder div.class-gallery div.attribute-link-disabled p
@@ -124,7 +124,7 @@ div#maincontent div.class-folder div.class-gallery div.attribute-link-disabled p
 
 div#maincontent div.class-gallery div.attribute-short p
 { 
-    color: #003366;
+    color: #333;
 }
 
 div#maincontent div.class-gallery div.content-view-children table td
@@ -145,7 +145,7 @@ div#maincontent-design div.class-gallery div.content-view-children div.attribute
 
 div#maincontent-design div.attribute-long p
 { 
-    color: #003366;
+    color: #333;
 }
 
 
@@ -154,13 +154,13 @@ div#maincontent-design div.attribute-long p
 div.factbox-design, div.content-view-embed 
 { 
     background-color: #ffffff;
-    border-color: #336699;
+    border-color: #620052;
 }
 
 div#maincontent div.factbox-design h2, div#maincontent div.content-view-embed h2
 { 
     color: #ffffff;
-    background-color: #336699;
+    background-color: #620052;
 }
 
 div#maincontent-design div.content-view-embed h3
@@ -189,7 +189,7 @@ div.factbox h3
 
 div.factbox div.attribute-file p
 { 
-    color: #003366;
+    color: #333;
 }
 
 /* LIST ITEM IMAGE */
@@ -203,7 +203,7 @@ div.content-view-listitem div.class-image div.attribute-caption p
 
 div#maincontent-design div.class-folder div.class-file div.attribute-short p
 { 
-    color: #003366;
+    color: #333;
 }
 
 
@@ -278,7 +278,7 @@ div#poll-result td.empty-area
 
 div#poll-result td.voted-area
 {  
-    background-color: #003366;
+    background-color: #333;
 }
 
 
@@ -286,24 +286,25 @@ div#poll-result td.voted-area
 
 div.shop-basket table th, div.shop-confirmorder th, div.shop-orderview th
 {
-    background-color: #d9e5f2;
+    background-color: #fee4be;
 }
 
 div.shop-basket table td.product-details, div.shop-confirmorder td.product-details, div.shop-orderview td.product-details
 {
-    border-color: #99ccff;
+    border-color: #ff9900;
 }
 
 div.shop-basket table td.product-subtotal, div.shop-confirmorder table td.product-subtotal, div.shop-orderview table td.product-subtotal
 {
-    border-color: #99ccff;
+    border-color: #ff9900;
 }
 
 input.shop-basketbin
 { 
-    background-image: url(../../images/t1/t1-bin.gif);
+    background-image: url(../../images/t3/bin.gif);
     background-repeat: no-repeat;
 }
+
 
 /* RENDERED TABLE */
 

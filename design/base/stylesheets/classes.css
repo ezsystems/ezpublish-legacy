@@ -462,6 +462,14 @@ div.shop-basket table td.product-subtotal, div.shop-confirmorder table td.produc
     text-align: right;
 }
 
+input.shop-basketbin
+{ 
+    width: 15px;
+    height: 15px;
+    background-image: url(../images/bin.gif);
+    background-repeat: no-repeat;
+}
+
 
 /* RENDERED TABLE */
 
