@@ -15,6 +15,28 @@
     <li><a href={concat( '/user/password/', $current_user.contentobject_id, '/')|ezurl}>{'Change password'|i18n( 'design/admin/parts/my/menu' )}</a></li>
     <li><a href={'/shop/basket/'|ezurl}>{'My shopping basket'|i18n( 'design/admin/parts/my/menu' )}</a></li>
     <li><a href={'/shop/wishlist/'|ezurl}>{'My wish list'|i18n( 'design/admin/parts/my/menu' )}</a></li>
+
+    <li>
+    <li>{'Edit mode settings'}</li>
+    <ul>
+    <li>{'Relations'}:
+    {section show=ezpreference( 'admin_edit_show_relations' )}
+        <b>{'on'|i18n( 'design/admin/parts/my/menu' )}</b>&nbsp;<a href={'/user/preferences/set/admin_edit_show_relations/0'|ezurl} title="{'Hide related objects in edit mode.'|i18n( 'design/admin/node/view/full' )}">{'off'|i18n( 'design/admin/parts/my/menu' )}</a>
+    {section-else}
+        <a href={'/user/preferences/set/admin_edit_show_relations/1'|ezurl} title="{'Show related objects in edit mode.'|i18n( 'design/admin/node/view/full' )}">{'on'|i18n( 'design/admin/parts/my/menu' )}</a>&nbsp;<b>{'off'|i18n( 'design/admin/parts/my/menu' )}</b>
+    {/section}
+    </li>
+
+    <li>{'Locations'}:
+    {section show=ezpreference( 'admin_edit_show_locations' )}
+        <b>{'on'|i18n( 'design/admin/parts/my/menu' )}</b>&nbsp;<a href={'/user/preferences/set/admin_edit_show_locations/0'|ezurl} title="{'Hide locations in edit mode.'|i18n( 'design/admin/node/view/full' )}">{'off'|i18n( 'design/admin/parts/my/menu' )}</a>
+    {section-else}
+        <a href={'/user/preferences/set/admin_edit_show_locations/1'|ezurl} title="{'Show locations in edit mode.'|i18n( 'design/admin/node/view/full' )}">{'on'|i18n( 'design/admin/parts/my/menu' )}</a>&nbsp;<b>{'off'|i18n( 'design/admin/parts/my/menu' )}</b>
+    {/section}
+    </li>
+
+    </ul>
+
 </ul>
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>

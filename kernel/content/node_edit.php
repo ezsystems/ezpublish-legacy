@@ -45,6 +45,9 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 include_once( 'kernel/common/template.php' );
 
+include_once( 'kernel/classes/ezpreferences.php' );
+
+
 function checkNodeAssignments( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage )
 {
     $http =& eZHTTPTool::instance();
@@ -617,9 +620,15 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
 
 function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, &$tpl )
 {
+    /*
     // If EmbedNodeAssignmentHandling is not set to 'enabled' we do not add any node assignment template variables
     $contentINI =& eZINI::instance( 'content.ini' );
     if ( $contentINI->variable( 'EditSettings', 'EmbedNodeAssignmentHandling' ) != 'enabled' )
+        return;
+
+    */
+
+    if( eZPreferences::value( 'admin_edit_show_locations' ) == '0') 
         return;
 
     $assignedNodeArray =& $version->attribute( 'parent_nodes' );

@@ -52,6 +52,8 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 include_once( 'kernel/common/template.php' );
 
+include_once( 'kernel/classes/ezpreferences.php' );
+
 if ( isset( $Module ) )
     $Module =& $Params['Module'];
 $ObjectID =& $Params['ObjectID'];
@@ -258,8 +260,18 @@ if ( $Module->isCurrentAction( 'Publish' ) )
     }
     if ( !$mainFound and count( $assignments ) > 0 )
     {
+        /*
         $contentINI =& eZINI::instance( 'content.ini' );
         if ( $contentINI->variable( 'EditSettings', 'EmbedNodeAssignmentHandling' ) == 'enabled' )
+        {
+            $validation[ 'placement' ][] = array( 'text' => ezi18n( 'kernel/content', 'No main node selected, please select one.' ) );
+            $validation[ 'processed' ] = true;
+            $inputValidated = false;
+            eZDebugSetting::writeDebug( 'kernel-content-edit', "placement is not validated" );
+        }
+        */
+
+        if( eZPreferences::value( 'admin_edit_show_locations' ) == '0' ) 
         {
             $validation[ 'placement' ][] = array( 'text' => ezi18n( 'kernel/content', 'No main node selected, please select one.' ) );
             $validation[ 'processed' ] = true;

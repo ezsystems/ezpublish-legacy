@@ -91,14 +91,18 @@
 </div>
 
 {* Related objects window. *}
-{include uri='design:content/edit_relations.tpl'}
+{section show=ne( ezpreference( 'admin_edit_show_relations' ), '0' )|not}
+    {include uri='design:content/edit_relations.tpl'}
+{/section}
+
 
 {* Locations window. *}
-{section show=eq( ezini( 'EditSettings', 'EmbedNodeAssignmentHandling', 'content.ini' ), 'enabled' )}
-{include uri='design:content/edit_locations.tpl'}
+{* section show=eq( ezini( 'EditSettings', 'EmbedNodeAssignmentHandling', 'content.ini' ), 'enabled' ) *}
+{section show=ezpreference( 'admin_edit_show_locations' )}
+    {include uri='design:content/edit_locations.tpl'}
 {section-else}
-{* This disables all node assignment checking in content/edit *}
-<input type="hidden" name="UseNodeAssigments" value="0" />
+    {* This disables all node assignment checking in content/edit *}
+    <input type="hidden" name="UseNodeAssigments" value="0" />
 {/section}
 
 </div>
