@@ -117,6 +117,13 @@ class eZHiOMenuOperator
             else if ( $namedParameters['section_id']==19 )  // English pages
                 $offset = 1;
 
+            $node =& eZContentObjectTreeNode::fetch( $namedParameters['node_id']  );
+
+            if ( $node->attribute( 'main_node_id' ) != $namedParameters['node_id'] )
+            {
+                $offset = 0;
+            }
+
             while ( !$done )
             {
                 // get node id
@@ -125,6 +132,7 @@ class eZHiOMenuOperator
 
                 $excludeNode = false;
                 $node =& eZContentObjectTreeNode::fetch( $nodeID );
+
                 if ( $node )
                 {
                     $obj = $node->attribute('object');
