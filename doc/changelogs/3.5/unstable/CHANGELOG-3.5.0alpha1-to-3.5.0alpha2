@@ -11,6 +11,7 @@ Changes from 3.5.0alpha1 to 3.5.0alpha2
 - Added new method eZContentObjectTreeNode::clearViewCacheForSubtree()
   that clears view cache for a given subtree.
 - Added default SOAP server support. Added soap.php, which will include specified SOAP extensions.
+- Added function to swap two nodes without changing any other content structure.
 
 *Datatype:
 - Added default function canRemovable( $contentClassAttribute ) in ezdatatype.php. This 

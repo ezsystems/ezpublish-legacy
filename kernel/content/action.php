@@ -346,6 +346,189 @@ else if ( $module->isCurrentAction( 'MoveNodeRequest' ) )
 
     return;
 }
+else if ( $module->isCurrentAction( 'SwapNode' ) )
+{
+    if ( !$module->hasActionParameter( 'NodeID' ) )
+    {
+        eZDebug::writeError( "Missing NodeID parameter for action " . $module->currentAction(),
+                             'content/action' );
+        return $module->redirectToView( 'view', array( 2 ) );
+    }
+
+    $nodeID = $module->actionParameter( 'NodeID' );
+    $viewMode = 'full';
+    if ( $module->hasActionParameter( 'ViewMode' ) )
+        $viewMode = $module->actionParameter( 'ViewMode' );
+    if ( $module->hasActionParameter( 'LanguageCode' ) )
+    {
+        $languageCode = $module->actionParameter( 'LanguageCode' );
+    }
+    else
+    {
+        $languageCode = eZContentObject::defaultLanguage();
+    }
+
+    $node =& eZContentObjectTreeNode::fetch( $nodeID );
+
+    if ( !$node )
+        return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
+
+    if ( !$node->checkAccess( 'move' ) )
+        return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
+
+    $nodeParentNodeID = & $node->attribute( 'parent_node_id' );
+    $object =& $node->object();
+    if ( !$object )
+        return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
+    $objectID = $object->attribute( 'id' );
+    $objectVersion = $object->attribute( 'current_version' );
+    $class =& $object->contentClass();
+    $classID = $class->attribute( 'id' );
+
+    if ( $module->hasActionParameter( 'NewNode' ) )
+    {
+        $selectedNodeID = $module->actionParameter( 'NewNode' );
+    }
+    else
+    {
+         $selectedNodeIDArray = eZContentBrowse::result( 'SwapNode' );
+         $selectedNodeID = $selectedNodeIDArray[0];
+    }
+
+    $selectedNode =& eZContentObjectTreeNode::fetch( $selectedNodeID );
+    if ( !$selectedNode )
+    {
+        eZDebug::writeWarning( "Content node with ID $selectedNodeID does not exist, cannot use that as exchanging node for node $nodeID",
+                               'content/action' );
+        return $module->redirectToView( 'view', array( 2 ) );
+    }
+    if ( !$selectedNode->checkAccess( 'edit' ) )
+    {
+        eZDebug::writeError( "Cannot use node $selectedNodeID as the exchanging node for $nodeID, the current user does not have edit permission for it",
+                             'content/action' );
+        return $module->redirectToView( 'view', array( 2 ) );
+    }
+
+    // clear cache.
+    include_once( 'kernel/content/ezcontentoperationcollection.php' );
+    eZContentOperationCollection::clearObjectViewCache( $objectID, true );
+
+    $selectedObject =& $selectedNode->object();
+    $selectedObjectID =& $selectedObject->attribute( 'id' );
+    $selectedObjectVersion =& $selectedObject->attribute( 'current_version' );
+    $selectedNodeParentNodeID=& $selectedNode->attribute( 'parent_node_id' );
+    $node->setAttribute( 'contentobject_id', $selectedObjectID );
+    $node->setAttribute( 'contentobject_version', $selectedObjectVersion );
+    $node->store();
+    $selectedNode->setAttribute( 'contentobject_id', $objectID );
+    $selectedNode->setAttribute( 'contentobject_version', $objectVersion );
+    $selectedNode->store();
+
+    // modify assignment
+    $sourceNodeAssignment =& eZNodeAssignment::fetch( $objectID, $objectVersion, $nodeParentNodeID );
+    if ( $sourceNodeAssignment )
+    {
+        $sourceNodeAssignment->setAttribute( 'contentobject_id', $selectedObjectID );
+        $sourceNodeAssignment->setAttribute( 'contentobject_version', $selectedObjectVersion );
+        $sourceNodeAssignment->store();
+    }
+
+    $targetNodeAssignment =& eZNodeAssignment::fetch( $selectedObjectID, $selectedObjectVersion, $selectedNodeParentNodeID );
+    if ( $targetNodeAssignment )
+    {
+        $targetNodeAssignment->setAttribute( 'contentobject_id', $objectID );
+        $targetNodeAssignment->setAttribute( 'contentobject_version', $objectVersion );
+        $targetNodeAssignment->store();
+    }
+
+    // modify path string
+    $changedOriginalNode =& eZContentObjectTreeNode::fetch( $nodeID );
+    $changedOriginalNode->updateSubTreePath();
+    $changedTargetNode =& eZContentObjectTreeNode::fetch( $selectedNodeID );
+    $changedTargetNode->updateSubTreePath();
+
+    // clear cache for new placement.
+    eZContentOperationCollection::clearObjectViewCache( $objectID, true );
+
+    $ini =& eZINI::instance();
+    if ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' )
+    {
+        eZContentObject::expireTemplateBlockCache();
+    }
+
+    return $module->redirectToView( 'view', array( $viewMode, $nodeID, $languageCode ) );
+}
+else if ( $module->isCurrentAction( 'SwapNodeRequest' ) )
+{
+    if ( !$module->hasActionParameter( 'NodeID' ) )
+    {
+        eZDebug::writeError( "Missing NodeID parameter for action " . $module->currentAction(),
+                             'content/action' );
+        return $module->redirectToView( 'view', array( 2 ) );
+    }
+
+    $nodeID = $module->actionParameter( 'NodeID' );
+    $viewMode = 'full';
+    if ( $module->hasActionParameter( 'ViewMode' ) )
+        $viewMode = $module->actionParameter( 'ViewMode' );
+    if ( $module->hasActionParameter( 'LanguageCode' ) )
+    {
+        $languageCode = $module->actionParameter( 'LanguageCode' );
+    }
+    else
+    {
+        $languageCode = eZContentObject::defaultLanguage();
+    }
+
+    $node =& eZContentObjectTreeNode::fetch( $nodeID );
+    if ( !$node )
+        return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
+
+    if ( !$node->checkAccess( 'move' ) )
+        return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
+
+    $object =& $node->object();
+    if ( !$object )
+        return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
+    $objectID = $object->attribute( 'id' );
+    $class =& $object->contentClass();
+
+    $ignoreNodesSelect = array();
+    $ignoreNodesClick = array();
+
+    $publishedAssigned = $object->assignedNodes( false );
+    foreach ( $publishedAssigned as $element )
+    {
+        $ignoreNodesSelect[] = $element['node_id'];
+        $ignoreNodesClick[]  = $element['node_id'];
+        $ignoreNodesSelect[] = $element['parent_node_id'];
+    }
+    $ignoreNodesSelect = array_unique( $ignoreNodesSelect );
+    $ignoreNodesClick = array_unique( $ignoreNodesClick );
+    eZContentBrowse::browse( array( 'action_name' => 'SwapNode',
+                                    'description_template' => 'design:content/browse_swap_node.tpl',
+                                    'keys' => array( 'class' => $class->attribute( 'id' ),
+                                                     'class_id' => $class->attribute( 'identifier' ),
+                                                     'classgroup' => $class->attribute( 'ingroup_id_list' ),
+                                                     'section' => $object->attribute( 'section_id' ) ),
+                                    'ignore_nodes_select' => $ignoreNodesSelect,
+                                    'ignore_nodes_click'  => $ignoreNodesClick,
+                                    'persistent_data' => array( 'ContentNodeID' => $nodeID,
+                                                                'ViewMode' => $viewMode,
+                                                                'ContentObjectLanguageCode' => $languageCode,
+                                                                'SwapNodeAction' => '1' ),
+                                    'permission' => array( 'access' => 'edit',
+                                                           'contentclass_id' => $class->attribute( 'id' ) ),
+                                    'content' => array( 'object_id' => $objectID,
+                                                        'object_version' => $object->attribute( 'current_version' ),
+                                                        'object_language' => $languageCode ),
+                                    'start_node' => $node->attribute( 'parent_node_id' ),
+                                    'cancel_page' => $module->redirectionURIForModule( $module, 'view', array( $viewMode, $nodeID, $languageCode ) ),
+                                    'from_page' => "/content/action" ),
+                             $module );
+
+    return;
+}
 else if ( $module->isCurrentAction( 'UpdateMainAssignment' ) )
 {
     if ( !$module->hasActionParameter( 'ObjectID' ) )

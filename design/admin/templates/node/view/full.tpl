@@ -57,6 +57,13 @@
     <input class="button-disabled" type="submit" name="MoveNodeButton" value="{'Move'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permissions to move this item to another location.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
 {/section}
 
+{* Swap button. *}
+{section show=$node.can_move}
+    <input class="button" type="submit" name="SwapNodeButton" value="{'Swap'|i18n( 'design/admin/node/view/full' )}" title="{'Swap this item to another item.'|i18n( 'design/admin/node/view/full' )}" />
+{section-else}
+    <input class="button-disabled" type="submit" name="SwapNodeButton" value="{'Swap'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permissions to swap this item to another item.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
+{/section}
+
 {* Remove button. *}
 {section show=$node.can_remove}
     <input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n( 'design/admin/node/view/full' )}" title="{'Remove this item.'|i18n( 'design/admin/node/view/full' )}" />
