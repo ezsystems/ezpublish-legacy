@@ -129,6 +129,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 
                 $schema[$table_name] = $schema_table;
             }
+            ksort( $schema );
         }
         else
         {
@@ -190,7 +191,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
             {
                 if ( $field['default'] == false)
                 {
-                    $field['default'] = '0';
+                    $field['default'] = 0;
                 }
                 else if ( $field['type'] == 'integer' )
                 {
@@ -216,6 +217,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 			}
 			$fields[$row['attname']] = $field;
 		}
+        ksort( $fields );
 
 		return $fields;
 	}
@@ -264,6 +266,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 				$indexes[$kn]['fields'][$rank] = $fields[$id];
 			}
 		}
+        ksort( $indexes );
 
 		return $indexes;
 	}
@@ -274,6 +277,8 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 		if ( isset( $matches[3] ) )
 		{
 			$length_info = $matches[3];
+            if ( is_numeric( $length_info ) )
+                $length_info = (int)$length_info;
 		}
 		$type = $this->convertToStandardType ( $matches[1], $length_info );
 		return $type;
@@ -443,7 +448,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 	{
 		if ($def['type'] == 'primary' )
 		{
-			$sql = "ALTER TABLE DROP CONSTRAINT $index_name";
+			$sql = "ALTER TABLE $table_name DROP CONSTRAINT $index_name";
 		}
 		else
 		{

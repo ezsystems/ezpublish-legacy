@@ -69,6 +69,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
 
                 $schema[$table_name] = $schema_table;
             }
+            ksort( $schema );
         }
         else
         {
@@ -152,6 +153,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
 			}
 			$fields[$row['Field']] = $field;
 		}
+        ksort( $fields );
 
 		return $fields;
 	}
@@ -179,6 +181,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
 			}
 			$indexes[$kn]['fields'][$row['Seq_in_index'] - 1] = $row['Column_name'];
 		}
+        ksort( $indexes );
 
 		return $indexes;
 	}
@@ -189,6 +192,8 @@ class eZMysqlSchema extends eZDBSchemaInterface
 		if ( isset ( $matches[3] ) )
 		{
 			$length_info = $matches[3];
+            if ( is_numeric( $length_info ) )
+                $length_info = (int)$length_info;
 		}
 		return $matches[1];
 	}
@@ -327,7 +332,8 @@ class eZMysqlSchema extends eZDBSchemaInterface
 
         foreach ( $table_def['indexes'] as $index_name => $index_def )
         {
-            if ( ( $index_def['type'] == 'primary' ) && ( !$skip_pk ) )
+            if ( $index_def['type'] != 'primary' or
+                 ( $index_def['type'] == 'primary' ) && ( !$skip_pk ) )
             {
                 $sql .= eZMysqlSchema::generateAddIndexSql( $table, $index_name, $index_def );
             }
