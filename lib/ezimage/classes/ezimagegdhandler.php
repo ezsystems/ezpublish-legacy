@@ -55,7 +55,8 @@ class eZImageGDHandler extends eZImageHandler
     /*!
      Constructor
     */
-    function eZImageGDHandler( $handlerName, $outputRewriteType = EZ_IMAGE_HANDLER_REPLACE_SUFFIX,
+    function eZImageGDHandler( $handlerName, $isGloballyEnabled,
+                               $outputRewriteType = EZ_IMAGE_HANDLER_REPLACE_SUFFIX,
                                $conversionRules = false )
     {
         $supportedInputMIMETypes = array();
@@ -104,7 +105,8 @@ class eZImageGDHandler extends eZImageHandler
                 }
             }
         }
-        $this->IsEnabled = $isEnabled;
+        if ( !$isGloballyEnabled )
+            $isEnabled = false;
         $this->FilterFunctionMap = array( 'geometry/scale' => 'scaleImage',
                                           'geometry/scalewidth' => 'scaleImageWidth',
                                           'geometry/scaleheight' => 'scaleImageHeight',
@@ -137,14 +139,6 @@ class eZImageGDHandler extends eZImageHandler
         $this->eZImageHandler( $handlerName, $outputRewriteType,
                                $supportedInputMIMETypes, $supportedOutputMIMETypes,
                                $conversionRules, $filters );
-    }
-
-    /*!
-     \return \c true if the GD extension is available and at least one image format is enabled.
-    */
-    function isAvailable()
-    {
-        return $this->IsEnabled;
     }
 
     /*!
@@ -773,8 +767,10 @@ class eZImageGDHandler extends eZImageHandler
                     }
                 }
             }
+            $isEnabled = $ini->variable( $iniGroup, 'IsEnabled' ) == 'true';
             $outputRewriteType = EZ_IMAGE_HANDLER_REPLACE_SUFFIX;
-            $handler = new eZImageGDHandler( $name, $outputRewriteType,
+            $handler = new eZImageGDHandler( $name, $isEnabled,
+                                             $outputRewriteType,
                                              $conversionRules );
             return $handler;
         }

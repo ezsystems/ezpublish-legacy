@@ -50,11 +50,11 @@ class eZImageShellHandler extends eZImageHandler
     /*!
      Constructor
     */
-    function eZImageShellHandler( $handlerName, $outputRewriteType = EZ_IMAGE_HANDLER_REPLACE_SUFFIX,
+    function eZImageShellHandler( $handlerName, $isEnabled = true, $outputRewriteType = EZ_IMAGE_HANDLER_REPLACE_SUFFIX,
                                   $supportedInputMIMETypes = false, $supportedOutputMIMETypes = false,
-                                  $conversionRules = false, $filters = false, $mimeTagMap = false )
+                                  $conversionRules = false, $filters = false, $mimeTagMap = false)
     {
-        $this->eZImageHandler( $handlerName, $outputRewriteType,
+        $this->eZImageHandler( $handlerName, $isEnabled, $outputRewriteType,
                                $supportedInputMIMETypes, $supportedOutputMIMETypes,
                                $conversionRules, $filters, $mimeTagMap );
         $this->Path = false;
@@ -193,6 +193,7 @@ class eZImageShellHandler extends eZImageHandler
                     }
                 }
             }
+            $isEnabled = $ini->variable( $iniGroup, 'IsEnabled' ) == 'true';
             $path = false;
             $executable = false;
             $preParameters = false;
@@ -250,7 +251,8 @@ class eZImageShellHandler extends eZImageHandler
                         $mimeTagMap[$mimeTagMapArray[0]] = $mimeTagMapArray[1];
                 }
             }
-            $handler = new eZImageShellHandler( $name, $outputRewriteType,
+            $handler = new eZImageShellHandler( $name, $isEnabled,
+                                                $outputRewriteType,
                                                 $inputMimeList, $outputMimeList,
                                                 $conversionRules, $filters, $mimeTagMap );
             $handler->Path = $path;

@@ -52,7 +52,7 @@ class eZImageHandler
     /*!
      Constructor
     */
-    function eZImageHandler( $handlerName, $outputRewriteType = EZ_IMAGE_HANDLER_REPLACE_SUFFIX,
+    function eZImageHandler( $handlerName, $isEnabled = true, $outputRewriteType = EZ_IMAGE_HANDLER_REPLACE_SUFFIX,
                              $supportedInputMIMETypes = false, $supportedOutputMIMETypes,
                              $conversionRules = false, $filters = false, $mimeTagMap = false )
     {
@@ -77,6 +77,7 @@ class eZImageHandler
             }
         }
         $this->SupportImageFilters = array_unique( $this->SupportImageFilters );
+        $this->IsEnabled = $isEnabled;
     }
 
     /*!
@@ -90,7 +91,7 @@ class eZImageHandler
     */
     function isAvailable()
     {
-        return true;
+        return $this->IsEnabled;
     }
 
     /*!

@@ -31,6 +31,7 @@ Changes from 3.3.0-1 to 3.3.0-2
 - Fixed the approve workflow type to show users real name not the login.
 - Fixed ezimage datatype to return the alternative text or the original filename (instead of local filename) as title.
 - Changed the eZ publish web server to work with the new image system.
+- Added support for enabling/disabling image handlers in image.ini, the setup will enable/disable the ImageMagick handler.
 
 *Bugfixes:
 - NB! Fixed bug in upgrade script from 3.2-3 to 3.3.0-1. If you had temporary classes the upgrade scrpt generated an error and did not work.

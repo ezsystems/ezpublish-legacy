@@ -137,24 +137,10 @@ class eZStepCreateSites extends eZStepInstaller
         $emailInfo = $this->PersistenceList['email_info'];
 
         $imageINI = eZINI::create( 'image.ini' );
-//        $imageINI->setVariable( 'ConverterSettings', 'UseConvert', 'false' );
-//        $imageINI->setVariable( 'ConverterSettings', 'UseGD', 'false' );
+        $imageINI->setVariable( 'ImageMagick', 'IsEnabled', 'false' );
         if ( $this->PersistenceList['imagemagick_program']['result'] )
         {
-//            $imageINI->setVariable( 'ConverterSettings', 'UseConvert', 'true' );
-            $imageINI->setVariable( 'ImageMagick', 'ExecutablePath', $this->PersistenceList['imagemagick_program']['path'] );
-            $imageINI->setVariable( 'ImageMagick', 'Executable', $this->PersistenceList['imagemagick_program']['program'] );
-        }
-        if ( $this->PersistenceList['imagegd_extension']['result'] )
-        {
-            $imageINI->setVariable( 'ConverterSettings', 'UseGD', 'true' );
-
-            $imageINI->setVariable( 'Rules', 'DefaultRule', 'image/jpeg;gd' );
-            $imageINI->setVariable( 'Rules', 'Rules', array( 'image/jpeg;image/jpeg;gd',
-                                                             'image/png;image/png;gd',
-                                                             'image/gif;image/png;gd',
-                                                             'image/xpm;image/png;gd',
-                                                             'image/tiff;image/png;gd' ) );
+            $imageINI->setVariable( 'ImageMagick', 'IsEnabled', 'true' );
         }
 
         $saveResult = false;
