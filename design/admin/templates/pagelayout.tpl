@@ -62,7 +62,7 @@ div#leftmenu-design { margin: 0.5em 4px 0.5em 0.5em; }
 <![endif]-->
 {/literal}
 
-{section show=ezpreference( 'admin_left_menu_width' )|gt( 0 )}
+{section show=ezpreference( 'admin_left_menu_width' )}
 {let left_menu_widths=ezini( 'LeftMenuSettings', 'MenuWidth', 'menu.ini' )
      left_menu_width=$left_menu_widths[ezpreference( 'admin_left_menu_width' )]}
 <style type="text/css">
