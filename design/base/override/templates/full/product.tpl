@@ -5,6 +5,12 @@
 
         <h1>{$node.name|wash()}</h1>
 
+    {section show=$node.object.data_map.image.content}
+        <div class="content-image">
+            {attribute_view_gui alignment=right image_class=medium attribute=$node.object.data_map.image.content.data_map.image}
+        </div>
+    {/section}
+
         <div class="content-short">
            {attribute_view_gui attribute=$node.object.data_map.intro}
         </div>
