@@ -937,6 +937,10 @@
         <source>Make empty array</source>
         <translation>Lag tom liste</translation>
     </message>
+    <message>
+        <source>Remove selected</source>
+        <translation>Fjern valgte</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class/edit</name>
@@ -1859,6 +1863,10 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
     <message>
         <source>Value (optional)</source>
         <translation>Verdi (valgfri)</translation>
+    </message>
+    <message>
+        <source>No media file is available.</source>
+        <translation>Ingen mediefil er tilgjengelig.</translation>
     </message>
 </context>
 <context>
@@ -4148,6 +4156,10 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
         <source>Ignore</source>
         <translation>Ignorer</translation>
     </message>
+    <message>
+        <source>Remove Source</source>
+        <translation>Fjern kilde</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/rss/list</name>
@@ -5859,10 +5871,6 @@ To fix this problem you must do one of the following:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the %documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.&lt;br&gt;Note that Postgre 7.2 and 7.4 are not supported.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>System finetuning</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6198,6 +6206,10 @@ To fix this problem you must do one of the following:</source>
     </message>
     <message>
         <source>No data will be stored in the database until the final step of the setup.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the %documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.&lt;br&gt;Note that PostgreSQL 7.2 is not supported.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7294,6 +7306,10 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
         <source>You need to log in to get access to the intranet.</source>
         <translation>Du må logge inn for å få tilgang til intranettet.</translation>
     </message>
+    <message>
+        <source>Password must be at least 3 characters long, please retype your new password.</source>
+        <translation>Passordet må være minst 3 tegn langt, vennligst skriv inn et nytt passord.</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/user/forgotpassword</name>
@@ -7920,7 +7936,7 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     </message>
     <message>
         <source>Text field is empty, content required.</source>
-        <translation>Tekstfeltet er tomt, oppgi en verdi.</translation>
+        <translation type="obsolete">Tekstfeltet er tomt, oppgi en verdi.</translation>
     </message>
     <message>
         <source>The login must be specified</source>
@@ -8113,6 +8129,18 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
         <source>Send</source>
         <comment>Datatype information collector action</comment>
         <translation>Send</translation>
+    </message>
+    <message>
+        <source>Size of uploaded file exceeds limit set by upload_max_filesize directive in php.ini.</source>
+        <translation>Den opplastede filen er større enn begrensningen som er satt i upload_max_filesize i php.ini.</translation>
+    </message>
+    <message>
+        <source>Size of uploaded file exceeds %1 bytes.</source>
+        <translation>Den opplastede filen er mer enn %1 byte stor.</translation>
+    </message>
+    <message>
+        <source>Missing objectrelation input.</source>
+        <translation>Objektrelasjon er ikke oppgitt.</translation>
     </message>
 </context>
 <context>
