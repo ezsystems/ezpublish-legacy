@@ -20,9 +20,9 @@
 </tr>
 {section var=Groups loop=$groups sequence=array( bglight, bgdark )}
 <tr class="{$Groups.sequence}">
-    <td><input type="checkbox" name="ContentClass_id_checked[]" value="{$Groups.item.id}"></td>
+    <td><input type="checkbox" name="ContentClass_id_checked[]" value="{$Groups.item.id}" title="{'Select workflow group for removal.'|i18n( 'design/admin/workflow/grouplist' )}" /></td>
     <td><a href={concat( $module.functions.workflowlist.uri, '/', $Groups.item.id )|ezurl}>{$Groups.item.name}</a></td>
-    <td><a href={concat( $module.functions.groupedit.uri, '/', $Groups.item.id )|ezurl}><img name="edit" src={"edit.png"|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/workflow/grouplist' )}" title="{'Edit workflow'|i18n( 'design/admin/workflow/grouplist' )}" /></a></td>
+    <td><a href={concat( $module.functions.groupedit.uri, '/', $Groups.item.id )|ezurl}><img name="edit" src={'edit.png'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/workflow/grouplist' )}" title="{'Edit the <%workflow_group_name> workflow group.'|i18n( 'design/admin/workflow/grouplist',, hash( '%workflow_group_name', $Groups.item.name ) )|wash}" /></a></td>
 </tr>
 {/section}
 {section-else}
@@ -39,8 +39,12 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-    <input class="button" type="submit" name="DeleteGroupButton" value="{'Remove selected'|i18n( 'design/admin/workflow/grouplist' )}"  title="{'Remove selected workflow groups.'|i18n( 'design/admin/workflow/grouplist' )}" {section show=$groups|count|not}disabled="disabled"{/section} />
-    <input class="button" type="submit" name="NewGroupButton" value="{'New workflow group'|i18n( 'design/admin/workflow/grouplist' )}" />
+    {section show=$groups}
+    <input class="button" type="submit" name="DeleteGroupButton" value="{'Remove selected'|i18n( 'design/admin/workflow/grouplist' )}"  title="{'Remove selected workflow groups.'|i18n( 'design/admin/workflow/grouplist' )}"  />
+    {section-else}
+    <input class="button-disabled" type="submit" name="DeleteGroupButton" value="{'Remove selected'|i18n( 'design/admin/workflow/grouplist' )}"  disabled="disabled" />
+    {/section}
+    <input class="button" type="submit" name="NewGroupButton" value="{'New workflow group'|i18n( 'design/admin/workflow/grouplist' )}" title="{'Create a new workflow group.'|i18n( 'design/admin/workflow/grouplist' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>

@@ -62,7 +62,7 @@
   </tr>
    {section var=Workflows loop=$workflow_list sequence=array( bglight, bgdark )}
        <tr class="{$Workflows.sequence}">
-    <td><input type="checkbox" name="Workflow_id_checked[]" value="{$Workflows.item.id}"></td>
+    <td><input type="checkbox" name="Workflow_id_checked[]" value="{$Workflows.item.id}" title="{'Select workflow for removal.'|i18n( 'design/admin/workflow/workflowlist' )}" /></td>
     <td><a href={concat( $module.functions.view.uri, '/', $Workflows.item.id )|ezurl}>{$Workflows.item.name}</a></td>
     <td>
     {let modifier=fetch( content, object, hash( object_id, $Workflows.item.modifier_id ) )}
@@ -70,7 +70,7 @@
     {/let}
     </td>
     <td>{$Workflows.item.modified|l10n( shortdatetime )}</td>
-    <td><a href={concat( $module.functions.edit.uri, '/', $Workflows.item.id )|ezurl}><img name="edit" src={'edit.png'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/workflow/workflowlist' )}" /></a></td>
+    <td><a href={concat( $module.functions.edit.uri, '/', $Workflows.item.id )|ezurl}><img name="edit" src={'edit.png'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/workflow/workflowlist' )}" title="{'Edit the <%workflow_name> workflow.'|i18n( 'design/admin/workflow/workflowlist',, hash( '%workflow_name', $Workflows.item.name ) )}" /></a></td>
     </tr>
    {/section}
 </table>
@@ -87,8 +87,13 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-    <input class="button" type="submit" name="DeleteButton" value="{'Remove selected'|i18n( 'design/admin/workflow/workflowlist' )}" {section show=$workflow_list|not}disabled="disabled"{/section} />
-    <input class="button" type="submit" name="NewWorkflowButton" value="{'New workflow'|i18n( 'design/admin/workflow/workflowlist' )}" />
+    {section show=$workflow_list}
+    <input class="button" type="submit" name="DeleteButton" value="{'Remove selected'|i18n( 'design/admin/workflow/workflowlist' )}" title="{'Remove selected workflows.'|i18n( 'design/admin/workflow/workflowlist' )}" />
+    {section-else}
+    <input class="button-disabled" type="submit" name="DeleteButton" value="{'Remove selected'|i18n( 'design/admin/workflow/workflowlist' )}" disabled="disabled" />
+    {/section}
+
+    <input class="button" type="submit" name="NewWorkflowButton" value="{'New workflow'|i18n( 'design/admin/workflow/workflowlist' )}" title="{'Create a new workflow.'|i18n( 'design/admin/workflow/workflowlist' )}" />
     <input type="hidden" name="CurrentGroupID" value="{$group_id}" />
     <input type="hidden" name="CurrentGroupName" value="{$group_name}" />
 </div>
