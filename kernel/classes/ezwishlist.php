@@ -128,40 +128,29 @@ class eZWishList extends eZPersistentObject
                                                        null,
                                                        null,
                                                        $asObject );
-        $discountPercent = $this->discountPercent();
+//        $discountPercent = $this->discountPercent();
         $addedProducts = array();
         foreach ( $productItems as  $productItem )
         {
+            $discountPercent = 0.0;
             $isVATIncluded = true;
             $id = $productItem->attribute( 'id' );
             $contentObject = $productItem->attribute( 'contentobject' );
 
             if ( $contentObject !== null )
             {
-                $attributes = $contentObject->contentObjectAttributes();
-                foreach ( $attributes as $attribute )
-                {
-                    $dataType =& $attribute->dataType();
-                    if ( $dataType->isA() == "ezprice" )
-                    {
-                        $classAttribute =& $attribute->attribute( 'contentclass_attribute' );
-                        $VATID =  $classAttribute->attribute( EZ_DATATYPESTRING_VAT_ID_FIELD );
-                        $VATIncludeValue = $classAttribute->attribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD );
-                        if ( $VATIncludeValue==0 or $VATIncludeValue==1 )
-                            $isVATIncluded = true;
-                        else
-                            $isVATIncluded = false;
-                        $VATType =& eZVatType::fetch( $VATID );
-                        $VATValue = $VATType->attribute( 'percentage' );
-                    }
-                }
+                $vatValue = $productItem->attribute( 'vat_value' );
+                $count = $productItem->attribute( 'item_count' );
+                $discountPercent = $productItem->attribute( 'discount' );
                 $nodeID = $contentObject->attribute( 'main_node_id' );
                 $objectName = $contentObject->attribute( 'name' );
-                $count = $productItem->attribute( 'item_count' );
+
+                $isVATIncluded = $productItem->attribute( 'is_vat_inc' );
                 $price = $productItem->attribute( 'price' );
+
                 if ( $isVATIncluded )
                 {
-                    $priceExVAT = $price / ( 100 + $VATValue ) * 100;
+                    $priceExVAT = $price / ( 100 + $vatValue ) * 100;
                     $priceIncVAT = $price;
                     $totalPriceExVAT = $count * $priceExVAT * ( 100 - $discountPercent ) / 100;
                     $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
@@ -169,12 +158,12 @@ class eZWishList extends eZPersistentObject
                 else
                 {
                     $priceExVAT = $price;
-                    $priceIncVAT = $price * ( 100 + $VATValue ) / 100;
+                    $priceIncVAT = $price * ( 100 + $vatValue ) / 100;
                     $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
                     $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
                 }
                 $addedProduct = array( "id" => $id,
-                                       "vat_value" => $VATValue,
+                                       "vat_value" => $vatValue,
                                        "item_count" => $count,
                                        "node_id" => $nodeID,
                                        "object_name" => $objectName,
@@ -185,6 +174,7 @@ class eZWishList extends eZPersistentObject
                                        "total_price_inc_vat" => $totalPriceIncVAT );
                 $addedProducts[] = $addedProduct;
             }
+
         }
         return $addedProducts;
     }
