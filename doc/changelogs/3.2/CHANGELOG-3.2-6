@@ -59,3 +59,7 @@ Changes from 3.2-5 to 3.2-6
 eZDebug:
 - Made sure the dumpVariable function don't mess up any existing output buffers
   or start a new unneeded one.
+
+eZ template:
+- Fixed a major bug in the si operator, the calculations and prefixes
+  were wrong in many cases.
