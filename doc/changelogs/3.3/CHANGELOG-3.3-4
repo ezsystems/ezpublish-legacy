@@ -118,7 +118,9 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/error_in_confirmorder_php
 - Made sure the SubTreeArray parameter is remembered on next/previous links in advanced search.
   http://ez.no/community/bug_reports/ez_no_documentation_search_problem
-
+- Fixed bug in permissions for versionview. (Merged from 3.2 rev. 5501)
+  http://ez.no/community/bug_reports/unable_to_use_versionview_without_create_permission
+  
 *Library:
 - Fixed case bug in the Timeout variable in eZSOAPClient.
 
