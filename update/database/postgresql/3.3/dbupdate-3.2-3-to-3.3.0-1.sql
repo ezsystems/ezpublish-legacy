@@ -16,7 +16,7 @@ CREATE SEQUENCE ezpdf_export_s
     CACHE 1;
 
 CREATE TABLE ezpdf_export ( 
-  id integer DEFAULT nextval('ezpdf_export_s'::text) NOT NULL
+  id integer DEFAULT nextval('ezpdf_export_s'::text) NOT NULL,
   title varchar(255) default NULL,
   show_frontpage int default NULL,
   intro_text text default NULL,
