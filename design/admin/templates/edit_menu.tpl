@@ -7,6 +7,8 @@
 </div></div></div></div></div></div>
 
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-br"><div class="box-bl"><div class="box-content">
+
+{* Object ID *}
 <p>
 <label>{'ID'|i18n( 'design/admin/content/edit' )}:</label>
 {$object.id}
@@ -93,8 +95,6 @@
 {$edit_version}
 </p>
 
-
-
 <div class="block">
 <input class="button" type="submit" name="PreviewButton" value="{'Preview'|i18n('design/admin/content/edit')}" />
 </div>
@@ -165,6 +165,8 @@
 {section-else}
 <input class="button" type="submit" name="EditLanguageButton" value="{'Edit selected'|i18n( 'design/admin/content/edit' )}" />
 {/section}
+</div>
+<div class="block">
 <input class="button" type="submit" name="TranslateButton" value="{'Manage translations'|i18n('design/admin/content/edit' )}" />
 </div>
 {/section}
