@@ -295,7 +295,7 @@ class eZDataType
      Initializes the object attribute with some data.
      \note Default implementation does nothing.
     */
-    function initializeObjectAttribute( &$objectAttribute, $currentVersion = null )
+    function initializeObjectAttribute( &$objectAttribute, $currentVersion )
     {
     }
 
@@ -311,7 +311,7 @@ class eZDataType
      Returns the title of the current type, this is to form
      the title of the object.
     */
-    function title()
+    function title(  &$objectAttribute, $name = null )
     {
         return "";
     }

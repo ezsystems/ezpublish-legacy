@@ -100,13 +100,9 @@ class eZOption
         $shiftvalue = 0;
         foreach( $array_remove as $id )
         {
-               
             array_splice( $options, $id - $shiftvalue, 1 );
             $shiftvalue++;
-//            eZDebug::writeNotice( $options, "options " . $shiftvalue );
         }
-        
-        
         $this->OptionCount -= $shiftvalue;
     }
     function hasAttribute( $name )
@@ -134,7 +130,6 @@ class eZOption
             }break;
         }
     }
-
 
     /*!
      Will decode an xml string and initialize the eZ option object

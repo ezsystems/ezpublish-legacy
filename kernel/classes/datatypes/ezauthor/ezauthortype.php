@@ -109,10 +109,10 @@ class eZAuthorType extends eZDataType
     /*!
      Store content
     */
-    function storeObjectAttribute( &$attribute )
+    function storeObjectAttribute( &$contentObjectAttribute )
     {
-        $author =& $attribute->content();
-        $attribute->setAttribute( "data_text", $author->xmlString() );
+        $author =& $contentObjectAttribute->content();
+        $contentObjectAttribute->setAttribute( "data_text", $author->xmlString() );
     }
 
     /*!
@@ -205,7 +205,9 @@ class eZAuthorType extends eZDataType
     {
         $author =& $contentObjectAttribute->content( );
 
-        return $author->name();
+        $value = $author->attribute( $name );
+
+        return $value;
     }
 }
 

@@ -231,7 +231,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
      Initialized the attribute by using the datatype.
     */
-    function initialize( $currentVersion )
+    function initialize( $currentVersion = null )
     {
         $classAttribute =& $this->contentClassAttribute();
         $dataType =& $classAttribute->dataType();

@@ -9,7 +9,6 @@
 	<td class="bglight">
 	<input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
 	<input name="ContentObjectAttribute_data_imagename_{$attribute.id}" type="file" />
-
 	</td>
 </tr>
 {section show=or($attribute.content,$attribute.content.filename)}

@@ -98,10 +98,10 @@ class eZOptionType extends eZDataType
     /*!
      Store content
     */
-    function storeObjectAttribute( &$attribute )
+    function storeObjectAttribute( &$contentObjectAttribute )
     {
-        $option =& $attribute->content();
-        $attribute->setAttribute( "data_text", $option->xmlString() );
+        $option =& $contentObjectAttribute->content();
+        $contentObjectAttribute->setAttribute( "data_text", $option->xmlString() );
     }
 
     /*!
@@ -176,11 +176,13 @@ class eZOptionType extends eZDataType
     /*!
      Returns the integer value.
     */
-    function title( &$contentObjectAttribute )
+    function title( &$contentObjectAttribute, $name = "name" )
     {
         $option =& $contentObjectAttribute->content( );
 
-        return $option->name();
+        $value = $option->attribute( $name );
+
+        return $value;
     }
 }
 

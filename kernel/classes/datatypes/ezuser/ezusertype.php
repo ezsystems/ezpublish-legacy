@@ -150,14 +150,19 @@ class eZUserType extends eZDataType
             $user = eZUser::create( $contentObjectAttribute->attribute( "contentobject_id" ) );
         }
         $user->store();
+        //  eZDebug::writeError( $this->title( &$contentObjectAttribute, "email" ) );
     }
 
     /*!
      Returns the object title.
     */
-    function title( &$contentObjectAttribute )
+    function title( &$contentObjectAttribute, $name = "login" )
     {
-        return $contentObjectAttribute->attribute( "data_user" );
+        $user = $this->objectAttributeContent( &$contentObjectAttribute );
+
+        $value = $user->attribute( $name );
+
+        return $value;
     }
 
     /*!

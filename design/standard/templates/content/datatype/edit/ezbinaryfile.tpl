@@ -23,6 +23,9 @@
 	<td class="bglight">
 	<b>{"Existing mime/type"|i18n}</b>:<br/>
 	</td>
+	</td>
+	<td class="bglight">
+	</td>
 </tr>
 <tr>
 	<td class="bglight">
@@ -34,9 +37,9 @@
 	<td class="bglight">
 	{$attribute.content.mime_type}
 	</td>
-</tr>
-<tr>
-  <td>{$attribute.content.original_filename}</td>
+	<td class="bglight">
+	<input type="submit" name="CustomActionButton[{$attribute.id}_delete_binary]" value="{'Delete'|i18n}" />
+	</td>
 </tr>
 {/section}
 

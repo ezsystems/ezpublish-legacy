@@ -170,7 +170,7 @@ class eZEnumType extends eZDataType
      Does nothing since it has been stored.
      See fetchObjectAttributeHTTPInput for the actual storing.
     */
-    function storeObjectAttribute( &$attribute )
+    function storeObjectAttribute( &$contentObjectAttribute )
     {
     }
 
@@ -306,9 +306,13 @@ class eZEnumType extends eZDataType
     /*!
      Returns the object attribute title.
     */
-    function title( &$contentObjectAttribute )
+    function title( &$contentObjectAttribute, $name )
     {
-        return $contentObjectAttribute->attribute( 'data_text' );
+        $enum = $this->objectAttributeContent( &$contentObjectAttribute );
+
+        $value = $enum->attribute( $name );
+
+        return $value;
     }
 
     /*!

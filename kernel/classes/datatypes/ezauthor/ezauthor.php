@@ -110,7 +110,7 @@ class eZAuthor
 
     function hasAttribute( $name )
     {
-        if ( $name == "author_list" )
+        if ( ( $name == "author_list" ) || ( $name == "name" ) )
             return true;
         else
             return false;
@@ -120,6 +120,10 @@ class eZAuthor
     {
         switch ( $name )
         {
+            case "name" :
+            {
+                return $this->Name;
+            }break;
             case "author_list" :
             {
                 return $this->Authors;

@@ -114,11 +114,23 @@ class eZBinaryFile extends eZPersistentObject
 
     function &fetch( $id, $version, $as_object = true )
     {
-        return eZPersistentObject::fetchObject( eZBinaryFile::definition(),
-                                                null,
-                                                array( "contentobject_attribute_id" => $id,
-                                                       "version" => $version ),
-                                                $as_object );
+        if( $version == null )
+        {
+            return eZPersistentObject::fetchObjectList( eZBinaryFile::definition(),
+                                                        null,
+                                                        array( "contentobject_attribute_id" => $id ),
+                                                        null,
+                                                        null,
+                                                        $as_object );
+        }
+        else
+        {
+            return eZPersistentObject::fetchObject( eZBinaryFile::definition(),
+                                                    null,
+                                                    array( "contentobject_attribute_id" => $id,
+                                                           "version" => $version ),
+                                                    $as_object );
+        }
     }
 
     function &remove( $id, $version )

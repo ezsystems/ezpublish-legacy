@@ -151,13 +151,19 @@ class eZImageType extends eZDataType
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
         if( $classAttribute->attribute( "is_required" ) == true )
         {
-            $file =& eZHTTPFile::fetch( $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" ) );
-            if( $file == null )
+            $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
+            $version = $contentObjectAttribute->attribute( "version" );
+            $image =& eZImage::fetch( $contentObjectAttributeID, $version );
+            if ( $image === null )
             {
-                $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
-                                                                     'eZImageType',
-                                                                     'A valid image file i.' ) );
-                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                $file =& eZHTTPFile::fetch( $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" ) );
+                if ( $file === null )
+                {
+                    $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                                                                         'eZImageType',
+                                                                         'A valid image is required.' ) );
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                }
             }
         }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
@@ -204,18 +210,6 @@ class eZImageType extends eZDataType
             $orig_dir = $imageFile->storageDir( "original" );
             $ref_dir = $imageFile->storageDir( "reference" );
             eZDebug::writeNotice( "dir=$ref_dir" );
-/*
-            if ( $image->attribute( "filename" ) != "" and
-                 file_exists( $orig_dir . "/" . $image->attribute( "filename" ) ) )
-            {
-                unlink( $orig_dir . "/" . $image->attribute( "filename" ) );
-            }
-            if ( $image->attribute( "filename" ) != "" and
-                 file_exists( $ref_dir . "/" . $image->attribute( "filename" ) ) )
-            {
-                unlink( $ref_dir . "/" . $image->attribute( "filename" ) );
-            }
-*/
 
             $image->setAttribute( "contentobject_attribute_id", $contentObjectAttributeID );
             $image->setAttribute( "version", $version );
@@ -250,13 +244,16 @@ class eZImageType extends eZDataType
     }
 
     /*!
-     Returns the object title.
+     Returns attribute of an image, default will return filename of the image.
     */
-    function title( &$contentObjectAttribute )
+    function title( &$contentObjectAttribute, $name = "filename" )
     {
-        $image =& $this->content( $contentObjectAttribute );
+        $image =& eZImage::fetch( $contentObjectAttribute->attribute( "id" ),
+                                  $contentObjectAttribute->attribute( "version" ) );
 
-        return $image->attribute( "filename" );
+        $value = $image->attribute( $name );
+
+        return $value;
     }
 
     /*!
