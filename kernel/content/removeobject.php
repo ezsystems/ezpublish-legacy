@@ -89,7 +89,7 @@ foreach ( $deleteIDArray as $deleteID )
                     if ( $assignedNodeID != $nodeID )
                     {
                         $additionalNode =& eZContentObjectTreeNode::fetch( $assignedNodeID );
-                        $additionalChildrenCount = $additionalNode->subTreeCount() . " ";
+                        $additionalChildrenCount = $additionalNode->subTreeCount( array( 'MainNodeOnly' => true ) ) . " ";
                         if (  $additionalChildrenCount == 0 )
                             $additionalNodeIDList[] = $assignedNodeID;
                         else if (  $additionalChildrenCount == 1 )
@@ -106,7 +106,7 @@ foreach ( $deleteIDArray as $deleteID )
             return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
         if ( $object === null )
             return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
-        $ChildObjectsCount = $node->subTreeCount() . " ";
+        $ChildObjectsCount = $node->subTreeCount( array( 'MainNodeOnly' => true ) ) . " ";
         if ( $ChildObjectsCount == 1 )
             $ChildObjectsCount .= ezi18n( 'kernel/content/removeobject',
                                           'child',
@@ -148,11 +148,19 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
                 {
                     $assignedNode =& $allAssignedNodes[$key];
                     $children =& $assignedNode->subTree();
-                    foreach ( $children as $child )
+                    foreach ( array_keys( $children ) as $childKey )
                     {
-                        $childObject =& $child->attribute( 'object' );
-                        $childNodeID = $child->attribute( 'node_id' );
-                        $childObject->remove( true, $childNodeID );
+                        $child =& $children[$childKey];
+                        if( $child->attribute( 'node_id' ) == $child->attribute( 'main_node_id' ) )
+                        {
+                            $childObject =& $child->attribute( 'object' );
+                            $childNodeID = $child->attribute( 'node_id' );
+                            $childObject->remove( true, $childNodeID );
+                        }
+                        else
+                        {
+                            $child->remove();
+                        }
                     }
                 }
                 $object->remove( true, $deleteID );
@@ -160,13 +168,21 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
             else
             {
                 $children =& $node->subTree();
-                foreach ( $children as $child )
+                foreach ( array_keys( $children ) as $childKey )
                 {
-                    $childObject =& $child->attribute( 'object' );
-                    $childNodeID = $child->attribute( 'node_id' );
-                    $childObject->remove( true, $childNodeID );
+                    $child =& $children[$childKey];
+                    if( $child->attribute( 'node_id' ) == $child->attribute( 'main_node_id' ) )
+                    {
+                        $childObject =& $child->attribute( 'object' );
+                        $childNodeID = $child->attribute( 'node_id' );
+                        $childObject->remove( true, $childNodeID );
+                    }
+                    else
+                    {
+                        $child->remove();
+                    }
                 }
-                $object->remove( true, $deleteID );
+                $node->remove();
             }
         }
     }
