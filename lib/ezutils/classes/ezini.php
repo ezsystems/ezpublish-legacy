@@ -76,7 +76,7 @@
  Has the date of the current cache code implementation as a timestamp,
  if this changes(increases) the cache files will need to be recreated.
 */
-define( "EZ_INI_CACHE_CODE_DATE", 1074086775 );
+define( "EZ_INI_CACHE_CODE_DATE", 1074693947 );
 define( "EZ_INI_DEBUG_INTERNALS", false );
 
 class eZINI
@@ -458,19 +458,19 @@ class eZINI
                 {
                     if ( is_array( $val ) )
                     {
-
                         $tmpGroupOutput = "'$key' => array(";
                         $tmpGroupOutputArray = array();
                         foreach ( $val as $arrayKey => $arrayValue )
                         {
-                            if ( is_string( $arrayKey ) )
-                                $tmpArrayKey = "\"" . str_replace( "\"", "\\\"", $arrayKey ) . "\"";
+                            $tmpVal = str_replace( "'", "\\'", $arrayValue );
+                            if ( is_string( $arrayValue ) )
+                            {
+                                $tmpArrayKey = "'" . str_replace( "'", "\\'", $arrayKey ) . "'";
+                            }
                             else
+                            {
                                 $tmpArrayKey = $arrayKey;
-                            // Escape ", \ and $
-                            $tmpVal = str_replace( "\\", "\\\\", $arrayValue );
-                            $tmpVal = str_replace( "$", "\\$", $tmpVal );
-                            $tmpVal = str_replace( "\"", "\\\"", $tmpVal );
+                            }
                             $tmpGroupOutputArray[] = "\t'$tmpArrayKey'=>'$tmpVal'\n";
 
                         }
