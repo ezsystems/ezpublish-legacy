@@ -91,6 +91,9 @@ function eZCheckUser( &$siteBasics, &$uri )
         return null;
     }
 
+    if( !include_once( 'kernel/classes/datatypes/ezuser/ezuserloginhandler.php' ) )
+        return null;
+
     $http =& eZHTTPTool::instance();
     $ini =& eZINI::instance();
     $requireUserLogin = ( $ini->variable( "SiteAccessSettings", "RequireUserLogin" ) == "true" );
@@ -100,9 +103,6 @@ function eZCheckUser( &$siteBasics, &$uri )
     {
         return null;
     }
-
-    if( !include_once( 'kernel/classes/datatypes/ezuser/ezuserloginhandler.php' ) )
-        return null;
 
     return eZUserLoginHandler::checkUser( $siteBasics, $uri );
 }
