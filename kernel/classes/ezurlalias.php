@@ -350,7 +350,7 @@ WHERE
      \return \c true is if successful, \c false otherwise
      \return The eZURLAlias object of the new url is returned if the translation was found, but the resource has moved.
     */
-    function translate( &$uri )
+    function translate( &$uri, $reverse = false )
     {
         if ( get_class( $uri ) == "ezuri" )
         {
@@ -363,9 +363,21 @@ WHERE
         $uriString = eZURLAlias::cleanURL( $uriString );
 
         $db =& eZDB::instance();
-        $query = "SELECT destination_url, forward_to_id
-                  FROM ezurlalias
-                  WHERE source_md5 = '" . md5( $uriString ) . "' ORDER BY forward_to_id ASC";
+        if ( $reverse )
+        {
+            $query = "SELECT source_url as destination_url, forward_to_id
+FROM ezurlalias
+WHERE destination_url = '" . $db->escapeString( $uriString ) . "' AND
+      forward_to_id = 0
+ORDER BY forward_to_id ASC";
+        }
+        else
+        {
+            $query = "SELECT destination_url, forward_to_id
+FROM ezurlalias
+WHERE source_md5 = '" . md5( $uriString ) . "'
+ORDER BY forward_to_id ASC";
+        }
 
         $return = false;
         $urlAliasArray = $db->arrayQuery( $query );
