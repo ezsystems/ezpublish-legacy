@@ -121,6 +121,9 @@ Workflow:
 - Supported nested list for datatype ezxmltext.
 - Added a new datatype called eZMultiOption which works like
   eZOption but handles multiple options in one attribute.
+- Added support for not using strict rule to parse header for datatype ezxmltext.
+  This can be configurable by setting 'UseStrictHeaderRule' to false in block [header] 
+  of content.ini.
 
 *eZPHPCreator
 - Added addRawVariable for much improved performance for generating PHP code for

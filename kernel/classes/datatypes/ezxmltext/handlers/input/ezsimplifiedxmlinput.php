@@ -127,6 +127,13 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
         $this->IsInputValid = true;
         $this->ContentObjectAttribute = $contentObjectAttribute;
+
+        $contentIni =& eZINI::instance( 'content.ini' );
+        if ( $contentIni->hasVariable( 'header', 'UseStrictHeaderRule' ) )
+        {
+            if ( $contentIni->variable( 'header', 'UseStrictHeaderRule' ) == "true" )
+                $this->IsStrictHeader = true;
+        }
     }
 
     /*!
@@ -289,36 +296,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                 if ( $links !== null )
                 {
-                    /* $editVersion = $contentObjectAttribute->attribute( 'version' );
-                    $editObjectID = $contentObjectAttribute->attribute( 'contentobject_id' );
-                    foreach ( array_keys( $links ) as $linkKey )
-                    {
-                        $link =& $links[$linkKey];
-                        if ( $link->attributeValue( 'id' ) != null )
-                        {
-                            $linkID = $link->attributeValue( 'id' );
-                            $url =& eZURL::url( $linkID );
-                            if ( $url == null )
-                            {
-                                $GLOBALS[$isInputValid] = false;
-                                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                                     'Link %1 does not exist.',
-                                                                                     false, array( $linkID ) ) );
-                                return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                            }
-                            else
-                            {
-                                $linkObjectLink =& eZURLObjectLink::fetch( $linkID, $contentObjectAttributeID, $contentObjectAttributeVersion );
-                                if ( $linkObjectLink == null )
-                                {
-                                    $linkObjectLink =& eZURLObjectLink::create( $linkID, $contentObjectAttributeID, $contentObjectAttributeVersion );
-                                    $linkObjectLink->store();
-                                }
-                            }
-                        }
-                    }*/
-
-
                     $urlArray = array();
                     // Optimized for speed, find all url's then fetch from DB
                     foreach ( array_keys( $links ) as $linkKey )
@@ -818,8 +795,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $text =& preg_replace( "#<header>#", "<header level='1'>", $text );
 
         $data = $text;
-
-//         eZDebug::writeDebug($data, "input");
         $domDocument = new eZDOMDocument();
         $currentNode =& $domDocument;
         $TagStack = array();
@@ -1183,11 +1158,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                     $message[] = "Attribute '" .  $attrName . "' in tag " . $justName . " is not supported (removed)";
                                 }
                             }
-
-                            /* if ( $lastInsertedNodeTag == "td" or $lastInsertedNodeTag == "th" )
-                            {
-                                    $sectionLevel = $sectionLevel;
-                            }*/
                             if ( $isInsideTd )
                             {
                                 $sectionLevel = $sectionLevel;
@@ -1196,31 +1166,31 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 {
                                     case "1" :
                                     {
-                                        $currentNode =& $this->sectionLevel( $tdSectionLevel, 1, $TagStack, $currentNode );
+                                        $currentNode =& $this->sectionLevel( $tdSectionLevel, 1, $TagStack, $currentNode, $domDocument );
                                     }break;
                                     case "2":
                                     {
-                                        $currentNode =& $this->sectionLevel( $tdSectionLevel, 2, $TagStack, $currentNode );
+                                        $currentNode =& $this->sectionLevel( $tdSectionLevel, 2, $TagStack, $currentNode, $domDocument );
                                     }break;
                                     case "3":
                                     {
-                                        $currentNode =& $this->sectionLevel( $tdSectionLevel, 3, $TagStack, $currentNode );
+                                        $currentNode =& $this->sectionLevel( $tdSectionLevel, 3, $TagStack, $currentNode, $domDocument );
                                     }break;
                                     case "4":
                                     {
-                                        $currentNode =& $this->sectionLevel( $tdSectionLevel, 4, $TagStack, $currentNode );
+                                        $currentNode =& $this->sectionLevel( $tdSectionLevel, 4, $TagStack, $currentNode, $domDocument );
                                     }break;
                                     case "5":
                                     {
-                                        $currentNode =& $this->sectionLevel( $tdSectionLevel, 5, $TagStack, $currentNode );
+                                        $currentNode =& $this->sectionLevel( $tdSectionLevel, 5, $TagStack, $currentNode, $domDocument );
                                     }break;
                                     case "6":
                                     {
-                                        $currentNode =& $this->sectionLevel( $tdSectionLevel, 6, $TagStack, $currentNode );
+                                        $currentNode =& $this->sectionLevel( $tdSectionLevel, 6, $TagStack, $currentNode, $domDocument );
                                     }break;
                                     default:
                                     {
-                                        $currentNode =& $this->sectionLevel( $tdSectionLevel, 1, $TagStack, $currentNode );
+                                        $currentNode =& $this->sectionLevel( $tdSectionLevel, 1, $TagStack, $currentNode, $domDocument );
                                     }break;
                                 }
                             }
@@ -1230,31 +1200,31 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 {
                                     case "1" :
                                     {
-                                        $currentNode =& $this->sectionLevel( $sectionLevel, 1, $TagStack, $currentNode );
+                                        $currentNode =& $this->sectionLevel( $sectionLevel, 1, $TagStack, $currentNode, $domDocument );
                                     }break;
                                     case "2":
                                     {
-                                        $currentNode =& $this->sectionLevel( $sectionLevel, 2, $TagStack, $currentNode );
+                                        $currentNode =& $this->sectionLevel( $sectionLevel, 2, $TagStack, $currentNode, $domDocument );
                                     }break;
                                     case "3":
                                     {
-                                        $currentNode =& $this->sectionLevel( $sectionLevel, 3, $TagStack, $currentNode );
+                                        $currentNode =& $this->sectionLevel( $sectionLevel, 3, $TagStack, $currentNode, $domDocument );
                                     }break;
                                     case "4":
                                     {
-                                        $currentNode =& $this->sectionLevel( $sectionLevel, 4, $TagStack, $currentNode );
+                                        $currentNode =& $this->sectionLevel( $sectionLevel, 4, $TagStack, $currentNode, $domDocument );
                                     }break;
                                     case "5":
                                     {
-                                        $currentNode =& $this->sectionLevel( $sectionLevel, 5, $TagStack, $currentNode );
+                                        $currentNode =& $this->sectionLevel( $sectionLevel, 5, $TagStack, $currentNode, $domDocument );
                                     }break;
                                     case "6":
                                     {
-                                        $currentNode =& $this->sectionLevel( $sectionLevel, 6, $TagStack, $currentNode );
+                                        $currentNode =& $this->sectionLevel( $sectionLevel, 6, $TagStack, $currentNode, $domDocument );
                                     }break;
                                     default:
                                     {
-                                        $currentNode =& $this->sectionLevel( $sectionLevel, 1, $TagStack, $currentNode );
+                                        $currentNode =& $this->sectionLevel( $sectionLevel, 1, $TagStack, $currentNode, $domDocument );
                                     }break;
                                 }
                             }
@@ -1427,36 +1397,62 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
     }
 
     // Get section level and reset cuttent node according to input header.
-    function &sectionLevel( &$sectionLevel, $headerLevel, &$TagStack, &$currentNode )
+    function &sectionLevel( &$sectionLevel, $headerLevel, &$TagStack, &$currentNode, &$domDocument )
     {
-         if ( $sectionLevel < $headerLevel )
-         {
-             $sectionLevel += 1;
-         }
-         elseif ( $sectionLevel == $headerLevel )
-         {
-             $lastNodeArray = array_pop( $TagStack );
-             // $lastTag = $lastNodeArray["TagName"];
-             $lastNode =& $lastNodeArray["ParentNodeObject"];
-             // $lastChildTag = $lastNodeArray["ChildTag"];
-             unset( $currentNode );
-             $currentNode =& $lastNode;
-             $sectionLevel = $headerLevel;
-         }
-         else
-         {
-             for ( $i=1;$i<=( $sectionLevel - $headerLevel + 1 );$i++ )
-             {
-                 $lastNodeArray = array_pop( $TagStack );
-                 $lastTag = $lastNodeArray["TagName"];
-                 $lastNode =& $lastNodeArray["ParentNodeObject"];
-                 $lastChildTag = $lastNodeArray["ChildTag"];
-                 unset( $currentNode );
-                 $currentNode =& $lastNode;
-             }
-             $sectionLevel = $headerLevel;
-         }
-         return $currentNode;
+        if ( $sectionLevel < $headerLevel )
+        {
+            if ( $this->IsStrictHeader )
+            {
+                $sectionLevel += 1;
+            }
+            else
+            {
+                if ( ( $sectionLevel + 1 ) == $headerLevel )
+                {
+                    $sectionLevel += 1;
+                }
+                else
+                {
+                    for ( $i=1;$i<=( $headerLevel - $sectionLevel - 1 );$i++ )
+                    {
+                        // Add section tag
+                        unset( $subNode );
+                        $subNode = new eZDOMNode();
+                        $subNode->Name = "section";
+                        $subNode->LocalName = "section";
+                        $subNode->Type = EZ_NODE_TYPE_ELEMENT;
+                        $domDocument->registerElement( $subNode );
+                        $currentNode->appendChild( $subNode );
+                        $childTag = $this->SectionArray;
+                        $TagStack[] = array( "TagName" => "section", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag );
+                        $currentNode =& $subNode;
+                    }
+                    $sectionLevel = $headerLevel;
+                }
+            }
+        }
+        elseif ( $sectionLevel == $headerLevel )
+        {
+            $lastNodeArray = array_pop( $TagStack );
+            $lastNode =& $lastNodeArray["ParentNodeObject"];
+            unset( $currentNode );
+            $currentNode =& $lastNode;
+            $sectionLevel = $headerLevel;
+        }
+        else
+        {
+            for ( $i=1;$i<=( $sectionLevel - $headerLevel + 1 );$i++ )
+            {
+                $lastNodeArray = array_pop( $TagStack );
+                $lastTag = $lastNodeArray["TagName"];
+                $lastNode =& $lastNodeArray["ParentNodeObject"];
+                $lastChildTag = $lastNodeArray["ChildTag"];
+                unset( $currentNode );
+                $currentNode =& $lastNode;
+            }
+            $sectionLevel = $headerLevel;
+        }
+        return $currentNode;
     }
 
     /*!
@@ -2141,5 +2137,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
     /// Contains all links hashed by ID
     var $LinkArray = array();
+
+    var $IsStrictHeader = false;
 }
 ?>
