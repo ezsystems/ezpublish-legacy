@@ -141,7 +141,7 @@ function stepThree( &$tpl, &$http )
     {
         $continue = false;
         $tpl->setVariable( "createSql", true );
-	    $sqlFile = "kernel/sql/mysql/kernel.sql";
+	    $sqlFile = "kernel/sql/mysql/kernel_clean.sql";
 		$sqlArray = prepareSqlQuery( $sqlFile );
 
 	    foreach( $sqlArray as $singleQuery )
