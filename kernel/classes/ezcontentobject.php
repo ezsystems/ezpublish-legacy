@@ -65,7 +65,6 @@ class eZContentObject extends eZPersistentObject
     function &definition()
     {
         return array( "fields" => array( "id" => "ID",
-//                                         "main_node_id" => "MainNodeID",
                                          "section_id" => "SectionID",
                                          "owner_id" => "OwnerID",
                                          "contentclass_id" => "ClassID",
@@ -74,7 +73,6 @@ class eZContentObject extends eZPersistentObject
                                          "published" => "Published",
                                          "modified" => "Modified",
                                          "current_version" => "CurrentVersion"
-//                                         "permission_id" => "PermissionID"
                                          ),
                       "keys" => array( "id" ),
                       "function_attributes" => array( "current" => "currentVersion",
@@ -477,7 +475,7 @@ class eZContentObject extends eZPersistentObject
         else
             $version =& $this->version( $copyFromVersion );
 
-        $this->copyVersion( $this, $version, $nextVersionNumber );
+       return $this->copyVersion( $this, $version, $nextVersionNumber );
     }
 
     /*!
@@ -984,7 +982,7 @@ class eZContentObject extends eZPersistentObject
             $objectID = $this->ID;
         }
         $db =& eZDB::instance();
-        $relatedObjects =& $db->arrayQuery( "SELECT
+        $relatedObjects =& $db->arrayQuery( "SELECT distinct
 					       ezcontentobject.*
 					     FROM
 					       ezcontentobject, ezcontentobject_link
