@@ -22,8 +22,10 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 </head>
 
 <body>
-<div id="allcontent">
 
+<span class="test"></span>
+
+<div id="allcontent">
 <div id="header">
 <div id="header-design">
 
