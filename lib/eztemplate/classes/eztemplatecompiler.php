@@ -2205,6 +2205,7 @@ $rbracket
                         $tmpResourceData['compiled-template'] = false;
                         $tmpResourceData['time-stamp'] = null;
                         $tmpResourceData['key-data'] = null;
+                        $tmpResourceData['use-comments'] = eZTemplateCompiler::isCommentsEnabled();
                         $subSpacing = 0;
                         $hasResourceData = false;
 
@@ -2912,16 +2913,17 @@ else
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_OPTIMIZED_ARRAY_LOOKUP )
             {
-                $php->addCodePiece( ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/\n" ) : "" ) . "\$$variableAssignmentName = \${$variableAssignmentName}['" . $variableDataItem[1][0][1] ."'];\n");
+                $php->addCodePiece( ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/\n" ) : "" ) .
+                                    "\$$variableAssignmentName = \${$variableAssignmentName}['" . $variableDataItem[1][0][1] ."'];\n" );
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_OPTIMIZED_ATTRIBUTE_LOOKUP )
             {
                 $code = ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/\n" ) : "" );
                 $code .= <<<END
-if ( \${$variableAssignmentName}->hasAttribute( "{$variableDataItem[1][0][1]}" ) )
-{
-    \${$variableAssignmentName} = \${$variableAssignmentName}->attribute( "{$variableDataItem[1][0][1]}" );
-}
+if ( !is_object( \${$variableAssignmentName} ) )
+{ \${$variableAssignmentName} = false; }
+else if ( \${$variableAssignmentName}->hasAttribute( "{$variableDataItem[1][0][1]}" ) )
+{ \${$variableAssignmentName} = \${$variableAssignmentName}->attribute( "{$variableDataItem[1][0][1]}" ); }
 
 END;
                 $php->addCodePiece($code);
