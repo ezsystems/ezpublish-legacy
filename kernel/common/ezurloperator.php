@@ -46,12 +46,14 @@ class eZURLOperator
      Initializes the image operator with the operator name $name.
     */
     function eZURLOperator( $url_name = "ezurl",
+                            $urlroot_name = "ezroot",
                             $design_name = "ezdesign",
                             $image_name = "ezimage",
                             $ext_name = "exturl" )
     {
-        $this->Operators = array( $url_name, $design_name, $image_name, $ext_name );
+        $this->Operators = array( $url_name, $urlroot_name, $design_name, $image_name, $ext_name );
         $this->URLName = $url_name;
+        $this->URLRootName = $urlroot_name;
         $this->DesignName = $design_name;
         $this->ImageName = $image_name;
         $this->ExtName = $ext_name;
@@ -85,6 +87,13 @@ class eZURLOperator
                      $value[0] != '/' )
                     $value = '/' . $value;
                 $value = $this->Sys->indexDir() . $value;
+            } break;
+            case $this->URLRootName:
+            {
+                if ( strlen( $value ) > 0 and
+                     $value[0] != '/' )
+                    $value = '/' . $value;
+                $value = $this->Sys->wwwDir() . $value;
             } break;
 
             case $this->ImageName:
@@ -135,7 +144,7 @@ class eZURLOperator
     }
 
     var $Operators;
-    var $URLName, $DesignName, $ImageName;
+    var $URLName, $URLRootName, $DesignName, $ImageName;
     var $Sys;
 };
 
