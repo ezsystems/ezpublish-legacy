@@ -96,7 +96,7 @@ class eZTemplateElementParser
                 break;
             }
             $lastPosition = $currentPosition;
-            $currentPosition = $this->whitespaceEndPos( &$tpl, &$text, $currentPosition, $textLength );
+            $currentPosition = $this->whitespaceEndPos( $tpl, $text, $currentPosition, $textLength );
             if ( $currentPosition >= $textLength )
                 continue;
             if ( $endMarker !== false )

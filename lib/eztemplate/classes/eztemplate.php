@@ -495,7 +495,7 @@ class eZTemplate
         if ( isset( $func ) and
              is_object( $func ) )
         {
-            return $func->process( $this, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace );
+            return $func->process( $this, $textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace );
         }
         else
         {
