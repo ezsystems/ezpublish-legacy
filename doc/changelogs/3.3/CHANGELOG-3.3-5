@@ -32,6 +32,8 @@ eZINI:
 - Fixed bug in checking number of parameters to array_merge() (Merged from 3.2, rev. 5899)
   http://ez.no/community/bug_reports/merge_array_operator_doesn_t_work_with_only_one_array_as_parameter
 - Removed the hardcoded field list in eZContentObject::fetchList. (Merged from stable/3.2 rev. 5901)
+- Fixed bug in the autolink operator. (Merged from 3.2, rev. 5915)
+  http://ez.no/community/bug_reports/autolink_operator__1
 
 *Library:
 - Fixed bug where eZSys::varDirectory was not using eZDir::path
