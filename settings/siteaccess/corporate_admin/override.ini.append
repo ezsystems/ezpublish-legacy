@@ -169,11 +169,10 @@ MatchFile=frontpageimage.tpl
 Subdir=templates
 Match[class]=2
 
-[edit_class_15]
+[configure_object]
 Source=content/edit.tpl
-MatchFile=edit_class_15.tpl
+MatchFile=configure_corporate.tpl
 Subdir=templates
 Match[class]=15
-
 
 */ ?>
