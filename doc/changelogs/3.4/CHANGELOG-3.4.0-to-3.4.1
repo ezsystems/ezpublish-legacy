@@ -10,4 +10,53 @@ Changes from 3.4.0 to 3.4.1
 - Fixed bug related to missing attributes "rowCount" and "columnCount" of 
   eZMatrix.
   http://ez.no/community/bug_reports/missed_attributes_in_ezmatrix
-
+- Fixed bug with non-required ContentObjectID for adding notifications (Merged from 3.5, rev. 6573)
+  http://ez.no/index.php/community/bug_reports/adding_a_notification_shouldnt_need_a_content_object_id
+- Fixed bug of unrecognized subtree arrays in fetchalias.ini (merged from 3.3 rev. 6755).
+  http://ez.no/community/bug_reports/array_data_in_fetchalias_ini_don_t_get_treated_as_arrays_content_search
+- eZSoap now parses value returned by a function in the more
+  standard compliant manner. Partial fix for
+  http://ez.no/community/bug_reports/soap_response_null_object.
+  Merged from 3.3 rev. 6759.
+- Fixed bug with unused EmailSender ini setting in eZSMTPTransport (merged from 3.3 rev. 6765).
+  http://ez.no/community/bug_reports/email_sender
+- Fixed all the places where limitations returned by eZUser::hasAccessTo()
+  were treated as objects to handle limitations as hashes  
+  (since hasAccessTo() now returnes hashes instead of objects).
+  By the way the following bug fixed:
+  http://ez.no/community/bug_reports/not_able_to_fetch_keyword_list
+- Fixed bug with nodes counted instead of objects in
+  eZContentClass::objectCount().
+  http://ez.no/community/bug_reports/object_count_counts_nodes_instead_of_objects
+  http://ez.no/community/bug_reports/object_count_in_class_list_view_does_not_count_related_objects
+- Fixed bugs in fetching keywords and keywords count (merged from 3.3 rev. 6778):
+  o All object attribute versions were fetched instead of the current one;
+  o Fetching from non-published objects was posssible.
+- Fixed typo in /kernel/package/install.php which caused package contents
+  not to be shown when importing.
+  http://ez.no/community/bug_reports/typo_in_kernel_package_install_php
+- Fixed typos resulting in inclusion of non-existent file.
+  http://ez.no/community/bug_reports/typo_in_kernel_setup_ezsetuptypes_php_included_file_miss_spelled
+- Fixed inability of storing GMT midnight in eztime (merged from 3.3 rev. 6791).
+  http://ez.no/community/bug_reports/eztime_data_type_can_t_store_midnight
+- Fixed incorrect sorting of time fields (merged from 3.3 rev. 6794).
+  http://ez.no/community/bug_reports/incorrect_sorting_of_time_fields
+- Fixed bug: files having names containing spaces could not be downloaded with some browsers
+  (manually merged from 3.3 rev. 6797).
+  http://ez.no/community/bug_reports/can_t_download_if_spaces_in_binary_file_names
+- Fixed typo in eZContentObject::checkAccess (merged from 3.3 rev. 6808).
+  http://ez.no/community/bug_reports/typo_in_ezcontentobject_php
+- Workaround for bug in object relation list datatype: when user adds
+  objects using content/browse and then reloads page in browser then        
+  previously selected objects are added again. We now just prevent objects
+  from being added to the list more than once doing appropriate check.
+  Merged from 3.3 rev. 6813.
+  http://ez.no/community/bug_reports/objectrelationlist_repeats_adding_relatedobjects_when_page_reloads
+- Removed eztime from the list of simple types because its data_int field
+  cannot be treated as sort key anymore (merged from 3.3 rev. 6818).  
+- Fixed unneeded eZDateTimeType dependencies on eZObjectRelationListType
+  http://ez.no/community/bug_reports/undefined_class_name_ezobjectrelationlisttype
+- Removed unneded include_once() (merged from 3.3 rev. 6823).
+  http://ez.no/community/bug_reports/selfrelated_include_once_in_lib_ezlocale_classes_ezdatetime_php
+- Fixed typo in user/activate.tpl (merged from 3.3 rev. 6828)
+  http://ez.no/community/bug_reports/user_activate_template_typo

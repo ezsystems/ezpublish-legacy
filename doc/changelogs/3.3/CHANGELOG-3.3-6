@@ -81,6 +81,8 @@ eZINI:
   http://ez.no/community/bug_reports/view_of_media_datatype
 - Fixed bug of still using deprecated name in forgotpassword form action.
   http://ez.no/community/bug_reports/forgotpassword_tpl_wrong_action
+- Fixed typo in user/activate.tpl
+  http://ez.no/community/bug_reports/user_activate_template_typo
 
 
 *Library:
