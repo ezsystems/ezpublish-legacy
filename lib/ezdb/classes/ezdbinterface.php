@@ -282,18 +282,26 @@ class eZDBInterface
     
     /*!
       \pure
-      Returns the error message
+      Sets the error message and error message number
     */
-    function errorMessage()
+    function setError()
     {
     }
     
     /*!
-      \pure
+      Returns the error message
+    */
+    function errorMessage()
+    {
+        return $this->ErrorMessage;
+    }
+    
+    /*!
       Returns the error number
     */
     function errorNumber()
     {
+        return $this->ErrorNumber;
     }
     
     /// \protectedsection
@@ -323,6 +331,12 @@ class eZDBInterface
     var $EndTime;
     /// The total number of milliseconds the timer took
     var $TimeTaken;
+    /// The database error message of the last executed function
+    var $ErrorMessage;
+    /// The database error message number of the last executed function
+    var $ErrorNumber;
+    /// If true then ErrorMessage and ErrorNumber get filled
+    var $RecordError = true;
 }
 
 ?>

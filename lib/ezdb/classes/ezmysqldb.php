@@ -63,6 +63,7 @@ class eZMySQLDB extends eZDBInterface
             $this->DBConnection = @mysql_pconnect( $this->Server, $this->User, $this->Password );
             $numAttempts++;
         }
+        $this->setError();
 
         $this->IsConnected = true;
 
@@ -75,6 +76,7 @@ class eZMySQLDB extends eZDBInterface
         if ( $this->isConnected() )
         {
             $ret = @mysql_select_db( $this->DB, $this->DBConnection );
+            $this->setError();
 
             if ( !$ret )
             {
@@ -108,6 +110,9 @@ class eZMySQLDB extends eZDBInterface
                 $this->startTimer();
 
             $result =& mysql_query( $sql, $this->DBConnection );
+            if ( $this->RecordError )
+                $this->setError();
+
             if ( $this->OutputSQL )
             {
                 $this->endTimer();
@@ -116,9 +121,6 @@ class eZMySQLDB extends eZDBInterface
                 $this->reportQuery( 'eZMySQLDB', $sql, $num_rows, $this->timeTaken() );
             }
 
-            $errorMsg = mysql_error( $this->DBConnection );
-            $errorNum = mysql_errno( $this->DBConnection );
-
             if ( $result )
             {
                 return $result;
@@ -126,7 +128,9 @@ class eZMySQLDB extends eZDBInterface
             else
             {
                 eZDebug::writeError( "Query error: " . mysql_error( $this->DBConnection ) . ". Query: ". $sql, "eZMySQLDB"  );
+                $this->RecordError = false;
                 $this->unlock();
+                $this->RecordError = true;
 
                 return false;
             }
@@ -325,31 +329,28 @@ class eZMySQLDB extends eZDBInterface
     function createDatabase( $dbName )
     {
         if ( $this->DBConnection != false )
+        {
             mysql_create_db( $dbName, $this->DBConnection );
+            $this->setError();
+        }
     }
         
     /*!
      \reimp
     */
-    function errorMessage()
+    function setError()
     {
-        if ( $this->isConnected() )
-            return mysql_error( $this->DBConnection );
+        if ( $this->DBConnection )
+        {
+            $this->ErrorMessage = mysql_error( $this->DBConnection );
+            $this->ErrorNumber = mysql_errno( $this->DBConnection );
+        }
         else
-            return mysql_error();        
+        {
+            $this->ErrorMessage = mysql_error();
+            $this->ErrorNumber = mysql_errno();
+        }
     }
-
-    /*!
-     \reimp
-    */
-    function errorNumber()
-    {
-        if ( $this->isConnected() )
-            return mysql_errno( $this->DBConnection );
-        else
-            return mysql_errno();        
-    }
-
 
     /// \privatesection
     /// Contains the current database connection
