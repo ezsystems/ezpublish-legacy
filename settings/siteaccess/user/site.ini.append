@@ -18,10 +18,11 @@ LoginPage=embedded
 RequireUserLogin=false
 
 [SiteAccessRules]
-Access=enable
-ModuleAll=true
-Access=disable
-Module=sdk
+Rules[]
+Rules[]=Access;enable
+Rules[]=ModuleAll;true
+Rules[]=Access;disable
+Rules[]=Module;sdk
 
 [DebugSettings]##!
 DebugIP=disabled##!

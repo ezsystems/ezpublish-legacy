@@ -13,11 +13,13 @@ IndexPage=/sdk
 RequireUserLogin=false
 
 [SiteAccessRules]
-Access=disable
-ModuleAll=true
-Access=enable
-Module=sdk
+Rules[]
+Rules[]=Access;disable
+Rules[]=ModuleAll;true
+Rules[]=Access;enable
+Rules[]=Module;sdk
 
 [SitePrecheckRules]
-Access=disable
-PreCheck=user
+Rules[]
+Rules[]=Access;disable
+Rules[]=PreCheck;user

@@ -249,7 +249,7 @@ function accessAllowed( $uri )
     $tmp_allow = true;
     if ( !$ini->hasGroup( 'SiteAccessRules' ) )
         return true;
-    $items =& $ini->group( 'SiteAccessRules', true );
+    $items =& $ini->variableArray( 'SiteAccessRules', 'Rules' );
     foreach( $items as $item )
     {
         $name = strtolower( $item[0] );
@@ -287,7 +287,7 @@ function precheckAllowed( &$prechecks )
     $tmp_allow = true;
     if ( !$ini->hasGroup( 'SitePrecheckRules' ) )
         return true;
-    $items =& $ini->group( 'SitePrecheckRules', true );
+    $items =& $ini->variableArray( 'SitePrecheckRules', 'Rules' );
     foreach( $items as $item )
     {
         $name = strtolower( $item[0] );

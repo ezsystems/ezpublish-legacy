@@ -505,12 +505,18 @@ class eZINI
             {
                 $newBlockName = trim( $newBlockNameArray[1] );
                 $currentBlock = $newBlockName;
+                continue;
             }
 
             // check for variable
-            if ( preg_match("#^(\w+)(\\[\\])?=(.*)$#", $line, $valueArray ) )
+            if ( preg_match("#^(\w+)\\[\\]$#", $line, $valueArray ) )
             {
-                 $varName = trim( $valueArray[1] );
+                $varName = trim( $valueArray[1] );
+                $this->BlockValues[$currentBlock][$varName] = array();
+            }
+            else if ( preg_match("#^(\w+)(\\[\\])?=(.*)$#", $line, $valueArray ) )
+            {
+                $varName = trim( $valueArray[1] );
                 if ( $this->UseTextCodec )
                 {
                     eZDebug::accumulatorStart( 'ini_conversion', false, 'INI string conversion' );

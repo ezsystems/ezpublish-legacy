@@ -102,64 +102,36 @@ function &imageInit()
 
     $rules = array();
     $defaultRule = null;
-    $ruleGroup = $imgINI->group( 'Rules', true );
-    foreach ( $ruleGroup as $rule )
+    $ruleList = $imgINI->variableArray( 'Rules', 'Rules' );
+    foreach ( $ruleList as $items )
     {
-        $items = explode( ';', $rule[1] );
-        if ( $rule[0] == 'Rule' )
+        $sourceMIME = $items[0];
+        $destMIME = $items[1];
+        $type = $items[2];
+        if ( $type == 'convert' or
+             $type == 'gd' )
         {
-            $sourceMIME = $items[0];
-            $destMIME = $items[1];
-            $type = $items[2];
-            if ( $type == 'convert' or
-                 $type == 'gd' )
-            {
-                $rules[] = $img->createRule( $sourceMIME, $destMIME, $type, true, true );
-            }
-        }
-        else if ( $rule[0] == 'DefaultRule' )
-        {
-            $destMIME = $items[0];
-            $type = $items[1];
-            if ( $type == 'convert' or
-                 $type == 'gd' )
-            {
-                $defaultRule = $img->createRule( '*', $destMIME, $type, true, true );
-            }
+            $rules[] = $img->createRule( $sourceMIME, $destMIME, $type, true, true );
         }
     }
-
-//     $rules = array( $img->createRule( 'image/jpeg', 'image/jpeg', 'convert', true, true ),
-//                     $img->createRule( 'image/png', 'image/png', 'convert', true, true ),
-//                     $img->createRule( 'image/gif', 'image/png', 'convert', true, true ),
-//                     $img->createRule( 'image/xpm', 'image/png', 'convert', true, true ) );
-
-//     $rules = array( $img->createRule( 'image/jpeg', 'image/jpeg', 'gd', true, true ),
-//                     $img->createRule( 'image/png', 'image/png', 'gd', true, true ),
-//                     $img->createRule( 'image/gif', 'image/png', 'convert', true, true ),
-//                     $img->createRule( 'image/xpm', 'image/png', 'convert', true, true ) );
+    $defaultRuleItems = $imgINI->variableArray( 'Rules', 'DefaultRule' );
+    $destMIME = $defaultRuleItems[0];
+    $type = $defaultRuleItems[1];
+    if ( $type == 'convert' or
+         $type == 'gd' )
+    {
+        $defaultRule = $img->createRule( '*', $destMIME, $type, true, true );
+    }
 
     $mime_rules = array();
-    $mimeGroup = $imgINI->group( 'MimeTypes', true );
-    foreach ( $mimeGroup as $mime )
+    $mimeTypes = $imgINI->variableArray( 'MimeTypes', 'Types' );
+    foreach ( $mimeTypes as $items )
     {
-        $items = explode( ';', $mime[1] );
         $mimeType = $items[0];
         $regexp = $items[1];
         $suffix = $items[2];
         $mime_rules[] = $img->createMIMEType( $mimeType, $regexp, $suffix );
     }
-
-//     $mime_rules = array( $img->createMIMEType( 'image/jpeg', '\.jpe?g$', 'jpg' ),
-//                          $img->createMIMEType( 'image/png', '\.png$', 'png' ),
-//                          $img->createMIMEType( 'image/gif', '\.gif$', 'gif' ),
-//                          $img->createMIMEType( 'image/xpm', '\.xpm$', 'xpm' ),
-//                          $img->createMIMEType( 'image/tiff', '\.tiff$', 'tiff' ),
-//                          $img->createMIMEType( 'image/ppm', '\.ppm$', 'ppm' ),
-//                          $img->createMIMEType( 'image/tga', '\.tga$', 'tga' ),
-//                          $img->createMIMEType( 'image/svg', '\.svg$', 'svg' ),
-//                          $img->createMIMEType( 'image/wml', '\.wml$', 'wml' ),
-//                          $img->createMIMEType( 'image/bmp', '\.bmp$', 'bmp' ) );
 
     $img->setOutputTypes( $types );
     if ( $defaultRule === null )
