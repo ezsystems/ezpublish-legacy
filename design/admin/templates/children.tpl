@@ -13,9 +13,9 @@
                                           offset, $view_parameters.offset ) ) }
 
 {* If there are children: show list and buttons that belong to the list. *}
-{section var=AvailableChildren show=$children}
+{section show=$children}
 
-{* Items per page selector *}
+{* Items per page and view mode selector. *}
     <p>
         Items:
         <a href={'/user/preferences/set/items/1'|ezurl}>10</a>
@@ -139,9 +139,7 @@
 </table>
 </div>
 
-
-
-
+{* Button bar for remove and update priorities buttons. *}
 <div class="controlbar">
 {include name=navigator
          uri='design:navigator/google.tpl'
@@ -166,6 +164,7 @@
     {/section}
     {/section}
 
+{* Else: there are no children, but we still need to start the controlbar div. *}
 {section-else}
 <div class="controlbar">
 {/section}
