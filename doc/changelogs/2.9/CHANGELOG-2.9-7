@@ -102,6 +102,12 @@ eZ extension:
 
 *SDK :
 
+*Manual:
+- Added a site access section
+- Added a multi site configuration section
+- Added a install using the setup guide section
+- New colors
+
 *Library :
 
 eZTemplate:
