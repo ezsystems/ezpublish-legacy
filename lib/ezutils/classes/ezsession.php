@@ -128,4 +128,8 @@ session_set_save_handler(
 	'ezsessiondestroy',
 	'ezsessiongarbagecollector' );
 
+$db =& eZDB::instance();
+if ( !$db->isConnected() )
+    eZDebug::writeError( 'Database session will not work, not connected to a database', 'eZSession' );
+
 ?>
