@@ -1,4 +1,4 @@
-Changes from 3.3 to 3.4.0-alpha-1
+Changes from 3.3-3 to 3.4.0alpha1
 
 *Kernel:
 - Added user specified template values.
@@ -64,10 +64,7 @@ eZ ini:
 - Optimized storing of .ini file cache to use about 1/3 less memory when loading cached .ini files
 
 eZ template:
-- Some changes to the compiled templates.
-  Removed the references when accessing attributes which fixed some of the problems with the image system.
-  Use clearcache --clear-tpl after upgrading to be 100% sure they are recreated.
-  Merged in from 3.3 stable (Rev. 4815).
+- Implemented template compilation for almost all template operators and functions.
 - Added automated unit tests for eztemplate functionality.
 - Added the option to turn off all caching and compilation when fetching templates.
   This is currently used to test if template compilation works as expected.
