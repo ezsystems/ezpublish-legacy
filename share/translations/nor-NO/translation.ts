@@ -359,19 +359,19 @@
     </message>
     <message>
         <source>Translations list</source>
-        <translation type="unfinished"></translation>
+        <translation>Oversettelsesliste</translation>
     </message>
     <message>
         <source>Translations editing</source>
-        <translation type="unfinished"></translation>
+        <translation>Oversettelsesredigering</translation>
     </message>
     <message>
         <source>Translation Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Navn på oversettelse</translation>
     </message>
     <message>
         <source>Locale</source>
-        <translation type="unfinished"></translation>
+        <translation>Stedsinformasjon</translation>
     </message>
     <message>
         <source>Remove:</source>
@@ -1411,10 +1411,6 @@
     <message>
         <source>You are not allowed to create child objects</source>
         <translation>Du har ikke tilgang til å redigere underobjekter</translation>
-    </message>
-    <message>
-        <source>m.nam</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Priority:</source>
@@ -3780,21 +3776,6 @@
     </message>
 </context>
 <context>
-    <name>design/standard/workflow/eventtype</name>
-    <message>
-        <source>New Entry</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove Selected</source>
-        <translation>Fjern markerte</translation>
-    </message>
-    <message>
-        <source>Load Attributes</source>
-        <translation>Hent attributter</translation>
-    </message>
-</context>
-<context>
     <name>design/standard/workflow/eventtype/edit</name>
     <message>
         <source>Editor:</source>
@@ -3855,6 +3836,18 @@
     <message>
         <source>Class Attributes:</source>
         <translation>Klasseattributter:</translation>
+    </message>
+    <message>
+        <source>New Entry</source>
+        <translation>Ny</translation>
+    </message>
+    <message>
+        <source>Remove Selected</source>
+        <translation>Fjern markerte</translation>
+    </message>
+    <message>
+        <source>Load Attributes</source>
+        <translation>Hent attributter</translation>
     </message>
 </context>
 <context>

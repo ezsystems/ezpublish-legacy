@@ -46,7 +46,7 @@
     {section show=$is_standalone}
       {section name=ContentAction loop=$content_object.content_action_list show=$content_object.content_action_list}
       <div class="block">
-      <input type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name|i18n('design/standard/node/view')}" />
+      <input type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name}" />
       </div>
       {/section}
     {/section}
