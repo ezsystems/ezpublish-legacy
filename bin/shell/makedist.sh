@@ -13,7 +13,7 @@ DIST_SRC=`pwd`
 FULL_EXTRA_DIRS="settings/override var/cache var/storage"
 SDK_EXTRA_DIRS="settings/override var/carhe var/storage doc/generated/html"
 
-FILTER_FILES="settings/site.ini settings/content.ini settings/setup.ini settings/i18n.ini settings/layout.ini settings/template.ini settings/texttoimage.ini settings/units.ini settings/siteaccess/user/site.ini.append settings/siteaccess/admin/site.ini.append settings/siteaccess/sdk/site.ini.append"
+FILTER_FILES="settings/site.ini settings/content.ini settings/setup.ini settings/i18n.ini settings/layout.ini settings/template.ini settings/texttoimage.ini settings/units.ini settings/siteaccess/user/site.ini.append settings/siteaccess/admin/site.ini.append settings/siteaccess/demo/site.ini.append settings/siteaccess/sdk/site.ini.append"
 FILTER_FILES2="bin/modfix.sh"
 
 . ./bin/shell/common.sh
@@ -202,6 +202,7 @@ done
 # if [ "$DIST_TYPE" == "sdk" ]; then
 if [ -d "doc/generated/html" ]; then
     echo "Copying generated documentation"
+    mkdir -p $DEST/doc/generated/html
     cp -f "doc/generated/html"/* $DEST/doc/generated/html
 fi
 
