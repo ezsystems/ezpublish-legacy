@@ -36,7 +36,7 @@
 // }
 // xdebug_start_trace( 'ezp' );
 
-@ini_set( 'memory_limit', '32M' );
+@ini_set( 'memory_limit', '42M' );
 $scriptStartTime = microtime();
 ob_start();
 
