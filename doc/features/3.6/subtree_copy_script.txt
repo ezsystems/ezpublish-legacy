@@ -1,30 +1,32 @@
 Subtree Copy Script.
 
-Copy subtree of nodes given by the parent node of subtree under the given node.
+Copies subtree under the specified node.
 
 Files:
   bin/php/ezsubtreecopy.php
 
 Input parameters:
   --src-node-id=<node_id>   - (required) Source node ID, parent node of subtree being copied.
-  --dst-node-id=<node_id>   - (required) Destination node ID, node under which you are trying to copy subtree.
-  --allversions             - (optinal) If this option defined all versions of contentobjects will be copied.
+  --dst-node-id=<node_id>   - (required) Destination node ID, node under which you are copying subtree.
+  --all-versions            - (optinal) If this option defined all versions of contentobjects will be copied.
                               Otherwise only published versions of source contentobjects will be copied.
-  --keepcreator             - Keep creator of every contentobject being copied and creator of its
-                              published version unchaged.
+  --keep-creator            - Keep creator of every contentobject being copied and creator of its
+                              published version unchanged.
+  --keep-time               - Keep time of creation and modification of contentobjects being copied unchanged.
   --siteaccess=<siteaccess> - Siteaccess for which you want to do copy operation.
   --login=<user_name>       - User login.
   --password=<password>     - User password.
 
 Run script from the root directory of your eZPublish. Use --siteaccess option to set
 appropriate database settings for the script. Otherwise, script use default siteaccess
-from ini-settings. To change creators of contentobjects and all object versions being
-copied use --login and --password options. Use --keepcreator option to leave creators
-of contentobjects unchanged. If no one --keepcreator or --login option are given then
-creator of new contentobjects will be default Anonymous User.
+from inisettings. To change the creators of contentobjects and all object versions being
+copied use --login and --password options. Use --keep-creator option to leave creators
+of contentobjects unchanged. If none of the --keep-creator or --login options are given
+then creator of new contentobjects will be default Anonymous User.
 
-Example:
+Examples:
 
   $php bin/php/ezsubtreecopy.php --siteaccess=gallery_admin --src-node-id=74 --dst-node-id=87
-  $php bin/php/ezsubtreecopy.php --src-node-id=74 --dst-node-id=87 --allversions --keepcreator
+  $php bin/php/ezsubtreecopy.php --src-node-id=74 --dst-node-id=87 --all-versions --keep-creator
   $php bin/php/ezsubtreecopy.php --src-node-id=74 --dst-node-id=87 --login=admin --password=publish
+  $php bin/php/ezsubtreecopy.php --src-node-id=74 --dst-node-id=87 --keep-time --keep-creator --all-versions

@@ -47,12 +47,13 @@ $script =& eZScript::instance( array( 'description' => ( "\nSubtree Copy Script 
                                       'user' => true ) );
 $script->startup();
 
-$scriptOptions = $script->getOptions( "[src-node-id:][dst-node-id:][allversions][keepcreator]",
+$scriptOptions = $script->getOptions( "[src-node-id:][dst-node-id:][allversions][keepcreator][keeptime]",
                                       "",
                                       array( 'src-node-id' => "Source subtree parent node ID.",
                                              'dst-node-id' => "Destination node ID.",
                                              'allversions' => "Copy all versions for each contentobject being copied.",
-                                             'keepcreator' => "Keep creator of contentobjects being copied unchanged."
+                                             'keepcreator' => "Keep creator of contentobjects being copied unchanged.",
+                                             'keeptime'    => "Keep time of creation and modification of contentobjects being copied unchaged."
                                              ),
                                       false,
                                       array( 'user' => true )
@@ -62,8 +63,9 @@ $script->initialize();
 $srcNodeID   = $scriptOptions[ 'src-node-id' ] ? $scriptOptions[ 'src-node-id' ] : false;
 $dstNodeID   = $scriptOptions[ 'dst-node-id' ] ? $scriptOptions[ 'dst-node-id' ] : false;
 $creatorID   = $scriptOptions[ 'creator-id' ]  ? $scriptOptions[ 'creator-id' ]  : false;
-$allVersions = $scriptOptions[ 'allversions' ];
-$keepCreator = $scriptOptions[ 'keepcreator' ];
+$allVersions = $scriptOptions[ 'all-versions' ];
+$keepCreator = $scriptOptions[ 'keep-creator' ];
+$keepTime    = $scriptOptions[ 'keep-time' ];
 $siteAccess  = $scriptOptions[ 'siteaccess' ]  ? $scriptOptions[ 'siteaccess' ]  : false;
 
 if ( $siteAccess )
@@ -95,7 +97,7 @@ include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 function &copyPublishContentObject( &$sourceObject,
                                     &$syncNodeIDListSrc, &$syncNodeIDListNew,
                                     &$syncObjectIDListSrc, &$syncObjectIDListNew,
-                                    $allVersions = false, $keepCreator = false )
+                                    $allVersions = false, $keepCreator = false, $keepTime = false )
 {
     global $cli;
 
@@ -136,21 +138,6 @@ function &copyPublishContentObject( &$sourceObject,
 
     $curVersion        = $newObject->attribute( 'current_version' );
     $curVersionObject  = $newObject->attribute( 'current' );
-
-    // if $keepCreator == true then keep owner of contentobject being
-    // copied and creator of its published version Unchaged
-    if ( $keepCreator )
-    {
-        $srcOwnerID            = $sourceObject->attribute( 'owner_id' );
-        $srcCurVersionObject   = $sourceObject->attribute( 'current' );
-        $srcCurVersionCreatorID= $srcCurVersionObject->attribute( 'creator_id' );
-
-        $newObject->setAttribute( 'owner_id', $srcOwnerID );
-        $newObject->store();
-
-        $curVersionObject->setAttribute( 'creator_id', $srcCurVersionCreatorID );
-        $curVersionObject->store();
-    }
 
     $newObjAssignments = $curVersionObject->attribute( 'node_assignments' );
     unset( $curVersionObject );
@@ -194,7 +181,7 @@ function &copyPublishContentObject( &$sourceObject,
 
         $srcParentNodeID = $syncNodeIDListSrc[ $keyA ];
 
-        // Update attributes
+        // Update attributes of node
         $bSrcParentFound = false;
         foreach ( $srcNodeList as $srcNode )
         {
@@ -219,6 +206,81 @@ function &copyPublishContentObject( &$sourceObject,
     // Update "is_invisible" attribute for the newly created node.
     $newNode =& $newObject->attribute( 'main_node' );
     eZContentObjectTreeNode::updateNodeVisibility( $newNode, $newParentNode ); // ??? do we need this here?
+
+    // if $keepCreator == true then keep owner of contentobject being
+    // copied and creator of its published version Unchaged
+    $isModified = false;
+    if ( $keepTime )
+    {
+        $srcPublished = $sourceObject->attribute( 'published' );
+        $newObject->setAttribute( 'published', $srcPublished );
+        $srcModified  = $sourceObject->attribute( 'modified' );
+        $newObject->setAttribute( 'modified', $srcModified );
+        $isModified = true;
+    }
+    if ( $keepCreator )
+    {
+        $srcOwnerID = $sourceObject->attribute( 'owner_id' );
+        $newObject->setAttribute( 'owner_id', $srcOwnerID );
+        $isModified = true;
+    }
+    if ( $isModified )
+        $newObject->store();
+
+    if ( $allVersions )
+    {   // copy time of creation and midification and creator id for
+        // all versions of content object being copied.
+        $srcVersionsList = $sourceObject->versions();
+
+        foreach ( $srcVersionsList as $srcVersionObject )
+        {
+            $newVersionObject = $newObject->version( $srcVersionObject->attribute( 'version' ) );
+            if ( !is_object( $newVersionObject ) )
+                continue;
+
+            $isModified = false;
+            if ( $keepTime )
+            {
+                $srcVersionCreated  = $srcVersionObject->attribute( 'created' );
+                $newVersionObject->setAttribute( 'created', $srcVersionCreated );
+                $srcVersionModified = $srcVersionObject->attribute( 'modified' );
+                $newVersionObject->setAttribute( 'modified', $srcVersionModified );
+                $isModified = true;
+            }
+            if ( $keepCreator )
+            {
+                $srcVersionCreatorID = $srcVersionObject->attribute( 'creator_id' );
+                $newVersionObject->setAttribute( 'creator_id', $srcVersionCreatorID );
+
+                $isModified = true;
+            }
+            if ( $isModified )
+                $newVersionObject->store();
+        }
+    }
+    else // if not all versions copied
+    {
+        $srcVersionObject = $sourceObject->attribute( 'current' );
+        $newVersionObject = $newObject->attribute( 'current' );
+
+        $isModified = false;
+        if ( $keepTime )
+        {
+            $srcVersionCreated  = $srcVersionObject->attribute( 'created' );
+            $newVersionObject->setAttribute( 'created', $srcVersionCreated );
+            $srcVersionModified = $srcVersionObject->attribute( 'modified' );
+            $newVersionObject->setAttribute( 'modified', $srcVersionModified );
+            $isModified = true;
+        }
+        if ( $keepCreator )
+        {
+            $srcVersionCreatorID = $srcVersionObject->attribute( 'creator_id' );
+            $newVersionObject->setAttribute( 'creator_id', $srcVersionCreatorID );
+            $isModified = true;
+        }
+        if ( $isModified )
+            $newVersionObject->store();
+    }
 
     return 0; // source object was copied successfully.
 
@@ -285,7 +347,7 @@ while ( count( $sourceNodeList ) > 0 )
             $copyResult = copyPublishContentObject( $sourceObject,
                                                     $syncNodeIDListSrc, $syncNodeIDListNew,
                                                     $syncObjectIDListSrc, $syncObjectIDListNew,
-                                                    $allVersions, $keepCreator );
+                                                    $allVersions, $keepCreator, $keepTime );
             if ( $copyResult === 0 )
             {   // if copying successful then remove $sourceNode from $sourceNodeList
                 array_splice( $sourceNodeList, $i, 1 );
