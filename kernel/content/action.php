@@ -31,12 +31,14 @@
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
 //
+
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( 'kernel/classes/ezcontentbrowse.php' );
 include_once( 'kernel/classes/ezcontentbrowsebookmark.php' );
 include_once( 'kernel/classes/ezcontentclass.php' );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
+
 $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
 
@@ -44,13 +46,14 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
 {
     if ( ( $http->hasPostVariable( 'ClassID' ) && $http->hasPostVariable( 'NodeID' ) ) || $module->isCurrentAction( 'NewObjectAddNodeAssignment' ) )
     {
+        print( "classid=" . $http->postVariable( 'ClassID' ) . "<br/>" );
         if (  $module->isCurrentAction( 'NewObjectAddNodeAssignment' ) )
         {
             $selectedNodeIDArray = $http->postVariable( 'SelectedNodeIDArray' );
             if ( count( $selectedNodeIDArray ) == 0 )
                 return $module->redirectToView( 'view', array( 'full', 2 ) );
             $node =& eZContentObjectTreeNode::fetch( $selectedNodeIDArray[0] );
-            $contentClassID = $http->sessionVariable( 'ClassID' );
+            $contentClassID = $http->postVariable( 'ClassID' );
         }
         else
         {
@@ -91,12 +94,13 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
     else if ( $http->hasPostVariable( 'ClassID' ) )
     {
         $class =& eZContentClass::fetch( $http->postVariable( 'ClassID' ) );
+        print( "classid=" . $http->postVariable( 'ClassID' ) . "<br/>" );
         eZContentBrowse::browse( array( 'action_name' => 'NewObjectAddNodeAssignment',
                                         'description_template' => 'design:content/browse_first_placement.tpl',
                                         'keys' => array( 'class' => $class->attribute( 'id' ),
                                                          'classgroup' => $class->attribute( 'ingroup_id_list' ) ),
                                         'persistent_data' => array( 'ClassID' => $class->attribute( 'id' ) ),
-                                        'content' => array( 'class_id' => $class->attribute( 'id' ) ),
+                                        'content' => array( 'class_id' => $http->postVariable( 'ClassID' ) ),
                                         'from_page' => "/content/action" ),
                                  $module );
     }

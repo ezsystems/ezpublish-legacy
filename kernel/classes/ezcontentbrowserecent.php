@@ -39,20 +39,40 @@
 
 /*!
   \class eZContentBrowseRecent ezcontentbrowserecent.php
-  \brief The class eZContentBrowseRecent does
+  \brief Handles recent nodes for users
+
+  Allows the creation and fetching of recent lists for users.
+  The recent list is used in the browse page to allow quick navigation and selection.
+
+  Creating a new recent item is done with
+\code
+$userID = eZUser::currentUserID();
+$nodeID = 2;
+$nodeName = 'Node';
+eZContentBrowseRecent::createNew( $userID, $nodeID, $nodeName )
+\endcode
+
+  Fetching the list is done with
+\code
+$userID = eZUser::currentUserID();
+eZContentBrowseRecent::fetchListForUser( $userID )
+\endcode
 
 */
 
 class eZContentBrowseRecent extends eZPersistentObject
 {
     /*!
-     Constructor
+     \reimp
     */
     function eZContentBrowseRecent( $row )
     {
         $this->eZPersistentObject( $row );
     }
 
+    /*!
+     \reimp
+    */
     function &definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
@@ -84,54 +104,108 @@ class eZContentBrowseRecent extends eZPersistentObject
 
     }
 
+    /*!
+     \reimp
+    */
     function attributes()
     {
         return eZPersistentObject::attributes();
     }
 
 
-    function hasAttribute( $attr )
+    /*!
+     \reimp
+    */
+    function hasAttribute( $attributeName )
     {
-        if ( $attr=='node' )
+        if ( $attributeName == 'node' )
         {
             return true;
         }
         else
-            return eZPersistentObject::hasAttribute( $attr );
+            return eZPersistentObject::hasAttribute( $attributeName );
     }
 
-    function &attribute( $attr )
+    /*!
+     \reimp
+    */
+    function &attribute( $attributeName )
     {
-        if ( $attr=='node' )
+        if ( $attributeName == 'node' )
         {
             return $this->fetchNode();
         }
         else
-            return eZPersistentObject::attribute( $attr );
+            return eZPersistentObject::attribute( $attributeName );
     }
 
 
+    /*!
+     \static
+     \return the recent item \a $recentID
+    */
     function fetch( $recentID )
     {
         return eZPersistentObject::fetchObject( eZContentBrowseRecent::definition(),
                                                 null, array( 'id' => $recentID ), true );
     }
 
+    /*!
+     \static
+     \return the recent list for the user identifier by \a $userID.
+    */
     function fetchListForUser( $userID )
     {
         return eZPersistentObject::fetchObjectList( eZContentBrowseRecent::definition(),
                                                     null, array( 'user_id' => $userID ),
-                                                    null,null, true );
+                                                    null, null, true );
     }
 
+    /*!
+     \static
+     \return the maximum number of recent items for user \a $userID.
+     The default value is read from MaximumRecentItems from group BrowseSettings in browse.ini.
+     \note Currently all users get the same default maximum amount
+    */
+    function maximumRecentItems( $userID )
+    {
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini =& eZINI::instance( 'browse.ini' );
+        $maximum = $ini->variable( 'MaximumRecentItems', 'BrowseSettings' );
+        return $maximum;
+    }
+
+    /*!
+     \static
+     Tries to create a new recent item and returns it.
+     If the node ID \a $nodeID already exists as a recent item nothing is done and the old item is returned.
+
+     It will also remove items when the maximum number of items for the user \a $userID is exceeded.
+     \sa maximumRecentItems
+    */
     function &createNew( $userID, $nodeID, $nodeName )
     {
         $recentCountList = eZPersistentObject::fetchObjectList( eZContentBrowseRecent::definition(),
                                                                 array(), array( 'user_id' => $userID ),
-                                                                null,null,false,null,array( array( 'operation' => 'count( * )',
-                                                                                                   'name' => 'count' ) ) );
+                                                                null, null, false, null,
+                                                                array( array( 'operation' => 'count( * )',
+                                                                              'name' => 'count' ) ) );
+        $matchingRecentList = eZPersistentObject::fetchObjectList( eZContentBrowseRecent::definition(),
+                                                                   null,
+                                                                   array( 'user_id' => $userID,
+                                                                          'node_id' => $nodeID ),
+                                                                   null,
+                                                                   null,
+                                                                   true );
+        // If we already have the node in the list just return
+        if ( count( $matchingRecentList ) > 0 )
+        {
+            return $matchingRecentList[0];
+        }
         $recentCount = $recentCountList[0]['count'];
-        if ( $recentCount > 9 )
+        $maximumCount = eZContentBrowseRecent::maximumRecentItems();
+        // Remove oldest item
+        if ( $recentCount > $maximumCount )
         {
             $recentCountList = eZPersistentObject::fetchObjectList( eZContentBrowseRecent::definition(),
                                                                     null,
@@ -152,12 +226,13 @@ class eZContentBrowseRecent extends eZPersistentObject
         return $recent;
     }
 
+    /*!
+     \return the tree node which this item refers to.
+    */
     function &fetchNode()
     {
         return eZContentObjectTreeNode::fetch( $this->attribute( 'node_id' ) );
     }
-
-
 }
 
 ?>

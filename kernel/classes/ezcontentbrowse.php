@@ -39,14 +39,30 @@
 
 /*!
   \class eZContentBrowse ezcontentbrowse.php
-  \brief The class eZContentBrowse does
+  \brief Handles browsing of content in the node tree
+
+  This class makes it easy to use the browse system to
+  search for content objects or nodes. The class will take
+  care of storing the necessary session variables and redirect
+  to the browse page.
+
+  Using it is simply to call the \link browse \endlink function with some parameters.
+
+\code
+eZContentBrowse::browse( array( 'action_name' => 'MyActionName' ), $module );
+\endcode
+
+  It requires the module objects as the second parameter to redirect and the first
+  define how the browse page should behave. Normally you just want to set \c action_name
+  and define the behaviour of that action in settings/browse.ini.
 
 */
 
 class eZContentBrowse
 {
     /*!
-     Constructor
+     Initializes the object with the session data if they are found.
+     If \a $params is supplied it used instead.
     */
     function eZContentBrowse( $params = false )
     {
@@ -61,16 +77,25 @@ class eZContentBrowse
         }
     }
 
+    /*!
+     \return an array with attribute names.
+    */
     function attributes()
     {
         return array_keys( $this->Parameters );
     }
 
+    /*!
+     \return true if the attribute name \a $attributeName is among the browse parameters.
+    */
     function hasAttribute( $attributeName )
     {
         return array_key_exists( $attributeName, $this->Parameters );
     }
 
+    /*!
+     \return the attribute value of the attribute named \a $attributeName or \c null if no such attribute.
+    */
     function &attribute( $attributeName )
     {
         if ( isset( $this->Parameters[$attributeName] ) )
@@ -78,69 +103,75 @@ class eZContentBrowse
         return null;
     }
 
-    function browse( $params = array(), &$module )
+    /*!
+     \static
+     Sets some session data taken from \a $parameters and start the browse module by redirecting to it using \a $module.
+     Most data will be automatically derived from the \c action_name value taken from settings/browse.ini, other
+     values will override default values.
+    */
+    function browse( $parameters = array(), &$module )
     {
         $ini =& eZINI::instance( 'browse.ini' );
 
-        if ( !isset( $params['action_name'] ) )
+        if ( !isset( $parameters['action_name'] ) )
         {
-            $params['action_name'] = $ini->variable( 'BrowseSettings', 'DefaultActionName' );
+            $parameters['action_name'] = $ini->variable( 'BrowseSettings', 'DefaultActionName' );
         }
 
-        if ( !isset( $params['type'] ) )
+        if ( !isset( $parameters['type'] ) )
         {
-            $params['type'] = $params['action_name']; //$ini->variable( $params['action_name'], 'BrowseType' );
+            $parameters['type'] = $parameters['action_name']; //$ini->variable( $parameters['action_name'], 'BrowseType' );
         }
 
-        if ( !isset( $params['selection'] ) )
+        if ( !isset( $parameters['selection'] ) )
         {
-            if ( $ini->hasVariable( $params['type'], 'SelectionType' ) )
+            if ( $ini->hasVariable( $parameters['type'], 'SelectionType' ) )
             {
-                $params['selection'] = $ini->variable( $params['type'], 'SelectionType' );
+                $parameters['selection'] = $ini->variable( $parameters['type'], 'SelectionType' );
             }
             else
             {
-                $params['selection'] = $ini->variable( 'BrowseSettings', 'DefaultSelectionType' );
+                $parameters['selection'] = $ini->variable( 'BrowseSettings', 'DefaultSelectionType' );
             }
         }
 
-        if ( !isset( $params['return_type'] ) )
+        if ( !isset( $parameters['return_type'] ) )
         {
-            if ( $ini->hasVariable( $params['type'], 'ReturnType' ) )
+            if ( $ini->hasVariable( $parameters['type'], 'ReturnType' ) )
             {
-                $params['return_type'] = $ini->variable( $params['type'], 'ReturnType' );
+                $parameters['return_type'] = $ini->variable( $parameters['type'], 'ReturnType' );
             }
             else
             {
-                $params['return_type'] = $ini->variable( 'BrowseSettings', 'DefaultReturnType' );
+                $parameters['return_type'] = $ini->variable( 'BrowseSettings', 'DefaultReturnType' );
             }
 
         }
 
-        if ( !isset( $params['browse_custom_action'] ) )
+        if ( !isset( $parameters['browse_custom_action'] ) )
         {
-            $params['browse_custom_action'] = false;
+            $parameters['browse_custom_action'] = false;
         }
 
-        if ( !isset( $params['custom_action_data'] ) )
+        if ( !isset( $parameters['custom_action_data'] ) )
         {
-            $params['custom_action_data'] = false;
+            $parameters['custom_action_data'] = false;
         }
 
-        if ( !isset( $params['description_template'] ) )
-            $params['description_template'] = false;
+        if ( !isset( $parameters['description_template'] ) )
+            $parameters['description_template'] = false;
 
-        $params['start_node'] = $ini->variable( $params['type'], 'StartNode' );
+        $parameters['start_node'] = $ini->variable( $parameters['type'], 'StartNode' );
 
-        if ( isset( $params['keys'] ) )
+        if ( isset( $parameters['keys'] ) )
         {
             $overrideStartNode = false;
-            foreach ( $params['keys'] as $key => $keyValue )
+            foreach ( $parameters['keys'] as $key => $keyValue )
             {
                 $variableName = 'StartNode_' . $key;
-                if ( !$ini->hasVariable( $params['type'], $variableName ) )
+                if ( !$ini->hasVariable( $parameters['type'], $variableName ) )
                     continue;
-                $keyData = $ini->variable( $params['type'], $variableName );
+                $keyData = $ini->variable( $parameters['type'], $variableName );
                 if ( is_array( $keyValue ) )
                 {
                     foreach ( $keyValue as $keySubValue )
@@ -157,27 +188,27 @@ class eZContentBrowse
                     break;
             }
             if ( $overrideStartNode )
-                $params['start_node'] = $overrideStartNode;
+                $parameters['start_node'] = $overrideStartNode;
         }
 
-        if ( !isset( $params['persistent_data'] ) )
-            $params['persistent_data'] = false;
+        if ( !isset( $parameters['persistent_data'] ) )
+            $parameters['persistent_data'] = false;
 
-        if ( !isset( $params['top_level_nodes'] ) )
+        if ( !isset( $parameters['top_level_nodes'] ) )
         {
-            $params['top_level_nodes'] = $ini->variable( 'BrowseSettings', 'DefaultTopLevelNodes' );
-            if ( $ini->hasVariable( $params['type'], 'TopLevelNodes' ) )
-                $params['top_level_nodes'] = $ini->variable( $params['type'], 'TopLevelNodes' );
+            $parameters['top_level_nodes'] = $ini->variable( 'BrowseSettings', 'DefaultTopLevelNodes' );
+            if ( $ini->hasVariable( $parameters['type'], 'TopLevelNodes' ) )
+                $parameters['top_level_nodes'] = $ini->variable( $parameters['type'], 'TopLevelNodes' );
         }
 
-        if ( !isset( $params['from_page'] ) )
+        if ( !isset( $parameters['from_page'] ) )
         {
-            //           $params['from_page'] = $ini->variable('BrowseSettings', 'DefaultSelectionType' );
-            eZDebug::writeError( $params, 'eZContentBrowse::browse() $params[\'from_page\'] is not set' );
+            //           $parameters['from_page'] = $ini->variable('BrowseSettings', 'DefaultSelectionType' );
+            eZDebug::writeError( $parameters, 'eZContentBrowse::browse() $parameters[\'from_page\'] is not set' );
         }
 
         $http =& eZHTTPTool::instance();
-        $http->setSessionVariable( 'BrowseParameters', $params );
+        $http->setSessionVariable( 'BrowseParameters', $parameters );
 
         if ( is_null( $module ) )
         {
@@ -190,11 +221,16 @@ class eZContentBrowse
         }
     }
 
+    /*!
+     Sets the node ID where browsing starts.
+    */
     function setStartNode( $nodeID )
     {
         $this->Parameters['start_node'] = $nodeID;
     }
 
+    /// \privatesection
+    /// The browse parameters.
     var $Parameters = false;
 }
 

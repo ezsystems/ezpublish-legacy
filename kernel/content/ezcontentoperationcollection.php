@@ -222,7 +222,8 @@ class eZContentOperationCollection
 //                eZContentBrowseBookmark::createNew( $user->id(), $parentNode->attribute( 'node_id' ), $parentNode->attribute( 'name' ), EZ_CONTENTBROWSE_BOOKMARK_TYPE_RECENT );
 //code end
                 $existingNode =&  $parentNode->addChild( $object->attribute( 'id' ), 0, true );
-            }else
+            }
+            else
             {
                 $originalNode =& eZContentObjectTreeNode::fetchNode( $originalObjectID, $fromNodeID );
                 if ( $originalNode->attribute( 'main_node_id' ) == $originalNode->attribute( 'node_id' ) )

@@ -42,7 +42,7 @@ Search:
 - Fixed for compatibility with Oracle driver
 
 Setup tool:
-- has been changed to support separate ( for schema and for data ) kernel sql files.
+- Separate ( for schema and for data ) kernel sql files are now supported.
 
 Shop:
 - Added support for choosing objects ( products ) to discount rule editing.

@@ -39,7 +39,24 @@
 
 /*!
   \class eZContentBrowseBookmark ezcontentbrowsebookmark.php
-  \brief The class eZContentBrowseBookmark does
+  \brief Handles bookmarking nodes for users
+
+  Allows the creation and fetching of bookmark lists for users.
+  The bookmark list is used in the browse page to allow quick navigation and selection.
+
+  Creating a new bookmark item is done with
+\code
+$userID = eZUser::currentUserID();
+$nodeID = 2;
+$nodeName = 'Node';
+eZContentBrowseBookmark::createNew( $userID, $nodeID, $nodeName )
+\endcode
+
+  Fetching the list is done with
+\code
+$userID = eZUser::currentUserID();
+eZContentBrowseBookmark::fetchListForUser( $userID )
+\endcode
 
 */
 
@@ -48,13 +65,16 @@ include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 class eZContentBrowseBookmark extends eZPersistentObject
 {
     /*!
-     Constructor
+     \reimp
     */
     function eZContentBrowseBookmark( $row )
     {
         $this->eZPersistentObject( $row );
     }
 
+    /*!
+     \reimp
+    */
     function &definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
@@ -82,52 +102,55 @@ class eZContentBrowseBookmark extends eZPersistentObject
 
     }
 
+    /*!
+     \reimp
+    */
     function attributes()
     {
         return eZPersistentObject::attributes();
     }
 
-    function hasAttribute( $attr )
+    /*!
+     \reimp
+    */
+    function hasAttribute( $attributeName )
     {
-        if ( $attr=='node' )
+        if ( $attributeName == 'node' )
         {
             return true;
         }
         else
-            return eZPersistentObject::hasAttribute( $attr );
+            return eZPersistentObject::hasAttribute( $attributeName );
     }
 
-    function &attribute( $attr )
+    /*!
+     \reimp
+    */
+    function &attribute( $attributeName )
     {
-        if ( $attr=='node' )
+        if ( $attributeName == 'node' )
         {
             return $this->fetchNode();
         }
         else
-            return eZPersistentObject::attribute( $attr );
+            return eZPersistentObject::attribute( $attributeName );
     }
 
 
+    /*!
+     \static
+     \return the bookmark item \a $bookmarkID.
+    */
     function fetch( $bookmarkID )
     {
         return eZPersistentObject::fetchObject( eZContentBrowseBookmark::definition(),
                                                 null, array( 'id' => $bookmarkID ), true );
     }
 
-    function fetchBookmarkListForUser( $userID )
-    {
-        return eZPersistentObject::fetchObjectList( eZContentBrowseBookmark::definition(),
-                                                    null, array( 'user_id' => $userID ),
-                                                    null,null, true );
-    }
-
-    function fetchRecentListForUser( $userID )
-    {
-        return eZPersistentObject::fetchObjectList( eZContentBrowseBookmark::definition(),
-                                                    null, array( 'user_id' => $userID ),
-                                                    null,null, true );
-    }
-
+    /*!
+     \static
+     \return the bookmark list for user \a $userID.
+    */
     function fetchListForUser( $userID )
     {
         return eZPersistentObject::fetchObjectList( eZContentBrowseBookmark::definition(),
@@ -135,6 +158,11 @@ class eZContentBrowseBookmark extends eZPersistentObject
                                                     true );
     }
 
+    /*!
+     \static
+     Creates a new bookmark item for user \a $userID with node id \a $nodeID and name \a $nodeName.
+     The new item is returned.
+    */
     function &createNew( $userID, $nodeID, $nodeName )
     {
         $bookmark = new eZContentBrowseBookmark( array( 'user_id' => $userID,
@@ -144,6 +172,9 @@ class eZContentBrowseBookmark extends eZPersistentObject
         return $bookmark;
     }
 
+    /*!
+     \return the tree node which this item refers to.
+    */
     function &fetchNode()
     {
         return eZContentObjectTreeNode::fetch( $this->attribute( 'node_id' ) );
