@@ -135,7 +135,7 @@ class eZImageVariation extends eZPersistentObject
     {
         $contentobjectAttributeID = $ezimageobj->attribute( "contentobject_attribute_id" );
         $version = $ezimageobj->attribute( "version" );
-        if( !(( $imagevariation =  eZImageVariation::fetchVariation( $contentobjectAttributeID, $version, $rwidth, $rheight ) ) === null) )
+        if( !(( $imagevariation = eZImageVariation::fetchVariation( $contentobjectAttributeID, $version, $rwidth, $rheight ) ) === null) )
         {
             $variationFileName = $imagevariation->attribute( "filename" );
             $fileName = $ezimageobj->attribute( "filename" );
@@ -175,7 +175,7 @@ class eZImageVariation extends eZPersistentObject
         $refImagename = $variationPath . '/' . $additionalPath . '/' . $refImageFilename[ 1 ];
 
         $imgsize = getimagesize ( $refImagename  );
-        unset ($refImagename);
+        unset( $refImagename );
 
         $imageVariation = new eZImageVariation( array("contentobject_attribute_id" => $ezimageobj->attribute( "contentobject_attribute_id" ),
                                                       "version" => $ezimageobj->attribute( "version" ),
@@ -187,14 +187,16 @@ class eZImageVariation extends eZPersistentObject
                                                       "height" =>  $imgsize[1]  ) );
 
         $imageFullPath = $variationPath . '/' . $additionalPath . '/' . $refImageFilename[1];
-        $imageVariation->store();
 
 
-        if( filesize( $imageFullPath ) == 0 || !file_exists( $imageFullPath ) )
+        if ( filesize( $imageFullPath ) == 0 || !file_exists( $imageFullPath ) )
         {
             eZDebug::writeError( "Could not create variation for $imageFullPath" );
-            eZImageVariation::removeVariation( $imageVariation['contentobject_attribute_id'], $imageVariation['version'] );
             return false;
+        }
+        else
+        {
+            $imageVariation->store();
         }
 
         return $imageVariation;
