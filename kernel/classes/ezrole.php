@@ -195,8 +195,13 @@ class eZRole extends eZPersistentObject
         $db->query( $query );
         $temporaryVersion->removePolicies( false );
         $temporaryVersion->remove();
-        eZSessionCache::expireSessions( array( EZ_SESSION_CACHE_USER_ROLES, EZ_SESSION_CACHE_CLASSES_LIST  ) );
 
+        // Expire role cache
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        $handler->setTimestamp( 'user-role-cache', mktime() );
+        $handler->setTimestamp( 'user-class-cache', mktime() );
+        $handler->store();
     }
 
     function remove( $roleID = false )
@@ -269,6 +274,8 @@ class eZRole extends eZPersistentObject
 
                 $http->setSessionVariable( 'UserRoles', $roleArray );
                 $http->setSessionVariable( 'PermissionCachedForUserID', $userID );
+                $http->setSessionVariable( 'PermissionCachedForUserIDTimestamp', mktime() );
+
                 $http->removeSessionVariable( 'UserPolicies' );
                 $http->removeSessionVariable( 'UserLimitations' );
                 $http->removeSessionVariable( 'UserLimitationValues' );
@@ -328,12 +335,19 @@ class eZRole extends eZPersistentObject
     */
     function &cachedRoles()
     {
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        $expiredTimeStamp = 0;
+        if ( $handler->hasTimestamp( 'user-role-cache' ) )
+            $expiredTimeStamp = $handler->timestamp( 'user-role-cache' );
+
         $returnRoles = false;
         $http =& eZHTTPTool::instance();
 
         $permissionCachedForUser = $http->sessionVariable( 'PermissionCachedForUserID' );
+        $permissionCachedForUserTimestamp = $http->sessionVariable( 'PermissionCachedForUserIDTimestamp' );
 
-        if ( !eZSessionCache::isExpired( EZ_SESSION_CACHE_USER_ROLES ) )
+        if ( $permissionCachedForUserTimestamp >= $expiredTimeStamp )
         {
             $user =& eZUser::currentUser();
             $userID = $user->id();
@@ -357,10 +371,15 @@ class eZRole extends eZPersistentObject
     {
         $db =& eZDB::instance();
 
-        eZSessionCache::expireSessions( array( EZ_SESSION_CACHE_USER_ROLES, EZ_SESSION_CACHE_CLASSES_LIST  ) );
         $query = "INSERT INTO ezuser_role ( role_id, contentobject_id ) VALUES ( '$this->ID', '$userID' )";
 
         $db->query( $query );
+
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        $handler->setTimestamp( 'user-role-cache', mktime() );
+        $handler->setTimestamp( 'user-class-cache', mktime() );
+        $handler->store();
     }
 
     /*!

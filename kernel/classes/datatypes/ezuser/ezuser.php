@@ -153,8 +153,11 @@ class eZUser extends eZPersistentObject
 
     function store()
     {
-        eZSessionCache::expireSessions( "EZ_SESSION_CACHE_USER_INFO" );
-        eZSessionCache::expireSessions( "EZ_SESSION_CACHE_USER_GROUPS" );
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        $handler->setTimestamp( 'user-info-cache', mktime() );
+        $handler->setTimestamp( 'user-groups-cache', mktime() );
+        $handler->store();
         eZPersistentObject::store();
     }
 
@@ -435,8 +438,18 @@ class eZUser extends eZPersistentObject
 
         // Check cache
         $fetchFromDB = true;
-        if ( !eZSessionCache::isExpired( EZ_SESSION_CACHE_USER_INFO ) )
+
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        $expiredTimeStamp = 0;
+        if ( $handler->hasTimestamp( 'user-info-cache' ) )
+            $expiredTimeStamp = $handler->timestamp( 'user-info-cache' );
+
+        $userArrayTimestamp =& $http->sessionVariable( 'eZUserInfoCache_Timestamp' );
+
+        if ( $userArrayTimestamp > $expiredTimeStamp )
         {
+
             $userArray =& $http->sessionVariable( 'eZUserInfoCache_' . $id );
 
             if ( is_numeric( $userArray['contentobject_id'] ) )
@@ -460,6 +473,7 @@ class eZUser extends eZPersistentObject
                                                   'password_hash' => $currentUser->attribute( 'password_hash' ),
                                                   'password_hash_type' => $currentUser->attribute( 'password_hash_type' )
                                                   ) );
+                $http->setSessionVariable( 'eZUserInfoCache_Timestamp', mktime()  );
             }
         }
 
@@ -735,8 +749,17 @@ class eZUser extends eZPersistentObject
                 }
 
                 $userGroups = false;
+
+                $userGroupTimestamp =& $http->sessionVariable( 'eZUserGroupsCache_Timestamp' );
+
+                include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+                $handler =& eZExpiryHandler::instance();
+                $expiredTimeStamp = 0;
+                if ( $handler->hasTimestamp( 'user-info-cache' ) )
+                    $expiredTimeStamp = $handler->timestamp( 'user-info-cache' );
+
                 // check for cached version
-                if ( !eZSessionCache::isExpired( EZ_SESSION_CACHE_USER_GROUPS ) )
+                if ( $userGroupTimestamp > $expiredTimeStamp )
                 {
                     $userGroupsTmp =& $http->sessionVariable( 'eZUserGroupsCache_' . $contentobjectID );
 
@@ -757,6 +780,7 @@ class eZUser extends eZPersistentObject
                                                 ORDER BY c.contentobject_id  ");
 
                     $http->setSessionVariable( 'eZUserGroupsCache_' . $contentobjectID, $userGroups );
+                    $http->setSessionVariable( 'eZUserGroupsCache_Timestamp', mktime() );
                 }
 
                 $userGroupArray = array();

@@ -41,7 +41,6 @@
 */
 
 include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "lib/ezutils/classes/ezsessioncache.php" );
 include_once( "kernel/classes/ezpersistentobject.php" );
 include_once( "kernel/classes/ezcontentobject.php" );
 include_once( "kernel/classes/ezcontentclassattribute.php" );
@@ -159,30 +158,38 @@ class eZContentClass extends eZPersistentObject
     {
         $ini =& eZINI::instance();
         $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
-//        eZDebugSetting::writeDebug( 'kernel-content-class', $enableCaching, "" );
+
         if ( $enableCaching == 'true' )
         {
             $http =& eZHTTPTool::instance();
-            $classesExpired = eZSessionCache::isExpired( EZ_SESSION_CACHE_CLASSES_LIST );
-            eZDebugSetting::writeDebug( 'kernel-content-class', $classesExpired, 'EZ_SESSION_CACHE_CLASSES_LIST'  );
-//            $permissionExpired = $http->sessionVariable( 'roleExpired' );
+
+            include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+            $handler =& eZExpiryHandler::instance();
+            $expiredTimeStamp = 0;
+            if ( $handler->hasTimestamp( 'user-class-cache' ) )
+                $expiredTimeStamp = $handler->timestamp( 'user-class-cache' );
+
             $classesCachedForUser = $http->sessionVariable( 'canInstantiateClassesCachedForUser' );
+            $classesCachedTimestamp = $http->sessionVariable( 'classesCachedTimestamp' );
             $user =& eZUser::currentUser();
             $userID = $user->id();
 
-            if ( !$classesExpired && $classesCachedForUser == $userID )
+            if ( ( $classesCachedTimestamp >= $expiredTimeStamp ) && $classesCachedForUser == $userID )
             {
                 if ( $http->hasSessionVariable( 'canInstantiateClasses' ) )
                 {
                     return $http->sessionVariable( 'canInstantiateClasses' );
                 }
-            }else
+            }
+            else
             {
+                // store cache
                 $http->setSessionVariable( 'canInstantiateClassesCachedForUser', $userID );
+                $http->setSessionVariable( 'classesCachedTimestamp', mktime() );
             }
         }
         $user =& eZUser::currentUser();
-        $accessResult =  $user->hasAccessTo( 'content' , 'create' );
+        $accessResult = $user->hasAccessTo( 'content' , 'create' );
         $accessWord = $accessResult['accessWord'];
         $canInstantiateClasses = 1;
         if ( $accessWord == 'no' )
@@ -207,12 +214,19 @@ class eZContentClass extends eZPersistentObject
 
             //$permissionExpired = $http->sessionVariable( 'roleExpired' );
 
-            $classesExpired = eZSessionCache::isExpired( EZ_SESSION_CACHE_CLASSES_LIST );
-            $classesCachedForUser = $http->sessionVariable( 'classesCachedForUser' );
+            include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+            $handler =& eZExpiryHandler::instance();
+            $expiredTimeStamp = 0;
+            if ( $handler->hasTimestamp( 'user-class-cache' ) )
+                $expiredTimeStamp = $handler->timestamp( 'user-class-cache' );
+
+            $classesCachedForUser = $http->sessionVariable( 'canInstantiateClassesCachedForUser' );
+            $classesCachedTimestamp = $http->sessionVariable( 'classesCachedTimestamp' );
+
             $user =& eZUser::currentUser();
             $userID = $user->id();
 
-            if ( !$classesExpired && $classesCachedForUser == $userID )
+            if ( ( $classesCachedTimestamp >= $expiredTimeStamp ) && $classesCachedForUser == $userID )
             {
                 if ( $http->hasSessionVariable( 'canInstantiateClassList' ) )
                 {
@@ -222,6 +236,7 @@ class eZContentClass extends eZPersistentObject
             else
             {
                 $http->setSessionVariable( 'classesCachedForUser' , $userID );
+                $http->setSessionVariable( 'classesCachedTimestamp', mktime() );
             }
         }
 
@@ -456,7 +471,12 @@ class eZContentClass extends eZPersistentObject
                 $attribute->store();
             }
         }
-        eZSessionCache::expireSessions( EZ_SESSION_CACHE_CLASSES_LIST );
+
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        $handler->setTimestamp( 'user-class-cache', mktime() );
+        $handler->store();
+
         eZPersistentObject::store();
     }
 
@@ -478,6 +498,12 @@ class eZContentClass extends eZPersistentObject
             $attribute =& $attributes[$i];
             $attribute->storeDefined();
         }
+
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        $handler->setTimestamp( 'user-class-cache', mktime() );
+        $handler->store();
+
         eZPersistentObject::store();
     }
 

@@ -45,7 +45,6 @@
 
 include_once( "kernel/classes/ezpersistentobject.php" );
 include_once( "kernel/classes/ezdiscountrule.php" );
-include_once( "lib/ezutils/classes/ezsessioncache.php" );
 
 class eZUserDiscountRule extends eZPersistentObject
 {
@@ -75,7 +74,10 @@ class eZUserDiscountRule extends eZPersistentObject
 
     function store()
     {
-        eZSessionCache::expireSessions( EZ_SESSION_CACHE_USER_DISCOUNT_RULES );
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        $handler->setTimestamp( 'user-discountrules-cache', mktime() );
+        $handler->store();
         eZPersistentObject::store();
     }
 
@@ -102,9 +104,17 @@ class eZUserDiscountRule extends eZPersistentObject
     {
         $http =& eZHTTPTool::instance();
 
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        $expiredTimeStamp = 0;
+        if ( $handler->hasTimestamp( 'user-discountrules-cache' ) )
+            $expiredTimeStamp = $handler->timestamp( 'user-discountrules-cache' );
+
+        $ruleTimestamp =& $http->sessionVariable( 'eZUserDiscountRulesTimestamp' );
+
         $ruleArray = false;
         // check for cached version in sesssion
-        if ( !eZSessionCache::isExpired( EZ_SESSION_CACHE_USER_DISCOUNT_RULES ) )
+        if ( $ruleTimestamp > $expiredTimeStamp )
         {
             if ( $http->hasSessionVariable( 'eZUserDiscountRules' . $userID ) )
             {
@@ -122,7 +132,7 @@ class eZUserDiscountRule extends eZPersistentObject
                         ezuser_discountrule.discountrule_id = ezdiscountrule.id";
             $ruleArray =& $db->arrayQuery( $query );
             $http->setSessionVariable( 'eZUserDiscountRules' . $userID, $ruleArray );
-            eZSessionCache::setIsValid( EZ_SESSION_CACHE_USER_DISCOUNT_RULES );
+            $http->setSessionVariable( 'eZUserDiscountRulesTimestamp', mktime() );
         }
 
         $rules = array();

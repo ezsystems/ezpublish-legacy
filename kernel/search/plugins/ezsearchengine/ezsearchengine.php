@@ -85,8 +85,12 @@ class eZSearchEngine
                 $text =& str_replace("(", " ", $text );
                 $text =& str_replace(")", " ", $text );
                 $text =& str_replace("-", " ", $text );
+                $text =& str_replace("+", " ", $text );
+                $text =& str_replace("/", " ", $text );
                 $text =& str_replace("!", " ", $text );
                 $text =& str_replace("?", " ", $text );
+                $text =& str_replace("[", " ", $text );
+                $text =& str_replace("]", " ", $text );
                 $text =& str_replace("$", " ", $text );
 
                 $text =& str_replace("\n", " ", $text );
