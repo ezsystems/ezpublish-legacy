@@ -573,9 +573,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $sortingFields .= "a$attributeJoinCount.$sortKey";
                             $attributeFromSQL .= ", ezcontentobject_attribute as a$attributeJoinCount";
                             $attributeWereSQL .= "
-                                 a$attributeJoinCount.contentobject_id = ezcontentobject.id AND
+                                   a$attributeJoinCount.contentobject_id = ezcontentobject.id AND
                                    a$attributeJoinCount.contentclassattribute_id = $sortClassID AND
-                                   a$attributeJoinCount.version = ezcontentobject_name.content_version AND";
+                                   a$attributeJoinCount.version = ezcontentobject_name.content_version AND
+                                   a$attributeJoinCount.language_code = ezcontentobject_name.real_translation AND ";
 
                             $attributeJoinCount++;
 
