@@ -47,7 +47,7 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish SQL Schema 
 
 $script->startup();
 
-$options = $script->getOptions( "[type:][user:][host:][password:][output-array][output-serialized][output-sql]" .
+$options = $script->getOptions( "[type:][user:][host:][password;][output-array][output-serialized][output-sql]" .
                                 "[diff-friendly]" .
                                 "[output-types:][allow-multi-insert]",
                                 "[database][filename]",
@@ -73,6 +73,9 @@ $type = $options['type'];
 $host = $options['host'];
 $user = $options['user'];
 $password = $options['password'];
+
+if ( !is_string( $password ) )
+    $password = '';
 
 switch ( count( $options['arguments'] ) )
 {
