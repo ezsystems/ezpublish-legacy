@@ -8,7 +8,8 @@ Changes from 3.5.0rc2 to 3.5.0
 - Fixed problem with class/edit and removal of object attributes
   http://ez.no/community/bug_reports/storing_a_class_in_ui_will_remove_attributes_of_all_related_objects
 - Fixed bug in workflow triggering system: object approval didn't work.
-
+- Fixed bug: links in xmltext fields are not exported/imported.
+  http://ez.no/community/bug_reports/3_5_package_export_xml_field_links_aren_t_exportet_importet
 *Library:
 
 eZDebug:
