@@ -14,7 +14,7 @@
     {/switch}
 
     <div class="object-{$object_align}">
-        {content_view_gui view=$view attribute_parameters=$object_parameters content_object=$object}
+        {content_view_gui view=$view object_parameters=$object_parameters content_object=$object}
     </div>
 
 {/let}
