@@ -272,6 +272,30 @@ class eZDBInterface
         return $this->IsConnected;
     }
 
+    /*!
+      \pure
+      Create a new database
+    */
+    function createDatabase()
+    {
+    }    
+    
+    /*!
+      \pure
+      Returns the error message
+    */
+    function errorMessage()
+    {
+    }
+    
+    /*!
+      \pure
+      Returns the error number
+    */
+    function errorNumber()
+    {
+    }
+    
     /// \protectedsection
     /// Contains the current server
     var $Server;
@@ -299,7 +323,6 @@ class eZDBInterface
     var $EndTime;
     /// The total number of milliseconds the timer took
     var $TimeTaken;
-
 }
 
 ?>

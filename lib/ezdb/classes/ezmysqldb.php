@@ -79,7 +79,6 @@ class eZMySQLDB extends eZDBInterface
             if ( !$ret )
             {
                 eZDebug::writeError( "Connection error: " . @mysql_errno( $this->DBConnection ) . ": " . @mysql_error( $this->DBConnection ), "eZMySQLDB" );
-
                 $this->IsConnected = false;
             }
         }
@@ -315,6 +314,38 @@ class eZMySQLDB extends eZDBInterface
             @mysql_close( $this->DBConnection );
         }
     }
+
+    /*!
+     \reimp
+    */
+    function createDatabase( $dbName )
+    {
+        if ( $this->DBConnection != false )
+            mysql_create_db( $dbName, $this->DBConnection );
+    }
+        
+    /*!
+     \reimp
+    */
+    function errorMessage()
+    {
+        if ( $this->isConnected() )
+            return mysql_error( $this->DBConnection );
+        else
+            return mysql_error();        
+    }
+
+    /*!
+     \reimp
+    */
+    function errorNumber()
+    {
+        if ( $this->isConnected() )
+            return mysql_errno( $this->DBConnection );
+        else
+            return mysql_errno();        
+    }
+
 
     /// \privatesection
     /// Contains the current database connection
