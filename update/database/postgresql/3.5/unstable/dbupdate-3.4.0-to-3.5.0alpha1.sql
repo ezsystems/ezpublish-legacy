@@ -42,12 +42,9 @@ ALTER TABLE ezbasket ADD COLUMN order_id integer;
 UPDATE ezbasket SET order_id=0;
 ALTER TABLE ezbasket ALTER order_id SET NOT NULL;
 ALTER TABLE ezbasket ALTER order_id SET DEFAULT 0;
-<<<<<<< .mine
 ALTER TABLE ezbinaryfile ADD COLUMN download_count integer NOT NULL default 0;
-=======
 
 ALTER TABLE ezcontentclass ADD is_container integer;
 UPDATE ezcontentclass SET is_container=0;
 ALTER TABLE ezcontentclass ALTER is_container SET NOT NULL;
 ALTER TABLE ezcontentclass ALTER is_container SET DEFAULT 0;
->>>>>>> .r7893
