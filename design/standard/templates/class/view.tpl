@@ -3,6 +3,7 @@
     <h1>{"Class - %1"|i18n("design/standard/class/edit",,array( $class.name|wash) )}</h1>
 </div>
 
+
 <a href={concat( "class/edit/", $class.id )|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="{'Edit'|i18n('design/standard/class/view')}" /></a>
 
 <div class="byline">
@@ -29,6 +30,13 @@
     <label>{"Object name pattern"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
     <p>{$class.contentobject_name|wash}</p>
 </div>
+
+<div class="block">
+    <label>{"Object count"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
+    <p>{$class.object_count}</p>
+</div>
+
+
 
   </td>
 

@@ -351,7 +351,7 @@ class eZContentClass extends eZPersistentObject
 
     function hasAttribute( $attr )
     {
-        return ( $attr == "version_status" or $attr == "version_count" or
+        return ( $attr == "object_count" or $attr == "version_status" or $attr == "version_count" or
                  $attr == "creator" or $attr == "modifier" or
                  $attr == "ingroup_list" or $attr == "ingroup_id_list" or  $attr == "group_list" or
                  $attr == "defined_list" or $attr == "mixed_list" or $attr == "temporary_list" or
@@ -367,10 +367,16 @@ class eZContentClass extends eZPersistentObject
                 return $this->dataMap();
             } break;
 
+            case "object_count":
+            {
+                return $this->objectCount();
+            } break;
+
             case "version_count":
             {
                 return $this->VersionCount;
             } break;
+
             case "version_status":
             {
                 return $this->versionStatus();
@@ -889,6 +895,19 @@ class eZContentClass extends eZPersistentObject
             $contentObjectName =& str_replace( $tag, $namePart, $contentObjectName );
         }
         return $contentObjectName;
+    }
+
+    /*!
+     \return will return the number of objects published by this class.
+    */
+    function &objectCount()
+    {
+        $db =& eZDB::instance();
+
+        $countRow = $db->arrayQuery( "SELECT count(*) AS count FROM ezcontentobject, ezcontentobject_tree
+                                      WHERE ezcontentobject_tree.contentobject_id=ezcontentobject.id AND ezcontentobject.contentclass_id=$this->ID" );
+
+        return $countRow[0]['count'];
     }
 
     /// \privatesection

@@ -28,6 +28,8 @@ Changes from 3.4.0alpha2 to 3.4.0alpha3
 - Added fetch function for listing override template for content classes
 - Added "do not edit" comment to all standard templates + functionality that
   removes this comment when creating an override based on a standard template.
+- Added object_count attribute to eZContentClass
+- Added object count in class list and class view
 
 Updates:
 - Fixed cleanup.php script to cleanup the user/session link table when
