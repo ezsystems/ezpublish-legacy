@@ -173,7 +173,7 @@ class eZRole extends eZPersistentObject
     */
     function &create( $roleName, $version = 0 )
     {
-        $row = array( 'id' => false,
+        $row = array( 'id' => null,
                       'name' => $roleName,
                       'version' => 0 );
         $role = new eZRole( $row );
