@@ -203,6 +203,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 // Get rid of linebreak and spaces stored in xml file
                 $tagText = preg_replace( "#[\n]+#", "", $tagText );
                 $tagText = preg_replace( "#    #", "", $tagText );
+                // $tagText = "le<b>trt</b>fw";
             }break;
 
             case 'object' :
@@ -385,6 +386,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
                 $tagText .= implode( '', $textElements );
+                $tagText = trim( $tagText );
             }break;
 
             // custom tags which could added for special custom needs.
