@@ -4,9 +4,9 @@
 [DatabaseSettings]
 DatabaseImplementation=ezmysql
 Server=localhost
-User=nextgen
-Password=nextgen
-Database=nextgen
+User=bf
+Password=bf
+Database=bf
 Charset=iso-8859-1
 UseBuiltinEncoding=true
 Socket=disabled

@@ -1,4 +1,5 @@
 {let page_limit=25
+     sitemap_indentation=10
      tree=fetch('content','tree',hash(parent_node_id,$node.node_id,limit,$page_limit,offset,$view_parameters.offset))
      tree_count=fetch('content','tree_count',hash(parent_node_id,$node.node_id))}
 
@@ -39,9 +40,9 @@
 
 {section name=Tree loop=$tree sequence=array(bglight,bgdark)}
 <tr>
-	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.object.id}</span></td>
+	<td class="{$Tree:sequence}"><span class="normal"><a class="normal" href={concat("content/view/sitemap/",$Tree:item.node_id)|ezurl}>{$Tree:item.object.id}</a></span></td>
 	<td class="{$Tree:sequence}">
-       	<img src="1x1.gif" width="{sub($Tree:item.depth,$node.depth)|dec}0" height="1" alt="" />
+       	<img src="1x1.gif" width="{mul(sub($Tree:item.depth,$node.depth)|dec,$sitemap_indentation)}" height="1" alt="" />
 	<a class="normal" href={concat("content/view/full/",$Tree:item.node_id)|ezurl}><img src={"class_1.png"|ezimage} border="0"> &nbsp;{$Tree:item.name}</a>
 	</td>
 	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.object.owner_id}</span></td>

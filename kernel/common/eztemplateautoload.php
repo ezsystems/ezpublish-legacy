@@ -100,7 +100,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                           'output_name' => 'node',
                                           'namespace' => 'NodeView',
                                           'constant_template_variables' => array( 'view_parameters' => array( 'offset' => 0 ) ),
-                                          'attribute_keys' => array( 'node' => array( 'id' ),
+                                          'attribute_keys' => array( 'node' => array( 'node_id' ),
                                                                      'object' => array( 'contentobject_id' ),
                                                                      'class' => array( 'object', 'contentclass_id' ),
                                                                      'section' => array( 'object', 'section_id' ) ),

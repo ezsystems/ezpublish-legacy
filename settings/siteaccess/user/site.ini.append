@@ -46,7 +46,7 @@ DebugIP=enabled
 # Use either disabled, inline or popup
 Debug=inline
 # Use either enabled or a an array of uris to match
-DebugRedirection=disabled
+DebugRedirection=enabled
 
 [DesignSettings]
 StandardDesign=standard
