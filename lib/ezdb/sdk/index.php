@@ -5,10 +5,10 @@ $infoArray["name"] = "eZ db";
 $infoArray["description"] = "
 <h1>eZ db&trade;</h1>
 <p>eZ db is a database abstraction library. It provides a uniform interface
-to MySQL, PostgreSQL and Oracle.</p>
+to MySQL and PostgreSQL.</p>
 <p>The eZ db library provides a database independent framework for
   SQL databases. The current supported databases are:</p>
- <ul><li>PostgreSQL</li><li>MySQL</li><li>Oracle</li></ul>
+ <ul><li>PostgreSQL</li><li>MySQL</li></ul>
 
 <p>To make it easier to support the different databases we have defined a subset
 of SQL data types to use. The types used are:</p>
@@ -16,7 +16,7 @@ of SQL data types to use. The types used are:</p>
 <li>int - integers, date and time as UNIX timestamp, enums and boolean</li>
 <li>float - float and prices</li>
 <li>varchar - short text strings (less than 255 characters)</li>
-<li>text (clob in oracle) - large text objects like article contents</li>
+<li>text - large text objects like article contents</li>
 </ul>
 
 <p>To store date and time values ints are used. eZ locale is used to
@@ -38,7 +38,6 @@ of SQL data types to use. The types used are:</p>
 <ul>
 <li><a href='http://www.mysql.com'>MySQL</a></li>
 <li><a href='http://postgresql.org'>PostgreSQL</a></li>
-<li><a href='http://www.oracle.com'>Oracle</a></li>
 </ul>
 ";
 
@@ -68,8 +67,6 @@ $docArray[] = array( "uri" => "eZDB",
                      "name" => "Main DB facade" );
 $docArray[] = array( "uri" => "eZMySQLDB",
                      "name" => "MySQL DB interface" );
-$docArray[] = array( "uri" => "eZOracleDB",
-                     "name" => "Oracle DB interface" );
 $docArray[] = array( "uri" => "eZPostgreSQLDB",
                      "name" => "PostgreSQL DB interface" );
 

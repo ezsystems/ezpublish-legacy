@@ -36,7 +36,7 @@
 
 <p>
 eZ db is a database abstraction library. It provides a uniform interface
-to MySQL, PostgreSQL and Oracle.
+to MySQL and PostgreSQL.
 </p>
 
 <h2>Features</h2>
@@ -50,14 +50,11 @@ of datatypes used. The types used is:
 <li>int - integers, date and time as UNIX timestamp, enums and boolean</li>
 <li>float - float and prices</li>
 <li>varchar - short text strings ( < 255 chars )</li>
-<li>text, clob in oracle - large text objects like article contents</li>
+<li>text - large text objects like article contents</li>
 </ul>
 
 <h2>Useful links</h2>
 <ul>
 <li><a href="http://www.mysql.com">MySQL</a></li>
 <li><a href="http://postgresql.org">PostgreSQL</a></li>
-<li><a href="http://www.oracle.com">Oracle</a></li>
 </ul>
-
-

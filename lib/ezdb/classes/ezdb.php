@@ -36,11 +36,11 @@
   \ingroup eZDB
   \brief The eZDB class provides database wrapper functions
   The eZ db library procides a database independent framework for
-  SQL databases. The current supported databases are: PostgreSQL,
-  MySQL and Oracle.
+  SQL databases. The current supported databases are: PostgreSQL and
+  MySQL.
 
   eZ db is designed to be used with the following type subset of SQL:
-  int, float, varchar and text ( clob in oracle ).
+  int, float, varchar and text.
 
   To store date and time values int's are used. eZ locale is used to
   present the date and times on a localized format. That way we don't have
