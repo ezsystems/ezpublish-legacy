@@ -40,49 +40,27 @@ include( "kernel/setup/ezsetuptests.php" );
 /*!
     Step 1: General tests and information for the databases
 */
-function eZSetupStep_welcome( &$tpl, &$http, &$ini, &$persistenceList )
+function eZSetupStep_registration( &$tpl, &$http, &$ini, &$persistenceList )
 {
-    $template = 'design:setup/init/welcome.tpl';
+    $databaseMap = eZSetupDatabaseMap();
 
     include_once( 'lib/ezutils/classes/ezhttptool.php' );
-    $http =& eZHTTPTool::instance();
-    if ( $http->hasPostVariable( 'DisableSetup' ) )
-    {
-        $template = 'design:setup/init/disable.tpl';
+    if ( $http->hasPostVariable( 'eZSetupSiteTitle' ) )
+        $persistenceList['site_info']['title'] = $http->postVariable( 'eZSetupSiteTitle' );
+    if ( $http->hasPostVariable( 'eZSetupSiteURL' ) )
+        $persistenceList['site_info']['url'] = $http->postVariable( 'eZSetupSiteURL' );
 
-        $criticalTests = array( 'settings_permission' );
-        $testTable = eZSetupTestTable();
-
-        $arguments = array();
-        $runResult = eZSetupRunTests( $criticalTests, $arguments, 'eZSetup:init:system_check' );
-        $testResults = $runResult['results'];
-        $testResult = $runResult['result'];
-        $successCount = $runResult['success_count'];
-        $persistenceData = $runResult['persistence_list'];
-
-        eZSetupMergePersistenceList( $persistenceList, $persistenceData );
-
-        $tpl->setVariable( 'test', array( 'result' => $testResult,
-                                          'results' => $testResults ) );
-        $tpl->setVariable( 'persistence_data', $persistenceList );
-
-        print( "testresult=$testResult" );
-        $saveResult = true;
-        if ( $testResult == 1 )
-        {
-            $ini =& eZINI::instance();
-            $ini->setVariable( 'SiteAccessSettings', 'CheckValidity', 'false' );
-            $saveResult = $ini->save( false, '.php', false );
-        }
-        $tpl->setVariable( 'save_result', $saveResult );
-    }
+    $databaseInfo = $persistenceList['database_info'];
+    $regionalInfo = $persistenceList['regional_info'];
+    $demoData = $persistenceList['demo_data'];
+    $emailInfo = $persistenceList['email_info'];
+    $siteInfo = $persistenceList['site_info'];
 
     $result = array();
     // Display template
-    $result['content'] = $tpl->fetch( $template );
-    $result['path'] = array( array( 'text' => 'Welcome to ezpublish',
+    $result['content'] = $tpl->fetch( "design:setup/init/registration.tpl" );
+    $result['path'] = array( array( 'text' => 'Site details',
                                     'url' => false ) );
-
     return $result;
 }
 

@@ -65,6 +65,7 @@ eZ template:
 - Finished the template tree caching and add site.ini setting for turning it on and off.
 - New operator is_array which returns true if either the input or all of the parameters are arrays.
 - No cache is created or used if the /no-cache-adviced/ in site basics is true.
+- New function set-block which renders all it's children as text and sets it in a template variable.
 
 eZ executionstack:
 - Removed. It no longer had any use as it was.

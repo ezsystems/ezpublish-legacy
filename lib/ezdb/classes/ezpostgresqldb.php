@@ -204,6 +204,35 @@ class eZPostgreSQLDB extends eZDBInterface
     }
 
     /*!
+      \reimp
+    */
+    function tableCount()
+    {
+        $count = false;
+        if ( $this->isConnected() )
+        {
+            $sql = "select count( relname ) as count from pg_class where not relname~'pg_.*'";
+            $array = $this->arrayQuery( $sql, array( 'column' => 0 ) );
+            $count = $array[0];
+        }
+        return $count;
+    }
+
+    /*!
+      \reimp
+    */
+    function tableList()
+    {
+        $tables = array();
+        if ( $this->isConnected() )
+        {
+            $sql = "select relname as name from pg_class where not relname~'pg_.*'";
+            $tables = $this->arrayQuery( $sql );
+        }
+        return $tables;
+    }
+
+    /*!
      \reimp
     */
     function lock( $table )

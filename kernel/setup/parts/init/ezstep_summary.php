@@ -40,7 +40,7 @@ include( "kernel/setup/ezsetuptests.php" );
 /*!
     Step 1: General tests and information for the databases
 */
-function eZSetupStep( &$tpl, &$http, &$ini, &$persistenceList )
+function eZSetupStep_summary( &$tpl, &$http, &$ini, &$persistenceList )
 {
     $regionalInfo = array( 'language_type' => 1,
                            'languages' => array(),
@@ -65,6 +65,14 @@ function eZSetupStep( &$tpl, &$http, &$ini, &$persistenceList )
             $languageVariations[] = $languageVariationMap[$language];
         }
     }
+    else
+    {
+        foreach ( $languages as $language )
+        {
+            $languageVariations[] = $language;
+        }
+    }
+    $persistenceList['regional_info']['language_list'] = $languageVariations;
     include_once( 'lib/ezlocale/classes/ezlocale.php' );
     $languageVariationList = array();
     foreach ( $languageVariations as $languageVariation )
@@ -77,14 +85,6 @@ function eZSetupStep( &$tpl, &$http, &$ini, &$persistenceList )
 
     $tpl->setVariable( 'regional_info', $regionalInfo );
     $tpl->setVariable( 'variation_list', $languageVariationList );
-
-    $config =& eZINI::instance( 'setup.ini' );
-    if ( !$persistenceList['database_info']['server'] )
-        $persistenceList['database_info']['server'] = $config->variable( 'DatabaseSettings', 'DefaultServer' );
-    if ( !$persistenceList['database_info']['name'] )
-        $persistenceList['database_info']['name'] = $config->variable( 'DatabaseSettings', 'DefaultName' );
-    if ( !$persistenceList['database_info']['user'] )
-        $persistenceList['database_info']['user'] = $config->variable( 'DatabaseSettings', 'DefaultUser' );
 
     $databaseMap = eZSetupDatabaseMap();
     $databaseInfo = $persistenceList['database_info'];

@@ -29,9 +29,19 @@
   <td>
     Default
   </td>
+{let name=Variation has_variation=false()}
+{section loop=$language_variatons[$Language:item.locale_code]}
+{switch match=$:item.locale_full_code}
+  {case in=$regional_info.variations}
+    {set has_variation=true()}
+  {/case}
+  {case/}
+{/switch}
+{/section}
   <td>
-    <input type="radio" name="eZSetupLanguageVariation[{$:item.locale_code}]" value="{$:item.locale_full_code}" {switch match=$:item.locale_code}{case in=$regional_info.variations}checked="checked"{/case}{case/}{/switch} />
+    <input type="radio" name="eZSetupLanguageVariation[{$Language:item.locale_code}]" value="{$Language:item.locale_full_code}" {section show=$:has_variation|not}checked="checked"{/section} />
   </td>
+{/let}
 </tr>
 {section name=Variation loop=$language_variatons[$:item.locale_code]}
 <tr>

@@ -116,7 +116,7 @@ class eZDB
       \static
       Returns an instance of the database object.
     */
-    function &instance( )
+    function &instance( $databaseImplementation = false, $databaseParameters = false )
     {
         $impl =& $GLOBALS['eZDBGlobalInstance'];
 
@@ -125,7 +125,8 @@ class eZDB
         {
             include_once( 'lib/ezutils/classes/ezini.php' );
             $ini =& eZINI::instance();
-            $databaseImplementation = $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' );
+            if ( $databaseImplementation === false )
+                $databaseImplementation = $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' );
 
             $server = $ini->variable( 'DatabaseSettings', 'Server' );
             $user = $ini->variable( 'DatabaseSettings', 'User' );
@@ -139,6 +140,20 @@ class eZDB
                                             $extraPluginPathArray );
 //             eZDebug::writeDebug( $pluginPathArray, 'pluginPath' );
             $impl = null;
+            $defaultDatabaseParameters = array( 'server' => $server,
+                                                'user' => $user,
+                                                'password' => $pwd,
+                                                'database' => $db,
+                                                'charset' => $charset,
+                                                'builtin_encoding' => $builtinEncoding );
+            if ( $databaseParameters === false )
+            {
+                $databaseParameters = $defaultDatabaseParameters;
+            }
+            else
+            {
+                $databaseParameters = array_merge( $defaultDatabaseParameters, $databaseParameters );
+            }
             foreach( $pluginPathArray as $pluginPath )
             {
                 $dbFile = $pluginPath . $databaseImplementation . 'db.php';
@@ -146,24 +161,14 @@ class eZDB
                 {
                     include_once( $dbFile );
                     $className = $databaseImplementation . 'db';
-                    $impl = new $className( array( 'server' => $server,
-                                                   'user' => $user,
-                                                   'password' => $pwd,
-                                                   'database' => $db,
-                                                   'charset' => $charset,
-                                                   'builtin_encoding' => $builtinEncoding ) );
+                    $impl = new $className( $databaseParameters );
                     break;
                 }
             }
             if ( $impl === null )
             {
                 include_once( 'lib/ezdb/classes/eznulldb.php' );
-                $impl = new eZNullDB( array( 'server' => $server,
-                                             'user' => $user,
-                                             'password' => $pwd,
-                                             'database' => $db,
-                                             'charset' => $charset,
-                                             'builtin_encoding' => $builtinEncoding ) );
+                $impl = new eZNullDB( $databaseParameters );
                 eZDebug::writeError( 'Database implementation not supported: ' . $databaseImplementation, 'eZDB::instance' );
             }
 

@@ -35,40 +35,40 @@
 //
 
 // All test functions should be defined in ezsetuptests
-include( "kernel/setup/ezsetuptests.php" );
+include_once( "kernel/setup/ezsetuptests.php" );
 
 /*!
     Step 1: General tests and information for the databases
 */
-function eZSetupStep_site_language_options( &$tpl, &$http, &$ini, &$persistenceList )
+function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
 {
     $databaseMap = eZSetupDatabaseMap();
-    $databaseList = array();
-    $databaseType = false;
-    $databaseSupportsUnicode = false;
-    include_once( 'lib/ezutils/classes/ezhttptool.php' );
-    $http =& eZHTTPTool::instance();
-    if ( $http->hasPostVariable( 'eZSetupDatabaseType' ) );
-        $databaseType = $http->postVariable( 'eZSetupDatabaseType' );
-    if ( isset( $databaseMap[$databaseType] ) )
-    {
-        $databaseSupportsUnicode = $databaseMap[$databaseType]['supports_unicode'];
-    }
-    $regionalInfo = array( 'language_type' => 1 );
-    if ( isset( $persistenceList['regional_info']['language_type'] ) )
-        $regionalInfo['language_type'] = $persistenceList['regional_info']['language_type'];
+    $databaseInfo = $persistenceList['database_info'];
+    $databaseInfo['info'] = $databaseMap[$databaseInfo['type']];
+    $regionalInfo = $persistenceList['regional_info'];
+    $demoData = $persistenceList['demo_data'];
+    $emailInfo = $persistenceList['email_info'];
+    $siteInfo = $persistenceList['site_info'];
 
-    $persistenceList['database_info']['type'] = $databaseType;
+    $ini->setVariable( "SiteSettings", "SiteName", $siteInfo['title'] );
+    $ini->setVariable( "SiteSettings", "SiteURL", $siteInfo['url'] );
+    $ini->setVariable( "DatabaseSettings", "DatabaseImplementation", $databaseInfo['info']['driver'] );
+    $ini->setVariable( "DatabaseSettings", "Server", $databaseInfo['server'] );
+    $ini->setVariable( "DatabaseSettings", "Database", $databaseInfo['name'] );
+    $ini->setVariable( "DatabaseSettings", "User", $databaseInfo['user'] );
+    $ini->setVariable( "DatabaseSettings", "Password", $databaseInfo['password'] );
+    $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
 
-    $tpl->setVariable( 'database_info', array( 'type' => $databaseType,
-                                               'supports_unicode' => $databaseSupportsUnicode ) );
-    $tpl->setVariable( 'regional_info', $regionalInfo );
+    $saveResult = $ini->save( false, '.php', false );
+
+    $tpl->setVariable( 'site_info', $siteInfo );
 
     $result = array();
     // Display template
-    $result['content'] = $tpl->fetch( "design:setup/init/site_language_options.tpl" );
-    $result['path'] = array( array( 'text' => 'Language options',
+    $result['content'] = $tpl->fetch( "design:setup/init/finished.tpl" );
+    $result['path'] = array( array( 'text' => 'Database initalization',
                                     'url' => false ) );
+
     return $result;
 }
 

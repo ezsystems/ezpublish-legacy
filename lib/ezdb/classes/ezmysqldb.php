@@ -256,6 +256,41 @@ class eZMySQLDB extends eZDBInterface
         $str = implode( "," , $strings );
         return " concat( $str  ) ";
     }
+
+    /*!
+      \reimp
+    */
+    function tableCount()
+    {
+        $count = false;
+        if ( $this->isConnected() )
+        {
+            $result =& mysql_list_tables( $this->DB, $this->DBConnection );
+            $count = mysql_num_rows( $result );
+            mysql_free_result( $result );
+        }
+        return $count;
+    }
+
+    /*!
+      \reimp
+    */
+    function tableList()
+    {
+        $tables = array();
+        if ( $this->isConnected() )
+        {
+            $result =& mysql_list_tables( $this->DB, $this->DBConnection );
+            $count = mysql_num_rows( $result );
+            for ( $i = 0; $i < $count; ++ $i )
+            {
+                $tables[] = mysql_tablename( $result, $i );
+            }
+            mysql_free_result( $result );
+        }
+        return $tables;
+    }
+
     /*!
      \reimp
     */

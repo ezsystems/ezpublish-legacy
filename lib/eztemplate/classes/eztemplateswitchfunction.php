@@ -156,6 +156,8 @@ class eZTemplateSwitchFunction
                             }
                             $child_in = $child_params["in"];
                             $child_in = $tpl->elementValue( $child_in, $rootNamespace, $currentNamespace, $functionPlacement );
+                            if ( !is_array( $child_in ) )
+                                break;
                             if ( is_null( $case ) )
                             {
                                 if ( is_null( $key_name ) and

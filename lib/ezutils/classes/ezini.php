@@ -522,6 +522,15 @@ class eZINI
         return $ret;
     }
 
+    /*!
+     \removes the cache file if it exists.
+    */
+    function resetCache()
+    {
+        if ( file_exists( $this->CacheFile ) )
+            unlink( $this->CacheFile );
+    }
+
 
     /*!
       Saves the file to disk.
@@ -529,18 +538,29 @@ class eZINI
       If \a $useOverride is true then the file will be placed in the override directory,
       if \a $useOverride is "append" it will append ".append" to the filename.
     */
-    function &save( $fileName = false, $useOverride = false )
+    function &save( $fileName = false, $suffix = false, $useOverride = false )
     {
         $sep = eZSys::lineSeparator();
+        $pathArray = array();
         if ( $fileName === false )
             $fileName = $this->FileName;
-        $filePath = $this->RootDir . "/";
+        $pathArray[] = $this->RootDir;
         if ( $useOverride )
-            $filePath .= $this->overrideDir() . "/";
-        $filePath .= $fileName;
+            $pathArray[] = $this->overrideDir();
         if ( is_string( $useOverride ) and
              $useOverride == "append" )
-            $filePath .= ".append";
+            $fileName .= ".append";
+        if ( $suffix !== false )
+            $fileName .= $suffix;
+        $originalFileName = $fileName;
+        $backupFileName = $originalFileName . eZSys::backupFilename();
+        $fileName .= '.tmp';
+
+        include_once( 'lib/ezutils/classes/ezdir.php' );
+        $filePath = eZDir::path( array_merge( $pathArray, $fileName ) );
+        $originalFilePath = eZDir::path( array_merge( $pathArray, $originalFileName ) );
+        $backupFilePath = eZDir::path( array_merge( $pathArray, $backupFileName ) );
+
         $fp = @fopen( $filePath, "w+");
         if ( !$fp )
         {
@@ -548,24 +568,72 @@ class eZINI
             return false;
         }
 
-        fwrite( $fp, "<?php /* #?ini charset=\"" . $this->Charset . "\"?$sep$sep" );
+        $writeOK = true;
+        $written = 0;
+        $written = fwrite( $fp, "<?php /* #?ini charset=\"" . $this->Charset . "\"?$sep$sep" );
+        if ( $written === false )
+            $writeOK = false;
         $i = 0;
-        foreach( array_keys( $this->BlockValues ) as $blockName )
+        if ( $writeOK )
         {
-            if ( $i > 0 )
-                fwrite( $fp, "$sep" );
-            fwrite( $fp, "[$blockName]$sep" );
-            foreach( array_keys( $this->BlockValues[$blockName] ) as $blockVariable )
+            foreach( array_keys( $this->BlockValues ) as $blockName )
             {
-                $varKey = $blockVariable;
-                $varValue = $this->BlockValues[$blockName][$blockVariable];
-                fwrite( $fp, "$varKey=$varValue$sep" );
+                $written = 0;
+                if ( $i > 0 )
+                    $written = fwrite( $fp, "$sep" );
+                if ( $written === false )
+                {
+                    $writeOK = false;
+                    break;
+                }
+                $written = fwrite( $fp, "[$blockName]$sep" );
+                if ( $written === false )
+                {
+                    $writeOK = false;
+                    break;
+                }
+                foreach( array_keys( $this->BlockValues[$blockName] ) as $blockVariable )
+                {
+                    $varKey = $blockVariable;
+                    $varValue = $this->BlockValues[$blockName][$blockVariable];
+                    $written = fwrite( $fp, "$varKey=$varValue$sep" );
+                    if ( $written === false )
+                    {
+                        $writeOK = false;
+                        break;
+                    }
+                }
+                if ( !$writeOK )
+                    break;
+                ++$i;
             }
-            ++$i;
         }
-        fwrite( $fp, "*/ ?>" );
-
+        if ( $writeOK )
+        {
+            $written = fwrite( $fp, "*/ ?>" );
+            if ( $written === false )
+                $writeOK = false;
+        }
         @fclose( $fp );
+        if ( !$writeOK )
+        {
+            unlink( $filePath );
+            return false;
+        }
+
+        if ( file_exists( $backupFileName ) )
+            unlink( $backupFileName );
+        if ( file_exists( $originalFilePath ) )
+        {
+            if ( !rename( $originalFilePath, $backupFilePath ) )
+                return false;
+        }
+        if ( !rename( $filePath, $originalFilePath ) )
+        {
+            rename( $backupFilePath, $originalFilePath );
+            return false;
+        }
+
         return true;
     }
 

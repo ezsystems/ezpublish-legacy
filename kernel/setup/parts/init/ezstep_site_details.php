@@ -40,49 +40,32 @@ include( "kernel/setup/ezsetuptests.php" );
 /*!
     Step 1: General tests and information for the databases
 */
-function eZSetupStep_welcome( &$tpl, &$http, &$ini, &$persistenceList )
+function eZSetupStep_site_details( &$tpl, &$http, &$ini, &$persistenceList )
 {
-    $template = 'design:setup/init/welcome.tpl';
+    $databaseMap = eZSetupDatabaseMap();
 
     include_once( 'lib/ezutils/classes/ezhttptool.php' );
-    $http =& eZHTTPTool::instance();
-    if ( $http->hasPostVariable( 'DisableSetup' ) )
+    if ( $http->hasPostVariable( 'eZSetupEmailTransport' ) )
     {
-        $template = 'design:setup/init/disable.tpl';
-
-        $criticalTests = array( 'settings_permission' );
-        $testTable = eZSetupTestTable();
-
-        $arguments = array();
-        $runResult = eZSetupRunTests( $criticalTests, $arguments, 'eZSetup:init:system_check' );
-        $testResults = $runResult['results'];
-        $testResult = $runResult['result'];
-        $successCount = $runResult['success_count'];
-        $persistenceData = $runResult['persistence_list'];
-
-        eZSetupMergePersistenceList( $persistenceList, $persistenceData );
-
-        $tpl->setVariable( 'test', array( 'result' => $testResult,
-                                          'results' => $testResults ) );
-        $tpl->setVariable( 'persistence_data', $persistenceList );
-
-        print( "testresult=$testResult" );
-        $saveResult = true;
-        if ( $testResult == 1 )
+        $persistenceList['email_info']['type'] = $http->postVariable( 'eZSetupEmailTransport' );
+        if ( $persistenceList['email_info']['type'] = 2 )
         {
-            $ini =& eZINI::instance();
-            $ini->setVariable( 'SiteAccessSettings', 'CheckValidity', 'false' );
-            $saveResult = $ini->save( false, '.php', false );
+            $persistenceList['email_info']['server'] = $http->postVariable( 'eZSetupSMTPServer' );
+            $persistenceList['email_info']['user'] = $http->postVariable( 'eZSetupSMTPUser' );
+            $persistenceList['email_info']['password'] = $http->postVariable( 'eZSetupSMTPPassword' );
         }
-        $tpl->setVariable( 'save_result', $saveResult );
     }
+
+    $siteInfo = array( 'title' => false,
+                       'url' => false );
+
+    $tpl->setVariable( 'site_info', $siteInfo );
 
     $result = array();
     // Display template
-    $result['content'] = $tpl->fetch( $template );
-    $result['path'] = array( array( 'text' => 'Welcome to ezpublish',
+    $result['content'] = $tpl->fetch( "design:setup/init/site_details.tpl" );
+    $result['path'] = array( array( 'text' => 'Site details',
                                     'url' => false ) );
-
     return $result;
 }
 

@@ -43,6 +43,7 @@ function eZSetupTestTable()
 {
     return array( 'phpversion' => array( 'eZSetupTestPhpVersion' ),
                   'directory_permissions' => array( 'eZSetupTestFilePermissions' ),
+                  'settings_permission' => array( 'eZSetupTestFilePermissions' ),
                   'database_extensions' => array( 'eZSetupTestExtension' ),
                   'php_magicquotes' => array( 'eZSetupCheckMagicQuotes' ),
                   'mbstring_extension' => array( 'eZSetupMBStringExtension' ),
@@ -138,7 +139,9 @@ function eZSetupCheckTestFunctions( $type, &$arguments )
 function eZSetupCheckMagicQuotes( $type, &$arguments )
 {
     $magicQuote = get_magic_quotes_gpc();
-    return array( 'result' => ( $magicQuote == 0 ) );
+    $result = ( $magicQuote == 0 );
+    return array( 'result' => $result,
+                  'persistent_data' => array( 'result' => array( 'value' => $result ) ) );
 }
 
 /*!
@@ -173,6 +176,9 @@ function eZSetupTestPhpVersion( $type, &$arguments )
         $result = true;
 
     return array( 'result' => $result,
+                  'persistent_data' => array( 'result' => array( 'value' => $result ),
+                                              'found' => array( 'value' => $currentVersion ),
+                                              'required' => array( 'value' => $neededVersion ) ),
                   'needed_version' => $neededVersion,
                   'current_version' => $currentVersion );
 }
@@ -209,8 +215,9 @@ function eZSetupTestExtension( $type, &$arguments )
         $result = false;
 
     return array( 'result' => $result,
-                  'persistent_data' => array( 'found' => array( 'value' => $foundExtensions,
-                                                                'merge' => true,
+                  'persistent_data' => array( 'result' => array( 'value' => $result ),
+                                              'found' => array( 'value' => $foundExtensions,
+                                                                'merge' => false,
                                                                 'unique' => true ),
                                               'checked' => array( 'value' => $extensionList,
                                                                   'merge' => true,
@@ -261,7 +268,7 @@ function eZSetupTestFilePermissions( $type, &$arguments )
             $hash = md5( microtime() );
 	    	$tmpfname = $dir . "/ezsetup_" . $hash . ".tmp";
             $tempCreated = false;
-    		$fp = fopen( $tmpfname, "w" );
+    		$fp = @fopen( $tmpfname, "w" );
     		if ( $fp )
             {
                 $tempCreated = true;
@@ -299,6 +306,7 @@ function eZSetupTestFilePermissions( $type, &$arguments )
     }
 
     return array( 'result' => $result,
+                  'persistent_data' => array( 'result' => array( 'value' => $result ) ),
                   'current_path' => realpath( '.' ),
                   'result_elements'   => $resultElements );
 }
@@ -351,9 +359,9 @@ function eZSetupCheckExecutable( $type, &$arguments )
 		}
 	}
 
-	return array( 'result' => false,
+	return array( 'result' => $result,
                   'persistent_data' => array( 'path' => array( 'value' => $correctPath ),
-                                              'found' => array( 'value' => $result ) ),
+                                              'result' => array( 'value' => $result ) ),
                   'env_separator' => $envSeparator,
                   'extra_path' => $extraPath,
                   'correct_path' => $correctPath,
@@ -390,7 +398,7 @@ function eZSetupMBStringExtension( $type, &$arguments )
     $result = eZMBStringMapper::hasMBStringExtension();
     $charsetList = eZMBStringMapper::charsetList();
     return array( 'result' => $result,
-                  'persistent_data' => array( 'found' => array( 'value' => $result ) ),
+                  'persistent_data' => array( 'result' => array( 'value' => $result ) ),
                   'charset_list' => $charsetList );
 }
 

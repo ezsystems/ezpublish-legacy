@@ -40,7 +40,7 @@ include( "kernel/setup/ezsetuptests.php" );
 /*!
     Step 1: General tests and information for the databases
 */
-function eZSetupStep( &$tpl, &$http, &$ini, &$persistenceList )
+function eZSetupStep_system_check( &$tpl, &$http, &$ini, &$persistenceList )
 {
     $criticalTests = eZSetupCriticalTests();
     $testTable = eZSetupTestTable();

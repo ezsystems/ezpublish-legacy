@@ -40,49 +40,27 @@ include( "kernel/setup/ezsetuptests.php" );
 /*!
     Step 1: General tests and information for the databases
 */
-function eZSetupStep_welcome( &$tpl, &$http, &$ini, &$persistenceList )
+function eZSetupStep_email_settings( &$tpl, &$http, &$ini, &$persistenceList )
 {
-    $template = 'design:setup/init/welcome.tpl';
+    $databaseMap = eZSetupDatabaseMap();
 
-    include_once( 'lib/ezutils/classes/ezhttptool.php' );
-    $http =& eZHTTPTool::instance();
-    if ( $http->hasPostVariable( 'DisableSetup' ) )
-    {
-        $template = 'design:setup/init/disable.tpl';
+    $emailInfo = array( 'type' => false,
+                        'server' => false,
+                        'user' => false,
+                        'password' => false );
+    if ( isset( $persistenceList['email_info'] ) )
+        $emailInfo = $persistenceList['email_info'];
 
-        $criticalTests = array( 'settings_permission' );
-        $testTable = eZSetupTestTable();
+    $tpl->setVariable( 'email_info', $emailInfo );
 
-        $arguments = array();
-        $runResult = eZSetupRunTests( $criticalTests, $arguments, 'eZSetup:init:system_check' );
-        $testResults = $runResult['results'];
-        $testResult = $runResult['result'];
-        $successCount = $runResult['success_count'];
-        $persistenceData = $runResult['persistence_list'];
-
-        eZSetupMergePersistenceList( $persistenceList, $persistenceData );
-
-        $tpl->setVariable( 'test', array( 'result' => $testResult,
-                                          'results' => $testResults ) );
-        $tpl->setVariable( 'persistence_data', $persistenceList );
-
-        print( "testresult=$testResult" );
-        $saveResult = true;
-        if ( $testResult == 1 )
-        {
-            $ini =& eZINI::instance();
-            $ini->setVariable( 'SiteAccessSettings', 'CheckValidity', 'false' );
-            $saveResult = $ini->save( false, '.php', false );
-        }
-        $tpl->setVariable( 'save_result', $saveResult );
-    }
+    $systemType = eZSys::filesystemType();
+    $tpl->setVariable( 'system', array( 'type' => $systemType ) );
 
     $result = array();
     // Display template
-    $result['content'] = $tpl->fetch( $template );
-    $result['path'] = array( array( 'text' => 'Welcome to ezpublish',
+    $result['content'] = $tpl->fetch( "design:setup/init/email_settings.tpl" );
+    $result['path'] = array( array( 'text' => 'Email settings',
                                     'url' => false ) );
-
     return $result;
 }
 

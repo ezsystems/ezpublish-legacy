@@ -40,7 +40,7 @@ include( "kernel/setup/ezsetuptests.php" );
 /*!
     Step 1: General tests and information for the databases
 */
-function eZSetupStep( &$tpl, &$http, &$ini, &$persistenceList )
+function eZSetupStep_regional_options( &$tpl, &$http, &$ini, &$persistenceList )
 {
     $databaseMap = eZSetupDatabaseMap();
     $regionalInfo = array( 'language_type' => 1,
@@ -61,17 +61,18 @@ function eZSetupStep( &$tpl, &$http, &$ini, &$persistenceList )
     $availableLanguages = eZLocale::localeList( true );
     $persistenceList['regional_info'] = $regionalInfo;
 
-    $tpl->setVariable( 'regional_info', $regionalInfo );
-    $tpl->setVariable( 'available_languages', $availableLanguages );
-    
     $template = "design:setup/init/regional_options.tpl";
     if ( $http->hasPostVariable( 'eZSetupChooseVariations' ) )
     {
         $template = "design:setup/init/regional_options_variations.tpl";
         $chosenLanguages = array();
         $languageVariations = array();
-        $languageList = array_merge( array( $regionalInfo['primary_language'] ), $regionalInfo['languages'] );
+        $languageList = array( $regionalInfo['primary_language'] );
+        if ( isset( $regionalInfo['languages'] ) )
+            $languageList = array_merge( $languageList, $regionalInfo['languages'] );
         $languageList = array_unique( $languageList );
+        if ( !isset( $regionalInfo['variations'] ) )
+            $regionalInfo['variations'] = array();
         foreach ( $languageList as $language )
         {
             $chosenLanguages[] = eZLocale::instance( $language );
@@ -92,6 +93,8 @@ function eZSetupStep( &$tpl, &$http, &$ini, &$persistenceList )
         $tpl->setVariable( 'chosen_languages', $chosenLanguages );
         $tpl->setVariable( 'language_variatons', $languageVariations );
     }
+    $tpl->setVariable( 'regional_info', $regionalInfo );
+    $tpl->setVariable( 'available_languages', $availableLanguages );
 
     $result = array();
     // Display template

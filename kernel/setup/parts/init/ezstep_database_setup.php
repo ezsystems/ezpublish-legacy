@@ -40,13 +40,10 @@ include( "kernel/setup/ezsetuptests.php" );
 /*!
     Step 1: General tests and information for the databases
 */
-function eZSetupStep( &$tpl, &$http, &$ini, &$persistenceList )
+function eZSetupStep_database_setup( &$tpl, &$http, &$ini, &$persistenceList )
 {
     $databaseMap = eZSetupDatabaseMap();
     $databaseList = array();
-    $databaseServer = false;
-    $databaseName = false;
-    $databaseUser = false;
     if ( isset( $persistenceList['database_extensions']['found'] ) )
     {
         $databaseExtensions = $persistenceList['database_extensions']['found'];
@@ -57,16 +54,7 @@ function eZSetupStep( &$tpl, &$http, &$ini, &$persistenceList )
             $databaseList[] = $databaseMap[$extension];
         }
     }
-    if ( isset( $persistenceList['database_info']['server'] ) )
-        $databaseServer = $persistenceList['database_info']['server'];
-    if ( isset( $persistenceList['database_info']['name'] ) )
-        $databaseName = $persistenceList['database_info']['name'];
-    if ( isset( $persistenceList['database_info']['user'] ) )
-        $databaseUser = $persistenceList['database_info']['user'];
-        
-    $tpl->setVariable( 'database_info', array( 'server' => $databaseServer,
-                                               'name' => $databaseName,
-                                               'user' => $databaseUser ) );
+
     $tpl->setVariable( 'database_list', $databaseList );
 
     $result = array();

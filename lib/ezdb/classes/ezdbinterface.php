@@ -250,6 +250,22 @@ class eZDBInterface
 
     /*!
       \pure
+      \return the number of tables in the database.
+    */
+    function tableCount()
+    {
+    }
+
+    /*!
+      \pure
+      \return the tables in the database as an array.
+    */
+    function tableList()
+    {
+    }
+
+    /*!
+      \pure
       Returns the last serial ID generated with an auto increment field.
     */
     function lastSerialID( $table, $column )
@@ -286,8 +302,8 @@ class eZDBInterface
     */
     function createDatabase()
     {
-    }    
-    
+    }
+
     /*!
       \pure
       Sets the error message and error message number
@@ -295,7 +311,7 @@ class eZDBInterface
     function setError()
     {
     }
-    
+
     /*!
       Returns the error message
     */
@@ -303,7 +319,7 @@ class eZDBInterface
     {
         return $this->ErrorMessage;
     }
-    
+
     /*!
       Returns the error number
     */
@@ -311,7 +327,7 @@ class eZDBInterface
     {
         return $this->ErrorNumber;
     }
-    
+
     /// \protectedsection
     /// Contains the current server
     var $Server;

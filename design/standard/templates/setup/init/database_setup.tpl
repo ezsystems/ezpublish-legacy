@@ -3,11 +3,10 @@
 
 <form method="post" action="{$script}">
 
-<p>We're now ready to setup the database, please enter the relevant information in the boxes below.</p>
-<p>If you have an already existing eZ publish database enter the information and the setup will use that as database.</p>
-<blockquote class="note">
-<p><b>Note:</b> If unsure of what information to enter just leave the fields empty and the setup will give som sensible default data.</p>
-</blockquote>
+<p>
+
+</p>
+
 
 <div class="highlight">
 <table border="0" cellspacing="0" cellpadding="0">
@@ -29,18 +28,6 @@
     <input type="hidden" name="eZSetupDatabaseType" value="{$database_list[0].type}" />
   {/section}
   </td>
-</tr>
-<tr>
-  <td class="normal">Server:</td>
-  <td class="normal"><input type="text" name="eZSetupDatabaseServer" size="25" value="{$database_info.server}" /></td>
-</tr>
-<tr>
-  <td class="normal">Name:</td>
-  <td class="normal"><input type="text" name="eZSetupDatabaseName" size="25" value="{$database_info.name}" maxlength="60" /></td>
-</tr>
-<tr>
-  <td class="normal">Username:</td>
-  <td class="normal"><input type="text" name="eZSetupDatabaseUser" size="25" value="{$database_info.user}" /></td>
 </tr>
 </table>
 </div>

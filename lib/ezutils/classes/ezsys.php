@@ -78,6 +78,7 @@ class eZSys
             $this->FileSeparator = "\\";
             $this->LineSeparator= "\r\n";
             $this->EnvSeparator = ";";
+            $this->BackupFilename = '.bak';
         }
         else
         {
@@ -85,8 +86,9 @@ class eZSys
             $this->FileSeparator = "/";
             $this->LineSeparator= "\n";
             $this->EnvSeparator = ":";
+            $this->BackupFilename = '~';
         }
-    
+
         $magicQuote = get_magic_quotes_gpc();
 
         if ( $magicQuote == 1 )
@@ -94,7 +96,7 @@ class eZSys
             eZSys::removeMagicQuotes();
         }
     }
-    
+
     function removeMagicQuotes()
     {
         $globalVariables = array( '_SERVER', '_ENV' );
@@ -130,6 +132,16 @@ class eZSys
         if ( !isset( $this ) or get_class( $this ) != "ezsys" )
             $this =& eZSys::instance();
         return $this->FileSeparator;
+    }
+
+    /*!
+     \return the backup filename for this platform, returns .bak for win32 and ~ for unix.
+    */
+    function backupFilename()
+    {
+        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
+            $this =& eZSys::instance();
+        return $this->BackupFilename;
     }
 
     /*!

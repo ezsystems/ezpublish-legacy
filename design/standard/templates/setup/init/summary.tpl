@@ -20,33 +20,25 @@
   <td>
     Database
   </td>
-  <td rowspan="4">&nbsp;&nbsp;</td>
+  <td rowspan="3">&nbsp;&nbsp;</td>
   <td>
     {$database_info.info.name}
   </td>
 </tr>
 <tr>
   <td>
-    Server
+    Driver
   </td>
   <td>
-    {$database_info.server}
-  </td>
-</tr>
-<tr>
-  <td>
-    Name
-  </td>
-  <td>
-    {$database_info.name}
+    {$database_info.info.driver}
   </td>
 </tr>
 <tr>
   <td>
-    Username
+    Unicode support
   </td>
   <td>
-    {$database_info.user}
+    {$database_info.info.supports_unicode|choose("no","yes")}
   </td>
 </tr>
 

@@ -40,49 +40,28 @@ include( "kernel/setup/ezsetuptests.php" );
 /*!
     Step 1: General tests and information for the databases
 */
-function eZSetupStep_welcome( &$tpl, &$http, &$ini, &$persistenceList )
+function eZSetupStep_database_choice( &$tpl, &$http, &$ini, &$persistenceList )
 {
-    $template = 'design:setup/init/welcome.tpl';
-
-    include_once( 'lib/ezutils/classes/ezhttptool.php' );
-    $http =& eZHTTPTool::instance();
-    if ( $http->hasPostVariable( 'DisableSetup' ) )
+    $databaseMap = eZSetupDatabaseMap();
+    $databaseList = array();
+    if ( isset( $persistenceList['database_extensions']['found'] ) )
     {
-        $template = 'design:setup/init/disable.tpl';
-
-        $criticalTests = array( 'settings_permission' );
-        $testTable = eZSetupTestTable();
-
-        $arguments = array();
-        $runResult = eZSetupRunTests( $criticalTests, $arguments, 'eZSetup:init:system_check' );
-        $testResults = $runResult['results'];
-        $testResult = $runResult['result'];
-        $successCount = $runResult['success_count'];
-        $persistenceData = $runResult['persistence_list'];
-
-        eZSetupMergePersistenceList( $persistenceList, $persistenceData );
-
-        $tpl->setVariable( 'test', array( 'result' => $testResult,
-                                          'results' => $testResults ) );
-        $tpl->setVariable( 'persistence_data', $persistenceList );
-
-        print( "testresult=$testResult" );
-        $saveResult = true;
-        if ( $testResult == 1 )
+        $databaseExtensions = $persistenceList['database_extensions']['found'];
+        foreach ( $databaseExtensions as $extension )
         {
-            $ini =& eZINI::instance();
-            $ini->setVariable( 'SiteAccessSettings', 'CheckValidity', 'false' );
-            $saveResult = $ini->save( false, '.php', false );
+            if ( !isset( $databaseMap[$extension] ) )
+                continue;
+            $databaseList[] = $databaseMap[$extension];
         }
-        $tpl->setVariable( 'save_result', $saveResult );
     }
+
+    $tpl->setVariable( 'database_list', $databaseList );
 
     $result = array();
     // Display template
-    $result['content'] = $tpl->fetch( $template );
-    $result['path'] = array( array( 'text' => 'Welcome to ezpublish',
+    $result['content'] = $tpl->fetch( "design:setup/init/database_choice.tpl" );
+    $result['path'] = array( array( 'text' => 'Database setup',
                                     'url' => false ) );
-
     return $result;
 }
 

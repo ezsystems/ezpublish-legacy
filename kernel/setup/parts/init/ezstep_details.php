@@ -40,11 +40,11 @@ include( "kernel/setup/ezsetuptests.php" );
 /*!
     Step 1: General tests and information for the databases
 */
-function eZSetupStep( &$tpl, &$http, &$ini, &$persistenceList )
+function eZSetupStep_details( &$tpl, &$http, &$ini, &$persistenceList )
 {
     $optionalTests = eZSetupOptionalTests();
     $testTable = eZSetupTestTable();
-    
+
     $arguments = array();
     $runResult = eZSetupRunTests( $optionalTests, $arguments, 'eZSetup:init:details' );
     $testResults = $runResult['results'];
@@ -63,6 +63,5 @@ function eZSetupStep( &$tpl, &$http, &$ini, &$persistenceList )
                                     'url' => false ) );
     return $result;
 }
-
 
 ?>
