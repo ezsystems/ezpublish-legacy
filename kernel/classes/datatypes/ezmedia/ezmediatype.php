@@ -276,6 +276,7 @@ class eZMediaType extends eZDataType
                 $contentObjectAttribute->setContent( $media );
             }
         }
+        return true;
     }
 
     function storeObjectAttribute( &$contentObjectAttribute )

@@ -297,6 +297,7 @@ class eZBinaryFileType extends eZDataType
 
             $contentObjectAttribute->setContent( $binary );
         }
+        return true;
     }
 
     /*!

@@ -140,7 +140,9 @@ class eZXMLTextType extends eZDataType
         {
             $columnValue = $http->postVariable( $column );
             $classAttribute->setAttribute( EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD,  $columnValue );
+            return true;
         }
+        return false;
     }
 
     /*!
@@ -148,6 +150,7 @@ class eZXMLTextType extends eZDataType
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
+        return true;
     }
 
     /*!

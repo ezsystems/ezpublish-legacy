@@ -118,6 +118,7 @@ class eZISBNType extends eZDataType
         $field4 = $http->postVariable( $base . "_isbn_field4_" . $contentObjectAttribute->attribute( "id" ) );
         $isbn = $field1.'-'.$field2.'-'.$field3.'-'.$field4;
         $contentObjectAttribute->setAttribute( "data_text", $isbn );
+        return true;
     }
 
     /*!

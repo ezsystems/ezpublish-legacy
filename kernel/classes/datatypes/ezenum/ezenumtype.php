@@ -183,7 +183,9 @@ class eZEnumType extends eZDataType
                     }
                 }
             }
+            return true;
         }
+        return false;
     }
 
     /*!

@@ -136,7 +136,9 @@ class eZTextType extends eZDataType
         {
             $columnValue = $http->postVariable( $column );
             $classAttribute->setAttribute( EZ_DATATYPESTRING_TEXT_COLS_FIELD,  $columnValue );
+            return true;
         }
+        return false;
     }
 
     /*!

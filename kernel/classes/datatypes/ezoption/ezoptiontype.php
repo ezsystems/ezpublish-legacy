@@ -157,6 +157,7 @@ class eZOptionType extends eZDataType
             $i++;
         }
         $contentObjectAttribute->setContent( $option );
+        return true;
     }
 
     /*!
@@ -238,11 +239,14 @@ class eZOptionType extends eZDataType
         {
             $defaultValueValue = $http->postVariable( $defaultValueName );
 
-            if ($defaultValueValue == ""){
+            if ($defaultValueValue == "")
+            {
                 $defaultValueValue = "";
             }
             $classAttribute->setAttribute( 'data_text1', $defaultValueValue );
+            return true;
         }
+        return false;
     }
 
 

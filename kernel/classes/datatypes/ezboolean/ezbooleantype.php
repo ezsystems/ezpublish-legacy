@@ -83,10 +83,10 @@ class eZBooleanType extends eZDataType
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        if( $http->hasPostVariable( $base . "_data_boolean_" . $contentObjectAttribute->attribute( "id" ) ))
+        if ( $http->hasPostVariable( $base . "_data_boolean_" . $contentObjectAttribute->attribute( "id" ) ))
         {
             $data = $http->postVariable( $base . "_data_boolean_" . $contentObjectAttribute->attribute( "id" ) );
-            if( isset( $data ) )
+            if ( isset( $data ) )
                 $data = 1;
         }
         else
@@ -94,15 +94,15 @@ class eZBooleanType extends eZDataType
             $data = 0;
         }
         $contentObjectAttribute->setAttribute( "data_int", $data );
+        return true;
     }
 
     function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
     {
-
-        if( $http->hasPostVariable( $base . "_ezboolean_default_value_" . $classAttribute->attribute( "id" ) ))
-	{
+        if ( $http->hasPostVariable( $base . "_ezboolean_default_value_" . $classAttribute->attribute( "id" ) ))
+        {
             $data = $http->postVariable( $base . "_ezboolean_default_value_" . $classAttribute->attribute( "id" ) );
-            if( isset( $data ) )
+            if ( isset( $data ) )
                 $data = 1;
         }
         else
@@ -111,7 +111,7 @@ class eZBooleanType extends eZDataType
         }
 
         $classAttribute->setAttribute( "data_int3", $data );
-
+        return true;
     }
 
 /*!

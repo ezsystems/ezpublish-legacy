@@ -170,6 +170,7 @@ class eZDateTimeType extends eZDataType
             $defaultValue = $http->postVariable( $default );
             $classAttribute->setAttribute( EZ_DATATYPESTRING_DATETIME_DEFAULT,  $defaultValue );
         }
+        return true;
     }
 
     /*!

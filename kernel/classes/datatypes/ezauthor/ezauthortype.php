@@ -168,6 +168,7 @@ class eZAuthorType extends eZDataType
             $i++;
         }
         $contentObjectAttribute->setContent( $author );
+        return true;
     }
 
     /*!

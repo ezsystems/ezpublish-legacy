@@ -196,6 +196,7 @@ class eZUserType extends eZDataType
         eZDebugSetting::writeDebug( 'kernel-user', "setInformation run", "ezusertype" );
         $user->setInformation( $contentObjectID, $login, $email, $password, $passwordConfirm );
         $contentObjectAttribute->setContent( $user );
+        return true;
     }
 
     function storeObjectAttribute( &$contentObjectAttribute )

@@ -154,6 +154,7 @@ class eZDateType extends eZDataType
             $defaultValue = $http->postVariable( $default );
             $classAttribute->setAttribute( EZ_DATATYPESTRING_DATE_DEFAULT,  $defaultValue );
         }
+        return true;
     }
 
     /*!

@@ -182,10 +182,8 @@ class eZIntegerType extends eZDataType
             $data =& $http->postVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) );
             $contentObjectAttribute->setAttribute( "data_int", $data );
             return true;
-        }else
-        {
-            return false;
         }
+        return false;
     }
 
     /*!
@@ -330,7 +328,9 @@ class eZIntegerType extends eZDataType
                 $input_state = EZ_INTEGER_HAS_MIN_MAX_VALUE;
                 $classAttribute->setAttribute( EZ_DATATYPESTRING_INTEGER_INPUT_STATE_FIELD, $input_state );
             }
+            return true;
 		}
+        return false;
 	}
 
     /*!

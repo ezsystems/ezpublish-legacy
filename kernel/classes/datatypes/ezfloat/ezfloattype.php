@@ -97,7 +97,9 @@ class eZFloatType extends eZDataType
         {
             $data = $http->postVariable( $base . "_data_float_" . $contentObjectAttribute->attribute( "id" ) );
             $contentObjectAttribute->setAttribute( "data_float", $data );
+            return true;
         }
+        return false;
     }
 
     /*!
@@ -219,7 +221,9 @@ class eZFloatType extends eZDataType
                 $input_state = EZ_FLOAT_HAS_MIN_MAX_VALUE;
                 $classAttribute->setAttribute( EZ_DATATYPESTRING_FLOAT_INPUT_STATE_FIELD, $input_state );
             }
+            return true;
 		}
+        return false;
 	}
 
     function validateClassAttributeHTTPInput( &$http, $base, &$classAttribute )

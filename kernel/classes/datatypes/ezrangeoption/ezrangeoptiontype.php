@@ -89,7 +89,7 @@ class eZRangeOptionType extends eZDataType
         }
 */
         $contentObjectAttribute->setContent( $option );
-        return false;
+        return true;
     }
 
     function storeObjectAttribute( &$contentObjectAttribute )
@@ -161,9 +161,13 @@ class eZRangeOptionType extends eZDataType
                 $defaultValueValue = "";
             }
             $classAttribute->setAttribute( 'data_text1', $defaultValueValue );
+            return true;
         }
+        return false;
     }
 
 }
+
 eZDataType::register( EZ_DATATYPESTRING_RANGEOPTION, "ezrangeoptiontype" );
+
 ?>

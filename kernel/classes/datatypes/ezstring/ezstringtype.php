@@ -219,6 +219,7 @@ class eZStringType extends eZDataType
             }
             $classAttribute->setAttribute( EZ_DATATYPESTRING_DEFAULT_STRING_FIELD, $defaultValueValue );
         }
+        return true;
     }
 
     /*!

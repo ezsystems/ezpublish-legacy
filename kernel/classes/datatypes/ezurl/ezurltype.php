@@ -165,6 +165,7 @@ class eZURLType extends eZDataType
             }
             $classAttribute->setAttribute( EZ_DATATYPEURL_DEFAULT_URL_FIELD, $defaultValueValue );
         }
+        return true;
     }
 
     /*!

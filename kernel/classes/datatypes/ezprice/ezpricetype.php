@@ -112,6 +112,7 @@ class eZPriceType extends eZDataType
             $vatID = $http->postVariable( $vatIDVariable  );
             $classAttribute->setAttribute( EZ_DATATYPESTRING_VAT_ID_FIELD, $vatID );
         }
+        return true;
     }
 
     /*!
@@ -121,7 +122,9 @@ class eZPriceType extends eZDataType
     {
         $data = $http->postVariable( $base . "_data_price_" . $contentObjectAttribute->attribute( "id" ) );
         $contentObjectAttribute->setAttribute( "data_float", $data );
+        return true;
     }
+
     /*!
      Returns the content.
     */

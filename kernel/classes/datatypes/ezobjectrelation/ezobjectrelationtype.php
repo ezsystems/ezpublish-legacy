@@ -76,7 +76,9 @@ class eZObjectRelationType extends eZDataType
         {
             $relatedObjectID =& $http->postVariable( $postVariableName );
             $contentObjectAttribute->setAttribute( 'data_int', $relatedObjectID );
+            return true;
         }
+        return false;
     }
 
     /*!
@@ -109,7 +111,7 @@ class eZObjectRelationType extends eZDataType
     */
     function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
     {
-
+        return true;
     }
 
     /*!

@@ -266,6 +266,7 @@ class eZImageType extends eZDataType
 
             $contentObjectAttribute->setContent( $image );
         }
+        return true;
     }
 
     /*!
@@ -282,7 +283,9 @@ class eZImageType extends eZDataType
         {
             $filesizeValue = $http->postVariable( $filesizeName );
             $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_FIELD, $filesizeValue );
+            return true;
         }
+        return false;
     }
 
     function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )
