@@ -59,8 +59,8 @@ function OpenWindow ( URL, WinName, Features ) {
 
 <map name="map">
 <area shape="RECT" coords="0,2,72,23" href="/content/formum/">
-<area shape="RECT" coords="75,2,142,25" href="/news/">
-<area shape="RECT" coords="145,2,217,23" href={"content/view/full/82"|ezurl}>
+<area shape="RECT" coords="75,2,142,25" href={"/content/view/full/26/"|ezurl}>
+<area shape="RECT" coords="145,2,217,23" href={"content/view/full/82/"|ezurl}>
 <area shape="RECT" coords="221,1,283,23" href="/shop">
 </map>
 
@@ -72,42 +72,19 @@ function OpenWindow ( URL, WinName, Features ) {
 <table class="layout" width="700" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <td bgcolor="#cccccc">
-    &nbsp;&nbsp;:: <a href={"content/view/full/82"|ezurl}>About</a><br /> 
-    &nbsp;&nbsp;:: not<br /> 
-    &nbsp;&nbsp;:: done<br /> 
+    &nbsp;&nbsp;:: <a class="small" href={"content/view/full/82"|ezurl}>About</a><br /> 
+    &nbsp;&nbsp;:: <a class="small" href={"content/view/full/82"|ezurl}>Links</a><br /> 
+    &nbsp;&nbsp;:: <a class="small" href={"content/view/full/82"|ezurl}>About</a><br /> 
     </td>
     <td bgcolor="#e8e8e8">
 {section name=Gallery loop=$gallery_list}
   {section show=and(eq($DesignKeys:used.node,$Gallery:item.node_id),eq($DesignKeys:used.viewmode,'slideshow'))}
 {*  &nbsp;<a href="/content/view/thumbnail/{$Gallery:item.node_id}">{$Gallery:item.name}</a>*}
-  <strong>&nbsp;&nbsp;{$Gallery:item.name} ddd</strong>
+  <strong class="small">&nbsp;&nbsp;{$Gallery:item.name}</strong>
   {/section}
 {/section}
     </td>
 </tr>
-
-{*
-<tr>
-    <td class="pathline" colspan="3">
-
-    <p class="path">
-    &nbsp;&nbsp;
-    {section name=Path loop=$module_result.path}
-        {section show=$Path:item.url}
-        <a href="{$Path:item.url}">{$Path:item.text}</a>
-        {section-else}
-        {$Path:item.text}
-        {/section}
-
-        {delimiter}
-	/
-        {/delimiter}
-    {/section}
-    </p>
-
-    </td>
-</tr>
-*}
 <tr>
     <td class="mainarea" width="99%" valign="top">
 
@@ -125,7 +102,7 @@ function OpenWindow ( URL, WinName, Features ) {
 {section show=and(eq($DesignKeys:used.node,$Gallery:item.node_id),eq($DesignKeys:used.viewmode,'slideshow'))}
 <tr>
   <td bgcolor="#e2e2e2" class="links"><center>
-    <table cellpadding="4" cellspacing="4" border="0">
+    <table cellpadding="4" cellspacing="0" border="0">
     <tr>
     {let gallery_page=int(div($DesignKeys:used.view_offset,$gallery_limit))
          gallery_page_offset=mul($Gallery:gallery_page,$gallery_limit)
@@ -160,7 +137,7 @@ function OpenWindow ( URL, WinName, Features ) {
 </tr>
 {section-else}
                 <tr>
-                  <td bgcolor="#e2e2e2" class="links">&nbsp;<a href="/content/view/thumbnail/{$Gallery:item.node_id}">{$Gallery:item.name}</a></td>
+                  <td bgcolor="#e2e2e2" class="small">&nbsp;<a href="/content/view/thumbnail/{$Gallery:item.node_id}">{$Gallery:item.name}</a></td>
                 </tr>
 {/section}
 

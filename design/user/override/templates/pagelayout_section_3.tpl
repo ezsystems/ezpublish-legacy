@@ -31,27 +31,14 @@
 
 <body bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 
-<table width="700" border="0" cellspacing="0" cellpadding="0" style="border-style: solid; border-width: 1px; border-color: black;" bgcolor="#cccccc">
-<tr>
-   <th>
-   Quick links
-   </th>
-</tr>
-<tr>
-    <td >
-    <a href="/content/view/full/31/">Crossroads Forum</a>
-    </td>
-    <td >
-    <a href="/content/view/news/26">News 24</a>
-    </td>
-    <td >
-    <a href="/content/view/thumbnail/18/">Whitebox art gallery</a>
-    </td>
-    <td >
-    <a href="/content/view/full/65/">the Book corner</a>
-    </td>
-</tr>
-</table>
+<img src={"toppmeny.gif"|ezimage} alt="" border="" USEMAP="#map" />
+
+<map name="map">
+<area shape="RECT" coords="0,2,72,23" href="/content/formum/">
+<area shape="RECT" coords="75,2,142,25" href={"/content/view/full/26/"|ezurl}>
+<area shape="RECT" coords="145,2,217,23" href={"content/view/full/82/"|ezurl}>
+<area shape="RECT" coords="221,1,283,23" href="/shop">
+</map>
 
 {let folder_list=fetch(content,list,hash(parent_node_id,24))}
 {let news_list=fetch(content,tree,hash(parent_node_id,24,limit,3,sort_by,array(array(published)),class_id,2))}
@@ -62,25 +49,24 @@
       </span><a href="/content/view/full/24/"><img src={"images/news_top.gif"|ezdesign} width="700" height="67" border="0"></a></td>
   </tr>
 <tr> 
-
 <td  valign="top" bgcolor="#FFFFFF">
 
 <table width="100%"  border="0" cellpadding="0" cellspacing="0" bordercolor="#000000">
         <tr> 
           <td width="100" valign="top" bordercolor="#FFFFFF" bgcolor="#FF9900"> 
-            <table width="84" border="0" align="center" cellpadding="3" cellspacing="1">
+            <table width="100" border="0" align="center" cellpadding="3" cellspacing="1">
 
 {section name=Folder loop=$folder_list}
 
               <tr> 
                 <td width="76" bgcolor="#FFD2A6" class="links"> 
-                     <a href="/content/view/news/{$Folder:item.node_id}">{$Folder:item.name}</a>  <font size="2">&nbsp;</font></td>
+		&nbsp;<a class="small" href={concat("/content/view/full/",$Folder:item.node_id,"/")|ezurl}>{$Folder:item.name}</a>  <font size="2">&nbsp;</font></td>
               </tr>
 {/section}    <tr> 
                 <td valign="top" bgcolor="#FF9900"> 
 
 
-                  <form action="/content/search/" method="get">
+                  <form action={"/content/search/"|ezurl} method="get">
                    <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><br>
                    
                  search:</font> <font size="2"> 

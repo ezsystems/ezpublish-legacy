@@ -14,11 +14,11 @@
 	</td>
 </tr>
 </table>*}
-            <table border="1" align="center" cellpadding="4" cellspacing="6" bordercolor="#000000" bgcolor="#E2E2E2">
+            <table border="1" align="center" cellpadding="10" cellspacing="6" bordercolor="#000000" bgcolor="#E2E2E2">
 
 {section name=Child loop=$item_list}
               <tr bordercolor="#000000" bgcolor="#000000"> 
-                <td colspan="3" valign="top" bgcolor="#ffffff">
+                <td colspan="3" valign="top" bgcolor="#000000">
                   {node_view_gui view=large content_node=$Child:item}
                 </td>
               </tr>
