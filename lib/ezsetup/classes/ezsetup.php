@@ -511,7 +511,7 @@ function stepThree( &$tpl, &$http )
         $tpl->setVariable( "createDb", true );
 
         // Try to create the database    
-        mysql_drop_db( $dbName, $dbConnection ); // TODO: let'S drop it immidiately because we continue testing
+        // mysql_drop_db( $dbName, $dbConnection ); // TODO: let'S drop it immidiately because we continue testing
         mysql_create_db( $dbName, $dbConnection );
         switch ( mysql_errno() )
         {
