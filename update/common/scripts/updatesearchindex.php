@@ -331,7 +331,8 @@ foreach ( array_keys( $topLevelNodesArray ) as $key )
         }
         $offset += $limit;
         $node =& eZContentObjectTreeNode::fetch( 2 );
-        $subTree =& $node->subTree( array( 'Offset' => $offset, 'Limit' => $limit ) );
+        $subTree =& $node->subTree( array( 'Offset' => $offset, 'Limit' => $limit,
+                                           'Limitation' => array() ) );
     }
 }
 
