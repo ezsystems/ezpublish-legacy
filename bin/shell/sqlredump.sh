@@ -121,26 +121,28 @@ USERARG="-u$USER"
 
 if [ "$USE_MYSQL" != "" ]; then
     mysqladmin "$USERARG" -f drop "$DBNAME"
-    mysqladmin "$USERARG" create "$DBNAME"
+    mysqladmin "$USERARG" create "$DBNAME" || exit 1
     for sql in $SCHEMAFILES; do
 	echo "Importing schema SQL file $sql"
-	mysql "$USERARG" "$DBNAME" < "$sql"
+	mysql "$USERARG" "$DBNAME" < "$sql" || exit 1
     done
     echo "Importing SQL file $SQLFILE"
-    mysql "$USERARG" "$DBNAME" < "$SQLFILE"
+    mysql "$USERARG" "$DBNAME" < "$SQLFILE" || exit 1
     for sql in $SQLFILES; do
 	echo "Importing SQL file $sql"
-	mysql "$USERARG" "$DBNAME" < "$sql"
+	mysql "$USERARG" "$DBNAME" < "$sql" || exit 1
     done
 
     if [ ! -z $USE_PAUSE ]; then
 	read -p "`$SETCOLOR_EMPHASIZE`SQL dump paused, press any key to continue.`$SETCOLOR_NORMAL`" TMP
     fi
 
-    ./update/common/scripts/flatten.php --db-driver=ezmysql --db-server=localhost --db-database=$DBNAME --db-user=$USER all
-    ./update/common/scripts/updatesearchindex.php --db-driver=ezmysql --db-server=localhost --db-database=$DBNAME --db-user=$USER --clean
-    ./update/common/scripts/updateniceurls.php --db-driver=ezmysql --db-server=localhost --db-database=$DBNAME --db-user=$USER
-    ./update/common/scripts/cleanup.php --db-driver=ezmysql --db-server=localhost --db-database=$DBNAME --db-user=$USER all
+    if [ "$SQLDUMP" != "schema" ]; then
+	./update/common/scripts/flatten.php --db-driver=ezmysql --db-server=localhost --db-database=$DBNAME --db-user=$USER all
+	./update/common/scripts/updatesearchindex.php --db-driver=ezmysql --db-server=localhost --db-database=$DBNAME --db-user=$USER --clean
+	./update/common/scripts/updateniceurls.php --db-driver=ezmysql --db-server=localhost --db-database=$DBNAME --db-user=$USER
+	./update/common/scripts/cleanup.php --db-driver=ezmysql --db-server=localhost --db-database=$DBNAME --db-user=$USER all
+    fi
 
     echo "Dumping to SQL file $SQLFILE"
 # mysqldump "$USERARG" -c --quick "$NODATAARG" "$NOCREATEINFOARG" -B"$DBNAME" > "$SQLFILE".0
@@ -154,26 +156,28 @@ if [ "$USE_MYSQL" != "" ]; then
     perl -pi -e "s/(^--.*$)|(^#.*$)//g" "$SQLFILE".0
 else
     dropdb "$DBNAME"
-    createdb "$DBNAME"
+    createdb "$DBNAME" || exit 1
     for sql in $SCHEMAFILES; do
 	echo "Importing schema SQL file $sql"
-	psql "$DBNAME" < "$sql" &>/dev/null
+	psql "$DBNAME" < "$sql" &>/dev/null || exit 1
     done
     echo "Importing SQL file $SQLFILE"
-    psql "$DBNAME" < "$SQLFILE" &>/dev/null
+    psql "$DBNAME" < "$SQLFILE" &>/dev/null || exit 1
     for sql in $SQLFILES; do
 	echo "Importing SQL file $sql"
-	psql "$DBNAME" < "$sql" &>/dev/null
+	psql "$DBNAME" < "$sql" &>/dev/null || exit 1
     done
 
     if [ ! -z $USE_PAUSE ]; then
 	read -p "`$SETCOLOR_EMPHASIZE`SQL dump paused, press any key to continue.`$SETCOLOR_NORMAL`" TMP
     fi
 
-    ./update/common/scripts/flatten.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME --db-user=$POST_USER all
-    ./update/common/scripts/updatesearchindex.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME --db-user=$POST_USER --clean
-    ./update/common/scripts/updateniceurls.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME --db-user=$POST_USER
-    ./update/common/scripts/cleanup.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME --db-user=$POST_USER all
+    if [ "$SQLDUMP" != "schema" ]; then
+	./update/common/scripts/flatten.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME --db-user=$POST_USER all
+	./update/common/scripts/updatesearchindex.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME --db-user=$POST_USER --clean
+	./update/common/scripts/updateniceurls.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME --db-user=$POST_USER
+	./update/common/scripts/cleanup.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME --db-user=$POST_USER all
+    fi
 
     echo "Dumping to SQL file $SQLFILE"
 # mysqldump "$USERARG" -c --quick "$NODATAARG" "$NOCREATEINFOARG" -B"$DBNAME" > "$SQLFILE".0
