@@ -550,7 +550,7 @@ class eZTemplateArrayOperator
                 }
                 else if ( $isArray )
                 {
-                    $code = '%output% = ( array_diff( ' . $inParamCode . ', ' . $matchParamCode . ' ) == array_diff( ' . $inParamCode . ', ' . $matchParamCode . ' ) );';
+                    $code = '%output% = ( array_diff( ' . $inParamCode . ', ' . $matchParamCode . ' ) == array_diff( ' . $matchParamCode . ', ' . $inParamCode . ' ) );';
                 }
                 else
                 {
@@ -560,7 +560,7 @@ class eZTemplateArrayOperator
                          '}' . "\n" .
                          'else if ( is_array( ' . $inParamCode . ' ) )' . "\n" .
                          '{' . "\n" .
-                         '  %output% = ( array_diff( ' . $inParamCode . ', ' . $matchParamCode . ' ) == array_diff( ' . $inParamCode . ', ' . $matchParamCode . ' ) );' . "\n" .
+                         '  %output% = ( array_diff( ' . $inParamCode . ', ' . $matchParamCode . ' ) == array_diff( ' . $matchParamCode . ', ' . $inParamCode . ' ) );' . "\n" .
                          '}';
                 }
 
@@ -830,7 +830,7 @@ class eZTemplateArrayOperator
                 {
                     if ( $isString )
                     {
-                        return array( eZTemplateNodeTool::createStringElement( concat( substr( $inputArray, 0, $offset ), $insertText, substr( $inputArray, $offset ) ) ) );
+                        return array( eZTemplateNodeTool::createStringElement( substr( $inputArray, 0, $offset ) . $insertText . substr( $inputArray, $offset ) ) );
                     }
                     else if ( $isArray )
                     {
@@ -850,7 +850,7 @@ class eZTemplateArrayOperator
                 $tmpCount = 0;
                 if ( $isString )
                 {
-                    $code = '%output% = concat( substr( ' . $inputArrayCode . ', 0, ' . $offsetCode . ' ), ' . $insertElemCode[0] . ', substr( ' . $inputArrayCode . ', ' . $offsetCode . ' ) );';
+                    $code = '%output% = substr( ' . $inputArrayCode . ', 0, ' . $offsetCode . ' ) . ' . $insertElemCode[0] . ' . substr( ' . $inputArrayCode . ', ' . $offsetCode . ' );';
                 }
                 else if ( $isArray )
                 {
@@ -887,7 +887,7 @@ class eZTemplateArrayOperator
                     $code .= ' );' . "\n" .
                          'if ( is_string( %tmp1% ) )' . "\n" .
                          '{' . "\n" .
-                         '  %output% = concat( substr( ' . $inputArrayCode . ', 0, ' . $offsetCode . ' ), ' . $insertElemCode[0] . ', substr( ' . $inputArrayCode . ', ' . $offsetCode . ' ) );' . "\n" .
+                         '  %output% = substr( ' . $inputArrayCode . ', 0, ' . $offsetCode . ' ) . ' . $insertElemCode[0] . ' . substr( ' . $inputArrayCode . ', ' . $offsetCode . ' );' . "\n" .
                          '}' . "\n" .
                          'else if ( is_array( %tmp1% ) )' . "\n" .
                          '{' . "\n" .
@@ -1019,6 +1019,8 @@ class eZTemplateArrayOperator
     function compareTrans( $operatorName, &$node, &$tpl, &$resourceData,
                            &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
+        $isArray = false;
+        $isString = false;
         $offset = 0;
         $length = count( $parameters ) - 1;
         $values = array();
@@ -1030,6 +1032,8 @@ class eZTemplateArrayOperator
         {
             $array = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
             $code .= '%tmp1% = ' . eZPHPCreator::variableText( $array, 0, 0, false ) . ';';
+            $isString = is_string( $array );
+            $isArray = is_array( $array );
         }
         else
         {
@@ -1088,9 +1092,15 @@ class eZTemplateArrayOperator
 
         if ( count( $values ) == 1 )
         {
-            return array( eZTemplateNodeTool::createBooleanElement( $match ) );
+            if ( $isString )
+            {
+                return array( eZTemplateNodeTool::createBooleanElement( strpos( $array, eZTemplateNodeTool::elementStaticValue( $parameters[1] ) ) == 0 ) );
+            }
+            else if ( $isArray )
+            {
+                return array( eZTemplateNodeTool::createBooleanElement( $match ) );
+            }
         }
-
 
         $code .= 'for( %tmp3% = 0; %tmp3% < %1%; ++%tmp3% )' . "\n" .
              '{' . "\n" .
@@ -1207,14 +1217,7 @@ class eZTemplateArrayOperator
     function mergeTrans( $operatorName, &$node, &$tpl, &$resourceData,
                          &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
-        if ( $operatorName != $this->MergeName )
-        {
-            $code = 'array( ';
-        }
-        else
-        {
-            $code = '';
-        }
+        $code = '';
 
         $paramCount = 0;
         $values = array();
@@ -1242,11 +1245,8 @@ class eZTemplateArrayOperator
             }
         }
 
-        if ( $operatorName != $this->MergeName )
-        {
-            $code .= ' )';
-        }
-
+        $isString = false;
+        $isArray = false;
         $code2 = false;
         if ( $parameters[0] )
         {
@@ -1258,9 +1258,11 @@ class eZTemplateArrayOperator
             }
             else
             {
+                $isString = is_string( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) );
+                $isArray = is_array( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) );
                 if ( $paramCount == 0 )
                 {
-                    $staticArray[] = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+//                    $staticArray[] = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
                 }
                 else
                 {
@@ -1274,24 +1276,58 @@ class eZTemplateArrayOperator
             if ( $operatorName == $this->AppendName ||
                  $operatorName == $this->MergeName )
             {
-                return array( eZTemplateNodeTool::createArrayElement( array_merge( eZTemplateNodeTool::elementStaticValue( $parameters[0] ), $staticArray ) ) );
+                if ( $isString )
+                {
+                    $str = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+                    for( $i = 0; $i < count( $staticArray ); ++$i )
+                    {
+                        $str .= $staticArray[$i];
+                    }
+
+                    return array( eZTemplateNodeTool::createStringElement( $str ) );
+                }
+                else if ( $isArray )
+                {
+                    $returnArray = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+                    for( $i = 0; $i < count( $staticArray ); ++$i )
+                    {
+                        $returnArray = array_merge( $returnArray, $staticArray[$i] );
+                    }
+                    return array( eZTemplateNodeTool::createArrayElement( $returnArray ) );
+                }
             }
             else if ( $operatorName == $this->PrependName )
             {
-                return array( eZTemplateNodeTool::createArrayElement( array_merge( $staticArray, eZTemplateNodeTool::elementStaticValue( $parameters[0] ) ) ) );
+                if ( $isString )
+                {
+                    return array( eZTemplateNodeTool::createStringElement( eZTemplateNodeTool::elementStaticValue( $parameters[1] ) . eZTemplateNodeTool::elementStaticValue( $parameters[0] ) ) );
+                }
+                else if ( $isArray )
+                {
+                    return array( eZTemplateNodeTool::createArrayElement( array_merge( $staticArray, eZTemplateNodeTool::elementStaticValue( $parameters[0] ) ) ) );
+                }
             }
         }
 
         if ( $code2 )
         {
-            if ( $operatorName == $this->AppendName ||
-                 $operatorName == $this->MergeName )
+            if ( $operatorName == $this->AppendName )
+            {
+                $code = 'if ( is_string( ' . $code2 . ' ) )' . "\n" .
+                     '  %output% = ' . $code2 . ' . implode( \'\', array( ' . $code . ' ) );' . "\n" .
+                     'else if( is_array( ' . $code2 . ' ) )' . "\n" .
+                     '  %output% = array_merge( ' . $code2 . ', array( ' . $code . ' ) );';
+            }
+            else if ( $operatorName == $this->MergeName )
             {
                 $code = '%output% = array_merge( ' . $code2 . ', ' . $code . ' );';
             }
             else if ( $operatorName == $this->PrependName )
             {
-                $code = '%output% = array_merge( ' . $code . ', ' . $code2 . ' );';
+                $code = 'if ( is_string( ' . $code2 . ' ) )' . "\n" .
+                     '  %output% = implode( \'\', array( ' . $code . ' ) ) . ' . $code2 . ';' . "\n" .
+                     'else if( is_array( ' . $code2 . ' ) )' . "\n" .
+                     '  %output% = array_merge( ' . $code . ', ' . $code2 . ' );';
             }
         }
         else
@@ -1302,7 +1338,7 @@ class eZTemplateArrayOperator
             }
             else
             {
-                $code = '%output% = ' . $code . ';';
+                $code = '%output% = array(' . $code . ');';
             }
         }
 
