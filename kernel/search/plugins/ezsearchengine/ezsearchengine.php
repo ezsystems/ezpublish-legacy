@@ -678,7 +678,7 @@ class eZSearchEngine
 
                         if ( $i == 0 )
                         {
-                            $db->query( "CREATE TEMPORARY TABLE ezsearch_tmp_0 ( contentobject_id int, published int )" );
+                            $db->query( "CREATE TEMPORARY TABLE ezsearch_tmp_0 ( contentobject_id int primary key not null, published int )" );
                             $db->query( "INSERT INTO ezsearch_tmp_0 SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
                     FROM
                        ezcontentobject,
@@ -704,7 +704,8 @@ class eZSearchEngine
                         }
                         else
                         {
-                            $db->query( "CREATE TEMPORARY TABLE ezsearch_tmp_$i SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
+                            $db->query( "CREATE TEMPORARY TABLE ezsearch_tmp_$i ( contentobject_id int primary key not null, published int )" );
+                            $db->query( "INSERT INTO ezsearch_tmp_$i SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
                     FROM
                        ezcontentobject,
                        ezsearch_object_word_link

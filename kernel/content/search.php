@@ -106,7 +106,6 @@ $tpl->setVariable( "offset", $Offset );
 $tpl->setVariable( "page_limit", $pageLimit );
 $tpl->setVariable( "search_text_enc", urlencode( $searchText ) );
 
-
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:content/search.tpl" );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Search' ),

@@ -46,11 +46,16 @@ $http =& eZHTTPTool::instance();
 
 $Module =& $Params["Module"];
 $ViewMode = $Params["ViewMode"];
+$Offset = $Params['Offset'];
 
 $tpl =& templateInit();
 
 $searchText = '';
 $phraseSearchText = '';
+
+$pageLimit = 10;
+if ( !is_numeric( $Offset ) )
+    $Offset = 0;
 
 if ( $http->hasVariable( "PhraseSearchText" ) and trim( $http->variable( "PhraseSearchText" ) ) != "" )
 {
@@ -123,15 +128,22 @@ $searchResult =& eZSearch::search( $searchText, array( "SearchSectionID" => $sea
                                                        "SearchContentClassID" => $searchContentClassID,
                                                        "SearchContentClassAttributeID" => $searchContentClassAttributeID,
                                                        "SearchSubTreeArray" => $subTreeArray,
-                                                       "SearchDate" => $searchDate ) );
+                                                       "SearchDate" => $searchDate,
+                                                       "SearchLimit" => $pageLimit,
+                                                       "SearchOffset" => $Offset ) );
 
 $tpl->setVariable( "search_contentclass_id", $searchContentClassID );
 $tpl->setVariable( "search_section_id", $searchSectionID );
 $tpl->setVariable( "search_date", $searchDate );
 $tpl->setVariable( "search_sub_tree", $subTreeArray );
 
+$tpl->setVariable( "offset", $Offset );
+$tpl->setVariable( "page_limit", $pageLimit );
+$tpl->setVariable( "search_text_enc", urlencode( $searchText ) );
+
 $tpl->setVariable( "search_result", $searchResult["SearchResult"] );
 $tpl->setVariable( "search_count", $searchResult["SearchCount"] );
+$tpl->setVariable( "stop_word_array", $searchResult["StopWordArray"] );
 $tpl->setVariable( "search_text", $searchText );
 $tpl->setVariable( "full_search_text", $fullSearchText );
 $tpl->setVariable( "phrase_search_text", $phraseSearchText );
