@@ -51,13 +51,10 @@ include_once( "kernel/classes/ezcontentbrowse.php" );
 $Module =& $Params["Module"];
 $policyID =& $Params["PolicyID"];
 
-if ( is_numeric( $policyID ) )
+$policy =& eZPolicy::fetch( $policyID );
+if( is_null( $policy ) )
 {
-    $policy =& eZPolicy::fetch( $policyID );
-}
-else
-{
-    return;
+        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
 $currentModule = $policy->attribute( 'module_name' );
