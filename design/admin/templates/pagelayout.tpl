@@ -41,36 +41,48 @@
         <tr> 
             <td>
 	    <img src={"logo.gif"|ezimage} alt="" /></td>
-            <td valign="top">
-            <form action={"/content/search/"|ezurl} method="get" style="margin-top: 0px; margin-bottom: 0px; padding: 0px;">
-             <nobr>
-             <input class="searchbox" type="text" size="20" name="SearchText" id="Search" value="" />
-             <input class="searchbutton" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
-             </nobr>
-            </form>
+            <td>
+            &nbsp;&nbsp;
             </td>
             <td valign="top">
-
-{section show=fetch('content', 'can_instantiate_classes')}
-<form method="post" action={"content/action"|ezurl}>
-         <nobr>
-         <select name="ClassID" class="classcreate">
-	      {section name=Classes loop=fetch('content', 'can_instantiate_class_list')}
-	      <option value="{$Classes:item.id}">{$Classes:item.name|wash}</option>
-	      {/section}
-         </select>
-         <input class="classbutton" type="submit" name="NewButton" value="{'New'|i18n('design/standard/node/view')}" />
-         </nobr>
-
-</form>
-{/section}
-
+                <form action={"/content/search/"|ezurl} method="get" style="margin-top: 0px; margin-bottom: 0px; padding: 0px;">
+                    <table cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td>
+                            <input class="searchbox" type="text" size="20" name="SearchText" id="Search" value="" />
+                        </td>  
+                        <td>
+                            <input class="searchbutton" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
+                        </td>
+                    </tr>
+                    </table>
+                </form>
+            </td>
+            <td valign="center">
+	        {section show=fetch('content', 'can_instantiate_classes')}
+	        <form method="post" action={"content/action"|ezurl}>
+                    <table cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td>
+                        <select name="ClassID" class="classcreate">
+	                    {section name=Classes loop=fetch('content', 'can_instantiate_class_list')}
+                            <option value="{$Classes:item.id}">{$Classes:item.name|wash}</option>
+                            {/section}
+                         </select>
+                        </td>
+			<td>
+                            <input class="classbutton" type="submit" name="NewButton" value="{'New'|i18n('design/standard/node/view')}" />
+                        </td>
+                    </tr>
+                    </table>    
+                </form>
+                {/section}
             </td>  
-            <td>
+            <td align="right">
       {section show=eq($current_user.contentobject_id,$anonymous_user_id)}
-      <a href={"/user/login/"|ezurl}>{'Login'|i18n('design/standard/layout')}</a>
+      <a class="leftmenuitem"  href={"/user/login/"|ezurl}>{'Login'|i18n('design/standard/layout')}</a>
       {section-else}
-      <a href={"/user/logout/"|ezurl}>{'Logout'|i18n('design/standard/layout')}</a> ({$current_user.contentobject.name|wash})
+      <a class="leftmenuitem" href={"/user/logout/"|ezurl}>{'Logout'|i18n('design/standard/layout')} ({$current_user.contentobject.name|wash}) </a> 
       {/section}
             </td> 
         </tr>  
