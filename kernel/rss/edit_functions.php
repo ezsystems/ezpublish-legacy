@@ -52,6 +52,7 @@ function storeRSSExport( &$Module, &$http, $publish = false )
     $rssExport->setAttribute( 'url', $http->postVariable( 'url' ) );
     $rssExport->setAttribute( 'site_access', $http->postVariable( 'SiteAccess' ) );
     $rssExport->setAttribute( 'description', $http->postVariable( 'Description' ) );
+    $rssExport->setAttribute( 'rss_version', $http->postVariable( 'RSSVersion' ) );
     if ( $http->hasPostVariable( 'active' ) )
         $rssExport->setAttribute( 'active', 1 );
     else

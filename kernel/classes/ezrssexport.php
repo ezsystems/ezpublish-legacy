@@ -102,6 +102,10 @@ class eZRSSExport extends eZPersistentObject
                                                               'datatype' => 'integer',
                                                               'default' => 0,
                                                               'required' => false ),
+                                         'rss_version' => array( 'name' => 'RSSVersion',
+                                                                 'datatype' => 'string',
+                                                                 'default' => 0,
+                                                                 'required' => true ),
                                          'active' => array( 'name' => 'Active',
                                                             'datatype' => 'integer',
                                                             'default' => 0,
@@ -277,7 +281,18 @@ class eZRSSExport extends eZPersistentObject
 
             case 'rss-xml':
             {
-                return $this->fetchRSSDocument();
+                switch( $this->attribute( 'rss_version' ) )
+                {
+                    case '1.0':
+                    {
+                        return $this->fetchRSS1_0();
+                    } break;
+
+                    case '2.0':
+                    {
+                        return $this->fetchRSS2_0();
+                    } break;
+                }
             } break;
 
             default:
@@ -316,7 +331,7 @@ class eZRSSExport extends eZPersistentObject
 
      \return RSS 2.0 XML docuemnt
     */
-    function &fetchRSS2( $id = null )
+    function &fetchRSS2_0( $id = null )
     {
         if ( $id != null )
         {
@@ -341,10 +356,79 @@ class eZRSSExport extends eZPersistentObject
 
         $doc = new eZDOMDocument();
         $doc->setName( 'eZ publish RSS Export' );
-        $root =& $doc->createElementNode( 'rss' );
+        $root =& $doc->createElementNode( 'rss', array( 'version' => '2.0' ) );
         $doc->setRoot( $root );
 
+        $channel =& $doc->createElementNode( 'channel' );
+        $root->appendChild( $channel );
+
+        $channel->appendChild( $doc->createElementTextNode( 'title', $this->attribute( 'title' ) ) );
+        $channel->appendChild( $doc->createElementTextNode( 'link', $this->attribute( 'url' ) ) );
+        $channel->appendChild( $doc->createElementTextNode( 'description', $this->attribute( 'description' ) ) );
+        $channel->appendChild( $doc->createElementTextNode( 'language', $this->attribute( 'language' ) ) );
+
+        $rssItemArray =& $this->fetchItems();
+        foreach ( $rssItemArray as $rssItem )
+        {
+            $nodeArray =& $rssItem->attribute( 'object_list' );
+            foreach ( $nodeArray as $node )
+            {
+                $object =& $node->attribute( 'object' );
+                $dataMap =& $object->dataMap();
+                if ( $useURLAlias === true )
+                {
+                    $nodeURL = $baseItemURL.$node->urlAlias();
+                }
+                else
+                {
+                    $nodeURL = $baseItemURL.'content/view/full/'.$object->attribute( 'id' );
+                }
+
+                $itemTitle =& $doc->createElementNode( 'title' );
+                $title =& $dataMap[$rssItem->attribute( 'title' )];
+                $titleContent =& $title->attribute( 'content' );
+                if ( get_class( $titleContent ) == 'ezxmltext' )
+                {
+                    $outputHandler =& $titleContent->attribute( 'output' );
+                    $itemTitle->appendChild( $doc->createTextNode( $outputHandler->attribute( 'output_text' ) ) );
+                }
+                else
+                {
+                    $itemTitle->appendChild( $doc->createTextNode( $titleContent ) );
+                }
+
+                $itemDescription =& $doc->createElementNode( 'description' );
+                $description =& $dataMap[$rssItem->attribute( 'description' )];
+                $descriptionContent =& $description->attribute( 'content' );
+                if ( get_class( $descriptionContent ) == 'ezxmltext' )
+                {
+                    $outputHandler =& $descriptionContent->attribute( 'output' );
+                    $itemDescription->appendChild( $doc->createTextNode( $outputHandler->attribute( 'output_text' ) ) );
+                }
+                else
+                {
+                    $itemDescription->appendChild( $doc->createTextNode( $descriptionContent ) );
+                }
+
+                $itemLink =& $doc->createElementNode( 'link' );
+                $itemLink->appendChild( $doc->createTextNode( $nodeURL ) );
+
+                $item =& $doc->createElementNode( 'item' );
+
+                $item->appendChild( $doc->createElementTextNode( 'pubDate',
+                                                                 gmdate( 'D, d M Y H:i:s', $object->attribute( 'published' ) ) .'GMT' ) );
+
+                $item->appendChild( $itemTitle );
+                $item->appendChild( $itemLink );
+                $item->appendChild( $itemDescription );
+
+                $channel->appendChild( $item );
+
+            }
+        }
+        return $doc;
     }
+
     /*!
      Get a RSS xml document based on the RSS 1.0 standard based on the RSS Export settings defined by this object
 
@@ -352,7 +436,7 @@ class eZRSSExport extends eZPersistentObject
 
      \return RSS 1.0 XML document
     */
-    function &fetchRSSDocument( $id = null )
+    function &fetchRSS1_0( $id = null )
     {
         if ( $id != null )
         {
@@ -408,7 +492,6 @@ class eZRSSExport extends eZPersistentObject
             foreach ( $nodeArray as $node )
             {
                 $object =& $node->attribute( 'object' );
-                $dataMap =& $object->dataMap();
                 if ( $useURLAlias === true )
                 {
                     $nodeURL = $baseItemURL.$node->urlAlias();
@@ -421,7 +504,7 @@ class eZRSSExport extends eZPersistentObject
                 $rdfSeq->appendChild( $doc->createElementNode( 'rdf:li', array( 'rdf:resource' => $nodeURL ) ) );
 
                 $itemTitle =& $doc->createElementNode( 'title' );
-                $title =& $dataMap[$rssItem->attribute( 'title' )];
+                $title =& $object->attribute( $rssItem->attribute( 'title' ) );
                 $titleContent =& $title->attribute( 'content' );
                 if ( get_class( $titleContent ) == 'ezxmltext' )
                 {
@@ -434,7 +517,7 @@ class eZRSSExport extends eZPersistentObject
                 }
 
                 $itemDescription =& $doc->createElementNode( 'description' );
-                $description =& $dataMap[$rssItem->attribute( 'description' )];
+                $description =& $object->attribute( $rssItem->attribute( 'description' ) );
                 $descriptionContent =& $description->attribute( 'content' );
                 if ( get_class( $descriptionContent ) == 'ezxmltext' )
                 {

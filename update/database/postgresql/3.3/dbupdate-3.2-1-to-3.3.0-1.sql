@@ -29,6 +29,7 @@ CREATE TABLE ezrss_export (
   created integer default NULL,
   creator_id integer default NULL,
   status integer default NULL,
+  rss_version varchar(255) default NULL,
   site_access varchar(255) default NULL,
   PRIMARY KEY  (id)
 );
@@ -46,7 +47,7 @@ CREATE TABLE ezrss_export_item (
   source_node_id integer default NULL,
   class_id integer default NULL,
   title varchar(255) default NULL,
-  description varchar(255) default NULL,
+  description varchar(255) default 0,
   PRIMARY KEY  (id)
 );
 

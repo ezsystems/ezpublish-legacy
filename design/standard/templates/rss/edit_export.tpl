@@ -33,6 +33,27 @@
 
     <br/>
 
+    <label>{"RSS version"|i18n("design/standard/rss/edit")}:</label><div class="labelbreak"></div>
+
+    <select name="RSSVersion">
+    {section name=Version loop=$rss_version_array}
+    <option
+    {section name=DefaultSet show=eq($rss_export.rss_version,0)}
+      {section name=Default show=eq($Version:item,$rss_version_default)}
+        selected="selected"
+      {/section}
+    {section-else}
+      {section name=Default2 show=eq($Version:item,$rss_export.rss_version)}
+        selected="selected"
+      {/section}
+    {/section}
+      value="{$:item}">{$:item|wash}
+    </option>
+    {/section}
+    </select>
+
+    <br/>
+
     <label>{"Active"|i18n("design/standard/rss/edit")}:</label><div class="labelbreak"></div>
     <input type="checkbox" name="active" {section show=$rss_export.active|eq(1)}checked="checked"{/section}>{"Active"|i18n("design/standard/rss/edit")}</input>
     <br/>

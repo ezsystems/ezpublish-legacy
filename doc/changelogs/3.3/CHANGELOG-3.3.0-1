@@ -5,7 +5,8 @@ Changes from 3.2-3 to 3.3.0-1
 - Added count function for tipafriend and content view.
 - Added support for information collection on option datatype.
 - Added RSS export support, according to the RSS 1.0 specification: http://web.resource.org/rss/1.0/spec
-- Added RSS import support, for displaying content from other web pages
+- Added limited RSS export support for version 2.0, based upon http://blogs.law.harvard.edu/tech/rss
+- Added RSS import support (RSS 1.0), for displaying content from other web pages
 - Added count function for collected information. This can be used for showing the results of a poll.
 - Rewrote parts of the information collection system, it is now possible to configure
   email handling, display handling, redirection and collection separately and according

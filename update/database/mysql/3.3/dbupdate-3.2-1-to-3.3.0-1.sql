@@ -21,6 +21,7 @@ CREATE TABLE ezrss_export (
   creator_id integer default NULL,
   status integer default NULL,
   site_access varchar(255) default NULL,
+  rss_version varchar(255) default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 

@@ -128,10 +128,14 @@ $tpl =& templateInit();
 // Populate site access list
 $config =& eZINI::instance( 'site.ini' );
 $siteAccess = $config->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
+$rssVersionArray = $config->variable( 'RSSSettings', 'AvailableVersionList' );
+$rssDefaultVersion = $config->variable( 'RSSSettings', 'DefaultVersion' );
 
 // Get Classes and class attributes
 $classArray =& eZContentClass::fetchList();
 
+$tpl->setVariable( 'rss_version_array', $rssVersionArray );
+$tpl->setVariable( 'rss_version_default', $rssDefaultVersion );
 $tpl->setVariable( 'rss_site_access', $siteAccess );
 $tpl->setVariable( 'rss_class_array', $classArray );
 $tpl->setVariable( 'rss_export', $rssExport );
