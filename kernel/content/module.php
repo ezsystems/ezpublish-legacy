@@ -353,6 +353,11 @@ $ViewList['pendinglist'] = array(
     'params' => array(),
     'unordered_params' => array( 'offset' => 'Offset' ) );
 
+$ViewList['new'] = array(
+    'functions' => array( 'read' ),
+    'default_navigation_part' => 'ezcontentnavigationpart',
+    'script' => 'newcontent.php',
+    'params' => array() );
 
 $ClassID = array(
     'name'=> 'Class',
@@ -461,6 +466,7 @@ $FunctionList['versionread'] = array( 'Class' => $ClassID,
                                       'Status' => $Status,
                                       'Node' => $Node,
                                       'Subtree' => $Subtree);
+
 $FunctionList['pdf'] = array( 'Class' => $ClassID,
                               'Section' => $SectionID,
                               'Owner' => $Assigned,

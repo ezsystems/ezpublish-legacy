@@ -772,6 +772,7 @@ WHERE user_id = '" . $userID . "' AND
                     $mysqlUsers =& $db->arrayQuery( $queryMysqlUser );
                     if ( count( $mysqlUsers ) >= 1 )
                         $exists = true;
+
                 }
 
                 eZDebugSetting::writeDebug( 'kernel-user', eZUser::createHash( $userRow['login'], $password, eZUser::site(),
@@ -802,6 +803,7 @@ WHERE user_id = '" . $userID . "' AND
             eZDebugSetting::writeDebug( 'kernel-user', $user, 'user' );
             $userID = $user->attribute( 'contentobject_id' );
 
+            eZUser::updateLastVisit( $userID );
             eZUser::setCurrentlyLoggedInUser( $user, $userID );
             return $user;
         }
@@ -958,6 +960,19 @@ WHERE user_id = '" . $userID . "' AND
             }
         }
 
+        $ini =& eZINI::instance();
+
+        $anonymousUserID = $ini->variable( 'UserSettings', 'AnonymousUserID' );
+        if ( $id <> $anonymousUserID )
+        {
+            $sessionInactivityTimeout = $ini->variable( 'Session', 'ActivityTimeout' );
+            $sessionIdle = $GLOBALS['eZSessionIdleTime'];
+            if ( $sessionIdle > $sessionInactivityTimeout )
+            {
+                eZUser::updateLastVisit( $id );
+            }
+        }
+
         if ( !$currentUser )
         {
             $currentUser = & eZUser::fetch( EZ_USER_ANONYMOUS_ID );
@@ -972,6 +987,47 @@ WHERE user_id = '" . $userID . "' AND
         }
 
         return $currentUser;
+    }
+
+    /*!
+       Updates the user's last visit timestamp
+    */
+    function updateLastVisit( $userID )
+    {
+        if ( isset( $GLOBALS['eZUserUpdatedLastVisit'] ) )
+            return;
+        $db =& eZDB::instance();
+
+        $userVisitArray = $db->arrayQuery( "SELECT 1 FROM ezuservisit WHERE user_id=$userID" );
+        $time = time();
+
+        if ( count( $userVisitArray ) == 1 )
+        {
+            $db->query( "UPDATE ezuservisit SET last_visit_timestamp=current_visit_timestamp, current_visit_timestamp=$time WHERE user_id=$userID" );
+        }
+        else
+        {
+            $db->query( "INSERT INTO ezuservisit ( current_visit_timestamp, last_visit_timestamp, user_id ) VALUES ( $time, $time, $userID )" );
+        }
+        $GLOBALS['eZUserUpdatedLastVisit'] = true;
+    }
+
+    /*!
+      Returns the last visit timestamp to the current user.
+    */
+    function lastVisit()
+    {
+        $db =& eZDB::instance();
+
+        $userVisitArray = $db->arrayQuery( "SELECT last_visit_timestamp FROM ezuservisit WHERE user_id=$this->ContentObjectID" );
+        if ( count( $userVisitArray ) == 1 )
+        {
+            return $userVisitArray[0]['last_visit_timestamp'];
+        }
+        else
+        {
+            return time();
+        }
     }
 
     /*!

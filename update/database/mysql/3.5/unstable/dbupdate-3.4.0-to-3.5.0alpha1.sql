@@ -35,3 +35,12 @@ CREATE INDEX ezproductcollection_item_contentobject_id ON
              ezproductcollection_item (contentobject_id);
 
 DROP INDEX ezsubtree_notification_rule_id ON ezsubtree_notification_rule;
+
+-- New table for storing the users last visit
+
+create table ezuservisit
+(
+user_id int primary key not null,
+current_visit_timestamp int not null,
+last_visit_timestamp int not null
+);

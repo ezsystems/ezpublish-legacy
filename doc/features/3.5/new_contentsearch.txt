@@ -1,0 +1,27 @@
+*Title: New content search
+
+Incentive:
+To make it simpler for the user to get an overview of the content which 
+has been published/modified since his last visit to the site.
+
+*Documentation:
+
+When the user is logged in he will be able to access the link /content/new. This 
+page will display a template which has a variable {$last_visit_timestamp} which can
+be used to fetch the content which has been published since the user last visited the site.
+
+The default template will list any content the user has permissions to read, no filtering is
+done by default.
+
+The logic for storing the last visit is based on two things:
+* When a user logs in we store the last visit timestamp
+* When a users session times out (idle timeout) we update the last visit timestamp
+
+*Testing:
+
+Make sure that the last visited time is actually stored when a user logs in.
+
+Make sure that the timestamp is updated when the users idle time ends ( ActivityTimeout 
+is used for timeout value ).
+
+*SVN Revisions:

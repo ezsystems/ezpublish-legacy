@@ -1383,3 +1383,10 @@ CREATE TABLE ezworkflow_process (
   KEY ezworkflow_process_process_key (process_key)
 ) TYPE=MyISAM;
 
+
+create table ezuservisit
+(
+user_id int primary key not null,
+current_visit_timestamp int not null,
+last_visit_timestamp int not null
+) TYPE=MyISAM;

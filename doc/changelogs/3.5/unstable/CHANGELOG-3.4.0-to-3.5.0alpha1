@@ -1,6 +1,7 @@
 Changes from 3.4.0 to 3.5.0alpha1
 
 *Kernel:
+- Added function to store the users last visit and to list the content from the users last visit, url to list is /content/new.
 - Added siteaccess match type 'servervar' that will use a server variable to match a siteaccess.
   Mod_rewrite maps or a mod_perl redirector could be good examples of usage.
 - Made sure the extension in a siteaccess is activated for eZ publish scripts (eZScript).
