@@ -102,6 +102,20 @@
                     {/section}
             </ul>
                {/let}
+
+	       {let tipsend_list=fetch('content','tipafriend_top_list',hash(limit,5,offset,0))}
+	    
+	    <h3>Most popular tipsend</h3>
+            <ul>
+                   {section var=TipsendList loop=$tipsend_list sequence=array(bglight,bgdark)}
+                       <li class="{$:sequence}">
+                       <a href={$TipsendList.item.url_alias|ezurl}>{$TipsendList.item.name|wash}</a>
+                       <div class="date">
+                        ({$TipsendList.item.object.published|l10n( shortdate )})
+                       </div>
+                       </li>
+                   {/section}
+            </ul>
         </div>
     </div>
 {/cache-block}
