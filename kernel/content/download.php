@@ -52,10 +52,6 @@ if ( !is_object( $contentObject ) )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE );
 }
 $version = $contentObject->attribute( 'current_version' );
-if ( !is_object( $version ) )
-{
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE );
-}
 $contentObjectAttribute = eZContentObjectAttribute::fetch( $contentObjectAttributeID, $version, true );
 if ( !is_object( $contentObjectAttribute ) )
 {
