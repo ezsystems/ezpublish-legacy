@@ -124,7 +124,7 @@ if ( !function_exists( 'checkContentActions' ) )
             }
             if ( $versionCount == 1 )
             {
-                $object->remove();
+                $object->purge();
             }
             $http =& eZHTTPTool::instance();
             $http->removeSessionVariable( "RegisterUserID" );

@@ -63,11 +63,15 @@ class eZUserType extends eZDataType
     */
     function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
     {
+        $db =& eZDB::instance();
         $userID = $contentObjectAttribute->attribute( "contentobject_id" );
-        if ( $version == null )
+
+        $res = $db->arrayQuery( "SELECT COUNT(*) AS version_count FROM ezcontentobject_version WHERE contentobject_id = $userID" );
+        $versionCount = $res[0]['version_count'];
+
+        if ( $version == null || $versionCount <= 1 )
         {
             eZUser::removeUser( $userID );
-            $db =& eZDB::instance();
             $db->query( "DELETE FROM ezuser_role WHERE contentobject_id = '$userID'" );
         }
     }
