@@ -338,8 +338,8 @@ div#contentstructure
 {
     width: 100%;
     overflow: auto;
-    overflow: -moz-scrollbars-horizontal;
-    overflow-x: auto;
+    overflow: -moz-scrollbars-horizontal;  /* hide vertical scrollbar in Mozilla */
+    overflow-x: auto;                      /* hide vertical scrollbar in IE */
     overflow-y: hidden;
 }
 
