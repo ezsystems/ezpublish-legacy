@@ -687,6 +687,19 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
     }
     else
     {
+        $leftSlash = false;
+        $rightSlash = false;
+        if ( strlen( $redirectURI ) > 0 and
+             $redirectURI[strlen( $redirectURI ) - 1] == '/' )
+            $leftSlash = true;
+        if ( strlen( $moduleRedirectUri ) > 0 and
+             $moduleRedirectUri[0] == '/' )
+            $rightSlash = true;
+
+        if ( !$leftSlash and !$rightSlash ) // Both are without a slash, so add one
+            $moduleRedirectUri = '/' . $moduleRedirectUri;
+        else if ( $leftSlash and $rightSlash ) // Both are with a slash, so we remove one
+            $moduleRedirectUri = substr( $moduleRedirectUri, 1 );
         $redirectURI .= $moduleRedirectUri;
     }
 
