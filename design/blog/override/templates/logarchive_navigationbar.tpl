@@ -15,6 +15,7 @@
                                 43, array( hash( "day", 20, link, "/" ), 21, hash( "day", 22, link, "/" ), hash( "day", 23, link, "/" ), 24, 25, 26 ),
                                 44, array( 27, 28, 29, hash( "day", 30, link, "/" ), hash( "day", 31, link, "/", "class", "selected", "highlight", true() ), false(), false() ) ) )*}
 {let show_week=false()
+     log_node_id=50
      month_list=fetch( content, tree, hash( parent_node_id, 2,
                                             class_filter_type, include,
                                             class_filter_array, array( 'log' ),
@@ -23,9 +24,9 @@
      month=$month_list|month_overview( 'published', maketime( 0, 0, 0, 11, 1, 2003 ),
                                   hash( current, maketime( 0, 0, 0, 11, 13, 2003 ),
                                         current_class, 'selected',
-                                        link, concat( "content/view/full/", $module_result.content_info.node_id ),
-                                         month_link, true(), year_link, true(), day_link, true(),
-                                        next, hash( link, concat( "content/view/full/", $module_result.content_info.node_id ) ),
-                                        previous, hash( link, concat( "content/view/full/", $module_result.content_info.node_id ) )  ) )}
+                                        link, concat( "content/view/full/", $log_node_id ),
+                                        month_link, true(), year_link, true(), day_link, true(),
+                                        next, hash( link, concat( "content/view/full/", $log_node_id ) ),
+                                        previous, hash( link, concat( "content/view/full/", $log_node_id ) )  ) )}
     {include uri="design:navigator/monthview.tpl"}
 {/let}

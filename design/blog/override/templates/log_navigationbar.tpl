@@ -14,10 +14,10 @@
      month=$month_list|month_overview( 'published', maketime( 0, 0, 0, 11, 1, 2003 ),
                                        hash( current, maketime( 0, 0, 0, 11, 13, 2003 ),
                                              current_class, 'selected',
-                                             link, concat( "content/view/full/", $module_result.content_info.node_id ),
+                                             link, concat( "content/view/full/", $log_node_id ),
                                              month_link, true(), year_link, true(), day_link, true(),
-                                             next, hash( link, concat( "content/view/full/", $module_result.content_info.node_id ) ),
-                                             previous, hash( link, concat( "content/view/full/", $module_result.content_info.node_id ) )  ) )}
+                                             next, hash( link, concat( "content/view/full/", $log_node_id ) ),
+                                             previous, hash( link, concat( "content/view/full/", $log_node_id ) )  ) )}
     {include uri="design:navigator/monthview.tpl"}
 
 <h2>Recent entries</h2>
