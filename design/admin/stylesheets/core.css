@@ -237,7 +237,13 @@ label
 
 input, select
 {
+    font-family: Arial, Helvetica, sans-serif; /* Needs to be set for some browsers */
     font-size: 0.9em;
+}
+
+input.box, input.halfbox
+{
+    font-size: 1aaem;
 }
 
 textarea
@@ -261,6 +267,7 @@ input.button
     border-bottom: 2px solid #2f475f;
     border-right: 2px solid #2f475f;
     background-color: #8198b0;
+    padding: 0;
 }
 
 input.button-disabled
@@ -272,6 +279,7 @@ input.button-disabled
     border-bottom: 2px solid #b0b0b0;
     border-right: 2px solid #b0b0b0;
     background-color: #e7e8e0;
+    padding: 0;
 }
 
 input.button-default

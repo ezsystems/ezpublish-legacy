@@ -380,8 +380,12 @@ div#leftmenu div#content-tree div.box-content
 
 div.box-content
 {
-    /* position: relative; */
     padding: 0 2px 3px 1px;
+}
+
+div.content-edit div.box-content
+{
+    position: relative;
 }
 
 div.box-content div.block
@@ -515,7 +519,7 @@ div#contentstructure li.currentnode li a.nodetext:hover
 
 div#contentstructure li span.node-name-normal
 {
-    font-weight: bold;
+    font-weight: normal;
 }
 
 div#contentstructure li.currentnode a.nodetext span.node-name-normal, div#contentstructure li.currentnode a.nodetext span.node-name-hidden, div#contentstructure li.currentnode a.nodetext span.node-name-hiddenbyparent /* Highlighting of current node */
@@ -528,7 +532,7 @@ div#contentstructure li.currentnode a.nodetext span.node-name-normal, div#conten
 
 div#contentstructure li.currentnode li a.nodetext span.node-name-normal, div#contentstructure li.currentnode li a.nodetext span.node-name-hidden, div#contentstructure li.currentnode li a.nodetext span.node-name-hiddenbyparent
 {
-    font-weight: bold;
+    font-weight: normal;
     color: #315578;
     background-color: transparent;
     padding: 0;
@@ -538,12 +542,16 @@ div#contentstructure li a.nodetext span.node-name-hidden, div#contentstructure l
 {
     font-weight: normal;
     font-style: normal;
+    background-color: #e0e0c9;
+    padding: 0 0.2em 0 0.2em;
 }
 
 div#contentstructure li a.nodetext span.node-name-hiddenbyparent, div#contentstructure li.currentnode li a.nodetext span.node-name-hiddenbyparent
 {
     font-weight: normal;
-    font-style: italic;
+    font-style: normal;
+    background-color: #eff0e4;
+    padding: 0 0.2em 0 0.2em;
 }
 
 div#contentstructure span.node-hidden, div#contentstructure span.node-hiddenbyparent
