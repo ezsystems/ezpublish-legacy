@@ -126,6 +126,89 @@ class eZDBInterface
 
     /*!
      \private
+     Prepare the sql file so we can create the database.
+     \param $fd    The file descriptor
+     \param $buffer Reference to string buffer for SQL queries.
+    */
+    function prepareSqlQuery( &$fd, &$buffer )
+    {
+
+        $sqlQueryArray = array();
+        while( count( $sqlQueryArray ) == 0 && !feof( $fd ) )
+        {
+            $buffer  .= fread( $fd, 4096 );
+            if ( $buffer )
+            {
+                // Fix SQL file by deleting all comments and newlines
+//            eZDebug::writeDebug( $buffer, "read data" );
+                $sqlQuery = preg_replace( array( "/^#.*\n" . "/m", "/^--.*\n" . "/m" ), array( "", "" ),  $buffer );
+//            eZDebug::writeDebug( $sqlQuery, "read data" );
+
+                // Split the query into an array
+                $sqlQueryArray = preg_split( '/;\n/m', $sqlQuery );
+
+                if ( preg_match( '/;\n/m', $sqlQueryArray[ count( $sqlQueryArray ) -1 ] ) )
+                {
+                    $buffer = '';
+                }
+                else
+                {
+                    $buffer = $sqlQueryArray[ count( $sqlQueryArray ) -1 ];
+                    array_splice( $sqlQueryArray, count( $sqlQueryArray ) -1 , 1 );
+                }
+            }
+            else
+            {
+                return $sqlQueryArray;
+
+            }
+        }
+        return $sqlQueryArray;
+    }
+
+    /*!
+     Inserts the SQL file \a $sqlFile found in the path \a $path into
+     the currently connected database.
+     \return \c true if succesful.
+    */
+    function insertFile( $path, $sqlFile )
+    {
+        $type = $this->databaseName();
+
+        include_once( 'lib/ezutils/classes/ezdir.php' );
+        $sqlFileName = eZDir::path( array( $path, $type, $sqlFile ) );
+        $sqlFileHandler = fopen( $sqlFileName, 'r' );
+        $buffer = '';
+        $done = false;
+        while(  count( ( $sqlArray = $this->prepareSqlQuery( $sqlFileHandler, $buffer ) ) ) > 0 )
+        {
+            // Turn unneccessary SQL debug output off
+            $oldOutputSQL = $this->OutputSQL;
+            $this->OutputSQL = false;
+            if ( $sqlArray && is_array( $sqlArray ) )
+            {
+                $done = true;
+                foreach( $sqlArray as $singleQuery )
+                {
+                    $singleQuery = preg_replace( "/\n|\r\n|\r/", " ", $singleQuery );
+                    if ( trim( $singleQuery ) != "" )
+                    {
+//                    eZDebug::writeDebug( $singleQuery );
+                        $this->query( $singleQuery );
+                        if ( $this->errorNumber() != 0 )
+                            return false;
+                    }
+                }
+
+            }
+            $this->OutputSQL = $oldOutputSQL;
+        }
+        return $done;
+
+    }
+
+    /*!
+     \private
      Writes a debug notice with query information.
     */
     function reportQuery( $class, $sql, $numRows, $timeTaken )

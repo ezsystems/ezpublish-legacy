@@ -201,6 +201,9 @@ Changes from 3.1-1 to 3.2.0-1
 - Added support for defining template function and operator names dynamically trought a php function
   in template autoloading.
 
+*eZ db:
+- Added support for inserting an SQL file in eZDBInterface.
+
 *eZ utils:
 - Added compatability files for eZLog, eZFile and eZDir which links to the eZ file library.
 
@@ -230,9 +233,6 @@ eZ cli:
 - New class to handle terminal and CLI specific functionality.
 - Moved class in to the eZ file library.
 
-eZ file:
-- Added create() function which creates a file somewhere with some optional data.
-
 eZ dir:
 - Added function directoryPermission() which returns the permission mask
   which should be used to create directories.
@@ -243,4 +243,5 @@ eZ log:
 
 *eZ file:
 - New library for dealing with files, directories, archives and compressed files.
+- Added create() function in eZFile which creates a file somewhere with some optional data.
 - Added support for recursive directory copy in eZDir.

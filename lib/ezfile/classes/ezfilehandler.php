@@ -169,6 +169,12 @@ class eZFileHandler
     */
     function copy( $sourceFilename, $destinationFilename )
     {
+        if ( is_dir( $sourceFilename ) )
+        {
+            eZDebug::writeError( "Unable to copy directory $sourceFilename, use eZDir::copy instead",
+                                 'eZFileHandler::copy' );
+            return false;
+        }
         $sourceFD = @fopen( $sourceFilename, 'rb' );
         if ( !$sourceFD )
         {
@@ -184,12 +190,17 @@ class eZFileHandler
                                  'eZFileHandler::copy' );
             return false;
         }
-        while ( $data = @fread( $sourceFD, 4096 ) )
+        $bytesCopied = 0;
+        do
         {
+            $data = @fread( $sourceFD, 4096 );
+            if ( strlen( $data ) == 0 )
+                break;
             @fwrite( $destinationFD, $data );
-        }
+            $bytesCopied += strlen( $data );
+        } while( true );
         eZDebugSetting::writeNotice( 'lib-ezfile-copy',
-                                     "Copied file $sourceFilename to destination $destinationFilename",
+                                     "Copied file $sourceFilename ($bytesCopied) to destination $destinationFilename",
                                      'eZFileHandler::copy' );
         @fclose( $sourceFD );
         @fclose( $destinationFD );
@@ -339,7 +350,7 @@ class eZFileHandler
             return false;
         }
         eZDebugSetting::writeNotice( 'lib-ezfile-openclose',
-                                     "Closing file $filename with previously opened mode '" . $this->mode() . "'",
+                                     "Closing file " . $this->filename() . " with previously opened mode '" . $this->mode() . "'",
                                      'eZFileHandler::close' );
         $result = $this->doClose();
         if ( !$result )

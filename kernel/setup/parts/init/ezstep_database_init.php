@@ -41,80 +41,6 @@ define( 'EZ_SETUP_DB_ERROR_EMPTY_PASSWORD', 1 );
 define( 'EZ_SETUP_DB_ERROR_NONMATCH_PASSWORD', 2 );
 
 /*!
-	Prepare the sql file so we can create the database.
-*/
-function prepareSqlQuery( &$file, &$buffer )
-{
-
-    $sqlQueryArray = array();
-    while( count( $sqlQueryArray ) == 0 && !feof( $file ) )
-    {
-        $buffer  .= fread( $file, 4096 );
-        if ( $buffer )
-        {
-            // Fix SQL file by deleting all comments and newlines
-//            eZDebug::writeDebug( $buffer, "read data" );
-            $sqlQuery = preg_replace( array( "/^#.*\n" . "/m", "/^--.*\n" . "/m" ), array( "", "" ),  $buffer );
-//            eZDebug::writeDebug( $sqlQuery, "read data" );
-
-            // Split the query into an array
-            $sqlQueryArray = preg_split( '/;\n/m', $sqlQuery );
-
-            if ( preg_match( '/;\n/m', $sqlQueryArray[ count( $sqlQueryArray ) -1 ] ) )
-            {
-                $buffer = '';
-            }
-            else
-            {
-                $buffer = $sqlQueryArray[ count( $sqlQueryArray ) -1 ];
-                array_splice( $sqlQueryArray, count( $sqlQueryArray ) -1 , 1 );
-            }
-        }
-        else
-        {
-            return $sqlQueryArray;
-
-        }
-    }
-    return $sqlQueryArray;
-
-}
-
-function doQuery( &$dbObject, $path, $sqlFile )
-{
-    $type = $dbObject->databaseName();
-
-    include_once( 'lib/ezutils/classes/ezdir.php' );
-    $sqlFileName = eZDir::path( array( $path, $type, $sqlFile ) );
-    $sqlFileHandler = fopen( $sqlFileName, 'r' );
-    $buffer = '';
-    $done = false;
-    while(  count( ( $sqlArray = prepareSqlQuery( $sqlFileHandler, $buffer ) ) ) > 0 )
-    {
-	// Turn unneccessary SQL debug output off
-        $dbObject->OutputSQL = false;
-        if ( $sqlArray && is_array( $sqlArray ) )
-        {
-            $done = true;
-            foreach( $sqlArray as $singleQuery )
-            {
-                $singleQuery = preg_replace( "/\n|\r\n|\r/", " ", $singleQuery );
-                if ( trim( $singleQuery ) != "" )
-                {
-//                    eZDebug::writeDebug( $singleQuery );
-                    $dbObject->query( $singleQuery );
-                    if ( $dbObject->errorNumber() != 0 )
-                        return false;
-                }
-            }
-
-        }
-    }
-    return $done;
-
-}
-
-/*!
     Step 1: General tests and information for the databases
 */
 function eZSetupStep_database_init( &$tpl, &$http, &$ini, &$persistenceList )
@@ -260,8 +186,8 @@ function eZSetupStep_database_init( &$tpl, &$http, &$ini, &$persistenceList )
                 else
                     $sqlFile = $setupINI->variable( 'DatabaseSettings', 'CleanSQLData' );
 
-                $result = doQuery( $db, 'kernel/sql/', $sqlSchemaFile );
-                $result = $result && doQuery( $db, 'kernel/sql/', $sqlFile );
+                $result = $db->insertFile( 'kernel/sql/', $sqlSchemaFile );
+                $result = $result and $db->insertFile( 'kernel/sql/', $sqlFile );
 
                 $demoDataResult = true;
                 if ( $result and
