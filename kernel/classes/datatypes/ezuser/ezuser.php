@@ -234,7 +234,7 @@ class eZUser extends eZPersistentObject
     {
         return $this->ContentObjectID;
     }
-    
+
     /*!
      \return a bitfield which decides the authenticate methods.
     */
@@ -270,10 +270,10 @@ class eZUser extends eZPersistentObject
     {
         $http =& eZHTTPTool::instance();
         $db =& eZDB::instance();
-        
+
         if ( $authenticationMatch === false )
             $authenticationMatch = eZUser::authenticationMatch();
-            
+
         $loginEscaped = $db->escapeString( $login );
 
         $loginArray = array();

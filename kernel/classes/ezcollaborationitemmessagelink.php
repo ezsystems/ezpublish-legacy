@@ -167,7 +167,8 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
             } break;
             case 'participant':
             {
-                // TODO: Get participant trough participant link from item
+                $participantLink =& eZCollaborationItemParticipantLink::fetch( $this->CollaborationID, $this->ParticipantID );
+                return $participantLink;
             } break;
             default:
                 return eZPersistentObject::attribute( $attribute );

@@ -41,12 +41,13 @@
 */
 
 include_once( "kernel/classes/ezworkflowtype.php" );
-include_once( 'kernel/classes/eztask.php' );
+// include_once( 'kernel/classes/eztask.php' );
+include_once( 'kernel/classes/collaborationhandlers/ezapprove/ezapprovecollaborationhandler.php' );
 
 define( "EZ_WORKFLOW_TYPE_APPROVE_ID", "ezapprove" );
 
-define( "EZ_APPROVE_TYPE_TASK_NOT_CREATED", 0 );
-define( "EZ_APPROVE_TYPE_TASK_CREATED", 1 );
+define( "EZ_APPROVE_COLLABORATION_NOT_CREATED", 0 );
+define( "EZ_APPROVE_COLLABORATION_CREATED", 1 );
 
 class eZApproveType extends eZWorkflowEventType
 {
@@ -152,29 +153,29 @@ class eZApproveType extends eZWorkflowEventType
              in_array( $object->attribute( 'section_id'), $workflowSections ) )
         {
 
-            if( $process->attribute( 'event_state') == EZ_APPROVE_TYPE_TASK_NOT_CREATED )
+            if( $process->attribute( 'event_state') == EZ_APPROVE_COLLABORATION_NOT_CREATED )
             {
-                $this->createTask( $process, $event, $user->id(), $object->attribute( 'id' ), $editor );
-                $this->setInformation( "We are going to create task" );
-                $process->setAttribute( 'event_state', EZ_APPROVE_TYPE_TASK_CREATED );
+                $this->createApproveCollaboration( $process, $event, $user->id(), $object->attribute( 'id' ), $editor );
+                $this->setInformation( "We are going to create approval" );
+                $process->setAttribute( 'event_state', EZ_APPROVE_COLLABORATION_CREATED );
                 $process->store();
-                eZDebug::writeNotice( $this, 'aprove execute');
+                eZDebugSetting::writeDebug( 'kernel-workflow-approve', $this, 'aprove execute' );
                 return EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT;
 
             }
-            elseif ( $process->attribute( 'event_state') == EZ_APPROVE_TYPE_TASK_CREATED )
+            elseif ( $process->attribute( 'event_state') == EZ_APPROVE_COLLABORATION_CREATED )
             {
-                $this->setInformation( "we are checking task now" );
-                eZDebug::writeNotice( $event, 'check task' );
-                return $this->checkTask(  $process, $event );
+                $this->setInformation( "we are checking approval now" );
+                eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, 'check approval' );
+                return $this->checkApproveCollaboration(  $process, $event );
             }
         }
         else
         {
-            eZDebug::writeDebug( $workflowSections , "we are not going to create task " . $object->attribute( 'section_id') );
-            eZDebug::writeDebug( $userGroups, "we are not going to create task" );
-            eZDebug::writeDebug( $workflowGroups,  "we are not going to create task" );
-            eZDebug::writeDebug( $user->id(), "we are not going to create task $editor "  );
+            eZDebugSetting::writeDebug( 'kernel-workflow-approve', $workflowSections , "we are not going to create approval " . $object->attribute( 'section_id') );
+            eZDebugSetting::writeDebug( 'kernel-workflow-approve', $userGroups, "we are not going to create approval" );
+            eZDebugSetting::writeDebug( 'kernel-workflow-approve', $workflowGroups,  "we are not going to create approval" );
+            eZDebugSetting::writeDebug( 'kernel-workflow-approve', $user->id(), "we are not going to create approval $editor "  );
             return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE;
         }
     }
@@ -221,51 +222,51 @@ class eZApproveType extends eZWorkflowEventType
 
     }
 
-    function createTask( &$process, &$event, $userID, $contentobjectID, $editor )
+    function createApproveCollaboration( &$process, &$event, $userID, $contentobjectID, $editor )
     {
-        $task =& eZTask::createAssignment( $userID );
-        $task->setAttribute( 'object_id',  $contentobjectID );
-        if ( $editor != null )
-        {
-            $task->setAttribute( 'receiver_id', $editor );
-        }
-        else
-        {
-            $task->setAttribute( 'receiver_id', 14 );
-        }
-        $task->setAttribute( 'status',  EZ_TASK_STATUS_OPEN  );
-        $task->store();
+        if ( $editor === null )
+            return false;
+        $collaborationItem =& eZApproveCollaborationHandler::createApproval( $contentobjectID, $contentobjectVersion,
+                                                                             $authorID, $editor );
+
+//         $task =& eZTask::createAssignment( $userID );
+//         $task->setAttribute( 'object_id',  $contentobjectID );
+//         $task->setAttribute( 'receiver_id', $editor );
+//         $task->setAttribute( 'status',  EZ_TASK_STATUS_OPEN  );
+//         $task->store();
         $db = & eZDb::instance();
         $db->query( 'insert into ezapprovetasks( workflow_process_id,
                                                       task_id )
-                                              values(' . $process->attribute( 'id' ) .','. $task->attribute( 'id' ) .' ) '
+                                              values(' . $process->attribute( 'id' ) .','. $collaborationItem->attribute( 'id' ) .' ) '
                     );
     }
 
-    function checkTask( &$process, &$event )
+    function checkApproveCollaboration( &$process, &$event )
     {
         $db = & eZDb::instance();
         $taskResult = $db->arrayQuery( 'select workflow_process_id, task_id from ezapprovetasks where workflow_process_id = ' . $process->attribute( 'id' )  );
-        $taskID = $taskResult[0]['task_id'];
-        $task =& eZTask::fetch( $taskID );
-        if ( $task->attribute( 'status' ) == EZ_TASK_STATUS_OPEN )
-        {
-            eZDebug::writeNotice( $event, 'task opened ' );
+        $collaborationID = $taskResult[0]['task_id'];
 
+//         $task =& eZTask::fetch( $taskID );
+        $approvalStatus = eZApproveCollaborationHandler::checkApproval( $collaborationID );
+        if ( $approvalStatus == EZ_COLLABORATION_APPROVE_STATUS_WAITING )
+        {
+            eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, 'approval still waiting' );
             return EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT;
         }
-        else if (  $task->attribute( 'status' ) == EZ_TASK_STATUS_CLOSED )
+        else if ( $approvalStatus == EZ_COLLABORATION_APPROVE_STATUS_ACCEPTED )
         {
-            eZDebug::writeNotice( $event, 'task ACCEPTED' );
+            eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, 'approval was accepted' );
             return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
         }
-        else if ( $task->attribute( 'status' ) == EZ_TASK_STATUS_CANCELLED )
+        else if ( $approvalStatus == EZ_COLLABORATION_APPROVE_STATUS_DENIED )
         {
-            eZDebug::writeNotice( $event, 'task CANCELED' );
+            eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, 'approval was denied' );
             return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED;
-        }else
+        }
+        else
         {
-            eZDebug::writeNotice( $event, 'task CANCELED no status ' );
+            eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, "approval unknown status '$approvalStatus'" );
             return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED;
         }
     }

@@ -541,7 +541,6 @@ if ( !is_array( $moduleResult ) )
     $moduleResult['content'] = false;
 }
 
-
 $templateResult = null;
 
 eZDebug::setUseExternalCSS( $use_external_css );

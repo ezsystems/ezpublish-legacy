@@ -88,6 +88,27 @@ class eZCollaborationGroup extends eZPersistentObject
             $group->sync();
     }
 
+    function &instantiate( $userID, $title, $parentGroupID = 0, $isOpen = true )
+    {
+        $depth = 0;
+        $pathString = '';
+        if ( $parentGroupID > 0 )
+        {
+            $parentGroup =& eZCollaborationGroup::fetch( $parentGroupID, $userID );
+            $depth = $parentGroup->attribute( 'depth' ) + 1;
+            $pathString = $parentGroup->attribute( 'path_string' );
+        }
+        $group =& eZCollaborationGroup::create( $userID, $title, '', $depth, $parentGroupID, $isOpen );
+        $group->store();
+        if ( $pathString == '' )
+            $pathString = $group->attribute( 'id' );
+        else
+            $pathString .= '/' . $group->attribute( 'id' );
+        $group->setAttribute( 'path_string', $pathString );
+        $group->sync();
+        return $group;
+    }
+
     function &create( $userID, $title, $pathString = '', $depth = 0, $parentGroupID = 0, $isOpen = true )
     {
         include_once( 'lib/ezlocale/classes/ezdatetime.php' );

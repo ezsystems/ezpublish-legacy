@@ -166,6 +166,17 @@ class eZObjectForwarder
                         if ( $templateRootMatch[0] == $templateRootValue )
                         {
                             $template_dir = $templateRootMatch[1];
+                            if ( is_array( $template_dir ) )
+                            {
+                                $templateDirAttributesList = $template_dir[1];
+                                $template_dir = $template_dir[0];
+                                $attributeValues = array();
+                                foreach ( $templateDirAttributesList as $templateDirAttributes )
+                                {
+                                    $attributeValues[] =& $tpl->variableAttribute( $input_var, $templateDirAttributes );
+                                }
+                                $template_dir .= implode( '/', $attributeValues );
+                            }
                             break;
                         }
                     }

@@ -251,6 +251,7 @@ create table ezcollab_item_participant_link(
     collaboration_id int NOT NULL DEFAULT '0',
     participant_id  int NOT NULL default '0',
     participant_type  int NOT NULL default '1',
+    participant_role  int NOT NULL default '1',
     is_read int NOT NULL default '0',
     is_active int NOT NULL default '1',
     created int NOT NULL default '0',
@@ -282,6 +283,15 @@ create table ezcollab_simple_message(
     data_float1 float NOT NULL default '0',
     data_float2 float NOT NULL default '0',
     data_float3 float NOT NULL default '0',
+    created int NOT NULL default '0',
+    modified int NOT NULL default '0',
+    PRIMARY KEY  (id)
+    );
+
+create table ezcollab_profile(
+    id int NOT NULL auto_increment,
+    user_id int NOT NULL default '0',
+    main_group int NOT NULL default '0',
     created int NOT NULL default '0',
     modified int NOT NULL default '0',
     PRIMARY KEY  (id)
