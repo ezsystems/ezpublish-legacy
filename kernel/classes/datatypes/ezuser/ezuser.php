@@ -100,11 +100,7 @@ class eZUser extends eZPersistentObject
                                          'password_hash_type' => array( 'name' => 'PasswordHashType',
                                                                         'datatype' => 'integer',
                                                                         'default' => 1,
-                                                                        'required' => true ),
-                                         'session_key' => array( 'name' => 'SessionKey',
-                                                                 'datatype' => 'string',
-                                                                 'default' => '',
-                                                                 'required' => true ) ),
+                                                                        'required' => true ) ),
                       'keys' => array( 'contentobject_id' ),
                       'function_attributes' => array( 'contentobject' => 'contentObject',
                                                       'groups' => 'groups',
@@ -274,15 +270,94 @@ class eZUser extends eZPersistentObject
     }
 
     /*!
-     Remove session data for user
+     Remove session data for user \a $userID.
     */
-    function removeSessionData()
+    function removeSessionData( $userID )
     {
-        if ( $this->SessionKey )
+        eZUser::unregisterSessionForUser( $userID, true );
+    }
+
+    /*!
+     \static
+     Moves the session \a $sessionKey from the old user \a $oldUserID to the new \a $newUserID.
+    */
+    function moveSession( $sessionKey, $oldUserID, $newUserID )
+    {
+        $db =& eZDB::instance();
+        eZUser::unregisterSessionForUser( $oldUserID, false, $sessionKey );
+        eZUser::registerSessionKey( $sessionKey, $newUserID );
+    }
+
+    /*!
+     \static
+     Unregisters all sessions which are related to the user \a $userID.
+     \param $removeSession If \c true the session data which \a $sessionKey refers to will be removed.
+    */
+    function unregisterSessionForUser( $userID, $removeSession = false, $sessionKey = false )
+    {
+        $userID = (int)$userID;
+        $db =& eZDB::instance();
+        if ( $removeSession )
         {
-            $db =& eZDB::instance();
-            $db->query( 'DELETE FROM ezsession WHERE session_key = \'' . $this->SessionKey . '\'' );
+            if ( $sessionKey !== false )
+            {
+                eZUser::unregisterSessionKey( $sessionKey, $removeSession );
+            }
+            else
+            {
+                $rows = $db->arrayQuery( 'SELECT session_key FROM ezuser_session_link WHERE user_id = \'' . $db->escapeString( $userID ) . '\'' );
+                $sessionList = array();
+                foreach ( $rows as $row )
+                {
+                    $sessionList[] = $row['session_key'];
+                }
+                eZUser::unregisterSessionKey( $sessionList, $removeSession );
+            }
         }
+        if ( $sessionKey !== false )
+            $db->query( 'DELETE FROM ezuser_session_link WHERE session_key = \'' . $db->escapeString( $sessionKey ) . '\'' );
+        else
+            $db->query( 'DELETE FROM ezuser_session_link WHERE user_id = \'' . $db->escapeString( $userID ) . '\'' );
+    }
+
+    /*!
+     \static
+     Unregisters the session \a $sessionKey from the user.
+     \param $removeSession If \c true the session data which \a $sessionKey refers to will be removed.
+    */
+    function unregisterSessionKey( $sessionKey, $removeSession = false )
+    {
+        $db =& eZDB::instance();
+        if ( $removeSession )
+        {
+            if ( is_array( $sessionKey ) )
+            {
+                $sessionKeyList = $sessionKey;
+                $sessionList = array();
+                foreach ( $sessionKeyList as $sessionKey )
+                {
+                    $sessionList[] = "'" . $db->escapeString( $sessionKey ) . "'";
+                }
+                $sessionKeyText = 'IN ( ' . implode( ', ', $sessionList ) . '\'';
+            }
+            else
+            {
+                $sessionKeyText = '= \'' . $db->escapeString( $sessionKey ) . '\'';
+            }
+            $db->query( 'DELETE FROM ezsession WHERE session_key ' . $sessionKeyText );
+        }
+        $db->query( 'DELETE FROM ezuser_session_link WHERE session_key = \'' . $db->escapeString( $sessionKey ) . '\'' );
+    }
+
+    /*!
+     \static
+     Registers the session \a $sessionKey from the user.
+    */
+    function registerSessionKey( $sessionKey, $userID )
+    {
+        $db =& eZDB::instance();
+        $db->query( 'DELETE FROM ezuser_session_link WHERE session_key = \'' . $db->escapeString( $sessionKey ) . '\'' );
+        $db->query( 'INSERT INTO ezuser_session_link ( session_key, user_id ) VALUES( \'' . $db->escapeString( $sessionKey ) . '\', \'' . $db->escapeString( $userID ) . '\' )' );
     }
 
     function &removeUser( $userID )
@@ -292,7 +367,7 @@ class eZUser extends eZPersistentObject
         $user =& eZUser::fetch( $userID );
         if ( $user )
         {
-            $user->removeSessionData();
+            eZUser::removeSessionData( $userID );
         }
 
         eZSubtreeNotificationRule::removeByUserID( $userID );
@@ -505,6 +580,7 @@ class eZUser extends eZPersistentObject
         }
         if ( $exists and $isEnabled )
         {
+            $oldUserID = $contentObjectID = $http->sessionVariable( "eZUserLoggedInID" );
             eZDebugSetting::writeDebug( 'kernel-user', $userRow, 'user row' );
             $user =& new eZUser( $userRow );
             eZDebugSetting::writeDebug( 'kernel-user', $user, 'user' );
@@ -513,7 +589,7 @@ class eZUser extends eZPersistentObject
             $http->setSessionVariable( 'eZUserLoggedInID', $userRow['contentobject_id'] );
             eZSessionRegenerate();
             $user->cleanup();
-            $user->setAttribute( 'session_key', session_id() );
+            eZUser::moveSession( session_id(), $oldUserID, $userRow['contentobject_id'] );
             $user->store();
             return $user;
         }
@@ -566,7 +642,10 @@ class eZUser extends eZPersistentObject
         $id = false;
         $GLOBALS["eZUserGlobalInstance_$id"] = false;
         $contentObjectID = $http->sessionVariable( "eZUserLoggedInID" );
-        $http->removeSessionVariable( "eZUserLoggedInID" );
+        $newUserID = EZ_USER_ANONYMOUS_ID;
+        $http->setSessionVariable( 'eZUserLoggedInID', $newUserID );
+        eZUser::moveSession( session_id(), $contentObjectID, $newUserID );
+//        $http->removeSessionVariable( "eZUserLoggedInID" );
         if ( $contentObjectID )
             eZUser::cleanup();
     }
@@ -594,7 +673,11 @@ class eZUser extends eZPersistentObject
             $id = $http->sessionVariable( 'eZUserLoggedInID' );
 
             if ( !is_numeric( $id ) )
+            {
                 $id = EZ_USER_ANONYMOUS_ID;
+                $http->setSessionVariable( 'eZUserLoggedInID', $id );
+                eZUser::registerSessionKey( session_id(), $id );
+            }
         }
 
         // Check cache
