@@ -1,8 +1,21 @@
 <?php /* #?ini charset="utf8"?
 
+[media_folder]
+Source=node/view/full.tpl
+MatchFile=media_folder.tpl
+Subdir=templates
+Match[class]=1
+Match[navigation_part_identifier]=ezmedianavigationpart
+
 [folder]
 Source=node/view/full.tpl
 MatchFile=folder.tpl
+Subdir=templates
+Match[class]=1
+
+[thumbnail_folder]
+Source=node/view/thumbnail.tpl
+MatchFile=folder_thumbnail.tpl
 Subdir=templates
 Match[class]=1
 
@@ -138,16 +151,17 @@ MatchFile=image.tpl
 Subdir=templates
 Match[class]=5
 
+[thumbnail_image]
+Source=node/view/thumbnail.tpl
+MatchFile=image_thumbnail.tpl
+Subdir=templates
+Match[class]=5
+
 [image_plain]
 Source=node/view/plain.tpl
 MatchFile=image_plain.tpl
 Subdir=templates
 Match[class]=5
-
-[search]
-Source=content/search.tpl
-MatchFile=search.tpl
-Subdir=templates
 
 [address]
 Source=content/view/embed.tpl
