@@ -32,6 +32,8 @@ Changes from 3.2-5 to 3.2-6
   it if it was previously deferred.
 - Fixed a bug with login of user when running mysql, the number of returned rows would
   increase exponentially.
+- Added default setting for UserSettings: UseSpecialCharacters to site.ini
+  http://ez.no/community/bug_reports/site_ini_missing_entry
 
 *Setup:
 
