@@ -196,10 +196,10 @@ while ( $moduleRunRequired )
         $GLOBALS['eZRequestedModule'] =& $module;
 
         if ( $accessResult['accessWord'] == 'no' &&
-             $module->attribute( 'name' ) != 'role' &&
-             $module->attribute( 'name' ) != 'error' &&
-             $module->attribute( 'name' ) != 'user' &&
-             !( $module->attribute( 'name' ) == 'content'  &&  $function_name == 'browse' )
+//             $module->attribute( 'name' ) != 'role' &&
+//             $module->attribute( 'name' ) != 'error' &&
+             $module->attribute( 'name' ) != 'user' 
+//             !( $module->attribute( 'name' ) == 'content'  &&  $function_name == 'browse' )
              )
         {
             $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
