@@ -124,6 +124,7 @@ links to clickable links.
 - Fixed broken user activation by e-mailcode
 - Applied new design to setup
 - Fixed problem with redirection in SSL mode
+- Fixed problem with language setting not remembered if language details was skipped
 
 *SDK :
 
@@ -206,6 +207,7 @@ eZ db:
 - Fixed correct initializing of master/slave connections in MySQL and reading values from site.ini
 - Fixed correct lastSerialID when running in master/slave configuration
 - Fixed sending "create temporary" queries to slave server ( pr connection memory tables )
+- Fixed problem when master db server was not available in MySQL master/slave setup
 
 eZ debug:
 - The popup window was fixed to use the var directory and works on non-virtual hosts as well.
