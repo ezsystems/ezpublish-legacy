@@ -94,7 +94,7 @@
             &nbsp;&nbsp;
                  {section name=Path loop=$module_result.path offset=2}
                     {section show=$Path:item.url}
-                        <a href="{$Path:item.url}">{$Path:item.text}</a>
+                        <a href={$Path:item.url|ezurl}>{$Path:item.text}</a>
                     {section-else}
                          {$Path:item.text}
                     {/section}
@@ -137,7 +137,7 @@
          {section name=News loop=$news_list offset=1}
          <tr> 
              <td width="125" bgcolor="#FFF4EA" class="links"> 
-             <a class="small" href="/content/view/full/{$News:item.node_id}">{$News:item.name}</a>
+             <a class="small" href={concat("/content/view/full/",$News:item.node_id,"/")|ezurl}>{$News:item.name}</a>
              </td>
          </tr>
          {/section}   
