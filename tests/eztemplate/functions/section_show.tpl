@@ -46,3 +46,14 @@ B: {section show=$arr[b]}B is true{section-else}B is not true{/section}
 C: {section show=$arr[c]}C is true{section-else}C is not true{/section}
 
 {/let}
+
+Empty string:
+
+{let article=hash(node_id2,'')}
+{section show=$article.node_id}
+We have a non-empty string
+{section-else}
+Empty string
+{/section}
+{/let}
+
