@@ -23,7 +23,7 @@ Changes from 2.9-5 to 2.9-6
 - Supported more tags in xml input such as <bold>, <em> and table width specification
 - Changed the return url when editing or creating a class, the new return url will be the class list page
   where the class belongs to.
-- Addeed limit to search stats page.
+- Added limit to search stats page.
 
 eZ contentcache:
 - New cache system for content views. For clearing cache use bin/shell/clearcache.sh
@@ -33,7 +33,7 @@ shop:
 - Added real order number to orders
 
 index.php:
-- Added siteBasics array which contains references to some variables
+- Added /siteBasics/ array which contains references to some variables
   which controls the index script. This array can be modified by code
   like precheck and access to turn off/on features or otherwise modify
   basic settings before the actual module handling is started.
@@ -73,6 +73,8 @@ texttoimage operator:
 
 *SDK :
 - Added main concepts tutorial
+- Some UI cleanups and better styles.
+- Improved changelog viewing code.
 
 
 *eZ setup:

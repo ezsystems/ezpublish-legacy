@@ -229,7 +229,21 @@ function loadItemlog( $file,
     $sections = array();
     while( $pos < $len )
     {
-        $section_pos = strpos( $changes, ":", $pos );
+        $sectionDone = false;
+        while ( !$sectionDone )
+        {
+            $sectionDone = true;
+            $section_pos = strpos( $changes, ":", $pos );
+            $data = substr( $changes, $last_section_pos, $section_pos - $last_section_pos );
+            $dataItems = explode( "\n", $data );
+            if ( count( $dataItems ) > 0 and
+                 strlen( $dataItems[count( $dataItems ) - 1] ) > 0 and
+                 !preg_match( "/[a-zA-Z0-9*]/", $dataItems[count( $dataItems ) - 1][0] ) )
+            {
+                $pos = $section_pos + 1;
+                $sectionDone = false;
+            }
+        }
         $section_start_pos = $section_pos;
 //         if ( $section_pos === false )
 //             break;
@@ -294,6 +308,7 @@ function loadItemlog( $file,
             }
             if ( $entry == "" )
                 continue;
+            $entry = htmlspecialchars( $entry );
             $entry = preg_replace( array( "/(^|\s)\*([^\s]+)\*(\s?)/",
                                           "#(^|\s)/([^\s]+)/(\s?)#",
                                           "/(^|\s)_([^\s]+)_(\s?)/" ),

@@ -46,9 +46,9 @@ $infoArray["partfile"] = "changes.php";
 $infoArray["trademark"] = false;
 
 $featureArray = array();
-$featureArray[] = array( "level" => 0,
-                         "uri" => "todo",
-                         "name" => "Todo" );
+//$featureArray[] = array( "level" => 0,
+//                         "uri" => "todo",
+//                         "name" => "Todo" );
 $featureArray[] = array( "level" => 0,
                          "name" => "Changes" );
 $featureArray[] = array( "uri" => "changelog/2.9",

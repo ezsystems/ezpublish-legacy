@@ -106,9 +106,9 @@ function processList( &$module )
 
 <head>
 <title>eZ publish&trade; SDK</title>
-<link rel="stylesheet" type="text/css" href="%path_prepend%/kernel/sdk/style.css" />
 <link rel="stylesheet" type="text/css" href="%path_prepend%/design/standard/stylesheets/core.css" />
 <link rel="stylesheet" type="text/css" href="%path_prepend%/design/standard/stylesheets/admin.css" />
+<link rel="stylesheet" type="text/css" href="%path_prepend%/kernel/sdk/style.css" />
 </head>
 
 <body style="background: url(/design/standard/images/grid-background.gif);">
@@ -147,22 +147,22 @@ function processList( &$module )
     <td class="bullet" width="1">
     <img src="%path_prepend%/design/standard/images/bullet.gif" width="12" height="12" alt="" /><br />
     </td>
-    <td class="menu" width="99%">
+    <td class="menu" width="60%">
     <p class="menuitem">Version:</p>
     </td>
-    <td class="menu" width="99%">
-    <p class="menuitem">%sdk_version%</p>
+    <td class="menu" width="49%">
+    <p class="menuitem"><nobr>%sdk_version%</nobr></p>
     </td>
 </tr>
 <tr>
     <td class="bullet" width="1">
     <img src="%path_prepend%/design/standard/images/bullet.gif" width="12" height="12" alt="" /><br />
     </td>
-    <td class="menu" width="99%">
+    <td class="menu" width="60%">
     <p class="menuitem">Alias:</p>
     </td>
-    <td class="menu" width="99%">
-    <p class="menuitem">%sdk_alias%</p>
+    <td class="menu" width="49%">
+    <p class="menuitem"><nobr>%sdk_alias%</nobr></p>
     </td>
 </tr>
 </table>
@@ -370,13 +370,12 @@ function process( &$module, $component, $command, $part, $rest )
 
 <head>
 <title>eZ publish&trade; SDK - %nameTM%</title>
-<link rel="stylesheet" type="text/css" href="%path_prepend%/kernel/sdk/style.css" />
 </head>
 <head>
 <title>eZ publish&trade; SDK</title>
-<link rel="stylesheet" type="text/css" href="%path_prepend%/kernel/sdk/style.css" />
 <link rel="stylesheet" type="text/css" href="%path_prepend%/design/standard/stylesheets/core.css" />
 <link rel="stylesheet" type="text/css" href="%path_prepend%/design/standard/stylesheets/admin.css" />
+<link rel="stylesheet" type="text/css" href="%path_prepend%/kernel/sdk/style.css" />
 </head>
 
 <body style="background: url(/design/standard/images/grid-background.gif);">
@@ -388,7 +387,7 @@ function process( &$module, $component, $command, $part, $rest )
     <img src="%path_prepend%/design/standard/images/ezpublish-logo.gif" width="210" height="60" alt="" border="0" /></a>
     </td>
     <td valign="bottom" class="topline" width="100%">
-    <h1><font color="white"> - %nameTM%</font></h1>
+    <h1><font color="white">%nameTM%</font></h1>
     </td>
 </tr>
 </table>
@@ -396,10 +395,10 @@ function process( &$module, $component, $command, $part, $rest )
 <table class="path" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td class="pathline" width="50%">
-    %back_data%
+    %back_data%&nbsp;
     </td>
     <td class="pathline" align="right" width="50%">
-    %forward_data%
+    %forward_data%&nbsp;
     </td>
 </tr>
 </table>
@@ -424,9 +423,6 @@ function process( &$module, $component, $command, $part, $rest )
     </td>
 </tr>
 </table>
-
-<br />
-Version:&nbsp;%sdk_version%
 </td>
 
 <td valign="top" width="85%">
@@ -457,7 +453,7 @@ Version:&nbsp;%sdk_version%
             // $component
             $TemplateFeaturesVars = array();
             $TemplateFeaturesData = '%featureLevelStart%<img src="%path_prepend%/design/standard/images/bullet.gif" width="12" height="12" alt="" border="0"/> <a href="%index_path_prepend%%base%/%component%/%command%/%featureURI%/">%featureName%</a>%featureLevelEnd%<br />';
-            $TemplateFeaturesData_nolink = '%featureName% <br />';
+            $TemplateFeaturesData_nolink = '<p class="groupname">%featureName%</p>';
 
             // $nameTM
             // $depend_items
@@ -480,8 +476,8 @@ Version:&nbsp;%sdk_version%
 
             $TemplateBackVars = array();
             $TemplateForwardVars = array();
-            $TemplateBackData = '<a href="%index_path_prepend%%back_uri%"">&lt;&lt; %back_name%</a>';
-            $TemplateForwardData = '<a href="%index_path_prepend%%forward_uri%"">%forward_name% &gt;&gt;</a>';
+            $TemplateBackData = '<a class="path" href="%index_path_prepend%%back_uri%"">&lt;&lt; %back_name%</a>';
+            $TemplateForwardData = '<a class="path" href="%index_path_prepend%%forward_uri%"">%forward_name% &gt;&gt;</a>';
 
             $showFrame = true;
             $showSummary = true;
@@ -528,7 +524,7 @@ Version:&nbsp;%sdk_version%
 
             $baseURI_link = "";
             if ( $command != "" )
-                $baseURI_link = "<a href=\"%index_path_prepend%$baseURI\">";
+                $baseURI_link = "<a class=\"menuhead\" href=\"%index_path_prepend%$baseURI\">";
 
             $showFile = $part;
 
@@ -597,6 +593,8 @@ Version:&nbsp;%sdk_version%
 
                         $content_data = "<table><tr><td><h1>%part_name%</h1></td>
 <td><a href=\"%index_path_prepend%$baseURI/source/$part\">[source]</a></td></tr></table>";
+//                        $content_data = "<table><tr><td><h1>%part_name%</h1></td>
+//<td>&nbsp;</td></tr></table>";
                         ob_start();
                         $TemplateVars["part_name"] = $partName;
 
