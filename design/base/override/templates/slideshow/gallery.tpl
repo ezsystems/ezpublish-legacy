@@ -27,7 +27,7 @@
 
         <div class="content-link">
             <p>
-                <a href={$node.url_alias|ezurl}>&gt; Thumbnail view</a>
+                <a href={$node.url_alias|ezurl}>Thumbnail view</a>
             </p>
         </div>
 

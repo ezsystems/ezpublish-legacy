@@ -21,7 +21,7 @@
 
         <div class="content-link">
             <p>
-            <a href={concat('/content/view/slideshow/',$node.node_id)|ezurl}>&gt;View as slideshow</a>
+            <a href={concat('/content/view/slideshow/',$node.node_id)|ezurl}>View as slideshow</a>
             </p>
         </div>
 
