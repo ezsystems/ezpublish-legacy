@@ -15,12 +15,9 @@
     @import url({"stylesheets/noleftmenu.css"|ezdesign});
     {/section}
 
-    {section show=eq(ezini('Toolbar_right','tool','toolbar.ini'),'')}
+    {section show=ezini('Toolbar_right','Tool','toolbar.ini')|count|gt(0)|not()}
     @import url({"stylesheets/norightmenu.css"|ezdesign});
     {/section}
-
-
-{*    @import url({"stylesheets/t1.css"|ezdesign}); *}
 
 </style>
 
