@@ -717,6 +717,14 @@ class eZDataType
     }
 
     /*!
+     \return true if the datatype can be removed
+    */
+    function canRemovable( $classAttribute )
+    {
+        return true;
+    }
+
+    /*!
      \return true if the datatype can be used as an information collector
     */
     function isInformationCollector()

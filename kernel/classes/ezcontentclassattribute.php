@@ -258,10 +258,16 @@ class eZContentClassAttribute extends eZPersistentObject
     {
         $dataType =& $this->dataType();
         $version = $this->Version;
-        $dataType->deleteStoredClassAttribute( $this, $version );
-        eZPersistentObject::remove();
+        if ( $dataType->canRemovable( $this ) )
+        {
+            $dataType->deleteStoredClassAttribute( $this, $version );
+            eZPersistentObject::remove();
+        }
+        else
+        {
+            eZDebug::writeError( 'Datatype [' . $dataType->Name . '] can not be deleted to avoid system crash' );
+        }
     }
-
 
     function &fetch( $id, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $field_filters = null )
     {

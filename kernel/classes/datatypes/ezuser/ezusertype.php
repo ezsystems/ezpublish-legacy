@@ -270,6 +270,23 @@ class eZUserType extends eZDataType
     }
 
     /*!
+     \reimp Only allowed to remove it if this datatype is not used by login users.
+    */
+    function canRemovable( $contentClassAttribute )
+    {
+        $currentUser =& eZUser::currentUser();
+        $userObject =&  $currentUser->attribute( 'contentobject' );
+        if ( $contentClassAttribute->attribute( 'contentclass_id' ) == $userObject->attribute( 'contentclass_id' ) )
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    /*!
      Returns the meta data used for storing search indeces.
     */
     function metaData( $contentObjectAttribute )

@@ -12,6 +12,13 @@ Changes from 3.5.0alpha1 to 3.5.0alpha2
   that clears view cache for a given subtree.
 - Added default SOAP server support. Added soap.php, which will include specified SOAP extensions.
 
+*Datatype:
+- Added default function canRemovable( $contentClassAttribute ) in ezdatatype.php. This 
+  function is used to check whether or not a datatype can be removed from a class. Function 
+  returns true in default.
+- Added/reimplemented function canRemovable() in datatype ezuser, disallowed deletion of this 
+  datatype if it belongs to the class of login user.
+
 Scripts:
 - New script bin/php/ezcontentcache.php which can be used to clear the
   viewcache for a given node or subtree.

@@ -550,6 +550,10 @@ if ( !$http->hasSessionVariable( 'CanStoreTicket' ) )
     $http->setSessionVariable( 'CanStoreTicket', md5( (string)rand() ) );
     eZSessionWrite( $http->sessionVariable( 'CanStoreTicket' ), 1 );
 }
+
+// Fetch updated attributes
+$attributes = $class->fetchAttributes();
+
 // Template handling
 include_once( 'kernel/common/template.php' );
 $tpl =& templateInit();
