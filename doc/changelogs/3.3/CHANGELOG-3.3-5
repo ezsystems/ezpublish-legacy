@@ -85,6 +85,7 @@ eZ MIMEType:
 eZ Debug:
 
 *Translations:
+- Updated the ger-DE translation.
 
 *Templates:
 - Added attribute "target" in standard image template which control where to 

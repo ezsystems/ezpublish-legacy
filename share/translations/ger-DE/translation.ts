@@ -1,40 +1,5 @@
 <!DOCTYPE TS><TS>
 <context>
-    <name>&quot;design/standard/node/view&quot;</name>
-    <message>
-        <source>Priority</source>
-        <translation type="obsolete">Priorität</translation>
-    </message>
-</context>
-<context>
-    <name>&apos;design/standard/collaboration/approval&apos;,,
-</name>
-    <message>
-        <source>below.&apos;
-</source>
-        <translation type="obsolete">unten.&apos;</translation>
-    </message>
-</context>
-<context>
-    <name>&apos;design/standard/node/view&apos;</name>
-    <message>
-        <source>Edit</source>
-        <translation type="obsolete">Bearbeiten</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="obsolete">Kopieren</translation>
-    </message>
-</context>
-<context>
-    <name>&apos;design/standard/notification&apos;</name>
-    <message>
-        <source>If you do not wish to continue receiving these notifications,
-change your settings at:</source>
-        <translation type="obsolete">Wenn Sie nicht weiterhin diese Benachrichtigungen erhalten wollen, änderen Sie Ihre Einstellungen unter:</translation>
-    </message>
-</context>
-<context>
     <name>design/admin/layout</name>
     <message>
         <source>Content</source>
@@ -131,10 +96,6 @@ change your settings at:</source>
     <message>
         <source>Templates</source>
         <translation>Templates</translation>
-    </message>
-    <message>
-        <source>RAD</source>
-        <translation type="obsolete">RAD</translation>
     </message>
     <message>
         <source>Cache</source>
@@ -598,6 +559,58 @@ change your settings at:</source>
         <source>Latest news</source>
         <translation>Aktuelles</translation>
     </message>
+    <message>
+        <source>Add to basket</source>
+        <translation>Zum Warenkorb hinzufügen</translation>
+    </message>
+    <message>
+        <source>Notify me about updates</source>
+        <translation>Benachrichtigen über Updates </translation>
+    </message>
+    <message>
+        <source>Printerfriendly version</source>
+        <translation>Druckerfreundliche Version</translation>
+    </message>
+    <message>
+        <source>Main menu</source>
+        <translation>Hauptmenü</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation>Suche</translation>
+    </message>
+    <message>
+        <source>Notifications</source>
+        <translation>Benachrichtigungen</translation>
+    </message>
+    <message>
+        <source>Edit account</source>
+        <translation>Ändere Benutzer Konto</translation>
+    </message>
+    <message>
+        <source>View basket</source>
+        <translation>Warenkorb ansehen</translation>
+    </message>
+    <message>
+        <source>Logout</source>
+        <translation>Abmelden</translation>
+    </message>
+    <message>
+        <source>Register new customer</source>
+        <translation>Neuen Kunden registieren</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation>Anmelden</translation>
+    </message>
+    <message>
+        <source>Shopping basket</source>
+        <translation>Warenkorb</translation>
+    </message>
+    <message>
+        <source>View all details</source>
+        <translation>Alle Details ansehen</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class</name>
@@ -920,6 +933,10 @@ change your settings at:</source>
         <source>False</source>
         <translation>Falsch</translation>
     </message>
+    <message>
+        <source>Make empty array</source>
+        <translation>Eine leere Liste erzeugen</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class/edit</name>
@@ -1069,7 +1086,7 @@ change your settings at:</source>
     </message>
     <message>
         <source>Is required</source>
-        <translation>Wird benötigit</translation>
+        <translation>Wird benötigt</translation>
     </message>
     <message>
         <source>Is not required</source>
@@ -1129,10 +1146,6 @@ change your settings at:</source>
     <message>
         <source>New group</source>
         <translation>Neue Gruppe</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="obsolete">Hilfe</translation>
     </message>
     <message>
         <source>Last modified classes</source>
@@ -1348,7 +1361,7 @@ The approval can viewed by using the URL below.</source>
     </message>
     <message>
         <source>[%sitename] &quot;%objectname&quot; awaits approval</source>
-        <translation>[%sitename] &quot;%ojectname&quot; wartet auf Bestätigung</translation>
+        <translation>[%sitename] &quot;%objectname&quot; wartet auf Bestätigung</translation>
     </message>
     <message>
         <source>This email is to inform you that &quot;%objectname&quot; awaits approval at %sitename before it is published.
@@ -1695,10 +1708,6 @@ If you wish to send comments to the approver or view the status use the URL belo
         <translation>Minute</translation>
     </message>
     <message>
-        <source>Image filename</source>
-        <translation type="obsolete">Dateiname des Bildes</translation>
-    </message>
-    <message>
         <source>Alternative image text</source>
         <translation>Alternativer Bildtext</translation>
     </message>
@@ -1725,10 +1734,6 @@ If you wish to send comments to the approver or view the status use the URL belo
     <message>
         <source>Existing filename</source>
         <translation>Existierender Dateiname</translation>
-    </message>
-    <message>
-        <source>Existing orignal filename</source>
-        <translation type="obsolete">Existierender original Dateiname</translation>
     </message>
     <message>
         <source>Existing mime/type</source>
@@ -1807,18 +1812,6 @@ If you wish to send comments to the approver or view the status use the URL belo
         <translation>Neue Zeile</translation>
     </message>
     <message>
-        <source>Create new %classname</source>
-        <translation type="obsolete">%classname neu erzeugen</translation>
-    </message>
-    <message>
-        <source>Add %classname</source>
-        <translation type="obsolete">%classname hinzufügen</translation>
-    </message>
-    <message>
-        <source>Edit objects</source>
-        <translation type="obsolete">Objekte ändern</translation>
-    </message>
-    <message>
         <source>Remove objects</source>
         <translation>Objekte löschen</translation>
     </message>
@@ -1832,7 +1825,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Local image file for upload</source>
-        <translation>Lokales Bild zum hochladen</translation>
+        <translation>Lokales Bild zum Hochladen</translation>
     </message>
     <message>
         <source>Image preview</source>
@@ -1895,11 +1888,11 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Ordering</source>
-        <translation>Reihenfolge</translation>
+        <translation>Richtung</translation>
     </message>
     <message>
         <source>Main</source>
-        <translation>Main</translation>
+        <translation>Haupt-Ort</translation>
     </message>
     <message>
         <source>Move</source>
@@ -1959,7 +1952,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Manage</source>
-        <translation>Manage</translation>
+        <translation>Verwalten</translation>
     </message>
     <message>
         <source>Translations</source>
@@ -1982,10 +1975,6 @@ If you wish to send comments to the approver or view the status use the URL belo
         <translation>Neu</translation>
     </message>
     <message>
-        <source>Are you sure you want to discard the draft?</source>
-        <translation type="obsolete">Sind Sie sicher, dass Sie den Entwurf verwerfen wollen?</translation>
-    </message>
-    <message>
         <source>Confirm</source>
         <translation>Bestätigen</translation>
     </message>
@@ -1995,7 +1984,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Collected information from %1</source>
-        <translation>Gesammlete Informationen von %1</translation>
+        <translation>Gesammelte Informationen von %1</translation>
     </message>
     <message>
         <source>Store draft</source>
@@ -2072,20 +2061,20 @@ If you wish to send comments to the approver or view the status use the URL belo
     <message>
         <source>This object is already being edited by someone else including you.
     You can either continue editing one of your drafts or you can create a new draft.</source>
-        <translation>Das Objekt wird regrade bearbeitet von jemand anderen inklusive Ihnen.
+        <translation>Das Objekt wird gerade von jemand anderen (oder Ihnen selbst) bearbeitet.
 Sie können entweder einen Ihrer Entwürfe weiter bearbeiten oder einen neuen erstellen.</translation>
     </message>
     <message>
         <source>This object is already being edited by you.
         You can either continue editing one of your drafts or you can create a new draft.</source>
-        <translation>Das Objekt wird schon von Ihnen editiert. Sie können entweder weitermachen 
+        <translation>Das Objekt wird schon von Ihnen editiert.
 Sie können entweder einen Ihrer Entwürfe weiter bearbeiten oder einen neuen erstellen.</translation>
     </message>
     <message>
         <source>This object is already being edited by someone else.
         You should either contact the person about the draft or create a new draft for personal editing.</source>
         <translation>Das Objekt wird schon von jemand anderen bearbeitet.
-Sie sollten entweder die Person über diesen Entwurf kontaktieren oder einen neuen Entwurf zum persönlcihen bearbeiten erstellen. </translation>
+Sie sollten entweder die Person deswegen kontaktieren oder einen neuen Entwurf zum persönlichen Bearbeiten erstellen. </translation>
     </message>
     <message>
         <source>Current drafts</source>
@@ -2292,10 +2281,6 @@ Sie sollten entweder die Person über diesen Entwurf kontaktieren oder einen neu
     <message>
         <source>Name</source>
         <translation>Name</translation>
-    </message>
-    <message>
-        <source>For more options try the %1Advanced search%2</source>
-        <translation type="obsolete">Für mehr Optionen die %1erweiterte Suche%2 probieren</translation>
     </message>
     <message>
         <source>The following words were excluded from the search:</source>
@@ -2760,13 +2745,6 @@ Sie sollten entweder die Person über diesen Entwurf kontaktieren oder einen neu
 Wählen Sie den Ort und klicken Sie dann auf &quot;%buttonname&quot;. Wenn Sie auf den Namen klicken, können Sie navigieren. Sie können zur Auswahl oder zur Navigation auch Ihre Lesezeichen oder Aktuelle Elemente verwenden.</translation>
     </message>
     <message>
-        <source>These are the objects you have bookmarked. Click on an object to view it or if you have sufficient permission you can to edit the object by clicking the edit button.
-      If you want to add more objects to this list click the %addbutton button.
-
-      Removing objects will only remove them from this list.</source>
-        <translation type="obsolete">Dies sind die Objekte die sie den Lesenzeichen hinzugefügt haben. </translation>
-    </message>
-    <message>
         <source>Bookmark items are managed using %bookmarkname in the %personalname part.</source>
         <translation>Lesezeichen werden verwaltet durch das benutzen %bookmarkname in %personalname Bereich.</translation>
     </message>
@@ -2815,7 +2793,7 @@ Wenn Sie auf den Namen klicken, können Sie navigieren. Sie können zur Auswahl 
     </message>
     <message>
         <source>Choose related objects</source>
-        <translation>Wählen der verwndten Ojekte</translation>
+        <translation>Wählen der verwndten Objekte</translation>
     </message>
     <message>
         <source>Please choose objects which you want to relate to %name.
@@ -2881,10 +2859,6 @@ Das Entfernen der Objekte wird Sie nur aus dieser Liste entfernen. </translation
     <message>
         <source>Your current user does not have the proper privileges to access this page.</source>
         <translation>Ihr aktueller Benutzer hat nicht die richtigen Rechte, diese Seite zu betreten.</translation>
-    </message>
-    <message>
-        <source>You&apos;re currently not logged in on the site, to get proper access create a new user or login with an existing user.</source>
-        <translation type="obsolete">Sie sind z.Z. nicht eingeloggt. Um Zutritt zu erhalten, legen Sie einen neuen Benutzer an oder loggen Sie sich mit einem bestehenden ein.</translation>
     </message>
     <message>
         <source>You misspelled some parts of your url, try changing it.</source>
@@ -3029,7 +3003,7 @@ Das Entfernen der Objekte wird Sie nur aus dieser Liste entfernen. </translation
     </message>
     <message>
         <source>Module load failed</source>
-        <translation>Module kann nicht geladen werden</translation>
+        <translation>Modul kann nicht geladen werden</translation>
     </message>
     <message>
         <source>Undefined module: </source>
@@ -3110,24 +3084,12 @@ Das Entfernen der Objekte wird Sie nur aus dieser Liste entfernen. </translation
         <translation>Die entfernten Knoten können auch später zurückgeholt werden. Sie finden diese im Abfalleimer.</translation>
     </message>
     <message>
-        <source>Are you sure you want to remove these nodes?</source>
-        <translation type="obsolete">Sie sie sicher, dass Sie diese Knoten entfernen wollen? </translation>
-    </message>
-    <message>
         <source>The following items were removed from your basket, because the products were changed</source>
         <translation>Die folgenden Positionen wurden von Ihrem Warenkorb entfernt, da die Produkte geändert wurden</translation>
     </message>
     <message>
-        <source>Removing this assignment will also remove it&apos;s %1 children.</source>
-        <translation type="obsolete">Das Löschen dieser Zuweisung wird auch die %1 Kinder löschen.</translation>
-    </message>
-    <message>
         <source>Removing node assignment of %1</source>
         <translation>Löschen Knotenzuweisung von %1</translation>
-    </message>
-    <message>
-        <source>Removing %1 will remove the node itself and it&apos;s %2 children. %3</source>
-        <translation type="obsolete">Das Löschen von %1 wird den Knoten löschen und seine %2 Kinder. %3</translation>
     </message>
     <message>
         <source>Removing this assignment will also remove its %1 children.</source>
@@ -3246,7 +3208,7 @@ Das Entfernen der Objekte wird Sie nur aus dieser Liste entfernen. </translation
     </message>
     <message>
         <source>Node ID</source>
-        <translation>Koten ID</translation>
+        <translation>Knoten ID</translation>
     </message>
     <message>
         <source>Object ID</source>
@@ -3337,21 +3299,6 @@ change your settings at:</source>
         <translation>Wochentag</translation>
     </message>
     <message>
-        <source>below.&quot;
-</source>
-        <translation type="obsolete">unten.&quot;</translation>
-    </message>
-    <message>
-        <source>system&quot;
-</source>
-        <translation type="obsolete">System&quot;</translation>
-    </message>
-    <message>
-        <source>%sitename.&quot;
-</source>
-        <translation type="obsolete">%sitename.&quot;</translation>
-    </message>
-    <message>
         <source>Notification admin</source>
         <translation>Benachrichtigungs Admin</translation>
     </message>
@@ -3408,16 +3355,6 @@ Das Objekt können Sie über untenstehende URL aufrufen.</translation>
     <message>
         <source>This email is to inform you on news at %sitename.</source>
         <translation>Diese E-Mail informiert Sie über Neuigkeiten auf %sitename .</translation>
-    </message>
-    <message>
-        <source>[%sitename] %classname &quot;%itemname&quot; was published</source>
-        <translation type="obsolete">[%sitename] %classname &quot;%itemname&quot; wurde veröffentlicht</translation>
-    </message>
-    <message>
-        <source>This email is to inform you that a new item has been publish at %sitename.
-The item can viewed by using the URL below.</source>
-        <translation type="obsolete">Ein neues Objekt wurde auf %sitename veröffentlicht.
-Über die nachfolgende Adresse gelangen Sie direkt zu dem Objekt.</translation>
     </message>
 </context>
 <context>
@@ -3484,11 +3421,12 @@ The item can viewed by using the URL below.</source>
     <message>
         <source>Start an entry with a marker ( %emstart-%emend (dash) or %emstart*%emend (asterix) ) at the beginning of the line.
 The change will continue to the next change marker.</source>
-        <translation type="unfinished"></translation>
+        <translation>Starte einen Eintrag mit einem Marker ( %emstart-%ememd (Gedankenstrich) oder %emstart*%emend (Sternchen) ) am Anfang der Zeile.
+Die Änderung wird weiter laufen bis zum nächsten Marker.</translation>
     </message>
     <message>
         <source>Please provide some basic information for your package.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte geben Sie einige Informationen zu ihrem Paket.</translation>
     </message>
     <message>
         <source>Package name</source>
@@ -3504,15 +3442,15 @@ The change will continue to the next change marker.</source>
     </message>
     <message>
         <source>Package host</source>
-        <translation type="unfinished"></translation>
+        <translation>Paket Host</translation>
     </message>
     <message>
         <source>Packager</source>
-        <translation type="unfinished"></translation>
+        <translation>Zusammensteller</translation>
     </message>
     <message>
         <source>Please provide information on the maintainer of the package.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte geben sie Information zum Ersteller des Paketes.</translation>
     </message>
     <message>
         <source>Name</source>
@@ -3527,23 +3465,24 @@ The change will continue to the next change marker.</source>
     <message>
         <source>Please select a thumbnail file to be included in the package,
 if you do not wish to have a thumbnail simply click Next.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte wählen Sie ein Voransicht die in das Paketeingefügt wird.
+Wenn Sie nicht wollen, dass es eine Vorsnsicht gibt, klicken sie weiter.</translation>
     </message>
     <message>
         <source>Create package</source>
-        <translation type="unfinished"></translation>
+        <translation>Erstelle Paket</translation>
     </message>
     <message>
         <source>Available wizards</source>
-        <translation type="unfinished"></translation>
+        <translation>Verfügbare Funktionen</translation>
     </message>
     <message>
         <source>Choose one of the following wizards for creating a package</source>
-        <translation type="unfinished"></translation>
+        <translation>Wählen sie eine der folgenden Funktionen, um ihr Packet zu erstellen</translation>
     </message>
     <message>
         <source>Please choose the content classes you wish to be included in the package.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte wählen sie die Content Klassen, die sie in ihr Packet einfügen wollen.</translation>
     </message>
     <message>
         <source>Class list</source>
@@ -3551,59 +3490,63 @@ if you do not wish to have a thumbnail simply click Next.</source>
     </message>
     <message>
         <source>Please select a CSS file to be included in the package.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte wählen sie eine CSS Datei, um diese in das Packet einzufügen.</translation>
     </message>
     <message>
         <source>Select an image file to be included in the package and click Next.
 When you are done with adding images click Next without choosing an image.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wählen sie ein Bild, um es ins Paket einzufügen und klciken sie weiter.
+Wenn sie fertig mit dem hinzufügen von Bilder sind, klicken sie weiter ohne ein Bild gewählt zu haben.</translation>
     </message>
     <message>
         <source>Currently added image files</source>
-        <translation type="unfinished"></translation>
+        <translation>Zur Zeit hinzugefügte Bilder</translation>
     </message>
     <message>
         <source>Package wizard: %wizardname</source>
-        <translation type="unfinished"></translation>
+        <translation>Paket Assistent: %wizardname</translation>
     </message>
     <message>
         <source>The package can be installed on your system, installing the package will copy files, create content classes etc. all depending on the package.
 If you do not wish to install the package at this time you can do so later on the view page for the package.</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Paket kann auf ihrem System installiert werden, das Paket wird verschiede Dateien kopieren in abhängigkeit des Paketes
+Wenn sie ein Paket jetzt nicht installieren wollen, könenn sie dies auch zu einem späteren Zeitpunkt tun.</translation>
     </message>
     <message>
         <source>Install items</source>
-        <translation type="unfinished"></translation>
+        <translation>Installierte Elemente</translation>
     </message>
     <message>
         <source>Skip installation</source>
-        <translation type="unfinished"></translation>
+        <translation>Installation abbrechen</translation>
     </message>
     <message>
         <source>Removal of packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Entfernen von Paketen</translation>
     </message>
     <message>
         <source>Are you sure you wish to remove the following packages?
 The packages will be lost forever.
 Note: The packages will not be uninstalled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sind sie sicher, das sie die folgenden Pakete löschen wollen?
+Die Pakete sind dann für immer verloren.
+Notiz: Die Pakete werden nicht deinstalliert.</translation>
     </message>
     <message>
         <source>Confirm removal</source>
-        <translation type="unfinished"></translation>
+        <translation>Bestätige Entfernung</translation>
     </message>
     <message>
         <source>Keep packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Behalte Pakete</translation>
     </message>
     <message>
         <source>Package removal was cancelled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Das entfernen des Paketes wurde abgebrochen.</translation>
     </message>
     <message>
         <source>Selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Selektion</translation>
     </message>
     <message>
         <source>Installed</source>
@@ -3641,19 +3584,21 @@ Note: The packages will not be uninstalled.</source>
         <source>The package can be uninstalled from your system, uninstalling the package will remove any installed files, content classes etc. all depending on the package.
 If you do not wish to uninstall the package at this time you can do so later on the view page for the package.
 You may also remove the package without uninstalling it from the package list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Paket kann vom System deinstlliert werden, das entfernen des Paketes wird alle installierten Dateien wie Content Klassen etc abhängig vom Paket entfernen.
+Wenn sie nciht wollen, dass das paket deinstalliert wird, können sie dies auch zu einem späteren Zeitpunkt tun.
+Sie können können das Paket auch entfernen ohne es vom aus der Paketliste zu deinstallieren.</translation>
     </message>
     <message>
         <source>Uninstall items</source>
-        <translation type="unfinished"></translation>
+        <translation>Deinstalliere Elemente</translation>
     </message>
     <message>
         <source>Skip uninstallation</source>
-        <translation type="unfinished"></translation>
+        <translation>Deinstallation abbrechen</translation>
     </message>
     <message>
         <source>Files [%collectionname]</source>
-        <translation type="unfinished"></translation>
+        <translation>Dateien [%collectionname]</translation>
     </message>
     <message>
         <source>Details</source>
@@ -3669,7 +3614,7 @@ You may also remove the package without uninstalling it from the package list.</
     </message>
     <message>
         <source>Export to file</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportieren als Datei</translation>
     </message>
     <message>
         <source>State</source>
@@ -3677,15 +3622,15 @@ You may also remove the package without uninstalling it from the package list.</
     </message>
     <message>
         <source>Maintainers</source>
-        <translation type="unfinished"></translation>
+        <translation>Ersteller</translation>
     </message>
     <message>
         <source>Regarding eZ publish package &apos;%packagename&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Betreffend eZ publish Paket &apos;%packagename&apos;</translation>
     </message>
     <message>
         <source>Send E-Mail to the maintainer</source>
-        <translation type="unfinished"></translation>
+        <translation>Sende E-Mail an den Ersteller</translation>
     </message>
     <message>
         <source>Documents</source>
@@ -3904,7 +3849,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Module</source>
-        <translation>Module</translation>
+        <translation>Modul</translation>
     </message>
     <message>
         <source>Access</source>
@@ -3920,7 +3865,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Current policies</source>
-        <translation>Aktuelle Pläne</translation>
+        <translation>Aktuelle Richtlinien</translation>
     </message>
     <message>
         <source>Limitations</source>
@@ -3948,7 +3893,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Role edit %1</source>
-        <translation>Role editieren %1</translation>
+        <translation>Rolle &quot;%1&quot; editieren </translation>
     </message>
     <message>
         <source>Edit policy</source>
@@ -3960,7 +3905,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Node</source>
-        <translation>Konten</translation>
+        <translation>Knoten</translation>
     </message>
     <message>
         <source>Not specified.</source>
@@ -3968,7 +3913,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Subtree</source>
-        <translation>Untergeornete Baumstruktur</translation>
+        <translation>Teile der Baumstruktur</translation>
     </message>
     <message>
         <source>Update</source>
@@ -3985,14 +3930,6 @@ menu on the top.</source>
     <message>
         <source>Remove selected policies</source>
         <translation>Lösche ausgewählte Richtlinien</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="obsolete">Hilfe</translation>
-    </message>
-    <message>
-        <source>Help on roles</source>
-        <translation type="obsolete">Hilfe zu Rollen</translation>
     </message>
     <message>
         <source>Edit role</source>
@@ -4016,7 +3953,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Specify limitations for function %functionname in module %modulename. &apos;Any&apos; means no limitation by this parameter</source>
-        <translation>Spezifizieren Sie Limitierungen für die Funktion %functionname in Modul %modulname. &apos;Alle&apos; heißt, dass keine Limitierung gesetzt wird </translation>
+        <translation>Spezifizieren Sie Limitierungen für die Funktion %functionname in Modul %modulename. &apos;Alle&apos; heißt, dass keine Limitierung gesetzt wird </translation>
     </message>
 </context>
 <context>
@@ -4130,7 +4067,7 @@ Wenn Sie auf den Namen klicken, können Sie navigieren. Sie können zur Auswahl 
     </message>
     <message>
         <source>Note. Each source only fetch 5 objects from 1 level below.</source>
-        <translation>Achtung: Jede Quelle liefert immer nur 5 Objekte von einer Ebene tiefer.</translation>
+        <translation>Hinweis: Jede Quelle liefert immer nur 5 Objekte von der Ebene direkt darunter.</translation>
     </message>
     <message>
         <source>Source path</source>
@@ -4185,7 +4122,7 @@ Wenn Sie auf den Namen klicken, können Sie navigieren. Sie können zur Auswahl 
     <name>design/standard/rss/list</name>
     <message>
         <source>RSS Feeds</source>
-        <translation>RSS Nachrichtenkanal</translation>
+        <translation>RSS Nachrichtenkanäle</translation>
     </message>
     <message>
         <source>RSS Exports</source>
@@ -4377,14 +4314,6 @@ Wenn Sie auf den Namen klicken, können Sie navigieren. Sie können zur Auswahl 
         <translation>Sektion zuweisen - %section</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="obsolete">Hilfe</translation>
-    </message>
-    <message>
-        <source>Help on sections</source>
-        <translation type="obsolete">Hilfe für Sektionen</translation>
-    </message>
-    <message>
         <source>Remove selected sections</source>
         <translation>Löschen der ausgewählten Sektionen</translation>
     </message>
@@ -4407,18 +4336,6 @@ Wenn Sie auf den Namen klicken, können Sie navigieren. Sie können zur Auswahl 
 </context>
 <context>
     <name>design/standard/setup</name>
-    <message>
-        <source>Version</source>
-        <translation type="obsolete">Version</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation type="obsolete">Typ</translation>
-    </message>
-    <message>
-        <source>setup</source>
-        <translation type="obsolete">Setup</translation>
-    </message>
     <message>
         <source>Cache admin</source>
         <translation>Cache Admin</translation>
@@ -4462,14 +4379,6 @@ Wenn Sie auf den Namen klicken, können Sie navigieren. Sie können zur Auswahl 
     <message>
         <source>System information</source>
         <translation>Systeminformationen</translation>
-    </message>
-    <message>
-        <source>SVN revision</source>
-        <translation type="obsolete">SVN Revision</translation>
-    </message>
-    <message>
-        <source>Extensions</source>
-        <translation type="obsolete">Erweiterung</translation>
     </message>
     <message>
         <source>Safe mode is on.</source>
@@ -4520,20 +4429,12 @@ Wenn Sie auf den Namen klicken, können Sie navigieren. Sie können zur Auswahl 
         <translation>Datenbank</translation>
     </message>
     <message>
-        <source>Charset</source>
-        <translation type="obsolete">Zeichensatz</translation>
-    </message>
-    <message>
         <source>Rapid Application Development Tools</source>
         <translation>Werkzeuge zur schnellen Anwendungs-Entwicklung</translation>
     </message>
     <message>
         <source>The rapid application development (RAD) tools allow you to easily get started with creating new functionality for eZ publish.</source>
         <translation>Die RAD Werkzeuge erlauben Ihnen, einfach neue Funktionalität für eZ publish zu erstellen.</translation>
-    </message>
-    <message>
-        <source>Tools</source>
-        <translation type="obsolete">Werkzeuge</translation>
     </message>
     <message>
         <source>Template operator wizard</source>
@@ -4620,36 +4521,12 @@ Wenn Sie auf den Namen klicken, können Sie navigieren. Sie können zur Auswahl 
         <translation>Komplette Templateliste</translation>
     </message>
     <message>
-        <source>Start</source>
-        <translation type="obsolete">Start</translation>
-    </message>
-    <message>
         <source>Basic information</source>
         <translation>Basisinformation</translation>
     </message>
     <message>
-        <source>Name of operator</source>
-        <translation type="obsolete">Name des Operators</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="obsolete">Einstellungen</translation>
-    </message>
-    <message>
-        <source>One operator in class</source>
-        <translation type="obsolete">Ein Operator in Klasse</translation>
-    </message>
-    <message>
-        <source>Restart</source>
-        <translation type="obsolete">Neustart</translation>
-    </message>
-    <message>
         <source>Optional information</source>
         <translation>Optionale information</translation>
-    </message>
-    <message>
-        <source>Name of class</source>
-        <translation type="obsolete">Klassenname</translation>
     </message>
     <message>
         <source>Template view</source>
@@ -4710,14 +4587,6 @@ Wenn Sie auf den Namen klicken, können Sie navigieren. Sie können zur Auswahl 
     <message>
         <source>&amp;percent% completed</source>
         <translation>&amp;percent% komplett</translation>
-    </message>
-    <message>
-        <source>Ok</source>
-        <translation type="obsolete">Ok</translation>
-    </message>
-    <message>
-        <source>Languages</source>
-        <translation type="obsolete">Languages</translation>
     </message>
     <message>
         <source>Help</source>
@@ -4799,17 +4668,18 @@ Wenn Sie auf den Namen klicken, können Sie navigieren. Sie können zur Auswahl 
     <message>
         <source>The creator of the datatype</source>
         <comment>Datatype</comment>
-        <translation type="unfinished"></translation>
+        <translation>Der Ersteller des Datentyps</translation>
     </message>
     <message>
         <source>Description of your datatype</source>
         <comment>Datatype</comment>
-        <translation type="unfinished"></translation>
+        <translation>
+Beschreibung des Datentyps</translation>
     </message>
     <message>
         <source>The first line will be used as the brief description and the rest are operator documentation.</source>
         <comment>Datatype</comment>
-        <translation type="unfinished"></translation>
+        <translation>Die erste Zeile wird als kurze Beschreibugn genutzt und der Rest als Dokumentation des Operators.</translation>
     </message>
     <message>
         <source>Handles the datatype %datatypename
@@ -5020,6 +4890,90 @@ The default code was made from the basic parameters you chose.</source>
     <message>
         <source>Update</source>
         <translation>Aktualisieren</translation>
+    </message>
+    <message>
+        <source>All caches were cleared.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cache collections</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click a button to clear a collection of caches.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All caches.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All caches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All caches are disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content views and template blocks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content caches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content caches is disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template overrides and template compiling.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template caches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template caches are disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>INI caches.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>INI caches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>INI cache is disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">Name</translation>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Selection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation type="unfinished">Deaktiviert</translation>
+    </message>
+    <message>
+        <source>Clear selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content view cache</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5307,14 +5261,6 @@ The default code was made from the basic parameters you chose.</source>
         <translation>SMTP</translation>
     </message>
     <message>
-        <source>Server name</source>
-        <translation type="obsolete">Server name</translation>
-    </message>
-    <message>
-        <source>User name</source>
-        <translation type="obsolete">User name</translation>
-    </message>
-    <message>
         <source>Password</source>
         <translation>Password</translation>
     </message>
@@ -5397,38 +5343,6 @@ The default code was made from the basic parameters you chose.</source>
     <message>
         <source>Default</source>
         <translation>Default</translation>
-    </message>
-    <message>
-        <source>Details of your system, like OS type etc.</source>
-        <translation type="obsolete">Details of your system, like OS type etc.</translation>
-    </message>
-    <message>
-        <source>The test results for your system</source>
-        <translation type="obsolete">The test results for your system</translation>
-    </message>
-    <message>
-        <source>The database type you are using</source>
-        <translation type="obsolete">The database type you are using</translation>
-    </message>
-    <message>
-        <source>The name of your site</source>
-        <translation type="obsolete">The name of your site</translation>
-    </message>
-    <message>
-        <source>The url of your site</source>
-        <translation type="obsolete">The url of your site</translation>
-    </message>
-    <message>
-        <source>The languages you chose</source>
-        <translation type="obsolete">The languages you chose</translation>
-    </message>
-    <message>
-        <source>If you wish you can also add some comments which will be included in the registration.</source>
-        <translation type="obsolete">If you wish you can also add some comments which will be included in the registration.</translation>
-    </message>
-    <message>
-        <source>Comments</source>
-        <translation type="obsolete">Comments</translation>
     </message>
     <message>
         <source>Send Registration</source>
@@ -5519,10 +5433,6 @@ The default code was made from the basic parameters you chose.</source>
         <translation>No problems was found with your system, you can continue by clicking the</translation>
     </message>
     <message>
-        <source>However if you wish to finetune your system you should click the</source>
-        <translation type="obsolete">However if you wish to finetune your system you should click the</translation>
-    </message>
-    <message>
         <source>Finetune System</source>
         <translation>Finetune System</translation>
     </message>
@@ -5537,10 +5447,6 @@ The default code was made from the basic parameters you chose.</source>
     <message>
         <source>Type</source>
         <translation>Typ</translation>
-    </message>
-    <message>
-        <source>Servername</source>
-        <translation type="obsolete">Servername</translation>
     </message>
     <message>
         <source>Username</source>
@@ -5636,7 +5542,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Site access</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Seiten Zugang</translation>
     </message>
     <message>
         <source>Site details</source>
@@ -5828,10 +5734,6 @@ To fix this problem you must do one of the following:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Each site template will create a unique web site.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>After you have fixed the problems click the %1 button to re-run the system checking. You may also ignore specific tests by clicking the check boxes.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5985,14 +5887,6 @@ To fix this problem you must do one of the following:</source>
     </message>
     <message>
         <source>Admin hostname</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Site templates</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Since each web site is unique, each site template requires a unique database.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6223,6 +6117,59 @@ To fix this problem you must do one of the following:</source>
         <source>Use the refresh button to update the database listing.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Site packages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Each package will create a unique web site.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Since each web site is unique, each package requires a unique database.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the %documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.&lt;br&gt;Note that Postgre 7.2 and 7.4 are not supported.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System finetuning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Finetune</source>
+        <comment>Finetune button in installation</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It is also possible to do some finetuning of your system, click &lt;i&gt;Finetune&lt;/i&gt; instead &lt;i&gt;Next&lt;/i&gt; if you want to see the finetuning hints.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are some issues that should be resolved to get maximum performance and features. A list of issues is presented below. Each section contains a description and a suggested / recommended solution.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Once the issues are handled, you may click the &lt;i&gt;Finetune&lt;/i&gt; button to continue. The system check will be run again. If everything is okay, the setup will go to the next stage. If the issues are not solved the system finetune page will reappear.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you do not want to fix these issues just click &lt;i&gt;Next&lt;/i&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The system finetune page is being displayed. This means that there are some issues which can be solved to improve the performance or features.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>These issues do not need to be resolved/fixed. eZ publish will function properly without them.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish.&lt;br&gt;Your system is not optimal, if you wish you can click the &lt;i&gt;Finetune&lt;/i&gt; button. This will present hints on how to fix these issues.&lt;br/&gt; Click &lt;i&gt;Next&lt;/i&gt; to continue without finetuning.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/setup/operatorcode</name>
@@ -6306,14 +6253,6 @@ To fix this problem you must do one of the following:</source>
         <translation>No image conversion capabilities was detected, this means that eZ publish cannot scale any images or detect their type. This is vital functionality in eZ publish and must be supported.</translation>
     </message>
     <message>
-        <source>Missing imagegd extension</source>
-        <translation>Missing imagegd extension</translation>
-    </message>
-    <message>
-        <source>The imagegd extension is not available to eZ publish. Without it eZ publish will only be able to do conversion using ImageMagick and the</source>
-        <translation>The imagegd extension is not available to eZ publish. Without it eZ publish will only be able to do conversion using ImageMagick and the</translation>
-    </message>
-    <message>
         <source>template operator will not be available.</source>
         <translation>template operator will not be available.</translation>
     </message>
@@ -6324,10 +6263,6 @@ To fix this problem you must do one of the following:</source>
     <message>
         <source>Future releases of eZ publish will have more advanced image support by using the imagegd extension.</source>
         <translation>Future releases of eZ publish will have more advanced image support by using the imagegd extension.</translation>
-    </message>
-    <message>
-        <source>To enable imagegd you need to recompile PHP with support for it, more information on that subject is available at</source>
-        <translation>To enable imagegd you need to recompile PHP with support for it, more information on that subject is available at</translation>
     </message>
     <message>
         <source>Missing ImageMagick program</source>
@@ -6482,10 +6417,6 @@ To fix this problem you must do one of the following:</source>
         <translation>Mehr Informationen zum Aktivieren dieser Erweiterung können durch lesen von %1 und %2 gefunden werden</translation>
     </message>
     <message>
-        <source>It&apos;s recommended that the option is turned off. To turn it off edit your %1 configuration and set %2 and %3 to %4.</source>
-        <translation type="obsolete">Es wird empfohlen das diese option ausgeschlatet ist. Um diese aus zu schalten änderen Sie ihre %1 Konfiguration und setzen Sie %2 and %3 zu %4.</translation>
-    </message>
-    <message>
         <source>More information on the subject can be found at %1.</source>
         <translation>Mehr Informationen zu diesen Thema können gefunden werden bei %1. </translation>
     </message>
@@ -6583,6 +6514,50 @@ To fix this problem you must do one of the following:</source>
     </message>
     <message>
         <source>Another version of PHP can be download at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing imagegd2 extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The imagegd2 extension is not available to eZ publish. Without it eZ publish will only be able to do conversion using ImageMagick and the</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To enable imagegd2 you need to recompile PHP with support for it, more information on that subject is available at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>AcceptPathInfo disabled or running in CGI mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You need enable AcceptPathInfo in your Apache config file, if you&apos;re using apache 2.x</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish will not run in CGI mode, if you&apos;re running apache 1.3.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>enter the following into your httpd.conf file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remember to restart your web server afterwards.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing text creation functions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The PHP functions ImageTTFText and ImageTTFBBox is missing. Without these functions it is not possible to use the texttoimage template operator.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To enable these functions you need to recompile PHP with support for it, more information on that subject is available at</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6719,10 +6694,6 @@ To fix this problem you must do one of the following:</source>
     <message>
         <source>Wish list</source>
         <translation>Wunschzettel</translation>
-    </message>
-    <message>
-        <source>Remove item(s)</source>
-        <translation type="obsolete">Entferne ausgewählte(s) Produkt(e)</translation>
     </message>
     <message>
         <source>Empty wish list</source>
@@ -6873,10 +6844,6 @@ To fix this problem you must do one of the following:</source>
         <translation>Bestellauflistung</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="obsolete">Hilfe</translation>
-    </message>
-    <message>
         <source>Sort Result by</source>
         <translation>Sortieren des Ergebnisses nach</translation>
     </message>
@@ -7009,10 +6976,6 @@ To fix this problem you must do one of the following:</source>
     <message>
         <source>Workflow</source>
         <translation>Workflow</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="obsolete">Hilfe</translation>
     </message>
     <message>
         <source>Module name</source>
@@ -7166,10 +7129,6 @@ To fix this problem you must do one of the following:</source>
     <message>
         <source>A valid username and password is required to login.</source>
         <translation>Gültiger Nutzername und Passwort sind erforderlich.</translation>
-    </message>
-    <message>
-        <source>Sign Up</source>
-        <translation type="obsolete">Anmelden</translation>
     </message>
     <message>
         <source>Change password for user</source>
@@ -7590,10 +7549,6 @@ your account.</source>
         <translation>Neue Gruppe</translation>
     </message>
     <message>
-        <source>Workflows in %1</source>
-        <translation type="obsolete">Workflow in %1</translation>
-    </message>
-    <message>
         <source>Modifier</source>
         <translation>Veränderer</translation>
     </message>
@@ -7618,10 +7573,6 @@ your account.</source>
         <translation>Modfiziert von %username am %time</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="obsolete">Hilfe</translation>
-    </message>
-    <message>
         <source>Edit workflow</source>
         <translation>Bearbeite Workflow</translation>
     </message>
@@ -7640,49 +7591,10 @@ your account.</source>
     </message>
 </context>
 <context>
-    <name>design/standard/workflow/event</name>
-    <message>
-        <source>Checkout</source>
-        <translation type="obsolete">Zur Kasse</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="obsolete">Nächste</translation>
-    </message>
-    <message>
-        <source>Wrapping</source>
-        <translation type="obsolete">Verpacken</translation>
-    </message>
-    <message>
-        <source>Do you want wrapping in Christmas paper?</source>
-        <translation type="obsolete">Wollen Sie eine Geschenkverpackung?</translation>
-    </message>
-    <message>
-        <source>No</source>
-        <translation type="obsolete">Nein</translation>
-    </message>
-    <message>
-        <source>Yes</source>
-        <translation type="obsolete">Ja</translation>
-    </message>
-    <message>
-        <source>Hello</source>
-        <translation type="obsolete">Hallo</translation>
-    </message>
-</context>
-<context>
     <name>design/standard/workflow/eventtype/edit</name>
     <message>
         <source>Any</source>
         <translation>Alle</translation>
-    </message>
-    <message>
-        <source>Unpublish object</source>
-        <translation type="obsolete">Unveröffentlichtes Objekt</translation>
-    </message>
-    <message>
-        <source>Publish object</source>
-        <translation type="obsolete">Objekt veröffentlichen</translation>
     </message>
     <message>
         <source>Editor</source>
@@ -7697,28 +7609,8 @@ your account.</source>
         <translation>Benutzer ohne Bestätigung</translation>
     </message>
     <message>
-        <source>Checkout text</source>
-        <translation type="obsolete">Abmeldetext</translation>
-    </message>
-    <message>
-        <source>Message</source>
-        <translation type="obsolete">Nachricht</translation>
-    </message>
-    <message>
         <source>Users without workflow IDs</source>
         <translation>Benutzer ohne Workflow IDs</translation>
-    </message>
-    <message>
-        <source>Days</source>
-        <translation type="obsolete">Tage</translation>
-    </message>
-    <message>
-        <source>Hours</source>
-        <translation type="obsolete">Stunden</translation>
-    </message>
-    <message>
-        <source>Minutes</source>
-        <translation type="obsolete">Minuten</translation>
     </message>
     <message>
         <source>Class</source>
@@ -7948,12 +7840,12 @@ your account.</source>
     <message>
         <source>Date field</source>
         <comment>Datatype name</comment>
-        <translation>Datumfeld</translation>
+        <translation>Datumsfeld</translation>
     </message>
     <message>
         <source>Datetime field</source>
         <comment>Datatype name</comment>
-        <translation>Zeitfeld</translation>
+        <translation>Datum/Zeitfeld</translation>
     </message>
     <message>
         <source>Email</source>
@@ -8000,10 +7892,6 @@ your account.</source>
         <translation>Bild</translation>
     </message>
     <message>
-        <source>A valid image is required.</source>
-        <translation type="obsolete">Ein gültiges Bildformat ist notwendig.</translation>
-    </message>
-    <message>
         <source>Integer</source>
         <comment>Datatype name</comment>
         <translation>Ganzzahl</translation>
@@ -8028,7 +7916,7 @@ your account.</source>
     <message>
         <source>Keyword</source>
         <comment>Datatype name</comment>
-        <translation>Schüsselwort</translation>
+        <translation>Schlagwort</translation>
     </message>
     <message>
         <source>Matrix</source>
@@ -8038,12 +7926,12 @@ your account.</source>
     <message>
         <source>Media</source>
         <comment>Datatype name</comment>
-        <translation>Medien</translation>
+        <translation>Media</translation>
     </message>
     <message>
         <source>Object relation</source>
         <comment>Datatype name</comment>
-        <translation>Ojekt relation</translation>
+        <translation>Objekt Relation</translation>
     </message>
     <message>
         <source>Object relation list</source>
@@ -8118,13 +8006,9 @@ your account.</source>
         <translation>Textfeld ist leer, Inhalt ist notwendig.</translation>
     </message>
     <message>
-        <source>Send</source>
-        <translation>Senden</translation>
-    </message>
-    <message>
         <source>Time field</source>
         <comment>Datatype name</comment>
-        <translation>Zeitfeld</translation>
+        <translation>Uhrzeit</translation>
     </message>
     <message>
         <source>URL</source>
@@ -8229,10 +8113,6 @@ your account.</source>
         <translation>Inhalt</translation>
     </message>
     <message>
-        <source>Edit</source>
-        <translation type="obsolete">Bearbeiten</translation>
-    </message>
-    <message>
         <source>Copy</source>
         <translation>Kopieren</translation>
     </message>
@@ -8323,16 +8203,6 @@ your account.</source>
     <message>
         <source>And also it will remove the nodes:</source>
         <translation>Und außerdem werden diese Knoten entfernt:</translation>
-    </message>
-    <message>
-        <source>child</source>
-        <comment>1 child</comment>
-        <translation type="obsolete">Kind</translation>
-    </message>
-    <message>
-        <source>children</source>
-        <comment>several children</comment>
-        <translation type="obsolete">Kinder</translation>
     </message>
 </context>
 <context>
@@ -8791,44 +8661,16 @@ your account.</source>
         <translation>Freigeben</translation>
     </message>
     <message>
-        <source>Checkout</source>
-        <translation type="obsolete">Zur Kasse</translation>
-    </message>
-    <message>
         <source>Multiplexer</source>
         <translation>Multiplexer</translation>
-    </message>
-    <message>
-        <source>Publish</source>
-        <translation type="obsolete">Veröffentlichen</translation>
-    </message>
-    <message>
-        <source>Publish on time</source>
-        <translation type="obsolete">Auf Zeit veröffentlichen</translation>
     </message>
     <message>
         <source>Simple shipping</source>
         <translation>Einfacher Versand</translation>
     </message>
     <message>
-        <source>Timing</source>
-        <translation type="obsolete">Timing</translation>
-    </message>
-    <message>
-        <source>Unpublish</source>
-        <translation type="obsolete">Veröffentlichung zurücknehmen</translation>
-    </message>
-    <message>
         <source>Wait until date</source>
         <translation>Bis Datum warten</translation>
-    </message>
-    <message>
-        <source>Wrapping</source>
-        <translation type="obsolete">Verpacken</translation>
-    </message>
-    <message>
-        <source>Hello User</source>
-        <translation type="obsolete">Hallo Benutzer</translation>
     </message>
 </context>
 <context>
@@ -8836,10 +8678,6 @@ your account.</source>
     <message>
         <source>Group</source>
         <translation>Gruppe</translation>
-    </message>
-    <message>
-        <source>Serial</source>
-        <translation type="obsolete">Seriennumber</translation>
     </message>
 </context>
 <context>
