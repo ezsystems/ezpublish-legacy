@@ -245,10 +245,7 @@ class eZDebug
         // and unset it globally
         if ( isset( $GLOBALS['eZDebugAlwaysLog'] ) )
         {
-            foreach ( $GLOBALS['eZDebugAlwaysLog'] as $level => $value )
-            {
-                $this->AlwaysLog[$level] = $value;
-            }
+            $this->AlwaysLog = $GLOBALS['eZDebugAlwaysLog'] + $this->AlwaysLog;
             unset( $GLOBALS['eZDebugAlwaysLog'] );
         }
 
