@@ -59,7 +59,7 @@
         <td>{$Nodes.item.object.modified|l10n( shortdatetime )}</td>
 
         {* Section *}
-        <td>{$Nodes.item.object.section_id}</td>
+        <td>{fetch( section, object, hash( section_id, $Nodes.item.object.section_id ) ).name|wash}</td>
 
         {* Priority *}
         {section show=eq( $node.sort_array[0][0], 'priority' )}
