@@ -61,6 +61,8 @@ define( 'EZ_DATATYPEINISETTING_CLASS_TYPE_FIELD', 'data_int1' );
 define( 'EZ_DATATYPEINISETTING_CLASS_INI_INSTANCE_FIELD', 'data_text4' );
 define( 'EZ_DATATYPEINISETTING_CLASS_SITE_ACCESS_LIST_FIELD', 'data_text5' );
 
+define( 'EZ_DATATYPEINISETTING_CLASS_TYPE_ARRAY', 6 );
+
 class eZIniSettingType extends eZDataType
 {
     /*!
@@ -90,6 +92,13 @@ class eZIniSettingType extends eZDataType
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                      'Could not locate ini file' ) );
                 return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            }
+
+            if ( $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_TYPE_FIELD ) == EZ_DATATYPEINISETTING_CLASS_TYPE_ARRAY )
+            {
+                $iniArray = array();
+                if ( eZIniSettingType::parseArrayInput( $contentObjectAttribute->attribute( 'data_text' ), $iniArray ) === false )
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
             }
         }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
@@ -163,9 +172,17 @@ class eZIniSettingType extends eZDataType
             $section =& $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SECTION_FIELD );
             $parameter =& $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_PARAMETER_FIELD );
 
+            if ( ! in_array( 0, $iniInstanceArray ) )  /* Makes sure it check 'settings' and 'settings/override' last */
+                array_unshift( $iniInstanceArray,  0 );
+            array_unshift( $iniInstanceArray, -1 );
+
+            $configArray = array();
+
             foreach ( $iniInstanceArray as $iniInstance )
             {
-                if ( $iniInstance == 0 )
+                if ( $iniInstance == -1 )
+                    $path = 'settings';
+                else if ( $iniInstance == 0 )
                     $path = 'settings/override';
                 else
                     $path = 'settings/siteaccess/' . $siteAccessArray[$iniInstance];
@@ -177,17 +194,37 @@ class eZIniSettingType extends eZDataType
 
                 $configValue =& $config->variable( $section, $parameter );
 
-                $objectAttribute->setAttribute( 'data_text', $configValue );
-                eZDebug::writeNotice( 'Loaded following values from ' . $path . '/' . $filename . ":\n" .
-                                      '    ' . $configValue );
-                return;
+                if ( is_array( $configValue ) )
+                {
+                    foreach ( array_keys( $configValue ) as $key )
+                    {
+                        $configArray[$key] = $configValue[$key];
+                    }
+                }
+                else
+                {
+                    $objectAttribute->setAttribute( 'data_text', $configValue );
+                    eZDebug::writeNotice( 'Loaded following values from ' . $path . '/' . $filename . ":\n" .
+                                          '    ' . $configValue );
+                }
             }
 
-            $config =& eZINI::instance( $filename );
-            $configValue =& $config->variable( $section, $parameter );
-            $objectAttribute->setAttribute( 'data_text', $configValue );
-            eZDebug::writeNotice( 'Loaded following values from ' . $filename . ":\n" .
-                                  '    ' . $configValue );
+            if ( count( $configArray ) > 0 )
+            {
+                $data = '';
+                foreach( array_keys( $configArray ) as $key )
+                {
+                    if ( is_int( $key ) )
+                    {
+                        $data .= '=' . $configArray[$key] . "\n" ;
+                    }
+                    else
+                    {
+                        $data .= $key . '=' . $configArray[$key] . "\n" ;
+                    }
+                }
+                $objectAttribute->setAttribute( 'data_text', $data );
+            }
         }
     }
 
@@ -283,12 +320,59 @@ class eZIniSettingType extends eZDataType
                 continue;
             }
 
-            $config->setVariable( $section, $parameter, $contentObjectAttribute->attribute( 'data_text' ) );
-            eZDebug::writeNotice( 'Saved ini settings to file: ' . $path . '/' . $filename . "\n" .
-                                  '                            ['. $section . ']' . "\n" .
-                                  '                            ' . $parameter . '=' . $contentObjectAttribute->attribute( 'data_text' ) );
+            if ( $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_TYPE_FIELD ) == EZ_DATATYPEINISETTING_CLASS_TYPE_ARRAY )
+            {
+                $iniArray = array();
+                eZIniSettingType::parseArrayInput( $contentObjectAttribute->attribute( 'data_text' ), $iniArray );
+                $config->setVariable( $section, $parameter, $iniArray );
+            }
+            else
+            {
+                $config->setVariable( $section, $parameter, $contentObjectAttribute->attribute( 'data_text' ) );
+                eZDebug::writeNotice( 'Saved ini settings to file: ' . $path . '/' . $filename . "\n" .
+                                      '                            ['. $section . ']' . "\n" .
+                                      '                            ' . $parameter . '=' . $contentObjectAttribute->attribute( 'data_text' ) );
+            }
             $config->save( false, '.append.php', false, true, $path );
         }
+    }
+
+    /*!
+     \private
+     Parse array input text into array with korrect keys.
+
+     \param input text
+     \param array to store parsed file to
+
+     \return true if parsed successfully, false if illegal syntax
+    */
+    function parseArrayInput( &$inputText, &$outputArray )
+    {
+        $lineArray = explode( "\n", $inputText );
+
+        foreach ( array_keys( $lineArray ) as $key )
+        {
+            $line = str_replace( "\r", '', $lineArray[$key] );
+
+            if ( strlen( $line ) <= 2 )
+                continue;
+
+            if ( strstr( $line, '=' ) === false )
+                return false;
+
+            $lineElements = explode( '=', $line );
+
+            if ( count( $lineElements ) == 1 )
+            {
+                $outputArray[] = $lineElements[0];
+            }
+            else
+            {
+                $outputArray[$lineElements[0]] = $lineElements[1];
+            }
+        }
+
+        return true;
     }
 
     /*!

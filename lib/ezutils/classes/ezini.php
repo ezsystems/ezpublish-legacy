@@ -282,10 +282,9 @@ class eZINI
                 $overrideFile = eZDir::path( array( $this->RootDir, $overrideDir, $this->FileName ) );
             if ( file_exists( $overrideFile . '.php' ) )
             {
-                $overrideFile .= '.php';
-                $inputFiles[] = $overrideFile;
+                $inputFiles[] = $overrideFile . '.php';
             }
-            else if ( file_exists( $overrideFile ) )
+            if ( file_exists( $overrideFile ) )
                 $inputFiles[] = $overrideFile;
 
             if ( $isGlobal )
@@ -294,10 +293,9 @@ class eZINI
                 $overrideFile = eZDir::path( array( $this->RootDir, $overrideDir, $this->FileName . '.append' ) );
             if ( file_exists( $overrideFile . '.php' ) )
             {
-                $overrideFile .= '.php';
-                $inputFiles[] = $overrideFile;
+                $inputFiles[] = $overrideFile . '.php';
             }
-            else if ( file_exists( $overrideFile ) )
+            if ( file_exists( $overrideFile ) )
                 $inputFiles[] = $overrideFile;
         }
     }
