@@ -13,7 +13,8 @@
 <div class="element">
     <label>{'Username'|i18n( 'design/standard/content/datatype' )}</label>
     {section show=$attribute.content.has_stored_login}
-        <input type="text" name="{$attribute_base}_data_user_login_{$attribute.id}" size="16" value="{$attribute.content.login}" disabled="disabled" />
+        <input type="text" name="{$attribute_base}_data_user_login_{$attribute.id}_stored_login" size="16" value="{$attribute.content.login}" disabled="disabled" />
+        <input type="hidden" name="{$attribute_base}_data_user_login_{$attribute.id}" value="{$attribute.content.login}" />
     {section-else}
         <input type="text" name="{$attribute_base}_data_user_login_{$attribute.id}" size="16" value="{$attribute.content.login}" />
     {/section}
