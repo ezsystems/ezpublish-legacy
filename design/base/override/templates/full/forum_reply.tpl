@@ -1,13 +1,13 @@
-<h1>Message preview</h1>
+<h1>{"Message preview"|i18n("design/base")}</h1>
 
 <div class="forum_level4">
 <table class="forum" cellspacing="0">
 <tr>
     <th class="author">
-    Author
+    {"Author"|i18n("design/base")}
     </th>
     <th class="message">
-    Topic
+    {"Topic"|i18n("design/base")}
     </th>
 </tr>
 <tr class="bglightforum">
