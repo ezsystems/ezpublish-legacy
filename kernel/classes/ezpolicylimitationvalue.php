@@ -106,7 +106,7 @@ class eZPolicyLimitationValue extends eZPersistentObject
     */
     function &create( $limitationID, $value )
     {
-        $row = array( 'id' => false,
+        $row = array( 'id' => null,
                       'limitation_id' => $limitationID,
                       'value' => $value );
         $limitationValue = new eZPolicyLimitationValue( $row );

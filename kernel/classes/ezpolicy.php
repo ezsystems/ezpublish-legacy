@@ -170,7 +170,7 @@ class eZPolicy extends eZPersistentObject
             $module = '*';
         if ( $function === true )
             $function = '*';
-        $row = array( 'id' => false,
+        $row = array( 'id' => null,
                       'role_id' => $roleID,
                       'module_name' => $module,
                       'function_name' => $function );
