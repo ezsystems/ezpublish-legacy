@@ -12,12 +12,6 @@
 </div>
 
 <div class="block">
-<label for="fuzzy_match_{$class_attribute.id}">{'Allow fuzzy match'|i18n( 'design/standard/class/datatype' )}</label>
-<input id="fuzzy_match_{$class_attribute.id}" type="checkbox" name="ContentClass_ezobjectrelation_selection_fuzzy_match_{$class_attribute.id}" {section show=$content.fuzzy_match}checked="checked"{/section} />
-<input type="hidden" name="ContentClass_ezobjectrelation_selection_fuzzy_match_helper_{$class_attribute.id}" value="1" />
-</div>
-
-<div class="block">
 <fieldset>
 <legend>{'Default selection item'|i18n( 'design/standard/class/datatype' )}</legend>
 {section show=$content.default_selection_node}
@@ -43,6 +37,12 @@
 
 <input class="button" type="submit" name="CustomActionButton[{$class_attribute.id}_browse_for_selection_node]" value="{'Select item'|i18n('design/standard/class/datatype')}" />
 </fieldset>
+</div>
+
+<div class="block">
+<label>{'Allow fuzzy match'|i18n( 'design/standard/class/datatype' )}</label>
+<input type="checkbox" name="ContentClass_ezobjectrelation_selection_fuzzy_match_{$class_attribute.id}" {section show=$content.fuzzy_match}checked="checked"{/section} />
+<input type="hidden" name="ContentClass_ezobjectrelation_selection_fuzzy_match_helper_{$class_attribute.id}" value="1" />
 </div>
 
 {/let}
