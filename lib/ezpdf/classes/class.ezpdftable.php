@@ -638,7 +638,9 @@ class eZPDFTable extends Cezpdf
                                         } else {
                                             $just='left';
                                         }
+                                        $storeY = $this->y;
                                         $textInfo = $this->addTextWrap($pos[$realColumnCount],$this->y,$maxWidth[$colSpan][$realColumnCount],$options['fontSize'],$line,$just);
+                                        $this->y = $storeY;
                                         $line=$textInfo['text'];
                                         if ( $textInfo['height'] != -1 )
                                         {
@@ -921,6 +923,8 @@ class eZPDFTable extends Cezpdf
         }
 
         $this->transaction( 'commit' );
+
+        $this->y -= $params['height'];
 
         return array( 'y' => $params['height'] );
     }
