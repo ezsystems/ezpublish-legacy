@@ -32,6 +32,7 @@ Changes from 3.3.0-1 to 3.3.0-2
 - Fixed ezimage datatype to return the alternative text or the original filename (instead of local filename) as title.
 
 *Bugfixes:
+- NB! Fixed bug in upgrade script from 3.2-3 to 3.3.0-1. If you had temporary classes the upgrade scrpt generated an error and did not work.
 - Fixed bug where advanced setup menu in admin open/close did not work due to cache.
 - Fixed copy object bug. Current version was not set, multiple version copy did not set object name and redirect did not contain version number. (merged from stable 4293)
 - Fixed comment edit layout bug: http://ez.no/developer/ez_publish_3/bug_reports/new_comment_break_layout_news_package

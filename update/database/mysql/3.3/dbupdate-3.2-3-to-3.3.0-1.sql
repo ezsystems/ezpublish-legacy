@@ -77,13 +77,13 @@ CREATE TABLE ezrss_import (
 
 --
 -- 
-create table ezcontent_attribute_tmp as select ezcontentobject_attribute.*, ezcontentclass_attribute.data_type_string from ezcontentobject_attribute, ezcontentclass_attribute where  ezcontentobject_attribute.contentclassattribute_id=ezcontentclass_attribute.id;
+create table ezcontent_attribute_tmp as select ezcontentobject_attribute.*, ezcontentclass_attribute.data_type_string from ezcontentobject_attribute, ezcontentclass_attribute where  ezcontentobject_attribute.contentclassattribute_id=ezcontentclass_attribute.id and ezcontentclass_attribute.version=0;
 
 delete from ezcontentobject_attribute;
 
 alter table ezcontentobject_attribute add data_type_string varchar(50) not null;
 
-alter table ezcontentobject_version add workflow_event_pos int(11) not null default '0';
+-- alter table ezcontentobject_version add workflow_event_pos int(11) not null default '0';
 
 insert into ezcontentobject_attribute select * from ezcontent_attribute_tmp;
 drop table ezcontent_attribute_tmp;
