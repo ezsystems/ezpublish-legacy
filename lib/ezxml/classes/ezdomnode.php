@@ -178,6 +178,26 @@ class eZDOMNode
     }
 
     /*!
+    Returns attributes for the given namespace.
+    */
+    function &attributesNS( $namespaceURI )
+    {
+        $ret = array();
+        if ( count( $this->Attributes  ) > 0 )
+        {
+            foreach ( $this->Attributes as $attribute )
+            {
+                if ( $attribute->namespaceURI() == $namespaceURI )
+                {
+
+                    $ret[] = $attribute;
+                }
+            }
+        }
+        return $ret;
+    }
+
+    /*!
       \return \c true if the node has any attributes.
     */
     function &hasAttributes()

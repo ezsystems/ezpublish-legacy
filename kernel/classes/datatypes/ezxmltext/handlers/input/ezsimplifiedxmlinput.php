@@ -37,11 +37,30 @@
 include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php' );
 include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
+include_once( "lib/ezutils/classes/ezini.php" );
 
 class eZSimplifiedXMLInput extends eZXMLInputHandler
 {
     function eZSimplifiedXMLInput( &$xmlData, $aliasedType, $contentObjectAttribute )
     {
+        // Initialize size array for image.
+        $sizeArray = array( 'small', 'medium', 'large', 'reference', 'original' );
+        $imageIni =& eZINI::instance( 'image.ini' );
+        if ( $imageIni->hasVariable( 'ImageSizes', 'Height' ) )
+        {
+            $heightList =& $imageIni->variable( 'ImageSizes', 'Height' );
+            if ( $heightList != null )
+            {
+                foreach ( array_keys ( $heightList ) as $key )
+                {
+                    if ( $key != "small" and $key != "medium" and $key != "large" and
+                         $key != "reference" and $key != "original" )
+                    {
+                        $sizeArray[] = $key;
+                    }
+                }
+            }
+        }
         $this->eZXMLInputHandler( $xmlData, $aliasedType, $contentObjectAttribute );
         $this->SubTagArray['section'] = $this->SectionArray;
         $this->SubTagArray['paragraph'] = array_merge( $this->BlockTagArray, $this->InLineTagArray );
@@ -75,7 +94,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
         $this->TagAttributeArray['object'] = array( 'class' => array( 'required' => false ),
                                                     'id' => array( 'required' => true ),
-                                                    'size' => array( 'required' => false ),
+                                                    'size' => array( 'required' => false, 'value' => $sizeArray),
                                                     'align' => array( 'required' => false ),
                                                     'ezurl_href' => array( 'required' => false ),
                                                     'ezurl_id' => array( 'required' => false ),
@@ -133,7 +152,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             $isInputValid = "isInputValid_" . $contentObjectAttributeID;
             $GLOBALS[$isInputValid] = true;
 
-            $inputData = "<section xmlns:image='http://ez.no/namespaces/ezpublish3/image/' xmlns:xhtml='http://ez.no/namespaces/ezpublish3/xhtml/' >";
+            $inputData = "<section xmlns:image='http://ez.no/namespaces/ezpublish3/image/' xmlns:xhtml='http://ez.no/namespaces/ezpublish3/xhtml/' xmlns:custom='http://ez.no/namespaces/ezpublish3/custom/' >";
             $inputData .= "<paragraph>";
             $inputData .= $data;
             $inputData .= "</paragraph>";
@@ -599,8 +618,20 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $attrName = $attrbute->Name;
                     $existAttrNameArray[] = $attrName;
 
-                    if ( isset( $this->TagAttributeArray[$currentTag][$attrName] ) )
+                    if ( isset( $this->TagAttributeArray[$currentTag][$attrName] ) or $currentTag == "object" or $currentTag == "custom" )
                     {
+                        if ( $currentTag == "object" )
+                        {
+                            if ( $attrName != "id" and $attrName != "class" and $attrName != "align" and $attrName != "size" and $attrName != "ezurl_href"
+                                 and $attrName != "ezurl_id" and $attrName != "ezurl_target" )
+                                $attrbute->setPrefix( "custom" );
+                        }
+
+                        if ( $currentTag == "custom" )
+                        {
+                            if ( $attrName != "name" )
+                                $attrbute->setPrefix( "custom" );
+                        }
                         $allowedAttr[] = $attrbute;
                     }
                     else
@@ -627,6 +658,33 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             //Set input invalid
                             $this->IsInputValid = false;
                             $message[] = "Attribute '" . $key . "' in tag " . $currentTag . " not found (need fix)";
+                        }
+                    }
+
+                    if ( isset( $attribute['value'] ) )
+                    {
+                        foreach ( $attr as $attrbuteObject )
+                        {
+                            $attrName = $attrbuteObject->Name;
+                            $attrContent = $attrbuteObject->Content;
+                            if ( $attrName == $key )
+                            {
+                                if ( in_array( $attrContent, $attribute['value'] ) )
+                                {
+                                    //do nothing
+                                }
+                                else
+                                {
+                                    $validValue = "";
+                                    foreach ( $attribute['value'] as $value )
+                                    {
+                                        $validValue .= "'" . $value . "' ";
+                                    }
+                                    //Set input invalid
+                                    $this->IsInputValid = false;
+                                    $message[] = "Attribute '" . $key . "' in tag " . $currentTag . " has invalid value ( choose " . $validValue . " )";
+                                }
+                            }
                         }
                     }
                 }
@@ -1230,6 +1288,11 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                     }
                                 }
                             }
+                            else
+                            {
+                                $attrbute->setPrefix( "custom" );
+                                $supportedAttr[] = $attrbute;
+                            }
                         }
 
                         if ( $isInlineCustomTag )
@@ -1736,6 +1799,12 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     if ( $target != null )
                         $objectAttr .= " target=\"$target\"";
                 }
+
+                $customAttributes =& $tag->attributesNS( "http://ez.no/namespaces/ezpublish3/custom/" );
+                foreach ( $customAttributes as $attribute )
+                {
+                    $objectAttr .= " $attribute->Name=\"$attribute->Content\"";
+                }
                 $output .= "<object $objectAttr />";
             }break;
 
@@ -1855,6 +1924,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             // Custom tags
             case 'custom' :
             {
+                //eZDebug::writeDebug($tag->attributeValueNS("t", "http://ez.no/namespaces/ezpublish3/custom/"), "8888777");
                 $name = $tag->attributeValue( 'name' );
                 $isInline = false;
                 include_once( "lib/ezutils/classes/ezini.php" );
@@ -1871,8 +1941,15 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     }
                 }
 
+                $customAttributes =& $tag->attributesNS( "http://ez.no/namespaces/ezpublish3/custom/" );
+                $customAttr = "";
+                foreach ( $customAttributes as $attribute )
+                {
+                    $customAttr .= " $attribute->Name=\"$attribute->Content\"";
+                }
+
                 if ( $isInline )
-                    $output .= "<$tagName name='$name'>" . $childTagText . "</custom>";
+                    $output .= "<$tagName name='$name'" . $customAttr . ">" . $childTagText . "</custom>";
                 else
                 {
                     $customTagContent = "";
@@ -1880,7 +1957,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     {
                         $customTagContent .= $this->inputTdXML( $tagChild, $currentSectionLevel, $tdSectionLevel );
                     }
-                    $output .= "<$tagName name='$name'>\n" .   trim( $customTagContent ) . "\n</$tagName>";
+                    $output .= "<$tagName name='$name'" . $customAttr . ">\n" .   trim( $customTagContent ) . "\n</$tagName>";
                 }
             }break;
 

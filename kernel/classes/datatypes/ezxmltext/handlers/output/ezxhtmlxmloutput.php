@@ -534,6 +534,13 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $childContent = $this->renderXHTMLSection( $tpl, $tag, $currentSectionLevel, $tdSectionLevel );
                     $isBlockTag = true;
                 }
+
+                $customAttributes =& $tag->attributesNS( "http://ez.no/namespaces/ezpublish3/custom/" );
+                foreach ( $customAttributes as $attribute )
+                {
+                    $tpl->setVariable( $attribute->Name, $attribute->Content, 'xmltagns' );
+                }
+
                 $tpl->setVariable( 'content',  $childContent, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/$name.tpl";
                 $textElements = array();
