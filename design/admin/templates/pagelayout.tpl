@@ -13,6 +13,11 @@
     <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />
 
 {literal}
+<!--[if IE]>
+<style>
+</style>
+<![endif]-->
+
 <!--[if lt IE 6.0]>
 <style>
 div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE 5.5 */

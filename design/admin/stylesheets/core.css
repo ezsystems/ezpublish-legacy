@@ -140,6 +140,15 @@ tr.bglight:hover, tr.bgdark:hover
     background-color: #f0f0f0;
 }
 
+th.tight
+{
+    width: 1%;
+}
+
+th.wide
+{
+}
+
 /* ORDERED AND UNORDERED LISTS */
 
 ul, ol
