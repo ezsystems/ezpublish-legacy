@@ -410,7 +410,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
        {section show=ne( $ui_context, 'browse')}
        <a href="#" onclick="ezpopmenu_showTopLevel( event, 'BookmarkMenu', ez_createAArray( new Array( '%nodeID%', '{$Bookmarks.item.node_id}' , '%objectID%', '{$Bookmarks.item.contentobject_id}' ) ) , '{$Bookmarks.item.name|shorten(18)|wash(javascript)}'); return false;">{$Bookmarks.item.node.object.content_class.identifier|class_icon( small, '[%classname] Click on the icon to get a context sensitive menu.'|i18n( 'design/admin/pagelayout',, hash( '%classname', $Bookmarks.item.node.object.content_class.name  ) ) )}</a>&nbsp;<a href={$Bookmarks.item.node.url_alias|ezurl}>{$Bookmarks.item.node.name|wash}</a></li>
        {section-else}
-         {$Bookmarks.item.node.object.content_class.identifier|class_icon( small, $Bookmarks.item.node.object.content_class.name )}</a>&nbsp;<a href={concat( '/content/browse/', $Bookmarks.item.node.node_id)|ezurl}>{$Bookmarks.item.node.name|wash}</a></li>
+         {$Bookmarks.item.node.object.content_class.identifier|class_icon( small, $Bookmarks.item.node.object.content_class.name )}&nbsp;<a href={concat( '/content/browse/', $Bookmarks.item.node.node_id)|ezurl}>{$Bookmarks.item.node.name|wash}</a></li>
        {/section}
      {section-else}
          <li>{$Bookmarks.item.node.object.content_class.identifier|class_icon( small, $Bookmarks.item.node.object.content_class.name )}&nbsp;<span class="disabled">{$Bookmarks.item.node.name|wash}</span></li>
