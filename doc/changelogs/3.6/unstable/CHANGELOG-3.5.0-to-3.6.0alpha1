@@ -28,5 +28,8 @@ Changes from 3.5.0 to 3.6.0alpha1
 - Fixed bugs in eZURI class: Original URI and user parameters were broken during URI translation.
   $site.original_uri attribute was not listed properly.
 - Fixed bug #5849: Paginated pages only print out first page instead of page being viewed.
+- Fixed bug #4553: Problems with \0 characters for PostGreSQL and ezXML::createTextNode.
+  http://ez.no/bugs/view/4553
+  (Merged from stable/3.4, rev. 10502 and stable/3.5, rev. 10503)
 
 *Library:
