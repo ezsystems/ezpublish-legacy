@@ -6,7 +6,7 @@
 
 {let group_tree=fetch("collaboration","group_tree",hash("parent_group_id",$parent_group_id))
      latest_item_count=fetch("collaboration","item_count")
-     latest_item_list=fetch("collaboration","item_list",hash("limit",$item_limit,"offset",$offset,"status",array(1)))}
+     latest_item_list=fetch("collaboration","item_list",hash("limit",$item_limit,"offset",$offset,"is_active",true()))}
 
 <table width="100%" cellspacing="0" cellpadding="0" border="1">
 <tr>
