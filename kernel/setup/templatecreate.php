@@ -55,6 +55,21 @@ foreach ( $parameters as $param )
     $template .= "/$param";
 }
 
+
+$templateType = 'default';
+if ( strpos( $template, "node/view" ) )
+{
+    $templateType = 'node_view';
+}
+else if ( strpos( $template, "content/view" ) )
+{
+    $templateType = 'content_view';
+}
+else if ( strpos( $template, "pagelayout.tpl" ) )
+{
+    $templateType = 'pagelayout';
+}
+
 if ( $module->isCurrentAction( 'CreateOverride' ) )
 {
     $templateName = trim( $http->postVariable( 'TemplateName' ) );
@@ -62,92 +77,27 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
     if ( trim( $templateName ) != "" )
     {
         $templateName = trim( $http->postVariable( 'TemplateName' ) );
+        $fileName = "design/$siteBase/override/templates/" . $templateName . ".tpl";
 
-        $matchArray = $http->postVariable( 'Match' );
-
-        $classID = $matchArray['class'];
-
-        $class = eZContentClass::fetch( $classID );
-        // Check what kind of contents we should create in the template
-        switch ( $http->postVariable( 'TemplateContent' ) )
+        $templateCode = "";
+        switch ( $templateType )
         {
-            case 'DefaultCopy' :
+            case "node_view":
             {
-                $overrideArray =& eZTemplatedesignresource::overrideArray();
-                $fileName = $overrideArray[$template]['base_dir'] . $overrideArray[$template]['template'];
-                $fp = fopen( $fileName, 'r' );
-                if ( $fp )
-                {
-                    $templateCode = fread( $fp, filesize( $fileName ) );
-                }
-                else
-                {
-                    print( "Could not open file" );
-                }
-                fclose( $fp );
+                $templateCode =& generateNodeViewTemplate( $http, $template, $fileName );
             }break;
 
-            case 'ContainerTemplate' :
+            case "pagelayout":
             {
-                $templateCode = "<h1>{\$node.name}</h1>\n\n";
-
-                // Append attribute view
-                if ( get_class( $class ) == "ezcontentclass" )
-                {
-                    $attributes =& $class->fetchAttributes();
-                    foreach ( $attributes as $attribute )
-                    {
-                        $identifier = $attribute->attribute( 'identifier' );
-                        $name = $attribute->attribute( 'name' );
-                        $templateCode .= "<h2>$name</h2>\n";
-                        $templateCode .= "{attribute_view_gui attribute=\$node.object.data_map.$identifier}\n\n";
-                    }
-                }
-
-                $templateCode .= "" .
-                     "{let page_limit=20\n" .
-                     "    children=fetch('content','list',hash(parent_node_id,\$node.node_id,sort_by,\$node.sort_array,limit,\$page_limit,offset,\$view_parameters.offset))" .
-                     "    list_count=fetch('content','list_count',hash(parent_node_id,\$node.node_id))}\n" .
-                     "\n" .
-                     "{section name=Child loop=\$children sequence=array(bglight,bgdark)}\n" .
-                     "{node_view_gui view=line content_node=\$Child:item}\n" .
-                     "{/section}\n" .
-
-                     "{include name=navigator\n" .
-                     "    uri='design:navigator/google.tpl'\n" .
-                     "    page_uri=concat('/content/view','/full/',\$node.node_id)\n" .
-                     "    item_count=\$list_count\n" .
-                     "    view_parameters=\$view_parameters\n" .
-                     "    item_limit=\$page_limit}\n";
-                     "{/let}\n";
-            }break;
-
-            case 'ViewTemplate' :
-            {
-                $templateCode = "<h1>{\$node.name}</h1>\n\n";
-
-                // Append attribute view
-                if ( get_class( $class ) == "ezcontentclass" )
-                {
-                    $attributes =& $class->fetchAttributes();
-                    foreach ( $attributes as $attribute )
-                    {
-                        $identifier = $attribute->attribute( 'identifier' );
-                        $name = $attribute->attribute( 'name' );
-                        $templateCode .= "<h2>$name</h2>\n";
-                        $templateCode .= "{attribute_view_gui attribute=\$node.object.data_map.$identifier}\n\n";
-                    }
-                }
-
+                $templateCode =& generatePagelayoutTemplate( $http, $template, $fileName );
             }break;
 
             default:
-            case 'EmptyFile' :
             {
+
             }break;
         }
 
-        $fileName = "design/$siteBase/override/templates/" . $templateName . ".tpl";
         $fp = fopen( $fileName, "w+" );
         if ( $fp )
         {
@@ -165,13 +115,17 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
             $overrideINI->setVariable( $templateName, 'MatchFile', $templateName . ".tpl" );
             $overrideINI->setVariable( $templateName, 'Subdir', "templates" );
 
-            foreach ( array_keys( $matchArray ) as $matchKey )
+            if ( $http->hasPostVariable( 'Match' ) )
             {
-                if ( $matchArray[$matchKey] == -1 )
-                    unset( $matchArray[$matchKey] );
-            }
+                $matchArray = $http->postVariable( 'Match' );
 
-            $overrideINI->setVariable( $templateName, 'Match', $matchArray );
+                foreach ( array_keys( $matchArray ) as $matchKey )
+                {
+                    if ( $matchArray[$matchKey] == -1 or trim( $matchArray[$matchKey] ) == "" )
+                        unset( $matchArray[$matchKey] );
+                }
+                $overrideINI->setVariable( $templateName, 'Match', $matchArray );
+            }
 
             $overrideINI->save( "siteaccess/$siteAccess/override.ini.append" );
 
@@ -201,18 +155,142 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
     }
 }
 
-$templateType = 'default';
-if ( strpos( $template, "node/view" ) )
+
+function &generateNodeViewTemplate( &$http, $template, $fileName )
 {
-    $templateType = 'node_view';
+    $matchArray = $http->postVariable( 'Match' );
+
+
+    $templateCode = "";
+    $classID = $matchArray['class'];
+
+    $class = eZContentClass::fetch( $classID );
+
+    // Check what kind of contents we should create in the template
+    switch ( $http->postVariable( 'TemplateContent' ) )
+    {
+        case 'DefaultCopy' :
+        {
+            $overrideArray =& eZTemplatedesignresource::overrideArray();
+            $fileName = $overrideArray[$template]['base_dir'] . $overrideArray[$template]['template'];
+            $fp = fopen( $fileName, 'r' );
+            if ( $fp )
+            {
+                $templateCode = fread( $fp, filesize( $fileName ) );
+            }
+            else
+            {
+                print( "Could not open file" );
+            }
+            fclose( $fp );
+        }break;
+
+        case 'ContainerTemplate' :
+        {
+            $templateCode = "<h1>{\$node.name}</h1>\n\n";
+
+            // Append attribute view
+            if ( get_class( $class ) == "ezcontentclass" )
+            {
+                $attributes =& $class->fetchAttributes();
+                foreach ( $attributes as $attribute )
+                {
+                    $identifier = $attribute->attribute( 'identifier' );
+                    $name = $attribute->attribute( 'name' );
+                    $templateCode .= "<h2>$name</h2>\n";
+                    $templateCode .= "{attribute_view_gui attribute=\$node.object.data_map.$identifier}\n\n";
+                }
+            }
+
+            $templateCode .= "" .
+                 "{let page_limit=20\n" .
+                 "    children=fetch('content','list',hash(parent_node_id,\$node.node_id,sort_by,\$node.sort_array,limit,\$page_limit,offset,\$view_parameters.offset))" .
+                 "    list_count=fetch('content','list_count',hash(parent_node_id,\$node.node_id))}\n" .
+                 "\n" .
+                 "{section name=Child loop=\$children sequence=array(bglight,bgdark)}\n" .
+                 "{node_view_gui view=line content_node=\$Child:item}\n" .
+                 "{/section}\n" .
+
+                 "{include name=navigator\n" .
+                 "    uri='design:navigator/google.tpl'\n" .
+                 "    page_uri=concat('/content/view','/full/',\$node.node_id)\n" .
+                 "    item_count=\$list_count\n" .
+                 "    view_parameters=\$view_parameters\n" .
+                 "    item_limit=\$page_limit}\n";
+            "{/let}\n";
+        }break;
+
+        case 'ViewTemplate' :
+        {
+            $templateCode = "<h1>{\$node.name}</h1>\n\n";
+
+            // Append attribute view
+            if ( get_class( $class ) == "ezcontentclass" )
+            {
+                $attributes =& $class->fetchAttributes();
+                foreach ( $attributes as $attribute )
+                {
+                    $identifier = $attribute->attribute( 'identifier' );
+                    $name = $attribute->attribute( 'name' );
+                    $templateCode .= "<h2>$name</h2>\n";
+                    $templateCode .= "{attribute_view_gui attribute=\$node.object.data_map.$identifier}\n\n";
+                }
+            }
+
+        }break;
+
+        default:
+        case 'EmptyFile' :
+        {
+        }break;
+    }
+    return $templateCode;
 }
-else if ( strpos( $template, "content/view" ) )
+
+
+function &generatePagelayoutTemplate( &$http, $template, $fileName )
 {
-    $templateType = 'content_view';
-}
-else if ( strpos( $template, "pagelayout.tpl" ) )
-{
-    $templateType = 'pagelayout';
+    $templateCode = "";
+    // Check what kind of contents we should create in the template
+    switch ( $http->postVariable( 'TemplateContent' ) )
+    {
+        case 'DefaultCopy' :
+        {
+            $overrideArray =& eZTemplatedesignresource::overrideArray();
+            $fileName = $overrideArray[$template]['base_dir'] . $overrideArray[$template]['template'];
+            $fp = fopen( $fileName, 'r' );
+            if ( $fp )
+            {
+                $templateCode = fread( $fp, filesize( $fileName ) );
+            }
+            else
+            {
+                eZDebug::writeError( "Could not open file $fileName, check read permissions" );
+            }
+            fclose( $fp );
+        }break;
+
+        default:
+        case 'EmptyFile' :
+        {
+            $templateCode = '{*?template charset=latin1?*}' .
+                 '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" ' .
+                 '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">' . "\n" .
+                 '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">' .
+                 '<head>' . "\n" .
+                 '    <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />' . "\n" .
+                 '    <link rel="stylesheet" type="text/css" href={"stylesheets/admin.css"|ezdesign} />' . "\n" .
+                 '    <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />' . "\n" .
+                 '    {include uri="design:page_head.tpl"}' . "\n" .
+                 '</head>' . "\n" .
+                 '<body>' . "\n" .
+                 '{$module_result.content}' . "\n" .
+                 '<!--DEBUG_REPORT-->' . "\n" .
+                 '</body>' . "\n" .
+                 '</html>' . "\n";
+        }break;
+    }
+    return $templateCode;
 }
 
 

@@ -14,12 +14,12 @@ Template will be placed in: design/{$site_base}/override/templates/
 </div>
 
 
+{switch match=$template_type}
+{case match='node_view'}
 <div class="objectheader">
 <h2>Override keys</h2>
 </div>
 
-{switch match=$template_type}
-{case match='node_view'}
 <div class="object">
 <table>
 <tr>
@@ -61,11 +61,6 @@ Template will be placed in: design/{$site_base}/override/templates/
 </tr>
 </table>
 </div>
-{/case}
-{case}
-
-{/case}
-{/switch}
 
 
 <div class="objectheader">
@@ -78,6 +73,21 @@ Template will be placed in: design/{$site_base}/override/templates/
 <input type="radio" name="TemplateContent" value="ContainerTemplate" /> Container ( with children )<br />
 <input type="radio" name="TemplateContent" value="ViewTemplate" /> View ( without children )<br />
 </div>
+
+{/case}
+{case match='pagelayout'}
+    <div class="objectheader">
+    <h2>Base template on</h2>
+    </div>
+    <div class="object">
+    <input type="radio" name="TemplateContent" value="EmptyFile" checked="checked"/>Empty file<br />
+    <input type="radio" name="TemplateContent" value="DefaultCopy" />Copy of default template<br />
+    </div>
+{/case}
+{case}
+
+{/case}
+{/switch}
 
 <div class="buttonblock">
 <input class="button" type="submit" value="Create" name="CreateOverrideButton" />

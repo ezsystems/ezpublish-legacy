@@ -270,6 +270,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
                 if ( isset( $matchFileArray[$matchKey]['custom_match'] ) )
                 {
+                    $defaultMatchFile = $matchFileArray[$matchKey]['base_dir'] . $matchKey;
                     // Custom override matching
                     $phpCode .= "if ( \$matchFile == \"$matchKey\" )\n    {\n";
 
@@ -293,11 +294,14 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                             $phpCode .= "            return '" .
                                  $customMatch['match_file'] . "';\n        }\n";
                         }
+                        else
+                        {
+                            // No override conditions defined. Override default match file
+                            $defaultMatchFile = $customMatch['match_file'];
+                        }
                     }
 
-
-                    $phpCode .= "        return '" .
-                         $matchFileArray[$matchKey]['base_dir'] . $matchKey . "';\n    }\n";
+                    $phpCode .= "        return '" . $defaultMatchFile . "';\n    }\n";
                 }
                 else
                 {
