@@ -65,7 +65,8 @@ class eZStringType extends eZDataType
     function eZStringType()
     {
         $this->eZDataType( EZ_DATATYPESTRING_STRING, ezi18n( 'kernel/classes/datatypes', 'Text line', 'Datatype name' ),
-                           array( 'serialize_supported' => true ) );
+                           array( 'serialize_supported' => true,
+                                  'object_serialize_map' => array( 'data_text' => 'text' ) ) );
         $this->MaxLenValidator = new eZIntegerValidator();
     }
 

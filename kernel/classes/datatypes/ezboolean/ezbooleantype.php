@@ -49,7 +49,8 @@ class eZBooleanType extends eZDataType
     function eZBooleanType()
     {
         $this->eZDataType( EZ_DATATYPESTRING_BOOLEAN, ezi18n( 'kernel/classes/datatypes', "Checkbox", 'Datatype name' ),
-                           array( 'serialize_supported' => true ) );
+                           array( 'serialize_supported' => true,
+                                  'object_serialize_map' => array( 'data_int' => 'value' ) ) );
     }
 
     /*!

@@ -72,7 +72,9 @@ class eZIdentifierType extends eZDataType
     {
         $this->eZDataType( EZ_DATATYPESTRING_IDENTIFIER,
                            ezi18n( 'kernel/classes/datatypes', "Identifier", 'Datatype name' ),
-                           array( 'serialize_supported' => false ) );
+                           array( 'serialize_supported' => false,
+                                  'object_serialize_map' => array( 'data_text' => 'identifier',
+                                                                   'data_int' => 'number' ) ) );
 
         $this->IntegerValidator = new eZIntegerValidator();
     }

@@ -82,10 +82,13 @@ class eZDataType
 
         $translationAllowed = true;
         $serializeSupported = false;
+        $objectSerializeMap = false;
         if ( isset( $properties['translation_allowed'] ) )
             $translationAllowed = $properties['translation_allowed'];
         if ( isset( $properties['serialize_supported'] ) )
             $serializeSupported = $properties['serialize_supported'];
+        if ( isset( $properties['object_serialize_map'] ) )
+            $objectSerializeMap = $properties['object_serialize_map'];
 
         $this->Attributes = array();
         $this->Attributes["is_indexable"] = $this->isIndexable();
@@ -94,7 +97,8 @@ class eZDataType
         $this->Attributes["information"] = array( "string" => $this->DataTypeString,
                                                   "name" => $this->Name );
         $this->Attributes["properties"] = array( "translation_allowed" => $translationAllowed,
-                                                 'serialize_supported' => $serializeSupported );
+                                                 'serialize_supported' => $serializeSupported,
+                                                 'object_serialize_map' => $objectSerializeMap );
     }
 
     /*!
@@ -635,9 +639,29 @@ class eZDataType
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
 
-        $node->appendChild( eZDOMDocument::createElementTextNode( 'data-int', (string)$objectAttribute->attribute( 'data_int' ) ) );
-        $node->appendChild( eZDOMDocument::createElementTextNode( 'data-float', (string)$objectAttribute->attribute( 'data_float' ) ) );
-        $node->appendChild( eZDOMDocument::createElementTextNode( 'data-text', $objectAttribute->attribute( 'data_text' ) ) );
+        if ( $this->Attributes["properties"]['object_serialize_map'] )
+        {
+            $map = $this->Attributes["properties"]['object_serialize_map'];
+            foreach ( $map as $attributeName => $xmlName )
+            {
+                if ( $objectAttribute->hasAttribute( $attributeName ) )
+                {
+                    $value = $objectAttribute->attribute( $attributeName );
+                    $node->appendChild( eZDOMDocument::createElementTextNode( $xmlName, (string)$value ) );
+                }
+                else
+                {
+                    eZDebug::writeError( "The attribute '$attributeName' does not exists for contentobject attribute " . $objectAttribute->attribute( 'id' ),
+                                         'eZDataType::serializeContentObjectAttribute' );
+                }
+            }
+        }
+        else
+        {
+            $node->appendChild( eZDOMDocument::createElementTextNode( 'data-int', (string)$objectAttribute->attribute( 'data_int' ) ) );
+            $node->appendChild( eZDOMDocument::createElementTextNode( 'data-float', (string)$objectAttribute->attribute( 'data_float' ) ) );
+            $node->appendChild( eZDOMDocument::createElementTextNode( 'data-text', $objectAttribute->attribute( 'data_text' ) ) );
+        }
         return $node;
     }
 
@@ -650,9 +674,37 @@ class eZDataType
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
-        $objectAttribute->setAttribute( 'data_int', (int)$attributeNode->elementTextContentByName( 'data-int' ) );
-        $objectAttribute->setAttribute( 'data_float', (float)$attributeNode->elementTextContentByName( 'data-float' ) );
-        $objectAttribute->setAttribute( 'data_text', $attributeNode->elementTextContentByName( 'data-text' ) );
+        if ( $this->Attributes["properties"]['object_serialize_map'] )
+        {
+            $map = $this->Attributes["properties"]['object_serialize_map'];
+            foreach ( $map as $attributeName => $xmlName )
+            {
+                if ( $objectAttribute->hasAttribute( $attributeName ) )
+                {
+                    $value = $attributeNode->elementTextContentByName( $xmlName );
+                    if ( $value !== false )
+                    {
+                        $objectAttribute->setAttribute( $attributeName, $value );
+                    }
+                    else
+                    {
+                        eZDebug::writeError( "The xml element '$xmlName' does not exist for contentobject attribute " . $objectAttribute->attribute( 'id' ),
+                                             'eZDataType::unserializeContentObjectAttribute' );
+                    }
+                }
+                else
+                {
+                    eZDebug::writeError( "The attribute '$attributeName' does not exist for contentobject attribute " . $objectAttribute->attribute( 'id' ),
+                                         'eZDataType::unserializeContentObjectAttribute' );
+                }
+            }
+        }
+        else
+        {
+            $objectAttribute->setAttribute( 'data_int', (int)$attributeNode->elementTextContentByName( 'data-int' ) );
+            $objectAttribute->setAttribute( 'data_float', (float)$attributeNode->elementTextContentByName( 'data-float' ) );
+            $objectAttribute->setAttribute( 'data_text', $attributeNode->elementTextContentByName( 'data-text' ) );
+        }
     }
 
     function allowedTypes()

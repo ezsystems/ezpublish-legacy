@@ -66,7 +66,8 @@ class eZIntegerType extends eZDataType
     function eZIntegerType()
     {
         $this->eZDataType( EZ_DATATYPESTRING_INTEGER, ezi18n( 'kernel/classes/datatypes', "Integer", 'Datatype name' ),
-                           array( 'serialize_supported' => true ) );
+                           array( 'serialize_supported' => true,
+                                  'object_serialize_map' => array( 'data_int' => 'value' ) ) );
         $this->IntegerValidator = new eZIntegerValidator();
     }
 
