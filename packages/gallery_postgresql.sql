@@ -8358,7 +8358,7 @@ SELECT pg_catalog.setval ('ezcontentbrowserecent_s', 142, true);
 
 
 
-SELECT pg_catalog.setval ('ezcontentclass_s', 1, false);
+SELECT pg_catalog.setval ('ezcontentclass_s', 99, false);
 
 
 
