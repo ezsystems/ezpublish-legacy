@@ -82,6 +82,7 @@
         </table>
     </div>
 
+</div>
 {include name=navigator
          uri='design:navigator/google.tpl'
          page_uri=concat('/content/view','/full/',$node.node_id)
