@@ -173,7 +173,7 @@ class eZImageAliasHandler
     function isImageOwner()
     {
         $originalData = $this->originalAttributeData();
-        return ( $originalData['attribute_id'] === false );
+        return ( $originalData['attribute_id'] == false );
     }
 
     /*!
@@ -954,9 +954,7 @@ class eZImageAliasHandler
         $objectPathString = $this->imagePath( $contentObjectAttribute, $contentVersion, true );
 
         eZMimeType::changeBaseName( $mimeData, $objectName );
-        eZDebug::writeDebug( $mimeData, 'mimeData' );
         eZMimeType::changeDirectoryPath( $mimeData, $objectPathString );
-        eZDebug::writeDebug( $mimeData, 'mimeData' );
         if ( !file_exists( $mimeData['dirpath'] ) )
         {
             eZDir::mkdir( $mimeData['dirpath'], false, true );
@@ -1026,6 +1024,9 @@ class eZImageAliasHandler
         $this->createImageInformationNode( $imageNode, $mimeData );
 
         $this->setDOMTree( $doc );
+
+        $contentObjectAttribute =& $this->ContentObjectAttribute;
+        $contentObjectAttribute->DataTypeCustom['alias_list'] =& $aliasList;
 
         eZImageFile::appendFilepath( $this->ContentObjectAttribute->attribute( 'id' ), $mimeData['url'] );
         return true;

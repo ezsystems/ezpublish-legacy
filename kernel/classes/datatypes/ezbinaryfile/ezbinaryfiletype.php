@@ -349,6 +349,15 @@ class eZBinaryFileType extends eZDataType
 
     /*!
      \reimp
+     HTTP file insertion is supported.
+    */
+    function isRegularFileInsertionSupported()
+    {
+        return true;
+    }
+
+    /*!
+     \reimp
      Inserts the file using the eZBinaryFile class.
     */
     function insertHTTPFile( &$object, $objectVersion, $objectLanguage,
@@ -376,6 +385,50 @@ class eZBinaryFileType extends eZDataType
         $binary->setAttribute( "version", $objectVersion );
         $binary->setAttribute( "filename", basename( $httpFile->attribute( "filename" ) ) );
         $binary->setAttribute( "original_filename", $httpFile->attribute( "original_filename" ) );
+        $binary->setAttribute( "mime_type", $mimeData['name'] );
+
+        $binary->store();
+
+        $objectAttribute->setContent( $binary );
+        return true;
+    }
+
+    /*!
+     \reimp
+     Inserts the file using the eZBinaryFile class.
+    */
+    function insertRegularFile( &$object, $objectVersion, $objectLanguage,
+                                &$objectAttribute, $filePath,
+                                &$result )
+    {
+        $result = array( 'errors' => array(),
+                         'require_storage' => false );
+        $errors =& $result['errors'];
+        $attributeID = $objectAttribute->attribute( 'id' );
+
+        $binary =& eZBinaryFile::fetch( $attributeID, $objectVersion );
+        if ( $binary === null )
+            $binary =& eZBinaryFile::create( $attributeID, $objectVersion );
+
+        $fileName = basename( $filePath );
+        $mimeData = eZMimeType::findByFileContents( $filePath );
+        $storageDir = eZSys::storageDirectory();
+        list( $group, $type ) = explode( '/', $mimeData['name'] );
+        $destination = $storageDir . '/original/' . $group;
+        $oldumask = umask( 0 );
+        if ( !eZDir::mkdir( $destination, false, true ) )
+        {
+            umask( $oldumask );
+            return false;
+        }
+        umask( $oldumask );
+        $destination = $destination . '/' . $fileName;
+        copy( $filePath, $destination );
+
+        $binary->setAttribute( "contentobject_attribute_id", $attributeID );
+        $binary->setAttribute( "version", $objectVersion );
+        $binary->setAttribute( "filename", $fileName );
+        $binary->setAttribute( "original_filename", $fileName );
         $binary->setAttribute( "mime_type", $mimeData['name'] );
 
         $binary->store();

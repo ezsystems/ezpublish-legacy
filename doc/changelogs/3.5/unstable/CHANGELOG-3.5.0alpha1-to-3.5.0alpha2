@@ -23,6 +23,12 @@ Changes from 3.5.0alpha1 to 3.5.0alpha2
 - Added/reimplemented function canRemovable() in datatype ezuser, disallowed deletion of this 
   datatype if it belongs to the class of login user.
 - Improved handling for lower-case input of ISBN Datatype.
+- Removed parameter $mimeData from eZContentObjectAttribute::insertRegularFile()
+  which were not supposed to be there.
+- Implement regular file support for datatypes eZBinaryFile and eZImage.
+- Fixed a bug in eZImage datatype which caused the published version to
+  use the temporary version of the image instead of the one with correct
+  node path.
 
 Scripts:
 - New script bin/php/ezcontentcache.php which can be used to clear the

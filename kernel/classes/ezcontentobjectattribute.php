@@ -662,7 +662,7 @@ class eZContentObjectAttribute extends eZPersistentObject
      current attribute, if these are available it is adviced to pass them since it will save time.
     */
     function insertRegularFile( &$object, $objectVersion, $objectLanguage,
-                                $filePath, $mimeData,
+                                $filePath,
                                 &$result )
     {
         if ( !$object )
@@ -673,7 +673,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             $objectLanguage = $object->attribute( 'default_language' );
         $dataType =& $this->dataType();
         return $dataType->insertRegularFile( $object, $objectVersion, $objectLanguage,
-                                             $this, $filePath, $mimeData,
+                                             $this, $filePath,
                                              $result );
     }
 

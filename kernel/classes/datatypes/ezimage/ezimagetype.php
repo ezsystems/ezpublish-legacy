@@ -161,7 +161,7 @@ class eZImageType extends eZDataType
                 'A valid file is required.' ) );
             return EZ_INPUT_VALIDATOR_STATE_INVALID;
         }
-        if ( $canFetchResult == EZ_UPLOADEDFILE_EXCEEDS_PHP_LIMIT ) 
+        if ( $canFetchResult == EZ_UPLOADEDFILE_EXCEEDS_PHP_LIMIT )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                 'Size of uploaded file exceeds limit set by upload_max_filesize directive in php.ini.' ) );
@@ -249,6 +249,15 @@ class eZImageType extends eZDataType
 
     /*!
      \reimp
+     Regular file insertion is supported.
+    */
+    function isRegularFileInsertionSupported()
+    {
+        return true;
+    }
+
+    /*!
+     \reimp
      Inserts the file using the Image Handler eZImageAliasHandler.
     */
     function insertHTTPFile( &$object, $objectVersion, $objectLanguage,
@@ -257,7 +266,7 @@ class eZImageType extends eZDataType
     {
         $result = array( 'errors' => array(),
                          'require_storage' => false );
-//        $errors =& $result['errors'];
+        $errors =& $result['errors'];
 
         $handler =& $objectAttribute->content();
         if ( !$handler )
@@ -268,6 +277,31 @@ class eZImageType extends eZDataType
         }
 
         $status = $handler->initializeFromHTTPFile( $httpFile );
+        $result['require_storage'] = $handler->isStorageRequired();
+        return $status;
+    }
+
+    /*!
+     \reimp
+     Inserts the file using the Image Handler eZImageAliasHandler.
+    */
+    function insertRegularFile( &$object, $objectVersion, $objectLanguage,
+                                &$objectAttribute, $filePath,
+                                &$result )
+    {
+        $result = array( 'errors' => array(),
+                         'require_storage' => false );
+        $errors =& $result['errors'];
+
+        $handler =& $objectAttribute->content();
+        if ( !$handler )
+        {
+            $errors[] = array( 'description' => ezi18n( 'kernel/classe/datatypes/ezimage',
+                                                        'Failed to fetch Image Handler.' ) );
+            return false;
+        }
+
+        $status = $handler->initializeFromFile( $filePath, false, $filePath );
         $result['require_storage'] = $handler->isStorageRequired();
         return $status;
     }
