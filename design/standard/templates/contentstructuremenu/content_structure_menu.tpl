@@ -9,6 +9,7 @@
      maxNodes               = ezini( 'TreeMenu', 'MaxNodes'         , 'contentstructuremenu.ini' ) 
      sortBy                 = ezini( 'TreeMenu', 'SortBy'           , 'contentstructuremenu.ini' )
      fetchHidden            = true
+     itemClickAction        = ezini( 'TreeMenu', 'ItemClickAction'  , 'contentstructuremenu.ini' )
      menuWidth              = ezini( 'TreeMenu', 'MenuWidth'        , 'contentstructuremenu.ini' )
      menuHeight             = ezini( 'TreeMenu', 'MenuHeight'       , 'contentstructuremenu.ini' )
      contentStructureTree   = false
@@ -17,8 +18,16 @@
     {section show=$custom_root_node_id|is_set()}
         {set rootNodeID=$custom_root_node_id}
     {/section}
-     
-    {cache-block keys=array($rootNodeID, $ui_context)}     
+
+    {section show=eq( $ui_context, 'browse' )}
+        {set itemClickAction='/content/browse/'}
+    {/section}    
+
+    {section show=eq( $itemClickAction, '' )|not()}
+        {set itemClickAction = $:itemClickAction|ezurl(no)}
+    {/section}
+    
+    {cache-block keys=array($rootNodeID)}     
         {* Fetch content structure. *}
         {set contentStructureTree = content_structure_tree( $:rootNodeID, 
                                                             $:classFilter,
@@ -43,7 +52,7 @@
             nodesList.push( "n{$:path.node_id}" );
         {/section}
         
-        ezcst_initializeMenuState( nodesList, "{$:menuID}" );            
+        ezcst_initializeMenuState( nodesList, "{$:menuID}",  "{$:itemClickAction}" );            
     // -->
     </script>
 {/let}  

@@ -57,9 +57,14 @@
         ezcst_unfoldNode.
         
     Functions which initializes menu:        
-        ezcst_initializeMenuState
+        ezcst_initializeMenuState,
         ezcst_resetMenuState,
         ezcst_restoreMenuState.
+    
+    Event handlers:
+        ezcst_onFoldClicked,
+        ezcst_onItemClicked.
+        
 */
 
 /*!
@@ -77,6 +82,11 @@ var  EZCST_HIGHLIGHTED_NODE_CLASS_NAME           = "currentnode";
 */
 var  EZCST_UNFOLDED_LIST_COOKIE_NAME            = "ezcst_unfolded_node_list";
 var  EZCST_UNFOLDED_LIST_VALUES_DELIMITER       = ",";
+
+/*!
+    Default url to redirect when user clicks on menu item.
+*/
+var  gItemClickAction                           = "";
 
 /*!
     \return size of \a gUnfoldedNodesList.
@@ -235,6 +245,17 @@ function ezcst_onFoldClicked( node )
     ezcst_foldUnfold( node, true, false );
 }
 
+/*!
+    onClick handler for menu item.
+    \a ezpublish_nodeID is a id of the node
+    \a defaultItemClickAction default redirect url
+*/
+function ezcst_onItemClicked( ezpublish_nodeID, defaultItemClickAction )
+{
+    var redirectURL = ( gItemClickAction != '' ) ? ( gItemClickAction + '/' + ezpublish_nodeID ) : defaultItemClickAction;
+    location.href = redirectURL;
+}
+
 /*! 
     Fold/unfold \a node. If \a bUpdateCookie sets to 
     \a true then cookie will be updated.
@@ -337,11 +358,13 @@ function ezcst_restoreMenuState( rootNode )
     Restores menu state from cookie, adds current location from
     \a additionalNodesList.
 */
-function ezcst_initializeMenuState( additionalNodesList, menuNodeID)
+function ezcst_initializeMenuState( additionalNodesList, menuNodeID, itemClickAction )
 {
     var menu          = ezjslib_getHTMLNodeById( menuNodeID );
     var currentNodeID = additionalNodesList.pop();           // remove current node;
     
+    gItemClickAction  = itemClickAction;
+
     if ( menu != null )
     {
         // restore unfolded nodes ids from cookies

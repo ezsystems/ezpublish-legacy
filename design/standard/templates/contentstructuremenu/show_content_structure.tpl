@@ -8,7 +8,7 @@
                                                       
         {* Fold/Unfold/Empty: [-]/[+]/[ ] *}                                                                          
             {section show=$:haveChildren}
-               <a class="openclose" href="#" title="{'Fold/Unfold'|i18n('contentstructuremenu/show_content_structure')}" onclick="ezcst_onFoldClicked( this.parentNode ); return false;"></a>
+                <a class="openclose" href="#" title="{'Fold/Unfold'|i18n('contentstructuremenu/show_content_structure')}" onclick="ezcst_onFoldClicked( this.parentNode ); return false;"></a>
             {section-else}
                 <span class="openclose"></span>
             {/section}
@@ -27,8 +27,10 @@
                 {set toolTip = ''}
             {/section}
             
-            {* Text *}    
-            <a class="nodetext" href={$:parentNode.node.path_identification_string|ezurl} title="{$:toolTip}">{$:parentNode.object.name|wash}</a>
+        {* Text *}    
+            {let defaultItemClickAction = $:parentNode.node.path_identification_string|ezurl(no)}
+                <a class="nodetext" href="#" onclick="this.href='javascript:ezcst_onItemClicked( {$:parentNode.node.node_id}, \'{$:defaultItemClickAction}\' )'" title="{$:toolTip}">{$:parentNode.object.name|wash}</a>
+            {/let}
             
         {* Show children *}    
             {section show=$:haveChildren}
