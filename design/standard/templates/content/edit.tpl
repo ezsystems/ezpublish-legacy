@@ -65,13 +65,17 @@
     {/let}
     {/section}
     {/let}
-    </table>
-
-    <div class="buttonblock">
-    <input class="button" type="submit" name="BrowseNodeButton" value="{'Find node(s)'|i18n('content/object')}" />
-    <input class="button" type="submit" name="DeleteNodeButton" value="{'Delete node(s)'|i18n('content/object')}" />
-    </div>
-
+ </table>
+    {switch match=$main_node_id}
+	{case match=1}
+	{/case}
+	{case}
+	 <div class="buttonblock">
+	 <input class="button" type="submit" name="BrowseNodeButton" value="{'Find node(s)'|i18n('content/object')}" />
+	 <input class="button" type="submit" name="DeleteNodeButton" value="{'Delete node(s)'|i18n('content/object')}" />
+	 </div>
+	{/case}
+    {/switch}
     {section name=ContentObjectAttribute loop=$content_attributes sequence=array(bglight,bgdark)}
     <div class="block">
     <label>{$ContentObjectAttribute:item.contentclass_attribute.name}:</label><div class="labelbreak"></div>

@@ -85,6 +85,7 @@ if ( is_numeric( $ClassID ) )
     if ( $class->attribute("id") == null )
     {
         $class =& eZContentClass::fetch( $ClassID, true, 0 );
+        eZDebug::writeError($class, "WWWW");
         $classGroups=& eZContentClassClassGroup::fetchGroupList( $ClassID, 0);
         foreach ( $classGroups as $classGroup )
         {
@@ -147,7 +148,6 @@ if ( $http->hasPostVariable( "DeleteGroupButton" ) )
 
 // Fetch attributes and definitions
 $attributes =& $class->fetchAttributes();
-
 include_once( "kernel/classes/ezdatatype.php" );
 $datatypes =& eZDataType::registeredDataTypes();
 
@@ -181,7 +181,6 @@ foreach( $storeActions as $storeAction )
         break;
     }
 }
-
 include_once( "lib/ezutils/classes/ezinputvalidator.php" );
 $canStore = true;
 $requireFixup = false;
@@ -208,6 +207,8 @@ if ( $validationRequired )
     }
     $validation["processed"] = true;
     $validation["attributes"] = $unvalidatedAttributes;
+    eZHttpPersistence::handleChecked( "ContentAttribute", eZContentClassAttribute::definition(),
+                                      $attributes, $http, true );
 }
 
 // Fixup input
@@ -224,18 +225,16 @@ if ( $requireFixup )
 }
 
 $cur_datatype = 0;
-
 // Apply HTTP POST variables
 eZHttpPersistence::fetch( "ContentAttribute", eZContentClassAttribute::definition(),
                           $attributes, $http, true );
-eZHttpPersistence::handleChecked( "ContentAttribute", eZContentClassAttribute::definition(),
-                                  $attributes, $http, true );
+/*eZHttpPersistence::handleChecked( "ContentAttribute", eZContentClassAttribute::definition(),
+  $attributes, $http, true );*/
 eZHttpPersistence::fetch( "ContentClass", eZContentClass::definition(),
                           $class, $http, false );
 if ( $http->hasPostVariable( "DataTypeString" ) )
     $cur_datatype = $http->postVariable( "DataTypeString" );
 $class->setAttribute( "version", 1 );
-
 // Fixed identifiers to only contain a-z0-9_
 for ( $i = 0; $i < count( $attributes ); ++$i )
 {
@@ -253,11 +252,9 @@ for ( $i = 0; $i < count( $attributes ); ++$i )
                                        "_" ),
                                 $identifier );
     $attribute->setAttribute( "identifier", $identifier );
-
     $dataType =& $attribute->dataType();
     $dataType->initializeClassAttribute( $attribute );
 }
-
 // Run custom actions if any
 if ( $customAction )
 {
@@ -306,7 +303,6 @@ while( ( $key = key( $attributes ) ) !== null )
     $dataType->fetchClassAttributeHTTPInput( $http, "ContentClass", $attribute );
     next( $attributes );
 }
-
 // Store version 0 and discard version 1
 if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
 {
@@ -404,7 +400,6 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
     $Module->redirectTo( $Module->functionURI( 'grouplist' ) );
     return;
 }
-
 // Store changes
 if ( $canStore )
     $class->store( $attributes );
