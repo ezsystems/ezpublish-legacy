@@ -40,6 +40,7 @@ $parameters =& $Params["Parameters"];
 include_once( "kernel/common/template.php" );
 include_once( "kernel/common/eztemplatedesignresource.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
+include_once( 'lib/ezi18n/classes/eztextcodec.php' );
 
 $ini =& eZINI::instance();
 $tpl =& templateInit();
@@ -74,6 +75,7 @@ if ( $isExistingTemplate == false )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 }
 
+// Find the main template for this override
 $originalTemplate = false;
 foreach ( $overrideArray as $overrideSetting )
 {
@@ -92,16 +94,64 @@ foreach ( $overrideArray as $overrideSetting )
     }
 }
 
-// Find the main template for this override
+/* Check if we need to do characterset conversions for editting and saving
+ * templates. */
+$templateConfig =& eZINI::instance( 'template.ini' );
+$i18nConfig =& eZINI::instance( 'i18n.ini' );
+
+/* First we check the HTML Output Charset */
+$httpCharset = $i18nConfig->variable( 'CharacterSettings', 'HTTPCharset');
+
 
 if ( $module->isCurrentAction( 'Save' ) )
 {
     if ( $http->hasPostVariable( 'TemplateContent' ) )
     {
+        $templateContent = $http->postVariable( 'TemplateContent' );
+
+
+        if ( $templateConfig->variable( 'CharsetSettings', 'AutoConvertOnSave') == 'enabled' )
+        {
+            include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
+            $httpCharset = eZCharsetInfo::realCharsetCode( $httpCharset );
+            if ( preg_match( '|{\*\?template.*charset=([a-zA-Z0-9-]*).*\?\*}|', $templateContent, $matches ) )
+            {
+                $templateContent = preg_replace( '|({\*\?template.*charset=)[a-zA-Z0-9-]*(.*\?\*})|',
+                                                 '\\1'. $httpCharset. '\\2',
+                                                 $templateContent );
+            }
+            else
+            {
+                $templateContent = "{*?template charset=$httpCharset?*}\n". $templateContent;
+            }
+        }
+        else
+        {
+            /* Here we figure out the characterset of the template. If there is a charset
+             * associated with the template in the header we use that one, if not we fall
+             * back to the INI setting "DefaultTemplateCharset". */
+            if ( preg_match( '|{\*\?template.*charset=([a-zA-Z0-9-]*).*\?\*}|', $templateContent, $matches ) )
+            {
+                $templateCharset = $matches[1];
+            }
+            else
+            {
+                $templateCharset = $templateConfig->variable( 'CharsetSettings', 'DefaultTemplateCharset');
+            }
+
+            /* If we're saving a template after editting we need to convert it to the template's
+             * Charset. */
+            $codec =& eZTextCodec::instance( $httpCharset, $templateCharset, false );
+            if ( $codec )
+            {
+                $templateContent = $codec->convertString( $templateContent );
+            }
+        }
+
         $fp = fopen( $template, 'w' );
         if ( $fp )
         {
-            fwrite( $fp, $http->postVariable( 'TemplateContent' ) );
+            fwrite( $fp, $templateContent );
         }
         fclose( $fp );
 
@@ -121,6 +171,7 @@ if ( $module->isCurrentAction( 'Save' ) )
     }
 }
 
+
 if ( $module->isCurrentAction( 'Discard' ) )
 {
     $module->redirectTo( '/design/templateview'. $originalTemplate );
@@ -130,16 +181,32 @@ if ( $module->isCurrentAction( 'Discard' ) )
 // get the content of the template
 {
     $fileName = $template;
-    $fp = fopen( $fileName, 'rb' );
-    if ( $fp )
-    {
-        $templateContent = fread( $fp, filesize( $fileName ) );
-    }
-    else
+    $templateContent = file_get_contents( $fileName );
+    if ( !$templateContent )
     {
         print( "Could not open file" );
+        $templateContent = "Could not open file";
     }
-    fclose( $fp );
+}
+
+/* Here we figure out the characterset of the template. If there is a charset
+ * associated with the template in the header we use that one, if not we fall
+ * back to the INI setting "DefaultTemplateCharset". */
+if ( preg_match('|{\*\?template.*charset=([a-zA-Z0-9-]*).*\?\*}|', $templateContent, $matches ) )
+{
+    $templateCharset = $matches[1];
+}
+else
+{
+    $templateCharset = $templateConfig->variable( 'CharsetSettings', 'DefaultTemplateCharset');
+}
+
+/* If we're loading a template for editting we need to convert it to the HTTP
+ * Charset. */
+$codec =& eZTextCodec::instance( $templateCharset, $httpCharset, false );
+if ( $codec )
+{
+    $templateContent = $codec->convertString( $templateContent );
 }
 
 $tpl->setVariable( 'template', $template );

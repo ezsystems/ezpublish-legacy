@@ -41,3 +41,6 @@ Payment:
   http://ez.no/community/bug_reports/fatal_error_in_ezpackagetype_php
 - Fixed call-time pass-by-reference issue in ezpaymentgatewaytype.php
   http://ez.no/community/bug_reports/warning_when_creating_new_workflow
+- Fixed bug: Bug template charset mismatch
+  (Merged from stable/3.4 rev. 8491)
+  http://ez.no/community/bug_reports/template_charset_mismatch
