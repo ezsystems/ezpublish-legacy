@@ -343,9 +343,9 @@ class eZMail
     }
 
     /*!
-     Sets the extra headers to \a $headers
+     Return the extra headers
     */
-    function extraHeaders( $headers )
+    function extraHeaders()
     {
         return $this->ExtraHeaders;
     }
