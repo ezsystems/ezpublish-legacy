@@ -46,9 +46,8 @@
 <div class="break"></div>
 </div>
 </div>
-
+{section show=$most_frequent_phrase_array}
 <table class="list" cellspacing="0">
-{section show=$most_frequent_phrase_array|count}
 <tr>
     <th>
     {'Phrase'|i18n( 'design/admin/search/stats' )}
@@ -73,17 +72,17 @@
     </td>
 </tr>
 {/section}
-{section-else}
-<tr><td>{'The statistics list is emtpy.'|i18n( 'design/admin/search/stats' )}</td></tr>
-{/section}
-
-
 </table>
+{section-else}
+<div class="block">
+<p>{'The statistics list is emtpy.'|i18n( 'design/admin/search/stats' )}</p>
+</div>
+{/section}
 
 <div class="context-toolbar">
 {include name=navigator
          uri='design:navigator/google.tpl'
-         page_uri=concat( '/search/stats') 
+         page_uri=concat( '/search/stats')
          item_count=$search_list_count
          view_parameters=$view_parameters
          item_limit=$number_of_items}
