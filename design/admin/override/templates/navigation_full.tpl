@@ -2,11 +2,41 @@
 
 <div class="menu-block">
 <ul>
-    <li><a class="enabled" href="/">Content</a></li>
-    <li><a href="/">Information</a></li>
-    <li><a class="enabled" href="/">Locations</a></li>
-    <li><a href="/">Relations</a></li>
-    <li><a class="enabled" href="/">Children</a></li>
+    {* Content *}
+    <li>
+    {section show=ezpreference( 'admin_navigation_content' )}
+        <a class="enabled" href={'/user/preferences/set/admin_navigation_content/0'|ezurl}>{'Content'|i18n( '/design/admin/navigation' )}</a>
+    {section-else}
+        <a href={'/user/preferences/set/admin_navigation_content/1'|ezurl}>{'Content'|i18n( '/design/admin/navigation' )}</a>
+    {/section}
+    </li>
+
+    {* Information *}
+    <li>
+    {section show=ezpreference( 'admin_navigation_information' )}
+        <a class="enabled" href={'/user/preferences/set/admin_navigation_information/0'|ezurl}>{'Information'|i18n( '/design/admin/navigation' )}</a>
+    {section-else}
+        <a href={'/user/preferences/set/admin_navigation_information/1'|ezurl}>{'Information'|i18n( '/design/admin/navigation' )}</a>
+    {/section}
+    </li>
+
+    {* Locations *}
+    <li>
+    {section show=ezpreference( 'admin_navigation_locations' )}
+        <a class="enabled" href={'/user/preferences/set/admin_navigation_locations/0'|ezurl}>{'Locations'|i18n( '/design/admin/navigation' )}</a>
+    {section-else}
+        <a href={'/user/preferences/set/admin_navigation_locations/1'|ezurl}>{'Locations'|i18n( '/design/admin/navigation' )}</a>
+    {/section}
+    </li>
+
+    {* Relations *}
+    <li>
+    {section show=ezpreference( 'admin_navigation_relations' )}
+        <a class="enabled" href={'/user/preferences/set/admin_navigation_relations/0'|ezurl}>{'Relations'|i18n( '/design/admin/navigation' )}</a>
+    {section-else}
+        <a href={'/user/preferences/set/admin_navigation_relations/1'|ezurl}>{'Relations'|i18n( '/design/admin/navigation' )}</a>
+    {/section}
+    </li>
 </ul>
 </div>
 
@@ -31,28 +61,33 @@ Type: {$node.object.class_name}<br />
 
 <h2 class="title">{$node.object.content_class.identifier|class_icon( normal, $node.object.content_class.name )} {$node.name} [{$node.object.class_name}]</h2>
 
+{section show=ezpreference( 'admin_navigation_content'  )}
 <div class="mainobject-vindow" title="{$node_name|wash} [{'Folder'|i18n('design/admin/node/view')}], {'Node ID'|i18n( 'design/standard/node/view' )}: {$node.node_id}, {'Object ID'|i18n( 'design/standard/node/view' )}: {$node.object.id}">
 
 {* Show the actual contents of the object. *}
 {node_view_gui content_node=$node view=navigation}
+</div>
+{/section}
 
+{include uri='design:buttons.tpl'}
 </div>
 
-{include uri="design:buttons.tpl"}
+{* Information *}
+{section show=ezpreference( 'admin_navigation_information'  )}
+    {include uri='design:information.tpl'}
+{/section}
 
-</div>
+{* Locations *}
+{section show=ezpreference( 'admin_navigation_locations'  )}
+    {include uri='design:locations.tpl'}
+{/section}
 
+{* Related objects and reverse related objects. *}
+{section show=ezpreference( 'admin_navigation_relations'  )}
+    {include uri='design:related_objects.tpl'}
+{/section}
 
-{include uri="design:locations.tpl"}
-
-{* Show related objects. *}
-{* include uri="design:related_objects.tpl" *}
-
-
-{* Buttons for remove/edit/etc. and the location interface. *}
-
-
-{* List of children. *}
+{* Children. *}
 <div class="content-view-children">
-{include uri="design:children.tpl"}
+{include uri='design:children.tpl'}
 </div>
