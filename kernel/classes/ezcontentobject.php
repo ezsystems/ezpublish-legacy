@@ -683,7 +683,7 @@ class eZContentObject extends eZPersistentObject
                         break;
                     }
                     foreach ( array_keys( $limitationArray ) as $key  )
-                    foreach ( $limitationArray as $limitation )
+//                    foreach ( $limitationArray as $limitation )
                     {
                         $limitation =& $limitationArray[$key];
 //                        if ( $functionName == 'remove' )
@@ -699,14 +699,10 @@ class eZContentObject extends eZPersistentObject
                             }
                             elseif ( in_array( $this->attribute( 'contentclass_id' ), $limitation->attribute( 'values_as_array' )  )  )
                             {
-                                //         eZDebug::writeNotice( $this->attribute( 'contentclass_id' ), 'contentclass_id' );
-                                //         eZDebug::writeNotice( $limitation->attribute( 'values_as_array' ), 'values_as_array' );
                                 $access = 'allowed';
                             }
                             else
                             {
-//                                eZDebug::writeNotice( $this->attribute( 'contentclass_id' ), 'contentclass_id' );
-//                                eZDebug::writeNotice( $limitation->attribute( 'values_as_array' ), 'values_as_array' );
                                 $access = 'denied';
                                 break;
                             }
@@ -738,8 +734,6 @@ class eZContentObject extends eZPersistentObject
                         }
                         elseif ( $limitation->attribute( 'identifier' ) == 'Assigned' )
                         {
-                            //                          eZDebug::writeNotice( $this->attribute( 'owner_id' ), 'owner_id'  );
-                            //                          eZDebug::writeNotice( $user->attribute( 'contentobject_id' ), 'contentobject_id'  );
                             if ( $this->attribute( 'owner_id' ) == $user->attribute( 'contentobject_id' )  )
                             {
                                 $access = 'allowed';
