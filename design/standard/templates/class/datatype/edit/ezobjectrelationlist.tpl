@@ -2,7 +2,8 @@
 {let content=$class_attribute.content
      class_list=$content.class_constraint_list
      default_placement=$content.default_placement
-     type=$content.type}
+     type=$content.type
+     all_class_list=fetch(class,list)}
 
 <div class="block">
     <div class="element">
@@ -20,7 +21,7 @@
         <p>{'Select which classes user can create'|i18n('design/standard/class/datatype')}</p>
         <select name="ContentClass_ezobjectrelationlist_class_list_{$class_attribute.id}[]" multiple="multiple">
             <option value="" {section show=$class_list|lt(1)}selected="selected"{/section}>{'Any'|i18n('design/standard/class/datatype')}</option>
-        {section name=Class loop=fetch(class,list)}
+        {section name=Class loop=$all_class_list}
             <option value="{$:item.identifier|wash}" {section show=$class_list|contains($:item.identifier)}selected="selected"{/section}>{$:item.name}</option>
         {/section}
         </select>
