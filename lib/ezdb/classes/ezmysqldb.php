@@ -362,7 +362,7 @@ class eZMySQLDB extends eZDBInterface
             }
 
             $result =& mysql_query( $sql, $connection );
-            if ( $this->RecordError )
+            if ( $this->RecordError and !$result )
                 $this->setError();
 
             if ( $this->OutputSQL )
@@ -383,11 +383,11 @@ class eZMySQLDB extends eZDBInterface
             else
             {
                 eZDebug::writeError( "Query error: " . mysql_error( $connection ) . ". Query: ". $sql, "eZMySQLDB"  );
-
-                // Turn of error recording while unlocking
+                $oldRecordError = $this->RecordError;
+                // Turn off error handling while we unlock
                 $this->RecordError = false;
                 $this->unlock();
-                $this->RecordError = true;
+                $this->RecordError = $oldRecordError;
 
                 return false;
             }
