@@ -828,7 +828,7 @@ class eZSys
         {
             $def_index_reg = str_replace( ".", "\\.", $def_index );
             // Trick: Rewrite setup doesn't have index.php in $_SERVER['PHP_SELF'], so we don't want an $index
-            if ( ! ereg( ".*$def_index_reg.*", $phpSelf ) )
+            if ( ! ereg( ".*$def_index_reg.*", $phpSelf ) || $force_VirtualHost )
                 $index = "";
             else
             {

@@ -32,6 +32,9 @@ Changes from 3.4.0beta2 to 3.4.0
   http://ez.no/community/bug_reports/rss_export_delete_source_missing
 - Fixed Checkbox datatype bugs, merged from stable 3.3 rev. 6616.
   http://ez.no/community/bug_reports/checkbox_doesn_t_remember_default_value
+- Fixed bug of sometimes "index.php" appearing in urls on virtual host setup.
+  Added checking for ForceVirtualHost setting. Merged from  3.3 rev. 6618.
+  http://ez.no/community/bug_reports/virtual_host_setup_sometimes_index_php_appearing_in_urls
 
 
 *Library:
