@@ -5,7 +5,7 @@
      children=fetch(content, list, hash( parent_node_id, $node.node_id,
                                          sort_by, $node.sort_array ) ) }
 
-{section show=$generate_toc|eq(1)}
+{section show=$pdf_root_template|eq(1)}
   {pdf(pageNumber, hash( identifier, "main",
                          start, 1 ) )}
 {/section}
@@ -30,14 +30,10 @@
 
 {/let}
 
-
-{section show=$generate_toc|eq(1)}
-  {pdf(pageNumber, hash( identifier, "main",
-                         stop, 1 ) )}
-{/section}
-
 {section show=$pdf_root_template|eq(1)}
   {*  {pdf(createIndex)}  *} {* Index is based on the keyword datatype, and is not used in most setups *}
+  {pdf(pageNumber, hash( identifier, "main",
+                         stop, 1 ) )}
 
   {include uri="design:content/pdf/footer.tpl"}
 {/section}
