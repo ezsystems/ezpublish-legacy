@@ -70,37 +70,38 @@ function OpenWindow ( URL, WinName, Features ) {
 {let folder_list=fetch(content,list,hash(parent_node_id,158,sort_by,array(array(priority))))
      news_list=fetch(content,list,hash(parent_node_id,159,limit,5,sort_by,array(published,false()),class_filter_type,include,class_filter_array,array(2)))}
 
-
 <br />
 <table width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>
     <td colspan="2">
-    <img src={"mycompanylogo.jpg"|ezimage} alt="My company - business" /></td>
+    <a href={"content/view/full/159/"|ezurl}><img src={"mycompanylogo.jpg"|ezimage} alt="My company - business" border="0"/></a></td>
 </tr>
 <tr>
     <td colspan="2" bgcolor="#e4eaf3">
-    <table width="700" border="0" cellspacing="2" cellpadding="2">
+    <form action={"/content/search/"|ezurl} method="get" style="margin-top: 0px; margin-bottom: 0px; padding: 0px;">
+    <table width="700" border="0" cellspacing="0" cellpadding="0">
     <tr>
-{section name=Folder loop=$folder_list}
+        {section name=Folder loop=$folder_list}
         <td align="left">
         &nbsp;<a class="small" href={concat("/content/view/full/",$Folder:item.node_id,"/")|ezurl}>{$Folder:item.name}</a>  <font size="2">&nbsp;</font>
         </td>
-{/section}
-        <td align="right">
-        <form action={"/content/search/"|ezurl} method="get">
+        {/section}
+        <td align="right" width="30">
         <input type="hidden" name="SectionID" value="6">
-        <input  type="text" size="10" name="SearchText" id="Search" value="" />
-        <input class="button" name="SearchButton" type="submit" value="{"Search"|i18n('pagelayout')}" />
-	</form>
+        <input  type="text" size="10" name="SearchText" id="Search" value="" style="font-family: verdana; width: 80px; font-size: 9px; margin: 0px; background: #ffffff;"/>&nbsp;
+	</td>
+	<td align="right" width="30">
+        <input name="SearchButton" type="image" src={"search.gif"|ezimage} value="{"Search"|i18n('pagelayout')}" style="font-size: 7px; margin: 0px; padding: 0px;" />
         </td>
     </tr>
     </table>    
+    </form>
     </td>
 </tr>
 <tr>
     <td valign="top">
-    &nbsp;&gt;
-     {section name=Path loop=$module_result.path  offset=2}
+    &nbsp;<span class="small">&gt;</span>
+     {section name=Path loop=$module_result.path offset=2 show=eq($DesignKeys:used.viewmode,'full')}
         {section show=$Path:item.url}
         <a class="small" href="{$Path:item.url}">{$Path:item.text}</a>
         {section-else}
@@ -110,24 +111,33 @@ function OpenWindow ( URL, WinName, Features ) {
         {delimiter}
         <span class="small">/</span>
         {/delimiter}
+    {section-else}
+     {section name=Path loop=$module_result.path}
+        {section show=$Path:Path:item.url}
+        <a class="small" href="{$Path:item.url}">{$Path:Path:item.text}</a>
+        {section-else}
+	<span class="small">{$Path:Path:item.text}</span>
+        {/section}
+
+        {delimiter}
+        <span class="small">/</span>
+        {/delimiter}
+     {/section}
     {/section}
     <table width="100%" border="0" alt="" cellpadding="0" cellspacing="10">
     <tr>
         <td valign="top" width="100">
-	{section name=Menu loop=fetch(content,list,hash(parent_node_id,$DesignKeys:used.node,class_filter_type,include,class_filter_array,array(1)))}
+	{section name=Menu loop=fetch(content,list,hash(parent_node_id,$DesignKeys:used.node,class_filter_type,include,class_filter_array,array(1,24))) show=eq($DesignKeys:used.viewmode,'full')}
 	<a class="small" href={concat('content/view/full/',$Menu:item.node_id)|ezurl}>{$Menu:item.name}</a>
 	{delimiter}
 	<br />
 	{/delimiter}
 	{/section}
-
+	
 	<br />
-	<br />
-	<br />
-	<center><a href="http://developer.ez.no"><img src={"powered-by-ezpublish-100x35-trans-lgrey.gif"|ezimage} alt="eZ publish" border="0" width="100" height="35" /></a></center>
         </td>
 
-        <td valign="top">
+        <td valign="top" width="396">
 	{$module_result.content}
         </td>
     </tr>
@@ -169,8 +179,15 @@ function OpenWindow ( URL, WinName, Features ) {
         </td>
     </tr>
     </td>
+    </table>
 </tr>
 </table>
+
+<br />
+<div align="center" class="small">
+Copyright &copy; <a href="http://ez.no">eZ systems as</a> 1999-2002.<br />
+<a href="http://developer.ez.no"><img src={"powered-by-ezpublish-100x35-trans-lgrey.gif"|ezimage} alt="eZ publish" border="0" width="100" height="35" /></a>
+</div>
 
 </body>
 </html>

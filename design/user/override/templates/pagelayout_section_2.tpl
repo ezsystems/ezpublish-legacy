@@ -173,6 +173,10 @@ function OpenWindow ( URL, WinName, Features ) {
 </table>
 {/let}
 
+<div align="center" class="small">
+Copyright &copy; <a href="http://ez.no">eZ systems as</a> 1999-2002.
+</div>
+
 </body>
 </html>
 {/let}

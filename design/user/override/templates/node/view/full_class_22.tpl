@@ -14,6 +14,8 @@
     <strong class="small">{"Product nr."|i18n('bookstore')}:</strong> <span class="small">{attribute_view_gui attribute=$map.product_nr}</span><br/>
     <br />
 
+    {attribute_view_gui attribute=$map.intro}
+
     {attribute_view_gui attribute=$map.description}
 
     <!-- Action START -->

@@ -15,6 +15,9 @@
 <tr>
     <td bgcolor="#{$Message:sequence}" width="60%">
     <a href={concat('content/view/full/',$Message:item.node_id,'/')|ezurl}>{$Message:item.name}</a>
+    {let sub_count=fetch(content,tree_count,hash(parent_node_id,$Message:item.node_id,class_filter_type,include,class_filter_array,array(8)))}
+    {$sub_count}
+    {/let}
     </td>
     <td bgcolor="#{$Message:sequence}" width="40%">
     <span class="small">{$Message:item.object.published|l10n(datetime)}</span>
@@ -23,6 +26,7 @@
 {/section}
 
 </table>
+
 
 <br />
 <input type="hidden" name="NodeID" value="{$node.node_id}" />
