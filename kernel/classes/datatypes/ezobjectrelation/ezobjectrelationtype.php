@@ -202,6 +202,23 @@ class eZObjectRelationType extends eZDataType
     }
 
     /*!
+     \reimp
+    */
+    function &sortKey( &$contentObjectAttribute )
+    {
+        return $contentObjectAttribute->attribute( 'data_int' );
+    }
+
+    /*!
+     \reimp
+    */
+    function &sortKeyType()
+    {
+        return 'int';
+    }
+
+
+    /*!
      Returns the meta data used for storing search indeces.
     */
     function metaData( $contentObjectAttribute )
