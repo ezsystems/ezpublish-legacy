@@ -26,6 +26,10 @@
 
 {/section}
 
+<div class="element">
+<img src={"login.gif"|ezimage} alt=""/>
+</div>
+<div class="element">
 <div class="block">
 <label for="id1">{"Login"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
 <input class="halfbox" type="text" size="10" name="Login" id="id1" value="{$User:login}" />
@@ -39,6 +43,9 @@
 <input class="defaultbutton" type="submit" name="LoginButton" value="{'Login'|i18n('design/standard/user','Button')}" />
 <input class="button" type="submit" name="RegisterButton" value="{'Sign Up'|i18n('design/standard/user','Button')}" />
 </div>
+</div>
+
+<div class="break"></div>
 
 <input type="hidden" name="RedirectURI" value="{$User:redirect_uri}" />
 
