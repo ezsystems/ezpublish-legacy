@@ -269,6 +269,9 @@ class eZUser extends eZPersistentObject
 
     function &removeUser( $userID )
     {
+        include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
+        eZSubtreeNotificationRule::removeByUserID( $userID );
+
         eZPersistentObject::removeObject( eZUser::definition(),
                                           array( 'contentobject_id' => $userID ) );
     }
@@ -495,7 +498,7 @@ class eZUser extends eZPersistentObject
      Cleans up any cache or session variables that are set.
      This at least called on login and logout but can be used other places
      where you must ensure that the cache user values are refetched.
-     \note If $contentObjectID is \c false or not supplied the ID will be fetch from \c $this.
+     \param depricated
     */
     function cleanup( $contentObjectID = false )
     {

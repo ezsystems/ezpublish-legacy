@@ -1429,7 +1429,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $versionNameTargets = '';
         $versionNameJoins = '';
 
-        if ( count( $limitationList ) > 0 )
+        if ( $limitationList !== false && count( $limitationList ) > 0 )
         {
             $sqlParts = array();
             foreach( $limitationList as $limitationArray )
