@@ -1111,8 +1111,8 @@ CREATE TABLE eztipafriend_counter (
 CREATE TABLE eztipafriend_request (
   created int(11) NOT NULL default '0',
   email_receiver varchar(100) NOT NULL default '',
-  KEY created (created),
-  KEY email_receiver (email_receiver)
+  KEY eztipafriend_request_created (created),
+  KEY eztipafriend_request_email_rec (email_receiver)
 ) TYPE=MyISAM;
 
 
