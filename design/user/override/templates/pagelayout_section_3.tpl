@@ -41,137 +41,117 @@
 </map>
 
 {let folder_list=fetch(content,list,hash(parent_node_id,24))}
-{let news_list=fetch(content,tree,hash(parent_node_id,24,limit,3,sort_by,array(array(published)),class_id,2))}
+{let news_list=fetch(content,tree,hash(parent_node_id,24,limit,5,sort_by,array(array(published)),class_filter_type,include,class_filter_array,array(2)))}
 
-<table width="700" height="482" border="0" cellpadding="0" cellspacing="0" bordercolor="#000000">
-  <tr> 
-    <td width="700" height="67" valign="bottom" bgcolor="#FFFFFF"><span class="links"> 
-      </span><a href="/content/view/full/24/"><img src={"images/news_top.gif"|ezdesign} width="700" height="67" border="0"></a></td>
-  </tr>
+<table width="700" border="0" cellpadding="0" cellspacing="0">
 <tr> 
-<td  valign="top" bgcolor="#FFFFFF">
+    <td width="700" valign="bottom" bgcolor="#FFFFFF">
+    <a href={"/content/view/full/24/"|ezurl}><img src={"news_top.gif"|ezimage} width="700" height="67" border="0" /></a></td>
+</tr>
+<tr> 
+<td  valign="top" bgcolor="#ffffff">
 
-<table width="100%"  border="0" cellpadding="0" cellspacing="0" bordercolor="#000000">
-        <tr> 
-          <td width="100" valign="top" bordercolor="#FFFFFF" bgcolor="#FF9900"> 
-            <table width="100" border="0" align="center" cellpadding="3" cellspacing="1">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bordercolor="#000000">
+<tr> 
+    <td width="100" valign="top" cellspacing="0" cellpadding="0" bordercolor="#FFFFFF" bgcolor="#FF9900"> 
+    <table width="100" border="0" align="center" cellpadding="3" cellspacing="1">
 
 {section name=Folder loop=$folder_list}
+    <tr> 
+        <td bgcolor="#FFD2A6" class="links"> 
+        &nbsp;<a class="small" href={concat("/content/view/full/",$Folder:item.node_id,"/")|ezurl}>{$Folder:item.name}</a>  <font size="2">&nbsp;</font></td>
+    </tr>
+{/section}
+    <tr> 
+        <td valign="top" bgcolor="#FF9900"> 
+        <form action={"/content/search/"|ezurl} method="get">
+        <input  type="text" size="10" name="SearchText" id="Search" value="" />
+        <input class="button" name="SearchButton" type="submit" value="{"Search"|i18n('pagelayout')}" />
 
-              <tr> 
-                <td width="76" bgcolor="#FFD2A6" class="links"> 
-		&nbsp;<a class="small" href={concat("/content/view/full/",$Folder:item.node_id,"/")|ezurl}>{$Folder:item.name}</a>  <font size="2">&nbsp;</font></td>
-              </tr>
-{/section}    <tr> 
-                <td valign="top" bgcolor="#FF9900"> 
-
-
-                  <form action={"/content/search/"|ezurl} method="get">
-                   <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><br>
-                   
-                 search:</font> <font size="2"> 
-                             	<input  type="text" size="10" name="SearchText" id="Search" value="" />
-                         	<input class="button" name="SearchButton" type="submit" value="{"Search"|i18n('pagelayout')}" />
-
-                    </font></p>
-                </td>
-              </tr>
-            </table>
-          </td>
-          
-
-     <td width="600" align="left" valign="top" bordercolor="#FFFFFF" bgcolor="#FFFFFF">
-       <table width="600" border="0" cellspacing="0" cellpadding="3">
-          <tr>
-             <td>
-              <table width="616" border="0" cellspacing="0" cellpadding="3">
-               <tr> 
-                <td width="600" bgcolor="#000000" class="links"> 
-                  <font color="#FFFFFF">&gt;{currentdate()|l10n(datetime)}</font></td>
-              </tr>
-              <tr>
-                <td height="17" class="links">
-
-		    <p class="path">
-                       &nbsp;&nbsp;
+        <br /><br />
+	&nbsp;<a href="http://developer.ez.no"><img src={"powered-by-ezpublish-100x35-trans-lgrey.gif"|ezimage} alt="eZ publish" border="0" width="100" height="35" /></a>
+        </td>
+    </tr>
+    </table>
+    </td>
+    <td width="100%" align="left" valign="top" bordercolor="#FFFFFF" bgcolor="#FFFFFF">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td>
+        <table width="100%" border="0" cellspacing="0" cellpadding="3">
+        <tr> 
+            <td width="100%" bgcolor="#000000" class="links"> 
+             <span class="small"><font color="#fffff">&gt;{currentdate()|l10n(datetime)}</font></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="links">
+            <p class="path">
+            &nbsp;&nbsp;
                  {section name=Path loop=$module_result.path offset=2}
                     {section show=$Path:item.url}
                         <a href="{$Path:item.url}">{$Path:item.text}</a>
                     {section-else}
                          {$Path:item.text}
                     {/section}
-
                    {delimiter}
 	              /
                    {/delimiter}
                  {/section}
-               </p>
+            </p>
                 </td>
                 </tr>
                </table>
             </td>
          </tr>
        <tr>
-    <td width="600" border="0" align="left" cellpadding="0" cellspacing="0" >
-
-
-  <table width="600" border="0" align="left" cellpadding="0" cellspacing="0"> 
+    <td width="100%" border="0" align="left" cellpadding="0" cellspacing="0">
+    <table width="100%" border="0" align="left" cellpadding="0" cellspacing="0"> 
     <tr>
-<td width="20 ">
-  <table width="20"  border="0"  cellpadding="0" cellspacing="0">
-  </table>
-
-</td>
-      <td valign="top">      
-      {$module_result.content}
-      </td>
-
-         <td width="145" rowspan="4" bgcolor="#FFF4EA" align="right" valign="top" class="links">
-                <table width="145" border="0" align="left">
-               <tr>             
-                  <td valign="top" bgcolor="#FFFFFF">
-                    <table width="145" border="0" align="right" cellpadding="0" cellspacing="0">
-                    <tr>
-                       <td width="145" height="19" align="left" valign="top" bgcolor="#663366"> 
-                       <div align="left">&nbsp;&nbsp;&nbsp;<font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong><font color="#FFFFFF">Latest 
-                          update....</font> </strong></font></div>
-                       </td>
-                    </tr>
-                  </table>
-                 </td>
-              </tr>
-{section name=News loop=$news_list max=1}
-<tr>
-<td width="125" valign="top"  >
-       <a href="/content/view/news/{$News:item.node_id}">{$News:item.name}</a>
-  	{node_view_gui view=small content_node=$News:item}
-
-</td>
-</tr>
-{/section} 
-{section name=News loop=$news_list offset=1}
-              <tr> 
-                <td  width="125"  bgcolor="#FFF4EA" class="links"> 
-
-                     <a href="/content/view/news/{$News:item.node_id}">{$News:item.name}</a>
-                </td>
-              </tr>
-{/section}   
-       </table>
-           </td>
+        <td width="20">
+        &nbsp;&nbsp;
+        </td>
+        <td width="100%" valign="top">
+        {$module_result.content}
+        </td>
+        <td width="145" bgcolor="#FFF4EA" valign="top" class="links">
+        <table width="145" border="0" cellspacing="0" cellpadding="4" align="left">
+        <tr>             
+             <td valign="top" bgcolor="#663366">
+	     <strong><font color="#FFFFFF">Latest update....</font> 
+             </strong></font>
+             </td>
+         </tr>
+         {section name=News loop=$news_list max=1}
+         <tr>
+         <td width="100%" valign="top">
+         {node_view_gui view=menu content_node=$News:item}
+         </td>
+         </tr>
+         {/section} 
+         {section name=News loop=$news_list offset=1}
+         <tr> 
+             <td width="125" bgcolor="#FFF4EA" class="links"> 
+             <a class="small" href="/content/view/full/{$News:item.node_id}">{$News:item.name}</a>
+             </td>
+         </tr>
+         {/section}   
+         </table>
+         </td>
        </tr>
    </table>
-    </td>
+  </td>
 </tr>
 <tr>
-<td>
-          <table width="100%" border="0" cellspacing="0" cellpadding="0">
-            <tr>
-              <td bgcolor="#000000">&nbsp;</td>
-           </tr>
-          </table>
-</td>
+     <td>
+     <table width="100%" border="0" cellspacing="0" cellpadding="0">
+     <tr>
+          <td bgcolor="#000000">&nbsp;</td>
+     </tr>
+    </table>
+    </td>
 </tr>
 </table>
+
 </body>
 </html>
