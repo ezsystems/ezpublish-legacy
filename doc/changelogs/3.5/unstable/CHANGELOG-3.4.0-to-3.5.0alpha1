@@ -308,6 +308,9 @@ Workflow:
   the changed node when finding subscribed users.
   http://ez.no/community/bug_reports/bug_notifications_still_not_working_properly
   (Merged from stable/3.4 rev. 7248)
+- Fixed problem with eZSubTree datatype, it used the method call
+  eZSubtreeNotificationRule::removeByNodeAndAddress which did not exist.
+  (Merged from stable/3.4 rev. 7251)
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
