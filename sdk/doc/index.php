@@ -111,9 +111,9 @@ $featureArray[] = array( "uri" => "shopping_intro",
 $featureArray[] = array( "uri" => "shopping_products",
                          "level" => 2,
                          "name" => "Products" );
-$featureArray[] = array( "uri" => "shopping_cart",
+$featureArray[] = array( "uri" => "shopping_basket",
                          "level" => 2,
-                         "name" => "Cart" );
+                         "name" => "Basket" );
 $featureArray[] = array( "uri" => "shopping_wish_list",
                          "level" => 2,
                          "name" => "Wish list" );

@@ -34,16 +34,16 @@
 
 ?>
 
-<h1>Shopping cart</h1>
+<h1>Shopping basket</h1>
 <p>
-The default action on products is to assign the product to the current user. The cart can
-contain as many products as the user wants to buy. The cart is session based and can not be
-shared between different computers. The cart does not require the user to log in before it's
+The default action on products is to assign the product to the current user. The basket can
+contain as many products as the user wants to buy. The basket is session based and can not be
+shared between different computers. The basket does not require the user to log in before it's
 used.
 </p>
 
 <p>
-Each item you store in the cart has the following attributes:
+Each item you store in the basket has the following attributes:
 </p>
 <ul>
 	<li>Content object/product</li>
@@ -54,13 +54,13 @@ Each item you store in the cart has the following attributes:
 </ul>
 
 <p>
-The cart will also calculate the total price for the product. VAT will be
-calculated on a pr item basis and as a total for the whole cart. Shipping
+The basket will also calculate the total price for the product. VAT will be
+calculated on a pr item basis and as a total for the whole basket. Shipping
 cost will be calculated, this will however only show the default shipping. The user
 can decide to change the shipping type in the checkout.
 </p>
 
 <p>
-The diagram below shows the different states of the cart.
+The diagram below shows the different states of the basket.
 </p>
-<img src="/doc/images/cart_state.png" alt="Cart" />
+<img src="/doc/images/basket_state.png" alt="Basket" />

@@ -40,8 +40,8 @@ $ViewList["orderview"] = array(
     "script" => "orderview.php",
     "params" => array( "OrderID" ) );
 
-$ViewList["cart"] = array(
-    "script" => "cart.php",
+$ViewList["basket"] = array(
+    "script" => "basket.php",
     "params" => array(  ) );
 
 $ViewList["wishlist"] = array(
