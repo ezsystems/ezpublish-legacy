@@ -1343,7 +1343,6 @@ class eZPDFTable extends Cezpdf
             }
 
             $yOffset = $frameCoords['y0'] - $frameCoords['topMargin'];
-            echo $frameCoords['topMargin'].'<br>';
 
             $yOffset -= $this->getFontHeight( $size );
             $xOffset = $frameCoords['leftMargin'];
