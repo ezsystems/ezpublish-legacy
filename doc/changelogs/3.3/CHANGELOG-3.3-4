@@ -149,6 +149,10 @@ eZ MIMEType:
 - Added mimetypes for OpenOffice for Writer, Calc and Impress. Merged from trunk (Rev. 5194)
 - Added .htm as suffix match to text/html MIMEType. Merged from trunk (Rev. 5194)
 
+eZDebug:
+- Made sure the dumpVariable function don't mess up any existing output buffers
+  or start a new unneeded one. (Merged in from stable/3.2 rev. 5537)
+
 *Design:
 
 *Translations:

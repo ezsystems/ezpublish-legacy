@@ -437,21 +437,11 @@ class eZDebug
     */
     function &dumpVariable( $var )
     {
-        // save the buffer contents
         $variableContents = "";
-        $buffer =& ob_get_contents();
-        if ( strlen( $buffer ) > 0 )
-            ob_end_clean();
-
         ob_start();
         var_dump( $var );
         $variableContents .= ob_get_contents();
         ob_end_clean();
-
-        // fill the buffer with the old values
-        ob_start();
-        print( $buffer );
-
         return $variableContents;
     }
 
