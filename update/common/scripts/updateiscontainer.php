@@ -52,7 +52,9 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish is_containe
                                                          "updateiscontainer.php -sSITEACCESS" ),
                                       'use-session' => false,
                                       'use-modules' => false,
-                                      'use-extensions' => false ) );
+                                      'use-extensions' => false,
+                                      'min_version'  => '3.4.2',
+                                      'max_version' => '3.5.0' ) );
 
 $script->startup();
 
@@ -61,17 +63,11 @@ $options = $script->getOptions( "", "",
 
 $script->initialize();
 
-include_once( 'lib/version.php' );
-define( "EZ_UPDATEISCONTAINER_VERSION_FROM", '3.4.2' );
-define( "EZ_UPDATEISCONTAINER_VERSION_TO", '3.5.0' );
-$ezversion = eZPublishSDK::version();
-if ( version_compare( EZ_UPDATEISCONTAINER_VERSION_FROM, $ezversion , 'gt' ) ||
-     version_compare( EZ_UPDATEISCONTAINER_VERSION_TO, $ezversion , 'lt' ) )
+if ( !$script->validateVersion() )
 {
-    $cli->output( "Unsuitable eZ publish version: " . $ezversion );
+    $cli->output( "Unsuitable eZ publish version: " );
     $cli->output( eZPublishSDK::version() );
-    $script->shutdown();
-    exit();
+    $script->shutdown( 1 );
 }
 
 $db =& eZDB::instance();
