@@ -127,8 +127,8 @@ Subdir=templates
 Match[class]=25
 
 [basket]
-Source=shop/confirmorder.tpl
-MatchFile=shop/confirmorder.tpl
+Source=shop/basket.tpl
+MatchFile=shop/basket.tpl
 Subdir=templates
 
 [orderview]

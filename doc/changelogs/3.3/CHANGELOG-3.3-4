@@ -133,6 +133,8 @@ Changes from 3.3-3 to 3.3-4
   and not child processes. (Merged from stable/3.2 rev. 5533)
 - Made sure the multiplexer workflow handler stores the current user ID and restores
   it if it was previously deferred. (Merged from stable/3.2 rev. 5533)
+- Fixed wrong override entries for webshop solution.
+  http://ez.no/community/bug_reports/confirm_order_bug_in_the_webshop_solution
 
 *Library:
 - Fixed case bug in the Timeout variable in eZSOAPClient.

@@ -117,24 +117,24 @@ Match[class]=25
 
 [orderemail]
 Source=shop/orderemail.tpl
-MatchFile=orderemail.tpl
+MatchFile=shop/orderemail.tpl
 Subdir=templates/shop
 Match[class]=25
 
 [confirmorder]
 Source=shop/confirmorder.tpl
-MatchFile=confirmorder.tpl
+MatchFile=shop/confirmorder.tpl
 Subdir=templates/shop
 Match[class]=25
 
 [basket]
-Source=shop/confirmorder.tpl
-MatchFile=confirmorder.tpl
+Source=shop/basket.tpl
+MatchFile=shop/basket.tpl
 Subdir=templates/shop
 
 [orderview]
 Source=shop/orderview.tpl
-MatchFile=orderview.tpl
+MatchFile=shop/orderview.tpl
 Subdir=templates/shop
 
 */ ?>
