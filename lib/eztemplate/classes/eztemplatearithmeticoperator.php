@@ -252,17 +252,13 @@ class eZTemplateArithmeticOperator
         $allNumeric = true;
         $notInitialised = true;
         $newParameters = array();
+        $endParameters = array();
         foreach ( $parameters as $parameter )
         {
             if ( !eZTemplateNodeTool::isStaticElement( $parameter ) )
             {
                 $allNumeric = false;
-                if ( !$notInitialised )
-                {
-                    $newParameters[] = array( eZTemplateNodeTool::createNumericElement( $staticResult ) );
-                    $notInitialised = true;
-                }
-                $newParameters[] = $parameter;
+                $endParameters[] = $parameter;
             }
             else
             {
@@ -305,18 +301,31 @@ class eZTemplateArithmeticOperator
             {
                 $newParameters[] = array( eZTemplateNodeTool::createNumericElement( $staticResult ) );
             }
+            $newParameters = array_merge( $newParameters, $endParameters );
 
             $code = '%output% =';
             $counter = 1;
+            $index = 0;
             foreach ( $newParameters as $parameter )
             {
-                if ( $counter > 1 )
+                if ( $index > 0 )
                 {
                     $code .= " $operator";
                 }
-                $code .= " %$counter%";
-                $values[] = $parameter;
-                ++$counter;
+                if ( eZTemplateNodeTool::isStaticElement( $parameter ) )
+                {
+                    $staticValue = eZTemplateNodeTool::elementStaticValue( $parameter );
+                    if ( !is_numeric( $staticValue ) )
+                        $staticValue = (int)$staticValue;
+                    $code .= " $staticValue";
+                }
+                else
+                {
+                    $code .= " %$counter%";
+                    $values[] = $parameter;
+                    ++$counter;
+                }
+                ++$index;
             }
             $code .= ";\n";
         }
@@ -339,20 +348,20 @@ class eZTemplateArithmeticOperator
         $allNumeric = true;
         foreach ( $parameters as $parameter )
         {
-            if ( $parameter[0][0] != EZ_TEMPLATE_TYPE_NUMERIC )
+            if ( !eZTemplateNodeTool::isStaticElement( $parameter ) )
             {
                 $allNumeric = false;
             }
             else
             {
-                $staticResult[] = $parameter[0][1];
+                $staticResult[] = eZTemplateNodeTool::elementStaticValue( $parameter );
             }
         }
- 
+
         if ( $allNumeric )
         {
             $staticResult = $function( $staticResult );
-            $code = "%output% = $staticResult;\n";
+            return array( eZTemplateNodeTool::createNumericElement( $staticResult ) );
         }
         else
         {
@@ -382,10 +391,10 @@ class eZTemplateArithmeticOperator
             return false;
         $newElements = array();
 
-        if ( $parameters[0][0][0] == EZ_TEMPLATE_TYPE_NUMERIC && $parameters[1][0][0] == EZ_TEMPLATE_TYPE_NUMERIC )
+        if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) && eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
         {
-            $staticResult = $parameters[0][0][1] & $parameters[1][0][1];
-            $code = "%output% = $staticResult;\n";
+            $staticResult = eZTemplateNodeTool::elementStaticValue( $parameters[0] ) % eZTemplateNodeTool::elementStaticValue( $parameters[1] );
+            return array( eZTemplateNodeTool::createNumericElement( $staticResult ) );
         }
         else
         {
@@ -407,10 +416,10 @@ class eZTemplateArithmeticOperator
             return false;
         $newElements = array();
 
-        if ( $parameters[0][0][0] == EZ_TEMPLATE_TYPE_NUMERIC )
+        if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
         {
-            $staticResult = $function( $parameters[0][0][1] );
-            $code = "%output% = $staticResult;\n";
+            $staticResult = $function( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) );
+            return array( eZTemplateNodeTool::createNumericElement( $staticResult ) );
         }
         else
         {
@@ -432,10 +441,9 @@ class eZTemplateArithmeticOperator
             return false;
         $newElements = array();
 
-        if ( $parameters[0][0][0] == EZ_TEMPLATE_TYPE_NUMERIC )
+        if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
         {
-            $staticResult = $parameters[0][0][1] + $direction;
-            $code = "%output% = $staticResult;\n";
+            return array( eZTemplateNodeTool::createNumericElement( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) + $direction ) );
         }
         else
         {
@@ -454,10 +462,10 @@ class eZTemplateArithmeticOperator
             return false;
         $newElements = array();
 
-        if ( $parameters[0][0][0] == EZ_TEMPLATE_TYPE_NUMERIC )
+        if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
         {
-            $staticResult = ( $operatorName == $this->IntName ) ? (int) $parameters[0][0][1] : (float) $parameters[0][0][1];
-            $code = "%output% = $staticResult;\n";
+            $staticResult = ( $operatorName == $this->IntName ) ? (int) eZTemplateNodeTool::elementStaticValue( $parameters[0] ) : (float) eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+            return array( eZTemplateNodeTool::createNumericElement( $staticResult ) );
         }
         else
         {
@@ -476,12 +484,10 @@ class eZTemplateArithmeticOperator
             return false;
         $newElements = array();
 
-        if ( $parameters[0][0][0] == EZ_TEMPLATE_TYPE_NUMERIC )
+        if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
         {
-            $staticResult = $this->buildRoman( $parameters[0][0][1] );
-            $code = "%output% = '$staticResult';\n";
-            $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
-            return $newElements;
+            $staticResult = $this->buildRoman( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) );
+            return array( eZTemplateNodeTool::createNumericElement( $staticResult ) );
         }
         else
         {
@@ -513,6 +519,10 @@ class eZTemplateArithmeticOperator
                                                                    'default' => false ) ) );
     }
 
+    /*!
+     \private
+     \obsolete This function adds too much complexity, don't use it anymore
+    */
     function numericalValue( $mixedValue )
     {
         if ( is_array( $mixedValue ) )
@@ -542,9 +552,9 @@ class eZTemplateArithmeticOperator
             case $this->RomanName:
             {
                 if ( $namedParameters['value'] !== false )
-                    $value = $this->numericalValue( $namedParameters['value'] );
+                    $value = $namedParameters['value'];
                 else
-                    $value = $this->numericalValue( $operatorValue );
+                    $value = $operatorValue;
 
                 $operatorValue = $this->buildRoman( $value );
             } break;
@@ -569,14 +579,11 @@ class eZTemplateArithmeticOperator
             case $this->SumName:
             {
                 $value = 0;
-                if ( is_array( $operatorValue ) )
-                {
-                    $array = $operatorValue;
-                    $value = array_sum( $array );
-                }
+                if ( $operatorValue !== null )
+                    $value = $operatorValue;
                 for ( $i = 0; $i < count( $operatorParameters ); ++$i )
                 {
-                    $tmpValue =& $this->numericalValue( $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace ) );
+                    $tmpValue =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
                     $value += $tmpValue;
                 }
                 $operatorValue = $value;
@@ -584,11 +591,11 @@ class eZTemplateArithmeticOperator
             case $this->SubName:
             {
                 $values = array();
-                if ( is_array( $operatorValue ) )
-                    $values = array_values( $operatorValue );
+                if ( $operatorValue !== null )
+                    $values[] = $operatorValue;
                 for ( $i = 0; $i < count( $operatorParameters ); ++$i )
                 {
-                    $values[] = $this->numericalValue( $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace ) );
+                    $values[] = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
                 }
                 $value = 0;
                 if ( count( $values ) > 0 )
@@ -605,9 +612,9 @@ class eZTemplateArithmeticOperator
             case $this->DecName:
             {
                 if ( $namedParameters['value'] === false )
-                    $value = $this->numericalValue( $operatorValue );
+                    $value = $operatorValue;
                 else
-                    $value = $this->numericalValue( $namedParameters['value'] );
+                    $value = $namedParameters['value'];
                 if ( $operatorName == $this->DecName )
                     --$value;
                 else
@@ -625,10 +632,10 @@ class eZTemplateArithmeticOperator
                 if ( count( $operatorParameters ) == 1 )
                     $value = $operatorValue;
                 else
-                    $value = $this->numericalValue( $tpl->elementValue( $operatorParameters[$i++], $rootNamespace, $currentNamespace ) );
+                    $value = $tpl->elementValue( $operatorParameters[$i++], $rootNamespace, $currentNamespace );
                 for ( ; $i < count( $operatorParameters ); ++$i )
                 {
-                    $tmpValue =& $this->numericalValue( $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace ) );
+                    $tmpValue =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
                     $value /= $tmpValue;
                 }
                 $operatorValue = $value;
@@ -643,12 +650,12 @@ class eZTemplateArithmeticOperator
                 if ( count( $operatorParameters ) == 1 )
                 {
                     $dividend = $operatorValue;
-                    $divisor = $this->numericalValue( $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace ) );
+                    $divisor = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
                 }
                 else
                 {
-                    $dividend = $this->numericalValue( $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace ) );
-                    $divisor = $this->numericalValue( $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace ) );
+                    $dividend = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
+                    $divisor = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
                 }
                 $operatorValue = $dividend % $divisor;
             } break;
@@ -659,10 +666,10 @@ class eZTemplateArithmeticOperator
                     $tpl->warning( $operatorName, 'Requires at least 1 parameter value' );
                     return;
                 }
-                $value = $this->numericalValue( $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace ) );
+                $value = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
                 for ( $i = 1; $i < count( $operatorParameters ); ++$i )
                 {
-                    $tmpValue =& $this->numericalValue( $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace ) );
+                    $tmpValue =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
                     $value *= $tmpValue;
                 }
                 $operatorValue = $value;
@@ -674,10 +681,10 @@ class eZTemplateArithmeticOperator
                     $tpl->warning( $operatorName, 'Requires at least 1 parameter value' );
                     return;
                 }
-                $value = $this->numericalValue( $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace ) );
+                $value = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
                 for ( $i = 1; $i < count( $operatorParameters ); ++$i )
                 {
-                    $tmpValue =& $this->numericalValue( $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace ) );
+                    $tmpValue =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
                     if ( $tmpValue > $value )
                         $value = $tmpValue;
                 }
@@ -690,10 +697,10 @@ class eZTemplateArithmeticOperator
                     $tpl->warning( $operatorName, 'Requires at least 1 parameter value' );
                     return;
                 }
-                $value = $this->numericalValue( $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace ) );
+                $value = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
                 for ( $i = 1; $i < count( $operatorParameters ); ++$i )
                 {
-                    $tmpValue =& $this->numericalValue( $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace ) );
+                    $tmpValue =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
                     if ( $tmpValue < $value )
                         $value = $tmpValue;
                 }
@@ -707,7 +714,7 @@ class eZTemplateArithmeticOperator
                 if ( count( $operatorParameters ) < 1 )
                     $value = $operatorValue;
                 else
-                    $value = $this->numericalValue( $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace ) );
+                    $value = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
                 switch ( $operatorName )
                 {
                     case $this->AbsName:
@@ -731,7 +738,7 @@ class eZTemplateArithmeticOperator
             case $this->IntName:
             {
                 if ( count( $operatorParameters ) > 0 )
-                    $value = $this->numericalValue( $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace ) );
+                    $value = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
                 else
                     $value = $operatorValue;
                 $operatorValue = (int)$value;
@@ -739,7 +746,7 @@ class eZTemplateArithmeticOperator
             case $this->FloatName:
             {
                 if ( count( $operatorParameters ) > 0 )
-                    $value = $this->numericalValue( $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace ) );
+                    $value = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
                 else
                     $value = $operatorValue;
                 $operatorValue = (float)$value;

@@ -79,7 +79,8 @@ class eZTemplateArrayOperator
                                       $insertName       = 'insert',
                                       $removeName       = 'remove',
                                       $replaceName      = 'replace',
-                                      $uniqueName       = 'unique' )
+                                      $uniqueName       = 'unique',
+                                      $arraySumName       = 'array_sum' )
     {
         $this->ArrayName        = $arrayName;
         $this->HashName         = $hashName;
@@ -104,6 +105,7 @@ class eZTemplateArrayOperator
         $this->RemoveName       = $removeName;
         $this->ReplaceName      = $replaceName;
         $this->UniqueName       = $uniqueName;
+        $this->ArraySumName     = $arraySumName;
 
         $this->Operators = array( $arrayName,
                                   $hashName,
@@ -127,7 +129,8 @@ class eZTemplateArrayOperator
                                   $insertName,
                                   $removeName,
                                   $replaceName,
-                                  $uniqueName );
+                                  $uniqueName,
+                                  $arraySumName );
     }
 
     /*!
@@ -208,7 +211,10 @@ class eZTemplateArrayOperator
                                                    'parameters' => true ),
                       $this->UniqueName => array( 'input' => true,
                                                   'output' => true,
-                                                  'parameters' => false ) );
+                                                  'parameters' => false ),
+                      $this->ArraySumName => array( 'input' => true,
+                                                    'output' => true,
+                                                    'parameters' => false ) );
     }
 
     /*!
@@ -282,14 +288,12 @@ class eZTemplateArrayOperator
                                                                                  "default"   => false ) ) );
     }
 
-    // Takes care of the various operator functions.
     function modify( &$tpl, &$operatorName, &$operatorParameters,
                      &$rootNamespace, &$currentNamespace, &$operatorValue,
                      &$namedParameters )
     {
         switch( $operatorName )
         {
-            // Create/build an array:
             case $this->ArrayName:
             {
                 $operatorValue = array();
@@ -302,7 +306,6 @@ class eZTemplateArrayOperator
                 return;
             }break;
 
-            // __FIX_ME__
             case $this->HashName:
             {
                 $operatorValue = array();
@@ -320,6 +323,21 @@ class eZTemplateArrayOperator
                     else
                         $tpl->error( $operatorName,
                                      "Unknown hash key type '" . gettype( $hashName ) . "', skipping" );
+                }
+                return;
+            }
+            break;
+
+            case $this->ArraySumName:
+            {
+                if ( is_array( $operatorValue ) )
+                {
+                    $operatorValue = array_sum( $operatorValue );
+                }
+                else
+                {
+                    $tpl->error( $operatorName,
+                                 "Unknown input type, can only work with arrays '" . gettype( $operatorValue ) . "'" );
                 }
                 return;
             }

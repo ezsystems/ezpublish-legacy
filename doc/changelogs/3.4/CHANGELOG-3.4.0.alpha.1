@@ -68,6 +68,15 @@ eZ template:
   can be reused for automated testing.
 - Two new element types (array and boolean) created to help in
   template compilation optimization.
+- The behaviour of the template operators sum, sub, inc, dec, div,
+  mod, mul, max, min, abs, ceil, floor, round, int, float, count and roman
+  has changed. Objects and arrays are no longer been given special
+  treatment (these features were never used anyway).
+  Now all parameters are treated as scalar values.
+- The template operators sum and sub no longer accepts an array as
+  input value. A new operator array_sum was created to handle this
+  case (sub is no longer support for arrays). Code depending on this
+  must be changed.
 
 eZ PHP creator:
 - New creation type 'define' which creates a define() expression.

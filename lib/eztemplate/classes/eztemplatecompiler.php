@@ -1194,10 +1194,12 @@ class eZTemplateCompiler
                             {
                                 $newParameterElements = eZTemplateCompiler::processElementTransformationChild( $useComments, $php, $tpl, $node,
                                                                                                                $elementTree, $newElementList, $resourceData );
-                                if ( $newParameterElements or
-                                     $inputAsParameter == 'always' )
+                                if ( count( $newParameterElements ) > 0 or
+                                     $inputAsParameter === 'always' )
+                                {
                                     $newParameters[] = $newParameterElements;
-                                $newElementList = array();
+                                    $newElementList = array();
+                                }
                             }
 
                             foreach ( $operatorParameters as $operatorParameter )
