@@ -26,4 +26,9 @@ Source=visual/templatelist.tpl
 MatchFile=setup/templatelist.tpl
 Subdir=templates
 
+[url_list]
+Source=url/list.tpl
+MatchFile=url/view_url_list.tpl
+Subdir=templates
+
 */ ?>

@@ -4,7 +4,6 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-  <th>&nbsp;</th>
   <th width="1">{"Edit"|i18n('design/standard/url')}</th>
   <th colspan="2">{"URL"|i18n('design/standard/url')}</th>
   <th>{"Last checked"|i18n('design/standard/url')}</th>
