@@ -79,8 +79,8 @@ class eZDateTimeType extends eZDataType
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         }
         if ( $classAttribute->attribute( "is_required" ) and
-             $year == '' and $month == '' and $day == '' and
-             $hour == '' and $minute == '' )
+             ( $year == '' or $month == '' or $day == '' or
+               $hour == '' or $minute == '' ) )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                  'Missing datetime input.' ) );

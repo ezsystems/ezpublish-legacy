@@ -74,7 +74,7 @@ class eZDateType extends eZDataType
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         }
         if ( $classAttribute->attribute( "is_required" ) and
-             $year == '' and $month == '' and $day == '' )
+             ( $year == '' or $month == '' or $day == '') )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                  'Missing date input.' ) );
