@@ -547,7 +547,7 @@ CREATE TABLE ezpolicy_limitation (
 # Dumping data for table 'ezpolicy_limitation'
 #
 
-INSERT INTO ezpolicy_limitation VALUES (244,306,'ClassID',0,'','');
+INSERT INTO ezpolicy_limitation VALUES (244,306,'Class',0,'read','content');
 
 #
 # Table structure for table 'ezpolicy_limitation_value'

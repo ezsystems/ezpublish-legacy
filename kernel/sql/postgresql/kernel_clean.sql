@@ -649,7 +649,7 @@ CREATE TABLE "ezpolicy_limitation" (
 	Constraint "ezpolicy_limitation_pkey" Primary Key ("id")
 );
 
-INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (244,306,'ClassID',0,'','');
+INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (244,306,'Class',0,'read','content');
 
 
 

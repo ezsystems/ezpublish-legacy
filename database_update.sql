@@ -23,4 +23,5 @@ alter table ezsearch_object_word_link add section_id int not null after publishe
 alter table ezcontentobject_tree add priority int not null default '0';
 
 # storing info about module and function of limitation
+# you should run that query only for kernel_clean db
 update ezpolicy_limitation set function_name='read', module_name='content', identifier='Class' where policy_id=306;
