@@ -47,14 +47,26 @@
         {/section}
     {/section}
 
-    <h3>{"Role list"|i18n("design/standard/role")}</h3>
+    <div class="buttonblock">
+    {section show=and($is_editable,$content_object.can_edit)}
+        <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
+        <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/standard/node/view' )}" />
+    {/section}
+    <input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/standard/node/view')}" />
+    </div>
+</div>
 
-    <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
-    <tr>
-        <th>{"Module"|i18n("design/standard/role")}</th>
-        <th>{"Function"|i18n("design/standard/role")}</th>
-        <th>{"Limitation"|i18n("design/standard/role")}</th>
-    </tr>
+<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <th colspan="3">
+         {"Role list"|i18n("design/standard/node/view")}
+    </th>
+</tr>
+<tr>
+    <td><h3>{"Module"|i18n("design/standard/role")}</h3></td>
+    <td><h3>{"Function"|i18n("design/standard/role")}</h3></td>
+    <td><h3>{"Limitation"|i18n("design/standard/role")}</h3></td>
+</tr>
     {section var=Policy loop=$policies sequence=array(bglight,bgdark)}
     <tr class="{$Policy.sequence}">
         <td>
@@ -79,16 +91,7 @@
         </td>
     </tr>
     {/section}
-    </table>
-
-    <div class="buttonblock">
-    {section show=and($is_editable,$content_object.can_edit)}
-        <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
-        <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/standard/node/view' )}" />
-    {/section}
-    <input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/standard/node/view')}" />
-    </div>
-</div>
+</table>
 
 {section show=$is_standalone}
     </form>

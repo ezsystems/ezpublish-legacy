@@ -4,7 +4,8 @@
          is_editable=true()
          is_standalone=true()}
 {let page_limit=15
-     list_count=and( $with_children, fetch( content, list_count, hash( parent_node_id, $node.node_id ) ) )}
+     list_count=and( $with_children, fetch( content, list_count, hash( parent_node_id, $node.node_id ) ) )
+     policies=fetch( 'user', 'user_role', hash( user_id, $node.object.id ) )}
 {default content_object=$node.object
          content_version=$node.contentobject_version_object
          node_name=$node.name}
@@ -223,6 +224,45 @@
 
 {/section}
 {/default}
+
+{section show=ne($node.node_id,5)}
+<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <th colspan="3">
+         {"Role list"|i18n("design/standard/node/view")}
+    </th>
+</tr>
+<tr>
+    <td><h3>{"Module"|i18n("design/standard/role")}</h3></td>
+    <td><h3>{"Function"|i18n("design/standard/role")}</h3></td>
+    <td><h3>{"Limitation"|i18n("design/standard/role")}</h3></td>
+</tr>
+    {section var=Policy loop=$policies sequence=array(bglight,bgdark)}
+    <tr class="{$Policy.sequence}">
+        <td>
+            {$Policy.moduleName}
+        </td>
+        <td>
+            {$Policy.functionName}
+        </td>
+        <td>
+            {section show=eq($Policy.limitation,'*')}
+                {$Policy.limitation}
+            {section-else}
+                {section var=Limitation loop=$Policy.limitation}
+                  {$Limitation.identifier|wash}(
+                      {section var=LimitationValues loop=$Limitation.values_as_array_with_names}
+                          {$LimitationValues.Name|wash}
+                          {delimiter}, {/delimiter}
+                      {/section})
+                      {delimiter}, {/delimiter}
+                {/section}
+             {/section}
+        </td>
+    </tr>
+    {/section}
+</table>
+{/section}
 
 {section show=$is_standalone}
     </form>
