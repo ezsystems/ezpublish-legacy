@@ -390,7 +390,11 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 if ( $classAttribute->attribute( "is_required" ) == true )
                 {
                     if ( count( $paragraphs ) == 0  && count( $headers ) == 0  )
+                    {
+                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                             'Content required' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    }
                     else
                         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
                 }
