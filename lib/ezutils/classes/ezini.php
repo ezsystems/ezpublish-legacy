@@ -742,9 +742,8 @@ class eZINI
             unlink( $filePath );
             return false;
         }
-
-        if ( file_exists( $backupFileName ) )
-            unlink( $backupFileName );
+        if ( file_exists( $backupFilePath ) )
+            unlink( $backupFilePath );
         if ( file_exists( $originalFilePath ) )
         {
             if ( !rename( $originalFilePath, $backupFilePath ) )

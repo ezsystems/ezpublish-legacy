@@ -91,8 +91,10 @@ if ( $module->isCurrentAction( 'RemoveOverride' ) )
         $overrideINI->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
         $overrideINI->loadCache();
 
-        $siteBase = $overrideINI->variable( 'DesignSettings', 'SiteDesign' );
-        print( "siteBase=$siteBase<br/>" );
+        $siteINI = eZINI::instance( 'site.ini', 'settings', null, null, true );
+        $siteINI->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
+        $siteINI->loadCache();
+        $siteBase = $siteINI->variable( 'DesignSettings', 'SiteDesign' );
 
         // Remove settings and file
         foreach ( $removeOverrideArray as $removeOverride )
