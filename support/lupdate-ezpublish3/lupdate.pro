@@ -36,7 +36,8 @@ HEADERS     = metatranslator.h \
               proparser.h
 
 SOURCES     = fetchtr.cpp \
-              fetchtr_ezpublish.cpp \
+              fetchtr_php.cpp \
+              fetchtr_tpl.cpp \
               main.cpp \
               merge.cpp \
               numberh.cpp \
