@@ -41,9 +41,9 @@
 
 {* Remove button. *}
 {section show=$node.can_remove}
-    <input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/admin/node/view/full')}" title="{'Remove this item.'|i18n( 'design/admin/node/view/full' )}" />
+    <input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n( 'design/admin/node/view/full' )}" title="{'Remove this item.'|i18n( 'design/admin/node/view/full' )}" />
 {section-else}
-    <input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/admin/node/view/full')}" title="{'You do not have permissions to remove this item.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
+    <input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permissions to remove this item.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
 {/section}
 </div>
 
@@ -64,7 +64,6 @@
 </div>
 
 </div>
-
 
 {include uri="design:windows.tpl"}
 
