@@ -81,36 +81,31 @@
    {/switch}
 {/section}
 
-<hr noshade="noshade" />
 
 {section show=$with_children}
+
+{let children=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset)) sequence=array(bglight,bgdark)}
+
+{section show=$children}
+
+<hr noshade="noshade" />
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <th>
-    Name
+    Name:
     </th>
     <th>
-    Class    
+    Class:
     </th>
     <th>
-    {switch match=$content_object.can_edit}
-        {case match=1}
-        {section show=eq($node.sort_array[0][0],'priority')}
-         <input class="button" type="submit"  name="UpdatePriorityButton" value="Update" />
-        {/section}
-        {/case}
-        {case match=0}
-        {/case}
-    {/switch}
+    Sorting:
     </th>
     <th colspan="2" align="right">
-    {section show=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
-    <input class="button" type="submit" name="RemoveButton" value="Remove" />
-    {/section}
+    Remove:
     </th>
 </tr>
-{section name=Child loop=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset)) sequence=array(bglight,bgdark)}
+{section name=Child loop=$children}
 <tr>
 	<td class="{$Child:sequence}">
         <a href={concat('content/view/full/',$Child:item.node_id)|ezurl}>{node_view_gui view=line content_node=$Child:item}</a>
@@ -148,7 +143,32 @@
         {/switch} 
 </tr>
 {/section}
+<tr>
+    <td>
+    </td>
+    <td>
+    </td>
+    <td>
+    {switch match=$content_object.can_edit}
+        {case match=1}
+        {section show=eq($node.sort_array[0][0],'priority')}
+         <input class="button" type="submit"  name="UpdatePriorityButton" value="Update" />
+        {/section}
+        {/case}
+        {case match=0}
+        {/case}
+    {/switch}
+    </td>
+    <td colspan="2" align="right">
+    {section show=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
+    <input class="button" type="submit" name="RemoveButton" value="Remove" />
+    {/section}
+    </td>
+</tr>
 </table>
+
+{/section}
+{/let}
 
 {include name=navigator
          uri='design:navigator/google.tpl'
@@ -170,9 +190,7 @@
          </select>
 {/case}
 {case match=0}
-<div class="warning">
-<h2>You are not allowed to create child objects</h2>
-</div>
+
 {/case}
 {/switch}
 
@@ -181,6 +199,7 @@
 </div>
 
 {/section}
+
 
 {section show=$is_standalone}
 </form>

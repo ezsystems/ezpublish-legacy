@@ -36,17 +36,17 @@
 
 <img src={"toppmeny.gif"|ezimage} alt="" border="" USEMAP="#map" />
 
-<map name="map">
-<area SHAPE="RECT" COORDS="2,1,103,27" href={"content/view/full/159/"|ezurl} />
-<AREA SHAPE="RECT" COORDS="104,0,175,24" href={"content/view/full/32/"|ezurl} />
-<AREA SHAPE="RECT" COORDS="177,2,245,23" href={"content/view/full/26/"|ezurl} />
-<AREA SHAPE="RECT" COORDS="248,3,317,24" href={"content/view/full/82/"|ezurl} />
-<AREA SHAPE="RECT" COORDS="320,3,392,23" href={"content/view/full/62/"|ezurl} />
-<AREA SHAPE="RECT" COORDS="393,3,472,23" href={"content/view/full/200/"|ezurl} />
-</map>
+<MAP NAME="map">
+<AREA SHAPE="RECT" COORDS="1,1,71,25" href={"content/view/full/26/"|ezurl}>
+<AREA SHAPE="RECT" COORDS="73,0,156,24" href={"content/view/full/159/"|ezurl}>
+<AREA SHAPE="RECT" COORDS="157,0,228,23" href={"content/view/full/62/"|ezurl}>
+<AREA SHAPE="RECT" COORDS="229,0,299,24" href={"content/view/full/200/"|ezurl}>
+<AREA SHAPE="RECT" COORDS="300,0,372,24" href={"content/view/full/32/"|ezurl}>
+<AREA SHAPE="RECT" COORDS="374,1,448,24" href={"content/view/full/210/"|ezurl}>
+<AREA SHAPE="RECT" COORDS="450,1,523,24" href={"content/view/full/82/"|ezurl}>
+</MAP>
 
-{let file_list=fetch(content,list,hash(parent_node_id,201,sort_by,array(array(published,false())),limit,5,))
-     news_list=fetch(content,tree,hash(parent_node_id,200,limit,5,sort_by,array(published,false()),class_filter_type,include,class_filter_array,array(2)))}
+{let page_list=fetch(content,list,hash(parent_node_id,210,sort_by,array(array(published,false())),limit,10))}
 
 <table class="mainlayout" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -114,31 +114,13 @@
     <td class="rightcolumn" valign="top" rowspan="3" width="1%">
     
     <table class="menu" width="100%" cellspacing="0" cellpadding="0" border="0">
+    {section name=Page loop=$page_list}
     <tr>
         <td>
-        <a class="menuitem" href="/">About me</a>
+        <a class="menuitem" href={concat("/content/view/full/",$Page:item.node_id,"/")|ezurl}>{$Page:item.name}</a>
         </td>
     </tr>    
-    <tr>
-        <td>
-        <a class="menuitem" href="/">Portfolio</a>
-        </td>
-    </tr>    
-    <tr>
-        <td>
-        <a class="menuitem" href="/">Resume</a>
-        </td>
-    </tr>    
-    <tr>
-        <td>
-        <a class="menuitem" href="/">Links</a>
-        </td>
-    </tr>    
-    <tr>
-        <td>
-        <a class="menuitem" href="/">Contact</a>
-        </td>
-    </tr>
+    {/section}
     </table>    
     
     <img src={"1x1.gif"|ezimage} width="100" height="1" alt="" border="0" /><br />
