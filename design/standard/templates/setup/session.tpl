@@ -69,7 +69,7 @@ function checkAll()
 <a class="topline" href={concat('/setup/session/(offset)/',$view_parameters.offset,'/(sortby)/login')|ezurl}>{"Login"|i18n("design/standard/setup")}</a>
 </th>
 <th>
-<a class="topline" href={concat('/setup/session/(offset)/',$view_parameters.offset,'/(sortby)/email')|ezurl}>{"Email"|i18n("design/standard/setup")}</a>
+<a class="topline" href={concat('/setup/session/(offset)/',$view_parameters.offset,'/(sortby)/email')|ezurl}>{"E-mail"|i18n("design/standard/setup")}</a>
 </th>
 <th>
 <a class="topline" href={concat('/setup/session/(offset)/',$view_parameters.offset,'/(sortby)/name')|ezurl}>{"Full name"|i18n("design/standard/setup")}</a>
