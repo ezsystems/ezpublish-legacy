@@ -70,19 +70,8 @@
     </table>
     </p>
 <form method="post" action="{$script}">
-    <input type="hidden" name="dbType" value="{$dbType}" />
-    <input type="hidden" name="dbServer" value="{$dbServer}" />
-    <input type="hidden" name="dbName" value="{$dbName}" />
-    <input type="hidden" name="dbMainUser" value="{$dbMainUser}" />
-    <input type="hidden" name="dbCreateUser" value="{$dbCreateUser}" />
-
-    {* TODO: Security hole! Use better method! *}
-    <input type="hidden" name="dbMainPass" value="{$dbMainPass}" /> 
-    <input type="hidden" name="dbCreatePass" value="{$dbCreatePass}" />
-    <input type="hidden" name="dbDeleteTables" value="{$dbDeleteTables}" />
-    <input type="hidden" name="nextStep" value="{$prevStep}" />
     {section name=handover loop=$handover}
-    <input type="hidden" name="{$handover:item.name}" value="{$handover:item.pass}" />
+    <input type="hidden" name="{$handover:item.name}" value="{$handover:item.value}" />
     {/section}
     
     {section name=continue show=$continue}
