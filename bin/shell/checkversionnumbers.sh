@@ -47,7 +47,7 @@ if ! grep "VERSION=\"$VERSION\"" bin/shell/common.sh &>/dev/null; then
     echo "Should be:"
     echo "VERSION=\"`$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`\""
     echo
-    ERROR="1"
+    MAIN_ERROR="1"
     [ -n "$EXIT_AT_ONCE" ] && exit 1
 fi
 
@@ -57,7 +57,7 @@ if ! grep "VERSION_ONLY=\"$VERSION_ONLY\"" bin/shell/common.sh &>/dev/null; then
     echo "Should be:"
     echo "VERSION_ONLY=\"`$SETCOLOR_EMPHASIZE`$VERSION_ONLY`$SETCOLOR_NORMAL`\""
     echo
-    ERROR="1"
+    MAIN_ERROR="1"
     [ -n "$EXIT_AT_ONCE" ] && exit 1
 fi
 
@@ -69,7 +69,7 @@ if ! grep "define( \"EZ_SDK_VERSION_MAJOR\", $MAJOR );" lib/version.php &>/dev/n
     echo "Should be:"
     echo "define( \"EZ_SDK_VERSION_MAJOR\", `$SETCOLOR_EMPHASIZE`$MAJOR`$SETCOLOR_NORMAL` );"
     echo
-    ERROR="1"
+    MAIN_ERROR="1"
     [ -n "$EXIT_AT_ONCE" ] && exit 1
 fi
 
@@ -79,7 +79,7 @@ if ! grep "define( \"EZ_SDK_VERSION_MINOR\", $MINOR );" lib/version.php &>/dev/n
     echo "Should be:"
     echo "define( \"EZ_SDK_VERSION_MINOR\", `$SETCOLOR_EMPHASIZE`$MINOR`$SETCOLOR_NORMAL` );"
     echo
-    ERROR="1"
+    MAIN_ERROR="1"
     [ -n $EXIT_AT_ONCE ] && exit 1
 fi
 
@@ -89,7 +89,7 @@ if ! grep "define( \"EZ_SDK_VERSION_RELEASE\", $RELEASE );" lib/version.php &>/d
     echo "Should be:"
     echo "define( \"EZ_SDK_VERSION_RELEASE\", `$SETCOLOR_EMPHASIZE`$RELEASE`$SETCOLOR_NORMAL` );"
     echo
-    ERROR="1"
+    MAIN_ERROR="1"
     [ -n "$EXIT_AT_ONCE" ] && exit 1
 fi
 
@@ -99,7 +99,7 @@ if ! grep "define( \"EZ_SDK_VERSION_STATE\", '$STATE' );" lib/version.php &>/dev
     echo "Should be:"
     echo "define( \"EZ_SDK_VERSION_STATE\", '`$SETCOLOR_EMPHASIZE`$STATE`$SETCOLOR_NORMAL`' );"
     echo
-    ERROR="1"
+    MAIN_ERROR="1"
     [ -n "$EXIT_AT_ONCE" ] && exit 1
 fi
 
@@ -109,7 +109,7 @@ if ! grep "define( \"EZ_SDK_VERSION_DEVELOPMENT\", $DEVELOPMENT );" lib/version.
     echo "Should be:"
     echo "define( \"EZ_SDK_VERSION_DEVELOPMENT\", `$SETCOLOR_EMPHASIZE`$DEVELOPMENT`$SETCOLOR_NORMAL` );"
     echo
-    ERROR="1"
+    MAIN_ERROR="1"
     [ -n "$EXIT_AT_ONCE" ] && exit 1
 fi
 
@@ -121,7 +121,7 @@ if ! grep -E "PROJECT_NUMBER[ ]+=[ ]+$VERSION" doc/doxygen/Doxyfile &>/dev/null;
     echo "Should be:"
     echo "PROJECT_NUMBER         = `$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`"
     echo
-    ERROR="1"
+    MAIN_ERROR="1"
     [ -n "$EXIT_AT_ONCE" ] && exit 1
 fi
 
@@ -136,13 +136,13 @@ SQL_ERROR_LIST=""
 for sql in $SQL_LIST; do
     SQL_FILE_ERROR=""
     if ! grep -e "INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-version','$VERSION');" $sql &>/dev/null; then
-	ERROR="1"
+	MAIN_ERROR="1"
 	SQL_ERROR="1"
 	SQL_FILE_ERROR="1"
     fi
 
     if ! grep -e "INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-release','$REAL_RELEASE');" $sql &>/dev/null; then
-	ERROR="1"
+	MAIN_ERROR="1"
 	SQL_ERROR="1"
 	SQL_FILE_ERROR="1"
     fi
@@ -183,7 +183,7 @@ if ! grep -E "static QString version = \"$VERSION\";" support/lupdate-ezpublish3
     echo "Should be:"
     echo "static QString version = \"`$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`\""
     echo
-    ERROR="1"
+    MAIN_ERROR="1"
     [ -n "$EXIT_AT_ONCE" ] && exit 1
 fi
 
@@ -197,7 +197,7 @@ for driver in $DRIVERS; do
 	echo "The databse update file `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` is missing"
 	echo "This file is required for a valid release"
 	echo
-	ERROR="1"
+	MAIN_ERROR="1"
 	[ -n "$EXIT_AT_ONCE" ] && exit 1
     else
 	if ! grep -E "UPDATE ezsite_data SET value='$VERSION' WHERE name='ezpublish-version';" $file &>/dev/null; then
@@ -206,7 +206,7 @@ for driver in $DRIVERS; do
 	    echo "Should be:"
 	    echo "UPDATE ezsite_data SET value='`$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`' WHERE name='ezpublish-version';"
 	    echo
-	    ERROR="1"
+	    MAIN_ERROR="1"
 	    [ -n "$EXIT_AT_ONCE" ] && exit 1
 	fi
 	if ! grep -E "UPDATE ezsite_data SET value='$REAL_RELEASE' WHERE name='ezpublish-release';" $file &>/dev/null; then
@@ -215,10 +215,12 @@ for driver in $DRIVERS; do
 	    echo "Should be:"
 	    echo "UPDATE ezsite_data SET value='`$SETCOLOR_EMPHASIZE`$REAL_RELEASE`$SETCOLOR_NORMAL`' WHERE name='ezpublish-release';"
 	    echo
-	    ERROR="1"
+	    MAIN_ERROR="1"
 	    [ -n "$EXIT_AT_ONCE" ] && exit 1
 	fi
     fi
 done
 
-[ -n "$ERROR" ] && exit 1
+if [ -n "$MAIN_ERROR" ]; then
+    exit 1
+fi
