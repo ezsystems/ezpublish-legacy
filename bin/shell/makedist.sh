@@ -4,7 +4,7 @@ DIST_PROP="ez:distribution"
 DIST_DIR_PROP="ez:distribution_include_all"
 DIST_TYPE='full'
 NAME="ezpublish"
-DEST_ROOT="/tmp"
+DEST_ROOT="/tmp/$USER"
 DEFAULT_SVN_SERVER="http://zev.ez.no/svn/nextgen"
 DEFAULT_SVN_RELEASE_PATH="releases"
 DEFAULT_SVN_VERSION_PATH="versions"
@@ -208,10 +208,10 @@ echo "Making distribution in `$SETCOLOR_DIR`$DEST`$SETCOLOR_NORMAL`"
 if [ -d $DEST ]; then
     echo "`$SETCOLOR_COMMENT`Removing old distribution`$SETCOLOR_NORMAL`"
     rm -rf $DEST
-    mkdir $DEST
+    mkdir -p $DEST
 else
     echo "`$SETCOLOR_NEW`Creating distribution directory`$SETCOLOR_NEW`"
-    mkdir $DEST
+    mkdir -p $DEST
 fi
 
 echo "Copying directories and files"
