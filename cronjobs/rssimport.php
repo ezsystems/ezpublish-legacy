@@ -40,7 +40,7 @@
 include_once( 'kernel/classes/ezrssimport.php' );
 include_once( 'kernel/classes/ezcontentclass.php' );
 include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezpersistenceobject.php' );
+include_once( 'kernel/classes/ezpersistentobject.php' );
 include_once( 'lib/ezxml/classes/ezxml.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( 'kernel/classes/ezcontentobjectversion.php' );

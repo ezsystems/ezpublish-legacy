@@ -38,6 +38,8 @@ eZINI:
   (Merged from 3.2, rev. 5952)
   http://ez.no/community/bug_reports/object_copy_also_copies_creation_date
 - Fixed bug with mime type in ezbinaryhandler (was allways set to application/octet-stream)
+- Fixed typo in include file in rssimport cronjob.
+  http://ez.no/community/bug_reports/typo_in_rssimport_php
 
 *Library:
 - Fixed bug where eZSys::varDirectory was not using eZDir::path
