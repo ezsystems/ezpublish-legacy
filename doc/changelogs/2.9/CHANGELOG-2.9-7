@@ -106,6 +106,7 @@ eZTemplate:
                       is_object, is_class, is_null, is_set, is_unset, get_type and get_class.
 - New control operators, cond and first_set.
 - New arithmetic operator count to get the count of a type, supports arrays and objects.
+- Added check for ImageTTFBox support in eZTemplateImageLayer class
 
 eZINI:
 - Added support for override directories which are not a subdir
