@@ -161,12 +161,13 @@ class eZContentClass extends eZPersistentObject
             $userID =& $user->attribute( 'contentobject_id' );
         }
 
-        $object =& eZContentObject::create( "New " . $this->attribute( "name" ),
+        $object =& eZContentObject::create( ezi18n( "kernel/contentclass", "New %1", null, array( $this->attribute( "name" ) ) ),
                                             $this->attribute( "id" ),
                                             $userID,
                                             $sectionID );
         $object->store();
-        $object->setName( "New " . $this->attribute( "name" ) );
+        //  $object->setName( "New " . $this->attribute( "name" ) );
+        $object->setName( ezi18n( "kernel/contentclass", "New %1", null, array( $this->attribute( "name" ) ) ) );
 
         $version = $object->createInitialVersion( $userID );
         $version->store();

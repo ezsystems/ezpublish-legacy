@@ -783,6 +783,8 @@ class eZContentObject extends eZPersistentObject
         $contentObject =& $this->clone();
         $contentObject->setAttribute( 'current_version', 0 );
         $contentObject->store();
+
+        $contentObject->setName( $this->attribute('name') );
         eZDebugSetting::writeDebug( 'kernel-content-object-copy', $contentObject, 'contentObject' );
 
         $user =& eZUser::currentUser();
