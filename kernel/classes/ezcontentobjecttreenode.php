@@ -3002,6 +3002,12 @@ WHERE
         {
             unset( $object );
 
+            if( $node['node_id'] == 1 )
+            {
+                if( !array_key_exists( 'name', $node ) || !$node['name'] )
+                    $node['name'] = 'Top Level Nodes';
+            }
+
             $object =& new eZContentObjectTreeNode( $node );
             $object->setName($node['name']);
 
@@ -3030,6 +3036,13 @@ WHERE
                 {
                     $object->CurrentLanguage = $node['real_translation'];
                     $contentObject->CurrentLanguage = $node['real_translation'];
+                }
+                if ( $node['node_id'] == 1 )
+                {
+                    $contentObject->ClassName = 'Folder';
+                    $contentObject->ClassIdentifier = 'folder';
+                    $contentObject->ClassID = 1;
+                    $contentObject->SectionID = 1;
                 }
 
                 $object->setContentObject( $contentObject );
