@@ -1741,6 +1741,10 @@ class eZPackage
                                       array( 'path' => eZPackage::globalRepositoryPath( 'styles' ),
                                              'id' => 'styles',
                                              'name' => ezi18n( 'kernel/package', 'Styles' ),
+                                             'type' => 'global' ),
+                                      array( 'path' => eZPackage::globalRepositoryPath( 'addons' ),
+                                             'id' => 'addons',
+                                             'name' => ezi18n( 'kernel/package', 'Addons' ),
                                              'type' => 'global' ) );
         return $packageRepositories;
     }

@@ -107,7 +107,7 @@ class eZStepSitePackages extends eZStepInstaller
         }
 
         include_once( 'kernel/classes/ezpackage.php' );
-        $packageArray = eZPackage::fetchPackages( array( 'path' => 'packages/addons' ) );
+        $packageArray = eZPackage::fetchPackages( array( 'repository_id' => 'addons' ) );
 
         $requiredPackageInfoArray = array();
         $packageInfoArray = array();
