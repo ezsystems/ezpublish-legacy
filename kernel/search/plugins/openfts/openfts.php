@@ -72,9 +72,8 @@ class openFts
 
         $allText = '';
 
-        $ini =& eZINI::instance();
-        $storagePath = $ini->variable( "FileSettings" , "StorageDir" );
-
+        $sys =& eZSys::instance();
+        $storagePath = $sys->storageDirectory
 
         $tmpFname = tempnam ( $storagePath, "txt$contentObjectID" );
         $fp = fopen( $tmpFname, "w" );
