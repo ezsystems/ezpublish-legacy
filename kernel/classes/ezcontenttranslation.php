@@ -87,9 +87,28 @@ class eZContentTranslation extends eZPersistentObject
 
     function &fetchList()
     {
-        return eZPersistentObject::fetchObjectList( eZContentTranslation::definition(),
-                                                    null, array(), null,null,
-                                                    true );
+        $translationList =& eZPersistentObject::fetchObjectList( eZContentTranslation::definition(),
+                                                                 null, array(), null,null,
+                                                                 true );
+        $defaultLanguage =& eZContentObject::defaultLanguage();
+        $foundDefaultLanguage = false;
+        foreach ( $translationList as $translationItem )
+        {
+            if ( $translationItem->attribute( 'locale' ) == $defaultLanguage )
+            {
+                $foundDefaultLanguage = true;
+                break;
+            }
+        }
+        if ( !$foundDefaultLanguage )
+        {
+            include_once( 'lib/ezlocale/classes/ezlocale.php' );
+            $defaultLanguageLocale =& eZLocale::instance( $defaultLanguage );
+            $translationList[] = new eZContentTranslation( array( 'id' => null,
+                                                                  'name' => $defaultLanguageLocale->languageName(),
+                                                                  'locale' => $defaultLanguageLocale->localeCode() ) );
+        }
+        return $translationList;
     }
 
     function &fetchLocaleList()
@@ -97,10 +116,21 @@ class eZContentTranslation extends eZPersistentObject
         $translationArray =&  eZPersistentObject::fetchObjectList( eZContentTranslation::definition(),
                                                                    null, array(), null,null,
                                                                    false );
+        $defaultLanguage =& eZContentObject::defaultLanguage();
+        $foundDefaultLanguage = false;
         $localeList = array();
         foreach ( array_keys( $translationArray ) as $key )
         {
             $localeList[] = $translationArray[$key]['locale'];
+            if ( $translationArray[$key]['locale'] == $defaultLanguage )
+            {
+                $foundDefaultLanguage = true;
+                break;
+            }
+        }
+        if ( !$foundDefaultLanguage )
+        {
+            $localeList[] = $defaultLanguage;
         }
         return $localeList;
     }

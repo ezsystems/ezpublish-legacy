@@ -132,7 +132,7 @@ W - ISO-8601 week number of year, weeks starting on Monday (added in PHP 4.1.0)
 Y - year, 4 digits; e.g. "1999"
 y - year, 2 digits; e.g. "99"
 z - day of the year; i.e. "0" to "365"
-Z - timezone offset in seconds (i.e. "-43200" to "43200"). The offset for timezones west of UTC is always negative, and for those east of UTC is always positive. 
+Z - timezone offset in seconds (i.e. "-43200" to "43200"). The offset for timezones west of UTC is always negative, and for those east of UTC is always positive.
 
 \sa eZLanguage
 */
