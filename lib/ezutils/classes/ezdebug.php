@@ -339,7 +339,11 @@ class eZDebug
 
         $debug =& eZDebug::instance();
         if ( $debug->HandleType == EZ_HANDLE_TO_PHP )
+        {
+            if ( $label )
+                $string = "$label: $string";
             trigger_error( $string, E_USER_NOTICE );
+        }
         else
             $debug->write( $string, EZ_LEVEL_NOTICE, $label );
     }
@@ -359,7 +363,11 @@ class eZDebug
 
         $debug =& eZDebug::instance();
         if ( $debug->HandleType == EZ_HANDLE_TO_PHP )
+        {
+            if ( $label )
+                $string = "$label: $string";
             trigger_error( $string, E_USER_WARNING );
+        }
         else
             $debug->write( $string, EZ_LEVEL_WARNING, $label );
     }
@@ -379,7 +387,11 @@ class eZDebug
 
         $debug =& eZDebug::instance();
         if ( $debug->HandleType == EZ_HANDLE_TO_PHP )
+        {
+            if ( $label )
+                $string = "$label: $string";
             trigger_error( $string, E_USER_ERROR );
+        }
         else
             $debug->write( $string, EZ_LEVEL_ERROR, $label );
     }
@@ -399,7 +411,11 @@ class eZDebug
 
         $debug =& eZDebug::instance();
         if ( $debug->HandleType == EZ_HANDLE_TO_PHP )
+        {
+            if ( $label )
+                $string = "$label: $string";
             trigger_error( $string, E_USER_NOTICE );
+        }
         else
             $debug->write( $string, EZ_LEVEL_DEBUG, $label );
     }

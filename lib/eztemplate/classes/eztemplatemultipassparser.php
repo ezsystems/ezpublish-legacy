@@ -134,9 +134,11 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                                          "type" => EZ_ELEMENT_TEXT,
                                          'placement' => array( 'templatefile' => $relatedTemplateName,
                                                                'start' => array( 'line' => $currentLine,
-                                                                                 'column' => $currentColumn ),
+                                                                                 'column' => $currentColumn,
+                                                                                 'position' => $sourcePosition ),
                                                                'stop' => array( 'line' => $endLine,
-                                                                                'column' => $endColumn ) ) );
+                                                                                'column' => $endColumn,
+                                                                                'position' => $sourceLength - 1 ) ) );
                 $sourcePosition = $sourceLength;
                 $currentLine = $endLine;
                 $currentColumn = $endColumn;
@@ -160,9 +162,11 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                                                  "type" => EZ_ELEMENT_TEXT,
                                                  'placement' => array( 'templatefile' => $relatedTemplateName,
                                                                        'start' => array( 'line' => $currentLine,
-                                                                                         'column' => $currentColumn ),
+                                                                                         'column' => $currentColumn,
+                                                                                         'position' => $sourcePosition ),
                                                                        'stop' => array( 'line' => $endLine,
-                                                                                        'column' => $endColumn ) ) );
+                                                                                        'column' => $endColumn,
+                                                                                        'position' => $blockStart ) ) );
                         $currentLine = $endLine;
                         $currentColumn = $endColumn;
                     }
@@ -181,9 +185,11 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                                              "type" => EZ_ELEMENT_COMMENT,
                                              'placement' => array( 'templatefile' => $relatedTemplateName,
                                                                    'start' => array( 'line' => $currentLine,
-                                                                                     'column' => $currentColumn ),
+                                                                                     'column' => $currentColumn,
+                                                                                     'position' => $tagPos + 1 ),
                                                                    'stop' => array( 'line' => $endLine,
-                                                                                    'column' => $endColumn ) ) );
+                                                                                    'column' => $endColumn,
+                                                                                    'position' => $endPos - 1 ) ) );
                     if ( $sourcePosition < $blockEnd )
                         $sourcePosition = $blockEnd;
                     $currentLine = $endLine;
@@ -210,9 +216,11 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                                                  "type" => EZ_ELEMENT_TEXT,
                                                  'placement' => array( 'templatefile' => $relatedTemplateName,
                                                                        'start' => array( 'line' => $currentLine,
-                                                                                         'column' => $currentColumn ),
+                                                                                         'column' => $currentColumn,
+                                                                                         'position' => $sourcePosition ),
                                                                        'stop' => array( 'line' => $endLine,
-                                                                                        'column' => $endColumn ) ) );
+                                                                                        'column' => $endColumn,
+                                                                                        'position' => $sourceLength - 1 ) ) );
                         $sourcePosition = $sourceLength;
                         $currentLine = $endLine;
                         $currentColumn = $endColumn;
@@ -231,9 +239,11 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                                                      "type" => EZ_ELEMENT_TEXT,
                                                      'placement' => array( 'templatefile' => $relatedTemplateName,
                                                                            'start' => array( 'line' => $currentLine,
-                                                                                             'column' => $currentColumn ),
+                                                                                             'column' => $currentColumn,
+                                                                                             'position' => $sourcePosition ),
                                                                            'stop' => array( 'line' => $endLine,
-                                                                                            'column' => $endColumn ) ) );
+                                                                                            'column' => $endColumn,
+                                                                                            'position' => $blockStart ) ) );
                             $currentLine = $endLine;
                             $currentColumn = $endColumn;
                         }
@@ -269,9 +279,11 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                                                      "type" => EZ_ELEMENT_VARIABLE,
                                                      'placement' => array( 'templatefile' => $relatedTemplateName,
                                                                            'start' => array( 'line' => $currentLine,
-                                                                                             'column' => $currentColumn ),
+                                                                                             'column' => $currentColumn,
+                                                                                             'position' => $blockStart + 1 ),
                                                                            'stop' => array( 'line' => $endLine,
-                                                                                            'column' => $endColumn ) ) );
+                                                                                            'column' => $endColumn,
+                                                                                            'position' => $blockEnd - 1 ) ) );
                         }
                         else
                         {
@@ -303,9 +315,11 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                                                          "type" => $type,
                                                          'placement' => array( 'templatefile' => $relatedTemplateName,
                                                                                'start' => array( 'line' => $currentLine,
-                                                                                                 'column' => $currentColumn ),
+                                                                                                 'column' => $currentColumn,
+                                                                                                 'position' => $blockStart + 1 ),
                                                                                'stop' => array( 'line' => $endLine,
-                                                                                                'column' => $endColumn ) ) );
+                                                                                                'column' => $endColumn,
+                                                                                                'position' => $blockEnd - 1 ) ) );
                         }
 
                         if ( $sourcePosition < $blockEnd )
@@ -381,87 +395,6 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                     $stopColumn = false;
                     $templateFile = false;
                     $hasStartPlacement = false;
-//                     if ( isset( $tpl->Literals[$name] ) )
-//                     {
-//                         unset( $text );
-//                         $text = "";
-//                         $key = key( $textElements );
-//                         while ( $key !== null )
-//                         {
-//                             unset( $element );
-//                             $element =& $textElements[$key];
-//                             $elementPlacement = $element['placement'];
-//                             if ( !$hasStartPlacement )
-//                             {
-//                                 $startLine = $elementPlacement['start']['line'];
-//                                 $startColumn = $elementPlacement['start']['column'];
-//                                 $stopLine = $elementPlacement['stop']['line'];
-//                                 $stopColumn = $elementPlacement['stop']['column'];
-//                                 $templateFile = $elementPlacement['templatefile'];
-//                                 $hasStartPlacement = true;
-//                             }
-//                             else
-//                             {
-//                                 $stopLine = $elementPlacement['stop']['line'];
-//                                 $stopColumn = $elementPlacement['stop']['column'];
-//                             }
-//                             switch ( $element["type"] )
-//                             {
-//                                 case EZ_ELEMENT_END_TAG:
-//                                 {
-//                                     if ( $element["name"] == $name )
-//                                     {
-//                                         next( $textElements );
-//                                         $key = null;
-//                                         $tempTextElements[] = array( "text" => $text,
-//                                                                      "type" => EZ_ELEMENT_TEXT,
-//                                                                      'placement' => array( 'templatefile' => $templateFile,
-//                                                                                            'start' => array( 'line' => $currentLine,
-//                                                                                                              'column' => $currentColumn ),
-//                                                                                            'stop' => array( 'line' => $stopLine,
-//                                                                                                             'column' => $stopColumn ) ) );
-//                                         $startLine = false;
-//                                         $startColumn = false;
-//                                         $stopLine = false;
-//                                         $stopColumn = false;
-//                                         $templateFile = false;
-//                                         $hasStartPlacement = false;
-//                                     }
-//                                     else
-//                                     {
-//                                         $text .= $leftDelimiter . "/" . $element["text"] . $rightDelimiter;
-//                                         next( $textElements );
-//                                         $key = key( $textElements );
-//                                     }
-//                                 } break;
-//                                 case EZ_ELEMENT_NORMAL_TAG:
-//                                 {
-//                                     $text .= $leftDelimiter . $element["text"] . $rightDelimiter;
-//                                     next( $textElements );
-//                                     $key = key( $textElements );
-//                                 } break;
-//                                 case EZ_ELEMENT_SINGLE_TAG:
-//                                 {
-//                                     $text .= $leftDelimiter . $element["text"] . "/" . $rightDelimiter;
-//                                     next( $textElements );
-//                                     $key = key( $textElements );
-//                                 } break;
-//                                 case EZ_ELEMENT_COMMENT:
-//                                 {
-//                                     $text .= $leftDelimiter . "*" . $element["text"] . "*$rightDelimiter";
-//                                     next( $textElements );
-//                                     $key = key( $textElements );
-//                                 } break;
-//                                 default:
-//                                 {
-//                                     $text .= $element["text"];
-//                                     next( $textElements );
-//                                     $key = key( $textElements );
-//                                 } break;
-//                             }
-//                         }
-//                     }
-//                     else
                     {
                         if ( $next_element !== null )
                         {
@@ -516,13 +449,17 @@ class eZTemplateMultiPassParser extends eZTemplateParser
             $elementPlacement = $element['placement'];
             $startLine = $elementPlacement['start']['line'];
             $startColumn = $elementPlacement['start']['column'];
+            $startPosition = $elementPlacement['start']['position'];
             $stopLine = $elementPlacement['stop']['line'];
             $stopColumn = $elementPlacement['stop']['column'];
+            $stopPosition = $elementPlacement['stop']['position'];
             $templateFile = $elementPlacement['templatefile'];
             $placement = array( array( $startLine,
-                                       $startColumn ),
+                                       $startColumn,
+                                       $startPosition ),
                                 array( $stopLine,
-                                       $stopColumn ),
+                                       $stopColumn,
+                                       $stopPosition ),
                                 $templateFile );
             switch ( $element["type"] )
             {

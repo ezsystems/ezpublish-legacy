@@ -107,15 +107,41 @@ class eZTemplateFileResource
     /*!
      Sets the cached node tree for the selected template to \a $root.
     */
-    function generateProcessCache( $keyData, $uri, $res, $templatePath, &$extraParameters, &$resourceData )
+    function generateProcessCache( &$tpl, $keyData, $uri, $res, $templatePath, &$extraParameters, &$resourceData )
     {
         eZDebug::writeDebug( 'generateProcessCache( $keyData, $uri, $res, $templatePath, &$extraParameters, &$resourceData )', 'eztemplatefileresource' );
         $key = $this->cacheKey( $keyData, $res, $templatePath, $extraParameters );
-        return eZTemplateProcessCache::generateCache( $key, $resourceData );
+        return eZTemplateProcessCache::generateCache( $tpl, $key, $resourceData );
     }
 
-    function canGenerateProcessCache()
+    /*!
+     Sets the cached node tree for the selected template to \a $root.
+    */
+    function executeProcessCache( &$tpl, &$textElements,
+                                  $keyData, $uri, $res, $templatePath,
+                                  &$extraParameters, $timestamp,
+                                  $rootNamespace, $currentNamespace )
     {
+        eZDebug::writeDebug( 'function executeProcessCache( &$tpl, $keyData, $uri, $res, $templatePath, &$extraParameters, $timestamp, $rootNamespace, $currentNamespace )', 'eztemplatefileresource' );
+        $key = $this->cacheKey( $keyData, $res, $templatePath, $extraParameters );
+        return eZTemplateProcessCache::executeCache( $tpl, $textElements, $key, $resourceData,
+                                                     $rootNamespace, $currentNamespace );
+    }
+
+    function hasGeneratedProcessCache( $keyData, $uri, &$resourceData, $templatePath, &$extraParameters, $timestamp )
+    {
+        $key = $this->cacheKey( $keyData, $resourceData, $templatePath, $extraParameters );
+        return eZTemplateProcessCache::hasProcessCache( $key, $timestamp );
+    }
+
+    function canGenerateProcessCache( &$tpl, &$resourceData, &$extraParameters )
+    {
+//         $keyData = $resourceData['key-data'];
+//         $templatePath = $resourceData['template-name'];
+//         $key = $this->cacheKey( $keyData, $resourceData, $templatePath, $extraParameters );
+//         $timestamp = $resourceData['time-stamp'];
+//         return eZTemplateProcessCache::hasProcessCache( $key, $timestamp );
+//         if ( $timestamp )
         return eZTemplateProcessCache::isCacheEnabled();
     }
 
@@ -182,8 +208,13 @@ class eZTemplateFileResource
         {
             if ( $canCache )
             {
-                if ( $handler->hasCachedProcessTree( $keyData, $uri, $resourceName, $path, $extraParameters, $tstamp ) )
-                     $resourceData['process-cache'] = true;
+//     if ( $handler->hasCachedProcessTree( $keyData, $uri, $resourceName, $path, $extraParameters, $tstamp ) )
+//                      $resourceData['process-cache'] = true;
+                if ( $handler->hasGeneratedProcessCache( $keyData, $uri, $resourceName, $path, $extraParameters, $tstamp ) )
+                {
+                    $resourceData['process-cache'] = true;
+                    return true;
+                }
             }
             if ( $canCache )
                 $templateRoot = $handler->cachedTemplateTree( $keyData, $uri, $resourceName, $path, $extraParameters, $tstamp );

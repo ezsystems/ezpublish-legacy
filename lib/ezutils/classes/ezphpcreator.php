@@ -160,7 +160,7 @@ class eZPHPCreator
                 $element =& $this->Elements[$i];
                 if ( $element[0] == EZ_PHPCREATOR_VARIABLE )
                 {
-                    $this->writeVariable( $element[1], $element[2], $element[3] );
+                    $this->writeVariable( $element[1], $element[2], $element[3], $element[4] );
                 }
                 else if ( $element[0] == EZ_PHPCREATOR_SPACE )
                 {
@@ -222,11 +222,20 @@ class eZPHPCreator
 
     function writeComment( $element )
     {
+        $elementAttributes = $element[2];
+        $whitespaceHandling = $elementAttributes['whitespace-handling'];
+        $eol = $elementAttributes['eol'];
         $commentArray = explode( "\n", $element[1] );
         $text = '';
         foreach ( $commentArray as $comment )
         {
-            $text .= '// ' . $comment . "\n";
+            $textLine = '// ' . $comment;
+            if ( $whitespaceHandling )
+            {
+                $textLine = rtrim( $textLine );
+                $textLine = str_replace( "\t", '    ', $textLine );
+            }
+            $text .= $textLine . "\n";
         }
         $this->write( $text );
     }
@@ -289,23 +298,45 @@ class eZPHPCreator
         $this->write( $text );
     }
 
-    function writeVariable( $variableName, $variableValue, $assignmentType = EZ_PHPCREATOR_VARIABLE_ASSIGNMENT )
+    function writeVariable( $variableName, $variableValue, $assignmentType = EZ_PHPCREATOR_VARIABLE_ASSIGNMENT,
+                            $variableParameters = array() )
     {
-        $text = $this->variableNameText( $variableName, $assignmentType );
-        $text .= $this->variableText( $variableValue, strlen( $text ) );
+        $variableParameters = array_merge( array( 'full-tree' => false ),
+                                           $variableParameters );
+        $fullTree = $variableParameters['full-tree'];
+        $text = $this->variableNameText( $variableName, $assignmentType, $variableParameters );
+        $maxIterations = 2;
+        if ( $fullTree )
+            $maxIterations = false;
+        $text .= $this->variableText( $variableValue, strlen( $text ), 0, $maxIterations );
         $text .= ";\n";
         $this->write( $text );
     }
 
-    function variableNameText( $variableName, $assignmentType )
+    function variableNameText( $variableName, $assignmentType, $variableParameters = array() )
     {
+        $variableParameters = array_merge( array( 'is-reference' => false ),
+                                           $variableParameters );
+        $isReference = $variableParameters['is-reference'];
         $text = '$' . $variableName;
         if ( $assignmentType == EZ_PHPCREATOR_VARIABLE_ASSIGNMENT )
-            $text .= ' = ';
+        {
+            if ( $isReference )
+                $text .= ' =& ';
+            else
+                $text .= ' = ';
+        }
         else if ( $assignmentType == EZ_PHPCREATOR_VARIABLE_APPEND_TEXT )
+        {
             $text .= ' .= ';
+        }
         else if ( $assignmentType == EZ_PHPCREATOR_VARIABLE_APPEND_ELEMENT )
-            $text .= '[] = ';
+        {
+            if ( $isReference )
+                $text .= '[] =& ';
+            else
+                $text .= '[] = ';
+        }
         return $text;
     }
 
@@ -319,12 +350,18 @@ class eZPHPCreator
         {
             $valueText = str_replace( array( "\\",
                                              "\"",
+                                             "\$",
                                              "\n" ),
                                       array( "\\\\",
                                              "\\\"",
+                                             "\\$",
                                              "\\n" ),
                                       $value );
             $text = "\"$valueText\"";
+//             $valueText = str_replace( array( "'" ),
+//                                       array( "\\'" ),
+//                                       $value );
+//             $text = "'$valueText'";
         }
         else if ( is_numeric( $value ) )
             $text = $value;
@@ -360,7 +397,7 @@ class eZPHPCreator
                         $variableName = $variables[$parameter];
                         $variableValue = $value->$variableName;
                         $keyText = " ";
-                        $text .= $keyText . eZPHPCreator::variableText( $variableValue, $column + strlen( $keyText  ), $iteration + 1 );
+                        $text .= $keyText . eZPHPCreator::variableText( $variableValue, $column + strlen( $keyText  ), $iteration + 1, $maxIterations );
                         ++$i;
                     }
                     if ( $i > 0 )
@@ -416,7 +453,7 @@ class eZPHPCreator
                                                            $key ) . "\"";
                         $keyText = " $keyText => ";
                     }
-                    $text .= $keyText . eZPHPCreator::variableText( $element, $column + strlen( $keyText  ), $iteration + 1 );
+                    $text .= $keyText . eZPHPCreator::variableText( $element, $column + strlen( $keyText  ), $iteration + 1, $maxIterations );
                     ++$i;
                 }
                 if ( $i > 0 )
@@ -437,12 +474,14 @@ class eZPHPCreator
         return $variableName;
     }
 
-    function addVariable( $name, $value, $assignmentType = EZ_PHPCREATOR_VARIABLE_ASSIGNMENT )
+    function addVariable( $name, $value, $assignmentType = EZ_PHPCREATOR_VARIABLE_ASSIGNMENT,
+                          $parameters = array() )
     {
         $element = array( EZ_PHPCREATOR_VARIABLE,
                           $name,
                           $value,
-                          $assignmentType );
+                          $assignmentType,
+                          $parameters );
         $this->Elements[] = $element;
     }
 
@@ -477,10 +516,12 @@ class eZPHPCreator
         $this->Elements[] = $element;
     }
 
-    function addComment( $comment, $eol = true )
+    function addComment( $comment, $eol = true, $whitespaceHandling = true )
     {
         $element = array( EZ_PHPCREATOR_EOL_COMMENT,
-                          $comment );
+                          $comment,
+                          array( 'eol' => $eol,
+                                 'whitespace-handling' => $whitespaceHandling ) );
         $this->Elements[] = $element;
     }
 

@@ -157,6 +157,34 @@ class eZTemplateLogicOperator
         return true;
     }
 
+    function processCacheHints()
+    {
+        return array( $this->TrueName => array( 'input' => false,
+                                                'output' => true,
+                                                'parameters' => false,
+                                                'static' => true ),
+                      $this->FalseName => array( 'input' => false,
+                                                 'output' => true,
+                                                 'parameters' => false,
+                                                 'static' => true ) );
+    }
+
+    function processCacheStaticData( $operatorName )
+    {
+        switch( $operatorName )
+        {
+            case $this->TrueName:
+            {
+                return true;
+            } break;
+            case $this->FalseName:
+            {
+                return false;
+            } break;
+        }
+        return false;
+    }
+
     /*!
      See eZTemplateOperator::namedParameterList
     */

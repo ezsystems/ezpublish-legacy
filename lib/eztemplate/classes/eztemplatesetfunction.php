@@ -79,6 +79,141 @@ class eZTemplateSetFunction
         return array( $this->SetName, $this->LetName, $this->DefaultName );
     }
 
+    function generateTemplateCodeCache( &$php, &$tpl, &$tplProcessCache, &$resourceData, $prefix,
+                                        $functionName, $functionChildren, $functionParameters, $functionPlacement )
+    {
+        if ( $functionName != $this->SetName and
+             $functionName != $this->LetName and
+             $functionName != $this->DefaultName )
+            return null;
+
+        $nameVar = '$' . $prefix . 'Name';
+        $placementVar = '$' . $prefix . 'FunctionPlacement';
+        $definedVar = '$' . $prefix . 'DefinedVariables';
+        $childrenVar = '$' . $prefix . 'FunctionChildren';
+        $parameterVar = '$' . $prefix . 'FunctionParameters';
+        $php->addVariable( $prefix . 'FunctionPlacement', $functionPlacement );
+        $php->addVariable( $prefix . 'FunctionChildren', $functionChildren );
+        $php->addVariable( $prefix . 'FunctionParameters', $functionParameters );
+        if ( isset( $functionParameters['name'] ) )
+        {
+//             $code1 .= $nameVar . ' = $this->elementValue( ' . $parameterVar . '[\'name\'], $rootNamespace, $currentNamespace, ' . $placementVar . ' );' . "\n";
+            eZTemplateProcessCache::processVariable( $php, $tpl, $resourceData, $functionParameters['name'], $functionPlacement,
+                                                     0, $prefix . 'Name', EZ_PHPCREATOR_VARIABLE_ASSIGNMENT );
+        }
+        else
+            $php->addCodePiece( $nameVar . ' = \'\';' . "\n" );
+        $code1 = 'if ( $currentNamespace != \'\' )
+{
+    if ( ' . $nameVar . ' != \'\' )
+        ' . $nameVar . ' = "$currentNamespace:' . $nameVar . '";
+    else
+        ' . $nameVar . ' = $currentNamespace;
+}
+' . $definedVar . ' = array();
+';
+
+
+        if ( $functionName == $this->SetName )
+        {
+            $code1 .= 'foreach ( array_keys( ' . $parameterVar . ' ) as $key )
+{
+    $item =& ' . $parameterVar . '[$key];
+    switch ( $key )
+    {
+        case \'name\':
+            break;
+
+        default:
+        {
+            if ( $this->hasVariable( $key, '. $nameVar . ' ) )
+            {
+                $itemValue = $this->elementValue( $item, $rootNamespace, $currentNamespace, ' . $placementVar . ' );
+                $this->setVariableRef( $key, $itemValue, ' . $nameVar . ' );
+            }
+            else
+            {
+                $varname = $key;
+                if ( ' . $nameVar . ' != \'\' )
+                    $varname = "' . $nameVar . ':$varname";
+                $this->warning( "' . $functionName . '", "Variable \'$varname\' doesn\'t exist, cannot set" );
+            }
+        } break;
+    }
+}
+';
+        }
+        else if ( $functionName == $this->DefaultName )
+        {
+            $code1 .= 'foreach ( array_keys( ' . $parameterVar . ' ) as $key )
+{
+    $item =& ' . $parameterVar . '[$key];
+    switch ( $key )
+    {
+        case \'name\':
+            break;
+
+        default:
+        {
+            if ( !$this->hasVariable( $key, ' . $nameVar . ' ) )
+            {
+                $itemValue =& $this->elementValue( $item, $rootNamespace, $currentNamespace, ' . $placementVar . ' );
+                $this->setVariableRef( $key, $itemValue, ' . $nameVar . ' );
+                ' . $definedVar . '[] = $key;
+            }
+        } break;
+    }
+}
+';
+        }
+        else
+        {
+//             foreach ( array_keys( $functionParameters ) as $key )
+//             {
+//                 $item =& $functionParameters[$key];
+//                 switch ( $key )
+//                 {
+//                     case 'name':
+//                         break;
+
+//                     default:
+//                     {
+//                         if ( !$tpl->hasVariable( $key, $name ) )
+//                         {
+//                             $itemValue =& $tpl->elementValue( $item, $rootNamespace, $currentNamespace, $functionPlacement );
+//                             $tpl->setVariableRef( $key, $itemValue, $name );
+//                             $definedVariables[] = $key;
+//                         }
+//                         else
+//                         {
+//                             $varname = $key;
+//                             if ( $name != '' )
+//                                 $varname = "$name:$varname";
+//                             $tpl->warning( $functionName, "Variable '$varname' already exists, cannot define" );
+//                         }
+//                     } break;
+//                 }
+//             }
+        }
+
+        if ( $functionName == $this->LetName or
+             $functionName == $this->DefaultName )
+        {
+            $code1 .= 'foreach ( array_keys( ' . $childrenVar . ' ) as $childKey )
+{
+    $child =& ' . $childrenVar . '[$childKey];
+    $this->processNode( $child, $textElements, $rootNamespace, ' . $nameVar . ' );
+}
+foreach ( ' . $definedVar . ' as $variable )
+{
+    $this->unsetVariable( $variable, $name );
+}
+';
+        }
+
+        $php->addCodePiece( $code1 );
+    }
+
     /*!
      Loads the file specified in the parameter 'uri' with namespace 'name'.
     */
@@ -88,10 +223,9 @@ class eZTemplateSetFunction
              $functionName != $this->LetName and
              $functionName != $this->DefaultName )
             return null;
-        $parameters = $functionParameters;
         $name = '';
-        if ( isset( $parameters['name'] ) )
-            $name = $tpl->elementValue( $parameters['name'], $rootNamespace, $currentNamespace, $functionPlacement );
+        if ( isset( $functionParameters['name'] ) )
+            $name = $tpl->elementValue( $functionParameters['name'], $rootNamespace, $currentNamespace, $functionPlacement );
         if ( $currentNamespace != '' )
         {
             if ( $name != '' )
@@ -100,18 +234,17 @@ class eZTemplateSetFunction
                 $name = $currentNamespace;
         }
         $definedVariables = array();
-        foreach ( array_keys( $parameters ) as $key )
+        if ( $functionName == $this->SetName )
         {
-            $item =& $parameters[$key];
-            switch ( $key )
+            foreach ( array_keys( $functionParameters ) as $key )
             {
-                case 'name':
-                    break;
-
-                default:
+                $item =& $functionParameters[$key];
+                switch ( $key )
                 {
-//                         eZDebug::writeError( "setting key '$key' to '$itemValue' in namespace '$name'" );
-                    if ( $functionName == $this->SetName )
+                    case 'name':
+                        break;
+
+                    default:
                     {
                         if ( $tpl->hasVariable( $key, $name ) )
                         {
@@ -125,18 +258,43 @@ class eZTemplateSetFunction
                                 $varname = "$name:$varname";
                             $tpl->warning( $functionName, "Variable '$varname' doesn't exist, cannot set" );
                         }
-                    }
-                    else if ( $functionName == $this->DefaultName )
+                    } break;
+                }
+            }
+        }
+        else if ( $functionName == $this->DefaultName )
+        {
+            foreach ( array_keys( $functionParameters ) as $key )
+            {
+                $item =& $functionParameters[$key];
+                switch ( $key )
+                {
+                    case 'name':
+                        break;
+
+                    default:
                     {
                         if ( !$tpl->hasVariable( $key, $name ) )
                         {
                             $itemValue =& $tpl->elementValue( $item, $rootNamespace, $currentNamespace, $functionPlacement );
-//                             eZDebug::writeError( "setting key '$key' to '$itemValue' in namespace '$name'" );
                             $tpl->setVariableRef( $key, $itemValue, $name );
                             $definedVariables[] = $key;
                         }
-                    }
-                    else
+                    } break;
+                }
+            }
+        }
+        else
+        {
+            foreach ( array_keys( $functionParameters ) as $key )
+            {
+                $item =& $functionParameters[$key];
+                switch ( $key )
+                {
+                    case 'name':
+                        break;
+
+                    default:
                     {
                         if ( !$tpl->hasVariable( $key, $name ) )
                         {
@@ -151,17 +309,16 @@ class eZTemplateSetFunction
                                 $varname = "$name:$varname";
                             $tpl->warning( $functionName, "Variable '$varname' already exists, cannot define" );
                         }
-                    }
-                } break;
+                    } break;
+                }
             }
         }
         if ( $functionName == $this->LetName or
              $functionName == $this->DefaultName )
         {
-            $children = $functionChildren;
-            foreach ( array_keys( $children ) as $childKey )
+            foreach ( array_keys( $functionChildren ) as $childKey )
             {
-                $child =& $children[$childKey];
+                $child =& $functionChildren[$childKey];
                 $tpl->processNode( $child, $textElements, $rootNamespace, $name );
             }
             foreach ( $definedVariables as $variable )
@@ -169,7 +326,6 @@ class eZTemplateSetFunction
                 $tpl->unsetVariable( $variable, $name );
             }
         }
-        return;
     }
 
     /*!
