@@ -2408,222 +2408,6 @@ CREATE INDEX ezurl_ol_coa_version ON ezurl_object_link USING btree (contentobjec
 
 
 
-CREATE INDEX ezcollab_group_path62 ON ezcollab_group USING btree (path_string);
-
-
-
-
-
-
-
-CREATE INDEX ezcollab_group_depth63 ON ezcollab_group USING btree (depth);
-
-
-
-
-
-
-
-CREATE INDEX ezcontentbrowsebookmark_user228 ON ezcontentbrowsebookmark USING btree (user_id);
-
-
-
-
-
-
-
-CREATE INDEX ezcontentbrowserecent_user243 ON ezcontentbrowserecent USING btree (user_id);
-
-
-
-
-
-
-
-CREATE INDEX ezcontentclass_version262 ON ezcontentclass USING btree ("version");
-
-
-
-
-
-
-
-CREATE INDEX ezcontentobject_attribute_contentobject_id364 ON ezcontentobject_attribute USING btree (contentobject_id);
-
-
-
-
-
-
-
-CREATE INDEX ezcontentobject_attribute_language_code365 ON ezcontentobject_attribute USING btree (language_code);
-
-
-
-
-
-
-
-CREATE INDEX sort_key_int366 ON ezcontentobject_attribute USING btree (sort_key_int);
-
-
-
-
-
-
-
-CREATE INDEX sort_key_string367 ON ezcontentobject_attribute USING btree (sort_key_string);
-
-
-
-
-
-
-
-CREATE INDEX ezcontentobject_tree_path416 ON ezcontentobject_tree USING btree (path_string);
-
-
-
-
-
-
-
-CREATE INDEX ezcontentobject_tree_p_node_id417 ON ezcontentobject_tree USING btree (parent_node_id);
-
-
-
-
-
-
-
-CREATE INDEX ezcontentobject_tree_co_id418 ON ezcontentobject_tree USING btree (contentobject_id);
-
-
-
-
-
-
-
-CREATE INDEX ezcontentobject_tree_depth419 ON ezcontentobject_tree USING btree (depth);
-
-
-
-
-
-
-
-CREATE INDEX ezenumobjectvalue_co_attr_id_co_attr_ver489 ON ezenumobjectvalue USING btree (contentobject_attribute_id, contentobject_attribute_version);
-
-
-
-
-
-
-
-CREATE INDEX ezenumvalue_co_cl_attr_id_co_class_att_ver505 ON ezenumvalue USING btree (contentclass_attribute_id, contentclass_attribute_version);
-
-
-
-
-
-
-
-CREATE UNIQUE INDEX ezmodule_run_workflow_process_id_s670 ON ezmodule_run USING btree (workflow_process_id);
-
-
-
-
-
-
-
-CREATE INDEX ezpreferences_name839 ON ezpreferences USING btree (name);
-
-
-
-
-
-
-
-CREATE INDEX ezsearch_object_word_link_object919 ON ezsearch_object_word_link USING btree (contentobject_id);
-
-
-
-
-
-
-
-CREATE INDEX ezsearch_object_word_link_word920 ON ezsearch_object_word_link USING btree (word_id);
-
-
-
-
-
-
-
-CREATE INDEX ezsearch_object_word_link_frequency921 ON ezsearch_object_word_link USING btree (frequency);
-
-
-
-
-
-
-
-CREATE INDEX ezsearch_object_word_link_identifier922 ON ezsearch_object_word_link USING btree (identifier);
-
-
-
-
-
-
-
-CREATE INDEX ezsearch_object_word_link_integer_value923 ON ezsearch_object_word_link USING btree (integer_value);
-
-
-
-
-
-
-
-CREATE INDEX expiration_time986 ON ezsession USING btree (expiration_time);
-
-
-
-
-
-
-
-CREATE UNIQUE INDEX eztrigger_def_id1015 ON eztrigger USING btree (module_name, function_name, connect_type);
-
-
-
-
-
-
-
-CREATE INDEX ezurlalias_source_md51059 ON ezurlalias USING btree (source_md5);
-
-
-
-
-
-
-
-CREATE INDEX ezuser_role_contentobject_id1112 ON ezuser_role USING btree (contentobject_id);
-
-
-
-
-
-
-
-CREATE INDEX ezwaituntildateevalue_wf_ev_id_wf_ver1151 ON ezwaituntildatevalue USING btree (workflow_event_id, workflow_event_version);
-
-
-
-
-
-
-
 CREATE INDEX ezorder_item_order_id ON ezorder_item USING btree (order_id);
 
 
@@ -2752,14 +2536,6 @@ CREATE INDEX ezsubtree_notification_rule_user_id ON ezsubtree_notification_rule 
 
 
 
-CREATE INDEX ezcontentobject_tree_mod_sub ON ezcontentobject_tree USING btree (modified_subnode);
-
-
-
-
-
-
-
 CREATE INDEX ezpreferences_user_id_idx ON ezpreferences USING btree (user_id, name);
 
 
@@ -2816,8 +2592,7 @@ CREATE INDEX ezsearch_word_word_i ON ezsearch_word USING btree (word);
 
 
 
-ALTER TABLE ONLY ezapprove_items
-    ADD CONSTRAINT ezapprove_items12_key PRIMARY KEY (id);
+CREATE INDEX ezcollab_group_depth ON ezcollab_group USING btree (depth);
 
 
 
@@ -2825,8 +2600,7 @@ ALTER TABLE ONLY ezapprove_items
 
 
 
-ALTER TABLE ONLY ezbasket
-    ADD CONSTRAINT ezbasket24_key PRIMARY KEY (id);
+CREATE INDEX ezcollab_group_path ON ezcollab_group USING btree (path_string);
 
 
 
@@ -2834,8 +2608,7 @@ ALTER TABLE ONLY ezbasket
 
 
 
-ALTER TABLE ONLY ezbinaryfile
-    ADD CONSTRAINT ezbinaryfile36_key PRIMARY KEY (contentobject_attribute_id, "version");
+CREATE INDEX ezcontentbrowsebookmark_user ON ezcontentbrowsebookmark USING btree (user_id);
 
 
 
@@ -2843,8 +2616,7 @@ ALTER TABLE ONLY ezbinaryfile
 
 
 
-ALTER TABLE ONLY ezcollab_group
-    ADD CONSTRAINT ezcollab_group50_key PRIMARY KEY (id);
+CREATE INDEX ezcontentbrowserecent_user ON ezcontentbrowserecent USING btree (user_id);
 
 
 
@@ -2852,8 +2624,7 @@ ALTER TABLE ONLY ezcollab_group
 
 
 
-ALTER TABLE ONLY ezcollab_item
-    ADD CONSTRAINT ezcollab_item71_key PRIMARY KEY (id);
+CREATE INDEX ezcontentclass_version ON ezcontentclass USING btree ("version");
 
 
 
@@ -2861,8 +2632,7 @@ ALTER TABLE ONLY ezcollab_item
 
 
 
-ALTER TABLE ONLY ezcollab_item_group_link
-    ADD CONSTRAINT ezcollab_item_group_link95_key PRIMARY KEY (collaboration_id, group_id, user_id);
+CREATE INDEX ezcontentobject_attribute_contentobject_id ON ezcontentobject_attribute USING btree (contentobject_id);
 
 
 
@@ -2870,8 +2640,7 @@ ALTER TABLE ONLY ezcollab_item_group_link
 
 
 
-ALTER TABLE ONLY ezcollab_item_message_link
-    ADD CONSTRAINT ezcollab_item_message_link112_key PRIMARY KEY (id);
+CREATE INDEX ezcontentobject_attribute_language_code ON ezcontentobject_attribute USING btree (language_code);
 
 
 
@@ -2879,8 +2648,7 @@ ALTER TABLE ONLY ezcollab_item_message_link
 
 
 
-ALTER TABLE ONLY ezcollab_item_participant_link
-    ADD CONSTRAINT ezcollab_item_participant_link128_key PRIMARY KEY (collaboration_id, participant_id);
+CREATE INDEX sort_key_int ON ezcontentobject_attribute USING btree (sort_key_int);
 
 
 
@@ -2888,8 +2656,7 @@ ALTER TABLE ONLY ezcollab_item_participant_link
 
 
 
-ALTER TABLE ONLY ezcollab_item_status
-    ADD CONSTRAINT ezcollab_item_status146_key PRIMARY KEY (collaboration_id, user_id);
+CREATE INDEX sort_key_string ON ezcontentobject_attribute USING btree (sort_key_string);
 
 
 
@@ -2897,8 +2664,7 @@ ALTER TABLE ONLY ezcollab_item_status
 
 
 
-ALTER TABLE ONLY ezcollab_notification_rule
-    ADD CONSTRAINT ezcollab_notification_rule160_key PRIMARY KEY (id);
+CREATE INDEX ezcontentobject_tree_co_id ON ezcontentobject_tree USING btree (contentobject_id);
 
 
 
@@ -2906,8 +2672,7 @@ ALTER TABLE ONLY ezcollab_notification_rule
 
 
 
-ALTER TABLE ONLY ezcollab_profile
-    ADD CONSTRAINT ezcollab_profile172_key PRIMARY KEY (id);
+CREATE INDEX ezcontentobject_tree_depth ON ezcontentobject_tree USING btree (depth);
 
 
 
@@ -2915,8 +2680,7 @@ ALTER TABLE ONLY ezcollab_profile
 
 
 
-ALTER TABLE ONLY ezcollab_simple_message
-    ADD CONSTRAINT ezcollab_simple_message187_key PRIMARY KEY (id);
+CREATE INDEX ezcontentobject_tree_p_node_id ON ezcontentobject_tree USING btree (parent_node_id);
 
 
 
@@ -2924,8 +2688,7 @@ ALTER TABLE ONLY ezcollab_simple_message
 
 
 
-ALTER TABLE ONLY ezcontent_translation
-    ADD CONSTRAINT ezcontent_translation210_key PRIMARY KEY (id);
+CREATE INDEX ezcontentobject_tree_path ON ezcontentobject_tree USING btree (path_string);
 
 
 
@@ -2933,8 +2696,7 @@ ALTER TABLE ONLY ezcontent_translation
 
 
 
-ALTER TABLE ONLY ezcontentbrowsebookmark
-    ADD CONSTRAINT ezcontentbrowsebookmark222_key PRIMARY KEY (id);
+CREATE INDEX modified_subnode ON ezcontentobject_tree USING btree (modified_subnode);
 
 
 
@@ -2942,8 +2704,7 @@ ALTER TABLE ONLY ezcontentbrowsebookmark
 
 
 
-ALTER TABLE ONLY ezcontentbrowserecent
-    ADD CONSTRAINT ezcontentbrowserecent236_key PRIMARY KEY (id);
+CREATE INDEX ezenumobjectvalue_co_attr_id_co_attr_ver ON ezenumobjectvalue USING btree (contentobject_attribute_id, contentobject_attribute_version);
 
 
 
@@ -2951,8 +2712,7 @@ ALTER TABLE ONLY ezcontentbrowserecent
 
 
 
-ALTER TABLE ONLY ezcontentclass
-    ADD CONSTRAINT ezcontentclass251_key PRIMARY KEY (id, "version");
+CREATE INDEX ezenumvalue_co_cl_attr_id_co_class_att_ver ON ezenumvalue USING btree (contentclass_attribute_id, contentclass_attribute_version);
 
 
 
@@ -2960,8 +2720,7 @@ ALTER TABLE ONLY ezcontentclass
 
 
 
-ALTER TABLE ONLY ezcontentclass_attribute
-    ADD CONSTRAINT ezcontentclass_attribute270_key PRIMARY KEY (id, "version");
+CREATE UNIQUE INDEX ezmodule_run_workflow_process_id_s ON ezmodule_run USING btree (workflow_process_id);
 
 
 
@@ -2969,8 +2728,7 @@ ALTER TABLE ONLY ezcontentclass_attribute
 
 
 
-ALTER TABLE ONLY ezcontentclass_classgroup
-    ADD CONSTRAINT ezcontentclass_classgroup303_key PRIMARY KEY (contentclass_id, contentclass_version, group_id);
+CREATE INDEX ezpreferences_name ON ezpreferences USING btree (name);
 
 
 
@@ -2978,8 +2736,7 @@ ALTER TABLE ONLY ezcontentclass_classgroup
 
 
 
-ALTER TABLE ONLY ezcontentclassgroup
-    ADD CONSTRAINT ezcontentclassgroup316_key PRIMARY KEY (id);
+CREATE INDEX ezsearch_object_word_link_frequency ON ezsearch_object_word_link USING btree (frequency);
 
 
 
@@ -2987,8 +2744,7 @@ ALTER TABLE ONLY ezcontentclassgroup
 
 
 
-ALTER TABLE ONLY ezcontentobject
-    ADD CONSTRAINT ezcontentobject331_key PRIMARY KEY (id);
+CREATE INDEX ezsearch_object_word_link_identifier ON ezsearch_object_word_link USING btree (identifier);
 
 
 
@@ -2996,8 +2752,7 @@ ALTER TABLE ONLY ezcontentobject
 
 
 
-ALTER TABLE ONLY ezcontentobject_attribute
-    ADD CONSTRAINT ezcontentobject_attribute351_key PRIMARY KEY (id, "version");
+CREATE INDEX ezsearch_object_word_link_integer_value ON ezsearch_object_word_link USING btree (integer_value);
 
 
 
@@ -3005,8 +2760,7 @@ ALTER TABLE ONLY ezcontentobject_attribute
 
 
 
-ALTER TABLE ONLY ezcontentobject_link
-    ADD CONSTRAINT ezcontentobject_link375_key PRIMARY KEY (id);
+CREATE INDEX ezsearch_object_word_link_object ON ezsearch_object_word_link USING btree (contentobject_id);
 
 
 
@@ -3014,8 +2768,7 @@ ALTER TABLE ONLY ezcontentobject_link
 
 
 
-ALTER TABLE ONLY ezcontentobject_name
-    ADD CONSTRAINT ezcontentobject_name388_key PRIMARY KEY (contentobject_id, content_version, content_translation);
+CREATE INDEX ezsearch_object_word_link_word ON ezsearch_object_word_link USING btree (word_id);
 
 
 
@@ -3023,8 +2776,7 @@ ALTER TABLE ONLY ezcontentobject_name
 
 
 
-ALTER TABLE ONLY ezcontentobject_tree
-    ADD CONSTRAINT ezcontentobject_tree402_key PRIMARY KEY (node_id);
+CREATE INDEX expiration_time ON ezsession USING btree (expiration_time);
 
 
 
@@ -3032,8 +2784,7 @@ ALTER TABLE ONLY ezcontentobject_tree
 
 
 
-ALTER TABLE ONLY ezcontentobject_version
-    ADD CONSTRAINT ezcontentobject_version427_key PRIMARY KEY (id);
+CREATE UNIQUE INDEX eztrigger_def_id ON eztrigger USING btree (module_name, function_name, connect_type);
 
 
 
@@ -3041,8 +2792,7 @@ ALTER TABLE ONLY ezcontentobject_version
 
 
 
-ALTER TABLE ONLY ezdiscountrule
-    ADD CONSTRAINT ezdiscountrule445_key PRIMARY KEY (id);
+CREATE INDEX ezurlalias_source_md5 ON ezurlalias USING btree (source_md5);
 
 
 
@@ -3050,8 +2800,7 @@ ALTER TABLE ONLY ezdiscountrule
 
 
 
-ALTER TABLE ONLY ezdiscountsubrule
-    ADD CONSTRAINT ezdiscountsubrule456_key PRIMARY KEY (id);
+CREATE INDEX ezuser_role_contentobject_id ON ezuser_role USING btree (contentobject_id);
 
 
 
@@ -3059,467 +2808,7 @@ ALTER TABLE ONLY ezdiscountsubrule
 
 
 
-ALTER TABLE ONLY ezdiscountsubrule_value
-    ADD CONSTRAINT ezdiscountsubrule_value470_key PRIMARY KEY (discountsubrule_id, value, issection);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezenumobjectvalue
-    ADD CONSTRAINT ezenumobjectvalue482_key PRIMARY KEY (contentobject_attribute_id, contentobject_attribute_version, enumid);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezenumvalue
-    ADD CONSTRAINT ezenumvalue497_key PRIMARY KEY (id, contentclass_attribute_id, contentclass_attribute_version);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezforgot_password
-    ADD CONSTRAINT ezforgot_password513_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezgeneral_digest_user_settings
-    ADD CONSTRAINT ezgeneral_digest_user_settings526_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezimage
-    ADD CONSTRAINT ezimage541_key PRIMARY KEY (contentobject_attribute_id, "version");
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezimagevariation
-    ADD CONSTRAINT ezimagevariation556_key PRIMARY KEY (contentobject_attribute_id, "version", requested_width, requested_height);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezinfocollection
-    ADD CONSTRAINT ezinfocollection573_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezinfocollection_attribute
-    ADD CONSTRAINT ezinfocollection_attribute585_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezkeyword
-    ADD CONSTRAINT ezkeyword600_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezkeyword_attribute_link
-    ADD CONSTRAINT ezkeyword_attribute_link612_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezmedia
-    ADD CONSTRAINT ezmedia624_key PRIMARY KEY (contentobject_attribute_id, "version");
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezmessage
-    ADD CONSTRAINT ezmessage646_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezmodule_run
-    ADD CONSTRAINT ezmodule_run663_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY eznode_assignment
-    ADD CONSTRAINT eznode_assignment678_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY eznotificationcollection
-    ADD CONSTRAINT eznotificationcollection696_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY eznotificationcollection_item
-    ADD CONSTRAINT eznotificationcollection_item711_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY eznotificationevent
-    ADD CONSTRAINT eznotificationevent725_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezoperation_memento
-    ADD CONSTRAINT ezoperation_memento745_key PRIMARY KEY (id, memento_key);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezorder
-    ADD CONSTRAINT ezorder759_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezorder_item
-    ADD CONSTRAINT ezorder_item778_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezpolicy
-    ADD CONSTRAINT ezpolicy792_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezpolicy_limitation
-    ADD CONSTRAINT ezpolicy_limitation806_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezpolicy_limitation_value
-    ADD CONSTRAINT ezpolicy_limitation_value821_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezpreferences
-    ADD CONSTRAINT ezpreferences833_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezproductcollection
-    ADD CONSTRAINT ezproductcollection847_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezproductcollection_item
-    ADD CONSTRAINT ezproductcollection_item858_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezproductcollection_item_opt
-    ADD CONSTRAINT ezproductcollection_item_opt875_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezrole
-    ADD CONSTRAINT ezrole891_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezsearch_object_word_link
-    ADD CONSTRAINT ezsearch_object_word_link904_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezsearch_return_count
-    ADD CONSTRAINT ezsearch_return_count931_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezsearch_search_phrase
-    ADD CONSTRAINT ezsearch_search_phrase944_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezsearch_word
-    ADD CONSTRAINT ezsearch_word955_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezsection
-    ADD CONSTRAINT ezsection968_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezsession
-    ADD CONSTRAINT ezsession981_key PRIMARY KEY (session_key);
-
-
-
-
-
-
-
-ALTER TABLE ONLY eztrigger
-    ADD CONSTRAINT eztrigger1007_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezurl
-    ADD CONSTRAINT ezurl1023_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezurlalias
-    ADD CONSTRAINT ezurlalias1051_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezuser
-    ADD CONSTRAINT ezuser1067_key PRIMARY KEY (contentobject_id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezuser_accountkey
-    ADD CONSTRAINT ezuser_accountkey1081_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezuser_discountrule
-    ADD CONSTRAINT ezuser_discountrule1094_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezuser_role
-    ADD CONSTRAINT ezuser_role1107_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezuser_setting
-    ADD CONSTRAINT ezuser_setting1120_key PRIMARY KEY (user_id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezvattype
-    ADD CONSTRAINT ezvattype1132_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezwaituntildatevalue
-    ADD CONSTRAINT ezwaituntildatevalue1144_key PRIMARY KEY (id, workflow_event_id, workflow_event_version);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezwishlist
-    ADD CONSTRAINT ezwishlist1159_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezworkflow
-    ADD CONSTRAINT ezworkflow1171_key PRIMARY KEY (id, "version");
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezworkflow_assign
-    ADD CONSTRAINT ezworkflow_assign1189_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezworkflow_event
-    ADD CONSTRAINT ezworkflow_event1203_key PRIMARY KEY (id, "version");
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezworkflow_group
-    ADD CONSTRAINT ezworkflow_group1226_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezworkflow_group_link
-    ADD CONSTRAINT ezworkflow_group_link1241_key PRIMARY KEY (workflow_id, group_id, workflow_version);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezworkflow_process
-    ADD CONSTRAINT ezworkflow_process1254_key PRIMARY KEY (id);
+CREATE INDEX ezwaituntildateevalue_wf_ev_id_wf_ver ON ezwaituntildatevalue USING btree (workflow_event_id, workflow_event_version);
 
 
 
@@ -3599,15 +2888,6 @@ ALTER TABLE ONLY ezview_counter
 
 
 
-ALTER TABLE ONLY ezsubtree_notification_rule
-    ADD CONSTRAINT tmp_notification_rule_pkey PRIMARY KEY (id);
-
-
-
-
-
-
-
 ALTER TABLE ONLY ezpaymentobject
     ADD CONSTRAINT ezpaymentobject_pkey PRIMARY KEY (id);
 
@@ -3619,5 +2899,725 @@ ALTER TABLE ONLY ezpaymentobject
 
 ALTER TABLE ONLY ezuservisit
     ADD CONSTRAINT ezuservisit_pkey PRIMARY KEY (user_id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezapprove_items
+    ADD CONSTRAINT ezapprove_items_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezbasket
+    ADD CONSTRAINT ezbasket_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezbinaryfile
+    ADD CONSTRAINT ezbinaryfile_pkey PRIMARY KEY (contentobject_attribute_id, "version");
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcollab_group
+    ADD CONSTRAINT ezcollab_group_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcollab_item
+    ADD CONSTRAINT ezcollab_item_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcollab_item_group_link
+    ADD CONSTRAINT ezcollab_item_group_link_pkey PRIMARY KEY (collaboration_id, group_id, user_id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcollab_item_message_link
+    ADD CONSTRAINT ezcollab_item_message_link_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcollab_item_participant_link
+    ADD CONSTRAINT ezcollab_item_participant_link_pkey PRIMARY KEY (collaboration_id, participant_id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcollab_item_status
+    ADD CONSTRAINT ezcollab_item_status_pkey PRIMARY KEY (collaboration_id, user_id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcollab_notification_rule
+    ADD CONSTRAINT ezcollab_notification_rule_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcollab_profile
+    ADD CONSTRAINT ezcollab_profile_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcollab_simple_message
+    ADD CONSTRAINT ezcollab_simple_message_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcontent_translation
+    ADD CONSTRAINT ezcontent_translation_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcontentbrowsebookmark
+    ADD CONSTRAINT ezcontentbrowsebookmark_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcontentbrowserecent
+    ADD CONSTRAINT ezcontentbrowserecent_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcontentclass
+    ADD CONSTRAINT ezcontentclass_pkey PRIMARY KEY (id, "version");
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcontentclass_attribute
+    ADD CONSTRAINT ezcontentclass_attribute_pkey PRIMARY KEY (id, "version");
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcontentclass_classgroup
+    ADD CONSTRAINT ezcontentclass_classgroup_pkey PRIMARY KEY (contentclass_id, contentclass_version, group_id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcontentclassgroup
+    ADD CONSTRAINT ezcontentclassgroup_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcontentobject
+    ADD CONSTRAINT ezcontentobject_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcontentobject_attribute
+    ADD CONSTRAINT ezcontentobject_attribute_pkey PRIMARY KEY (id, "version");
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcontentobject_link
+    ADD CONSTRAINT ezcontentobject_link_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcontentobject_name
+    ADD CONSTRAINT ezcontentobject_name_pkey PRIMARY KEY (contentobject_id, content_version, content_translation);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcontentobject_tree
+    ADD CONSTRAINT ezcontentobject_tree_pkey PRIMARY KEY (node_id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcontentobject_version
+    ADD CONSTRAINT ezcontentobject_version_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezdiscountrule
+    ADD CONSTRAINT ezdiscountrule_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezdiscountsubrule
+    ADD CONSTRAINT ezdiscountsubrule_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezdiscountsubrule_value
+    ADD CONSTRAINT ezdiscountsubrule_value_pkey PRIMARY KEY (discountsubrule_id, value, issection);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezenumobjectvalue
+    ADD CONSTRAINT ezenumobjectvalue_pkey PRIMARY KEY (contentobject_attribute_id, contentobject_attribute_version, enumid);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezenumvalue
+    ADD CONSTRAINT ezenumvalue_pkey PRIMARY KEY (id, contentclass_attribute_id, contentclass_attribute_version);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezforgot_password
+    ADD CONSTRAINT ezforgot_password_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezgeneral_digest_user_settings
+    ADD CONSTRAINT ezgeneral_digest_user_settings_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezimage
+    ADD CONSTRAINT ezimage_pkey PRIMARY KEY (contentobject_attribute_id, "version");
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezimagevariation
+    ADD CONSTRAINT ezimagevariation_pkey PRIMARY KEY (contentobject_attribute_id, "version", requested_width, requested_height);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezinfocollection
+    ADD CONSTRAINT ezinfocollection_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezinfocollection_attribute
+    ADD CONSTRAINT ezinfocollection_attribute_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezkeyword
+    ADD CONSTRAINT ezkeyword_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezkeyword_attribute_link
+    ADD CONSTRAINT ezkeyword_attribute_link_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezmedia
+    ADD CONSTRAINT ezmedia_pkey PRIMARY KEY (contentobject_attribute_id, "version");
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezmessage
+    ADD CONSTRAINT ezmessage_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezmodule_run
+    ADD CONSTRAINT ezmodule_run_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY eznode_assignment
+    ADD CONSTRAINT eznode_assignment_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY eznotificationcollection
+    ADD CONSTRAINT eznotificationcollection_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY eznotificationcollection_item
+    ADD CONSTRAINT eznotificationcollection_item_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY eznotificationevent
+    ADD CONSTRAINT eznotificationevent_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezoperation_memento
+    ADD CONSTRAINT ezoperation_memento_pkey PRIMARY KEY (id, memento_key);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezorder
+    ADD CONSTRAINT ezorder_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezorder_item
+    ADD CONSTRAINT ezorder_item_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezpolicy
+    ADD CONSTRAINT ezpolicy_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezpolicy_limitation
+    ADD CONSTRAINT ezpolicy_limitation_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezpolicy_limitation_value
+    ADD CONSTRAINT ezpolicy_limitation_value_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezpreferences
+    ADD CONSTRAINT ezpreferences_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezproductcollection
+    ADD CONSTRAINT ezproductcollection_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezproductcollection_item
+    ADD CONSTRAINT ezproductcollection_item_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezproductcollection_item_opt
+    ADD CONSTRAINT ezproductcollection_item_opt_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezrole
+    ADD CONSTRAINT ezrole_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezsearch_object_word_link
+    ADD CONSTRAINT ezsearch_object_word_link_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezsearch_return_count
+    ADD CONSTRAINT ezsearch_return_count_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezsearch_search_phrase
+    ADD CONSTRAINT ezsearch_search_phrase_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezsearch_word
+    ADD CONSTRAINT ezsearch_word_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezsection
+    ADD CONSTRAINT ezsection_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezsession
+    ADD CONSTRAINT ezsession_pkey PRIMARY KEY (session_key);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezsubtree_notification_rule
+    ADD CONSTRAINT ezsubtree_notification_rule_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY eztrigger
+    ADD CONSTRAINT eztrigger_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezurl
+    ADD CONSTRAINT ezurl_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezurlalias
+    ADD CONSTRAINT ezurlalias_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezuser
+    ADD CONSTRAINT ezuser_pkey PRIMARY KEY (contentobject_id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezuser_accountkey
+    ADD CONSTRAINT ezuser_accountkey_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezuser_discountrule
+    ADD CONSTRAINT ezuser_discountrule_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezuser_role
+    ADD CONSTRAINT ezuser_role_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezuser_setting
+    ADD CONSTRAINT ezuser_setting_pkey PRIMARY KEY (user_id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezvattype
+    ADD CONSTRAINT ezvattype_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezwaituntildatevalue
+    ADD CONSTRAINT ezwaituntildatevalue_pkey PRIMARY KEY (id, workflow_event_id, workflow_event_version);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezwishlist
+    ADD CONSTRAINT ezwishlist_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezworkflow
+    ADD CONSTRAINT ezworkflow_pkey PRIMARY KEY (id, "version");
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezworkflow_assign
+    ADD CONSTRAINT ezworkflow_assign_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezworkflow_event
+    ADD CONSTRAINT ezworkflow_event_pkey PRIMARY KEY (id, "version");
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezworkflow_group
+    ADD CONSTRAINT ezworkflow_group_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezworkflow_group_link
+    ADD CONSTRAINT ezworkflow_group_link_pkey PRIMARY KEY (workflow_id, group_id, workflow_version);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezworkflow_process
+    ADD CONSTRAINT ezworkflow_process_pkey PRIMARY KEY (id);
 
 
