@@ -151,6 +151,8 @@ eZ PHP creator:
   http://ez.no/community/bug_reports/xml_field_one_empty_link_causes_all_other_links_to_disappear
 - Fixed a bug with login of user when running mysql, the number of returned rows would
   increase exponentially. (Merged from stable/3.3 rev. 5648)
+- Fixed a bug with charset conversion.
+  http://ez.no/community/bug_reports/all_translations_special_characters
 
 *Update
 - Added script addorderemail.php which will add email field content to table ezorder.

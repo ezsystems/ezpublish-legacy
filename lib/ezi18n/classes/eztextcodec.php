@@ -451,13 +451,15 @@ class eZTextCodec
             else
                 $internalCharset = eZTextCodec::internalCharset();
         }
-        $realInputCharsetCode = $realOutputCharsetCode = false;
+        $realInputCharsetCode = strtolower( $inputCharsetCode );
+        $realOutputCharsetCode = strtolower( $outputCharsetCode );
+
         if ( $inputCharsetCode === false )
             $realInputCharsetCode = $inputCharsetCode = $internalCharset;
         if ( $outputCharsetCode === false )
             $realOutputCharsetCode = $outputCharsetCode = $internalCharset;
 
-        $check =& $GLOBALS["eZTextCodecCharsetCheck"]["$realOutputCharsetCode-$realOutputCharsetCode"];
+        $check =& $GLOBALS["eZTextCodecCharsetCheck"]["$realInputCharsetCode-$realOutputCharsetCode"];
         if ( !$alwaysReturn and isset( $check ) and !$check )
         {
             return null;
