@@ -204,170 +204,172 @@ class eZSearchEngine
     */
     function &search( $searchText, $params = array() )
     {
-        $db =& eZDB::instance();
-
-        $nonExistingWordArray = array();
-
-        if ( isset( $params['SearchContentClassID'] ) )
-            $searchContentClassID = $params['SearchContentClassID'];
-        else
-            $searchContentClassID = -1;
-
-        if ( isset( $params['SearchContentClassAttributeID'] ) )
-            $searchContentClassAttributeID = $params['SearchContentClassAttributeID'];
-        else
-            $searchContentClassAttributeID = -1;
-
-        // strip multiple spaces
-        $searchText = preg_replace( "(\s+)", " ", $searchText );
-
-        // find the phrases
-        $numQuotes = substr_count( $searchText, "\"" );
-
-        $phraseTextArray = array();
-        $fullText = $searchText;
-        $pos = 0;
-        if ( ( $numQuotes > 0 ) and ( ( $numQuotes % 2 ) == 0 ) )
+        if ( trim( $searchText ) != "" )
         {
-            for ( $i = 0; $i < ( $numQuotes / 2 ); $i ++ )
+            $db =& eZDB::instance();
+
+            $nonExistingWordArray = array();
+
+            if ( isset( $params['SearchContentClassID'] ) )
+                $searchContentClassID = $params['SearchContentClassID'];
+            else
+                $searchContentClassID = -1;
+
+            if ( isset( $params['SearchContentClassAttributeID'] ) )
+                $searchContentClassAttributeID = $params['SearchContentClassAttributeID'];
+            else
+                $searchContentClassAttributeID = -1;
+
+            // strip multiple spaces
+            $searchText = preg_replace( "(\s+)", " ", $searchText );
+
+            // find the phrases
+            $numQuotes = substr_count( $searchText, "\"" );
+
+            $phraseTextArray = array();
+            $fullText = $searchText;
+            $pos = 0;
+            if ( ( $numQuotes > 0 ) and ( ( $numQuotes % 2 ) == 0 ) )
             {
-                $quotePosStart = strpos( $searchText, '"',  $pos );
-                $quotePosEnd = strpos( $searchText, '"',  $quotePosStart + 1 );
-
-                $prePhraseText =& substr( $searchText, $pos, $quotePosStart - $pos );
-                $phraseText =& substr( $searchText, $quotePosStart + 1, $quotePosEnd - $quotePosStart - 1 );
-
-                $phraseTextArray[] = $phraseText;
-                $fullText .= $prePhraseText;
-                $pos = $quotePosEnd + 1;
-            }
-        }
-
-        // Get the total number of objects
-        $objectCount = array();
-        $objectCount =& $db->arrayQuery( "SELECT COUNT(*) AS count FROM ezcontentobject" );
-        $totalObjectCount = $objectCount[0]["count"];
-
-        $searchWordArray = $this->splitString( $searchText );
-
-        // fetch the word id
-        $i = 0;
-        $wordQueryString = '';
-        foreach ( $searchWordArray as $searchWord )
-        {
-            if ( $i > 0 )
-                $wordQueryString .= " or ";
-
-            $wordQueryString .= " word='$searchWord' ";
-            $i++;
-        }
-
-        $wordIDArrayRes =& $db->arrayQuery( "SELECT id, word FROM ezsearch_word where $wordQueryString" );
-
-        // get the words in the correct order
-        $wordIDArray = array();
-        $wordIDHash = array();
-        foreach ( $wordIDArrayRes as $wordRes )
-        {
-            $wordIDArray[] = $wordRes['id'];
-            $wordIDHash[$wordRes['word']] = $wordRes['id'];
-        }
-
-        // build an array of the word id's for each phrase
-        $phraseIDArrayArray = array();
-        foreach ( $phraseTextArray as $phraseText )
-        {
-            $wordArray =& $this->splitString( $phraseText );
-            $wordIDArray = array();
-            foreach ( $wordArray as $word )
-            {
-                $wordIDArray[] = $wordIDHash[$word];
-            }
-            $phraseIDArrayArray[] = $wordIDArray;
-        }
-
-        // build phrase SQL query part(s)
-        $phraseSearchSQLArray = array();
-        $phraseSQL = "";
-        foreach ( $phraseIDArrayArray as $phraseIDArray )
-        {
-            $phraseSearchSQL = '';
-            $wordCount = count( $phraseIDArray );
-            for ( $i = 0; $i < $wordCount; $i++ )
-            {
-                $wordID = $phraseIDArray[$i];
-
-                if ( is_numeric( $wordID ) and ( $wordID > 0 ) )
+                for ( $i = 0; $i < ( $numQuotes / 2 ); $i ++ )
                 {
-                    $phraseSearchSQL .= " ( ezsearch_object_word_link.word_id='$wordID' ";
-                    if ( $i < ( $wordCount - 1 ) )
-                    {
-                        $nextWordID = $phraseIDArray[$i+1];
-                        $phraseSearchSQL .= " AND ezsearch_object_word_link.next_word_id='$nextWordID' ";
-                    }
+                    $quotePosStart = strpos( $searchText, '"',  $pos );
+                    $quotePosEnd = strpos( $searchText, '"',  $quotePosStart + 1 );
 
-                    if ( $i > 0 )
-                    {
-                        $prevWordID = $phraseIDArray[$i-1];
-                        $phraseSearchSQL .= " AND ezsearch_object_word_link.prev_word_id='$prevWordID' ";
-                    }
+                    $prePhraseText =& substr( $searchText, $pos, $quotePosStart - $pos );
+                    $phraseText =& substr( $searchText, $quotePosStart + 1, $quotePosEnd - $quotePosStart - 1 );
 
-                    $phraseSearchSQL .= "  ) ";
-
-                    if ( $i < ( $wordCount - 1 ) )
-                        $phraseSearchSQL .= " OR ";
+                    $phraseTextArray[] = $phraseText;
+                    $fullText .= $prePhraseText;
+                    $pos = $quotePosEnd + 1;
                 }
-                else
-                {
-                    $nonExistingWordArray[] = $searchWord;
-                }
-
-                $prevWord = $wordID;
             }
-            $phraseSearchSQLArray[] = $phraseSearchSQL;
-            $phraseSQL .= "( $phraseSearchSQL ) AND ";
-        }
 
-        // build fulltext search SQL part
-        $searchWordArray =& $this->splitString( $fullText );
-        $fullTextSQL = "";
-        if ( count( $searchWordArray ) > 0 )
-        {
+            // Get the total number of objects
+            $objectCount = array();
+            $objectCount =& $db->arrayQuery( "SELECT COUNT(*) AS count FROM ezcontentobject" );
+            $totalObjectCount = $objectCount[0]["count"];
+
+            $searchWordArray = $this->splitString( $searchText );
+
+            // fetch the word id
             $i = 0;
-            // Build the word query string
+            $wordQueryString = '';
             foreach ( $searchWordArray as $searchWord )
             {
-                $wordID = $wordIDHash[$searchWord];
+                if ( $i > 0 )
+                    $wordQueryString .= " or ";
 
-                if ( is_numeric( $wordID ) and ( $wordID > 0 ) )
-                {
-                    if ( $i == 0 )
-                        $fullTextSQL .= "ezsearch_object_word_link.word_id='$wordID' ";
-                    else
-                        $fullTextSQL .= " OR ezsearch_object_word_link.word_id='$wordID' ";
-                }
-                else
-                {
-                    $nonExistingWordArray[] = $searchWord;
-                }
+                $wordQueryString .= " word='$searchWord' ";
                 $i++;
             }
-            $fullTextSQL = " ( $fullTextSQL ) AND ";
-        }
 
-        $classQuery = "";
-        if ( is_numeric( $searchContentClassID ) and  $searchContentClassID > 0 )
-        {
-            $classQuery = "ezsearch_object_word_link.contentclass_id = '$searchContentClassID' AND ";
-        }
+            $wordIDArrayRes =& $db->arrayQuery( "SELECT id, word FROM ezsearch_word where $wordQueryString" );
 
-        $classAttributeQuery = "";
-        if ( is_numeric( $searchContentClassAttributeID ) and  $searchContentClassAttributeID > 0 )
-        {
-            $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$searchContentClassAttributeID' AND ";
-        }
+            // get the words in the correct order
+            $wordIDArray = array();
+            $wordIDHash = array();
+            foreach ( $wordIDArrayRes as $wordRes )
+            {
+                $wordIDArray[] = $wordRes['id'];
+                $wordIDHash[$wordRes['word']] = $wordRes['id'];
+            }
 
-        $searchQuery = "SELECT DISTINCT ezcontentobject.id, ezcontentobject.*
+            // build an array of the word id's for each phrase
+            $phraseIDArrayArray = array();
+            foreach ( $phraseTextArray as $phraseText )
+            {
+                $wordArray =& $this->splitString( $phraseText );
+                $wordIDArray = array();
+                foreach ( $wordArray as $word )
+                {
+                    $wordIDArray[] = $wordIDHash[$word];
+                }
+                $phraseIDArrayArray[] = $wordIDArray;
+            }
+
+            // build phrase SQL query part(s)
+            $phraseSearchSQLArray = array();
+            $phraseSQL = "";
+            foreach ( $phraseIDArrayArray as $phraseIDArray )
+            {
+                $phraseSearchSQL = '';
+                $wordCount = count( $phraseIDArray );
+                for ( $i = 0; $i < $wordCount; $i++ )
+                {
+                    $wordID = $phraseIDArray[$i];
+
+                    if ( is_numeric( $wordID ) and ( $wordID > 0 ) )
+                    {
+                        $phraseSearchSQL .= " ( ezsearch_object_word_link.word_id='$wordID' ";
+                        if ( $i < ( $wordCount - 1 ) )
+                        {
+                            $nextWordID = $phraseIDArray[$i+1];
+                            $phraseSearchSQL .= " AND ezsearch_object_word_link.next_word_id='$nextWordID' ";
+                        }
+
+                        if ( $i > 0 )
+                        {
+                            $prevWordID = $phraseIDArray[$i-1];
+                            $phraseSearchSQL .= " AND ezsearch_object_word_link.prev_word_id='$prevWordID' ";
+                        }
+
+                        $phraseSearchSQL .= "  ) ";
+
+                        if ( $i < ( $wordCount - 1 ) )
+                            $phraseSearchSQL .= " OR ";
+                    }
+                    else
+                    {
+                        $nonExistingWordArray[] = $searchWord;
+                    }
+
+                    $prevWord = $wordID;
+                }
+                $phraseSearchSQLArray[] = $phraseSearchSQL;
+                $phraseSQL .= "( $phraseSearchSQL ) AND ";
+            }
+
+            // build fulltext search SQL part
+            $searchWordArray =& $this->splitString( $fullText );
+            $fullTextSQL = "";
+            if ( count( $searchWordArray ) > 0 )
+            {
+                $i = 0;
+                // Build the word query string
+                foreach ( $searchWordArray as $searchWord )
+                {
+                    $wordID = $wordIDHash[$searchWord];
+
+                    if ( is_numeric( $wordID ) and ( $wordID > 0 ) )
+                    {
+                        if ( $i == 0 )
+                            $fullTextSQL .= "ezsearch_object_word_link.word_id='$wordID' ";
+                        else
+                            $fullTextSQL .= " OR ezsearch_object_word_link.word_id='$wordID' ";
+                    }
+                    else
+                    {
+                        $nonExistingWordArray[] = $searchWord;
+                    }
+                    $i++;
+                }
+                $fullTextSQL = " ( $fullTextSQL ) AND ";
+            }
+
+            $classQuery = "";
+            if ( is_numeric( $searchContentClassID ) and  $searchContentClassID > 0 )
+            {
+                $classQuery = "ezsearch_object_word_link.contentclass_id = '$searchContentClassID' AND ";
+            }
+
+            $classAttributeQuery = "";
+            if ( is_numeric( $searchContentClassAttributeID ) and  $searchContentClassAttributeID > 0 )
+            {
+                $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$searchContentClassAttributeID' AND ";
+            }
+
+            $searchQuery = "SELECT DISTINCT ezcontentobject.id, ezcontentobject.*
                     FROM
                        ezcontentobject,
                        ezsearch_object_word_link
@@ -379,7 +381,7 @@ class eZSearchEngine
                     ezcontentobject.id=ezsearch_object_word_link.contentobject_id
                     ORDER BY ezsearch_object_word_link.frequency";
 
-        $searchCountQuery = "SELECT count( DISTINCT ezcontentobject.id ) as count
+            $searchCountQuery = "SELECT count( DISTINCT ezcontentobject.id ) as count
                     FROM
                        ezcontentobject,
                        ezsearch_object_word_link
@@ -407,27 +409,33 @@ class eZSearchEngine
         }
 */
 
-        $objectRes = array();
-
-        $searchCount = 0;
-        if ( count( $nonExistingWordArray ) == 0 )
-        {
-            // execute search query
-            $objectResArray =& $db->arrayQuery( $searchQuery );
-            // execute search count query
-            $objectCountRes =& $db->arrayQuery( $searchCountQuery );
-
-            foreach ( $objectResArray as $objectRow )
-            {
-                $objectRes[] = new eZContentObject( $objectRow );
-            }
-            $searchCount = $objectCountRes[0]['count'];
-        }
-        else
             $objectRes = array();
 
-        return array( "SearchResult" => $objectRes,
-                      "SearchCount" => $searchCount );
+            $searchCount = 0;
+            if ( count( $nonExistingWordArray ) == 0 )
+            {
+                // execute search query
+                $objectResArray =& $db->arrayQuery( $searchQuery );
+                // execute search count query
+                $objectCountRes =& $db->arrayQuery( $searchCountQuery );
+
+                foreach ( $objectResArray as $objectRow )
+                {
+                    $objectRes[] = new eZContentObject( $objectRow );
+                }
+                $searchCount = $objectCountRes[0]['count'];
+            }
+            else
+                $objectRes = array();
+
+            return array( "SearchResult" => $objectRes,
+                          "SearchCount" => $searchCount );
+        }
+        else
+        {
+            return array( "SearchResult" => array(),
+                          "SearchCount" => 0 );
+        }
     }
 
     /*!
