@@ -127,6 +127,14 @@ class eZStepDatabaseInit extends eZStepInstaller
                                'charset' => $dbCharset );
         $db =& eZDB::instance( $dbDriver, $dbParameters, true );
         $availDatabases = $db->availableDatabases();
+        $this->PersistenceList['database_use_unicode'] = false;
+        if ( $db->isCharsetSupported( 'utf-8' ) )
+        {
+            print( "Can use Unicode<br/>" );
+            $this->PersistenceList['database_use_unicode'] = true;
+        }
+        else
+            print( "Can't use Unicode<br/>" );
 
         if ( $availDatabases === false ) // not possible to determine if username and password is correct here
         {

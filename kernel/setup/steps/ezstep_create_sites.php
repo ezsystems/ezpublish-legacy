@@ -279,7 +279,7 @@ class eZStepCreateSites extends eZStepInstaller
         eZDebug::writeDebug( $sitePackage, 'sitePackage' );
 //         $sitePackage['admin_access_type_value'] = $sitePackage['access_type_value'] . '_admin';
 
-        $canUseUnicode = true;
+        $canUseUnicode = $this->PersistenceList['database_use_unicode'];
 
         switch ( $sitePackage['access_type'] )
         {
@@ -386,6 +386,7 @@ class eZStepCreateSites extends eZStepInstaller
         eZDB::setInstance( $db );
         if ( $package )
         {
+//             eZDBTool::cleanup( $db );
             $installParameters = array( 'path' => '.' );
             $installParameters['ini'] = array();
             $siteINIChanges = array();

@@ -347,7 +347,8 @@ class eZDBInterface
     }
 
     /*!
-     \pure
+     \virtual
+     \return the version of the database server or \c false if no version could be retrieved/
     */
     function databaseServerVersion()
     {
@@ -355,9 +356,18 @@ class eZDBInterface
 
     /*!
      \pure
+     \return the version of the database client or \c false if no version could be retrieved/
     */
     function databaseClientVersion()
     {
+    }
+
+    /*!
+     \return \c true if the charset \a $charset is supported by the connected database.
+    */
+    function isCharsetSupported( $charset )
+    {
+        return false;
     }
 
     /*!

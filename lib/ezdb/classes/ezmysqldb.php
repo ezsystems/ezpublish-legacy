@@ -591,13 +591,44 @@ class eZMySQLDB extends eZDBInterface
     /*!
      \reimp
     */
-    function version()
+    function databaseServerVersion()
     {
         $versionInfo = mysql_get_client_info();
 
-        $versionArray = explode( ' ', $versionInfo );
+        $versionArray = explode( '.', $versionInfo );
 
-        return $versionArray[( count( $versionArray ) - 1 )];
+        return array( 'string' => $versionInfo,
+                      'values' => $versionArray );
+    }
+
+    /*!
+     \reimp
+    */
+    function databaseClientVersion()
+    {
+        $versionInfo = mysql_get_server_info();
+
+        $versionArray = explode( '.', $versionInfo );
+
+        return array( 'string' => $versionInfo,
+                      'values' => $versionArray );
+    }
+
+    /*!
+     \reimp
+    */
+    function isCharsetSupported( $charset )
+    {
+        if ( $charset == 'utf-8' )
+        {
+            $versionInfo = $this->databaseServerVersion();
+            if ( $versionInfo['values'][0] >= 4 and
+                 $versionInfo['values'][1] >= 1 )
+                return true;
+            return false;
+        }
+        else
+            return true;
     }
 
     /// \privatesection

@@ -128,7 +128,7 @@
         </div>
       </td>
 
-      {delimiter modulo=2}
+      {delimiter modulo=1}
         </tr>
         <tr>
       {/delimiter}

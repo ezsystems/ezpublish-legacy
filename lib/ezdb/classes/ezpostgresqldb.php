@@ -494,6 +494,14 @@ class eZPostgreSQLDB extends eZDBInterface
         @pg_close();
     }
 
+    /*!
+     \reimp
+    */
+    function isCharsetSupported( $charset )
+    {
+        return true;
+    }
+
     /// \privatesection
 
 }
