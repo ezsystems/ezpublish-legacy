@@ -481,7 +481,7 @@ class eZDebug
       \static
       Prints the debug report
     */
-    function printReport( $newWindow=false, $as_html=true )
+    function &printReport( $newWindow = false, $as_html = true, $returnReport = false )
     {
         $ini =& eZINI::instance();
 
@@ -494,7 +494,7 @@ class eZDebug
         else
         if ( in_array( "disabled", $debugIPArray ) )
         {
-            return;
+            return null;
         }
 
 
@@ -534,8 +534,12 @@ ezdebug.reload();
         }
         else
         {
-            print( $report );
+            if ( !$returnReport )
+                print( $report );
+            else
+                return $report;
         }
+        return null;
     }
 
     /*!

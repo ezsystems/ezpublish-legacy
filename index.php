@@ -10,13 +10,14 @@ $warningList = array();
 // Enable this line to get eZINI debug output
 // eZINI::setIsDebugEnabled( true );
 
-function eZDisplayDebug()
+function &eZDisplayDebug()
 {
     $ini =& eZINI::instance();
 
     $type = $ini->variable( "DebugSettings", "Debug" );
     if ( $type == "inline" or $type == "popup" )
-        eZDebug::printReport( $type == "popup" );
+        return eZDebug::printReport( $type == "popup", true, true );
+    return null;
 }
 
 function fetchModule( &$uri, &$check, &$module, &$module_name, &$function_name, &$params )
@@ -324,6 +325,8 @@ if ( !is_array( $moduleResult ) )
     $moduleResult['content'] = false;
 }
 
+$templateResult = null;
+
 eZDebug::setUseExternalCSS( $use_external_css );
 if ( $show_page_layout )
 {
@@ -570,17 +573,39 @@ if ( $show_page_layout )
         /// end HiO code
         */
 
-        $tpl->display( $resource . $show_page_layout );
+        $templateResult =& $tpl->fetch( $resource . $show_page_layout );
     }
 }
 else
 {
-    print( $moduleResult['content'] );
+    $templateResult =& $moduleResult['content'];
 }
 
 eZDebug::addTimingPoint( "End" );
 
-eZDisplayDebug();
+$debugReport =& eZDisplayDebug();
+
+eZDebug::setHandleType( EZ_HANDLE_NONE );
+
+if ( $debugReport !== null )
+{
+    if ( $templateResult !== null )
+    {
+        $debugMarker = '<!--DEBUG_REPORT-->';
+        $pos = strpos( $templateResult, $debugMarker );
+        if ( $pos !== false )
+        {
+            $debugMarkerLength = strlen( $debugMarker );
+            $templateResult = substr_replace( $templateResult, $debugReport, $pos, $debugMarkerLength );
+        }
+        else
+            $templateResult = implode( '', array( $templateResult, $debugReport ) );
+    }
+    else
+        $templateResult = $debugReport;
+}
+
+print( $templateResult );
 
 ob_end_flush();
 ?>

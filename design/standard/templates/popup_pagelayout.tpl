@@ -59,5 +59,7 @@
 <a href="http://ez.no">eZ systems as</a>
 </div>
 
+<!--DEBUG_REPORT-->
+
 </body>
 </html>

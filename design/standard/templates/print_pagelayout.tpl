@@ -57,5 +57,7 @@
 <p class="small"><a href="http://developer.ez.no">eZ publish&trade;</a> copyright &copy; 1999-2002 <a href="http://ez.no">eZ systems as</a></p>
 </div>
 
+<!--DEBUG_REPORT-->
+
 </body>
 </html>

@@ -9,5 +9,8 @@
   Redirecting to: <b>{$redirect_uri}</b><br/>
   <input class="stdbutton" type="submit" Name="RedirectButton" value="Redirect"/>
   </form>
+
+<!--DEBUG_REPORT-->
+
 </body>
 </html>
