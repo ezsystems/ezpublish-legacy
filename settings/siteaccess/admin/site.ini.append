@@ -8,7 +8,6 @@
 
 [SiteSettings]
 DefaultPage=/content/view/full/2
-ErrorHandler=defaultpage
 LoginPage=custom
 
 [SiteAccessSettings]

@@ -291,12 +291,17 @@ function accessType( &$uri, $host, $port, $file )
 
 function accessAllowed( $uri )
 {
-    $module_name = $uri->element();
+    $moduleName = $uri->element();
+    $viewName = $uri->element( 1 );
+    $check = array( 'result' => true,
+                    'module' => $moduleName,
+                    'view' => $viewName,
+                    'view-checked' => false );
 
     $ini =& eZINI::instance();
 
-    $allow = true;
-    $tmp_allow = true;
+    $access = true;
+    $currentAccess = true;
     if ( !$ini->hasGroup( 'SiteAccessRules' ) )
         return true;
     $items =& $ini->variableArray( 'SiteAccessRules', 'Rules' );
@@ -308,17 +313,31 @@ function accessAllowed( $uri )
         {
             case 'access':
             {
-                $tmp_allow = ($value == 'enable');
+                $currentAccess = ( $value == 'enable' );
             } break;
             case 'moduleall':
             {
-                if ( $value == 'true' )
-                    $allow = $tmp_allow;
+                $access = $currentAccess;
             } break;
             case 'module':
             {
-                if ( $value == $module_name )
-                    $allow = $tmp_allow;
+                if ( preg_match( "#([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)#", $value, $matches ) )
+                {
+                    if ( $matches[1] == $moduleName and
+                         $matches[2] == $viewName )
+                    {
+                        $check['view_checked'] = true;
+                        $access = $currentAccess;
+                    }
+                }
+                else
+                {
+                    if ( $value == $moduleName )
+                    {
+                        $access = $currentAccess;
+                        $check['view_checked'] = false;
+                    }
+                }
             } break;
             default:
             {
@@ -327,7 +346,8 @@ function accessAllowed( $uri )
         }
     }
 
-    return $allow;
+    $check['result'] = $access;
+    return $check;
 }
 
 function precheckAllowed( &$prechecks )

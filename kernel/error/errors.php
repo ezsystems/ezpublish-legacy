@@ -57,6 +57,10 @@ define( 'EZ_ERROR_KERNEL_MODULE_NOT_FOUND', 20 );
  The module view could not be found.
 */
 define( 'EZ_ERROR_KERNEL_MODULE_VIEW_NOT_FOUND', 21 );
+/*!
+ The module or view is not enabled.
+*/
+define( 'EZ_ERROR_KERNEL_MODULE_DISABLED', 22 );
 
 
 /*!

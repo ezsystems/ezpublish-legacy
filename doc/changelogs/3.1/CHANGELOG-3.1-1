@@ -19,6 +19,9 @@ Changes from 3.0-? to 3.1
 - Added support for viewmodes on attribute_view_gui, the viewmodes are placed in directories under the normal datatype templates.
   The viewmode is optional for backwards compatability.
 - Added template-block to clearcache script.
+- Added support for disabling specific views in modules as well as whole modules.
+  The views are specified with a / in the Rules array in group SiteAccessRules.
+- New error code kernel/22 which is used for disabled modules and views.
 
 Binary file:
 - Added support for resuming downloads.
@@ -77,3 +80,6 @@ site.ini:
 - Fixed wrong spelling of NodeTranslation in site.ini.
 - Added more comments to the various elements.
 - Changed names of process cache settings and added new development settings for template compilation.
+
+siteaccess/admin/site.ini.append:
+- Removed errorhandler setting.

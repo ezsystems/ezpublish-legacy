@@ -412,10 +412,15 @@ while ( $moduleRunRequired )
         }
     }
 
-    if ( !accessAllowed( $uri ) )
+    $moduleCheck = accessAllowed( $uri );
+    if ( !$moduleCheck['result'] )
     {
-        $def_page = $ini->variable( "SiteSettings", "DefaultPage" );
-        $uri->setURIString( $def_page );
+        if ( $ini->variable( "SiteSettings", "ErrorHandler" ) == "defaultpage" )
+        {
+            $defaultPage = $ini->variable( "SiteSettings", "DefaultPage" );
+            $uri->setURIString( $defaultPage );
+            $moduleCheck['result'] = true;
+        }
     }
 
     include_once( "lib/ezutils/classes/ezhttptool.php" );
@@ -427,7 +432,6 @@ while ( $moduleRunRequired )
     if ( $uri->isEmpty() )
     {
         $tmp_uri = new eZURI( $ini->variable( "SiteSettings", "IndexPage" ) );
-//         $check = null;
         if ( !fetchModule( $tmp_uri, $check, $module, $module_name, $function_name, $params ) )
             $displayMissingModule = true;
     }
@@ -436,7 +440,6 @@ while ( $moduleRunRequired )
         if ( $ini->variable( "SiteSettings", "ErrorHandler" ) == "defaultpage" )
         {
             $tmp_uri = new eZURI( $ini->variable( "SiteSettings", "DefaultPage" ) );
-//             $check = null;
             if ( !fetchModule( $tmp_uri, $check, $module, $module_name, $function_name, $params ) )
                 $displayMissingModule = true;
         }
@@ -444,7 +447,9 @@ while ( $moduleRunRequired )
             $displayMissingModule = true;
     }
 
-    if ( !$displayMissingModule and get_class( $module ) == "ezmodule" )
+    if ( !$displayMissingModule and
+         $moduleCheck['result'] and
+         get_class( $module ) == "ezmodule" )
     {
         // Run the module/function
         eZDebug::addTimingPoint( "Module start '" . $module->attribute( 'name' ) . "'" );
@@ -553,15 +558,22 @@ while ( $moduleRunRequired )
             }
         }
     }
-    else
+    else if ( $moduleCheck['result'] )
     {
         eZDebug::writeError( "Undefined module: $module_name", "index" );
         $module = new eZModule( "", "", $module_name );
         $GLOBALS['eZRequestedModule'] =& $module;
         $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_MODULE_NOT_FOUND, 'kernel', array( 'module' => $module_name ) );
-//         $moduleResult = array();
-//         $moduleResult["pagelayout"] = "undefinedmodule.tpl";
-//         $tpl_vars = array( "module" => array( "name" => $module_name ) );
+    }
+    else
+    {
+        if ( $moduleCheck['view_checked'] )
+            eZDebug::writeError( "View '" . $moduleCheck['view'] . "' in module '" . $moduleCheck['module'] . "' is disabled", "index" );
+        else
+            eZDebug::writeError( "Module '" . $moduleCheck['module'] . "' is disabled", "index" );
+        $module = new eZModule( "", "", $moduleCheck['module'] );
+        $GLOBALS['eZRequestedModule'] =& $module;
+        $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_MODULE_DISABLED, 'kernel', array( 'check' => $moduleCheck ) );
     }
     $moduleRunRequired = false;
     if ( $module->exitStatus() == EZ_MODULE_STATUS_RERUN )
