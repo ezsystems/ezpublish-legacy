@@ -70,9 +70,9 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         $relatedResource = $relation['resource'];
         $relatedTemplateName = $relation['template_name'];
 
-        $tpl->setRelation( $rootElement, $relatedResource, $relatedTemplateName );
-        $tpl->CurrentRelatedResource = $relatedResource;
-        $tpl->CurrentRelatedTemplateName = $relatedTemplateName;
+//         $tpl->setRelation( $rootElement, $relatedResource, $relatedTemplateName );
+//         $tpl->CurrentRelatedResource = $relatedResource;
+//         $tpl->CurrentRelatedTemplateName = $relatedTemplateName;
         $currentRoot =& $rootElement;
         $leftDelimiter = $tpl->LDelim;
         $rightDelimiter = $tpl->RDelim;
@@ -564,7 +564,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                     $args = array();
                     while ( $attr_pos < $text_len )
                     {
-                        $attr_pos_start = $this->skipWhiteSpace( $text, $attr_pos, $text_len );
+                        $attr_pos_start = $this->ElementParser->whitespaceEndPos( $tpl, $text, $attr_pos, $text_len );
                         if ( $attr_pos_start == $attr_pos and
                              $attr_pos_start < $text_len )
                         {
@@ -694,21 +694,6 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         unset( $textElements );
         if ( $tpl->ShowDetails )
             eZDebug::addTimingPoint( "Parse pass 3 done" );
-    }
-
-    /*!
-     Returns the position of the first non-whitespace characters.
-    */
-    function skipWhiteSpace( $text, $pos, $text_len )
-    {
-        if ( $pos >= $text_len )
-            return $pos;
-        while( $pos < $text_len and
-               preg_match( "/[ \t\r\n]/", $text[$pos] ) )
-        {
-            ++$pos;
-        }
-        return $pos;
     }
 
     function &instance()

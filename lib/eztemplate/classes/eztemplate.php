@@ -244,6 +244,12 @@ define( "EZ_ELEMENT_END_TAG", 4 );
 define( "EZ_ELEMENT_VARIABLE", 5 );
 define( "EZ_ELEMENT_COMMENT", 6 );
 
+define( "EZ_TEMPLATE_NODE_ROOT", 1 );
+define( "EZ_TEMPLATE_NODE_TEXT", 2 );
+define( "EZ_TEMPLATE_NODE_VARIABLE", 3 );
+define( "EZ_TEMPLATE_NODE_FUNCTION", 4 );
+define( "EZ_TEMPLATE_NODE_OPERATOR", 5 );
+
 define( "EZ_TEMPLATE_DEBUG_INTERNALS", false );
 
 class eZTemplate
@@ -254,7 +260,8 @@ class eZTemplate
     */
     function eZTemplate()
     {
-        $this->Tree = new eZTemplateRoot();
+//         $this->Tree = new eZTemplateRoot();
+        $this->Tree = array( EZ_TEMPLATE_NODE_ROOT, false );
         $this->LDelim = "{";
         $this->RDelim = "}";
 
@@ -483,7 +490,7 @@ class eZTemplate
             {
                 $this->Text =& $res["text"];
                 $this->TimeStamp =& $res["time-stamp"];
-                $this->Tree->clear();
+                $this->Tree = array( EZ_TEMPLATE_NODE_ROOT, false );
                 $this->parse( $this->Text, $this->Tree, "", $res );
                 $root =& $this->Tree;
                 if ( $canCache )
@@ -604,31 +611,31 @@ class eZTemplate
         return $resobj;
     }
 
-    function setRelation( &$element, $relatedResource, $relatedTemplateName )
-    {
-        $this->setResourceRelation( $element, $relatedResource );
-        $this->setTemplateNameRelation( $element, $relatedTemplateName );
-    }
+//     function setRelation( &$element, $relatedResource, $relatedTemplateName )
+//     {
+//         $this->setResourceRelation( $element, $relatedResource );
+//         $this->setTemplateNameRelation( $element, $relatedTemplateName );
+//     }
 
-    function setResourceRelation( &$element, $relatedResource )
-    {
-        if ( method_exists( $element, "setResourceRelation" ) )
-            $element->setResourceRelation( $relatedResource );
-//         $relation_list =& $this->RelatedResources[$relatedResource];
-//         if ( !is_array( $relation_list ) )
-//             $relation_list = array();
-//         $relation_list[] =& $element;
-    }
+//     function setResourceRelation( &$element, $relatedResource )
+//     {
+//         if ( method_exists( $element, "setResourceRelation" ) )
+//             $element->setResourceRelation( $relatedResource );
+// //         $relation_list =& $this->RelatedResources[$relatedResource];
+// //         if ( !is_array( $relation_list ) )
+// //             $relation_list = array();
+// //         $relation_list[] =& $element;
+//     }
 
-    function setTemplateNameRelation( &$element, $relatedTemplateName )
-    {
-        if ( method_exists( $element, "setTemplateNameRelation" ) )
-            $element->setTemplateNameRelation( $relatedTemplateName );
-//         $relation_list =& $this->RelatedNames[$relatedTemplateName];
-//         if ( !is_array( $relation_list ) )
-//             $relation_list = array();
-//         $relation_list[] =& $element;
-    }
+//     function setTemplateNameRelation( &$element, $relatedTemplateName )
+//     {
+//         if ( method_exists( $element, "setTemplateNameRelation" ) )
+//             $element->setTemplateNameRelation( $relatedTemplateName );
+// //         $relation_list =& $this->RelatedNames[$relatedTemplateName];
+// //         if ( !is_array( $relation_list ) )
+// //             $relation_list = array();
+// //         $relation_list[] =& $element;
+//     }
 
     function hasChildren( &$function, $functionName )
     {
@@ -1768,8 +1775,8 @@ class eZTemplate
 
     var $AutoloadPathList;
 
-    var $CurrentRelatedResource;
-    var $CurrentRelatedTemplateName;
+//     var $CurrentRelatedResource;
+//     var $CurrentRelatedTemplateName;
 }
 
 ?>
