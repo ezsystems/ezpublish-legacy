@@ -266,6 +266,8 @@ eZINI:
   http://ez.no/community/bug_reports/user_settings_and_no_access_canedit
 - Fixed wrong chmod example in the setup wizard.
   http://ez.no/community/bug_reports/installer_chmod_example_grants_everyone_access
+- Fixed bug with tmp_notification_rule_s for PostgreSQL not being cleaned up
+  in the setup wizard.
 
 *Library:
 
