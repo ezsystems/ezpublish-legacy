@@ -713,7 +713,10 @@ class eZPDFTable extends Cezpdf
 
                                         $this->y = $storeY;
                                         $line=$textInfo['text'];
-                                        $this->y -= $textInfo['height'];
+					if ( $line == '' )
+					  {
+					    $this->y -= $textInfo['height'];
+					  }
                                     }
                                 }
                             }
