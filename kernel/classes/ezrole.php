@@ -87,7 +87,8 @@ class eZRole extends eZPersistentObject
     */
     function attributes()
     {
-        return eZPersistentObject::attributes();
+        return array_merge( eZPersistentObject::attributes(),
+                            array( 'limit_identifier', 'limit_value' ) );
     }
 
     /*!
