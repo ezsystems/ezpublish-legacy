@@ -84,6 +84,10 @@ eZ MIMEType:
 
 eZ Debug:
 
+eZ Template:
+- Fixed a major bug in the si operator, the calculations and prefixes
+  were wrong in many cases. (Merged from stable/3.2 rev. 6350)
+
 *Translations:
 - Updated the ger-DE translation.
 
