@@ -199,6 +199,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $domString = preg_replace( "#<paragraph>&nbsp;</paragraph>#", "<paragraph />", $domString );
                 $domString = preg_replace( "#<paragraph></paragraph>#", "", $domString );
 
+                $domString = preg_replace( "#[\n]+#", "", $domString );
+                eZDebug::writeDebug($domString, "domstring");
                 $xml = new eZXML();
                 $tmpDom =& $xml->domTree( $domString, array( 'CharsetConversion' => false ) );
 //                 $domString = $tmpDom->toString();
@@ -1307,6 +1309,9 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             case '#text' :
             {
                 $output .= $tag->content();
+                // Get rid of linebreak and spaces stored in xml file
+                $output = preg_replace( "#[\n]+#", "", $output );
+                $output = preg_replace( "#    #", "", $output );
             }break;
 
             case 'object' :

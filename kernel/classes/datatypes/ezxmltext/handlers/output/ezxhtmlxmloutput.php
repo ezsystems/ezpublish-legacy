@@ -200,6 +200,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             case '#text' :
             {
                 $tagText .= $tag->content();
+                // Get rid of linebreak and spaces stored in xml file
+                $tagText = preg_replace( "#[\n]+#", "", $tagText );
+                $tagText = preg_replace( "#    #", "", $tagText );
             }break;
 
             case 'object' :
