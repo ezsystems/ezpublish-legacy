@@ -286,7 +286,7 @@ class eZDB
             $repositoryDirectories = array();
             foreach ( $extensionDirectories as $extDir )
             {
-                $newRepositoryDir = "$baseDirectory/$extDir/lib/ezdb/classes/";
+                $newRepositoryDir = "$baseDirectory/$extDir/ezdb/dbms-drivers/";
                 if ( file_exists( $newRepositoryDir ) )
                     $repositoryDirectories[] = $newRepositoryDir;
             }
