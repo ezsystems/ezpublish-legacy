@@ -13,24 +13,28 @@ U+0008 = U+0020
 
 nonwords_search_normalize:
 # Turns some special characters into spaces
-U+003A = U+0020 # colon :
-U+003B = U+0020 # semi-colon ;
-U+002C = U+0020 # comma ,
+U+003A = U+0020 # Colon :
+U+003B = U+0020 # Semi-colon ;
+U+002C = U+0020 # Comma ,
 U+0028 = U+0020 # parenthesis start (
 U+0029 = U+0020 # parenthesis end )
-U+002D = U+0020 # minus sign -
-U+002B = U+0020 # plus sign +
-U+002F = U+0020 # slash /
-U+005B = U+0020 # square bracket start [
-U+005D = U+0020 # square bracket end ]
-U+002F = U+0020 # dollar sign $
-U+005C = U+0020 # back slash \
-U+003C = U+0020 # angular bracket start <
-U+003E = U+0020 # angular bracket end
-U+003D = U+0020 # equal sign =
-U+0027 = U+0020 # apostrophe '
-U+00B4 = U+0020 # accute accent ´
-U+0060 = U+0020 # grave accent `
+U+002D = U+0020 # Hyphen minus -
+U+002B = U+0020 # Plus sign +
+U+002F = U+0020 # Slash /
+U+005B = U+0020 # Square bracket start [
+U+005D = U+0020 # Square bracket end ]
+U+002F = U+0020 # Dollar sign $
+U+005C = U+0020 # Back slash \
+U+003C = U+0020 # Angular bracket start <
+U+003E = U+0020 # Angular bracket end
+U+003D = U+0020 # Equal sign =
+U+0027 = U+0020 # Apostrophe '
+U+00B4 = U+0020 # Accute accent ´
+U+0060 = U+0020 # Grave accent `
+
+specialwords_search_normalize:
+U+00AA = "a"  # feminine ordinal indicator (spanish)
+U+00BA = "o"  # masculine ordinal indicator (spanish)
 
 punctuation_normalize:
 # Turn some symbols which are considered punctuations marks into
@@ -40,7 +44,7 @@ U+003F = U+002E # question mark ?
 U+002C = U+002E # comma ,
 
 special_to_space:
-# Map some special characters into spaces, may be useful for search etc.
+# Map some special characters into spaces, needed for search engine
 U+00BC - U+00BE = U+0020 # 1/4, 1/2 and 3/4
 U+00A2 - U+00A7 = U+0020 # Cent, pound, currency, yen, broken sign, section
 U+00AC = U+002D  # Not sign
@@ -49,3 +53,32 @@ U+00B5 = U+0020  # Micron sign
 U+00B6 = U+0020  # Pillcrow sign
 U+00B7 = U+0020  # Middle dot
 U+00B8 = U+0020  # Cedilla
+U+00A6 = U+0020  # Broken bar
+U+00A7 = U+0020  # Paragraph
+U+00A8 = remove  # Diaresis
+U+00B0 = U+0020  # Degree sign
+U+00A9 = U+0020  # Copyright sign
+U+00AE = U+0020  # Registered sign
+
+U+0023 = U+0020  # Number sign / hash
+U+0024 = U+0020  # Dollar sign
+U+0026 = U+0020  # Ampersand
+U+005E = U+0020  # Circumflex accent
+U+005F = U+0020  # Low line
+U+007B = U+0020  # Left curly bracket
+U+007D = U+0020  # Right curly bracket
+U+007C = U+0020  # Vertical line
+U+0040 = U+0020  # Commercial at
+
+U+0080 - U+009F = U+0020 # C1 control characters
+
+latin_search_decompose:
+U+00B1 = "+-"    # Plus/minus sign
+U+00B2 = "2"     # Superscript two
+U+00B3 = "3"     # Superscript three
+U+00B9 = "1"     # Superscript one
+U+00BA = "1"     # Superscript one
+U+00BC = "1/4"   # Vulgar fraction one quarter
+U+00BD = "1/2"   # Vulgar fraction one half
+U+00BE = "3/4"   # Vulgar fraction three quarter
+

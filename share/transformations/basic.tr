@@ -20,6 +20,8 @@
 #
 
 space_normalize:
+U+202F = U+00A0 # Narrow no-break space => No-break space
+U+FEFF = U+00A0 # Zero width no-break space => No-break space
 U+00A0 = U+0020 # Turn non-breaking-space into normal space
 #U+00BC - U+00B = U+0020 # test of parser error detection
 #U+0041 - U+005G + 20 # test of parser error detection
@@ -54,7 +56,8 @@ U+00B1 = "+-"  # Plus/minus sign
 U+00B2 = "2"   # Superscript two
 U+00B3 = "3"   # Superscript three
 U+00B9 = "1"   # Superscript one
+U+00BA = "1"   # Superscript one
 U+00BC = "1/4"   # Vulgar fraction one quarter
-U+00BC = "1/2"   # Vulgar fraction one half
-U+00BC = "3/4"   # Vulgar fraction three quarter
+U+00BD = "1/2"   # Vulgar fraction one half
+U+00BE = "3/4"   # Vulgar fraction three quarter
 
