@@ -476,3 +476,8 @@ Caching
 -------------
 See if we can create smarter HTTP cache handling, for instance it could be possible to enable caching for
 some sites.
+
+Template engine
+---------------
+- Whitespace handling, improve to allow whitespace more places eg. let a = 1 etc..
+
