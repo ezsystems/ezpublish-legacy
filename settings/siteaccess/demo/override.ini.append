@@ -131,9 +131,21 @@ Source=node/view/full.tpl
 MatchFile=file.tpl
 Subdir=templates
 
-[comment_edit]
+[forumedit]
 Source=content/edit.tpl
-MatchFile=comment_edit.tpl
+MatchFile=forumedit.tpl
+Subdir=templates
+Match[class]=7
+
+[productedit]
+Source=content/edit.tpl
+MatchFile=productedit.tpl
+Subdir=templates
+Match[class]=9
+
+[commentedit]
+Source=content/edit.tpl
+MatchFile=commentedit.tpl
 Subdir=templates
 Match[class]=13
 */ ?>

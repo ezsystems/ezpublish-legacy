@@ -47,8 +47,8 @@ news_list=fetch( content, list, hash(
 
 <table class="mainlayout" width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>
-    <td colspan="2" width="100%">
-        <a href={"content/view/full/33"|ezurl}><img src={"mycompanylogo.jpg"|ezimage} width="700" height="68" alt="My company - business" border="0" /><img src={"speed.jpg"|ezimage} height="68"  alt="" /></a>
+    <td colspan="2">
+        <a href={"content/view/full/33"|ezurl}><img src={"mycompanylogo.jpg"|ezimage} width="700" height="68" alt="My company - business" border="0" /></a>
     </td>
 </tr>
 <tr>

@@ -54,7 +54,7 @@
     <div class="buttonblock">
     <input type="hidden" name="NodeID" value="{$node.node_id}" />
     <input class="button" type="submit" name="NewButton" value="New reply" />
-    <input type="hidden" name="ClassID" value="8" />
+    <input type="hidden" name="ClassID" value="7" />
     <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
     </div>
 {/section}
