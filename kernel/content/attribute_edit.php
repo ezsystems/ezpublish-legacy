@@ -100,16 +100,21 @@ $validation = array( 'processed' => false,
 
 /********** Custom Action Code Start ***************/
 $customAction = false;
-$customActionAttributeID = null;
+$customActionAttributeArray = array();
 // Check for custom actions
 if ( $http->hasPostVariable( "CustomActionButton" ) )
 {
     $customActionArray = $http->postVariable( "CustomActionButton" );
-    $customActionString = key( $customActionArray );
+    foreach ( $customActionArray as $customActionKey => $customActionValue )
+    {
+        $customActionString = $customActionKey;
 
-    $customActionAttributeID = preg_match( "#^([0-9]+)_(.*)$#", $customActionString, $matchArray );
-    $customActionAttributeID = $matchArray[1];
-    $customAction = $matchArray[2];
+        $customActionAttributeID = preg_match( "#^([0-9]+)_(.*)$#", $customActionString, $matchArray );
+        $customActionAttributeID = $matchArray[1];
+        $customAction = $matchArray[2];
+        $customActionAttributeArray[$customActionAttributeID] = array( 'id' => $customActionAttributeID,
+                                                                       'value' => $customAction );
+    }
 }
 /********** Custom Action Code End ***************/
 $storeActions = array( 'Preview',
@@ -195,8 +200,10 @@ if ( $storingAllowed )
             $requireStoreAction= true;
         }
 /********** Custom Action Code Start ***************/
-        if ( $customActionAttributeID == $contentObjectAttribute->attribute( "id" ) )
+        if ( isset( $customActionAttributeArray[$contentObjectAttribute->attribute( "id" )] ) )
         {
+            $customActionAttributeID = $customActionAttributeArray[$contentObjectAttribute->attribute( "id" )]['id'];
+            $customAction = $customActionAttributeArray[$contentObjectAttribute->attribute( "id" )]['value'];
             $contentObjectAttribute->customHTTPAction( $http, $customAction, array( 'module' => &$Module,
                                                                                     'current-redirection-uri' => $currentRedirectionURI ) );
         }
