@@ -118,7 +118,7 @@ class eZStepRegistration extends eZStepInstaller
         $testTable = eZSetupTestTable();
 
         $arguments = array();
-        $runResult = eZSetupRunTests( $optionalTests, $arguments, 'eZSetup:init:send_registration' );
+        $runResult = eZSetupRunTests( $optionalTests, $arguments, 'eZSetup:init:send_registration', $this->PersistenceList );
         $testResults = $runResult['results'];
         $testResult = $runResult['result'];
         $successCount = $runResult['success_count'];
@@ -235,7 +235,7 @@ class eZStepRegistration extends eZStepInstaller
         $testTable = eZSetupTestTable();
 
         $arguments = array();
-        $runResult = eZSetupRunTests( $optionalTests, $arguments, 'eZSetup:init:send_registration' );
+        $runResult = eZSetupRunTests( $optionalTests, $arguments, 'eZSetup:init:send_registration', $this->PersistenceList );
         $testResults = $runResult['results'];
         $testResult = $runResult['result'];
         $successCount = $runResult['success_count'];

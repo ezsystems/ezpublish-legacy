@@ -149,6 +149,10 @@ eZINI:
   http://ez.no/community/bug_reports/problem_with_sql_update_file_dbupdate_3_3_5_to_3_3_6_sql
 - Fixed bug with incorrect user identification in ezapprove workflow event when run it from cronjobs.
   http://ez.no/community/bug_reports/workflow_approve_and_author
+- Fixed bug: "Registration" setup step didn't notice that convert program
+  (included into Imagemagick) had been found in path entered by user. 
+  http://ez.no/community/bug_reports/setup_registration_email_problem
+
 *Library:
 
 eZ Locale:
