@@ -3,6 +3,17 @@ Changes from 3.5.0 to 3.5.1
 NOTE: Only put changes that are for 3.5.1 in here, changes that are done in 3.5.0 and merged
       to 3.5.1 should not be present
 
+*Datatypes:
+
+eZ Identifier:
+- Fixed: Aqcuiring a unique ID is now done the first time an object is created
+  and not only when it is created.
+  (Merged from stable/3.4 (3.4.5) rev. 10568)
+- Fixed: Acquiring a new unique ID is not present in previous versions.
+  (Merged from stable/3.4 (3.4.5) rev. 10568)
+- Fixed: Sort key were not in lowercase.
+  (Merged from stable/3.4 (3.4.5) rev. 10568)
+
 *Bugfixes
 - Fixed doxygen comment in ezrole.
   http://ez.no/community/bug_reports/ezrole_createtemporaryversion_claims_to_be_static_but_isn_t
@@ -40,6 +51,8 @@ NOTE: Only put changes that are for 3.5.1 in here, changes that are done in 3.5.
 - Fixed bug #6030: Wrong function's name in workflow/edit.php.
 - Fixed: Some windows-* character-sets were missing from transformation.ini,
   they will now load the latin transformation file when used.
+- Fixed: Adding eZ Identifier datatype does not generate ID for existing objects (Bug #6109)
+  (Merged from stable/3.4 (3.4.5) rev. 10568)
 
 *Templates:
 - Added nl2br operator to eztext view output to keep newlines in textfield datatype.

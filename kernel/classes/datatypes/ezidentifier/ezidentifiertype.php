@@ -241,18 +241,30 @@ class eZIdentifierType extends eZDataType
 
 
     /*!
-      The value should be created and incremented when the object is published.
-      No id will be generated for draft. ID should also only be generated for
-      the first published version.
+     \reimp
+    */
+    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    {
+        $contentObjectAttributeID = $originalContentObjectAttribute->attribute( "id" );
+        $version = $contentObjectAttribute->attribute( "version" );
+        if ( $currentVersion == false )
+        {
+            // If this is not a copy we need to see if a unique ID must be
+            // assigned. This is handled in assignValue().
+            $contentClassAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
+            $ret = eZIdentifierType::assignValue( $contentClassAttribute, $contentObjectAttribute );
+        }
+    }
+
+    /*!
+      When published it will check if it needs to aquire a new unique identifier, if so
+      it updates all existing versions with this new identifier.
     */
     function onPublish( &$contentObjectAttribute, &$contentObject, &$publishedNodes )
     {
         $contentClassAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
-
-        // fetch the root node
         $ret = eZIdentifierType::assignValue( $contentClassAttribute, $contentObjectAttribute );
 
-        $contentObjectAttribute->store();
         return $ret;
     }
 
@@ -263,13 +275,28 @@ class eZIdentifierType extends eZDataType
     function assignValue( &$contentClassAttribute, &$contentObjectAttribute )
     {
 
-        $retValue = true;
+        $retValue = false;
         $ret = array();
         $version = $contentObjectAttribute->attribute( 'version' );
         $contentClassID = $contentClassAttribute->attribute( 'id' );
-        if ( $version == 1 )
+        $objectID = (int)$contentObjectAttribute->attribute( 'contentobject_id' );
+        $classAttributeID = (int)$contentObjectAttribute->attribute( 'contentclassattribute_id' );
+
+        $db =& eZDB::instance();
+
+        $existingIDs = $db->arrayQuery( "SELECT data_int\n" .
+                                        "FROM   ezcontentobject_attribute\n" .
+                                        "WHERE  contentobject_id = $objectID AND\n" .
+                                        "       contentclassattribute_id = $classAttributeID AND\n" .
+                                        "       data_type_string = 'ezidentifier' AND\n" .
+                                        "       data_int != 0" );
+        if ( count( $existingIDs ) > 0 )
         {
-            $db =& eZDB::instance();
+            $identifierValue = $existingIDs[0]['data_int'];
+            $ret[] = eZIdentifierType::storeIdentifierValue( $contentClassAttribute, $contentObjectAttribute, $identifierValue );
+        }
+        else
+        {
             $db->begin();
 
             // Ensure that we don't get another identifier with the same id.
@@ -287,6 +314,24 @@ class eZIdentifierType extends eZDataType
 
             $ret[] = $db->query( $updateQuery );
             $ret[] = eZIdentifierType::storeIdentifierValue( $contentClassAttribute, $contentObjectAttribute, $identifierValue );
+
+            if ( !in_array( false, $ret ) )
+            {
+                // Now make sure all existing versions (if any) gets the same identifier
+                $dataText = $db->escapeString( $contentObjectAttribute->attribute( 'data_text' ) );
+                $dataInt = (int)$contentObjectAttribute->attribute( 'data_int' );
+
+                include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+                $trans =& eZCharTransform::instance();
+                $sortText = $db->escapeString( $trans->transformByGroup( $contentObjectAttribute->attribute( 'data_text' ),
+                                                                         'lowercase' ) );
+
+                $db->query( "UPDATE ezcontentobject_attribute\n" .
+                            "SET    data_text = '$dataText', data_int = $dataInt, sort_key_string = '$sortText'\n" .
+                            "WHERE  contentobject_id = $objectID AND\n" .
+                            "       contentclassattribute_id = $classAttributeID AND\n" .
+                            "       data_type_string = 'ezidentifier'" );
+            }
 
             if ( !in_array( false, $ret ) )
                 $db->commit();
@@ -307,7 +352,9 @@ class eZIdentifierType extends eZDataType
     */
     function sortKey( &$contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( 'data_text' );
+        include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+        $trans =& eZCharTransform::instance();
+        return $trans->transformByGroup( $contentObjectAttribute->attribute( 'data_text' ), 'lowercase' );
     }
 
     /*!
