@@ -1,5 +1,5 @@
 <div class="maincontentheader">
-<h1>{"Order list"|i18n}</h1>
+<h1>{"Order list"|i18n("shop")}</h1>
 </div>
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">

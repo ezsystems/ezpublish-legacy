@@ -11,7 +11,7 @@
 {/section}
 
 <div class="buttonblock">
-<input type="submit" name="StoreButton" value="{Store|i18n}" />
-<input type="submit" name="CancelButton" value="{Cancel|i18n}" />
+<input type="submit" name="StoreButton" value="{Store|i18n('content/create')}" />
+<input type="submit" name="CancelButton" value="{Cancel|i18n('content/create')}" />
 </div>
 </form>

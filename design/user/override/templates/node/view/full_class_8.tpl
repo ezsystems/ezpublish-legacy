@@ -59,7 +59,7 @@
 {section show=$is_editable}
 <br />
 <input type="hidden" name="NodeID" value="{$node.node_id}" />
-<input class="button" type="submit" name="NewButton" value="{"New reply"|i18n}" />
+<input class="button" type="submit" name="NewButton" value="{'New reply'|i18n('forummessage')}" />
 <input type="hidden" name="ClassID" value="8" />
 
 <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />

@@ -16,8 +16,8 @@
     <td width="100%" valign="top" bordercolor="#FFFFFF" bgcolor="#FFFFFF" class="links">
     <strong>{attribute_view_gui attribute=$map.title}</strong><br />
     {attribute_view_gui attribute=$map.photo border_size=1 hspace=10 alignment=right image_class=medium}
-    <strong class="small">{"Our Price"|i18n('bookstore')}:</strong> <span class="small">{attribute_view_gui attribute=$map.price}</span><br/>
-    <strong class="small">{"Product nr."|i18n('bookstore')}:</strong> <span class="small">{attribute_view_gui attribute=$map.product_nr}</span><br/>
+    <strong class="small">{"Our Price"|i18n("bookstore")}:</strong> <span class="small">{attribute_view_gui attribute=$map.price}</span><br/>
+    <strong class="small">{"Product nr."|i18n("bookstore")}:</strong> <span class="small">{attribute_view_gui attribute=$map.product_nr}</span><br/>
     <br />
 
     {attribute_view_gui attribute=$map.intro}
@@ -65,7 +65,7 @@
 
 {section show=$is_editable}
 <input type="hidden" name="NodeID" value="{$node.node_id}" />
-<input class="button" type="submit" name="NewButton" value="{"New review"|i18n}" />
+<input class="button" type="submit" name="NewButton" value="{'New review'|i18n('bookstore')}" />
 <input type="hidden" name="ClassID" value="23" />
 
 <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />

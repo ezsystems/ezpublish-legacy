@@ -1,7 +1,7 @@
 <form method="post" action={"/shop/basket/"|ezurl}>
 
 <div class="maincontentheader">
-<h1>{"Basket"|i18n}</h1>
+<h1>{"Basket"|i18n("shop")}</h1>
 </div>
 
 {section name=Basket show=$basket.items|gt(0)}

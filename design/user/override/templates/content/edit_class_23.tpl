@@ -30,7 +30,7 @@
     {section name=Node loop=$assigned_node_array}
     <tr>
         <td>
-        <span class="normal">{"Reply to"|i18n}: {$Node:item.parent_node_obj.name}</span>
+        <span class="normal">{"Reply to"|i18n("productreview")}: {$Node:item.parent_node_obj.name}</span>
         <input type="hidden" name="MainNodeID" value="{$Node:item.parent_node}" />
         </td>
     </tr>
@@ -46,8 +46,8 @@
     {/section}
 
     <div class="buttonblock">
-    <input class="button" type="submit" name="PreviewButton" value="{'Preview'|i18n('content/object')}" />
-    <input class="button" type="submit" name="CancelButton" value="{'Discard'|i18n('content/object')}" />
+    <input class="button" type="submit" name="PreviewButton" value="{'Preview'|i18n('productreview')}" />
+    <input class="button" type="submit" name="CancelButton" value="{'Discard'|i18n('productreview')}" />
     </div>
     <!-- Left part end -->
     </td>

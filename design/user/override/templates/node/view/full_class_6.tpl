@@ -11,10 +11,10 @@
 <table width="100%" cellspacing="1" cellpadding="4" bgcolor="#000000">
 <tr>
     <th bgcolor="#FF9900">
-    <span class="small">{"Topic"|i18n}</span>
+    <span class="small">{"Topic"|i18n("forum")}</span>
     </th>
     <th bgcolor="#FF9900">
-    <span class="small">{"Posted"|i18n}</span>
+    <span class="small">{"Posted"|i18n("forum")}</span>
     </th>
 </tr>
 {section name=Message loop=fetch('content','list',hash(parent_node_id,$node.node_id,limit,$page_limit,offset,$view_parameters.offset)) sequence=array(FDF4D9,FDF1CE)}
@@ -43,7 +43,7 @@
 {section show=$is_editable}
 <br />
 <input type="hidden" name="NodeID" value="{$node.node_id}" />
-<input class="button" type="submit" name="NewButton" value="{"New topic"|i18n}" />
+<input class="button" type="submit" name="NewButton" value="{"New topic"|i18n('forum')}" />
 <input type="hidden" name="ClassID" value="8" />
 
 <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />

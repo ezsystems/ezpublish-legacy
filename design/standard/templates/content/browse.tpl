@@ -1,6 +1,6 @@
 <form action={concat($return_url)|ezurl} method="post">
 <div class="maincontentheader">
-<h1>{"Browse"|i18n}</h1>
+<h1>{"Browse"|i18n("content/browse")}</h1>
 </div>
 <table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>

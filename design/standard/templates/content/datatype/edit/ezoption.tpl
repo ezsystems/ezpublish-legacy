@@ -9,6 +9,6 @@
 {/section}
 </div>
 <div class="buttonblock">
-<input class="smallbutton" type="submit" name="CustomActionButton[{$attribute.id}_new_option]" value="{'New option'|i18n}" />
-<input class="smallbutton" type="submit" name="CustomActionButton[{$attribute.id}_remove_selected]" value="{'Remove Selected'|i18n}" />
+<input class="smallbutton" type="submit" name="CustomActionButton[{$attribute.id}_new_option]" value="{'New option'|i18n('content/datatypes/ezoption')}" />
+<input class="smallbutton" type="submit" name="CustomActionButton[{$attribute.id}_remove_selected]" value="{'Remove Selected'|i18n('content/datatypes/ezoption')}" />
 </div>

@@ -5,12 +5,12 @@
 </div>
 
 <div class="block">
-<label>{"Maximum login"|i18n}:</label><div class="labelbreak"></div>
+<label>{"Maximum login"|i18n("user")}:</label><div class="labelbreak"></div>
 <input type="text" name="max_login" size="11" value="{$userSetting.max_login}" />
 </div>
 
 <div class="block">
-<input type="checkbox" name="is_enabled" {section show=$userSetting.is_enabled}checked{/section} >&nbsp;<label class="check">{"Is enabled"|i18n}</label><div class="labelbreak"></div>
+<input type="checkbox" name="is_enabled" {section show=$userSetting.is_enabled}checked{/section} >&nbsp;<label class="check">{"Is enabled"|i18n("user")}</label><div class="labelbreak"></div>
 </div>
 
 <div class="buttonblock">

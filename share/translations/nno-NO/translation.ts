@@ -13,6 +13,28 @@
         <source>m.nam</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>New review</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>class/datatype</name>
+    <message>
+        <source>New Enum Element</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove Selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>content/browse</name>
+    <message>
+        <source>Browse</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>content/class</name>
@@ -94,10 +116,21 @@
     </message>
     <message>
         <source>Percentage</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Defined workflow groups</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>content/create</name>
+    <message>
+        <source>=&quot;{Stor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ue=&quot;{Cance</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -258,9 +291,28 @@
     </message>
 </context>
 <context>
-    <name>content/edit/image</name>
+    <name>content/datatypes/ezauthor</name>
     <message>
-        <source>Image filename</source>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>E-mail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New author</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove Selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>content/datatypes/ezbinaryfile</name>
+    <message>
+        <source>Filename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -277,6 +329,109 @@
     </message>
     <message>
         <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>content/datatypes/ezmedia</name>
+    <message>
+        <source>Filename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Width</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Height</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Quality</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Autoplay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Controller</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Controls</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Existing filename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Existing orignal filename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Existing mime/type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>content/datatypes/ezobjectrelation</name>
+    <message>
+        <source>Find object</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>content/datatypes/ezoption</name>
+    <message>
+        <source>New option</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove Selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>content/edit/image</name>
+    <message>
+        <source>Image filename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Existing filename</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Existing orignal filename</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Existing mime/type</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Remove image</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>content/node/view</name>
+    <message>
+        <source>m.nam</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -340,7 +495,7 @@
     </message>
     <message>
         <source>Placement</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Sort by</source>
@@ -352,15 +507,15 @@
     </message>
     <message>
         <source>Add placement(s)</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Remove placement</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Move placement</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Preview</source>
@@ -450,11 +605,77 @@
         <source>Find object</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ordering</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Main</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add location(s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Created</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not yet published</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>draft/list</name>
     <message>
         <source>My drafts</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>forum</name>
+    <message>
+        <source>Topic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Posted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New topic</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>forummessage</name>
+    <message>
+        <source>Reply to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New reply</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -485,6 +706,21 @@
     </message>
     <message>
         <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>productreview</name>
+    <message>
+        <source>Reply to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discard</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -533,6 +769,34 @@
     </message>
     <message>
         <source>Store</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Basket</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Order list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Order</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VAT Types</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Percentage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wish list</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -652,6 +916,48 @@
     <name>trigger/list</name>
     <message>
         <source>Triggers list</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>undefinedmodule</name>
+    <message>
+        <source>Module load failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Undefined module: </source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>user</name>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>e-mail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Old Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Retype Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Is enabled</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

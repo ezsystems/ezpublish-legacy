@@ -5,7 +5,7 @@
 </div>
 
 <div class="block">
-<label>{"Login"|i18n}</label><div class="labelbreak"></div>
+<label>{"Login"|i18n("user")}</label><div class="labelbreak"></div>
 <p class="box">{$userAccount.login}</p>
 </div>
 
@@ -17,7 +17,7 @@
 {/section}
 
 <div class="block">
-<label>{"e-mail"|i18n}:</label><div class="labelbreak"></div>
+<label>{"e-mail"|i18n("user")}:</label><div class="labelbreak"></div>
 <input class="box" type="text" name="email" size="20" value="{$userAccount.email}" />
 </div>
 

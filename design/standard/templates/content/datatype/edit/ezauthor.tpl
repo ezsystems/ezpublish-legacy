@@ -1,10 +1,10 @@
 <table class="list" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<th>
-	{"Name"|i18n}:
+	{"Name"|i18n("content/datatypes/ezauthor")}:
 	</th>
 	<th colspan="2">
-	{"E-mail"|i18n}:
+	{"E-mail"|i18n("content/datatypes/ezauthor")}:
 	</th>
 </tr>
 {section name=Author loop=$attribute.content.author_list sequence=array(bglight,bgdark) }
@@ -24,6 +24,6 @@
 </table>
 
 <div class="buttonblock">
-<input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new_author]" value="{'New author'|i18n}" />
-<input class="button" type="submit" name="CustomActionButton[{$attribute.id}_remove_selected]" value="{'Remove Selected'|i18n}" />
+<input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new_author]" value="{'New author'|i18n('content/datatypes/ezauthor')}" />
+<input class="button" type="submit" name="CustomActionButton[{$attribute.id}_remove_selected]" value="{'Remove Selected'|i18n('content/datatypes/ezauthor')}" />
 </div>

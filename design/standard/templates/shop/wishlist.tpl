@@ -1,7 +1,7 @@
 <form method="post" action={"/shop/wishlist/"|ezurl}>
 
 <div class="maincontentheader">
-<h1>{"Wish list"|i18n}</h1>
+<h1>{"Wish list"|i18n("shop")}</h1>
 </div>
 
 {section show=$wish_list.items}
