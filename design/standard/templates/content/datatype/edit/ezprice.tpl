@@ -2,6 +2,8 @@
 {default attribute_base=ContentObjectAttribute}
 <input type="text" name="{$attribute_base}_data_price_{$attribute.id}" size="12" value="{$attribute.content.price|l10n( clean_currency )}" />
 {section show=$attribute.class_content.is_vat_included}
+{* Entered price already includes VAT. *}
+{section-else}
 &nbsp;(+ {$attribute.class_content.vat_type[0].name}, {$attribute.class_content.vat_type[0].percentage}%)
 {/section}
 {/default}
