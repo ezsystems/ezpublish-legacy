@@ -91,6 +91,16 @@ if ! grep "VERSION_PREVIOUS=\"$PREVIOUS_VERSION\"" bin/shell/common.sh &>/dev/nu
     [ -n "$EXIT_AT_ONCE" ] && exit 1
 fi
 
+if ! grep "DEVELOPMENT=\"$DEVELOPMENT\"" bin/shell/common.sh &>/dev/null; then
+    echo "`$SETCOLOR_FAILURE`Development type mismatch`$SETCOLOR_NORMAL`"
+    echo "Wrong development type in `$SETCOLOR_EXE`bin/shell/common.sh`$SETCOLOR_NORMAL` for variable DEVELOPMENT"
+    echo "Should be:"
+    echo "DEVELOPMENT=\"`$SETCOLOR_EMPHASIZE`$DEVELOPMENT`$SETCOLOR_NORMAL`\""
+    echo
+    MAIN_ERROR="1"
+    [ -n "$EXIT_AT_ONCE" ] && exit 1
+fi
+
 # lib/version.php
 
 if ! grep "define( \"EZ_SDK_VERSION_MAJOR\", $MAJOR );" lib/version.php &>/dev/null; then
