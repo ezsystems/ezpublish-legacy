@@ -51,6 +51,7 @@ include_once( "kernel/classes/ezcontentobjectattribute.php" );
 include_once( "kernel/classes/ezcontentclass.php" );
 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 include_once( "kernel/classes/eznodeassignment.php" );
+include_once( "kernel/classes/ezcontenttranslation.php" );
 
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
