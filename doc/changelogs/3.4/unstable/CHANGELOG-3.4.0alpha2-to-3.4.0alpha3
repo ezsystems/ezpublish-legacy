@@ -125,6 +125,8 @@ eZFile:
   http://ez.no/community/bug_reports/rates_fetch_in_template_does_not_work
 - Fixed bug with not-finished translations and positional replacements.
   http://ez.no/community/bug_reports/i18n_template_operator_with_non_eng_gb_translation
+- Fixed typo in include file in rssimport cronjob. (Merged from 3.3, rev. 6040)
+  http://ez.no/community/bug_reports/typo_in_rssimport_php
 
 *Update
 
