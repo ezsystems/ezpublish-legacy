@@ -59,7 +59,8 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
     {
         $parameters = $process->attribute( 'parameter_list' );
         $object =& eZContentObject::fetch( $parameters['object_id'] );
-        $objectAttributes = $object->attribute( 'contentobject_attributes' );
+        $version =& $object->version( $parameters['version'] );
+        $objectAttributes = $version->attribute( 'contentobject_attributes' );
         $waitUntilDateObject =& $this->workflowEventContent( $event );
         $waitUntilDateEntryList = $waitUntilDateObject->attribute( 'classattribute_id_list' );
         eZDebug::writeDebug( 'executing publish on time event' );

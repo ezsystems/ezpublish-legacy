@@ -1,6 +1,7 @@
 Changes from 3.1-1 to 3.2.0-1
 
 *Kernel:
+- Fixed bug in dealyed publishing workflow when re-publishing an object
 - Added missing include to ezworkflowtype.php
 - Added new datatype eZSelection, which is made as a replacement for enum. It's faster and simpler to work with.
 - Fixed fallback to default siteaccess when requested access does not exist
