@@ -23,7 +23,7 @@
 
     <div class="block">
         <label>{"Image preview"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
-        {attribute_view_gui image_class=medium attribute=$attribute}
+        {attribute_view_gui image_class=ezini( 'ImageSettings', 'DefaultEditAlias', 'content.ini' ) attribute=$attribute}
     </div>
     <div class="block">
         <label>{"Original filename for image"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
