@@ -24,6 +24,10 @@ if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
 {
     function &ezi18n( $context, $source, $comment = null )
         {
+            $language =& ezcurrentLanguage();
+            if ( $language == "eng-GB" ) // eng-GB does not need translation
+                return $source;
+
             $man =& eZTranslatorManager::instance();
 
             // Bork translation: use this to verify that translation works.
@@ -34,7 +38,6 @@ if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
             $man->registerHandler( $borktr );
             // END bork translation
 
-            $language =& ezcurrentLanguage();
             eZTSTranslator::initialize( $language . '/translation.ts' );
             $trans =& $man->translate( $context, $source, $comment );
             if ( $trans !== null )
