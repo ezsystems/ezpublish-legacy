@@ -653,22 +653,7 @@ class eZDebug
         if ( !eZINI::isLoaded() )
             return true;
         $ini =& eZINI::instance();
-
-//        $debugIPArray = $ini->variable( "DebugSettings", "DebugIPList" );
-        $debugIPArray = $ini->variableArray( "DebugSettings", "DebugIPList" );
         $debugEnabled = true;
-        if ( !in_array( "any", $debugIPArray ) )
-        {
-            if ( in_array( eZSys::serverVariable( 'REMOTE_ADDR', true ), $debugIPArray ) )
-            {
-            }
-            else if ( in_array( "disabled", $debugIPArray ) )
-            {
-                $debugEnabled = false;
-                $debug =& eZDebug::instance();
-                $debug->reset();
-            }
-        }
         return $debugEnabled;
     }
 

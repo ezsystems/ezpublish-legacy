@@ -838,7 +838,9 @@ class eZINI
         if ( $class != "ezini" )
         {
             $isLoaded = false;
+
             $impl = new eZINI( $fileName, $rootDir, $useTextCodec, $useCache );
+
             $isLoaded = true;
         }
         return $impl;
