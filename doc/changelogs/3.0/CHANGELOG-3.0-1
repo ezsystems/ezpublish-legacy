@@ -99,6 +99,7 @@ eZ utils:
   a HTTP/1.1 compatible redirect string, is to be used instead of pure header().
 - New class eZExpiryHandler which keeps track of expiry timestamps which can be
   used for cache handlers.
+- Made sure the result from getPathFromFilename() in eZDir does not contain extra slash at the end.
 
 eZ PHP creator:
 - Added support for end-of-line comments.

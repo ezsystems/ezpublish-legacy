@@ -75,6 +75,31 @@ class eZImageVariation extends eZPersistentObject
                       "name" => "ezimagevariation" );
     }
 
+    function &createOriginal( $contentObjectAttributeID, $version, $filename, $additionalPath )
+    {
+        $row = array( 'contentobject_attribute_id' => $contentObjectAttributeID,
+                      'version' => $version,
+                      'filename' => $filename,
+                      'additional_path' => $additionalPath );
+        $variation = new eZImageVariation( $row );
+        $fullPath = $variation->attribute( 'full_path' );
+        if ( file_exists( $fullPath ) and
+             function_exists( 'getimagesize' ) )
+        {
+            $info = getimagesize( $fullPath );
+            if ( $info )
+            {
+                $width = $info[0];
+                $height = $info[1];
+                $variation->setAttribute( 'width', $width );
+                $variation->setAttribute( 'height', $height );
+                $variation->setAttribute( 'requested_width', $width );
+                $variation->setAttribute( 'requested_height', $height );
+            }
+        }
+        return $variation;
+    }
+
     function attributes()
     {
         return eZPersistentObject::attributes();
