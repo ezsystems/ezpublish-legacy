@@ -1,0 +1,2 @@
+kernel/workflow/list.php - Does not seem to be used, not list in module.php.
+design/standard/workflow/list.tpl - Used only in workflow/list.php
