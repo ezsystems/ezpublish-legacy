@@ -144,6 +144,7 @@ div#leftmenu-design
 
 div#contentstructure
 {
+    width: 100%;
     overflow: scroll;
 }
 
@@ -662,6 +663,11 @@ div.context-controlbar select
 div.controlbar div.block
 {
     margin: 0.5em 0 0.5em 0;
+}
+
+div.controlbar label
+{
+    color: #ffffff;
 }
 
 div.controlbar input.button

@@ -179,6 +179,7 @@ function togglestuff( formname, checkboxname )
 {* The "Create new here" thing: *}
 <div class="block">
 {section show=$node.can_create}
+<div class="left">
 <input type="hidden" name="NodeID" value="{$node.node_id}" />
 <select name="ClassID" title="{'Use this menu to select the type of item you wish to create. Click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/layout' )|wash()}">
 {section var=CanCreateClasses loop=$node.object.can_create_class_list}
@@ -197,6 +198,21 @@ function togglestuff( formname, checkboxname )
 <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/standard/node/view' )}" title="{'You do not have permissions to create new items within the current location.'|i18n( 'design/admin/layout' )}" disabled="disabled" />
 </div>
 {/section}
+<div class="right">
+<label>Sorting:</label>
+<select>
+    <option>Priority</option>
+    <option>Name</option>
+    <option>Published</option>
+</select>
+<select>
+    <option>Down</option>
+    <option>Up</option>
+</select>
+<input class="button" type="submit" value="Set" />
+</div>
+<div class="break"></div>
+</div>
 </form>
 </div>
 {/let}

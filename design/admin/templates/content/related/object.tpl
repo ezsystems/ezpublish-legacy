@@ -2,10 +2,10 @@
 
 <tr class="{$related_object.sequence|wash}">
     <td class="checkbox"><input type="checkbox" id="related-object-id-{$related_object.id}" name="DeleteRelationIDArray[]" value="{$related_object.id}" /></td>
-    <td class="icon"><label for="related-object-id-{$related_object.id}">{$related_object.class_identifier|class_icon( 'small', concat( 'Class: ', $related_object.class_name, '
+{*    <td class="icon"><label for="related-object-id-{$related_object.id}">{$related_object.class_identifier|class_icon( 'small', concat( 'Class: ', $related_object.class_name, '
 ', 'Object ID: ', $related_object.id, '
-', 'Section: ', $related_object.section_id ) )}</label></td>
-    <td class="name"><label for="related-object-id-{$related_object.id}">{$related_object.name|wash}</label></td>
+', 'Section: ', $related_object.section_id ) )}</label></td>*}
+    <td class="name">{node_view_gui view=line content_node=$related_object.item}{*<label for="related-object-id-{$related_object.id}">{$related_object.name|wash}</label>*}</td>
     <td class="class">{$related_object.class_name|wash}</td>
     <td class="code"><input class="linkbox" type="text" value="&lt;object id={$related_object.id} /&gt;"></td>
 </tr>

@@ -13,14 +13,10 @@
     <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />
 
 {literal}
-<!--[if IE]>
-<style>
-</style>
-<![endif]-->
-
 <!--[if lt IE 6.0]>
 <style>
 div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE 5.5 */
+div#maincontent div.context-block { width: 100%; } /* Avoid width bug in IE 5.5 */
 </style>
 <![endif]-->
 {/literal}
@@ -223,7 +219,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
     {section show=ne($ui_context,'edit')}
     <h4><a href={"/content/bookmark/"|ezurl}>{"Bookmarks"|i18n("design/admin/layout")}</a> <a class="showhide" href={"/user/preferences/set/bookmark_menu/on"|ezurl}>[+]</a></h4>
     {section-else}
-     <h4><span class="disabled">{"Bookmarks"|i18n("design/admin/layout")}</span> <span class="disabled">[+]</span></h4> 
+     <h4><span class="disabled">{"Bookmarks"|i18n("design/admin/layout")}</span> <span class="disabled openclose">[+]</span></h4> 
     {/section}
 {/section}
 </div>
@@ -242,7 +238,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
     {section show=ne($ui_context,'edit')}
     <h4>{"History"|i18n("design/admin/layout")} <a class="showhide" href={"/user/preferences/set/history_menu/off"|ezurl}>[-]</a></h4> 
     {section-else}
-    <h4><span class="disabled">{"History"|i18n("design/admin/layout")}</span> <span class="disabled">[-]</span></h4> 
+    <h4><span class="disabled">{"History"|i18n("design/admin/layout")}</span> <span class="disabled openclose">[-]</span></h4> 
     {/section}
 <ul>
 {let history_list=fetch(content,recent)}

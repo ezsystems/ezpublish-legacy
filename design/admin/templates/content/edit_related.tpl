@@ -60,8 +60,8 @@ function deSelectAll()
 
             <table class="list" cellspacing="0">
             <tr>
-                <th class="checkbox"></th>
-                <th class="name" colspan="2">{'Attached files'|i18n( 'design/standard/content/edit' )}:</th>
+                <th class="checkbox"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="togglestuff( document.children, 'DeleteIDArray[]' ); return false;"/></th>
+                <th class="name">{'Attached files'|i18n( 'design/standard/content/edit' )}:</th>
                 <th class="class">{'Type'|i18n( 'design/standard/content/edit' )}:</th>
                 <th class="filesize">{'Size'|i18n( 'design/standard/content/edit' )}:</th>
                 <th class="code">{'XML code'|i18n( 'design/standard/content/edit' )}:</th>
@@ -80,8 +80,8 @@ function deSelectAll()
 
             <table class="list" cellspacing="0">
             <tr>
-                <th class="checkbox"></th>
-                <th class="name" colspan="2">{'Related content'|i18n( 'design/standard/content/edit' )}:</th>
+                <th class="checkbox"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="togglestuff( document.children, 'DeleteIDArray[]' ); return false;"/></th>
+                <th class="name">{'Related content'|i18n( 'design/standard/content/edit' )}:</th>
                 <th class="class">{'Type'|i18n( 'design/standard/content/edit' )}:</th>
                 <th class="code">{'XML code'|i18n( 'design/standard/content/edit' )}:</th>
             </tr>
@@ -97,10 +97,12 @@ function deSelectAll()
     {/section}
 
 {* Select/deselect all links: *}
+{*
 {section show=$related_contentobjects|count|gt(1)}
 <a href="" onclick="selectAll(); return false;" title="{'Click here to select all the items that are related to the object that is being edited. Use the "Remove Selected" button to remove the relations.'|i18n( 'design/admin/layout' )|wash()}">[ {'Select all'|i18n( 'design/admin/layout' )} ]</a>
 <a href="" onclick="deSelectAll(); return false;" title="{'Click here to deselect the items that are selected in the lists above.'|i18n( 'design/admin/layout' )}">[ {'Deselect all'|i18n( 'design/admin/layout' )} ]</a>
 {/section}
+*}
 
 <div class="controlbar">
     <div class="block">
@@ -109,7 +111,7 @@ function deSelectAll()
     </div>
 
     <div class="block">
-        <label>{'Location'|i18n( 'design/standard/content/edit' )}</label>
+        <label>{'Location'|i18n( 'design/standard/content/edit' )}:</label>
         <select	name="UploadRelationLocationChoice" class="combobox locationchoice">
             <option value="auto">{'Automatic'|i18n( 'design/standard/content/edit' )}</option>
         {let root_node_value=ezini( 'LocationSettings', 'RootNode', 'upload.ini' )
