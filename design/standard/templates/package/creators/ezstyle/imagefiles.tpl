@@ -11,7 +11,7 @@
 
     <p>{'Select an image file to be included in the package and click Next.
 When you are done with adding images click Next without choosing an image.'|i18n('design/standard/package')|break}</p>
-    
+
     {section show=$persistent_data.imagefiles}
     <div class="files">
         <h3>{'Currently added image files'|i18n('design/standard/package')}</h3>
