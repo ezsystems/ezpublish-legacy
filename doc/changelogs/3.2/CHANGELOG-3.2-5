@@ -5,6 +5,7 @@ Changes from 3.2-4 to 3.2-5
 *Bugfixes:
 - Fixed bug with publish date when the first published version of an object were not 1,
   now the published date is updated if it is found to be 0.
+- Fixed keyword bug when discarding drafts. http://ez.no/developer/ez_publish_3/bug_reports/keywords_cannot_be_edited__1
 
 *Setup:
 
