@@ -21,6 +21,7 @@ Changes from 3.1.0-2 to 3.1-1
 - Fixed bug of "Cancel" button doesn't work when editing a policy.
 - Fixed bug of unable to edit node and subtree when editing a policy.
 - Added missed kernel contentclasses to postgresql cleandata.sql.
+- Fixed typo in kernel/user/activate.php
 
 *Library:
 - Added revision number to SDK info.
