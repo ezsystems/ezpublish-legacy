@@ -4,40 +4,7 @@
          menu_enable_shop=true()
          menu_enable_users=true()}
 
-{section show=$:menu_enable_content}
-<table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
-<tr>
-    <th class="menuheaddark" colspan="2">
-    <p class="menuhead">{"Content"|i18n("design/standard/layout")}</p>
-    </th>
-</tr>
 
-<tr>
-    <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
-    </td>
-    <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>{"List"|i18n("design/standard/layout")}</a></p>
-    </td>
-</tr>
-<tr>
-    <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
-    </td>
-    <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/content/view/sitemap/2/"|ezurl}>{"Sitemap"|i18n("design/standard/layout")}</a></p>
-    </td>
-</tr>
-<tr>
-    <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
-    </td>
-    <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"content/draft/"|ezurl}>{"My drafts"|i18n("design/standard/layout")}</a></p>
-    </td>
-</tr>
-</table>
-{/section}
 
 {section show=$:menu_enable_shop}
 <table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
