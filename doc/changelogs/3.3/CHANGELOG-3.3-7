@@ -14,6 +14,8 @@ Changes from 3.3-6 to 3.3-7
 - Fixed bug in eZIniSettingType: removing setting of type array causes removing 
   whole section.
   http://ez.no/community/bug_reports/deleting_the_meta_data_array_makes_site_unreachable_default_siteaccess_is_undefined
+- Fixed bug with viewing discount rules with removed products.
+  http://ez.no/community/bug_reports/deleted_product_and_discount_list
 
 *Library:
 
