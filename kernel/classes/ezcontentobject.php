@@ -1481,24 +1481,6 @@ class eZContentObject extends eZPersistentObject
         return $parents;
     }
 
-    function &fetchTree( $objectID=0, $level=0 )
-    {
-        $objectList =& eZContentObject::children( $objectID, true );
-
-        $tree = array( );
-        if ( $level == 0 )
-            $tree[] = array( "Level" => $level, "Object" => eZContentObject::fetch( $objectID ) );
-
-        $level++;
-        foreach ( $objectList as $childObject )
-        {
-            $tree[] = array( "Level" => $level, "Object" => $childObject );
-
-            $tree = array_merge( $tree, eZContentObject::fetchTree( $childObject->attribute( "id" ), $level ) );
-        }
-        return $tree;
-    }
-
     /*!
 	 Returns the next available version number for this object.
     */

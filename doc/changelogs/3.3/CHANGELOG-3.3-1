@@ -10,6 +10,7 @@ Changes from 3.3.0-2 to 3.3-1
 - Added some explaining text to the class lockout functionality.
 - Added support for is_valid attribute directly on the image datatype content, no need to
   go through original alias.
+- Removed obsolete function fetchTree in eZContentObject
 - Added cleanup script for cleaning up lots of data from databases which are not to be included in releases.
 - Added cleanup() function to several functions, these functions are used in the new cleanup script.
 
