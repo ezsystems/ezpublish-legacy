@@ -1,0 +1,10 @@
+Release notes for 3.2-2
+
+- Improved url alias system with support for wildcards, the updatenicurls scripts were also updated.
+- Some UI improvements with regards to url alias, cache clearing.
+- Cc and Bcc support in the SMTP transport.
+- Fixed problem with the shop regarding the basket and orders.
+- Fixed bug with sort keys in content object attributes as well as new field for the attribute filter.
+- New translations for Portuguese and Mozambique.
+- Updated translations for German, Spanish and Catalan translations.
+- And general bugfixes and enhancements.
