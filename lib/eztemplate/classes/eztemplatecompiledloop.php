@@ -58,7 +58,7 @@ class eZTemplateCompiledLoop
 
     function hasSequence()
     {
-        return count( $this->Parameters['sequence_var'] );
+        return isset( $this->Parameters['sequence_var'] );
     }
 
     function cleanup()
