@@ -162,8 +162,8 @@ if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
     {
         $topLevelNode = '2';
     }
-    
-    $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/19/' );
+
+    $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $topLevelNode . '/' );
     return;
 }
 

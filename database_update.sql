@@ -16,3 +16,9 @@ alter table ezenumobjectvalue change enumelement enumelement varchar(255);
 alter table ezenumobjectvalue change enumvalue enumvalue varchar(255);
 
 
+#Adding one field in table ezcontentobject_tree
+alter table ezcontentobject_tree add  priority int after sort_order;
+
+
+#Change the datatype of ezmessage field
+alter table ezmessage modify body text;

@@ -7,12 +7,13 @@
 	<td>
 {*	{$node.name|texttoimage('archtura')}  *}
  	<h1 class="top">{$node.name}</h1>
+	<input type="hidden" name="TopLevelNode" value="{$node.object.main_node_id}" />
 	</td>
 	<td align="right">
 	{switch match=$node.object.can_edit}
 	    {case match=1}
 	    <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
-        <input class="button" type="submit" name="EditButton" value="Edit" />
+	    <input class="button" type="submit" name="EditButton" value="Edit" />
 	    {/case}
             {case match=0}
             <p>You are not allowed to edit this object</p>
@@ -90,7 +91,7 @@
         {case} 
 	<td class="{$Child:sequence}" align="right" width="1%">
 	</td>
-	<td width="1%" class="{$Child:sequence}"></td>
+1	<td width="1%" class="{$Child:sequence}"></td>
         {/case}
         {/switch} 
 </tr>
