@@ -18,6 +18,7 @@ Changes from 3.3.0-2 to 3.3-1
   This is useful before release handling to ensure no extra data is present in the search.
 - Fixed bug in updatesearchindex.php which would only reindex objects
   that the anonymous user could read.
+- Added search indexing of all attribute translations, not just the main translation.
 
 *Bugfixes:
 - Fixed problem with cache block expiry when ignore_content_expiry was set

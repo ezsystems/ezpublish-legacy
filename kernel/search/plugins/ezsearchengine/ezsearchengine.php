@@ -81,12 +81,25 @@ class eZSearchEngine
 
             if ( $classAttribute->attribute( "is_searchable" ) == 1 )
             {
-                // strip tags
                 $metaData =& $attribute->metaData( );
                 if( ! is_array( $metaData ) )
                 {
                     $metaData = array( array( 'id' => '',
                                               'text' => $metaData ) );
+                }
+
+                // Fetch attribute translations
+                $attributeTranslations = $attribute->fetchAttributeTranslations();
+
+                foreach ( $attributeTranslations as $translation )
+                {
+                    $tmpMetaData = $translation->metaData();;
+                    if( ! is_array( $tmpMetaData ) )
+                    {
+                        $tmpMetaData = array( array( 'id' => '',
+                                                  'text' => $tmpMetaData ) );
+                    }
+                    $metaData = array_merge( $metaData, $tmpMetaData );
                 }
 
                 foreach( $metaData as $metaDataPart )
