@@ -989,7 +989,7 @@ class eZLocale
                                      $neg ? $this->CurrencyNegativeSymbol : $this->CurrencyPositiveSymbol,
                                      $num_text ),
                               $neg ? $this->CurrencyNegativeFormat : $this->CurrencyPositiveFormat );
-        return $text;
+        return trim( $text );
     }
 
     /*!
