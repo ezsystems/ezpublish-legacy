@@ -2564,7 +2564,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( ( $nodeID != '' && is_numeric( $nodeID ) ) || ( is_array( $nodeID ) && count( $nodeID ) > 0 ) )
         {
-            if ( ( is_numeric( $nodeID ) && $nodeID === 1 ) ||
+            if ( ( is_numeric( $nodeID ) && $nodeID == 1 ) ||
                  ( is_array( $nodeID ) && count( $nodeID ) === 1 && $nodeID[0] == 1 ) )
             {
                 $query="SELECT *
