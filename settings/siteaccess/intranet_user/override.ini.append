@@ -24,6 +24,12 @@ MatchFile=article_line.tpl
 Subdir=templates
 Match[class]=2
 
+[file_line]
+Source=node/view/line.tpl
+MatchFile=file_line.tpl
+Subdir=templates
+Match[class]=12
+
 [info_page]
 Source=node/view/full.tpl
 MatchFile=infopage.tpl
