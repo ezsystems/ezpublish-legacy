@@ -119,6 +119,7 @@
     </td>
 </tr>
 </table>
+</form>
 
 {/case}
 {case match=0}
