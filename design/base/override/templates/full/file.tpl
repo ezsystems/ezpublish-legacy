@@ -12,6 +12,6 @@
     {/section}
 
     <div class="attribute-file">
-        <p>{attribute_view_gui attribute=$node.object.data_map.file}</p>
+        <p>{attribute_view_gui attribute=$node.object.data_map.file icon_title=$node.name}</p>
     </div>
 </div>

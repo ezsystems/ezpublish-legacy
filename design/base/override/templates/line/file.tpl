@@ -12,7 +12,7 @@
     </div>
     <div class="break" />
     <div class="attribute-file">
-        <p>{attribute_view_gui attribute=$node.object.data_map.file icon='no'}</p>
+        <p>{attribute_view_gui attribute=$node.object.data_map.file icon_size='small' icon_title=$node.name}</p>
     </div>
 
     </div>
