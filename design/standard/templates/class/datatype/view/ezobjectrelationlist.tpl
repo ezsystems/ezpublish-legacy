@@ -40,7 +40,7 @@
 <tr>
     <td>{$default_location.class_identifier|class_icon( small, $default_location.class_name )}&nbsp;<a href={$default_location.url_alias|ezurl}>{$default_location.name|wash}</a></td>
     <td>{$default_location.class_name|wash}</td>
-    <td>{fetch( section, object, hash( section_id, $default_location.object.section_id ) ).name|wash}</td>
+    <td>{let section_object=fetch( section, object, hash( section_id, $default_location.object.section_id ) )}{section show=$section_object}{concat( 'section/view/', $section_object.id)|ezurl}>{$section_object.name|wash}</a>{section-else}<i>{'Unknown section'|i18n( 'design/standard/class/datatype' )}</i>{/section}{/let}</td>
 </tr>
 </table>
 {/let}

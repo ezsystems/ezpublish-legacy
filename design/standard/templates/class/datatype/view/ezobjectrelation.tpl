@@ -21,7 +21,7 @@
     <tr>
         <td>{$selection_node.class_identifier|class_icon( small, $selection_node.class_name )}&nbsp;<a href={$selection_node.url_alias|ezurl}>{$selection_node.name|wash}</a></td>
         <td>{$selection_node.class_name|wash}</td>
-        <td>{fetch( section, object, hash( section_id, $selection_node.object.section_id ) ).name|wash}</td>
+        <td>{let section_object=fetch( section, object, hash( section_id, $selection_node.object.section_id ) )}{section show=$section_object}<a href={concat( 'section/view/', $section_object.id)|ezurl}>{$section_object.name|wash}</a>{section-else}<i>{'Unknown section'|i18n( 'design/standard/class/datatype' )}</i>{/section}{/let}</td>
     </tr>
     </table>
     {/let}

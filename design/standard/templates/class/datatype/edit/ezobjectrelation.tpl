@@ -25,7 +25,7 @@
 <tr>
     <td>{$selection_node.class_identifier|class_icon( small, $selection_node.class_name )}&nbsp;{$selection_node.name|wash}</td>
     <td>{$selection_node.class_name|wash}</td>
-    <td>{fetch( section, object, hash( section_id, $selection_node.object.section_id ) ).name|wash}</td>
+    <td>{let section_object=fetch( section, object, hash( section_id, $selection_node.object.section_id ) )}{section show=$section_object}{$section_object.name|wash}{section-else}<i>{'Unknown section'|i18n( 'design/standard/class/datatype' )}</i>{/section}{/let}</td>
 </tr>
 </table>
 <input class="button" type="submit" name="CustomActionButton[{$class_attribute.id}_disable_selection_node]" value="{'Remove selection'|i18n('design/standard/class/datatype')}" />
