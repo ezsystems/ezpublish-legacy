@@ -287,7 +287,7 @@ BASE="$NAME-$DIST_TYPE-$VERSION"
 if [ "$DIST_TYPE" == "sdk" ]; then
     echo "Creating SDK release"
 elif [ "$DIST_TYPE" == "full" ]; then
-    echo "`$SETCOLOR_EMPHASIZE`Creating full release`$SETCOLOR_NORMAL`"
+    echo "Creating full release"
     BASE="$NAME-$VERSION"
 else
     echo "Unknown release"
@@ -317,11 +317,11 @@ if [ "$SVN_SERVER" != "" ]; then
     fi
     echo "SVN_PATH=$SVN_PATH"
     DIST_SRC="/tmp/nextgen-$REPOS_RELEASE"
+    echo "Distribution source files taken from `$SETCOLOR_DIR`$DIST_SRC`$SETCOLOR_NORMAL`"
 else
-    echo "Using local copy from `$SETCOLOR_DIR``pwd``$SETCOLOR_NORMAL`"
+    echo "Using local copy: `$SETCOLOR_DIR``pwd``$SETCOLOR_NORMAL`"
 fi
-
-echo "Distribution source files taken from `$SETCOLOR_DIR`$DIST_SRC`$SETCOLOR_NORMAL`"
+echo
 
 if [ -z $SKIPCHECKVERSION ]; then
     echo -n "Checking db update version numbers"
@@ -445,26 +445,25 @@ if [ -z $SKIPDBUPDATE ]; then
     echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
 fi
 
-echo
-echo "Making distribution in `ez_color_dir $DEST`"
+echo -n "Dist: `ez_color_dir $DEST`"
 
 if [ -d $DEST ]; then
-    echo "`$SETCOLOR_COMMENT`Removing old distribution`$SETCOLOR_NORMAL`"
+    echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Recreated ]`$SETCOLOR_NORMAL`"
     rm -rf $DEST
     mkdir -p $DEST
 else
-    echo "`$SETCOLOR_NEW`Creating distribution directory`$SETCOLOR_NEW`"
+    echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Created ]`$SETCOLOR_NORMAL`"
     mkdir -p $DEST
 fi
 
-echo "Making extensions in `ez_color_dir $DEST_EXTENSION_ARCHIVE`"
+echo -n "Ext:  `ez_color_dir $DEST_EXTENSION_ARCHIVE`"
 
 if [ -d "$DEST_EXTENSION_ARCHIVE" ]; then
-    echo "`$SETCOLOR_COMMENT`Removing old extension archive`$SETCOLOR_NORMAL`"
+    echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Recreated ]`$SETCOLOR_NORMAL`"
     rm -rf "$DEST_EXTENSION_ARCHIVE"
     mkdir -p "$DEST_EXTENSION_ARCHIVE"
 else
-    echo "`$SETCOLOR_NEW`Creating extension archive`$SETCOLOR_NEW`"
+    echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Created ]`$SETCOLOR_NORMAL`"
     mkdir -p "$DEST_EXTENSION_ARCHIVE"
 fi
 
@@ -479,6 +478,7 @@ if [ -z "$SKIP_CORE_FILES" ]; then
 
     (cd $DIST_SRC && scan_dir .)
     echo
+    echo
 fi
 
 #
@@ -487,10 +487,10 @@ fi
 
 if [ -z "$SKIP_TEST_FRAMEWORK" ]; then
     if [ "$DEVELOPMENT" == "true" ]; then
-	echo
-	echo "Copying test framework"
-	svn export "$CURRENT_URL/tests" "$DEST/tests" &>/dev/null
-	echo
+	echo -n "Copying `ez_color_em UnitTest` framework"
+	svn export "$CURRENT_URL/tests" "$DEST/tests" &>.export.log
+	ez_result_file $? .export.log || exit 1
+	rm .export.log
     fi
 fi
 
@@ -499,6 +499,7 @@ fi
 #
 
 if [ -z "$SKIP_CORE_FILES" ]; then
+    echo -n "Examining `ez_color_dir settings` directory"
     for settingsfile in settings/*; do
 	if [ -d "$settingsfile" ]; then
 	    continue
@@ -513,7 +514,7 @@ if [ -z "$SKIP_CORE_FILES" ]; then
     done
 
     if [ -n "$MISSING_FILES" ]; then
-	echo
+	ez_result_output 1 ""
 	echo "Some files are missing in the created distribution"
 	echo "You should make sure the files have proper distribution properties set"
 	echo
@@ -523,6 +524,7 @@ if [ -z "$SKIP_CORE_FILES" ]; then
 	done
 	exit 1
     fi
+    ez_result_output 0 ""
 fi
 
 #
@@ -541,30 +543,15 @@ if [ ! -f bin/linux/ezlupdate ]; then
     exit 1
 fi
 
-echo
-echo "Copying translations and locale"
-rm -rf "$DEST/share/translations"
-echo -n "`$POSITION_STORE`translations"
-svn export "$TRANSLATION_URL" "$DEST/share/translations" &>/dev/null
-if [ $? -ne 0 ]; then
-    echo
-    echo "svn export $TRANSLATION_URL $DEST/share/translations &>/dev/null"
-    echo "Failed to check out translations from trunk"
-    exit 1
-fi
-echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`translations`$SETCOLOR_NORMAL`"
+# Make sure share directory exists
+mkdir -p "$DEST/share"
 
-rm -rf "$DEST/share/locale"
-echo -n " `$POSITION_STORE`locale"
-svn export "$LOCALE_URL" "$DEST/share/locale" &>/dev/null
-if [ $? -ne 0 ]; then
-    echo
-    echo "svn export $LOCALE_URL $DEST/share/locale &>/dev/null"
-    echo "Failed to check out locale from trunk"
-    exit 1
-fi
-echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`locale`$SETCOLOR_NORMAL`"
-echo
+echo -n "Exporting translations"
+rm -rf "$DEST/share/translations"
+svn export "$TRANSLATION_URL" "$DEST/share/translations" &>/dev/null
+ez_result_output $? "
+svn export $TRANSLATION_URL $DEST/share/translations &>/dev/null
+Failed to check out translations from trunk" || exit 1
 
 dir=`pwd`
 # We do not validate the translations if SKIPTRANSLATION is set
@@ -574,89 +561,148 @@ if [ -z "$SKIPTRANSLATION" ]; then
 	echo "Failed to make copy of translations"
 	exit 1
     fi
-    echo -n "Processing:"
+    TR_COUNTER=0
+    TR_TOTAL=0
+    last_len=0
+    echo -n "Processing: "
     cd $DEST/share/translations
+    echo -n "`ez_store_pos`"
+    translations=""
     for translation in *; do
-	echo -n " `$POSITION_STORE``$SETCOLOR_EMPHASIZE`$translation`$SETCOLOR_NORMAL`"
+	translations="$translations $translation"
+	TR_TOTAL=`expr $TR_TOTAL + 1`
+    done
+    for translation in $translations; do
+	TR_COUNTER=`expr $TR_COUNTER + 1`
+	current_len=${#translation}
+	if [ $last_len -eq 0 ]; then
+	    last_len=$current_len
+	fi
+	text="$translation"
+	iterator=$current_len
+	while [ $iterator -lt $last_len ]; do
+	    text="$text "
+	    iterator=`expr $iterator + 1`
+	done
+	echo -n "`ez_restore_pos``ez_store_pos`[$TR_COUNTER/$TR_TOTAL] `$SETCOLOR_EMPHASIZE`$text`$SETCOLOR_NORMAL`"
 
 	if [ -z $SKIPTRANSLATION ]; then
 	    if [ "$translation" == "untranslated" ]; then
 		(cd  $DEST && $dir/bin/linux/ezlupdate -u -d "$dir/design" &>/dev/null )
 		if [ $? -ne 0 ]; then
-		    echo
-		    echo "Error updating translations for untranslated"
-		    exit 1
+		    ez_result_output 1 "Error updating translations for untranslated" || exit 1
+#		    echo
+#		    echo "Error updating translations for untranslated"
+#		    exit 1
 		fi
 	    else
 		(cd  $DEST && $dir/bin/linux/ezlupdate "$translation" -d "$dir/design" &>/dev/null )
 		if [ $? -ne 0 ]; then
-		    echo
-		    echo "Error updating translations for $translation"
-		    exit 1
+		    ez_result_output 1 "Error updating translations for $translated" || exit 1
+#		    ez_result_output 1 "Error updating translations for $translation"
+#		    echo
+#		    echo "Error updating translations for $translation"
+#		    exit 1
 		fi
 	    fi
 	fi
-	echo -n "`$POSITION_RESTORE``$SETCOLOR_COMMENT`$translation`$SETCOLOR_NORMAL`"
+	echo -n "`ez_restore_pos``ez_store_pos`[$TR_COUNTER/$TR_TOTAL] `$SETCOLOR_COMMENT`$text`$SETCOLOR_NORMAL`"
+	last_len=$current_len
     done
     cd $dir
-    echo
+    text=""
+    iterator=0
+    while [ $iterator -lt $last_len ]; do
+	text="$text "
+	iterator=`expr $iterator + 1`
+    done
+    echo -n "`ez_restore_pos``ez_store_pos`$text"
+#    echo
+    echo -n "`ez_restore_pos`[$TR_TOTAL/$TR_TOTAL] translations"
+    ez_result_output 0 "" || exit 1
 
+    echo -n "Validating"
     diff -U3 -r $DEST/share/translations.org $DEST/share/translations &>/dev/null
-    if [ $? -ne 0 ]; then
-	echo "The translations are not up to date"
-	echo "You must update the translations in the repository using the ezlupdate program"
-	exit 1
-    fi
+    ez_result_output $? "The translations are not up to date
+You must update the translations in the repository using the ezlupdate program" || exit 1
 
     rm -rf $DEST/share/translations.org
-fi
 
-if [ -z $SKIPTRANSLATION ]; then
     echo -n "Removing obsolete strings: "
     cd $DEST/share/translations
-    for translation in *; do
-	echo -n " `$POSITION_STORE``$SETCOLOR_EMPHASIZE`$translation`$SETCOLOR_NORMAL`"
+    TR_COUNTER=0
+    last_len=0
+    echo -n "`ez_store_pos`"
+    for translation in $translations; do
+	TR_COUNTER=`expr $TR_COUNTER + 1`
+	current_len=${#translation}
+	if [ $last_len -eq 0 ]; then
+	    last_len=$current_len
+	fi
+	text="$translation"
+	iterator=$current_len
+	while [ $iterator -lt $last_len ]; do
+	    text="$text "
+	    iterator=`expr $iterator + 1`
+	done
+	echo -n "`ez_restore_pos``ez_store_pos`[$TR_COUNTER/$TR_TOTAL] `$SETCOLOR_EMPHASIZE`$text`$SETCOLOR_NORMAL`"
 	if [ "$translation" == "untranslated" ]; then
 	    (cd  $DEST && $dir/bin/linux/ezlupdate -no -u -d "$dir/design" &>/dev/null)
 	    if [ $? -ne 0 ]; then
-	        echo
-		echo "Error removing obsolete entries for untranslated"
-		exit 1
+		ez_result_output 1 "Error removing obsolete entries for untranslated" || exit 1
+#	        echo
+#		echo "Error removing obsolete entries for untranslated"
+#		exit 1
 	    fi
 	else
 	    (cd  $DEST && $dir/bin/linux/ezlupdate -no "$translation" -d "$dir/design" &>/dev/null)
 	    if [ $? -ne 0 ]; then
-	        echo
-		echo "Error removing obsolete entries for $translation"
-		exit 1
+		ez_result_output 1 "Error removing obsolete entries for $translation" || exit 1
+#	        echo
+#		echo "Error removing obsolete entries for $translation"
+#		exit 1
 	    fi
 	fi
-	echo -n "`$POSITION_RESTORE``$SETCOLOR_COMMENT`$translation`$SETCOLOR_NORMAL`"
+	echo -n "`ez_restore_pos``ez_store_pos`[$TR_COUNTER/$TR_TOTAL] `$SETCOLOR_COMMENT`$text`$SETCOLOR_NORMAL`"
+	last_len=$current_len
     done
     cd $dir
+
+    text=""
+    iterator=0
+    while [ $iterator -lt $last_len ]; do
+	text="$text "
+	iterator=`expr $iterator + 1`
+    done
+    echo -n "`ez_restore_pos`[$TR_COUNTER/$TR_TOTAL] $text"
+    ez_result_output 0 "" || exit 1
 fi
+
+echo -n "Exporting locales"
+rm -rf "$DEST/share/locale"
+svn export "$LOCALE_URL" "$DEST/share/locale" &>/dev/null
+ez_result_output $? "
+svn export $LOCALE_URL $DEST/share/locale &>/dev/null
+Failed to check out locale from trunk" || exit 1
 
 #
 # *****   Handle changelogs from earlier versions   *****
 #
 
 if [ -z "$SKIP_CHANGELOGS" ]; then
-    echo
-    echo "Copying changelogs from earlier versions"
-    echo -n "Version:"
+    echo -n "Changelogs:"
     for version in $STABLE_VERSIONS; do
 	changelog_url="$REPOSITORY_BASE_URL/$REPOSITORY_STABLE_BRANCH_PATH/$version/doc/changelogs/$version"
 	rm -rf "$DEST/doc/changelogs/$version"
-	echo -n " `$POSITION_STORE`$version"
+	echo -n " `ez_store_pos`$version"
 	svn export "$changelog_url" "$DEST/doc/changelogs/$version" &>/dev/null
 	if [ $? -ne 0 ]; then
-	    echo
-	    echo "Failed to check out changelogs for version `$SETCOLOR_EMPHASIZE`$version`$SETCOLOR_NORMAL`"
+	    ez_result_output 1 "Failed to check out changelogs for version `$SETCOLOR_EMPHASIZE`$version`$SETCOLOR_NORMAL`"
 	    exit 1
 	fi
-	echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`$version`$SETCOLOR_NORMAL`"
+	echo -n "`ez_restore_pos``$SETCOLOR_EMPHASIZE`$version`$SETCOLOR_NORMAL`"
     done
-    echo
+    ez_result_output 0 ""
 fi
 
 #
@@ -664,7 +710,6 @@ fi
 #
 
 if [ -z "$SKIP_SQL_GENERATION" ]; then
-    echo
     echo -n "Updating MySQL SQL schema"
     ./bin/php/ezsqldumpschema.php --type=mysql --compatible-sql --output-sql --format=local "share/db_schema.dba" "$DEST/kernel/sql/mysql/kernel_schema.sql" 2>.dump.log
     ez_result_file $? .dump.log || exit 1
@@ -684,7 +729,6 @@ if [ -z "$SKIP_SQL_GENERATION" ]; then
     echo -n "Updating PostgreSQL cleandata SQL"
     ./bin/php/ezsqldumpschema.php --type=postgresql --compatible-sql --output-sql --format=local --output-types=data --schema-file="share/db_schema.dba" "share/db_data.dba" "$DEST/kernel/sql/postgresql/cleandata.sql" 2>.dump.log
     ez_result_file $? .dump.log || exit 1
-    echo
 fi
 
 
@@ -692,6 +736,7 @@ fi
 # *****   Create some directories which should be present   *****
 #
 
+echo -n "Extra directories"
 EXTRA_DIRS=""
 if [ "$DIST_TYPE" == "sdk" ]; then
     EXTRA_DIRS=$SDK_EXTRA_DIRS
@@ -700,8 +745,13 @@ else
 fi
 
 for file in $EXTRA_DIRS; do
-    mkdir -p $DEST/$file
+    mkdir -p "$DEST/$file"
+    if [ $? -ne 0 ]; then
+	ez_result_file 1 "Failed to create directory $DEST/$file"
+	exit 1
+    fi
 done
+ez_result_file 0 ""
 
 #
 # *****   Handles addons and styles   *****
@@ -714,7 +764,7 @@ done
 #    mkdir -p "$DEST/kernel/setup/packages" || exit 1
 #    echo -n "Site:"
 #    for site in $ALL_PACKAGES; do
-#	echo -n " `$POSITION_STORE`$site"
+#	echo -n " `ez_store_pos`$site"
 #	./bin/shell/makesitepackages.sh -q --export-path="$DEST/kernel/setup/packages" --site=$site
 #	if [ $? -ne 0 ]; then
 #	    echo
@@ -723,142 +773,30 @@ done
 #	    echo "./bin/shell/makesitepackages.sh --site=$site"
 #	    exit 1
 #	else
-#	    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`$site`$SETCOLOR_NORMAL`"
+#	    echo -n "`ez_restore_pos``$SETCOLOR_EMPHASIZE`$site`$SETCOLOR_NORMAL`"
 #	fi
 #    done
 #fi
 #echo
 
 if [ -z $SKIPADDONCREATION ]; then
-   echo "Creating and exporting addons"
+   echo -n "Creating and exporting addons"
    rm -rf "$DEST/packages/addons"
    mkdir -p "$DEST/packages/addons" || exit 1
    ./bin/shell/makeaddonpackages.sh -q --export-path="$DEST/packages/addons"
-   if [ $? -ne 0 ]; then
-       echo
-       echo "The creation of addon packages failed"
-       echo "Run the following command to see what went wrong"
-       echo "./bin/shell/makeaddonpackages.sh --export-path=\"$DEST/packages/addons\""
-       exit 1
-   fi
+   ez_result_output $? "The creation of addon packages failed
+Run the following command to see what went wrong
+./bin/shell/makeaddonpackages.sh --export-path=\"$DEST/packages/addons\"" || exit 1
 fi
 
 if [ -z $SKIPSTYLECREATION ]; then
-   echo "Creating and exporting styles"
+   echo -n "Creating and exporting styles"
    rm -rf "$DEST/packages/styles"
    mkdir -p "$DEST/packages/styles" || exit 1
    ./bin/shell/makestylepackages.sh -q --export-path="$DEST/packages/styles"
-   if [ $? -ne 0 ]; then
-       echo
-       echo "The creation of the style packages failed"
-       echo "Run the following command to see what went wrong"
-       echo "./bin/shell/makestylepackages.sh --export-path=\"$DEST/packages/styles\""
-       exit 1
-   fi
-fi
-echo
-
-#
-# *****   Build package files for extensions *****
-#
-
-if [ -z "$SKIP_EXTENSIONS" ]; then
-    echo "`ez_color_h1 'Building extension packages'`"
-
-    DEST_EXT="$DEST_ROOT/extension"
-    EXTENSION_FILES=""
-    if [ -d "$DEST_EXT" ]; then
-	rm -rf "$DEST_EXT"
-    fi
-    mkdir -p "$DEST_EXT"
-
-    for extension in $EXTENSIONS; do
-	echo "Working with extension `ez_color_url $extension`"
-	echo -n "Fetching extension from SVN"
-	svn co "$extension" "$DEST_EXT" &>.svn.log
-	ez_result_output $? "Failed to export $extension, see `ez_color_file .svn.log` for more info"
-
-	if [ ! -f "$DEST_EXT/dist.sh" ]; then
-	    echo "Distribution info file `ez_color_file dist.sh` is missing from extension"
-	    echo "This must be created before it can be packaged"
-	    exit 1
-	fi
-
-	if [ ! -x "$DEST_EXT/dist.sh" ]; then
-	    echo "Distribution info file `ez_color_file dist.sh` is not executable"
-	    echo "This file must be executable for this script to read its contents"
-	    exit 1
-	fi
-
-    # Load variables from distribution file
-	EXTENSION_NAME=""
-	EXTENSION_IDENTIFIER=""
-	EXTENSION_SUMMARY=""
-	EXTENSION_LICENSE=""
-	EXTENSION_VERSION=""
-	EXTENSION_PUBLISH_VERSION=""
-	EXTENSION_ARCHIVE_NAME=""
-	EXTENSION_PHP_VERSION=""
-	. "$DEST_EXT/dist.sh"
-
-	rm -f "$DEST_EXT/dist.sh"
-
-	if [ -z "$EXTENSION_IDENTIFIER" ]; then
-	    echo "Identifier was not set for extension"
-	    exit 1
-	fi
-
-	OLD_DEST="$DEST"
-	DEST="$DEST/extension/$EXTENSION_IDENTIFIER"
-	mkdir -p "$DEST"
-	echo "Copying distribution files"
-	(cd "$DEST_EXT" && scan_dir .)
-
-	echo
-	echo "Looking for `$SETCOLOR_DIR`.svn`$SETCOLOR_NORMAL` directories"
-	(cd $DEST
-	    find . -name .svn -print)
-
-	echo "Looking for `$SETCOLOR_COMMENT`temp`$SETCOLOR_NORMAL` files"
-	(cd $DEST
-	    TEMPFILES=`find . -name '*[~#]' -print`
-	    echo $TEMPFILES | grep -e '[~#]' -q
-	    if [ $? -eq 0 ]; then
-		echo "Cannot create extension distribution, the following temporary files were found:"
-		for tempfile in $TEMPFILES; do
-		    echo "`$SETCOLOR_FAILURE`$tempfile`$SETCOLOR_NORMAL`"
-		done
-		echo "The files must be removed before the extension distribution can be made"
-		exit 1
-	    fi
-	) || exit 1
-
-	DEST="$OLD_DEST"
-	if [ "$BUILD_SNAPSHOT" == "1" ]; then
-	    EXTENSION_TGZFILE="$EXTENSION_ARCHIVE_NAME""-extension-$EXTENSION_VERSION-build$CURRENT_BUILD_NUMBER.tgz"
-	else
-	    EXTENSION_TGZFILE="$EXTENSION_ARCHIVE_NAME""-extension-$EXTENSION_VERSION.tgz"
-	fi
-
-	# Store paypal archive name
-	if [ "$EXTENSION_IDENTIFIER" = "ezpaypal" ]; then
-	    EXTENSION_PAYPAL_ARCHIVE="$DEST_EXTENSION_ARCHIVE/$EXTENSION_TGZFILE"
-	fi
-
-	echo -n "Creating extension archive `ez_color_file $EXTENSION_TGZFILE`"
-	(cd "$DEST/extension" && \
-	    tar cfz "$EXTENSION_TGZFILE" "$EXTENSION_IDENTIFIER" && \
-	    rm -rf "$EXTENSION_IDENTIFIER" && \
-	    mv "$EXTENSION_TGZFILE" "$DEST_EXTENSION_ARCHIVE/")
-	ez_result_output $? "Failed to package extension"
-	rm -rf "$DEST_EXT"
-	EXTENSION_FILES="$EXTENSION_FILES $EXTENSION_TGZFILE"
-	echo
-    done
-
-    echo
-    echo "Extensions have been packaged to dir `ez_color_dir $DEST_EXTENSION_ARCHIVE`"
-    echo
+   ez_result_output $? "The creation of the style packages failed
+Run the following command to see what went wrong
+./bin/shell/makestylepackages.sh --export-path=\"$DEST/packages/styles\"" || exit 1
 fi
 
 
@@ -866,18 +804,27 @@ fi
 # *****   Remove some comments in old SQL files *****
 #
 
+
 if [ -z "$SKIP_CORE_FILES" ]; then
-    echo "`$SETCOLOR_COMMENT`Applying filters`$SETCOLOR_NORMAL`"
+    echo -n "Applying filters"
     for filter in $FILTER_FILES; do
-	cat $DEST/$filter | sed 's,^#!\(.*\)$,\1,' | grep -v '^..*##!' > $DEST/$filter.tmp && mv -f $DEST/$filter.tmp $DEST/$filter
+	cat "$DEST/$filter" | sed 's,^#!\(.*\)$,\1,' | grep -v '^..*##!' > "$DEST/$filter.tmp" && mv -f "$DEST/$filter.tmp" "$DEST/$filter"
+	if [ $? -ne 0 ]; then
+	    ez_result_output 1 "Failed to filter $DEST/$filter"
+	    exit 1
+	fi
     done
 
     for filter in $FILTER_FILES2; do
-	cat $DEST/$filter | sed 's,^##!\(.*\)$,\1,' | grep -v '^..*##!' > $DEST/$filter.tmp && mv -f $DEST/$filter.tmp $DEST/$filter
+	cat "$DEST/$filter" | sed 's,^##!\(.*\)$,\1,' | grep -v '^..*##!' > "$DEST/$filter.tmp" && mv -f "$DEST/$filter.tmp" "$DEST/$filter"
+	if [ $? -ne 0 ]; then
+	    ez_result_output 1 "Failed to filter $DEST/$filter"
+	    exit 1
+	fi
     done
+    ez_result_output 0 ""
 
-    echo "`$SETCOLOR_COMMENT`Checking `$SETCOLOR_EMPHASIZE`SQL`$SETCOLOR_COMMENT` files for correctness`$SETCOLOR_NORMAL`"
-
+    echo -n "Checking `$SETCOLOR_EMPHASIZE`SQL`$SETCOLOR_COMMENT` files for correctness"
 
     function scan_sql_file()
     {
@@ -927,8 +874,8 @@ if [ -z "$SKIP_CORE_FILES" ]; then
     done
 
     if [ "$BAD_SQL_FILES" != "" ]; then
-	echo "`$SETCOLOR_EMPHASIZE`The following sql files has comments in them and should be fixed.`$SETCOLOR_NORMAL`"
-	echo "`$SETCOLOR_DIR`$BAD_SQL_FILES`$SETCOLOR_NORMAL`"
+	ez_result_output 1 "`$SETCOLOR_EMPHASIZE`The following sql files has comments in them and should be fixed.`$SETCOLOR_NORMAL`
+`$SETCOLOR_DIR`$BAD_SQL_FILES`$SETCOLOR_NORMAL`"
 	read -p "`$SETCOLOR_EMPHASIZE`Do want to fix this for the release?`$SETCOLOR_NORMAL` Yes/No [N]" FIX_SQL
 	if [ "$FIX_SQL" == "" ]; then
 	    FIX_SQL="N"
@@ -937,8 +884,8 @@ if [ -z "$SKIP_CORE_FILES" ]; then
 	    Y|y|Yes|yes|YES)
 		for bad_sql_file in $BAD_SQL_FILES; do
 		    echo -n "Fixing `$SETCOLOR_FILE`$DEST/$bad_sql_file`$SETCOLOR_NORMAL`"
-		    cleanup_sql_file $DEST/$bad_sql_file
-		    echo ", `$SETCOLOR_SUCCESS`done`$SETCOLOR_NORMAL`"
+		    cleanup_sql_file "$DEST/$bad_sql_file"
+		    ez_result_output $? "Failed to fix comments in $DEST/$bad_sql_file" || exit 1
 		done
 		;;
 	    *)
@@ -946,6 +893,8 @@ if [ -z "$SKIP_CORE_FILES" ]; then
 		exit 1
 		;;
 	esac
+    else
+	ez_result_output 0 ""
     fi
 fi
 
@@ -953,29 +902,38 @@ fi
 # cat index.php | sed 's/index.php/index_sdk.php/' > $DEST/index_sdk.php
 # cp -f index.php $DEST/index.php
 
-echo "Looking for `$SETCOLOR_DIR`.svn`$SETCOLOR_NORMAL` directories"
+echo -n "Looking for `$SETCOLOR_DIR`.svn`$SETCOLOR_NORMAL` directories"
 (cd $DEST
-    find . -name .svn -print)
+    find . -name .svn -print &> .find.log
+    if [ $? -ne 0 ]; then
+	ez_result_output 1 "The following .svn directories was found"
+	cat .find.log
+	rm .find.log
+	exit 1
+    fi
+    ez_result_output 0 ""
+    rm .find.log ) || exit 1
 
-echo "Looking for `$SETCOLOR_COMMENT`temp`$SETCOLOR_NORMAL` files"
+echo -n "Looking for `$SETCOLOR_COMMENT`temp`$SETCOLOR_NORMAL` files"
 (cd $DEST
     TEMPFILES=`find . -name '*[~#]' -print`
     echo $TEMPFILES | grep -e '[~#]' -q
     if [ $? -eq 0 ]; then
-	echo "Cannot create distribution, the following temporary files were found:"
+	ez_result_output 1 "Cannot create distribution, the following temporary files were found:"
 	for tempfile in $TEMPFILES; do
 	    echo "`$SETCOLOR_FAILURE`$tempfile`$SETCOLOR_NORMAL`"
 	done
 	echo "The files must be removed before the distribution can be made"
 	exit 1
     fi
-) || exit 1
+    ez_result_output 0 "" ) || exit 1
 
 if [ -z "$SKIP_CORE_FILES" ]; then
     if [ -f $DEST/bin/modfix.sh ]; then
-	echo "Applying `$SETCOLOR_EXE`executable`$SETCOLOR_NORMAL` properties"
+	echo -n "Applying `$SETCOLOR_EXE`executable`$SETCOLOR_NORMAL` properties"
 	(cd $DEST/bin
-	    chmod a+x modfix.sh)
+	    chmod a+x modfix.sh
+	    ez_result_output $? "Failed to apply executable property to modifix.sh" || exit 1 ) || exit 1
     fi
 fi
 
@@ -987,21 +945,42 @@ fi
 # *****   Remove some elements which should not be in dist   *****
 #
 
+echo -n "Removing non-distribution files"
 if [ -d $DEST/kernel/sql/oracle ]; then
-    rm -rf $DEST/kernel/sql/oracle
+    rm -rf "$DEST/kernel/sql/oracle"
+    if [ $? -ne 0 ]; then
+	ez_result_output 1 "Failed to remove `ez_color_dir $DEST/kernel/sql/oracle`"
+	exit 1
+    fi
 fi
 
 if [ -f $DEST/kernel/sql/mysql/doc.sql ]; then
-    rm -f $DEST/kernel/sql/mysql/doc.sql
+    rm -f "$DEST/kernel/sql/mysql/doc.sql"
+    if [ $? -ne 0 ]; then
+	ez_result_output 1 "Failed to remove `ez_color_file $DEST/kernel/sql/mysql/doc.sql`"
+	exit 1
+    fi
 fi
 
 if [ -f $DEST/kernel/sql/postgresql/doc.sql ]; then
-    rm -f $DEST/kernel/sql/postgresql/doc.sql
+    rm -f "$DEST/kernel/sql/postgresql/doc.sql"
+    if [ $? -ne 0 ]; then
+	ez_result_output 1 "Failed to remove `ez_color_file $DEST/kernel/sql/postgresql/doc.sql`"
+	exit 1
+    fi
 fi
 
 if [ -f $DEST/support/lupdate-ezpublish3/Makefile ]; then
-    (cd $DEST/support/lupdate-ezpublish3 && make clean &>/dev/null && rm -rf Makefile moc obj)
+    (cd "$DEST/support/lupdate-ezpublish3" && \
+	make clean &>/dev/null && \
+	rm -rf Makefile moc obj)
+    if [ $? -ne 0 ]; then
+	ez_result_output 1 "Failed to cleanup ezlupdate temporary files in `ez_color_dir $DEST/support/lupdate-ezpublish3`"
+	exit 1
+    fi
 fi
+
+ez_result_output 0 ""
 
 # Remove old archives
 if [ -f "$DEST_ROOT/$BASE.tar.gz" ]; then
@@ -1057,7 +1036,7 @@ fi
 
 # Create MD5 check sums
 if [ -z "$SKIP_CORE_FILES" ]; then
-    echo "Creating MD5 check sums"
+    echo -n "Creating MD5 checksums"
     (cd $DEST
 	MD5_FILES=`find * -name "*.php" -or -name "*.ini" -or -name "*.sh" -or -name "*.sql"`
 	
@@ -1070,9 +1049,123 @@ if [ -z "$SKIP_CORE_FILES" ]; then
 	for MD5_FILE in $MD5_FILES; do
 	    md5sum $MD5_FILE >> share/filelist.md5
 
-	    done)
+	done
+    )
+    ez_result_output $? "Failed to create MD5 checksums"|| exit 1
 fi
 
+
+
+#
+# *****   Build package files for extensions *****
+#
+
+if [ -z "$SKIP_EXTENSIONS" ]; then
+    echo
+    echo "`ez_color_h1 'Building extension packages'`"
+
+    DEST_EXT="$DEST_ROOT/extension"
+    EXTENSION_FILES=""
+    if [ -d "$DEST_EXT" ]; then
+	rm -rf "$DEST_EXT"
+    fi
+    mkdir -p "$DEST_EXT"
+
+    for extension in $EXTENSIONS; do
+	echo "Working with extension `ez_color_url $extension`"
+	echo -n "Fetching extension from SVN"
+	svn co "$extension" "$DEST_EXT" &>.svn.log
+	ez_result_output $? "Failed to export $extension, see `ez_color_file .svn.log` for more info" || exit 1
+
+	if [ ! -f "$DEST_EXT/dist.sh" ]; then
+	    echo "Distribution info file `ez_color_file dist.sh` is missing from extension"
+	    echo "This must be created before it can be packaged"
+	    exit 1
+	fi
+
+	if [ ! -x "$DEST_EXT/dist.sh" ]; then
+	    echo "Distribution info file `ez_color_file dist.sh` is not executable"
+	    echo "This file must be executable for this script to read its contents"
+	    exit 1
+	fi
+
+        # Load variables from distribution file
+	EXTENSION_NAME=""
+	EXTENSION_IDENTIFIER=""
+	EXTENSION_SUMMARY=""
+	EXTENSION_LICENSE=""
+	EXTENSION_VERSION=""
+	EXTENSION_PUBLISH_VERSION=""
+	EXTENSION_ARCHIVE_NAME=""
+	EXTENSION_PHP_VERSION=""
+	. "$DEST_EXT/dist.sh"
+
+	rm -f "$DEST_EXT/dist.sh"
+
+	if [ -z "$EXTENSION_IDENTIFIER" ]; then
+	    echo "Identifier was not set for extension"
+	    exit 1
+	fi
+
+	OLD_DEST="$DEST"
+	DEST="$DEST/extension/$EXTENSION_IDENTIFIER"
+	mkdir -p "$DEST"
+	echo "Copying distribution files"
+	(cd "$DEST_EXT" && scan_dir .)
+
+	echo
+	echo -n "Looking for `$SETCOLOR_DIR`.svn`$SETCOLOR_NORMAL` directories"
+	(cd $DEST
+	    find . -name .svn -print &>.find.log
+	    if [ $? -ne 0 ]; then
+		ez_result_output 1 "The following .svn directories was found"
+		cat .find.log
+		rm .find.log
+		exit 1
+	    fi
+	    ez_result_output 0 ""
+	    rm .find.log ) || exit 1
+
+	echo -n "Looking for `$SETCOLOR_COMMENT`temp`$SETCOLOR_NORMAL` files"
+	(cd $DEST
+	    TEMPFILES=`find . -name '*[~#]' -print`
+	    echo $TEMPFILES | grep -e '[~#]' -q
+	    if [ $? -eq 0 ]; then
+		ez_result_output 1 "Cannot create extension distribution, the following temporary files were found:"
+		for tempfile in $TEMPFILES; do
+		    echo "`$SETCOLOR_FAILURE`$tempfile`$SETCOLOR_NORMAL`"
+		done
+		echo "The files must be removed before the extension distribution can be made"
+		exit 1
+	    fi
+	)
+	ez_result_output $? "" || exit 1
+
+	DEST="$OLD_DEST"
+	if [ "$BUILD_SNAPSHOT" == "1" ]; then
+	    EXTENSION_TGZFILE="$EXTENSION_ARCHIVE_NAME""-extension-$EXTENSION_VERSION-build$CURRENT_BUILD_NUMBER.tgz"
+	else
+	    EXTENSION_TGZFILE="$EXTENSION_ARCHIVE_NAME""-extension-$EXTENSION_VERSION.tgz"
+	fi
+
+	# Store paypal archive name
+	if [ "$EXTENSION_IDENTIFIER" = "ezpaypal" ]; then
+	    EXTENSION_PAYPAL_ARCHIVE="$DEST_EXTENSION_ARCHIVE/$EXTENSION_TGZFILE"
+	fi
+
+	echo -n "Creating extension archive `ez_color_file $EXTENSION_TGZFILE`"
+	(cd "$DEST/extension" && \
+	    tar cfz "$EXTENSION_TGZFILE" "$EXTENSION_IDENTIFIER" && \
+	    rm -rf "$EXTENSION_IDENTIFIER" && \
+	    mv "$EXTENSION_TGZFILE" "$DEST_EXTENSION_ARCHIVE/")
+	ez_result_output $? "Failed to package extension" || exit 1
+	rm -rf "$DEST_EXT"
+	EXTENSION_FILES="$EXTENSION_FILES $EXTENSION_TGZFILE"
+	echo
+    done
+
+    echo "Extensions have been packaged to dir `ez_color_dir $DEST_EXTENSION_ARCHIVE`"
+fi
 
 
 #
@@ -1080,10 +1173,9 @@ fi
 #
 
 if [ -f "$EXTENSION_PAYPAL_ARCHIVE" ]; then
-    echo
-    echo "Unpacking `ez_color_em Paypal` extension"
+    echo -n "Unpacking `ez_color_em Paypal` extension"
     (cd "$DEST/extension" && tar xfz "$EXTENSION_PAYPAL_ARCHIVE")
-    echo
+    ez_result_output $? "Failed to unpack $EXTENSION_PAYPAL_ARCHIVE" || exit 1
 fi
 
 
