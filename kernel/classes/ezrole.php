@@ -461,33 +461,37 @@ class eZRole extends eZPersistentObject
         if ( $version != 0 )
         {
             return eZPersistentObject::fetchObject( eZRole::definition(),
-                                                    null, array('version' => $version ), true);
+                                                    null, array( 'version' => $version ), true );
         }
         return eZPersistentObject::fetchObject( eZRole::definition(),
-                                                null, array('id' => $roleID ), true);
+                                                null, array( 'id' => $roleID ), true );
     }
 
     function fetchList( $tempVersions = false )
     {
-        if ( ! $tempVersions )
+        if ( !$tempVersions )
         {
             return eZPersistentObject::fetchObjectList( eZRole::definition(),
-                                                        null, array( 'version' => '0'), null,null,
+                                                        null, array( 'version' => '0' ), null,null,
                                                         true );
         }
         else
         {
             return eZPersistentObject::fetchObjectList( eZRole::definition(),
-                                                        null, array( 'version' => array( '>', '0') ), null,null,
-                                                        true);
+                                                        null, array( 'version' => array( '>', '0' ) ), null,null,
+                                                        true );
         }
     }
 
-    function &fetchByOffset( $offset, $limit, $asObject = true )
+    function &fetchByOffset( $offset, $limit, $asObject = true, $ignoreTemp = false )
     {
+        if ( $ignoreTemp )
+            $igTemp = array( 'version' => '0' );
+        else
+            $igTemp = null;
         return eZPersistentObject::fetchObjectList( eZRole::definition(),
                                                     null,
-                                                    null,
+                                                    $igTemp,
                                                     null,
                                                     array( 'offset' => $offset, 'length' => $limit ),
                                                     $asObject );
@@ -497,7 +501,7 @@ class eZRole extends eZPersistentObject
     {
         $db =& eZDB::instance();
 
-        $countArray = $db->arrayQuery(  "SELECT count( * ) AS count FROM ezrole" );
+        $countArray = $db->arrayQuery( "SELECT count(*) AS count FROM ezrole" );
         return $countArray[0]['count'];
     }
 
