@@ -61,6 +61,9 @@ $ini =& eZINI::instance();
 if ( $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled' )
     eZTemplate::setIsDebugEnabled( true );
 
+$ini->setVariable( 'RegionalSettings', 'TextTranslation', 'disabled' );
+
+
 $Module =& $Params['Module'];
 
 $tpl->setAutoloadPathList( $ini->variable( 'TemplateSettings', 'AutoloadPathList' ) );
