@@ -5,15 +5,11 @@
 
 {section show=eq($regional_info.language_type,1)}
  <p>
-  It's now possible to select a variation for your language. A variation does small adjustments to the language,
-  such as adding Euro support or date format changes. Using variations are optional so you may safely skip this step.
-  Once your're done click the <i>Summary</i> button.
+  {"It's now possible to select a variation for your language. A variation does small adjustments to the language, such as adding Euro support or date format changes. Using variations are optional so you may safely skip this step. Once your're done click the"|i18n("design/standard/setup/init")} <i>{"Summary"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}
  </p>
 {section-else}
  <p>
-  It's now possible to select variations for your languages. Variations do small adjustments to the language,
-  such as adding Euro support or date format changes. Using variations are optional so you may safely skip this step.
-  Once you are done click the <i>Summary</i> button.
+  {"It's now possible to select variations for your languages. Variations do small adjustments to the language, such as adding Euro support or date format changes. Using variations are optional so you may safely skip this step. Once you are done click the"|i18n("design/standard/setup/init")} <i>{"Summary"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}
  </p>
 {/section}
 
@@ -27,7 +23,7 @@
 </tr>
 <tr>
   <td class="normal">
-    Default
+    {"Default"|i18n("design/standard/setup/init")}
   </td>
 {let name=Variation has_variation=false()}
 {section loop=$language_variatons[$Language:item.locale_code]}
@@ -59,7 +55,7 @@
 
   <div class="buttonblock">
     <input type="hidden" name="ChangeStepAction" value="" />
-    <input class="defaultbutton" type="submit" name="StepButton_7" value="Summary>>" />
+    <input class="defaultbutton" type="submit" name="StepButton_7" value="{'Summary'|i18n('design/standard/setup/init')} >>" />
   </div>
   {include uri='design:setup/persistence.tpl'}
 </form>

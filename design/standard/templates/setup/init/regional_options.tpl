@@ -12,31 +12,30 @@
 
 {section show=eq($regional_info.language_type,1)}
  <p>
-  It's time to select the language this site should support.
+  {"It's time to select the language this site should support."|i18n("design/standard/setup/init")}
   {section show=$has_variations}
-   Select your language and click the <i>Summary</i> button, or the <i>Language Details</i> button to select language variations.
+   {"Select your language and click the"|i18n("design/standard/setup/init")} <i>{"Summary"|i18n("design/standard/setup/init")}</i> {"button, or the"|i18n("design/standard/setup/init")} <i>{"Language Details"|i18n("design/standard/setup/init")}</i> {"button to select language variations."|i18n("design/standard/setup/init")}
   {section-else}
-   Select your language and click the <i>Summary</i> button.
+   {"Select your language and click the"|i18n("design/standard/setup/init")} <i>{"Summary"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}
   {/section}
  </p>
 {section-else}
  <p>
-  It's time to select the languages this site should support.
-  Select your primary language and check any additional languages.
+  {"It's time to select the languages this site should support. Select your primary language and check any additional languages."|i18n("design/standard/setup/init")}
   {section show=$has_variations}
-   Once you're done click the <i>Summary</i> button, or the <i>Language Details</i> button to select language variations.
+   {"Once you're done click the"|i18n("design/standard/setup/init")} <i>{"Summary"|i18n("design/standard/setup/init")}</i> {"button, or the"|i18n("design/standard/setup/init")} <i>{"Language Details"|i18n("design/standard/setup/init")}</i> {"button to select language variations."|i18n("design/standard/setup/init")}
   {section-else}
-   Once you're done click the <i>Summary</i> button.
+   {"Once you're done click the"|i18n("design/standard/setup/init")} <i>{"Summary"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}
   {/section}
  </p>
  {section show=eq($regional_info.language_type,3)}
-  <p>The languages you choose will help determine the charset to use on the site.</p>
+  <p>{"The languages you choose will help determine the charset to use on the site."|i18n("design/standard/setup/init")}</p>
  {/section}
 {/section}
 
 <div class="highlight">
 <table cellspacing="0" cellpadding="0" border="0">
-<tr><th>Language name</th><th colspan="2">Selection</th></tr>
+<tr><th>{"Language name"|i18n("design/standard/setup/init")}</th><th colspan="2">{"Selection"|i18n("design/standard/setup/init")}</th></tr>
 {section name=Language loop=$available_languages}
 {section-exclude match=$:item.country_variation}
 <tr>
@@ -63,10 +62,10 @@
   <div class="buttonblock">
     <input type="hidden" name="ChangeStepAction" value="" />
 {* {section show=ne($regional_info.language_type,1)} *}
-    <input class="defaultbutton" type="submit" name="StepButton_7" value="Summary>>" />
+    <input class="defaultbutton" type="submit" name="StepButton_7" value="{'Summary'|i18n('design/standard/setup/init')} >>" />
 {section show=$has_variations}
     <input type="hidden" name="eZSetupChooseVariations" value="" />
-    <input class="button" type="submit" name="StepButton_6" value="Language Details>" />
+    <input class="button" type="submit" name="StepButton_6" value="{'Language Details'|i18n('design/standard/setup/init')} >" />
 {/section}
 {* {/section} *}
   </div>
