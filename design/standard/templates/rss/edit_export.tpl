@@ -73,6 +73,9 @@
     <input type="hidden" name="RSSExport_ID" value={$rss_export.id} />
     <input type="hidden" name="Item_Count" value={count($rss_export.item_list)} />
 
+    <br/>
+    <div class="block">{"Note. Each source only fetch 5 objects from 1 level below."|i18n("design/standard/rss/edit")}</div>
+
     {section name=Source loop=$rss_export.item_list}
 
        <h2>Source {sum($Source:index, 1)}</h2>
