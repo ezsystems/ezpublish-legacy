@@ -75,7 +75,7 @@ class eZHiOMenuOperator
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
         $php = new eZPHPCreator( "var/cache/menu/", "menu_" . $namedParameters['node_id'] . ".php" );
 
-        if ( $php->canRestore( mktime() - 60*60 ) )
+        if ( $php->canRestore( mktime() - 60*5 ) )
         {
             $cacheExpired = false;
         }
@@ -83,8 +83,6 @@ class eZHiOMenuOperator
         {
             $cacheExpired = true;
         }
-
-        $cacheExpired = true;
 
         if ( $cacheExpired == true )
         {
@@ -113,6 +111,7 @@ class eZHiOMenuOperator
                                   16,  // Administrasjonen16
                                   21  // Sevu
                                   );
+
             if ( in_array( $namedParameters['section_id'], $sessionIDs ) )
                 $offset = 2;
             else if ( $namedParameters['section_id']==19 )  // English pages
@@ -142,7 +141,6 @@ class eZHiOMenuOperator
 
                 if ( $elements[1] == 'content' and $elements[2] == 'view' and is_numeric( $nodeID ) and $excludeNode == false )
                 {
-
                     $menuChildren =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
                                                                               'Offset' => 0,
                                                                               'SortBy' => array( array('priority') ),
@@ -164,6 +162,7 @@ class eZHiOMenuOperator
                         {
                             $name = substr( $name, 0, $strLimit ) . "...";
                         }
+                        unset( $tmpObj );
                         $tmpNodeID = $child->attribute( 'node_id' );
                         $tmpObj = $child->attribute( 'object' );
                         $className = $tmpObj->attribute( 'class_name' );
@@ -195,16 +194,19 @@ class eZHiOMenuOperator
                             $urlAlias = $tmpURL;
 
                             $addToMenu = false;
-                            $type = $map['type']->content();
+                            $enum = $map['type']->content();
                             $value = null;
                             if ( get_class( $enum ) == "ezenum" )
                             {
+                                unset( $values );
                                 $values = $enum->attribute( "enumobject_list" );
                                 $value = $values[0];
                             }
 
-                            if ( get_class( $value ) == 'ezenumobjectvalue' and  $value->attribute( 'enumvalue' ) <> 1 )
+                            if ( get_class( $value ) == 'ezenumobjectvalue' and  $value->attribute( 'enumvalue' ) == 2 )
+                            {
                                 $addToMenu = true;
+                            }
                         }
                         else
                         {
