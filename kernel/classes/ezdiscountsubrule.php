@@ -135,7 +135,7 @@ class eZDiscountSubRule extends eZPersistentObject
     {
         $row = array(
             "id" => null,
-            "name" => "New Discount Rule",
+            "name" => ezi18n( 'kernel/shop/discountgroup', "New Discount Rule" ),
             "discountrule_id" => $discountRuleID,
             "discount_percent" => "",
             "limitation" => "*" );
