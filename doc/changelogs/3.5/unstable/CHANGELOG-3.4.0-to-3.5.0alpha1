@@ -138,6 +138,10 @@ eztc.php:
 - Fixed bug in eZContentObject which set incorect status for objects when do unserializing it.
   Merged from stable/3.4 rev. 6906.
   http://ez.no/community/bug_reports/imported_content_objects_cannot_be_related_assigned_to_other_objects
+- Fixed bug: "Registration" setup step didn't notice that convert program
+  (included into Imagemagick) had been found in path entered by user.
+  Merged from stable/3.3 rev. 6908, also in stable/3.4 rev. 6909.
+  http://ez.no/community/bug_reports/setup_registration_email_problem
 
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that

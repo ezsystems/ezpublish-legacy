@@ -81,8 +81,10 @@ function eZSetupConfigVariableArray( $type, $name )
     return $config->variableArray( $type, $name );
 }
 
-function eZSetupRunTests( $testList, &$arguments, $client )
+function eZSetupRunTests( $testList, &$arguments, $client, &$givenPersistentList )
 {
+    eZSetupPrvtExtractExtraPaths( $givenPersistentList );
+
     $testTable = eZSetupTestTable();
 
     $testResults = array();
@@ -141,7 +143,7 @@ function eZSetupCheckTestFunctions( $type, &$arguments )
     $testList = eZSetupConfigVariableArray( $type, 'TestList' );
     $requireType = eZSetupConfigVariable( $type, 'Require' );
 
-    $runResult = eZSetupRunTests( $testList, $arguments, 'eZSetupCheckTestFunctions' );
+    $runResult = eZSetupRunTests( $testList, $arguments, 'eZSetupCheckTestFunctions', $dummy=null );
     $testResults = $runResult['results'];
     $testResult = $runResult['result'];
     $successCount = $runResult['success_count'];
@@ -441,10 +443,29 @@ function eZSetupCheckExecutable( $type, &$arguments )
 	$additionalSearchPaths = eZSetupConfigVariableArray( $type, $filesystemType . '_SearchPaths' );
 	$excludePaths = eZSetupConfigVariableArray( $type, $filesystemType . '_ExcludePaths' );
     $imageIniPath = eZSetupImageConfigVariableArray( 'ShellSettings', 'ConvertPath' );
-    $extraPath = array();
-    if ( $http->hasPostVariable( $type . '_ExtraPath' ) ){
-        $extraPath = explode( $envSeparator, $http->postVariable( $type . '_ExtraPath' ) );
 
+    /*
+     * We save once entered extra path in the persistent data list
+     * to keep it within setup steps.
+     *
+     * This treek is needed, for example, in "registration" step,
+     * where user has no chance to enter extra path again
+     * due to missing input field for this purpose.
+     */
+
+    // compute extra path
+    $extraPath = array();
+    if ( $http->hasPostVariable( $type . '_ExtraPath' ) )
+    {
+        $GLOBALS['eZSetupCheckExecutable_'.$type.'_ExtraPath'] = $http->postVariable( $type . '_ExtraPath' );
+        $extraPath = explode( $envSeparator, $http->postVariable( $type . '_ExtraPath' ) );
+    }
+    else if ( isset( $GLOBALS['eZSetupCheckExecutable_'.$type.'_ExtraPath'] ) )
+        $extraPath = explode( $envSeparator, $GLOBALS['eZSetupCheckExecutable_'.$type.'_ExtraPath'] );
+
+    // if extra path was given in any way
+    if ( $extraPath )
+    {
         // remove program from path name if entered
         foreach ( $extraPath as $path )
         {
@@ -526,9 +547,13 @@ function eZSetupCheckExecutable( $type, &$arguments )
             break;
 	}
 
+    $extraPathAsString = implode( $envSeparator, $extraPath );
+
 	return array( 'result' => $result,
                   'persistent_data' => array( 'path' => array( 'value' => $correctPath ),
                                               'program' => array( 'value' => $correctProgram ),
+                                              'extra_path' => array( 'value' => $extraPathAsString,
+                                                                     'merge' => TRUE ),
                                               'result' => array( 'value' => $result ) ),
                   'env_separator' => $envSeparator,
                   'filesystem_type' => $filesystemType,
@@ -743,4 +768,19 @@ function eZSetupPrvtVersionCompare( $versionArray1, $versionArray2 )
         return 0;
 }
 
+
+/* Find previously saved extra paths and export them
+ * to global variables.
+ */
+function eZSetupPrvtExtractExtraPaths( &$givenPersistentList )
+{
+    if( !$givenPersistentList ) // null or empty array
+        return;
+
+    foreach( $givenPersistentList as $key => $val )
+    {
+        if( isset( $val['extra_path'] ) )
+            $GLOBALS['eZSetupCheckExecutable_'.$key.'_ExtraPath'] = $val['extra_path'];
+    }
+}
 ?>
