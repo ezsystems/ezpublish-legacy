@@ -258,6 +258,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             $dataType->storeObjectAttribute( $this );
 
             eZPersistentObject::store();
+            $dataType->postStore( $this );
         }
     }
 
@@ -873,6 +874,8 @@ class eZContentObjectAttribute extends eZPersistentObject
         }
         $tmp->sync();
         $tmp->initialize( $currentVersionNumber, $this );
+        $tmp->sync();
+        $tmp->postInitialize( $currentVersionNumber, $this );
         return $tmp;
     }
 
@@ -886,7 +889,10 @@ class eZContentObjectAttribute extends eZPersistentObject
         $tmp->setAttribute( 'id', null );
         $tmp->setAttribute( 'language_code', $languageCode );
         $tmp->sync();
-        $tmp->initialize( $this->attribute( 'version' ), $this );
+        $currentVersionNumber = $this->attribute( 'version' );
+        $tmp->initialize( $currentVersionNumber, $this );
+        $tmp->sync();
+        $tmp->postInitialize( $currentVersionNumber, $this );
         return $tmp;
     }
 

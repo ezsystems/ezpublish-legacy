@@ -111,7 +111,9 @@ include_once( "lib/ezxml/classes/ezxml.php" );
 include_once( "kernel/common/template.php" );
 include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
 include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
 include_once( "lib/ezutils/classes/ezini.php" );
+
 
 define( "EZ_DATATYPESTRING_XML_TEXT", "ezxmltext" );
 define( 'EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD', 'data_int1' );
@@ -193,6 +195,33 @@ class eZXMLTextType extends eZDataType
         $input =& $xmlText->attribute( 'input' );
         $isValid = $input->validateInput( $http, $base, $contentObjectAttribute );*/
         return true;
+    }
+
+    /*!
+     Initializes the object attribute with some data after object attribute is already stored.
+     It means that for initial version you allready have an attribute_id and you can store data somewhere using this id.
+     \note Default implementation does nothing.
+    */
+    function postInitializeObjectAttribute( &$objectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    {
+        // Update url-object links
+
+        $objectAttributeID = $objectAttribute->attribute( 'id' );
+        $objectAttributeVersion = $objectAttribute->attribute( 'version' );
+
+        $origObjectAttributeID = $originalContentObjectAttribute->attribute( 'id' );
+        $origObjectAttributeVersion = $originalContentObjectAttribute->attribute( 'version' );
+
+        if ( $objectAttributeID != $origObjectAttributeID or
+             $objectAttributeVersion != $origObjectAttributeVersion )
+        {
+              $origlinkList =& eZURLObjectLink::fetchLinkList( $origObjectAttributeID, $origObjectAttributeVersion, false );
+              foreach ( $origlinkList as $origUrlID )
+              {
+                  $linkObjectLink =& eZURLObjectLink::create( $origUrlID, $objectAttributeID, $objectAttributeVersion );
+                  $linkObjectLink->store();
+              }
+        }
     }
 
     /*!

@@ -1675,6 +1675,7 @@ class eZContentObject extends eZPersistentObject
                             // Set reference ID
                             $tmp->setAttribute( 'attribute_original_id', $contentObjectAttribute->attribute( 'id' ) );
                             $tmp->store();
+                            $tmp->postInitialize( $translationVersion, $contentObjectAttribute );
                         }
                     }
                 }

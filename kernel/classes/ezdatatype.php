@@ -848,6 +848,13 @@ class eZDataType
     {
     }
 
+    /*
+     Makes some post-store operations. Called by framework after store of eZContentObjectAttribute object.
+    */
+    function postStore( &$objectAttribute )
+    {
+    }
+
     /*!
      Clean up stored object attribute
      \note Default implementation does nothing.

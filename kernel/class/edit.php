@@ -527,6 +527,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
                                 $objectAttribute->setAttribute( 'language_code', $translation );
                                 $objectAttribute->initialize();
                                 $objectAttribute->store();
+                                $objectAttribute->postInitialize();
                             }
                         }
                     }
