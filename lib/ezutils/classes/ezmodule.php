@@ -299,12 +299,15 @@ class eZModule
      \return false if the view could not redirected to.
      \sa redirectionURI
     */
-    function redirect( $moduleName, $viewName, $parameters = array(), $unorderedParameters = null )
+    function redirect( $moduleName, $viewName, $parameters = array(),
+                       $unorderedParameters = null, $userParameters = false,
+                       $anchor = false )
     {
         $module =& eZModule::exists( $moduleName );
         if ( $module )
         {
-            return $this->redirectModule( $module, $viewName, $parameters, $unorderedParameters );
+            return $this->redirectModule( $module, $viewName, $parameters,
+                                          $unorderedParameters, $userParameters, $anchor );
         }
         else
         {
@@ -316,17 +319,23 @@ class eZModule
     /*!
      Same as redirect() only redirects in the current module.
     */
-    function redirectToView( $viewName = '', $parameters = array(), $unorderedParameters = null )
+    function redirectToView( $viewName = '', $parameters = array(),
+                             $unorderedParameters = null, $userParameters = false,
+                             $anchor = false )
     {
-        return $this->redirectModule( $this, $viewName, $parameters, $unorderedParameters );
+        return $this->redirectModule( $this, $viewName, $parameters,
+                                      $unorderedParameters, $userParameters, $anchor );
     }
 
     /*!
      Same as redirect() but takes a module object instead of the name.
     */
-    function redirectModule( &$module, $viewName, $parameters = array(), $unorderedParameters = null )
+    function redirectModule( &$module, $viewName, $parameters = array(),
+                             $unorderedParameters = null, $userParameters = false,
+                             $anchor = false )
     {
-        $uri = $this->redirectionURIForModule( $module, $viewName, $parameters, $unorderedParameters );
+        $uri = $this->redirectionURIForModule( $module, $viewName, $parameters,
+                                               $unorderedParameters, $userParameters, $anchor );
         $this->redirectTo( $uri );
         return true;
     }
@@ -336,12 +345,15 @@ class eZModule
              and unordered parameters \a $unorderedParameters.
      \sa redirect
     */
-    function redirectionURI( $moduleName, $viewName, $parameters = array(), $unorderedParameters = null )
+    function redirectionURI( $moduleName, $viewName, $parameters = array(),
+                             $unorderedParameters = null, $userParameters = false,
+                             $anchor = false )
     {
         $module =& eZModule::exists( $moduleName );
         if ( $module )
         {
-            return $this->redirectionURIForModule( $module, $viewName, $parameters, $unorderedParameters );
+            return $this->redirectionURIForModule( $module, $viewName, $parameters,
+                                                   $unorderedParameters, $userParameters, $anchor );
         }
         else
             eZDebug::writeError( 'Undefined module: ' . $moduleName, 'eZModule::redirectionURI' );
@@ -363,7 +375,9 @@ class eZModule
     /*!
      Sames as redirectionURI but takes a module object instead of the name.
     */
-    function redirectionURIForModule( &$module, $viewName, $parameters = array(), $unorderedParameters = null )
+    function redirectionURIForModule( &$module, $viewName, $parameters = array(),
+                                      $unorderedParameters = null, $userParameters = false,
+                                      $anchor = false )
     {
         if ( $viewName == '' )
             $viewName = eZModule::currentView();
@@ -408,7 +422,17 @@ class eZModule
             $uri .= $unorderedURI;
         }
 
+        if ( is_array( $userParameters ) )
+        {
+            foreach ( $userParameters as $name => $value )
+            {
+                $uri .= '/(' . $name . ')/' . $value;
+            }
+        }
+
         $uri = preg_replace( "#(^.*)(/+)$#", "\$1", $uri );
+        if ( $anchor !== false )
+            $uri .= '#' . urlencode( $anchor );
         return $uri;
     }
 

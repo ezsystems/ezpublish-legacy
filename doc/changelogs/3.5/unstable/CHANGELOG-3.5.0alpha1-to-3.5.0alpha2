@@ -154,3 +154,6 @@ eZWebDAV:
   the file will now reuse the original filename and store in a random
   subdirectory.
   Storage of file is now done with a simple copy() function.
+
+eZModule:
+- Added support for user-defined parameters and anchor to all redirect methods().

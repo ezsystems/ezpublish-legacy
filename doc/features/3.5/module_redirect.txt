@@ -1,0 +1,22 @@
+*Title: Enhancement to module redirection methods
+
+*Documentation:
+The redirection methods in eZModule has been given to extra
+parameters which can be used to specify user-parameters and
+an anchor. If supplied they will be appended to the resulting
+url.
+
+e.g.
+
+// in content module
+$module->redirectToView( 'view', array( 'full', 200 ),
+                         null, array( 'MyParam' => 42 ), 'list-of-items' );
+// generates URL
+content/view/full/200//(MyParam)/42#list-of-items
+
+The methods that support this are:
+redirect():
+redirectToView():
+redirectModule():
+redirectionURI():
+redirectionURIForModule():
