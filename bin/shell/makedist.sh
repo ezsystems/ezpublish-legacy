@@ -224,7 +224,7 @@ echo "Looking for temp files"
 (cd $DEST
     find . -name '*[~#]' -print)
 
-if [ -d $DEST/bin -a -d $DEST/bin/modfix.sh ]; then
+if [ -f $DEST/bin/modfix.sh ]; then
     echo "Applying executable properties"
     (cd $DEST/bin
 	chmod a+x modfix.sh)
