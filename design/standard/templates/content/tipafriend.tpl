@@ -42,10 +42,12 @@
 
 <br/>
 
+{*
 <div class="block">
 <label>{"Receivers name"|i18n("design/standard/content/tipafriend")}</label><div class="labelbreak"></div>
 <input class="box" type="text" size="40" name="ReceiversName" value="{$receivers_name|wash}" />
 </div>
+*}
 
 <div class="block">
 <label>{"Receivers email address"|i18n("design/standard/content/tipafriend")}</label><div class="labelbreak"></div>
@@ -54,14 +56,14 @@
 
 <br/>
 
-<div class="block">
-<label>{"Subject"|i18n("design/standard/content/tipafriend")}</label><div class="labelbreak"></div>
-<input class="box" type="text" size="40" name="Subject" value="{$subject|wash}" />
-</div>
+{*<div class="block">*}
+{*<label>{"Subject"|i18n("design/standard/content/tipafriend")}</label><div class="labelbreak"></div>*}
+<input {*class="box"*} type="hidden" size="40" name="Subject" value="{$subject|wash}" />
+{*</div>*}
 
 <div class="block">
 <label>{"Comment"|i18n("design/standard/content/tipafriend")}</label><div class="labelbreak"></div>
-<textarea class="box" cols="40" rows="15" name="Comment" value="{$comment|wash}" ></textarea>
+<textarea class="box" cols="40" rows="10" name="Comment" value="{$comment|wash}" ></textarea>
 </div>
 
 <br/>
