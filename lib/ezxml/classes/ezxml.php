@@ -75,6 +75,7 @@ class eZXML
 
       $params["TrimWhiteSpace"] = false/true : if the XML parser should ignore whitespace between tags.
       $params["CharsetConversion"] = false/true : Whether charset conversion is done or not, default is true.
+      $params["ConvertSpecialChars"] = false/true: whether to convert &lt; &gt; &amp; etc into < > &; default is true.
     */
     function &domTree( $xmlDoc, $params = array(), $native = false )
     {
@@ -97,6 +98,10 @@ class eZXML
         if ( isset( $params['CharsetConversion'] ) and
              !$params['CharsetConversion'] )
             $charset = false;
+        if ( !isset( $params['ConvertSpecialChars'] ) )
+        {
+            $params['ConvertSpecialChars'] = true;
+        }
 
         $TagStack = array();
 
@@ -355,11 +360,14 @@ class eZXML
 //                    $subNode->NamespaceURI = $this->NamespaceStack[0];
 
                     // convert special chars
-                    $tagContent =& str_replace("&gt;", ">", $tagContent );
-                    $tagContent =& str_replace("&lt;", "<", $tagContent );
-                    $tagContent =& str_replace("&apos;", "'", $tagContent );
-                    $tagContent =& str_replace("&quot;", '"', $tagContent );
-                    $tagContent =& str_replace("&amp;", "&", $tagContent );
+                    if ( $params["ConvertSpecialChars"] == true )
+                    {
+                        $tagContent =& str_replace("&gt;", ">", $tagContent );
+                        $tagContent =& str_replace("&lt;", "<", $tagContent );
+                        $tagContent =& str_replace("&apos;", "'", $tagContent );
+                        $tagContent =& str_replace("&quot;", '"', $tagContent );
+                        $tagContent =& str_replace("&amp;", "&", $tagContent );
+                    }
 
                     $subNode->Content = $tagContent;
 //                    $subNode->Content = trim( $tagContent );
