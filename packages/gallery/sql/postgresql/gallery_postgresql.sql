@@ -3763,7 +3763,7 @@ INSERT INTO ezcontentobject_attribute VALUES (153, 'eng-GB', 4, 56, 160, 'intran
 INSERT INTO ezcontentobject_attribute VALUES (153, 'eng-GB', 61, 56, 160, 'gallery_blue', 0, 0, 0, 0, 'ezpackage', 'intranet1');
 INSERT INTO ezcontentobject_attribute VALUES (153, 'eng-GB', 7, 56, 160, 'left_menu', 0, 0, 0, 0, 'ezpackage', 'intranet1');
 INSERT INTO ezcontentobject_attribute VALUES (153, 'eng-GB', 5, 56, 160, 'intranet1', 0, 0, 0, 0, 'ezpackage', 'intranet1');
-INSERT INTO ezcontentobject_attribute VALUES (154, 'eng-GB', 61, 56, 161, 'gallery_package', 0, 0, 0, 0, 'ezstring', 'intranet888');
+INSERT INTO ezcontentobject_attribute VALUES (154, 'eng-GB', 61, 56, 161, 'gallery_package', 0, 0, 0, 0, 'ezstring', 'gallery_package');
 INSERT INTO ezcontentobject_attribute VALUES (154, 'eng-GB', 7, 56, 161, 'intranet888', 0, 0, 0, 0, 'ezstring', 'intranet888');
 INSERT INTO ezcontentobject_attribute VALUES (437, 'eng-GB', 61, 56, 180, 'nospam@ez.no', 0, 0, 0, 0, 'ezinisetting', '');
 INSERT INTO ezcontentobject_attribute VALUES (671, 'eng-GB', 61, 56, 196, 'ez.no', 0, 0, 0, 0, 'ezinisetting', '');

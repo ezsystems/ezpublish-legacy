@@ -3531,7 +3531,7 @@ INSERT INTO ezcontentobject_attribute VALUES (153, 'eng-GB', 65, 56, 160, 'news_
 INSERT INTO ezcontentobject_attribute VALUES (153, 'eng-GB', 7, 56, 160, 'left_menu', 0, 0, 0, 0, 'ezpackage', 'intranet1');
 INSERT INTO ezcontentobject_attribute VALUES (153, 'eng-GB', 5, 56, 160, 'intranet1', 0, 0, 0, 0, 'ezpackage', 'intranet1');
 INSERT INTO ezcontentobject_attribute VALUES (153, 'eng-GB', 4, 56, 160, 'intranet1', 0, 0, 0, 0, 'ezpackage', 'intranet1');
-INSERT INTO ezcontentobject_attribute VALUES (154, 'eng-GB', 65, 56, 161, 'news_package', 0, 0, 0, 0, 'ezstring', 'intranet888');
+INSERT INTO ezcontentobject_attribute VALUES (154, 'eng-GB', 65, 56, 161, 'news_package', 0, 0, 0, 0, 'ezstring', 'news_package');
 INSERT INTO ezcontentobject_attribute VALUES (154, 'eng-GB', 7, 56, 161, 'intranet888', 0, 0, 0, 0, 'ezstring', 'intranet888');
 INSERT INTO ezcontentobject_attribute VALUES (695, 'eng-GB', 5, 14, 197, 'Uberguru', 0, 0, 0, 0, 'ezstring', 'uberguru');
 INSERT INTO ezcontentobject_attribute VALUES (707, 'eng-GB', 5, 14, 198, 'Skien/Norway', 0, 0, 0, 0, 'ezstring', 'skien/norway');

@@ -2596,7 +2596,7 @@ INSERT INTO ezcontentobject VALUES (10, 14, 2, 4, 'Anonymous User', 2, 0, 103392
 INSERT INTO ezcontentobject_attribute VALUES (962, 'eng-GB', 1, 254, 123, '', 0, 0, 0, 0, 'ezboolean', '');
 INSERT INTO ezcontentobject_attribute VALUES (153, 'eng-GB', 59, 56, 160, 'shop_red', 0, 0, 0, 0, 'ezpackage', 'intranet1');
 INSERT INTO ezcontentobject_attribute VALUES (153, 'eng-GB', 7, 56, 160, 'left_menu', 0, 0, 0, 0, 'ezpackage', 'intranet1');
-INSERT INTO ezcontentobject_attribute VALUES (154, 'eng-GB', 59, 56, 161, 'shop_package', 0, 0, 0, 0, 'ezstring', 'intranet888');
+INSERT INTO ezcontentobject_attribute VALUES (154, 'eng-GB', 59, 56, 161, 'shop_package', 0, 0, 0, 0, 'ezstring', 'shop_package');
 INSERT INTO ezcontentobject_attribute VALUES (154, 'eng-GB', 7, 56, 161, 'intranet888', 0, 0, 0, 0, 'ezstring', 'intranet888');
 INSERT INTO ezcontentobject_attribute VALUES (521, 'eng-GB', 2, 160, 177, '', 0, 0, 0, 0, 'ezinteger', '');
 INSERT INTO ezcontentobject_attribute VALUES (98, 'eng-GB', 1, 41, 4, 'Media', 0, 0, 0, 0, 'ezstring', '');

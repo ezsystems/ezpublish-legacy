@@ -3267,7 +3267,7 @@ INSERT INTO ezcontentobject_attribute VALUES (153, 'eng-GB', 62, 56, 160, 'corpo
 INSERT INTO ezcontentobject_attribute VALUES (153, 'eng-GB', 7, 56, 160, 'left_menu', 0, 0, 0, 0, 'ezpackage', 'intranet1');
 INSERT INTO ezcontentobject_attribute VALUES (153, 'eng-GB', 5, 56, 160, 'intranet1', 0, 0, 0, 0, 'ezpackage', 'intranet1');
 INSERT INTO ezcontentobject_attribute VALUES (153, 'eng-GB', 4, 56, 160, 'intranet1', 0, 0, 0, 0, 'ezpackage', 'intranet1');
-INSERT INTO ezcontentobject_attribute VALUES (154, 'eng-GB', 62, 56, 161, 'corporate_package', 0, 0, 0, 0, 'ezstring', 'intranet888');
+INSERT INTO ezcontentobject_attribute VALUES (154, 'eng-GB', 62, 56, 161, 'corporate_package', 0, 0, 0, 0, 'ezstring', 'corporate_package');
 INSERT INTO ezcontentobject_attribute VALUES (154, 'eng-GB', 7, 56, 161, 'intranet888', 0, 0, 0, 0, 'ezstring', 'intranet888');
 INSERT INTO ezcontentobject_attribute VALUES (276, 'eng-GB', 6, 92, 177, '', 0, 0, 0, 0, 'ezinteger', '');
 INSERT INTO ezcontentobject_attribute VALUES (278, 'eng-GB', 3, 94, 177, '', 0, 0, 0, 0, 'ezinteger', '');
