@@ -521,6 +521,32 @@ div#contentstructure span.openclose
     visibility: hidden;
 }
 
+div#trash ul
+{
+    margin-left: 0.25em;
+}
+
+div#trash li
+{
+    list-style-type: none;
+}
+
+div#trash li a
+{
+    text-decoration: none;
+}
+
+div#trash li a:hover
+{
+    color: #000000;
+    text-decoration: underline;
+}
+
+div#trash li img
+{
+    vertical-align: middle;
+}
+
 div#rightmenu 
 {
     float: right;
