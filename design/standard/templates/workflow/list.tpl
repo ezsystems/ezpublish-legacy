@@ -1,4 +1,4 @@
-<form action="{$module.functions.list.uri}" method="post" name="WorkflowEdit">
+<form action="{$module.functions.list.uri}" method="post" name="WorkflowList">
 
 <h1>Defined workflows</h1>
 <table width="100%" cellspacing="0">

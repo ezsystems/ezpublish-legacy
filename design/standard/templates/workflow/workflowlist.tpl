@@ -1,4 +1,4 @@
-<form action="{$module.functions.workflowlist.uri}/{$group_id}" method="post" name="WorkflowEdit">
+<form action="{$module.functions.workflowlist.uri}/{$group_id}" method="post" name="WorkflowList">
 
 <h1>{"Defined workflows for "}{$group_name}</h1>
 {section show=$workflow_list}

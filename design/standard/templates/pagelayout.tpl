@@ -98,6 +98,12 @@
 </tr>
 <tr>
     <td>
+    <a href="/notification/list/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Notification rule list</nobr></a>
+    </td>
+</tr>
+
+<tr>
+    <td>
     <a href="/shop/cart/"><nobr><img src={"folder_blue_open.png"|ezimage} border="0" alt=""/> Shopping Cart</nobr></a>
     </td>
 </tr>

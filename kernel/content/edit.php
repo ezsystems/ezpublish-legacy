@@ -95,6 +95,47 @@ function checkContentActions( &$module, &$class, &$object, &$version, &$contentO
 
 //         eZDebug::writeNotice( $object, 'object' );
         $module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );
+
+        include_once( "kernel/notification/eznotificationrule.php" );
+        include_once( "kernel/notification/eznotificationruletype.php" );
+        include_once( "kernel/notification/eznotificationuserlink.php" );
+        include_once( "kernel/notification/ezmessage.php" );
+        $allrules =& eZNotificationRule::fetchList( null );
+        foreach ( $allrules as $rule )
+        {
+            $ruleClass = $rule->attribute("rule_type");
+            $ruleID = $rule->attribute( "id" );
+            if ( $ruleClass->match( &$object, &$rule ) )
+            {
+                $users =& eZNotificationUserLink::fetchUserList( $ruleID );
+                foreach ( $users as $user )
+                {
+                    $sendMethod = $user->attribute( "send_method" );
+                    $sendWeekday = $user->attribute( "send_weekday" );
+                    $sendTime = $user->attribute( "send_time" );
+                    $destinationAddress = $user->attribute( "destination_address" );
+                    $title = "New publishing notification";
+                    $body = $object->attribute( "name" );
+                    $body .= "\nhttp://nextgen.wy.dvh1.ez.no/content/view/full/";
+                    $body .=  $object->attribute( "main_node_id" );
+                    $body .= "\n\n\neZ System AS";
+                    $message =& eZMessage::create( $sendMethod, $sendWeekday, $sendTime, $destinationAddress, $title, $body );
+                    $message->store();
+
+                    //include_once( "lib/ezutils/classes/ezmail.php" );
+                    /* if( $sendMethod == "email" )
+                    {
+                        $email = new eZMail();
+                        $email->setReceiver( "wy@ez.no" );
+                        $email->setSender( "admin@ez.no" );
+                        $email->setFromName( "Administrator" );
+                        $email->setSubject( $title );
+                        $email->setBody( $body );
+                        $email->send();
+                    }*/
+                }
+            }
+        }
         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
     }
 }

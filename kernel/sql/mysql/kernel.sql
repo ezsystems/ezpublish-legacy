@@ -305,6 +305,48 @@ select max( read_permission ),  max( create_permission ), max( edit_permission )
 from ezcontentobject_permission where permission_id='1' AND ( user_group_id='2' or user_group_id='3' or user_group_id='-1' );
 
 
+# Table eznotification_rule
+
+drop table if exists eznotification_rule;
+CREATE TABLE eznotification_rule (
+id int auto_increment not null,
+type varchar(250) not null,
+contentclass_name varchar(250) not null,
+path varchar(250),
+keyword varchar(250),
+has_constraint int(1) not null,
+primary key( id ) );
+
+
+# Table eznotification_user_link
+
+drop table if exists eznotification_user_link;
+CREATE TABLE eznotification_user_link (
+rule_id int not null,
+user_id int not null,
+send_method varchar(50) not null,
+send_weekday varchar(50) not null,
+send_time varchar(50) not null,
+destination_address varchar(50) not null,
+primary key( rule_id, user_id ) );
+
+
+# Table ezmessage
+
+drop table if exists ezmessage;
+CREATE TABLE ezmessage (
+id int auto_increment not null,
+send_method varchar(50) not null,
+send_weekday varchar(50) not null,
+send_time varchar(50) not null,
+destination_address varchar(50) not null,
+title varchar(50) not null,
+body varchar(50),
+is_sent int(1) not null,
+primary key( id ) );
+
+
+
 # Users
 
 drop table if exists ezuser;
