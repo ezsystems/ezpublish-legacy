@@ -19,3 +19,26 @@
 	<li> ImageMagick and/or GD compiled in PHP for image conversion (not required) <br /><a href="http://www.imagemagick.org">http://www.imagemagick.org</a></li>
 </ul>
 
+<p>
+	The installation process for the above programs are very well documented on
+	their homepage, so we will not include that here.
+</p>
+
+<h2 id="Linux_FreeBSD_Macos">Using the setup guide on Linux, FreeBSD and Mac OS X</h2>
+<ol>
+	<li>Make sure you have met the eZ publish requirements</li>
+	<li>Go to <a href="http://ez.no/download">http://ez.no/download</a> and download the latest release of eZ publish</li>
+	<li>Extract the downloaded eZ pulish file somewhere on Apache's DocumenRoot <pre class="example"> $ tar xvfz ezpublish-xxx.tar.gz -C Apache_document_root</pre></li>
+	<li>Open a browser and point it to the server where you extracted ezpublish</li>
+	<li>Follow the setup guide instructions</li>
+</ol>
+
+<h2 id="Windows">Using the setup guide on Windows</h2>
+<ol>
+	<li>Make sure you have met the eZ publish requirements</li>
+	<li>Go to <a href="http://ez.no/download">http://ez.no/download</a> and download the latest release of eZ publish</li>
+	<li>Extract the downloaded eZ pulish file somewhere on Apache's DocumenRoot</li>
+	<li>Open a browser and point it to the server where you extracted ezpublish</li>
+	<li>Follow the setup guide instructions</li>
+</ol>
+
