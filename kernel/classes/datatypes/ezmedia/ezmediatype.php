@@ -77,14 +77,17 @@ class eZMediaType extends eZDataType
     */
     function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
-        $contentObjectAttributeID = $originalContentObjectAttribute->attribute( "id" );
-        $version = $contentObjectAttribute->attribute( "version" );
-        $oldfile =& eZMedia::fetch( $contentObjectAttributeID, $currentVersion );
-        if( $oldfile != null )
+        if ( $currentVersion !== false )
         {
-            $oldfile->setAttribute( 'contentobject_attribute_id', $contentObjectAttribute->attribute( 'id' ) );
-            $oldfile->setAttribute( "version",  $version );
-            $oldfile->store();
+            $contentObjectAttributeID = $originalContentObjectAttribute->attribute( "id" );
+            $version = $contentObjectAttribute->attribute( "version" );
+            $oldfile =& eZMedia::fetch( $contentObjectAttributeID, $currentVersion );
+            if( $oldfile != null )
+            {
+                $oldfile->setAttribute( 'contentobject_attribute_id', $contentObjectAttribute->attribute( 'id' ) );
+                $oldfile->setAttribute( "version",  $version );
+                $oldfile->store();
+            }
         }
     }
 

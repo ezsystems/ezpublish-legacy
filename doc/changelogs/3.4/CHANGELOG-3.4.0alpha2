@@ -16,6 +16,10 @@ Changes from 3.4.0alpha1 to 3.4.0alpha2
 
 *DataType:
 - eZMedia now uses eZMimeType for mime type handling. Merged in from stable/3.3 rev. 5380.
+- Made sure eZOption and eZRangeOption does no initialization when an attribute is copied
+  (e.g. on when creating a new version).
+- Made sure eZImage, eZMedia and eZENUM only copies attribute data when
+  supplied version is non-false.
 
 *Shop:
 - Added list of customers.
