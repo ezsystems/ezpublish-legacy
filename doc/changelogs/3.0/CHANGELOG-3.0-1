@@ -79,6 +79,7 @@ links to clickable links.
 - Added function for disabling VAT for the whole order
 - Moved eZExtension class into eZUtils library.
 - Added support for storing XML format in native charset, this makes it a lot faster.
+- Made sure the search engine works even with bad data in the database with case problems.
 
 *SDK :
 

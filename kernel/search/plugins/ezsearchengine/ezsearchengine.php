@@ -134,7 +134,18 @@ class eZSearchEngine
         {
             $wordArray = array();
             $wordsString = implode( '\',\'', $indexArrayOnlyWords );
-            $wordRes =& $db->arrayQuery( "SELECT * FROM ezsearch_word WHERE word IN ( '$wordsString' ) " );
+            $wordResTmp =& $db->arrayQuery( "SELECT * FROM ezsearch_word WHERE word IN ( '$wordsString' ) " );
+            $wordRes = array();
+            $wordMapArray = array();
+            foreach ( $wordResTmp as $wordResTmpValue )
+            {
+                $tmpWord = strtolower( $wordResTmpValue['word'] );
+                if ( !isset( $wordMapArray[$tmpWord] ) )
+                {
+                    $wordMapArray[$tmpWord] = true;
+                    $wordRes[] = $wordResTmpValue;
+                }
+            }
             $wordResCount = count( $wordRes );
             $wordIDArray = array();
             $existingWordArray = array();
