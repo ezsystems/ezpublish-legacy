@@ -279,6 +279,36 @@ class eZDOMNode
     }
 
     /*!
+      Removes the child(s) node named \a $name.
+    */
+    function removeNamedChildren( $name )
+    {
+        $removed = false;
+        $childArray = array();
+        for ( $i = 0; $i < count( $this->Children ); ++$i )
+        {
+            $child =& $this->Children[$i];
+            if ( $child->name() != $name )
+                $childArray[] =& $child;
+            else
+                $removed = true;
+        }
+        unset( $this->Childs );
+        $this->Children =& $childArray;
+        return $removed;
+    }
+
+    /*!
+      Removes the last appended child node
+    */
+    function removeLastChild( )
+    {
+        end( $this->Children );
+        $key = key( $this->Children );
+        unset( $this->Children[$key] );
+    }
+
+    /*!
      Returns the contents of the node if it has one child which is a #text node.
      False is returned if unsuccessful.
     */
