@@ -189,6 +189,57 @@ div#searchbox
     width: 8em;
 }
 
+div#cart
+{
+    margin-top: 0;
+    margin-bottom: 2em;
+    float: right;
+    clear: right;
+    width: 200px;
+}
+
+div#cart div.design
+{
+    border: 1px solid #e4eaf3;
+    background-image: url(../images/cart_image.gif);
+    background-position: top left;
+    background-repeat: no-repeat;
+}
+
+div#cart h3
+{
+    margin-top: 0px;
+    padding: 0em;
+    padding-left: 1.2em;
+    background-color: #e4eaf3;
+}
+
+div#cart ul
+{
+    list-style-type: none;
+    margin-bottom: 1.5em;
+    border-color: #000000;
+    border-bottom: 1px solid;
+}
+
+div#cart li
+{
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+div#cart a
+{
+    color: #000000;
+}
+
+
+div#cart .price
+{
+    text-align: right;
+    font-size: 80%;
+}
+
 div#infobox
 {
     margin-top: 0;
@@ -411,3 +462,7 @@ div.editbutton input
   color: #ffffff;
 }
 
+.review
+{
+    border: 1px solid #e4eaf3;
+}

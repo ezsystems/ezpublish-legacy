@@ -284,7 +284,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             }
         }
         eZDebug::accumulatorStop( 'override_cache' );
-        if ( $match === null )
+        if ( !isset( $match ) or $match === null )
             return false;
 
         $file = $match["file"];

@@ -75,4 +75,11 @@ MatchFile=edit_user.tpl
 Subdir=templates
 Match[class]=4
 
+[review_line]
+Source=node/view/line.tpl
+MatchFile=review_line.tpl
+Subdir=templates
+Match[class]=25
+
+
 */ ?>

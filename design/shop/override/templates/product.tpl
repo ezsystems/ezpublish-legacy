@@ -41,4 +41,18 @@
 </p>
 {/section}
 {/let}
+
+{let review_list=fetch( content, list, hash( parent_node_id, $node.node_id,
+                                             class_filter_type, include, class_filter_array, array( 25 ),
+                                             sort_by, array( published, false() ),
+                                             limit, 10 ) )}
+{$review_list|count}
+{section show=$review_list}
+<h3>Reviews</h3>
+    {section var=review loop=$review_list}
+        {node_view_gui view=line content_node=$review.item}
+    {/section}
+{/section}
+{/let}
+
 </form>
