@@ -639,6 +639,7 @@ div#maincontent-design h2
     font-weight: bold;
     color: #099;
     margin-bottom: 0px;
+    margin-top: 0px;
 }
 
 div#maincontent-design h3
@@ -647,6 +648,7 @@ div#maincontent-design h3
     font-weight: bold;
     color: #099;
     margin-bottom: 0px;
+    margin-top: 0px;
 }
 
 div#maincontent-design h4
@@ -753,7 +755,6 @@ div#maincontent-design div.content-view-full div.content-view-line div.attribute
 /* Content link for all main objects, e.g. " and "Thumbnail/slideshow view" */
 div#maincontent-design div.content-view-full div.attribute-link p, div#maincontent-design div.view-slideshow div.attribute-link p, div#maincontent-design div.content-view-full div.attribute-tipafriend p
 { 
-    clear: both;
     padding-top: 0px;
     padding-left: 6px;
     font: 9pt;
@@ -1287,8 +1288,6 @@ div.shop-basket table td.product-subtotal, div.shop-confirmorder table td.produc
     border-bottom: 1px solid #9cf;
 }
 
-
-
 /* rendered table */
 table.renderedtable td
 { 
@@ -1306,3 +1305,4 @@ table.renderedtable
     border-right: 1px solid #369;
     border-bottom: 1px solid #369;
 }
+

@@ -1,3 +1,5 @@
+{cache-block keys=$uri_string}
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
@@ -28,8 +30,11 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 <![endif]-->
 {/literal}
 
+{include uri="design:page_head.tpl"}
+
 </head>
 <body>
+
 
 <div id="allcontent">
 
@@ -37,12 +42,18 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 <div id="header">
     <div id="header-design">
     {*<img src={"/images/t1/t1-logo-placeholder.gif"|ezdesign} height="70" width="211" alt="Company logo" />*}
-    {let content=$pagedesign.data_map.image.content}
-        <a href={"/"|ezurl}><img src={$content[logo].full_path|ezroot} alt="Company logo" /></a>
-    {/let}
+    {section show=$pagedesign.data_map.image.content.is_empty|not()}
+        <h1>{ezini('SiteSettings','SiteName')}</h1>
+    {section-else}
+        {let content=$pagedesign.data_map.image.content}
+            <a href={"/"|ezurl}><img src={$content[logo].full_path|ezroot} alt="Company logo" /></a>
+        {/let}
+    {/section}
     </div>
 </div>
 {/let}
+
+{/cache-block}
 
 {section show=ezini('Toolbar_top','Tool','toolbar.ini')|count}
 <div id="toolbar-top">
@@ -52,6 +63,7 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 </div>
 {/section}
 
+{cache-block keys=$module_result.path[1]}
 <div class="break"></div>
 
 <hr class="hide" />
@@ -59,6 +71,7 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 {menu name=TopMenu}
 
 <hr class="hide" />
+
 
 <div id="path">
     <div id="path-design">
@@ -73,6 +86,7 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 {menu name=LeftMenu}
 
 <hr class="hide" />
+{/cache-block}
 
 {section show=ezini('Toolbar_right','Tool','toolbar.ini')|count}
 <div id="rightmenu">

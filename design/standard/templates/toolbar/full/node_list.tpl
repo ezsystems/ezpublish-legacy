@@ -1,3 +1,4 @@
+{cache-block}
 {let node_list=fetch( content, list, hash( parent_node_id, $parent_node,
                       limit, 5,
 					  sort_by, array( published, false() ) ) )}
@@ -14,3 +15,4 @@
 </div>
 
 {/let}
+{/cache-block}
