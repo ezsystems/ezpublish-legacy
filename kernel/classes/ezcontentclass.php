@@ -616,7 +616,6 @@ class eZContentClass extends eZPersistentObject
     function &fetchList( $version = EZ_CLASS_VERSION_STATUS_DEFINED, $asObject = true, $user_id = false,
                          $sorts = null, $fields = null, $classFilter = false )
     {
-        var_dump ( $classFilter );
         $conds = array();
         if ( is_numeric( $version ) )
             $conds["version"] = $version;
