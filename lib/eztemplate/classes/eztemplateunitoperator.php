@@ -97,10 +97,10 @@ class eZTemplateUnitOperator
     /*!
      Performs unit conversion.
     */
-    function modify( &$element, &$tpl, &$op_name, &$op_params, &$namespace, &$current_nspace, &$value, &$named_params )
+    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
-        $unit = $named_params["unit"];
-        $prefix = $named_params["prefix"];
+        $unit = $namedParameters["unit"];
+        $prefix = $namedParameters["prefix"];
         $ini =& eZINI::instance();
         if ( $prefix == "auto" )
         {
@@ -113,7 +113,7 @@ class eZTemplateUnitOperator
         $unit_ini =& eZINI::instance( "units.ini" );
         $use_si = $ini->variable( "UnitSettings", "UseSIUnits" ) == "true";
         $fake = $use_si ? "" : "Fake";
-        if ( $unit_ini->hasVar( "Base", $unit ) )
+        if ( $unit_ini->hasVariable( "Base", $unit ) )
         {
             $base = $unit_ini->variable( "Base", $unit );
         }
@@ -140,21 +140,21 @@ class eZTemplateUnitOperator
             foreach ( $prefixes as $prefix )
             {
                 $val = pow( 2, $prefix[0] );
-                if ( $val <= $value )
+                if ( $val <= $operatorValue )
                 {
                     $prefix_var = $prefix[1];
-                    $value = number_format( $value / $val, 2 );
+                    $operatorValue = number_format( $operatorValue / $val, 2 );
                 }
             }
         }
         else
         {
-            if ( $unit_ini->hasVar( $fake. "BinaryPrefixes", $prefix ) )
+            if ( $unit_ini->hasVariable( $fake. "BinaryPrefixes", $prefix ) )
             {
                 $prefix_base = 2;
                 $prefix_var = $unit_ini->variableArray( $fake . "BinaryPrefixes", $prefix );
             }
-            else if ( $unit_ini->hasVar( "DecimalPrefixes", $prefix ) )
+            else if ( $unit_ini->hasVariable( "DecimalPrefixes", $prefix ) )
             {
                 $prefix_base = 10;
                 $prefix_var = $unit_ini->variableArray( "DecimalPrefixes", $prefix );
@@ -164,15 +164,15 @@ class eZTemplateUnitOperator
                 $prefix_var = "";
             }
             else
-                $tpl->warning( $op_name, "Prefix \"$prefix\" for unit \"$unit\" not found" );
+                $tpl->warning( $operatorName, "Prefix \"$prefix\" for unit \"$unit\" not found" );
             if ( is_array( $prefix_var ) )
             {
                 $val = pow( $prefix_base, $prefix_var[0] );
-                $value = number_format( $value / $val, 2 );
+                $operatorValue = number_format( $operatorValue / $val, 2 );
                 $prefix_var = $prefix_var[1];
             }
         }
-        $value = "$value $prefix_var" . $base;
+        $operatorValue = "$operatorValue $prefix_var" . $base;
     }
 
 }

@@ -149,6 +149,7 @@ eZTemplate:
   the format may be added directly in the template.
 - Added string support for comparison operators.
 - Added missing ne operator to autoload list.
+- Fixed si operator to work again.
 
 eZINI:
 - Added support for override directories which are not a subdir
@@ -160,7 +161,7 @@ eZINI:
 - Made sure data is reset when files are (re)parsed, this fixes the duplicate
   variable item problem.
 - Added feature for reading associative arrays from .ini files
-pa
+
 eZModuleFunctionInfo:
 - Added support for extension definitions.
 
