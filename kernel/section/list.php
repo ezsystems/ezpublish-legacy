@@ -76,6 +76,8 @@ if ( $http->hasPostVariable( 'ConfirmRemoveSectionButton' ) )
     foreach ( $sectionIDArray as $sectionID )
     {
         $section =& eZSection::fetch( $sectionID );
+        if( $section === null )
+            continue;
         $section->remove( );
     }
 }

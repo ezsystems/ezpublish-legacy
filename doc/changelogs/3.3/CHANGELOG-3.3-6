@@ -240,6 +240,8 @@ eZINI:
   http://ez.no/community/bug_reports/other_database_tables_deleted_when_selecting_remove_data_in_setup_wizard
 - Changed default PostgreSQL user from 'root' to 'postgres' in bin/shell/redumpall.sh since
   there's no user called root in default PostgreSQL installation.
+- Fixed fatal error regarding to reposting after removal of a section.
+  http://ez.no/community/bug_reports/repost_crash_section
 
 *Library:
 
