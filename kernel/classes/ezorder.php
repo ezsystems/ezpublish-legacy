@@ -833,7 +833,7 @@ class eZOrder extends eZPersistentObject
         {
             $total += $item['total_price_inc_vat'];
         }
-        $total = round( $total );
+        $total = round( $total, 2 );
         return $total;
     }
 
@@ -846,7 +846,7 @@ class eZOrder extends eZPersistentObject
         {
             $total += $item['total_price_ex_vat'];
         }
-        $total = round( $total );
+        $total = round( $total, 2 );
         return $total;
     }
 
@@ -859,7 +859,7 @@ class eZOrder extends eZPersistentObject
         {
             $total += $item->attribute( 'price_inc_vat' );
         }
-        $total = round( $total );
+        $total = round( $total, 2 );
         return $total;
     }
 
@@ -872,7 +872,7 @@ class eZOrder extends eZPersistentObject
         {
             $total += $item->attribute( 'price_ex_vat' );
         }
-        $total = round( $total );
+        $total = round( $total, 2 );
         return $total;
     }
 
