@@ -245,6 +245,62 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
 
     /*!
+     \return the ID of the class attribute with the given ID.
+     False is returned if no class/attribute by that identifier is found.
+     If multiple classes have the same identifier, the first found is returned.
+    */
+    function classAttributeIDByIdentifier( $identifier )
+    {
+        $db =& eZDB::instance();
+        $dbName = $db->DB;
+
+        include_once( 'lib/ezutils/classes/ezphpcreator.php' );
+        $cacheDir = eZSys::cacheDirectory();
+        $phpCache = new eZPHPCreator( "$cacheDir", "classattributeidentifiers_$dbName.php" );
+
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        $expiryTime = 0;
+        if ( $handler->hasTimestamp( 'content-cache' ) )
+        {
+            $expiryTime = $handler->timestamp( 'content-cache' );
+        }
+
+        if ( $phpCache->canRestore( $expiryTime ) )
+        {
+            $var =& $phpCache->restore( array( 'identifierHash' => 'identifier_hash' ) );
+            $identifierHash =& $var['identifierHash'];
+        }
+        else
+        {
+            // Fetch identifier/id pair from db
+            $query = "SELECT ezcontentclass_attribute.id as attribute_id, ezcontentclass_attribute.identifier as attribute_identifier, ezcontentclass.identifier as class_identifier
+                      FROM ezcontentclass_attribute, ezcontentclass
+                      WHERE ezcontentclass.id=ezcontentclass_attribute.contentclass_id";
+            $identifierArray = $db->arrayQuery( $query );
+
+            $identifierHash = array();
+            foreach ( $identifierArray as $identifierRow )
+            {
+                $classIdentifier = $identifierRow['class_identifier'];
+                $attributeIdentifier = $identifierRow['attribute_identifier'];
+                $attributeID = $identifierRow['attribute_id'];
+                $combinedIdentifier = $classIdentifier . '/' . $attributeIdentifier;
+                $identifierHash[$combinedIdentifier] = (int)$attributeID;
+            }
+
+            // Store identifier list to cache file
+            $phpCache->addVariable( 'identifier_hash', $identifierHash );
+            $phpCache->store();
+        }
+        $return = false;
+        if ( isset( $identifierHash[$identifier] ) )
+            $return = $identifierHash[$identifier];
+
+        return $return;
+    }
+
+    /*!
      \return the ID of the class with the given ID.
      False is returned if no class by that identifier is found.
      If multiple classes have the same identifier, the first found is returned.
@@ -317,9 +373,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( $phpCache->canRestore( $expiryTime ) )
         {
-            $var =& $phpCache->restore( array( 'identifierHash' => 'identifier_hash' ) );
-            $dataTypeArray =& $var['datatype_array'];
-            $attributeTypeArray =& $var['attribute_type_array'];
+            $vars =& $phpCache->restore( array( 'datatype_array' => 'datatypeArray',
+                                                'attribute_type_array' => 'attributeTypeArray' ) );
+            $dataTypeArray =& $vars['datatype_array'];
+            $attributeTypeArray =& $vars['attribute_type_array'];
         }
         else
         {
@@ -348,8 +405,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             unset( $dataType );
 
             // Store identifier list to cache file
-            $phpCache->addVariable( 'datatype_array', $dataTypeArray );
-            $phpCache->addVariable( 'attribute_type_array', $attributeTypeArray );
+            $phpCache->addVariable( 'datatypeArray', $dataTypeArray );
+            $phpCache->addVariable( 'attributeTypeArray', $attributeTypeArray );
             $phpCache->store();
         }
         return $dataTypeArray[$attributeTypeArray[$classAttributeID]];
@@ -486,6 +543,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         case 'attribute':
                         {
                             $sortClassID = $sortBy[2];
+                            if ( !is_numeric( $sortClassID ) )
+                                $sortClassID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $sortClassID );
 
                             // Look up datatype for sorting
                             $sortDataType = eZContentObjectTreeNode::sortKeyByClassAttributeID( $sortClassID );
@@ -502,9 +561,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                             $sortingFields .= "a$attributeJoinCount.$sortKey";
                             $attributeFromSQL .= ", ezcontentobject_attribute as a$attributeJoinCount";
-                            $attributeWereSQL .= " a$attributeJoinCount.contentobject_id = ezcontentobject.id AND
-                                                  a$attributeJoinCount.contentclassattribute_id = $sortClassID AND
-                                                  a$attributeJoinCount.version = ezcontentobject_name.content_version AND";
+                            $attributeWereSQL .= "
+                                 a$attributeJoinCount.contentobject_id = ezcontentobject.id AND
+                                   a$attributeJoinCount.contentclassattribute_id = $sortClassID AND
+                                   a$attributeJoinCount.version = ezcontentobject_name.content_version AND";
 
                             $attributeJoinCount++;
                         }break;
@@ -625,20 +685,26 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $filterAttributeID = $filter[0];
                 $filterType = $filter[1];
                 $filterValue = $filter[2];
+                if ( !is_numeric( $filterAttributeID ) )
+                    $filterAttributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $filterAttributeID );
 
                 // Use the same joins as we do when sorting,
                 // if more attributes are filtered by we will append them
-                if ( $filterCount > $attributeJoinCount )
+                if ( $filterCount >= $attributeJoinCount )
                 {
                     $attributeFilterFromSQL .= ", ezcontentobject_attribute as a$filterCount ";
-                    $attributeFilterWhereSQL .= "a$filterCount.version = ezcontentobject_name.content_version AND ";
+                    $attributeFilterWhereSQL .= "
+                            a$filterCount.contentobject_id = ezcontentobject.id AND
+                               a$filterCount.contentclassattribute_id = $filterAttributeID AND
+                               a$filterCount.version = ezcontentobject_name.content_version AND ";
 
                 }
                 else
                 {
-                    $attributeFilterWhereSQL .= " a$filterCount.contentobject_id = ezcontentobject.id AND
-                                             a$filterCount.contentclassattribute_id = $filterAttributeID AND
-                                             a$filterCount.version = ezcontentobject_name.content_version AND ";
+                    $attributeFilterWhereSQL .= "
+                            a$filterCount.contentobject_id = ezcontentobject.id AND
+                              a$filterCount.contentclassattribute_id = $filterAttributeID AND
+                              a$filterCount.version = ezcontentobject_name.content_version AND ";
                 }
 
                 // Check datatype for filtering
@@ -702,7 +768,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
 
             if ( $filterCount > 0 )
-                $attributeFilterWhereSQL .= "( " . $attibuteFilterJoinSQL . " ) AND ";
+                $attributeFilterWhereSQL .= "\n                            ( " . $attibuteFilterJoinSQL . " ) AND ";
         }
 
         if ( $nodeID == 0 )
