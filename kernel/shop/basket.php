@@ -74,6 +74,7 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
         {
             $priceObj =& $attribute->content();
             $price += $priceObj->attribute( 'price' );
+            $priceFound = true;
         }
     }
 
