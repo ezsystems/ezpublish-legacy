@@ -51,7 +51,7 @@ class eZPostgreSQLDB extends eZDBInterface
         $ini =& eZINI::instance();
 
         $server = $this->Server;
-        $db = $this->Database;
+        $db = $this->DB;
         $user = $this->User;
         $password = $this->Password;
 
