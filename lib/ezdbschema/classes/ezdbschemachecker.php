@@ -206,31 +206,38 @@ class eZDbSchemaChecker
 	function diffField( $field1, $field2, $schema1Type, $schema2Type )
 	{
 		/* Type is always available */
-		if ( $field1['type'] != $field2['type'] )
+        if ( $field1['type'] != $field2['type'] )
         {
-			return $field2;
-		}
+            return array( 'different-options' => array( 'type' ), 'field-def' => $field2 );
+            return $field2;
+        }
+		
+        $test_fields = array( 'length', 'default', 'not_null' );
+        $different_options = array();
 
-		$test_fields = array( 'length', 'default', 'not_null' );
-		foreach ( $test_fields as $test_field )
+        foreach ( $test_fields as $test_field )
         {
 			if ( isset( $field1[$test_field] ) )
             {
 				if ( !isset( $field2[$test_field] ) ||
                      ( $field1[$test_field] != $field2[$test_field] ) )
                 {
-					return $field2;
+                    $different_options[] = $test_field;
 				}
 			}
             else
             {
 				if ( isset( $field2[$test_field] ) )
                 {
-					return $field2;
+                    $different_options[] = $test_field;
 				}
 			}
-		}
-		return false;
+        }
+
+        if ( $different_options )
+            return array( 'different-options' => $different_options, 'field-def' => $field2 );
+        else
+            return false;
 	}
 
     /*!

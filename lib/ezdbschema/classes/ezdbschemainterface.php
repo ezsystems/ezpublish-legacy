@@ -290,7 +290,7 @@ class eZDBSchemaInterface
                 $this->transformData( $data, true );
                 fputs( $fp, $this->generateDataFile( $schema, $this->data( $schema ), $params ) );
             }
-			fclose( $fp );
+            fclose( $fp );
 			return true;
 		}
         else
@@ -433,7 +433,6 @@ class eZDBSchemaInterface
                 }
             }
         }
-
         if ( $includeData )
         {
             $data = $this->data( $schema );
@@ -467,7 +466,6 @@ class eZDBSchemaInterface
                     return false;
             }
         }
-
         $this->DBInstance->OutputSQL = $oldOutputSQL;
         return true;
     }
@@ -554,8 +552,11 @@ class eZDBSchemaInterface
 				{
 					foreach ( $table_diff['changed_fields'] as $field_name => $changed_field )
 					{
-                        $this->appendSQLComments( $changed_field, $sql );
-						$sql .= $this->generateAlterFieldSql( $table, $field_name, $changed_field, $params );
+                        $changed_field_def =& $changed_field['field-def'];
+                        $diffPrams = array_merge( $params, array( 'different-options' => $changed_field['different-options'] ) );
+                        $this->appendSQLComments( $changed_field_def, $sql );
+                        $sql .= $this->generateAlterFieldSql( $table, $field_name, $changed_field_def, $diffPrams );
+                        unset( $diffPrams );
 					}
 				}
 				if ( isset ( $table_diff['removed_fields'] ) )
@@ -588,9 +589,11 @@ class eZDBSchemaInterface
 				{
 					foreach ( $table_diff['changed_indexes'] as $index_name => $changed_index )
 					{
+                        //eZDebug::writeDebug( $changed_index, "changed index $index_name" );
                         $this->appendSQLComments( $changed_index, $sql );
-						$sql .= $this->generateDropIndexSql( $table, $index_name, $params );
+						$sql .= $this->generateDropIndexSql( $table, $index_name, $changed_index, $params );
 						$sql .= $this->generateAddIndexSql( $table, $index_name, $changed_index, $params );
+                        //eZDebug::writeDebug( 'qqq' );
 					}
 				}
 			}
