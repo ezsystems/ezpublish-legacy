@@ -203,21 +203,21 @@
 {section show=or($attribute.has_content,$attribute.content.filename)}
 <div class="block">
 <div class="element">
-<label>{"Existing filename"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
+<label>{"Filename"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
 <p class="box">{$attribute.content.filename}</p>
 </div>
 <div class="element">
-<label>{"Existing original filename"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
+<label>{"Original filename"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
 <p class="box">{$attribute.content.original_filename}</p>
 </div>
 <div class="element">
-<label>{"Existing mime/type"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
+<label>{"MIME type"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
 <p class="box">{$attribute.content.mime_type}</p>
 </div>
 <div class="break"></div>
 </div>
 <div class="buttonblock">
-<input class="button" type="submit" name="CustomActionButton[{$attribute.id}_delete_media]" value="{'Remove'|i18n('design/standard/content/datatype')}" />
+<input class="button" type="submit" name="CustomActionButton[{$attribute.id}_delete_media]" value="{'Remove'|i18n('design/standard/content/datatype')}" title="{'Remove the file from this draft.'|i18n( 'design/standard/content/datatype' )}" />
 </div>
 {/section}
 {/default}
