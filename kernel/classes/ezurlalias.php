@@ -54,6 +54,12 @@
 
 include_once( "kernel/classes/ezpersistentobject.php" );
 
+define( 'EZURLALIAS_CACHE_FUNCTION', 'eZURLAliasWilcardTranslate' );
+
+define( 'EZ_URLALIAS_WILDCARD_TYPE_NONE', 0 );
+define( 'EZ_URLALIAS_WILDCARD_TYPE_FORWARD', 1 );
+define( 'EZ_URLALIAS_WILDCARD_TYPE_DIRECT', 2 );
+
 class eZURLAlias extends eZPersistentObject
 {
     /*!
@@ -89,6 +95,10 @@ class eZURLAlias extends eZPersistentObject
                                                                  'datatype' => 'integer',
                                                                  'default' => '0',
                                                                  'required' => true ),
+                                         "is_wildcard" => array( 'name' => "IsWildcard",
+                                                                 'datatype' => 'integer',
+                                                                 'default' => '0',
+                                                                 'required' => true ),
                                          "forward_to_id" => array( 'name' => "ForwardToID",
                                                                    'datatype' => 'integer',
                                                                    'default' => '0',
@@ -100,6 +110,23 @@ class eZURLAlias extends eZPersistentObject
                       "name" => "ezurlalias" );
     }
 
+    /*!
+     \return the url alias object as an associative array with all the attribute values.
+    */
+    function asArray()
+    {
+        return array( 'id' => $this->attribute( 'id' ),
+                      'source_url' => $this->attribute( 'source_url' ),
+                      'source_md5' => $this->attribute( 'source_md5' ),
+                      'destination_url' => $this->attribute( 'destination_url' ),
+                      'is_internal' => $this->attribute( 'is_internal' ),
+                      'is_wildcard' => $this->attribute( 'is_wildcard' ),
+                      'forward_to_id' => $this->attribute( 'forward_to_id' ) );
+    }
+
+    /*!
+     \reimp
+    */
     function &attribute( $attributeName )
     {
         if ( $attributeName == "forward_url" )
@@ -127,7 +154,7 @@ class eZURLAlias extends eZPersistentObject
      \param $isInternal decides if the url is internal or not (user created).
      \return the URL alias object
     */
-    function &create( $sourceURL, $destinationURL, $isInternal = true, $forwardToID = false )
+    function &create( $sourceURL, $destinationURL, $isInternal = true, $forwardToID = false, $isWildcard = false )
     {
         if ( !$forwardToID )
             $forwardToID = 0;
@@ -136,6 +163,7 @@ class eZURLAlias extends eZPersistentObject
         $row = array( 'source_url' => $sourceURL,
                       'destination_url' => $destinationURL,
                       'is_internal' => $isInternal,
+                      'is_wildcard' => $isWildcard,
                       'forward_to_id' => $forwardToID );
         $alias = new eZURLAlias( $row );
         return $alias;
@@ -174,7 +202,9 @@ class eZURLAlias extends eZPersistentObject
     {
         $id = $this->attribute( 'id' );
         $db =& eZDB::instance();
-        $sql = "DELETE FROM ezurlalias WHERE forward_to_id = '" . $db->escapeString( $id ) . "' AND is_internal = '1'";
+        $sql = "DELETE FROM ezurlalias
+ WHERE
+     forward_to_id = '" . $db->escapeString( $id ) . "'";
         $db->query( $sql );
         $this->remove();
     }
@@ -196,8 +226,22 @@ class eZURLAlias extends eZPersistentObject
 SET
     source_url = $newPathStringQueryPart
 WHERE
-    is_internal = 1 AND
+    is_wildcard = 0 AND
     source_url LIKE '$oldPathStringText/%'";
+
+        $db->query( $sql );
+
+        $subStringQueryPart = $db->subString( 'source_url', $oldPathStringLength + 1 );
+        $newPathStringQueryPart = $db->concatString( array( "'$newPathStringText'", $subStringQueryPart ) );
+        $destSubStringQueryPart = $db->subString( 'destination_url', $oldPathStringLength + 1 );
+        $newDestPathStringQueryPart = $db->concatString( array( "'$newPathStringText'", $destSubStringQueryPart ) );
+        $sql = "UPDATE ezurlalias
+SET
+    source_url = $newPathStringQueryPart, destination_url = $newDestPathStringQueryPart
+WHERE
+    is_wildcard != 0 AND
+    source_url LIKE '$oldPathStringText/%/*' AND
+    destination_url LIKE '$oldPathStringText/%/{1}'";
 
         $db->query( $sql );
 
@@ -206,8 +250,36 @@ WHERE
 SET
     source_md5 = $md5QueryPart
 WHERE
-    source_url like '$oldPathStringText%'";
+    source_url like '$newPathStringText%'";
 
+        $db->query( $sql );
+    }
+
+    /*!
+     Removes all wildcards that matches the base URL \a $baseURL.
+    */
+    function cleanupWildcards( $baseURL )
+    {
+        $db =& eZDB::instance();
+        $baseURLText = $db->escapeString( $baseURL . "/*" );
+        $sql = "DELETE FROM ezurlalias
+WHERE
+     source_url = '$baseURLText' AND
+     is_wildcard IN ( " . EZ_URLALIAS_WILDCARD_TYPE_FORWARD . ", " . EZ_URLALIAS_WILDCARD_TYPE_DIRECT . ")";
+        $db->query( $sql );
+    }
+
+    /*!
+     Removes forwarding urls where source_url match \a $oldURL.
+    */
+    function cleanupForwardingURLs( $oldURL )
+    {
+        $db =& eZDB::instance();
+        $oldURLText = $db->escapeString( $oldURL );
+        $sql = "DELETE FROM ezurlalias
+WHERE
+     source_url = '$oldURLText' AND
+     forward_to_id != 0";
         $db->query( $sql );
     }
 
@@ -245,16 +317,21 @@ WHERE
      \static
       Fetches the URL alias by source URL \a $url.
       \param $isInternal boolean which controls whether internal or external urls are fetched.
+      \param $noForwardID boolean which controls whether to only fetch urls without forward id
+                          or if forward id it should be ignored.
       \return the URL alias object or \c null
     */
-    function &fetchBySourceURL( $url, $isInternal = true, $asObject = true )
+    function &fetchBySourceURL( $url, $isInternal = true, $asObject = true, $noForwardID = true )
     {
         $url = eZURLAlias::cleanURL( $url );
+        $conditions = array( "source_url" => $url,
+                             'is_wildcard' => 0,
+                             'is_internal' => $isInternal );
+        if ( $noForwardID )
+            $conditions['forward_to_id'] = 0;
         return eZPersistentObject::fetchObject( eZURLAlias::definition(),
                                                 null,
-                                                array( "source_url" => $url,
-                                                       'forward_to_id' => 0,
-                                                       'is_internal' => $isInternal ),
+                                                $conditions,
                                                 $asObject );
     }
 
@@ -271,6 +348,7 @@ WHERE
                                                 null,
                                                 array( "destination_url" => $url,
                                                        'forward_to_id' => 0,
+                                                       'is_wildcard' => 0,
                                                        'is_internal' => $isInternal ),
                                                 $asObject );
     }
@@ -291,12 +369,262 @@ WHERE
 
     /*!
      \static
+      Fetches all wildcards from DB.
+    */
+    function &fetchWildcards( $asObject = true )
+    {
+        return eZPersistentObject::fetchObjectList( eZURLAlias::definition(),
+                                                    null,
+                                                    array( "is_wildcard" => array( array( EZ_URLALIAS_WILDCARD_TYPE_FORWARD, EZ_URLALIAS_WILDCARD_TYPE_DIRECT ) ) ),
+                                                    null,
+                                                    null,
+                                                    $asObject );
+    }
+
+    /*!
+     \return array with information on the wildcard cache.
+
+     The array containst the following keys
+     - dir - The directory for the cache
+     - file - The filename for the cache
+     - path - The entire path (including filename) for the cache
+     - keys - Array with key values which is used to uniquely identify the cache
+    */
+    function cacheInfo()
+    {
+        $cacheDir = eZSys::cacheDirectory();
+        $ini =& eZINI::instance();
+        $keys = array( 'implementation' => $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' ),
+                       'server' => $ini->variable( 'DatabaseSettings', 'Server' ),
+                       'database' => $ini->variable( 'DatabaseSettings', 'Database' ) );
+        $wildcardKey = md5( implode( "\n", $keys ) );
+        $wildcardCacheDir = "$cacheDir/wildcard";
+        $wildcardCacheFile = "wildcard_$wildcardKey.php";
+        $wildcardCachePath = "$wildcardCacheDir/$wildcardCacheFile";
+        return array( 'dir' => $wildcardCacheDir,
+                      'file' => $wildcardCacheFile,
+                      'path' => $wildcardCachePath,
+                      'keys' => $keys );
+    }
+
+    /*!
+     Sets the various cache information to the parameters.
+     \sa cacheInfo
+    */
+    function cacheInfoDirectories( &$wildcardCacheDir, &$wildcardCacheFile, &$wildcardCachePath, &$wildcardKeys )
+    {
+        $info =& eZURLAlias::cacheInfo();
+        $wildcardCacheDir = $info['dir'];
+        $wildcardCacheFile = $info['file'];
+        $wildcardCachePath = $info['path'];
+        $wildcardKeys = $info['keys'];
+    }
+
+    /*!
+     Goes trough all wildcards in the database and creates the wildcard match cache.
+     \sa cacheInfo
+    */
+    function createWildcardMatches()
+    {
+        eZURLAlias::cacheInfoDirectories( $wildcardCacheDir, $wildcardCacheFile, $wildcardCachePath, $wildcardKeys );
+        if ( !file_exists( $wildcardCacheDir ) )
+        {
+            eZDir::mkdir( $wildcardCacheDir, eZDir::directoryPermission(), true );
+        }
+
+        include_once( 'lib/ezutils/classes/ezphpcreator.php' );
+        $phpCache = new eZPHPCreator( $wildcardCacheDir, $wildcardCacheFile );
+
+        foreach ( $wildcardKeys as $wildcardKey => $wildcardKeyValue )
+        {
+            $phpCache->addComment( "$wildcardKey = $wildcardKeyValue" );
+        }
+        $phpCache->addSpace();
+
+        $phpCode = "function " . EZURLALIAS_CACHE_FUNCTION . "( &\$uri, &\$urlAlias )\n{\n";
+
+        $wildcards =& eZURLAlias::fetchWildcards();
+        $counter = 0;
+        foreach ( $wildcards as $wildcard )
+        {
+            $matchWilcard = $wildcard->attribute( 'source_url' );
+            $matchWilcardList = explode( "*", $matchWilcard );
+            $matchWildcardCount = count( $matchWilcardList ) - 1;
+            $regexpList = array();
+            foreach ( $matchWilcardList as $matchWilcardItem )
+            {
+                $regexpList[] = preg_quote( $matchWilcardItem, '#' );
+            }
+            $matchRegexp = implode( '(.*)', $regexpList );
+
+            $replaceWildcard = $wildcard->attribute( 'destination_url' );
+            $replaceWildcardList = preg_split( "#{([0-9]+)}#", $replaceWildcard, false, PREG_SPLIT_DELIM_CAPTURE );
+            $regexpList = array();
+            $replaceCounter = 0;
+            $replaceCode = "\$uri = ";
+            foreach ( $replaceWildcardList as $replaceWildcardItem )
+            {
+                if ( $replaceCounter > 0 )
+                    $replaceCode .= " . ";
+                if ( ( $replaceCounter % 2 ) == 0 )
+                {
+                    $replaceWildcardItemText = $phpCache->variableText( $replaceWildcardItem, 0 );
+                    $replaceCode .= "$replaceWildcardItemText";
+                }
+                else
+                {
+                    $replaceCode .= "\$matches[$replaceWildcardItem]";
+                }
+                ++$replaceCounter;
+            }
+            $replaceRegexp = implode( '', $regexpList );
+
+            $wildcardArray = $wildcard->asArray();
+
+            $phpCode .= "    ";
+            if ( $counter > 0 )
+                $phpCode .= "else ";
+            $phpCode .= "if ( preg_match( \"#$matchRegexp#\", \$uri, \$matches ) )\n    {\n";
+            $phpCode .= "        $replaceCode;\n";
+            $phpCode .= "        \$urlAlias = " . $phpCache->variableText( $wildcardArray, 8 + 12, 0, false ) . ";\n";
+            $phpCode .= "        return true;\n";
+            $phpCode .= "    }\n";
+
+            ++$counter;
+        }
+        $phpCode .= "    return false;\n";
+
+        $phpCode .= "}\n";
+
+        $phpCache->addCodePiece( $phpCode );
+        $phpCache->store();
+    }
+
+    /*!
+     \return true if the wildcard cache is expired.
+    */
+    function &isWildcardExpired( $timestamp )
+    {
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        if ( !$handler->hasTimestamp( 'urlalias-wildcard' ) )
+            return false;
+        $expiryTime = $handler->timestamp( 'urlalias-wildcard' );
+        if ( $expiryTime > $timestamp )
+            return true;
+        return false;
+    }
+
+    /*!
+     Expires the wildcard cache. This causes the wildcard cache to be
+     regenerated on the next page load.
+    */
+    function expireWildcards()
+    {
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        $handler->setTimestamp( 'urlalias-wildcard', mktime() );
+        $handler->store();
+    }
+
+    /*!
+     \static
+     Transforms the URI if there exists an alias for it.
+     \return \c true is if successful, \c false otherwise
+     \return The eZURLAlias object of the new url is returned if the translation was found, but the resource has moved.
+    */
+    function &translateByWildcard( &$uri, $reverse = false )
+    {
+        if ( get_class( $uri ) == "ezuri" )
+        {
+            $uriString = $uri->elements();
+        }
+        else
+        {
+            $uriString = $uri;
+        }
+        $uriString = eZURLAlias::cleanURL( $uriString );
+
+        $info =& eZURLAlias::cacheInfo();
+        $hasCache = false;
+        $isExpired = true;
+        $return = false;
+        if ( file_exists( $info['path'] ) )
+        {
+            $timestamp = filemtime( $info['path'] );
+            $isExpired = eZURLAlias::isWildcardExpired( $timestamp );
+            $hasCache = true;
+        }
+        if ( $isExpired )
+        {
+            eZURLAlias::createWildcardMatches();
+            $hasCache = true;
+        }
+        if ( $hasCache )
+        {
+            include_once( $info['path'] );
+            $hasCache = false;
+            if ( function_exists( EZURLALIAS_CACHE_FUNCTION ) )
+            {
+                $hasCache = true;
+                $function = EZURLALIAS_CACHE_FUNCTION;
+                $hasTranslated = false;
+                $url = false;
+                while ( $function( $uriString, $urlAlias ) )
+                {
+                    $hasTranslated = true;
+                    $url =& eZURLAlias::fetchBySourceURL( $uriString, true, true, false );
+                    if ( $url )
+                        break;
+                }
+                if ( $hasTranslated )
+                {
+                    if ( $urlAlias['is_wildcard'] == EZ_URLALIAS_WILDCARD_TYPE_FORWARD )
+                    {
+                        if ( !$url )
+                            $url =& eZURLAlias::fetchBySourceURL( $uriString, true, true, false );
+                        if ( $url and $url->attribute( 'forward_to_id' ) != 0 )
+                        {
+                            $return =& eZURLAlias::fetch( $url->attribute( 'forward_to_id' ) );
+                            $uriString = 'error/301';
+                        }
+                        else if ( $url )
+                        {
+                            $return =& $url;
+                            $uriString = 'error/301';
+                        }
+                    }
+                    else if ( $urlAlias['is_wildcard'] == EZ_URLALIAS_WILDCARD_TYPE_DIRECT )
+                    {
+                        $return = true;
+                    }
+                }
+            }
+        }
+        if ( !$hasCache )
+            return false;
+
+        if ( get_class( $uri ) == "ezuri" )
+        {
+            $uri->setURIString( $uriString );
+        }
+        else
+        {
+            $uri = $uriString;
+        }
+        return $return;
+    }
+
+    /*!
+     \static
       Counts the non-internal URL alias
     */
     function &totalCount( )
     {
         $db =& eZDB::instance();
-        $query = "SELECT count(id) AS count FROM ezurlalias WHERE is_internal = 0";
+        $query = "SELECT count(id) AS count
+ FROM ezurlalias
+ WHERE is_internal = 0";
         $res = $db->arrayQuery( $query );
         return $res[0]['count'];
     }
@@ -368,14 +696,16 @@ WHERE
             $query = "SELECT source_url as destination_url, forward_to_id
 FROM ezurlalias
 WHERE destination_url = '" . $db->escapeString( $uriString ) . "' AND
-      forward_to_id = 0
+      forward_to_id = 0 AND
+      is_wildcard = 0
 ORDER BY forward_to_id ASC";
         }
         else
         {
             $query = "SELECT destination_url, forward_to_id
 FROM ezurlalias
-WHERE source_md5 = '" . md5( $uriString ) . "'
+WHERE source_md5 = '" . md5( $uriString ) . "' AND
+      is_wildcard = 0
 ORDER BY forward_to_id ASC";
         }
 
@@ -384,6 +714,8 @@ ORDER BY forward_to_id ASC";
         if ( count( $urlAliasArray ) > 0 )
         {
             $uriString = $urlAliasArray[0]['destination_url'];
+            if ( $uriString == '' )
+                $uriString = '/';
 
             if ( $urlAliasArray[0]['forward_to_id'] != 0 )
             {

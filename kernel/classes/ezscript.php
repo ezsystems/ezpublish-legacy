@@ -77,6 +77,7 @@ $script->shutdown(); // Finish execution
 
 include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'lib/ezdb/classes/ezdb.php' );
+include_once( 'access.php' );
 
 class eZScript
 {

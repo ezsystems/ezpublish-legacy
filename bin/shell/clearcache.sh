@@ -11,6 +11,7 @@ CLEAR_TEMPLATE_BLOCK="0"
 CLEAR_TEMPLATE_OVERRIDE="0"
 CLEAR_TRANSLATION="0"
 CLEAR_EXPIRY="0"
+CLEAR_URLALIAS="0"
 
 # Check parameters
 for arg in $*; do
@@ -29,6 +30,7 @@ for arg in $*; do
 	    echo "         --clear-tpl-block          Remove template-block cache"
 	    echo "         --clear-ts                 Remove translation cache"
 	    echo "         --clear-expiry             Remove expiry cache"
+	    echo "         --clear-urlalias           Remove url alias cache"
 	    echo "         --clear-all                Remove all above caches"
             echo
             echo "Example:"
@@ -66,6 +68,9 @@ for arg in $*; do
 	--clear-expiry)
 	    CLEAR_EXPIRY="1"
 	    ;;
+	--clear-urlalias)
+	    CLEAR_URLALIAS="1"
+	    ;;
 	--clear-all)
 	    CLEAR_CONTENT="1"
 	    CLEAR_IMAGE="1"
@@ -75,6 +80,7 @@ for arg in $*; do
 	    CLEAR_TEMPLATE_OVERRIDE="1"
 	    CLEAR_TRANSLATION="1"
 	    CLEAR_EXPIRY="1"
+	    CLEAR_URLALIAS="1"
 	    ;;
 	*)
 	    echo "$arg: unkown option specified"
@@ -97,6 +103,7 @@ TEMPLATE_OVERRIDE_CACHEDIR="$DIR/cache/override"
 TEMPLATE_BLOCK_CACHEDIR="$DIR/cache/template-block"
 TRANSLATION_CACHEDIR="$DIR/cache/translation"
 EXPIRY_CACHEFILE="$DIR/cache/expiry.php"
+URLALIAS_CACHEDIR="$DIR/cache/wildcard"
 
 if [ "$CLEAR_CONTENT" -eq 1 ]; then
     if [ -d "$CONTENT_CACHEDIR" ]; then
@@ -151,5 +158,12 @@ if [ "$CLEAR_EXPIRY" -eq 1 ]; then
     if [ -d "$EXPIRY_CACHEFILE" ]; then
 	echo "Removing expiry cache file $EXPIRY_CACHEFILE"
 	rm -rf "$EXPIRY_CACHEFILE"
+    fi
+fi
+
+if [ "$CLEAR_URLALIAS" -eq 1 ]; then
+    if [ -d "$URLALIAS_CACHEDIR" ]; then
+	echo "Removing translation cache files in $URLALIAS_CACHEDIR"
+	rm -rf "$URLALIAS_CACHEDIR"
     fi
 fi

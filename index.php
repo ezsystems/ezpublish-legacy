@@ -411,6 +411,11 @@ while ( $moduleRunRequired )
         include_once( 'kernel/classes/ezurlalias.php' );
         $translateResult =& eZURLAlias::translate( $uri );
 
+        if ( !$translateResult )
+        {
+            $translateResult =& eZURLAlias::translateByWildcard( $uri );
+        }
+
         // Check if the URL has moved
         if ( get_class( $translateResult ) == 'ezurlalias' )
         {
