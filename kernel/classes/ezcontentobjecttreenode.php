@@ -604,7 +604,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             foreach ( $params['ClassFilterArray'] as $classID )
             {
                 // Check if classes are recerenced by identifier
-                if ( is_string( $classID ) )
+                if ( is_string( $classID ) && !is_numeric( $classID ) )
                 {
                     $classID = eZContentObjectTreeNode::classIDByIdentifier( $classID );
                 }
@@ -1130,6 +1130,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $classCount = count( $params['ClassFilterArray'] );
             foreach ( $params['ClassFilterArray'] as $classID )
             {
+                if ( is_string( $classID ) && !is_numeric( $classID ) )
+                {
+                    $classID = eZContentObjectTreeNode::classIDByIdentifier( $classID );
+                }
                 if ( $params['ClassFilterType'] == 'include' )
                     $classCondition .= " ezcontentobject.contentclass_id = '$classID' ";
                 else
