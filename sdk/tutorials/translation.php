@@ -151,7 +151,11 @@ tar -zcvf nor-NO.tar.gz \
 <h2 id="installing">Installing translations</h2>
 
 <p>
-To install a translation, simply unpack the package and set the appropriate entries in settings/site.ini. These are the keys you need to change to enable the translation:
+To install a translation, unpack the package in the eZ publish root directory. Make sure that the files go in the right place. The file translation.ts should be placed in the share/translations/[your language]/ directory, while the ini-file should be placed in share/locale. (If you unpack in the eZ publish root directory, this should be correct by default.)
+</p>
+
+<p>
+Next, set the appropriate entries in settings/site.ini or the corresponding override file. These are the keys you need to change to enable the translation:
 </p>
 
 <pre class="example">
@@ -161,6 +165,9 @@ TextTranslation=enabled
 TranslationCache=enabled
 </pre>
 
+<p>
+After you have enabled the translation, the translation cache must be generated. This takes some time, so the first page view will be slow. After that, the site should be almost as fast as with the eng-GB translation. Note: The cache generation will be very slow if you don't have the PHP mbstring extension. If you get timeouts, that is probably the cause. You can disable the translation cache by setting TranslationCache=disabled. This will work, but will be a lot slower than using the cache.
+</p>
 
 
 <br/>
