@@ -1206,6 +1206,45 @@ class eZPackage
         }
     }
 
+    function &packageHandler( $handlerName )
+    {
+        $handlers =& $GLOBALS['eZPackageHandlers'];
+        if ( !isset( $handlers ) )
+            $handlers = array();
+        $ini =& eZINI::instance( 'package.ini' );
+        $repository = $ini->variable( 'PackageSettings', 'PackageHandlerRepository' );
+        $handlerFile = $repository . '/' . $handlerName . '/' . $handlerName . 'packagehandler.php';
+        $handler = false;
+        if ( file_exists( $handlerFile ) )
+        {
+            include_once( $handlerFile );
+            $handlerClassName = $handlerName . 'PackageHandler';
+            if ( isset( $handlers[$handlerName] ) )
+            {
+                $handler =& $handlers[$handlerName];
+                $handler->reset();
+            }
+            else
+            {
+                $handler =& new $handlerClassName;
+                $handlers[$handlerName] =& $handler;
+            }
+        }
+        return $handler;
+    }
+
+    function handleAddParameters( $handlerName, &$cli, $arguments )
+    {
+        $handler =& $this->packageHandler( $handlerName );
+        if ( is_object( $handler ) )
+        {
+            return $handler->handleAddParameters( $cli, $arguments );
+        }
+        else
+            $cli->error( "Unknown package handler $handlerName" );
+        return false;
+    }
+
     /// \privatesection
     /// All interal data
     var $Parameters;

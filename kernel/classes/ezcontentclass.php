@@ -563,6 +563,30 @@ class eZContentClass extends eZPersistentObject
         eZPersistentObject::setAttribute( "version", $version );
     }
 
+    function exists( $id, $version = 0, $userID = false, $useIdentifier = false )
+    {
+        $conds = array( "version" => $version );
+        if ( $useIdentifier )
+            $conds["identifier"] = $id;
+        else
+            $conds["id"] = $id;
+        if ( $userID !== false and is_numeric( $userID ) )
+            $conds["creator_id"] = $userID;
+        $version_sort = "desc";
+        if ( $version == 0 )
+            $conds['version'] = $version;
+        $rows =& eZPersistentObject::fetchObjectList( eZContentClass::definition(),
+                                                      null,
+                                                      $conds,
+                                                      null,
+                                                      array( "offset" => 0,
+                                                             "length" => 1 ),
+                                                      false );
+        if ( count( $rows ) > 0 )
+            return $rows[0]['id'];
+        return false;
+    }
+
     function &fetch( $id, $asObject = true, $version = 0, $user_id = false ,$parent_id = null )
     {
         $conds = array( "id" => $id,

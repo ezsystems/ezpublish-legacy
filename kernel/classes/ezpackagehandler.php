@@ -1,6 +1,6 @@
 <?php
 //
-// Definition of eZExportHandler class
+// Definition of eZPackageHandler class
 //
 // Created on: <01-Aug-2003 17:11:07 amos>
 //
@@ -34,21 +34,21 @@
 // you.
 //
 
-/*! \file ezexporthandler.php
+/*! \file ezpackagehandler.php
 */
 
 /*!
-  \class eZExportHandler ezexporthandler.php
-  \brief The class eZExportHandler does
+  \class eZPackageHandler ezpackagehandler.php
+  \brief The class eZPackageHandler does
 
 */
 
-class eZExportHandler
+class eZPackageHandler
 {
     /*!
      Constructor
     */
-    function eZExportHandler()
+    function eZPackageHandler()
     {
     }
 
@@ -65,6 +65,14 @@ class eZExportHandler
      Resets all data in the handler so that it's ready to handle a new package.
     */
     function reset()
+    {
+    }
+
+    /*!
+     \pure
+     Adds items defined in \a $parameters to the package \a $package.
+    */
+    function add( &$package, $parameters )
     {
     }
 

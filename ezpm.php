@@ -62,6 +62,8 @@ $command = false;
 $packageName = false;
 $packageAttribute = false;
 $packageAttributeValue = false;
+$packagePart = false;
+$packagePartParameters = array();
 $packageSummary = false;
 $packageLicence = false;
 $packageVersion = false;
@@ -144,7 +146,9 @@ function helpAdd()
     print( "add: Adds an eZ publish part to the package.\n" .
            "usage: add PACKAGE PART [PART PARAMETERS]...\n" .
            "\n" .
-           "Note: Will open up a new release if no open releases exists yet."
+           "Parts:\n" .
+           "  ezcontentclass: Add contentclass definitions\n" .
+           "Note: Will open up a new release if no open releases exists yet.\n"
            );
 }
 
@@ -164,7 +168,7 @@ function helpSet()
            "  version     :\n" .
            "  licence     :\n" .
            "  state       :\n" .
-           "Note: Will open up a new release if no open releases exists yet."
+           "Note: Will open up a new release if no open releases exists yet.\n"
            );
 }
 
@@ -173,7 +177,7 @@ function helpDelete()
     print( "delete (del, remove, rm): Removes an eZ publish part from the package.\n" .
            "usage: delete PACKAGE PART [PART PARAMETERS]...\n" .
            "\n" .
-           "Note: Will open up a new release if no open releases exists yet."
+           "Note: Will open up a new release if no open releases exists yet.\n"
            );
 }
 
@@ -410,6 +414,15 @@ for ( $i = 1; $i < count( $argv ); ++$i )
                 else if ( $packageAttributeValue === false )
                     $packageAttributeValue = $arg;
             }
+            else if ( $command == 'add' )
+            {
+                if ( $packageName === false )
+                    $packageName = $arg;
+                else if ( $packagePart === false )
+                    $packagePart = $arg;
+                else
+                    $packagePartParameters[] = $arg;
+            }
             else if ( $command == 'info' )
             {
                 if ( $packageName === false )
@@ -448,6 +461,15 @@ else if ( $command == 'export' )
     if ( !$exportType )
     {
         helpExport();
+        exit();
+    }
+}
+else if ( $command == 'add' )
+{
+    if ( !$packageName and
+         !$packagePart )
+    {
+        helpSet();
         exit();
     }
 }
@@ -533,6 +555,21 @@ else if ( $command == 'info' )
     else
         $cli->output( "package $packageName is not installed" );
 }
+else if ( $command == 'add' )
+{
+    $package =& eZPackage::fetch( $packageName );
+    if ( $package )
+    {
+        $parameters = $package->handleAddParameters( $packagePart, $cli, $packagePartParameters );
+        if ( $parameters )
+        {
+            print_r( $parameters );
+            $package->store();
+        }
+    }
+    else
+        $cli->output( "package $packageName is not installed" );
+}
 else if ( $command == 'set' )
 {
     $packageAttributes = array( 'summary',
@@ -543,7 +580,7 @@ else if ( $command == 'set' )
                                 'extension',
                                 'source',
                                 'version',
-                                'licence',
+//                                 'licence',
                                 'state' );
     if ( !in_array( $packageAttribute, $packageAttributes ) )
     {
@@ -561,7 +598,7 @@ else if ( $command == 'set' )
                 case 'vendor':
                 case 'extension':
                 case 'source':
-                case 'licence':
+//                 case 'licence':
                 case 'state':
                 {
                     $package->setAttribute( $packageAttribute, $packageAttributeValue );
@@ -575,63 +612,65 @@ else if ( $command == 'set' )
 }
 else if ( $command == 'import' )
 {
-    $package =& eZPackage::fetchFromFile( $packageFile );
-    if ( $package )
-    {
-        $package->install();
-    }
-    else
-    {
-        $cli->warning( "Could not open package file $packageFile" );
-    }
+    $cli->notice( 'Disabled for now' );
+//     $package =& eZPackage::fetchFromFile( $packageFile );
+//     if ( $package )
+//     {
+// //         $package->install();
+//     }
+//     else
+//     {
+//         $cli->warning( "Could not open package file $packageFile" );
+//     }
 }
 else if ( $command == 'export' )
 {
-    $packageName = 'mytest';
-    $packageSummary = 'hm';
-    $packageExtension = 'myext';
+    $cli->notice( 'Disabled for now' );
+//     $packageName = 'mytest';
+//     $packageSummary = 'hm';
+//     $packageExtension = 'myext';
 
-    $package =& eZPackage::create( $packageName, array( 'summary' => $packageSummary,
-                                                        'extension' => $packageExtension ) );
+//     $package =& eZPackage::create( $packageName, array( 'summary' => $packageSummary,
+//                                                         'extension' => $packageExtension ) );
 
-    $user =& eZUser::currentUser();
-    $userObject = $user->attribute( 'contentobject' );
+//     $user =& eZUser::currentUser();
+//     $userObject = $user->attribute( 'contentobject' );
 
-    $package->appendMaintainer( $userObject->attribute( 'name' ), 'jb@ez.no', 'lead' );
+//     $package->appendMaintainer( $userObject->attribute( 'name' ), 'jb@ez.no', 'lead' );
 
-    $package->appendDocument( 'README' );
-    $package->appendDocument( 'readme.html', 'text/html', false, 'end-user' );
-    $package->appendDocument( 'INSTALL', false, 'unix', 'site-admin' );
+//     $package->appendDocument( 'README' );
+//     $package->appendDocument( 'readme.html', 'text/html', false, 'end-user' );
+//     $package->appendDocument( 'INSTALL', false, 'unix', 'site-admin' );
 
-    $package->appendGroup( 'design' );
-    $package->appendGroup( 'community/forum' );
+//     $package->appendGroup( 'design' );
+//     $package->appendGroup( 'community/forum' );
 
-    $package->appendChange( 'Jan Borsodi', 'jb@ez.no', 'Added some stuff' );
+//     $package->appendChange( 'Jan Borsodi', 'jb@ez.no', 'Added some stuff' );
 
-    $package->setRelease( '1.0.5', '2', false, 'GPL', 'beta' );
+//     $package->setRelease( '1.0.5', '2', false, 'GPL', 'beta' );
 
-// $package->appendFileList( array( array( 'role' => 'override',
-//                                         'md5sum' => false,
-//                                         'name' => 'forum.tpl' ) ),
-//                           'template', false,
-//                           array( 'design' => 'standard' ) );
+// // $package->appendFileList( array( array( 'role' => 'override',
+// //                                         'md5sum' => false,
+// //                                         'name' => 'forum.tpl' ) ),
+// //                           'template', false,
+// //                           array( 'design' => 'standard' ) );
 
-// $package->appendInstall( 'part', 'Classes', false, true,
-//                          array( 'content' => 'yup' ) );
+// // $package->appendInstall( 'part', 'Classes', false, true,
+// //                          array( 'content' => 'yup' ) );
 
-    $exportList = array();
-    $exportList[] = array( 'type' => $exportType,
-                           'parameters' => $exportParameters );
-    $package->handleExportList( $exportList );
+//     $exportList = array();
+//     $exportList[] = array( 'type' => $exportType,
+//                            'parameters' => $exportParameters );
+//     $package->handleExportList( $exportList );
 
-    if ( $outputFile )
-    {
-        $package->storeToFile( $outputFile );
-    }
-    else
-    {
-        print( $package->toString() . "\n" );
-    }
+//     if ( $outputFile )
+//     {
+//         $package->storeToFile( $outputFile );
+//     }
+//     else
+//     {
+//         print( $package->toString() . "\n" );
+//     }
 }
 else if ( $command == 'create' )
 {
@@ -670,6 +709,8 @@ else if ( $command == 'create' )
 //                          array( 'content' => 'yup' ) );
 
     $package->store();
+    $cli->output( "Created package $packageName" );
+    $cli->output( "Use 'ezpm.php add' and 'ezpm.php set' to change and add settings to the package." );
 }
 
 $script->shutdown();
