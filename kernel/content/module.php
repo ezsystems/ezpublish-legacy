@@ -398,6 +398,12 @@ $ViewList['hide'] = array(
     'script' => 'hide.php',
     'params' => array( 'NodeID' ) );
 
+$ViewList['move'] = array(
+    'functions' => array( 'edit' ),
+    'default_navigation_part' => 'ezcontentnavigationpart',
+    'script' => 'move.php',
+    'params' => array( 'NodeID' ) );
+
 $ClassID = array(
     'name'=> 'Class',
     'values'=> array(),

@@ -31,9 +31,7 @@
         <th class="copy">&nbsp;</th>
 
         {* Move column *}
-{* This is currently disabled, no content/move functionality exists, only a POST action in content/action
         <th class="move">&nbsp;</th>
-*}
 
         {* Edit column *}
         <th class="edit">&nbsp;</th>
@@ -93,15 +91,10 @@
     {/section}
     </td>
 
-
-
     {* Move button. *}
-{* This is currently disabled, no content/move functionality exists, only a POST action in content/action
     <td>
-    <a href={''|ezurl}><img src={'move.gif'|ezimage} alt="{'Move'|i18n( 'design/admin/node/view/full' )}" title="{'Move <%child_name> to another location.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name ) )|wash}" /></a>
+    <a href={concat( 'content/move/', $Nodes.item.node_id )|ezurl}><img src={'move.gif'|ezimage} alt="{'Move'|i18n( 'design/admin/node/view/full' )}" title="{'Move <%child_name> to another location.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name ) )|wash}" /></a>
     </td>
-*}
-
 
         {* Edit button *}
         {* section show=$can_edit *}
