@@ -55,7 +55,8 @@ class eZStepLanguageOptions extends eZStepInstaller
     */
     function eZStepLanguageOptions(&$tpl, &$http, &$ini, &$persistenceList )
     {
-        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList );
+        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
+                                'language_options', 'Language options' );
     }
 
     /*!
@@ -129,6 +130,20 @@ class eZStepLanguageOptions extends eZStepInstaller
      */
     function init()
     {
+        if ( $this->hasKickstartData() )
+        {
+            $data = $this->kickstartData();
+
+            $regionalInfo = array();
+            $regionalInfo['primary_language'] = $data['Primary'];
+            if ( !in_array( $data['Primary'], $data['Languages'] ) )
+                $data['Languages'][] = $data['Primary'];
+            $regionalInfo['languages'] = $data['Languages'];
+            $this->PersistenceList['regional_info'] = $regionalInfo;
+
+            return true;
+        }
+
         return false;
     }
 

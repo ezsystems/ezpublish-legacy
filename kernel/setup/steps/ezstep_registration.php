@@ -54,10 +54,11 @@ class eZStepRegistration extends eZStepInstaller
     */
     function eZStepRegistration( &$tpl, &$http, &$ini, &$persistenceList )
     {
-        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList );
+        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
+                                'registration', 'Registration' );
     }
 
-    function generateRegistration( &$mailTpl )
+    function generateRegistration( &$mailTpl, $comments )
     {
         $databaseMap = eZSetupDatabaseMap();
         $databaseInfo = $this->PersistenceList['database_info'];
@@ -135,11 +136,6 @@ class eZStepRegistration extends eZStepInstaller
         $persistenceData = $runResult['persistence_list'];
 
         // Send e-mail
-        $comments = false;
-        if ( $this->Http->hasPostVariable( 'eZSetupRegistrationComment' ) )
-        {
-            $comments = $this->Http->postVariable( 'eZSetupRegistrationComment' );
-        }
 
         $mailTpl->setVariable( 'comments', $comments );
         $mailTpl->setVariable( 'database_info', $databaseInfo );
@@ -176,7 +172,12 @@ class eZStepRegistration extends eZStepInstaller
 
         include_once( 'kernel/common/template.php' );
         $mailTpl =& templateInit( 'email' );
-        $bodyText = $this->generateRegistration( $mailTpl );
+        $comments = false;
+        if ( $this->Http->hasPostVariable( 'eZSetupRegistrationComment' ) )
+        {
+            $comments = $this->Http->postVariable( 'eZSetupRegistrationComment' );
+        }
+        $bodyText = $this->generateRegistration( $mailTpl, $comments );
         $subject =& $mailTpl->variable( 'subject' );
 
         // Fill in E-Mail data and send it
@@ -200,6 +201,38 @@ class eZStepRegistration extends eZStepInstaller
      */
     function init()
     {
+        if ( $this->hasKickstartData() )
+        {
+            $data = $this->kickstartData();
+
+            if ( $data['Send'] == 'true' )
+            {
+                include_once( 'kernel/common/template.php' );
+                $mailTpl =& templateInit( 'email' );
+                $bodyText = $this->generateRegistration( $mailTpl, $data['Comments'] );
+                $subject =& $mailTpl->variable( 'subject' );
+
+                // Fill in E-Mail data and send it
+                include_once( 'lib/ezutils/classes/ezmail.php' );
+                include_once( 'lib/ezutils/classes/ezmailtransport.php' );
+                $mail = new eZMail();
+                $mail->setReceiver( 'registerezsite@ez.no', 'eZ Site Registration' );
+                $mail->setSender( 'registerezsite@ez.no' );
+                $mail->setSubject( $subject );
+                $mail->setBody( $bodyText );
+                $mailResult = eZMailTransport::send( $mail );
+
+                $this->PersistenceList['email_info']['sent'] = true;
+                $this->PersistenceList['email_info']['result'] = $mailResult;
+            }
+            else
+            {
+                $this->PersistenceList['email_info']['sent'] = false;
+                $this->PersistenceList['email_info']['result'] = false;
+            }
+            return true;
+        }
+
         return false; // Always display registration information
     }
 
@@ -210,6 +243,11 @@ class eZStepRegistration extends eZStepInstaller
     {
         include_once( 'kernel/common/template.php' );
         $mailTpl =& templateInit( 'email' );
+        $comments = false;
+        if ( $this->Http->hasPostVariable( 'eZSetupRegistrationComment' ) )
+        {
+            $comments = $this->Http->postVariable( 'eZSetupRegistrationComment' );
+        }
         $bodyText = $this->generateRegistration( $mailTpl );
         $subject =& $mailTpl->variable( 'subject' );
 

@@ -55,7 +55,8 @@ class eZStepWelcome extends eZStepInstaller
     */
     function eZStepWelcome( &$tpl, &$http, &$ini, &$persistenceList )
     {
-        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList );
+        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
+                                'welcome', 'Welcome' );
     }
 
     /*!

@@ -55,7 +55,8 @@ class eZStepEmailSettings extends eZStepInstaller
     */
     function eZStepEmailSettings(&$tpl, &$http, &$ini, &$persistenceList )
     {
-        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList );
+        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
+                                'email_settings', 'Email settings' );
     }
 
     /*!
@@ -84,6 +85,21 @@ class eZStepEmailSettings extends eZStepInstaller
      */
     function init()
     {
+        if ( $this->hasKickstartData() )
+        {
+            $data = $this->kickstartData();
+            $this->PersistenceList['email_info']['sent'] = false;
+            $this->PersistenceList['email_info']['result'] = false;
+            $this->PersistenceList['email_info']['type'] = 1;
+            if ( $data['Type'] == 'smtp' )
+            {
+                $this->PersistenceList['email_info']['type'] = 2;
+                $this->PersistenceList['email_info']['server'] = $data['Server'];
+                $this->PersistenceList['email_info']['user'] = $data['User'];
+                $this->PersistenceList['email_info']['password'] = $data['Password'];
+            }
+            return true;
+        }
         return false; // Always display email settings
     }
 

@@ -53,7 +53,8 @@ class eZStepSiteTemplates extends eZStepInstaller
     */
     function eZStepSiteTemplates( &$tpl, &$http, &$ini, &$persistenceList )
     {
-        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList );
+        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
+                                'site_templates', 'Site templates' );
     }
 
     /*!

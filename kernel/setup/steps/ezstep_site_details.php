@@ -40,10 +40,14 @@
 include_once( 'kernel/setup/steps/ezstep_installer.php');
 include_once( "kernel/common/i18n.php" );
 
-define( 'EZ_SETUP_DB_ERROR_NOT_EMPTY', 4 );
-define( 'EZ_SETUP_DB_ERROR_ALREADY_CHOSEN', 10 );
-define( 'EZ_SETUP_SITE_ACCESS_ILLEGAL', 11 );
-define( 'EZ_SETUP_SITE_ACCESS_ILLEGAL_NAME', 12 );
+if ( !defined( 'EZ_SETUP_DB_ERROR_NOT_EMPTY' ) )
+    define( 'EZ_SETUP_DB_ERROR_NOT_EMPTY', 4 );
+if ( !defined( 'EZ_SETUP_DB_ERROR_ALREADY_CHOSEN' ) )
+    define( 'EZ_SETUP_DB_ERROR_ALREADY_CHOSEN', 10 );
+if ( !defined( 'EZ_SETUP_SITE_ACCESS_ILLEGAL' ) )
+    define( 'EZ_SETUP_SITE_ACCESS_ILLEGAL', 11 );
+if ( !defined( 'EZ_SETUP_SITE_ACCESS_ILLEGAL_NAME' ) )
+    define( 'EZ_SETUP_SITE_ACCESS_ILLEGAL_NAME', 12 );
 
 /*!
   \class eZStepSiteDetails ezstep_site_details.php
@@ -58,7 +62,8 @@ class eZStepSiteDetails extends eZStepInstaller
     */
     function eZStepSiteDetails( &$tpl, &$http, &$ini, &$persistenceList )
     {
-        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList );
+        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
+                                'site_details', 'Site details' );
     }
 
     /*!
@@ -202,6 +207,51 @@ class eZStepSiteDetails extends eZStepInstaller
     */
     function init()
     {
+        if ( $this->hasKickstartData() )
+        {
+            $data = $this->kickstartData();
+
+            $siteTypes = $this->chosenSiteTypes();
+
+            $counter = 0;
+            foreach ( array_keys( $siteTypes ) as $siteTypeKey )
+            {
+                $siteType =& $siteTypes[$siteTypeKey];
+                $identifier = $siteType['identifier'];
+                $siteType['title'] = isset( $data['Title'][$identifier] ) ? $data['Title'][$identifier] : false;
+                if ( !$siteType['title'] )
+                    $siteType['title'] = $siteType['name'];
+                $siteType['url'] = isset( $data['URL'][$identifier] ) ? $data['URL'][$identifier] : false;
+                if ( strlen( $siteType['url'] ) == 0 )
+                    $siteType['url'] = 'http://' . eZSys::hostName() . eZSys::indexDir( false );
+
+                // Change access name for user side, if not use default which is the identifier
+                if ( isset( $data['Access'][$identifier] ) )
+                    $siteType['access_type_value'] = $data['Access'][$identifier];
+
+                // Change access name for admin side, if not use default which is the identifier + _admin
+                if ( isset( $data['AdminAccess'][$identifier] ) )
+                    $siteType['admin_access_type_value'] = $data['AdminAccess'][$identifier];
+
+                $siteType['database'] = $data['Database'][$identifier];
+                $action = 1;
+                $map = array( 'ignore' => 1,
+                              'remove' => 2,
+                              'skip' => 3 );
+                // Figure out what to do with database, do we need cleanup etc?
+                if ( isset( $map[$data['DatabaseAction'][$identifier]] ) )
+                    $action = $map[$data['DatabaseAction'][$identifier]];
+                $siteType['existing_database'] = $action;
+
+                $chosenDatabases[$siteType['database']] = 1;
+
+                ++$counter;
+            }
+            $this->storeSiteTypes( $siteTypes );
+
+            return true;
+        }
+
         include_once( 'lib/ezdb/classes/ezdbtool.php' );
 
         // Get available databases

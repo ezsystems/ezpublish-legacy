@@ -53,7 +53,8 @@ class eZStepSecurity extends eZStepInstaller
     */
     function eZStepSecurity( &$tpl, &$http, &$ini, &$persistenceList )
     {
-        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList );
+        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
+                                'security', 'Security' );
     }
 
     /*!
@@ -69,6 +70,16 @@ class eZStepSecurity extends eZStepInstaller
      */
     function init()
     {
+        if ( $this->hasKickstartData() )
+        {
+            $data = $this->kickstartData();
+
+            if ( $data['Skip'] == 'true' )
+            {
+                return true;
+            }
+        }
+
         if ( file_exists( '.htaccess' ) )
         {
             return true;

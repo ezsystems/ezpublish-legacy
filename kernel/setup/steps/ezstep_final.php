@@ -54,7 +54,8 @@ class eZStepFinal extends eZStepInstaller
     */
     function eZStepFinal( &$tpl, &$http, &$ini, &$persistenceList )
     {
-        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList );
+        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
+                                'final', 'Final' );
     }
 
     /*!

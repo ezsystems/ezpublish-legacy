@@ -54,7 +54,8 @@ class eZStepSystemCheck extends eZStepInstaller
     */
     function eZStepSystemCheck( &$tpl, &$http, &$ini, &$persistenceList )
     {
-        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList );
+        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
+                                'system_check', 'System check' );
     }
 
     /*!

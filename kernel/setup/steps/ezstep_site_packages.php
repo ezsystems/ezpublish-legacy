@@ -51,7 +51,8 @@ class eZStepSitePackages extends eZStepInstaller
     */
     function eZStepSitePackages( &$tpl, &$http, &$ini, &$persistenceList )
     {
-        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList );
+        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
+                                'site_packages', 'Site packages' );
     }
 
     /*!
@@ -87,6 +88,35 @@ class eZStepSitePackages extends eZStepInstaller
      */
     function init()
     {
+        if ( $this->hasKickstartData() )
+        {
+            $data = $this->kickstartData();
+
+            $siteTypes = $this->chosenSiteTypes();
+            $siteType = $siteTypes[0]['identifier'];
+
+            $typeFunctionality = eZSetupFunctionality( $siteType );
+            $requiredPackageList = $typeFunctionality['required'];
+            $requiredPackages = array();
+            foreach ( $requiredPackageList as $requiredPackage )
+            {
+                $requiredPackages[] = strtolower( $requiredPackage );
+            }
+            $this->PersistenceList['site_packages'] = $requiredPackages;
+
+            $additionalPackages = $data['Packages'];
+            foreach ( $additionalPackages as $key => $additionalPackage )
+            {
+                $additionalPackages[$key] = strtolower( $additionalPackage );
+            }
+            $this->PersistenceList['additional_packages'] = $additionalPackages;
+
+            if ( ( count( $requiredPackages ) + count( $additionalPackages ) ) > 0 )
+            {
+                return true;
+            }
+        }
+
         $this->ErrorMsg = false;
         return false; // Always show site package selection
     }

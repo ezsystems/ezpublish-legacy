@@ -54,12 +54,21 @@ class eZStepInstaller
     \param ini settings object
     \param persistencelist, all previous posted data
     */
-    function eZStepInstaller( &$tpl, &$http, &$ini, &$persistenceList )
+    function eZStepInstaller( &$tpl, &$http, &$ini, &$persistenceList,
+                              $identifier, $name )
     {
         $this->Tpl =& $tpl;
         $this->Http =& $http;
         $this->Ini =& $ini;
         $this->PersistenceList =& $persistenceList;
+        $this->Identifier = $identifier;
+        $this->Name = $name;
+        $this->INI =& eZINI::instance( 'kickstart.ini', '.' );
+        $this->KickstartData = false;
+        if ( $this->INI->hasGroup( $this->Identifier ) )
+        {
+            $this->KickstartData = $this->INI->group( $this->Identifier );
+        }
     }
 
     /*!
@@ -207,6 +216,13 @@ class eZStepInstaller
         {
             return false;
         }
+
+        // Temporary hack which makes sure we only have one
+        // chosen site.
+        // This can be removed as soon as the setup wizard
+        // support multiple sites again
+        $chosenList = array_splice( $chosenList, 0, 1 );
+
         $this->PersistenceList['chosen_site_types'] = $chosenList;
         return true;
     }
@@ -251,10 +267,35 @@ class eZStepInstaller
         return false;
     }
 
+
+    /*!
+     \return \c true if the step has kickstart data available.
+    */
+    function hasKickstartData()
+    {
+        return $this->KickstartData !== false;
+    }
+
+    /*!
+     \return All kickstart data as an associative array
+    */
+    function kickstartData()
+    {
+        return $this->KickstartData;
+    }
+
     var $Tpl;
     var $Http;
     var $Ini;
     var $PersistenceList;
+    // The identifier of the current step
+    var $Identifier;
+    // The name of the current step
+    var $Name;
+    /// Kickstart INI file, if one is found
+    var $INI;
+    /// The kickstart data as an associative array or \c false if no data available
+    var $KickstartData;
 }
 
 ?>

@@ -61,7 +61,8 @@ class eZStepSiteAdmin extends eZStepInstaller
     */
     function eZStepSiteAdmin( &$tpl, &$http, &$ini, &$persistenceList )
     {
-        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList );
+        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
+                                'site_admin', 'Site admin' );
     }
 
     /*!
@@ -114,6 +115,38 @@ class eZStepSiteAdmin extends eZStepInstaller
     */
     function init()
     {
+        if ( $this->hasKickstartData() )
+        {
+            $data = $this->kickstartData();
+
+            $adminUser = array( 'first_name' => 'Administrator',
+                                'last_name' => 'User',
+                                'email' => false,
+                                'password' => false );
+
+            if ( isset( $data['FirstName'] ) )
+                $adminUser['first_name'] = $data['FirstName'];
+            if ( isset( $data['LastName'] ) )
+                $adminUser['last_name'] = $data['LastName'];
+            if ( isset( $data['Email'] ) )
+                $adminUser['email'] = $data['Email'];
+            if ( isset( $data['Password'] ) )
+                $adminUser['password'] = $data['Password'];
+
+            $this->PersistenceList['admin'] = $adminUser;
+            return true;
+        }
+
+        // Set default values for admin user
+        if ( !isset( $this->PersistenceList['admin'] ) )
+        {
+            $adminUser = array( 'first_name' => 'Administrator',
+                                'last_name' => 'User',
+                                'email' => false,
+                                'password' => false );
+            $this->PersistenceList['admin'] = $adminUser;
+        }
+
         return false; // Always show site admin
     }
 

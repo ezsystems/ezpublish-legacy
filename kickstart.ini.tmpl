@@ -1,0 +1,168 @@
+# Kickstart file for the setup wizard
+#
+# Here it is possible to specify kickstart data for each step
+# in the setup wizard. Each step that is present will be skipped
+# in the web interface
+#
+# Copy this file as kickstart.ini in the root of eZ publish
+# to enable this functionality
+#
+# Syntax:
+# <string> means the entry must be present
+# [string] means the entry is optional
+#
+# The available steps are:
+# email_settings
+# database_choice
+# database_init
+# language_options
+# site_types
+# site_packages
+# site_access
+# site_details
+# site_admin
+# security
+# registration
+#
+# Uncomment the groups that you want kickstarted and
+# modify their settings
+
+# [email_settings]
+# # Type=<email-type>
+# # Type of email handler
+# # <email-type>:
+# # - mta - Use Sendmail/MTA
+# # - smtp - Use SMTP
+# Type=1
+# # Server=<hostname>
+# # Which server to use for SMTP
+# Server=
+# # User=<username>
+# # Which user to use for SMTP
+# User=
+# # Password=<hostname>
+# # Which password to use for SMTP
+# Server=
+
+# [database_choice]
+# # Type=<database-system>
+# # Which database system to use
+# # <database-system>:
+# # - mysql - Use mysql
+# # - postgresql - Use postgresql
+# # other values are possible if provided by extension
+# Type=mysql
+
+# [database_init]
+# # Server=<hostname>
+# # Which hostname has the database server
+# Server=localhost
+# # Database=<database>
+# # Which database to use
+# Database=ezp35test
+# # User=<username>
+# # Which user should be used in database
+# User=root
+# # Server=<password>
+# # Which password should be used for user
+# Password=
+# # Socket=<socket-path>
+# # Path to socket or empty for no socket 
+# Socket=
+
+# [language_options]
+# # Primary=<locale>
+# # The primary language for the site
+# Primary=eng-GB
+# # Languages[]=<locale>
+# # Additional languages
+# Languages[]
+
+# [site_types]
+# # Sites[]=<identifier>
+# # Which site to install, identifier is taken from site package (ezpkg)
+# Sites[]
+# Sites[]=news
+
+# [site_packages]
+# # Packages[]=<identifier>
+# # Which additional package to install, identifier is taken from addon package (ezpkg)
+# Packages[]
+# Packages[]=gallery
+
+# [site_access]
+# # Access=<access-type>
+# # <access-type>:
+# # - url - Use url/path for matching
+# # - port - Use port for matching
+# # - hostname - Use hostname for matching
+# Access=url
+
+# [site_details]
+# # Title[<site-identifier>]=<string>
+# # The title to use for a given site-identifier
+# # if not supplied it uses the site type name
+# Title[]
+# Title[news]=My cool new site
+
+# # URL[<site-identifier>]=<url>
+# # The URL to use for a given site-identifier
+# # if not supplied it will generate it from the current url
+# URL[]
+# #URL[news]=
+
+# # Access[<site-identifier>]=<string>
+# # The access name to use for user page
+# # if not supplied it will use site identifier
+# Access[]
+# Access[news]=news
+
+# # AdminAccess[<site-identifier>]=<string>
+# # The access name to use for admin page
+# # if not supplied it will use site identifier + _admin
+# AdminAccess[]
+# AdminAccess[news]=news_admin
+
+# # Database[<site-identifier>]=<databasename>
+# # The database name to use for site
+# Database[]
+# Database[news]=ezp35test
+
+# # DatabaseAction[<site-identifier>]=<action>
+# # What to do with the database, can be one of:
+# # <action>:
+# # - ignore
+# #     Try to add entries without cleaning up
+# # - remove
+# #     Clean up entries and add new ones
+# # - skip
+# #     Do not insert database schema + data
+# DatabaseAction[]
+# DatabaseAction[news]=remove
+
+# [site_admin]
+# # FirstName=[string]
+# # The first name of the administrator user
+# FirstName=God
+# # LastName=[string]
+# # The first name of the administrator user
+# LastName=Like
+# # Email=[string]
+# # The email address of the administrator user
+# Email=nospam@ez.no
+# # Password=[string]
+# # The password of the administrator user
+# Password=publish
+
+# [security]
+# # Skip=<boolean>
+# # Whether to check for security or not
+# Skip=true
+
+# [registration]
+# # Comments=<string>
+# # Comment string to add to registration email
+# Comments=
+# # Send=<boolean>
+# # Whether to send registration email or not
+# Send=false

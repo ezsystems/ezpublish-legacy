@@ -35,18 +35,20 @@
 // you.
 //
 
+/*!
+  \class eZStepData ezstep_data.php
+  \brief Encapsulates information on all steps
+
+*/
 
 class eZStepData
 {
-
-    /*!
-     Constructor
-    */
-    function eZStepData()
+    function eZStepData( )
     {
     }
 
     /*!
+      \static
       Get file and class info for specified step
 
       \param step number or
@@ -77,6 +79,7 @@ class eZStepData
     }
 
     /*!
+     \static
      Get nest install step from step array
 
      \param current step
@@ -96,6 +99,7 @@ class eZStepData
     }
 
     /*!
+     \static
      Get previous install step from step array
 
      \param current step
@@ -127,6 +131,7 @@ class eZStepData
     }
 
     /*!
+     \static
      Get setup progress in percent of total number of steps
 
      \param current step
@@ -158,6 +163,8 @@ class eZStepData
         return (int) ( $currentStep * 100 / ( $totalSteps - 1 ) );
     }
 
+    /// \privatesection
+    /// Array contain all steps in the setup wizard
     var $StepTable = array( array( 'file' => 'welcome',
                                    'class' => 'Welcome' ),
                             array( 'file' => 'system_check',

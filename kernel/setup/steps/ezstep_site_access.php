@@ -53,7 +53,8 @@ class eZStepSiteAccess extends eZStepInstaller
     */
     function eZStepSiteAccess( &$tpl, &$http, &$ini, &$persistenceList )
     {
-        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList );
+        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
+                                'site_access', 'Site access' );
     }
 
     /*!
@@ -129,6 +130,28 @@ class eZStepSiteAccess extends eZStepInstaller
      */
     function init()
     {
+        if ( $this->hasKickstartData() )
+        {
+            $data = $this->kickstartData();
+
+            $siteTypes = $this->chosenSiteTypes();
+            $accessType = $data['Access'];
+            if ( in_array( $accessType,
+                           array( 'url', 'port', 'hostname' ) ) )
+            {
+                foreach ( array_keys( $siteTypes ) as $siteTypeKey )
+                {
+                    $siteType =& $siteTypes[$siteTypeKey];
+                    $siteType['access_type'] = $accessType;
+                    $siteType['access_type_value'] = $siteType['identifier'];
+                    $siteType['admin_access_type_value'] = $siteType['identifier'] . '_admin';
+                }
+                $this->storeSiteTypes( $siteTypes );
+
+                return true;
+            }
+        }
+
         // If windows installer, install using url site access
         include_once( "kernel/setup/ezsetuptests.php" );
         if ( eZSetupTestInstaller() == 'windows' )

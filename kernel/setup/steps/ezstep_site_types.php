@@ -51,7 +51,8 @@ class eZStepSiteTypes extends eZStepInstaller
     */
     function eZStepSiteTypes( &$tpl, &$http, &$ini, &$persistenceList )
     {
-        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList );
+        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
+                                'site_types', 'Site types' );
     }
 
     /*!
@@ -83,6 +84,17 @@ class eZStepSiteTypes extends eZStepInstaller
      */
     function init()
     {
+        if ( $this->hasKickstartData() )
+        {
+            $data = $this->kickstartData();
+
+            $chosenSiteTypes = $data['Sites'];
+            if ( $this->selectSiteTypes( $chosenSiteTypes ) )
+            {
+                return true;
+            }
+        }
+
         $this->ErrorMsg = false;
         return false; // Always show site template selection
     }

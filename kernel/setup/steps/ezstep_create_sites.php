@@ -80,7 +80,8 @@ class eZStepCreateSites extends eZStepInstaller
     */
     function eZStepCreateSites( &$tpl, &$http, &$ini, &$persistenceList )
     {
-        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList );
+        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
+                                'create_sites', 'Create sites' );
     }
 
 	/*!

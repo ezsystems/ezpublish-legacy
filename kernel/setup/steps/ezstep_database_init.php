@@ -62,7 +62,8 @@ class eZStepDatabaseInit extends eZStepInstaller
     */
     function eZStepDatabaseInit( &$tpl, &$http, &$ini, &$persistenceList )
     {
-        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList );
+        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
+                                'database_init', 'Database init' );
     }
 
     /*!
@@ -132,7 +133,7 @@ class eZStepDatabaseInit extends eZStepInstaller
                                'charset' => $dbCharset );
 
         // PostgreSQL requires us to specify database name.
-        // We use template1 here since it exists on all PostgeSQL installations.
+        // We use template1 here since it exists on all PostgreSQL installations.
         if( $this->PersistenceList['database_info']['type'] == 'pgsql' )
             $dbParameters['database'] = 'template1';
 
@@ -142,7 +143,7 @@ class eZStepDatabaseInit extends eZStepInstaller
             $this->Error = EZ_SETUP_DB_ERROR_CONNECTION_FAILED;
             return false;
         }
-        
+
         $availDatabases = $db->availableDatabases();
         $this->PersistenceList['database_info']['use_unicode'] = false;
         if ( $db->isCharsetSupported( 'utf-8' ) )
@@ -175,6 +176,44 @@ class eZStepDatabaseInit extends eZStepInstaller
      */
     function init()
     {
+        if ( $this->hasKickstartData() )
+        {
+            $data = $this->kickstartData();
+
+            $this->PersistenceList['database_info']['server'] = $data['Server'];
+            $this->PersistenceList['database_info']['dbname'] = $data['Database'];
+            $this->PersistenceList['database_info']['user'] = $data['User'];
+            $this->PersistenceList['database_info']['password'] = $data['Password'];
+            $this->PersistenceList['database_info']['socket'] = $data['Socket'];
+
+            $dbStatus = array();
+            $dbPwd = $password;
+            $dbCharset = 'iso-8859-1';
+            $dbParameters = array( 'server' => $data['Server'],
+                                   'user' => $data['User'],
+                                   'password' => $data['Password'],
+                                   'socket' => trim( $data['Socket'] ) == '' ? false : $data['Socket'],
+                                   'database' => false,
+                                   'charset' => $dbCharset );
+
+            // PostgreSQL requires us to specify database name.
+            // We use template1 here since it exists on all PostgreSQL installations.
+            if( $this->PersistenceList['database_info']['type'] == 'pgsql' )
+                $dbParameters['database'] = 'template1';
+
+            $db =& eZDB::instance( $dbDriver, $dbParameters, true );
+            if ( $db->isConnected() != false )
+            {
+                $this->PersistenceList['database_info']['use_unicode'] = false;
+                if ( $db->isCharsetSupported( 'utf-8' ) )
+                {
+                    $this->PersistenceList['database_info']['use_unicode'] = true;
+                }
+            }
+
+            return true;
+        }
+
         // If using windows installer, set standard values, and continue
 /*        if ( eZSetupTestInstaller() == 'windows' )
         {

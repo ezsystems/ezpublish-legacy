@@ -55,7 +55,8 @@ class eZStepDatabaseChoice extends eZStepInstaller
     */
     function eZStepDatabaseChoice( &$tpl, &$http, &$ini, &$persistenceList )
     {
-        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList );
+        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
+                                'database_choice', 'Database choice' );
     }
 
     /*!
@@ -74,6 +75,21 @@ class eZStepDatabaseChoice extends eZStepInstaller
     function init()
     {
         $databaseMap = eZSetupDatabaseMap();
+
+        if ( $this->hasKickstartData() )
+        {
+            $data = $this->kickstartData();
+            $extension = $data['Type'];
+            $map = array( 'postgresql' => 'pgsql' );
+            if ( isset( $map[$extension] ) )
+                $extension = $map[$extension];
+
+            if ( isset( $databaseMap[$extension] ) )
+            {
+                $this->PersistenceList['database_info'] = $databaseMap[$extension];
+                return true;
+            }
+        }
 
         include_once( "kernel/setup/ezsetuptests.php" );
         if ( eZSetupTestInstaller() == 'windows' )
@@ -98,7 +114,7 @@ class eZStepDatabaseChoice extends eZStepInstaller
             }
         }
 
-        if( $databaseCount != 1 )
+        if ( $databaseCount != 1 )
         {
             return false;
         }
