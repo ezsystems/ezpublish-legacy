@@ -292,7 +292,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                 if ( $links !== null )
                 {
-                    $editVersion = $contentObjectAttribute->attribute( 'version' );
+                    /* $editVersion = $contentObjectAttribute->attribute( 'version' );
                     $editObjectID = $contentObjectAttribute->attribute( 'contentobject_id' );
                     foreach ( array_keys( $links ) as $linkKey )
                     {
@@ -319,7 +319,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 }
                             }
                         }
-                    }
+                    }*/
 
 
                     $urlArray = array();
@@ -334,6 +334,25 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                             if ( !in_array( $url, $urlArray ) )
                                 $urlArray[] = $url;
+                        }
+
+                        if ( $link->attributeValue( 'id' ) != null )
+                        {
+                            $linkID = $link->attributeValue( 'id' );
+                            $url =& eZURL::url( $linkID );
+                            if ( $url == null )
+                            {
+                                $GLOBALS[$isInputValid] = false;
+                                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                                     'Link %1 does not exist.',
+                                                                                     false, array( $linkID ) ) );
+                                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                            }
+                            else
+                            {
+                                if ( !in_array( $url, $urlArray ) )
+                                    $urlArray[] = $url;
+                            }
                         }
                     }
 
@@ -355,7 +374,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         $url = $link->attributeValue( 'href' );
                         $linkID = $linkIDArray[$url];
 
-                        $link->appendAttribute( $dom->createAttributeNode( 'id', $linkID ) );
+                        if ( $link->attributeValue( 'id' ) == null )
+                            $link->appendAttribute( $dom->createAttributeNode( 'id', $linkID ) );
                         $link->removeNamedAttribute( 'href' );
                     }
                 }
@@ -1631,7 +1651,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 // Fetch all links and cache the url's
                 $links =& $dom->elementsByName( "link" );
             }
-
             if ( count( $links ) > 0 )
             {
                 $linkIDArray = array();

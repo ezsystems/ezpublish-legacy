@@ -76,6 +76,7 @@ eZINI:
   http://ez.no/community/bug_reports/setup_rad_datatype_assistent_ezdatatype_register
 - Fixed bug missing escape of value for attribute filter
   http://ez.no/community/bug_reports/attributefilter_and_slashes
+- Fixed bug in datatype ezxmltext where using syntax <link id="a_valid_id">link text</link> will get empty href value.
 
 
 *Library:
