@@ -1,5 +1,9 @@
 {let subscribed_nodes=$handler.rules}
 
+<div class="contentheader">
+<h2>{"Node notification"|i18n("design/standard/section")}</h2>
+</div>
+
 <table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<th width="69%">
@@ -40,7 +44,9 @@
 </tr>
 {/section}
 </table>
+<div class="buttonblock">
 <input class="button" type="submit" name="NewRule_{$handler.id_string}" value="{'New'|i18n('design/standard/notification')}" />
 <input class="button" type="submit" name="RemoveRule_{$handler.id_string}" value="{'Remove'|i18n('design/standard/notification')}" />
+</div>
 
 {/let}

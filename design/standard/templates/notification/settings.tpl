@@ -1,16 +1,19 @@
 
 <form method="post" action={"/notification/settings/"|ezurl}>
 
-Handlers <br/>
+<div class="maincontentheader">
+<h1>{"Notification settings"|i18n("design/standard/section")}</h1>
+</div>
+
 {let handlers=fetch('notification','handler_list')}
 
 {section name=Handlers loop=$handlers}
-Handler: {$Handlers:item.name} <br/>
-
+{*Handler: {$Handlers:item.name}*}
+<p>
 {include handler=$Handlers:item uri=concat( "design:notification/handler/",$Handlers:item.id_string,"/settings/edit.tpl")}
 {delimiter}<br/>{/delimiter}
 {/section}
-
+</p>
 {/let}
 
 <div>
