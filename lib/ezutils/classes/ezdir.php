@@ -158,7 +158,7 @@ class eZDir
 //        exit;
 
         $oldumask = umask( 0 );
-        if ( ! mkdir( $dir, $perm ) )
+        if ( ! @mkdir( $dir, $perm ) )
         {
             umask( $oldumask );
 			// eZDebug::writeError( "Couldn't create the directory \"$dir\".", "eZDir::doMkdir()" );
