@@ -26,6 +26,9 @@ eZINI:
 
 eZ Locale:
 
+eZ Image:
+- Fixed bug that made it impossible to read any other font then a lowercase ttf extension
+
 eZ MIMEType:
 
 eZ Debug:
