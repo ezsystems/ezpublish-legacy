@@ -80,7 +80,8 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                       "input_xml" => "inputXML",
                                                       "xml_editor" => "xmlEditor",
                                                       "validation_error" => "validationError",
-                                                      "language" => "language"
+                                                      "language" => "language",
+                                                      "is_a" => "isA"
                                                       ),
                       "increment_key" => "id",
                       "class_name" => "eZContentObjectAttribute",
@@ -144,7 +145,6 @@ class eZContentObjectAttribute extends eZPersistentObject
         return eZPersistentObject::store();
     }
 
-
     function &attribute( $attr )
     {
         if ( $attr == "contentclass_attribute" )
@@ -165,6 +165,8 @@ class eZContentObjectAttribute extends eZPersistentObject
             return $this->validationError( );
         else if  ( $attr == "language" )
             return $this->language( );
+        else if  ( $attr == "is_a" )
+            return $this->isA( );
         else
             return eZPersistentObject::attribute( $attr );
     }
@@ -469,6 +471,15 @@ class eZContentObjectAttribute extends eZPersistentObject
         $attribute =& $this->contentClassAttribute();
         $dataType =& $attribute->dataType();
         return $dataType->serializeContentObjectAttribute( $this );
+    }
+
+    /*!
+    */
+    function &isA()
+    {
+        $attribute =& $this->contentClassAttribute();
+        $dataType =& $attribute->dataType();
+        return $dataType->isA();
     }
 
     /*!
