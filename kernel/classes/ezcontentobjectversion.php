@@ -286,16 +286,17 @@ class eZContentObjectVersion extends eZPersistentObject
     }
 
     /*!
-     Returns true if the current
+     \return \c true if the current user can read this version of the object.
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
     */
-    function canVersionRead( )
+    function &canVersionRead( )
     {
         if ( !isset( $this->Permissions["can_versionread"] ) )
         {
             $this->Permissions["can_versionread"] = $this->checkAccess( 'versionread' );
         }
         $p = ( $this->Permissions["can_versionread"] == 1 );
-//         eZDebug::writeDebug( $p ? "true" : "false", 'p' );
         return $p;
     }
 
@@ -452,7 +453,11 @@ class eZContentObjectVersion extends eZPersistentObject
         return $this->ContentObject;
     }
 
-    function mainParentNodeID()
+    /*!
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
+    */
+    function &mainParentNodeID()
     {
         $temp =& eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ), $this->attribute( 'version' ), 1 );
         if ( $temp == null )
@@ -614,7 +619,11 @@ class eZContentObjectVersion extends eZPersistentObject
         return new eZContentObjectVersion( $row );
     }
 
-    function reverseRelatedObjectList()
+    /*!
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
+    */
+    function &reverseRelatedObjectList()
     {
         $objectID = $this->attribute( 'contentobject_id' );
         return eZContentObject::reverseRelatedObjectList( $this->Version, $objectID );
@@ -688,25 +697,32 @@ class eZContentObjectVersion extends eZPersistentObject
     }
 
     /*!
-     Returns an array with all the translations for the current version.
+     \return An array with all the translations for the current version.
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
     */
-    function translations( $asObject = true )
+    function &translations( $asObject = true )
     {
         return $this->translationList( false, $asObject );
     }
 
     /*!
-     Returns an array with all the translations for the current version.
+     \return An array with all the translations for the current version.
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
     */
-    function translation( $asObject = true )
+    function &translation( $asObject = true )
     {
-        return new eZContentObjectTranslation( $this->ContentObjectID, $this->Version, eZContentObject::defaultLanguage() );
+        $translation = new eZContentObjectTranslation( $this->ContentObjectID, $this->Version, eZContentObject::defaultLanguage() );
+        return $translation;
     }
 
     /*!
-     Returns an array with all the translations for the current version.
+     \return An array with all the translations for the current version.
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
     */
-    function translationList( $language = false, $asObject = true )
+    function &translationList( $language = false, $asObject = true )
     {
         $db =& eZDB::instance();
 

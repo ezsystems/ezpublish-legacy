@@ -222,7 +222,11 @@ class eZContentClassAttribute extends eZPersistentObject
         $attribute->postInitialize();
     }
 
-    function instantiateTemporary( $contentobjectID = false )
+    /*!
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
+    */
+    function &instantiateTemporary( $contentobjectID = false )
     {
         $attribute =& eZContentObjectAttribute::create( $this->attribute( 'id' ), $contentobjectID );
         return $attribute;
@@ -405,9 +409,11 @@ class eZContentClassAttribute extends eZPersistentObject
     }
 
     /*!
-     Returns the content for this attribute.
+     \return The content for this attribute.
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
     */
-    function content()
+    function &content()
     {
         if ( $this->Content === null )
         {

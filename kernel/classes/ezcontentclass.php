@@ -369,8 +369,10 @@ class eZContentClass extends eZPersistentObject
 
     /*!
      \return The creator of the class as an eZUser object by using the $CreatorID as user ID.
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
     */
-    function creator()
+    function &creator()
     {
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
         $user =& eZUser::fetch( $this->CreatorID );
@@ -379,8 +381,10 @@ class eZContentClass extends eZPersistentObject
 
     /*!
      \return The modifier of the class as an eZUser object by using the $ModifierID as user ID.
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
     */
-    function modifier()
+    function &modifier()
     {
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
         $user =& eZUser::fetch( $this->ModifierID );
@@ -391,8 +395,10 @@ class eZContentClass extends eZPersistentObject
      Find all groups the current class is placed in and returns a list of group objects.
      \return An array with eZContentClassGroup objects.
      \sa fetchGroupIDList()
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
     */
-    function fetchGroupList()
+    function &fetchGroupList()
     {
         $this->InGroups =& eZContentClassClassGroup::fetchGroupList( $this->attribute( "id" ),
                                                                      $this->attribute( "version" ),
@@ -404,8 +410,10 @@ class eZContentClass extends eZPersistentObject
      Find all groups the current class is placed in and returns a list of group IDs.
      \return An array with integers (ids).
      \sa fetchGroupList()
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
     */
-    function fetchGroupIDList()
+    function &fetchGroupIDList()
     {
         $list = eZContentClassClassGroup::fetchGroupList( $this->attribute( "id" ),
                                                           $this->attribute( "version" ),
@@ -424,8 +432,10 @@ class eZContentClass extends eZPersistentObject
      \return An array with eZContentClassGroup objects or \c false if disabled.
      \note \c EnableClassGroupOverride in group \c ContentOverrideSettings from INI file content.ini
            controls this behaviour.
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
     */
-    function fetchMatchGroupIDList()
+    function &fetchMatchGroupIDList()
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         $contentINI =& eZINI::instance( 'content.ini' );
@@ -443,8 +453,10 @@ class eZContentClass extends eZPersistentObject
      Finds all Class groups in the system and returns them.
      \return An array with eZContentClassGroup objects.
      \sa fetchGroupList(), fetchGroupIDList()
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
     */
-    function fetchAllGroups()
+    function &fetchAllGroups()
     {
         $this->AllGroups =& eZContentClassGroup::fetchList();
         return $this->AllGroups;
@@ -479,7 +491,7 @@ class eZContentClass extends eZPersistentObject
     /*!
      Get remote id of content node
     */
-    function remoteID()
+    function &remoteID()
     {
         $remoteID = eZPersistentObject::attribute( 'remote_id', true );
         if ( !$remoteID &&
@@ -1002,25 +1014,32 @@ You will need to change the class of the node by using the swap functionality.' 
                                                                   "version" => $version ) );
     }
 
-    function versionStatus()
+    /*!
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
+    */
+    function &versionStatus()
     {
 
         if ( $this->VersionCount == 1 )
         {
             if ( $this->Version == EZ_CLASS_VERSION_STATUS_TEMPORARY )
-                return EZ_CLASS_VERSION_STATUS_TEMPORARY;
+                $status = EZ_CLASS_VERSION_STATUS_TEMPORARY;
             else
-                return EZ_CLASS_VERSION_STATUS_DEFINED;
+                $status = EZ_CLASS_VERSION_STATUS_DEFINED;
         }
         else
-            return EZ_CLASS_VERSION_STATUS_MODIFED;
+            $status = EZ_CLASS_VERSION_STATUS_MODIFED;
+        return $status;
     }
 
     /*!
      \deprecated
      \return The version count for the class if has been determined.
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
     */
-    function versionCount()
+    function &versionCount()
     {
         return $this->VersionCount;
     }
