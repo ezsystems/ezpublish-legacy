@@ -92,6 +92,12 @@ include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 $user =& eZUser::currentUser();
 
 $list_in_group = & eZWorkflowGroupLink::fetchWorkflowList( 0, $WorkflowGroupID, $asObject = true);
+
+if(!$list_in_group)
+{
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+}
+
 $workflow_list = & eZWorkflow::fetchList( );
 
 $list = array();
