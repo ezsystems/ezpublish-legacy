@@ -53,10 +53,6 @@ $featureArray[] = array( "uri" => "content_datatype_ezstring",
 $featureArray[] = array( "uri" => "data_storage",
                          "level" => 0,
                          "name" => "Data storage" );
-$featureArray[] = array( "uri" => "input_conversion",
-                         "level" => 0,
-                         "name" => "Input conversion" );
-
 $featureArray[] = array( "level" => 0,
                          "name" => "Templates" );
 $featureArray[] = array( "uri" => "template_operators",
