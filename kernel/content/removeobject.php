@@ -104,7 +104,7 @@ if ( $totalChildCount == 0 )
     $canRemove = true;
     foreach ( $deleteResult as $item )
     {
-        if ( !$item['object_node_count'] <= 1 )
+        if ( $item['object_node_count'] <= 1 )
         {
             $canRemove = false;
             break;
