@@ -42,6 +42,7 @@ include_once( "kernel/common/i18n.php" );
 define( 'EZ_SETUP_DB_ERROR_NOT_EMPTY', 4 );
 define( 'EZ_SETUP_DB_ERROR_ALREADY_CHOSEN', 10 );
 define( 'EZ_SETUP_SITE_ACCESS_ILLEGAL', 11 );
+define( 'EZ_SETUP_SITE_ACCESS_ILLEGAL_NAME', 12 );
 
 /*!
   \class eZStepSiteDetails ezstep_site_details.php
@@ -108,6 +109,7 @@ class eZStepSiteDetails extends eZStepInstaller
 
             $siteType['admin_access_type_value'] = $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_admin_value' );
             $siteAccessValues[$siteType['admin_access_type_value']] = 1;
+
             $siteType['database'] = $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_database' );
 
             if ( isset( $chosenDatabases[$siteType['database']] ) )
@@ -167,6 +169,21 @@ class eZStepSiteDetails extends eZStepInstaller
             else
             {
                 return 'DatabaseInit';
+            }
+
+            /* Check for valid host names */
+            if ( $siteType['access_type'] == 'hostname' )
+            {
+                if ( strpos( $siteType['access_type_value'], '_' ) !== false )
+                {
+                    $siteType['access_type_value'] = strtr ( $siteType['access_type_value'], '_', '-' ) ;
+                    $this->Error[$counter] = EZ_SETUP_SITE_ACCESS_ILLEGAL_NAME;
+                }
+                if ( strpos( $siteType['admin_access_type_value'], '_' ) !== false )
+                {
+                    $siteType['admin_access_type_value'] = strtr ( $siteType['admin_access_type_value'], '_', '-' ) ;
+                    $this->Error[$counter] = EZ_SETUP_SITE_ACCESS_ILLEGAL_NAME;
+                }
             }
             ++$counter;
         }
@@ -281,6 +298,12 @@ class eZStepSiteDetails extends eZStepInstaller
                 {
                     $this->Tpl->setVariable( 'site_access_illegal', 1 );
                     $siteTypes[$key]['site_access_illegal'] = 1;
+                } break;
+
+                case EZ_SETUP_SITE_ACCESS_ILLEGAL_NAME:
+                {
+                    $this->Tpl->setVariable( 'site_access_illegal_name', 1 );
+                    $siteTypes[$key]['site_access_illegal_name'] = 1;
                 } break;
             }
         }

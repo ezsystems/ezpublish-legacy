@@ -11,6 +11,15 @@
       {"This page lets you modify information about the site you've chosen to install. In addition, it also lets you choose a database for the site."|i18n("design/standard/setup/init")}
   </p>
 
+{section show=eq( $site_access_illegal_name, 1 )}
+    <blockquote class="error">
+        <h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
+        <p>
+            {"Host names should not include underscores ('_'), as this violates the DNS RFC and will cause problems with Internet Explorer. They have been converted to dashes ('-')."|i18n("design/standard/setup/init")}
+        </p>
+    </blockquote>
+{/section}
+
 {section show=eq( $site_access_illegal, 1 )}
     <blockquote class="error">
         <h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
@@ -77,7 +86,7 @@ The setup can continue with the initialization but may damage the present data."
                         <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}>{"User port"|i18n("design/standard/setup/init")}:&nbsp;</td>
                     {/case}
                     {case match='hostname'}
-                        <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}>{"User hostname"|i18n("design/standard/setup/init")}:&nbsp;</td>
+                        <td{section show=or( eq( $site_access_illegal, 1 ), eq( $site_access_illegal_name, 1) )} class="invalid"{/section}>{"User hostname"|i18n("design/standard/setup/init")}:&nbsp;</td>
                     {/case}
                     {case/}
                     {/switch}
@@ -92,7 +101,7 @@ The setup can continue with the initialization but may damage the present data."
                         <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}>{"Admin port"|i18n("design/standard/setup/init")}:&nbsp;</td>
                     {/case}
                     {case match='hostname'}
-                        <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}>{"Admin hostname"|i18n("design/standard/setup/init")}:&nbsp;</td>
+                        <td{section show=or( eq( $site_access_illegal, 1 ), eq( $site_access_illegal_name, 1) )} class="invalid"{/section}>{"Admin hostname"|i18n("design/standard/setup/init")}:&nbsp;</td>
                     {/case}
                     {case/}
                     {/switch}

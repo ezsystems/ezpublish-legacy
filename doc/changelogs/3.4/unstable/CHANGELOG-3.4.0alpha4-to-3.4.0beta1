@@ -63,6 +63,8 @@ eZ locale:
   http://ez.no/community/bug_reports/ezcontentclass_store_fatal_error
 - Fixed bug of query error when fetching user group.
   http://ez.no/community/bug_reports/3_4alpha4_user_root_node_errors
+- Fixed bug regarding the suggestion of underscores in hostnames.
+  http://ez.no/community/bug_reports/can_t_log_in_after_install
 
 *Update
 

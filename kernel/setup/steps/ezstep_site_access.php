@@ -107,9 +107,9 @@ class eZStepSiteAccess extends eZStepInstaller
             else if ( $accessType == 'hostname' )
             {
 //                 $this->PersistenceList['site_templates_'.$counter]['access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'] . '.' . eZSys::hostName();
-//                 $this->PersistenceList['site_templates_'.$counter]['admin_access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'] . '_admin.' . eZSys::hostName();
+//                 $this->PersistenceList['site_templates_'.$counter]['admin_access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'] . '-admin.' . eZSys::hostName();
                 $siteType['access_type_value'] = $siteType['identifier'] . '.' . eZSys::hostName();
-                $siteType['admin_access_type_value'] = $siteType['identifier'] . '_admin.' . eZSys::hostName();
+                $siteType['admin_access_type_value'] = $siteType['identifier'] . '-admin.' . eZSys::hostName();
             }
             else
             {
