@@ -2853,10 +2853,14 @@ class Cpdf
 		} else {
 		    $cOrd2 = $cOrd;
 		}
-
+		
 		if (isset($this->fonts[$cf]['C'][$cOrd2]['WX'])){
 		    $w+=$this->fonts[$cf]['C'][$cOrd2]['WX'];
 		}
+		else{
+		  $w += 250;
+		}
+	      
 		if ($w>$tw){
 		    // then we need to truncate this line
 		    if ($break>0){
