@@ -12,6 +12,8 @@ Changes from 3.2.0-2 to 3.2-1
 - Fixed problem with attribute filtering when attribute sorting weren't used.
   http://ez.no/developer/ez_publish_3/bug_reports/filtering_and_sorting_problems
 - Fixed bug of user can't read own account information using policy read Class( User ), Owner( Self ).
+- Fixed bug with notification system crashing when dirty data is present in the database.
+  http://ez.no/developer/ez_publish_3/bug_reports/notification_crashes
 
 *Setup:
 
