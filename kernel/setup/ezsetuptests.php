@@ -848,11 +848,11 @@ function eZSetupPrvtVersionCompare( $versionArray1, $versionArray2 )
     for ( $i = 0; $i < $count; ++$i )
     {
         $equal = false;
-        if ( $versionArray1[$i] > $versionArray2[$i] )
+        if ( (int) $versionArray1[$i] > (int) $versionArray2[$i] )
         {
             return 1;
         }
-        else if ( $versionArray1[$i] < $versionArray2[$i] )
+        else if ( (int) $versionArray1[$i] < (int) $versionArray2[$i] )
         {
             return -1;
         }
