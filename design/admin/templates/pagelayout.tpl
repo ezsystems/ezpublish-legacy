@@ -186,33 +186,33 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 <div id="leftmenu-design">
 
 {section show=and( $ui_context|eq( 'edit' ), $ui_component|eq( 'content' ) )}
-{include uri="design:edit_menu.tpl"}
+    {include uri='design:edit_menu.tpl'}
 {section-else}
 
-{section show=eq($navigation_part.identifier,'ezcontentnavigationpart')}
-    {include uri="design:parts/content/menu.tpl"}
+{section show=eq( $navigation_part.identifier, 'ezcontentnavigationpart' )}
+    {include uri='design:parts/content/menu.tpl'}
 {/section}
 
-{section show=eq($navigation_part.identifier,'ezmedianavigationpart')}
-{include uri="design:parts/media/menu.tpl"}
+{section show=eq( $navigation_part.identifier, 'ezmedianavigationpart' )}
+    {include uri='design:parts/media/menu.tpl'}
 {/section}
 
-{section show=eq($navigation_part.identifier,'ezshopnavigationpart')}
-{include uri="design:parts/shop/menu.tpl"}
+{section show=eq( $navigation_part.identifier, 'ezshopnavigationpart' )}
+    {include uri='design:parts/shop/menu.tpl'}
 {/section}
 
-{section show=eq($navigation_part.identifier,'ezusernavigationpart')}
-{include uri="design:parts/user/menu.tpl"}
+{section show=eq( $navigation_part.identifier, 'ezusernavigationpart' )}
+    {include uri='design:parts/user/menu.tpl'}
 {/section}
 
-{section show=eq($navigation_part.identifier,'ezsetupnavigationpart')}
-{include uri="design:parts/setup/menu.tpl"}
+{section show=eq( $navigation_part.identifier, 'ezsetupnavigationpart' )}
+    {include uri='design:parts/setup/menu.tpl'}
 {/section}
 
-{section show=eq($navigation_part.identifier,'ezmynavigationpart')}
-{include uri="design:parts/my/menu.tpl"}
+{section show=eq( $navigation_part.identifier, 'ezmynavigationpart' )}
+    {include uri='design:parts/my/menu.tpl'}
 {/section}
-{/section}
+
 </div>
 </div>
 
