@@ -223,24 +223,6 @@ class eZTemplateLogicOperator
                                                  'element-transformation-func' => 'trueFalseTransformation') );
     }
 
-//     function operatorTemplateStatistics( $name, &$variableItem, $variablePlacement, &$tpl, &$resourceData, $namespace, &$stats )
-//     {
-//         if ( $name == $this->EQName )
-//         {
-//             print( $name . "\n" );
-//             $parameters = eZTemplateNodeTool::extractOperatorNodeParameters( $variableItem );
-//             for ( $i = 0; $i < count( $parameters ); ++$i )
-//             {
-//                 $parameter =& $parameters[$i];
-//                 $parameterData = eZTemplateNodeTool::extractVariableNodeData( $parameter );
-//                 $parameterPlacement = eZTemplateNodeTool::extractVariableNodePlacement( $parameter );
-//                 eZTemplateCompiler::calculateVariableNodeStatistics( $tpl, $parameter, $parameterPlacement,
-//                                                                      $resourceData, $namespace, $stats );
-//             }
-//             return true;
-//         }
-//     }
-
     function operatorCompiledStaticData( $operatorName )
     {
         switch( $operatorName )
@@ -368,9 +350,10 @@ class eZTemplateLogicOperator
         }
         $newElements = array();
 
-        /* Check if all variables are integers. This is for optimization */
-        $code = "%output% = $operatorName;\n";
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
+        $value = false;
+        if ( $operatorName == $this->TrueName )
+            $value = true;
+        $newElements[] = eZTemplateNodeTool::createBooleanElement( $value );
         return $newElements;
     }
 
@@ -409,12 +392,12 @@ class eZTemplateLogicOperator
             $code = ( "if ( %1% < 0 and\n" .
                       "     %1% >= $count )\n" .
                       "{\n" .
-                      "    \$tpl->error( $operatorNameText, \"Index \" . %input% . \" out of range\" );\n" .
+                      "    \$tpl->error( $operatorNameText, \"Index \" . %1% . \" out of range\" );\n" .
                       "}\n" );
             $code .= "else switch ( %1% )\n{\n";
+            $valueNumber = 2;
             for ( $i = 0; $i < $count; ++$i )
             {
-                $valueNumber = $i + 2;
                 $parameterNumber = $i + 1;
                 $code .= "    case $i:";
                 if ( eZTemplateNodeTool::isStaticElement( $parameters[$parameterNumber] ) )
@@ -430,6 +413,7 @@ class eZTemplateLogicOperator
                     $code .= "%output% = %$valueNumber%;\n";
                     $code .= "    } break;\n";
                     $values[] = $parameters[$parameterNumber];
+                    ++$valueNumber;
                 }
             }
             $code .= "}\n";
