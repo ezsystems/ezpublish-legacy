@@ -508,7 +508,9 @@ div#contentstructure ul#content_tree_menu
 
 div#contentstructure ul#content_tree_menu ul
 {
-    margin-left: 0;
+    margin: 0;
+    padding-top: 4px;
+    padding-bottom: 0;
 }
 
 div#contentstructure ul#content_tree_menu ul ul
@@ -522,9 +524,30 @@ div#contentstructure ul#content_tree_menu li
     white-space: nowrap;
 }
 
+div#contentstructure  ul#content_tree_menu ul li
+{
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 4px;
+    background-image: url(../images/bg_content_tree_li.gif);
+    background-repeat: no-repeat;
+}
+
+div#contentstructure  ul#content_tree_menu ul li.lastli
+{
+    background-image: url(../images/bg_content_tree_li_last.gif);
+    padding-bottom: 2px;
+}
+
 div#contentstructure ul#content_tree_menu li img
 {
     vertical-align: middle;
+}
+
+div#contentstructure a.nodeicon
+{
+    margin-left: 0;
+    padding-left: 0;
 }
 
 div#contentstructure a.nodetext
@@ -592,7 +615,6 @@ div#contentstructure span.node-hidden, div#contentstructure span.node-hiddenbypa
     display: none;
 }
 
-
 div#leftmenu div.translations label
 {
     font-weight: normal;
@@ -601,10 +623,16 @@ div#leftmenu div.translations label
 
 a.openclose, span.openclose
 {
-    font-family: "Courier New", Courier, monospace; 
-    font-size: 0.7em;
-    color: #ffffff;
     text-decoration: none;
+}
+
+a.openclose img, span.openclose img
+{
+    margin: 0;
+}
+
+span.openclose
+{
 }
 
 div#contentstructure a.openclose, div#contentstructure span.openclose

@@ -156,6 +156,8 @@ function  ezjslib_createHTMLChildImageNode( node, imageSource )
     {
         var imageNode = document.createElement( 'img' );
         imageNode.src = imageSource;
+        imageNode.height = 16;
+        imageNode.width = 16;
         node.appendChild( imageNode );
     }
 }

@@ -313,10 +313,12 @@ function ezcst_foldUnfold( node, bUpdateCookie, bInitFoldUnfoldLabels, bForceFol
             ezcst_changeState( node_id, child, link_node, bForceFold, bForceUnfold );
             break;
         }
+/*!
         else if ( bInitFoldUnfoldLabels && child["tagName"] && child.tagName.toLowerCase() == "span" )
         {
-            ezjslib_createHTMLChildTextNode( child, "[ ]" );
+            ezjslib_createHTMLChildTextNode( child, "" );
         }
+*/
     }
 }
 

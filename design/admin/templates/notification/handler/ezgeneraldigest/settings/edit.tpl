@@ -1,13 +1,13 @@
 {let settings=$handler.settings}
 
 <div class="block">
-    <label>{'Receive all messages combined in one digest'|i18n( 'design/admin/notification/handler/ezgeneraldigest/settings/edit' )}:</label>
-    <input type="checkbox" name="ReceiveDigest_{$handler.id_string}" {$settings.receive_digest|choose( '', checked)} />
+    <label><input type="checkbox" name="ReceiveDigest_{$handler.id_string}" {$settings.receive_digest|choose( '', checked)} /> {'Receive all messages combined in one digest'|i18n( 'design/admin/notification/handler/ezgeneraldigest/settings/edit' )}</label>
+    
 </div>
 
-
 <div class="block">
-<label>{'Receive digests'|i18n( 'design/admin/notification/handler/ezgeneraldigest/settings/edit' )}:</label>
+<fieldset>
+<legend>{'Receive digests'|i18n( 'design/admin/notification/handler/ezgeneraldigest/settings/edit' )}</legend>
 <table cellspacing="4">
 <tr>
 <td>
@@ -55,8 +55,8 @@
 </td>
 </tr>
 </table>
-</div>
 
 {'If day number is larger than the number of days within the current month, the last day of the current month will be used.'|i18n( 'design/admin/notification/handler/ezgeneraldigest/settings/edit' )}
-
+</fieldset>
+</div>
 {/let}
