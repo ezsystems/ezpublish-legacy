@@ -7,10 +7,11 @@
 <style type="text/css">
     @import url({"stylesheets/core.css"|ezdesign});
     @import url({"stylesheets/classes.css"|ezdesign});
-    @import url({"stylesheets/site.css"|ezdesign});
+{*    @import url({"stylesheets/site.css"|ezdesign}); *}
+    @import url({"stylesheets/t1.css"|ezdesign});
     @import url({"stylesheets/debug.css"|ezdesign});
 
-    @import url({"stylesheets/bfdesign.css"|ezdesign});
+{*    @import url({"stylesheets/t1.css"|ezdesign}); *}
 
 </style>
 
@@ -29,7 +30,7 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 
 <div id="header">
     <div id="header-design">
-    <h1>eZ publish CMS</h1>
+    <h1> </h1>
     </div>
 </div>
 
@@ -38,6 +39,8 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
         {tool_bar name=top view=line}
     </div>
 </div>
+
+<div class="break"></div>
 
 <hr class="hide" />
 

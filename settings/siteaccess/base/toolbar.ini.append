@@ -1,0 +1,27 @@
+<?php /* #?ini charset="utf8"?
+
+[Toolbar_right]
+Tool[]
+Tool[]=create_object
+Tool[]=node_list
+
+[Toolbar_top]
+Tool[]
+Tool[]=login
+Tool[]=basket
+Tool[]=searchbox
+
+[Toolbar_bottom]
+Tool[]
+Tool[]=link
+Tool[]=basket
+
+[Tool_right_create_object_1]
+subtree=news
+class_identifier=weblog
+node_placement=51
+
+[Tool_right_node_list_2]
+parent_node=54
+title=Latest images
+*/ ?>

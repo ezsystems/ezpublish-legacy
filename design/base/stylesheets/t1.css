@@ -172,6 +172,8 @@ div#maincontent-design
 div.toolbox
 { 
     padding-right: 6px;
+    margin-bottom: 8px;
+    margin-top: 8px;
 }
 
 div.toolbox-design
@@ -194,6 +196,61 @@ div.toolbox-design h2
     color: #fff;
 }
 
+
+/* Tool list design */
+div.toollist
+{ 
+    padding-right: 6px;
+    margin-bottom: 8px;
+    margin-top: 8px;
+}
+
+div.toollist-design
+{ 
+    padding-top: 0px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    background-color: #fff;
+    border: 1px solid #369;
+}
+
+div.toollist-design h2
+{ 
+    margin: 0px;
+    width: 100%;
+    position: relative;
+    left: -10px;
+    padding-left: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    font: 12px regular;
+    background-color: #336699;
+    color: #fff;
+}
+
+div.toollist-design h3
+{ 
+    font: 9pt regular underline;
+    color: #369;
+    margin: 0px;
+}
+
+div.toollist-design div.class-article div.content-short p
+{ 
+    margin: 0px;
+    font: 9pt regular;
+    color: #666;
+}
+
+div.toollist-design div.class-article div.content-link p
+{ 
+    margin-top: 0px;
+    margin-bottom: 10px;
+    font: 9pt regular;
+    color: #369;
+}
+
+
 div#fix /* This style breaks the unwanted connection between the content of the maincontent box and the menues on the left and right in some browsers */
 {
     float: left;
@@ -209,7 +266,7 @@ div#footer
 
 /* COMMON STYLES SET JUST AS AN EXAMPLE */
 /* Border and padding is set on these elements inside another positioned elements to avoid wrong width calculations in the parents in some browsers */
-div#leftmenu-design,  div#maincontent-design, div#footer-design 
+div#leftmenu-design, div#footer-design 
 {
     background-color: #ffffff;
     margin: 1em 0 0 0;
@@ -222,3 +279,41 @@ div#header-design
 {
     margin: 0;
 }
+
+/* Common content styles */
+
+div#maincontent-design h1
+{ 
+    font: 18pt bold;
+    color: #039;
+    margin-bottom: 0px;
+}
+
+div#maincontent-design div.content-short p
+{ 
+    padding-top: 0px;
+    margin-top: 0px;
+    font: 9pt;
+    font-weight: bold;
+    color: #036;
+}
+
+div#maincontent-design div.content-long p
+{ 
+    font: 9pt regular;
+    color: #036;
+}
+
+div.content-byline p.author
+{
+    font: 9pt;
+    color: #036;
+}
+
+div.content-byline p.date
+{
+    font: 9pt;
+    color: #036;
+}
+
+
