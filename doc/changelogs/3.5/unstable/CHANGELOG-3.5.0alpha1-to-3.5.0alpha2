@@ -47,3 +47,4 @@ Payment:
 - Fixed bug with tmp_notification_rule_s for PostgreSQL not being cleaned up
   in the setup wizard.
   (Merged from stable/3.4 (3.4.3) rev. 8497)
+- Fixed bug: popupmenu fails on objects with quotes in their names.

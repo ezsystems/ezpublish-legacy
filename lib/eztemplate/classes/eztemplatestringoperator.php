@@ -348,6 +348,11 @@ class eZTemplateStringOperator
                                               $operatorValue );
                 $operatorValue = str_replace( "\n", '<C:callNewLine>', $operatorValue );
             }
+            case 'javascript':
+            {
+                $operatorValue = str_replace( array( "\\", "\"", "\'"),
+                                              array( "\\\\", "\\042", "\\047" ) , $operatorValue );
+            }
         }
         return $operatorValue;
     }
@@ -414,6 +419,16 @@ class eZTemplateStringOperator
 
             $values[] = $parameters[0];
             $code = "%output% = str_replace( array( '.', '@' ), array( '$dotText', '$atText' ), %1% );\n";
+        }
+        /* JAVASCRIPT: Type is static, input is not static */
+        else if ( ( $paramCount == 2 ) && isset( $staticValues[1] ) && ( $staticValues[1] == 'javascript' ) )
+        {
+            $values[] = $parameters[0];
+            $code = '%output% = str_replace( array( "\\\\", "\"", "\'"),
+                                             array( "\\\\\\\\", "\\\\042", "\\\\047" ) , %1% ); ';
+
+
+
         }
         else /* No compiling for the rest cases */
         {

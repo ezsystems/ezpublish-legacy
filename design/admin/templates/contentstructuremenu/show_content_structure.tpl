@@ -24,7 +24,7 @@
                 {/section}
 
             {* Icon *}
-                <a class="nodeicon" href="#" onclick="ezpopmenu_showTopLevel( event, 'ContextMenu', ez_createAArray( new Array( '%nodeID%', {$:parentNode.node.node_id}, '%objectID%', {$:parentNode.object.id} ) ) , '{$:parentNode.object.name|shorten(18)}', {$:parentNode.node.node_id} ); return false;">{$:parentNode.object.class_identifier|class_icon( small, "Show 'Edit' menu" )}</a>
+                <a class="nodeicon" href="#" onclick="ezpopmenu_showTopLevel( event, 'ContextMenu', ez_createAArray( new Array( '%nodeID%', {$:parentNode.node.node_id}, '%objectID%', {$:parentNode.object.id} ) ) , '{$:parentNode.object.name|shorten(18)|wash(javascript)}', {$:parentNode.node.node_id} ); return false;">{$:parentNode.object.class_identifier|class_icon( small, "Show 'Edit' menu" )}</a>
             {* Label *}
                 {* Tooltip *}
                 {section show=$:showToolTips|eq('enabled')}
