@@ -58,7 +58,7 @@ class eZSection extends eZPersistentObject
     {
         return array( "fields" => array( "id" => "ID",
                                          "name" => "Name",
-                                         "navigation_part_idenfifier" => "NavigationPartIdentifier",
+                                         "navigation_part_identifier" => "NavigationPartIdentifier",
                                          "locale" => "Locale"
                                          ),
                       "keys" => array( "id" ),

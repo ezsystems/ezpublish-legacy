@@ -124,6 +124,6 @@ $Result['content'] =& $tpl->fetch( "design:content/browse.tpl" );
 include_once( 'kernel/classes/ezsection.php' );
 $section =& eZSection::fetch( $contentObject->attribute( 'section_id' ) );
 if ( $section )
-    $Result['navigation_part'] = $section->attribute( 'navigation_part_idenfifier' );
+    $Result['navigation_part'] = $section->attribute( 'navigation_part_identifier' );
 
 ?>

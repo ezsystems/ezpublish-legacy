@@ -378,7 +378,7 @@ alter table ezproductcollection_item_opt add object_attribute_id int;
 alter table ezorder add data_text_2 text;
 alter table ezorder add data_text_1 text;
 
-alter table ezsection add navigation_part_idenfifier varchar(100) default 'ezcontentnavigationpart';
+alter table ezsection add navigation_part_identifier varchar(100) default 'ezcontentnavigationpart';
 alter table ezorder add account_identifier varchar(100) not null default 'default';
 
 # run update/common/scripts/updateurllink.php to fix XML fields with inproper text encoding

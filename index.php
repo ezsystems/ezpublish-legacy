@@ -695,9 +695,13 @@ if ( $show_page_layout )
 
         // Set the navigation part
         // Check for navigation part settings
-        $navigationPartString = $moduleResult['navigation_part'];
+        $navigationPartString = 'ezcontentnavigationpart';
+        if ( isset( $moduleResult['navigation_part'] ) )
+        {
+            $navigationPartString = $moduleResult['navigation_part'];
 
-        // Fetch the navigation part
+            // Fetch the navigation part
+        }
         $navigationPart = eZNavigationPart::fetchPartByIdentifier( $navigationPartString );
 
         $tpl->setVariable( 'navigation_part', $navigationPart );

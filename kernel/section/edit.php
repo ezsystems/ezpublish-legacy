@@ -45,7 +45,7 @@ $section =& eZSection::fetch( $SectionID );
 if ( $http->hasPostVariable( "StoreButton" ) )
 {
     $section->setAttribute( 'name', $http->postVariable( 'Name' ) );
-    $section->setAttribute( 'navigation_part_idenfifier', $http->postVariable( 'NavigationPartIdentifier' ) );
+    $section->setAttribute( 'navigation_part_identifier', $http->postVariable( 'NavigationPartIdentifier' ) );
     $section->setAttribute( 'locale', $http->postVariable( 'Locale' ) );
     $section->store();
     $Module->redirectTo( $Module->functionURI( "list" ) );

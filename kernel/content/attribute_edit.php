@@ -304,6 +304,6 @@ $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Content' ),
 include_once( 'kernel/classes/ezsection.php' );
 $section =& eZSection::fetch( $object->attribute( 'section_id' ) );
 if ( $section )
-    $Result['navigation_part'] = $section->attribute( 'navigation_part_idenfifier' );
+    $Result['navigation_part'] = $section->attribute( 'navigation_part_identifier' );
 
 ?>
