@@ -77,7 +77,8 @@ Changes from 3.2-4 to 3.2-5
 - Fixed typo in nor_NO translation, 
   http://ez.no/community/bug_reports/typo_in_norwegian_translation
 - Fixed bug. Using undefined index: base_dir in some cases
-  http://ez.no/community/bug_reports/undefined_index_base_dir_in_kernel_common_eztemplatedesignresource_php_on_line_367
+  http://ez.no/community/bug_reports/undefined_index_base_dir_in_kernel_common_eztemplatedesignresource_php_on_line_367- Fixed bug, Assumed variable ContentActionList allways was an array in contentobject.php
+  http://ez.no/community/bug_reports/error_invalid_argument_supplied_for_foreach_in_ezcontentobject_php
 
 
 *Setup:

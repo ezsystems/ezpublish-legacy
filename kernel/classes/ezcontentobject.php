@@ -2250,11 +2250,14 @@ class eZContentObject extends eZPersistentObject
     function hasContentAction( $name )
     {
         $return = false;
-        foreach ( $this->ContentActionList as $action )
+        if ( is_array ( $this->ContentActionList ) )
         {
-            if ( $action['action'] == $name )
+            foreach ( $this->ContentActionList as $action )
             {
-                $return = true;
+                if ( $action['action'] == $name )
+                {
+                    $return = true;
+                }
             }
         }
         return $return;

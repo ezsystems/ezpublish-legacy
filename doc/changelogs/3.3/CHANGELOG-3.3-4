@@ -73,6 +73,8 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/ez_forums_demo_site_forumtopic_tpl_does_not_show_correct_users
 - Fixed bug. Using undefined index: base_dir in some cases
   http://ez.no/community/bug_reports/undefined_index_base_dir_in_kernel_common_eztemplatedesignresource_php_on_line_367
+- Fixed bug, Assumed variable ContentActionList allways was an array in contentobject.php
+  http://ez.no/community/bug_reports/error_invalid_argument_supplied_for_foreach_in_ezcontentobject_php
 
 
 *Library:
