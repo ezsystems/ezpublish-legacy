@@ -107,6 +107,7 @@ $eZTemplateFunctionArray[] = array( 'function' => 'eZObjectForwardInit',
                                                                'collaboration_simple_message_view',
                                                                'collaboration_participation_view',
                                                                'event_edit_gui',
+                                                               'event_view_gui',
                                                                'class_attribute_view_gui',
                                                                'class_attribute_edit_gui' ) );
 
@@ -279,6 +280,13 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                              'use_views' => 'view' ),
 
                 'event_edit_gui' => array( 'template_root' => 'workflow/eventtype/edit',
+                                           'input_name' => 'event',
+                                           'output_name' => 'event',
+                                           'namespace' => 'WorkflowEvent',
+                                           'attribute_access' => array( array( 'workflow_type_string' ) ),
+                                           'use_views' => false ),
+
+                'event_view_gui' => array( 'template_root' => 'workflow/eventtype/view',
                                            'input_name' => 'event',
                                            'output_name' => 'event',
                                            'namespace' => 'WorkflowEvent',

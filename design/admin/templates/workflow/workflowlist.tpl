@@ -45,7 +45,7 @@
    {section var=Workflows loop=$workflow_list sequence=array( bglight, bgdark )}
        <tr class="{$Workflows.sequence}">
     <td><input type="checkbox" name="Workflow_id_checked[]" value="{$Workflows.item.id}"></td>
-    <td>{$Workflows.item.name}</td>
+    <td><a href={concat( $module.functions.view.uri, '/', $Workflows.item.id )|ezurl}>{$Workflows.item.name}</a></td>
     <td>
     {let modifier=fetch( content, object, hash( object_id, $Workflows.item.modifier_id ) )}
     <a href={$modifier.main_node.url_alias|ezurl}>{$modifier.name}</a>

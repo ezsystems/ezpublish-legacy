@@ -36,6 +36,10 @@
 $Module = array( "name" => "eZWorkflow" );
 
 $ViewList = array();
+$ViewList["view"] = array(
+    "script" => "view.php",
+    "default_navigation_part" => 'ezsetupnavigationpart',
+    "params" => array( "WorkflowID" ) );
 $ViewList["edit"] = array(
     "script" => "edit.php",
     'ui_context' => 'edit',
