@@ -122,7 +122,7 @@ To install the demodata all you have to do is unpack the var.tgz file:
 Open <httproot>/ezpublish-xxx/settings/site.ini with your favourite editor
 and set the correct setting in the [DatabaseSettings] section.
 (Instead of using this file, you can create a file called
-<httproot>/ezpublish-xxx/settings/override.site.ini.append
+<httproot>/ezpublish-xxx/settings/override/site.ini.append
 Here you can override settings in site.ini. Add only the parts you need.)
 You need to select what database implementation you would like to use,
 hostname of database server to connect to, username, password
@@ -210,7 +210,7 @@ the correct settings in the [DatabaseSettings] section.
 You need to set what database implementation you use, hostname of database
 server to connect to, user name, password, database name.
 (Instead of using this file, you can create a file called
-<httproot>/ezpublish-xxx/settings/override.site.ini.append
+<httproot>/ezpublish-xxx/settings/override/site.ini.append
 Here you can override settings in site.ini. Add only the parts you need.)
 
 [DatabaseSettings]
