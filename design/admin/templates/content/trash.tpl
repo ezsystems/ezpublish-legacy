@@ -35,7 +35,7 @@ function toggleCheckboxes( formname, checkboxname )
 
 <div class="context-block">
 <form name="trashform" action={'content/trash/'|ezurl} method="post" >
-<h2 class="context-title">{'Trash'|i18n( 'design/admin/content/trash' )} [{$list_count}]</h2>
+<h2 class="context-title">{'Trash [%list_count]'|i18n( 'design/admin/content/trash',, hash( '%list_count', $list_count ) )</h2>
 
 {* Items per page selector. *}
 <div class="context-toolbar">
