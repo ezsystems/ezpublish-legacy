@@ -53,6 +53,8 @@ div#toolbar-top
 
 div#toolbar-design
 {
+    padding: 0;
+    margin: 0;
 }
 
 div#toolbar-top div.toolbar-item
@@ -96,7 +98,7 @@ div#toolbar-bottom div.toolbar-item
     display: inline;
     color: #003366;
     font-weight: bold;
-    padding: 0 8px 0 8px;
+    padding: 0 12px 0 8px;
 }
 
 div#toolbar-bottom div.toolbar-item a
@@ -146,9 +148,9 @@ div#topmenu ul
 div#topmenu li
 {
     height: 22px;
-    background-image: url(../images/t1/t1-tab-divider.gif);
+    background-image: url(../images/t1/t1-tab-normal-left.gif);
     background-repeat: no-repeat;
-    background-position: top right;
+    background-position: top left;
     background-color: #336699;
     margin: 0;
     padding: 0;
@@ -158,21 +160,15 @@ div#topmenu li
 
 div#topmenu li.selected
 {
-    background-image: url(../images/t1/t1-tab-divider.gif);
+    background-image: url(../images/t1/t1-tab-selected-left.gif);
     background-repeat: no-repeat;
-    background-position: top right;
+    background-position: top left;
     background-color: #80a7d8;
-}
-
-div#topmenu li.first
-{
-    background-image: none;
-    border-left: none;
 }
 
 div#topmenu li div.spacing
 {
-    background-image: url(../images/t1/t1-tab-divider.gif);
+    background-image: url(../images/t1/t1-tab-normal-right.gif);
     background-repeat: no-repeat;
     background-position: top right;
     padding-left: 10px;
@@ -188,7 +184,7 @@ div#topmenu li a
 
 div#topmenu li.selected div.spacing
 {
-    background-image: url(../images/t1/t1-tab-divider-right.gif);
+    background-image: url(../images/t1/t1-tab-selected-right.gif);
     background-repeat: no-repeat;
     background-position: top right;
 }
