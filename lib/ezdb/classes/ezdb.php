@@ -230,7 +230,7 @@ class eZDB
                                                 'builtin_encoding' => $builtinEncoding,
                                                 'connect_retries' => $retries,
                                                 'use_persistent_connection' => $usePersistentConnection );
-/*            $databaseParameters = $defaultDatabaseParameters;
+            $databaseParameters = $defaultDatabaseParameters;
             if ( isset( $b['server'] ) )
                 $databaseParameters['server'] = $b['server'];
             if ( isset( $b['user'] ) )
@@ -256,8 +256,8 @@ class eZDB
             if ( isset( $b['connect_retries'] ) )
                 $databaseParameters['connect_retries'] = $b['connect_retries'];
             if ( isset( $b['use_persistent_connection'] ) )
-                $databaseParameters['use_persistent_connection'] = $b['use_persistent_connection'];*/
-            if ( $databaseParameters === false )
+                $databaseParameters['use_persistent_connection'] = $b['use_persistent_connection'];
+/*            if ( $databaseParameters === false )
             {
                 $databaseParameters = $defaultDatabaseParameters;
             }
@@ -268,7 +268,7 @@ class eZDB
 
                 $databaseParameters =& array_merge( $c, $b );
 
-            }
+            }*/
             foreach( $pluginPathArray as $pluginPath )
             {
                 $dbFile = $pluginPath . $databaseImplementation . 'db.php';
