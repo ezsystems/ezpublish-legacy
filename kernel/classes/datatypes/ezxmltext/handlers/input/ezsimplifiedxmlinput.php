@@ -111,6 +111,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
         $this->TagAttributeArray['ol'] = array( 'class' => array( 'required' => false ) );
 
+        $this->TagAttributeArray['li'] = array( 'class' => array( 'required' => false ) );
+
         $this->TagAttributeArray['ul'] = array( 'class' => array( 'required' => false ) );
 
         $this->TagAttributeArray['literal'] = array( 'class' => array( 'required' => false ) );
@@ -1854,7 +1856,11 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     {
                         $listItemContent .= $this->inputTagXML( $itemChildNode, $currentSectionLevel, $tdSectionLevel );
                     }
-                    $listContent .= "  <li>$listItemContent</li>\n";
+                    $liClassName = $listItemNode->attributeValue( 'class' );
+                    if ( $liClassName != null )
+                        $listContent .= "  <li class='$liClassName'>$listItemContent</li>\n";
+                    else
+                        $listContent .= "  <li>$listItemContent</li>\n";
                 }
                 if ( $className != null )
                     $output .= "<$tagName class='$className'>\n$listContent</$tagName>" .  "\n";

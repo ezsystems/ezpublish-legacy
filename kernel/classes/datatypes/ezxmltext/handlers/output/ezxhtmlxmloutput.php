@@ -460,6 +460,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     {
                         $listItemContent .= $this->renderXHTMLTag( $tpl, $itemChildNode, 0, $isBlockTag );
                     }
+                    $liClass = $listItemNode->attributeValue( 'class' );
+                    $tpl->setVariable( 'classification', $liClass, 'xmltagns' );
                     $tpl->setVariable( 'content', $listItemContent, 'xmltagns' );
                     $uri = "design:content/datatype/view/ezxmltags/li.tpl";
 
