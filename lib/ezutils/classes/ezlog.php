@@ -58,7 +58,7 @@ class eZLog
      \private
      Writes file name $name and storage directory $dir to storage log
     */
-    function writeStorageLog( $name, $dir )
+    function writeStorageLog( $name, $dir = false )
     {
         $ini =& eZINI::instance();
         $varDir = $ini->variable( 'FileSettings', 'VarDir' );
@@ -80,8 +80,15 @@ class eZLog
                 $fileExisted = false;
         }
 
-        $dir = preg_replace( "#/$#", "", $dir );
-        $dir .= "/";
+        if ( $dir !== false )
+        {
+            $dir = preg_replace( "#/$#", "", $dir );
+            $dir .= "/";
+        }
+        else
+        {
+            $dir = "";
+        }
 
         $logFile = @fopen( $fileName, "a" );
         if ( $logFile )
