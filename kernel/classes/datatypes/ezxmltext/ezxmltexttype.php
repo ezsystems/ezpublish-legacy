@@ -303,7 +303,6 @@ class eZXMLTextType extends eZDataType
                     {
                         unset( $currentNode );
                         $currentNode =& $lastNode;
-                        eZDebug::writeDebug( $tagName. " is valid" );
                     }
                 }
                 elseif ( ( $tagName == "paragraph" ) and ( $unMatchedParagraph ) )
@@ -475,7 +474,7 @@ class eZXMLTextType extends eZDataType
     function &inputXML( &$contentObjectAttribute )
     {
         // TMP hack
-        if ( !$contentObjectAttribute->isValid() == 1 )
+        /*    if ( !$contentObjectAttribute->isValid() == 1 )
         {
             $inputType =& eZXMLInputType::instance();
             $output =& $inputType->inputXML( $contentObjectAttribute );
@@ -484,7 +483,9 @@ class eZXMLTextType extends eZDataType
         {
             eZDebug::writeDebug("called else");
             $output =& $contentObjectAttribute->originalInput();
-        }
+        }*/
+        $inputType =& eZXMLInputType::instance();
+        $output =& $inputType->inputXML( $contentObjectAttribute );
         if ( trim( $output ) == "" )
             $output = " ";
         return $output;
@@ -617,30 +618,40 @@ class eZXMLTextType extends eZDataType
                 $tableRows = "";
                 $border = $tag->attributeValue( 'border' );
                 $width = $tag->attributeValue( 'width' );
+                $borderColor = $tag->attributeValue( 'bordercolor' );
                 if ($border === null )
                     $border = 1;
-                // find all table rows
-                foreach ( $tag->children() as $tableRow )
+                if ( $borderColor == "blue" )
+                    $border = 0;
+                if ( $borderColor == "red" )
                 {
-                    $tableData = "";
-                    foreach ( $tableRow->children() as $tableCell )
+                    
+                }
+                else
+                {
+                    // find all table rows
+                    foreach ( $tag->children() as $tableRow )
                     {
-                        $cellContent = "";
-                        foreach ( $tableCell->children() as $tableCellChildNode )
+                        $tableData = "";
+                        foreach ( $tableRow->children() as $tableCell )
                         {
-                            $cellContent .= $this->renderXHTMLTag( $tpl, $tableCellChildNode );
+                            $cellContent = "";
+                            foreach ( $tableCell->children() as $tableCellChildNode )
+                            {
+                                $cellContent .= $this->renderXHTMLTag( $tpl, $tableCellChildNode );
+                            }
+                            $tpl->setVariable( 'content', $cellContent, 'xmltagns' );
+                            $uri = "design:content/datatype/view/ezxmltags/td.tpl";
+                            $textElements = array();
+                            eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
+                            $tableData .= implode( '', $textElements );
                         }
-                        $tpl->setVariable( 'content', $cellContent, 'xmltagns' );
-                        $uri = "design:content/datatype/view/ezxmltags/td.tpl";
+                        $tpl->setVariable( 'content', $tableData, 'xmltagns' );
+                        $uri = "design:content/datatype/view/ezxmltags/tr.tpl";
                         $textElements = array();
                         eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
-                        $tableData .= implode( '', $textElements );
+                        $tableRows .= implode( '', $textElements );
                     }
-                    $tpl->setVariable( 'content', $tableData, 'xmltagns' );
-                    $uri = "design:content/datatype/view/ezxmltags/tr.tpl";
-                    $textElements = array();
-                    eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
-                    $tableRows .= implode( '', $textElements );
                 }
                 $tpl->setVariable( 'rows', $tableRows, 'xmltagns' );
                 $tpl->setVariable( 'border', $border, 'xmltagns' );
@@ -689,7 +700,6 @@ class eZXMLTextType extends eZDataType
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
                 $tagText .= implode( '', $textElements );
-                eZDebug::writeDebug("ooo" .$tagText);
             }break;
 
             // normal content tags

@@ -275,6 +275,7 @@ class eZXMLInputHandler
                 $tableRows = "";
                 $border = $tag->attributeValue( 'border' );
                 $width = $tag->attributeValue( 'width' );
+                // $borderColor = $tag->attributeValue( 'bordercolor' );
                 if ( $border == null )
                     $border = 1;
                 if ( $width == null )
