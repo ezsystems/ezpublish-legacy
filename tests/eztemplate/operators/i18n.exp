@@ -1,0 +1,4 @@
+`Some simple text`
+`Some simple text with indexed parameter: param value`
+`Some simple text with named parameter: param value`
+`Some simple text with dynamic named parameter: "param value"`
