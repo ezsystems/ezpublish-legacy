@@ -196,7 +196,7 @@ class eZContentClassAttribute extends eZPersistentObject
     {
         $row = array(
             'id' => null,
-            'version' => 1,
+            'version' => EZ_CLASS_VERSION_STATUS_TEMPORARY,
             'contentclass_id' => $class_id,
             'identifier' => '',
             'name' => '',
@@ -261,7 +261,7 @@ class eZContentClassAttribute extends eZPersistentObject
     }
 
 
-    function &fetch( $id, $asObject = true, $version = 0, $field_filters = null )
+    function &fetch( $id, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $field_filters = null )
     {
         $object = null;
         if ( $field_filters === null and $asObject )
@@ -320,7 +320,7 @@ class eZContentClassAttribute extends eZPersistentObject
         return $objects;
     }
 
-    function &fetchListByClassID( $classID, $version = 0, $asObject = true )
+    function &fetchListByClassID( $classID, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $asObject = true )
     {
         $objects = null;
         if ( $asObject )
