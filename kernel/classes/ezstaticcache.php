@@ -139,14 +139,17 @@ class eZStaticCache
 
             /* Generate new content */
             $fileName = "http://$hostname$dir$url";
-            $content = file_get_contents( $fileName );
+            $content = @file_get_contents( $fileName );
 
             /* Store new content */
-            foreach ( $cacheFiles as $file )
+            if ( $content !== false )
             {
-                if ( !file_exists( $file ) )
+                foreach ( $cacheFiles as $file )
                 {
-                    $this->storeCachedFile( $file, $content );
+                    if ( !file_exists( $file ) )
+                    {
+                        $this->storeCachedFile( $file, $content );
+                    }
                 }
             }
         }
@@ -190,11 +193,12 @@ class eZStaticCache
     function removeURL( $url )
     {
         if ( $url == "/" )
-            $dir = $this->StaticStorage . $url;
+            $dir = $this->StaticStorageDir . $url;
         else
-            $dir = $this->StaticStorage . $url . "/";
+            $dir = $this->StaticStorageDir . $url . "/";
 
-        unlink( $dir . "/index.html" );
+        @unlink( $dir . "/index.html" );
+        @rmdir( $dir );
     }
 
     function &cachedURLArray()

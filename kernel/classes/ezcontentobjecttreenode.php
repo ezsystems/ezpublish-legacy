@@ -3008,6 +3008,7 @@ WHERE
             include_once( 'kernel/classes/ezstaticcache.php' );
             $staticCache = new eZStaticCache();
             $staticCache->removeURL( "/" . $urlAlias );
+            $staticCache->generateAlwaysUpdatedCache();
 
             $parent = $node->fetchParent();
         }
