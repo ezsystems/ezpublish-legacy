@@ -33,6 +33,7 @@
 // you.
 //
 
+
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/classes/ezcontentclass.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
@@ -45,18 +46,11 @@ $Offset = $Params['Offset'];
 $viewParameters = array( 'offset' => $Offset );
 
 $tpl =& templateInit();
-$ObjectID = $Params['ObjectID'];
-$Module =& $Params['Module'];
-$OriginalLanguageCode = $Params['LanguageCode'];
-$LanguageCode = $Params['LanguageCode'];
-$EditVersion = $Params['EditVersion'];
 // Will be sent from the content/edit page and should be kept
 // incase the user decides to continue editing.
 $FromLanguage = $Params['FromLanguage'];
 
 $ini =& eZINI::instance();
-$hasCustomSitedesign = false;
-$sitedesign = eZTemplateDesignResource::designSetting( 'site' );
 
 $contentObject =& eZContentObject::fetch( $ObjectID );
 if ( $contentObject === null )
@@ -66,75 +60,18 @@ $versionObject =& $contentObject->version( $EditVersion );
 if ( $versionObject === null )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-$user =& eZUser::currentUser();
-
 if ( !$versionObject->attribute( 'can_read' ) )
 {
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 }
 
-$isCreator = $versionObject->attribute( 'creator_id' ) == $user->id();
+$user =& eZUser::currentUser();
+
+$isCreator = ( $versionObject->attribute( 'creator_id' ) == $user->id() );
 
 if ( $Module->isCurrentAction( 'Versions' ) )
 {
     return $Module->redirectToView( 'versions', array( $ObjectID, $EditVersion, $LanguageCode, $FromLanguage ) );
-}
-
-if ( $Module->isCurrentAction( 'Edit' ) and
-     $versionObject->attribute( 'status' ) == EZ_VERSION_STATUS_DRAFT and
-     $contentObject->attribute( 'can_edit' ) and
-     $isCreator )
-{
-    return $Module->redirectToView( 'edit', array( $ObjectID, $EditVersion, $LanguageCode, $FromLanguage ) );
-}
-
-// If we have an archived version editing we cannot edit the version directly.
-// Instead we redirect to the edit page without a version, this will create
-// a new version for us and start the edit operation
-if ( $Module->isCurrentAction( 'Edit' ) and
-     $contentObject->attribute( 'status' ) == EZ_CONTENT_OBJECT_STATUS_ARCHIVED and
-     $contentObject->attribute( 'can_edit' ) )
-{
-    return $Module->redirectToView( 'edit', array( $ObjectID, false, $LanguageCode, $FromLanguage ) );
-}
-
-if ( $Module->isCurrentAction( 'Publish' ) and
-     $versionObject->attribute( 'status' ) == EZ_VERSION_STATUS_DRAFT and
-     $contentObject->attribute( 'can_edit' ) and
-     $isCreator )
-{
-    $user =& eZUser::currentUser();
-    include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-    $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $ObjectID,
-                                                                                 'version' => $EditVersion ) );
-    $object = eZContentObject::fetch( $ObjectID );
-    $http =& eZHttpTool::instance();
-    if ( $object->attribute( 'main_node_id' ) != null )
-    {
-        if ( $http->hasSessionVariable( 'ParentObject' ) && $http->sessionVariable( 'NewObjectID' ) == $object->attribute( 'id' ) )
-        {
-            $parentArray = $http->sessionVariable( 'ParentObject' );
-            $parentURL = $Module->redirectionURI( 'content', 'edit', $parentArray );
-            $parentObject = eZContentObject::fetch( $parentArray[0] );
-            $parentObject->addContentObjectRelation( $object->attribute( 'id' ), $parentArray[1] );
-            $http->removeSessionVariable( 'ParentObject' );
-            $http->removeSessionVariable( 'NewObjectID' );
-            $Module->redirectTo( $parentURL );
-        }
-        else
-        {
-            $Module->redirectToView( 'view', array( 'full', $object->attribute( 'main_parent_node_id' ) ) );
-        }
-    }
-    else
-    {
-        $Module->redirectToView( 'view', array( 'sitemap', 2 ) );
-    }
-
-    return;
-    $Module->setCurrentAction( 'Publish', 'edit' );
-    return $Module->run( 'edit', array( $ObjectID, $EditVersion, $LanguageCode ) );
-//     return $Module->redirectToView( 'edit', array( $ObjectID, $EditVersion, $LanguageCode ) );
 }
 
 $sectionID = false;
@@ -194,28 +131,6 @@ foreach ( array_keys( $nodeAssignments ) as $key )
 }
 
 $contentINI =& eZINI::instance( 'content.ini' );
-if ( $contentINI->hasVariable( 'VersionView', 'AvailableSiteDesigns' ) )
-{
-    $sitedesignList = $contentINI->variableArray( 'VersionView', 'AvailableSiteDesigns' );
-}
-else
-{
-    $sitedesignList = $contentINI->variable( 'VersionView', 'AvailableSiteDesignList' );
-}
-
-if ( $contentINI->hasVariable( 'VersionView', 'DefaultPreviewDesign' ) )
-{
-    $defaultPreviewDesign = $contentINI->variable( 'VersionView', 'DefaultPreviewDesign' );
-    $sitedesign = $defaultPreviewDesign;
-}
-if ( count( $sitedesignList ) == 1 )
-{
-    $sitedesign = $sitedesignList[0];
-    $hasCustomSitedesign = true;
-}
-
-$allowChangeButtons = $contentINI->variable( 'VersionView', 'AllowChangeButtons' ) == 'enabled';
-$allowVersionsButton = $contentINI->variable( 'VersionView', 'AllowVersionsButton' ) == 'enabled';
 
 if ( $Module->isCurrentAction( 'ChangeSettings' ) )
 {
@@ -227,12 +142,6 @@ if ( $Module->isCurrentAction( 'ChangeSettings' ) )
     if ( $Module->hasActionParameter( 'PlacementID' ) )
     {
         $placementID = $Module->actionParameter( 'PlacementID' );
-    }
-
-    if ( $Module->hasActionParameter( 'Sitedesign' ) )
-    {
-        $sitedesign = $Module->actionParameter( 'Sitedesign' );
-        $hasCustomSitedesign = true;
     }
 }
 
@@ -261,10 +170,7 @@ if ( $versionAttributes === null or
     $LanguageCode = eZContentObject::defaultLanguage();
 }
 
-if ( $sitedesign )
-{
-    eZTemplateDesignResource::setDesignSetting( $sitedesign, 'site' );
-}
+$ini =& eZINI::instance();
 
 $relatedObjectArray =& $contentObject->relatedContentObjectArray( $EditVersion );
 
@@ -275,19 +181,9 @@ $class =& eZContentClass::fetch( $classID );
 $classes =& eZContentClass::fetchList( $version = 0, $asObject = true, $user_id = false,
                                        array( 'name' => 'name' ), $fields = null );
 
-$Module->setTitle( 'View ' . $class->attribute( 'name' ) . ' - ' . $contentObject->attribute( 'name' ) );
-
-$res =& eZTemplateDesignResource::instance();
-$designKeys = array( array( 'object', $contentObject->attribute( 'id' ) ), // Object ID
-                     array( 'class', $class->attribute( 'id' ) ), // Class ID
-                     array( 'class_identifier', $class->attribute( 'identifier' ) ), // Class identifier
-                     array( 'viewmode', 'full' ) );  // View mode
 if ( $assignment )
 {
     $parentNodeObject =& $assignment->attribute( 'parent_node_obj' );
-    $designKeys[] = array( 'parent_node', $assignment->attribute( 'parent_node' ) );
-    if ( get_class( $parentNodeObject ) == 'ezcontentobjecttreenode' )
-        $designKeys[] = array( 'depth', $parentNodeObject->attribute( 'depth' ) + 1 );
 }
 
 $navigationPartIdentifier = false;
@@ -303,8 +199,6 @@ if ( $sectionID !== false )
 }
 $designKeys[] = array( 'navigation_part_identifier', $navigationPartIdentifier );
 
-$res->setKeys( $designKeys );
-
 $contentObject->setAttribute( 'current_version', $EditVersion );
 
 // Set variables to be compatible with normal design templates
@@ -318,102 +212,98 @@ $contentObject->ContentObjectAttributeArray;
 if ( $assignment )
     $assignment->setName( $objectName );
 
-$node =& eZContentObjectTreeNode::create( $parentNodeID, $ObjectID, $EditVersion );
+
+$path = array();
+$pathString = '';
+$pathIdentificationString = '';
+$requestedURIString = '';
+$depth = 2;
+if ( $parentNodeObject )
+{
+    $pathString = $parentNodeObject->attribute( 'path_string' ) . $virtualNodeID . '/';
+    $pathIdentificationString = $parentNodeObject->attribute( 'path_identification_string' ); //TODO add current node ident string.
+    $depth = $parentNodeObject->attribute( 'depth' ) + 1;
+    $requestedURIString = $parentNodeObject->attribute( 'url_alias' );
+}
+
+if ( $node )
+{
+    $requestedURIString = $node->attribute( 'url_alias' );
+}
+
+$node = new eZContentObjectTreeNode();
+$node->setAttribute( 'contentobject_version', $EditVersion );
+$node->setAttribute( 'path_identification_string', $pathIdentificationString );
+$node->setAttribute( 'contentobject_id', $ObjectID );
+$node->setAttribute( 'parent_node_id', $parentNodeID );
 $node->setAttribute( 'main_node_id', $virtualNodeID );
+$node->setAttribute( 'path_string', $pathString );
+$node->setAttribute( 'depth', $depth );
 $node->setAttribute( 'node_id', $virtualNodeID );
 $node->setName( $objectName );
 
 $node->setContentObject( $contentObject );
 
-$path = array();
-$titlePath = array();
-
-$hasPath = false;
-if ( $mainAssignment )
+if ( $Params['SiteAccess'] )
 {
-    $parentNode =& $mainAssignment->attribute( 'parent_node_obj' );
-    if ( $parentNode )
-    {
-        $parents =& $parentNode->attribute( 'path' );
+    $siteAccess = $Params['SiteAccess'];
+}
+else
+{
+    include_once( 'kernel/content/versionviewframe.php' );
+    return;
+}
 
-        foreach ( $parents as $parent )
-        {
-            $path[] = array( 'text' => $parent->attribute( 'name' ),
-                             'url' => '/content/view/full/' . $parent->attribute( 'node_id' ),
-                             'url_alias' => $parent->attribute( 'url_alias' ),
-                             'node_id' => $parent->attribute( 'node_id' )
-                             );
-        }
-        $path[] = array( 'text' => $parentNode->attribute( 'name' ),
-                         'url' => '/content/view/full/' . $parentNode->attribute( 'node_id' ),
-                         'url_alias' => $parentNode->attribute( 'url_alias' ),
-                         'node_id' => $parentNode->attribute( 'node_id' ) );
-        $objectPathElement = array( 'text' => $contentObject->attribute( 'name' ),
-                                    'url' => false,
-                                    'url_alias' => false );
-        $existingNode = $contentObject->attribute( 'main_node' );
-        if ( $existingNode )
-        {
-            $objectPathElement['url'] = '/content/view/full/' . $existingNode->attribute( 'node_id' );
-            $objectPathElement['url_alias'] = $existingNode->attribute( 'url_alias' );
-            $objectPathElement['node_id'] = $existingNode->attribute( 'node_id' );
-        }
-        $path[] = $objectPathElement;
-        $hasPath = true;
+$contentINI =& eZINI::instance( 'content.ini' );
+if ( !$siteAccess )
+{
+    if ( $contentINI->hasVariable( 'VersionView', 'DefaultPreviewDesign' ) )
+    {
+        $siteAccess = $contentINI->variable( 'VersionView', 'DefaultPreviewDesign' );
+    }
+    else
+    {
+        $siteAccess = eZTemplateDesignResource::designSetting( 'site' );
     }
 }
-if ( !$hasPath )
-{
-    $existingNode = $contentObject->attribute( 'main_node' );
-    if ( $existingNode )
-    {
-        $parents =& $existingNode->attribute( 'path' );
 
-        foreach ( $parents as $parent )
-        {
-            $path[] = array( 'text' => $parent->attribute( 'name' ),
-                             'url' => '/content/view/full/' . $parent->attribute( 'node_id' ),
-                             'url_alias' => $parent->attribute( 'url_alias' ),
-                             'node_id' => $parent->attribute( 'node_id' )
-                             );
-        }
-        $path[] = array( 'text' => $existingNode->attribute( 'name' ),
-                         'url' => '/content/view/full/' . $existingNode->attribute( 'node_id' ),
-                         'url_alias' => $existingNode->attribute( 'url_alias' ),
-                         'node_id' => $existingNode->attribute( 'node_id' ) );
-        $hasPath = true;
-    }
-}
-if ( !$hasPath )
+$GLOBALS['eZCurrentAccess']['name'] = $siteAccess;
+changeAccess( array( 'name' => $siteAccess ) );
+
+if ( $GLOBALS['eZCurrentAccess']['type'] == EZ_ACCESS_TYPE_URI )
 {
-    $path[] = array( 'text' => $contentObject->attribute( 'name' ),
-                     'url' => false );
+    eZSys::clearAccessPath();
+    eZSys::addAccessPath( $siteAccess );
 }
 
-$tpl->setVariable( 'node', $node );
+$Module->setTitle( 'View ' . $class->attribute( 'name' ) . ' - ' . $contentObject->attribute( 'name' ) );
 
-$tpl->setVariable( 'object', $contentObject );
-$tpl->setVariable( 'version', $versionObject );
-$tpl->setVariable( 'version_attributes', $versionAttributes );
-$tpl->setVariable( 'class', $class );
-$tpl->setVariable( 'object_version', $EditVersion );
-$tpl->setVariable( 'from_language', $FromLanguage );
-$tpl->setVariable( 'object_languagecode', $LanguageCode );
-$tpl->setVariable( 'language', $OriginalLanguageCode );
-$tpl->setVariable( 'placement', $placementID );
-$tpl->setVariable( 'assignment', $assignment );
-$tpl->setVariable( 'sitedesign', $sitedesign );
-$tpl->setVariable( 'is_creator', $isCreator );
-$tpl->setVariable( 'allow_change_buttons', $allowChangeButtons );
-$tpl->setVariable( 'allow_versions_button', $allowVersionsButton );
+$res =& eZTemplateDesignResource::instance();
+$res->setDesignSetting( $ini->variable( 'DesignSettings', 'SiteDesign' ), 'site' );
+$res->setOverrideAccess( $siteAccess );
 
-$tpl->setVariable( 'related_contentobject_array', $relatedObjectArray );
-$tpl->setVariable('view_parameters', $viewParameters );
+$designKeys = array( array( 'object', $contentObject->attribute( 'id' ) ), // Object ID
+                     array( 'node', $virtualNodeID ), // Node id
+                     array( 'class', $class->attribute( 'id' ) ), // Class ID
+                     array( 'class_identifier', $class->attribute( 'identifier' ) ), // Class identifier
+                     array( 'viewmode', 'full' ) );  // View mode
 
-$Result = array();
-$Result['content'] =& $tpl->fetch( 'design:content/view/versionview.tpl' );
-$Result['path'] = array( array( 'text' => $contentObject->attribute( 'name' ),
-                                'url' => false ) );
-$Result['path'] = $path;
+if ( $assignment )
+{
+    $designKeys[] = array( 'parent_node', $assignment->attribute( 'parent_node' ) );
+    if ( get_class( $parentNodeObject ) == 'ezcontentobjecttreenode' )
+        $designKeys[] = array( 'depth', $parentNodeObject->attribute( 'depth' ) + 1 );
+}
+
+
+$res->setKeys( $designKeys );
+
+include_once( 'kernel/classes/eznodeviewfunctions.php' );
+
+$Result = eZNodeviewfunctions::generateNodeView( $tpl, $node, $contentObject, $LanguageCode, 'full', 0,
+                                                 false, false, false );
+
+$Result['requested_uri_string'] = $requestedURIString;
+$Result['ui_context'] = 'view';
 
 ?>

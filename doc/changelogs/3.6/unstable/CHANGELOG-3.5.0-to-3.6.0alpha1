@@ -24,6 +24,7 @@ Changes from 3.5.0 to 3.6.0alpha1
   <link> tag. Now 'id' attribute means xhtml id.
 - Added new module for viewing and deleting collected information
 - Added spec #15: new views for 'setup' module: cachetoolbar and settingstoolbar
+- Added propper preview generation when editing content objects.
 
 *INI settings
 - Fixed: ShowHiddenNodes now defaults to false. If you want to see hidden nodes by default

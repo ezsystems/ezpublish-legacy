@@ -133,10 +133,11 @@ $ViewList['versionview'] = array(
                                     'PreviewPublishButton' => 'Publish' ),
     'post_action_parameters' => array( 'ChangeSettings' => array( 'Language' => 'SelectedLanguage',
                                                                   'PlacementID' => 'SelectedPlacement',
-                                                                  'Sitedesign' => 'SelectedSitedesign' ) ),
+                                                                  'SiteAccess' => 'SelectedSiteAccess' ) ),
     'params' => array( 'ObjectID', 'EditVersion', 'LanguageCode', 'FromLanguage' ),
     'unordered_params' => array( 'language' => 'Language',
-                                 'offset' => 'Offset' ) );
+                                 'offset' => 'Offset',
+                                 'site_access' => 'SiteAccess' ) );
 
 $ViewList['search'] = array(
     'functions' => array( 'read' ),

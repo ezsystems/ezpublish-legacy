@@ -1,4 +1,4 @@
-<form method="post" action={concat( 'content/versionview/', $object.id, '/', $object_version, '/', $language, '/', $from_language )|ezurl}>
+<form method="post" action={concat( 'content/versionview/', $object.id, '/', $version.version, '/', $language, '/', $from_language )|ezurl}>
 
 <div id="leftmenu">
 <div id="leftmenu-design">
@@ -162,27 +162,20 @@
 {/section}
 
 {* Design *}
-{let site_designs=fetch( layout, sitedesign_list )}
-<label>{'Design'|i18n( 'design/admin/content/view/versionview' )}:</label>
+<label>{'Siteaccess'|i18n( 'design/admin/content/view/versionview' )}:</label>
 <div class="block">
-{section show=$site_designs|count|gt( 1 )}
-{section var=Designs loop=$site_designs}
+{section show=$site_access_list|count|gt( 1 )}
+{section var=Designs loop=$site_access_list}
 <p>
-<input type="radio" name="SelectedSitedesign" value="{$Designs.item}" {section show=eq( $Designs.item, $sitedesign )}checked="checked"{/section} />&nbsp;{$Designs.item|wash}
+<input type="radio" name="SelectedSiteAccess" value="{$Designs.item}" {section show=eq( $Designs.item, $siteaccess )}checked="checked"{/section} />&nbsp;{$Designs.item|wash}
 </p>
 {/section}
 {section-else}
 <p>
-<input type="radio" name="SelectedSitedesign" value="{$site_designs[0]}" checked="checked" disabled="disabled" />&nbsp;{$site_designs[0]|wash}
+<input type="radio" name="SelectedSiteAccess" value="{$site_designs[0]}" checked="checked" disabled="disabled" />&nbsp;{$site_designs[0]|wash}
 </p>
 {/section}
 </div>
-{/let}
-
-<input type="hidden" name="ContentObjectID" value="{$object.id}" />
-<input type="hidden" name="ContentObjectVersion" value="{$object_version}" />
-<input type="hidden" name="ContentObjectLanguageCode" value="{$object_languagecode}" />
-<input type="hidden" name="ContentObjectPlacementID" value="{$placement}" />
 
 <div class="block">
 <input class="button" type="submit" name="ChangeSettingsButton" value="{'Update view'|i18n( 'design/admin/content/view/versionview' )}" title="{'View the version that is currently being displayed using the selected language, location and design.'|i18n( 'design/admin/content/view/versionview' )}" />
@@ -207,7 +200,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title"><a href={concat( '/class/view/', $node.object.contentclass_id )|ezurl} onclick="ezpopmenu_showTopLevel( event, 'ClassMenu', ez_createAArray( new Array( '%classID%', {$node.object.contentclass_id}) ), '{$node.class_name|wash(javascript)}', -1 ); return false;">{$node.class_identifier|class_icon( normal, $node.class_name )}</a>&nbsp;{$node.name|wash}&nbsp;[{$node.class_name|wash}]</h1>
+<h1 class="context-title"><a href={concat( '/class/view/', $object.contentclass_id )|ezurl} onclick="ezpopmenu_showTopLevel( event, 'ClassMenu', ez_createAArray( new Array( '%classID%', {$object.contentclass_id}) ), '{$object.content_class.name|wash(javascript)}', -1 ); return false;">{$object.content_class.identifier|class_icon( normal, $node.class_name )}</a>&nbsp;{$object.name|wash}&nbsp;[{$object.content_class.name|wash}]</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -220,12 +213,19 @@
 <p class="translation">
 {$object_languagecode|locale().intl_language_name} <img src="{$object_languagecode|flag_icon}" alt="{$object_languagecode}" style="vertical-align: middle;" />
 </p>
+<p class="full-screen">
+<a href={concat("content/versionview/",$object.id,"/",$version.version,"/",$language, "/site_access/", $siteaccess)|ezurl} target="_blank"><img src={"images/window_fullscreen.png"|ezdesign} /></a>
+</p>
 <div class="break"></div>
 </div>
 
 {* Content preview in content window. *}
 <div class="mainobject-window">
-    {node_view_gui content_node=$node view=admin_preview}
+
+    <iframe src={concat("content/versionview/",$object.id,"/",$version.version,"/",$language, "/site_access/", $siteaccess )|ezurl} width="100%" height="800">
+    Your browser does not support iframes. Please see this <a href={concat("content/versionview/",$object.id,"/",$version.version,"/",$language, "/site_access/", $siteaccess)|ezurl}>link</a> instead.
+</iframe>
+
 </div>
 
 
@@ -235,7 +235,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-<form method="post" action={concat( 'content/versionview/', $object.id, '/', $object_version, '/', $language, '/', $from_language )|ezurl}>
+<form method="post" action={concat( 'content/versionview/', $object.id, '/', $version.version, '/', $language, '/', $from_language )|ezurl}>
 {* version.status 0 is draft
    object.status 2 is archived *}
 {section show=or( and( eq( $version.status, 0 ), $is_creator, $object.can_edit ),

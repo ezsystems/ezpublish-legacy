@@ -914,7 +914,10 @@ if ( !is_array( $moduleResult ) )
     $moduleResult['content'] = false;
 }
 
-$moduleResult['ui_context'] = $module->uiContextName();
+if ( !isset( $moduleResult['ui_context'] ) )
+{
+    $moduleResult['ui_context'] = $module->uiContextName();
+}
 $moduleResult['ui_component'] = $module->uiComponentName();
 
 $templateResult = null;
@@ -1053,7 +1056,14 @@ if ( $show_page_layout )
 
         $tpl->setVariable( 'navigation_part', $navigationPart );
         $tpl->setVariable( 'uri_string', $uri->uriString() );
-        $tpl->setVariable( 'requested_uri_string', $actualRequestedURI );
+        if ( isset( $moduleResult['requested_uri_string'] ) )
+        {
+            $tpl->setVariable( 'requested_uri_string', $moduleResult['requested_uri_string'] );
+        }
+        else
+        {
+            $tpl->setVariable( 'requested_uri_string', $actualRequestedURI );
+        }
 
         // Set UI context and component
         $tpl->setVariable( 'ui_context', $moduleResult['ui_context'] );

@@ -197,10 +197,14 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $siteBasics =& $GLOBALS['eZSiteBasics'];
         if ( $type == 'site' and
              is_string( $siteBasics['site-design-override'] ) )
+        {
             return $siteBasics['site-design-override'];
+        }
 
         if ( isset( $designSetting ) )
+        {
             return $designSetting;
+        }
         $ini =& eZINI::instance();
         if ( $type == 'standard' )
             $designSetting =& $ini->variable( "DesignSettings", "StandardDesign" );
@@ -803,7 +807,6 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $designStartPath = eZTemplateDesignResource::designStartPath();
 
         $additionalSiteDesignList =& $ini->variable( 'DesignSettings', 'AdditionalSiteDesignList' );
-
         // Generate match cache for all templates
         include_once( 'lib/ezfile/classes/ezdir.php' );
 
