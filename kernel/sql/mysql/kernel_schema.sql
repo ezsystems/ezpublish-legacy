@@ -1048,10 +1048,12 @@ CREATE TABLE ezsite_data (
 
 CREATE TABLE ezsubtree_notification_rule (
   id int(11) NOT NULL auto_increment,
-  address varchar(255) NOT NULL default '',
-  use_digest int(11) NOT NULL default '0',
+  use_digest int(11) default '0',
   node_id int(11) NOT NULL default '0',
-  PRIMARY KEY  (id)
+  user_id int(11) NOT NULL default '0',
+  PRIMARY KEY  (id),
+  KEY ezsubtree_notification_rule_id (id),
+  KEY ezsubtree_notification_rule_user_id (user_id)
 ) TYPE=MyISAM;
 
 
