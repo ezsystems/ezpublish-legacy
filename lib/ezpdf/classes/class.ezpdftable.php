@@ -204,7 +204,7 @@ class eZPDFTable extends Cezpdf
             {
                 if ( isset( $options['cellData'][$realCount.',0']['size'] ) )
                 {
-                    for ( $innerCount = 0; $innerCount < $options['cellData'][$realCount.',0']['size'][0]; $innerCount++ )
+                    for ( $innerCount = 0; $innerCount < $options['cellData'][$realCount.',0']['size']; $innerCount++ )
                         $cols[$realCount] = $realCount++;
                 }
                 else
@@ -278,7 +278,7 @@ class eZPDFTable extends Cezpdf
                 $colSpan = 1;
                 if ( isset( $options['cellData'][$realColCount.','.$rowCount]['size'] ) )
                 {
-                    $colSpan = $options['cellData'][$realColCount.','.$rowCount]['size'][0];
+                    $colSpan = $options['cellData'][$realColCount.','.$rowCount]['size'];
                 }
 
                 //get and set max width
@@ -326,7 +326,7 @@ class eZPDFTable extends Cezpdf
                 $colSpan = 1;
                 if ( isset( $options['cellData'][$realColCount.',0']['size'] ) )
                 {
-                    $colSpan = $options['cellData'][$realColCount.',0']['size'][0];
+                    $colSpan = $options['cellData'][$realColCount.',0']['size'];
                 }
 
                 $maxWidth[$colSpan][$columnCount] = $options['cols'][$colName]['width'] - $options['gap'] - 2*$options['cellPadding'];
@@ -651,7 +651,7 @@ class eZPDFTable extends Cezpdf
                             // Get colSpan
                             if ( isset( $options['cellData'][$realColumnCount.','.$rowCount]['size'] ) )
                             {
-                                $colSpan = $options['cellData'][$realColumnCount.','.$rowCount]['size'][0];
+                                $colSpan = $options['cellData'][$realColumnCount.','.$rowCount]['size'];
                             }
                             else
                             {
@@ -755,7 +755,7 @@ class eZPDFTable extends Cezpdf
                             {
                                 if ( isset( $options['cellData'][$realColumnCount.','.$rowCount]['size'] ) )
                                 {
-                                    $colSpan = $options['cellData'][$realColumnCount.','.$rowCount]['size'][0];
+                                    $colSpan = $options['cellData'][$realColumnCount.','.$rowCount]['size'];
                                 }
                                 else
                                 {
@@ -812,7 +812,7 @@ class eZPDFTable extends Cezpdf
                                         $colSpan = 1;
                                         if ( isset( $options['cellData'][$posOffset.','.$rowCount]['size'] ) )
                                         {
-                                            $colSpan = $options['cellData'][$posOffset.','.$rowCount]['size'][0];
+                                            $colSpan = $options['cellData'][$posOffset.','.$rowCount]['size'];
                                         }
                                         $this->line( $pos[$posOffset+$colSpan]-$options['gap']/2, $y+$decender+$height,
                                                      $pos[$posOffset+$colSpan]-$options['gap']/2, $y+$decender+$height-$maxRowHeight );
@@ -2007,11 +2007,15 @@ class eZPDFTable extends Cezpdf
                         $cellData[$columnCount. ',' .$rowCount] = array();
                         if ( isset( $tdParams['colspan'] ) )
                         {
-                            $cellData[$columnCount. ',' .$rowCount]['size'] = array( (int)$tdParams['colspan'], 1 );
+                            $cellData[$columnCount. ',' .$rowCount]['size'] = (int)$tdParams['colspan'];
                         }
                         if ( isset( $tdParams['align'] ) )
                         {
-                            $cellData[$columnCount. ',' .$rowCount]['justification'] = array( $tdParams['align'], 1 );
+                            $cellData[$columnCount. ',' .$rowCount]['justification'] = $tdParams['align'];
+                        }
+                        if ( isset( $tdParams['width'] ) )
+                        {
+                            $cellData[$columnCount. ',' .$rowCount]['width'] = $tdParams['width'];
                         }
                     }
                     continue;
