@@ -212,7 +212,8 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         if ( $overrideCacheFile )
         {
             include_once( $overrideCacheFile );
-            $match['file'] = overrideFile( '/' . $path, $matchKeys );
+            eval( "\$matchFile = " . $GLOBALS['eZOverrideTemplateCacheMap']['/' . $path] . ";" );
+            $match['file'] = $matchFile;
         }
         else
         {
