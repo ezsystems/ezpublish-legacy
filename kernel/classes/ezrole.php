@@ -100,8 +100,6 @@ class eZRole extends eZPersistentObject
             $ini =& eZINI::instance();
             $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
 
-            $enableCaching = false;
-
             $loadFromDB = true;
             $roleID = $this->attribute( 'id' );
             if ( $enableCaching == 'true' && $this->CachePolicies )

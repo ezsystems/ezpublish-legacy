@@ -174,7 +174,6 @@ class eZPolicy extends eZPersistentObject
             {
                 $enableCaching = false;
             }
-            $enableCaching = false;
 
             $loadFromDb = true;
             $policyID = $this->attribute( 'id' );

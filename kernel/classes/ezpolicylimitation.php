@@ -309,7 +309,6 @@ class eZPolicyLimitation extends eZPersistentObject
             {
                 $enableCaching = false;
             }
-            $enableCaching = false;
 
             $loadFromDb = true;
             $limitationID = $this->attribute( 'id' );
