@@ -22,6 +22,7 @@
 <p>
 
 <form method="post" action="{$script}">
+<div class="input_highlight">
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
   <th class="normal" colspan="3">{"Mail system"|i18n("design/standard/setup/init")}:</th>
@@ -57,7 +58,7 @@
   <td class="normal"><input type="password" size="16" name="eZSetupSMTPPassword" value="{$email_info.password}"></td>
 </tr>
 </table>
-
+</div>
   <div class="buttonblock">
     {include uri="design:setup/init/steps.tpl"}
     <input class="defaultbutton" type="submit" name="StepButton" value="{"Next"|i18n("design/standard/setup/init", "next button in installation")} &gt;&gt;" />

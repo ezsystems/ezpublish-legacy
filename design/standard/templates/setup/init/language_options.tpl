@@ -22,6 +22,8 @@ To fix this problem you must do one of the following:"|i18n('design/standard/set
 
 <form method="post" action="{$script}">
 
+<div class="input_highlight">
+
 <table border="0" cellspacing="0" cellpadding="0">
 
   <tr>
@@ -39,6 +41,8 @@ To fix this problem you must do one of the following:"|i18n('design/standard/set
   {/section}
 
 </table>
+</div>
+
 </p>
 
 {include uri="design:setup/init/steps.tpl"}

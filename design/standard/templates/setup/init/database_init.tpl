@@ -36,6 +36,8 @@
 </p>
 </blockquote>
 
+<div class="input_highlight">
+
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
  <td class="normal">
@@ -76,6 +78,8 @@
 </div>
 {/section}
 
+<div class="input_highlight">
+
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
   <th class="normal" colspan="3">Database</th>
@@ -109,7 +113,7 @@
   <td class="normal"><input type="text" name="eZSetupDatabasePassword" size="16" value="{$database_info.password}" /></td>
 </tr>
 </table>
-
+</div>
   <div class="buttonblock">
     <input class="defaultbutton" type="submit" name="StepButton" value="{"Next"|i18n("design/standard/setup/init", "next button in installation")} &gt;&gt;" />
   </div>
