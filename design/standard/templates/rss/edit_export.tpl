@@ -88,6 +88,10 @@
                 name=concat( "SourceBrowse_", $Source:index )
                 id_name=concat( "SourceBrowse_", $Source:index )
                 value="Browse"|i18n("design/standard/rss/edit")}
+       {include uri="design:gui/button.tpl"
+                name=concat( "RemoveSource_", $Source:index )
+                id_name=concat( "RemoveSource_", $Source:index )
+                value="Remove Source"|i18n("design/standard/rss/edit")}
        <br/>
 
        <label>{"Class"|i18n("design/standard/rss/edit")}:</label><div class="labelbreak"></div>

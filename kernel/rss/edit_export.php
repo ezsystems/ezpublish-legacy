@@ -97,6 +97,19 @@ if ( $http->hasPostVariable( 'Item_Count' ) )
                                      $Module );
             break;
         }
+
+        // remove selected source (if any)
+        if ( $http->hasPostVariable( 'RemoveSource_'.$itemCount ) )
+        {
+            $itemID = $http->postVariable( 'Item_ID_'.$itemCount );
+            if ( ( $rssExportItem = eZRSSExportItem::fetch( $itemID ) ) )
+            {
+                $rssExportItem->remove();
+                storeRSSExport( $Module, $http );
+            }
+
+            break;
+        }
     }
 }
 

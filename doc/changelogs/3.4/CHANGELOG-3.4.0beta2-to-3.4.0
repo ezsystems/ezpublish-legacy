@@ -27,6 +27,9 @@ Changes from 3.4.0beta2 to 3.4.0
 - Fixed bug related to inability of selecting source node for RSS export
   (fixes also in stable/3.3 Rev. 6609).
   http://ez.no/community/bug_reports/rss_export_source_1_selection_fails
+- Fixed bug related to inability of removing an RSS export source
+  (merged from 3.3, rev. 6614).
+  http://ez.no/community/bug_reports/rss_export_delete_source_missing
 
 *Library:
 
