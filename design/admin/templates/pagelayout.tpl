@@ -368,7 +368,8 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 
 </div></div></div></div>
 
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-content">
+<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+
 <ul>
 {let bookmark_list=fetch( content, bookmarks )}
 {section var=Bookmarks loop=$bookmark_list}
@@ -384,16 +385,11 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 </ul>
 
 {section-else}
-{section show=ne( $ui_context,'edit' )}
-<h4><a href={'/content/bookmark/'|ezurl}>{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</a> <a class="showhide" href={'/user/preferences/set/admin_bookmark_menu/1'|ezurl} title="{'Show bookmarks.'|i18n( 'design/admin/pagelayout' )}">[+]</a></h4>
-{section-else}
-<h4><span class="disabled">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</span> <span class="disabled openclose">[+]</span></h4>
-{/section}
-
-</div></div></div></div>
-
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
-
+    {section show=ne( $ui_context,'edit' )}
+    <h4><a href={'/content/bookmark/'|ezurl}>{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</a> <a class="showhide" href={'/user/preferences/set/admin_bookmark_menu/1'|ezurl} title="{'Show bookmarks.'|i18n( 'design/admin/pagelayout' )}">[+]</a></h4>
+    {section-else}
+    <h4><span class="disabled">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</span> <span class="disabled openclose">[+]</span></h4>
+    {/section}
 {/section}
 
 <div class="block">
@@ -414,7 +410,8 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 
 </div>
 
-
+</div>
+</div>
 
 <hr class="hide" />
 

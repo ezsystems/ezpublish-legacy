@@ -1,5 +1,5 @@
 <div class="message-error">
-<h2>{'The requested page could not be displayed. (21)'|i18n( 'design/admin/error/kernel' )}</h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The requested page could not be displayed. (21)'|i18n( 'design/admin/error/kernel' )}</h2>
 <p>{'The requested view <%view> could not be found in the <%module> module.'|i18n( 'design/admin/error/kernel',, hash( '%view', $parameters.view, '%module', $parameters.module ) )|wash}</p>
 <p>{'Possible reasons'|i18n( 'design/admin/error/kernel' )}:</p>
 <ul>
