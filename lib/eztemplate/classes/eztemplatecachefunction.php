@@ -75,9 +75,16 @@ class eZTemplateCacheFunction
                 {
                     $keys = $tpl->elementValue( $functionParameters["keys"], $rootNamespace, $currentNamespace, $functionPlacement );
 
-                    foreach ( $keys as $key )
+                    if ( is_array( $keys ) )
                     {
-                        $keyString .= $key . "_";
+                        foreach ( $keys as $key )
+                        {
+                            $keyString .= $key . "_";
+                        }
+                    }
+                    else
+                    {
+                        $keyString .= $keys . "_";
                     }
                 }
 
@@ -90,6 +97,7 @@ class eZTemplateCacheFunction
 
                 include_once( 'lib/ezutils/classes/ezphpcreator.php' );
                 $md5Key = md5( $keyString );
+
                 $phpCache = new eZPHPCreator( "var/cache/template-block/" . $md5Key[0] . "/" . $md5Key[1] . "/" . $md5Key[2], md5( $keyString ) . ".php" );
 
                 // Check if a custom expiry time is defined
