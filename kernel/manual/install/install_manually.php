@@ -25,7 +25,7 @@
 <h2 id="Requirements"> eZ publish 3 requirements</h2>
 <p>
 	You need to have Apache, MySQL, ImageMagick and PHP installed to run eZ publish 3.
-	PHP needs to have compiled-in support for either MySQL or PostgreSQL.
+	PHP needs to have compiled-in support for either MySQL (--with-mysql) or PostgreSQL (--with-pgsql)
 	For image conversion support you need to have GD compiled in PHP or
 	ImageMagick installed on your system.
 </p>
@@ -34,7 +34,7 @@
 	<li>PHP >= 4.1.x <br /><a href="http://www.php.net">http://www.php.net </a> </li>
 	<li>Apache 1.3 (apache 2.0 might/might not work) <br /><a href="http://www.apache.org">http://www.apache.org</a></li>
 	<li>Either MySQL or PostgreSQL <br /><a href="http://www.mysql.org">http://www.mysql.org</a><br /><a href="http://www.postgresql.org">http://www.postgresql.org</a></li>
-	<li> ImageMagick and/or GD compiled in PHP for image conversion and scaling (not required) <br /><a href="http://www.imagemagick.org">http://www.imagemagick.org</a></li>
+	<li> ImageMagick and/or GD compiled in PHP for image conversion and scaling <br /><a href="http://www.imagemagick.org">http://www.imagemagick.org</a></li>
 </ul>
 
 <p>
@@ -283,7 +283,7 @@ AddModule mod_rewrite.c</pre>
 &lt;/VirtualHost&gt;
 </pre>
 
-<p class="important"> <b>Note:</b>The rewrite rule is releative to the http root and we must use '/' (slash) not '\' (backslash)</p>
+<p class="important"> <b>Note:</b>The rewrite rule is releative to the http root and use '/' (slash) not '\' (backslash)</p>
 
 <h3 id="Windows_SiteAccess">Siteaccess settings</h3>
 <p>
