@@ -52,7 +52,7 @@
         </tr>
         <tr>
             <td class="bglight">
-	    {section show=$browse.ignore_nodes|contains($main_node.node_id)|not()}
+	    {section show=$browse.ignore_nodes_select|contains($main_node.node_id)|not()}
 	      {section show=is_array($browse.class_array)}
 	        {section show=$browse.class_array|contains($main_node.object.content_class.identifier)}
 		  <input type="{$select_type}" name="{$select_name}[]" value="{$main_node[$select_attribute]}" {section show=eq($browse.selection,'single')}checked="checked"{/section} />
@@ -88,7 +88,7 @@
         {section name=Object loop=$object_array sequence=array(bgdark,bglight)}
         <tr class="{$Object:sequence}">
             <td>
-	        {section show=$browse.ignore_nodes|contains($:item.node_id)|not()}
+	        {section show=$browse.ignore_nodes_select|contains($:item.node_id)|not()}
 		  {section show=is_array($browse.class_array)}
 	            {section show=$browse.class_array|contains($:item.object.content_class.identifier)}
 		      <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
@@ -104,7 +104,9 @@
             <td>
                 <img src={"1x1.gif"|ezimage} width="{mul(sub($:item.depth,$main_node.depth),$browse_indentation)}" height="1" alt="" border="0" />
             <img src={"class_2.png"|ezimage} border="0" alt="{'Document'|i18n('design/standard/node/view')}" />
-	    <a href={concat("/content/browse/",$Object:item.node_id,"/")|ezurl}>{$Object:item.name|wash}</a>
+	    {section show=$browse.ignore_nodes_click|contains($Object:item.node_id)|not()}<a href={concat("/content/browse/",$Object:item.node_id,"/")|ezurl}>{/section}
+                {$Object:item.name|wash}
+	    {section show=$browse.ignore_nodes_click|contains($Object:item.node_id)|not()}</a>{/section}
             </td>
         
             <td>
@@ -152,7 +154,7 @@
                  sequence=array(bgdark,bglight)}
         <tr class="{$:sequence}">
             <td width="1">
-                {section show=$browse.ignore_nodes|contains($:item)|not()}
+                {section show=$browse.ignore_nodes_select|contains($:item)|not()}
 		  {section show=is_array($browse.class_array)|not()}
 		    <input type="{$select_type}" name="{$select_name}[]" value="{$:item}" />
 		  {section-else}
@@ -185,7 +187,7 @@
         {section name=Bookmark loop=$bookmark_list show=$bookmark_list sequence=array(bgdark,bglight)}
         <tr class="{$:sequence}">
             <td width="1">
-	        {section show=$browse.ignore_nodes|contains($:item.node_id)|not()}
+	        {section show=$browse.ignore_nodes_select|contains($:item.node_id)|not()}
 		  {section show=is_array($browse.class_array)}
 	            {section show=$browse.class_array|contains($:item.object.content_class.identifier)}
 		      <input type="{$select_type}" name="{$select_name}[]" value="{$:item.node[$select_attribute]}" />
@@ -202,7 +204,7 @@
         
             <td>
                 <img src={"class_2.png"|ezimage} border="0" alt="{'Document'|i18n('design/standard/node/view')}" />
-                {section show=eq($:item.node_id,$main_node.node_id)}
+                {section show=or(eq($:item.node_id,$main_node.node_id),$browse.ignore_nodes_click|contains($:item.node_id))}
                     {$:item.node.name|wash}
                 {section-else}
                     <a href={concat("/content/browse/",$:item.node_id,"/")|ezurl}>
@@ -237,7 +239,7 @@
             {section name=Recent loop=$recent_list sequence=array(bgdark,bglight)}
             <tr class="{$:sequence}">
                 <td width="1">
-		    {section show=$browse.ignore_nodes|contains($:item.node_id)|not()}
+		    {section show=$browse.ignore_nodes_select|contains($:item.node_id)|not()}
 		      {section show=is_array($browse.class_array)|not()}
 			<input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
 		      {section-else}
@@ -250,7 +252,7 @@
             
                 <td>
                     <img src={"class_2.png"|ezimage} border="0" alt="{'Document'|i18n('design/standard/node/view')}" />
-                    {section show=eq($:item.node_id,$main_node.node_id)}
+                    {section show=or(eq($:item.node_id,$main_node.node_id),$browse.ignore_nodes_click|contains($:item.node_id))}
                         {$:item.name|wash}
                     {section-else}
                         <a href={concat("/content/browse/",$:item.node_id,"/")|ezurl}>
