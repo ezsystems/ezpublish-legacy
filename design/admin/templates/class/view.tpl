@@ -168,6 +168,9 @@
         </select>
         <input class="button" type="submit" name="AddGroupButton" value="{"Add to group"|i18n("design/standard/class/view")}" />
     {section-else}
+        <select name="ContentClass_group" disabled="disabled">
+        <option value="">{"No group"|i18n("design/standard/class/view")}</option>
+        </select>
         <input class="button" type="submit" name="AddGroupButton" value="{"Add to group"|i18n("design/standard/class/view")}" disabled="disabled" />
     {/section}
     </div>
