@@ -13,8 +13,29 @@ edit_placement.tpl:
 - Fixed notification digest bug, merged from stable/3.3 rev. 7092.
 - Fixed so that displaying images with center alignment now works properly.
   http://ez.no/community/bug_reports/ez_no_image_display_overlap_on_new_browsers
-- Fixed bug in {section show=$abc } where $abc is undefined. Bug only occured when template compilation was disabled.
-  
+- Fixed bug in {section show=$abc } where $abc is undefined. Bug only
+  occured when template compilation was disabled.
+- Fixed bug with misquoted filenames in Content-disposition header. (Merged from stable/3.3, rev 7107)
+  http://ez.no/community/bug_reports/content_disposition_in_kernel_classes_binaryhandlers_ezfilepasstrough
+- Fixed hard coded "alternative name" for Company Logo.
+  http://ez.no/community/bug_reports/alt_image_text_for_company_logo_is_hardcoded
+- Fixed problems with overwritten uploaded files. (Merged from stable/3.3, rev 7120)
+  http://ez.no/community/bug_reports/new_binary_files_sometimes_overwrite_existing_binary_files
+- Fixed problem with ANSI control chars for the shell scripts. (Merged from unstable/3.5, rev 7130)
+  http://ez.no/community/bug_reports/cli_scripts_in_windows_dos_box_show_ansi_control_characters
+- Fixed problem with section placements for new related objects. (Merged from stable/3.3, rev. 7138)
+  http://ez.no/community/bug_reports/related_object_added_to_article_set_to_section_0
+- Fixed wrong check for INI setting.
+  http://ez.no/community/bug_reports/usefullurl_in_kernel_layout_set_php
+- Fixed superfluous variable and INI class instantiation.
+  http://ez.no/community/bug_reports/unused_variable_enablecaching_in_ezrole_fetchbyuser
+- Fixed another bug related to the ezcontentobjectlrelationlist template.
+  http://ez.no/community/bug_reports/template_compiler_bug_when_class_list_is_passed_to_fetch_in_a_variable_containing_hash
+- Fixed bogus PostGreSQL version check. (Merged from stable/3.3, rev. 7154)
+  http://ez.no/community/bug_reports/fail_installation_with_postgresql_db
+- Fixed bug with variables set by toolbar template function not being unset.
+  http://ez.no/community/bug_reports/bug_in_template_compiler
+
 *Lib:
 
 eZ template:
