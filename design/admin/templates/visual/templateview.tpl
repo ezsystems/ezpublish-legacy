@@ -1,7 +1,9 @@
 <form method="post" name="templateview" action={concat( '/visual/templateview', $template_settings.template )|ezurl}>
 
 <div class="context-block">
+
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
 <h1 class="context-title">{'Overrides for <%template_name> template in <%current_siteaccess> siteaccess [%override_count]'|i18n( 'design/admin/visual/templateview',, hash( '%template_name', $template_settings.template, '%current_siteaccess', $current_siteaccess, '%override_count', $template_settings.custom_match|count ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
@@ -72,6 +74,7 @@
 </div>
 {/section}
 
+</div>
 
 {* DESIGN: Content END *}</div></div></div>
 
