@@ -48,7 +48,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 <form action={'/content/search/'|ezurl} method="get">
     <input id="searchtext" type="text" size="20" name="SearchText" id="Search" value="" />
     <input id="searchbutton" name="SearchButton" type="submit" value="{'Search'|i18n( 'design/admin/pagelayout' )}" />
-    <p><label><input type="radio" checked="checked" />{'All content'|i18n( 'design/admin/pagelayout' )}</label> <label><input type="radio" />{'Current location'|i18n( 'design/admin/pagelayout' )}</label> <a href="/content/advancedsearch/">{'Advanced'|i18n( 'design/admin/pagelayout' )}</a></p>
+    <p><label><input type="radio" checked="checked" />{'All content'|i18n( 'design/admin/pagelayout' )}</label> <label><input type="radio" />{'Current location'|i18n( 'design/admin/pagelayout' )}</label> <a href={'/content/advancedsearch'|ezurl}>{'Advanced'|i18n( 'design/admin/pagelayout' )}</a></p>
 </form>
 </div>
 
