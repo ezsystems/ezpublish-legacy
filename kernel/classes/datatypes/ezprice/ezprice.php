@@ -41,9 +41,22 @@
 /*!
   \class eZPrice ezprice.php
   \ingroup eZDatatype
-  \brief The class eZPrice does
+  \brief Handles prices with VAT and discounts.
 
+  The available attributes are:
+  - vat_type
+  - current_user
+  - is_vat_included
+  - vat_percent
+  - inc_vat_price
+  - ex_vat_price
+  - discount_percent
+  - discount_price_inc_vat
+  - discount_price_ex_vat
+  - has_discount
+  - price
 */
+
 include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( "kernel/classes/ezvattype.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
@@ -71,24 +84,48 @@ class eZPrice
         $this->Discount = $this->discount();
     }
 
+    /*!
+     \return An array with attributes that is available.
+    */
+    function attributes()
+    {
+        return array( 'vat_type',
+                      'current_user',
+                      'is_vat_included',
+                      'vat_percent',
+                      'inc_vat_price',
+                      'ex_vat_price',
+                      'discount_percent',
+                      'discount_price_inc_vat',
+                      'discount_price_ex_vat',
+                      'has_discount',
+                      'price' );
+    }
+
+    /*!
+     \return \c true if the attribute named \a $attr exists.
+    */
     function hasAttribute( $attr )
     {
-        if ( $attr == "vat_type" or
-             $attr == "current_user" or
-             $attr == "is_vat_included" or
-             $attr == "vat_percent" or
-             $attr == "inc_vat_price" or
-             $attr == "ex_vat_price" or
-             $attr == "discount_percent" or
-             $attr == "discount_price_inc_vat" or
-             $attr == "discount_price_ex_vat" or
-             $attr == "has_discount" or
-             $attr == "price" )
+        if ( $attr == 'vat_type' or
+             $attr == 'current_user' or
+             $attr == 'is_vat_included' or
+             $attr == 'vat_percent' or
+             $attr == 'inc_vat_price' or
+             $attr == 'ex_vat_price' or
+             $attr == 'discount_percent' or
+             $attr == 'discount_price_inc_vat' or
+             $attr == 'discount_price_ex_vat' or
+             $attr == 'has_discount' or
+             $attr == 'price' )
             return true;
         else
             return false;
     }
 
+    /*!
+     \return The value of the attribute named \a $attr or \c null if it doesn't exist.
+    */
     function &attribute( $attr )
     {
         switch ( $attr )
@@ -96,22 +133,26 @@ class eZPrice
             case "vat_type" :
             {
                 return $this->VatTypeArray;
-            }break;
+            } break;
+
             case "current_user" :
             {
                 return $this->CurrentUser;
-            }break;
+            } break;
+
             case "vat_percent" :
             {
                 if ( $this->VATType != null )
                     return $this->VATType->attribute( 'percentage' );
                 else
                     return 0;
-            }break;
+            } break;
+
             case "is_vat_included":
             {
                 return $this->IsVATIncluded;
-            }break;
+            } break;
+
             case "inc_vat_price" :
             {
                 if ( $this->IsVATIncluded )
@@ -127,7 +168,8 @@ class eZPrice
                     $incVATPrice = $this->Price * ( $vatPercent + 100 ) / 100;
                     return $incVATPrice;
                 }
-            }break;
+            } break;
+
             case "ex_vat_price" :
             {
                 if ( $this->IsVATIncluded )
@@ -141,11 +183,13 @@ class eZPrice
                 }
                 else
                     return $this->Price;
-            }break;
+            } break;
+
             case "discount_percent" :
             {
                 return $this->Discount;
-            }break;
+            } break;
+
             case "discount_price_inc_vat" :
             {
                 $discountPercent = $this->Discount;
@@ -162,7 +206,8 @@ class eZPrice
                 }
                 $discountPrice = $incVATPrice * ( 100 - $discountPercent ) / 100;
                 return $discountPrice;
-            }break;
+            } break;
+
             case "discount_price_ex_vat" :
             {
                 $discountPercent = $this->Discount;
@@ -178,7 +223,8 @@ class eZPrice
                     $exVATPrice = $this->Price;
                 $discountPrice = $exVATPrice * ( 100 - $discountPercent ) / 100;
                 return $discountPrice;
-            }break;
+            } break;
+
             case "has_discount" :
             {
                 $discountPercent = $this->Discount;
@@ -188,15 +234,17 @@ class eZPrice
                 else
                     $hasDiscount = false;
                 return $hasDiscount;
-            }break;
+            } break;
+
             case "price" :
             {
                 return $this->Price;
-            }break;
+            } break;
+
             default :
             {
                 eZDebug::writeError( "Unknown attribute: " . $attr );
-            }break;
+            } break;
         }
     }
 
@@ -305,7 +353,7 @@ class eZPrice
         return $bestMatch;
     }
 
-
+    /// \privatesection
     var $VatTypeArray;
     var $Price;
     var $CurrentUser;
