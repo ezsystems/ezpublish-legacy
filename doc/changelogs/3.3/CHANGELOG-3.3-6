@@ -108,6 +108,9 @@ eZINI:
   http://ez.no/community/bug_reports/soap_response_null_object.
 - Fixed bug with unused EmailSender ini setting in eZSMTPTransport.
   http://ez.no/community/bug_reports/email_sender
+- Fixed bugs in fetching keywords and keywords count:
+  o All object attribute versions were fetched instead of the current one;
+  o Fetching from non-published objects was posssible.
 
 *Library:
 
