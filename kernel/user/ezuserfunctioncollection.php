@@ -99,6 +99,11 @@ class eZUserFunctionCollection
         return array( 'result' => $list );
     }
 
+    function &fetchMemberOf( $id )
+    {
+        include_once( 'kernel/classes/ezrole.php' );
+        return array( 'result' => eZRole::fetchByUser( array( $id ) ) );
+    }
 }
 
 ?>

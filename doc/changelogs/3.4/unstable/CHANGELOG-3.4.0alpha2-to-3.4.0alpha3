@@ -36,6 +36,8 @@ Changes from 3.4.0alpha2 to 3.4.0alpha3
   default is 3600 seconds (1 hour)
 - Changed the default sorting of node assignments to be published objects first.
 - Fixed bug with mime type in ezbinaryhandler (was allways set to application/octet-stream)
+- Added listing roles when browsing user groups.
+- Added member_of operator to fetch(user, ex: fetch(user, memeber_of, hash( id, 42 )).
 
 Updates:
 - Fixed cleanup.php script to cleanup the user/session link table when

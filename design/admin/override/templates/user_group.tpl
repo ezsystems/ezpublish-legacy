@@ -205,6 +205,25 @@
 
 {/section}
 
+{default member_groups=fetch( user, member_of, hash( id, $content_object.id ) )}
+{section show=count($member_groups)|gt(0)}
+
+<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <th>
+         {"Member of roles"|i18n("design/standard/node/view")}
+    </th>
+</tr>
+{section loop=$member_groups sequence=array( bglight, bgdark )}
+    <tr class="{$:sequence}">
+        <td><a href={concat("/role/view/",$:item.id)|ezurl}>{$:item.name|wash}</a></td>
+    </tr>
+{/section}
+</table>
+
+{/section}
+{/default}
+
 {section show=$is_standalone}
     </form>
 {/section}
