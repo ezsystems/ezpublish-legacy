@@ -5,7 +5,8 @@
          page_uri_suffix=false()
          left_max=$left_max
          right_max=$right_max}
-{let  page_count=int( ceil( div( $item_count,$item_limit ) ) )
+{let  pages=ceil( div( $item_count, $item_limit ) )
+      page_count=int( $:pages )
       current_page=min($:page_count,
                        int( ceil( div( $view_parameters.offset,
                                        $item_limit ) ) ) )

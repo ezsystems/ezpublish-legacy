@@ -158,6 +158,8 @@ eZINI:
   http://ez.no/community/bug_reports/media_folder_doesn_t_show_node_id_and_object_id
 - Fixed bug related to wrong working thumbnail folders without frendly URLs.
   http://ez.no/community/bug_reports/folder_thumnbnail_tpl_doesn_t_work_without_friendly_url_s
+- Fixed bug with incorrect number of pages calculation in google navigator
+  http://ez.no/community/bug_reports/admin_doesn_t_show_more_than_15_items_google_tpl_doesn_t_work
 
 *Library:
 
