@@ -11,21 +11,14 @@
 <form method="post" action={"content/action"|ezurl}>
 {/section}
 
-<table cellspacing="5" cellpadding="0" border="0">
-<tr>
-	<td>
-{*	{$node.name|texttoimage('archtura')}  *}
- 	<div class="maincontentheader">
-        <h1>{$node_name|wash}</h1>
-        </div>
-	<input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
-	</td>
-</tr>
-</table>
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-    <td valign="top">
+<div class="objectheader">
+<h2>Folder</h2>
+</div>
+
+<div class="object">
+<h1>{$node_name|wash}</h1>
+<input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 
     {section name=ContentObjectAttribute loop=$content_version.contentobject_attributes}
     <div class="block">
@@ -41,10 +34,35 @@
     </div>
     {/section}
 
-    </td>
-    <td width="120" valign="top">
+<div class="buttonblock">
+{section show=$is_editable}
+   {switch match=$content_object.can_edit}
+   {case match=1}
+   <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
+   <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
+   {/case}
+   {case match=0}
+   {/case}
+   {/switch}
+{/section}
+   	<input class="button" type="submit" value="Preview" />
+    <input class="button" type="submit" value="Remove" />
+</div>
 
-    {let name=Object  related_objects=$content_version.related_contentobject_array}
+</div>
+
+{*
+<div class="block">
+
+<h2>Other locations</h2>
+<p><a href="/">Top level / Sub level / Next level</a></p>
+<p><a href="/">Top level / Sub level / Next level</a></p>
+
+</div>
+
+*}
+
+    {let name=Object related_objects=$content_version.related_contentobject_array}
 
       {section name=ContentObject  loop=$Object:related_objects show=$Object:related_objects  sequence=array(bglight,bgdark)}
 
@@ -63,22 +81,6 @@
       </div>
       {/section}
     {/section}
-    </td>
-</tr>
-</table>
-
-{section show=$is_editable}
-   {switch match=$content_object.can_edit}
-   {case match=1}
-   <br/>
-   <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
-   <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
-   {/case}
-   {case match=0}
-   {/case}
-   {/switch}
-{/section}
-
 
 {section show=$with_children}
 
@@ -102,108 +104,120 @@
 
 {set can_copy=$content_object.can_create}
 
+<div class="buttonblock">
+
+{switch match=$content_object.can_create}
+{case match=1}
+         <input type="hidden" name="NodeID" value="{$node.node_id}" />
+         <select name="ClassID">
+	      {section name=Classes loop=$content_object.can_create_class_list}
+	      <option value="{$:item.id}">{$:item.name|wash}</option>
+	      {/section}
+         </select>
+         <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n('design/standard/node/view')}" />
+{/case}
+{case match=0}
+{/case}
+{/switch}
+
+<input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
+<input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
+<input type="hidden" name="ViewMode" value="full" />
+
+</div>
+
+
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
+    {section show=$:can_remove}
+    <th width="1">
+&nbsp;
+    </th>
+    {/section}
     <th>
-      <nobr>{"Name"|i18n("design/standard/node/view")}</nobr>
+      {"Name"|i18n("design/standard/node/view")}
     </th>
     <th>
-      <nobr>{"Class"|i18n("design/standard/node/view")}</nobr>
+      {"Class"|i18n("design/standard/node/view")}
     </th>
     <th>
-      <nobr>{"Section"|i18n("design/standard/node/view")}</nobr>
+      {"Section"|i18n("design/standard/node/view")}
     </th>
     {section show=eq($node.sort_array[0][0],'priority')}
     <th>
-      <nobr>{"Priority"|i18n("design/standard/node/view")}</nobr>
+      {"Priority"|i18n("design/standard/node/view")}
     </th>
     {/section}
     {section show=$:can_edit}
     <th width="1">
-      <nobr>{"Edit"|i18n("design/standard/node/view")}</nobr>
+      {"Edit"|i18n("design/standard/node/view")}
     </th>
     {/section}
     {section show=$:can_copy}
     <th width="1">
-      <nobr>{"Copy"|i18n("design/standard/node/view")}</nobr>
-    </th>
-    {/section}
-    {section show=$:can_remove}
-    <th width="1">
-      <nobr>{"Remove"|i18n("design/standard/node/view")}</nobr>
+      {"Copy"|i18n("design/standard/node/view")}
     </th>
     {/section}
 </tr>
 {section loop=$:children sequence=array(bglight,bgdark)}
-<tr>
-	<td class="{$Child:sequence}">
-{*        <a href={concat('content/view/full/',$Child:item.node_id)|ezurl}>{node_view_gui view=line content_node=$Child:item}</a>*}
-        {node_view_gui view=line content_node=$Child:item}
-	</td>
-        <td class="{$Child:sequence}">{$Child:item.object.class_name|wash}
-	</td>
-        <td class="{$Child:sequence}">{$Child:item.object.section_id}
-	</td>
-	{section show=eq($node.sort_array[0][0],'priority')}
-	<td width="40" align="left" class="{$Child:sequence}">
-	  <input type="text" name="Priority[]" size="2" value="{$Child:item.priority}">
-          <input type="hidden" name="PriorityID[]" value="{$Child:item.node_id}">
-	</td>
-	{/section}
-
-        {section show=$:can_edit}
-	<td width="1" class="{$Child:sequence}">
-	{section show=$:item.object.can_edit}
-        <a href={concat("content/edit/",$Child:item.contentobject_id)|ezurl}><img src={"edit.png"|ezimage} alt="Edit" border="0" /></a>
-        {/section}
-        </td>
-        {/section}
-        {section show=$:can_copy}
-        <td class="{$Child:sequence}">
-          <a href={concat("content/copy/",$Child:item.contentobject_id)|ezurl}><img src={"copy.png"|ezimage} alt="{'Copy'|i18n('design/standard/node/view')}" border="0" /></a>
-        </td>
-        {/section}
-
+<tr class="{$Child:sequence}">
         {section show=$:can_remove}
-	<td class="{$Child:sequence}" align="right" width="1">
+	<td align="right" width="1">
 	{section show=$:item.object.can_remove}
              <input type="checkbox" name="DeleteIDArray[]" value="{$Child:item.node_id}" />
         {/section} 
 	</td>
         {/section} 
+	<td>
+        <a href={concat('content/view/full/',$:item.node_id)|ezurl}>{node_view_gui view=line content_node=$:item}</a>
+
+{*        {node_view_gui view=line content_node=$:item} *}
+	</td>
+    <td>
+        {$Child:item.object.class_name|wash}
+	</td>
+    <td>
+        {$Child:item.object.section_id}
+	</td>
+	{section show=eq($node.sort_array[0][0],'priority')}
+	<td width="40" align="left">
+	    <input type="text" name="Priority[]" size="2" value="{$Child:item.priority}">
+        <input type="hidden" name="PriorityID[]" value="{$Child:item.node_id}">
+	</td>
+	{/section}
+
+        {section show=$:can_edit}
+	<td width="1">
+	    {section show=$:item.object.can_edit}
+        <a href={concat("content/edit/",$Child:item.contentobject_id)|ezurl}><img src={"edit.png"|ezimage} alt="Edit" /></a>
+        {/section}
+    </td>
+        {/section}
+        {section show=$:can_copy}
+        <td>
+          <a href={concat("content/copy/",$Child:item.contentobject_id)|ezurl}><img src={"copy.png"|ezimage} alt="{'Copy'|i18n('design/standard/node/view')}" /></a>
+        </td>
+        {/section}
+
 </tr>
 {/section}
-<tr>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
+</table>
+
     {section show=eq($node.sort_array[0][0],'priority')}
-    <td>
       {section show=and($content_object.can_edit,eq($node.sort_array[0][0],'priority'))}
          <input class="button" type="submit"  name="UpdatePriorityButton" value="{'Update'|i18n('design/standard/node/view')}" />
       {/section}
-    </td>
     {/section}
     {section show=$:can_edit}
-    <td>
-    </td>
     {/section}
     {section show=$:can_copy}
-    <td>
-    </td>
     {/section}
     {section show=$:can_remove}
-    <td align="right">
     {section show=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
       {include uri="design:gui/trash.tpl"}
     {/section}
-    </td>
     {/section}
-</tr>
-</table>
+
 
 {/section}
 {/let}
@@ -215,28 +229,6 @@
          view_parameters=$view_parameters
          item_limit=$page_limit}
 
-<div class="buttonblock">
-
-{switch match=$content_object.can_create}
-{case match=1}
-         <input type="hidden" name="NodeID" value="{$node.node_id}" />
-         <select name="ClassID">
-	      {section name=Classes loop=$content_object.can_create_class_list}
-	      <option value="{$Classes:item.id}">{$Classes:item.name|wash}</option>
-	      {/section}
-         </select>
-         <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n('design/standard/node/view')}" />
-{/case}
-{case match=0}
-
-{/case}
-{/switch}
-
-<input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-<input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
-<input type="hidden" name="ViewMode" value="full" />
-
-</div>
 
 {/section}
 
@@ -248,3 +240,4 @@
 {/default}
 {/let}
 {/default}
+
