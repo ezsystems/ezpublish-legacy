@@ -113,6 +113,8 @@ Datatype:
   (Merged from stable/3.4 rev. 9633)
 
 *Library:
+- Added eZWizardBase for creating web based wizards. The class contain a framework for wizards, 
+  including storing data during the wizard.
 
 eZDebug:
 - Fixed output of arrays and objects to use PHP function var_export if it is
