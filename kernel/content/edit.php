@@ -659,6 +659,7 @@ if ( !function_exists( 'checkContentActions' ) )
                     $aNode =& eZContentObjectTreeNode::fetch( $nodeID );
                     $staticCache->cacheURL( "/" . $aNode->urlAlias(), $nodeID );
                 }
+                $staticCache->generateAlwaysUpdatedCache();
             }
 
             eZDebug::accumulatorStop( 'generate_cache' );

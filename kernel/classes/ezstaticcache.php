@@ -47,6 +47,18 @@ class eZStaticCache
         $this->MaxCacheDepth = $ini->variable( 'CacheSettings', 'MaxCacheDepth' );
         $this->CachedURLArray = $ini->variable( 'CacheSettings', 'CachedURLArray' );
         $this->CachedSiteAccesses = $ini->variable( 'CacheSettings', 'CachedSiteAccesses' );
+        $this->AlwaysUpdate = $ini->variable( 'CacheSettings', 'AlwaysUpdateArray' );
+    }
+
+    function generateAlwaysUpdatedCache()
+    {
+        $hostname = $this->HostName;
+        $staticStorageDir = $this->StaticStorageDir;
+
+        foreach ( $this->AlwaysUpdate as $uri )
+        {
+            $this->storeCache( $uri, $hostname, $staticStorageDir, array(), false );
+        }
     }
 
     function cacheURL( $url, $nodeID = false, $skipExisting = false )
@@ -128,22 +140,23 @@ class eZStaticCache
             /* Generate new content */
             $fileName = "http://$hostname$dir$url";
             $content = file_get_contents( $fileName );
+
             /* Store new content */
             foreach ( $cacheFiles as $file )
             {
-                $this->storeCachedFile( $file, $content );
+                if ( !file_exists( $file ) )
+                {
+                    $this->storeCachedFile( $file, $content );
+                }
             }
         }
     }
 
     function buildCacheFilename( $staticStorageDir, $url )
     {
-        $dir = $staticStorageDir . $url;
-        if ( $url == "/" )
-        {
-            $dir .= "/";
-        }
-        return $dir . "/index.html";
+        $file = "{$staticStorageDir}{$url}/index.html";
+        $file = preg_replace( '#//+#', '/', $file );
+        return $file;
     }
 
     function storeCachedFile( $file, $content )
@@ -157,10 +170,16 @@ class eZStaticCache
         $oldumask = umask( 0 );
 
         $tmpFileName = $file . '.' . md5( $file. uniqid( "ezp". getmypid(), true ) );
+
+        /* Remove files, this might be necessary for Windows */
+        @unlink( $tmpFileName );
+        @unlink( $file);
+
+        /* Write the new cache file with the data attached */
         $fp = fopen( $tmpFileName, 'w' );
         if ( $fp )
         {
-            fwrite( $fp, str_replace( '<!--DEBUG_REPORT-->', '<!-- Generated:'. date( 'Y-m-d H:i:s' ). ' -->', $content ) );
+            fwrite( $fp, $content . '<!-- Generated: '. date( 'Y-m-d H:i:s' ). ' -->' );
             fclose( $fp );
             rename( $tmpFileName, $file );
         }
