@@ -307,6 +307,7 @@ class eZContentOperationCollection
 
         if ( $templateBlockCacheEnabled )
         {
+            include_once( 'kernel/classes/ezcontentobject.php' );
             eZContentObject::expireTemplateBlockCache();
         }
 
