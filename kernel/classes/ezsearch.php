@@ -151,7 +151,7 @@ class eZSearch
         include_once( 'kernel/search/plugins/' . strToLower( $searchEngineString ) . '/' . strToLower( $searchEngineString ) . '.php' );
         $searchEngine = new $searchEngineString;
 
-        $searchTypesDefinition =& $searchEngine->suportedSearchTypes();
+        $searchTypesDefinition =& $searchEngine->supportedSearchTypes();
 
         $searchArray = array();
         $andSearchParts = array();

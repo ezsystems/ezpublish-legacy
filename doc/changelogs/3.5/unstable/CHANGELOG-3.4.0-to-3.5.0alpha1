@@ -66,6 +66,8 @@ Changes from 3.4.0 to 3.5.0alpha1
 - Added indexcontent.php to cronjobs.ini, merged from stable/3.4 rev. 7890.
 - Optimized links in xmltext fields. Instead of two queries per URL we only do
   one query per content attribute now. (Merged from stable/3.4, rev 7916)
+- Renamed eZSearchEngine::suportedSearchTypes to eZSearchEngine::supportedSearchTypes (spell fix)
+  This will affect all searchengines (apart from the ones not using this function).
 
 Database:
 - Added index on ezcontentobject_tree( path_identification_string ),

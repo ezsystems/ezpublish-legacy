@@ -1385,7 +1385,7 @@ class eZSearchEngine
         return $text;
     }
 
-    function &suportedSearchTypes()
+    function &supportedSearchTypes()
     {
         $searchTypes = array( array( 'type' => 'attribute',
                                      'subtype' =>  'fulltext',
