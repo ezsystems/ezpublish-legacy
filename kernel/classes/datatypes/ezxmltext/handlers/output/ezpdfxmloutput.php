@@ -39,6 +39,7 @@
  */
 
 include_once( 'kernel/classes/datatypes/ezxmltext/ezxmloutputhandler.php' );
+include_once( 'lib/ezpdf/classes/class.ezpdftable.php' );
 
 class eZPDFXMLOutput extends eZXMLOutputHandler
 {
@@ -64,7 +65,10 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
         $tpl =& templateInit();
         $xml = new eZXML();
         $res =& eZTemplateDesignResource::instance();
-        $res->setKeys( array( array( 'attribute_identifier', $this->ContentObjectAttribute->attribute( 'contentclass_attribute_identifier' ) ) ) );
+        if ( $this->ContentObjectAttribute )
+        {
+            $res->setKeys( array( array( 'attribute_identifier', $this->ContentObjectAttribute->attribute( 'contentclass_attribute_identifier' ) ) ) );
+        }
         $dom =& $xml->domTree( $this->XMLData );
         if ( $dom )
         {
@@ -203,6 +207,38 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
 
     /*!
      \private
+     \return the PDF rendered version of the section
+    */
+    function &renderList( &$tpl, &$listNode, $currentSectionLevel, $listSectionLevel = null )
+    {
+        $output = "";
+        $tagName = $listNode->name();
+        switch ( $tagName )
+        {
+            case 'paragraph' :
+            {
+                $output .= $this->renderPDFParagraph( $tpl, $listNode, $currentSectionLevel, $listSectionLevel );
+            }break;
+
+            case 'section' :
+            {
+                $sectionLevel += 1;
+                if ( $listSectionLevel == null )
+                    $output .= $this->renderPDFSection( $tpl, $listNode, $sectionLevel );
+                else
+                    $output .= $this->renderPDFSection( $tpl, $listNode, $currentSectionLevel, $sectionLevel );
+            }break;
+
+            default :
+            {
+                eZDebug::writeError( "Unsupported tag at this level: $tagName", "eZXMLTextType::inputSectionXML()" );
+            }break;
+        }
+        return $output;
+    }
+
+    /*!
+     \private
      \return PDF rendered version of the paragrph
     */
     function &renderPDFParagraph( &$tpl, $paragraph, $currentSectionLevel, $tdSectionLevel = null )
@@ -245,10 +281,8 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
             {
                 $output .= $paragraphContent['Content'];
             }
-
         }
-//        if ( $paragraph->children() == null )
-//            $output = "\n\n";
+
         return $output;
     }
 
@@ -299,7 +333,8 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                     $class = $tag->attributeValue( 'class' );
 
                     $res =& eZTemplateDesignResource::instance();
-                    $res->setKeys( array( array( 'classification', $class ) ) );
+                    $res->setKeys( array( array( 'classification', $class ),
+                                          array( 'class_identifier', $object->attribute( 'class_identifier' ) ) ) );
 
                     $hasLink = false;
                     $linkID = $tag->attributeValueNS( 'ezurl_id', 'http://ez.no/namespaces/ezpublish3/image/' );
@@ -320,6 +355,8 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                             $objectParameters['href'] = $href;
                         else if ( $attribute->name() == 'ezurl_target' )
                             $objectParameters['target'] = $target;
+                        else if ( $attribute->name() == "align" )
+                            $objectParameters['align'] = $alignment;
                         else
                             $objectParameters[$attribute->name()] = $attribute->content();
                     }
@@ -444,10 +481,20 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                 foreach ( $tag->children() as $listItemNode )
                 {
                     $listItemContent = '';
+                    $listSctionLevel = $currentSectionLevel;
                     foreach ( $listItemNode->children() as $itemChildNode )
                     {
-                        $listItemContent .= $this->renderPDFTag( $tpl, $itemChildNode, $currentSectionLevel, $isBlockTag );
+                        $listSectionLevel = $currentSectionLevel;
+                        if ( $itemChildNode->name() == "section" or $itemChildNode->name() == "paragraph" )
+                        {
+                            $listItemContent .= $this->renderList( $tpl, $itemChildNode, $currentSectionLevel, $listSectionLevel );
+                        }
+                        else
+                        {
+                            $listItemContent .= $this->renderPDFTag( $tpl, $itemChildNode, 0, $isBlockTag );
+                        }
                     }
+                    $listItemContent = $this->pdfTrim( $listItemContent );
                     $tpl->setVariable( 'list_count', ++$listCount, 'xmltagns' );
                     $tpl->setVariable( 'tag_name', $tagName, 'xmltagns' );
                     $tpl->setVariable( 'content', $listItemContent, 'xmltagns' );
@@ -457,7 +504,10 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                     eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
                     $listContent .= str_replace( $this->WhiteSpaceArray, '', implode( '', $textElements ) );
                 }
-
+                if ( $tagName == 'ol' )
+                {
+//                    exit();
+                }
                 $className = $tag->attributeValue( 'class' );
                 $tpl->setVariable( 'classification', $class, 'xmltagns' );
                 $tpl->setVariable( 'content', $listContent, 'xmltagns' );
@@ -553,7 +603,8 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                 $uri = 'design:content/datatype/pdf/ezxmltags/'. $name .'.tpl';
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-            }
+            } break;
+
             case 'link' :
             {
                 $class = $tag->attributeValue( 'class' );
@@ -608,6 +659,22 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
             }break;
         }
         return $tagText;
+    }
+
+    /*!
+     \private
+     Trim PDF code, and remove linebrea, linespace and tab.
+
+     \param text
+
+     \return trimmed text.
+    */
+    function pdfTrim( $text )
+    {
+        $text = trim( $text );
+        $text = preg_replace( "/^(" . EZ_PDF_LIB_NEWLINE . ")+/i", "", $text );
+        $text = preg_replace( "/(" . EZ_PDF_LIB_NEWLINE . ")+$/i", "", $text );
+        return $text;
     }
 
     /// Contains the URL's for <link> tags hashed by ID
