@@ -45,7 +45,14 @@ if ( $Module->isCurrentAction( 'MD5Check' ) )
     include_once( 'lib/ezfile/classes/ezmd5.php' );
     $checkResult = eZMD5::checkMD5Sums( 'var/storage/filelist.md5' );
 
-    $tpl->setVariable( 'md5_result', $checkResult );
+    if ( strlen( $checkMD5Sums ) == 0 )
+    {
+        $tpl->setVariable( 'md5_result', 'ok' );
+    }
+    else
+    {
+        $tpl->setVariable( 'md5_result', $checkResult );
+    }
 }
 
 if ( $Module->isCurrentAction( 'DBCheck' ) )
@@ -58,7 +65,14 @@ if ( $Module->isCurrentAction( 'DBCheck' ) )
     $differences = eZDbSchemaChecker::diff( $dbSchema->schema(), eZDBSchema::read( 'var/storage/db_schema.dat' ) );
     $sqlDiff = $dbSchema->generateUpgradeFile( $differences );
 
-    $tpl->setVariable( 'upgrade_sql', $sqlDiff );
+    if ( strlen( $sqlDiff ) == 0 )
+    {
+        $tpl->setVariable( 'upgrade_sql', 'ok' );
+    }
+    else
+    {
+        $tpl->setVariable( 'upgrade_sql', $sqlDiff );
+    }
 }
 
 $Result = array();

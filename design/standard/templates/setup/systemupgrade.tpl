@@ -4,7 +4,7 @@
 <h1>{"System upgrade"|i18n("design/standard/setup")}</h1>
 
 {section show=$md5_result}
-  {section show=count($md5_result)|eq(0)}
+  {section show=$md5_result|eq('ok')}
     <div class="feedback">
     {"File consistency check OK"|i18n("design/standard/setup")}
     </div>
@@ -22,6 +22,11 @@
 {/section}
 
 {section show=$upgrade_sql}
+  {section show=$upgrade_sql|eq('ok')}
+    <div class="feedback">
+    {"Database check OK"|i18n("design/standard/setup")}
+    </div>
+  {section-else}
     <div class="feedback">
     {"Warning, your database is not consistent with the distribution database."|i18n("design/standard/setup")}<br />
     {"To revert your database to distribution setup, run the following SQL queries:"|i18n("design/standard/setup")}<br />
@@ -29,7 +34,7 @@
       {$upgrade_sql|wash|break}
     </p>
     </div>
-  
+  {/section}
 {/section}
 
 <div class="buttonblock">
