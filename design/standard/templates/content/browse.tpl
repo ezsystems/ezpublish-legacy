@@ -1,23 +1,17 @@
 <form action={concat($return_url)|ezurl} method="post">
 <div class="maincontentheader">
-<h1>{"Browse"|i18n("content/browse")}</h1>
+<h1>{"Browse"|i18n("design/standard/content/view")}</h1>
 </div>
 <table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-	<th width="1%">
-	ID:
-	</th>
 	<th width="98%">
-	Name:
+	{"Name:"|i18n("design/standard/content/view")}
 	</th>
 	<th width="1%">
-	Select:
+	{"Select:"|i18n("design/standard/content/view")}
 	</th>
 </tr>
 <tr>
-	<td class="bglight">
-	{$main_node.contentobject_id}
-	</td>
 	<td class="bglight">
 	{$main_node.name}
 	</td>
@@ -50,9 +44,6 @@
 </tr>
 {section name=Object loop=$object_array sequence=array(bglight,bgdark)}
 <tr>
-	<td class="{$Object:sequence}">
-	{$Object:item.contentobject_id}
-	</td>
 	<td class="{$Object:sequence}">
 	<img src={"1x1-transparent.gif"|ezimage} width="10" height="1" alt="" />
 	<a href={concat("/content/browse/",$Object:item.node_id,"/")|ezurl}>
@@ -91,7 +82,7 @@
 <input type="hidden" name="BrowseActionName" value="{$browse_action_name}" />
 
 <div class="buttonblock">
-<input class="button" type="submit" name="SelectButton" value="Select" />
+<input class="button" type="submit" name="SelectButton" value="{'Select'|i18n('design/standard/content/view')}" />
 </div>
 
 </form>

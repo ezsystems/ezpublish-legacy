@@ -1,17 +1,17 @@
 <form action={"/content/advancedsearch/"|ezurl} method="get">
 <div class="maincontentheader">
-<h1>Advanced search</h1>
+<h1>{"Advanced search"|i18n("design/standard/content/search")}</h1>
 </div>
 {section show=$search_text}
 {switch name=Sw match=$search_count}
   {case match=0}
 <div class="warning">
-<h2>No results were found for searching: "{$search_text}"</h2>
+<h2>{"No results were found when searching for:"|i18n("design/standard/content/search")} "{$search_text}"</h2>
 </div>
   {/case}
   {case}
 <div class="feedback">
-<h2>Search for: "{$search_text}" returned {$search_count} matches</h2>
+<h2>{"Search for:"|i18n("design/standard/content/search")} "{$search_text}" {"returned"|i18n("design/standard/content/search")} {$search_count} {"matches"|i18n("design/standard/content/search")}</h2>
 </div>
   {/case}
 {/switch}
@@ -28,23 +28,23 @@
 
 
 <div class="block">
-<label>Search all the words:</label><div class="labelbreak"></div>
+<label>{"Search all the words:"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
 <input class="box" type="text" size="40" name="SearchText" value="{$full_search_text}" />
 </div>
 <div class="block">
-<label>Search the exact phrase:</label><div class="labelbreak"></div>
+<label>{"Search the exact phrase:"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
 <input class="box" type="text" size="40" name="PhraseSearchText" value="{$phrase_search_text}" />
 </div>
 <div class="block">
-<label>Search with at least one of the words:</label><div class="labelbreak"></div>
+<label>{"Search with at least one of the words:"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
 <input class="box" type="text" size="40" name="AnyWordSearchText" value="" />
 </div>
 <div class="block">
 
 <div class="element">
-<label>Class:</label><div class="labelbreak"></div>
+<label>{"Class:"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
 <select name="SearchContentClassID">
-<option value="-1">Any class</option>
+<option value="-1">{"Any class"|i18n("design/standard/content/search")}</option>
 {section name=ContentClass loop=$content_class_array }
 
 <option {switch name=sw match=$search_contentclass_id}
@@ -61,7 +61,7 @@ selected="selected"
 </div>
 <div class="element">
 
-<label>Class attribute:</label><div class="labelbreak"></div>
+<label>{"Class attribute:"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
 
 {section name=Attribute show=$search_contentclass_id|gt(0)}
 
@@ -73,7 +73,7 @@ selected="selected"
 </select>
 
 {/section}
-<input class="smallbutton" type="submit" name="SelectClass" value="Update attributes"/>
+<input class="smallbutton" type="submit" name="SelectClass" value="{'Update attributes'|i18n('design/standard/content/search')}"/>
 </div>
 
 <div class="break"></div>
@@ -81,9 +81,9 @@ selected="selected"
 <div class="block">
 <div class="element">
 
-<label>In:</label><div class="labelbreak"></div>
+<label>{"In:"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
 <select name="SearchSectionID">
-<option value="-1">Any section</option>
+<option value="-1">{"Any section"|i18n("design/standard/content/search")}</option>
 {section name=Section loop=$section_array }
 <option {switch name=sw match=$search_section_id}
      {case match=$Section:item.id}
@@ -98,14 +98,14 @@ selected="selected"
 </div>
 <div class="element">
 
-<label>Published:</label><div class="labelbreak"></div>
+<label>{"Published:"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
 <select name="SearchDate">
-<option value="-1" {section show=eq($search_date,-1)}selected{/section}>Any time</option>
-<option value="1" {section show=eq($search_date,1)}selected{/section}>Last day</option>
-<option value="2" {section show=eq($search_date,2)}selected{/section}>Last week</option>
-<option value="3" {section show=eq($search_date,3)}selected{/section}>Last month</option>
-<option value="4" {section show=eq($search_date,4)}selected{/section}>Last three month</option>
-<option value="5" {section show=eq($search_date,5)}selected{/section}>Last year</option>
+<option value="-1" {section show=eq($search_date,-1)}selected{/section}>{"Any time"|i18n("design/standard/content/search")}</option>
+<option value="1" {section show=eq($search_date,1)}selected{/section}>{"Last day"|i18n("design/standard/content/search")}</option>
+<option value="2" {section show=eq($search_date,2)}selected{/section}>{"Last week"|i18n("design/standard/content/search")}</option>
+<option value="3" {section show=eq($search_date,3)}selected{/section}>{"Last month"|i18n("design/standard/content/search")}</option>
+<option value="4" {section show=eq($search_date,4)}selected{/section}>{"Last three months"|i18n("design/standard/content/search")}</option>
+<option value="5" {section show=eq($search_date,5)}selected{/section}>{"Last year"|i18n("design/standard/content/search")}</option>
 </select>
 </div>
 
@@ -113,7 +113,7 @@ selected="selected"
 </div>
 
 <div class="buttonblock'">
-<input class="button" type="submit" name="SearchButton" value="Search" />
+<input class="button" type="submit" name="SearchButton" value="{'Search'|i18n('design/standard/content/search')}" />
 </div>
 
 </form>

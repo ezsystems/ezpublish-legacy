@@ -1,16 +1,16 @@
 <div class="maincontentheader">
-<h1>Search</h1>
+<h1>{"Search"|i18n("design/standard/content/search")}</h1>
 </div>
 
 {switch name=Sw match=$search_count}
   {case match=0}
   <div class="warning">
-  <h2>No results were found for searching: "{$search_text}"</h2>
+  <h2>{"No results were found for searching:"|i18n("design/standard/content/search")} "{$search_text}"</h2>
   </div>
   {/case}
   {case}
   <div class="feedback">
-  <h2>Search for: "{$search_text}" returned {$search_count} matches</h2>
+  <h2>{"Search for:"|i18n("design/standard/content/search")} "{$search_text}" {"returned"|i18n("design/standard/content/search")} {$search_count} {"matches"|i18n("design/standard/content/search")}</h2>
   </div>
   {/case}
 {/switch}

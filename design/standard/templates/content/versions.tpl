@@ -1,25 +1,25 @@
 <form action={concat("/content/versions/",$object.id,"/")|ezurl} method="post">
 
 <div class="maincontentheader">
-<h1>Versions for: {$object.name} </h1>
+<h1>{"Versions for:"|i18n("design/standard/content/version")} {$object.name} </h1>
 </div>
 
 {switch match=$edit_warning}
 {case match=1}
 <div class="warning">
-<h2>Version not a draft</h2>
+<h2>{"Version not a draft"|i18n("design/standard/content/version")}</h2>
 <ul>
-    <li>Version {$edit_version} is not available for editing anymore, only drafts can be edited.</li>
-    <li>To edit this version create a copy of it.</li>
+    <li>{"Version"|i18n("design/standard/content/version")} {$edit_version} {"is not available for editing anymore, only drafts can be edited."|i18n("design/standard/content/version")}</li>
+    <li>{"To edit this version create a copy of it."|i18n("design/standard/content/version")}</li>
 </ul>
 </div>
 {/case}
 {case match=2}
 <div class="warning">
-<h2>Version not yours</h2>
+<h2>{"Version not yours"|i18n("design/standard/content/version")}</h2>
 <ul>
-    <li>Version {$edit_version} was not created by you, only your own drafts can be edited.</li>
-    <li>To edit this version create a copy of it.</li>
+    <li>{"Version"|i18n("design/standard/content/version")} {$edit_version} {"was not created by you, only your own drafts can be edited."|i18n("design/standard/content/version")}</li>
+    <li>{"To edit this version create a copy of it."|i18n("design/standard/content/version")}</li>
 </ul>
 </div>
 {/case}
@@ -30,19 +30,19 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>
-	Version:
+	{"Version:"|i18n("design/standard/content/version")}
 	</th>
 	<th>
-	Status:
+	{"Status:"|i18n("design/standard/content/version")}
 	</th>
 	<th>
-	Translations:
+	{"Translations:"|i18n("design/standard/content/version")}
 	</th>
 	<th>
-	Creator:
+	{"Creator:"|i18n("design/standard/content/version")}
 	</th>
 	<th colspan="2">
-	Modified:
+	{"Modified:"|i18n("design/standard/content/version")}
 	</th>
 </tr>
 {section name=Version loop=$versions sequence=array(bglight,bgdark)}
@@ -75,8 +75,8 @@
 </table>
 
 <div class="buttonblock">
-<input class="button" type="submit" name="EditButton" value="Object Edit" />
-<input class="button" type="submit" name="CopyVersionButton" value="Copy" />
+<input class="button" type="submit" name="EditButton" value="{'Object Edit'|i18n('design/standard/content/version')}" />
+<input class="button" type="submit" name="CopyVersionButton" value="{'Copy'|i18n('design/standard/content/version')}" />
 </div>
 
 <input type="hidden" name="EditLanguage" value="{$edit_language}" />

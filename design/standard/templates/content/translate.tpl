@@ -1,14 +1,14 @@
 <form action={concat("/content/translate/",$object.id,"/",$edit_version)|ezurl} method="post">
 
 <div class="maincontentheader">
-<h1>Translating '{$object.name}'</h1>
+<h1>{"Translating"|i18n("design/standard/content/translate")} '{$object.name}'</h1>
 </div>
 
 {section show=$validation.processed}
     {section name=UnvalidatedAttribute loop=$validation.attributes show=$validation.attributes}
 
     <div class="warning">
-    <h2>Input did not validate</h2>
+    <h2>{"Input did not validate"|i18n("design/standard/content/translate")}</h2>
     <ul>
     	<li>{$UnvalidatedAttribute:item.identifier}: {$UnvalidatedAttribute:item.name} ({$UnvalidatedAttribute:item.id})</li>
     </ul>
@@ -17,7 +17,7 @@
     {section-else}
 
     <div class="feedback">
-    <h2>{$validation.locale.intl_language_name} input was stored successfully</h2>
+    <h2>{$validation.locale.intl_language_name} {"input was stored successfully"|i18n("design/standard/content/translate")}</h2>
     </div>
 
     {/section}
@@ -27,13 +27,13 @@
 <!-- Translation removal start -->
 
 <p>
-Remove the following translations from '{$object.name}'?
+{"Remove the following translations from"|i18n("design/standard/content/translate")} '{$object.name}'?
 </p>
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th width="10%">Locale:</th>
-    <th width="90%" colspan="2">Language:</th>
+    <th width="10%">{"Locale:"|i18n("design/standard/content/translate")}</th>
+    <th width="90%" colspan="2">{"Language:"|i18n("design/standard/content/translate")}</th>
 </tr>
 
 {section name=Language loop=$remove_language_list sequence=array("bglight","bgdark")}
@@ -45,7 +45,7 @@ Remove the following translations from '{$object.name}'?
     {section show=$Language:item.locale.is_valid}
     {$Language:item.locale.intl_language_name}
     {section-else}
-    (No locale information available)
+    {"(No locale information available)"|i18n("design/standard/content/translate")}
     {/section}
     </td>
     <td class="{$Language:sequence}">
@@ -59,8 +59,8 @@ Remove the following translations from '{$object.name}'?
 <input type="hidden" name="TranslationLanguageEdit" value="{$translation_language}" />
 
 <div class="buttonblock">
-<input class="button" type="submit" name="RemoveLanguageConfirmationButton" value="{'Yes'|i18n('content/object')}" />
-<input class="button" type="submit" name="RemoveLanguageCancelButton" value="{'No'|i18n('content/object')}" />
+<input class="button" type="submit" name="RemoveLanguageConfirmationButton" value="{'Yes'|i18n('design/standard/content/translate')}" />
+<input class="button" type="submit" name="RemoveLanguageCancelButton" value="{'No'|i18n('design/standard/content/translate')}" />
 </div>
 
 <!-- Translation removal end -->
@@ -72,12 +72,12 @@ Remove the following translations from '{$object.name}'?
 {section show=$Translation:translation_list}
 
 <div class="block">
-<label>Translate into:</label><div class="labelbreak"></div>
+<label>{"Translate into:"|i18n("design/standard/content/translate")}</label><div class="labelbreak"></div>
 <select name="SelectedLanguage" >
   {section loop=$Translation:translation_list}
 <option value="{$Translation:item.locale_code}">{$Translation:item.intl_language_name}</option>
   {/section}
-</select><input class="button" type="submit" name="AddLanguageButton" value="{'Add'|i18n('content/object')}" />
+</select><input class="button" type="submit" name="AddLanguageButton" value="{'Add'|i18n('design/standard/content/translate')}" />
 </div>
 
 {/section}
@@ -88,13 +88,13 @@ Remove the following translations from '{$object.name}'?
      translation_list=$content_version.translation_list}
 {section show=$Translation:translation_list}
 
-<h2>Translations</h2>
+<h2>{"Translations"|i18n("design/standard/content/translate")}</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th width="2%"><input type="submit" name="EditLanguageButton" value="{'Translate'|i18n('content/object')}" /></th>
-    <th width="10%">Locale:</th>
-    <th width="86%">Language:</th>
-    <th width="2%"><input type="submit" name="RemoveLanguageButton" value="{'Remove'|i18n('content/object')}" /></th>
+    <th width="2%"><input type="submit" name="EditLanguageButton" value="{'Translate'|i18n('design/standard/content/translate')}" /></th>
+    <th width="10%">{"Locale:"|i18n("design/standard/content/translate")}</th>
+    <th width="86%">{"Language:"|i18n("design/standard/content/translate")}</th>
+    <th width="2%"><input type="submit" name="RemoveLanguageButton" value="{'Remove'|i18n('design/standard/content/translate')}" /></th>
 </tr>
 
 {section loop=$Translation:translation_list}
@@ -115,7 +115,7 @@ Remove the following translations from '{$object.name}'?
     {section show=$Translation:item.locale.is_valid}
         {$Translation:item.locale.intl_language_name}
     {section-else}
-        (No locale information available)
+        {"(No locale information available)"|i18n("design/standard/content/translate")}
     {/section}
     </td>
     <td class="{$Translation:sequence}">
@@ -177,14 +177,14 @@ Remove the following translations from '{$object.name}'?
 </table>
 
 <div class="buttonblock">
-<input class="button" type="submit" name="StoreButton" value="Store" />
-<input class="button" type="submit" name="EditObjectButton" value="Edit Object" />
+<input class="button" type="submit" name="StoreButton" value="{'Store'|i18n('design/standard/content/translate')}" />
+<input class="button" type="submit" name="EditObjectButton" value="{'Edit Object'|i18n('design/standard/content/translate')}" />
 </div>
 
 {section-else}
 
 <div class="buttonblock">
-<input class="button" type="submit" name="EditObjectButton" value="Edit Object" />
+<input class="button" type="submit" name="EditObjectButton" value="{'Edit Object'|i18n('design/standard/content/translate')}" />
 </div>
 
 {/section}
