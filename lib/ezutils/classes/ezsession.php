@@ -161,6 +161,11 @@ function eZRegisterSessionFunctions()
 */
 function eZSessionStart()
 {
+    // Check if we are allowed to use sessions
+    if ( isset( $GLOBALS['eZSiteBasics'] ) and
+         isset( $GLOBALS['eZSiteBasics']['session-required'] ) and
+         !$GLOBALS['eZSiteBasics']['session-required'] )
+        return false;
     $hasStarted =& $GLOBALS['eZSessionIsStarted'];
     if ( isset( $hasStarted ) and
          $hasStarted )
