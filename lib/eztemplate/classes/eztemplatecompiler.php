@@ -2601,7 +2601,7 @@ else
                 $replaceMap = array( '$' . $variableAssignmentName, '$' . $variableAssignmentName );
                 $unsetList = array();
                 $counter = 1;
-                if ( is_array( $variableDataItem[3] ) )
+                if ( isset( $variableDataItem[3] ) && is_array( $variableDataItem[3] ) )
                 {
                     $newParameters = $parameters;
                     $values = $variableDataItem[3];
@@ -2632,7 +2632,7 @@ else
                         ++$counter;
                     }
                 }
-                if ( $variableDataItem[4] !== false )
+                if ( isset( $variableDataItem[4] ) && ( $variableDataItem[4] !== false ) )
                 {
                     $values = $variableDataItem[4];
 
