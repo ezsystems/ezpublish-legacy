@@ -188,14 +188,9 @@ class eZImageType extends eZDataType
         if ( !eZHTTPFile::canFetch( $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" ) ) )
             return false;
 
-        $file =& eZHTTPFile::fetch( $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" ) );
-        $contentObjectAttribute->setContent( $file );
-    }
-
-    function storeObjectAttribute( &$contentObjectAttribute )
-    {
-        $imageFile =& $contentObjectAttribute->content();
-
+        $imageFile =& eZHTTPFile::fetch( $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" ) );
+        $contentObjectAttribute->setContent( $imageFile );
+       
         if ( get_class( $imageFile ) == "ezhttpfile" )
         {
             $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
@@ -242,6 +237,13 @@ class eZImageType extends eZDataType
 
             $contentObjectAttribute->setContent( $image );
         }
+    }
+
+    /*!
+     Does nothing, since the image has been stored. See fetchObjectAttributeHTTPInput for the actual storing.
+    */
+    function storeObjectAttribute( &$contentObjectAttribute )
+    {
     }
 
     function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )

@@ -20,20 +20,21 @@ DateTime
 The return hour is always (input-1). It works properly right now by using simple justment in input value, need to 
 find out what is the real reason. 
 
-Versioning
+Versioning (fixed)
 ----------
 Object relations are lost when reverting to another version of the object.
 New versions are created as copies of the 1. version, should be the last(usable?) version.
 
-Edit
+Edit (fixed)
 --------------
 It is possible to add object to same node twice or more times
+
 Search
 ------
 Too many database calls when indexing objects. Need to find the unique words
 in PHP so that we will only index unique words.
 
-�? caracters do not work properly, we must also test russian and chinese. 
+�? caracters do not work properly, we must also test russian and chinese.
 Probably the same error there.
 
 Note: non-ASCII character support must be done with the i18n system.
@@ -44,14 +45,14 @@ Complex data types, e.g. image, does not work when translating.
 Translated objects are not indexed in search.
 
 
-Validate
+Validate (fixed)
 -------
 Images are not uploaded if some attributes does not validate
 (Maybe the fields which validate should be read and stored?)
 
 View object with temporary class will show double of all attributes in list.
 Due to temporary version of class which is joined in SQL.
-(just join where version=0)
+(just join where version=0) (fixed)
 
 Enum datatype (fixed)
 -------------

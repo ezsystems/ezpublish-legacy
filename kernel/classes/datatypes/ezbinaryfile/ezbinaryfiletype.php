@@ -163,14 +163,11 @@ class eZBinaryFileType extends eZDataType
         if ( !eZHTTPFile::canFetch( $base . "_data_binaryfilename_" . $contentObjectAttribute->attribute( "id" ) ) )
             return false;
 
-        $file =& eZHTTPFile::fetch( $base . "_data_binaryfilename_" . $contentObjectAttribute->attribute( "id" ) );
+        $binaryFile =& eZHTTPFile::fetch( $base . "_data_binaryfilename_" . $contentObjectAttribute->attribute( "id" ) );
 
-        $contentObjectAttribute->setContent( $file );
-    }
+        $contentObjectAttribute->setContent( $binaryFile );
 
-    function storeObjectAttribute( &$contentObjectAttribute )
-    {
-        $binaryFile =& $contentObjectAttribute->content();
+        //$binaryFile =& $contentObjectAttribute->content();
 
         if ( get_class( $binaryFile ) == "ezhttpfile" )
         {
@@ -209,6 +206,13 @@ class eZBinaryFileType extends eZDataType
 
             $contentObjectAttribute->setContent( $binary );
         }
+    }
+
+    /*!
+     Does nothing, since the file has been stored. See fetchObjectAttributeHTTPInput for the actual storing.
+    */
+    function storeObjectAttribute( &$contentObjectAttribute )
+    {
     }
 
     function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )

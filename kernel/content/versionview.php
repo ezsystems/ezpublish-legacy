@@ -63,7 +63,7 @@ else
 }
 
 
-$relatedObjectArray =& $contentObject->relatedContentObjectArray( $contentObject->attribute( 'current_version' ) );
+$relatedObjectArray =& $contentObject->relatedContentObjectArray( $EditVersion );
 
 $classID = $contentObject->attribute( 'contentclass_id' );
 
