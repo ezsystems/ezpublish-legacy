@@ -154,6 +154,12 @@ div#contentstructure ul#content_tree_menu li img
     vertical-align: middle;
 }
 
+div#leftmenu div.translations label
+{
+    font-weight: normal;
+    white-space: normal;
+}
+
 a.openclose, span.openclose
 {
     font-family: "Courier New", Courier, monospace; 

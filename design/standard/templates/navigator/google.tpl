@@ -28,11 +28,10 @@
 {/section}
 
 
+{section show=$:page_count|gt(1)}
 
 <div class="pagenavigator">
 <p>
-
-{section show=$:page_count|gt(1)}
 
      {switch match=$:item_previous|lt(0) }
        {case match=0}
@@ -81,13 +80,13 @@
 
 </span>
 
+</p>
+<div class="break"></div>
+</div>
+
 {/section}
 
  {/let}
 {/default}
 {/default}
-
-</p>
-<div class="break"></div>
-</div>
 

@@ -144,6 +144,9 @@
 </div>
 
 
+
+
+<div class="controlbar">
 {include name=navigator
          uri='design:navigator/google.tpl'
          page_uri=concat( '/content/view', '/full/', $node.node_id)
@@ -151,8 +154,6 @@
          view_parameters=$view_parameters
          item_limit=$number_of_items}
 
-
-<div class="controlbar">
     {* Remove button *}
     {section show=$can_remove}
         <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n('design/standard/node/view')}" title="{'Click here to remove checked/marked items from the list above.'|i18n( 'design/admin/layout' )}" />
