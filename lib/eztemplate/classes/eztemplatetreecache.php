@@ -45,7 +45,7 @@
 
 include_once( 'lib/ezutils/classes/ezdebug.php' );
 
-define( 'EZ_TEMPLATE_TREE_CACHE_CODE_DATE', 1040375093 );
+define( 'EZ_TEMPLATE_TREE_CACHE_CODE_DATE', 1041857934 );
 
 class eZTemplateTreeCache
 {
