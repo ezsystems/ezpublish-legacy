@@ -53,7 +53,15 @@ $Offset = $Params['Offset'];
 $Year = $Params['Year'];
 $Month = $Params['Month'];
 $Day = $Params['Day'];
-$UserParameters = $Params['UserParameters'];
+
+if ( isset( $Params['UserParameters'] ) )
+{
+    $UserParameters = $Params['UserParameters'];
+}
+else
+{
+    $UserParameters = array();
+}
 
 if ( $Offset )
     $Offset = (int) $Offset;

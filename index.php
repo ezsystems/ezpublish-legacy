@@ -588,6 +588,11 @@ while ( $moduleRunRequired )
             }
             else
             {
+                if ( !isset( $userParameters ) )
+                {
+                    $userParameters = false;
+                }
+
                 $moduleResult =& $module->run( $function_name, $params, false, $userParameters );
 
                 if ( $module->exitStatus() == EZ_MODULE_STATUS_FAILED and

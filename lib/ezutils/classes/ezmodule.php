@@ -902,20 +902,22 @@ class eZModule
                 $params['UserParameters'] = array();
             }
 
-            foreach ( array_keys( $userParameters ) as $paramKey )
+            if ( is_array( $userParameters ) && count( $userParameters ) > 0 )
             {
-
-                if( isset( $function['unordered_params'] ) &&
-                    $unorderedParams != null )
+                foreach ( array_keys( $userParameters ) as $paramKey )
                 {
-                    if ( array_key_exists( $paramKey, $unorderedParams ) )
+                    if( isset( $function['unordered_params'] ) &&
+                        $unorderedParams != null )
                     {
-                        $params[$unorderedParams[$paramKey]] = $userParameters[$paramKey];
-                        $unorderedParametersList[$unorderedParams[$paramKey]] = $userParameters[$paramKey];
+                        if ( array_key_exists( $paramKey, $unorderedParams ) )
+                        {
+                            $params[$unorderedParams[$paramKey]] = $userParameters[$paramKey];
+                            $unorderedParametersList[$unorderedParams[$paramKey]] = $userParameters[$paramKey];
+                        }
                     }
-                }
 
-                $params['UserParameters'][$paramKey] = $userParameters[$paramKey];
+                    $params['UserParameters'][$paramKey] = $userParameters[$paramKey];
+                }
             }
         }
 
