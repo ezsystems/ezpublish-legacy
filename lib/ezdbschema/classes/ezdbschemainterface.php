@@ -634,6 +634,8 @@ class eZDBSchemaInterface
     /*!
      \virtual
      \protected
+
+     \note Calls generateTableInsertSQLList and joins the SQLs to a string
     */
     function generateTableInsert( $tableName, $tableDef, $dataEntries, $params )
     {

@@ -823,6 +823,30 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 		return $arrays;
 	}
 
+
+    /*!
+     \reimp
+
+     This calls eZDBSchemaInterface::generateTableInsertSQLList() and adds a setval SQL if
+     the table has auto increments.
+    */
+    function generateTableInsertSQLList( $tableName, $tableDef, $dataEntries, $params, $withClosure = true )
+    {
+        $sqlList = eZDBSchemaInterface::generateTableInsertSQLList( $tableName, $tableDef, $dataEntries, $params, $withClosure );
+
+        foreach ( $tableDef['fields'] as $fieldName => $fieldDef )
+        {
+            if ( $fieldDef['type'] == 'auto_increment' )
+            {
+                $sql = "SELECT setval('" . $tableName . "_s',max(" . $fieldName . ")+1) FROM " . $tableName;
+                if ( $withClosure )
+                    $sql .= ";";
+                $sqlList[] = $sql;
+            }
+        }
+        return $sqlList;
+    }
+
     /*!
       \reimp
     */
