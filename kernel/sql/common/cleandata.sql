@@ -1678,8 +1678,9 @@ INSERT INTO ezuser (contentobject_id, login, email, password_hash_type, password
 
 INSERT INTO ezuser_role (id, role_id, contentobject_id, limit_identifier, limit_value) VALUES (31,1,42,'','');
 INSERT INTO ezuser_role (id, role_id, contentobject_id, limit_identifier, limit_value) VALUES (25,2,12,'','');
-INSERT INTO ezuser_role (id, role_id, contentobject_id, limit_identifier, limit_value) VALUES (30,3,13,'','');
 INSERT INTO ezuser_role (id, role_id, contentobject_id, limit_identifier, limit_value) VALUES (28,1,11,'','');
+INSERT INTO ezuser_role (id, role_id, contentobject_id, limit_identifier, limit_value) VALUES (32,3,13,'Subtree','/1/2/');
+INSERT INTO ezuser_role (id, role_id, contentobject_id, limit_identifier, limit_value) VALUES (33,3,13,'Subtree','/1/43/');
 
 
 

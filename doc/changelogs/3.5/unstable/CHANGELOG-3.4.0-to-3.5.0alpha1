@@ -96,6 +96,10 @@ eztc.php:
 - Fixed bug with missing includes in ezcontentobjecttreenode class.
   Merged from stable/3.4 rev. 6858.
   http://ez.no/community/bug_reports/error_when_deleting_subtree_in_3_4
+- Fixed bug: users in Editors group were able to create new admin users.
+  Merged from stable/3.4 rev. 6860.
+  http://ez.no/community/bug_reports/users_in_edit_group_can_create_new_admin_users
+
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that
   enables compression of compiled template files.
