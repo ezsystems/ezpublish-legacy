@@ -72,6 +72,8 @@ eztc.php:
 - Fixed unneeded eZDateTimeType dependencies on eZObjectRelationListType
   (merged from 3.4 rev. 6821).
   http://ez.no/community/bug_reports/undefined_class_name_ezobjectrelationlisttype
+- Removed unneded include_once() (merged from 3.3 rev. 6823, also in 3.4 rev. 6824).
+  http://ez.no/community/bug_reports/selfrelated_include_once_in_lib_ezlocale_classes_ezdatetime_php
 
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that
