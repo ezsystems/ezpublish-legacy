@@ -292,12 +292,12 @@ div#maincontent {ldelim} margin-left: {sum( $left_menu_width, 0.5 )}em; {rdelim}
 
 {section show=ezpreference( 'admin_bookmark_menu' )}
     {section show=and( ne( $ui_context, 'edit' ), ne( $ui_context, 'browse' ) )}
-     <h4><a class="showhide" href={concat( '/user/preferences/set/admin_bookmark_menu/0/', $uri_string )|ezurl} title="{'Hide bookmarks.'|i18n( 'design/admin/pagelayout' )}"><span class="bracket">[</span>-<span class="bracket">]</span></a> <a href={'/content/bookmark/'|ezurl} title="{'Manage your personal bookmarks.'|i18n( 'design/admin/pagelayout' )}">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</a></h4>
+     <h4><a class="showhide" href={'/user/preferences/set/admin_bookmark_menu/0'|ezurl} title="{'Hide bookmarks.'|i18n( 'design/admin/pagelayout' )}"><span class="bracket">[</span>-<span class="bracket">]</span></a> <a href={'/content/bookmark/'|ezurl} title="{'Manage your personal bookmarks.'|i18n( 'design/admin/pagelayout' )}">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</a></h4>
     {section-else}
      {section show=eq( $ui_context, 'edit' )}
        <h4><span class="disabled openclose"><span class="bracket">[</span>-<span class="bracket">]</span></span> <span class="disabled">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</span></h4>
      {section-else}
-       <h4><a class="showhide" href={concat( '/user/preferences/set/admin_bookmark_menu/0/', $uri_string )|ezurl} title="{'Hide bookmarks.'|i18n( 'design/admin/pagelayout' )}"><span class="bracket">[</span>-<span class="bracket">]</span></a> {'Bookmarks'|i18n( 'design/admin/pagelayout' )}</h4>
+       <h4><a class="showhide" href={'/user/preferences/set/admin_bookmark_menu/0'|ezurl} title="{'Hide bookmarks.'|i18n( 'design/admin/pagelayout' )}"><span class="bracket">[</span>-<span class="bracket">]</span></a> {'Bookmarks'|i18n( 'design/admin/pagelayout' )}</h4>
      {/section}
     {/section}
 
@@ -342,12 +342,12 @@ div#maincontent {ldelim} margin-left: {sum( $left_menu_width, 0.5 )}em; {rdelim}
 
 {section-else}
     {section show=and( ne( $ui_context,'edit' ), ne( $ui_context, 'browse' ) )}
-    <h4><a class="showhide" href={concat( '/user/preferences/set/admin_bookmark_menu/1/', $uri_string )|ezurl} title="{'Show bookmarks.'|i18n( 'design/admin/pagelayout' )}"><span class="bracket">[</span>+<span class="bracket">]</span></a> <a href={'/content/bookmark/'|ezurl}>{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</a></h4>
+    <h4><a class="showhide" href={'/user/preferences/set/admin_bookmark_menu/1'|ezurl} title="{'Show bookmarks.'|i18n( 'design/admin/pagelayout' )}"><span class="bracket">[</span>+<span class="bracket">]</span></a> <a href={'/content/bookmark/'|ezurl}>{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</a></h4>
     {section-else}
     {section show=eq( $ui_context, 'edit' )}
      <h4><span class="disabled openclose"><span class="bracket">[</span>+<span class="bracket">]</span></span> <span class="disabled">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</span></h4>
     {section-else}
-     <h4><a class="showhide" href={concat( '/user/preferences/set/admin_bookmark_menu/1/', $uri_string )|ezurl} title="{'Show bookmarks.'|i18n( 'design/admin/pagelayout' )}"><span class="bracket">[</span>+<span class="bracket">]</span></a> {'Bookmarks'|i18n( 'design/admin/pagelayout' )}</h4>
+     <h4><a class="showhide" href={'/user/preferences/set/admin_bookmark_menu/1'|ezurl} title="{'Show bookmarks.'|i18n( 'design/admin/pagelayout' )}"><span class="bracket">[</span>+<span class="bracket">]</span></a> {'Bookmarks'|i18n( 'design/admin/pagelayout' )}</h4>
     {/section}
     {/section}
 </div></div></div></div>
