@@ -58,6 +58,12 @@ $ViewList["runfilter"] = array(
     "default_navigation_part" => 'ezsetupnavigationpart',
     "params" => array( ) );
 
+$ViewList["addtonotification"] = array(
+    "functions" => array( 'use' ),
+    "script" => "addtonotification.php",
+    'ui_context' => 'administration',
+    "default_navigation_part" => 'ezcontentnavigationpart',
+    "params" => array( 'ContentNodeID' ) );
 
 $FunctionList['use'] = array( );
 $FunctionList['administrate'] = array( );
