@@ -496,8 +496,8 @@ class eZTemplateCompiler
         {
             $php->addComment( 'Locales:   ' . join( ', ', $resourceData['locales'] ) );
 
-            $php->addCodePiece( 
-                '$locales = array( "'. join( '", "', $resourceData['locales'] ) . "\" );\n". 
+            $php->addCodePiece(
+                '$locales = array( "'. join( '", "', $resourceData['locales'] ) . "\" );\n".
                 '$oldLocale_'. $resourceData['uniqid']. ' = setlocale( LC_CTYPE, null );'. "\n".
                 '$currentLocale_'. $resourceData['uniqid']. ' = setlocale( LC_CTYPE, $locales );'. "\n"
             );
@@ -549,7 +549,7 @@ class eZTemplateCompiler
             require_once ('lib/eztemplate/classes/eztemplateoptimizer.php');
             /* Retrieve class information for the attribute lookup table */
             if ( isset( $resourceData['handler']->Keys ) and isset( $resourceData['handler']->Keys['class'] ) ) {
-                $resourceData['class-info'] = eZTemplateOptimizer::fetchClassDeclaration( $resourceData['handler']->Keys['class'] ); 
+                $resourceData['class-info'] = eZTemplateOptimizer::fetchClassDeclaration( $resourceData['handler']->Keys['class'] );
             }
             /* Run the optimizations */
             eZTemplateOptimizer::optimize( $useComments, $php, $tpl, $transformedTree, $resourceData );
@@ -585,7 +585,7 @@ class eZTemplateCompiler
 
         if ( $resourceData['locales'] && count( $resourceData['locales'] ) )
         {
-            $php->addCodePiece( 
+            $php->addCodePiece(
                 'setlocale( LC_CTYPE, $oldLocale_'. $resourceData['uniqid']. ' );'. "\n"
             );
         }
@@ -2154,7 +2154,7 @@ $rbracket
                         $php->addVariableUnset( $variableName, array( 'spacing' => $spacing ) );
                     }
                 }
-                else if ( ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_RESOURCE_ACQUISITION ) || 
+                else if ( ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_RESOURCE_ACQUISITION ) ||
                           ( $nodeType == EZ_TEMPLATE_NODE_OPTIMIZED_RESOURCE_ACQUISITION ) )
                 {
                     $resource = $node[1];
@@ -2409,8 +2409,12 @@ $rbracket
                 {
                     $code = <<<END
 \$node = ( array_key_exists( \$rootNamespace, \$vars ) and array_key_exists( "node", \$vars[\$rootNamespace] ) ) ? \$vars[\$rootNamespace]["node"] : null;
+if ( is_object( \$node ) )
 \$object = \$node->attribute( 'object' );
+if ( isset( \$object ) && is_object( \$object ) )
 \$nod_{$resourceData['uniqid']} = \$object->attribute( 'data_map' );
+else
+\$nod_{$resourceData['uniqid']} = false;
 unset( \$node, \$object );
 
 END;
