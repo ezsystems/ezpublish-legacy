@@ -1674,7 +1674,7 @@ class eZPackage
     /*!
      Locates all packages in the repository and returns an array with eZPackage objects.
     */
-    function fetchPackages( $parameters = array(), $filterParams = array() )
+    function fetchPackages( $parameters = array(), $filterArray = array() )
     {
         $path = eZPackage::repositoryPath();
         if ( isset( $parameters['path'] ) )
