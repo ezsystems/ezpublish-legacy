@@ -56,25 +56,25 @@ class eZMultiplexerType extends eZWorkflowEventType
 
     function execute( &$process, &$event )
     {
-//        var_dump( $process );
         $processParameters = $process->attribute( 'parameter_list' );
-//        var_dump( $processParameters );
         $nodeID = $processParameters['node_id'];
         $node = & eZContentObjectTreeNode::fetch( $nodeID );
-        
+        eZDebug::writeNotice( "jhe- execute kjører" );
         $objectID = $node->attribute( 'contentobject_id' );
-        $object =& $node->attribute( 'object'); 
-        $userArray = explode( ',', $event->attribute( 'data_text2' ) );
-///        $user =& eZUser::currentUser();
+        $object =& $node->attribute( 'object');
+        $class =& $object->attribute( 'content_class' );
+        $userArray = split( '[,; ]', $event->attribute( 'data_text2' ) );
+        $classArray = split( '[,; ]', $event->attribute( 'data_text3' ) );
         $userID = $processParameters['user_id'];
-        if ( ! in_array( $userID, $userArray ) )
+        if ( ( !in_array( $userID, $userArray ) ) &&
+             in_array( $class->attribute( 'id' ), $classArray ) )
         {
-            $sectionArray = explode( ',', $event->attribute( 'data_text1' ) );
-            if ( in_array( $object->attribute( 'section_id' ), $sectionArray ) )
+            $sectionArray = split( '[,; ]', $event->attribute( 'data_text1' ) );
+            if ( in_array( $object->attribute( 'section_id' ), $sectionArray ) ||
+                 count( $sectionArray ) == 0 )
             {
                 $sessionKey = $processParameters['session_key'];
                 $workflowToRun = $event->attribute( 'data_int1' );
-                $workflowToRun = 10;
 
                 $childParameters = array( 'workflow_id' => $workflowToRun,
                                           'user_id' => $userID,
@@ -83,15 +83,13 @@ class eZMultiplexerType extends eZWorkflowEventType
                                           'session_key' => $sessionKey
                                           );
                 $childProcessKey = eZWorkflowProcess::createKey( $childParameters );
-                
+
                 $childProcessArray =& eZWorkflowProcess::fetchListByKey( $childProcessKey );
-                //              var_dump( $childProcessArray );
                 $childProcess =& $childProcessArray[0];
                 if ( $childProcess == null )
                 {
                     $childProcess =& eZWorkflowProcess::create( $childProcessKey, $childParameters );
                     $childProcess->store();
-
                 }
 
                 $workflow =& eZWorkflow::fetch( $childProcess->attribute( "workflow_id" ) );
@@ -105,11 +103,9 @@ class eZMultiplexerType extends eZWorkflowEventType
 
                 eZDebug::writeNotice( $childProcess, "childProcess" );
                 eZDebug::writeNotice( $childStatus, "childStatus" );
-                
+
                 if ( $childStatus ==  EZ_WORKFLOW_STATUS_FETCH_TEMPLATE )
                 {
-
-//                    $this->setAttribute( 'status', EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE );
                     $process->Template =& $childProcess->Template;
                     return EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE_REPEAT;
                 }
@@ -155,9 +151,21 @@ class eZMultiplexerType extends eZWorkflowEventType
             $usersID = $http->postVariable( $usersVar );
             $event->setAttribute( "data_text2", $usersID );
         }
-
+        $classesVar = $base . "_event_ezmultiplexer_class_ids_" . $event->attribute( "id" );
+        if ( $http->hasPostVariable( $classesVar ) )
+        {
+            $classesID = $http->postVariable( $classesVar );
+            $event->setAttribute( "data_text3", $classesID );
+        }
+        $workflowVar = $base . "_event_ezmultiplexer_workflow_id_" . $event->attribute( "id" );
+        if ( $http->hasPostVariable( $workflowVar ) )
+        {
+            $workflowID = $http->postVariable( $workflowVar );
+            $event->setAttribute( "data_int1", $workflowID );
+        }
     }
-
 }
+
 eZWorkflowEventType::registerType( EZ_WORKFLOW_TYPE_MULTIPLEXER_ID, 'ezmultiplexertype' );
+
 ?>
