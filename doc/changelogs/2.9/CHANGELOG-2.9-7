@@ -110,6 +110,7 @@ eZTemplate:
 - New control operators, cond and first_set.
 - New arithmetic operator count to get the count of a type, supports arrays and objects.
 - Added check for ImageTTFBox support in eZTemplateImageLayer class
+- Added documentation of the available template operators in eZ publish.
 
 eZINI:
 - Added support for override directories which are not a subdir
