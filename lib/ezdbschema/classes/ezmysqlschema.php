@@ -100,7 +100,6 @@ class eZMysqlSchema extends eZDBSchemaInterface
 
         $resultArray = $this->DBInstance->arrayQuery( "DESCRIBE $table" );
 
-        $i = 0;
         foreach( $resultArray as $row )
         {
 			$field = array();
@@ -109,12 +108,13 @@ class eZMysqlSchema extends eZDBSchemaInterface
 			{
 				unset( $field['length'] );
 			}
+            $field['not_null'] = 0;
 			if ( $row['Null'] != 'YES' )
 			{
 				$field['not_null'] = '1';
 			}
             $field['default'] = false;
-            if ( !isset( $field['not_null'] ) )
+            if ( !$field['not_null'] )
             {
                 if ( $row['Default'] === null )
                     $field['default'] = null;
@@ -125,6 +125,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
 			{
 				$field['default'] = (string)$row['Default'];
 			}
+
             $numericTypes = array( 'float', 'int' );
             $blobTypes = array( 'tinytext', 'text', 'mediumtext', 'longtext' );
             $charTypes = array( 'varchar', 'char' );
@@ -144,20 +145,25 @@ class eZMysqlSchema extends eZDBSchemaInterface
             }
             else if ( in_array( $field['type'], $numericTypes ) )
             {
-                if ( !$field['not_null'] and $field['default'] === null )
+                if ( $field['default'] == false )
                 {
+                    if ( $field['not_null'] )
+                    {
+                        $field['default'] = 0;
+                    }
                 }
-                else if ( $field['default'] == false )
+                else if ( $field['type'] == 'int' )
                 {
-                    $field['default'] = 0;
+                    if ( $field['not_null'] or
+                         is_numeric( $field['default'] ) )
+                        $field['default'] = (int)$field['default'];
                 }
-                else if ( $field['type'] == 'integer' )
+                else if ( $field['type'] == 'float' or
+                          is_numeric( $field['default'] ) )
                 {
-                    $field['default'] = (int)$field['default'];
-                }
-                else if ( $field['type'] == 'float' )
-                {
-                    $field['default'] = (float)$field['default'];
+                    if ( $field['not_null'] or
+                         is_numeric( $field['default'] ) )
+                        $field['default'] = (float)$field['default'];
                 }
             }
             else if ( in_array( $field['type'], $blobTypes ) )
@@ -169,13 +175,15 @@ class eZMysqlSchema extends eZDBSchemaInterface
 			if ( substr ( $row['Extra'], 'auto_increment' ) !== false )
 			{
 				unset( $field['length'] );
+				$field['not_null'] = 0;
 				$field['default'] = false;
-				unset( $field['not_null'] );
 				$field['type'] = 'auto_increment';
 			}
-            $field['offset'] = $i;
+
+            if ( !$field['not_null'] )
+                unset( $field['not_null'] );
+
 			$fields[$row['Field']] = $field;
-            ++$i;
 		}
         ksort( $fields );
 
@@ -192,7 +200,6 @@ class eZMysqlSchema extends eZDBSchemaInterface
 
         $resultArray = $this->DBInstance->arrayQuery( "SHOW INDEX FROM $table" );
 
-        $i = 0;
         foreach( $resultArray as $row )
 		{
 			$kn = $row['Key_name'];
@@ -205,7 +212,6 @@ class eZMysqlSchema extends eZDBSchemaInterface
 			{
 				$indexes[$kn]['type'] = $row['Non_unique'] ? 'non-unique' : 'unique';
 			}
-            $indexes[$kn]['offset'] = $i;
 
             $indexFieldDef = array( 'name' => $row['Column_name'] );
 
@@ -221,7 +227,6 @@ class eZMysqlSchema extends eZDBSchemaInterface
                 $indexFieldDef = $indexFieldDef['name'];
             }
 			$indexes[$kn]['fields'][$row['Seq_in_index'] - 1] = $indexFieldDef;
-            ++$i;
 		}
         ksort( $indexes );
 
@@ -365,7 +370,11 @@ class eZMysqlSchema extends eZDBSchemaInterface
 	function generateFieldDef( $field_name, $def, &$skip_primary, $params )
 	{
         $diffFriendly = $params['diff_friendly'];
+        // If the output should compatible with existing MySQL dumps
+        $mysqlCompatible = isset( $params['compatible_sql'] ) ? $params['compatible_sql'] : false;
+
 		$sql_def = $field_name . ' ';
+        $defaultText = $mysqlCompatible ? "default" : "DEFAULT";
 
 		if ( $def['type'] != 'auto_increment' )
 		{
@@ -384,29 +393,30 @@ class eZMysqlSchema extends eZDBSchemaInterface
             {
                 if ( $def['default'] === null )
                 {
-                    $defList[] = "default NULL";
+                    $defList[] = "$defaultText NULL";
                 }
                 else if ( $def['default'] !== false )
                 {
-                    $defList[] = "default '{$def['default']}'";
+                    $defList[] = "$defaultText '{$def['default']}'";
                 }
 			}
 			else if ( $def['type'] == 'varchar' )
 			{
-				$defList[] = "default ''";
+				$defList[] = "$defaultText ''";
 			}
             $sql_def .= join( $diffFriendly ? "\n    " : " ", $defList );
 			$skip_primary = false;
 		}
 		else
 		{
+            $incrementText = $mysqlCompatible ? "auto_increment" : "AUTO_INCREMENT";
             if ( $diffFriendly )
             {
-                $sql_def .= "int(11)\n    NOT NULL\n    auto_increment";
+                $sql_def .= "int(11)\n    NOT NULL\n    $incrementText";
             }
             else
             {
-                $sql_def .= 'int(11) NOT NULL auto_increment';
+                $sql_def .= "int(11) NOT NULL $incrementText";
             }
 			$skip_primary = true;
 		}
@@ -441,13 +451,14 @@ class eZMysqlSchema extends eZDBSchemaInterface
 	function generateTableSchema( $tableName, $tableDef, $params )
 	{
         $diffFriendly = $params['diff_friendly'];
+        $mysqlCompatible = isset( $params['compatible_sql'] ) ? $params['compatible_sql'] : false;
+
 		$sql = '';
         $skip_pk = false;
         $sql_fields = array();
         $sql .= "CREATE TABLE $tableName (\n";
 
         $fields = $tableDef['fields'];
-        uasort( $fields, create_function( '$a, $b', 'return ( $a["offset"] == $b["offset"]) ? 0 : ( $a["offset"] > $b["offset"] ? 1 : -1 );' ) );
 
         foreach ( $fields as $field_name => $field_def )
         {
@@ -462,7 +473,6 @@ class eZMysqlSchema extends eZDBSchemaInterface
 
         // Make sure the order is as defined by 'offset'
         $indexes = $tableDef['indexes'];
-        uasort( $indexes, create_function( '$a, $b', 'return ( $a["offset"] == $b["offset"]) ? 0 : ( $a["offset"] > $b["offset"] ? 1 : -1 );' ) );
 
         // We need to add primary key in table definition
 //        if ( $skip_pk )
@@ -493,11 +503,25 @@ class eZMysqlSchema extends eZDBSchemaInterface
                 $extraOptions[] = "DEFAULT CHARACTER SET " . $charsetName;
             }
         }
+        if ( isset( $tableDef['options'] ) )
+        {
+            foreach( $tableDef['options'] as $optionType => $optionValue )
+            {
+                $optionText = $this->generateTableOption( $tableName, $tableDef, $optionType, $optionValue, $params );
+                if ( $optionText )
+                    $extraOptions[] = $optionText;
+            }
+        }
+
         if ( count( $extraOptions ) > 0 )
         {
             $sql .= " " . implode( $diffFriendly ? "\n" : " ", $extraOptions );
         }
         $sql .= ";\n";
+        if ( $mysqlCompatible )
+        {
+            $sql .= "\n\n\n";
+        }
 
         foreach ( $indexes as $index_name => $index_def )
         {
@@ -510,6 +534,25 @@ class eZMysqlSchema extends eZDBSchemaInterface
         }
 		return $sql;
 	}
+
+    /*!
+     Detects known options and generates the MySQL SQL code for it.
+     \return The SQL code as a string or \c false if not known.
+     \param $optionType The type of option, the supported ones are:
+                        - delay_key_write - If \a $optionValue is true then adds DELAY_KEY_WRITE=1
+    */
+    function generateTableOption( $tableName, $tableDef, $optionType, $optionValue, $params )
+    {
+        switch ( $optionType )
+        {
+            case 'mysql:delay_key_write';
+            {
+                if ( $optionValue )
+                    return 'DELAY_KEY_WRITE=1';
+            } break;
+        }
+        return false;
+    }
 
     /*!
       \return The name of the charset \a $charset in a format MySQL understands.

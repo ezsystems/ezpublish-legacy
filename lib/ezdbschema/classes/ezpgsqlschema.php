@@ -171,13 +171,15 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 			{
 				unset( $field['length'] );
 			}
+
+            $field['not_null'] = 0;
 			if ( $row['attnotnull'] == 't' )
 			{
 				$field['not_null'] = '1';
 			}
 
             $field['default'] = false;
-            if ( !isset( $field['not_null'] ) )
+            if ( !$field['not_null'] )
             {
                 if ( $row['default'] === null )
                     $field['default'] = null;
@@ -188,29 +190,48 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 			{
                 $field['default'] = (string)$this->parseDefault ( $row['default'], $autoinc );
 			}
+
             $numericTypes = array( 'float', 'int' );
             $blobTypes = array( 'tinytext', 'text', 'mediumtext', 'longtext' );
-            if ( $field['type'] == 'varchar' )
+            $charTypes = array( 'varchar', 'char' );
+            if ( in_array( $field['type'], $charTypes ) )
             {
-                if ( $field['default'] === false or
-                     $field['default'] === null )
+                if ( !$field['not_null'] )
                 {
-                    $field['default'] = '';
+                    if ( $field['default'] === null )
+                    {
+                        $field['default'] = null;
+                    }
+                    else if ( $field['default'] === false )
+                    {
+                        $field['default'] = '';
+                    }
                 }
             }
             else if ( in_array( $field['type'], $numericTypes ) )
             {
-                if ( $field['default'] == false)
+                if ( $field['default'] == false )
                 {
-                    $field['default'] = 0;
+                    if ( $field['not_null'] )
+                    {
+                        $field['default'] = 0;
+                    }
                 }
-                else if ( $field['type'] == 'integer' )
+                else if ( $field['type'] == 'int' )
                 {
-                    $field['default'] = (int)$field['default'];
+                    if ( $field['not_null'] or
+                         is_numeric( $field['default'] ) )
+                    {
+                        $field['default'] = (int)$field['default'];
+                    }
                 }
                 else if ( $field['type'] == 'float' )
                 {
-                    $field['default'] = (float)$field['default'];
+                    if ( $field['not_null'] or
+                         is_numeric( $field['default'] ) )
+                    {
+                        $field['default'] = (float)$field['default'];
+                    }
                 }
             }
             else if ( in_array( $field['type'], $blobTypes ) )
@@ -222,10 +243,14 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 			if ( $autoinc )
 			{
 				unset( $field['length'] );
-				unset( $field['not_null'] );
+				$field['not_null'] = 0;
 				$field['default'] = false;
 				$field['type'] = 'auto_increment';
 			}
+
+            if ( !$field['not_null'] )
+                unset( $field['not_null'] );
+
 			$fields[$row['attname']] = $field;
 		}
         ksort( $fields );

@@ -739,6 +739,27 @@ class eZDBSchemaInterface
         }
         $transformationRules['index-field'] = $indexTranslations;
 
+        $tableTranslations = array();
+        if ( $ini->hasVariable( $schemaType, 'TableOptionTranslation' ) )
+        {
+            $translations = $ini->variable( $schemaType, 'TableOptionTranslation' );
+            foreach ( $translations as $tableName => $optionTexts )
+            {
+                $tableTranslations[$tableName] = array();
+                $options = explode( ';', $optionTexts );
+                $optionData = array();
+                foreach ( $options as $option )
+                {
+                    list( $metaName, $metaValue ) = explode( '/', $option, 2 );
+                    if ( is_numeric( $metaValue ) )
+                        $metaValue = (int)$metaValue;
+                    $optionData[$metaName] = $metaValue;
+                    $tableTranslations[$tableName] = $optionData;
+                }
+            }
+        }
+        $transformationRules['table-option'] = $tableTranslations;
+
         if ( $ini->hasVariable( $schemaType, 'FieldsWithoutDefaultValue' ) )
             $transformationRules['column-empty-default'] =& $ini->variable( $schemaType, 'FieldsWithoutDefaultValue' );
 
@@ -955,6 +976,33 @@ class eZDBSchemaInterface
                     $newFields[] = $indexField;
                 }
                 $schema[$tableName]['indexes'][$indexName]['fields'] = $newFields;
+            }
+        }
+
+        // Find tables that needs to fix their options
+        foreach ( $schemaTransformationRules['table-option'] as $tableName => $options )
+        {
+            if ( !isset( $schema[$tableName] ) )
+                continue;
+
+            if ( !isset( $schema[$tableName]['options'] ) )
+            {
+                if ( $toLocal )
+                    $schema[$tableName]['options'] = $options;
+            }
+            else
+            {
+                if ( $toLocal )
+                {
+                    $schema[$tableName]['options'] = array_merge( $schema[$tableName]['options'], $options );
+                }
+                else
+                {
+                    foreach ( $options as $optionName => $optionValue )
+                    {
+                        unset( $schema[$tableName]['options'][$optionName] );
+                    }
+                }
             }
         }
 
