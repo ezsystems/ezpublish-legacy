@@ -52,3 +52,4 @@
     <div class="break"></div>
 {/case}
 {/switch}
+</div>
