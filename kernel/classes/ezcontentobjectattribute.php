@@ -707,7 +707,7 @@ class eZContentObjectAttribute extends eZPersistentObject
                 {
                     if ( !is_array( $attributeMetaData ) )
                     {
-                        $attributeMetaData = array( array( 'id' = '',
+                        $attributeMetaData = array( array( 'id' => '',
                                                            'text' => $attributeMetaData ) );
                     }
                     $metaDataArray = array_merge( $metaDataArray, $attributeMetaData );
