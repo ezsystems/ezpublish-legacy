@@ -154,13 +154,13 @@ div#maincontent-design div.attribute-long p
 div.factbox-design, div.content-view-embed 
 { 
     background-color: #ffffff;
-    border-color: #620052;
+    border-color: #95be00;
 }
 
 div#maincontent div.factbox-design h2, div#maincontent div.content-view-embed h2
 { 
     color: #ffffff;
-    background-color: #620052;
+    background-color: #95be00;
 }
 
 div#maincontent-design div.content-view-embed h3
@@ -303,12 +303,12 @@ div.shop-basket table td.product-subtotal, div.shop-confirmorder table td.produc
 
 table.renderedtable td
 { 
-    border-color: #336699;
+    border-color: #333;
 }
 
 table.renderedtable
 { 
-    border-colort: #336699;
+    border-colort: #333;
 }
 
 
