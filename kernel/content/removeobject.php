@@ -62,6 +62,15 @@ if ( array_key_exists( 'Limitation', $Params ) )
 $contentObjectID = $http->sessionVariable( 'ContentObjectID' );
 $contentNodeID = $http->sessionVariable( 'ContentNodeID' );
 
+$moveToTrash = true;
+if ( $http->hasPostVariable( 'SupportsMoveToTrash' ) )
+{
+    if ( $http->hasPostVariable( 'MoveToTrash' ) )
+        $moveToTrash = true;
+    else
+        $moveToTrash = false;
+}
+
 $deleteResult = array();
 $ChildObjectsCount = 0;
 foreach ( $deleteIDArray as $deleteID )
@@ -106,15 +115,7 @@ foreach ( $deleteIDArray as $deleteID )
             return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
         if ( $object === null )
             return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
-        $ChildObjectsCount = $node->subTreeCount() . " ";
-        if ( $ChildObjectsCount == 1 )
-            $ChildObjectsCount .= ezi18n( 'kernel/content/removeobject',
-                                          'child',
-                                          '1 child' );
-        else
-            $ChildObjectsCount .= ezi18n( 'kernel/content/removeobject',
-                                          'children',
-                                          'several children' );
+        $ChildObjectsCount = $node->subTreeCount();
         $item = array( "nodeName" => $NodeName,
                        "childCount" => $ChildObjectsCount,
                        "additionalWarning" => $additionalWarning );
@@ -153,9 +154,13 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
                         $childObject =& $child->attribute( 'object' );
                         $childNodeID = $child->attribute( 'node_id' );
                         $childObject->remove( true, $childNodeID );
+                        if ( !$moveToTrash )
+                            $childObject->purge();
                     }
                 }
                 $object->remove( true, $deleteID );
+                if ( !$moveToTrash )
+                    $object->purge();
             }
             else
             {
@@ -165,8 +170,12 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
                     $childObject =& $child->attribute( 'object' );
                     $childNodeID = $child->attribute( 'node_id' );
                     $childObject->remove( true, $childNodeID );
+                    if ( !$moveToTrash )
+                        $childObject->purge();
                 }
                 $object->remove( true, $deleteID );
+                if ( !$moveToTrash )
+                    $object->purge();
             }
         }
     }

@@ -60,6 +60,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         $this->ContentClassAttributeID = null;
         $this->InputParameters = false;
         $this->HasValidationError = true;
+        $this->DataTypeCustom = null;
         $this->eZPersistentObject( $row );
     }
 
@@ -221,9 +222,9 @@ class eZContentObjectAttribute extends eZPersistentObject
 
         $classAttribute =& $this->contentClassAttribute();
         $dataType =& $classAttribute->dataType();
-        $this->updateSortKey();
-
         $this->setAttribute( 'data_type_string', $classAttribute->attribute( 'data_type_string' ) );
+        $this->updateSortKey( false );
+
         // store the content data for this attribute
         $dataType->storeObjectAttribute( $this );
 
@@ -234,7 +235,7 @@ class eZContentObjectAttribute extends eZPersistentObject
      Copies the sort key value from the attribute according to the datatype rules.
      \note The attribute is not stored
     */
-    function updateSortKey()
+    function updateSortKey( $storeData = true )
     {
         $classAttribute =& $this->contentClassAttribute();
         $dataType =& $classAttribute->dataType();
@@ -253,10 +254,13 @@ class eZContentObjectAttribute extends eZPersistentObject
             $this->setAttribute( 'sort_key_int', $sortKey );
         }
 
-        // store the content data for this attribute
-        $dataType->storeObjectAttribute( $this );
-        return eZPersistentObject::store();
-
+        $return = true;
+        if ( $storeData )
+        {
+            $dataType->storeObjectAttribute( $this );
+            $return = eZPersistentObject::store();
+        }
+        return $return;
     }
 
     /*!
@@ -609,7 +613,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
      Returns the content for this attribute.
     */
-    function content()
+    function &content()
     {
         if ( $this->Content === null )
         {
@@ -637,7 +641,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
      Sets the content for the current attribute
     */
-    function setContent( $content )
+    function setContent( &$content )
     {
         $this->Content =& $content;
     }
@@ -647,7 +651,6 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &contentActionList()
     {
-        //print( "action list<br>" );
         $dataType =& $this->dataType();
         return $dataType->contentActionList( $this->contentClassAttribute() );
     }
@@ -763,7 +766,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     function &viewTemplate()
     {
         $dataType =& $this->dataType();
-        return $dataType->viewTemplate( $this );
+        if ( $dataType )
+            return $dataType->viewTemplate( $this );
     }
 
     /*!

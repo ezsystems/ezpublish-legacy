@@ -1000,12 +1000,12 @@ class eZContentObject extends eZPersistentObject
     /*!
       Fetches the attributes for the current published version of the object.
     */
-    function &contentObjectAttributes( $asObject = true, $version = false, $language = false )
+    function &contentObjectAttributes( $asObject = true, $version = false, $language = false, $contentObjectAttributeID = false )
     {
         $db =& eZDB::instance();
         if ( $version === false )
             $version = $this->CurrentVersion;
-        if ( $language == false )
+        if ( $language === false )
         {
             if ( $this->CurrentLanguage != false )
             {
@@ -1022,14 +1022,21 @@ class eZContentObject extends eZPersistentObject
         if ( !isset( $this->ContentObjectAttributes[$version][$language] ) )
         {
 //             print( "uncached<br>" );
+            $versionText = false;
+            if ( $version !== null )
+                $versionText = "AND\n                    ezcontentobject_attribute.version = '$version'";
+            $languageText = false;
+            if ( $language !== null )
+                $languageText = "AND\n                    ezcontentobject_attribute.language_code = '$language'";
+            $attributeIDText = false;
+            if ( $contentObjectAttributeID )
+                $attributeIDText = "AND\n                    ezcontentobject_attribute.id = '$contentObjectAttributeID'";
             $query = "SELECT ezcontentobject_attribute.*, ezcontentclass_attribute.identifier as identifier FROM
                     ezcontentobject_attribute, ezcontentclass_attribute
                   WHERE
                     ezcontentclass_attribute.version = '0' AND
                     ezcontentclass_attribute.id = ezcontentobject_attribute.contentclassattribute_id AND
-                    ezcontentobject_attribute.version = '$version' AND
-                    ezcontentobject_attribute.contentobject_id = '$this->ID' AND
-                    ezcontentobject_attribute.language_code = '$language'
+                    ezcontentobject_attribute.contentobject_id = '$this->ID' $versionText $languageText $attributeIDText
                   ORDER by
                     ezcontentclass_attribute.placement ASC";
 
@@ -1043,7 +1050,8 @@ class eZContentObject extends eZPersistentObject
                 $returnAttributeArray[] = $attr;
             }
 
-            $this->ContentObjectAttributes[$version][$language] =& $returnAttributeArray;
+            if ( $language !== null and $version !== null )
+                $this->ContentObjectAttributes[$version][$language] =& $returnAttributeArray;
         }
         else
         {
@@ -2072,15 +2080,18 @@ class eZContentObject extends eZPersistentObject
         $language = $this->defaultLanguage();
         if ( !isset( $this->ContentObjectAttributeArray[$version][$language] ) )
         {
-            $this->ContentObjectAttributeArray[$version][$language] =& $this->contentObjectAttributes();
+            $attributeList =& $this->contentObjectAttributes();
+            $this->ContentObjectAttributeArray[$version][$language] =& $attributeList;
         }
+        else
+            $attributeList =& $this->ContentObjectAttributeArray[$version][$language];
 
         // Fetch content actions if not already fetched
         if ( $this->ContentActionList === false )
         {
 
             $contentActionList = array();
-            foreach ( $this->ContentObjectAttributeArray[$version][$language] as $attribute )
+            foreach ( $attributeList as $attribute )
             {
                 $contentActions =& $attribute->contentActionList();
                 if ( count( $contentActions ) > 0 )

@@ -75,3 +75,14 @@ drop table ezcontent_attribute_tmp;
 -- update ezcontentobject_attribute, ezcontentclass_attribute 
 -- set ezcontentobject_attribute.data_type_string=ezcontentclass_attribute.data_type_string 
 -- where ezcontentobject_attribute.contentclassattribute_id=ezcontentclass_attribute.id;
+
+
+CREATE TABLE ezimagefile (
+  id INTEGER AUTO_INCREMENT NOT NULL,
+  contentobject_attribute_id INTEGER NOT NULL,
+  filepath TEXT NOT NULL,
+  PRIMARY KEY( id )
+) TYPE=MyISAM;
+
+CREATE INDEX ezimagefile_coid ON ezimagefile( contentobject_attribute_id );
+CREATE INDEX ezimagefile_file ON ezimagefile( filepath(200) );

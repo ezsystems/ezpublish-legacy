@@ -501,6 +501,14 @@ class eZDOMNode
     }
 
     /*!
+      Removes all attribute from the node.
+    */
+    function removeAttributes()
+    {
+        $this->Attributes = array();
+    }
+
+    /*!
       Removes the child(s) node named \a $name.
     */
     function removeNamedChildren( $name )
@@ -518,6 +526,14 @@ class eZDOMNode
         unset( $this->Childs );
         $this->Children =& $childArray;
         return $removed;
+    }
+
+    /*!
+      Removes all children from the node.
+    */
+    function removeChildren()
+    {
+        $this->Children = array();
     }
 
     /*!

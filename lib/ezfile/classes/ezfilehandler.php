@@ -164,6 +164,134 @@ class eZFileHandler
     }
 
     /*!
+     Links the file \a $sourceFilename to \a $destinationFilename.
+     If \a $destinationFilename is a directory then the filename is taken from \a $sourceFilename and appended to the destination.
+     It will use symbolic links for the operating system that support it and file copy for all others.
+     \return \c true if sucessful or \c false if the copy failed.
+    */
+    function linkCopy( $sourceFilename, $destinationFilename )
+    {
+        if ( in_array( eZSys::osType(),
+                       array( 'unix', 'linux', 'mac' ) ) )
+        {
+            return eZFileHandler::symlink( $sourceFilename, $destinationFilename );
+        }
+        else
+        {
+            return eZFileHandler::copy( $sourceFilename, $destinationFilename );
+        }
+    }
+
+    /*!
+     Creates a symbolic link to the file \a $sourceFilename on the destination \a $destinationFilename.
+     This means that if someone tries to open \a $destinationFilename they will infact open \a $sourceFilename.
+     If \a $destinationFilename is a directory then the filename is taken from \a $sourceFilename and appended to the destination.
+     It will first try to rename the file and if that does not work copy the file and unlink.
+     \return \c true if sucessful or \c false if the copy failed.
+    */
+    function symlink( $sourceFilename, $destinationFilename )
+    {
+        if ( !file_exists( $sourceFilename ) )
+        {
+            eZDebug::writeError( "Cannot symbolicly link to file $sourceFilename, it does not exist",
+                                 'eZFileHandler::symlink' );
+            return false;
+        }
+        $isDir = false;
+        if ( is_dir( $destinationFilename ) )
+        {
+            $isDir = true;
+            $dirPosition = strrpos( $sourceFilename, '/' );
+            $filePosition = 0;
+            if ( $dirPosition !== false )
+                $filePosition = $dirPosition + 1;
+            if ( strlen( $destinationFilename ) > 0 and
+                 $destinationFilename[strlen( $destinationFilename ) - 1] == '/' )
+                $destinationFilename .= substr( $sourceFilename, $filePosition );
+            else
+                $destinationFilename .= '/' . substr( $sourceFilename, $filePosition );
+        }
+        $destinationFilename = preg_replace( "#/+#", '/', $destinationFilename );
+        $directoryCount = substr_count( $destinationFilename, '/' );
+        $cdupText = str_repeat( '../', $directoryCount );
+        if ( file_exists( $destinationFilename ) and
+             !is_dir( $destinationFilename ) )
+        {
+            if ( !@unlink( $destinationFilename ) )
+            {
+                eZDebug::writeError( "Cannot symbolicly link to file $sourceFilename on destination $destinationFilename, destination file cannot be removed",
+                                     'eZFileHandler::symlink' );
+                return false;
+            }
+        }
+        if ( symlink( $cdupText . $sourceFilename, $destinationFilename ) )
+        {
+            return true;
+        }
+        eZDebug::writeError( "Failed to symbolicly link to $sourceFilename on destination $destinationFilename",
+                             'eZFileHandler::symlink' );
+        return false;
+    }
+
+    /*!
+     Moves the file \a $sourceFilename to \a $destinationFilename.
+     If \a $destinationFilename is a directory then the filename is taken from \a $sourceFilename and appended to the destination.
+     It will first try to rename the file and if that does not work copy the file and unlink.
+     \return \c true if sucessful or \c false if the copy failed.
+    */
+    function move( $sourceFilename, $destinationFilename )
+    {
+        if ( !file_exists( $sourceFilename ) )
+        {
+            eZDebug::writeError( "Cannot rename file $sourceFilename, it does not exist",
+                                 'eZFileHandler::move' );
+            return false;
+        }
+        $isDir = false;
+        if ( is_dir( $destinationFilename ) )
+        {
+            $isDir = true;
+            $dirPosition = strrpos( $sourceFilename, '/' );
+            $filePosition = 0;
+            if ( $dirPosition !== false )
+                $filePosition = $dirPosition + 1;
+            if ( strlen( $destinationFilename ) > 0 and
+                 $destinationFilename[strlen( $destinationFilename ) - 1] == '/' )
+                $destinationFilename .= substr( $sourceFilename, $filePosition );
+            else
+                $destinationFilename .= '/' . substr( $sourceFilename, $filePosition );
+        }
+        if ( file_exists( $destinationFilename ) and
+             !is_dir( $destinationFilename ) )
+        {
+            if ( !@unlink( $destinationFilename ) )
+            {
+                eZDebug::writeError( "Cannot move file $sourceFilename to destination $destinationFilename, destination file cannot be removed",
+                                     'eZFileHandler::move' );
+                return false;
+            }
+        }
+        if ( @rename( $sourceFilename, $destinationFilename ) )
+        {
+            return true;
+        }
+        if ( eZFileHandler::copy( $sourceFilename, $destinationFilename ) )
+        {
+            if ( !@unlink( $sourceFilename ) )
+            {
+                eZDebug::writeError( "Cannot remove source file $sourceFilename, file was not succesfully moved",
+                                     'eZFileHandler::move' );
+                @unlink( $destinationFilename );
+                return false;
+            }
+            return true;
+        }
+                eZDebug::writeError( "Failed to copy $sourceFilename to $destinationFilename, file was not succesfully moved",
+                                     'eZFileHandler::move' );
+        return false;
+    }
+
+    /*!
      Copies the file \a $sourceFilename to \a $destinationFilename.
      \return \c true if sucessful or \c false if the copy failed.
     */
@@ -181,6 +309,18 @@ class eZFileHandler
             eZDebug::writeError( "Unable to open source file $sourceFilename in read mode",
                                  'eZFileHandler::copy' );
             return false;
+        }
+        if ( is_dir( $destinationFilename ) )
+        {
+            $dirPosition = strrpos( $sourceFilename, '/' );
+            $filePosition = 0;
+            if ( $dirPosition !== false )
+                $filePosition = $dirPosition + 1;
+            if ( strlen( $destinationFilename ) > 0 and
+                 $destinationFilename[strlen( $destinationFilename ) - 1] == '/' )
+                $destinationFilename .= substr( $sourceFilename, $filePosition );
+            else
+                $destinationFilename .= '/' . substr( $sourceFilename, $filePosition );
         }
         $destinationFD = @fopen( $destinationFilename, 'wb' );
         if ( !$destinationFD )
@@ -762,6 +902,16 @@ class eZFileHandler
     function doFlush()
     {
         return @fflush( $this->FileHandler );
+    }
+
+    /*!
+     \pure
+     Does the actual file renaming.
+     \sa rename
+    */
+    function doRename( $destinationFilename, $sourceFilename )
+    {
+        return @rename( $sourceFilename, $destinationFilename );
     }
 
     /*!

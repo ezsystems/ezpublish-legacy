@@ -168,6 +168,43 @@ class eZContentObjectVersion extends eZPersistentObject
                                                 $asObject );
     }
 
+    function &fetchVersion( $version, $contentObjectID, $asObject = true )
+    {
+        $ret =& eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+                                                     null, array( "version" => $version,
+                                                                  "contentobject_id" => $contentObjectID
+                                                                 ),
+                                                    null, null,
+                                                     $asObject );
+        return $ret[0];
+    }
+
+    function fetchUserDraft( $objectID, $userID )
+    {
+        $versions =& eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+                                                          null, array( 'creator_id' => $userID,
+                                                                       'contentobject_id' => $objectID,
+                                                                       'status' => array( array( EZ_VERSION_STATUS_DRAFT, EZ_VERSION_STATUS_DRAFT ) )
+                                                                       ),
+                                                          array( 'version' => 'asc' ), null,
+                                                          true );
+        if ( $versions === null or
+             count( $versions ) == 0 )
+            return null;
+        return $versions[0];
+    }
+
+    function &fetchForUser( $userID, $status = EZ_VERSION_STATUS_DRAFT )
+    {
+        $versions =& eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+                                                          null, array( 'creator_id' => $userID,
+                                                                       'status' => $status
+                                                                       ),
+                                                          null, null,
+                                                          true );
+        return $versions;
+    }
+
     /*!
      \return the attribute with the requested name.
     */
@@ -769,43 +806,6 @@ class eZContentObjectVersion extends eZPersistentObject
         }
 
         return $translations;
-    }
-
-
-    function &fetchVersion( $version, $contentObjectID, $asObject = true )
-    {
-        $ret =& eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
-                                                     null, array( "version" => $version,
-                                                                  "contentobject_id" => $contentObjectID
-                                                                 ),
-                                                    null, null,
-                                                     $asObject );
-        return $ret[0];
-    }
-
-    function fetchUserDraft( $objectID, $userID )
-    {
-        $versions =& eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
-                                                          null, array( 'creator_id' => $userID,
-                                                                       'contentobject_id' => $objectID,
-                                                                       'status' => array( array( EZ_VERSION_STATUS_DRAFT, EZ_VERSION_STATUS_DRAFT ) )
-                                                                       ),
-                                                          array( 'version' => 'asc' ), null,
-                                                          true );
-        if ( $versions === null or
-             count( $versions ) == 0 )
-            return null;
-        return $versions[0];
-    }
-    function &fetchForUser( $userID, $status = EZ_VERSION_STATUS_DRAFT )
-    {
-        $versions =& eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
-                                                          null, array( 'creator_id' => $userID,
-                                                                       'status' => $status
-                                                                       ),
-                                                          null, null,
-                                                          true );
-        return $versions;
     }
 
     /*!
