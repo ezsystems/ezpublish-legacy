@@ -71,8 +71,8 @@ if ( $http->hasPostVariable( "RemoveDiscountGroupButton" ) )
     $db->commit();
 
     // we changed prices of products (no discount now) => remove content caches
-    include_once( 'kernel/classes/ezcontentobject.php' );
-    eZContentObject::expireAllCache();
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    eZContentCacheManager::clearAllContentCache();
 
     $module->redirectTo( $module->functionURI( "discountgroup" ) . "/" );
     return;

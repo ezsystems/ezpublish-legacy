@@ -1626,21 +1626,21 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         return $retNodeList;
     }
-    
+
     /*!
     Retrieve subtrees from multiple paths.
-    
+
     This method composes a list of objects retrieved from various node paths,
     sorted by criteria that are globally applied to the whole list.
-    
+
     It is for example useful for an RSS feed that serves content from
     several node paths. The respective subtrees need to be amalgated and
     the resulting object listed sorted by publishing date to show the latest
     entries in chronological order.
-    
+
     The first parameter is a multi-dimensional array containing the
     node IDs and filter criteria assigned to each of the nodes:
-    
+
     array(
         [node_1] => array(
                         'ClassFilterType' =>    [filter_type],
@@ -1651,10 +1651,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         'ClassFilterArray'  =>  [filter_array]
                         )
          )
-    
+
     The second parameter is a single-dimensional array with criteria
     applied to the list of objects retrieved from the various subtrees:
-    
+
     array(
         'SortBy' => [sorting-criteria]
         )
@@ -1665,7 +1665,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             return eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Nodes parameter must be an array with at least one key.' );
         }
-        
+
         if( is_null( $listParams ) )
         {
             $listParams = array(
@@ -1675,7 +1675,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                              'SortBy'                   => false,
                              'GroupBy'                  => false );
         }
-        
+
         $offset           = ( isset( $listParams['Offset'] ) && is_numeric( $listParams['Offset'] ) ) ? $listParams['Offset']             : false;
         $limit            = ( isset( $listParams['Limit']  ) && is_numeric( $listParams['Limit']  ) ) ? $listParams['Limit']              : false;
         $groupBy          = ( isset( $listParams['GroupBy']                                       ) ) ? $listParams['GroupBy']            : false;
@@ -1684,20 +1684,20 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $listParams['SortBy'] = false;
         }
         $sortBy = $listParams['SortBy'];
-        
+
         $sortingInfo             =& eZContentObjectTreeNode::createSortingSQLStrings( $sortBy );
-        
+
         $queryNodes = '';
-        
+
         foreach( $nodesParams as $nodeParams )
         {
             $nodeID = $nodeParams['ParentNodeID'];
-            
+
             if ( !is_numeric( $nodeID ) && !is_array( $nodeID ) )
             {
                 return eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Nodes parameter must be numeric or an array with numeric values.' );
             }
-            
+
             if ( is_null( $nodeParams ) )
             {
                 $nodeParams = array(
@@ -1709,7 +1709,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                  'ClassFilterType'          => false,
                                  'ClassFilterArray'         => false );
             }
-            
+
             $onlyTranslated   = ( isset( $nodeParams['OnlyTranslated']    ) )                       ? $nodeParams['OnlyTranslated']     : false;
             $language         = ( isset( $nodeParams['Language']          ) )                             ? $nodeParams['Language']           : false;
             $depth            = ( isset( $nodeParams['Depth']  ) && is_numeric( $nodeParams['Depth']  ) ) ? $nodeParams['Depth']              : false;
@@ -1721,12 +1721,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
             {
                 $nodeParams['ClassFilterType'] = false;
             }
-            
+
             $classCondition          =& eZContentObjectTreeNode::createClassFilteringSQLString( $nodeParams['ClassFilterType'], $nodeParams['ClassFilterArray'] );
             $attributeFilter         =& eZContentObjectTreeNode::createAttributeFilterSQLStrings( $nodeParams['AttributeFilter'], $sortingInfo );
             $extendedAttributeFilter =& eZContentObjectTreeNode::createExtendedAttributeFilterSQLStrings( $nodeParams['ExtendedAttributeFilter'] );
             $mainNodeOnlyCond        =& eZContentObjectTreeNode::createMainNodeConditionSQLString( $mainNodeOnly );
-            
+
             $pathStringCond     = '';
             $notEqParentString  = '';
             // If the node(s) doesn't exist we return null.
@@ -1734,19 +1734,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
             {
                 return null;
             }
-            
+
             $useVersionName     = true;
             $versionNameTables  =& eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
             $versionNameTargets =& eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
             $versionNameJoins   =& eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName, false, $onlyTranslated, $language );
-            
+
             $limitation = ( isset( $nodeParams['Limitation']  ) && is_array( $nodeParams['Limitation']  ) ) ? $nodeParams['Limitation']: false;
             $limitationList              =& eZContentObjectTreeNode::getLimitationList( $limitation );
             $sqlPermissionCheckingString =& eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
-            
+
             // Determine whether we should show invisible nodes.
             $showInvisibleNodesCond =& eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
-            
+
             $queryNodes .= " (
                           $pathStringCond
                           $extendedAttributeFilter[joins]
@@ -1764,11 +1764,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       )
                       OR";
         }
-        
+
         $groupBySelectText  = '';
         $groupByText        = '';
         eZContentObjectTreeNode::createGroupBySQLStrings( $groupBySelectText, $groupByText, $groupBy );
-        
+
         $query = "SELECT ezcontentobject.*,
                        ezcontentobject_tree.*,
                        ezcontentclass.name as class_name,
@@ -1786,14 +1786,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
                    WHERE
                       ".substr($queryNodes, 0, -2)."
                 $groupByText";
-        
+
         if ( $sortingInfo['sortingFields'] )
         {
             $query .= " ORDER BY $sortingInfo[sortingFields]";
         }
-        
+
         $db =& eZDB::instance();
-        
+
         if ( !$offset && !$limit )
         {
             $nodeListArray =& $db->arrayQuery( $query );
@@ -1803,7 +1803,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $nodeListArray =& $db->arrayQuery( $query, array( 'offset' => $offset,
                                                               'limit'  => $limit ) );
         }
-        
+
         if ( $asObject )
         {
             $retNodeList =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
@@ -1812,10 +1812,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $retNodeList =& $nodeListArray;
         }
-        
+
         return $retNodeList;
     }
-    
+
     function subTreeGroupByDateField( $field, $type )
     {
         $divisor = 0;
@@ -2913,32 +2913,54 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return null;
     }
 
-    function &fetch( $nodeID, $lang = false )
+
+    /*!
+     \static
+     Fetch node by $nodeID. If $nodeID is an array of ids then list of nodes will be returned.
+    */
+    function fetch( $nodeID, $lang = false, $asObject = true )
     {
         $returnValue = null;
-        $ini =& eZINI::instance();
-        $db =& eZDB::instance();
 
-        $useVersionName = true;
-        if ( $useVersionName )
+        if ( ( $nodeID != '' && is_numeric( $nodeID ) ) || ( is_array( $nodeID ) && count( $nodeID ) > 0 ) )
         {
-            $versionNameTables = ', ezcontentobject_name ';
-            $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
-
-            if ( $lang === false )
+            if ( ( is_numeric( $nodeID ) && $nodeID === 1 ) ||
+                 ( is_array( $nodeID ) && count( $nodeID ) === 1 && $nodeID[0] == 1 ) )
             {
-                $lang = eZContentObject::defaultLanguage();
+                $query="SELECT *
+                    FROM ezcontentobject_tree
+                    WHERE node_id = 1";
             }
-
-            $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
-                                  ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
-                                  ezcontentobject_name.content_translation = '$lang' ";
-        }
-
-        if ( $nodeID != '' && is_numeric( $nodeID ) )
-        {
-            if ( $nodeID != 1 )
+            else
             {
+                $useVersionName = true;
+                if ( $useVersionName )
+                {
+                    $versionNameTables = ', ezcontentobject_name ';
+                    $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
+
+                    if ( $lang === false )
+                    {
+                        $lang = eZContentObject::defaultLanguage();
+                    }
+
+                    $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
+                                          ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
+                                          ezcontentobject_name.content_translation = '$lang' ";
+                }
+
+                if ( is_array( $nodeID ) )
+                {
+                    if( count( $nodeID ) === 1 )
+                        $sqlINCondition = '( ' . $nodeID[0] . ' )';
+                    else
+                        $sqlINCondition = '( ' . implode( ',', $nodeID ) . ' )';
+                }
+                else
+                {
+                    $sqlINCondition = '( ' . $nodeID . ' )';
+                }
+
                 $query="SELECT ezcontentobject.*,
                            ezcontentobject_tree.*,
                            ezcontentclass.name as class_name,
@@ -2948,28 +2970,36 @@ class eZContentObjectTreeNode extends eZPersistentObject
                          ezcontentobject,
                          ezcontentclass
                          $versionNameTables
-                    WHERE node_id = $nodeID AND
+                    WHERE node_id IN $sqlINCondition AND
                           ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
                           ezcontentclass.version=0  AND
                           ezcontentclass.id = ezcontentobject.contentclass_id
                           $versionNameJoins";
             }
-            else
-            {
-                $query="SELECT *
-                    FROM ezcontentobject_tree
-                    WHERE node_id = $nodeID ";
-            }
 
-            $nodeListArray =& $db->arrayQuery( $query );
-            if ( count( $nodeListArray ) == 1 )
+            $db = eZDB::instance();
+            $nodeListArray = $db->arrayQuery( $query );
+
+            if ( count( $nodeListArray ) > 0 )
             {
-                $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
-                $returnValue =& $retNodeArray[0];
+                if ( $asObject )
+                {
+                    $returnValue = eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+                    if ( count( $returnValue ) === 1 )
+                        $returnValue = $returnValue[0];
+                }
+                else
+                {
+                    if ( count( $nodeListArray ) === 1 )
+                        $returnValue = $nodeListArray[0];
+                    else
+                        $returnValue = $nodeListArray;
+                }
             }
         }
         else
             eZDebug::writeWarning( 'Cannot fetch node from empty node ID', 'eZContentObjectTreeNode::fetch' );
+
         return $returnValue;
     }
 
@@ -3500,7 +3530,7 @@ WHERE
 
     /*!
       Removes the current node.
-      
+
       \note transaction unsafe.
     */
     function remove( $nodeID = 0 )
@@ -3527,7 +3557,7 @@ WHERE
 
         $db =& eZDB::instance();
         $db->begin();
-        
+
         eZNodeAssignment::remove( $node->attribute( 'parent_node_id' ),
                                   $node->attribute( 'contentobject_id' ) );
 
@@ -3570,17 +3600,9 @@ WHERE
             $urlObject->cleanup();
         }
 
-        // Clean up template cache bocks
-        eZContentObject::expireTemplateBlockCacheIfNeeded();
-
-        // Clean up content view cache
-        $ini =& eZINI::instance();
-        if ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' ||
-             $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' )
-        {
-            include_once( 'kernel/classes/ezcontentcache.php' );
-            eZContentCache::cleanup( array( $node->attribute( 'parent_node_id' ), $node->attribute( 'node_id' ) ) );
-        }
+        // Clean up content cache
+        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        eZContentCacheManager::clearContentCache( $node->attribute( 'contentobject_id' ) );
 
         // Clean up policies and limitations
         eZRole::cleanupByNode( $node );
@@ -3746,7 +3768,9 @@ WHERE
                     $moveToTrashTemp = $moveToTrash;
                     if ( !$moveToTrashAllowed )
                         $moveToTrashTemp = false;
-                    eZContentCacheManager::clearObjectViewCache( $node->attribute( 'contentobject_id' ), true );
+
+                    eZContentCacheManager::clearContentCacheIfNeeded( $node->attribute( 'contentobject_id' ) );
+
                     $children =& $node->subTree( array( 'Limitation' => array() ) );
                     foreach ( array_keys( $children ) as $childKey )
                     {
@@ -3836,18 +3860,20 @@ WHERE
                                                            $object->attribute( 'id' ),
                                                            $object->attribute( 'current_version' ),
                                                            $newMainNode->attribute( 'parent_node_id' ) );
-                eZContentCacheManager::clearObjectViewCache( $this->attribute( 'contentobject_id' ), true );
+
+                eZContentCacheManager::clearContentCacheIfNeeded( $this->attribute( 'contentobject_id' ) );
                 $this->remove();
                 $db->commit();
             }
             else
             {
                 // This is the last assignment so we remove the object too
-                eZContentCacheManager::clearObjectViewCache( $this->attribute( 'contentobject_id' ), true );
+                eZContentCacheManager::clearContentCacheIfNeeded( $this->attribute( 'contentobject_id' ) );
 
                 $db =& eZDB::instance();
                 $db->begin();
                 $this->remove();
+
                 if ( $moveToTrash )
                 {
                     $object->remove();
@@ -3861,7 +3887,7 @@ WHERE
         }
         else
         {
-            eZContentCacheManager::clearObjectViewCache( $this->attribute( 'contentobject_id' ), true );
+            eZContentCacheManager::clearContentCacheIfNeeded( $this->attribute( 'contentobject_id' ) );
             $this->remove();
         }
     }
@@ -4924,7 +4950,6 @@ WHERE
         }
 
         eZContentObjectTreeNode::clearViewCacheForSubtree( $node, $modifyRootNode );
-        eZContentObject::expireTemplateBlockCacheIfNeeded();
     }
 
     /*!
@@ -4983,7 +5008,6 @@ WHERE
         }
 
         eZContentObjectTreeNode::clearViewCacheForSubtree( $node, $modifyRootNode );
-        eZContentObject::expireTemplateBlockCacheIfNeeded();
     }
 
     /*!
@@ -5046,7 +5070,7 @@ WHERE
         if ( $clearForRootNode )
         {
             $objectID = $node->attribute( 'contentobject_id' );
-            eZContentCacheManager::clearViewCache( $objectID, true );
+            eZContentCacheManager::clearObjectViewCacheIfNeeded( $objectID );
         }
 
         $offset = 0;
@@ -5072,7 +5096,7 @@ WHERE
             unset( $subtreeChunk );
 
             foreach ( $objectIDList as $objectID )
-                eZContentCacheManager::clearViewCache( $objectID, true );
+                eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
         }
 
         return true;

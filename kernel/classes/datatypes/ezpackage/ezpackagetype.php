@@ -163,7 +163,8 @@ class eZPackageType extends eZDataType
         eZDir::unlinkWildcard( $compiledTemplateDir . "/", "*pagelayout*.*" );
 
         // Expire template block cache
-        eZContentObject::expireTemplateBlockCacheIfNeeded();
+        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        eZContentCacheManager::clearTemplateBlockCacheIfNeeded( false );
     }
 
     /*!

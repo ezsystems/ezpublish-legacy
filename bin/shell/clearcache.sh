@@ -160,6 +160,7 @@ for DIR in $VAR_DIRS; do
 	TEMPLATE_CACHEDIR="$DIR/cache/template"
 	TEMPLATE_OVERRIDE_CACHEDIR="$DIR/cache/override"
 	TEMPLATE_BLOCK_CACHEDIR="$DIR/cache/template-block"
+    EXPIRY_TEMPLATE_BLOCK_CACHEDIR="$DIR/cache/template-block-expiry"
 	TRANSLATION_CACHEDIR="$DIR/cache/translation"
 	EXPIRY_CACHEFILE="$DIR/cache/expiry.php"
 	URLALIAS_CACHEDIR="$DIR/cache/wildcard"
@@ -216,6 +217,7 @@ for DIR in $VAR_DIRS; do
 	    if [ -d "$TEMPLATE_BLOCK_CACHEDIR" ]; then
 		echo "Removing template-block cache files in $TEMPLATE_BLOCK_CACHEDIR"
 		rm -rf "$TEMPLATE_BLOCK_CACHEDIR"
+        rm -rf "$EXPIRY_TEMPLATE_BLOCK_CACHEDIR"
 	    fi
 	fi
 

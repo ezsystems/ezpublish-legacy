@@ -3145,6 +3145,17 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
+     Sets all view cache files to be expired
+    */
+    function expireAllViewCache()
+    {
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        $handler->setTimestamp( 'content-view-cache', mktime() );
+        $handler->store();
+    }
+
+    /*!
      Sets all content cache files to be expired. Both view cache and cache blocks are expired.
      \note transaction unsafe.
     */

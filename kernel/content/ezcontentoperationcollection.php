@@ -196,29 +196,10 @@ class eZContentOperationCollection
      \param $additionalNodeList An array with node IDs to add to clear list,
                                 or \c false for no additional nodes.
     */
-    function clearObjectViewCache( $objectID, $versionNum, $additionalNodeList = false )
+    function clearObjectViewCache( $objectID, $versionNum = true, $additionalNodeList = false )
     {
-        // WARNING !! modifing this function don't forget to modify
-        // eZContentCacheManager::clearObjectViewCache() too.
-
-        eZDebug::accumulatorStart( 'check_cache', '', 'Check cache' );
-
-        $ini =& eZINI::instance();
-        if ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' ||
-             $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' )
-        {
-            $viewCacheINI =& eZINI::instance( 'viewcache.ini' );
-            if ( $viewCacheINI->variable( 'ViewCacheSettings', 'SmartCacheClear' ) == 'enabled' )
-            {
-                include_once( 'kernel/classes/ezcontentcachemanager.php' );
-                eZContentCacheManager::clearViewCache( $objectID, $versionNum, $additionalNodeList );
-            }
-            else
-            {
-                eZContentObject::expireAllCache();
-            }
-        }
-        eZDebug::accumulatorStop( 'check_cache' );
+        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        eZContentCacheManager::clearContentCacheIfNeeded( $objectID, $versionNum, $additionalNodeList );
     }
 
 
@@ -305,7 +286,9 @@ class eZContentOperationCollection
             {
                 // clear cache for old placement.
                 $additionalNodeIDList = array( $fromNodeID );
-                eZContentOperationCollection::clearObjectViewCache( $originalObjectID, $versionNum, $additionalNodeIDList );
+
+                include_once( 'kernel/classes/ezcontentcachemanager.php' );
+                eZContentCacheManager::clearContentCacheIfNeeded( $objectID, $versionNum, $additionalNodeIDList );
 
                 $originalNode =& eZContentObjectTreeNode::fetchNode( $originalObjectID, $fromNodeID );
                 if ( $originalNode->attribute( 'main_node_id' ) == $originalNode->attribute( 'node_id' ) )
@@ -360,8 +343,8 @@ class eZContentOperationCollection
         $db->commit();
 
         // Clear cache after publish
-        include_once( 'kernel/classes/ezcontentobject.php' );
-        eZContentObject::expireTemplateBlockCacheIfNeeded();
+        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        eZContentCacheManager::clearTemplateBlockCacheIfNeeded( $object->attribute( 'id' ) );
 
         if ( $mainNodeID == false )
         {

@@ -102,7 +102,7 @@ if ( $options['clear-node'] )
         }
         $objectID = $node->attribute( 'contentobject_id' );
         $cli->output( "Clearing cache for $nodeName ($nodeSubtree)" );
-        eZContentCacheManager::clearViewCache( $objectID, true );
+        eZContentCacheManager::clearContentCache( $objectID );
     }
     return $script->shutdown();
 }
@@ -168,7 +168,7 @@ else if ( $options['clear-subtree'] )
 
             foreach ( $objectIDList as $objectID )
             {
-                $status = eZContentCacheManager::clearViewCache( $objectID, true );
+                $status = eZContentCacheManager::clearContentCache( $objectID );
                 $script->iterate( $cli, $status, "Cleared view cache for object $objectID" );
             }
         }

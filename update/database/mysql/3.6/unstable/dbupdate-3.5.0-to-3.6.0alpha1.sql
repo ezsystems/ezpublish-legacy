@@ -24,3 +24,5 @@ CREATE INDEX ezco_link_to_co_id ON ezcontentobject_link ( to_contentobject_id );
 CREATE INDEX ezco_link_from     ON ezcontentobject_link ( from_contentobject_id,
                                                           from_contentobject_version,
                                                           contentclassattribute_id );
+
+DROP TABLE ezsubtree_expiry;

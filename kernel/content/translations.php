@@ -45,7 +45,8 @@ include_once( "lib/ezdb/classes/ezdb.php" );
 
 function translations_clearCache()
 {
-    eZContentObject::expireAllCache();
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    eZContentCacheManager::clearAllContentCache();
 }
 
 $tpl =& templateInit();

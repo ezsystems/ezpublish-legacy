@@ -371,26 +371,8 @@ class eZCache
             eZDir::recursiveDelete( $cachePath );
         }
 
-        include_once( 'lib/ezdb/classes/ezdb.php' );
-        $db =& eZDB::instance();
-
-        $rows = $db->arrayQuery( "SELECT count( cache_file ) AS count FROM ezsubtree_expiry" );
-        $count = $rows[0]['count'];
-        $offset = 0;
-        $limit = 50;
-        while ( $offset < $count )
-        {
-            $entries = $db->arrayQuery( "SELECT cache_file FROM ezsubtree_expiry", array( 'offset' => $offset, 'limit' => $limit ) );
-            if ( count( $entries ) == 0 )
-                break;
-            foreach ( $entries as $entry )
-            {
-                @unlink( $entry['cache_file'] );
-            }
-            $offset += count( $entries );
-        }
-
-        $db->query( "DELETE FROM ezsubtree_expiry" );
+        include_once( 'kernel/classes/ezsubtreecache.php' );
+        eZSubtreeCache::removeAllExpiryCacheFromDisk();
     }
 
     /*!

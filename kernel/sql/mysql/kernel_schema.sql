@@ -1081,16 +1081,6 @@ CREATE TABLE ezsite_data (
 
 
 
-CREATE TABLE ezsubtree_expiry (
-  cache_file varchar(255) NOT NULL default '',
-  subtree int(11) default NULL,
-  KEY ezsubtree_expiry_subtree (subtree)
-) TYPE=MyISAM DELAY_KEY_WRITE=1;
-
-
-
-
-
 CREATE TABLE ezsubtree_notification_rule (
   id int(11) NOT NULL auto_increment,
   node_id int(11) NOT NULL default '0',

@@ -239,6 +239,8 @@ eZInformationCollection:
   (Merged from stable/3.5 (3.5.2) rev. 11188)
 - Fixed bug #6211: Deleting a related object doesnt remove the related reference.
 - Fixed bug #6391: Editing of eZURL results in transaction error.
+- Fixed bug #6175: Subtree_expiry not expiry
+  (Merged from stable/3.5 (3.5.2) rev. 11213)
 
 *Library:
 PDF:

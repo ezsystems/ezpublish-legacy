@@ -178,11 +178,8 @@ if ( $module->isCurrentAction( 'Save' ) )
         @chmod( $template, octdec( $filePermissions ) );
 
         // Expire content view cache
-        if ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' ||
-             $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' )
-        {
-            eZContentObject::expireAllCache();
-        }
+        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        eZContentCacheManager::clearAllContentCache();
 
         $module->redirectTo( '/visual/templateview'. $originalTemplate );
         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
@@ -208,7 +205,7 @@ if ( !is_readable( $fileName ) )
     $tpl->setVariable( 'site_access', $siteAccess );
 
     $Result['content'] =& $tpl->fetch( "design:visual/templateedit_error.tpl" );
-    return;   
+    return;
 }
 
 if ( !is_writable( $fileName ) )
