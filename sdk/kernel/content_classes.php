@@ -169,12 +169,11 @@ if ( $class !== null )
 }
 </pre>
 
+<!-- These should be in the search doc
 <h2>Useful links</h2>
 <ul>
 <li><a href="http://www.sims.berkeley.edu/~hearst/irbook/porter.html">Porter's algorithm</a></li>
 <li><a href="http://www.tartarus.org/~martin/PorterStemmer/">Porter's algorithm #2</a></li>
 <li><a href="http://snowball.sourceforge.net/">Snowball stemming project</a></li>
-
 </ul>
-
-?>
+-->
