@@ -48,7 +48,7 @@
 /// The timestamp for when the format of the cache files were
 /// last changed. This must be updated when the format changes
 /// to invalidate existing cache files.
-define( 'EZ_CHARTRANSFORM_CODEDATE', 1101045295 );
+define( 'EZ_CHARTRANSFORM_CODEDATE', 1101047459 );
 
 class eZCharTransform
 {
@@ -108,7 +108,9 @@ class eZCharTransform
 
         if ( $useCache )
         {
+            $extraCode = '';
             $this->writeCacheFile( $filepath, $transformationData,
+                                   $extraCode,
                                    'Rule', $charsetName );
         }
 
@@ -127,22 +129,12 @@ class eZCharTransform
     */
     function transformByGroup( $text, $group, $charset = false, $useCache = true )
     {
-        $commands = $this->groupCommands( $group );
-        if ( $commands === false )
-            return false;
-
-
+        $charsetName = ( $charset === false ? eZTextCodec::internalCharset() : eZCharsetInfo::realCharsetCode( $charset ) );
         if ( $useCache )
         {
             // CRC32 is used for speed, MD5 would be more unique but is slower
-            $keyText = 'Group:' . $group . '=';
-            foreach ( $commands as $command )
-            {
-                $keyText .= $command['text'] . ';';
-            }
+            $keyText = 'Group:' . $group;
             $key = crc32( $keyText . '-' . $charset );
-
-            $charsetName = ( $charset === false ? eZTextCodec::internalCharset() : eZCharsetInfo::realCharsetCode( $charset ) );
 
             // Try to execute code in the cache file, if it succeeds
             // \a $text will/ transformated
@@ -154,6 +146,10 @@ class eZCharTransform
                 return $text;
             }
         }
+
+        $commands = $this->groupCommands( $group );
+        if ( $commands === false )
+            return false;
 
         // Make sure we have a mapper
         if ( $this->Mapper === false )
@@ -181,12 +177,30 @@ class eZCharTransform
 
         if ( $useCache )
         {
+            $extraCode = '';
+            foreach ( $commands as $command )
+            {
+                $code = $this->Mapper->generateCommandCode( $command, $charsetName );
+                if ( $code !== false )
+                {
+                    $extraCode .= $code . "\n";
+                }
+            }
             $this->storeCacheFile( $filepath, $transformationData,
+                                   $extraCode,
                                    'Group:' . $group, $charsetName );
         }
 
         // Execute transformations
-        return strtr( $text, $transformationData['table'] );
+        $text = strtr( $text, $transformationData['table'] );
+
+        // Execute custom code
+        foreach ( $commands as $command )
+        {
+            $this->Mapper->executeCommandCode( $text, $command, $charsetName );
+        }
+
+        return $text;
     }
 
     /*!
@@ -251,8 +265,7 @@ class eZCharTransform
                     $parameters = explode( ',', $matches[3] );
                 }
                 $rules[] = array( 'command' => $command,
-                                  'parameters' => $parameters,
-                                  'text' => $ruleText );
+                                  'parameters' => $parameters );
             }
         }
 
@@ -296,7 +309,8 @@ class eZCharTransform
      \private
      Stores the mapping table \a $table in the cache file \a $filepath.
     */
-    function storeCacheFile( $filepath, $transformationData, $type, $charsetName )
+    function storeCacheFile( $filepath, $transformationData,
+                             $extraCode, $type, $charsetName )
     {
         $fd = @fopen( $filepath, 'wb' );
         if ( $fd )
@@ -310,6 +324,11 @@ class eZCharTransform
             // The code that does the transformation
             @fwrite( $fd, '$data = ' . var_export( $transformationData, true ) . ";\n" );
             @fwrite( $fd, "\$text = strtr( \$text, \$data['table'] );\n" );
+
+            if ( $extraCode )
+            {
+                @fwrite( $fd, $extraCode );
+            }
 
             @fwrite( $fd, "?>" );
             @fclose( $fd );

@@ -1281,7 +1281,11 @@ class eZCodeMapper
                     $add = $rangeItem[2];
                     for ( $i = $start; $i <= $stop; ++$i )
                     {
-                        if ( count( $allowedRanges ) >= 0 )
+                        if ( count( $allowedRanges ) == 0 )
+                        {
+                            $allowed = true;
+                        }
+                        else
                         {
                             $allowed = false;
                             foreach ( $allowedRanges as $allowedRange )
@@ -1301,7 +1305,9 @@ class eZCodeMapper
                         $replace = eZCodeMapper::ordinalValues( $unicodeMap, $replace );
                         if ( count( $allowedRanges ) == 0 )
                         {
-                            if ( count( $replace ) == 1 )
+                            if ( count( $replace ) == 0 )
+                                $replace = false;
+                            else if ( count( $replace ) == 1 )
                                 $replace = $replace[0];
                             eZCodeMapper::mapExistingCodes( $unicodeMap, $i, $replace );
                             $unicodeMap[$i] = $replace;
@@ -1349,7 +1355,9 @@ class eZCodeMapper
                     $replace = eZCodeMapper::ordinalValues( $unicodeMap, $replace );
                     if ( count( $allowedRanges ) == 0 )
                     {
-                        if ( count( $replace ) == 1 )
+                        if ( count( $replace ) == 0 )
+                            $replace = false;
+                        else if ( count( $replace ) == 1 )
                             $replace = $replace[0];
                         for ( $i = $start; $i <= $stop; ++$i )
                         {
@@ -1408,8 +1416,9 @@ class eZCodeMapper
             $identifier = array( $identifier );
         $table = $this->expandInheritance( $identifier );
         $table = $this->expandInheritance( $table );
-        // Currently hard coded range, should be defined by the current charset
-        $allowedRanges = array( array( 0, 2000 ) );
+
+        // We allow all characters for now
+        $allowedRanges = array();
         $simpleTable = $this->generateSimpleMappingTable( $table, $allowedRanges );
         ksort( $simpleTable );
         return $simpleTable;
@@ -1466,6 +1475,13 @@ class eZCodeMapper
         $rules = array();
         switch ( $name )
         {
+            // Special code handlers
+            case 'url_cleanup':
+            case 'identifier_cleanup':
+            case 'search_cleanup':
+            {
+            } break;
+
             case 'normalize':
             case 'search_normalize':
             case 'decompose':
@@ -1523,6 +1539,88 @@ class eZCodeMapper
             } break;
         }
         return $rules;
+    }
+
+    /*!
+     Generates PHP code for the command \a $command.
+     \param $charsetName The name of the charset the text will be in,
+                         this can be used to generate different code for different charsets.
+     \return A string containing PHP code or \c false if not supported.
+    */
+    function generateCommandCode( $command, $charsetName )
+    {
+        if ( $command['command'] == 'url_cleanup' or
+             $command['command'] == 'identifier_cleanup' )
+        {
+            $code = ( "\$text = strtolower( \$text );\n" .
+                      "\$text = preg_replace( array( \"#[^a-z0-9_ ]#\",\n" .
+                      "                             \"/ /\",\n" .
+                      "                             \"/__+/\",\n" .
+                      "                             \"/^_|_$/\" ),\n" .
+                      "                      array( \" \",\n" .
+                      "                             \"_\",\n" .
+                      "                             \"_\",\n" .
+                      "                             \"\" ),\n" .
+                      "                      \$text );\n" );
+            return $code;
+        }
+        else if ( $command['command'] == 'search_cleanup' )
+        {
+            $code = ( '$text = preg_replace( "#(\.){2,}#", " ", $text );' . "\n" .
+                      '$text = preg_replace( "#^\.#", " ", $text );' . "\n" .
+                      '$text = preg_replace( "#\s\.#", " ", $text );' . "\n" .
+                      '$text = preg_replace( "#\.\s#", " ", $text );' . "\n" .
+                      '$text = preg_replace( "#\.$#", " ", $text );' . "\n" .
+                      '$ini =& eZINI::instance();' . "\n" .
+                      'if ( $ini->variable( \'SearchSettings\', \'EnableWildcard\' ) != \'true\' )' . "\n" .
+                      '{' . "\n" .
+                      '    $text = str_replace( "*", " ", $text );' . "\n" .
+                      '}' . "\n" .
+                      '$text = preg_replace( "(\s+)", " ", $text );' . "\n" );
+            return $code;
+        }
+        return false;
+    }
+
+    /*!
+     Executes custom PHP code for the command \a $command.
+     \param $charsetName The name of the charset the text will be in,
+                         this can be used to execute different code for different charsets.
+     \return \c true if the command is supported, \c false otherwise.
+    */
+    function executeCommandCode( &$text, $command, $charsetName )
+    {
+        if ( $command['command'] == 'url_cleanup' or
+             $command['command'] == 'identifier_cleanup' )
+        {
+            $text = strtolower( $text );
+            $text = preg_replace( array( "#[^a-z0-9_ ]#",
+                                         "/ /",
+                                         "/__+/",
+                                         "/^_|_$/" ),
+                                  array( " ",
+                                         "_",
+                                         "_",
+                                         "" ),
+                                  $text );
+            return true;
+        }
+        else if ( $command['command'] == 'search_cleanup' )
+        {
+            $text = preg_replace( "#(\.){2,}#", " ", $text );
+            $text = preg_replace( "#^\.#", " ", $text );
+            $text = preg_replace( "#\s\.#", " ", $text );
+            $text = preg_replace( "#\.\s#", " ", $text );
+            $text = preg_replace( "#\.$#", " ", $text );
+            $ini =& eZINI::instance();
+            if ( $ini->variable( 'SearchSettings', 'EnableWildcard' ) != 'true' )
+            {
+                $text = str_replace( "*", " ", $text );
+            }
+            $text = preg_replace( "(\s+)", " ", $text );
+            return true;
+        }
+        return false;
     }
 }
 
