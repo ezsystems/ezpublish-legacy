@@ -206,8 +206,11 @@ class eZPDFTable extends Cezpdf
             {
                 if ( isset( $options['cellData'][$realCount.',0']['size'] ) )
                 {
-                    for ( $innerCount = 0; $innerCount < $options['cellData'][$realCount.',0']['size']; $innerCount++ )
+                    $incCount = $options['cellData'][$realCount.',0']['size'];
+                    for ( $innerCount = 0; $innerCount < $incCount; ++$innerCount )
+                    {
                         $cols[$realCount] = $realCount++;
+                    }
                 }
                 else
                 {
@@ -410,6 +413,7 @@ class eZPDFTable extends Cezpdf
             $t += $width + $options['gap'] + 2*$options['cellPadding'];
             $adjustmentWidth += $width;
             $setWidth += $options['gap'] + 2*$options['cellPadding'];
+            $pos[$count+1]=$t;
         }
         $pos['_end_'] = $t;
 
