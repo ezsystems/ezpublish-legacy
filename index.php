@@ -97,9 +97,21 @@ function eZUpdateDebugSettings()
 {
     $ini =& eZINI::instance();
 
-    list( $debugSettings['debug-enabled'], $debugSettings['debug-by-ip'], $debugSettings['debug-ip-list'] ) =
-        $ini->variableMulti( 'DebugSettings', array( 'DebugOutput', 'DebugByIP', 'DebugIPList' ), array ( 'enabled', 'enabled' ) );
-    eZDebug::updateSettings( $debugSettings );
+    $settings = array();
+    list( $settings['debug-enabled'], $settings['debug-by-ip'], $settings['debug-ip-list'], $logList ) =
+        $ini->variableMulti( 'DebugSettings', 
+                             array( 'DebugOutput', 'DebugByIP', 'DebugIPList', 'AlwaysLog' ),
+                             array( 'enabled', 'enabled' ) );
+    $logMap = array( 'notice' => EZ_LEVEL_NOTICE,
+                     'warning' => EZ_LEVEL_WARNING,
+                     'error' => EZ_LEVEL_ERROR,
+                     'debug' => EZ_LEVEL_DEBUG );
+    $settings['always-log'] = array();
+    foreach ( $logMap as $name => $level )
+    {
+        $settings['always-log'][$level] = in_array( $name, $logList );
+    }
+    eZDebug::updateSettings( $settings );
 }
 
 /*!

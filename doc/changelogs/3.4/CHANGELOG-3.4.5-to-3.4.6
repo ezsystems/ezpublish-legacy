@@ -1,6 +1,9 @@
 Changes from 3.4.5 to 3.4.6
 
 *Kernel:
+- Added site.ini setting DebugSetting/AlwaysLog which controls the debug types
+  to always log to files.
+  (Merged from stable/3.5 (3.5.2) rev. 11070)
 
 *Bugfixes:
 - Fixed bug: Template block cache isn't cleared when updating node priorities.
@@ -26,3 +29,8 @@ Changes from 3.4.5 to 3.4.6
 - Fixed: Session data was rewritten in case of HTTP request errors.
 
 *Library:
+
+eZDebug:
+- Added support for choosing which debug levels to always log. By default it
+  will always log errors even if debug output is off.
+  (Merged from stable/3.5 (3.5.2) rev. 11070)

@@ -1023,6 +1023,16 @@ class eZScript
         {
             $debugSettings['debug-styles'] = $cli->terminalStyles();
         }
+        $logList = $ini->variable( 'DebugSettings', 'AlwaysLog' );
+        $logMap = array( 'notice' => EZ_LEVEL_NOTICE,
+                         'warning' => EZ_LEVEL_WARNING,
+                         'error' => EZ_LEVEL_ERROR,
+                         'debug' => EZ_LEVEL_DEBUG );
+        $debugSettings['always-log'] = array();
+        foreach ( $logMap as $name => $level )
+        {
+            $debugSettings['always-log'][$level] = in_array( $name, $logList );
+        }
         eZDebug::updateSettings( $debugSettings );
     }
 
