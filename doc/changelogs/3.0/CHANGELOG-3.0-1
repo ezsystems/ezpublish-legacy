@@ -55,6 +55,7 @@ links to clickable links.
 - Added article comments to demo site.
 - Made sure the session is not started if the DB is not connected, avoids PHP
   core dumps.
+- Fixed checking of successful generation of imagevariations. 
 - Added missing include in collaboration approval.
 
 *SDK :
