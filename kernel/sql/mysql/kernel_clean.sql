@@ -296,14 +296,14 @@ CREATE TABLE ezcontentobject_tree (
 # Dumping data for table 'ezcontentobject_tree'
 #
 
-INSERT INTO ezcontentobject_tree VALUES (1,1,0,1,1,NULL,0,'/1/',NULL,1,16,NULL);
-INSERT INTO ezcontentobject_tree VALUES (2,1,1,23,1,1360594808,1,'/1/2/','',2,7,'frontpage');
-INSERT INTO ezcontentobject_tree VALUES (5,1,4,1,NULL,NULL,1,'/1/5/',NULL,8,15,NULL);
-INSERT INTO ezcontentobject_tree VALUES (11,5,10,1,1,-1609495635,2,'/1/5/11/','',0,0,'users/');
-INSERT INTO ezcontentobject_tree VALUES (12,5,11,1,1,-1609495635,2,'/1/5/12/','',0,0,'users/');
-INSERT INTO ezcontentobject_tree VALUES (13,5,12,1,1,-1609495635,2,'/1/5/13/','',0,0,'users/');
-INSERT INTO ezcontentobject_tree VALUES (14,5,13,1,1,-1609495635,2,'/1/5/14/','',0,0,'users/');
-INSERT INTO ezcontentobject_tree VALUES (15,13,14,1,1,934329528,3,'/1/5/13/15/','',0,0,'users/administrator_users/');
+INSERT INTO ezcontentobject_tree VALUES (1,1,0,1,1,NULL,0,'/1/',NULL,1,16,1,1,0,NULL);
+INSERT INTO ezcontentobject_tree VALUES (2,1,1,23,1,1360594808,1,'/1/2/','',2,7,1,1,0,'frontpage');
+INSERT INTO ezcontentobject_tree VALUES (5,1,4,1,NULL,NULL,1,'/1/5/',NULL,8,15,1,1,0,NULL);
+INSERT INTO ezcontentobject_tree VALUES (11,5,10,1,1,-1609495635,2,'/1/5/11/','',0,0,1,1,0,'users/');
+INSERT INTO ezcontentobject_tree VALUES (12,5,11,1,1,-1609495635,2,'/1/5/12/','',0,0,1,1,0,'users/');
+INSERT INTO ezcontentobject_tree VALUES (13,5,12,1,1,-1609495635,2,'/1/5/13/','',0,0,1,1,0,'users/');
+INSERT INTO ezcontentobject_tree VALUES (14,5,13,1,1,-1609495635,2,'/1/5/14/','',0,0,1,1,0,'users/');
+INSERT INTO ezcontentobject_tree VALUES (15,13,14,1,1,934329528,3,'/1/5/13/15/','',0,0,1,1,0,'users/administrator_users/');
 
 #
 # Table structure for table 'ezcontentobject_version'
@@ -482,19 +482,19 @@ CREATE TABLE eznode_assignment (
 # Dumping data for table 'eznode_assignment'
 #
 
-INSERT INTO eznode_assignment VALUES (2,1,1,1,1);
-INSERT INTO eznode_assignment VALUES (3,4,2,1,1);
-INSERT INTO eznode_assignment VALUES (4,8,2,5,1);
-INSERT INTO eznode_assignment VALUES (144,4,4,1,1);
-INSERT INTO eznode_assignment VALUES (147,210,1,5,1);
-INSERT INTO eznode_assignment VALUES (146,209,1,5,1);
-INSERT INTO eznode_assignment VALUES (145,1,2,1,1);
-INSERT INTO eznode_assignment VALUES (148,9,1,2,1);
-INSERT INTO eznode_assignment VALUES (149,10,1,5,1);
-INSERT INTO eznode_assignment VALUES (150,11,1,5,1);
-INSERT INTO eznode_assignment VALUES (151,12,1,5,1);
-INSERT INTO eznode_assignment VALUES (152,13,1,5,1);
-INSERT INTO eznode_assignment VALUES (153,14,1,13,1);
+INSERT INTO eznode_assignment VALUES (2,1,1,1,1,1,1);
+INSERT INTO eznode_assignment VALUES (3,4,2,1,1,1,1);
+INSERT INTO eznode_assignment VALUES (4,8,2,5,1,1,1);
+INSERT INTO eznode_assignment VALUES (144,4,4,1,1,1,1);
+INSERT INTO eznode_assignment VALUES (147,210,1,5,1,1,1);
+INSERT INTO eznode_assignment VALUES (146,209,1,5,1,1,1);
+INSERT INTO eznode_assignment VALUES (145,1,2,1,1,1,1);
+INSERT INTO eznode_assignment VALUES (148,9,1,2,1,1,1);
+INSERT INTO eznode_assignment VALUES (149,10,1,5,1,1,1);
+INSERT INTO eznode_assignment VALUES (150,11,1,5,1,1,1);
+INSERT INTO eznode_assignment VALUES (151,12,1,5,1,1,1);
+INSERT INTO eznode_assignment VALUES (152,13,1,5,1,1,1);
+INSERT INTO eznode_assignment VALUES (153,14,1,13,1,1,1);
 
 #
 # Table structure for table 'ezorder'
