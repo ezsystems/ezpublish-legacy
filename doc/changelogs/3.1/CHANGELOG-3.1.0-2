@@ -25,6 +25,7 @@ Changes from 3.1.0-1 to 3.1.0-2
   been added to content module.
 - Added missing information from default admin templates.
 - Fixed bug with approval workflow.
+- Fixed regexp in .htaccess_root to allow css and js files.
 - Fixed corrupt product view admin template
 - Fixed broken extension support for new override system
 - Fixed clearing of override and cache-block cache when clearing cache in admin
