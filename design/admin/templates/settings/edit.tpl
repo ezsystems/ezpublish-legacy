@@ -117,8 +117,8 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-    <input class="button" type="submit" name="WriteSetting" value="Save" />
-    <input class="button" type="submit" name="Cancel" value="Cancel" />
+    <input class="button" type="submit" name="WriteSetting" value="{'Save'|i18n( 'design/admin/settings' )}" />
+    <input class="button" type="submit" name="Cancel" value="{'Cancel'|i18n( 'design/admin/settings' )}" />
 
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
