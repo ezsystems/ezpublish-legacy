@@ -303,24 +303,27 @@ function ezcst_onItemClicked( ezpublish_nodeID, defaultItemClickAction )
 */
 function ezcst_foldUnfold( node, bUpdateCookie, bInitFoldUnfoldLabels, bForceFold, bForceUnfold )
 {
-    for ( var i = 0; i < node.childNodes.length; ++i )
+    if( node )
     {
-        var child = node.childNodes[i];
-
-        if ( child["tagName"] && child.tagName.toLowerCase() == "ul" )
+        for ( var i = 0; i < node.childNodes.length; ++i )
         {
-            var node_id     = bUpdateCookie ? node.getAttribute( "id" ) : null;
-            var link_node   = ezjslib_getHTMLChildNodeByTag( node, "a" );
+            var child = node.childNodes[i];
 
-            if( bInitFoldUnfoldLabels == true)
-                ezcst_createUnfoldedLabel( link_node );
+            if ( child["tagName"] && child.tagName.toLowerCase() == "ul" )
+            {
+                var node_id     = bUpdateCookie ? node.getAttribute( "id" ) : null;
+                var link_node   = ezjslib_getHTMLChildNodeByTag( node, "a" );
 
-            ezcst_changeState( node_id, child, link_node, bForceFold, bForceUnfold );
-            break;
-        }
-        else if ( bInitFoldUnfoldLabels && child["tagName"] && child.tagName.toLowerCase() == "span" )
-        {
-            ezcst_createEmptyLabel( child );
+                if( bInitFoldUnfoldLabels == true)
+                    ezcst_createUnfoldedLabel( link_node );
+
+                ezcst_changeState( node_id, child, link_node, bForceFold, bForceUnfold );
+                break;
+            }
+            else if ( bInitFoldUnfoldLabels && child["tagName"] && child.tagName.toLowerCase() == "span" )
+            {
+                ezcst_createEmptyLabel( child );
+            }
         }
     }
 }
