@@ -11,6 +11,9 @@ Changes from 3.3-2 to 3.3-3
 - Fixed eZCache to use eZDir::mkdir when creating folders.
 - Fixed showing correct class list in admin->setup->classes.
 - Added setup node to browse tree.
+- Added searchable support for eZObjectRelation datatype and created common
+  functionality for fetching meta data from attributes
+  (also used in eZObjectRelationList)
 
 *Bugs:
 - Fixed design class/datatype/view/ezselection.tpl

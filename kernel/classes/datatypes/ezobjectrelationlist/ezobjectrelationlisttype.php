@@ -1015,7 +1015,7 @@ class eZObjectRelationListType extends eZDataType
     */
     function metaData( $contentObjectAttribute )
     {
-        $metaData = '';
+        $metaDataArray = array();
         $content =& $contentObjectAttribute->content();
         for ( $i = 0; $i < count( $content['relation_list'] ); ++$i )
         {
@@ -1029,14 +1029,10 @@ class eZObjectRelationListType extends eZDataType
                 $attributes =& $object->contentObjectAttributes( true, $subObjectVersion );
             }
 
-            foreach( array_keys( $attributes ) as $key )
-            {
-                $attribute =& $attributes[$key];
-                $metaData .= ' ' . $attribute->metaData();
-            }
+            $metaDataArray = array_merge( $metaDataArray, eZContentObjectAttribute::metaDataArray( $attributes ) );
         }
 
-        return $metaData;
+        return $metaDataArray;
     }
 
     /*!
