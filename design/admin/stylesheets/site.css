@@ -25,6 +25,7 @@ div#header div#logo
 
 div#search
 {
+    float: right;
 }
 
 div#search form
