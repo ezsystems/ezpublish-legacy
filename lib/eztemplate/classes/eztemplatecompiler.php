@@ -1913,7 +1913,7 @@ $lbracket
 $rbracket
 ";
         $php->addCodePiece( $initText );
-        $php->store();
+        $php->store( true );
     }
 
     /*!
