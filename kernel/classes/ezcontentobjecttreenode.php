@@ -4272,8 +4272,6 @@ WHERE
         }
         $contentobject_id = $this->attribute( 'contentobject_id' );
         $obj =& eZContentObject::fetch( $contentobject_id );
-        die();
-        eZDebug::writeDebug( $obj, ' object in node->object()' );
         $this->ContentObject =& $obj;
         return $obj;
     }
