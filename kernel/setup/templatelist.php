@@ -1,6 +1,6 @@
 <?php
 //
-// Created on: <15-Apr-2003 11:25:31 bf>
+// Created on: <07-May-2003 15:37:09 bf>
 //
 // Copyright (C) 1999-2003 eZ systems as. All rights reserved.
 //
@@ -36,49 +36,21 @@ $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
 
 include_once( "kernel/common/template.php" );
+include_once( "kernel/common/eztemplatedesignresource.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'lib/ezutils/classes/ezdir.php' );
 
-$ini =& eZINI::instance( );
+$ini =& eZINI::instance();
 $tpl =& templateInit();
 
-$viewCacheCleared = false;
-if ( $module->isCurrentAction( 'ClearContentCache' ) )
-{
-    $cacheDir = eZSys::cacheDirectory() . "/" . $ini->variable( 'ContentSettings', 'CacheDir' );
-    eZDir::recursiveDelete( $cacheDir );
-    $viewCacheCleared = true;
-}
+$siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
 
-$iniCacheCleared = false;
-if ( $module->isCurrentAction( 'ClearINICache' ) )
-{
-    $cachedDir = "var/cache/ini/";
-    eZDir::recursiveDelete( $cachedDir );
-    $iniCacheCleared = true;
-}
+$overrideArray =& eZTemplatedesignresource::overrideArray( $siteAccess );
 
-$templateCacheCleared = false;
-if ( $module->isCurrentAction( 'ClearTemplateCache' ) )
-{
-    $cachedDir = "var/cache/template/";
-    eZDir::recursiveDelete( $cachedDir );
-    $templateCacheCleared = true;
-}
-
-if ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' )
-    $tpl->setVariable( "view_cache_enabled", true );
-else
-    $tpl->setVariable( "view_cache_enabled", false );
-
-$tpl->setVariable( "view_cache_cleared", $viewCacheCleared );
-$tpl->setVariable( "ini_cache_cleared", $iniCacheCleared );
-$tpl->setVariable( "template_cache_cleared", $templateCacheCleared );
-
+$tpl->setVariable( 'template_array', $overrideArray );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:setup/cache.tpl" );
+$Result['content'] =& $tpl->fetch( "design:setup/templatelist.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/setup', 'Cache admin' ) ) );
+                                'text' => ezi18n( 'kernel/setup', 'Template admin list' ) ) );
 
 ?>

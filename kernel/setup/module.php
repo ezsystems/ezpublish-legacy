@@ -53,4 +53,36 @@ $ViewList["cache"] = array(
                                     'ClearTemplateCacheButton' => 'ClearTemplateCache' ),
     "params" => array( ) );
 
+$ViewList["info"] = array(
+    "script" => "info.php",
+    "default_navigation_part" => 'ezsetupnavigationpart',
+    "params" => array( ) );
+
+
+$ViewList["templatelist"] = array(
+    "script" => "templatelist.php",
+    "default_navigation_part" => 'ezsetupnavigationpart',
+    "params" => array( ) );
+
+$ViewList["templateview"] = array(
+    "script" => "templateview.php",
+    "default_navigation_part" => 'ezsetupnavigationpart',
+    'single_post_actions' => array( 'SelectCurrentSiteAccessButton' => 'SelectCurrentSiteAccess',
+                                    'NewOverrideButton' => 'NewOverride' ),
+    "params" => array( ) );
+
+$ViewList["templateedit"] = array(
+    "script" => "templateedit.php",
+    "default_navigation_part" => 'ezsetupnavigationpart',
+    'single_post_actions' => array( 'SaveButton' => 'Save',
+                                    'DiscardButton' => 'Discard' ),
+    "params" => array( ) );
+
+$ViewList["templatecreate"] = array(
+    "script" => "templatecreate.php",
+    "default_navigation_part" => 'ezsetupnavigationpart',
+    'single_post_actions' => array( 'CreateOverrideButton' => 'CreateOverride'
+                                    ),
+    "params" => array( ) );
+
 ?>

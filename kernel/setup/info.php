@@ -1,6 +1,6 @@
 <?php
 //
-// Created on: <15-Apr-2003 11:25:31 bf>
+// Created on: <30-Apr-2003 13:40:19 bf>
 //
 // Copyright (C) 1999-2003 eZ systems as. All rights reserved.
 //
@@ -37,48 +37,22 @@ $module =& $Params["Module"];
 
 include_once( "kernel/common/template.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'lib/ezutils/classes/ezdir.php' );
+include_once( 'lib/version.php' );
 
 $ini =& eZINI::instance( );
 $tpl =& templateInit();
 
-$viewCacheCleared = false;
-if ( $module->isCurrentAction( 'ClearContentCache' ) )
-{
-    $cacheDir = eZSys::cacheDirectory() . "/" . $ini->variable( 'ContentSettings', 'CacheDir' );
-    eZDir::recursiveDelete( $cacheDir );
-    $viewCacheCleared = true;
-}
+$db =& eZDB::instance();
 
-$iniCacheCleared = false;
-if ( $module->isCurrentAction( 'ClearINICache' ) )
-{
-    $cachedDir = "var/cache/ini/";
-    eZDir::recursiveDelete( $cachedDir );
-    $iniCacheCleared = true;
-}
-
-$templateCacheCleared = false;
-if ( $module->isCurrentAction( 'ClearTemplateCache' ) )
-{
-    $cachedDir = "var/cache/template/";
-    eZDir::recursiveDelete( $cachedDir );
-    $templateCacheCleared = true;
-}
-
-if ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' )
-    $tpl->setVariable( "view_cache_enabled", true );
-else
-    $tpl->setVariable( "view_cache_enabled", false );
-
-$tpl->setVariable( "view_cache_cleared", $viewCacheCleared );
-$tpl->setVariable( "ini_cache_cleared", $iniCacheCleared );
-$tpl->setVariable( "template_cache_cleared", $templateCacheCleared );
+$tpl->setVariable( 'ezpublish_version', eZPublishSDK::version() . " (" . eZPublishSDK::alias() . ")" );
+$tpl->setVariable( 'php_version', phpversion() );
+$tpl->setVariable( 'apache_version', eZPublishSDK::version() . " (" . eZPublishSDK::alias() . ")" );
+$tpl->setVariable( 'database_info', $db->databaseName() );
 
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:setup/cache.tpl" );
+$Result['content'] =& $tpl->fetch( "design:setup/info.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/setup', 'Cache admin' ) ) );
+                                'text' => ezi18n( 'kernel/setup', 'System information' ) ) );
 
 ?>
