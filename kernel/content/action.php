@@ -96,6 +96,25 @@ if ( $http->hasPostVariable( 'EditButton' )  )
     }
 }
 
+if ( $http->hasPostVariable( 'PreviewPublishButton' )  )
+{
+   if ( $http->hasPostVariable( 'ContentObjectID' ) )
+   {
+       $parameters = array( $http->postVariable( 'ContentObjectID' ) );
+       if ( $http->hasPostVariable( 'ContentObjectVersion' ) )
+       {
+           $parameters[] = $http->postVariable( 'ContentObjectVersion' );
+           if ( $http->hasPostVariable( 'ContentObjectLanguageCode' ) )
+           {
+               $parameters[] = $http->postVariable( 'ContentObjectLanguageCode' );
+           }
+       }
+       $module->setCurrentAction( 'Publish', 'edit' );
+       $module->run( 'edit' , $parameters);
+       return;
+    }
+}
+
 if ( $http->hasPostVariable( 'RemoveButton' ) )
 {
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )

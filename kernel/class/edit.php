@@ -52,11 +52,17 @@ $ClassVersion = null;
 switch ( $Params["FunctionName"] )
 {
     case "up":
+    {
+        $attribute =& eZContentClassAttribute::fetch( $Params["AttributeID"], true, 1,
+                                                      array( "contentclass_id", "version", "placement" ) );
+        $attribute->move( $Params["FunctionName"] == "up" ? false : true );
+        $Module->redirectTo( $Module->functionURI( "edit" ) . "/" . $ClassID );
+    }
     case "down":
     {
         $attribute =& eZContentClassAttribute::fetch( $Params["AttributeID"], true, 1,
-                                                      array( "contentclass_id", "version", "position" ) );
-        $attribute->move( $Params["FunctionName"] == "up" ? false : true );
+                                                      array( "contentclass_id", "version", "placement" ) );
+        $attribute->move( $Params["FunctionName"] == "down" ? true : false );
         $Module->redirectTo( $Module->functionURI( "edit" ) . "/" . $ClassID );
         return;
     } break;

@@ -434,6 +434,9 @@ class eZContentObject extends eZPersistentObject
 
         $db->query( "DELETE FROM ezcontentobject
 		     WHERE id='$delID'" );
+
+        $db->query( "DELETE FROM eznode_assignment
+             WHERE contentobject_id = '$delID'" );
     }
 
 
@@ -940,14 +943,11 @@ class eZContentObject extends eZPersistentObject
 
     function canEdit( )
     {
-         eZDebug::writeError("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW 2");
         if ( !isset( $this->Permissions["can_edit"] ) )
         {
             $this->Permissions["can_edit"] = $this->checkAccess( 'edit' );
         }
         $p = ( $this->Permissions["can_edit"] == 1 );
-        $temp= $this->permissions();
-        eZDebug::writeError($temp,"WWWWWWWWWW");
         return $p;
     }
 

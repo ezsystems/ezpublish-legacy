@@ -34,7 +34,7 @@
 // you.
 //
 
-/*! \file ezenum.php
+/*! \file ezenumobjectvalue.php
 */
 
 include_once( "lib/ezdb/classes/ezdb.php" );

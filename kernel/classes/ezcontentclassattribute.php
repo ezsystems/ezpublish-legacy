@@ -137,6 +137,15 @@ class eZContentClassAttribute extends eZPersistentObject
         return $stored;
     }
 
+    function remove()
+    {
+        $dataType =& $this->dataType();
+        $version = $this->Version;
+        $dataType->deleteStoredClassAttribute( $this, $version );
+        eZPersistentObject::remove();
+    }
+
+
     function &fetch( $id, $asObject = true, $version = 0, $field_filters = null )
     {
         return eZPersistentObject::fetchObject( eZContentClassAttribute::definition(),

@@ -130,6 +130,7 @@ if ( !function_exists ( 'checkContentActions'  ) )
                 $nodeAssignment =& $nodeAssignmentList[$key];
                 $existingNode =& eZContentObjectTreeNode::findNode( $nodeAssignment->attribute( 'parent_node' ) , $object->attribute( 'id' ), true );
                 $runTrigger = true;
+                $status = "";
                 if ( get_class( $existingNode ) == 'ezcontentobjecttreenode' )
                 {
                     if ( $existingNode->attribute( 'contentobject_version' ) == $version->attribute( 'version' ) )
@@ -165,13 +166,9 @@ if ( !function_exists ( 'checkContentActions'  ) )
                         $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
                         $existingNode =&  $parentNode->addChild( $object->attribute( 'id' ), 0, true );
                     }
-                    $sortfieldMap = $http->postVariable( 'SortFieldMap' );
-                    $sortOrderMap = $http->postVariable( 'SortOrderMap' );
-                    $sortOrder = 0;
-                    if ( isset( $sortOrderMap[$nodeAssignment->attribute( 'id' )] ) )
-                        $sortOrder = 1;
-                    $existingNode->setAttribute( 'sort_field', $sortfieldMap[$nodeAssignment->attribute( 'id' )] );
-                    $existingNode->setAttribute( 'sort_order', $sortOrder );
+
+                    $existingNode->setAttribute( 'sort_field', $nodeAssignment->attribute( 'sort_field' ) );
+                    $existingNode->setAttribute( 'sort_order', $nodeAssignment->attribute( 'sort_order' ) );
                     $existingNode->setAttribute( 'contentobject_version', $version->attribute( 'version' ) );
                     $existingNode->setAttribute( 'contentobject_is_published', 1 );
                     if ( $version->attribute( 'main_parent_node_id' ) == $existingNode->attribute( 'parent_node_id' ) )

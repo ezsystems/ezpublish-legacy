@@ -63,7 +63,7 @@ class eZImage extends eZPersistentObject
                                          ),
                       "keys" => array( "contentobject_attribute_id", "version" ),
                       "relations" => array( "contentobject_attribute_id" => array( "class" => "ezcontentobjectattribute",
-                                                                         "field" => "id" ) ),
+                                                                                   "field" => "id" ) ),
                       "class_name" => "eZImage",
                       "name" => "ezimage" );
     }
