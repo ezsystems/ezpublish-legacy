@@ -66,19 +66,19 @@ function checkContentActions( &$module, &$class, &$object, &$version, &$contentO
 {
     if ( $module->isCurrentAction( 'Preview' ) )
     {
-        $module->redirectToView( 'versionview', array( $ObjectID, $EditVersion ) );
+        $module->redirectToView( 'versionview', array( $object->attribute('id'), $EditVersion ) );
         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
     }
 
     if ( $module->isCurrentAction( 'Translate' ) )
     {
-        $module->redirectToView( 'translate', array( $ObjectID, $EditVersion ) );
+        $module->redirectToView( 'translate', array( $object->attribute('id'), $EditVersion ) );
         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
     }
 
     if ( $module->isCurrentAction( 'VersionEdit' ) )
     {
-        $module->redirectToView( 'versions', array( $ObjectID ) );
+        $module->redirectToView( 'versions', array( $object->attribute('id') ) );
         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
     }
 
