@@ -16,6 +16,7 @@ Changes from 3.2-1 to 3.3.0-1
 - added separate handling of http input and custom actions in ezcontentobject.
 - Added fetching object by identifier to content module. Requires attribute data_text to be unique
 - Optimized datatype abstraction calls. Resulting in less memory usage and less database calls.
+- Fixed correct handling of & characters in XML fields, it's now convterted into xhtml codes.
 
 *DataType:
 - Added new datatype eZIniSetting for editing ini settings.

@@ -103,6 +103,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $relatedObjectIDArray[] = $objectID;
                 }
                 $this->ObjectArray =& eZContentObject::fetchIDArray( $relatedObjectIDArray );
+
             }
 
             $sectionNode =& $node[0];
@@ -269,7 +270,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         {
             case '#text' :
             {
-                $tagText .= $tag->content();
+                $tagText .= htmlspecialchars( $tag->content() );
                 // Get rid of linebreak and spaces stored in xml file
                 $tagText = preg_replace( "#[\n]+#", "", $tagText );
                 $tagText = preg_replace( "#    #", "", $tagText );
@@ -606,7 +607,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
     /// Contains the Objects for the <object> tags hashed by ID
     var $ObjectArray = array();
-
 }
 
 ?>
