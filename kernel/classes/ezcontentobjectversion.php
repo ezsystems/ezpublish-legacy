@@ -419,12 +419,7 @@ class eZContentObjectVersion extends eZPersistentObject
 
                     foreach ( $limitationArray as $key => $limitation )
                     {
-                        eZDebug::writeDebug( $key, '$key' );
-                        eZDebug::writeDebug($limitation,"goes here 4");
-//                        if ( $functionName == 'remove' )
-//                        {
-//                            eZDebug::writeNotice( $limitation, 'limitation in check access' );
-//                        }
+                        $access = 'denied';
 
                         if ( $key == 'Class' )
                         {
@@ -450,19 +445,6 @@ class eZContentObjectVersion extends eZPersistentObject
                                 break;
                             }
                         }
-//                         elseif ( $key == 'ParentClass' )
-//                         {
-
-//                             if (  in_array( $this->attribute( 'contentclass_id' ), $limitation ) )
-//                             {
-//                                 $access = 'allowed';
-//                             }
-//                             else
-//                             {
-//                                 $access = 'denied';
-//                                 break;
-//                             }
-//                         }
                         elseif ( $key == 'Section' )
                         {
                             if (  in_array( $object->attribute( 'section_id' ), $limitation ) )
@@ -495,13 +477,8 @@ class eZContentObjectVersion extends eZPersistentObject
                                     $access = 'allowed';
                                 }
                             }
-                            if ( $access == 'allowed' )
+                            if ( $access == 'denied' )
                             {
-                                // do nothing
-                            }
-                            else
-                            {
-                                $access = 'denied';
                                 break;
                             }
                         }
@@ -521,13 +498,8 @@ class eZContentObjectVersion extends eZPersistentObject
                                     }
                                 }
                             }
-                            if ( $access == 'allowed' )
+                            if ( $access == 'denied' )
                             {
-                                // do nothing
-                            }
-                            else
-                            {
-                                $access = 'denied';
                                 break;
                             }
                         }

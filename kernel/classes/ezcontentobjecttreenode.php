@@ -2616,6 +2616,7 @@ WHERE
                 $limitationList = array();
                 foreach ( array_keys( $limitationArray ) as $key  )
                 {
+                    $access = 'denied';
                     switch( $key )
                     {
                         case 'Class':

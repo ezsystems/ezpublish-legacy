@@ -1804,6 +1804,7 @@ class eZContentObject extends eZPersistentObject
                 $limitationList = array();
                 foreach ( array_keys( $limitationArray ) as $key  )
                 {
+                    $access = 'denied';
                     switch( $key )
                     {
                         case 'Class':
@@ -1901,11 +1902,11 @@ class eZContentObject extends eZPersistentObject
                             {
                                 foreach (  $assignedNodes as  $assignedNode )
                                 {
-                                    $path =  $assignedNode->attribute( 'path_string' );
+                                    $path = $assignedNode->attribute( 'path_string' );
                                     $subtreeArray = $limitationArray[$key];
                                     foreach ( $subtreeArray as $subtreeString )
                                     {
-                                        if (  strstr( $path, $subtreeString ) )
+                                        if ( strstr( $path, $subtreeString ) )
                                         {
                                             $access = 'allowed';
                                         }
