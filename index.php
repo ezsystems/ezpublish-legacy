@@ -413,7 +413,11 @@ while ( $moduleRunRequired )
 
         if ( !$translateResult )
         {
-            $translateResult =& eZURLAlias::translateByWildcard( $uri );
+            $useWildcardTranslation = $ini->variable( 'URLTranslator', 'WildcardTranslation' ) == 'enabled';
+            if ( $useWildcardTranslation )
+            {
+                $translateResult =& eZURLAlias::translateByWildcard( $uri );
+            }
         }
 
         // Check if the URL has moved

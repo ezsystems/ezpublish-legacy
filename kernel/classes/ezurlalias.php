@@ -154,7 +154,7 @@ class eZURLAlias extends eZPersistentObject
      \param $isInternal decides if the url is internal or not (user created).
      \return the URL alias object
     */
-    function &create( $sourceURL, $destinationURL, $isInternal = true, $forwardToID = false, $isWildcard = false )
+    function &create( $sourceURL, $destinationURL, $isInternal = true, $forwardToID = false, $isWildcard = EZ_URLALIAS_WILDCARD_TYPE_NONE )
     {
         if ( !$forwardToID )
             $forwardToID = 0;
@@ -189,6 +189,8 @@ class eZURLAlias extends eZPersistentObject
     */
     function store()
     {
+        $this->SourceURL = eZURLAlias::cleanURL( $this->SourceURL );
+        $this->DestinationURL = eZURLAlias::cleanURL( $this->DestinationURL );
         $this->SourceMD5 = md5( $this->SourceURL );
         eZPersistentObject::store();
     }
@@ -570,11 +572,17 @@ WHERE
                 $function = EZURLALIAS_CACHE_FUNCTION;
                 $hasTranslated = false;
                 $url = false;
+                $ini =& eZINI::instance();
+                $maxIterationCount = $ini->variable( 'URLTranslator', 'MaximumWildcardIterations' );
+                $iteration = 0;
                 while ( $function( $uriString, $urlAlias ) )
                 {
                     $hasTranslated = true;
                     $url =& eZURLAlias::fetchBySourceURL( $uriString, true, true, false );
                     if ( $url )
+                        break;
+                    ++$iteration;
+                    if ( $iteration >= $maxIterationCount )
                         break;
                 }
                 if ( $hasTranslated )

@@ -9,8 +9,9 @@
 <div class="object">
 <table cellspacing="4" cellpadding="0">
 <tr>
-    <td>{'System URL'}</td>
-    <td>{'Virtual URL'}</td>
+    <th>{'System URL'}</th>
+    <th>{'Virtual URL'}</th>
+    <th>{'Type'}</th>
 </tr>
 {section name=Alias loop=$alias_list show=$alias_list}
 <tr>
@@ -23,6 +24,20 @@
     </td>
     <td>
         <input type="text" name="URLAliasSourceValue[{$Alias:item.id}]" value="{$Alias:item.source_url|wash}" />
+    </td>
+    <td>
+    {section show=$Alias:item.is_wildcard|gt(0)}
+        Wildcard
+    {section-else}
+        {section show=$Alias:item.forward_to_id|eq(0)}
+            Normal
+        {section-else}
+            Forwarding
+        {/section}
+    {/section}
+    </td>
+    <td>
+        <input type="checkbox" name="URLAliasSelection[{$Alias:item.id}]" value="{$Alias:item.id}" />
     </td>
 </tr>
 {/section}
@@ -37,6 +52,7 @@
 
 
 <input type="submit" name="StoreURLAliasButton" value="{'Store'|i18n('design/standard/content')}" />
+<input type="submit" name="RemoveURLAliasButton" value="{'Remove'}" />
 </div>
 
 <p/>
@@ -57,6 +73,17 @@
     <div class="feedback">
         <p>
         Created forwarding URL from <b>{$forward_info.source|wash}</b> to <b>{$forward_info.destination|wash}</b>.
+        </p>
+    </div>
+    {/section}
+{/section}
+
+{section show=$wildcard_info}
+    {section show=$wildcard_info.error}
+    {section-else}
+    <div class="feedback">
+        <p>
+        Created wildcard URL, translates from  <b>{$wildcard_info.source|wash}</b> to <b>{$wildcard_info.destination|wash}</b>.
         </p>
     </div>
     {/section}
@@ -137,6 +164,47 @@
     </td>
     <td colspan="2">
         {'e.g. /services'}
+    </td>
+</tr>
+<tr>
+    <th colspan="3">
+        {'Wildcard'}
+    </th>
+</tr>
+<tr>
+    <td>
+        {'Old virtual URL'}
+    </td>
+    <td>
+        {'New virtual URL'}
+    </td>
+</tr>
+<tr>
+    <td>
+        <input type="text" name="NewWildcardURLAliasDestination" value="{cond(and($wildcard_info,$wildcard_info.error),$wildcard_info.source,
+                                                                         '')|wash}" />
+    </td>
+    <td>
+        <input type="text" name="NewWildcardURLAliasSource" value="{cond(and($wildcard_info,$wildcard_info.error),$wildcard_info.destination,
+                                                                              '')|wash}" />
+    </td>
+    <td>
+        <div class="buttonblock">
+        <input type="submit" name="NewWildcardURLAliasButton" value="{'Add'|i18n('design/standard/content')}" />
+        </div>
+    </td>
+</tr>
+<tr>
+    <td colspan="3">
+        <input type="checkbox" name="NewWildcardURLAliasIsForwarding" value="1" checked="checked" />{'Forwarding URL'}<br/>
+    </td>
+</tr>
+<tr>
+    <td>
+        {literal}e.g. /dev/{1}{/literal}
+    </td>
+    <td colspan="2">
+        {'e.g. /developer/*'}
     </td>
 </tr>
 </table>
