@@ -129,50 +129,7 @@ class eZStepDatabaseInit extends eZStepInstaller
         $this->PersistenceList['database_info']['use_unicode'] = false;
         if ( $db->isCharsetSupported( 'utf-8' ) )
         {
-        $this->PersistenceList['database_info']['use_unicode'] = true;
-        }
-        else
-        {
-            $primaryLanguage = null;
-            $allLanguages = array();
-            $allLanguageCodes = array();
-            $extraLanguages = array();
-            $primaryLanguageCode = $this->PersistenceList['regional_info']['primary_language'];
-            $extraLanguageCodes = array();
-            if ( isset( $this->PersistenceList['regional_info']['languages'] ) )
-                $extraLanguageCodes = $this->PersistenceList['regional_info']['languages'];
-            $extraLanguageCodes = array_diff( $extraLanguageCodes, array( $primaryLanguageCode ) );
-            if ( isset( $this->PersistenceList['regional_info']['variations'] ) )
-            {
-                $variations = $this->PersistenceList['regional_info']['variations'];
-                foreach ( $variations as $variation )
-                {
-                    $locale = eZLocale::create( $variation );
-                    if ( $locale->localeCode() == $primaryLanguageCode )
-                    {
-                        $primaryLanguage = $locale;
-                    }
-                    else
-                    {
-                        $extraLanguages[] = $locale;
-                    }
-                }
-            }
-            $allLanguages[] =& $primaryLanguage;
-            foreach ( $extraLanguageCodes as $extraLanguageCode )
-            {
-                $allLanguages[] =& eZLocale::create( $extraLanguageCode );
-                $allLanguageCodes[] = $extraLanguageCode;
-            }
-
-            if ( $primaryLanguage === null )
-                $primaryLanguage = eZLocale::create( $this->PersistenceList['regional_info']['primary_language'] );
-
-            $charset = $this->findAppropriateCharset( $primaryLanguage, $allLanguages, false );
-            if ( !$charset )
-            {
-                return 'LanguageOptions';
-            }
+            $this->PersistenceList['database_info']['use_unicode'] = true;
         }
 
         if ( $availDatabases === false ) // not possible to determine if username and password is correct here
