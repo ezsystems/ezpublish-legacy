@@ -58,4 +58,15 @@ Source=content/search.tpl
 MatchFile=search.tpl
 Subdir=templates
 
+[notification_settings]
+Source=notification/handler/ezsubtree/settings/edit.tpl
+MatchFile=notification_subtree_edit.tpl
+Subdir=templates
+
+[edit_user]
+Source=content/edit.tpl
+MatchFile=edit_user.tpl
+Subdir=templates
+Match[class]=4
+
 */ ?>
