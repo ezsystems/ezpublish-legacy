@@ -34,8 +34,11 @@ td.pathline
 
 td.toolbar
 {
-	background-color: #eeeeee;
-	border-bottom: solid 1px #000000;
+  background-color: #eeeeee ;
+  border-bottom: solid 1px #000000;
+  border-left: solid 1px #aaaaaa;
+  padding-right: 8px;
+  padding-left: 8px;
 }
 
 table.path td.bullet

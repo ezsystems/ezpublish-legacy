@@ -122,11 +122,11 @@
     </td>
 </tr>
 <tr>
-    <td colspan="3">
-<table width="100%" cellspacing="0" cellpadding="0">
-<tr>
-    <td  class="pathline" >
+    <td>
 
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td  class="pathline"  colspan="2">
 {* Path start *}
 
 <table class="path" width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -153,6 +153,7 @@
 </table>
 
 {* Path end *}
+
     
     </td>
 </tr>
