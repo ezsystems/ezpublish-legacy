@@ -95,5 +95,17 @@ MatchFile=review_line.tpl
 Subdir=templates
 Match[class]=25
 
+[orderemail]
+Source=shop/orderemail.tpl
+MatchFile=orderemail.tpl
+Subdir=templates/shop
+Match[class]=25
+
+[confirmorder]
+Source=shop/confirmorder.tpl
+MatchFile=confirmorder.tpl
+Subdir=templates/shop
+Match[class]=25
+
 
 */ ?>
