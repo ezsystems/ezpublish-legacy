@@ -297,12 +297,27 @@ class eZObjectForwarder
 
             $sub_text = "";
             $output_name =& $rule["output_name"];
+            $setVariableArray = array();
             $tpl->setVariableRef( $output_name, $input_var, $current_nspace );
+            $setVariableArray[] = $output_name;
+            foreach ( array_keys( $params ) as $paramName )
+            {
+                if ( $paramName == $input_name or
+                     $paramName == $view_var )
+                    continue;
+                $paramValue =& $params[$paramName];
+                $tpl->setVariableRef( $paramName, $paramValue );
+                $setVariableArray[] = $paramName;
+            }
+
             $root->process( $tpl, $sub_text, $current_nspace, $current_nspace );
             $tpl->setIncludeOutput( $uri, $sub_text );
 
             $txt =& $sub_text;
-            $tpl->unsetVariable( $output_name, $current_nspace );
+            foreach ( $setVariableArray as $setVariableName )
+            {
+                $tpl->unsetVariable( $setVariableName, $current_nspace );
+            }
         }
         else
         {
