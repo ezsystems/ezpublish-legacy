@@ -3056,12 +3056,13 @@ CREATE TABLE ezpolicy (
 INSERT INTO ezpolicy VALUES (376,3,'*','content','*');
 INSERT INTO ezpolicy VALUES (308,2,'*','*','*');
 INSERT INTO ezpolicy VALUES (367,6,'*','*','*');
-INSERT INTO ezpolicy VALUES (377,1,'create','content','');
-INSERT INTO ezpolicy VALUES (378,1,'edit','content','');
-INSERT INTO ezpolicy VALUES (379,1,'create','content','');
-INSERT INTO ezpolicy VALUES (380,1,'*','layout','*');
-INSERT INTO ezpolicy VALUES (382,1,'*','shop','*');
-INSERT INTO ezpolicy VALUES (383,1,'read','content','');
+INSERT INTO ezpolicy VALUES (384,1,'create','content','');
+INSERT INTO ezpolicy VALUES (385,1,'edit','content','');
+INSERT INTO ezpolicy VALUES (386,1,'create','content','');
+INSERT INTO ezpolicy VALUES (387,1,'*','layout','*');
+INSERT INTO ezpolicy VALUES (388,1,'*','shop','*');
+INSERT INTO ezpolicy VALUES (389,1,'read','content','');
+INSERT INTO ezpolicy VALUES (390,1,'create','content','');
 
 #
 # Table structure for table 'ezpolicy_limitation'
@@ -3081,13 +3082,15 @@ CREATE TABLE ezpolicy_limitation (
 # Dumping data for table 'ezpolicy_limitation'
 #
 
-INSERT INTO ezpolicy_limitation VALUES (314,377,'Class',0,'create','content');
-INSERT INTO ezpolicy_limitation VALUES (315,377,'ParentClass',0,'create','content');
-INSERT INTO ezpolicy_limitation VALUES (316,378,'Owner',0,'edit','content');
-INSERT INTO ezpolicy_limitation VALUES (317,379,'Class',0,'create','content');
-INSERT INTO ezpolicy_limitation VALUES (318,379,'Section',0,'create','content');
-INSERT INTO ezpolicy_limitation VALUES (319,379,'ParentClass',0,'create','content');
-INSERT INTO ezpolicy_limitation VALUES (321,383,'Class',0,'read','content');
+INSERT INTO ezpolicy_limitation VALUES (322,384,'Class',0,'create','content');
+INSERT INTO ezpolicy_limitation VALUES (323,384,'ParentClass',0,'create','content');
+INSERT INTO ezpolicy_limitation VALUES (324,385,'Owner',0,'edit','content');
+INSERT INTO ezpolicy_limitation VALUES (325,386,'Class',0,'create','content');
+INSERT INTO ezpolicy_limitation VALUES (326,386,'Section',0,'create','content');
+INSERT INTO ezpolicy_limitation VALUES (327,386,'ParentClass',0,'create','content');
+INSERT INTO ezpolicy_limitation VALUES (328,389,'Class',0,'read','content');
+INSERT INTO ezpolicy_limitation VALUES (329,390,'Class',0,'create','content');
+INSERT INTO ezpolicy_limitation VALUES (330,390,'ParentClass',0,'create','content');
 
 #
 # Table structure for table 'ezpolicy_limitation_value'
@@ -3104,22 +3107,24 @@ CREATE TABLE ezpolicy_limitation_value (
 # Dumping data for table 'ezpolicy_limitation_value'
 #
 
-INSERT INTO ezpolicy_limitation_value VALUES (506,314,8);
-INSERT INTO ezpolicy_limitation_value VALUES (507,315,6);
-INSERT INTO ezpolicy_limitation_value VALUES (508,316,1);
-INSERT INTO ezpolicy_limitation_value VALUES (509,317,8);
-INSERT INTO ezpolicy_limitation_value VALUES (510,318,4);
-INSERT INTO ezpolicy_limitation_value VALUES (511,319,8);
-INSERT INTO ezpolicy_limitation_value VALUES (520,321,1);
-INSERT INTO ezpolicy_limitation_value VALUES (521,321,2);
-INSERT INTO ezpolicy_limitation_value VALUES (522,321,5);
-INSERT INTO ezpolicy_limitation_value VALUES (523,321,6);
-INSERT INTO ezpolicy_limitation_value VALUES (524,321,8);
-INSERT INTO ezpolicy_limitation_value VALUES (525,321,22);
-INSERT INTO ezpolicy_limitation_value VALUES (526,321,23);
-INSERT INTO ezpolicy_limitation_value VALUES (527,321,24);
-INSERT INTO ezpolicy_limitation_value VALUES (528,321,25);
-INSERT INTO ezpolicy_limitation_value VALUES (529,321,26);
+INSERT INTO ezpolicy_limitation_value VALUES (530,322,8);
+INSERT INTO ezpolicy_limitation_value VALUES (531,323,6);
+INSERT INTO ezpolicy_limitation_value VALUES (532,324,1);
+INSERT INTO ezpolicy_limitation_value VALUES (533,325,8);
+INSERT INTO ezpolicy_limitation_value VALUES (534,326,4);
+INSERT INTO ezpolicy_limitation_value VALUES (535,327,8);
+INSERT INTO ezpolicy_limitation_value VALUES (536,328,1);
+INSERT INTO ezpolicy_limitation_value VALUES (537,328,2);
+INSERT INTO ezpolicy_limitation_value VALUES (538,328,5);
+INSERT INTO ezpolicy_limitation_value VALUES (539,328,6);
+INSERT INTO ezpolicy_limitation_value VALUES (540,328,8);
+INSERT INTO ezpolicy_limitation_value VALUES (541,328,22);
+INSERT INTO ezpolicy_limitation_value VALUES (542,328,23);
+INSERT INTO ezpolicy_limitation_value VALUES (543,328,24);
+INSERT INTO ezpolicy_limitation_value VALUES (544,328,25);
+INSERT INTO ezpolicy_limitation_value VALUES (545,328,26);
+INSERT INTO ezpolicy_limitation_value VALUES (546,329,23);
+INSERT INTO ezpolicy_limitation_value VALUES (547,330,22);
 
 #
 # Table structure for table 'ezproductcollection'
@@ -12589,7 +12594,8 @@ CREATE TABLE ezsession (
 #
 
 INSERT INTO ezsession VALUES ('0469f0a3452c469845a3e1211b56a03a',1039959460,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}eZUserLoggedInID|s:2:\"14\";FromGroupID|s:1:\"5\";');
-INSERT INTO ezsession VALUES ('d6cf9e974e8bee781433154af9ccefec',1039972184,'eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}BrowseFromPage|s:15:\"/role/assign/1/\";BrowseActionName|s:10:\"AssignRole\";BrowseReturnType|s:8:\"ObjectID\";CustomActionButton|N;BrowseSelectionType|N;');
+INSERT INTO ezsession VALUES ('d6cf9e974e8bee781433154af9ccefec',1039973922,'eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}BrowseFromPage|s:15:\"/role/assign/1/\";BrowseActionName|s:10:\"AssignRole\";BrowseReturnType|s:8:\"ObjectID\";CustomActionButton|N;BrowseSelectionType|N;');
+INSERT INTO ezsession VALUES ('c532679e20ddd5bd5e78117d9ca261ee',1039973925,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"4\";}eZUserLoggedInID|N;');
 
 #
 # Table structure for table 'eztask'

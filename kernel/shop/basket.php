@@ -120,7 +120,18 @@ if ( $http->hasPostVariable( "ContinueShoppingButton" ) )
     $module->redirectTo( $fromURL );
 }
 
-if ( $http->hasPostVariable( "CheckoutButton" ) )
+$doCheckout = false;
+if ( eZHTTPTool::hasSessionVariable( 'DoCheckoutAutomatically' ) )
+{
+    if ( eZHTTPTool::sessionVariable( 'DoCheckoutAutomatically' ) === true )
+    {
+        $doCheckout = true;
+    }
+}
+     
+
+
+if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
 {
     // Check login
     $user =& eZUser::currentUser();
@@ -128,6 +139,7 @@ if ( $http->hasPostVariable( "CheckoutButton" ) )
     if ( !$user->isLoggedIn() )
     {
         eZHTTPTool::setSessionVariable( 'RedirectAfterUserRegister', '/shop/basket/' );
+        eZHTTPTool::setSessionVariable( 'DoCheckoutAutomatically', true );
         $module->redirectTo( '/user/register/' );
         return;
     }

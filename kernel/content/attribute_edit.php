@@ -214,8 +214,11 @@ $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object I
                       array( 'class', $class->attribute( 'id' ) ) // Class ID
                       ) ); // Section ID
 
-include_once( 'kernel/classes/ezsection.php' );
-eZSection::setGlobalID( $object->attribute( 'section_id' ) );
+if ( $OmitSectionSetting !== true )
+{
+    include_once( 'kernel/classes/ezsection.php' );
+    eZSection::setGlobalID( $object->attribute( 'section_id' ) );
+}
 
 $tpl->setVariable( 'edit_version', $EditVersion );
 $tpl->setVariable( 'edit_language', $EditLanguage );

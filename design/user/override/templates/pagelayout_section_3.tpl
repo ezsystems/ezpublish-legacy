@@ -120,13 +120,8 @@
          {/section} 
          {section name=News loop=$news_list offset=1}
          <tr> 
-<<<<<<< .mine
-             <td width="125" bgcolor="#FFF4EA" class="links"> 
-             <a class="small" href="{concat("/content/view/full/",$News:item.node_id,"/")|ezurl}">{$News:item.name}</a>
-=======
              <td class="menuitem"> 
              <p class="readmore"><a href={concat("/content/view/full/",$News:item.node_id,"/")|ezurl}>{$News:item.name}</a></p>
->>>>>>> .r1088
              </td>
          </tr>
          {/section}   

@@ -85,6 +85,11 @@
         </tr>
         <tr> 
             <td bgcolor="#dddddd">
+            &nbsp;<a class="small" href={"user/logout/"|ezurl}>Logout</a>
+            </td>
+        </tr>
+        <tr> 
+            <td bgcolor="#dddddd">
             &nbsp;<a class="small" href={"shop/basket/"|ezurl}>Basket</a>
             </td>
         </tr>
