@@ -898,7 +898,8 @@ class eZModule
         // Loop through user defines parameters
         if ( $userParameters !== false )
         {
-            if ( !is_array( $params['UserParameters'] ) )
+            if ( !isset( $params['UserParameters'] ) or
+                 !is_array( $params['UserParameters'] ) )
             {
                 $params['UserParameters'] = array();
             }

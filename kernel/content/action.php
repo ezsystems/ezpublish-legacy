@@ -51,7 +51,8 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
     if ( $http->hasPostVariable( 'ClassID' ) )
     {
         $contentClassID = $http->postVariable( 'ClassID' );
-        $hasClassInformation = true;
+        if ( $contentClassID )
+            $hasClassInformation = true;
     }
     else if ( $http->hasPostVariable( 'ClassIdentifier' ) )
     {
@@ -60,7 +61,8 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
         if ( is_object( $class ) )
         {
             $contentClassID = $class->attribute( 'id' );
-            $hasClassInformation = true;
+            if ( $contentClassID )
+                $hasClassInformation = true;
         }
     }
     if ( ( $hasClassInformation && $http->hasPostVariable( 'NodeID' ) ) || $module->isCurrentAction( 'NewObjectAddNodeAssignment' ) )

@@ -11,7 +11,7 @@
         <p class="box">{"No relation"|i18n("design/standard/content/datatype")}</p>
     {/section}
 
-    <input type="hidden" name="{$attribute_base}_data_object_relation_id_{$attribute.data_int}" value="{$attribute.data_int}" />
+    <input type="hidden" name="{$attribute_base}_data_object_relation_id_{$attribute.id}" value="{$attribute.data_int}" />
     {section show=$attribute.content}
         <input class="button" type="submit" name="BrowseObjectButton_{$attribute.id}" value="{'Replace object'|i18n('design/standard/content/datatype')}" />
         <input class="button" type="submit" name="RemoveObjectButton_{$attribute.id}" value="{'Remove object'|i18n('design/standard/content/datatype')}" />
@@ -24,13 +24,13 @@
 
 {case match=1} {* Dropdown list *}
     <div class="buttonblock">
-    <select name="{$attribute_base}_data_object_relation_id_{$attribute.data_int}" />
+    <select name="{$attribute_base}_data_object_relation_id_{$attribute.id}" />
         <option value="" {section show=eq( $attribute.data_int, '' )}selected="selected"{/section}>{'No relation'|i18n( 'design/standard/content/datatype' )}</option>
         {let parent_node=fetch( content, node, hash( node_id, $class_content.default_selection_node ) )}
         {section var=node loop=fetch( content, list,
                                       hash( parent_node_id, $parent_node.node_id,
                                             sort_by, $parent_node.sort_array ) )}
-            <option value="{$node.node_id}" {section show=eq( $attribute.data_int, $node.node_id )}selected="selected"{/section}>{$node.name|wash}</option>
+            <option value="{$node.contentobject_id}" {section show=eq( $attribute.data_int, $node.contentobject_id )}selected="selected"{/section}>{$node.name|wash}</option>
         {/section}
         {/let}
     </select>
