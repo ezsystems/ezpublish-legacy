@@ -27,7 +27,8 @@
           {/section}
         </div>
         <div align="bottom">
-          <input type="checkbox" name="eZSetup_site_templates[{$:index}][identifier]" value="{$:item.identifier}">{$:item.name}</input>
+          <input type="checkbox" name="eZSetup_site_templates[{$:index}][checked]" value="{$:item.identifier}">{$:item.name}</input>
+          <input type="hidden" name="eZSetup_site_templates[{$:index}][identifier]" value="{$:item.identifier}" />
           <input type="hidden" name="eZSetup_site_templates[{$:index}][name]" value="{$:item.name}" />
         </div>
       </td>

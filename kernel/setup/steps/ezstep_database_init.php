@@ -123,7 +123,7 @@ class eZStepDatabaseInit extends eZStepInstaller
                                'password' => $dbPwd,
                                'socket' => $dbSocket,
                                'database' => false,
-//                               'database' => $dbName,
+//                                'database' => $dbName,
                                'charset' => $dbCharset );
         $db =& eZDB::instance( $dbDriver, $dbParameters, true );
         $availDatabases = $db->availableDatabases();
