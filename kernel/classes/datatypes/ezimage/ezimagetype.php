@@ -312,7 +312,7 @@ class eZImageType extends eZDataType
     */
     function title( &$contentObjectAttribute, $name = 'original_filename' )
     {
-        $content =& $this->content();
+        $content =& $contentObjectAttribute->content();
         $original = $content->attribute( 'original' );
         $value = $original['alternative_text'];
         if ( trim( $value ) == '' )
