@@ -759,6 +759,19 @@ class eZXMLTextType extends eZDataType
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
                 $tagText .= implode( '', $textElements );
             }break;
+
+            case 'anchor' :
+            {
+                $name = $tag->attributeValue( 'name' );
+
+                $tpl->setVariable( 'name', $name, 'xmltagns' );
+
+                $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
+
+                eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
+                $tagText .= implode( '', $textElements );
+            }break;
+
             default :
             {
                 // unsupported tag

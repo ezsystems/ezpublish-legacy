@@ -363,6 +363,12 @@ class eZXMLInputHandler
                 $output .= "<$tagName href='$href' target='$target'>" . $childTagText . "</$tagName>";
             }break;
 
+            case 'anchor' :
+            {
+                $name = $tag->attributeValue( 'name' );
+                $output .= "<$tagName name='$name' />";
+            }break;
+
             case 'tr' :
             case 'td' :
             case 'paragraph' :
