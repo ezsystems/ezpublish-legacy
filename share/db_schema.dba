@@ -4022,6 +4022,13 @@ $schema = array (
         'type' => 'int',
         'default' => NULL,
       ),
+      'main_node_only' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 1,
+      ),
       'modified' => 
       array (
         'length' => 11,
@@ -4033,6 +4040,13 @@ $schema = array (
         'length' => 11,
         'type' => 'int',
         'default' => NULL,
+      ),
+      'number_of_objects' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
       ),
       'rss_version' => 
       array (
@@ -4114,6 +4128,13 @@ $schema = array (
         'default' => NULL,
       ),
       'status' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'subnodes' => 
       array (
         'length' => 11,
         'type' => 'int',

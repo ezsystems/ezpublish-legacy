@@ -926,15 +926,15 @@ CREATE TABLE ezrss_export (
   description longtext,
   id int(11) NOT NULL auto_increment,
   image_id int(11) default NULL,
+  main_node_only int(11) NOT NULL default '1',
   modified int(11) default NULL,
   modifier_id int(11) default NULL,
+  number_of_objects int(11) NOT NULL default '0',
   rss_version varchar(255) default NULL,
   site_access varchar(255) default NULL,
   status int(11) NOT NULL default '0',
   title varchar(255) default NULL,
   url varchar(255) default NULL,
-  number_of_objects int(11) NOT NULL default '0',
-  main_node_only int(11) NOT NULL default '1',
   PRIMARY KEY  (id,status)
 ) TYPE=MyISAM;
 
@@ -949,8 +949,8 @@ CREATE TABLE ezrss_export_item (
   rssexport_id int(11) default NULL,
   source_node_id int(11) default NULL,
   status int(11) NOT NULL default '0',
-  title varchar(255) default NULL,
   subnodes int(11) NOT NULL default '0',
+  title varchar(255) default NULL,
   PRIMARY KEY  (id,status),
   KEY ezrss_export_rsseid (rssexport_id)
 ) TYPE=MyISAM;

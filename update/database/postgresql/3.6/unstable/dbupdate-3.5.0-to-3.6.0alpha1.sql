@@ -15,12 +15,12 @@ ALTER TABLE ezrss_export_item ALTER subnodes SET DEFAULT 0;
 ALTER TABLE ezrss_export ADD COLUMN number_of_objects integer;
 ALTER TABLE ezrss_export ALTER number_of_objects SET NOT NULL;
 ALTER TABLE ezrss_export ALTER number_of_objects SET DEFAULT 0;
-# Old behaviour of RSS was that it fed 5 items
+-- Old behaviour of RSS was that it fed 5 items
 UPDATE ezrss_export SET number_of_objects='5';
 
 ALTER TABLE ezrss_export ADD COLUMN main_node_only integer;
 ALTER TABLE ezrss_export ALTER main_node_only SET NOT NULL;
 ALTER TABLE ezrss_export ALTER main_node_only SET DEFAULT 1;
-# Old behaviour of RSS was that all nodes have been shown,
-# i.e. including those besides the main node
+-- Old behaviour of RSS was that all nodes have been shown,
+-- i.e. including those besides the main node
 UPDATE ezrss_export SET main_node_only='1';

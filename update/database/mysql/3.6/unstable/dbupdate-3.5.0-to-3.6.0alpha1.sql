@@ -8,13 +8,13 @@ CREATE TABLE eztipafriend_request (
   KEY email_receiver (email_receiver)
 ) TYPE=MyISAM;
 
-ALTER TABLE ezrss_export_item ADD subnodes INT UNSIGNED DEFAULT '0' NOT NULL;
+ALTER TABLE ezrss_export_item ADD subnodes INT(11) UNSIGNED DEFAULT '0' NOT NULL;
 
-ALTER TABLE ezrss_export ADD number_of_objects INT UNSIGNED DEFAULT '0' NOT NULL;
-# Old behaviour of RSS was that it fed 5 items
+ALTER TABLE ezrss_export ADD number_of_objects INT(11) UNSIGNED DEFAULT '0' NOT NULL;
+-- Old behaviour of RSS was that it fed 5 items
 UPDATE ezrss_export SET number_of_objects='5';
 
-ALTER TABLE ezrss_export ADD main_node_only INT UNSIGNED DEFAULT '1' NOT NULL;
-# Old behaviour of RSS was that all nodes have been shown,
-# i.e. including those besides the main node
+ALTER TABLE ezrss_export ADD main_node_only INT(11) UNSIGNED DEFAULT '1' NOT NULL;
+-- Old behaviour of RSS was that all nodes have been shown,
+-- i.e. including those besides the main node
 UPDATE ezrss_export SET main_node_only='0';

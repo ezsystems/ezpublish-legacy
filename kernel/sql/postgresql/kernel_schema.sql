@@ -1890,15 +1890,15 @@ CREATE TABLE ezrss_export (
     description text,
     id integer DEFAULT nextval('ezrss_export_s'::text) NOT NULL,
     image_id integer,
+    main_node_only integer DEFAULT 1 NOT NULL,
     modified integer,
     modifier_id integer,
+    number_of_objects integer DEFAULT 0 NOT NULL,
     rss_version character varying(255),
     site_access character varying(255),
     status integer DEFAULT 0 NOT NULL,
     title character varying(255),
-    url character varying(255),
-    number_of_objects integer DEFAULT 0 NOT NULL,
-    main_node_only integer DEFAULT 1 NOT NULL
+    url character varying(255)
 );
 
 
@@ -1914,8 +1914,8 @@ CREATE TABLE ezrss_export_item (
     rssexport_id integer,
     source_node_id integer,
     status integer DEFAULT 0 NOT NULL,
-    title character varying(255),
-    subnodes integer DEFAULT 0 NOT NULL
+    subnodes integer DEFAULT 0 NOT NULL,
+    title character varying(255)
 );
 
 
