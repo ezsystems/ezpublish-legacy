@@ -214,7 +214,7 @@ else
     $differences = eZDbSchemaChecker::diff( $sourceSchema, $matchSchema, $sourceType, $matchType );
     if ( !$options['check-only'] )
     {
-        $cli->output( "-- Difference in SQL commands for " . SQLName( $matchType ) );
+        $cli->output( "-- Difference in SQL commands for " . SQLName( $sourceType ) );
         $sql = generateSQLChanges( $sourceType, $differences );
         $cli->output( $sql );
     }

@@ -390,14 +390,8 @@ class eZPgsqlSchema
 			$sql_def .= ' ';
 			if ( $add_default_not_null )
 			{
-				if ( isset( $def['default'] ) )
-                {
-					$sql_def .= "DEFAULT '{$def['default']}' ";
-				}
-				if ( isset( $def['not_null'] ) && ( $def['not_null'] ) )
-                {
-					$sql_def .= 'NOT NULL ';
-				}
+                $sql_def .= eZPGSQLSchema::generateDefaultDef( false, false, $def );
+                $sql_def .= eZPGSQLSchema::generateNullDef( false, false, $def );
 			}
 		}
 		else
@@ -407,15 +401,63 @@ class eZPgsqlSchema
 		return $sql_def;
 	}
 
+    /*!
+     \private
+    */
+    function generateDefaultDef( $table_name, $field_name, $def )
+    {
+        $sql_def = '';
+        if ( $table_name and $field_name )
+        {
+            $sql_def .= "ALTER TABLE $table_name ALTER $field_name SET ";
+        }
+        if ( isset( $def['default'] ) )
+        {
+            $sql_def .= "DEFAULT '{$def['default']}' ";
+        }
+        else if ( $table_name and $field_name )
+        {
+            return false;
+        }
+        return $sql_def;
+    }
+
+    /*!
+     \private
+    */
+    function generateNullDef( $table_name, $field_name, $def )
+    {
+        $sql_def = '';
+        if ( $table_name and $field_name )
+        {
+            $sql_def .= "ALTER TABLE $table_name ALTER $field_name SET ";
+        }
+        if ( isset( $def['not_null'] ) && ( $def['not_null'] ) )
+        {
+            $sql_def .= 'NOT NULL ';
+        }
+        else if ( $table_name and $field_name )
+        {
+            return false;
+        }
+        return $sql_def;
+    }
+
 	/*!
 	 * \private
 	 */
 	function generateAddFieldSql( $table_name, $field_name, $def )
 	{
 		$sql = "ALTER TABLE $table_name ADD COLUMN ";
-		$sql .= eZPgsqlSchema::generateFieldDef( $table_name, $field_name, $def );
-
-		return $sql . ";\n";
+		$sql .= eZPgsqlSchema::generateFieldDef( $table_name, $field_name, $def, false ) . ";\n";
+        $defaultSQL = eZPGSQLSchema::generateDefaultDef( $table_name, $field_name, $def );
+        if ( $defaultSQL )
+            $sql .= $defaultSQL . ";\n";
+        $nullSQL = eZPGSQLSchema::generateNullDef( $table_name, $field_name, $def );
+        if ( $nullSQL )
+            $sql .= $nullSQL . ";\n";
+        $sql .= "\n";
+        return $sql;
 	}
 
 	/*!
@@ -423,10 +465,18 @@ class eZPgsqlSchema
 	 */
 	function generateAlterFieldSql( $table_name, $field_name, $def )
 	{
-		$sql = "ALTER TABLE $table_name CHANGE COLUMN $field_name ";
-		$sql .= eZPgsqlSchema::generateFieldDef( $table_name, $field_name, $def, false );
-
-		return $sql . ";\n";
+		$sql = "ALTER TABLE $table_name RENAME COLUMN $field_name TO " . $field_name . "_tmp;\n";
+		$sql .= "ALTER TABLE $table_name ADD COLUMN ";
+		$sql .= eZPgsqlSchema::generateFieldDef( $table_name, $field_name, $def, false ) . ";\n";
+        $defaultSQL = eZPGSQLSchema::generateDefaultDef( $table_name, $field_name, $def );
+        if ( $defaultSQL )
+            $sql .= $defaultSQL . ";\n";
+        $nullSQL = eZPGSQLSchema::generateNullDef( $table_name, $field_name, $def );
+        if ( $nullSQL )
+            $sql .= $nullSQL . ";\n";
+        $sql .= "UPDATE $table_name SET $field_name=" . $field_name . "_tmp;\n";
+        $sql .= "ALTER TABLE $table_name DROP COLUMN " . $field_name . "_tmp;\n\n";
+		return $sql;
 	}
 
 	/*!
