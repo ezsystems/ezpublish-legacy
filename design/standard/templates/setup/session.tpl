@@ -145,7 +145,7 @@ function checkAll()
     </td>
     <td width="19%">
       {section show=or($session.idle.minute|lt(0), $session.idle.hour|lt(0))}
-          {"Timescrew detected"|i18n( "design/standard/setup/session")}
+          {"Time skew detected"|i18n( "design/standard/setup/session")}
       {section-else}
           {$session.idle_time|l10n( shortdatetime )}
       {/section}
