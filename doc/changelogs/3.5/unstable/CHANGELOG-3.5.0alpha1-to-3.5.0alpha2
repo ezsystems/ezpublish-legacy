@@ -141,3 +141,7 @@ eZWebDAV:
   case it is used as a DAV status code.
 - The result of the output buffer is now added to WebDAV log, for instance PHP errors
   and other output.
+- Reworked internal storage of uploaded file to a temporary file,
+  the file will now reuse the original filename and store in a random
+  subdirectory.
+  Storage of file is now done with a simple copy() function.
