@@ -385,18 +385,26 @@ eZModule::setGlobalPathList( $moduleRepositories );
 
 include_once( 'kernel/classes/eznavigationpart.php' );
 
+
 // Start the module loop
 while ( $moduleRunRequired )
 {
+    $objectHasMovedError = false;
+    $objectHasMovedURI = false;
+    // Check for URL translation
     if ( $urlTranslatorAllowed and
          $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled' and
          !$uri->isEmpty() )
     {
-        include_once( 'kernel/classes/ezurltranslator.php' );
-        $urlInstance =& eZURLTranslator::instance();
-        $newURI =& $urlInstance->translate( $uri );
-        if ( $newURI )
-            $uri = $newURI;
+        include_once( 'kernel/classes/ezurlalias.php' );
+        $translateResult =& eZURLAlias::translate( $uri );
+
+        // Check if the URL has moved
+        if ( get_class( $translateResult ) == 'ezurlalias' )
+        {
+            $objectHasMovedURI =& $translateResult->attribute( 'source_url' );
+            $objectHasMovedError = true;
+        }
     }
 
     // Store the last URI for access history for login redirection
@@ -550,7 +558,11 @@ while ( $moduleRunRequired )
 
         if ( $runModuleView )
         {
-            if ( !$moduleAccessAllowed )
+            if ( $objectHasMovedError == true )
+            {
+                $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_MOVED, 'kernel', array( 'new_location' => $objectHasMovedURI ) );
+            }
+            else if ( !$moduleAccessAllowed )
             {
                 $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
             }
