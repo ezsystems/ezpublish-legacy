@@ -54,7 +54,7 @@
    {switch match=$content_object.can_edit}
    {case match=1}
    <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
-   <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
+   <input type="image" src={"edit.png"|ezimage} name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
    {/case}
    {case match=0}
    {/case}
@@ -68,9 +68,7 @@
 
 {section show=$children}
 
-<hr noshade="noshade" />
-
-<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+ <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <th>
     {"Name:"|i18n("design/standard/node/view")}

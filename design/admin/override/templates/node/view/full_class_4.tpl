@@ -14,7 +14,6 @@
 <table cellspacing="5" cellpadding="0" border="0">
 <tr>
 	<td>
-{*	{$node.name|texttoimage('archtura')}  *}
  	<div class="maincontentheader">
         <h1>{$node_name}</h1>
         </div>
@@ -59,7 +58,7 @@
    {switch match=$content_object.can_edit}
    {case match=1}
    <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
-   <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
+   <input type="image" src={"edit.png"|ezimage} name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
    {/case}
    {case match=0}
    {/case}
