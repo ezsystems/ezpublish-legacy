@@ -65,7 +65,6 @@ class eZContentObject extends eZPersistentObject
     function &definition()
     {
         return array( "fields" => array( "id" => "ID",
-                                         "parent_id" => "ParentID",
 //                                         "main_node_id" => "MainNodeID",
                                          "section_id" => "SectionID",
                                          "owner_id" => "OwnerID",
