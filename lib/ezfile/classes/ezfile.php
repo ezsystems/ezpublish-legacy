@@ -89,20 +89,20 @@ class eZFile
             if ( !file_exists( $directory ) )
             {
                 eZDir::mkdir( $directory, eZDir::directoryPermission(), true );
-                eZDebugSetting::writeNotice( 'ezfile-create', "Created directory $directory", 'eZFile::create' );
+//                 eZDebugSetting::writeNotice( 'ezfile-create', "Created directory $directory", 'eZFile::create' );
             }
             $filepath = $directory . '/' . $filename;
         }
         $file = fopen( $filepath, 'w' );
         if ( $file )
         {
-            eZDebugSetting::writeNotice( 'ezfile-create', "Created file $filepath", 'eZFile::create' );
+//             eZDebugSetting::writeNotice( 'ezfile-create', "Created file $filepath", 'eZFile::create' );
             if ( $data )
                 fwrite( $file, $data );
             fclose( $file );
             return true;
         }
-        eZDebugSetting::writeNotice( 'ezfile-create', "Failed creating file $filepath", 'eZFile::create' );
+//         eZDebugSetting::writeNotice( 'ezfile-create', "Failed creating file $filepath", 'eZFile::create' );
         return false;
     }
 

@@ -302,6 +302,12 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     */
     function &createOverrideCache()
     {
+        if ( isset( $GLOBALS['eZSiteBasics'] ) )
+        {
+            $siteBasics = $GLOBALS['eZSiteBasics'];
+            if ( $siteBasics['no-cache-adviced'] )
+                return false;
+        }
         global $eZTemplateOverrideCacheNoPermission;
         if ( $eZTemplateOverrideCacheNoPermission == "nocache" )
         {
