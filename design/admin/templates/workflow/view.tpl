@@ -24,7 +24,7 @@
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
 <div class="context-information">
-<p>{'Last modified'|i18n( 'design/admin/workflow/view' )}:&nbsp;{$workflow.modified|l10n( shortdatetime )}&nbsp;<a href={$workflow.creator.contentobject.main_node.url_alias|ezurl}>{$workflow.creator.contentobject.name}</a></p>
+<p>{'Last modified'|i18n( 'design/admin/workflow/view' )}:&nbsp;{$workflow.modified|l10n( shortdatetime )}&nbsp;<a href={$workflow.creator.contentobject.main_node.url_alias|ezurl}>{$workflow.creator.contentobject.name|wash}</a></p>
 </div>
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>
@@ -40,7 +40,7 @@
 
 <div class="block">
     <label>{'Name'|i18n( 'design/admin/workflow/view' )}:</label>
-    {$workflow.name}
+    {$workflow.name|wash}
 </div>
 
 </div>
@@ -144,7 +144,7 @@
 <tr class="{$Events.sequence}">
     <td>{$Events.item.placement}</td>
     <td>{$Events.item.description}</td>
-    <td>{$Events.item.workflow_type.group_name}/{$Events.item.workflow_type.name}</td>
+    <td>{$Events.item.workflow_type.group_name|wash}/{$Events.item.workflow_type.name|wash}</td>
     <td>{event_view_gui event=$Events.item}</td>
 </tr>
 {/section}

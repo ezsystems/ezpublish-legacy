@@ -2,7 +2,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'%group_name [Workflow group]'|i18n( 'design/admin/workflow/workflowlist',, hash( '%group_name', $group.name ) )} </h1>
+<h1 class="context-title">{'%group_name [Workflow group]'|i18n( 'design/admin/workflow/workflowlist',, hash( '%group_name', $group.name ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -19,7 +19,7 @@
 
 <div class="block">
     <label>{'Name'|i18n( 'design/admin/workflow/workflowlist' )}:</label>
-    {$group.name}
+    {$group.name|wash}
 </div>
 
 </div>
@@ -67,10 +67,10 @@
    {section var=Workflows loop=$workflow_list sequence=array( bglight, bgdark )}
        <tr class="{$Workflows.sequence}">
     <td><input type="checkbox" name="Workflow_id_checked[]" value="{$Workflows.item.id}" title="{'Select workflow for removal.'|i18n( 'design/admin/workflow/workflowlist' )}" /></td>
-    <td><a href={concat( $module.functions.view.uri, '/', $Workflows.item.id )|ezurl}>{$Workflows.item.name}</a></td>
+    <td><a href={concat( $module.functions.view.uri, '/', $Workflows.item.id )|ezurl}>{$Workflows.item.name|wash}</a></td>
     <td>
     {let modifier=fetch( content, object, hash( object_id, $Workflows.item.modifier_id ) )}
-    <a href={$modifier.main_node.url_alias|ezurl}>{$modifier.name}</a>
+    <a href={$modifier.main_node.url_alias|ezurl}>{$modifier.name|wash}</a>
     {/let}
     </td>
     <td>{$Workflows.item.modified|l10n( shortdatetime )}</td>

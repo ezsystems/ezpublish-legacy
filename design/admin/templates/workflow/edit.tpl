@@ -49,7 +49,7 @@
 <th>
 <input type="checkbox" name="WorkflowEvent_id_checked[]" value="{$Events.item.id}" />
 &nbsp;
-{$Events.number}({$Events.item.placement})&nbsp;{$Events.item.workflow_type.group_name}&nbsp;/&nbsp;{$Events.item.workflow_type.name}
+{$Events.number}({$Events.item.placement})&nbsp;{$Events.item.workflow_type.group_name}&nbsp;/&nbsp;{$Events.item.workflow_type.name|wash}
 <div class="right">
 <a href={concat( $module.functions.down.uri, '/', $workflow.id, '/', $Events.item.id )|ezurl}><img src={'button-move_down.gif'|ezimage} height="16" width="16" alt="{'Move down'|i18n( 'design/admin/workflow/edit' )}" title="{'Move down'|i18n( 'design/admin/workflow/edit' )}" /></a>
 &nbsp;
@@ -88,7 +88,7 @@
 <div class="block">
 <select name="WorkflowTypeString">
 {section var=WorkflowTypes loop=$workflow_type_list}
-<option value="{$WorkflowTypes.item.type_string}">{$WorkflowTypes.item.group_name}&nbsp;/&nbsp;{$WorkflowTypes.item.name}</option>
+<option value="{$WorkflowTypes.item.type_string}">{$WorkflowTypes.item.group_name}&nbsp;/&nbsp;{$WorkflowTypes.item.name|wash}</option>
 {/section}
 </select>
 <input class="button" type="submit" name="NewButton" value="{'Add event'|i18n( 'design/admin/workflow/edit' )}" />
