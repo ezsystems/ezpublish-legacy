@@ -140,8 +140,10 @@ class eZScript
 
         eZDebug::setHandleType( EZ_HANDLE_TO_PHP );
 
-        if ( php_sapi_name() != 'cli' and php_sapi_name() != 'cgi-fcgi' )
+        if ( php_sapi_name() != 'cli' )
         {
+            $cli =& eZCLI::instance();
+            $cli->output( "PHP is currently using the '".php_sapi_name()."' interface. Make sure it is using the 'cli' interface." );
             exit( 1 );
         }
 
