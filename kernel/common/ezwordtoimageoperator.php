@@ -52,7 +52,8 @@ class eZWordToImageOperator
     {
         $this->Operators = array( "wordtoimage",
                                   "mimetype_icon", "class_icon", "classgroup_icon", "action_icon", "icon",
-                                  "flag_icon" );
+                                  "flag_icon", "icon_info" );
+        $this->IconInfo = array();
     }
 
     /*!
@@ -85,6 +86,123 @@ class eZWordToImageOperator
                 }
 
                 $operatorValue = str_replace( $replaceText, $icons, $operatorValue );
+            } break;
+
+            // icon_info( <type> ) => array() containing:
+            // - repository - Repository path
+            // - theme - Theme name
+            // - theme_path - Theme path
+            // - size_path_list - Associative array of size paths
+            // - size_info_list - Associative array of size info (width and height)
+            // - icons - Array of icon files, relative to theme and size path
+            // - default - Default icon file, relative to theme and size path
+            case 'icon_info':
+            {
+                if ( !isset( $operatorParameters[0] ) )
+                {
+                    $tpl->missingParameter( $operatorName, 'type' );
+                    return;
+                }
+                $type = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
+
+                // Check if we have it cached
+                if ( isset( $this->IconInfo[$type] ) )
+                {
+                    $operatorValue = $this->IconInfo[$type];
+                    return;
+                }
+
+                $ini =& eZINI::instance( 'icon.ini' );
+                $repository = $ini->variable( 'IconSettings', 'Repository' );
+                $theme = $ini->variable( 'IconSettings', 'Theme' );
+                $groups = array( 'mimetype' => 'MimeIcons',
+                                 'class' => 'ClassIcons',
+                                 'classgroup' => 'ClassGroupIcons',
+                                 'action' => 'ActionIcons',
+                                 'icon' => 'Icons' );
+                $configGroup = $groups[$type];
+                $mapNames = array( 'mimetype' => 'MimeMap',
+                                   'class' => 'ClassMap',
+                                   'classgroup' => 'ClassGroupMap',
+                                   'action' => 'ActionMap',
+                                   'icon' => 'IconMap' );
+                $mapName = $mapNames[$type];
+
+                // Check if the specific icon type has a theme setting
+                if ( $ini->hasVariable( $configGroup, 'Theme' ) )
+                {
+                    $theme = $ini->variable( $configGroup, 'Theme' );
+                }
+
+                // Load icon settings from the theme
+                $themeINI =& eZINI::instance( 'icon.ini', $repository . '/' . $theme );
+
+                $sizes = $themeINI->variable( 'IconSettings', 'Sizes' );
+                if ( $ini->hasVariable( 'IconSettings', 'Sizes' ) )
+                {
+                    $sizes = array_merge( $sizes,
+                                          $ini->variable( 'IconSettings', 'Sizes' ) );
+                }
+
+                $sizePathList = array();
+                $sizeInfoList = array();
+                foreach ( $sizes as $key => $size )
+                {
+                    $pathDivider = strpos( $size, ';' );
+                    if ( $pathDivider !== false )
+                    {
+                        $sizePath = substr( $size, $pathDivider + 1 );
+                        $size = substr( $size, 0, $pathDivider );
+                    }
+                    else
+                    {
+                        $sizePath = $size;
+                    }
+
+                    $width = false;
+                    $height = false;
+                    $xDivider = strpos( $size, 'x' );
+                    if ( $xDivider !== false )
+                    {
+                        $width = (int)substr( $size, 0, $xDivider );
+                        $height = (int)substr( $size, $xDivider + 1 );
+                    }
+                    $sizePathList[$key] = $sizePath;
+                    $sizeInfoList[$key] = array( $width, $height );
+                }
+
+                $map = array();
+
+                // Load mapping from theme
+                if ( $themeINI->hasVariable( $configGroup, $mapName ) )
+                {
+                    $map = array_merge( $map,
+                                        $themeINI->variable( $configGroup, $mapName ) );
+                }
+                // Load override mappings if they exist
+                if ( $ini->hasVariable( $configGroup, $mapName ) )
+                {
+                    $map = array_merge( $map,
+                                        $ini->variable( $configGroup, $mapName ) );
+                }
+
+                $default = false;
+                if ( $themeINI->hasVariable( $configGroup, 'Default' ) )
+                    $default = $themeINI->variable( $configGroup, 'Default' );
+                if ( $ini->hasVariable( $configGroup, 'Default' ) )
+                    $default = $ini->variable( $configGroup, 'Default' );
+
+                // Build return value
+                $iconInfo = array( 'repository' => $repository,
+                                   'theme' => $theme,
+                                   'theme_path' => $repository . '/' . $theme,
+                                   'size_path_list' => $sizePathList,
+                                   'size_info_list' => $sizeInfoList,
+                                   'icons' => $map,
+                                   'default' => $default );
+
+                $this->IconInfo[$type] = $iconInfo;
+                $operatorValue = $iconInfo;
             } break;
 
             case 'flag_icon':
@@ -164,8 +282,8 @@ class eZWordToImageOperator
                 $sizes = $themeINI->variable( 'IconSettings', 'Sizes' );
                 if ( $ini->hasVariable( 'IconSettings', 'Sizes' ) )
                 {
-                    $size = array_merge( $sizes,
-                                         $ini->variable( 'IconSettings', 'Sizes' ) );
+                    $sizes = array_merge( $sizes,
+                                          $ini->variable( 'IconSettings', 'Sizes' ) );
                 }
 
                 if ( isset( $sizes[$sizeName] ) )
@@ -389,5 +507,6 @@ class eZWordToImageOperator
 
     /// \privatesection
     var $Operators;
+    var $IconInfo;
 }
 ?>

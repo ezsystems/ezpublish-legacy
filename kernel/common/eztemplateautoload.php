@@ -72,7 +72,7 @@ $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezwordtoimageoper
                                     'class' => 'eZWordToImageOperator',
                                     'operator_names' => array( 'wordtoimage',
                                                                'mimetype_icon', 'class_icon', 'classgroup_icon', 'action_icon', 'icon',
-                                                               'flag_icon' ) );
+                                                               'flag_icon', 'icon_info' ) );
 
 $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezkerneloperator.php',
                                     'class' => 'eZKernelOperator',

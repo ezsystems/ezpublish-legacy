@@ -27,12 +27,11 @@
 
     {* load icons if preloadClassIcons is enabled *}
     {section show=eq( $:preloadClassIcons, "enabled" )}
-        {let iconsRepository    = ezini( 'IconSettings', 'Repository', 'icon.ini' )
-             iconsTheme         = ezini( 'IconSettings', 'Theme'     , 'icon.ini' )
-             classMap           = ezini( 'ClassIcons'  , 'ClassMap'  , 'icon.ini' )
-             defaultIcon        = ezini( 'ClassIcons'  , 'Default'   , 'icon.ini' )
-             iconsSizesList     = ezini( 'IconSettings', 'Sizes'     , 'icon.ini' )
-             iconsSize          = $:iconsSizesList.$:classIconsSize }
+        {let iconInfo           = icon_info( class )
+             iconsThemePath     = $:iconInfo.theme_path
+             iconsList          = $:iconInfo.icons
+             defaultIcon        = $:iconInfo.default
+             iconSizePath       = $:iconInfo.size_path_list[$:classIconsSize] }
 
             <script language="JavaScript" type="text/javascript"><!--
 
@@ -41,13 +40,13 @@
                 var iconPath        = "";
 
                 // oridinary icons.
-                {section var=icon loop=$:classMap}
-                    iconPath = wwwDirPrefix + "/" + "{$:iconsRepository}" + "/" + "{$:iconsTheme}" + "/" + "{$:iconsSize}" + "/" + "{$:icon}";
+                {section var=icon loop=$:iconsList}
+                    iconPath = wwwDirPrefix + "/" + "{$:iconsThemePath}" + "/" + "{$:iconSizePath}" + "/" + "{$:icon}";
                     iconsList.push( iconPath );
                 {/section}
 
                 // default icon.
-                iconPath = wwwDirPrefix + "/" + "{$:iconsRepository}" + "/" + "{$:iconsTheme}" + "/" + "{$:iconsSize}" + "/" + "{$:defaultIcon}";
+                iconPath = wwwDirPrefix + "/" + "{$:iconsThemePath}" + "/" + "{$:iconSizePath}" + "/" + "{$:defaultIcon}";
                 iconsList.push( iconPath );
 
                 // load them all!!
