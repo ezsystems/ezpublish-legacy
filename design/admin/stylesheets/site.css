@@ -39,7 +39,7 @@ div#search div.block
 div#search input#searchtext
 {
     font-size: 1em;
-    width: 12em;
+    width: 16em;
 }
 
 div#search p
@@ -127,6 +127,11 @@ div#leftmenu-design
 {
 }
 
+div#contentstructure
+{
+    overflow: scroll;
+}
+
 div#rightmenu 
 {
     float: right;
@@ -135,6 +140,28 @@ div#rightmenu
 
 div#rightmenu-design
 {
+}
+
+div#history ul, div#bookmarks ul
+{
+    margin-left: 0;
+}
+
+div#history li, div#bookmarks li
+{
+    list-style-type: none;
+}
+
+div#history img, div#bookmarks img
+{
+    vertical-align: middle;
+}
+
+a.showhide
+{
+    font-family: "Courier New", Courier, monospace;
+    text-decoration: none;
+    color: #000000;
 }
 
 div#maincontent
@@ -183,6 +210,15 @@ div#footer
 }
 
 /* ------------ */
+
+h4
+{
+    margin: 0.5em 0 0 0;
+    padding: 0.25em 0.5em 0.25em 0.5em;
+    border: 1px solid #f8f8f8;
+    border-bottom-color: #d0d0d0;
+    border-right-color: #d0d0d0;
+}
 
 input#searchbutton, input.menubutton
 {

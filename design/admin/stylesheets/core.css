@@ -323,3 +323,8 @@ div.message-error
 {
     display: none;
 }
+
+.spamfilter
+{
+    display: none;
+}

@@ -16,7 +16,7 @@
 
 <!--[if lt IE 6.0]>
 <style>
-div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug in IE 5.5 */
+div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE 5.5 */
 </style>
 <![endif]-->
 
@@ -31,7 +31,7 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 <div id="header-design">
 
 <div id="logo">
-<img src={"images/ezpublish-logo-200x40.gif"|ezdesign} width="200" height="40" alt="" border="0" />
+<a href="/"><img src={"images/ezpublish-logo-200x40.gif"|ezdesign} width="200" height="40" alt="" border="0" /></a>
 </div>
 
 <div id="userstatus">
@@ -46,7 +46,7 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 <form action={"/content/search/"|ezurl} method="get">
     <input id="searchtext" type="text" size="20" name="SearchText" id="Search" value="" />
     <input id="searchbutton" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
-    <p><label><input type="radio" checked="checked" />All content</label> <label><input type="radio" />Current location</label> <a href="/">Advanced</a></p>
+    <p><label><input type="radio" checked="checked" />All content</label> <label><input type="radio" />Current location</label> <a href="/content/advancedsearch/">Advanced</a></p>
 </form>
 </div>
 
@@ -66,25 +66,17 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
     <li><div>
     {* Content menu *}
     {section show=eq($navigation_part.identifier,'ezcontentnavigationpart')}
-    {include uri="design:page_menuheadselected.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','RootNode','content.ini'))}
+    {include uri="design:page_menuheadselected.tpl" menu_text='Content structure'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','RootNode','content.ini'))}
     {section-else}
-    {include uri="design:page_menuheadgray.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','RootNode','content.ini'))}
+    {include uri="design:page_menuheadgray.tpl" menu_text='Content structure'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','RootNode','content.ini'))}
     {/section}
     </div></li>
     <li><div>
     {* Media menu *}
     {section show=eq($navigation_part.identifier,'ezmedianavigationpart')}
-    {include uri="design:page_menuheadselected.tpl" menu_text='Media'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','MediaRootNode','content.ini'))}
+    {include uri="design:page_menuheadselected.tpl" menu_text='Media library'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','MediaRootNode','content.ini'))}
     {section-else}
-    {include uri="design:page_menuheadgray.tpl" menu_text='Media'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','MediaRootNode','content.ini'))}
-    {/section}
-    </div></li>
-    <li><div>
-    {* Shop menu *}
-    {section show=eq($navigation_part.identifier,'ezshopnavigationpart')}
-    {include uri="design:page_menuheadselected.tpl" menu_text='Shop'|i18n('design/admin/layout') menu_url="/shop/orderlist/"}
-    {section-else}
-    {include uri="design:page_menuheadgray.tpl" menu_text='Shop'|i18n('design/admin/layout') menu_url="/shop/orderlist/"}
+    {include uri="design:page_menuheadgray.tpl" menu_text='Media library'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','MediaRootNode','content.ini'))}
     {/section}
     </div></li>
     <li><div>
@@ -93,6 +85,14 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
     {include uri="design:page_menuheadselected.tpl" menu_text='Users'|i18n('design/admin/layout') menu_url="/content/view/full/5/"}
     {section-else}
     {include uri="design:page_menuheadgray.tpl" menu_text='Users'|i18n('design/admin/layout') menu_url="/content/view/full/5/"}
+    {/section}
+    </div></li>
+    <li><div>
+    {* Shop menu *}
+    {section show=eq($navigation_part.identifier,'ezshopnavigationpart')}
+    {include uri="design:page_menuheadselected.tpl" menu_text='Shop'|i18n('design/admin/layout') menu_url="/shop/orderlist/"}
+    {section-else}
+    {include uri="design:page_menuheadgray.tpl" menu_text='Shop'|i18n('design/admin/layout') menu_url="/shop/orderlist/"}
     {/section}
     </div></li>
     <li><div>
@@ -170,7 +170,9 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 <div id="rightmenu">
 <div id="rightmenu-design">
 
-<h3>Right</h3>
+<h3 class="hide">Right</h3>
+
+<!--
 
 	        {section show=fetch('content', 'can_instantiate_classes')}
 	        <form method="post" action={"content/action"|ezurl}>
@@ -182,6 +184,37 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
                             <input class="classbutton" type="submit" name="NewButton" value="{'New'|i18n('design/standard/node/view')}" />
                 </form>
                 {/section}
+-->
+
+<div id="history">
+{section show=eq(ezpreference('history_menu'),'on')}
+ <h4>{"History"|i18n("design/admin/layout")} <a class="showhide" href={"/user/preferences/set/history_menu/off"|ezurl}>[-]</a></h4> 
+<ul>
+{let history_list=fetch(content,recent)}
+{section name=History loop=$history_list}
+<li>{$:item.node.object.content_class.identifier|class_icon( small, $:item.node.object.content_class.name )}&nbsp;<a href={$:item.node.url_alias|ezurl}>{$:item.node.name|wash}</a></li>
+{/section}
+{/let}
+</ul>
+{section-else}
+ <h4>{"History"|i18n("design/admin/layout")} <a class="showhide" href={"/user/preferences/set/history_menu/on"|ezurl}>[+]</a></h4>
+{/section}
+</div>
+
+<div id="bookmarks">
+{section show=eq(ezpreference('bookmark_menu'),'on')}
+ <h4><a href={"/content/bookmark/"|ezurl}>{"Bookmarks"|i18n("design/admin/layout")}</a> <a class="showhide" href={"/user/preferences/set/bookmark_menu/off"|ezurl}>[-]</a></h4> 
+<ul>
+{let bookmark_list=fetch(content,bookmarks)}
+{section name=BookMark loop=$bookmark_list}
+<li>{$:item.node.object.content_class.identifier|class_icon( small, $:item.node.object.content_class.name )}&nbsp;<a href={$:item.node.url_alias|ezurl}>{$:item.node.name|wash}</a></li>
+{/section}
+{/let}
+</ul>
+{section-else}
+ <h4><a href={"/content/bookmark/"|ezurl}>{"Bookmarks"|i18n("design/admin/layout")}</a> <a class="showhide" href={"/user/preferences/set/bookmark_menu/on"|ezurl}>[+]</a></h4> 
+{/section}
+</div>
 
 </div>
 </div>
