@@ -257,7 +257,8 @@ class eZTemplateArrayOperator
         }
 
         $isArray = false;
-        if ( is_array( $operatorParameters[0] ) )
+        if ( isset( $operatorParameters[0] ) and
+             is_array( $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace ) ) )
             $isArray = true;
 
         if ( is_array( $operatorValue ) )
