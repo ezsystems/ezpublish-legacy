@@ -192,7 +192,7 @@ class eZPHPCreator
 
             // Write log message to storage.log
             include_once( 'lib/ezutils/classes/ezlog.php' );
-            eZLog::writeStorageLog( $this->PHPFile, $this->PHPDir );
+            eZLog::writeStorageLog( $this->PHPFile, $this->PHPDir . '/' );
         }
         else
             eZDebug::writeError( "Failed to open file '" . $this->PHPDir . '/' . $this->PHPFile . "'",
