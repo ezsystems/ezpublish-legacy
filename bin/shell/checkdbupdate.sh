@@ -3,11 +3,6 @@
 . ./bin/shell/common.sh
 . ./bin/shell/sqlcommon.sh
 
-#DEVELOPMENT="false"
-#if [ -n $VERSION_STATE ]; then
-#    DEVELOPMENT="true"
-#fi
-
 SUBPATH=""
 if [ "$DEVELOPMENT" == "true" ]; then
     SUBPATH="unstable/"
@@ -76,131 +71,255 @@ PREVIOUS_SCHEMA_URL="http://zev.ez.no/svn/nextgen/versions/$from"
 
 [ -d "$DEST" ] || mkdir "$DEST"
 
+# Helper function to deal with output
+
+function db_type_to_name
+{
+    local type
+    type=$1
+    if [ "$type" == "mysql" ]; then
+	echo "MySQL"
+    elif [ "$type" == "postgresql" ]; then
+	echo "PostgreSQL"
+    else
+	echo "Unknown"
+    fi
+}
+
+function db_step_start
+{
+    local step_name
+    local resource
+    step_name=$1
+    resource=$2
+    echo -n "`$POSITION_STORE``$SETCOLOR_EMPHASIZE`$step_name`$SETCOLOR_NORMAL`"
+    [ -n "$resource" ] && echo -n "($resource)"
+}
+
+function db_step_done
+{
+    local step_name
+    local resource
+    step_name=$1
+    resource=$2
+    echo -n "`$POSITION_RESTORE``$SETCOLOR_COMMENT`$step_name"
+    [ -n "$resource" ] && echo -n "($resource)"
+    echo -n "`$SETCOLOR_NORMAL`"
+}
+
+function db_create_failure
+{
+    local type_name
+    local db_name
+    type_name=`db_type_to_name $1`
+    db_name=$2
+    echo "`$POSITION_RESTORE``$SETCOLOR_FAILURE`Creating($db_name)`$SETCOLOR_NORMAL`"
+    echo "Failed to create $type_name database `$SETCOLOR_EMPHASIZE`$db_name`$SETCOLOR_NORMAL`"
+}
+
+function db_export_failure
+{
+    local type_name
+    local version
+    local schema_url
+    version=$2
+    type_name=`db_type_to_name $1`
+    schema_url=$3
+    echo "`$POSITION_RESTORE``$SETCOLOR_FAILURE`Exporting($version)`$SETCOLOR_NORMAL`"
+    echo "Failed checking out $type_name database schema `$SETCOLOR_EMPHASIZE`$schema_url`$SETCOLOR_NORMAL` from version `$SETCOLOR_EMPHASIZE`$from`$SETCOLOR_NORMAL`"
+}
+
+function db_initialize_failure
+{
+    local type_name
+    local db_name
+    type_name=`db_type_to_name $1`
+    db_name=$2
+    echo "`$POSITION_RESTORE``$SETCOLOR_FAILURE`Initializing`$SETCOLOR_NORMAL`"
+    echo "Failed to initialize $type_name database `$SETCOLOR_EMPHASIZE`$db_name`$SETCOLOR_NORMAL` with kernel_schema.sql"
+}
+
+function db_initialize_failure_setval
+{
+    local type_name
+    local db_name
+    type_name=`db_type_to_name $1`
+    db_name=$2
+    echo "`$POSITION_RESTORE``$SETCOLOR_FAILURE`Initializing`$SETCOLOR_NORMAL`"
+    echo "Failed to initialize $type_name database `$SETCOLOR_EMPHASIZE`$db_name`$SETCOLOR_NORMAL` with setval.sql"
+}
+
+
+function db_update_failure_dbfile
+{
+    local type_name
+    local db_name
+    local from_to_str
+    local dbupdatefile
+    type_name=`db_type_to_name $1`
+    db_name=$2
+    from_to_str=$3
+    dbupdatefile=$4
+    echo "`$POSITION_RESTORE``$SETCOLOR_FAILURE`Updating($from_to_str)`$SETCOLOR_NORMAL`"
+    echo "Failed to run database update `$SETCOLOR_EMPHASIZE`$dbupdatefile`$SETCOLOR_NORMAL` for $type_name database `$SETCOLOR_EMPHASIZE`$db_name`$SETCOLOR_NORMAL`"
+    echo "Update file `$SETCOLOR_EMPHASIZE`$dbupdatefile`$SETCOLOR_NORMAL` does not exist"
+}
+
+function db_update_failure_import
+{
+    local type_name
+    local db_name
+    local from_to_str
+    local dbupdatefile
+    type_name=`db_type_to_name $1`
+    db_name=$2
+    from_to_str=$3
+    dbupdatefile=$4
+    echo "`$POSITION_RESTORE``$SETCOLOR_FAILURE`Updating($from_to_str)`$SETCOLOR_NORMAL`"
+    echo "Failed to run database update `$SETCOLOR_EMPHASIZE`$dbupdatefile`$SETCOLOR_NORMAL` for $type_name database `$SETCOLOR_EMPHASIZE`$db_name`$SETCOLOR_NORMAL`"
+}
+
+function db_validate_failure
+{
+    local type_name
+    local db_name
+    type=$1
+    type_name=`db_type_to_name $1`
+    db_name=$2
+    echo "`$POSITION_RESTORE``$SETCOLOR_FAILURE`Validating`$SETCOLOR_NORMAL`"
+    echo "$type_name database `$SETCOLOR_EMPHASIZE`$db_name`$SETCOLOR_NORMAL` did not validate, this probably means the update file is incorrect"
+    echo "Check the database difference with"
+    echo "./bin/php/ezsqldiff.php --type=$type $db_name share/db_""$type""_schema.dat"
+}
+
+
 if [ "$DB_TYPE" == "mysql" ]; then
     mysqladmin -uroot -f drop "$DATABASE_NAME" &>/dev/null
     echo -n "MySQL:"
-    echo -n " `$POSITION_STORE`Creating($DATABASE_NAME)"
+    echo -n " "
+    db_step_start "Creating" "$DATABASE_NAME"
     mysqladmin -uroot create "$DATABASE_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
-	echo "`$POSITION_RESTORE`Creating(`$SETCOLOR_FAILURE`$DATABASE_NAME`$SETCOLOR_NORMAL`)"
-	echo "Failed to create MySQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL`"
+	db_create_failure $DB_TYPE "$DATABASE_NAME"
 	exit 1
     fi
-    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Creating`$SETCOLOR_NORMAL`($DATABASE_NAME)"
+    db_step_done "Creating" "$DATABASE_NAME"
 
     mysql_schema_url="$PREVIOUS_SCHEMA_URL/kernel/sql/mysql/"
     rm -rf "$DEST/mysql"
-    echo -n " `$POSITION_STORE`Exporting($from)"
+    echo -n " "
+    db_step_start "Exporting" "$from"
     svn export "$mysql_schema_url" "$DEST/mysql" &>/dev/null
     if [ $? -ne 0 ]; then
+	db_export_failure $DB_TYPE "$from" "$mysql_schema_url"
 	echo "`$POSITION_RESTORE`Exporting(`$SETCOLOR_FAILURE`$from`$SETCOLOR_NORMAL`)"
 	echo "Failed checking out MySQL database schema `$SETCOLOR_EMPHASIZE`$mysql_schema_url`$SETCOLOR_NORMAL` from version `$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`"
 	exit 1
     fi
-    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Exporting`$SETCOLOR_NORMAL`($from)"
+    db_step_done "Exporting" "$from"
 
-    echo -n " `$POSITION_STORE`Initializing"
+    echo -n " "
+    db_step_start "Initializing" ""
     mysql -uroot "$DATABASE_NAME" < "$DEST/mysql/kernel_schema.sql" &>/dev/null
     if [ $? -ne 0 ]; then
-	echo
-	echo "Failed to initialize MySQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL` with kernel_schema.sql"
+	db_initialize_failure $DB_TYPE "$DATABASE_NAME"
 	exit 1
     fi
-    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Initializing`$SETCOLOR_NORMAL`"
+    db_step_done "Initializing" ""
 
     rm -rf "$DEST/mysql"
 
     dbupdatefile="update/database/mysql/""$VERSION_BRANCH""/""$SUBPATH""dbupdate-""$from""-to-""$VERSION"".sql"
-    echo -n " `$POSITION_STORE`Updating""($from""=>""$VERSION)"
+    echo -n " "
+    from_to_str="$from""=>""$VERSION"
+    db_step_start "Updating" "$from_to_str"
     if [ ! -f "$dbupdatefile" ]; then
-	echo "`$POSITION_RESTORE`Updating(`$SETCOLOR_FAILURE`$from""=>""$VERSION`$SETCOLOR_NORMAL`)"
-	echo "Failed to run database update `$SETCOLOR_EMPHASIZE`$dbupdatefile`$SETCOLOR_NORMAL` for MySQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL`"
-	echo "Update file `$SETCOLOR_EMPHASIZE`$dbupdatefile`$SETCOLOR_NORMAL` does not exist"
+	db_update_failure_dbfile $DB_TYPE "$DATABASE_NAME" "$from_to_str" "$dbupdatefile"
 	exit 1
     fi
     mysql -uroot "$DATABASE_NAME" < "$dbupdatefile" &>/dev/null
     if [ $? -ne 0 ]; then
-	echo "`$POSITION_RESTORE`Updating(`$SETCOLOR_FAILURE`$from""=>""$VERSION`$SETCOLOR_NORMAL`)"
-	echo "Failed to run database update `$SETCOLOR_EMPHASIZE`$dbupdatefile`$SETCOLOR_NORMAL` for MySQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL`"
+	db_update_failure_import $DB_TYPE "$DATABASE_NAME" "$from_to_str" "$dbupdatefile"
 	exit 1
     fi
-    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Updating`$SETCOLOR_NORMAL`""($from""=>""$VERSION)"
+    db_step_done "Updating" "$from_to_str"
 
-    echo -n " `$POSITION_STORE`Validating"
+    echo -n " "
+    db_step_start "Validating" ""
     ./bin/php/ezsqldiff.php --type=mysql "$DATABASE_NAME" share/db_mysql_schema.dat &>/dev/null
     if [ $? -ne 0 ]; then
-	echo
-	echo "MySQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL` did not validate, this probably means the update file is incorrect"
-	echo "Check the database difference with"
-	echo "./bin/php/ezsqldiff.php --type=mysql $DATABASE_NAME share/db_mysql_schema.dat"
+	db_validate_failure $DB_TYPE "$DATABASE_NAME"
 	exit 1
     fi
-    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Validating`$SETCOLOR_NORMAL`"
+    db_step_done "Validating" ""
 
     echo -n "  `$SETCOLOR_SUCCESS`[  OK  ]`$SETCOLOR_NORMAL`"
     echo
+
 elif [ "$DB_TYPE" == "postgresql" ]; then
+
     dropdb "$DATABASE_NAME" &>/dev/null
     echo -n "PostgreSQL:"
-    echo -n " `$POSITION_STORE`Creating($DATABASE_NAME)"
+    echo -n " "
+    db_step_start "Creating" "$DATABASE_NAME"
     createdb "$DATABASE_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
-	echo "`$POSITION_RESTORE`Creating(`$SETCOLOR_FAILURE`$DATABASE_NAME`$SETCOLOR_NORMAL`)"
-	echo "Failed to create PostgreSQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL`"
+	db_create_failure $DB_TYPE "$DATABASE_NAME"
 	exit 1
     fi
-    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Creating`$SETCOLOR_NORMAL`($DATABASE_NAME)"
+    db_step_done "Creating" "$DATABASE_NAME"
 
     postgresql_schema_url="$PREVIOUS_SCHEMA_URL/kernel/sql/postgresql/"
     rm -rf "$DEST/postgresql"
-    echo -n " `$POSITION_STORE`Exporting($from)"
+    echo -n " "
+    db_step_start "Exporting" "$from"
     svn export "$postgresql_schema_url" "$DEST/postgresql" &>/dev/null
     if [ $? -ne 0 ]; then
-	echo "`$POSITION_RESTORE`Exporting(`$SETCOLOR_FAILURE`$from`$SETCOLOR_NORMAL`)"
-	echo "Failed checking out PostgreSQL database schema `$SETCOLOR_EMPHASIZE`$postgresql_schema_url`$SETCOLOR_NORMAL` from version `$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`"
+	db_export_failure $DB_TYPE "$from" "$postgresql_schema_url"
 	exit 1
     fi
-    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Exporting`$SETCOLOR_NORMAL`($from)"
+    db_step_done "Exporting" "$from"
 
-    echo -n " `$POSITION_STORE`Initializing"
+    echo -n " "
+    db_step_start "Initializing" ""
     psql "$DATABASE_NAME" < "$DEST/postgresql/kernel_schema.sql" &>/dev/null
     if [ $? -ne 0 ]; then
-	echo
-	echo "Failed to initialize PostgreSQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL` with kernel_schema.sql"
+	db_initialize_failure $DB_TYPE "$DATABASE_NAME"
 	exit 1
     fi
     if [ "$has_setval" == "true" ]; then
 	psql "$DATABASE_NAME" < "$DEST/postgresql/setval.sql" &>/dev/null
 	if [ $? -ne 0 ]; then
-	    echo
-	    echo "Failed to initialize PostgreSQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL` with setval.sql"
-	    exit 1
+	    db_initialize_failure_setval $DB_TYPE "$DATABASE_NAME"
 	fi
     fi
-    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Initializing`$SETCOLOR_NORMAL`"
+    db_step_done "Initializing" ""
 
     rm -rf "$DEST/postgresql"
 
     dbupdatefile="update/database/postgresql/""$VERSION_BRANCH""/""$SUBPATH""dbupdate-""$from""-to-""$VERSION"".sql"
-    echo -n " `$POSITION_STORE`Updating""($from""=>""$VERSION)"
+    echo -n " "
+    from_to_str="$from""=>""$VERSION"
+    db_step_start "Updating" "$from_to_str"
+    if [ ! -f "$dbupdatefile" ]; then
+	db_update_failure_dbfile $DB_TYPE "$DATABASE_NAME" "$from_to_str" "$dbupdatefile"
+	exit 1
+    fi
     psql "$DATABASE_NAME" < "$dbupdatefile" &>/dev/null
     if [ $? -ne 0 ]; then
-	echo "`$POSITION_RESTORE`""(`$SETCOLOR_FAILURE`$from""=>""$VERSION`$SETCOLOR_NORMAL`)"
-	echo "Failed to run database update `$SETCOLOR_EMPHASIZE`$dbupdatefile`$SETCOLOR_NORMAL` for PostgreSQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL`"
+	db_update_failure_import $DB_TYPE "$DATABASE_NAME" "$from_to_str" "$dbupdatefile"
 	exit 1
     fi
-    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Updating`$SETCOLOR_NORMAL`""($from""=>""$VERSION)"
+    db_step_done "Updating" "$from_to_str"
 
-    echo -n " `$POSITION_STORE`Validating"
+    echo -n " "
+    db_step_start "Validating" ""
     ./bin/php/ezsqldiff.php --type=postgresql "$DATABASE_NAME" share/db_postgresql_schema.dat &>/dev/null
     if [ $? -ne 0 ]; then
-	echo
-	echo "MySQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL` did not validate, this probably means the update file is incorrect"
-	echo "Check the database difference with"
-	echo "./bin/php/ezsqldiff.php --type=postgresql $DATABASE_NAME share/db_postgresql_schema.dat"
+	db_validate_failure $DB_TYPE "$DATABASE_NAME"
 	exit 1
     fi
-    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Validating`$SETCOLOR_NORMAL`"
+    db_step_done "Validating" ""
 
     echo -n "  `$SETCOLOR_SUCCESS`[  OK  ]`$SETCOLOR_NORMAL`"
     echo
