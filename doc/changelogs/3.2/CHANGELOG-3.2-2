@@ -31,6 +31,11 @@ Changes from 3.2-1 to 3.2-2
   and logging out.
 - Made sure the shopping orders get their own product collections before the checkout is started.
 
+*Notification:
+- Made sure the subtree handlers sets some design keys for template overriding.
+- The default subtree notification email will not report updates to objects
+  different from new objects.
+
 *DataType:
 eZURL:
 - Fixed bug with the URL datatype creating empty entries in the URL database
@@ -64,6 +69,8 @@ eZ template:
   than the specified maximum length.
 - Fixed bug in cond operator, the iterator was not multiplied with 2 and caused
   the expression to fail.
+- The 'indent' operator may now have custom indent type which is specified as the
+  fourth parameter.
 
 eZ session:
 - Added setting for controlling cookie timeout value.

@@ -84,7 +84,10 @@ class eZTemplateTextOperator
                                                                            'default' => false ),
                                                   'indent_type' => array( 'type' => 'identifier',
                                                                           'required' => false,
-                                                                          'default' => 'space' ) ) );
+                                                                          'default' => 'space' ),
+                                                  'indent_filler' => array( 'type' => 'string',
+                                                                            'required' => false,
+                                                                            'default' => false ) ) );
     }
 
     /*!
@@ -109,6 +112,7 @@ class eZTemplateTextOperator
             {
                 $indentCount = $namedParameters['indent_count'];
                 $indentType = $namedParameters['indent_type'];
+                $filler = false;
                 switch ( $indentType )
                 {
                     case 'space':
@@ -119,6 +123,10 @@ class eZTemplateTextOperator
                     case 'tab':
                     {
                         $filler = "\t";
+                    } break;
+                    case 'custom':
+                    {
+                        $filler = $namedParameters['indent_filler'];
                     } break;
                 }
                 $text = '';
