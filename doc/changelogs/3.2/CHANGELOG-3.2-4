@@ -7,7 +7,8 @@ Changes from 3.2-3 to 3.2-4
 - Fixed subTreeCount() function in eZContentObjectTreeNode to allow the use of class identifiers in the
   ClassFilterArray just as the subTree() function does.
 - Fixed the empty entry for AdditionalSiteDesignList in site.ini.
-- Added check if node_id is numeric when fetching content objects
+- Added check if node_id is numeric when fetching content objects.
+- Made sure the attribute_base variable is used for all edit datatype templates.
 
 *Bugfixes:
 - Fixed copy object bug. Current version was not set, multiple version copy did not set object name and redirect did not contain version number.

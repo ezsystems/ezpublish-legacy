@@ -1,4 +1,4 @@
-{default attribute_base='ContentObjectAttribute'}
+{default attribute_base=ContentObjectAttribute}
 <div class="block">
 <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}000000" />
 
