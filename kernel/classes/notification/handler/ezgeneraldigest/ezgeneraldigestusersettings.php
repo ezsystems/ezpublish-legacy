@@ -48,6 +48,7 @@
 define( 'EZ_DIGEST_SETTINGS_TYPE_NONE', 0 );
 define( 'EZ_DIGEST_SETTINGS_TYPE_WEEKLY', 1 );
 define( 'EZ_DIGEST_SETTINGS_TYPE_MONTHLY', 2 );
+define( 'EZ_DIGEST_SETTINGS_TYPE_DAILY', 3 );
 
 class eZGeneralDigestUserSettings extends eZPersistentObject
 {

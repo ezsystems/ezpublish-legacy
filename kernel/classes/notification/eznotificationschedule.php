@@ -60,40 +60,67 @@ class eZNotificationSchedule
     {
         if ( !is_array( $settings ) )
             return false;
-        if ( $settings['frequency'] == 'week' )
+
+        $dayNum = $settings['day'];
+        $hour = $settings['hour'];
+        $currentDate = getdate();
+        $hoursDiff = $hour - $currentDate['hours'];
+
+        switch ( $settings['frequency'] )
         {
-            $hour = $settings['time'];
-            $days = array( 0 => 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' );
-            $day = $days[$settings['day']];
-            $sendDate = strtotime( "first $day" ) + $hour * 3600;
-
-            $oneWeek = 3600*24*7;
-
-            if ( $sendDate < time() )
+            case 'day':
             {
-                $sendDate += $oneWeek;
-            }
-            else if ( $sendDate > time() + $oneWeek )
-            {
-                $sendDate -= $oneWeek;
-            }
-
-            /* Ugly hack to work around a bug in PHP =< 4.3.6. strtotime() will
-             * return a time one hour too late if DST is in effect when using
-             * "first *". */
-            if ( version_compare( phpversion(), "4.3.6", "<=" ) )
-            {
-                $lt = localtime( $sendDate, true );
-                if ( $lt['tm_isdst'] )
+                if ( $hoursDiff <= 0 )
                 {
-                    $sendDate -= 3600;
+                    $hoursDiff += 24;
                 }
-            }
 
-            eZDebugSetting::writeDebug( 'kernel-notification', getdate( $sendDate ), "item date"  );
-            $item->setAttribute( 'send_date', $sendDate );
-            return $sendDate;
+                $secondsDiff = 3600 * $hoursDiff
+                     - $currentDate['seconds']
+                     - 60 * $currentDate['minutes'];
+            } break;
+
+            case 'week':
+            {
+                $daysDiff = $dayNum - $currentDate['wday'];
+                if ( $daysDiff < 0 or
+                     ( $daysDiff == 0 and $hoursDiff <= 0 ) )
+                {
+                    $daysDiff += 7;
+                }
+
+                $secondsDiff = 3600 * ( $daysDiff * 24 + $hoursDiff )
+                     - $currentDate['seconds']
+                     - 60 * $currentDate['minutes'];
+            } break;
+
+            case 'month':
+            {
+                // If the daynum the user has chosen is larger than the number of days in this month,
+                // then reduce it to the number of days in this month.
+                $daysInMonth = intval( date( 't', mktime( 0, 0, 0, $currentDate['mon'], 1, $currentDate['year'] ) ) );
+                if ( $dayNum > $daysInMonth )
+                {
+                    $dayNum = $daysInMonth;
+                }
+
+                $daysDiff = $dayNum - $currentDate['mday'];
+                if ( $daysDiff < 0 or
+                     ( $daysDiff == 0 and $hoursDiff <= 0 ) )
+                {
+                    $daysDiff += 31;
+                }
+
+                $secondsDiff = 3600 * ( $daysDiff * 24 + $hoursDiff )
+                     - $currentDate['seconds']
+                     - 60 * $currentDate['minutes'];
+            } break;
         }
+
+        $sendDate = mktime() + $secondsDiff;
+        eZDebugSetting::writeDebug( 'kernel-notification', getdate( $sendDate ), "item date"  );
+        $item->setAttribute( 'send_date', $sendDate );
+        return $sendDate;
     }
 }
 

@@ -151,7 +151,7 @@ class eZLocale
         $this->TimePHPArray = array( 'g', 'G', 'h', 'H', 'i', 's', 'U', 'I', 'L', 't' );
         $this->DatePHPArray = array( 'd', 'j', 'm', 'n', 'O', 'T', 'U', 'w', 'W', 'Y', 'y', 'z', 'Z', 'I', 'L', 't' );
         $this->DateTimePHPArray = array( 'd', 'j', 'm', 'n', 'O', 'T', 'U', 'w', 'W', 'Y', 'y', 'z', 'Z',
-                                         'g', 'G', 'h', 'H', 'i', 's', 'U', 'I', 'L', 't' );
+                                         'g', 'G', 'h', 'H', 'i', 's', 'U', 'I', 'L', 't', 'l', 'a' );
         $this->TimeArray = preg_replace( '/.+/', '%$0', $this->TimePHPArray );
         $this->DateArray = preg_replace( '/.+/', '%$0', $this->DatePHPArray );
         $this->DateTimeArray = preg_replace( '/.+/', '%$0', $this->DateTimePHPArray );
@@ -435,7 +435,7 @@ class eZLocale
                 $this->AllowedCharsets[] = $languageINI->variable( 'Charset', 'Preferred' );
         }
 
-        
+
         if ( !is_array( $this->ShortDayNames ) )
             $this->ShortDayNames = array();
         if ( !is_array( $this->LongDayNames ) )
@@ -451,7 +451,7 @@ class eZLocale
                 $this->LongDayNames[$day] = $tmpLongDayNames[$key];
         }
 
-        
+
         if ( !is_array( $this->ShortMonthNames ) )
             $this->LongMonthNames = array();
         if ( !is_array( $this->ShortMonthNames ) )
@@ -614,8 +614,8 @@ class eZLocale
                       'currency_name' => 'currencyName',
                       'currency_short_name' => 'currencyShortName',
                       'is_monday_first' => 'isMondayFirst',
-                      'weekday_list' => 'weekDayNames',
-                      'weekday_name_list' => 'weekDays',
+                      'weekday_name_list' => 'weekDayNames',
+                      'weekday_number_list' => 'weekDays',
                       'month_list' => 'months',
                       'is_valid' => 'isValid'
                       );
@@ -916,7 +916,7 @@ class eZLocale
     */
     function getFormattingFunction( $qualifier )
     {
-        if (isset ( $this->functionMap[$qualifier] ) )
+        if ( isset( $this->functionMap[$qualifier] ) )
         {
             return $this->functionMap[$qualifier];
         }

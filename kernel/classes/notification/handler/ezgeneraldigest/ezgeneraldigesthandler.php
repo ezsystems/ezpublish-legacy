@@ -70,6 +70,10 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
         {
             return true;
         }
+        else if ( $attr == 'all_month_days' )
+        {
+            return true;
+        }
         else if ( $attr == 'available_hours' )
         {
             return true;
@@ -87,7 +91,11 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
         else if ( $attr == 'all_week_days' )
         {
             $locale =& eZLocale::instance();
-            return $locale->attribute( 'weekday_list' );
+            return $locale->attribute( 'weekday_name_list' );
+        }
+        else if ( $attr == 'all_month_days' )
+        {
+            return range( 1, 31 );
         }
         else if ( $attr == 'available_hours' )
         {
@@ -157,8 +165,8 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
                 $transport =& eZNotificationTransport::instance( 'ezmail' );
                 $transport->send( $address, $subject, $result);
                 eZDebugSetting::writeDebug( 'kernel-notification', $result, "digest result" );
-
             }
+
             $collectionItemIDList =& $tpl->variable( 'collection_item_id_list' );
             eZDebugSetting::writeDebug( 'kernel-notification', $collectionItemIDList, "handled items" );
 
@@ -222,7 +230,6 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
         return $items;
     }
 
-
     function prepareDigestItemsForUser( $userAddress,  $itemsResult, &$i )
     {
         $userHandlers = array();
@@ -237,6 +244,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
             }
         }
     }
+
     function storeSettings( &$http, &$module )
     {
         $user =& eZUser::currentUser();
@@ -247,11 +255,17 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
              $http->hasPostVariable( 'ReceiveDigest_' . EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) == '1' )
         {
             $settings->setAttribute( 'receive_digest', 1 );
-/////Needs to support differen types of digests
-            $settings->setAttribute( 'digest_type', EZ_DIGEST_SETTINGS_TYPE_WEEKLY );
-            $settings->setAttribute( 'day', $http->postVariable( 'Weekday_' . EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) );
+            $digestType = $http->postVariable( 'DigestType_' . EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID );
+            $settings->setAttribute( 'digest_type', $digestType );
+            if ( $digestType == 1 )
+            {
+                $settings->setAttribute( 'day', $http->postVariable( 'Weekday_' . EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) );
+            }
+            else if ( $digestType == 2 )
+            {
+                $settings->setAttribute( 'day', $http->postVariable( 'Monthday_' . EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) );
+            }
             $settings->setAttribute( 'time', $http->postVariable( 'Time_' . EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) );
-//
             $settings->store();
         }
         else

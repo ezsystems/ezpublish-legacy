@@ -192,6 +192,10 @@ class eZSubTreeHandler extends eZNotificationEventHandler
 
         $userList =& eZSubtreeNotificationRule::fetchUserList( $nodeIDList, $contentObject );
 
+        $locale =& eZLocale::instance();
+        $weekDayNames = $locale->attribute( 'weekday_name_list' );
+        $weekDaysByName = array_flip( $weekDayNames );
+
         foreach( $userList as $subscriber )
         {
             $item =& $collection->addItem( $subscriber['address'] );
@@ -200,12 +204,29 @@ class eZSubTreeHandler extends eZNotificationEventHandler
                 $settings =& eZGeneralDigestUserSettings::fetchForUser( $subscriber['address'] );
                 if ( !is_null( $settings ) && $settings->attribute( 'receive_digest' ) == 1 )
                 {
-                    $hours = $settings->attribute( 'time' );
-                    $hoursArray = explode( ':', $hours );
-                    $hours = $hoursArray[0];
-                    eZNotificationSchedule::setDateForItem( $item, array( 'frequency' => 'week',
-                                                                          'day' => $settings->attribute( 'day' ),
-                                                                          'time' => $hours ) );
+                    $time = $settings->attribute( 'time' );
+                    $timeArray = explode( ':', $time );
+                    $hour = $timeArray[0];
+
+                    if ( $settings->attribute( 'digest_type' ) == EZ_DIGEST_SETTINGS_TYPE_DAILY )
+                    {
+                        eZNotificationSchedule::setDateForItem( $item, array( 'frequency' => 'day',
+                                                                              'hour' => $hour ) );
+                    }
+                    else if ( $settings->attribute( 'digest_type' ) == EZ_DIGEST_SETTINGS_TYPE_WEEKLY )
+                    {
+                        $weekday = $weekDaysByName[ $settings->attribute( 'day' ) ];
+                        eZNotificationSchedule::setDateForItem( $item, array( 'frequency' => 'week',
+                                                                              'day' => $weekday,
+                                                                              'hour' => $hour ) );
+                    }
+                    else if ( $settings->attribute( 'digest_type' ) == EZ_DIGEST_SETTINGS_TYPE_MONTHLY )
+                    {
+                        eZNotificationSchedule::setDateForItem( $item,
+                                                                array( 'frequency' => 'month',
+                                                                       'day' => $settings->attribute( 'day' ),
+                                                                       'hour' => $hour ) );
+                    }
                     $item->store();
                 }
             }
