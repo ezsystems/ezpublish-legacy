@@ -18,7 +18,7 @@
 {set-block scope=root variable=message_id}{concat('<node.',$object.main_node_id,'.eznotification','@',ezini("SiteSettings","SiteURL"),'>')}{/set-block}
 {set-block scope=root variable=reply_to}{concat('<node.',$object.main_node.parent_node_id,'.eznotification','@',ezini("SiteSettings","SiteURL"),'>')}{/set-block}
 {set-block scope=root variable=references}{section name=Parent loop=$object.main_node.parent.path_array}{concat('<node.',$:item,'.eznotification','@',ezini("SiteSettings","SiteURL"),'>')}{delimiter}{" "}{/delimiter}{/section}{/set-block}
-{"This email is to inform you that a new item has been published at at %sitename."|i18n('design/standard/notification','',hash('%sitename',ezini("SiteSettings","SiteURL")))}
+{"This email is to inform you that a new item has been published at %sitename."|i18n('design/standard/notification','',hash('%sitename',ezini("SiteSettings","SiteURL")))}
 {"The item can be viewed by using the URL below."|i18n('design/standard/notification')}
 
 {$object.name} - {$object.owner.name}
