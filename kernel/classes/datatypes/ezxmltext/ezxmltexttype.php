@@ -111,12 +111,14 @@ class eZXMLTextType extends eZDataType
     */
     function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
-         $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
-         if ( $contentClassAttribute->attribute( "data_int1" ) == 0 )
-         {
-              $contentClassAttribute->setAttribute( "data_int1", 10 );
-              $contentClassAttribute->store();
-         }
+        if ( $currentVersion != false )
+        {
+            $xmlText = eZXMLTextType::rawXMLText( $originalContentObjectAttribute );
+            $contentObjectAttribute->setAttribute( "data_text", $xmlText );
+        }
+        else
+        {
+        }
     }
 
     /*!

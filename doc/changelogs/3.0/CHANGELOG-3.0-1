@@ -75,6 +75,7 @@ links to clickable links.
   cache value is less than the threshold the files are removed if not a global
   expiry is used.
 - The bug with the original size not working on images has been fixed.
+- Fixed a problem with the eZXMLText datatype not initializing correctly from older versions.
 
 *SDK :
 
