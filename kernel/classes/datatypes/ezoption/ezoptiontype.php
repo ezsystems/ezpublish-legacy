@@ -44,6 +44,8 @@ include_once( "kernel/classes/ezdatatype.php" );
 
 include_once( "kernel/classes/datatypes/ezoption/ezoption.php" );
 
+define( "EZ_OPTION_DEFAULT_NAME_VARIABLE", "_ezoption_default_name_" );
+
 define( "EZ_DATATYPESTRING_OPTION", "ezoption" );
 
 class eZOptionType extends eZDataType
@@ -211,12 +213,39 @@ class eZOptionType extends eZDataType
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', 'ezoption' ) );
 
-        $option = new eZOption( "" );
-
-        $option->decodeXML( $contentObjectAttribute->attribute( "data_text" ) );
-
         return $node;
     }
+
+    /*!
+     Sets the default value.
+    */
+    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    {
+        $option =& $contentObjectAttribute->content();
+        $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $option->setName( $contentClassAttribute->attribute( 'data_text1' ) );
+        $contentObjectAttribute->setAttribute( "data_text", $option->xmlString() );
+        $contentObjectAttribute->setContent( $option );
+    }
+
+    /*!
+     \reimp
+    */
+    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    {
+        $defaultValueName = $base . EZ_OPTION_DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
+        if ( $http->hasPostVariable( $defaultValueName ) )
+        {
+            $defaultValueValue = $http->postVariable( $defaultValueName );
+
+            if ($defaultValueValue == ""){
+                $defaultValueValue = "";
+            }
+            $classAttribute->setAttribute( 'data_text1', $defaultValueValue );
+        }
+    }
+
+
 }
 
 eZDataType::register( EZ_DATATYPESTRING_OPTION, "ezoptiontype" );
