@@ -25,7 +25,7 @@ div#header-design
 {
     height: 70px;
     width: 400px;
-    float: left;
+    loat: left;
 }
 
 div#header h1
@@ -447,29 +447,33 @@ div#maincontent
 /* Toolbax design */
 div.toolbox
 { 
+    width: 100%;
     margin-bottom: 8px;
     margin-top: 8px;
 }
 
 div.toolbox-design
 { 
-    padding-left: 10px;
-    padding-top: 0px;
-    padding-bottom: 10px;
+    padding: 0px;
     background-color: #d9e5f2;
 }
 
 div.toolbox-design h2
 { 
-    width: 100%;
-    position: relative;
-    left: -10px;
     padding-left: 10px;
     padding-top: 3px;
     padding-bottom: 3px;
     font: 12px regular;
     background-color: #336699;
     color: #fff;
+}
+
+div.toolbox-design div.toolbox-content
+{ 
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 3px;
+    padding-bottom: 10px;
 }
 
 div.toolbox-design input.searchtext, div.toolbox-design input.textinput
@@ -530,24 +534,20 @@ div.toolbox-design div.attribute-link-disabled p
 /* Tool list design */
 div.toollist
 { 
+    width: 100%;
     margin-bottom: 8px;
     margin-top: 8px;
 }
 
 div.toollist-design
 { 
-    padding-top: 0px;
-    padding-left: 10px;
-    padding-bottom: 10px;
+    padding: 0px;
     background-color: #fff;
     border: 1px solid #369;
 }
 
 div.toollist-design h2
 { 
-    width: 100%;
-    position: relative;
-    left: -10px;
     padding-left: 10px;
     margin-top: 0px;
     padding-top: 2px;
@@ -555,6 +555,14 @@ div.toollist-design h2
     font: 12px regular;
     background-color: #336699;
     color: #fff;
+}
+
+div.toollist-design div.content-view-children
+{ 
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 3px;
+    padding-bottom: 10px;
 }
 
 div.toollist-design h3
@@ -626,19 +634,6 @@ div#footer-design a:hover
 {
     color: #003399;
 }
-
-/* COMMON STYLES SET JUST AS AN EXAMPLE */
-/* Border and padding is set on these elements inside another positioned elements to avoid wrong width calculations in the parents in some browsers */
-/*div#leftmenu-design
-div#footer-design 
-{
-    background-color: #ffffff;
-    margin: 1em 0 0 0;
-    padding: 0.5em;
-    border: 1px dashed #a0a0a0;
-    overflow: visible;
-}*/
-
 div#header-design
 {
     margin: 0;
@@ -933,17 +928,13 @@ div.attribute-file
 div.factbox-design, div.content-view-embed div.class-folder, div.content-view-embed div.class-article
 { 
     width: 178px;
-    padding-top: 0px;
-    padding-left: 10px;
+    padding: 0px;
     background-color: #fff;
     border: 1px solid #369;
 }
 
 div#maincontent-design div.factbox-design h2, div#maincontent-design div.content-view-embed div.class-folder h2,  div#maincontent-design div.content-view-embed div.class-article h2
 { 
-    width: 100%;
-    position: relative;
-    left: -10px;
     padding-left: 10px;
     margin-top: 0px;
     padding-top: 2px;
@@ -951,6 +942,17 @@ div#maincontent-design div.factbox-design h2, div#maincontent-design div.content
     font: 12px regular;
     background-color: #336699;
     color: #fff;
+}
+
+div#maincontent-design div.content-view-embed div.content-view-children, div.factbox-content
+{ 
+    padding-left: 10px;
+    padding-top: 3px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    margin-top: 0px;
+    padding-top: 2px;
+    padding-bottom: 3px;
 }
 
 div.quote

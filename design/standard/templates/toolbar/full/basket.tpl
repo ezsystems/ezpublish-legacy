@@ -4,6 +4,7 @@
      use_urlalias=ezini( 'URLTranslator', 'Translation' )|eq( 'enabled' )
      basket_items=$basket.items}
     <h2>{"Shopping basket"|i18n("design/shop/layout")}</h2>
+    <div class="toolbox-content">
 {section show=$basket_items}
     <ul>
         {section var=product loop=$basket_items sequence=array( odd, even )}
@@ -19,5 +20,6 @@
         <p>{"Your basket is empty"|i18n("design/shop/layout")}</p>
     {/section}
     {/let}
+    </div>
     </div>
 </div>
