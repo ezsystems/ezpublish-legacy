@@ -24,3 +24,5 @@ This release is a beta release and should not be used for a production site.
   http://ez.no/developer/ez_publish_3/bug_reports/wiredin_english_words_in_the_kernel_output
   http://ez.no/developer/ez_publish_3/bug_reports/copying_content_object_does_not_work
   http://ez.no/developer/ez_publish_3/bug_reports/roles_changing_from_allow_all_to_more_restrictive_leaves_asterisk_in_limitations_column
+  http://ez.no/developer/ez_publish_3/bug_reports/links_on_sitemap_do_not_work_with_nvh_setup
+  http://ez.no/developer/ez_publish_3/bug_reports/ezkeyword_bug_missing_fucntion_from_findmainnodearray
