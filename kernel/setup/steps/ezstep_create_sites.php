@@ -74,7 +74,6 @@ class eZStepCreateSites extends eZStepInstaller
 
         $ini =& eZINI::create();
 
-        $siteCount = $this->PersistenceList['site_templates']['count'];
         include_once( 'kernel/classes/ezpackage.php' );
         $accessMap = array( 'url' => array(),
                             'hostname' => array(),
@@ -124,12 +123,21 @@ class eZStepCreateSites extends eZStepInstaller
         if ( !$charset )
             return 'LanguageOptions';
 
-        for ( $counter = 0; $counter < $siteCount; ++$counter )
+        include_once( 'kernel/setup/ezsetuptypes.php' );
+        $siteTypes = eZSetupTypes();
+
+//         $siteCount = $this->PersistenceList['site_templates']['count'];
+//         $siteCount = 1;
+        $siteTypes = $this->chosenSiteTypes();
+//         for ( $counter = 0; $counter < $siteCount; ++$counter )
+        foreach ( array_keys( $siteTypes ) as $siteTypeKey )
         {
-            $sitePackage = $this->PersistenceList['site_templates_'.$counter];
-            $accessType = $sitePackage['access_type'];
-            $package =& eZPackage::fetch( $sitePackage['identifier'], 'kernel/setup/packages' );
-            $this->initializePackage( $package, $sitePackage, $accessMap, $charset,
+            $siteType =& $siteTypes[$siteTypeKey];
+//             $sitePackage = $this->PersistenceList['site_templates_'.$counter];
+            $accessType = $siteType['access_type'];
+//             $package =& eZPackage::fetch( $siteType['identifier'], 'kernel/setup/packages' );
+            $this->initializePackage( //$package,
+                                      $siteType, $accessMap, $charset,
                                       $allLanguageCodes, $allLanguages, $primaryLanguage, $this->PersistenceList['admin'] );
         }
 
@@ -231,40 +239,41 @@ class eZStepCreateSites extends eZStepInstaller
     {
     }
 
-    function initializePackage( &$package, $sitePackage,
+    function initializePackage( // &$package,
+                                $siteType,
                                 &$accessMap, $charset,
                                 &$allLanguageCodes, &$allLanguages, &$primaryLanguage,
                                 &$admin)
     {
-        switch ( $sitePackage['access_type'] )
+        switch ( $siteType['access_type'] )
         {
             case 'port':
             {
-                $userSiteaccessName = $sitePackage['identifier'] . '_' . 'user';
-                $adminSiteaccessName = $sitePackage['identifier'] . '_' . 'admin';
-                $accessMap['port'][$sitePackage['access_type_value']] = $userSiteaccessName;
-                $accessMap['port'][$sitePackage['admin_access_type_value']] = $adminSiteaccessName;
+                $userSiteaccessName = $siteType['identifier'] . '_' . 'user';
+                $adminSiteaccessName = $siteType['identifier'] . '_' . 'admin';
+                $accessMap['port'][$siteType['access_type_value']] = $userSiteaccessName;
+                $accessMap['port'][$siteType['admin_access_type_value']] = $adminSiteaccessName;
             } break;
             case 'hostname':
             {
-                $userSiteaccessName = $sitePackage['identifier'] . '_' . 'user';
-                $adminSiteaccessName = $sitePackage['identifier'] . '_' . 'admin';
-                $accessMap['hostname'][$sitePackage['access_type_value']] = $userSiteaccessName;
-                $accessMap['hostname'][$sitePackage['admin_access_type_value']] = $adminSiteaccessName;
+                $userSiteaccessName = $siteType['identifier'] . '_' . 'user';
+                $adminSiteaccessName = $siteType['identifier'] . '_' . 'admin';
+                $accessMap['hostname'][$siteType['access_type_value']] = $userSiteaccessName;
+                $accessMap['hostname'][$siteType['admin_access_type_value']] = $adminSiteaccessName;
             } break;
             case 'url':
             default:
             {
-                $userSiteaccessName = $sitePackage['access_type_value'];
-                $adminSiteaccessName = $sitePackage['admin_access_type_value'];
-                $accessMap['url'][$sitePackage['access_type_value']] = $userSiteaccessName;
-                $accessMap['url'][$sitePackage['admin_access_type_value']] = $adminSiteaccessName;
+                $userSiteaccessName = $siteType['access_type_value'];
+                $adminSiteaccessName = $siteType['admin_access_type_value'];
+                $accessMap['url'][$siteType['access_type_value']] = $userSiteaccessName;
+                $accessMap['url'][$siteType['admin_access_type_value']] = $adminSiteaccessName;
             } break;
         }
         $accessMap['accesses'][] = $userSiteaccessName;
         $accessMap['accesses'][] = $adminSiteaccessName;
         $accessMap['sites'][] = $userSiteaccessName;
-        $userDesignName = $sitePackage['identifier'];
+        $userDesignName = $siteType['identifier'];
 
         $languages = $allLanguageCodes;
         $languageObjects = $allLanguages;
@@ -282,7 +291,7 @@ class eZStepCreateSites extends eZStepInstaller
         $dbCharset = $charset;
         $dbDriver = $databaseInfo['info']['driver'];
 
-        $dbName = $sitePackage['database'];
+        $dbName = $siteType['database'];
         $dbParameters = array( 'server' => $dbServer,
                                'user' => $dbUser,
                                'password' => $dbPwd,
@@ -291,26 +300,40 @@ class eZStepCreateSites extends eZStepInstaller
                                'charset' => $dbCharset );
         $db =& eZDB::instance( $dbDriver, $dbParameters, true );
         eZDB::setInstance( $db );
-        if ( $package )
+
+//         if ( $package )
         {
-            if ( $sitePackage['existing_database'] == 2 )
+            if ( $siteType['existing_database'] == 2 )
             {
-                $tableArray = $db->eZTableList();
-                foreach ( array_keys( $tableArray ) as $table )
-                {
-                    $db->removeRelation( $table, $tableArray[$table] );
-                }
+                include_once( 'lib/ezdb/classes/ezdbtool.php' );
+                print( "cleaning up DB!<br/>\n" );
+                eZDBTool::cleanup( $db );
+//                 $tableArray = $db->eZTableList();
+//                 foreach ( array_keys( $tableArray ) as $table )
+//                 {
+//                     $db->removeRelation( $table, $tableArray[$table] );
+//                 }
+            }
+            if ( $siteType['existing_database'] != 3 )
+            {
+                $setupINI =& eZINI::instance( 'setup.ini' );
+                $sqlSchemaFile = $setupINI->variable( 'DatabaseSettings', 'SQLSchema' );
+                $sqlFile = $setupINI->variable( 'DatabaseSettings', 'CleanSQLData' );
+                print( "inserting SQL $sqlSchemaFile!<br/>\n" );
+                $result = $db->insertFile( 'kernel/sql/', $sqlSchemaFile );
+                print( "inserting SQL $sqlFile!<br/>\n" );
+                $result = $result && $db->insertFile( 'kernel/sql/common', $sqlFile, false );
             }
             $installParameters = array( 'path' => '.' );
             $installParameters['ini'] = array();
             $siteINIChanges = array();
-            $url = $sitePackage['url'];
+            $url = $siteType['url'];
             if ( preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url, $matches ) )
             {
                 $url = $matches[1];
             }
             $siteINIChanges['ContentSettings'] = array( 'TranslationList' => implode( ';', $languages ) );
-            $siteINIChanges['SiteSettings'] = array( 'SiteName' => $sitePackage['title'],
+            $siteINIChanges['SiteSettings'] = array( 'SiteName' => $siteType['title'],
                                                      'SiteURL' => $url );
             $siteINIChanges['DatabaseSettings'] = array( 'DatabaseImplementation' => $dbDriver,
                                                          'Server' => $dbServer,
@@ -318,7 +341,7 @@ class eZStepCreateSites extends eZStepInstaller
                                                          'User' => $dbUser,
                                                          'Password' => $dbPwd,
                                                          'Charset' => false );
-            $siteINIChanges['FileSettings'] = array( 'VarDir' => 'var/' . $sitePackage['identifier'] );
+            $siteINIChanges['FileSettings'] = array( 'VarDir' => 'var/' . $siteType['identifier'] );
             if ( trim( $dbSocket ) != '' )
                 $siteINIChanges['DatabaseSettings']['Socket'] = $dbSocket;
             else
@@ -336,13 +359,36 @@ class eZStepCreateSites extends eZStepInstaller
                 $siteINIChanges['RegionalSettings']['TextTranslation'] = 'disabled';
             else
                 $siteINIChanges['RegionalSettings']['TextTranslation'] = 'enabled';
+
             $installParameters['ini']['siteaccess'][$adminSiteaccessName]['site.ini.append'] = $siteINIChanges;
             $installParameters['ini']['siteaccess'][$userSiteaccessName]['site.ini.append'] = $siteINIChanges;
             $installParameters['ini']['siteaccess'][$userSiteaccessName]['site.ini']['DesignSettings'] = array( 'SiteDesign' => $userDesignName );
             $installParameters['variables']['user_siteaccess'] = $userSiteaccessName;
             $installParameters['variables']['admin_siteaccess'] = $adminSiteaccessName;
             $installParameters['variables']['design'] = $userDesignName;
-            $package->install( $installParameters );
+
+            print( "<pre>" ); var_dump( $siteINIChanges ); print( "</pre>" );
+
+            print( "user design: " . $userDesignName . "<br/>\n" );
+            print( "user access: " . $userSiteaccessName . "<br/>\n" );
+            print( "admin access: " . $adminSiteaccessName . "<br/>\n" );
+//             exit;
+
+            $siteINI =& eZINI::create( 'site.ini' );
+            $siteINI->setVariables( $siteINIChanges );
+            $siteINI->save( false, '.append.php', false, true, "settings/siteaccess/$adminSiteaccessName" );
+            $siteINI->setVariable( 'DesignSettings', 'SiteDesign', $userDesignName );
+            $siteINI->setVariable( 'DesignSettings', 'AdditionalSiteDesignList', array( 'base' ) );
+            $siteINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName" );
+
+            eZDir::mkdir( "design/" . $userDesignName );
+            eZDir::mkdir( "design/" . $userDesignName . "/templates" );
+            eZDir::mkdir( "design/" . $userDesignName . "/stylesheets" );
+            eZDir::mkdir( "design/" . $userDesignName . "/images" );
+            eZDir::mkdir( "design/" . $userDesignName . "/override" );
+            eZDir::mkdir( "design/" . $userDesignName . "/override/templates" );
+
+//             $package->install( $installParameters );
 
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             $userAccount =& eZUser::fetch( 14 );
@@ -360,8 +406,8 @@ class eZStepCreateSites extends eZStepInstaller
             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $userObject->attribute( 'id' ),
                                                                                          'version' => $userObject->attribute( 'version' ) ) );
         }
-        else
-            eZDebug::writeError( "Failed fetching package " . $sitePackage['identifier'] );
+//         else
+//             eZDebug::writeError( "Failed fetching package " . $siteType['identifier'] );
 
         $saveResult = true;
 

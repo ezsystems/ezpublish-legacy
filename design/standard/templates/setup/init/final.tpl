@@ -11,13 +11,13 @@
 
 <p>
   <table border="0" cellspacing="3" cellpadding="0">
-    
+
     <tr>
     {section name=SiteTemplate loop=$site_templates}
 
       <td class="setup_site_templates">
         <div align="top">
-          <a href="{$:item.url|wash}" target="_other">{section show=$:item.image_file_name}<img src={$:item.image_file_name|ezroot} alt="{$:item.name|wash}" />{section-else}<img src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$:item.name|wash}" />{/section}</a>
+          <a href="{$:item.url|wash}" target="_other">{section show=$:item.thumbnail}<img src={concat( "design/standard/images/setup/", $:item.thumbnail )|ezroot} alt="{$:item.name|wash}" />{section-else}<img src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$:item.name|wash}" />{/section}</a>
         </div>
         <div align="bottom">
 	  <table border="0" cellspacing="0" cellpadding="0">
@@ -46,5 +46,5 @@
     {/section}
     </tr>
 
-  </table>      
+  </table>
 </p>

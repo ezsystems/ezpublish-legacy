@@ -52,4 +52,43 @@ function eZSetupTypes()
                   );
 }
 
+function eZSetupForumINISettings()
+{
+    return array( 'name' => 'forum.ini',
+                  'settings' => array( 'ForumSettings' => array( 'StickyUserGroupArray' => array( 12 ) ) ) );
+}
+
+function eZSetupMenuINISettings()
+{
+    return array( 'name' => 'menu.ini',
+                  'settings' => array( 'MenuSettings' => array( 'AvailableMenuArray' => array( 'TopOnly',
+                                                                                               'LeftOnly',
+                                                                                               'DoubleTop',
+                                                                                               'LeftTop' ) ),
+                                       'SelectedMenu' => array( 'CurrentMenu' => 'TopOnly',
+                                                                'TopMenu' => 'flat_top',
+                                                                'LeftMenu' => '' ),
+                                       'TopOnly' => array( 'TitleText' => 'Only top menu',
+                                                           'MenuThumbnail' => 'menu/top_only.jpg',
+                                                           'TopMenu' => 'flat_top',
+                                                           'LeftMenu' => '' ),
+                                       'LeftOnly' => array( 'TitleText' => 'Left menu',
+                                                           'MenuThumbnail' => 'menu/left_only.jpg',
+                                                           'TopMenu' => '',
+                                                           'LeftMenu' => 'flat_left' ),
+                                       'DoubleTop' => array( 'TitleText' => 'Double top menu',
+                                                             'MenuThumbnail' => 'menu/double_top.jpg',
+                                                             'TopMenu' => 'double_top',
+                                                             'LeftMenu' => '' ),
+                                       'LeftTop' => array( 'TitleText' => 'Left and top',
+                                                             'MenuThumbnail' => 'menu/left_top.jpg',
+                                                             'TopMenu' => 'flat_top',
+                                                             'LeftMenu' => 'flat_left' )
+                                       ) );
+}
+
+function eZSetupINISettings( $siteType )
+{
+}
+
 ?>

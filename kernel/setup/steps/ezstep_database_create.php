@@ -69,7 +69,8 @@ class eZStepDatabaseCreate extends eZStepInstaller
      */
     function init()
     {
-        $siteCount = $this->PersistenceList['site_templates']['count'];
+//         $siteCount = $this->PersistenceList['site_templates']['count'];
+        $siteCount = 1;
         if ( $siteCount == 0 )
         {
             $databaseMap = eZSetupDatabaseMap();
@@ -120,7 +121,7 @@ class eZStepDatabaseCreate extends eZStepInstaller
                     $sqlSchemaFile = $setupINI->variable( 'DatabaseSettings', 'SQLSchema' );
                     $sqlFile = $setupINI->variable( 'DatabaseSettings', 'CleanSQLData' );
                     $result = $db->insertFile( 'kernel/sql/', $sqlSchemaFile );
-                    $result = $result && $db->insertFile( 'kernel/sql/', $sqlFile );
+                    $result = $result && $db->insertFile( 'kernel/sql/common', $sqlFile, false );
                 }
             }
         }

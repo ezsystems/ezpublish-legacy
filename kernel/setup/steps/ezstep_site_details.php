@@ -85,43 +85,62 @@ class eZStepSiteDetails extends eZStepInstaller
         $siteAccessValues['admin'] = 1; // Add user and admin as illegal site access values
         $siteAccessValues['user'] = 1;
 
+//         include_once( 'kernel/setup/ezsetuptypes.php' );
+//         $siteTypes = eZSetupTypes();
+//         $chosenType = $this->PersistenceList['site_type']['identifier'];
+//         $siteType = $siteTypes[$chosenType];
+//         $siteList = array( $siteType );
 
-        for ( $counter = 0; $counter < $this->PersistenceList['site_templates']['count']; $counter++ )
+//         for ( $counter = 0; $counter < $this->PersistenceList['site_templates']['count']; $counter++ )
+//         for ( $counter = 0; $counter < count( $siteList ); ++$counter )
+        $siteTypes = $this->chosenSiteTypes();
+
+        $counter = 0;
+        foreach ( array_keys( $siteTypes ) as $siteTypeKey )
         {
-            $this->PersistenceList['site_templates_'.$counter]['title'] =
-                 $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_title' );
-            $this->PersistenceList['site_templates_'.$counter]['url'] =
-                 $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_url' );
+            $siteType =& $siteTypes[$siteTypeKey];
+//             $this->PersistenceList['site_templates_' . $counter]['title'] =
+//                  $this->Http->postVariable( 'eZSetup_site_templates_' . $counter.'_title' );
+//             $this->PersistenceList['site_templates_' . $counter]['url'] =
+//                  $this->Http->postVariable( 'eZSetup_site_templates_' . $counter.'_url' );
+            $siteType['title'] = $this->Http->postVariable( 'eZSetup_site_templates_' . $counter.'_title' );
+            $siteType['url'] = $this->Http->postVariable( 'eZSetup_site_templates_' . $counter.'_url' );
 
             if ( isset( $siteAccessValues[$this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_value' )] ) ) // check for equal site access values
             {
                 $this->Error[$counter] = EZ_SETUP_SITE_ACCESS_ILLEGAL;
             }
 
-            $this->PersistenceList['site_templates_'.$counter]['access_type_value'] =
-                 $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_value' );
-            $siteAccessValues[$this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_value' )] = 1;
+//             $this->PersistenceList['site_templates_'.$counter]['access_type_value'] =
+//                  $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_value' );
+            $siteType['access_type_value'] = $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_value' );
+            $siteAccessValues[$siteType['access_type_value']] = 1;
 
             if ( isset( $siteAccessValues[$this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_admin_value' )] ) ) // check for equal site access values
             {
                 $this->Error[$counter] = EZ_SETUP_SITE_ACCESS_ILLEGAL;
             }
 
-            $this->PersistenceList['site_templates_'.$counter]['admin_access_type_value'] =
-                 $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_admin_value' );
-            $siteAccessValues[$this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_admin_value' )] = 1;
-            $this->PersistenceList['site_templates_'.$counter]['database'] =
-                 $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_database' );
+//             $this->PersistenceList['site_templates_'.$counter]['admin_access_type_value'] =
+//                  $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_admin_value' );
+            $siteType['admin_access_type_value'] = $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_admin_value' );
+            $siteAccessValues[$siteType['admin_access_type_value']] = 1;
+//             $this->PersistenceList['site_templates_'.$counter]['database'] =
+//                  $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_database' );
+            $siteType['database'] = $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_database' );
 
-            if ( isset( $chosenDatabases[$this->PersistenceList['site_templates_'.$counter]['database']] ) )
+//             if ( isset( $chosenDatabases[$this->PersistenceList['site_templates_'.$counter]['database']] ) )
+            if ( isset( $chosenDatabases[$siteType['database']] ) )
             {
                 $this->Error[$counter] = EZ_SETUP_DB_ERROR_ALREADY_CHOSEN;
             }
 
-            $chosenDatabases[$this->PersistenceList['site_templates_'.$counter]['database']] = 1;
+            $chosenDatabases[$siteType['database']] = 1;
 
             // Check database connection
-            $dbName = $this->PersistenceList['site_templates_'.$counter]['database'];
+//             $dbName = $this->PersistenceList['site_templates_'.$counter]['database'];
+            $dbName = $siteType['database'];
+            $dbCharset = 'iso-8859-1';
             $dbParameters = array( 'server' => $dbServer,
                                    'user' => $dbUser,
                                    'password' => $dbPwd,
@@ -158,8 +177,9 @@ class eZStepSiteDetails extends eZStepInstaller
                     if ( $this->Http->hasPostVariable( 'eZSetup_site_templates_'.$counter.'_existing_database' ) &&
                          $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_existing_database' ) != '4' )
                     {
-                        $this->PersistenceList['site_templates_'.$counter]['existing_database'] =
-                             $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_existing_database' );
+//                         $this->PersistenceList['site_templates_'.$counter]['existing_database'] =
+//                              $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_existing_database' );
+                        $siteType['existing_database'] = $this->Http->postVariable( 'eZSetup_site_templates_' . $counter . '_existing_database' );
                     }
                     else
                     {
@@ -171,7 +191,9 @@ class eZStepSiteDetails extends eZStepInstaller
             {
                 return 'DatabaseInit';
             }
+            ++$counter;
         }
+        $this->storeSiteTypes( $siteTypes );
 
         $user = array();
 
@@ -214,7 +236,8 @@ class eZStepSiteDetails extends eZStepInstaller
         $dbSocket = $databaseInfo['socket'];
         if ( trim( $dbSocket ) == '' )
             $dbSocket = false;
-        $dbPwd = $password;
+//         $dbPwd = $password;
+        $dbPwd = $databaseInfo['password'];
         $dbCharset = 'iso-8859-1';
         $dbParameters = array( 'server' => $dbServer,
                                'user' => $dbUser,
@@ -240,25 +263,47 @@ class eZStepSiteDetails extends eZStepInstaller
     {
         $config =& eZINI::instance( 'setup.ini' );
 
+//         include_once( 'kernel/setup/ezsetuptypes.php' );
+//         $siteTypes = eZSetupTypes();
+//         $chosenType = $this->PersistenceList['site_type']['identifier'];
+//         $siteType = $siteTypes[$chosenType];
+        $siteTypes = $this->chosenSiteTypes();
+
         $availableDatabaseList = $this->PersistenceList['database_info_available'];
         $databaseList = $availableDatabaseList;
         $databaseCounter = 0;
-        $templates = array();
-        for ( $counter = 0; $counter < $this->PersistenceList['site_templates']['count']; $counter++ )
+//         $templates = array();
+//         $siteList = array( $siteType );
+//         for ( $counter = 0; $counter < $this->PersistenceList['site_templates']['count']; $counter++ )
+//         for ( $counter = 0; $counter < count( $siteList ); ++$counter )
+        foreach ( array_keys( $siteTypes ) as $siteTypeKey )
         {
-            $templates[$counter] = $this->PersistenceList['site_templates_'.$counter];
-            if ( !isset( $templates[$counter]['title'] ) )
-                $templates[$counter]['title'] = $templates[$counter]['name'];
-            if ( !isset( $templates[$counter]['url'] ) )
-                $templates[$counter]['url'] = 'http://' . eZSys::hostName() . eZSys::indexDir( false );
-            if ( !isset( $templates[$counter]['database'] ) )
+            $siteType =& $siteTypes[$siteTypeKey];
+//             $templates[$counter] = $this->PersistenceList['site_templates_' . $counter];
+//             $templates[$counter]['thumbnail'] = $siteList[$counter]['thumbnail'];
+//             $templates[$counter] = $siteList[$counter]
+//             if ( !isset( $templates[$counter]['identifier'] ) )
+//                 $templates[$counter]['identifier'] = $siteList[$counter]['identifier'];
+            if ( !isset( $siteType['title'] ) )
+                $siteType['title'] = $siteType['name'];
+//             if ( !isset( $templates[$counter]['title'] ) )
+//                 $templates[$counter]['title'] = $siteList[$counter]['name'];
+            if ( !isset( $siteType['url'] ) )
+                $siteType['url'] = 'http://' . eZSys::hostName() . eZSys::indexDir( false );
+//             if ( !isset( $templates[$counter]['url'] ) )
+//                 $templates[$counter]['url'] = 'http://' . eZSys::hostName() . eZSys::indexDir( false );
+            if ( !isset( $siteType['site_access_illegal'] ) )
+                $siteType['site_access_illegal'] = false;
+            if ( !isset( $siteType['db_already_chosen'] ) )
+                $siteType['db_already_chosen'] = false;
+            if ( !isset( $siteType['database'] ) )
             {
                 $matchedDBName = false;
                 // First try database name match
                 foreach ( $databaseList as $databaseName )
                 {
                     $dbName = trim( strtolower( $databaseName ) );
-                    $identifier = trim( strtolower( $templates[$counter]['identifier'] ) );
+                    $identifier = trim( strtolower( $siteType['identifier'] ) );
                     if ( $dbName == $identifier )
                     {
                         $matchedDBName = $databaseName;
@@ -268,7 +313,7 @@ class eZStepSiteDetails extends eZStepInstaller
                 if ( !$matchedDBName )
                     $matchedDBName = $databaseList[$databaseCounter++];
                 $databaseList = array_values( array_diff( $databaseList, array( $matchedDBName ) ) );
-                $templates[$counter]['database'] = $matchedDBName;
+                $siteType['database'] = $matchedDBName;
             }
         }
 
@@ -279,19 +324,22 @@ class eZStepSiteDetails extends eZStepInstaller
                 case EZ_SETUP_DB_ERROR_NOT_EMPTY:
                 {
                     $this->Tpl->setVariable( 'db_not_empty', 1 );
-                    $templates[$key]['db_not_empty'] = 1;
+                    $siteTypes[$key]['db_not_empty'] = 1;
+//                     $templates[$key]['db_not_empty'] = 1;
                 } break;
 
                 case EZ_SETUP_DB_ERROR_ALREADY_CHOSEN:
                 {
                     $this->Tpl->setVariable( 'db_already_chosen', 1 );
-                    $templates[$key]['db_already_chosen'] = 1;
+                    $siteTypes[$key]['db_already_chosen'] = 1;
+//                     $templates[$key]['db_already_chosen'] = 1;
                 } break;
 
                 case EZ_SETUP_SITE_ACCESS_ILLEGAL:
                 {
                     $this->Tpl->setVariable( 'site_access_illegal', 1 );
-                    $templates[$key]['site_access_illegal'] = 1;
+                    $siteTypes[$key]['site_access_illegal'] = 1;
+//                     $templates[$key]['site_access_illegal'] = 1;
                 } break;
 
                 case EZ_SETUP_SITE_DETAILS_PASSWORD_MISSMATCH:
@@ -300,11 +348,19 @@ class eZStepSiteDetails extends eZStepInstaller
                 } break;
             }
         }
+        $this->storeSiteTypes( $siteTypes );
+
+        $adminUser = array( 'first_name' => false,
+                            'last_name' => false,
+                            'email' => false,
+                            'password' => false );
+        if ( isset( $this->PersistenceList['admin'] ) )
+            $adminUser = $this->PersistenceList['admin'];
 
         $this->Tpl->setVariable( 'database_default', $config->variable( 'DatabaseSettings', 'DefaultName' ) );
         $this->Tpl->setVariable( 'database_available', $availableDatabaseList );
-        $this->Tpl->setVariable( 'site_templates', $templates );
-        $this->Tpl->setVariable( 'admin', $this->PersistenceList['admin'] );
+        $this->Tpl->setVariable( 'site_types', $siteTypes );
+        $this->Tpl->setVariable( 'admin', $adminUser );
 
         // Return template and data to be shown
         $result = array();

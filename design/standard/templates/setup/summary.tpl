@@ -10,7 +10,7 @@
     {section-else}
       <div class="setup_summary_empty">
     {/section}
-    
+
     {"System:"|i18n("design/standard/setup")}</div></td>
 
     <td>
@@ -38,7 +38,7 @@
     </div>
   </tr>
 
-  <tr>  
+  <tr>
     <td >
     {section show=count($summary_email_info)}
       <div class="setup_summary_ok">
@@ -72,14 +72,14 @@
     </td>
   </tr>
 
-  <tr>  
+  <tr>
     <td valign="top">
     {section show=count($languages)}
       <div class="setup_summary_ok">
     {section-else}
       <div class="setup_summary_empty">
     {/section}
-  
+
     {"Language:"|i18n("design/standard/setup")}</div></td>
 
     <td>
@@ -95,19 +95,20 @@
 
   <tr>
     <td valign="top">
-    {section show=$sites}
+    {section show=$site_types|count|gt( 0 )}
       <div class="setup_summary_ok">
     {section-else}
       <div class="setup_summary_empty">
     {/section}
 
-    {"Site:"|i18n("design/standard/setup")}</td>
+    {"Site:"|i18n("design/standard/setup")}</div></td>
 
     <td>
-    {section show=$sites}
+    {section show=$site_types|count|gt( 0 )}
       <div class="setup_summary_ok">
-      {section name=Sites loop=$sites}
-        {$:item.name}<br/>
+      {section var=site loop=$site_types}
+          {$site.name|wash}
+      {delimiter}<br/>{/delimiter}
       {/section}
       </div>
     {/section}
