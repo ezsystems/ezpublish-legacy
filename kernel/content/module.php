@@ -100,7 +100,7 @@ $ViewList["browse"] = array(
 $ViewList["removeobject"] = array(
     "functions" => array( 'read' ),
     "script" => "removeobject.php",
-    "params" => array( "NodeID" ) );
+    "params" => array( ) );
 
 $ViewList["download"] = array(
     "functions" => array( 'read' ),

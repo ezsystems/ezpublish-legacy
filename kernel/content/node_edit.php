@@ -241,7 +241,6 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
             $publishedNode =& eZContentObjectTreeNode::fetchNode( $objectID, $nodeID );
             if ( $publishedNode != null )
             {
-//                $children =& $publishedNode->children();
                 $childrenCount =& $publishedNode->childrenCount();
                 if ( $childrenCount != 0 )
                 {
@@ -256,8 +255,6 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
             }else
             {
                 $nodeAssignment =& eZNodeAssignment::fetch( $objectID, $version->attribute( 'version' ), $nodeID );
-//                eZDebug::printReport();
-//                die();
                 if ( $nodeAssignment->attribute( 'from_node_id' ) != 0 )
                 {
                     $publishedNode =& eZContentObjectTreeNode::fetchNode( $objectID, $nodeAssignment->attribute( 'from_node_id' ) );

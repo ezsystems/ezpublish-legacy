@@ -136,7 +136,7 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
         $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
-        foreach ( $deleteIDArray as $deleteID )
+        /* foreach ( $deleteIDArray as $deleteID )
         {
             $node =& eZContentObjectTreeNode::fetch( $deleteID );
             $contentObject = $node->attribute( 'object' );
@@ -146,6 +146,12 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
                 $http->setSessionVariable( 'CurrentViewMode', $viewMode );
                 $module->redirectTo( $module->functionURI( 'removeobject' ) . '/' . $nodeID . '/');
             }
+        }*/
+        if ( $deleteIDArray !== null )
+        {
+            $http->setSessionVariable( 'CurrentViewMode', $viewMode );
+            $http->setSessionVariable( 'DeleteIDArray', $deleteIDArray );
+            $module->redirectTo( $module->functionURI( 'removeobject' ) . '/' );
         }
     }
 }

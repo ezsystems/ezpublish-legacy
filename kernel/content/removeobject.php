@@ -50,6 +50,7 @@ if ( isset( $Params["NodeID"] ) )
     $NodeID =& $Params["NodeID"];
 
 $viewMode = $http->sessionVariable( "CurrentViewMode" );
+$deleteIDArray = $http->sessionVariable( "DeleteIDArray" );
 if ( array_key_exists( 'Limitation', $Params ) )
 {
     $Limitation =& $Params['Limitation'];
@@ -59,38 +60,54 @@ if ( array_key_exists( 'Limitation', $Params ) )
     }
 }
 
-$node =& eZContentObjectTreeNode::fetch( $NodeID );
-$ChildObjectsCount = $node->attribute( 'children_count' );
+$deleteResult = array();
+$ChildObjectsCount = 0;
+foreach ( $deleteIDArray as $deleteID )
+{
+    $node =& eZContentObjectTreeNode::fetch( $deleteID );
+    if ( $node != null )
+    {
+        $object = $node->attribute( 'object' );
+        $NodeName = $object->attribute( 'name' );
+        $contentObject = $node->attribute( 'object' );
+        $nodeID =  $node->attribute( 'node_id' );
 
-if ( $ChildObjectsCount <=1 )
-    $ChildObjectsCount .= " child";
-else
-    $ChildObjectsCount .= " children";
-
-if ( $node === null )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
-
-$object = $node->attribute( 'object' );
-
-$NodeName = $object->attribute( 'name' );
-
-if ( !$object->attribute( 'can_remove' ) )
-     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
-
-if ( $object === null )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        if ( !$object->attribute( 'can_remove' ) )
+            return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        if ( $object === null )
+            return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        $ChildObjectsCount = $node->subTreeCount();
+        if ( $ChildObjectsCount <=1 )
+            $ChildObjectsCount .= " child";
+        else
+            $ChildObjectsCount .= " children";
+        $item = array( "nodeName" => $NodeName,
+                       "childCount" => $ChildObjectsCount );
+        $deleteResult[] = $item;
+    }
+}
 
 if ( $http->hasPostVariable( "ConfirmButton" ) )
 {
-    $children =& $node->children();
-    foreach ( $children as $child )
+    foreach ( $deleteIDArray as $deleteID )
     {
-       $childObject =& $child->attribute( 'object' );
-       $childObject->remove( true, $NodeID );
+        $node =& eZContentObjectTreeNode::fetch( $deleteID );
+        if ( $node != null )
+        {
+            $object =  $node->attribute( 'object' );
+            $children =& $node->subTree();
+            foreach ( $children as $child )
+            {
+                $childObject =& $child->attribute( 'object' );
+                $childNodeID = $child->attribute( 'node_id' );
+                $childObject->remove( true, $childNodeID );
+            }
+            $object->remove( true, $deleteID );
+        }
     }
-    $object->remove( true, $NodeID  );
     $Module->redirectTo( '/content/view/' . $viewMode . '/' .'2' . '/'  );
 }
+
 if ( $http->hasPostVariable( "CancelButton" ) )
 {
     $Module->redirectTo( '/content/view/' . $viewMode . '/' . '2' . '/'  );
@@ -103,6 +120,7 @@ $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "NodeID", $NodeID );
 $tpl->setVariable( "NodeName", $NodeName );
 $tpl->setVariable( "ChildObjectsCount", $ChildObjectsCount );
+$tpl->setVariable( "DeleteResult",  $deleteResult );
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:node/removeobject.tpl" );
 $Result['path'] = array( array( 'url' => '/content/removeobject/',

@@ -57,41 +57,41 @@ $object =& eZContentObject::fetch( $ObjectID );
 if ( $object === null )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-if ( !$object->attribute( 'can_edit' ) )
+if ( !$object->attribute( 'can_remove' ) )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
 $version =& $object->version( $EditVersion );
-$node = eZContentObjectTreeNode::fetch($NodeID);
+$node =& eZContentObjectTreeNode::fetchNode( $ObjectID, $NodeID );
+if ( $node !== null )
+    $ChildObjectsCount = $node->subTreeCount();
+else
+    $ChildObjectsCount = 0;
+if ( $ChildObjectsCount <=1 )
+    $ChildObjectsCount .= " child";
+else
+    $ChildObjectsCount .= " children";
 
 if ( $Module->isCurrentAction( 'ConfirmAssignmentRemove' ) )
 {
-    
-        $nodeID = $http->postVariable( 'RemoveNodeID' ) ;
-        $version->removeAssignment( $nodeID );
-        $Module->redirectToView( "edit", array( $ObjectID, $EditVersion ) );
+    $nodeID = $http->postVariable( 'RemoveNodeID' ) ;
+    $version->removeAssignment( $nodeID );
+    $Module->redirectToView( "edit", array( $ObjectID, $EditVersion ) );
 }
 elseif ( $Module->isCurrentAction( 'CancelAssignmentRemove' ) )
 {
-
-        $Module->redirectToView( "edit", array( $ObjectID, $EditVersion ) );
+    $Module->redirectToView( "edit", array( $ObjectID, $EditVersion ) );
 }
-
-
-
-
 
 $tpl->setVariable( 'object', $object );
 $tpl->setVariable( 'edit_version', $EditVersion );
 $tpl->setVariable( 'content_version', $version );
+$tpl->setVariable( 'ChildObjectsCount', $ChildObjectsCount );
 $tpl->setVariable( 'node', $node );
 
 
-$Result['content'] =& $tpl->fetch( 'design:node/deletenode.tpl' );
+$Result['content'] =& $tpl->fetch( 'design:node/removenode.tpl' );
 
 $Result['path'] = array( array( 'text' => $object->attribute( 'name' ),
                                 'url' => false ) );
-
-
-
 
 ?>
