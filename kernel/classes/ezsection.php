@@ -102,7 +102,7 @@ class eZSection extends eZPersistentObject
         return eZPersistentObject::fetchObjectList( eZSection::definition(),
                                                     null,
                                                     null,
-                                                    null,
+                                                    array( 'name' => 'ASC' ),
                                                     array( 'offset' => $offset, 'length' => $limit ),
                                                     $asObject );
     }
