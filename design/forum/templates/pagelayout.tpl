@@ -114,7 +114,7 @@
     </div>
 
 {cache-block}
-{let pagedesign=fetch_alias(by_identifier,hash(attr_id,gallery_package))}
+{let pagedesign=fetch_alias(by_identifier,hash(attr_id,forum_package))}
     <div id="footer">
         <div class="design">
             <address>

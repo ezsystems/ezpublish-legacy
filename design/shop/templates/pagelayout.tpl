@@ -273,7 +273,7 @@ div#maincontent div.design { width: 100%; }
 </div>
 
 {cache-block}
-{let pagedesign=fetch_alias(by_identifier,hash(attr_id,gallery_package))}
+{let pagedesign=fetch_alias(by_identifier,hash(attr_id,shop_package))}
     <div id="footer">
         <div class="design">
             <address>
