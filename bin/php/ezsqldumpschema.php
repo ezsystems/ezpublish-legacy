@@ -192,7 +192,7 @@ if ( file_exists( $database ) and is_file( $database ) )
     include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
     $schemaArray =& eZDBSchema::read( $database, true );
 
-    if ( !isset( $schemaArray['data'] ) )
+    if ( $includeData and !isset( $schemaArray['data'] ) )
     {
         $cli->error( "The specified data file '$database' contains no data" );
         $script->shutdown( 1 );
