@@ -31,6 +31,8 @@
 
 //xdebug_start_profiling();
 
+ignore_user_abort( true );
+
 $scriptStartTime = microtime();
 ob_start();
 
