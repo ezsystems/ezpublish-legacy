@@ -25,6 +25,8 @@ Changes from 3.2.0-2 to 3.2-1
 - Fixed storing SMTP settings during setup, http://ez.no/developer/ez_publish_3/bug_reports/setup_does_not_store_smtp_settings
 - Fixed problem with new template creation
   http://ez.no/developer/ez_publish_3/bug_reports/template_creation_does_not_create_missing_dirs
+- Fixed showing correct title for selection datatype
+  http://ez.no/developer/ez_publish_3/bug_reports/value_of_datatype_ezselection_not_usable_as_content_object_name_pattern
 
 *Setup:
 
