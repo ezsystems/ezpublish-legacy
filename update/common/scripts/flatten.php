@@ -71,7 +71,7 @@ function help()
                   "  --no-colors        do not use ANSI coloring (default)\n" .
                   "\n" .
                   "Possible values for NAME is:\n" .
-                  "contentobject or all (for all items)\n" );
+                  "contentobject, contentclass, workflow, role or all (for all items)\n" );
 }
 
 function changeSiteAccessSetting( &$siteaccess, $optionData )
@@ -103,8 +103,11 @@ $useLogFiles = false;
 $showSQL = false;
 
 $flattenAllItems = false;
-$flatteItems = array();
-$flatten = array( 'contentobject' => false );
+$flattenItems = array();
+$flatten = array( 'contentobject' => false,
+                  'contentclass' => false,
+                  'workflow' => false,
+                  'role' => false );
 
 $optionsWithData = array( 's' );
 $longOptionsWithData = array( 'siteaccess' );
@@ -297,7 +300,6 @@ $db->setIsSQLOutputEnabled( $showSQL );
 
 include_once( 'kernel/classes/ezpersistentobject.php' );
 
-include_once( 'lib/ezutils/classes/ezsession.php' );
 if ( $flatten['contentobject'] )
 {
     include_once( 'kernel/classes/ezcontentobject.php' );
@@ -305,6 +307,26 @@ if ( $flatten['contentobject'] )
     eZContentObject::removeVersions();
 }
 
+if ( $flatten['contentclass'] )
+{
+    include_once( 'kernel/classes/ezcontentclass.php' );
+    $cli->output( "Removing temporary content classes" );
+    eZContentClass::removeTemporary();
+}
+
+if ( $flatten['workflow'] )
+{
+    include_once( 'kernel/classes/ezworkflow.php' );
+    $cli->output( "Removing temporary workflows" );
+    eZWorkflow::removeTemporary();
+}
+
+if ( $flatten['role'] )
+{
+    include_once( 'kernel/classes/ezrole.php' );
+    $cli->output( "Removing temporary roles" );
+    eZRole::removeTemporary();
+}
 
 
 $script->shutdown();

@@ -186,6 +186,22 @@ class eZWorkflow extends eZPersistentObject
         eZPersistentObject::remove();
     }
 
+    /*!
+     \static
+     Removes all temporary versions.
+    */
+    function removeTemporary()
+    {
+        $version = 1;
+        $temporaryWorkflows =& eZWorkflow::fetchList( $version, null, true );
+        foreach ( $temporaryWorkflows as $workflow )
+        {
+            $workflow->remove( true );
+        }
+        eZPersistentObject::removeObject( eZWorkflowEvent::definition(),
+                                          array( 'version' => $version ) );
+    }
+
     function removeEvents( $events = false, $id = false, $version = false )
     {
         if ( is_array( $events ) )
@@ -277,9 +293,11 @@ class eZWorkflow extends eZPersistentObject
 
     function &fetchList( $version = 0, $enabled = 1, $asObject = true )
     {
+        $conds = array( 'version' => $version );
+        if ( $enabled !== null )
+            $conds['is_enabled'] = $enabled;
         return eZPersistentObject::fetchObjectList( eZWorkflow::definition(),
-                                                    null, array( "version" => $version,
-                                                                 "is_enabled" => $enabled ), null, null,
+                                                    null, $conds, null, null,
                                                     $asObject );
     }
 

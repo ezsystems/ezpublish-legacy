@@ -409,6 +409,22 @@ class eZContentClass extends eZPersistentObject
                                                        $groupID );
     }
 
+    /*!
+     \static
+     Will remove all temporary classes from the database.
+    */
+    function removeTemporary()
+    {
+        $version = EZ_CLASS_VERSION_STATUS_TEMPORARY;
+        $temporaryClasses =& eZContentClass::fetchList( $version, true );
+        foreach ( $temporaryClasses as $class )
+        {
+            $class->remove( true, $version );
+        }
+        eZPersistentObject::removeObject( eZContentClassAttribute::definition(),
+                                          array( 'version' => $version ) );
+    }
+
     function remove( $remove_childs = false, $version = EZ_CLASS_VERSION_STATUS_DEFINED )
     {
         if ( is_array( $remove_childs ) or $remove_childs )

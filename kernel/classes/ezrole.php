@@ -104,6 +104,7 @@ class eZRole extends eZPersistentObject
             $roleID = $this->attribute( 'id' );
             if ( $enableCaching == 'true' && $this->CachePolicies )
             {
+                include_once( 'lib/ezutils/classes/ezhttptool.php' );
                 $http =& eZHTTPTool::instance();
 
                 $hasPoliciesInCache = $http->hasSessionVariable( 'UserPolicies' );
@@ -213,6 +214,26 @@ class eZRole extends eZPersistentObject
         $handler->setTimestamp( 'user-role-cache', mktime() );
         $handler->setTimestamp( 'user-class-cache', mktime() );
         $handler->store();
+    }
+
+    /*!
+     \static
+     Removes all temporary roles and roles without policies from the database.
+    */
+    function removeTemporary()
+    {
+        $temporaryRoles =& eZRole::fetchList( true );
+        foreach ( $temporaryRoles as $role )
+        {
+            $role->remove();
+        }
+        $realRoles =& eZRole::fetchList( false );
+        foreach ( $realRoles as $role )
+        {
+            $policies =& $role->policyList();
+            if ( count( $policies ) == 0 )
+                $role->remove();
+        }
     }
 
     function remove( $roleID = false )
