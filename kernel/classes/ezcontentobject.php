@@ -1000,7 +1000,6 @@ class eZContentObject extends eZPersistentObject
     /*!
       Fetches the attributes for the current published version of the object.
     */
-    function &contentObjectAttributes( $asObject = true, $version = false, $language = false )
     function &contentObjectAttributes( $asObject = true, $version = false, $language = false, $contentObjectAttributeID = false, $distinctItemsOnly = false )
     {
         $db =& eZDB::instance();
