@@ -1,4 +1,5 @@
-<a href="/manual/user/e-commerce#Discount" target="_ezpublishmanual"><img src="/design/standard/images/help.gif" align="right"> </a>
+<a href={"/manual/user/e-commerce#Discount"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} align="right"> </a>
+
 <form action={"shop/discountgroup"|ezurl} method="post" name="DiscountGroup">
 
 <div class="maincontentheader">

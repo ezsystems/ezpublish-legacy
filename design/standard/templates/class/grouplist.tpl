@@ -1,4 +1,4 @@
-<a href="/manual/user/everyday#Classes" target="_ezpublishmanual"><img src="/design/standard/images/help.gif" align="right"> </a>
+<a href={"/manual/user/everyday#Classes"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} align="right"> </a>
 
 <form action={"class/grouplist"|ezurl} method="post" name="GroupList">
 

@@ -1,4 +1,5 @@
-<a href="/manual/user/e-commerce#Order" target="_ezpublishmanual"><img src="/design/standard/images/help.gif" align="right"> </a>
+<a href={"/manual/user/e-commerce#Order"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} align="right"> </a>
+
 <div class="maincontentheader">
 <h1>{"Order list"|i18n("design/standard/shop")}</h1>
 </div>
