@@ -194,11 +194,10 @@ function &generateNodeViewTemplate( &$http, $template, $fileName )
 {
     $matchArray = $http->postVariable( 'Match' );
 
-
     $templateCode = "";
-    $classID = $matchArray['class'];
+    $classIdentifier = $matchArray['class_identifier'];
 
-    $class = eZContentClass::fetch( $classID );
+    $class = eZContentClass::fetchByIdentifier( $classIdentifier );
 
     // Check what kind of contents we should create in the template
     switch ( $http->postVariable( 'TemplateContent' ) )
@@ -282,6 +281,7 @@ function &generateNodeViewTemplate( &$http, $template, $fileName )
         {
         }break;
     }
+
     return $templateCode;
 }
 
