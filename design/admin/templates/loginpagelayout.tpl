@@ -32,6 +32,12 @@ div#path { margin-top: -1px; }
 
 <div id="header">
 <div id="header-design">
+
+<div id="logo">
+<a href="/"><img src={'ezpublish-logo-200x40.gif'|ezimage} width="200" height="40" alt="eZ publish" border="0" /></a>
+<p>version 3.5 - alpha</p>
+</div>
+
 </div>
 </div>
 

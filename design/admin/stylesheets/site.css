@@ -885,6 +885,7 @@ div.controlbar div.block
 
 div.controlbar label
 {
+    display: inline;
     color: #979690;
 }
 
