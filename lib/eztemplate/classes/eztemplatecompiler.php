@@ -437,6 +437,17 @@ class eZTemplateCompiler
         $php->addComment( 'URI:       ' . $resourceData['uri'] );
         $php->addComment( 'Filename:  ' . $resourceData['template-filename'] );
         $php->addComment( 'Timestamp: ' . $resourceData['time-stamp'] . ' (' . date( 'D M j G:i:s T Y', $resourceData['time-stamp'] ) . ')' );
+
+        if ( $resourceData['locales'] )
+        {
+            $php->addComment( 'Locales:   ' . join( ', ', $resourceData['locales'] ) );
+
+            $php->addCodePiece( 
+                '$locales = array( "'. join( '", "', $resourceData['locales'] ) . "\" );\n". 
+                '$oldLocale_'. md5( $resourceData['template-filename'] ). ' = setlocale( LC_CTYPE, null );'. "\n".
+                '$currentLocale_'. md5( $resourceData['template-filename'] ). ' = setlocale( LC_CTYPE, $locales );'. "\n"
+            );
+        }
 //         $php->addCodePiece( "print( \"" . $resourceData['template-filename'] . " ($cacheFileName)<br/>\n\" );" );
         if ( $useComments )
         {
@@ -506,6 +517,13 @@ class eZTemplateCompiler
             $php->addCodePiece( "eZDebug::addTimingPoint( 'Script end $cacheFileName' );\n" );
         if ( eZTemplateCompiler::isAccumulatorsEnabled() )
             $php->addCodePiece( "eZDebug::accumulatorStop( 'template_compiled_execution', true );\n" );
+
+        if ( $resourceData['locales'] )
+        {
+            $php->addCodePiece( 
+                'setlocale( LC_CTYPE, $oldLocale_'. md5( $resourceData['template-filename'] ). ' );'. "\n"
+            );
+        }
 
         $php->store();
 

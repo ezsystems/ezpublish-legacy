@@ -210,6 +210,7 @@ class eZTemplateFileResource
         $resourceName =& $resourceData['resource'];
         $path =& $resourceData['template-filename'];
         $keyData =& $resourceData['key-data'];
+        $localeData =& $resourceData['locales'];
 
         if ( !file_exists( $path ) )
             return false;
@@ -245,6 +246,7 @@ class eZTemplateFileResource
                 $text = preg_replace( "/\n|\r\n|\r/", "\n", $text );
                 $tplINI =& $tpl->ini();
                 $charset = $tplINI->variable( 'CharsetSettings', 'DefaultTemplateCharset' );
+                $locales = array();
                 $pos = strpos( $text, "\n" );
                 if ( $pos !== false )
                 {
@@ -255,18 +257,39 @@ class eZTemplateFileResource
                         foreach ( $args as $arg )
                         {
                             $vars = explode( '=', trim( $arg ) );
-                            if ( $vars[0] == "charset" )
-                            {
-                                $val = $vars[1];
-                                if ( $val[0] == '"' and
-                                     strlen( $val ) > 0 and
-                                     $val[strlen($val)-1] == '"' )
-                                    $val = substr( $val, 1, strlen($val) - 2 );
-                                $charset = $val;
+                            switch ( $vars[0] ) {
+                                case 'charset': {
+                                    $val = $vars[1];
+                                    if ( $val[0] == '"' and
+                                         strlen( $val ) > 0 and
+                                         $val[strlen($val)-1] == '"' )
+                                    {
+                                        $val = substr( $val, 1, strlen($val) - 2 );
+                                    }
+                                    $charset = $val;
+                                } break;
+                                case 'locale': {
+                                    $val = $vars[1];
+                                    if ( $val[0] == '"' and
+                                         strlen( $val ) > 0 and
+                                         $val[strlen($val)-1] == '"' )
+                                    {
+                                        $val = substr( $val, 1, strlen($val) - 2 );
+                                    }
+                                    $locales = explode( ',', $val );
+                                } break;
                             }
                         }
                     }
                 }
+
+                /* Setting locale to allow standard PHP functions to handle
+                 * strtoupper/lower() */
+                $defaultLocale = $tplINI->variable( 'CharsetSettings', 'DefaultTemplateCharset' );
+                $locales[] = $defaultLocale;
+                setlocale(LC_CTYPE, $locales);
+                $localeData = $locales;
+                
                 if ( eZTemplate::isDebugEnabled() )
                     eZDebug::writeNotice( "$path, $charset" );
                 $codec =& eZTextCodec::instance( $charset, false, false );

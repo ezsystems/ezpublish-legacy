@@ -23,5 +23,10 @@ eZPersistentObject:
 *Unit tests:
 
 *Bugs:
+- Fixed 'bug' with locales, which resulted in a new template setting "locale"
+  as in: {*?template locale="oezbekistan,norwegian,nl_NL.iso-8859-1"?*}. When
+  this is set the locale will be changed and strtoupper and strtolower will
+  take this into account.
+  http://ez.no/community/bug_reports/upcase_with_international_charakters_here_german
 
 *Update

@@ -603,6 +603,7 @@ class eZTemplate
         $resourceData['compiled-template'] = false;
         $resourceData['time-stamp'] = null;
         $resourceData['key-data'] = null;
+        $resourceData['locales'] = null;
 
         if ( !$resourceObject->handleResource( $this, $resourceData, EZ_RESOURCE_FETCH, $extraParameters ) )
         {
