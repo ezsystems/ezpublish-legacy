@@ -84,7 +84,7 @@ class eZINI
     /*!
       Initialization of object;
     */
-    function eZINI( $fileName, $rootDir = "", $useTextCodec = null, $useCache = null, $useLocalOverrides = null )
+    function eZINI( $fileName, $rootDir = "", $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false )
     {
         $this->Charset = "utf8";
         if ( $fileName == "" )
@@ -104,6 +104,7 @@ class eZINI
         $this->FileName = $fileName;
         $this->RootDir = $rootDir;
         $this->UseCache = $useCache;
+        $this->DirectAccess = $directAccess;
         $this->UseLocalOverrides = $useLocalOverrides;
 
         if ( $this->UseLocalOverrides == true )
@@ -227,10 +228,16 @@ class eZINI
         }
         else
         {
-            $this->parse( $reset );
+            $this->parse( false, false, $reset );
         }
     }
 
+    /*!
+     \private
+     Looks trough all known settings and override folders to find relevant INI files.
+     The result is a list with expanded paths to the files.
+     \return the expanded file list.
+    */
     function findInputFiles( &$inputFiles, &$iniFile )
     {
         include_once( 'lib/ezutils/classes/ezdir.php' );
@@ -450,9 +457,16 @@ class eZINI
     {
         if ( $reset )
             $this->reset();
-        if ( $inputFiles === false or
-             $iniFile === false )
-            $this->findInputFiles( $inputFiles, $iniFile );
+        if ( $this->DirectAccess )
+        {
+            $inputFiles = array( $this->FileName );
+        }
+        else
+        {
+            if ( $inputFiles === false or
+                 $iniFile === false )
+                $this->findInputFiles( $inputFiles, $iniFile );
+        }
 
         foreach ( $inputFiles as $inputFile )
         {
@@ -591,18 +605,16 @@ class eZINI
       if \a $useOverride is "append" it will append ".append" to the filename.
     */
     function &save( $fileName = false, $suffix = false, $useOverride = false,
-                    $onlyModified = false )
+                    $onlyModified = false, $useRootDir = true )
     {
         $lineSeparator = eZSys::lineSeparator();
         $pathArray = array();
         if ( $fileName === false )
             $fileName = $this->FileName;
-        $pathArray[] = $this->RootDir;
+        if ( $useRootDir )
+            $pathArray[] = $this->RootDir;
         if ( $useOverride )
-        {
-//             $overrideDirs = $this->overrideDirs();
             $pathArray[] = 'override';
-        }
         if ( is_string( $useOverride ) and
              $useOverride == "append" )
             $fileName .= ".append";
@@ -958,12 +970,37 @@ class eZINI
     }
 
     /*!
-      Sets an INI file variable.
+     Sets multiple variables from the array \a $variables.
+     \param $variables Contains an associative array with groups as first key,
+                       variable names as second key and variable values as values.
+     \code
+     $ini->setVariables( array( 'SiteSettings' => array( 'SiteName' => 'mysite',
+                                                         'SiteURL' => 'http://mysite.com' ) ) );
+     \encode
+     \sa setVariable
     */
-    function &setVariable( $blockName, $varName, $varValue )
+    function &setVariables( $variables )
     {
-        $this->BlockValues[$blockName][$varName] = $varValue;
-        $this->ModifiedBlockValues[$blockName][$varName] = true;
+        foreach ( $variables as $blockName => $blockVariables )
+        {
+            foreach ( $blockVariables as $variableName => $variableValue )
+            {
+                $this->setVariable( $blockName, $variableName, $variableValue );
+           }
+        }
+    }
+
+    /*!
+     Sets an INI file variable.
+     \code
+     $ini->setVariable( 'SiteSettings', 'SiteName', 'mysite' );
+     \endcode
+     \sa setVariables
+    */
+    function &setVariable( $blockName, $variableName, $variableValue )
+    {
+        $this->BlockValues[$blockName][$variableName] = $variableValue;
+        $this->ModifiedBlockValues[$blockName][$variableName] = true;
     }
 
     /*!
@@ -1011,6 +1048,16 @@ class eZINI
     }
 
     /*!
+     Fetches the ini file \a $fileName and returns the INI object for it.
+     \note This will not use the override system or read cache files, this is a direct fetch from one file.
+    */
+    function &fetchFromFile( $fileName, $useTextCodec = null )
+    {
+        $impl = new eZINI( $fileName, false, $useTextCodec, false, false, true );
+        return $impl;
+    }
+
+    /*!
       \static
       Similar to instance() but will always create a new copy.
     */
@@ -1050,6 +1097,9 @@ class eZINI
 
     /// Contains the override dirs, if in local mode
     var $LocalOverrideDirArray;
+
+    /// If \c true then all file loads are done directly on the filename.
+    var $DirectAccess;
 }
 
 ?>

@@ -287,6 +287,7 @@ class eZLocale
         $this->LanguageName = '';
         $this->LanguageComment = '';
         $this->IntlLanguageName = '';
+        $this->AllowedCharsets = array();
 
         $this->ShortDayNames = array();
         $this->LongDayNames = array();
@@ -377,6 +378,10 @@ class eZLocale
                 if ( $charset != '' )
                     $this->Charset = $charset;
             }
+        }
+        if ( $languageINI->hasVariable( 'Charset', 'Allowed' ) )
+        {
+            $this->AllowedCharsets = $languageINI->variable( 'Charset', 'Allowed' );
         }
 
         if ( !is_array( $this->ShortDayNames ) )
@@ -523,6 +528,7 @@ class eZLocale
     function attributeFunctionMap()
     {
         return array( 'charset' => 'charset',
+                      'allowed_charsets' => 'allowedCharsets',
                       'country_name' => 'countryName',
                       'country_comment' => 'countryComment',
                       'country_code' => 'countryCode',
@@ -552,6 +558,14 @@ class eZLocale
     function charset()
     {
         return $this->Charset;
+    }
+
+    /*!
+     \return an array with charsets that this locale can work with.
+    */
+    function allowedCharsets()
+    {
+        return $this->AllowedCharsets;
     }
 
     /*!

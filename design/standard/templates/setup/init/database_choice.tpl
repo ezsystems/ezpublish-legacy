@@ -15,18 +15,18 @@
 </tr>
 {section name=DB loop=$database_list}
 <tr>
-  <td class="normal">{"Type"|i18n("design/standard/setup/init")}</td>
-  <td rowspan="2" class="normal">&nbsp;&nbsp;</td>
+{*  <td class="normal">{"Type"|i18n("design/standard/setup/init")}</td>
+  <td rowspan="1" class="normal">&nbsp;&nbsp;</td>*}
   <td class="normal">{$:item.name}</td>
-  <td rowspan="2" class="normal">&nbsp;&nbsp;</td>
-  <td class="normal" rowspan="2" valign="top">
+  <td rowspan="1" class="normal">&nbsp;&nbsp;</td>
+  <td class="normal" rowspan="1" valign="top">
   <input type="radio" name="eZSetupDatabaseType" value="{$:item.type}" {section show=eq($:number,1)}checked="checked" {/section}/>
   </td>
 </tr>
-<tr>
+{*<tr>
   <td class="normal">{"Driver"|i18n("design/standard/setup/init")}</td>
   <td class="normal">{$:item.driver}</td>
-</tr>
+</tr>*}
 {*<tr>
   <td class="normal">{"Unicode support"|i18n("design/standard/setup/init")}</td>
   <td class="normal">{$:item.supports_unicode|choose("no"|i18n("design/standard/setup/init"),"yes"|i18n("design/standard/setup/init"))}</td>

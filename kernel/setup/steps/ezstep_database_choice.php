@@ -117,7 +117,7 @@ class eZStepDatabaseChoice extends eZStepInstaller
         }
 
         $this->Tpl->setVariable( 'setup_previous_step', 'DatabaseChoice' );
-        $this->Tpl->setVariable( 'setup_next_step', 'LanguageOptions' );
+        $this->Tpl->setVariable( 'setup_next_step', 'DatabaseInit' );
 
         $this->Tpl->setVariable( 'database_list', $databaseList );
 

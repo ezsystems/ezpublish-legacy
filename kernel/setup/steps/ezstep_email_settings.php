@@ -111,7 +111,7 @@ class eZStepEmailSettings extends eZStepInstaller
         $systemType = eZSys::filesystemType();
         $this->Tpl->setVariable( 'system', array( 'type' => $systemType ) );
 
-        $this->Tpl->setVariable( 'setup_next_step', 'DatabaseInit' );
+        $this->Tpl->setVariable( 'setup_next_step', 'DatabaseChoice' );
         $this->Tpl->setVariable( 'setup_previous_step', 'EmailSettings' );
 
         $result = array();

@@ -197,6 +197,8 @@ Changes from 3.1-1 to 3.2.0-1
   and to this encoding is supported seamlessly.
 - Cleaned up the code which decides how the conversion should be done from input charset to output charset.
 - Removed bad use of reference in eZUTF8Codec.
+- Added koi-r charset and the cp125* charsets to the charset info class.
+
 
 *eZ template:
 - Added basic string and array handling operators.
@@ -209,11 +211,16 @@ Changes from 3.1-1 to 3.2.0-1
 - Added support for getting version number of database.
 - Added support for getting all available databases for logged in user.
 
+*eZ locale:
+- Added support for querying the locale about allowed charsets.
+
 *eZ utils:
 - Added compatability files for eZLog, eZFile and eZDir which links to the eZ file library.
 
 eZ ini:
-- Added support for more characters in accociative arrays defined in .ini files
+- Added support for more characters in accociative arrays defined in .ini files.
+- Added support for fetching an ini file by supplying the full path thus ignoring
+  overrides and cache files.
 
 eZ module:
 - Added function to return the current redirection URI which is built from module, view and parameters.

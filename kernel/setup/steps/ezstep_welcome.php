@@ -87,7 +87,7 @@ class eZStepWelcome extends eZStepInstaller
 
         if( $systemCheckResult === true ) // system checks passed
         {
-            $this->Tpl->setVariable( 'setup_next_step', 'DatabaseChoice' );
+            $this->Tpl->setVariable( 'setup_next_step', 'LanguageOptions' );
         }
         else
         {

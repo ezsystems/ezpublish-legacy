@@ -395,12 +395,13 @@ class eZPackage
         return false;
     }
 
-    function fileStorePath( $fileItem, $collectionName, $path = false )
+    function fileStorePath( $fileItem, $collectionName, $path = false, $installVariables = array() )
     {
 //         print( "<pre>fileItem\n" );
 //         print_r( $fileItem );
 //         print( "</pre>" );
         $type = $fileItem['type'];
+        $variableName = $fileItem['variable-name'];
         if ( $type == 'file' )
         {
             $pathArray = array( $path, $fileItem['subdirectory'] );
@@ -411,6 +412,7 @@ class eZPackage
         else if ( $type == 'design' )
         {
             $roleFileName = false;
+            $design = $fileItem['design'];
             switch ( $fileItem['role'] )
             {
                 case 'template':
@@ -430,7 +432,39 @@ class eZPackage
                     $roleFileName = 'fonts';
                 } break;
             }
-            $pathArray = array( $path, 'design', $fileItem['design'], $roleFileName, $fileItem['subdirectory'] );
+            if ( $variableName and
+                 isset( $installVariables[$variableName] ) )
+                $design = $installVariables[$variableName];
+            $pathArray = array( $path, 'design', $design, $roleFileName, $fileItem['subdirectory'] );
+            if ( $fileItem['file-type'] != 'dir' )
+                $pathArray[] = $fileItem['name'];
+            $path = eZDir::path( $pathArray );
+        }
+        else if ( $type == 'ini' )
+        {
+            $roleValue = false;
+            $roleFileName = false;
+            switch ( $fileItem['role'] )
+            {
+                case 'override':
+                {
+                    $roleFileName = 'override';
+                } break;
+                case 'siteaccess':
+                {
+                    $roleFileName = 'siteaccess';
+                    $roleValue = $fileItem['role-value'];
+                    if ( $variableName and
+                         isset( $installVariables[$variableName] ) )
+                        $roleValue = $installVariables[$variableName];
+                } break;
+                case 'standard':
+                default:
+                {
+                    $roleFileName = '';
+                } break;
+            }
+            $pathArray = array( $path, 'settings', $roleFileName, $roleValue, $fileItem['subdirectory'] );
             if ( $fileItem['file-type'] != 'dir' )
                 $pathArray[] = $fileItem['name'];
             $path = eZDir::path( $pathArray );
@@ -447,7 +481,11 @@ class eZPackage
         if ( $fileItem['type'] == 'design' )
             $typeDir .= '.' . $fileItem['design'];
         if ( $fileItem['role'] )
+        {
             $typeDir .= '.' . $fileItem['role'];
+            if ( $fileItem['role-value'] )
+                $typeDir .= '-' . $fileItem['role-value'];
+        }
         $path .= '/' . $this->attribute( 'name' ) . '/' . eZPackage::filesDirectory() . '/' . $collectionName . '/' . $typeDir;
         if ( $fileItem['subdirectory'] )
             $path .= '/' . $fileItem['subdirectory'];
@@ -480,7 +518,8 @@ class eZPackage
     function appendFile( $file, $type, $role,
                          $design, $filePath, $collection,
                          $subDirectory = null, $md5 = null,
-                         $copyFile = false, $modified = null, $fileType = false )
+                         $copyFile = false, $modified = null, $fileType = false,
+                         $roleValue = false, $variableName = false )
     {
         if ( $modified === null )
             $modified = mktime();
@@ -499,6 +538,8 @@ class eZPackage
                            'subdirectory' => $subDirectory,
                            'type' => $type,
                            'role' => $role,
+                           'role-value' => $roleValue,
+                           'variable-name' => $variableName,
                            'path' => $filePath,
                            'file-type' => $fileType,
                            'design' => $design,
@@ -1409,6 +1450,8 @@ class eZPackage
                     $fileType = $fileListNode->attributeValue( 'type' );
                     $fileDesign = $fileListNode->attributeValue( 'design' );
                     $fileRole = $fileListNode->attributeValue( 'role' );
+                    $fileVariableName = $fileListNode->attributeValue( 'variable-name' );
+                    $fileRoleValue = $fileListNode->attributeValue( 'role-value' );
 //                     $dirs =& $fileListNode->elementsByName( 'dir' );
 //                     {
 //                         if ( count( $dirs ) > 0 )
@@ -1435,6 +1478,8 @@ class eZPackage
                             $fileNode =& $files[$fileKey];
                             $fileFileType = $fileNode->attributeValue( 'type' );
                             $fileName = $fileNode->attributeValue( 'name' );
+                            if ( $fileNode->attributeValue( 'variable-name' ) )
+                                $fileVariableName = $fileNode->attributeValue( 'variable-name' );
                             $fileSubDirectory = $fileNode->attributeValue( 'sub-directory' );
                             $filePath = $fileNode->attributeValue( 'path' );
                             $fileMD5 = $fileNode->attributeValue( 'md5sum' );
@@ -1442,7 +1487,8 @@ class eZPackage
                             $this->appendFile( $fileName, $fileType, $fileRole,
                                                $fileDesign, $filePath, $fileCollectionName,
                                                $fileSubDirectory, $fileMD5, false, $fileModified,
-                                               $fileFileType );
+                                               $fileFileType,
+                                               $fileRoleValue, $fileVariableName );
                         }
                     }
                     else
@@ -1802,11 +1848,14 @@ class eZPackage
                 unset( $fileThumbnailLists );
                 $fileList = array();
                 $fileDesignList = array();
+                $fileINIList = array();
                 $fileThumbnailList = array();
                 foreach ( $fileCollection as $fileItem )
                 {
                     if ( $fileItem['type'] == 'design' )
-                        $fileListNode =& $fileDesignLists[$fileItem['design']][$fileItem['role']];
+                        $fileListNode =& $fileDesignLists[$fileItem['design']][$fileItem['role']][$fileItem['role-value']][$fileItem['variable-name']];
+                    else if ( $fileItem['type'] == 'ini' )
+                        $fileListNode =& $fileINILists[$fileItem['role']][$fileItem['role-value']][$fileItem['variable-name']];
                     else if ( $fileItem['type'] == 'thumbnail' )
                         $fileListNode =& $fileThumbnailLists[$fileItem['role']];
                     else
@@ -1818,6 +1867,10 @@ class eZPackage
                             $fileListAttributes['design'] = $fileItem['design'];
                         if ( $fileItem['role'] )
                             $fileListAttributes['role'] = $fileItem['role'];
+                        if ( $fileItem['role-value'] )
+                            $fileListAttributes['role-value'] = $fileItem['role-value'];
+                        if ( $fileItem['variable-name'] )
+                            $fileListAttributes['variable-name'] = $fileItem['variable-name'];
                         $fileListNode = $dom->createElementNode( 'file-list',
                                                                  $fileListAttributes );
                         $fileCollectionNode->appendChild( $fileListNode );
@@ -1847,7 +1900,11 @@ class eZPackage
                         if ( $fileItem['type'] == 'design' )
                             $typeDir .= '.' . $fileItem['design'];
                         if ( $fileItem['role'] )
+                        {
                             $typeDir .= '.' . $fileItem['role'];
+                            if ( $fileItem['role-value'] )
+                                $typeDir .= '-' . $fileItem['role-value'];
+                        }
                         $path = $this->path() . '/' . eZPackage::filesDirectory() . '/' . $fileCollectionName . '/' . $typeDir;
                         $destinationPath = $exportPath . '/' . eZPackage::filesDirectory() . '/' . $fileCollectionName . '/' . $typeDir;
                         if ( $fileItem['subdirectory'] )
@@ -1894,7 +1951,11 @@ class eZPackage
                         if ( $fileItem['type'] == 'design' )
                             $typeDir .= '.' . $fileItem['design'];
                         if ( $fileItem['role'] )
+                        {
                             $typeDir .= '.' . $fileItem['role'];
+                            if ( $fileItem['role-value'] )
+                                $typeDir .= '-' . $fileItem['role-value'];
+                        }
                         $path = $this->path() . '/' . eZPackage::filesDirectory() . '/' . $fileCollectionName . '/' . $typeDir;
                         if ( $fileItem['subdirectory'] )
                             $path .= '/' . $fileItem['subdirectory'];

@@ -89,14 +89,14 @@ class eZStepLanguageOptions extends eZStepInstaller
      */
     function display()
     {
-        $languages = array( 'eng-GB' => 'English (United Kingdom)',
-                            'eng-US' => 'English (American)',
-                            'ger-DE' => 'Deutsch',
-                            'nno-NO' => 'Norsk (Nynorsk)',
-                            'nor-NO' => 'Norsk (Bomål)',
-                            'pol-PO' => 'Polish',
-                            'rus-RU' => 'Russian',
-                            'swe-SE' => 'Swedish');
+        $locales =& eZLocale::localeList( true );
+        $languages = array();
+        foreach ( array_keys( $locales ) as $localeKey )
+        {
+            $locale =& $locales[$localeKey];
+            if ( !$locale->attribute( 'country_variation' ) )
+                $languages[] = $locale;
+        }
 
         $this->Tpl->setVariable( 'language_list', $languages );
 

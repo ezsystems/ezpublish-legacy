@@ -94,23 +94,24 @@
 </tr>
 <tr>
   <td class="normal">{"Type"|i18n("design/standard/setup/init")}</td>
-  <td rowspan="{eq($database_info.info.driver,'ezmysql')|choose(8,9)}" class="normal">&nbsp;&nbsp;</td>
+{*  <td rowspan="{eq($database_info.info.driver,'ezmysql')|choose(8,9)}" class="normal">&nbsp;&nbsp;</td>*}
+  <td rowspan="7" class="normal">&nbsp;&nbsp;</td>
   <td class="normal">
   {$database_info.info.name}
   </td>
 </tr>
-<tr>
+{*<tr>
   <td class="normal">{"Driver"|i18n("design/standard/setup/init")}</td>
   <td class="normal">
   {$database_info.info.driver}
   </td>
-</tr>
-<tr>
+</tr>*}
+{*<tr>
   <td class="normal">{"Unicode support"|i18n("design/standard/setup/init")}</td>
   <td class="normal">
   {$database_info.info.supports_unicode|choose("no","yes")}
   </td>
-</tr>
+</tr>*}
 
 <tr>
   <td class="normal">{"Servername"|i18n("design/standard/setup/init")}</td>

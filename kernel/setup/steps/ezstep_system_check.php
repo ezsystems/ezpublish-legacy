@@ -95,7 +95,7 @@ class eZStepSystemCheck extends eZStepInstaller
     function &display()
     {
         $this->Tpl->setVariable( 'setup_previous_step', 'SystemCheck' );
-        $this->Tpl->setVariable( 'setup_next_step', 'DatabaseChoice' );
+        $this->Tpl->setVariable( 'setup_next_step', 'LanguageOptions' );
 
         $this->Tpl->setVariable( 'test', array( 'result' => $this->Result,
                                       'results' => $this->Results ) );

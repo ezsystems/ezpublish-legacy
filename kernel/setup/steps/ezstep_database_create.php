@@ -69,54 +69,52 @@ class eZStepDatabaseCreate extends eZStepInstaller
      */
     function init()
     {
-        $databaseMap = eZSetupDatabaseMap();
-
-        // Get password
-        if ( isset( $this->PersistenceList['database_info']['password'] ) )
+        $siteCount = $this->PersistenceList['site_templates']['count'];
+        if ( $siteCount == 0 )
         {
-            $password = $this->PersistenceList['database_info']['password'];
-        }
+            $databaseMap = eZSetupDatabaseMap();
 
-        $databaseInfo = $this->PersistenceList['database_info'];
-        $databaseInfo['info'] = $databaseMap[$databaseInfo['type']];
-        $regionalInfo = $this->PersistenceList['regional_info'];
-
-        $dbStatus = array();
-        $dbDriver = $databaseInfo['info']['driver'];
-        $dbServer = $databaseInfo['server'];
-        $dbName = $databaseInfo['dbname'];
-        $dbUser = $databaseInfo['user'];
-        $dbSocket = $databaseInfo['socket'];
-        if ( trim( $dbSocket ) == '' )
-            $dbSocket = false;
-        $dbPwd = $password;
-        $dbCharset = 'iso-8859-1';
-        $dbParameters = array( 'server' => $dbServer,
-                               'user' => $dbUser,
-                               'password' => $dbPwd,
-                               'socket' => $dbSocket,
-                               'database' => $dbName,
-                               'charset' => $dbCharset );
-        $db =& eZDB::instance( $dbDriver, $dbParameters, true );
-        eZDB::setInstance( $db );
-        $dbStatus['connected'] = $db->isConnected();
-
-        $dbError = false;
-        $demoDataResult = true;
-        if ( $dbStatus['connected'] )
-        {
-            if ( $this->PersistenceList['database_info']['existing_database'] == 2 )
+            // Get password
+            if ( isset( $this->PersistenceList['database_info']['password'] ) )
             {
-                set_time_limit( 0 );
-                $db->OutputSQL = false;
-                if ( !eZDBTool::cleanup( $db ) )
-                    $dbError = true;
+                $password = $this->PersistenceList['database_info']['password'];
             }
 
-            if ( $this->PersistenceList['database_info']['existing_database'] != 3 )
+            $databaseInfo = $this->PersistenceList['database_info'];
+            $databaseInfo['info'] = $databaseMap[$databaseInfo['type']];
+            $regionalInfo = $this->PersistenceList['regional_info'];
+
+            $dbStatus = array();
+            $dbDriver = $databaseInfo['info']['driver'];
+            $dbServer = $databaseInfo['server'];
+            $dbName = $databaseInfo['dbname'];
+            $dbUser = $databaseInfo['user'];
+            $dbSocket = $databaseInfo['socket'];
+            if ( trim( $dbSocket ) == '' )
+                $dbSocket = false;
+            $dbPwd = $password;
+            $dbParameters = array( 'server' => $dbServer,
+                                   'user' => $dbUser,
+                                   'password' => $dbPwd,
+                                   'socket' => $dbSocket,
+                                   'database' => $dbName );
+            $db =& eZDB::instance( $dbDriver, $dbParameters, true );
+            eZDB::setInstance( $db );
+            $dbStatus['connected'] = $db->isConnected();
+
+            $dbError = false;
+            $demoDataResult = true;
+            if ( $dbStatus['connected'] )
             {
-                $siteCount = $this->PersistenceList['site_templates']['count'];
-                if ( $siteCount == 0 )
+                if ( $this->PersistenceList['database_info']['existing_database'] == 2 )
+                {
+                    set_time_limit( 0 );
+                    $db->OutputSQL = false;
+                    if ( !eZDBTool::cleanup( $db ) )
+                        $dbError = true;
+                }
+
+                if ( $this->PersistenceList['database_info']['existing_database'] != 3 )
                 {
                     $setupINI =& eZINI::instance( 'setup.ini' );
                     $sqlSchemaFile = $setupINI->variable( 'DatabaseSettings', 'SQLSchema' );

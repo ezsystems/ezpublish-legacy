@@ -78,7 +78,18 @@ class eZCharsetInfo
                                  "hebrew" => "iso-8859-8",
                                  "thai" => "iso-8859-11",
 
+                                 'koi8-r' => 'koi8-r',
+                                 'koi-8-r' => 'koi8-r',
+
+                                 "cp1250" => "windows-1250",
+                                 "cp1251" => "windows-1251",
                                  "cp1252" => "windows-1252",
+                                 "cp1253" => "windows-1253",
+                                 "cp1254" => "windows-1254",
+                                 "cp1255" => "windows-1255",
+                                 "cp1256" => "windows-1256",
+                                 "cp1257" => "windows-1257",
+                                 "cp1258" => "windows-1258",
                                  "winlatin1" => "windows-1252",
                                  "winlatin2" => "windows-1250",
                                  "wincyrillic" => "windows-1251",

@@ -11,15 +11,15 @@
 <table border="0" cellspacing="0" cellpadding="0">
 
   <tr>
-    <th class="normal" colspan="3">{"Languages"|i18n("design/standard/setup/init")}:</th>
+    <th class="normal" colspan="3">{"Primary/Additional"|i18n("design/standard/setup/init")}:</th>
   </tr>
 
   {section name=Language loop=$language_list}
     <tr>    
       <td class="normal">
-        <input type="checkbox" name="eZSetupLanguages[]" value="{$:key}" {section show=eq($:number,1)}checked="checked" {/section}/>
-	<input type="radio" name="eZSetupDefaultLanguage" value="{$:key}" {section show=eq($:number,1)}checked="checked" {/section}/>
-	{$:item}
+	<input type="radio" name="eZSetupDefaultLanguage" value="{$:item.locale_code}" {section show=eq($:number,1)}checked="checked" {/section}/>
+        <input type="checkbox" name="eZSetupLanguages[]" value="{$:item.locale_code}" {section show=eq($:number,1)}checked="checked" {/section}/>
+	{$:item.language_name}
       </td>
     </tr>
   {/section}
@@ -28,7 +28,6 @@
 </p>
 <p>
 {"You can choose more than one language to use with eZ publish."|i18n("design/standard/setup/init")}
-{"You will later be asked to choose the languages for the sites you would like to set up."|i18n("design/standard/setup/init")}
 </p>
 
 {include uri="design:setup/init/steps.tpl"}
