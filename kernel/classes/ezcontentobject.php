@@ -206,6 +206,7 @@ class eZContentObject extends eZPersistentObject
 
     function setName( $objectName, $versionNum = false, $translation = false )
     {
+        $db =& eZDb::instance();
         if ( !$versionNum )
         {
             $versionNum = $this->attribute( 'current_version' );
@@ -213,19 +214,65 @@ class eZContentObject extends eZPersistentObject
         if ( !$translation )
         {
             $translation = $this->defaultLanguage();
+
         }
-        $objectID =$this->attribute( 'id' );
-        $db =& eZDb::instance();
-        $query = "delete from ezcontentobject_name where contentobject_id = $objectID and content_version = $versionNum and content_translation ='$translation' ";
-        $db->query( $query );
-        $query = "insert into ezcontentobject_name( contentobject_id,name,content_version,content_translation,real_translation )
+        $ini =& eZINI::instance();
+        $needTranslations = $ini->variableArray( "ContentSettings", "TranslationList" );
+
+        if ( $translation == $this->defaultLanguage() )
+        {
+            $default = true;
+        }
+        $objectID = $this->attribute( 'id' );
+        if ( !$default || count( $needTranslations ) == 1 )
+        {
+            $query = "delete from ezcontentobject_name where contentobject_id = $objectID and content_version = $versionNum and content_translation ='$translation' ";
+            $db->query( $query );
+            $query = "insert into ezcontentobject_name( contentobject_id,name,content_version,content_translation,real_translation )
                               values( $objectID,
                                       '$objectName',
                                       $versionNum,
                                       '$translation',
                                       '$translation' )";
-        $db->query( $query );
-        
+            $db->query( $query );
+            return;
+        }
+        else
+        {
+            $existingTranslationNamesResult = $db->arrayQuery( "select * from ezcontentobject_name where contentobject_id = $objectID and content_version = $versionNum" );
+            $existingTranslationList = array();
+            foreach ( $existingTranslationNamesResult as $existingTranslation )
+            {
+                $existingTranslationList[] = $existingTranslation['content_translation'];
+            }
+            $realTranslation =  $translation;
+            foreach ( $needTranslations as $needTranslation )
+            {
+                if ( $translation == $needTranslation )
+                {
+                    $query = "delete from ezcontentobject_name where contentobject_id = $objectID and content_version = $versionNum and content_translation ='$translation' ";
+                    $db->query( $query );
+                    $query = "insert into ezcontentobject_name( contentobject_id,name,content_version,content_translation,real_translation )
+                              values( $objectID,
+                                      '$objectName',
+                                      $versionNum,
+                                      '$translation',
+                                      '$translation' )";
+                    $db->query( $query );
+                }else if ( ! in_array( $needTranslation, $existingTranslationList ) )
+                {
+                    $query = "insert into ezcontentobject_name( contentobject_id,name,content_version,content_translation,real_translation )
+                              values( $objectID,
+                                      '$objectName',
+                                      $versionNum,
+                                      '$needTranslation',
+                                      '$translation' )";
+                    $db->query( $query );
+                }
+            }
+
+
+        }
     }
 
     /*!

@@ -534,6 +534,51 @@ class eZSearchEngine
                 }
             }
 
+
+            if ( isset( $params['Limitation'] ) )
+            {
+                $limitationList =& $params['Limitation'];
+            }
+            else if ( isset( $GLOBALS['ezpolicylimitation_list'] ) )
+            {
+                $policyList =& $GLOBALS['ezpolicylimitation_list'];
+                $limitationList = array();
+                foreach( array_keys( $policyList ) as $key )
+                {
+                    $policy =& $policyList[$key];
+                    $limitationList[] =& $policy->attribute( 'limitations' );
+                }
+            }
+
+
+            if( count( $limitationList ) > 0 )
+            {
+                $sqlParts = array();
+                foreach( $limitationList as $limitationArray )
+                {
+                    $sqlPartPart = array();
+                    foreach ( $limitationArray as $limitation )
+                    {
+                        if ( $limitation->attribute( 'identifier' ) == 'Class' )
+                        {
+                            $sqlPartPart[] = 'ezcontentobject.contentclass_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
+                        }
+                        elseif ( $limitation->attribute( 'identifier' ) == 'Section' )
+                        {
+                            $sqlPartPart[] = 'ezcontentobject.section_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
+                        }
+                        elseif( $limitation->attribute( 'name' ) == 'Owner' )
+                        {
+                            eZDebug::writeWarning( $limitation, 'Sistem is not configured to check Assigned in search objects' );
+                        }
+                    }
+                    $sqlParts[] = implode( ' AND ', $sqlPartPart );
+                }
+                $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
+            }
+
+
+
             $searchQuery = "SELECT DISTINCT ezcontentobject.id, ezcontentobject.*, ezsearch_object_word_link.frequency
                     FROM
                        ezcontentobject,
@@ -548,6 +593,7 @@ class eZSearchEngine
                     $fullTextSQL
                     $subTreeSQL
                     ezcontentobject.id=ezsearch_object_word_link.contentobject_id
+                    $sqlPermissionCheckingString
                     ORDER BY ezsearch_object_word_link.frequency";
 
             $searchCountQuery = "SELECT count( DISTINCT ezcontentobject.id ) as count
@@ -563,7 +609,8 @@ class eZSearchEngine
                     $phraseSQL
                     $fullTextSQL
                     $subTreeSQL
-                    ezcontentobject.id=ezsearch_object_word_link.contentobject_id";
+                    ezcontentobject.id=ezsearch_object_word_link.contentobject_id
+                    $sqlPermissionCheckingString";
 
             $objectRes = array();
 

@@ -206,6 +206,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $limitationList =& $params['Limitation'];
         }
+        else if ( isset( $GLOBALS['ezpolicylimitation_list'] ) )
+        {
+
+            $policyList =& $GLOBALS['ezpolicylimitation_list'];
+            $limitationList = array();
+            foreach ( array_keys( $policyList ) as $key )
+            {
+                $policy =& $policyList[$key];
+                $limitationList[] =& $policy->attribute( 'limitations' );
+
+            }
+            eZDebug::writeDebug($limitationList, "limitation list"  );
+        }
         $sortCount = 0;
         $sortList = false;
         if ( isset( $params['SortBy'] ) and
@@ -453,11 +466,25 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $nodeDepth = $this->attribute( 'depth' );
         $depthCond = '';
 
-//         $limitationList = array();
+        $limitationList = array();
         if ( isset( $params['Limitation'] ) )
         {
             $limitationList =& $params['Limitation'];
         }
+        else if ( isset( $GLOBALS['ezpolicylimitation_list'] ) )
+        {
+            $policyList =& $GLOBALS['ezpolicylimitation_list'];
+            $limitationList = array();
+            foreach ( array_keys( $policyList ) as $key )
+            {
+                $policy =& $policyList[$key];
+                $limitationList[] =& $policy->attribute( 'limitations' );
+
+            }
+            eZDebug::writeDebug($limitationList, "limitation list"  );
+
+        }
+
 
         if ( isset( $params[ 'Depth' ] ) && $params[ 'Depth' ] > 0 )
         {
