@@ -2368,7 +2368,7 @@ class eZPDFTable extends Cezpdf
                                'LeftMargin' => $this->ez['leftMargin'],
                                'RightMargin' => $this->ez['rightMargin'],
                                'TopMargin' => $this->ez['topMargin'],
-                               'BottomMargin' => $this->ez['BottomMargin'],
+                               'BottomMargin' => $this->ez['bottomMargin'],
                                'Continous' => $continous,
                                'FontSize' => $this->fontSize(),
                                'Justification' => $this->justification() );
