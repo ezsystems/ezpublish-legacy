@@ -27,10 +27,12 @@ function toggleCheckboxes( formname, checkboxname )
 
 <form name="role" action={concat( $module.functions.view.uri, '/', $role.id, '/')|ezurl} method="post" >
 
-<h1>{'Role:'|i18n( 'design/admin/role/view' )} {$role.name|wash}</h1>
-
 <div class="context-block">
-<h2 class="context-title">{'Policies'|i18n( 'design/admin/role/view' )}</h2>
+<h2 class="context-title">{$role.name|wash} [{'Role'|i18n('')}]</h2>
+
+<div class="context-content">
+
+<h2 class="context-content">{'Policies'|i18n( 'design/admin/role/view' )}</h2>
 <table class="list" cellspacing="0">
 <tr>
     <th>{'Module'|i18n(' design/admin/role/view ')}</th>
@@ -70,6 +72,8 @@ function toggleCheckboxes( formname, checkboxname )
 </tr>
 {/section}
 </table>
+</div>
+
 <div class="controlbar">
 <div class="block">
 <input class="button" type="submit" name="EditRoleButton" value="{'Edit'|i18n( 'design/admin/role/view' )}" title="{'Click here to edit this role.'|i18n( 'design/admin/role/view' )}" />
@@ -77,9 +81,10 @@ function toggleCheckboxes( formname, checkboxname )
 </div>
 </div>
 
-
 <div class="context-block">
-<h2 class="context-title">{'Users and groups assigned to this role'|i18n( 'design/admin/role/view' )}</h2>
+
+<h2 class="context-title">{'Users and groups using this role'|i18n( 'design/admin/role/view' )} [{$user_array|count}]</h2>
+
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="toggleCheckboxes( document.role, 'IDArray[]' ); return false;"/></th>
@@ -96,7 +101,7 @@ function toggleCheckboxes( formname, checkboxname )
         {section show=$Users.item.limit_ident}
           {$Users.item.limit_ident|wash}( {$Users.item.limit_value|wash} )
         {section-else}
-        &nbsp;
+        <i>{'No limitations'|i18n( 'design/admin/role/view' )}</i>
         {/section}
     </td>
 </tr>
