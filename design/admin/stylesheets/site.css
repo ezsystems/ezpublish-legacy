@@ -1432,4 +1432,11 @@ span.required, span.nontranslatable, span.collector
     font-weight: normal;
 }
 
+/*! Package listing in Look&Feel */
+
+div.package_element
+{
+    float: left;
+}
+
 /* th[eZ] */
