@@ -42,11 +42,12 @@
 
         <div class="attribute-pdf">
           <p>
-             <a href={concat('/content/pdf/',$node.node_id)|ezurl}>{'application/pdf'|mimetype_icon( small, "Download PDF"|i18n( "design/base" ) )} {"Download PDF"|i18n( "design/base" )}</a>
+             <a href={concat('/content/pdf/',$node.node_id)|ezurl}>{'application/pdf'|mimetype_icon( small, "Download PDF"|i18n( "design/base" ) )} {"Download PDF version of this page"|i18n( "design/base" )}</a>
           </p>
         </div>
 
         {* Should we allow comments? *}
+        {section show=is_unset( $versionview_mode )}
         {section show=$node.object.data_map.enable_comments.content}
             <h2>{"Comments"|i18n("design/base")}</h2>
                 <div class="content-view-children">
@@ -65,6 +66,7 @@
                 {section-else}
                     <h3>{"You are not allowed to create comments."|i18n("design/base")}</h3>
                 {/section}
+        {/section}
         {/section}
 
     </div>

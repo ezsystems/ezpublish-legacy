@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package version="3.4.0alpha1"
+<package version="3.4.0beta1"
          development="true"
          xmlns:ezpackage="http://ez.no/ezpackage"
          install_type="install">
@@ -8,12 +8,11 @@ The format of this file is also subject to change until the release version.
 Upgrades to the development format will not be supported.</warning>
   <name>news</name>
   <summary>News</summary>
-  <description>The news package adds article/news functionality to your site.
-</description>
+  <description>Adds article/news functionality to your site.</description>
   <type value="contentobject" />
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
-    <version>3.4.0alpha3</version>
-    <named-version>3.4.0alpha3-alpha3</named-version>
+    <version>3.4.0beta1</version>
+    <named-version>3.4.0beta1-beta1</named-version>
   </ezpublish>
   <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
     <maintainer>
@@ -23,7 +22,7 @@ Upgrades to the development format will not be supported.</warning>
     </maintainer>
   </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1082616483</timestamp>
+    <timestamp>1083917567</timestamp>
     <host>trunk.ezpublish.drakhendvh1.ez.no</host>
   </packaging>
   <documents>
@@ -31,16 +30,16 @@ Upgrades to the development format will not be supported.</warning>
               name="LICENCE" />
   </documents>
   <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry timestamp="1082616483"
+    <entry timestamp="1083917567"
            person="Administrator User"
            email="nospam@ez.no"
            release="1">
-      <change>Creation of package.</change>
+      <change>Created package for 3.4.0beta1.</change>
     </entry>
   </changelog>
   <simple-files />
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number>1.0</number>
+    <number>3.4.0beta1</number>
     <release>1</release>
   </version>
   <licence>GPL</licence>
@@ -72,7 +71,7 @@ Upgrades to the development format will not be supported.</warning>
           filename="class-comment"
           sub-directory="ezcontentclass" />
     <item type="ezcontentobject"
-          filename="07af4fe2"
+          filename="800d1a8f"
           sub-directory="ezcontentobject" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
@@ -86,7 +85,7 @@ Upgrades to the development format will not be supported.</warning>
           filename="class-comment"
           sub-directory="ezcontentclass" />
     <item type="ezcontentobject"
-          filename="07af4fe2"
+          filename="800d1a8f"
           sub-directory="ezcontentobject" />
   </uninstall>
 </package>

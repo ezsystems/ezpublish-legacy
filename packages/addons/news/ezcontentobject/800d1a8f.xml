@@ -3,19 +3,21 @@
   <object-list>
     <object xmlns:ezremote="http://ez.no/ezobject"
             ezremote:id="56"
-            name=" News"
+            name="News"
             ezremote:section_id="1"
             ezremote:owner_id="14"
             ezremote:class_id="1"
-            ezremote:published="Apr 20 2004 14:57:45"
-            ezremote:modified="Apr 20 2004 14:57:45"
+            ezremote:published="Tue, 20 Apr 2004 12:57:45 GMT"
+            ezremote:modified="Fri, 07 May 2004 07:32:58 GMT"
             remote_id="fade9b4882ffea151a9b10043ff7cb25"
             class_remote_id="a3d405b81be900468eb153d774f4f0d2"
             ezremote:class_identifier="folder">
-      <version-list active_version="1"
+      <version-list active_version="2"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version version="1"
-                          status="1">
+        <ezobject:version ezremote:version="2"
+                          ezremote:status="1"
+                          ezremote:created="Fri, 07 May 2004 07:32:50 GMT"
+                          ezremote:modified="Fri, 07 May 2004 07:32:58 GMT">
           <ezobject:object-translation language="eng-GB">
             <ezobject:attribute ezremote:id="181"
                                 ezremote:identifier="name"
@@ -36,9 +38,7 @@
               <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
                        xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
                        xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-                <paragraph>
-                  <line>This is a demo folder for the latest news on this site. It also contains some demo folders.</line>
-                </paragraph>
+                <paragraph>This is a demo folder for the latest news on this site. It also contains some demo folders.</paragraph>
               </section>
             </ezobject:attribute>
             <ezobject:attribute ezremote:id="184"
@@ -63,7 +63,7 @@
                              remote-id="fade9b4882ffea151a9b10043ff7cb25"
                              sort-field="published"
                              sort-order="0"
-                             priority="0" />
+                             priority="90" />
           </ezobject:node-assignment-list>
         </ezobject:version>
       </version-list>
@@ -74,15 +74,17 @@
             ezremote:section_id="1"
             ezremote:owner_id="14"
             ezremote:class_id="2"
-            ezremote:published="Apr 20 2004 15:01:05"
-            ezremote:modified="Apr 20 2004 15:01:05"
+            ezremote:published="Tue, 20 Apr 2004 13:01:05 GMT"
+            ezremote:modified="Tue, 20 Apr 2004 13:01:05 GMT"
             remote_id="97c77fd5821104f9fd626ffcd89d9e4c"
             class_remote_id="c15b600eb9198b1924063b5a68758232"
             ezremote:class_identifier="article">
       <version-list active_version="1"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version version="1"
-                          status="1">
+        <ezobject:version ezremote:version="1"
+                          ezremote:status="1"
+                          ezremote:created="Tue, 20 Apr 2004 13:00:25 GMT"
+                          ezremote:modified="Tue, 20 Apr 2004 13:01:05 GMT">
           <ezobject:object-translation language="eng-GB">
             <ezobject:attribute ezremote:id="186"
                                 ezremote:identifier="title"
@@ -207,15 +209,17 @@
             ezremote:section_id="1"
             ezremote:owner_id="14"
             ezremote:class_id="13"
-            ezremote:published="Apr 20 2004 15:03:28"
-            ezremote:modified="Apr 20 2004 15:03:28"
+            ezremote:published="Tue, 20 Apr 2004 13:03:28 GMT"
+            ezremote:modified="Tue, 20 Apr 2004 13:03:28 GMT"
             remote_id="5c4d45a71e39a9a198742384c078fd2e"
             class_remote_id="000c14f4f475e9f2955dedab72799941"
             ezremote:class_identifier="comment">
       <version-list active_version="1"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version version="1"
-                          status="1">
+        <ezobject:version ezremote:version="1"
+                          ezremote:status="1"
+                          ezremote:created="Tue, 20 Apr 2004 13:02:43 GMT"
+                          ezremote:modified="Tue, 20 Apr 2004 13:03:28 GMT">
           <ezobject:object-translation language="eng-GB">
             <ezobject:attribute ezremote:id="193"
                                 ezremote:identifier="subject"
@@ -255,15 +259,17 @@
             ezremote:section_id="1"
             ezremote:owner_id="14"
             ezremote:class_id="2"
-            ezremote:published="Apr 20 2004 15:16:24"
-            ezremote:modified="Apr 20 2004 15:16:24"
+            ezremote:published="Tue, 20 Apr 2004 13:16:24 GMT"
+            ezremote:modified="Tue, 20 Apr 2004 13:16:24 GMT"
             remote_id="ba1e8e60a530c7a461d677eaae0e33c8"
             class_remote_id="c15b600eb9198b1924063b5a68758232"
             ezremote:class_identifier="article">
       <version-list active_version="1"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version version="1"
-                          status="1">
+        <ezobject:version ezremote:version="1"
+                          ezremote:status="1"
+                          ezremote:created="Tue, 20 Apr 2004 13:13:31 GMT"
+                          ezremote:modified="Tue, 20 Apr 2004 13:16:24 GMT">
           <ezobject:object-translation language="eng-GB">
             <ezobject:attribute ezremote:id="196"
                                 ezremote:identifier="title"
@@ -758,6 +764,6 @@
   </site-access-list>
   <top-node-list>
     <top-node node-id="58"
-              remote-id="fade9b4882ffea151a9b10043ff7cb25"> News</top-node>
+              remote-id="fade9b4882ffea151a9b10043ff7cb25">News</top-node>
   </top-node-list>
 </content-object>
