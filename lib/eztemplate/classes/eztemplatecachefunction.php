@@ -444,7 +444,6 @@ ENDADDCODE;
                     if ( file_exists( $phpPath ) and
                          filemtime( $phpPath ) >= $expiryTime )
                     {
-                        eZDebug::writeDebug( $phpPath, "cacheblock file sp2" );
                         $fp = fopen( $phpPath, 'r' );
                         $textElements[] = fread( $fp, filesize( $phpPath ) );;
                         fclose( $fp );
