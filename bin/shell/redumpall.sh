@@ -25,7 +25,7 @@ function help
 USE_MYSQL=""
 USE_POSTGRESQL=""
 
-POST_USER="root"
+POST_USER="postgres"
 
 # Check parameters
 for arg in $*; do
