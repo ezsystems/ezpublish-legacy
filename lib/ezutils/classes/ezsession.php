@@ -74,7 +74,7 @@ function &eZSessionRead( $key )
 */
 function eZSessionWrite( $key, $value )
 {
-    include_once( 'lib/ezdb/classes/ezdb.php' );
+//    include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
     $ini =& eZIni::instance();
     $expirationTime = time() + $ini->variable( 'Session', 'SessionTimeout' );
