@@ -36,13 +36,13 @@
         {/let}
         </p>
 
-        {section show$node.object.can_edit}
+        {section show=$node.object.can_edit}
         <form method="post" action={"content/action/"|ezurl}>
 
         <br/>
 
         <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
-        <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
+        <input class="button forum-edit-reply" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
 
         </form>
         {/section}

@@ -1,7 +1,7 @@
 {let topic_list=fetch('content','list',hash( parent_node_id, $node.node_id,
                                              limit, 20,
                                              offset, $view_parameters.offset,
-                                             sort_by, array( array( attribute, false(), 'forum_topic/sticky' ), array('modified_subnode',false()))))
+                                             sort_by, array( array( attribute, false(), 'forum_topic/sticky' ), array( 'modified_subnode', false() ) ) ) )
      topic_count=fetch('content','list_count',hash(parent_node_id,$node.node_id))}
 
 <div class="content-view-full">
@@ -14,12 +14,13 @@
     </div>
 
 
+    {section show=is_unset( $versionview_mode )}
     {section show=$node.object.can_create}
         <form method="post" action={"content/action/"|ezurl}>
-            <input class="button" type="submit" name="NewButton" value="New topic" />
+            <input class="button forum-new-topic" type="submit" name="NewButton" value="New topic" />
             <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
             <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id.}" />
-            <input class="button" type="submit" name="ActionAddToNotification" value="Keep me updated" />
+            <input class="button forum-keep-me-updated" type="submit" name="ActionAddToNotification" value="Keep me updated" />
             <input type="hidden" name="NodeID" value="{$node.node_id}" />
             <input type="hidden" name="ClassIdentifier" value="forum_topic" />
         </form>
@@ -27,6 +28,7 @@
         <p>
         {"You need to be logged in to get access to the forums. You can do so"|i18n("design/base")} <a href={"/user/login/"|ezurl}>{"here"|i18n("design/base")}</a>
         </p>
+    {/section}
     {/section}
 
 
@@ -53,7 +55,7 @@
              topic_reply_pages=sum( int( div( sum( $topic_reply_count, 1 ), 20 ) ), cond( mod( sum( topic_reply_count, 1 ), 20 )|gt( 0 ), 1, 0 ) )}
         <tr class="{$topic.sequence}">
             <td class="topic">
-                <p>{section show=$topic.object.data_map.sticky.content}<img src={"sticky-16x16-icon.gif"|ezimage} height="16" width="16" align="middle" alt="" />{/section}
+                <p>{section show=$topic.object.data_map.sticky.content}<img class="forum-topic-sticky" src={"sticky-16x16-icon.gif"|ezimage} height="16" width="16" align="middle" alt="" />{/section}
                 <a href={$topic.url_alias|ezurl}>{$topic.object.name|wash}</a></p>
                 {section show=$topic_reply_count|gt( sub( 20, 1 ) )}
                     <p>

@@ -13,13 +13,13 @@
                                                 class_filter_array, array( 'forum_topic' ),
                                                 limit, 1,
                                                 attribute_filter, array( and, array( 'published', '<', $node.object.published ) ),
-                                                sort_by, array( 'published', false() ) ) )
+                                                sort_by, array( array( 'published', false() ) ) ) )
      next_topic=fetch_alias( subtree, hash( parent_node_id, $node.parent_node_id,
                                             class_filter_type, include,
                                             class_filter_array, array( 'forum_topic' ),
                                             limit, 1,
                                             attribute_filter, array( and, array( 'published', '>', $node.object.published ) ),
-                                            sort_by, array( 'published', true() ) ) ) }
+                                            sort_by, array( array( 'published', true() ) ) ) ) }
 
 
 <div class="content-view-full">
@@ -27,6 +27,7 @@
 
         <h1>{$node.name|wash}</h1>
 
+        {section show=is_unset( $versionview_mode )}
         <div class="content-navigator">
             {section show=$previous_topic}
                 <div class="content-navigator-previous">
@@ -38,7 +39,17 @@
                 </div>
             {/section}
 
-            {section show=and( $previous_topic, $next_topic )}
+            {section show=$previous_topic}
+                <div class="content-navigator-separator">|</div>
+            {section-else}
+                <div class="content-navigator-separator-disabled">|</div>
+            {/section}
+
+            {let forum=$node.parent}
+                <div class="content-navigator-forum-link"><a href={$forum.url_alias|ezurl}>{$forum.name|wash}</a></div>
+            {/let}
+
+            {section show=$next_topic}
                 <div class="content-navigator-separator">|</div>
             {section-else}
                 <div class="content-navigator-separator-disabled">|</div>
@@ -57,10 +68,10 @@
 
         {section show=$node.object.can_create}
         <form method="post" action={"content/action/"|ezurl}>
-            <input class="button" type="submit" name="NewButton" value="New reply" />
+            <input class="button forum-new-reply" type="submit" name="NewButton" value="New reply" />
             <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
             <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id}" />
-            <input class="button" type="submit" name="ActionAddToNotification" value="Keep me updated" />
+            <input class="button forum-keep-me-updated" type="submit" name="ActionAddToNotification" value="Keep me updated" />
             <input type="hidden" name="NodeID" value="{$node.node_id}" />
             <input type="hidden" name="ClassIdentifier" value="forum_reply" />
         </form>
@@ -68,6 +79,7 @@
            <p>
             {"You need to be logged in to get access to the forums. You can do so"|i18n("design/base")} <a href={"/user/login/"|ezurl}>{"here"|i18n("design/base")}</a>
            </p>
+        {/section}
         {/section}
 
         <div class="content-view-children">
@@ -110,7 +122,7 @@
                   {section show=$node.object.can_edit}
                       <form method="post" action={"content/action/"|ezurl}>
                           <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
-                          <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
+                          <input class="button forum-account-edit" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
                       </form>
                   {/section}
                </td>
