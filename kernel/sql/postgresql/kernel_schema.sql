@@ -2296,7 +2296,10 @@ CREATE TABLE ezsubtree_notification_rule (
 
 
 
-
+CREATE TABLE ezsubtree_expiry (
+    subtree character varying(255) NOT NULL,
+    cache_file character varying(255) NOT NULL
+);
 
 
 CREATE TABLE ezuser_session_link (
@@ -2639,6 +2642,14 @@ CREATE INDEX ezimagefile_coid ON ezimagefile USING btree (contentobject_attribut
 
 
 CREATE INDEX ezimagefile_file ON ezimagefile USING btree (filepath);
+
+
+
+
+
+
+
+CREATE INDEX ezsubtree_expiry_subtree ON ezsubtree_expiry USING btree (subtree);
 
 
 

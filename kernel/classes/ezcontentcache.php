@@ -360,6 +360,25 @@ class eZContentCache
         return ( $value < $threshold );
     }
 
+    function subtreeCleanup( $nodeList )
+    {
+        include_once( 'lib/ezdb/classes/ezdb.php' );
+        $db =& eZDB::instance();
+
+        foreach ( $nodeList as $node )
+        {
+            $branch = preg_replace('@/[^/]+$@', '', $node);
+            $alias = $db->escapeString( $branch );
+            
+            $entries = $db->arrayQuery( "SELECT cache_file FROM ezsubtree_expiry WHERE subtree LIKE '$alias/%'");
+            foreach ( $entries as $entry )
+            {
+                unlink( $entry['cache_file'] );
+            }
+            $db->query( "DELETE FROM ezsubtree_expiry WHERE subtree LIKE '$alias/%'");
+        }
+    }
+
     function cleanup( $nodeList )
     {
 //         print( "cleanup" );

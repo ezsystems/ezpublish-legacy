@@ -1058,6 +1058,12 @@ CREATE TABLE ezsubtree_notification_rule (
 
 
 
+CREATE TABLE ezsubtree_expiry (
+  subtree varchar(255) NOT NULL default '',
+  cache_file varchar(255) NOT NULL default '',
+  KEY ezsubtree_expiry_subtree (subtree)
+) DELAY_KEY_WRITE=1 TYPE=MyISAM;
+
 
 
 CREATE TABLE eztipafriend_counter (

@@ -51,6 +51,7 @@ eZ ini:
 eZ template:
 - New class eZTemplateToolbarFunction which support template syntac {tool_bar name=$toolbar_name view=$viewmode}.
 - New class eZTemplateMenuFunction which support template syntac {menu name=$menuName}.
+- Added the subtree_expiry option to {cache-block}.
 
 eZ file:
 - Added function to remove files match a given pattern in class eZDir.

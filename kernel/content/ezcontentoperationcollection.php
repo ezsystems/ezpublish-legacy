@@ -363,9 +363,9 @@ class eZContentOperationCollection
         eZDebug::accumulatorStart( 'add_object', 'search_total', 'add object' );
         eZSearch::addObject( $object );
         eZDebug::accumulatorStop( 'add_object' );
-
-
     }
+
+
     function createNotificationEvent( $objectID, $versionNum )
     {
         include_once( 'kernel/classes/notification/eznotificationevent.php' );
