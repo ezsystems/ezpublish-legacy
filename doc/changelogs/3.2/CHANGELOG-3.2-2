@@ -7,6 +7,9 @@ Changes from 3.2-1 to 3.2-2
 - Added missing script for updating the database with attribute based filtering and sorting.
 - Added author_array attribute to eZContentObject class, it was created in 3.1 but was
   missing from 3.2 and trunk.
+- Made sure literal text is trimmed before being sent to pre tag.
+- Added support for filtering on the normal properties (published, created) as you can with sorting.
+- Added shorten operator to path list.
 
 *DataType:
 
