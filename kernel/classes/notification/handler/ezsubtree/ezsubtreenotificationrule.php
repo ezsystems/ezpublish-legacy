@@ -418,7 +418,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         return $returnArray;
     }
 
-    function node()
+    function &node()
     {
         if ( $this->Node == null )
         {

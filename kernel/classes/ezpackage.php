@@ -291,7 +291,7 @@ class eZPackage
     /*!
      \return the value of the attribute named \a $attributeName.
     */
-    function attribute( $attributeName /*, $attributeList = false*/ )
+    function &attribute( $attributeName /*, $attributeList = false*/ )
     {
         if ( in_array( $attributeName,
                        array( 'development',

@@ -249,7 +249,7 @@ class eZCollaborationItem extends eZPersistentObject
      \return true if the item uses messages.
      \note It's up to each handler to control this.
     */
-    function useMessages()
+    function &useMessages()
     {
         $handler =& $this->handler();
         if ( !$handler )
@@ -261,7 +261,7 @@ class eZCollaborationItem extends eZPersistentObject
      \return the number of messages in this item.
      \note The message count is purely abstract and it's up to each handler to return a valid count.
     */
-    function messageCount()
+    function &messageCount()
     {
         $handler =& $this->handler();
         return $handler->messageCount( $this );
@@ -272,7 +272,7 @@ class eZCollaborationItem extends eZPersistentObject
      \note The message count is purely abstract and it's up to each handler to return a valid count.
            It's also up the handler to keep track of which messages are read or not.
     */
-    function unreadMessageCount()
+    function &unreadMessageCount()
     {
         $handler =& $this->handler();
         return $handler->unreadMessageCount( $this );
@@ -290,7 +290,7 @@ class eZCollaborationItem extends eZPersistentObject
         return $handler->contentAttribute( $this, $attribute );
     }
 
-    function content()
+    function &content()
     {
         $handler =& $this->handler();
         return $handler->content( $this );

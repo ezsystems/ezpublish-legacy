@@ -79,7 +79,7 @@ class eZInformationCollection extends eZPersistentObject
                                                               'default' => 0,
                                                               'required' => true ) ),
                       'keys' => array( 'id' ),
-                      'function_attributes' => array( 'attributes' => 'attributes',
+                      'function_attributes' => array( 'attributes' => 'informationCollectionAttributes',
                                                       'object' => 'object' ),
                       'increment_key' => 'id',
                       'class_name' => 'eZInformationCollection',
@@ -502,7 +502,7 @@ class eZInformationCollection extends eZPersistentObject
         return $retArray;
     }
 
-    function object()
+    function &object()
     {
         return eZContentObject::fetch( $this->ContentObjectID );
     }

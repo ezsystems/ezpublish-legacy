@@ -121,7 +121,7 @@ class eZModule
      \return the URI of the module.
      \sa functionURI
     */
-    function uri()
+    function &uri()
     {
         return "/" . $this->Name;
     }

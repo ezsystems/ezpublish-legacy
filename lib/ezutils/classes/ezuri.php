@@ -98,7 +98,7 @@ class eZURI
      \return the URI passed as to the object.
      \note the URI will not include the leading \c / if \a $withLeadingSlash is \c true.
     */
-    function uriString( $withLeadingSlash = false )
+    function &uriString( $withLeadingSlash = false )
     {
         $uri = $this->URI;
         if ( $withLeadingSlash )
@@ -118,7 +118,7 @@ class eZURI
      \return the element at $index.
      If $relative is true the index is relative to the current index().
     */
-    function element( $index = 0, $relative = true )
+    function &element( $index = 0, $relative = true )
     {
         $pos = $index;
         if ( $relative )
@@ -133,7 +133,7 @@ class eZURI
      \return all elements as a string, this is all elements after the current index.
      If $as_text is false the returned item is an array.
     */
-    function elements( $as_text = true )
+    function &elements( $as_text = true )
     {
         $elements = array_slice( $this->URIArray, $this->Index );
         if ( $as_text )
@@ -191,7 +191,7 @@ class eZURI
     /*!
      \return the current index.
     */
-    function index()
+    function &index()
     {
         return $this->Index;
     }
@@ -200,7 +200,7 @@ class eZURI
      \return the base string or the base elements as an array if $as_text is true.
      \sa elements
     */
-    function base( $as_text = true )
+    function &base( $as_text = true )
     {
         $elements = array_slice( $this->URIArray, 0, $this->Index );
         if ( $as_text )

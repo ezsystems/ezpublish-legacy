@@ -96,7 +96,7 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
 
     /*!
     */
-    function collaborationSelections()
+    function &collaborationSelections()
     {
         $rules =& eZCollaborationNotificationRule::fetchList();
         $selection = array();

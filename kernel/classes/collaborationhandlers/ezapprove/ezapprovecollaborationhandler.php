@@ -99,7 +99,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     /*!
      \reimp
     */
-    function content( &$collaborationItem )
+    function &content( &$collaborationItem )
     {
         return array( "content_object_id" => $collaborationItem->attribute( "data_int1" ),
                       "content_object_version" => $collaborationItem->attribute( "data_int2" ),

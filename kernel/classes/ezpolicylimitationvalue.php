@@ -84,7 +84,7 @@ class eZPolicyLimitationValue extends eZPersistentObject
         return eZPersistentObject::attributes();
     }
 
-    function attribute( $attr )
+    function &attribute( $attr )
     {
         return eZPersistentObject::attribute( $attr );
     }

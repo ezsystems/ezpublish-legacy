@@ -320,7 +320,7 @@ class eZNodeAssignment extends eZPersistentObject
         return eZNodeAssignment::create( $assignmentRow );
     }
 
-    function &getParentNode ( )
+    function &getParentNode()
     {
         return eZContentObjectTreeNode::fetch( $this->attribute( 'parent_node' ) );
     }
