@@ -456,16 +456,18 @@ class eZImageInterface
     */
     function hasGD2()
     {
-        $testGD = get_extension_funcs( "gd" ); // Grab function list
-        if ( !$testGD )
-        {
-//             echo "GD not even installed.";
-            return false;
-        }
-        if ( in_array( "imagegd2",
-                       $testGD ) )
-            return true;
-        return false;
+        $imageINI =& eZINI::instance( 'image.ini' );
+        return $imageINI->variable( 'GDSettings', 'HasGD2' ) == 'true';
+//         $testGD = get_extension_funcs( "gd" ); // Grab function list
+//         if ( !$testGD )
+//         {
+// //             echo "GD not even installed.";
+//             return false;
+//         }
+//         if ( in_array( "imagegd2",
+//                        $testGD ) )
+//             return true;
+//         return false;
     }
 
     /*!
