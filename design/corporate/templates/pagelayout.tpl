@@ -11,7 +11,7 @@
     @import url({"stylesheets/core.css"|ezdesign});
 {*    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot}); *}
 
-     @import url("/design/corporate/stylesheets/corporate.css");
+     @import url("/design/corporate/stylesheets/corporate-blue.css");
 </style>
 
 </head>
@@ -67,7 +67,7 @@
         
             <h3 class="invisible">Sub menu</h3>
             <ul>
-                {let mainMenu=treemenu($module_result.path,$module_result.node_id,array('folder','info_page'), 1)}
+                {let mainMenu=treemenu($module_result.path,$module_result.node_id,array('folder','info_page'), 1 )}
                     {section name=Menu loop=$mainMenu}
             	    {section show=$:item.is_selected}
             
