@@ -98,7 +98,7 @@ class eZPostgreSQLDB extends eZDBInterface
             while ( $this->DBConnection == false and $numAttempts <= $maxAttempts )
             {
                 sleep( $waitTime );
-                $this->DBConnection = pg_pconnect( "host='$server' dbname='$db' user='$user' password='$password'" );
+                $this->DBConnection = pg_pconnect( $connectString );
                 $numAttempts++;
             }
             if ( $this->DBConnection )
@@ -116,7 +116,7 @@ class eZPostgreSQLDB extends eZDBInterface
             while ( $this->DBConnection == false and $numAttempts <= $maxAttempts )
             {
                 sleep( $waitTime );
-                $this->DBConnection = pg_connect( "host='$server' dbname='$db' user='$user' password='$password'" );
+                $this->DBConnection = pg_connect( $connectString );
                 $numAttempts++;
             }
             if ( $this->DBConnection )
