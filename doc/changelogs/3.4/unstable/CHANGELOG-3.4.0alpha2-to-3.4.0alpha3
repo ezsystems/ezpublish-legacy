@@ -69,7 +69,7 @@ eZXML:
 
 *Unit tests:
 
-*Bugs:
+*Bugfixes:
 - Fixed 'bug' with locales, which resulted in a new template setting "locale"
   as in: {*?template locale="oezbekistan,norwegian,nl_NL.iso-8859-1"?*}. When
   this is set the locale will be changed and strtoupper and strtolower will
@@ -89,5 +89,6 @@ eZXML:
   http://ez.no/community/bug_reports/ezenumtype_php_undefined_vars_metadata
 - Fixed misuse of in_array() function (Merged from 3.3, rev. 5894)
   http://ez.no/community/bug_reports/class_ezhttpfile_function_hasattribute
+- Removed the hardcoded field list in eZContentObject::fetchList. (Merged from stable/3.3 rev. 5903)
 
 *Update
