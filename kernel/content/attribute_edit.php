@@ -273,13 +273,90 @@ if ( isset( $Params['TemplateName'] ) )
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( $templateName );
-$Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Content' ),
-                                'url' => false ),
-                         array( 'text' => ezi18n( 'kernel/content', 'Edit' ),
-                                'url' => false ),
-                         array( 'text' => $object->attribute( 'name' ),
-                                'url' => false ) );
-// Fetch the navigation part from the section information
+// $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Content' ),
+//                                 'url' => false ),
+//                          array( 'text' => ezi18n( 'kernel/content', 'Edit' ),
+//                                 'url' => false ),
+//                          array( 'text' => $object->attribute( 'name' ),
+//                                 'url' => false ) );
+
+$path = array();
+$titlePath = array();
+
+$assignments =& $version->attribute( 'parent_nodes' );
+$mainAssignment = false;
+foreach ( array_keys( $assignments ) as $key )
+{
+    if ( $assignments[$key]->attribute( 'is_main' ) == 1 )
+    {
+        $mainAssignment =& $assignments[$key];
+        break;
+    }
+}
+$hasPath = false;
+if ( $mainAssignment )
+{
+    $parentNode =& $mainAssignment->attribute( 'parent_node_obj' );
+    if ( $parentNode )
+    {
+        $parents =& $parentNode->attribute( 'path' );
+
+        foreach ( $parents as $parent )
+        {
+            $path[] = array( 'text' => $parent->attribute( 'name' ),
+                             'url' => '/content/view/full/' . $parent->attribute( 'node_id' ),
+                             'url_alias' => $parent->attribute( 'url_alias' ),
+                             'node_id' => $parent->attribute( 'node_id' )
+                             );
+        }
+        $path[] = array( 'text' => $parentNode->attribute( 'name' ),
+                         'url' => '/content/view/full/' . $parentNode->attribute( 'node_id' ),
+                         'url_alias' => $parentNode->attribute( 'url_alias' ),
+                         'node_id' => $parentNode->attribute( 'node_id' ) );
+        $objectPathElement = array( 'text' => $object->attribute( 'name' ),
+                                    'url' => false,
+                                    'url_alias' => false );
+        $existingNode = $object->attribute( 'main_node' );
+        if ( $existingNode )
+        {
+            $objectPathElement['url'] = '/content/view/full/' . $existingNode->attribute( 'node_id' );
+            $objectPathElement['url_alias'] = $existingNode->attribute( 'url_alias' );
+            $objectPathElement['node_id'] = $existingNode->attribute( 'node_id' );
+        }
+        $path[] = $objectPathElement;
+        $hasPath = true;
+    }
+}
+if ( !$hasPath )
+{
+    $existingNode = $object->attribute( 'main_node' );
+    if ( $existingNode )
+    {
+        $parents =& $existingNode->attribute( 'path' );
+
+        foreach ( $parents as $parent )
+        {
+            $path[] = array( 'text' => $parent->attribute( 'name' ),
+                             'url' => '/content/view/full/' . $parent->attribute( 'node_id' ),
+                             'url_alias' => $parent->attribute( 'url_alias' ),
+                             'node_id' => $parent->attribute( 'node_id' )
+                             );
+        }
+        $path[] = array( 'text' => $existingNode->attribute( 'name' ),
+                         'url' => '/content/view/full/' . $existingNode->attribute( 'node_id' ),
+                         'url_alias' => $existingNode->attribute( 'url_alias' ),
+                         'node_id' => $existingNode->attribute( 'node_id' ) );
+        $hasPath = true;
+    }
+}
+if ( !$hasPath )
+{
+    $path[] = array( 'text' => $object->attribute( 'name' ),
+                     'url' => false );
+}
+
+$Result['path'] = $path;
+
 include_once( 'kernel/classes/ezsection.php' );
 $section =& eZSection::fetch( $object->attribute( 'section_id' ) );
 if ( $section )

@@ -1,13 +1,18 @@
+{let name=Path
+     use_urlalias=ezini('URLTranslator','Translation')|eq('enabled')}
+
     <p class="path">
-    {section name=Path loop=$module_result.path}
-        {section show=$Path:item.url}
-        <a class="path" href={$Path:item.url|ezurl}>{$Path:item.text|shorten(18)|wash}</a>
+    {section loop=$module_result.path}
+        {section show=$:item.url}
+            <a class="path" href={cond( and( $:use_urlalias, is_set( $:item.url_alias ) ), $:item.url_alias,
+                                        $:item.url )|ezurl}>{$:item.text|shorten( 18 )|wash}</a>
         {section-else}
-        {$Path:item.text|wash}
+            {$:item.text|wash}
         {/section}
 
         {delimiter}
-        <span class="slash">/</span>
+            <span class="slash">/</span>
         {/delimiter}
     {/section}
     &nbsp;</p>
+{/let}
