@@ -363,6 +363,11 @@ if ( !function_exists( 'checkContentActions' ) )
                             {
                                 if ( isset( $result['content'] ) )
                                     $resultContent = $result['content'];
+                                if ( isset( $result['url'] ) )
+                                {
+                                    $module->redirectTo( $result['url'] );
+                                    return;
+                                }
                                 if ( isset( $result['path'] ) )
                                     $Result['path'] = $result['path'];
                             }

@@ -196,6 +196,11 @@ class eZApproveType extends eZWorkflowEventType
 //             if( $process->attribute( 'event_state') == EZ_APPROVE_COLLABORATION_NOT_CREATED )
             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $collaborationID, 'approve collaborationID' );
             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $process->attribute( 'event_state'), 'approve $process->attribute( \'event_state\')' );
+
+            $version = $object->version( $versionID );
+            $parentNodeID = $version->attribute( 'main_parent_node_id' );
+            $process->RedirectUrl = '/content/view/full/' . $parentNodeID;
+
             if ( $collaborationID === false )
             {
                 $this->createApproveCollaboration( $process, $event, $user->id(), $object->attribute( 'id' ), $versionID, $editor );
