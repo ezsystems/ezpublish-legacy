@@ -254,7 +254,7 @@ class eZPaymentCallbackChecker
             return true;
         }
 
-        $this->logger->writeTimedString( "Order amount ($ordermount) and received amount ($amount) do not match.", 'checkAmount failed' );
+        $this->logger->writeTimedString( "Order amount ($orderAmount) and received amount ($amount) do not match.", 'checkAmount failed' );
         return false;
     }
     
