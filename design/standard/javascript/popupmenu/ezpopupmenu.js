@@ -147,8 +147,8 @@ The following example configures the menu created in step 1.
  */
 
 //Global CONSTANTS
-EZPOPMENU_OFFSET = 8;
-EZPOPMENU_SUBTOPOFFSET = 4;
+var EZPOPMENU_OFFSET = 8;
+var EZPOPMENU_SUBTOPOFFSET = 4;
 
 // Global VARS
 // CurrentNodeID holds id of current node to edit for submenu's
@@ -157,6 +157,15 @@ var CurrentDisableID = -1;
 // VisibleMenus is an array that holds the names of the currently visible menus
 var VisibleMenus = new Array();
 
+/*!
+  Controls the popup offsets of the menu relative to the mouse position.
+  Default values are offsetX = 8 and offsetY = 4.
+ */
+function ezpopmenu_initOffsets( offsetX, offsetY )
+{
+    EZPOPMENU_OFFSET = offsetX;
+    EZPOPMENU_SUBTOPOFFSET = offsetY;
+}
 
 /*!
    Shows toplevel menu at the current mouseposition + EZPOPMENU_OFFSET.
