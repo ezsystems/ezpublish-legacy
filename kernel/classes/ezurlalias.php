@@ -163,11 +163,22 @@ class eZURLAlias extends eZPersistentObject
         $urlAliasArray = $db->arrayQuery( $query );
         if ( count( $urlAliasArray ) > 0 )
         {
-            $uri->setURIString( $urlAliasArray[0]['destination_url'] );
+            if ( get_class( $uri ) == "ezuri" )
+            {
+                $uri->setURIString( $urlAliasArray[0]['destination_url'] );
+            }
+            else
+                $uri = $urlAliasArray[0]['destination_url'];
+
 
             if ( $urlAliasArray[0]['forward_to_id'] != 0 )
             {
-                $uri->setURIString( "error/301" );
+                if ( get_class( $uri ) == "ezuri" )
+                {
+                    $uri->setURIString( "error/301" );
+                }
+                else
+                    $uri = "error/301" ;
 
                 return eZURLAlias::fetch( $urlAliasArray[0]['forward_to_id'] );
             }
