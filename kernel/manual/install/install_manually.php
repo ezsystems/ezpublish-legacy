@@ -106,6 +106,17 @@
     Here you can override settings in site.ini. Add only the parts you need.)
 </p>
 
+<p class="important"><b>Non-virtual host security issue:</b> If you use a non-virtualhost setup, all
+.ini-files should be renamed to .ini.php (the filename must end with dot ini dot php), and all
+.ini.append-files should be renamed to .ini.append.php (the filename must end with dot ini dot append dot
+php). Also, the content of the files must be enclosed within PHP comments, like this:<br/>
+/* #?ini charset="iso-8859-1"?<br/>
+[DatabaseSettings]<br/>
+Password=mypassword<br/>
+*/<br/>
+If you don't do this, then the content of .ini-files, including the database password, may be read by
+an attacker. This kind of attack is not possible if you use a virtualhost setup</p>
+
 <pre class="example">[Database Settings]
 # Use either ezmysql or ezpostgresql
 Database Implementation=ezpostgresql
@@ -201,6 +212,18 @@ Database=&lt;name_of_database&gt;
     &lt;httproot&gt/ezpublish-xxx/settings/override.site.ini.append
     Here you can override settings in site.ini. Add only the parts you need.)
 </p>
+
+<p class="important"><b>Non-virtual host security issue:</b> If you use a non-virtualhost setup, all
+.ini-files should be renamed to .ini.php (the filename must end with dot ini dot php), and all
+.ini.append-files should be renamed to .ini.append.php (the filename must end with dot ini dot append dot
+php). Also, the content of the files must be enclosed within PHP comments, like this:<br/>
+/* #?ini charset="iso-8859-1"?<br/>
+[DatabaseSettings]<br/>
+Password=mypassword<br/>
+*/<br/>
+If you don't do this, then the content of .ini-files, including the database password, may be read by
+an attacker. This kind of attack is not possible if you use a virtualhost setup</p>
+
 <pre class="example">[Database Settings]
 # Use either ezmysql or ezpostgresql
 DatabaseImplementation=ezpostgresql

@@ -213,7 +213,6 @@ class eZEmailType extends eZDataType
 }
 eZDataType::register( EZ_DATATYPESTRING_EMAIL, "ezemailtype" );
 ?&gt;
-}
 </pre>
 
 <p>

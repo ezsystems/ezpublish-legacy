@@ -57,28 +57,31 @@ The class needs the attributes; Name, Manufacturer, Model, Year, Description and
 
 <p>
 You will find the administration interface for classes under "Set up" in the eZ publish administration
-interface. Then click on the apropriate group, e.g. content, where you want to place your class. The group
+interface. Then click on the appropriate group, e.g. content, where you want to place your class. The group
 is just a method of categorizing your content classes for simpler administration of larger sites. Then you
 click on the "New class" button. You will then be presented to the class edit window as shown below:
 </p>
 <img src="/doc/images/class_edit.png" alt="Class edit" border="1" />
 
 <p>
-Every class has 3 attributes; object name, identifier and name. The name is the alias for the class. The
-identifier is a 0-9 a-z representation of the name, this is used in templates, import/exports etc as an
-identifier for the class. The object name defines how an object of this class will be named. All objects
-get a one-line name which can consist of several values. In this examples it will be the same as the first
-attribute - name.
+A class has three built-in attributes, in addition to the attributes you can add, edit and delete to
+customize your class. The built-in attributes are object name, identifier and name. The name is the human
+readable name for the class. The identifier is a string representation of the name, consisting only of the
+characters 0-9 and a-z. It is used in templates, imports/exports etc. as an identifier for the class. The
+object name defines how an object of this class will be named. All objects get a one-line name which can be
+built up from several attributes, and contain arbitrary text. In this example it will be the same as the
+first attribute - name. (For a User class, for instance, it would be natural to let the object name consist
+of the attributes First Name and Last Name.)
 </p>
 
 <h2>Attributes</h2>
 
 <p>
 We then need to create the attributes for the car class. To add a new attribute you select the datatype
-for the attribute in the dropdown in the lower right corner of the class edit page. Every attribute has a name
-and an identifier. You only need to fill in the name, the identifier will automatically be generated.
+for the attribute in the dropdown in the lower right corner of the class edit page. Every attribute has a
+name and an identifier. You only need to fill in the name, the identifier will automatically be generated.
 Attributes are by default searchable, this means that the data entered here will be indexed in the search
-engine. You can also select if the attribute is required or not. Additionally some datatypes have aditional
+engine. You can also select if the attribute is required or not. Additionally some datatypes have additional
 settings, like default value and max string length for text line.
 </p>
 
