@@ -1,7 +1,16 @@
+<form name="roles" action={concat( $module.functions.list.uri, '/' )|ezurl} method="post" >
+
 {let number_of_items=min( ezpreference( 'admin_role_list_limit' ), 3)|choose( 10, 10, 25, 50 )}
 
 <div class="context-block">
-<h2 class="context-title">{'Roles [%role_count]'|i18n( 'design/admin/role/list',, hash( '%role_count', $role_count ) )}</h2>
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+<h1 class="context-title">{'Roles [%role_count]'|i18n( 'design/admin/role/list',, hash( '%role_count', $role_count ) )}</h1>
+
+{* DESIGN: Mainline *}<div class="header-mainline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {* Items per page selector. *}
 <div class="context-toolbar">
@@ -34,8 +43,6 @@
 </div>
 </div>
 
-<form name="roles" action={concat( $module.functions.list.uri, '/' )|ezurl} method="post" >
-
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="ezjs_toggleCheckboxes( document.roles, 'DeleteIDArray[]' ); return false;"/></th>
@@ -47,10 +54,10 @@
 {section var=Roles loop=$roles sequence=array( bglight, bgdark )}
     {let role_name=$Roles.item.name}
     <tr class="{$Roles.sequence}">
-    <td><input type="checkbox" name="DeleteIDArray[]" value="{$Roles.item.id}" /></td>
+    <td class="tight"><input type="checkbox" name="DeleteIDArray[]" value="{$Roles.item.id}" /></td>
     <td>{'role'|icon( 'small', 'Role'|i18n( 'design/admin/role/list' ) )}&nbsp;<a href={concat( '/role/view/', $Roles.item.id)|ezurl}>{$Roles.item.name}</a></td>
     <td><a href={concat( '/role/assign/', $Roles.item.id)|ezurl}><img src={'attach.png'|ezimage} alt="{'Assign'|i18n( 'design/admin/role/list ')}" title="{'Assign a user or a user group to the <%role_name> role.'|i18n( 'design/admin/role/list',, hash( '%role_name', $role_name ) )|wash}" /></a></td>
-    <td><a href={concat( '/role/edit/', $Roles.item.id)|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n('design/admin/role/list')}" title="{'Edit the %quoted_role role.'|i18n( 'design/admin/role/list',, hash( '%quoted_role', $quoted_role  ) )}" /></a></td>
+    <td><a href={concat( '/role/edit/', $Roles.item.id)|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/role/list' )}" title="{'Edit the <%role_name> role.'|i18n( 'design/admin/role/list',, hash( '%role_name', $Roles.item.name  ) )|wash}" /></a></td>
     </tr>
 {/let}
 {/section}
@@ -66,15 +73,17 @@
 {/let}
 </div>
 
-<div class="context-toolbar">
+{* DESIGN: Content END *}</div></div></div>
+
 <div class="controlbar">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
     <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/role/list' )}" title="{'Remove selected roles.'|i18n( 'design/admin/role/list' )}" />
     <input class="button" type="submit" name="NewButton" value="{'New role'|i18n( 'design/admin/role/list' )}" title="{'Create a new role.'|i18n( 'design/admin/role/list' )}" />
 </div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
+
 </div>
 
 </form>
-
-</div>
