@@ -481,7 +481,8 @@ class eZStepCreateSites extends eZStepInstaller
                                                                   'data' => true ) ) )
                             {
                                 $resultArray['errors'][] = array( 'code' => 'EZSW-004',
-                                                                  'text' => "Failed inserting data to " . $db->databaseName() );
+                                                                  'text' => ( "Failed inserting data to " . $db->databaseName() . "\n" .
+                                                                              $db->errorMessage() ) );
                                 $result = false;
                             }
                         }

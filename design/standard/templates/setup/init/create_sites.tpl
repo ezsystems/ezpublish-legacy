@@ -19,7 +19,7 @@
     <ul class="error">
         {section var=error loop=$error_list}
             <li>
-                <label>{$error.code|wash}</label>{$error.text|wash}
+                <label>{$error.code|wash}</label>{$error.text|wash|break}
             </li>
         {/section}
     </ul>
