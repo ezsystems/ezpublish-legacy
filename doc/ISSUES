@@ -447,6 +447,12 @@ eZ Setup System
 - See if it's possible to implement array_key_exists with pure PHP and see if we can lower
   the min requirements because of this.
 
+- Support for e-mail address for registration, if it is supplied we can give
+  feedback to the user.
+
+- Warn for mbstring extension bug, see http://bugs.php.net/bug.php?id=19347
+
+- Safe mode detection and also base_dir restriction.
 
 Classes
 -----------
@@ -466,3 +472,7 @@ Allow one datatype class to handle multiple datatype strings, for instance all d
 be handled by one class. (Maybe create a proxy class which inherits from eZDataType, it takes a class/object
 as constructor parameter and forwards all requests to that class, could be useful shared code).
 
+Caching
+-------------
+See if we can create smarter HTTP cache handling, for instance it could be possible to enable caching for
+some sites.
