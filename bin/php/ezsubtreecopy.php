@@ -284,7 +284,7 @@ function &copyPublishContentObject( &$sourceObject,
 
     return 0; // source object was copied successfully.
 
-}   //function copyNode END
+}   //function copyPublishContentObject END
 
 
 
