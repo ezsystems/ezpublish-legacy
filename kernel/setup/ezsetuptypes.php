@@ -73,35 +73,43 @@ function eZSetupFunctionality( $siteType )
 {
     if ( $siteType == 'blog' )
     {
-        return array( 'required' => array( 'weblog' ) );
+        return array( 'required' => array( 'weblog' ),
+                      'theme' => 't3' );
     }
     else if ( $siteType == 'news' )
     {
-        return array( 'required' => array( 'news' ) );
+        return array( 'required' => array( 'news' ),
+                      'theme' => 't1' );
     }
     else if ( $siteType == 'corporate' )
     {
-        return array( 'required' => array( 'news' ) );
+        return array( 'required' => array( 'news' ),
+                      'theme' => 't1' );
     }
     else if ( $siteType == 'forum' )
     {
-        return array( 'required' => array( 'forum' ) );
+        return array( 'required' => array( 'forum' ),
+                      'theme' => 't8' );
     }
     else if ( $siteType == 'gallery' )
     {
-        return array( 'required' => array( 'gallery' ) );
+        return array( 'required' => array( 'gallery' ),
+                      'theme' => 't17' );
     }
     else if ( $siteType == 'intranet' )
     {
-        return array( 'required' => array() );
+        return array( 'required' => array(),
+                      'theme' => 't19' );
     }
     else if ( $siteType == 'shop' )
     {
-        return array( 'required' => array( 'products' ) );
+        return array( 'required' => array( 'products' ),
+                      'theme' => 't4' );
     }
     else
     {
-        return array( 'required' => array() );
+        return array( 'required' => array(),
+                      'theme' => 't2' );
     }
 }
 

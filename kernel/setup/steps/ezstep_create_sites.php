@@ -423,11 +423,39 @@ class eZStepCreateSites extends eZStepInstaller
                                                         'identifier' => $row['identifier'] );
             }
 
+            $siteCSS = false;
+            $classesCSS = false;
+
+            $themePackage = false;
+            if ( isset( $typeFunctionality['theme'] ) )
+            {
+                $themeName = $typeFunctionality['theme'];
+                $themePackage =& eZPackage::fetch( $themeName, false, 'styles' );
+                if ( is_object( $themePackage ) )
+                {
+                    $fileList = $themePackage->fileList( 'default' );
+                    foreach ( array_keys( $fileList ) as $key )
+                    {
+                        $file =& $fileList[$key];
+                        $fileIdentifier = $file["variable-name"];
+                        if ( $fileIdentifier == 'sitecssfile' )
+                        {
+                            $siteCSS = $themePackage->fileItemPath( $file, 'default' );
+                        }
+                        else if ( $fileIdentifier == 'classescssfile' )
+                        {
+                            $classesCSS = $themePackage->fileItemPath( $file, 'default' );
+                        }
+                    }
+                }
+            }
+
             $parameters = array( 'node_remote_map' => $nodeRemoteMap,
                                  'class_remote_map' => $classRemoteMap );
 
             $siteINIStored = false;
             $siteINIAdminStored = false;
+            $designINIStored = false;
 
             $extraSettings = eZSetupINISettings( $siteType['identifier'], $parameters );
             $extraAdminSettings = eZSetupAdminINISettings( $siteType['identifier'], $parameters );
@@ -446,6 +474,14 @@ class eZStepCreateSites extends eZStepInstaller
                     $tmpINI->setVariables( $siteINIChanges );
                     $tmpINI->setVariable( 'DesignSettings', 'SiteDesign', $userDesignName );
                     $tmpINI->setVariable( 'DesignSettings', 'AdditionalSiteDesignList', array( 'base' ) );
+                }
+                else if ( $iniName == 'design.ini' )
+                {
+                    if ( $siteCSS )
+                        $tmpINI->setVariable( 'StylesheetSettings', 'SiteCSS', $siteCSS );
+                    if ( $classesCSS )
+                        $tmpINI->setVariable( 'StylesheetSettings', 'ClassesCSS', $classesCSS );
+                    $designINIStored = true;
                 }
                 $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName", $resetArray );
             }
@@ -485,6 +521,15 @@ class eZStepCreateSites extends eZStepInstaller
                 $siteINI->setVariable( 'DesignSettings', 'SiteDesign', $userDesignName );
                 $siteINI->setVariable( 'DesignSettings', 'AdditionalSiteDesignList', array( 'base' ) );
                 $siteINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName" );
+            }
+            if ( !$designINIStored )
+            {
+                $designINI =& eZINI::create( 'design.ini' );
+                if ( $siteCSS )
+                    $designINI->setVariable( 'StylesheetSettings', 'SiteCSS', $siteCSS );
+                if ( $classesCSS )
+                    $designINI->setVariable( 'StylesheetSettings', 'ClassesCSS', $classesCSS );
+                $designINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName" );
             }
 
             eZDir::mkdir( "design/" . $userDesignName );
