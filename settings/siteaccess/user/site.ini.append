@@ -3,7 +3,7 @@
 
 
 [SiteSettings]
-IndexPage=/content/view/full/26
+IndexPage=/content/view/full/2
 LoginPage=embedded
 
 [SiteAccessSettings]
