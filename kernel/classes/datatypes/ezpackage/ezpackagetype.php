@@ -100,25 +100,20 @@ class eZPackageType extends eZDataType
                     {
                         $file =& $fileList[$key];
                         $fileIdentifier = $file["variable-name"];
-                        if ( $fileIdentifier == 'maincss' )
+                        if ( $fileIdentifier == 'site-colors' )
                         {
-                            $mainCSS = $package->fileItemPath( $file, 'default' );
+                            $siteColorsCSS = $package->fileItemPath( $file, 'default' );
                         }
-                        else if ( $fileIdentifier == 'noleftmenucss' )
+                        else if ( $fileIdentifier == 'classes-colors' )
                         {
-                            $noLeftMenuCSS = $package->fileItemPath( $file, 'default' );
-                        }
-                        else if ( $fileIdentifier == 'norightmenucss' )
-                        {
-                            $noRightMenuCSS = $package->fileItemPath( $file, 'default' );
+                            $classesColorsCSS = $package->fileItemPath( $file, 'default' );
                         }
                     }
 
                     $iniPath = 'settings/override';
                     $designINI =& eZIni::instance( 'design.ini.append.php', $iniPath, null, false, null, true );
-                    $designINI->setVariable( 'StylesheetSettings', 'MainCSS', $mainCSS );
-                    $designINI->setVariable( 'StylesheetSettings', 'NoLeftMenuCSS', $noLeftMenuCSS );
-                    $designINI->setVariable( 'StylesheetSettings', 'NoRightMenuCSS', $noRightMenuCSS );
+                    $designINI->setVariable( 'StylesheetSettings', 'SiteColorsCSS', $siteColorsCSS );
+                    $designINI->setVariable( 'StylesheetSettings', 'ClassesColorsCSS', $classesColorsCSS );
                     $designINI->save();
                 }
             }
