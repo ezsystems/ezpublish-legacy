@@ -138,7 +138,11 @@ class eZi18nOperator
                 eZTSTranslator::initialize( $context, $language, $file, $useCache );
 
                 $man =& eZTranslatorManager::instance();
-                $value =& $man->translate( $context, $value, $comment );
+                $newValue = $man->translate( $context, $value, $comment );
+                if ( $newValue )
+                {
+                    $value = $newValue;
+                }
             }
         }
 
