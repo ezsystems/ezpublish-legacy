@@ -1,6 +1,6 @@
 <?php
 //
-// Definition of eZBinaryFileType class
+// Definition of eZMediaType class
 //
 // Created on: <30-Apr-2002 13:06:21 bf>
 //
@@ -35,9 +35,9 @@
 //
 
 /*!
-  \class eZMediaFileType ezbinaryfiletype.php
+  \class eZMediaType ezmediatype.php
   \ingroup eZKernel
-  \brief The class eZMediaFileType handles image accounts and association with content objects
+  \brief The class eZMediaType handles storage and playback of media files.
 
 */
 
@@ -442,6 +442,7 @@ class eZMediaType extends eZDataType
 
         $mediaFile =& $objectAttribute->attribute( 'content' );
         $fileKey = md5( mt_rand() );
+        include_once( 'kernel/classes/ezbinaryfilehandler.php' );
         $package->appendSimpleFile( $fileKey, eZBinaryFileHandler::storedFilename( $mediaFile ) );
 
         $mediaNode =& eZDOMDocument::createElementNode( 'media-file' );
