@@ -99,13 +99,13 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
     $sortOrderMap = $http->postVariable( 'SortOrderMap' );
     $sortFieldMap = $http->postVariable( 'SortFieldMap' );
     $assigedNodes =& eZContentObjectTreeNode::fetchByContentObjectID( $object->attribute('id') );
-    foreach( array_keys( $nodeAssignments ) as $key )
+    foreach ( array_keys( $nodeAssignments ) as $key )
     {
         $nodeAssignment =& $nodeAssignments[$key];
         eZDebug::writeNotice( $nodeAssignment, "nodeAssignment" );
         $nodeAssignment->setAttribute( 'sort_field', $sortFieldMap[$nodeAssignment->attribute( 'id' )] );
         $sortOrder = 0;
-        if ( isset( $sortOrderMap[$nodeAssignment->attribute( 'id' )] ) )
+        if ( $sortOrderMap[$nodeAssignment->attribute( 'id' )] == 1 )
             $sortOrder = 1;
         $nodeAssignment->setAttribute( 'sort_order', $sortOrder );
         if ( $nodeAssignment->attribute( 'main' ) == 1 && $nodeAssignment->attribute( 'parent_node' ) != $mainNodeID )
