@@ -132,6 +132,35 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
                                  $module );
     }
 }
+else if ( $http->hasPostVariable( 'SetSorting' ) &&
+          $http->hasPostVariable( 'ContentObjectID' ) && $http->hasPostVariable( 'ContentNodeID' ) &&
+          $http->hasPostVariable( 'SortingField' )    && $http->hasPostVariable( 'SortingOrder' ) )
+{
+    $nodeID          = $http->postVariable( 'ContentNodeID' );
+    $contentObjectID = $http->postVariable( 'ContentObjectID' );
+    $sortingField    = $http->postVariable( 'SortingField' );
+    $sortingOrder    = $http->postVariable( 'SortingOrder' );
+    $node =& eZContentObjectTreeNode::fetch( $nodeID );
+    $parentNode = $node->attribute( 'parent_node_id' );
+    $contentObject =& eZContentObject::fetch( $contentObjectID );
+    $contentObjectVersion =& $contentObject->attribute( 'current_version' );
+    $nodeAssignment = eZNodeAssignment::fetch( $contentObjectID, $contentObjectVersion, $parentNode );
+
+    // store new sorting info
+    $nodeAssignment->setAttribute( 'sort_field', $sortingField );
+    $nodeAssignment->setAttribute( 'sort_order', $sortingOrder );
+    $nodeAssignment->store();
+    $node->setAttribute( 'sort_field', $sortingField );
+    $node->setAttribute( 'sort_order', $sortingOrder );
+    $node->store();
+
+    // invalidate node view cache
+    include_once( 'kernel/classes/ezcontentcache.php' );
+    eZContentCache::cleanup( array( $nodeID ) );
+
+    return $module->redirectToView( 'view', array( 'full', $nodeID,
+                                                   $languageCode = $module->actionParameter( 'LanguageCode' ) ) );
+}
 else if ( $module->isCurrentAction( 'MoveNode' ) )
 {
     if ( !$module->hasActionParameter( 'NodeID' ) )

@@ -46,7 +46,6 @@ function togglestuff( formname, checkboxname )
                                           limit, $number_of_items,
                                           offset, $view_parameters.offset ) ) }
 
-
 <h2 class="context-title"><a href={$node.parent.url_alias|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="Back" /></a> {$node.object.content_class.identifier|class_icon( small, $node.object.content_class.name )}&nbsp;{$node.name|wash}&nbsp;[{$children_count}]</h2>
 
 {* If there are children: show list and buttons that belong to the list. *}
@@ -217,16 +216,20 @@ function togglestuff( formname, checkboxname )
 {section show=$node.can_edit}
     {set disabled=''}
 {/section}
-<select{$disabled}>
-    <option>Priority</option>
-    <option>Name</option>
-    <option>Published</option>
+
+{let sort_fields=hash(2,"Published"|i18n("design/standard/content/edit"),3,"Modified"|i18n("design/standard/content/edit"),4,"Section"|i18n("design/standard/content/edit"),5,"Depth"|i18n("design/standard/content/edit"),9,"Name"|i18n("design/standard/content/edit"),6,"Class Identifier"|i18n("design/standard/content/edit"),7,"Class Name"|i18n("design/standard/content/edit"),8,"Priority"|i18n("design/standard/content/edit"))}
+<select name="SortingField">
+{section name=Sort loop=$:sort_fields}
+    <option value="{$Sort:key}" {section show=eq($Sort:key, $node.sort_field)}selected="selected"{/section}>{$Sort:item}</option>
+{/section}
 </select>
-<select{$disabled}>
-    <option>Down</option>
-    <option>Up</option>
+{/let}
+
+<select name="SortingOrder">
+    <option value="1" {section show=eq($node.sort_order, 1)}selected="selected"{/section}>Down</option>
+    <option value="0" {section show=eq($node.sort_order, 0)}selected="selected"{/section}>Up</option>
 </select>
-<input class="button" type="submit" value="{'Set'|i18n( 'design/admin/layout' )}"{$disabled} />
+<input class="button" type="submit" name="SetSorting" value="{'Set'|i18n( 'design/admin/layout' )}" />
 {/let}
 
 
