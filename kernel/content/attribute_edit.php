@@ -198,12 +198,14 @@ if ( $storingAllowed )
     // If no redirection uri we assume it's content/edit
     if ( !isset( $currentRedirectionURI ) )
         $currentRedirectionURI = $Module->redirectionURI( 'content', 'edit', array( $ObjectID, $EditVersion, $EditLanguage ) );
+    $attributeHasInput = array();
     foreach( array_keys( $contentObjectAttributes ) as $key )
     {
         $contentObjectAttribute =& $contentObjectAttributes[$key];
         if ( $contentObjectAttribute->fetchInput( $http, "ContentObjectAttribute" ) )
         {
-            $requireStoreAction= true;
+            $requireStoreAction = true;
+            $attributeHasInput[$contentObjectAttribute->attribute('id')] = true;
         }
 /********** Custom Action Code Start ***************/
         if ( isset( $customActionAttributeArray[$contentObjectAttribute->attribute( "id" )] ) )
@@ -222,7 +224,7 @@ if ( $storingAllowed )
         $inputValidated = true;
     }
 
-    if ( $inputValidated and $requireStoreAction )
+    if ( $inputValidated and count( $attributeHasInput ) > 0 )
     {
         if ( $Module->runHooks( 'pre_commit', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage ) ) )
             return;
@@ -236,7 +238,8 @@ if ( $storingAllowed )
         foreach( array_keys( $contentObjectAttributes ) as $key )
         {
             $contentObjectAttribute =& $contentObjectAttributes[$key];
-            $contentObjectAttribute->store();
+            if ( isset( $attributeHasInput[$contentObjectAttribute->attribute('id')] ) )
+                $contentObjectAttribute->store();
         }
     }
 
