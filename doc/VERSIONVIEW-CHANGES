@@ -1,0 +1,53 @@
+I made some changes to the version view to make it reuse node views, that way
+you will get the exact look of a version in all it's placements.
+To do this I had to modify the node views to accept input parameters which have
+defaults. For instance non-published versions doesn't have nodes which meant
+that I had to create a fake node with info taken from the assignment.
+
+Each node view template will now get the following variables as input.
+
+- with_children (default is true in templates), if false no child lists are
+  fetched, this is important since the node you get as a variable is not a real
+  node.
+- is_editable (default is true), if false the template should not show any
+  action buttons (edit, create new etc..). Maybe is_active is a better name?
+- is_standalone (default is true), if false no form tags should be used since
+  the versionview has their own forms.
+- content_object - (default is to fetch from node) The current object should be
+  used by the template instead of doing node.object all the time.
+- node_name - (default is to fetch from node) The name which is displayed, use
+  this instead of node.name or object.name. Note: The name stuff will change to
+  be fully version friendly and translation friendly.
+
+Example from full.tpl
+{default with_children=true()
+         is_editable=true()
+	 is_standalone=true()}
+* First we default all our values, that is if they aren't set they get a value.
+
+{let page_limit=25
+     list_count=and($with_children,fetch('content','list_count',hash(parent_node_id,$node.node_id)))}
+* Here the and operator is used as an if, the fetch will only be run if
+  $with_children is true and the result of the fetch is returned. (Same as in
+  LISP).
+
+{default content_object=$node.object
+         node_name=$node.name}
+* Again we set default values for content_object and node_name.
+
+
+{section show=$is_standalone}
+<form method="post" action={"content/action"|ezurl}>
+{/section}
+
+{section show=$with_children}
+
+<h2>Children</h2>
+....
+
+{/section}
+
+{/default}
+{/let}
+{/default}
+* Always remember to end defaults and lets.
