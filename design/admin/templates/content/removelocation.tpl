@@ -4,7 +4,11 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
+{section show=$remove_info.can_remove_all}
 <h2 class="context-title">{'Confirm location removal'|i18n( 'design/admin/content/removelocation' )}</h2>
+{section-else}
+<h2 class="context-title">{'Insufficient permissions'|i18n( 'design/admin/content/removelocation' )}</h2>
+{/section}
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -12,18 +16,19 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-<div class="message-confirmation">
-    <p>{'Some of the locations that are about to be removed have sub items.'|i18n( 'design/admin/content/removelocation' )}</p>
-    <p>{'Removing the locations will also result in the removal of the sub items.'|i18n( 'design/admin/content/removelocation' )}</p>
-    <p>{'Are you sure you want to remove these locations along with their contents?'|i18n( 'design/admin/content/removelocation' )}</p>
-</div>
+<div class="block">
 
-{section show=$remove_info.can_remove_all|not}
-    <div class="message-confirmation">
-        <p>{'Some of the locations cannot be removed, you will need to unselect the locations marked in red.'
-            |i18n( 'design/admin/content/removelocation' )}</p>
-    </div>
-{/section}
+    <p>{'Some of the locations that are about to be removed contain sub items.'|i18n( 'design/admin/content/removelocation' )}</p>
+
+    {section show=$remove_info.can_remove_all}
+        <p>{'Removing the locations will also result in the removal of the sub items.'|i18n( 'design/admin/content/removelocation' )}</p>
+        <p>{'Are you sure you want to remove the locations along with their contents?'|i18n( 'design/admin/content/removelocation' )}</p>
+    {section-else}
+        <p>{'The locations marked with red contain items that you do not have permissions to remove.'|i18n( 'design/admin/content/removelocation' )}</p>
+        <p>{'Click the "Cancel" button and try removing only the locations that you are allowed to remove.'|i18n( 'design/admin/content/removelocation' )}</p>
+    {/section}
+
+</div>
 
 <table class="list" cellspacing="0">
 <tr>
@@ -67,7 +72,9 @@
 
 <div class="block">
     {section show=$remove_info.can_remove_all}
-        <input type="submit" class="button" name="ConfirmRemovalButton" value="{'OK'|i18n( 'design/admin/content/removelocation' )}" title="{'Remove the locations along with all the sub items.'|i18n( 'design/admin/content/removelocation' )}" />
+        <input class="button" type="submit" name="ConfirmRemovalButton" value="{'OK'|i18n( 'design/admin/content/removelocation' )}" title="{'Remove the locations along with all the sub items.'|i18n( 'design/admin/content/removelocation' )}" />
+    {section-else}
+        <input class="button-disabled" type="submit" name="ConfirmRemovalButton" value="{'OK'|i18n( 'design/admin/content/removelocation' )}" title="{'You can not continue because you do not have permissions to remove some of the selected locations.'|i18n( 'design/admin/content/removelocation' )}" disabled="disabled" />
     {/section}
     <input type="submit" class="button" name="CancelRemovalButton" value="{'Cancel'|i18n( 'design/admin/content/removelocation' )}" title="{'Cancel the removal of locations.'|i18n( 'design/admin/content/removelocation' )}" />
 </div>
@@ -79,3 +86,4 @@
 </div>
 
 </form>
+

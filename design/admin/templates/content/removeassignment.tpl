@@ -5,7 +5,7 @@
 
 <div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h4>{'Object information'|i18n( 'design/admin/content/removeassignment' )}</h4>
+<h4>{'Object information'|i18n( 'design/admin/content/upload' )}</h4>
 
 </div></div></div></div></div></div>
 
@@ -43,7 +43,7 @@
 {section show=$content_object.published}
 {$content_object.current.version}
 {section-else}
-{'Not yet published'|i18n( 'design/admin/content/removeassignment' )}
+{'Not yet published'|i18n( 'design/admin/content/removeassignment ' )}
 {/section}
 </p>
 
@@ -107,7 +107,11 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h2 class="context-title">{'Confirm location removal'|i18n( 'design/admin/content/removeassignment' )}</h2>
+{section show=$remove_info.can_remove_all}
+<h2 class="context-title">{'Confirm location removal'|i18n( 'design/admin/content/removelocation' )}</h2>
+{section-else}
+<h2 class="context-title">{'Insufficient permissions'|i18n( 'design/admin/content/removelocation' )}</h2>
+{/section}
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -115,26 +119,26 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-<div class="message-confirmation">
-    <p>{'Some of the locations that are about to be removed have sub items.'|i18n( 'design/admin/content/removeassignment' )}</p>
-    <p>{'Removing the locations will also result in the removal of their sub items.'|i18n( 'design/admin/content/removeassignment' )}</p>
-    <p>{'Are you sure you want to remove these locations along with their contents?'|i18n( 'design/admin/content/removeassignment' )}</p>
-</div>
+<div class="block">
 
-{section show=$remove_info.can_remove_all|not}
-    <div class="message-confirmation">
-        <p>{'Some of the locations cannot be removed, you will need to unselect the locations marked in red.'
-            |i18n( 'design/admin/content/removeassignment' )}</p>
-    </div>
-{/section}
+    <p>{'Some of the locations that are about to be removed contain sub items.'|i18n( 'design/admin/content/removelocation' )}</p>
+
+    {section show=$remove_info.can_remove_all}
+        <p>{'Removing the locations will also result in the removal of the sub items.'|i18n( 'design/admin/content/removelocation' )}</p>
+        <p>{'Are you sure you want to remove the locations along with their contents?'|i18n( 'design/admin/content/removelocation' )}</p>
+    {section-else}
+        <p>{'The locations marked with red contain items that you do not have permissions to remove.'|i18n( 'design/admin/content/removelocation' )}</p>
+        <p>{'Click the "Cancel" button and try removing only the locations that you are allowed to remove.'|i18n( 'design/admin/content/removelocation' )}</p>
+    {/section}
+
+</div>
 
 <table class="list" cellspacing="0">
 <tr>
-    <th colspan="2">{'Location'|i18n( 'design/admin/content/removeassignment' )}</th>
-    <th>{'Sub items'|i18n( 'design/admin/content/removeassignment' )}</th>
+    <th colspan="2">{'Location'|i18n( 'design/admin/content/removelocation' )}</th>
+    <th>{'Sub items'|i18n( 'design/admin/content/removelocation' )}</th>
 </tr>
-
-{section var=remove_item loop=$assignment_data.remove_list sequence=array( bglight, bgdark )}
+{section var=remove_item loop=$remove_list sequence=array( bglight, bgdark )}
 <tr class="{$remove_item.sequence}{section show=$remove_item.can_remove|not} object-cannot-remove{/section}">
     {* Object icon. *}
     <td class="tight">{$remove_item.class.identifier|class_icon( small, $remove_item.class.name )}</td>
@@ -165,22 +169,26 @@
 
 {* DESIGN: Content END *}</div></div></div>
 
-
 <div class="controlbar">
+
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+
 <div class="block">
     {section show=$remove_info.can_remove_all}
-        <input type="submit" class="button" name="ConfirmRemovalButton" value="{'OK'|i18n( 'design/admin/content/removeassignment' )}" title="{'Remove the locations along with all the sub items.'|i18n( 'design/admin/content/removeassignment' )}" />
+        <input class="button" type="submit" name="ConfirmRemovalButton" value="{'OK'|i18n( 'design/admin/content/removelocation' )}" title="{'Remove the locations along with all the sub items.'|i18n( 'design/admin/content/removelocation' )}" />
+    {section-else}
+        <input class="button-disabled" type="submit" name="ConfirmRemovalButton" value="{'OK'|i18n( 'design/admin/content/removelocation' )}" title="{'You can not continue because you do not have permissions to remove some of the selected locations.'|i18n( 'design/admin/content/removelocation' )}" disabled="disabled" />
     {/section}
-    <input type="submit" class="button" name="CancelRemovalButton" value="{'Cancel'|i18n( 'design/admin/content/removeassignment' )}" title="{'Cancel the removal operation and go back to the edit page.'|i18n( 'design/admin/content/removeassignment' )}" />
+    <input type="submit" class="button" name="CancelRemovalButton" value="{'Cancel'|i18n( 'design/admin/content/removelocation' )}" title="{'Cancel the removal of locations.'|i18n( 'design/admin/content/removelocation' )}" />
 </div>
+
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
+
 </div>
 
 </div>
 
 </form>
-
 
 <!-- Maincontent END -->
 </div>
