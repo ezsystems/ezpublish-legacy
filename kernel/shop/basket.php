@@ -36,14 +36,14 @@ $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
 
 include_once( "kernel/classes/ezcontentobject.php" );
-include_once( "kernel/classes/ezcart.php" );
+include_once( "kernel/classes/ezbasket.php" );
 include_once( "kernel/classes/ezorder.php" );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
 include_once( "kernel/classes/ezproductcollection.php" );
 include_once( "kernel/classes/ezproductcollectionitem.php" );
 
-if ( $http->hasPostVariable( "ActionAddToCart" ) )
+if ( $http->hasPostVariable( "ActionAddToBasket" ) )
 {
     $objectID = $http->postVariable( "ContentObjectID" );
 
@@ -61,10 +61,10 @@ if ( $http->hasPostVariable( "ActionAddToCart" ) )
         }
     }
 
-    $cart =& eZCart::currentCart();
+    $basket =& eZBasket::currentBasket();
     $sessionID = $http->sessionID();
 
-    $item =& eZProductCollectionItem::create( $cart->attribute( "productcollection_id" ) );
+    $item =& eZProductCollectionItem::create( $basket->attribute( "productcollection_id" ) );
 
     $item->setAttribute( "contentobject_id", $objectID );
     $item->setAttribute( "item_count", 1 );
@@ -72,7 +72,7 @@ if ( $http->hasPostVariable( "ActionAddToCart" ) )
 
     $item->store();
 
-    $module->redirectTo( "/shop/cart/" );
+    $module->redirectTo( "/shop/basket/" );
     return;
 }
 
@@ -80,13 +80,13 @@ if ( $http->hasPostVariable( "RemoveProductItemButton" ) )
 {
     $itemList = $http->postVariable( "RemoveProductItemDeleteList" );
 
-    $cart =& eZCart::currentCart();
+    $basket =& eZBasket::currentBasket();
 
     foreach ( $itemList as $item )
     {
-        $cart->removeItem( $item );
+        $basket->removeItem( $item );
     }
-    $module->redirectTo( $module->functionURI( "cart" ) . "/" );
+    $module->redirectTo( $module->functionURI( "basket" ) . "/" );
     return;
 }
 
@@ -105,14 +105,14 @@ if ( $http->hasPostVariable( "StoreChangesButton" ) )
         $i++;
     }
 
-    $module->redirectTo( $module->functionURI( "cart" ) . "/" );
+    $module->redirectTo( $module->functionURI( "basket" ) . "/" );
     return;
 }
 
 if ( $http->hasPostVariable( "CheckoutButton" ) )
 {
-    $cart =& eZCart::currentCart();
-    $productCollectionID = $cart->attribute( 'productcollection_id' );
+    $basket =& eZBasket::currentBasket();
+    $productCollectionID = $basket->attribute( 'productcollection_id' );
 
     $user =& eZUser::currentUser();
     $userID = $user->attribute( 'contentobject_id' );
@@ -122,7 +122,7 @@ if ( $http->hasPostVariable( "CheckoutButton" ) )
                                  'created' => mktime() ) );
     $order->store();
 
-    $cart->remove();
+    $basket->remove();
 
     $module->redirectTo( '/shop/orderview/' . $order->attribute( 'id' ) );
     return;
@@ -132,10 +132,10 @@ include_once( "kernel/common/template.php" );
 
 $tpl =& templateInit();
 
-$cart = eZCart::currentCart();
+$basket = eZBasket::currentBasket();
 
-$tpl->setVariable( "cart", $cart );
+$tpl->setVariable( "basket", $basket );
 
-$Result =& $tpl->fetch( "design:shop/cart.tpl" );
+$Result =& $tpl->fetch( "design:shop/basket.tpl" );
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 //
-// Definition of eZCart class
+// Definition of eZBasket class
 //
 // Created on: <04-Jul-2002 15:28:58 bf>
 //
@@ -35,8 +35,8 @@
 //
 
 /*!
-  \class eZCart ezcart.php
-  \brief eZCart handles shopping carts
+  \class eZBasket ezbasket.php
+  \brief eZBasket handles shopping baskets
   \ingroup eZKernel
 
   \sa eZProductCollection
@@ -46,11 +46,11 @@ include_once( "kernel/classes/ezpersistentobject.php" );
 include_once( "kernel/classes/ezproductcollection.php" );
 include_once( "kernel/classes/ezproductcollectionitem.php" );
 
-class eZCart extends eZPersistentObject
+class eZBasket extends eZPersistentObject
 {
     /*!
     */
-    function eZCart( $row )
+    function eZBasket( $row )
     {
         $this->eZPersistentObject( $row );
     }
@@ -66,8 +66,8 @@ class eZCart extends eZPersistentObject
                                          ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
-                      "class_name" => "eZCart",
-                      "name" => "ezcart" );
+                      "class_name" => "eZBasket",
+                      "name" => "ezbasket" );
     }
 
     function attribute( $attr )
@@ -120,35 +120,35 @@ class eZCart extends eZPersistentObject
     }
 
     /*!
-     Will return the cart for the current session. If a cart does not exist one will be created.
-     \return current eZCart object
+     Will return the basket for the current session. If a basket does not exist one will be created.
+     \return current eZBasket object
     */
-    function &currentCart( $as_object=true )
+    function &currentBasket( $as_object=true )
     {
         $http =& eZHTTPTool::instance();
         $sessionID = $http->sessionID();
 
-        $cartList =& eZPersistentObject::fetchObjectList( eZCart::definition(),
+        $basketList =& eZPersistentObject::fetchObjectList( eZBasket::definition(),
                                                           null, array( "session_id" => $sessionID
                                                                        ),
                                                           null, null,
                                                           $as_object );
 
-        $currentCart = false;
-        if ( count( $cartList ) == 0 )
+        $currentBasket = false;
+        if ( count( $basketList ) == 0 )
         {
             $collection =& eZProductCollection::create();
             $collection->store();
 
-            $currentCart = new eZCart( array( "session_id" => $sessionID,
+            $currentBasket = new eZBasket( array( "session_id" => $sessionID,
                                               "productcollection_id" => $collection->attribute( "id" ) ) );
-            $currentCart->store();
+            $currentBasket->store();
         }
         else
         {
-            $currentCart =& $cartList[0];
+            $currentBasket =& $basketList[0];
         }
-        return $currentCart;
+        return $currentBasket;
     }
 }
 

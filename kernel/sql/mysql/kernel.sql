@@ -462,8 +462,8 @@ price_is_inc_vat int not null,
 price int not null,
 primary key(id) );
 
-drop table if exists ezcart;
-CREATE TABLE ezcart (
+drop table if exists ezbasket;
+CREATE TABLE ezbasket (
 id int not null auto_increment,
 session_id varchar(255) not null,
 productcollection_id int not null,

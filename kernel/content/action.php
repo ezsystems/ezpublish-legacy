@@ -76,11 +76,11 @@ if ( $http->hasPostVariable( "ContentObjectID" )  )
     $action = $http->postVariable( "ContentObjectID" );
 
     // Check which action to perform
-    if ( $http->hasPostVariable( "ActionAddToCart" ) )
+    if ( $http->hasPostVariable( "ActionAddToBasket" ) )
     {
         $shopModule =& eZModule::exists( "shop" );
 
-        $result =& $shopModule->run( "cart", array() );
+        $result =& $shopModule->run( "basket", array() );
         $module->setExitStatus( $shopModule->exitStatus() );
         $module->setRedirectURI( $shopModule->redirectURI() );
     }

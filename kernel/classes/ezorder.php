@@ -35,11 +35,11 @@
 //
 
 /*!
-  \class eZOrder ezcart.php
+  \class eZOrder ezorder.php
   \brief eZOrder handles orders
   \ingroup eZKernel
 
-  \sa eZProductCollection eZCart
+  \sa eZProductCollection eZBasket
 */
 
 include_once( "kernel/classes/ezpersistentobject.php" );

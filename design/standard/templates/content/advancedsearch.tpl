@@ -1,4 +1,4 @@
-<form action="/search/advancedsearch/" method="get">
+<form action="/content/advancedsearch/" method="get">
 <h1>Search for: {$search_text} returned {$search_count} objects</h1>
 
 <table cellspacing="0">
