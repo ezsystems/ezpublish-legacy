@@ -699,7 +699,7 @@ class eZSearchEngine
                     ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                     $sqlPermissionCheckingString
-                    ORDER BY ezsearch_object_word_link.frequency";
+                    ORDER BY ezsearch_object_word_link.published DESC";
 
             $searchCountQuery = "SELECT count( DISTINCT ezcontentobject.id ) as count
                     FROM
@@ -730,17 +730,7 @@ class eZSearchEngine
                 $objectResArray =& $db->arrayQuery( $searchQuery, array( "limit" => $searchLimit, "offset" => $searchOffset ) );
                 // execute search count query
                 $objectCountRes =& $db->arrayQuery( $searchCountQuery );
-                $objectRes = eZContentObjectTreeNode::makeObjectsArray( $objectResArray );
-/*                foreach ( $objectResArray as $objectRow )
-                {
-                    /// \todo optimize to one query
-                    $obj = new eZContentObject( $objectRow );
-                    $obj->setClassName( $objectRow['class_name'] );
-                    unset( $node );
-                    $node = eZContentObjectTreeNode::fetch( $obj->attribute( 'main_node_id' ) );
-                    $objectRes[] =& $node;
-                }
-*/
+                $objectRes =& eZContentObjectTreeNode::makeObjectsArray( $objectResArray );
                 $searchCount = $objectCountRes[0]['count'];
             }
             else
