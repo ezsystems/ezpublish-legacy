@@ -1,36 +1,33 @@
 <form enctype="multipart/form-data" method="post" action={concat("task/messageview/",$message.id)|ezurl}>
 
+<div class="maincontentheader">
 <h1>Task message '{$message.contentobject.name}'</h1>
+</div>
 
-<table width="100%" >
-<tr><td width="1%">From:</td><td width="98%"><b>{content_view_gui view=text_linked content_object=$message.task.creator.contentobject}</b></td><td width="1%"></td></tr>
-<tr><td width="1%">To:</td>  <td width="98%"><b>{content_view_gui view=text_linked content_object=$message.task.receiver.contentobject}</b></td><td width="1%"></td></tr>
+<div class="block">
+<div class="element">
+<label>From:</label><div class="labelbreak"></div>
+{content_view_gui view=text_linked content_object=$message.task.creator.contentobject}
+</div>
+<div class="element">
+<label>To:</label><div class="labelbreak"></div>
+{content_view_gui view=text_linked content_object=$message.task.receiver.contentobject}
+</div>
+<div class="break"></div>
+</div>
 
-<tr>
-	<td valign="top" colspan="3">
+{section name=ContentObjectAttribute loop=$message.contentobject.contentobject_attributes sequence=array(bglight,bgdark)}
+<input type="hidden" name="ContentObjectAttribute_id[]" value="{$ContentObjectAttribute:item.id}" />
+<div class="block">
+<label>{$ContentObjectAttribute:item.contentclass_attribute.name}</label><div class="labelbreak"></div>
+{attribute_view_gui attribute=$ContentObjectAttribute:item}
+</div>
+{/section}
 
-	{section name=ContentObjectAttribute loop=$message.contentobject.contentobject_attributes sequence=array(bglight,bgdark)}
-
-	<b>{$ContentObjectAttribute:item.contentclass_attribute.name}</b>
-
-	<br />
-	<input type="hidden" name="ContentObjectAttribute_id[]" value="{$ContentObjectAttribute:item.id}" />
-
-	{attribute_view_gui attribute=$ContentObjectAttribute:item}
-
-	<br />
-
-	{/section}
-
-	<br />
-
-	<input type="submit" name="EditButton" value="{'Edit'|i18n('task/message')}" />
-	&nbsp;
-	<input type="submit" name="PublishButton" value="{'Send'|i18n('task/message')}" />
-	<input type="submit" name="CancelButton" value="{'Discard'|i18n('task/message')}" />
-
-	</td>
-</tr>
-</table>
+<div class="buttonblock">
+<input type="submit" name="EditButton" value="{'Edit'|i18n('task/message')}" />
+<input type="submit" name="PublishButton" value="{'Send'|i18n('task/message')}" />
+<input type="submit" name="CancelButton" value="{'Discard'|i18n('task/message')}" />
+</div>
 
 </form>

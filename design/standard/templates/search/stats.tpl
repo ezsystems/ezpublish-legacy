@@ -1,17 +1,19 @@
+<div class="maincontentheader">
 <h1>Search statistics</h1>
-
+</div>
 
 <h2>Most frequent search phrases</h2>
-<table width="100%">
+
+<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>
-	Phrase
+	Phrase:
 	</th>
 	<th>
-	Number of phrases
+	Number of phrases:
 	</th>
 	<th>
-	Avg, result returned
+	Avg, result returned:
 	</th>
 </tr>
 {section name=Phrase loop=$most_frequent_phrase_array sequence=array(bglight,bgdark)}

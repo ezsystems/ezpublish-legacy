@@ -1,8 +1,8 @@
+<div class="maincontentheader">
 <h1>{"Order list"|i18n}</h1>
+</div>
 
-
-
-<table width="100%">
+<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 {section name="Order" loop=$order_array sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$Order:sequence}">

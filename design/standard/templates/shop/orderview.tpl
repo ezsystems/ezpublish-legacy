@@ -1,32 +1,45 @@
+<div class="maincontentheader">
 <h1>{"Order view"|i18n}</h1>
+</div>
 
-Order ID: {$order.id} <br />
+<div class="block">
+<div class="element">
+<label>Order ID:</label><div class="labelbreak"></div>
+<p class="box">{$order.id}</p>
+</div>
+<div class="element">
+<label>User:</label><div class="labelbreak"></div>
+<p class="box">{$order.user.login}</p>
+</div>
+<div class="element">
+<label>Created:</label><div class="labelbreak"></div>
+<p class="box">{$order.created|l10n(date)}</p>
+</div>
+<div class="break"></div>
+</div>
 
-User: {$order.user.login}<br />
-Created: {$order.created|l10n(date)}<br/>
-
-<table cellspacing="0">
+<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>
-	Product
+	Product:
 	</th>
 	<th>
-	Count
+	Count:
 	</th>
 	<th>
-	VAT
+	VAT:
 	</th>
 	<th>
-	Price ex. VAT
+	Price ex. VAT:
 	</th>
 	<th>
-	Price inc. VAT
+	Price inc. VAT:
 	</th>
 	<th>
-	Total Price ex. VAT
+	Total Price ex. VAT:
 	</th>
 	<th>
-	Total Price inc. VAT
+	Total Price inc. VAT:
 	</th>
  </tr>
 {section name=ProductItem loop=$order.items show=$order.items sequence=array(bglight,bgdark)}
@@ -58,10 +71,15 @@ Created: {$order.created|l10n(date)}<br/>
 </tr>
 {section-else}
 <tr>
-	<td>Empty cart</td>
+    <td colspan="7">
+<div class="feedback">
+<h2>Empty basket</h2>
+</div>
+    </td>
 </tr>
 {/section}
-
 </table>
+
+<p class="comment">To be done: The structure of this template needs to be changed so that the headers of the table don't print if the basket is empty, and the "Empty..." message isn't inside the table at all. th[eZ]</p>
 
 </form>

@@ -1,33 +1,39 @@
 <form method="post" action={"/shop/wishlist/"|ezurl}>
 
+<div class="maincontentheader">
 <h1>{"Wish list"|i18n}</h1>
+</div>
 
-Wish list ID: {$wish_list.id} <br />
+<div class="block">
+<label>Wish list ID:</label><div class="labelbreak"></div>
+<p class="box">{$wish_list.id}</p>
+</div>
 
-<table>
+<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>
-	Product
+	Product:
 	</th>
 	<th>
-	Count
+	Count:
 	</th>
 	<th>
-	VAT
+	VAT:
 	</th>
 	<th>
-	Price ex. VAT
+	Price ex. VAT:
 	</th>
 	<th>
-	Price inc. VAT
+	Price inc. VAT:
 	</th>
 	<th>
-	Total Price ex. VAT
+	Total Price ex. VAT:
 	</th>
 	<th>
-	Total Price inc. VAT
+	Total Price inc. VAT:
 	</th>
 	<th>
+    &nbsp;
 	</th>
 </tr>
 {section name=ProductItem loop=$wish_list.items show=$wish_list.items sequence=array(bglight,bgdark)}
@@ -63,13 +69,20 @@ Wish list ID: {$wish_list.id} <br />
 </tr>
 {section-else}
 <tr>
-	<td>Empty wish list</td>
+	<td>
+<div class="feedback">
+<h2>Empty wish list</h2>
+</div>
+    </td>
 </tr>
 {/section}
-
 </table>
-<br />
-<input type="submit" name="StoreChangesButton" value="Store" /> &nbsp;
-<input type="submit" name="RemoveProductItemButton" value="Remove item(s)" />
+
+<p class="comment">To be done: The structure of this template needs to be changed so that the headers of the table don't print if the basket is empty, and the "Empty..." message isn't inside the table at all. th[eZ]</p>
+
+<div class="buttonblock">
+<input class="button" type="submit" name="StoreChangesButton" value="Store" />
+<input class="button" type="submit" name="RemoveProductItemButton" value="Remove item(s)" />
+</div>
 
 </form>

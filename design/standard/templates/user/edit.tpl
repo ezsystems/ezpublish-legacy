@@ -1,36 +1,31 @@
 <form action={concat($module.functions.edit.uri,"/",$userID)|ezurl} method="post" name="Edit">
-<h1>Registed user profile:
 
-<table width="100%" cellpadding="2" cellspacing="0">
-<tr>
-<td width="180">
-<b>{"Login"|i18n}</b>:<br/>
-</td>
-<td>
-{$userAccount.login}
-</td>
-</tr>
+<div class="maincontentheader">
+<h1>Registed user profile</h1>
+</div>
+
+<div class="block">
+<label>{"Login"|i18n}</label><div class="labelbreak"></div>
+<p class="box">{$userAccount.login}</p>
+</div>
+
 {section name=ClassAttribute loop=$userProfile}
-<tr>
-<td width="180">
-<b>{$ClassAttribute:item.name}</b>
-</td>
-<td>
-<input type="text" name="ContentclassAttribute_{$ClassAttribute:item.classAttribute_id}" size="20" value="{$ClassAttribute:item.value}">
-</td>
+<div class="block">
+<label>{$ClassAttribute:item.name}:</label><div class="labelbreak"></div>
+<input class="box" type="text" name="ContentclassAttribute_{$ClassAttribute:item.classAttribute_id}" size="20" value="{$ClassAttribute:item.value}" />
+</div>
 {/section}
-<tr>
-<td>
-<b>{"e-mail"|i18n}</b>:<br/>	
-</td>
-<td>
-<input type="text" name="email" size="20" value="{$userAccount.email}">
-</td>
-</tr>
-</table>
-<br>
-<input type="submit" name="UpdateProfileButton" value="Update Profile" />
-<input type="submit" name="ChangePasswordButton" value="Change Password" />
-<input type="submit" name="ChangeSettingButton" value="Change Setting" />
-<input type="submit" name="CancelButton" value="Cancel" />
+
+<div class="block">
+<label>{"e-mail"|i18n}:</label><div class="labelbreak"></div>
+<input class="box" type="text" name="email" size="20" value="{$userAccount.email}" />
+</div>
+
+<div class="buttonblock">
+<input class="button" type="submit" name="UpdateProfileButton" value="Update Profile" />
+<input class="button" type="submit" name="ChangePasswordButton" value="Change Password" />
+<input class="button" type="submit" name="ChangeSettingButton" value="Change Setting" />
+<input class="button" type="submit" name="CancelButton" value="Cancel" />
+</div>
+
 </form>

@@ -11,61 +11,53 @@
 <form method="post" action={"content/action/"|ezurl}>
 {/section}
 
+<div class="maincontentheader">
 <h1>{"Site map"|i18n('content/object')}</h1>
+</div>
 
-<table width="100%" cellspacing="0" cellpadding="0">
-<tr>
-	<td>
-	{$node_name|texttoimage('archtura')}
+<p>{$node_name|texttoimage('archtura')}</p>
 {* 	<h1>{$node_name}</h1> *}
-        <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
-	</td>
-</tr>
-</table>
 
-<table width="100%">
 {section name=ContentObjectAttribute loop=$content_object.contentobject_attributes}
-<tr>
-  <td><b>{$ContentObjectAttribute:item.contentclass_attribute.name}</b><br/>
-  {attribute_view_gui attribute=$ContentObjectAttribute:item}
-  </td>
-</tr>
+<div class="block">
+<label>{$ContentObjectAttribute:item.contentclass_attribute.name}:</label><div class="labelbreak"></div>
+{attribute_view_gui attribute=$ContentObjectAttribute:item}
+</div>
 {/section}
-</table>
 
 {section show=$with_children}
 
 <table class="list" width="100%" cellpadding="1" cellspacing="0" border="0">
 <tr>
-	<th class="normal">ID:</th>
-	<th class="normal">Object:</th>
-	<th class="normal">OwnerID:</th>
-	<th class="normal">Version:</th>
-	<th class="normal">Section ID:</th>
-	<th class="normal">Class:</th>
+	<th>ID:</th>
+	<th>Object:</th>
+	<th>OwnerID:</th>
+	<th>Version:</th>
+	<th>Section ID:</th>
+	<th>Class:</th>
 	<th colspan="2">&nbsp;</th>
 </tr>
 
 {section name=Tree loop=$tree sequence=array(bglight,bgdark)}
 <tr>
-	<td class="{$Tree:sequence}"><span class="normal"><a class="normal" href={concat("content/view/sitemap/",$Tree:item.node_id)|ezurl}>{$Tree:item.object.id}</a></span></td>
+	<td class="{$Tree:sequence}"><a href={concat("content/view/sitemap/",$Tree:item.node_id)|ezurl}>{$Tree:item.object.id}</a></td>
 	<td class="{$Tree:sequence}">
        	<img src={"1x1-transparent.gif"|ezimage} width="{mul(sub($Tree:item.depth,$node.depth)|dec,$sitemap_indentation)}" height="1" alt="" />
-	<a class="normal" href={concat("content/view/full/",$Tree:item.node_id)|ezurl}><img src={"class_1.png"|ezimage} border="0"> &nbsp;{$Tree:item.name}</a>
+	<a href={concat("content/view/full/",$Tree:item.node_id)|ezurl}><img src={"class_1.png"|ezimage} border="0"> &nbsp;{$Tree:item.name}</a>
 	</td>
-	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.object.owner_id}</span></td>
-	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.object.current_version}</span></td>
-	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.object.section_id}</span></td>
-	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.object.class_name}</span></td>
+	<td class="{$Tree:sequence}">{$Tree:item.object.owner_id}</td>
+	<td class="{$Tree:sequence}">{$Tree:item.object.current_version}</td>
+	<td class="{$Tree:sequence}">{$Tree:item.object.section_id}</td>
+	<td class="{$Tree:sequence}">{$Tree:item.object.class_name}</td>
 	<td class="{$Tree:sequence}">
 	{switch name=sw1 match=$Tree:item.object.can_edit}
         {case match=1}  
 	{switch name=cidsw match=$Tree:item.object.contentclass_id}
 	    {case match=4}
-	    <a class="normal" href={concat("user/edit/",$Tree:item.object.id)|ezurl}><img src={"edit.png"|ezimage} border="0"></a>
+	    <a href={concat("user/edit/",$Tree:item.object.id)|ezurl}><img src={"edit.png"|ezimage} border="0"></a>
 	    {/case}
 	    {case}
-            <a class="normal" href={concat("content/edit/",$Tree:item.object.id)|ezurl}><img src={"edit.png"|ezimage} border="0"></a>
+            <a href={concat("content/edit/",$Tree:item.object.id)|ezurl}><img src={"edit.png"|ezimage} border="0"></a>
 	    {/case}
         {/switch}
         {/case}
@@ -98,7 +90,7 @@
 {switch match=$content_object.can_create}
 {case match=1}
          <input type="hidden" name="NodeID" value="{$node.node_id}" />
-         <input type="submit" name="NewButton" value="New" />
+         <input class="button" type="submit" name="NewButton" value="New" />
          <select name="ClassID">
 	      {section name=Classes loop=$content_object.can_create_class_list}
 	      <option value="{$Classes:item.id}">{$Classes:item.name}</option>
@@ -106,7 +98,9 @@
          </select>
 {/case}
 {case match=0}
-  You are not allowed to create child objects
+<div class="warning">
+<h2>You are not allowed to create child objects</h2>
+</div>
 {/case}
 {/switch}
 

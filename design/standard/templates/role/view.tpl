@@ -2,10 +2,11 @@
 <h1>{"Role view"|i18n('role/view')}</h1>
 </div>
 <form action={concat($module.functions.view.uri,"/",$role.id,"/")|ezurl} method="post" >
-
+<div class="block">
 <label>Name:</label><div class="labelbreak"></div>
 <p class="box">{$role.name} <a href={concat("/role/edit/",$role.id,"/")|ezurl}>[edit]</a></p>
-
+</div>
+<p class="comment">This "edit" button needs to be done in some other way; maybe by just using the regular edit image button used in lists. th[eZ]</p>
 
 <h2>{"Role policies"|i18n('role/view')}</h2>
 
@@ -46,7 +47,7 @@
 {/section}
 </table>
 
-<h2>{"Users and groups assigned to this role"|i18n('role/view')}:</h2>
+<h2>{"Users and groups assigned to this role"|i18n('role/view')}</h2>
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>

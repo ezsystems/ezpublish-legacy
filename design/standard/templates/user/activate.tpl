@@ -1,25 +1,25 @@
 <form action={concat($module.functions.activate.uri,"/",$LoginID,"/",$UserIDHash)|ezurl} method="post" name="Register">
-<h1>Activite account:</h1>
+
+<div class="maincontentheader">
+<h1>Activate account</h1>
+</div>
 
 <h2>{$message}</h2>
-<table width="100%" cellpadding="2" cellspacing="0">
-<tr>
-<td width="180">
-<b>Login ID</b>:
-</td>
-<td>
-<input type="text" name="Login_id" size="20" value="">
-</td>
-</tr>
-<tr>
-<td>
-<b>Password</b>
-</td>
-<td>
-<input type="password" name="Password" size="20" value="">
-</td>
-</tr>
-</table>
-<br>
-<input type="submit" name="ActivateButton" value="Activate" />
+
+<div class="block">
+<div class="element">
+<label>Login ID:</label><div class="labelbreak"></div>
+<input class="halfbox" type="text" name="Login_id" size="20" value="" />
+</div>
+<div class="element">
+<label>Password:</label><div class="labelbreak"></div>
+<input class="halfbox" type="password" name="Password" size="20" value="" />
+</div>
+<div class="break"></div>
+</div>
+
+<div class="buttonblock">
+<input class="button" type="submit" name="ActivateButton" value="Activate" />
+</div>
+
 </form>

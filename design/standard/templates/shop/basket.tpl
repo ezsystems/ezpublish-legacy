@@ -1,35 +1,48 @@
 <form method="post" action={"/shop/basket/"|ezurl}>
 
+<div class="maincontentheader">
 <h1>{"Basket"|i18n}</h1>
+</div>
 
 {section name=Basket show=$basket.items|gt(0)}
 
-Basket ID: {$basket.id}, Session ID: {$basket.session_id} <br />
+<div class="block">
+<div class="element">
+<label>Basket ID:</label><div class="labelbreak"></div>
+<p class="box">{$basket.id}</p>
+</div>
+<div class="element">
+<label>Session ID:</label><div class="labelbreak"></div>
+<p class="box">{$basket.session_id}</p>
+</div>
+<div class="break"></div>
+</div>
 
-<table>
+<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>
-	Product
+	Product:
 	</th>
 	<th>
-	Count
+	Count:
 	</th>
 	<th>
-	VAT
+	VAT:
 	</th>
 	<th>
-	Price ex. VAT
+	Price ex. VAT:
 	</th>
 	<th>
-	Price inc. VAT
+	Price inc. VAT:
 	</th>
 	<th>
-	Total Price ex. VAT
+	Total Price ex. VAT:
 	</th>
 	<th>
-	Total Price inc. VAT
+	Total Price inc. VAT:
 	</th>
 	<th>
+    &nbsp;
 	</th>
 </tr>
 {section name=ProductItem loop=$basket.items sequence=array(bglight,bgdark)}
@@ -66,26 +79,26 @@ Basket ID: {$basket.id}, Session ID: {$basket.session_id} <br />
 {/section}
 
 </table>
-<br />
-<input type="submit" name="StoreChangesButton" value="Store" /> &nbsp;
-<input type="submit" name="RemoveProductItemButton" value="Remove item(s)" />
 
-<table width="100%">
-<tr>
-	<td>
-	<input type="submit" name="ContinueShoppingButton" value="Continue shopping" />
-	</td>
-	<td align="right">
-	<input type="submit" name="CheckoutButton" value="Checkout" /> &nbsp;
-	</td>
-</tr>
-</table>
+<div class="buttonblock">
+<input class="button" type="submit" name="StoreChangesButton" value="Store" /> &nbsp;
+<input class="button" type="submit" name="RemoveProductItemButton" value="Remove item(s)" />
+</div>
+
+<div class="buttonblock">
+<input class="button" type="submit" name="ContinueShoppingButton" value="Continue shopping" />
+<input class="button" type="submit" name="CheckoutButton" value="Checkout" /> &nbsp;
+</div>
 
 {/section}
 
 
 {section name=Basket show=$basket.items|lt(1) }
-You have no products in your basket.
+
+<div class="feedback">
+<h2>You have no products in your basket</h2>
+</div>
+
 {/section}
 
 

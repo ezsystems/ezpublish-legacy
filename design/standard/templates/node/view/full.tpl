@@ -14,7 +14,9 @@
 <tr>
 	<td>
 {*	{$node.name|texttoimage('archtura')}  *}
- 	<h1 class="top">{$node_name}</h1>
+ 	<div class="maincontentheader">
+    <h1>{$node_name}</h1>
+    </div>
 	<input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 	</td>
 	<td align="right">
@@ -25,7 +27,9 @@
 	    <input class="button" type="submit" name="EditButton" value="Edit" />
 	    {/case}
             {case match=0}
-            <p>You are not allowed to edit this object</p>
+            <div class="warning">
+            <h2>You are not allowed to edit this object</h2>
+            </div>
             {/case}
           {/switch}
         {/section}
@@ -76,18 +80,16 @@
 {section name=Child loop=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset)) sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$Child:sequence}">
-        <span class="normal">
         <a href={concat('content/view/full/',$Child:item.node_id)|ezurl}>{node_view_gui view=line content_node=$Child:item}</a>
-        </span>
 	</td>
-        <td class="{$Child:sequence}"><span class="normal">{$Child:item.object.class_name}</span></td>
+        <td class="{$Child:sequence}">{$Child:item.object.class_name}</td>
 	{section show=eq($node.sort_array[0][0],'priority')}<td width="40" align="left">
 	<input type="text" name="Priority[]" size="2" value="{$Child:item.priority}">
 	<input type="hidden" name="PriorityID[]" value="{$Child:item.node_id}"></td>{/section}
 	{switch name=sw match=$Child:item.object.can_edit}
         {case match=1}
 	<td width="1%">
-        <a class="normal" href={concat("content/edit/",$Child:item.contentobject_id)|ezurl}><img src={"edit.png"|ezimage} border="0"></a>
+        <a href={concat("content/edit/",$Child:item.contentobject_id)|ezurl}><img src={"edit.png"|ezimage} alt="Edit" /></a>
         </td>
 	{/case}
         {case} 
@@ -100,7 +102,7 @@
 	<td class="{$Child:sequence}" align="right" width="1%">
              <input type="checkbox" name="DeleteIDArray[]" value="{$Child:item.node_id}" />
 	</td>
-	<td width="1%" class="{$Child:sequence}"><img src={"editdelete.png"|ezimage} border="0"></td>
+	<td width="1%" class="{$Child:sequence}"><img src={"editdelete.png"|ezimage} alt="Edit" /></td>
 	{/case}
         {case} 
 	<td class="{$Child:sequence}" align="right" width="1%">
@@ -132,7 +134,9 @@
          </select>
 {/case}
 {case match=0}
- <p>You are not allowed to create child objects</p>
+<div class="warning">
+<h2>You are not allowed to create child objects</h2>
+</div>
 {/case}
 {/switch}
 {section show=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
