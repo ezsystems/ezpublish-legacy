@@ -83,6 +83,19 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
 
 if ( $http->hasPostVariable( "RemoveProductItemButton" ) )
 {
+    $itemCountList = $http->postVariable( "ProductItemCountList" );
+    $itemIDList = $http->postVariable( "ProductItemIDList" );
+
+    $i = 0;
+    foreach ( $itemIDList as $id )
+    {
+        $item = eZProductCollectionItem::fetch( $id );
+        $item->setAttribute( "item_count", $itemCountList[$i] );
+        $item->store();
+
+        $i++;
+    }
+
     $itemList = $http->postVariable( "RemoveProductItemDeleteList" );
 
     $basket =& eZBasket::currentBasket();
@@ -109,13 +122,24 @@ if ( $http->hasPostVariable( "StoreChangesButton" ) )
 
         $i++;
     }
-
     $module->redirectTo( $module->functionURI( "basket" ) . "/" );
     return;
 }
 
 if ( $http->hasPostVariable( "ContinueShoppingButton" ) )
 {
+    $itemCountList = $http->postVariable( "ProductItemCountList" );
+    $itemIDList = $http->postVariable( "ProductItemIDList" );
+
+    $i = 0;
+    foreach ( $itemIDList as $id )
+    {
+        $item = eZProductCollectionItem::fetch( $id );
+        $item->setAttribute( "item_count", $itemCountList[$i] );
+        $item->store();
+
+        $i++;
+    }
     $fromURL = $http->sessionVariable( "FromPage" );
     $module->redirectTo( $fromURL );
 }
@@ -128,11 +152,22 @@ if ( eZHTTPTool::hasSessionVariable( 'DoCheckoutAutomatically' ) )
         $doCheckout = true;
     }
 }
-     
 
 
 if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
 {
+    $itemCountList = $http->postVariable( "ProductItemCountList" );
+    $itemIDList = $http->postVariable( "ProductItemIDList" );
+
+    $i = 0;
+    foreach ( $itemIDList as $id )
+    {
+        $item = eZProductCollectionItem::fetch( $id );
+        $item->setAttribute( "item_count", $itemCountList[$i] );
+        $item->store();
+
+        $i++;
+    }
     // Check login
     $user =& eZUser::currentUser();
 
