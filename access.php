@@ -415,10 +415,13 @@ function changeAccess( $access )
     if ( $name == '' )
     {
         $name = $ini->variable( 'SiteSettings', 'DefaultAccess' );
+        $access['name'] = $name;
+        $access['type'] = EZ_ACCESS_TYPE_DEFAULT;
         if ( accessDebugEnabled() )
             eZDebug::writeDebug( "Using default site access '$name'", 'access.php' );
     }
-    if ( $access['type'] == EZ_ACCESS_TYPE_URI )
+    if ( $access !== null and
+         $access['type'] == EZ_ACCESS_TYPE_URI )
     {
         include_once( 'lib/ezutils/classes/ezsys.php' );
         eZSys::addAccessPath( $name );
