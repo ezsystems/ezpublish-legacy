@@ -47,6 +47,7 @@ Changes from 3.3-1 to 3.3-2
 - Fixed ezboolean information collector template. http://ez.no/developer/ez_publish_3/bug_reports/missing_datatype_collect_templates
 - Fixed showing footer in PDF export. http://ez.no/developer/ez_publish_3/bug_reports/no_footer_in_pdf
 - Fixed duplicate </div> in product template in shop package. http://ez.no/developer/ez_publish_3/bug_reports/double_closed_div_in_product_tpl_shop_package
+- Added check to see if calling method on object. http://ez.no/developer/ez_publish_3/bug_reports/attribute_show_warnings_and_fatal_errors
 
 *Setup:
 - Added check for imagegd2. http://ez.no/developer/ez_publish_3/bug_reports/gd_version_requirements
