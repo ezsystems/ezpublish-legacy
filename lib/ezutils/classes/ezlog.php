@@ -80,6 +80,9 @@ class eZLog
                 $fileExisted = false;
         }
 
+        $dir = preg_replace( "#/$#", "", $dir );
+        $dir .= "/";
+
         $logFile = @fopen( $fileName, "a" );
         if ( $logFile )
         {
