@@ -925,7 +925,7 @@ else
                 $newVariableAssignmentCounter = $newParameters['counter'];
                 if ( $newVariableAssignmentCounter > 0 )
                     $newVariableAssignmentName .= $newVariableAssignmentCounter;
-                $php->addCodePiece( "\$$variableAssignmentName = compiledFetchAttribute( \$$variableAssignmentName, \$$newVariableAssignmentName );\n" );
+                $php->addCodePiece( "unset( \$tmp$variableAssignmentName );\n\$tmp$variableAssignmentName = compiledFetchAttribute( \$$variableAssignmentName, \$$newVariableAssignmentName );\nunset( \$$variableAssignmentName );\n\$$variableAssignmentName = \$tmp$variableAssignmentName;\nunset( \$tmp$variableAssignmentName );\n" );
 // $php->addVariable( 'attr', $variableDataItem[1] );
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_OPERATOR )
