@@ -5,112 +5,112 @@
   <warning>This format was made with a development version and will not work with any release versions.
 The format of this file is also subject to change until the release version.
 Upgrades to the development format will not be supported.</warning>
-  <name modified="1061231753">mysite</name>
-  <summary modified="1061231759">Personal homepage</summary>
+  <name modified="1061231746">bookshop</name>
+  <summary modified="1061231752">Bookshop site</summary>
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
     <version>3.2.0-1</version>
     <named-version>3.2 pre-alpha</named-version>
   </ezpublish>
   <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
-    <maintainer modified="1061231753">
+    <maintainer modified="1061231746">
       <name>Anonymous User</name>
       <email>nospam@ez.no</email>
       <role>lead</role>
     </maintainer>
   </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1061231753</timestamp>
+    <timestamp>1061231746</timestamp>
     <host>bf.ez.no</host>
   </packaging>
   <documents>
     <document mime-type="text/plain"
               name="README"
-              modified="1061231753" />
+              modified="1061231746" />
   </documents>
   <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry timestamp="1061231753"
+    <entry timestamp="1061231746"
            person="Anonymous User"
            email="nospam@ez.no"
            release="1"
-           modified="1061231753">
+           modified="1061231746">
       <change>Creation of package</change>
     </entry>
   </changelog>
   <files xmlns:ezfile="http://ez.no/ezpackage">
     <collection name="default">
       <file-list type="design"
-                 design="mysite"
-                 modified="1061231754" />
+                 design="bookshop"
+                 modified="1061231747" />
       <file-list type="file">
         <file name="override.ini.append"
-              sub-directory="settings/siteaccess/mysite"
-              path="settings/siteaccess/mysite/override.ini.append"
-              md5sum="f94a866731c3302e6c377b03e9590180"
-              modified="1061231754" />
+              sub-directory="settings/siteaccess/bookshop"
+              path="settings/siteaccess/bookshop/override.ini.append"
+              md5sum="f8c12a1d1fdd3a5d2641cc0550fad47e"
+              modified="1061231748" />
         <file name="site.ini.append"
-              sub-directory="settings/siteaccess/mysite"
-              path="settings/siteaccess/mysite/site.ini.append"
-              md5sum="981b7336076ba37b1cb5716c6d7851e0"
-              modified="1061231755" />
+              sub-directory="settings/siteaccess/bookshop"
+              path="settings/siteaccess/bookshop/site.ini.append"
+              md5sum="09670ba3e6acb6b2f56955dfdc05de80"
+              modified="1061231748" />
       </file-list>
       <file-list type="thumbnail">
         <file name="thumbnail.png"
-              path="mysitethumbnail.png"
-              md5sum="d734082d5c7adc9d3f4c802fb188353b"
-              modified="1061231758" />
+              path="bookshopthumbnail.png"
+              md5sum="d1b684a8aebd427f96ee066a86563530"
+              modified="1061231751" />
       </file-list>
     </collection>
   </files>
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number modified="1061231753">1.0</number>
-    <release modified="1061231753">1</release>
+    <number modified="1061231746">1.0</number>
+    <release modified="1061231746">1</release>
   </version>
-  <licence modified="1061231753">GPL</licence>
-  <state modified="1061231753">alpha</state>
+  <licence modified="1061231746">GPL</licence>
+  <state modified="1061231746">alpha</state>
   <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
     <provides>
       <provide type="ezfile"
                name="collection"
                value="default"
-               modified="1061231754" />
+               modified="1061231747" />
     </provides>
     <requires>
       <require type="ezdb"
                name="mysql"
-               modified="1061231756" />
+               modified="1061231749" />
       <require type="ezdb"
                name="postgresql"
-               modified="1061231757" />
+               modified="1061231750" />
       <require type="ezdb"
                name="postgresql"
-               modified="1061231757" />
+               modified="1061231750" />
     </requires>
     <obsoletes />
     <conflicts />
   </dependencies>
   <install xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1061231754"
+          modified="1061231747"
           collection="default" />
     <item type="sql"
-          modified="1061231756"
-          filename="mysite.sql"
-          original-path="packages/mysite.sql"
+          modified="1061231749"
+          filename="bookshop.sql"
+          original-path="packages/bookshop.sql"
           database-type="mysql" />
     <item type="sql"
-          modified="1061231757"
+          modified="1061231750"
           filename="kernel_schema.sql"
           original-path="kernel/sql/postgresql/kernel_schema.sql"
           database-type="postgresql" />
     <item type="sql"
-          modified="1061231757"
+          modified="1061231750"
           filename="cleandata.sql"
           original-path="kernel/sql/postgresql/cleandata.sql"
           database-type="postgresql" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1061231754"
+          modified="1061231747"
           collection="default" />
   </uninstall>
 </package>

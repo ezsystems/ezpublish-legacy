@@ -5,96 +5,112 @@
   <warning>This format was made with a development version and will not work with any release versions.
 The format of this file is also subject to change until the release version.
 Upgrades to the development format will not be supported.</warning>
-  <name modified="1061230670">forum</name>
-  <summary modified="1061230675">Forum site</summary>
+  <name modified="1061231740">forum</name>
+  <summary modified="1061231745">Forum site</summary>
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
     <version>3.2.0-1</version>
     <named-version>3.2 pre-alpha</named-version>
   </ezpublish>
+  <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
+    <maintainer modified="1061231740">
+      <name>Anonymous User</name>
+      <email>nospam@ez.no</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1061230670</timestamp>
+    <timestamp>1061231740</timestamp>
     <host>bf.ez.no</host>
   </packaging>
   <documents>
     <document mime-type="text/plain"
               name="README"
-              modified="1061230670" />
+              modified="1061231740" />
   </documents>
+  <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
+    <entry timestamp="1061231740"
+           person="Anonymous User"
+           email="nospam@ez.no"
+           release="1"
+           modified="1061231740">
+      <change>Creation of package</change>
+    </entry>
+  </changelog>
   <files xmlns:ezfile="http://ez.no/ezpackage">
     <collection name="default">
       <file-list type="design"
                  design="forum"
-                 modified="1061230671" />
+                 modified="1061231741" />
       <file-list type="file">
         <file name="override.ini.append"
               sub-directory="settings/siteaccess/forum"
               path="settings/siteaccess/forum/override.ini.append"
               md5sum="60a669cb62f6cc9123d267383892391f"
-              modified="1061230671" />
+              modified="1061231741" />
         <file name="site.ini.append"
               sub-directory="settings/siteaccess/forum"
               path="settings/siteaccess/forum/site.ini.append"
               md5sum="2d16a620f76915c7f759106dd7200025"
-              modified="1061230672" />
+              modified="1061231742" />
       </file-list>
       <file-list type="thumbnail">
         <file name="thumbnail.png"
               path="forumthumbnail.png"
               md5sum="703fed5d0e4d4300ff566f5bdaeec7ef"
-              modified="1061230674" />
+              modified="1061231744" />
       </file-list>
     </collection>
   </files>
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number modified="1061230670">1.0</number>
-    <release modified="1061230670">1</release>
+    <number modified="1061231740">1.0</number>
+    <release modified="1061231740">1</release>
   </version>
-  <licence modified="1061230670">GPL</licence>
-  <state modified="1061230670">alpha</state>
+  <licence modified="1061231740">GPL</licence>
+  <state modified="1061231740">alpha</state>
   <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
     <provides>
       <provide type="ezfile"
                name="collection"
                value="default"
-               modified="1061230671" />
+               modified="1061231741" />
     </provides>
     <requires>
       <require type="ezdb"
                name="mysql"
-               modified="1061230672" />
+               modified="1061231742" />
       <require type="ezdb"
                name="postgresql"
-               modified="1061230673" />
+               modified="1061231743" />
       <require type="ezdb"
                name="postgresql"
-               modified="1061230674" />
+               modified="1061231744" />
     </requires>
     <obsoletes />
     <conflicts />
   </dependencies>
   <install xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1061230671"
+          modified="1061231741"
           collection="default" />
     <item type="sql"
-          modified="1061230672"
+          modified="1061231742"
           filename="forum.sql"
           original-path="packages/forum.sql"
           database-type="mysql" />
     <item type="sql"
-          modified="1061230673"
+          modified="1061231743"
           filename="kernel_schema.sql"
           original-path="kernel/sql/postgresql/kernel_schema.sql"
           database-type="postgresql" />
     <item type="sql"
-          modified="1061230674"
+          modified="1061231744"
           filename="cleandata.sql"
           original-path="kernel/sql/postgresql/cleandata.sql"
           database-type="postgresql" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1061230671"
+          modified="1061231741"
           collection="default" />
   </uninstall>
 </package>
