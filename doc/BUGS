@@ -15,10 +15,11 @@ Image (fixed)
 If no image is uploaded, image should not be shown. Now an invalid url is used
 and you get broken image.
 
-DateTime (fixed)
+DateTime
 --------
 The return hour is always (input-1). It works properly right now by using simple justment in input value, need to 
 find out what is the real reason. 
+See http://www.php.net/manual/en/function.mktime.php, we might need a site.ini setting for this to work properly?
 
 Versioning (fixed)
 ----------
@@ -88,3 +89,5 @@ Fixed(sp)
 Deprecated function in PHP 4.1.0
 ---------------------------------------------
 call_user_method_array()
+
+Time:
