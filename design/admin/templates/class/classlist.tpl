@@ -105,7 +105,7 @@ function toggleCheckboxes( formname, checkboxname )
 <div class="controlbar">
 <div class="block">
 <input type="hidden" name = "CurrentGroupID" value="{$GroupID}" />
-<input type="hidden" name = "CurrentGroupName" value="{$group_name}" />
+<input type="hidden" name = "CurrentGroupName" value="{$group.name}" />
 <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/class/classlist' )}" {section show=$class_count|not}disabled="disabled"{/section} />
 <input class="button" type="submit" name="NewButton" value="{'New class'|i18n( 'design/admin/class/classlist' )}" />
 </div>
