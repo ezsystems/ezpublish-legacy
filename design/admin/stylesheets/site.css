@@ -301,6 +301,7 @@ div#leftmenu li a, div#rightmenu li a
     background-position: 0.2em 0.4em;
     background-repeat: no-repeat;
     padding-left: 18px;
+    display: block;
 }
 
 div#leftmenu li span.disabled, div#rightmenu li span.disabled
@@ -309,12 +310,14 @@ div#leftmenu li span.disabled, div#rightmenu li span.disabled
     background-position: 0.2em 0.4em;
     background-repeat: no-repeat;
     padding-left: 18px;
+    display: block;
 }
 
 div#leftmenu div#content-tree li a, div#rightmenu div#bookmarks li a, div#rightmenu div#bookmarks li span.disabled, div#leftmenu li.nobullet a
 {
     background-image: none;
     padding-left: 0;
+    display: inline;
 }
 
 div#leftmenu
