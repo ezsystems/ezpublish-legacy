@@ -32,6 +32,7 @@
 //
 
 $Module =& $Params["Module"];
+// test
 $Module->setTitle( "Successful registration" );
 // Template handling
 include_once( "kernel/common/template.php" );
