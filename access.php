@@ -303,7 +303,7 @@ function accessAllowed( $uri )
     $access = true;
     $currentAccess = true;
     if ( !$ini->hasGroup( 'SiteAccessRules' ) )
-        return true;
+        return $check;
     $items =& $ini->variableArray( 'SiteAccessRules', 'Rules' );
     foreach( $items as $item )
     {
