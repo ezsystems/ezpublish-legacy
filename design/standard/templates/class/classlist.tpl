@@ -30,8 +30,8 @@
 
 {section name=Classes loop=$groupclasses sequence=array(bglight,bgdark)}
 <tr>
-    <td class="{$Classes:sequence}" width="1%"><a href={concat( "/class/view/", $Classes:item.id )}>{$Classes:item.id}</a></td>
-    <td class="{$Classes:sequence}"><a href={concat( "/class/view/", $Classes:item.id )}>{$Classes:item.name|wash}</a></td>
+    <td class="{$Classes:sequence}" width="1%"><a href={concat( "/class/view/", $Classes:item.id )|ezurl}>{$Classes:item.id}</a></td>
+    <td class="{$Classes:sequence}"><a href={concat( "/class/view/", $Classes:item.id )|ezurl}>{$Classes:item.name|wash}</a></td>
     <td class="{$Classes:sequence}">{$Classes:item.identifier|wash}</td>
     <td class="{$Classes:sequence}">{content_view_gui view=text_linked content_object=$Classes:item.modifier.contentobject}</td>
     <td class="{$Classes:sequence}"><span class="small">{$Classes:item.modified|l10n(shortdatetime)}</span></td>
