@@ -153,7 +153,7 @@ CREATE SEQUENCE ezcontentbrowserecent_s
 
 
 CREATE SEQUENCE ezcontentclass_s
-    START 1
+    START 25
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -7949,7 +7949,7 @@ SELECT pg_catalog.setval ('ezcontentbrowserecent_s', 91, true);
 
 
 
-SELECT pg_catalog.setval ('ezcontentclass_s', 99, false);
+SELECT pg_catalog.setval ('ezcontentclass_s', 25, false);
 
 
 
