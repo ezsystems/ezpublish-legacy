@@ -37,6 +37,7 @@
 
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'kernel/common/template.php' );
+include_once( 'kernel/common/i18n.php' );
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/classes/ezcontentobjectversion.php' );
 include_once( 'kernel/classes/ezcontentobjectattribute.php' );
@@ -66,10 +67,15 @@ if ( $node !== null )
     $ChildObjectsCount = $node->subTreeCount();
 else
     $ChildObjectsCount = 0;
-if ( $ChildObjectsCount <=1 )
-    $ChildObjectsCount .= " child";
+$ChildObjectsCount .= " ";
+if ( $ChildObjectsCount == 1 )
+    $ChildObjectsCount .= ezi18n( 'kernel/content/removenode',
+                                  'child',
+                                  '1 child' );
 else
-    $ChildObjectsCount .= " children";
+    $ChildObjectsCount .= ezi18n( 'kernel/content/removenode',
+                                  'children',
+                                  'several children' );
 
 if ( $Module->isCurrentAction( 'ConfirmAssignmentRemove' ) )
 {

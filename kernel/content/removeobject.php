@@ -41,6 +41,7 @@ include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 
 include_once( "kernel/common/template.php" );
+include_once( 'kernel/common/i18n.php' );
 
 $Module =& $Params["Module"];
 
@@ -76,11 +77,15 @@ foreach ( $deleteIDArray as $deleteID )
             return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
         if ( $object === null )
             return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
-        $ChildObjectsCount = $node->subTreeCount();
-        if ( $ChildObjectsCount <=1 )
-            $ChildObjectsCount .= " child";
+        $ChildObjectsCount = $node->subTreeCount() . " ";
+        if ( $ChildObjectsCount == 1 )
+            $ChildObjectsCount .= ezi18n( 'kernel/content/removeobject',
+                                          'child',
+                                          '1 child' );
         else
-            $ChildObjectsCount .= " children";
+            $ChildObjectsCount .= ezi18n( 'kernel/content/removeobject',
+                                          'children',
+                                          'several children' );
         $item = array( "nodeName" => $NodeName,
                        "childCount" => $ChildObjectsCount );
         $deleteResult[] = $item;

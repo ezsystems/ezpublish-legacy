@@ -1,7 +1,7 @@
 <form action={$request_uri|ezurl} method="post" >
 
 <div class="maincontentheader">
-<h1>{"Wrapping"|i18n('workflow/eventtype/result/event_ezcheckout')}</h1>
+<h1>{"Wrapping"|i18n("design/standard/workflow/eventtype/result")}</h1>
 </div>
 
 <div class="block">

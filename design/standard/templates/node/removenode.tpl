@@ -1,7 +1,7 @@
 <div class="warning">
 <h2>{"Are you sure you want to remove"|i18n("design/standard/node")} {$object.name} {"from node"|i18n("design/standard/node")} {$node.object.name}{"?"|i18n("design/standard/node")}</h2>
 <ul>
-    <li>{"Removing this assignment will also remove it's"|i18n("design/standard/node")} {$ChildObjectsCount}{"!"|i18n("design/standard/node")}</li>
+    <li>{"Removing this assignment will also remove it's"|i18n("design/standard/node")} {$ChildObjectsCount} {"!"|i18n("design/standard/node")}</li>
 </ul>
 </div>
 
