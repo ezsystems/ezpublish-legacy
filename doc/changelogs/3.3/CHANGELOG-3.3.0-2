@@ -1,7 +1,34 @@
 Changes from 3.3.0-1 to 3.3.0-2
 
 *Kernel:
+- Fixed editing PDF exports : http://ez.no/developer/ez_publish_3/bug_reports/pdf_export_must_be_editable_and_schedulable
+- Improved RSS 0.91, 0.92 and 2.0 import: http://ez.no/developer/ez_publish_3/bug_reports/rss_import_does_not_import_ez2_rss_092_feed
+- The admin embed template for images will now use the image alias defined in content.ini, it reads
+  the variable DefaultEmbedAlias in the group ImageSettings.
+- Improved the translated URLs (URL alias), it will not contain leading or trailing underscores,
+  special characters are translated into underscore instead of being removed and empty translations
+  will use a default value from the client. (e.g node_45 from content tree nodes)
+- When you add a new location to an object it will be automatically set to main if no other
+  locations is already set as main
+- Added check when published content has warning ( validation log ), content can't be published before user has seen the warning.
+- Fixed the content/translations list to show the internal name of the languages instead of the local name.
+- Changed a lot of the default templates to use url_alias instead of content/view/full links, this allows
+  them to seamlessly work with URL translation on or off.
+- Changed the minimum required version check in Setup Wizard to 4.2.3 (was 4.1.0). ( merged in from 3.2 3485)
+- Made sure the embed view template for objects don't show a link if there is no main node.
+- Added edit button for all object relation list (datatype) items.
+- New template operator 'simpletags' which can do simple replacement of tags listed in template.ini.
+- Fixed the content view to only accept node IDs higher or equal to 2, if lower 2 is used.
+- The clearcache.sh will now also clear the var directories for all siteaccess.
+- Changed behaviour when deleting nodes fra tree. Objects placed in the tree as secondary location are now NOT deleted. Please see
+  this bug report for more information ( merged from stable 4436 )
+  http://ez.no/developer/ez_publish_3/bug_reports/critical_deleting_a_node_not_the_main_causes_unwanted_removal_of_object
+- Changed the caching of eZPreferences in session to use an array for all variables, this makes it
+  easier to cleanup up. The preferences are now cleared on login/logout.
+- Changed the caching of user information and user groups in sessions, the new method uses arrays
+  and is easier to cleanup.
 - Added ignore_content_expiry parameter to cache-block. Using this cache blocks will not expire when any content is published.
+- Fixed the approve workflow type to show users real name not the login.
 
 *Bugfixes:
 - Fixed bug where advanced setup menu in admin open/close did not work due to cache.
@@ -79,35 +106,6 @@ Changes from 3.3.0-1 to 3.3.0-2
   http://ez.no/developer/ez_publish_3/bug_reports/collaboration_approved_items_cause_crash_when_viewing
 - Fixed bug with caching of role information in session. Session cache is now properly cleaned up. ( merged from stable 4320 )
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/edit_images_problem_with_store
-
-
-*Kernel:
-- Fixed editing PDF exports : http://ez.no/developer/ez_publish_3/bug_reports/pdf_export_must_be_editable_and_schedulable
-- Improved RSS 0.91, 0.92 and 2.0 import: http://ez.no/developer/ez_publish_3/bug_reports/rss_import_does_not_import_ez2_rss_092_feed
-- The admin embed template for images will now use the image alias defined in content.ini, it reads
-  the variable DefaultEmbedAlias in the group ImageSettings.
-- Improved the translated URLs (URL alias), it will not contain leading or trailing underscores,
-  special characters are translated into underscore instead of being removed and empty translations
-  will use a default value from the client. (e.g node_45 from content tree nodes)
-- When you add a new location to an object it will be automatically set to main if no other
-  locations is already set as main
-- Added check when published content has warning ( validation log ), content can't be published before user has seen the warning.
-- Fixed the content/translations list to show the internal name of the languages instead of the local name.
-- Changed a lot of the default templates to use url_alias instead of content/view/full links, this allows
-  them to seamlessly work with URL translation on or off.
-- Changed the minimum required version check in Setup Wizard to 4.2.3 (was 4.1.0). ( merged in from 3.2 3485)
-- Made sure the embed view template for objects don't show a link if there is no main node.
-- Added edit button for all object relation list (datatype) items.
-- New template operator 'simpletags' which can do simple replacement of tags listed in template.ini.
-- Fixed the content view to only accept node IDs higher or equal to 2, if lower 2 is used.
-- The clearcache.sh will now also clear the var directories for all siteaccess.
-- Changed behaviour when deleting nodes fra tree. Objects placed in the tree as secondary location are now NOT deleted. Please see
-  this bug report for more information ( merged from stable 4436 )
-  http://ez.no/developer/ez_publish_3/bug_reports/critical_deleting_a_node_not_the_main_causes_unwanted_removal_of_object
-- Changed the caching of eZPreferences in session to use an array for all variables, this makes it
-  easier to cleanup up. The preferences are now cleared on login/logout.
-- Changed the caching of user information and user groups in sessions, the new method uses arrays
-  and is easier to cleanup.
 
 *RSS:
 - Removed siteaccess from rss export.

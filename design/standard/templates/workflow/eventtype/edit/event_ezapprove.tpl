@@ -21,7 +21,7 @@
 
 
 
->{$Users:item.value}-{$Users:item.Name}</option>
+>{$Users:item.value}-{$Users:item.user.contentobject.name|wash}</option>
      {/section}   
 {/let} 
 
