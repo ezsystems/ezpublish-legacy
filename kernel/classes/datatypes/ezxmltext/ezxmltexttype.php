@@ -320,6 +320,35 @@ class eZXMLTextType extends eZDataType
                 $tagText .= $text;
             }break;
 
+            case 'ul' :
+            case 'ol' :
+            {
+                $listContent = "";
+                // find all list elements
+                foreach ( $tag->children() as $listItemNode )
+                {
+                    $listItemContent = "";
+                    foreach ( $listItemNode->children() as $itemChildNode )
+                    {
+                        $listItemContent =& $this->inputTagXML( $itemChildNode );
+                    }
+                    $tpl->setVariable( 'content', $listItemContent, 'xmltagns' );
+                    $uri = "design:content/datatype/view/ezxmltags/li.tpl";
+
+                    eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, 'foo', 'xmltagns' );
+
+                    $listContent .= $text;
+                }
+
+                $tpl->setVariable( 'content', $listContent, 'xmltagns' );
+                $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
+
+                eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, 'foo', 'xmltagns' );
+                $tagText .= $text;
+
+//                $output .= "<$tagName>\n$listContent</$tagName>";
+            }break;
+
             // normal content tags
             case 'empahsize' :
             case 'strong' :
@@ -390,37 +419,63 @@ class eZXMLTextType extends eZDataType
         $output = "";
         foreach ( $paragraph->children() as $paragraphNode )
         {
-            $tagName = $paragraphNode->name();
+            $output .= $this->inputTagXML( $paragraphNode );
+        }
+        return $output;
+    }
 
-            switch ( $tagName )
+    /*!
+     \return the input xml for the given tag
+    */
+    function &inputTagXML( &$tag )
+    {
+        $output = "";
+        $tagName = $tag->name();
+
+        switch ( $tagName )
+        {
+            case '#text' :
             {
-                case '#text' :
-                {
-                    $output .= $paragraphNode->content();
-                }break;
+                $output .= $tag->content();
+            }break;
 
-                case 'object' :
-                {
-                    $view = $paragraphNode->attributeValue( 'view' );
-                    $objectID = $paragraphNode->attributeValue( 'id' );
-                    $output .= "<$tagName id='$objectID' view='$view'/>" . $paragraphNode->textContent();
-                }break;
+            case 'object' :
+            {
+                $view = $tag->attributeValue( 'view' );
+                $objectID = $tag->attributeValue( 'id' );
+                $output .= "<$tagName id='$objectID' view='$view'/>" . $tag->textContent();
+            }break;
 
-
-                // normal content tags
-                case 'empahsize' :
-                case 'strong' :
-                case 'bold' :
-                case 'italic' :
+            case 'ul' :
+            case 'ol' :
+            {
+                $listContent = "";
+                // find all list elements
+                foreach ( $tag->children() as $listItemNode )
                 {
-                    $output .= "<$tagName>" . $childTagText . $paragraphNode->textContent() . "</$tagName>";
-                }break;
+                    $listItemContent = "";
+                    foreach ( $listItemNode->children() as $itemChildNode )
+                    {
+                        $listItemContent =& $this->inputTagXML( $itemChildNode );
+                    }
+                    $listContent .= "  <li>$listItemContent</li>\n";
+                }
+                $output .= "<$tagName>\n$listContent</$tagName>";
+            }break;
 
-                default :
-                {
-                    eZDebug::writeError( "Unsupported tag: $tagName", "eZXMLTextType::inputParagraphXML()" );
-                }break;
-            }
+            // normal content tags
+            case 'empahsize' :
+            case 'strong' :
+            case 'bold' :
+            case 'italic' :
+            {
+                $output .= "<$tagName>" . $childTagText . $tag->textContent() . "</$tagName>";
+            }break;
+
+            default :
+            {
+                eZDebug::writeError( "Unsupported tag: $tagName", "eZXMLTextType::inputParagraphXML()" );
+            }break;
         }
         return $output;
     }

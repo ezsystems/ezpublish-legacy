@@ -767,7 +767,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     {
         if ( $nodeID == 0 )
         {
-            $node = $this;
+            $node =& $this;
             $nodeID = $node->attribute( 'node_id' );
         }
         else
