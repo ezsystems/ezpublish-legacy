@@ -8,6 +8,7 @@ Changes from 3.4.0 to 3.5.0alpha1
 eztc.php:
 - Added support for compiling files by filepath.
 - Added parameter --force to force compilation of template files.
+- Added checks for directory and temp/hidden files.
 
 *DataType:
 - Supported nested list for datatype ezxmltext.

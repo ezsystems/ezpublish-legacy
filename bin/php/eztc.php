@@ -84,22 +84,39 @@ if ( count( $options['arguments'] ) > 0 )
     include_once( 'lib/eztemplate/classes/eztemplatecompiler.php' );
     $tpl =& templateInit();
 
-    $files = $options['arguments'];
+    $fileList = $options['arguments'];
 
     $script->setIterationData( '.', '~' );
     $script->setShowVerboseOutput( true );
     if ( $forceCompile )
         eZTemplateCompiler::setSettings( array( 'generate' => true ) );
 
+    $files = array();
+    foreach ( $fileList as $file )
+    {
+        $filename = basename( $file );
+        if ( preg_match( "!^.+~$|^/?#.+#$|^\..+$!", $filename ) )
+            continue;
+        $files[] = $file;
+    }
+
+    $script->resetIteration( count( $files ) );
     foreach ( $files as $file )
     {
-        $status = $tpl->compileTemplateFile( $file );
-        $text = false;
-        if ( $status )
-            $text = "Compiled template file: " . $cli->stylize( 'file', $file );
+        if ( is_dir( $file ) )
+        {
+            $script->iterate( $cli, true, "Skipping directory: " . $cli->stylize( 'dir', $file ) );
+        }
         else
-            $text = "Compilation failed: " . $cli->stylize( 'file', $file );
-        $script->iterate( $cli, $status, $text );
+        {
+            $status = $tpl->compileTemplateFile( $file );
+            $text = false;
+            if ( $status )
+                $text = "Compiled template file: " . $cli->stylize( 'file', $file );
+            else
+                $text = "Compilation failed: " . $cli->stylize( 'file', $file );
+            $script->iterate( $cli, $status, $text );
+        }
     }
 }
 else
