@@ -85,9 +85,26 @@ class eZSOAPResponse extends eZSOAPEnvelope
 
             if ( get_class( $response ) == "ezdomnode" )
             {
-                $returnObject =& $dom->elementsByName( "return" );
+                /* Cut from the SOAP spec:
+                The method response is viewed as a single struct containing an accessor
+                for the return value and each [out] or [in/out] parameter.
+                The first accessor is the return value followed by the parameters
+                in the same order as in the method signature.
 
-                $this->Value =& $this->decodeDataTypes( $returnObject[0] );
+                Each parameter accessor has a name corresponding to the name
+                of the parameter and type corresponding to the type of the parameter.
+                The name of the return value accessor is not significant.
+                Likewise, the name of the struct is not significant.
+                However, a convention is to name it after the method name
+                with the string "Response" appended.
+                */
+
+                $responseAccessors =& $response->children();
+                if ( count($responseAccessors) > 0 )
+                {
+                    $returnObject =& $responseAccessors[0];
+                    $this->Value  =& $this->decodeDataTypes( $returnObject );
+                }
             }
             else
             {

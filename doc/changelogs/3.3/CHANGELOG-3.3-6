@@ -103,6 +103,9 @@ eZINI:
   http://ez.no/community/bug_reports/missed_attributes_in_ezmatrix
 - Fixed bug of unrecognized subtree arrays in fetchalias.ini
   http://ez.no/community/bug_reports/array_data_in_fetchalias_ini_don_t_get_treated_as_arrays_content_search
+- eZSoap now encodes value returned by a function in the more  
+  standard compliant manner. Partial fix for
+  http://ez.no/community/bug_reports/soap_response_null_object.
 
 *Library:
 
