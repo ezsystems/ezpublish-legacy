@@ -106,6 +106,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       "children_count" => "childrenCount",
                                                       'contentobject_version_object' => 'contentObjectVersionObject',
                                                       'sort_array' => 'sortArray',
+                                                      'creator' => 'creator',
                                                       "path" => "fetchPath",
                                                       "parent" => "fetchParent"
                                                       ),
@@ -174,6 +175,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         elseif ( $attr == 'parent' )
         {
             return $this->fetchParent();
+        }
+        elseif ( $attr == 'creator' )
+        {
+            return $this->creator();
         }else
             return eZPersistentObject::attribute( $attr );
     }
@@ -1306,6 +1311,23 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $this->HasContentObject = true;
     }
 
+    /*!
+    \todo optimize
+    \return the creator of the version published in the node.
+    */
+    function creator()
+    {
+        $db =& eZDB::instance();
+         $query = "SELECT creator_id
+                           FROM ezcontentobject_version
+                           WHERE
+                                contentobject_id = '$this->ContentObjectID' AND
+                                version = '$this->ContentObjectVersion' ";
+
+        $creatorArray = $db->arrayQuery( $query );
+        return eZContentObject::fetch( $creatorArray[0]['creator_id'] );
+    }
+
     function &contentObjectVersionObject( $asObject = true )
     {
         return eZContentObjectVersion::fetchVersion( $this->ContentObjectVersion, $this->ContentObjectID, $asObject );
@@ -1313,3 +1335,4 @@ class eZContentObjectTreeNode extends eZPersistentObject
 }
 
 ?>
+
