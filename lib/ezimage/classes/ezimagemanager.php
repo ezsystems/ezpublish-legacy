@@ -768,6 +768,13 @@ class eZImageManager
         }
         $currentAliasInfo = $aliasList[$aliasName];
         $referenceAlias = $currentAliasInfo['reference'];
+        if ( $referenceAlias and !$this->hasAlias( $referenceAlias ) )
+        {
+            eZDebug::writeError( "The referenced alias '$referenceAlias' for image alias '$aliasName' does not exist, cannot use it for reference.\n" .
+                                 "Will use 'original' alias instead.",
+                                 'eZImageManager::createImageAlias' );
+            $referenceAlias = false;
+        }
         if ( !$referenceAlias )
             $referenceAlias = 'original';
         $hasReference = false;

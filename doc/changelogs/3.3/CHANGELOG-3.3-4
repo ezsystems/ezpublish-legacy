@@ -81,7 +81,9 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/fatal_error_fetch_list_count_in_tpls
 - Removed event_ezpaynet workflow event from the standard workflow.ini file.
   http://ez.no/community/bug_reports/workflow_type_not_found_event_ezpaynet
-
+- Made sure the image system works even if a reference of an alias does not exist,
+  the system will fallback to the original alias with an error message.
+  http://ez.no/community/bug_reports/bug_with_images_if_reference_is_a_invallid_alias
 
 *Library:
 
