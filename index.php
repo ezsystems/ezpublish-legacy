@@ -478,10 +478,10 @@ while ( $moduleRunRequired )
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             $currentUser =& eZUser::currentUser();
 
-            $aviableViewsInModule = $module->attribute( 'views' );
+            $availableViewsInModule = $module->attribute( 'views' );
             $runningFunctions = false;
-            if ( isset( $aviableViewsInModule[$function_name][ 'functions' ] ) )
-                $runningFunctions = $aviableViewsInModule[$function_name][ 'functions' ];
+            if ( isset( $availableViewsInModule[$function_name][ 'functions' ] ) )
+                $runningFunctions = $availableViewsInModule[$function_name][ 'functions' ];
             $siteAccessResult = $currentUser->hasAccessTo( 'user', 'login' );
             $hasAccessToSite = false;
             if ( $siteAccessResult[ 'accessWord' ] == 'limited' )
