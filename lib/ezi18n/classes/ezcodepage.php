@@ -89,11 +89,24 @@ class eZCodePage
         {
             $charLen = 1;
             $unicodeValue = $this->charToUnicode( $str, $i, $charLen );
-            if ( $char !== null )
+            if ( $unicodeValue !== null )
                 $unicodeValues[] = $unicodeValue;
             $i += $charLen;
         }
         return $unicodeValues;
+    }
+
+    function &convertUnicodeToString( $unicodeValues )
+    {
+        if ( !is_array( $unicodeValues ) )
+            return false;
+        $text = '';
+        foreach ( $unicodeValues as $unicodeValue )
+        {
+            $char = $this->unicodeToChar( $unicodeValue );
+            $text .= $char;
+        }
+        return $text;
     }
 
     /* Original code, new code has inlined all used functions.
