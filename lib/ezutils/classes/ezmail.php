@@ -495,8 +495,8 @@ class eZMail
     {
         if ( preg_match( "/([^<]+)<([a-zA-Z0-9_-]+@([a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+)>/", $text, $matches ) )
         {
-            $email = $matches[1];
-            $name = $matches[2];
+            $email = $matches[2];
+            $name = $matches[1];
         }
         else
         {
