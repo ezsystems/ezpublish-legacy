@@ -419,6 +419,7 @@ class eZContentFunctionCollection
 
     function fetchBookmarks()
     {
+        include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         $user =& eZUser::currentUser();
         include_once( 'kernel/classes/ezcontentbrowsebookmark.php' );
         return array( 'result' => eZContentBrowseBookmark::fetchListForUser( $user->id() ) );

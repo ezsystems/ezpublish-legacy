@@ -71,6 +71,8 @@ Changes from 3.4.0beta2 to 3.4.0
   http://ez.no/community/bug_reports/fine_tune_database_message
 - Fixed bug of unable to edit translated object.
   http://ez.no/community/bug_reports/editing_of_a_translation_don_t_work_bug_in_attribute_edit_php
+- Fixed bug of missing included file in function fetchBookmarks() of ezcontentfunctioncollection.php.
+  http://ez.no/community/bug_reports/fatal_error_on_redirecting_template_when_registering_users
 
 *Library:
 
