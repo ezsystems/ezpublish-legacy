@@ -273,6 +273,8 @@ class eZStepInstaller
     */
     function hasKickstartData()
     {
+        if ( !$this->isKickstartAllowed() )
+            return false;
         return $this->KickstartData !== false;
     }
 
@@ -282,6 +284,24 @@ class eZStepInstaller
     function kickstartData()
     {
         return $this->KickstartData;
+    }
+
+    /*!
+     \return \c true if kickstart functionality can be used.
+    */
+    function isKickstartAllowed()
+    {
+        if ( isset( $GLOBALS['eZStepAllowKickstart'] ) )
+            return $GLOBALS['eZStepAllowKickstart'];
+        return true;
+    }
+
+    /*!
+     Sets whether kickstart data can be checked or not.
+    */
+    function setAllowKickstart( $allow )
+    {
+        $GLOBALS['eZStepAllowKickstart'] = $allow;
     }
 
     var $Tpl;

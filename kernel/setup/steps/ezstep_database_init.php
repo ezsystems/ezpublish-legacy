@@ -179,6 +179,7 @@ class eZStepDatabaseInit extends eZStepInstaller
         if ( $this->hasKickstartData() )
         {
             $data = $this->kickstartData();
+            $databaseMap = eZSetupDatabaseMap();
 
             $this->PersistenceList['database_info']['server'] = $data['Server'];
             $this->PersistenceList['database_info']['dbname'] = $data['Database'];
@@ -186,8 +187,11 @@ class eZStepDatabaseInit extends eZStepInstaller
             $this->PersistenceList['database_info']['password'] = $data['Password'];
             $this->PersistenceList['database_info']['socket'] = $data['Socket'];
 
+            $databaseInfo = $this->PersistenceList['database_info'];
+            $databaseInfo['info'] = $databaseMap[$databaseInfo['type']];
+            $dbDriver = $databaseInfo['info']['driver'];
+
             $dbStatus = array();
-            $dbPwd = $password;
             $dbCharset = 'iso-8859-1';
             $dbParameters = array( 'server' => $data['Server'],
                                    'user' => $data['User'],
@@ -202,13 +206,16 @@ class eZStepDatabaseInit extends eZStepInstaller
                 $dbParameters['database'] = 'template1';
 
             $db =& eZDB::instance( $dbDriver, $dbParameters, true );
-            if ( $db->isConnected() != false )
+            if ( $db->isConnected() == false )
             {
-                $this->PersistenceList['database_info']['use_unicode'] = false;
-                if ( $db->isCharsetSupported( 'utf-8' ) )
-                {
-                    $this->PersistenceList['database_info']['use_unicode'] = true;
-                }
+                $this->Error = EZ_SETUP_DB_ERROR_CONNECTION_FAILED;
+                return false;
+            }
+
+            $this->PersistenceList['database_info']['use_unicode'] = false;
+            if ( $db->isCharsetSupported( 'utf-8' ) )
+            {
+                $this->PersistenceList['database_info']['use_unicode'] = true;
             }
 
             return true;

@@ -151,7 +151,11 @@ class eZStepCreateSites extends eZStepInstaller
 
         $charset = $this->findAppropriateCharset( $primaryLanguage, $allLanguages, $canUseUnicode );
         if ( !$charset )
+        {
+            // Make sure kickstart functionality stops
+            $this->setAllowKickstart( false );
             return 'LanguageOptions';
+        }
 
         include_once( 'kernel/setup/ezsetuptypes.php' );
         $siteTypes = eZSetupTypes();

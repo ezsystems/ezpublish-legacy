@@ -248,7 +248,7 @@ class eZStepRegistration extends eZStepInstaller
         {
             $comments = $this->Http->postVariable( 'eZSetupRegistrationComment' );
         }
-        $bodyText = $this->generateRegistration( $mailTpl );
+        $bodyText = $this->generateRegistration( $mailTpl, '' );
         $subject =& $mailTpl->variable( 'subject' );
 
         $this->Tpl->setVariable( 'email_body', $bodyText );
