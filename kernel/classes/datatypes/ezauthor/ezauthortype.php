@@ -144,7 +144,11 @@ class eZAuthorType extends eZDataType
     */
     function metaData( &$contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( "data_text" );
+        $author =& $contentObjectAttribute->content();
+        if ( !$author )
+            return false;
+
+        return $author->metaData();
     }
 
     /*!

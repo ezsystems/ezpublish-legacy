@@ -132,6 +132,29 @@ class eZAuthor
     }
 
     /*!
+     \return a string which contains all the interesting meta data.
+
+     The result of this method can passed to the search engine or other
+     parts which work on meta data.
+
+     The string will contain all the authors with their name and email.
+
+     Example:
+     \code
+     'John Doe john@doe.com'
+     \endcode
+    */
+    function metaData()
+    {
+        $data = '';
+        foreach ( $this->Authors as $author )
+        {
+            $data .= $author['name'] . ' ' . $author['email'] . "\n";
+        }
+        return $data;
+    }
+
+    /*!
      Will decode an xml string and initialize the eZ author object
     */
     function decodeXML( $xmlString )

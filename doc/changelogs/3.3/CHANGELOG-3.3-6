@@ -222,6 +222,8 @@ eZINI:
 - Fixed typos in mysql/kernel_schema.sql.
 - Fixed bug in div and mul template operators when input parameter was used.
   http://ez.no/community/bug_reports/operator_mul_does_not_work_as_documented
+- Fixed bug with ezauthor and search meta data.
+  http://ez.no/community/bug_reports/search_ezauthor
 
 *Library:
 
