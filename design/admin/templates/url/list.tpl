@@ -143,9 +143,9 @@
 </div>
 
 {section-else}
-
-<p>{'The list is empty.'|i18n( 'design/admin/url/list' )}</p>
-
+<div class="block">
+<p>{'The requested list is empty.'|i18n( 'design/admin/url/list' )}</p>
+</div>
 {/section}
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
