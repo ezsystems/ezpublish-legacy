@@ -905,7 +905,8 @@ class eZModule
         // Check if the module has set the navigation part, if not default to module setting
         if ( !isset( $Return['navigation_part'] ) )
         {
-            $Return['navigation_part'] = $function['default_navigation_part'];
+            if ( isset( $function['default_navigation_part'] ) )
+                $Return['navigation_part'] = $function['default_navigation_part'];
         }
         return $Return;
     }
