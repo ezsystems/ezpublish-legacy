@@ -152,22 +152,4 @@ $ViewList['systemupgrade'] = array(
                                     'DBCheckButton' => 'DBCheck' ),
     'params' => array( ) );
 
-$ViewList["toolbarlist"] = array(
-    "script" => "toolbarlist.php",
-    "default_navigation_part" => 'ezsetupnavigationpart',
-    "params" => array( 'SiteAccess' ) );
-
-$ViewList["toolbar"] = array(
-    "script" => "toolbar.php",
-    'ui_context' => 'edit',
-    "default_navigation_part" => 'ezsetupnavigationpart',
-    'post_actions' => array( 'BrowseActionName' ),
-    "params" => array( 'SiteAccess', 'Position' ) );
-
-$ViewList["menuconfig"] = array(
-    "script" => "menuconfig.php",
-    'default_navigation_part' => 'ezsetupnavigationpart',
-    'single_post_actions' => array( 'StoreButton' => 'Store',
-                                    'SelectCurrentSiteAccessButton' => 'SelectCurrentSiteAccess' ),
-    "params" => array() );
 ?>

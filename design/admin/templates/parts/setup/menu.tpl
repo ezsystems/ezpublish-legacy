@@ -1,9 +1,7 @@
 <ul>
     <li><a href={"/setup/cache/"|ezurl}>{"Cache management"|i18n("design/admin/layout")}</a></li>
-    <li><a href={"/setup/menuconfig/"|ezurl}>{"Menu management"|i18n("design/admin/layout")}</a></li>
     <li><a href={"/search/stats/"|ezurl}>{"Search statistics"|i18n("design/admin/layout")}</a></li>
     <li><a href={"/setup/info/"|ezurl}>{"System information"|i18n("design/admin/layout")}</a></li>
-    <li><a href={"/setup/toolbarlist/"|ezurl}>{"Toolbar management"|i18n("design/admin/layout")}</a></li>
     <li><a href={"/url/list/"|ezurl}>{"URL management"|i18n("design/admin/layout")}</a></li>
     <li><a href={"/content/urltranslator/"|ezurl}>{"URL translator"|i18n("design/admin/layout")}</a></li>
     {section show=eq(ezpreference('advanced_menu'),'on')}

@@ -100,6 +100,13 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
     {* Set up menu *}
     {include uri='design:page_menuheadgray.tpl' menu_text='Setup'|i18n( 'design/admin/layout' )}
     </div></li>
+
+    <li><div>
+    {* Design menu *}
+    {include uri='design:page_menuheadgray.tpl' menu_text='Design'|i18n( 'design/admin/layout' )}
+    </div></li>
+
+
     <li><div>
     {* Personal *}
     {include uri='design:page_menuheadgray.tpl' menu_text='My account'|i18n( 'design/admin/layout' )}
@@ -139,6 +146,14 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
     {include uri="design:page_menuheadselected.tpl" menu_text='Webshop'|i18n('design/admin/layout') menu_url="/shop/orderlist/"}
     {section-else}
     {include uri="design:page_menuheadgray.tpl" menu_text='Webshop'|i18n('design/admin/layout') menu_url="/shop/orderlist/"}
+    {/section}
+    </div></li>
+    <li><div>
+    {* Design menu *}
+    {section show=ne($ui_context,'edit')}
+    {include uri="design:page_menuheadselected.tpl" menu_text='Design'|i18n('design/admin/layout') menu_url="/design/menuconfig"}
+    {section-else}
+    {include uri="design:page_menuheadgray.tpl" menu_text='Design'|i18n('design/admin/layout') menu_url="/design/menuconfig"}
     {/section}
     </div></li>
     <li><div>
@@ -203,6 +218,10 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 
 {section show=eq( $navigation_part.identifier, 'ezusernavigationpart' )}
     {include uri='design:parts/user/menu.tpl'}
+{/section}
+
+{section show=eq( $navigation_part.identifier, 'ezdesignnavigationpart' )}
+    {include uri='design:parts/design/menu.tpl'}
 {/section}
 
 {section show=eq( $navigation_part.identifier, 'ezsetupnavigationpart' )}

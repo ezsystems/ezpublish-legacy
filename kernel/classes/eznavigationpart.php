@@ -70,6 +70,8 @@ class eZNavigationPart
                                          'identifier' => 'ezshopnavigationpart' ),
                                   array( 'name' => 'User',
                                          'identifier' => 'ezusernavigationpart' ),
+		                  array( 'name' => 'Design',
+                                         'identifier' => 'ezdesignnavigationpart' ),
                                   array( 'name' => 'Configuration',
                                          'identifier' => 'ezsetupnavigationpart' ),
                                   array( 'name' => 'My',
