@@ -86,7 +86,162 @@ class eZTemplateUnitOperator
     {
         return array( $this->SIName => array( 'input' => true,
                                               'output' => true,
-                                              'parameters' => 2 ) );
+                                              'parameters' => true,
+                                              'element-transformation' => true,
+                                              'transform-parameters' => true,
+                                              'input-as-parameter' => 'always',
+                                              'element-transformation-func' => 'operatorTransform' ) );
+    }
+
+    /*!
+      \reimp
+    */
+    function operatorTransform( $operatorName, &$node, &$tpl, &$resourceData,
+                                &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    {
+        if ( !eZTemplateNodeTool::isStaticElement( $parameters[1] ) ||
+             ( count( $parameters ) > 2 && !eZTemplateNodeTool::isStaticElement( $parameters[2] ) ) )
+        {
+            return false;
+        }
+
+        $unit = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
+
+        if ( count( $parameters ) > 2 )
+        {
+            $prefix = eZTemplateNodeTool::elementStaticValue( $parameters[2] );
+        }
+        else
+        {
+            $prefix = 'auto';
+        }
+
+        $ini =& eZINI::instance();
+        if ( $prefix == "auto" )
+        {
+            $prefixes = $ini->variableArray( "UnitSettings", "BinaryUnits" );
+            if ( in_array( $unit, $prefixes ) )
+                $prefix = "binary";
+            else
+                $prefix = "decimal";
+        }
+
+        $unit_ini =& eZINI::instance( "units.ini" );
+        $use_si = $ini->variable( "UnitSettings", "UseSIUnits" ) == "true";
+        $fake = $use_si ? "" : "Fake";
+        if ( $unit_ini->hasVariable( "Base", $unit ) )
+        {
+            $base = $unit_ini->variable( "Base", $unit );
+        }
+
+        $output = false;
+        if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+        {
+            $output = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+        }
+
+        $prefix_var = "";
+        if ( $prefix == "decimal" )
+        {
+            $prefixes = $unit_ini->group( "DecimalPrefixes" );
+        }
+        else if ( $prefix == "binary" )
+        {
+            $prefix_group = $unit_ini->group( $fake . "BinaryPrefixes" );
+            $prefixes = array();
+            foreach ( $prefix_group as $prefix_item )
+            {
+                $prefixes[] = explode( ";", $prefix_item );
+            }
+            usort( $prefixes, "eZTemplateUnitCompareFactor" );
+            $prefix_var = "";
+
+            if ( $output )
+            {
+                foreach ( $prefixes as $prefix )
+                {
+                    $val = pow( 2, (int)$prefix[0] );
+                    if ( $val <= $output )
+                    {
+                        $prefix_var = $prefix[1];
+                        $output = number_format( $output / $val, 2 );
+                    }
+                }
+            }
+            else
+            {
+                $values = array();
+                $values[] = $parameters[0];
+                $values[] = array( eZTemplateNodeTool::createArrayElement( $prefixes ) );
+                $values[] = array( eZTemplateNodeTool::createStringElement( $base ) );
+
+                $code = 'foreach ( %2% as %tmp1% )' . "\n" .
+                     '{' . "\n" .
+                     '  %tmp2% = pow( 2, (int)%tmp1%[0] );' . "\n" .
+                     '  if ( %tmp2% <= %1% )' . "\n" .
+                     '  {' . "\n" .
+                     '    %tmp3% = %tmp1%[1];' . "\n" .
+                     '    %1% = number_format( %1% / %tmp2%, 2 );' . "\n" .
+                     '  }' . "\n" .
+                     '}' . "\n" .
+                     '%output% = %1% . \' \' . %tmp3% . %3%;';
+
+                return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 3 ) );
+            }
+        }
+        else
+        {
+            if ( $unit_ini->hasVariable( $fake. "BinaryPrefixes", $prefix ) )
+            {
+                $prefix_base = 2;
+                $prefix_var = $unit_ini->variableArray( $fake . "BinaryPrefixes", $prefix );
+            }
+            else if ( $unit_ini->hasVariable( "DecimalPrefixes", $prefix ) )
+            {
+                $prefix_base = 10;
+                $prefix_var = $unit_ini->variableArray( "DecimalPrefixes", $prefix );
+            }
+            else if ( $prefix == "none" )
+            {
+                $prefix_var = "";
+            }
+
+            if ( is_array( $prefix_var ) )
+            {
+                if ( $output )
+                {
+                    $val = pow( $prefix_base, (int)$prefix_var[0] );
+                    $output = number_format( $output / $val, 2 ); // TODO
+                    $prefix_var = $prefix_var[1];
+                }
+                else
+                {
+                    $values = array();
+                    $values[] = $parameters[0];
+                    $values[] = array( eZTemplateNodeTool::createNumericElement( pow( $prefix_base, (int)$prefix_var[0] ) ) );
+                    $values[] = array( eZTemplateNodeTool::createStringElement( $prefix_var[1] ) );
+                    $values[] = array( eZTemplateNodeTool::createStringElement( $base ) );
+
+                    $code = '%output% = number_format( %1% / %2%, 2 ) . \' \' . %3% . %4%;';
+
+                    return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
+                }
+            }
+        }
+
+        if ( $output )
+        {
+            return array( eZTemplateNodeTool::createStringElement( $output . ' ' . $prefix_var . $base ) );
+        }
+
+        $values = array();
+        $values[] = $parameters[0];
+        $values[] = array( eZTemplateNodeTool::createStringElement( $prefix_var ) );
+        $values[] = array( eZTemplateNodeTool::createStringElement( $base ) );
+
+        $code = '%output% = %1% . \' \' . %2% . %3%;';
+
+        return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
     }
 
     /*!

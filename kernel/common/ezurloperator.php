@@ -126,7 +126,7 @@ class eZURLOperator
     }
 
     function iniTrans( $operatorName, &$node, &$tpl, &$resourceData,
-                                &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                       &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
         if ( count ( $parameters ) < 2 )
             return false;
