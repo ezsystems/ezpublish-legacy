@@ -170,15 +170,18 @@ class eZHiOMenuOperator
                         $addToMenu = true;
                         if ( $className == "Vevside" )
                         {
-                            $map =& $tmpObj->attribute( "data_map" );
-                            $type =& $map['type'];
-                            if ( get_class( $type ) == "ezenumtype" )
+                            $map = $tmpObj->attribute( "data_map" );
+                            $type = $map['type'];
+
+                            $value = null;
+                            $addToMenu = false;
+                            if ( get_class( $type ) == "ezcontentobjectattribute" )
                             {
-                                $enum =& $type->content();
-                                $values =& $enum->attribute( "enumobject_list" );
-                                $value =& $values[0];
-                                if ( get_class( $value ) == 'ezenumobjectvalue' and  $value->attribute( 'enumvalue' ) <> 2 )
-                                    $addToMenu = false;
+                                $enum = $type->content();
+                                $values = $enum->attribute( "enumobject_list" );
+                                $value = $values[0];
+                                if ( get_class( $value ) == 'ezenumobjectvalue' and  $value->attribute( 'enumvalue' )  == 2 )
+                                    $addToMenu = true;
                             }
                         }
 
@@ -190,10 +193,11 @@ class eZHiOMenuOperator
                             $urlAlias = $tmpURL;
 
                             $type = $map['type']->content();
+                            $value = null;
                             if ( get_class( $enum ) == "ezenumtype" )
                             {
-                                $values =& $enum->attribute( "enumobject_list" );
-                                $value =& $values[0];
+                                $values = $enum->attribute( "enumobject_list" );
+                                $value = $values[0];
                             }
 
                             if ( get_class( $value ) == 'ezenumobjectvalue' and  $value->attribute( 'enumvalue' ) == 1 )
