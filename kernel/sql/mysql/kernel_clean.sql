@@ -1044,7 +1044,7 @@ INSERT INTO ezworkflow_group VALUES (1,'Standard',-1,-1,1024392098,1024392098);
 CREATE TABLE ezworkflow_group_link (
   workflow_id int(11) NOT NULL default '0',
   group_id int(11) NOT NULL default '0',
-  workflow_version int(11) default NULL,
+  workflow_version int(11) NOT NULL default '0',
   group_name varchar(255) default NULL,
   PRIMARY KEY  (workflow_id,group_id,workflow_version)
 ) TYPE=MyISAM;
