@@ -56,7 +56,7 @@ $ViewList["setting"] = array(
     "params" => array( "UserID" ) );
 
 $ViewList["preferences"] = array(
-    "functions" => array( "preferences" ),
+    "functions" => array( "login" ),
     "script" => "preferences.php",
     "params" => array( "Function", "Key", "Value" ) );
 
