@@ -520,7 +520,15 @@ $FunctionList['can_instantiate_class_list'] = array( 'name' => 'can_instantiate_
                                                                             array( 'name' => 'filter_type',
                                                                                    'type' => 'string',
                                                                                    'required' => false,
-                                                                                   'default' => 'include' ) ) );
+                                                                                   'default' => 'include' ),
+                                                                            array( 'name' => 'fetch_id',
+                                                                                   'type' => 'string',
+                                                                                   'required' => false,
+                                                                                   'default' => false ),
+                                                                            array( 'name' => 'as_object',
+                                                                                   'type' => 'bool',
+                                                                                   'required' => false,
+                                                                                   'default' => true ) ) );
 
 $FunctionList['can_instantiate_classes'] = array( 'name' => 'can_instantiate_classes',
                                                   'operation_types' => array( 'read' ),

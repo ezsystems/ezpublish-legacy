@@ -374,19 +374,9 @@ class eZContentFunctionCollection
         return array( 'result' => $versionList[0]['count'] );
     }
 
-    function canInstantiateClassList( $groupID, $parentNode, $filterType = 'include' )
+    function canInstantiateClassList( $groupID, $parentNode, $filterType = 'include', $fetchID, $asObject )
     {
-        if ( is_object( $parentNode ) )
-        {
-            $contentObject = $parentNode->attribute( 'object' );
-            $canInstantiateClassList =& $contentObject->attribute( 'can_create_class_list' );
-        }
-        else
-        {
-            $canInstantiateClassList =& eZContentClass::canInstantiateClassList();
-        }
-
-        if( is_numeric( $groupID ) && ( $groupID > 0 ) )
+        if ( is_numeric( $groupID ) && ( $groupID > 0 ) )
         {
             $ClassGroupIDs = array( $groupID );
         }
@@ -400,44 +390,18 @@ class eZContentFunctionCollection
             return array( 'result' => $canInstantiateClassList );
         }
 
-        include_once( 'kernel/classes/ezcontentclassclassgroup.php' );
-
-        $ClassList = array();
-
-        foreach($ClassGroupIDs as $groupID )
+        if ( is_object( $parentNode ) )
         {
-            $ClassList = array_merge( $ClassList, eZContentClassClassGroup::fetchClassList( 0, $groupID, false ) );
+            eZDebug::writeDebug( "can_create_class_list from node " . $parentNode->attribute( 'node_id' ) );
+            $classList =& $parentNode->canCreateClassList( $asObject, $filterType == 'include', $ClassGroupIDs, $fetchID );
+        }
+        else
+        {
+            eZDebug::writeDebug( "can_create_class_list for all " );
+            $classList =& eZContentClass::canInstantiateClassList( $asObject, $filterType == 'include', $ClassGroupIDs, $fetchID );
         }
 
-        $ClassIDList = array();
-        foreach ( $ClassList as $class )
-        {
-            $ClassIDList[] = $class['id'];
-        }
-
-        $finalClassList = array();
-
-        foreach( array_keys( $canInstantiateClassList ) as $key )
-        {
-            $class =& $canInstantiateClassList[$key];
-
-            if( $filterType == 'exclude' )
-            {
-                if( !in_array( $class['id'], $ClassIDList ) )
-                {
-                    $finalClassList[] =& $class;
-                }
-            }
-            else
-            {
-                if( in_array( $class['id'], $ClassIDList ) )
-                {
-                    $finalClassList[] =& $class;
-                }
-            }
-        }
-
-        return array( 'result' => $finalClassList );
+        return array( 'result' => $classList );
     }
 
     function canInstantiateClasses( $parentNode )

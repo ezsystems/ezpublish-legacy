@@ -268,11 +268,38 @@ class eZContentClass extends eZPersistentObject
         return $canInstantiateClasses;
     }
 
-    function &canInstantiateClassList()
+    // code-template::create-block: can-instantiate-class-list, group-filter, role-caching, class-policy-list, name-instantiate, object-creation
+    // code-template::auto-generated:START can-instantiate-class-list
+    // This code is automatically generated from templates/classcreatelist.ctpl
+    // DO NOT EDIT THIS CODE DIRECTLY, CHANGE THE TEMPLATE FILE INSTEAD
+
+    /*!
+     \static
+     Finds all classes that the current user can create objects from and returns.
+     It is also possible to filter the list event more with \a $includeFilter and \a $groupList.
+
+     \param $asObject If \c true then it return eZContentClass objects, if not it will
+                      be an associative array with \c name and \c id keys.
+     \param $includeFilter If \c true then it will include only from class groups defined in
+                           \a $groupList, if not it will exclude those groups.
+     \param $groupList An array with class group IDs that should be used in filtering, use
+                       \c false if you do not wish to filter at all.
+     \param $id A unique name for the current fetch, this must be supplied when filtering is
+                used if you want caching to work.
+    */
+    function &canInstantiateClassList( $asObject = false, $includeFilter = true, $groupList = false, $fetchID = false )
     {
         $ini =& eZINI::instance();
-        $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
-        if ( $enableCaching == 'true' )
+        $groupArray = array();
+
+        $enableCaching = ( $ini->variable( 'RoleSettings', 'EnableCaching' ) == 'true' );
+        if ( is_array( $groupList ) )
+        {
+            if ( $fetchID == false )
+                $enableCaching = false;
+        }
+
+        if ( $enableCaching )
         {
             $http =& eZHTTPTool::instance();
             //$permissionExpired = $http->sessionVariable( 'roleExpired' );
@@ -281,17 +308,43 @@ class eZContentClass extends eZPersistentObject
             $expiredTimeStamp = 0;
             if ( $handler->hasTimestamp( 'user-class-cache' ) )
                 $expiredTimeStamp = $handler->timestamp( 'user-class-cache' );
+//             print( "expired time stamp = '$expiredTimeStamp'<br/>" );
 
-            $classesCachedForUser = $http->sessionVariable( 'CanInstantiateClassesCachedForUser' );
+            $classesCachedForUser = $http->sessionVariable( 'ClassesCachedForUser' );
             $classesCachedTimestamp = $http->sessionVariable( 'ClassesCachedTimestamp' );
+
+//             print( "\$classesCachedForUser='$classesCachedForUser'<br/>" );
+//             print( "\$classesCachedTimestamp='$classesCachedTimestamp'<br/>" );
+
+            $cacheVar = 'CanInstantiateClassList';
+            if ( is_array( $groupList ) and $fetchID !== false )
+            {
+                $cacheVar = 'CanInstantiateClassListGroup';
+            }
+//             print( "\$cacheVar='$cacheVar'<br/>" );
 
             $user =& eZUser::currentUser();
             $userID = $user->id();
+//             print( "\$userID='$userID'<br/>" );
             if ( ( $classesCachedTimestamp >= $expiredTimeStamp ) && $classesCachedForUser == $userID )
             {
-                if ( $http->hasSessionVariable( 'CanInstantiateClassList' ) )
+                if ( $http->hasSessionVariable( $cacheVar ) )
                 {
-                    return $http->sessionVariable( 'CanInstantiateClassList' );
+                    if ( $fetchID !== false )
+                    {
+                        // Check if the group contains our ID, if not we need to fetch from DB
+                        $groupArray = $http->sessionVariable( $cacheVar );
+                        if ( isset( $groupArray[$fetchID] ) )
+                        {
+//                             print( "returning cached class list in group<br/>" );
+                            return $groupArray[$fetchID];
+                        }
+                    }
+                    else
+                    {
+//                         print( "returning cached class list<br/>" );
+                        return $http->sessionVariable( $cacheVar );
+                    }
                 }
             }
             else
@@ -301,32 +354,27 @@ class eZContentClass extends eZPersistentObject
             }
         }
 
-        //
         $user =& eZUser::currentUser();
-        $accessResult =  $user->hasAccessTo( 'content' , 'create' );
+        $accessResult = $user->hasAccessTo( 'content' , 'create' );
         $accessWord = $accessResult['accessWord'];
 
         $classIDArray = array();
         $classList = array();
+        $fetchAll = false;
         if ( $accessWord == 'yes' )
         {
-            $classList =& eZContentClass::fetchList( EZ_CLASS_VERSION_STATUS_DEFINED, false,false, null, array( 'id', 'name' ) );
-            eZDebugSetting::writeDebug( 'kernel-content-class', $classList, "class list fetched from db when access is yes" );
-
-            //          return $classList;
+            $fetchAll = true;
         }
-        elseif ( $accessWord == 'no' )
+        else if ( $accessWord == 'no' )
         {
-            $classList = array();
-//            return array();
+            // Cannnot create any objects, return empty list.
+            return array();
         }
         else
         {
             $policies  =& $accessResult['policies'];
-            foreach ( array_keys( $policies ) as $policyKey )
+            foreach ( $policies as $policyKey => $policy )
             {
-                $policy =& $policies[$policyKey];
-
                 $classIDArrayPart = '*';
                 if ( isset( $policy['Class'] ) )
                 {
@@ -335,7 +383,7 @@ class eZContentClass extends eZPersistentObject
 
                 if ( $classIDArrayPart == '*' )
                 {
-                    $classList =& eZContentClass::fetchList( EZ_CLASS_VERSION_STATUS_DEFINED, false,false, null, array( 'id', 'name' ) );
+                    $fetchAll = true;
                     break;
                 }
                 else
@@ -344,28 +392,71 @@ class eZContentClass extends eZPersistentObject
                     unset( $classIDArrayPart );
                 }
             }
-
-            if( count( $classIDArray ) == 0 && count( $classList ) == 0 )
-            {
-                $classList = array();
-            }
-            else if ( count( $classList ) == 0 )
-            {
-                $classList = array();
-                // needs to be optimized
-                $db = eZDb::instance();
-                $classString = implode( ',', $classIDArray );
-                $classList =& $db->arrayQuery( "select id, name from ezcontentclass where id in ( $classString  )  and version = " . EZ_CLASS_VERSION_STATUS_DEFINED );
-            }
-
         }
-        eZDebugSetting::writeDebug( 'kernel-content-class', $classList, "class list fetched from db" );
-        if ( $enableCaching == 'true' )
+
+        $filterTableSQL = '';
+        $filterSQL = '';
+        // Create extra SQL statements for the class group filters.
+        if ( is_array( $groupList ) )
         {
-            $http->setSessionVariable( 'CanInstantiateClassList', $classList );
+            $filterTableSQL = ', ezcontentclass_classgroup ccg';
+            $filterSQL = ( " AND\n" .
+                           "      cc.id = ccg.contentclass_id AND\n" .
+                           "      ccg.group_id " );
+            $groupText = implode( ', ', $groupList );
+            if ( $includeFilter )
+                $filterSQL .= "IN ( $groupText )";
+            else
+                $filterSQL .= "NOT IN ( $groupText )";
         }
+
+        if ( $fetchAll )
+        {
+            $classList = array();
+            $db = eZDb::instance();
+            $classString = implode( ',', $classIDArray );
+            $classList =& $db->arrayQuery( "SELECT DISTINCT cc.id, cc.name\n" .
+                                           "FROM ezcontentclass cc$filterTableSQL\n" .
+                                           "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n" .
+                                           "ORDER BY cc.name ASC" );
+            $classList =& eZPersistentObject::handleRows( $classList, 'ezcontentclass', $asObject );
+        }
+        else
+        {
+            // If the constrained class list is empty we are not allowed to create any class
+            if ( count( $classIDArray ) == 0 )
+                return array();
+
+            $classList = array();
+            $db = eZDb::instance();
+            $classString = implode( ',', $classIDArray );
+            $classList =& $db->arrayQuery( "SELECT DISTINCT cc.id, cc.name\n" .
+                                           "FROM cc.ezcontentclass$filterTableSQL\n" .
+                                           "WHERE cc.id IN ( $classString  ) AND\n" .
+                                           "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n",
+                                           "ORDER BY cc.name ASC" );
+            $classList =& eZPersistentObject::handleRows( $classList, 'ezcontentclass', $asObject );
+        }
+
+        eZDebugSetting::writeDebug( 'kernel-content-class', $classList, "class list fetched from db" );
+        if ( $enableCaching )
+        {
+            if ( $fetchID !== false )
+            {
+                $groupArray[$fetchID] = $classList;
+                $http->setSessionVariable( $cacheVar, $groupArray );
+            }
+            else
+            {
+                $http->setSessionVariable( $cacheVar, $classList );
+            }
+        }
+
         return $classList;
     }
+
+    // This code is automatically generated from templates/classcreatelist.ctpl
+    // code-template::auto-generated:END can-instantiate-class-list
 
     /*!
      \return The creator of the class as an eZUser object by using the $CreatorID as user ID.

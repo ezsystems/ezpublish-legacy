@@ -3453,6 +3453,214 @@ WHERE
         }
     }
 
+    // code-template::create-block: class-list-from-policy, is-node
+    // code-template::auto-generated:START class-list-from-policy
+    // This code is automatically generated from templates/classlistfrompolicy.ctpl
+    // DO NOT EDIT THIS CODE DIRECTLY, CHANGE THE TEMPLATE FILE INSTEAD
+
+    function classListFromPolicy( $policy )
+    {
+        $canCreateClassIDListPart = array();
+        $hasClassIDLimitation = false;
+        $object = false;
+        if ( isset( $policy['Class'] ) )
+        {
+            $canCreateClassIDListPart =& $policy['Class'];
+            $hasClassIDLimitation = true;
+        }
+
+        if ( isset( $policy['Section'] ) )
+        {
+            if ( $object === false )
+                $object =& $this->attribute( 'object' );
+            if ( !in_array( $object->attribute( 'section_id' ),  $policy['Section']  ) )
+            {
+                return array();
+            }
+        }
+
+        if ( isset( $policy['ParentClass'] ) )
+        {
+            if ( $object === false )
+                $object =& $this->attribute( 'object' );
+            if ( !in_array( $object->attribute( 'contentclass_id' ), $policy['ParentClass']  ) )
+            {
+                return array();
+            }
+        }
+
+        if ( isset( $policy['Assigned'] ) )
+        {
+            if ( $object === false )
+                $object =& $this->attribute( 'object' );
+            if ( $object->attribute( 'owner_id' ) != $user->attribute( 'contentobject_id' )  )
+            {
+                return array();
+            }
+        }
+
+        if ( isset( $policy['Node'] ) )
+        {
+            $allowed = false;
+            foreach( $policy['Node'] as $nodeID )
+            {
+                $mainNodeID = $this->attribute( 'main_node_id' );
+                $node = eZContentObjectTreeNode::fetch( $nodeID );
+                if ( $mainNodeID == $node->attribute( 'main_node_id' ) )
+                {
+                    $allowed = true;
+                    break;
+                }
+            }
+            if ( !$allowed )
+            {
+                return array();
+            }
+        }
+
+        if( isset( $policy['Subtree'] ) )
+        {
+            $allowed = false;
+            if ( $object === false )
+                $object =& $this->attribute( 'object' );
+            $assignedNodes = $object->attribute( 'assigned_nodes' );
+            foreach ( $assignedNodes as  $assignedNode )
+            {
+                $path = $assignedNode->attribute( 'path_string' );
+                foreach ( $policy['Subtree'] as $subtreeString )
+                {
+                    if (  strstr( $path, $subtreeString ) )
+                    {
+                        $allowed = true;
+                        break;
+                    }
+                }
+            }
+            if( !$allowed )
+            {
+                return array();
+            }
+        }
+
+        if ( $hasClassIDLimitation )
+        {
+            return $canCreateClassIDListPart;
+        }
+        return '*';
+    }
+
+    // This code is automatically generated from templates/classlistfrompolicy.ctpl
+    // code-template::auto-generated:END class-list-from-policy
+
+    // code-template::create-block: can-instantiate-class-list, group-filter, object-policy-list, name-create, object-creation
+    // code-template::auto-generated:START can-instantiate-class-list
+    // This code is automatically generated from templates/classcreatelist.ctpl
+    // DO NOT EDIT THIS CODE DIRECTLY, CHANGE THE TEMPLATE FILE INSTEAD
+
+    /*!
+     \static
+     Finds all classes that the current user can create objects from and returns.
+     It is also possible to filter the list event more with \a $includeFilter and \a $groupList.
+
+     \param $asObject If \c true then it return eZContentClass objects, if not it will
+                      be an associative array with \c name and \c id keys.
+     \param $includeFilter If \c true then it will include only from class groups defined in
+                           \a $groupList, if not it will exclude those groups.
+     \param $groupList An array with class group IDs that should be used in filtering, use
+                       \c false if you do not wish to filter at all.
+     \param $id A unique name for the current fetch, this must be supplied when filtering is
+                used if you want caching to work.
+    */
+    function &canCreateClassList( $asObject = false, $includeFilter = true, $groupList = false, $fetchID = false )
+    {
+        $ini =& eZINI::instance();
+        $groupArray = array();
+        $user =& eZUser::currentUser();
+        $accessResult = $user->hasAccessTo( 'content' , 'create' );
+        $accessWord = $accessResult['accessWord'];
+
+        $classIDArray = array();
+        $classList = array();
+        $fetchAll = false;
+        if ( $accessWord == 'yes' )
+        {
+            $fetchAll = true;
+        }
+        else if ( $accessWord == 'no' )
+        {
+            // Cannnot create any objects, return empty list.
+            return array();
+        }
+        else
+        {
+            $policies  =& $accessResult['policies'];
+            foreach ( $policies as $policyKey => $policy )
+            {
+                $classIDArrayPart = $this->classListFromPolicy( $policy );
+                if ( $classIDArrayPart == '*' )
+                {
+                    $fetchAll = true;
+                    break;
+                }
+                else
+                {
+                    $classIDArray = array_merge( $classIDArray, array_diff( $classIDArrayPart, $classIDArray ) );
+                    unset( $classIDArrayPart );
+                }
+            }
+        }
+
+        $filterTableSQL = '';
+        $filterSQL = '';
+        // Create extra SQL statements for the class group filters.
+        if ( is_array( $groupList ) )
+        {
+            $filterTableSQL = ', ezcontentclass_classgroup ccg';
+            $filterSQL = ( " AND\n" .
+                           "      cc.id = ccg.contentclass_id AND\n" .
+                           "      ccg.group_id " );
+            $groupText = implode( ', ', $groupList );
+            if ( $includeFilter )
+                $filterSQL .= "IN ( $groupText )";
+            else
+                $filterSQL .= "NOT IN ( $groupText )";
+        }
+
+        if ( $fetchAll )
+        {
+            $classList = array();
+            $db = eZDb::instance();
+            $classString = implode( ',', $classIDArray );
+            $classList =& $db->arrayQuery( "SELECT DISTINCT cc.id, cc.name\n" .
+                                           "FROM ezcontentclass cc$filterTableSQL\n" .
+                                           "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n" .
+                                           "ORDER BY cc.name ASC" );
+            $classList =& eZPersistentObject::handleRows( $classList, 'ezcontentclass', $asObject );
+        }
+        else
+        {
+            // If the constrained class list is empty we are not allowed to create any class
+            if ( count( $classIDArray ) == 0 )
+                return array();
+
+            $classList = array();
+            $db = eZDb::instance();
+            $classString = implode( ',', $classIDArray );
+            $classList =& $db->arrayQuery( "SELECT DISTINCT cc.id, cc.name\n" .
+                                           "FROM cc.ezcontentclass$filterTableSQL\n" .
+                                           "WHERE cc.id IN ( $classString  ) AND\n" .
+                                           "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n",
+                                           "ORDER BY cc.name ASC" );
+            $classList =& eZPersistentObject::handleRows( $classList, 'ezcontentclass', $asObject );
+        }
+
+        eZDebugSetting::writeDebug( 'kernel-content-class', $classList, "class list fetched from db" );
+        return $classList;
+    }
+
+    // This code is automatically generated from templates/classcreatelist.ctpl
+    // code-template::auto-generated:END can-instantiate-class-list
+
     function &makeObjectsArray( &$array , $with_contentobject = true )
     {
         $retNodes = array();
