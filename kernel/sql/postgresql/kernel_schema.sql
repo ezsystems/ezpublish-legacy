@@ -1260,7 +1260,6 @@ CREATE TABLE ezcontentobject_version (
     created integer DEFAULT '0' NOT NULL,
     modified integer DEFAULT '0' NOT NULL,
     status integer DEFAULT '0' NOT NULL,
-    workflow_event_pos integer DEFAULT '0' NOT NULL,
     user_id integer DEFAULT '0' NOT NULL
 );
 
