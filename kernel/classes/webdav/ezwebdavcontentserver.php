@@ -647,7 +647,7 @@ function putImage( $target, $tempFile, $parentNodeID )
         $sectionID = $parentNode->ContentObject->SectionID;
     }
 
-    // Create object by user id in section 1.
+    // Create object by user id.
     $contentObject =& $class->instantiate( $userID, $sectionID );
 
 
@@ -721,8 +721,19 @@ function putFile( $target, $tempFile, $parentNodeID )
     // Fetch the file class.
     $class =& eZContentClass::fetch( 12 );
 
-    // Create object by user id in section 1.
-    $contentObject =& $class->instantiate( $userID, 1 );
+    // Attempt to fetch the parent node.
+    $parentNode = eZContentObjectTreeNode::fetch( $parentNodeID );
+    if ( !$parentNode )
+    {
+        $sectionID = 1;
+    }
+    else
+    {
+        $sectionID = $parentNode->ContentObject->SectionID;
+    }
+
+    // Create object by user id.
+    $contentObject =& $class->instantiate( $userID, $sectionID );
 
     //
     $nodeAssignment =& eZNodeAssignment::create( array(
