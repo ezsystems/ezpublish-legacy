@@ -123,7 +123,7 @@ static void skipComma( const QString &content, int pos, int &endpos )
     return;
 }
 
-static void parse( MetaTranslator *tor )
+static void parse( MetaTranslator *tor, const QString &filename )
 {
     QRegExp i18nRE( "\\|[ \t\r\n]*[xi]18n[ \t\r\n]*\\(" );
     QString content = stream.read();
@@ -141,7 +141,7 @@ static void parse( MetaTranslator *tor )
         source = getString( content, startpos - 1, true, endpos );
         if ( source.isNull() )
         {
-            qWarning( "ezlupdate error: Found non-quoted source, skipping translation" );
+            qWarning( filename + ":error: Found non-quoted source, skipping translation" );
             continue;
         }
 
@@ -159,7 +159,7 @@ static void parse( MetaTranslator *tor )
         context = getString( content, pos, false, endpos );
         if ( endpos < 0 )
         {
-            qWarning( "ezlupdate error: Found non-quoted context, skipping translation" );
+            qWarning( filename + ":error: Found non-quoted context, skipping translation" );
             continue;
         }
         pos = endpos;
@@ -172,8 +172,6 @@ static void parse( MetaTranslator *tor )
         if ( endpos >= 0 &&
              comment.length() == 0 )
                 comment = QString::null;
-        else if ( endpos < 0 )
-            qWarning( "ezlupdate error: Found non-quoted comment, skipping translation" );
 
         if ( context.isNull() )
             continue;
@@ -195,6 +193,6 @@ void fetchtr_tpl( QFileInfo *fi, MetaTranslator *tor, bool mustExist )
         return;
     }
 
-    parse( tor );
+    parse( tor, file.name() );
     file.close();
 }
