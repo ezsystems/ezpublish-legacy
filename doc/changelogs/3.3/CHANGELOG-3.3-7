@@ -50,6 +50,9 @@ Changes from 3.3-6 to 3.3-7
 - Removed setting path in content/versionview.
   http://ez.no/community/bug_reports/crash_when_using_versionview
 - eZIdentifier datatype now correctly sets the sort_key_string value
+- Fixed bug with exporting packages
+  http://ez.no/community/bug_reports/3_5_0rc2_package_file_size_is_0b
+  (Merged from stable/3.5, rev. 10355)
 
 *Library:
 
