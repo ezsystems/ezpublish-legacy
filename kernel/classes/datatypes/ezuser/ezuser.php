@@ -1276,15 +1276,19 @@ WHERE user_id = '" . $userID . "' AND
                     $userGroupArray[] = new eZContentObject( $group );
                 }
                 $pathArray = array_unique( $pathArray );
-                $extraGroups =& $db->arrayQuery( "SELECT d.*
+
+                if ( count( $pathArray ) != 0 )
+                {
+                    $extraGroups =& $db->arrayQuery( "SELECT d.*
                                                 FROM ezcontentobject_tree  c,
                                                      ezcontentobject d
                                                 WHERE c.node_id in ( " . implode( ', ', $pathArray ) . " ) AND
                                                       d.id = c.contentobject_id
                                                 ORDER BY c.contentobject_id  ");
-                foreach ( $extraGroups as $group )
-                {
-                    $userGroupArray[] = new eZContentObject( $group );
+                    foreach ( $extraGroups as $group )
+                    {
+                        $userGroupArray[] = new eZContentObject( $group );
+                    }
                 }
 
                 $this->GroupsAsObjects =& $userGroupArray;

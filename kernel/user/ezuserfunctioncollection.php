@@ -120,7 +120,6 @@ class eZUserFunctionCollection
             $accessArray = array_merge_recursive( $accessArray, $role->accessArray() );
         }
         $resultArray = array();
-        eZDebug::writeDebug( $accessArray, "accesssArray" );
         foreach ( array_keys( $accessArray ) as $moduleKey )
         {
             $module =& $accessArray[$moduleKey];

@@ -61,6 +61,8 @@ eZ locale:
   http://ez.no/community/bug_reports/importing_classes_from_3_3_to_3_4_fails
 - Fixed bug of getting fatal error when saving an class.
   http://ez.no/community/bug_reports/ezcontentclass_store_fatal_error
+- Fixed bug of query error when fetching user group.
+  http://ez.no/community/bug_reports/3_4alpha4_user_root_node_errors
 
 *Update
 
