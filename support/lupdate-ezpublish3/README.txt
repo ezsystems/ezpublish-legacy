@@ -10,7 +10,7 @@ Translation/Internationalization (i18n) of eZ publish 3
 
 Copyrights
 ----------
-"eZ publish" is Copyright (C) 1999-2002 eZ systems as. All rights reserved.
+"eZ publish" is Copyright (C) 1999-2003 eZ systems as. All rights reserved.
 "Trolltech", "Qt" and "Qt Linguist" are Copyright (C) 2000-2001 Trolltech AS.
 All rights reserved.
 
@@ -107,6 +107,7 @@ or tar.gz, of these two files:
 share/locale/nor-NO.ini
 share/translations/nor-NO/translation.ts
 
+You can also use the shell script bin/shell/makei18ndist.sh to do this.
 
 
 Please see the translation tutorial on http://sdk.ez.no for more information.

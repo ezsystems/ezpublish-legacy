@@ -1,8 +1,10 @@
 <h1>Scaling</h1>
+
 <p>
-Scaling the image is done similar to the conversion code but adds a rule which
-state the width and height of the destination image.
+The code for scaling the image is similar to the conversion code but adds a rule that
+states the width and height of the destination image.
 </p>
+
 <pre class="example">
 $source = "lib/ezimage/sdk/images/bike.jpg";
 $dest_img = $img->convert( $source, "var/cache/image1-scale",
@@ -80,7 +82,7 @@ $img2 = $img->convert( $file3, "var/cache/image1-scale",
                        array( "width" => 200, "height" => 200 ),
                        array( array( "rule-type" => "colorspace/gray" ) ) );
 
-print( '<h1>The running example</h1>
+print( '<h2>The running example</h2>
 <h3>Conversion from ' . "$scale_type ($file3)" . '</h3>
 <table style="border: 1px black;" cellspacing="4">
   <tr><th>From</th>

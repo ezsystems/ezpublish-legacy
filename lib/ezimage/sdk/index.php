@@ -4,13 +4,16 @@ $infoArray = array();
 $infoArray["name"] = "eZ image";
 $infoArray["description"] = "
 <h1>eZ image&trade;</h1>
+
 <p>The eZ image&trade; library allows for transparent conversion of one image format
 to another. The conversion may be done in one step if the required
 conversion type is available, or it may build a tree of conversion
 rules which is needed to reach the desired end format.</p>
+
 <p>It's also possible to run operations on images. It's up to each conversion
 rule to report whether or not the operation is supported, the manager will
-then distribute the operations on the available rules which can handle them.</p>
+then distribute the operations on the available rules that can handle them.</p>
+
 <p>Examples of operations are scaling and grayscale.</p>";
 
 $dependArray = array();

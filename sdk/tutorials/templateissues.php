@@ -37,9 +37,10 @@ Login to the admin interface, create a test folder, and fill it with some articl
 </p>
 
 <p>
-<b>Note: When developing templates you should disable the template cache. The template engine does not check
-the modification date of the templates, this is done to optimize template loading speed. Edit settings/site.ini
-and set ViewCaching=disabled in [ContentSettings].</b>
+<b>Note: When developing templates you should disable the view cache. When this is
+enabled, the template engine does not check the modification date of the templates,
+thus you will not see any changes. Edit settings/site.ini and set ViewCaching=disabled
+in [ContentSettings].</b>
 </p>
 
 <br>
@@ -229,4 +230,3 @@ This will output something like this:
 </p>
 
 <p><img src="/doc/images/templateissues04.jpg"></p>
-

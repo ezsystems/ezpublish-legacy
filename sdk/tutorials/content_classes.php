@@ -124,9 +124,10 @@ When we view our newly created it will display with the standard templates as sh
 <h2>Custom template</h2>
 
 <p>
-<b>Note: When developing templates you should disable the template cache. The template engine does not check
-the modification date of the templates, this is done to optimize template loading speed. Edit settings/site.ini
-and set ViewCaching=disabled in [ContentSettings].</b>
+<b>Note: When developing templates you should disable the view cache. When this is
+enabled, the template engine does not check the modification date of the templates,
+thus you will not see any changes. Edit settings/site.ini and set ViewCaching=disabled
+in [ContentSettings].</b>
 </p>
 
 <p>

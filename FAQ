@@ -1,3 +1,7 @@
-Q: I just pasted in some javascript in my template, and suddenly nothing is shown correctly. What happened?
+Q: I just pasted in some javascript in my template, and suddenly nothing is
+   shown correctly. What happened?
 
-A: This is because our template engine treat the { and } characters as special characters and expects template spesific code. You need to use the {literal} function to make sure the javascripts are parsed correctly. Place {literal} before the javascripts and {/literal} after.
+A: This is because our template engine treat the { and } characters as special
+   characters and expects template specific code. You need to use the {literal}
+   function to make sure the javascripts are parsed correctly. Place {literal}
+   before the javascripts and {/literal} after.

@@ -1,6 +1,7 @@
-<h1>Converting</h1>
+<h1>Image conversion</h1>
+
 <p>
-Converting the image is done by passing the filepath to the source image and the
+Converting the image is done by passing the file path to the source image and the
 output directory to the <i>convert</i> function. Outputting the image in HTML is done
 by printing the result string as the src of an <i>img</i> tag.
 </p>
@@ -75,7 +76,7 @@ $convert_rules2 =& $img->convertRules( $conv_type2 );
 
 $img1 = $img->convert( $file3, "var/cache/" );
 
-print( '<h1>The running example</h1>
+print( '<h2>The running example</h2>
 <h3>Conversion from ' . "$conv_type2 ($file2)" . '</h3>
 <table style="border: 1px black;" cellspacing="4"><tr><th>From</th><th>To</th><th>Conversion</th><th>Can scale</th></tr>' );
 foreach( $convert_rules2 as $rule )

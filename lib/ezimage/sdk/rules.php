@@ -1,15 +1,18 @@
+<h1>Image rules</h1>
+
 <p>
-The basis of the image system is to setup the rules which controls how to convert from one format to
+The basis of the image system is to setup the rules that control how to convert from one format to
 another. This consists of initializing the handlers, mimetypes, conversion rules and output types.
 </p>
 
-<h1>Initializing</h1>
+<h2>Initializing</h2>
 <p>
 The manager is initialized by registering the various image handlers, each handler is
 given an identifier which is used by image rules. This means that it's possible to
 register the same image class multiple times with different names, this is useful
 if you want different options.
 </p>
+
 <pre class="example">
 // First get the image manager instance.
 $img =&amp; eZImageManager::instance();
@@ -20,17 +23,19 @@ $img->registerType( "convert", new eZImageShell( '', "convert", array(), array()
 $img->registerType( "gd", new eZImageGD() );
 </pre>
 
-<h1>Creating mimetypes</h1>
+<h2>Creating mimetypes</h2>
 <p>
 For the image manager to know the image type of a file you need to setup some mimetypes. The mimetype is a unique
 identifier for one given filetype and consists of a group and name part delimited by a slash (/).
-A standarised set of mimetypes is defined allthough you can create your own if you wish.
+A standardised set of mimetypes is defined, but you can create your own if you wish.
 </p>
+
 <p>
 The mimetypes are based on filenames (for now). The mimetype rule consists of the identifier (image/jpeg),
 the regular expression matching the filename ("\.jpe?g$") and the filename suffix. The suffix is for
 creating proper filenames for converted images.
 </p>
+
 <pre class="example">
 // Create the JPEG, PNG and GIF type
 $jpeg_type = $img->createMIMEType( "image/jpeg", "\.jpe?g$", "jpg" );
@@ -41,12 +46,13 @@ $gif_type  = $img->createMIMEType( "image/gif", "\.gif$", "gif" );
 $img->setMIMETypes( array( $jpeg_type, $png_type, $gif_type ) );
 </pre>
 
-<h1>Creating rules</h1>
+<h2>Creating rules</h2>
 <p>
 Next we create conversion rules by using the eZImageManager::createRule function.
 The function returns a structure based upon the parameters. For instance to convert
-from GIF to PNG we would do.
+from GIF to PNG we would do this:
 </p>
+
 <pre class="example">
 // Create rule
 $gif2png_rule = $img->createRule( "image/gif", "image/png", "convert", false, false );
@@ -55,19 +61,21 @@ $gif2png_rule = $img->createRule( "image/gif", "image/png", "convert", false, fa
 $img->setRules( array( $gif2png_rule ),
                 $img->createRule( "*", "image/png", "convert", false, false ) );
 </pre>
+
 <p>
 The rule consists of the from and to mimetypes, the image handler identifier and two parameters
-which says whether the rule can scale images and if it can run image operations.
+that say whether the rule can scale images and if it can run image operations.
 The default rule is also registered, this rule will be activated if no other rules
 match the file.
 </p>
 
-<h1>Finishing the setup</h1>
+<h2>Finishing the setup</h2>
 <p>
 The last thing to do before the manager can be used is to setup the allowed output types.
-The output types supported by most browsers is GIF, PNG and JPEG but this might increase
-in the future, we might also want to limit our output types due to licencing issues.
+The output types supported by most browsers are GIF, PNG and JPEG but this might increase
+in the future, we might also want to limit our output types due to licensing issues.
 </p>
+
 <pre class="example">
 // We only want JPEG images
 $img->setOutputTypes( array( "mime/jpeg" ) );
@@ -133,7 +141,7 @@ $convert_rules =& $img->convertRules( $conv_type );
 $img->addScaleRule( $scale_rules, array( "width" => 100, "height" => 100 ) );
 $img->addFilterRule( $scale_rules, true );
 
-print( '<h1>The running example</h1>
+print( '<h2>The running example</h2>
 <p>Note: The example is not converting the image, only displaying the rule tree
 for a given image with a set of conversion rules.
 </p>
