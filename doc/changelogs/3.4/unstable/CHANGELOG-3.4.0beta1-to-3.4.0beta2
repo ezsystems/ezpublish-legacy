@@ -3,6 +3,8 @@ Changes from 3.4.0beta1 to 3.4.0beta2
 
 *Kernel:
 - Added can_read, can_create and can_delete attributes to kernel/classes/ezcontentobjecttreenode.php
+- Made menu.ini part of the standard distribution, can be copied when
+  setting up site manually.
 
 *Design:
 
