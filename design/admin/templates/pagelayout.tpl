@@ -111,10 +111,11 @@
      </td>
     <td class="headlink" width="66">
     {* Content menu *}
+
     {section show=eq($navigation_part.identifier,'ezcontentnavigationpart')}
-    {include uri="design:page_menuheadselected.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}</td>
+    {include uri="design:page_menuheadselected.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','RootNode','content.ini'))}</td>
     {section-else}
-    {include uri="design:page_menuheadgray.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}</td>
+    {include uri="design:page_menuheadgray.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','RootNode','content.ini'))}</td>
     {/section}
 
     <td class="menuheadspacer" width="3">
