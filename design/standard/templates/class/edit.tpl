@@ -78,11 +78,16 @@
 
 {section show=$validation.processed}
 
-{section name=UnvalidatedAttributes loop=$validation.attributes show=$validation.attributes}
+{section show=or($validation.attributes,$validation.groups)}
 <div class="warning">
 <h2>{"Input did not validate"|i18n("design/standard/class/edit")}</h2>
 <ul>
+{section var=item loop=$validation.groups}
+    <li>{$item.text}</li>
+{/section}
+{section name=UnvalidatedAttributes loop=$validation.attributes}
     <li>{$UnvalidatedAttributes:item.identifier}: {$UnvalidatedAttributes:item.name|wash} ({$UnvalidatedAttributes:item.id})</li>
+{/section}
 </ul>
 </div>
 {section-else}

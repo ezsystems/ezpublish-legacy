@@ -38,7 +38,11 @@ include_once( "kernel/classes/ezcontentclassattribute.php" );
 include_once( "kernel/classes/ezcontentclassclassgroup.php" );
 
 $Module =& $Params["Module"];
+$http =& eZHttpTool::instance();
 $ClassID = null;
+$validation = array( 'processed' => false,
+                     'groups' => array() );
+
 if ( isset( $Params["ClassID"] ) )
     $ClassID = $Params["ClassID"];
 $ClassVersion = null;
@@ -51,6 +55,22 @@ $class =& eZContentClass::fetch( $ClassID, true, EZ_CLASS_VERSION_STATUS_DEFINED
 if ( !$class )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
+if ( $http->hasPostVariable( 'AddGroupButton' ) && $http->hasPostVariable( 'ContentClass_group' ) )
+{
+    include_once( "kernel/class/ezclassfunctions.php" );
+    eZClassFunctions::addGroup( $ClassID, $ClassVersion, $http->postVariable( 'ContentClass_group' ) );
+}
+
+if ( $http->hasPostVariable( 'RemoveGroupButton' ) && $http->hasPostVariable( 'group_id_checked' ) )
+{
+    include_once( "kernel/class/ezclassfunctions.php" );
+    if ( !eZClassFunctions::removeGroup( $ClassID, $ClassVersion, $http->postVariable( 'group_id_checked' ) ) )
+    {
+        $validation['groups'][] = array( 'text' => ezi18n( 'kernel/class', 'You have to have at least one group that the class belongs to!' ) );
+        $validation['processed'] = true;
+    }
+}
+
 $attributes =& $class->fetchAttributes();
 include_once( "kernel/classes/ezdatatype.php" );
 $datatypes =& eZDataType::registeredDataTypes();
@@ -61,15 +81,17 @@ include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 
 $res =& eZTemplateDesignResource::instance();
-$res->setKeys( array( array( "class", $class->attribute( "id" ) ),
+$res->setKeys( array( array( 'class', $class->attribute( "id" ) ),
                       array( 'class_identifier', $class->attribute( 'identifier' ) ) ) );
-$tpl->setVariable( "module", $Module );
-$tpl->setVariable( "class", $class );
-$tpl->setVariable( "attributes", $attributes );
-$tpl->setVariable( "datatypes", $datatypes );
+
+$tpl->setVariable( 'module', $Module );
+$tpl->setVariable( 'class', $class );
+$tpl->setVariable( 'attributes', $attributes );
+$tpl->setVariable( 'datatypes', $datatypes );
+$tpl->setVariable( 'validation', $validation );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:class/view.tpl" );
+$Result['content'] =& $tpl->fetch( 'design:class/view.tpl' );
 $Result['path'] = array( array( 'url' => '/class/grouplist/',
                                 'text' => ezi18n( 'kernel/class', 'Classes' ) ) );
 

@@ -1,3 +1,16 @@
+{section show=$validation.processed}
+{section show=$validation.groups}
+<div class="message-warning">
+<h2>{"Input did not validate"|i18n("design/standard/class/edit")}</h2>
+<ul>
+{section var=item loop=$validation.groups}
+    <li>{$item.text}</li>
+{/section}
+</ul>
+</div>
+{/section}
+{/section}
+
 <div class="context-block">
 <h2 class="context-title">{$class.identifier|class_icon( 'normal', $class.name )}&nbsp;{'%1 [Class]'|i18n( 'design/admin/class/view',, array( $class.name) )|wash}</h2>
 
@@ -124,22 +137,44 @@
 
 </div>
 
-
-{* Member of groups. *}
+{*-- Class group Start --*}
+<form {concat($module.functions.view.uri,"/",$class.id)|ezurl} method="post">
 <div class="context-block">
-<h2 class="context-title">{'Member of class groups [%1]'|i18n( 'design/admin/class/view',, array( $class.ingroup_list|count) )}</h2>
+<h2 class="context-title">{"Groups"|i18n("design/standard/class/view")} [{count($class.ingroup_list)}]</h2>
 <table class="list" cellspacing="0">
 <tr>
-    <th>{'Name'|i18n( 'design/admin/class/view' )}</th>
+    <th class="tight">&nbsp;</th>
+    <th class="wide">{"Member of groups"|i18n("design/standard/class/view")}</th>
 </tr>
-{section var=Groups loop=$class.ingroup_list sequence=array( bglight, bgdark )}
-<tr class="{$Groups.sequence}">
-    <td><a href={concat( '/class/classlist/', $Groups.item.group_id )|ezurl}>{$Groups.item.group_name|wash}</a></td>
+{section name=InGroups loop=$class.ingroup_list sequence=array(bglight,bgdark)}
+<tr class="{$InGroups:sequence}">
+    <td class="tight"><input type="checkbox" name="group_id_checked[]" value="{$InGroups:item.group_id}" /></td>
+    <td class="wide">{$InGroups:item.group_name|wash}</td>
 </tr>
 {/section}
 </table>
+<div class="controlbar">
+    <div class="block">
+    <input class="button" type="submit" name="RemoveGroupButton" value="{'Remove selected'|i18n('design/standard/class/view')}" />
+    </div>
+    <div class="block">
+    {section show=sub(count($class.group_list),count($class.ingroup_list))}
+        <select name="ContentClass_group">
+        {section name=AllGroup loop=$class.group_list}
+            {section show=$class.ingroup_id_list|contains($AllGroup:item.id)|not}
+                <option value="{$AllGroup:item.id}/{$AllGroup:item.name}">{$AllGroup:item.name|wash}</option>
+            {/section}
+        {/section}
+        </select>
+        <input class="button" type="submit" name="AddGroupButton" value="{"Add to group"|i18n("design/standard/class/view")}" />
+    {section-else}
+        <input class="button" type="submit" name="AddGroupButton" value="{"Add to group"|i18n("design/standard/class/view")}" disabled="disabled" />
+    {/section}
+    </div>
 </div>
-
+</div>
+</form>
+{*-- Class group End --*}
 
 {* Override templates. *}
 {let override_templates=fetch( class, override_template_list, hash( class_id, $class.id ) )}
@@ -168,4 +203,3 @@
 </div>
 
 {/let}
-

@@ -69,40 +69,6 @@
 
 </div>
 
-<!-- Class group Start -->
-<div class="context-block">
-<h2 class="context-title">{"Groups"|i18n("design/standard/class/edit")}</h2>
-<table class="list" cellspacing="0">
-<tr>
-    <th class="tight">&nbsp;</th>
-    <th class="wide">{"Member of groups"|i18n("design/standard/class/edit")}</th>
-</tr>
-{section name=InGroups loop=$class.ingroup_list sequence=array(bglight,bgdark)}
-<tr class="{$InGroups:sequence}">
-    <td class="tight"><input type="checkbox" name="group_id_checked[]" value="{$InGroups:item.group_id}" /></td>
-    <td class="wide">{$InGroups:item.group_name|wash}</td>
-</tr>
-{/section}
-</table>
-<div class="controlbar">
-    <div class="block">
-    <input class="button" type="submit" name="RemoveGroupButton" value="{'Remove'|i18n('design/standard/class/edit')}" />
-    {include uri="design:gui/button.tpl" name=Store id_name=StoreButton value="Ok"|i18n("design/standard/class/edit")}
-    {include uri="design:gui/button.tpl" name=Apply id_name=ApplyButton value="Apply changes"|i18n("design/standard/class/edit")}
-    {include uri="design:gui/button.tpl" name=Discard id_name=DiscardButton value="Cancel"|i18n("design/standard/class/edit")}
-    </div>
-    <div class="block">
-    <select name="ContentClass_group">
-    {section name=AllGroup loop=$class.group_list}
-    <option value="{$AllGroup:item.id}/{$AllGroup:item.name}">{$AllGroup:item.name|wash}</option>
-    {/section}
-    </select>
-    {include uri="design:gui/button.tpl" name=AddGroup id_name=AddGroupButton value="Add to group"|i18n("design/standard/class/edit")}
-    </div>
-</div>
-</div>
-<!-- Class group End -->
-
 <div class="context-block">
 
 <h2 class="context-title">{"Attributes"|i18n("design/standard/class/edit")}</h2>

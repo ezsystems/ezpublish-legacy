@@ -136,6 +136,10 @@ if ( $http->hasSessionVariable( 'FromGroupID' ) )
 $ClassID = $class->attribute( 'id' );
 $ClassVersion = $class->attribute( 'version' );
 
+$validation = array( 'processed' => false,
+                     'groups' => array(),
+                     'attributes' => array() );
+$unvalidatedAttributes = array();
 
 if ( $http->hasPostVariable( 'DiscardButton' ) )
 {
@@ -154,28 +158,21 @@ if ( $http->hasPostVariable( 'DiscardButton' ) )
     }
     return;
 }
-if ( $http->hasPostVariable( 'AddGroupButton' ) )
+if ( $http->hasPostVariable( 'AddGroupButton' ) && $http->hasPostVariable( 'ContentClass_group' ) )
 {
-    if ( $http->hasPostVariable( 'ContentClass_group') )
+    include_once( "kernel/class/ezclassfunctions.php" );
+    eZClassFunctions::addGroup( $ClassID, $ClassVersion, $http->postVariable( 'ContentClass_group' ) );
+}
+if ( $http->hasPostVariable( 'RemoveGroupButton' ) && $http->hasPostVariable( 'group_id_checked' ) )
+{
+    include_once( "kernel/class/ezclassfunctions.php" );
+    if ( !eZClassFunctions::removeGroup( $ClassID, $ClassVersion, $http->postVariable( 'group_id_checked' ) ) )
     {
-        $selectedGroup = $http->postVariable( 'ContentClass_group' );
-        list ( $groupID, $groupName ) = split( '/', $selectedGroup );
-        $ingroup =& eZContentClassClassGroup::create( $ClassID, $ClassVersion, $groupID, $groupName );
-        $ingroup->store();
+        $validation['groups'][] = array( 'text' => ezi18n( 'kernel/class', 'You have to have at least one group that the class belongs to!' ) );
+        $validation['processed'] = true;
     }
 }
 
-if ( $http->hasPostVariable( 'RemoveGroupButton' ) )
-{
-    if ( $http->hasPostVariable( 'group_id_checked') )
-    {
-        $selectedGroup = $http->postVariable( 'group_id_checked' );
-        foreach(  $selectedGroup as $group_id )
-        {
-            eZContentClassClassGroup::remove( $ClassID, $ClassVersion, $group_id );
-        }
-    }
-}
 // Fetch attributes and definitions
 $attributes =& $class->fetchAttributes();
 
@@ -196,11 +193,8 @@ if ( $http->hasPostVariable( 'CustomActionButton' ) )
     $customActionAttributeID = $matchArray[1];
     $customAction = $matchArray[2];
 }
-// Validate input
-$validation = array( 'processed' => false,
-                     'attributes' => array() );
-$unvalidatedAttributes = array();
 
+// Validate input
 $storeActions = array( 'MoveUp',
                        'MoveDown',
                        'StoreButton',
