@@ -99,6 +99,29 @@ div.content-view-full div.content-view-line div.attribute-byline p
 }
 
 
+/* Sitemap */
+
+div#maincontent div.content-view-sitemap table.content-view-children h2
+{
+    margin-top: 1px;
+}
+
+div#maincontent div.content-view-sitemap table.content-view-children
+{
+    margin-top: 1px;
+    width: 99%;
+}
+
+div#maincontent div.content-view-sitemap table.content-view-children td
+{
+    vertical-align: text-top;
+}
+
+/*div#maincontent div.content-view-sitemap table.content-view-children td
+{ 
+    font-weight: bold;
+}*/
+
 /* FOLDER */
 
 div#maincontent div.class-folder div.attribute-short p
