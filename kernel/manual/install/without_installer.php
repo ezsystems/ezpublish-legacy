@@ -2,7 +2,7 @@
 
 <ul>
 	<li><a href="#Requirements">Requirements</a></li>
-	<li><a href="#Linux_FreeBSD_Installation">Installation on Linux and FreeBSD</a></li>
+	<li><a href="#Linux_FreeBSD_Installation">Installation on Linux, FreeBSD and Mac OS X</a></li>
 	<ul>
 		<li><a href="#Linux_FreeBSD_Database">Database setup</a></li>
 
@@ -10,21 +10,13 @@
 		<li><a href="#Linux_FreeBSD_Configure">Configure</a></li>
 		<li><a href="#Linux_FreeBSD_VirtualHost">VirtualHost</a></li>
 	</ul>
-	
-	<li><a href="#Windows_Installation">Installation on Linux and FreeBSD</a></li>
+
+	<li><a href="#Windows_Installation">Installation on Windows</a></li>
 	<ul>
 		<li><a href="#Windows_Database">Database setup</a></li>
 		<li><a href="#Windows_Demodata">Demo data</a></li>
 		<li><a href="#Windows_Configure">Configure</a></li>
 		<li><a href="#Windows_VirtualHost">VirtualHost</a></li>
-	</ul>
-
-	<li><a href="#MacOS_Installation">Installation on Mac OS X</a></li>
-	<ul>
-		<li><a href="#MacOS_Database">Database setup</a></li>
-		<li><a href="#MacOS_Demodata">Demo data</a></li>
-		<li><a href="#MacOS_Configure">Configure</a></li>
-		<li><a href="#MacOS_VirtualHost">VirtualHost</a></li>
 	</ul>
 </ul>
 
@@ -49,7 +41,7 @@
 </p>
 
 
-<h2>Installation on Linux and FreeBSD without installers</h2>
+<h2>Installation on Linux, FreeBSD and Mac OS X without installers</h2>
 <ol>
 	<li>Unpack ezpublish-xxx.tar.gz into the <httproot> folder<pre class="example"> $ tar xvfz ezpublish-xxx.tar.gz -C &lt;httproot&gt;</pre></li>
 	<li>Now go to the extracted eZ publish directory <pre class="example"> $ cd &lt;httproot&gt;/ezpublish-xxx/</pre></li>
@@ -78,7 +70,7 @@
 </p>
 
 <ol>
-	<li>Become the PostgreSQL super user<pre class="example">$ su &lt;postgres_super_user&gt;</pre></li>
+	<li>Become the PostgreSQL super user (normally called postgres)<pre class="example">$ su &lt;postgres_super_user&gt;</pre></li>
 	li>Create a postgresql user<pre class="example">$ createuser &lt;user&gt;</pre></li>
 	<li>Create a database <pre class="example">$ createdb &lt;name_of_database&gt;</pre></li>
 	<li>Demodata is not available for PostgreSQL at the moment, so we have to install the kernel_clean.sql file<pre class="example">$ psql -U &lt;ezpublish_user&gt;  &lt;name_of_database&gt; &lt; &lt;httproot&gt;/ezpublish-xxx/kernel/sql/postgresql/kernel_clean.sql</pre></li>
@@ -86,8 +78,16 @@
 
 <h3>Demo data</h3>
 <p>
-	Demodata is only available for MySQL at the moment.
+	Demodata is only available for MySQL. Before you proceed make sure you
+	installed the demokernel.sql file and NOT the kernel_clean.sql file.
 </p>
+<p>
+	To install the demodata all you have to do is unpack the var.tgz file
+</p>
+<ol>
+	<li>Go to &lt;httproot&gt;\ezpublish-xxx <pre class="example"> $ cd &lt;httproot&gt;/ezpublish-xxx</pre></li>
+	<li>Unpack var.tgz <pre class="example"> $ tar xvfz var.tgz</pre></li>
+</ol>
 
 <h3>Configure eZ publish</h3>
 <p>
@@ -165,7 +165,7 @@ Database=&lt;name_of_database&gt;
 </p>
 <ol>
 	<li>Go to &lt;httproot&gt;\ezpublish-xxx</li>
-	<li>unpack var.tgz into &lt;httproot&gt;\ezpublish-xxx</li>
+	<li>Unpack var.tgz into &lt;httproot&gt;\ezpublish-xxx</li>
 </ol>
 
 
@@ -209,11 +209,3 @@ Database=&lt;name_of_database&gt;
 &lt;/VirtualHost&gt;
 </pre>
 
-<h2>eZ publish installation on Mac without installers</h2>
-
-Not completed
-
-<h3>Database setup</h3>
-<h3>Demo data</h3>
-<h3>Configure eZ publish</h3>
-<h3>Virtualhost setup</h3>
