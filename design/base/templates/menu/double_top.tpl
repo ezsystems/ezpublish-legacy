@@ -8,7 +8,7 @@
                                                    'sort_by', $root_node.sort_array ) )}
     <ul>
     {section var=menu loop=$menuitems}
-        {section show=eq( $menu.object.content_class.identifier, "menu_link" )}
+        {section show=eq( $menu.object.content_class.identifier, "link" )}
             <li {eq( $module_result.path[1].node_id, $menu.node_id )|choose( '', 'class="selected"' )}><div class="spacing"><a href="{$menu.object.data_map.link.content}">{$menu.object.data_map.link.data_text|wash}</a></div></li>
         {section-else}
             {section show=eq( sum( $menu.index, 1 ), $menuitems|count )}
@@ -36,7 +36,12 @@
     <ul>
         {section var=menu loop=fetch( 'content', 'list', hash( parent_node_id, $module_result.path[1].node_id,
                                                                sort_by, $root_node.sort_array ) )}
-        <li {$menu.index|eq( 0 )|choose( '', 'class="first"' )}><a href={$menu.url_alias|ezurl}>{$menu.name}</a></li>
+
+            {section show=eq( $menu.object.content_class.identifier, "link" )}
+                <li {$menu.index|eq( 0 )|choose( '', 'class="first"' )}><a href={$menu.object.data_map.link.content}>{$menu.name}</a></li>
+            {section-else}
+                <li {$menu.index|eq( 0 )|choose( '', 'class="first"' )}><a href={$menu.url_alias|ezurl}>{$menu.name}</a></li>
+            {/section}
         {/section}
     </ul>
 

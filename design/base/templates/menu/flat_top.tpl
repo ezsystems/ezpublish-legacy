@@ -8,7 +8,7 @@
                                                    'sort_by', $root_node.sort_array ) )}
     <ul>
     {section var=menu loop=$menuitems}
-            {section show=eq( $menu.object.content_class.identifier, "menu_link" )}
+            {section show=eq( $menu.object.content_class.identifier, "link" )}
                 <li {eq( $module_result.path[1].node_id, $menu.node_id )|choose( '', 'class="selected"' )}><div class="spacing"><a href="{$menu.object.data_map.link.content}">{$menu.object.data_map.link.data_text|wash}</a></div></li>
             {section-else}
                 {section show=eq( sum( $menu.index, 1 ), $menuitems|count )}
