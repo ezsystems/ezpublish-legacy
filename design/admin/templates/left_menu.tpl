@@ -134,7 +134,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/content/view/sitemap/5/"|ezurl}>{"Users"|i18n("design/standard/layout")}</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/content/view/full/5/"|ezurl}>{"Users"|i18n("design/standard/layout")}</a></p>
     </td>
 </tr>
 <tr>
