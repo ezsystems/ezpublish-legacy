@@ -2820,11 +2820,7 @@ else
             {
                 if ( isset( $resourceData['node-object-cached'] ) )
                 {
-                    $code = <<<END
-\$$variableAssignmentName = \$nod_{$resourceData['uniqid']};
-
-END;
-                    $php->addCodePiece($code);
+                    $php->addCodePiece("\$$variableAssignmentName = \$nod_{$resourceData['uniqid']};\n");
                 }
                 else
                 {
@@ -2839,6 +2835,24 @@ END;
                     $php->addCodePiece($code);
                     $resourceData['node-object-cached'] = true;
                 }
+            }
+            else if ( $variableDataType == EZ_TEMPLATE_TYPE_OPTIMIZED_ARRAY_LOOKUP )
+            {
+                $php->addCodePiece("\$$variableAssignmentName = \${$variableAssignmentName}['" . $variableDataItem[1][0][1] ."'];\n");
+            }
+            else if ( $variableDataType == EZ_TEMPLATE_TYPE_OPTIMIZED_ATTRIBUTE_LOOKUP )
+            {
+                $code = <<<END
+if ( \${$variableAssignmentName}->hasAttribute( "{$variableDataItem[1][0][1]}" ) )
+{
+    \${$variableAssignmentName} = \${$variableAssignmentName}->attribute( "{$variableDataItem[1][0][1]}" );
+}
+END;
+                $php->addCodePiece($code);
+            }
+            else if ( $variableDataType == EZ_TEMPLATE_TYPE_OPTIMIZED_CONTENT_CALL )
+            {
+                $php->addCodePiece("\$$variableAssignmentName = \${$variableAssignmentName}->content();\n");
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_PHP_VARIABLE )
             {

@@ -77,17 +77,36 @@ class eZTemplateOptimizer
     function optimizeVariable( $useComments, &$php, &$tpl, &$data, &$resourceData )
     {
         /* node.object.data_map optimization */
-        if ( ( count( $data ) > 3 ) and 
-             ( $data[0][0] == 4 ) and
+        if ( ( count( $data ) >= 3 ) and 
+             ( $data[0][0] == EZ_TEMPLATE_TYPE_VARIABLE ) and
              ( $data[0][1][2] == 'node' ) and
-             ( $data[1][0] == 5 ) and
+             ( $data[1][0] == EZ_TEMPLATE_TYPE_ATTRIBUTE ) and
              ( $data[1][1][0][1] == 'object' ) and
-             ( $data[2][0] == 5 ) and
+             ( $data[2][0] == EZ_TEMPLATE_TYPE_ATTRIBUTE ) and
              ( $data[2][1][0][1] == 'data_map' ) )
         {
-
+            /* Remove the nodes there are optimized-away */
             unset($data[1], $data[2]);
+            /* Create a new node representing the optimization */
             $data[0] = array( EZ_TEMPLATE_TYPE_OPTIMIZED_NODE, null, 2 );
+            
+            /* Modify the next two nodes in the array too if they're there as
+             * we know for sure what type it is. This fixes the dependency on
+             * compiledFetchAttribute */
+            if ( ( count( $data ) >= 3 ) and
+                 ( $data[3][0] == EZ_TEMPLATE_TYPE_ATTRIBUTE ) and
+                 ( $data[4][0] == EZ_TEMPLATE_TYPE_ATTRIBUTE ) )
+            {
+                $data[3][0] = EZ_TEMPLATE_TYPE_OPTIMIZED_ARRAY_LOOKUP;
+                if ( $data[4][1][0][1] == "content")
+                {
+                    $data[4][0] = EZ_TEMPLATE_TYPE_OPTIMIZED_CONTENT_CALL;
+                }
+                else
+                {
+                    $data[4][0] = EZ_TEMPLATE_TYPE_OPTIMIZED_ATTRIBUTE_LOOKUP;
+                }
+            }
         }
 
         /* node.object.data_map optimization through function */

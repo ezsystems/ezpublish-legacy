@@ -459,6 +459,7 @@ eZ Template:
   hash was a dynamic expression (e.g. cond).
 - Implemented framework for compiled template optimizer:
   - $node.object.data_map optimization and caching.
+  - $node.object.data_map.x."content" optimization.
 - Added a uniqid resource to a template to unique identify it.
 
 eZXML:
