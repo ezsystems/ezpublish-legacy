@@ -24,7 +24,7 @@
          item_limit=$item_limit}
 
 {section-else}
-<p>No new items to be handled.</p>
+<p>{"No new items to be handled."|i18n('design/standard/collaboration')}</p>
 {/section}
 
   </td>

@@ -44,6 +44,7 @@
 */
 
 include_once( 'kernel/classes/ezpersistentobject.php' );
+include_once( 'kernel/classes/ezcollaborationgroup.php' );
 
 class eZCollaborationProfile extends eZPersistentObject
 {

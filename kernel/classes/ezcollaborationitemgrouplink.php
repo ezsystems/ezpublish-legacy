@@ -67,7 +67,7 @@ class eZCollaborationItemGroupLink extends eZPersistentObject
                                          'last_read' => 'LastRead',
                                          'created' => 'Created',
                                          'modified' => 'Modified' ),
-                      'keys' => array( 'collaboration_id' ),
+                      'keys' => array( 'collaboration_id', 'group_id', 'user_id' ),
                       'class_name' => 'eZCollaborationItemGroupLink',
                       'sort' => array( 'modified' => 'asc' ),
                       'name' => 'ezcollab_item_group_link' );
@@ -80,6 +80,9 @@ class eZCollaborationItemGroupLink extends eZPersistentObject
         $row = array(
             'collaboration_id' => $collaborationID,
             'group_id' => $groupID,
+            'is_read' => false,
+            'is_active' => true,
+            'last_read' => 0,
             'user_id' => $userID,
             'created' => $date_time,
             'modified' => $date_time );

@@ -92,6 +92,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         $row = array(
             'collaboration_id' => $collaborationID,
             'participant_id' => $participantID,
+            'participant_role' => $participantRole,
             'participant_type' => $participantType,
             'created' => $dateTime,
             'modified' => $dateTime );

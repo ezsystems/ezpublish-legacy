@@ -314,16 +314,16 @@ p.box
 
 
 /* Status message styles, used for items which have the read/unread/inactive status */
-p.status_unread
+p.status_unread, a.status_unread
 {
     color: #ff0000;
 }
 
-p.status_read
+p.status_read, a.status_read
 {
 }
 
-p.status_inactive
+p.status_inactive, a.status_inactive
 {
     color: #aaaaaa;
 }

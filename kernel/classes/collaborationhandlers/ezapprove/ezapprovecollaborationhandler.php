@@ -51,6 +51,14 @@
 */
 
 include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
+include_once( 'kernel/classes/ezcollaborationitem.php' );
+include_once( 'kernel/classes/ezcollaborationitemmessagelink.php' );
+include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
+include_once( 'kernel/classes/ezcollaborationitemgrouplink.php' );
+include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+include_once( 'kernel/classes/ezcollaborationprofile.php' );
+include_once( 'kernel/classes/ezcollaborationsimplemessage.php' );
+include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 include_once( 'kernel/common/i18n.php' );
 
 /// Approval message type
@@ -98,7 +106,6 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     */
     function readItem( &$collaborationItem )
     {
-        include_once( 'kernel/classes/ezcollaborationitem.php' );
         $collaborationItem->setLastRead();
     }
 
@@ -108,7 +115,6 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     */
     function messageCount( &$collaborationItem )
     {
-        include_once( 'kernel/classes/ezcollaborationitemmessagelink.php' );
         return eZCollaborationItemMessageLink::fetchItemCount( array( 'item_id' => $collaborationItem->attribute( 'id' ) ) );
     }
 
@@ -118,15 +124,12 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     */
     function unreadMessageCount( &$collaborationItem )
     {
-        include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
-        include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 //         $participantID =& eZUser::currentUserID();
 //         $participant =& eZCollaborationItemParticipantLink::fetch( $collaborationItem->attribute( 'id' ), $participantID );
         $lastRead = 0;
         $status =& $collaborationItem->attribute( 'user_status' );
         if ( $status )
             $lastRead = $status->attribute( 'last_read' );
-        include_once( 'kernel/classes/ezcollaborationitemmessagelink.php' );
         return eZCollaborationItemMessageLink::fetchItemCount( array( 'item_id' => $collaborationItem->attribute( 'id' ),
                                                                       'conditions' => array( 'modified' => array( '>', $lastRead ) ) ) );
     }
@@ -172,9 +175,9 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
                                                                  $participantRole, EZ_COLLABORATION_PARTICIPANT_TYPE_USER );
             $link->store();
 
-            include_once( 'kernel/classes/ezcollaborationprofile.php' );
-            $profile =& eZCollaborationProfile::instance();
+            $profile =& eZCollaborationProfile::instance( $participantID );
             $groupID =& $profile->attribute( 'main_group' );
+            eZDebug::writeDebug( 'Adding item group link' );
             eZCollaborationItemGroupLink::addItem( $groupID, $collaborationID, $participantID );
         }
         return $collaborationItem;
@@ -202,7 +205,6 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
                 $status = EZ_COLLABORATION_APPROVE_STATUS_ACCEPTED;
             $collaborationItem->setAttribute( 'data_int3', $status );
             $collaborationItem->setAttribute( 'status', EZ_COLLABORATION_STATUS_INACTIVE );
-            include_once( 'lib/ezlocale/classes/ezdatetime.php' );
             $timestamp = eZDateTime::currentTimeStamp();
             $collaborationItem->setAttribute( 'modified', $status );
             $collaborationItem->setIsActive( false );
@@ -215,11 +217,9 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
             $messageText = $this->customInput( 'ApproveComment' );
             if ( trim( $messageText ) != '' )
             {
-                include_once( 'kernel/classes/ezcollaborationsimplemessage.php' );
                 $message =& eZCollaborationSimpleMessage::create( 'ezapprove_comment', $messageText );
                 $message->store();
                 eZDebug::writeDebug( $message );
-                include_once( 'kernel/classes/ezcollaborationitemmessagelink.php' );
                 eZCollaborationItemMessageLink::addMessage( $collaborationItem, $message, EZ_COLLABORATION_MESSAGE_TYPE_APPROVE );
             }
         }

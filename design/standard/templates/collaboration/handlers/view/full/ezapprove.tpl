@@ -13,8 +13,6 @@
 
 <h1>Approval</h1>
 
-collab_item.data_int3='{$collab_item.data_int3}'
-
 {section show=eq($collab_item.data_int3,0)}
 
 {section show=$collab_item.is_creator}

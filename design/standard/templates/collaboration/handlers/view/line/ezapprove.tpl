@@ -1,15 +1,16 @@
-{let content_version=fetch("content","version",hash("object_id",$item.content.content_object_id,"version_id",$item.content.content_object_version,))}
+{let content_version=fetch("content","version",hash("object_id",$item.content.content_object_id,"version_id",$item.content.content_object_version,))
+     item_text=""}
 {section show=$item.is_creator}
 
   {switch match=$item.data_int3}
   {case match=0}
-    <p class="{$:item_class}">{"Awaiting approval of %1"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}</p>
+    {set item_text="%1 awaits approval by editor"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}
   {/case}
   {case match=1}
-    <p class="{$:item_class}">{"%1 was approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}</p>
+    {set item_text="%1 was approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}
   {/case}
   {case match=2}
-   <p class="{$:item_class}">{"%1 was not approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}</p>
+   {set item_text="%1 was not approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}
   {/case}
   {case/}
   {/switch}
@@ -18,16 +19,17 @@
 
   {switch match=$item.data_int3}
   {case match=0}
-    <p class="{$:item_class}">{"Awaiting approval for %1"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}</p>
+    {set item_text="%1 awaits your approval"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}
   {/case}
   {case match=1}
-    <p class="{$:item_class}">{"%1 was approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}</p>
+    {set item_text="%1 was approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}
   {/case}
   {case match=2}
-   <p class="{$:item_class}">{"%1 was not approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}</p>
+   {set item_text="%1 was not approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}
   {/case}
   {case/}
   {/switch}
 
 {/section}
+<p class="{$:item_class}"><a class="{$:item_class}" href={concat("collaboration/item/full/",$:item.id)|ezurl}>{$item_text}</a></p>
 {/let}

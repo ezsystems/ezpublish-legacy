@@ -75,7 +75,10 @@ class eZCollaborationItemStatus extends eZPersistentObject
             $userID =& eZUser::currentUserID();
         $row = array(
             'collaboration_id' => $collaborationID,
-            'user_id' => $userID );
+            'user_id' => $userID,
+            'is_read' => false,
+            'is_active' => true,
+            'last_read' => 0 );
         $statusObject =& $GLOBALS['eZCollaborationItemStatusCache'][$collaborationID][$userID];
         $statusObject = new eZCollaborationItemStatus( $row );
         return $statusObject;
