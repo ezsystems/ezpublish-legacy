@@ -1111,4 +1111,8 @@ div.inline label
     display: inline;
 }
 
+a.nodeicon
+{ 
+  text-decoration: none;
+}
 /* th[eZ] */

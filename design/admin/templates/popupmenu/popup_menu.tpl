@@ -11,6 +11,17 @@ menuArray['ContextMenu']['elements']['menu-edit']['url'] = {"/content/edit/%obje
 menuArray['ContextMenu']['elements']['menu-copy'] = new Array();
 menuArray['ContextMenu']['elements']['menu-copy']['url'] = {"/content/copy/%objectID%"|ezurl};
 
+menuArray['SubitemsContextMenu'] = new Array();
+menuArray['SubitemsContextMenu']['depth'] = 0;
+menuArray['SubitemsContextMenu']['headerID'] = 'child-menu-header';
+menuArray['SubitemsContextMenu']['elements'] = new Array();
+menuArray['SubitemsContextMenu']['elements']['child-menu-view'] = new Array();
+menuArray['SubitemsContextMenu']['elements']['child-menu-view']['url'] = {"/content/view/full/%nodeID%"|ezurl};
+menuArray['SubitemsContextMenu']['elements']['child-menu-edit'] = new Array();
+menuArray['SubitemsContextMenu']['elements']['child-menu-edit']['url'] = {"/content/edit/%objectID%"|ezurl};
+menuArray['SubitemsContextMenu']['elements']['child-menu-copy'] = new Array();
+menuArray['SubitemsContextMenu']['elements']['child-menu-copy']['url'] = {"/content/copy/%objectID%"|ezurl};
+
 menuArray['ClassMenu'] = new Array();
 menuArray['ClassMenu']['depth'] = 0;
 menuArray['ClassMenu']['headerID'] = 'class-header';
@@ -55,6 +66,25 @@ menuArray['BookmarkMenu']['elements']['bookmark-edit']['url'] = {"/content/edit/
     <a id="menu-bookmark" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )"
        onclick="ezpopmenu_submitForm( 'menu-form-addbookmark' ); return false;">{"Add to my bookmarks"|i18n("design/standard/popupmenu")}</a>
     <a id="menu-notify" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )"
+       onclick="ezpopmenu_submitForm( 'menu-form-notify' ); return false;">{"Add to my notifications"|i18n("design/standard/popupmenu")}</a>
+</div>
+
+<!-- Subitems icon click popup menu -->
+<div class="popupmenu" id="SubitemsContextMenu">
+    <div class="popupmenuheader"><h3 id="child-menu-header">XXX</h3>
+        <div class="window-close" onclick="ezpopmenu_hide( 'SubitemsContextMenu' )"><p>X</p></div>
+        <div class="break"></div>
+    </div>
+    <a id="child-menu-view" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )">{"View"|i18n("design/standard/popupmenu")}</a>
+    <a id="child-menu-edit" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )">{"Edit"|i18n("design/standard/popupmenu")}</a>
+    <hr />
+    <a id="child-menu-remove" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )"
+       onclick="ezpopmenu_submitForm( 'menu-form-remove' ); return false;">{"Remove"|i18n("design/standard/popupmenu")}</a>
+    <a id="child-menu-copy" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )">{"Copy"|i18n("design/standard/popupmenu")}</a>
+    <hr />
+    <a id="child-menu-bookmark" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )"
+       onclick="ezpopmenu_submitForm( 'menu-form-addbookmark' ); return false;">{"Add to my bookmarks"|i18n("design/standard/popupmenu")}</a>
+    <a id="child-menu-notify" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )"
        onclick="ezpopmenu_submitForm( 'menu-form-notify' ); return false;">{"Add to my notifications"|i18n("design/standard/popupmenu")}</a>
 </div>
 
