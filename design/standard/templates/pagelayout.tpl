@@ -49,7 +49,7 @@
 	<a class="topline" href={"/content/advancedsearch/"|ezurl}><span class="small">Advanced search</span></a><div class="labelbreak"></div>
     </td>
     <td class="topbox" valign="top" width="20%" valign="bottom">
-	<input class="button" name="SearchButton" type="submit" value="{"Search"|i18n('pagelayout')}" />
+	<input class="button" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
     </td>
     <td class="topbox" valign="bottom" width="20%">
 {*    <p class="menuitem"><a class="menuitem" href={"/user/logout/"|ezurl}>Log out</a></p> *}

@@ -55,8 +55,8 @@
 {* This is the main content *}
 
     <td width="50%" bgcolor="#ffffff" valign="top">
-    <h2>{"Module load failed"|i18n("undefinedmodule")}</h2>
-    <p>{"Undefined module: "|i18n("undefinedmodule")}{$module.name}</p>
+    <h2>{"Module load failed"|i18n("design/standard/layout")}</h2>
+    <p>{"Undefined module: "|i18n("design/standard/layout")}{$module.name}</p>
 
     </td>
 
