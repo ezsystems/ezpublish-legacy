@@ -159,21 +159,17 @@ if ( count( $missingFileList ) > 0 or
 {
     if ( count( $missingFileList ) > 0 )
     {
-        print( "Missing files:\n" );
-
         foreach ( $missingFileList as $file )
         {
-            print( $file . "\n" );
+            print( '! ' . $file . "\n" );
         }
     }
 
     if ( count( $fileList ) > 0 )
     {
-        print( "Unkown files:\n" );
-
         foreach ( $fileList as $file )
         {
-            print( $file . "\n" );
+            print( '? ' . $file . "\n" );
         }
     }
     exit( 1 );
