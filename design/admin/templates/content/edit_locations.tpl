@@ -94,8 +94,8 @@
     {/section}
     </select>
 	<select name="SortOrderMap[{$Node:item.id}]" title="{'Use this menu to set the sorting direction for the sub items of the respective location.'|i18n( 'design/admin/content/edit' )}">
-    <option value="1" {section show=eq( $Node:item.sort_order, 1)}selected="selected"{/section}>{'Up'|i18n( 'design/admin/content/edit' )}</option>
-    <option value="0" {section show=eq( $Node:item.sort_order, 0)}selected="selected"{/section}>{'Down'|i18n( 'design/admin/content/edit' )}</option>
+    <option value="1" {section show=eq( $Node:item.sort_order, 1)}selected="selected"{/section}>{'Desc.'|i18n( 'design/admin/content/edit' )}</option>
+    <option value="0" {section show=eq( $Node:item.sort_order, 0)}selected="selected"{/section}>{'Asc.'|i18n( 'design/admin/content/edit' )}</option>
     </select>
     </td>
 
