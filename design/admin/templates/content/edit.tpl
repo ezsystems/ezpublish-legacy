@@ -70,7 +70,7 @@
 {include uri='design:content/edit_related.tpl'}
 
 {* Locations window. *}
-{section show=eq( ezini( 'EditSettings', 'EmbedLocationHandling', 'content.ini' ), 'enabled' )}
+{section show=eq( ezini( 'EditSettings', 'EmbedNodeAssignmentHandling', 'content.ini' ), 'enabled' )}
 {include uri='design:content/edit_placement.tpl'}
 {section-else}
 {* This disables all node assignment checking in content/edit *}
