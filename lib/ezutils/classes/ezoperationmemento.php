@@ -94,6 +94,16 @@ class eZOperationMemento extends eZPersistentObject
                                                 $asObject );
     }
 
+    function setData( $data = array() )
+    {
+        $this->MementoData = serialize( $data );
+    }
+
+    function data()
+    {
+        return unserialize( $this->MementoData );
+    }
+
     function &create( $mementoKey, $data = array() )
     {
         if( is_array( $mementoKey ) )
@@ -102,7 +112,8 @@ class eZOperationMemento extends eZPersistentObject
         }
 
         $serializedData = serialize( $data );
-        return new eZOperationMemento( array( 'memento_key' => $mementoKey,
+        return new eZOperationMemento( array( 'id' => null,
+                                              'memento_key' => $mementoKey,
                                               'memento_data' => $serializedData ) );
     }
 

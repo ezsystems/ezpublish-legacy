@@ -37,3 +37,9 @@ alter table ezworkflow_process add column process_key char(32) NOT NULL ;
 alter table eznode_assignment add from_node_id int default 0;
 
 
+# Beta 3 changes
+CREATE TABLE ezoperation_memento (
+id int NOT NULL auto_increment,
+memento_key varchar(32) NOT NULL,
+memento_data text NOT NULL,
+PRIMARY KEY(id, memento_key) );

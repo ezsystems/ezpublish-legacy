@@ -99,20 +99,33 @@ class eZModuleOperationInfo
         return true;
     }
 
-    function makeKeyArray( &$operationDefinition, $operationParameters )
+    function makeOperationKeyArray( $operationDefinition, $operationParameters )
+    {
+        $keyDefinition = null;
+        if ( array_key_exists( 'keys', $operationDefinition ) and
+             is_array( $operationDefinition['keys'] ) )
+        {
+            $keyDefinition = $operationDefinition['keys'];
+        }
+        return $this->makeKeyArray( $keyDefinition, $operationDefinition['parameters'], $operationParameters );
+    }
+
+    function makeKeyArray( $keyDefinition, $parameterDefinition, $operationParameters )
     {
         $keyArray = array();
-        if ( array_key_exists( 'keys', $operationDefinition ) && is_array( $operationDefinition['keys'] ) )
+        if ( $keyDefinition !== null )
         {
-            foreach ( $operationDefinition['keys'] as $key )
+            foreach ( $keyDefinition as $key )
             {
                 $keyArray[$key] = $operationParameters[$key];
             }
-            return $keyArray;
         }
-        foreach ( $operationDefinition['parameters'] as $operationParameter )
+        else
         {
-            $keyArray[$operationParameter['name']] = $operationParameters[$operationParameter['name']];
+            foreach ( $parameterDefinition as $operationParameter )
+            {
+                $keyArray[$operationParameter['name']] = $operationParameters[$operationParameter['name']];
+            }
         }
         return $keyArray;
     }
@@ -146,39 +159,58 @@ class eZModuleOperationInfo
             return null;
         }
         $callMethod =& $operationDefinition['default_call_method'];
+        $resultArray = null;
         if ( isset( $callMethod['include_file'] ) and
              isset( $callMethod['class'] ) )
         {
             $callValues = array( 'loop_run' => array() );
 
-
-
-            $keyArray = $this->makeKeyArray( $operationDefinition, $operationParameters );
-            $keyArray['session_key'] = eZHttpTool::getSessionKey();
-            $mementoList = eZOperationMemento::fetchList( $keyArray );
-
-            if ( count( $mementoList ) > 0 )
+            $runOperation = true;
+            if ( $lastTrigger === null )
             {
-                 ///restoring running operation
-                foreach ( array_keys( $mementoList ) as $key )
+                $keyArray = $this->makeOperationKeyArray( $operationDefinition, $operationParameters );
+                $keyArray['session_key'] = eZHTTPTool::getSessionKey();
+                $mementoList = eZOperationMemento::fetchList( $keyArray );
+
+                eZDebug::writeDebug( $mementoList, '$mementoList' );
+                if ( count( $mementoList ) > 0 )
                 {
-                    $memento =& $mementoList[$key ];
-                }
+                    // restoring running operation
+                    foreach ( array_keys( $mementoList ) as $key )
+                    {
+                        $memento =& $mementoList[$key];
+                        eZDebug::writeDebug( $operationName, 'executing stored operation' );
+                        $lastTrigger = $memento->data();
+                        $memento->remove();
 
+                        $resultArray =& $this->executeBody( $callMethod['include_file'], $callMethod['class'], $operationDefinition['body'],
+                                                            $operationDefinition['parameters'], $operationParameters,
+                                                            $lastTrigger, $callValues, $operationDefinition['name'] );
+                        print( "<pre>" );
+                        var_dump( $callValues );
+                        print( "</pre>" );
+                        if ( is_array( $resultArray ) and
+                             $resultArray['status'] == false )
+                        {
+                            $runOperation = false;
+                            break;
+                        }
+                    }
+                    $runOperation = false;
+                }
             }
-            else
+            if ( $runOperation )
             {
-                ///start  new operation
+                // start  new operation
+                eZDebug::writeDebug( $operationName, 'executing operation' );
 
                 $resultArray =& $this->executeBody( $callMethod['include_file'], $callMethod['class'], $operationDefinition['body'],
                                                     $operationDefinition['parameters'], $operationParameters,
                                                     $lastTrigger, $callValues, $operationDefinition['name'] );
+                print( "<pre>" );
+                var_dump( $callValues );
+                print( "</pre>" );
             }
-//             print( "result=" );
-            print( "<pre>" );
-//             var_dump( $resultArray );
-            var_dump( $callValues );
-            print( "</pre>" );
         }
         else
         {
@@ -345,6 +377,7 @@ class eZModuleOperationInfo
                 {
                     $triggerName = $body['name'];
                     $triggerKeys = $body['keys'];
+                    eZDebug::writeDebug( $lastTrigger, '$lastTrigger' );
                     if ( $lastTrigger !== null )
                     {
                         if ( $lastTrigger['name'] == $triggerName )
@@ -359,12 +392,29 @@ class eZModuleOperationInfo
                                 $currentLoopData = $lastTrigger['loop_data'];
                             $lastTrigger = null;
                             ++$callValues['loop_run'][$bodyName];
+                            print( "Trigger rerun:$triggerName<br/>" );
                         }
                         else
                             print( "Skipping trigger:$triggerName<br/>" );
                     }
-                    else
+                    else if ( ( $bodyName == 'pre_read' or $bodyName == 'post_read' ) and
+                              $operationParameters['node_id'] == 27 and
+                              $callValues['loop_run'][$bodyName] == 0 )
                     {
+                        print( "Trigger halted:$triggerName<br/>" );
+                        $keyArray = $this->makeKeyArray( $triggerKeys, $operationParameterDefinitions, $operationParameters );
+                        $keyArray['session_key'] = eZHTTPTool::getSessionKey();
+                        $mementoData = array();
+                        $mementoData['name'] = $triggerName;
+                        $mementoData['parameters'] = $operationParameters;
+                        $mementoData['loop_run'] = $callValues['loop_run'];
+                        $mementoData['loop_data'] = $currentLoopData;
+                        $memento = eZOperationMemento::create( $keyArray, $mementoData );
+                        $memento->store();
+                        eZDebug::writeDebug( $memento, '$memento' );
+
+                        $bodyReturnValue['status'] = false;
+                        return $bodyReturnValue;
 /*
                         $triggerParameters = array();
                         foreach ( $triggerKeys as $key )
@@ -396,10 +446,11 @@ class eZModuleOperationInfo
 //                             return $bodyReturnValue;
 //                         }
 //                         else
-                        {
-                            ++$callValues['loop_run'][$bodyName];
-                            print( "Trigger:$triggerName<br/>" );
-                        }
+                    }
+                    else
+                    {
+                        ++$callValues['loop_run'][$bodyName];
+                        print( "Trigger:$triggerName<br/>" );
                     }
                 } break;
                 case 'method':
