@@ -48,7 +48,8 @@ $discountGroupArray =& eZDiscountRule::fetchList();
 if ( $http->hasPostVariable( "AddDiscountGroupButton" ) )
 {
     $params = array();
-    $module->run( "discountgroupedit", $params );
+//    $module->run( "discountgroupedit", $params );
+    $Module->redirectTo( $Module->functionURI( "discountgroupedit" ) );
     return;
 }
 

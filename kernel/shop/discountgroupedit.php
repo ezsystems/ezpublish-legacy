@@ -51,10 +51,10 @@ if ( is_numeric( $discountGroupID ) )
 else
 {
     $discountGroup =& eZDiscountRule::create();
-    $discountGroup->store();
+//    $discountGroup->store();
     $discountGroupID = $discountGroup->attribute( "id" );
-    $module->redirectTo( $module->functionURI( "discountgroupedit" ) . "/" . $discountGroupID );
-    return;
+//    $module->redirectTo( $module->functionURI( "discountgroupedit" ) . "/" . $discountGroupID );
+//    return;
 }
 
 $http =& eZHttpTool::instance();
