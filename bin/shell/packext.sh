@@ -192,15 +192,15 @@ function apply_filters
 {
     function ez_skeleton_replace_variables
     {
-        sed -e 's/\[ExtensionName\]/'"$EXTENSION_NAME"'/g' | \
-            -e 's/\[ExtensionIdentifier\]/'"$EXTENSION_IDENTIFIER"'/g' | \
-            -e 's/\[ExtensionSummary\]/'"$EXTENSION_SUMMARY"'/g' | \
-            -e 's/\[ExtensionLicense\]/'"$EXTENSION_LICENSE"'/g' | \
-            -e 's/\[ExtensionPublishVersion\]/'"$EXTENSION_PUBLISH_VERSION"'/g' | \
-            -e 's/\[ExtensionArchiveName\]/'"$EXTENSION_ARCHIVE_NAME"'/g' | \
-            -e 's/\[ExtensionVersion\]/'"$EXTENSION_VERSION"'/g' | \
-            -e 's/\[PHPVersion\]/'"$EXTENSION_PHP_VERSION"'/g' | \
-            -e 's/\[Timestamp\]/'`date "+%s"`'/g' | \
+        sed -e 's/\[ExtensionName\]/'"$EXTENSION_NAME"'/g'                      \
+            -e 's/\[ExtensionIdentifier\]/'"$EXTENSION_IDENTIFIER"'/g'          \
+            -e 's/\[ExtensionSummary\]/'"$EXTENSION_SUMMARY"'/g'                \
+            -e 's/\[ExtensionLicense\]/'"$EXTENSION_LICENSE"'/g'                \
+            -e 's/\[ExtensionPublishVersion\]/'"$EXTENSION_PUBLISH_VERSION"'/g' \
+            -e 's/\[ExtensionArchiveName\]/'"$EXTENSION_ARCHIVE_NAME"'/g'       \
+            -e 's/\[ExtensionVersion\]/'"$EXTENSION_VERSION"'/g'                \
+            -e 's/\[PHPVersion\]/'"$EXTENSION_PHP_VERSION"'/g'                  \
+            -e 's/\[Timestamp\]/'`date "+%s"`'/g'                               \
             -e 's/\[Host\]/'`uname -n`'/g'
     }
 
