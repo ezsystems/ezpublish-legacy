@@ -91,6 +91,14 @@ class eZMail
     }
 
     /*!
+      Returns the receiver cc addresses as an array with texts.
+    */
+    function ccReceiverTextList( $convert = true )
+    {
+        return $this->composeEmailItems( $this->CcElements, false, false, $convert );
+    }
+
+    /*!
       Returns the receiver addresses as an array with texts.
     */
     function receiverTextList( $convert = true )

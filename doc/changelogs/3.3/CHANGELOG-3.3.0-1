@@ -14,6 +14,9 @@ Changes from 3.2-1 to 3.3.0-1
 - Made sure the required field in class defintion is used on information collection submittion
   for attributes that are information collectors.
 
+*DataType:
+- Added new datatype eZIniSetting for editing ini settings.
+
 *Setup:
 
 *Package system:

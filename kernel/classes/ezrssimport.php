@@ -138,7 +138,6 @@ class eZRSSImport extends eZPersistentObject
     function &create( $user_id )
     {
         include_once( 'lib/ezlocale/classes/ezdatetime.php' );
-        $config =& eZINI::instance( 'site.ini' );
         $dateTime = eZDateTime::currentTimeStamp();
         $row = array( 'id' => null,
                       'name' => 'New RSS Import',
