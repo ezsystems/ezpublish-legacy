@@ -93,6 +93,7 @@ class eZContentCache
                                          'content_path' => 'contentPath',
                                          'content_data' => 'contentData',
                                          'node_id' => 'nodeID',
+                                         'section_id' => 'sectionID'
                                          ) );
 
         $result['content'] = $values['content_data'];
@@ -102,6 +103,11 @@ class eZContentCache
         if ( isset( $values['node_id'] ) )
         {
             $result['node_id'] = $values['node_id'];
+        }
+
+        if ( isset( $values['section_id'] ) )
+        {
+            $result['section_id'] = $values['section_id'];
         }
 
         return $result;
@@ -117,6 +123,7 @@ class eZContentCache
         $php = new eZPHPCreator( $cacheDir, $cacheFile );
         $contentInfo = array( 'site_design' => $siteDesign,
                               'node_id' => $nodeID,
+                              'section_id' => $sectionID,
                               'view_mode' => $viewMode,
                               'language' => $language,
                               'offset' => $offset,
@@ -132,6 +139,11 @@ class eZContentCache
         if ( isset( $result['node_id'] ) )
         {
             $php->addVariable( 'nodeID', $result['node_id'] );
+        }
+
+        if ( isset( $result['section_id'] ) )
+        {
+            $php->addVariable( 'sectionID', $result['section_id'] );
         }
 
         $php->addSpace();
