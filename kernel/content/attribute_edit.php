@@ -69,14 +69,10 @@ if ( !$object->attribute( 'can_edit' ) )
 
 
 $version =& $object->version( $EditVersion );
-eZDebug::writeDebug( $version , "object version" );
 $classID = $object->attribute( 'contentclass_id' );
 
 $class =& eZContentClass::fetch( $classID );
 $contentObjectAttributes =& $version->contentObjectAttributes();
-
-eZDebug::writeDebug($contentObjectAttributes,"obj attributes" );
-
 
 $http =& eZHTTPTool::instance();
 
@@ -215,6 +211,8 @@ include_once( 'kernel/classes/ezsection.php' );
 eZSection::setGlobalID( $object->attribute( 'section_id' ) );
 
 $tpl->setVariable( 'edit_version', $EditVersion );
+$tpl->setVariable( 'content_version', $version );
+$tpl->setVariable( 'translation_language', 'eng-GB' );
 $tpl->setVariable( 'http', $http );
 $tpl->setVariable( 'content_attributes', $contentObjectAttributes );
 $tpl->setVariable( 'class', $class );

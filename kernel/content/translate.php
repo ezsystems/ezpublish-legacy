@@ -38,6 +38,7 @@ include_once( 'kernel/classes/ezcontentobjectversion.php' );
 include_once( 'kernel/classes/ezcontentobjectattribute.php' );
 
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
+include_once( 'lib/ezlocale/classes/ezlocale.php' );
 
 include_once( 'kernel/common/template.php' );
 
@@ -46,15 +47,24 @@ $EditVersion = $Params['EditVersion'];
 
 $http =& eZHTTPTool::instance();
 
+$redirection = false;
 if ( $Module->isCurrentAction( 'EditObject' ) )
 {
-    return $Module->redirectToView( 'edit', array( $ObjectID, $EditVersion ) );
+    $redirection = array( 'view' => 'edit',
+                          'parameters' => array( $ObjectID, $EditVersion ),
+                          'unordered_parameters' => null );
 }
 
 $translateToLanguage = false;
+$activeTranslation = false;
+$activeTranslationLocale = false;
 
 if ( $http->hasPostVariable( 'TranslationLanguageEdit' ) )
+{
     $translateToLanguage = $http->postVariable( 'TranslationLanguageEdit' );
+    $activeTranslation = $translateToLanguage;
+    $activeTranslationLocale =& eZLocale::instance( $activeTranslation );
+}
 
 if ( $Module->isCurrentAction( 'EditLanguage' ) and
      $Module->hasActionParameter( 'SelectedLanguage' ) )
@@ -84,13 +94,29 @@ $version =& $object->version( $EditVersion );
 if ( $version === null  )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-if ( $Module->isCurrentAction( 'RemoveLanguage' ) and
+$isRemoveActive = false;
+$removeLanguageArray = false;
+if ( ( $Module->isCurrentAction( 'RemoveLanguage' ) or
+       $Module->isCurrentAction( 'RemoveLanguageConfirmation' ) ) and
      $Module->hasActionParameter( 'SelectedLanguageList' ) )
 {
+    $isRemoveActive = true;
     $removeLanguageList = $Module->actionParameter( 'SelectedLanguageList' );
-    foreach ( $removeLanguageList as $removeLanguage )
+    if ( $Module->isCurrentAction( 'RemoveLanguageConfirmation' ) )
     {
-        $version->removeTranslation( $removeLanguage );
+        foreach ( $removeLanguageList as $removeLanguage )
+        {
+            $version->removeTranslation( $removeLanguage );
+        }
+        $isRemoveActive = false;
+    }
+    else
+    {
+        $removeLanguageArray = array();
+        foreach ( $removeLanguageList as $removeLanguage )
+        {
+            $removeLanguageArray[] = new eZContentObjectTranslation( $ObjectID, $EditVersion, $removeLanguage );
+        }
     }
 }
 
@@ -126,6 +152,8 @@ if ( $translateToLanguage !== false )
         $translateToLanguage = false;
 }
 
+$redirectionAllowed = true;
+$unvalidatedAttributes = false;
 if ( $translateToLanguage !== false )
 {
     $translateLocale =& eZLocale::instance( $translateToLanguage );
@@ -144,67 +172,73 @@ if ( $translateToLanguage !== false )
         if ( !isset( $translateContentMap[$originalContentAttributeID] ) )
             $translateContentMap[$originalContentAttributeID] = false;
     }
+}
 
-    if ( $Module->isCurrentAction( 'Store' ) )
+if ( $activeTranslation )
+{
+    $storeActions = array( 'Store', 'EditObject', 'AddLanguage', 'RemoveLanguage', 'EditLanguage' );
+
+    $inputValidated = true;
+    $storeRequired = in_array( $Module->currentAction(), $storeActions );
+
+    if ( $storeRequired )
     {
-        $inputValidated = true;
         $unvalidatedAttributes = array();
-        reset( $translateContentAttributes );
-        while( ( $key = key( $translateContentAttributes ) ) !== null )
+        foreach ( array_keys( $translateContentAttributes ) as $translateContentAttributeKey )
         {
-            $data =& $translateContentAttributes[$key];
-            $dataProperties = $data->attribute( 'properties' );
+            $contentObjectAttribute =& $translateContentAttributes[$translateContentAttributeKey];
+            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $dataType =& $contentClassAttribute->dataType();
+            $dataProperties = $dataType->attribute( 'properties' );
             if ( $dataProperties['translation_allowed'] )
             {
-                if ( $data->validateInput( $http, 'ContentObjectAttribute' ) == false )
+                if ( $contentObjectAttribute->validateInput( $http, 'ContentObjectAttribute' ) == false )
                 {
-                    eZDebug::writeNotice( 'Validating ' . $data->attribute( 'id' ) . ' failed' );
+                    eZDebug::writeDebug( 'Validating ' . $contentObjectAttribute->attribute( 'id' ) . ' failed' );
                     $inputValidated = false;
-                    $unvalidatedAttributes[] = $data->attribute( 'id' );
+                    $unvalidatedAttributes[] = array( 'identifier' => $contentClassAttribute->attribute( 'identifier' ),
+                                                      'name' => $contentClassAttribute->attribute( 'name' ),
+                                                      'id' => $contentObjectAttribute->attribute( 'id' ) );
                 }
                 else
                 {
-                    eZDebug::writeNotice( 'Validating ' . $data->attribute( 'id' ) . ' success' );
+                    eZDebug::writeDebug( 'Validating ' . $contentObjectAttribute->attribute( 'id' ) . ' success' );
                 }
-                $data->fetchInput( $http, 'ContentObjectAttribute' );
+                $contentObjectAttribute->fetchInput( $http, 'ContentObjectAttribute' );
             }
-            // $data->store();
-            next( $translateContentAttributes );
         }
 
-        if ( $inputValidated == true  )
+        if ( $inputValidated )
         {
-//             // increment the current version for the object
-//             // !! this function should be moved to a publish function to
-//             // !! work with workflows
-//             $currentVersion = $object->attribute( 'current_version' );
-//             //    $object->setAttribute( 'current_version', $editVersion );
-//             $object->setAttribute( 'parent_id', $parentObjectID );
-
-//             $object->store();
-//             $version->setAttribute( 'modified', mktime() );
-//             $version->store();
-
-            // fetch the current version object
-
-            $i=0;
-            reset( $translateContentAttributes );
-            while( ( $key = key( $translateContentAttributes ) ) !== null )
+            foreach( array_keys( $translateContentAttributes ) as $translateContentAttributeKey )
             {
-                $data =& $translateContentAttributes[$key];
-                $dataProperties = $data->attribute( 'properties' );
+                $contentObjectAttribute =& $translateContentAttributes[$translateContentAttributeKey];
+                $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+                $dataType =& $contentClassAttribute->dataType();
+                $dataProperties = $dataType->attribute( 'properties' );
                 if ( $dataProperties['translation_allowed'] )
                 {
-                    //        $data->setAttribute( 'id', null );
-                    //        $data->setAttribute( 'version', $editVersion );
-                    $data->store();
-                    $i++;
+                    $contentObjectAttribute->store();
                 }
-                next( $translateContentAttributes );
             }
             $object->store();
         }
+
+        if ( !$inputValidated )
+        {
+            $isRemoveActive = false;
+            $redirectionAllowed = false;
+        }
     }
+}
+
+if ( $redirectionAllowed and
+     $redirection !== false )
+{
+    if ( is_string( $redirection ) )
+        return $Module->redirectTo( $redirection );
+    else if ( is_array( $redirection ) )
+        return $Module->redirectToView( $redirection['view'], $redirection['parameters'], $redirection['unordered_parameters'] );
 }
 
 $tpl->setVariable( 'object', $object );
@@ -217,6 +251,14 @@ $tpl->setVariable( 'original_locale', $originalLocale );
 $tpl->setVariableRef( 'content_attributes', $originalContentAttributes );
 $tpl->setVariableRef( 'content_attributes_language', $translateContentAttributes );
 $tpl->setVariableRef( 'content_attribute_map', $translateContentMap );
+
+$tpl->setVariable( 'validation', array( 'attributes' => $unvalidatedAttributes,
+                                        'processed' => is_array( $unvalidatedAttributes ),
+                                        'language_code' => $activeTranslation,
+                                        'locale' => $activeTranslationLocale ) );
+
+$tpl->setVariable( 'is_remove_active', $isRemoveActive );
+$tpl->setVariable( 'remove_language_list', $removeLanguageArray );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:content/translate.tpl' );

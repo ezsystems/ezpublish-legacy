@@ -124,9 +124,12 @@ $ViewList["translate"] = array(
                                     'StoreButton' => 'Store',
                                     'AddLanguageButton' => 'AddLanguage',
                                     'RemoveLanguageButton' => 'RemoveLanguage',
+                                    'RemoveLanguageConfirmationButton' => 'RemoveLanguageConfirmation',
+                                    'RemoveLanguageCancelButton' => 'RemoveLanguageCancel',
                                     'EditLanguageButton' => 'EditLanguage' ),
     'post_action_parameters' => array( 'AddLanguage' => array( 'SelectedLanguage' => 'SelectedLanguage' ) ,
                                        'RemoveLanguage' => array( 'SelectedLanguageList' => 'RemoveLanguageArray' ),
+                                       'RemoveLanguageConfirmation' => array( 'SelectedLanguageList' => 'RemoveLanguageArray' ),
                                        'EditLanguage' => array( 'SelectedLanguage' => 'EditSelectedLanguage' ) ),
     'action_parameters' => array( 'CancelTask' => array( 'SelectedLanguage' ) ),
     "params" => array( "ObjectID", "EditVersion" ) );

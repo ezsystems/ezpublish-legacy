@@ -109,43 +109,86 @@
     <!-- Right part start-->
     <table class="menuboxright" width="120" cellpadding="1" cellspacing="0" border="0">
     <tr>
-        <th class="menuheaddark" colspan="2">
+        <th class="menuheaddark" colspan="3">
         <p class="menuhead">{"Object info"|i18n('content/object')}</p>
         </th>
     </tr>
     <tr>
         <td class="menu">
 	    <p class="menufieldlabel">{"Editing version"|i18n('content/object')}:</p>
+        </td>
+        <td class="menu">
 	    <p class="menufield">{$edit_version}</p>
-	    <p class="menufieldlabel">{"Current version"|i18n('content/object')}:</p>
-	    <p class="menufield">{$object.current_version}</p>
         </td>
     </tr>
     <tr>
-        <th class="menuheaddark">
-        <p class="menuhead">{"Related objects"|i18n('content/object')}</p>
+        <td class="menu">
+	    <p class="menufieldlabel">{"Current version"|i18n('content/object')}:</p>
+        </td>
+        <td class="menu">
+	    <p class="menufield">{$object.current_version}</p>
+        </td>
+    </tr>
+
+{let name=Translation
+     language_index=0
+     default_translation=$content_version.translation
+     translation_list=array_prepend($content_version.translation_list,$Translation:default_translation)}
+{section show=$Translation:translation_list}
+    <tr>
+        <th class="menuheaddark"  colspan="2">
+        <p class="menuhead">{"Translations"|i18n('content/object')}</p>
         </th>
-	<th class="menuheaddark">
+    </tr>
+
+{section loop=$Translation:translation_list}
+  {section show=eq($translation_language,$Translation:item.language_code)}
+    {set language_index=$Translation:index}
+  {/section}
+{/section}
+
+{section loop=$Translation:translation_list sequence=array("bgdark","bglight")}
+    <tr>
+        <td class="{$Translation:sequence}">
+          {section show=$Translation:item.locale.is_valid}
+            <p class="menufieldlabel">{$Translation:item.locale.intl_language_name}</p>
+          {section-else}
+            <p class="menufieldlabel">{$Translation:item.language_code} (No locale information available)</p>
+          {/section}
+        </td>
+        <td class="{$Translation:sequence}">
+          <input type="radio" name="EditSelectedLanguage" value="{$Translation:item.language_code}" {section show=eq($Translation:index,$Translation:language_index)}checked="checked"{/section} />
+        </td>
+    </tr>
+{/section}
+
+{/section}
+
+{/let}
+
+    <tr>
+        <th class="menuheaddark" colspan="2">
+        <p class="menuhead">{"Related objects"|i18n('content/object')}</p>
         </th>
     </tr>
     {section name=Object loop=$related_contentobjects sequence=array(bglight,bgdark)}
     <tr>
         <td class="{$Object:sequence}">
-        {content_view_gui view=text_linked content_object=$Object:item}
+          {content_view_gui view=text_linked content_object=$Object:item}
         </td>
 	<td>
-	<input type="checkbox" name="DeleteRelationIDArray[]" value="{$Object:item.id}" />
+          <input type="checkbox" name="DeleteRelationIDArray[]" value="{$Object:item.id}" />
 	</td>
     </tr>
     {/section}
     <tr>
-        <td>
-        <input class="menubutton" type="submit" name="BrowseObjectButton" value="{'Find object'|i18n('content/object')}" />
+        <td colspan="2">
+          <input class="menubutton" type="submit" name="BrowseObjectButton" value="{'Find object'|i18n('content/object')}" />
         </td>
     </tr>
     <tr>
-        <td>
-        <input class="menubutton" type="submit" name="DeleteRelationButton" value="{'Delete object'|i18n('content/object')}" />
+        <td colspan="2">
+          <input class="menubutton" type="submit" name="DeleteRelationButton" value="{'Delete object'|i18n('content/object')}" />
         </td>
     </tr>
     </table>

@@ -83,6 +83,7 @@ class eZContentObjectVersion extends eZPersistentObject
                                                       'node_assignments' => 'nodeAssignments',
                                                       'contentobject' => 'contentObject',
                                                       'language_list' => 'translations',
+                                                      'translation' => 'translation',
                                                       'translation_list' => 'translationList'
                                                       ),
                       'class_name' => "eZContentObjectVersion",
@@ -101,6 +102,7 @@ class eZContentObjectVersion extends eZPersistentObject
             or $attr == 'node_assignments'
             or $attr == 'contentobject'
             or $attr == 'language_list'
+            or $attr == 'translation'
             or $attr == 'translation_list'
             or eZPersistentObject::hasAttribute( $attr );
     }
@@ -143,6 +145,10 @@ class eZContentObjectVersion extends eZPersistentObject
         elseif ( $attr == 'language_list' )
         {
             return  $this->translations();
+        }
+        elseif ( $attr == 'translation' )
+        {
+            return  $this->translation();
         }
         elseif ( $attr == 'translation_list' )
         {
@@ -324,6 +330,14 @@ class eZContentObjectVersion extends eZPersistentObject
     function translations( $asObject = true )
     {
         return $this->translationList( false, $asObject );
+    }
+
+    /*!
+     Returns an array with all the translations for the current version.
+    */
+    function translation( $asObject = true )
+    {
+        return new eZContentObjectTranslation( $this->ContentObjectID, $this->Version, eZContentObject::defaultLanguage() );
     }
 
     /*!
