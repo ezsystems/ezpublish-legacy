@@ -653,6 +653,11 @@ class eZPackageCreationHandler
 			$packager = $userObject->attribute( 'name' );
         $persistentData['packager'] = $packager;
 		$this->generatePackageInformation( $persistentData, $package, $http, $step, $persistentData );
+
+        // Make sure the package name contains only valid characters
+        $persistentData['name'] = trim( $persistentData['name'] );
+        $persistentData['name'] = str_replace( " ", "_", $persistentData['name'] );
+        $persistentData['name'] = preg_replace( '/[^A-Za-z0-9_]/', '', $persistentData['name'] );
     }
 
     /*!
@@ -672,8 +677,6 @@ class eZPackageCreationHandler
         if ( $http->hasPostVariable( 'PackageName' ) )
         {
             $packageName = trim( $http->postVariable( 'PackageName' ) );
-            $packageName = str_replace( " ", "_", $packageName );
-            $packageName = preg_replace( '/[^A-Za-z0-9_]/', '', $packageName );
         }
         if ( $http->hasPostVariable( 'PackageSummary' ) )
             $packageSummary = $http->postVariable( 'PackageSummary' );
@@ -711,6 +714,18 @@ class eZPackageCreationHandler
                 $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'Package name' ),
                                       'description' => ezi18n( 'kernel/package', 'A package named %packagename already exists, please give another name', false, array( '%packagename' => $packageName ) ) );
                 $result = false;
+            }
+            else
+            {
+                // Make sure the package name contains only valid characters
+                $validPackageName = str_replace( " ", "_", $packageName );
+                $validPackageName = preg_replace( '/[^A-Za-z0-9_]/', '', $validPackageName );
+                if ( strcmp( $validPackageName, $packageName ) != 0 )
+                {
+                    $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'Package name' ),
+                                          'description' => ezi18n( 'kernel/package', "The package name %packagename is not valid, it can only contain characters in the range a-z, A-Z, 0-9 and underscore.", false, array( '%packagename' => $packageName ) ) );
+                    $result = false;
+                }
             }
         }
         if ( !$packageSummary )
