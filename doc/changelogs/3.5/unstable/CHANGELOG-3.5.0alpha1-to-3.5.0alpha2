@@ -60,6 +60,9 @@ Payment:
 - Fixed bug: popupmenu fails on objects with quotes in their names.
 - Fixed bug: Package export produces broken tars.
   http://ez.no/community/bug_reports/package_export_broken_tars_eztararchivehandler_php
+- Fixed bug: Administrator user got "Access denied" in content/versionview.
+  (Merged from stable/3.4 rev. 8597)
+  http://ez.no/community/bug_reports/3_5alpha1_undefined_attribute_can_versionread_cannot_get
 
 *Library:
 

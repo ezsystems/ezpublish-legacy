@@ -65,8 +65,7 @@ if ( $versionObject === null )
 
 $user =& eZUser::currentUser();
 
-// eZDebug::writeDebug( ($versionObject->attribute( 'can_versionread' ) ? 'true' : 'false'), 'can_versionread' );
-if ( !$versionObject->attribute( 'can_versionread' ) )
+if ( !$versionObject->attribute( 'can_read' ) )
 {
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 }
