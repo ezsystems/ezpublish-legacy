@@ -216,6 +216,8 @@ else
     $Result = eZNodeviewfunctions::generateNodeView( $tpl, $node, $object, $Params['Language'], $ViewMode, $Offset, 
       $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], $viewCacheEnabled, $viewParameters,
       $collectionAttributes, $validation );
+
+    return $Result;
 }
 
 switch( $operationResult['status'] )
@@ -231,7 +233,7 @@ switch( $operationResult['status'] )
     }break;
     case EZ_MODULE_OPERATION_HALTED:
     {
-        if (  isset( $operationResult['redirect_url'] ) )
+        if ( isset( $operationResult['redirect_url'] ) )
         {
             $Module->redirectTo( $operationResult['redirect_url'] );
             return;
