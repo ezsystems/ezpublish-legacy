@@ -6,7 +6,8 @@
 {let pagedesign=fetch_alias(by_identifier,hash(attr_id,intranet888))}
 
 <head>
-<link rel="stylesheet" type="text/css" href={"stylesheets/intranet_leftmenu.css"|ezdesign} />
+{* <link rel="stylesheet" type="text/css" href={"stylesheets/intranet_leftmenu.css"|ezdesign} /> *}
+<link rel="stylesheet" type="text/css" href={"stylesheets/intranet_rightmenu.css"|ezdesign} /> 
 {* <link rel="stylesheet" type="text/css" href="/{$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")}" /> *}
 
 {* page header start *}
@@ -69,7 +70,7 @@
 	        <input class="button" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
 	</div>
 	<div id="sitelogo">
-	    <img src={"06_intranet_logo.png"|ezimage} />
+	&nbsp;
 	</div>
 	</form>
     </div>

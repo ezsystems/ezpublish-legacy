@@ -2,6 +2,31 @@
 /* This is an additional stylesheet to the default core.css,   */
 /* which needs to be included for this one to be correct.      */
 
+
+h1, h2, h3, p, a, th, td, ul, ol, li, dl, dd, dt, label, div, span, input, textarea
+{
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+h1
+{
+    font-family: Times New Roman, Arial, Helvetica, sans-serif;
+    font-size: 120%;
+    font-weight: bold;
+}
+
+h2
+{
+    font-family: Times New Roman, Arial, Helvetica, sans-serif;
+    font-size: 100%;
+}
+
+h3
+{
+    font-family: Times New Roman, Arial, Helvetica, sans-serif;
+    font-size: 90%;
+}
+
 body
 {
     background-color: #ffffff;
@@ -9,243 +34,242 @@ body
     padding: 0px;
 }
 
-#container { 
+#container 
+{ 
   margin: 0px; 
+  padding: 0px;
 }
+
+/* Top box */
 
 #topbox
 { 
-  background-color: #0078a2;
+  background-color: #aaaa55;
   width: 100%; 
-  height: 100px;
+  height: 60px; 
+  margin: 0px;
 }
 
 #logo
 { 
   clear: right;
   width: 15%;
-  float: right;
+  float: left;
   margin: 20px 15px 10px 10px;       
 }
 
 #searchbox
 { 
   width: 40%;
-  float: right;
-  margin: 20px 65px 10px 10px;
+  float: left;
+  padding-top: 10px;
 }
 
 #sitelogo
 {  
-  width: 20%;
-  margin: 20px 0px 10px 10px;
-  float: left;
-  background: transparent url("/design/intranet/images/06_intranet_logo.png") no-repeat;
+  background: url("/design/intranet/images/green_logo.png") no-repeat;
+  width: 200px;
+  height: 50px;
+  float: right;
 }
 
+/* Top menu */
 #topmenu
 { 
-  background-color: #cccccc;
-  width: 100%; 
-  min-height: 35px;  
+  background-color: #5e5e6b;
+  display: block;
+  clear: right;
+  padding: 6px;  
+  margin: 0px;
 }
 
+#topmenu .item
+{ 
+  padding: 10px;  
+  display: inline;
+}
+
+#topmenu .delimiter
+{ 
+  color: #acacb3;
+  padding: 10px;  
+  display: inline;
+}
+
+
+#topmenu a
+{ 
+   color: #ffffff;
+}
+
+#pathline
+{ 
+  width: 100%; 
+  color: #777777;
+  background-color: #ffffff;
+}
+
+/* Path */
 #mainpath
 { 
-  background-color: #ffffff;
-  width: 100%; 
-  height: 25px;
+   width: 70%;
+   font-size: 80%;
+   color: #777777;
+   background-color: #ffffff;
+   padding: 4px;
+   float: left;
 }
 
+#mainpath a
+{ 
+   color: #777777;
+}
+
+#mainpath .item
+{ 
+  display: inline;
+}
+
+#mainpath .delimiter
+{ 
+  display: inline;
+}
+
+#login
+{ 
+   width: 28%;
+   color: #0000ff;
+   font-size: 80%; 
+   display: inline;
+   text-align: right;
+   float: right;
+   padding: 4px; 
+}
+
+#date
+{ 
+  width: 100%;
+  color: #000000;
+  font-size: 80%;
+  text-align: right;
+  float: right;
+  padding: 4px;
+}
+
+/* Main layout */
 #mainframe
 { 
-  background-color: #ffffff;	
-  min-height: 400px;
-  width: 100%;
+   background-color: #ffffff;	
+   min-height: 400px;
+   width: 100%;
 }
 
 #mainmenu
 { 
+  font-size: 80%;
   width: 20%;
+  height: 100%;
   float: right;
-  clear: right;
-  margin: 20px 15px 10px 10px; 
+  padding: 0px; 
 }
 
-#mainarea
+#mainmenu .selected
+{
+  background-color: #eeeeee;	
+  border-color: #ffffff;
+  border-top: 1px solid;
+}
+
+#mainmenu .item
+{
+  background-color: #ffffff;
+  border-color: #ffffff;
+  border-top: 1px solid;
+}
+
+#mainmenu .item:hover
+{
+  background-color: #eeeeee;
+  border-color: #ffffff;
+}
+
+#mainmenu .level_0
+{
+  padding: 4px; 
+}
+
+#mainmenu .level_1
+{
+  padding: 4px; 
+  margin-left: 15px;
+}
+
+#mainmenu a
 { 
-  width: 65%;
-  float: left;
-  clear: right;
-  margin: 20px 15px 10px 10px;
+   color: #777777;
 }
 
+
+#maincontent
+{ 
+   background-color: #ffffff;
+   width: 75%;
+   float: left;
+   padding: 0px 5px 10px 10px;
+   overflow: auto;
+}
+
+/* Footer */
 #footer
 { 
-   clear:both; 
    margin-top: 20px;
-   background-color: #ffffff;
+   font-size: 80%;
+   text-align: center;
+   color: #eeeeee;
+   padding: 4px;
+   background-color: #5e5e6b;
+   clear:both; 
 }
 
-
-h1, h2, h3, p, a, th, td, ul, ol, li, dl, dd, dt, label, div, span, input, textarea
-{
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-h1
-{
-    font-size: 120%;
-    color: #df3902;
-    font-weight: bold;
-}
-
-div.maincontentheader h1
-{
-    margin-top: 2px;
-}
-
-h2
-{
-    font-size: 120%;
-}
-
-h3
-{
-    font-size: 90%;
-}
-
-.topmenu
+#footer a
 { 
-    color: #000000;
+   color: #ffeeee;
 }
 
-.topmenu a
+
+/* object templates */
+
+div.object_title
 { 
-    color: #ffffff;
-}
-
-table.menubox th, table.menubox td
-{
-    font-size: 80%;
-}
-
-img.toplogo
-{
-    margin-top: 8px;
-    margin-left: 9px;
-    margin-bottom: 8px;
-}
-
-/*
-td.topline
-{
-    background-repeat: repeat-x;
-}
-*/
-input.searchbox
-{
-    font-family: Arial, Helvetica, sans-serif;
-    width: 128px;
-    margin: 8px;
-    font-size: 80%;
-}
-
-input.searchbutton
-{
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 70%;
-    font-weight: bold;
+    color: #aaaa55;
+    margin: 0px;
     padding: 0px;
-    color: #333333;
-    background-color: #f5c2b1;
-    border: 1px solid #aa2a00;
 }
 
-div.path
-{
-    margin-top: 4px;
-    margin-left: 8px;
+
+div.object_title h2
+{ 
+    color: #aaaa55;
+    margin: 0px;
+    padding: 0px;    
 }
 
-p.path a
-{
-    color: #d13400;
-    text-decoration: none;
+div.byline
+{ 
+    color: #777777;
+    margin: 0px;
+    padding: 0px;
 }
 
-p.path a:hover
-{
-    text-decoration: underline;
+div.byline p
+{ 
+   margin: 0px;
+   padding: 0px;
+   font-size: 80%;
 }
 
-td.leftmenu, td.rightmenu
-{
-    vertical-align: top;
-    width: 120px;
+div.brief
+{ 
+    margin: 0px;
+    padding: 0px;    
 }
-
-td.leftmenu
-{
-    padding-left: 8px;
-}
-
-td.rightmenu
-{
-    padding-right: 8px;
-}
-
-td.maincontent
-{
-    width: 100%;
-}
-
-div.menubox
-{
-    border: 1px solid #df3902;
-    margin-top: 8px;
-    margin-bottom: 12px;
-    padding: 2px;
-}
-
-table.menubox
-{
-    border: 1px solid #ffffff;
-    width: 120px;
-}
-
-table.menubox th
-{
-    background-color: #df3902;
-    color: #ffffff;
-    font-weight: bold;
-    margin: 8px;
-    padding-left: 4px;
-    padding-right: 4px;
-    padding-top: 1px;
-    padding-bottom: 2px;
-}
-
-table.menubox th
-{
-    background-repeat: no-repeat;
-    background-position: top right;
-}
-
-table.menubox td
-{
-    padding: 4px;
-}
-
-td.menuchoice a
-{
-    color: #000000;
-    text-decoration: none;
-}
-
-td.menuchoice a:hover
-{
-    color: #000000;
-    text-decoration: underline;
-}
-
