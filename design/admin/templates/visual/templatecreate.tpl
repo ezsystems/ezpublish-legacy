@@ -44,7 +44,7 @@
     <select name="Match[class_identifier]">
         <option value="-1">{'All classes'|i18n( 'design/admin/visual/templatecreate' )}</option>
         {section name=Class loop=fetch('content', 'can_instantiate_class_list')}
-        <option value="{fetch( content, class, hash( class_id, $Class:item.id ) ).identifier}">{$Class:item.name}</option>
+        <option value="{fetch( content, class, hash( class_id, $Class:item.id ) ).identifier}">{$Class:item.name|wash}</option>
         {/section}
     </select>
     </td>
@@ -55,7 +55,7 @@
     <select name="Match[section]">
         <option value="-1">{'All sections'|i18n( 'design/admin/visual/templatecreate' )}</option>
         {section name=Section loop=fetch( 'content', 'section_list' )}
-            <option value="{$:item.id}">{$:item.name}</option>
+            <option value="{$:item.id}">{$:item.name|wash}</option>
         {/section}
     </select>
     </td>
@@ -94,7 +94,7 @@
     <select name="Match[class_identifier]">
         <option value="-1">{'Any'|i18n( 'design/admin/visual/templatecreate' )}</option>
         {section name=Class loop=fetch('content', 'can_instantiate_class_list')}
-        <option value="{fetch( content, class, hash( class_id, $Class:item.id ) ).identifier}">{$Class:item.name}</option>
+        <option value="{fetch( content, class, hash( class_id, $Class:item.id ) ).identifier}">{$Class:item.name|wash}</option>
         {/section}
     </select>
     </td>
@@ -109,7 +109,7 @@
     <select name="Match[section]">
         <option value="-1">{'Any'|i18n( 'design/admin/visual/templatecreate' )}</option>
         {section name=Section loop=fetch( 'content', 'section_list' )}
-            <option value="{$:item.id}">{$:item.name}</option>
+            <option value="{$:item.id}">{$:item.name|wash}</option>
         {/section}
     </select>
     </td>
