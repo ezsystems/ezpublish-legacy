@@ -26,6 +26,7 @@ Changes from 3.2-1 to 3.3.0-1
 - Fixed correct link in wordtoimage operator when running in nvh mode.
 - Changed default redirect url from current object node to it's parent node when publishing from preview page.
 - Added new fetch function object_count_by_user_id which returns the number of objects from a class created by a user.
+- Added fetch function best_sell_list which returns best sellers of product.
 
 *DataType:
 
