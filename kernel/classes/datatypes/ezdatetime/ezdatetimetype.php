@@ -85,11 +85,8 @@ class eZDateTimeType extends eZDataType
         $hour = $http->postVariable( $base . "_datetime_hour_" . $contentObjectAttribute->attribute( "id" ) );
         $minute = $http->postVariable( $base . "_datetime_minute_" . $contentObjectAttribute->attribute( "id" ) );
         $dateTime = new eZDateTime();
-        $dateTime->setMDY( $month, $day, $year );
-        $dateTime->setHMS( ($hour+1), $minute, 0 );
-        eZDebug::writeError("WWWWWWWWWWWW". $minute);
+        $dateTime->setMDYHMS( $month, $day, $year, $hour, $minute, 0 );
         $contentObjectAttribute->setAttribute( "data_int", $dateTime->timeStamp() );
-        // $contentObjectAttribute->setAttribute( "data_int", $dateTime->currentTimeStamp() );
     }
 
     /*!

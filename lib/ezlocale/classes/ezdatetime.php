@@ -130,6 +130,34 @@ class eZDateTime
         $this->Locale =& eZLocale::instance();
     }
 
+    function hasAttribute( $attr )
+    {
+        if ( $attr == "hour" or
+             $attr == "minute" or
+             $attr == "year" or
+             $attr == "month" or
+             $attr == "day")
+            return true;
+        else
+            return false;
+    }
+
+    function &attribute( $attr )
+    {
+        if ( $attr == "hour" )
+            return $this->hour();
+        else if ( $attr == "minute"  )
+            return $this->minute();
+        else if ( $attr == "day"  )
+            return $this->day();
+        else if ( $attr == "year"  )
+            return $this->year();
+        else if ( $attr == "month"  )
+            return $this->month();
+        else
+            return false;
+    }
+
     /*!
      Sets the locale to $locale which is used in text output.
     */
@@ -161,6 +189,11 @@ class eZDateTime
     function &timeStamp( )
     {
         return $this->DateTime;
+    }
+
+    function setTimeStamp( $stamp )
+    {
+        $this->DateTime = $stamp;
     }
 
     /*!
@@ -309,6 +342,14 @@ class eZDateTime
     {
         $this->DateTimeTime =& mktime( $hour, $min, $sec,
                                        $arr["mon"], $arr["mday"], $arr["year"] );
+    }
+
+    /*!
+     Sets all hour, minute and second elements leaving the other elements untouched.
+    */
+    function setMDYHMS( $month, $day, $year, $hour, $min, $sec = 0 )
+    {
+        $this->DateTime =& mktime( $hour, $min, $sec, $month, $day, $year );
     }
 
     /*!
