@@ -806,9 +806,6 @@ class eZDBSchemaInterface
         }
         $transformationRules['table-option'] = $tableTranslations;
 
-        if ( $ini->hasVariable( $schemaType, 'FieldsWithoutDefaultValue' ) )
-            $transformationRules['column-empty-default'] =& $ini->variable( $schemaType, 'FieldsWithoutDefaultValue' );
-
         if ( $ini->hasVariable( $schemaType, 'IndexNameTranslation' ) )
         {
             //$transformationRules['index-name'] =& $ini->variable( $schemaType, 'IndexNameTranslation' );
@@ -836,7 +833,7 @@ class eZDBSchemaInterface
         }
 
         // prevent PHP warnings when cycling through the rules
-        foreach ( array( 'column-name', 'column-type', 'column-empty-default', 'index-name' ) as $rulesType )
+        foreach ( array( 'column-name', 'column-type', 'index-name' ) as $rulesType )
         {
             if( !isset( $transformationRules[$rulesType] ) )
                 $transformationRules[$rulesType] = array();
@@ -980,23 +977,6 @@ class eZDBSchemaInterface
 
             eZDebugSetting::writeDebug( 'lib-dbschema-transformation', '',
                                         "transformed table column type $schemaType:$tableName.$colName from $searchType to $replacementType" );
-        }
-
-        // remove default field values (which are supposed to be empty due to bug in mysql)
-        // FIXME: works only $toLocal == false
-        foreach ( $schemaTransformationRules['column-empty-default'] as $tableCol )
-        {
-            list( $tableName, $colName ) = explode( '.', $tableCol );
-            if ( !$tableName || !$colName ||
-                 !array_key_exists( $tableName, $schema ) ||
-                 !array_key_exists( $colName, $schema[$tableName]['fields'] ) )
-            {
-                continue;
-            }
-
-            unset( $schema[$tableName]['fields'][$colName]['default'] );
-            eZDebugSetting::writeDebug( 'lib-dbschema-transformation', '',
-                                        "removed default value from $schemaType:$tableName.$colName" );
         }
 
         // Find indexes that needs to be fixed
