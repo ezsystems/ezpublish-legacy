@@ -312,6 +312,7 @@ $access = accessType( $uri,
                       eZSys::indexFile() );
 $access = changeAccess( $access );
 eZDebugSetting::writeDebug( 'kernel-siteaccess', $access, 'current siteaccess' );
+$GLOBALS['eZCurrentAccess'] =& $access;
 $check = eZHandlePreChecks( $siteBasics );
 
 include_once( 'kernel/common/i18n.php' );
