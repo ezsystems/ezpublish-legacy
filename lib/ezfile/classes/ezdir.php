@@ -91,8 +91,12 @@ class eZDir
      If \a $parents is true it will create any missing parent directories,
      just like 'mkdir -p'.
     */
-    function mkdir( $dir, $perm, $parents = false )
+    function mkdir( $dir, $perm = false, $parents = false )
     {
+        if ( $perm === false )
+        {
+            $perm = eZDir::directoryPermission();
+        }
         $dir = eZDir::cleanPath( $dir, EZ_DIR_SEPARATOR_UNIX );
         if ( !$parents )
             return eZDir::doMkdir( $dir, $perm );
