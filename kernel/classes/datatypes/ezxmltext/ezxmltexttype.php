@@ -262,7 +262,7 @@ class eZXMLTextType extends eZDataType
         $metaData = "";
 
         $xml = new eZXML();
-        $dom =& $xml->domTree( eZXMLTextType::rawXMLText( $contentObjectAttribute->attribute ) );
+        $dom =& $xml->domTree( eZXMLTextType::rawXMLText( $contentObjectAttribute ) );
 
         if ( $dom )
         {
