@@ -66,16 +66,16 @@ function checkAll()
 &nbsp;
 </th>
 <th>
-<a href={concat('/setup/session/(offset)/',$view_parameters.offset,'/(sortby)/login')|ezurl}>{"Login"|i18n("design/standard/setup")}</a>
+<a class="topline" href={concat('/setup/session/(offset)/',$view_parameters.offset,'/(sortby)/login')|ezurl}>{"Login"|i18n("design/standard/setup")}</a>
 </th>
 <th>
-<a href={concat('/setup/session/(offset)/',$view_parameters.offset,'/(sortby)/email')|ezurl}>{"Email"|i18n("design/standard/setup")}</a>
+<a class="topline" href={concat('/setup/session/(offset)/',$view_parameters.offset,'/(sortby)/email')|ezurl}>{"Email"|i18n("design/standard/setup")}</a>
 </th>
 <th>
-<a href={concat('/setup/session/(offset)/',$view_parameters.offset,'/(sortby)/name')|ezurl}>{"Full name"|i18n("design/standard/setup")}</a>
+<a class="topline" href={concat('/setup/session/(offset)/',$view_parameters.offset,'/(sortby)/name')|ezurl}>{"Full name"|i18n("design/standard/setup")}</a>
 </th>
 <th>
-<a href={concat('/setup/session/(offset)/',$view_parameters.offset,'/(sortby)/idle')|ezurl}>{"Idle since"|i18n("design/standard/setup")}</a>
+<a class="topline" href={concat('/setup/session/(offset)/',$view_parameters.offset,'/(sortby)/idle')|ezurl}>{"Idle since"|i18n("design/standard/setup")}</a>
 </th>
 {section var=session loop=$sessions_list sequence=array('bgdark', 'bglight')}
 <tr valign="top" class="{$session.sequence}">
