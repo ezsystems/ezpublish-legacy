@@ -139,6 +139,10 @@ eZ template :
 - Added support for template objects, that's object which has a function called /templateData/
   implemented. It will return an array which will either define pure text or a template to
   be used for representing the object.
+- Added support for autoloading functions and operators, this means that the classes aren't included
+  or instantiated before they are needed by a template.
+- Added autoload files which defines functions and operators, since the search path list is controlled
+  by site.ini it's possible for plugins for template functions and operators.
 
 eZ httpfile :
 - Added two more attributes for fetching the category and part of the mimetype
