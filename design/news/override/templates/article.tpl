@@ -37,7 +37,7 @@
                                                 limit, $page_limit, 
                                                 offset, 0,
                                                 class_filter_type, include, 
-                                                class_filter_array,array( 13 ) ) )}
+                                                class_filter_array,array( 'comment' ) ) )}
 
     {section show=$message_list}
         <h2>Comments</h2>

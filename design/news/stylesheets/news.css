@@ -157,28 +157,45 @@ div#infobox
 
 div#infobox div.design
 {
-    border: 1px solid #e4eaf3;
+    border: 1px solid #000000;
     background-position: top left;
     background-repeat: no-repeat;
 }
 
 div#infobox h3
 {
+    font: verdana, arial, helvetica;
+    margin-top: 0px;
     padding: 0.2em;
     padding-left: 1.2em;
-    background-color: #e4eaf3;
+    background-color: #000000;
+    color: #ffffff;
 }
 
 div#infobox ul
 {
     list-style-type: none;
-    margin-bottom: 1.5em;
+    margin-bottom: 0em;
+    margin-left: 0em;
 }
 
 div#infobox li
 {
-    margin-top: 1em;
-    margin-bottom: 1em;
+    margin-top: 0em;
+    margin-bottom: 0em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    padding-left: 1em;
+}
+
+div#infobox li.bglight
+{
+    background-color: #eeeeee;
+}
+
+div#infobox li.bgdark
+{
+    background-color: #dddddd;
 }
 
 div#infobox a
@@ -218,7 +235,8 @@ div#footer a
 
 #folder div.child h2
 { 
-    color: #444444;
+    font: bold 110% Georgia,Serif;
+    color: #ff4444;
     margin: 0px;
     padding: 0px;
     padding-top: 5px;
@@ -318,8 +336,9 @@ h1
 { 
     font: bold 110% Georgia,Serif;
     margin-bottom: 5px;
-    color: #888;
+    color: #f83;
 }
+
 
 div.editbutton
 { 

@@ -72,9 +72,9 @@
                                                           
             <h3>Latest news</h3>
             <ul>
-                   {section name=News loop=$news_list}
-                       <li>
-                       <a href={concat('content/view/full/',$News:item.node_id)|ezurl}>{$News:item.name|wash}</a>
+                   {section name=News loop=$news_list sequence=array(bglight,bgdark)}
+                       <li class="{$:sequence}">
+                       <a href={$News:item.url_alias|ezurl}>{$News:item.name|wash}</a>
                        <div class="date">
                         ({$News:item.object.published|l10n( shortdate )})
                        </div>  
