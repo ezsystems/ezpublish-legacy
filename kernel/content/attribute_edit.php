@@ -130,9 +130,10 @@ if ( $storingAllowed )
     {
         $contentObjectAttribute =& $contentObjectAttributes[$key];
         $status = $contentObjectAttribute->validateInput( $http, 'ContentObjectAttribute' );
+
         if ( $status == EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE )
             $requireFixup = true;
-        else if ( $status == EZ_INPUT_VALIDATOR_STATE_INVALID )
+        elseif ( $status == EZ_INPUT_VALIDATOR_STATE_INVALID )
         {
             $inputValidated = false;
             $dataType =& $contentObjectAttribute->dataType();
@@ -143,7 +144,22 @@ if ( $storingAllowed )
                                               'identifier' => $contentClassAttribute->attribute( 'identifier' ),
                                               'name' => $contentObjectAttribute->attribute( 'validation_error' ) );
         }
+        elseif ( $status == EZ_INPUT_VALIDATOR_STATE_ACCEPTED )
+        {
+            $inputValidated = true;
+            $dataType =& $contentObjectAttribute->dataType();
+            $attributeName = $dataType->attribute( 'information' );
+            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $attributeName = $attributeName['name'];
+            if ( $contentObjectAttribute->attribute( 'validation_log' ) != null )
+            {
+                $validatedAttributesLog[] = array(  'id' => $contentObjectAttribute->attribute( 'id' ),
+                                                    'identifier' => $contentClassAttribute->attribute( 'identifier' ),
+                                                    'message' => $contentObjectAttribute->attribute( 'validation_log' ) );
+            }
+        }
     }
+
     // Fixup input
     if ( $requireFixup )
     {
@@ -190,6 +206,7 @@ if ( $storingAllowed )
 
     $validation['processed'] = true;
     $validation['attributes'] = $unvalidatedAttributes;
+
 }
 
 // After the object has been validated we can check for other actions
@@ -206,6 +223,8 @@ if ( !isset( $tpl ) || get_class( $tpl ) != 'eztemplate' )
     $tpl =& templateInit();
 
 $tpl->setVariable( 'validation', $validation );
+$tpl->setVariable( 'validation_log', $validatedAttributesLog );
+
 
 $Module->setTitle( 'Edit ' . $class->attribute( 'name' ) . ' - ' . $object->attribute( 'name' ) );
 $res =& eZTemplateDesignResource::instance();

@@ -55,6 +55,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         $this->Content = null;
         $this->ValidationError = null;
+        $this->ValidationLog = null;
         $this->InputXML = null;
         $this->ContentClassAttributeIdentifier = null;
         $this->ContentClassAttributeID = null;
@@ -80,6 +81,7 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                       "input_xml" => "inputXML",
                                                       "xml_editor" => "xmlEditor",
                                                       "validation_error" => "validationError",
+                                                      "validation_log" => "validationLog",
                                                       "language" => "language",
                                                       "is_a" => "isA"
                                                       ),
@@ -163,6 +165,8 @@ class eZContentObjectAttribute extends eZPersistentObject
             return $this->xmlEditor( );
         else if ( $attr == "validation_error" )
             return $this->validationError( );
+        else if ( $attr == "validation_log" )
+            return $this->validationLog( );
         else if  ( $attr == "language" )
             return $this->language( );
         else if  ( $attr == "is_a" )
@@ -458,9 +462,19 @@ class eZContentObjectAttribute extends eZPersistentObject
         $this->ValidationError = $text;
     }
 
+    function setValidationLog( $text )
+    {
+        $this->ValidationLog = $text;
+    }
+
     function validationError()
     {
         return $this->ValidationError;
+    }
+
+    function validationLog()
+    {
+        return $this->ValidationLog;
     }
 
     /*!
@@ -520,6 +534,9 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /// Contains the last validation error
     var $ValidationError;
+
+    /// Contains the last validation error
+    var $ValidationLog;
 
     ///
     var $ContentClassAttributeIdentifier;
