@@ -553,7 +553,7 @@ div#contentstructure ul#content_tree_menu ul
 
 div#contentstructure ul#content_tree_menu ul ul
 {
-    margin-left: 20px;
+    margin-left: 0;
 }
 
 div#contentstructure ul#content_tree_menu li
@@ -562,10 +562,11 @@ div#contentstructure ul#content_tree_menu li
     white-space: nowrap;
 }
 
-div#contentstructure  ul#content_tree_menu ul li
+div#contentstructure ul#content_tree_menu ul li
 {
     margin: 0;
     padding-top: 0;
+    padding-left: 20px;
     padding-bottom: 4px;
     background-image: url(../images/bg_content_tree_li.gif);
     background-repeat: no-repeat;
@@ -667,6 +668,7 @@ a.openclose, span.openclose
 a.openclose img, span.openclose img
 {
     margin: 0;
+    cursor: default;
 }
 
 /*
