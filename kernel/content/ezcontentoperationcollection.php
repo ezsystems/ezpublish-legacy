@@ -180,6 +180,7 @@ class eZContentOperationCollection
         $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
         $parentNodeID = $parentNode->attribute( 'node_id' );
         $existingNode =& eZContentObjectTreeNode::findNode( $nodeAssignment->attribute( 'parent_node' ) , $object->attribute( 'id' ), true );
+        $updateSectionID = false;
         if ( $existingNode  == null )
         {
             if ( $fromNodeID == 0 )
@@ -189,6 +190,10 @@ class eZContentOperationCollection
             }else
             {
                 $originalNode =& eZContentObjectTreeNode::fetchNode( $originalObjectID, $fromNodeID );
+                if ( $originalNode->attribute( 'main_node_id' ) == $originalNode->attribute( 'node_id' ) )
+                {
+                    $updateSectionID = true;
+                }
                 $originalNode->move( $parentNodeID );
                 $existingNode =& eZContentObjectTreeNode::fetchNode( $originalObjectID, $parentNodeID );
             }
@@ -204,9 +209,14 @@ class eZContentOperationCollection
 
         $existingNode->updateSubTreePath();
 
-
         if ( $nodeAssignment->attribute( 'is_main' ) )
         {
+
+            if ( $existingNode->attribute( 'main_node_id' ) != $existingNode->attribute( 'node_id' ) )
+            {
+                $updateSectionID = true;
+            }
+
             $existingNode->setAttribute( 'main_node_id', $existingNode->attribute( 'node_id' ) );
             $existingNodes =& eZContentObjectTreeNode::fetchByContentObjectID( $objectID, true );
             foreach( array_keys( $existingNodes ) as $key )
@@ -227,6 +237,12 @@ class eZContentOperationCollection
 
         $object->store();
         $existingNode->store();
+
+        if ( $updateSectionID )
+        {
+            eZDebug::writeDebug( "will  update section ID " );
+            eZContentOperationCollection::updateSectionID( $objectID, $versionNum );
+        }
 
     }
 
