@@ -47,6 +47,8 @@ Changes from 3.2-5 to 3.2-6
 - Removed the hardcoded field list in eZContentObject::fetchList.
 - Fixed bug in the autolink operator.
   http://ez.no/community/bug_reports/autolink_operator__1
+- Fixed bug in copying objects; the old object's publish date was not updated.
+  http://ez.no/community/bug_reports/object_copy_also_copies_creation_date
 
 *Setup:
 

@@ -819,6 +819,8 @@ class eZContentObject extends eZPersistentObject
     {
         $contentObject = $this;
         $contentObject->setAttribute( 'id', null );
+        $contentObject->setAttribute( 'published', time() );
+        $contentObject->setAttribute( 'modified', time() );
         return $contentObject;
     }
 
