@@ -27,6 +27,7 @@ Changes from 3.2-3 to 3.2-4
 - Fixed the content view to only accept node IDs higher or equal to 2, if lower 2 is used.
 - Fixed copyversion function which returns the old version, not the cloned version.
 - The clearcache.sh will now also clear the var directories for all siteaccess.
+- Fixed bug of unable to save unregisted link in xml textfield.
 
 *Bugfixes:
 - Fixed copy object bug. Current version was not set, multiple version copy did not set object name and redirect did not contain version number.
