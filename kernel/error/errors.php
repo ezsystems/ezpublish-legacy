@@ -48,6 +48,10 @@ define( 'EZ_ERROR_KERNEL_NOT_FOUND', 2 );
  The object is not available.
 */
 define( 'EZ_ERROR_KERNEL_NOT_AVAILABLE', 3 );
+/*!
+ The object is moved.
+*/
+define( 'EZ_ERROR_KERNEL_MOVED', 4 );
 
 /*!
  The module could not be found.

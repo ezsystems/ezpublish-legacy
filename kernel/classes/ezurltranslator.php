@@ -45,6 +45,7 @@
 */
 
 include_once( 'lib/ezutils/classes/ezini.php' );
+include_once( 'kernel/classes/ezurlalias.php' );
 
 class eZURLTranslator
 {
@@ -53,6 +54,19 @@ class eZURLTranslator
     */
     function eZURLTranslator()
     {
+    }
+
+    /*!
+     Adds a new URL alias.
+    */
+    function &addURLAlias( $source, $destination, $isInternal = true )
+    {
+        $alias = new eZURLAlias( array() );
+        $alias->setAttribute( 'source_url', $source );
+        $alias->setAttribute( 'destination_url', $destination );
+        $alias->setAttribute( 'is_internal', $isInternal );
+        $alias->store();
+        return $alias;
     }
 
     /*!
@@ -84,10 +98,11 @@ class eZURLTranslator
     */
     function translateNodeTree( &$uri )
     {
-        eZDebugSetting::addTimingPoint( 'kernel-urltranslator', 'Node Path Match start' );
         $nodePathString = $uri->elements();
         $nodePathString = preg_replace( "/\.\w*$/", "", $nodePathString );
         $nodePathString = preg_replace( "#\/$#", "", $nodePathString );
+        print( "try to translate: $nodePathString<br>" );
+
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
         $node = eZContentObjectTreeNode::fetchByCRC( $nodePathString );
@@ -97,7 +112,6 @@ class eZURLTranslator
         {
             $uriResult= 'content/view/full/' . $node->attribute( 'node_id' ) . '/';
         }
-        eZDebugSetting::addTimingPoint( 'kernel-urltranslator', 'Node Path Match end' );
         return $uriResult;
     }
 

@@ -128,18 +128,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                                  'datatype' => 'string',
                                                                  'default' => '',
                                                                  'required' => true ),
-                                         "crc32_path" => array( 'name' => "CRC32Path",
-                                                                'datatype' => 'integer',
-                                                                'default' => 0,
-                                                                'required' => true ),
                                          "path_identification_string" => array( 'name' => "PathIdentificationString",
                                                                                 'datatype' => 'text',
                                                                                 'default' => '',
-                                                                                'required' => true ),
-                                         "md5_path" => array( 'name' => 'MD5Path',
-                                                              'datatype' => 'string',
-                                                              'default' => '',
-                                                              'required' => true ) ),
+                                                                                'required' => true ) ),
                       "keys" => array( "node_id" ),
                       "function_attributes" => array( "name" => "getName",
                                                       'data_map' => 'dataMap',
@@ -1128,58 +1120,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db->query( "UPDATE ezcontentobject SET section_id='$sectionID' WHERE id IN ( $inSQL )" );
         $db->query( "UPDATE ezsearch_object_word_link SET section_id='$sectionID' WHERE contentobject_id IN ( $inSQL )" );
     }
-/*
+
     function &fetchByCRC( $pathStr )
     {
-        $crcSum = crc32( $pathStr );
-        $db =& eZDB::instance();
-
-        $useVersionName = true;
-        if ( $useVersionName )
-        {
-            $versionNameTables = ', ezcontentobject_name ';
-            $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
-
-            $ini =& eZINI::instance();
-            $lang = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
-
-            $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
-                                  ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
-                                  ezcontentobject_name.content_translation = '$lang' ";
-        }
-
-        $query="SELECT ezcontentobject.*,
-                           ezcontentobject_tree.*,
-                           ezcontentclass.name as class_name
-                           $versionNameTargets
-                    FROM ezcontentobject_tree,
-                         ezcontentobject,
-                         ezcontentclass
-                         $versionNameTables
-                    WHERE crc32_path = $crcSum AND
-                          ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
-                          ezcontentclass.version=0  AND
-                          ezcontentclass.id = ezcontentobject.contentclass_id
-                         $versionNameJoins";
-
-        $nodeListArray = $db->arrayQuery( $query );
-        $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
-        if ( count( $retNodeArray ) > 1 )
-        {
-            reset( $retNodeArray );
-            while ( ( $key = key( $retNodeArray )) !== null )
-            {
-                $node =& $retNodeArray[ $key ];
-                if ( $node->attribute( 'path_identification_string' ) == $pathStr )
-                {
-                    return $node;
-                }
-                next( $retNodeArray );
-            }
-        }
-        return $retNodeArray[0];
+        print( "obsolete use ezurlalias instead" );
     }
-*/
+
+    /*
     function &fetchByCRC( $pathStr )
     {
         $md5hash = md5( $pathStr );
@@ -1230,6 +1177,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         return $retNodeArray[0];
     }
+    */
 
     function &fetchByContentObjectID( $contentObjectID, $asObject = true )
     {
@@ -1592,33 +1540,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $nodePath = $node->checkPath( $nodePath );
         eZDebugSetting::writeDebug( 'nice-urls', $nodePath, "path for node after checking");
         return $nodePath;
-/*
-        $nodeList = array_merge( $nodeList, array( &$node ) );
-        $nodePathElementList = array();
-        foreach ( $nodeList as $nodeInPath )
-        {
-            $nodeName = $nodeInPath->attribute( 'name' );
-//            $identifier = $attribute->attribute( "name" );
-            $nodeName = strtolower( $nodeName );
-            $nodeName = preg_replace( array( "/[^a-z0-9_ ]/" ,
-                                             "/ /",
-                                             "/__+/" ),
-                                      array( "",
-                                             "_",
-                                             "_" ),
-                                      $nodeName );
-            $nodePathElementList[]=$nodeName;
-        }
-        $nodePath = implode( '/', $nodePathElementList );
-//        eZDebugSetting::writeDebug( 'kernel-content-treenode', $nodePath, 'path1' );
-        $nodePath = $node->checkPath( $nodePath );
-        return $nodePath;
-*/
     }
 
     function checkPath( $path )
     {
-//        eZDebugSetting::writeDebug( 'kernel-content-treenode', $path, 'path2' );
         $depth = $this->attribute( 'depth' );
         $parentNodeID = $this->attribute( 'parent_node_id' );
         $nodeID = $this->attribute( 'node_id' );
@@ -1675,15 +1600,38 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     function updateSubTreePath()
     {
+        include_once( 'kernel/classes/ezurlalias.php' );
         include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
         $oldPathString = $this->attribute( 'path_identification_string' );
         $oldPathStringLength = strlen( $oldPathString );
 
         $newPathString = $this->pathWithNames();
 
-        $url =& eZURL::urlByURL( "/" . $oldPathString );
+        $oldUrlAlias = false;
+        // Check if there exists an URL alias for this name already
+        if ( $oldPathString != "" )
+        {
+            $oldUrlAlias = eZURLAlias::fetchBySourceURL( $oldPathString );
+        }
+
+        // Add new alias
+        $alias = new eZURLAlias( array() );
+        $alias->setAttribute( 'source_url', $newPathString );
+        $alias->setAttribute( 'destination_url', 'content/view/full/' . $this->NodeID );
+        $alias->setAttribute( 'is_internal', true );
+        $alias->store();
+
+        // Update old url alias, if exists
+        if ( $oldUrlAlias !== false )
+        {
+            $oldUrlAlias->setAttribute( 'forward_to_id', $alias->attribute( 'id' ) );
+            $oldUrlAlias->setAttribute( 'destination_url', 'content/view/full/' . $this->NodeID );
+            $oldUrlAlias->store();
+        }
 
         // Check if any URL's is pointing to this node, if so update it
+        $url =& eZURL::urlByURL( "/" . $oldPathString );
+
         if ( $url )
         {
             $url->setAttribute( 'url', '/' . $newPathString );
@@ -1693,28 +1641,30 @@ class eZContentObjectTreeNode extends eZPersistentObject
         eZDebugSetting::writeDebug( 'kernel-content-treenode', $oldPathString .'  ' . $oldPathStringLength . '  ' . $newPathString );
         $this->setAttribute( 'path_identification_string', $newPathString );
 
-        $this->setAttribute( 'crc32_path', crc32 ( $newPathString ) );
-        $this->setAttribute( 'md5_path', md5 ( $newPathString ) );
         $this->store();
-        $childrensPath = $this->attribute( 'path_string' );
-        $db =& eZDb::instance();
-        $subStringQueryPart = $db->subString( 'path_identification_string', $oldPathStringLength + 1 );
+
+        $db =& eZDB::instance();
+        $subStringQueryPart = $db->subString( 'source_url', $oldPathStringLength + 1 );
         $newPathStringQueryPart = $db->concatString( array( "'$newPathString'", $subStringQueryPart ) );
-        $md5QueryPart = $db->md5( 'path_identification_string' );
+        $md5QueryPart = $db->md5( 'source_url' );
+        // Update children
         $query = "UPDATE
-                         ezcontentobject_tree
-                  SET
-                         path_identification_string = $newPathStringQueryPart
-                  WHERE
-                         path_string like '$childrensPath%'";
+             ezurlalias
+         SET
+             source_url =  $newPathStringQueryPart
+         WHERE
+             is_internal = 1 AND
+             source_url LIKE '$oldPathString/%'";
+
+        $db->query( $query );
 
         $query1 = "UPDATE
-                         ezcontentobject_tree
+                         ezurlalias
                   SET
-                         md5_path = $md5QueryPart
+                         source_md5 = $md5QueryPart
                   WHERE
-                         path_string like '$childrensPath%'";
-        $db->query( $query );
+                         source_url like '$oldPathString%'";
+
         $db->query( $query1 );
     }
 
@@ -1754,9 +1704,18 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $subStringString = $db->subString( 'path_string', 1, $pathLength );
 
+        $urlAlias = $node->attribute( 'url_alias' );
+
         $db->query( "DELETE FROM ezcontentobject_tree
                             WHERE $pathString OR
                             path_string = '$nodePath'" );
+
+        // Clean up URL alias
+        $db->query( "DELETE FROM
+                         ezurlalias
+                  WHERE
+                         source_url like '$urlAlias%'
+                         AND is_internal = 1" );
 
         // Clean node assignment.
         $db->query( "DELETE FROM eznode_assignment

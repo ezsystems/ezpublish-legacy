@@ -1,6 +1,9 @@
 Changes from 3.1-1 to 3.2.0-1
 
 *Kernel:
+- Added manual URL alias interface
+- Rewritten URL alias handling, quicker and more flexible
+- Added object moved functionality when accessing a re-named object by url alias. Sends correct HTTP 301 header.
 - Added sorting to search results. It now supports the same as the content fetch function.
 - Added navigation part identifier as override key for content view
 - Added new design to admin

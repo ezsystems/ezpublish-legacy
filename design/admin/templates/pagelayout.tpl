@@ -90,11 +90,11 @@
     </td>
 </tr>
 <tr>
-    <td>
+    <td colspan="13">
     <img src={"1x1.gif"|ezimage} alt="" width="3" height="5" /></td>
 </tr>
 <tr>
-    <td class="headlogo" width="360">
+    <td class="headlogo" width="250">
     {* Admin logo area *}
     &nbsp;
      </td>
@@ -111,9 +111,9 @@
     <td class="headlink" width="66">
     {* Media menu *}
     {section show=eq($navigation_part.identifier,'ezmedianavigationpart')}
-    {include uri="design:page_menuheadselected.tpl" menu_text='Media'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}</td>
+    {include uri="design:page_menuheadselected.tpl" menu_text='Media'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','MediaRootNode','content.ini'))}</td>
     {section-else}
-    {include uri="design:page_menuheadgray.tpl" menu_text='Media'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}</td>
+    {include uri="design:page_menuheadgray.tpl" menu_text='Media'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','MediaRootNode','content.ini'))}</td>
     {/section}
 
     <td class="menuheadspacer" width="3">
@@ -185,23 +185,27 @@
 {* Left menu START *}
 
 {section show=eq($navigation_part.identifier,'ezcontentnavigationpart')}
-{include uri="design:parts/content/menu.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}
+{include uri="design:parts/content/menu.tpl"}
+{/section}
+
+{section show=eq($navigation_part.identifier,'ezmedianavigationpart')}
+{include uri="design:parts/media/menu.tpl"}
 {/section}
 
 {section show=eq($navigation_part.identifier,'ezshopnavigationpart')}
-{include uri="design:parts/shop/menu.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}
+{include uri="design:parts/shop/menu.tpl"}
 {/section}
 
 {section show=eq($navigation_part.identifier,'ezusernavigationpart')}
-{include uri="design:parts/user/menu.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}
+{include uri="design:parts/user/menu.tpl"}
 {/section}
 
 {section show=eq($navigation_part.identifier,'ezsetupnavigationpart')}
-{include uri="design:parts/setup/menu.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}
+{include uri="design:parts/setup/menu.tpl"}
 {/section}
 
 {section show=eq($navigation_part.identifier,'ezmynavigationpart')}
-{include uri="design:parts/my/menu.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}
+{include uri="design:parts/my/menu.tpl"}
 {/section}
 
 {* {include uri="design:left_menu.tpl"} *}
@@ -212,7 +216,7 @@
     </td>
     <td rowspan="2" valign="top"  style="background-color: #ffffff; background-image:url('{"corner.gif"|ezimage(no)}'); background-repeat: no-repeat;">
     <img src={"1x1.gif"|ezimage} alt="" width="23" height="1" /></td>
-    <td class="pathline" colspan="13">
+    <td class="pathline">
     {include uri="design:page_toppath.tpl"}
     </td>
 </tr>

@@ -63,6 +63,8 @@ class eZNavigationPart
     {
         $navigationParts = array( array( 'name' => 'Content',
                                          'identifier' => 'ezcontentnavigationpart' ),
+                                  array( 'name' => 'Media',
+                                         'identifier' => 'ezmedianavigationpart' ),
                                   array( 'name' => 'Shop',
                                          'identifier' => 'ezshopnavigationpart' ),
                                   array( 'name' => 'User',

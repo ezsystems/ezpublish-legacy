@@ -93,6 +93,11 @@ $embedContent = false;
                     $httpErrorString = "$httpErrorCode $httpErrorName";
                     header( eZSys::serverVariable( 'SERVER_PROTOCOL' ) . " $httpErrorString" );
                     header( "Status: $httpErrorString" );
+                    if ( $errorNumber == EZ_ERROR_KERNEL_MOVED )
+                    {
+                        $location = eZSys::indexDir() . "/" . $extraErrorParameters['new_location'];
+                        header( "Location: " . $location );
+                    }
                 }
             }
         }
@@ -138,6 +143,7 @@ $embedContent = false;
         }
     }
 }
+
 
 $userRedirectURI = '';
 $requestedURI =& $GLOBALS['eZRequestedURI'];

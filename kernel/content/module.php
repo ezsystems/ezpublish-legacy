@@ -112,6 +112,15 @@ $ViewList["search"] = array(
     "params" => array( ),
     "unordered_params" => array( "offset" => "Offset" ) );
 
+$ViewList["urltranslator"] = array(
+    "functions" => array( 'edit' ),
+    "default_navigation_part" => 'ezcontentnavigationpart',
+    "script" => "urltranslator.php",
+    'single_post_actions' => array( 'NewURLAliasButton' => 'NewURLAlias',
+                                    'StoreURLAliasButton' => 'StoreURLAlias' ),
+    "params" => array( ),
+    "unordered_params" => array( "offset" => "Offset" ) );
+
 $ViewList["advancedsearch"] = array(
     "functions" => array( 'read' ),
     "default_navigation_part" => 'ezcontentnavigationpart',
