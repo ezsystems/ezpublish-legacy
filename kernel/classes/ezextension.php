@@ -161,6 +161,14 @@ function kernel_class( $name )
 
 /*!
 */
+function kernel_include( $name )
+{
+    $include = "kernel/$name.php";
+    return include_once( $include );
+}
+
+/*!
+*/
 function kernel_common( $name )
 {
     $name = strtolower( $name );
