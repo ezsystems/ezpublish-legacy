@@ -1,7 +1,6 @@
 {* Person - Admin preview *}
 <div class="content-view-full">
     <div class="class-person">
-    <form method="post" action={"content/action"|ezurl}>
     <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
     <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
     <input type="hidden" name="ViewMode" value="full" />
@@ -26,6 +25,5 @@
         {attribute_view_gui attribute=$node.object.data_map.comment}
     </div>
 
-    </form>
     </div>
 </div>
