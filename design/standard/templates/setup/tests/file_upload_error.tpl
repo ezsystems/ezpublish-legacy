@@ -3,7 +3,7 @@
 {*<h3>{$result_number}. {"File uploading is disabled"|i18n("design/standard/setup/tests")}</h3>*}
 <h3>{$result_number}. {"File uploading is not possible"|i18n("design/standard/setup/tests")}</h3>
 
-{section show=$upload_results.php_upload_is_enabled}
+{section show=$upload_results.php_upload_is_enabled|not}
 <p>
  {"File uploading is not enabled which means that it's impossible for eZ publish to handle file uploading. All other parts of eZ publish will still work fine but it's recommended to enable file uploads."|i18n("design/standard/setup/tests")}
 </p>
