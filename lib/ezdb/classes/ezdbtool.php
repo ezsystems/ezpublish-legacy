@@ -84,7 +84,7 @@ class eZDBTool
             foreach ( $relationItems as $relationItem )
             {
                 // skip non-ez relations
-                if ( !eregi( "^ez", $relationItem ) )
+                if ( !eregi( "^ez|tmp_notification_rule_s", $relationItem ) )
                     continue;
 
                 if ( !$db->removeRelation( $relationItem, $relationType ) )

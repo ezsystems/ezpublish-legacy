@@ -44,3 +44,6 @@ Payment:
 - Fixed bug: Bug template charset mismatch
   (Merged from stable/3.4 rev. 8491)
   http://ez.no/community/bug_reports/template_charset_mismatch
+- Fixed bug with tmp_notification_rule_s for PostgreSQL not being cleaned up
+  in the setup wizard.
+  (Merged from stable/3.4 (3.4.3) rev. 8497)
