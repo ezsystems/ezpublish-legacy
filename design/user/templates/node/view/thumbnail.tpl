@@ -20,8 +20,8 @@
               <tr bordercolor="#000000" bgcolor="#000000"> 
                 <td colspan="3" valign="top" bgcolor="#ffffff">
 {*	<a href="{$module.functions.view.uri}/full/{$Child:item.node_id}">*}
-        <a href="{concat('/content/view/slideshow/',$node.node_id,'/offset/',sum($view_parameters.offset,$Child:index))}">
-	{content_view_gui view=medium content_node=$Child:item}
+        <a href={concat("/content/view/slideshow/",$node.node_id,"/offset/",sum($view_parameters.offset,$Child:index))|ezurl}>
+	{node_view_gui view=medium content_node=$Child:item}
         </a>
 {*	</a>*}
                 </td>
