@@ -396,14 +396,6 @@ class eZMatrixType extends eZDataType
     /*!
      \reimp
     */
-    function isInformationCollector()
-    {
-        return true;
-    }
-
-    /*!
-     \reimp
-    */
     function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $content =& $classAttribute->content();

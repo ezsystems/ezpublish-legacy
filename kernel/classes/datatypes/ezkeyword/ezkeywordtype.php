@@ -202,14 +202,6 @@ class eZKeywordType extends eZDataType
     {
         return true;
     }
-
-    /*!
-     \reimp
-    */
-    function isInformationCollector()
-    {
-        return false;
-    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_KEYWORD, 'ezkeywordtype' );
