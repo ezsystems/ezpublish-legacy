@@ -257,7 +257,7 @@ Match[class_identifier]=flash
 
 [quicktime_full]
 Source=node/view/full.tpl
-MatchFile=full/flash.tpl
+MatchFile=full/quicktime.tpl
 Subdir=templates
 Match[class_identifier]=quicktime
 

@@ -1101,7 +1101,7 @@ function eZSetupOverrideINISettings( $siteType, $parameters )
             'quicktime_full' =>
             array (
                 'Source' => 'node/view/full.tpl',
-                'MatchFile' => 'full/flash.tpl',
+                'MatchFile' => 'full/quicktime.tpl',
                 'Subdir' => 'templates',
                 'Match' =>
                 array (
