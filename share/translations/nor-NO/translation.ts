@@ -1,12 +1,5 @@
 <!DOCTYPE TS><TS>
 <context>
-    <name>content/pdf</name>
-    <message>
-        <source>PDF Export</source>
-        <translation type="obsolete"></translation>
-    </message>
-</context>
-<context>
     <name>design/admin/layout</name>
     <message>
         <source>Content</source>
@@ -156,16 +149,16 @@
     <message>
         <source>RSS</source>
         <comment>Really Simple Syndication</comment>
-        <translation type="unfinished"></translation>
+        <translation>RSS</translation>
     </message>
     <message>
         <source>Advanced</source>
-        <translation type="unfinished">Avansert</translation>
+        <translation>Avansert</translation>
     </message>
     <message>
         <source>PDF export</source>
         <comment>PDF export</comment>
-        <translation type="unfinished"></translation>
+        <translation>PDF eksport</translation>
     </message>
 </context>
 <context>
@@ -239,15 +232,15 @@
     </message>
     <message>
         <source>Description:</source>
-        <translation type="unfinished"></translation>
+        <translation>Beskrivelse:</translation>
     </message>
     <message>
         <source>Categories</source>
-        <translation type="unfinished"></translation>
+        <translation>Kategorier</translation>
     </message>
     <message>
         <source>Latest blogs</source>
-        <translation type="unfinished"></translation>
+        <translation>Siste bloger</translation>
     </message>
     <message>
         <source>Log Archive by Entry</source>
@@ -259,7 +252,7 @@
     </message>
     <message>
         <source>Result</source>
-        <translation type="unfinished"></translation>
+        <translation>Resultat</translation>
     </message>
     <message>
         <source>Poll</source>
@@ -278,30 +271,30 @@
     <name>design/corporate/layout</name>
     <message>
         <source>Read more</source>
-        <translation type="unfinished"></translation>
+        <translation>Les mer</translation>
     </message>
     <message>
         <source>Send</source>
-        <translation type="unfinished">Send</translation>
+        <translation>Send</translation>
     </message>
     <message>
         <source>Latest news</source>
-        <translation type="unfinished"></translation>
+        <translation>Siste nytt</translation>
     </message>
 </context>
 <context>
     <name>design/forum/layout</name>
     <message>
         <source>Read more</source>
-        <translation type="unfinished"></translation>
+        <translation>Les mer</translation>
     </message>
     <message>
         <source>Subject</source>
-        <translation type="unfinished">Emne</translation>
+        <translation>Emne</translation>
     </message>
     <message>
         <source>Message</source>
-        <translation type="unfinished">Melding</translation>
+        <translation>Melding</translation>
     </message>
     <message>
         <source>Post</source>
@@ -309,132 +302,132 @@
     </message>
     <message>
         <source>Author</source>
-        <translation type="unfinished">Forfatter</translation>
+        <translation>Forfatter</translation>
     </message>
     <message>
         <source>Replies</source>
-        <translation type="unfinished"></translation>
+        <translation>Svar</translation>
     </message>
     <message>
         <source>Last reply</source>
-        <translation type="unfinished"></translation>
+        <translation>Siste svar</translation>
     </message>
     <message>
         <source>Number of Topics:</source>
-        <translation type="unfinished"></translation>
+        <translation>Antall Emner:</translation>
     </message>
     <message>
         <source>Number of Posts:</source>
-        <translation type="unfinished"></translation>
+        <translation>Antall Meldinger:</translation>
     </message>
     <message>
         <source>Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Notifikasjon</translation>
     </message>
     <message>
         <source>Edit account</source>
-        <translation type="unfinished"></translation>
+        <translation>Rediger konto</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Logg inn</translation>
     </message>
     <message>
         <source>Logout</source>
-        <translation type="unfinished">Logg ut</translation>
+        <translation>Logg ut</translation>
     </message>
     <message>
         <source>Latest posts</source>
-        <translation type="unfinished"></translation>
+        <translation>Siste meldinger</translation>
     </message>
     <message>
         <source>Latest news</source>
-        <translation type="unfinished"></translation>
+        <translation>Siste nytt</translation>
     </message>
 </context>
 <context>
     <name>design/gallery/layout</name>
     <message>
         <source>Read more</source>
-        <translation type="unfinished"></translation>
+        <translation>Les mer</translation>
     </message>
     <message>
         <source>Galleries</source>
-        <translation type="unfinished"></translation>
+        <translation>Gallerier</translation>
     </message>
     <message>
         <source>Latest images</source>
-        <translation type="unfinished"></translation>
+        <translation>Siste bilder</translation>
     </message>
     <message>
         <source>Latest news</source>
-        <translation type="unfinished"></translation>
+        <translation>Siste nytt</translation>
     </message>
     <message>
         <source>Latest comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Siste kommentarer</translation>
     </message>
     <message>
         <source>Edit gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Rediger galleri</translation>
     </message>
     <message>
         <source>Create a new gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Lag et nytt galleri</translation>
     </message>
     <message>
         <source>Name of your album</source>
-        <translation type="unfinished"></translation>
+        <translation>Navnet på ditt album</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Beskrivelse</translation>
+        <translation>Beskrivelse</translation>
     </message>
     <message>
         <source>Number of columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Antall kolonner</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation type="unfinished"></translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Gallery list</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste over galleri</translation>
     </message>
     <message>
         <source>Logout</source>
-        <translation type="unfinished">Logg ut</translation>
+        <translation>Logg ut</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Logg inn</translation>
     </message>
 </context>
 <context>
     <name>design/intranet/layout</name>
     <message>
         <source>Comment this article!</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommenter denne artikkelen!</translation>
     </message>
     <message>
         <source>Read more</source>
-        <translation type="unfinished"></translation>
+        <translation>Les mer</translation>
     </message>
     <message>
         <source>Latest news</source>
-        <translation type="unfinished"></translation>
+        <translation>Siste nytt</translation>
     </message>
     <message>
         <source>Contact information</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontakt informasjon</translation>
     </message>
 </context>
 <context>
     <name>design/news/content/poll</name>
     <message>
         <source>Results</source>
-        <translation type="unfinished"></translation>
+        <translation>Resultater</translation>
     </message>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
@@ -443,47 +436,17 @@
     <message>
         <source>You have already voted for this poll.</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/news/content/poll)}&lt;/p&gt;
-&lt;/div&gt;
-{/section}
-
-{/section}
-
-&lt;div id=&quot;poll_result&quot;&gt;
-{section loop=$object.contentobject_attributes}
-    {section show=$:item.contentclass_attribute.is_information_collector}
-<byte value="x9"/>{let  attribute=$:item
-<byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
-    <message>
-        <source>You have already voted for this poll.</source>
-        <translation type="obsolete"></translation>
-    </message>
-</context>
-<context>
-    <name>design/news/content/poll)}&lt;/p&gt;
-&lt;/div&gt;
-{/section}
-
-{section show=$error_existing_data}
-&lt;div class=&quot;warning&quot;&gt;
-    &lt;p&gt;{</name>
-    <message>
-        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
     <name>design/news/layout</name>
     <message>
         <source>Related stories</source>
-        <translation type="unfinished"></translation>
+        <translation>Relaterte historier</translation>
     </message>
     <message>
         <source>Tip a friend</source>
-        <translation type="unfinished">Tips en venn</translation>
+        <translation>Tips en venn</translation>
     </message>
     <message>
         <source>Comments</source>
@@ -491,19 +454,19 @@
     </message>
     <message>
         <source>Comment this article!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kommenter denne artikkelen!</translation>
     </message>
     <message>
         <source>Read more</source>
-        <translation type="unfinished"></translation>
+        <translation>Les mer</translation>
     </message>
     <message>
         <source>Latest news</source>
-        <translation type="unfinished"></translation>
+        <translation>Siste nytt</translation>
     </message>
     <message>
         <source>Result</source>
-        <translation type="unfinished"></translation>
+        <translation>Resultat</translation>
     </message>
     <message>
         <source>View all polls</source>
@@ -511,11 +474,11 @@
     </message>
     <message>
         <source>News</source>
-        <translation type="unfinished"></translation>
+        <translation>Nyheter</translation>
     </message>
     <message>
         <source>Most popular</source>
-        <translation type="unfinished"></translation>
+        <translation>Mest populær</translation>
     </message>
     <message>
         <source>Poll</source>
@@ -526,15 +489,15 @@
     <name>design/shop/layout</name>
     <message>
         <source>login</source>
-        <translation type="unfinished"></translation>
+        <translation>logg inn</translation>
     </message>
     <message>
         <source>logout</source>
-        <translation type="unfinished"></translation>
+        <translation>logg ut</translation>
     </message>
     <message>
         <source>Read more</source>
-        <translation type="unfinished"></translation>
+        <translation>Les mer</translation>
     </message>
     <message>
         <source>Write your own review</source>
@@ -558,7 +521,7 @@
     </message>
     <message>
         <source>Related products</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilhørende produkter</translation>
     </message>
     <message>
         <source>People who bought this also bought</source>
@@ -578,11 +541,11 @@
     </message>
     <message>
         <source>Products</source>
-        <translation type="unfinished"></translation>
+        <translation>Produkter</translation>
     </message>
     <message>
         <source>Latest products</source>
-        <translation type="unfinished"></translation>
+        <translation>Siste produkter</translation>
     </message>
     <message>
         <source>Your basket is empty</source>
@@ -594,14 +557,14 @@
     </message>
     <message>
         <source>Latest news</source>
-        <translation type="unfinished"></translation>
+        <translation>Siste nytt</translation>
     </message>
 </context>
 <context>
     <name>design/standard/class</name>
     <message>
         <source>Class is locked</source>
-        <translation type="unfinished"></translation>
+        <translation>Klassen er låst</translation>
     </message>
 </context>
 <context>
@@ -912,11 +875,11 @@
     </message>
     <message>
         <source>True</source>
-        <translation type="unfinished"></translation>
+        <translation>Sant</translation>
     </message>
     <message>
         <source>False</source>
-        <translation type="unfinished"></translation>
+        <translation>Usant</translation>
     </message>
 </context>
 <context>
@@ -1059,43 +1022,43 @@
     </message>
     <message>
         <source>Class - %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Klasse - %1</translation>
     </message>
     <message>
         <source>Is required</source>
-        <translation type="unfinished"></translation>
+        <translation>Er påkrevet</translation>
     </message>
     <message>
         <source>Is not required</source>
-        <translation type="unfinished"></translation>
+        <translation>Er ikke påkrevet</translation>
     </message>
     <message>
         <source>Is searchable</source>
-        <translation type="unfinished"></translation>
+        <translation>Er søkbar</translation>
     </message>
     <message>
         <source>Is not searchable</source>
-        <translation type="unfinished"></translation>
+        <translation>Er ikke søkbar</translation>
     </message>
     <message>
         <source>Collects information</source>
-        <translation type="unfinished"></translation>
+        <translation>Innhenter informasjon</translation>
     </message>
     <message>
         <source>Does not collect information</source>
-        <translation type="unfinished"></translation>
+        <translation>Innhenter ikke informasjon</translation>
     </message>
     <message>
         <source>Translation is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Oversettelse er slått av</translation>
     </message>
     <message>
         <source>Translation is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Oversettelse er slått på</translation>
     </message>
     <message>
         <source>Retry</source>
-        <translation type="unfinished"></translation>
+        <translation>Prøv igjen</translation>
     </message>
 </context>
 <context>
@@ -1130,31 +1093,7 @@
     </message>
     <message>
         <source>Last modified classes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>PDF Exports</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New Export</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>RSS Feeds</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>RSS Exports</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>RSS Imports</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New Import</source>
-        <translation type="unfinished"></translation>
+        <translation>Nylig endrete klasser</translation>
     </message>
     <message>
         <source>Setup menu</source>
@@ -1209,7 +1148,7 @@
     </message>
     <message>
         <source>Click on the &apos;New&apos; button to create a class.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klikk på &apos;Ny&apos; knappen for å lage en klasse.</translation>
     </message>
 </context>
 <context>
@@ -1280,7 +1219,7 @@
     </message>
     <message>
         <source>[more]</source>
-        <translation type="unfinished"></translation>
+        <translation>[mer]</translation>
     </message>
 </context>
 <context>
@@ -1538,7 +1477,7 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
     <name>design/standard/content/browse</name>
     <message>
         <source>Create new</source>
-        <translation type="unfinished">Lag ny</translation>
+        <translation>Lag ny</translation>
     </message>
 </context>
 <context>
@@ -1726,10 +1665,6 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
         <translation>Minutt</translation>
     </message>
     <message>
-        <source>Image filename</source>
-        <translation type="obsolete">Bildefilnavn</translation>
-    </message>
-    <message>
         <source>Alternative image text</source>
         <translation>Alternative bildetekst</translation>
     </message>
@@ -1756,10 +1691,6 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
     <message>
         <source>Existing filename</source>
         <translation>Eksisterende filnavn</translation>
-    </message>
-    <message>
-        <source>Existing orignal filename</source>
-        <translation type="obsolete">Eksisterende originalfilnavn</translation>
     </message>
     <message>
         <source>Existing mime/type</source>
@@ -1826,18 +1757,6 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
         <translation>Ny rad</translation>
     </message>
     <message>
-        <source>Create new %classname</source>
-        <translation type="obsolete">Lag ny %classname</translation>
-    </message>
-    <message>
-        <source>Add %classname</source>
-        <translation type="obsolete">Legg til %classname</translation>
-    </message>
-    <message>
-        <source>Edit objects</source>
-        <translation type="obsolete">Rediger objekter</translation>
-    </message>
-    <message>
         <source>Remove objects</source>
         <translation>Fjern objekter</translation>
     </message>
@@ -1867,7 +1786,7 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished">Rediger</translation>
+        <translation>Rediger</translation>
     </message>
     <message>
         <source>Open objects for edit</source>
@@ -1879,7 +1798,7 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Legg til</translation>
+        <translation>Legg til</translation>
     </message>
     <message>
         <source>Value (optional)</source>
@@ -1967,10 +1886,6 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
     <message>
         <source>Remove</source>
         <translation>Fjern</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to discard the draft?</source>
-        <translation type="obsolete">Er du sikker på at du vil fjerne utkastet?</translation>
     </message>
     <message>
         <source>Confirm</source>
@@ -2155,18 +2070,6 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
     </message>
 </context>
 <context>
-    <name>design/standard/content/feedback)}&lt;/p&gt;
-{/section}
-
-{section-else}
-
-&lt;p&gt;{</name>
-    <message>
-        <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
-        <translation type="obsolete"></translation>
-    </message>
-</context>
-<context>
     <name>design/standard/content/form</name>
     <message>
         <source>Form %formname</source>
@@ -2179,28 +2082,6 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
     <message>
         <source>You have already submitted data to this form. The previously submitted data was the following.</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/content/form)}&lt;/p&gt;
-{/section}
-
-{/section}
-
-{section loop=$collection.attributes}
-
-&lt;h3&gt;{$:item.contentclass_attribute_name}&lt;/h3&gt;
-
-{attribute_result_gui view=info attribute=$:item}
-
-{/section}
-
-&lt;p/&gt;
-
-&lt;a href={$node.parent.url|ezurl}&gt;{</name>
-    <message>
-        <source>You have already submitted data to this form. The previously submitted data was the following.</source>
-        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2238,7 +2119,7 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
     </message>
     <message>
         <source>Results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Resultater</translation>
     </message>
     <message>
         <source>%count total votes</source>
@@ -2255,70 +2136,6 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
     <message>
         <source>You have already voted for this poll.</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/content/poll)}&lt;/p&gt;
-&lt;/div&gt;
-{/section}
-
-{/section}
-
-&lt;div id=&quot;poll_result&quot;&gt;
-{section loop=$object.contentobject_attributes}
-    {section show=$:item.contentclass_attribute.is_information_collector}
-<byte value="x9"/>{let  attribute=$:item
-<byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
-    <message>
-        <source>You have already voted for this poll.</source>
-        <translation type="obsolete"></translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/content/poll)}&lt;/p&gt;
-&lt;/div&gt;
-{/section}
-
-{/section}
-
-&lt;h2&gt;{$node.name}&lt;/h2&gt;
-
-{section loop=$object.contentobject_attributes}
-    {section show=$:item.contentclass_attribute.is_information_collector}
-
-        &lt;h3&gt;{$:item.contentclass_attribute.name}&lt;/h3&gt;
-        {attribute_result_gui view=count attribute=$:item}
-
-    {section-else}
-
-        {section show=$attribute_hide_list|contains($:item.contentclass_attribute.identifier)|not}
-            &lt;h3&gt;{$:item.contentclass_attribute.name}&lt;/h3&gt;
-            {attribute_view_gui attribute=$:item}
-        {/section}
-
-    {/section}
-
-{/section}
-
-&lt;br/&gt;
-
-{&quot;%count total votes&quot;|i18n( </name>
-    <message>
-        <source>You have already voted for this poll.</source>
-        <translation type="obsolete"></translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/content/poll)}&lt;/p&gt;
-&lt;/div&gt;
-{/section}
-
-{section show=$error_existing_data}
-&lt;div class=&quot;warning&quot;&gt;
-    &lt;p&gt;{</name>
-    <message>
-        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2796,16 +2613,6 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
         <translation>Mine bokmerker</translation>
     </message>
     <message>
-        <source>These are the objects you have bookmarked. Click on an object to view it or if you have sufficient permission you can to edit the object by clicking the edit button.
-      If you want to add more objects to this list click the %addbutton button.
-
-      Removing objects will only remove them from this list.</source>
-        <translation type="obsolete">Dette er objektene du har laget bokmerker for. Klikk et objekt for å se på det, eller hvis du har rettigheter til det kan du redigere objektet ved å klikke rediger-knappen.
-Hvis du vil legge til flere objekter i denne listen, klikk %addbutton-knappen.
-
-Når du fjerner bokmerker blir ikke objektene de refererer til fjernet.</translation>
-    </message>
-    <message>
         <source>Add bookmarks</source>
         <translation>Legg til bokmerker</translation>
     </message>
@@ -2964,14 +2771,6 @@ Du kan redigere og publisere utkastene, eller fjerne dem hvis du ikke trenger de
         <source>To select objects, choose the appropriate radiobutton or checkbox(es), and click the &quot;Choose&quot; button.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Creator</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Created</source>
-        <translation type="obsolete">Opprettet</translation>
-    </message>
 </context>
 <context>
     <name>design/standard/error/kernel</name>
@@ -3014,10 +2813,6 @@ Du kan redigere og publisere utkastene, eller fjerne dem hvis du ikke trenger de
     <message>
         <source>Your current user does not have the proper privileges to access this page.</source>
         <translation>Brukeren din har ikke de riktige rettighetene for å aksessere denne siden.</translation>
-    </message>
-    <message>
-        <source>You&apos;re currently not logged in on the site, to get proper access create a new user or login with an existing user.</source>
-        <translation type="obsolete">Du er ikke logget inn på siden, for å få riktige rettigheter må du enten lage en ny bruker eller logge inn med en eksisterende bruker.</translation>
     </message>
     <message>
         <source>You misspelled some parts of your url, try changing it.</source>
@@ -3235,10 +3030,6 @@ Du kan redigere og publisere utkastene, eller fjerne dem hvis du ikke trenger de
         <translation>Er du sikker på at du vil fjerne %1 fra noden %2?</translation>
     </message>
     <message>
-        <source>Are you sure you want to remove these nodes?</source>
-        <translation type="obsolete">Er du sikker på at du vil fjerne disse nodene?</translation>
-    </message>
-    <message>
         <source>The following items were removed from your basket, because the products were changed</source>
         <translation>De følgende varene ble fjernet fra handlekurven din, fordi produktene er endret</translation>
     </message>
@@ -3251,16 +3042,8 @@ Du kan redigere og publisere utkastene, eller fjerne dem hvis du ikke trenger de
         <translation>Noder som er fjernet kan hentes tilbake senere. Du finner dem i papirkurven.</translation>
     </message>
     <message>
-        <source>Removing this assignment will also remove it&apos;s %1 children.</source>
-        <translation type="obsolete">Fjernes denne plasseringen vil også alle %1 barna fjernes.</translation>
-    </message>
-    <message>
         <source>Removing node assignment of %1</source>
         <translation>Fjerner node plassering for %1</translation>
-    </message>
-    <message>
-        <source>Removing %1 will remove the node itself and it&apos;s %2 children. %3</source>
-        <translation type="obsolete">Fjerning av %1 vil fjerne noden og alle dens %2 barn. %3</translation>
     </message>
     <message>
         <source>Removing this assignment will also remove its %1 children.</source>
@@ -3285,14 +3068,6 @@ Du kan redigere og publisere utkastene, eller fjerne dem hvis du ikke trenger de
     <message>
         <source>If %trashname is checked you will find the removed items in the trash afterwards.</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/node/v
-iew</name>
-    <message>
-        <source>Create here</source>
-        <translation type="obsolete">Lag her</translation>
     </message>
 </context>
 <context>
@@ -3503,16 +3278,6 @@ Du kan se den ved å klikke på URL-en nedenfor.</translation>
     <message>
         <source>This email is to inform you on news at %sitename.</source>
         <translation>Denne eposten er sendt for å informere deg om nyheter på %sitename.</translation>
-    </message>
-    <message>
-        <source>[%sitename] %classname &quot;%itemname&quot; was published</source>
-        <translation type="obsolete">[%sitename] Objektet &quot;%itemname&quot; av klassen %classname ble publisert</translation>
-    </message>
-    <message>
-        <source>This email is to inform you that a new item has been publish at %sitename.
-The item can viewed by using the URL below.</source>
-        <translation type="obsolete">Et nytt objekt er publisert på %sitename.
-Du kan se det ved å klikke på URL-en nedenfor.</translation>
     </message>
     <message>
         <source>Notification admin</source>
@@ -3848,6 +3613,14 @@ You may also remove the package without uninstalling it from the package list.</
     <message>
         <source>Remove</source>
         <translation type="unfinished">Fjern</translation>
+    </message>
+    <message>
+        <source>PDF Exports</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Export</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4327,6 +4100,33 @@ menyen på toppen.</translation>
     <message>
         <source>No</source>
         <translation type="unfinished">Nei</translation>
+    </message>
+    <message>
+        <source>RSS Feeds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>RSS Exports</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Export</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>RSS Imports</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Import</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/rss/view</name>
+    <message>
+        <source>Remove</source>
+        <translation>Fjern</translation>
     </message>
 </context>
 <context>
@@ -4939,14 +4739,6 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished">Versjon</translation>
     </message>
     <message>
-        <source>PHP Accelerator is enabled.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>PHP Accelerator is disabled.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>There is no known PHP accelerator active.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4985,14 +4777,6 @@ The default code was made from the basic parameters you chose.</source>
     <message>
         <source>Database:</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Language(s):</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Site(s):</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Name</source>
@@ -5997,10 +5781,6 @@ To fix this problem you must do one of the following:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>eZ publish has been installed with the following site(s). You will find the username and password mentioned for each site.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Tip: Store this page as an html file by clicking Save-As in your web browser menu, alternatively you may write down the urls for your sites.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6090,10 +5870,6 @@ To fix this problem you must do one of the following:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Please choose the access method you wish to use for your site(s). The access method determines how the site will be accessed from within a web browser. If unsure: choose URL.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Port*</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6152,10 +5928,6 @@ To fix this problem you must do one of the following:</source>
     <message>
         <source>For more information about how to configure site access, please refer to the %1</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Use the refresh button to update the database listing(s).</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Site templates</source>
@@ -6484,10 +6256,6 @@ To fix this problem you must do one of the following:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>It&apos;s recommended that the option is turned off. To turn it off edit your %1 configuration and set %2 and %3 to %4.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>More information on the subject can be found at %1.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6693,10 +6461,6 @@ To fix this problem you must do one of the following:</source>
     <message>
         <source>Wish list</source>
         <translation>Ønskeliste</translation>
-    </message>
-    <message>
-        <source>Remove item(s)</source>
-        <translation type="obsolete">Fjern varer</translation>
     </message>
     <message>
         <source>Empty wish list</source>
@@ -7616,49 +7380,10 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     </message>
 </context>
 <context>
-    <name>design/standard/workflow/event</name>
-    <message>
-        <source>Checkout</source>
-        <translation type="obsolete">Betaling</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="obsolete">Neste</translation>
-    </message>
-    <message>
-        <source>Wrapping</source>
-        <translation type="obsolete">Innpakking</translation>
-    </message>
-    <message>
-        <source>Do you want wrapping in Christmas paper?</source>
-        <translation type="obsolete">Vil du ha innpakking i julepapir?</translation>
-    </message>
-    <message>
-        <source>No</source>
-        <translation type="obsolete">Nei</translation>
-    </message>
-    <message>
-        <source>Yes</source>
-        <translation type="obsolete">Ja</translation>
-    </message>
-    <message>
-        <source>Hello</source>
-        <translation type="obsolete">Hallo</translation>
-    </message>
-</context>
-<context>
     <name>design/standard/workflow/eventtype/edit</name>
     <message>
         <source>Any</source>
         <translation>Alle</translation>
-    </message>
-    <message>
-        <source>Unpublish object</source>
-        <translation type="obsolete">Depubliser objekt</translation>
-    </message>
-    <message>
-        <source>Publish object</source>
-        <translation type="obsolete">Publiser objekt</translation>
     </message>
     <message>
         <source>Class Attributes:</source>
@@ -7677,28 +7402,8 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
         <translation>Brukere uten tillatelse</translation>
     </message>
     <message>
-        <source>Checkout text</source>
-        <translation type="obsolete">Betalingstekst</translation>
-    </message>
-    <message>
-        <source>Message</source>
-        <translation type="obsolete">Melding</translation>
-    </message>
-    <message>
         <source>Users without workflow IDs</source>
         <translation>Brukere uten arbeidsflyt IDer</translation>
-    </message>
-    <message>
-        <source>Days</source>
-        <translation type="obsolete">Dager</translation>
-    </message>
-    <message>
-        <source>Hours</source>
-        <translation type="obsolete">Timer</translation>
-    </message>
-    <message>
-        <source>Minutes</source>
-        <translation type="obsolete">Minutter</translation>
     </message>
     <message>
         <source>Class</source>
@@ -7929,10 +7634,6 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     <message>
         <source>Input is not in defined range %1 - %2</source>
         <translation>Oppgitt verdi må være innenfor området %1 - %2</translation>
-    </message>
-    <message>
-        <source>A valid image is required.</source>
-        <translation type="obsolete">Oppgi navn på et gyldig bilde.</translation>
     </message>
     <message>
         <source>Input is not integer.</source>
@@ -8225,10 +7926,6 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
         <translation>Innhold</translation>
     </message>
     <message>
-        <source>Edit</source>
-        <translation type="obsolete">Rediger</translation>
-    </message>
-    <message>
         <source>Copy</source>
         <translation>Kopier</translation>
     </message>
@@ -8278,11 +7975,7 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     </message>
     <message>
         <source>Keywords</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>PDF Export</source>
-        <translation type="obsolete"></translation>
+        <translation>Nøkkelord</translation>
     </message>
 </context>
 <context>
@@ -8300,16 +7993,6 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
 </context>
 <context>
     <name>kernel/content/removeobject</name>
-    <message>
-        <source>child</source>
-        <comment>1 child</comment>
-        <translation type="obsolete">barn</translation>
-    </message>
-    <message>
-        <source>children</source>
-        <comment>several children</comment>
-        <translation type="obsolete">barn</translation>
-    </message>
     <message>
         <source>And also it will remove the nodes:</source>
         <translation>Følgende noder vil også bli fjernet:</translation>
@@ -8370,7 +8053,7 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     </message>
     <message>
         <source>Package information</source>
-        <translation type="unfinished"></translation>
+        <translation>Pakke informasjon</translation>
     </message>
     <message>
         <source>Package maintainer</source>
@@ -8771,44 +8454,16 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
         <translation>Godkjenn</translation>
     </message>
     <message>
-        <source>Checkout</source>
-        <translation type="obsolete">Betaling</translation>
-    </message>
-    <message>
         <source>Multiplexer</source>
         <translation>Multiplekser</translation>
-    </message>
-    <message>
-        <source>Publish</source>
-        <translation type="obsolete">Publiser</translation>
-    </message>
-    <message>
-        <source>Publish on time</source>
-        <translation type="obsolete">Tidspublisering</translation>
     </message>
     <message>
         <source>Simple shipping</source>
         <translation>Enkel sending</translation>
     </message>
     <message>
-        <source>Timing</source>
-        <translation type="obsolete">Tidskontroll</translation>
-    </message>
-    <message>
-        <source>Unpublish</source>
-        <translation type="obsolete">Avpubliser</translation>
-    </message>
-    <message>
         <source>Wait until date</source>
         <translation>Vent til dato</translation>
-    </message>
-    <message>
-        <source>Wrapping</source>
-        <translation type="obsolete">Innpakking</translation>
-    </message>
-    <message>
-        <source>Hello User</source>
-        <translation type="obsolete">Hallo bruker</translation>
     </message>
 </context>
 <context>
@@ -8816,10 +8471,6 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     <message>
         <source>Group</source>
         <translation>Gruppe</translation>
-    </message>
-    <message>
-        <source>Serial</source>
-        <translation type="obsolete">Serielt</translation>
     </message>
 </context>
 <context>

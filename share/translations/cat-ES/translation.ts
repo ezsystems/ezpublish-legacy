@@ -1202,27 +1202,27 @@
     </message>
     <message>
         <source>PDF Exports</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>New Export</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>RSS Feeds</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>RSS Exports</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>RSS Imports</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>New Import</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Setup menu</source>
@@ -4093,6 +4093,14 @@ You may also remove the package without uninstalling it from the package list.</
         <source>Remove</source>
         <translation type="unfinished">Esborra</translation>
     </message>
+    <message>
+        <source>PDF Exports</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Export</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/reference/ez</name>
@@ -4587,6 +4595,33 @@ en el menú superior.</translation>
     <message>
         <source>No</source>
         <translation type="unfinished">No</translation>
+    </message>
+    <message>
+        <source>RSS Feeds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>RSS Exports</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Export</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>RSS Imports</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Import</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/rss/view</name>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">Esborra</translation>
     </message>
 </context>
 <context>
