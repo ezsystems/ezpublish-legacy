@@ -36,3 +36,13 @@ d is not true
 {/section}
 
 {/let}
+
+{let arr=hash( a, 5, c, false() )}
+
+A: {section show=$arr[a]}A is true{section-else}A is not true{/section}
+
+B: {section show=$arr[b]}B is true{section-else}B is not true{/section}
+
+C: {section show=$arr[c]}C is true{section-else}C is not true{/section}
+
+{/let}
