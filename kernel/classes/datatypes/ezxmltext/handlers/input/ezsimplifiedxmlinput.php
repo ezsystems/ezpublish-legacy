@@ -184,6 +184,13 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     {
                         $object =& $objects[$objectKey];
                         $objectID = $object->attributeValue( 'id' );
+                        if ( $objectID == $contentObjectID )
+                        {
+                            $GLOBALS[$isInputValid] = false;
+                            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                                 'Object %1 can not be embeded to itself.', false, array( $objectID ) ) );
+                            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                        }
                         if ( !in_array( $objectID, $relatedObjectIDArray ) )
                             $relatedObjectIDArray[] = $objectID;
                     }
