@@ -145,7 +145,6 @@ class eZMatrixDefinition
 
     function removeColumn( $index )
     {
-        eZDebug::writeDebug( $this->ColumnNames, "matrixDefinition in removeColumn" );
         if ( $index == 0 && count( $this->ColumnNames ) == 1 )
         {
             $this->ColumnNames = array();

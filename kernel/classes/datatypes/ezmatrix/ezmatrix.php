@@ -88,7 +88,6 @@ class eZMatrix
 
             $xmlString =& $this->xmlString();
             $this->decodeXML( $xmlString );
-            eZDebug::writeDebug( $this, "Matrix" );
         }
     }
 
