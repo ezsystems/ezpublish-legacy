@@ -268,6 +268,9 @@ edit_placement.tpl:
 - Fixed bug: dirty cache after node where moved.
 - Fixed bug with missing include of eZ xml.
   http://ez.no/community/bug_reports/cannot_instantiate_non_existent_class_ezxml_in_ezdatetimetype_php
+- Changed default PostgreSQL user from 'root' to 'postgres' in bin/shell/redumpall.sh since
+  there's no user called root in default PostgreSQL installation.
+  (Merged from stable/3.3 rev. 8108)
 
 *Lib:
 

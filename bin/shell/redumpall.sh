@@ -31,7 +31,7 @@ USE_POSTGRESQL=""
 DUMP_DATA=""
 PAUSE=""
 
-POST_USER="root"
+POST_USER="postgres"
 SOCKET=""
 
 # Check parameters
