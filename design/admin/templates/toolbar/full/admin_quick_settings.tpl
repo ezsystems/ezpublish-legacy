@@ -18,10 +18,9 @@
 {/section}
 
 {let siteaccess=ezpreference( 'admin_quicksettings_siteaccess' )
-     select_siteaccess=true
-     settings_list=ezini( 'Tool_admin_quick_settings', 'settings_list', 'toolbar.ini' )}
+     select_siteaccess=true}
 
-{include uri='design:setup/quicksettings.tpl'}
+{include uri='design:setup/quick_settings.tpl'}
 
 {/let}
 

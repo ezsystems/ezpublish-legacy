@@ -21,11 +21,8 @@
 <div class="box-ml"><div class="box-mr"><div class="box-content">
 {/section}
 
-{let selected_cache_type=ezpreference( 'admin_clearcache_type' )}
+{include uri='design:setup/clear_cache.tpl'}
 
-{include uri='design:setup/clearcache.tpl'}
-
-{/let}
 </div></div></div>{section show=$last}</div></div></div>{/section}
 
 {section-else}

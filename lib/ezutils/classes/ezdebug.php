@@ -1182,6 +1182,18 @@ ezdebug.reload();
         {
             echo "<table style='border: 1px dashed black;' bgcolor=\"#fefefe\">";
             echo "<tr><th><h1>eZ debug</h1></th></tr>";
+
+            $ini =& eZINI::instance();
+
+            if ( $ini->variable( "DebugSettings", "DebugToolbar" ) == 'enabled' )
+            {
+                $tpl =& templateInit();
+                $result = $tpl->fetch( 'design:setup/debug_toolbar.tpl' );
+
+                echo "<tr><td>$result</td></tr>";
+            }
+            unset( $ini );
+
             echo "<tr><td>";
 
             if ( !$this->UseCSS )

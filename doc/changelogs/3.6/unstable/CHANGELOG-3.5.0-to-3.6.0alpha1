@@ -214,14 +214,17 @@ eZDebug:
 - Added "Remove bookmark" menu item in popup menu when clicking on the icon of
   bookmark in the "Bookmarks" list in admin interface.
 - Added "Result page" after adding notification.
-- Added spec #15: 'Clear cache' and 'Quick Settings' functionality templates:
+- Added spec #15:
+  'Clear cache' and 'Quick Settings' functionality templates:
   design/standard/templates/setup/clearcache.tpl
   design/standard/templates/setup/quicksettings.tpl
-- Added spec #15: Admin toolbar templates:
+  Admin toolbar templates:
   design/admin/templates/toolbar/full/admin_bookmarks.tpl
   design/admin/templates/toolbar/full/admin_clear_cache.tpl
   design/admin/templates/toolbar/full/admin_current_user.tpl
   design/admin/templates/toolbar/full/admin_quick_settings.tpl
+  Debug toolbar template:
+  design/standard/templates/setup/debug_toolbar.tpl
 
 eZDateTime:
 -  Fixed bug with missing array in function setHMS().

@@ -28,14 +28,6 @@ Tool[]=admin_bookmarks
 Tool[]=admin_clear_cache
 Tool[]=admin_quick_settings
 
-[Tool_admin_quick_settings]
-settings_list[]
-settings_list[]=DebugSettings;DebugOutput;site.ini;Debug output
-settings_list[]=DebugSettings;DebugRedirection;site.ini;Debug redirecion
-settings_list[]=TemplateSettings;Debug;site.ini;Template debug
-settings_list[]=TemplateSettings;ShowTemplatesUsageStatistics;site.ini;Template usage stat.
-settings_list[]=DatabaseSettings;SQLOutput;site.ini;SQL debug output
-
 [Tool_setup_link]
 title=
 link_icon=
