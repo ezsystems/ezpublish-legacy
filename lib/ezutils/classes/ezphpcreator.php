@@ -85,6 +85,7 @@ define( 'EZ_PHPCREATOR_EOL_COMMENT', 6 );
 define( 'EZ_PHPCREATOR_INCLUDE', 7 );
 define( 'EZ_PHPCREATOR_VARIABLE_UNSET', 8 );
 define( 'EZ_PHPCREATOR_DEFINE', 9 );
+define( 'EZ_PHPCREATOR_VARIABLE_UNSET_LIST', 10 );
 
 define( 'EZ_PHPCREATOR_VARIABLE_ASSIGNMENT', 1 );
 define( 'EZ_PHPCREATOR_VARIABLE_APPEND_TEXT', 2 );
@@ -208,6 +209,34 @@ unset( $offset );
     {
         $element = array( EZ_PHPCREATOR_VARIABLE_UNSET,
                           $name,
+                          $parameters );
+        $this->Elements[] = $element;
+    }
+
+    /*!
+     Adds code to unset a list of variables with name from \a $list.
+
+     Example:
+     \code
+$php->addVariableUnsetList( array ( 'var1', 'var2' ) );
+     \endcode
+
+     Would result in the PHP code.
+
+     \code
+unset( $var1, $var2 );
+     \endcode
+
+     \param $parameters Optional parameters, can be any of the following:
+            - \a spacing, The number of spaces to place before each code line, default is \c 0.
+
+     \sa http://php.net/manual/en/function.unset.php
+    */
+    function addVariableUnsetList( $list,
+                               $parameters = array() )
+    {
+        $element = array( EZ_PHPCREATOR_VARIABLE_UNSET_LIST,
+                          $list,
                           $parameters );
         $this->Elements[] = $element;
     }
@@ -816,6 +845,10 @@ print( $values['MyValue'] );
             {
                 $this->writeVariableUnset( $element );
             }
+            else if ( $element[0] == EZ_PHPCREATOR_VARIABLE_UNSET_LIST )
+            {
+                $this->writeVariableUnsetList( $element );
+            }
             else if ( $element[0] == EZ_PHPCREATOR_SPACE )
             {
                 $this->writeSpace( $element );
@@ -1007,6 +1040,24 @@ print( $values['MyValue'] );
         if ( isset( $parameters['spacing'] ) )
             $spacing = $parameters['spacing'];
         $text = "unset( \$$variableName );\n";
+        $text = eZPHPCreator::prependSpacing( $text, $spacing );
+        $this->write( $text );
+    }
+
+    /*!
+     \private
+    */
+    function writeVariableUnsetList( $element )
+    {
+        $variableNames = $element[1];
+        $parameters = $element[2];
+        $spacing = 0;
+        if ( isset( $parameters['spacing'] ) )
+            $spacing = $parameters['spacing'];
+        $text = 'unset( ';
+		array_walk( $variableNames, create_function( '&$variableName,$key', '$variableName = "\$" . $variableName;') );
+		$text .= join( ', ', $variableNames );
+		$text .= " );\n";
         $text = eZPHPCreator::prependSpacing( $text, $spacing );
         $this->write( $text );
     }

@@ -2287,10 +2287,7 @@ else
                 }
                 $code = str_replace( $matchMap, $replaceMap, $code );
                 $php->addCodePiece( $code, array( 'spacing' => $spacing ) );
-                foreach ( $unsetList as $unsetItem )
-                {
-                    $php->addVariableUnset( $unsetItem, array( 'spacing' => $spacing ) );
-                }
+                $php->addVariableUnsetList( $unsetList, array( 'spacing' => $spacing ) );
             }
         }
     }
