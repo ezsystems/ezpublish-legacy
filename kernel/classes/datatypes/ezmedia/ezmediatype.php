@@ -344,8 +344,11 @@ class eZMediaType extends eZDataType
     {
         $mediaFile =& eZMedia::fetch( $contentObjectAttribute->attribute( "id" ),
                                             $contentObjectAttribute->attribute( "version" ) );
-        $value = $mediaFile->attribute( $name );
 
+        if ( $mediaFile != null )
+            $value = $mediaFile->attribute( $name );
+        else
+            $value = "";
         return $value;
     }
 
