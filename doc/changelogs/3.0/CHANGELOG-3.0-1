@@ -110,6 +110,8 @@ links to clickable links.
   future cronjobs. The actual scripts to run are controlled by settings/cronjob.php.
 - Added next/previous function to standard search.
 - Optimized multiple word search queries.
+- Search and advanced search now use design keys for section if a section id override is used,
+  this means that override templates can be used per section.
 
 *SDK :
 
