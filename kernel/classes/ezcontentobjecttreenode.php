@@ -2999,8 +2999,8 @@ WHERE
 
         // Clean up content view cache
         $ini =& eZINI::instance();
-        $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
-        if ( $viewCacheEnabled )
+        if ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' ||
+             $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' )
         {
             include_once( 'kernel/classes/ezcontentcache.php' );
             eZContentCache::cleanup( array( $node->attribute( 'parent_node_id' ), $node->attribute( 'node_id' ) ) );

@@ -55,6 +55,9 @@ NOTE: Only put changes that are for 3.5.1 in here, changes that are done in 3.5.
   (Manually merged from trunk/3.6 rev. 10497)
 - Fixed bug #6057: calendar toolbox with only 1. and last week of Jan 2005
   (Merged from stable/3.4, rev. 10522)
+- Fixed bug using template caching, and not viewcache. Template cache is now cleared properly.
+  Example : {cache-block} would not expire properly earlier when content cache was disabled. 
+  Merged from stable/3.4 rev. 10531.
 
 *Templates:
 - Added nl2br operator to eztext view output to keep newlines in textfield datatype.
