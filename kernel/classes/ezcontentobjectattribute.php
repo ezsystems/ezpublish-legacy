@@ -896,9 +896,6 @@ class eZContentObjectAttribute extends eZPersistentObject
         return $tmp;
     }
 
-    // rush: temporary string
-    //$tmp->postInitialize( $translationVersion, $contentObjectAttribute );
-
     /*!
      Clones the attribute to the translation \a $languageCode.
      \note The cloned attribute is not stored.
