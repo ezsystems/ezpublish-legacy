@@ -177,10 +177,16 @@ class eZNotificationCollection extends eZPersistentObject
 
     function removeEmpty()
     {
-        $query = "SELECT eznotificationcollection.id from eznotificationcollection
-                  LEFT JOIN eznotificationcollection_item on eznotificationcollection.id=eznotificationcollection_item.collection_id
-                  WHERE eznotificationcollection_item.collection_id IS NULL";
         $db =& eZDB::instance();
+        if ( $db->databaseName() == 'oracle' ) // fix for compatibility with Oracle versions prior to 9
+            $query = 'SELECT eznotificationcollection.id FROM eznotificationcollection, eznotificationcollection_item
+                      WHERE  eznotificationcollection.id = eznotificationcollection_item.collection_id(+) AND
+                             eznotificationcollection_item.collection_id IS NULL';
+        else
+            $query = 'SELECT eznotificationcollection.id FROM eznotificationcollection
+                      LEFT JOIN eznotificationcollection_item ON eznotificationcollection.id=eznotificationcollection_item.collection_id
+                      WHERE eznotificationcollection_item.collection_id IS NULL';
+
         $idArray =& $db->arrayQuery( $query );
 
         foreach ( $idArray as $id )
