@@ -212,8 +212,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     */
     function &renderXHTMLTag( &$tpl, &$tag, $currentSectionLevel, &$isBlockTag, $tdSectionLevel = null )
     {
-        // Set to true if tag breaks paragraph flow
-        $isBlockTag = false;
         $tagText = "";
         $childTagText = "";
         $tagName = $tag->name();
@@ -288,6 +286,21 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
                 $tagText = implode( '', $textElements );
+
+                // Set to true if tag breaks paragraph flow as default
+                $isBlockTag = true;
+
+                // Check if the template overrides the block flow setting
+                if ( $tpl->hasVariable( 'is_block', 'xmltagns' ) )
+                {
+                    $isBlockTagOverride = $tpl->variable( 'is_block', 'xmltagns' );
+
+                    if ( $isBlockTagOverride == 'true' )
+                        $isBlockTag = true;
+                    else
+                        $isBlockTag = false;
+                }
+
                 // Remove the design key, so it will not override other tags
                 $res->removeKey( 'classification' );
             }break;

@@ -18,6 +18,7 @@ Changes from 3.1.0-1 to 3.1.0-2
 - Added support for specifying siteaccess when run cronjobs and also uses default siteaccess value.
 - Made sure notification system executes properly when no messages are to be sent.
 - Made sure name and type for access is set in access.php when default access is used.
+- Added setting in object.tpl which decides if the object should be rendered as a block tag or as inline
 
 *Library :
 eZ xml:
