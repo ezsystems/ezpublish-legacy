@@ -579,6 +579,17 @@ class eZDBInterface
         return false;
     }
 
+    /*!
+      Get database version number
+
+      \return version number
+              false if not supported
+    */
+    function version()
+    {
+        return false;
+    }
+
     /// \protectedsection
     /// Contains the current server
     var $Server;

@@ -588,6 +588,17 @@ class eZMySQLDB extends eZDBInterface
         return $databases;
     }
 
+    /*!
+     \reimp
+    */
+    function version()
+    {
+        $versionInfo = mysql_get_client_info();
+
+        $versionArray = explode( ' ', $versionInfo );
+
+        return $versionArray[( count( $versionArray ) - 1 )];
+    }
 
     /// \privatesection
 }

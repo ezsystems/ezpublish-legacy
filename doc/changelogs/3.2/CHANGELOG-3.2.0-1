@@ -205,6 +205,8 @@ Changes from 3.1-1 to 3.2.0-1
 *eZ db:
 - Added support for inserting an SQL file in eZDBInterface.
 - Added support for setting the global instance.
+- Added support for getting version number of database.
+- Added support for getting all available databases for logged in user.
 
 *eZ utils:
 - Added compatability files for eZLog, eZFile and eZDir which links to the eZ file library.
