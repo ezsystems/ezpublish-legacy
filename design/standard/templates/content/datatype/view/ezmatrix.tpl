@@ -17,7 +17,7 @@
 {section name=Rows loop=$matrix.rows.sequential}
 <td>
 {section name=Columns loop=$Rows:item.columns}
-{$Rows:Columns:item}
+{$Rows:Columns:item|wash(xhtml)}
 {delimiter}
 </td>
 <td>

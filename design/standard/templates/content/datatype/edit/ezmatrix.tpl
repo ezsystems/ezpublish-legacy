@@ -17,7 +17,7 @@
 {section name=Rows loop=$matrix.rows.sequential}
 <td>
 {section name=Columns loop=$Rows:item.columns}
-<input type="text" name="ContentObjectAttribute_ezmatrix_cell_{$attribute.id}[]" value="{$Rows:Columns:item}" />
+<input type="text" name="ContentObjectAttribute_ezmatrix_cell_{$attribute.id}[]" value="{$Rows:Columns:item|wash(xhtml)}" />
 {delimiter}
 </td>
 <td>
