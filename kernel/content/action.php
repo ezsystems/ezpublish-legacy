@@ -51,7 +51,7 @@ if ( $http->hasPostVariable( 'NewButton' )  )
         {
             $user =& eZUser::currentUser();
             $userID =& $user->attribute( 'contentobject_id' );
-            $sectionID = $parentContentObject->attribute( 'section_is' );
+            $sectionID = $parentContentObject->attribute( 'section_id' );
             $contentClassID = $http->postVariable( 'ClassID' );
             $class =& eZContentClass::fetch( $contentClassID );
             $contentObject =& $class->instantiate( $userID, $sectionID );
