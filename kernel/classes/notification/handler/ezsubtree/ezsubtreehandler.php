@@ -111,6 +111,12 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         $contentObject = $versionObject->attribute( 'contentobject' );
         if ( !$contentObject )
             return EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
+        $contentNode =& $contentObject->attribute( 'main_node' );
+        if ( !$contentNode )
+            return EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
+        $contentClass =& $contentObject->attribute( 'content_class' );
+        if ( !$contentClass )
+            return EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
         if ( // $versionObject->attribute( 'version' ) != 1 ||
              $versionObject->attribute( 'version' ) != $contentObject->attribute( 'current_version' ) )
         {
@@ -118,7 +124,19 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         }
         include_once( 'kernel/common/template.php' );
         $tpl =& templateInit();
+
+        $res =& eZTemplateDesignResource::instance();
+        $res->setKeys( array( array( 'object', $contentObject->attribute( 'id' ) ),
+                              array( 'node', $contentNode->attribute( 'node_id' ) ),
+                              array( 'parent_node', $contentNode->attribute( 'parent_node_id' ) ),
+                              array( 'class', $contentObject->attribute( 'contentclass_id' ) ),
+                              array( 'class_identifier', $contentClass->attribute( 'identifier' ) ),
+                              array( 'depth', $contentNode->attribute( 'depth' ) ),
+                              array( 'url_alias', $contentNode->attribute( 'url_alias' ) )
+                              ) );
+
         $tpl->setVariable( 'object', $contentObject );
+
         $result = $tpl->fetch( 'design:notification/handler/ezsubtree/view/plain.tpl' );
         $subject = $tpl->variable( 'subject' );
 
