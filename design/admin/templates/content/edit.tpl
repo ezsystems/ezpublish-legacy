@@ -17,7 +17,7 @@
 
 <div class="content-edit">
 
-<form name="editform" id="editform" enctype="multipart/form-data" method="post" action={concat("/content/edit/",$object.id,"/",$edit_version,"/",$edit_language|not|choose(concat($edit_language,"/"),''))|ezurl}>
+<form name="editform" id="editform" enctype="multipart/form-data" method="post" action={concat( '/content/edit/', $object.id, '/', $edit_version, '/', $edit_language|not|choose( concat( $edit_language, '/' ) ) )|ezurl}>
 
     <div class="context-block">
 
@@ -39,7 +39,7 @@
     <input type="hidden" name="UseNodeAssigments" value="0" />
     {/section}
 
-    <div class="context-attributes"">
+    <div class="context-attributes">
     {include uri="design:content/edit_attribute.tpl"}
     </div>
 
