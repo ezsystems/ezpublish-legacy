@@ -935,6 +935,37 @@ class eZModule
         return null;
     }
 
+    function &forward( &$module, $functionName )
+    {
+        if ( $module && $functionName )
+        {
+            $viewName = eZModule::currentView();
+
+            $parameters = $this->OriginalViewParameters;
+            $userParameters = $this->UserParameters;
+
+            $Return =& $module->run( $functionName, $parameters, false, $userParameters );
+
+            // override default navigation part
+            if ( $Return['is_default_navigation_part'] === true )
+            {
+                if ( $this->singleFunction() )
+                    $function =& $this->Module["function"];
+                else
+                    $function =& $this->Functions[$functionName];
+
+                if ( isset( $function['default_navigation_part'] ) )
+                {
+                    $Return['navigation_part'] = $function['default_navigation_part'];
+                }
+            }
+
+            return $Return;
+        }
+
+        return null;
+    }
+
     /*!
      Tries to run the function \a $functionName in the current module.
      \param parameters An indexed list of parameters, these will be mapped
@@ -1106,8 +1137,13 @@ class eZModule
         // Check if the module has set the navigation part, if not default to module setting
         if ( !isset( $Return['navigation_part'] ) )
         {
+            $Return['is_default_navigation_part'] = true;
             if ( isset( $function['default_navigation_part'] ) )
                 $Return['navigation_part'] = $function['default_navigation_part'];
+        }
+        else
+        {
+            $Return['is_default_navigation_part'] = false;
         }
 
         return $Return;

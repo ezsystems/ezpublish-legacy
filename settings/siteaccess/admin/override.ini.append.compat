@@ -1,0 +1,14 @@
+<?php /* #?ini charset="utf8"?
+
+###############################################################################
+#
+# Compatibility with old(3.4) admin interface
+#
+###############################################################################
+
+[visual_menuconfig]
+Source=visual/menuconfig.tpl
+MatchFile=setup/menuconfig.tpl
+Subdir=templates
+
+*/ ?>

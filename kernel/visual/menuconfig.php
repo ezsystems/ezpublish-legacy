@@ -69,7 +69,7 @@ if ( $http->hasPostVariable( 'SelectCurrentSiteAccessButton' ) )
     $http->setSessionVariable( 'eZTemplateAdminCurrentSiteAccess', $siteAccess );
 }
 
-$menuINI =& eZINI::instance( "menu.ini" );
+$menuINI =& eZINI::instance( "menu.ini","",null,null, true );
 $menuINI->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
 $menuINI->loadCache();
 
