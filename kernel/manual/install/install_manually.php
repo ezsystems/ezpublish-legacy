@@ -32,14 +32,14 @@
 
 <ul>
 	<li>PHP >= 4.1.x <br /><a href="http://www.php.net">http://www.php.net </a> </li>
-	<li>Apache 1.3 (apache 2.0 might/might not work) <br /><a href="http://www.apache.org">http://www.apache.org</a></li>
+	<li>Apache 1.3 (apache 2.0 works, but it is not well tested) <br /><a href="http://www.apache.org">http://www.apache.org</a></li>
 	<li>Either MySQL or PostgreSQL <br /><a href="http://www.mysql.org">http://www.mysql.org</a><br /><a href="http://www.postgresql.org">http://www.postgresql.org</a></li>
 	<li> ImageMagick and/or GD compiled in PHP for image conversion and scaling <br /><a href="http://www.imagemagick.org">http://www.imagemagick.org</a></li>
 </ul>
 
 <p>
-	The installation process for the above programs are very well documented on
-	their homepage, so we will not include that here.
+	The installation processes for the above programs are very well documented on
+	their respective home pages, so we will not include that here.
 </p>
 
 
@@ -62,14 +62,14 @@
 	<li>You should now have a "mysql&gt;" prompt, create a new database <pre class="example"> mysql&gt; create database &lt;name_of_database&gt;</pre></li>
 	<li>Grant permissions <pre class="example"> mysql&gt; grant all on &lt;name_of_database&gt;.* to &lt;user&gt;@localhost
 	identified by '&lt;password&gt;';</pre></li>
-	<li>If you don't want to install demodata <pre class="example"> $ mysql -u &lt;user&gt; -p&lt;password&gt; &lt;name_of_database&gt;
+	<li>If you don't want to install demodata: <pre class="example"> $ mysql -u &lt;user&gt; -p&lt;password&gt; &lt;name_of_database&gt;
 	&lt; &lt;httproot&gt;/ezpublish-xxx/kernel/sql/mysql/kernel_clean.sql</pre>
-	If you do want the demodata <pre class="example"> $ mysql -u &lt;user&gt; -p&lt;password&gt; &lt;name_of_database&gt;
+	If you want the demodata: <pre class="example"> $ mysql -u &lt;user&gt; -p&lt;password&gt; &lt;name_of_database&gt;
 	&lt; &lt;httproot&gt;/ezpublish-xxx/kernel/sql/mysql/demokernel.sql </pre></li>
 </ol>
 
 
-<h4 id="">PosgreSQL</h4>
+<h4 id="">PostgreSQL</h4>
 <p>
 	We need to login, create a new database, grant permissions to a user and insert a database.
 </p>
@@ -100,7 +100,7 @@
 	Open &lt;httproot&gt;/ezpublish-xxx/settings/site.ini with your favourite editor
 	and set the correct setting in the [Database Settings] section.
 	You need to select what database implementation you would like to use,
-	hostname of database server to connect to, username, password and database name.
+	hostname of the database server to connect to, username, password and database name.
 </p>
 
 <pre class="example">[Database Settings]
@@ -112,13 +112,9 @@ Server=localhost
 User=&lt;user&gt;
 # DB Password
 Password=&lt;password&gt;
-# database name you have created on previous step
+# database name you have created in the previous step
 Database=&lt;name_of_database&gt;
 </pre>
-
-
-
-
 
 <h3 id="Linux_FreeBSD_Macos_VirtualHost">Virtualhost setup</h3>
 <p>
@@ -146,6 +142,11 @@ Database=&lt;name_of_database&gt;
 <p>
 	For help on how to configure site access, head over to the <a href="siteaccess">site access section</a>
 </p>
+
+
+
+
+
 
 <h2 id="Windows_Installation">Installation on Windows</h2>
 <ol>
@@ -212,7 +213,7 @@ Database=&lt;name_of_database&gt;
 	You can use eZ publish with a virtualhost setup. When using a virtualhost you don't need to specify the index.php in the URL.
 </p>
 <p>
-	Make sure these lines exists in your apache configfile and is not commented out
+    Make sure these lines exists in your apache config file and are not commented out:
 </p>
 <pre class="example">LoadModule rewrite_module modules/mod_rewrite.so
 AddModule mod_rewrite.c</pre>
@@ -235,7 +236,7 @@ AddModule mod_rewrite.c</pre>
 &lt;/VirtualHost&gt;
 </pre>
 
-<p class="important"> <b>Note:</b>The rewrite rule is releative to the http root and use '/' (slash) not '\' (backslash)</p>
+<p class="important"> <b>Note:</b>The rewrite rule is relative to the http root and uses '/' (slash) not '\' (backslash)</p>
 
 <h3 id="Windows_SiteAccess">Siteaccess settings</h3>
 <p>

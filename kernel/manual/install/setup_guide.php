@@ -27,14 +27,14 @@
 
 <ul>
 	<li>PHP >= 4.1.x <br /><a href="http://www.php.net">http://www.php.net </a> </li>
-	<li>Apache 1.3 (apache 2.0 might/might not work) <br /><a href="http://www.apache.org">http://www.apache.org</a></li>
+	<li>Apache 1.3 (apache 2.0 works, but it is not well tested)<br /><a href="http://www.apache.org">http://www.apache.org</a></li>
 	<li>Either MySQL or PostgreSQL <br /><a href="http://www.mysql.org">http://www.mysql.org</a><br /><a href="http://www.postgresql.org">http://www.postgresql.org</a></li>
 	<li> ImageMagick and/or GD compiled in PHP for image conversion and scaling (not required) <br /><a href="http://www.imagemagick.org">http://www.imagemagick.org</a></li>
 </ul>
 
 <p>
-	The installation process for the above programs are very well documented on
-	their homepage, so we will not include that here.
+	The installation processes for the above programs are very well documented on
+	their respective home pages, so we will not include that here.
 </p>
 
 <h2 id="Linux_FreeBSD_Macos">Using the setup guide on Linux, FreeBSD and Mac OS X</h2>
@@ -54,7 +54,7 @@
 </ol>
 
 
-<h4 id="">PosgreSQL</h4>
+<h4 id="">PostgreSQL</h4>
 <p>
 	We need to login, create a new database, grant permissions to a user and insert a database.
 </p>

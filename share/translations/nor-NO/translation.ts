@@ -860,16 +860,8 @@
         <translation>Login:</translation>
     </message>
     <message>
-        <source>e-mail:</source>
-        <translation type="obsolete">E-post:</translation>
-    </message>
-    <message>
         <source>Password:</source>
         <translation>Passord</translation>
-    </message>
-    <message>
-        <source>Password confirmation:</source>
-        <translation type="obsolete">Bekreft passord</translation>
     </message>
     <message>
         <source>Price:</source>
@@ -1184,14 +1176,6 @@
     <message>
         <source>Class name</source>
         <translation>Klassenavn</translation>
-    </message>
-    <message>
-        <source>For more options try the </source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>advanced search</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>For more options try the %1advanced search%2</source>
@@ -3514,6 +3498,10 @@
         <source>Order:</source>
         <translation>Ordre:</translation>
     </message>
+    <message>
+        <source>The order list is empty</source>
+        <translation>Ordrelisten er tom</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/task</name>
@@ -4487,31 +4475,6 @@
         <source>Text field is empty, content required.</source>
         <comment>eZStringType</comment>
         <translation>Tekstfeltet er tomt, oppgi en verdi.</translation>
-    </message>
-    <message>
-        <source>An user account must be filled up</source>
-        <comment>eZUserType</comment>
-        <translation type="obsolete">Opprett en brukerkonto</translation>
-    </message>
-    <message>
-        <source>Login name exist, please choose another one.</source>
-        <comment>eZUserType</comment>
-        <translation type="obsolete">Brukernavnet er opptatt, vennligst velg et annet brukernavn.</translation>
-    </message>
-    <message>
-        <source>Email address is not valid.</source>
-        <comment>eZUserType</comment>
-        <translation type="obsolete">E-postadressen er ikke gyldig.</translation>
-    </message>
-    <message>
-        <source>Please confirm your password.</source>
-        <comment>eZUserType</comment>
-        <translation type="obsolete">Bekreft passordet.</translation>
-    </message>
-    <message>
-        <source>The minimum length of password should be 3.</source>
-        <comment>eZUserType</comment>
-        <translation type="obsolete">Passord bør være minst 3 tegn lange.</translation>
     </message>
     <message>
         <source>Object </source>

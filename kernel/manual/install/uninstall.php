@@ -27,7 +27,7 @@
 </p>
 
 <p>
-	In addition you might want to remove the eZ systems directory because files created after the installation of eZ publish (e.g Apache log files) don't get deleted by the usual uninstall
+	In addition you might want to remove the eZ systems directory because files created after the installation of eZ publish (e.g. Apache log files) are not deleted by the usual uninstall.
 </p>
 
 <h3 id="Windows_without_installer">Without Installer</h3>
@@ -40,8 +40,7 @@
 <ol>
 	<li>To uninstall eZ publish you must be root. Become root by typing <pre class="example"> # su -</pre> and enter your root password when prompted for. </li>
 	<li>Go to your extracted ezpublish-xxx-xxx-i386 directory and run <pre class="example"> # ./install.sh</pre></li>
-	<li>The installer automatically searches for an existing eZ publish 3 installation and highlight choice number two on the menu. Make sure choice number 2 "Uninstall eZ
-	publish" is selected and press Enter. </li>
+	<li>The installer automatically searches for an existing eZ publish 3 installation and highlights choice number two on the menu. Make sure choice number 2 "Uninstall eZ publish" is selected and press Enter.</li>
 </ol>
 <h3 id="Linux_FreeBSD_without_installer">Without installer</h3>
 <ol>
@@ -57,8 +56,14 @@
 
 <ol>
 	<li>To uninstall eZ publish you must be root. Become root by typing <pre class="example"> # su - </pre>and enter your root password when prompted for. </li>
-	<li>Before we can remove any files, we need to stop both Apache and MySQL. First go to the bin directory located in /opt/ezpublish <pre class="example"># cd /opt/ezpublish/bin</pre> now to stop Apache and MySQL run <pre class="example"> # ./ezpublish stop</pre></li>
-	<li>Both Apache and MySQL should now be stopped. To remove all the eZ publish files run <pre class="example"> # rm -fr /opt/ezpublish</pre> and remove the ezpublish lock file <pre class="example"># rm -f /var/state/ezpublish/ezpublish.lock</pre></li>
+	<li>Before we can remove any files, we need to stop both Apache and MySQL. First go to the bin directory located in /opt/ezpublish
+    <pre class="example"># cd /opt/ezpublish/bin</pre>
+    To stop Apache and MySQL run
+    <pre class="example"> # ./ezpublish stop</pre></li>
+	<li>Both Apache and MySQL should now be stopped. To remove all the eZ publish files run
+    <pre class="example"> # rm -fr /opt/ezpublish</pre>
+    and remove the ezpublish lock file
+    <pre class="example"># rm -f /var/state/ezpublish/ezpublish.lock</pre></li>
 </ol>
 <p>
 	All traces of eZ publish should now be gone.
@@ -67,10 +72,12 @@
 <h2 id="Macos">Mac OS X</h2>
 <h3 id="Macos_without_installer">Without installer</h3>
 <ol>
-	<li>To uninstall eZ publish you must be root. Become root by typing <pre class="example"> # su - </pre>and enter your root password when prompted for. </li>
-	<li>Now to remove all the eZ publish files just run <pre class="example"> # rm -fr &lt;httproot&gt;/ezpublish-xxx</pre></li>
+	<li>To uninstall eZ publish you must be root. Become root by typing
+    <pre class="example"> # su - </pre>
+    and enter your root password when prompted for it.</li>
+	<li>Now to remove all the eZ publish files just run
+    <pre class="example"> # rm -fr &lt;httproot&gt;/ezpublish-xxx</pre></li>
 </ol>
 <p>
 	All traces of eZ publish should now be gone.
 </p>
-
