@@ -419,6 +419,7 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                                                              'class_id' => $class->attribute( 'identifier' ),
                                                              'classgroup' => $class->attribute( 'ingroup_id_list' ),
                                                              'section' => $object->attribute( 'section_id' ) ),
+                                            'start_node' => $fromNodeID,
                                             'persistent_data' => array( 'FromNodeID' => $fromNodeID,
                                                                         'OldAssignmentParentID' => $oldAssignmentParentID ),
                                             'content' => array( 'object_id' => $objectID,

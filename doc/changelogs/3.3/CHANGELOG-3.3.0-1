@@ -53,6 +53,7 @@ Changes from 3.2-3 to 3.3.0-1
   This means that adding new view parameters in view.php will automatically be included for the content cache.
 - Improved the content download system with support for images. Also the handleDownload function has been
   split into one that figures out the filename and one that does the actual download.
+- Changed the move node operation in content/edit to start from the original node placement.
 
 *Templates:
 - navigator/google.tpl has changed the arrows to use arrow characters as HTML entities.
