@@ -32,33 +32,33 @@
         {/section}
     {/section}
 
-<div class="admin-childlist">
+<div class="content-navigation-childlist">
     <table class="list" cellspacing="0">
     <tr>
         {* Remove column *}
         <th class="remove"> &nbsp; </th>
 
         {* Name column *}
-        <th class="name">{'Name'|i18n( 'design/admin/layout ')}</th>
+        <th class="name">{'Name'|i18n( 'design/admin/layout ')}:</th>
 
         {* Class type column *}
-        <th class="class">{'Type'|i18n( 'design/admin/layout ')}</th>
+        <th class="class">{'Type'|i18n( 'design/admin/layout ')}:</th>
 
         {* Section column *}
-        <th class="section">{'Section'|i18n( 'design/admin/layout ')}</th>
+        <th class="section">{'Section'|i18n( 'design/admin/layout ')}:</th>
 
         {* Priority column *}
         {section show=eq( $node.sort_array[0][0], 'priority' )}
-            <th class="priority">{'Priority'|i18n( 'design/standard/node/view' )}</th>
+            <th class="priority">{'Priority'|i18n( 'design/standard/node/view' )}:</th>
         {/section}
 
         {* Copy column *}
         {* section show=$can_copy *}
-            <th class="copy">{'Copy'|i18n( 'design/standard/node/view' )}</th>
+            <th class="copy">{'Copy'|i18n( 'design/standard/node/view' )}:</th>
         {* /section *}
 
         {* Edit column *}
-        <th class="edit">{'Edit'|i18n( 'design/standard/node/view' )}</th>
+        <th class="edit">{'Edit'|i18n( 'design/standard/node/view' )}:</th>
     </tr>
 
     {section var=Nodes loop=$children sequence=array( bglight, bgdark )}
@@ -154,8 +154,8 @@
 {/section}
 
 {* The "Create new here" thing: *}
-{section show=$node.object.can_create}
 <div class="createblock">
+{section show=$node.object.can_create}
 <input type="hidden" name="NodeID" value="{$node.node_id}" />
 <select name="ClassID" title="{'Use this menu to select the type of item you wish to create. Click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/layout' )|wash()}">
 {section var=CanCreateClasses loop=$node.object.can_create_class_list}

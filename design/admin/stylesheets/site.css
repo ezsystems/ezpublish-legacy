@@ -322,22 +322,22 @@ input#searchbutton, input.menubutton
     background-color: #e0e0e0;
 }
 
-div.admin-childlist
+div.content-navigation-childlist
 {
     margin-top: 2em;
 }
 
-div.admin-childlist table.list th
+div.content-navigation-childlist table.list th
 {
     width: 1%;
 }
 
-div.admin-childlist table.list th.name, div.content-edit table.list th.name
+div.content-navigation-childlist table.list th.name, div.content-edit table.list th.name
 {
     width: 99%;
 }
 
-div.admin-childlist table.list img, div.content-edit table.list img
+div.content-navigation-childlist table.list img, div.content-edit table.list img
 {
     vertical-align: middle;
 }
