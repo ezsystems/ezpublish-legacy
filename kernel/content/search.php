@@ -78,10 +78,6 @@ if ( $http->hasVariable( "SubTreeArray" ) )
 
 $Module->setTitle( "Search for: $searchText" );
 
-$searchText = eZSearch::normalizeText( $searchText );
-
-
-
 $searchResult =& eZSearch::search( $searchText, array( "SearchType" => $searchType,
                                                        "SearchSectionID" => $searchSectionID,
                                                        "SearchSubTreeArray" => $subTreeArray ) );

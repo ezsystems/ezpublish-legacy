@@ -73,25 +73,26 @@ class eZSearchEngine
             if ( $classAttribute->attribute( "is_searchable" ) == 1 )
             {
                 // strip tags
-                $text = strip_tags( $attribute->metaData() );
+                $text =& strip_tags( $attribute->metaData() );
 
                 // Strip multiple whitespaces
-                $text = str_replace(".", " ", $text );
-                $text = str_replace(":", " ", $text );
-                $text = str_replace(",", " ", $text );
-                $text = str_replace(";", " ", $text );
-                $text = str_replace("'", " ", $text );
-                $text = str_replace("\"", " ", $text );
-                $text = str_replace("(", " ", $text );
-                $text = str_replace(")", " ", $text );
-                $text = str_replace("-", " ", $text );
-                $text = str_replace("!", " ", $text );
-                $text = str_replace("?", " ", $text );
-                $text = str_replace("$", " ", $text );
+                $text =& str_replace(".", " ", $text );
+                $text =& str_replace(":", " ", $text );
+                $text =& str_replace(",", " ", $text );
+                $text =& str_replace(";", " ", $text );
+                $text =& str_replace("'", " ", $text );
+                $text =& str_replace("\"", " ", $text );
+                $text =& str_replace("(", " ", $text );
+                $text =& str_replace(")", " ", $text );
+                $text =& str_replace("-", " ", $text );
+                $text =& str_replace("!", " ", $text );
+                $text =& str_replace("?", " ", $text );
+                $text =& str_replace("$", " ", $text );
 
-                $text = str_replace("\n", " ", $text );
-                $text = str_replace("\r", " ", $text );
-                $text = preg_replace("(\s+)", " ", $text );
+                $text =& str_replace("\n", " ", $text );
+                $text =& str_replace("\r", " ", $text );
+                $text =& preg_replace("(\s+)", " ", $text );
+                $text =& strtolower( $text );
 
                 // Split text on whitespace
                 $wordArray =& split( " ", $text );
@@ -123,33 +124,37 @@ class eZSearchEngine
         $uniqueWordCount = count( $uniqueIndexArray );
         */
 
+        // Create an unique array
+        $indexArrayOnlyWords = array_unique( $indexArrayOnlyWords );
+
         $wordIDArray = array();
         // store the words in the index and remember the ID
         $dbName = $db->databaseName();
         if ( $dbName == 'mysql' )
         {
-
             $wordArray = array();
             $wordsString = implode( '\',\'', $indexArrayOnlyWords );
-            $wordRes =& $db->arrayQuery( "select * from ezsearch_word where word in( '$wordsString' ) " );
+            $wordRes =& $db->arrayQuery( "SELECT * FROM ezsearch_word WHERE word IN ( '$wordsString' ) " );
             $wordResCount = count( $wordRes );
             $wordIDArray = array();
-            $existenWordArray = array();
-            for ( $i=0;$i<$wordResCount;++$i )
+            $existingWordArray = array();
+            for ( $i = 0; $i < $wordResCount; $i++ )
             {
                 $wordIDArray[] = $wordRes[$i]['id'];
-                $existenWordArray[] = $wordRes[$i]['word'];
+                $existingWordArray[] = $wordRes[$i]['word'];
                 $wordLowercase = strtolower( $wordRes[$i]['word'] );
                 $wordArray[$wordLowercase] = $wordRes[$i]['id'];
             }
+
             $wordIDString = implode( ',', $wordIDArray );
             if ( count( $wordIDArray ) > 0 )
-                $db->query( " UPDATE ezsearch_word SET object_count=( object_count + 1 ) WHERE id in ( $wordIDString )" );
+                $db->query( " UPDATE ezsearch_word SET object_count=( object_count + 1 ) WHERE id IN ( $wordIDString )" );
+
             if ( count( $indexArrayOnlyWords ) > $wordResCount )
             {
                 eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $indexArrayOnlyWords, 'indexArrayOnlyWords' );
-                eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $existenWordArray, "existenWordArray" );
-                $newWordArray = array_diff( $indexArrayOnlyWords, $existenWordArray );
+                eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $existingWordArray, "existingWordArray" );
+                $newWordArray = array_diff( $indexArrayOnlyWords, $existingWordArray );
                 $newWordString = implode( "', '1' ), ('", $newWordArray );
                 $db->query( "INSERT INTO
                                ezsearch_word ( word, object_count )
@@ -199,8 +204,6 @@ class eZSearchEngine
         $sectionID = $contentObject->attribute( 'section_id' );
         $published = $contentObject->attribute( 'published' );
         $valuesStringList = array();
-//         eZDebug::writeDebug( $indexArray, 'indexArray' );
-//         eZDebug::writeDebug( $wordIDArray, 'wordIDArray' );
         for ( $i = 0; $i < count( $indexArray ); $i++ )
         {
             $indexWord = $indexArray[$i]['Word'];
@@ -215,7 +218,6 @@ class eZSearchEngine
             }
             else
                 $nextWordID = 0;
-
 //            print( "indexing word : $indexWord <br> " );
 
             // Calculate the relevans ranking for this word
@@ -226,12 +228,13 @@ class eZSearchEngine
             $prevWordID = $wordID;
             $placement++;
         }
+
         if ( $dbName == 'mysql' )
         {
             if ( count( $valuesStringList ) > 0 )
             {
                 $valuesString = implode( ',', $valuesStringList );
-                $db->query( "INSERT DELAYED INTO
+                $db->query( "INSERT INTO
                            ezsearch_object_word_link
                         ( word_id, contentobject_id, frequency, placement, next_word_id, prev_word_id, contentclass_id, contentclass_attribute_id, published, section_id )
                      VALUES $valuesString" );
@@ -259,7 +262,6 @@ class eZSearchEngine
             }
             $db->commit();
         }
-
     }
 
     /*!
@@ -295,6 +297,7 @@ class eZSearchEngine
     {
         if ( trim( $searchText ) != "" )
         {
+            $searchText =& $this->normalizeText( $searchText );
             $db =& eZDB::instance();
 
             $nonExistingWordArray = array();
@@ -423,11 +426,11 @@ class eZSearchEngine
 
             $searchWordArray = $this->splitString( $searchText );
             $tempTableCount = 1;
-            if( ( count( $searchWordArray ) > 1 ) and ( count( $phraseTextArray ) == 0 ) )
+            if ( ( count( $searchWordArray ) > 1 ) and ( count( $phraseTextArray ) == 0 ) )
             {
                 foreach ( $searchWordArray as $searchWord )
                 {
-                    $tableName = "tmptable".$tempTableCount;
+                    $tableName = "temporary_table_".$tempTableCount;
                     $db->query( "CREATE TEMPORARY TABLE $tableName SELECT DISTINCT ezcontentobject.*,
                                                                  ezsearch_object_word_link.frequency
                                                  FROM ezcontentobject,ezsearch_object_word_link, ezsearch_word
@@ -438,27 +441,27 @@ class eZSearchEngine
                                                  ORDER BY ezsearch_object_word_link.frequency" );
                     $tempTableCount++;
                 }
-                $table = "tmptable1, ";
+                $table = "temporary_table_1, ";
                 $condition = "";
                 for ( $i = 2; $i < $tempTableCount; $i++ )
                 {
                     if ( $i == ( $tempTableCount - 1 ) )
                     {
-                        $table .= "tmptable". $i ." ";
-                        $condition .= " tmptable". $i .".id = tmptable1.id";
+                        $table .= "temporary_table_". $i ." ";
+                        $condition .= " temporary_table_". $i .".id = temporary_table_1.id";
                     }else
                     {
-                        $table .= "tmptable". $i .", ";
-                        $condition .= "tmptable". $i .".id = tmptable1.id AND";
+                        $table .= "temporary_table_". $i .", ";
+                        $condition .= "temporary_table_". $i .".id = temporary_table_1.id AND";
                     }
                 }
                 $searchCount = 0;
                 $finalRes =& $db->arrayQuery( "SELECT * FROM $table WHERE $condition" );
-                $countRes =& $db->arrayQuery( "SELECT count( DISTINCT tmptable1.id ) as count FROM $table WHERE $condition" );
+                $countRes =& $db->arrayQuery( "SELECT count( DISTINCT temporary_table_1.id ) as count FROM $table WHERE $condition" );
                 $searchCount = $countRes[0]['count'];
                 for ( $i=1;$i<$tempTableCount;$i++ )
                 {
-                    $tableName = "tmptable".$i;
+                    $tableName = "temporary_table_".$i;
                     $db->query ("DROP TABLE $tableName " );
                 }
                 return array( "SearchResult" => $finalRes,
@@ -631,7 +634,6 @@ class eZSearchEngine
                 }
             }
 
-
             $limitationList = array();
             if ( isset( $params['Limitation'] ) )
             {
@@ -676,27 +678,6 @@ class eZSearchEngine
             }
 
 
-/*
-            $searchQuery = "SELECT DISTINCT ezcontentobject.id, ezcontentobject.*, ezsearch_object_word_link.frequency, ezcontentclass.name as class_name
-                    FROM
-                       ezcontentobject,
-                       ezsearch_object_word_link
-                       $subTreeTable,
-                       ezcontentclass
-                    WHERE
-                    $searchDateQuery
-                    $sectionQuery
-                    $classQuery
-                    $classAttributeQuery
-                    $phraseSQL
-                    $fullTextSQL
-                    $subTreeSQL
-                    ezcontentobject.id=ezsearch_object_word_link.contentobject_id and
-                    ezcontentobject.contentclass_id = ezcontentclass.id and
-                    ezcontentclass.version = '0'
-                    $sqlPermissionCheckingString
-                    ORDER BY ezsearch_object_word_link.frequency";
-*/
             $searchQuery = "SELECT DISTINCT ezcontentobject.*, ezsearch_object_word_link.frequency, ezcontentclass.name as class_name, ezcontentobject_tree.*
                     FROM
                        ezcontentobject,
@@ -814,7 +795,6 @@ class eZSearchEngine
         $text = str_replace(",", " ", $text );
         $text = str_replace(";", " ", $text );
         $text = str_replace("'", " ", $text );
-        $text = str_replace("\"", " ", $text );
         $text = str_replace("(", " ", $text );
         $text = str_replace(")", " ", $text );
         $text = str_replace("-", " ", $text );

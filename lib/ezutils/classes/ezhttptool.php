@@ -227,6 +227,14 @@ class eZHTTPTool
 				$GLOBALS["HTTP_POST_VARS"][$key] = str_replace( '\"', '"', $GLOBALS["HTTP_POST_VARS"][$key] );
 			}
          }
+        foreach ( array_keys( $GLOBALS["_GET"] ) as $key )
+        {
+			if ( !is_array( $GLOBALS["_GET"][$key] ) )
+			{
+				$GLOBALS["_GET"][$key] = str_replace( "\'", "'", $GLOBALS["_GET"][$key] );
+				$GLOBALS["_GET"][$key] = str_replace( '\"', '"', $GLOBALS["_GET"][$key] );
+			}
+         }
 	}
 
     function createPostVarsFromImageButtons()

@@ -482,29 +482,29 @@ p.description
 
 div.error, div.warning, div.feedback, div.highlight
 {
-    margin-top: 1ex;
-    margin-bottom: 1ex;
-    padding: 0.5ex;
+    margin-top: 0.4ex;
+    margin-bottom: 0.4ex;
+    padding: 0.2ex;
     padding-left: 1ex;
     padding-right: 2ex;
 }
 
 div.error
 {
-    background-color: #ff3300;
-    color: #ffffff;
+    border-bottom: solid 2px #ff3300;
+    border-top: solid 2px #ff3300;
 }
 
 div.warning
 {
-    background-color: #ff3300;
-    color: #ffffff;
+    border-bottom: solid 2px #ff3300;
+    border-top: solid 2px #ff3300;
 }
 
 div.feedback
 {
-    color: #ffffff;
-    background-color: #66cc33;
+    border-top: solid 2px #66cc33;
+    border-bottom: solid 2px #66cc33;
 }
 
 div.highlight

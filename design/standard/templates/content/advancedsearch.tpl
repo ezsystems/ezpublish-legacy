@@ -35,10 +35,10 @@
 <label>{"Search the exact phrase:"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
 <input class="box" type="text" size="40" name="PhraseSearchText" value="{$phrase_search_text}" />
 </div>
-<div class="block">
+{*<div class="block">
 <label>{"Search with at least one of the words:"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
 <input class="box" type="text" size="40" name="AnyWordSearchText" value="" />
-</div>
+</div>*}
 <div class="block">
 
 <div class="element">

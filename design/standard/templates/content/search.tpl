@@ -2,6 +2,11 @@
 <h1>{"Search"|i18n("design/standard/content/search")}</h1>
 </div>
 
+<div class="block">
+<label>{"For more options try the "|i18n("design/standard/content/search")} <a href={"/content/advancedsearch/"|ezurl}>{"advanced Search"|i18n("design/standard/content/search")}</a></label>
+</div>
+
+
 {switch name=Sw match=$search_count}
   {case match=0}
   <div class="warning">
@@ -15,7 +20,7 @@
   {/case}
 {/switch}
 <table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
-{section show=$search_text}
+{section show=$search_result}
 <th>{"Object name"|i18n("design/standard/content/search")}</th>
 <th>{"Class name"|i18n("design/standard/content/search")}</th>
 <tr>
