@@ -118,7 +118,7 @@
 
   <div class="buttonblock">
     <input type="hidden" name="ChangeStepAction" value="" />
-    <input class="defaultbutton" type="submit" name="StepButton_8" value="Connect To Database" />
+    <input class="defaultbutton" type="submit" name="StepButton_8" value="Connect To Database>>" />
   </div>
   {include uri='design:setup/persistence.tpl'}
 </form>

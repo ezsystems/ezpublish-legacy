@@ -30,7 +30,11 @@ CheckValidity=false</pre>
 CheckValidity=true</pre>
 </p>
 <p>
-You can find your new eZ publish website <a href="http://{$site_info.url}">here</a>. Enjoy one of the most successful web content management systems!
+Click on the URL to access your new <a href="{$site_info.url}">eZ publish website</a> or click the <i>Done</i> button. Enjoy one of the most successful web content management systems!
 </p>
 
-    {include uri='design:setup/persistence.tpl'}
+<form method="post" action="{$script}">
+  <div class="buttonblock">
+    <input class="defaultbutton" type="submit" name="Refresh" value="Done" />
+  </div>
+</form>

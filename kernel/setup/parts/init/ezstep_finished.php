@@ -138,6 +138,16 @@ function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
 
         $saveResult = $ini->save( false, '.php', false );
     }
+    
+    if ( $saveResult )
+    {
+        $setupINI =& eZINI::instance( 'setup.ini' );
+        $setupINI->setVariable( "DatabaseSettings", "DefaultServer", $databaseInfo['server'] );
+        $setupINI->setVariable( "DatabaseSettings", "DefaultName", $databaseInfo['name'] );
+        $setupINI->setVariable( "DatabaseSettings", "DefaultUser", $databaseInfo['user'] );
+        $setupINI->setVariable( "DatabaseSettings", "DefaultPassword", $databaseInfo['password'] );
+        $saveResult = $setupINI->save( false, '.php', false );
+    }
 
     if ( $saveResult and
          $charset !== false )

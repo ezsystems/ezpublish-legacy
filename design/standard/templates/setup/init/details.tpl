@@ -7,7 +7,7 @@
   <form method="post" action="{$script}">
     <div class="buttonblock">
       <input type="hidden" name="ChangeStepAction" value="" />
-      <input class="defaultbutton" type="submit" name="StepButton_4" value="Next" />
+      <input class="defaultbutton" type="submit" name="StepButton_4" value="Next>>" />
     </div>
     {include uri='design:setup/persistence.tpl'}
   </form>
@@ -46,9 +46,9 @@
 
     <div class="buttonblock">
       <input type="hidden" name="ChangeStepAction" value="" />
-      <input class="defaultbutton" type="submit" name="StepButton_4" value="Next" />
+      <input class="defaultbutton" type="submit" name="StepButton_4" value="Next>>" />
       <input class="button" type="submit" name="StepButton_3" value="Check Again" />
-      <input class="button" type="submit" name="StepButton_2" value="Rerun System Check" />
+      <input class="button" type="submit" name="StepButton_2" value="<Rerun System Check" />
     </div>
     {include uri='design:setup/persistence.tpl'}
   </form>

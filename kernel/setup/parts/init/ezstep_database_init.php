@@ -105,8 +105,9 @@ function eZSetupStep_database_init( &$tpl, &$http, &$ini, &$persistenceList )
         $persistenceList['database_info']['name'] = $config->variable( 'DatabaseSettings', 'DefaultName' );
     if ( !$persistenceList['database_info']['user'] )
         $persistenceList['database_info']['user'] = $config->variable( 'DatabaseSettings', 'DefaultUser' );
-    if ( !$persistenceList['database_info']['user'] )
-        $persistenceList['database_info']['user'] = $config->variable( 'DatabaseSettings', 'DefaultUser' );
+    if ( !isset( $persistenceList['database_info']['password'] ) or
+         !$persistenceList['database_info']['password'] )
+        $persistenceList['database_info']['password'] = $config->variable( 'DatabaseSettings', 'DefaultPassword' );
 
     include_once( 'lib/ezutils/classes/ezhttptool.php' );
     $http =& eZHTTPTool::instance();

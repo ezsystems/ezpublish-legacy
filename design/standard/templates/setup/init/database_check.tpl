@@ -112,7 +112,7 @@
   <div class="buttonblock">
     <input type="hidden" name="eZSetupDatabaseReady" value="" />
     <input type="hidden" name="ChangeStepAction" value="" />
-    <input class="defaultbutton" type="submit" name="StepButton_8" value="Create Database" />
+    <input class="defaultbutton" type="submit" name="StepButton_8" value="Create Database>>" />
   </div>
   {include uri='design:setup/persistence.tpl'}
 </form>

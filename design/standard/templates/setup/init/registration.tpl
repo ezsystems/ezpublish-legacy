@@ -35,8 +35,8 @@
 
   <div class="buttonblock">
     <input type="hidden" name="ChangeStepAction" value="" />
-    <input class="defaultbutton" type="submit" name="StepButton_12" value="Send Registration" />
-    <input class="button" type="submit" name="StepButton_13" value="Skip Registration" />
+    <input class="defaultbutton" type="submit" name="StepButton_12" value="Send Registration>" />
+    <input class="button" type="submit" name="StepButton_13" value="Skip Registration>>" />
   </div>
   {include uri='design:setup/persistence.tpl'}
 </form>

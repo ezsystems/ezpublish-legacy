@@ -52,6 +52,12 @@ function eZSetupStep_email_settings( &$tpl, &$http, &$ini, &$persistenceList )
                         'result' => false );
     if ( isset( $persistenceList['email_info'] ) )
         $emailInfo = $persistenceList['email_info'];
+    if ( $ini->variable( 'MailSettings', 'TransportServer' ) )
+        $emailInfo['server'] = $ini->variable( 'MailSettings', 'TransportServer' );
+    if ( $ini->variable( 'MailSettings', 'TransportUser' ) )
+        $emailInfo['user'] = $ini->variable( 'MailSettings', 'TransportUser' );
+    if ( $ini->variable( 'MailSettings', 'TransportPassword' ) )
+        $emailInfo['password'] = $ini->variable( 'MailSettings', 'TransportPassword' );
 
     $tpl->setVariable( 'email_info', $emailInfo );
 
