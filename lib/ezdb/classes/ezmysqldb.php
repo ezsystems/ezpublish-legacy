@@ -696,7 +696,10 @@ class eZMySQLDB extends eZDBInterface
 
         while ( $i < $numRows )
         {
-            $databases[] = mysql_db_name($databaseArray, $i);
+            // we don't allow "mysql" database to be shown anywhere
+            $curDB = mysql_db_name( $databaseArray, $i );
+            if ( strcasecmp( $curDB, 'mysql' ) != 0 )
+                $databases[] = $curDB;
             ++$i;
         }
         return $databases;
