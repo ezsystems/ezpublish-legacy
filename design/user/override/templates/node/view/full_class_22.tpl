@@ -30,7 +30,7 @@
     <!-- Action START -->
     <div class="buttonblock">
     {section name=ContentAction loop=$content_object.content_action_list show=$content_object.content_action_list}
-    <input class="button" type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name" />
+    <input class="button" type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name}" />
     {/section}
     </div>
     <!-- Action END -->
