@@ -54,6 +54,15 @@ $Year = $Params['Year'];
 $Month = $Params['Month'];
 $Day = $Params['Day'];
 
+if ( $Offset )
+    $Offset = (int) $Offset;
+if ( $Year )
+    $Year = (int) $Year;
+if ( $Month )
+    $Month = (int) $Month;
+if ( $Day )
+    $Day = (int) $Day;
+
 if ( !is_numeric( $Offset ) )
     $Offset = 0;
 
@@ -89,6 +98,11 @@ if ( isset( $keys['layout'] ) )
 else
     $layout = false;
 
+$viewParameters = array( 'offset' => $Offset,
+                         'year' => $Year,
+                         'month' => $Month,
+                         'day' => $Day );
+
 /*$templateResult =& $tpl->fetch( 'design:content/view/full.tpl' );*/
 
 // Should we load the cache now, or check operation
@@ -101,9 +115,11 @@ if ( $viewCacheEnabled and ( $useTriggers == false ) )
     $roleList = $cacheInfo['role_list'];
     $discountList = $cacheInfo['discount_list'];
     $designSetting = eZTemplateDesignResource::designSetting( 'site' );
-    if ( eZContentCache::exists( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList, $layout ) )
+    if ( eZContentCache::exists( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList, $layout,
+                                 array( 'view_parameters' => $viewParameters ) ) )
     {
-        $Result = eZContentCache::restore( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList, $layout );
+        $Result = eZContentCache::restore( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList, $layout,
+                                           array( 'view_parameters' => $viewParameters ) );
         if ( $Result )
         {
             $res =& eZTemplateDesignResource::instance();
@@ -164,10 +180,12 @@ switch( $operationResult['status'] )
                 $roleList = $cacheInfo['role_list'];
                 $discountList = $cacheInfo['discount_list'];
                 $designSetting = eZTemplateDesignResource::designSetting( 'site' );
-                if ( eZContentCache::exists( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList, $layout ) )
+                if ( eZContentCache::exists( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList, $layout,
+                                             array( 'view_parameters' => $viewParameters ) ) )
                 {
                     eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'found cache', 'content/view' );
-                    $Result = eZContentCache::restore( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList, $layout );
+                    $Result = eZContentCache::restore( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList, $layout,
+                                                       array( 'view_parameters' => $viewParameters ) );
                     if ( $Result )
                     {
                         $res =& eZTemplateDesignResource::instance();
@@ -186,10 +204,6 @@ switch( $operationResult['status'] )
                 }
             }
 
-            $viewParameters = array( 'offset' => $Offset,
-                                     'year' => $Year,
-                                     'month' => $Month,
-                                     'day' => $Day );
             $object = $operationResult[ 'object' ];
 
             if ( !get_class( $object ) == 'ezcontentobject' )
@@ -318,7 +332,8 @@ switch( $operationResult['status'] )
 
                 if ( eZContentCache::store( $designSetting, $objectID, $classID,
                                             $NodeID, $parentNodeID, $nodeDepth, $urlAlias, $ViewMode, $sectionID, $language,
-                                            $Offset, $roleList, $discountList, $layout, $navigationPartIdentifier, $Result, $cacheTTL ) )
+                                            $Offset, $roleList, $discountList, $layout, $navigationPartIdentifier, $Result, $cacheTTL,
+                                            array( 'view_parameters' => $viewParameters ) ) )
                 {
                     eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'cache written', 'content/view' );
                 }

@@ -14,4 +14,7 @@ Changes from 3.2-3 to 3.2-4
 eZ template:
 - Added line/column information to the error messages from the template parser.
 
+eZ file:
+- The recursive directory maker will no longer stop on directories named 0.
+
 *Translations:

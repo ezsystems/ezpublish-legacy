@@ -59,7 +59,8 @@ class eZContentCache
     {
     }
 
-    function cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout, $cacheTTL = false )
+    function cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout, $cacheTTL = false,
+                            $parameters = array() )
     {
         $md5Input = array( $nodeID );
         $md5Input[] = $offset;
@@ -70,6 +71,17 @@ class eZContentCache
         $md5Input = array_merge( $md5Input, $discountList );
         if ( $cacheTTL == true )
             $md5Input = array_merge( $md5Input, "cache_ttl" );
+        if ( isset( $parameters['view_parameters'] ) )
+        {
+            $viewParameters = $parameters['view_parameters'];
+            ksort( $viewParameters );
+            foreach ( $viewParameters as $viewParameterName => $viewParameter )
+            {
+                if ( !$viewParameter )
+                    continue;
+                $md5Input = array_merge( $md5Input, 'vp:' . $viewParameterName . '=' . $viewParameter );
+            }
+        }
         $md5Text = md5( implode( '-', $md5Input ) );
         $cacheFile = $nodeID . '-' . $md5Text . '.php';
         $extraPath = eZDir::filenamePath( "$nodeID" );
@@ -81,9 +93,11 @@ class eZContentCache
                       'path' => $cachePath );
     }
 
-    function exists( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout )
+    function exists( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout,
+                     $parameters = array() )
     {
-        $cachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout );
+        $cachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout, false,
+                                                        $parameters );
         $cacheExists = file_exists( $cachePathInfo['path'] );
         if ( $cacheExists )
         {
@@ -105,10 +119,12 @@ class eZContentCache
         return $cacheExists;
     }
 
-    function restore( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout )
+    function restore( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout,
+                      $parameters = array() )
     {
         $result = array();
-        $cachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout );
+        $cachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout, false,
+                                                        $parameters );
         $cacheDir = $cachePathInfo['dir'];
         $cacheFile = $cachePathInfo['file'];
         $timestamp = false;
@@ -202,13 +218,20 @@ class eZContentCache
     function store( $siteDesign, $objectID, $classID,
                     $nodeID, $parentNodeID, $nodeDepth, $urlAlias, $viewMode, $sectionID,
                     $language, $offset, $roleList, $discountList, $layout, $navigationPartIdentifier,
-                    $result, $cacheTTL = 0 )
+                    $result, $cacheTTL = 0,
+                    $parameters = array() )
     {
-        $cachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout );
+        $cachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout, false,
+                                                        $parameters );
         $cacheDir = $cachePathInfo['dir'];
         $cacheFile = $cachePathInfo['file'];
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
         $php = new eZPHPCreator( $cacheDir, $cacheFile );
+        if ( isset( $parameters['view_parameters']['offset'] ) )
+            $offset = $parameters['view_parameters']['offset'];
+        $viewParameters = false;
+        if ( isset( $parameters['view_parameters'] ) )
+            $viewParameters = $parameters['view_parameters'];
         $contentInfo = array( 'site_design' => $siteDesign,
                               'node_id' => $nodeID,
                               'parent_node_id' => $parentNodeID,
@@ -221,6 +244,7 @@ class eZContentCache
                               'viewmode' => $viewMode,
                               'language' => $language,
                               'offset' => $offset,
+                              'view_parameters' => $viewParameters,
                               'role_list' => $roleList,
                               'discount_list' => $discountList,
                               'section_id' => $result['section_id'] );

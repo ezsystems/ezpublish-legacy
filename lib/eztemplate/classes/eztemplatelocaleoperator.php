@@ -180,12 +180,18 @@ class eZTemplateLocaleOperator
                 $parameters[] = $namedParameters['second'];
             if ( $namedParameters['month'] !== false )
                 $parameters[] = $namedParameters['month'];
-            if ( $namedParameters['day'] !== false )
-                $parameters[] = $namedParameters['day'];
-            if ( $namedParameters['year'] !== false )
-                $parameters[] = $namedParameters['year'];
-            if ( $namedParameters['dst'] !== false )
-                $parameters[] = $namedParameters['dst'];
+            {
+                if ( $namedParameters['day'] !== false )
+                    $parameters[] = $namedParameters['day'];
+                {
+                    if ( $namedParameters['year'] !== false )
+                        $parameters[] = $namedParameters['year'];
+                    {
+                        if ( $namedParameters['dst'] !== false )
+                            $parameters[] = $namedParameters['dst'];
+                    }
+                }
+            }
             $operatorValue = call_user_func_array( 'mktime', $parameters );
         }
         else if ( $operatorName == $this->MakeDateName )
@@ -196,12 +202,18 @@ class eZTemplateLocaleOperator
             $parameters[] = 0;
             if ( $namedParameters['month'] !== false )
                 $parameters[] = $namedParameters['month'];
-            if ( $namedParameters['day'] !== false )
-                $parameters[] = $namedParameters['day'];
-            if ( $namedParameters['year'] !== false )
-                $parameters[] = $namedParameters['year'];
-            if ( $namedParameters['dst'] !== false )
-                $parameters[] = $namedParameters['dst'];
+            {
+                if ( $namedParameters['day'] !== false )
+                    $parameters[] = $namedParameters['day'];
+                {
+                    if ( $namedParameters['year'] !== false )
+                        $parameters[] = $namedParameters['year'];
+                    {
+                        if ( $namedParameters['dst'] !== false )
+                            $parameters[] = $namedParameters['dst'];
+                    }
+                }
+            }
             $operatorValue = call_user_func_array( 'mktime', $parameters );
         }
         else if ( $operatorName == $this->CurrentDateName )

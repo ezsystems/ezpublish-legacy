@@ -46,6 +46,11 @@ Changes from 3.2-3 to 3.3.0-1
   used for calendars.
 - New template operator 'month_overview' which can take a list of items and create a month structure
   which be sent to the monthview.tpl template.
+- Added view parameters to content_info block in content/view.php.
+- Added optional parameter to content cache functions, it can be used to extend the system
+  with additional parameters without changing the function signature.
+- Content cache has been extended to take all view parameters into account for the cache key.
+  This means that adding new view parameters in view.php will automatically be included for the content cache.
 
 *Templates:
 - navigator/google.tpl has changed the arrows to use arrow characters as HTML entities.

@@ -102,6 +102,7 @@
         <div class="design">
             {include uri="design:navigationbar.tpl"}
 
+         {cache-block}
          <div id="poll">
              <h2>Poll</h2>
              <p>
@@ -113,22 +114,23 @@
          </div>
 
          <div id="links">
-         <h2>Recent links</h2>
-         {let link_limit=10
-              link_list=fetch( content, tree, hash( parent_node_id, 2,
-                                                    limit, $link_limit,
-                                                    sort_by, array( published, false() ),
-                                                    class_filter_type, include, 
-                                                    class_filter_array, array( 'link' ) ) )}
-             <ul>
-             {section var=link loop=$link_list}
-             <li>
-                 <a href={$link.item.data_map.url.content|ezurl}>{$link.item.name}</a>
-             </li>
-             {/section}
-             </ul> 
-         {/let}
+             <h2>Recent links</h2>
+             {let link_limit=10
+                  link_list=fetch( content, tree, hash( parent_node_id, 2,
+                                                        limit, $link_limit,
+                                                        sort_by, array( published, false() ),
+                                                        class_filter_type, include, 
+                                                        class_filter_array, array( 'link' ) ) )}
+                 <ul>
+                 {section var=link loop=$link_list}
+                 <li>
+                     <a href={$link.item.data_map.url.content|ezurl}>{$link.item.name}</a>
+                 </li>
+                 {/section}
+                 </ul> 
+             {/let}
          </div>
+         {/cache-block}
 
         </div>
     </div>
