@@ -109,6 +109,8 @@ eZTime:
   http://ez.no/community/bug_reports/undefined_post_variables_in_role_edit_php
 - Fixed incorrect sorting of RSS export.
 - Fixed ezurl operator when accessing url without siteaccess specified, and uri mathing on.
+- Fixed related article link in news package.
+  http://ez.no/community/bug_reports/related_objects_stories_in_news_shows_folder_instead_of_the_articles
 
 *Library:
 
