@@ -278,8 +278,114 @@ class eZSearch
                 $andSearchParts = array_merge( $andSearchParts, $searchArrayPartForType );
             }
         }
+        $generalFilter = array();
+        foreach ( $searchTypesDefinition['general_filter'] as $searchType )
+        {
+
+            $postVariablePrefix = 'Content_search_' . $searchType['type'] . '_' . $searchType['subtype'] . '_';
+
+            $searchArrayPartForType = array();
+
+            $searchPart = array();
+            $valuesFetched = false;
+            $valuesMissing = false;
+
+            foreach ( $searchType['params'] as $parameter )
+            {
+                $varName = '';
+                $paramName = '';
+                if ( is_array( $parameter ) )
+                {
+                    $varName = $postVariablePrefix . $parameter['value'];
+                    $paramName = $parameter['value'];
+                }
+                else
+                {
+                    $varName = $postVariablePrefix . $parameter;
+                    $paramName = $parameter;
+                }
+
+                eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $varName,
+                                            'post variable to check' );
+
+                if ( $http->hasVariable( $varName ) )
+                {
+                    $values = $http->variable( $varName );
+                    eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $values, 'fetched values' );
+                    $searchArrayPartForType[$paramName] = $values;
+                    $valuesFetched = true;
+
+                }
+                else
+                {
+                    eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $varName,
+                                                'post variable does not exist' );
+                    $valuesMissing = true;
+                    break;
+                }
+            }
+
+            if ( $valuesFetched == true && $valuesMissing == false )
+            {
+                eZDebugSetting::writeDebug( 'kernel-search-ezsearch', 'adding values to search' );
+
+                $part =& $searchArrayPartForType;
+
+                $part['type'] = $searchType['type'];
+                $part['subtype'] = $searchType['subtype'];
+
+                if ( $part['type'] == 'general' )
+                {
+                        // Remove incomplete search parts from the search.
+                        // An incomplete search part is for instance an empty text field,
+                        // or a select box with no selected values.
+                    $removePart = false;
+                    switch ( $part['subtype'] )
+                    {
+                        case 'class':
+                        {
+                            if ( !isSet( $part['value'] ) ||
+                                 ( is_array( $part['value'] ) && count( $part['value'] ) == 0 ) ||
+                                 ( !is_array( $part['value'] ) && $part['value'] == '' ) )
+                                $removePart = true;
+                        }
+                        break;
+                        case 'publishdate':
+                        {
+                            if ( !isSet( $part['value'] ) ||
+                                 ( is_array( $part['value'] ) && count( $part['value'] ) == 0 ) ||
+                                 ( !is_array( $part['value'] ) && $part['value'] == '' ) )
+                                $removePart = true;
+                        }
+                        break;
+                        case 'subtree':
+                        {
+                            if ( !isSet( $part['value'] ) ||
+                                 ( is_array( $part['value'] ) && count( $part['value'] ) == 0 ) ||
+                                 ( !is_array( $part['value'] ) && $part['value'] == '' ) )
+
+                                $removePart = true;
+                        }
+                        break;
+                    }
+
+                    if ( $removePart )
+                    {
+                        eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $searchArrayPartForType[$key],
+                                                    'removing incomplete search part' );
+                        unSet( $searchArrayPartForType[$key] );
+                        continue;
+                    }
+                }
+
+                $generalFilter = array_merge( $generalFilter, array( $searchArrayPartForType ) );
+            }
+
+
+        }
 
         $searchArray['and'] =& $andSearchParts;
+        $searchArray['general'] =& $generalFilter;
         eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $searchArray, 'search array' );
         return $searchArray;
     }

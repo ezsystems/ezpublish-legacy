@@ -330,6 +330,22 @@ class eZSearchEngine
 
             $nonExistingWordArray = array();
 
+            foreach ( $searchTypes['general'] as $searchType )
+            {
+                if ( $searchType['subtype'] = 'class' )
+                {
+                    $params['SearchContentClassID'] = $searchType['value'];
+                }
+                else if ( $searchType['subtype'] = 'publishdate' )
+                {
+                    $params['SearchDate'] = $searchType['value'];
+                }
+                else if ( $searchType['subtype'] = 'subtree' )
+                {
+                    $params['SearchSubTreeArray'] = $searchType['value'];
+                }
+            }
+
             if ( isset( $params['SearchOffset'] ) )
                 $searchOffset = $params['SearchOffset'];
             else
@@ -483,12 +499,14 @@ class eZSearchEngine
             {
                 // Build query for searching in one class
                 $classQuery = "ezsearch_object_word_link.contentclass_id = '$searchContentClassID' AND ";
+                $this->GeneralFilter['classAttributeQuery'] = $classQuery;
             }
             else if ( is_array( $searchContentClassID ) )
             {
                 // Build query for searching in a number of classes
                 $classString = implode( ', ', $searchContentClassID );
                 $classQuery = "ezsearch_object_word_link.contentclass_id IN ( $classString ) AND ";
+                $this->GeneralFilter['classAttributeQuery'] = $classQuery;
             }
 
             $classAttributeQuery = "";
@@ -597,6 +615,9 @@ class eZSearchEngine
                         $i++;
                     }
                     $subTreeSQL .= " ) AND ";
+                    $this->GeneralFilter['subTreeTable'] = $subTreeTable;
+                    $this->GeneralFilter['subTreeSQL'] = $subTreeSQL;
+
                 }
             }
 
@@ -641,6 +662,8 @@ class eZSearchEngine
                     $sqlParts[] = implode( ' AND ', $sqlPartPart );
                 }
                 $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
+                $this->GeneralFilter['sqlPermissionCheckingString'] = $sqlPermissionCheckingString;
+
             }
 
             $useVersionName = true;
@@ -1385,41 +1408,43 @@ class eZSearchEngine
         }
     }
 
-    function buildTempTablesForFullTextSearch( $searchPartsArray, $generalFilterList )
+    function buildTempTablesForFullTextSearch( $searchPartsArray, $generalFilterList = array() )
     {
         $ini = eZINI::instance();
         $db =& eZDB::instance();
 
         $i = $this->TempTablesCount;
-        if ( isset(  $generalFilterList[ 'publish_date'] )  )
+        $generalFilterList =& $this->GeneralFilter;
+
+        if ( isset(  $generalFilterList[ 'searchDateQuery'] )  )
             $searchDateQuery = $generalFilterList[ 'publish_date'];
         else
             $searchDateQuery = '';
 
-        if ( isset(  $generalFilterList[ 'section'] )  )
-            $sectionQuery = $generalFilterList[ 'section'];
+        if ( isset(  $generalFilterList['sectionQuery'] )  )
+            $sectionQuery = $generalFilterList['sectionQuery'];
         else
             $sectionQuery = '';
 
-        if ( isset(  $generalFilterList[ 'class'] )  )
-            $classQuery = $generalFilterList[ 'class'];
+        if ( isset(  $generalFilterList['classQuery'] )  )
+            $classQuery = $generalFilterList['classQuery'];
         else
             $classQuery = '';
 
-        if ( isset(  $generalFilterList[ 'class_attribute'] )  )
-            $classAttributeQuery = $generalFilterList[ 'class_attribute'];
+        if ( isset(  $generalFilterList['classAttributeQuery'] )  )
+            $classAttributeQuery = $generalFilterList[ 'classAttributeQuery'];
         else
             $classAttributeQuery = '';
 
-        if ( isset(  $generalFilterList[ 'permissions'] )  )
-            $sqlPermissionCheckingString = $generalFilterList[ 'permissions'];
+        if ( isset(  $generalFilterList['sqlPermissionCheckingString'] )  )
+            $sqlPermissionCheckingString = $generalFilterList['sqlPermissionCheckingString'];
         else
             $sqlPermissionCheckingString = '';
 
-        if ( isset(  $generalFilterList[ 'subtree'] )  )
+        if ( isset(  $generalFilterList['subTreeSQL'] )  )
         {
-            $subTreeTable = $generalFilterList[ 'subtree']['tables'];
-            $subTreeSQL = $generalFilterList[ 'subtree']['where'];
+            $subTreeTable = $generalFilterList['subTreeTable'];
+            $subTreeSQL = $generalFilterList['subTreeSQL'];
         }
         else
         {
