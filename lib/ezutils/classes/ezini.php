@@ -411,7 +411,7 @@ class eZINI
         if ( count( $lines ) > 0 )
         {
             // check for charset
-            if ( preg_match( "/^#\?ini(.+)\?/", $lines[0], $ini_arr ) )
+            if ( preg_match( "/#\?ini(.+)\?/", $lines[0], $ini_arr ) )
             {
                 $args = explode( " ", trim( $ini_arr[1] ) );
                 foreach ( $args as $arg )
@@ -499,23 +499,8 @@ class eZINI
             return false;
         }
 
-        fwrite( $fp, "<?php /* $sep$sep" );
-        fwrite( $fp, "#?ini charset=\"" . $this->Charset . "\"?$sep$sep" );
+        fwrite( $fp, "<?php /* #?ini charset=\"" . $this->Charset . "\"?$sep$sep" );
         $i = 0;
-        /* foreach( $this->OrderedBlockValues as $blockName => $orderedBlockValues )
-        {
-            if ( $i > 0 )
-                fwrite( $fp, "$sep" );
-            fwrite( $fp, "[$blockName]$sep" );
-            foreach( $orderedBlockValues as $orderedBlockValue )
-            {
-                $varKey = $orderedBlockValue[0];
-                $varValue = $orderedBlockValue[1];
-                fwrite( $fp, "$varKey=$varValue$sep" );
-            }
-            ++$i;
-        } */
-
         foreach( array_keys( $this->BlockValues ) as $blockName )
         {
             if ( $i > 0 )
