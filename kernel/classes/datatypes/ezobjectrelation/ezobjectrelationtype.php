@@ -146,11 +146,24 @@ class eZObjectRelationType extends eZDataType
                     $nodeID = 2;
 //                    $module->redirectToView( 'browse', array( $nodeID ) );
                     */
-
+                    $ini = eZINI::instance( 'content.ini' );
+                    $browseType = 'AddRelatedObjectToDataType';
+                    $browseTypeINIVariable = $ini->variable( 'ObjectRelationDataTypeSettings', 'ClassAttributeStartNode' );
+                    foreach( $browseTypeINIVariable as $value )
+                    {
+                        list( $classAttributeID, $type ) = explode( ';',$value );
+                        if ( $classAttributeID == $contentObjectAttribute->attribute( 'contentclassattribute_id' ) && strlen( $type ) > 0 )
+                        {
+                            $browseType = $type;
+                            eZDebug::writeDebug( $browseType, "browseType" );
+                            break;
+                        }
+                    }
                     eZContentBrowse::browse( array( 'action_name' => 'AddRelatedObject_' . $contentObjectAttribute->attribute( 'id' ),
-                                                    'type' => 'AddRelatedObjectToDataType',
+                                                    'type' =>  $browseType,
                                                     'browse_custom_action' => array( 'name' => 'CustomActionButton[' . $contentObjectAttribute->attribute( 'id' ) . '_set_object_relation]',
                                                                                      'value' => $contentObjectAttribute->attribute( 'id' ) ),
+                                                    'persistent_data' => array( 'HasObjectInput' => 0 ),
                                                     'from_page' => $redirectionURI ),
                                              $module );
 
