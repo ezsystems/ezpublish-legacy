@@ -65,7 +65,7 @@ class eZInformationCollection extends eZPersistentObject
                                                       "object" => "object" ),
                       'increment_key' => 'id',
                       'class_name' => 'eZInformationCollection',
-                      'name' => 'ezinformationcollection' );
+                      'name' => 'ezinfocollection' );
     }
 
     function &attribute( $attr )
