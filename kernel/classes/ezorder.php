@@ -69,7 +69,8 @@ class eZOrder extends eZPersistentObject
                                          "data_text_1" => "DataText1",
                                          "data_text_2" => "DataText2",
                                          "account_identifier" => "AccountIdentifier",
-                                         "created" => "Created"
+                                         "created" => "Created",
+                                         "ignore_vat" => "IgnoreVAT"
                                          ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
@@ -270,7 +271,14 @@ class eZOrder extends eZPersistentObject
 
             if ( $contentObject !== null )
             {
-                $vatValue = $productItem->attribute( 'vat_value' );
+                if ( $this->IgnoreVAT == true )
+                {
+                    $vatValue = 0;
+                }
+                else
+                {
+                    $vatValue = $productItem->attribute( 'vat_value' );
+                }
                 $count = $productItem->attribute( 'item_count' );
                 $discountPercent = $productItem->attribute( 'discount' );
                 $nodeID = $contentObject->attribute( 'main_node_id' );
@@ -294,51 +302,6 @@ class eZOrder extends eZPersistentObject
                     $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
                 }
 
-/*
-                $attributes = $contentObject->contentObjectAttributes();
-                foreach ( $attributes as $attribute )
-                {
-                    $dataType =& $attribute->dataType();
-                    if ( $dataType->isA() == "ezprice" )
-                    {
-                        $classAttribute =& $attribute->attribute( 'contentclass_attribute' );
-                        $VATID =  $classAttribute->attribute( EZ_DATATYPESTRING_VAT_ID_FIELD );
-                        $VATIncludeValue = $classAttribute->attribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD );
-                        if ( $VATIncludeValue==0 or $VATIncludeValue==1 )
-                            $isVATIncluded = true;
-                        else
-                            $isVATIncluded = false;
-                        $vatType =& eZVatType::fetch( $VATID );
-                        if ( get_class( $vatType ) == 'ezvattype' )
-                            $VATValue = $vatType->attribute( 'percentage' );
-                        else
-                            $VATValue = 0.0;
-
-                        // $priceObj =& $attribute->content();
-                        // $discountPercent = $priceObj->discount();
-                        $discountPercent = $this->discount( $this->UserID, $contentObject );
-                    }
-                }
-
-                $nodeID = $contentObject->attribute( 'main_node_id' );
-                $objectName = $contentObject->attribute( 'name' );
-                $count = $productItem->attribute( 'item_count' );
-                $price = $productItem->attribute( 'price' );
-                if ( $isVATIncluded )
-                {
-                    $priceExVAT = $price / ( 100 + $VATValue ) * 100;
-                    $priceIncVAT = $price;
-                    $totalPriceExVAT = $count * $priceExVAT * ( 100 - $discountPercent ) / 100;
-                    $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                }
-                else
-                {
-                    $priceExVAT = $price;
-                    $priceIncVAT = $price * ( 100 + $VATValue ) / 100;
-                    $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
-                    $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                }
-*/
                 $addedProduct = array( "id" => $id,
                                        "vat_value" => $vatValue,
                                        "item_count" => $count,

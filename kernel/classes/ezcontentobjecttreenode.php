@@ -1362,6 +1362,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
     function remove( $nodeID = 0 )
     {
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        $handler->setTimestamp( 'content-cache', mktime() );
+        $handler->store();
+
         if ( $nodeID == 0 )
         {
             $node =& $this;
@@ -1550,6 +1555,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     function store()
     {
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        $handler->setTimestamp( 'content-cache', mktime() );
+        $handler->store();
+
         /*      $newPathString = $this->pathWithNames();
 
         if ( $newPathString != $this->attribute ( 'path_identification_string' ) )

@@ -101,15 +101,15 @@ class eZImageType extends eZDataType
             foreach ( $images as $image )
             {
                 $fileName = $image->attribute( "filename" );
-                $variationFileName = preg_replace('/\.(.*)$/', "", $fileName ) ;
+                $variationFileName = preg_replace('/\.(.*)$/', "", $fileName );
                 $additionalPath = eZDir::getPathFromFilename( $fileName );
-                if( file_exists( $orig_dir . "/" . $variationFileName ) )
+                if ( file_exists( $orig_dir . "/" . $variationFileName ) )
                     unlink( $orig_dir . "/" . $variationFileName );
-                if( file_exists( $orig_dir . "/" .$fileName ) )
+                if ( file_exists( $orig_dir . "/" .$fileName ) )
                     unlink( $orig_dir . "/" . $fileName );
-                if( file_exists( $ref_dir . "/" . $variationFileName ) )
+                if ( file_exists( $ref_dir . "/" . $variationFileName ) )
                     unlink( $ref_dir . "/" . $variationFileName );
-                if( file_exists( $ref_dir . "/" . $fileName ) )
+                if ( file_exists( $ref_dir . "/" . $fileName ) )
                     unlink( $ref_dir . "/" . $fileName );
                 $dir = opendir(  $vari_dir . "/" . $additionalPath );
                 while ( $file = readdir($dir))
@@ -210,7 +210,6 @@ class eZImageType extends eZDataType
         $imageFile =& eZHTTPFile::fetch( $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" ) );
         $contentObjectAttribute->setContent( $imageFile );
 
-
         if ( get_class( $imageFile ) == "ezhttpfile" )
         {
             $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
@@ -222,7 +221,8 @@ class eZImageType extends eZDataType
 
             $mime = $img->mimeTypeFor( $imageFile->attribute( "original_filename" ), true );
 
-            if ( !$imageFile->store( "original", $mime["suffix"] ) )
+            var_dump( $mime );
+            if ( !$imageFile->store( "original", $mime["suffix"], $mime['mime-type'] ) )
             {
                 eZDebug::writeError( "Failed to store http-file: " . $imageFile->attribute( "original_filename" ),
                                      "eZImageType" );
