@@ -76,7 +76,7 @@ class eZImageType extends eZDataType
         $contentObjectAttributeID = $originalContentObjectAttribute->attribute( "id" );
         $version = $contentObjectAttribute->attribute( "version" );
         $oldimage =& eZImage::fetch( $contentObjectAttributeID, $currentVersion );
-        if( $oldimage != null )
+        if ( $oldimage != null )
         {
             $oldimage->setAttribute( 'contentobject_attribute_id', $contentObjectAttribute->attribute( 'id' ) );
             $oldimage->setAttribute( "version",  $version );
@@ -94,7 +94,7 @@ class eZImageType extends eZDataType
         $ref_dir =  "var/storage/reference/image";
         $vari_dir = "var/storage/variations/image";
         $images =& eZImage::fetch( $contentObjectAttributeID );
-        if( $version == null )
+        if ( $version == null )
         {
             foreach ( $images as $image )
             {
@@ -112,7 +112,7 @@ class eZImageType extends eZDataType
                 $dir = opendir(  $vari_dir . "/" . $additionalPath );
                 while ( $file = readdir($dir))
                 {
-                    if( preg_match( "/$variationFileName/", $file ) )
+                    if ( preg_match( "/$variationFileName/", $file ) )
                          unlink( $vari_dir . "/" . $additionalPath . $file );
                 }
             }
@@ -129,7 +129,7 @@ class eZImageType extends eZDataType
                 if( $currentFileName == $fileName )
                      $count += 1;
             }
-            if( $count == 1 )
+            if ( $count == 1 )
             {
                 $variationFileName = preg_replace('/\.(.*)$/', "", $currentFileName ) ;
                 $additionalPath = eZDir::getPathFromFilename( $currentFileName );
@@ -142,9 +142,9 @@ class eZImageType extends eZDataType
                 if( file_exists( $ref_dir . "/" . $variationFileName ) )
                     unlink( $ref_dir . "/" . $variationFileName );
                 $dir = opendir(  $vari_dir . "/" . $additionalPath );
-                while ( $file = readdir($dir))
+                while ( $file = readdir( $dir ) )
                 {
-                    if( preg_match( "/$variationFileName/", $file ) )
+                    if ( preg_match( "/$variationFileName/", $file ) )
                          unlink( $vari_dir . "/" . $additionalPath . $file );
                 }
             }
