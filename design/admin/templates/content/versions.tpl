@@ -114,7 +114,7 @@
 {section show=$version_list}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="ezjs_toggleCheckboxes( document.versionsform, 'DeleteIDArray[]' ); return false;"/></th>    <th>{'Version'|i18n( 'design/admin/content/versions' )}</th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="ezjs_toggleCheckboxes( document.versionsform, 'DeleteIDArray[]' ); return false;" /></th>    <th>{'Version'|i18n( 'design/admin/content/versions' )}</th>
 	<th>{'Status'|i18n( 'design/admin/content/versions' )}</th>
 	<th>{'Translations'|i18n( 'design/admin/content/versions' )}</th>
 	<th>{'Creator'|i18n( 'design/admin/content/versions' )}</th>
@@ -129,12 +129,12 @@
 	    {section show=and( or( eq( $Versions.item.status, 0 ),eq( $Versions.item.status, 3), eq( $Versions.item.status, 4 ) ), $can_remove )}
             <input type="checkbox" name="DeleteIDArray[]" value="{$Versions.item.id}" title="{'Mark version #%version_number for removal.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
 	    {section-else}
-            <input type="checkbox" name="" value="" disabled="disabled" title="{'Version #%version_number can not be removed because it is either the published version of the object or because you do not have permissions to remove it.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}"/>
+            <input type="checkbox" name="" value="" disabled="disabled" title="{'Version #%version_number can not be removed because it is either the published version of the object or because you do not have permissions to remove it.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
         {/section}
     </td>
 
 	<td>
-	<a href={concat( '/content/versionview/', $object.id, '/', $Versions.item.version )|ezurl}>{$Versions.item.version}</a>
+	<a href={concat( '/content/versionview/', $object.id, '/', $Versions.item.version )|ezurl} title="{'Preview the contents of version #%version_number.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}">{$Versions.item.version}</a>
 	</td>
 
 	<td>
@@ -144,7 +144,7 @@
 	<td>
 	{section var=Languages loop=$Versions.item.language_list}
         {delimiter}<br />{/delimiter}
-	<img src="{$Languages.item.language_code|flag_icon}" alt="{$Languages.item.language_code}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $Versions.item.version, '/', $Languages.item.language_code, '/' )|ezurl}>{$Languages.item.locale.intl_language_name}</a>{/section}
+	<img src="{$Languages.item.language_code|flag_icon}" alt="{$Languages.item.language_code}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $Versions.item.version, '/', $Languages.item.language_code, '/' )|ezurl} title="{'Preview the %translation translation of version #%version_number.'|i18n( 'design/admin/content/versions',, hash( '%translation', $Languages.item.locale.intl_language_name, '%version_number', $Versions.item.version ) )}" >{$Languages.item.locale.intl_language_name}</a>{/section}
 	</td>
 
     <td>
@@ -195,9 +195,9 @@
 
 <div class="block">
 {section show=$can_remove}
-<input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/versions' )}" title="{'Remove selected versions from the object.'|i18n( 'design/admin/content/versions' )}"/>
+<input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/versions' )}" title="{'Remove the selected versions from the object.'|i18n( 'design/admin/content/versions' )}" />
 {section-else}
-<input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'You do not have permissions to remove versions from this object.'|i18n( 'design/admin/content/versions' )}"/>
+<input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'You do not have permissions to remove versions from this object.'|i18n( 'design/admin/content/versions' )}" />
 {/section}
 
 <input type="hidden" name="EditLanguage" value="{$edit_language}" />
