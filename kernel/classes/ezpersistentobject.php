@@ -950,7 +950,12 @@ function definition()
         $fields =& $def["fields"];
         $functions =& $def["functions"];
         $attrFunctions =& $def["function_attributes"];
-        if ( isset( $fields[$attr] ) )
+        if ( isset( $attrFunctions[$attr] ) )
+        {
+            $functionName = $attrFunctions[$attr];
+            return $this->$functionName();
+        }
+        else if ( isset( $fields[$attr] ) )
         {
             $attrName = $fields[$attr];
             if ( is_array( $attrName ) )
@@ -958,11 +963,6 @@ function definition()
                 $attrName =& $attrName['name'];
             }
             return $this->$attrName;
-        }
-        else if ( isset( $attrFunctions[$attr] ) )
-        {
-            $functionName = $attrFunctions[$attr];
-            return $this->$functionName();
         }
         else if ( isset( $functions[$attr] ) )
         {
