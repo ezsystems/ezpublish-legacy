@@ -1,6 +1,6 @@
 <?php
 //
-// Definition of eZPublishOnTimeValue class
+// Definition of eZWaitUntilTimeValue class
 //
 // Created on: <14-ñÎ×-2003 14:49:06 sp>
 //
@@ -34,21 +34,21 @@
 // you.
 //
 
-/*! \file ezpublishontimevalue.php
+/*! \file ezpublishuntiltimevalue.php
 */
 
 /*!
-  \class eZPublishOnTimeValue ezpublishontimevalue.php
-  \brief The class eZPublishOnTimeValue does
+  \class eZWaitUntilTimeValue ezwaituntiltimevalue.php
+  \brief The class eZWaitUntilTimeValue does
 
 */
 
-class eZPublishOnTimeValue extends eZPersistentObject
+class eZWaitUntilTimeValue extends eZPersistentObject
 {
     /*!
      Constructor
     */
-    function eZPublishOnTimeValue( $row )
+    function eZWaitUntilTimeValue( $row )
     {
         $this->eZPersistentObject( $row );
         $this->ClassName = null;
@@ -69,8 +69,8 @@ class eZPublishOnTimeValue extends eZPersistentObject
 
                       "increment_key" => "id",
                       "sort" => array( "id" => "asc" ),
-                      "class_name" => "eZPublishOnTimeValue",
-                      "name" => "ezpublishontimevalue" );
+                      "class_name" => "eZWaitUntilTimeValue",
+                      "name" => "ezwaituntiltimevalue" );
     }
 
     function hasAttribute( $attr )
@@ -111,7 +111,7 @@ class eZPublishOnTimeValue extends eZPersistentObject
                       "contentclass_id" => $this->attribute( "contentclass_id" ),
                       "contentclass_attribute_id" => $this->attribute( 'contentclass_attribute_id' ),
                       );
-        return new eZPublishOnTimeValue( $row );
+        return new eZWaitUntilTimeValue( $row );
     }
 
     function &create( $workflowEventID, $workflowEventVersion, $contentClassAttributeID, $contentClassID )
@@ -122,7 +122,7 @@ class eZPublishOnTimeValue extends eZPersistentObject
                       "contentclass_id" => $contentClassID,
                       "contentclass_attribute_id" => $contentClassAttributeID
                       );
-        return new eZPublishOnTimeValue( $row );
+        return new eZWaitUntilTimeValue( $row );
     }
 
     function &createCopy( $id, $workflowEventID, $workflowEventVersion,  $contentClassID , $contentClassAttributeID )
@@ -132,27 +132,27 @@ class eZPublishOnTimeValue extends eZPersistentObject
                       "workflow_event_version" => $workflowEventVersion,
                       "contentclass_id" => $contentClassID,
                       "contentclass_attribute_id" => $contentClassAttributeID );
-        return new eZPublishOnTimeValue( $row );
+        return new eZWaitUntilTimeValue( $row );
     }
 
 
     function &removeAllElements( $workflowEventID, $version )
     {
-        eZPersistentObject::removeObject( eZPublishOnTimeValue::definition(),
+        eZPersistentObject::removeObject( eZWaitUntilTimeValue::definition(),
                                           array( "workflow_event_id" => $workflowEventID,
                                                  "workflow_event_version" => $version) );
     }
 
     function &remove( $id , $version )
     {
-        eZPersistentObject::removeObject( eZPublishOnTimeValue::definition(),
+        eZPersistentObject::removeObject( eZWaitUntilTimeValue::definition(),
                                           array( "id" => $id,
                                                  "workflow_event_version" => $version) );
     }
 
     function &fetch( $id, $version, $asObject = true )
     {
-        return eZPersistentObject::fetchObject( eZPublishOnTimeValue::definition(),
+        return eZPersistentObject::fetchObject( eZWaitUntilTimeValue::definition(),
                                                 null,
                                                 array( "id" => $id,
                                                        "workflow_event_version" => $version),
@@ -161,7 +161,7 @@ class eZPublishOnTimeValue extends eZPersistentObject
 
     function &fetchAllElements( $workflowEventID, $version, $asObject = true )
     {
-        return eZPersistentObject::fetchObjectList( eZPublishOnTimeValue::definition(),
+        return eZPersistentObject::fetchObjectList( eZWaitUntilTimeValue::definition(),
                                                     null,
                                                     array( "workflow_event_id" => $workflowEventID,
                                                            "workflow_event_version" => $version ),

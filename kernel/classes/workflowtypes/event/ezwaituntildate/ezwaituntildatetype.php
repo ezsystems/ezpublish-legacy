@@ -1,6 +1,6 @@
 <?php
 //
-// Definition of eZPublishOnTimeType class
+// Definition of eZWaitUntilDateType class
 //
 // Created on: <09-Jan-2003 15:01:18 sp>
 //
@@ -34,25 +34,25 @@
 // you.
 //
 
-/*! \file ezpublishontimetype.php
+/*! \file ezwaituntildatetype.php
 */
 
 /*!
-  \class eZPublishOnTimeType ezpublishontimetype.php
-  \brief The class eZPublishOnTimeType does
+  \class eZWaitUntilDateType ezwaituntildatetype.php
+  \brief The class eZWaitUntilDateType does
 
 */
-include_once( 'kernel/classes/workflowtypes/event/ezpublishontime/ezpublishontime.php' );
-define( "EZ_WORKFLOW_TYPE_PUBLISH_ON_TIME_ID", "ezpublishontime" );
+include_once( 'kernel/classes/workflowtypes/event/ezwaituntildate/ezwaituntildate.php' );
+define( "EZ_WORKFLOW_TYPE_WAIT_UNTIL_DATE_ID", "ezwaituntildate" );
 
-class eZPublishOnTimeType  extends eZWorkflowEventType
+class eZWaitUntilDateType  extends eZWorkflowEventType
 {
     /*!
      Constructor
     */
-    function eZPublishOnTimeType()
+    function eZWaitUntilDateType()
     {
-        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_PUBLISH_ON_TIME_ID, "Publish on time" );
+        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_WAIT_UNTIL_DATE_ID, "Publish on time" );
     }
 
     function execute( &$process, &$event )
@@ -60,18 +60,18 @@ class eZPublishOnTimeType  extends eZWorkflowEventType
         $parameters = $process->attribute( 'parameter_list' );
         $object =& eZContentObject::fetch( $parameters['object_id'] );
         $objectAttributes = $object->attribute( 'contentobject_attributes' );
-        $publishOnTimeObject =& $this->workflowEventContent( $event );
-        $publishOnTimeEntryList = $publishOnTimeObject->attribute( 'classattribute_id_list' );
+        $waitUntilDateObject =& $this->workflowEventContent( $event );
+        $waitUntilDateEntryList = $waitUntilDateObject->attribute( 'classattribute_id_list' );
         eZDebug::writeDebug( 'executing publish on time event' );
-        eZDebug::writeDebug( $publishOnTimeEntryList, 'executing publish on time event' );
+        eZDebug::writeDebug( $waitUntilDateEntryList, 'executing publish on time event' );
         eZDebug::writeDebug( $objectAttributes, 'publish on time event' );
 
         foreach ( array_keys( $objectAttributes ) as $key )
         {
             $objectAttribute =& $objectAttributes[$key];
             $contentClassAttributeID = $objectAttribute->attribute( 'contentclassattribute_id' );
-            eZDebug::writeDebug( $publishOnTimeEntryList, "checking if $contentClassAttributeID in array:" );
-            if ( in_array( $objectAttribute->attribute( 'contentclassattribute_id' ), $publishOnTimeEntryList ) )
+            eZDebug::writeDebug( $waitUntilDateEntryList, "checking if $contentClassAttributeID in array:" );
+            if ( in_array( $objectAttribute->attribute( 'contentclassattribute_id' ), $waitUntilDateEntryList ) )
             {
                 include_once( "lib/ezlocale/classes/ezdatetime.php" );
                 $dateTime =& $objectAttribute->attribute( 'content' );
@@ -102,10 +102,10 @@ class eZPublishOnTimeType  extends eZWorkflowEventType
             }break;
             case 'contentclassattribute_list' :
             {
-//                $postvarname = 'WorkflowEvent' . '_event_ezpublishontime_' .'class_' . $workflowEvent->attribute( 'id' ); and $http->hasPostVariable( $postvarname )
-                if ( isset ( $GLOBALS['eZPublishOnTimeSelectedClass'] ) )
+//                $postvarname = 'WorkflowEvent' . '_event_ezwaituntildate_' .'class_' . $workflowEvent->attribute( 'id' ); and $http->hasPostVariable( $postvarname )
+                if ( isset ( $GLOBALS['eZWaitUntilDateSelectedClass'] ) )
                 {
-                    $classID = $GLOBALS['eZPublishOnTimeSelectedClass'];
+                    $classID = $GLOBALS['eZWaitUntilDateSelectedClass'];
                     $attributeList =& eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
                                                                            array( 'id', 'name', 'data_type_string' ),
                                                                            array( 'contentclass_id'=> $classID,
@@ -119,7 +119,7 @@ class eZPublishOnTimeType  extends eZWorkflowEventType
             }break;
             case 'has_class_attributes' :
             {
-                if ( isset ( $GLOBALS['eZPublishOnTimeSelectedClass'] ) )
+                if ( isset ( $GLOBALS['eZWaitUntilDateSelectedClass'] ) )
                 {
                     return 1;
                 }
@@ -140,38 +140,38 @@ class eZPublishOnTimeType  extends eZWorkflowEventType
         {
             case "new_classelement" :
             {
-                $publishOnTime =& $workflowEvent->content( );
+                $waitUntilDate =& $workflowEvent->content( );
 
-                $classIDList = $http->postVariable( 'WorkflowEvent' . '_event_ezpublishontime_' . 'class_' . $workflowEvent->attribute( 'id' )  );
+                $classIDList = $http->postVariable( 'WorkflowEvent' . '_event_ezwaituntildate_' . 'class_' . $workflowEvent->attribute( 'id' )  );
 
-                $classAttributeIDList = $http->postVariable( 'WorkflowEvent' . '_event_ezpublishontime_' . 'classattribute_' . $workflowEvent->attribute( 'id' )  );
+                $classAttributeIDList = $http->postVariable( 'WorkflowEvent' . '_event_ezwaituntildate_' . 'classattribute_' . $workflowEvent->attribute( 'id' )  );
 
 
-                $publishOnTime->addEntry(  $classAttributeIDList[0], $classIDList[0] );
-                $workflowEvent->setContent( $publishOnTime );
+                $waitUntilDate->addEntry(  $classAttributeIDList[0], $classIDList[0] );
+                $workflowEvent->setContent( $waitUntilDate );
             }break;
             case "remove_selected" :
             {
                 $version = $workflowEvent->attribute( "version" );
-                $postvarname = "WorkflowEvent" . "_data_publishontime_remove_" . $workflowEvent->attribute( "id" );
+                $postvarname = "WorkflowEvent" . "_data_waituntildate_remove_" . $workflowEvent->attribute( "id" );
                 $arrayRemove = $http->postVariable( $postvarname );
                 eZDebug::writeDebug( $arrayRemove, 'remove params 0' );
 
                 foreach( $arrayRemove as $entryID )
                 {
                     eZDebug::writeDebug( "$id - $entryID - $version ", 'remove params' );
-                    eZPublishOnTime::removeEntry( $id, $entryID, $version );
+                    eZWaitUntilDate::removeEntry( $id, $entryID, $version );
                 }
             }break;
             case "load_class_attribute_list" :
             {
-                $postvarname = 'WorkflowEvent' . '_event_ezpublishontime_' .'class_' . $workflowEvent->attribute( 'id' );
+                $postvarname = 'WorkflowEvent' . '_event_ezwaituntildate_' .'class_' . $workflowEvent->attribute( 'id' );
                 if ( $http->hasPostVariable( $postvarname ) )
                 {
-                    $classIDList = $http->postVariable( 'WorkflowEvent' . '_event_ezpublishontime_' .'class_' . $workflowEvent->attribute( 'id' ) );
+                    $classIDList = $http->postVariable( 'WorkflowEvent' . '_event_ezwaituntildate_' .'class_' . $workflowEvent->attribute( 'id' ) );
                     eZDebug::writeDebug($classIDList, "classIDLIst" );
-//                    $http->setSessionVariable( 'eZPublishOnTimeSelectedClass',  $classIDList[0] );
-                    $GLOBALS['eZPublishOnTimeSelectedClass'] = $classIDList[0];
+//                    $http->setSessionVariable( 'eZWaitUntilDateSelectedClass',  $classIDList[0] );
+                    $GLOBALS['eZWaitUntilDateSelectedClass'] = $classIDList[0];
                 }
                 else
                 {
@@ -190,20 +190,20 @@ class eZPublishOnTimeType  extends eZWorkflowEventType
     {
         $id = $event->attribute( "id" );
         $version = $event->attribute( "version" );
-        $publishOnTime =& new eZPublishOnTime( $id, $version );
-        return $publishOnTime;
+        $waitUntilDate =& new eZWaitUntilDate( $id, $version );
+        return $waitUntilDate;
     }
 
     function storeEventData( &$event, $version )
     {
-        $publishOnTime =& $event->content();
-        $publishOnTime->setVersion( $version );
+        $waitUntilDate =& $event->content();
+        $waitUntilDate->setVersion( $version );
 
     }
 
 }
 
-eZWorkflowEventType::registerType( EZ_WORKFLOW_TYPE_PUBLISH_ON_TIME_ID, "ezpublishontimetype" );
+eZWorkflowEventType::registerType( EZ_WORKFLOW_TYPE_WAIT_UNTIL_DATE_ID, "ezwaituntildatetype" );
 
 
 ?>

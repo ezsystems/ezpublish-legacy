@@ -11,7 +11,7 @@
 {$Entries:item.classattribute_name}({$Entries:item.contentclass_attribute_id})
 </td>
 <td class="{$Entries:sequence}">
-<input type="checkbox" name="WorkflowEvent_data_publishontime_remove_{$event.id}[]" value="{$Entries:item.id}" /><br/>
+<input type="checkbox" name="WorkflowEvent_data_waituntildate_remove_{$event.id}[]" value="{$Entries:item.id}" /><br/>
 </td>
 </tr>
 {/section}
@@ -27,7 +27,7 @@
 
 {let possibleClasses=$event.workflow_type.contentclass_list}
     <label>{"Class:"|i18n("design/standard/workflow/eventtype/edit")}</label><div class="labelbreak"></div>
-     <select name="WorkflowEvent_event_ezpublishontime_class_{$event.id}[]" size="5">
+     <select name="WorkflowEvent_event_ezwaituntildate_class_{$event.id}[]" size="5">
      {section name=HasClasses loop=$possibleClasses}
      <option value="{$HasClasses:item.id}">{$HasClasses:item.id}-{$HasClasses:item.name}</option>
      {/section}   
@@ -38,7 +38,7 @@
 {section show=$event.workflow_type.has_class_attributes|eq(1)}
 {let possibleClassAttributes=$event.workflow_type.contentclassattribute_list}
     <label>{"Class Attributes:"|i18n("design/standard/workflow/eventtype/edit")}</label><div class="labelbreak"></div>
-     <select name="WorkflowEvent_event_ezpublishontime_classattribute_{$event.id}[]" size="5">
+     <select name="WorkflowEvent_event_ezwaituntildate_classattribute_{$event.id}[]" size="5">
      {section name=HasClassAttributes loop=$possibleClassAttributes}
      <option value="{$HasClassAttributes:item.id}">{$HasClassAttributes:item.id}-{$HasClassAttributes:item.name}</option>
      {/section}

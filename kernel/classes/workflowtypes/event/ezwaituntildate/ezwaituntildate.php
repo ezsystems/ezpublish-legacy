@@ -1,6 +1,6 @@
 <?php
 //
-// Definition of eZPublishOnTime class
+// Definition of eZWaitUntilDate class
 //
 // Created on: <09-Jan-2003 16:20:05 sp>
 //
@@ -34,22 +34,22 @@
 // you.
 //
 
-/*! \file ezpublishontime.php
+/*! \file ezwaituntildate.php
 */
 
 /*!
-  \class eZPublishOnTime ezpublishontime.php
-  \brief The class eZPublishOnTime does
+  \class eZWaitUntilDate ezwaituntildate.php
+  \brief The class eZWaitUntilDate does
 
 */
-include_once( 'kernel/classes/workflowtypes/event/ezpublishontime/ezpublishontimevalue.php' );
-class eZPublishOnTime
+include_once( 'kernel/classes/workflowtypes/event/ezwaituntildate/ezwaituntildatevalue.php' );
+class eZWaitUntilDate
 {
-    function eZPublishOnTime( $eventID, $eventVersion )
+    function eZWaitUntilDate( $eventID, $eventVersion )
     {
         $this->WorkflowEventID = $eventID;
         $this->WorkflowEventVersion = $eventVersion;
-        $this->Entries =& eZPublishOnTimeValue::fetchAllElements( $eventID, $eventVersion );
+        $this->Entries =& eZWaitUntilDateValue::fetchAllElements( $eventID, $eventVersion );
     }
 
     function hasAttribute( $attr )
@@ -86,9 +86,9 @@ class eZPublishOnTime
             }break;
         }
     }
-    function removePublishOnTimeEntries( $workflowEventID, $workflowEventVersion )
+    function removeWaitUntilDateEntries( $workflowEventID, $workflowEventVersion )
     {
-         eZPublishOnTimeValue::removeAllElements( $workflowEventID, $workflowEventVersion );
+         eZWaitUntilDateValue::removeAllElements( $workflowEventID, $workflowEventVersion );
     }
     /*!
      Adds an enumeration
@@ -100,17 +100,17 @@ class eZPublishOnTime
             $contentClassAttribute = eZContentClassAttribute::fetch( $contentClassAttributeID );
             $contentClassID = $contentClassAttribute->attribute( 'contentclass_id' );
         }
-        $publishOnTimeValue =& eZPublishOnTimeValue::create( $this->WorkflowEventID, $this->WorkflowEventVersion, $contentClassAttributeID, $contentClassID );
-        $publishOnTimeValue->store();
-        $this->Entries =& eZPublishOnTimeValue::fetchAllElements( $this->WorkflowEventID, $this->WorkflowEventVersion );
+        $waitUntilDateValue =& eZWaitUntilDateValue::create( $this->WorkflowEventID, $this->WorkflowEventVersion, $contentClassAttributeID, $contentClassID );
+        $waitUntilDateValue->store();
+        $this->Entries =& eZWaitUntilDateValue::fetchAllElements( $this->WorkflowEventID, $this->WorkflowEventVersion );
     }
 
     function removeEntry( $workflowEventID, $id, $version )
     {
         eZDebug::writeDebug( "$workflowEventID - $id - $version ", 'remove params 2' );
 
-       eZPublishOnTimeValue::remove( $id, $version );
-       $this->Entries =& eZPublishOnTimeValue::fetchAllElements( $workflowEventID, $version );
+       eZWaitUntilDateValue::remove( $id, $version );
+       $this->Entries =& eZWaitUntilDateValue::fetchAllElements( $workflowEventID, $version );
     }
 
     function &classAttributeIDList()
@@ -126,7 +126,7 @@ class eZPublishOnTime
 
     function setVersion( $version )
     {
-        eZPublishOnTimeValue::removeAllElements( $this->WorkflowEventID, 0 );
+        eZWaitUntilDateValue::removeAllElements( $this->WorkflowEventID, 0 );
     	for ( $i=0;$i<count( $this->Entries );$i++ )
     	{
             $entry =& $this->Entries[$i];
@@ -135,7 +135,7 @@ class eZPublishOnTime
             $workflowEventID = $entry->attribute( "workflow_event_id" );
             $contentClassID = $entry->attribute( "contentclass_id" );
             $contentClassAttributeID = $entry->attribute( "contentclass_attribute_id" );
-            $entryCopy =& eZPublishOnTimeValue::createCopy( $id,
+            $entryCopy =& eZWaitUntilDateValue::createCopy( $id,
                                                             $workflowEventID,
                                                             0,
                                                             $contentClassID,
