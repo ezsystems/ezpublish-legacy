@@ -126,7 +126,7 @@ You will find documentation on linguist on Trolltechs page:
 </p>
 
 <p>
-When you are done translating in linguist, open <b>settings/site.ini</b>. Go to the section <b>[RegionalSettings]</b> and set <b>Locale=nor-NO</b> to translate the interface, and <b>ContentObjectLocale=nor-NO</b> if you want to set the language of content objects. Finally, set <b>TextTranslation=enabled</b>, or the default (eng-GB) will be used.
+When you are done translating in linguist (or earlier, if you want to test part of a translation), open <b>settings/site.ini</b>. Go to the section <b>[RegionalSettings]</b> and set <b>Locale=nor-NO</b>. Also set <b>TextTranslation=enabled</b>, or the default (eng-GB) will be used.
 </p>
 
 <p>
@@ -136,9 +136,12 @@ Sample entry in settings/site.ini:
 <pre class="example">
 [RegionalSettings]
 Locale=nor-NO
-ContentObjectLocale=nor-NO
 TextTranslation=enabled
 </pre>
+
+<p>
+If you run a multi-language site, you will also need to translate content objects. Set <b>ContentObjectLocale=nor-NO</b> if you want the default language to be nor-NO. Important: Before you do this, you should make sure that the new locale is added to the system. Go to Setup -&gt; Translations and add your locale here if it does not exist. You should also translate the most used objects of your site before you change the ContentObjectLocale. To translate an object, edit it, and click "Edit" under "Translations" in the right-hand menu.
+</p>
 
 <p>
 To distribute your translation, create a compressed archive, for instance .zip or tar.gz, of these two files:<br />
