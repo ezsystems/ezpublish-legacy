@@ -774,6 +774,12 @@ class Cezpdf extends Cpdf
         foreach ( array_keys( $lines ) as $key ){
             $start=1;
             $line = $lines[$key];
+            if ( $key > 0 )
+            {
+                $this->y=$this->y-$height;
+                $this->ez['xOffset'] = 0;
+            }
+
             while (strlen($line) || $start){
                 $start=0;
                 if ($this->y < $this->ez['bottomMargin']){

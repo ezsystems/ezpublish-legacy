@@ -640,6 +640,10 @@ class eZPDFTable extends Cezpdf
                                         }
                                         $textInfo = $this->addTextWrap($pos[$realColumnCount],$this->y,$maxWidth[$colSpan][$realColumnCount],$options['fontSize'],$line,$just);
                                         $line=$textInfo['text'];
+                                        if ( $textInfo['height'] != -1 )
+                                        {
+                                            $this->y -= $textInfo['height'];
+                                        }
                                     }
                                 }
                             }
@@ -917,6 +921,8 @@ class eZPDFTable extends Cezpdf
         }
 
         $this->transaction( 'commit' );
+
+        return array( 'y' => $params['height'] );
     }
 
 
@@ -1247,7 +1253,7 @@ class eZPDFTable extends Cezpdf
         $previousFont = $this->currentFont();
         if ( isset( $textParameters['font'] ) )
         {
-            $this->setCurrentFont( $textParameters['font'] );
+            $this->selectFont( $textParameters['font'] );
         }
 
         $justification = $this->justification();
@@ -1354,7 +1360,7 @@ class eZPDFTable extends Cezpdf
             $this->closeObject();
         }
 
-        $this->setCurrentFont( $previousFont );
+        $this->selectFont( $previousFont );
     }
 
     /*!
@@ -1412,10 +1418,16 @@ class eZPDFTable extends Cezpdf
         $textLen = strlen( $text );
         $tableData = array();
         $cellData = array();
+        $showLines = 2;
         $rowCount = 0;
         $columnCount = 0;
 
         $columnText = '';
+
+        if ( isset( $params['showLines'] ) )
+        {
+            $showLines = $params['showLines'];
+        }
 
         for ( $offSet = 0; $offSet < $textLen; $offSet++ )
         {
@@ -1474,7 +1486,7 @@ class eZPDFTable extends Cezpdf
             $columnText .= $text[$offSet];
         }
         $this->addDocSpecFunction( 'ezTable', array( $tableData, '', '', array( 'cellData' => $cellData,
-                                                                                'showLines' => 2 ) ) );
+                                                                                'showLines' => $showLines ) ) );
     }
 
     /**
@@ -1553,7 +1565,7 @@ class eZPDFTable extends Cezpdf
 
             if ( isset( $documentSpec['fontName'] ) )
             {
-                $this->setCurrentFont( $documentSpec['fontName'] );
+                $this->selectFont( $documentSpec['fontName'] );;
             }
 
             if ( isset( $documentSpec['fontSize'] ) )
@@ -1581,15 +1593,14 @@ class eZPDFTable extends Cezpdf
 
     /**
      * Callback function for adding text
-     * usage: <c:callText:name,<fontname>:size,<fontsize>>text</c:callText>
      */
     function callText( $params )
     {
         $options = array();
 
-        if ( isset( $params['name'] ) )
+        if ( isset( $params['font'] ) )
         {
-            $options['fontName'] = $params['name'];
+            $options['fontName'] = $params['font'];
         }
 
         if ( isset( $params['size'] ) )
@@ -1614,7 +1625,7 @@ class eZPDFTable extends Cezpdf
     {
         array_push( $this->PreStack, array( 'justification' => $this->justification(),
                                             'fontSize' => $this->fontSize(),
-                                            'fontName' => $this->currentFont() ) );
+                                            'fontName' => 'lib/ezpdf/classes/fonts/Helvetica' ) );
     }
 
     /**
@@ -1680,7 +1691,7 @@ class eZPDFTable extends Cezpdf
 
         if ( isset( $options['fontName'] ) )
         {
-            $currentElement['fontName'] = $options['fontName'];
+            $currentElement['fontName'] = 'lib/ezpdf/classes/fonts/'. $options['fontName'];
         }
         else
         {

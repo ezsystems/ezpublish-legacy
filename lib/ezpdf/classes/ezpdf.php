@@ -117,11 +117,27 @@ class eZPDF
 
             case 'table':
             {
-                $table = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+                $operatorValue = '<ezGroup:callTable';
 
-                $operatorValue = str_replace( array( ' ', "\t", "\r\n", "\n" ),
-                                              '',
-                                              '<ezGroup:callTable>'. $table . '</ezGroup:callTable><C:callNewLine>' );
+                if ( count( $operatorParameters > 2 ) )
+                {
+                    $tableSettings = $tpl->elementValue( $operatorParameters[2], $rootNamespace, $currentNamespace );
+
+                    if ( isset( $tableSettings['showLines'] ) )
+                    {
+                        $operatorValue .= ':showLines:'. $tableSettings['showLines'];
+                    }
+                }
+
+                $operatorValue .= '>';
+
+                $rows = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+
+                $operatorValue .= str_replace( array( ' ', "\t", "\r\n", "\n" ),
+                                               '',
+                                               $rows );
+
+                $operatorValue .= '</ezGroup:callTable><C:callNewLine>';
 
                 eZDebug::writeNotice( 'PDF: Added table to PDF',
                                       'eZPDF::modify' );
@@ -130,6 +146,10 @@ class eZPDF
             case 'header':
             {
                 $header = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+
+                $header['text'] = str_replace( array( ' ', "\t", "\r\n", "\n" ),
+                                               '',
+                                               $header['text'] );
 
                 if ( !isset( $header['align'] ) )
                     $header['align'] = 'left';
@@ -254,7 +274,7 @@ class eZPDF
             } break;
 
             case 'footer':
-            case 'header':
+            case 'frame_header':
             {
                 $frameDesc = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
@@ -512,6 +532,7 @@ class eZPDF
                 $operatorValue .= $text;
                 if ( $changeFont )
                 {
+                    eZDebug::writeNotice( 'Text added to PDF: "'. $text .'"', 'eZPDF::modify' );
                     $operatorValue .= '</ezCall:callText>';
                 }
 

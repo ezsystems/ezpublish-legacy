@@ -1749,186 +1749,189 @@ class Cpdf
  * and 'differences' => an array of mappings between numbers 0->255 and character names.
  *
  */
-    function selectFont($fontName,$encoding='',$set=1){
-	if (!isset($this->fonts[$fontName])){
-	    // load the file
-	    $this->openFont($fontName);
-	    if (isset($this->fonts[$fontName])){
-		$this->numObj++;
-		$this->numFonts++;
-		$pos=strrpos($fontName,'/');
+    function selectFont($fontName,$encoding='',$set=1)
+    {
+        if (!isset($this->fonts[$fontName]))
+        {
+            // load the file
+            $this->openFont($fontName);
+            if (isset($this->fonts[$fontName]))
+            {
+                $this->numObj++;
+                $this->numFonts++;
+                $pos=strrpos($fontName,'/');
 //      $dir=substr($fontName,0,$pos+1);
-		$name=substr($fontName,$pos+1);
-		if (substr($name,-5)=='.font'){
-		    $name=substr($name,0,strlen($name)-5);
-		}
-		$options=array('name'=>$name);
-		if (is_array($encoding)){
-		    // then encoding and differences might be set
-		    if (isset($encoding['encoding'])){
-			$options['encoding']=$encoding['encoding'];
-		    }
-		    if (isset($encoding['differences'])){
-			$options['differences']=$encoding['differences'];
-		    }
-		} else if (strlen($encoding)){
-		    // then perhaps only the encoding has been set
-		    $options['encoding']=$encoding;
-		}
-		$fontObj = $this->numObj;
-		$this->o_font($this->numObj,'new',$options);
-		$this->fonts[$fontName]['fontNum']=$this->numFonts;
-		// if this is a '.afm' font, and there is a '.pfa' file to go with it ( as there
-		// should be for all non-basic fonts), then load it into an object and put the
-		// references into the font object
-		$basefile = substr($fontName,0,strlen($fontName)-4);
-		if (file_exists($basefile.'.pfb')){
-		    $fbtype = 'pfb';
-		} else if (file_exists($basefile.'.ttf')){
-		    $fbtype = 'ttf';
-		} else {
-		    $fbtype='';
-		}
-		$fbfile = $basefile.'.'.$fbtype;
+                $name=substr($fontName,$pos+1);
+                if (substr($name,-5)=='.font'){
+                    $name=substr($name,0,strlen($name)-5);
+                }
+                $options=array('name'=>$name);
+                if (is_array($encoding)){
+                    // then encoding and differences might be set
+                    if (isset($encoding['encoding'])){
+                        $options['encoding']=$encoding['encoding'];
+                    }
+                    if (isset($encoding['differences'])){
+                        $options['differences']=$encoding['differences'];
+                    }
+                } else if (strlen($encoding)){
+                    // then perhaps only the encoding has been set
+                    $options['encoding']=$encoding;
+                }
+                $fontObj = $this->numObj;
+                $this->o_font($this->numObj,'new',$options);
+                $this->fonts[$fontName]['fontNum']=$this->numFonts;
+                // if this is a '.afm' font, and there is a '.pfa' file to go with it ( as there
+                // should be for all non-basic fonts), then load it into an object and put the
+                // references into the font object
+                $basefile = substr($fontName,0,strlen($fontName)-4);
+                if (file_exists($basefile.'.pfb')){
+                    $fbtype = 'pfb';
+                } else if (file_exists($basefile.'.ttf')){
+                    $fbtype = 'ttf';
+                } else {
+                    $fbtype='';
+                }
+                $fbfile = $basefile.'.'.$fbtype;
 
 //      $pfbfile = substr($fontName,0,strlen($fontName)-4).'.pfb';
 //      $ttffile = substr($fontName,0,strlen($fontName)-4).'.ttf';
-		$this->addMessage('selectFont: checking for - '.$fbfile);
-		if (substr($fontName,-4)=='.afm' && strlen($fbtype) ){
-		    $adobeFontName = $this->fonts[$fontName]['FontName'];
+                $this->addMessage('selectFont: checking for - '.$fbfile);
+                if (substr($fontName,-4)=='.afm' && strlen($fbtype) ){
+                    $adobeFontName = $this->fonts[$fontName]['FontName'];
 //        $fontObj = $this->numObj;
-		    $this->addMessage('selectFont: adding font file - '.$fbfile.' - '.$adobeFontName);
-		    // find the array of fond widths, and put that into an object.
-		    $firstChar = -1;
-		    $lastChar = 0;
-		    $widths = array();
-		    foreach ($this->fonts[$fontName]['C'] as $num=>$d){
-			if (intval($num)>0 || $num=='0'){
-			    if ($lastChar>0 && $num>$lastChar+1){
-				for($i=$lastChar+1;$i<$num;$i++){
-				    $widths[] = 0;
-				}
-			    }
-			    $widths[] = $d['WX'];
-			    if ($firstChar==-1){
-				$firstChar = $num;
-			    }
-			    $lastChar = $num;
-			}
-		    }
-		    // also need to adjust the widths for the differences array
-		    if (isset($options['differences'])){
-			foreach($options['differences'] as $charNum=>$charName){
-			    if ($charNum>$lastChar){
-				for($i=$lastChar+1;$i<=$charNum;$i++){
-				    $widths[]=0;
-				}
-				$lastChar=$charNum;
-			    }
-			    if (isset($this->fonts[$fontName]['C'][$charName])){
-				$widths[$charNum-$firstChar]=$this->fonts[$fontName]['C'][$charName]['WX'];
-			    }
-			}
-		    }
-		    $this->addMessage('selectFont: FirstChar='.$firstChar);
-		    $this->addMessage('selectFont: LastChar='.$lastChar);
-		    $this->numObj++;
-		    $this->o_contents($this->numObj,'new','raw');
-		    $this->objects[$this->numObj]['c'].='[';
-		    foreach($widths as $width){
-			$this->objects[$this->numObj]['c'].=' '.$width;
-		    }
-		    $this->objects[$this->numObj]['c'].=' ]';
-		    $widthid = $this->numObj;
+                    $this->addMessage('selectFont: adding font file - '.$fbfile.' - '.$adobeFontName);
+                    // find the array of fond widths, and put that into an object.
+                    $firstChar = -1;
+                    $lastChar = 0;
+                    $widths = array();
+                    foreach ($this->fonts[$fontName]['C'] as $num=>$d){
+                        if (intval($num)>0 || $num=='0'){
+                            if ($lastChar>0 && $num>$lastChar+1){
+                                for($i=$lastChar+1;$i<$num;$i++){
+                                    $widths[] = 0;
+                                }
+                            }
+                            $widths[] = $d['WX'];
+                            if ($firstChar==-1){
+                                $firstChar = $num;
+                            }
+                            $lastChar = $num;
+                        }
+                    }
+                    // also need to adjust the widths for the differences array
+                    if (isset($options['differences'])){
+                        foreach($options['differences'] as $charNum=>$charName){
+                            if ($charNum>$lastChar){
+                                for($i=$lastChar+1;$i<=$charNum;$i++){
+                                    $widths[]=0;
+                                }
+                                $lastChar=$charNum;
+                            }
+                            if (isset($this->fonts[$fontName]['C'][$charName])){
+                                $widths[$charNum-$firstChar]=$this->fonts[$fontName]['C'][$charName]['WX'];
+                            }
+                        }
+                    }
+                    $this->addMessage('selectFont: FirstChar='.$firstChar);
+                    $this->addMessage('selectFont: LastChar='.$lastChar);
+                    $this->numObj++;
+                    $this->o_contents($this->numObj,'new','raw');
+                    $this->objects[$this->numObj]['c'].='[';
+                    foreach($widths as $width){
+                        $this->objects[$this->numObj]['c'].=' '.$width;
+                    }
+                    $this->objects[$this->numObj]['c'].=' ]';
+                    $widthid = $this->numObj;
 
-		    // load the pfb file, and put that into an object too.
-		    // note that pdf supports only binary format type 1 font files, though there is a
-		    // simple utility to convert them from pfa to pfb.
-		    $fp = fopen($fbfile,'rb');
-		    $tmp = get_magic_quotes_runtime();
-		    set_magic_quotes_runtime(0);
-		    $data = fread($fp,filesize($fbfile));
-		    set_magic_quotes_runtime($tmp);
-		    fclose($fp);
+                    // load the pfb file, and put that into an object too.
+                    // note that pdf supports only binary format type 1 font files, though there is a
+                    // simple utility to convert them from pfa to pfb.
+                    $fp = fopen($fbfile,'rb');
+                    $tmp = get_magic_quotes_runtime();
+                    set_magic_quotes_runtime(0);
+                    $data = fread($fp,filesize($fbfile));
+                    set_magic_quotes_runtime($tmp);
+                    fclose($fp);
 
-		    // create the font descriptor
-		    $this->numObj++;
-		    $fontDescriptorId = $this->numObj;
-		    $this->numObj++;
-		    $pfbid = $this->numObj;
-		    // determine flags (more than a little flakey, hopefully will not matter much)
-		    $flags=0;
-		    if ($this->fonts[$fontName]['ItalicAngle']!=0){ $flags+=pow(2,6); }
-		    if ($this->fonts[$fontName]['IsFixedPitch']=='true'){ $flags+=1; }
-		    $flags+=pow(2,5); // assume non-sybolic
+                    // create the font descriptor
+                    $this->numObj++;
+                    $fontDescriptorId = $this->numObj;
+                    $this->numObj++;
+                    $pfbid = $this->numObj;
+                    // determine flags (more than a little flakey, hopefully will not matter much)
+                    $flags=0;
+                    if ($this->fonts[$fontName]['ItalicAngle']!=0){ $flags+=pow(2,6); }
+                    if ($this->fonts[$fontName]['IsFixedPitch']=='true'){ $flags+=1; }
+                    $flags+=pow(2,5); // assume non-sybolic
 
-		    $list = array('Ascent'=>'Ascender','CapHeight'=>'CapHeight','Descent'=>'Descender','FontBBox'=>'FontBBox','ItalicAngle'=>'ItalicAngle');
-		    $fdopt = array(
-			'Flags'=>$flags
-			,'FontName'=>$adobeFontName
-			,'StemV'=>100  // don't know what the value for this should be!
-			);
-		    foreach($list as $k=>$v){
-			if (isset($this->fonts[$fontName][$v])){
-			    $fdopt[$k]=$this->fonts[$fontName][$v];
-			}
-		    }
+                    $list = array('Ascent'=>'Ascender','CapHeight'=>'CapHeight','Descent'=>'Descender','FontBBox'=>'FontBBox','ItalicAngle'=>'ItalicAngle');
+                    $fdopt = array(
+                        'Flags'=>$flags
+                        ,'FontName'=>$adobeFontName
+                        ,'StemV'=>100  // don't know what the value for this should be!
+                        );
+                    foreach($list as $k=>$v){
+                        if (isset($this->fonts[$fontName][$v])){
+                            $fdopt[$k]=$this->fonts[$fontName][$v];
+                        }
+                    }
 
-		    if ($fbtype=='pfb'){
-			$fdopt['FontFile']=$pfbid;
-		    } else if ($fbtype=='ttf'){
-			$fdopt['FontFile2']=$pfbid;
-		    }
-		    $this->o_fontDescriptor($fontDescriptorId,'new',$fdopt);
+                    if ($fbtype=='pfb'){
+                        $fdopt['FontFile']=$pfbid;
+                    } else if ($fbtype=='ttf'){
+                        $fdopt['FontFile2']=$pfbid;
+                    }
+                    $this->o_fontDescriptor($fontDescriptorId,'new',$fdopt);
 
-		    // embed the font program
-		    $this->o_contents($this->numObj,'new');
-		    $this->objects[$pfbid]['c'].=$data;
-		    // determine the cruicial lengths within this file
-		    if ($fbtype=='pfb'){
-			$l1 = strpos($data,'eexec')+6;
-			$l2 = strpos($data,'00000000')-$l1;
-			$l3 = strlen($data)-$l2-$l1;
-			$this->o_contents($this->numObj,'add',array('Length1'=>$l1,'Length2'=>$l2,'Length3'=>$l3));
-		    } else if ($fbtype=='ttf'){
-			$l1 = strlen($data);
-			$this->o_contents($this->numObj,'add',array('Length1'=>$l1));
-		    }
-
-
-		    // tell the font object about all this new stuff
-		    $tmp = array('BaseFont'=>$adobeFontName,'Widths'=>$widthid
-				 ,'FirstChar'=>$firstChar,'LastChar'=>$lastChar
-				 ,'FontDescriptor'=>$fontDescriptorId);
-		    if ($fbtype=='ttf'){
-			$tmp['SubType']='TrueType';
-		    }
-		    $this->addMessage('adding extra info to font.('.$fontObj.')');
-		    foreach($tmp as $fk=>$fv){
-			$this->addMessage($fk." : ".$fv);
-		    }
-		    $this->o_font($fontObj,'add',$tmp);
-
-		} else {
-		    $this->addMessage('selectFont: pfb or ttf file not found, ok if this is one of the 14 standard fonts');
-		}
+                    // embed the font program
+                    $this->o_contents($this->numObj,'new');
+                    $this->objects[$pfbid]['c'].=$data;
+                    // determine the cruicial lengths within this file
+                    if ($fbtype=='pfb'){
+                        $l1 = strpos($data,'eexec')+6;
+                        $l2 = strpos($data,'00000000')-$l1;
+                        $l3 = strlen($data)-$l2-$l1;
+                        $this->o_contents($this->numObj,'add',array('Length1'=>$l1,'Length2'=>$l2,'Length3'=>$l3));
+                    } else if ($fbtype=='ttf'){
+                        $l1 = strlen($data);
+                        $this->o_contents($this->numObj,'add',array('Length1'=>$l1));
+                    }
 
 
-		// also set the differences here, note that this means that these will take effect only the
-		//first time that a font is selected, else they are ignored
-		if (isset($options['differences'])){
-		    $this->fonts[$fontName]['differences']=$options['differences'];
-		}
-	    }
-	}
-	if ($set && isset($this->fonts[$fontName])){
-	    // so if for some reason the font was not set in the last one then it will not be selected
-	    $this->currentBaseFont=$fontName;
-	    // the next line means that if a new font is selected, then the current text state will be
-	    // applied to it as well.
-	    $this->setCurrentFont();
-	}
-	return $this->currentFontNum;
+                    // tell the font object about all this new stuff
+                    $tmp = array('BaseFont'=>$adobeFontName,'Widths'=>$widthid
+                                 ,'FirstChar'=>$firstChar,'LastChar'=>$lastChar
+                                 ,'FontDescriptor'=>$fontDescriptorId);
+                    if ($fbtype=='ttf'){
+                        $tmp['SubType']='TrueType';
+                    }
+                    $this->addMessage('adding extra info to font.('.$fontObj.')');
+                    foreach($tmp as $fk=>$fv){
+                        $this->addMessage($fk." : ".$fv);
+                    }
+                    $this->o_font($fontObj,'add',$tmp);
+
+                } else {
+                    $this->addMessage('selectFont: pfb or ttf file not found, ok if this is one of the 14 standard fonts');
+                }
+
+
+                // also set the differences here, note that this means that these will take effect only the
+                //first time that a font is selected, else they are ignored
+                if (isset($options['differences'])){
+                    $this->fonts[$fontName]['differences']=$options['differences'];
+                }
+            }
+        }
+        if ($set && isset($this->fonts[$fontName])){
+            // so if for some reason the font was not set in the last one then it will not be selected
+            $this->currentBaseFont=$fontName;
+            // the next line means that if a new font is selected, then the current text state will be
+            // applied to it as well.
+            $this->setCurrentFont();
+        }
+        return $this->currentFontNum;
     }
 
     /**
@@ -1956,7 +1959,7 @@ class Cpdf
     function setCurrentFont(){
 	if (strlen($this->currentBaseFont)==0){
 	    // then assume an initial font
-	    $this->selectFont('./fonts/Helvetica.afm');
+	    $this->selectFont('lib/ezpdf/classes/fonts/Helvetica');
 	}
 	$cf = substr($this->currentBaseFont,strrpos($this->currentBaseFont,'/')+1);
 	if (strlen($this->currentTextState)
@@ -2523,13 +2526,18 @@ class Cpdf
                 break;
             }
         }
-        return $directive;
+        return array( 'directive' => $directive,
+                      'y' => (float)$y );
     }
 
 /**
  * add text to the document, at a specified location, size and angle on the page
+ *
+ * \return array( 'height' => <used height if more than normal text, -1 if not> )
  */
     function addText($x,$y,$size,$text,$angle=0,$wordSpaceAdjust=0){
+        $returnArray = array( 'height' => -1 );
+
 	if (!$this->numFonts){$this->selectFont('./fonts/Helvetica');}
 
 	// if there are any open callbacks, then they should be called, to show the start of the line
@@ -2558,7 +2566,8 @@ class Cpdf
 	$start=0;
 	for ($i=0;$i<$len;$i++){
 	    $f=1;
-	    $directive = $this->PRVTcheckTextDirective($text,$i,$f);
+        $directiveArray = $this->PRVTcheckTextDirective($text,$i,$f);
+	    $directive = $directiveArray['directive'];
 	    if ($directive){
             // then we should write what we need to
             if ($i>$start){
@@ -2574,7 +2583,13 @@ class Cpdf
                 $f=1;
                 $xp=$x;
                 $yp=$y;
-                $directive = $this->PRVTcheckTextDirective1($text,$i,$f,1,$xp,$yp,$size,$angle,$wordSpaceAdjust);
+                $directiveArray = $this->PRVTcheckTextDirective1($text,$i,$f,1,$xp,$yp,$size,$angle,$wordSpaceAdjust);
+                if ( $directiveArray['y'] != 0 )
+                {
+                    $returnArray['height'] = $directiveArray['y'];
+                }
+
+                $directive = $directiveArray['directive'];
 
                 // restart the text object
                 if ($angle==0){
@@ -2614,7 +2629,7 @@ class Cpdf
 		$this->$func($info);
 	    }
 	}
-
+    return $returnArray;
     }
 
 /**
@@ -2641,7 +2656,8 @@ class Cpdf
 	$cf = $this->currentFont;
 	for ($i=0;$i<$len;$i++){
 	    $f=1;
-	    $directive = $this->PRVTcheckTextDirective($text,$i,$f);
+        $directiveArray = $this->PRVTcheckTextDirective($text,$i,$f);
+	    $directive = $directiveArray['directive'];
 	    if ($directive){
 		if ($f){
 		    $this->setCurrentFont();
@@ -2705,7 +2721,8 @@ class Cpdf
  * justification and angle can also be specified for the text
  *
  * return array ('text' => <text for new line>,
-                 'width' => <width of added text, 0 i more text> )
+                 'width' => <width of added text, 0 i more text>,
+                 'height' => <height of added text, -1 if none/default> )
  */
     function addTextWrap($x,$y,$width,$size,$text,$justification='left',$angle=0,$test=0){
 	// this will display the text, and if it goes beyond the width $width, will backtrack to the
@@ -2717,7 +2734,8 @@ class Cpdf
 	// but will need to be re-set before printing, so that the chars work out right
 	$store_currentTextState = $this->currentTextState;
     $returnArray = array ( 'text' => '',
-                           'width' => 0 );
+                           'width' => 0,
+                           'height' => -1 );
 
 	if (!$this->numFonts){$this->selectFont('./fonts/Helvetica');}
 	if ($width<=0){
@@ -2732,7 +2750,13 @@ class Cpdf
 	$tw = $width/$size*1000;
 	for ($i=0;$i<$len;$i++){
 	    $f=1;
-	    $directive = $this->PRVTcheckTextDirective($text,$i,$f);
+        $directiveArray = $this->PRVTcheckTextDirective($text,$i,$f);
+	    $directive = $directiveArray['directive'];
+        if ( $directiveArray['y'] != 0 )
+        {
+            $y -= $directiveArray['y'];
+            $returnArray['height'] = $directiveArray['y'];
+        }
 	    if ($directive){
 		if ($f){
 		    $this->setCurrentFont();
@@ -2767,7 +2791,11 @@ class Cpdf
 			$this->currentTextState = $store_currentTextState;
 			$this->setCurrentFont();
 			if (!$test){
-			    $this->addText($x,$y,$size,$tmp,$angle,$adjust);
+			    $addTextArray = $this->addText($x,$y,$size,$tmp,$angle,$adjust);
+                if ( $addTextArray['height'] != -1 )
+                {
+                    $returnArray['height'] = $addTextArray['height'];
+                }
 			}
 			$returnArray['text'] =  substr($text,$break+1);
             return $returnArray;
@@ -2785,7 +2813,11 @@ class Cpdf
 			$this->currentTextState = $store_currentTextState;
 			$this->setCurrentFont();
 			if (!$test){
-			    $this->addText($x,$y,$size,$tmp,$angle,$adjust);
+			    $addTextArray = $this->addText($x,$y,$size,$tmp,$angle,$adjust);
+                if ( $addTextArray['height'] != -1 )
+                {
+                    $returnArray['height'] = $addTextArray['height'];
+                }
 			}
             $returnArray['text'] = substr($text,$i);
 			return $returnArray;
@@ -2816,7 +2848,11 @@ class Cpdf
 	$this->currentTextState = $store_currentTextState;
 	$this->setCurrentFont();
 	if (!$test){
-	    $this->addText($x,$y,$size,$text,$angle,$adjust,$angle);
+	    $addTextArray = $this->addText($x,$y,$size,$text,$angle,$adjust,$angle);
+        if ( $addTextArray['height'] != -1 )
+        {
+            $returnArray['height'] = $addTextArray['height'];
+        }
 	}
     $returnArray['width'] = $tmpw;
 	return $returnArray;
