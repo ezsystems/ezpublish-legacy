@@ -6,7 +6,7 @@
 
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight">&nbsp;</th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" onclick="ezjs_toggleCheckboxes( document.GroupList, 'DeleteIDArray[]' ); return false;"/></th>
     <th>{'Name'|i18n( 'design/admin/class/list' )}</th>
     <th>{'Modifier'|i18n( 'design/admin/class/list' )}</th>
     <th>{'Modified'|i18n( 'design/admin/class/list' )}</th>
