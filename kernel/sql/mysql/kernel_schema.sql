@@ -416,7 +416,8 @@ CREATE TABLE ezcontentobject_version (
   status int(11) NOT NULL default '0',
   workflow_event_pos int(11) default '0',
   user_id int(11) NOT NULL default '0',
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY idx_object_version_objver (contentobject_id,version)
 ) TYPE=MyISAM;
 
 
