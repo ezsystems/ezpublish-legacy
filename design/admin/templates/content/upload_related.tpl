@@ -1,0 +1,2 @@
+<p>{'Choose a file from your locale machine and click the "Upload" button. An object will be created according to file type and placed in your chosen location.
+'|i18n("design/standard/content/view")}</p>
