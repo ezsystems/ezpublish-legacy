@@ -155,7 +155,7 @@
 <div class="controlbar">
     {* Remove button *}
     {section show=$can_remove}
-        <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n('design/standard/node/view')}" title="{'Click here to remove the items that are checked from the list above.'|i18n( 'design/admin/layout' )}" />
+        <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n('design/standard/node/view')}" title="{'Click here to remove checked/marked items from the list above.'|i18n( 'design/admin/layout' )}" />
     {section-else}
         <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n('design/standard/node/view')}" title="{'You do not have permissions to remove any of the items from the list above.'|i18n( 'design/admin/layout' )}" disabled="disabled" />
     {/section}
