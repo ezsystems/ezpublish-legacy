@@ -269,6 +269,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 if ( $border === null )
                     $border = 1;
 
+                $width = $tag->attributeValue( 'width' );
+                if ( $width === null )
+                    $width = "100%";
+
                 // find all table rows
                 foreach ( $tag->children() as $tableRow )
                 {
@@ -295,7 +299,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $tableRows .= implode( '', $textElements );
                 }
                 $tpl->setVariable( 'rows', $tableRows, 'xmltagns' );
-                $tpl->setVariable( 'border', $border, 'xmltagns' );
+                $tpl->setVariable( 'width', $width, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/table.tpl";
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
