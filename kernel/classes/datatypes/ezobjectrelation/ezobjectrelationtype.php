@@ -177,12 +177,19 @@ class eZObjectRelationType extends eZDataType
     }
 
     /*!
-     Does nothing since it uses the data_text field in the content object attribute.
-     See fetchObjectAttributeHTTPInput for the actual storing.
+     Stores relation to the ezcontentobject_link table
     */
-    function storeObjectAttribute( &$attribute )
+    function storeObjectAttribute( &$contentObjectAttribute )
     {
+        $contentClassAttributeID = $contentObjectAttribute->ContentClassAttributeID;
+        $contentObjectID = $contentObjectAttribute->ContentObjectID;
+        $contentObjectVersion = $contentObjectAttribute->Version;
 
+        eZContentObject::removeContentObjectRelation( false, $contentObjectVersion, $contentObjectID, $contentClassAttributeID );
+
+        $objectID = $contentObjectAttribute->attribute( "data_int" );
+        if ( $objectID )
+            eZContentObject::addContentObjectRelation( $objectID, $contentObjectVersion, $contentObjectID, $contentClassAttributeID );
     }
 
     /*!
@@ -323,7 +330,7 @@ class eZObjectRelationType extends eZDataType
     {
         $objectID = $contentObjectAttribute->attribute( "data_int" );
         if ( $objectID != 0 )
-            return eZContentObject::fetch( $contentObjectAttribute->attribute( "data_int" ) );
+            return eZContentObject::fetch( $objectID );
         else
             return false;
     }
@@ -492,6 +499,15 @@ class eZObjectRelationType extends eZDataType
 
         $classAttribute->setContent( $content );
         $classAttribute->store();
+    }
+
+    /*!
+     Removes objects with given ID from the relations list
+    */
+    function removeRelatedObjectItem( &$contentObjectAttribute, $objectID )
+    {
+        $contentObjectAttribute->setAttribute( "data_int", null );
+        return true;
     }
 
     /// \privatesection

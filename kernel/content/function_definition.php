@@ -873,4 +873,30 @@ $FunctionList['navigation_part'] = array( 'name' => 'navigation_part',
                                           'parameters' => array( array( 'name' => 'identifier',
                                                                         'type' => 'string',
                                                                         'required' => true ) ) );
+// Fetches reverse related objects array
+$FunctionList['reverse_related_objects'] = array( 'name' => 'object',
+                                 'operation_types' => array( 'read' ),
+                                 'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                         'class' => 'eZContentFunctionCollection',
+                                                         'method' => 'fetchReverseRelatedObjects' ),
+                                 'parameter_type' => 'standard',
+                                 'parameters' => array( array( 'name' => 'object_id',
+                                                               'type' => 'integer',
+                                                               'required' => true ),
+                                                        array( 'name' => 'attribute_identifier',
+                                                               'type' => 'string',
+                                                               'required' => false ) ) );
+
+$FunctionList['reverse_related_objects_count'] = array( 'name' => 'object',
+                                 'operation_types' => array( 'read' ),
+                                 'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                         'class' => 'eZContentFunctionCollection',
+                                                         'method' => 'fetchReverseRelatedObjectsCount' ),
+                                 'parameter_type' => 'standard',
+                                 'parameters' => array( array( 'name' => 'object_id',
+                                                               'type' => 'integer',
+                                                               'required' => true ),
+                                                        array( 'name' => 'attribute_identifier',
+                                                               'type' => 'string',
+                                                               'required' => false ) ) );
 ?>

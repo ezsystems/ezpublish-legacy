@@ -36,6 +36,10 @@ Changes from 3.5.0 to 3.6.0alpha1
 - Added: The content upload system can now pass the upload file to a specific
   handler which can be defined in an extension. This allows for better handling
   of more complex file types.
+- Added: Template fetch functions 'reverse_related_objects' and
+  'reverse_related_objects_count' to get reverse related objects with relations
+  made by attributes of 'ezobjectrelationlist' and 'ezobjectrelation' types.
+  (see doc/features/3.6/advanced_related_objects.txt for details)
 
 *INI settings
 - Fixed: ShowHiddenNodes now defaults to false. If you want to see hidden nodes by default
@@ -228,6 +232,7 @@ eZInformationCollection:
 - Fixed bug #6197: Disabling override cache and template compile will make 
   admin interface missbehave.
   (Merged from stable/3.5 (3.5.2) rev. 11188)
+- Fixed bug #6211: Deleting a related object doesnt remove the related reference.
 
 *Library:
 PDF:

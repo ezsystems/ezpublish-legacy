@@ -723,7 +723,7 @@ class eZDOMNode
             else
                 $removed = true;
         }
-        unset( $this->Childs );
+        unset( $this->Children );
         $this->Children =& $childArray;
         return $removed;
     }
@@ -748,6 +748,20 @@ class eZDOMNode
         end( $this->Children );
         $key = key( $this->Children );
         unset( $this->Children[$key] );
+    }
+
+    /*!
+      Removes child by the given child object.
+    */
+    function removeChild( &$childToRemove )
+    {
+        foreach ( array_keys( $this->Children ) as $key )
+        {
+            if ( $childToRemove == $this->Children[$key] )
+            {
+                unset( $this->Children[$key] );
+            }
+        }
     }
 
     /*!

@@ -1190,6 +1190,14 @@ class eZDataType
         return true;
     }
 
+    /*!
+     Removes objects with given ID from the relations list
+     \note Default implementation does nothing.
+    */
+    function removeRelatedObjectItem( &$contentObjectAttribute, $objectID )
+    {
+    }
+
     /// \privatesection
     /// The datatype string ID, used for uniquely identifying a datatype
     var $DataTypeString;

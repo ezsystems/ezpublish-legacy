@@ -24,3 +24,12 @@ ALTER TABLE ezrss_export ALTER main_node_only SET DEFAULT 1;
 -- Old behaviour of RSS was that all nodes have been shown,
 -- i.e. including those besides the main node
 UPDATE ezrss_export SET main_node_only='1';
+
+ALTER TABLE ezcontentobject_link ADD contentclassattribute_id INT;
+ALTER TABLE ezcontentobject_link ALTER COLUMN contentclassattribute_id SET DEFAULT 0;
+ALTER TABLE ezcontentobject_link ALTER COLUMN contentclassattribute_id SET NOT NULL;
+CREATE INDEX ezco_link_to_co_id ON ezcontentobject_link ( to_contentobject_id );
+CREATE INDEX ezco_link_from     ON ezcontentobject_link ( from_contentobject_id,
+                                                          from_contentobject_version,
+                                                          contentclassattribute_id );
+

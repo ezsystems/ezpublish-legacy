@@ -908,6 +908,48 @@ class eZContentFunctionCollection
         include_once( 'kernel/classes/eznavigationpart.php' );
         return array( 'result' => eZNavigationPart::fetchPartByIdentifier( $identifier ) );
     }
+
+    // Fetches reverse related objects
+    function fetchReverseRelatedObjects( $objectID, $attributeID )
+    {
+        if ( !$attributeID )
+            $attributeID = 0;
+
+        if ( !is_numeric( $attributeID ) )
+        {
+            include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+            $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
+            if ( !$attributeID )
+            {
+                eZDebug::writeError( "Can't get class attribute ID by identifier" );
+                return false;
+            }
+        }
+
+        include_once( 'kernel/classes/ezcontentobject.php' );
+        return array( 'result' => eZContentObject::reverseRelatedObjectList( false, $objectID, $attributeID ) );
+    }
+
+    // Fetches count of reverse related objects
+    function fetchReverseRelatedObjectsCount( $objectID, $attributeID )
+    {
+        if ( !$attributeID )
+            $attributeID = 0;
+
+        if ( !is_numeric( $attributeID ) )
+        {
+            include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+            $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
+            if ( !$attributeID )
+            {
+                eZDebug::writeError( "Can't get class attribute ID by identifier" );
+                return false;
+            }
+        }
+
+        include_once( 'kernel/classes/ezcontentobject.php' );
+        return array( 'result' => eZContentObject::reverseRelatedObjectCount( false, $objectID, $attributeID ) );
+    }
 }
 
 ?>

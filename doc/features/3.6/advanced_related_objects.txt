@@ -1,0 +1,43 @@
+*Title: Advanced related objects
+
+*Documentation:
+Object relations made with datatypes 'ezobjectrelationlist' and
+'ezobjectrelation' are now stored in 'ezcontentobject_link' table too.
+New field 'contentclassattribute_id' has been added to this table to distinguish
+between object relations of different types. The value of this field is an ID
+of an attribute that stores information about relations, or zero if this is a
+common object relation (default value of the field).
+
+All relations to an object made with datatypes will be removed when you delete
+an object. Function eZDataType::removeRelatedObjectItem removes items with
+given objectID from the relations list stored in the attribute.
+For now it is implemented for 'ezobjectrelationlist' and 'ezobjectrelation'
+datatypes.
+
+Reverse related objects:
+You can get an array of reverse related objects made with attributes using
+new template content fetch function 'reverse_related_objects' and get their
+quantity with 'reverse_related_objects_count' function.
+These function have two parameters:
+- 'object_id'
+- 'attribute_identifier'.
+You can use either string attribute identifier or a numeric attribute ID.
+This parameter is not required and it's default vaule is zero, which is similar
+to 'reverse_related_contentobject_array' functional attribute of a content
+object.
+
+*Examples of using template functions:
+
+// Fetching array of objects which have relations to the current object made with
+// an attribute 'my_class/new_attribute5':
+
+{def $objects=fetch( content, reverse_related_objects, hash( object_id, $node.contentobject_id, attribute_identifier, 'my_class/new_attribute5' ) )}
+
+// Count objects which have relations to the current object made using an
+// attribute with id = 233:
+
+{def $objects_count=fetch( content, reverse_related_objects_count, hash( object_id, $node.contentobject_id, attribute_identifier, 233 ) )}
+
+*Upgrade database:
+Don't forget to upgrade your database before using this feature. You can find
+scripts in update/database directory.
