@@ -203,6 +203,7 @@ class eZScript
                 $userID = eZUser::loginUser( $userLogin, $userPassword );
                 if ( !$userID )
                 {
+                    $cli =& eZCLI::instance();
                     $cli->warning( 'Failed to login with user ' . $userLogin );
                     eZExecution::cleanup();
                     eZExecution::setCleanExit();

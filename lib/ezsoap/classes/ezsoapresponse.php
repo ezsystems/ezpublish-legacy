@@ -315,6 +315,8 @@ TODO: add encoding checks with schema validation.
 
     /*!
       Encodes a PHP variable into a SOAP datatype.
+      TODO: encodeValue(...) in ezsoapresponse.php and ezsoaprequest.php should be moved to a common place,
+      e.g. ezsoapcodec.php
     */
     function &encodeValue( $name, $value )
     {
@@ -329,6 +331,19 @@ TODO: add encoding checks with schema validation.
                 $node->appendAttribute( $attr );
                 $node->appendChild( eZDOMDocument::createTextNode( $value ) );
 
+                $returnValue =& $node;
+            } break;
+
+            case "boolean" :
+            {
+                $node =& eZDOMDocument::createElementNode( $name );
+                $attr =& eZDOMDocument::createAttributeNode( "type", EZ_SOAP_XSD_PREFIX . ":boolean" );
+                $attr->setPrefix( EZ_SOAP_XSI_PREFIX );
+                $node->appendAttribute( $attr );
+                if ( $value === true )
+                    $node->appendChild( eZDOMDocument::createTextNode( "true" ) );
+                else
+                    $node->appendChild( eZDOMDocument::createTextNode( "false" ) );
                 $returnValue =& $node;
             } break;
 
@@ -352,6 +367,59 @@ TODO: add encoding checks with schema validation.
                 $node->appendChild( eZDOMDocument::createTextNode( $value ) );
 
                 $returnValue =& $node;
+            } break;
+
+            case "array" :
+            {
+                $arrayCount = count( $value );
+
+                $isStruct = false;
+                // Check for struct
+                $i=0;
+                reset( $value );
+                while ( list( $key, $val ) = each ( $value ) )
+                {
+                    if ( $i != $key )
+                        $isStruct = true;
+                    $i++;
+                }
+
+                if ( $isStruct == true )
+                {
+                    $node =& eZDOMDocument::createElementNode( $name );
+                    // Type def
+                    $typeAttr =& eZDOMDocument::createAttributeNode( "type", EZ_SOAP_ENC_PREFIX . ":SOAPStruct" );
+                    $typeAttr->setPrefix( EZ_SOAP_XSI_PREFIX );
+                    $node->appendAttribute( $typeAttr );
+
+                    reset( $value );
+                    while ( list( $key, $val ) = each ( $value ) )
+                    {
+                        $subNode =& $this->encodeValue( $key, $val );
+                        $node->appendChild( $subNode );
+                    }
+                    $returnValue =& $node;
+                }
+                else
+                {
+                    $node =& eZDOMDocument::createElementNode( $name );
+                    // Type def
+                    $typeAttr =& eZDOMDocument::createAttributeNode( "type", EZ_SOAP_ENC_PREFIX . ":Array" );
+                    $typeAttr->setPrefix( EZ_SOAP_XSI_PREFIX );
+                    $node->appendAttribute( $typeAttr );
+
+                    // Array type def
+                    $arrayTypeAttr =& eZDOMDocument::createAttributeNode( "arrayType", EZ_SOAP_XSD_PREFIX . ":string[$arrayCount]" );
+                    $arrayTypeAttr->setPrefix( EZ_SOAP_ENC_PREFIX );
+                    $node->appendAttribute( $arrayTypeAttr );
+
+                    foreach ( $value as $arrayItem )
+                    {
+                        $subNode =& $this->encodeValue( "item", $arrayItem );
+                        $node->appendChild( $subNode );
+                    }
+                    $returnValue =& $node;
+                }
             } break;
         }
 

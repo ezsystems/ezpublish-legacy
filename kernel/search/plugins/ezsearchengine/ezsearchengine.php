@@ -753,7 +753,7 @@ class eZSearchEngine
             $i = $this->TempTablesCount;
 
 // Loop every word and insert result in temporary table
-            if ( $i >= 0 && count( $searchPartsArray ) == 0 )
+            if ( $i <= 0 && count( $searchPartsArray ) == 0 )
             {
                 $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_0 ( contentobject_id int primary key not null, published int )" );
                 $db->query( "INSERT INTO ezsearch_tmp_0 SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published

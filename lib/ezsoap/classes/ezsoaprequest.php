@@ -136,6 +136,8 @@ class eZSOAPRequest extends eZSOAPEnvelope
     /*!
       \private
       Encodes the PHP variables into SOAP types.
+      TODO: encodeValue(...) in ezsoapresponse.php and ezsoaprequest.php should be moved to a common place,
+      e.g. ezsoapcodec.php
     */
     function &encodeValue( $name, $value )
     {

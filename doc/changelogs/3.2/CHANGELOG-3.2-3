@@ -5,6 +5,8 @@ Changes from 3.2-2 to 3.2-3
   If the date is in the past the publishing date is changed to that date.
 - Added support for controlling whether template override cache is to be used or not. If disabled
   you don't need to clear the cache for new templates until you enable the cache again.
+- Added a $cli initialisation where a function could be called on a non-object in eZScript::initialize()
+- Fixed case where the ezsearch_tmp_0 table could be created twice in ezsearchenginge.php
 
 *DataType:
 
@@ -75,6 +77,9 @@ eZFile:
 - Added move function to eZFileHandler, it can move (rename or copy/delete) a file from one place to another.
 - Added symlink function to eZFileHandler, it can create a symbolic link to a file or directory.
 - Added linkCopy function to eZFileHandler, it will either do a symlink or copy depending on the OS type.
+
+eZ soap:
+- Added support for arrays and boolean in ezsoapresponse return values
 
 *Translations:
 - Updated Portuguese translation, thanks to Miguel Angelo Gouveia Saturnino.
