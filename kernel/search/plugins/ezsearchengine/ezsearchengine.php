@@ -2067,7 +2067,7 @@ class eZSearchEngine
         $wordIDHash = array();
         if ( $wordsCount > 0 )
         {
-            $wordIDArrayRes =& $db->arrayQuery( "SELECT id, word, object_count FROM ezsearch_word where $wordQueryString order by object_count" );
+            $wordIDArrayRes =& $db->arrayQuery( "SELECT id, word, object_count FROM ezsearch_word where $wordQueryString ORDER BY object_count" );
 
             foreach ( $wordIDArrayRes as $wordRes )
             {
@@ -2140,7 +2140,7 @@ class eZSearchEngine
         }
 
         if ( strlen( $wordQueryString ) > 0 )
-            $wordIDArrayRes =& $db->arrayQuery( "SELECT id, word, object_count FROM ezsearch_word where $wordQueryString order by object_count" );
+            $wordIDArrayRes =& $db->arrayQuery( "SELECT id, word, object_count FROM ezsearch_word where $wordQueryString ORDER BY object_count" );
         foreach ( $wildCardQueryString as $wildCardQuery )
         {
             $wildCardWordArray[] = $db->arrayQuery( "SELECT id, word, object_count FROM ezsearch_word where $wildCardQuery order by object_count" );
