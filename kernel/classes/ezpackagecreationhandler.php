@@ -672,7 +672,12 @@ class eZPackageCreationHandler
         if ( $http->hasPostVariable( 'PackageName' ) )
         {
             $packageName = trim( $http->postVariable( 'PackageName' ) );
-            $packageName = str_replace( " ", "_", $packageName );
+
+            /* Make sure to generate a package name that can be called through
+             * a urlalias */
+            include 'lib/ezi18n/classes/ezchartransform.php';
+            $trans = new eZCharTransform;
+            $packageName = $trans->transformByGroup( $packageName, 'urlalias' );
         }
         if ( $http->hasPostVariable( 'PackageSummary' ) )
             $packageSummary = $http->postVariable( 'PackageSummary' );
