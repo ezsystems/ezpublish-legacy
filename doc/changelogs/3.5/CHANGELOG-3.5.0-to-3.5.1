@@ -65,6 +65,8 @@ NOTE: Only put changes that are for 3.5.1 in here, changes that are done in 3.5.
 - Fixed bug #6030: Wrong function's name in workflow/edit.php.
 - Fixed bug #6066: Error when remove node from subtree notification.
   (Merged from trunk rev. 10546 )
+- Fixed: Some windows-* character-sets were missing from transformation.ini,
+  they will now load the latin transformation file when used.
 
 *Templates:
 - Added nl2br operator to eztext view output to keep newlines in textfield datatype.
