@@ -125,15 +125,37 @@ class eZi18nOperator
         }
 
         $values = array();
-        $values[] = $parameters[0];
-        $values[] = $parameters[1];
-        $values[] = $parameters[2];
+
+        $ini =& eZINI::instance();
+        if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
+        {
+            $language = ezcurrentLanguage();
+            if ( $language != "eng-GB" ) // eng-GB does not need translation
+            {
+                $file = 'translation.ts';
+                $ini =& eZINI::instance();
+                $useCache = $ini->variable( 'RegionalSettings', 'TranslationCache' ) != 'disabled';
+                eZTSTranslator::initialize( $context, $language, $file, $useCache );
+
+                $man =& eZTranslatorManager::instance();
+                $value =& $man->translate( $context, $value, $comment );
+            }
+        }
+
+        $values[] = array( eZTemplateNodeTool::createStringElement( $value ) );
         $values[] = $parameters[3];
 
-        $code = 'include_once( \'kernel/common/i18n.php\' );' . "\n";
-        $code .= '%output% = ezi18n( %2%, %1%, %3%, %4% );' . "\n";
+        $code = '%tmp1% = array();' . "\n" .
+             'foreach ( %2% as %tmp2% => %tmp3% )' . "\n" .
+             '{' . "\n" .
+             '  if ( is_int( %tmp2% ) )' . "\n" .
+             '    %tmp1%[\'%\' . ( (%tmp2%%9) + 1 )] = %tmp3%;' . "\n" .
+             '  else' . "\n" .
+             '    %tmp1%[%tmp2%] = %tmp3%;' . "\n" .
+             '}' . "\n" .
+             '%output% = strtr( %1%, %tmp1% );' . "\n";
 
-        return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
+        return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 3 ) );
     }
 
     /*!
