@@ -211,7 +211,10 @@ function &generateNodeViewTemplate( &$http, $template, $fileName )
             $fp = fopen( $fileName, 'rb' );
             if ( $fp )
             {
-                $templateCode = fread( $fp, filesize( $fileName ) );
+                $codeFromFile = fread( $fp, filesize( $fileName ) );
+
+                // Remove the "{* DO NOT EDIT... *}" first line (if exists).
+                $templateCode = preg_replace('@^{\*\s*DO\sNOT\sEDIT.*?\*}\n(.*)@s', '$1', $codeFromFile);
             }
             else
             {
@@ -303,7 +306,10 @@ function &generateObjectViewTemplate( &$http, $template, $fileName )
             $fp = fopen( $fileName, 'rb' );
             if ( $fp )
             {
-                $templateCode = fread( $fp, filesize( $fileName ) );
+                $codeFromFile = fread( $fp, filesize( $fileName ) );
+
+                // Remove the "{* DO NOT EDIT... *}" first line (if exists).
+                $templateCode = preg_replace('@^{\*\s*DO\sNOT\sEDIT.*?\*}\n(.*)@s', '$1', $codeFromFile);
             }
             else
             {
@@ -353,7 +359,10 @@ function &generatePagelayoutTemplate( &$http, $template, $fileName )
             $fp = fopen( $fileName, 'rb' );
             if ( $fp )
             {
-                $templateCode = fread( $fp, filesize( $fileName ) );
+                $codeFromFile = fread( $fp, filesize( $fileName ) );
+
+                // Remove the "{* DO NOT EDIT... *}" first line (if exists).
+                $templateCode = preg_replace('@^{\*\s*DO\sNOT\sEDIT.*?\*}\n(.*)@s', '$1', $codeFromFile);
             }
             else
             {
@@ -399,7 +408,10 @@ function &generateDefaultTemplate( &$http, $template, $fileName )
             $fp = fopen( $fileName, 'rb' );
             if ( $fp )
             {
-                $templateCode = fread( $fp, filesize( $fileName ) );
+                $codeFromFile = fread( $fp, filesize( $fileName ) );
+
+                // Remove the "{* DO NOT EDIT... *}" first line (if exists).
+                $templateCode = preg_replace('@^{\*\s*DO\sNOT\sEDIT.*?\*}\n(.*)@s', '$1', $codeFromFile);
             }
             else
             {
