@@ -59,18 +59,30 @@ $options = $script->getOptions( "[type:][user:][host:][password:][output-array][
                                        ) );
 $script->initialize();
 
-if ( count( $options['arguments'] ) < 2 )
-{
-    $cli->error( "Missing match database and/or filename" );
-    $script->shutdown( 1 );
-}
-
 $type = $options['type'];
 $host = $options['host'];
 $user = $options['user'];
 $password = $options['password'];
-$database = $options['arguments'][0];
-$filename = $options['arguments'][1];
+
+switch ( count( $options['arguments'] ) )
+{
+    case 0:
+        $cli->error( "Missing match database and/or filename" );
+        $script->shutdown( 1 );
+        break;
+    case 1:
+        $database = $options['arguments'][0];
+        $filename = 'php://stdout';
+        break;
+    case 2:
+        $database = $options['arguments'][0];
+        $filename = $options['arguments'][1];
+        break;
+    case 3:
+        $cli->error( "Too many arguments" );
+        $script->shutdown( 1 );
+        break;
+}
 
 $outputType = 'serialized';
 if ( $options['output-array'] )
