@@ -117,6 +117,8 @@ eZINI:
   http://ez.no/community/bug_reports/incorrect_sorting_of_time_fields
 - Fixed bug: files having names containing spaces could not be downloaded with some browsers.
   http://ez.no/community/bug_reports/can_t_download_if_spaces_in_binary_file_names
+- Fixed typo in eZContentObject::checkAccess
+  http://ez.no/community/bug_reports/typo_in_ezcontentobject_php
 
 *Library:
 
