@@ -61,6 +61,7 @@ include_once( "kernel/classes/ezdatatype.php" );
 include_once( "lib/ezxml/classes/ezxml.php" );
 include_once( "kernel/common/template.php" );
 include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
+  include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
 
 define( "EZ_DATATYPESTRING_XML_TEXT", "ezxmltext" );
 define( 'EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD', 'data_int1' );
@@ -151,6 +152,28 @@ class eZXMLTextType extends eZDataType
                         {
                             $editObject->addContentObjectRelation( $objectID, $editVersion );
                         }
+                    }
+                }
+
+                $links =& $dom->elementsByName( 'link' );
+                foreach ( $links as $link )
+                {
+                    if ( $link->attributeValue( 'id' ) != null )
+                    {
+                        $linkID = $link->attributeValue( 'id' );
+                        $url =& eZURL::url( $linkID );
+                        if (  $url == null )
+                        {
+                            $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                                                                                 'ezXMLTextType',
+                                                                                 'Link '. $linkID .' does not exist.' ) );
+                            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                        }
+                    }
+                    if ( $link->attributeValue( 'href' ) != null )
+                    {
+                        $url = $link->attributeValue( 'href' );
+                        $linkID =& eZURL::registerURL( $url );
                     }
                 }
                 return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
@@ -274,7 +297,6 @@ class eZXMLTextType extends eZDataType
             $output = "";
             if ( get_class( $sectionNode ) == "ezdomnode" )
             {
-                eZDebug::writeError("qqqqdqd");
                 $output =& $this->renderXHTMLSection( $tpl, $sectionNode );
             }
         }
@@ -506,7 +528,6 @@ class eZXMLTextType extends eZDataType
                 eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, 'foo', 'xmltagns' );
                 $tagText .= $text;
             }break;
-
             default :
             {
                 // unsupported tag
@@ -641,7 +662,11 @@ class eZXMLTextType extends eZDataType
 
             case 'link' :
             {
-                $href = $tag->attributeValue( 'href' );
+                $linkID = $tag->attributeValue( 'id' );
+                if ( $linkID != null )
+                    $href =& eZURL::url( $linkID );
+                else
+                    $href = $tag->attributeValue( 'href' );
                 $output .= "<$tagName href='$href'>" . $childTagText . $tag->textContent() . "</$tagName>";
             }break;
 

@@ -36,7 +36,7 @@ _editor_url = "";
         	<li>{$UnvalidatedAttributes:item.identifier}: {$UnvalidatedAttributes:item.name} ({$UnvalidatedAttributes:item.id})</li>
         </ul>
         </div>
-        
+
         {section-else}
 
         <div class="feedback">

@@ -45,7 +45,6 @@ include_once( "kernel/classes/ezsection.php" );
 $http =& eZHTTPTool::instance();
 
 $Module =& $Params["Module"];
-
 $tpl =& templateInit();
 
 $searchText = "";

@@ -82,7 +82,6 @@ $http =& eZHTTPTool::instance();
 
 if ( $Module->runHooks( 'post_fetch', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion ) ) )
     return;
-
 $validation = array( 'processed' => false,
                      'attributes' => array() );
 
@@ -195,6 +194,7 @@ if ( $inputValidated == true )
     if ( $Module->runHooks( 'action_check', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion ) ) )
         return;
 }
+
 if ( isset( $Params['TemplateObject'] ) )
     $tpl =& $Params['TemplateObject'];
 
@@ -204,7 +204,6 @@ if ( !isset( $tpl ) || get_class( $tpl ) != 'eztemplate' )
 $tpl->setVariable( 'validation', $validation );
 
 $Module->setTitle( 'Edit ' . $class->attribute( 'name' ) . ' - ' . $object->attribute( 'name' ) );
-
 $res =& eZTemplateDesignResource::instance();
 
 $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
@@ -219,20 +218,15 @@ $tpl->setVariable( 'http', $http );
 $tpl->setVariable( 'content_attributes', $contentObjectAttributes );
 $tpl->setVariable( 'class', $class );
 $tpl->setVariable( 'object', $object );
-
-
 if ( $Module->runHooks( 'pre_template', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, &$tpl ) ) )
     return;
-
 $templateName = 'design:content/edit.tpl';
 
 if ( isset( $Params['TemplateName'] ) )
     $templateName = $Params['TemplateName'];
-
-
 $Result = array();
 $Result['content'] =& $tpl->fetch( $templateName );
+
 $Result['path'] = array( array( 'text' => $object->attribute( 'name' ),
                                 'url' => false ) );
-
 ?>

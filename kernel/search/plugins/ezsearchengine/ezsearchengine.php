@@ -223,6 +223,7 @@ class eZSearchEngine
             else
                 $searchSectionID = -1;
 
+            eZDebug::writeError("wWwwwwwwwwwww".$searchSectionID);
             if ( isset( $params['SearchDate'] ) )
                 $searchDate = $params['SearchDate'];
             else
