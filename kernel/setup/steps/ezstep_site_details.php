@@ -100,9 +100,11 @@ class eZStepSiteDetails extends eZStepInstaller
             $siteType['title'] = $this->Http->postVariable( 'eZSetup_site_templates_' . $counter.'_title' );
             $siteType['url'] = $this->Http->postVariable( 'eZSetup_site_templates_' . $counter.'_url' );
 
+            $error = false;
             if ( isset( $siteAccessValues[$this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_value' )] ) ) // check for equal site access values
             {
                 $this->Error[$counter] = EZ_SETUP_SITE_ACCESS_ILLEGAL;
+                $error = true;
             }
 
             $siteType['access_type_value'] = $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_value' );
@@ -111,52 +113,38 @@ class eZStepSiteDetails extends eZStepInstaller
             if ( isset( $siteAccessValues[$this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_admin_value' )] ) ) // check for equal site access values
             {
                 $this->Error[$counter] = EZ_SETUP_SITE_ACCESS_ILLEGAL;
+                $error = true;
             }
 
             $siteType['admin_access_type_value'] = $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_admin_value' );
             $siteAccessValues[$siteType['admin_access_type_value']] = 1;
 
-            $siteType['database'] = $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_database' );
+            $siteType['database'] = $this->Http->postVariable( 'eZSetup_site_templates_' . $counter . '_database' );
 
             if ( isset( $chosenDatabases[$siteType['database']] ) )
             {
                 $this->Error[$counter] = EZ_SETUP_DB_ERROR_ALREADY_CHOSEN;
+                $error = true;
             }
 
             $chosenDatabases[$siteType['database']] = 1;
 
+            if ( $error )
+                continue;
+
             // Check database connection
-            $dbName = $siteType['database'];
-            $dbCharset = 'iso-8859-1';
-            $dbParameters = array( 'server' => $dbServer,
-                                   'user' => $dbUser,
-                                   'password' => $dbPwd,
-                                   'socket' => $dbSocket,
-                                   'database' => $dbName,
-                                   'charset' => $dbCharset );
-            $db =& eZDB::instance( $dbDriver, $dbParameters, true );
+            $result = $this->checkDatabaseRequirements( false,
+                                                        array( 'database' => $siteType['database'] ) );
 
-            $dbVersion = $db->databaseServerVersion();
+            if ( !$result['status'] )
+            {
+                $this->Error[$counter] = array( 'type' => 'db',
+                                                'error_code' => $result['error_code'] );
+                continue;
+            }
+            $db =& $result['db_instance'];
 
-            if ( $dbVersion != null )
-            {
-                $dbStatus['connected'] = $db->isConnected();
-                if ( $db->databaseName() == 'postgresql' )
-                {
-                    if ( $dbVersion['values'][0] < 7 )
-                    {
-                        $dbStatus['connected'] = false;
-                    }
-                    else if ( $dbVersion['values'][1] < 3 )
-                    {
-                        $dbStatus['connected'] = false;
-                    }
-                }
-            }
-            else
-            {
-                $dbStatus['connected'] = $db->isConnected();
-            }
+            $dbStatus['connected'] = $result['connected'];
 
             $dbError = false;
             $demoDataResult = true;
@@ -245,6 +233,16 @@ class eZStepSiteDetails extends eZStepInstaller
 
                 $chosenDatabases[$siteType['database']] = 1;
 
+                $result = $this->checkDatabaseRequirements( false,
+                                                            array( 'database' => $siteType['database'] ) );
+
+                if ( !$result['status'] )
+                {
+                    $this->Error[$counter] = array( 'type' => 'db',
+                                                    'error_code' => $result['error_code'] );
+                    continue;
+                }
+
                 ++$counter;
             }
             $this->storeSiteTypes( $siteTypes );
@@ -298,7 +296,11 @@ class eZStepSiteDetails extends eZStepInstaller
 
         $siteTypes = $this->chosenSiteTypes();
 
-        $availableDatabaseList = $this->PersistenceList['database_info_available'];
+        $availableDatabaseList = false;
+        if ( isset( $this->PersistenceList['database_info_available'] ) )
+        {
+            $availableDatabaseList = $this->PersistenceList['database_info_available'];
+        }
         $databaseList = $availableDatabaseList;
         $databaseCounter = 0;
         foreach ( array_keys( $siteTypes ) as $siteTypeKey )
@@ -306,30 +308,40 @@ class eZStepSiteDetails extends eZStepInstaller
             $siteType =& $siteTypes[$siteTypeKey];
             if ( !isset( $siteType['title'] ) )
                 $siteType['title'] = $siteType['name'];
+            $siteType['errors'] = array();
             if ( !isset( $siteType['url'] ) )
                 $siteType['url'] = 'http://' . eZSys::hostName() . eZSys::indexDir( false );
             if ( !isset( $siteType['site_access_illegal'] ) )
                 $siteType['site_access_illegal'] = false;
             if ( !isset( $siteType['db_already_chosen'] ) )
                 $siteType['db_already_chosen'] = false;
+            if ( !isset( $siteType['db_not_empty'] ) )
+                $siteType['db_not_empty'] = 0;
             if ( !isset( $siteType['database'] ) )
             {
-                $matchedDBName = false;
-                // First try database name match
-                foreach ( $databaseList as $databaseName )
+                if ( is_array( $databaseList ) )
                 {
-                    $dbName = trim( strtolower( $databaseName ) );
-                    $identifier = trim( strtolower( $siteType['identifier'] ) );
-                    if ( $dbName == $identifier )
+                    $matchedDBName = false;
+                    // First try database name match
+                    foreach ( $databaseList as $databaseName )
                     {
-                        $matchedDBName = $databaseName;
-                        break;
+                        $dbName = trim( strtolower( $databaseName ) );
+                        $identifier = trim( strtolower( $siteType['identifier'] ) );
+                        if ( $dbName == $identifier )
+                        {
+                            $matchedDBName = $databaseName;
+                            break;
+                        }
                     }
+                    if ( !$matchedDBName )
+                        $matchedDBName = $databaseList[$databaseCounter++];
+                    $databaseList = array_values( array_diff( $databaseList, array( $matchedDBName ) ) );
+                    $siteType['database'] = $matchedDBName;
                 }
-                if ( !$matchedDBName )
-                    $matchedDBName = $databaseList[$databaseCounter++];
-                $databaseList = array_values( array_diff( $databaseList, array( $matchedDBName ) ) );
-                $siteType['database'] = $matchedDBName;
+                else
+                {
+                    $siteType['database'] = '';
+                }
             }
         }
 
@@ -339,31 +351,45 @@ class eZStepSiteDetails extends eZStepInstaller
         $this->Tpl->setVariable( 'site_access_illegal_name', 0 );
         foreach ( $this->Error as $key => $error )
         {
-            switch ( $error )
+            $type = 'site';
+            if ( is_array( $error ) )
             {
-                case EZ_SETUP_DB_ERROR_NOT_EMPTY:
+                $type = $error['type'];
+                $error = $error['error_code'];
+            }
+            if ( $type == 'site' )
+            {
+                switch ( $error )
                 {
-                    $this->Tpl->setVariable( 'db_not_empty', 1 );
-                    $siteTypes[$key]['db_not_empty'] = 1;
-                } break;
+                    case EZ_SETUP_DB_ERROR_NOT_EMPTY:
+                    {
+                        $this->Tpl->setVariable( 'db_not_empty', 1 );
+                        $siteTypes[$key]['db_not_empty'] = 1;
+                    } break;
 
-                case EZ_SETUP_DB_ERROR_ALREADY_CHOSEN:
-                {
-                    $this->Tpl->setVariable( 'db_already_chosen', 1 );
-                    $siteTypes[$key]['db_already_chosen'] = 1;
-                } break;
+                    case EZ_SETUP_DB_ERROR_ALREADY_CHOSEN:
+                    {
+                        $this->Tpl->setVariable( 'db_already_chosen', 1 );
+                        $siteTypes[$key]['db_already_chosen'] = 1;
+                    } break;
 
-                case EZ_SETUP_SITE_ACCESS_ILLEGAL:
-                {
-                    $this->Tpl->setVariable( 'site_access_illegal', 1 );
-                    $siteTypes[$key]['site_access_illegal'] = 1;
-                } break;
+                    case EZ_SETUP_SITE_ACCESS_ILLEGAL:
+                    {
+                        $this->Tpl->setVariable( 'site_access_illegal', 1 );
+                        $siteTypes[$key]['site_access_illegal'] = 1;
+                    } break;
 
-                case EZ_SETUP_SITE_ACCESS_ILLEGAL_NAME:
-                {
-                    $this->Tpl->setVariable( 'site_access_illegal_name', 1 );
-                    $siteTypes[$key]['site_access_illegal_name'] = 1;
-                } break;
+                    case EZ_SETUP_SITE_ACCESS_ILLEGAL_NAME:
+                    {
+                        $this->Tpl->setVariable( 'site_access_illegal_name', 1 );
+                        $siteTypes[$key]['site_access_illegal_name'] = 1;
+                    } break;
+                }
+            }
+            else if ( $type == 'db' )
+            {
+                $siteTypes[$key]['errors'][] = $this->databaseErrorInfo( array( 'error_code' => $error,
+                                                                                'database_info' => $this->PersistenceList['database_info'] ) );
             }
         }
         $this->storeSiteTypes( $siteTypes );

@@ -44,6 +44,14 @@
 
 */
 
+define( 'EZ_SETUP_DB_ERROR_EMPTY_PASSWORD', 1 );
+define( 'EZ_SETUP_DB_ERROR_NONMATCH_PASSWORD', 2 );
+define( 'EZ_SETUP_DB_ERROR_CONNECTION_FAILED', 3 );
+define( 'EZ_SETUP_DB_ERROR_NOT_EMPTY', 4 );
+define( 'EZ_SETUP_DB_ERROR_NO_DATABASES', 5 );
+define( 'EZ_SETUP_DB_ERROR_NO_DIGEST_PROC', 6 );
+define( 'EZ_SETUP_DB_ERROR_VERSION_INVALID', 7 );
+
 class eZStepInstaller
 {
     /*!
@@ -65,9 +73,20 @@ class eZStepInstaller
         $this->Name = $name;
         $this->INI =& eZINI::instance( 'kickstart.ini', '.' );
         $this->KickstartData = false;
+
+        $this->PersistenceList['use_kickstart'][$identifier] = true;
+
+        // If we have read data for this step earlier we do not use kickstart
+        if ( isset( $this->PersistenceList['kickstart'][$identifier] ) and
+             $this->PersistenceList['kickstart'][$identifier] )
+        {
+            $this->PersistenceList['use_kickstart'][$identifier] = false;
+        }
+
         if ( $this->INI->hasGroup( $this->Identifier ) )
         {
             $this->KickstartData = $this->INI->group( $this->Identifier );
+            $this->PersistenceList['kickstart'][$identifier] = true;
         }
     }
 
@@ -267,6 +286,165 @@ class eZStepInstaller
         return false;
     }
 
+    function checkDatabaseRequirements( $dbCharset = false, $overrideDBParameters = array() )
+    {
+        $result = array( 'error_code' => false,
+                         'use_unicode' => false,
+                         'db_version' => false,
+                         'db_require_version' => false,
+                         'status' => false );
+
+        $databaseMap = eZSetupDatabaseMap();
+        $databaseInfo = $this->PersistenceList['database_info'];
+        $databaseInfo['info'] = $databaseMap[$databaseInfo['type']];
+
+        $dbDriver = $databaseInfo['info']['driver'];
+
+        if ( $dbCharset === false )
+            $dbCharset = 'iso-8859-1';
+        $dbParameters = array( 'server' => $databaseInfo['server'],
+                               'user' => $databaseInfo['user'],
+                               'password' => $databaseInfo['password'],
+                               'socket' => trim( $databaseInfo['socket'] ) == '' ? false : $databaseInfo['socket'],
+                               'database' => $databaseInfo['database'],
+                               'charset' => $dbCharset );
+        $dbParameters = array_merge( $dbParameters, $overrideDBParameters );
+
+        // PostgreSQL requires us to specify database name.
+        // We use template1 here since it exists on all PostgreSQL installations.
+        if( $dbParameters['database'] == '' and $this->PersistenceList['database_info']['type'] == 'pgsql' )
+            $dbParameters['database'] = 'template1';
+
+        $db =& eZDB::instance( $dbDriver, $dbParameters, true );
+        $result['db_instance'] =& $db;
+        $result['connected'] = $db->isConnected();
+        if ( $db->isConnected() == false )
+        {
+            $result['error_code'] = EZ_SETUP_DB_ERROR_CONNECTION_FAILED;
+            return $result;
+        }
+
+        // Check if the version of the database fits the minimum required
+        $dbVersion = $db->databaseServerVersion();
+        $result['db_version'] = $dbVersion['string'];
+        $result['db_required_version'] = $databaseInfo['info']['required_version'];
+        if ( $dbVersion != null )
+        {
+            if ( version_compare( $result['db_version'], $databaseInfo['info']['required_version'] ) == -1 )
+            {
+                $result['connected'] = false;
+                $result['error_code'] = EZ_SETUP_DB_ERROR_VERSION_INVALID;
+                return $result;
+            }
+        }
+
+        // If we have PostgreSQL we need to make sure we have the 'digest' procedure available.
+        if ( $db->databaseName() == 'postgresql' and $dbParameters['database'] != 'template1' )
+        {
+            $sql = "SELECT count(*) AS count FROM pg_proc WHERE proname='digest'";
+            $rows = $db->arrayQuery( $sql );
+            $count = $rows[0]['count'];
+            // If it is 0 we don't have it
+            if ( $count == 0 )
+            {
+                $result['error_code'] = EZ_SETUP_DB_ERROR_NO_DIGEST_PROC;
+                return $result;
+            }
+        }
+
+        $result['use_unicode'] = false;
+        if ( $db->isCharsetSupported( 'utf-8' ) )
+        {
+            $result['use_unicode'] = true;
+        }
+
+        $result['status'] = true;
+        return $result;
+    }
+
+    function databaseErrorInfo( $errorInfo )
+    {
+        $code = $errorInfo['error_code'];
+        $dbError = false;
+
+        switch ( $code )
+        {
+            case EZ_SETUP_DB_ERROR_CONNECTION_FAILED:
+            {
+                if ( $errorInfo['database_info']['type'] == 'pgsql' )
+                {
+                    $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
+                                                        'Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.'
+                                                        .'<br>See the PHP documentation for more information about this.'
+                                                        .'<br>Remember to start postmaster with the -i option.'
+                                                        .'<br>Note that PostgreSQL 7.2 is not supported.' ),
+                                      'url' => array( 'href' => 'http://www.php.net/manual/en/ref.pgsql.php',
+                                                      'text' => 'PHP documentation' ),
+                                      'number' => EZ_SETUP_DB_ERROR_CONNECTION_FAILED );
+                }
+                else
+                {
+                    $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
+                                                        'The database would not accept the connection, please review your settings and try again.' ),
+                                  'url' => false,
+                                      'number' => EZ_SETUP_DB_ERROR_CONNECTION_FAILED );
+                }
+
+                break;
+            }
+            case EZ_SETUP_DB_ERROR_NONMATCH_PASSWORD:
+            {
+                $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
+                                                    'Password entries did not match.' ),
+                                  'url' => false,
+                                  'number' => EZ_SETUP_DB_ERROR_NONMATCH_PASSWORD );
+                break;
+            }
+            case EZ_SETUP_DB_ERROR_NOT_EMPTY:
+            {
+                $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
+                                                    'The selected database was not empty, please choose from the alternatives below.' ),
+                                  'url' => false,
+                                  'number' => EZ_SETUP_DB_ERROR_NOT_EMPTY );
+                $dbNotEmpty = 1;
+                break;
+            }
+            case EZ_SETUP_DB_ERROR_NO_DATABASES:
+            {
+                $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
+                                                    'The selected selected user has not got access to any databases. Change user or create a database for the user.' ),
+                                  'url' => false,
+                                  'number' => EZ_SETUP_DB_ERROR_NO_DATABASES );
+                break;
+            }
+
+            case EZ_SETUP_DB_ERROR_NO_DIGEST_PROC:
+            {
+                $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
+                                                    "The 'digest' procedure is not available in your database, you cannot run eZ publish without this. Visit the FAQ for more information." ),
+                                  'url' => array( 'href' => 'http://ez.no/ez_publish/documentation/faq/database/what_is_the_reason_i_get_error_function_digest_character_varying_does_not_exist_on_postgresql',
+                                                  'text' => 'PostgreSQL digest FAQ' ),
+                                  'number' => EZ_SETUP_DB_ERROR_NO_DATABASES );
+                break;
+            }
+
+            case EZ_SETUP_DB_ERROR_VERSION_INVALID:
+            {
+                $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
+                                                    "Your database version %version does not fit the minimum requirement which is %req_version.
+See the requirements page for more information.",
+                                                    null,
+                                                    array( '%version' => $errorInfo['database_info']['version'],
+                                                           '%req_version' => $errorInfo['database_info']['required_version'] ) ),
+                                  'url' => array( 'href' => 'http://ez.no/ez_publish/documentation/general_information/what_is_ez_publish/ez_publish_requirements',
+                                                  'text' => 'eZ publish requirements' ),
+                                  'number' => EZ_SETUP_DB_ERROR_NO_DATABASES );
+                break;
+            }
+        }
+
+        return $dbError;
+    }
 
     /*!
      \return \c true if the step has kickstart data available.
@@ -291,8 +469,14 @@ class eZStepInstaller
     */
     function isKickstartAllowed()
     {
+        $identifier = $this->Identifier;
+        if ( isset( $this->PersistenceList['use_kickstart'][$identifier] ) and
+             !$this->PersistenceList['use_kickstart'][$identifier] )
+            return false;
+
         if ( isset( $GLOBALS['eZStepAllowKickstart'] ) )
             return $GLOBALS['eZStepAllowKickstart'];
+
         return true;
     }
 

@@ -61,6 +61,23 @@ blockquote.error h2
     padding-top: 0px;
 }
 
+blockquote.error a
+{
+    color: #04396c;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+}
+
+blockquote.error a:hover
+{
+    color: #0000c0;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+
 div.information
 {
     background-color: #f2f4f9;

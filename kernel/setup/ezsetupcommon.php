@@ -63,11 +63,13 @@ function eZSetupDatabaseMap()
     return array( 'mysql' => array( 'type' => 'mysql',
                                     'driver' => 'ezmysql',
                                     'name' => 'MySQL',
+                                    'required_version' => '3.23',
                                     'has_demo_data' => true,
                                     'supports_unicode' => false ),
                   'pgsql' => array( 'type' => 'pgsql',
                                     'driver' => 'ezpostgresql',
                                     'name' => 'PostgreSQL',
+                                    'required_version' => '7.3',
                                     'has_demo_data' => false,
                                     'supports_unicode' => true ) );
 }

@@ -10,6 +10,9 @@
   <p>
       {$db_error.text}
   </p>
+  {section show=$db_error.url}
+      <a href="{$db_error.url.href}" target="_other">{$db_error.url.text|wash}</a>
+  {/section}
   </blockquote>
 {/section}
 

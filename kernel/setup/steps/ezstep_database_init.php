@@ -42,12 +42,6 @@ include_once( 'lib/ezdb/classes/ezdbtool.php' );
 include_once( 'kernel/common/i18n.php' );
 include_once( "kernel/setup/ezsetuptests.php" );
 
-define( 'EZ_SETUP_DB_ERROR_EMPTY_PASSWORD', 1 );
-define( 'EZ_SETUP_DB_ERROR_NONMATCH_PASSWORD', 2 );
-define( 'EZ_SETUP_DB_ERROR_CONNECTION_FAILED', 3 );
-define( 'EZ_SETUP_DB_ERROR_NOT_EMPTY', 4 );
-define( 'EZ_SETUP_DB_ERROR_NO_DATABASES', 5 );
-
 /*!
   \class eZStepDatabaseInit ezstep_database_init.php
   \brief The class eZStepDatabaseInit does
@@ -115,41 +109,21 @@ class eZStepDatabaseInit extends eZStepInstaller
             $regionalInfo = '';
         }
 
-        $dbStatus = array();
-        $dbDriver = $databaseInfo['info']['driver'];
-        $dbServer = $databaseInfo['server'];
-        $dbName = $databaseInfo['dbname'];
-        $dbUser = $databaseInfo['user'];
-        $dbSocket = $databaseInfo['socket'];
-        if ( trim( $dbSocket ) == '' )
-            $dbSocket = false;
-        $dbPwd = $password;
-        $dbCharset = 'iso-8859-1';
-        $dbParameters = array( 'server' => $dbServer,
-                               'user' => $dbUser,
-                               'password' => $dbPwd,
-                               'socket' => $dbSocket,
-                               'database' => false,
-                               'charset' => $dbCharset );
+        $this->PersistenceList['database_info']['password'] = $password;
 
-        // PostgreSQL requires us to specify database name.
-        // We use template1 here since it exists on all PostgreSQL installations.
-        if( $this->PersistenceList['database_info']['type'] == 'pgsql' )
-            $dbParameters['database'] = 'template1';
+        $result = $this->checkDatabaseRequirements( false );
 
-        $db =& eZDB::instance( $dbDriver, $dbParameters, true );
-        if ( $db->isConnected() == false )
+        $this->PersistenceList['database_info']['version'] = $result['db_version'];
+        $this->PersistenceList['database_info']['required_version'] = $result['db_required_version'];
+        if ( !$result['status'] )
         {
-            $this->Error = EZ_SETUP_DB_ERROR_CONNECTION_FAILED;
+            $this->Error = $result['error_code'];
             return false;
         }
 
+        $db =& $result['db_instance'];
+        $this->PersistenceList['database_info']['use_unicode'] = $result['use_unicode'];
         $availDatabases = $db->availableDatabases();
-        $this->PersistenceList['database_info']['use_unicode'] = false;
-        if ( $db->isCharsetSupported( 'utf-8' ) )
-        {
-            $this->PersistenceList['database_info']['use_unicode'] = true;
-        }
 
         if ( $availDatabases === false ) // not possible to determine if username and password is correct here
         {
@@ -179,44 +153,27 @@ class eZStepDatabaseInit extends eZStepInstaller
         if ( $this->hasKickstartData() )
         {
             $data = $this->kickstartData();
-            $databaseMap = eZSetupDatabaseMap();
 
+            // Fill in database info in persistence list
+            // This is needed for db requirement check
             $this->PersistenceList['database_info']['server'] = $data['Server'];
             $this->PersistenceList['database_info']['dbname'] = $data['Database'];
             $this->PersistenceList['database_info']['user'] = $data['User'];
             $this->PersistenceList['database_info']['password'] = $data['Password'];
             $this->PersistenceList['database_info']['socket'] = $data['Socket'];
+            $this->PersistenceList['database_info']['database'] = $data['Database'];
 
-            $databaseInfo = $this->PersistenceList['database_info'];
-            $databaseInfo['info'] = $databaseMap[$databaseInfo['type']];
-            $dbDriver = $databaseInfo['info']['driver'];
+            $result = $this->checkDatabaseRequirements( false );
 
-            $dbStatus = array();
-            $dbCharset = 'iso-8859-1';
-            $dbParameters = array( 'server' => $data['Server'],
-                                   'user' => $data['User'],
-                                   'password' => $data['Password'],
-                                   'socket' => trim( $data['Socket'] ) == '' ? false : $data['Socket'],
-                                   'database' => false,
-                                   'charset' => $dbCharset );
-
-            // PostgreSQL requires us to specify database name.
-            // We use template1 here since it exists on all PostgreSQL installations.
-            if( $this->PersistenceList['database_info']['type'] == 'pgsql' )
-                $dbParameters['database'] = 'template1';
-
-            $db =& eZDB::instance( $dbDriver, $dbParameters, true );
-            if ( $db->isConnected() == false )
+            $this->PersistenceList['database_info']['version'] = $result['db_version'];
+            $this->PersistenceList['database_info']['required_version'] = $result['db_required_version'];
+            if ( !$result['status'] )
             {
-                $this->Error = EZ_SETUP_DB_ERROR_CONNECTION_FAILED;
+                $this->Error = $result['error_code'];
                 return false;
             }
 
-            $this->PersistenceList['database_info']['use_unicode'] = false;
-            if ( $db->isCharsetSupported( 'utf-8' ) )
-            {
-                $this->PersistenceList['database_info']['use_unicode'] = true;
-            }
+            $this->PersistenceList['database_info']['use_unicode'] = $result['use_unicode'];
 
             return $this->kickstartContinueNextStep();
         }
@@ -263,51 +220,10 @@ class eZStepDatabaseInit extends eZStepInstaller
 
         $dbError = 0;
         $dbNotEmpty = 0;
-        switch ( $this->Error )
+        if ( $this->Error )
         {
-            case EZ_SETUP_DB_ERROR_CONNECTION_FAILED:
-            {
-                if ( $this->PersistenceList['database_info']['type'] == 'pgsql' )
-                {
-                    $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
-                                                        'Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.'
-                                                        .'<br>See the %documentation for more information about this.'
-                                                        .'<br>Remember to start postmaster with the -i option.'
-                                                        .'<br>Note that PostgreSQL 7.2 is not supported.', null,
-                                                        array( '%documentation' => '<a href="http://www.php.net/manual/en/ref.pgsql.php">PHP documentation</a>' ) ),
-                                      'number' => EZ_SETUP_DB_ERROR_CONNECTION_FAILED );
-                }
-                else
-                {
-                    $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
-                                                        'The database would not accept the connection, please review your settings and try again.' ),
-                                      'number' => EZ_SETUP_DB_ERROR_CONNECTION_FAILED );
-                }
-
-                break;
-            }
-            case EZ_SETUP_DB_ERROR_NONMATCH_PASSWORD:
-            {
-                $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
-                                                    'Password entries did not match.' ),
-                                  'number' => EZ_SETUP_DB_ERROR_NONMATCH_PASSWORD );
-                break;
-            }
-            case EZ_SETUP_DB_ERROR_NOT_EMPTY:
-            {
-                $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
-                                                    'The selected database was not empty, please choose from the alternatives below.' ),
-                                  'number' => EZ_SETUP_DB_ERROR_NOT_EMPTY );
-                $dbNotEmpty = 1;
-                break;
-            }
-            case EZ_SETUP_DB_ERROR_NO_DATABASES:
-            {
-                $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
-                                                    'The selected selected user has not got access to any databases. Change user or create a database for the user.' ),
-                                  'number' => EZ_SETUP_DB_ERROR_NO_DATABASES );
-                break;
-            }
+            $dbError = $this->databaseErrorInfo( array( 'error_code' => $this->Error,
+                                                        'database_info' => $this->PersistenceList['database_info'] ) );
         }
 
         $databaseInfo = $this->PersistenceList['database_info'];

@@ -51,6 +51,20 @@ The setup can continue with the initialization but may damage the present data."
     </blockquote>
 {/section}
 
+{section var=site loop=$site_types}
+    {section var=site_error show=$site.errors|count|gt( 0 ) loop=$site.errors}
+        <blockquote class="error">
+            <h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
+            <p>
+                {$site_error.text}
+            </p>
+            {section show=$site_error.url}
+                <a href="{$site_error.url.href}" target="_other">{$site_error.url.text|wash}</a>
+            {/section}
+        </blockquote>
+    {/section}
+{/section}
+
 <p>
     <table border="0" cellspacing="0" cellpadding="0">
 
