@@ -949,7 +949,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $nodePath = $node->attribute( 'path_string' );
         $childrensPath = $nodePath ; //. $nodeID . '/';
-        $pathLength = strlen( $childrensPath ); + 1;
+        $pathLength = strlen( $childrensPath ); //+ 1;
 
 /*        $query = "delete from ezcontentobject_tree
                   where substring( path_string from 1 for $pathLength ) = '$childrensPath' or
