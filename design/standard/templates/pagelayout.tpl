@@ -42,7 +42,7 @@
 <table class="layout" width="100%" cellpadding="3" cellspacing="0" border="0">
 <tr>
     <td class="topline" width="40%">
-    <img src={"ezpublish-logo.gif"|ezimage} width="210" height="60" alt="" />
+    <img src={"ezpublish_admin.gif"|ezimage}  alt="" />
     </td>
     <td class="topbox" align="right" width="20%" valign="bottom">
        &nbsp;<br />

@@ -45,7 +45,6 @@
 {section name=Object loop=$object_array sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$Object:sequence}">
-	<img src={"1x1-transparent.gif"|ezimage} width="10" height="1" alt="" />
 	<a href={concat("/content/browse/",$Object:item.node_id,"/")|ezurl}>
 	{$Object:item.name}
         </a>
@@ -76,13 +75,18 @@
 	</td>
 </tr>
 {/section}
+<tr>
+    <td>
+    </td>
+    <td>
+    <div class="buttonblock">
+    <input class="button" type="submit" name="SelectButton" value="{'Select'|i18n('design/standard/content/view')}" />
+    </div>
+    </td>
+</tr>
 </table>
 
 
 <input type="hidden" name="BrowseActionName" value="{$browse_action_name}" />
-
-<div class="buttonblock">
-<input class="button" type="submit" name="SelectButton" value="{'Select'|i18n('design/standard/content/view')}" />
-</div>
 
 </form>
