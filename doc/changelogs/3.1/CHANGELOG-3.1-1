@@ -8,6 +8,7 @@ Changes from 3.0-? to 3.1
 - Added possibility to switch off operations.
 - Optimized reading of view cache, operations and triggers are skipped resulting in less memory and speed improvements
 - Removed overhead checking in database handler when DebugOutput was disabled and SQLOutPut was enabled.
+- Made eZHTTPFile use move_uploaded_file instead of copy when moving an uploaded file
 Binary file:
 - Added support for resuming downloads.
 Search:

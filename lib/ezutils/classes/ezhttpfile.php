@@ -135,7 +135,7 @@ class eZHTTPFile
         $dest_name = $dir .  "/". basename( $this->Filename );
 
         eZDebug::writeDebug( $this->Filename . " " . $dest_name . $suffixString );
-        if ( !copy( $this->Filename, $dest_name . $suffixString ) )
+        if ( !move_uploaded_file( $this->Filename, $dest_name . $suffixString ) )
         {
             unlink( $dest_name );
             $ret = false;
