@@ -696,529 +696,529 @@
     <name>design/standard/content/search</name>
     <message>
         <source>Advanced search</source>
-        <translation type="unfinished"></translation>
+        <translation>Avansert søk</translation>
     </message>
     <message>
         <source>No results were found when searching for:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingen treff ved søk etter:</translation>
     </message>
     <message>
         <source>Search for:</source>
-        <translation type="unfinished"></translation>
+        <translation>Søk etter:</translation>
     </message>
     <message>
         <source>returned</source>
-        <translation type="unfinished"></translation>
+        <translation>returnerte</translation>
     </message>
     <message>
         <source>matches</source>
-        <translation type="unfinished"></translation>
+        <translation>treff</translation>
     </message>
     <message>
         <source>Search all the words:</source>
-        <translation type="unfinished"></translation>
+        <translation>Søk etter alle ordene:</translation>
     </message>
     <message>
         <source>Search the exact phrase:</source>
-        <translation type="unfinished"></translation>
+        <translation>Søk etter eksakt tekst:</translation>
     </message>
     <message>
         <source>Search with at least one of the words:</source>
-        <translation type="unfinished"></translation>
+        <translation>Søk etter minst ett av ordene:</translation>
     </message>
     <message>
         <source>Class:</source>
-        <translation type="unfinished"></translation>
+        <translation>Klasse:</translation>
     </message>
     <message>
         <source>Any class</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle klasser</translation>
     </message>
     <message>
         <source>Class attribute:</source>
-        <translation type="unfinished"></translation>
+        <translation>Klasseattributt:</translation>
     </message>
     <message>
         <source>Update attributes</source>
-        <translation type="unfinished"></translation>
+        <translation>Oppdater attributter</translation>
     </message>
     <message>
         <source>In:</source>
-        <translation type="unfinished"></translation>
+        <translation>I:</translation>
     </message>
     <message>
         <source>Any section</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle seksjoner</translation>
     </message>
     <message>
         <source>Published:</source>
-        <translation type="unfinished"></translation>
+        <translation>Publiseringstidspunkt:</translation>
     </message>
     <message>
         <source>Any time</source>
-        <translation type="unfinished"></translation>
+        <translation>Når som helst</translation>
     </message>
     <message>
         <source>Last day</source>
-        <translation type="unfinished"></translation>
+        <translation>I går</translation>
     </message>
     <message>
         <source>Last week</source>
-        <translation type="unfinished"></translation>
+        <translation>Siste uke</translation>
     </message>
     <message>
         <source>Last month</source>
-        <translation type="unfinished"></translation>
+        <translation>Siste måned</translation>
     </message>
     <message>
         <source>Last three months</source>
-        <translation type="unfinished"></translation>
+        <translation>Siste tre måneder</translation>
     </message>
     <message>
         <source>Last year</source>
-        <translation type="unfinished"></translation>
+        <translation>Siste år</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Søk</translation>
     </message>
     <message>
         <source>No results were found for searching:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingen treff ved søk etter:</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/translate</name>
     <message>
         <source>Translating</source>
-        <translation type="unfinished"></translation>
+        <translation>Oversetter</translation>
     </message>
     <message>
         <source>Input did not validate</source>
-        <translation type="unfinished">Den innlagte informasjonen ble ikke godkjent</translation>
+        <translation>Den innlagte informasjonen ble ikke godkjent</translation>
     </message>
     <message>
         <source>input was stored successfully</source>
-        <translation type="unfinished"></translation>
+        <translation>Den innlagte informasjonen er lagret</translation>
     </message>
     <message>
         <source>Remove the following translations from</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern følgende oversettelser fra</translation>
     </message>
     <message>
         <source>Locale:</source>
-        <translation type="unfinished"></translation>
+        <translation>Stedsinformasjon:</translation>
     </message>
     <message>
         <source>Language:</source>
-        <translation type="unfinished"></translation>
+        <translation>Språk:</translation>
     </message>
     <message>
         <source>(No locale information available)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Ingen stedsinformasjon tilgjengelig)</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>Ja</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>Nei</translation>
     </message>
     <message>
         <source>Translate into:</source>
-        <translation type="unfinished"></translation>
+        <translation>Oversett til:</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Legg til</translation>
     </message>
     <message>
         <source>Translations</source>
-        <translation type="unfinished"></translation>
+        <translation>Oversettelser</translation>
     </message>
     <message>
         <source>Translate</source>
-        <translation type="unfinished"></translation>
+        <translation>Oversett</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Fjern</translation>
+        <translation>Fjern</translation>
     </message>
     <message>
         <source>Store</source>
-        <translation type="unfinished">Lagre</translation>
+        <translation>Lagre</translation>
     </message>
     <message>
         <source>Edit Object</source>
-        <translation type="unfinished"></translation>
+        <translation>Rediger objekt</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/version</name>
     <message>
         <source>Versions for:</source>
-        <translation type="unfinished"></translation>
+        <translation>Versjoner av:</translation>
     </message>
     <message>
         <source>Version not a draft</source>
-        <translation type="unfinished"></translation>
+        <translation>Versjonen er ikke et utkast</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versjon</translation>
     </message>
     <message>
         <source>is not available for editing anymore, only drafts can be edited.</source>
-        <translation type="unfinished"></translation>
+        <translation>kan ikke redigeres, bare utkast kan redigeres.</translation>
     </message>
     <message>
         <source>To edit this version create a copy of it.</source>
-        <translation type="unfinished"></translation>
+        <translation>For å redigere denne versjonen, lag en kopi.</translation>
     </message>
     <message>
         <source>Version not yours</source>
-        <translation type="unfinished"></translation>
+        <translation>Versjonen er ikke laget av deg</translation>
     </message>
     <message>
         <source>was not created by you, only your own drafts can be edited.</source>
-        <translation type="unfinished"></translation>
+        <translation>er ikke laget av deg. Du kan bare redigere dine egne utkast.</translation>
     </message>
     <message>
         <source>Version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Versjon:</translation>
     </message>
     <message>
         <source>Status:</source>
-        <translation type="unfinished"></translation>
+        <translation>Status:</translation>
     </message>
     <message>
         <source>Translations:</source>
-        <translation type="unfinished"></translation>
+        <translation>Oversettelser:</translation>
     </message>
     <message>
         <source>Creator:</source>
-        <translation type="unfinished"></translation>
+        <translation>Opprettet av:</translation>
     </message>
     <message>
         <source>Modified:</source>
-        <translation type="unfinished">Endret tidspunkt:</translation>
+        <translation>Endret tidspunkt:</translation>
     </message>
     <message>
         <source>Object Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Rediger objekt</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopier</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/view</name>
     <message>
         <source>Browse</source>
-        <translation type="unfinished"></translation>
+        <translation>Utforsk</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished">Navn:</translation>
+        <translation>Navn:</translation>
     </message>
     <message>
         <source>Select:</source>
-        <translation type="unfinished"></translation>
+        <translation>Velg:</translation>
     </message>
     <message>
         <source>Select</source>
-        <translation type="unfinished"></translation>
+        <translation>Velg</translation>
     </message>
     <message>
         <source>My drafts</source>
-        <translation type="unfinished"></translation>
+        <translation>Mine utkast</translation>
     </message>
     <message>
         <source>Version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Versjon:</translation>
     </message>
     <message>
         <source>Edit:</source>
-        <translation type="unfinished">Rediger:</translation>
+        <translation>Rediger:</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Fjern</translation>
+        <translation>Fjern</translation>
     </message>
     <message>
         <source>You have no drafts</source>
-        <translation type="unfinished"></translation>
+        <translation>Du har ingen utkast</translation>
     </message>
     <message>
         <source>Current version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Gjeldende versjon:</translation>
     </message>
     <message>
         <source>Related objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilhørende objekter</translation>
     </message>
     <message>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingen</translation>
     </message>
     <message>
         <source>Translation:</source>
-        <translation type="unfinished"></translation>
+        <translation>Oversettelse:</translation>
     </message>
     <message>
         <source>Placement:</source>
-        <translation type="unfinished"></translation>
+        <translation>Plassering:</translation>
     </message>
     <message>
         <source>Site Design:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nettstedsdesign:</translation>
     </message>
     <message>
         <source>Change</source>
-        <translation type="unfinished"></translation>
+        <translation>Endre</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Rediger</translation>
     </message>
     <message>
         <source>Publish</source>
-        <translation type="unfinished"></translation>
+        <translation>Publiser</translation>
     </message>
     <message>
         <source>Versions</source>
-        <translation type="unfinished"></translation>
+        <translation>Versjoner</translation>
     </message>
 </context>
 <context>
     <name>design/standard/error/kernel</name>
     <message>
         <source>Access denied</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingen tilgang</translation>
     </message>
     <message>
         <source>You don&apos;t have permission to access this area.</source>
-        <translation type="unfinished"></translation>
+        <translation>Du har ikke tilgang til dette området.</translation>
     </message>
     <message>
         <source>Not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Ikke funnet</translation>
     </message>
     <message>
         <source>Module not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Modulen ble ikke funnet</translation>
     </message>
     <message>
         <source>The requested module</source>
-        <translation type="unfinished"></translation>
+        <translation>Modulen</translation>
     </message>
     <message>
         <source>could not be found.</source>
-        <translation type="unfinished"></translation>
+        <translation>ble ikke funnet.</translation>
     </message>
     <message>
         <source>View not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Visning ikke funnet</translation>
     </message>
     <message>
         <source>The requested view</source>
-        <translation type="unfinished"></translation>
+        <translation>Visningen</translation>
     </message>
     <message>
         <source>could not be found in module:</source>
-        <translation type="unfinished"></translation>
+        <translation>ble ikke funnet i modulen:</translation>
     </message>
     <message>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Ikke tilgjengelig</translation>
     </message>
     <message>
         <source>The object is not available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Objektet er ikke tilgjengelig.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/layout</name>
     <message>
         <source>Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Innhold</translation>
     </message>
     <message>
         <source>List</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste</translation>
     </message>
     <message>
         <source>Sitemap</source>
-        <translation type="unfinished"></translation>
+        <translation>Nettstedskart</translation>
     </message>
     <message>
         <source>My drafts</source>
-        <translation type="unfinished"></translation>
+        <translation>Mine utkast</translation>
     </message>
     <message>
         <source>Search stats</source>
-        <translation type="unfinished"></translation>
+        <translation>Søkestatistikk</translation>
     </message>
     <message>
         <source>Set up</source>
-        <translation type="unfinished"></translation>
+        <translation>Oppsett</translation>
     </message>
     <message>
         <source>Classes</source>
-        <translation type="unfinished"></translation>
+        <translation>Klasser</translation>
     </message>
     <message>
         <source>Sections</source>
-        <translation type="unfinished"></translation>
+        <translation>Seksjoner</translation>
     </message>
     <message>
         <source>Workflows</source>
-        <translation type="unfinished"></translation>
+        <translation>Arbeidsflyt</translation>
     </message>
     <message>
         <source>Triggers</source>
-        <translation type="unfinished"></translation>
+        <translation>Utløsere</translation>
     </message>
     <message>
         <source>Shop</source>
-        <translation type="unfinished"></translation>
+        <translation>Butikk</translation>
     </message>
     <message>
         <source>Order list</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordreliste</translation>
     </message>
     <message>
         <source>VAT types</source>
-        <translation type="unfinished"></translation>
+        <translation>MVA-typer</translation>
     </message>
     <message>
         <source>Discount</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilbud</translation>
     </message>
     <message>
         <source>Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Brukere</translation>
     </message>
     <message>
         <source>Roles</source>
-        <translation type="unfinished"></translation>
+        <translation>Roller</translation>
     </message>
     <message>
         <source>My Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Mine meldinger</translation>
     </message>
     <message>
         <source>New article</source>
-        <translation type="unfinished"></translation>
+        <translation>Ny artikkel</translation>
     </message>
     <message>
         <source>New link</source>
-        <translation type="unfinished"></translation>
+        <translation>Ny lenke</translation>
     </message>
     <message>
         <source>New product</source>
-        <translation type="unfinished"></translation>
+        <translation>Nytt produkt</translation>
     </message>
     <message>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation>Restart</translation>
     </message>
     <message>
         <source>Welcome to eZ publish administration</source>
-        <translation type="unfinished"></translation>
+        <translation>Velkommen til eZ publish administrasjon</translation>
     </message>
     <message>
         <source>To log in enter a valid login and password.</source>
-        <translation type="unfinished"></translation>
+        <translation>Oppgi gyldig brukernavn og passord for å logge inn.</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Søk</translation>
     </message>
     <message>
         <source>Installation &amp; configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Installasjon og konfigurasjon</translation>
     </message>
     <message>
         <source>Redirecting to:</source>
-        <translation type="unfinished"></translation>
+        <translation>Videresender til:</translation>
     </message>
     <message>
         <source>Redirect</source>
-        <translation type="unfinished"></translation>
+        <translation>Videresend</translation>
     </message>
     <message>
         <source>Module load failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Modulen ble ikke lastet</translation>
     </message>
     <message>
         <source>Undefined module: </source>
-        <translation type="unfinished"></translation>
+        <translation>Udefinert modul:</translation>
     </message>
     <message>
         <source>About eZ publish</source>
-        <translation type="unfinished"></translation>
+        <translation>Om eZ publish</translation>
     </message>
     <message>
         <source>About eZ publish 3</source>
-        <translation type="unfinished"></translation>
+        <translation>Om eZ publish 3</translation>
     </message>
     <message>
         <source>SDK &amp; Technical references</source>
-        <translation type="unfinished"></translation>
+        <translation>SDK og Tekniske referanser</translation>
     </message>
     <message>
         <source>eZ publish SDK</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish SDK</translation>
     </message>
     <message>
         <source>Advanced search</source>
-        <translation type="unfinished"></translation>
+        <translation>Avansert søk</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished">Navn:</translation>
+        <translation>Navn:</translation>
     </message>
     <message>
         <source>Change Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Bytt passord</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Logg inn</translation>
     </message>
     <message>
         <source>Logout</source>
-        <translation type="unfinished"></translation>
+        <translation>Logg ut</translation>
     </message>
     <message>
         <source>My Tasks</source>
-        <translation type="unfinished"></translation>
+        <translation>Mine oppgaver</translation>
     </message>
     <message>
         <source>Install using installers</source>
-        <translation type="unfinished"></translation>
+        <translation>Installer med installasjonsprogrammer</translation>
     </message>
     <message>
         <source>Install manually</source>
-        <translation type="unfinished"></translation>
+        <translation>Installer manuelt</translation>
     </message>
     <message>
         <source>Uninstall</source>
-        <translation type="unfinished"></translation>
+        <translation>Avinstaller</translation>
     </message>
 </context>
 <context>
     <name>design/standard/navigator</name>
     <message>
         <source>Previous</source>
-        <translation type="unfinished"></translation>
+        <translation>Forrige</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Neste</translation>
     </message>
 </context>
 <context>
@@ -1454,19 +1454,19 @@
     <name>design/standard/notification/rules</name>
     <message>
         <source>Content Class Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Navn på innholdsklasse:</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle</translation>
     </message>
     <message>
         <source>Path:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sti:</translation>
     </message>
     <message>
         <source>Keyword:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nøkkelord:</translation>
     </message>
 </context>
 <context>
@@ -1644,23 +1644,23 @@
     <name>design/standard/search</name>
     <message>
         <source>Search statistics</source>
-        <translation type="unfinished"></translation>
+        <translation>Søkestatistikk</translation>
     </message>
     <message>
         <source>Most frequent search phrases</source>
-        <translation type="unfinished"></translation>
+        <translation>Mest brukte søketekster</translation>
     </message>
     <message>
         <source>Phrase:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tekst:</translation>
     </message>
     <message>
         <source>Number of phrases:</source>
-        <translation type="unfinished"></translation>
+        <translation>Antall søketekster:</translation>
     </message>
     <message>
         <source>Average result returned:</source>
-        <translation type="unfinished"></translation>
+        <translation>Gjennomsnittlig resultat:</translation>
     </message>
 </context>
 <context>
@@ -3740,15 +3740,15 @@
     <name>design/standard/workflow/eventtype/result</name>
     <message>
         <source>Checkout</source>
-        <translation type="unfinished"></translation>
+        <translation>Betaling</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Neste</translation>
     </message>
     <message>
         <source>Hello</source>
-        <translation type="unfinished"></translation>
+        <translation>Hallo</translation>
     </message>
 </context>
 <context>
@@ -3911,7 +3911,7 @@
     <name>workflow/eventtype/result/event_ezcheckout</name>
     <message>
         <source>Wrapping</source>
-        <translation type="unfinished"></translation>
+        <translation>Innpakking</translation>
     </message>
 </context>
 </TS>
