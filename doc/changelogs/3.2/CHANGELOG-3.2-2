@@ -39,6 +39,8 @@ Changes from 3.2-1 to 3.2-2
 - Made sure all redirects in index.php is translated to URL aliases if possible.
 - Fixed permission bug for function "password" and "preference" in user module. 
 - Fixed bug with the sort key attributes in ezcontentobjectattribute where pointing to the same variable.
+- Redone the cache page in setup to make it easier to add new cache entries later as well
+  as make it easier for users to use.
 
 *Notification:
 - Made sure the subtree handlers sets some design keys for template overriding.

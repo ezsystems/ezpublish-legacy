@@ -48,9 +48,12 @@ $ViewList["init"] = array(
 $ViewList["cache"] = array(
     "script" => "cache.php",
     "default_navigation_part" => 'ezsetupnavigationpart',
-    'single_post_actions' => array( 'ClearContentCacheButton' => 'ClearContentCache',
+    'single_post_actions' => array( 'ClearCacheButton' => 'ClearCache',
+                                    'ClearAllCacheButton' => 'ClearAllCache',
+                                    'ClearContentCacheButton' => 'ClearContentCache',
                                     'ClearINICacheButton' => 'ClearINICache',
                                     'ClearTemplateCacheButton' => 'ClearTemplateCache' ),
+    'post_action_parameters' => array( 'ClearCache' => array( 'CacheList' => 'CacheList' ) ),
     "params" => array( ) );
 
 $ViewList["info"] = array(

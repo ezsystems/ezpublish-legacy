@@ -36,48 +36,83 @@ $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
 
 include_once( "kernel/common/template.php" );
+include_once( "kernel/classes/ezcache.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'lib/ezutils/classes/ezdir.php' );
 
 $ini =& eZINI::instance( );
 $tpl =& templateInit();
 
-$viewCacheCleared = false;
+$cacheList = eZCache::fetchList();
+
+$cacheCleared = array( 'all' => false,
+                       'content' => false,
+                       'ini' => false,
+                       'template' => false,
+                       'list' => false );
+
+$contentCacheEnabled = $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled';
+$iniCacheEnabled = true;
+$templateCacheEnabled = $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled';
+
+$cacheEnabledList = array();
+foreach ( $cacheList as $cacheItem )
+{
+    $cacheEnabledList[$cacheItem['id']] = $cacheItem['enabled'];
+}
+
+$cacheEnabled = array( 'all' => true,
+                       'content' => $contentCacheEnabled,
+                       'ini' => $iniCacheEnabled,
+                       'template' => $templateCacheEnabled,
+                       'list' => $cacheEnabledList );
+
+if ( $module->isCurrentAction( 'ClearAllCache' ) )
+{
+    eZCache::clearAll();
+    $cacheCleared['all'] = true;
+}
+
 if ( $module->isCurrentAction( 'ClearContentCache' ) )
 {
-    $cacheDir = eZSys::cacheDirectory() . "/" . $ini->variable( 'ContentSettings', 'CacheDir' );
-    eZDir::recursiveDelete( $cacheDir );
-    $viewCacheCleared = true;
+    eZCache::clearByTag( 'content' );
+    $cacheCleared['content'] = true;
 }
 
-$iniCacheCleared = false;
 if ( $module->isCurrentAction( 'ClearINICache' ) )
 {
-    $cachedDir = eZSys::cacheDirectory() . '/ini';
-    eZDir::recursiveDelete( $cachedDir );
-    $iniCacheCleared = true;
+    eZCache::clearByTag( 'ini' );
+    $cacheCleared['ini'] = true;
 }
 
-$templateCacheCleared = false;
 if ( $module->isCurrentAction( 'ClearTemplateCache' ) )
 {
-    $cacheSubDirs = array( 'template', 'template-block', 'override' );
-
-    foreach( $cacheSubDirs as $cacheSubDir )
-    {
-        eZDir::recursiveDelete( eZSys::cacheDirectory() . '/' . $cacheSubDir );
-    }
-    $templateCacheCleared = true;
+    eZCache::clearByTag( 'template' );
+    $cacheCleared['template'] = true;
 }
 
-if ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' )
-    $tpl->setVariable( "view_cache_enabled", true );
-else
-    $tpl->setVariable( "view_cache_enabled", false );
+if ( $module->isCurrentAction( 'ClearCache' ) )
+{
+    $cacheClearList = $module->actionParameter( 'CacheList' );
+    eZCache::clearByID( $cacheClearList );
+    $cacheItemList = array();
+    foreach ( $cacheClearList as $cacheClearItem )
+    {
+        foreach ( $cacheList as $cacheItem )
+        {
+            if ( $cacheItem['id'] == $cacheClearItem )
+            {
+                $cacheItemList[] = $cacheItem;
+                break;
+            }
+        }
+    }
+    $cacheCleared['list'] = $cacheItemList;
+}
 
-$tpl->setVariable( "view_cache_cleared", $viewCacheCleared );
-$tpl->setVariable( "ini_cache_cleared", $iniCacheCleared );
-$tpl->setVariable( "template_cache_cleared", $templateCacheCleared );
+$tpl->setVariable( "cache_cleared", $cacheCleared );
+$tpl->setVariable( "cache_enabled", $cacheEnabled );
+$tpl->setVariable( 'cache_list', $cacheList );
 
 
 $Result = array();
