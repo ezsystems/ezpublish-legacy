@@ -310,7 +310,7 @@ class eZPostgreSQLDB extends eZDBInterface
         }
         if ( $this->isConnected() )
         {
-            $sql = "SELECT COUNT( relname ) as count FROM pg_class WHERE $relkindText AND NOT relname~'pg_.*'";
+            $sql = "SELECT COUNT( relname ) as count FROM pg_class WHERE ( $relkindText ) AND NOT relname~'pg_.*'";
             $array = $this->arrayQuery( $sql, array( 'column' => '0' ) );
             $count = $array[0];
         }
