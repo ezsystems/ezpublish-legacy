@@ -51,6 +51,14 @@
   \sa eZContentCache
 */
 
+// Clear cache types
+define( 'EZ_VCSC_CLEAR_NODE_CACHE'      , 1 );
+define( 'EZ_VCSC_CLEAR_PARENT_CACHE'    , 2 );
+define( 'EZ_VCSC_CLEAR_RELATING_CACHE'  , 4 );
+define( 'EZ_VCSC_CLEAR_ALL_CACHE'       , 7 );
+
+include_once( 'kernel/classes/ezcontentobject.php' );
+
 class eZContentCacheManager
 {
     /*!
@@ -366,6 +374,40 @@ class eZContentCacheManager
             eZContentObject::expireAllCache();
         }
         eZDebug::accumulatorStop( 'node_cleanup' );
+    }
+
+    /*!
+     \static
+     Clears the related viewcaches for the content object using the smart viewcache system.
+     This is a wrapper for 'clearViewCache' function. The 'site.ini' and 'viewcache.ini'
+     files are checked to see if 'ViewCaching' and 'SmartCacheClear' are enabled.
+
+     \param $objectID The ID of the content object to clear caches for
+     \param $versionNum The version of the object to use or \c true for current version
+     \param $additionalNodeList An array with node IDs to add to clear list,
+                                or \c false for no additional nodes.
+    */
+    function clearObjectViewCache( $objectID, $versionNum, $additionalNodeList = false )
+    {
+        // AHTUNG!! modifing this function don't forget to modify
+        // eZContentOperationCollection::clearObjectViewCache() too.
+
+        eZDebug::accumulatorStart( 'check_cache', '', 'Check cache' );
+
+        $ini =& eZINI::instance();
+        if ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' )
+        {
+            $viewCacheINI =& eZINI::instance( 'viewcache.ini' );
+            if ( $viewCacheINI->variable( 'ViewCacheSettings', 'SmartCacheClear' ) == 'enabled' )
+            {
+                eZContentCacheManager::clearViewCache( $objectID, $versionNum, $additionalNodeList );
+            }
+            else
+            {
+                eZContentObject::expireAllCache();
+            }
+        }
+        eZDebug::accumulatorStop( 'check_cache' );
     }
 }
 

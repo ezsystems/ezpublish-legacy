@@ -616,6 +616,9 @@ Workflow:
 - Fixed bug: fatal error occurs when user creates new bookmark, then removes it and reloads the page.
   (Merged from stable/3.3 rev. 8325, also in stable/3.4 rev. 8326)
   http://ez.no/community/bug_reports/repost_crash_my_bookmarks
+- Fixed bug: when deleting objects smart cache isn't used
+  (Merged from stable/3.4 rev.8356)
+  http://ez.no/community/bug_reports/deleting_nodes_objects_smart_cache_isn_t_used
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
