@@ -2314,7 +2314,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function &fetchNodesByPathString( $nodePath, $withLastNode = false, $asObjects = true )
     {
         $nodesListArray = array();
-        $pathString =& eZContentObjectTreeNode::createNodesConditionSQLStringFromPath( $nodePath, $fetchLastNodeInThePath );
+        $pathString =& eZContentObjectTreeNode::createNodesConditionSQLStringFromPath( $nodePath, $withLastNode );
 
         if ( $pathString  )
         {
