@@ -93,7 +93,9 @@ class eZDir
         {
             $new_dir = preg_replace( "#/+#", "/", $dir );
             if ( $dir[0] != "/" )
-                $new_dir = realpath( "." ) . "/$new_dir";
+                $new_dir = "$new_dir";
+// Fix to make this work on windows.. To quick ?
+//                $new_dir = realpath( "." ) . "/$new_dir";
             if ( preg_match( "#^(.+/)([^/]+)/?$#", $new_dir, $regs ) )
             {
                 $new_dir = $regs[1];
