@@ -37,6 +37,10 @@ Changes from 3.3.0-2 to 3.3-1
 - Fixed updating section id when moving unpublished objects. ( merged from stable 4545 )
   http://ez.no/developer/ez_publish_3/bug_reports/section_malfunction
 
+*ezlupdate:
+- Added check for newlines in the context field for templates, usually this means a missing quote.
+- Changed the parse warnings to stop the program to make the user aware of the problems.
+
 *RSS:
 
 *Setup:
@@ -56,3 +60,7 @@ eZ INI:
 eZ PDF:
 
 eZ db:
+
+*Translations:
+
+- Added missing quotes to the context of several translations which gave strange results in the .ts files.

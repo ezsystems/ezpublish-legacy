@@ -269,6 +269,10 @@
         <source>Recent links</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Create new blog entry</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/corporate/layout</name>
@@ -338,6 +342,14 @@
     <message>
         <source>Logout</source>
         <translation type="unfinished">Logg ut</translation>
+    </message>
+    <message>
+        <source>Latest posts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -424,6 +436,14 @@
         <source>Results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/news/content/poll)}&lt;/p&gt;
@@ -439,7 +459,7 @@
 <byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -452,7 +472,7 @@
     &lt;p&gt;{</name>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2118,6 +2138,10 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
         <source>Return to site</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/feedback)}&lt;/p&gt;
@@ -2128,7 +2152,7 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
 &lt;p&gt;{</name>
     <message>
         <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2139,6 +2163,10 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
     </message>
     <message>
         <source>Return to site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already submitted data to this form. The previously submitted data was the following.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2161,7 +2189,7 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
 &lt;a href={$node.parent.url|ezurl}&gt;{</name>
     <message>
         <source>You have already submitted data to this form. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2209,6 +2237,14 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
         <source>Poll results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/poll)}&lt;/p&gt;
@@ -2224,7 +2260,7 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
 <byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2258,7 +2294,7 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
 {&quot;%count total votes&quot;|i18n( </name>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2271,7 +2307,7 @@ Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller
     &lt;p&gt;{</name>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -3245,7 +3281,7 @@ Du kan redigere og publisere utkastene, eller fjerne dem hvis du ikke trenger de
 iew</name>
     <message>
         <source>Create here</source>
-        <translation type="unfinished">Lag her</translation>
+        <translation type="obsolete">Lag her</translation>
     </message>
 </context>
 <context>
@@ -3372,6 +3408,10 @@ iew</name>
     </message>
     <message>
         <source>Default object view.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New log</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6890,6 +6930,17 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
     </message>
 </context>
 <context>
+    <name>design/standard/templates/</name>
+    <message>
+        <source>Logout</source>
+        <translation type="unfinished">Logg ut</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/standard/trigger</name>
     <message>
         <source>No workflow</source>
@@ -7526,31 +7577,31 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     <name>design/standard/workflow/event</name>
     <message>
         <source>Checkout</source>
-        <translation>Betaling</translation>
+        <translation type="obsolete">Betaling</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Neste</translation>
+        <translation type="obsolete">Neste</translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation>Innpakking</translation>
+        <translation type="obsolete">Innpakking</translation>
     </message>
     <message>
         <source>Do you want wrapping in Christmas paper?</source>
-        <translation>Vil du ha innpakking i julepapir?</translation>
+        <translation type="obsolete">Vil du ha innpakking i julepapir?</translation>
     </message>
     <message>
         <source>No</source>
-        <translation>Nei</translation>
+        <translation type="obsolete">Nei</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation>Ja</translation>
+        <translation type="obsolete">Ja</translation>
     </message>
     <message>
         <source>Hello</source>
-        <translation>Hallo</translation>
+        <translation type="obsolete">Hallo</translation>
     </message>
 </context>
 <context>
@@ -7561,11 +7612,11 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     </message>
     <message>
         <source>Unpublish object</source>
-        <translation>Depubliser objekt</translation>
+        <translation type="obsolete">Depubliser objekt</translation>
     </message>
     <message>
         <source>Publish object</source>
-        <translation>Publiser objekt</translation>
+        <translation type="obsolete">Publiser objekt</translation>
     </message>
     <message>
         <source>Class Attributes:</source>
@@ -7585,11 +7636,11 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     </message>
     <message>
         <source>Checkout text</source>
-        <translation>Betalingstekst</translation>
+        <translation type="obsolete">Betalingstekst</translation>
     </message>
     <message>
         <source>Message</source>
-        <translation>Melding</translation>
+        <translation type="obsolete">Melding</translation>
     </message>
     <message>
         <source>Users without workflow IDs</source>
@@ -7597,15 +7648,15 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     </message>
     <message>
         <source>Days</source>
-        <translation>Dager</translation>
+        <translation type="obsolete">Dager</translation>
     </message>
     <message>
         <source>Hours</source>
-        <translation>Timer</translation>
+        <translation type="obsolete">Timer</translation>
     </message>
     <message>
         <source>Minutes</source>
-        <translation>Minutter</translation>
+        <translation type="obsolete">Minutter</translation>
     </message>
     <message>
         <source>Class</source>
@@ -8672,7 +8723,7 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     </message>
     <message>
         <source>Checkout</source>
-        <translation>Betaling</translation>
+        <translation type="obsolete">Betaling</translation>
     </message>
     <message>
         <source>Multiplexer</source>
@@ -8680,11 +8731,11 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     </message>
     <message>
         <source>Publish</source>
-        <translation>Publiser</translation>
+        <translation type="obsolete">Publiser</translation>
     </message>
     <message>
         <source>Publish on time</source>
-        <translation>Tidspublisering</translation>
+        <translation type="obsolete">Tidspublisering</translation>
     </message>
     <message>
         <source>Simple shipping</source>
@@ -8692,11 +8743,11 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     </message>
     <message>
         <source>Timing</source>
-        <translation>Tidskontroll</translation>
+        <translation type="obsolete">Tidskontroll</translation>
     </message>
     <message>
         <source>Unpublish</source>
-        <translation>Avpubliser</translation>
+        <translation type="obsolete">Avpubliser</translation>
     </message>
     <message>
         <source>Wait until date</source>
@@ -8704,11 +8755,11 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     </message>
     <message>
         <source>Wrapping</source>
-        <translation>Innpakking</translation>
+        <translation type="obsolete">Innpakking</translation>
     </message>
     <message>
         <source>Hello User</source>
-        <translation>Hallo bruker</translation>
+        <translation type="obsolete">Hallo bruker</translation>
     </message>
 </context>
 <context>
@@ -8719,7 +8770,7 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     </message>
     <message>
         <source>Serial</source>
-        <translation>Serielt</translation>
+        <translation type="obsolete">Serielt</translation>
     </message>
 </context>
 <context>

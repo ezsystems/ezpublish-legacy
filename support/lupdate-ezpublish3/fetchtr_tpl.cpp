@@ -145,7 +145,8 @@ static void parse( MetaTranslator *tor, const QString &filename )
         if ( source.isNull() )
         {
             qWarning( filename + ":error: Found non-quoted source, skipping translation" );
-            continue;
+            exit( 1 );
+//             continue;
         }
 
         if ( content[startpos+1] == 'x' )
@@ -163,7 +164,13 @@ static void parse( MetaTranslator *tor, const QString &filename )
         if ( endpos < 0 )
         {
             qWarning( filename + ":error: Found non-quoted context, skipping translation" );
-            continue;
+            exit( 1 );
+//             continue;
+        }
+        if ( context.find( '\n' ) != -1 )
+        {
+            qWarning( filename + ":error: The context contains newlines, please correct the template.\nThe context was:\n" + context );
+            exit( 1 );
         }
         pos = endpos;
         skipComma( content, pos, endpos );
