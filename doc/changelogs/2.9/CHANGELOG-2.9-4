@@ -42,6 +42,7 @@ Changes from 2.9-3 to 2.9-4
 - Versionview can change between translations and placements. Placements will decide the current section id.
   Only versions that are drafts can be edited and published.
   Only versions that you created can be viewed.
+- Added setup and eZ publish configuration script
 
 Datatypes:
 - Datatypes can now report if they are non-translateable.
