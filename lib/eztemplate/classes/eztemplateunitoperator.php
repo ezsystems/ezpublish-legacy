@@ -125,44 +125,58 @@ class eZTemplateUnitOperator
         $prefix_var = "";
         if ( $prefix == "decimal" )
         {
-            $prefix_group = $unit_ini->group( "DecimalPrefixes" );
-            $prefixes = array();
-            foreach ( $prefix_group as $prefix_item )
+            if ( $operatorValue >= 0 and $operatorValue < 10 )
             {
-                $prefixes[] = explode( ";", $prefix_item );
+                $prefix_var = '';
             }
-            usort( $prefixes, "eZTemplateUnitCompareFactor" );
-            $prefix_var = "";
-            $divider = false;
-            foreach ( $prefixes as $prefix )
+            else
             {
-                $val = pow( 10, (int)$prefix[0] );
-                if ( $val <= $operatorValue )
+                $prefix_group = $unit_ini->group( "DecimalPrefixes" );
+                $prefixes = array();
+                foreach ( $prefix_group as $prefix_item )
                 {
-                    $prefix_var = $prefix[1];
-                    $operatorValue = number_format( $operatorValue / $val, 2 );
-                    break;
+                    $prefixes[] = explode( ";", $prefix_item );
+                }
+                usort( $prefixes, "eZTemplateUnitCompareFactor" );
+                $prefix_var = "";
+                $divider = false;
+                foreach ( $prefixes as $prefix )
+                {
+                    $val = pow( 10, (int)$prefix[0] );
+                    if ( $val <= $operatorValue )
+                    {
+                        $prefix_var = $prefix[1];
+                        $operatorValue = number_format( $operatorValue / $val, 2 );
+                        break;
+                    }
                 }
             }
         }
         else if ( $prefix == "binary" )
         {
-            $prefix_group = $unit_ini->group( $fake . "BinaryPrefixes" );
-            $prefixes = array();
-            foreach ( $prefix_group as $prefix_item )
+            if ( $operatorValue >= 0 and $operatorValue < 10 )
             {
-                $prefixes[] = explode( ";", $prefix_item );
+                $prefix_var = '';
             }
-            usort( $prefixes, "eZTemplateUnitCompareFactor" );
-            $prefix_var = "";
-            foreach ( $prefixes as $prefix )
+            else
             {
-                $val = pow( 2, (int)$prefix[0] );
-                if ( $val <= $operatorValue )
+                $prefix_group = $unit_ini->group( $fake . "BinaryPrefixes" );
+                $prefixes = array();
+                foreach ( $prefix_group as $prefix_item )
                 {
-                    $prefix_var = $prefix[1];
-                    $operatorValue = number_format( $operatorValue / $val, 2 );
-                    break;
+                    $prefixes[] = explode( ";", $prefix_item );
+                }
+                usort( $prefixes, "eZTemplateUnitCompareFactor" );
+                $prefix_var = "";
+                foreach ( $prefixes as $prefix )
+                {
+                    $val = pow( 2, (int)$prefix[0] );
+                    if ( $val <= $operatorValue )
+                    {
+                        $prefix_var = $prefix[1];
+                        $operatorValue = number_format( $operatorValue / $val, 2 );
+                        break;
+                    }
                 }
             }
         }
