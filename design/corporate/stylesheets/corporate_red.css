@@ -64,7 +64,7 @@ body
     font-size: small;
     width: 690px;
     padding: 5px;
-    background-color: #304b82;
+    background-color: #824b30;
     color: #aaaaaa;
 }
 
@@ -90,21 +90,21 @@ body
 
 #mainmenu .selected
 {
-  background-color: #7c97c2;
-  border-color: #304b82;
+  background-color: #c2977c;
+  border-color: #824b30;
   border-top: 1px solid;
 }
 
 #mainmenu .item
 {
-  background-color: #304b82;
+  background-color: #824b30;
   border-color: #4c5792;
   border-top: 1px solid;
 }
 
 #mainmenu .item:hover
 {
-  background-color: #7c97c2;
+  background-color: #c2977c;
   border-color: #aaaaaa;
 }
 
@@ -136,7 +136,7 @@ body
 
 #info_bar h3 a
 {  
-    color: #304b82;
+    color: #824b30;
 }
 
 #info_bar h3
@@ -165,7 +165,7 @@ body
 #search_box input.searchbutton
 {  
     color: #ffffff;
-    background-color: #304b82;
+    background-color: #824b30;
 }
 
 /* main content area */
@@ -239,7 +239,7 @@ body
 
 #folder div.child div.readmore a
 { 
-    color: #304b82;
+    color: #824b30;
 }
 
 #folder div.child div.readmore p
@@ -288,6 +288,6 @@ div.editbutton
 div.editbutton input
 { 
    font-size: small;
-   background-color: #304b82;
+   background-color: #824b30;
    color: #ffffff;
 }

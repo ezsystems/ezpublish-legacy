@@ -3,7 +3,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 <head>
 {include uri="design:page_head.tpl" enable_glossary=false() enable_help=false()}
+
+<link rel="stylesheet" type="text/css" href={"stylesheets/corporate_red.css"|ezdesign} />
+
+{*
 <link rel="stylesheet" type="text/css" href={"stylesheets/corporate.css"|ezdesign} />
+*}
 
 </head>
 
@@ -84,7 +89,7 @@
       <div id="search_box">
          <form action={"/content/search/"|ezurl} method="get">
            <input class="searchtext" type="text" size="10" name="SearchText" id="Search" value="" />&nbsp;
-           <input class="searchbutton" name="SearchButton" type="image" src={"search.gif"|ezimage} value="Search" />
+           <input class="searchbutton" name="SearchButton" type="submit" value="Search" />
          </form>
       </div>
    </div>
