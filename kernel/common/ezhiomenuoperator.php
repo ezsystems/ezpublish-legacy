@@ -195,7 +195,7 @@ class eZHiOMenuOperator
                             $addToMenu = false;
                             $type = $map['type']->content();
                             $value = null;
-                            if ( get_class( $enum ) == "ezenumtype" )
+                            if ( get_class( $enum ) == "ezenum" )
                             {
                                 $values = $enum->attribute( "enumobject_list" );
                                 $value = $values[0];
