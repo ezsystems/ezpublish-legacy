@@ -35,7 +35,6 @@
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/classes/ezcontentclass.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/classes/eztrigger.php' );
 
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
@@ -159,14 +158,47 @@ if ( $viewCacheEnabled and ( $useTriggers == false ) )
     }
 }
 
-include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 $user =& eZUser::currentUser();
 
 eZDebugSetting::addTimingPoint( 'kernel-content-view', 'Operation start' );
 
-$operationResult =& eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID,
-                                                                          'user_id' => $user->id(),
-                                                                          'language_code' => $LanguageCode ), null, $useTriggers );
+if ( $useTriggers == true )
+{
+    include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+    include_once( 'kernel/classes/eztrigger.php' );
+
+    $operationResult =& eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID,
+                                                                               'user_id' => $user->id(),
+                                                                               'language_code' => $LanguageCode ), null, $useTriggers );
+}
+else
+{
+    if ( $LanguageCode != '' )
+    {
+        $node =& eZContentObjectTreeNode::fetch( $NodeID, $LanguageCode );
+    }
+    else
+    {
+        $node =& eZContentObjectTreeNode::fetch( $NodeID );
+    }
+
+    if ( $node === null )
+        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+
+    $object = $node->attribute( 'object' );
+
+    if ( $object === null )
+        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
+    if ( $LanguageCode != '' )
+    {
+        $object->setCurrentLanguage( $LanguageCode );
+    }
+    $operationResult = array( 'status' => true, 'object' => $object, 'node' => $node );
+}
+
+
+
 eZDebugSetting::writeDebug( 'kernel-content-view', $operationResult, 'operationResult' );
 eZDebugSetting::addTimingPoint( 'kernel-content-view', 'Operation end' );
 
