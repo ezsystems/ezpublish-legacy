@@ -1,3 +1,3 @@
-<h2>{$title}</h2>
-{$icon}
-<a href={$url|ezurl}>{$title}(icon)</a>
+<a href={$URL|ezurl}><img src={$Icon|ezimage} alt={$Title} /></a>
+
+<h2>{$Title}</h2>
