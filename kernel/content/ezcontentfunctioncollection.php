@@ -593,33 +593,40 @@ class eZContentFunctionCollection
 
         if ( $classid != null )
         {
-            $keyWords =& $db->arrayQuery( "SELECT count(*) AS count
-                                           FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
-                                           WHERE ezkeyword.keyword LIKE '$alphabet%'
-                                           $sqlPermissionCheckingString
-                                           AND ezkeyword.class_id='$classid'
-                                           AND ezcontentclass.version=0
-                                           AND ezcontentobject_tree.main_node_id=ezcontentobject_tree.node_id
-                                           AND ezcontentobject_attribute.contentobject_id=ezcontentobject.id
-                                           AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
-                                           AND ezcontentclass.id = ezcontentobject.contentclass_id
-                                           AND ezcontentobject_attribute.id=ezkeyword_attribute_link.objectattribute_id
-                                           AND ezkeyword_attribute_link.keyword_id = ezkeyword.id" );
+            $query = "SELECT count(*) AS count
+                      FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
+                      WHERE ezkeyword.keyword LIKE '$alphabet%'
+                      $sqlPermissionCheckingString
+                      AND ezkeyword.class_id='$classid'
+                      AND ezcontentclass.version=0
+                      AND ezcontentobject.status=".EZ_CONTENT_OBJECT_STATUS_PUBLISHED."
+                      AND ezcontentobject_attribute.version=ezcontentobject.current_version
+                      AND ezcontentobject_tree.main_node_id=ezcontentobject_tree.node_id
+                      AND ezcontentobject_attribute.contentobject_id=ezcontentobject.id
+                      AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
+                      AND ezcontentclass.id = ezcontentobject.contentclass_id
+                      AND ezcontentobject_attribute.id=ezkeyword_attribute_link.objectattribute_id
+                      AND ezkeyword_attribute_link.keyword_id = ezkeyword.id";
         }
         else
         {
-            $keyWords =& $db->arrayQuery( "SELECT count(*) AS count
-                                           FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
-                                           WHERE ezkeyword.keyword LIKE '$alphabet%'
-                                           $sqlPermissionCheckingString
-                                           AND ezcontentclass.version=0
-                                           AND ezcontentobject_tree.main_node_id=ezcontentobject_tree.node_id
-                                           AND ezcontentobject_attribute.contentobject_id=ezcontentobject.id
-                                           AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
-                                           AND ezcontentclass.id = ezcontentobject.contentclass_id
-                                           AND ezcontentobject_attribute.id=ezkeyword_attribute_link.objectattribute_id
-                                           AND ezkeyword_attribute_link.keyword_id = ezkeyword.id" );
+            $query = "SELECT count(*) AS count
+                      FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
+                      WHERE ezkeyword.keyword LIKE '$alphabet%'
+                      $sqlPermissionCheckingString
+                      AND ezcontentclass.version=0
+                      AND ezcontentobject.status=".EZ_CONTENT_OBJECT_STATUS_PUBLISHED."
+                      AND ezcontentobject_attribute.version=ezcontentobject.current_version
+                      AND ezcontentobject_tree.main_node_id=ezcontentobject_tree.node_id
+                      AND ezcontentobject_attribute.contentobject_id=ezcontentobject.id
+                      AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
+                      AND ezcontentclass.id = ezcontentobject.contentclass_id
+                      AND ezcontentobject_attribute.id=ezkeyword_attribute_link.objectattribute_id
+                      AND ezkeyword_attribute_link.keyword_id = ezkeyword.id";
         }
+
+        $keyWords =& $db->arrayQuery( $query );
+
         return array( 'result' => $keyWords[0]['count'] );
     }
 
@@ -693,35 +700,39 @@ class eZContentFunctionCollection
 
         if ( $classid != null )
         {
-            $keyWords =& $db->arrayQuery( "SELECT DISTINCT ezkeyword.keyword,ezcontentobject_tree.node_id
-                                           FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
-                                           WHERE ezkeyword.keyword LIKE '$alphabet%'
-                                           $sqlPermissionCheckingString
-                                           AND ezkeyword.class_id='$classid'
-                                           AND ezcontentclass.version=0
-                                           AND ezcontentobject_tree.main_node_id=ezcontentobject_tree.node_id
-                                           AND ezcontentobject_attribute.contentobject_id=ezcontentobject.id
-                                           AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
-                                           AND ezcontentclass.id = ezcontentobject.contentclass_id
-                                           AND ezcontentobject_attribute.id=ezkeyword_attribute_link.objectattribute_id
-                                           AND ezkeyword_attribute_link.keyword_id = ezkeyword.id ORDER BY ezkeyword.keyword ASC",
-                                           $db_params );
+            $query = "SELECT ezkeyword.keyword,ezcontentobject_tree.node_id
+                      FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
+                      WHERE ezkeyword.keyword LIKE '$alphabet%'
+                      $sqlPermissionCheckingString
+                      AND ezkeyword.class_id='$classid'
+                      AND ezcontentclass.version=0
+                      AND ezcontentobject.status=".EZ_CONTENT_OBJECT_STATUS_PUBLISHED."
+                      AND ezcontentobject_attribute.version=ezcontentobject.current_version
+                      AND ezcontentobject_tree.main_node_id=ezcontentobject_tree.node_id
+                      AND ezcontentobject_attribute.contentobject_id=ezcontentobject.id
+                      AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
+                      AND ezcontentclass.id = ezcontentobject.contentclass_id
+                      AND ezcontentobject_attribute.id=ezkeyword_attribute_link.objectattribute_id
+                      AND ezkeyword_attribute_link.keyword_id = ezkeyword.id ORDER BY ezkeyword.keyword ASC";
         }
         else
         {
-            $keyWords =& $db->arrayQuery( "SELECT DISTINCT ezkeyword.keyword,ezcontentobject_tree.node_id
-                                           FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
-                                           WHERE ezkeyword.keyword LIKE '$alphabet%'
-                                           $sqlPermissionCheckingString
-                                           AND ezcontentclass.version=0
-                                           AND ezcontentobject_tree.main_node_id=ezcontentobject_tree.node_id
-                                           AND ezcontentobject_attribute.contentobject_id=ezcontentobject.id
-                                           AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
-                                           AND ezcontentclass.id = ezcontentobject.contentclass_id
-                                           AND ezcontentobject_attribute.id=ezkeyword_attribute_link.objectattribute_id
-                                           AND ezkeyword_attribute_link.keyword_id = ezkeyword.id ORDER BY ezkeyword.keyword ASC",
-                                           $db_params );
+            $query = "SELECT ezkeyword.keyword,ezcontentobject_tree.node_id
+                      FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
+                      WHERE ezkeyword.keyword LIKE '$alphabet%'
+                      $sqlPermissionCheckingString
+                      AND ezcontentclass.version=0
+                      AND ezcontentobject.status=".EZ_CONTENT_OBJECT_STATUS_PUBLISHED."
+                      AND ezcontentobject_attribute.version=ezcontentobject.current_version
+                      AND ezcontentobject_tree.main_node_id=ezcontentobject_tree.node_id
+                      AND ezcontentobject_attribute.contentobject_id=ezcontentobject.id
+                      AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
+                      AND ezcontentclass.id = ezcontentobject.contentclass_id
+                      AND ezcontentobject_attribute.id=ezkeyword_attribute_link.objectattribute_id
+                      AND ezkeyword_attribute_link.keyword_id = ezkeyword.id ORDER BY ezkeyword.keyword ASC";
         }
+
+        $keyWords =& $db->arrayQuery( $query, $db_params );
 
         foreach ( array_keys( $keyWords ) as $key )
         {
