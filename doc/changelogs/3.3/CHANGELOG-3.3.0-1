@@ -112,6 +112,7 @@ eZ template:
 - New template operator 'makedate' for creating timestamp from month, day and year.
 - New template operator 'gettime' for returning time information on a timestamp.
 - New template operator 'roman' for converting numbers into roman numerals
+- Fixed get_type template operator to print out prettier text for nulls and booleans.
 
 eZ xml:
 - Added the functions removeAttributes and removeChildren in eZDOMNode.
@@ -133,6 +134,8 @@ eZ utils:
   MIME type based on url, contents or buffer. Currently only url is implemented fully.
   The system will be able to returned detailed information on the file in a MIME structure.
   The new MIME system is used in conjunction with the new image system.
+- Added functions to eZSys to query the PHP version and to figure out if a specific
+  version is sufficient with the current version.
 
 eZ soap:
 - Added support for arrays and boolean in ezsoapresponse return values

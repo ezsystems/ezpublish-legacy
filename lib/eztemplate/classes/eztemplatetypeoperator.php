@@ -207,7 +207,11 @@ class eZTemplateTypeOperator
                 }
                 else
                     $operand =& $value;
-                if ( is_object( $operand ) )
+                if ( $operand === null )
+                    $value = 'null';
+                else if ( is_bool( $operand ) )
+                    $value = 'boolean[' . ( $operand ? 'true' : 'false' ) . ']';
+                else if ( is_object( $operand ) )
                     $value = 'object[' . get_class( $operand ) . ']';
                 else if ( is_array( $operand ) )
                     $value = 'array[' . count( $operand ) . ']';

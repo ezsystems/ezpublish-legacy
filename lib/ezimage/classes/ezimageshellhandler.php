@@ -51,21 +51,24 @@ class eZImageShellHandler extends eZImageHandler
      Constructor
     */
     function eZImageShellHandler( $handlerName, $outputRewriteType = EZ_IMAGE_HANDLER_REPLACE_SUFFIX,
-                                  $supportedMIMETypes = false, $conversionRules = false, $filters = false, $mimeTagMap = false )
+                                  $supportedInputMIMETypes = false, $supportedOutputMIMETypes = false,
+                                  $conversionRules = false, $filters = false, $mimeTagMap = false )
     {
         $this->eZImageHandler( $handlerName, $outputRewriteType,
-                               $supportedMIMETypes, $conversionRules, $filters, $mimeTagMap );
+                               $supportedInputMIMETypes, $supportedOutputMIMETypes,
+                               $conversionRules, $filters, $mimeTagMap );
         $this->Path = false;
         $this->Executable = false;
         $this->PreParameters = false;
         $this->PostParameters = false;
         $this->UseTypeTag = false;
+        $this->QualityParameters = false;
     }
 
     /*!
      Creates the shell string and runs the executable.
     */
-    function convert( $sourceMimeData, &$destinationMimeData, $filters = false )
+    function convert( &$manager, $sourceMimeData, &$destinationMimeData, $filters = false )
     {
         $argumentList = array();
         $executable = $this->Executable;
@@ -81,6 +84,20 @@ class eZImageShellHandler extends eZImageHandler
 
         if ( $this->PreParameters )
             $argumentList[] = $this->PreParameters;
+
+        $qualityParameters = $this->QualityParameters;
+
+        if ( $qualityParameters and
+             isset( $qualityParameters[$destinationMimeData['name']] ) )
+        {
+            $qualityParameter = $qualityParameters[$destinationMimeData['name']];
+            $outputQuality = $manager->qualityValue( $destinationMimeData['name'] );
+            if ( $outputQuality )
+            {
+                $qualityArgument = eZSys::createShellArgument( $qualityParameter, array( '%1' => $outputQuality ) );
+                $argumentList[] = $qualityArgument;
+            }
+        }
 
         if ( $filters !== false )
         {
@@ -145,9 +162,22 @@ class eZImageShellHandler extends eZImageHandler
             $name = $iniGroup;
             if ( $ini->hasVariable( $iniGroup, 'Name' ) )
                 $name = $ini->variable( $iniGroup, 'Name' );
-            $mimeList = false;
-            if ( $ini->hasVariable( $iniGroup, 'MIMEList' ) )
-                $mimeList = $ini->variable( $iniGroup, 'MIMEList' );
+            $inputMimeList = false;
+            $outputMimeList = false;
+            if ( $ini->hasVariable( $iniGroup, 'InputMIMEList' ) )
+                $inputMimeList = $ini->variable( $iniGroup, 'InputMIMEList' );
+            if ( $ini->hasVariable( $iniGroup, 'OutputMIMEList' ) )
+                $outputMimeList = $ini->variable( $iniGroup, 'OutputMIMEList' );
+            $qualityParameters = false;
+            if ( $ini->hasVariable( $iniGroup, 'QualityParameters' ) )
+            {
+                $qualityParametersRaw = $ini->variable( $iniGroup, 'QualityParameters' );
+                foreach ( $qualityParametersRaw as $qualityParameterRaw )
+                {
+                    $elements = explode( ';', $qualityParameterRaw );
+                    $qualityParameters[$elements[0]] = $elements[1];
+                }
+            }
             $conversionRules = false;
             if ( $ini->hasVariable( $iniGroup, 'ConversionRules' ) )
             {
@@ -158,8 +188,8 @@ class eZImageShellHandler extends eZImageHandler
                     $ruleItems = explode( ';', $ruleString );
                     if ( count( $ruleItems ) >= 2 )
                     {
-                        $conversionRules[] = array( 'from_mimetype' => $ruleItems[0],
-                                                    'to_mimetype' => $ruleItems[1] );
+                        $conversionRules[] = array( 'from' => $ruleItems[0],
+                                                    'to' => $ruleItems[1] );
                     }
                 }
             }
@@ -221,7 +251,8 @@ class eZImageShellHandler extends eZImageHandler
                 }
             }
             $handler = new eZImageShellHandler( $name, $outputRewriteType,
-                                                $mimeList, $conversionRules, $filters, $mimeTagMap );
+                                                $inputMimeList, $outputMimeList,
+                                                $conversionRules, $filters, $mimeTagMap );
             $handler->Path = $path;
             $handler->Executable = $executable;
             $handler->ExecutableWin32 = $executableWin32;
@@ -230,6 +261,7 @@ class eZImageShellHandler extends eZImageHandler
             $handler->PreParameters = $preParameters;
             $handler->PostParameters = $postParameters;
             $handler->UseTypeTag = $useTypeTag;
+            $handler->QualityParameters = $qualityParameters;
             return $handler;
         }
         return false;

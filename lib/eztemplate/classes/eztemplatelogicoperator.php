@@ -411,6 +411,8 @@ class eZTemplateLogicOperator
             {
                 if ( is_array( $value ) )
                     $value = ( count( $value ) == 0 );
+                else if ( is_null( $value ) )
+                    $value = true;
                 else if ( is_object( $value ) and
                           method_exists( $value, "attributes" ) )
                     $value = ( count( $value->attributes() ) == 0 );

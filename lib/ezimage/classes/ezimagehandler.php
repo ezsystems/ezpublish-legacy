@@ -53,10 +53,12 @@ class eZImageHandler
      Constructor
     */
     function eZImageHandler( $handlerName, $outputRewriteType = EZ_IMAGE_HANDLER_REPLACE_SUFFIX,
-                             $supportedMIMETypes = false, $conversionRules = false, $filters = false, $mimeTagMap = false )
+                             $supportedInputMIMETypes = false, $supportedOutputMIMETypes,
+                             $conversionRules = false, $filters = false, $mimeTagMap = false )
     {
         $this->HandlerName = $handlerName;
-        $this->SupportedMIMETypes = $supportedMIMETypes;
+        $this->SupportedInputMIMETypes = $supportedInputMIMETypes;
+        $this->SupportedOutputMIMETypes = $supportedOutputMIMETypes;
         $this->ConversionRules = $conversionRules;
         $this->OutputRewriteType = $outputRewriteType;
         $this->Filters = $filters;
@@ -117,6 +119,14 @@ class eZImageHandler
     {
         return $this->SupportImageFilters;
     }
+
+    /*!
+     \return The conversion rules for this handler.
+    */
+    function conversionRules()
+    {
+        return $this->ConversionRules;
+     }
 
     /*!
      Parses the filter text \a $filterText which is taken from an INI file
@@ -226,14 +236,26 @@ class eZImageHandler
 
     /*!
      \virtual
-     \return an array with MIME type names that the handler supports.
+     \return an array with MIME type names that the handler supports as input.
              MIME type names can also be specified with wildcards, for instance
              image/* to say that all image types are supported.
      \note The default implementation returns the MIME types specified in the constructor
     */
-    function supportedMIMETypes()
+    function supportedInputMIMETypes()
     {
-        return $this->SupportedMIMETypes;
+        return $this->SupportedInputMIMETypes;
+    }
+
+    /*!
+     \virtual
+     \return an array with MIME type names that the handler supports as output.
+             MIME type names can also be specified with wildcards, for instance
+             image/* to say that all image types are supported.
+     \note The default implementation returns the MIME types specified in the constructor
+    */
+    function supportedOutputMIMETypes()
+    {
+        return $this->SupportedOutputMIMETypes;
     }
 
     /*!
@@ -282,6 +304,54 @@ class eZImageHandler
         return $wildcardString;
     }
 
+    function isOutputMIMETypeSupported( $mimeData )
+    {
+        $mimeTypes = $this->supportedOutputMIMETypes();
+        $mimeName = $mimeData;
+        if ( is_array( $mimeData ) )
+            $mimeName = $mimeData['name'];
+        foreach ( $mimeTypes as $mimeType )
+        {
+            if ( strpos( $mimeType, '*' ) !== false )
+            {
+                $matchString = eZImageHandler::wildcardToRegexp( $mimeType );
+                if ( preg_match( "#^" . $matchString . "$#", $mimeName ) )
+                {
+                    return true;
+                }
+            }
+            else if ( $mimeType == $mimeName )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function isInputMIMETypeSupported( $mimeData )
+    {
+        $mimeTypes = $this->supportedInputMIMETypes();
+        $mimeName = $mimeData;
+        if ( is_array( $mimeData ) )
+            $mimeName = $mimeData['name'];
+        foreach ( $mimeTypes as $mimeType )
+        {
+            if ( strpos( $mimeType, '*' ) !== false )
+            {
+                $matchString = eZImageHandler::wildcardToRegexp( $mimeType );
+                if ( preg_match( "#^" . $matchString . "$#", $mimeName ) )
+                {
+                    return true;
+                }
+            }
+            else if ( $mimeType == $mimeName )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /*!
      \virtual
      Figures out the output MIME type for the \a $currentMimeData. It goes trough
@@ -293,51 +363,69 @@ class eZImageHandler
      \param $aliasName An optional name for the current alias being used, if supplied
                        the output MIME structure will have the alias name in the filename.
     */
-    function outputMIMEType( $currentMimeData, $wantedMimeData, $supportedFormats, $aliasName = false )
+    function outputMIMEType( &$manager, $currentMimeData, $wantedMimeData, $supportedFormatsOriginal, $aliasName = false )
     {
-        $conversionRules = $this->ConversionRules;
+        $conversionRules = array_merge( $manager->conversionRules(), $this->conversionRules() );
         $mimeData = false;
         $mimeType = false;
-        if ( $wantedMimeData and
-             $currentMimeData['name'] == $wantedMimeData['name'] )
+        if ( !$this->isInputMIMETypeSupported( $currentMimeData ) )
+            return false;
+
+        if ( $wantedMimeData )
         {
-            $mimeType = $currentMimeData['name'];
+            $conversionRules = array_merge( array( array( 'from' => $currentMimeData['name'],
+                                                          'to' => $wantedMimeData['name'] ) ),
+                                            $conversionRules );
         }
-        else if ( $wantedMimeData and
-                  in_array( $wantedMimeData['name'], $supportedFormats ) )
+
+        $supportedFormats = array();
+        foreach ( $supportedFormatsOriginal as $supportedFormat )
+        {
+            if ( $this->isOutputMIMETypeSupported( $supportedFormat ) )
+            {
+                $supportedFormats[] = $supportedFormat;
+                $conversionRules[] = array( 'from' => $supportedFormat,
+                                            'to' => $supportedFormat );
+            }
+        }
+
+        if ( $wantedMimeData and
+             in_array( $wantedMimeData['name'], $supportedFormats ) )
         {
             $mimeType = $wantedMimeData['name'];
         }
-        else
+        else if ( is_array( $conversionRules ) )
         {
-            if ( is_array( $conversionRules ) )
+            foreach ( $conversionRules as $rule )
             {
-                foreach ( $conversionRules as $rule )
+                if ( !$this->isOutputMIMETypeSupported( $rule['to'] ) or
+                     !in_array( $rule['to'], $supportedFormats ) )
+                    continue;
+                var_dump( $rule );
+
+                $matchRule = false;
+                if ( strpos( $rule['from'], '*' ) !== false )
                 {
-                    $matchRule = false;
-                    if ( strpos( $rule['from_mimetype'], '*' ) !== false )
-                    {
-                        $matchString = eZImageHandler::wildcardToRegexp( $rule['from_mimetype'] );
-                        if ( preg_match( "#^" . $matchString . "$#", $currentMimeData['name'] ) )
-                        {
-                            $matchRule = $rule;
-                        }
-                    }
-                    else if ( $rule['from_mimetype'] == $currentMimeData['name'] )
+                    $matchString = eZImageHandler::wildcardToRegexp( $rule['from'] );
+                    if ( preg_match( "#^" . $matchString . "$#", $currentMimeData['name'] ) )
                     {
                         $matchRule = $rule;
                     }
-                    if ( $matchRule )
+                }
+                else if ( $rule['from'] == $currentMimeData['name'] )
+                {
+                    $matchRule = $rule;
+                }
+                if ( $matchRule )
+                {
+                    if ( $mimeType )
                     {
-                        if ( $mimeType )
-                        {
-                            if ( $wantedMimeData and
-                                 $matchRule['to_mimetype'] == $wantedMimeData['name'] )
-                                $mimeType = $matchRule['to_mimetype'];
-                        }
-                        else
-                            $mimeType = $matchRule['to_mimetype'];
+                        if ( $wantedMimeData and
+                             $matchRule['to'] == $wantedMimeData['name'] )
+                            $mimeType = $matchRule['to'];
                     }
+                    else
+                        $mimeType = $matchRule['to'];
                 }
             }
         }
@@ -370,7 +458,7 @@ class eZImageHandler
      Converts the source file \a $sourceMimeData to the destination file \a $destinationMimeData.
      If \a $filters is supplied then the filters will be applied to the conversion.
     */
-    function convert( $sourceMimeData, &$destinationMimeData, $filters = false )
+    function convert( &$manager, $sourceMimeData, &$destinationMimeData, $filters = false )
     {
     }
 

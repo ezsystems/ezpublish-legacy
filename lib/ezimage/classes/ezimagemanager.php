@@ -127,6 +127,8 @@ class eZImageManager
         $this->ImageFilters = array();
         $this->MIMETypeSettings = array();
         $this->MIMETypeSettingsMap = array();
+        $this->QualityValues = array();
+        $this->QualityValueMap = array();
 
         $ini =& eZINI::instance( 'image.ini' );
         $this->TemporaryImageDirPath = eZSys::cacheDirectory() . '/' . $ini->variable( 'FileSettings', 'TemporaryDir' );
@@ -270,7 +272,7 @@ class eZImageManager
         }
         return false;
     }
-    
+
     function isImageTimestampValid( $timestamp )
     {
         $expiryHandler = eZExpiryHandler::instance();
@@ -449,6 +451,27 @@ class eZImageManager
         return true;
     }
 
+    /*!
+     Binds the quality value \a $qualityValue to the MIME type \a $mimeType.
+    */
+    function appendQualityValue( $mimeType, $qualityValue )
+    {
+        $element = array( 'name' => $mimeType,
+                          'value' => $qualityValue );
+        $this->QualityValues[] = $element;
+        $this->QualityValueMap[$mimeType] = $element;
+    }
+
+    /*!
+     \return the quality value for MIME type \a $mimeType or \c false if none exists.
+    */
+    function qualityValue( $mimeType )
+    {
+        if ( isset( $this->QualityValueMap[$mimeType] ) )
+            return $this->QualityValueMap[$mimeType]['value'];
+        return false;
+    }
+
     function appendMIMETypeSetting( $settings )
     {
         $this->MIMETypeSettings[] =& $settings;
@@ -471,6 +494,84 @@ class eZImageManager
             if ( $settings )
                 $this->appendMIMETypeSetting( $settings );
         }
+    }
+
+    /*!
+     Reads MIME Type quality settings and appends them.
+    */
+    function readMIMETypeQualitySettingFromINI( $iniFile = false )
+    {
+        if ( !$iniFile )
+            $iniFile = 'image.ini';
+        $ini =& eZINI::instance( $iniFile );
+        if ( !$ini )
+            return false;
+        if ( !$ini->hasVariable( 'MIMETypeSettings', 'Quality' ) )
+            return false;
+        $values = $ini->variable( 'MIMETypeSettings', 'Quality' );
+        foreach ( $values as $value )
+        {
+            $elements = explode( ';', $value );
+            $mimeType = $elements[0];
+            $qualityValue = $elements[1];
+            $this->appendQualityValue( $mimeType, $qualityValue );
+        }
+    }
+
+    /*!
+     Reads in global conversion rules from INI file.
+    */
+    function readConversionRuleSettingsFromINI( $iniFile = false )
+    {
+        if ( !$iniFile )
+            $iniFile = 'image.ini';
+        $ini =& eZINI::instance( $iniFile );
+        if ( !$ini )
+            return false;
+        if ( $ini->hasVariable( 'MIMETypeSettings', 'ConversionRules' ) )
+        {
+            $conversionRules = array();
+            $rules = $ini->variable( 'MIMETypeSettings', 'ConversionRules' );
+            foreach ( $rules as $ruleString )
+            {
+                $ruleItems = explode( ';', $ruleString );
+                if ( count( $ruleItems ) >= 2 )
+                {
+                    $conversionRule = array( 'from' => $ruleItems[0],
+                                             'to' => $ruleItems[1] );
+                    $this->appendConversionRule( $conversionRule );
+                }
+            }
+        }
+    }
+
+    /*!
+     Will read in all required INI settings.
+    */
+    function readINISettings()
+    {
+        $this->readImageHandlersFromINI();
+        $this->readSupportedFormatsFromINI();
+        $this->readImageAliasesFromINI();
+        $this->readMIMETypeSettingsFromINI();
+        $this->readMIMETypeQualitySettingFromINI();
+        $this->readConversionRuleSettingsFromINI();
+    }
+
+    /*!
+     Appens a new global conversion rule.
+    */
+    function appendConversionRule( $conversionRule )
+    {
+        $this->ConversionRules[] = $conversionRule;
+    }
+
+    /*!
+     \return The global conversion rules.
+    */
+    function conversionRules()
+    {
+        return $this->ConversionRules;
     }
 
     function readMIMETypeSettingFromINI( $mimeGroup, $iniFile = false )
@@ -873,7 +974,7 @@ class eZImageManager
                     while( $gotMimeData )
                     {
                         $gotMimeData = false;
-                        $outputMimeData = $handler->outputMIMEType( $sourceMimeData, false, $this->SupportedFormats, $aliasName );
+                        $outputMimeData = $handler->outputMIMEType( $this, $sourceMimeData, false, $this->SupportedFormats, $aliasName );
                         if ( $outputMimeData and
                              isset( $supportedMIMEMap[$outputMimeData['name']] ) )
                         {
@@ -916,7 +1017,7 @@ class eZImageManager
                     $handler =& $handlers[$handlerKey];
                     if ( !$handler )
                         continue;
-                    $outputMimeData = $handler->outputMIMEType( $currentMimeData, $destinationMimeData, $this->SupportedFormats, $aliasName );
+                    $outputMimeData = $handler->outputMIMEType( $this, $currentMimeData, $destinationMimeData, $this->SupportedFormats, $aliasName );
                     if ( $outputMimeData['name'] == $destinationMimeData['name'] )
                     {
                         $nextMimeData = $outputMimeData;
@@ -982,7 +1083,7 @@ class eZImageManager
                 }
                 else
                 {
-                    if ( $nextHandler->convert( $currentMimeData, $nextMimeData, $handlerFilters ) )
+                    if ( $nextHandler->convert( $this, $currentMimeData, $nextMimeData, $handlerFilters ) )
                     {
                         if ( $useTempImage )
                             $tempFiles[] = $nextMimeData['url'];

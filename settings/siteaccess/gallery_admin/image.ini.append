@@ -1,5 +1,5 @@
-# NOTE: The same settings are present in gallery_admin
-# Remember to update image.ini.append in gallery_admin if this is updated
+# Copy of image settings from gallery_user
+# Remember to update this if the other image.ini.append is updated
 
 [AliasSettings]
 AliasList[]

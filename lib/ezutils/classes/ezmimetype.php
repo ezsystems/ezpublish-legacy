@@ -454,6 +454,7 @@ class eZMimeType
         array( 'rtf', 'application/rtf' ),
         array( 'sgml', 'application/sgml' ),
         array( 'ppt', 'application/vnd.ms-powerpoint' ),
+        array( 'xls', 'application/vnd.ms-excel' ),
         array( 'slc', 'application/vnd.wap.slc' ),
         array( 'sic', 'application/vnd.wap.sic' ),
         array( 'wmlc', 'application/vnd.wap.wmlc' ),

@@ -157,6 +157,54 @@ class eZSys
     }
 
     /*!
+     \static
+     \return the PHP version as text.
+     \note Calls phpversion().
+    */
+    function phpVersionText()
+    {
+        return phpversion();
+    }
+
+    /*!
+     \static
+     \return the PHP version as an array with the version elements.
+     \example
+     array( 4, 3, 4 )
+     \endexample
+    */
+    function phpVersion()
+    {
+        $text = eZSys::phpVersionText();
+        $elements = explode( '.', $text );
+    }
+
+    /*!
+     \return \c true if the PHP version is equal or higher than \a $requiredVersion.
+     \param $requiredVersion must be an array with version number.
+
+     \code
+     eZSys::isPHPVersionSufficient( array( 4, 1, 0 ) );
+     \endcode
+    */
+    function isPHPVersionSufficient( $requiredVersion )
+    {
+        if ( !is_array( $requiredVersion ) )
+            return false;
+        $phpVersion = eZSys::phpVersion();
+        $len = min( count( $phpVersion ), count( $requiredVersion ) );
+        for ( $i = 0; $i < $len; ++$i )
+        {
+            if ( $phpVersion[$i] > $requiredVersion[$i] )
+                return true;
+            if ( $phpVersion[$i] < $requiredVersion[$i] )
+                return false;
+        }
+        return true;
+    }
+
+    /*!
+     \static
      Escape a string to be used as a shell argument and return it.
     */
     function escapeShellArgument( $argument )
@@ -171,6 +219,7 @@ class eZSys
     }
 
     /*!
+     \static
      Replaces % elements in the argument text \a $argumentText using the replace list \a $replaceList.
      It will also properly escape the argument.
      \sa splitArgumentIntoElements, mergeArgumentElements
@@ -195,6 +244,7 @@ class eZSys
     }
 
     /*!
+     \static
      Splits the argument text into argument array elements.
      It will split text on spaces and set them as strings in the array,
      spaces will be counted and inserted as integers with the space count.
@@ -285,6 +335,7 @@ class eZSys
     }
 
     /*!
+     \static
      Merges an argument list created by splitArgumentIntoElements() back into a text string.
      The argument text will be properly quoted.
     */
@@ -308,6 +359,7 @@ class eZSys
     }
 
     /*!
+     \static
      \return the backup filename for this platform, returns .bak for win32 and ~ for unix and mac.
     */
     function backupFilename()

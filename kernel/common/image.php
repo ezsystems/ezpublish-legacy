@@ -47,10 +47,7 @@ function &imageInit()
 
     $manager = eZImageManager::instance();
 
-    $manager->readImageHandlersFromINI();
-    $manager->readSupportedFormatsFromINI();
-    $manager->readImageAliasesFromINI();
-    $manager->readMIMETypeSettingsFromINI();
+    $manager->readINISettings();
 
     eZImageAnalyzer::readAnalyzerSettingsFromINI();
 
