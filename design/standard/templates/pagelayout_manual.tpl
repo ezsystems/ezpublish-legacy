@@ -284,7 +284,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href="http://sdk.ez.no"}>eZ publish SDK</a></p>
+    <p class="menuitem"><a class="menuitem" href="http://ez.no/sdk"}>eZ publish SDK</a></p>
     </td>
 </tr>
 </table>

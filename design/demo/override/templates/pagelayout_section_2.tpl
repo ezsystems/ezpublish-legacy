@@ -138,7 +138,7 @@ function OpenWindow ( URL, WinName, Features ) {
               </table>
             </div>
 	    <br />
-	    <center><a href="http://developer.ez.no"><img src={"powered-by-ezpublish-100x35-trans-lgrey.gif"|ezimage} alt="eZ publish" border="0" width="100" height="35" /></a></center>
+	    <center><a href="http://ez.no/developer"><img src={"powered-by-ezpublish-100x35-trans-lgrey.gif"|ezimage} alt="eZ publish" border="0" width="100" height="35" /></a></center>
             </td>
 {*
     <td bgcolor="#cccccc" valign="top" width="150">
@@ -153,7 +153,7 @@ function OpenWindow ( URL, WinName, Features ) {
 <tr>
     <td bgcolor="#e2e2e2" colspan="2">
     <div align="left" style="padding: 0.5em;">
-    <p class="small"><a href="http://developer.ez.no">eZ publish&trade;</a> copyright &copy; 1999-2003 <a href="http://ez.no">eZ systems as</a></p>
+    <p class="small"><a href="http://ez.no/developer">eZ publish&trade;</a> copyright &copy; 1999-2003 <a href="http://ez.no">eZ systems as</a></p>
     </div>
     </td>
 </tr>

@@ -48,7 +48,7 @@
 <h2 id="whatyouneed">What you need</h2>
 
 <p>
-eZ publish 3 requires two programs to create and maintain translations, <b>ezlupdate</b> and <b>linguist</b>. These programs are based on the same tools from the Qt toolkit by <a href="http://www.trolltech.com">Trolltech</a>. The unix version of this toolkit is released under the GPL. eZ systems provides binaries for Windows and Mac OS X, see the translations page on <a href="http://developer.ez.no">developer.ez.no</a>.
+eZ publish 3 requires two programs to create and maintain translations, <b>ezlupdate</b> and <b>linguist</b>. These programs are based on the same tools from the Qt toolkit by <a href="http://www.trolltech.com">Trolltech</a>. The unix version of this toolkit is released under the GPL. eZ systems provides binaries for Windows and Mac OS X, see the translations page on <a href="http://ez.no/developer">ez.no/developer</a>.
 </p>
 
 <p>

@@ -174,7 +174,7 @@ blue-1:2:2 Number: 3<br/>
 <h3>Looping over a multi-dim array</h3>
 
 <table>
-<th>URI</th><th>Name</th><tr><td>odd - http://ez.no</td><td class=odd>eZ home</td></tr><tr><td>even - http://zez.org</td><td class=even>ZeZ</td></tr><tr><td>odd - http://developer.ez.no</td><td class=odd>eZ developer</td></tr></table>
+<th>URI</th><th>Name</th><tr><td>odd - http://ez.no</td><td class=odd>eZ home</td></tr><tr><td>even - http://zez.org</td><td class=even>ZeZ</td></tr><tr><td>odd - http://.ez.no/developer</td><td class=odd>eZ developer</td></tr></table>
 
 
 <p>Show list=off</p>
@@ -200,7 +200,7 @@ blue-1:2:2 Number: 3<br/>
 //                                           "name" => "eZ home" ),
 //                                    array( "uri" => "http://zez.org",
 //                                           "name" => "ZeZ" ),
-//                                    array( "uri" => "http://developer.ez.no",
+//                                    array( "uri" => "http://ez.no/developer",
 //                                           "name" => "eZ developer" ) ),
 //                    "menu" );
 // $tpl->setVariable( "show_list", false );

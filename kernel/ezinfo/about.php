@@ -39,7 +39,7 @@ $ezinfo = array( 'version' => eZPublishSDK::version( true ),
                  'version_alias' => eZPublishSDK::version( true, true ) );
 
 
-$text = "<a href=\"http://developer.ez.no\"><h3>About eZ publish " . eZPublishSDK::version( true )  ." ( " . eZPublishSDK::version( true, true ). " )</h3></a>
+$text = "<a href=\"http://ez.no/developer\"><h3>About eZ publish " . eZPublishSDK::version( true )  ." ( " . eZPublishSDK::version( true, true ). " )</h3></a>
 <hr noshade=\"noshade\"  />
 
 <h3>What is eZ publish?</h3>
@@ -102,7 +102,7 @@ info@ez.no.
 </ul>
 
 <p>
-It is released under the <a href=\"http://www.gnu.org/copyleft/gpl.html\">GPL license</a> and can be downloaded from <a href=\"http://developer.ez.no\">developer.ez.no</a>.
+It is released under the <a href=\"http://www.gnu.org/copyleft/gpl.html\">GPL license</a> and can be downloaded from <a href=\"http://ez.no/developer\">ez.no/developer</a>.
 You can get commercial support from <a href=\"http://ez.no\">eZ systems</a> at <a href=\"http://ez.no\">ez.no</a>.
 </p>";
 

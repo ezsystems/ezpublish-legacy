@@ -270,7 +270,7 @@ function processList( &$module )
 </table>
 <br />
 <center>
-<a href="http://developer.ez.no">eZ publish&trade;</a> copyright &copy; 1999-2003 <a href="http://ez.no">eZ systems as</a>
+<a href="http://ez.no/developer">eZ publish&trade;</a> copyright &copy; 1999-2003 <a href="http://ez.no">eZ systems as</a>
 </center>
 <br />
 </body></html>';
@@ -550,7 +550,7 @@ function process( &$module, $component, $command, $part, $rest )
 
 <br />
 <center>
-<a href="http://developer.ez.no">eZ publish&trade;</a> copyright &copy; 1999-2003 <a href="http://ez.no">eZ systems as</a>
+<a href="http://ez.no/developer">eZ publish&trade;</a> copyright &copy; 1999-2003 <a href="http://ez.no">eZ systems as</a>
 </center>
 <br />
 </body></html>';

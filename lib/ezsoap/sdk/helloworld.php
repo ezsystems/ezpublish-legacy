@@ -56,12 +56,12 @@ $client = new eZSOAPClient( "myserver.com", "/helloworld" );
 <p>
 You need to prepare a request object to send. In this example
 we have a simple request without any parameters. All we need to do is to give the
-request name, <b>helloWorld</b>, and the target namespace, <b>http://sdk.ez.no/soap/examples</b>.
+request name, <b>helloWorld</b>, and the target namespace, <b>http://ez.no/sdk/soap/examples</b>.
 This object is then sent to the server via the client.
 </p>
 
 <pre class="example">
-$request = new eZSOAPRequest( "helloWorld", "http://sdk.ez.no/soap/examples" );
+$request = new eZSOAPRequest( "helloWorld", "http://ez.no/sdk/soap/examples" );
 
 $response =& $client->send( $request );
 </pre>
@@ -124,7 +124,7 @@ function helloWorld()
 
 
 // $client = new eZSOAPClient( eZSys::hostname(), eZSys::wwwDir() .  eZSys::indexFile() . "/sdk/ezsoap/view/helloworldserver" );
-// $request = new eZSOAPRequest( "helloWorld", "http://sdk.ez.no/soap/examples" );
+// $request = new eZSOAPRequest( "helloWorld", "http://ez.no/sdk/soap/examples" );
 
 // $response =& $client->send( $request );
 

@@ -14,8 +14,8 @@
 
 <h2>{"Congratulations, eZ publish should now run on your system."|i18n("design/standard/setup/init")}</h2>
 <p>
-{"If you need help with eZ publish, you can go to the"|i18n("design/standard/setup/init")} <a target="_other" href="http://developer.ez.no">{"eZ publish website"|i18n("design/standard/setup/init")}</a>.
-{"If you find a bug (error), please go to"|i18n("design/standard/setup/init")} <a target="_other" href="http://developer.ez.no/developer/bugreports/">{"eZ publish bug reports"|i18n("design/standard/setup/init")}</a> {"and report it."|i18n("design/standard/setup/init")}
+{"If you need help with eZ publish, you can go to the"|i18n("design/standard/setup/init")} <a target="_other" href="http://ez.no/developer">{"eZ publish website"|i18n("design/standard/setup/init")}</a>.
+{"If you find a bug (error), please go to"|i18n("design/standard/setup/init")} <a target="_other" href="http://ez.no/developer/bugreports/">{"eZ publish bug reports"|i18n("design/standard/setup/init")}</a> {"and report it."|i18n("design/standard/setup/init")}
 {"With your help we can fix the errors eZ publish might have and implement new features."|i18n("design/standard/setup/init")}
 </p>
 <p>

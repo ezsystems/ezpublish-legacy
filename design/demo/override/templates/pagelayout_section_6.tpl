@@ -162,7 +162,7 @@ function OpenWindow ( URL, WinName, Features ) {
 
 <div class="credits" align="center">
 <p>Copyright &copy; <a href="http://ez.no">eZ systems as</a><br />1999-2003</p>
-<a href="http://developer.ez.no"><img src={"powered-by-ezpublish-100x35-trans-lgrey.gif"|ezimage} alt="Powered eZ publish" border="0" width="100" height="35" /></a>
+<a href="http://ez.no/developer"><img src={"powered-by-ezpublish-100x35-trans-lgrey.gif"|ezimage} alt="Powered eZ publish" border="0" width="100" height="35" /></a>
 </div>
 
     </td>

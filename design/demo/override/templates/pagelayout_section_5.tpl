@@ -92,7 +92,7 @@
 	    <br />
 	    <br />
 	    <center>
-	    <a href="http://developer.ez.no"><img src={"powered-by-ezpublish-100x35-grey.gif"|ezimage} alt="eZ publish" border="0" width="100" height="35" /></a>
+	    <a href="http://ez.no/developer"><img src={"powered-by-ezpublish-100x35-grey.gif"|ezimage} alt="eZ publish" border="0" width="100" height="35" /></a>
 	    </center>
 
             </td>

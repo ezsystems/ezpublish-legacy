@@ -42,7 +42,7 @@ defined in this document. The code in eZ publish must follow this standard to en
 </p>
 <p>
 To easier comply with this coding standard we recommend using emacs with our configuration files which handles proper
-indenting and other nice features. You can get it from: <a href="http://developer.ez.no/filemanager/list/31/">http://developer.ez.no/filemanager/list/31/</a>
+indenting and other nice features.
 </p>
 
 <h1>Files </h1>
@@ -404,7 +404,7 @@ Functions that do not access member variables should be static.
 <h1>Commenting</h1>
 <p>
 The comments used should be written to comply with the syntax of the Doxygen tool. This tool, which is used
-to generate class reference documentation, is available at <a href="http://sdk.ez.no">http://sdk.ez.no.</a>.
+to generate class reference documentation, is available at <a href="http://ez.no/sdk">http://ez.no/sdk</a>.
 </p>
 
 <pre class="example">

@@ -12,7 +12,7 @@ implemented and ready for you to use.
 
 <p>
 eZ publish comes with an SDK, a software development kit, available at
-<a href="http://sdk.ez.no">sdk.ez.no</a> and <a href={"/sdk"|ezurl}>locally</a>,
+<a href="http://ez.no/sdk">ez.no/sdk</a> and <a href={"/sdk"|ezurl}>locally</a>,
 depending on your setup. The SDK is a toolkit with documentation,
 examples and reference documentation on the eZ publish libraries and eZ publish
 kernel.

@@ -400,5 +400,5 @@ eZ publish is used worldwide by thousands of websites. People use eZ publish for
 their company sites, e-commerce sites, portals, and intranets. These functions
 are only some of the possibilities that will be available with eZ publish 3. You
 will find more information about eZ publish 3 and the many possibilities on
-<a href="http://developer.ez.no">http://developer.ez.no.</a>
+<a href="http://ez.no/developer">http://ez.no/developer</a>.
 </p>
