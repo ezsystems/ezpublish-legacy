@@ -40,10 +40,7 @@
 */
 
 include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-
-// The line separator as defined by RFC 2045
-// Using \n as a separator is not correct
-define( 'EZ_MAIL_LINE_SEPARATOR', "\r\n" );
+include_once( 'lib/ezutils/classes/ezini.php' );
 
 class eZMail
 {
@@ -72,6 +69,12 @@ class eZMail
                                     'transfer-encoding' => '8bit',
                                     'disposition' => 'inline' );
         $this->UserAgent = "eZ publish, Version $version";
+
+        if (! defined( 'EZ_MAIL_LINE_SEPARATOR' ) )
+        {
+            $ini =& eZINI::instance( 'site.ini' );
+            define( 'EZ_MAIL_LINE_SEPARATOR', urldecode( $ini->variable( 'MailSettings', 'HeaderLineEnding' ) ) );
+        }
     }
 
     /*!
