@@ -1,21 +1,22 @@
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
+
 <head>
     <title>eZ publish Setup - Step {$step}</title>
-    <link rel="stylesheet" type="text/css" href="design/standard/stylesheets/core.css" />
-    <link rel="stylesheet" type="text/css" href="design/standard/stylesheets/admin.css" />
-    <link rel="stylesheet" type="text/css" href="design/standard/stylesheets/debug.css" />
+
+    <link rel="stylesheet" type="text/css" href="/design/standard/stylesheets/core.css" />
+    <link rel="stylesheet" type="text/css" href="/design/standard/stylesheets/debug.css" />
 </head>
 <body>
 
-
-<div align="center">
     <h1>eZ publish setup</h1>
-    <h3>- Step {$step} -</h3>
-    <hr width="50%" />
+
+    <h2>Step {$step}</h2>
 
     <form method="post" action="{$script}">
 
-        <table width="600" border="0" cellspacing="0" cellpadding="0">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
         {section name=unpackDemo show=$unpackDemo}
         <tr>
             <td class="normal">Trying to unpack the demo data:</td>
@@ -60,7 +61,7 @@
                 <input type="hidden" name="nextStep" value="{$nextStep}" />
                 <p><button name="buttonNextStep" type="submit">Next step</button></p>
             {section-else}
-                <h2>Error:</h2>
+                <h2>Error</h2>
                 <table border="0" cellspacing="5" cellpadding="5">
                 <tr valign="top">
                     <td class="normal"><b>Description:</b></td>
@@ -81,6 +82,6 @@
         <input type="hidden" name="{$handover:item.name}" value="{$handover:item.value}" />
         {/section}
     </form>
-</div>
+
 </body>
 </html>

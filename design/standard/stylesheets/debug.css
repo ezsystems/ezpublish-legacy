@@ -33,3 +33,54 @@ p.comment /* Class to be used during development for quick comments that someone
     border: 2px dashed;
     display: block; /* Set this attribute to "none" to hide the comments */
 }
+
+/* eZSetup stuff */
+td.ezsetup_header
+{
+	background-color : #eeeeee;
+	border-top : 1px solid #444488;
+	border-bottom : 1px solid #444488;
+	font-size : 120%;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+td.ezsetup_req
+{
+	font-size : 80%;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+.ezsetup_critical
+{
+	background-color : #eeeeee;
+	border-top : 1px solid #444488;
+	border-bottom : 1px solid #444488;
+	font-size : 120%;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+	color: #FF0000;
+}
+
+.ezsetup_uncritical
+{
+	background-color : #eeeeee;
+	border-top : 1px solid #444488;
+	border-bottom : 1px solid #444488;
+	font-size : 120%;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+
+	/*color: #E8E800;*/
+	color: #E2A31D;
+}
+
+.ezsetup_pass
+{
+	background-color : #eeeeee;
+	border-top : 1px solid #444488;
+	border-bottom : 1px solid #444488;
+	font-size : 120%;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+
+	color: #00B500;
+}
+

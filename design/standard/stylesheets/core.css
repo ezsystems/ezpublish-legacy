@@ -1,10 +1,11 @@
 /* eZ publish 3 core CSS - th[eZ] 20021129                              */
+
 /* Do not remove or delete this stylesheet, because some basic          */
 /* formatting methods in the system depends on it for proper display.   */
 /* Just modify and/or override styles where necessary, and remove all   */
 /* comments when they're not needed anymore (minimizes the file size).  */
 
-/* MAIN WINDOW */
+/* MAIN WINDOW SETTINGS */
 
 body
 {
@@ -22,6 +23,8 @@ h1, h2, h3, p, a, th, td, ul, ol, li, dl, dd, dt, label, div, span, input, texta
 
 /* GLOBAL SETTING OF FONT SIZES */
 
+/* All font sizes are set in % and most margins and paddings in em's, this is to make them all dynamic. */
+
 h1
 {
     font-size: 160%;
@@ -38,16 +41,19 @@ h3
 }
 
 p, ul, ol, dl, label, div.block input, div.block select, .normal, table.list th, table.list td
+/* This is the "regular" font size. */
 {
     font-size: 80%;
 }
 
 .small, div.byline p, p.picturetext, .factbox
+/* Be careful not to make this size unreadable (blurred) by making it too small. */
 {
     font-size: 65%;
 }
 
 td.bglight .small, td.bgdark .small
+/* This is a trick to make the smaller size appear correct when using preformatted % sizes in the table lists. */
 {
     font-size: 80%;
 }
@@ -91,6 +97,7 @@ p
 /* LINKS */
 
 a
+/* This is the standard formatting of all links if no other style is used. */
 {
     color: #0000a0;
     text-decoration: underline;
@@ -104,14 +111,9 @@ a:hover
 }
 
 a img
-/* Some browsers may display a border around a linked image without this attribute set. */
+/* Some browsers may display a border around a linked image without this attribute set to _none_. */
 {
     border: none;
-}
-
-th a
-{
-    color: #000000;
 }
 
 /* NOT USED
@@ -130,8 +132,14 @@ table
     padding: 0px;
 }
 
+table.layout
+/* This style is defined for the use of marking tables only used for general layout. */
+{
+    /* Not to be formatted; only used as an identifier. */
+}
+
 table.list
-/* Used on all "proper" data lists presented by tables; i.e. NOT on tables use for general layout. */
+/* Used on all "proper" data lists presented by tables; i.e. not on tables use for general layout. */
 {
     margin-top: 0.5ex;
     margin-bottom: 1ex;
@@ -169,6 +177,7 @@ td.bgdark, td.bgdarkextra
 }
 
 td.tight
+/* Special style used for forcing a tabel cell to wrap tight around an image in an layout table. */
 {
     font-size: 1px;
 }
@@ -270,11 +279,14 @@ input.button:hover
 }
 
 p.box
+/* Used on text (i.e. data other than form elements) shown under a label. */
+/* Pads the distance to the label properly so it looks visually at the same height as a text in an input line. */
 {
     padding-top: 0.25ex;
 }
 
 optgroup
+/* Newer browsers usually supports this tag; may come in handy to visually divide a select dropdown into several parts. */
 {
     font-weight: bold;
     font-style: normal;
@@ -283,6 +295,7 @@ optgroup
 /* PAGE DIVIDERS */
 
 div.left
+/* To be used with the div.right class, to align a left hand element to the left edge. */
 {
     float: left;
     display: block;
@@ -291,18 +304,14 @@ div.left
 }
 
 div.right
+/* To be used with the div.left class, to align a right hand element to the right edge. */
+/* Should be followed by the div.break class for proper float/break termination */
 {
     float: left;
     text-align: right;
     display: block;
     width: 50%;
     clear: right;
-}
-
-div.bodyblock
-{
-    padding-top: 0.5ex;
-    padding-bottom: 0.5ex;
 }
 
 div.block, div.step
@@ -354,6 +363,17 @@ div.maincontentheader
 div.byline
 {
     margin-bottom: 8px;
+}
+
+div.bodyblock
+{
+    padding-top: 0.5ex;
+    padding-bottom: 0.5ex;
+}
+
+div.bodyblock p.body
+{
+    display: inline;
 }
 
 div.imageleft, div.imageright, div.faxtboxleft, div.faxtboxright, div.leftobject, div.rightobject
@@ -410,14 +430,9 @@ div.imageleft p.picturetext, div.imageright p.picturetext, span.picturetext, p.f
     background-color: #f0f0f0;
 }
 
-div.bodyblock p.body
-{
-    display: inline;
-}
-
 /* MESSAGES TO THE USER */
 
-.description
+p.description
 {
     background-color: #f8f8f8;
 }
@@ -475,54 +490,4 @@ div.listicon
 div.listbutton
 {
     padding-right: 4px;
-}
-
-/* eZSetup stuff */
-td.ezsetup_header
-{
-	background-color : #eeeeee;
-	border-top : 1px solid #444488;
-	border-bottom : 1px solid #444488;
-	font-size : 120%;
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-}
-
-td.ezsetup_req
-{
-	font-size : 60%;
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-}
-
-.ezsetup_critical
-{
-	background-color : #eeeeee;
-	border-top : 1px solid #444488;
-	border-bottom : 1px solid #444488;
-	font-size : 120%;
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-    font-weight: bold;
-	color: #FF0000;
-}
-
-.ezsetup_uncritical
-{
-	background-color : #eeeeee;
-	border-top : 1px solid #444488;
-	border-bottom : 1px solid #444488;
-	font-size : 120%;
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-
-	/*color: #E8E800;*/
-	color: #E2A31D;
-}
-
-.ezsetup_pass
-{
-	background-color : #eeeeee;
-	border-top : 1px solid #444488;
-	border-bottom : 1px solid #444488;
-	font-size : 120%;
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-
-	color: #00B500;
 }

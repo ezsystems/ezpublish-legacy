@@ -1,25 +1,23 @@
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
+
 <head>
     <title>eZ publish Setup - Step {$step}</title>
-    <link rel="stylesheet" type="text/css" href="design/standard/stylesheets/core.css" />
-    <link rel="stylesheet" type="text/css" href="design/standard/stylesheets/admin.css" />
-    <link rel="stylesheet" type="text/css" href="design/standard/stylesheets/debug.css" />
+
+    <link rel="stylesheet" type="text/css" href="/design/standard/stylesheets/core.css" />
+    <link rel="stylesheet" type="text/css" href="/design/standard/stylesheets/debug.css" />
 </head>
 <body>
 
-
-<div align="center">
     <h1>eZ publish setup</h1>
-    <h3>- Step {$step} -</h3>
 
-    <table width="600" border="0" cellspacing="0" cellpadding="0">
-    <tr>
-        <td>
-            <hr />
-            <p>Now we need information about the database eZ publish should use.</p>
-            <p>
+    <h2>Step {$step}</h2>
+
+            <p class="decription">Now we need information about the database eZ publish should use.</p>
+
             <form method="post" action="{$script}">
-                <table border="0" cellspacing="0" cellpadding="0">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                     <td class="normal">Database type:</td>
                     <td rowspan="7" class="normal">&nbsp;&nbsp;</td>
@@ -103,10 +101,6 @@
                 <input type="hidden" name="nextStep" value="{$nextStep}" />
                 <p align="center"><button name="buttonNextStep" type="submit">Next step</button></p>
             </form>
-            </td>
-        </tr>
-    </table>
 
-</div>
 </body>
 </html>

@@ -189,12 +189,12 @@ td.bgdark, td.bgdarkextra
 	background-color: #f0faff;
 }
 
-th.bglight, td.bglightextra
+td.bglight, td.bglightextra
 {
 	background-color: #f8fdff;
 }
 
-th.bgdark, td.bgdarkextra
+td.bgdark, td.bgdarkextra
 {
 	background-color: #f0faff;
 }
@@ -234,4 +234,10 @@ input.menubutton
     font-weight: bold;
     font-size: 70%;
     margin: 4px;
-}                                                                                                                                                                                                                                 
+}
+
+th a
+{
+    color: #000000;
+}
+                                                                                                                                                                                                            
