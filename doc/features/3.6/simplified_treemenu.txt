@@ -12,7 +12,7 @@ Simplified treemenu based on ContentStructure menu.
 To use simplified treemenu, you have to insert appropriate include
 simplified_treemenu.tpl file in your template. For example:
 
-    {*include uri='design:simplified_treemenu/content_structure_menu.tpl'*}
+    {*include uri='design:simplified_treemenu/simplified_treemenu.tpl'*}
 
 And set up appropriate classes as chapter classes in contentstructuremenu.ini
 file, using ChapterClasses array. For example:

@@ -29,7 +29,7 @@
 
                 {* Fold/Unfold/Empty: [-]/[+]/[ ] *}
                 {section show=or($:haveChildren, $:isRootNode)}
-                   <a class="openclose" href="#" title="{'Fold/Unfold'|i18n('design/admin/lightTOCmenu')}"></a>
+                   <a class="openclose" href="#" title="{'Fold/Unfold'|i18n('design/admin/simplified_treemenu')}"></a>
                 {section-else}
                     <span class="openclose"></span>
                 {/section}
@@ -45,8 +45,8 @@
                         {set visibility = 'Hidden'}
                     {/section}
                     {set toolTip = 'Node ID: %node_id Visibility: %visibility' |
-                                    i18n("lightTOCmenu/show_content_structure", , hash( '%node_id'      , $:parentNode.node.node_id,
-                                                                                                '%visibility'   , $:visibility ) ) }
+                                    i18n("simplified_treemenu/show_simplified_menu", , hash( '%node_id'      , $:parentNode.node.node_id,
+                                                                                             '%visibility'   , $:visibility ) ) }
                 {section-else}
                     {set toolTip = ''}
                 {/section}
