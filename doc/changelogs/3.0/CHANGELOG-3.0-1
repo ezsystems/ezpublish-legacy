@@ -95,6 +95,7 @@ links to clickable links.
 - Fixed bug with numbering in nice urls
 - Fixed problem with multiple word search
 - Added stopword support in search engine for searching large ammounts of data
+- Fixed rendering of custom tag as a block tag
 
 *SDK :
 
