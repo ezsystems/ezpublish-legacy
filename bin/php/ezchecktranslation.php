@@ -47,9 +47,9 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish Translation
 
 $script->startup();
 
-$options = $script->getOptions( "",
+$options = $script->getOptions( "[ignore-tr-setup]",
                                 "[translation]",
-                                array( ) );
+                                array( 'ignore-tr-setup' => 'Tells the analyzer to skip all translations regarding the setup' ) );
 $script->initialize();
 
 if ( count( $options['arguments'] ) < 1 )
@@ -70,7 +70,7 @@ $cli->output( $cli->stylize( 'file', $translationFile ) . ":", false );
 $cli->output( " loading", false );
 $fd = fopen( $translationFile, "rb" );
 $transXML = fread( $fd, filesize( $translationFile ) );
-fclose( $translationFile );
+fclose( $fd );
 
 include_once( "lib/ezxml/classes/ezxml.php" );
 $xml = new eZXML();
@@ -119,15 +119,18 @@ function handleContextNode( &$context, &$cli, &$data )
         return false;
     }
 
-    foreach( $messages as $message )
+    if ( !in_array( $contextName, $data['ignored_context_list'] ) )
     {
-        $data['element_count']++;
-        handleMessageNode( $contextName, $message, $cli, $data );
+        foreach( $messages as $message )
+        {
+            $data['element_count']++;
+            handleMessageNode( $contextName, $message, $cli, $data, true );
+        }
     }
     return true;
 }
 
-function handleMessageNode( $contextName, &$message, &$cli, &$data )
+function handleMessageNode( $contextName, &$message, &$cli, &$data, $requireTranslation )
 {
     $source = null;
     $translation = null;
@@ -194,6 +197,19 @@ $data = array( 'element_count' => 0,
                'translated_element_count' => 0,
                'untranslated_element_count' => 0,
                'obsolete_element_count' => 0 );
+$data['ignored_context_list'] = array();
+
+if ( $options['ignore-tr-setup'] )
+{
+    $data['ignored_context_list'] = array_merge( $data['ignored_context_list'],
+                                                 array( 'design/standard/setup',
+                                                        'design/standard/setup/datatypecode',
+                                                        'design/standard/setup',
+                                                        'design/standard/setup/db',
+                                                        'design/standard/setup/init',
+                                                        'design/standard/setup/operatorcode',
+                                                        'design/standard/setup/tests' ) );
+}
 
 $treeRoot =& $tree->Root;
 $children =& $treeRoot->Children;
