@@ -101,3 +101,8 @@ Source=node/view/full.tpl
 MatchFile=poll.tpl
 Subdir=templates
 Match[class]=25
+
+[poll_result]
+Source=content/collectedinfo/poll.tpl
+MatchFile=poll_result.tpl
+Subdir=templates
