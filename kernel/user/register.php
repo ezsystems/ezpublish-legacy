@@ -144,6 +144,29 @@ if ( !function_exists( 'checkContentActions' ) )
             $user =& eZUser::fetch( $object->attribute( 'id' ) );
             $user->loginCurrent();
 
+            $receiver = $user->attribute( 'email' );
+            $mail = new eZMail();
+            if ( !$mail->validate( $receiver ) )
+            {
+            }
+            include_once( "kernel/common/template.php" );
+            include_once( 'lib/ezutils/classes/ezmail.php' );
+            include_once( 'lib/ezutils/classes/ezmailtransport.php' );
+            $tpl =& templateInit();
+            $tpl->setVariable( 'user', $user );
+            $password = $http->sessionVariable( "GeneratedPassword" );
+
+            $tpl->setVariable( 'password', $password );
+
+            $templateResult =& $tpl->fetch( 'design:user/registrationinfo.tpl' );
+
+            
+            $mail->setReceiver( $receiver );
+            $mail->setSubject( 'registration info' );
+            $mail->setBody( $templateResult );
+            $mailResult = eZMailTransport::send( $mail );
+
+            $http->removeSessionVariable( "GeneratedPassword" );
             $http->removeSessionVariable( "RegisterUserID" );
 
             // check for redirectionvariable

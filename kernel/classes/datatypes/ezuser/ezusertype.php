@@ -124,19 +124,25 @@ class eZUserType extends eZDataType
                                                                          'eZUserType' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
-                if ( ( $password != $passwodConfirm ) || ( $password == "" ) )
+
+                $ini =& eZINI::instance();
+                $generatePasswordIfEmpty = $ini->variable( "UserSettings", "GeneratePasswordIfEmpty" ) == 'true';
+                if ( !$generatePasswordIfEmpty || ( $password != "" ) )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'Please confirm your password.',
-                                                                         'eZUserType' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                }
-                if ( strlen( $password ) < 3 )
-                {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'The minimum length of password should be 3.',
-                                                                         'eZUserType' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    if ( ( $password != $passwodConfirm ) || ( $password == "" ) )
+                    {
+                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                             'Please confirm your password.',
+                                                                             'eZUserType' ) );
+                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    }
+                    if ( strlen( $password ) < 3 )
+                    {
+                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                             'The minimum length of password should be 3.',
+                                                                             'eZUserType' ) );
+                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    }
                 }
             }
         }
@@ -151,8 +157,8 @@ class eZUserType extends eZDataType
         $login = $http->postVariable( $base . "_data_user_login_" . $contentObjectAttribute->attribute( "id" ) );
         $email = $http->postVariable( $base . "_data_user_email_" . $contentObjectAttribute->attribute( "id" ) );
         $password = $http->postVariable( $base . "_data_user_password_" . $contentObjectAttribute->attribute( "id" ) );
-        if ( $password == '' )
-            $password = null;
+
+
 
         $passwordConfirm = $http->postVariable( $base . "_data_user_password_confirm_" . $contentObjectAttribute->attribute( "id" ) );
 
@@ -164,6 +170,23 @@ class eZUserType extends eZDataType
             $user =& eZUser::create( $contentObjectID );
         }
 
+        $ini =& eZINI::instance();
+        $generatePasswordIfEmpty = $ini->variable( "UserSettings", "GeneratePasswordIfEmpty" );
+        if (  $password == "" )
+        {
+            if ( $generatePasswordIfEmpty == 'true' )
+            {
+                $passwordLength = $ini->variable( "UserSettings", "GeneratePasswordLength" );
+                $password = $user->createPassword( $passwordLength );
+                $http->setSessionVariable( "GeneratedPassword", $password );
+            }
+            else
+            {
+                $password = null;
+            }
+        }
+
+        eZDebug::writeNotice( $password, "password" );
         eZDebug::writeNotice( "setInformation", "ezusertype" );
         if ( $password != "password" )
             $user->setInformation( $contentObjectID, $login, $email, $password );

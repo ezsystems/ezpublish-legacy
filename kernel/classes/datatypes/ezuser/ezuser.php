@@ -191,11 +191,11 @@ class eZUser extends eZPersistentObject
         if ( $type == 'md5_site' )
             return EZ_USER_PASSWORD_HASH_MD5_SITE;
         else if ( $type == 'md5_user' )
-            return EZ_USER_PASSWORD_HASH_MD5_PASSWORD;
+            return EZ_USER_PASSWORD_HASH_MD5_USER;
         else if ( $type == 'plaintext' )
             return EZ_USER_PASSWORD_HASH_PLAINTEXT;
         else
-            return EZ_USER_PASSWORD_HASH_MD5_USER;
+            return EZ_USER_PASSWORD_HASH_MD5_PASSWORD;
     }
 
     /*!
@@ -293,28 +293,41 @@ class eZUser extends eZPersistentObject
         {
             include_once( 'lib/ezutils/classes/ezini.php' );
             $ini =& eZINI::instance();
-            $userID = $users[0]['contentobject_id'];
-            $hashType = $users[0]['password_hash_type'];
-            $hash = $users[0]['password_hash'];
-            $exists = eZUser::authenticateHash( $login, $password, eZUser::site(),
-                                                $hashType,
-                                                $hash );
-            $userSetting = eZUserSetting::fetch( $userID );
-            $isEnabled = $userSetting->attribute( "is_enabled" );
-            if ( $hashType != eZUser::hashType() and
-                 strtolower( $ini->variable( 'UserSettings', 'UpdateHash' ) ) == 'true' )
+            foreach ( array_keys( $users ) as $key )
             {
-                $hashType = eZUser::hashType();
-                $hash = eZUser::createHash( $login, $password, eZUser::site(),
-                                            $hashType );
-                $db->query( "UPDATE ezuser SET password_hash='$hash', password_hash_type='$hashType' WHERE login='$login'" );
+                $userRow =& $users[$key];
+                $userID = $userRow['contentobject_id'];
+                $hashType = $userRow['password_hash_type'];
+                $hash = $userRow['password_hash'];
+                $exists = eZUser::authenticateHash( $userRow['login'], $password, eZUser::site(),
+                                                    $hashType,
+                                                    $hash );
+                eZDebug::writeDebug( eZUser::createHash( $userRow['login'], $password, eZUser::site(),
+                                                         $hashType ), "check hash" );
+                eZDebug::writeDebug( $hash, "stored hash" );
+                if ( $exists )
+                {
+                    $userSetting = eZUserSetting::fetch( $userID );
+                    $isEnabled = $userSetting->attribute( "is_enabled" );
+                    if ( $hashType != eZUser::hashType() and
+                         strtolower( $ini->variable( 'UserSettings', 'UpdateHash' ) ) == 'true' )
+                    {
+                        $hashType = eZUser::hashType();
+                        $hash = eZUser::createHash( $login, $password, eZUser::site(),
+                                                    $hashType );
+                        $db->query( "UPDATE ezuser SET password_hash='$hash', password_hash_type='$hashType' WHERE contentobject_id = '$userID'" );
+                    }
+                    break;
+                }
             }
         }
         if ( $exists and $isEnabled )
         {
-            $user =& new eZUser( $users[0] );
+            eZDebug::writeDebug( $userRow, 'user row' );
+            $user =& new eZUser( $userRow );
+            eZDebug::writeDebug( $user, 'user' );
             $GLOBALS["eZUserGlobalInstance"] =& $user;
-            $http->setSessionVariable( 'eZUserLoggedInID', $users[0]['contentobject_id'] );
+            $http->setSessionVariable( 'eZUserLoggedInID', $userRow['contentobject_id'] );
             return $user;
         }
         else

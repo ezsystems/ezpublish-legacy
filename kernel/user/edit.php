@@ -50,7 +50,9 @@ $Module =& $Params["Module"];
 if ( isset( $Params["UserID"] ) )
     $UserID = $Params["UserID"];
 
-$classID = 4;
+$ini =& eZINI::instance();
+$classID = $ini->variable( 'UserSettings', 'UserClassID' );
+//$classID = 4;
 $userAccount =& eZUser::fetch( $UserID );
 $userClass =& eZContentClass::fetch( $classID );
 $userClassAttributes =& eZContentClassAttribute::fetchFilteredList( array( 'contentclass_id' => $classID, 'version' => 0 ) );
