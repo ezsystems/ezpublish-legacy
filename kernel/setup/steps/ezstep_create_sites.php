@@ -306,7 +306,7 @@ class eZStepCreateSites extends eZStepInstaller
             if ( $siteType['existing_database'] == 2 )
             {
                 include_once( 'lib/ezdb/classes/ezdbtool.php' );
-                print( "cleaning up DB!<br/>\n" );
+//                 print( "cleaning up DB!<br/>\n" );
                 eZDBTool::cleanup( $db );
 //                 $tableArray = $db->eZTableList();
 //                 foreach ( array_keys( $tableArray ) as $table )
@@ -319,9 +319,9 @@ class eZStepCreateSites extends eZStepInstaller
                 $setupINI =& eZINI::instance( 'setup.ini' );
                 $sqlSchemaFile = $setupINI->variable( 'DatabaseSettings', 'SQLSchema' );
                 $sqlFile = $setupINI->variable( 'DatabaseSettings', 'CleanSQLData' );
-                print( "inserting SQL $sqlSchemaFile!<br/>\n" );
+//                 print( "inserting SQL $sqlSchemaFile!<br/>\n" );
                 $result = $db->insertFile( 'kernel/sql/', $sqlSchemaFile );
-                print( "inserting SQL $sqlFile!<br/>\n" );
+//                 print( "inserting SQL $sqlFile!<br/>\n" );
                 $result = $result && $db->insertFile( 'kernel/sql/common', $sqlFile, false );
             }
             $installParameters = array( 'path' => '.' );
@@ -367,11 +367,11 @@ class eZStepCreateSites extends eZStepInstaller
             $installParameters['variables']['admin_siteaccess'] = $adminSiteaccessName;
             $installParameters['variables']['design'] = $userDesignName;
 
-            print( "<pre>" ); var_dump( $siteINIChanges ); print( "</pre>" );
+//             print( "<pre>" ); var_dump( $siteINIChanges ); print( "</pre>" );
 
-            print( "user design: " . $userDesignName . "<br/>\n" );
-            print( "user access: " . $userSiteaccessName . "<br/>\n" );
-            print( "admin access: " . $adminSiteaccessName . "<br/>\n" );
+//             print( "user design: " . $userDesignName . "<br/>\n" );
+//             print( "user access: " . $userSiteaccessName . "<br/>\n" );
+//             print( "admin access: " . $adminSiteaccessName . "<br/>\n" );
 //             exit;
 
             $siteINI =& eZINI::create( 'site.ini' );
@@ -380,6 +380,16 @@ class eZStepCreateSites extends eZStepInstaller
             $siteINI->setVariable( 'DesignSettings', 'SiteDesign', $userDesignName );
             $siteINI->setVariable( 'DesignSettings', 'AdditionalSiteDesignList', array( 'base' ) );
             $siteINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName" );
+
+            $extraSettings = eZSetupINISettings( $siteType );
+            foreach ( $extraSettings as $extraSetting )
+            {
+                $iniName = $extraSetting['name'];
+                $settings = $extraSetting['settings'];
+                $tmpINI =& eZINI::create( $iniName );
+                $tmpINI->setVariables( $settings );
+                $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName" );
+            }
 
             eZDir::mkdir( "design/" . $userDesignName );
             eZDir::mkdir( "design/" . $userDesignName . "/templates" );
