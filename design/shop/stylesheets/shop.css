@@ -68,6 +68,7 @@ div#mainmenu li
     background-position: top right;
     background-repeat: no-repeat;
     background-color: #ffcc00;
+    border-left: 1px solid #cc0000;
 }
 
 div#mainmenu a
@@ -75,7 +76,6 @@ div#mainmenu a
     margin: 0;
     padding: 0 1em 0 1em;
     color: #000000;
-    border-left: 1px solid #cc0000;
     text-decoration: none;
     background-image: url(../images/tab_corner-top_left.gif);
     background-position: top left;
@@ -489,7 +489,7 @@ div.rating
     margin-top: 0.5em;
 }
 
-div.product div.rating p
+div.rating p
 {
     font-weight: bold;
 }
