@@ -553,6 +553,25 @@ class eZContentClass extends eZPersistentObject
                                                                   "version" => $version ) );
     }
 
+    function fetchSearchableAttributes( $id = false, $asObject = true, $version = 0 )
+    {
+        if ( $id === false )
+        {
+            if ( isset( $this ) and
+                 get_class( $this ) == "ezcontentclass" )
+            {
+                $id = $this->ID;
+                $version = $this->Version;
+            }
+            else
+                return null;
+        }
+
+        return eZContentClassAttribute::fetchFilteredList( array( "contentclass_id" => $id,
+                                                                  "is_searchable" => 1,
+                                                                  "version" => $version ) );
+    }
+
     function versionStatus()
     {
         if ( $this->VersionCount == 1 )
