@@ -185,6 +185,10 @@ class eZTemplateCacheFunction
                                    "    {\n" .
                                    "        \$subtreeExpiry .= substr( \$subtreeExpiry, 0, -1 );\n" .
                                    "    }\n" .
+                                   "    if ( substr( \$subtreeExpiry, 0, 1 ) == '/'  )\n" .
+                                   "    {\n" .
+                                   "        \$subtreeExpiry .= substr( \$subtreeExpiry, 1 );\n" .
+                                   "    }\n" .
                                    "    \$subtree =& \$db->escapeString( \$subtreeExpiry );\n" .
                                    "    \$nonAliasPath = 'content/view/full/';\n" .
                                    "    if ( strpos( \$subtreeExpiry, \$nonAliasPath ) === 0 )\n" .
@@ -418,6 +422,10 @@ ENDADDCODE;
                     {
                         $ignoreContentExpiry = $tpl->elementValue( $functionParameters["ignore_content_expiry"], $rootNamespace, $currentNamespace, $functionPlacement ) === true;
                     }
+                    if ( isset( $functionParameters['subtree_expiry'] ) )
+                    {
+                        $ignoreContentExpiry = true;
+                    }
 
                     $expiryTime = $localExpiryTime;
                     if ( $ignoreContentExpiry == false )
@@ -473,6 +481,10 @@ ENDADDCODE;
                             if ( substr( $subtreeExpiry, -1 ) == '/' )
                             {
                                 $subtreeExpiry = substr( $subtreeExpiry, 0, -1 );
+                            }
+                            if ( substr( $subtreeExpiry, 0, 1 ) == '/' )
+                            {
+                                $subtreeExpiry = substr( $subtreeExpiry, 1 );
                             }
                             $subtree =& $db->escapeString( $subtreeExpiry );
                             $nonAliasPath = 'content/view/full/';
