@@ -1466,11 +1466,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     function &addChild( $contentobjectID, $nodeID = 0, $asObject = false )
     {
-
         if ( $nodeID == 0 )
         {
             $node = $this;
-        }else
+        }
+        else
         {
             $node =& eZContentObjectTreeNode::fetch( $nodeID );
         }
@@ -1492,52 +1492,50 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $insertedID = $insertedNode->attribute( 'node_id' );
         $newNodePath = $parentPath . $insertedID . '/';
         $insertedNode->setAttribute( 'path_string', $newNodePath );
-//        $insertedNode = eZContentObjectTreeNode::fetch( $insertedID );
 
         $insertedNode->store();
         if ( $asObject )
         {
             return $insertedNode;
-        }else
+        }
+        else
         {
             return $insertedID;
         }
     }
 
+    /*!
+     \return a url alias for the current node. It will genereate a unique alias.
+    */
     function pathWithNames( $nodeID = 0 )
     {
         if ( $nodeID == 0 )
         {
             $node =& $this;
-        }else
+        }
+        else
         {
             $node =& eZContentObjectTreeNode::fetch( $nodeID );
         }
-//        eZDebugSetting::writeDebug( 'kernel-content-treenode', $this, 'node3' );
 
-//        $nodeList = $node->attribute( 'path' );
-//        array_shift( $nodeList );
         $nodeList =& $node->attribute( 'path' );
         if ( $node->attribute( 'depth' ) > 1 )
         {
             $parentNodeID = $node->attribute( 'parent_node_id' );
             $parentNode = eZContentObjectTreeNode::fetch( $parentNodeID );
-            if( ! is_null( $parentNode ) )
+            if ( ! is_null( $parentNode ) )
             {
-            $parentNodePathString = $parentNode->attribute( 'path_identification_string' );
+                $parentNodePathString = $parentNode->attribute( 'path_identification_string' );
             }
             else
             {
-//                eZDebug::printReport();
-                die();
+                eZDebug::writeError( 'Parent node was null.', 'eZContentObjectTreeNode::pathWithNames()' );
             }
         }
         else
         {
             $parentNodePathString = '';
         }
-
-
 
         if ( count( $nodeList ) > 0 )
         {
@@ -1551,6 +1549,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                  "_",
                                                  "_" ),
                                           $topLevelName );
+
             $pathElementArray = explode( '/', $parentNodePathString );
             if ( count( $pathElementArray ) > 0 )
             {
@@ -1565,10 +1564,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $parentNodePathString = '';
         }
-//            eZDebugSetting::writeDebug( 'kernel-content-treenode', $pathElementArray, "pathElementArray" );
-//            eZDebugSetting::writeDebug( 'kernel-content-treenode', $nodeList, "nodeList" );
 
-        if ( count( $nodeList ) > 0 )
+        // Only set name if current node is not the content root
+        $ini =& eZINI::instance( 'content.ini' );
+        $contentRootID = $ini->variable( 'NodeSettings', 'RootNode' );
+        if ( $node->attribute( 'node_id' ) != $contentRootID )
         {
             $nodeName = $node->attribute( 'name' );
             $nodeName = strtolower( $nodeName );
@@ -1592,19 +1592,20 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $nodePath = '';
         }
-        eZDebugSetting::writeDebug( 'nice-urls', $nodePath, "path for node before checking");
         $nodePath = $node->checkPath( $nodePath );
-        eZDebugSetting::writeDebug( 'nice-urls', $nodePath, "path for node after checking");
         return $nodePath;
     }
 
+    /*!
+     Check if a node with the same name already exists. If so create a $name + __x value.
+    */
     function checkPath( $path )
     {
         $depth = $this->attribute( 'depth' );
         $parentNodeID = $this->attribute( 'parent_node_id' );
         $nodeID = $this->attribute( 'node_id' );
 
-        $db =& eZDb::instance();
+        $db =& eZDB::instance();
 
         $sqlToCheckOriginalName = 'select path_identification_string
                                    from ezcontentobject_tree
@@ -1663,6 +1664,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $newPathString = $this->pathWithNames();
 
+        // Only update if the name has changed
+        if ( $oldPathString == $newPathString )
+            return;
+
         $oldUrlAlias = false;
         // Check if there exists an URL alias for this name already
         if ( $oldPathString != "" )
@@ -1678,7 +1683,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $alias->store();
 
         // Update old url alias, if exists
-        if ( $oldUrlAlias !== false )
+        if ( get_class( $oldUrlAlias ) == 'ezurlalias' )
         {
             $oldUrlAlias->setAttribute( 'forward_to_id', $alias->attribute( 'id' ) );
             $oldUrlAlias->setAttribute( 'destination_url', 'content/view/full/' . $this->NodeID );
