@@ -3,45 +3,62 @@ eZ publish 3 README
 
 What is eZ publish?
 -------------------
-eZ publish 3 is much more than a content management system. It is a general php development framework,
-with functionality allowing you to fast develop a professional internet application.
-It will of course also have some standard implementations, which are finished solutions that are ready to use.
-eZ publish 3 is database and platform independent and because it is browser based it can be used and updated
-from everywhere as long as you have internet access.
+eZ publish 3 is a professional PHP application framework with advanced CMS
+(content management system) functionality. As a CMS it's most notable feature
+is its revolutionary, fully customizable and extendable content model. This is
+also what makes it suitable as a platform for general PHP development, allowing
+you to develop professional Internet applications fast.
+
+Standard CMS functionality, like news publishing, e-commerce and forums is
+already implemented and ready for you to use. Its stand-alone libraries can be
+used for cross-platform, database independent PHP projects.
+
+eZ publish 3 is database, platform and browser independent. Because it is
+browser based it can be used and updated from anywhere as long as you have
+access to the Internet.
 
 
 Licence
 -------
-eZ publish is dual licenced, between GPL, giving you eZ publish open source and free, and the professional
-licence where you get the right to use the source code for making your own commercial software.
-The eZ publish professional licence allows you a full protection of your work made with eZ publish.
-With the professional licence you may rebrand, licence and close your source code.
+eZ publish is dual licensed. You can choose between the GNU GPL and the
+eZ publish Professional Licence. The GNU GPL gives you the right to use, modify
+and redistribute eZ publish under certain conditions. The GNU GPL licence is
+distributed with the software, see the file LICENCE. It is also available at
+http://www.gnu.org/licenses/gpl.txt
+Using eZ publish under the terms of the GNU GPL is free of charge.
+
+The eZ publish Professional Licence gives you the right to use the source code
+for making your own commercial software. It allows you full protection of your
+work made with eZ publish. You may re-brand, license and close your source
+code. eZ publish is not free of charge when used under the terms of the
+Professional Licence. For pricing and ordering, please contact us at
+info@ez.no.
 
 
 eZ publish features
 -------------------
 - User defined content classes and objects
 - Advanced search engine
-- Role based permission system
+- Role based permissions system
 - Advanced template engine
 - Version control
 - Professional workflow management
 - Multi-lingual support
-- Support for unicode
+- Support for Unicode
 - Task system for easy collaboration
 - Image conversion and scaling
-- SOAP communication library
 - Database abstraction layer
-- Localisation and internationalisation libraries
-- Locale system makes local settings easy
-- Contains a SDK (software development kit)
 - XML handling and parsing library
-
+- SOAP communication library
+- Localisation and internationalisation libraries
+- Several other reusable libraries
+- SDK (software development kit)
+  and full documentation
 
 
 Installation
 ------------
-See doc/INSTALL or go to http://manuals.ez.no
+Read doc/INSTALL or go to http://manuals.ez.no
 
 
 Where to get more help
@@ -52,8 +69,10 @@ Developer documentation: http://sdk.ez.no
 eZ publish forums: http://ez.no/developer/forums/
 
 Offline:
+(This requires that eZ publish is installed on your system.)
 http://localhost/index.php/manual
 http://localhost/index.php/sdk
+
 
 Live demo of eZ publish 3
 -------------------------

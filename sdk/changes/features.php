@@ -127,4 +127,19 @@ XML document creation, parsing and validating, SOAP communication, database conn
 image manipulation, template engine, and internationalisation.
 </p>
 
-Licensing
+<h2>Licensing</h2>
+<p>
+eZ publish is dual licensed. You can choose between the GNU GPL and the eZ publish Professional Licence.
+The GNU GPL gives you the right to use, modify and redistribute eZ publish under certain conditions.
+The GNU GPL licence is distributed with the software, see the file LICENCE. It is also available at
+<a href="http://www.gnu.org/licenses/gpl.txt">http://www.gnu.org/licenses/gpl.txt</a>.
+Using eZ publish under the terms of the GNU GPL is free of charge.
+</p>
+
+<p>
+The eZ publish Professional Licence gives you the right to use the source code for making your own
+commercial software. It allows you full protection of your work made with eZ publish. You may re-brand,
+license and close your source code. eZ publish is not free of charge when used under the terms of the
+Professional Licence. For pricing and ordering, please contact us at
+<a href="mailto:info@ez.no">info@ez.no</a>.
+</p>
