@@ -13,7 +13,7 @@
 
 <div class="block">
     <label>{'Name'|i18n( 'design/admin/shop/discountgroupedit' )}:</label>
-    <input class="box" type="text" name="discount_group_name" value="{$discount_group.name}" />
+    <input class="box" type="text" name="discount_group_name" value="{$discount_group.name|wash}" />
 </div>
 
 </div>

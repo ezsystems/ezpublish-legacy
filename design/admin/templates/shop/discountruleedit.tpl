@@ -15,7 +15,7 @@
 {* Name *}
 <div class="block">
 <label>{'Name'|i18n( 'design/admin/shop/discountruleedit' )}:</label>
-<input class="box" type="text" name="discountrule_name" value="{$discountrule.name}" size="40" />
+<input class="box" type="text" name="discountrule_name" value="{$discountrule.name|wash}" size="40" />
 </div>
 
 {* Discount precent *}
