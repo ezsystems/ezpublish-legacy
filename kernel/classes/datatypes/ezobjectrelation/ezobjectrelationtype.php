@@ -145,7 +145,7 @@ class eZObjectRelationType extends eZDataType
                     $nodeID = 2;
 //                    $module->redirectToView( 'browse', array( $nodeID ) );
                     */
-                    
+
                     eZContentBrowse::browse( array( 'action_name' => 'AddRelatedObject_' . $contentObjectAttribute->attribute( 'id' ),
                                                     'type' => 'AddRelatedObjectToDataType',
                                                     'browse_custom_action' => array( 'name' => 'CustomActionButton[' . $contentObjectAttribute->attribute( 'id' ) . '_set_object_relation]',

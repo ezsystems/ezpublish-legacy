@@ -232,7 +232,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
             $existingNodes =& eZSubtreeNotificationRule::fetchNodesForAddress( $email, false );
         }
         else if ( $http->hasPostVariable( "BrowseActionName" ) and
-             $http->postVariable( "BrowseActionName" ) == "AddSubtreeSubscribingNode" )
+                  $http->postVariable( "BrowseActionName" ) == "AddSubtreeSubscribingNode" )
         {
             $selectedNodeIDArray = $http->postVariable( "SelectedNodeIDArray" );
             $user =& eZUser::currentUser();

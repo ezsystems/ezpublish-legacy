@@ -114,49 +114,32 @@ class eZContentBrowse
         $ini =& eZINI::instance( 'browse.ini' );
 
         if ( !isset( $parameters['action_name'] ) )
-        {
             $parameters['action_name'] = $ini->variable( 'BrowseSettings', 'DefaultActionName' );
-        }
 
         if ( !isset( $parameters['type'] ) )
-        {
             $parameters['type'] = $parameters['action_name']; //$ini->variable( $parameters['action_name'], 'BrowseType' );
-        }
 
         if ( !isset( $parameters['selection'] ) )
         {
             if ( $ini->hasVariable( $parameters['type'], 'SelectionType' ) )
-            {
                 $parameters['selection'] = $ini->variable( $parameters['type'], 'SelectionType' );
-            }
             else
-            {
                 $parameters['selection'] = $ini->variable( 'BrowseSettings', 'DefaultSelectionType' );
-            }
         }
 
         if ( !isset( $parameters['return_type'] ) )
         {
             if ( $ini->hasVariable( $parameters['type'], 'ReturnType' ) )
-            {
                 $parameters['return_type'] = $ini->variable( $parameters['type'], 'ReturnType' );
-            }
             else
-            {
                 $parameters['return_type'] = $ini->variable( 'BrowseSettings', 'DefaultReturnType' );
-            }
-
         }
 
         if ( !isset( $parameters['browse_custom_action'] ) )
-        {
             $parameters['browse_custom_action'] = false;
-        }
 
         if ( !isset( $parameters['custom_action_data'] ) )
-        {
             $parameters['custom_action_data'] = false;
-        }
 
         if ( !isset( $parameters['description_template'] ) )
             $parameters['description_template'] = false;
@@ -201,11 +184,17 @@ class eZContentBrowse
                 $parameters['top_level_nodes'] = $ini->variable( $parameters['type'], 'TopLevelNodes' );
         }
 
-        if ( !isset( $parameters['from_page'] ) )
+        if ( !is_numeric( $parameters['start_node'] ) )
+            $parameters['start_node'] = eZContentBrowse::nodeAliasID( $parameters['start_node'] );
+
+        for ( $i =0; $i < count( $parameters['top_level_nodes'] ); $i++ )
         {
-            //           $parameters['from_page'] = $ini->variable('BrowseSettings', 'DefaultSelectionType' );
-            eZDebug::writeError( $parameters, 'eZContentBrowse::browse() $parameters[\'from_page\'] is not set' );
+            if ( !is_numeric( $parameters['top_level_nodes'][$i] ) )
+                $parameters['top_level_nodes'][$i] = eZContentBrowse::nodeAliasID( $parameters['top_level_nodes'][$i] );
         }
+
+        if ( !isset( $parameters['from_page'] ) )
+            eZDebug::writeError( $parameters, 'eZContentBrowse::browse() $parameters[\'from_page\'] is not set' );
 
         $http =& eZHTTPTool::instance();
         $http->setSessionVariable( 'BrowseParameters', $parameters );
@@ -222,6 +211,27 @@ class eZContentBrowse
     }
 
     /*!
+     \static
+     \return the node ID for the node alias \a $nodeName or \c false if no ID could be found.
+    */
+    function nodeAliasID( $nodeName )
+    {
+        if ( is_numeric( $nodeName ) )
+            return $nodeName;
+        $browseINI =& eZINI::instance( 'browse.ini' );
+        $aliasList = $browseINI->variable( 'BrowseSettings', 'AliasList' );
+        if ( isset( $aliasList[$nodeName] ) )
+            return $aliasList[$nodeName];
+        $contentINI =& eZINI::instance( 'content.ini' );
+        if ( $nodeName == 'content' )
+            return $contentINI->variable( 'NodeSettings', 'RootNode' );
+        else if ( $nodeName == 'users' )
+            return $contentINI->variable( 'NodeSettings', 'UserRootNode' );
+        else
+            return false;
+    }
+
+    /*!
      Sets the node ID where browsing starts.
     */
     function setStartNode( $nodeID )
@@ -234,7 +244,7 @@ class eZContentBrowse
      \return the result of the previous browse operation or \c false if no result was found.
              It uses the action name \a $actionName to determine which result to look for.
     */
-    function result( $actionName )
+    function result( $actionName, $asObject = false )
     {
         $ini =& eZINI::instance( 'browse.ini' );
         $isNodeSelection = $ini->variable( $actionName, 'ReturnType' ) == 'NodeID';

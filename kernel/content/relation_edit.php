@@ -50,10 +50,9 @@ function checkRelationAssignments( &$module, &$class, &$object, &$version, &$con
     $http =& eZHTTPTool::instance();
     // Add object relations
 //     if ( $module->isCurrentAction( 'AddRelatedObject' ) )
-    if ( $http->hasPostVariable( 'BrowseActionName' ) and
-         $http->postVariable( 'BrowseActionName' ) == 'AddRelatedObject' )
+    if ( $module->isCurrentAction( 'AddRelatedObject' ) )
     {
-        $selectedObjectIDArray = $http->postVariable( 'SelectedObjectIDArray' );
+        $selectedObjectIDArray = eZContentBrowse::result( 'AddRelatedObject' );
         $relatedObjects =& $object->relatedContentObjectArray( $editVersion );
         $relatedObjectIDArray = array();
         foreach (  $relatedObjects as  $relatedObject )
@@ -80,26 +79,16 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
     $http =& eZHTTPTool::instance();
     if ( $module->isCurrentAction( 'BrowseForObjects' ) )
     {
-        $http->setSessionVariable( 'BrowseSelectionType', 'Multiple' );
-
         $objectID = $object->attribute( 'id' );
-/*//         $http->setSessionVariable( 'BrowseFromPage', "/content/edit/$objectID/$editVersion/" );
-        $http->setSessionVariable( 'BrowseFromPage', $module->redirectionURI( 'content', 'edit', array( $objectID, $editVersion, $editLanguage ) ) );
-        $http->removeSessionVariable( 'CustomBrowseActionAttributeID' );
-
-        $http->setSessionVariable( 'BrowseActionName', 'AddRelatedObject' );
-        $http->setSessionVariable( 'BrowseReturnType', 'ObjectID' );
-
-//         if ( $http->hasPostVariable( 'CustomActionButton' ) )
-//         {
-//             $http->setSessionVariable( 'CustomActionButton',  key( $http->postVariable( 'CustomActionButton' ) ) );
-//             $http->setSessionVariable( 'BrowseActionName', 'CustomAction' );
-//         }
-
-//        $nodeID = 2;
-//        $module->redirectToView( 'browse', array( $nodeID ) );
-*/
         eZContentBrowse::browse( array( 'action_name' => 'AddRelatedObject',
+                                        'description_template' => 'design:content/browse_related.tpl',
+                                        'content' => array( 'object_id' => $objectID,
+                                                            'object_version' => $editVersion,
+                                                            'object_language' => $editLanguage ),
+                                        'keys' => array( 'class' => $class->attribute( 'id' ),
+                                                         'class_id' => $class->attribute( 'identifier' ),
+                                                         'classgroup' => $class->attribute( 'ingroup_id_list' ),
+                                                         'section' => $object->attribute( 'section_id' ) ),
                                         'from_page' => $module->redirectionURI( 'content', 'edit', array( $objectID, $editVersion, $editLanguage ) ) ),
                                  $module );
 

@@ -40,6 +40,7 @@ include_once( "kernel/classes/ezdiscountrule.php" );
 include_once( "kernel/classes/ezuserdiscountrule.php" );
 include_once( "kernel/classes/ezdiscountsubrule.php" );
 include_once( "kernel/classes/ezdiscountsubrulevalue.php" );
+include_once( "kernel/classes/ezcontentbrowse.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
 $module =& $Params["Module"];
@@ -77,20 +78,19 @@ if ( $http->hasPostVariable( "RemoveRuleButton" ) )
 
 if ( $http->hasPostVariable( "AddCustomerButton" ) )
 {
-    $http->setSessionVariable( "BrowseFromPage", "/shop/discountgroupview/" . $discountGroupID . "/" );
-
-    $http->setSessionVariable( "BrowseActionName", "AddCustomer" );
-    $http->setSessionVariable( "BrowseReturnType", "ObjectID" );
-
-    $module->redirectTo( "/content/browse/5/" );
+    eZContentBrowse::browse( array( 'action_name' => 'AddCustomer',
+                                    'description_template' => 'design:shop/browse_discountcustomer.tpl',
+                                    'keys' => array( 'discountgroup_id' => $discountGroupID ),
+                                    'content' => array( 'discountgroup_id' => $discountGroupID ),
+                                    'from_page' => "/shop/discountgroupview/$discountGroupID" ),
+                             $module );
     return;
 }
 
 // Add customer or customer group to this rule
-if ( $http->hasPostVariable( "BrowseActionName" ) and
-     $http->postVariable( "BrowseActionName" ) == "AddCustomer" )
+if ( $module->isCurrentAction( 'AddCustomer' ) )
 {
-    $selectedObjectIDArray = $http->postVariable( "SelectedObjectIDArray" );
+    $selectedObjectIDArray = eZContentBrowse::result( 'AddCustomer' );
     $userIDArray = eZUserDiscountRule::fetchUserID( $discountGroupID );
     foreach ( $selectedObjectIDArray as $objectID )
     {

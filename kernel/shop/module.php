@@ -104,11 +104,13 @@ $ViewList["discountruleedit"] = array(
     "functions" => array( 'setup' ),
     "script" => "discountruleedit.php",
     "default_navigation_part" => 'ezshopnavigationpart',
+    'post_actions' => array( 'BrowseActionName' ),
     "params" => array( 'DiscountGroupID', 'DiscountRuleID'  ) );
 
 $ViewList["discountgroupview"] = array(
     "script" => "discountgroupmembershipview.php",
     "default_navigation_part" => 'ezshopnavigationpart',
+    'post_actions' => array( 'BrowseActionName' ),
     "params" => array( 'DiscountGroupID' ) );
 
 $FunctionList['setup'] = array( );

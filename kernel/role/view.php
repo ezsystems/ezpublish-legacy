@@ -38,6 +38,7 @@
 include_once( "kernel/classes/ezmodulemanager.php" );
 include_once( "kernel/classes/ezrole.php" );
 include_once( "kernel/classes/ezsearch.php" );
+include_once( 'kernel/classes/ezcontentbrowse.php' );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 include_once( "lib/ezutils/classes/ezmodule.php" );
@@ -61,26 +62,18 @@ if ( $http->hasPostVariable( "EditRoleButton" ) )
 // Redirect to content node browse in the user tree
 if ( $http->hasPostVariable( "AssignRoleButton" ) )
 {
-/*    $http->setSessionVariable( "BrowseFromPage", "/role/view/" . $roleID . "/" );
-
-    $http->setSessionVariable( "BrowseActionName", "AssignRole" );
-    $http->setSessionVariable( "BrowseReturnType", "ObjectID" );
-
-    $Module->redirectTo( "/content/browse/5/" );
-*/
     include_once( "kernel/classes/ezcontentbrowse.php" );
     eZContentBrowse::browse( array( 'action_name' => 'AssignRole',
-                                    'from_page' => '/role/assign/' . $roleID . "/" ),
+                                    'from_page' => '/role/assign/' . $roleID ),
                              $Module );
 
     return;
 }
 
 // Assign the role for a user or group
-if ( $http->hasPostVariable( "BrowseActionName" ) and
-     $http->postVariable( "BrowseActionName" ) == "AssignRole" )
+if ( $Module->isCurrentAction( 'AssignRole' ) )
 {
-    $selectedObjectIDArray = $http->postVariable( "SelectedObjectIDArray" );
+    $selectedObjectIDArray = eZContentBrowse::result( 'AssignRole' );
 
     $assignedUserIDArray =& $role->fetchUserID();
     foreach ( $selectedObjectIDArray as $objectID )

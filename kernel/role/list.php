@@ -56,11 +56,9 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
 }
 // Redirect to content node browse in the user tree
 // Assign the role for a user or group
-if ( $http->hasPostVariable( "BrowseActionName" ) and
-     $http->postVariable( "BrowseActionName" ) == "AssignRole"
-     )
+if ( $Module->isCurrentAction( 'AssignRole' ) )
 {
-    $selectedObjectIDArray = $http->postVariable( "SelectedObjectIDArray" );
+    $selectedObjectIDArray = eZContentBrowse::result( 'AssignRole' );
 
     foreach ( $selectedObjectIDArray as $objectID )
     {

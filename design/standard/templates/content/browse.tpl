@@ -190,27 +190,29 @@
 
         <tr>
             <th colspan="2">
-                {"Recent"|i18n("design/standard/content/view")}
+                {"Recent items"|i18n("design/standard/content/view")}
             </th>
         </tr>
         
-        {section name=Recent loop=$recent_list show=$recent_list sequence=array(bgdark,bglight)}
-        <tr class="{$:sequence}">
-            <td width="1">
-                <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
-            </td>
-        
-            <td>
-                <img src={"class_2.png"|ezimage} border="0" alt="{'Document'|i18n('design/standard/node/view')}" />
-                {section show=eq($:item.node_id,$main_node.node_id)}
-                    {$:item.name|wash}
-                {section-else}
-                    <a href={concat("/content/browse/",$:item.node_id,"/")|ezurl}>
+        {section show=$recent_list}
+            {section name=Recent loop=$recent_list sequence=array(bgdark,bglight)}
+            <tr class="{$:sequence}">
+                <td width="1">
+                    <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
+                </td>
+            
+                <td>
+                    <img src={"class_2.png"|ezimage} border="0" alt="{'Document'|i18n('design/standard/node/view')}" />
+                    {section show=eq($:item.node_id,$main_node.node_id)}
                         {$:item.name|wash}
-                    </a>
-                {/section}
-            </td>
-        </tr>
+                    {section-else}
+                        <a href={concat("/content/browse/",$:item.node_id,"/")|ezurl}>
+                            {$:item.name|wash}
+                        </a>
+                    {/section}
+                </td>
+            </tr>
+            {/section}
         {section-else}
         <tr>
             <td colspan="2">

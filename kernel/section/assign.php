@@ -47,10 +47,9 @@ $section =& eZSection::fetch( $SectionID );
 // Redirect to content node browse
 
 // Assign section to subtree of node
-if ( $http->hasPostVariable( "BrowseActionName" ) and
-     $http->postVariable( "BrowseActionName" ) == "AssignSection" )
+if ( $Module->isCurrentAction( 'AssignSection' ) )
 {
-    $selectedNodeIDArray = $http->postVariable( "SelectedNodeIDArray" );
+    $selectedNodeIDArray = eZContentBrowse::result( 'AssignSection' );
 
     foreach ( $selectedNodeIDArray as $nodeID )
     {
@@ -65,18 +64,11 @@ if ( $http->hasPostVariable( "BrowseActionName" ) and
 }
 else
 {
-//    $http->setSessionVariable( "BrowseFromPage", "/section/assign/" . $section->attribute( 'id' ) . "/" );
-//    $http->removeSessionVariable( "CustomBrowseActionAttributeID" );
-
-//    $http->setSessionVariable( "BrowseActionName", "AssignSection" );
-//    $http->setSessionVariable( "BrowseReturnType", "NodeID" );
-
     eZContentBrowse::browse( array( 'action_name' => 'AssignSection',
                                     'description_template' => 'design:section/browse_assign.tpl',
                                     'content' => array( 'section_id' => $section->attribute( 'id' ) ),
                                     'from_page' => '/section/assign/' . $section->attribute( 'id' ) . "/" ),
                              $Module );
-//    $Module->redirectTo( "/content/browse/2/" );
     return;
 }
 

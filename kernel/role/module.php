@@ -32,43 +32,30 @@
 // you.
 //
 
-$Module = array( "name" => "eZRole" );
+$Module = array( 'name' => 'eZRole' );
 
 $ViewList = array();
-$ViewList["list"] = array(
-    "script" => "list.php",
-    "default_navigation_part" => 'ezusernavigationpart',
-    "params" => array(  ) );
-$ViewList["edit"] = array(
-    "script" => "edit.php",
-    "default_navigation_part" => 'ezusernavigationpart',
-    "params" => array( "RoleID" ) );
-$ViewList["policyedit"] = array(
-    "script" => "policyedit.php",
-    "default_navigation_part" => 'ezusernavigationpart',
-    "params" => array( "PolicyID" ) );
-$ViewList["view"] = array(
-    "script" => "view.php",
-    "default_navigation_part" => 'ezusernavigationpart',
-    "params" => array( "RoleID" ) );
-
-$ViewList["assign"] = array(
-    "script" => "assign.php",
-    "default_navigation_part" => 'ezusernavigationpart',
-    "params" => array( "RoleID" ) );
-
-
-
-
-// Temporary code should be removed
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-eZDebug::writeDebug( 'Temporary code start: role/edit line 94' );
-$http =& eZHTTPTool::instance();
-$http->setSessionVariable( 'roleExpired', true );
-eZDebug::writeDebug( 'Temporary code end: role/edit line 94' );
-// Temporary code end
-
-
-
+$ViewList['list'] = array(
+    'script' => 'list.php',
+    'default_navigation_part' => 'ezusernavigationpart',
+    'post_actions' => array( 'BrowseActionName' ),
+    'params' => array(  ) );
+$ViewList['edit'] = array(
+    'script' => 'edit.php',
+    'default_navigation_part' => 'ezusernavigationpart',
+    'params' => array( 'RoleID' ) );
+$ViewList['policyedit'] = array(
+    'script' => 'policyedit.php',
+    'default_navigation_part' => 'ezusernavigationpart',
+    'params' => array( 'PolicyID' ) );
+$ViewList['view'] = array(
+    'script' => 'view.php',
+    'default_navigation_part' => 'ezusernavigationpart',
+    'post_actions' => array( 'BrowseActionName' ),
+    'params' => array( 'RoleID' ) );
+$ViewList['assign'] = array(
+    'script' => 'assign.php',
+    'default_navigation_part' => 'ezusernavigationpart',
+    'params' => array( 'RoleID' ) );
 
 ?>

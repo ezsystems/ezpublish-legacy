@@ -48,7 +48,7 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
     {
         if (  $module->isCurrentAction( 'NewObjectAddNodeAssignment' ) )
         {
-            $selectedNodeIDArray = $http->postVariable( 'SelectedNodeIDArray' );
+            $selectedNodeIDArray = eZContentBrowse::result( 'NewObjectAddNodeAssignment' );
             if ( count( $selectedNodeIDArray ) == 0 )
                 return $module->redirectToView( 'view', array( 'full', 2 ) );
             $node =& eZContentObjectTreeNode::fetch( $selectedNodeIDArray[0] );

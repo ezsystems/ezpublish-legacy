@@ -10,7 +10,8 @@
 <table class="list" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <th>{"Name"|i18n("design/standard/shop")}</th>
-    <td colspan="2">&nbsp;</td>
+    <th>{"Edit"|i18n("design/standard/shop")}</th>
+    <th>&nbsp;</th>
 </tr>
 {section name=Groups loop=$discountgroup_array sequence=array(bglight,bgdark)}
 <tr>

@@ -33,10 +33,8 @@
 // you.
 //
 
-/*! \file ~~~
-*/
-
 include_once( "kernel/classes/ezrole.php" );
+include_once( 'kernel/classes/ezcontentbrowse.php' );
 
 $http =& eZHTTPTool::instance();
 
@@ -62,17 +60,9 @@ if ( $http->hasPostVariable( "BrowseActionName" ) and
 }
 else if ( is_numeric( $roleID ) )
 {
-/*    $http->setSessionVariable( "BrowseFromPage", "/role/assign/" . $roleID . "/" );
-
-    $http->setSessionVariable( "BrowseActionName", "AssignRole" );
-    $http->setSessionVariable( "BrowseActionName", "AssignRole" );
-    $http->setSessionVariable( "BrowseReturnType", "ObjectID" );
-
-    $Module->redirectTo( "/content/browse/5/" );
-*/
     include_once( "kernel/classes/ezcontentbrowse.php" );
     eZContentBrowse::browse( array( 'action_name' => 'AssignRole',
-                                    'from_page' => '/role/assign/' . $roleID . "/" ),
+                                    'from_page' => '/role/assign/' . $roleID ),
                              $Module );
 
     return;

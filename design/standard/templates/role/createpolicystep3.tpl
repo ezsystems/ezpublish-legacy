@@ -57,7 +57,7 @@
                 '%modulename',concat('<b>',$current_module,'</b>')))}
 </p>
 <div class="objectheader">
-<h2>{'Limitations'|i18n('design/standard/role')}</h2>
+    <h2>{'Limitations'|i18n('design/standard/role')}</h2>
 </div>
 <div class="object">
 

@@ -37,6 +37,7 @@ include_once( "kernel/classes/ezcontentobject.php" );
 include_once( "kernel/classes/ezdiscountrule.php" );
 include_once( "kernel/classes/ezdiscountsubrule.php" );
 include_once( "kernel/classes/ezdiscountsubrulevalue.php" );
+include_once( "kernel/classes/ezcontentbrowse.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
 $module =& $Params["Module"];
@@ -72,10 +73,9 @@ else
 $http =& eZHttpTool::instance();
 
 // Check if we are finding specific products
-if ( $http->hasPostVariable( "BrowseActionName" ) and
-     $http->postVariable( "BrowseActionName" ) == "FindProduct" )
+if ( $module->isCurrentAction( 'FindProduct' ) )
 {
-    $selectedObjectIDArray = $http->postVariable( "SelectedObjectIDArray" );
+    $selectedObjectIDArray = eZContentBrowse::result( 'FindProduct' );
 
     foreach ( $selectedObjectIDArray as $objectID )
     {
@@ -165,12 +165,15 @@ if ( $http->hasPostVariable( "BrowseProductButton" ) )
         }
     }
     $discountRule->store();
-    $http->setSessionVariable( "BrowseFromPage", "/shop/discountruleedit/" . $discountGroupID . "/" . $discountRuleID );
-    $http->setSessionVariable( "BrowseActionName", "FindProduct" );
-    $http->setSessionVariable( "BrowseReturnType", "ObjectID" );
-    $http->setSessionVariable( 'BrowseSelectionType', 'Multiple' );
-    $nodeID = 2;
-    $module->redirectTo( "/content/browse/" . $nodeID );
+
+    eZContentBrowse::browse( array( 'action_name' => 'FindProduct',
+                                    'description_template' => 'design:shop/browse_discountproduct.tpl',
+                                    'keys' => array( 'discountgroup_id' => $discountGroupID,
+                                                     'discountrule_id' => $discountRuleID ),
+                                    'content' => array( 'discountgroup_id' => $discountGroupID,
+                                                        'discountrule_id' => $discountRuleID ),
+                                    'from_page' => "/shop/discountruleedit/$discountGroupID/$discountRuleID" ),
+                             $module );
     return;
 }
 
