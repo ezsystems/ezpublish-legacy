@@ -95,7 +95,7 @@
 	<li>Open a console window (start->run->cmd.exe or start->run->command.exe depending on the Windows version)</li>
 	<li>Go to your the location of mysql and find the mysql.exe file (should be under bin\)</li>
 	<li>Run <pre class="example">mysql.exe -u root -p &lt;your_mysql_password&gt;</pre></li>
-	<li>You should now have have a mysql&gt; prompt. Type these mysql statements <pre class="example">mysql&gt; create database &lt;name_of_database&gt;;</pre></li>
+	<li>You should now have a mysql&gt; prompt. Type these mysql statements <pre class="example">mysql&gt; create database &lt;name_of_database&gt;;</pre></li>
 	<li>Grant permissions <pre class="example"> mysql&gt; grant all on <name_of_database>.* to &lt;user&gt;@localhost identified
 	by '&lt;password&gt;';</pre>
 </ol>
