@@ -30,7 +30,7 @@
 </table>
 </div>
 <div class="buttonblock">
-<input class="smallbutton" type="submit" name="CustomActionButton[{$attribute.id}_new_option]" value="{'Add option'|i18n('design/standard/content/datatype')}" title="{'Add a new option.'i18n|'design/standard/content/datatype')}" />
-<input class="smallbutton" type="submit" name="CustomActionButton[{$attribute.id}_remove_selected]" value="{'Remove selected'|i18n('design/standard/content/datatype')}" title="{'Remove selected options.'|i18n( 'design/standard/content/datatype' )}" />
+<input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new_option]" value="{'Add option'|i18n('design/standard/content/datatype')}" title="{'Add a new option.'i18n|'design/standard/content/datatype')}" />
+<input class="button" type="submit" name="CustomActionButton[{$attribute.id}_remove_selected]" value="{'Remove selected'|i18n('design/standard/content/datatype')}" title="{'Remove selected options.'|i18n( 'design/standard/content/datatype' )}" />
 </div>
 {/default}
