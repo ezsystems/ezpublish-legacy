@@ -73,7 +73,7 @@ function eZSetupFunctionality( $siteType )
 {
     if ( $siteType == 'blog' )
     {
-        return array( 'required' => array( 'blog' ) );
+        return array( 'required' => array( 'weblog' ) );
     }
     else if ( $siteType == 'news' )
     {
@@ -97,7 +97,7 @@ function eZSetupFunctionality( $siteType )
     }
     else if ( $siteType == 'shop' )
     {
-        return array( 'required' => array( 'shop' ) );
+        return array( 'required' => array( 'products' ) );
     }
     else
     {
