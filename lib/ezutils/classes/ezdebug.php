@@ -667,7 +667,7 @@ class eZDebug
             $fileName = $files[$verbosityLevel];
         if ( $this->MessageOutput & EZ_OUTPUT_MESSAGE_STORE or $alwaysLog )
         {
-            if ( ! eZDebug::isLogOnlyEnabled() and $enabled )
+            if ( $enabled )
             {
                 $ip = eZSys::serverVariable( 'REMOTE_ADDR', true );
                 if ( !$ip )
