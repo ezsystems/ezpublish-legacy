@@ -74,9 +74,9 @@
 
     {* My *}
     {section show=eq($navigation_part.identifier,'ezmynavigationpart')}
-    {include uri="design:page_menuheadselected.tpl" menu_text='My drafts'|i18n('design/admin/layout') menu_url="/content/draft/"}
+    {include uri="design:page_menuheadselected.tpl" menu_text='My'|i18n('design/admin/layout') menu_url="/content/draft/"}
     {section-else}
-    {include uri="design:page_menuheadgray.tpl" menu_text='My drafts'|i18n('design/admin/layout') menu_url="/content/draft/"}
+    {include uri="design:page_menuheadgray.tpl" menu_text='My'|i18n('design/admin/layout') menu_url="/content/draft/"}
     {/section}
 
     </td>
