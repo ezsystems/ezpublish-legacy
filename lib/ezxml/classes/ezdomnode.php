@@ -309,6 +309,14 @@ class eZDOMNode
     }
 
     /*!
+     \return the last appended child
+    */
+    function &lastChild()
+    {
+        return end( $this->Children );
+    }
+
+    /*!
      Returns the contents of the node if it has one child which is a #text node.
      False is returned if unsuccessful.
     */
