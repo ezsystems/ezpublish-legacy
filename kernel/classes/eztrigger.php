@@ -236,9 +236,11 @@ class eZTrigger extends eZPersistentObject
                     $tpl->setVariable( $key, $value );
                 }
                 $result['content'] =& $tpl->fetch( $workflowProcess->Template['templateName'] );
+                if ( isset( $workflowProcess->Template['path'] ) )
+                    $result['path'] = $workflowProcess->Template['path'];
                 return array( 'Status' => EZ_TRIGGER_FETCH_TEMPLATE,
                               'WorkflowProcess' => &$workflowProcess,
-                              'Result' => $result['content'] );
+                              'Result' => $result );
             } break;
             case EZ_WORKFLOW_STATUS_REDIRECT:
             {
