@@ -115,6 +115,8 @@ eZINI:
   http://ez.no/community/bug_reports/eztime_data_type_can_t_store_midnight
 - Fixed incorrect sorting of time fields.
   http://ez.no/community/bug_reports/incorrect_sorting_of_time_fields
+- Fixed bug: files having names containing spaces could not be downloaded with some browsers.
+  http://ez.no/community/bug_reports/can_t_download_if_spaces_in_binary_file_names
 
 *Library:
 
