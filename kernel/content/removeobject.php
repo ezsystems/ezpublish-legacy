@@ -80,7 +80,7 @@ foreach ( $deleteIDArray as $deleteID )
             if ( count( $allAssignedNodes ) > 1 )
             {
                 $additionalWarning = ezi18n( 'kernel/content/removeobject',
-                                             'And also it will remove nodes:' );
+                                             'And also it will remove the nodes:' ) . ' ';
                 foreach( array_keys( $allAssignedNodes ) as $key )
                 {
                     $assignedNode =& $allAssignedNodes[$key];
@@ -89,7 +89,7 @@ foreach ( $deleteIDArray as $deleteID )
                     {
                         $additionalNodeIDList[] = $assignedNode->attribute( 'node_id' );
                     }
-                    $additionalWarning .= implode( ',', $additionalNodeIDList );
+                    $additionalWarning .= implode( ', ', $additionalNodeIDList );
                 }
             }
         }
@@ -149,7 +149,7 @@ if ( $http->hasPostVariable( "CancelButton" ) )
 {
     $Module->redirectTo( '/content/view/' . $viewMode . '/' . $contentNodeID . '/'  );
 }
-$Module->setTitle( "Remove " .$NodeName );
+$Module->setTitle( ezi18n( 'kernel/content', 'Remove' ) . ' ' . $NodeName );
 
 $tpl =& templateInit();
 
@@ -161,5 +161,5 @@ $tpl->setVariable( "DeleteResult",  $deleteResult );
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:node/removeobject.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => 'Remove object' ) );
+                                'text' => ezi18n( 'kernel/content', 'Remove object' ) ) );
 ?>

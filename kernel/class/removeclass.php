@@ -53,10 +53,10 @@ foreach ( $deleteIDArray as $deleteID )
         $ClassName = $class->attribute( 'name' );
         $classObjects =&  eZContentObject::fetchSameClassList( $ClassID );
         $ClassObjectsCount = count( $classObjects );
-        if ( $ClassObjectsCount < 2 )
-            $ClassObjectsCount .= " object";
+        if ( $ClassObjectsCount = 1 )
+            $ClassObjectsCount .= ezi18n( 'kernel/class', ' object' );
         else
-            $ClassObjectsCount .= " objects";
+            $ClassObjectsCount .= ezi18n( 'kernel/class', ' objects' );
         $item = array( "className" => $ClassName,
                        "objectCount" => $ClassObjectsCount );
         $DeleteResult[] = $item;
@@ -86,7 +86,7 @@ if ( $http->hasPostVariable( "CancelButton" ) )
 {
     $Module->redirectTo( '/class/classlist/' . $GroupID );
 }
-$Module->setTitle( "Remove class " .$ClassID );
+$Module->setTitle( ezi18n( 'kernel/class', 'Remove classes' ) . ' ' . $ClassID );
 include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 
@@ -97,5 +97,5 @@ $tpl->setVariable( "DeleteResult", $DeleteResult );
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:class/removeclass.tpl" );
 $Result['path'] = array( array( 'url' => '/class/removeclass/',
-                                'text' => 'Remove class' ) );
+                                'text' => ezi18n( 'kernel/class', 'Remove classes' ) ) );
 ?>

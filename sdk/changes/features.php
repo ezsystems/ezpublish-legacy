@@ -48,7 +48,7 @@ that lets you do a large part of the installation in your browser.
 
 <h2>Custom content</h2>
 <p>
-In eZ publish 3.0 you don't have to make your content fit a certain general, one-size-fits-all
+In eZ publish 3.0 you don't have to make your content fit a certain predefined, one-size-fits-all
 content model. eZ publish lets you create your own content classes with exactly the attributes
 you need. Create a class, select attributes and attribute data types, and begin creating content.
 Without even editing a template.
@@ -126,3 +126,5 @@ eZ publish comes with a set of PHP libraries that can be reused in other situati
 XML document creation, parsing and validating, SOAP communication, database connectivity,
 image manipulation, template engine, and internationalisation.
 </p>
+
+Licensing

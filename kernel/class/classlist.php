@@ -77,7 +77,7 @@ if ( !isset( $TemplateData ) or !is_array( $TemplateData ) )
                                                    "type" => "class" ) ) );
 }
 
-$Module->setTitle( "Class list of group " .$GroupID );
+$Module->setTitle( ezi18n( 'kernel/class', 'Class list of group' ) . ' ' . $GroupID );
 include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 
@@ -126,7 +126,7 @@ $tpl->setVariable( "module", $Module );
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:class/classlist.tpl" );
 $Result['path'] = array( array( 'url' => '/class/grouplist/',
-                                'text' => 'Class list' ),
+                                'text' => ezi18n( 'kernel/class', 'Class group list' ) ),
                          array( 'url' => false,
                                 'text' => $GroupName ) );
 ?>

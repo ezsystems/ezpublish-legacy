@@ -128,7 +128,8 @@ if ( $http->hasPostVariable( "StoreButton" ) )
     return;*/
 }
 
-$Module->setTitle( "Edit workflow group" . $workflowGroup->attribute( "name" ) );
+$Module->setTitle( ezi18n( 'kernel/workflow', 'Edit workflow group' ) . ' ' .
+                   $workflowGroup->attribute( "name" ) );
 
 // Template handling
 include_once( "kernel/common/template.php" );
@@ -147,9 +148,9 @@ $tpl->setVariable( "workflow_group", $workflowGroup );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:workflow/groupedit.tpl" );
-$Result['path'] = array( array( 'text' => 'Workflow',
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/workflow', 'Workflow' ),
                                 'url' => false ),
-                         array( 'text' => 'Group edit',
+                         array( 'text' => ezi18n( 'kernel/workflow', 'Group edit' ),
                                 'url' => false ) );
 
 

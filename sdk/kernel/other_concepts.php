@@ -38,14 +38,18 @@
 
 <h2>Information collector</h2>
 <p>
-An information collector is a data type that allows input. This can be used for forms.
-See the <a href="/sdk/tutorials/view/forms">Creating forms</a> tutorial for more information.
+In the class edit you can mark attributes as information collectors. This means that
+they can be used to get information from the user. Not all data types can be used as
+information collectors. Information collector will primarily be used for handling forms
+and polls, but may be extended to handle other information collections as well.
+See the <a href="/sdk/tutorials/view/forms">Creating forms</a> tutorial for an example.
 </p>
 
 <h2>Object version</h2>
 <p>
-Every content object consists of one or more versions. These versions
-contains the content data for the content object.
+Every content object consists of one or more versions. These versions contain the content
+data for the content object. Only one version of an object can be considered published,
+this is called the current version. Each version may belong to a different user.
 </p>
 
 <h2>Object translation</h2>

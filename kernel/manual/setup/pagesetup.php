@@ -51,7 +51,7 @@ of articles in the main area there are several templates which makes out this li
 <h2>View modes</h2>
 
 <p>
-In eZ publish you can view content of different clases. Examples include article, product and forum
+In eZ publish you can view content of different classes. Examples include article, product and forum
 message. These objects can also be viewed in different ways. The two most common view modes are
 line and full. The line view mode is normally used in lists and full is used when viewing an object,
 e.g. an article.

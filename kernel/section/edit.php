@@ -57,5 +57,7 @@ $tpl->setVariable( "section", $section );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:section/edit.tpl" );
+$Result['path'] = array( array( 'url' => false,
+                                'text' => ezi18n( 'kernel/section', 'Edit Section' ) ) );
 
 ?>

@@ -5,7 +5,7 @@
     <li> {$Result:item.name} - {$Result:item.id}</li>
 {/section}
 </ul>
-Removing these sections can corrupt permisions, sitedesigns and a lot of other things in the system. You should be exactly sure what are you doing.
+{"Removing these sections can corrupt permissions, sitedesigns, and other things in the system. Do not do this unless you know exactly what are you doing."|i18n("design/standard/section")}
 </div>
 
 <form action={concat($module.functions.list.uri)|ezurl} method="post" name="SectionRemove">

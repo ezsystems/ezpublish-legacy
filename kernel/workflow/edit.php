@@ -298,7 +298,7 @@ if ( $http->hasPostVariable( "NewButton" ) )
     $event_list[] =& $new_event;
 }
 
-$Module->setTitle( "Edit workflow " . $workflow->attribute( "name" ) );
+$Module->setTitle( ezi18n( 'kernel/workflow', 'Edit workflow' ) . ' ' . $workflow->attribute( "name" ) );
 
 // Template handling
 include_once( "kernel/common/template.php" );
@@ -319,9 +319,9 @@ $tpl->setVariable( "workflow_type", $cur_type );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:workflow/edit.tpl" );
-$Result['path'] = array( array( 'text' => 'Workflow',
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/workflow', 'Workflow' ),
                                 'url' => false ),
-                         array( 'text' => 'Edit',
+                         array( 'text' => ezi18n( 'kernel/workflow', 'Edit' ),
                                 'url' => false ) );
 
 ?>

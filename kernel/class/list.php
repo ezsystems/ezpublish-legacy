@@ -79,7 +79,7 @@ if ( !isset( $TemplateData ) or !is_array( $TemplateData ) )
                                                 "type" => "class" ) ) );
 }
 
-$Module->setTitle( "Class list" );
+$Module->setTitle( ezi18n( 'kernel/class', 'Class list' ) );
 
 include_once( "kernel/common/template.php" );
 $tpl =& templateInit();

@@ -43,7 +43,7 @@ $deleteResult = array();
 $deleteClassIDList = array();
 foreach ( $deleteIDArray as $deleteID )
 {
-    $deletedClassName = "class";
+    $deletedClassName = "";
     $group =& eZContentClassGroup::fetch( $deleteID );
     if( $group != null )
     {
@@ -61,8 +61,8 @@ foreach ( $deleteIDArray as $deleteID )
                 $deleteClassIDList[] = $classID;
             }
         }
-        if ( $deletedClassName == "class" )
-            $deletedClassName = " 0 class";
+        if ( $deletedClassName == "" )
+            $deletedClassName = ezi18n( 'kernel/class', '(no classes)' );
         $item = array( "groupName" => $GroupName,
                        "deletedClassName" => $deletedClassName );
         $deleteResult[] = $item;
@@ -88,7 +88,7 @@ if ( $http->hasPostVariable( "CancelButton" ) )
 {
     $Module->redirectTo( '/class/grouplist/' );
 }
-$Module->setTitle( "Remove group " .$GroupName );
+$Module->setTitle( ezi18n( 'kernel/class', 'Remove class groups' ) . ' ' . $GroupName );
 include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 
@@ -98,5 +98,5 @@ $tpl->setVariable( "DeleteResult", $deleteResult );
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:class/removegroup.tpl" );
 $Result['path'] = array( array( 'url' => '/class/removegroup/',
-                                'text' => 'Remove group' ) );
+                                'text' => ezi18n( 'kernel/class', 'Remove class groups' ) ) );
 ?>

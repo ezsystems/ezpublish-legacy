@@ -124,7 +124,7 @@ for ( $i=0;$i<count( $tempworkflow_list );$i++ )
     }
 }
 
-$Module->setTitle( 'Workflow list of group ' . $WorkflowGroupID );
+$Module->setTitle( ezi18n( 'kernel/workflow', 'Workflow list of group' ) . ' ' . $WorkflowGroupID );
 
 include_once( 'kernel/common/template.php' );
 $tpl =& templateInit();
@@ -138,9 +138,9 @@ $tpl->setVariable( 'module', $Module );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:workflow/workflowlist.tpl' );
-$Result['path'] = array( array( 'text' => 'Workflow',
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/workflow', 'Workflow' ),
                                 'url' => false ),
-                         array( 'text' => 'List',
+                         array( 'text' => ezi18n( 'kernel/workflow', 'List' ),
                                 'url' => false ) );
 
 ?>

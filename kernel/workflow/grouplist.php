@@ -78,7 +78,7 @@ if ( !isset( $TemplateData ) or !is_array( $TemplateData ) )
                                                    "type" => "class" ) ) );
 }
 
-$Module->setTitle( "Workflow group list" );
+$Module->setTitle( ezi18n( 'kernel/workflow', 'Workflow group list' ) );
 include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 
@@ -100,9 +100,9 @@ $tpl->setVariable( "module", $Module );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:workflow/grouplist.tpl" );
-$Result['path'] = array( array( 'text' => 'Workflow',
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/workflow', 'Workflow' ),
                                 'url' => false ),
-                         array( 'text' => 'Group list',
+                         array( 'text' => ezi18n( 'kernel/workflow', 'Group list' ),
                                 'url' => false ) );
 
 

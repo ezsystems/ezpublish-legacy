@@ -234,11 +234,15 @@
     </message>
     <message>
         <source>Removing group %1 will remove %2!</source>
-        <translation>Hvis du fjerner klassegruppen %1 vil også %2 bli fjernet!</translation>
+        <translation type="obsolete">Hvis du fjerner klassegruppen %1 vil også %2 bli fjernet!</translation>
     </message>
     <message>
         <source>Are you sure you want to remove these class groups?</source>
         <translation>Er du sikker på at du vil fjerne disse klassegruppene?</translation>
+    </message>
+    <message>
+        <source>Removing class group %1 will remove the classes %2!</source>
+        <translation>Hvis du fjerner klassegruppen %1 vil også klassene %2 bli fjernet!</translation>
     </message>
 </context>
 <context>
@@ -328,6 +332,75 @@
     </message>
 </context>
 <context>
+    <name>design/standard/collaboration</name>
+    <message>
+        <source>Awaiting approval of %1</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>%1 was approved for publishing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 was not approved for publishing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Awaiting approval for %1</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Posted: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Group list for &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No items in group.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Groups</source>
+        <translation type="unfinished">Grupper</translation>
+    </message>
+    <message>
+        <source>%1 awaits approval by editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 awaits your approval</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Subject</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation type="unfinished">Dato</translation>
+    </message>
+    <message>
+        <source>No new items to be handled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/collaboration/approval</name>
+    <message>
+        <source>Approval</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/collaboration/approve</name>
+    <message>
+        <source>Approval</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/standard/content</name>
     <message>
         <source>Confirm</source>
@@ -379,7 +452,7 @@
     </message>
     <message>
         <source>Active translations</source>
-        <translation>Aktive oversettelser</translation>
+        <translation type="obsolete">Aktive oversettelser</translation>
     </message>
     <message>
         <source>Below you&apos;ll find a list of active translations which content objects may be translated into.</source>
@@ -387,15 +460,66 @@
     </message>
     <message>
         <source>Language name</source>
-        <translation>Språknavn</translation>
+        <translation type="obsolete">Språknavn</translation>
     </message>
     <message>
         <source>Locale code</source>
-        <translation>Stedskode</translation>
+        <translation type="obsolete">Stedskode</translation>
     </message>
     <message>
         <source>Edit</source>
         <translation>Rediger</translation>
+    </message>
+    <message>
+        <source>Change translation for content</source>
+        <translation>Endre oversettelse av innhold</translation>
+    </message>
+    <message>
+        <source>Pick one of the translations from the list to change to or enter a new custom one in the input fields.</source>
+        <translation>Velg oversettelsen du vil endre til i listen, eller skriv inn en ny spesialtilpasset oversettelse.</translation>
+    </message>
+    <message>
+        <source>Change</source>
+        <translation>Endre</translation>
+    </message>
+    <message>
+        <source>Content translations</source>
+        <translation>Innholdsoversettelse</translation>
+    </message>
+    <message>
+        <source>Language</source>
+        <translation>Språk</translation>
+    </message>
+    <message>
+        <source>Country</source>
+        <translation>Land</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/archive</name>
+    <message>
+        <source>Archive</source>
+        <translation>Arkiv</translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation>Navn:</translation>
+    </message>
+    <message>
+        <source>Version:</source>
+        <translation>Versjon:</translation>
+    </message>
+    <message>
+        <source>Restore:</source>
+        <translation>Hent tilbake:</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Fjern</translation>
+    </message>
+    <message>
+        <source>Archive is empty</source>
+        <translation>Arkivet er tomt</translation>
     </message>
 </context>
 <context>
@@ -642,6 +766,14 @@
         <source>Enable editor</source>
         <translation>Aktiver redigeringsverktøy</translation>
     </message>
+    <message>
+        <source>MIME Type:</source>
+        <translation>MIME type:</translation>
+    </message>
+    <message>
+        <source>Filesize:</source>
+        <translation>Filstørrelse:</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/edit</name>
@@ -667,7 +799,7 @@
     </message>
     <message>
         <source>Path</source>
-        <translation>Sti</translation>
+        <translation type="obsolete">Sti</translation>
     </message>
     <message>
         <source>Published</source>
@@ -800,6 +932,14 @@
     <message>
         <source>Name</source>
         <translation>Navn</translation>
+    </message>
+    <message>
+        <source>Placemnent did not validate</source>
+        <translation>Plasseringen er ikke gyldig</translation>
+    </message>
+    <message>
+        <source>Placements were stored successfully</source>
+        <translation>Plasseringene er lagret</translation>
     </message>
 </context>
 <context>
@@ -1281,7 +1421,7 @@
     </message>
     <message>
         <source>My Tasks</source>
-        <translation>Mine oppgaver</translation>
+        <translation type="obsolete">Mine oppgaver</translation>
     </message>
     <message>
         <source>Install using installers</source>
@@ -1302,6 +1442,38 @@
     <message>
         <source>Install using the setup guide</source>
         <translation>Installer med hjelp av installasjonsguiden</translation>
+    </message>
+    <message>
+        <source>Collaboration</source>
+        <translation>Samarbeid</translation>
+    </message>
+    <message>
+        <source>%1 front page</source>
+        <translation>%1 forside</translation>
+    </message>
+    <message>
+        <source>Search %1</source>
+        <translation>Søk %1</translation>
+    </message>
+    <message>
+        <source>Archive</source>
+        <translation>Arkiv</translation>
+    </message>
+    <message>
+        <source>eZ publish manuals</source>
+        <translation>eZ publish manualer</translation>
+    </message>
+    <message>
+        <source>Site access</source>
+        <translation>Nettstedstilgang</translation>
+    </message>
+    <message>
+        <source>Multi site configuration</source>
+        <translation>Konfigurasjon av flere nettsteder</translation>
+    </message>
+    <message>
+        <source>Printable version</source>
+        <translation>Utskriftsvennlig versjon</translation>
     </message>
 </context>
 <context>
@@ -1335,7 +1507,7 @@
     </message>
     <message>
         <source>Removing this assignment will also remove it&apos;s %1 children!</source>
-        <translation>Hvis du fjerner denne tilordningen blir også %1 barn av denne fjernet!</translation>
+        <translation type="obsolete">Hvis du fjerner denne tilordningen blir også %1 barn av denne fjernet!</translation>
     </message>
     <message>
         <source>Are you sure you want to remove these nodes?</source>
@@ -1343,7 +1515,15 @@
     </message>
     <message>
         <source>Removing %1 will remove the node itself and it&apos;s %2 children!</source>
-        <translation>Hvis du fjerner noden %1 blir også %2 barn av denne fjernet!</translation>
+        <translation type="obsolete">Hvis du fjerner noden %1 blir også %2 barn av denne fjernet!</translation>
+    </message>
+    <message>
+        <source>Removing this assignment will also remove it&apos;s %1!</source>
+        <translation>Hvis du fjerner denne tilordningen blir også %1 av denne fjernet!</translation>
+    </message>
+    <message>
+        <source>Removing %1 will remove the node itself and it&apos;s %2!</source>
+        <translation>Hvis du fjerner noden %1 blir også %2 av denne fjernet!</translation>
     </message>
 </context>
 <context>
@@ -1802,6 +1982,22 @@
     <message>
         <source>Remove</source>
         <translation>Fjern</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove these sections?</source>
+        <translation>Er du sikker på at du vil fjerne disse seksjonene?</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation>Bekreft</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Avbryt</translation>
+    </message>
+    <message>
+        <source>Removing these sections can corrupt permissions, sitedesigns, and other things in the system. Do not do this unless you know exactly what are you doing.</source>
+        <translation>Dersom du fjerner seksjoner kan rettigheter, design, og andre elementer av systemet slutte å fungere som de skal. Ikke gjør dette hvis du ikke er helt sikker på hva du gjør.</translation>
     </message>
 </context>
 <context>
@@ -3858,6 +4054,52 @@
     </message>
 </context>
 <context>
+    <name>kernel/clas</name>
+    <message>
+        <source>Remove groups</source>
+        <translation type="obsolete"></translation>
+    </message>
+</context>
+<context>
+    <name>kernel/class</name>
+    <message>
+        <source>Class list of group</source>
+        <translation>Klasseliste av gruppen</translation>
+    </message>
+    <message>
+        <source>Class group list</source>
+        <translation>Klassegruppeliste</translation>
+    </message>
+    <message>
+        <source>Class list</source>
+        <translation>Klasseliste</translation>
+    </message>
+    <message>
+        <source> object</source>
+        <translation>objekt</translation>
+    </message>
+    <message>
+        <source> objects</source>
+        <translation>objekter</translation>
+    </message>
+    <message>
+        <source>Remove classes</source>
+        <translation>Fjern klasser</translation>
+    </message>
+    <message>
+        <source>(no classes)</source>
+        <translation>(ingen klasser)</translation>
+    </message>
+    <message>
+        <source>Remove groups</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Remove class groups</source>
+        <translation>Fjern klassegrupper</translation>
+    </message>
+</context>
+<context>
     <name>kernel/classes/datatypes</name>
     <message>
         <source>At least one author is requied.</source>
@@ -4014,6 +4256,47 @@
     </message>
 </context>
 <context>
+    <name>kernel/collaboration/participant</name>
+    <message>
+        <source>Standard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Observer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Owner</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Approver</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>kernel/collaboration/profile</name>
+    <message>
+        <source>Inbox</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>kernel/content</name>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">Fjern</translation>
+    </message>
+    <message>
+        <source>Remove object</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>kernel/content/removenode</name>
     <message>
         <source>child</source>
@@ -4037,6 +4320,108 @@
         <source>children</source>
         <comment>several children</comment>
         <translation>barn</translation>
+    </message>
+    <message>
+        <source>And also it will remove nodes:</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>And also it will remove the nodes:</source>
+        <translation>Følgende noder vil også bli fjernet:</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/ezinfo</name>
+    <message>
+        <source>Info</source>
+        <translation>Info</translation>
+    </message>
+    <message>
+        <source>About</source>
+        <translation>Om</translation>
+    </message>
+    <message>
+        <source>Copyright</source>
+        <translation>Copyright</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/search</name>
+    <message>
+        <source>Search stats</source>
+        <translation>Søkestatistikk</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/section</name>
+    <message>
+        <source>Edit Section</source>
+        <translation>Rediger seksjon</translation>
+    </message>
+    <message>
+        <source>Section list</source>
+        <translation>Seksjonsliste</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/trigger</name>
+    <message>
+        <source>Trigger</source>
+        <translation>Utløser</translation>
+    </message>
+    <message>
+        <source>List</source>
+        <translation>Liste</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/user</name>
+    <message>
+        <source>User</source>
+        <translation>Bruker</translation>
+    </message>
+    <message>
+        <source>Register</source>
+        <translation>Registrer</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/workflow</name>
+    <message>
+        <source>Edit workflow</source>
+        <translation>Rediger arbeidsflyt</translation>
+    </message>
+    <message>
+        <source>Workflow</source>
+        <translation>Arbeidsflyt</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Rediger</translation>
+    </message>
+    <message>
+        <source>Edit workflow group</source>
+        <translation>Rediger arbeidsflytgruppe</translation>
+    </message>
+    <message>
+        <source>Group edit</source>
+        <translation>Grupperedigering</translation>
+    </message>
+    <message>
+        <source>Workflow group list</source>
+        <translation>Liste over arbeidsflytgrupper</translation>
+    </message>
+    <message>
+        <source>Group list</source>
+        <translation>Gruppeliste</translation>
+    </message>
+    <message>
+        <source>Workflow list of group</source>
+        <translation>Liste over arbeidsflytgrupper</translation>
+    </message>
+    <message>
+        <source>List</source>
+        <translation>Liste</translation>
     </message>
 </context>
 </TS>
