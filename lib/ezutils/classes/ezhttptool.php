@@ -219,6 +219,153 @@ class eZHTTPTool
 
     /*!
      \static
+
+     Sends a http request to the specified host. Using https:// requires PHP 4.3.0, and compiled in OpenSSL support.
+
+     \param http/https address, only path to send request to eZ publish.
+            examples: http://ez.no, https://secure.ez.no, ssl://secure.ez.no, content/view/full/2
+     \param port, default 80
+     \param post parameters array (optional), if no post parameters are present, a get request will be send.
+     \param user agent, default will be eZ publish
+     \param passtrough, will send result directly to client, default false
+
+     \return result if http request, if pipetrough, program will end here.
+    */
+    function &sendHTTPRequest( $uri, $port = 80, $postParameters = false, $userAgent = 'eZ publish', $passtrough = true )
+    {
+        preg_match( "/^((http[s]?:\/\/)([a-zA-Z0-9_.]+))?([\/]?[~]?(\.?[^.]+[~]?)*)/i", $uri, $matches );
+        $protocol = $matches[2];
+        $host = $matches[3];
+        $path = $matches[4];
+        if ( !$path )
+        {
+            $path = '/';
+        }
+
+        $data = '';
+        if ( $postParameters )
+        {
+            $method = 'POST';
+            $dataCount = 0;
+            foreach( array_keys( $postParameters ) as $paramName )
+            {
+                if ( $dataCount > 0 )
+                {
+                    $data .= '&';
+                }
+                ++$dataCount;
+                if ( !is_array( $postParameters[$paramName] ) )
+                {
+                    $data .= urlencode( $paramName ) . '=' . urlencode( $postParameters[$paramName] );
+                }
+                else
+                {
+                    foreach( $postParameters[$paramName] as $value )
+                    {
+                        $data .= urlencode( $paramName ) . '[]=' . urlencode( $value );
+                    }
+                }
+            }
+        }
+        else
+        {
+            $method = 'GET';
+        }
+
+        if ( !$host )
+        {
+            $host = $_SERVER['HTTP_HOST'];
+            $filename = $host;
+            if ( $path[0] != '/' )
+            {
+                $path = $_SERVER['SCRIPT_NAME'] . '/' . $path;
+            }
+            else
+            {
+                $path = $_SERVER['SCRIPT_NAME'] . $path;
+            }
+        }
+        else{
+            if ( !$protocol || $protocol == 'https://' )
+            {
+                $filename = 'ssl://' . $host;
+            }
+            else
+            {
+                $filename = 'tcp://' . $host;
+            }
+        }
+
+        $fp = fsockopen( $filename, $port );
+
+        $request = $method . ' ' . $path . ' ' . 'HTTP/1.1' . "\r\n" .
+             "Host: $host\r\n" .
+             "Accept: */*\r\n" .
+             "Content-type: application/x-www-form-urlencoded\r\n" .
+             "Content-length: " . strlen( $data ) . "\r\n" .
+             "User-Agent: $userAgent\r\n" .
+             "Pragma: no-cache\r\n" .
+             "Connection: close\r\n\r\n";
+
+        fputs( $fp, $request );
+        if ( $method == 'POST' )
+        {
+            fputs( $fp, $data );
+        }
+
+        if ( $passtrough )
+        {
+            ob_end_clean();
+            $header = true;
+
+            $character = '';
+            while( $header )
+            {
+                $buffer = $character;
+                while ( !feof( $fp ) )
+                {
+                    $character = fgetc( $fp );
+                    if ( $character == "\r" )
+                    {
+                        fgetc( $fp );
+                        $character = fgetc( $fp );
+                        if ( $character == "\r" )
+                        {
+                            fgetc( $fp );
+                            $header = false;
+                        }
+                        break;
+                    }
+                    else
+                    {
+                        $buffer .= $character;
+                    }
+                }
+
+                header( $buffer );
+            }
+
+            header( 'Content-Location: ' . $uri );
+
+            fpassthru( $fp );
+            include_once( 'lib/ezutils/classes/ezexecution.php' );
+            eZExecution::cleanExit();
+        }
+        else
+        {
+            $buf = '';
+            while ( !feof( $fp ) )
+            {
+                $buf .= fgets( $fp, 128 );
+            }
+        }
+
+        fclose($fp);
+        return $buf;
+    }
+
+    /*!
+     \static
      Sends a redirect path to the browser telling it to
      load the new path.
      By default only \a $path is required, other parameters

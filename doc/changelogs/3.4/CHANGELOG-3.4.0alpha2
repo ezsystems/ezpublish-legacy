@@ -27,6 +27,9 @@ eZObjectRelation:
 
 *Libraries:
 
+eZ Utils:
+- Added function to redirect client to other URL, with POST parameters. eZHTTPTool::sendHTTPRequest()
+
 eZ ini:
 
 eZ template:
