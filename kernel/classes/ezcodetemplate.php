@@ -58,9 +58,13 @@ class eZCodeTemplate
     */
     function eZCodeTemplate()
     {
+        $ini =& eZINI::instance( 'codetemplate.ini' );
         $this->Templates = array();
-        $this->Templates['can-instantiate-class-list'] = array( 'filepath' => 'templates/classcreatelist.ctpl' );
-        $this->Templates['class-list-from-policy'] = array( 'filepath' => 'templates/classlistfrompolicy.ctpl' );
+        $templates = $ini->variable( 'Files', 'Templates' );
+        foreach ( $templates as $key => $template )
+        {
+            $this->Templates[$key] = array( 'filepath' => $template );
+        }
     }
 
     /*!
