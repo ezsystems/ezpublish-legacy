@@ -114,6 +114,8 @@ eZIdentifier:
 - Fixed bug in the content cache where year/month/day parameters were not taken
   into account.
   http://ez.no/community/bug_reports/toolbar_error_when_publishing_a_calendar
+- Fixed typo bug
+  http://ez.no/community/bug_reports/typos_in_design_standard_templates_content_bookmark_tpl
 
 *Library:
 
