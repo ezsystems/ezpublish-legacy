@@ -85,7 +85,9 @@ include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 // if ( !eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $NodeID,
 //                                                                'version' => 1 ) ) )
 //     return;
+eZDebug::addTimingPoint( 'Operation start' );
 $operationResult = eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID ) );
+eZDebug::addTimingPoint( 'Operation end' );
 if ( !$operationResult['status'] )
 {
     $Result = $operationResult['result'];

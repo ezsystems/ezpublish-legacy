@@ -57,6 +57,14 @@ class eZContentOperationCollection
         print( "\$nodeID=$nodeID<br/>" );
     }
 
+    function loopNodes( $nodeID )
+    {
+        print( "loopNodes:\$nodeID=$nodeID<br/>" );
+        return array( 'parameters' => array( array( 'parent_node_id' => 3 ),
+                                             array( 'parent_node_id' => 5 ),
+                                             array( 'parent_node_id' => 12 ) ) );
+    }
+
     function loopNodeAssignment( $objectID, $version )
     {
         print( "loopNodeAssignment:\$objectID=$objectID<br/>" );

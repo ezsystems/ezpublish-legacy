@@ -40,6 +40,7 @@ alter table eznode_assignment add from_node_id int default 0;
 # Beta 3 changes
 CREATE TABLE ezoperation_memento (
 id int NOT NULL auto_increment,
+main_key int NOT NULL default 0,
 memento_key varchar(32) NOT NULL,
 memento_data text NOT NULL,
 PRIMARY KEY(id, memento_key) );
