@@ -678,20 +678,20 @@ class eZSearchEngine
             $searchWordCount = count( $searchWordArray );
             $fullTextSQL = "";
             $stopWordArray = array( );
-            if ( count( $searchWordArray ) > 0 )
-            {
-                $i = 0;
-                // Loop every word and insert result in temporary table
-                foreach ( $searchWordArray as $searchWord )
-                {
-                    $wordID = null;
-                    if ( isset( $wordIDHash[$searchWord] ) )
-                        $wordID = $wordIDHash[$searchWord]['id'];
 
-                    $searchThresholdValue = (int)( $totalObjectCount * 0.05 );
-                    // do not search words that are too frequent
-                    if ( $wordIDHash[$searchWord]['object_count'] < $searchThresholdValue )
-                    {
+            $i = 0;
+            // Loop every word and insert result in temporary table
+            foreach ( $searchWordArray as $searchWord )
+            {
+                $wordID = null;
+                if ( isset( $wordIDHash[$searchWord] ) )
+                    $wordID = $wordIDHash[$searchWord]['id'];
+
+                $searchThresholdValue = (int)( $totalObjectCount * 0.05 );
+//                $searchThresholdValue = (int)( $totalObjectCount * 1 );
+                // do not search words that are too frequent
+                if ( $wordIDHash[$searchWord]['object_count'] < $searchThresholdValue )
+                {
 
                     if ( is_numeric( $wordID ) and ( $wordID > 0 ) )
                     {
@@ -753,16 +753,23 @@ class eZSearchEngine
                         $i++;
                     }
 
-                    }
-                    else
-                    {
-                        $stopWordArray[] = array( 'word' => $wordIDHash[$searchWord]['word'] );
-                    }
-
                 }
+                else
+                {
+                    $stopWordArray[] = array( 'word' => $wordIDHash[$searchWord]['word'] );
+                }
+
             }
 
             $excludeWordCount = $searchWordCount - count( $stopWordArray );
+
+            if ( $excludeWordCount = $searchWordCount )
+            {
+                // No words to search for, return empty result
+                return array( "SearchResult" => array(),
+                          "SearchCount" => 0,
+                          "StopWordArray" => $stopWordArray );
+            }
 
             // Fetch data from table
             $searchQuery = "SELECT DISTINCT COUNT(ezsearch_tmp.contentobject_id) AS count, ezcontentobject.*, ezcontentclass.name as class_name, ezcontentobject_tree.*
@@ -785,7 +792,7 @@ class eZSearchEngine
                     ORDER BY ezsearch_tmp.published DESC";
 
             // Count query
-            $searchCountQuery = "SELECT count( DISTINCT contentobject_id ) as count FROM ezsearch_tmp HAVING count >= $excludeWordCount";
+            $searchCountQuery = "SELECT count(  contentobject_id ) as count FROM ezsearch_tmp GROUP BY contentobject_id HAVING count = $excludeWordCount";
 
             $objectRes = array();
 
@@ -798,7 +805,7 @@ class eZSearchEngine
                 // execute search count query
                 $objectCountRes =& $db->arrayQuery( $searchCountQuery );
                 $objectRes =& eZContentObjectTreeNode::makeObjectsArray( $objectResArray );
-                $searchCount = $objectCountRes[0]['count'];
+                $searchCount = count( $objectCountRes );
             }
             else
                 $objectRes = array();
