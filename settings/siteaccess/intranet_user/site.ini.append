@@ -7,6 +7,8 @@ TranslationList=
 SiteName=Plain
 SiteURL=intranet.vl.dvh1.ez.no
 
+LoginPage=embeded
+
 [DatabaseSettings]
 DatabaseImplementation=ezmysql
 Server=kk.ez.no
@@ -39,6 +41,6 @@ StandardDesign=standard
 SiteDesign=intranet
 
 [SiteAccessSettings]
-RequireUserLogin=false
+RequireUserLogin=true
 
 */ ?>
