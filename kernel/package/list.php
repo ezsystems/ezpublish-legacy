@@ -38,6 +38,10 @@ include_once( "kernel/classes/ezpackage.php" );
 $module =& $Params['Module'];
 $offset = (int)$Params['Offset'];
 
+$repositoryID = 'local';
+if ( $Params['RepositoryID'] )
+    $repositoryID = $Params['RepositoryID'];
+
 if ( $module->isCurrentAction( 'InstallPackage' ) )
 {
     return $module->redirectToView( 'upload' );
@@ -71,6 +75,11 @@ if ( $module->isCurrentAction( 'RemovePackage' ) or
     }
 }
 
+if ( $module->isCurrentAction( 'ChangeRepository' ) )
+{
+    $repositoryID = $module->actionParameter( 'RepositoryID' );
+}
+
 if ( $module->isCurrentAction( 'CreatePackage' ) )
 {
     return $module->redirectToView( 'create' );
@@ -83,6 +92,7 @@ $viewParameters = array( 'offset' => $offset );
 $tpl->setVariable( 'module_action', $module->currentAction() );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'remove_list', $removeList );
+$tpl->setVariable( 'repository_id', $repositoryID );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:package/list.tpl" );

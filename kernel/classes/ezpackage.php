@@ -69,6 +69,7 @@ class eZPackage
         if ( !$repositoryPath )
             $repositoryPath = eZPackage::repositoryPath();
         $this->RepositoryPath = $repositoryPath;
+        $this->RepositoryInformation = null;
     }
 
     /*!
@@ -218,7 +219,8 @@ class eZPackage
     */
     function attributes()
     {
-        return array_merge( array( 'development',
+        return array_merge( array( 'is_local',
+                                   'development',
                                    'name', 'summary', 'description',
                                    'vendor', 'priority', 'type',
                                    'extension', 'source',
@@ -264,7 +266,8 @@ class eZPackage
     function hasAttribute( $attributeName /*, $attributeList = false*/ )
     {
         return in_array( $attributeName,
-                         array( 'development',
+                         array( 'is_local',
+                                'development',
                                 'name', 'summary', 'description',
                                 'vendor', 'priority', 'type',
                                 'extension', 'source',
@@ -321,6 +324,11 @@ class eZPackage
             return $this->fileCount();
         else if ( $attributeName == 'thumbnail-list' )
             return $this->thumbnailList( 'default' );
+        else if ( $attributeName == 'is_local' )
+        {
+            $repositoryInformation = $this->currentRepositoryInformation();
+            return $repositoryInformation['type'] == 'local';
+        }
 
         eZDebug::writeError( "No such attribute: $attributeName for eZPackage", 'eZPackage::attribute' );
         return null;
@@ -754,8 +762,13 @@ class eZPackage
 
     function fileItemPath( $fileItem, $collectionName, $path = false )
     {
+//         if ( !$path )
+//             $path = $this->currentRepositoryPath();
         if ( !$path )
-            $path = $this->currentRepositoryPath();
+        {
+            $repositoryInformation = $this->currentRepositoryInformation();
+            $path = $repositoryInformation['path'];
+        }
         $typeDir = $fileItem['type'];
         if ( $fileItem['type'] == 'design' )
             $typeDir .= '.' . $fileItem['design'];
@@ -1409,33 +1422,52 @@ class eZPackage
      \static
      Tries to load the package named \a $packageName from the repository
      and returns the package object.
+     \param $repositoryID Determines in which repositories the package should be searched for,
+                          if set to \c true it means only look in local packages, \c false means
+                          look in all repositories.
      \return \c false if no package could be found.
     */
-    function &fetch( $packageName, $packagePath = false )
+    function &fetch( $packageName, $packagePath = false, $repositoryID = true )
     {
-        $path = eZPackage::repositoryPath();
-        if ( $packagePath )
-            $path = $packagePath;
-        $path .= '/' . $packageName;
-        $filePath = $path . '/' . eZPackage::definitionFilename();
-        if ( file_exists( $filePath ) )
+        $packageRepositories = eZPackage::packageRepositories( array( 'path' => $packagePath ) );
+
+        if ( $repositoryID === true )
+            $repositoryID = 'local';
+
+        foreach ( $packageRepositories as $packageRepository )
         {
-            $fileModification = filemtime( $filePath );
-            $package = false;
-            $cacheExpired = false;
-            if ( eZPackage::useCache() )
-                $package =& eZPackage::fetchFromCache( $packageName, $fileModification, $cacheExpired );
-            if ( $package )
-                return $package;
-            $package =& eZPackage::fetchFromFile( $filePath );
-            if ( $packagePath )
-                $package->RepositoryPath = $packagePath;
-            if ( $cacheExpired and
-                 eZPackage::useCache() )
+            if ( $repositoryID !== false and
+                 $packageRepository['id'] != $repositoryID )
+                continue;
+            $path = $packageRepository['path'];
+
+            $path .= '/' . $packageName;
+            $filePath = $path . '/' . eZPackage::definitionFilename();
+            if ( file_exists( $filePath ) )
             {
-                $package->storeCache( $path . '/' . eZPackage::cacheDirectory() );
+                $fileModification = filemtime( $filePath );
+                $package = false;
+                $cacheExpired = false;
+                if ( eZPackage::useCache() )
+                {
+                    $package =& eZPackage::fetchFromCache( $packageName, $fileModification, $cacheExpired );
+                }
+                if ( $package )
+                {
+                    $package->setCurrentRepositoryInformation( $packageRepository );
+                    return $package;
+                }
+                $package =& eZPackage::fetchFromFile( $filePath );
+                $package->setCurrentRepositoryInformation( $packageRepository );
+                if ( $packagePath )
+                    $package->RepositoryPath = $packagePath;
+                if ( $cacheExpired and
+                     eZPackage::useCache() )
+                {
+                    $package->storeCache( $path . '/' . eZPackage::cacheDirectory() );
+                }
+                return $package;
             }
-            return $package;
         }
         return false;
     }
@@ -1526,7 +1558,8 @@ class eZPackage
     function path()
     {
 //         $path = eZPackage::repositoryPath();
-        $path = $this->RepositoryPath;
+//        $path = $this->RepositoryPath;
+        $path = $this->currentRepositoryPath();
         $path .= '/' . $this->attribute( 'name' );
         return $path;
     }
@@ -1536,7 +1569,20 @@ class eZPackage
     */
     function currentRepositoryPath()
     {
+        $repositoryInformation = $this->currentRepositoryInformation();
+        if ( $repositoryInformation )
+            return $repositoryInformation['path'];
         return $this->RepositoryPath;
+    }
+
+    /*!
+     \return the path to the global (read-only) repository.
+    */
+    function globalRepositoryPath( $subtype = false )
+    {
+        if ( !$subtype )
+            return 'packages';
+        return 'packages/' . $subtype;
     }
 
     /*!
@@ -1630,6 +1676,7 @@ class eZPackage
 
     /*!
      Locates all dependent packages in the repository and returns an array with eZPackage objects.
+     \warning This function is not in use and change in the future
     */
     function fetchDependentPackages( $parameters = array() )
     {
@@ -1672,6 +1719,68 @@ class eZPackage
     }
 
     /*!
+     \static
+     \return an array with repositories which can contain packages.
+
+     Each repository entry is an array with the following keys.
+     - path The path to the repository relative from the eZ publish installation
+     - id   Unique identifier for this repository
+     - name Human readable string identifying this repository, the name is translatable
+     - type What kind of repository, currently supports local or global.
+    */
+    function packageRepositories( $parameters = array() )
+    {
+        $path = eZPackage::repositoryPath();
+
+        if ( isset( $parameters['path'] ) and $parameters['path'] )
+            $path = $parameters['path'];
+        $packageRepositories = array( array( 'path' => $path,
+                                             'id' => 'local',
+                                             'name' => ezi18n( 'kernel/package', 'Local' ),
+                                             'type' => 'local' ),
+                                      array( 'path' => eZPackage::globalRepositoryPath( 'styles' ),
+                                             'id' => 'styles',
+                                             'name' => ezi18n( 'kernel/package', 'Styles' ),
+                                             'type' => 'global' ) );
+        return $packageRepositories;
+    }
+
+    /*!
+     \static
+     \return information on the repository with ID $repositoryID or \c false if does not exist.
+    */
+    function repositoryInformation( $repositoryID )
+    {
+        $packageRepositories = eZPackage::packageRepositories();
+        foreach ( $packageRepositories as $packageRepository )
+        {
+            if ( $packageRepository['id'] == $repositoryID )
+                return $packageRepository;
+        }
+        return false;
+    }
+
+    /*!
+     Sets the current repository information for the package.
+     \sa currentRepositoryInformation, packageRepositories
+    */
+    function setCurrentRepositoryInformation( $information )
+    {
+        $this->RepositoryInformation = $information;
+    }
+
+    /*!
+     \return the current repository information for the package, this
+             will contain information of where the package was found.
+     See packageRepositories too see what the information will contain.
+     \note The return information can be \c null in some cases when the package is not properly initialized.
+    */
+    function currentRepositoryInformation()
+    {
+        return $this->RepositoryInformation;
+    }
+
+    /*!
      Locates all packages in the repository and returns an array with eZPackage objects.
 
      \param parameters
@@ -1679,10 +1788,8 @@ class eZPackage
     */
     function fetchPackages( $parameters = array(), $filterArray = array() )
     {
-        $path = eZPackage::repositoryPath();
+        $packageRepositories = eZPackage::packageRepositories( $parameters );
 
-        if ( isset( $parameters['path'] ) )
-            $path = $parameters['path'];
         $packages = array();
 
         $requiredType = null;
@@ -1697,82 +1804,94 @@ class eZPackage
             $requiredVendor = $filterArray['vendor'];
         if ( isset( $filterArray['extension'] ) )
             $requiredExtension = $filterArray['extension'];
+        $repositoryID = false;
+        if ( isset( $parameters['repository_id'] ) )
+            $repositoryID = $parameters['repository_id'];
 
-        if ( file_exists( $path ) )
+        foreach ( $packageRepositories as $packageRepository )
         {
-            $fileList = array();
-            $dir = opendir( $path );
-            while( ( $file = readdir( $dir ) ) !== false )
+            if ( $repositoryID !== false and
+                 $repositoryID != $packageRepository['id'] )
+                continue;
+            $path = $packageRepository['path'];
+            if ( file_exists( $path ) )
             {
-                if ( $file == '.' or
-                     $file == '..' )
-                    continue;
-                $fileList[] = $file;
-            }
-            closedir( $dir );
-            sort( $fileList );
-            foreach ( $fileList as $file )
-            {
-                $dirPath = $path . '/' . $file;
-                if ( !is_dir( $dirPath ) )
-                    continue;
-                $filePath = $dirPath . '/' . eZPackage::definitionFilename();
-                if ( file_exists( $filePath ) )
+                $fileList = array();
+                $dir = opendir( $path );
+                while( ( $file = readdir( $dir ) ) !== false )
                 {
-                    $fileModification = filemtime( $filePath );
-                    $name = $file;
-                    $packageCachePath = $dirPath . '/' . eZPackage::cacheDirectory() . '/package.php';
-                    unset( $package );
-                    $package = false;
-                    $cacheExpired = false;
-                    if ( eZPackage::useCache() )
+                    if ( $file == '.' or
+                         $file == '..' )
+                        continue;
+                    $fileList[] = $file;
+                }
+                closedir( $dir );
+                sort( $fileList );
+                foreach ( $fileList as $file )
+                {
+                    $dirPath = $path . '/' . $file;
+                    if ( !is_dir( $dirPath ) )
+                        continue;
+                    $filePath = $dirPath . '/' . eZPackage::definitionFilename();
+                    if ( file_exists( $filePath ) )
                     {
-                        $package =& eZPackage::fetchFromCache( $file, $fileModification, $cacheExpired );
-                    }
-                    if ( !$package )
-                    {
-                        $package =& eZPackage::fetchFromFile( $filePath );
-                        if ( $package and
-                             $cacheExpired and
-                             eZPackage::useCache() )
+                        $fileModification = filemtime( $filePath );
+                        $name = $file;
+                        $packageCachePath = $dirPath . '/' . eZPackage::cacheDirectory() . '/package.php';
+                        unset( $package );
+                        $package = false;
+                        $cacheExpired = false;
+                        if ( eZPackage::useCache() )
                         {
-                            $package->storeCache( $dirPath . '/' . eZPackage::cacheDirectory() );
+                            $package =& eZPackage::fetchFromCache( $file, $fileModification, $cacheExpired );
                         }
-                    }
-                    if ( !$package )
-                        continue;
-                    if ( !$package->attribute( 'is_active' ) )
-                        continue;
+                        if ( !$package )
+                        {
+                            $package =& eZPackage::fetchFromFile( $filePath );
+                            if ( $package and
+                                 $cacheExpired and
+                                 eZPackage::useCache() )
+                            {
+                                $package->storeCache( $dirPath . '/' . eZPackage::cacheDirectory() );
+                            }
+                        }
+                        if ( !$package )
+                            continue;
+                        if ( !$package->attribute( 'is_active' ) )
+                            continue;
 
-                    if ( $requiredType !== null )
-                    {
-                        $type = $package->attribute( 'type' );
-                        if ( $type != $requiredType )
-                            return false;
-                    }
+                        if ( $requiredType !== null )
+                        {
+                            $type = $package->attribute( 'type' );
+                            if ( $type != $requiredType )
+                                return false;
+                        }
 
-                    if ( $requiredPriority !== null )
-                    {
-                        $type = $package->attribute( 'priority' );
-                        if ( $priority != $requiredPriority )
-                            return false;
-                    }
+                        if ( $requiredPriority !== null )
+                        {
+                            $type = $package->attribute( 'priority' );
+                            if ( $priority != $requiredPriority )
+                                return false;
+                        }
 
-                    if ( $requiredExtension !== null )
-                    {
-                        $type = $package->attribute( 'extension' );
-                        if ( $extension != $requiredExtension )
-                            return false;
-                    }
+                        if ( $requiredExtension !== null )
+                        {
+                            $type = $package->attribute( 'extension' );
+                            if ( $extension != $requiredExtension )
+                                return false;
+                        }
 
-                    if ( $requiredVendor !== null )
-                    {
-                        $type = $package->attribute( 'vendor' );
-                        if ( $vendor != $requiredVendor )
-                            return false;
-                    }
+                        if ( $requiredVendor !== null )
+                        {
+                            $type = $package->attribute( 'vendor' );
+                            if ( $vendor != $requiredVendor )
+                                return false;
+                        }
 
-                    $packages[] =& $package;
+                        $package->setCurrentRepositoryInformation( $packageRepository );
+
+                        $packages[] =& $package;
+                    }
                 }
             }
         }

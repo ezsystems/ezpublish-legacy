@@ -52,6 +52,10 @@ $FunctionList['list'] = array( 'name' => 'list',
                                                        array( 'name' => 'limit',
                                                               'type' => 'integer',
                                                               'default' => false,
+                                                              'required' => false ),
+                                                       array( 'name' => 'repository_id',
+                                                              'type' => 'string',
+                                                              'default' => false,
                                                               'required' => false ) ) );
 $FunctionList['maintainer_role_list'] = array( 'name' => 'maintainer_role_list',
                                                'call_method' => array( 'include_file' => 'kernel/package/ezpackagefunctioncollection.php',
@@ -130,7 +134,11 @@ $FunctionList['item'] = array( 'name' => 'item',
                                'parameter_type' => 'standard',
                                'parameters' => array( array( 'name' => 'package_name',
                                                              'type' => 'string',
-                                                             'required' => true ) ) );
+                                                             'required' => true ),
+                                                      array( 'name' => 'repository_id',
+                                                             'type' => 'string',
+                                                             'default' => false,
+                                                             'required' => false ) ) );
 
 $FunctionList['dependent_list'] = array( 'name' => 'dependent_list',
                                          'call_method' => array( 'include_file' => 'kernel/package/ezpackagefunctioncollection.php',
@@ -143,5 +151,15 @@ $FunctionList['dependent_list'] = array( 'name' => 'dependent_list',
                                                                 array( 'name' => 'parameters',
                                                                        'type' => 'array',
                                                                        'required' => false,
-                                                                       'default' => false ) ) );
+                                                                       'default' => false ),
+                                                                array( 'name' => 'repository_id',
+                                                                       'type' => 'string',
+                                                                       'default' => false,
+                                                                       'required' => false ) ) );
+$FunctionList['repository_list'] = array( 'name' => 'repository_list',
+                                          'call_method' => array( 'include_file' => 'kernel/package/ezpackagefunctioncollection.php',
+                                                                  'class' => 'eZPackageFunctionCollection',
+                                                                  'method' => 'fetchRepositoryList' ),
+                                          'parameter_type' => 'standard',
+                                          'parameters' => array() );
 ?>

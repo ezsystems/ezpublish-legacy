@@ -39,15 +39,17 @@ $ViewList['list'] = array(
     'functions' => array( 'list' ),
     'script' => 'list.php',
     'default_navigation_part' => 'ezsetupnavigationpart',
-    'single_post_actions' => array( 'InstallPackageButton' => 'InstallPackage',
+    'single_post_actions' => array( 'ChangeRepositoryButton' => 'ChangeRepository',
+                                    'InstallPackageButton' => 'InstallPackage',
                                     'RemovePackageButton' => 'RemovePackage',
                                     'ConfirmRemovePackageButton' => 'ConfirmRemovePackage',
                                     'CancelRemovePackageButton' => 'CancelRemovePackage',
                                     'CreatePackageButton' => 'CreatePackage' ),
-    'post_action_parameters' => array( 'RemovePackage' => array( 'PackageSelection' => 'PackageSelection' ),
+    'post_action_parameters' => array( 'ChangeRepository' => array( 'RepositoryID' => 'RepositoryID' ),
+                                       'RemovePackage' => array( 'PackageSelection' => 'PackageSelection' ),
                                        'ConfirmRemovePackage' => array( 'PackageSelection' => 'PackageSelection' ) ),
     "unordered_params" => array( "offset" => "Offset" ),
-    'params' => array() );
+    'params' => array( 'RepositoryID' ) );
 
 $ViewList['upload'] = array(
     'functions' => array( 'import' ),
@@ -82,7 +84,7 @@ $ViewList['view'] = array(
     'single_post_actions' => array( 'InstallButton' => 'Install',
                                     'UninstallButton' => 'Uninstall',
                                     'ExportButton' => 'Export' ),
-    'params' => array( 'ViewMode', 'PackageName' ) );
+    'params' => array( 'ViewMode', 'PackageName', 'RepositoryID' ) );
 
 $ViewList['install'] = array(
     'functions' => array( 'install' ),
