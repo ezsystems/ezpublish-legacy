@@ -16,6 +16,7 @@ CLEAR_SORTKEY="0"
 CLEAR_CLASSIDENTIFIER="0"
 CLEAR_RSS="0"
 CLEAR_CODEPAGE="0"
+CLEAR_TRANS="0"
 
 # Check parameters
 for arg in $*; do
@@ -39,6 +40,7 @@ for arg in $*; do
 	    echo "         --clear-sortkey            Remove sort key cache"
             echo "         --clear-classidentifiers   Remove class identifier cache"
 	    echo "         --clear-rss                Remove RSS cache"
+	    echo "         --clear-transformations    Remove character transformation cache"
             echo "         --clear-all                Remove all above caches"
             echo
             echo "Example:"
@@ -91,6 +93,9 @@ for arg in $*; do
        --clear-rss)
 	    CLEAR_RSS="1"
 	    ;;
+       --clear-transformations)
+	    CLEAR_TRANS="1"
+	    ;;
 
 	--clear-all)
 	    CLEAR_CONTENT="1"
@@ -106,6 +111,7 @@ for arg in $*; do
             CLEAR_SORTKEY="1"
             CLEAR_CLASSIDENTIFIER="1"
 	    CLEAR_RSS="1"
+	    CLEAR_TRANS="1"
 	    ;;
 	*)
 	    echo "$arg: unkown option specified"
@@ -161,6 +167,7 @@ for DIR in $VAR_DIRS; do
         CLASSIDENTIFIER_CACHEFILE="$DIR/cache/classidentifiers_"
         CLASSATTRIBUTEIDENTIFIER_CACHEFILE="$DIR/cache/classattributeidentifiers_"
 	RSS_CACHEDIR="$DIR/cache/rss"
+	TRANS_CACHEDIR="$DIR/cache/trans"
    
 
 	if [ "$CLEAR_CONTENT" -eq 1 ]; then
@@ -242,6 +249,13 @@ for DIR in $VAR_DIRS; do
 	    if [ -d "$RSS_CACHEDIR" ]; then
 		echo "Removing RSS cache files in $RSS_CACHEDIR"
 		rm -rf "$RSS_CACHEDIR"
+	    fi
+	fi
+
+	if [ "$CLEAR_TRANS" -eq 1 ]; then
+	    if [ -d "$TRANS_CACHEDIR" ]; then
+		echo "Removing transformation cache files in $TRANS_CACHEDIR"
+		rm -rf "$TRANS_CACHEDIR"
 	    fi
 	fi
 
