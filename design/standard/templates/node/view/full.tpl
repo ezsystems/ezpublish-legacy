@@ -62,7 +62,11 @@ function checkAll()
 <h1>{$node_name|wash}</h1>
 <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 
-    {include name=Validation uri='design:content/collectedinfo_validation.tpl' validation=$validation collection_attributes=$collection_attributes}
+    {default validation=false()}
+    {section show=$validation}
+      {include name=Validation uri='design:content/collectedinfo_validation.tpl' validation=$validation collection_attributes=$collection_attributes}
+    {/section}
+    {/default}
 
     {section name=ContentObjectAttribute loop=$content_version.contentobject_attributes}
     <div class="block">
@@ -91,10 +95,9 @@ function checkAll()
 
 </div>
 
+    {let related_objects=$content_version.related_contentobject_array}
 
-    {let name=Object related_objects=$content_version.related_contentobject_array}
-
-      {section name=ContentObject  loop=$Object:related_objects show=$Object:related_objects  sequence=array(bglight,bgdark)}
+      {section name=ContentObject  loop=$related_objects show=$related_objects  sequence=array(bglight,bgdark)}
         <div class="block">
         {content_view_gui view=text_linked content_object=$Object:ContentObject:item}
         </div>
