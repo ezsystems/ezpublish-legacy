@@ -16,6 +16,7 @@ Changes from 2.9-2 to 2.9-3
 - Added new datatype Email
 - Added new datatype ISBN
 - Added check for existing related objects when adding new object relations, duplicated objects will not be added
+- Fixed some bugs for user settings, such as wrong redirection, uncrectly user information retriving. 
 - Fixed bug for unable to show stored information of issearchable and isrequired when editing class attribute
 - Fixed bug for finding related object
 _ Fixed bug for finding node
@@ -28,7 +29,7 @@ _ Fixed bug for finding node
 - Added column choosing when creating a new datetype text field
 - Fixed bug for "and" searching
 - Added function for checking status when supply delete object(class) button or remove object(class) button. If nothing could be deleted, no delete button supplied
-_ Fixed bug for permission system where related to object ownership. The owner of an object is able to delete or edit the object he created if permission allowed 
+_ Fixed bug for permission system where related to object ownership. The owner of an object is able to delete or edit the object he created if permission allowed
 
 
 *Library :
