@@ -50,8 +50,11 @@
         
     Functions which change state of node(folded/unfolded):        
         ezcst_changeState,
+        ezcst_setFoldedState,
+        ezcst_setUnfoldedState,
         ezcst_foldUnfold,
-        ezcst_foldUnfoldSubtree.
+        ezcst_foldUnfoldSubtree,
+        ezcst_unfoldNode.
         
     Functions which initializes menu:        
         ezcst_initializeMenuState
@@ -123,7 +126,7 @@ function ezcst_cookie_saveUnfoldedNodesList()
 */
 function ezcst_cookie_addNode( node_id )
 {
-    if ( node_id && (node_id != null) )
+    if ( node_id )
     {
         if ( ezcst_findNodeIDInList( node_id ) == -1 )
         {
@@ -173,26 +176,54 @@ function ezcst_cookie_removeNode( node_id )
 function ezcst_changeState( node_id, ul_node, link_node )
 {
     // change display state of ul_node and label for link_node
-    if ( ul_node && link_node )
+    if ( ul_node )
     {
         if ( ul_node.style.display == "none" )
         { 
-            // fold state => make it unfold
-                ul_node.style.display = "";
-            // change label
-                ezjslib_setTextToHTMLChildTextNode( link_node, "[-]" );
-            // update cookie
-                ezcst_cookie_addNode( node_id );
+            ezcst_setUnfoldedState( node_id, ul_node, link_node );
         }
         else 
         { 
-            // unfold state => make it fold
-                ul_node.style.display = "none";
-            //Change label
-                ezjslib_setTextToHTMLChildTextNode( link_node, "[+]" );
-            // update cookie
-                ezcst_cookie_removeNode( node_id );
+            ezcst_setFoldedState( node_id, ul_node, link_node );
         } 
+    }
+}
+
+/*!
+    Sets unfolded state of node.
+    Saves \a node_id in cookie,
+    changes display status of \a ul_node,
+    changes text of \a link_node
+*/
+function ezcst_setUnfoldedState( node_id, ul_node, link_node )
+{
+    if ( ul_node && ul_node.style.display == "none" )
+    { 
+        // fold state => make it unfold
+            ul_node.style.display = "";
+        // change label
+            ezjslib_setTextToHTMLChildTextNode( link_node, "[-]" );
+        // update cookie
+            ezcst_cookie_addNode( node_id );
+    }
+}
+
+/*!
+    Sets folded state of node.
+    Saves \a node_id in cookie,
+    changes display status of \a ul_node,
+    changes text of \a link_node
+*/
+function ezcst_setFoldedState( node_id, ul_node, link_node )
+{
+    if ( ul_node && ul_node.style.display != "none" )
+    {
+        // unfold state => make it fold
+            ul_node.style.display = "none";
+        //Change label
+            ezjslib_setTextToHTMLChildTextNode( link_node, "[+]" );
+        // update cookie
+            ezcst_cookie_removeNode( node_id );
     }
 }
 
@@ -261,6 +292,15 @@ function ezcst_foldUnfoldSubtree( rootNode, bUpdateCookie, bInitNodesText )
 }
 
 /*!
+    Just unfold node.
+*/
+function ezcst_unfoldNode( li_node )
+{
+    var ul_node = ezjslib_getHTMLChildNodeByTag( li_node, "ul" );
+    ezcst_setUnfoldedState( null, ul_node, null );
+}
+
+/*!
     Default menu state: all 'container' nodes(except root node) are folded 
 */
 function ezcst_resetMenuState( rootNode )
@@ -268,7 +308,7 @@ function ezcst_resetMenuState( rootNode )
     if ( rootNode != null )
     {
         // Since all nodes are folded, need to unfold root node.
-        ezcst_foldUnfold       ( rootNode, true, false );
+        ezcst_foldUnfold( rootNode, true, false );
     }
 }
 
@@ -279,7 +319,7 @@ function ezcst_restoreMenuState( rootNode )
 {
     if ( rootNode != null )
     {
-        // unfold nodes which are where stored in cookies.
+        // unfold nodes which were stored in cookies.
         for ( var i = 0; i < gUnfoldedNodesList.length; ++i )
         {
             var li_node = ezjslib_getHTMLNodeById( gUnfoldedNodesList[i] );
@@ -288,6 +328,8 @@ function ezcst_restoreMenuState( rootNode )
                 ezcst_foldUnfold( li_node, false, false );
             }
         }
+
+        ezcst_unfoldNode( rootNode );
     }
 }
 
