@@ -634,14 +634,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     ++$sortCount;
                 }
             }
-            
+
             $sortingInfo['sortCount']           =  $sortCount;
             $sortingInfo['sortingFields']       =& $sortingFields;
             $sortingInfo['attributeJoinCount']  =  $attributeJoinCount;
             $sortingInfo['attributeFromSQL']    =& $attributeFromSQL;
             $sortingInfo['attributeWhereSQL']   =& $attributeWhereSQL;
         }
-        
+
         return $sortingInfo;
     }
 
@@ -653,7 +653,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         // Check for class filtering
         $classCondition = '';
 
-        if ( isset( $classFilterType ) and 
+        if ( isset( $classFilterType ) and
              ( $classFilterType == 'include' or $classFilterType == 'exclude' ) and
              count( $classFilterArray ) > 0 )
         {
@@ -712,7 +712,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $filterClassName    = $filterINI->variable( $extendedAttributeFilterID, 'ClassName' );
             $filterMethodName   = $filterINI->variable( $extendedAttributeFilterID, 'MethodName' );
             $filterFile         = $filterINI->variable( $extendedAttributeFilterID, 'FileName' );
-            
+
             if ( $filterINI->hasVariable( $extendedAttributeFilterID, 'ExtensionName' ) )
             {
                 include_once( 'lib/ezutils/classes/ezextension.php' );
@@ -1982,10 +1982,22 @@ class eZContentObjectTreeNode extends eZPersistentObject
      The array will contain one element which is an array with sort field
      and sort order.
     */
-    function sortArray()
+    function &sortArray()
     {
-        $sort = array( eZContentObjectTreeNode::sortFieldName( $this->attribute( 'sort_field' ) ),
-                       $this->attribute( 'sort_order' ) );
+        return eZContentObjectTreeNode::sortArrayBySortFieldAndSortOrder( $this->attribute( 'sort_field' ),
+                                                                          $this->attribute( 'sort_order' ) );
+    }
+
+    /*!
+     \static
+     \return an array which defines the sorting method for this node.
+     The array will contain one element which is an array with sort field
+     and sort order.
+    */
+    function &sortArrayBySortFieldAndSortOrder( $sortField, $sortOrder )
+    {
+        $sort = array( eZContentObjectTreeNode::sortFieldName( $sortField ),
+                       $sortOrder );
         return array( $sort );
     }
 
@@ -2286,9 +2298,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function &fetchPath()
     {
         $nodePath = $this->attribute( 'path_string' );
-        
+
         $retNodes =& eZContentObjectTreeNode::fetchPathByPathString( $nodePath, false, true );
-        
+
         return $retNodes;
     }
 
@@ -2299,14 +2311,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
     {
         $nodesListArray     = array();
         $pathString         =& eZContentObjectTreeNode::createNodesConditionSQLStringFromPath( $nodePath, $fetchLastNodeInThePath );
-        
+
         if ( $pathString  )
         {
             $useVersionName     = true;
             $versionNameTables  =& eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
             $versionNameTargets =& eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
             $versionNameJoins   =& eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName );
-    
+
             $query="SELECT ezcontentobject.*,
                            ezcontentobject_tree.*,
                            ezcontentclass.name as class_name,
@@ -2322,12 +2334,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           ezcontentclass.id = ezcontentobject.contentclass_id
                           $versionNameJoins
                     ORDER BY path_string";
-    
+
             $db =& eZDB::instance();
             $nodesListArray = $db->arrayQuery( $query );
         }
-        
-        if ( $asObjects )          
+
+        if ( $asObjects )
             $retNodes =& eZContentObjectTreeNode::makeObjectsArray( $nodesListArray );
         else
             $retNodes =& $nodesListArray;
@@ -2338,7 +2350,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     /*!
         \a static
-        Extracts each node that in the path from db and returns an array of class identifiers 
+        Extracts each node that in the path from db and returns an array of class identifiers
     */
     function &getClassIdentifiersListByPath( $nodePath, $includingLastNodeInThePath )
     {
@@ -2355,7 +2367,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         return $classIds;
     }
-    
+
     /*!
      \deprecated This function should no longer be used, use the eZContentClass::instantiate and eZNodeAssignment::create instead.
     */
