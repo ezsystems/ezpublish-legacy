@@ -1052,16 +1052,22 @@ print( $values['MyValue'] );
     function writeVariableUnsetList( $element )
     {
         $variableNames = $element[1];
-        $parameters = $element[2];
-        $spacing = 0;
-        if ( isset( $parameters['spacing'] ) )
-            $spacing = $parameters['spacing'];
-        $text = 'unset( ';
-        array_walk( $variableNames, create_function( '&$variableName,$key', '$variableName = "\$" . $variableName;') );
-        $text .= join( ', ', $variableNames );
-        $text .= " );\n";
-        $text = eZPHPCreator::prependSpacing( $text, $spacing );
-        $this->write( $text );
+
+        if ( count( $variableNames ) )
+        {
+            $parameters = $element[2];
+            $spacing = 0;
+            if ( isset( $parameters['spacing'] ) )
+            {
+                $spacing = $parameters['spacing'];
+            }
+            $text = 'unset( ';
+            array_walk( $variableNames, create_function( '&$variableName,$key', '$variableName = "\$" . $variableName;') );
+            $text .= join( ', ', $variableNames );
+            $text .= " );\n";
+            $text = eZPHPCreator::prependSpacing( $text, $spacing );
+            $this->write( $text );
+        }
     }
 
     /*!
