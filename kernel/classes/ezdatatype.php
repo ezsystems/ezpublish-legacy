@@ -501,6 +501,15 @@ class eZDataType
                     $info[$view] = array_merge( $info[$view], $override[$view] );
             }
         }
+        else
+        {
+            // All entries in $override will override the defaults
+            foreach ( array( 'edit', 'view', 'collection', 'result' ) as $view )
+            {
+                if ( isset( $override[$view] ) )
+                    $info[$view] = array_merge( $info[$view], $override[$view] );
+            }
+        }
         return $info;
     }
 
@@ -544,6 +553,15 @@ class eZDataType
             {
                 if ( isset( $mergeInfo[$view] ) )
                     $info[$view] = array_merge( $info[$view], $mergeInfo[$view] );
+                if ( isset( $override[$view] ) )
+                    $info[$view] = array_merge( $info[$view], $override[$view] );
+            }
+        }
+        else
+        {
+            // All entries in $override will override the defaults
+            foreach ( array( 'edit', 'view' ) as $view )
+            {
                 if ( isset( $override[$view] ) )
                     $info[$view] = array_merge( $info[$view], $override[$view] );
             }
