@@ -42,7 +42,7 @@
 </tr>
 <tr>
     <td class="topline" width="1%">
-    <input type="hidden" name="SectionID" value="7">
+    <input type="hidden" name="SectionID" value="7" />
     <input class="searchbox" type="text" size="10" name="SearchText" id="Search" value="" />
     </td>
     <td class="topline" width="1%">
@@ -97,7 +97,7 @@
 <!-- Main area END -->
 
     </td>
-    <td class="divider"><img {"images/1x1.gif"|ezimage} width="16" height="1" alt="" border="0" /></td>
+    <td class="divider"><img src={"images/1x1.gif"|ezimage} width="16" height="1" alt="" border="0" /></td>
     <td class="rightmenu">
 
 <!-- Menubox START -->
