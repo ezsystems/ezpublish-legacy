@@ -14,3 +14,5 @@ CREATE INDEX ezuser_session_link_user_idx on ezuser_session_link ( user_id );
 CREATE INDEX ezuser_session_link_session_idx on ezuser_session_link ( session_key );
 
 CREATE INDEX ezpreferences_user_id_idx on ezpreferences ( user_id, name );
+
+ALTER TABLE ezorder ADD COLUMN email varchar(150) default '';
