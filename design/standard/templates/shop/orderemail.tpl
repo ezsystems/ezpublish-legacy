@@ -1,3 +1,5 @@
+{set-block scope=root variable=subject}{"Order:"|i18n("design/standard/shop")} {$order.id}{/set-block}
+
 {"Order"|i18n("design/standard/shop")} {$order.order_nr}
 
 {"Customer:"|i18n("design/standard/shop")}

@@ -11,6 +11,16 @@
     <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
     </td>
     <td class="menu" width="99%">
+    <p class="menuitem">
+    Content
+    </p>
+    </td>
+</tr>
+<tr>
+    <td class="bullet" width="1">
+    <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
+    </td>
+    <td class="menu" width="99%">
     <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>{"Frontpage"|i18n("design/standard/layout")}</a></p>
     </td>
 </tr>
@@ -58,6 +68,16 @@
     <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
     </td>
     <td class="menu" width="99%">
+    <p class="menuitem">
+    Shop
+    </p>
+    </td>
+</tr>
+<tr>
+    <td class="bullet" width="1">
+    <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
+    </td>
+    <td class="menu" width="99%">
     <p class="menuitem"><a class="menuitem" href={"/shop/orderlist/"|ezurl}>{"Order list"|i18n("design/standard/layout")}</a></p>
     </td>
 </tr>
@@ -82,6 +102,16 @@
 
 {section show=$:menu_enable_users}
 <table width="120" cellpadding="1" cellspacing="0" border="0">
+<tr>
+    <td class="bullet" width="1">
+    <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
+    </td>
+    <td class="menu" width="99%">
+    <p class="menuitem">
+    Shop
+    </p>
+    </td>
+</tr>
 <tr>
     <td class="bullet" width="1">
     <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
@@ -119,6 +149,16 @@
 
 {section show=$:menu_enable_setup}
 <table  width="120" cellpadding="1" cellspacing="0" border="0">
+<tr>
+    <td class="bullet" width="1">
+    <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
+    </td>
+    <td class="menu" width="99%">
+    <p class="menuitem">
+    Set up
+    </p>
+    </td>
+</tr>
 <tr>
     <td class="bullet" width="1">
     <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />

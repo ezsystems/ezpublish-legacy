@@ -2,9 +2,10 @@
 
 <h1>{"Confirm order"|i18n("design/standard/shop")}</h1>
 
-<b>{"Customer:"|i18n("design/standard/shop")}</b> 
+<b>{"Customer:"|i18n("design/standard/shop")}</b> <br />
 {shop_account_view_gui view=html order=$order}
 
+<br />
 <b>{"Product items"|i18n("design/standard/shop")}</b>
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -66,7 +67,7 @@
 </tr>
 {section show=$ProductItem:item.item_object.option_list}
 <tr>
-  <td class="{$ProductItem:sequence}" colspan='4'>
+  <td class="{$ProductItem:sequence}" colspan='3'>
      <table width="100%"  border="0">
 <tr>
 <td colspan='3'>
@@ -77,7 +78,7 @@ Selected options
       <tr> 
         <td width="33%">{$ProductItem:Options:item.name}</td>
         <td width="33%">{$ProductItem:Options:item.value}</td>
-        <td width="33%">{$ProductItem:Options:item.price}</td>
+        <td width="33%">{$ProductItem:Options:item.price|l10n(currency)}</td>
       </tr>
     {/section}
      </table>

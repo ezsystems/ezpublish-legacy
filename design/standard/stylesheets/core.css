@@ -487,24 +487,24 @@ div.error, div.warning, div.feedback, div.highlight
     padding: 0.5ex;
     padding-left: 1ex;
     padding-right: 2ex;
-    border-width: 0.5ex;
-    border-style: solid;
-    background-color: #f8f8f8;
 }
 
 div.error
 {
-    border-color: #c00000;
+    background-color: #ff3300;
+    color: #ffffff;
 }
 
 div.warning
 {
-    border-color: #f0f000;
+    background-color: #ff3300;
+    color: #ffffff;
 }
 
 div.feedback
 {
-    border-color: #00a000;
+    color: #ffffff;
+    background-color: #66cc33;
 }
 
 div.highlight
