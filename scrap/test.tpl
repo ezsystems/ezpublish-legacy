@@ -18,5 +18,7 @@
 
 {"jadda badda"|i18n}
 
+<pre>{literal}En test med { og }. {/literal}</pre>
+
 
 <p>yes</p>

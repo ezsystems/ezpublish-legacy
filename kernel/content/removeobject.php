@@ -57,6 +57,9 @@ if ( array_key_exists( 'Limitation', $Params ) )
     }
 }
 
+$contentObjectID = $http->sessionVariable( 'ContentObjectID' );
+$contentNodeID = $http->sessionVariable( 'ContentNodeID' );
+
 $deleteResult = array();
 $ChildObjectsCount = 0;
 foreach ( $deleteIDArray as $deleteID )
@@ -102,12 +105,12 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
             $object->remove( true, $deleteID );
         }
     }
-    $Module->redirectTo( '/content/view/' . $viewMode . '/' .'2' . '/'  );
+    $Module->redirectTo( '/content/view/' . $viewMode . '/' . $contentNodeID . '/'  );
 }
 
 if ( $http->hasPostVariable( "CancelButton" ) )
 {
-    $Module->redirectTo( '/content/view/' . $viewMode . '/' . '2' . '/'  );
+    $Module->redirectTo( '/content/view/' . $viewMode . '/' . $contentNodeID . '/'  );
 }
 $Module->setTitle( "Remove " .$NodeName );
 
@@ -120,7 +123,6 @@ $tpl->setVariable( "ChildObjectsCount", $ChildObjectsCount );
 $tpl->setVariable( "DeleteResult",  $deleteResult );
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:node/removeobject.tpl" );
-$Result['path'] = array( array( 'url' => '/content/removeobject/',
+$Result['path'] = array( array( 'url' => false,
                                 'text' => 'Remove object' ) );
 ?>
-

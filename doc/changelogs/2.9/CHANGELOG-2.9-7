@@ -27,6 +27,8 @@ Changes from 2.9-6 to 2.9-7
 - Extension support for datatypes and content actions.
 - Template object forwarding function now supports render modes, a render mode will
   change the directory it searches for templates to render- and the modename./
+- Moving attributes up in class edit now moves one step instead of two.
+- Fixed redirection for object publishing and removal to go to correct node after it's done.
 
 persistentobject:
 - Added support for between in conditions, it is passed as an array with two elements
@@ -46,6 +48,7 @@ eZ extension:
 
 eZTemplate:
 - Added wash operator which handles conversion of text to e.g. xhtml compatible format
+- Fixed parser problem with {literal} tags.
 
 eZINI:
 - Added support for override directories which are not a subdir

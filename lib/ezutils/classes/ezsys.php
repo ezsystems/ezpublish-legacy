@@ -358,7 +358,7 @@ class eZSys
     */
     function &path( $quiet = false )
     {
-    	return eZSys::serverVariable( 'PATH', $quiet );
+        return eZSys::serverVariable( 'PATH', $quiet );
     }
 
     /*!

@@ -552,8 +552,12 @@ class eZPersistentObject
                                                       false );
         if ( count( $rows ) == 2 )
         {
-            $db->query( eZPersistentObject::swapRow( $table, $keys, $order_id, $rows, 1, 0 ) );
-            $db->query( eZPersistentObject::swapRow( $table, $keys, $order_id, $rows, 0, 1 ) );
+            $swapSQL1 = eZPersistentObject::swapRow( $table, $keys, $order_id, $rows, 1, 0 );
+            $swapSQL2 = eZPersistentObject::swapRow( $table, $keys, $order_id, $rows, 0, 1 );
+//             eZDebug::writeDebug( $swapSQL1, 'swapSQL1' );
+//             eZDebug::writeDebug( $swapSQL2, 'swapSQL2' );
+            $db->query( $swapSQL1 );
+            $db->query( $swapSQL2 );
         }
         else
         {

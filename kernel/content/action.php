@@ -122,20 +122,29 @@ else if ( $http->hasPostVariable( 'RemoveButton' ) )
     {
         $viewMode = 'full';
     }
-    if ( $http->hasPostVariable( 'TopLevelNode' ) )
-    {
-        $topLevelNode = $http->postVariable( 'TopLevelNode' );
-    }
-    else
-    {
-        $topLevelNode = '2';
-    }
+//     if ( $http->hasPostVariable( 'TopLevelNode' ) )
+//     {
+//         $topLevelNode = $http->postVariable( 'TopLevelNode' );
+//     }
+//     else
+//     {
+//         $topLevelNode = '2';
+//     }
+    $contentNodeID = 2;
+    if ( $http->hasPostVariable( 'ContentNodeID' ) )
+        $contentNodeID = $http->postVariable( 'ContentNodeID' );
+    $contentObjectID = 1;
+    if ( $http->hasPostVariable( 'ContentObjectID' ) )
+        $contentObjectID = $http->postVariable( 'ContentObjectID' );
+
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
         $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
         if ( $deleteIDArray !== null )
         {
             $http->setSessionVariable( 'CurrentViewMode', $viewMode );
+            $http->setSessionVariable( 'ContentNodeID', $contentNodeID );
+            $http->setSessionVariable( 'ContentObjectID', $contentObjectID );
             $http->setSessionVariable( 'DeleteIDArray', $deleteIDArray );
             $module->redirectTo( $module->functionURI( 'removeobject' ) . '/' );
         }

@@ -287,14 +287,27 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                                 $name = $tag;
                             else
                                 $name = substr( $tag, 0, $spacepos );
-                            $textElements[] = array( "text" => $tag,
-                                                     "name" => $name,
-                                                     "type" => $type,
-                                                     'placement' => array( 'templatefile' => $relatedTemplateName,
-                                                                           'start' => array( 'line' => $currentLine,
-                                                                                             'column' => $currentColumn ),
-                                                                           'stop' => array( 'line' => $endLine,
-                                                                                            'column' => $endColumn ) ) );
+                            if ( isset( $tpl->Literals[$name] ) )
+                            {
+                                $literalEndTag = "{/$name}";
+                                $literalEndPos = strpos( $sourceText, $literalEndTag, $blockEnd );
+                                if ( $literalEndPos === false )
+                                    $literalEndPos = $sourceLength;
+                                $data = substr( $sourceText, $blockEnd, $literalEndPos - $blockEnd );
+                                $blockEnd = $literalEndPos + strlen( $literalEndTag );
+                                $textElements[] = array( "text" => $data,
+                                                         "type" => EZ_ELEMENT_TEXT,
+                                                         'placement' => false );
+                            }
+                            else
+                                $textElements[] = array( "text" => $tag,
+                                                         "name" => $name,
+                                                         "type" => $type,
+                                                         'placement' => array( 'templatefile' => $relatedTemplateName,
+                                                                               'start' => array( 'line' => $currentLine,
+                                                                                                 'column' => $currentColumn ),
+                                                                               'stop' => array( 'line' => $endLine,
+                                                                                                'column' => $endColumn ) ) );
                         }
 
                         if ( $sourcePosition < $blockEnd )
@@ -370,87 +383,87 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                     $stopColumn = false;
                     $templateFile = false;
                     $hasStartPlacement = false;
-                    if ( isset( $tpl->Literals[$name] ) )
-                    {
-                        unset( $text );
-                        $text = "";
-                        $key = key( $textElements );
-                        while ( $key !== null )
-                        {
-                            unset( $element );
-                            $element =& $textElements[$key];
-                            $elementPlacement = $element['placement'];
-                            if ( !$hasStartPlacement )
-                            {
-                                $startLine = $elementPlacement['start']['line'];
-                                $startColumn = $elementPlacement['start']['column'];
-                                $stopLine = $elementPlacement['stop']['line'];
-                                $stopColumn = $elementPlacement['stop']['column'];
-                                $templateFile = $elementPlacement['templatefile'];
-                                $hasStartPlacement = true;
-                            }
-                            else
-                            {
-                                $stopLine = $elementPlacement['stop']['line'];
-                                $stopColumn = $elementPlacement['stop']['column'];
-                            }
-                            switch ( $element["type"] )
-                            {
-                                case EZ_ELEMENT_END_TAG:
-                                {
-                                    if ( $element["name"] == $name )
-                                    {
-                                        next( $textElements );
-                                        $key = null;
-                                        $tempTextElements[] = array( "text" => $text,
-                                                                     "type" => EZ_ELEMENT_TEXT,
-                                                                     'placement' => array( 'templatefile' => $templateFile,
-                                                                                           'start' => array( 'line' => $currentLine,
-                                                                                                             'column' => $currentColumn ),
-                                                                                           'stop' => array( 'line' => $stopLine,
-                                                                                                            'column' => $stopColumn ) ) );
-                                        $startLine = false;
-                                        $startColumn = false;
-                                        $stopLine = false;
-                                        $stopColumn = false;
-                                        $templateFile = false;
-                                        $hasStartPlacement = false;
-                                    }
-                                    else
-                                    {
-                                        $text .= $leftDelimiter . "/" . $element["text"] . $rightDelimiter;
-                                        next( $textElements );
-                                        $key = key( $textElements );
-                                    }
-                                } break;
-                                case EZ_ELEMENT_NORMAL_TAG:
-                                {
-                                    $text .= $leftDelimiter . $element["text"] . $rightDelimiter;
-                                    next( $textElements );
-                                    $key = key( $textElements );
-                                } break;
-                                case EZ_ELEMENT_SINGLE_TAG:
-                                {
-                                    $text .= $leftDelimiter . $element["text"] . "/" . $rightDelimiter;
-                                    next( $textElements );
-                                    $key = key( $textElements );
-                                } break;
-                                case EZ_ELEMENT_COMMENT:
-                                {
-                                    $text .= $leftDelimiter . "*" . $element["text"] . "*$rightDelimiter";
-                                    next( $textElements );
-                                    $key = key( $textElements );
-                                } break;
-                                default:
-                                {
-                                    $text .= $element["text"];
-                                    next( $textElements );
-                                    $key = key( $textElements );
-                                } break;
-                            }
-                        }
-                    }
-                    else
+//                     if ( isset( $tpl->Literals[$name] ) )
+//                     {
+//                         unset( $text );
+//                         $text = "";
+//                         $key = key( $textElements );
+//                         while ( $key !== null )
+//                         {
+//                             unset( $element );
+//                             $element =& $textElements[$key];
+//                             $elementPlacement = $element['placement'];
+//                             if ( !$hasStartPlacement )
+//                             {
+//                                 $startLine = $elementPlacement['start']['line'];
+//                                 $startColumn = $elementPlacement['start']['column'];
+//                                 $stopLine = $elementPlacement['stop']['line'];
+//                                 $stopColumn = $elementPlacement['stop']['column'];
+//                                 $templateFile = $elementPlacement['templatefile'];
+//                                 $hasStartPlacement = true;
+//                             }
+//                             else
+//                             {
+//                                 $stopLine = $elementPlacement['stop']['line'];
+//                                 $stopColumn = $elementPlacement['stop']['column'];
+//                             }
+//                             switch ( $element["type"] )
+//                             {
+//                                 case EZ_ELEMENT_END_TAG:
+//                                 {
+//                                     if ( $element["name"] == $name )
+//                                     {
+//                                         next( $textElements );
+//                                         $key = null;
+//                                         $tempTextElements[] = array( "text" => $text,
+//                                                                      "type" => EZ_ELEMENT_TEXT,
+//                                                                      'placement' => array( 'templatefile' => $templateFile,
+//                                                                                            'start' => array( 'line' => $currentLine,
+//                                                                                                              'column' => $currentColumn ),
+//                                                                                            'stop' => array( 'line' => $stopLine,
+//                                                                                                             'column' => $stopColumn ) ) );
+//                                         $startLine = false;
+//                                         $startColumn = false;
+//                                         $stopLine = false;
+//                                         $stopColumn = false;
+//                                         $templateFile = false;
+//                                         $hasStartPlacement = false;
+//                                     }
+//                                     else
+//                                     {
+//                                         $text .= $leftDelimiter . "/" . $element["text"] . $rightDelimiter;
+//                                         next( $textElements );
+//                                         $key = key( $textElements );
+//                                     }
+//                                 } break;
+//                                 case EZ_ELEMENT_NORMAL_TAG:
+//                                 {
+//                                     $text .= $leftDelimiter . $element["text"] . $rightDelimiter;
+//                                     next( $textElements );
+//                                     $key = key( $textElements );
+//                                 } break;
+//                                 case EZ_ELEMENT_SINGLE_TAG:
+//                                 {
+//                                     $text .= $leftDelimiter . $element["text"] . "/" . $rightDelimiter;
+//                                     next( $textElements );
+//                                     $key = key( $textElements );
+//                                 } break;
+//                                 case EZ_ELEMENT_COMMENT:
+//                                 {
+//                                     $text .= $leftDelimiter . "*" . $element["text"] . "*$rightDelimiter";
+//                                     next( $textElements );
+//                                     $key = key( $textElements );
+//                                 } break;
+//                                 default:
+//                                 {
+//                                     $text .= $element["text"];
+//                                     next( $textElements );
+//                                     $key = key( $textElements );
+//                                 } break;
+//                             }
+//                         }
+//                     }
+//                     else
                     {
                         if ( $next_element !== null )
                         {

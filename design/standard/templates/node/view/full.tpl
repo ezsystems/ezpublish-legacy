@@ -191,7 +191,9 @@
 {/case}
 {/switch}
 
+<input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
 <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
+<input type="hidden" name="ViewMode" value="full" />
 
 </div>
 

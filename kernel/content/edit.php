@@ -205,9 +205,10 @@ if ( !function_exists( 'checkContentActions' ) )
             $object = eZContentObject::fetch( $object->attribute( 'id' ) );
             $http =& eZHttpTool::instance();
             $node = $object->mainNode();
+            $hasRedirected = false;
             if ( $http->hasSessionVariable( 'ParentObject' ) && $http->sessionVariable( 'NewObjectID' ) == $object->attribute( 'id' ) )
             {
-                if ( $node == null )
+                if ( $node === null )
                 {
                     $parentArray = $http->sessionVariable( 'ParentObject' );
                     $parentURL = $module->redirectionURI( 'content', 'edit', $parentArray );
@@ -216,18 +217,22 @@ if ( !function_exists( 'checkContentActions' ) )
                     $http->removeSessionVariable( 'ParentObject' );
                     $http->removeSessionVariable( 'NewObjectID' );
                     $module->redirectTo( $parentURL );
+                    $hasRedirected = true;
                 }
-                else
+            }
+            if ( !$hasRedirected )
+            {
+                if ( $node !== null )
                 {
                     $parentNode = $node->attribute( 'parent_node_id' );
                     if ( $parentNode == 1 )
                         $parentNode = 2;
                     $module->redirectToView( 'view', array( 'full', $parentNode ) );
                 }
-            }
-            else
-            {
-                $module->redirectToView( 'view', array( 'sitemap', 2 ) );
+                else
+                {
+                    $module->redirectToView( 'view', array( 'sitemap', 2 ) );
+                }
             }
 
             $ini =& eZINI::instance();
