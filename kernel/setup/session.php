@@ -141,8 +141,6 @@ ORDER BY $orderBy";
         $session['session_key'] = $row['session_key'];
         $session['idle_time'] = $row['expiration_time'] - $sessionTimeout;
         $idleTime = $time - $row['expiration_time'] + $sessionTimeout;
-        $minute = abs( $time % 60 );
-        $hour = (int)( $time / 60 );
         $session['idle']['hour'] = (int)( $idleTime / 3600 );
         $session['idle']['minute'] = (int)( ( $idleTime / 60 ) % 60 );
         $session['idle']['second'] = abs( $idleTime % 60 );
