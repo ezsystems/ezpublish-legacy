@@ -295,8 +295,18 @@ class eZContentCache
         $viewModes = $ini->variableArray( 'ContentSettings', 'CachedViewModes' );
         $languages =& eZContentTranslation::fetchLocaleList();
         $contentINI =& eZINI::instance( "content.ini" );
-        $siteDesigns = $contentINI->variableArray( 'VersionView', 'AvailableSiteDesigns' );
-        $value = $nodeCount * count( $viewModes ) * count( $languages ) * count( $siteDesigns );
+
+
+        if ( $contentINI->hasVariable( 'VersionView', 'AvailableSiteDesigns' ) )
+        {
+            $sitedesignList = $contentINI->variableArray( 'VersionView', 'AvailableSiteDesigns' );
+        }
+        else if ( $contentINI->hasVariable( 'VersionView', 'AvailableSiteDesignList' ) )
+        {
+            $sitedesignList = $contentINI->variable( 'VersionView', 'AvailableSiteDesignList' );
+        }
+
+        $value = $nodeCount * count( $viewModes ) * count( $languages ) * count( $sitedesignList );
         return $value;
     }
 
@@ -317,7 +327,14 @@ class eZContentCache
 //        $languages = $ini->variableArray( 'ContentSettings', 'TranslationList' );
 
         $contentINI =& eZINI::instance( "content.ini" );
-        $siteDesigns = $contentINI->variableArray( 'VersionView', 'AvailableSiteDesigns' );
+        if ( $contentINI->hasVariable( 'VersionView', 'AvailableSiteDesigns' ) )
+        {
+            $siteDesigns = $contentINI->variableArray( 'VersionView', 'AvailableSiteDesigns' );
+        }
+        else if ( $contentINI->hasVariable( 'VersionView', 'AvailableSiteDesignList' ) )
+        {
+            $siteDesigns = $contentINI->variable( 'VersionView', 'AvailableSiteDesignList' );
+        }
 
 //         eZDebug::writeDebug( $viewModes, 'viewmodes' );
 //         eZDebug::writeDebug( $siteDesigns, 'siteDesigns' );
