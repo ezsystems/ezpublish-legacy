@@ -250,6 +250,8 @@ eZInformationCollection:
   (Merged from stable/3.5 (3.5.2) rev. 11224)
 - Fixed bug #6074: Major crash because of typo in site.ini.
   (Merged from stable/3.5 (3.5.2) rev. 11232)
+- Fixed bug #6078: Wrong RSS rights to anonymous users.
+  (Manually merged from stable/3.5 (3.5.2) rev. 11261) 
   
 *Library:
 PDF:
