@@ -1,0 +1,18 @@
+*Title: Download count feature
+
+Incentive:
+We need to know how many times a file is downloaded.
+
+*Documentation:
+New field download_count in the ezbinaryfile mysql table.
+It's the number of downloads of the related file.
+Changes done in ezbinaryfile.php and ezbinaryfilehandler.php
+To use it in a template , use file.content.download_count
+
+*Testing:
+1- Add a file in a folder
+2- Download it several times from different computers
+3- Display the number from a template (file.content.download_count) and check the number increases
+(you can do it directly from mysql with a request)
+
+*SVN revisions:

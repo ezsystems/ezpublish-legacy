@@ -24,6 +24,7 @@ CREATE TABLE ezpaymentobject(
     status int not null default '0'
     ) TYPE=MyISAM;
 
+ALTER TABLE ezbinaryfile ADD COLUMN download_count integer NOT NULL default 0;
 ALTER TABLE ezbasket ADD COLUMN order_id integer NOT NULL DEFAULT 0;
 
 ALTER TABLE ezcontentclass ADD is_container int NOT NULL DEFAULT 0;
