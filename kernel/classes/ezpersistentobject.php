@@ -322,10 +322,10 @@ class eZPersistentObject
                  in_array( $field_def['datatype'], $bindDataTypes  )
                  )
             {
-                $bindedValue = $db->bindVariable( $value, $field_def );
+                $boundValue = $db->bindVariable( $value, $field_def );
 //                $obj->setAttribute( $field_name, $value );
                 $doNotEscapeFields[] = $field_name;
-                $changedValueFields[$field_name] = $bindedValue;
+                $changedValueFields[$field_name] = $boundValue;
             }
 
         }
