@@ -119,7 +119,7 @@ foreach ( $deleteIDArray as $deleteID )
         if ( $object === null )
             return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-        $ChildObjectsCount = $node->subTreeCount( array( 'MainNodeOnly' => true ) ) . " ";
+        $ChildObjectsCount = $node->subTreeCount( array( 'MainNodeOnly' => true ) );
 
         $item = array( "nodeName" => $NodeName,
                        "childCount" => $ChildObjectsCount,
