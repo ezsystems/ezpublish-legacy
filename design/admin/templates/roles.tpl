@@ -6,7 +6,7 @@
 {section show=count( $member_groups )}
 <tr>
     <th>{'Name'|i18n( 'design/admin/node/view/full' )}</th>
-    <th>{'Edit'|i18n( 'design/admin/node/view/full' )}</th>
+    <th class="tight">&nbsp;</th>
 </tr>
 {section var=Roles loop=$member_groups sequence=array( bglight, bgdark )}
     <tr class="{$Roles.sequence}">
