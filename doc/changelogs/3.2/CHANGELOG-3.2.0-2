@@ -55,4 +55,4 @@ eZ i18n:
 
 eZ webdav:
 - Fixed file up/download bug in windows + some other small/annoying bugs.
-
+- Fixed file/image up-load bug by inclugin ezi18n + some other issues.
