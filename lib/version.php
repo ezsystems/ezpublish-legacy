@@ -114,6 +114,44 @@ class eZPublishSDK
     {
         return EZ_SDK_VERSION_ALIAS;
     }
+
+    /*!
+      \return the version of the database.
+      \param withRelease If true the release version is appended
+    */
+    function databaseVersion( $withRelease = true )
+    {
+        include_once( 'lib/ezdb/classes/ezdb.php' );
+        $db =& eZDB::instance();
+        $rows =& $db->arrayQuery( "SELECT value as version FROM ezsite_date WHERE name='ezpublish-version'" );
+        $version = false;
+        if ( count( $rows ) > 0 )
+        {
+            $version = $rows[0]['version'];
+            if ( $withRelease )
+            {
+                $release = eZPublishSDK::databaseRelease();
+                $version .= '-' . $release;
+            }
+        }
+        return $version;
+    }
+
+    /*!
+      \return the release of the database.
+    */
+    function databaseRelease()
+    {
+        include_once( 'lib/ezdb/classes/ezdb.php' );
+        $db =& eZDB::instance();
+        $rows =& $db->arrayQuery( "SELECT value as release FROM ezsite_date WHERE name='ezpublish-release'" );
+        $relase = false;
+        if ( count( $rows ) > 0 )
+        {
+            $relase = $rows[0]['release'];
+        }
+        return $release;
+    }
 }
 
 ?>

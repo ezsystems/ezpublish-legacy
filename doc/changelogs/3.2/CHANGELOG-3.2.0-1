@@ -84,6 +84,8 @@ Changes from 3.1-1 to 3.2.0-1
   participation role (approver, author etc.).
 - Added support for specialized notifications for approvals, one notification is sent to approver
   and another to the author.
+- Added version and relase numbers to database, that way it's possible to now
+  the state of a database for future upgrades.
 
 *Templates:
 - Made sure that the new $attribute_base variable is used to generate post variable names in datatype edit templates.

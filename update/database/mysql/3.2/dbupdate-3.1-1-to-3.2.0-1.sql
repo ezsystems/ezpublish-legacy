@@ -16,5 +16,15 @@ CREATE TABLE ezurl_object_link (
   PRIMARY KEY (url_id,contentobject_attribute_id,contentobject_attribute_version)
 );
 
-alter table ezcontentobject_attribute add sort_key varchar(255);
-alter table ezcontentobject_attribute add index ( sort_key );
+ALTER TABLE ezcontentobject_attribute ADD sort_key varchar(255);
+ALTER TABLE ezcontentobject_attribute ADD index ( sort_key );
+
+CREATE TABLE ezsite_data (
+  id int(11) auto_increment NOT NULL,
+  name varchar(60) NOT NULL default '',
+  value text NOT NULL default '',
+  PRIMARY KEY (id)
+);
+
+INSERT INTO ezsite_data (name, value) VALUES('ezpublish-version', '3.2.0');
+INSERT INTO ezsite_data (name, value) VALUES('ezpublish-release', '1');
