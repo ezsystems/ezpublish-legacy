@@ -544,8 +544,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $nodeDepth = $node->attribute( 'depth' );
                 $childrensPath = $nodePath ;
                 $pathString = " path_string like '$childrensPath%' and ";
-                $nodeDepth += $params[ 'Depth' ];
-                $depthCond = ' depth = ' . $nodeDepth . ' ';
+                if ( isset( $params[ 'Depth' ] ) and $params[ 'Depth' ] > 0 )
+                {
+                    $nodeDepth += $params[ 'Depth' ];
+                    $depthCond = ' depth = ' . $nodeDepth . ' ';
+                }
+                else
+                {
+                    $depthCond = '';
+                }
+
+
                 $sqlPartForOneNodeList[] = " ( path_string like '$childrensPath%' and  $depthCond ) ";
             }
             $pathStringCond = implode( ' or ', $sqlPartForOneNodeList );

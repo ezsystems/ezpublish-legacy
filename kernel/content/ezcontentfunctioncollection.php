@@ -178,10 +178,6 @@ class eZContentFunctionCollection
         {
             $treeParameters['Depth'] = $depth;
             $treeParameters['DepthOperator'] = $depthOperator;
-        }else
-        {
-            $treeParameters['Depth'] = 1;
-            $treeParameters['DepthOperator'] = 'eq';
         }
         $children =& eZContentObjectTreeNode::subTree( $treeParameters,
                                                        $parentNodeID );
