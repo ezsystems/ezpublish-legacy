@@ -263,14 +263,6 @@ TODO: add encoding checks with schema validation.
     }
 
     /*!
-      Returns the response value
-    */
-    function value()
-    {
-        $this->Value;
-    }
-
-    /*!
       \static
       \private
       Strips the header information from the HTTP raw response.
