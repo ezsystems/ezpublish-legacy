@@ -5,6 +5,10 @@ Changes from 3.5.0alpha1 to 3.5.0alpha2
 *Kernel:
 
 
+Scripts:
+- New script bin/php/ezcontentcache.php which can be used to clear the
+  viewcache for a given node or subtree.
+
 Payment:
 - removed PayPal from kernel, from now it is available only in extension.
 
