@@ -196,6 +196,7 @@ function eZSetupMenuINISettings( $siteType, $parameters )
     if ( isset( $typeMap[$siteType] ) )
         $default = $typeMap[$siteType];
     return array( 'name' => 'menu.ini',
+                  'reset_arrays' => true,
                   'settings' => array( 'MenuSettings' => array( 'AvailableMenuArray' => array( 'TopOnly',
                                                                                                'LeftOnly',
                                                                                                'DoubleTop',
