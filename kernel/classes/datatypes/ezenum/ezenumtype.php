@@ -399,6 +399,7 @@ class eZEnumType extends eZDataType
 
         foreach ( $enum->attribute( 'enumobject_list' ) as $enumElement )
         {
+            unset( $elementNode );
             $elementNode = new eZDOMNode();
             $elementNode->setName( 'enum-element' );
 
