@@ -6,7 +6,7 @@
      {switch match=$item_previous|lt(0) }
        {case match=0}
          <td class="selectbar" width="1%">
-         <a class="selectbar" href={concat($page_uri,$item_previous|gt(0)|choose('',concat('/offset/',$item_previous)))|ezurl}><<&nbsp;Previous</a>
+         <a class="selectbar" href={concat($page_uri,$item_previous|gt(0)|choose('',concat('/offset/',$item_previous)))|ezurl}><<&nbsp;{"Previous"|i18n("design/standard/navigator")}</a>
          </td>
        {/case}
        {case match=1}
@@ -38,7 +38,7 @@
     {switch match=$item_next|lt($item_count) }
       {case match=1}
         <td class="selectbar" width="1%">
-        <a class="selectbar" href={concat($page_uri,'/offset/',$item_next)|ezurl}>Next&nbsp;>></a>
+        <a class="selectbar" href={concat($page_uri,'/offset/',$item_next)|ezurl}>{"Next"|i18n("design/standard/navigator")}&nbsp;>></a>
         </td>
       {/case}
       {case}
