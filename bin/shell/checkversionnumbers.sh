@@ -216,7 +216,11 @@ else
     prev="$PREVIOUS_VERSION"
 fi
 
-file="doc/changelogs/$BRANCH_VERSION/CHANGELOG-$VERSION"
+if [ "$DEVELOPMENT" == "true" ]; then
+    file="doc/changelogs/$BRANCH_VERSION/unstable/CHANGELOG-$prev-to-$VERSION"
+else
+    file="doc/changelogs/$BRANCH_VERSION/CHANGELOG-$prev-to-$VERSION"
+fi
 if [ ! -f $file ]; then
     echo "`$SETCOLOR_FAILURE`Missing changelog file`$SETCOLOR_NORMAL`"
     echo "The changelog file `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` is missing"
@@ -243,7 +247,11 @@ fi
 
 if [ -n "$FIRST_STABLE" ]; then
     prev="$PREVIOUS_VERSION"
-    file="doc/changelogs/$BRANCH_VERSION/CHANGELOG-$prev-to-$VERSION"
+    if [ "$DEVELOPMENT" == "true" ]; then
+	file="doc/changelogs/$BRANCH_VERSION/unstable/CHANGELOG-$prev-to-$VERSION"
+    else
+	file="doc/changelogs/$BRANCH_VERSION/CHANGELOG-$prev-to-$VERSION"
+    fi
     if [ ! -f $file ]; then
 	echo "`$SETCOLOR_FAILURE`Missing changelog file`$SETCOLOR_NORMAL`"
 	echo "The changelog file `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` is missing"
@@ -275,7 +283,11 @@ for driver in $DRIVERS; do
 	prev="$PREVIOUS_VERSION"
     fi
 
-    file="update/database/$driver/$BRANCH_VERSION/dbupdate-$prev-to-$VERSION.sql"
+    if [ "$DEVELOPMENT" == "true" ]; then
+	file="update/database/$driver/$BRANCH_VERSION/unstable/dbupdate-$prev-to-$VERSION.sql"
+    else
+	file="update/database/$driver/$BRANCH_VERSION/dbupdate-$prev-to-$VERSION.sql"
+    fi
     if [ ! -f $file ]; then
 	echo "`$SETCOLOR_FAILURE`Missing database update file`$SETCOLOR_NORMAL`"
 	echo "The database update file `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` is missing"
@@ -306,7 +318,11 @@ for driver in $DRIVERS; do
 
     if [ -n "$FIRST_STABLE" ]; then
 	prev="$LAST_STABLE"
-	file="update/database/$driver/$BRANCH_VERSION/dbupdate-$prev-to-$VERSION.sql"
+	if [ "$DEVELOPMENT" == "true" ]; then
+	    file="update/database/$driver/$BRANCH_VERSION/unstable/dbupdate-$prev-to-$VERSION.sql"
+	else
+	    file="update/database/$driver/$BRANCH_VERSION/dbupdate-$prev-to-$VERSION.sql"
+	fi
 	if [ ! -f $file ]; then
 	    echo "`$SETCOLOR_FAILURE`Missing database update file`$SETCOLOR_NORMAL`"
 	    echo "The database update file `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` is missing"
