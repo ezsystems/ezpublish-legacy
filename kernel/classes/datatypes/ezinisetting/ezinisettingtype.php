@@ -314,7 +314,7 @@ class eZIniSettingType extends eZDataType
             else
                 $path = 'settings/siteaccess/' . $siteAccessArray[$iniInstance];
 
-            $config =& eZINI::instance( $filename );
+            $config =& eZINI::instance( $filename . '.append.php', $path, null, null, null, true );
 
             if ( $config == null )
             {
@@ -336,7 +336,7 @@ class eZIniSettingType extends eZDataType
                                       '                            ' . $parameter . '=' . $contentObjectAttribute->attribute( 'data_text' ),
                                       'eZIniSettingType::onPublish' );
             }
-            $config->save( false, '.append.php', false, true, $path );
+            $config->save();
         }
     }
 
@@ -503,7 +503,7 @@ class eZIniSettingType extends eZDataType
         $remoteSiteAccessArray = explode( ';', $siteAccessList );
 
         $config =& eZINI::instance( 'site.ini' );
-        $localSiteAccessArray = array_merge( array( 'Override' ), $config->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' ) );
+        $localSiteAccessArray = array_merge( array( 'override' ), $config->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' ) );
 
         $localIniInstanceArray = array();
         foreach ( $remoteIniInstanceArray as $remoteIniInstance )
@@ -584,7 +584,7 @@ class eZIniSettingType extends eZDataType
     {
         $config =& eZINI::instance( 'site.ini' );
         $siteAccessArray = $config->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
-        $siteAccessList = 'Override';
+        $siteAccessList = 'override';
         foreach ( $siteAccessArray as $idx => $siteAccess )
         {
             $siteAccessList .= ';' . $siteAccess;
