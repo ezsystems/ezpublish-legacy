@@ -633,8 +633,18 @@ class eZINI
             if ( preg_match("#^(\w+)\\[\\]$#", $line, $valueArray ) )
             {
                 $varName = trim( $valueArray[1] );
+
+                $valuesPlacement =& $this->BlockValuesPlacement[$currentBlock];
+
+                if ( isset( $valuesPlacement[$varName] ) )
+                    if ( !is_array( $valuesPlacement[$varName] ) )
+                    {
+                        eZDebug::writeError( "Wrong operation on the ini setting array '$varName'", 'eZINI' );
+                        continue;
+                    }
+                
                 $this->BlockValues[$currentBlock][$varName] = array();
-                $this->BlockValuesPlacement[$currentBlock][$varName][] = $file;
+                $valuesPlacement[$varName][] = $file;
 
                 // In direct access mode we create empty elements at the beginning of an array
                 // in case it is redefined in this ini file. So when we will save it, definition
