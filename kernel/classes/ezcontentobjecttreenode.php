@@ -2687,7 +2687,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         // Check if any URL's is pointing to this node, if so update it
-        $url =& eZURL::urlByURL( "/" . $oldPathString );
+        if ( include_once( 'kernel/classes/datatypes/ezurl/ezurltype.php' ) )
+            $url =& eZURL::urlByURL( "/" . $oldPathString );
 
         if ( $url )
         {
