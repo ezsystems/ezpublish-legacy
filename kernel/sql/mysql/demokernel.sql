@@ -35,11 +35,6 @@ CREATE TABLE ezbasket (
 -- Dumping data for table 'ezbasket'
 --
 
-INSERT INTO ezbasket VALUES (1,'513f511897b3a7bf58533f8a8d0996fd',4);
-INSERT INTO ezbasket VALUES (3,'13a1fbce0b1bba491c2ac80fe3a8395b',6);
-INSERT INTO ezbasket VALUES (4,'56deac4bee6967e8ecf716752b099487',7);
-INSERT INTO ezbasket VALUES (8,'16467d34b89b7eaf9d34d828550c176c',11);
-
 --
 -- Table structure for table 'ezbinaryfile'
 --
@@ -3125,44 +3120,6 @@ INSERT INTO eznode_assignment VALUES (529,113,3,110,1,1,9,0,0);
 INSERT INTO eznode_assignment VALUES (530,113,3,26,0,1,9,0,0);
 INSERT INTO eznode_assignment VALUES (531,215,1,111,1,1,9,0,0);
 INSERT INTO eznode_assignment VALUES (532,216,1,111,1,1,9,0,0);
-
---
--- Table structure for table 'eznotification_rule'
---
-
-CREATE TABLE eznotification_rule (
-  id int(11) NOT NULL auto_increment,
-  type varchar(250) NOT NULL default '',
-  contentclass_name varchar(250) NOT NULL default '',
-  path varchar(250) default NULL,
-  keyword varchar(250) default NULL,
-  has_constraint int(1) NOT NULL default '0',
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
-
---
--- Dumping data for table 'eznotification_rule'
---
-
-
---
--- Table structure for table 'eznotification_user_link'
---
-
-CREATE TABLE eznotification_user_link (
-  rule_id int(11) NOT NULL default '0',
-  user_id int(11) NOT NULL default '0',
-  send_method varchar(50) NOT NULL default '',
-  send_weekday varchar(50) NOT NULL default '',
-  send_time varchar(50) NOT NULL default '',
-  destination_address varchar(50) NOT NULL default '',
-  PRIMARY KEY  (rule_id,user_id)
-) TYPE=MyISAM;
-
---
--- Dumping data for table 'eznotification_user_link'
---
-
 
 --
 -- Table structure for table 'ezoperation_memento'
