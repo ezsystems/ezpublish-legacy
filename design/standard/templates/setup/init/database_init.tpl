@@ -13,7 +13,7 @@
 {/section}
 
 <p>
-{"Enter database system user information in the boxes below."|i18n("design/standard/setup/init")}
+{"Please input database access information in the form below."|i18n("design/standard/setup/init")}
 </p>
 
 <form method="post" action="{$script}">
@@ -37,7 +37,7 @@
 
 <div class="input_highlight">
 
-<table cellspacing="0" cellpadding="0" border="0">
+<table cellspacing="3" cellpadding="0" border="0">
 <tr>
  <td class="normal">
   <p>{"Continue but leave the data as it is."|i18n("design/standard/setup/init")}</p>
@@ -79,7 +79,7 @@
 
 <div class="input_highlight">
 
-<table border="0" cellspacing="0" cellpadding="0">
+<table border="0" cellspacing="3" cellpadding="0">
 <tr>
   <th class="normal" colspan="3">Database</th>
 </tr>

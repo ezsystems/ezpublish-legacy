@@ -7,16 +7,16 @@
 </div>
 
 <p>
-{"Your site is not running in a virtual host mode, this is insecure. It is recommended to run eZ publish in virtual host mode. If you do not have the possibility to use virtual host mode, you should follow the instructions below about how to install an .htaccess file. The .htaccess file tells the web server to only give access to certain files."|i18n("design/standard/setup/init")}
+{"Your site is not running in a virtual host mode, this is insecure. It is recommended to run eZ publish in virtual host mode. If you do not have the possibility to use virtual host mode, you should follow the instructions below about how to install an .htaccess file. The .htaccess file tells the web server to restrict the access to certain files."|i18n("design/standard/setup/init")}
 </p>
 
 <p>
-  {"If you have shell access to the site you can run the following commmand to install the file."|i18n("design/standard/setup/init")}
+  {"If you have shell access, you can run the following commmands."|i18n("design/standard/setup/init")}
 </p>
 <pre class="example">cd {$path}
 cp .htaccess_root .htaccess</pre>
 <p>
-  {"If you do not have shell access you will have to copy the file using the ftp client or ask your hosting provider to do this for you."|i18n("design/standard/setup/init")}
+  {"If you do not have shell access, you will have to copy the file using an FTP client or ask your hosting provider to do this for you."|i18n("design/standard/setup/init")}
 </p>
 
   {include uri='design:setup/init/navigation.tpl'}

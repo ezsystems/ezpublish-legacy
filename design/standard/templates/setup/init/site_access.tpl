@@ -7,8 +7,7 @@
   </div>
 
   <p>
-    {"Please choose the access method you wish to use for your site(s).The access method determines how the site can be accessed from within a web browser.
-If unsure: choose URL."|i18n("design/standard/setup/init")|break}
+    {"Please choose the access method you wish to use for your site(s). The access method determines how the site will be accessed from within a web browser. If unsure: choose URL."|i18n("design/standard/setup/init")|break}
   </p>
 
   <p>

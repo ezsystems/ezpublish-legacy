@@ -5,7 +5,7 @@
 </div>
 
 <p>
- {"We detected both MySQL and PostgreSQL support on your system. Which database system would you like to use?"|i18n("design/standard/setup/init")}
+ {"Both MySQL and PostgreSQL support was detected on your system. Please choose the database system you would like to use."|i18n("design/standard/setup/init")}
 </p>
 
 <form method="post" action="{$script}">
