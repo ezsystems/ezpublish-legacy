@@ -28,7 +28,7 @@
     <input class="button" type="submit" name="RemoveVatTypeButton" value="{'Remove selected'|i18n( 'design/standard/shop' )}" {section show=$vattype_array|not}disabled="disabled"{/section}/>
     <input class="button" type="submit" name="AddVatTypeButton" value="{'New VAT type'|i18n( 'design/standard/shop' )}" />
 <div class="right">
-    <input class="button" type="submit" name="SaveVatTypeButton" value="{'Store'|i18n( 'design/standard/shop' )}" {section show=$vattype_array|not}disabled="disabled"{/section}/>
+    <input class="button" type="submit" name="SaveVatTypeButton" value="{'Apply changes'|i18n( 'design/standard/shop' )}" {section show=$vattype_array|not}disabled="disabled"{/section}/>
 </div>
 </div>
 </div>
