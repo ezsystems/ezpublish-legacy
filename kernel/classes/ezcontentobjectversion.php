@@ -183,7 +183,7 @@ class eZContentObjectVersion extends eZPersistentObject
         eZDebug::writeNotice($nodeAssignmentList, "nodeAssignmentList");
         return $nodeAssignmentList;
     }
-    function &assigneToNode( $nodeID, $main = 0  )
+    function &assignToNode( $nodeID, $main = 0  )
     {
          $nodeAssignment =&  eZNodeAssignment::create( array( 'contentobject_id' => $this->attribute( 'contentobject_id' ),
                                                               'contentobject_version' => $this->attribute( 'version' ),

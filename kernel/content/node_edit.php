@@ -64,12 +64,20 @@ function checkNodeAssignments( &$module, &$class, &$object, &$version, &$content
     if ( $module->isCurrentAction( 'AddNodeAssignment' ) )
     {
         $selectedNodeIDArray = $http->postVariable( 'SelectedNodeIDArray' );
+        $assignedNodes =& $version->nodeAssignments();
+        $assignedIDArray =array();
+        foreach ( $assignedNodes as  $assignedNode )
+        {
+            $assignedNodeID = $assignedNode->attribute( 'parent_node' );
+            $assignedIDArray[] = $assignedNodeID;
+        }
 
         foreach ( $selectedNodeIDArray as $nodeID )
         {
-//            $node = eZContentObjectTreeNode::fetch( $nodeID );
-//            $node->addChild( $ObjectID );
-            $version->assigneToNode( $nodeID );
+            if ( !in_array( $nodeID, $assignedIDArray ) )
+            {
+                $version->assignToNode( $nodeID );
+            }
         }
     }
 }
@@ -109,15 +117,6 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
             $nodeAssignment->setAttribute( 'main', 1 );
         }
         $nodeAssignment->store();
-        /* foreach ( $assigedNodes as $assigedNode )
-        {
-            if ( $module->isCurrentAction( 'Publish' ) )
-            {
-                $assigedNode->setAttribute( 'sort_field', $sortfieldMap[$nodeAssignment->attribute( 'id' )] );
-                $assigedNode->setAttribute( 'sort_order', $sortorder );
-                $assigedNode->store();
-            }
-        }*/
     }
 //    $version->setAttribute( 'parent_node', $mainNodeID );
 //    $version->store();

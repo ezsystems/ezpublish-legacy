@@ -42,6 +42,8 @@ _ Fixed bug for finding node
 - Fixed bug for price check.
 - Fixed bug for duplicated role assignment.
 - Fixed bug for duplicated related object assignment.
+- Fixed bug for duplicated node assignment.
+
 
 
 *Library :
