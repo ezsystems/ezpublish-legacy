@@ -123,6 +123,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
         $this->TagAttributeArray['emphasize'] = array( 'class' => array( 'required' => false ) );
 
+        $this->TagAttributeArray['paragraph'] = array( 'class' => array( 'required' => false ) );
+
         $this->IsInputValid = true;
         $this->ContentObjectAttribute = $contentObjectAttribute;
     }
@@ -1679,7 +1681,11 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         {
             case 'paragraph' :
             {
-                $output .= trim( $this->inputParagraphXML( $tdNode, $currentSectionLevel, $tdSectionLevel ) ) . "\n\n";
+                $trimmedParaText = trim( $this->inputParagraphXML( $tdNode, $currentSectionLevel, $tdSectionLevel ) );
+                if ( ( $pclass = $tdNode->attributeValue( 'class' ) ) )
+                    $output .= "<paragraph class=\"$pclass\">$trimmedParaText</paragraph>\n";
+                else
+                    $output .= "$trimmedParaText\n\n";
             }break;
             case 'section' :
             {
@@ -1764,7 +1770,11 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                 case 'paragraph' :
                 {
-                    $output .= trim( $this->inputParagraphXML( $sectionNode, $sectionLevel, $tdSectionLevel ) ) . "\n\n";
+                    $trimmedParaText = trim( $this->inputParagraphXML( $sectionNode, $sectionLevel, $tdSectionLevel ) );
+                    if ( ( $pclass = $sectionNode->attributeValue( 'class' ) ) )
+                        $output .= "<paragraph class=\"$pclass\">$trimmedParaText</paragraph>\n";
+                    else
+                        $output .= "$trimmedParaText\n\n";
                 }break;
 
                 case 'section' :
