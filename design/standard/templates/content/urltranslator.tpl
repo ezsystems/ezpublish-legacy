@@ -156,12 +156,12 @@
 </tr>
 <tr>
     <td>
-        <input type="text" name="NewForwardURLAliasSource" value="{cond(and($forward_info,$forward_info.error),$forward_info.source,
-                                                                            '')|wash}" />
-    </td>
-    <td>
         <input type="text" name="NewForwardURLAliasDestination" value="{cond(and($forward_info,$forward_info.error),$forward_info.destination,
                                                                                  '')|wash}" />
+    </td>
+    <td>
+        <input type="text" name="NewForwardURLAliasSource" value="{cond(and($forward_info,$forward_info.error),$forward_info.source,
+                                                                            '')|wash}" />
     </td>
     <td>
         <div class="buttonblock">
