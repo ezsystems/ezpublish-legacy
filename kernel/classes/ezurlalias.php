@@ -150,13 +150,13 @@ class eZURLAlias extends eZPersistentObject
         {
             $query = "SELECT destination_url, forward_to_id
                   FROM ezurlalias
-                  WHERE source_md5 = '" . md5( $uri->elements() ) . "'";
+                  WHERE source_md5 = '" . md5( $uri->elements() ) . "' ORDER BY forward_to_id ASC";
         }
         else
         {
             $query = "SELECT destination_url, forward_to_id
                   FROM ezurlalias
-                  WHERE source_md5 = '" . md5( $uri ) . "'";
+                  WHERE source_md5 = '" . md5( $uri ) . "' ORDER BY forward_to_id ASC";
         }
 
         $return = false;
