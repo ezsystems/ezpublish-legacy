@@ -33,10 +33,12 @@
 //
 
 include_once( "lib/ezutils/classes/ezhttptool.php" );
+include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
 $http =& eZHTTPTool::instance();
 
-$http->removeSessionVariable( "eZUserLoggedInID" );
+$user =& eZUser::instance();
+$user->logoutCurrent();
 
 $ini =& eZINI::instance();
 $redirectURL = $ini->variable( 'UserSettings', 'LogoutRedirect' );

@@ -108,6 +108,7 @@ class eZUser extends eZPersistentObject
                                                       'original_password' => 'originalPassword',
                                                       'original_password_confirm' => 'originalPasswordConfirm',
                                                       'roles' => 'roles',
+                                                      'role_id_list' => 'roleIDList',
                                                       'is_logged_in' => 'isLoggedIn'
                                                       ),
                       'relations' => array( 'contentobject_id' => array( 'class' => 'ezcontentobject',
@@ -129,6 +130,10 @@ class eZUser extends eZPersistentObject
         else if ( $name == 'roles')
         {
             return $this->roles();
+        }
+        else if ( $name == 'role_id_list')
+        {
+            return $this->roleIDList();
         }
         else if ( $name == 'has_stored_login')
         {
@@ -460,12 +465,25 @@ class eZUser extends eZPersistentObject
             $GLOBALS["eZUserGlobalInstance_$userID"] =& $user;
             $http->setSessionVariable( 'eZUserLoggedInID', $userRow['contentobject_id'] );
             eZSessionRegenerate();
+            eZUser::cleanup();
             return $user;
         }
         else
             return false;
     }
 
+    /*!
+     Cleans up any cache or session variables that are set.
+     This at least called on login and logout but can be used other places
+     where you must ensure that the cache user values are refetched.
+    */
+    function cleanup()
+    {
+        $http =& eZHTTPTool::instance();
+        $http->setSessionVariable( 'eZUserGroupsCache_Timestamp', false );
+        $contentobjectID = $this->attribute( 'contentobject_id' );
+        $http->setSessionVariable( 'eZUserGroupsCache_' . $contentobjectID, false );
+    }
 
     /*!
      \return logs in the current user object
@@ -473,6 +491,7 @@ class eZUser extends eZPersistentObject
     function loginCurrent()
     {
         eZHTTPTool::setSessionVariable( 'eZUserLoggedInID', $this->ContentObjectID );
+        eZUser::cleanup();
     }
 
     /*!
@@ -482,6 +501,7 @@ class eZUser extends eZPersistentObject
     {
         $http =& eZHTTPTool::instance();
         $http->removeSessionVariable( "eZUserLoggedInID" );
+        eZUser::cleanup();
     }
 
     /*!

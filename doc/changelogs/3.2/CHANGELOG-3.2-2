@@ -24,6 +24,11 @@ Changes from 3.2-1 to 3.2-2
   uses this do display the item. This means that it's possible to override the search item representation.
 - Added the possiblity to add forwarding urls to urltranslator page.
 - Made sure all urls passed to the url alias system does not contain leading and trailing slashes (/).
+- Improved the autolink operator in regards to http links, it will not shorten the display
+  text to make sure it doesn't break the design.
+- Removed the enable_glossary and enable_help parameters to the head template.
+- Fixed the user class to properly cleanup the cache session data when logging in
+  and logging out.
 
 *DataType:
 
@@ -63,6 +68,10 @@ eZ locale:
 - Added new translationCode() method which returns the locale code to be
   used for translation. In most cases this is the same as localeCode()
   but it can differ. This allows locales to reuse translations.
+
+eZ image:
+- Made sure the ImageDestroy calls are silenced in case they give out warnings which can crash
+  the running PHP process.
 
 *Translations:
 - Updated german translation (ger-DE), thanks to Björn Dieding.
