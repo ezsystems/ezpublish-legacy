@@ -101,5 +101,9 @@ $tpl->setVariable( 'redirect_uri', $userRedirectURI, 'User' );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:user/login.tpl' );
+$Result['path'] = array( array( 'text' => 'User',
+                                'url' => false ),
+                         array( 'text' => 'Login',
+                                'url' => false ) );
 
 ?>
