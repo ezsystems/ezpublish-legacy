@@ -35,6 +35,13 @@ Match[class_identifier]=folder
 # Make the default folder to show content list overide
 #Match[classification]=contentlist
 
+# User templates
+
+[edit_user]
+Source=content/edit.tpl
+MatchFile=edit/user.tpl
+Subdir=templates
+Match[class_identifier]=user
 
 # Article templates
 

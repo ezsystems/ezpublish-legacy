@@ -16,6 +16,16 @@
     </div>
     <div class="content-link">
         <p>
+        <a href={concat("/content/edit/", $current_user.contentobject_id, "/")|ezurl}>{'Edit account'|i18n( 'design/standard/toolbar' )}</a>
+        </p>
+    </div>
+    <div class="content-link">
+        <p>
+        <a href={"/user/password"|ezurl}>{'Change password'|i18n( 'design/standard/toolbar' )}</a>
+        </p>
+    </div>
+    <div class="content-link">
+        <p>
         <a href={"/user/logout"|ezurl}>{'Logout'|i18n( 'design/standard/toolbar' )}</a>
         </p>
     </div>
