@@ -99,6 +99,7 @@ eZ DB:
   Fixed the expanding page list like the navigator on google.com.
   Better HTML layout.
   Fast jump to start and end of list.
+  Expands all view parameters to the generated url.
 
 *New documentation :
 
