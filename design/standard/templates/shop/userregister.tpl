@@ -1,24 +1,4 @@
-<table border="0" cellspacing="0" cellpadding="0" width="100%">
-<tr>
-    <td width="1">
-    <img src={"basket_icon_1.gif"|ezimage} alt="basket" width="28" height="1" border="0" /></td>
-    <td width="100%">
-    <img width="66" src={"1x1.gif"|ezimage}  height="1" alt="" border="0"/></td>
-</tr>
-<tr>
-    <td>
-    <img src={"basket_icon_2.gif"|ezimage} alt="basket"  width="28" height="24" border="0" /></td>
-    <td style="background-color: #4e75b0; color: #ffffff; font-size: 10px;  padding-left: 4px; ">
-    Your account information
-    </td>
-</tr>
-<tr>
-    <td>
-    <img src={"basket_icon_3.gif"|ezimage} alt="basket"  width="28" height="3" border="0" /></td>
-    <td>
-    <img width="66" src={"1x1.gif"|ezimage}  height="1" alt="" border="0"/></td>
-</tr>
-</table>
+<h1>Your account information</h1>
 
 {section show=$input_error}
 <div class="warning">
@@ -30,30 +10,21 @@ Input did not validate, all fields marked with * must be filled in
 {/section}
 <form method="post" action={"/shop/userregister/"|ezurl}>
 
-<table border="0" cellspacing="0" cellpadding="0">
-<tr>
-<td>
-
 <div class="block">
-<label>
-First name:*
-</label><div class="labelbreak"></div>
-<input class="halfbox" type="text" name="FirstName" size="20" value="{$first_name}" />
+    <div class="element">
+    <label>
+    First name:*
+    </label><div class="labelbreak"></div>
+    <input class="halfbox" type="text" name="FirstName" size="20" value="{$first_name}" />
+    </div>
+    <div class="element">
+    <label>
+    Last name:*
+    </label><div class="labelbreak"></div>
+    <input class="halfbox" type="text" name="LastName" size="20" value="{$last_name}" />
+    </div>
+    <div class="break"></div>
 </div>
-
-</td>
-<td style="padding-left: 8px;">
-
-<div class="block">
-<label>
-Last name:*
-</label><div class="labelbreak"></div>
-<input class="halfbox" type="text" name="LastName" size="20" value="{$last_name}" />
-</div>
-
-</td>
-</tr>
-</table>
 
 <div class="block">
 <label>
@@ -62,54 +33,36 @@ E-mail:*
 <input class="box" type="text" name="EMail" size="20" value="{$email}" />
 </div>
 
-<table border="0" cellspacing="0" cellpadding="0">
-<tr>
-<td>
+<div class="block">
+<label>
+Company:
+</label><div class="labelbreak"></div>
+<input class="box" type="text" name="Street1" size="20" value="{$street1}" />
+</div>
 
 <div class="block">
 <label>
 Street:*
 </label><div class="labelbreak"></div>
-<input class="halfbox" type="text" name="Street2" size="20" value="{$street2}" />
+<input class="box" type="text" name="Street2" size="20" value="{$street2}" />
 </div>
 
-</td>
-<td style="padding-left: 8px;">
 
 <div class="block">
-<label>
-Company:
-</label><div class="labelbreak"></div>
-<input class="halfbox" type="text" name="Street1" size="20" value="{$street1}" />
+    <div class="element">
+    <label>
+    Zip:*
+    </label><div class="labelbreak"></div>
+    <input class="halfbox" type="text" name="Zip" size="20" value="{$zip}" />
+    </div>
+    <div class="element">
+    <label>
+    Place:*
+    </label><div class="labelbreak"></div>
+    <input class="halfbox" type="text" name="Place" size="20" value="{$place}" />
+    </div>
+    <div class="break"></div>
 </div>
-
-</td>
-</tr>
-</table>
-
-<table border="0" cellspacing="0" cellpadding="0">
-<tr>
-<td>
-
-<div class="block">
-<label>
-Zip:*
-</label><div class="labelbreak"></div>
-<input class="halfbox" type="text" name="Zip" size="20" value="{$zip}" />
-</div>
-
-</td>
-<td style="padding-left: 8px;">
-
-<div class="block">
-<label>
-Place:*
-</label><div class="labelbreak"></div>
-<input class="halfbox" type="text" name="Place" size="20" value="{$place}" />
-</div>
-</td>
-</tr>
-</table>
 
 <div class="block">
 <label>
@@ -375,23 +328,12 @@ Comment:
 </div>
 
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-    <td>
+<div class="buttonblock">
     <input class="button" type="submit" name="CancelButton" value="Cancel" />
-    </td>
-    <td align="right">
     <input class="defaultbutton" type="submit" name="StoreButton" value="Continue" />
-    </td>
-</tr>
-</table>
+</div>
 
 </form>
-
-</td>
-<td class="rightmenuarea" width="120">
-&nbsp;
-{* right area *}
 
 <p>
 All fields marked with * must be filled in.
