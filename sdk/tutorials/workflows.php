@@ -44,7 +44,8 @@ For example: add some additional actions to publish routing or some additional s
 
 <p>
 Workflows should be connected to defined eZ Publish operations ( there are only two defined operations in content module currently: "Read"  and "Publish" ) with triggers.
-For each defined operation eZ Publish kernel tries to execute two triggers. One - before the actual operation body is executed and another after that. Trigger is just a row in database in table eztrigger.
+For each defined operation, eZ Publish kernel tries to execute two triggers. One is activated before the actual operation body is executed and another is activated after that.
+Trigger is just a row stored in database table eztrigger.
 Table definition:
 <pre class="example">
 
@@ -59,12 +60,13 @@ CREATE TABLE eztrigger (
 ) TYPE=MyISAM;
 
 </pre>
-Field "name" is the name of trigger, such as "pre_publish", "pre_read". Fields module_name and function_name are the names of module and function for which system will start executing workflow.
+Field "name" is the name of trigger, for example, "pre_publish" or "pre_read". Fields module_name and function_name are the names of module and function that system will start executing workflow.
 </p>
 
-<h2> "Operations"   understanding </h2>
+<h2>Understanding "Operations"</h2>
 <p>
-Operation is a sequence of functions and triggers which should be executed to make full action like read or publish. For example simple "read" operation (bellow) is just a sequence of "pre_read" trigger  and "fetch-object" method. 
+Operation is a sequence of functions and triggers which should be executed to make full action like read or publish. For example, simple "read" operation (bellow) is just a sequence of "pre_read" trigger
+and "fetch-object" method.
 
 <pre class="example">
 
@@ -235,7 +237,7 @@ Undefined status. For now the same as EZ_WORKFLOW_TYPE_STATUS_REJECTED
 </p>
 
 <p>
-So to show a page to the user you need to use status EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE and set up some internal variables.
+To show a page to the user, you need to use status EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE and set up some internal variables.
 <pre class="example">
 
     function execute( &$process, &$event )
@@ -255,7 +257,7 @@ So to show a page to the user you need to use status EZ_WORKFLOW_TYPE_STATUS_FET
 
 </pre>
 
-And to create result template
+In addition, you need to create result template.
 
 <pre class="example">
 
@@ -275,33 +277,34 @@ And to create result template
 </p>
 
 <p>
-Now workflow event is ready and we should create workflow. We should go to the workflows, go into prefered group (or create new one) <br/>
+The workflow event is ready now and it is time to create workflow. Click on 'Workflows' in the left menu and choose an defined group or
+just create a new one.<br/>
 
 <img src="/doc/images/workflow_grouplist.png" alt="Class edit" />
 <br/>
 <br/>
-and click there button "New workflow" button.
+then click "New workflow" button.
 <br/>
 <img src="/doc/images/workflowlist.png" alt="Class edit" />
 <br/>
 <br/>
-You need to specify workflow name. After that you should add "Event/Hello User" event to the workflow by selcting it from dropdown and clicking "New Event" button.
+Specify the workflow name first, and then you can add "Event/Hello User" event to the workflow by selecting it from dropdown list and clicking "New Event" button.
 <br/>
 <img src="/doc/images/workflowedit.png" alt="Class edit" />
 <br/>
 <br/>
 
-After that you should push apply and store buttons
+Simply click on apply and store buttons after you have added the event.
 
 </p>
 <p>
-Now workflow is ready and you need to create a trigger. For now you should do it manualy.
-Connect to the database from command line tool and insert next record to the eztrigger table.
+The last step is to create a trigger. This step has to be done manually.
+Connecting to the database from command line and insert next record to the eztrigger table.
 <pre class="example">
 insert into eztrigger( module_name,function_name,name,workflow_id ) values ( 'content', 'read', 'pre_read', <i>new_workflow_id</i> );
 </pre>
-Where workflow id is internal id of  newly created workflow. You can know from edit workflow url.
+Where workflow_id is the internal id of newly created workflow. You can get it from editing workflow url.
 </p>
 <br/>
 
-So now workflow is ready and connected to the operation.
+Finally the workflow is ready and has beenconnected to the operation.
