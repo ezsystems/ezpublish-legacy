@@ -108,7 +108,6 @@
                                                class_filter_array, array( 'folder' ),
                                                sort_by, array( 'name', true() ) ) )}
 <div id="archive">
-
   <div class="header">
     <h1><span>{$node.data_map.archive_title.content|wash}</span></h1>
     <p>{attribute_view_gui attribute=$node.data_map.description}</p>
@@ -120,14 +119,14 @@
         {node_view_gui view=line archive_view=true() content_node=$item.item}
     {/section}
   
-  
+  {section show=ne($node.node_id,173)}
   <div id="categorylist">
   <h2>{$node.data_map.category_list_title.content|wash}</h2>
     {section var=category loop=$category_list}
         {node_view_gui view=line content_node=$category.item}
     {/section}
   </div>
-
+  {/section}
   </div>
 </div>
 
