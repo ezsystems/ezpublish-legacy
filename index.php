@@ -400,7 +400,9 @@ while ( $moduleRunRequired )
          $lastAccessedURI = $http->sessionVariable( "LastAccessesURI" );
     if ( $currentURI != $lastAccessedURI )
     {
-        if ( !stristr( $currentURI, "/user/login" ) )
+        if ( !stristr( $currentURI, "/user/login" ) and
+             !stristr( $currentURI, "/user/logout" )
+             )
         {
             $http->setSessionVariable( "LastAccessesURI", $currentURI );
         }
