@@ -122,7 +122,8 @@ class eZImageManager
         $this->SupportedMIMEMap = array();
         $this->ImageHandlers = array();
         $this->AliasList = array();
-        $this->Factories[] = array();
+        $this->Factories = array();
+        $this->ImageFilters = array();
 
         $ini =& eZINI::instance( 'image.ini' );
         $this->TemporaryImageDirPath = eZSys::cacheDirectory() . '/' . $ini->variable( 'FileSettings', 'TemporaryDir' );
@@ -165,7 +166,17 @@ class eZImageManager
         if ( !$handler->isAvailable() )
             return false;
         $this->ImageHandlers[] =& $handler;
+        $this->ImageFilters = array_merge( $this->ImageFilters, $handler->supportedImageFilters() );
+        $this->ImageFilters = array_unique( $this->ImageFilters );
         return true;
+    }
+
+    /*!
+     \return \c true if the filtername \a $filtername is supported by any of the image handlers.
+    */
+    function supportsFilter( $filterName )
+    {
+        return in_array( $filterName, $this->ImageFilters );
     }
 
     function aliasList()
@@ -270,6 +281,24 @@ class eZImageManager
             else
                 eZDebug::writeWarning( "Failed reading Image Alias $aliasName from $iniFile",
                                        'eZImageManager::readImageAliasFromINI' );
+        }
+        $aliasName = 'original';
+        if ( !in_array( $aliasName, $aliasNames ) )
+        {
+            include_once( 'lib/ezutils/classes/ezini.php' );
+            $ini =& eZINI::instance( 'image.ini' );
+            if ( $ini->hasGroup( $aliasName ) )
+            {
+                $alias = $this->createAliasFromINI( $aliasName );
+                if ( $alias )
+                {
+                    $alias['reference'] = false;
+                    $this->appendImageAlias( $alias );
+                }
+                else
+                    eZDebug::writeWarning( "Failed reading Image Alias $aliasName from $iniFile",
+                                           'eZImageManager::readImageAliasFromINI' );
+            }
         }
     }
 
@@ -411,8 +440,8 @@ class eZImageManager
                         'filters' => array() );
         if ( $ini->hasVariable( $iniGroup, 'Name' ) )
             $alias['name'] = $ini->variable( $iniGroup, 'Name' );
-        if ( $ini->hasVariable( $iniGroup, 'MimeType' ) )
-            $alias['mime_type'] = $ini->variable( $iniGroup, 'MimeType' );
+        if ( $ini->hasVariable( $iniGroup, 'MIMEType' ) )
+            $alias['mime_type'] = $ini->variable( $iniGroup, 'MIMEType' );
         if ( $ini->hasVariable( $iniGroup, 'Filters' ) )
         {
             $filters = array();
@@ -448,13 +477,13 @@ class eZImageManager
         $hasReference = false;
         if ( array_key_exists( $referenceAlias, $existingAliasList ) )
         {
-            if ( file_exists( $existingAliasList[$referenceAlias]['full_path'] ) )
+            if ( file_exists( $existingAliasList[$referenceAlias]['url'] ) )
             {
                 $hasReference = true;
             }
             else
             {
-                eZDebug::writeError( "The reference alias $referenceAlias file " . $existingAliasList[$referenceAlias]['full_path'] . " does not exist",
+                eZDebug::writeError( "The reference alias $referenceAlias file " . $existingAliasList[$referenceAlias]['url'] . " does not exist",
                                      'eZImageManager::createImageAlias' );
             }
         }
@@ -475,10 +504,8 @@ class eZImageManager
         if ( array_key_exists( $referenceAlias, $existingAliasList ) )
         {
             $aliasInfo = $existingAliasList[$referenceAlias];
-            $aliasFile = $aliasInfo['full_path'];
+            $aliasFile = $aliasInfo['url'];
             $aliasKey = $currentAliasInfo['alias_key'];
-//             if ( $aliasFile )
-//                 $aliasFile .= '/' . $aliasInfo['basename'];
             if ( file_exists( $aliasFile ) )
             {
                 $sourceMimeData = eZMimeType::findByFileContents( $aliasFile );
@@ -486,15 +513,12 @@ class eZImageManager
                 if ( isset( $parameters['basename'] ) )
                 {
                     $sourceMimeData['basename'] = $parameters['basename'];
-//                     $destinationMimeData['basename'] = $parameters['basename'];
                     eZMimeType::changeBasename( $destinationMimeData, $parameters['basename'] );
                 }
-//                 $destinationMimeData['filename'] = $destinationMimeData['basename'] . '.' . $destinationMimeData['suffix'];
-//                 if ( $destinationMimeData['dirpath'] )
-//                     $destinationMimeData['url'] = $destinationMimeData['dirpath'] . '/' . $destinationMimeData['filename'];
-//                 else
-//                     $destinationMimeData['url'] = $destinationMimeData['filename'];
                 $destinationMimeData['is_valid'] = false;
+//                 print( "<pre>sourceMimeData<br/>" ); var_dump( $sourceMimeData ); print( "</pre>" );
+//                 print( "<pre>destinationMimeData<br/>" ); var_dump( $destinationMimeData ); print( "</pre>" );
+//                 print( "aliasName=$aliasName<br/>" );
                 if ( !$this->convert( $sourceMimeData, $destinationMimeData, $aliasName, $parameters ) )
                 {
                     $sourceFile = $sourceMimeData['url'];
@@ -503,12 +527,10 @@ class eZImageManager
                                          'eZImageManager::createImageAlias' );
                     return false;
                 }
-//                 $destinationMimeData = $destinationDir;
                 $currentAliasData = array( 'url' => $destinationMimeData['url'],
                                            'dirpath' => $destinationMimeData['dirpath'],
                                            'filename' => $destinationMimeData['filename'],
                                            'suffix' => $destinationMimeData['suffix'],
-//                                            'fileextra' => $destinationMimeData['fileextra'],
                                            'basename' => $destinationMimeData['basename'],
                                            'alternative_text' => $aliasInfo['alternative_text'],
                                            'name' => $aliasName,
@@ -576,6 +598,21 @@ class eZImageManager
                     eZMimeType::changeMIMEType( $destinationMimeData, $alias['mime_type'] );
                 }
             }
+        }
+        if ( isset( $parameters['filters'] ) )
+        {
+            $filters = array_merge( $filters, $parameters['filters'] );
+        }
+        $wantedFilters = $filters;
+        $filters = array();
+        foreach ( array_keys( $wantedFilters ) as $wantedFilterKey )
+        {
+            $wantedFilter = $wantedFilters[$wantedFilterKey];
+            if ( $this->supportsFilter( $wantedFilter['name'] ) )
+                $filters[] = $wantedFilter;
+            else
+                eZDebug::writeWarning( "The filter '" . $wantedFilter['name'] . "' is not supported by any of the image handlers, will ignore this filter",
+                                       'eZImageManager::convert' );
         }
         if ( !$destinationMimeData['is_valid'] )
         {

@@ -883,6 +883,13 @@ class eZImageAliasHandler
         include_once( 'kernel/common/image.php' );
         $imageManager =& imageInit();
 
+        $aliasList = array( 'original' => $mimeData );
+        $aliasList['original']['alternative_text'] = $imageAltText;
+        if ( $imageManager->createImageAlias( 'original', $aliasList, array( 'basename' => $mimeData['basename'] ) ) )
+        {
+            $mimeData = $aliasList['original'];
+        }
+
         $doc = new eZDOMDocument();
         $imageNode =& $doc->createElementNode( "ezimage" );
         $doc->setRoot( $imageNode );
@@ -901,8 +908,6 @@ class eZImageAliasHandler
         $originalNode =& $doc->createElementNode( "original" );
         $imageNode->appendChild( $originalNode );
         $this->createOriginalAttributeXMLData( $originalNode, $this->originalAttributeData() );
-
-        $this->increaseImageSerialNumber();
 
         $imageNode->appendAttribute( $doc->createAttributeNode( 'serial_number', $this->imageSerialNumber() ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'is_valid', true ) );

@@ -61,6 +61,7 @@ class eZImageHandler
         $this->OutputRewriteType = $outputRewriteType;
         $this->Filters = $filters;
         $this->FilterMap = array();
+        $this->SupportImageFilters = array();
         $this->MIMETagMap = array();
         if ( $mimeTagMap )
             $this->MIMETagMap = $mimeTagMap;
@@ -70,8 +71,10 @@ class eZImageHandler
             {
                 $filter =& $this->Filters[$filterKey];
                 $this->FilterMap[$filter['name']] =& $filter;
+                $this->SupportImageFilters[] = $filter['name'];
             }
         }
+        $this->SupportImageFilters = array_unique( $this->SupportImageFilters );
     }
 
     /*!
@@ -105,6 +108,14 @@ class eZImageHandler
             return substr( $name, $position + 1 );
         else
             return false;
+    }
+
+    /*!
+     \return an array with the names of the filters this handler can work with.
+    */
+    function supportedImageFilters()
+    {
+        return $this->SupportImageFilters;
     }
 
     /*!
@@ -176,7 +187,8 @@ class eZImageHandler
     function rewriteURL( $originalMimeData, &$destinationMimeData, $rewriteType, $aliasName = false )
     {
         $extraText = false;
-        if ( $aliasName )
+        if ( $aliasName and
+             $aliasName != 'original' )
             $extraText = '_' . $aliasName;
         switch ( $rewriteType )
         {

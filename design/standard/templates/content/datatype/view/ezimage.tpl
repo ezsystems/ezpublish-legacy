@@ -4,10 +4,8 @@
            hspace=false()
            border_size=0}
   {let image_content=$attribute.content
-       image=$image_content[$image_class]
-       image2=$image_content['zoom']}
+       image=$image_content[$image_class]}
      <img src={$image.full_path|ezroot} width="{$image.width}" height="{$image.height}" {section show=$hspace}hspace="{$hspace}"{/section} {section show=$alignment}align="{$alignment}"{/section} border="{$border_size}" alt="{$image.text|wash(xhtml)}" title="{$image.text|wash(xhtml)}" />
-     <img src={$image2.full_path|ezroot} width="{$image2.width}" height="{$image2.height}" {section show=$hspace}hspace="{$hspace}"{/section} {section show=$alignment}align="{$alignment}"{/section} border="{$border_size}" alt="{$image2.text|wash(xhtml)}" title="{$image.text|wash(xhtml)}" />
   {/let}
   {/default}
 {*{/section}*}

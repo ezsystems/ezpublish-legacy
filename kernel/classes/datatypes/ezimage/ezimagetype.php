@@ -161,6 +161,8 @@ class eZImageType extends eZDataType
                 $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
                 $version = $contentObjectAttribute->attribute( "version" );
 
+                $imageHandler->increaseImageSerialNumber();
+
                 $mimeData = eZMimeType::findByName( $httpFile->attribute( 'mime_type' ) );
                 $contentVersion =& eZContentObjectVersion::fetchVersion( $contentObjectAttribute->attribute( 'version' ),
                                                                          $contentObjectAttribute->attribute( 'contentobject_id' ) );
