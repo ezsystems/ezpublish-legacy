@@ -347,7 +347,8 @@ are article, forum, product and user account.
 <p>
 To be able to create for instance an article you have to decide what
 this article should look like. This you can read more about in
-www.ez.no/SDK and we will not take this further up here. When you have
+<a href="http://sdk.ez.no/sdk/tutorials/view/content_classes">eZ publish SDK</a>
+and we will not take this further up here. When you have
 created the different classes you seldom need to do anything with this
 again (eZ publish 3 also comes with demo set-ups of articles, folders,
 products etc)
