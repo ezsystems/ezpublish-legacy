@@ -490,9 +490,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
             foreach ( array_keys( $dataTypeArray ) as $key )
             {
                 unset( $dataType );
-                $datatype =& eZDataType::create( $key );
+                $dataType =& eZDataType::create( $key );
 
-                $dataTypeArray[$key] = $datatype->sortKeyType();
+                $dataTypeArray[$key] = $dataType->sortKeyType();
             }
             unset( $dataType );
 
@@ -501,6 +501,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $phpCache->addVariable( 'attributeTypeArray', $attributeTypeArray );
             $phpCache->store();
         }
+
+        if ( !isset( $attributeTypeArray[$classAttributeID] ) ) 
+            return false;
+
         return $dataTypeArray[$attributeTypeArray[$classAttributeID]];
     }
 
