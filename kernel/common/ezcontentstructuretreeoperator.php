@@ -79,7 +79,10 @@ class eZContentStructureTreeOperator
                                           'default' => 'false' ),
                       'fetch_hidden' => array( 'type' => 'bool',
                                                'required' => false,
-                                               'default' => 'false' ) );
+                                               'default' => 'false' ),
+                      'unfold_node_id' => array( 'type' => 'int',
+                                               'required' => false,
+                                               'default' => 0 ) );
     }
 
     /*!
@@ -104,12 +107,16 @@ class eZContentStructureTreeOperator
             $fetchHidden = true;
         }
 
+        // rush: debug
+        eZDebug::writeDebug( $namedParameters, 'rush: $namedParameters' );
+
         $operatorValue = eZContentStructureTreeOperator::contentStructureTree( $namedParameters['root_node_id'],
                                                                                $namedParameters['class_filter'],
                                                                                $namedParameters['max_depth'],
                                                                                $namedParameters['max_nodes'],
                                                                                $sortArray,
-                                                                               $fetchHidden );
+                                                                               $fetchHidden,
+                                                                               $namedParameters['unfold_node_id'] );
     }
 
     /*!
@@ -219,7 +226,7 @@ class eZContentStructureTreeOperator
 
                 'children' is array( tree_node, children );
     */
-    function &contentStructureTree( $rootNodeID, &$classFilter, $maxDepth, $maxNodes, &$sortArray, $fetchHidden )
+    function &contentStructureTree( $rootNodeID, &$classFilter, $maxDepth, $maxNodes, &$sortArray, $fetchHidden, $unfoldNodeID )
     {
         $contentTree =& eZContentStructureTreeOperator::initContentStructureTree( $rootNodeID, $fetchHidden );
 
@@ -233,7 +240,7 @@ class eZContentStructureTreeOperator
         $nodesLeft = $maxNodes - 1;
         $depthLeft = $maxDepth - 1;
 
-        eZContentStructureTreeOperator::children( $contentTree, $classFilter, $depthLeft, $nodesLeft, $sortArray, $fetchHidden );
+        eZContentStructureTreeOperator::children( $contentTree, $classFilter, $depthLeft, $nodesLeft, $sortArray, $fetchHidden, $unfoldNodeID );
 
         return $contentTree;
     }
@@ -320,7 +327,8 @@ class eZContentStructureTreeOperator
         \a $sortBy is a method of sorting one-level children.
         \a $fetchHidden - should or not fetch unpublished/hidden nodes
     */
-    function children( &$contentTree, &$classFilter, &$depthLeft, &$nodesLeft, &$sortBy, $fetchHidden )
+    /*
+    function children( &$contentTree, &$classFilter, &$depthLeft, &$nodesLeft, &$sortBy, $fetchHidden, $unfoldNodeID )
     {
         if ( $depthLeft == 0 )
             return false;
@@ -338,6 +346,39 @@ class eZContentStructureTreeOperator
                 {
                     $child =& $children[$key];
                     $currentDepth = $depthLeft;
+                    if ( !eZContentStructureTreeOperator::children( $child, $classFilter, $currentDepth, $nodesLeft, $sortBy, $fetchHidden, $unfoldNodeID ) )
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+    */
+
+    function children( &$contentTree, &$classFilter, &$depthLeft, &$nodesLeft, &$sortBy, $fetchHidden, $unfoldNodeID )
+    {
+        if ( $depthLeft == 0 )
+            return false;
+
+        if ( eZContentStructureTreeOperator::oneLevelChildren( $contentTree, $classFilter, $sortBy, $nodesLeft, $fetchHidden ) )
+        {
+            --$depthLeft;
+            if ( $depthLeft != 0 )
+            {
+                $children =& $contentTree['children'];
+                $children_keys = array_keys( $children );
+
+                foreach( $children_keys as $key )
+                {
+                    $child =& $children[$key];
+                    $currentDepth = $depthLeft;
+
+                    if ( $unfoldNodeID != 0 and $unfoldNodeID != $child['parent_node']['node']['node_id'] )
+                        continue;
+
                     if ( !eZContentStructureTreeOperator::children( $child, $classFilter, $currentDepth, $nodesLeft, $sortBy, $fetchHidden ) )
                     {
                         return false;

@@ -1,0 +1,27 @@
+
+Simplified Treemenu.
+
+Files:
+design/standard/templates/simplified_treemenu/
+    ./simplified_treemenu.tpl
+    ./show_simplified_menu.tpl
+
+Simplified treemenu based on ContentStructure menu.
+(see desing/standard/templates/contentstructuremenu/)
+
+To use simplified treemenu, you have to insert appropriate include
+simplified_treemenu.tpl file in your template. For example:
+
+    {*include uri='design:simplified_treemenu/content_structure_menu.tpl'*}
+
+And set up appropriate classes as chapter classes in contentstructuremenu.ini
+file, using ChapterClasses array. For example:
+
+ChapterClasses[]
+ChapterClasses[]=chapter
+ChapterClasses[]=lightTOC
+ChapterClasses[]=folder
+
+The node of chapter class type will be opened as list of first-level
+children, using a simplified treemenu. Any node of other types will be opened
+as subtree of first found parent node of chapter class type.
