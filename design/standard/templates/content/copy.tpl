@@ -7,12 +7,7 @@
 </div>
 
 <div class="block">
-<table cellspacing="6" cellpadding="0" border="0">
-<tr>
-  <th>{"Versions"|i18n("design/standard/content/copy")}</th>
-  <td>{$object_versions|count}</td>
-</tr>
-</table>
+<p>{"Version count is %1, and current version is %2."|i18n("design/standard/content/copy",,array($object_versions|count,$object.current_version))}</p>
 </div>
 
 <div class="block">
@@ -29,7 +24,7 @@
 </div>
 
 <div class="buttonblock">
-<input class="button" type="submit" name="CopyButton" value="{'Copy'|i18n('design/standard/content/copy')}" />
+<input class="defaultbutton" type="submit" name="CopyButton" value="{'Copy'|i18n('design/standard/content/copy')}" />
 <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n('design/standard/content/copy')}" />
 </div>
 

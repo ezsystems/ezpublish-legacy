@@ -42,6 +42,12 @@ $object =& eZContentObject::fetch( $ObjectID );
 if ( $object === null )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE );
 
+if ( $Module->isCurrentAction( 'Cancel' ) )
+{
+    $mainParentNodeID = $object->attribute( 'main_parent_node_id' );
+    return $Module->redirectToView( 'view', array( 'full', $mainParentNodeID ) );
+}
+
 $contentINI =& eZINI::instance( 'content.ini' );
 
 function &copyObject( &$object, $allVersions )
