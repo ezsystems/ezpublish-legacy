@@ -186,7 +186,7 @@ class eZNodeviewfunctions
         return $Result;
     }
 
-    function generateViewCacheFile( $user, $nodeID, $offset, $layout, $language, $viewMode, $viewParameters = false )
+    function generateViewCacheFile( $user, $nodeID, $offset, $layout, $language, $viewMode, $viewParameters = false, $cachedViewPreferences = false )
     {
         include_once( 'kernel/classes/ezuserdiscountrule.php' );
         include_once( 'kernel/classes/ezpreferences.php' );
@@ -215,8 +215,15 @@ class eZNodeviewfunctions
         }
 
         // Make the cache unique for every case of the preferences
-        $siteIni =& eZINI::instance( );
-        $depPreferences = $siteIni->variable( 'ContentSettings', 'CachedViewPreferences' );
+        if ( $cachedViewPreferences === false )
+        {
+            $siteIni =& eZINI::instance( );
+            $depPreferences = $siteIni->variable( 'ContentSettings', 'CachedViewPreferences' );
+        }
+        else
+        {
+            $depPreferences = $cachedViewPreferences;
+        }
         if ( isset ( $depPreferences[$viewMode] ) )
         {
             $depPreferences = explode( ';', $depPreferences[$viewMode] );
