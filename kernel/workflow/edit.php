@@ -47,12 +47,12 @@ else
 
 if ( isset( $Params["GroupID"] ) )
 {
-    eZDebug::writeDebug( $GroupID, "GroupID" );
     $GroupID = $Params["GroupID"];
+    eZDebug::writeDebug( $GroupID, "GroupID" );
 }
 else
 {
-    eZDebug::writeDebug( $GroupID, "unknown GroupID" );
+    eZDebug::writeDebug( false, "unknown GroupID" );
 }
 if ( isset( $Params["GroupName"] ) )
     $GroupName = $Params["GroupName"];
