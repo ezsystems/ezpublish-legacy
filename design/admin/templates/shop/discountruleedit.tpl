@@ -15,7 +15,7 @@
 {* Name *}
 <div class="block">
 <label>{'Name'|i18n( 'design/admin/shop/discountruleedit' )}:</label>
-<input type="text" name="discountrule_name" value="{$discountrule.name}" size=40>
+<input class="box" type="text" name="discountrule_name" value="{$discountrule.name}" size="40" />
 </div>
 
 {* Discount precent *}
@@ -56,12 +56,13 @@
 
 {* Objects *}
 <div class="block">
-<label>{'Individual products'|i18n( 'design/admin/shop/discountruleedit' )}:</label>
+<fieldset>
+<legend>{'Individual products'|i18n( 'design/admin/shop/discountruleedit' )}</legend>
 
 {section show=$product_list}
 <table class="list" cellspacing="0">
 <tr>
-<th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/discountruleedit' )} title="{'Invert selection.'|i18n( 'design/admin/shop/discountruleedit' )} onclick="ezjs_toggleCheckboxes( document.DiscountRuleEdit, 'DeleteProductIDArray[]' ); return false;" /></th>
+<th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/discountruleedit' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/discountruleedit' )}" onclick="ezjs_toggleCheckboxes( document.DiscountRuleEdit, 'DeleteProductIDArray[]' ); return false;" /></th>
 <th>{'Name'|i18n( 'design/admin/shop/discountruleedit' )}</th>
 </tr>
 {section var=Product show=$product_list loop=$product_list sequence=array( bglight, bgdark )}
@@ -82,7 +83,9 @@
 {section-else}
 <input class="button-disabled" type="submit" name="DeleteProductButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountruleedit' )}" disabled="disabled" />
 {/section}
+
 <input class="button" type="submit" name="BrowseProductButton" value="{'Add products'|i18n( 'design/admin/shop/discountruleedit' )}" />
+</fieldset>
 </div>
 
 </div>
