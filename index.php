@@ -265,7 +265,10 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
 
     if ( $automatic_redir )
     {
-        header( "Location: " . $module->redirectURI() );
+        $redirectURI = eZSys::indexDir();
+        $redirectURI .= $module->redirectURI();
+
+        header( "Location: " . $redirectURI );
     }
     else
     {
@@ -349,7 +352,7 @@ if ( $show_page_layout )
             $show_page_layout = "pagelayout.tpl";
         }
 
-                /// HiO special menu code tmp
+        /// HiO special menu code tmp
         eZDebug::writeWarning( "Temporary HiO specific code, remove", "index.php" );
 
         $level = 0;
@@ -377,10 +380,10 @@ if ( $show_page_layout )
                 if ( $obj->attribute( 'contentclass_id' ) == 1 )
                 {
                     if ( get_class( $dataMap['liste'] ) == 'ezcontentobjectattribute' )
-                    if ( $dataMap['liste']->attribute('data_int' ) == 1 )
-                    {
-                        $excludeNode = true;
-                    }
+                        if ( $dataMap['liste']->attribute('data_int' ) == 1 )
+                        {
+                            $excludeNode = true;
+                        }
                 }
             }
 
