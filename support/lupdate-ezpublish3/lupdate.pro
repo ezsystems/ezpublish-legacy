@@ -35,8 +35,7 @@ INCLUDEPATH = .
 HEADERS     = metatranslator.h \
               proparser.h
 
-SOURCES     = fetchtr.cpp \
-              fetchtr_php.cpp \
+SOURCES     = fetchtr_php.cpp \
               fetchtr_tpl.cpp \
               main.cpp \
               merge.cpp \

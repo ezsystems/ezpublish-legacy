@@ -1,18 +1,34 @@
-/**********************************************************************
-**   Copyright (C) 2000 Trolltech AS.  All rights reserved.
-**
-**   fetchtr.cpp
-**
-**   This file is part of Qt Linguist.
-**
-**   See the file LICENSE included in the distribution for the usage
-**   and distribution terms.
-**
-**   The file is provided AS IS with NO WARRANTY OF ANY KIND,
-**   INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR
-**   A PARTICULAR PURPOSE.
-**
-**********************************************************************/
+//
+// Finds i18n data from php files
+//
+// This file is based on fetchtr.cpp from lupdate/Qt Linguist,
+// which is Copyright (C) 2000 Trolltech AS (www.trolltech.com).
+//
+// Gunnstein Lye <gl@ez.no>
+// Created on: <10-Dec-2002 18:46:17 gl>
+//
+// Copyright (C) 1999-2002 eZ Systems.  All rights reserved.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//
+// The GNU General Public License is also available online at:
+//
+// http://www.gnu.org/copyleft/gpl.html
+//
+
+#include <metatranslator.h>
 
 #include <qfile.h>
 #include <qfileinfo.h>
@@ -20,14 +36,6 @@
 #include <qstring.h>
 #include <qtextstream.h>
 
-#include <ctype.h>
-#include <errno.h>
-#include <metatranslator.h>
-#include <stdio.h>
-#include <string.h>
-#include <qxml.h>
-
-static const char MagicComment[] = "TRANSLATOR ";
 
 /*
   The first part of this source file is the PHP tokenizer.  We skip
@@ -411,8 +419,8 @@ static void parse( MetaTranslator *tor, const char *initialContext,
                     }
                     tor->insert( MetaTranslatorMessage( context, text, comment, QString::null, utf8 ) );
                 }
-                else
-                    qDebug( " --- token failed ------------" );
+//                 else
+//                     qDebug( " --- token failed ------------" );
                 break;
             case Tok_Ident:
                 if ( !prefix.isNull() )
@@ -425,28 +433,6 @@ static void parse( MetaTranslator *tor, const char *initialContext,
             case Tok_Comment:
                 comment = yyComment;
                 comment = comment.simplifyWhiteSpace();
-                if ( comment.left(sizeof(MagicComment) - 1) == MagicComment ) {
-                    comment.remove( 0, sizeof(MagicComment) - 1 );
-                    int k = comment.find( ' ' );
-                    if ( k == -1 ) {
-                        context = comment;
-                    } else {
-                        context = comment.left( k );
-                        comment.remove( 0, k + 1 );
-                        tor->insert( MetaTranslatorMessage(context, "", comment,
-                                                           QString::null, FALSE) );
-                    }
-
-                    /*
-                      Provide a backdoor for people using "using
-                      namespace". See the manual for details.
-                    */
-                    k = 0;
-                    while ( (k = context.find("::", k)) != -1 ) {
-                        qualifiedContexts.insert( context.mid(k + 2), context );
-                        k++;
-                    }
-                }
                 yyTok = getToken();
                 break;
             case Tok_Gulbrandsen:
