@@ -142,7 +142,6 @@ if ( $handle )
                 $url = str_replace( "/", "", $url );
                 $url = preg_replace( "/\?(.*)/", "", $url );
                 $nodeIDArray[] = $url;
-                print_r( $nodeIDArray );
             }
             else
             {
@@ -160,7 +159,7 @@ if ( $handle )
                 {
                     if ( $firstElement != "" )
                     {
-                        $pathIdentificationString = "__1/" . $firstElement;
+                        $pathIdentificationString = $firstElement;
                         //check in database, if fount, add to contentArray, else add to nonContentArray.
                         $query = "SELECT node_id FROM ezcontentobject_tree
 	                          WHERE path_identification_string='$pathIdentificationString'";
@@ -209,7 +208,8 @@ foreach ( $nodeIDArray as $nodeID )
 
 foreach ( $pathArray as $path )
 {
-    $pathIdentification = "__1" . $path;
+    $pathIdentification = $path;
+    $pathIdentification = substr ($pathIdentification,1);
     $nodeIDList = $db->arrayQuery( "SELECT node_id FROM ezcontentobject_tree
 	                                WHERE path_identification_string='$pathIdentification'" );
 
