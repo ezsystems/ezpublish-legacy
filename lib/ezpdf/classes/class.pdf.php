@@ -2271,9 +2271,11 @@ class Cpdf
 	} else {
 	    $tmp = $this->output();
 	}
-	header("Content-type: application/pdf");
-	header("Content-Length: ".strlen(ltrim($tmp)));
+    header( 'X-Powered-By: eZ publish' );
+	header('Content-type: application/pdf');
+	header('Content-Length: '.strlen(ltrim($tmp)));
 	$fileName = (isset($options['Content-Disposition'])?$options['Content-Disposition']:'file.pdf');
+    header( 'Content-Transfer-Encoding: binary' );
 	header("Content-Disposition: inline; filename=".$fileName);
 	if (isset($options['Accept-Ranges']) && $options['Accept-Ranges']==1){
 	    header("Accept-Ranges: ".strlen(ltrim($tmp)));

@@ -1,6 +1,7 @@
-{section show=and(first_set($attribute.content,true()),first_set($attribute.content.contentobject_attribute_id,false()))}
+
   {default image_class=large
            alignment=false()
+	   hspace=false()
            border_size=0}
   {let image_content=$attribute.content
        image=$image_content[$image_class]}
@@ -12,4 +13,3 @@
 
   {/let}
   {/default}
-{/section}

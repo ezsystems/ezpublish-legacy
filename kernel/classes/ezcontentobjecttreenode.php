@@ -1482,9 +1482,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function &children( )
     {
         return $this->subTree( array( 'Depth' => 1,
-                                      'DepthOperator' => 'eq',
-                                      'Limitation' => $limitationList
-                                      ) );
+                                      'DepthOperator' => 'eq' ) );
+//                                      'Limitation' => $limitationList
+//                                      ) );
     }
 
     /*!
@@ -1493,9 +1493,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function &childrenCount( )
     {
         return $this->subTreeCount( array( 'Depth' => 1,
-                                           'DepthOperator' => 'eq',
-                                           'Limitation' => $limitationList
-                                           ) );
+                                           'DepthOperator' => 'eq' ) );
+//                                           'Limitation' => $limitationList
+//                                           ) );
     }
 
     /*!

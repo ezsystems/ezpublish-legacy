@@ -1,0 +1,1 @@
+{pdf(text, $attribute.data_float)}

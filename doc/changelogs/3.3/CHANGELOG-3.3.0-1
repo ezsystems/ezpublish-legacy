@@ -49,6 +49,7 @@ eZImage
 *Templates:
 - created templates to override standard browse page when browsing in media folder.
 - Added missing link target in embed_image.tpl
+- Added templates for generating PDF
 
 *Library :
 - Added basic PDF library. This will be extended in the following weeks.
@@ -65,6 +66,7 @@ eZ template:
 
 eZ xml:
 - Added the functions removeAttributes and removeChildren in eZDOMNode.
+- Added outputhandler to handle PDF output
 
 eZ image:
 - The image system has been rewritten to be more flexible, stable, faster and simpler to use.

@@ -1,0 +1,1 @@
+{pdf(text, concat( "ISBN ", $attribute.data_text ))}

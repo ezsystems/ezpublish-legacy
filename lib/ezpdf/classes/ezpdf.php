@@ -39,7 +39,7 @@ include_once( 'lib/ezpdf/classes/class.ezpdftable.php' );
 include_once( 'lib/ezpdf/classes/class.pdf.php' );
 
 include_once( 'lib/ezfile/classes/ezfile.php' );
-include_once( "lib/ezutils/classes/eztexttool.php" );
+include_once( 'lib/ezutils/classes/eztexttool.php' );
 
 /*!
   \class eZPDF ezpdf.php
@@ -81,23 +81,46 @@ class eZPDF
     */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
+        if ( ! isset( $this->PDF ) )
+        {
+            $this->createPDF();
+        }
+
         switch ( $namedParameters['operation'] )
         {
             case 'table':
             {
+                $table = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+
+                $this->PDF->ezTable( $table['data'], '', '', $table['options'] );
+            } break;
+
+            case 'header':
+            {
+                $header = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+
+                if ( !isset( $header['align'] ) )
+                    $header['align'] = 'left';
+                $this->PDF->ezText( '<C:rf:'. $header['type'] .rawurlencode( $header['text'] ) .'>',
+                                    $header['size'],
+                                    array( 'justification' => $header['align'] ) );
+                eZDebug::writeNotice( 'PDF: Added header: '. $header['text'] .', size: '. $header['size'] .', align: '. $header['align'], 'eZPDF::modify' );
             } break;
 
             case 'create':
             {
-                $this->PDF = new eZPDFTable();
-                $this->PDF->selectFont( 'lib/ezpdf/classes/fonts/Helvetica.afm' );
-                eZDebug::writeNotice( 'PDF: File created' );
+                $this->createPDF();
+            } break;
+
+            case 'newline':
+            {
+                $this->PDF->ezText( "\n" );
             } break;
 
             case 'newpage':
             {
                 $this->PDF->ezNewPage();
-                eZDebug::writeNotice( 'PDF: New page' );
+                eZDebug::writeNotice( 'PDF: New page', 'eZPDF::modify' );
             } break;
 
             case 'image':
@@ -107,24 +130,37 @@ class eZPDF
                 $width = isset( $image['width'] ) ? $image['width']: 100;
                 $height = isset( $image['height'] ) ? $image['height']: 100;
 
-                $this->PDF->addJpegFromFile($image['src'],0,$this->PDF->offsetY()-$height,$width,$height);
-                eZDebug::writeNotice( 'PDF: Added Image '.$image['src'].' to PDF file' );
+                $this->PDF->addJpegFromFile( $image['src'], 0, $this->PDF->offsetY()-$height, $width, $height );
+                eZDebug::writeNotice( 'PDF: Added Image '.$image['src'].' to PDF file', 'eZPDF::modify' );
             } break;
 
-            case 'link':
+            case 'anchor':
+            {
+                $name = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+
+                $this->PDF->addDestination( $name['name'], 'FitH', $this->PDF->offsetY() );
+                eZDebug::writeNotice( 'PDF: Added link, url: '.$link['url'], 'eZPDF::modify' );
+            } break;
+
+            case 'link': // external link
             {
                 $link = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
-                $this->PDF->ezText( '<c:alink:'.$link['url'].'>'.$link['text'].'</c:alink>' );
-                eZDebug::writeNotice( 'PDF: Added link, url: '.$link['url'] );
+                $this->PDF->ezText( '<c:alink:'. $link['url'] .'>'. $link['text'] .'</c:alink>' );
+                eZDebug::writeNotice( 'PDF: Added link, url: '.$link['url'], 'eZPDF::modify' );
             } break;
+
+            case 'stream':
+            {
+                $this->PDF->ezStream();
+            }
 
             case 'close':
             {
                 include_once( 'lib/ezutils/classes/eztexttool.php' );
                 $filename = 'tmp.pdf';
-                eZFile::create( $filename, eZSys::storageDirectory().'/pdf', $this->PDF->ezOutput() );
-                eZDebug::writeNotice( 'PDF file closed and saved to '.eZSys::storageDirectory().'/pdf/'.$filename  );
+                eZFile::create( $filename, eZSys::storageDirectory() .'/pdf', $this->PDF->ezOutput() );
+                eZDebug::writeNotice( 'PDF file closed and saved to '. eZSys::storageDirectory() .'/pdf/'. $filename, 'eZPDF::modify' );
             } break;
 
             case 'text':
@@ -139,14 +175,14 @@ class eZPDF
                 $text = eZTextTool::concat( $operands );
 
                 $this->PDF->ezText( $text );
-                eZDebug::writeNotice( '"'.$text.'" added to pdf file.' );
+                eZDebug::writeNotice( '"'. $text .'" added to pdf file.', 'eZPDF::modify' );
             } break;
 
             default:
             {
                 $text =& $operatorValue;
                 $this->PDF->ezText( $text );
-                eZDebug::writeNotice( '"'.$text.'" added to pdf file.' );
+                eZDebug::writeNotice( '"'.$text.'" added to pdf file.', 'eZPDF::modify' );
                 $operatorValue = null;
             }
 
@@ -154,10 +190,22 @@ class eZPDF
 
     }
 
+    /*
+     \private
+     Create PDF object
+    */
+    function createPDF()
+    {
+        $this->PDF = new eZPDFTable();
+        $this->PDF->selectFont( 'lib/ezpdf/classes/fonts/Helvetica.afm' );
+        eZDebug::writeNotice( 'PDF: File created' );
+    }
 
     /// The array of operators, used for registering operators
     var $Operators;
     var $PDF;
+
+    var $bufferedText = '';
 }
 
 

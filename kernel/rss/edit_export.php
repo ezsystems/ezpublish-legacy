@@ -37,7 +37,7 @@
 $Module =& $Params["Module"];
 
 include_once( 'kernel/rss/edit_functions.php' );
-include_once( "kernel/common/template.php" );
+include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezrssexport.php' );
 include_once( 'kernel/classes/ezrssexportitem.php' );
 include_once( 'lib/ezutils/classes/ezhttppersistence.php' );

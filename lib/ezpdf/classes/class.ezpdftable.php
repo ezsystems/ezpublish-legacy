@@ -51,6 +51,7 @@ class eZPDFTable extends Cezpdf
     function eZPDFTable()
     {
         $this->Cezpdf();
+        $this->TOC = array();
     }
 
     /**
@@ -758,6 +759,17 @@ class eZPDFTable extends Cezpdf
         $this->line($x0-$gap/2-$outer/2,$y2,$x1-$gap/2+$outer/2,$y2);
     }
 
+    function rf($info){
+        $tmp = $info['p'];
+        $lvl = $tmp[0];
+        $lbl = rawurldecode(substr($tmp,1));
+        $num=$this->ezWhatPageNumber($this->ezGetCurrentPageNumber());
+        $this->TOC[] = array($lbl,$num,$lvl );
+    }
+
+    /* --- Private --- */
+
+    var $TOC;
 }
 
 

@@ -1299,7 +1299,7 @@ class Cezpdf extends Cpdf
         }
 
         // modifications to give leading and spacing based on those given by Craig Heydenburg 1/1/02
-        if (is_array($options) && isset($options['leading'])) { ## use leading instead of spacing
+        if (is_array($options) && isset($options['leading'])) { // use leading instead of spacing
                                                                     $height = $options['leading'];
         } else if (is_array($options) && isset($options['spacing'])) {
             $height = $this->getFontHeight($size) * $options['spacing'];
