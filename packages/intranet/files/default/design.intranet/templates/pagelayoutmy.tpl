@@ -188,7 +188,7 @@
 
 {* Footer START *}
 <div id="footer">
-    <a href="http://ez.no">eZ publish&trade;</a> copyright &copy; 1999-2003 <a href="http://ez.no">eZ systems as</a>
+    <a href="http://ez.no">eZ publish&trade;</a> copyright &copy; 1999-2004 <a href="http://ez.no">eZ systems as</a>
 </div>
 {* Copyright END *}
 
