@@ -27,9 +27,13 @@
 
     {include uri="design:content/edit_validation.tpl"}
 
-    <div class="remove">
+    {* The location edit field is only used when the INI setting is set to enabled *}
+    {section show=eq( ezini( 'EditSettings', 'EmbedLocationHandling', 'content.ini' ), 'enabled' )}
     {include uri="design:content/edit_placement.tpl"}
-    </div>
+    {section-else}
+    {* This disables all node assignment checking in content/edit *}
+    <input type="hidden" name="UseNodeAssigments" value="0" />
+    {/section}
 
     {include uri="design:content/edit_attribute.tpl"}
 

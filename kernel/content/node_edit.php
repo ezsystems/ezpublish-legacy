@@ -48,6 +48,15 @@ include_once( 'kernel/common/template.php' );
 function checkNodeAssignments( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage )
 {
     $http =& eZHTTPTool::instance();
+
+    // If node assignment handling is diabled we return immedieately
+    $useNodeAssigments = true;
+    if ( $http->hasPostVariable( 'UseNodeAssigments' ) )
+        $useNodeAssigments = (bool)$http->postVariable( 'UseNodeAssigments' );
+
+    if ( !$useNodeAssigments )
+        return;
+
     $ObjectID = $object->attribute( 'id' );
     // Assign to nodes
     if ( $module->isCurrentAction( 'AddNodeAssignment' ) )
@@ -112,6 +121,15 @@ function checkNodeAssignments( &$module, &$class, &$object, &$version, &$content
 function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage )
 {
     $http =& eZHTTPTool::instance();
+
+    // If node assignment handling is diabled we return immedieately
+    $useNodeAssigments = true;
+    if ( $http->hasPostVariable( 'UseNodeAssigments' ) )
+        $useNodeAssigments = (bool)$http->postVariable( 'UseNodeAssigments' );
+
+    if ( !$useNodeAssigments )
+        return;
+
     $ObjectID = $object->attribute( 'id' );
     // Move to another node
     if ( $module->isCurrentAction( 'MoveNodeAssignment' ) )
@@ -194,6 +212,14 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
 function storeNodeAssignments( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage )
 {
     $http =& eZHTTPTool::instance();
+
+    // If node assignment handling is diabled we return immedieately
+    $useNodeAssigments = true;
+    if ( $http->hasPostVariable( 'UseNodeAssigments' ) )
+        $useNodeAssigments = (bool)$http->postVariable( 'UseNodeAssigments' );
+
+    if ( !$useNodeAssigments )
+        return;
 
     $setPlacementNodeIDArray = array();
     if ( $http->hasPostVariable( 'SetPlacementNodeIDArray' ) )
@@ -312,6 +338,14 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
 function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage )
 {
     $http =& eZHTTPTool::instance();
+
+    // If node assignment handling is diabled we return immedieately
+    $useNodeAssigments = true;
+    if ( $http->hasPostVariable( 'UseNodeAssigments' ) )
+        $useNodeAssigments = (bool)$http->postVariable( 'UseNodeAssigments' );
+
+    if ( !$useNodeAssigments )
+        return;
 
     // Remove custom actions from attribute editing.
     $http->removeSessionVariable( 'BrowseCustomAction' );
@@ -483,6 +517,11 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
 
 function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, &$tpl )
 {
+    // If EmbedNodeAssignmentHandling is not set to 'enabled' we do not add any node assignment template variables
+    $contentINI =& eZINI::instance( 'content.ini' );
+    if ( $contentINI->variable( 'EditSettings', 'EmbedNodeAssignmentHandling' ) != 'enabled' )
+        return;
+
     $assignedNodeArray =& $version->attribute( 'parent_nodes' );
     eZDebugSetting::writeDebug( 'kernel-content-edit', $assignedNodeArray, "assigned nodes array" );
     $remoteMap = array();
