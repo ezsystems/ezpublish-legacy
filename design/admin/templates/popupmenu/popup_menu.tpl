@@ -166,20 +166,20 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
 
 <!-- Site access for override popup menu -->
 <div class="popupmenu" id="OverrideSiteAccess">
-    <div class="popupmenuheader"><h3 id="override-site-access-menu-header">{"Choose SiteAccess"|i18n("design/admin/popupmenu")}</h3>
+    <div class="popupmenuheader"><h3 class="override-site-access-menu-header">{"Choose SiteAccess"|i18n("design/admin/popupmenu")}</h3>
         <div class="break"></div>
     </div>
 
     {section var=siteAccess loop=ezini('SiteAccessSettings','AvailableSiteAccessList')}
         {let link=concat("visual/templatecreate/node/view/full.tpl/(siteAccess)/",$siteAccess)|ezurl}
-            <a id="menu-siteAccess-{$siteAccess}" onclick='ezpopmenu_hideAll(); ezpopup_SubstituteAndRedirect({$link}); return true;' onmouseover="ezpopmenu_mouseOver( 'OverrideSiteAccess' )">{$siteAccess}</a>
+            <a class="menu-siteAccess-{$siteAccess}" onclick='ezpopmenu_hideAll(); ezpopup_SubstituteAndRedirect({$link}); return true;' onmouseover="ezpopmenu_mouseOver( 'OverrideSiteAccess' )">{$siteAccess}</a>
         {/let}
     {/section}
 </div>
 
 <!-- Site access for override by class popup menu -->
 <div class="popupmenu" id="OverrideByClassSiteAccess">
-    <div class="popupmenuheader"><h3 id="override-site-access-menu-header">{"Choose SiteAccess"|i18n("design/admin/popupmenu")}</h3>
+    <div class="popupmenuheader"><h3 class="override-site-access-menu-header">{"Choose SiteAccess"|i18n("design/admin/popupmenu")}</h3>
         <div class="break"></div>
     </div>
 
@@ -193,13 +193,13 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
 
 <!-- Site access for override by node popup menu -->
 <div class="popupmenu" id="OverrideByNodeSiteAccess">
-    <div class="popupmenuheader"><h3 id="override-site-access-menu-header">{"Choose SiteAccess"|i18n("design/admin/popupmenu")}</h3>
+    <div class="popupmenuheader"><h3 class="override-site-access-menu-header">{"Choose SiteAccess"|i18n("design/admin/popupmenu")}</h3>
         <div class="break"></div>
     </div>
 
     {section var=siteAccess loop=ezini('SiteAccessSettings','AvailableSiteAccessList')}
         {let link=concat('visual/templatecreate/node/view/full.tpl/(siteAccess)/', $siteAccess, '/(nodeID)/%nodeID%')|ezurl}
-            <a id="menu-siteAccess-{$siteAccess}" onclick='ezpopmenu_hideAll(); ezpopup_SubstituteAndRedirect({$link}); return true;' onmouseover="ezpopmenu_mouseOver( 'OverrideByNodeSiteAccess' )">{$siteAccess}</a>
+            <a class="menu-siteAccess-{$siteAccess}" onclick='ezpopmenu_hideAll(); ezpopup_SubstituteAndRedirect({$link}); return true;' onmouseover="ezpopmenu_mouseOver( 'OverrideByNodeSiteAccess' )">{$siteAccess}</a>
         {/let}
     {/section}
 </div>
