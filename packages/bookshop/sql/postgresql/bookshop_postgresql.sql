@@ -2111,8 +2111,6 @@ CREATE TABLE ezsite_data (
 
 
 
-COPY ezapprove_items (id, workflow_process_id, collaboration_id) FROM stdin;
-\.
 
 
 
@@ -2120,8 +2118,6 @@ COPY ezapprove_items (id, workflow_process_id, collaboration_id) FROM stdin;
 
 
 
-COPY ezbasket (id, session_id, productcollection_id) FROM stdin;
-\.
 
 
 
@@ -2129,8 +2125,6 @@ COPY ezbasket (id, session_id, productcollection_id) FROM stdin;
 
 
 
-COPY ezbinaryfile (contentobject_attribute_id, "version", filename, original_filename, mime_type) FROM stdin;
-\.
 
 
 
@@ -2138,8 +2132,6 @@ COPY ezbinaryfile (contentobject_attribute_id, "version", filename, original_fil
 
 
 
-COPY ezcollab_group (id, parent_group_id, depth, path_string, is_open, user_id, title, priority, created, modified) FROM stdin;
-\.
 
 
 
@@ -2147,8 +2139,6 @@ COPY ezcollab_group (id, parent_group_id, depth, path_string, is_open, user_id, 
 
 
 
-COPY ezcollab_item (id, type_identifier, creator_id, status, data_text1, data_text2, data_text3, data_int1, data_int2, data_int3, data_float1, data_float2, data_float3, created, modified) FROM stdin;
-\.
 
 
 
@@ -2156,8 +2146,6 @@ COPY ezcollab_item (id, type_identifier, creator_id, status, data_text1, data_te
 
 
 
-COPY ezcollab_item_group_link (collaboration_id, group_id, user_id, is_read, is_active, last_read, created, modified) FROM stdin;
-\.
 
 
 
@@ -2165,8 +2153,6 @@ COPY ezcollab_item_group_link (collaboration_id, group_id, user_id, is_read, is_
 
 
 
-COPY ezcollab_item_message_link (id, collaboration_id, participant_id, message_id, message_type, created, modified) FROM stdin;
-\.
 
 
 
@@ -2174,8 +2160,6 @@ COPY ezcollab_item_message_link (id, collaboration_id, participant_id, message_i
 
 
 
-COPY ezcollab_item_participant_link (collaboration_id, participant_id, participant_type, participant_role, is_read, is_active, last_read, created, modified) FROM stdin;
-\.
 
 
 
@@ -2183,8 +2167,6 @@ COPY ezcollab_item_participant_link (collaboration_id, participant_id, participa
 
 
 
-COPY ezcollab_item_status (collaboration_id, user_id, is_read, is_active, last_read) FROM stdin;
-\.
 
 
 
@@ -2192,8 +2174,6 @@ COPY ezcollab_item_status (collaboration_id, user_id, is_read, is_active, last_r
 
 
 
-COPY ezcollab_notification_rule (id, user_id, collab_identifier) FROM stdin;
-\.
 
 
 
@@ -2201,8 +2181,6 @@ COPY ezcollab_notification_rule (id, user_id, collab_identifier) FROM stdin;
 
 
 
-COPY ezcollab_profile (id, user_id, main_group, data_text1, created, modified) FROM stdin;
-\.
 
 
 
@@ -2210,8 +2188,6 @@ COPY ezcollab_profile (id, user_id, main_group, data_text1, created, modified) F
 
 
 
-COPY ezcollab_simple_message (id, message_type, creator_id, data_text1, data_text2, data_text3, data_int1, data_int2, data_int3, data_float1, data_float2, data_float3, created, modified) FROM stdin;
-\.
 
 
 
@@ -2219,8 +2195,6 @@ COPY ezcollab_simple_message (id, message_type, creator_id, data_text1, data_tex
 
 
 
-COPY ezcontent_translation (id, name, locale) FROM stdin;
-\.
 
 
 
@@ -2228,8 +2202,6 @@ COPY ezcontent_translation (id, name, locale) FROM stdin;
 
 
 
-COPY ezcontentbrowsebookmark (id, user_id, node_id, name) FROM stdin;
-\.
 
 
 
@@ -2237,9 +2209,7 @@ COPY ezcontentbrowsebookmark (id, user_id, node_id, name) FROM stdin;
 
 
 
-COPY ezcontentbrowserecent (id, user_id, node_id, created, name) FROM stdin;
-4	14	47	1061231361	Wines of the world
-\.
+INSERT INTO ezcontentbrowserecent VALUES (4, 14, 47, 1061231361, 'Wines of the world');
 
 
 
@@ -2247,21 +2217,19 @@ COPY ezcontentbrowserecent (id, user_id, node_id, created, name) FROM stdin;
 
 
 
-COPY ezcontentclass (id, "version", name, identifier, contentobject_name, creator_id, modifier_id, created, modified) FROM stdin;
-1	0	Folder	folder	<name>	14	14	1024392098	1048494694
-2	0	Article	article	<title>	14	14	1024392098	1048494722
-3	0	User group	user_group	<name>	14	14	1024392098	1048494743
-4	0	User	user	<first_name> <last_name>	14	14	1024392098	1048494759
-5	0	Image	image	<name>	8	14	1031484992	1048494784
-6	0	Forum	forum	<name>	14	14	1052384723	1052384870
-7	0	Forum message	forum_message	<topic>	14	14	1052384877	1052384943
-8	0	Product	product	<title>	14	14	1052384951	1052385067
-9	0	Product review	product_review	<title>	14	14	1052385080	1061231279
-10	0	Info page	info_page	<name>	14	14	1052385274	1052385353
-11	0	Link	link	<title>	14	14	1052385361	1052385453
-12	0	File	file	<name>	14	14	1052385472	1052385669
-13	0	Comment	comment	<subject>	14	14	1052385685	1052385756
-\.
+INSERT INTO ezcontentclass VALUES (1, 0, 'Folder', 'folder', '<name>', 14, 14, 1024392098, 1048494694);
+INSERT INTO ezcontentclass VALUES (2, 0, 'Article', 'article', '<title>', 14, 14, 1024392098, 1048494722);
+INSERT INTO ezcontentclass VALUES (3, 0, 'User group', 'user_group', '<name>', 14, 14, 1024392098, 1048494743);
+INSERT INTO ezcontentclass VALUES (4, 0, 'User', 'user', '<first_name> <last_name>', 14, 14, 1024392098, 1048494759);
+INSERT INTO ezcontentclass VALUES (5, 0, 'Image', 'image', '<name>', 8, 14, 1031484992, 1048494784);
+INSERT INTO ezcontentclass VALUES (6, 0, 'Forum', 'forum', '<name>', 14, 14, 1052384723, 1052384870);
+INSERT INTO ezcontentclass VALUES (7, 0, 'Forum message', 'forum_message', '<topic>', 14, 14, 1052384877, 1052384943);
+INSERT INTO ezcontentclass VALUES (8, 0, 'Product', 'product', '<title>', 14, 14, 1052384951, 1052385067);
+INSERT INTO ezcontentclass VALUES (9, 0, 'Product review', 'product_review', '<title>', 14, 14, 1052385080, 1061231279);
+INSERT INTO ezcontentclass VALUES (10, 0, 'Info page', 'info_page', '<name>', 14, 14, 1052385274, 1052385353);
+INSERT INTO ezcontentclass VALUES (11, 0, 'Link', 'link', '<title>', 14, 14, 1052385361, 1052385453);
+INSERT INTO ezcontentclass VALUES (12, 0, 'File', 'file', '<name>', 14, 14, 1052385472, 1052385669);
+INSERT INTO ezcontentclass VALUES (13, 0, 'Comment', 'comment', '<subject>', 14, 14, 1052385685, 1052385756);
 
 
 
@@ -2269,51 +2237,215 @@ COPY ezcontentclass (id, "version", name, identifier, contentobject_name, creato
 
 
 
-COPY ezcontentclass_attribute (id, "version", contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) FROM stdin;
-123	0	2	enable_comments	Enable comments	ezboolean	0	0	5	0	0	0	0	0	0	0	0					\N	0	1
-119	0	1	description	Description	ezxmltext	1	0	2	10	0	0	0	0	0	0	0					\N	0	1
-116	0	5	name	Name	ezstring	1	1	1	150	0	0	0	0	0	0	0					\N	0	1
-6	0	3	name	Name	ezstring	1	1	1	255	0	0	0	0	0	0	0					\N	0	1
-7	0	3	description	Description	ezstring	1	0	2	255	0	0	0	0	0	0	0					\N	0	1
-9	0	4	last_name	Last name	ezstring	1	1	2	255	0	0	0	0	0	0	0					\N	0	1
-12	0	4	user_account	User account	ezuser	0	1	3	0	0	0	0	0	0	0	0					\N	0	1
-118	0	5	image	Image	ezimage	0	0	3	2	0	0	0	0	0	0	0					\N	0	1
-4	0	1	name	Name	ezstring	1	1	1	255	0	0	0	0	0	0	0	Folder				\N	0	1
-122	0	2	thumbnail	Thumbnail	ezimage	0	0	4	2	0	0	0	0	0	0	0					\N	0	1
-121	0	2	body	Body	ezxmltext	1	0	3	20	0	0	0	0	0	0	0					\N	0	1
-120	0	2	intro	Intro	ezxmltext	1	1	2	10	0	0	0	0	0	0	0					\N	0	1
-1	0	2	title	Title	ezstring	1	1	1	255	0	0	0	0	0	0	0	New article				\N	0	1
-117	0	5	caption	Caption	ezxmltext	1	0	2	10	0	0	0	0	0	0	0					\N	0	1
-8	0	4	first_name	First name	ezstring	1	1	1	255	0	0	0	0	0	0	0					\N	0	1
-127	0	7	topic	Topic	ezstring	1	1	1	150	0	0	0	0	0	0	0	New topic				\N	0	1
-128	0	7	message	Message	eztext	1	1	2	10	0	0	0	0	0	0	0					\N	0	1
-126	0	6	description	Description	ezxmltext	1	0	3	15	0	0	0	0	0	0	0					\N	0	1
-125	0	6	icon	Icon	ezimage	0	0	2	1	0	0	0	0	0	0	0					\N	0	1
-124	0	6	name	Name	ezstring	1	1	1	150	0	0	0	0	0	0	0					\N	0	1
-134	0	8	photo	Photo	ezimage	0	0	6	1	0	0	0	0	0	0	0					\N	0	1
-133	0	8	price	Price	ezprice	0	1	5	1	0	0	0	1	0	0	0					\N	0	1
-132	0	8	description	Description	ezxmltext	1	0	4	10	0	0	0	0	0	0	0					\N	0	1
-131	0	8	intro	Intro	ezxmltext	1	0	3	10	0	0	0	0	0	0	0					\N	0	1
-130	0	8	product_nr	Product nr.	ezstring	1	0	2	40	0	0	0	0	0	0	0					\N	0	1
-129	0	8	title	Title	ezstring	1	1	1	100	0	0	0	0	0	0	0					\N	0	1
-139	0	9	review	Review	ezxmltext	1	0	5	10	0	0	0	0	0	0	0						0	1
-142	0	10	image	Image	ezimage	0	0	3	1	0	0	0	0	0	0	0					\N	0	1
-141	0	10	body	Body	ezxmltext	1	0	2	20	0	0	0	0	0	0	0					\N	0	1
-140	0	10	name	Name	ezstring	1	1	1	100	0	0	0	0	0	0	0					\N	0	1
-146	0	12	name	Name	ezstring	1	1	1	0	0	0	0	0	0	0	0	New file				\N	0	1
-148	0	12	file	File	ezbinaryfile	0	1	3	0	0	0	0	0	0	0	0					\N	0	1
-147	0	12	description	Description	ezxmltext	1	0	2	10	0	0	0	0	0	0	0					\N	0	1
-145	0	11	link	Link	ezurl	0	0	3	0	0	0	0	0	0	0	0					\N	0	1
-144	0	11	description	Description	ezxmltext	1	0	2	10	0	0	0	0	0	0	0					\N	0	1
-143	0	11	title	Title	ezstring	1	1	1	100	0	0	0	0	0	0	0					\N	0	1
-151	0	13	message	Message	eztext	1	1	3	10	0	0	0	0	0	0	0					\N	0	1
-150	0	13	author	Author	ezstring	1	1	2	0	0	0	0	0	0	0	0					\N	0	1
-149	0	13	subject	Subject	ezstring	1	1	1	40	0	0	0	0	0	0	0					\N	0	1
-138	0	9	geography	Town, Country	ezstring	1	1	4	0	0	0	0	0	0	0	0						0	1
-137	0	9	reviewer_name	Reviewer Name	ezstring	1	1	3	0	0	0	0	0	0	0	0						0	1
-136	0	9	rating	Rating	ezenum	1	0	2	0	0	0	0	0	0	0	0						0	1
-135	0	9	title	Title	ezstring	1	1	1	50	0	0	0	0	0	0	0						0	1
-\.
+INSERT INTO ezcontentclass_attribute VALUES (123, 0, 2, 'enable_comments', 'Enable comments', 'ezboolean', 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (119, 0, 1, 'description', 'Description', 'ezxmltext', 1, 0, 2, 10, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (116, 0, 5, 'name', 'Name', 'ezstring', 1, 1, 1, 150, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (6, 0, 3, 'name', 'Name', 'ezstring', 1, 1, 1, 255, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (7, 0, 3, 'description', 'Description', 'ezstring', 1, 0, 2, 255, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (9, 0, 4, 'last_name', 'Last name', 'ezstring', 1, 1, 2, 255, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (12, 0, 4, 'user_account', 'User account', 'ezuser', 0, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (118, 0, 5, 'image', 'Image', 'ezimage', 0, 0, 3, 2, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (4, 0, 1, 'name', 'Name', 'ezstring', 1, 1, 1, 255, 0, 0, 0, 0, 0, 0, 0, 'Folder', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (122, 0, 2, 'thumbnail', 'Thumbnail', 'ezimage', 0, 0, 4, 2, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (121, 0, 2, 'body', 'Body', 'ezxmltext', 1, 0, 3, 20, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (120, 0, 2, 'intro', 'Intro', 'ezxmltext', 1, 1, 2, 10, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (1, 0, 2, 'title', 'Title', 'ezstring', 1, 1, 1, 255, 0, 0, 0, 0, 0, 0, 0, 'New article', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (117, 0, 5, 'caption', 'Caption', 'ezxmltext', 1, 0, 2, 10, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (8, 0, 4, 'first_name', 'First name', 'ezstring', 1, 1, 1, 255, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (127, 0, 7, 'topic', 'Topic', 'ezstring', 1, 1, 1, 150, 0, 0, 0, 0, 0, 0, 0, 'New topic', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (128, 0, 7, 'message', 'Message', 'eztext', 1, 1, 2, 10, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (126, 0, 6, 'description', 'Description', 'ezxmltext', 1, 0, 3, 15, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (125, 0, 6, 'icon', 'Icon', 'ezimage', 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (124, 0, 6, 'name', 'Name', 'ezstring', 1, 1, 1, 150, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (134, 0, 8, 'photo', 'Photo', 'ezimage', 0, 0, 6, 1, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (133, 0, 8, 'price', 'Price', 'ezprice', 0, 1, 5, 1, 0, 0, 0, 1, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (132, 0, 8, 'description', 'Description', 'ezxmltext', 1, 0, 4, 10, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (131, 0, 8, 'intro', 'Intro', 'ezxmltext', 1, 0, 3, 10, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (130, 0, 8, 'product_nr', 'Product nr.', 'ezstring', 1, 0, 2, 40, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (129, 0, 8, 'title', 'Title', 'ezstring', 1, 1, 1, 100, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (139, 0, 9, 'review', 'Review', 'ezxmltext', 1, 0, 5, 10, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', '', 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (142, 0, 10, 'image', 'Image', 'ezimage', 0, 0, 3, 1, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (141, 0, 10, 'body', 'Body', 'ezxmltext', 1, 0, 2, 20, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (140, 0, 10, 'name', 'Name', 'ezstring', 1, 1, 1, 100, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (146, 0, 12, 'name', 'Name', 'ezstring', 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'New file', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (148, 0, 12, 'file', 'File', 'ezbinaryfile', 0, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (147, 0, 12, 'description', 'Description', 'ezxmltext', 1, 0, 2, 10, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (145, 0, 11, 'link', 'Link', 'ezurl', 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (144, 0, 11, 'description', 'Description', 'ezxmltext', 1, 0, 2, 10, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (143, 0, 11, 'title', 'Title', 'ezstring', 1, 1, 1, 100, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (151, 0, 13, 'message', 'Message', 'eztext', 1, 1, 3, 10, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (150, 0, 13, 'author', 'Author', 'ezstring', 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (149, 0, 13, 'subject', 'Subject', 'ezstring', 1, 1, 1, 40, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', NULL, 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (138, 0, 9, 'geography', 'Town, Country', 'ezstring', 1, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', '', 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (137, 0, 9, 'reviewer_name', 'Reviewer Name', 'ezstring', 1, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', '', 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (136, 0, 9, 'rating', 'Rating', 'ezenum', 1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', '', 0, 1);
+INSERT INTO ezcontentclass_attribute VALUES (135, 0, 9, 'title', 'Title', 'ezstring', 1, 1, 1, 50, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', '', 0, 1);
+
+
+
+
+
+
+
+INSERT INTO ezcontentclass_classgroup VALUES (1, 0, 1, 'Content');
+INSERT INTO ezcontentclass_classgroup VALUES (2, 0, 1, 'Content');
+INSERT INTO ezcontentclass_classgroup VALUES (4, 0, 2, 'Content');
+INSERT INTO ezcontentclass_classgroup VALUES (5, 0, 3, 'Media');
+INSERT INTO ezcontentclass_classgroup VALUES (3, 0, 2, '');
+INSERT INTO ezcontentclass_classgroup VALUES (6, 0, 1, 'Content');
+INSERT INTO ezcontentclass_classgroup VALUES (7, 0, 1, 'Content');
+INSERT INTO ezcontentclass_classgroup VALUES (8, 0, 1, 'Content');
+INSERT INTO ezcontentclass_classgroup VALUES (9, 0, 1, 'Content');
+INSERT INTO ezcontentclass_classgroup VALUES (10, 0, 1, 'Content');
+INSERT INTO ezcontentclass_classgroup VALUES (11, 0, 1, 'Content');
+INSERT INTO ezcontentclass_classgroup VALUES (12, 0, 3, 'Media');
+INSERT INTO ezcontentclass_classgroup VALUES (13, 0, 1, 'Content');
+
+
+
+
+
+
+
+INSERT INTO ezcontentclassgroup VALUES (1, 'Content', 1, 14, 1031216928, 1033922106);
+INSERT INTO ezcontentclassgroup VALUES (2, 'Users', 1, 14, 1031216941, 1033922113);
+INSERT INTO ezcontentclassgroup VALUES (3, 'Media', 8, 14, 1032009743, 1033922120);
+
+
+
+
+
+
+
+INSERT INTO ezcontentobject VALUES (1, 14, 1, 1, 'Root folder', 1, 0, 1033917596, 1033917596, 1, NULL);
+INSERT INTO ezcontentobject VALUES (4, 14, 2, 3, 'Users', 1, 0, 1033917596, 1033917596, 1, NULL);
+INSERT INTO ezcontentobject VALUES (10, 14, 2, 4, 'Anonymous User', 1, 0, 1033920665, 1033920665, 1, NULL);
+INSERT INTO ezcontentobject VALUES (11, 14, 2, 3, 'Guest accounts', 1, 0, 1033920746, 1033920746, 1, NULL);
+INSERT INTO ezcontentobject VALUES (12, 14, 2, 3, 'Administrator users', 1, 0, 1033920775, 1033920775, 1, NULL);
+INSERT INTO ezcontentobject VALUES (13, 14, 2, 3, 'Editors', 1, 0, 1033920794, 1033920794, 1, NULL);
+INSERT INTO ezcontentobject VALUES (14, 14, 2, 4, 'Administrator User', 1, 0, 1033920830, 1033920830, 1, NULL);
+INSERT INTO ezcontentobject VALUES (40, 14, 2, 4, 'test test', 1, 0, 1053613020, 1053613020, 1, '');
+INSERT INTO ezcontentobject VALUES (41, 14, 3, 1, 'Media', 1, 0, 1060695457, 1060695457, 1, '');
+INSERT INTO ezcontentobject VALUES (42, 14, 1, 1, 'Comics', 1, 0, 1061230786, 1061230786, 1, '');
+INSERT INTO ezcontentobject VALUES (43, 14, 1, 1, 'Food & Drink', 1, 0, 1061230870, 1061230870, 1, '');
+INSERT INTO ezcontentobject VALUES (44, 14, 1, 8, 'Comic book', 1, 0, 1061230921, 1061230921, 1, '');
+INSERT INTO ezcontentobject VALUES (45, 14, 1, 8, 'Wines of the world', 1, 0, 1061231015, 1061231015, 1, '');
+INSERT INTO ezcontentobject VALUES (47, 14, 1, 9, 'Good', 1, 0, 1061231361, 1061231361, 1, '');
+
+
+
+
+
+
+
+INSERT INTO ezcontentobject_attribute VALUES (1, 'eng-GB', 1, 1, 4, 'Root folder', NULL, NULL, 0, 0, '');
+INSERT INTO ezcontentobject_attribute VALUES (2, 'eng-GB', 1, 1, 119, '<?xml version="1.0"><section><paragraph>This folder contains some information about...</paragraph></section>', NULL, NULL, 0, 0, '');
+INSERT INTO ezcontentobject_attribute VALUES (7, 'eng-GB', 1, 4, 7, 'Main group', NULL, NULL, 0, 0, '');
+INSERT INTO ezcontentobject_attribute VALUES (8, 'eng-GB', 1, 4, 6, 'Users', NULL, NULL, 0, 0, '');
+INSERT INTO ezcontentobject_attribute VALUES (21, 'eng-GB', 1, 10, 12, '', 0, 0, 0, 0, '');
+INSERT INTO ezcontentobject_attribute VALUES (22, 'eng-GB', 1, 11, 6, 'Guest accounts', 0, 0, 0, 0, '');
+INSERT INTO ezcontentobject_attribute VALUES (19, 'eng-GB', 1, 10, 8, 'Anonymous', 0, 0, 0, 0, '');
+INSERT INTO ezcontentobject_attribute VALUES (20, 'eng-GB', 1, 10, 9, 'User', 0, 0, 0, 0, '');
+INSERT INTO ezcontentobject_attribute VALUES (23, 'eng-GB', 1, 11, 7, '', 0, 0, 0, 0, '');
+INSERT INTO ezcontentobject_attribute VALUES (24, 'eng-GB', 1, 12, 6, 'Administrator users', 0, 0, 0, 0, '');
+INSERT INTO ezcontentobject_attribute VALUES (25, 'eng-GB', 1, 12, 7, '', 0, 0, 0, 0, '');
+INSERT INTO ezcontentobject_attribute VALUES (26, 'eng-GB', 1, 13, 6, 'Editors', 0, 0, 0, 0, '');
+INSERT INTO ezcontentobject_attribute VALUES (27, 'eng-GB', 1, 13, 7, '', 0, 0, 0, 0, '');
+INSERT INTO ezcontentobject_attribute VALUES (28, 'eng-GB', 1, 14, 8, 'Administrator', 0, 0, 0, 0, '');
+INSERT INTO ezcontentobject_attribute VALUES (29, 'eng-GB', 1, 14, 9, 'User', 0, 0, 0, 0, '');
+INSERT INTO ezcontentobject_attribute VALUES (30, 'eng-GB', 1, 14, 12, '', 0, 0, 0, 0, '');
+INSERT INTO ezcontentobject_attribute VALUES (95, 'eng-GB', 1, 40, 8, 'test', 0, 0, 0, 0, '');
+INSERT INTO ezcontentobject_attribute VALUES (96, 'eng-GB', 1, 40, 9, 'test', 0, 0, 0, 0, '');
+INSERT INTO ezcontentobject_attribute VALUES (97, 'eng-GB', 1, 40, 12, '', 0, 0, 0, 0, '');
+INSERT INTO ezcontentobject_attribute VALUES (98, 'eng-GB', 1, 41, 4, 'Media', 0, 0, 0, 0, '');
+INSERT INTO ezcontentobject_attribute VALUES (99, 'eng-GB', 1, 41, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, '');
+INSERT INTO ezcontentobject_attribute VALUES (100, 'eng-GB', 1, 42, 4, 'Comics', 0, 0, 0, 0, '0');
+INSERT INTO ezcontentobject_attribute VALUES (101, 'eng-GB', 1, 42, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <paragraph>Comic books.</paragraph>
+</section>', 1045487555, 0, 0, 0, '0');
+INSERT INTO ezcontentobject_attribute VALUES (102, 'eng-GB', 1, 43, 4, 'Food & Drink', 0, 0, 0, 0, '0');
+INSERT INTO ezcontentobject_attribute VALUES (103, 'eng-GB', 1, 43, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, '0');
+INSERT INTO ezcontentobject_attribute VALUES (104, 'eng-GB', 1, 44, 129, 'Comic book', 0, 0, 0, 0, '0');
+INSERT INTO ezcontentobject_attribute VALUES (105, 'eng-GB', 1, 44, 130, 'B01', 0, 0, 0, 0, '0');
+INSERT INTO ezcontentobject_attribute VALUES (106, 'eng-GB', 1, 44, 131, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <paragraph>Proin consectetuer lacus nec neque. Vivamus volutpat elit id purus. Nulla varius dictum est. Maecenas sapien pede, mattis mattis, mollis in, pulvinar a, mi. </paragraph>
+</section>', 1045487555, 0, 0, 0, '0');
+INSERT INTO ezcontentobject_attribute VALUES (107, 'eng-GB', 1, 44, 132, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <section>
+    <header>Proin consectetuer lacus</header>
+    <paragraph>
+      <line>Proin consectetuer lacus nec neque. Vivamus volutpat elit id purus. Nulla varius dictum est. Maecenas sapien pede, mattis mattis, mollis in, pulvinar a, mi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus arcu. Vestibulum justo. Sed rhoncus. Suspendisse quis turpis nec turpis pretium scelerisque. Fusce dignissim, metus ut vestibulum rutrum, risus purus scelerisque est, eu venenatis velit magna ac quam. Morbi non risus ut arcu eleifend consequat. Ut est augue, malesuada vitae, porttitor pellentesque, egestas vitae, nunc. Curabitur feugiat. Ut sit amet dui. Etiam fermentum. Nulla ornare magna non urna. Cras pulvinar imperdiet turpis.</line>
+      <line> Phasellus eu felis non diam faucibus viverra. Pellentesque sit amet mi. Cras euismod leo vel libero. Sed vel sapien. Mauris aliquam enim ac ante. Nam vestibulum, metus et blandit vulputate, arcu arcu scelerisque ante, at dapibus ipsum turpis vitae felis. Sed aliquet tempus ipsum. Sed facilisis arcu in nulla. Maecenas et orci. Morbi ornare massa. Sed dui metus, scelerisque sed, vestibulum non, dictum a, purus. Proin dignissim semper odio.</line>
+    </paragraph>
+    <paragraph>
+      <ul>
+        <li>Phasellus</li>
+        <li>Dictum</li>
+        <li>Dignissim</li>
+      </ul>
+    </paragraph>
+  </section>
+</section>', 1045487555, 0, 0, 0, '0');
+INSERT INTO ezcontentobject_attribute VALUES (108, 'eng-GB', 1, 44, 133, '', 0, 149, 0, 0, '0');
+INSERT INTO ezcontentobject_attribute VALUES (109, 'eng-GB', 1, 44, 134, '', 0, 0, 0, 0, '0');
+INSERT INTO ezcontentobject_attribute VALUES (110, 'eng-GB', 1, 45, 129, 'Wines of the world', 0, 0, 0, 0, '0');
+INSERT INTO ezcontentobject_attribute VALUES (111, 'eng-GB', 1, 45, 130, 'W01', 0, 0, 0, 0, '0');
+INSERT INTO ezcontentobject_attribute VALUES (112, 'eng-GB', 1, 45, 131, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <paragraph>
+    <line>Phasellus eu felis non diam faucibus viverra. Pellentesque sit amet mi. Cras euismod leo vel libero. Sed vel sapien. Mauris aliquam enim ac ante. Nam vestibulum, metus et blandit vulputate, arcu arcu scelerisque ante, at dapibus ipsum turpis vitae felis. Sed aliquet tempus ipsum. Sed facilisis arcu in nulla. Maecenas et orci. Morbi ornare massa. Sed dui metus, scelerisque sed, vestibulum non, dictum a, purus. Proin dignissim semper odio.</line>
+  </paragraph>
+</section>', 1045487555, 0, 0, 0, '0');
+INSERT INTO ezcontentobject_attribute VALUES (113, 'eng-GB', 1, 45, 132, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <section>
+    <header>Proin consectetuer lacus</header>
+    <paragraph>
+      <line>Proin consectetuer lacus nec neque. Vivamus volutpat elit id purus. Nulla varius dictum est. Maecenas sapien pede, mattis mattis, mollis in, pulvinar a, mi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus arcu. Vestibulum justo. Sed rhoncus. Suspendisse quis turpis nec turpis pretium scelerisque. Fusce dignissim, metus ut vestibulum rutrum, risus purus scelerisque est, eu venenatis velit magna ac quam. Morbi non risus ut arcu eleifend consequat. Ut est augue, malesuada vitae, porttitor pellentesque, egestas vitae, nunc. Curabitur feugiat. Ut sit amet dui. Etiam fermentum. Nulla ornare magna non urna. Cras pulvinar imperdiet turpis.</line>
+      <line> Phasellus eu felis non diam faucibus viverra. Pellentesque sit amet mi. Cras euismod leo vel libero. Sed vel sapien. Mauris aliquam enim ac ante. Nam vestibulum, metus et blandit vulputate, arcu arcu scelerisque ante, at dapibus ipsum turpis vitae felis. Sed aliquet tempus ipsum. Sed facilisis arcu in nulla. Maecenas et orci. Morbi ornare massa. Sed dui metus, scelerisque sed, vestibulum non, dictum a, purus. Proin dignissim semper odio.</line>
+    </paragraph>
+    <paragraph>
+      <ul>
+        <li>Phasellus</li>
+        <li>Dictum</li>
+        <li>Dignissim</li>
+      </ul>
+    </paragraph>
+  </section>
+</section>', 1045487555, 0, 0, 0, '0');
+INSERT INTO ezcontentobject_attribute VALUES (114, 'eng-GB', 1, 45, 133, '', 0, 99, 0, 0, '0');
+INSERT INTO ezcontentobject_attribute VALUES (115, 'eng-GB', 1, 45, 134, '', 0, 0, 0, 0, '0');
+INSERT INTO ezcontentobject_attribute VALUES (125, 'eng-GB', 1, 47, 139, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <paragraph>
+    <line>I really enjoy this book!</line>
+  </paragraph>
+</section>', 1045487555, 0, 0, 0, '0');
+INSERT INTO ezcontentobject_attribute VALUES (124, 'eng-GB', 1, 47, 138, 'Anytown, Norway', 0, 0, 0, 0, '0');
+INSERT INTO ezcontentobject_attribute VALUES (121, 'eng-GB', 1, 47, 135, 'Good', 0, 0, 0, 0, '0');
+INSERT INTO ezcontentobject_attribute VALUES (123, 'eng-GB', 1, 47, 137, 'John Doe', 0, 0, 0, 0, '0');
+INSERT INTO ezcontentobject_attribute VALUES (122, 'eng-GB', 1, 47, 136, '', 0, 0, 0, 0, '0');
 
 
 
@@ -2321,21 +2453,6 @@ COPY ezcontentclass_attribute (id, "version", contentclass_id, identifier, name,
 
 
 
-COPY ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) FROM stdin;
-1	0	1	Content
-2	0	1	Content
-4	0	2	Content
-5	0	3	Media
-3	0	2	
-6	0	1	Content
-7	0	1	Content
-8	0	1	Content
-9	0	1	Content
-10	0	1	Content
-11	0	1	Content
-12	0	3	Media
-13	0	1	Content
-\.
 
 
 
@@ -2343,11 +2460,20 @@ COPY ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id,
 
 
 
-COPY ezcontentclassgroup (id, name, creator_id, modifier_id, created, modified) FROM stdin;
-1	Content	1	14	1031216928	1033922106
-2	Users	1	14	1031216941	1033922113
-3	Media	8	14	1032009743	1033922120
-\.
+INSERT INTO ezcontentobject_name VALUES (1, 'Root folder', 1, 'eng-GB', 'eng-GB');
+INSERT INTO ezcontentobject_name VALUES (4, 'Users', 1, 'eng-GB', 'eng-GB');
+INSERT INTO ezcontentobject_name VALUES (10, 'Anonymous User', 1, 'eng-GB', 'eng-GB');
+INSERT INTO ezcontentobject_name VALUES (11, 'Guest accounts', 1, 'eng-GB', 'eng-GB');
+INSERT INTO ezcontentobject_name VALUES (12, 'Administrator users', 1, 'eng-GB', 'eng-GB');
+INSERT INTO ezcontentobject_name VALUES (13, 'Editors', 1, 'eng-GB', 'eng-GB');
+INSERT INTO ezcontentobject_name VALUES (14, 'Administrator User', 1, 'eng-GB', 'eng-GB');
+INSERT INTO ezcontentobject_name VALUES (40, 'test test', 1, 'eng-GB', 'eng-GB');
+INSERT INTO ezcontentobject_name VALUES (41, 'Media', 1, 'eng-GB', 'eng-GB');
+INSERT INTO ezcontentobject_name VALUES (42, 'Comics', 1, 'eng-GB', 'eng-GB');
+INSERT INTO ezcontentobject_name VALUES (43, 'Food & Drink', 1, 'eng-GB', 'eng-GB');
+INSERT INTO ezcontentobject_name VALUES (44, 'Comic book', 1, 'eng-GB', 'eng-GB');
+INSERT INTO ezcontentobject_name VALUES (45, 'Wines of the world', 1, 'eng-GB', 'eng-GB');
+INSERT INTO ezcontentobject_name VALUES (47, 'Good', 1, 'eng-GB', 'eng-GB');
 
 
 
@@ -2355,22 +2481,21 @@ COPY ezcontentclassgroup (id, name, creator_id, modifier_id, created, modified) 
 
 
 
-COPY ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) FROM stdin;
-1	14	1	1	Root folder	1	0	1033917596	1033917596	1	\N
-4	14	2	3	Users	1	0	1033917596	1033917596	1	\N
-10	14	2	4	Anonymous User	1	0	1033920665	1033920665	1	\N
-11	14	2	3	Guest accounts	1	0	1033920746	1033920746	1	\N
-12	14	2	3	Administrator users	1	0	1033920775	1033920775	1	\N
-13	14	2	3	Editors	1	0	1033920794	1033920794	1	\N
-14	14	2	4	Administrator User	1	0	1033920830	1033920830	1	\N
-40	14	2	4	test test	1	0	1053613020	1053613020	1	
-41	14	3	1	Media	1	0	1060695457	1060695457	1	
-42	14	1	1	Comics	1	0	1061230786	1061230786	1	
-43	14	1	1	Food & Drink	1	0	1061230870	1061230870	1	
-44	14	1	8	Comic book	1	0	1061230921	1061230921	1	
-45	14	1	8	Wines of the world	1	0	1061231015	1061231015	1	
-47	14	1	9	Good	1	0	1061231361	1061231361	1	
-\.
+INSERT INTO ezcontentobject_tree VALUES (1, 1, 0, 1, 1, 0, '/1/', 1, 1, 0, NULL, 1);
+INSERT INTO ezcontentobject_tree VALUES (2, 1, 1, 1, 1, 1, '/1/2/', 1, 1, 0, '', 2);
+INSERT INTO ezcontentobject_tree VALUES (5, 1, 4, 1, 0, 1, '/1/5/', 1, 1, 0, 'users', 5);
+INSERT INTO ezcontentobject_tree VALUES (11, 5, 10, 1, 1, 2, '/1/5/11/', 1, 1, 0, 'users/anonymous_user', 11);
+INSERT INTO ezcontentobject_tree VALUES (12, 5, 11, 1, 1, 2, '/1/5/12/', 1, 1, 0, 'users/guest_accounts', 12);
+INSERT INTO ezcontentobject_tree VALUES (13, 5, 12, 1, 1, 2, '/1/5/13/', 1, 1, 0, 'users/administrator_users', 13);
+INSERT INTO ezcontentobject_tree VALUES (14, 5, 13, 1, 1, 2, '/1/5/14/', 1, 1, 0, 'users/editors', 14);
+INSERT INTO ezcontentobject_tree VALUES (15, 13, 14, 1, 1, 3, '/1/5/13/15/', 1, 1, 0, 'users/administrator_users/administrator_user', 15);
+INSERT INTO ezcontentobject_tree VALUES (42, 12, 40, 1, 1, 3, '/1/5/12/42/', 9, 1, 0, 'users/guest_accounts/test_test', 42);
+INSERT INTO ezcontentobject_tree VALUES (43, 1, 41, 1, 1, 1, '/1/43/', 9, 1, 0, 'media', 43);
+INSERT INTO ezcontentobject_tree VALUES (44, 2, 42, 1, 1, 2, '/1/2/44/', 9, 1, 0, 'comics', 44);
+INSERT INTO ezcontentobject_tree VALUES (45, 2, 43, 1, 1, 2, '/1/2/45/', 9, 1, 0, 'food_drink', 45);
+INSERT INTO ezcontentobject_tree VALUES (46, 44, 44, 1, 1, 3, '/1/2/44/46/', 9, 1, 0, 'comics/comic_book', 46);
+INSERT INTO ezcontentobject_tree VALUES (47, 45, 45, 1, 1, 3, '/1/2/45/47/', 9, 1, 0, 'food_drink/wines_of_the_world', 47);
+INSERT INTO ezcontentobject_tree VALUES (48, 47, 47, 1, 1, 4, '/1/2/45/47/48/', 9, 1, 0, 'food_drink/wines_of_the_world/good', 48);
 
 
 
@@ -2378,50 +2503,20 @@ COPY ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_v
 
 
 
-COPY ezcontentobject_attribute (id, language_code, "version", contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) FROM stdin;
-1	eng-GB	1	1	4	Root folder	\N	\N	0	0	
-2	eng-GB	1	1	119	<?xml version="1.0"><section><paragraph>This folder contains some information about...</paragraph></section>	\N	\N	0	0	
-7	eng-GB	1	4	7	Main group	\N	\N	0	0	
-8	eng-GB	1	4	6	Users	\N	\N	0	0	
-21	eng-GB	1	10	12		0	0	0	0	
-22	eng-GB	1	11	6	Guest accounts	0	0	0	0	
-19	eng-GB	1	10	8	Anonymous	0	0	0	0	
-20	eng-GB	1	10	9	User	0	0	0	0	
-23	eng-GB	1	11	7		0	0	0	0	
-24	eng-GB	1	12	6	Administrator users	0	0	0	0	
-25	eng-GB	1	12	7		0	0	0	0	
-26	eng-GB	1	13	6	Editors	0	0	0	0	
-27	eng-GB	1	13	7		0	0	0	0	
-28	eng-GB	1	14	8	Administrator	0	0	0	0	
-29	eng-GB	1	14	9	User	0	0	0	0	
-30	eng-GB	1	14	12		0	0	0	0	
-95	eng-GB	1	40	8	test	0	0	0	0	
-96	eng-GB	1	40	9	test	0	0	0	0	
-97	eng-GB	1	40	12		0	0	0	0	
-98	eng-GB	1	41	4	Media	0	0	0	0	
-99	eng-GB	1	41	119	<?xml version="1.0" encoding="iso-8859-1"?>\n<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"\n         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"\n         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />	1045487555	0	0	0	
-100	eng-GB	1	42	4	Comics	0	0	0	0	0
-101	eng-GB	1	42	119	<?xml version="1.0" encoding="iso-8859-1"?>\n<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"\n         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"\n         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">\n  <paragraph>Comic books.</paragraph>\n</section>	1045487555	0	0	0	0
-102	eng-GB	1	43	4	Food & Drink	0	0	0	0	0
-103	eng-GB	1	43	119	<?xml version="1.0" encoding="iso-8859-1"?>\n<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"\n         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"\n         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />	1045487555	0	0	0	0
-104	eng-GB	1	44	129	Comic book	0	0	0	0	0
-105	eng-GB	1	44	130	B01	0	0	0	0	0
-106	eng-GB	1	44	131	<?xml version="1.0" encoding="iso-8859-1"?>\n<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"\n         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"\n         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">\n  <paragraph>Proin consectetuer lacus nec neque. Vivamus volutpat elit id purus. Nulla varius dictum est. Maecenas sapien pede, mattis mattis, mollis in, pulvinar a, mi. </paragraph>\n</section>	1045487555	0	0	0	0
-107	eng-GB	1	44	132	<?xml version="1.0" encoding="iso-8859-1"?>\n<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"\n         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"\n         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">\n  <section>\n    <header>Proin consectetuer lacus</header>\n    <paragraph>\n      <line>Proin consectetuer lacus nec neque. Vivamus volutpat elit id purus. Nulla varius dictum est. Maecenas sapien pede, mattis mattis, mollis in, pulvinar a, mi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus arcu. Vestibulum justo. Sed rhoncus. Suspendisse quis turpis nec turpis pretium scelerisque. Fusce dignissim, metus ut vestibulum rutrum, risus purus scelerisque est, eu venenatis velit magna ac quam. Morbi non risus ut arcu eleifend consequat. Ut est augue, malesuada vitae, porttitor pellentesque, egestas vitae, nunc. Curabitur feugiat. Ut sit amet dui. Etiam fermentum. Nulla ornare magna non urna. Cras pulvinar imperdiet turpis.</line>\n      <line> Phasellus eu felis non diam faucibus viverra. Pellentesque sit amet mi. Cras euismod leo vel libero. Sed vel sapien. Mauris aliquam enim ac ante. Nam vestibulum, metus et blandit vulputate, arcu arcu scelerisque ante, at dapibus ipsum turpis vitae felis. Sed aliquet tempus ipsum. Sed facilisis arcu in nulla. Maecenas et orci. Morbi ornare massa. Sed dui metus, scelerisque sed, vestibulum non, dictum a, purus. Proin dignissim semper odio.</line>\n    </paragraph>\n    <paragraph>\n      <ul>\n        <li>Phasellus</li>\n        <li>Dictum</li>\n        <li>Dignissim</li>\n      </ul>\n    </paragraph>\n  </section>\n</section>	1045487555	0	0	0	0
-108	eng-GB	1	44	133		0	149	0	0	0
-109	eng-GB	1	44	134		0	0	0	0	0
-110	eng-GB	1	45	129	Wines of the world	0	0	0	0	0
-111	eng-GB	1	45	130	W01	0	0	0	0	0
-112	eng-GB	1	45	131	<?xml version="1.0" encoding="iso-8859-1"?>\n<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"\n         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"\n         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">\n  <paragraph>\n    <line>Phasellus eu felis non diam faucibus viverra. Pellentesque sit amet mi. Cras euismod leo vel libero. Sed vel sapien. Mauris aliquam enim ac ante. Nam vestibulum, metus et blandit vulputate, arcu arcu scelerisque ante, at dapibus ipsum turpis vitae felis. Sed aliquet tempus ipsum. Sed facilisis arcu in nulla. Maecenas et orci. Morbi ornare massa. Sed dui metus, scelerisque sed, vestibulum non, dictum a, purus. Proin dignissim semper odio.</line>\n  </paragraph>\n</section>	1045487555	0	0	0	0
-113	eng-GB	1	45	132	<?xml version="1.0" encoding="iso-8859-1"?>\n<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"\n         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"\n         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">\n  <section>\n    <header>Proin consectetuer lacus</header>\n    <paragraph>\n      <line>Proin consectetuer lacus nec neque. Vivamus volutpat elit id purus. Nulla varius dictum est. Maecenas sapien pede, mattis mattis, mollis in, pulvinar a, mi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus arcu. Vestibulum justo. Sed rhoncus. Suspendisse quis turpis nec turpis pretium scelerisque. Fusce dignissim, metus ut vestibulum rutrum, risus purus scelerisque est, eu venenatis velit magna ac quam. Morbi non risus ut arcu eleifend consequat. Ut est augue, malesuada vitae, porttitor pellentesque, egestas vitae, nunc. Curabitur feugiat. Ut sit amet dui. Etiam fermentum. Nulla ornare magna non urna. Cras pulvinar imperdiet turpis.</line>\n      <line> Phasellus eu felis non diam faucibus viverra. Pellentesque sit amet mi. Cras euismod leo vel libero. Sed vel sapien. Mauris aliquam enim ac ante. Nam vestibulum, metus et blandit vulputate, arcu arcu scelerisque ante, at dapibus ipsum turpis vitae felis. Sed aliquet tempus ipsum. Sed facilisis arcu in nulla. Maecenas et orci. Morbi ornare massa. Sed dui metus, scelerisque sed, vestibulum non, dictum a, purus. Proin dignissim semper odio.</line>\n    </paragraph>\n    <paragraph>\n      <ul>\n        <li>Phasellus</li>\n        <li>Dictum</li>\n        <li>Dignissim</li>\n      </ul>\n    </paragraph>\n  </section>\n</section>	1045487555	0	0	0	0
-114	eng-GB	1	45	133		0	99	0	0	0
-115	eng-GB	1	45	134		0	0	0	0	0
-125	eng-GB	1	47	139	<?xml version="1.0" encoding="iso-8859-1"?>\n<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"\n         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"\n         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">\n  <paragraph>\n    <line>I really enjoy this book!</line>\n  </paragraph>\n</section>	1045487555	0	0	0	0
-124	eng-GB	1	47	138	Anytown, Norway	0	0	0	0	0
-121	eng-GB	1	47	135	Good	0	0	0	0	0
-123	eng-GB	1	47	137	John Doe	0	0	0	0	0
-122	eng-GB	1	47	136		0	0	0	0	0
-\.
+INSERT INTO ezcontentobject_version VALUES (1, 1, 14, 1, 1033919080, 1033919080, 1, 1, 0);
+INSERT INTO ezcontentobject_version VALUES (4, 4, 14, 1, 1033919080, 1033919080, 1, 1, 0);
+INSERT INTO ezcontentobject_version VALUES (438, 10, 14, 1, 1033920649, 1033920665, 1, 0, 0);
+INSERT INTO ezcontentobject_version VALUES (439, 11, 14, 1, 1033920737, 1033920746, 1, 0, 0);
+INSERT INTO ezcontentobject_version VALUES (440, 12, 14, 1, 1033920760, 1033920775, 1, 0, 0);
+INSERT INTO ezcontentobject_version VALUES (441, 13, 14, 1, 1033920786, 1033920794, 1, 0, 0);
+INSERT INTO ezcontentobject_version VALUES (442, 14, 14, 1, 1033920808, 1033920830, 1, 0, 0);
+INSERT INTO ezcontentobject_version VALUES (471, 40, 14, 1, 1053613007, 1053613020, 1, 0, 0);
+INSERT INTO ezcontentobject_version VALUES (472, 41, 14, 1, 1060695450, 1060695457, 1, 0, 0);
+INSERT INTO ezcontentobject_version VALUES (473, 42, 14, 1, 1061230772, 1061230786, 1, 0, 0);
+INSERT INTO ezcontentobject_version VALUES (474, 43, 14, 1, 1061230793, 1061230870, 1, 0, 0);
+INSERT INTO ezcontentobject_version VALUES (475, 44, 14, 1, 1061230881, 1061230921, 1, 0, 0);
+INSERT INTO ezcontentobject_version VALUES (476, 45, 14, 1, 1061230984, 1061231015, 1, 0, 0);
+INSERT INTO ezcontentobject_version VALUES (478, 47, 14, 1, 1061231333, 1061231361, 1, 0, 0);
 
 
 
@@ -2429,8 +2524,6 @@ COPY ezcontentobject_attribute (id, language_code, "version", contentobject_id, 
 
 
 
-COPY ezcontentobject_link (id, from_contentobject_id, from_contentobject_version, to_contentobject_id) FROM stdin;
-\.
 
 
 
@@ -2438,22 +2531,6 @@ COPY ezcontentobject_link (id, from_contentobject_id, from_contentobject_version
 
 
 
-COPY ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) FROM stdin;
-1	Root folder	1	eng-GB	eng-GB
-4	Users	1	eng-GB	eng-GB
-10	Anonymous User	1	eng-GB	eng-GB
-11	Guest accounts	1	eng-GB	eng-GB
-12	Administrator users	1	eng-GB	eng-GB
-13	Editors	1	eng-GB	eng-GB
-14	Administrator User	1	eng-GB	eng-GB
-40	test test	1	eng-GB	eng-GB
-41	Media	1	eng-GB	eng-GB
-42	Comics	1	eng-GB	eng-GB
-43	Food & Drink	1	eng-GB	eng-GB
-44	Comic book	1	eng-GB	eng-GB
-45	Wines of the world	1	eng-GB	eng-GB
-47	Good	1	eng-GB	eng-GB
-\.
 
 
 
@@ -2461,23 +2538,6 @@ COPY ezcontentobject_name (contentobject_id, name, content_version, content_tran
 
 
 
-COPY ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) FROM stdin;
-1	1	0	1	1	0	/1/	1	1	0	\N	1
-2	1	1	1	1	1	/1/2/	1	1	0		2
-5	1	4	1	0	1	/1/5/	1	1	0	users	5
-11	5	10	1	1	2	/1/5/11/	1	1	0	users/anonymous_user	11
-12	5	11	1	1	2	/1/5/12/	1	1	0	users/guest_accounts	12
-13	5	12	1	1	2	/1/5/13/	1	1	0	users/administrator_users	13
-14	5	13	1	1	2	/1/5/14/	1	1	0	users/editors	14
-15	13	14	1	1	3	/1/5/13/15/	1	1	0	users/administrator_users/administrator_user	15
-42	12	40	1	1	3	/1/5/12/42/	9	1	0	users/guest_accounts/test_test	42
-43	1	41	1	1	1	/1/43/	9	1	0	media	43
-44	2	42	1	1	2	/1/2/44/	9	1	0	comics	44
-45	2	43	1	1	2	/1/2/45/	9	1	0	food_drink	45
-46	44	44	1	1	3	/1/2/44/46/	9	1	0	comics/comic_book	46
-47	45	45	1	1	3	/1/2/45/47/	9	1	0	food_drink/wines_of_the_world	47
-48	47	47	1	1	4	/1/2/45/47/48/	9	1	0	food_drink/wines_of_the_world/good	48
-\.
 
 
 
@@ -2485,22 +2545,7 @@ COPY ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobj
 
 
 
-COPY ezcontentobject_version (id, contentobject_id, creator_id, "version", created, modified, status, workflow_event_pos, user_id) FROM stdin;
-1	1	14	1	1033919080	1033919080	1	1	0
-4	4	14	1	1033919080	1033919080	1	1	0
-438	10	14	1	1033920649	1033920665	1	0	0
-439	11	14	1	1033920737	1033920746	1	0	0
-440	12	14	1	1033920760	1033920775	1	0	0
-441	13	14	1	1033920786	1033920794	1	0	0
-442	14	14	1	1033920808	1033920830	1	0	0
-471	40	14	1	1053613007	1053613020	1	0	0
-472	41	14	1	1060695450	1060695457	1	0	0
-473	42	14	1	1061230772	1061230786	1	0	0
-474	43	14	1	1061230793	1061230870	1	0	0
-475	44	14	1	1061230881	1061230921	1	0	0
-476	45	14	1	1061230984	1061231015	1	0	0
-478	47	14	1	1061231333	1061231361	1	0	0
-\.
+INSERT INTO ezenumobjectvalue VALUES (122, 1, 3, 'Good', '5');
 
 
 
@@ -2508,8 +2553,9 @@ COPY ezcontentobject_version (id, contentobject_id, creator_id, "version", creat
 
 
 
-COPY ezdiscountrule (id, name) FROM stdin;
-\.
+INSERT INTO ezenumvalue VALUES (3, 136, 0, 'Good', '5', 3);
+INSERT INTO ezenumvalue VALUES (2, 136, 0, 'Ok', '3', 2);
+INSERT INTO ezenumvalue VALUES (1, 136, 0, 'Poor', '2', 1);
 
 
 
@@ -2517,8 +2563,6 @@ COPY ezdiscountrule (id, name) FROM stdin;
 
 
 
-COPY ezdiscountsubrule (id, name, discountrule_id, discount_percent, limitation) FROM stdin;
-\.
 
 
 
@@ -2526,8 +2570,6 @@ COPY ezdiscountsubrule (id, name, discountrule_id, discount_percent, limitation)
 
 
 
-COPY ezdiscountsubrule_value (discountsubrule_id, value, issection) FROM stdin;
-\.
 
 
 
@@ -2535,9 +2577,6 @@ COPY ezdiscountsubrule_value (discountsubrule_id, value, issection) FROM stdin;
 
 
 
-COPY ezenumobjectvalue (contentobject_attribute_id, contentobject_attribute_version, enumid, enumelement, enumvalue) FROM stdin;
-122	1	3	Good	5
-\.
 
 
 
@@ -2545,11 +2584,6 @@ COPY ezenumobjectvalue (contentobject_attribute_id, contentobject_attribute_vers
 
 
 
-COPY ezenumvalue (id, contentclass_attribute_id, contentclass_attribute_version, enumelement, enumvalue, placement) FROM stdin;
-3	136	0	Good	5	3
-2	136	0	Ok	3	2
-1	136	0	Poor	2	1
-\.
 
 
 
@@ -2557,8 +2591,6 @@ COPY ezenumvalue (id, contentclass_attribute_id, contentclass_attribute_version,
 
 
 
-COPY ezforgot_password (id, user_id, hash_key, "time") FROM stdin;
-\.
 
 
 
@@ -2566,8 +2598,6 @@ COPY ezforgot_password (id, user_id, hash_key, "time") FROM stdin;
 
 
 
-COPY ezgeneral_digest_user_settings (id, address, receive_digest, digest_type, "day", "time") FROM stdin;
-\.
 
 
 
@@ -2575,8 +2605,6 @@ COPY ezgeneral_digest_user_settings (id, address, receive_digest, digest_type, "
 
 
 
-COPY ezimage (contentobject_attribute_id, "version", filename, original_filename, mime_type, alternative_text) FROM stdin;
-\.
 
 
 
@@ -2584,8 +2612,6 @@ COPY ezimage (contentobject_attribute_id, "version", filename, original_filename
 
 
 
-COPY ezimagevariation (contentobject_attribute_id, "version", filename, additional_path, requested_width, requested_height, width, height) FROM stdin;
-\.
 
 
 
@@ -2593,8 +2619,6 @@ COPY ezimagevariation (contentobject_attribute_id, "version", filename, addition
 
 
 
-COPY ezinfocollection (id, contentobject_id, created) FROM stdin;
-\.
 
 
 
@@ -2602,8 +2626,6 @@ COPY ezinfocollection (id, contentobject_id, created) FROM stdin;
 
 
 
-COPY ezinfocollection_attribute (id, informationcollection_id, data_text, data_int, data_float, contentclass_attribute_id) FROM stdin;
-\.
 
 
 
@@ -2611,8 +2633,6 @@ COPY ezinfocollection_attribute (id, informationcollection_id, data_text, data_i
 
 
 
-COPY ezkeyword (id, keyword, class_id) FROM stdin;
-\.
 
 
 
@@ -2620,8 +2640,25 @@ COPY ezkeyword (id, keyword, class_id) FROM stdin;
 
 
 
-COPY ezkeyword_attribute_link (id, keyword_id, objectattribute_id) FROM stdin;
-\.
+INSERT INTO eznode_assignment VALUES (2, 1, 1, 1, 1, 1, 1, 0, 0);
+INSERT INTO eznode_assignment VALUES (4, 8, 2, 5, 1, 1, 1, 0, 0);
+INSERT INTO eznode_assignment VALUES (144, 4, 1, 1, 1, 1, 1, 0, 0);
+INSERT INTO eznode_assignment VALUES (147, 210, 1, 5, 1, 1, 1, 0, 0);
+INSERT INTO eznode_assignment VALUES (146, 209, 1, 5, 1, 1, 1, 0, 0);
+INSERT INTO eznode_assignment VALUES (145, 1, 2, 1, 1, 1, 1, 0, 0);
+INSERT INTO eznode_assignment VALUES (148, 9, 1, 2, 1, 1, 1, 0, 0);
+INSERT INTO eznode_assignment VALUES (149, 10, 1, 5, 1, 1, 1, 0, 0);
+INSERT INTO eznode_assignment VALUES (150, 11, 1, 5, 1, 1, 1, 0, 0);
+INSERT INTO eznode_assignment VALUES (151, 12, 1, 5, 1, 1, 1, 0, 0);
+INSERT INTO eznode_assignment VALUES (152, 13, 1, 5, 1, 1, 1, 0, 0);
+INSERT INTO eznode_assignment VALUES (153, 14, 1, 13, 1, 1, 1, 0, 0);
+INSERT INTO eznode_assignment VALUES (181, 40, 1, 12, 9, 1, 1, 0, 0);
+INSERT INTO eznode_assignment VALUES (182, 41, 1, 1, 9, 1, 1, 0, 0);
+INSERT INTO eznode_assignment VALUES (183, 42, 1, 2, 9, 1, 1, 0, 0);
+INSERT INTO eznode_assignment VALUES (184, 43, 1, 2, 9, 1, 1, 0, 0);
+INSERT INTO eznode_assignment VALUES (185, 44, 1, 44, 9, 1, 1, 0, 0);
+INSERT INTO eznode_assignment VALUES (186, 45, 1, 45, 9, 1, 1, 0, 0);
+INSERT INTO eznode_assignment VALUES (188, 47, 1, 47, 9, 1, 1, 0, 0);
 
 
 
@@ -2629,8 +2666,6 @@ COPY ezkeyword_attribute_link (id, keyword_id, objectattribute_id) FROM stdin;
 
 
 
-COPY ezmedia (contentobject_attribute_id, "version", filename, original_filename, mime_type, width, height, has_controller, is_autoplay, pluginspage, quality, controls, is_loop) FROM stdin;
-\.
 
 
 
@@ -2638,8 +2673,6 @@ COPY ezmedia (contentobject_attribute_id, "version", filename, original_filename
 
 
 
-COPY ezmessage (id, send_method, send_weekday, send_time, destination_address, title, body, is_sent) FROM stdin;
-\.
 
 
 
@@ -2647,8 +2680,12 @@ COPY ezmessage (id, send_method, send_weekday, send_time, destination_address, t
 
 
 
-COPY ezmodule_run (id, workflow_process_id, module_name, function_name, module_data) FROM stdin;
-\.
+INSERT INTO eznotificationevent VALUES (1, 0, 'ezpublish', 41, 1, 0, 0, '', '', '', '');
+INSERT INTO eznotificationevent VALUES (2, 0, 'ezpublish', 42, 1, 0, 0, '', '', '', '');
+INSERT INTO eznotificationevent VALUES (3, 0, 'ezpublish', 43, 1, 0, 0, '', '', '', '');
+INSERT INTO eznotificationevent VALUES (4, 0, 'ezpublish', 44, 1, 0, 0, '', '', '', '');
+INSERT INTO eznotificationevent VALUES (5, 0, 'ezpublish', 45, 1, 0, 0, '', '', '', '');
+INSERT INTO eznotificationevent VALUES (6, 0, 'ezpublish', 47, 1, 0, 0, '', '', '', '');
 
 
 
@@ -2656,27 +2693,6 @@ COPY ezmodule_run (id, workflow_process_id, module_name, function_name, module_d
 
 
 
-COPY eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) FROM stdin;
-2	1	1	1	1	1	1	0	0
-4	8	2	5	1	1	1	0	0
-144	4	1	1	1	1	1	0	0
-147	210	1	5	1	1	1	0	0
-146	209	1	5	1	1	1	0	0
-145	1	2	1	1	1	1	0	0
-148	9	1	2	1	1	1	0	0
-149	10	1	5	1	1	1	0	0
-150	11	1	5	1	1	1	0	0
-151	12	1	5	1	1	1	0	0
-152	13	1	5	1	1	1	0	0
-153	14	1	13	1	1	1	0	0
-181	40	1	12	9	1	1	0	0
-182	41	1	1	9	1	1	0	0
-183	42	1	2	9	1	1	0	0
-184	43	1	2	9	1	1	0	0
-185	44	1	44	9	1	1	0	0
-186	45	1	45	9	1	1	0	0
-188	47	1	47	9	1	1	0	0
-\.
 
 
 
@@ -2684,8 +2700,13 @@ COPY eznode_assignment (id, contentobject_id, contentobject_version, parent_node
 
 
 
-COPY eznotificationcollection (id, event_id, "handler", transport, data_subject, data_text) FROM stdin;
-\.
+INSERT INTO ezorder VALUES (1, 10, 1, 1061231582, 0, 1, '', '<?xml version="1.0" encoding="UTF-8"?>
+<shop_account>
+  <first-name>Foo</first-name>
+  <last-name>Bar</last-name>
+  <email>bf@ez.no</email>
+  <address>Shop test.</address>
+</shop_account>', 'simple', 0);
 
 
 
@@ -2693,8 +2714,6 @@ COPY eznotificationcollection (id, event_id, "handler", transport, data_subject,
 
 
 
-COPY eznotificationcollection_item (id, collection_id, event_id, address, send_date) FROM stdin;
-\.
 
 
 
@@ -2702,14 +2721,12 @@ COPY eznotificationcollection_item (id, collection_id, event_id, address, send_d
 
 
 
-COPY eznotificationevent (id, status, event_type_string, data_int1, data_int2, data_int3, data_int4, data_text1, data_text2, data_text3, data_text4) FROM stdin;
-1	0	ezpublish	41	1	0	0				
-2	0	ezpublish	42	1	0	0				
-3	0	ezpublish	43	1	0	0				
-4	0	ezpublish	44	1	0	0				
-5	0	ezpublish	45	1	0	0				
-6	0	ezpublish	47	1	0	0				
-\.
+INSERT INTO ezpolicy VALUES (317, 3, '*', 'content', '*');
+INSERT INTO ezpolicy VALUES (308, 2, '*', '*', '*');
+INSERT INTO ezpolicy VALUES (319, 3, 'login', 'user', '*');
+INSERT INTO ezpolicy VALUES (327, 1, 'login', 'user', '*');
+INSERT INTO ezpolicy VALUES (328, 1, 'read', 'content', ' ');
+INSERT INTO ezpolicy VALUES (329, 1, 'buy', 'shop', '*');
 
 
 
@@ -2717,8 +2734,7 @@ COPY eznotificationevent (id, status, event_type_string, data_int1, data_int2, d
 
 
 
-COPY ezoperation_memento (id, memento_key, memento_data, main, main_key) FROM stdin;
-\.
+INSERT INTO ezpolicy_limitation VALUES (250, 328, 'Class', 0, 'read', 'content');
 
 
 
@@ -2726,9 +2742,27 @@ COPY ezoperation_memento (id, memento_key, memento_data, main, main_key) FROM st
 
 
 
-COPY ezorder (id, user_id, productcollection_id, created, is_temporary, order_nr, data_text_2, data_text_1, account_identifier, ignore_vat) FROM stdin;
-1	10	1	1061231582	0	1		<?xml version="1.0" encoding="UTF-8"?>\n<shop_account>\n  <first-name>Foo</first-name>\n  <last-name>Bar</last-name>\n  <email>bf@ez.no</email>\n  <address>Shop test.</address>\n</shop_account>	simple	0
-\.
+INSERT INTO ezpolicy_limitation_value VALUES (456, 250, '1');
+INSERT INTO ezpolicy_limitation_value VALUES (457, 250, '10');
+INSERT INTO ezpolicy_limitation_value VALUES (458, 250, '10');
+INSERT INTO ezpolicy_limitation_value VALUES (459, 250, '11');
+INSERT INTO ezpolicy_limitation_value VALUES (460, 250, '11');
+INSERT INTO ezpolicy_limitation_value VALUES (461, 250, '12');
+INSERT INTO ezpolicy_limitation_value VALUES (462, 250, '12');
+INSERT INTO ezpolicy_limitation_value VALUES (463, 250, '13');
+INSERT INTO ezpolicy_limitation_value VALUES (464, 250, '13');
+INSERT INTO ezpolicy_limitation_value VALUES (465, 250, '2');
+INSERT INTO ezpolicy_limitation_value VALUES (466, 250, '2');
+INSERT INTO ezpolicy_limitation_value VALUES (467, 250, '5');
+INSERT INTO ezpolicy_limitation_value VALUES (468, 250, '5');
+INSERT INTO ezpolicy_limitation_value VALUES (469, 250, '6');
+INSERT INTO ezpolicy_limitation_value VALUES (470, 250, '6');
+INSERT INTO ezpolicy_limitation_value VALUES (471, 250, '7');
+INSERT INTO ezpolicy_limitation_value VALUES (472, 250, '7');
+INSERT INTO ezpolicy_limitation_value VALUES (473, 250, '8');
+INSERT INTO ezpolicy_limitation_value VALUES (474, 250, '8');
+INSERT INTO ezpolicy_limitation_value VALUES (475, 250, '9');
+INSERT INTO ezpolicy_limitation_value VALUES (476, 250, '9');
 
 
 
@@ -2736,8 +2770,6 @@ COPY ezorder (id, user_id, productcollection_id, created, is_temporary, order_nr
 
 
 
-COPY ezorder_item (id, order_id, description, price, vat_value) FROM stdin;
-\.
 
 
 
@@ -2745,14 +2777,7 @@ COPY ezorder_item (id, order_id, description, price, vat_value) FROM stdin;
 
 
 
-COPY ezpolicy (id, role_id, function_name, module_name, limitation) FROM stdin;
-317	3	*	content	*
-308	2	*	*	*
-319	3	login	user	*
-327	1	login	user	*
-328	1	read	content	 
-329	1	buy	shop	*
-\.
+INSERT INTO ezproductcollection VALUES (1, 1061231473);
 
 
 
@@ -2760,9 +2785,9 @@ COPY ezpolicy (id, role_id, function_name, module_name, limitation) FROM stdin;
 
 
 
-COPY ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) FROM stdin;
-250	328	Class	0	read	content
-\.
+INSERT INTO ezproductcollection_item VALUES (1, 1, 45, 1, 99, 1, 0, 0);
+INSERT INTO ezproductcollection_item VALUES (2, 1, 45, 1, 99, 1, 0, 0);
+INSERT INTO ezproductcollection_item VALUES (3, 1, 45, 1, 99, 1, 0, 0);
 
 
 
@@ -2770,29 +2795,6 @@ COPY ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, mod
 
 
 
-COPY ezpolicy_limitation_value (id, limitation_id, value) FROM stdin;
-456	250	1
-457	250	10
-458	250	10
-459	250	11
-460	250	11
-461	250	12
-462	250	12
-463	250	13
-464	250	13
-465	250	2
-466	250	2
-467	250	5
-468	250	5
-469	250	6
-470	250	6
-471	250	7
-472	250	7
-473	250	8
-474	250	8
-475	250	9
-476	250	9
-\.
 
 
 
@@ -2800,8 +2802,9 @@ COPY ezpolicy_limitation_value (id, limitation_id, value) FROM stdin;
 
 
 
-COPY ezpreferences (id, user_id, name, value) FROM stdin;
-\.
+INSERT INTO ezrole VALUES (1, 0, 'Anonymous', ' ');
+INSERT INTO ezrole VALUES (2, 0, 'Administrator', '*');
+INSERT INTO ezrole VALUES (3, 0, 'Editor', ' ');
 
 
 
@@ -2809,9 +2812,478 @@ COPY ezpreferences (id, user_id, name, value) FROM stdin;
 
 
 
-COPY ezproductcollection (id, created) FROM stdin;
-1	1061231473
-\.
+INSERT INTO ezsearch_object_word_link VALUES (26, 40, 5, 0, 0, 0, 5, 4, 1053613020, 2, 8, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (27, 40, 5, 0, 1, 5, 0, 4, 1053613020, 2, 9, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (28, 41, 6, 0, 0, 0, 0, 1, 1060695457, 3, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (29, 42, 7, 0, 0, 0, 8, 1, 1061230786, 1, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (30, 42, 8, 0, 1, 7, 9, 1, 1061230786, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (31, 42, 9, 0, 2, 8, 0, 1, 1061230786, 1, 119, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (32, 43, 10, 0, 0, 0, 11, 1, 1061230870, 1, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (33, 43, 11, 0, 1, 10, 12, 1, 1061230870, 1, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (34, 43, 12, 0, 2, 11, 0, 1, 1061230870, 1, 4, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (35, 44, 8, 0, 0, 0, 13, 8, 1061230921, 1, 129, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (36, 44, 13, 0, 1, 8, 14, 8, 1061230921, 1, 129, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (37, 44, 14, 0, 2, 13, 15, 8, 1061230921, 1, 130, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (38, 44, 15, 0, 3, 14, 16, 8, 1061230921, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (39, 44, 16, 0, 4, 15, 17, 8, 1061230921, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (40, 44, 17, 0, 5, 16, 18, 8, 1061230921, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (41, 44, 18, 0, 6, 17, 19, 8, 1061230921, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (42, 44, 19, 0, 7, 18, 20, 8, 1061230921, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (43, 44, 20, 0, 8, 19, 21, 8, 1061230921, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (44, 44, 21, 0, 9, 20, 22, 8, 1061230921, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (45, 44, 22, 0, 10, 21, 23, 8, 1061230921, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (46, 44, 23, 0, 11, 22, 24, 8, 1061230921, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (47, 44, 24, 0, 12, 23, 25, 8, 1061230921, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (48, 44, 25, 0, 13, 24, 26, 8, 1061230921, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (49, 44, 26, 0, 14, 25, 27, 8, 1061230921, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (50, 44, 27, 0, 15, 26, 28, 8, 1061230921, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (51, 44, 28, 0, 16, 27, 29, 8, 1061230921, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (52, 44, 29, 0, 17, 28, 30, 8, 1061230921, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (53, 44, 30, 0, 18, 29, 31, 8, 1061230921, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (54, 44, 31, 0, 19, 30, 32, 8, 1061230921, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (55, 44, 32, 0, 20, 31, 32, 8, 1061230921, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (56, 44, 32, 0, 21, 32, 33, 8, 1061230921, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (57, 44, 33, 0, 22, 32, 34, 8, 1061230921, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (58, 44, 34, 0, 23, 33, 35, 8, 1061230921, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (59, 44, 35, 0, 24, 34, 36, 8, 1061230921, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (60, 44, 36, 0, 25, 35, 37, 8, 1061230921, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (61, 44, 37, 0, 26, 36, 15, 8, 1061230921, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (62, 44, 15, 0, 27, 37, 16, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (63, 44, 16, 0, 28, 15, 17, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (64, 44, 17, 0, 29, 16, 15, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (65, 44, 15, 0, 30, 17, 16, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (66, 44, 16, 0, 31, 15, 17, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (67, 44, 17, 0, 32, 16, 18, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (68, 44, 18, 0, 33, 17, 19, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (69, 44, 19, 0, 34, 18, 20, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (70, 44, 20, 0, 35, 19, 21, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (71, 44, 21, 0, 36, 20, 22, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (72, 44, 22, 0, 37, 21, 23, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (73, 44, 23, 0, 38, 22, 24, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (74, 44, 24, 0, 39, 23, 25, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (75, 44, 25, 0, 40, 24, 26, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (76, 44, 26, 0, 41, 25, 27, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (77, 44, 27, 0, 42, 26, 28, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (78, 44, 28, 0, 43, 27, 29, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (79, 44, 29, 0, 44, 28, 30, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (80, 44, 30, 0, 45, 29, 31, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (81, 44, 31, 0, 46, 30, 32, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (82, 44, 32, 0, 47, 31, 32, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (83, 44, 32, 0, 48, 32, 33, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (84, 44, 33, 0, 49, 32, 34, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (85, 44, 34, 0, 50, 33, 35, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (86, 44, 35, 0, 51, 34, 36, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (87, 44, 36, 0, 52, 35, 37, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (88, 44, 37, 0, 53, 36, 38, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (89, 44, 38, 0, 54, 37, 39, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (90, 44, 39, 0, 55, 38, 40, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (91, 44, 40, 0, 56, 39, 41, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (92, 44, 41, 0, 57, 40, 34, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (93, 44, 34, 0, 58, 41, 42, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (94, 44, 42, 0, 59, 34, 43, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (95, 44, 43, 0, 60, 42, 44, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (96, 44, 44, 0, 61, 43, 45, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (97, 44, 45, 0, 62, 44, 46, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (98, 44, 46, 0, 63, 45, 47, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (99, 44, 47, 0, 64, 46, 48, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (100, 44, 48, 0, 65, 47, 49, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (101, 44, 49, 0, 66, 48, 50, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (102, 44, 50, 0, 67, 49, 51, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (103, 44, 51, 0, 68, 50, 38, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (104, 44, 38, 0, 69, 51, 52, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (105, 44, 52, 0, 70, 38, 53, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (106, 44, 53, 0, 71, 52, 54, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (107, 44, 54, 0, 72, 53, 55, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (108, 44, 55, 0, 73, 54, 56, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (109, 44, 56, 0, 74, 55, 57, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (110, 44, 57, 0, 75, 56, 18, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (111, 44, 18, 0, 76, 57, 57, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (112, 44, 57, 0, 77, 18, 58, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (113, 44, 58, 0, 78, 57, 59, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (114, 44, 59, 0, 79, 58, 60, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (115, 44, 60, 0, 80, 59, 61, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (116, 44, 61, 0, 81, 60, 62, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (117, 44, 62, 0, 82, 61, 63, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (118, 44, 63, 0, 83, 62, 38, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (119, 44, 38, 0, 84, 63, 64, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (120, 44, 64, 0, 85, 38, 65, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (121, 44, 65, 0, 86, 64, 24, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (122, 44, 24, 0, 87, 65, 59, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (123, 44, 59, 0, 88, 24, 28, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (124, 44, 28, 0, 89, 59, 66, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (125, 44, 66, 0, 90, 28, 67, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (126, 44, 67, 0, 91, 66, 68, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (127, 44, 68, 0, 92, 67, 69, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (128, 44, 69, 0, 93, 68, 70, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (129, 44, 70, 0, 94, 69, 71, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (130, 44, 71, 0, 95, 70, 72, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (131, 44, 72, 0, 96, 71, 73, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (132, 44, 73, 0, 97, 72, 65, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (133, 44, 65, 0, 98, 73, 63, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (134, 44, 63, 0, 99, 65, 51, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (135, 44, 51, 0, 100, 63, 74, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (136, 44, 74, 0, 101, 51, 75, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (137, 44, 75, 0, 102, 74, 63, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (138, 44, 63, 0, 103, 75, 28, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (139, 44, 28, 0, 104, 63, 76, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (140, 44, 76, 0, 105, 28, 77, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (141, 44, 77, 0, 106, 76, 78, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (142, 44, 78, 0, 107, 77, 79, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (143, 44, 79, 0, 108, 78, 80, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (144, 44, 80, 0, 109, 79, 81, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (145, 44, 81, 0, 110, 80, 78, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (146, 44, 78, 0, 111, 81, 82, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (147, 44, 82, 0, 112, 78, 83, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (148, 44, 83, 0, 113, 82, 84, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (149, 44, 84, 0, 114, 83, 63, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (150, 44, 63, 0, 115, 84, 85, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (151, 44, 85, 0, 116, 63, 86, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (152, 44, 86, 0, 117, 85, 87, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (153, 44, 87, 0, 118, 86, 88, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (154, 44, 88, 0, 119, 87, 89, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (155, 44, 89, 0, 120, 88, 25, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (156, 44, 25, 0, 121, 89, 90, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (157, 44, 90, 0, 122, 25, 69, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (158, 44, 69, 0, 123, 90, 73, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (159, 44, 73, 0, 124, 69, 91, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (160, 44, 91, 0, 125, 73, 92, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (161, 44, 92, 0, 126, 91, 35, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (162, 44, 35, 0, 127, 92, 93, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (163, 44, 93, 0, 128, 35, 57, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (164, 44, 57, 0, 129, 93, 50, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (165, 44, 50, 0, 130, 57, 66, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (166, 44, 66, 0, 131, 50, 94, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (167, 44, 94, 0, 132, 66, 73, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (168, 44, 73, 0, 133, 94, 95, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (169, 44, 95, 0, 134, 73, 42, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (170, 44, 42, 0, 135, 95, 96, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (171, 44, 96, 0, 136, 42, 80, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (172, 44, 80, 0, 137, 96, 85, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (173, 44, 85, 0, 138, 80, 86, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (174, 44, 86, 0, 139, 85, 37, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (175, 44, 37, 0, 140, 86, 92, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (176, 44, 92, 0, 141, 37, 97, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (177, 44, 97, 0, 142, 92, 98, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (178, 44, 98, 0, 143, 97, 99, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (179, 44, 99, 0, 144, 98, 100, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (180, 44, 100, 0, 145, 99, 53, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (181, 44, 53, 0, 146, 100, 99, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (182, 44, 99, 0, 147, 53, 30, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (183, 44, 30, 0, 148, 99, 101, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (184, 44, 101, 0, 149, 30, 102, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (185, 44, 102, 0, 150, 101, 103, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (186, 44, 103, 0, 151, 102, 70, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (187, 44, 70, 0, 152, 103, 39, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (188, 44, 39, 0, 153, 70, 104, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (189, 44, 104, 0, 154, 39, 38, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (190, 44, 38, 0, 155, 104, 62, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (191, 44, 62, 0, 156, 38, 45, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (192, 44, 45, 0, 157, 62, 105, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (193, 44, 105, 0, 158, 45, 106, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (194, 44, 106, 0, 159, 105, 51, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (195, 44, 51, 0, 160, 106, 51, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (196, 44, 51, 0, 161, 51, 59, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (197, 44, 59, 0, 162, 51, 39, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (198, 44, 39, 0, 163, 59, 107, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (199, 44, 107, 0, 164, 39, 108, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (200, 44, 108, 0, 165, 107, 40, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (201, 44, 40, 0, 166, 108, 57, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (202, 44, 57, 0, 167, 40, 78, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (203, 44, 78, 0, 168, 57, 94, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (204, 44, 94, 0, 169, 78, 53, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (205, 44, 53, 0, 170, 94, 109, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (206, 44, 109, 0, 171, 53, 110, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (207, 44, 110, 0, 172, 109, 40, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (208, 44, 40, 0, 173, 110, 53, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (209, 44, 53, 0, 174, 40, 111, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (210, 44, 111, 0, 175, 53, 51, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (211, 44, 51, 0, 176, 111, 34, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (212, 44, 34, 0, 177, 51, 25, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (213, 44, 25, 0, 178, 34, 29, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (214, 44, 29, 0, 179, 25, 45, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (215, 44, 45, 0, 180, 29, 43, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (216, 44, 43, 0, 181, 45, 72, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (217, 44, 72, 0, 182, 43, 90, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (218, 44, 90, 0, 183, 72, 112, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (219, 44, 112, 0, 184, 90, 53, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (220, 44, 53, 0, 185, 112, 87, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (221, 44, 87, 0, 186, 53, 62, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (222, 44, 62, 0, 187, 87, 59, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (223, 44, 59, 0, 188, 62, 53, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (224, 44, 53, 0, 189, 59, 38, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (225, 44, 38, 0, 190, 53, 73, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (226, 44, 73, 0, 191, 38, 27, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (227, 44, 27, 0, 192, 73, 36, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (228, 44, 36, 0, 193, 27, 24, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (229, 44, 24, 0, 194, 36, 15, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (230, 44, 15, 0, 195, 24, 61, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (231, 44, 61, 0, 196, 15, 113, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (232, 44, 113, 0, 197, 61, 114, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (233, 44, 114, 0, 198, 113, 50, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (234, 44, 50, 0, 199, 114, 27, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (235, 44, 27, 0, 200, 50, 61, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (236, 44, 61, 0, 201, 27, 0, 8, 1061230921, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (237, 45, 115, 0, 0, 0, 116, 8, 1061231015, 1, 129, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (238, 45, 116, 0, 1, 115, 117, 8, 1061231015, 1, 129, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (239, 45, 117, 0, 2, 116, 118, 8, 1061231015, 1, 129, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (240, 45, 118, 0, 3, 117, 119, 8, 1061231015, 1, 129, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (241, 45, 119, 0, 4, 118, 50, 8, 1061231015, 1, 130, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (242, 45, 50, 0, 5, 119, 66, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (243, 45, 66, 0, 6, 50, 94, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (244, 45, 94, 0, 7, 66, 73, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (245, 45, 73, 0, 8, 94, 95, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (246, 45, 95, 0, 9, 73, 42, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (247, 45, 42, 0, 10, 95, 96, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (248, 45, 96, 0, 11, 42, 80, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (249, 45, 80, 0, 12, 96, 85, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (250, 45, 85, 0, 13, 80, 86, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (251, 45, 86, 0, 14, 85, 37, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (252, 45, 37, 0, 15, 86, 92, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (253, 45, 92, 0, 16, 37, 97, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (254, 45, 97, 0, 17, 92, 98, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (255, 45, 98, 0, 18, 97, 99, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (256, 45, 99, 0, 19, 98, 100, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (257, 45, 100, 0, 20, 99, 53, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (258, 45, 53, 0, 21, 100, 99, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (259, 45, 99, 0, 22, 53, 30, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (260, 45, 30, 0, 23, 99, 101, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (261, 45, 101, 0, 24, 30, 102, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (262, 45, 102, 0, 25, 101, 103, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (263, 45, 103, 0, 26, 102, 70, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (264, 45, 70, 0, 27, 103, 39, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (265, 45, 39, 0, 28, 70, 104, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (266, 45, 104, 0, 29, 39, 38, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (267, 45, 38, 0, 30, 104, 62, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (268, 45, 62, 0, 31, 38, 45, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (269, 45, 45, 0, 32, 62, 105, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (270, 45, 105, 0, 33, 45, 106, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (271, 45, 106, 0, 34, 105, 51, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (272, 45, 51, 0, 35, 106, 51, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (273, 45, 51, 0, 36, 51, 59, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (274, 45, 59, 0, 37, 51, 39, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (275, 45, 39, 0, 38, 59, 107, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (276, 45, 107, 0, 39, 39, 108, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (277, 45, 108, 0, 40, 107, 40, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (278, 45, 40, 0, 41, 108, 57, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (279, 45, 57, 0, 42, 40, 78, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (280, 45, 78, 0, 43, 57, 94, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (281, 45, 94, 0, 44, 78, 53, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (282, 45, 53, 0, 45, 94, 109, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (283, 45, 109, 0, 46, 53, 110, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (284, 45, 110, 0, 47, 109, 40, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (285, 45, 40, 0, 48, 110, 53, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (286, 45, 53, 0, 49, 40, 111, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (287, 45, 111, 0, 50, 53, 51, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (288, 45, 51, 0, 51, 111, 34, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (289, 45, 34, 0, 52, 51, 25, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (290, 45, 25, 0, 53, 34, 29, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (291, 45, 29, 0, 54, 25, 45, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (292, 45, 45, 0, 55, 29, 43, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (293, 45, 43, 0, 56, 45, 72, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (294, 45, 72, 0, 57, 43, 90, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (295, 45, 90, 0, 58, 72, 112, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (296, 45, 112, 0, 59, 90, 53, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (297, 45, 53, 0, 60, 112, 87, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (298, 45, 87, 0, 61, 53, 62, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (299, 45, 62, 0, 62, 87, 59, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (300, 45, 59, 0, 63, 62, 53, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (301, 45, 53, 0, 64, 59, 38, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (302, 45, 38, 0, 65, 53, 73, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (303, 45, 73, 0, 66, 38, 27, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (304, 45, 27, 0, 67, 73, 36, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (305, 45, 36, 0, 68, 27, 24, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (306, 45, 24, 0, 69, 36, 15, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (307, 45, 15, 0, 70, 24, 61, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (308, 45, 61, 0, 71, 15, 113, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (309, 45, 113, 0, 72, 61, 114, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (310, 45, 114, 0, 73, 113, 15, 8, 1061231015, 1, 131, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (311, 45, 15, 0, 74, 114, 16, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (312, 45, 16, 0, 75, 15, 17, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (313, 45, 17, 0, 76, 16, 15, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (314, 45, 15, 0, 77, 17, 16, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (315, 45, 16, 0, 78, 15, 17, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (316, 45, 17, 0, 79, 16, 18, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (317, 45, 18, 0, 80, 17, 19, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (318, 45, 19, 0, 81, 18, 20, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (319, 45, 20, 0, 82, 19, 21, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (320, 45, 21, 0, 83, 20, 22, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (321, 45, 22, 0, 84, 21, 23, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (322, 45, 23, 0, 85, 22, 24, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (323, 45, 24, 0, 86, 23, 25, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (324, 45, 25, 0, 87, 24, 26, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (325, 45, 26, 0, 88, 25, 27, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (326, 45, 27, 0, 89, 26, 28, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (327, 45, 28, 0, 90, 27, 29, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (328, 45, 29, 0, 91, 28, 30, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (329, 45, 30, 0, 92, 29, 31, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (330, 45, 31, 0, 93, 30, 32, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (331, 45, 32, 0, 94, 31, 32, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (332, 45, 32, 0, 95, 32, 33, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (333, 45, 33, 0, 96, 32, 34, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (334, 45, 34, 0, 97, 33, 35, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (335, 45, 35, 0, 98, 34, 36, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (336, 45, 36, 0, 99, 35, 37, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (337, 45, 37, 0, 100, 36, 38, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (338, 45, 38, 0, 101, 37, 39, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (339, 45, 39, 0, 102, 38, 40, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (340, 45, 40, 0, 103, 39, 41, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (341, 45, 41, 0, 104, 40, 34, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (342, 45, 34, 0, 105, 41, 42, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (343, 45, 42, 0, 106, 34, 43, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (344, 45, 43, 0, 107, 42, 44, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (345, 45, 44, 0, 108, 43, 45, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (346, 45, 45, 0, 109, 44, 46, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (347, 45, 46, 0, 110, 45, 47, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (348, 45, 47, 0, 111, 46, 48, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (349, 45, 48, 0, 112, 47, 49, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (350, 45, 49, 0, 113, 48, 50, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (351, 45, 50, 0, 114, 49, 51, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (352, 45, 51, 0, 115, 50, 38, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (353, 45, 38, 0, 116, 51, 52, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (354, 45, 52, 0, 117, 38, 53, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (355, 45, 53, 0, 118, 52, 54, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (356, 45, 54, 0, 119, 53, 55, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (357, 45, 55, 0, 120, 54, 56, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (358, 45, 56, 0, 121, 55, 57, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (359, 45, 57, 0, 122, 56, 18, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (360, 45, 18, 0, 123, 57, 57, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (361, 45, 57, 0, 124, 18, 58, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (362, 45, 58, 0, 125, 57, 59, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (363, 45, 59, 0, 126, 58, 60, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (364, 45, 60, 0, 127, 59, 61, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (365, 45, 61, 0, 128, 60, 62, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (366, 45, 62, 0, 129, 61, 63, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (367, 45, 63, 0, 130, 62, 38, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (368, 45, 38, 0, 131, 63, 64, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (369, 45, 64, 0, 132, 38, 65, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (370, 45, 65, 0, 133, 64, 24, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (371, 45, 24, 0, 134, 65, 59, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (372, 45, 59, 0, 135, 24, 28, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (373, 45, 28, 0, 136, 59, 66, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (374, 45, 66, 0, 137, 28, 67, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (375, 45, 67, 0, 138, 66, 68, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (376, 45, 68, 0, 139, 67, 69, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (377, 45, 69, 0, 140, 68, 70, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (378, 45, 70, 0, 141, 69, 71, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (379, 45, 71, 0, 142, 70, 72, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (380, 45, 72, 0, 143, 71, 73, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (381, 45, 73, 0, 144, 72, 65, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (382, 45, 65, 0, 145, 73, 63, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (383, 45, 63, 0, 146, 65, 51, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (384, 45, 51, 0, 147, 63, 74, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (385, 45, 74, 0, 148, 51, 75, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (386, 45, 75, 0, 149, 74, 63, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (387, 45, 63, 0, 150, 75, 28, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (388, 45, 28, 0, 151, 63, 76, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (389, 45, 76, 0, 152, 28, 77, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (390, 45, 77, 0, 153, 76, 78, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (391, 45, 78, 0, 154, 77, 79, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (392, 45, 79, 0, 155, 78, 80, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (393, 45, 80, 0, 156, 79, 81, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (394, 45, 81, 0, 157, 80, 78, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (395, 45, 78, 0, 158, 81, 82, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (396, 45, 82, 0, 159, 78, 83, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (397, 45, 83, 0, 160, 82, 84, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (398, 45, 84, 0, 161, 83, 63, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (399, 45, 63, 0, 162, 84, 85, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (400, 45, 85, 0, 163, 63, 86, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (401, 45, 86, 0, 164, 85, 87, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (402, 45, 87, 0, 165, 86, 88, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (403, 45, 88, 0, 166, 87, 89, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (404, 45, 89, 0, 167, 88, 25, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (405, 45, 25, 0, 168, 89, 90, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (406, 45, 90, 0, 169, 25, 69, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (407, 45, 69, 0, 170, 90, 73, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (408, 45, 73, 0, 171, 69, 91, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (409, 45, 91, 0, 172, 73, 92, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (410, 45, 92, 0, 173, 91, 35, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (411, 45, 35, 0, 174, 92, 93, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (412, 45, 93, 0, 175, 35, 57, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (413, 45, 57, 0, 176, 93, 50, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (414, 45, 50, 0, 177, 57, 66, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (415, 45, 66, 0, 178, 50, 94, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (416, 45, 94, 0, 179, 66, 73, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (417, 45, 73, 0, 180, 94, 95, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (418, 45, 95, 0, 181, 73, 42, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (419, 45, 42, 0, 182, 95, 96, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (420, 45, 96, 0, 183, 42, 80, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (421, 45, 80, 0, 184, 96, 85, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (422, 45, 85, 0, 185, 80, 86, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (423, 45, 86, 0, 186, 85, 37, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (424, 45, 37, 0, 187, 86, 92, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (425, 45, 92, 0, 188, 37, 97, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (426, 45, 97, 0, 189, 92, 98, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (427, 45, 98, 0, 190, 97, 99, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (428, 45, 99, 0, 191, 98, 100, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (429, 45, 100, 0, 192, 99, 53, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (430, 45, 53, 0, 193, 100, 99, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (431, 45, 99, 0, 194, 53, 30, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (432, 45, 30, 0, 195, 99, 101, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (433, 45, 101, 0, 196, 30, 102, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (434, 45, 102, 0, 197, 101, 103, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (435, 45, 103, 0, 198, 102, 70, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (436, 45, 70, 0, 199, 103, 39, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (437, 45, 39, 0, 200, 70, 104, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (438, 45, 104, 0, 201, 39, 38, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (439, 45, 38, 0, 202, 104, 62, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (440, 45, 62, 0, 203, 38, 45, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (441, 45, 45, 0, 204, 62, 105, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (442, 45, 105, 0, 205, 45, 106, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (443, 45, 106, 0, 206, 105, 51, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (444, 45, 51, 0, 207, 106, 51, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (445, 45, 51, 0, 208, 51, 59, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (446, 45, 59, 0, 209, 51, 39, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (447, 45, 39, 0, 210, 59, 107, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (448, 45, 107, 0, 211, 39, 108, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (449, 45, 108, 0, 212, 107, 40, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (450, 45, 40, 0, 213, 108, 57, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (451, 45, 57, 0, 214, 40, 78, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (452, 45, 78, 0, 215, 57, 94, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (453, 45, 94, 0, 216, 78, 53, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (454, 45, 53, 0, 217, 94, 109, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (455, 45, 109, 0, 218, 53, 110, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (456, 45, 110, 0, 219, 109, 40, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (457, 45, 40, 0, 220, 110, 53, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (458, 45, 53, 0, 221, 40, 111, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (459, 45, 111, 0, 222, 53, 51, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (460, 45, 51, 0, 223, 111, 34, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (461, 45, 34, 0, 224, 51, 25, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (462, 45, 25, 0, 225, 34, 29, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (463, 45, 29, 0, 226, 25, 45, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (464, 45, 45, 0, 227, 29, 43, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (465, 45, 43, 0, 228, 45, 72, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (466, 45, 72, 0, 229, 43, 90, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (467, 45, 90, 0, 230, 72, 112, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (468, 45, 112, 0, 231, 90, 53, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (469, 45, 53, 0, 232, 112, 87, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (470, 45, 87, 0, 233, 53, 62, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (471, 45, 62, 0, 234, 87, 59, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (472, 45, 59, 0, 235, 62, 53, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (473, 45, 53, 0, 236, 59, 38, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (474, 45, 38, 0, 237, 53, 73, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (475, 45, 73, 0, 238, 38, 27, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (476, 45, 27, 0, 239, 73, 36, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (477, 45, 36, 0, 240, 27, 24, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (478, 45, 24, 0, 241, 36, 15, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (479, 45, 15, 0, 242, 24, 61, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (480, 45, 61, 0, 243, 15, 113, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (481, 45, 113, 0, 244, 61, 114, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (482, 45, 114, 0, 245, 113, 50, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (483, 45, 50, 0, 246, 114, 27, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (484, 45, 27, 0, 247, 50, 61, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (485, 45, 61, 0, 248, 27, 0, 8, 1061231015, 1, 132, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (486, 47, 120, 0, 0, 0, 121, 9, 1061231361, 1, 135, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (487, 47, 121, 0, 1, 120, 120, 9, 1061231361, 1, 136, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (488, 47, 120, 0, 2, 121, 122, 9, 1061231361, 1, 136, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (489, 47, 122, 0, 3, 120, 123, 9, 1061231361, 1, 137, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (490, 47, 123, 0, 4, 122, 124, 9, 1061231361, 1, 137, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (491, 47, 124, 0, 5, 123, 125, 9, 1061231361, 1, 138, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (492, 47, 125, 0, 6, 124, 126, 9, 1061231361, 1, 138, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (493, 47, 126, 0, 7, 125, 127, 9, 1061231361, 1, 139, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (494, 47, 127, 0, 8, 126, 128, 9, 1061231361, 1, 139, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (495, 47, 128, 0, 9, 127, 129, 9, 1061231361, 1, 139, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (496, 47, 129, 0, 10, 128, 13, 9, 1061231361, 1, 139, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (497, 47, 13, 0, 11, 129, 0, 9, 1061231361, 1, 139, '', 0);
 
 
 
@@ -2819,11 +3291,6 @@ COPY ezproductcollection (id, created) FROM stdin;
 
 
 
-COPY ezproductcollection_item (id, productcollection_id, contentobject_id, item_count, price, is_vat_inc, vat_value, discount) FROM stdin;
-1	1	45	1	99	1	0	0
-2	1	45	1	99	1	0	0
-3	1	45	1	99	1	0	0
-\.
 
 
 
@@ -2831,8 +3298,6 @@ COPY ezproductcollection_item (id, productcollection_id, contentobject_id, item_
 
 
 
-COPY ezproductcollection_item_opt (id, item_id, option_item_id, name, value, price, object_attribute_id) FROM stdin;
-\.
 
 
 
@@ -2840,11 +3305,131 @@ COPY ezproductcollection_item_opt (id, item_id, option_item_id, name, value, pri
 
 
 
-COPY ezrole (id, "version", name, value) FROM stdin;
-1	0	Anonymous	 
-2	0	Administrator	*
-3	0	Editor	 
-\.
+INSERT INTO ezsearch_word VALUES (5, 'test', 1);
+INSERT INTO ezsearch_word VALUES (6, 'media', 1);
+INSERT INTO ezsearch_word VALUES (7, 'comics', 1);
+INSERT INTO ezsearch_word VALUES (8, 'comic', 2);
+INSERT INTO ezsearch_word VALUES (9, 'books', 1);
+INSERT INTO ezsearch_word VALUES (10, 'food', 1);
+INSERT INTO ezsearch_word VALUES (11, '&', 1);
+INSERT INTO ezsearch_word VALUES (12, 'drink', 1);
+INSERT INTO ezsearch_word VALUES (13, 'book', 2);
+INSERT INTO ezsearch_word VALUES (14, 'b01', 1);
+INSERT INTO ezsearch_word VALUES (15, 'proin', 2);
+INSERT INTO ezsearch_word VALUES (16, 'consectetuer', 2);
+INSERT INTO ezsearch_word VALUES (17, 'lacus', 2);
+INSERT INTO ezsearch_word VALUES (18, 'nec', 2);
+INSERT INTO ezsearch_word VALUES (19, 'neque', 2);
+INSERT INTO ezsearch_word VALUES (20, 'vivamus', 2);
+INSERT INTO ezsearch_word VALUES (21, 'volutpat', 2);
+INSERT INTO ezsearch_word VALUES (22, 'elit', 2);
+INSERT INTO ezsearch_word VALUES (23, 'id', 2);
+INSERT INTO ezsearch_word VALUES (24, 'purus', 2);
+INSERT INTO ezsearch_word VALUES (25, 'nulla', 2);
+INSERT INTO ezsearch_word VALUES (26, 'varius', 2);
+INSERT INTO ezsearch_word VALUES (27, 'dictum', 2);
+INSERT INTO ezsearch_word VALUES (28, 'est', 2);
+INSERT INTO ezsearch_word VALUES (29, 'maecenas', 2);
+INSERT INTO ezsearch_word VALUES (30, 'sapien', 2);
+INSERT INTO ezsearch_word VALUES (31, 'pede', 2);
+INSERT INTO ezsearch_word VALUES (32, 'mattis', 2);
+INSERT INTO ezsearch_word VALUES (33, 'mollis', 2);
+INSERT INTO ezsearch_word VALUES (34, 'in', 2);
+INSERT INTO ezsearch_word VALUES (35, 'pulvinar', 2);
+INSERT INTO ezsearch_word VALUES (36, 'a', 2);
+INSERT INTO ezsearch_word VALUES (37, 'mi', 2);
+INSERT INTO ezsearch_word VALUES (38, 'vestibulum', 2);
+INSERT INTO ezsearch_word VALUES (39, 'ante', 2);
+INSERT INTO ezsearch_word VALUES (40, 'ipsum', 2);
+INSERT INTO ezsearch_word VALUES (41, 'primis', 2);
+INSERT INTO ezsearch_word VALUES (42, 'faucibus', 2);
+INSERT INTO ezsearch_word VALUES (43, 'orci', 2);
+INSERT INTO ezsearch_word VALUES (44, 'luctus', 2);
+INSERT INTO ezsearch_word VALUES (45, 'et', 2);
+INSERT INTO ezsearch_word VALUES (46, 'ultrices', 2);
+INSERT INTO ezsearch_word VALUES (47, 'posuere', 2);
+INSERT INTO ezsearch_word VALUES (48, 'cubilia', 2);
+INSERT INTO ezsearch_word VALUES (49, 'curae', 2);
+INSERT INTO ezsearch_word VALUES (50, 'phasellus', 2);
+INSERT INTO ezsearch_word VALUES (51, 'arcu', 2);
+INSERT INTO ezsearch_word VALUES (52, 'justo', 2);
+INSERT INTO ezsearch_word VALUES (53, 'sed', 2);
+INSERT INTO ezsearch_word VALUES (54, 'rhoncus', 2);
+INSERT INTO ezsearch_word VALUES (55, 'suspendisse', 2);
+INSERT INTO ezsearch_word VALUES (56, 'quis', 2);
+INSERT INTO ezsearch_word VALUES (57, 'turpis', 2);
+INSERT INTO ezsearch_word VALUES (58, 'pretium', 2);
+INSERT INTO ezsearch_word VALUES (59, 'scelerisque', 2);
+INSERT INTO ezsearch_word VALUES (60, 'fusce', 2);
+INSERT INTO ezsearch_word VALUES (61, 'dignissim', 2);
+INSERT INTO ezsearch_word VALUES (62, 'metus', 2);
+INSERT INTO ezsearch_word VALUES (63, 'ut', 2);
+INSERT INTO ezsearch_word VALUES (64, 'rutrum', 2);
+INSERT INTO ezsearch_word VALUES (65, 'risus', 2);
+INSERT INTO ezsearch_word VALUES (66, 'eu', 2);
+INSERT INTO ezsearch_word VALUES (67, 'venenatis', 2);
+INSERT INTO ezsearch_word VALUES (68, 'velit', 2);
+INSERT INTO ezsearch_word VALUES (69, 'magna', 2);
+INSERT INTO ezsearch_word VALUES (70, 'ac', 2);
+INSERT INTO ezsearch_word VALUES (71, 'quam', 2);
+INSERT INTO ezsearch_word VALUES (72, 'morbi', 2);
+INSERT INTO ezsearch_word VALUES (73, 'non', 2);
+INSERT INTO ezsearch_word VALUES (74, 'eleifend', 2);
+INSERT INTO ezsearch_word VALUES (75, 'consequat', 2);
+INSERT INTO ezsearch_word VALUES (76, 'augue', 2);
+INSERT INTO ezsearch_word VALUES (77, 'malesuada', 2);
+INSERT INTO ezsearch_word VALUES (78, 'vitae', 2);
+INSERT INTO ezsearch_word VALUES (79, 'porttitor', 2);
+INSERT INTO ezsearch_word VALUES (80, 'pellentesque', 2);
+INSERT INTO ezsearch_word VALUES (81, 'egestas', 2);
+INSERT INTO ezsearch_word VALUES (82, 'nunc', 2);
+INSERT INTO ezsearch_word VALUES (83, 'curabitur', 2);
+INSERT INTO ezsearch_word VALUES (84, 'feugiat', 2);
+INSERT INTO ezsearch_word VALUES (85, 'sit', 2);
+INSERT INTO ezsearch_word VALUES (86, 'amet', 2);
+INSERT INTO ezsearch_word VALUES (87, 'dui', 2);
+INSERT INTO ezsearch_word VALUES (88, 'etiam', 2);
+INSERT INTO ezsearch_word VALUES (89, 'fermentum', 2);
+INSERT INTO ezsearch_word VALUES (90, 'ornare', 2);
+INSERT INTO ezsearch_word VALUES (91, 'urna', 2);
+INSERT INTO ezsearch_word VALUES (92, 'cras', 2);
+INSERT INTO ezsearch_word VALUES (93, 'imperdiet', 2);
+INSERT INTO ezsearch_word VALUES (94, 'felis', 2);
+INSERT INTO ezsearch_word VALUES (95, 'diam', 2);
+INSERT INTO ezsearch_word VALUES (96, 'viverra', 2);
+INSERT INTO ezsearch_word VALUES (97, 'euismod', 2);
+INSERT INTO ezsearch_word VALUES (98, 'leo', 2);
+INSERT INTO ezsearch_word VALUES (99, 'vel', 2);
+INSERT INTO ezsearch_word VALUES (100, 'libero', 2);
+INSERT INTO ezsearch_word VALUES (101, 'mauris', 2);
+INSERT INTO ezsearch_word VALUES (102, 'aliquam', 2);
+INSERT INTO ezsearch_word VALUES (103, 'enim', 2);
+INSERT INTO ezsearch_word VALUES (104, 'nam', 2);
+INSERT INTO ezsearch_word VALUES (105, 'blandit', 2);
+INSERT INTO ezsearch_word VALUES (106, 'vulputate', 2);
+INSERT INTO ezsearch_word VALUES (107, 'at', 2);
+INSERT INTO ezsearch_word VALUES (108, 'dapibus', 2);
+INSERT INTO ezsearch_word VALUES (109, 'aliquet', 2);
+INSERT INTO ezsearch_word VALUES (110, 'tempus', 2);
+INSERT INTO ezsearch_word VALUES (111, 'facilisis', 2);
+INSERT INTO ezsearch_word VALUES (112, 'massa', 2);
+INSERT INTO ezsearch_word VALUES (113, 'semper', 2);
+INSERT INTO ezsearch_word VALUES (114, 'odio', 2);
+INSERT INTO ezsearch_word VALUES (115, 'wines', 1);
+INSERT INTO ezsearch_word VALUES (116, 'of', 1);
+INSERT INTO ezsearch_word VALUES (117, 'the', 1);
+INSERT INTO ezsearch_word VALUES (118, 'world', 1);
+INSERT INTO ezsearch_word VALUES (119, 'w01', 1);
+INSERT INTO ezsearch_word VALUES (120, 'good', 1);
+INSERT INTO ezsearch_word VALUES (121, '5', 1);
+INSERT INTO ezsearch_word VALUES (122, 'john', 1);
+INSERT INTO ezsearch_word VALUES (123, 'doe', 1);
+INSERT INTO ezsearch_word VALUES (124, 'anytown', 1);
+INSERT INTO ezsearch_word VALUES (125, 'norway', 1);
+INSERT INTO ezsearch_word VALUES (126, 'i', 1);
+INSERT INTO ezsearch_word VALUES (127, 'really', 1);
+INSERT INTO ezsearch_word VALUES (128, 'enjoy', 1);
+INSERT INTO ezsearch_word VALUES (129, 'this', 1);
 
 
 
@@ -2852,480 +3437,9 @@ COPY ezrole (id, "version", name, value) FROM stdin;
 
 
 
-COPY ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) FROM stdin;
-26	40	5	0	0	0	5	4	1053613020	2	8		0
-27	40	5	0	1	5	0	4	1053613020	2	9		0
-28	41	6	0	0	0	0	1	1060695457	3	4		0
-29	42	7	0	0	0	8	1	1061230786	1	4		0
-30	42	8	0	1	7	9	1	1061230786	1	119		0
-31	42	9	0	2	8	0	1	1061230786	1	119		0
-32	43	10	0	0	0	11	1	1061230870	1	4		0
-33	43	11	0	1	10	12	1	1061230870	1	4		0
-34	43	12	0	2	11	0	1	1061230870	1	4		0
-35	44	8	0	0	0	13	8	1061230921	1	129		0
-36	44	13	0	1	8	14	8	1061230921	1	129		0
-37	44	14	0	2	13	15	8	1061230921	1	130		0
-38	44	15	0	3	14	16	8	1061230921	1	131		0
-39	44	16	0	4	15	17	8	1061230921	1	131		0
-40	44	17	0	5	16	18	8	1061230921	1	131		0
-41	44	18	0	6	17	19	8	1061230921	1	131		0
-42	44	19	0	7	18	20	8	1061230921	1	131		0
-43	44	20	0	8	19	21	8	1061230921	1	131		0
-44	44	21	0	9	20	22	8	1061230921	1	131		0
-45	44	22	0	10	21	23	8	1061230921	1	131		0
-46	44	23	0	11	22	24	8	1061230921	1	131		0
-47	44	24	0	12	23	25	8	1061230921	1	131		0
-48	44	25	0	13	24	26	8	1061230921	1	131		0
-49	44	26	0	14	25	27	8	1061230921	1	131		0
-50	44	27	0	15	26	28	8	1061230921	1	131		0
-51	44	28	0	16	27	29	8	1061230921	1	131		0
-52	44	29	0	17	28	30	8	1061230921	1	131		0
-53	44	30	0	18	29	31	8	1061230921	1	131		0
-54	44	31	0	19	30	32	8	1061230921	1	131		0
-55	44	32	0	20	31	32	8	1061230921	1	131		0
-56	44	32	0	21	32	33	8	1061230921	1	131		0
-57	44	33	0	22	32	34	8	1061230921	1	131		0
-58	44	34	0	23	33	35	8	1061230921	1	131		0
-59	44	35	0	24	34	36	8	1061230921	1	131		0
-60	44	36	0	25	35	37	8	1061230921	1	131		0
-61	44	37	0	26	36	15	8	1061230921	1	131		0
-62	44	15	0	27	37	16	8	1061230921	1	132		0
-63	44	16	0	28	15	17	8	1061230921	1	132		0
-64	44	17	0	29	16	15	8	1061230921	1	132		0
-65	44	15	0	30	17	16	8	1061230921	1	132		0
-66	44	16	0	31	15	17	8	1061230921	1	132		0
-67	44	17	0	32	16	18	8	1061230921	1	132		0
-68	44	18	0	33	17	19	8	1061230921	1	132		0
-69	44	19	0	34	18	20	8	1061230921	1	132		0
-70	44	20	0	35	19	21	8	1061230921	1	132		0
-71	44	21	0	36	20	22	8	1061230921	1	132		0
-72	44	22	0	37	21	23	8	1061230921	1	132		0
-73	44	23	0	38	22	24	8	1061230921	1	132		0
-74	44	24	0	39	23	25	8	1061230921	1	132		0
-75	44	25	0	40	24	26	8	1061230921	1	132		0
-76	44	26	0	41	25	27	8	1061230921	1	132		0
-77	44	27	0	42	26	28	8	1061230921	1	132		0
-78	44	28	0	43	27	29	8	1061230921	1	132		0
-79	44	29	0	44	28	30	8	1061230921	1	132		0
-80	44	30	0	45	29	31	8	1061230921	1	132		0
-81	44	31	0	46	30	32	8	1061230921	1	132		0
-82	44	32	0	47	31	32	8	1061230921	1	132		0
-83	44	32	0	48	32	33	8	1061230921	1	132		0
-84	44	33	0	49	32	34	8	1061230921	1	132		0
-85	44	34	0	50	33	35	8	1061230921	1	132		0
-86	44	35	0	51	34	36	8	1061230921	1	132		0
-87	44	36	0	52	35	37	8	1061230921	1	132		0
-88	44	37	0	53	36	38	8	1061230921	1	132		0
-89	44	38	0	54	37	39	8	1061230921	1	132		0
-90	44	39	0	55	38	40	8	1061230921	1	132		0
-91	44	40	0	56	39	41	8	1061230921	1	132		0
-92	44	41	0	57	40	34	8	1061230921	1	132		0
-93	44	34	0	58	41	42	8	1061230921	1	132		0
-94	44	42	0	59	34	43	8	1061230921	1	132		0
-95	44	43	0	60	42	44	8	1061230921	1	132		0
-96	44	44	0	61	43	45	8	1061230921	1	132		0
-97	44	45	0	62	44	46	8	1061230921	1	132		0
-98	44	46	0	63	45	47	8	1061230921	1	132		0
-99	44	47	0	64	46	48	8	1061230921	1	132		0
-100	44	48	0	65	47	49	8	1061230921	1	132		0
-101	44	49	0	66	48	50	8	1061230921	1	132		0
-102	44	50	0	67	49	51	8	1061230921	1	132		0
-103	44	51	0	68	50	38	8	1061230921	1	132		0
-104	44	38	0	69	51	52	8	1061230921	1	132		0
-105	44	52	0	70	38	53	8	1061230921	1	132		0
-106	44	53	0	71	52	54	8	1061230921	1	132		0
-107	44	54	0	72	53	55	8	1061230921	1	132		0
-108	44	55	0	73	54	56	8	1061230921	1	132		0
-109	44	56	0	74	55	57	8	1061230921	1	132		0
-110	44	57	0	75	56	18	8	1061230921	1	132		0
-111	44	18	0	76	57	57	8	1061230921	1	132		0
-112	44	57	0	77	18	58	8	1061230921	1	132		0
-113	44	58	0	78	57	59	8	1061230921	1	132		0
-114	44	59	0	79	58	60	8	1061230921	1	132		0
-115	44	60	0	80	59	61	8	1061230921	1	132		0
-116	44	61	0	81	60	62	8	1061230921	1	132		0
-117	44	62	0	82	61	63	8	1061230921	1	132		0
-118	44	63	0	83	62	38	8	1061230921	1	132		0
-119	44	38	0	84	63	64	8	1061230921	1	132		0
-120	44	64	0	85	38	65	8	1061230921	1	132		0
-121	44	65	0	86	64	24	8	1061230921	1	132		0
-122	44	24	0	87	65	59	8	1061230921	1	132		0
-123	44	59	0	88	24	28	8	1061230921	1	132		0
-124	44	28	0	89	59	66	8	1061230921	1	132		0
-125	44	66	0	90	28	67	8	1061230921	1	132		0
-126	44	67	0	91	66	68	8	1061230921	1	132		0
-127	44	68	0	92	67	69	8	1061230921	1	132		0
-128	44	69	0	93	68	70	8	1061230921	1	132		0
-129	44	70	0	94	69	71	8	1061230921	1	132		0
-130	44	71	0	95	70	72	8	1061230921	1	132		0
-131	44	72	0	96	71	73	8	1061230921	1	132		0
-132	44	73	0	97	72	65	8	1061230921	1	132		0
-133	44	65	0	98	73	63	8	1061230921	1	132		0
-134	44	63	0	99	65	51	8	1061230921	1	132		0
-135	44	51	0	100	63	74	8	1061230921	1	132		0
-136	44	74	0	101	51	75	8	1061230921	1	132		0
-137	44	75	0	102	74	63	8	1061230921	1	132		0
-138	44	63	0	103	75	28	8	1061230921	1	132		0
-139	44	28	0	104	63	76	8	1061230921	1	132		0
-140	44	76	0	105	28	77	8	1061230921	1	132		0
-141	44	77	0	106	76	78	8	1061230921	1	132		0
-142	44	78	0	107	77	79	8	1061230921	1	132		0
-143	44	79	0	108	78	80	8	1061230921	1	132		0
-144	44	80	0	109	79	81	8	1061230921	1	132		0
-145	44	81	0	110	80	78	8	1061230921	1	132		0
-146	44	78	0	111	81	82	8	1061230921	1	132		0
-147	44	82	0	112	78	83	8	1061230921	1	132		0
-148	44	83	0	113	82	84	8	1061230921	1	132		0
-149	44	84	0	114	83	63	8	1061230921	1	132		0
-150	44	63	0	115	84	85	8	1061230921	1	132		0
-151	44	85	0	116	63	86	8	1061230921	1	132		0
-152	44	86	0	117	85	87	8	1061230921	1	132		0
-153	44	87	0	118	86	88	8	1061230921	1	132		0
-154	44	88	0	119	87	89	8	1061230921	1	132		0
-155	44	89	0	120	88	25	8	1061230921	1	132		0
-156	44	25	0	121	89	90	8	1061230921	1	132		0
-157	44	90	0	122	25	69	8	1061230921	1	132		0
-158	44	69	0	123	90	73	8	1061230921	1	132		0
-159	44	73	0	124	69	91	8	1061230921	1	132		0
-160	44	91	0	125	73	92	8	1061230921	1	132		0
-161	44	92	0	126	91	35	8	1061230921	1	132		0
-162	44	35	0	127	92	93	8	1061230921	1	132		0
-163	44	93	0	128	35	57	8	1061230921	1	132		0
-164	44	57	0	129	93	50	8	1061230921	1	132		0
-165	44	50	0	130	57	66	8	1061230921	1	132		0
-166	44	66	0	131	50	94	8	1061230921	1	132		0
-167	44	94	0	132	66	73	8	1061230921	1	132		0
-168	44	73	0	133	94	95	8	1061230921	1	132		0
-169	44	95	0	134	73	42	8	1061230921	1	132		0
-170	44	42	0	135	95	96	8	1061230921	1	132		0
-171	44	96	0	136	42	80	8	1061230921	1	132		0
-172	44	80	0	137	96	85	8	1061230921	1	132		0
-173	44	85	0	138	80	86	8	1061230921	1	132		0
-174	44	86	0	139	85	37	8	1061230921	1	132		0
-175	44	37	0	140	86	92	8	1061230921	1	132		0
-176	44	92	0	141	37	97	8	1061230921	1	132		0
-177	44	97	0	142	92	98	8	1061230921	1	132		0
-178	44	98	0	143	97	99	8	1061230921	1	132		0
-179	44	99	0	144	98	100	8	1061230921	1	132		0
-180	44	100	0	145	99	53	8	1061230921	1	132		0
-181	44	53	0	146	100	99	8	1061230921	1	132		0
-182	44	99	0	147	53	30	8	1061230921	1	132		0
-183	44	30	0	148	99	101	8	1061230921	1	132		0
-184	44	101	0	149	30	102	8	1061230921	1	132		0
-185	44	102	0	150	101	103	8	1061230921	1	132		0
-186	44	103	0	151	102	70	8	1061230921	1	132		0
-187	44	70	0	152	103	39	8	1061230921	1	132		0
-188	44	39	0	153	70	104	8	1061230921	1	132		0
-189	44	104	0	154	39	38	8	1061230921	1	132		0
-190	44	38	0	155	104	62	8	1061230921	1	132		0
-191	44	62	0	156	38	45	8	1061230921	1	132		0
-192	44	45	0	157	62	105	8	1061230921	1	132		0
-193	44	105	0	158	45	106	8	1061230921	1	132		0
-194	44	106	0	159	105	51	8	1061230921	1	132		0
-195	44	51	0	160	106	51	8	1061230921	1	132		0
-196	44	51	0	161	51	59	8	1061230921	1	132		0
-197	44	59	0	162	51	39	8	1061230921	1	132		0
-198	44	39	0	163	59	107	8	1061230921	1	132		0
-199	44	107	0	164	39	108	8	1061230921	1	132		0
-200	44	108	0	165	107	40	8	1061230921	1	132		0
-201	44	40	0	166	108	57	8	1061230921	1	132		0
-202	44	57	0	167	40	78	8	1061230921	1	132		0
-203	44	78	0	168	57	94	8	1061230921	1	132		0
-204	44	94	0	169	78	53	8	1061230921	1	132		0
-205	44	53	0	170	94	109	8	1061230921	1	132		0
-206	44	109	0	171	53	110	8	1061230921	1	132		0
-207	44	110	0	172	109	40	8	1061230921	1	132		0
-208	44	40	0	173	110	53	8	1061230921	1	132		0
-209	44	53	0	174	40	111	8	1061230921	1	132		0
-210	44	111	0	175	53	51	8	1061230921	1	132		0
-211	44	51	0	176	111	34	8	1061230921	1	132		0
-212	44	34	0	177	51	25	8	1061230921	1	132		0
-213	44	25	0	178	34	29	8	1061230921	1	132		0
-214	44	29	0	179	25	45	8	1061230921	1	132		0
-215	44	45	0	180	29	43	8	1061230921	1	132		0
-216	44	43	0	181	45	72	8	1061230921	1	132		0
-217	44	72	0	182	43	90	8	1061230921	1	132		0
-218	44	90	0	183	72	112	8	1061230921	1	132		0
-219	44	112	0	184	90	53	8	1061230921	1	132		0
-220	44	53	0	185	112	87	8	1061230921	1	132		0
-221	44	87	0	186	53	62	8	1061230921	1	132		0
-222	44	62	0	187	87	59	8	1061230921	1	132		0
-223	44	59	0	188	62	53	8	1061230921	1	132		0
-224	44	53	0	189	59	38	8	1061230921	1	132		0
-225	44	38	0	190	53	73	8	1061230921	1	132		0
-226	44	73	0	191	38	27	8	1061230921	1	132		0
-227	44	27	0	192	73	36	8	1061230921	1	132		0
-228	44	36	0	193	27	24	8	1061230921	1	132		0
-229	44	24	0	194	36	15	8	1061230921	1	132		0
-230	44	15	0	195	24	61	8	1061230921	1	132		0
-231	44	61	0	196	15	113	8	1061230921	1	132		0
-232	44	113	0	197	61	114	8	1061230921	1	132		0
-233	44	114	0	198	113	50	8	1061230921	1	132		0
-234	44	50	0	199	114	27	8	1061230921	1	132		0
-235	44	27	0	200	50	61	8	1061230921	1	132		0
-236	44	61	0	201	27	0	8	1061230921	1	132		0
-237	45	115	0	0	0	116	8	1061231015	1	129		0
-238	45	116	0	1	115	117	8	1061231015	1	129		0
-239	45	117	0	2	116	118	8	1061231015	1	129		0
-240	45	118	0	3	117	119	8	1061231015	1	129		0
-241	45	119	0	4	118	50	8	1061231015	1	130		0
-242	45	50	0	5	119	66	8	1061231015	1	131		0
-243	45	66	0	6	50	94	8	1061231015	1	131		0
-244	45	94	0	7	66	73	8	1061231015	1	131		0
-245	45	73	0	8	94	95	8	1061231015	1	131		0
-246	45	95	0	9	73	42	8	1061231015	1	131		0
-247	45	42	0	10	95	96	8	1061231015	1	131		0
-248	45	96	0	11	42	80	8	1061231015	1	131		0
-249	45	80	0	12	96	85	8	1061231015	1	131		0
-250	45	85	0	13	80	86	8	1061231015	1	131		0
-251	45	86	0	14	85	37	8	1061231015	1	131		0
-252	45	37	0	15	86	92	8	1061231015	1	131		0
-253	45	92	0	16	37	97	8	1061231015	1	131		0
-254	45	97	0	17	92	98	8	1061231015	1	131		0
-255	45	98	0	18	97	99	8	1061231015	1	131		0
-256	45	99	0	19	98	100	8	1061231015	1	131		0
-257	45	100	0	20	99	53	8	1061231015	1	131		0
-258	45	53	0	21	100	99	8	1061231015	1	131		0
-259	45	99	0	22	53	30	8	1061231015	1	131		0
-260	45	30	0	23	99	101	8	1061231015	1	131		0
-261	45	101	0	24	30	102	8	1061231015	1	131		0
-262	45	102	0	25	101	103	8	1061231015	1	131		0
-263	45	103	0	26	102	70	8	1061231015	1	131		0
-264	45	70	0	27	103	39	8	1061231015	1	131		0
-265	45	39	0	28	70	104	8	1061231015	1	131		0
-266	45	104	0	29	39	38	8	1061231015	1	131		0
-267	45	38	0	30	104	62	8	1061231015	1	131		0
-268	45	62	0	31	38	45	8	1061231015	1	131		0
-269	45	45	0	32	62	105	8	1061231015	1	131		0
-270	45	105	0	33	45	106	8	1061231015	1	131		0
-271	45	106	0	34	105	51	8	1061231015	1	131		0
-272	45	51	0	35	106	51	8	1061231015	1	131		0
-273	45	51	0	36	51	59	8	1061231015	1	131		0
-274	45	59	0	37	51	39	8	1061231015	1	131		0
-275	45	39	0	38	59	107	8	1061231015	1	131		0
-276	45	107	0	39	39	108	8	1061231015	1	131		0
-277	45	108	0	40	107	40	8	1061231015	1	131		0
-278	45	40	0	41	108	57	8	1061231015	1	131		0
-279	45	57	0	42	40	78	8	1061231015	1	131		0
-280	45	78	0	43	57	94	8	1061231015	1	131		0
-281	45	94	0	44	78	53	8	1061231015	1	131		0
-282	45	53	0	45	94	109	8	1061231015	1	131		0
-283	45	109	0	46	53	110	8	1061231015	1	131		0
-284	45	110	0	47	109	40	8	1061231015	1	131		0
-285	45	40	0	48	110	53	8	1061231015	1	131		0
-286	45	53	0	49	40	111	8	1061231015	1	131		0
-287	45	111	0	50	53	51	8	1061231015	1	131		0
-288	45	51	0	51	111	34	8	1061231015	1	131		0
-289	45	34	0	52	51	25	8	1061231015	1	131		0
-290	45	25	0	53	34	29	8	1061231015	1	131		0
-291	45	29	0	54	25	45	8	1061231015	1	131		0
-292	45	45	0	55	29	43	8	1061231015	1	131		0
-293	45	43	0	56	45	72	8	1061231015	1	131		0
-294	45	72	0	57	43	90	8	1061231015	1	131		0
-295	45	90	0	58	72	112	8	1061231015	1	131		0
-296	45	112	0	59	90	53	8	1061231015	1	131		0
-297	45	53	0	60	112	87	8	1061231015	1	131		0
-298	45	87	0	61	53	62	8	1061231015	1	131		0
-299	45	62	0	62	87	59	8	1061231015	1	131		0
-300	45	59	0	63	62	53	8	1061231015	1	131		0
-301	45	53	0	64	59	38	8	1061231015	1	131		0
-302	45	38	0	65	53	73	8	1061231015	1	131		0
-303	45	73	0	66	38	27	8	1061231015	1	131		0
-304	45	27	0	67	73	36	8	1061231015	1	131		0
-305	45	36	0	68	27	24	8	1061231015	1	131		0
-306	45	24	0	69	36	15	8	1061231015	1	131		0
-307	45	15	0	70	24	61	8	1061231015	1	131		0
-308	45	61	0	71	15	113	8	1061231015	1	131		0
-309	45	113	0	72	61	114	8	1061231015	1	131		0
-310	45	114	0	73	113	15	8	1061231015	1	131		0
-311	45	15	0	74	114	16	8	1061231015	1	132		0
-312	45	16	0	75	15	17	8	1061231015	1	132		0
-313	45	17	0	76	16	15	8	1061231015	1	132		0
-314	45	15	0	77	17	16	8	1061231015	1	132		0
-315	45	16	0	78	15	17	8	1061231015	1	132		0
-316	45	17	0	79	16	18	8	1061231015	1	132		0
-317	45	18	0	80	17	19	8	1061231015	1	132		0
-318	45	19	0	81	18	20	8	1061231015	1	132		0
-319	45	20	0	82	19	21	8	1061231015	1	132		0
-320	45	21	0	83	20	22	8	1061231015	1	132		0
-321	45	22	0	84	21	23	8	1061231015	1	132		0
-322	45	23	0	85	22	24	8	1061231015	1	132		0
-323	45	24	0	86	23	25	8	1061231015	1	132		0
-324	45	25	0	87	24	26	8	1061231015	1	132		0
-325	45	26	0	88	25	27	8	1061231015	1	132		0
-326	45	27	0	89	26	28	8	1061231015	1	132		0
-327	45	28	0	90	27	29	8	1061231015	1	132		0
-328	45	29	0	91	28	30	8	1061231015	1	132		0
-329	45	30	0	92	29	31	8	1061231015	1	132		0
-330	45	31	0	93	30	32	8	1061231015	1	132		0
-331	45	32	0	94	31	32	8	1061231015	1	132		0
-332	45	32	0	95	32	33	8	1061231015	1	132		0
-333	45	33	0	96	32	34	8	1061231015	1	132		0
-334	45	34	0	97	33	35	8	1061231015	1	132		0
-335	45	35	0	98	34	36	8	1061231015	1	132		0
-336	45	36	0	99	35	37	8	1061231015	1	132		0
-337	45	37	0	100	36	38	8	1061231015	1	132		0
-338	45	38	0	101	37	39	8	1061231015	1	132		0
-339	45	39	0	102	38	40	8	1061231015	1	132		0
-340	45	40	0	103	39	41	8	1061231015	1	132		0
-341	45	41	0	104	40	34	8	1061231015	1	132		0
-342	45	34	0	105	41	42	8	1061231015	1	132		0
-343	45	42	0	106	34	43	8	1061231015	1	132		0
-344	45	43	0	107	42	44	8	1061231015	1	132		0
-345	45	44	0	108	43	45	8	1061231015	1	132		0
-346	45	45	0	109	44	46	8	1061231015	1	132		0
-347	45	46	0	110	45	47	8	1061231015	1	132		0
-348	45	47	0	111	46	48	8	1061231015	1	132		0
-349	45	48	0	112	47	49	8	1061231015	1	132		0
-350	45	49	0	113	48	50	8	1061231015	1	132		0
-351	45	50	0	114	49	51	8	1061231015	1	132		0
-352	45	51	0	115	50	38	8	1061231015	1	132		0
-353	45	38	0	116	51	52	8	1061231015	1	132		0
-354	45	52	0	117	38	53	8	1061231015	1	132		0
-355	45	53	0	118	52	54	8	1061231015	1	132		0
-356	45	54	0	119	53	55	8	1061231015	1	132		0
-357	45	55	0	120	54	56	8	1061231015	1	132		0
-358	45	56	0	121	55	57	8	1061231015	1	132		0
-359	45	57	0	122	56	18	8	1061231015	1	132		0
-360	45	18	0	123	57	57	8	1061231015	1	132		0
-361	45	57	0	124	18	58	8	1061231015	1	132		0
-362	45	58	0	125	57	59	8	1061231015	1	132		0
-363	45	59	0	126	58	60	8	1061231015	1	132		0
-364	45	60	0	127	59	61	8	1061231015	1	132		0
-365	45	61	0	128	60	62	8	1061231015	1	132		0
-366	45	62	0	129	61	63	8	1061231015	1	132		0
-367	45	63	0	130	62	38	8	1061231015	1	132		0
-368	45	38	0	131	63	64	8	1061231015	1	132		0
-369	45	64	0	132	38	65	8	1061231015	1	132		0
-370	45	65	0	133	64	24	8	1061231015	1	132		0
-371	45	24	0	134	65	59	8	1061231015	1	132		0
-372	45	59	0	135	24	28	8	1061231015	1	132		0
-373	45	28	0	136	59	66	8	1061231015	1	132		0
-374	45	66	0	137	28	67	8	1061231015	1	132		0
-375	45	67	0	138	66	68	8	1061231015	1	132		0
-376	45	68	0	139	67	69	8	1061231015	1	132		0
-377	45	69	0	140	68	70	8	1061231015	1	132		0
-378	45	70	0	141	69	71	8	1061231015	1	132		0
-379	45	71	0	142	70	72	8	1061231015	1	132		0
-380	45	72	0	143	71	73	8	1061231015	1	132		0
-381	45	73	0	144	72	65	8	1061231015	1	132		0
-382	45	65	0	145	73	63	8	1061231015	1	132		0
-383	45	63	0	146	65	51	8	1061231015	1	132		0
-384	45	51	0	147	63	74	8	1061231015	1	132		0
-385	45	74	0	148	51	75	8	1061231015	1	132		0
-386	45	75	0	149	74	63	8	1061231015	1	132		0
-387	45	63	0	150	75	28	8	1061231015	1	132		0
-388	45	28	0	151	63	76	8	1061231015	1	132		0
-389	45	76	0	152	28	77	8	1061231015	1	132		0
-390	45	77	0	153	76	78	8	1061231015	1	132		0
-391	45	78	0	154	77	79	8	1061231015	1	132		0
-392	45	79	0	155	78	80	8	1061231015	1	132		0
-393	45	80	0	156	79	81	8	1061231015	1	132		0
-394	45	81	0	157	80	78	8	1061231015	1	132		0
-395	45	78	0	158	81	82	8	1061231015	1	132		0
-396	45	82	0	159	78	83	8	1061231015	1	132		0
-397	45	83	0	160	82	84	8	1061231015	1	132		0
-398	45	84	0	161	83	63	8	1061231015	1	132		0
-399	45	63	0	162	84	85	8	1061231015	1	132		0
-400	45	85	0	163	63	86	8	1061231015	1	132		0
-401	45	86	0	164	85	87	8	1061231015	1	132		0
-402	45	87	0	165	86	88	8	1061231015	1	132		0
-403	45	88	0	166	87	89	8	1061231015	1	132		0
-404	45	89	0	167	88	25	8	1061231015	1	132		0
-405	45	25	0	168	89	90	8	1061231015	1	132		0
-406	45	90	0	169	25	69	8	1061231015	1	132		0
-407	45	69	0	170	90	73	8	1061231015	1	132		0
-408	45	73	0	171	69	91	8	1061231015	1	132		0
-409	45	91	0	172	73	92	8	1061231015	1	132		0
-410	45	92	0	173	91	35	8	1061231015	1	132		0
-411	45	35	0	174	92	93	8	1061231015	1	132		0
-412	45	93	0	175	35	57	8	1061231015	1	132		0
-413	45	57	0	176	93	50	8	1061231015	1	132		0
-414	45	50	0	177	57	66	8	1061231015	1	132		0
-415	45	66	0	178	50	94	8	1061231015	1	132		0
-416	45	94	0	179	66	73	8	1061231015	1	132		0
-417	45	73	0	180	94	95	8	1061231015	1	132		0
-418	45	95	0	181	73	42	8	1061231015	1	132		0
-419	45	42	0	182	95	96	8	1061231015	1	132		0
-420	45	96	0	183	42	80	8	1061231015	1	132		0
-421	45	80	0	184	96	85	8	1061231015	1	132		0
-422	45	85	0	185	80	86	8	1061231015	1	132		0
-423	45	86	0	186	85	37	8	1061231015	1	132		0
-424	45	37	0	187	86	92	8	1061231015	1	132		0
-425	45	92	0	188	37	97	8	1061231015	1	132		0
-426	45	97	0	189	92	98	8	1061231015	1	132		0
-427	45	98	0	190	97	99	8	1061231015	1	132		0
-428	45	99	0	191	98	100	8	1061231015	1	132		0
-429	45	100	0	192	99	53	8	1061231015	1	132		0
-430	45	53	0	193	100	99	8	1061231015	1	132		0
-431	45	99	0	194	53	30	8	1061231015	1	132		0
-432	45	30	0	195	99	101	8	1061231015	1	132		0
-433	45	101	0	196	30	102	8	1061231015	1	132		0
-434	45	102	0	197	101	103	8	1061231015	1	132		0
-435	45	103	0	198	102	70	8	1061231015	1	132		0
-436	45	70	0	199	103	39	8	1061231015	1	132		0
-437	45	39	0	200	70	104	8	1061231015	1	132		0
-438	45	104	0	201	39	38	8	1061231015	1	132		0
-439	45	38	0	202	104	62	8	1061231015	1	132		0
-440	45	62	0	203	38	45	8	1061231015	1	132		0
-441	45	45	0	204	62	105	8	1061231015	1	132		0
-442	45	105	0	205	45	106	8	1061231015	1	132		0
-443	45	106	0	206	105	51	8	1061231015	1	132		0
-444	45	51	0	207	106	51	8	1061231015	1	132		0
-445	45	51	0	208	51	59	8	1061231015	1	132		0
-446	45	59	0	209	51	39	8	1061231015	1	132		0
-447	45	39	0	210	59	107	8	1061231015	1	132		0
-448	45	107	0	211	39	108	8	1061231015	1	132		0
-449	45	108	0	212	107	40	8	1061231015	1	132		0
-450	45	40	0	213	108	57	8	1061231015	1	132		0
-451	45	57	0	214	40	78	8	1061231015	1	132		0
-452	45	78	0	215	57	94	8	1061231015	1	132		0
-453	45	94	0	216	78	53	8	1061231015	1	132		0
-454	45	53	0	217	94	109	8	1061231015	1	132		0
-455	45	109	0	218	53	110	8	1061231015	1	132		0
-456	45	110	0	219	109	40	8	1061231015	1	132		0
-457	45	40	0	220	110	53	8	1061231015	1	132		0
-458	45	53	0	221	40	111	8	1061231015	1	132		0
-459	45	111	0	222	53	51	8	1061231015	1	132		0
-460	45	51	0	223	111	34	8	1061231015	1	132		0
-461	45	34	0	224	51	25	8	1061231015	1	132		0
-462	45	25	0	225	34	29	8	1061231015	1	132		0
-463	45	29	0	226	25	45	8	1061231015	1	132		0
-464	45	45	0	227	29	43	8	1061231015	1	132		0
-465	45	43	0	228	45	72	8	1061231015	1	132		0
-466	45	72	0	229	43	90	8	1061231015	1	132		0
-467	45	90	0	230	72	112	8	1061231015	1	132		0
-468	45	112	0	231	90	53	8	1061231015	1	132		0
-469	45	53	0	232	112	87	8	1061231015	1	132		0
-470	45	87	0	233	53	62	8	1061231015	1	132		0
-471	45	62	0	234	87	59	8	1061231015	1	132		0
-472	45	59	0	235	62	53	8	1061231015	1	132		0
-473	45	53	0	236	59	38	8	1061231015	1	132		0
-474	45	38	0	237	53	73	8	1061231015	1	132		0
-475	45	73	0	238	38	27	8	1061231015	1	132		0
-476	45	27	0	239	73	36	8	1061231015	1	132		0
-477	45	36	0	240	27	24	8	1061231015	1	132		0
-478	45	24	0	241	36	15	8	1061231015	1	132		0
-479	45	15	0	242	24	61	8	1061231015	1	132		0
-480	45	61	0	243	15	113	8	1061231015	1	132		0
-481	45	113	0	244	61	114	8	1061231015	1	132		0
-482	45	114	0	245	113	50	8	1061231015	1	132		0
-483	45	50	0	246	114	27	8	1061231015	1	132		0
-484	45	27	0	247	50	61	8	1061231015	1	132		0
-485	45	61	0	248	27	0	8	1061231015	1	132		0
-486	47	120	0	0	0	121	9	1061231361	1	135		0
-487	47	121	0	1	120	120	9	1061231361	1	136		0
-488	47	120	0	2	121	122	9	1061231361	1	136		0
-489	47	122	0	3	120	123	9	1061231361	1	137		0
-490	47	123	0	4	122	124	9	1061231361	1	137		0
-491	47	124	0	5	123	125	9	1061231361	1	138		0
-492	47	125	0	6	124	126	9	1061231361	1	138		0
-493	47	126	0	7	125	127	9	1061231361	1	139		0
-494	47	127	0	8	126	128	9	1061231361	1	139		0
-495	47	128	0	9	127	129	9	1061231361	1	139		0
-496	47	129	0	10	128	13	9	1061231361	1	139		0
-497	47	13	0	11	129	0	9	1061231361	1	139		0
-\.
+INSERT INTO ezsection VALUES (1, 'Standard section', 'nor-NO', 'ezcontentnavigationpart');
+INSERT INTO ezsection VALUES (2, 'Users', '', 'ezusernavigationpart');
+INSERT INTO ezsection VALUES (3, 'Media', '', 'ezmedianavigationpart');
 
 
 
@@ -3333,8 +3447,6 @@ COPY ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placem
 
 
 
-COPY ezsearch_return_count (id, phrase_id, "time", count) FROM stdin;
-\.
 
 
 
@@ -3342,8 +3454,6 @@ COPY ezsearch_return_count (id, phrase_id, "time", count) FROM stdin;
 
 
 
-COPY ezsearch_search_phrase (id, phrase) FROM stdin;
-\.
 
 
 
@@ -3351,133 +3461,6 @@ COPY ezsearch_search_phrase (id, phrase) FROM stdin;
 
 
 
-COPY ezsearch_word (id, word, object_count) FROM stdin;
-5	test	1
-6	media	1
-7	comics	1
-8	comic	2
-9	books	1
-10	food	1
-11	&	1
-12	drink	1
-13	book	2
-14	b01	1
-15	proin	2
-16	consectetuer	2
-17	lacus	2
-18	nec	2
-19	neque	2
-20	vivamus	2
-21	volutpat	2
-22	elit	2
-23	id	2
-24	purus	2
-25	nulla	2
-26	varius	2
-27	dictum	2
-28	est	2
-29	maecenas	2
-30	sapien	2
-31	pede	2
-32	mattis	2
-33	mollis	2
-34	in	2
-35	pulvinar	2
-36	a	2
-37	mi	2
-38	vestibulum	2
-39	ante	2
-40	ipsum	2
-41	primis	2
-42	faucibus	2
-43	orci	2
-44	luctus	2
-45	et	2
-46	ultrices	2
-47	posuere	2
-48	cubilia	2
-49	curae	2
-50	phasellus	2
-51	arcu	2
-52	justo	2
-53	sed	2
-54	rhoncus	2
-55	suspendisse	2
-56	quis	2
-57	turpis	2
-58	pretium	2
-59	scelerisque	2
-60	fusce	2
-61	dignissim	2
-62	metus	2
-63	ut	2
-64	rutrum	2
-65	risus	2
-66	eu	2
-67	venenatis	2
-68	velit	2
-69	magna	2
-70	ac	2
-71	quam	2
-72	morbi	2
-73	non	2
-74	eleifend	2
-75	consequat	2
-76	augue	2
-77	malesuada	2
-78	vitae	2
-79	porttitor	2
-80	pellentesque	2
-81	egestas	2
-82	nunc	2
-83	curabitur	2
-84	feugiat	2
-85	sit	2
-86	amet	2
-87	dui	2
-88	etiam	2
-89	fermentum	2
-90	ornare	2
-91	urna	2
-92	cras	2
-93	imperdiet	2
-94	felis	2
-95	diam	2
-96	viverra	2
-97	euismod	2
-98	leo	2
-99	vel	2
-100	libero	2
-101	mauris	2
-102	aliquam	2
-103	enim	2
-104	nam	2
-105	blandit	2
-106	vulputate	2
-107	at	2
-108	dapibus	2
-109	aliquet	2
-110	tempus	2
-111	facilisis	2
-112	massa	2
-113	semper	2
-114	odio	2
-115	wines	1
-116	of	1
-117	the	1
-118	world	1
-119	w01	1
-120	good	1
-121	5	1
-122	john	1
-123	doe	1
-124	anytown	1
-125	norway	1
-126	i	1
-127	really	1
-128	enjoy	1
-129	this	1
-\.
 
 
 
@@ -3485,11 +3468,6 @@ COPY ezsearch_word (id, word, object_count) FROM stdin;
 
 
 
-COPY ezsection (id, name, locale, navigation_part_identifier) FROM stdin;
-1	Standard section	nor-NO	ezcontentnavigationpart
-2	Users		ezusernavigationpart
-3	Media		ezmedianavigationpart
-\.
 
 
 
@@ -3497,8 +3475,6 @@ COPY ezsection (id, name, locale, navigation_part_identifier) FROM stdin;
 
 
 
-COPY ezsession (session_key, expiration_time, data) FROM stdin;
-\.
 
 
 
@@ -3506,8 +3482,20 @@ COPY ezsession (session_key, expiration_time, data) FROM stdin;
 
 
 
-COPY ezsubtree_notification_rule (id, address, use_digest, node_id) FROM stdin;
-\.
+INSERT INTO ezurlalias VALUES (12, '', 'd41d8cd98f00b204e9800998ecf8427e', 'content/view/full/2', 1, 0, 0);
+INSERT INTO ezurlalias VALUES (13, 'users', '9bc65c2abec141778ffaa729489f3e87', 'content/view/full/5', 1, 0, 0);
+INSERT INTO ezurlalias VALUES (14, 'users/anonymous_user', 'a37b7463e2c21098fa1a729dad4b4437', 'content/view/full/11', 1, 0, 0);
+INSERT INTO ezurlalias VALUES (15, 'users/guest_accounts', '02d4e844e3a660857a3f81585995ffe1', 'content/view/full/12', 1, 0, 0);
+INSERT INTO ezurlalias VALUES (16, 'users/administrator_users', '1b1d79c16700fd6003ea7be233e754ba', 'content/view/full/13', 1, 0, 0);
+INSERT INTO ezurlalias VALUES (17, 'users/editors', '0bb9dd665c96bbc1cf36b79180786dea', 'content/view/full/14', 1, 0, 0);
+INSERT INTO ezurlalias VALUES (18, 'users/administrator_users/administrator_user', 'f1305ac5f327a19b451d82719e0c3f5d', 'content/view/full/15', 1, 0, 0);
+INSERT INTO ezurlalias VALUES (19, 'users/guest_accounts/test_test', '27a1813763d43de613bf05c31df7a6ef', 'content/view/full/42', 1, 0, 0);
+INSERT INTO ezurlalias VALUES (20, 'media', '62933a2951ef01f4eafd9bdf4d3cd2f0', 'content/view/full/43', 1, 0, 0);
+INSERT INTO ezurlalias VALUES (21, 'comics', '51af637aed604c1d5376026ae625111e', 'content/view/full/44', 1, 0, 0);
+INSERT INTO ezurlalias VALUES (22, 'food_drink', '5f4233aa8721d1bf592b36c8015387bb', 'content/view/full/45', 1, 0, 0);
+INSERT INTO ezurlalias VALUES (23, 'comics/comic_book', '65f62b921d9507302127565c830cd81c', 'content/view/full/46', 1, 0, 0);
+INSERT INTO ezurlalias VALUES (24, 'food_drink/wines_of_the_world', '58389bc72c29368ecdcf1801cf879b9f', 'content/view/full/47', 1, 0, 0);
+INSERT INTO ezurlalias VALUES (25, 'food_drink/wines_of_the_world/good', '2ec43ec25f6492f6f5bc7129c785daf2', 'content/view/full/48', 1, 0, 0);
 
 
 
@@ -3515,8 +3503,9 @@ COPY ezsubtree_notification_rule (id, address, use_digest, node_id) FROM stdin;
 
 
 
-COPY eztrigger (id, name, module_name, function_name, connect_type, workflow_id) FROM stdin;
-\.
+INSERT INTO ezuser VALUES (10, 'anonymous', 'nospam@ez.no', 2, '4e6f6184135228ccd45f8233d72a0363');
+INSERT INTO ezuser VALUES (14, 'admin', 'nospam@ez.no', 2, 'c78e3b0f3d9244ed8c6d1c29464bdff9');
+INSERT INTO ezuser VALUES (40, 'test', 'test@test.com', 2, 'be778b473235e210cc577056226536a4');
 
 
 
@@ -3524,8 +3513,6 @@ COPY eztrigger (id, name, module_name, function_name, connect_type, workflow_id)
 
 
 
-COPY ezurl (id, url, created, modified, is_valid, last_checked, original_url_md5) FROM stdin;
-\.
 
 
 
@@ -3533,8 +3520,6 @@ COPY ezurl (id, url, created, modified, is_valid, last_checked, original_url_md5
 
 
 
-COPY ezurl_object_link (url_id, contentobject_attribute_id, contentobject_attribute_version) FROM stdin;
-\.
 
 
 
@@ -3542,22 +3527,10 @@ COPY ezurl_object_link (url_id, contentobject_attribute_id, contentobject_attrib
 
 
 
-COPY ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) FROM stdin;
-12		d41d8cd98f00b204e9800998ecf8427e	content/view/full/2	1	0	0
-13	users	9bc65c2abec141778ffaa729489f3e87	content/view/full/5	1	0	0
-14	users/anonymous_user	a37b7463e2c21098fa1a729dad4b4437	content/view/full/11	1	0	0
-15	users/guest_accounts	02d4e844e3a660857a3f81585995ffe1	content/view/full/12	1	0	0
-16	users/administrator_users	1b1d79c16700fd6003ea7be233e754ba	content/view/full/13	1	0	0
-17	users/editors	0bb9dd665c96bbc1cf36b79180786dea	content/view/full/14	1	0	0
-18	users/administrator_users/administrator_user	f1305ac5f327a19b451d82719e0c3f5d	content/view/full/15	1	0	0
-19	users/guest_accounts/test_test	27a1813763d43de613bf05c31df7a6ef	content/view/full/42	1	0	0
-20	media	62933a2951ef01f4eafd9bdf4d3cd2f0	content/view/full/43	1	0	0
-21	comics	51af637aed604c1d5376026ae625111e	content/view/full/44	1	0	0
-22	food_drink	5f4233aa8721d1bf592b36c8015387bb	content/view/full/45	1	0	0
-23	comics/comic_book	65f62b921d9507302127565c830cd81c	content/view/full/46	1	0	0
-24	food_drink/wines_of_the_world	58389bc72c29368ecdcf1801cf879b9f	content/view/full/47	1	0	0
-25	food_drink/wines_of_the_world/good	2ec43ec25f6492f6f5bc7129c785daf2	content/view/full/48	1	0	0
-\.
+INSERT INTO ezuser_role VALUES (29, 1, 10);
+INSERT INTO ezuser_role VALUES (25, 2, 12);
+INSERT INTO ezuser_role VALUES (30, 3, 13);
+INSERT INTO ezuser_role VALUES (28, 1, 11);
 
 
 
@@ -3565,11 +3538,10 @@ COPY ezurlalias (id, source_url, source_md5, destination_url, is_internal, forwa
 
 
 
-COPY ezuser (contentobject_id, login, email, password_hash_type, password_hash) FROM stdin;
-10	anonymous	nospam@ez.no	2	4e6f6184135228ccd45f8233d72a0363
-14	admin	nospam@ez.no	2	c78e3b0f3d9244ed8c6d1c29464bdff9
-40	test	test@test.com	2	be778b473235e210cc577056226536a4
-\.
+INSERT INTO ezuser_setting VALUES (10, 1, 1000);
+INSERT INTO ezuser_setting VALUES (14, 1, 10);
+INSERT INTO ezuser_setting VALUES (23, 1, 0);
+INSERT INTO ezuser_setting VALUES (40, 1, 0);
 
 
 
@@ -3577,8 +3549,7 @@ COPY ezuser (contentobject_id, login, email, password_hash_type, password_hash) 
 
 
 
-COPY ezuser_accountkey (id, user_id, hash_key, "time") FROM stdin;
-\.
+INSERT INTO ezvattype VALUES (1, 'Std', 0);
 
 
 
@@ -3586,8 +3557,6 @@ COPY ezuser_accountkey (id, user_id, hash_key, "time") FROM stdin;
 
 
 
-COPY ezuser_discountrule (id, discountrule_id, contentobject_id, name) FROM stdin;
-\.
 
 
 
@@ -3595,12 +3564,6 @@ COPY ezuser_discountrule (id, discountrule_id, contentobject_id, name) FROM stdi
 
 
 
-COPY ezuser_role (id, role_id, contentobject_id) FROM stdin;
-29	1	10
-25	2	12
-30	3	13
-28	1	11
-\.
 
 
 
@@ -3608,12 +3571,6 @@ COPY ezuser_role (id, role_id, contentobject_id) FROM stdin;
 
 
 
-COPY ezuser_setting (user_id, is_enabled, max_login) FROM stdin;
-10	1	1000
-14	1	10
-23	1	0
-40	1	0
-\.
 
 
 
@@ -3621,9 +3578,6 @@ COPY ezuser_setting (user_id, is_enabled, max_login) FROM stdin;
 
 
 
-COPY ezvattype (id, name, percentage) FROM stdin;
-1	Std	0
-\.
 
 
 
@@ -3631,8 +3585,6 @@ COPY ezvattype (id, name, percentage) FROM stdin;
 
 
 
-COPY ezwaituntildatevalue (id, workflow_event_id, workflow_event_version, contentclass_id, contentclass_attribute_id) FROM stdin;
-\.
 
 
 
@@ -3640,8 +3592,7 @@ COPY ezwaituntildatevalue (id, workflow_event_id, workflow_event_version, conten
 
 
 
-COPY ezwishlist (id, user_id, productcollection_id) FROM stdin;
-\.
+INSERT INTO ezworkflow_group VALUES (1, 'Standard', 14, 14, 1024392098, 1024392098);
 
 
 
@@ -3649,8 +3600,7 @@ COPY ezwishlist (id, user_id, productcollection_id) FROM stdin;
 
 
 
-COPY ezworkflow (id, "version", is_enabled, workflow_type_string, name, creator_id, modifier_id, created, modified) FROM stdin;
-\.
+INSERT INTO ezworkflow_group_link VALUES (1, 1, 0, 'Standard');
 
 
 
@@ -3658,8 +3608,6 @@ COPY ezworkflow (id, "version", is_enabled, workflow_type_string, name, creator_
 
 
 
-COPY ezworkflow_assign (id, workflow_id, node_id, access_type, as_tree) FROM stdin;
-\.
 
 
 
@@ -3667,48 +3615,8 @@ COPY ezworkflow_assign (id, workflow_id, node_id, access_type, as_tree) FROM std
 
 
 
-COPY ezworkflow_event (id, "version", workflow_id, workflow_type_string, description, data_int1, data_int2, data_int3, data_int4, data_text1, data_text2, data_text3, data_text4, placement) FROM stdin;
-\.
-
-
-
-
-
-
-
-COPY ezworkflow_group (id, name, creator_id, modifier_id, created, modified) FROM stdin;
-1	Standard	14	14	1024392098	1024392098
-\.
-
-
-
-
-
-
-
-COPY ezworkflow_group_link (workflow_id, group_id, workflow_version, group_name) FROM stdin;
-1	1	0	Standard
-\.
-
-
-
-
-
-
-
-COPY ezworkflow_process (id, process_key, workflow_id, user_id, content_id, content_version, node_id, session_key, event_id, event_position, last_event_id, last_event_position, last_event_status, event_status, created, modified, activation_date, event_state, status, parameters, memento_key) FROM stdin;
-\.
-
-
-
-
-
-
-
-COPY ezsite_data (name, value) FROM stdin;
-ezpublish-version	3.2
-ezpublish-release	2
-\.
+INSERT INTO ezsite_data VALUES ('ezpublish-version', '3.2');
+INSERT INTO ezsite_data VALUES ('ezpublish-release', '2');
 
 
 
