@@ -84,6 +84,8 @@ Changes from 3.4.0beta2 to 3.4.0
   twice.
 - Fixed Webdav's 'MOVE', the extension was not removed from the source before
   and thus could the source object never be found.
+- Fixed bug of missing i18n in shop/useregister.tpl
+  http://www.ez.no/community/bug_reports/i18n_not_found
 
 *Library:
 
