@@ -89,7 +89,6 @@ class eZContentObject extends eZPersistentObject
                                                       "contentobject_attributes" => "contentObjectAttributes",
                                                       "owner" => "owner",
                                                       "related_contentobject_array" => "relatedContentObjectArray",
-                                                      "children" => "children",
                                                       "can_read" => "canRead",
                                                       "can_create" => "canCreate",
                                                       "can_create_class_list" => "canCreateClassList",
@@ -124,7 +123,6 @@ class eZContentObject extends eZPersistentObject
              $attr == "can_edit" or
              $attr == "can_remove" or
              $attr == "data_map" or
-             $attr == "children" or
              $attr == "content_action_list"
              )
         {
@@ -154,8 +152,6 @@ class eZContentObject extends eZPersistentObject
                 return $this->relatedContentObjectArray();
             else if ( $attr == "content_action_list" )
                 return $this->contentActionList();
-            else if ( $attr == "children" )
-                return $this->children();
             else if ( $attr == "data_map" )
             {
                 return $this->dataMap();
