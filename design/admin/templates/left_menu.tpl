@@ -126,6 +126,14 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
+    <p class="menuitem"><a class="menuitem" href={"/content/translations/"|ezurl}>{"Translations"|i18n("design/standard/layout")}</a></p>
+    </td>
+</tr>
+<tr>
+    <td class="bullet" width="1">
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
+    </td>
+    <td class="menu" width="99%">
     <p class="menuitem"><a class="menuitem"  href={"/search/stats/"|ezurl}>{"Search stats"|i18n("design/standard/layout")}</a></p>
     </td>
 </tr>
