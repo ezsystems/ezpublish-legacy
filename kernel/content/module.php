@@ -238,6 +238,7 @@ $ViewList["tipafriend"] = array(
     "params" => array( "NodeID" ) );
 
 $ViewList["bookmark"] = array(
+    "functions" => array( 'bookmark' ),
     "default_navigation_part" => 'ezmynavigationpart',
     "script" => "bookmark.php",
     "params" => array(),
@@ -323,6 +324,8 @@ $Subtree = array(
             'value' => '3')
  */
 
+
+$FunctionList['bookmark'] = array();
 
 $FunctionList['read'] = array( 'Class' => $ClassID,
                                'Section' => $SectionID,
