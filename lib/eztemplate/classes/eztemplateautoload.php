@@ -62,8 +62,7 @@ $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
                                                                'insert',
                                                                'remove',
                                                                'replace',
-                                                               'unique',
-                                                               'sum'
+                                                               'unique'
                                                                ) );
 
 

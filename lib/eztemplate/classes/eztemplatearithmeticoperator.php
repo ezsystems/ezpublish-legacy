@@ -182,13 +182,13 @@ class eZTemplateArithmeticOperator
             } break;
             case $this->SumName:
             {
-                if ( count( $operatorParameters ) < 1 )
+                $value = 0;
+                if ( is_array( $operatorValue ) )
                 {
-                    $tpl->warning( $operatorName, "Requires at least 1 parameter value" );
-                    return;
+                    $array = $operatorValue;
+                    $value = array_sum( $array );
                 }
-                $value = $this->numericalValue( $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace ) );
-                for ( $i = 1; $i < count( $operatorParameters ); ++$i )
+                for ( $i = 0; $i < count( $operatorParameters ); ++$i )
                 {
                     $tmpValue =& $this->numericalValue( $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace ) );
                     $value += $tmpValue;
@@ -197,22 +197,21 @@ class eZTemplateArithmeticOperator
             } break;
             case $this->SubName:
             {
-                if ( count( $operatorParameters ) < 1 )
+                $values = array();
+                if ( is_array( $operatorValue ) )
+                    $values = array_values( $operatorValue );
+                for ( $i = 0; $i < count( $operatorParameters ); ++$i )
                 {
-                    $tpl->warning( $operatorName, "Requires at least 1 parameter value" );
-                    return;
+                    $values[] = $this->numericalValue( $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace ) );
                 }
-                $value = $this->numericalValue( $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace ) );
-                if ( count( $operatorParameters ) > 1 )
+                $value = 0;
+                if ( count( $values ) > 0 )
                 {
-                    for ( $i = 1; $i < count( $operatorParameters ); ++$i )
+                    for ( $i = 0; $i < count( $values ); ++$i )
                     {
-                        $tmpValue =& $this->numericalValue( $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace ) );
-                        $value -= $tmpValue;
+                        $value -= $values[$i];
                     }
                 }
-                else
-                    $value = -$value;
                 $operatorValue = $value;
             } break;
             case $this->IncName:

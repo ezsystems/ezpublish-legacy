@@ -79,8 +79,7 @@ class eZTemplateArrayOperator
                                       $insertName       = 'insert',
                                       $removeName       = 'remove',
                                       $replaceName      = 'replace',
-                                      $uniqueName       = 'unique',
-                                      $sumName          = 'sum' )
+                                      $uniqueName       = 'unique' )
     {
         $this->ArrayName        = $arrayName;
         $this->HashName         = $hashName;
@@ -105,7 +104,6 @@ class eZTemplateArrayOperator
         $this->RemoveName       = $removeName;
         $this->ReplaceName      = $replaceName;
         $this->UniqueName       = $uniqueName;
-        $this->SumName          = $sumName;
 
         $this->Operators = array( $arrayName,
                                   $hashName,
@@ -129,8 +127,7 @@ class eZTemplateArrayOperator
                                   $insertName,
                                   $removeName,
                                   $replaceName,
-                                  $uniqueName,
-                                  $sumName );
+                                  $uniqueName );
     }
 
     /*!
@@ -264,7 +261,6 @@ class eZTemplateArrayOperator
         if ( is_array( $operatorValue ) )
             $isArray = true;
 
-        // Are we operating on arrays?
         if ( $isArray )
         {
             switch( $operatorName )
@@ -498,12 +494,6 @@ class eZTemplateArrayOperator
                     $operatorValue = array_unique( $operatorValue );
                 }break;
 
-                // Calculate the sum of values in array:
-                case $this->SumName:
-                {
-                    $operatorValue = array_sum( $operatorValue );
-                }break;
-
                 // Default case:
                 default:
                 {
@@ -512,7 +502,6 @@ class eZTemplateArrayOperator
                 break;
             }
         }
-        // ..or are we operating on strings?
         else if ( is_string( $operatorValue ) )
         {
             switch( $operatorName )
@@ -663,12 +652,6 @@ class eZTemplateArrayOperator
 
                 // Not implemented.
                 case $this->UniqueName:
-                {
-                    $tpl->warning( $operatorName, "$operatorName works only with arrays." );
-                }break;
-
-                // Not implemented.
-                case $this->SumName:
                 {
                     $tpl->warning( $operatorName, "$operatorName works only with arrays." );
                 }break;

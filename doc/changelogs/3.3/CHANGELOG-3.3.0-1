@@ -28,6 +28,8 @@ Changes from 3.2-1 to 3.3.0-1
 - Changed the contentObjectAttributes function of eZContentObject to allow it to return unique attribute entries.
 - Made sure all attributes for new languages in objects are properly initialized (eg. for images)
 - Added support for class filter in treemenu operator.
+- Added support for controlling whether template override cache is to be used or not. If disabled
+  you don't need to clear the cache for new templates.
 
 *DataType:
 
@@ -46,6 +48,12 @@ eZImage
 *Setup:
 
 *Package system:
+
+*Bugs:
+- http://ez.no/developer/ez_publish_3/bug_reports/sum_operator
+  Removed the sum operator from the array operator collection. Implemented support
+  for summarizing arrays put as input value to the operator as well as parameters.
+  The sub operator was also fixed to work with arrays.
 
 *Templates:
 - created templates to override standard browse page when browsing in media folder.
