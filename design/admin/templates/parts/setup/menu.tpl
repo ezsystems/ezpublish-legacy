@@ -41,7 +41,7 @@
 <li><p>&#187; <a href={"/setup/rad/"|ezurl}>{"RAD"|i18n("design/admin/layout",'Rapid Application Development')}</a></li>
 <li><p>&#187; <a href={"/rss/list"|ezurl}>{"RSS"|i18n("design/admin/layout")}</a></li>
 <li><p>&#187; <a href={"/section/list/"|ezurl}>{"Sections"|i18n("design/admin/layout")}</a></li>
-<li><p>&#187; <a href={"/setup/session"|ezurl}>{"Session"|i18n("design/admin/layout")}</a></li>
+<li><p>&#187; <a href={"/setup/session"|ezurl}>{"Sessions"|i18n("design/admin/layout")}</a></li>
 <li><p>&#187; <a href={"/setup/systemupgrade"|ezurl}>{"System upgrade"|i18n("design/admin/layout")}</a></li>
 <li><p>&#187; <a href={"/setup/templatelist/"|ezurl}>{"Templates"|i18n("design/admin/layout")}</a></li>
 <li><p>&#187; <a href={"/content/translations/"|ezurl}>{"Translations"|i18n("design/admin/layout")}</a></li>
