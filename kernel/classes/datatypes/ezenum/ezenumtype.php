@@ -91,6 +91,16 @@ class eZEnumType extends eZDataType
     }
 
     /*!
+     Delete stored attribute
+    */
+    function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
+    {
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
+        eZEnumObjectValue::removeAllElements( $contentObjectAttributeID, $version );
+
+    }
+
+    /*!
      Fetches the http post var integer input and stores it in the data instance.
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )

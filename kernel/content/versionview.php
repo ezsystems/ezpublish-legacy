@@ -41,18 +41,18 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "kernel/common/template.php" );
 
 $tpl =& templateInit();
-
-$NodeID = $Params['NodeID'];
+$ObjectID = $Params["ObjectID"];
 $Module =& $Params['Module'];
 $LanguageCode = $Params['LanguageCode'];
 $EditVersion = $Params["EditVersion"];
 
-$Offset = $Params['Offset'];
-
-$node =& eZContentObjectTreeNode::fetch( $NodeID );
-$allObjects =& eZContentObject::fetch( $NodeID );
-$versionObject =& $allObjects->version( $EditVersion );
+$contentObject =& eZContentObject::fetch( $ObjectID );
+$versionObject =& $contentObject->version( $EditVersion );
 $versionAttributes = $versionObject->attributes();
+
+$NodeID = $contentObject->attribute( "main_node_id");
+$Offset = $Params['Offset'];
+$node =& eZContentObjectTreeNode::fetch( $NodeID );
 $object = $node->attribute( 'contentobject' );
 
 if ( $LanguageCode != "" )

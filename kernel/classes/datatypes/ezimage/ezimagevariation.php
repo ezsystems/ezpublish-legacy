@@ -105,6 +105,21 @@ class eZImageVariation extends eZPersistentObject
         }
     }
 
+    function &removeVariation( $id, $version )
+    {
+        if( $version == null )
+        {
+            eZPersistentObject::removeObject( eZImageVariation::definition(),
+                                              array( "contentobject_attribute_id" => $id ) );
+        }
+        else
+        {
+            eZPersistentObject::removeObject( eZImageVariation::definition(),
+                                              array( "contentobject_attribute_id" => $id,
+                                                     "version" => $version ) );
+        }
+    }
+
     function &requestVariation( $ezimageobj, $rwidth = 50, $rheight = 50 )
     {
 
@@ -112,7 +127,13 @@ class eZImageVariation extends eZPersistentObject
         $version = $ezimageobj->attribute( "version" );
         if( !(( $imagevariation =  eZImageVariation::fetchVariation( $contentobjectAttributeID, $version, $rwidth, $rheight ) ) === null) )
         {
-            return $imagevariation;
+            $variationFileName = $imagevariation->attribute( "filename" );
+            $fileName = $ezimageobj->attribute( "filename" );
+            $fileName = preg_replace('/\.(.*)$/', "", $fileName ) ;
+            if( preg_match( "/$fileName/", $variationFileName ) )
+                return $imagevariation;
+            else
+                $imagevariation->removeVariation( $contentobjectAttributeID, $version );
         }
 
         include_once( "lib/ezutils/classes/ezini.php" );

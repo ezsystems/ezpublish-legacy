@@ -264,7 +264,7 @@ if ( $inputValidated == true )
 {
     if ( $http->hasPostVariable( "PreviewButton" )  )
     {
-        $Module->redirectTo( $Module->functionURI( "versionview" ) . "/" .$object->attribute( "main_node_id" ) . "/" . $EditVersion . "/" );
+        $Module->redirectTo( $Module->functionURI( "versionview" ) . "/" . $ObjectID . "/" .  $EditVersion . "/" );
         return;
     }
 
@@ -314,7 +314,7 @@ if ( $inputValidated == true )
 
         $node = eZContentObjectTreeNode::fetch( $object->attribute( "main_node_id" ) );
         $nodePath =  $node->attribute( 'path' );
-        $rootNodeForObject = $nodePath[0];  
+        $rootNodeForObject = $nodePath[0];
         $NodeID = $rootNodeForObject->attribute( 'node_id' );
         $Module->redirectTo( $Module->functionURI( "browse" ) . "/" . $NodeID . "/" . $ObjectID . "/" . $EditVersion );
         return;
@@ -377,7 +377,6 @@ $res->setKeys( array( array( "object", $object->attribute( "id" ) ), // Object I
                       array( "section", 0 ) ) ); // Section ID, 0 so far
 
 $tpl->setVariable( "edit_version", $EditVersion );
-
 $tpl->setVariable( "http", $http );
 $tpl->setVariable( "content_attributes", $contentObjectAttributes );
 //$tpl->setVariable( "children", $children );

@@ -121,6 +121,21 @@ class eZBinaryFile extends eZPersistentObject
                                                 $as_object );
     }
 
+    function &remove( $id, $version )
+    {
+        if( $version == null )
+        {
+            eZPersistentObject::removeObject( eZBinaryFile::definition(),
+                                              array( "contentobject_attribute_id" => $id ) );
+        }
+        else
+        {
+            eZPersistentObject::removeObject( eZBinaryFile::definition(),
+                                              array( "contentobject_attribute_id" => $id,
+                                                     "version" => $version ) );
+        }
+    }
+
     var $ContentObjectAttributeID;
     var $Filename;
     var $OriginalFilename;

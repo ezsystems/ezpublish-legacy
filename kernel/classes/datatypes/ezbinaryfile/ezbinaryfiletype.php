@@ -81,6 +81,15 @@ class eZBinaryFileType extends eZDataType
     }
 
     /*!
+     Delete stored attribute
+    */
+    function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
+    {
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
+        eZBinaryFile::remove( $contentObjectAttributeID, $version );
+    }
+
+    /*!
      Validates the input and returns true if the input was
      valid for this datatype.
     */

@@ -82,9 +82,17 @@ class eZEnumObjectValue extends eZPersistentObject
 
     function &removeAllElements( $contentObjectAttributeID, $contentObjectAttributeVersion )
     {
-        eZPersistentObject::removeObject( eZEnumObjectValue::definition(),
-                                          array( "contentobject_attribute_id" => $contentObjectAttributeID,
-                                                 "contentobject_attribute_version" => $contentObjectAttributeVersion ) );
+        if( $contentObjectAttributeVersion == null )
+        {
+            eZPersistentObject::removeObject( eZEnumObjectValue::definition(),
+                                              array( "contentobject_attribute_id" => $contentObjectAttributeID ) );
+        }
+        else
+        {
+            eZPersistentObject::removeObject( eZEnumObjectValue::definition(),
+                                              array( "contentobject_attribute_id" => $contentObjectAttributeID,
+                                                     "contentobject_attribute_version" => $contentObjectAttributeVersion ) );
+        }
     }
 
     function &remove( $contentObjectAttributeID, $contentObjectAttributeVersion, $enumid )

@@ -53,7 +53,7 @@ $ViewList["view"] = array(
 $ViewList["versionview"] = array(
     "functions" => array( 'read' ),
     "script" => "versionview.php",
-    "params" => array( "NodeID", "EditVersion", "LanguageCode" ),
+    "params" => array( "ObjectID", "EditVersion", "LanguageCode" ),
     "unordered_params" => array( "language" => "Language",
                                  "offset" => "Offset" ) );
 

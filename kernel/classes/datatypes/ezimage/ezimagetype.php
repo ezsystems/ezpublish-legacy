@@ -44,6 +44,8 @@
 include_once( "kernel/classes/ezdatatype.php" );
 include_once( "kernel/classes/datatypes/ezimage/ezimage.php" );
 include_once( "lib/ezutils/classes/ezfile.php" );
+include_once( "lib/ezutils/classes/ezhttpfile.php" );
+include_once( "lib/ezutils/classes/ezdir.php" );
 
 define( "EZ_DATATYPESTRING_IMAGE", "ezimage" );
 
@@ -72,13 +74,73 @@ class eZImageType extends eZDataType
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
         $version = $contentObjectAttribute->attribute( "version" );
         $oldimage =& eZImage::fetch( $contentObjectAttributeID, $currentVersion );
-        if( $oldimage !== null )
+        if( $oldimage != null )
         {
             $oldimage->setAttribute( "version",  $version );
             $oldimage->store();
         }
     }
 
+    /*!
+     Delete stored attribute
+    */
+    function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
+    {
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
+        $orig_dir = "var/storage/original/image";
+        $ref_dir =  "var/storage/reference/image";
+        $vari_dir = "var/storage/variations/image";
+        $images =& eZImage::fetch( $contentObjectAttributeID );
+        if( $version == null )
+        {
+            foreach ( $images as $image )
+            {
+                $fileName = $image->attribute( "filename" );
+                $variationFileName = preg_replace('/\.(.*)$/', "", $fileName ) ;
+                $additionalPath = eZDir::getPathFromFilename( $fileName );
+                if( file_exists( $orig_dir . "/" .$fileName ) )
+                    unlink( $orig_dir . "/" . $fileName );
+                if( file_exists( $ref_dir . "/" . $fileName ) )
+                    unlink( $ref_dir . "/" . $fileName );
+                $dir = opendir(  $vari_dir . "/" . $additionalPath );
+                while ( $file = readdir($dir))
+                {
+                    if( preg_match( "/$variationFileName/", $file ) )
+                         unlink( $vari_dir . "/" . $additionalPath . $file );
+                }
+            }
+        }
+        else
+        {
+            $count = 0;
+            $currentImage =& eZImage::fetch( $contentObjectAttributeID, $version );
+            $currentFileName = $currentImage->attribute( "filename" );
+            foreach ( $images as $image )
+            {
+                $fileName = $image->attribute( "filename" );
+                if( $currentFileName == $fileName )
+                     $count += 1;
+            }
+            if( $count == 1 )
+            {
+                $variationFileName = preg_replace('/\.(.*)$/', "", $currentFileName ) ;
+                $additionalPath = eZDir::getPathFromFilename( $currentFileName );
+                if( file_exists( $orig_dir . "/" . $currentFileName ) )
+                    unlink( $orig_dir . "/" .  $currentFileName );
+                if( file_exists( $ref_dir . "/" .  $currentFileName ) )
+                    unlink( $ref_dir . "/" .  $currentFileName );
+                $dir = opendir(  $vari_dir . "/" . $additionalPath );
+                while ( $file = readdir($dir))
+                {
+                    if( preg_match( "/$variationFileName/", $file ) )
+                         unlink( $vari_dir . "/" . $additionalPath . $file );
+                }
+            }
+        }
+        eZImage::remove( $contentObjectAttributeID, $version );
+        eZImageVariation::removeVariation( $contentObjectAttributeID, $version );
+
+    }
     /*!
      Validates the input and returns true if the input was
      valid for this datatype.
@@ -93,8 +155,6 @@ class eZImageType extends eZDataType
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        include_once( "lib/ezutils/classes/ezhttpfile.php" );
-
         if ( !eZHTTPFile::canFetch( $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" ) ) )
             return false;
 
@@ -132,7 +192,7 @@ class eZImageType extends eZDataType
             $orig_dir = $imageFile->storageDir( "original" );
             $ref_dir = $imageFile->storageDir( "reference" );
             eZDebug::writeNotice( "dir=$ref_dir" );
-
+/*
             if ( $image->attribute( "filename" ) != "" and
                  file_exists( $orig_dir . "/" . $image->attribute( "filename" ) ) )
             {
@@ -143,6 +203,7 @@ class eZImageType extends eZDataType
             {
                 unlink( $ref_dir . "/" . $image->attribute( "filename" ) );
             }
+*/
 
             $image->setAttribute( "contentobject_attribute_id", $contentObjectAttributeID );
             $image->setAttribute( "version", $version );

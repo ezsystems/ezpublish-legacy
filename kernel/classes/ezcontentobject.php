@@ -302,6 +302,19 @@ class eZContentObject extends eZPersistentObject
     {
         $db =& eZDB::instance();
 
+        // Delete stored attribute from other tables
+        $contentobjectAttributes =& $this->allContentObjectAttributes( $this->ID );
+        foreach (  $contentobjectAttributes as $contentobjectAttribute )
+        {
+            $contentobjectAttributeVersion = $contentobjectAttribute->attribute("version");
+            if( $contentobjectAttributeVersion > $version )
+            {
+                $classAttribute =& $contentobjectAttribute->contentClassAttribute();
+                $dataType =& $classAttribute->dataType();
+                $dataType->deleteStoredObjectAttribute( $contentobjectAttribute, $contentobjectAttributeVersion );
+            }
+        }
+
         $db->query( "DELETE FROM ezcontentobject_attribute
                                               WHERE contentobject_id='$this->ID' AND version>'$version'" );
 
@@ -346,6 +359,15 @@ class eZContentObject extends eZPersistentObject
 
         $db =& eZDB::instance();
 
+        // Delete stored attribute from other tables
+        $contentobjectAttributes =& $contentobject->allContentObjectAttributes( $delID );
+        foreach (  $contentobjectAttributes as $contentobjectAttribute )
+        {
+            $classAttribute =& $contentobjectAttribute->contentClassAttribute();
+            $dataType =& $classAttribute->dataType();
+            $dataType->deleteStoredObjectAttribute( $contentobjectAttribute );
+        }
+
         $db->query( "DELETE FROM ezcontentobject_attribute
                      WHERE contentobject_id='$delID'" );
 
@@ -354,6 +376,19 @@ class eZContentObject extends eZPersistentObject
 
         $db->query( "DELETE FROM ezcontentobject
                      WHERE id='$delID'" );
+    }
+
+    /*
+     Fetch all attributes of all versions belongs to a contentObject.
+    */
+    function &allContentObjectAttributes( $contentObjectID, $as_object = true )
+    {
+        return eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
+                                                    null,
+                                                    array("contentobject_id" => $contentObjectID ),
+                                                    null,
+                                                    null,
+                                                    $as_object );
     }
 
     /*!

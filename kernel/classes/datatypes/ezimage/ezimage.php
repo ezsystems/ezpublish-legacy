@@ -110,7 +110,6 @@ class eZImage extends eZPersistentObject
                 {
                     $img_variation =& $GLOBALS[$cacheString];
                 }
-
                 return $img_variation;
             }break;
             case "large":
@@ -151,13 +150,40 @@ class eZImage extends eZPersistentObject
         return new eZImage( $row );
     }
 
-    function &fetch( $id, $version, $as_object = true )
+    function &fetch( $id, $version = null, $as_object = true )
     {
-        return eZPersistentObject::fetchObject( eZImage::definition(),
-                                                null,
-                                                array( "contentobject_attribute_id" => $id,
-                                                       "version" => $version ),
-                                                $as_object );
+        if( $version == null )
+        {
+            return eZPersistentObject::fetchObjectList( eZImage::definition(),
+                                                        null,
+                                                        array( "contentobject_attribute_id" => $id ),
+                                                        null,
+                                                        null,
+                                                        $as_object );
+        }
+        else
+        {
+            return eZPersistentObject::fetchObject( eZImage::definition(),
+                                                    null,
+                                                    array( "contentobject_attribute_id" => $id,
+                                                           "version" => $version ),
+                                                    $as_object );
+        }
+    }
+
+    function &remove( $id, $version )
+    {
+        if( $version == null )
+        {
+            eZPersistentObject::removeObject( eZImage::definition(),
+                                              array( "contentobject_attribute_id" => $id ) );
+        }
+        else
+        {
+            eZPersistentObject::removeObject( eZImage::definition(),
+                                              array( "contentobject_attribute_id" => $id,
+                                                     "version" => $version ) );
+        }
     }
 
     var $Version;

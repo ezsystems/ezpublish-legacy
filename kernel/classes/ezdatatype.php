@@ -295,7 +295,15 @@ class eZDataType
      Initializes the object attribute with some data.
      \note Default implementation does nothing.
     */
-    function initializeObjectAttribute( &$objectAttribute, $currentAttributeID = null, $currentVersion = null )
+    function initializeObjectAttribute( &$objectAttribute, $currentVersion = null )
+    {
+    }
+
+    /*!
+     Clean up stored object attribute
+     \note Default implementation does nothing.
+    */
+    function deleteStoredObjectAttribute( &$objectAttribute, $version = null )
     {
     }
 
