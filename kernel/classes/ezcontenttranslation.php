@@ -155,7 +155,6 @@ class eZContentTranslation extends eZPersistentObject
             if ( $translationArray[$key]['locale'] == $defaultLanguage )
             {
                 $foundDefaultLanguage = true;
-                break;
             }
         }
         if ( !$foundDefaultLanguage )

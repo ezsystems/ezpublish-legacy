@@ -8,16 +8,16 @@
     {section name=UnvalidatedAttribute loop=$validation.attributes show=$validation.attributes}
 
     <div class="warning">
-    <h2>{"Input did not validate"|i18n("design/standard/content/translate")}</h2>
+    <h2>{"Input did not validate"|i18n("design/standard/content/edit")}</h2>
     <ul>
-    	<li>{$UnvalidatedAttribute:item.identifier}: {$UnvalidatedAttribute:item.name} ({$UnvalidatedAttribute:item.id})</li>
+    	<li>{$:item.name}: {$:item.description}</li>
     </ul>
     </div>
 
     {section-else}
 
     <div class="feedback">
-    <h2>{$validation.locale.intl_language_name} {"input was stored successfully"|i18n("design/standard/content/translate")}</h2>
+    <h2>{"%1 input was stored successfully"|i18n("design/standard/content/translate",,array($validation.locale.intl_language_name))}</h2>
     </div>
 
     {/section}

@@ -1536,7 +1536,7 @@ class eZContentObject extends eZPersistentObject
         $translationList =& $GLOBALS['eZContentTranslationStringList'];
         if ( isset( $translationList ) )
             return $translationList;
-        $translationList =& eZContentTranslation::fetchLocaleList();
+        $translationList = eZContentTranslation::fetchLocaleList();
 /*
         $ini =& eZINI::instance();
         $translationList = $ini->variableArray( 'ContentSettings', 'TranslationList' );

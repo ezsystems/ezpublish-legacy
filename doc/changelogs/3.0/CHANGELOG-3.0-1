@@ -28,6 +28,8 @@ links to clickable links.
 - Made sure only one warning block is shown for input and locations.
 - Locations can now be removed even if it's a main location.
 - User email can now be changed after the user has been created.
+- Translations of objects is fixed, a list of available translation
+  languages will now be present.
 
 *SDK :
 

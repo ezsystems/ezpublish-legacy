@@ -198,6 +198,7 @@ if ( $activeTranslation )
                     $inputValidated = false;
                     $unvalidatedAttributes[] = array( 'identifier' => $contentClassAttribute->attribute( 'identifier' ),
                                                       'name' => $contentClassAttribute->attribute( 'name' ),
+                                                      'description' => $contentObjectAttribute->attribute( 'validation_log' ),
                                                       'id' => $contentObjectAttribute->attribute( 'id' ) );
                 }
                 else
