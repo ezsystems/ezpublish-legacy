@@ -57,7 +57,8 @@ class eZHTTPTool
     */
     function eZHTTPTool()
     {
-		$magicQuote = get_magic_quotes_gpc();
+        $this->UseFullUrl = false;
+        $magicQuote = get_magic_quotes_gpc();
 
 		if ( $magicQuote == 1 )
 		{
