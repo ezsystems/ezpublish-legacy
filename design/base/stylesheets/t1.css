@@ -1282,3 +1282,22 @@ div.shop-basket table td.product-subtotal, div.shop-confirmorder table td.produc
     border-bottom: 1px solid #9cf;
 }
 
+
+
+/* rendered table */
+table.renderedtable td
+{ 
+    margin: 0px;
+    padding-top: 3px;
+    padding-left: 3px;
+    padding-bottom: 3px;
+    padding-right: 3px;
+    border-top: 1px solid #369;
+    border-left: 1px solid #369;
+}
+
+table.renderedtable
+{ 
+    border-right: 1px solid #369;
+    border-bottom: 1px solid #369;
+}
