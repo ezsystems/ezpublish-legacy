@@ -141,7 +141,7 @@ class eZContentFunctionCollection
     function &fetchClass( $classID )
     {
         include_once( 'kernel/classes/ezcontentclass.php' );
-        if ( is_string( $classID ) )
+        if ( !is_numeric( $classID ) )
             $object =& eZContentClass::fetchByIdentifier( $classID );
         else
             $object =& eZContentClass::fetch( $classID );
@@ -789,7 +789,7 @@ class eZContentFunctionCollection
     {
         if ( get_class( $contentObject ) == 'ezcontentobjecttreenode' )
             $contentObject =& $contentObject->attribute( 'object' );
-        if ( is_string( $contentClassID ) )
+        if ( !is_numeric( $contentClassID ) )
         {
             $class =& eZContentClass::fetchByIdentifier( $contentClassID );
             if ( !$class )
