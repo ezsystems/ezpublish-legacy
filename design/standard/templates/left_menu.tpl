@@ -95,6 +95,14 @@
     <p class="menuitem"><a class="menuitem" href={"/workflow/grouplist/"|ezurl}>Workflows</a></p>
     </td>
 </tr>
+<tr>
+    <td class="bullet" width="1">
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
+    </td>
+    <td class="menu" width="99%">
+    <p class="menuitem"><a class="menuitem" href={"/trigger/list/"|ezurl}>Triggers</a></p>
+    </td>
+</tr>
 </table>
 
 <table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">

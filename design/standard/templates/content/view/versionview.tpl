@@ -1,41 +1,14 @@
 <form method="post" action={concat("content/versionview/",$object.id,"/",$object_version,"/",$language|not|choose(array($language,"/"),""))|ezurl}>
 
-    <table width="100%">
-    {section name=ContentObjectAttribute loop=$version_attributes}
-    <tr>
-      <td>
-      <b>{$ContentObjectAttribute:item.contentclass_attribute.name}</b><br />
-      {attribute_view_gui attribute=$ContentObjectAttribute:item}
-      </td>
-    </tr>
-    {/section}
-    </table>
-
-    <h2>Related objects</h2>
-    <table width="100%" cellspacing="0">
-    {section name=Related loop=$related_contentobject_array show=$related_contentobject_array sequence=array(bglight,bgdark)}
-    <tr>
-      <td class="{$Related:sequence}">
-      {content_view_gui view=text_linked content_object=$Related:item}
-      </td>
-    </tr>
-    {section-else}
-    <tr>
-      <td class="bglight">
-      None
-      </td>
-    </tr>
-    {/section}
-    </table>
 
 
 {section show=$assignment}
   {node_view_gui view=full with_children=false() is_editable=false() is_standalone=false() content_object=$object node_name=$object.name content_node=$assignment.temp_node}
 {/section}
+1111
 
 <div class="block">
 {section show=$version.language_list|gt(1)}
-
 <div class="element">
 <label>Translation:</label><div class="labelbreak"></div>
   
@@ -47,7 +20,6 @@
 </div>
 
 {/section}
-
 {let name=Placement node_assignment_list=$version.node_assignments}
 {section show=$Placement:node_assignment_list|gt(1)}
 
