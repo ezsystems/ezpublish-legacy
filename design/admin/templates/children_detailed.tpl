@@ -14,10 +14,10 @@
         <th class="class">{'Type'|i18n( 'design/admin/node/view/full' )}</th>
 
         {* Modifier column *}
-        <th class="creator">{'Modifier'|i18n( 'design/admin/node/view/full' )}</th>
+        <th class="modifier">{'Modifier'|i18n( 'design/admin/node/view/full' )}</th>
 
         {* Modified column *}
-        <th class="creator">{'Modified'|i18n( 'design/admin/node/view/full' )}</th>
+        <th class="modified">{'Modified'|i18n( 'design/admin/node/view/full' )}</th>
 
         {* Section column *}
         <th class="section">{'Section'|i18n( 'design/admin/node/view/full' )}</th>
@@ -65,10 +65,10 @@
         <td>{$Nodes.item.class_name|wash}</td>
 
         {* Modifier *}
-        <td><a href={$node.object.current.creator.main_node.url_alias|ezurl}>{$Nodes.item.object.current.creator.name|wash}</a></td>
+        <td class="modifier"><a href={$node.object.current.creator.main_node.url_alias|ezurl}>{$Nodes.item.object.current.creator.name|wash}</a></td>
 
         {* Modified *}
-        <td>{$Nodes.item.object.modified|l10n( shortdatetime )}</td>
+        <td class="modified">{$Nodes.item.object.modified|l10n( shortdatetime )}</td>
 
         {* Section *}
         <td>{fetch( section, object, hash( section_id, $Nodes.item.object.section_id ) ).name|wash}</td>
@@ -77,10 +77,10 @@
         {section show=eq( $node.sort_array[0][0], 'priority' )}
             <td>
             {section show=$node.can_edit}
-                <input type="text" name="Priority[]" size="3" value="{$Nodes.item.priority}" title="{'Use the priority fields to control the order in which the items appear. Use positive and negative integers. Click the "Update priorities" button to apply the changes.'|i18n( 'design/admin/node/view/full' )|wash}" />
+                <input class="priority" type="text" name="Priority[]" size="3" value="{$Nodes.item.priority}" title="{'Use the priority fields to control the order in which the items appear. Use positive and negative integers. Click the "Update priorities" button to apply the changes.'|i18n( 'design/admin/node/view/full' )|wash}" />
                 <input type="hidden" name="PriorityID[]" value="{$Nodes.item.node_id}" />
                 {section-else}
-                <input type="text" name="Priority[]" size="3" value="{$Nodes.item.priority}" title="{'You are not allowed to update the priorities because you do not have permissions to edit <%node_name>.'|i18n( 'design/admin/node/view/full',, hash( '%node_name', $node_name ) )|wash}" disabled="disabled" />
+                <input class="priority" type="text" name="Priority[]" size="3" value="{$Nodes.item.priority}" title="{'You are not allowed to update the priorities because you do not have permissions to edit <%node_name>.'|i18n( 'design/admin/node/view/full',, hash( '%node_name', $node_name ) )|wash}" disabled="disabled" />
             {/section}
             </td>
         {/section}

@@ -729,6 +729,19 @@ div.content-navigation div.mainobject-window
     overflow: auto;
 }
 
+div#maincontent div.content-translation div.block div.original
+{
+    background-color: #ecece4;
+    margin: 0.5em 0 0.5em 0;
+    padding: 0.2em;
+    border: 1px dashed #bfbeb6;
+}
+
+div.content-translation div.translation
+{
+    margin: 0.5em 0 0.5em 0;
+}
+
 div.menu-block
 {
     padding: 0.5em 0 0 0;
@@ -1207,6 +1220,11 @@ table.list th.icon, table.list td.icon, table.list th.class, table.list td.class
     width: 1%;
 }
 
+table.list td.modifier, table.list td.modified
+{
+    white-space: nowrap;
+}
+
 table.list-thumbnails
 {
     width: 100%;
@@ -1254,6 +1272,11 @@ tr.bgdark input.linkbox
 {
     border: 1px dashed #bfbeb6;
     background-color: #f4f4ec;
+}
+
+table.list input.priority
+{
+    width: 2em;
 }
 
 /* -- Frederiks popupmenu horrorshow */
@@ -1356,19 +1379,6 @@ span.required
 {
     font-style: italic;
     font-weight: normal;
-}
-
-div#maincontent div.content-translation div.block div.original
-{
-    background-color: #ecece4;
-    margin: 0.5em 0 0.5em 0;
-    padding: 0.2em;
-    border: 1px dashed #bfbeb6;
-}
-
-div.content-translation div.translation
-{
-    margin: 0.5em 0 0.5em 0;
 }
 
 /* th[eZ] */
