@@ -13,7 +13,7 @@
 <table class="mainlayout" width="700" border="0" cellpadding="0" cellspacing="0">
 <tr> 
     <td width="100%">
-        <a href={"/content/view/full/24/"|ezurl}><img src={"news_top.gif"|ezimage} width="700" height="67" border="0" /></a>
+        <a href={"/content/view/full/2/"|ezurl}><img src={"news_top.gif"|ezimage} width="700" height="67" border="0" /></a>
     </td>
 </tr>
 <tr> 
