@@ -660,7 +660,7 @@ class eZTemplateArrayOperator
                     {
                         if ( $isString )
                         {
-                            $result = explode( $inParam, $matchParam );
+                            $result = explode( $matchParam, $inParam );
                         }
                         else if( $isArray )
                         {
@@ -679,7 +679,7 @@ class eZTemplateArrayOperator
 
                 if ( $isString )
                 {
-                    $code = '%output% = explode( ' . $inParamCode . ', ' . $matchParamCode . ' );';
+                    $code = '%output% = explode( ' . $matchParamCode . ', ' . $inParamCode . ' );';
                 }
                 else if ( $isArray )
                 {
@@ -689,7 +689,7 @@ class eZTemplateArrayOperator
                 {
                     $code = 'if( is_string( ' . $inParamCode . ' ) )' . "\n" .
                          '{' . "\n" .
-                         '  %output% = explode( ' . $inParamCode . ', ' . $matchParamCode . ' );' . "\n" .
+                         '  %output% = explode( ' . $matchParamCode . ', ' . $inParamCode . ' );' . "\n" .
                          '}' . "\n" .
                          'else if ( is_array( ' . $inParamCode . ' ) )' . "\n" .
                          '{' . "\n" .

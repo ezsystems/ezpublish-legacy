@@ -92,6 +92,14 @@ class eZTestProcessedTemplateOperator extends eZTestCase
                                                 'generate' => true,
                                                 'compilation-directory' => 'tests/eztemplate/compilation' ) );
 
+        preg_match( "/^(.+).tpl/", $templateFile, $matches );
+        $phpFile = $matches[1] . '.php';
+
+        if ( file_exists( $phpFile ) )
+        {
+            include( $phpFile );
+        }
+
         $actual = $tpl->fetch( $templateFile );
 
         $actualFileName = str_replace( '.tpl', '.pout', $templateFile );

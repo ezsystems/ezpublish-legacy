@@ -2219,8 +2219,9 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
                         $php->addCodePiece( "\$resourceFound = false;\n", array( 'spacing' => $spacing ) );
                         $phpScript = $resourceMap[0]['phpscript'];
                         $phpScriptText = $php->variableText( $phpScript, 0 );
-                        if ( $resourceIndex > 0 )
-                            $php->addCodePiece( "else " );
+                        // Not sure where this should come from
+//                         if ( $resourceIndex > 0 )
+//                             $php->addCodePiece( "else " );
                         $php->addCodePiece( "if ( file_exists( $phpScriptText ) )\n{\n", array( 'spacing' => $spacing ) );
 
                         $code = "\$resourceFound = true;\n\$namespaceStack[] = array( \$rootNamespace, \$currentNamespace );\n";

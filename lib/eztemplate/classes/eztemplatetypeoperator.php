@@ -265,10 +265,11 @@ class eZTemplateTypeOperator
 
             case $this->IsClassName:
             {
-                return false;
+                $code .= '( get_class( %1% ) == strtolower( %2% ) );';
+                $values[] = $parameters[1];
             } break;
 
-            case $this->IsNumericName:
+            case $this->IsNullName:
             {
                 $code .= 'is_null( %1% );';
             } break;
