@@ -4,6 +4,7 @@ Changes from 3.3-1 to 3.3-2
 - Fixed eZImageType::metaData
 - Fixed eZObjectRelationList::metaData
 - Fixed eZSelection::metaData
+- Replaced several " with ' in ezenumtype.php
 
 *Bugs:
 - Fixed design class/datatype/view/ezselection.tpl
@@ -12,6 +13,8 @@ Changes from 3.3-1 to 3.3-2
   http://ez.no/developer/ez_publish_3/bug_reports/datatype_edit_ezenum_tpl
 - Fixed undefined variable in eZContentObjectTreeNode::childrenByName()
   http://ez.no/developer/ez_publish_3/bug_reports/undefined_variable_classcondition_in_ezcontentobjecttreenode_php
+- Fixed undefined variable in ezcontentobjecttreenode.php
+  http://ez.no/developer/ez_publish_3/bug_reports/php_warning_undefined_variable_in_ezcontentobjecttreenode_php
 
 *Design:
 - Added content for content/datatype/pdf/ezmatrix.tpl
