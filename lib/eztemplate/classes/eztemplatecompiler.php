@@ -1179,6 +1179,7 @@ class eZTemplateCompiler
         $nodeType = $node[0];
         if ( $nodeType == EZ_TEMPLATE_NODE_FUNCTION )
         {
+            $nodeCopy = $node;
             $functionChildren = $node[1];
             $functionName = $node[2];
             $functionParameters = $node[3];
@@ -1261,6 +1262,7 @@ class eZTemplateCompiler
                     unset( $privateData );
                     if ( !$newNodes )
                     {
+                        $node = $nodeCopy;
                         $node[1] = $functionChildren;
                         return false;
                         return $node;
