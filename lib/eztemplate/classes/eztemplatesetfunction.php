@@ -131,7 +131,7 @@ class eZTemplateSetFunction
                         if ( !$tpl->hasVariable( $key, $name ) )
                         {
                             $itemValue =& $tpl->elementValue( $item, $nspace );
-                            eZDebug::writeError( "setting key '$key' to '$itemValue' in namespace '$name'" );
+//                             eZDebug::writeError( "setting key '$key' to '$itemValue' in namespace '$name'" );
                             $tpl->setVariableRef( $key, $itemValue, $name );
                             $definedVariables[] = $key;
                         }

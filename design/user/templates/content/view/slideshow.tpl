@@ -39,6 +39,7 @@
     {let offset_of_page=mul(int(div($view_parameters.offset,$thumbnail_page_limit)),$thumbnail_page_limit)}
     <td bordercolor="#E2E2E2"> <div align="center"><a href={concat('content/view','/thumbnail/',$node.node_id,$offset_of_page|gt(0)|choose('',concat('/offset/',$offset_of_page)))|ezurl}><img src={"x_close.gif"|ezimage} width="20" height="18" border="0"></a></div></td>
     {/let}
+    <td bordercolor="#E2E2E2"> <div align="center"><a href={concat('content/view','/slideshow/',$node.node_id,'/offset/',$view_parameters.offset)|ezurl}>Fullscreen</a></div></td>
 
     {switch match=$item_next|lt($list_count)}
       {case match=1}

@@ -168,15 +168,6 @@ class eZObjectForwarder
             // Set design keys
             $tpl->setVariable( 'used', $designUsedKeys, $designKeyNamespace );
             $tpl->setVariable( 'matched', $designMatchedKeys, $designKeyNamespace );
-            foreach ( array_keys( $params ) as $paramName )
-            {
-                if ( $paramName == $input_name or
-                     $paramName == $view_var )
-                    continue;
-                $paramValue =& $tpl->elementValue( $params[$paramName], $old_nspace );
-                $tpl->setVariableRef( $paramName, $paramValue, $current_nspace );
-                $setVariableArray[] = $paramName;
-            }
             // Set function parameters
             foreach ( array_keys( $params ) as $paramName )
             {
