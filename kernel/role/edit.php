@@ -90,7 +90,11 @@ if ( $http->hasPostVariable( 'Apply' )  )
 {
     $originalRole = eZRole::fetch( $role->attribute( 'version' ) );
     $originalRole->revertFromTemporaryVersion();
-
+// Temporary code should be removed
+    eZDebug::writeDebug( 'Temporary code start: role/edit line 94' );
+    $http->setSessionVariable( 'roleExpired', true );
+    eZDebug::writeDebug( 'Temporary code end: role/edit line 94' );
+// Temporary code end
     $Module->redirectTo( $Module->functionURI( "view" ) . "/" . $originalRole->attribute( 'id' ) . '/');
 }
 

@@ -42,6 +42,7 @@
   \brief The class eZRole does
 
 */
+include_once( 'lib/ezutils/classes/ezini.php' );
 include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( "kernel/classes/ezpolicy.php" );
 
@@ -87,10 +88,71 @@ class eZRole extends eZPersistentObject
     {
         if ( !isset( $this->Policies) )
         {
-            $policies =& eZPersistentObject::fetchObjectList( eZPolicy::definition(),
-                                                              null, array( 'role_id' => $this->attribute( 'id') ), null, null,
-                                                              true );
-            $this->Policies =& $policies;
+
+            $ini =& eZINI::instance();
+            $enableCashing = $ini->variable( 'RoleSettings', 'EnableCashing' );
+//            $enableCashing = false;
+            $loadFromDb = true;
+            $roleID = $this->attribute( 'id' );
+            if ( $enableCashing )
+            {
+                $http =& eZHTTPTool::instance();
+
+                $hasPoliciesInCash = $http->hasSessionVariable( 'userPolicies' );
+                if ( $hasPoliciesInCash )
+                {
+                    $policiesForAllUserRoles =& $http->sessionVariable( 'userPolicies' );
+                    $policiesForCurrentRole =& $policiesForAllUserRoles["$roleID"];
+                    if ( count( $policiesForCurrentRole ) > 0 )
+                    {
+                        $policies = array();
+                        eZDebug::writeDebug(  $policiesForCurrentRole, "using cashed policies for role_id=$roleID" );
+                        foreach ( array_keys( $policiesForCurrentRole ) as $key )
+                        {
+                            $policyRow = $policiesForCurrentRole[$key];
+                            $policies[] =& new eZPolicy( $policyRow );
+                        }
+                        eZDebug::writeDebug( $policies, "using cashed policies for role_id=$roleID" );
+                        $this->Policies =& $policies;
+                        $loadFromDb = false;
+                    }
+                }
+
+            }
+            if ( $loadFromDb )
+            {
+                $policies =& eZPersistentObject::fetchObjectList( eZPolicy::definition(),
+                                                                  null, array( 'role_id' => $this->attribute( 'id') ), null, null,
+                                                                  true );
+                if ( $enableCashing )
+                {
+                    $policiesForCurrentRole = array();
+                    foreach ( array_keys( $policies ) as $key )
+                    {
+                        $policy =& $policies[$key];
+                        $policyAttributes = array();
+                        $policyAttributes['id'] = $policy->attribute( 'id' );
+                        $policyAttributes['role_id'] = $policy->attribute( 'role_id' );
+                        $policyAttributes['module_name'] = $policy->attribute( 'module_name' );
+                        $policyAttributes['function_name'] = $policy->attribute( 'function_name' );
+                        $policyAttributes['limitation'] = $policy->attribute( 'limitation' );
+                        $policiesForCurrentRole[] = $policyAttributes;
+                    }
+                    if ( !$http->hasSessionVariable( 'userPolicies' ) )
+                    {
+                        $policyArray =& $http->sessionVariable( 'userPolicies' );
+                    }
+                    else
+                    {
+                        $policyArray = array();
+                    }
+
+                    eZDebug::writeDebug(  $policyArray, "using policies from db for role_id=$roleID" );
+                    $policyArray["$roleID"] = $policiesForCurrentRole;
+
+                }
+                $this->Policies =& $policies;
+            }
         }
         return $this->Policies;
     }
@@ -198,17 +260,53 @@ class eZRole extends eZPersistentObject
     */
     function &fetchByUser( $idArray )
     {
-        $db =& eZDB::instance();
 
-        $groupString = implode( ',', $idArray );
-//        $groupString .= ',' . $userID ;
-        $query = "SELECT DISTINCT ezrole.id,
-                         ezrole.name
-                  FROM ezrole,
-                       ezuser_role
-                  WHERE ezuser_role.contentobject_id IN ( $groupString ) AND
-                        ezuser_role.role_id = ezrole.id";
-        $roleArray = $db->arrayQuery( $query );
+        $ini =& eZINI::instance();
+        $enableCashing = $ini->variable( 'RoleSettings', 'EnableCashing' );
+        $loadFromDb = true;
+        if ( $enableCashing )
+        {
+            $http =& eZHTTPTool::instance();
+            $permissionExpired = $http->sessionVariable( 'roleExpired' );
+            $permissionCashedForUser = $http->sessionVariable( 'permissionCashedForUser' );
+            $user =& eZUser::currentUser();
+            $userID = $user->id();
+
+            if ( !$permissionExpired && $permissionCashedForUser == $userID )
+            {
+                $roleArray = $http->sessionVariable( 'userRoles' );
+                if ( count( $roleArray ) > 0 )
+                    $loadFromDb = false;
+            }
+        }
+
+        if ( $loadFromDb )
+        {
+            $db =& eZDB::instance();
+            $groupString = implode( ',', $idArray );
+//          $groupString .= ',' . $userID ;
+            $query = "SELECT DISTINCT ezrole.id,
+                                      ezrole.name
+                      FROM ezrole,
+                           ezuser_role
+                      WHERE ezuser_role.contentobject_id IN ( $groupString ) AND
+                            ezuser_role.role_id = ezrole.id";
+            $roleArray = $db->arrayQuery( $query );
+            if ( $enableCashing )
+            {
+                $user =& eZUser::currentUser();
+                $userID = $user->id();
+                $http->setSessionVariable( 'userRoles', $roleArray );
+                $http->setSessionVariable( 'permissionCashedForUser', $userID );
+                $http->setSessionVariable( 'roleExpired', false );
+                $http->removeSessionVariable( 'userPolicies' );
+            }
+            eZDebug::writeDebug( 'roles fetched from DB' );
+        }
+        else
+        {
+            eZDebug::writeDebug( 'use cashed roles' );
+        }
         $roles = array();
         foreach ( $roleArray as $roleRow )
         {
