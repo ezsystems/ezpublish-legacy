@@ -868,31 +868,31 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 {
                                     case "1" :
                                     {
-                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 1, $TagStack, $currentNode );
+                                        $currentNode =& $this->sectionLevel( $sectionLevel, 1, $TagStack, $currentNode );
                                     }break;
                                     case "2":
                                     {
-                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 2, $TagStack, $currentNode );
+                                        $currentNode =& $this->sectionLevel( $sectionLevel, 2, $TagStack, $currentNode );
                                     }break;
                                     case "3":
                                     {
-                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 3, $TagStack, $currentNode );
+                                        $currentNode =& $this->sectionLevel( $sectionLevel, 3, $TagStack, $currentNode );
                                     }break;
                                     case "4":
                                     {
-                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 4, $TagStack, $currentNode );
+                                        $currentNode =& $this->sectionLevel( $sectionLevel, 4, $TagStack, $currentNode );
                                     }break;
                                     case "5":
                                     {
-                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 5, $TagStack, $currentNode );
+                                        $currentNode =& $this->sectionLevel( $sectionLevel, 5, $TagStack, $currentNode );
                                     }break;
                                     case "6":
                                     {
-                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 6, $TagStack, $currentNode );
+                                        $currentNode =& $this->sectionLevel( $sectionLevel, 6, $TagStack, $currentNode );
                                     }break;
                                     default:
                                     {
-                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 1, $TagStack, $currentNode );
+                                        $currentNode =& $this->sectionLevel( $sectionLevel, 1, $TagStack, $currentNode );
                                     }break;
                                 }
                             }
@@ -985,7 +985,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
     }
 
     // Get section level and reset cuttent node according to input header.
-    function &sectionLevel( $sectionLevel, $headerLevel, &$TagStack, &$currentNode )
+    function &sectionLevel( &$sectionLevel, $headerLevel, &$TagStack, &$currentNode )
     {
          if ( $sectionLevel < $headerLevel )
          {
@@ -993,6 +993,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
          }
          elseif ( $sectionLevel == $headerLevel )
          {
+             eZDebug::writeDebug( $currentNode, "currentNode" );
              $lastNodeArray = array_pop( $TagStack );
              // $lastTag = $lastNodeArray["TagName"];
              $lastNode =& $lastNodeArray["ParentNodeObject"];
@@ -1007,14 +1008,14 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
              {
                  $lastNodeArray = array_pop( $TagStack );
                  $lastTag = $lastNodeArray["TagName"];
-                                                    $lastNode =& $lastNodeArray["ParentNodeObject"];
+                 $lastNode =& $lastNodeArray["ParentNodeObject"];
                  $lastChildTag = $lastNodeArray["ChildTag"];
                  unset( $currentNode );
                  $currentNode =& $lastNode;
              }
              $sectionLevel = $headerLevel;
          }
-         return $sectionLevel;
+         return $currentNode;
     }
 
     /*!
