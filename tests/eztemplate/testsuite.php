@@ -34,10 +34,11 @@
 // you.
 //
 
-$SuiteDefinition = array();
+$SuiteDefinition = array( 'name' => 'eZTemplate',
+                          'tests' => array() );
 
-$SuiteDefinition[] = array( 'name' => 'WhitespaceHandling',
-                            'file' => 'eztesttemplatewhitespace.php',
-                            'class' => 'eZTestTemplateWhitespace' );
+$SuiteDefinition['tests'][] = array( 'name' => 'OutputHandling',
+                                     'file' => 'eztesttemplateoutput.php',
+                                     'class' => 'eZTestTemplateOutput' );
 
 ?>

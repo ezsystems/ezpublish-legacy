@@ -74,7 +74,7 @@ class eZTestSuite extends eZTestUnit
     */
     function eZTestSuite( $name = false )
     {
-        $this->eZTestUnit( $name = false );
+        $this->eZTestUnit( $name );
     }
 
     /*!
@@ -88,6 +88,7 @@ class eZTestSuite extends eZTestUnit
             $testList = $unit->testList();
             foreach ( $testList as $entry )
             {
+                $entry['name'] = $unit->name() . '::' . $entry['name'];
                 $this->addTestEntry( $entry );
             }
         }

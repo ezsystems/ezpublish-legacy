@@ -280,8 +280,8 @@ foreach ( $suiteList as $suiteName )
         include( $suiteDefinitionPath );
         if ( isset( $SuiteDefinition ) )
         {
-            $suite = new eZTestSuite();
-            foreach ( $SuiteDefinition as $testDefinition )
+            $suite = new eZTestSuite( $SuiteDefinition['name'] );
+            foreach ( $SuiteDefinition['tests'] as $testDefinition )
             {
                 $testUnitFile = $testDefinition['file'];
                 $testUnitPath = $suitePath . '/' . $testUnitFile;
@@ -292,7 +292,7 @@ foreach ( $suiteList as $suiteName )
                     $testUnitName = $testDefinition['name'];
                     if ( class_exists( $testUnitClass ) )
                     {
-                        $testUnit = new $testUnitClass( $name );
+                        $testUnit = new $testUnitClass( $testUnitName );
                         $suite->addUnit( $testUnit );
                     }
                     else

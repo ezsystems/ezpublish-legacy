@@ -1,6 +1,6 @@
 <?php
 //
-// Definition of eZTestTemplateWhitespace class
+// Definition of eZTestTemplateOutput class
 //
 // Created on: <30-Jan-2004 11:59:49 >
 //
@@ -34,37 +34,37 @@
 // you.
 //
 
-/*! \file eztesttemplatewhitespace.php
+/*! \file eztesttemplateoutput.php
 */
 
 /*!
-  \class eZTestTemplateWhitespace eztesttemplatewhitespace.php
-  \brief The class eZTestTemplateWhitespace does
+  \class eZTestTemplateOutput eztesttemplateoutput.php
+  \brief The class eZTestTemplateOutput does
 
 */
 
-class eZTestTemplateWhitespace extends eZTestCase
+class eZTestTemplateOutput extends eZTestCase
 {
     /*!
      Constructor
     */
-    function eZTestTemplateWhitespace( $name = false )
+    function eZTestTemplateOutput( $name = false )
     {
         $this->eZTestCase( $name );
-        $this->addTest( 'testWhitespace' );
+        $this->addTest( 'testOutput', 'Compiled template output' );
     }
 
-    function testWhitespace( &$tr )
+    function testOutput( &$tr )
     {
         include_once( 'kernel/common/template.php' );
         $tpl =& templateInit();
 
         $tpl->setIsCachingAllowed( false );
-        $expected = $tpl->fetch( 'tests/eztemplate/whitespace.tpl' );
+        $expected = $tpl->fetch( 'tests/eztemplate/output.tpl' );
 
         $tpl->setIsCachingAllowed( true );
         $tpl->reset();
-        $actual = $tpl->fetch( 'tests/eztemplate/whitespace.tpl' );
+        $actual = $tpl->fetch( 'tests/eztemplate/output.tpl' );
 
         $tr->assert( $actual == $expected );
     }
