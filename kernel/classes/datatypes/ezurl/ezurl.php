@@ -279,6 +279,26 @@ class eZURL extends eZPersistentObject
         }
         return $url;
     }
+
+    /*!
+     \static
+     Returns the URL with the given URL. Returns false if the URL does not exists.
+    */
+    function &urlByURL( $urlText )
+    {
+        $db =& eZDB::instance();
+
+        $url = false;
+        $checkURLQuery = "SELECT * FROM ezurl WHERE url='$urlText'";
+        $urlArray =& $db->arrayQuery( $checkURLQuery );
+
+        if ( count( $urlArray ) == 1 )
+        {
+            $urlRow =& $urlArray[0];
+            $url = new eZURL( $urlRow );
+        }
+        return $url;
+    }
 }
 
 ?>

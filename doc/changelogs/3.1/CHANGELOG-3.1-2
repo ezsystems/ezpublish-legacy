@@ -7,4 +7,4 @@ Changes from 3.1-1 to 3.1-2
 - Added function for initializing an array of content object nodes from object id's
 - Fixed permissons on override.ini.append and templeate overrides when creating them from Setup
   Now sets permission StorageDirPermissions and StorageFilePermissions from [FileSettings]
-
+- Fixed updating of URLs when moving or renaming a node
