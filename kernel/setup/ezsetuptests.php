@@ -381,8 +381,22 @@ function eZSetupCheckExecutable( $type, &$arguments )
 	$excludePaths = eZSetupConfigVariableArray( $type, $filesystemType . '_ExcludePaths' );
     $imageIniPath = eZSetupImageConfigVariableArray( 'ShellSettings', 'ConvertPath' );
     $extraPath = array();
-    if ( $http->hasPostVariable( $type . '_ExtraPath' ) )
+    if ( $http->hasPostVariable( $type . '_ExtraPath' ) ){
         $extraPath = explode( $envSeparator, $http->postVariable( $type . '_ExtraPath' ) );
+
+        // remove program from path name if entered
+        foreach ( $extraPath as $path )
+        {
+            foreach ( $programs as $program )
+            {
+                if ( strpos( $path, $program) == strlen( $path ) - strlen( $program ) )
+                {
+                    $extraPath[] = $substr( $path, strpos( $path, $program) );
+                }
+            }
+        }
+    }
+
     $searchPaths = array_merge( $systemSearchPaths, $additionalSearchPaths, $extraPath, $imageIniPath );
 
 	$result = false;
