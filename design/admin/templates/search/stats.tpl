@@ -41,9 +41,7 @@
         {/switch}
     </p>
 </div>
-<div class="right">
-<p>
-</div>
+<div class="right"></div>
 <div class="break"></div>
 </div>
 </div>
@@ -107,5 +105,5 @@
 
 </div>
 
-</let>
+{/let}
 </form>
