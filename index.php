@@ -346,6 +346,11 @@ if ( $dbRequired )
 include_once( "lib/ezlocale/classes/ezlocale.php" );
 $locale =& eZLocale::instance();
 $languageCode =& $locale->httpLocaleCode();
+$phpLocale = $ini->variable( 'RegionalSettings', 'SystemLocale' );
+if ( trim( $phpLocale ) != '' )
+{
+    setlocale( LC_ALL, $phpLocale );
+}
 
 // send header information
 header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );

@@ -41,6 +41,8 @@ Changes from 3.4.0alpha2 to 3.4.0alpha3
 - Added fetch function user_role in user module ( ex: fetch(user, user_role, hash( user_id, 14 )).
 - Added decoding support in ldap login if the ldap server is utf-8 encoded.
 - Added template override key for class attribute identifier.
+- Added support for setting the current system locale using a setting in site.ini
+  (RegionalSettings/SystemLocale), this can be set to get PHP to handle language specific properly.
 
 Updates:
 - Fixed cleanup.php script to cleanup the user/session link table when
