@@ -337,7 +337,6 @@ class eZSearchEngine
             else
                 $searchSectionID = -1;
 
-            eZDebugSetting::writeDebug( 'kernel-search-ezsearch', 'searchSectionID=' . $searchSectionID, 'eZSearchEngine::search' );
             if ( isset( $params['SearchDate'] ) )
                 $searchDate = $params['SearchDate'];
             else
@@ -460,7 +459,7 @@ class eZSearchEngine
 
             $wordIDArrayRes =& $db->arrayQuery( "SELECT id, word, object_count FROM ezsearch_word where $wordQueryString" );
 
-            // get the words in the correct order
+            // create the word hash
             $wordIDArray = array();
             $wordIDHash = array();
             foreach ( $wordIDArrayRes as $wordRes )
@@ -524,7 +523,7 @@ class eZSearchEngine
                 $phraseSQL .= "( $phraseSearchSQL ) AND ";
             }
 
-            /// OR search
+            /// OR search, not used in this version
             $doOrSearch = false;
 
             if ( $doOrSearch == true )
@@ -670,14 +669,13 @@ class eZSearchEngine
                                   ezcontentobject_name.content_translation = '$lang' ";
             }
 
-
-
             /// Only support AND search at this time
             // build fulltext search SQL part
             $searchWordArray =& $this->splitString( $fullText );
             $searchWordCount = count( $searchWordArray );
             $fullTextSQL = "";
             $stopWordArray = array( );
+            $ini =& eZINI::instance();
 
             $i = 0;
             // Loop every word and insert result in temporary table
@@ -685,14 +683,31 @@ class eZSearchEngine
             {
                 $wordID = null;
                 if ( isset( $wordIDHash[$searchWord] ) )
+                {
                     $wordID = $wordIDHash[$searchWord]['id'];
+                }
+                else
+                {
+                    $nonExistingWordArray[] = $searchWord;
+                }
 
-                $searchThresholdValue = (int)( $totalObjectCount * 0.05 );
-//                $searchThresholdValue = (int)( $totalObjectCount * 1 );
+                $stopWordThresholdValue = 100;
+                if ( $ini->hasVariable( 'SearchSettings', 'StopWordThresholdValue' ) )
+                     $stopWordThresholdValue = $ini->variable( 'SearchSettings', 'StopWordThresholdValue' );
+
+                $stopWordThresholdPercent = 60;
+                if ( $ini->hasVariable( 'SearchSettings', 'StopWordThresholdPercent' ) )
+                     $stopWordThresholdPercent = $ini->variable( 'SearchSettings', 'StopWordThresholdPercent' );
+
+                $searchThresholdValue = $totalObjectCount;
+                if ( $totalObjectCount > $stopWordThresholdValue )
+                {
+                    $searchThresholdValue = (int)( $totalObjectCount * ( $stopWordThresholdPercent / 100 ) );
+                }
+
                 // do not search words that are too frequent
                 if ( $wordIDHash[$searchWord]['object_count'] < $searchThresholdValue )
                 {
-
                     if ( is_numeric( $wordID ) and ( $wordID > 0 ) )
                     {
                         $fullTextSQL = "ezsearch_object_word_link.word_id='$wordID' AND ";
@@ -706,7 +721,6 @@ class eZSearchEngine
                        $subTreeTable,
                        ezcontentclass,
                        ezcontentobject_tree
-                           $versionNameTables
                     WHERE
                     $searchDateQuery
                     $sectionQuery
@@ -720,7 +734,6 @@ class eZSearchEngine
                     ezcontentclass.version = '0' and
                     ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
-                    $versionNameJoins
                     $sqlPermissionCheckingString" );
 
                         }
@@ -733,7 +746,6 @@ class eZSearchEngine
                        $subTreeTable,
                        ezcontentclass,
                        ezcontentobject_tree
-                           $versionNameTables
                     WHERE
                     $searchDateQuery
                     $sectionQuery
@@ -747,23 +759,20 @@ class eZSearchEngine
                     ezcontentclass.version = '0' and
                     ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
-                    $versionNameJoins
                     $sqlPermissionCheckingString" );
                         }
                         $i++;
                     }
-
                 }
                 else
                 {
                     $stopWordArray[] = array( 'word' => $wordIDHash[$searchWord]['word'] );
                 }
-
             }
 
             $excludeWordCount = $searchWordCount - count( $stopWordArray );
 
-            if ( $excludeWordCount = $searchWordCount )
+            if ( ( count( $stopWordArray ) + count( $nonExistingWordArray ) ) == $searchWordCount )
             {
                 // No words to search for, return empty result
                 return array( "SearchResult" => array(),
@@ -792,7 +801,7 @@ class eZSearchEngine
                     ORDER BY ezsearch_tmp.published DESC";
 
             // Count query
-            $searchCountQuery = "SELECT count(  contentobject_id ) as count FROM ezsearch_tmp GROUP BY contentobject_id HAVING count = $excludeWordCount";
+            $searchCountQuery = "SELECT count( contentobject_id ) as count FROM ezsearch_tmp GROUP BY contentobject_id HAVING count = $excludeWordCount";
 
             $objectRes = array();
 
