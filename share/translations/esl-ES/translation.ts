@@ -1,34 +1,5 @@
 <!DOCTYPE TS><TS>
 <context>
-    <name>&quot;design/standard/navigator&quot;</name>
-    <message>
-        <source>Next</source>
-        <translation type="obsolete">Siguiente</translation>
-    </message>
-</context>
-<context>
-    <name>&quot;design/standard/node/view&quot;</name>
-    <message>
-        <source>Priority</source>
-        <translation type="obsolete">Prioridad</translation>
-    </message>
-</context>
-<context>
-    <name>&apos;design/standard/node/view&apos;</name>
-    <message>
-        <source>Edit</source>
-        <translation type="obsolete">Editar</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="obsolete">Copiar</translation>
-    </message>
-    <message>
-        <source>Update</source>
-        <translation type="obsolete">Actualizar</translation>
-    </message>
-</context>
-<context>
     <name>design/admin/layout</name>
     <message>
         <source>Content</source>
@@ -125,10 +96,6 @@
     <message>
         <source>Templates</source>
         <translation>Plantillas</translation>
-    </message>
-    <message>
-        <source>RAD</source>
-        <translation type="obsolete">RAD</translation>
     </message>
     <message>
         <source>Cache</source>
@@ -241,13 +208,6 @@
     <message>
         <source>User group</source>
         <translation>Grupo de usuarios</translation>
-    </message>
-</context>
-<context>
-    <name>design/shop</name>
-    <message>
-        <source>Payment was canceled. Try to buy again.</source>
-        <translation type="obsolete">El pago ha sido cancelado. Prueba a comprar otra vez.</translation>
     </message>
 </context>
 <context>
@@ -412,25 +372,13 @@
         <source>New option</source>
         <translation>Nueva opción</translation>
     </message>
+    <message>
+        <source>Select which classes user can create</source>
+        <translation>Selecciona qué clases puede crear el usuario</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class/edit</name>
-    <message>
-        <source>Editing class</source>
-        <translation type="obsolete">Editando clases</translation>
-    </message>
-    <message>
-        <source>Created by</source>
-        <translation type="obsolete">Creado por</translation>
-    </message>
-    <message>
-        <source>on</source>
-        <translation type="obsolete">en</translation>
-    </message>
-    <message>
-        <source>Last modified by</source>
-        <translation type="obsolete">Última modificación por</translation>
-    </message>
     <message>
         <source>Input did not validate</source>
         <translation>La entrada no fue validada</translation>
@@ -482,14 +430,6 @@
     <message>
         <source>Discard Changes</source>
         <translation>Descartar cambios</translation>
-    </message>
-    <message>
-        <source>Editing class group</source>
-        <translation type="obsolete">Editando grupo de clases</translation>
-    </message>
-    <message>
-        <source>Modified by</source>
-        <translation type="obsolete">Modificado por</translation>
     </message>
     <message>
         <source>Discard</source>
@@ -606,10 +546,6 @@
         <source>New group</source>
         <translation>Nuevo grupo</translation>
     </message>
-    <message>
-        <source>Help</source>
-        <translation>Ayuda</translation>
-    </message>
 </context>
 <context>
     <name>design/standard/class/view</name>
@@ -657,6 +593,10 @@
         <source>New class</source>
         <translation>Nueva clase</translation>
     </message>
+    <message>
+        <source>Click on the &apos;New&apos; button to create a class.</source>
+        <translation>Haz clic en el botón &quot;Nuevo&quot; para crear una clase.</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/collaboration</name>
@@ -687,10 +627,6 @@
     <message>
         <source>%1 was not approved for publishing</source>
         <translation>%1 no fue aprobado para publicación</translation>
-    </message>
-    <message>
-        <source>%1 was deferred for reediting</source>
-        <translation type="obsolete">%1 ha sido aplazado para reeditar</translation>
     </message>
     <message>
         <source>%1 awaits your approval</source>
@@ -728,6 +664,10 @@
         <source>Summary</source>
         <translation>Sumario</translation>
     </message>
+    <message>
+        <source>[more]</source>
+        <translation>[más]</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/collaboration/approval</name>
@@ -756,34 +696,6 @@
         <translation>El objeto de contenido %1 fue aprobado y será publicado cuando el flujo de trabajo de publicación continúe.</translation>
     </message>
     <message>
-        <source>The content object %1 was not approved and will be archived.</source>
-        <translation type="obsolete">El objeto de contenido %1 no fue aprobado y será archivado</translation>
-    </message>
-    <message>
-        <source>The content object %1 was deferred and is available as a draft.</source>
-        <translation type="obsolete">El objeto de contenido %1 ha sido aplazado y está disponible como borrador.</translation>
-    </message>
-    <message>
-        <source>You must reedit the draft and publish it again for the approval to continue.</source>
-        <translation type="obsolete">Has de reesitar el borrador y volverlo a publicar para que sea aprobado antes de continuar.</translation>
-    </message>
-    <message>
-        <source>If the approver finds the new changes satisfying the object will be accepted.</source>
-        <translation type="obsolete">Si el aprobador encuentra los nuevos cambios satisfactorios el objeto será aceptado.</translation>
-    </message>
-    <message>
-        <source>Edit</source>
-        <translation type="obsolete">Editar</translation>
-    </message>
-    <message>
-        <source>The content object %1 was deferred and will be available as a draft.</source>
-        <translation type="obsolete">El objeto de contenido %1 ha sido aplazado y estará disponible como borrador.</translation>
-    </message>
-    <message>
-        <source>The author must reedit the draft and publish it again for the approval to continue.</source>
-        <translation type="obsolete">El autor ha de reeditar el borrador y publicarlo de nuevo para que sea aprobado antes de continuar.</translation>
-    </message>
-    <message>
         <source>Comment</source>
         <translation>Comentario</translation>
     </message>
@@ -800,24 +712,12 @@
         <translation>Denegar</translation>
     </message>
     <message>
-        <source>Defer</source>
-        <translation type="obsolete">Aplazar</translation>
-    </message>
-    <message>
         <source>Participants</source>
         <translation>Participantes</translation>
     </message>
     <message>
-        <source>Content object class - %1</source>
-        <translation type="obsolete">Clase de objeto de contenido %1</translation>
-    </message>
-    <message>
         <source>Messages</source>
         <translation>Mensajes</translation>
-    </message>
-    <message>
-        <source>The content object %1 was not approved and will be archived. If you wish you may publish a new version of the object by clicking the edit link.</source>
-        <translation type="obsolete">El objeto de contenido %1 no ha sido aprovado y será archivado. Si quieres puedes publicar una nueva versión del objeto haciendo clic en el enlace de edición.</translation>
     </message>
     <message>
         <source>Edit the object</source>
@@ -830,10 +730,6 @@
     <message>
         <source>The content object %1 was not accepted but will be available as a draft for the author.</source>
         <translation>El objeto de contenido %1 no fue aceptado pero estará disponible para el autor como borrador.</translation>
-    </message>
-    <message>
-        <source>Pushback</source>
-        <translation type="obsolete">Rechazo</translation>
     </message>
     <message>
         <source>You may reedit the draft and publish it, in which case an approval is required again.</source>
@@ -949,10 +845,6 @@ Si quieres enviar comentarios al aprobador o ver el estado usa la URL de abajo.<
         <translation>Nuevo</translation>
     </message>
     <message>
-        <source>Delete</source>
-        <translation type="obsolete">Borrar</translation>
-    </message>
-    <message>
         <source>Removing &apos;%1&apos; will remove the translation itself and %2 translated versions!</source>
         <translation>¡Eliminando &apos;%1&apos; eliminarás la propia traducción y %2 versiones traducidas!</translation>
     </message>
@@ -971,10 +863,6 @@ Si quieres enviar comentarios al aprobador o ver el estado usa la URL de abajo.<
 </context>
 <context>
     <name>design/standard/content/copy</name>
-    <message>
-        <source>Versions</source>
-        <translation type="obsolete">Versiones</translation>
-    </message>
     <message>
         <source>Copy all versions</source>
         <translation>Copiar todas las versiones</translation>
@@ -1123,10 +1011,6 @@ Si quieres enviar comentarios al aprobador o ver el estado usa la URL de abajo.<
         <translation>Nombre del fichero</translation>
     </message>
     <message>
-        <source>MIME Type</source>
-        <translation type="obsolete">Tipo de MIME</translation>
-    </message>
-    <message>
         <source>Filesize</source>
         <translation>Tamaño del fichero</translation>
     </message>
@@ -1267,20 +1151,20 @@ Si quieres enviar comentarios al aprobador o ver el estado usa la URL de abajo.<
         <translation>Nueva línea</translation>
     </message>
     <message>
-        <source>Create new %classname</source>
-        <translation>Crear un(a) nuevo(a) %classname</translation>
-    </message>
-    <message>
-        <source>Add %classname</source>
-        <translation>Añadir %classname</translation>
-    </message>
-    <message>
-        <source>Edit objects</source>
-        <translation>Editar objetos</translation>
-    </message>
-    <message>
         <source>Remove objects</source>
         <translation>Eliminar objetos</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Editar</translation>
+    </message>
+    <message>
+        <source>Open objects for edit</source>
+        <translation>Abrir objetos para editar</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>Añadir</translation>
     </message>
 </context>
 <context>
@@ -1457,6 +1341,56 @@ Si quieres enviar comentarios al aprobador o ver el estado usa la URL de abajo.<
         <source>New draft</source>
         <translation>Nuevo borrador</translation>
     </message>
+    <message>
+        <source>The currently published version is %version and was published at %time.</source>
+        <translation>La versión publicada actualmente es la %version y fue publicada el %time.</translation>
+    </message>
+    <message>
+        <source>The last modification was done at %modified.</source>
+        <translation>La última modificación fue hecha en %modified.</translation>
+    </message>
+    <message>
+        <source>The object is owned by %owner.</source>
+        <translation>El objeto es propiedad de %owner.</translation>
+    </message>
+    <message>
+        <source>This object is already being edited by someone else including you.
+    You can either continue editing one of your drafts or you can create a new draft.</source>
+        <translation>Este objeto está siendo editado por alguien además de ti. 
+Puedes seguir editando uno de tus borradores o puedes crear un borrador nuevo.</translation>
+    </message>
+    <message>
+        <source>This object is already being edited by you.
+        You can either continue editing one of your drafts or you can create a new draft.</source>
+        <translation>Ya estás editando este objeto.
+Puedes seguir editando uno de tus borradores o puedes crear un borrador nuevo.</translation>
+    </message>
+    <message>
+        <source>This object is already being edited by someone else.
+        You should either contact the person about the draft or create a new draft for personal editing.</source>
+        <translation>Este objeto está siendo editado por alguien más.
+Puedes ponerte en contacto con la persona sobre el borrador o crear un nuevo borrador para una edición personal.</translation>
+    </message>
+    <message>
+        <source>Current drafts</source>
+        <translation>Borradores actuales</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Versión</translation>
+    </message>
+    <message>
+        <source>Owner</source>
+        <translation>Propietario</translation>
+    </message>
+    <message>
+        <source>Last modified</source>
+        <translation>Última modificación</translation>
+    </message>
+    <message>
+        <source>Input was partially stored</source>
+        <translation>La entrada ha sido parcialmente almacenada</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/search</name>
@@ -1543,10 +1477,6 @@ Si quieres enviar comentarios al aprobador o ver el estado usa la URL de abajo.<
     <message>
         <source>Name</source>
         <translation>Nombre</translation>
-    </message>
-    <message>
-        <source>For more options try the %1Advanced search%2</source>
-        <translation type="obsolete">Para obtener más opciones intenta la %1Búsqueda avanzada%2</translation>
     </message>
     <message>
         <source>The following words were excluded from the search:</source>
@@ -1676,14 +1606,6 @@ Si quieres enviar comentarios al aprobador o ver el estado usa la URL de abajo.<
 <context>
     <name>design/standard/content/translate</name>
     <message>
-        <source>Translating</source>
-        <translation type="obsolete">Traduciendo</translation>
-    </message>
-    <message>
-        <source>Remove the following translations from</source>
-        <translation type="obsolete">Eliminar las siguientes traducciones de</translation>
-    </message>
-    <message>
         <source>(No locale information available)</source>
         <translation>(No hay información de &quot;locale&quot; disponible)</translation>
     </message>
@@ -1790,20 +1712,8 @@ Si quieres enviar comentarios al aprobador o ver el estado usa la URL de abajo.<
 <context>
     <name>design/standard/content/version</name>
     <message>
-        <source>Versions for:</source>
-        <translation type="obsolete">Versiones para:</translation>
-    </message>
-    <message>
         <source>Version not a draft</source>
         <translation>Esta versión no es un borrador</translation>
-    </message>
-    <message>
-        <source>Version</source>
-        <translation type="obsolete">Versión</translation>
-    </message>
-    <message>
-        <source>is not available for editing anymore, only drafts can be edited.</source>
-        <translation type="obsolete">No está disponible para ser editado más, solo los borradores pueden ser editados.</translation>
     </message>
     <message>
         <source>To edit this version create a copy of it.</source>
@@ -1812,10 +1722,6 @@ Si quieres enviar comentarios al aprobador o ver el estado usa la URL de abajo.<
     <message>
         <source>Version not yours</source>
         <translation>La versión no es tuya</translation>
-    </message>
-    <message>
-        <source>was not created by you, only your own drafts can be edited.</source>
-        <translation type="obsolete">No ha sido creada por tí, solo tus propios borradores pueden ser editados.</translation>
     </message>
     <message>
         <source>Version:</source>
@@ -2128,10 +2034,6 @@ Clica en los nombres de los objetos para cambiar la lista de navegación.</trans
         <translation>No tienes permisos para acceder a este área.</translation>
     </message>
     <message>
-        <source>Login to get proper permissions.</source>
-        <translation type="obsolete">Regístrate para conseguir los permisos adecuados.</translation>
-    </message>
-    <message>
         <source>Click the Login button to login.</source>
         <translation>Clica el botón de Login para conectar.</translation>
     </message>
@@ -2144,40 +2046,16 @@ Clica en los nombres de los objetos para cambiar la lista de navegación.</trans
         <translation>Módulo no encontrado</translation>
     </message>
     <message>
-        <source>The requested module &apos;%1&apos; could not be found.</source>
-        <translation type="obsolete">El módulo requerido &apos;%1&apos; no pudo ser encontrado.</translation>
-    </message>
-    <message>
         <source>View not found</source>
         <translation>Vista no encontrada</translation>
-    </message>
-    <message>
-        <source>The requested view &apos;%1&apos; could not be found in module: &apos;%2&apos;</source>
-        <translation type="obsolete">La vista requerida &apos;%1&apos; no pudo ser encontrada en el módulo &apos;%2&apos;</translation>
-    </message>
-    <message>
-        <source>Unavailable</source>
-        <translation type="obsolete">No disponible</translation>
-    </message>
-    <message>
-        <source>The object is not available.</source>
-        <translation type="obsolete">El objeto no está disponible.</translation>
     </message>
     <message>
         <source>View is disabled</source>
         <translation>La vista está desactivada</translation>
     </message>
     <message>
-        <source>The view %2/%1 is disabled and cannot be accessed.</source>
-        <translation type="obsolete">La vista %2/%1 está desactivada y no es accesible.</translation>
-    </message>
-    <message>
         <source>Module is disabled</source>
         <translation>El módulo está desactivado</translation>
-    </message>
-    <message>
-        <source>The module %1 is disabled and cannot be accessed.</source>
-        <translation type="obsolete">El módulo %1 está desactivado y no es accesible.</translation>
     </message>
     <message>
         <source>Possible reasons for this is.</source>
@@ -2294,14 +2172,6 @@ Gracias por tu feedback</translation>
 <context>
     <name>design/standard/layout</name>
     <message>
-        <source>%1 front page</source>
-        <translation type="obsolete">%1 página frontal</translation>
-    </message>
-    <message>
-        <source>Search %1</source>
-        <translation type="obsolete">Buscar %1</translation>
-    </message>
-    <message>
         <source>Printable version</source>
         <translation>Versión imprimible</translation>
     </message>
@@ -2330,10 +2200,6 @@ Gracias por tu feedback</translation>
         <translation>Mapa del sitio</translation>
     </message>
     <message>
-        <source>My drafts</source>
-        <translation type="obsolete">Mis borradores</translation>
-    </message>
-    <message>
         <source>Trash</source>
         <translation>Papelera</translation>
     </message>
@@ -2354,10 +2220,6 @@ Gracias por tu feedback</translation>
         <translation>Redireccionar</translation>
     </message>
     <message>
-        <source>Restart</source>
-        <translation type="obsolete">Reiniciar</translation>
-    </message>
-    <message>
         <source>Module load failed</source>
         <translation>La carga del módulo ha fallado</translation>
     </message>
@@ -2367,23 +2229,15 @@ Gracias por tu feedback</translation>
     </message>
     <message>
         <source>Site:</source>
-        <translation type="obsolete">Sitio:</translation>
+        <translation type="unfinished">Sitio:</translation>
     </message>
     <message>
         <source>Version:</source>
-        <translation type="obsolete">Versión:</translation>
+        <translation type="unfinished">Versión:</translation>
     </message>
     <message>
         <source>Personal</source>
         <translation>Personal</translation>
-    </message>
-    <message>
-        <source>Redirecting to %1</source>
-        <translation type="obsolete">Redireccionando a %1</translation>
-    </message>
-    <message>
-        <source>Revision:</source>
-        <translation type="obsolete">Revisión:</translation>
     </message>
     <message>
         <source>%sitetitle front page</source>
@@ -2420,14 +2274,6 @@ Gracias por tu feedback</translation>
         <translation>¿Estás seguro de que quieres eliminar %1 del nudo %2?</translation>
     </message>
     <message>
-        <source>Removing this assignment will also remove it&apos;s %1!</source>
-        <translation type="obsolete">¡Eliminando esta asignación eliminarás también su %1!</translation>
-    </message>
-    <message>
-        <source>Removing node assignment of</source>
-        <translation type="obsolete">Eliminando la asignación del nudo de</translation>
-    </message>
-    <message>
         <source>Confirm</source>
         <translation>Confirmar</translation>
     </message>
@@ -2446,10 +2292,6 @@ Gracias por tu feedback</translation>
     <message>
         <source>Removed nodes can be retrieved later. You will find them in the trash.</source>
         <translation>Los nudos eliminados pueden ser recuperados más tarde. Los podrás encontrar en la papelera.</translation>
-    </message>
-    <message>
-        <source>Removing %1 will remove the node itself and it&apos;s %2! %3</source>
-        <translation type="obsolete">Eliminando %1 eliminarás ese mismo nudo y sus %2! %3</translation>
     </message>
     <message>
         <source>The following items were removed from your basket, because the products were changed</source>
@@ -2558,6 +2400,10 @@ Gracias por tu feedback</translation>
         <source>Click to create a custom template</source>
         <translation>Clica para crear una nueva plantilla</translation>
     </message>
+    <message>
+        <source>Default object view.</source>
+        <translation>Vista de objeto predeterminada.</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/notification</name>
@@ -2570,24 +2416,10 @@ Gracias por tu feedback</translation>
         <translation>Configuraciones de recopilación</translation>
     </message>
     <message>
-        <source>Day the week</source>
-        <translation type="obsolete">Día de la semana</translation>
-    </message>
-    <message>
-        <source>%sitename.&quot;
-</source>
-        <translation type="obsolete">%nombre del sitio</translation>
-    </message>
-    <message>
         <source>If you do not wish to continue receiving these notifications,
 change your settings at:</source>
         <translation>Si no quieres seguir recibiendo estas notificaciones, 
 cambia tus configuraciones en:</translation>
-    </message>
-    <message>
-        <source>system&quot;
-</source>
-        <translation type="obsolete">sistema&quot;</translation>
     </message>
     <message>
         <source>New</source>
@@ -2596,11 +2428,6 @@ cambia tus configuraciones en:</translation>
     <message>
         <source>Remove</source>
         <translation>Eliminar</translation>
-    </message>
-    <message>
-        <source>below.&quot;
-</source>
-        <translation type="obsolete">abajo&quot;</translation>
     </message>
     <message>
         <source>Store</source>
@@ -2647,16 +2474,6 @@ El elemento puede verse usando la URL de abajo.</translation>
     <message>
         <source>This email is to inform you on news at %sitename.</source>
         <translation>Este correo es para informarte de las noticias en %sitename.</translation>
-    </message>
-    <message>
-        <source>[%sitename] %classname &quot;%itemname&quot; was published</source>
-        <translation>[%sitename] %classname &quot;%itemname&quot; ha sido publicado</translation>
-    </message>
-    <message>
-        <source>This email is to inform you that a new item has been publish at %sitename.
-The item can viewed by using the URL below.</source>
-        <translation>Este correo es para informarte de que un nuevo elemento ha sido publicado en %sitename.
-Puedes ver el elemento usando la URL de abajo.</translation>
     </message>
     <message>
         <source>Notification admin</source>
@@ -2875,28 +2692,12 @@ el menú superior.</translation>
         <translation>Paso 3</translation>
     </message>
     <message>
-        <source>Specify limitations in function</source>
-        <translation type="obsolete">Especifica las limitaciones en la función</translation>
-    </message>
-    <message>
-        <source>in module</source>
-        <translation type="obsolete">Dentro del módulo</translation>
-    </message>
-    <message>
-        <source>&apos;Any&apos; means no limitation by this parameter.</source>
-        <translation type="obsolete">&apos;Cualquiera&apos; significa que en este parámetro no hay limitaciones.</translation>
-    </message>
-    <message>
         <source>Any</source>
         <translation>Cualquiera</translation>
     </message>
     <message>
         <source>Ok</source>
         <translation>Ok</translation>
-    </message>
-    <message>
-        <source>Role edit</source>
-        <translation type="obsolete">Editar rol</translation>
     </message>
     <message>
         <source>New</source>
@@ -3019,14 +2820,6 @@ el menú superior.</translation>
         <translation>Eliminar las políticas seleccionadas</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation>Ayuda</translation>
-    </message>
-    <message>
-        <source>Help on roles</source>
-        <translation>Ayuda en los roles</translation>
-    </message>
-    <message>
         <source>Edit role</source>
         <translation>Editar rol</translation>
     </message>
@@ -3076,10 +2869,6 @@ el menú superior.</translation>
 </context>
 <context>
     <name>design/standard/section</name>
-    <message>
-        <source>Assign section</source>
-        <translation type="obsolete">Asignar sección</translation>
-    </message>
     <message>
         <source>Assign section to node</source>
         <translation>Asignar sección al nudo</translation>
@@ -3173,10 +2962,6 @@ el menú superior.</translation>
         <translation>Notificación de nudo</translation>
     </message>
     <message>
-        <source>Notification settings</source>
-        <translation type="obsolete">Configuraciones de notificación</translation>
-    </message>
-    <message>
         <source>Assign section - %section</source>
         <translation>Asignar sección - %section</translation>
     </message>
@@ -3201,168 +2986,12 @@ Clica en los nombres de ubicaciones para cambiar la lista de navegación.</trans
         <translation>Media</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation>Ayuda</translation>
-    </message>
-    <message>
-        <source>Help on sections</source>
-        <translation>Ayuda en las secciones</translation>
-    </message>
-    <message>
         <source>Remove selected sections</source>
         <translation>Eliminiar las secciones seleccionadas</translation>
     </message>
 </context>
 <context>
     <name>design/standard/setup</name>
-    <message>
-        <source>site registration</source>
-        <translation type="obsolete">Registro del sitio</translation>
-    </message>
-    <message>
-        <source>Site info:</source>
-        <translation type="obsolete">Información del sitio:</translation>
-    </message>
-    <message>
-        <source>Title</source>
-        <translation type="obsolete">Título</translation>
-    </message>
-    <message>
-        <source>URL</source>
-        <translation type="obsolete">URL</translation>
-    </message>
-    <message>
-        <source>PHP info:</source>
-        <translation type="obsolete">Información de PHP:</translation>
-    </message>
-    <message>
-        <source>Version</source>
-        <translation type="obsolete">Versión</translation>
-    </message>
-    <message>
-        <source>OS info:</source>
-        <translation type="obsolete">Información OS:</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="obsolete">Nombre</translation>
-    </message>
-    <message>
-        <source>Database info:</source>
-        <translation type="obsolete">Información de la base de datos:</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation type="obsolete">Escribir</translation>
-    </message>
-    <message>
-        <source>Driver</source>
-        <translation type="obsolete">Controlador</translation>
-    </message>
-    <message>
-        <source>Unicode</source>
-        <translation type="obsolete">Unicode</translation>
-    </message>
-    <message>
-        <source>Supported</source>
-        <translation type="obsolete">Soportado</translation>
-    </message>
-    <message>
-        <source>Unsupported</source>
-        <translation type="obsolete">No soportado</translation>
-    </message>
-    <message>
-        <source>Demo data:</source>
-        <translation type="obsolete">Datos de demostración:</translation>
-    </message>
-    <message>
-        <source>Demo data was installed.</source>
-        <translation type="obsolete">Los datos de demostración fueron instalados.</translation>
-    </message>
-    <message>
-        <source>Demo data was not installed.</source>
-        <translation type="obsolete">Los datos de demostración no fueron instalados.</translation>
-    </message>
-    <message>
-        <source>Email info:</source>
-        <translation type="obsolete">Información del Email:</translation>
-    </message>
-    <message>
-        <source>Transport</source>
-        <translation type="obsolete">Transportar</translation>
-    </message>
-    <message>
-        <source>sendmail</source>
-        <translation type="obsolete">Enviar correo</translation>
-    </message>
-    <message>
-        <source>SMTP</source>
-        <translation type="obsolete">SMTP</translation>
-    </message>
-    <message>
-        <source>Image conversion:</source>
-        <translation type="obsolete">Conversión de imagen:</translation>
-    </message>
-    <message>
-        <source>ImageMagick was found and used.</source>
-        <translation type="obsolete">ImageMagick fue encontrado y usado.</translation>
-    </message>
-    <message>
-        <source>Path</source>
-        <translation type="obsolete">Ruta</translation>
-    </message>
-    <message>
-        <source>Executable</source>
-        <translation type="obsolete">Ejecutable</translation>
-    </message>
-    <message>
-        <source>ImageGD extension was found and used.</source>
-        <translation type="obsolete">La extensión ImageGD fue encontrada y usada.</translation>
-    </message>
-    <message>
-        <source>Regional info:</source>
-        <translation type="obsolete">Información regional:</translation>
-    </message>
-    <message>
-        <source>Monolingual</source>
-        <translation type="obsolete">Monolingüe</translation>
-    </message>
-    <message>
-        <source>Multilingual</source>
-        <translation type="obsolete">Multilingüe</translation>
-    </message>
-    <message>
-        <source>Primary</source>
-        <translation type="obsolete">Primario</translation>
-    </message>
-    <message>
-        <source>Additional</source>
-        <translation type="obsolete">Adicional</translation>
-    </message>
-    <message>
-        <source>Critical tests:</source>
-        <translation type="obsolete">Tests críticos:</translation>
-    </message>
-    <message>
-        <source>Success</source>
-        <translation type="obsolete">Éxito</translation>
-    </message>
-    <message>
-        <source>Failure</source>
-        <translation type="obsolete">Error</translation>
-    </message>
-    <message>
-        <source>Other tests:</source>
-        <translation type="obsolete">Otros tests:</translation>
-    </message>
-    <message>
-        <source>Comments:</source>
-        <translation type="obsolete">Comentarios:</translation>
-    </message>
-    <message>
-        <source>setup</source>
-        <translation>Configuración</translation>
-    </message>
     <message>
         <source>Cache admin</source>
         <translation>Administrador de caché</translation>
@@ -3406,10 +3035,6 @@ Clica en los nombres de ubicaciones para cambiar la lista de navegación.</trans
     <message>
         <source>System information</source>
         <translation>Información del sistema</translation>
-    </message>
-    <message>
-        <source>Extensions</source>
-        <translation type="obsolete">Extensiones</translation>
     </message>
     <message>
         <source>Safe mode is on.</source>
@@ -3460,20 +3085,12 @@ Clica en los nombres de ubicaciones para cambiar la lista de navegación.</trans
         <translation>Base de datos</translation>
     </message>
     <message>
-        <source>Charset</source>
-        <translation type="obsolete">Juego de caracteres</translation>
-    </message>
-    <message>
         <source>Rapid Application Development Tools</source>
         <translation>Herramientas de Desarrollo de Aplicación Rápida</translation>
     </message>
     <message>
         <source>The rapid application development (RAD) tools allow you to easily get started with creating new functionality for eZ publish.</source>
         <translation>Las herramientas de desarrollo de aplicación rápida (RAD) te ayudarán a un arranque más fácil creando una nueva fiuncionalidad para eZ publish.</translation>
-    </message>
-    <message>
-        <source>Tools</source>
-        <translation type="obsolete">Herramientas</translation>
     </message>
     <message>
         <source>Template operator wizard</source>
@@ -3560,88 +3177,12 @@ Clica en los nombres de ubicaciones para cambiar la lista de navegación.</trans
         <translation>Lista completa de plantilla</translation>
     </message>
     <message>
-        <source>Start</source>
-        <translation type="obsolete">Empezar</translation>
-    </message>
-    <message>
         <source>Basic information</source>
         <translation>Información básica</translation>
     </message>
     <message>
-        <source>Name of operator</source>
-        <translation type="obsolete">Nombre del operador</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="obsolete">Configuraciones</translation>
-    </message>
-    <message>
-        <source>One operator in class</source>
-        <translation type="obsolete">Un operador en la clase</translation>
-    </message>
-    <message>
-        <source>Handles operator input</source>
-        <translation type="obsolete">Gestiona la entrada del operador</translation>
-    </message>
-    <message>
-        <source>Generates operator output</source>
-        <translation type="obsolete">Genera salida del operador</translation>
-    </message>
-    <message>
-        <source>Parameter handling</source>
-        <translation type="obsolete">Parametro gestionado</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="obsolete">Siguiente</translation>
-    </message>
-    <message>
-        <source>Restart</source>
-        <translation type="obsolete">Reempezar</translation>
-    </message>
-    <message>
         <source>Optional information</source>
         <translation>Información opcional</translation>
-    </message>
-    <message>
-        <source>Name of class</source>
-        <translation type="obsolete">Nombre de la clase</translation>
-    </message>
-    <message>
-        <source>The creator of the operator</source>
-        <translation type="obsolete">El creador del operador</translation>
-    </message>
-    <message>
-        <source>Description of your operator</source>
-        <translation type="obsolete">Descripción de tu operador</translation>
-    </message>
-    <message>
-        <source>The first line will be used as the brief description and the rest are operator documentation.</source>
-        <translation type="obsolete">La primera línea será usada como breve descripción y el resto es documentación del operador.</translation>
-    </message>
-    <message>
-        <source>Handles template operator %operatorname
-By using %operatorname you can ...</source>
-        <translation type="obsolete">Gestiona el operador de plantillas %nombre del operador
-Usando %nombre del operador puedes...</translation>
-    </message>
-    <message>
-        <source>Example code</source>
-        <translation type="obsolete">Código de ejemplo</translation>
-    </message>
-    <message>
-        <source>If you wish you can add some example code to explain how your operator should work.
-The default code was made from the basic parameters you chose.</source>
-        <translation type="obsolete">Si quieres puedes añadir algún código de ejemplo para explicar como puede funcionar tu operador.
-El código por defecto ha sido hecho con los parámetros básicos que has elegido.</translation>
-    </message>
-    <message>
-        <source>Once the download button is clicked the code will be generated and the browser will ask you to store the generated file.</source>
-        <translation type="obsolete">Una vez clicado el botón de descarga el código será generado y el browser preguntará si quieres almacenar el archivo generado.</translation>
-    </message>
-    <message>
-        <source>Download</source>
-        <translation type="obsolete">Descarga</translation>
     </message>
     <message>
         <source>Template view</source>
@@ -3680,299 +3221,299 @@ El código por defecto ha sido hecho con los parámetros básicos que has elegid
         <translation>Crear nuevo</translation>
     </message>
     <message>
-        <source>SVN revision</source>
-        <translation type="obsolete">SVN revisión</translation>
-    </message>
-    <message>
         <source>Datatype wizard</source>
-        <translation type="unfinished">Asistente de tipo de dato</translation>
+        <translation>Asistente de tipo de dato</translation>
     </message>
     <message>
         <source>Start</source>
         <comment>Datatype start</comment>
-        <translation type="unfinished">Empezar</translation>
+        <translation>Empezar</translation>
     </message>
     <message>
         <source>Name of datatype</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Nombre del tipo de dato</translation>
+        <translation>Nombre del tipo de dato</translation>
     </message>
     <message>
         <source>Descriptive name of datatype</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Nombre descriptivo del tipo de dato</translation>
+        <translation>Nombre descriptivo del tipo de dato</translation>
     </message>
     <message>
         <source>Settings</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Configuraciones</translation>
+        <translation>Configuraciones</translation>
     </message>
     <message>
         <source>Handle input on class level</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Gestionar entradas en nivel de clase</translation>
+        <translation>Gestionar entradas en nivel de clase</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>Datatype next</comment>
-        <translation type="unfinished">Siguiente</translation>
+        <translation>Siguiente</translation>
     </message>
     <message>
         <source>Restart</source>
         <comment>Datatype restart</comment>
-        <translation type="unfinished">Reiniciar</translation>
+        <translation>Reiniciar</translation>
     </message>
     <message>
         <source>Name of class</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Nombre de la clase</translation>
+        <translation>Nombre de la clase</translation>
     </message>
     <message>
         <source>Constant name</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Nombre constante</translation>
+        <translation>Nombre constante</translation>
     </message>
     <message>
         <source>The creator of the datatype</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">El creador del tipo de dato</translation>
+        <translation>El creador del tipo de dato</translation>
     </message>
     <message>
         <source>Description of your datatype</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Descripción del tipo de dato</translation>
+        <translation>Descripción del tipo de dato</translation>
     </message>
     <message>
         <source>The first line will be used as the brief description and the rest are operator documentation.</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">La primera línea será usada como breve descripción y el resto es documentación del operador.</translation>
+        <translation>La primera línea será usada como breve descripción y el resto es documentación del operador.</translation>
     </message>
     <message>
         <source>Handles the datatype %datatypename
 By using %datatypename you can ...</source>
         <comment>Datatype default description</comment>
-        <translation type="unfinished">Gestionar el tipo de dato %nombre del tipo de dato
+        <translation>Gestionar el tipo de dato %nombre del tipo de dato
 Usando el %nombre de tipo de dato puedes...</translation>
     </message>
     <message>
         <source>Once the download button is clicked the code will be generated and the browser will ask you to store the generated file.</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Una vez clicado el botón de descarga el código será generado y el browser preguntará si quieres almacenar el archivo generado.</translation>
+        <translation>Una vez clicado el botón de descarga el código será generado y el browser preguntará si quieres almacenar el archivo generado.</translation>
     </message>
     <message>
         <source>Download</source>
         <comment>Datatype download</comment>
-        <translation type="unfinished">Descarga</translation>
+        <translation>Descarga</translation>
     </message>
     <message>
         <source>Extension setup</source>
-        <translation type="unfinished">Configuración extendida</translation>
+        <translation>Configuración extendida</translation>
     </message>
     <message>
         <source>Here you can activate/deactivate you extensions. Only system wide extensions can be activated, for site access spesific extensions, modify these configuration files.</source>
-        <translation type="unfinished">Aquí puedes activar o desactivar tus extensiones. Solo las extensiones anchas de sistema pueden ser activadas. Para las extensiones específicas de acceso al sitio, modifica estas configuraciones.</translation>
+        <translation>Aquí puedes activar o desactivar tus extensiones. Solo las extensiones anchas de sistema pueden ser activadas. Para las extensiones específicas de acceso al sitio, modifica esos archivos de configuración.</translation>
     </message>
     <message>
         <source>Available extensions</source>
-        <translation type="unfinished">Extensiones disponibles</translation>
+        <translation>Extensiones disponibles</translation>
     </message>
     <message>
         <source>Site:</source>
-        <translation type="unfinished">Sitio:</translation>
+        <translation>Sitio:</translation>
     </message>
     <message>
         <source>Version</source>
         <comment>eZ publish version</comment>
-        <translation type="unfinished">Versión</translation>
+        <translation>Versión</translation>
     </message>
     <message>
         <source>SVN revision</source>
         <comment>eZ publish version</comment>
-        <translation type="unfinished">SVN revisión</translation>
+        <translation> Revisión SVN</translation>
     </message>
     <message>
         <source>Extensions</source>
         <comment>eZ publish extensions</comment>
-        <translation type="unfinished">Extensiones</translation>
+        <translation>Extensiones</translation>
     </message>
     <message>
         <source>Version</source>
         <comment>PHP version</comment>
-        <translation type="unfinished">Versión</translation>
+        <translation>Versión</translation>
     </message>
     <message>
         <source>Extensions</source>
         <comment>PHP extensions</comment>
-        <translation type="unfinished">Extensiones</translation>
+        <translation>Extensiones</translation>
     </message>
     <message>
         <source>Version</source>
         <comment>PHP Accelerator version</comment>
-        <translation type="unfinished">Versión</translation>
+        <translation>Versión</translation>
     </message>
     <message>
         <source>PHP Accelerator is enabled.</source>
-        <translation type="unfinished">El acelerador PHP está habilitado.</translation>
+        <translation>El acelerador PHP está habilitado.</translation>
     </message>
     <message>
         <source>PHP Accelerator is disabled.</source>
-        <translation type="unfinished">El acelerador PHP está deshabilitado.</translation>
+        <translation>El acelerador PHP está deshabilitado.</translation>
     </message>
     <message>
         <source>There is no known PHP accelerator active.</source>
-        <translation type="unfinished">No se conoce ningúm acelerador PHP activo.</translation>
+        <translation>No se conoce ningúm acelerador PHP activo.</translation>
     </message>
     <message>
         <source>Type</source>
         <comment>Database type</comment>
-        <translation type="unfinished">Tipo</translation>
+        <translation>Tipo</translation>
     </message>
     <message>
         <source>Charset</source>
         <comment>Database charset</comment>
-        <translation type="unfinished">Juego de caracteres</translation>
+        <translation>Juego de caracteres</translation>
     </message>
     <message>
         <source>&amp;percent% completed</source>
-        <translation type="unfinished">&amp;porcentaje% completo</translation>
+        <translation>&amp;porcentaje% completo</translation>
     </message>
     <message>
         <source>Tools</source>
         <comment>RAD Tools</comment>
-        <translation type="unfinished">Herramientas</translation>
-    </message>
-    <message>
-        <source>System check</source>
-        <translation type="unfinished">Checkeo de sistema</translation>
-    </message>
-    <message>
-        <source>Ok</source>
-        <translation type="unfinished">Ok</translation>
-    </message>
-    <message>
-        <source>Image processing</source>
-        <translation type="unfinished">Procesando imagen</translation>
-    </message>
-    <message>
-        <source>Languages</source>
-        <translation type="unfinished">Lenguajes</translation>
-    </message>
-    <message>
-        <source>Mail server</source>
-        <translation type="unfinished">Servidor de correo</translation>
-    </message>
-    <message>
-        <source>Sitedesign</source>
-        <translation type="unfinished">Diseño del sitio</translation>
+        <translation>Herramientas</translation>
     </message>
     <message>
         <source>Start</source>
         <comment>Template operator start</comment>
-        <translation type="unfinished">Empezar</translation>
+        <translation>Empezar</translation>
     </message>
     <message>
         <source>Name of operator</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Nombre del operador</translation>
+        <translation>Nombre del operador</translation>
     </message>
     <message>
         <source>Settings</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Configuraciones</translation>
+        <translation>Configuraciones</translation>
     </message>
     <message>
         <source>One operator in class</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Un operador en la clase</translation>
+        <translation>Un operador en la clase</translation>
     </message>
     <message>
         <source>Handles operator input</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Gestiona la entrada del operador</translation>
+        <translation>Gestiona la entrada del operador</translation>
     </message>
     <message>
         <source>Generates operator output</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Genera salida del operador</translation>
+        <translation>Genera salida del operador</translation>
     </message>
     <message>
         <source>Parameter handling</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Parametro gestionado</translation>
+        <translation>Parametro gestionado</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>Template operator next</comment>
-        <translation type="unfinished">Siguiente</translation>
+        <translation>Siguiente</translation>
     </message>
     <message>
         <source>Restart</source>
         <comment>Template operator restart</comment>
-        <translation type="unfinished">Reiniciar</translation>
+        <translation>Reiniciar</translation>
     </message>
     <message>
         <source>Name of class</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Nombre de la clase</translation>
+        <translation>Nombre de la clase</translation>
     </message>
     <message>
         <source>The creator of the operator</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">El creador del operador</translation>
+        <translation>El creador del operador</translation>
     </message>
     <message>
         <source>Description of your operator</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Descripción de tu operador</translation>
+        <translation>Descripción de tu operador</translation>
     </message>
     <message>
         <source>The first line will be used as the brief description and the rest are operator documentation.</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">La primera línea será usada como breve descripción y el resto es documentación del operador.</translation>
+        <translation>La primera línea será usada como breve descripción y el resto es documentación del operador.</translation>
     </message>
     <message>
         <source>Handles template operator %operatorname
 By using %operatorname you can ...</source>
         <comment>Template operator default description</comment>
-        <translation type="unfinished">Gestiona el operador de plantillas %nombre del operador
+        <translation>Gestiona el operador de plantillas %nombre del operador
 Usando %nombre del operador puedes...</translation>
     </message>
     <message>
         <source>Example code</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Código de ejemplo</translation>
+        <translation>Código de ejemplo</translation>
     </message>
     <message>
         <source>If you wish you can add some example code to explain how your operator should work.
 The default code was made from the basic parameters you chose.</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Si quieres puedes añadir algún código de ejemplo para explicar como puede funcionar tu operador.
+        <translation>Si quieres puedes añadir algún código de ejemplo para explicar como puede funcionar tu operador.
 El código por defecto ha sido hecho con los parámetros básicos que has elegido.</translation>
     </message>
     <message>
         <source>Once the download button is clicked the code will be generated and the browser will ask you to store the generated file.</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Una vez clicado el botón de descarga el código será generado y el browser preguntará si quieres almacenar el archivo generado.</translation>
+        <translation>Una vez clicado el botón de descarga el código será generado y el browser preguntará si quieres almacenar el archivo generado.</translation>
     </message>
     <message>
         <source>Download</source>
         <comment>Template operator download</comment>
-        <translation type="unfinished">Descarga</translation>
+        <translation>Descarga</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation type="unfinished">Ayuda</translation>
+        <translation>Ayuda</translation>
     </message>
     <message>
         <source>Summary</source>
-        <translation type="unfinished">Sumario</translation>
+        <translation>Sumario</translation>
+    </message>
+    <message>
+        <source>System:</source>
+        <translation>Sistema:</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Image system:</source>
+        <translation>Sistema de imagen:</translation>
+    </message>
+    <message>
+        <source>Mail:</source>
+        <translation>Correo:</translation>
+    </message>
+    <message>
+        <source>Database:</source>
+        <translation>Base de datos:</translation>
+    </message>
+    <message>
+        <source>Language(s):</source>
+        <translation>Idioma(s):</translation>
+    </message>
+    <message>
+        <source>Site(s):</source>
+        <translation>Sitio(s):</translation>
     </message>
 </context>
 <context>
     <name>design/standard/setup/datatypecode</name>
     <message>
         <source>Constructor</source>
-        <translation type="unfinished">Constructor</translation>
+        <translation>Constructor</translation>
     </message>
 </context>
 <context>
@@ -4073,18 +3614,6 @@ El código por defecto ha sido hecho con los parámetros básicos que has elegid
 <context>
     <name>design/standard/setup/init</name>
     <message>
-        <source>The database is ready for initialization, click the</source>
-        <translation type="obsolete">La base de datos está lista para su inicialización, clica el</translation>
-    </message>
-    <message>
-        <source>Create Database</source>
-        <translation type="obsolete">Crear base de datos</translation>
-    </message>
-    <message>
-        <source>button when ready.</source>
-        <translation type="obsolete">botón cuando esté listo.</translation>
-    </message>
-    <message>
         <source>If you want you can let the setup add some demo data to your database, this demo data will give a good demonstration of the capabilites of eZ publish</source>
         <translation>Si quieres puedes permitir a la configuración añadir alguna demostración de datos a tu base de datos, esta demostración de datos puede ser una buena demostración de las capacidades de eZ publish</translation>
     </message>
@@ -4145,14 +3674,6 @@ El código por defecto ha sido hecho con los parámetros básicos que has elegid
         <translation>Continuar y eliminar los datos.</translation>
     </message>
     <message>
-        <source>Continue and remove the data.</source>
-        <translation type="obsolete">Continúa y elemina los datos.</translation>
-    </message>
-    <message>
-        <source>Continue and skip database initialization.</source>
-        <translation type="obsolete">Continúa y evita la carga de bases de datos.</translation>
-    </message>
-    <message>
         <source>Let me choose a new database.</source>
         <translation>Dejarme elegir una nueva base de datos.</translation>
     </message>
@@ -4161,29 +3682,9 @@ El código por defecto ha sido hecho con los parámetros básicos que has elegid
         <translation>Note:</translation>
     </message>
     <message>
-        <source>It can take some time creating the database so please be patient and wait until the new page is finished.</source>
-        <translation type="obsolete">Ella puede tomarse algún tiempo creando la base de datos, así que se paciente y espera hasta que finalice la nueva página.</translation>
-    </message>
-    <message>
-        <source>It&apos;s time to choose your database, the choice will determine the language support. Once you are done click</source>
-        <translation type="obsolete">Es hora de elegir tu base de datos, la opción determinará el soporte de lenguaje. Una vez hayas hecho clic</translation>
-    </message>
-    <message>
         <source>Language Options</source>
         <translation>Opciones de lenguaje
 </translation>
-    </message>
-    <message>
-        <source>to continue the setup.</source>
-        <translation type="obsolete">Continuar la configuración.</translation>
-    </message>
-    <message>
-        <source>Your system has support for one database only, it is</source>
-        <translation type="obsolete">Tu sistema tiene soporte para una sola base de datos, esta es</translation>
-    </message>
-    <message>
-        <source>, click</source>
-        <translation type="obsolete">, clic</translation>
     </message>
     <message>
         <source>no</source>
@@ -4194,64 +3695,12 @@ El código por defecto ha sido hecho con los parámetros básicos que has elegid
         <translation>Sí</translation>
     </message>
     <message>
-        <source>The database was succesfully initialized, you are now ready for some post configuration of the site. Click the</source>
-        <translation type="obsolete">La base de datos se ha iniciado con éxito, ahora estás preparadom para alguna configuración posterior del site. Clica el</translation>
-    </message>
-    <message>
         <source>Configure</source>
         <translation>Configurar</translation>
     </message>
     <message>
-        <source>button to start the configuration process.</source>
-        <translation type="obsolete">botón para comenzar el proceso de configuración.</translation>
-    </message>
-    <message>
-        <source>No database connection</source>
-        <translation type="obsolete">No hay conexión a base de datos</translation>
-    </message>
-    <message>
-        <source>Could not connect to database.</source>
-        <translation type="obsolete">No se puede conectar con la base de datos.</translation>
-    </message>
-    <message>
-        <source>The database would not accept the connection , please review your settings and try again.</source>
-        <translation type="obsolete">La base de datos no acepta la conexión. Por favor, revisa tus preferencias y prueba otra vez.</translation>
-    </message>
-    <message>
-        <source>We&apos;re now ready to initialize the database. The basic structure will be initialized. To start the initialization, please enter the relevant information in the boxes below, and the password you want on the database and click the</source>
-        <translation type="obsolete">Estamos listos para inicializar la base de datos. La estructura básica será inicializada. Para empezar la inicialización, por favor mete la información relevante en las cajas de abajo, y la contraseña que quieres en la base de datos y clica el</translation>
-    </message>
-    <message>
-        <source>Connect To Database</source>
-        <translation type="obsolete">Conectar con la base de datos</translation>
-    </message>
-    <message>
         <source>button.</source>
         <translation>botón.</translation>
-    </message>
-    <message>
-        <source>If you have an already existing eZ publish database enter the information and the setup will use that as database.</source>
-        <translation type="obsolete">Si tienes alguna otra base de datos eZ publish existente, mete la información y la configuración la utilizará como base de datos.</translation>
-    </message>
-    <message>
-        <source>Empty password</source>
-        <translation type="obsolete">Contraseña vacía</translation>
-    </message>
-    <message>
-        <source>You must supply a password for the database.</source>
-        <translation type="obsolete">Has de suministrar una contraseña para la base de datos.</translation>
-    </message>
-    <message>
-        <source>Password does not match</source>
-        <translation type="obsolete">La contraseña no coincide</translation>
-    </message>
-    <message>
-        <source>The password and confirmation password must match.</source>
-        <translation type="obsolete">La contraseña y la confirmación han de coincidir.</translation>
-    </message>
-    <message>
-        <source>Unknown error</source>
-        <translation type="obsolete">Error desconocido</translation>
     </message>
     <message>
         <source>No finetuning is required on your system, you can continue by clicking the</source>
@@ -4334,10 +3783,6 @@ El código por defecto ha sido hecho con los parámetros básicos que has elegid
         <translation>para volver al sitio.</translation>
     </message>
     <message>
-        <source>Email is used for sending out important notices such as user registration and content approval, and is used to send the site registration.</source>
-        <translation type="obsolete">El correo electrónico se utiliza para transmitir noticias importantes, como el registro de usuarios y la aprobación del contenido, así como para tramitar el registro al sitio.</translation>
-    </message>
-    <message>
         <source>You can choose from either</source>
         <translation>Puedes escoger entre cualquiera</translation>
     </message>
@@ -4346,40 +3791,12 @@ El código por defecto ha sido hecho con los parámetros básicos que has elegid
         <translation>Enviar mail</translation>
     </message>
     <message>
-        <source>which must available on the server or</source>
-        <translation type="obsolete">que será disponible al servidor o</translation>
-    </message>
-    <message>
         <source>SMTP</source>
         <translation>SMTP</translation>
     </message>
     <message>
-        <source>which will relay the emails. If unsure what to use ask your webhost, some webhosts do not support</source>
-        <translation type="obsolete">que transmitirá los correos electrónicos. Si no sabes qué utilizar, pide información a tu proveedor de alojamiento web. Algunos no tienen soporte</translation>
-    </message>
-    <message>
-        <source>Configuration of sendmail is done on the server, consult your webhost.</source>
-        <translation type="obsolete">La configuración del trámite de correo electrónico está en el servidor. Consulta con tu proveedor de alojamiento web.</translation>
-    </message>
-    <message>
-        <source>Email transport by SMTP requires a server name. If the server requires authentication you must enter a username and password as well.</source>
-        <translation type="obsolete">La tramitación de correos electrónicos por SMTP requiere un nombre de servidor. Si el servidor requiere autentificación, hará falta que introduzcas también un nombre de usuario y una contraseña.</translation>
-    </message>
-    <message>
-        <source>Server name</source>
-        <translation>Nombre del servidor</translation>
-    </message>
-    <message>
-        <source>User name</source>
-        <translation>Nombre del usuario</translation>
-    </message>
-    <message>
         <source>Password</source>
         <translation>Contraseña</translation>
-    </message>
-    <message>
-        <source>Site Details</source>
-        <translation type="obsolete">Detalles del sitio</translation>
     </message>
     <message>
         <source>Email sending failed</source>
@@ -4394,52 +3811,16 @@ El código por defecto ha sido hecho con los parámetros básicos que has elegid
         <translation>Felicidades, eZ publish puede funcionar ahora en tu sistema.</translation>
     </message>
     <message>
-        <source>If you need help with eZ publish, you can go to the</source>
-        <translation type="obsolete">Si necesitas ayuda sobre aZ publish, puedes ir al</translation>
-    </message>
-    <message>
         <source>eZ publish website</source>
         <translation>sitio web de eZ publish</translation>
-    </message>
-    <message>
-        <source>If you find a bug (error), please go to</source>
-        <translation type="obsolete">Si encuentras un error (bug), por favor ve al</translation>
     </message>
     <message>
         <source>eZ publish bug reports</source>
         <translation>aviso de fallos de eZ publish</translation>
     </message>
     <message>
-        <source>and report it.</source>
-        <translation type="obsolete">y reportalo.</translation>
-    </message>
-    <message>
-        <source>With your help we can fix the errors eZ publish might have and implement new features.</source>
-        <translation type="obsolete">Con tu ayuda podemos solucionar los errores que pueda tener eZ publish y añadir nuevas funcionalidades.</translation>
-    </message>
-    <message>
-        <source>If you ever want to restart this setup, edit the file</source>
-        <translation type="obsolete">Si alguna vez quieres reiniciar esta configuración, edita el archivo</translation>
-    </message>
-    <message>
-        <source>and look for a line that says:</source>
-        <translation type="obsolete">y busca la línea que dice:</translation>
-    </message>
-    <message>
-        <source>Click on the URL to access your new</source>
-        <translation type="obsolete">Clica en la URL para acceder a tu nuevo</translation>
-    </message>
-    <message>
-        <source>or click the</source>
-        <translation type="obsolete">o clica el</translation>
-    </message>
-    <message>
         <source>Done</source>
         <translation>Hecho</translation>
-    </message>
-    <message>
-        <source>button. Enjoy one of the most successful web content management systems!</source>
-        <translation type="obsolete">botón. ¡Disfruta de uno de los sistemas de gestión de contenidos wen de más éxito!</translation>
     </message>
     <message>
         <source>It&apos;s time to select the language this site should support.</source>
@@ -4498,60 +3879,12 @@ El código por defecto ha sido hecho con los parámetros básicos que has elegid
         <translation>Predeterminado</translation>
     </message>
     <message>
-        <source>If you wish you can register your installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your personal details for unsolicited emails. This data will help to improve eZ publish for future releases.</source>
-        <translation type="obsolete">Si quieres puedes registrar tu instalación enviando información a eZ systems. Ningún dato confidencial será trasmitido y eZ systems no usará o venderá tus detalles personales para emails no solicitados. Estos datos ayudan a eZ publish para mejorar próximas ediciones.</translation>
-    </message>
-    <message>
-        <source>The following data will be sent to eZ systems:</source>
-        <translation type="obsolete">Los siguientes datos serán enviados a eZ system:</translation>
-    </message>
-    <message>
-        <source>Details of your system, like OS type etc.</source>
-        <translation>Detalles de tu sistema, como el tipo de OS, etc.</translation>
-    </message>
-    <message>
-        <source>The test results for your system</source>
-        <translation>Resultados del test para tu sistema</translation>
-    </message>
-    <message>
-        <source>The database type you are using</source>
-        <translation>El tipo de base de datos que estás usando</translation>
-    </message>
-    <message>
-        <source>The name of your site</source>
-        <translation>El nombre de tu sitio</translation>
-    </message>
-    <message>
-        <source>The url of your site</source>
-        <translation>La url de tu sitio</translation>
-    </message>
-    <message>
-        <source>The languages you chose</source>
-        <translation>Los lenguajes que eliges</translation>
-    </message>
-    <message>
-        <source>If you wish you can also add some comments which will be included in the registration.</source>
-        <translation>Si quieres, puedes añadir algunos comentarios que se incluirán en el registro. </translation>
-    </message>
-    <message>
-        <source>Comments</source>
-        <translation>Comentarios</translation>
-    </message>
-    <message>
         <source>Send Registration</source>
         <translation>Enviar registro</translation>
     </message>
     <message>
         <source>Skip Registration</source>
         <translation>Saltarse el registro</translation>
-    </message>
-    <message>
-        <source>It&apos;s time to specify the title and url of your site, this will be used in the title of the webpage and for sending out email with the site url.</source>
-        <translation type="obsolete">Es hora de especificar el título y la url de tu sitio, esta será usada como el título de la página web y para enviar fuera el email con la url del sitio.</translation>
-    </message>
-    <message>
-        <source>Register Site</source>
-        <translation type="obsolete">Registrar el sitio</translation>
     </message>
     <message>
         <source>What kind of language support should this site have. The type of support determines the language selection and charset.</source>
@@ -4634,16 +3967,8 @@ El código por defecto ha sido hecho con los parámetros básicos que has elegid
         <translation>No se han encontrado problemas en tu sistema, puedes continuar clicando el</translation>
     </message>
     <message>
-        <source>However if you wish to finetune your system you should click the</source>
-        <translation>Sin embargo, si quieres hacer ajustes más precisos en tu sistema, haz clic en el</translation>
-    </message>
-    <message>
         <source>Finetune System</source>
         <translation>Sistema de ajuste preciso</translation>
-    </message>
-    <message>
-        <source>The system check found some issues that needs to be resolve before the setup can continue.</source>
-        <translation type="obsolete">La comprobación del sistema ha encontrado algunas cuestiones que han de ser resualetas antes de que continúe el proceso de configuración.</translation>
     </message>
     <message>
         <source>Please have a look through the results below for more information on what the problems are.</source>
@@ -4654,68 +3979,12 @@ El código por defecto ha sido hecho con los parámetros básicos que has elegid
         <translation>Cada problema te dará las instrucciones para solucionarlo.</translation>
     </message>
     <message>
-        <source>button to re-run the system checking.</source>
-        <translation type="obsolete">botón para volver a arrancar la comprobación del sistema.</translation>
-    </message>
-    <message>
-        <source>Welcome to the setup program for eZ publish</source>
-        <translation type="obsolete">Bienvenido al programa de configuración  de eZ publish</translation>
-    </message>
-    <message>
-        <source>This part of the setup system will guide you trough the necessary steps to make sure eZ publish is properly initialized</source>
-        <translation type="obsolete">Esta parte del sistema de configuración te guiará con los pasos necesarios para asegurar que eZ publish se ha inicializado correctamente</translation>
-    </message>
-    <message>
-        <source>Click the button below to proceed to the next step which will start the system check.</source>
-        <translation type="obsolete">Haz clic en el botón de abajo para comenzar con el siguiente paso, que iniciará la comprobación del sistema.</translation>
-    </message>
-    <message>
-        <source>However if you wish to setup the site manually press the</source>
-        <translation type="obsolete">Sin embargo, si quieres configurar manualmente el sitio presiona el</translation>
-    </message>
-    <message>
-        <source>Disable Setup</source>
-        <translation type="obsolete">Deshabilitar la configuración</translation>
-    </message>
-    <message>
-        <source>System Check</source>
-        <translation type="obsolete">Comprovación del sistema</translation>
-    </message>
-    <message>
-        <source>The setup will not do an upgrade from older eZ publish versions (such as 2.2.7) if you leave the data as it is. This is only meant for people who have existing data that they don&apos;t want to loose. If you have existing eZ publish 3.0 data (such as from an RC release) you should skip DB initialization, however you will then need to do a manual upgrade.</source>
-        <translation type="obsolete">La configuración no actualizará desde versiones anteriores de eZ publish (tales como la 2.2.7) si dejas los datos tal cual están. Esto solo sirve para la gente que ya tiene datos que no quieren perder. Si ya tienes datos de eZ publish 3 (como por ejemplo de las versiones RC) tendrías que saltarte la inicialización de la base de datos. Sin embargo, luego tendrás que actualizar manualmente.</translation>
-    </message>
-    <message>
         <source>Type</source>
         <translation>Tipo</translation>
     </message>
     <message>
-        <source>Servername</source>
-        <translation>Nombre del servidor</translation>
-    </message>
-    <message>
-        <source>Socket</source>
-        <translation type="obsolete">Enchufe</translation>
-    </message>
-    <message>
-        <source>Databasename</source>
-        <translation type="obsolete">Nombre de la base de datos</translation>
-    </message>
-    <message>
         <source>Username</source>
         <translation>Nombre de usuario</translation>
-    </message>
-    <message>
-        <source>Confirm password</source>
-        <translation type="obsolete">Comfirmar contraseña</translation>
-    </message>
-    <message>
-        <source>Title of your site</source>
-        <translation type="obsolete">Título de tu sitio</translation>
-    </message>
-    <message>
-        <source>URL to your site</source>
-        <translation type="obsolete">URL de tu sitio</translation>
     </message>
     <message>
         <source>The database is ready for initialization, click the %1 button when ready.</source>
@@ -4754,611 +4023,648 @@ El código por defecto ha sido hecho con los parámetros básicos que has elegid
         <translation>el cual está disponible en el servidor o</translation>
     </message>
     <message>
-        <source>features.&quot;
-</source>
-        <translation type="obsolete">características.&quot;
-</translation>
-    </message>
-    <message>
         <source>ez.no</source>
         <translation>ez.no</translation>
-    </message>
-    <message>
-        <source>systems!&quot;
-</source>
-        <translation type="obsolete">sistemas!&quot;</translation>
     </message>
     <message>
         <source>The default username for the administrator is %1 and the default password is %2.</source>
         <translation>El nombre para el administrador por defecto es %1 y la contraseña por defecto es %2.</translation>
     </message>
     <message>
-        <source>Sending out the email might take a couple of seconds so please wait until the next page loads. Clicking the button again will only send out duplicate emails.</source>
-        <translation type="obsolete">Mandar el correo electrónico puede tardar algunos segundos, así que por favor espera a que se cargue la próxima página. Clicar de nuevo el botón solo servirá para enviar los correos por duplicado.</translation>
-    </message>
-    <message>
-        <source>You&apos;re site is running in virtualhost mode and is considered secure. You may safely continue.</source>
-        <translation type="obsolete">Tu sitio está funcionando en modo de alojamiento virtual y se considera seguro. Puedes continuar de forma segura.</translation>
-    </message>
-    <message>
-        <source>Your site is running in non-virtualhost mode which is considered an unsecure mode. It&apos;s recommended to run eZ publish in virtualhost mode.
-If you do not have the possiblity to use virtualhost mode you should follow the instructions below on howto install a .htaccess file, the file tells the webserver to only give access to certain files.</source>
-        <translation type="obsolete">Tu sitio está funcionando en modo de no alojamiento virtual y se considera inseguro. Se recomienda que eZ publish funcione en modo de alojamiento virtual.
-Si no tienes la posibilidad de usar un modo de alojamiento virtual, puedes seguir las instrucciones de abajo sobre cómo instalar un archivo .htaccess. Este archivo le dice al servidor web que solo acceda a archivos seguros.</translation>
-    </message>
-    <message>
-        <source>It&apos;s time to specify the title and url of your site, this will be used in the title of the webpage and for sending out email with the site url.
-       The administrator email is used as sender email from all emails sent from eZ publish, it&apos;s adviced to set this correctly.</source>
-        <translation type="obsolete">Es el momento de especificar el título y la url de tu sitio, que será usado en elñ título del web y para enviar correos electrónicos con tu dirección web.
-El administrador de correos electrónicos es usado como enviador de correo para toods los correos enviados desde eZ publish, por lo que se aconseja fijarlo correctamente.</translation>
-    </message>
-    <message>
-        <source>Administator E-Mail</source>
-        <translation type="obsolete">Administrador de correo electrónico</translation>
-    </message>
-    <message>
-        <source>Securing Site</source>
-        <translation type="obsolete">Sitio seguro</translation>
-    </message>
-    <message>
-        <source>After you have fixed the problems click the %1 button to re-run the system checking. You may also ignore specific tests by clicking the checkboxes.</source>
-        <translation type="obsolete">Después de que hayas fijado los problemas clica el botón %1 para reiniciar el chequeo del sistema. También puedes ignorar los test específicos clicando los checkboxes.</translation>
-    </message>
-    <message>
-        <source>Welcome to the setup program for eZ publish %1.</source>
-        <translation type="obsolete">Bienvenido al programa de configuración para eZ publish %1.</translation>
-    </message>
-    <message>
         <source>Database choice</source>
-        <translation type="unfinished">Opción de base de datos</translation>
+        <translation>Opción de base de datos</translation>
     </message>
     <message>
         <source>The database would not accept the connection, please review your settings and try again.</source>
-        <translation type="unfinished">La base de datos no acepta la conexión. Por favor, revisa tus configuraciones e inténtalo de nuevo.</translation>
+        <translation>La base de datos no acepta la conexión. Por favor, revisa tus configuraciones e inténtalo de nuevo.</translation>
     </message>
     <message>
         <source>Password entries did not match.</source>
-        <translation type="unfinished">La contraseña introducida no coincide</translation>
+        <translation>La contraseña introducida no coincide.</translation>
     </message>
     <message>
         <source>The selected database was not empty, please choose from the alternatives below.</source>
-        <translation type="unfinished">La base de datos seleccinada no está vacía. Por favor, elige una de las alternativas de abajo.</translation>
+        <translation>La base de datos seleccinada no está vacía. Por favor, elige una de las alternativas de abajo.</translation>
     </message>
     <message>
         <source>The selected selected user has not got access to any databases. Change user or create a database for the user.</source>
-        <translation type="unfinished">El &quot;usuario seleccionado&quot; que has seleccionado no tiene acceso a ninguna base de datos. Cambia el usuario o crea una base de datos para el usuario.</translation>
+        <translation>El &quot;usuario seleccionado&quot; que has seleccionado no tiene acceso a ninguna base de datos. Cambia el usuario o crea una base de datos para el usuario.</translation>
     </message>
     <message>
         <source>Database initalization</source>
-        <translation type="unfinished">Inicialización de la base de datos</translation>
+        <translation>Inicialización de la base de datos</translation>
     </message>
     <message>
         <source>Email settings</source>
-        <translation type="unfinished">Configuraciones de correo</translation>
+        <translation>Configuraciones de correo</translation>
     </message>
     <message>
         <source>Finished</source>
-        <translation type="unfinished">Ternimado</translation>
+        <translation>Ternimado</translation>
     </message>
     <message>
         <source>Language options</source>
-        <translation type="unfinished">Opciones de lenguaje</translation>
+        <translation>Opciones de idioma</translation>
     </message>
     <message>
         <source>Registration</source>
-        <translation type="unfinished">Registro</translation>
+        <translation>Registro</translation>
     </message>
     <message>
         <source>Securing site</source>
-        <translation type="unfinished">Asegurando el sitio</translation>
+        <translation>Asegurando el sitio</translation>
     </message>
     <message>
         <source>Site access</source>
-        <translation type="unfinished">Acceso del sitio</translation>
+        <translation>Acceso del sitio</translation>
     </message>
     <message>
         <source>Site details</source>
-        <translation type="unfinished">Detalles del sitio</translation>
+        <translation>Detalles del sitio</translation>
     </message>
     <message>
         <source>No templates choosen.</source>
-        <translation type="unfinished">No se han encontrado plantillas.</translation>
+        <translation>No se han encontrado plantillas.</translation>
     </message>
     <message>
         <source>Site template selection</source>
-        <translation type="unfinished">Selección de plantillas del sitio</translation>
+        <translation>Selección de plantillas del sitio</translation>
     </message>
     <message>
         <source>System check</source>
-        <translation type="unfinished">Chequeo del sistema</translation>
+        <translation>Chequeo del sistema</translation>
     </message>
     <message>
         <source>Welcome to eZ publish</source>
-        <translation type="unfinished">Bienvenido a eZ publish</translation>
+        <translation>Bienvenido a eZ publish</translation>
     </message>
     <message>
         <source>Choose database system</source>
-        <translation type="unfinished">Elige sistema de base de datos</translation>
-    </message>
-    <message>
-        <source>We detected both MySQL and PostgreSQL support on your system. Which database system would you like to use?</source>
-        <translation type="unfinished">Hemos detectado soporte MySQL y PostgreSQL en tu sistema. ¿Qué sistema de base de datos quieres usar?</translation>
-    </message>
-    <message>
-        <source>eZ publish support both MySQL and PostgreSQL.</source>
-        <translation type="unfinished">eZ pblish soporta tanto MySQL como PostgreSQL.</translation>
+        <translation>Elige sistema de base de datos</translation>
     </message>
     <message>
         <source>PostgreSQL or MySQL &gt;= 4.1 are required for unicode support in eZ publish.</source>
-        <translation type="unfinished">Para el soporte unicode en eZ publish se requiere una versión igual o mayor que PostgreSQL o MySQL 4.1.</translation>
+        <translation>Para el soporte unicode en eZ publish se requiere una versión igual o mayor que PostgreSQL o MySQL 4.1.</translation>
     </message>
     <message>
         <source>More information about eZ publish and unicode support can be found %1.</source>
-        <translation type="unfinished">Puedes encontrar más información sobre eZ publish y el soporte unicode en %1.</translation>
+        <translation>Puedes encontrar más información sobre eZ publish y el soporte unicode en %1.</translation>
     </message>
     <message>
         <source>here</source>
         <comment>link to unicode info</comment>
-        <translation type="unfinished">aquí</translation>
+        <translation>aquí</translation>
     </message>
     <message>
         <source>Database initialization</source>
-        <translation type="unfinished">Inicialización de la base de datos</translation>
-    </message>
-    <message>
-        <source>Enter database system user information in the boxes below</source>
-        <translation type="unfinished">Introduce la información de usuario del sistema de base de datos en las cajas de abajo.</translation>
-    </message>
-    <message>
-        <source>Socket (optional)</source>
-        <translation type="unfinished">Toma de corriente (opcional)</translation>
-    </message>
-    <message>
-        <source>It is recommended to create the databases for eZ publish now. If you are uncertain on how to do this, see the database system user manual.</source>
-        <translation type="unfinished">Se recomienda la creación de las bases de datos para eZ publish ahora. Si no estás seguro de cómo hacerlo, consulta el manual de usuario de sistema de base de datos.</translation>
+        <translation>Inicialización de la base de datos</translation>
     </message>
     <message>
         <source>PostgreSQL user name and password is not tested until database names are selected.</source>
-        <translation type="unfinished">El nombre de usuario y la contraseña PostgreSQL no se testea hasta que los nombres de base de datos son seleccionados.</translation>
+        <translation>El nombre de usuario y la contraseña PostgreSQL no se comprueba hasta que los nombres de base de datos son seleccionados.</translation>
     </message>
     <message>
         <source>If you are using MySQL and do not know what to enter in the socket field, leave it blank</source>
-        <translation type="unfinished">Si estás usando MySQL y no sabes como entrar en el campo de toma de corriente, dejalo en blanco</translation>
-    </message>
-    <message>
-        <source>E-mail settings</source>
-        <translation type="unfinished">configuraciones de correo</translation>
-    </message>
-    <message>
-        <source>Specify email settings for eZ publish</source>
-        <translation type="unfinished">Configuraciones de correo específicas para eZ publish</translation>
+        <translation>Si estás usando MySQL y no sabes como entrar en el campo de zócalo, dejalo en blanco</translation>
     </message>
     <message>
         <source>which will relay the emails. If unsure what to use, ask your webhost. Some webhosts do not support</source>
-        <translation type="unfinished">El cual transmitirá los correos. Si nos estás seguro de qué usar, pregunta a tu webhost. Algunos webhost no dan soporte</translation>
-    </message>
-    <message>
-        <source>SMTP is recommended for MS Windows users</source>
-        <translation type="unfinished">Se recomienda SMTP para usuarios de MS Windows</translation>
-    </message>
-    <message>
-        <source>Mail system</source>
-        <translation type="unfinished">Sistema de correo</translation>
-    </message>
-    <message>
-        <source>Email is used for sending out important notices such as user registration and content approval, and it is used to send the site registration.</source>
-        <translation type="unfinished">El correo se utiliza para enviar fuera noticias importantes como el registro de usuario o la aprovación de contenidos. También se usa para enviar el registro del sitio.</translation>
-    </message>
-    <message>
-        <source>Email transport by SMTP requires a server name. If the server requires authentication you must enter a user name and password as well.</source>
-        <translation type="unfinished">La transmisión de correos con SMTP requiere un nombre de servidor. Si el servidor requiere autentificación, debes introducir el nombre de usuario y la contraseña correctos.</translation>
-    </message>
-    <message>
-        <source>Finished!</source>
-        <translation type="unfinished">¡Finalizado!</translation>
-    </message>
-    <message>
-        <source>eZ publish has been installed with the following site(s)</source>
-        <translation type="unfinished">eZ publish ha sido instalado con los siguientes sitio(s)</translation>
+        <translation>el cual transmitirá los correos. Si nos estás seguro de qué usar, pregunta a tu webhost. Algunos webhost no dan soporte</translation>
     </message>
     <message>
         <source>Title</source>
-        <translation type="unfinished">Título</translation>
+        <translation>Título</translation>
     </message>
     <message>
         <source>URL</source>
-        <translation type="unfinished">URL</translation>
+        <translation>URL</translation>
     </message>
     <message>
         <source>User site</source>
-        <translation type="unfinished">Sitio de usuario</translation>
+        <translation>Sitio de usuario</translation>
     </message>
     <message>
         <source>Admin site</source>
-        <translation type="unfinished">Administrar sitio</translation>
+        <translation>Sitio de administracion</translation>
     </message>
     <message>
         <source>Admin e-mail</source>
-        <translation type="unfinished">Administrar correo</translation>
-    </message>
-    <message>
-        <source>Tip: Store this page as an html file by clicking Save-As in your web browser, alternatively you may write down the urls for your sites.</source>
-        <translation type="unfinished"></translation>
+        <translation>Correo de administración</translation>
     </message>
     <message>
         <source>Make sure to visit the %1 and the %2 web site.</source>
-        <translation type="unfinished">Asegúrate de visitar los web sites %1 y %2.</translation>
-    </message>
-    <message>
-        <source>forum</source>
-        <comment>forum link</comment>
-        <translation type="unfinished">Foro</translation>
+        <translation>Asegúrate de visitar los web sites %1 y %2.</translation>
     </message>
     <message>
         <source>eZ publish</source>
         <comment>eZ publish 3 link</comment>
-        <translation type="unfinished">eZ publish</translation>
+        <translation>eZ publish</translation>
     </message>
     <message>
         <source>If you need help with eZ publish, you can go to %ezlink and get help in the forums.
   If you find a bug (error), please go to %buglink and report it.
   With your help we can fix the errors eZ publish might have and implement new features.</source>
-        <translation type="unfinished">Si necesitas ayuda con eZ publish, puedes ir a %enlace a ez y obtenerla en los foros.
-Si encuentras algún error, por favor, ve a %enlace de error y repórtalo.
+        <translation>Si necesitas ayuda con eZ publish, puedes ir a %ezlink y obtenerla en los foros.
+Si encuentras algún error, por favor, ve a %buglink y repórtalo.
 Con tu ayuda podemos solucionar los errores en eZ publish e implementar nuevas funcionalidades.</translation>
     </message>
     <message>
         <source>Click on the URL to access your new %ezlink or click the %donebutton button. Enjoy one of the most successful web content management systems!</source>
-        <translation type="unfinished">Clica en la URL para acceder a tu nuevo %enlace ez o clica en el botón %botón de hecho. ¡Disfruta de una de los más existosos sistemas web de gestión de contenidos!</translation>
+        <translation>Clica en la URL para acceder a tu nuevo %ezlink o clica en el botón %donebutton. ¡Disfruta de una de los más existosos sistemas web de gestión de contenidos!</translation>
     </message>
     <message>
         <source>If you ever want to restart this setup, edit the file %filename and look for a line that says:</source>
-        <translation type="unfinished">Si alguna vez quieres reiniciar la configuración, edita el archivo %nombre de archivo y busca la línea que dice:</translation>
+        <translation>Si alguna vez quieres reiniciar la configuración, edita el archivo %filename y busca la línea que dice:</translation>
     </message>
     <message>
         <source>Change the second line from %false to %true.</source>
-        <translation type="unfinished">Cambia la segunda línea de %falso a %verdadero.</translation>
-    </message>
-    <message>
-        <source>Language and country selection</source>
-        <translation type="unfinished">Selección de lengua y país</translation>
-    </message>
-    <message>
-        <source>Use the radio button to choose primary language, and check boxes to choose additional languages. You may choose more than one additional language.</source>
-        <translation type="unfinished">Usa el botón de selección para elegir el lenguaje primario, y los check boxes para para elegir lenguajes adicionales. Puedes elegir más de un lenguaje adicional. </translation>
+        <translation>Cambia la segunda línea de %false a %true.</translation>
     </message>
     <message>
         <source>No Unicode support</source>
-        <translation type="unfinished">No hay soporte unicode</translation>
+        <translation>No hay soporte unicode</translation>
     </message>
     <message>
         <source>The database server you connected to does not support Unicode which means that you cannot choose all the languages as you did.
 To fix this problem you must do one of the following:</source>
-        <translation type="unfinished">El servidor de base de datos al que estás conectado no soporta Unicode, lo que significa que no puedes elegir las lenguas como querías.
+        <translation>El servidor de base de datos al que estás conectado no soporta Unicode, lo que significa que no puedes elegir los idiomas como querías.
 Para solucionar estos problemas tienes que hacer algo de lo que sigue:</translation>
     </message>
     <message>
         <source>Choose only languages that use similar characters, for instance: English and Norwegian will work together while English and Russian won&apos;t work.</source>
-        <translation type="unfinished">Elige tan solo lenguas que usen caracteres similares, por ejemplo: el inglés y el noruego pueden trabajar juntos donde el inglés y el ruso no pueden.</translation>
+        <translation>Elige tan solo lenguas que usen caracteres similares, por ejemplo: el inglés y el noruego pueden trabajar juntos donde el inglés y el ruso no pueden.</translation>
     </message>
     <message>
         <source>Make sure the database server is configured to use Unicode or that it has the latest software which supports Unicode.</source>
-        <translation type="unfinished">Asegúrate de que el servidor de base de datos está configurado para usar Unicode que tiene el último software que soporta Unicode.</translation>
+        <translation>Asegúrate de que el servidor de base de datos está configurado para usar Unicode que tiene el último software que soporta Unicode.</translation>
     </message>
     <message>
         <source>Primary/Additional</source>
-        <translation type="unfinished">Primario/Adicional</translation>
+        <translation>Primario/Adicional</translation>
     </message>
     <message>
         <source>eZ publish supports multiple languages.</source>
-        <translation type="unfinished">eZ publish soporta múltiples lenguajes.</translation>
-    </message>
-    <message>
-        <source>The selected languages are used to determine character sets, date format, number format, etc.</source>
-        <translation type="unfinished">Los lenguajes seleccionados se usan para determinados grupos de caracteres, formato de datos, formato de números, etc.</translation>
+        <translation>eZ publish soporta múltiples idiomas.</translation>
     </message>
     <message>
         <source>These and other additional languages can also be installed later.</source>
-        <translation type="unfinished">Este y otros lenguajes adicionales pueden también instalarse luego.</translation>
-    </message>
-    <message>
-        <source>For more information about language customization, see the %1.</source>
-        <translation type="unfinished">Para más información sobre la personalización de idiomas, mira el %1.</translation>
+        <translation>Este y otros idiomas adicionales pueden también instalarse luego.</translation>
     </message>
     <message>
         <source>documentation</source>
         <comment>language information link</comment>
-        <translation type="unfinished">Documentación</translation>
+        <translation>Documentación</translation>
     </message>
     <message>
         <source>Back</source>
         <comment>back button in installation</comment>
-        <translation type="unfinished">Atrás</translation>
+        <translation>Atrás</translation>
     </message>
     <message>
         <source>Refresh</source>
         <comment>Refresh button in installation</comment>
-        <translation type="unfinished">Actualizar</translation>
+        <translation>Actualizar</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>next button in installation</comment>
-        <translation type="unfinished">Siguiente</translation>
+        <translation>Siguiente</translation>
     </message>
     <message>
         <source>Site registration</source>
-        <translation type="unfinished">Registro del sitio</translation>
-    </message>
-    <message>
-        <source>If you wish you can register your installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your personal details for unsolicited emails.</source>
-        <translation type="unfinished">Si quieres puedes registrar tu instalación enviando alguna información a eZ systems. No hay que transmitir datos confidenciales y eZ systems no usará o los venderá tus detalles personales para correos no deseados.</translation>
+        <translation>Registro del sitio</translation>
     </message>
     <message>
         <source>The registration email:</source>
-        <translation type="unfinished">El correo de registro:</translation>
-    </message>
-    <message>
-        <source>Sending out the email and generating your site might take a couple of seconds so please wait until the next page loads. Clicking the button again will only send out duplicate emails, and may corrupt your installation.</source>
-        <translation type="unfinished">Enviar el correo y generar el sitio puede tardar algunos segundos. Asi que, por favor, espera a que la página se cargue. Clicando el botón de nuevo tan solo enviarás el correo duplicado y, además, podrías corromper la instalación.</translation>
+        <translation>El correo de registro:</translation>
     </message>
     <message>
         <source>By sending registration the following data will be sent to eZ systems</source>
-        <translation type="unfinished">Enviando el registro los siguientes datos serán enviados a eZ systems</translation>
-    </message>
-    <message>
-        <source>This data will help to improve eZ publish for future releases.</source>
-        <translation type="unfinished">Estos datos te ayudarán a mejorar eZ publish para futuras versiones.</translation>
-    </message>
-    <message>
-        <source>Your site is running in non-virtualhost mode which is considered an unsecure mode. It&apos;s recommended to run eZ publish in virtualhost mode.
-If you do not have the possibility to use virtualhost mode you should follow the instructions below on howto install a .htaccess file, the file tells the webserver to only give access to certain files.</source>
-        <translation type="unfinished">Tu sitio está funcionando en modo de no alojamiento virtual y se considera inseguro. Se recomienda que eZ publish funcione en modo de alojamiento virtual.
-Si no tienes la posibilidad de usar un modo de alojamiento virtual, puedes seguir las instrucciones de abajo sobre cómo instalar un archivo .htaccess. Este archivo le dice al servidor web que solo acceda a archivos seguros.</translation>
-    </message>
-    <message>
-        <source>If you have shell access to the site you can run the following commmand to install the file.</source>
-        <translation type="unfinished">Si tienes acceso shell al sitio puedes arrancar el siguiente comando para instalar el archivo.</translation>
-    </message>
-    <message>
-        <source>If you do not have shell access you will have to copy the file using the ftp client or ask your hosting provider to do this for you.</source>
-        <translation type="unfinished">Si no tienes acceso shell puedes copiar el archivo usando el cliente ftp o pedir a tu proveedor de alojamiento que lo haga por ti.</translation>
-    </message>
-    <message>
-        <source>This security measure is to ensure that your settings are not accessible for other users.</source>
-        <translation type="unfinished">Esta medida de seguridad es para asegurarse de que tus configuraciones no son accesibles para otros usuarios.</translation>
+        <translation>Enviando el registro los siguientes datos serán enviados a eZ systems</translation>
     </message>
     <message>
         <source>Site access configuration</source>
-        <translation type="unfinished">Configuración del acceso al sitio</translation>
-    </message>
-    <message>
-        <source>Choose which access method you would like to use for your site(s).The access method determines how people will access your site.
- If unsure choose URL.</source>
-        <translation type="unfinished">Elige que método de acceso quieres usar para tu sitio(s). El método de acceso determinará cómo la gente podrá acceder a tu sitio.
-Si no estás seguro elige URL.</translation>
+        <translation>Configuración del acceso al sitio</translation>
     </message>
     <message>
         <source>URL (recommended)</source>
-        <translation type="unfinished">URL (recomendado)</translation>
+        <translation>URL (recomendado)</translation>
     </message>
     <message>
         <source>Port. Note: Requires web server configuration </source>
-        <translation type="unfinished">Puerto. Nota: requiere la configuración de un servidor web</translation>
+        <translation>Puerto. Nota: requiere la configuración de un servidor web</translation>
     </message>
     <message>
         <source>Hostname. Note: Requires DNS setup.</source>
-        <translation type="unfinished">Nombre de alojamineto (Hostname). Nota: requiere configuración DSN.</translation>
+        <translation>Nombre de alojamiento (Hostname). Nota: requiere configuración DSN.</translation>
     </message>
     <message>
         <source>The path determines access.</source>
-        <translation type="unfinished">La ruta determina el acceso.</translation>
+        <translation>La ruta determina el acceso.</translation>
     </message>
     <message>
         <source>e.g. %adminsite and %usersite</source>
-        <translation type="unfinished">p. ej.: %sitio del administrador y %sitio del usuario</translation>
+        <translation>p. ej.: %adminsite y %usersite</translation>
     </message>
     <message>
         <source>Port</source>
-        <translation type="unfinished">Puerto</translation>
+        <translation>Puerto</translation>
     </message>
     <message>
         <source>The port number determines access.*</source>
-        <translation type="unfinished">El número de puerto determina el acceso.*</translation>
-    </message>
-    <message>
-        <source>* This requires that your web server is setup to handle the port numbers.</source>
-        <translation type="unfinished">* Esto requiere que tu servidor web esté configurado para gestionar los números de puerto.</translation>
+        <translation>El número de puerto determina el acceso.*</translation>
     </message>
     <message>
         <source>Hostname</source>
-        <translation type="unfinished">Nombre de alojamiento (hostname)</translation>
+        <translation>Nombre de alojamiento (hostname)</translation>
     </message>
     <message>
         <source>The hostname determines access.*</source>
-        <translation type="unfinished">El nombre de alojamiento (hostname) determina el acceso.*</translation>
-    </message>
-    <message>
-        <source>* This requires that you have a DNS setup for your hostname.</source>
-        <translation type="unfinished">* Esto requiere que tengas una configuración DNS para tu nombre de alojamiento (hostname).</translation>
-    </message>
-    <message>
-        <source>For more detailed information on site access see the %1</source>
-        <translation type="unfinished">Para más detalles sobre el acceso al sitio mira el %1</translation>
+        <translation>El nombre de alojamiento (hostname) determina el acceso.*</translation>
     </message>
     <message>
         <source>online documentation</source>
         <comment>site access documentation link</comment>
-        <translation type="unfinished">Documentación on line</translation>
-    </message>
-    <message>
-        <source>You need to specify some information about every site you&apos;ve chosen to install.</source>
-        <translation type="unfinished">Necesitas especificar alguna información sobre cada sitio que trates de instalar.</translation>
+        <translation>Documentación on line</translation>
     </message>
     <message>
         <source>Do not use &apos;admin&apos;, &apos;user&apos; or equal site access values. Please change site illegal access values on sites indicated by *</source>
-        <translation type="unfinished">No uses &apos;admin&apos;, &apos;user&apos; o valores de acceso al sitio iguales. Por favor, los valores de acceso al sitio ilegales en los sitios indicados con *</translation>
+        <translation>No uses &apos;admin&apos;, &apos;user&apos; o valores de acceso al sitio iguales. Por favor, cambia los valores de acceso al sitio ilegales en los sitios indicados con *</translation>
     </message>
     <message>
         <source>You have chosen the same database for two or more site templates. Please change where indicated by *</source>
-        <translation type="unfinished">Has elegido la misma base de datos para dos o más plantillas. Por favor, cámbialas donde esté indicado con *</translation>
+        <translation>Has elegido la misma base de datos para dos o más plantillas. Por favor, cámbialas donde esté indicado con *</translation>
     </message>
     <message>
         <source>One or more of your databases already contain data.</source>
-        <translation type="unfinished">Una o más de tus bases de datos todavía contienen datos.</translation>
+        <translation>Una o más de tus bases de datos todavía contienen datos.</translation>
     </message>
     <message>
         <source>Select what to do from the drop down box(es).</source>
-        <translation type="unfinished">Selecciona qué hacer en las drop down box(es).</translation>
+        <translation>Selecciona qué hacer en las drop down box(es).</translation>
     </message>
     <message>
         <source>Site url</source>
-        <translation type="unfinished">Url del sitio</translation>
-    </message>
-    <message>
-        <source>URL for access</source>
-        <translation type="unfinished">URL de acceso</translation>
-    </message>
-    <message>
-        <source>Port for access</source>
-        <translation type="unfinished">Puerto de acceso</translation>
-    </message>
-    <message>
-        <source>Hostname for access</source>
-        <translation type="unfinished">Nombre de alojamiento (hostname) de acceso</translation>
-    </message>
-    <message>
-        <source>URL for admin access</source>
-        <translation type="unfinished">URL para el acceso del administrador</translation>
-    </message>
-    <message>
-        <source>Port for admin access</source>
-        <translation type="unfinished">Puerto para el acceso del administrador</translation>
-    </message>
-    <message>
-        <source>Hostname for admin access</source>
-        <translation type="unfinished">Nombre de alojamiento (hostname) para el acceso del administrador</translation>
-    </message>
-    <message>
-        <source>Database not empty</source>
-        <translation type="unfinished">Base de datos no vacía</translation>
+        <translation>Url del sitio</translation>
     </message>
     <message>
         <source>Leave the data and add new</source>
-        <translation type="unfinished">Dejar los datos y añade nuevos</translation>
+        <translation>Dejar los datos y añade nuevos</translation>
     </message>
     <message>
         <source>Remove existing data</source>
-        <translation type="unfinished">Eliminar los datos existentes</translation>
+        <translation>Eliminar los datos existentes</translation>
     </message>
     <message>
         <source>Leave the data and do nothing</source>
-        <translation type="unfinished">Dejar los datos y no hacer nada</translation>
+        <translation>Dejar los datos y no hacer nada</translation>
     </message>
     <message>
         <source>I&apos;ve chosen a new database</source>
-        <translation type="unfinished">Escogeré una nueva base de datos</translation>
-    </message>
-    <message>
-        <source>Fill out the details for each site.</source>
-        <translation type="unfinished">Rellena los detalles para cada sitio</translation>
-    </message>
-    <message>
-        <source>For more information on how to configure site access, see the %1</source>
-        <translation type="unfinished">Para más información sobre cómo configurar el acceso del sitio, mira el %1</translation>
+        <translation>Escogeré una nueva base de datos</translation>
     </message>
     <message>
         <source>documentation</source>
         <comment>site access documentation link</comment>
-        <translation type="unfinished">documentación</translation>
-    </message>
-    <message>
-        <source>Use the refresh button to update database list.</source>
-        <translation type="unfinished">Utiliza el botón de actualización para actualizar la lista de base de datos.</translation>
-    </message>
-    <message>
-        <source>Choose site templates</source>
-        <translation type="unfinished">Elegir plantillas del sitio</translation>
-    </message>
-    <message>
-        <source>Choose one or more site templates for your site</source>
-        <translation type="unfinished">Elige una o más plantillas de sitio para tu sitio</translation>
+        <translation>documentación</translation>
     </message>
     <message>
         <source>Select which sites you would like to install on your system.</source>
-        <translation type="unfinished">Selecciona qué sitios te gustaría instalar en tu sistema.</translation>
+        <translation>Selecciona qué sitios te gustaría instalar en tu sistema.</translation>
     </message>
     <message>
         <source>Each site template will create a unique web site.</source>
-        <translation type="unfinished">Cada plantilla de sitio creará un único sitio web.</translation>
-    </message>
-    <message>
-        <source>Since each web site is unique, each site template require a unique database.</source>
-        <translation type="unfinished">Como que cada sitio web es único, cada plantilla de sitio requiere un única base de datos.</translation>
+        <translation>Cada plantilla de sitio creará un único sitio web.</translation>
     </message>
     <message>
         <source>The system check found some issues that need to be resolved before the setup can continue.</source>
-        <translation type="unfinished">El chequeo de sistema encontró algunos temas que deben ser resueltos antes de que la configuración pueda continuar.</translation>
+        <translation>El chequeo de sistema encontró algunos temas que deben ser resueltos antes de que la configuración pueda continuar.</translation>
     </message>
     <message>
         <source>After you have fixed the problems click the %1 button to re-run the system checking. You may also ignore specific tests by clicking the check boxes.</source>
-        <translation type="unfinished">Una vez resuelvas los problemas clica el botón %1 para volver a arrancar el chequeo de sistema. También puedes ignorar los test específicos clicando las check boxes.</translation>
+        <translation>Una vez resuelvas los problemas clica el botón %1 para volver a arrancar el chequeo de sistema. También puedes ignorar los test específicos clicando las check boxes.</translation>
     </message>
     <message>
         <source>Ignore this test</source>
-        <translation type="unfinished">Ignorar este test</translation>
-    </message>
-    <message>
-        <source>The setup has detected some system settings which must be changed.</source>
-        <translation type="unfinished">La configuración ha detectado algunas configuraciones de sistema que han de ser cambiadas.</translation>
-    </message>
-    <message>
-        <source>If this is not corrected, eZ publish will probably not install correctly and work properly.</source>
-        <translation type="unfinished">Si esto no está correcto, eZ publish probablemente no podrá instalarse  correctamente y funcionar adecuadamente.</translation>
+        <translation>Ignorar este test</translation>
     </message>
     <message>
         <source>Welcome to eZ publish %1</source>
-        <translation type="unfinished">Bienvenido a eZ publish %1</translation>
-    </message>
-    <message>
-        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish. Please read the requirements section below and click next to proceed.</source>
-        <translation type="unfinished">Bienvenido a el sistema de mantenimiento de contenidos y framework de desarrollo de eZ publish. Este asistente te ayudará a configurar eZ publish. Por favor, lee la sección de requerimientos de abajo y clica siguiente para proceder.</translation>
-    </message>
-    <message>
-        <source>Requirements</source>
-        <translation type="unfinished">Requerimientos</translation>
-    </message>
-    <message>
-        <source>You will need to have information about a database server eZ publish can connect to. The following database servers are supported (both are free):</source>
-        <translation type="unfinished">Necesitarás obtener información sobre a qué servidor de base de datos puede conectarse eZ publish. Los siguientes servidores de bases de datos son soportados (ambos son libres):</translation>
-    </message>
-    <message>
-        <source>recommended</source>
-        <translation type="unfinished">recomendado</translation>
-    </message>
-    <message>
-        <source>Click &quot;Next&quot; to start the configuration of up eZ publish.</source>
-        <translation type="unfinished">Clica &quot;siguiente&quot; para comenzar la configuración de eZ publish.</translation>
+        <translation>Bienvenido a eZ publish %1</translation>
     </message>
     <message>
         <source>This section will contain information/help about each step in the setup wizard.</source>
-        <translation type="unfinished">Esta sección contendrá informaión/ayuda sobre cada paso en el asistente de configuración.</translation>
+        <translation>Esta sección contendrá información/ayuda sobre cada paso del asistente de configuración.</translation>
     </message>
     <message>
         <source>The summary section below will contain information about configured settings.</source>
-        <translation type="unfinished">La sección sumario de abajo contendrá información sobre las opciones de configuración.</translation>
-    </message>
-    <message>
-        <source>No data will be stored in the database until the final step of the installation.</source>
-        <translation type="unfinished">No se podrán almacenar datos en la base de datos hasta el último paso de la instalación.</translation>
+        <translation>La sección sumario de abajo contendrá información sobre las opciones de configuración.</translation>
     </message>
     <message>
         <source>Information about how to set up eZ publish manually is available %1.</source>
-        <translation type="unfinished">La información sobre como configurar manualmente eZ publish está disponible en %1.</translation>
+        <translation>La información sobre como configurar manualmente eZ publish está disponible en %1.</translation>
     </message>
     <message>
         <source>here</source>
         <comment>manual installation link</comment>
-        <translation type="unfinished">aquí</translation>
+        <translation>aquí</translation>
+    </message>
+    <message>
+        <source>Both MySQL and PostgreSQL support was detected on your system. Please choose the database system you would like to use.</source>
+        <translation>Se ha detectado que tu sistema soporta MySQL y PostgreSQL. Elige que sistema de base de datos quieres utilizar.</translation>
+    </message>
+    <message>
+        <source>eZ publish supports both MySQL and PostgreSQL.</source>
+        <translation>eZ publish soporta MySQL y PostgreSQL.</translation>
+    </message>
+    <message>
+        <source>Please input database access information in the form below.</source>
+        <translation>Inserta información sobre el acceso a la base de datos en el formulario de abajo.</translation>
+    </message>
+    <message>
+        <source>Servername:</source>
+        <translation>Nombre del servidor:</translation>
+    </message>
+    <message>
+        <source>Username:</source>
+        <translation>Nombre de usuario:</translation>
+    </message>
+    <message>
+        <source>Password:</source>
+        <translation>Contraseña:</translation>
+    </message>
+    <message>
+        <source>Socket (optional):</source>
+        <translation>Zócalo (opcional):</translation>
+    </message>
+    <message>
+        <source>If you don&apos;t have access to a database, you should obtain access now. eZ publish is capable of running multiple sites, each site needs its own database. This means that you need to create several databases if you plan to run multiple sites. Please refer to the database system user manual if you&apos;re unsure about how to create a database.</source>
+        <translation>Si no tienes acceso a la base de datos, puedes obtenerlo ahora. eZ es capaz de hacer funcionar muchos sitios. Cada sitio necesita su propia base de datos. Eso sgnifica que necesitas crear varias bases de datos si planeas hacer funcionar varios sitios. Consulta el manual de usuario de sistemas de bases de datos si no estás seguro de cómo crear una base de datos.</translation>
+    </message>
+    <message>
+        <source>Outgoing E-mail</source>
+        <translation>Correo saliente</translation>
+    </message>
+    <message>
+        <source>This section is used to configure how eZ publish delivers its outgoing E-mail.</source>
+        <translation>Esta sección se usa para configurar cómo eZ publish envía sus correos salientes.</translation>
+    </message>
+    <message>
+        <source>There are two options:&lt;br&gt;- Direct delivery through sendmail (must be available on the server).&lt;br&gt;- Indirect delivery using an SMTP relay server.</source>
+        <translation>Hay dos opciones:&lt;br&gt;- Envío directo a través de sendmail (debe ser compatible con el servidor).&lt;br&gt;- Envío indirecto usando un servidor de envío SMTP.</translation>
+    </message>
+    <message>
+        <source>SMTP is recommended for MS Windows users.</source>
+        <translation>SMTP es más recomendable para los usuarios de MS Windows.</translation>
+    </message>
+    <message>
+        <source>E-mail delivery</source>
+        <translation>Entrega de correo</translation>
+    </message>
+    <message>
+        <source>Server name: </source>
+        <translation>Nombre del servidor:</translation>
+    </message>
+    <message>
+        <source>Username (optional): </source>
+        <translation>Nombre de usuario (opcional):</translation>
+    </message>
+    <message>
+        <source>Password (optional): </source>
+        <translation>Contraseña (opcional):</translation>
+    </message>
+    <message>
+        <source>The eZ publish system uses E-mail to send out important notices such as user registration and content approval. On Linux/UNIX: try to use sendmail. On Windows: use an SMTP server.</source>
+        <translation>El sistema de eZ publish utiliza el correo para enviar noticias importantes como el registro de usuarios o la aprovación de contenido. En Linux/Unix: intenta usar el sendmail. En Windows, utiliza el servidor SMTP.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Sendmail:&lt;/b&gt;&lt;br&gt;Mail is delivered directly using the sendmail transfer agent. The sendmail binary is usually available on most Linux/UNIX systems. If sendmail is not available then SMTP should be used.</source>
+        <translation>&lt;b&gt;Sendmail:&lt;/b&gt;&lt;br&gt;El correo es enviado directamente usando el agente de transferencia sendmail. El sendmail binario es normalmente compatible en la mayoría de sistemas Linux/UNIX. Si el sendmail no es compatible, entonces se puede usar SMTP.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;SMTP:&lt;/b&gt;&lt;br&gt;Mail is delivered through an SMTP server. At the minimum, the hostname of the SMTP server must be specified. Hint: check the SMTP settings in your E-mail application.</source>
+        <translation>&lt;b&gt;SMTP&lt;/b&gt;&lt;br&gt;El correo es enviado a través de un servidor SMTP. Como mínimo, ha de especificarse el nombre de alojamiento del SMTP. Atención: comprueba las configuraciones de SMTP en tu aplicación e-mail.</translation>
+    </message>
+    <message>
+        <source>Email is used for sending out important notices such as user registration and content approval.</source>
+        <translation>El correo se utiliza para enviar noticias importantes tales como los registros de usurios o la aprovación de contenidos.</translation>
+    </message>
+    <message>
+        <source>Most Unix systems support sendmail, while windows users must choose SMTP.</source>
+        <translation>La mayoría de sistemas Unix soportan sendmail donde los usuarios de Windows deben elegir SMTP.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;SMTP&lt;/b&gt;: If you&apos;re unsure what to enter, take a look at the settings in your e-mail application.</source>
+        <translation>&lt;b&gt;SMPT&lt;/b&gt;: Si no estás seguro de qué entrar, echa un vistazo a las configuraciones en tu aplicación e-mail.</translation>
+    </message>
+    <message>
+        <source>eZ publish has been installed with the following site(s). You will find the username and password mentioned for each site.</source>
+        <translation>eZ publish ha sido instalado con los siguiente(s) sitio(s). Podrás encontrar el nombre de usuario y la contraseña mencionadas para cada sitio.</translation>
+    </message>
+    <message>
+        <source>Tip: Store this page as an html file by clicking Save-As in your web browser menu, alternatively you may write down the urls for your sites.</source>
+        <translation>Consejo: almacena esta página como un archivo html clicando Guardar como en el menú de tu navegador. También puedes apuntarte las URL de tus sitios.</translation>
+    </message>
+    <message>
+        <source>forums</source>
+        <comment>forum link</comment>
+        <translation>forums</translation>
+    </message>
+    <message>
+        <source>Language support</source>
+        <translation>Soporte de idioma</translation>
+    </message>
+    <message>
+        <source>Use the radio buttons to choose the primary language, and the checkboxes to choose additional languages. You may choose more than one additional language.</source>
+        <translation>Usa los radio buttons para elegir el idioma principal, y las chaeckboxes para elegir idiomas adicionales. Puedes elegir más de un idioma adicional.</translation>
+    </message>
+    <message>
+        <source>The selected languages are used to determine character sets, date / number formats, etc.</source>
+        <translation>Los idiomas seleccionados se usan para determinar grupos de caracteres, formatos de fecha / número, etc.</translation>
+    </message>
+    <message>
+        <source>For more information about language customization, please refer to the %1.</source>
+        <translation>Para obtener más información respecto a la personalización del idioma, dirígete a %1.</translation>
+    </message>
+    <message>
+        <source>If you wish, you can register this installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your details for unsolicited emails.</source>
+        <translation>Si quieres, puedes registrar esta instalación enviando alguna información a eZ systems. Pueden transmitirse datos no confidenciales. eZ systems no los usará o venderá tus detalles para correos no solicitados.</translation>
+    </message>
+    <message>
+        <source>If you wish, you can also add some comments, which will be included in the registration E-mail.</source>
+        <translation>Si quieres puedes añadir algunos comentarios, que serán incluidos en el correo de registro.</translation>
+    </message>
+    <message>
+        <source>Comments:</source>
+        <translation>Comentarios:</translation>
+    </message>
+    <message>
+        <source>Sending out the email and generating your site might take a couple of seconds. Please wait until the next page loads. Clicking the button again will only send out duplicate emails, and may corrupt the installation.</source>
+        <translation>Enviar el correo y generar tu sitio puede llevar algunos segundos. Espera a que se cargue la siguiente página. Clicar el botón de nuevo tan solo servirá para duplicar el correo y, además, podría corromper la instalación.</translation>
+    </message>
+    <message>
+        <source>Send registration</source>
+        <translation>Enviar registro</translation>
+    </message>
+    <message>
+        <source>System details (OS type, etc)</source>
+        <translation>Detalles del sistema (tipo de OS, etc.)</translation>
+    </message>
+    <message>
+        <source>The test results</source>
+        <translation>Los resultados del test</translation>
+    </message>
+    <message>
+        <source>The database type</source>
+        <translation>El tipo de base de datos</translation>
+    </message>
+    <message>
+        <source>The site name</source>
+        <translation>El nombre del sitio</translation>
+    </message>
+    <message>
+        <source>The url of the site</source>
+        <translation>La url del sitio</translation>
+    </message>
+    <message>
+        <source>Languages chosen</source>
+        <translation>Idiomas elegidos</translation>
+    </message>
+    <message>
+        <source>This data will help to improve future releases of eZ publish.</source>
+        <translation>Estos datos pueden ayudar a mejorar futuras funcionalidades de eZ publish.</translation>
+    </message>
+    <message>
+        <source>Site security</source>
+        <translation>Seguridad del sitio</translation>
+    </message>
+    <message>
+        <source>Your site is not running in a virtual host mode, this is insecure. It is recommended to run eZ publish in virtual host mode. If you do not have the possibility to use virtual host mode, you should follow the instructions below about how to install an .htaccess file. The .htaccess file tells the web server to restrict the access to certain files.</source>
+        <translation>Tu sitio no está funcionando en modo de servidor virtual. Este es unn modo inseguro. Es recomendable hacer funcionar eZ publish en un modo de servidor virtual. Si no tienes la posibilidad de usar este modo, sigue las instrucciones de abajo para sabre cómo instalar un fichero .htacces. Un fichero .htacces pide al servidor web que restrinja el acceso a determinados ficheros.</translation>
+    </message>
+    <message>
+        <source>If you have shell access, you can run the following commmands.</source>
+        <translation>Si tienes acceso al intérprete de órdenes, puedes hacer funcionar los comandos siguientes.</translation>
+    </message>
+    <message>
+        <source>If you do not have shell access, you will have to copy the file using an FTP client or ask your hosting provider to do this for you.</source>
+        <translation>Si no tienes acceso al intérprete de órdenes, tendrás que copiar el fichero usando un cliente de FTP o pedir a tu proveedor de espacio web que lo haga por ti.</translation>
+    </message>
+    <message>
+        <source>This security tweak takes care of protecting configuration files and other important files.</source>
+        <translation>Este pequeño cambio de seguridad se encarga de proteger ficheros de configuración y otros ficheros importantes.</translation>
+    </message>
+    <message>
+        <source>Please choose the access method you wish to use for your site(s). The access method determines how the site will be accessed from within a web browser. If unsure: choose URL.</source>
+        <translation>Elige el método de acceso quieres usar para tu sitio. Este método determina como se accederá al sitio desde un navegador web. Si no estás seguro, elige URL.</translation>
+    </message>
+    <message>
+        <source>Port*</source>
+        <translation>Puerto*</translation>
+    </message>
+    <message>
+        <source>* Requires web server setup.</source>
+        <translation>*Requiere configurar el servidor web.</translation>
+    </message>
+    <message>
+        <source>Hostname*</source>
+        <translation>Nombre de alojamiento*</translation>
+    </message>
+    <message>
+        <source>* Requires DNS setup.</source>
+        <translation>* Es necesario que configures el DNS.</translation>
+    </message>
+    <message>
+        <source>For more detailed information on site access, please refer to the %1</source>
+        <translation>Si quieres más información sobre el acceso al sitio, dirígete a %1</translation>
+    </message>
+    <message>
+        <source>This page lets you modify information about the sites you&apos;ve chosen to install. In addition, it also lets you choose a database for each site.</source>
+        <translation>Esta página te permite modificar información sobre los sitios que has escogido instalar. También te permite escoger una base de datos para cada sitio.</translation>
+    </message>
+    <message>
+        <source>User path</source>
+        <translation>Ruta de usuario</translation>
+    </message>
+    <message>
+        <source>User port</source>
+        <translation>Puerto del usuario</translation>
+    </message>
+    <message>
+        <source>User hostname</source>
+        <translation>Nombre del alojamiento de usuario</translation>
+    </message>
+    <message>
+        <source>Admin path</source>
+        <translation>Ruta de la administración</translation>
+    </message>
+    <message>
+        <source>Admin port</source>
+        <translation>Puerto de la administración</translation>
+    </message>
+    <message>
+        <source>Admin hostname</source>
+        <translation>Nombre del servidor de la administración</translation>
+    </message>
+    <message>
+        <source>Database not empty: </source>
+        <translation>La base de datos no está vacía:</translation>
+    </message>
+    <message>
+        <source>You may modify the details for each site.</source>
+        <translation>Puedes modificar los detalles para cada sitio.</translation>
+    </message>
+    <message>
+        <source>For more information about how to configure site access, please refer to the %1</source>
+        <translation>Si quieres más información sobre cómo configurar el acceso al sitio, dirígete a %1</translation>
+    </message>
+    <message>
+        <source>Use the refresh button to update the database listing(s).</source>
+        <translation>Utiliza el botón de refresco para actualizar la lista de la base de datos.</translation>
+    </message>
+    <message>
+        <source>Site templates</source>
+        <translation>Plantillas del sitio</translation>
+    </message>
+    <message>
+        <source>Since each web site is unique, each site template requires a unique database.</source>
+        <translation>Ya que cada sitio web es único, cada plantilla del sitio requiere una base de datos única.</translation>
+    </message>
+    <message>
+        <source>Next &amp;gt;</source>
+        <translation>Siguiente &amp;gt;</translation>
+    </message>
+    <message>
+        <source>There are some important issues that have to be resolved. A list of issues / problems is presented below. Each section contains a description and a suggested / recommended solution.</source>
+        <translation>Hay algunas cuestiones importantes que han de resolverse. La lista se presenta abajo. Cada sección tiene una descripción y una solución recomendada o sugerida.</translation>
+    </message>
+    <message>
+        <source>Once the problems / issues are fixed, you may click the &lt;i&gt;Next&lt;/i&gt; button to continue. The system check will be run again. If everything is okay, the setup will go to the next stage. If there are problems, the system check page will reappear.</source>
+        <translation>Una vez que los problemas / cuestiones se hayan solucionado, puedes hacer clic en el botón &lt;i&gt;Siguiente&lt;/i&gt; para continuar. La comprobación de sistema arrancará de nuevo. Si todo es correcto, la configuración continuará hasta el estadio siguiente. Ante cualquier problema volverá a aparecer la página de comprobación del sistema.</translation>
+    </message>
+    <message>
+        <source>Some issues may be ignored by checking the &lt;i&gt;Ignore this test&lt;/i&gt; checkbox(es); however, this is not recommended.</source>
+        <translation>Algunas cuestiones pueden ser ignoradas al marcar la(s) casilla(s) &lt;i&gt;ignora esta prueba&lt;/i&gt;; aún así, no es recomendable.</translation>
+    </message>
+    <message>
+        <source>The system check page is being displayed. This means that there are some problems/issues present.</source>
+        <translation>Se está mostrando las página del comprobador del sistema. Esto quiere decir que hay algunos problemas o cuestiones.</translation>
+    </message>
+    <message>
+        <source>These issues have to be resolved/fixed, or else, eZ publish will not function properly.</source>
+        <translation>Estos temas se han de resolver o solucionar. Si no, eZ publish no funcionará correctamente.</translation>
+    </message>
+    <message>
+        <source>The problems are usually file-system related and can be easily fixed by copy / paste / run-ing the suggested commands in a system shell.</source>
+        <translation>Los problemas están habitualmente relacionados con el sistema de archivos y se pueden solucionar con un corta y pega los comandos sugeridos en el sistema de intérprete de comandos.</translation>
+    </message>
+    <message>
+        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish.&lt;br&gt;Click &lt;i&gt;Next&lt;/i&gt; to continue.</source>
+        <translation>Bienvenido/a al sistema de contenidos y marco de desarrollo eZ publish. Este asistente te ayudará a configurar eZ publish. &lt;br&gt;Haz clic en &lt;i&gt;Siguiente&lt;/i&gt; para continuar.</translation>
+    </message>
+    <message>
+        <source>No data will be stored in the database until the final step of the setup.</source>
+        <translation>No se almacenará ningun dato en la base de datos hasta el último paso de la configuración.</translation>
     </message>
 </context>
 <context>
@@ -5571,30 +4877,6 @@ Si no estás seguro elige URL.</translation>
         <translation>Normal</translation>
     </message>
     <message>
-        <source>It&apos;s recommended that the option is turned off. To turn it off edit your</source>
-        <translation type="obsolete">Es recomandable que la opción esté apagada. Para apagarla edita tu</translation>
-    </message>
-    <message>
-        <source>configuration and set</source>
-        <translation type="obsolete">configuración y equipo</translation>
-    </message>
-    <message>
-        <source>and</source>
-        <translation type="obsolete">y</translation>
-    </message>
-    <message>
-        <source>to</source>
-        <translation type="obsolete">a</translation>
-    </message>
-    <message>
-        <source>More information on the subject can be found at</source>
-        <translation type="obsolete">Puedes encontrar más información sobre el objeto en</translation>
-    </message>
-    <message>
-        <source>Configuration example:</source>
-        <translation type="obsolete">Ejemplo de configuración:</translation>
-    </message>
-    <message>
         <source>Insufficient PHP version</source>
         <translation>Versión PHP insuficiente</translation>
     </message>
@@ -5682,6 +4964,58 @@ Si no estás seguro elige URL.</translation>
         <source>eZ publish may work with safe mode on, however there might be several features that will be unavailable. Some of the things that might occur are:</source>
         <translation>eZ publish puede trabajar con el modo seguro encendido. Sin embargo, pueden haber algunas características que esté indisponibles. Algunas de las cosas que pueden ocurrir son:</translation>
     </message>
+    <message>
+        <source>Insufficient execution time allowed to install eZ publish</source>
+        <translation>Tiempo permitido insuficiente para instalar eZ publish</translation>
+    </message>
+    <message>
+        <source>eZ publish will not work correctly with a execution time limit of %1.</source>
+        <translation>eZ publish no funcionará correctamente con un tiempo límite de ejecución de %1.</translation>
+    </message>
+    <message>
+        <source>It&apos;s highly recommended that you fix this.</source>
+        <translation>Es muy recomendable que soluciones esto.</translation>
+    </message>
+    <message>
+        <source>Locate the php.ini settings file for your PHP installation. On unix systems, this is normally located at /etc/php.ini, on windows systems check the PHP installation path.</source>
+        <translation>Localiza el archivo php.ini para tu instalación PHP. En los sistemas UNIX, normalmente está en /etc/php.ini; en Windows, comprueba la ruta de instalación de PHP.</translation>
+    </message>
+    <message>
+        <source>Open the php.ini file and change the max_execution_time value to at least %1, and press %2</source>
+        <translation>Abre el archivo php.ini y cambia el valor del tiempo máximo de ejecución (max_execution_time) a un mínimo de %1, y clica en %2</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Siguiente</translation>
+    </message>
+    <message>
+        <source>If you are running eZ publish in a shared host environment, contant your ISP to perform the changes</source>
+        <translation>Si estás haciendo funcionar eZ publish en un entorno compartido, ponte en contacto con tu ISP para efectuar cambios</translation>
+    </message>
+    <message>
+        <source>Insufficient memory allocated to install eZ publish</source>
+        <translation>Memoria asignada insuficiente para instalar eZ publish</translation>
+    </message>
+    <message>
+        <source>eZ publish will not work correctly with a memory limit of %1.</source>
+        <translation>eZ publish no funcionará correctamente con un límite de memoria de %1.</translation>
+    </message>
+    <message>
+        <source>Open the php.ini file and change the memory_limit value to at least %1, and press %2</source>
+        <translation>Abre el archivo php.ini y cambia el valor del límite de memoria (memory_limit) a un mínimo de %1, y clica en %2</translation>
+    </message>
+    <message>
+        <source>Unstable PHP version</source>
+        <translation>Versión PHP inestable</translation>
+    </message>
+    <message>
+        <source>, is known to be unstable</source>
+        <translation>, es conocida por ser inestable</translation>
+    </message>
+    <message>
+        <source>Another version of PHP can be download at</source>
+        <translation>Puedes descargar otra versión de PHP en</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/shop</name>
@@ -5724,18 +5058,6 @@ Si no estás seguro elige URL.</translation>
     <message>
         <source>Product items</source>
         <translation>Productos</translation>
-    </message>
-    <message>
-        <source>Order summary:</source>
-        <translation type="obsolete">Resumen del pedido:</translation>
-    </message>
-    <message>
-        <source>Subtotal of items:</source>
-        <translation type="obsolete">Subtotal de entradas:</translation>
-    </message>
-    <message>
-        <source>Order total:</source>
-        <translation type="obsolete">Total del pedido:</translation>
     </message>
     <message>
         <source>Confirm</source>
@@ -5790,10 +5112,6 @@ Si no estás seguro elige URL.</translation>
         <translation>Editando regla</translation>
     </message>
     <message>
-        <source>Choose which classes or sections applied to this sub rule, &apos;Any&apos; means the rule will applied to all.</source>
-        <translation type="obsolete">Elige qué clases o secciones se aplican a esta subregla. &apos;Cualquiera? significa que la regla se aplicará a todas.</translation>
-    </message>
-    <message>
         <source>Any</source>
         <translation>Cualquiera</translation>
     </message>
@@ -5824,10 +5142,6 @@ Si no estás seguro elige URL.</translation>
     <message>
         <source>Order</source>
         <translation>Pedido</translation>
-    </message>
-    <message>
-        <source>Customer:</source>
-        <translation type="obsolete">Cliente:</translation>
     </message>
     <message>
         <source>VAT Types</source>
@@ -5914,10 +5228,6 @@ Si no estás seguro elige URL.</translation>
         <translation>Sección</translation>
     </message>
     <message>
-        <source>Order:</source>
-        <translation type="obsolete">Orden:</translation>
-    </message>
-    <message>
         <source>Subtotal of items</source>
         <translation>Subtotal de entradas</translation>
     </message>
@@ -5997,10 +5307,6 @@ Si no estás seguro elige URL.</translation>
         <source>Name</source>
         <comment>Customer name</comment>
         <translation>Nombre</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Ayuda</translation>
     </message>
     <message>
         <source>Sort Result by</source>
@@ -6085,18 +5391,6 @@ Clica en nombres de producto para cambiar la lista de navegación.</translation>
 <context>
     <name>design/standard/trigger</name>
     <message>
-        <source>Module Name</source>
-        <translation type="obsolete">Nombre del módulo</translation>
-    </message>
-    <message>
-        <source>Function Name</source>
-        <translation type="obsolete">Nombre de la función</translation>
-    </message>
-    <message>
-        <source>Connect Type</source>
-        <translation type="obsolete">Tipo de contacto</translation>
-    </message>
-    <message>
         <source>No workflow</source>
         <translation>No hay flujo de trabajo</translation>
     </message>
@@ -6111,10 +5405,6 @@ Clica en nombres de producto para cambiar la lista de navegación.</translation>
     <message>
         <source>Workflow</source>
         <translation>Flujo de trabajo</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Ayuda</translation>
     </message>
     <message>
         <source>Module name</source>
@@ -6235,6 +5525,10 @@ Clica en nombres de producto para cambiar la lista de navegación.</translation>
         <source>No object available</source>
         <translation>No hay objeto disponible</translation>
     </message>
+    <message>
+        <source>version</source>
+        <translation>versión</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/url/edit</name>
@@ -6254,22 +5548,6 @@ Clica en nombres de producto para cambiar la lista de navegación.</translation>
         <translation>Activar cuenta</translation>
     </message>
     <message>
-        <source>Registed user profile</source>
-        <translation type="obsolete">Registrar perfil de usuario</translation>
-    </message>
-    <message>
-        <source>Update Profile</source>
-        <translation type="obsolete">Actualizar perfil</translation>
-    </message>
-    <message>
-        <source>Change Password</source>
-        <translation type="obsolete">Cambiar contraseña</translation>
-    </message>
-    <message>
-        <source>Change Setting</source>
-        <translation type="obsolete">Cambiar preferencias</translation>
-    </message>
-    <message>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
@@ -6280,11 +5558,6 @@ Clica en nombres de producto para cambiar la lista de navegación.</translation>
     <message>
         <source>A valid username and password is required to login.</source>
         <translation>Para conectar se requiere un nombre de usuario válido y una contraseña.</translation>
-    </message>
-    <message>
-        <source>Sign Up</source>
-        <translation type="obsolete">
-Inscribir</translation>
     </message>
     <message>
         <source>Change password for user</source>
@@ -6343,10 +5616,6 @@ Inscribir</translation>
         <translation>E-mail</translation>
     </message>
     <message>
-        <source>Generate</source>
-        <translation type="obsolete">Generar</translation>
-    </message>
-    <message>
         <source>Access not allowed</source>
         <translation>Acceso no permitido</translation>
     </message>
@@ -6359,28 +5628,12 @@ Inscribir</translation>
         <translation>Contraseña</translation>
     </message>
     <message>
-        <source>Old Password</source>
-        <translation type="obsolete">Antigua contraseña</translation>
-    </message>
-    <message>
-        <source>New Password</source>
-        <translation type="obsolete">Nueva contraseña</translation>
-    </message>
-    <message>
-        <source>Retype Password</source>
-        <translation type="obsolete">Reescribir contraseña</translation>
-    </message>
-    <message>
         <source>User profile</source>
         <translation>Usar perfil</translation>
     </message>
     <message>
         <source>Name</source>
         <translation>Nombre</translation>
-    </message>
-    <message>
-        <source>Edit Profile</source>
-        <translation type="obsolete">Editar perfil</translation>
     </message>
     <message>
         <source>Please retype your old password.</source>
@@ -6449,10 +5702,6 @@ tu cuenta.</translation>
         <translation>No hay ningún usuario registrado con esta dirección de correo.</translation>
     </message>
     <message>
-        <source>Password was successfully generated and sent to:</source>
-        <translation type="obsolete">La contraseña ha sido generada con éxito y enviada a :</translation>
-    </message>
-    <message>
         <source>Have you forgotten your password?</source>
         <translation>¿Has olvidado tu contraseña?</translation>
     </message>
@@ -6461,32 +5710,12 @@ tu cuenta.</translation>
         <translation>Si has olvidado tu contraseña podemos generar otra para ti. Todo lo que tienes que hacer es introducir tu dirección de correo electrónico y se creará una nueva contraseña para ti.</translation>
     </message>
     <message>
-        <source>E-mail:</source>
-        <translation type="obsolete">Correo elctrónico:</translation>
-    </message>
-    <message>
         <source>Generate new password</source>
         <translation>Generar una nueva contraseña</translation>
     </message>
     <message>
-        <source>%1 new password</source>
-        <translation type="obsolete">%1 nueva contraseña</translation>
-    </message>
-    <message>
         <source>Your account information</source>
         <translation>Tu información de cuenta</translation>
-    </message>
-    <message>
-        <source>Email:</source>
-        <translation type="obsolete">Correo electrónico:</translation>
-    </message>
-    <message>
-        <source>Click here to get new password:</source>
-        <translation type="obsolete">Clica aquí para obtener una nueva contraseña:</translation>
-    </message>
-    <message>
-        <source>New password:</source>
-        <translation type="obsolete">Nueva contraseña:</translation>
     </message>
     <message>
         <source>Password was successfully generated and sent to: %1</source>
@@ -6515,22 +5744,6 @@ tu cuenta.</translation>
 </context>
 <context>
     <name>design/standard/user/register</name>
-    <message>
-        <source>Confirm user registration at %1</source>
-        <translation type="obsolete">Confirmar el registro del usuario en %1</translation>
-    </message>
-    <message>
-        <source>%1 new password</source>
-        <translation type="obsolete">%1 nueva contraseña</translation>
-    </message>
-    <message>
-        <source>Click here to get new password:</source>
-        <translation type="obsolete">Clica aquí para obtener una nueva contraseña:</translation>
-    </message>
-    <message>
-        <source>New user registered at %1</source>
-        <translation type="obsolete">Nuevo usuario registrado en %1</translation>
-    </message>
     <message>
         <source>%1 registration info</source>
         <translation>%1 Información del registro</translation>
@@ -6630,10 +5843,6 @@ tu cuenta.</translation>
     <message>
         <source>Discard</source>
         <translation>Descartar</translation>
-    </message>
-    <message>
-        <source>Editing workflow group</source>
-        <translation type="obsolete">Editando grupo de flujo de trabajo</translation>
     </message>
     <message>
         <source>on</source>
@@ -6768,10 +5977,6 @@ tu cuenta.</translation>
         <translation>Nuevo grupo</translation>
     </message>
     <message>
-        <source>Workflows in %1</source>
-        <translation type="obsolete">Flujos de trabajo en %1</translation>
-    </message>
-    <message>
         <source>Modifier</source>
         <translation>Modificador</translation>
     </message>
@@ -6794,14 +5999,6 @@ tu cuenta.</translation>
     <message>
         <source>Modified by %username on %time</source>
         <translation>Modificado por %username en %time</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Ayuda</translation>
-    </message>
-    <message>
-        <source>Help on workflows</source>
-        <translation>Ayuda en flujos de trabajo</translation>
     </message>
     <message>
         <source>Edit workflow</source>
@@ -6867,18 +6064,6 @@ tu cuenta.</translation>
         <translation>Publicar objeto</translation>
     </message>
     <message>
-        <source>New Entry</source>
-        <translation type="obsolete">Nueva entrada</translation>
-    </message>
-    <message>
-        <source>Remove Selected</source>
-        <translation type="obsolete">Eliminar la selección</translation>
-    </message>
-    <message>
-        <source>Load Attributes</source>
-        <translation type="obsolete">Cargar atributos</translation>
-    </message>
-    <message>
         <source>Class Attributes:</source>
         <translation>Atributos de clase:</translation>
     </message>
@@ -6901,10 +6086,6 @@ tu cuenta.</translation>
     <message>
         <source>Message</source>
         <translation>Mensaje</translation>
-    </message>
-    <message>
-        <source>Section IDs</source>
-        <translation type="obsolete">Seccion de IDs</translation>
     </message>
     <message>
         <source>Users without workflow IDs</source>
@@ -6946,24 +6127,9 @@ tu cuenta.</translation>
         <source>Load attributes</source>
         <translation>Cargar atributos</translation>
     </message>
-</context>
-<context>
-    <name>design/standard/workflow/eventtype/result</name>
     <message>
-        <source>Checkout</source>
-        <translation type="obsolete">Verificar</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="obsolete">Siguiente</translation>
-    </message>
-    <message>
-        <source>Wrapping</source>
-        <translation type="obsolete">Envolviendo</translation>
-    </message>
-    <message>
-        <source>Hello</source>
-        <translation type="obsolete">Hola</translation>
+        <source>Modify publish date</source>
+        <translation>Modificar la fecha de publicación</translation>
     </message>
 </context>
 <context>
@@ -7105,137 +6271,7 @@ tu cuenta.</translation>
     </message>
 </context>
 <context>
-    <name>kernel/classes/datatype/ezbinaryfiletype</name>
-    <message>
-        <source>File uploading is not enabled, no file handling can be performed.</source>
-        <translation type="obsolete">La actualización del archivo no está permitida, ningún fichero manejado puede ser ejecutado.</translation>
-    </message>
-</context>
-<context>
     <name>kernel/classes/datatypes</name>
-    <message>
-        <source>Author name should be provided.</source>
-        <comment>eZAuthorType</comment>
-        <translation type="obsolete">Hay que proporcionar un nombre de autor.</translation>
-    </message>
-    <message>
-        <source>Email address is not valid.</source>
-        <comment>eZAuthorType</comment>
-        <translation type="obsolete">La dirección de correo no es válida.</translation>
-    </message>
-    <message>
-        <source>A valid file is required.</source>
-        <comment>eZBinaryFileType</comment>
-        <translation type="obsolete">Se requiere un fichero válido.</translation>
-    </message>
-    <message>
-        <source>A valid email account is required.</source>
-        <comment>eZEmailType</comment>
-        <translation type="obsolete">Se requiere ua cuenta válida de e-mail.</translation>
-    </message>
-    <message>
-        <source>Email address is not valid.</source>
-        <comment>eZEmailType</comment>
-        <translation type="obsolete">La dirección de e-mail no es válida.</translation>
-    </message>
-    <message>
-        <source>At least one field should be chosen.</source>
-        <comment>eZEnumType</comment>
-        <translation type="obsolete">Al menos hay que elegir un campo.</translation>
-    </message>
-    <message>
-        <source>Input is not float.</source>
-        <comment>eZFloatType</comment>
-        <translation type="obsolete">La entrada no es flotante.</translation>
-    </message>
-    <message>
-        <source>Input must be greater than %1</source>
-        <comment>eZFloatType</comment>
-        <translation type="obsolete">La entrada ha de ser mayor de %1</translation>
-    </message>
-    <message>
-        <source>Input must be less than %1</source>
-        <comment>eZFloatType</comment>
-        <translation type="obsolete">La entrada ha de ser menor que %1</translation>
-    </message>
-    <message>
-        <source>Input is not in defined range %1 - %2</source>
-        <comment>eZFloatType</comment>
-        <translation type="obsolete">La entrada no está en el rango definido %1 - %2</translation>
-    </message>
-    <message>
-        <source>A valid image is required.</source>
-        <comment>eZImageType</comment>
-        <translation type="obsolete">Se requiere una imagen válida.</translation>
-    </message>
-    <message>
-        <source>Input is not integer.</source>
-        <comment>eZIntegerType</comment>
-        <translation type="obsolete">La entrada no está integrada.</translation>
-    </message>
-    <message>
-        <source>Input must be greater than %1</source>
-        <comment>eZIntegerType</comment>
-        <translation type="obsolete">La entrada ha de ser mayor de %1</translation>
-    </message>
-    <message>
-        <source>Input must be less than %1</source>
-        <comment>eZIntegerType</comment>
-        <translation type="obsolete">La entrada ha de ser menor que %1</translation>
-    </message>
-    <message>
-        <source>Input is not in defined range %1 - %2</source>
-        <comment>eZIntegerType</comment>
-        <translation type="obsolete">La entrada no está en el rango definido %1 - %2</translation>
-    </message>
-    <message>
-        <source>The ISBN number is not correct. Please recheck the input</source>
-        <comment>eZISBNType</comment>
-        <translation type="obsolete">El número ISBN no es correcto. Por favor revise la entrada</translation>
-    </message>
-    <message>
-        <source>The ISBN format is not valid.</source>
-        <comment>eZISBNType</comment>
-        <translation type="obsolete">El formato ISBN no es válido.</translation>
-    </message>
-    <message>
-        <source>A valid file is required.</source>
-        <comment>eZMediaType</comment>
-        <translation type="obsolete">Se requiere un fichero válido.</translation>
-    </message>
-    <message>
-        <source>Option value should be provided.</source>
-        <comment>eZOptionType</comment>
-        <translation type="obsolete">Ha de ser introducido el valor de la opción.</translation>
-    </message>
-    <message>
-        <source>Text line is empty, content required.</source>
-        <comment>eZStringType</comment>
-        <translation type="obsolete">La línea de texto está vacía, se requiere contenido.</translation>
-    </message>
-    <message>
-        <source>Text line too long, maximum allowed is %1.</source>
-        <comment>eZStringType</comment>
-        <translation type="obsolete">El texto es demasiado largo, lo máximo permitido es %1.</translation>
-    </message>
-    <message>
-        <source>Text field is empty, content required.</source>
-        <comment>eZStringType</comment>
-        <translation type="obsolete">El campo de texto está vacía, se requiere contenido.</translation>
-    </message>
-    <message>
-        <source>Object </source>
-        <translation type="obsolete">Objeto</translation>
-    </message>
-    <message>
-        <source>Link </source>
-        <translation type="obsolete">Link</translation>
-    </message>
-    <message>
-        <source>At least one author is required.</source>
-        <comment>eZAuthorType</comment>
-        <translation type="obsolete">Se requiere al menos un autor.</translation>
-    </message>
     <message>
         <source>Missing date input.</source>
         <translation>Falta entrada de fecha.</translation>
@@ -7245,48 +6281,13 @@ tu cuenta.</translation>
         <translation>Falta entrada de hora.</translation>
     </message>
     <message>
-        <source>At least one option is required.</source>
-        <comment>eZOptionType</comment>
-        <translation type="obsolete">Al menos se requiere una opción.</translation>
-    </message>
-    <message>
-        <source>Additional price for option value is invalid.</source>
-        <comment>eZOptionType</comment>
-        <translation type="obsolete">Es inválido cualquier precio adicional para  un valor de opción.</translation>
-    </message>
-    <message>
         <source>Missing time input.</source>
         <translation>Falta entrada de tiempo.</translation>
-    </message>
-    <message>
-        <source>The login must be specified</source>
-        <comment>eZUserType</comment>
-        <translation type="obsolete">El login ha de ser especificado</translation>
-    </message>
-    <message>
-        <source>Login name already exists, please choose another one.</source>
-        <comment>eZUserType</comment>
-        <translation type="obsolete">El nombre de login ya existe. Por favor, elige otro nombre.</translation>
-    </message>
-    <message>
-        <source>The E-Mail address is not valid.</source>
-        <comment>eZUserType</comment>
-        <translation type="obsolete">La dirección de e-mailno es válida.</translation>
-    </message>
-    <message>
-        <source>A user with this email already exists.</source>
-        <comment>eZUserType</comment>
-        <translation type="obsolete">Ya existe un usuario con este e-mail.</translation>
     </message>
     <message>
         <source>The confirmation password did not match.</source>
         <comment>eZUserType</comment>
         <translation>La contraseña de confirmación no ha coincidido.</translation>
-    </message>
-    <message>
-        <source>The password must be at least 3 characters.</source>
-        <comment>eZUserType</comment>
-        <translation type="obsolete">La contraseña debe tener al menos tres caracteres.</translation>
     </message>
     <message>
         <source>Author</source>
@@ -7584,10 +6585,6 @@ tu cuenta.</translation>
     <message>
         <source>Content</source>
         <translation>Contenido</translation>
-    </message>
-    <message>
-        <source>Edit</source>
-        <translation>Editar</translation>
     </message>
     <message>
         <source>Copy</source>
