@@ -131,7 +131,7 @@
     {* Remove. *}
 	<td>
 	    {section show=and( or( eq( $Versions.item.status, 0 ),eq( $Versions.item.status, 3), eq( $Versions.item.status, 4 ) ), $can_remove )}
-            <input type="checkbox" name="DeleteIDArray[]" value="{$Versions.item.id}" title="{'Mark version #%version_number for removal.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
+            <input type="checkbox" name="DeleteIDArray[]" value="{$Versions.item.id}" title="{'Select version #%version_number for removal.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
 	    {section-else}
             <input type="checkbox" name="" value="" disabled="disabled" title="{'Version #%version_number can not be removed because it is either the published version of the object or because you do not have permissions to remove it.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
         {/section}

@@ -113,7 +113,7 @@
 {* Checkbox *}
 <tr class="{$Caches.sequence}">
 {section show=$cache_enabled.list[$Caches.item.id]}
-<td><input type="checkbox" name="CacheList[]" value="{$Caches.item.id}" title="{'Mark the <%cache_name> for clearing.'|i18n( 'design/admin/setup/cache',, hash( '%cache_name', $Caches.item.name ) )|wash}" /></td>
+<td><input type="checkbox" name="CacheList[]" value="{$Caches.item.id}" title="{'Select the <%cache_name> for clearing.'|i18n( 'design/admin/setup/cache',, hash( '%cache_name', $Caches.item.name ) )|wash}" /></td>
 {section-else}
 <td><input type="checkbox" name="CacheList[]" value="{$Caches.item.id}" disabled="disabled" title="{'The <%cache_name> is disabled and thus it can not be marked for clearing.'|i18n( 'design/admin/setup/cache',, hash( '%cache_name', $Caches.item.name ) )|wash}" /></td>
 {/section}
