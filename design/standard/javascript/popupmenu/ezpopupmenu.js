@@ -117,8 +117,8 @@ EZPOPMNU_OFFSET = 8;
 
 // Global VARS
 // CurrentNodeID holds id of current node to edit for submenu's
-var CurrentNodeID = -1;
-var CurrentObjectID = -1;
+var CurrentSubstituteValues = -1;
+var CurrentDisableID = -1;
 // VisibleMenus is an array that holds the names of the currently shown menu's
 // for each level.
 var VisibleMenus = new Array();
@@ -126,17 +126,23 @@ var VisibleMenus = new Array();
 
 /*!
    Shows toplevel menu at the current mouseposition + EZPOPMNU_OFFSET.
-   
+   'menuID' is the identification of the menu to use.
+   'substituteValues' is an associative array. The string value of each item in the menu will have they keys, substituted by the value in this array.
+   'menuHeader' If the menu has a header it is replaced with this value.
+   'disableID' If this id is found in the list of known disabled for this menu the item is disabled.
  */
-function ezpopmnu_showTopLevel( menuID, nodeID, objectID, menuHeader )
+function ezpopmnu_showTopLevel( menuID, substituteValues, menuHeader, disableID )
 {
     if( !document.getElementById( menuID ) ) return;
 
-    if ( nodeID >= 0 ) // new topmenu
+    if ( substituteValues != -1 ) // new topmenu
     { 
 	ezpopmnu_hideAll();
-        CurrentNodeID = nodeID;
-        CurrentObjectID = objectID;
+	CurrentSubstituteValues = substituteValues;
+    }
+    if( disableID != -1 )
+    {
+	CurrentDisableID = disableID;
     }
 
     // reposition menu
@@ -150,13 +156,16 @@ function ezpopmnu_showTopLevel( menuID, nodeID, objectID, menuHeader )
 
         // href replacement
         var replaceString = menuArray[menuID]['elements'][i]['url'];
-        replaceString = replaceString.replace( '%nodeID%', CurrentNodeID );
-	replaceString = replaceString.replace( '%objectID%', CurrentObjectID );
-        hrefElement.setAttribute( "href", replaceString );
+	// loop though substitute values and substitute for each of them
+	for ( var substItem in CurrentSubstituteValues )
+        {
+		replaceString = replaceString.replace( substItem, CurrentSubstituteValues[substItem] );
+        }
+	hrefElement.setAttribute( "href", replaceString );
 
         // enabled/disabled
         if( typeof( menuArray[menuID]['elements'][i]['disabled_class'] ) != 'undefined' &&
-            menuArray[menuID]['elements'][i]['disabled_for'][CurrentNodeID] == 'yes' )
+            menuArray[menuID]['elements'][i]['disabled_for'][CurrentDisableID] == 'yes' )
         {
             hrefElement.className = menuArray[menuID]['elements'][i]['disabled_class'];
         }
@@ -225,7 +234,7 @@ function ezpopmnu_hideAll()
 }
 
 /*
- *Hide all menu's above level
+ * Hide all menus above 'level'
  */
 function ezpopmnu_hideHigher( level )
 {
@@ -244,4 +253,19 @@ function ezpopmnu_hideHigher( level )
 function ezpopmnu_mouseOver( id )
 {
     ezpopmnu_hideHigher( menuArray[id]['depth'] );
+}
+
+/*
+ * Helper function to create an associative array. Every two items will be paired as a key and a value.
+ */
+function ez_createAArray( flat )
+{
+    var resultArray = new Array();
+    if( flat.length % 2 != 0 ) return resultArray;
+    
+    var len = flat.length / 2;
+    for ( var i = 0; i <= len; i += 2 )
+	resultArray[flat[i]] = flat[i+1];
+
+   return resultArray;
 }
