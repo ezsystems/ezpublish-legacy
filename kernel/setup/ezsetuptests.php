@@ -740,7 +740,7 @@ function eZSetupTestMemLimit( $type, &$arguments )
 {
     $minMemory = eZSetupConfigVariable( $type, 'MinMemoryLimit' );
     $memoryLimit = ini_get( 'memory_limit' );
-    if ( $memoryLimit == false )
+    if ( $memoryLimit === '' || $memoryLimit == -1 )
     {
         return array( 'result' => true,
                       'persistent_data' => array( 'result' => array( 'value' => true ) ) );

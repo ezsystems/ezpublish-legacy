@@ -113,7 +113,10 @@ $tpl->setVariable( 'system_info', $systemInfo );
 $phpINI = array();
 foreach ( array( 'safe_mode', 'register_globals', 'open_basedir', 'file_uploads', 'post_max_size', 'memory_limit', 'max_execution_time' ) as $iniName )
 {
-    $phpINI[$iniName] = ini_get( $iniName );
+    $value = ini_get( $iniName );
+    if ( $value !== '' )
+        $phpINI[$iniName] = $value;
+
 }
 $tpl->setVariable( 'php_ini', $phpINI );
 

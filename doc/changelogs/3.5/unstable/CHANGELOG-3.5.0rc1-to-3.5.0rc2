@@ -118,6 +118,10 @@ Changes from 3.5.0rc1 to 3.5.0rc2
   http://ez.no/community/bug_reports/can_t_remove_selected_objects_from_trash
 - eZIdentifier datatype now correctly sets the sort_key_string value
   (Merged from stable/3.3 rev. 10311)
+- Fixed bug in displaying the memory limit when no limit was actually set.
+  http://ez.no/community/bug_reports/incorrect_display_of_memory_limit
+- Fixed a bug in the installer to check correctly for a memory limit setting of
+  -1 and no available memory limit at all.
 
 
 *Library:
