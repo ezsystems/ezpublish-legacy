@@ -2,13 +2,13 @@
 
 {* Multiple choice. *}
 <div class="block">
-    <label>{'Multiple choice'|i18n( 'design/standard/class/datatype' )}</label>
+    <label>{'Multiple choice'|i18n( 'design/standard/class/datatype' )}:</label>
     <input type="checkbox" name="ContentClass_ezenum_ismultiple_value_{$class_attribute.id}" value="{$class_attribute.data_int1}" {section show=$class_attribute.data_int1}checked="checked"{/section} />
 </div>
 
 {* Checkbox style. *}
 <div class="block">
-<label>{'Style'|i18n( 'design/standard/class/datatype' )}</label>
+<label>{'Style'|i18n( 'design/standard/class/datatype' )}:</label>
 <select name="ContentClass_ezenum_isoption_value_{$class_attribute.id}">
 <option value="1" {section show=eq( $class_attribute.data_int2, '1' )}selected="selected"{/section}>{'Checkboxes / radiobuttons'|i18n( 'design/standard/class/datatype' )}</option>
 <option value="0" {section show=eq( $class_attribute.data_int2, '0' )}selected="selected"{/section}>{'Dropdown menu / multi menu'|i18n( 'design/standard/class/datatype' )}</option>

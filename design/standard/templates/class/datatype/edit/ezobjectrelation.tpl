@@ -2,7 +2,7 @@
 {let content=$class_attribute.content}
 
 <div class="block">
-<label>{'Selection method'|i18n( 'design/standard/class/datatype' )}</label>
+<label>{'Selection method'|i18n( 'design/standard/class/datatype' )}:</label>
 <select name="ContentClass_ezobjectrelation_selection_type_{$class_attribute.id}">
     <option value="0" {eq( $content.selection_type, 0 )|choose( '', 'selected="selected"' )}>{'Browse'|i18n( 'design/standard/class/datatype' )}</option>
     <option value="1" {eq( $content.selection_type, 1 )|choose( '', 'selected="selected"' )}>{'Dropdown list'|i18n( 'design/standard/class/datatype' )}</option>
@@ -40,7 +40,7 @@
 </div>
 
 <div class="block">
-<label>{'Allow fuzzy match'|i18n( 'design/standard/class/datatype' )}</label>
+<label>{'Allow fuzzy match'|i18n( 'design/standard/class/datatype' )}:</label>
 <input type="checkbox" name="ContentClass_ezobjectrelation_selection_fuzzy_match_{$class_attribute.id}" {section show=$content.fuzzy_match}checked="checked"{/section} />
 <input type="hidden" name="ContentClass_ezobjectrelation_selection_fuzzy_match_helper_{$class_attribute.id}" value="1" />
 </div>
