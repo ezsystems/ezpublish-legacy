@@ -44,6 +44,7 @@
 */
 include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( "kernel/classes/ezpolicylimitationvalue.php" );
+include_once( "kernel/classes/ezpersistentobject.php" );
 
 class eZPolicyLimitation extends eZPersistentObject
 {
