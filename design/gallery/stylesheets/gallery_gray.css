@@ -320,6 +320,12 @@ div#footer
 #image img
 { 
     background-color: #ffffff;
+    padding: 12px;
+}
+
+#image div.navigation img
+{ 
+    background-color: #ffffff;
     padding: 6px;
 }
 
@@ -344,40 +350,18 @@ div.image_line h2
     display: inline;
 }
 
-#image .navigation ul, #image .navigation li
-{
-    display: inline;
-}
-
-#image .navigation ul
-{
-    list-style-type: none;
-}
-
-#image .navigation li
-{
-    padding: 4px;
-    min-width: 132px;
-    min-height: 132px;
-}
-
-#image .navigation li h3
-{
-    clear: right;
-    display: inline;
-}
-
-#image .navigation li img
-{
-    display: inline;
-    padding: 6px;
-}
-
 #image .navigation h2
 {
     font-size: 85%;
     background-color: #333333;
     color: #ffffff;
+    padding: 0.5em;
+}
+
+#image  a
+{
+    color: #fff;
+    text-decoration: none;
 }
 
 /* Album styles */
@@ -386,11 +370,19 @@ div.image_line h2
 {
 }
 
+#album a
+{
+    color: #fff;
+    text-decoration: none;
+}
+
 #album .info h2
 {
     text-align: center;
     font-size: 85%;
-    background-color: #cccccc;
+    background-color: #333333;
+    color: #ffffff;
+    padding: 0.5em;    
 }
 
 
@@ -403,39 +395,12 @@ div.image_line h2
     display: inline;
 }
 
-#album .navigation ul, #album .navigation li
-{
-    display: inline;
-}
-
-#album .navigation ul
-{
-    list-style-type: none;
-}
-
-#album .navigation li
-{
-    padding: 4px;
-    min-width: 132px;
-    min-height: 132px;
-}
-
-#album .navigation li h3
-{
-    clear: right;
-    display: inline;
-}
-
-#album .navigation li img
-{
-    display: inline;
-    padding: 6px;
-}
-
 #album .navigation h2
 {
     font-size: 85%;
-    background-color: #cccccc;
+    background-color: #333333;
+    color: #ffffff;
+    padding: 0.5em;
 }
 
 /* Gallery */
@@ -473,9 +438,15 @@ div.image_line h2
 
 #gallery .list .info h2
 {
-    background-color: #cccccc;
-    font-weight: bold;
-    color: #000000;
+    background-color: #333;
+    color: #fff;
+    padding: 0.5em;
+}
+
+#gallery .list .info h2 a
+{
+    color: #fff;
+    text-decoration: none;
 }
 
 #search .result .gallery_search h3

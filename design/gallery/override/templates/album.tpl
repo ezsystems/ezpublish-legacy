@@ -136,32 +136,34 @@
         {section show=or( $previous_album_image|gt( 0 ), $next_album_image|gt( 0 ) )}
         <div class="gallery">
             <h2>In gallery <em>{$node.parent.name|wash}</em></h2>
-            <ul>
+            <table>
+            <tr>
                 {section show=$previous_album_image|gt( 0 )}
-                <li>
+                <td>
                     <h3><a href={$previous_album[0].url_alias|ezurl}><strong class="arrow">&laquo;</strong> {$previous_album[0].name}</a></h3>
                     {node_view_gui view=navigator href=$previous_album_image[0].url_alias|ezurl content_node=$previous_album_image[0]}
-                </li>
+                </td>
                 {section-else}
                     {section show=$previous_album|gt( 0 )}
-                    <li>
+                    <td>
                         <h3><a href={$previous_album[0].url_alias|ezurl}><strong class="arrow">&laquo;</strong> {$previous_album[0].name}</a></h3>
-                    </li>
+                    </td>
                     {/section}
                 {/section}
                 {section show=$next_album_image|gt( 0 )}
-                <li>
+                <td>
                     <h3><a href={$next_album[0].url_alias|ezurl}>{$next_album[0].name} <strong class="arrow">&raquo;</strong><a/></h3>
                     {node_view_gui view=navigator href=$next_album_image[0].url_alias|ezurl content_node=$next_album_image[0]}
-                </li>
+                </td>
                 {section-else}
                     {section show=$next_album|gt( 0 )}
-                    <li>
+                    <td
                         <h3><a href={$next_album[0].url_alias|ezurl}>{$next_album[0].name} <strong class="arrow">&raquo;</strong><a/></h3>
-                    </li>
+                    </td>
                     {/section}
                 {/section}
-            </ul>
+            </tr>
+            </table>
         </div>
         {/section}
 

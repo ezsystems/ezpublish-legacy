@@ -347,7 +347,7 @@ div.block
 div.step
 {
     display: block;
-    clear: both;
+    clear: none;
     margin: 0;
     padding-top: 0.25em;
     padding-bottom: 0.25em;
@@ -412,6 +412,7 @@ div.imageleft, div.imageright, div.faxtboxleft, div.faxtboxright, div.leftobject
 
 div.imagecenter, div.factboxcenter, div.centerobject
 {
+    clear: none;
     width: 100%;
     margin-top: 0.3em;
     margin-bottom: 0.1em;
@@ -420,6 +421,7 @@ div.imagecenter, div.factboxcenter, div.centerobject
 
 div.imagecenter
 {
+    clear: none;
     text-align: center;
 }
 
