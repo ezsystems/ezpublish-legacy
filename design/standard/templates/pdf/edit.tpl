@@ -68,10 +68,10 @@
     <br/> *}
 
     <label>{"Export destination"|i18n("design/standard/content")}</label><div class="labelbreak"></div>
-    <input type="radio" name="DestinationType" value="url" checked="checked">{"Export to URL"|i18n("design/standard/content")}</input>
+    <input type="radio" name="DestinationType" value="url" {section show=$export_type|eq(2)|not}checked="checked"{/section}>{"Export to URL"|i18n("design/standard/content")}</input>
     {include uri="design:gui/lineedit.tpl" id_name="DestinationFile" value=$pdf_export.pdf_filename|wash }
     <br/>
-    <input type="radio" name="DestinationType" value="download">{"Export for direct download"|i18n("design/standard/content")}</input>
+    <input type="radio" name="DestinationType" value="download" {section show=$export_type|eq(2)}checked="checked"{/section}>{"Export for direct download"|i18n("design/standard/content")}</input>
     <br/>
 
     {include uri="design:gui/button.tpl" id_name=ExportPDFButton value="Export"|i18n("design/standard/content") }
