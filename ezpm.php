@@ -819,6 +819,8 @@ foreach ( $commandList as $commandItem )
                     case 'vendor':
                     case 'extension':
                     case 'source':
+                    case 'type':
+                    case 'priority':
 //                 case 'licence':
                     case 'state':
                     {
