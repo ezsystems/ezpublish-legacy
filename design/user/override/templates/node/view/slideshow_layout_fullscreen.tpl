@@ -5,16 +5,10 @@
 
 <form method="post" action={"/content/action/"|ezurl}>
 
-<table width="100%">
-<tr><td><center>
-{*<table width="100%" cellspacing="0" cellpadding="0">
+<table border="0" width="100%" cellspacing="10" cellpadding="0">
 <tr>
-	<td>
-	{$node.object.name|texttoimage('gallery')}
-	</td>
-</tr>
-</table>*}
-            <table border="0" align="center" cellpadding="10" cellspacing="6" bordercolor="#000000" bgcolor="#E2E2E2">
+  <td><center>
+            <table border="0" align="center" cellpadding="10" cellspacing="6" bordercolor="#000000" bgcolor="#ffffff">
 
 {section name=Child loop=$item_list}
               <tr bordercolor="#000000" bgcolor="#000000"> 
@@ -25,28 +19,25 @@
 {/section}
 {let item_previous=sub($view_parameters.offset,$page_limit) item_next=sum($view_parameters.offset,$page_limit)}
 
-<tr bgcolor="#E2E2E2">
+<tr bgcolor="#ffffff">
 
-     {switch match=$item_previous|lt(0)}
+    {switch match=$item_previous|lt(0)}
        {case match=0}
-         <td valign="top"><a href={concat('content/view','/slideshow/',$node.node_id,$item_previous|gt(0)|choose('',concat('/offset/',$item_previous)))|ezurl}><img src={"pil_left.gif"|ezimage} width="16" height="17" border="0"></a></td>
+         <td valign="top" width="45%"><a href={concat('content/view','/slideshow/',$node.node_id,$item_previous|gt(0)|choose('',concat('/offset/',$item_previous)))|ezurl}><img src={"pil_left.gif"|ezimage} width="18" height="18" border="0"></a></td>
        {/case}
        {case match=1}
-         <td valign="top">&nbsp;</td>
+         <td valign="top" width="45%"><img src={"pil_left_gray.gif"|ezimage} width="18" height="18" border="0"></td>
        {/case}
-     {/switch}
+    {/switch}
 
-{*    {let offset_of_page=mul(int(div($view_parameters.offset,$thumbnail_page_limit)),$thumbnail_page_limit)} *}
-{*    <td> <div align="center"><a href={concat('content/view','/thumbnail/',$node.node_id,$offset_of_page|gt(0)|choose('',concat('/offset/',$offset_of_page)))|ezurl}><img src={"x_close.gif"|ezimage} width="20" height="18" border="0"></a></div></td> *}
-    <td> <div align="center"><a href="javascript:window.close();"><img src={"x_close.gif"|ezimage} width="20" height="18" border="0"></a></div></td>
-{*    {/let} *}
+    <td width="10%"> <div align="center"><a href="javascript:window.close();"><img src={"x_close.gif"|ezimage} width="18" height="18" border="0"></a></div></td>
 
     {switch match=$item_next|lt($list_count)}
       {case match=1}
-                <td> <div align="right"><a href={concat('content/view','/slideshow/',$node.node_id,'/offset/',$item_next)|ezurl}><img src={"pil_right.gif"|ezimage} width="17" height="17" border="0"></a></div></td>
+        <td width="45%"> <div align="right"><a href={concat('content/view','/slideshow/',$node.node_id,'/offset/',$item_next)|ezurl}><img src={"pil_right.gif"|ezimage} width="18" height="18" border="0"></a></div></td>
       {/case}
       {case}
-         <td valign="top">&nbsp;</td>
+        <td width="45%"> <div align="right"><img src={"pil_right_gray.gif"|ezimage} width="18" height="18" border="0"></div></td>
       {/case}
     {/switch}
 </tr>
