@@ -38,6 +38,8 @@ Changes from 3.4.0alpha3 to 3.4.0alpha4
   http://ez.no/community/bug_reports/ezorder_calls_accountinformation_which_ezdefaultaccounthandler_doesnt_implement
 - Fixed bug with user redirection in basket with default account handler
   http://ez.no/community/bug_reports/redirectafteruserregister_set_by_ezdefaultshopaccounthandler_but_never_used ( Merged from stable/3.3 r6285 )
+- Fixed bug, missing check for invalid class identifiers
+  http://ez.no/community/bug_reports/problem_with_fetch_tree_in_php_v_4_3_4_or_msql_depth_query_resolved ( Merged from stable/3.3 r6292 )
 
 *Update
 
