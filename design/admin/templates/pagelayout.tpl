@@ -130,6 +130,10 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 <div id="leftmenu">
 <div id="leftmenu-design">
 
+{section show=and( $uri_string|contains('content'), $uri_string|contains( 'edit') )}
+{include uri="design:edit_menu.tpl"}
+{section-else}
+
 {section show=eq($navigation_part.identifier,'ezcontentnavigationpart')}
 {include uri="design:parts/content/menu.tpl"}
 {/section}
@@ -150,9 +154,9 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 {include uri="design:parts/setup/menu.tpl"}
 {/section}
 
-
 {section show=eq($navigation_part.identifier,'ezmynavigationpart')}
 {include uri="design:parts/my/menu.tpl"}
+{/section}
 {/section}
 
 </div>
