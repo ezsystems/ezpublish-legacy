@@ -67,5 +67,7 @@ Changes from 3.5.0rc1 to 3.5.0rc2
 - Added checks to object removals for cases where the object already was deleted
   http://ez.no/community/bug_reports/3_5_removing_nodes_objects_manually_fatal_errors
   (Merged from stable/3.3, rev. 10153)
+- Fixed bug in content structure menu related to disappearing of item icon when no content is present
+  http://ez.no/community/bug_reports/treemenu_top_folder_icon_disappears_when_no_content_is_present
 
 *Library:

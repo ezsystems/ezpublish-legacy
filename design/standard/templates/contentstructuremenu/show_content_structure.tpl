@@ -5,7 +5,8 @@
          haveChildren   = $numChildren|gt(0)
          showToolTips   = ezini( 'TreeMenu', 'ToolTips'         , 'contentstructuremenu.ini' )
          toolTip        = ""
-         visibility     = 'Visible' }
+         visibility     = 'Visible'
+         isRootNode     = false() }
 
         {default classIconsSize = ezini( 'TreeMenu', 'ClassIconsSize', 'contentstructuremenu.ini' )
                  last_item      = false() }
@@ -14,10 +15,14 @@
             {set classIconsSize=$class_icons_size}
         {/section}
 
+        {section show=is_set($is_root_node)}
+            {set isRootNode=$is_root_node}
+        {/section}
+
         <li id="n{$:parentNode.node.node_id}"{section show=$:last_item} class="lastli"{/section}>
 
             {* Fold/Unfold/Empty: [-]/[+]/[ ] *}
-                {section show=$:haveChildren}
+                {section show=or($:haveChildren, $:isRootNode)}
                    <a class="openclose" href="#" title="{'Fold/Unfold'|i18n('design/admin/contentstructuremenu')}"
                       onclick="ezcst_onFoldClicked( this.parentNode ); return false;"></a>
                 {section-else}
