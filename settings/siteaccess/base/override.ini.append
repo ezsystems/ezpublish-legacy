@@ -316,6 +316,12 @@ MatchFile=line/forum_reply.tpl
 Subdir=templates
 Match[class_identifier]=forum_reply
 
+[forum_reply_edit]
+Source=content/edit.tpl
+MatchFile=edit/forum_reply.tpl
+Subdir=templates
+Match[class_identifier]=forum_reply
+
 # Weblog templates
 
 [weblog_full]

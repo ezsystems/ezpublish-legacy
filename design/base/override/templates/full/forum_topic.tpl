@@ -47,10 +47,10 @@
                    </div>
 
                    <p>
-                      {let owner_id=$node.object.owner.id}
-                          {section name=Author loop=$node.object.author_array}
-                          {section  show=eq($owner_id,$Author:item.contentobject_id)|not()}
-                             Moderated by: {$Author:item.contentobject.name}
+                      {let owner_id=$node.object.owner_id}
+                          {section var=author loop=$node.object.author_array}
+                          {section show=eq($owner_id,$author.contentobject_id)|not()}
+                             Moderated by: {$author.contentobject.name}
                           {/section}
                           {/section}
                       {/let}
@@ -77,7 +77,7 @@
                   <p>{$reply.object.owner.name|wash}<br />
                   {$reply.object.owner.data_map.title.content|wash}</p>
 
-                  <p class="date">({$Child:item.object.published|l10n(datetime)})</p>
+                  <p class="date">({$reply.object.published|l10n(datetime)})</p>
 
                    <div class="authorimage">
                       {attribute_view_gui attribute=$reply.object.owner.data_map.user_image image_class=small}
@@ -85,7 +85,7 @@
 
                   {let owner_id=$reply.object.owner.id}
                        {section var=author loop=$reply.object.author_array}
-                            {section  show=eq($reply.owner_id,$author.contentobject_id)|not()}
+                            {section show=eq($reply.object.owner_id,$author.contentobject_id)|not()}
                             <p>
                              Moderated by: {$author.contentobject.name}
                             </p>
@@ -93,10 +93,10 @@
                        {/section}
                   {/let}
 
-   {switch match=$Child:item.object.can_edit}
+   {switch match=$reply.object.can_edit}
    {case match=1}
    <form method="post" action={"content/action/"|ezurl}>
-   <input type="hidden" name="ContentObjectID" value="{$Child:item.object.id}" />
+   <input type="hidden" name="ContentObjectID" value="{$reply.object.id}" />
    <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
    </form>
    {/case}
@@ -106,9 +106,9 @@
 
     </td>
     <td class="message">
-        <h2 id="msg{$Child:item.node_id}">{$Child:item.name|wash}</h2>
+        <h2 id="msg{$reply.node_id}">{$reply.name|wash}</h2>
         <p>
-        {$Child:item.object.data_map.message.content|wash(xhtml)|nl2br|wordtoimage|autolink}
+        {$reply.object.data_map.message.content|wash(xhtml)|nl2br|wordtoimage|autolink}
         </p>
     </td>
 </tr>
@@ -123,7 +123,7 @@
 {include name=navigator
          uri='design:navigator/google.tpl'
          page_uri=concat('/content/view','/full/',$node.node_id)
-         item_count=$child_count
+         item_count=$reply_count
          view_parameters=$view_parameters
          item_limit=20}
 
