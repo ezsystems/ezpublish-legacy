@@ -8,8 +8,13 @@
 <p>{"It's recommended that you fix this by running the commands below."|i18n("design/standard/setup/tests")}</p>
 
 <p><b>{"Shell commands"|i18n("design/standard/setup/tests")}</b></p>
-<pre class="example">cd {$file_results.current_path}<br/>
-{section name=File loop=$file_results.result_elements}{section-exclude match=$:item.result}chmod -R a+rwx {$:item.file}<br/>{/section}</pre>
+<pre class="example">cd {$file_results.current_path}
+
+{section name=File loop=$file_results.result_elements}{section-exclude match=$:item.result}chmod -R a+rwx {$:item.file}
+
+{/section}
+
+</pre>
 
 <p>
  If you know the user and group of the webserver it's recommended to use a different set of permissions.
