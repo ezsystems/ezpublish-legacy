@@ -32,12 +32,12 @@
 // you.
 //
 
-class eZDbSchema {
-	
-	function read($filename)
+class eZDbSchema
+{
+	function read( $filename )
 	{
 		$this->schema = include( $filename );
-		if ( !$this->schema || !is_array( $this->schema ))
+		if ( !$this->schema || !is_array( $this->schema ) )
 		{
 			$this->schema = array();
 		}
@@ -47,13 +47,13 @@ class eZDbSchema {
 	/*!
 	 * \private
 	 */
-	function generateUpgradeFile($differences)
+	function generateUpgradeFile( $differences )
 	{
 		$diff = var_export( $differences, true );
-		return ( "<?php \n\$diff = \n" . $diff . ";\nreturn \$diff;\n?>\n");
+		return ( "<?php \n\$diff = \n" . $diff . ";\nreturn \$diff;\n?>\n" );
 	}
 
-	function writeUpgradeFile($differences, $filename)
+	function writeUpgradeFile( $differences, $filename )
 	{
 		$fp = @fopen( $filename, 'w' );
 		if ( $fp )
@@ -61,7 +61,9 @@ class eZDbSchema {
 			fputs( $fp, eZDbSchema::generateUpgradeFile( $differences ) );
 			fclose( $fp );
 			return true;
-		} else {
+		}
+        else
+        {
 			return false;
 		}
 	}
@@ -69,13 +71,13 @@ class eZDbSchema {
 	/*!
 	 * \private
 	 */
-	function generateSchemaFile($schema)
+	function generateSchemaFile( $schema )
 	{
 		$schema = var_export( $schema, true );
-		return ( "<?php \n\$schema = \n" . $schema . ";\nreturn \$schema;\n?>\n");
+		return ( "<?php \n\$schema = \n" . $schema . ";\nreturn \$schema;\n?>\n" );
 	}
 
-	function writeSchemaFile($schema, $filename)
+	function writeSchemaFile( $schema, $filename )
 	{
 		$fp = @fopen( $filename, 'w' );
 		if ( $fp )
@@ -83,7 +85,9 @@ class eZDbSchema {
 			fputs( $fp, eZDbSchema::generateSchemaFile( $schema ) );
 			fclose( $fp );
 			return true;
-		} else {
+		}
+        else
+        {
 			return false;
 		}
 	}

@@ -94,19 +94,19 @@ END
 );
 
 
-class eZPgsqlSchema {
-
-	function read($con)
+class eZPgsqlSchema
+{
+	function read( $con )
 	{
 		$schema = array();
 		$res = pg_query( $con, SHOW_TABLES_QUERY );
 
-		while ( $row = pg_fetch_assoc ( $res ))
+		while ( $row = pg_fetch_assoc( $res ) )
 		{
 			$table_name = $row['Name'];
 			$schema_table['fields'] = $this->fetchTableFields( $table_name, $con );
 			$schema_table['indexes'] = $this->fetchTableIndexes( $table_name, $con );
-			
+
 			$schema[$table_name] = $schema_table;
 		}
 		$this->schema = $schema;
@@ -116,7 +116,7 @@ class eZPgsqlSchema {
 	/*!
 	 * \private
 	 */
-	function fetchTableFields($table, $con)
+	function fetchTableFields( $table, $con )
 	{
 		$fields = array();
 
@@ -126,11 +126,11 @@ class eZPgsqlSchema {
 
 		$query = str_replace( '<<oid>>', $oid, FETCH_TABLE_DEF_QUERY );
 		$res = pg_query( $con, $query );
-		while ( $row = pg_fetch_assoc ( $res ))
+		while ( $row = pg_fetch_assoc ( $res ) )
 		{
 			$field = array();
 			$autoinc = false;
-			$field['type'] = $this->parseType ( $row['format_type'], $field['length'] );
+			$field['type'] = $this->parseType( $row['format_type'], $field['length'] );
 			if ( !$field['length'] )
 			{
 				unset( $field['length'] );
@@ -164,7 +164,7 @@ class eZPgsqlSchema {
 	/*!
 	 * \private
 	 */
-	function fetchTableIndexes($table, $con)
+	function fetchTableIndexes( $table, $con )
 	{
 		$indexes = array();
 
@@ -208,10 +208,10 @@ class eZPgsqlSchema {
 		return $indexes;
 	}
 
-	function parseType($type_info, &$length_info)
+	function parseType( $type_info, &$length_info )
 	{
 		preg_match ( "@([a-z ]*)(\(([0-9]*)\))?@", $type_info, $matches );
-		if ( isset ( $matches[3] ) )
+		if ( isset( $matches[3] ) )
 		{
 			$length_info = $matches[3];
 		}
@@ -219,80 +219,93 @@ class eZPgsqlSchema {
 		return $type;
 	}
 
-	function convertFromStandardType($type, &$length)
+	function convertFromStandardType( $type, &$length )
 	{
 		switch ( $type )
 		{
-		case 'char':
-			if ( $length == 1 )
-			{
-				return 'character';
-			}
-			else
-			{
-				return 'character varying';
-			}
-			break;
-		case 'int':
-			return 'integer';
-			break;
-		case 'varchar':
-			return 'character varying';
-			break;
-		case 'longtext':
+            case 'char':
+            {
+                if ( $length == 1 )
+                {
+                    return 'character';
+                }
+                else
+                {
+                    return 'character varying';
+                }
+            } break;
+            case 'int':
+            {
+                return 'integer';
+            } break;
+            case 'varchar':
+            {
+                return 'character varying';
+            } break;
+            case 'longtext':
+            {
+                return 'text';
+            } break;
+            case 'mediumtext':
+            {
 			return 'text';
-			break;
-		case 'mediumtext':
-			return 'text';
-			break;
-		case 'text':
-			return 'text';
-			break;
-		case 'float':
-			return 'double precision';
-			break;
+            } break;
+            case 'text':
+            {
+                return 'text';
+            } break;
+            case 'float':
+            {
+                return 'double precision';
+            } break;
 		default:
 			die ( "ERROR UNHANDLED TYPE: $type\n" );
 		}
 	}
 
-	function convertToStandardType($type, &$length)
+	function convertToStandardType( $type, &$length )
 	{
 		switch ( $type )
 		{
-		case 'bigint':
-			return 'int';
-			break;
-		case 'integer':
-			$length = 11;
-			return 'int';
-			break;
-		case 'character varying':
-			return 'varchar';
-			break;
-		case 'text':
-			return 'longtext';
-			break;
-		case 'double precision':
-			return 'float';
-			break;
-		case 'character':
-			$lenght = 1;
-			return 'char';
-			break;
+            case 'bigint':
+            {
+                return 'int';
+            } break;
+            case 'integer':
+            {
+                $length = 11;
+                return 'int';
+            } break;
+            case 'character varying':
+            {
+                return 'varchar';
+            } break;
+            case 'text':
+            {
+                return 'longtext';
+            } break;
+            case 'double precision':
+            {
+                return 'float';
+            } break;
+            case 'character':
+            {
+                $lenght = 1;
+                return 'char';
+            } break;
 		default:
 			die ( "ERROR UNHANDLED TYPE: $type\n" );
 		}
 	}
 
-	function parseDefault($default, &$autoinc)
+	function parseDefault( $default, &$autoinc )
 	{
 		if ( preg_match( "@^nextval\('([a-z_]+_s)'::text\)$@", $default ) )
 		{
 			$autoinc = 1;
 			return '';
 		}
-	
+
 		if ( preg_match( "@^(.*)::double precision@", $default, $matches ) )
 		{
 			return $matches[1];
@@ -309,21 +322,24 @@ class eZPgsqlSchema {
 	/*!
 	 * \private
 	 */
-	function generateAddIndexSql($table_name, $index_name, $def)
+	function generateAddIndexSql( $table_name, $index_name, $def )
 	{
 		switch ( $def['type'] )
 		{
-		case 'primary':
-			$sql = "ALTER TABLE ONLY $table_name ADD CONSTRAINT $index_name PRIMARY KEY ";
-			break;
+            case 'primary':
+            {
+                $sql = "ALTER TABLE ONLY $table_name ADD CONSTRAINT $index_name PRIMARY KEY ";
+            } break;
 
-		case 'non-unique':
-			$sql = "CREATE INDEX $index_name ON $table_name USING btree ";
-			break;
+            case 'non-unique':
+            {
+                $sql = "CREATE INDEX $index_name ON $table_name USING btree ";
+            } break;
 
-		case 'unique':
-			$sql = "CREATE UNIQUE INDEX $index_name ON $table_name USING btree ";
-			break;
+            case 'unique':
+            {
+                $sql = "CREATE UNIQUE INDEX $index_name ON $table_name USING btree ";
+            } break;
 		}
 		$sql .= '( "' . join ( '", "', $def['fields'] ) . '" )';
 
@@ -333,7 +349,7 @@ class eZPgsqlSchema {
 	/*!
 	 * \private
 	 */
-	function generateDropIndexSql($table_name, $index_name)
+	function generateDropIndexSql( $table_name, $index_name )
 	{
 		if ($def['type'] == 'primary' )
 		{
@@ -349,24 +365,26 @@ class eZPgsqlSchema {
 	/*!
 	 * \private
 	 */
-	function generateFieldDef($table_name, $field_name, $def, $add_default_not_null = true)
+	function generateFieldDef( $table_name, $field_name, $def, $add_default_not_null = true )
 	{
 		$sql_def = $field_name . ' ';
 
 		if ( $def['type'] != 'auto_increment' )
 		{
 			$sql_def .= eZPgsqlSchema::convertFromStandardType( $def['type'], $def['length'] );
-			if ( isset ( $def['length'] ) && $def['length'] )
+			if ( isset( $def['length'] ) && $def['length'] )
 			{
 				$sql_def .= "({$def['length']})";
 			}
 			$sql_def .= ' ';
 			if ( $add_default_not_null )
 			{
-				if ( isset ( $def['default'] ) ) {
+				if ( isset( $def['default'] ) )
+                {
 					$sql_def .= "DEFAULT '{$def['default']}' ";
 				}
-				if ( isset ( $def['not_null'] ) && ( $def['not_null'] ) ) {
+				if ( isset( $def['not_null'] ) && ( $def['not_null'] ) )
+                {
 					$sql_def .= 'NOT NULL ';
 				}
 			}
@@ -381,10 +399,10 @@ class eZPgsqlSchema {
 	/*!
 	 * \private
 	 */
-	function generateAddFieldSql($table_name, $field_name, $def)
+	function generateAddFieldSql( $table_name, $field_name, $def )
 	{
 		$sql = "ALTER TABLE $table_name ADD COLUMN ";
-		$sql .= eZPgsqlSchema::generateFieldDef ( $table_name, $field_name, $def );
+		$sql .= eZPgsqlSchema::generateFieldDef( $table_name, $field_name, $def );
 
 		return $sql . ";\n";
 	}
@@ -392,10 +410,10 @@ class eZPgsqlSchema {
 	/*!
 	 * \private
 	 */
-	function generateAlterFieldSql($table_name, $field_name, $def)
+	function generateAlterFieldSql( $table_name, $field_name, $def )
 	{
 		$sql = "ALTER TABLE $table_name CHANGE COLUMN $field_name ";
-		$sql .= eZPgsqlSchema::generateFieldDef ( $table_name, $field_name, $def, false );
+		$sql .= eZPgsqlSchema::generateFieldDef( $table_name, $field_name, $def, false );
 
 		return $sql . ";\n";
 	}
@@ -403,7 +421,7 @@ class eZPgsqlSchema {
 	/*!
 	 * \private
 	 */
-	function generateDropFieldSql($table_name, $field_name)
+	function generateDropFieldSql( $table_name, $field_name )
 	{
 		$sql = "ALTER TABLE $table_name DROP COLUMN $field_name";
 
@@ -413,7 +431,7 @@ class eZPgsqlSchema {
 	/*!
 	 * \private
 	 */
-	function generateSchemaFile($schema)
+	function generateSchemaFile( $schema )
 	{
 		$sql = '';
 
@@ -429,17 +447,17 @@ class eZPgsqlSchema {
 					$sql .= "CREATE SEQUENCE {$table}_s\n\tSTART 1\n\tINCREMENT 1\n\tMAXVALUE 9223372036854775807\n\tMINVALUE 1\n\tCACHE 1;\n\n";
 				}
 			}
-			
+
 			$sql .= "CREATE TABLE $table (\n";
 			foreach ( $table_def['fields'] as $field_name => $field_def )
 			{
-				$sql_fields[] = "\t". eZPgsqlSchema::generateFieldDef ( $table, $field_name, $field_def );
+				$sql_fields[] = "\t". eZPgsqlSchema::generateFieldDef( $table, $field_name, $field_def );
 			}
 			$sql .= join ( ",\n", $sql_fields ) . "\n);\n";
 
 			foreach ( $table_def['indexes'] as $index_name => $index_def )
 			{
-				$sql .= eZPgsqlSchema::generateAddIndexSql ( $table, $index_name, $index_def );
+				$sql .= eZPgsqlSchema::generateAddIndexSql( $table, $index_name, $index_def );
 			}
 			$sql .= "\n\n";
 		}
@@ -450,7 +468,7 @@ class eZPgsqlSchema {
 	/*!
 	 * \private
 	 */
-	function generateUpgradeFile($differences)
+	function generateUpgradeFile( $differences )
 	{
 		$sql = '';
 
@@ -510,7 +528,7 @@ class eZPgsqlSchema {
 		return $sql;
 	}
 
-	function writeUpgradeFile($differences, $filename)
+	function writeUpgradeFile( $differences, $filename )
 	{
 		$fp = @fopen( $filename, 'w' );
 		if ( $fp )
@@ -518,12 +536,14 @@ class eZPgsqlSchema {
 			fputs( $fp, eZPgsqlSchema::generateUpgradeFile( $differences ) );
 			fclose( $fp );
 			return true;
-		} else {
+		}
+        else
+        {
 			return false;
 		}
 	}
 
-	function writeSchemaFile($schema, $filename)
+	function writeSchemaFile( $schema, $filename )
 	{
 		$fp = @fopen( $filename, 'w' );
 		if ( $fp )
@@ -531,7 +551,9 @@ class eZPgsqlSchema {
 			fputs( $fp, eZPgsqlSchema::generateSchemaFile( $schema ) );
 			fclose( $fp );
 			return true;
-		} else {
+		}
+        else
+        {
 			return false;
 		}
 	}

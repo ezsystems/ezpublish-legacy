@@ -32,19 +32,20 @@
 // you.
 //
 
-class eZMysqlSchema {
+class eZMysqlSchema
+{
 
-	function read($con)
+	function read( $con )
 	{
 		$schema = array();
 		$res = mysql_query( "SHOW TABLES", $con );
 
-		while ( $row = mysql_fetch_row ( $res ))
+		while ( $row = mysql_fetch_row ( $res ) )
 		{
 			$table_name = $row[0];
 			$schema_table['fields'] = $this->fetchTableFields( $table_name, $con );
 			$schema_table['indexes'] = $this->fetchTableIndexes( $table_name, $con );
-			
+
 			$schema[$table_name] = $schema_table;
 		}
 		$this->schema = $schema;
@@ -60,7 +61,7 @@ class eZMysqlSchema {
 
 		$res = mysql_query( "DESCRIBE $table", $con );
 
-		while ( $row = mysql_fetch_assoc ( $res ))
+		while ( $row = mysql_fetch_assoc ( $res ) )
 		{
 			$field = array();
 			$field['type'] = $this->parseType ( $row['Type'], $field['length'] );
@@ -81,10 +82,10 @@ class eZMysqlSchema {
 				$field['default'] = '0';
 			}
 
-			if (substr ( $row['Extra'], 'auto_increment' ) !== false )
+			if ( substr ( $row['Extra'], 'auto_increment' ) !== false )
 			{
-				unset ($field['length']);
-				unset ($field['not_null']);
+				unset( $field['length'] );
+				unset( $field['not_null'] );
 				$field['type'] = 'auto_increment';
 			}
 			$fields[$row['Field']] = $field;
@@ -96,13 +97,13 @@ class eZMysqlSchema {
 	/*!
 	 * \private
 	 */
-	function fetchTableIndexes($table, $con)
+	function fetchTableIndexes( $table, $con )
 	{
 		$indexes = array();
 
 		$res = mysql_query( "SHOW INDEX FROM $table", $con );
 
-		while ( $row = mysql_fetch_assoc ( $res ))
+		while ( $row = mysql_fetch_assoc ( $res ) )
 		{
 			$kn = $row['Key_name'];
 
@@ -120,9 +121,9 @@ class eZMysqlSchema {
 		return $indexes;
 	}
 
-	function parseType($type_info, &$length_info)
+	function parseType( $type_info, &$length_info )
 	{
-		preg_match ( "@([a-z]*)(\(([0-9]*)\))?@", $type_info, $matches );
+		preg_match( "@([a-z]*)(\(([0-9]*)\))?@", $type_info, $matches );
 		if ( isset ( $matches[3] ) )
 		{
 			$length_info = $matches[3];
@@ -133,23 +134,26 @@ class eZMysqlSchema {
 	/*!
 	 * \private
 	 */
-	function generateAddIndexSql($table_name, $index_name, $def)
+	function generateAddIndexSql( $table_name, $index_name, $def )
 	{
 		$sql = "ALTER TABLE $table_name ADD ";
 
 		switch ( $def['type'] )
 		{
-		case 'primary':
-			$sql .= 'PRIMARY KEY ';
-			break;
+            case 'primary':
+            {
+                $sql .= 'PRIMARY KEY ';
+            } break;
 
-		case 'non-unique':
-			$sql .= "INDEX $index_name ";
-			break;
+            case 'non-unique':
+            {
+                $sql .= "INDEX $index_name ";
+            } break;
 
-		case 'unique':
-			$sql .= "UNIQUE $index_name ";
-			break;
+            case 'unique':
+            {
+                $sql .= "UNIQUE $index_name ";
+            } break;
 		}
 		$sql .= '( ' . join ( ', ', $def['fields'] ) . ' )';
 
@@ -159,11 +163,11 @@ class eZMysqlSchema {
 	/*!
 	 * \private
 	 */
-	function generateDropIndexSql($table_name, $index_name)
+	function generateDropIndexSql( $table_name, $index_name )
 	{
 		$sql = "ALTER TABLE $table_name DROP ";
 
-		if ($def['type'] == 'primary' )
+		if ( $def['type'] == 'primary' )
 		{
 			$sql .= 'PRIMARY KEY';
 		}
@@ -177,22 +181,24 @@ class eZMysqlSchema {
 	/*!
 	 * \private
 	 */
-	function generateFieldDef($field_name, $def, &$skip_primary)
+	function generateFieldDef( $field_name, $def, &$skip_primary )
 	{
 		$sql_def = $field_name . ' ';
 
 		if ( $def['type'] != 'auto_increment' )
 		{
 			$sql_def .= $def['type'];
-			if ( isset ( $def['length'] ) )
+			if ( isset( $def['length'] ) )
 			{
 				$sql_def .= "({$def['length']})";
 			}
 			$sql_def .= ' ';
-			if ( isset ( $def['not_null'] ) && ( $def['not_null'] ) ) {
+			if ( isset( $def['not_null'] ) && ( $def['not_null'] ) )
+            {
 				$sql_def .= 'NOT NULL ';
 			}
-			if ( isset ( $def['default'] ) ) {
+			if ( isset( $def['default'] ) )
+            {
 				$sql_def .= "DEFAULT '{$def['default']}' ";
 			}
 			else if ( $def['type'] == 'varchar' )
@@ -212,7 +218,7 @@ class eZMysqlSchema {
 	/*!
 	 * \private
 	 */
-	function generateAddFieldSql($table_name, $field_name, $def)
+	function generateAddFieldSql( $table_name, $field_name, $def )
 	{
 		$sql = "ALTER TABLE $table_name ADD COLUMN ";
 		$sql .= eZMysqlSchema::generateFieldDef ( $field_name, $def, $dummy );
@@ -223,7 +229,7 @@ class eZMysqlSchema {
 	/*!
 	 * \private
 	 */
-	function generateAlterFieldSql($table_name, $field_name, $def)
+	function generateAlterFieldSql( $table_name, $field_name, $def )
 	{
 		$sql = "ALTER TABLE $table_name CHANGE COLUMN $field_name ";
 		$sql .= eZMysqlSchema::generateFieldDef ( $field_name, $def, $dummy );
@@ -234,7 +240,7 @@ class eZMysqlSchema {
 	/*!
 	 * \private
 	 */
-	function generateDropFieldSql($table_name, $field_name)
+	function generateDropFieldSql( $table_name, $field_name )
 	{
 		$sql = "ALTER TABLE $table_name DROP COLUMN $field_name";
 
@@ -244,7 +250,7 @@ class eZMysqlSchema {
 	/*!
 	 * \private
 	 */
-	function generateSchemaFile($schema)
+	function generateSchemaFile( $schema )
 	{
 		$sql = '';
 
@@ -255,7 +261,7 @@ class eZMysqlSchema {
 			$sql .= "CREATE TABLE $table (\n";
 			foreach ( $table_def['fields'] as $field_name => $field_def )
 			{
-				$sql_fields[] = "\t". eZMysqlSchema::generateFieldDef ( $field_name, $field_def, $skip_pk_flag );
+				$sql_fields[] = "\t". eZMysqlSchema::generateFieldDef( $field_name, $field_def, $skip_pk_flag );
 				if ( $skip_pk_flag )
 				{
 					$skip_pk = true;
@@ -267,7 +273,7 @@ class eZMysqlSchema {
 			{
 				if ( ( $index_def['type'] == 'primary' ) && ( !$skip_pk ) )
 				{
-					$sql .= eZMysqlSchema::generateAddIndexSql ( $table, $index_name, $index_def );
+					$sql .= eZMysqlSchema::generateAddIndexSql( $table, $index_name, $index_def );
 				}
 			}
 			$sql .= "\n\n";
@@ -279,7 +285,7 @@ class eZMysqlSchema {
 	/*!
 	 * \private
 	 */
-	function generateUpgradeFile($differences)
+	function generateUpgradeFile( $differences )
 	{
 		$sql = '';
 
@@ -288,7 +294,7 @@ class eZMysqlSchema {
 		{
 			foreach ( $differences['table_changes'] as $table => $table_diff )
 			{
-				if ( isset ( $table_diff['added_fields'] ) )
+				if ( isset( $table_diff['added_fields'] ) )
 				{
 					foreach ( $table_diff['added_fields'] as $field_name => $added_field )
 					{
@@ -296,30 +302,30 @@ class eZMysqlSchema {
 					}
 				}
 
-				if ( isset ( $table_diff['changed_fields'] ) )
+				if ( isset( $table_diff['changed_fields'] ) )
 				{
 					foreach ( $table_diff['changed_fields'] as $field_name => $changed_field )
 					{
 						$sql .= ezMysqlSchema::generateAlterFieldSql( $table, $field_name, $changed_field );
 					}
 				}
-				if ( isset ( $table_diff['removed_fields'] ) )
+				if ( isset( $table_diff['removed_fields'] ) )
 				{
-					foreach ( $table_diff['removed_fields'] as $field_name => $removed_field)
+					foreach ( $table_diff['removed_fields'] as $field_name => $removed_field )
 					{
 						$sql .= ezMysqlSchema::generateDropFieldSql( $table, $field_name );
 					}
 				}
 
-				if ( isset ( $table_diff['added_indexes'] ) )
+				if ( isset( $table_diff['added_indexes'] ) )
 				{
-					foreach ( $table_diff['added_indexes'] as $index_name => $added_index)
+					foreach ( $table_diff['added_indexes'] as $index_name => $added_index )
 					{
 						$sql .= ezMysqlSchema::generateAddIndexSql( $table, $index_name, $added_index );
 					}
 				}
 
-				if ( isset ( $table_diff['changed_indexes'] ) )
+				if ( isset( $table_diff['changed_indexes'] ) )
 				{
 					foreach ( $table_diff['changed_indexes'] as $index_name => $changed_index )
 					{
@@ -327,9 +333,9 @@ class eZMysqlSchema {
 						$sql .= ezMysqlSchema::generateAddIndexSql( $table, $index_name, $changed_index );
 					}
 				}
-				if ( isset ( $table_diff['removed_indexes'] ) )
+				if ( isset( $table_diff['removed_indexes'] ) )
 				{
-					foreach ( $table_diff['removed_indexes'] as $index_name => $removed_index)
+					foreach ( $table_diff['removed_indexes'] as $index_name => $removed_index )
 					{
 						$sql .= ezMysqlSchema::generateDropIndexSql( $table, $index_name );
 					}
@@ -339,7 +345,7 @@ class eZMysqlSchema {
 		return $sql;
 	}
 
-	function writeUpgradeFile($differences, $filename)
+	function writeUpgradeFile( $differences, $filename )
 	{
 		$fp = @fopen( $filename, 'w' );
 		if ( $fp )
@@ -347,12 +353,14 @@ class eZMysqlSchema {
 			fputs( $fp, eZMysqlSchema::generateUpgradeFile( $differences ) );
 			fclose( $fp );
 			return true;
-		} else {
+		}
+        else
+        {
 			return false;
 		}
 	}
 
-	function writeSchemaFile($schema, $filename)
+	function writeSchemaFile( $schema, $filename )
 	{
 		$fp = @fopen( $filename, 'w' );
 		if ( $fp )
@@ -360,7 +368,9 @@ class eZMysqlSchema {
 			fputs( $fp, eZMysqlSchema::generateSchemaFile( $schema ) );
 			fclose( $fp );
 			return true;
-		} else {
+		}
+        else
+        {
 			return false;
 		}
 	}

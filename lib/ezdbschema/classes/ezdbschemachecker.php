@@ -32,11 +32,12 @@
 // you.
 //
 
-class eZDbSchemaChecker {
+class eZDbSchemaChecker
+{
 
-	function diff($schema1, $schema2 = array())
+	function diff( $schema1, $schema2 = array() )
 	{
-		if (!is_array( $schema1 ))
+		if ( !is_array( $schema1 ) )
 		{
 			return false;
 		}
@@ -44,67 +45,89 @@ class eZDbSchemaChecker {
 
 		/* Loop through all tables and see if they exist in the compared
 		 * schema */
-		foreach ($schema2 as $name => $def) {
-			if (!isset ($schema1[$name])) {
+		foreach ( $schema2 as $name => $def )
+        {
+			if ( !isset( $schema1[$name] ) )
+            {
 				$diff['new_tables'][$name] = $def;
-			} else {
-				$table_diff = eZDbSchemaChecker::diffTable($schema1[$name], $def);
-				if (count($table_diff)) {
+			}
+            else
+            {
+				$table_diff = eZDbSchemaChecker::diffTable( $schema1[$name], $def );
+				if ( count( $table_diff ) )
+                {
 					$diff['table_changes'][$name] = $table_diff;
 				}
 			}
 		}
+
 		/* Check if there are tables removed */
-		foreach ($schema1 as $name => $def) {
-			if (!isset ($schema2[$name])) {
+		foreach ( $schema1 as $name => $def )
+        {
+			if ( !isset( $schema2[$name] ) )
+            {
 				$diff['removed_tables'][$name] = true;
 			}
 		}
-		
+
 		return $diff;
 	}
 
-	function diffTable($table1, $table2)
+	function diffTable( $table1, $table2 )
 	{
 		$table_diff = array();
 
 		/* See if all the fields in table 1 exist in table 2 */
-		foreach ($table2['fields'] as $name => $def) {
-			if (!isset($table1['fields'][$name])) {
+		foreach ( $table2['fields'] as $name => $def )
+        {
+			if ( !isset( $table1['fields'][$name] ) )
+            {
 				$table_diff['added_fields'][$name] = $def;
 			}
 		}
 		/* See if there are any removed fields in table 2 */
-		foreach ($table1['fields'] as $name => $def) {
-			if (!isset($table2['fields'][$name])) {
+		foreach ( $table1['fields'] as $name => $def )
+        {
+			if ( !isset( $table2['fields'][$name] ) )
+            {
 				$table_diff['removed_fields'][$name] = true;
 			}
 		}
 		/* See if there are any changed definitions */
-		foreach ($table1['fields'] as $name => $def) {
-			if (isset($table2['fields'][$name])) {
-				if (is_array ($field_diff = eZDbSchemaChecker::diffField($def, $table2['fields'][$name]))) {
+		foreach ( $table1['fields'] as $name => $def )
+        {
+			if ( isset( $table2['fields'][$name] ) )
+            {
+				if ( is_array( $field_diff = eZDbSchemaChecker::diffField( $def, $table2['fields'][$name] ) ) )
+                {
 					$table_diff['changed_fields'][$name] = $field_diff;
 				}
 			}
 		}
 
 		/* See if all the indexes in table 1 exist in table 2 */
-		foreach ($table2['indexes'] as $name => $def) {
-			if (!isset($table1['indexes'][$name])) {
+		foreach ( $table2['indexes'] as $name => $def )
+        {
+			if ( !isset( $table1['indexes'][$name] ) )
+            {
 				$table_diff['added_indexes'][$name] = $def;
 			}
 		}
 		/* See if there are any removed indexes in table 2 */
-		foreach ($table1['indexes'] as $name => $def) {
-			if (!isset($table2['indexes'][$name])) {
+		foreach ( $table1['indexes'] as $name => $def )
+        {
+			if ( !isset( $table2['indexes'][$name] ) )
+            {
 				$table_diff['removed_indexes'][$name] = true;
 			}
 		}
 		/* See if there are any changed definitions */
-		foreach ($table1['indexes'] as $name => $def) {
-			if (isset($table2['indexes'][$name])) {
-				if (is_array ($index_diff = eZDbSchemaChecker::diffIndex($def, $table2['indexes'][$name]))) {
+		foreach ( $table1['indexes'] as $name => $def )
+        {
+			if ( isset($table2['indexes'][$name] ) )
+            {
+				if ( is_array( $index_diff = eZDbSchemaChecker::diffIndex( $def, $table2['indexes'][$name] ) ) )
+                {
 					$table_diff['changed_indexes'][$name] = $index_diff;
 				}
 			}
@@ -113,22 +136,29 @@ class eZDbSchemaChecker {
 		return $table_diff;
 	}
 
-	function diffField($field1, $field2)
+	function diffField( $field1, $field2 )
 	{
 		/* Type is always available */
-		if ($field1['type'] != $field2['type']) {
+		if ( $field1['type'] != $field2['type'] )
+        {
 			return $field2;
 		}
 
-		$test_fields = array('length', 'default', 'not_null');
-		foreach ($test_fields as $test_field) {
-			if (isset($field1[$test_field])) {
-				if (!isset($field2[$test_field]) ||
-					($field1[$test_field] != $field2[$test_field])) {
+		$test_fields = array( 'length', 'default', 'not_null' );
+		foreach ( $test_fields as $test_field )
+        {
+			if ( isset( $field1[$test_field] ) )
+            {
+				if ( !isset( $field2[$test_field] ) ||
+                     ( $field1[$test_field] != $field2[$test_field] ) )
+                {
 					return $field2;
 				}
-			} else {
-				if (isset($field2[$test_field])) {
+			}
+            else
+            {
+				if ( isset( $field2[$test_field] ) )
+                {
 					return $field2;
 				}
 			}
@@ -136,37 +166,49 @@ class eZDbSchemaChecker {
 		return false;
 	}
 
-	function diffIndex($index1, $index2)
+	function diffIndex( $index1, $index2 )
 	{
-		if (($index1['type'] != $index2['type']) ||
-			count(array_diff($index1, $index2)))
+		if ( ( $index1['type'] != $index2['type'] ) ||
+             count( array_diff( $index1, $index2 ) ) )
 		{
 			return $index2;
 		}
 
-		$test_fields = array('link_table');
-		foreach ($test_fields as $test_field) {
-			if (isset($index1[$test_field])) {
-				if (!isset($index2[$test_field]) ||
-					($index1[$test_field] != $index2[$test_field])) {
+		$test_fields = array( 'link_table' );
+		foreach ( $test_fields as $test_field )
+        {
+			if ( isset($index1[$test_field] ) )
+            {
+				if ( !isset( $index2[$test_field] ) ||
+                     ( $index1[$test_field] != $index2[$test_field] ) )
+                {
 					return $index2;
 				}
-			} else {
-				if (isset($index2[$test_field])) {
+			}
+            else
+            {
+				if ( isset($index2[$test_field] ) )
+                {
 					return $index2;
 				}
 			}
 		}
 
-		$test_fields = array('fields', 'link_fields');
-		foreach ($test_fields as $test_field) {
-			if (isset($index1[$test_field])) {
-				if (!isset($index2[$test_field]) ||
-					!($index1[$test_field] == $index2[$test_field])) {
+		$test_fields = array( 'fields', 'link_fields' );
+		foreach ( $test_fields as $test_field )
+        {
+			if ( isset( $index1[$test_field] ) )
+            {
+				if ( !isset( $index2[$test_field] ) ||
+                     !( $index1[$test_field] == $index2[$test_field] ) )
+                {
 					return $index2;
 				}
-			} else {
-				if (isset($index2[$test_field])) {
+			}
+            else
+            {
+				if ( isset( $index2[$test_field] ) )
+                {
 					return $index2;
 				}
 			}

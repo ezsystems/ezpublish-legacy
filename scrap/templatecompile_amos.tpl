@@ -59,15 +59,24 @@ We were trying to find {$:foobar}
 {$arr|array_merge(3,4)|implode(',')}
 {/let}*}
 
-{let a=false() b=0 c="text"
+{*{let a=false() b=0 c="text"
      d=true() e=1 f="text"}
 '{or( $a, $b, $c )}'
 '{and( $a, $b, $c )}'
 '{and( $d, $e, $f )}'
-{/let}
+{/let}*}
 
 
-{*{include name=navigator
+  {include name=navigator
+         uri='design:content/datatype/view/ezimage.tpl'
+         image_class=original
+         href="my/cool/link"
+         attribute=hash( 'content',
+ hash( original, hash( is_valid, true(),
+                       url, "my_url.jpg" ),
+is_valid, true() ) )}
+
+  {*{include name=navigator
          uri='design:navigator/google.tpl'
          page_uri=concat('/content/view','/full/',1)
          item_count=30
