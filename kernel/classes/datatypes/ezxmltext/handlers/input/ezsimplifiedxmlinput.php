@@ -303,11 +303,12 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $contentObjectAttribute->setValidationLog( $message );
 
                 $paragraphs = $tmpDom->elementsByName( 'paragraph' );
+                $headers = $tmpDom->elementsByName( 'header' );
 
                 $classAttribute =& $contentObjectAttribute->contentClassAttribute();
                 if ( $classAttribute->attribute( "is_required" ) == true )
                 {
-                    if ( count( $paragraphs ) == 0 )
+                    if ( count( $paragraphs ) == 0  && count( $headers ) == 0  )
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     else
                         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;

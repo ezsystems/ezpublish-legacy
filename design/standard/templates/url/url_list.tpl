@@ -49,7 +49,7 @@
          item_count=$url_count
          view_parameters=$view_parameters
          item_limit=$url_limit}
-
+{*
 <div class="buttonblock">
 {section show=$show_make_valid}
 <input class="button" type="submit" name="SetValid" value="{'Make valid'}" />
@@ -58,5 +58,5 @@
 <input class="button" type="submit" name="SetInvalid" value="{'Make invalid'}" />
 {/section}
 </div>
-
+*}
 {/default}

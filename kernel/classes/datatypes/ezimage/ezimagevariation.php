@@ -222,11 +222,29 @@ class eZImageVariation extends eZPersistentObject
 
         $img =& imageInit();
 
-        $refImagename = $img->convert( $referencePath . '/'. $ezimageobj->attribute( "filename" ),
+        $convertedName = $ezimageobj->attribute( "filename" );
+
+        $imgINI =& eZINI::instance( 'image.ini' );
+        $ruleList = $imgINI->variableArray( 'Rules', 'Rules' );
+        foreach ( $ruleList as $items )
+        {
+            $sourceMIME = $items[0];
+            $destMIME = $items[1];
+            $type = $items[2];
+            if ( $type == 'convert' or
+                 $type == 'gd' )
+            {
+               $sourceMIME = str_replace("image/", "", $sourceMIME );
+               $destMIME = str_replace("image/", "", $destMIME );
+               $convertedName = str_replace( $sourceMIME, $destMIME, $convertedName );
+            }
+        }
+
+        $refImagename = $img->convert( $referencePath . '/' . $convertedName,
                                        $variationPath . '/' . $additionalPath . '/' . $destFilename,
                                        array( "width" => $rwidth, "height" => $rheight ),
                                        false
-                                     );
+                                       );
 
         $refImageFilename = explode( ':', $refImagename);
         $refImagename = $variationPath . '/' . $additionalPath . '/' . $refImageFilename[ 1 ];

@@ -93,6 +93,25 @@ class eZImage extends eZPersistentObject
 
     function hasAttribute( $attr )
     {
+        $imageIni =& eZINI::instance( 'image.ini' );
+        if ( $imageIni->hasVariable( 'ImageSizes', 'Height' ) )
+            $heightList =& $imageIni->variable( 'ImageSizes', 'Height' );
+        if ( $imageIni->hasVariable( 'ImageSizes', 'Width' ) )
+            $widthList =& $imageIni->variable( 'ImageSizes', 'Width' );
+
+        if ( $heightList != null )
+        {
+            foreach ( array_keys ( $heightList ) as $key )
+            {
+                if ( ( $attr != "small" and $attr != "medium" and $attr != "large" and
+                       $attr != "reference" and $attr != "original" ) and
+                     $attr == $key )
+                {
+                    $attr = "custom_size";
+                    return $attr == "custom_size";
+                }
+            }
+        }
         return $attr == "mime_type_category" or $attr == "mime_type_part" or eZPersistentObject::hasAttribute( $attr ) or
             $attr == "small" or $attr == "large" or $attr == "medium" or $attr == "reference" or $attr == "original";
     }
@@ -101,6 +120,23 @@ class eZImage extends eZPersistentObject
     {
         $ini =& eZINI::instance();
 
+        $imageIni =& eZINI::instance( 'image.ini' );
+        if ( $imageIni->hasVariable( 'ImageSizes', 'Height' ) )
+            $heightList =& $imageIni->variable( 'ImageSizes', 'Height' );
+        if ( $imageIni->hasVariable( 'ImageSizes', 'Width' ) )
+            $widthList =& $imageIni->variable( 'ImageSizes', 'Width' );
+
+        foreach ( array_keys ( $heightList ) as $key )
+        {
+            if ( ( $attr != "small" or $attr != "medium" or $attr != "large"
+                 or $attr != "reference" or $attr != "original" ) and
+                 $attr == $key )
+            {
+                $attr = "custom_size";
+                $customHeight = $heightList[$key];
+                $customWidth = $widthList[$key];
+            }
+        }
         switch( $attr )
         {
             case "mime_type_category":
@@ -118,6 +154,7 @@ class eZImage extends eZPersistentObject
             case "large":
             case "reference":
             case "original":
+            case "custom_size":
             {
                 if ( $attr == "small" )
                 {
@@ -139,10 +176,50 @@ class eZImage extends eZPersistentObject
                     $width = $ini->variable( "ImageSettings" , "ReferenceSizeWidth" );
                     $height = $ini->variable( "ImageSettings" , "ReferenceSizeHeight" );
                 }
+                else if ( $attr == "custom_size" )
+                {
+                    $width = $customWidth;
+                    $height = $customHeight;
+                }
                 else
                 {
                     $width = false;
                     $height = false;
+                }
+
+                if ( $heightList != null )
+                {
+                    foreach ( array_keys ( $heightList ) as $key )
+                    {
+                        $heightValue =& $heightList[$key];
+                        if ( $heightValue )
+                        {
+                            if ( $key == "small" and $attr == "small" )
+                            {
+                                $height = $heightValue;
+                                $width = $widthList[$key];
+                            }
+                            else if ( $key == "medium" and $attr == "medium" )
+                            {
+                                $height = $heightValue;
+                                $width = $widthList[$key];
+                            }
+                            else if ( $key == "large" and $attr == "large" )
+                            {
+                                $height = $heightValue;
+                                $width = $widthList[$key];
+                            }
+                            else if ( $key == "reference" and $attr == "reference" )
+                            {
+                                $height = $heightValue;
+                                $width = $widthList[$key];
+                            }
+                            else
+                            {
+                                // No changes
+                            }
+                        }
+                    }
                 }
 
                 $cacheString = $this->ContentObjectAttributeID . '-' . $attr . "-" . $width . "-" . $height;
