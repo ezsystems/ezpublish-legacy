@@ -25,12 +25,43 @@
 </p>
 
 <h2 id="Linux_FreeBSD_Macos">Using the setup guide on Linux, FreeBSD and Mac OS X</h2>
+
+<h4>MySQL</h4>
+<p>
+	We need to login, create a new database, grant permissions to a user and insert a database.
+</p>
+
+<ol>
+	<li><pre class="example"> $ mysql -u root -p &lt;password&gt;</pre></li>
+	<li>You should now have a "mysql&gt;" prompt, create a new database <pre class="example"> mysqlgt&; create database &lt;name_of_database&gt;</pre></li>
+	<li>Grant permissions <pre class="example"> mysql&gt; grant all on &lt;name_of_database&gt;.* to &lt;user&gt;@localhost
+	identified by '&lt;password&gt;';</pre></li>
+	<li>If you don't want to install demodata <pre class="example"> $ mysql -u &lt;user&gt; -p&lt;password&gt; &lt;name_of_database&gt;
+	&lt; &lt;httproot&gt;/ezpublish-xxx/kernel/sql/mysql/kernel_clean.sql</pre>
+	If you do want the demodata <pre class="example"> $ mysql -u &lt;user&gt; -p&lt;password&gt; &lt;name_of_database&gt;
+	&lt; &lt;httproot&gt;/ezpublish-xxx/kernel/sql/mysql/demokernel.sql </pre></li>
+</ol>
+
+
+<h4 id="">PosgreSQL</h4>
+<p>
+	We need to login, create a new database, grant permissions to a user and insert a database.
+</p>
+
+<ol>
+	<li>Become the PostgreSQL super user (normally called postgres)<pre class="example">$ su &lt;postgres_super_user&gt;</pre></li>
+	li>Create a postgresql user<pre class="example">$ createuser &lt;user&gt;</pre></li>
+	<li>Create a database <pre class="example">$ createdb &lt;name_of_database&gt;</pre></li>
+	<li>Demodata is not available for PostgreSQL at the moment, so we have to install the kernel_clean.sql file<pre class="example">$ psql -U &lt;ezpublish_user&gt;  &lt;name_of_database&gt;
+	&lt; &lt;httproot&gt;/ezpublish-xxx/kernel/sql/postgresql/kernel_clean.sql</pre></li>
+</ol>
+
 <ol>
 	<li>Make sure you have met the eZ publish requirements</li>
 	<li>Go to <a href="http://ez.no/download">http://ez.no/download</a> and download the latest release of eZ publish</li>
 	<li>Extract the downloaded eZ pulish file somewhere on Apache's DocumenRoot <pre class="example"> $ tar xvfz ezpublish-xxx.tar.gz -C Apache_document_root</pre> and rename it something nice like 'ezpublish'</li>
-	<li>Open a browser and point it to the server where you extracted ezpublish
-	If the server is called 'ExampleServer' and the eZ publish directory is called 'ezpublish' and is in Apache's DocumentRoot somwhere, the you would point your browser to something like this: http://ExampleServer/ezpublish/index.php</li>
+
+	<li>Open a browser and point it to the server where you extracted ezpublish with the correct url</li>
 	<li>Follow the setup guide instructions</li>
 </ol>
 
@@ -43,3 +74,4 @@
 	<li>Follow the setup guide instructions</li>
 </ol>
 
+<p class="important"> <b>Note:</b>The setup guide creates a new settings/site.ini.php which overrides the default settings/site.ini</p>
