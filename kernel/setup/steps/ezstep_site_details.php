@@ -131,7 +131,16 @@ class eZStepSiteDetails extends eZStepInstaller
                                    'charset' => $dbCharset );
             $db =& eZDB::instance( $dbDriver, $dbParameters, true );
 
-            $dbStatus['connected'] = $db->isConnected();
+            $dbVersion = $db->databaseServerVersion();
+
+            if ( $dbVersion['values'][0] == 7 and $dbVersion['values'][1] != 3 )
+            {
+                $dbStatus['connected'] = false;
+            }
+            else
+            {
+                $dbStatus['connected'] = $db->isConnected();
+            }
 
             $dbError = false;
             $demoDataResult = true;

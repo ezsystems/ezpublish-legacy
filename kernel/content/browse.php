@@ -103,7 +103,6 @@ $section =& eZSection::fetch( $contentObject->attribute( 'section_id' ) );
 if ( $section )
     $Result['navigation_part'] = $section->attribute( 'navigation_part_identifier' );
 
-
 //setting keys for override
 $res =& eZTemplateDesignResource::instance();
 
@@ -114,7 +113,7 @@ $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object I
                       array( 'parent_node', $node->attribute( 'parent_node_id' ) ), // Parent Node ID
                       array( 'class', $object->attribute( 'contentclass_id' ) ), // Class ID
                       array( 'view_offset', $Offset ),
-                      array( 'navigation_part_identifier', $section->attribute( 'navigation_part_identifier' ) ),
+                      array( 'navigation_part_identifier', $Result['navigation_part'] ),
                       array( 'depth', $node->attribute( 'depth' ) ),
                       array( 'url_alias', $node->attribute( 'url_alias' ) )
                       ) );
