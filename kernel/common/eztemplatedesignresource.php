@@ -90,7 +90,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $designKeysName = 'rKeys';
 
         $newNodes = array();
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( !isset( \$$designKeysName ) )\n" .
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if /*TDR:" . __LINE__ . "*/( !isset( \$$designKeysName ) )\n" .
                                                                "{\n" .
                                                                "    \$resH =& \$tpl->resourceHandler( $resourceNameText );\n" .
                                                                "    \$$designKeysName =& \$resH->keys();" .
@@ -114,13 +114,13 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                     $code = '';
                     if ( $matchCount > 0 )
                     {
-                        $code = "else";
+                        $code = "else /*TDR:" . __LINE__ . "*/";
                     }
                     if ( $matchConditionCount > 0 )
                     {
                         if ( $matchCount > 0 )
                             $code .= " ";
-                        $code .= "if ( ";
+                        $code .= "if /*TDR:" . __LINE__ . "*/( ";
                     }
                     $ifLength = strlen( $code );
                     $conditionCount = 0;
@@ -160,7 +160,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                     }
                 }
                 if ( $addFileResource )
-                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "else\n{" );
+                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "else/*TDR:" . __LINE__ . "*/\n{" );
             }
             if ( $addFileResource )
             {
