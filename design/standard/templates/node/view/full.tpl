@@ -201,11 +201,11 @@
 	{/section}
 
         {section show=$:can_edit}
-	<td width="1">
-	    {section show=$:item.object.can_edit}
-        <a href={concat("content/edit/",$Child:item.contentobject_id)|ezurl}><img src={"edit.png"|ezimage} alt="Edit" /></a>
-        {/section}
-    </td>
+            <td width="1">
+                {section show=$:item.object.can_edit}
+                    <a href={concat("content/edit/",$Child:item.contentobject_id)|ezurl}><img src={"edit.png"|ezimage} alt="Edit" /></a>
+                {/section}
+            </td>
         {/section}
         {section show=$:can_copy}
         <td>

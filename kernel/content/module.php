@@ -231,6 +231,10 @@ $ViewList["bookmark"] = array(
     "default_navigation_part" => 'ezmynavigationpart',
     "script" => "bookmark.php",
     "params" => array(),
+    'single_post_actions' => array( 'AddButton' => 'Add',
+                                    'RemoveButton' => 'Remove' ),
+    'post_actions' => array( 'BrowseActionName' ),
+    'post_action_parameters' => array( 'Remove' => array( 'DeleteIDArray' => 'DeleteIDArray' ) ),
     "unordered_params" => array( "offset" => "Offset" ) );
 
 

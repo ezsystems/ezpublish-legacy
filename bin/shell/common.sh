@@ -1,7 +1,7 @@
 #!/bin/bash
 
-VERSION="3.0-1"
-VERSION_NICK="3.0"
+VERSION="3.1.0-1"
+VERSION_NICK="3.1 beta1"
 
 # column to start "[  OK  ]" label in
 RES_COL=60
@@ -12,13 +12,23 @@ MOVE_TO_COL="echo -en \\033[${RES_COL}G"
 SETCOLOR_SUCCESS="echo -en \\033[1;32m"
 # terminal sequence to set color to a 'failure' color (currently: red)
 SETCOLOR_FAILURE="echo -en \\033[1;31m"
-# terminal sequence to set color to a 'warning' color (currently: yellow)
-SETCOLOR_WARNING="echo -en \\033[1;33m"
+# terminal sequence to set color to a 'warning' color (currently: magenta)
+SETCOLOR_WARNING="echo -en \\033[1;35m"
 
-# terminal sequence to set color to a 'file' color (currently: red)
-SETCOLOR_FILE="echo -en \\033[1;31m"
+# terminal sequence to set color to a 'file' color (currently: green)
+SETCOLOR_FILE="echo -en \\033[1;39m"
 # terminal sequence to set color to a 'directory' color (currently: blue)
 SETCOLOR_DIR="echo -en \\033[1;34m"
+# terminal sequence to set color to a 'executable' color (currently: green)
+SETCOLOR_EXE="echo -en \\033[1;32m"
+
+# terminal sequence to set color to a 'comment' color (currently: gray)
+SETCOLOR_COMMENT="echo -en \\033[1;30m"
+# terminal sequence to set color to a 'emphasize' color (currently: bold black)
+SETCOLOR_EMPHASIZE="echo -en \\033[1;38m"
+# terminal sequence to set color to a 'new' color (currently: bold black)
+SETCOLOR_NEW="echo -en \\033[1;38m"
+
 
 # terminal sequence to reset to the default color.
 SETCOLOR_NORMAL="echo -en \\033[0;39m"

@@ -183,24 +183,24 @@ if [ "$SVN_SERVER" != "" ]; then
     echo "SVN_PATH=$SVN_PATH"
     DIST_SRC="/tmp/nextgen-$REPOS_RELEASE"
 else
-    echo "Using local copy"
+    echo "Using local copy from `$SETCOLOR_DIR``pwd``$SETCOLOR_NORMAL`"
 fi
 
-echo "Distribution source files taken from $DIST_SRC"
+echo "Distribution source files taken from `$SETCOLOR_DIR`$DIST_SRC`$SETCOLOR_NORMAL`"
 
-echo "Making distribution in $DEST"
+echo "Making distribution in `$SETCOLOR_DIR`$DEST`$SETCOLOR_NORMAL`"
 
 if [ -d $DEST ]; then
-    echo "Removing old distribution"
+    echo "`$SETCOLOR_COMMENT`Removing old distribution`$SETCOLOR_NORMAL`"
     rm -rf $DEST
     mkdir $DEST
 else
-    echo "Creating distribution directory"
+    echo "`$SETCOLOR_NEW`Creating distribution directory`$SETCOLOR_NEW`"
     mkdir $DEST
 fi
 
 echo "Copying directories and files"
-echo -n "Copying "
+echo -n "`$SETCOLOR_COMMENT`Copying`$SETCOLOR_NORMAL` "
 
 (cd $DIST_SRC && scan_dir .)
 echo
@@ -223,7 +223,7 @@ if [ -d "doc/generated/html" ]; then
     cp -f "doc/generated/html"/* $DEST/doc/generated/html
 fi
 
-echo "Applying filters"
+echo "`$SETCOLOR_COMMENT`Applying filters`$SETCOLOR_NORMAL`"
 for filter in $FILTER_FILES; do
     cat $DEST/$filter | sed 's,^#!\(.*\)$,\1,' | grep -v '^..*##!' > $DEST/$filter.tmp && mv -f $DEST/$filter.tmp $DEST/$filter
 done
@@ -232,7 +232,7 @@ for filter in $FILTER_FILES2; do
     cat $DEST/$filter | sed 's,^##!\(.*\)$,\1,' | grep -v '^..*##!' > $DEST/$filter.tmp && mv -f $DEST/$filter.tmp $DEST/$filter
 done
 
-echo "Checking SQL files for correctnes"
+echo "`$SETCOLOR_COMMENT`Checking `$SETCOLOR_EMPHASIZE`SQL`$SETCOLOR_COMMENT` files for correctnes`$SETCOLOR_NORMAL`"
 
 
 function scan_sql_file()
@@ -283,16 +283,16 @@ for sql_dir in $SQL_DIRS; do
 done
 
 if [ "$BAD_SQL_FILES" != "" ]; then
-    echo "The following sql files has comments in them and should be fixed."
+    echo "`$SETCOLOR_EMPHASIZE`The following sql files has comments in them and should be fixed.`$SETCOLOR_NORMAL`"
     echo "`$SETCOLOR_DIR`$BAD_SQL_FILES`$SETCOLOR_NORMAL`"
-    read -p "Do want to fix this for the release? Yes/No [N]" FIX_SQL
+    read -p "`$SETCOLOR_EMPHASIZE`Do want to fix this for the release?`$SETCOLOR_NORMAL` Yes/No [N]" FIX_SQL
     if [ "$FIX_SQL" == "" ]; then
 	FIX_SQL="N"
     fi
     case "$FIX_SQL" in
 	Y|y|Yes|yes|YES)
 	    for bad_sql_file in $BAD_SQL_FILES; do
-		echo "Fixing $DEST/$bad_sql_file"
+		echo "Fixing `$SETCOLOR_FILE`$DEST/$bad_sql_file`$SETCOLOR_NORMAL`"
  		cleanup_sql_file $DEST/$bad_sql_file
 	    done
 	    ;;
@@ -307,16 +307,16 @@ fi
 # cat index.php | sed 's/index.php/index_sdk.php/' > $DEST/index_sdk.php
 # cp -f index.php $DEST/index.php
 
-echo "Looking for .svn directories"
+echo "Looking for `$SETCOLOR_DIR`.svn`$SETCOLOR_NORMAL` directories"
 (cd $DEST
     find . -name .svn -print)
 
-echo "Looking for temp files"
+echo "Looking for `$SETCOLOR_COMMENT`temp`$SETCOLOR_NORMAL` files"
 (cd $DEST
     find . -name '*[~#]' -print)
 
 if [ -f $DEST/bin/modfix.sh ]; then
-    echo "Applying executable properties"
+    echo "Applying `$SETCOLOR_EXE`executable`SETCOLOR_NORMAL` properties"
     (cd $DEST/bin
 	chmod a+x modfix.sh)
 fi
@@ -339,12 +339,12 @@ if [ -f "$DEST_ROOT/$BASE.zip" ]; then
 fi
 
 # Create archives
-echo -n "Creating tar.gz file"
+echo -n "Creating `$SETCOLOR_FILE`tar.gz`$SETCOLOR_NORMAL` file"
 (cd $DEST_ROOT
     tar cfz $BASE.tar.gz $BASE
     echo ", done")
 
-echo -n "Creating tar.bz2 file"
+echo -n "Creating `$SETCOLOR_FILE`tar.bz2`$SETCOLOR_NORMAL` file"
 (cd $DEST_ROOT
     tar cf $BASE.tar $BASE
     if [ -f $BASE.tar.bz2 ]; then
@@ -353,20 +353,24 @@ echo -n "Creating tar.bz2 file"
     bzip2 $BASE.tar
     echo ", done")
 
-echo -n "Creating zip file"
-(cd $DEST_ROOT
-    zip -9 -r -q $BASE.zip $BASE
-    echo ", done")
+if [ "which zip &>/dev/null" ]; then
+    echo -n "Creating `$SETCOLOR_FILE`zip`$SETCOLOR_NORMAL` file"
+    (cd $DEST_ROOT
+	zip -9 -r -q $BASE.zip $BASE
+	echo ", done")
+else
+    echo "`SETCOLOR_WARNING`Could not create `$SETCOLOR_FILE`zip`$SETCOLOR_WARNING` file, `$SETCOLOR_EXE`zip`$SETCOLOR_NORMAL` program not found.`SETCOLOR_NORMAL`"
+fi
 
 echo "Created archives:"
-echo "`$SETCOLOR_WARNING`$DEST_ROOT/$BASE.tar.gz`$SETCOLOR_NORMAL`"
-echo "`$SETCOLOR_WARNING`$DEST_ROOT/$BASE.tar.bz2`$SETCOLOR_NORMAL`"
-echo "`$SETCOLOR_WARNING`$DEST_ROOT/$BASE.zip`$SETCOLOR_NORMAL`"
+echo "`$SETCOLOR_EMPHASIZE`$DEST_ROOT/$BASE.tar.gz`$SETCOLOR_NORMAL`"
+echo "`$SETCOLOR_EMPHASIZE`$DEST_ROOT/$BASE.tar.bz2`$SETCOLOR_NORMAL`"
+echo "`$SETCOLOR_EMPHASIZE`$DEST_ROOT/$BASE.zip`$SETCOLOR_NORMAL`"
 
 echo
 echo "Now remember to create releases with:"
-echo "`$SETCOLOR_WARNING`svn cp $DEFAULT_SVN_SERVER/trunk $DEFAULT_SVN_SERVER/$DEFAULT_SVN_RELEASE_PATH/$VERSION_NICK`$SETCOLOR_NORMAL`"
-echo "`$SETCOLOR_WARNING`svn cp $DEFAULT_SVN_SERVER/trunk $DEFAULT_SVN_SERVER/$DEFAULT_SVN_VERSION_PATH/$VERSION`$SETCOLOR_NORMAL`"
+echo "`$SETCOLOR_EMPHASIZE`svn cp $DEFAULT_SVN_SERVER/trunk $DEFAULT_SVN_SERVER/$DEFAULT_SVN_RELEASE_PATH/$VERSION_NICK`$SETCOLOR_NORMAL`"
+echo "`$SETCOLOR_EMPHASIZE`svn cp $DEFAULT_SVN_SERVER/trunk $DEFAULT_SVN_SERVER/$DEFAULT_SVN_VERSION_PATH/$VERSION`$SETCOLOR_NORMAL`"
 # echo "And undeltify current version:"
 # echo "`$SETCOLOR_WARNING`svnadmin undeltify `$SETCOLOR_SUCCESS`SVNREPOSITORY`$SETCOLOR_WARNING` `$SETCOLOR_SUCCESS`REVNUM`$SETCOLOR_WARNING` `$SETCOLOR_NORMAL`"
 # echo "where `$SETCOLOR_SUCCESS`REVNUM`$SETCOLOR_NORMAL` is the revision number of the release."

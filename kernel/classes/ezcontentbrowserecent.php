@@ -96,7 +96,8 @@ class eZContentBrowseRecent extends eZPersistentObject
                                                           'default' => '',
                                                           'required' => true ) ),
                       "keys" => array( "id" ),
-                      "function_attributes" => array( 'node' => 'fetchNode' ),
+                      "function_attributes" => array( 'node' => 'fetchNode',
+                                                      'contentobject_id' => 'contentObjectID' ),
                       "increment_key" => "id",
                       "sort" => array( "id" => "asc" ),
                       "class_name" => "eZContentBrowseRecent",
@@ -118,7 +119,8 @@ class eZContentBrowseRecent extends eZPersistentObject
     */
     function hasAttribute( $attributeName )
     {
-        if ( $attributeName == 'node' )
+        if ( $attributeName == 'node' or
+             $attributeName == 'contentobject_id' )
         {
             return true;
         }
@@ -134,6 +136,10 @@ class eZContentBrowseRecent extends eZPersistentObject
         if ( $attributeName == 'node' )
         {
             return $this->fetchNode();
+        }
+        else if ( $attributeName == 'contentobject_id' )
+        {
+            return $this->contentObjectID();
         }
         else
             return eZPersistentObject::attribute( $attributeName );
@@ -232,6 +238,17 @@ class eZContentBrowseRecent extends eZPersistentObject
     function &fetchNode()
     {
         return eZContentObjectTreeNode::fetch( $this->attribute( 'node_id' ) );
+    }
+
+    /*!
+     \return the content object ID of the tree node which this item refers to.
+    */
+    function contentObjectID()
+    {
+        $node =& $this->fetchNode();
+        if ( $node )
+            return $node->attribute( 'contentobject_id' );
+        return null;
     }
 }
 

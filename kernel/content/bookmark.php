@@ -37,6 +37,8 @@
 /*! \file bookmark.php
 */
 include_once( 'kernel/common/template.php' );
+include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+include_once( 'kernel/classes/ezcontentbrowse.php' );
 include_once( 'kernel/classes/ezcontentbrowsebookmark.php' );
 
 $Module =& $Params['Module'];
@@ -48,22 +50,41 @@ $viewParameters = array( 'offset' => $Offset );
 $user =& eZUser::currentUser();
 $userID = $user->id();
 
-if ( $http->hasPostVariable( 'RemoveButton' )  )
+if ( $Module->isCurrentAction( 'Remove' )  )
 {
-    if ( $http->hasPostVariable( 'DeleteIDArray' ) )
+    if ( $Module->hasActionParameter( 'DeleteIDArray' ) )
     {
-        $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
+        $deleteIDArray =& $Module->actionParameter( 'DeleteIDArray' );
         foreach ( $deleteIDArray as $deleteID )
         {
-            eZDebug::writeNotice( $deleteID, "deleteID" );
             $bookmark =& eZContentBrowseBookmark::fetch( $deleteID );
             $bookmark->remove();
         }
     }
 }
-
-
-//$versions =& eZContentObjectVersion::fetchForUser( $userID );
+else if ( $Module->isCurrentAction( 'Add' )  )
+{
+    return eZContentBrowse::browse( array( 'action_name' => 'AddBookmark',
+                                           'description_template' => 'design:content/browse_bookmark.tpl',
+                                           'from_page' => "/content/bookmark" ),
+                                    $Module );
+}
+else if ( $Module->isCurrentAction( 'AddBookmark' )  )
+{
+    $nodeList = eZContentBrowse::result( 'AddBookmark' );
+    if ( $nodeList )
+    {
+        foreach ( $nodeList as $nodeID )
+        {
+            $node =& eZContentObjectTreeNode::fetch( $nodeID );
+            if ( $node )
+            {
+                $nodeName = $node->attribute( 'name' );
+                eZContentBrowseBookmark::createNew( $userID, $nodeID, $nodeName );
+            }
+        }
+    }
+}
 
 $tpl =& templateInit();
 $tpl->setVariable('view_parameters', $viewParameters );

@@ -11,50 +11,55 @@
 
 {section show=$draft_list}
 
+<p>
+    {"These are the current objects you are working on. The drafts are owned by you and can only be seen by you.
+      You can either edit the drafts or remove them if you don't need them anymore."|i18n("design/standard/content/view")|nl2br}
+</p>
+
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
+    <th></th>
     <th>{"Name"|i18n("design/standard/content/view")}</th>
     <th>{"Class"|i18n("design/standard/content/view")}</th>
     <th>{"Section"|i18n("design/standard/content/view")}</th>
     <th>{"Version"|i18n("design/standard/content/view")}</th>
+    <th>{"Last modified"|i18n("design/standard/content/view")}</th>
     <th>{"Edit"|i18n("design/standard/content/view")}</th>
-    <th>{"Remove"|i18n("design/standard/content/view")}</th>
-{*    <th>
-    <div class="buttonblock">
-    <input type="submit" name="RemoveButton" value="{'Remove'|i18n('design/standard/content/view')}" />
-    </div>
-    </th>*}
 </tr>
 
 {section name=Draft loop=$draft_list sequence=array(bglight,bgdark)}
-<tr>
-    <td class="{$Draft:sequence}">
-    <a href={concat("/content/versionview/",$Draft:item.contentobject.id,"/",$Draft:item.version,"/")|ezurl}>
-    {$Draft:item.contentobject.name|wash}</a>
+<tr class="{$Draft:sequence}">
+    <td align="left" width="1">
+        <input type="checkbox" name="DeleteIDArray[]" value="{$Draft:item.id}" />
     </td>
-    <td class="{$Draft:sequence}">
-    {$Draft:item.contentobject.content_class.name|wash}
+    <td>
+        <a href={concat("/content/versionview/",$Draft:item.contentobject.id,"/",$Draft:item.version,"/")|ezurl}>
+            {$Draft:item.contentobject.name|wash}
+        </a>
     </td>
-    <td class="{$Draft:sequence}">
-    {$Draft:item.contentobject.section_id}
+    <td>
+        {$Draft:item.contentobject.content_class.name|wash}
     </td>
-    <td class="{$Draft:sequence}">
-    {$Draft:item.version}
+    <td>
+        {$Draft:item.contentobject.section_id}
     </td>
-    <td class="{$Draft:sequence}">
-    <a href={concat("/content/edit/",$Draft:item.contentobject.id,"/",$Draft:item.version,"/")|ezurl}><img src={"edit.png"|ezimage} border="0"></a>
+    <td>
+        {$Draft:item.version}
     </td>
-    <td class="{$Draft:sequence}" align="right">
-    <input type="checkbox" name="DeleteIDArray[]" value="{$Draft:item.id}" />
-  </td>
+    <td>
+        {$:item.modified|l10n(datetime)}
+    </td>
+    <td width="1">
+        <a href={concat("/content/edit/",$Draft:item.contentobject.id,"/",$Draft:item.version,"/")|ezurl}><img src={"edit.png"|ezimage} border="0"></a>
+    </td>
 </tr>
 {/section}
 <tr>
-  <td colspan="5">
-  </td>
-  <td align="right">
-    <input type="image" name="RemoveButton" value="{'Remove'|i18n('design/standard/content/view')}" src={"trash.png"|ezimage} />
-  </td>
+    <td align="left">
+        <input type="image" name="RemoveButton" value="{'Remove'|i18n('design/standard/content/view')}" src={"trash.png"|ezimage} />
+    </td>
+    <td colspan="6">
+    </td>
 </tr>
 </table>
 {include name=navigator

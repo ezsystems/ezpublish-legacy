@@ -229,6 +229,25 @@ class eZContentBrowse
         $this->Parameters['start_node'] = $nodeID;
     }
 
+    /*!
+     \static
+     \return the result of the previous browse operation or \c false if no result was found.
+             It uses the action name \a $actionName to determine which result to look for.
+    */
+    function result( $actionName )
+    {
+        $ini =& eZINI::instance( 'browse.ini' );
+        $isNodeSelection = $ini->variable( $actionName, 'ReturnType' ) == 'NodeID';
+        if ( $isNodeSelection )
+            $postName = 'SelectedNodeIDArray';
+        else
+            $postName = 'SelectedObjectIDArray';
+        $http =& eZHTTPTool::instance();
+        if ( $http->hasPostVariable( $postName ) )
+            return $http->postVariable( $postName );
+        return false;
+    }
+
     /// \privatesection
     /// The browse parameters.
     var $Parameters = false;

@@ -46,7 +46,6 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
 {
     if ( ( $http->hasPostVariable( 'ClassID' ) && $http->hasPostVariable( 'NodeID' ) ) || $module->isCurrentAction( 'NewObjectAddNodeAssignment' ) )
     {
-        print( "classid=" . $http->postVariable( 'ClassID' ) . "<br/>" );
         if (  $module->isCurrentAction( 'NewObjectAddNodeAssignment' ) )
         {
             $selectedNodeIDArray = $http->postVariable( 'SelectedNodeIDArray' );

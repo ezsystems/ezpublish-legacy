@@ -39,8 +39,9 @@
 
 define( "EZ_SDK_VERSION_MAJOR", 3 );
 define( "EZ_SDK_VERSION_MINOR", 1 );
+define( "EZ_SDK_VERSION_DEVELOPMENT", 0 );
 define( "EZ_SDK_VERSION_RELEASE", 0 );
-define( "EZ_SDK_VERSION_ALIAS", '3.1 development' );
+define( "EZ_SDK_VERSION_ALIAS", '3.1 beta1' );
 
 class eZPublishSDK
 {
@@ -52,12 +53,15 @@ class eZPublishSDK
     function version( $withRelease = true,
                       $asAlias = false )
     {
-        $ver = eZPublishSDK::majorVersion() . "." . eZPublishSDK::minorVersion();
+        $versionText = eZPublishSDK::majorVersion() . '.' . eZPublishSDK::minorVersion();
+        $development = eZPublishSDK::developmentVersion();
+        if ( $development )
+            $versionText .= '.' . $development;
         if ( $withRelease )
-            $ver .= "-" . eZPublishSDK::release();
+            $versionText .= "-" . eZPublishSDK::release();
         if ( $asAlias )
-            $ver = eZPublishSDK::alias();
-        return $ver;
+            $versionText = eZPublishSDK::alias();
+        return $versionText;
     }
 
     /*!
@@ -74,6 +78,14 @@ class eZPublishSDK
     function minorVersion()
     {
         return EZ_SDK_VERSION_MINOR;
+    }
+
+    /*!
+     \return the development version or \c false if this is not a development version
+    */
+    function developmentVersion()
+    {
+        return EZ_SDK_VERSION_DEVELOPMENT;
     }
 
     /*!
