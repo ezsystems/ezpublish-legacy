@@ -194,6 +194,7 @@ function generatePDF( &$pdfExport, $toFile = false )
                               array( 'node', $node->attribute( 'node_id' ) ),
                               array( 'parent_node', $node->attribute( 'parent_node_id' ) ),
                               array( 'class', $object->attribute( 'contentclass_id' ) ),
+                              array( 'class_identifier', $object->attribute( 'class_identifier' ) ),
                               array( 'depth', $node->attribute( 'depth' ) ),
                               array( 'url_alias', $node->attribute( 'url_alias' ) )
                               ) );
