@@ -240,7 +240,6 @@ function ezjslib_getScreenProperties()
     // IE6
     result.ScrollY = document.documentElement.scrollTop;
     result.ScrollX = document.documentElement.scrollLeft;
-    alert( "Here" + result.ScrollY );
   }
 
   return result;
