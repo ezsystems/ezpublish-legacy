@@ -1382,6 +1382,13 @@ div.popupmenu a
     display: block;
 }
 
+div.popupmenu a.more
+{
+    background-image: url(../images/more-arrow.gif);
+    background-repeat: no-repeat;
+    background-position: right center;
+}
+
 div.popupmenu a:hover
 {
     color: #ffffff;
