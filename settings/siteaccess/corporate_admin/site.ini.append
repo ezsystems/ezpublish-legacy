@@ -4,8 +4,8 @@
 DatabasePluginPath=
 # Use either ezmysql or ezpostgresql
 DatabaseImplementation=ezmysql
-Server=localhost
-User=root
+Server=bf.ez.no
+User=mofser
 Password=
 Database=corporate
 
