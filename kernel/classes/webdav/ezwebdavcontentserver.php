@@ -301,13 +301,20 @@ function getNodeByTranslation( $nodePathString )
 
     append_to_log( "getNodeByTranslation: nodepathstring3: $nodePathString");
 
+    if ( !$translateResult )
+    {
+        append_to_log( "getNodeByTranslation: Node translation failed: $nodePathString" );
+    }
+
     // Get the ID of the node (which is the last part of the translated path).
     if ( preg_match ( "#^content/view/full/([0-9]+)$#", $nodePathString, $matches ) )
     {
         $nodeID = $matches[1];
+        append_to_log( "getNodeByTranslation: nodeID: $nodeID");
     }
     else
     {
+        append_to_log( "getNodeByTranslation: no nodeID");
         return false;
     }
 
@@ -460,11 +467,11 @@ function getSiteListContent()
         //
         if ( $_SERVER["SCRIPT_URL"] == '/' )
         {
-            $contentEntry["href"] = '/'.$contentEntry["name"];
+            $contentEntry["href"] = $contentEntry["name"];
         }
         else
         {
-            $contentEntry["href"] = $_SERVER["SCRIPT_URL"].'/'.$contentEntry["name"];
+            $contentEntry["href"] = $_SERVER["SCRIPT_URL"] . $contentEntry["name"];
         }
 
         //
@@ -952,7 +959,7 @@ function getNodeInfo( $node )
         append_to_log( "getNodeInfo: attributeIdentifier is: $attributeDataTypeIdentifier" );
 
         //
-        switch ( $attributeClass )
+        switch ( $attributeDataTypeIdentifier )
         {
             // If the file being uploaded is an image:
             case 'ezimage':
@@ -1046,7 +1053,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
             // If the path starts with "/content":
             if ( preg_match( "#^/".VIRTUAL_CONTENT_FOLDER_NAME."(.*)$#", $collection ) )
             {
-                append_to_log( "We're browing actual content, collection is: $collection" );
+                append_to_log( "We're browsing actual content, collection is: $collection" );
                 $entries = getContent( $collection );
             }
             // We aren't browsing content just yet, show the virtual start folder:
