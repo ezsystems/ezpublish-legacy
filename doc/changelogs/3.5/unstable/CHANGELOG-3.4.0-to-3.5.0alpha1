@@ -64,6 +64,8 @@ Changes from 3.4.0 to 3.5.0alpha1
 - Added new 'move' permission to content module, this will be used to do checking
   when trying to move nodes. By default this permission will deny all attempts
   to move top-level nodes.
+- Fixed writing the expiry.php file to be an atomic operation so that multiple
+  content updates can not mangle the file.
 
 
 eZDatatype:
