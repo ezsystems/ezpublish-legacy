@@ -198,6 +198,9 @@ if ( $http->hasPostVariable( 'CustomActionButton' ) )
     $customAction = $matchArray[2];
 }
 
+// validate name, identifier, object pattern name
+$bacisClassAttibutesInitialized = true;
+
 // Validate input
 $storeActions = array( 'MoveUp',
                        'MoveDown',
@@ -404,89 +407,102 @@ if ( $contentClassHasInput )
 // Store version 0 and discard version 1
 if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
 {
-    $firstStoreAttempt =& eZSessionRead( $http->sessionVariable( 'CanStoreTicket' ) );
-    if ( !$firstStoreAttempt )
-    {
-        return $Module->redirectToView( 'view', array( $ClassID ) );
-    }
-    eZSessionDestroy( $http->sessionVariable( 'CanStoreTicket' ) );
-
-    // Class cleanup, update existing class objects according to new changes
-    include_once( 'kernel/classes/ezcontentobject.php' );
     $id = $class->attribute( 'id' );
+    $class_name = $class->attribute( 'name' );
     $oldClassAttributes = $class->fetchAttributes( $id, true, EZ_CLASS_VERSION_STATUS_DEFINED );
     $newClassAttributes = $class->fetchAttributes( );
-    $objects = null;
-    $objectCount =& eZContentObject::fetchSameClassListCount( $ClassID );
-    if ( $objectCount > 0 )
-    {
-        // Delete object attributes which have been removed.
-        foreach ( $oldClassAttributes as $oldClassAttribute )
-        {
-            $attributeExist = false;
-            $oldClassAttributeID = $oldClassAttribute->attribute( 'id' );
-            foreach ( $newClassAttributes as $newClassAttribute )
-            {
-                $newClassAttributeID = $newClassAttribute->attribute( 'id' );
-                if ( $oldClassAttributeID == $newClassAttributeID )
-                    $attributeExist = true;
-            }
-            if ( !$attributeExist )
-            {
-                $objectAttributes =& eZContentObjectAttribute::fetchSameClassAttributeIDList( $oldClassAttributeID );
-                foreach ( $objectAttributes as $objectAttribute )
-                {
-                    $objectAttributeID = $objectAttribute->attribute( 'id' );
-                    $objectAttribute->remove( $objectAttributeID );
-                }
-            }
-        }
-        $class->storeDefined( $attributes );
 
-        // Add object attributes which have been added.
-        foreach ( $newClassAttributes as $newClassAttribute )
+    if( trim( $class_name ) == '' || count( $newClassAttributes ) == 0 )
+    {
+        $canStore = false;
+        $validation['processed'] = false;
+        $bacisClassAttibutesInitialized = false;
+    }
+    else
+    {
+
+        $firstStoreAttempt =& eZSessionRead( $http->sessionVariable( 'CanStoreTicket' ) );
+        if ( !$firstStoreAttempt )
         {
-            $attributeExist = false;
-            $newClassAttributeID = $newClassAttribute->attribute( 'id' );
+            return $Module->redirectToView( 'view', array( $ClassID ) );
+        }
+        eZSessionDestroy( $http->sessionVariable( 'CanStoreTicket' ) );
+
+        // Class cleanup, update existing class objects according to new changes
+        include_once( 'kernel/classes/ezcontentobject.php' );
+
+        $objects = null;
+        $objectCount =& eZContentObject::fetchSameClassListCount( $ClassID );
+        if ( $objectCount > 0 )
+        {
+            // Delete object attributes which have been removed.
             foreach ( $oldClassAttributes as $oldClassAttribute )
             {
+                $attributeExist = false;
                 $oldClassAttributeID = $oldClassAttribute->attribute( 'id' );
-                if ( $oldClassAttributeID == $newClassAttributeID )
-                    $attributeExist = true;
-            }
-            if ( !$attributeExist )
-            {
-                if ( $objects == null )
+                foreach ( $newClassAttributes as $newClassAttribute )
                 {
-                    $objects =& eZContentObject::fetchSameClassList( $ClassID );
+                    $newClassAttributeID = $newClassAttribute->attribute( 'id' );
+                    if ( $oldClassAttributeID == $newClassAttributeID )
+                        $attributeExist = true;
                 }
-                foreach ( $objects as $object )
+                if ( !$attributeExist )
                 {
-                    $contentobjectID = $object->attribute( 'id' );
-                    $objectVersions =& $object->versions();
-                    foreach ( $objectVersions as $objectVersion )
+                    $objectAttributes =& eZContentObjectAttribute::fetchSameClassAttributeIDList( $oldClassAttributeID );
+                    foreach ( $objectAttributes as $objectAttribute )
                     {
-                        $translations = $objectVersion->translations( false );
-                        $version = $objectVersion->attribute( 'version' );
-                        foreach ( $translations as $translation )
+                        $objectAttributeID = $objectAttribute->attribute( 'id' );
+                        $objectAttribute->remove( $objectAttributeID );
+                    }
+                }
+            }
+            $class->storeDefined( $attributes );
+
+            // Add object attributes which have been added.
+            foreach ( $newClassAttributes as $newClassAttribute )
+            {
+                $attributeExist = false;
+                $newClassAttributeID = $newClassAttribute->attribute( 'id' );
+                foreach ( $oldClassAttributes as $oldClassAttribute )
+                {
+                    $oldClassAttributeID = $oldClassAttribute->attribute( 'id' );
+                    if ( $oldClassAttributeID == $newClassAttributeID )
+                        $attributeExist = true;
+                }
+                if ( !$attributeExist )
+                {
+                    if ( $objects == null )
+                    {
+                        $objects =& eZContentObject::fetchSameClassList( $ClassID );
+                    }
+                    foreach ( $objects as $object )
+                    {
+                        $contentobjectID = $object->attribute( 'id' );
+                        $objectVersions =& $object->versions();
+                        foreach ( $objectVersions as $objectVersion )
                         {
-                            $objectAttribute =& eZContentObjectAttribute::create( $newClassAttributeID, $contentobjectID, $version );
-                            $objectAttribute->setAttribute( 'language_code', $translation );
-                            $objectAttribute->initialize();
-                            $objectAttribute->store();
+                            $translations = $objectVersion->translations( false );
+                            $version = $objectVersion->attribute( 'version' );
+                            foreach ( $translations as $translation )
+                            {
+                                $objectAttribute =& eZContentObjectAttribute::create( $newClassAttributeID, $contentobjectID, $version );
+                                $objectAttribute->setAttribute( 'language_code', $translation );
+                                $objectAttribute->initialize();
+                                $objectAttribute->store();
+                            }
                         }
                     }
                 }
             }
         }
-    }
-    else
-    {
-        $class->storeDefined( $attributes );
-    }
+        else
+        {
+            $class->storeDefined( $attributes );
+        }
 
-    $http->removeSessionVariable( 'CanStoreTicket' );
-    return $Module->redirectToView( 'view', array( $ClassID ) );
+        $http->removeSessionVariable( 'CanStoreTicket' );
+        return $Module->redirectToView( 'view', array( $ClassID ) );
+    }
 }
 
 // Store changes
@@ -544,6 +560,7 @@ $tpl->setVariable( 'class', $class );
 $tpl->setVariable( 'attributes', $attributes );
 $tpl->setVariable( 'datatypes', $datatypes );
 $tpl->setVariable( 'datatype', $cur_datatype );
+$tpl->setVariable( 'bacis_class_attibutes_initialized', $bacisClassAttibutesInitialized );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:class/edit.tpl' );

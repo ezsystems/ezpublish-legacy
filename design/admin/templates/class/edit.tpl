@@ -27,6 +27,11 @@
 
 {/section}
 
+{section show=$bacis_class_attibutes_initialized|not()}
+<div class="message-warning">
+<h2>{"The class should have at least one attribute and nonempty 'Name' attribute"|i18n("design/standard/class/edit")}</h2>
+</div>
+{/section}
 
 {* Main window *}
 <form action={concat( $module.functions.edit.uri, '/', $class.id )|ezurl} method="post" name="ClassEdit">
