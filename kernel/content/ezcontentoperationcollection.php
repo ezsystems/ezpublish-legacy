@@ -193,53 +193,58 @@ class eZContentOperationCollection
     }
 
     /*!
-        \a static
-        Appends parent nodes ids of \a $object to \a $outNodesList array.
+     \static
+     Appends parent nodes ids of \a $object to \a $nodeIDList array.
+     \param $versionNum The version of the object to use or \c true for current version
+     \param[out] $nodeIDList Array with node IDs
     */
-    function viewCacheAppendParentNodes( &$object, $versionNum, &$outNodesList )
+    function viewCacheAppendParentNodes( &$object, $versionNum, &$nodeIDList )
     {
         $parentNodes =& $object->parentNodes( $versionNum );
         foreach ( array_keys( $parentNodes ) as $parentNodeKey )
         {
             $parentNode =& $parentNodes[$parentNodeKey];
-            $outNodesList[] = $parentNode->attribute( 'node_id' );
+            $nodeIDList[] = $parentNode->attribute( 'node_id' );
         }
     }
 
     /*!
-        \a static
-        Appends nodes ids from \a $nodes list to \a $outNodesList
+     \static
+     Appends nodes ids from \a $nodeList list to \a $nodeIDList
+     \param[out] $nodeIDList Array with node IDs
     */
-    function viewCacheAppendNodesIDs( &$nodes, &$outNodesList )
+    function viewCacheAppendNodesIDs( &$nodeList, &$nodeIDList )
     {
-        foreach ( array_keys( $nodes ) as $nodeKey )
+        foreach ( array_keys( $nodeList ) as $nodeKey )
         {
-            $assignedNode =& $nodes[$nodeKey];
-            $outNodesList[] = $assignedNode->attribute( 'node_id' );
+            $assignedNode =& $nodeList[$nodeKey];
+            $nodeIDList[] = $assignedNode->attribute( 'node_id' );
         }
     }
 
     /*!
-        \a static
-        Returns list of 'path_strings' of \a $nodes.
+     \static
+     Goes trough all content nodes in \a $nodeList and extracts the \c 'path_string'.
+     \return An array with \c 'path_string' information.
     */
-    function &viewCacheGetNodesPathesList( &$nodes )
+    function &viewCacheGetNodesPathesList( &$nodeList )
     {
         $pathList = array();
-        foreach ( array_keys( $nodes ) as $nodeKey )
+        foreach ( array_keys( $nodeList ) as $nodeKey )
         {
-            $node =& $nodes[$nodeKey];
+            $node =& $nodeList[$nodeKey];
             $pathList[] = $node->attribute( 'path_string' );
         }
         return $pathList;
     }
 
     /*!
-        \a static
-        Appends to \a $outNodesList nodes ids of relating objects of
-        \a $object
+     \static
+     Find all content objects that relates \a $object and appends
+     their node IDs to \a $nodeIDList.
+     \param[out] $nodeIDList Array with node IDs
     */
-    function viewCacheAppendRelatingThisNodes( &$object, &$outNodesList )
+    function viewCacheAppendRelatingThisNodes( &$object, &$nodeIDList )
     {
         $relatedObjects =& $object->contentObjectListRelatingThis();
         foreach ( array_keys( $relatedObjects ) as $relatedObjectKey )
@@ -249,161 +254,176 @@ class eZContentOperationCollection
             foreach ( array_keys( $assignedNodes ) as $assignedNodeKey )
             {
                 $assignedNode =& $assignedNodes[$assignedNodeKey];
-                $outNodesList[] = $assignedNode['node_id'];
+                $nodeIDList[] = $assignedNode['node_id'];
             }
         }
     }
 
     /*
-        \a static
-        Reads 'viewcache.ini' file and determines relation between
-        \a $classID and another class.
+     \static
+     Reads 'viewcache.ini' file and determines relation between
+     \a $classID and another class.
+
+     \return An associative array with information on the class, containsL:
+             - dependent_class_identifier - The class identifier of objects that depend on this class
+             - max_parents - The maxium number of parent nodes to check, or \c 0 for no limit
+             - clear_cache_type - Bitfield of clear types, see viewCacheGetNodesOfObject() for more details
+             - object_filter - Array with object IDs, if there are entries only these objects should be checked.
     */
     function viewCacheGetDependentClassInfo( $classID )
     {
         $ini =& eZINI::instance( 'viewcache.ini' );
-        $dependentClassInfo = false;
+        $info = false;
 
         if ( $ini->hasGroup( $classID ) )
         {
-            $dependentClassInfo = array();
-            $dependentClassInfo['dependent_class_id'] = $ini->variable( $classID, 'DependentClassIdentifier' );
+            $info = array();
+            $info['dependent_class_identifier'] = $ini->variable( $classID, 'DependentClassIdentifier' );
 
-            if ( $ini->hasVariable( $classID, 'MaxOffset' ) )
-                $dependentClassInfo['max_offset'] = $ini->variable( $classID, 'MaxOffset' );
+            if ( $ini->hasVariable( $classID, 'MaxParents' ) )
+                $info['max_parents'] = $ini->variable( $classID, 'MaxParents' );
             else
-                $dependentClassInfo['max_offset'] = 0;
+                $info['max_parents'] = 0;
 
-            $dependentClassInfo['clear_cache_type'] = 0;
+            $info['clear_cache_type'] = 0;
             if ( $ini->hasVariable( $classID, 'ClearCacheMethod' ) )
             {
                 $type = $ini->variable( $classID, 'ClearCacheMethod' );
 
                 if ( $type == 'clear_all_caches' )
                 {
-                    $dependentClassInfo['clear_cache_type'] = EZ_VCSC_CLEAR_ALL_CACHE;
+                    $info['clear_cache_type'] = EZ_VCSC_CLEAR_ALL_CACHE;
                 }
                 else
                 {
-                    if ( $type == 'clear_object_cache_only' ||
+                    if ( $type == 'clear_object_caches_only' ||
                          $type == 'clear_object_and_parent_nodes_caches' ||
                          $type == 'clear_object_and_relating_objects_caches' )
                     {
-                        $dependentClassInfo['clear_cache_type'] |= EZ_VCSC_CLEAR_NODE_CACHE;
+                        $info['clear_cache_type'] |= EZ_VCSC_CLEAR_NODE_CACHE;
                     }
 
                     if ( $type == 'clear_object_and_parent_nodes_caches' ||
                          $type == 'clear_parent_nodes_caches_only' ||
                          $type == 'clear_parent_nodes_and_relating_caches' )
                     {
-                        $dependentClassInfo['clear_cache_type'] |= EZ_VCSC_CLEAR_PARENT_CACHE;
+                        $info['clear_cache_type'] |= EZ_VCSC_CLEAR_PARENT_CACHE;
                     }
 
                     if ( $type == 'clear_object_and_relating_objects_caches' ||
                          $type == 'clear_parent_nodes_and_relating_caches' ||
                          $type == 'clear_relating_caches_only' )
                     {
-                        $dependentClassInfo['clear_cache_type'] |= EZ_VCSC_CLEAR_RELATING_CACHE;
+                        $info['clear_cache_type'] |= EZ_VCSC_CLEAR_RELATING_CACHE;
                     }
                 }
             }
             else
             {
-                $dependentClassInfo['clear_cache_type'] = EZ_VCSC_CLEAR_ALL_CACHE;
+                $info['clear_cache_type'] = EZ_VCSC_CLEAR_ALL_CACHE;
             }
 
-            $dependentClassInfo['object_only_ids'] = array();
-            if ( $ini->hasVariable( $classID, 'ObjectOnlyIDList' ) )
+            $info['object_filter'] = array();
+            if ( $ini->hasVariable( $classID, 'ObjectFilter' ) )
             {
-                $dependentClassInfo['object_only_ids'] = $ini->variable( $classID, 'ObjectOnlyIDList' );
+                $info['object_filter'] = $ini->variable( $classID, 'ObjectFilter' );
             }
         }
-        return $dependentClassInfo;
+        return $info;
     }
 
     /*!
-        \a static
-        Returns in \a $nodesList information about nodes of \a $contentObject for which
-        viewcache should cleared. This function is recursive.
-        if \a $objectVersionNum current version of object will be used.
-        Use \a $clearCacheType to include different kind of nodes( parent, relating, etc ).
-        If \a $versionNum is true, then current version will be used.
+     \static
+     Use \a $clearCacheType to include different kind of nodes( parent, relating, etc ).
+     If \a $versionNum is true, then current version will be used.
+
+     \param $contentObject Current content object that is checked.
+     \param $versionNum The version of the object to use or \c true for current version
+     \param $clearCacheType Bit field which controls the the extra nodes to include,
+                            use bitwise or with one of these defines:
+                            - EZ_VCSC_CLEAR_NODE_CACHE - Clear the nodes of the object
+                            - EZ_VCSC_CLEAR_PARENT_CACHE - Clear the parent nodes of the object
+                            - EZ_VCSC_CLEAR_RELATING_CACHE - Clear nodes of objects that relate this object
+                            - EZ_VCSC_CLEAR_ALL_CACHE - Enables all of the above
+     \param[out] $nodeList An array with node IDs that are affected by the current object change.
+
+     \note This function is recursive.
     */
-    function viewCacheGetNodesOfObject( &$contentObject, $objectVersionNum, $clearCacheType, &$nodesList )
+    function viewCacheGetNodesOfObject( &$contentObject, $versionNum, $clearCacheType, &$nodeList )
     {
         $assignedNodes =& $contentObject->assignedNodes();
 
         if ( $clearCacheType & EZ_VCSC_CLEAR_NODE_CACHE )
         {
-            eZContentOperationCollection::viewCacheAppendNodesIDs( $assignedNodes, $nodesList );
+            eZContentOperationCollection::viewCacheAppendNodesIDs( $assignedNodes, $nodeList );
         }
 
         if ( $clearCacheType & EZ_VCSC_CLEAR_PARENT_CACHE )
         {
-            eZContentOperationCollection::viewCacheAppendParentNodes( $contentObject, $objectVersionNum, $nodesList );
+            eZContentOperationCollection::viewCacheAppendParentNodes( $contentObject, $versionNum, $nodeList );
         }
 
-        if( $clearCacheType & EZ_VCSC_CLEAR_RELATING_CACHE )
+        if ( $clearCacheType & EZ_VCSC_CLEAR_RELATING_CACHE )
         {
-            eZContentOperationCollection::viewCacheAppendRelatingThisNodes( $contentObject, $nodesList );
+            eZContentOperationCollection::viewCacheAppendRelatingThisNodes( $contentObject, $nodeList );
         }
 
         // determine if $contentObject has dependent objects for which cache should be cleared too.
-        $objectClassID =  $contentObject->attribute( 'class_identifier' );
-        $dependentClassInfo =& eZContentOperationCollection::viewCacheGetDependentClassInfo( $objectClassID );
+        $objectClassIdentifier =  $contentObject->attribute( 'class_identifier' );
+        $dependentClassInfo =& eZContentOperationCollection::viewCacheGetDependentClassInfo( $objectClassIdentifier );
 
-        if ( isset( $dependentClassInfo['dependent_class_id'] ) )
+        if ( isset( $dependentClassInfo['dependent_class_identifier'] ) )
         {
-            // getting 'path_strings' for nodes.
+            // getting 'path_string's for all locations.
             $nodePathList =& eZContentOperationCollection::viewCacheGetNodesPathesList( $assignedNodes );
 
-            foreach( $nodePathList as $nodePath )
+            foreach ( $nodePathList as $nodePath )
             {
-                // getting class identifiers for each node in the $nodePath.
-                $classIdsInfo =& eZContentObjectTreeNode::getClassIdentifiersListByPath( $nodePath, false );
+                // getting class identifier and node ID for each node in the $nodePath.
+                $nodeInfoList =& eZContentObjectTreeNode::getClassIdentifiersListByPath( $nodePath, false );
 
                 $step = 0;
-                $maxOffset = $dependentClassInfo['max_offset'];
-                $dependentClassID = $dependentClassInfo['dependent_class_id'];
+                $maxParents = $dependentClassInfo['max_parents'];
+                $dependentClassIdentifier = $dependentClassInfo['dependent_class_identifier'];
                 $smartClearType = $dependentClassInfo['clear_cache_type'];
 
-                if ( $maxOffset > 0 )
+                if ( $maxParents > 0 )
                 {
-                    // need to reverse $classIdsInfo if $maxOffset is used.
-                    // if offset is zero then we will loop through all elements in $classIdsInfo. So,
+                    // need to reverse $nodeInfoList if $maxParents is used.
+                    // if offset is zero then we will loop through all elements in $nodeInfoList. So,
                     // array_reverse don't need.
 
-                    $classIdsInfo = array_reverse( $classIdsInfo );
+                    $nodeInfoList = array_reverse( $nodeInfoList );
                 }
 
-                // for each node in $classIdsInfo determine if this node belongs to $dependentClassID. If
+                // for each node in $nodeInfoList determine if this node belongs to $dependentClassIdentifier. If
                 // so then clear cache for this node.
-                foreach ( $classIdsInfo as $item )
+                foreach ( $nodeInfoList as $item )
                 {
-                    if ( $item['class_identifier'] == $dependentClassID )
+                    if ( $item['class_identifier'] == $dependentClassIdentifier )
                     {
                         $node =& eZContentObjectTreeNode::fetch( $item['node_id'] );
                         $object =& $node->attribute( 'object' );
 
-                        if ( count( $dependentClassInfo['object_only_ids'] ) > 0 )
+                        if ( count( $dependentClassInfo['object_filter'] ) > 0 )
                         {
-                            foreach ( $dependentClassInfo['object_only_ids'] as $dependentObjectID )
+                            foreach ( $dependentClassInfo['object_filter'] as $objectIDFilter )
                             {
-                                if ( $dependentObjectID == $object->attribute( 'id' ) )
+                                if ( $objectIDFilter == $object->attribute( 'id' ) )
                                 {
-                                    eZContentOperationCollection::viewCacheGetNodesOfObject( $object, true, $smartClearType, $nodesList );
+                                    eZContentOperationCollection::viewCacheGetNodesOfObject( $object, true, $smartClearType, $nodeList );
                                     break;
                                 }
                             }
                         }
                         else
                         {
-                            eZContentOperationCollection::viewCacheGetNodesOfObject( $object, true, $smartClearType, $nodesList );
+                            eZContentOperationCollection::viewCacheGetNodesOfObject( $object, true, $smartClearType, $nodeList );
                         }
                     }
 
-                    // if we reached $maxOffset then break
-                    if ( ++$step == $maxOffset )
+                    // if we reached $maxParents then break
+                    if ( ++$step == $maxParents )
                     {
                         break;
                     }
@@ -413,37 +433,49 @@ class eZContentOperationCollection
     }
 
     /*!
-        \a static
-        Returns in \a $nodesList information about nodes of object with \a $objectID for which
-        viewcache should be cleared.
-        If \a $versionNum is true, then current version will be used.
+     \static
+     Figures out all nodes that are affected by the change of object \a $objectID.
+     This involves finding all nodes, parent nodes and nodes of objects
+     that relate this object.
+     The 'viewcache.ini' file is also checked to see if some special content classes
+     has dependencies to the current object, if this is true extra nodes might be
+     included.
+
+     \param $versionNum The version of the object to use or \c true for current version
+     \param $additionalNodeList An array with node IDs to add to clear list,
+                                or \c false for no additional nodes.
+     \return An array with node IDs that must have their viewcaches cleared.
     */
     function &viewCacheGetNodes( $objectID, $versionNum )
     {
-        $nodesList = array();
+        $nodeList = array();
 
         $object =& eZContentObject::fetch( $objectID );
 
-        eZContentOperationCollection::viewCacheGetNodesOfObject( $object, $versionNum, EZ_VCSC_CLEAR_ALL_CACHE, $nodesList );
+        eZContentOperationCollection::viewCacheGetNodesOfObject( $object, $versionNum, EZ_VCSC_CLEAR_ALL_CACHE, $nodeList );
 
-        return $nodesList;
+        return $nodeList;
     }
 
     /*!
-        \a static
-        Clears view cache of nodes, parent nodes and relating nodes of content objects with id \a $objectID.
-        To determine additional nodes use 'viewcache.ini'.
-        If \a $versionNum is true, then current version will be used.
+     \static
+     Clears view caches of nodes, parent nodes and relating nodes
+     of content objects with id \a $objectID.
+     It will use 'viewcache.ini' to determine additional nodes.
+
+     \param $versionNum The version of the object to use or \c true for current version
+     \param $additionalNodeList An array with node IDs to add to clear list,
+                                or \c false for no additional nodes.
     */
-    function viewCacheDoSmartCacheClear( $objectID, $versionNum, $additionalNodesIDList = false )
+    function viewCacheDoSmartCacheClear( $objectID, $versionNum, $additionalNodeList = false )
     {
         $nodeList =& eZContentOperationCollection::viewCacheGetNodes( $objectID, $versionNum );
-        if ( is_array( $additionalNodesIDList ) )
+        if ( is_array( $additionalNodeList ) )
         {
-            array_splice( $nodeList, count( $nodeList ), 0, $additionalNodesIDList );
+            array_splice( $nodeList, count( $nodeList ), 0, $additionalNodeList );
         }
 
-        eZDebugSetting::writeDebug( 'kernel-content-edit', count( $nodeList ), "count in nodeList " );
+        eZDebugSetting::writeDebug( 'kernel-content-edit', count( $nodeList ), "count in nodeList" );
 
         include_once( 'kernel/classes/ezcontentcache.php' );
 
@@ -469,10 +501,15 @@ class eZContentOperationCollection
     }
 
     /*!
-        \a static
-        If \a $versionNum is true, then current version will be used.
+     \static
+     Clears the related viewcaches for the content object using the smart viewcache system.
+
+     \param $objectID The ID of the content object to clear caches for
+     \param $versionNum The version of the object to use or \c true for current version
+     \param $additionalNodeList An array with node IDs to add to clear list,
+                                or \c false for no additional nodes.
     */
-    function clearObjectViewCache( $objectID, $versionNum, $additionalNodesIDList = false )
+    function clearObjectViewCache( $objectID, $versionNum, $additionalNodeList = false )
     {
         eZDebug::accumulatorStart( 'check_cache', '', 'Check cache' );
 
@@ -484,7 +521,7 @@ class eZContentOperationCollection
             $viewCacheINI =& eZINI::instance( 'viewcache.ini' );
             if ( $viewCacheINI->variable( 'ViewCacheSettings', 'SmartCacheClear' ) == 'enabled' )
             {
-                eZContentOperationCollection::viewCacheDoSmartCacheClear( $objectID, $versionNum, $additionalNodesIDList );
+                eZContentOperationCollection::viewCacheDoSmartCacheClear( $objectID, $versionNum, $additionalNodeList );
             }
             else
             {
