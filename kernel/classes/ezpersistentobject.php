@@ -268,6 +268,9 @@ class eZPersistentObject
         }
 
         $use_fields = array_diff( array_keys( $fields ), $exclude_fields );
+        // If we filter out some of the fields we need to intersect it with $use_fields
+        if ( is_array( $fieldFilters ) )
+            $use_fields = array_intersect( $use_fields, $fieldFilters );
         $doNotEscapeFields = array();
         $changedValueFields = array();
         foreach ( $use_fields as $field_name  )
@@ -354,6 +357,8 @@ class eZPersistentObject
         }
         if ( $insert_object )
         {
+            // Note: When inserting we cannot hone the $fieldFilters parameters
+
             $use_fields = array_diff( array_keys( $fields ), $exclude_fields );
             $use_field_names = $use_fields;
             if ( $db->useShortNames() )
@@ -399,6 +404,9 @@ class eZPersistentObject
         else
         {
             $use_fields = array_diff( array_keys( $fields ), array_merge( $keys, $exclude_fields ) );
+            // If we filter out some of the fields we need to intersect it with $use_fields
+            if ( is_array( $fieldFilters ) )
+                $use_fields = array_intersect( $use_fields, $fieldFilters );
             $use_field_names = array();
             foreach ( $use_fields as $key )
             {

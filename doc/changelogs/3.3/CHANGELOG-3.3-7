@@ -18,6 +18,7 @@ Changes from 3.3-6 to 3.3-7
 - Fixed wrong SQL generation in eZURL datatype when it does not have a url ID
   (data_int).
   (Merged from stable/3.5 (3.5.0) rev. 10437)
+- Fixed: $fieldFilters parameter to storeObject() were not used to filter.
 
 Webdav:
 - Made sure extensions are enabled in webdav handler.
