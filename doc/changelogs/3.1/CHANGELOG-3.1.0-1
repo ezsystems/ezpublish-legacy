@@ -1,6 +1,29 @@
-Changes from 3.0-? to 3.1
+Changes from 3.0-2 to 3.1.0-1
+
+* Security:
+- Fixed a security exploit in user edit which would allow
+  anyone to edit the user content of a specific user.
+  Now the only users who have content/edit permission on
+  the user object can change the settings and profile.
+- Fixed proper escaping of PHP session id keys, fixes possible security problem.
+- Fixed security bug which user could move or add object to anywhere if he could edit the object.
 
 *Kernel :
+- Fixed cache bug in eZ user. instance() returned a common user object for all instances.
+- Fixed bug of unable to deselect all enum elements in datatype enum.
+- Fixed bug with next and previous in sitemap and full view.
+- Fixed problem with not being able to unset the information collector setting in class edit.
+- Fixed missing error type in kernel/content/copy.php when no object was found.
+- Fixed bug in ezsearch. Not all word was indexed if contentobject contained some special chars.
+- Fixed bug of image cleanup in image variation directory and file cleanup.
+- Fixed bug in purge function which redundantly calls cleanup attribute function.
+- Fixed bug of image cleanup in image variation directory and file cleanup.
+- Fixed bug in purge function which redundantly calls cleanup attribute function.
+- Fixed bug of object published in multiple places where node assignment was not updated when 
+  one of its none main location is deleted.
+- Fixed bug in datatype object relation which causes can not move or add locations for object. 
+- Fixed bug in node deletion which does not remove children in noen main node locations when 
+  a main node is deleted.
 - Added cache admin page for cache status and manual clearing
 - Added system information page under setup
 - Added new template override system. Template overrides are defined in override.ini
@@ -62,7 +85,7 @@ Admin:
 - Swapped the last two images in the main concepts tutorial.
 
 *Library :
-eZUtils:
+eZ Utils:
 - Added function to remove a group in eZINI
 - Added groups() function to eZINI which returns all the defined group as an accociative array
 - Added the possibility to have local override dir settings in .ini objects
@@ -73,8 +96,11 @@ eZUtils:
 - Made sure sendmail transport sent out correct mails when safe_mode is on.
 - Made sure header list does not return duplicate standard headers.
 - Added function create() to eZINI which works like instance() but doesn't keep a global instance.
+- The handleChecked function in eZHTTPPersistence is now deprecated.
+- Added check for error type in eZModule::handleError, if no type is specified
+  kernel is assumed and a warning is issued.
 
-eZLocale:
+eZ Locale:
 - Added function create() which works like instance() but doesn't keep a global instance.
 
 
@@ -88,9 +114,9 @@ eZ PHP Creator:
 - Added return value to store()
 - Made sure errors are detected and reported.
 
-eZDB:
-- postgresql driver has been changed to support 7.3.x version. Fixed problem with limit and offset.
-- postgresql driver changed to set up correct errorMessage variables.
+eZ DB:
+- Driver for postgresql has been changed to support 7.3.x version. Fixed problem with limit and offset.
+- Driver for postgresql has been changed to set up correct errorMessage variables.
 
 eZ template:
 - Finished the template compiling system, it will now generate PHP template files that can be properly executed.
@@ -102,6 +128,12 @@ eZ template:
 - New template operator for indenting text, it will indent each line in a text according the specified options.
   The operator is called indent.
 
+eZ XML:
+- Fixed bug of unable to save prefix "xmlns" for attributes.
+
+eZ I18N:
+- The charset conversion from UTF8 to codepage has been optimized by inlining some UTF8 code.
+
 *Settings :
 site.ini:
 - Fixed wrong spelling of NodeTranslation in site.ini.
@@ -111,6 +143,6 @@ site.ini:
 siteaccess/admin/site.ini.append:
 - Removed errorhandler setting.
 
-*New files:
-design/standard/templates/content/edit_draft.tpl:
-- Template for draft overview when editing objects.
+*Changed files:
+- All sql update files in update/database/ has been given the suffix .sql and
+  the name now reflects the from and to version.

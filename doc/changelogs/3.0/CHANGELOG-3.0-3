@@ -1,5 +1,11 @@
 Changes from 3.0-2 to 3.0-3
 
+* Security:
+- Fixed a security exploit in user edit which would allow
+  anyone to edit the user content of a specific user.
+  Now the only users who have content/edit permission on
+  the user object can change the settings and profile.
+
 *Kernel :
 - Fixed cache bug in eZ user. instance() returned a common user object for all instances.
 - Fixed bug of unable to deselect all enum elements in datatype enum.
@@ -20,6 +26,8 @@ Changes from 3.0-2 to 3.0-3
   a main node is deleted.
 
 *Library :
+
+eZ Utils:
 - The handleChecked function in eZHTTPPersistence is now deprecated.
 - Added check for error type in eZModule::handleError, if no type is specified
   kernel is assumed and a warning is issued.
@@ -29,12 +37,6 @@ eZ I18N:
 
 eZ XML:
 - Fixed bug of unable to save prefix "xmlns" for attributes.
-
-* Security:
-- Fixed a security exploit in user edit which would allow
-  anyone to edit the user content of a specific user.
-  Now the only users who have content/edit permission on
-  the user object can change the settings and profile.
 
 * Changed files:
 - All sql update files in update/database/ has been given the suffix .sql and
