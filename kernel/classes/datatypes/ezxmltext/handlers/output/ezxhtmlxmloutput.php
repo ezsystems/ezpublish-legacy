@@ -533,11 +533,14 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 if ( $width === null )
                     $width = "100%";
 
+                $tableClassification = $tag->attributeValue( 'class' );
+
                 $rowCount = 0;
                 // find all table rows
                 foreach ( $tag->children() as $tableRow )
                 {
                     $tableData = "";
+                    $cellCount = 0;
                     foreach ( $tableRow->children() as $tableCell )
                     {
                         $cellContent = "";
@@ -552,7 +555,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                         $class = $tableCell->attributeValue( 'class' );
 
                         $res =& eZTemplateDesignResource::instance();
-                        $res->setKeys( array( array( 'classification', $class ) ) );
+                        $res->setKeys( array( array( 'classification', $class ),
+                                              array( 'table_classification', $tableClassification ) ) );
 
                         if ( $tableCell->Name == "th" )
                             $uri = "design:content/datatype/view/ezxmltags/th.tpl";
@@ -563,13 +567,23 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                         $tpl->setVariable( 'colspan', $colspan, 'xmltagns' );
                         $tpl->setVariable( 'rowspan', $rowspan, 'xmltagns' );
                         $tpl->setVariable( 'width', $cellWidth, 'xmltagns' );
+                        $tpl->setVariable( 'row_count', $rowCount, 'xmltagns' );
+                        $tpl->setVariable( 'col_count', $cellCount, 'xmltagns' );
+
                         eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
                         $tableData .= implode( '', $textElements );
 
+                        $cellCount++;
                         // Remove the design key, so it will not override other tags
                         $res->removeKey( 'classification' );
                         $tpl->unsetVariable( 'classification', 'xmltagns' );
+                        $res->removeKey( 'table_classification' );
+                        $tpl->unsetVariable( 'table_classification', 'xmltagns' );
                     }
+                    $res =& eZTemplateDesignResource::instance();
+                    $res->setKeys( array( array( 'classification', $class ),
+                                          array( 'table_classification', $tableClassification ) ) );
+
                     $tpl->setVariable( 'content', $tableData, 'xmltagns' );
                     $tpl->setVariable( 'row_count', $rowCount, 'xmltagns' );
                     $uri = "design:content/datatype/view/ezxmltags/tr.tpl";
@@ -577,11 +591,16 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
                     $tableRows .= implode( '', $textElements );
                     $rowCount++;
+
+                    // Remove the design key, so it will not override other tags
+                    $res->removeKey( 'classification' );
+                    $tpl->unsetVariable( 'classification', 'xmltagns' );
+                    $res->removeKey( 'table_classification' );
+                    $tpl->unsetVariable( 'table_classification', 'xmltagns' );
                 }
-                $class = $tag->attributeValue( 'class' );
 
                 $res =& eZTemplateDesignResource::instance();
-                $res->setKeys( array( array( 'classification', $class ) ) );
+                $res->setKeys( array( array( 'classification', $tableClassification ) ) );
 
                 $tpl->setVariable( 'classification', $class, 'xmltagns' );
                 $tpl->setVariable( 'rows', $tableRows, 'xmltagns' );

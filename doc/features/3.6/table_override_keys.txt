@@ -1,0 +1,25 @@
+*Title: XML table override keys and variables
+
+*Documentation:
+There has been added a new override key for use with the XML 
+table tag and it's sub tags. You can now override all sub tags
+of table by using the override key "table_classification".
+
+Two extra template variables are added: col_count and row_count. 
+Both tags are available in th, and td tags while only row_count is
+available in tr tags.
+
+Example:
+To override every td in tables which has set the classification 
+"timetable" use the following override settings:
+
+[timetable_cell]
+Source=content/datatype/view/ezxmltags/td.tpl
+MatchFile=datatype/ezxmltext/timetable_cell.tpl
+Subdir=templates
+Match[table_classification]=timetable
+
+Notice that the match is table_classification and not 
+classification like normal. The reason for this is that you can
+have a specific classification for the table cells also.
+
