@@ -58,6 +58,7 @@ class eZDir
     {
     }
 
+
     function getPathFromFilename( $filename )
     {
         $ini =& eZINI::instance();
