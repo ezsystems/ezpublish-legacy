@@ -16,7 +16,7 @@ div#header
     background-position: top right;
     background-repeat: no-repeat;
     background-color: #003366;
-    height: 39px;
+    height: 55px;
     position: relative;
 }
 
@@ -26,7 +26,7 @@ div#header div.design
 
 div#logo
 {
-    float: left;
+    float: right;
     margin-top: 0.3em;
     margin-right: 0.1em;
 }
@@ -334,6 +334,21 @@ div#poll
     font: italic 130%/1.6em Georgia,Serif;
     border-bottom: 1px dotted #ccc; 
     color: #ffa113;
+    padding-left: 0px;
+}
+
+/* poll result */
+
+div#poll_result
+{ 
+    padding-left: 20px;
+}
+
+#poll_result div.object_title
+{ 
+    font: 120%/1.6em Georgia,Serif;
+    border-bottom: 1px dotted #ccc; 
+    color: #003366;
     padding-left: 0px;
 }
 

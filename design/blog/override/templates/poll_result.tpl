@@ -17,6 +17,8 @@
 {/section}
 
 {/section}
+
+<div id="poll_result">
 {section loop=$object.contentobject_attributes}
     {section show=$:item.contentclass_attribute.is_information_collector}
 	{let  attribute=$:item
@@ -27,7 +29,7 @@
      total_count=fetch('content','collected_info_count', hash( 'object_attribute_id', $contentobject_attribute_id ) )
      item_counts=fetch('content','collected_info_count_list', hash( 'object_attribute_id', $contentobject_attribute_id  ) ) }
 
-<h2>{$contentobject_attribute.content.name}</h2>
+<h3>{$contentobject_attribute.content.name}</h3>
 
 <table cellspacing="0">
 <tr>
@@ -76,7 +78,7 @@
     {section-else}
 
         {section show=$attribute_hide_list|contains($:item.contentclass_attribute.identifier)|not}
-            {attribute_view_gui attribute=$:item}
+            <div class="object_title">{attribute_view_gui attribute=$:item}</div>
         {/section}
 
     {/section}
@@ -87,3 +89,4 @@
 
 {"%count total votes"|i18n( 'design/standard/content/poll' ,,
                              hash( '%count', fetch( content, collected_info_count, hash( object_id, $object.id ) ) ) )}
+</div>
