@@ -1,7 +1,8 @@
 {section show=eq($:contentStructureTree, false())|not()}
     {let parentNode     = $contentStructureTree.parent_node
          children       = $contentStructureTree.children
-         haveChildren   = count($contentStructureTree.children)|gt(0)
+         numChildren    = count($contentStructureTree.children)
+         haveChildren   = $numChildren|gt(0)
          showToolTips   = ezini( 'TreeMenu', 'ToolTips'         , 'contentstructuremenu.ini' )
          toolTip        = ""
          visibility     = 'Visible' }
@@ -12,7 +13,7 @@
             {set classIconsSize=$class_icons_size}
         {/section}
 
-        <li id="n{$:parentNode.node.node_id}">
+        <li id="n{$:parentNode.node.node_id}"{section show=$:last_item} class="lastli"{/section}>
 
             {* Fold/Unfold/Empty: [-]/[+]/[ ] *}
                 {section show=$:haveChildren}
@@ -75,7 +76,7 @@
                 {section show=$:haveChildren}
                     <ul>
                         {section var=child loop=$:children}
-                            {include name=SubMenu uri="design:contentstructuremenu/show_content_structure.tpl" contentStructureTree=$:child csm_menu_item_click_action=$:csm_menu_item_click_action}
+                            {include name=SubMenu uri="design:contentstructuremenu/show_content_structure.tpl" contentStructureTree=$:child csm_menu_item_click_action=$:csm_menu_item_click_action last_item=eq( $child.number, $:numChildren )}
                         {/section}
                     </ul>
                 {/section}

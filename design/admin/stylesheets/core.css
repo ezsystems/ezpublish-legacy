@@ -521,3 +521,27 @@ div.remove
     border: 2px solid #a00000;
 }
 
+/* CONTENT TREE LINES: WORK IN PROGRESS */
+
+ul#content_tree_menu ul
+{
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0.2em;
+    padding-bottom: 0em;
+}
+
+ul#content_tree_menu ul li
+{
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0.3em;
+    background-image: url(../images/bg_content_tree_li.gif);
+    background-repeat: no-repeat;
+}
+
+ul#content_tree_menu ul li.lastli
+{
+    background-image: url(../images/bg_content_tree_li_last.gif);
+}
