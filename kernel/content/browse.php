@@ -46,6 +46,7 @@ $http =& eZHTTPTool::instance();
 
 $browse = new eZContentBrowse();
 
+
 if ( isset( $Params['NodeID'] ) && is_numeric( $Params['NodeID'] ) )
 {
     $NodeID = $Params['NodeID'];
@@ -68,6 +69,15 @@ if ( !$contentObject )
 
 if ( !$contentObject->attribute( 'can_read' ) )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
+$res =& eZTemplateDesignResource::instance();
+$keyArray = array();
+foreach ( $browse->attribute( 'keys' ) as $attributeKey => $attributeValue )
+{
+    $keyArray[] = array( $attributeKey, $attributeValue );
+}
+$res->setKeys( $keyArray );
+
 
 $parents =& $node->attribute( 'path' );
 
