@@ -20,7 +20,7 @@
     <div class="intro">
         {attribute_view_gui attribute=$content_version.data_map.intro}
     </div>
-    <p class="readmore"><a href={concat( "/content/view/full/", $node.node_id, "/" )|ezurl}>Read more...</a></p>
+    <p class="readmore"><a href={$node.url_alias|ezurl}>Read more...</a></p>
 </div>
 
 {/default}

@@ -11,13 +11,12 @@ h1, h2, h3, p, a, th, td, ul, ol, li, dl, dd, dt, label, div, span, input, texta
 h1
 {
     font-size: 120%;
-    color: #df3902;
     font-weight: bold;
 }
 
 h2
 {
-    font-size: 120%;
+    font-size: 100%;
 }
 
 h3
@@ -232,4 +231,42 @@ body
 #footer a
 { 
    color: #ffeeee;
+}
+
+
+/* object templates */
+
+div.object_title
+{ 
+    color: #df3902;
+    margin: 0px;
+    padding: 0px;
+}
+
+
+div.object_title h2
+{ 
+    color: #df3902;
+    margin: 0px;
+    padding: 0px;    
+}
+
+div.byline
+{ 
+    color: #777777;
+    margin: 0px;
+    padding: 0px;
+}
+
+div.byline p
+{ 
+   margin: 0px;
+   padding: 0px;
+   font-size: 80%;
+}
+
+div.brief
+{ 
+    margin: 0px;
+    padding: 0px;    
 }

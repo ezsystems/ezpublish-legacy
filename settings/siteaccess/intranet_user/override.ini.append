@@ -1,22 +1,16 @@
 <?php /* #?ini charset="iso-8859-1"?
 
-[sortlist]
+[folder]
 Source=node/view/full.tpl
-MatchFile=sortlist.tpl
+MatchFile=folder.tpl
 Subdir=templates
 Match[class]=1
 
-[view]
-Source=node/view/full.tpl
-MatchFile=view.tpl
-Subdir=templates
-Match[class]=2
-
-[line_article]
+[folder_line]
 Source=node/view/line.tpl
-MatchFile=line_article.tpl
+MatchFile=folder_line.tpl
 Subdir=templates
-Match[class]=2
+Match[class]=1
 
 [article]
 Source=node/view/full.tpl
@@ -24,50 +18,23 @@ MatchFile=article.tpl
 Subdir=templates
 Match[class]=2
 
-[latest_news]
-Source=node/view/full.tpl
-MatchFile=latestnews.tpl
+[article_line]
+Source=node/view/line.tpl
+MatchFile=article_line.tpl
 Subdir=templates
-Match[node]=50
+Match[class]=2
 
-[folder_news]
+[info_page]
 Source=node/view/full.tpl
-MatchFile=news.tpl
+MatchFile=infopage.tpl
 Subdir=templates
-Match[section]=4
-Match[class]=1
-
-[folder_contact]
-Source=node/view/full.tpl
-MatchFile=folder_contact.tpl
-Subdir=templates
-Match[class]=1
-Match[section]=5
-
-[files]
-Source=node/view/full.tpl
-MatchFile=files.tpl
-Subdir=templates
-Match[node]=62
-
-[file_folder]
-Source=node/view/full.tpl
-MatchFile=file_folder.tpl
-Subdir=templates
-Match[class]=1
-Match[section]=6
+Match[class]=10
 
 [edit_file]
 Source=content/edit.tpl
 MatchFile=edit_file.tpl
 Subdir=templates
 Match[class]=12
-
-[folder]
-Source=node/view/full.tpl
-MatchFile=folder.tpl
-Subdir=templates
-Match[class]=1
 
 [image]
 Source=node/view/full.tpl
@@ -85,4 +52,5 @@ Match[class]=5
 Source=content/datatype/edit/ezmatrix.tpl
 MatchFile=datatype_edit_ezmatrix.tpl
 Subdir=templates
+
 */ ?>

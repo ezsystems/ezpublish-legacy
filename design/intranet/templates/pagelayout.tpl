@@ -79,14 +79,13 @@
     <div id="topmenu">
 	{* Menubox start *}
 	{let  top_menu=fetch( content, list, hash( parent_node_id, 2, 
-				     limit, 6, 
 				     sort_by, array( priority, true() ),
 				     class_filter_type, include,
 				     class_filter_array, array( 'folder' ) ) ) }
 
 	{section name=item loop=$top_menu}
 	    <div class="item">
-	        <a href={concat("/content/view/full/",$:item.node_id,"/")|ezurl}>{$:item.name|wash}</a>
+	        <a href={$:item.url_alias|ezurl}>{$:item.name|wash}</a>
 	    </div>
             {delimiter}
 	    <div class="delimiter">
@@ -143,7 +142,7 @@
 
     {* Main menu START *}
     <div id="mainmenu">
-    {let MainMenu=treemenu($module_result.path,$module_result.node_id,1)}
+    {let MainMenu=treemenu($module_result.path,$module_result.node_id,1,array('folder','info_page'))}
         {section name=Menu loop=$MainMenu}
             <div class="item">
 	    {section show=$:item.is_selected}
