@@ -15,7 +15,13 @@
 
 {section name=PDFExport loop=$pdfexport_list sequence=array(bglight,bgdark)}
 <tr>
-    <td class="{$PDFExport:sequence}"><a href={$PDFExport:item.filepath|ezroot}>{$PDFExport:item.title|wash}</a></td>
+{* {$PDFExport:item|attribute(show)} *}
+    <td class="{$PDFExport:sequence}">
+    {section show=$PDFExport:item.status|eq(1)}
+      <a href={$PDFExport:item.filepath|ezroot}>{$PDFExport:item.title|wash}</a></td>
+    {section-else show=$PDFExport:item.status|eq(2)}
+      <a href={concat("content/exportpdf/", $PDFExport:item.id, "/generate")|ezurl}>{$PDFExport:item.title|wash}</a></td>
+    {/section}
     <td class="{$PDFExport:sequence}">{content_view_gui view=text_linked content_object=$PDFExport:item.modifier.contentobject}</td>
     <td class="{$PDFExport:sequence}"><span class="small">{$PDFExport:item.modified|l10n(shortdatetime)}</span></td>
     <td class="{$PDFExport:sequence}" width="1"><div class="listbutton"><a href={concat("content/exportpdf/",$PDFExport:item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="Edit" /></a></div></td>

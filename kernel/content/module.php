@@ -180,7 +180,7 @@ $ViewList['exportpdf'] = array(
                                                                 'DestinationType' => 'DestinationType',
                                                                 'DestinationFile' => 'DestinationFile' ) ),
     'unordered_params' => array( 'language' => 'Language' ),
-    'params' => array( 'PDFExportID' ) );
+    'params' => array( 'PDFExportID', 'PDFGenerate' ) );
 
 $ViewList['listpdf'] = array(
     'script' => 'listpdf.php',

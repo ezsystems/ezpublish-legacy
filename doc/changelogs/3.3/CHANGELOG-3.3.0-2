@@ -26,6 +26,7 @@
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/typos_in_designstandardcontentbrowsetpl ( Merged from stable 4322 )
 - Added extension support for notification event handlers.
   http://ez.no/developer/ez_publish_3/bug_reports/custom_notification_handler_in_extension_wont_work
+- Fixed bug dowloading PDF documents directly : http://ez.no/developer/ez_publish_3/bug_reports/pdf_export_for_direct_download_does_not_work
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/kernelcontentversionviewphp_missing_node_pseudo_path_attribute ( merged from stable 4325 )
 
 *Kernel:
@@ -56,3 +57,5 @@ eZ ObjectRelationList:
 eZ INI:
 - Added function setGroups to eZINI
 
+eZ PDF:
+- Added possibility to generate PDF files on the fly

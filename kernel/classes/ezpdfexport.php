@@ -163,6 +163,9 @@ class eZPDFExport extends eZPersistentObject
     */
     function store( $status = 0 )
     {
+        if ( $status == 0 )
+            $status = $this->attribute( 'status' );
+
         include_once( 'lib/ezlocale/classes/ezdatetime.php' );
         include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         $user =& eZUser::currentUser();
@@ -209,7 +212,10 @@ class eZPDFExport extends eZPersistentObject
     function &fetchList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZPDFExport::definition(),
-                                                    null, array( 'status' => 1 ), null, null,
+                                                    null,
+                                                    array( 'status' => array( array( 1, 2 ) ) ),
+                                                    null,
+                                                    null,
                                                     $asObject );
     }
 

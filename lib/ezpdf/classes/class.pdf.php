@@ -2288,16 +2288,23 @@ class Cpdf
 	} else {
 	    $tmp = $this->output();
 	}
+    $tmp = ltrim($tmp);
+
+    ob_clean();
+
     header( 'X-Powered-By: eZ publish' );
-	header('Content-type: application/pdf');
-	header('Content-Length: '.strlen(ltrim($tmp)));
-	$fileName = (isset($options['Content-Disposition'])?$options['Content-Disposition']:'file.pdf');
+
+	header( 'Content-Length: '.strlen( $tmp ) );
+    header( 'Content-Type: application/pdf' );
     header( 'Content-Transfer-Encoding: binary' );
-	header("Content-Disposition: inline; filename=".$fileName);
-	if (isset($options['Accept-Ranges']) && $options['Accept-Ranges']==1){
-	    header("Accept-Ranges: ".strlen(ltrim($tmp)));
-	}
-	echo ltrim($tmp);
+    header( 'Accept-Ranges: bytes' );
+
+    ob_end_clean();
+
+	echo $tmp;
+
+    include_once( 'lib/ezutils/classes/ezexecution.pdf' );
+    eZExecution::cleanExit();
     }
 
 /**

@@ -34,6 +34,8 @@
 // you.
 //
 
+define( 'EZ_PDF_EXPORT_GENERATE_STRING', 'generate' );
+
 include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( 'kernel/classes/ezpdfexport.php' );
@@ -54,15 +56,27 @@ else
     $pdfExport->store();
 }
 
+if ( isset( $Params['PDFGenerate'] ) && $Params['PDFGenerate'] == EZ_PDF_EXPORT_GENERATE_STRING )
+{
+    if ( !generatePDF( $pdfExport ) )
+    {
+        if ( $pdfExport->attribute( 'status' ) == 2 ) // only generate OnTheFly if status set correctly
+        {
+            include_once( 'lib/ezutils/classes/ezexecution.php' );
+        }
+        eZExecution::cleanExit();
+    }
+}
+
 $http =& eZHTTPTool::instance();
-if ( $http->hasPostVariable( 'SelectedNodeIDArray' ) )
+if ( $http->hasPostVariable( 'SelectedNodeIDArray' ) ) // Get Source node ID from browse
 {
     $selectedNodeIDArray = $http->postVariable( 'SelectedNodeIDArray' );
     $pdfExport->setAttribute( 'source_node_id', $selectedNodeIDArray[0] );
     $pdfExport->store( );
 }
 
-if ( $Module->isCurrentAction( 'BrowseSource' ) ||
+if ( $Module->isCurrentAction( 'BrowseSource' ) || // Store PDF export objects
      $Module->isCurrentAction( 'Export' ) )
 {
     $pdfExport->setAttribute( 'title', $Module->actionParameter( 'Title' ) );
@@ -84,7 +98,7 @@ if ( $Module->isCurrentAction( 'BrowseSource' ) ||
 $setWarning = false; // used to set missing options during export
 
 if ( $Module->isCurrentAction( 'BrowseSource' ) )
-{;
+{
     include_once( 'kernel/classes/ezcontentbrowse.php' );
     eZContentBrowse::browse( array( 'action_name' => 'ExportSourceBrowse',
                                     'description_template' => 'design:content/browse_export.tpl',
@@ -93,6 +107,53 @@ if ( $Module->isCurrentAction( 'BrowseSource' ) )
 }
 else if ( $Module->isCurrentAction( 'Export' ) )
 {
+    if ( $Module->actionParameter( 'DestinationType' ) != 'download' )
+    {
+        generatePDF( $pdfExport, $pdfExport->attribute( 'filepath' ) );
+        $pdfExport->store( 1 );
+        return $Module->redirect( 'content', 'listpdf' );
+    }
+    else
+    {
+        $pdfExport->store( 2 );
+        return $Module->redirect( 'content', 'listpdf' );
+    }
+}
+
+$tpl =& templateInit();
+
+$tpl->setVariable( 'set_warning', $setWarning );
+
+// Populate site access list
+$config =& eZINI::instance( 'site.ini' );
+$siteAccess =& $config->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
+
+// Get Classes and class attributes
+$classArray =& eZContentClass::fetchList();
+
+$tpl->setVariable( 'pdf_export', $pdfExport );
+$tpl->setVariable( 'export_site_access', $siteAccess );
+$tpl->setVariable( 'export_class_array', $classArray );
+$tpl->setVariable( 'pdfexport_list', eZPDFExport::fetchList() );
+
+$Result = array();
+$Result['content'] =& $tpl->fetch( 'design:content/export_pdf.tpl' );
+$Result['path'] = array( array( 'url' => false,
+                                'text' => ezi18n( 'content/pdf', 'PDF Export' ) ) );
+
+/*!
+ \generate and output PDF data, either to file or stream
+
+ \param PDF export object
+ \param toFile, false if generate to stream, $
+                filename if generate to file
+
+ \return true if successfull, false if not
+*/
+function generatePDF( &$pdfExport, $toFile = false )
+{
+    if ( $pdfExport == null )
+        return false;
     $node = $pdfExport->attribute( 'source_node' );
     if ( $node )
     {
@@ -113,13 +174,14 @@ else if ( $Module->isCurrentAction( 'Export' ) )
             $tpl->setVariable( 'sub_intro_text', $pdfExport->attribute( 'sub_text' ) );
         }
 
-        if ( $Module->actionParameter( 'DestinationType' ) == 'download' )
+        if ( $toFile === false )
         {
             $tpl->setVariable( 'generate_stream', 1 );
         }
         else
         {
             $tpl->setVariable( 'generate_file', 1 );
+            $tpl->setVariable( 'filename', $toFile );
         }
 
         $res =& eZTemplateDesignResource::instance();
@@ -145,41 +207,13 @@ else if ( $Module->isCurrentAction( 'Export' ) )
 
         $tpl->setVariable( 'pdf_definition', $pdf_definition );
 
-
-        $tpl->setVariable( 'filename', $pdfExport->attribute( 'filepath' ) );
-        $tpl->fetch( 'design:node/view/execute_pdf.tpl' );
-
-        if ( $Module->actionParameter( 'DestinationType' ) != 'download' )
-        {
-            $pdfExport->store( 1 );
-            return $Module->redirect( 'content', 'listpdf' );
-        }
+        $uri = 'design:node/view/execute_pdf.tpl';
+        $textElements = '';
+        eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, '', '' );
+        return true;
     }
-    else
-    {
-        $setWarning = true;
-    }
+
+    return false;
 }
-
-$tpl =& templateInit();
-
-$tpl->setVariable( 'set_warning', $setWarning );
-
-// Populate site access list
-$config =& eZINI::instance( 'site.ini' );
-$siteAccess =& $config->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
-
-// Get Classes and class attributes
-$classArray =& eZContentClass::fetchList();
-
-$tpl->setVariable( 'pdf_export', $pdfExport );
-$tpl->setVariable( 'export_site_access', $siteAccess );
-$tpl->setVariable( 'export_class_array', $classArray );
-$tpl->setVariable( 'pdfexport_list', eZPDFExport::fetchList() );
-
-$Result = array();
-$Result['content'] =& $tpl->fetch( 'design:content/export_pdf.tpl' );
-$Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'content/pdf', 'PDF Export' ) ) );
 
 ?>
