@@ -34,6 +34,7 @@ Changes from 2.9-6 to 2.9-7
 - Added anchor tag as standard in XMLText 
 - Optimized fetch lists
 - Access denied page now shows a login button if the current user is anonymous.
+- Added reverse_related_object_list attribute to eZContentObjectVersion 
 - Added next/previous navigation on browse page
 - Made ezurl operator convert empty strings to / url's.
 
@@ -52,6 +53,7 @@ content:
 - Added fetch functions content, version and node to fetch the content object,
   content object version and content node.
 - Changed the serialize function to use namespaces and also changed the xml structure.
+- Now you can create objects from left menubar
 
 eZ extension:
 - Added some helper functions for extension include.
