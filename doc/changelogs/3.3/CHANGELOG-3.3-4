@@ -13,6 +13,7 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/ezrange_option_dataype_broken
 
 *Library:
+- Fixed case bug in the Timeout variable in eZSOAPClient.
 
 eZ template:
 
