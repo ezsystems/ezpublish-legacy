@@ -79,7 +79,7 @@
     </table>
 </p>
 
-{include uri="design:setup/persistence.tpl" refresh=1}
+{include uri="design:setup/persistence.tpl"}
 {include uri='design:setup/init/navigation.tpl'}
 
 </form>
