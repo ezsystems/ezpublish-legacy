@@ -55,15 +55,29 @@ class eZBinaryFile extends eZPersistentObject
 
     function &definition()
     {
-        return array( 'fields' => array( 'contentobject_attribute_id' => 'ContentObjectAttributeID',
-                                         'version' => 'Version',
-                                         'filename' => 'Filename',
-                                         'original_filename' => 'OriginalFilename',
-                                         'mime_type' => 'MimeType'
-                                         ),
+        return array( 'fields' => array( 'contentobject_attribute_id' => array( 'name' => 'ContentObjectAttributeID',
+                                                                                'datatype' => 'integer',
+                                                                                'default' => 0,
+                                                                                'required' => true ),
+                                         'version' => array( 'name' => 'Version',
+                                                             'datatype' => 'integer',
+                                                             'default' => 0,
+                                                             'required' => true ),
+                                         'filename' =>  array( 'name' => 'Filename',
+                                                               'datatype' => 'string',
+                                                               'default' => '',
+                                                               'required' => true ),
+                                         'original_filename' =>  array( 'name' => 'OriginalFilename',
+                                                                        'datatype' => 'string',
+                                                                        'default' => '',
+                                                                        'required' => true ),
+                                         'mime_type' => array( 'name' => 'MimeType',
+                                                               'datatype' => 'string',
+                                                               'default' => '',
+                                                               'required' => true ) ),
                       'keys' => array( 'contentobject_attribute_id', 'version' ),
                       'relations' => array( 'contentobject_attribute_id' => array( 'class' => 'ezcontentobjectattribute',
-                                                                         'field' => 'id' ) ),
+                                                                                   'field' => 'id' ) ),
                       'class_name' => 'eZBinaryFile',
                       'name' => 'ezbinaryfile' );
     }

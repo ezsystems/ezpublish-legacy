@@ -52,9 +52,14 @@ class eZProductCollection extends eZPersistentObject
 
     function &definition()
     {
-        return array( "fields" => array( "id" => "ID",
-                                         "created" => "Created"
-                                         ),
+        return array( "fields" => array( "id" => array( 'name' => 'ID',
+                                                        'datatype' => 'integer',
+                                                        'default' => 0,
+                                                        'required' => true ),
+                                         "created" => array( 'name' => "Created",
+                                                             'datatype' => 'integer',
+                                                             'default' => 0,
+                                                             'required' => true ) ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
                       "class_name" => "eZProductCollection",

@@ -180,7 +180,7 @@ class eZPostgreSQLDB extends eZDBInterface
 
             if ( $limit != -1 )
             {
-                $sql .= "\nLIMIT $limit, $offset";
+                $sql .= "\nLIMIT $limit OFFSET $offset";
             }
             $result =& $this->query( $sql );
 

@@ -51,9 +51,18 @@ class eZUserSetting extends eZPersistentObject
 
     function &definition()
     {
-        return array( "fields" => array( "user_id" => "UserID",
-                                         "is_enabled" => "IsEnabled",
-                                         "max_login" => "MaxLogin" ),
+        return array( "fields" => array( "user_id" => array( 'name' => "UserID",
+                                                             'datatype' => 'integer',
+                                                             'default' => 0,
+                                                             'required' => true ),
+                                         "is_enabled" => array( 'name' => "IsEnabled",
+                                                                'datatype' => 'integer',
+                                                                'default' => 0,
+                                                                'required' => true ),
+                                         "max_login" => array( 'name' => "MaxLogin",
+                                                               'datatype' => 'integer',
+                                                               'default' => 0,
+                                                               'required' => true ) ),
                       "keys" => array( "user_id" ),
                       'relations' => array( 'user_id' => array( 'class' => 'ezuser',
                                                                  'field' => 'contentobject_id' ) ),

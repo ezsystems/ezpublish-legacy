@@ -64,10 +64,18 @@ class eZWishList extends eZPersistentObject
     */
     function &definition()
     {
-        return array( "fields" => array( "id" => "ID",
-                                         "user_id" => "UserID",
-                                         "productcollection_id" => "ProductCollectionID"
-                                         ),
+        return array( "fields" => array( "id" => array( 'name' => 'ID',
+                                                        'datatype' => 'integer',
+                                                        'default' => 0,
+                                                        'required' => true ),
+                                         "user_id" => array( 'name' => "UserID",
+                                                             'datatype' => 'integer',
+                                                             'default' => 0,
+                                                             'required' => true ),
+                                         "productcollection_id" => array( 'name' => "ProductCollectionID",
+                                                                          'datatype' => 'integer',
+                                                                          'default' => 0,
+                                                                          'required' => true ) ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
                       "class_name" => "eZWishList",

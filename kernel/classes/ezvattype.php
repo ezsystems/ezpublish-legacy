@@ -54,10 +54,18 @@ class eZVatType extends eZPersistentObject
 
     function &definition()
     {
-        return array( "fields" => array( "id" => "ID",
-                                         "name" => "Name",
-                                         "percentage" => "Percentage"
-                                         ),
+        return array( "fields" => array( "id" => array( 'name' => 'ID',
+                                                        'datatype' => 'integer',
+                                                        'default' => 0,
+                                                        'required' => true ),
+                                         "name" => array( 'name' => "Name",
+                                                          'datatype' => 'string',
+                                                          'default' => '',
+                                                          'required' => true ),
+                                         "percentage" => array( 'name' => "Percentage",
+                                                                'datatype' => 'float',
+                                                                'default' => 0,
+                                                                'required' => true ) ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
                       "class_name" => "eZVatType",

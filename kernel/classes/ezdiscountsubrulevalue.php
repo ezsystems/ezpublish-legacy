@@ -55,10 +55,18 @@ class eZDiscountSubRuleValue extends eZPersistentObject
 
     function &definition()
     {
-        return array( "fields" => array( "discountsubrule_id" => "DiscountSubRuleID",
-                                         "value" => "Value",
-                                         "issection" => "IsSection"
-                                         ),
+        return array( "fields" => array( "discountsubrule_id" => array( 'name' => "DiscountSubRuleID",
+                                                                        'datatype' => 'integer',
+                                                                        'default' => 0,
+                                                                        'required' => true ),
+                                         "value" => array( 'name' => "Value",
+                                                           'datatype' => 'integer',
+                                                           'default' => 0,
+                                                           'required' => true ),
+                                         "issection" => array( 'name' => "IsSection",
+                                                               'datatype' => 'integer',
+                                                               'default' => 0,
+                                                               'required' => true ) ),
                       "keys" => array( "discountsubrule_id", "value", "isSection" ),
                       "increment_key" => "discountsubrule_id",
                       "class_name" => "eZDiscountSubRuleValue",

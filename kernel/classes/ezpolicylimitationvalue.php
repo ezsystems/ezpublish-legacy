@@ -56,10 +56,18 @@ class eZPolicyLimitationValue  extends eZPersistentObject
 
     function &definition()
     {
-        return array( "fields" => array( "id" => "ID",
-                                         'limitation_id' => 'LimitationID',
-                                         'value' => 'Value'
-                                         ),
+        return array( "fields" => array( "id" => array( 'name' => 'ID',
+                                                        'datatype' => 'integer',
+                                                        'default' => 0,
+                                                        'required' => true ),
+                                         'limitation_id' => array( 'name' => 'LimitationID',
+                                                                   'datatype' => 'integer',
+                                                                   'default' => 0,
+                                                                   'required' => true ),
+                                         'value' => array( 'name' => 'Value',
+                                                           'datatype' => 'integer',
+                                                           'default' => 0,
+                                                           'required' => true ) ),
                       "keys" => array( "id" ),
                       "function_attributes" => array(),
                       "increment_key" => "id",

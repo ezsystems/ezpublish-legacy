@@ -97,6 +97,10 @@ class eZPersistentObject
         while ( ($key = key( $fields ) ) !== null )
         {
             $item =& $fields[$key];
+            if ( is_array( $item ) )
+            {
+                $item =& $item['name'];
+            }
             $this->$item =& $row[$key];
             next( $fields );
         }
@@ -215,6 +219,44 @@ class eZPersistentObject
                 $exclude_fields[] = $key;
             }
         }
+
+        $use_fields = array_diff( array_keys( $fields ), $exclude_fields );
+        foreach ( $use_fields as $field_name  )
+        {
+            $field_def = $fields[$field_name];
+            $value =& $obj->attribute( $field_name );
+            if ( is_null( $value ) )
+            {
+                if ( ! is_array( $field_def ) )
+                {
+                    $exclude_fields[] = $field_name;
+                }
+                else
+                {
+                    if ( array_key_exists( 'default', $field_def ) && ! is_null( $field_def[ 'default' ] ) )
+                    {
+                        $obj->setAttribute( $field_name, $field_def[ 'default' ] );
+                        eZDebug::writeDebug( $field_def[ 'default' ], "changing value of $field_name to default" );
+                    }
+                    else
+                    {
+                        $numericDataTypes = array( 'integer', 'float', 'double' );
+//                        if ( in_array( $field_def['datatype'], $numericDataTypes )
+                        $exclude_fields[] = $field_name;
+                    }
+                }
+            }
+            $numericDataTypes = array( 'integer', 'float', 'double' );
+            if ( strlen( $value ) == 0 &&
+                 is_array( $field_def ) &&
+                 in_array( $field_def['datatype'], $numericDataTypes  ) &&
+                 array_key_exists( 'default', $field_def ) &&
+                 !is_null( $field_def[ 'default' ] ) )
+            {
+                $obj->setAttribute( $field_name, $field_def[ 'default' ] );
+                eZDebug::writeDebug( $field_def[ 'default' ], "changing value of $field_name to default" );
+            }
+        }
         $key_conds = array();
         foreach ( $keys as $key )
         {
@@ -242,7 +284,23 @@ class eZPersistentObject
         if ( $insert_object )
         {
             $use_fields = array_diff( array_keys( $fields ), $exclude_fields );
-            $field_text = implode( ", ", $use_fields );
+            $use_field_names = array();
+            if ( $db->useShortNames() )
+            {
+                foreach ( $use_fields as $key )
+                {
+                    if ( is_array( $fields[$key] ) && array_key_exists( 'short_name', $fields[$key] ) && strlen( $fields[$key]['short_name'] ) > 0 )
+                        $use_field_names[] = $fields[$key]['short_name'];
+                    else
+                        $use_field_names[] = $key;
+                }
+            }
+            else
+            {
+                $use_field_names = $use_fields;
+            }
+
+            $field_text = implode( ", ", $use_field_names );
             $use_values = array();
             foreach ( $use_fields as $key )
             {
@@ -264,14 +322,23 @@ class eZPersistentObject
         }
         else
         {
-            $use_fields = array_diff( array_keys( $fields ), $keys );
+            $use_fields = array_diff( array_keys( $fields ), array_merge( $keys, $exclude_fields ) );
+            $use_field_names = array();
+            foreach ( $use_fields as $key )
+            {
+                if ( $db->useShortNames() && is_array( $fields[$key] ) && array_key_exists( 'short_name', $fields[$key] ) && strlen( $fields[$key]['short_name'] ) > 0 )
+                    $use_field_names[$key] = $fields[$key]['short_name'];
+                else
+                    $use_field_names[$key] = $key;
+            }
+
             $field_text = "";
             $field_text_len = 0;
             $i = 0;
             foreach ( $use_fields as $key )
             {
                 $value =& $obj->attribute( $key );
-                $field_text_entry = $key . "='" . $db->escapeString( $value ) . "'";
+                $field_text_entry = $use_field_names[$key] . "='" . $db->escapeString( $value ) . "'";
                 $field_text_len += strlen( $field_text_entry );
                 $needNewline = false;
                 if ( $field_text_len > 60 )
@@ -869,6 +936,10 @@ function definition()
         else
         {
             $attr_name = $fields[$attr];
+            if ( is_array( $attr_name ) )
+            {
+                $attr_name =& $attr_name['name'];
+            }
             return $this->$attr_name;
         }
     }
@@ -896,6 +967,11 @@ function definition()
         else
         {
             $attr_name = $fields[$attr];
+            if ( is_array( $attr_name ) )
+            {
+                $attr_name =& $attr_name['name'];
+            }
+
             $this->$attr_name = $val;
             $this->setHasDirtyData( true );
         }

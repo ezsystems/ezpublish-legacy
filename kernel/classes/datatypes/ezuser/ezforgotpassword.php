@@ -55,11 +55,22 @@ class eZForgotPassword extends eZPersistentObject
 
     function &definition()
     {
-        return array( "fields" => array( "id" => "ID",
-                                         "user_id" => "UserID",
-                                         "hash_key" => "HashKey",
-                                         "time" => "Time"
-                                         ),
+        return array( "fields" => array( "id" => array( 'name' => 'ID',
+                                                        'datatype' => 'integer',
+                                                        'default' => 0,
+                                                        'required' => true ),
+                                         "user_id" => array( 'name' => "UserID",
+                                                             'datatype' => 'integer',
+                                                             'default' => 0,
+                                                             'required' => true ),
+                                         "hash_key" => array( 'name' => "HashKey",
+                                                              'datatype' => 'string',
+                                                              'default' => '',
+                                                              'required' => true ),
+                                         "time" => array( 'name' => "Time",
+                                                          'datatype' => 'integer',
+                                                          'default' => 0,
+                                                          'required' => true ) ),
                       "keys" => array( "id" ),
                       "function_attributes" => array( ),
                       "increment_key" => "id",

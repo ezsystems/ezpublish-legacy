@@ -1,13 +1,3 @@
---
--- Selected TOC Entries:
---
---
--- TOC Entry ID 2 (OID 673374)
---
--- Name: ezapprovetasks_s Type: SEQUENCE Owner: sp
---
-
-CREATE SEQUENCE "ezapprovetasks_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
 --
 -- TOC Entry ID 4 (OID 673376)
@@ -1329,8 +1319,6 @@ CREATE TABLE "ezcollab_item_participant_link" (
 	"participant_id" integer DEFAULT '0' NOT NULL,
 	"participant_type" integer DEFAULT '1' NOT NULL,
 	"participant_role" integer DEFAULT '1' NOT NULL,
-	"is_read" integer DEFAULT '0' NOT NULL,
-	"is_active" integer DEFAULT '1' NOT NULL,
 	"last_read" integer DEFAULT '0' NOT NULL,
 	"created" integer DEFAULT '0' NOT NULL,
 	"modified" integer DEFAULT '0' NOT NULL,

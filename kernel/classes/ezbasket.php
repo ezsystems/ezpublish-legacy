@@ -64,10 +64,18 @@ class eZBasket extends eZPersistentObject
     */
     function &definition()
     {
-        return array( "fields" => array( "id" => "ID",
-                                         "session_id" => "SessionID",
-                                         "productcollection_id" => "ProductCollectionID"
-                                         ),
+        return array( "fields" => array( "id" => array( 'name' => 'ID',
+                                                        'datatype' => 'integer',
+                                                        'default' => 0,
+                                                        'required' => true ),
+                                         "session_id" => array( 'name' => "SessionID",
+                                                                'datatype' => 'string',
+                                                                'default' => '',
+                                                                'required' => true ),
+                                         "productcollection_id" => array( 'name' => "ProductCollectionID",
+                                                                          'datatype' => 'integer',
+                                                                          'default' => '0',
+                                                                          'required' => true ) ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
                       "class_name" => "eZBasket",

@@ -56,11 +56,22 @@ class eZSection extends eZPersistentObject
     */
     function &definition()
     {
-        return array( "fields" => array( "id" => "ID",
-                                         "name" => "Name",
-                                         "navigation_part_identifier" => "NavigationPartIdentifier",
-                                         "locale" => "Locale"
-                                         ),
+        return array( "fields" => array( "id" => array( 'name' => 'ID',
+                                                        'datatype' => 'integer',
+                                                        'default' => 0,
+                                                        'required' => true ),
+                                         "name" => array( 'name' => "Name",
+                                                          'datatype' => 'string',
+                                                          'default' => 0,
+                                                          'required' => true ),
+                                         "navigation_part_identifier" => array( 'name' => "NavigationPartIdentifier",
+                                                                                'datatype' => 'string',
+                                                                                'default' => 'ezcontentnavigationpart',
+                                                                                'required' => true ),
+                                         "locale" => array( 'name' => "Locale",
+                                                            'datatype' => 'string',
+                                                            'default' => '',
+                                                            'required' => true ) ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
                       "class_name" => "eZSection",

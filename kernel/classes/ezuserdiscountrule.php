@@ -58,10 +58,18 @@ class eZUserDiscountRule extends eZPersistentObject
 
     function &definition()
     {
-        return array( "fields" => array( "id" => "ID",
-                                         "discountrule_id" => "DiscountRuleID",
-                                         "contentobject_id" => "ContentobjectID"
-                                         ),
+        return array( "fields" => array( "id" => array( 'name' => 'ID',
+                                                        'datatype' => 'integer',
+                                                        'default' => 0,
+                                                        'required' => true ),
+                                         "discountrule_id" => array( 'name' => "DiscountRuleID",
+                                                                     'datatype' => 'integer',
+                                                                     'default' => 0,
+                                                                     'required' => true ),
+                                         "contentobject_id" => array( 'name' => "ContentobjectID",
+                                                                      'datatype' => 'integer',
+                                                                      'default' => 0,
+                                                                      'required' => true ) ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
                       "relations" => array( "discountrule_id" => array( "class" => "ezdiscountrule",

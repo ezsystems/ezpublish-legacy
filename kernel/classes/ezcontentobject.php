@@ -72,18 +72,50 @@ class eZContentObject extends eZPersistentObject
 
     function &definition()
     {
-        return array( "fields" => array( "id" => "ID",
-                                         "section_id" => "SectionID",
-                                         "owner_id" => "OwnerID",
-                                         "contentclass_id" => "ClassID",
-                                         "name" => "Name",
-                                         "is_published" => "IsPublished",
-                                         "published" => "Published",
-                                         "modified" => "Modified",
-                                         "current_version" => "CurrentVersion",
-                                         "status" => "Status",
-                                         "remote_id" => "RemoteID"
-                                         ),
+        return array( "fields" => array( "id" => array( 'name' => 'ID',
+                                                        'datatype' => 'integer',
+                                                        'default' => 0,
+                                                        'required' => true ),
+                                         "section_id" => array( 'name' => "SectionID",
+                                                                'datatype' => 'integer',
+                                                                'default' => 0,
+                                                                'required' => true ),
+                                         "owner_id" => array( 'name' => "OwnerID",
+                                                              'datatype' => 'integer',
+                                                              'default' => 0,
+                                                              'required' => true ),
+                                         "contentclass_id" => array( 'name' => "ClassID",
+                                                                     'datatype' => 'integer',
+                                                                     'default' => 0,
+                                                                     'required' => true ),
+                                         "name" => array( 'name' => "Name",
+                                                          'datatype' => 'string',
+                                                          'default' => '',
+                                                          'required' => true ),
+                                         "is_published" => array( 'name' => "IsPublished",
+                                                                  'datatype' => 'integer',
+                                                                  'default' => 0,
+                                                                  'required' => true ),
+                                         "published" => array( 'name' => "Published",
+                                                               'datatype' => 'integer',
+                                                               'default' => 0,
+                                                               'required' => true ),
+                                         "modified" => array( 'name' => "Modified",
+                                                              'datatype' => 'integer',
+                                                              'default' => 0,
+                                                              'required' => true ),
+                                         "current_version" => array( 'name' => "CurrentVersion",
+                                                                     'datatype' => 'integer',
+                                                                     'default' => 0,
+                                                                     'required' => true ),
+                                         "status" => array( 'name' => "Status",
+                                                            'datatype' => 'integer',
+                                                            'default' => 0,
+                                                            'required' => true ),
+                                         "remote_id" => array( 'name' => "RemoteID",
+                                                               'datatype' => 'string',
+                                                               'default' => '',
+                                                               'required' => true ) ),
                       "keys" => array( "id" ),
                       "function_attributes" => array( "current" => "currentVersion",
                                                       'versions' => 'versions',
@@ -1229,8 +1261,6 @@ class eZContentObject extends eZPersistentObject
     {
         return $this->Permissions;
     }
-
-
 
     function checkAccess( $functionName, $classID = false, $parentClassID = false )
     {

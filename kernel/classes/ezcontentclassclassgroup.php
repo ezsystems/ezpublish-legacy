@@ -52,10 +52,22 @@ class eZContentClassClassGroup extends eZPersistentObject
 
     function &definition()
     {
-        return array( "fields" => array( "contentclass_id" => "ContentClassID",
-                                         "contentclass_version" => "ContentClassVersion",
-                                         "group_id" => "GroupID",
-                                         "group_name" => "GroupName"),
+        return array( "fields" => array( "contentclass_id" => array( 'name' => "ContentClassID",
+                                                                     'datatype' => 'integer',
+                                                                     'default' => 0,
+                                                                     'required' => true ),
+                                         "contentclass_version" => array( 'name' => "ContentClassVersion",
+                                                                          'datatype' => 'integer',
+                                                                          'default' => 0,
+                                                                          'required' => true ),
+                                         "group_id" => array( 'name' => "GroupID",
+                                                              'datatype' => 'integer',
+                                                              'default' => 0,
+                                                              'required' => true ),
+                                         "group_name" => array( 'name' => "GroupName",
+                                                                'datatype' => 'string',
+                                                                'default' => '',
+                                                                'required' => true ) ),
                       "keys" => array( "contentclass_id", "contentclass_version", "group_id" ),
 //                      "increment_key" => "id",
                       "class_name" => "eZContentClassClassGroup",
@@ -106,7 +118,7 @@ class eZContentClassClassGroup extends eZPersistentObject
     function &fetchClassList( $contentclass_version, $group_id, $asObject = true )
     {
         $db =& eZDB::instance();
-        $sql = "SELECT contentclass.* \n FROM ezcontentclass as contentclass, ezcontentclass_classgroup as class_group\n
+        $sql = "SELECT contentclass.* \n FROM ezcontentclass  contentclass, ezcontentclass_classgroup  class_group\n
                 WHERE contentclass.id=class_group.contentclass_id \n
                 AND class_group.contentclass_version='$contentclass_version' \n
                 AND contentclass.version='$contentclass_version' \n

@@ -57,9 +57,14 @@ class eZDiscountRule extends eZPersistentObject
 
     function &definition()
     {
-        return array( "fields" => array( "id" => "ID",
-                                         "name" => "Name"
-                                         ),
+        return array( "fields" => array( "id" => array( 'name' => 'ID',
+                                                         'datatype' => 'integer',
+                                                         'default' => 0,
+                                                         'required' => true ),
+                                         "name" => array( 'name' => "Name",
+                                                         'datatype' => 'string',
+                                                         'default' => '',
+                                                         'required' => true ) ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
                       "class_name" => "eZDiscountRule",

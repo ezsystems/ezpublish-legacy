@@ -58,10 +58,18 @@ class eZRole extends eZPersistentObject
 
     function &definition()
     {
-        return array( "fields" => array( "id" => "ID",
-                                         "version" => "Version",
-                                         "name" => "Name"
-                                         ),
+        return array( "fields" => array( "id" => array( 'name' => 'ID',
+                                                        'datatype' => 'integer',
+                                                        'default' => 0,
+                                                        'required' => true ),
+                                         "version" => array( 'name' => "Version",
+                                                             'datatype' => 'integer',
+                                                             'default' => 0,
+                                                             'required' => true ),
+                                         "name" => array( 'name' => "Name",
+                                                          'datatype' => 'string',
+                                                          'default' => '',
+                                                          'required' => true ) ),
                       "keys" => array( "id" ),
                       "function_attributes" => array( "policies" => "policyList"
 //                                                     "class_name" => "className",

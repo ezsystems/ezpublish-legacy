@@ -57,9 +57,18 @@ class eZContentTranslation extends eZPersistentObject
 
     function &definition()
     {
-        return array( "fields" => array( "id" => "ID",
-                                         "name" => "Name",
-                                         "locale" => "Locale",
+        return array( "fields" => array( "id" => array( 'name' => 'ID',
+                                                        'datatype' => 'integer',
+                                                        'default' => 0,
+                                                        'required' => true ),
+                                         "name" => array( 'name' => "Name",
+                                                          'datatype' => 'string',
+                                                          'default' => '',
+                                                          'required' => true ),
+                                         "locale" => array( 'name' => "Locale",
+                                                            'datatype' => 'string',
+                                                            'default' => '',
+                                                            'required' => true )
                                          ),
                       "keys" => array( "id" ),
                       "function_attributes" => array( 'locale_object' => 'localeObject' ),
