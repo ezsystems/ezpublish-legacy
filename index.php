@@ -661,14 +661,22 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
 //     eZDebug::writeDebug( $module->redirectURI(), '$module->redirectURI()' );
 
     $moduleRedirectUri = $module->redirectURI();
+    $translatedModuleRedirectUri = $moduleRedirectUri;
+    if ( eZURLAlias::translate( $translatedModuleRedirectUri, true ) )
+    {
+        $moduleRedirectUri = $translatedModuleRedirectUri;
+        if ( strlen( $moduleRedirectUri ) > 0 and
+             $moduleRedirectUri[0] != '/' )
+            $moduleRedirectUri = '/' . $moduleRedirectUri;
+    }
 
     if ( preg_match( '#^(\w+:)|^//#', $moduleRedirectUri ) )
     {
-        $redirectURI = $module->redirectURI();
+        $redirectURI = $moduleRedirectUri;
     }
     else
     {
-        $redirectURI .= $module->redirectURI();
+        $redirectURI .= $moduleRedirectUri;
     }
 
     if ( $automatic_redir )

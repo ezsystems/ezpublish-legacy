@@ -34,6 +34,9 @@ Changes from 3.2-1 to 3.2-2
 - Made sure the correct override cache dir is cleared when new template overrides are created
   or overrides are removed.
 - Fixed the color for the 'Click to create a custom template'.
+- Added support for reverse translation in eZURLAlias, that way you can translate from a
+  real URL to an alias.
+- Made sure all redirects in index.php is translated to URL aliases if possible.
 
 *Notification:
 - Made sure the subtree handlers sets some design keys for template overriding.
