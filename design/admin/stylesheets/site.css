@@ -219,8 +219,6 @@ div#leftmenu
 div#leftmenu-design
 {
     margin: 0.5em;
-    background-color: #fefefb;
-    
 }
 
 div#leftmenu div.box-header, div#rightmenu div.box-header
@@ -251,7 +249,6 @@ div#leftmenu div.box-tc, div#rightmenu div.box-tc, div#maincontent div.box-tc
     background-image: url(../images/box-edge.gif);
     background-position: top;
     background-repeat: repeat-x;
-    margin: 0;
 }
 
 div#leftmenu div.box-bc, div#rightmenu div.box-bc
@@ -259,6 +256,7 @@ div#leftmenu div.box-bc, div#rightmenu div.box-bc
     background-image: url(../images/box-bc.gif);
     background-position: bottom;
     background-repeat: repeat-x;
+    background-color: #fefefb;
 }
 
 div#maincontent div.box-bc
@@ -267,7 +265,6 @@ div#maincontent div.box-bc
     background-position: bottom;
     background-repeat: repeat-x;
     background-color: #e7e8e0;
-    border-bottom: 1px solid #ecece4; /* Strange IE bug fix */ 
 }
 
 div#maincontent div.controlbar div.box-bc
@@ -835,7 +832,7 @@ div.context-toolbar span.current, div.context-toolbar span.current
 div.context-toolbar a:hover
 {
     color: #ffffff;
-    background-color: #9d9d98;
+    background-color: #2d537a;
     text-decoration: none;
 }
 
