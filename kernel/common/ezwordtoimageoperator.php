@@ -250,10 +250,20 @@ class eZWordToImageOperator
                     $sizeText = ' width="' . $width . '" height="' . $height . '"';
                 }
 
+                // The class will be detected by ezpngfix.js, which will force alpha blending in IE.
+                if ( ( !isset( $sizeName ) || $sizeName == 'normal' ) && strstr( strtolower( $iconPath ), ".png" ) )
+                {
+                    $class = 'class="transparent-png-icon" ';
+                }
+                else
+                {
+                    $class = '';
+                }
+
                 if ( $returnURIOnly )
                     $operatorValue = $wwwDirPrefix . $iconPath;
                 else
-                    $operatorValue = '<img src="' . $wwwDirPrefix . $iconPath . '"' . $sizeText . ' alt="' .  htmlspecialchars( $altText ) . '" title="' . htmlspecialchars( $altText ) . '" />';
+                    $operatorValue = '<img ' . $class . 'src="' . $wwwDirPrefix . $iconPath . '"' . $sizeText . ' alt="' .  htmlspecialchars( $altText ) . '" title="' . htmlspecialchars( $altText ) . '" />';
             } break;
 
             default:
