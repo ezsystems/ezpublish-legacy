@@ -119,9 +119,13 @@ class eZSimpleTagsOperator
         }
 
         $textPHPFunctions = array( 'htmlspecialchars' );
-        $textPre = $tagMap['pre'];
-        $textPost = $tagMap['post'];
-        if ( isset( $tagMap['text'] ) )
+        $textPre = false;
+        $textPost = false;
+        if ( isset( $tagMap['text']['pre'] ) )
+            $textPre = $tagMap['text']['pre'];
+        if ( isset( $tagMap['text']['post'] ) )
+            $textPost = $tagMap['text']['post'];
+        if ( isset( $tagMap['text']['phpfunctions'] ) )
             $textPHPFunctions = $tagMap['text']['phpfunctions'];
         $textElements = array();
         for ( $i = 0; $i < count( $newElements ); ++$i )
