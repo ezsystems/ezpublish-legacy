@@ -1,6 +1,7 @@
 #!/bin/bash
 
 . ./bin/shell/sqlcommon.sh
+. ./bin/shell/common.sh
 
 if ! which php &>/dev/null; then
     echo "No PHP executable found, please add it to the path"
