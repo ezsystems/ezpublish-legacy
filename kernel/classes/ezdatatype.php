@@ -479,6 +479,14 @@ class eZDataType
     }
 
     /*!
+     \return the sort key for the datatype. This is used for sorting on attribute level.
+    */
+    function sortKey( &$objectAttribute )
+    {
+        return "";
+    }
+
+    /*!
      \return a DOM representation of the content object attribute
     */
     function &serializeContentObjectAttribute( &$objectAttribute )
