@@ -130,5 +130,7 @@ eZ db:
 *Translations:
 - Updated german translation (ger-DE), thanks to Björn Dieding.
 - Fixed the eng-CA locale, it previously reported eng-GB as it's locale code.
+- Updated portuguese translation to 3.2.
+- Updated spanish and catalan translation.
 
 *Miscellaneous:

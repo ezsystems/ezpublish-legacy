@@ -197,7 +197,7 @@ modifique os seus dados em:</translation>
     <message>
         <source>RAD</source>
         <comment>Rapid Application Development</comment>
-        <translation type="unfinished">FDRA</translation>
+        <translation>FDRA</translation>
     </message>
 </context>
 <context>
@@ -423,7 +423,7 @@ modifique os seus dados em:</translation>
     </message>
     <message>
         <source>New objects will be placed in %nodename</source>
-        <translation type="unfinished"></translation>
+        <translation>Novos  objectos serão colocados em %nodename</translation>
     </message>
 </context>
 <context>
@@ -785,22 +785,25 @@ classes?</translation>
     </message>
     <message>
         <source>[%sitename] Approval of &quot;%objectname&quot; awaits your attention</source>
-        <translation type="unfinished"></translation>
+        <translation>[%sitename] Aprovação de &quot;%objectname&quot; espera a sua atenção</translation>
     </message>
     <message>
         <source>This email is to inform you that &quot;%objectname&quot; awaits your attention at %sitename.
 The publishing process has been halted and it is up to you to decide if it should continue or stop.
 The approval can viewed by using the URL below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Este email informa-o que &quot;%objectname&quot; aguarda a sua atenção em %sitename.
+O processo de publicação foi interrompido, cabe a si a decisão continuar ou terminar.
+A aprovação pode ser vista utilizando o URL abaixo.</translation>
     </message>
     <message>
         <source>[%sitename] &quot;%objectname&quot; awaits approval</source>
-        <translation type="unfinished"></translation>
+        <translation>[%sitename] &quot;%objectname&quot; aguarda a sua aprovação</translation>
     </message>
     <message>
         <source>This email is to inform you that &quot;%objectname&quot; awaits approval at %sitename before it is published.
 If you wish to send comments to the approver or view the status use the URL below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Este email informa-o que &quot;%objectname&quot; aguarda aprovação em %sitename para que possa ser publicado.
+Se deseja enviar comentários a pessoa que deve aprovar ou verificar o seu estado, utilize o URL abaixo.</translation>
     </message>
 </context>
 <context>
@@ -900,7 +903,7 @@ tradução?</translation>
     </message>
     <message>
         <source>Removing &apos;%1&apos; will remove the translation itself and %2 translated versions!</source>
-        <translation type="unfinished"></translation>
+        <translation>Removendo &apos;%1&apos; removerá a sua própria tradução e %2 versões traduzidas!</translation>
     </message>
 </context>
 <context>
@@ -1530,8 +1533,7 @@ resultados</translation>
     <message>
         <source>For more options try the %1Advanced search%2</source>
         <comment>The parameters are link start and end tags.</comment>
-        <translation type="unfinished">Para mais opções tente a %1Pesquisa 
-avançada%2</translation>
+        <translation>Para mais opções tente a %1Pesquisa avançada%2</translation>
     </message>
 </context>
 <context>
@@ -1936,7 +1938,7 @@ publicação.</translation>
     </message>
     <message>
         <source>Choose initial placement</source>
-        <translation type="unfinished"></translation>
+        <translation>Escolha a posição inicial</translation>
     </message>
     <message>
         <source>Please choose where you want to place the new %classname.
@@ -1944,22 +1946,29 @@ publicação.</translation>
     Select the placement and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor escolha onde deseja colocar o novo %classname.
+
+   Seleccione a posição e clique o botão %buttonname.
+   Pode também utilizar os items mais recentes ou os marcadores para um rápido posicionamento.
+   Clique nos nomes das posições para modificar a listagem.</translation>
     </message>
     <message>
         <source>These are the objects you have bookmarked. Click on an object to view it or if you have sufficient permission you can to edit the object by clicking the edit button.
       If you want to add more objects to this list click the %addbutton button.
 
       Removing objects will only remove them from this list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Estes são os objectos que tem marcados. Clique no objecto para visualizá-lo ou, caso tenha permissões, poderá editar clicando no botão editar.
+     Se deseja adicionar outros objectos a esta lista, clique no botão %addbutton.
+
+     Remover objectos apenas retira-os desta lista.</translation>
     </message>
     <message>
         <source>Bookmark items are managed using %bookmarkname in the %personalname part.</source>
-        <translation type="unfinished"></translation>
+        <translation>Os items do marcador são geridos usando %bookmarkname na parte %personalname.</translation>
     </message>
     <message>
         <source>Choose items to bookmark</source>
-        <translation type="unfinished"></translation>
+        <translation>Escolha os items a marcar</translation>
     </message>
     <message>
         <source>Please choose the items you want to add to your bookmark list.
@@ -1967,11 +1976,15 @@ publicação.</translation>
     Select your items and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on item names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor escolha os items que deseja adicionar na sua lista de marcadores.
+
+   Seleccione os items e clique o botão %buttonname.
+   Pode também utilizar os items mais recentes ou os marcadores para um rápido posicionamento.
+   Clique nos nomes das posições para modificar a listagem.</translation>
     </message>
     <message>
         <source>Choose new placement</source>
-        <translation type="unfinished"></translation>
+        <translation>Escolha a nova posição</translation>
     </message>
     <message>
         <source>Please choose the new placement for %name.
@@ -1980,11 +1993,16 @@ publicação.</translation>
       Select the placement and click the %buttonname button.
       Using the recent and bookmark items for quick placement is also possible.
       Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor, escolha a nova posição para %name.
+     A posição anterior era %placementname.
+
+     Seleccione a posição e clique o botão %buttonname.
+     Pode também utilizar os items mais recentes ou os marcadores para um rápido posicionamento.
+     Clique nos nomes das posições para modificar a listagem.</translation>
     </message>
     <message>
         <source>Choose placements</source>
-        <translation type="unfinished"></translation>
+        <translation>Escolha posições</translation>
     </message>
     <message>
         <source>Please choose where you want to place %name.
@@ -1992,11 +2010,15 @@ publicação.</translation>
     Select your placements and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor escolha onde deseja colocar o novo %classname.
+
+   Seleccione a posição e clique o botão %buttonname.
+   Pode também utilizar os items mais recentes ou os marcadores para um rápido posicionamento.
+   Clique nos nomes das posições para modificar a listagem.</translation>
     </message>
     <message>
         <source>Choose related objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Escolha os objectos relacionados</translation>
     </message>
     <message>
         <source>Please choose objects which you want to relate to %name.
@@ -2004,7 +2026,11 @@ publicação.</translation>
     Select your objects and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on object names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor escolha os objectos que deseja relacionar com %name.
+
+   Seleccione os objectos e clique o botão %buttonname.
+   Pode também utilizar os items mais recentes ou os marcadores para um rápido posicionamento.
+   Clique nos nomes dos objectos para modificar a listagem.</translation>
     </message>
 </context>
 <context>
@@ -2089,19 +2115,19 @@ login.</translation>
     </message>
     <message>
         <source>The requested view %view could not be found in module %module</source>
-        <translation type="unfinished">The requested view %view could not be found in module %module</translation>
+        <translation>A view requisitada %view não foi encontrada no módulo %module</translation>
     </message>
     <message>
         <source>The view name was misspelled, try changing the url.</source>
-        <translation type="unfinished"></translation>
+        <translation>O nome esta mal escrito, tente modificar o url.</translation>
     </message>
     <message>
         <source>The view does not exist for the module %module.</source>
-        <translation type="unfinished"></translation>
+        <translation>A view não existe para o módulo %module.</translation>
     </message>
     <message>
         <source>The view %module/%view is disabled and cannot be accessed.</source>
-        <translation type="unfinished"></translation>
+        <translation>A view %module/%view está desactiva e não pode se acedida.</translation>
     </message>
     <message>
         <source>The module %module is disabled and cannot be accessed.</source>
@@ -2236,11 +2262,11 @@ password.</translation>
     </message>
     <message>
         <source>Site:</source>
-        <translation type="unfinished">Site:</translation>
+        <translation>Site:</translation>
     </message>
     <message>
         <source>Version:</source>
-        <translation type="unfinished">Versão:</translation>
+        <translation>Versão:</translation>
     </message>
 </context>
 <context>
@@ -2472,11 +2498,11 @@ modifique os seus dados em:</translation>
     </message>
     <message>
         <source>Spawn time event</source>
-        <translation type="unfinished"></translation>
+        <translation>Evento de tempo decorrido</translation>
     </message>
     <message>
         <source>Spawn</source>
-        <translation type="unfinished"></translation>
+        <translation>Spawn</translation>
     </message>
     <message>
         <source>Notification settings</source>
@@ -2484,37 +2510,39 @@ modifique os seus dados em:</translation>
     </message>
     <message>
         <source>%sitename notification system</source>
-        <translation type="unfinished"></translation>
+        <translation>Systema de notificação de %sitename</translation>
     </message>
     <message>
         <source>[%sitename] New collaboration item</source>
-        <translation type="unfinished"></translation>
+        <translation>[%sitename] Novo item de colaboração</translation>
     </message>
     <message>
         <source>This email is to inform you that a new collaboration item is awaiting your attention at %sitename.
 The item can viewed by using the URL below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Este email informa-o que um novo item de colaboração aguarda a sua atenção em %sitename.
+O item pode ser visualizado utilizando o URL abaixo.</translation>
     </message>
     <message>
         <source>[%sitename] Digest for %date</source>
-        <translation type="unfinished"></translation>
+        <translation>[%sitename] Resumo de %date</translation>
     </message>
     <message>
         <source>This digest email is to inform you on new items at %sitename.</source>
-        <translation type="unfinished"></translation>
+        <translation>Este email informa-o de novos items no %sitename.</translation>
     </message>
     <message>
         <source>This email is to inform you on news at %sitename.</source>
-        <translation type="unfinished"></translation>
+        <translation>Este email informa-o de notícias em %sitename.</translation>
     </message>
     <message>
         <source>[%sitename] %classname &quot;%itemname&quot; was published</source>
-        <translation type="unfinished"></translation>
+        <translation>[%sitename] %classname &quot;%itemname&quot; foi publicado</translation>
     </message>
     <message>
         <source>This email is to inform you that a new item has been publish at %sitename.
 The item can viewed by using the URL below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Este email informa-o que um novo item foi publicado em %sitename.
+O item pode ser visualizado utilizando o URL abaixo.</translation>
     </message>
 </context>
 <context>
@@ -2603,7 +2631,7 @@ The item can viewed by using the URL below.</source>
     </message>
     <message>
         <source>Compound list</source>
-        <translation type="unfinished"></translation>
+        <translation>Lista de componentes</translation>
     </message>
     <message>
         <source>File list</source>
@@ -2611,7 +2639,7 @@ The item can viewed by using the URL below.</source>
     </message>
     <message>
         <source>Compound members</source>
-        <translation type="unfinished"></translation>
+        <translation>Membros </translation>
     </message>
     <message>
         <source>File members</source>
@@ -2848,7 +2876,7 @@ tarefa</translation>
     </message>
     <message>
         <source>Specify limitations for function %functionname in module %modulename. &apos;Any&apos; means no limitation by this parameter</source>
-        <translation type="unfinished"></translation>
+        <translation>Especifique as limitações da função %functionname no módulo %modulename. &apos;Qualquer&apos; significa sem limites para este parametro</translation>
     </message>
 </context>
 <context>
@@ -2987,7 +3015,7 @@ secções?</translation>
     </message>
     <message>
         <source>Choose section assignment</source>
-        <translation type="unfinished"></translation>
+        <translation>Escolha atribuir secções</translation>
     </message>
     <message>
         <source>Please choose where you want to start the section assignment for section %sectionname.
@@ -2995,7 +3023,11 @@ secções?</translation>
     Select the placements and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor escolha onde deseja inicia a atribuição de secções para a secção %classname.
+
+   Seleccione a posição e clique o botão %buttonname.
+   Pode também utilizar os items mais recentes ou os marcadores para um rápido posicionamento.
+   Clique nos nomes das posições para modificar a listagem.</translation>
     </message>
 </context>
 <context>
@@ -3441,218 +3473,218 @@ O código por defeito foi feito a partir dos parametros básicos qeu escolheu.</
     <message>
         <source>Start</source>
         <comment>Datatype start</comment>
-        <translation type="unfinished">Iniciar</translation>
+        <translation>Iniciar</translation>
     </message>
     <message>
         <source>Name of datatype</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Nome do tipo de dados</translation>
+        <translation>Nome do tipo de dados</translation>
     </message>
     <message>
         <source>Descriptive name of datatype</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Nome descritivo do tipo de dados</translation>
+        <translation>Nome descritivo do tipo de dados</translation>
     </message>
     <message>
         <source>Settings</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Definições</translation>
+        <translation>Definições</translation>
     </message>
     <message>
         <source>Handle input on class level</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Tratar entradas ao nível da classe</translation>
+        <translation>Tratar entradas ao nível da classe</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>Datatype next</comment>
-        <translation type="unfinished">Seguinte</translation>
+        <translation>Seguinte</translation>
     </message>
     <message>
         <source>Restart</source>
         <comment>Datatype restart</comment>
-        <translation type="unfinished">Reiniciar</translation>
+        <translation>Reiniciar</translation>
     </message>
     <message>
         <source>Name of class</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Nome da classe</translation>
+        <translation>Nome da classe</translation>
     </message>
     <message>
         <source>Constant name</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Nome de Constante</translation>
+        <translation>Nome de Constante</translation>
     </message>
     <message>
         <source>The creator of the datatype</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">O criador do tipo de dados</translation>
+        <translation>O criador do tipo de dados</translation>
     </message>
     <message>
         <source>Description of your datatype</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Descrição do tipo de dados</translation>
+        <translation>Descrição do tipo de dados</translation>
     </message>
     <message>
         <source>The first line will be used as the brief description and the rest are operator documentation.</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">A primeira linha será utilizada para uma breve descrição e o resto documentação do operador.</translation>
+        <translation>A primeira linha será utilizada para uma breve descrição e o restante será a documentação do operador.</translation>
     </message>
     <message>
         <source>Handles the datatype %datatypename
 By using %datatypename you can ...</source>
         <comment>Datatype default description</comment>
-        <translation type="unfinished">Trata o tipo de dados %datatypename
+        <translation>Trata o tipo de dados %datatypename
 Utilizado %datatypename pode ...</translation>
     </message>
     <message>
         <source>Once the download button is clicked the code will be generated and the browser will ask you to store the generated file.</source>
         <comment>Datatype</comment>
-        <translation type="unfinished">Uma vez pressionado o botão de download o código será gerado e o browser perguntará onde quer armazenar o ficheiro gerado.</translation>
+        <translation>Uma vez pressionado o botão de download o código será gerado e o browser perguntará onde quer armazenar o ficheiro gerado.</translation>
     </message>
     <message>
         <source>Download</source>
         <comment>Datatype download</comment>
-        <translation type="unfinished">Download</translation>
+        <translation>Download</translation>
     </message>
     <message>
         <source>Version</source>
         <comment>eZ publish version</comment>
-        <translation type="unfinished">Versão</translation>
+        <translation>Versão</translation>
     </message>
     <message>
         <source>SVN revision</source>
         <comment>eZ publish version</comment>
-        <translation type="unfinished">Versão SVN</translation>
+        <translation>Versão SVN</translation>
     </message>
     <message>
         <source>Extensions</source>
         <comment>eZ publish extensions</comment>
-        <translation type="unfinished">Extensões</translation>
+        <translation>Extensões</translation>
     </message>
     <message>
         <source>Version</source>
         <comment>PHP version</comment>
-        <translation type="unfinished">Versão</translation>
+        <translation>Versão</translation>
     </message>
     <message>
         <source>Extensions</source>
         <comment>PHP extensions</comment>
-        <translation type="unfinished">Extensões</translation>
+        <translation>Extensões</translation>
     </message>
     <message>
         <source>Version</source>
         <comment>PHP Accelerator version</comment>
-        <translation type="unfinished">Versão</translation>
+        <translation>Versão</translation>
     </message>
     <message>
         <source>Type</source>
         <comment>Database type</comment>
-        <translation type="unfinished">Tipo</translation>
+        <translation>Tipo</translation>
     </message>
     <message>
         <source>Charset</source>
         <comment>Database charset</comment>
-        <translation type="unfinished">Charset</translation>
+        <translation>Charset</translation>
     </message>
     <message>
         <source>Tools</source>
         <comment>RAD Tools</comment>
-        <translation type="unfinished">Ferramentas</translation>
+        <translation>Ferramentas</translation>
     </message>
     <message>
         <source>Start</source>
         <comment>Template operator start</comment>
-        <translation type="unfinished">Iniciar</translation>
+        <translation>Iniciar</translation>
     </message>
     <message>
         <source>Name of operator</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Nome do operador</translation>
+        <translation>Nome do operador</translation>
     </message>
     <message>
         <source>Settings</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Definições</translation>
+        <translation>Definições</translation>
     </message>
     <message>
         <source>One operator in class</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Um operador na classe</translation>
+        <translation>Um operador na classe</translation>
     </message>
     <message>
         <source>Handles operator input</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Trata os dados do operador</translation>
+        <translation>Trata as entradas do operador</translation>
     </message>
     <message>
         <source>Generates operator output</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Gera a saída do operador</translation>
+        <translation>Gera a saída do operador</translation>
     </message>
     <message>
         <source>Parameter handling</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Tratamento de parâmetros</translation>
+        <translation>Tratamento de parâmetros</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>Template operator next</comment>
-        <translation type="unfinished">Seguinte</translation>
+        <translation>Seguinte</translation>
     </message>
     <message>
         <source>Restart</source>
         <comment>Template operator restart</comment>
-        <translation type="unfinished">Reiniciar</translation>
+        <translation>Reiniciar</translation>
     </message>
     <message>
         <source>Name of class</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Nome da classe</translation>
+        <translation>Nome da classe</translation>
     </message>
     <message>
         <source>The creator of the operator</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">O criador do operador</translation>
+        <translation>O criador do operador</translation>
     </message>
     <message>
         <source>Description of your operator</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Descrição do seu operador</translation>
+        <translation>Descrição do seu operador</translation>
     </message>
     <message>
         <source>The first line will be used as the brief description and the rest are operator documentation.</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">A primeira linha será utilizada para uma breve descrição e o resto documentação do operador.</translation>
+        <translation>A primeira linha será utilizada para uma breve descrição e o restante será a documentação do operador.</translation>
     </message>
     <message>
         <source>Handles template operator %operatorname
 By using %operatorname you can ...</source>
         <comment>Template operator default description</comment>
-        <translation type="unfinished">Processa o operador de templates %operatorname
+        <translation>Processa o operador de templates %operatorname
 Ao usar %operatorname pode ...</translation>
     </message>
     <message>
         <source>Example code</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Código de exemplo</translation>
+        <translation>Código de exemplo</translation>
     </message>
     <message>
         <source>If you wish you can add some example code to explain how your operator should work.
 The default code was made from the basic parameters you chose.</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Se desejar pode acrescentar alguns exemplos em código explicando como o seu operador deve funcionar.
+        <translation>Se desejar pode acrescentar alguns exemplos em código explicando como o seu operador deve funcionar.
 O código por defeito foi feito a partir dos parametros básicos qeu escolheu.</translation>
     </message>
     <message>
         <source>Once the download button is clicked the code will be generated and the browser will ask you to store the generated file.</source>
         <comment>Template operator</comment>
-        <translation type="unfinished">Uma vez pressionado o botão de download o código será gerado e o browser perguntará onde quer armazenar o ficheiro gerado.</translation>
+        <translation>Uma vez pressionado o botão de download o código será gerado e o browser perguntará onde quer armazenar o ficheiro gerado.</translation>
     </message>
     <message>
         <source>Download</source>
         <comment>Template operator download</comment>
-        <translation type="unfinished">Download</translation>
+        <translation>Download</translation>
     </message>
 </context>
 <context>
@@ -4795,187 +4827,189 @@ Se não tem a certeza escolha URL.</translation>
     </message>
     <message>
         <source>Both MySQL and PostgreSQL support was detected on your system. Please choose the database system you would like to use.</source>
-        <translation type="unfinished"></translation>
+        <translation>O suporte tanto a MySQL como PostgreSQL foi detectado no seu sistema. Escolha a base de dados que deseja utilizar.</translation>
     </message>
     <message>
         <source>eZ publish supports both MySQL and PostgreSQL.</source>
-        <translation type="unfinished"></translation>
+        <translation>O eZ publish suporta tanto MySQL como PostgreSQL.</translation>
     </message>
     <message>
         <source>here</source>
         <comment>link to unicode info</comment>
-        <translation type="unfinished">aqui</translation>
+        <translation>aqui</translation>
     </message>
     <message>
         <source>Please input database access information in the form below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor introduza abaixo a informação de acesso a base de dados.</translation>
     </message>
     <message>
         <source>If you don&apos;t have access to a database, you should obtain access now. eZ publish is capable of running multiple sites, each site needs its own database. This means that you need to create several databases if you plan to run multiple sites. Please refer to the database system user manual if you&apos;re unsure about how to create a database.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se não tem acesso a base de dados, deve obter imediatamente. O eZ publish está capacitado para executar vários sites, cada um deles com a sua base de dados. Isto significa que necessita de criar várias bases de dados, caso deseje correr vários sites. Por favor veja o manual do utilizador do seu sistema de base de dados se não tem a certeza de como criar uma base de dados.</translation>
     </message>
     <message>
         <source>There are two options:&lt;br&gt;- Direct delivery through sendmail (must be available on the server).&lt;br&gt;- Indirect delivery using an SMTP relay server.</source>
-        <translation type="unfinished"></translation>
+        <translation>Existem duas opções:&lt;br&gt;- Envio directo através do sendmail (deve estar disponível no servidor).&lt;br&gt;- Envio indirecto utilizando um servidor SMTP relay.</translation>
     </message>
     <message>
         <source>forums</source>
         <comment>forum link</comment>
-        <translation type="unfinished">fóruns</translation>
+        <translation>fóruns</translation>
     </message>
     <message>
         <source>eZ publish</source>
         <comment>eZ publish 3 link</comment>
-        <translation type="unfinished">eZ publish</translation>
+        <translation>eZ publish</translation>
     </message>
     <message>
         <source>If you need help with eZ publish, you can go to %ezlink and get help in the forums.
   If you find a bug (error), please go to %buglink and report it.
   With your help we can fix the errors eZ publish might have and implement new features.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se necessita de ajuda sobre o eZ publish, aceda o link %ezlink e obtenha ajuda nos forums.
+ Se encontrar um bug (erro), por favor informe através do link %buglink.
+ Com a sua ajuda podemos corrigir erros que o eZ publish possa ter e implementar novas funcionalidades.</translation>
     </message>
     <message>
         <source>Click on the URL to access your new %ezlink or click the %donebutton button. Enjoy one of the most successful web content management systems!</source>
-        <translation type="unfinished"></translation>
+        <translation>Clique no URL para aceder o seu novo %ezlink ou clique o botão %donebutton. Divirta-se com um dos sistemas de gestão de conteúdos web de maior sucesso!</translation>
     </message>
     <message>
         <source>If you ever want to restart this setup, edit the file %filename and look for a line that says:</source>
-        <translation type="unfinished"></translation>
+        <translation>Se desejar reiniciar este setup, edite o ficheiro %filename e procure a linha que diga:</translation>
     </message>
     <message>
         <source>Change the second line from %false to %true.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifique a segunda linha de %false para %true.</translation>
     </message>
     <message>
         <source>Use the radio buttons to choose the primary language, and the checkboxes to choose additional languages. You may choose more than one additional language.</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilize os botões radio para escolher a língua principal e as checkboxes para escolher línguas adicionais. Pode escolher mais do que uma língua adicional.</translation>
     </message>
     <message>
         <source>The selected languages are used to determine character sets, date / number formats, etc.</source>
-        <translation type="unfinished"></translation>
+        <translation>As línguas escolhidas são utilizadas na determinação do conjunto de caracteres, formato de data / numeros, etc.</translation>
     </message>
     <message>
         <source>For more information about language customization, please refer to the %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Para mais informação sobre customização de línguas, por favor veja o %1.</translation>
     </message>
     <message>
         <source>documentation</source>
         <comment>language information link</comment>
-        <translation type="unfinished">documentação</translation>
+        <translation>documentação</translation>
     </message>
     <message>
         <source>Back</source>
         <comment>back button in installation</comment>
-        <translation type="unfinished">Voltar</translation>
+        <translation>Voltar</translation>
     </message>
     <message>
         <source>Refresh</source>
         <comment>Refresh button in installation</comment>
-        <translation type="unfinished">Refrescar</translation>
+        <translation>Refrescar</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>next button in installation</comment>
-        <translation type="unfinished">Seguinte</translation>
+        <translation>Seguinte</translation>
     </message>
     <message>
         <source>If you wish, you can register this installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your details for unsolicited emails.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se desejar, pode registar a sua instalação enviando informação para eZ systems. Nenhuma informação confidencial será transmitida e eZ systems não utilizará ou venderá os seus dados pessoais para emails não solicitados.</translation>
     </message>
     <message>
         <source>If you wish, you can also add some comments, which will be included in the registration E-mail.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se desejar, pode também incluir alguns comentários que serão incluidos no registo.</translation>
     </message>
     <message>
         <source>Comments:</source>
-        <translation type="unfinished"></translation>
+        <translation>Comentários:</translation>
     </message>
     <message>
         <source>Sending out the email and generating your site might take a couple of seconds. Please wait until the next page loads. Clicking the button again will only send out duplicate emails, and may corrupt the installation.</source>
-        <translation type="unfinished"></translation>
+        <translation>O envio do email e a geração do site pode levar alguns segundos, por favor espere até que a próxima página abra. Pressionando novamente o botão fará com que o email duplicado e pode corromper a sua instalação. </translation>
     </message>
     <message>
         <source>Send registration</source>
-        <translation type="unfinished"></translation>
+        <translation>Enviar registo</translation>
     </message>
     <message>
         <source>System details (OS type, etc)</source>
-        <translation type="unfinished"></translation>
+        <translation>Detalhes do sistema (tipo de SO, etc)</translation>
     </message>
     <message>
         <source>The test results</source>
-        <translation type="unfinished"></translation>
+        <translation>O resultados dos testes</translation>
     </message>
     <message>
         <source>The database type</source>
-        <translation type="unfinished"></translation>
+        <translation>O tipo de base de dados</translation>
     </message>
     <message>
         <source>The site name</source>
-        <translation type="unfinished"></translation>
+        <translation>O nome do site</translation>
     </message>
     <message>
         <source>The url of the site</source>
-        <translation type="unfinished"></translation>
+        <translation>O url do site</translation>
     </message>
     <message>
         <source>Languages chosen</source>
-        <translation type="unfinished"></translation>
+        <translation>Línguas escolhidas</translation>
     </message>
     <message>
         <source>This data will help to improve future releases of eZ publish.</source>
-        <translation type="unfinished"></translation>
+        <translation>Estes dados ajudarão na melhoria das futuras versões do eZ publish.</translation>
     </message>
     <message>
         <source>Your site is not running in a virtual host mode, this is insecure. It is recommended to run eZ publish in virtual host mode. If you do not have the possibility to use virtual host mode, you should follow the instructions below about how to install an .htaccess file. The .htaccess file tells the web server to restrict the access to certain files.</source>
-        <translation type="unfinished"></translation>
+        <translation>O seu site não está a correr utilizando virtual host, isto é inseguro. É recomendável correr o eZ publish utilizando virtual hosts. Se não tem a possibilidade de utilizar virtual hosts, deveria seguir as instruções abaixo sobre como instalar um ficheiro .htaccess. Este ficheiro diz ao webserver para dar acesso a determinados ficheiros.</translation>
     </message>
     <message>
         <source>If you have shell access, you can run the following commmands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se tem acesso ao shell, pode executar os seguintes comandos.</translation>
     </message>
     <message>
         <source>If you do not have shell access, you will have to copy the file using an FTP client or ask your hosting provider to do this for you.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se não acessp ao shell, terá que copiar o ficheiro utilizando um cliente FTP ou solicitar o seu provedor de hosting que o faça.</translation>
     </message>
     <message>
         <source>Please choose the access method you wish to use for your site(s). The access method determines how the site will be accessed from within a web browser. If unsure: choose URL.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor, escolha o modo de acesso desejado para os seu(s) site(s). O modo de acesso determina como o site será acedido a partir de um web browser. Se não tem a certeza escolha URL.</translation>
     </message>
     <message>
         <source>For more detailed information on site access, please refer to the %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Para mais informação sobre o acesso ao site, por favor veja o %1</translation>
     </message>
     <message>
         <source>online documentation</source>
         <comment>site access documentation link</comment>
-        <translation type="unfinished">documentação online</translation>
+        <translation>documentação online</translation>
     </message>
     <message>
         <source>Database not empty: </source>
-        <translation type="unfinished"></translation>
+        <translation>Base de dados não vazia:</translation>
     </message>
     <message>
         <source>You may modify the details for each site.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pode modificar os detalhes para cada site.</translation>
     </message>
     <message>
         <source>For more information about how to configure site access, please refer to the %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Para mais informação sobre conmo configurar o acesso ao site, por favor veja o %1</translation>
     </message>
     <message>
         <source>documentation</source>
         <comment>site access documentation link</comment>
-        <translation type="unfinished">documentação</translation>
+        <translation>documentação</translation>
     </message>
     <message>
         <source>Use the refresh button to update the database listing(s).</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilize o botão de refrescar para actualizar a listagem da(s) base(s) de dados. </translation>
     </message>
     <message>
         <source>here</source>
         <comment>manual installation link</comment>
-        <translation type="unfinished">aqui</translation>
+        <translation>aqui</translation>
     </message>
 </context>
 <context>
@@ -5284,6 +5318,46 @@ em</translation>
     <message>
         <source>To enable zlib you need to recompile PHP with support for it. You will need to configure PHP with</source>
         <translation>Para activar zlib deve recompilar o PHP com o suporte para zlib. Terá que configurar o PHP com</translation>
+    </message>
+    <message>
+        <source>Insufficient execution time allowed to install eZ publish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish will not work correctly with a execution time limit of %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It&apos;s highly recommended that you fix this.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Locate the php.ini settings file for your PHP installation. On unix systems, this is normally located at /etc/php.ini, on windows systems check the PHP installation path.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open the php.ini file and change the max_execution_time value to at least %1, and press %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished">Seguinte</translation>
+    </message>
+    <message>
+        <source>If you are running eZ publish in a shared host environment, contant your ISP to perform the changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insufficient memory allocated to install eZ publish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish will not work correctly with a memory limit of %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open the php.ini file and change the memory_limit value to at least %1, and press %2</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5620,14 +5694,14 @@ campos</translation>
     <message>
         <source>Name</source>
         <comment>Customer name</comment>
-        <translation type="unfinished">Nome</translation>
+        <translation>Nome</translation>
     </message>
 </context>
 <context>
     <name>design/standard/shop/view</name>
     <message>
         <source>Choose customers</source>
-        <translation type="unfinished"></translation>
+        <translation>Escolha clientes</translation>
     </message>
     <message>
         <source>Please choose the customers you want to add to discount group %groupname.
@@ -5635,11 +5709,15 @@ campos</translation>
     Select your customers and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on object names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor escolha os clientes que deseja adicionar ao grupo de desconto %groupname.
+
+   Seleccione os clientes e clique o botão %buttonname.
+   Pode também utilizar os items mais recentes ou os marcadores para um rápido posicionamento.
+   Clique nos nomes dos objectos para modificar a listagem.</translation>
     </message>
     <message>
         <source>Choose product for discount</source>
-        <translation type="unfinished"></translation>
+        <translation>Escolha o produto para desconto</translation>
     </message>
     <message>
         <source>Please choose the products you want to add to discount rule %discountname in discount group %groupname.
@@ -5647,7 +5725,11 @@ campos</translation>
     Select your products and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on product names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor escolha os produtos que deseja adicionar a politica de desconto %discountname no grupo de desconto %groupname.
+
+   Seleccione os produtos e clique o botão %buttonname.
+   Pode também utilizar os items mais recentes ou os marcadores para um rápido posicionamento.
+   Clique nos nomes dos produtos para modificar a listagem.</translation>
     </message>
 </context>
 <context>
@@ -5945,12 +6027,12 @@ especificado. Deve seguir as instruçoões do email para activar a sua conta.</t
     <message>
         <source>Login</source>
         <comment>Button</comment>
-        <translation type="unfinished">Login</translation>
+        <translation>Login</translation>
     </message>
     <message>
         <source>Sign Up</source>
         <comment>Button</comment>
-        <translation type="unfinished">Registar</translation>
+        <translation>Registar</translation>
     </message>
 </context>
 <context>
@@ -6065,7 +6147,7 @@ especificado. Deve seguir as instruçoões do email para activar a sua conta.</t
     <message>
         <source>Login</source>
         <comment>Login name</comment>
-        <translation type="unfinished">Login</translation>
+        <translation>Login</translation>
     </message>
 </context>
 <context>
@@ -6282,7 +6364,7 @@ utilizador</translation>
     <message>
         <source>Workflows in %1</source>
         <comment>%1 is workflow group</comment>
-        <translation type="unfinished">Workflows em %1</translation>
+        <translation>Workflows em %1</translation>
     </message>
 </context>
 <context>
