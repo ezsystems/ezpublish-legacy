@@ -62,6 +62,7 @@ class eZNodeviewfunctions
                               array( 'parent_node', $node->attribute( 'parent_node_id' ) ),
                               array( 'class', $object->attribute( 'contentclass_id' ) ),
                               array( 'class_identifier', $class->attribute( 'identifier' ) ),
+                              array( 'class_group', $class->attribute( 'ingroup_id_list' ) ),
                               array( 'view_offset', $offset ),
                               array( 'viewmode', $viewMode ),
                               array( 'navigation_part_identifier', $navigationPartIdentifier ),
@@ -113,12 +114,12 @@ class eZNodeviewfunctions
                                          'parent_node_id' => $node->attribute( 'parent_node_id' ),
                                          'class_id' => $object->attribute( 'contentclass_id' ),
                                          'class_identifier' => $class->attribute( 'identifier' ),
+                                         'class_group' => $class->attribute( 'ingroup_id_list' ),
                                          'offset' => $offset,
                                          'viewmode' => $viewMode,
                                          'navigation_part_identifier' => $navigationPartIdentifier,
                                          'node_depth' => $node->attribute( 'depth' ),
                                          'url_alias' => $node->attribute( 'url_alias' ) );
-
 
         // Check if time to live is set in template
         if ( $tpl->hasVariable( 'cache_ttl' ) )

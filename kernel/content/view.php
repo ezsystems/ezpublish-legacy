@@ -31,7 +31,6 @@
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
 //
-
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/classes/ezcontentclass.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
@@ -180,6 +179,7 @@ else
                                       array( 'navigation_part_identifier', $Result['content_info']['navigation_part_identifier'] ),
                                       array( 'viewmode', $Result['content_info']['viewmode'] ),
                                       array( 'depth', $Result['content_info']['node_depth'] ),
+                                      array( 'class_group', $Result['content_info']['class_group'] ),
                                       array( 'url_alias', $Result['content_info']['url_alias'] )
                                       ) );
                 if ( isset( $Result['content_info']['class_identifier'] ) )
@@ -236,7 +236,6 @@ else
     $Result = eZNodeviewfunctions::generateNodeView( $tpl, $node, $object, $Params['Language'], $ViewMode, $Offset,
                                                      $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], $viewCacheEnabled, $viewParameters,
                                                      $collectionAttributes, $validation );
-
     return $Result;
 }
 

@@ -169,7 +169,7 @@ eZ Template
 - Updated template compiler script to compile with and without full urls.
 - Fixed bug in cronjobs/workflow.php
   http://ez.no/community/bug_reports/deleting_the_default_admin_user_disables_workflow
-
+- Added template override for class_group.
 
 
 

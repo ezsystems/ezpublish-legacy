@@ -139,6 +139,7 @@ class eZContentObject extends eZPersistentObject
                                                       "default_language" => "defaultLanguage",
                                                       "content_action_list" => "contentActionList",
                                                       "class_identifier" => "contentClassIdentifier",
+                                                      'class_group_id_list' => 'contentClassGroupIDList',
                                                       "name" => "Name" ),
                       "increment_key" => "id",
                       "class_name" => "eZContentObject",
@@ -422,6 +423,15 @@ class eZContentObject extends eZPersistentObject
     function &owner()
     {
         return eZContentObject::fetch( $this->OwnerID );
+    }
+
+    /*!
+     \return the content class group identifiers for the current content object
+    */
+    function &contentClassGroupIDList()
+    {
+        $contentClass =& $this->contentClass();
+        return $contentClass->attribute( 'ingroup_id_list' );
     }
 
     /*!

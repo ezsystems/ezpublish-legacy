@@ -393,9 +393,19 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                                 }
                             }
                             else if ( isset( $matchKeys[$conditionKey] ) and
-                                      isset( $customMatch['conditions'][$conditionKey] ) and
-                                      $matchKeys[$conditionKey] == $customMatch['conditions'][$conditionKey] )
+                                      isset( $customMatch['conditions'][$conditionKey] ) )
                             {
+                                if ( is_array( $matchKeys[$conditionKey] ) )
+                                {
+                                    if ( !in_array( $customMatch['conditions'][$conditionKey], $matchKeys[$conditionKey] ) )
+                                    {
+                                        $matchOverride = false;
+                                    }
+                                }
+                                else if ( $matchKeys[$conditionKey] != $customMatch['conditions'][$conditionKey] )
+                                {
+                                    $matchOverride = false;
+                                }
                             }
                             else
                             {
@@ -520,8 +530,9 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                                 if ( $conditionKey == 'url_alias' )
                                     $matchCondition .= "( strpos( \$matchKeys[\\'url_alias\\'],  \\'" . $customMatch['conditions'][$conditionKey] . "\\' ) === 0 )";
                                 else
-                                    $matchCondition .= "\$matchKeys[\\'$conditionKey\\'] == \\'" . $customMatch['conditions'][$conditionKey] . "\\'";
-
+                                    $matchCondition .= "( ( is_array( \$matchKeys[\\'$conditionKey\\'] ) and " .
+                                        "in_array( \\'" . $customMatch['conditions'][$conditionKey] . "\\', \$matchKeys[\\'$conditionKey\\'] ) ) or " .
+                                        "\$matchKeys[\\'$conditionKey\\'] == \\'" . $customMatch['conditions'][$conditionKey] . "\\')";
 
                                 $condCount++;
                             }

@@ -346,7 +346,9 @@ class eZObjectForwarder
                                         $code .= " and\n" . str_repeat( ' ', $ifLength );
                                     $conditionNameText = eZPHPCreator::variableText( $conditionName, 0 );
                                     $conditionValueText = eZPHPCreator::variableText( $conditionValue, 0 );
-                                    $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and \$" . $designKeysName . "[$conditionNameText] == $conditionValueText";
+                                    $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and " .
+                                         "( ( is_array( \$" . $designKeysName . "[$conditionNameText] ) and in_array( $conditionValueText, \$" . $designKeysName . "[$conditionNameText] ) ) or " .
+                                         "\$" . $designKeysName . "[$conditionNameText] == $conditionValueText )";
                                     ++$conditionCount;
                                 }
                             }
@@ -488,7 +490,9 @@ class eZObjectForwarder
                             $code .= " and\n" . str_repeat( ' ', $ifLength );
                         $conditionNameText = eZPHPCreator::variableText( $conditionName, 0 );
                         $conditionValueText = eZPHPCreator::variableText( $conditionValue, 0 );
-                        $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and \$" . $designKeysName . "[$conditionNameText] == $conditionValueText";
+                        $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and " .
+                                         "( ( is_array( \$" . $designKeysName . "[$conditionNameText] ) and in_array( $conditionValueText, \$" . $designKeysName . "[$conditionNameText] ) ) or " .
+                                         "\$" . $designKeysName . "[$conditionNameText] == $conditionValueText )";
                         ++$conditionCount;
                     }
                     if ( $matchConditionCount > 0 )
