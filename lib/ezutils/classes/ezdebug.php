@@ -80,7 +80,6 @@
   \endcode
 */
 
-include_once( "lib/ezutils/classes/ezini.php" );
 include_once( "lib/ezutils/classes/ezsys.php" );
 
 define( "EZ_LEVEL_NOTICE", 1 );
@@ -742,6 +741,7 @@ class eZDebug
     /*!
      \static
      \return true if debug should be enabled.
+     \note Will return false until the real settings has been updated with updateSettings()
     */
     function isDebugEnabled()
     {
@@ -749,61 +749,24 @@ class eZDebug
         if ( isset( $debugEnabled ) )
             return $debugEnabled;
 
-//         if ( !eZINI::isLoaded() )
-//             return true;
-//         $ini =& eZINI::instance();
-//         $debugEnabled = $ini->variable( 'DebugSettings', 'DebugIP' ) == 'enabled';
-
-        eZDebug::loadSettings();
-
-        return $debugEnabled;
+        return false;
     }
 
     /*!
-     Appends the directory \a $directory to the override list
+     \static
+     Updates the settings for debug handling with the settings array \a $settings.
+     The array must contain the following keys.
+     - debug-enabled - boolean which controls debug handling
+     - debug-by-ip   - boolean which controls IP controlled debugging
+     - debug-ip-list - array of IPs which gets debug
     */
-    function appendOverrideDirectory( $directory )
+    function updateSettings( $settings )
     {
-        if ( !isset( $this ) or
-             get_class( $this ) != "ezdebug" )
-            $this =& eZDebug::instance();
-        $this->OverrideList[] = $directory;;
-    }
-
-    /*!
-     \return an array of directories which contains settings.
-    */
-    function settingsDirectories()
-    {
-        if ( !isset( $this ) or
-             get_class( $this ) != "ezdebug" )
-            $this =& eZDebug::instance();
-        $dirs = array( 'settings/custom' );
-        $dirs = array_merge( $dirs, $this->OverrideList );
-        $dirs[] = 'settings/override/custom';
-        return $dirs;
-    }
-
-    /*!
-     (re)loads the settings.
-    */
-    function loadSettings()
-    {
-        if ( !isset( $this ) or
-             get_class( $this ) != "ezdebug" )
-            $this =& eZDebug::instance();
-
-        $debugEnabled =& $GLOBALS['eZDebugEnabled'];
         // Make sure errors are handled by PHP when we read, including our own debug output.
         $oldHandleType = eZDebug::setHandleType( EZ_HANDLE_TO_PHP );
-        $settingsFile = 'debugsettings.php';
-        $settingsDirectories = $this->settingsDirectories();
-        foreach ( $settingsDirectories as $settingsDirectory )
-        {
-            $settingsPath = $settingsDirectory . '/' . $settingsFile;
-            if ( file_exists( $settingsPath ) )
-                include( $settingsPath );
-        }
+
+        $debugEnabled =& $GLOBALS['eZDebugEnabled'];
+
         $debugEnabled = $settings['debug-enabled'];
         if ( $settings['debug-enabled'] and
              $settings['debug-by-ip'] )
@@ -1331,8 +1294,17 @@ td.timingpoint2
 
 function eZDebugErrorHandler( $errno, $errstr, $errfile, $errline )
 {
+    if ( $GLOBALS['eZDebugRecursionFlag'] )
+    {
+        print( "Fatal debug error: A recursion in debug error handler was detected, aborting debug message.<br/>" );
+        $GLOBALS['eZDebugRecursionFlag'] = false;
+        return;
+    }
+    $GLOBALS['eZDebugRecursionFlag'] = true;
     $debug =& eZDebug::instance();
     $debug->errorHandler( $errno, $errstr, $errfile, $errline );
+    $GLOBALS['eZDebugRecursionFlag'] = false;
 }
+$GLOBALS['eZDebugRecursionFlag'] = false;
 
 ?>

@@ -364,12 +364,7 @@ function changeAccess( $access )
     {
         $ini->prependOverrideDir( "siteaccess/$name" );
         $ini->loadCache();
-//         $ini->parse( 'site.ini' );
-    }
-    if ( file_exists( "settings/siteaccess/$name/custom/debugsettings.php" ) )
-    {
-        eZDebug::appendOverrideDirectory( "settings/siteaccess/$name/custom" );
-        eZDebug::loadSettings();
+        eZUpdateDebugSettings();
     }
     if ( $access === null )
     {

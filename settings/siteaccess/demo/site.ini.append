@@ -17,7 +17,7 @@ Rules[]=Access;disable
 Rules[]=Module;sdk
 
 [DebugSettings]##!
-DebugIP=disabled##!
+DebugOutput=disabled##!
 Debug=inline##!
 DebugRedirection=disabled##!
 

@@ -75,6 +75,18 @@ include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
 include_once( "lib/ezutils/classes/ezdebugsetting.php" );
 
+function eZUpdateDebugSettings()
+{
+    $ini =& eZINI::instance();
+    $debugSettings = array();
+    $debugSettings['debug-enabled'] = $ini->variable( 'DebugSettings', 'DebugOutput' ) == 'enabled';
+    $debugSettings['debug-by-ip'] = $ini->variable( 'DebugSettings', 'DebugByIP' ) == 'enabled';
+    $debugSettings['debug-ip-list'] = $ini->variable( 'DebugSettings', 'DebugIPList' );
+    eZDebug::updateSettings( $debugSettings );
+}
+// Initialize debug settings
+eZUpdateDebugSettings();
+
 $warningList = array();
 
 include_once( 'lib/ezutils/classes/ezexecution.php' );
@@ -239,6 +251,9 @@ ob_start();
 include( "lib/ezutils/classes/ezweb.php" );
 
 eZWeb::init();
+
+$a = $b;
+
 
 // Check for extension
 include_once( 'kernel/classes/ezextension.php' );

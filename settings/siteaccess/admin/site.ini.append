@@ -20,7 +20,7 @@ SiteDesign=admin
 
 
 [DebugSettings]##!
-DebugIP=disabled##!
+DebugOutput=disabled##!
 Debug=inline##!
 DebugRedirection=disabled##!
 
