@@ -135,18 +135,6 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $elementText = $element . '/';
 
         // Override
-        if ( !$onlyStandard )
-        {
-            $matches[] = array( "file" => "design/$siteBase/override/$elementText$path",
-                                "type" => "override" );
-            foreach ( $additionalSiteDesignList as $additionalSiteDesign )
-            {
-                $matches[] = array( "file" => "design/$additionalSiteDesign/override/$elementText$path",
-                                    "type" => "override" );
-            }
-        }
-        $matches[] = array( "file" => "design/$standardBase/override/$elementText$path",
-                            "type" => "override" );
         foreach ( $extensions as $extension )
         {
             if ( !$onlyStandard )
@@ -156,19 +144,17 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                                 'type' => 'override' );
         }
 
-        // Normal
         if ( !$onlyStandard )
         {
-            $matches[] = array( "file" => "design/$siteBase/$elementText$path",
-                                "type" => "normal" );
+            $matches[] = array( 'file' => "design/$siteBase/override/$elementText$path",
+                                'type' => 'override' );
             foreach ( $additionalSiteDesignList as $additionalSiteDesign )
             {
-                $matches[] = array( "file" => "design/$additionalSiteDesign/$elementText$path",
-                                    "type" => "normal" );
+                $matches[] = array( 'file' => "design/$additionalSiteDesign/override/$elementText$path",
+                                    'type' => 'override' );
             }
         }
-        $matches[] = array( "file" => "design/$standardBase/$elementText$path",
-                            "type" => "normal" );
+
         foreach ( $extensions as $extension )
         {
             if ( !$onlyStandard )
@@ -177,6 +163,25 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $matches[] = array( 'file' => "$extensionDirectory/$extension/design/$standardBase/$elementText$path",
                                 'type' => 'normal' );
         }
+
+        // Normal
+        if ( !$onlyStandard )
+        {
+            $matches[] = array( 'file' => "design/$siteBase/$elementText$path",
+                                'type' => 'normal' );
+            foreach ( $additionalSiteDesignList as $additionalSiteDesign )
+            {
+                $matches[] = array( "file" => "design/$additionalSiteDesign/$elementText$path",
+                                    'type' => 'normal' );
+            }
+        }
+
+        $matches[] = array( 'file' => "design/$standardBase/override/$elementText$path",
+                            'type' => 'override' );
+
+        $matches[] = array( 'file' => "design/$standardBase/$elementText$path",
+                            'type' => 'normal' );
+
         eZDebug::accumulatorStop( 'matching_rules' );
 
         return $matches;
