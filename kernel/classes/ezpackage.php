@@ -809,7 +809,8 @@ class eZPackage
                          $design, $filePath, $collection,
                          $subDirectory = null, $md5 = null,
                          $copyFile = false, $modified = null, $fileType = false,
-                         $roleValue = false, $variableName = false )
+                         $roleValue = false, $variableName = false,
+                         $packagePath = false )
     {
         if ( $modified === null )
             $modified = mktime();
@@ -824,6 +825,8 @@ class eZPackage
                 $file = $matches[2];
             }
         }
+        if ( $packagePath )
+            $subDirectory = $packagePath;
         $fileItem = array( 'name' => $file,
                            'subdirectory' => $subDirectory,
                            'type' => $type,
@@ -2519,6 +2522,8 @@ class eZPackage
                         }
                         if ( $fileItem['name'] )
                             $path .= '/' . $fileItem['name'];
+                        if ( $fileItem['path'] )
+                            $path = $fileItem['path'];
                         if ( !file_exists( $destinationPath ) )
                             eZDir::mkdir( $destinationPath, eZDir::directoryPermission(), true );
                         if ( is_dir( $path ) )
@@ -2548,7 +2553,9 @@ class eZPackage
                             }
                         }
                         else
+                        {
                             eZFileHandler::copy( $path, $destinationPath . '/' . $fileItem['name'] );
+                        }
                     }
                     else if ( $copyFile )
                     {
@@ -2567,10 +2574,14 @@ class eZPackage
                         if ( !file_exists( $path ) )
                             eZDir::mkdir( $path, eZDir::directoryPermission(), true );
                         if ( is_dir( $fileItem['path'] ) )
+                        {
                             eZDir::copy( $fileItem['path'], $path,
                                          $fileItem['name'] != false, true, false, eZDir::temporaryFileRegexp() );
+                        }
                         else
+                        {
                             eZFileHandler::copy( $fileItem['path'], $path . '/' . $fileItem['name'] );
+                        }
                     }
                 }
                 $filesNode->appendChild( $fileCollectionNode );

@@ -63,13 +63,13 @@ function help()
                   "  -q,--quiet         do not give any output except when errors occur\n" .
                   "  -s,--siteaccess    selected siteaccess for operations, if not specified default siteaccess is used\n" .
                   "  -d,--debug         display debug output at end of execution\n" .
-                  "  -c,--colors        display output using ANSI colors\n" .
+                  "  -c,--colors        display output using ANSI colors (default)\n" .
                   "  -l,--login USER    login with USER and use it for all operations\n" .
                   "  -p,--password PWD  use PWD as password for USER\n" .
                   "  -r,--repos REPOS   use REPOS for repository when accessing packages\n" .
                   "  --logfiles         create log files\n" .
                   "  --no-logfiles      do not create log files (default)\n" .
-                  "  --no-colors        do not use ANSI coloring (default)\n" );
+                  "  --no-colors        do not use ANSI coloring\n" );
 }
 
 function helpCreate()
@@ -227,7 +227,7 @@ $allowedDebugLevels = false;
 $useDebugAccumulators = false;
 $useDebugTimingpoints = false;
 $useIncludeFiles = false;
-$useColors = false;
+$useColors = true;
 $isQuiet = false;
 $useLogFiles = false;
 $userLogin = false;
@@ -463,7 +463,7 @@ for ( $i = 1; $i < count( $argv ); ++$i )
                                   'list', 'info' ) ) )
             {
                 help();
-                exit();
+                exit( 1 );
             }
             $readOptions = false;
         }
@@ -589,7 +589,7 @@ foreach ( $commandList as $commandItem )
              !$commandItem['item'] )
         {
             helpAdd();
-            exit();
+            exit( 1 );
         }
     }
     else if ( $commandItem['command'] == 'set' )
@@ -599,7 +599,7 @@ foreach ( $commandList as $commandItem )
              !$commandItem['attribute-value'] )
         {
             helpSet();
-            exit();
+            exit( 1 );
         }
     }
     else if ( $commandItem['command'] == 'create' )
@@ -607,7 +607,7 @@ foreach ( $commandList as $commandItem )
         if ( !$commandItem['name'] )
         {
             helpCreate();
-            exit();
+            exit( 1 );
         }
     }
     else if ( $commandItem['command'] == 'info' )
@@ -615,7 +615,7 @@ foreach ( $commandList as $commandItem )
         if ( !$commandItem['name'] )
         {
             helpInfo();
-            exit();
+            exit( 1 );
         }
     }
     else if ( $commandItem['command'] == 'export' )
@@ -623,7 +623,7 @@ foreach ( $commandList as $commandItem )
         if ( !$commandItem['name'] )
         {
             helpExport();
-            exit();
+            exit( 1 );
         }
     }
     else if ( $commandItem['command'] == 'import' )
@@ -631,7 +631,7 @@ foreach ( $commandList as $commandItem )
         if ( !$commandItem['name'] )
         {
             helpImport();
-            exit();
+            exit( 1 );
         }
     }
     else if ( $commandItem['command'] == 'install' )
@@ -639,7 +639,7 @@ foreach ( $commandList as $commandItem )
         if ( !$commandItem['name'] )
         {
             helpInstall();
-            exit();
+            exit( 1 );
         }
     }
     else if ( in_array( $commandItem['command'],
@@ -649,12 +649,12 @@ foreach ( $commandList as $commandItem )
     else if ( $commandItem['command'] == 'help' )
     {
         helpHelp();
-        exit();
+        exit( 1 );
     }
     else
     {
         help();
-        exit();
+        exit( 1 );
     }
 }
 
@@ -670,6 +670,10 @@ $script->setUser( $userLogin, $userPassword );
 $script->initialize();
 
 include_once( 'kernel/classes/ezpackage.php' );
+
+$alreadyCreated = false;
+
+$createdPackages = array();
 
 foreach ( $commandList as $commandItem )
 {
@@ -697,7 +701,10 @@ foreach ( $commandList as $commandItem )
     }
     else if ( $command == 'info' )
     {
-        $package =& eZPackage::fetch( $commandItem['name'], $repositoryPath );
+        if ( isset( $createdPackages[$repositoryPath][$commandItem['name']] ) )
+            $package =& $createdPackages[$repositoryPath][$commandItem['name']];
+        else
+            $package =& eZPackage::fetch( $commandItem['name'], $repositoryPath );
         if ( $package )
         {
             $showInfo = false;
@@ -750,7 +757,10 @@ foreach ( $commandList as $commandItem )
     }
     else if ( $command == 'add' )
     {
-        $package =& eZPackage::fetch( $commandItem['name'], $repositoryPath );
+        if ( isset( $createdPackages[$repositoryPath][$commandItem['name']] ) )
+            $package =& $createdPackages[$repositoryPath][$commandItem['name']];
+        else
+            $package =& eZPackage::fetch( $commandItem['name'], $repositoryPath );
         if ( $package )
         {
             $itemType = $commandItem['item'];
@@ -786,6 +796,12 @@ foreach ( $commandList as $commandItem )
                             $handler->add( $itemType, $package, $cli, $parameters );
                             $package->store();
                         }
+                        else
+                        {
+                            $cli->error( "Failed adding items to package" );
+                            $script->setExitCode( 1 );
+                            break 2;
+                        }
                     }
                     else
                         $cli->error( "Unknown package item type $itemType" );
@@ -809,10 +825,14 @@ foreach ( $commandList as $commandItem )
         if ( !in_array( $commandItem['attribute'], $packageAttributes ) )
         {
             helpSet();
+            $script->setExitCode( 1 );
         }
         else
         {
-            $package =& eZPackage::fetch( $commandItem['name'], $repositoryPath );
+            if ( isset( $createdPackages[$repositoryPath][$commandItem['name']] ) )
+                $package =& $createdPackages[$repositoryPath][$commandItem['name']];
+            else
+                $package =& eZPackage::fetch( $commandItem['name'], $repositoryPath );
             if ( $package )
             {
                 switch ( $commandItem['attribute'] )
@@ -828,8 +848,8 @@ foreach ( $commandList as $commandItem )
                     {
                         $package->setAttribute( $commandItem['attribute'], $commandItem['attribute-value'] );
                         if ( !$isQuiet )
-                            $cli->notice( "Attribute " . $cli->style( 'emphasize' ) . $commandItem['attribute'] . $cli->style( 'emphasize-end' ) .
-                                          " was set to " . $cli->style( 'emphasize' ) . $commandItem['attribute-value'] . $cli->style( 'emphasize-end' ) );
+                            $cli->notice( "Attribute " . $cli->style( 'symbol' ) . $commandItem['attribute'] . $cli->style( 'emphasize-end' ) .
+                                          " was set to " . $cli->style( 'symbol' ) . $commandItem['attribute-value'] . $cli->style( 'emphasize-end' ) );
                     } break;
                 }
                 $package->store();
@@ -876,7 +896,10 @@ foreach ( $commandList as $commandItem )
     }
     else if ( $command == 'export' )
     {
-        $package =& eZPackage::fetch( $commandItem['name'], $repositoryPath );
+        if ( isset( $createdPackages[$repositoryPath][$commandItem['name']] ) )
+            $package =& $createdPackages[$repositoryPath][$commandItem['name']];
+        else
+            $package =& eZPackage::fetch( $commandItem['name'], $repositoryPath );
         if ( $package )
         {
             if ( isset( $commandItem['export-directory'] ) )
@@ -891,14 +914,14 @@ foreach ( $commandList as $commandItem )
                 {
                     $package->export( $exportDirectory );
                     if ( !$isQuiet )
-                        $cli->notice( "Package " . $package->attribute( 'name' ) . " exported to directory " . $cli->stylize( 'dir', $exportDirectory ) );
+                        $cli->notice( "Package " . $cli->stylize( 'symbol', $package->attribute( 'name' ) ) . " exported to directory " . $cli->stylize( 'dir', $exportDirectory ) );
                 }
             }
             else
             {
                 $exportPath = $package->archive( $package->exportName() );
                 if ( !$isQuiet )
-                    $cli->notice( "Package " . $package->attribute( 'name' ) . " exported to file " . $cli->stylize( 'file', $exportPath ) );
+                    $cli->notice( "Package " . $cli->stylize( 'symbol', $package->attribute( 'name' ) ) . " exported to file " . $cli->stylize( 'file', $exportPath ) );
             }
         }
         else
@@ -906,6 +929,8 @@ foreach ( $commandList as $commandItem )
     }
     else if ( $command == 'create' )
     {
+        if ( $alreadyCreated )
+            $cli->output();
         $package =& eZPackage::create( $commandItem['name'],
                                        array( 'summary' => $commandItem['summary'] ),
                                        $repositoryPath );
@@ -914,7 +939,6 @@ foreach ( $commandList as $commandItem )
         $userObject = $user->attribute( 'contentobject' );
 
         $commandItem['licence'] = 'GPL';
-        print( "installtype=" . $commandItem['installtype'] . "\n" );
         if ( !in_array( $commandItem['installtype'], array( 'install', 'import' ) ) )
             $commandItem['installtype'] = 'install';
         if ( !$commandItem['version'] )
@@ -940,12 +964,18 @@ foreach ( $commandList as $commandItem )
             $package->appendChange( $userObject->attribute( 'name' ), $user->attribute( 'email' ), 'Creation of package' );
 
         $package->store();
-        $cli->output( "Created package " . $commandItem['name'] );
+        $text = "Created package " . $cli->stylize( 'symbol', $commandItem['name'] ) . "-" . $cli->stylize( 'symbol', $commandItem['version'] );
+        if ( $commandItem['summary'] )
+            $text .= " " . $cli->stylize( 'archive', $commandItem['summary'] );
+        $cli->output( $text );
         if ( eZPublishSDK::developmentVersion() !== false )
             $cli->warning( "The package will be in development format and can not be installed on a stable eZ publish site" );
-//         $cli->output( "Use 'ezpm.php add' and 'ezpm.php set' to change and add settings to the package." );
+        $alreadyCreated = true;
+        $createdPackages[$repositoryPath][$commandItem['name']] =& $package;
     }
 }
+
+$cli->output();
 
 $script->shutdown();
 

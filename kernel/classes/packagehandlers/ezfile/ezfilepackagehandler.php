@@ -127,13 +127,23 @@ class eZFilePackageHandler extends eZPackageHandler
             $package->appendFile( $fileItem['file'], $fileItem['type'], $fileItem['role'],
                                   $fileItem['design'], $fileItem['path'], $fileItem['collection'],
                                   null, null, true, null,
-                                  $fileItem['file-type'], $fileItem['role-value'], $fileItem['variable-name'] );
+                                  $fileItem['file-type'], $fileItem['role-value'], $fileItem['variable-name'],
+                                  $fileItem['package-path'] );
             if ( !in_array( $fileItem['collection'], $collections ) )
                 $collections[] = $fileItem['collection'];
-            $addString = "Adding file " . $cli->stylize( 'file', $fileItem['file'] ) . " (" . $fileItem['type'] . ", " . $fileItem['design'] . ", " . $fileItem['role'] . ")";
+            $addString = "Adding " . $cli->stylize( 'mark', $fileItem['type'] );
+            if ( $fileItem['type'] != 'design' )
+                $addString .= " " . $cli->stylize( 'file', $fileItem['file'] );
+            if ( $fileItem['type'] == 'design' )
+                $addString .= " " . $cli->stylize( 'dir', $fileItem['design'] );
+            if ( ( $fileItem['type'] == 'design' or $fileItem['type'] == 'ini' ) and
+                 $fileItem['role'] )
+                $addString .= " using role " . $cli->stylize( 'italic', $fileItem['role'] );
             if ( $fileItem['variable-name'] )
-                $addString .= '[' . $fileItem['variable-name'] . ']';
-            $addString .= " to package";
+                $addString .= " bound to variable " . $cli->stylize( 'variable', $fileItem['variable-name'] );
+//            . " (" . $fileItem['design'] . ", " . $fileItem['role'] . ")";
+//            if ( $fileItem['variable-name'] )
+//                $addString .= '[' . $fileItem['variable-name'] . ']';
             $cli->notice( $addString );
         }
         foreach ( $collections as $collection )
@@ -168,9 +178,14 @@ class eZFilePackageHandler extends eZPackageHandler
         $currentRoleValue = false;
         $currentDesign = false;
         $currentCollection = 'default';
+        $packagePath = false;
         if ( $packageType == 'design' )
         {
             $currentType = 'design';
+        }
+        else if ( $packageType == 'dir' )
+        {
+            $currentType = 'dir';
         }
         else if ( $packageType == 'ini' )
         {
@@ -204,6 +219,7 @@ class eZFilePackageHandler extends eZPackageHandler
                          $flag == 'n' or
                          $flag == 'v' or
                          $flag == 'd' or
+                         $flag == 'p' or
                          $flag == 'c' )
                     {
                         if ( strlen( $argument ) > 2 )
@@ -254,6 +270,10 @@ class eZFilePackageHandler extends eZPackageHandler
                         {
                             $currentVariableName = $data;
                         }
+                        else if ( $flag == 'p' )
+                        {
+                            $packagePath = $data;
+                        }
                         else if ( $flag == 'd' )
                         {
                             if ( $currentType != 'design' )
@@ -286,15 +306,21 @@ class eZFilePackageHandler extends eZPackageHandler
                                                    $triedFiles );
                 if ( !$realFilePath )
                 {
-                    $cli->error( "File " . $cli->style( 'file' ) . $file . $cli->style( 'file-end' ) . " does not exist\n" .
-                                 "The following files were searched for:\n" .
-                                 implode( "\n", $triedFiles ) );
+                    $error = ( "File " . $cli->stylize( 'file', $file ) . " does not exist\n" .
+                               "The following files were searched for:\n" );
+                    $files = array();
+                    foreach ( $triedFiles as $triedFile )
+                    {
+                        $files[] = $cli->stylize( 'file', $triedFile );
+                    }
+                    $cli->output( $error . implode( "\n", $files ) );
                     return false;
                 }
                 $fileFileType = false;
                 if ( is_dir( $realFilePath ) )
                     $fileFileType = 'dir';
                 $fileList[] = array( 'file' => $file,
+                                     'package-path' => $packagePath,
                                      'type' => $type,
                                      'role' => $role,
                                      'role-value' => $roleValue,
@@ -303,6 +329,7 @@ class eZFilePackageHandler extends eZPackageHandler
                                      'design' => $design,
                                      'collection' => $currentCollection,
                                      'path' => $realFilePath );
+                $realPath = false;
             }
         }
         if ( count( $fileList ) == 0 )
@@ -338,6 +365,12 @@ class eZFilePackageHandler extends eZPackageHandler
             case 'file':
             {
                 if ( file_exists( $file ) )
+                    return $file;
+                $triedFiles[] = $file;
+            } break;
+            case 'dir':
+            {
+                if ( file_exists( $file ) and is_dir( $file ) )
                     return $file;
                 $triedFiles[] = $file;
             } break;
