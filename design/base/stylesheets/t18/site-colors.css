@@ -43,21 +43,20 @@ div#toolbar-top li.toolbar-item a
     color: #ffffff;
 }
 
-/*
 div#toolbar-bottom div.toolbar-design
 {
     background-color: #d9e5f2;
-} */
+}
 
 div#toolbar-bottom li.toolbar-item
 {
-    color: #ffffff;
-    border-color: #ffffff;
+    color: #666666;
+    border-color: #666666;
 }
 
 div#toolbar-bottom li.toolbar-item a
 { 
-    color: #ffffff;
+    color: #666666;
 }
 
 
