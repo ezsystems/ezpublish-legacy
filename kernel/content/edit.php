@@ -602,6 +602,12 @@ if ( !function_exists( 'checkContentActions' ) )
 
                 $currentSiteAccess = $GLOBALS['eZCurrentAccess']['name'];
 
+                // This is the default view parameters for content/view
+                $viewParameters = array( 'offset' => 0,
+                                         'year' => false,
+                                         'month' => false,
+                                         'day' => false );
+
                 foreach ( $preCacheSiteaccessArray as $changeToSiteAccess )
                 {
                     $GLOBALS['eZCurrentAccess']['name'] = $changeToSiteAccess;
@@ -629,12 +635,12 @@ if ( !function_exists( 'checkContentActions' ) )
                     {
                         $node =& $assignedNodes[$key];
 
-                        $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $user, $node->attribute( 'node_id' ), 0, false, $language, $viewMode );
+                        $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $user, $node->attribute( 'node_id' ), 0, false, $language, $viewMode, $viewParameters );
                         $tmpRes =& eZNodeviewfunctions::generateNodeView( $tpl, $node, $node->attribute( 'object' ), $language, $viewMode, 0, $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], true );
 
                         // Cache the parent node
                         $parentNode =& $node->attribute( 'parent' );
-                        $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $user, $parentNode->attribute( 'node_id' ), 0, false, $language, $viewMode );
+                        $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $user, $parentNode->attribute( 'node_id' ), 0, false, $language, $viewMode, $viewParameters );
                         $tmpRes =& eZNodeviewfunctions::generateNodeView( $tpl, $parentNode, $parentNode->attribute( 'object' ), $language, $viewMode, 0, $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], true );
                     }
                 }

@@ -256,6 +256,8 @@ eZInformationCollection:
   (Manually merged from stable/3.5 (3.5.2) rev. 11264)
 - Fixed bug #6447: eZUser session caching problems.
   (Manually merged from stable/3.5 (3.5.2) rev. 11267)
+- Fixed bug #6445: Pregeneration of content cache: Missing default view parameters.
+  (Manually merged from stable/3.5 (3.5.2) rev. 11270)
   
 *Library:
 PDF:
