@@ -793,7 +793,6 @@ class eZContentObjectVersion extends eZPersistentObject
         if ( $contentObjectID !== false )
             $clonedVersion->setAttribute( 'contentobject_id', $contentObjectID );
         $clonedVersion->setAttribute( 'version', $newVersionNumber );
-        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
         $clonedVersion->setAttribute( 'created', $time );
         $clonedVersion->setAttribute( 'modified', $time );
         $clonedVersion->setAttribute( 'creator_id', $userID );
