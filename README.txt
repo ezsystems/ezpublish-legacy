@@ -65,8 +65,8 @@ Where to get more help
 ----------------------
 Online:
 User and installation documentation: http://ez.no/manual
-Developer documentation: http://ez.no/sdk
-eZ publish forums: http://ez.no/developer/forums/
+Developer documentation: http://ez.no/ez_publish/documentation
+eZ publish forums: http://ez.no/community/forums/
 
 Offline:
 (This requires that eZ publish is installed on your system.)
@@ -76,6 +76,8 @@ http://localhost/index.php/sdk
 
 Live demo of eZ publish 3
 -------------------------
-http://beta.ezpublish.no
-http://admin.beta.ezpublish.no
+http://demo.ezpublish.no
+http://demo.ezpublish.no/news_admin
 Login with 'admin' as username and 'publish' as password
+
+Demo information: http://ez.no/ez_publish/cms
