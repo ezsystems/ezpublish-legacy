@@ -393,9 +393,10 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-      Will remove object from database. All versions and translations of this object will be lost.
+      If nodeID is not given, this function will remove object from database. All versions and translations of this object will be lost.
+      Otherwise, it will check node assignment and only delete the object from this node if it was assigned to other nodes as well.
     */
-    function remove( $id = false )
+    function remove( $id = false, $nodeID = null )
     {
         $delID = $this->ID;
         if ( is_numeric( $id ) )
@@ -409,36 +410,43 @@ class eZContentObject extends eZPersistentObject
         }
 
         $nodes = $contentobject->attribute( 'assigned_nodes' );
-        foreach ( $nodes as $node )
+
+        if ( $nodeID === null  or count( $nodes ) <= 1 )
         {
-            $node->remove();
-        }
+            foreach ( $nodes as $node )
+            {
+                $node->remove();
+            }
+            $db =& eZDB::instance();
 
-        $db =& eZDB::instance();
+            // Delete stored attribute from other tables
+            $contentobjectAttributes =& $contentobject->allContentObjectAttributes( $delID );
+            foreach (  $contentobjectAttributes as $contentobjectAttribute )
+            {
+                $classAttribute =& $contentobjectAttribute->contentClassAttribute();
+                $dataType =& $classAttribute->dataType();
+                $dataType->deleteStoredObjectAttribute( $contentobjectAttribute );
+            }
 
-        // Delete stored attribute from other tables
-        $contentobjectAttributes =& $contentobject->allContentObjectAttributes( $delID );
-        foreach (  $contentobjectAttributes as $contentobjectAttribute )
-        {
-            $classAttribute =& $contentobjectAttribute->contentClassAttribute();
-            $dataType =& $classAttribute->dataType();
-            $dataType->deleteStoredObjectAttribute( $contentobjectAttribute );
-        }
-
-        $db->query( "DELETE FROM ezcontentobject_attribute
+            $db->query( "DELETE FROM ezcontentobject_attribute
 		     WHERE contentobject_id='$delID'" );
 
-        $db->query( "DELETE FROM ezcontentobject_version
+            $db->query( "DELETE FROM ezcontentobject_version
 		     WHERE contentobject_id='$delID'" );
 
-        $db->query( "DELETE FROM ezcontentobject
+            $db->query( "DELETE FROM ezcontentobject
 		     WHERE id='$delID'" );
 
-        $db->query( "DELETE FROM eznode_assignment
+            $db->query( "DELETE FROM eznode_assignment
              WHERE contentobject_id = '$delID'" );
 
-        $db->query( "DELETE FROM ezcontentobject_link
+            $db->query( "DELETE FROM ezcontentobject_link
              WHERE from_contentobject_id = '$delID' OR to_contentobject_id = '$delID'" );
+        }
+        else
+        {
+             eZContentObjectTreeNode::remove( $nodeID );
+        }
     }
 
 

@@ -69,8 +69,8 @@
         <td class="{$Tree:sequence}">
 	{switch name=sw2 match=$Tree:item.object.can_remove}
         {case match=1}  
-             <input type="checkbox" name="DeleteIDArray[]" value="{$Tree:item.object.id}" align="top" />
-             <input type="image" src={"editdelete.png"|ezimage} border="0" name="RemoveObject" value="{$Tree:item.object.id}" onClick="return confirm('Remove {$Tree:item.object.class_name} {$Tree:item.name} ?');">
+             <input type="checkbox" name="DeleteIDArray[]" value="{$Tree:item.node_id}" align="top" />
+             <input type="image" src={"editdelete.png"|ezimage} border="0" name="RemoveObject" value="{$Tree:item.node_id}" onClick="return confirm('Remove {$Tree:item.object.class_name} {$Tree:item.name} ?');">
 	{/case}
         {case} 
         {/case}

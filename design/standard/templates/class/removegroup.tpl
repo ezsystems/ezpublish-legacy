@@ -15,8 +15,4 @@
 <td width="99%"></td>
 </tr>
 </table>
-
-</td></tr>
-</table>
-
 </form>

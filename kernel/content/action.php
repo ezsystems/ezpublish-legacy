@@ -117,20 +117,6 @@ if ( $http->hasPostVariable( 'PreviewPublishButton' )  )
 
 if ( $http->hasPostVariable( 'RemoveButton' ) )
 {
-    if ( $http->hasPostVariable( 'DeleteIDArray' ) )
-    {
-        $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
-        foreach ( $deleteIDArray as $deleteID )
-        {
-            $contentObject = eZContentObject::fetch( $deleteID );
-            if ( $contentObject->attribute( 'can_remove' ) )
-            {
-                $contentObject->remove();
-            }
-        }
-        unset( $contentObject );
-    }
-
     if ( $http->hasPostVariable( 'ViewMode' ) )
     {
         $viewMode = $http->postVariable( 'ViewMode' );
@@ -147,8 +133,21 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
     {
         $topLevelNode = '2';
     }
-    $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $topLevelNode . '/' );
-    return;
+    if ( $http->hasPostVariable( 'DeleteIDArray' ) )
+    {
+        $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
+        foreach ( $deleteIDArray as $deleteID )
+        {
+            $node =& eZContentObjectTreeNode::fetch( $deleteID );
+            $contentObject = $node->attribute( 'object' );
+            $nodeID =  $node->attribute( 'node_id' );
+            if ( $contentObject->attribute( 'can_remove' ) )
+            {
+                $http->setSessionVariable( 'CurrentViewMode', $viewMode );
+                $module->redirectTo( $module->functionURI( 'removeobject' ) . '/' . $nodeID . '/');
+            }
+        }
+    }
 }
 
 if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
@@ -186,7 +185,7 @@ if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
     return;
 }
 
-if ( $http->hasPostVariable( 'RemoveObject' ) )
+/*if ( $http->hasPostVariable( 'RemoveObject' ) )
 {
     $removeObjectID = $http->postVariable( 'RemoveObject' );
     if ( is_numeric( $removeObjectID ) )
@@ -199,7 +198,7 @@ if ( $http->hasPostVariable( 'RemoveObject' ) )
     }
     $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $topLevelNode . '/' );
     return;
-}
+}*/
 
 if ( $http->hasPostVariable( "ContentObjectID" )  )
 {

@@ -1,13 +1,12 @@
 <div class="warning">
-<h2 class="warning">Are you sure you will remove class {$ClassName}?</h2>
+<h2 class="warning">Are you sure you will remove {$NodeName}?</h2>
 <ul class="warning">
-	<li>Remove class "{$ClassName}" will remove {$ClassObjectsCount} objects!</li>
+	<li>Remove "{$NodeName}" will remove itself and its {$ChildObjectsCount}!</li>
 </ul>
 </div>
 
-<form action={concat($module.functions.removeclass.uri,"/",$GroupID,"/",$ClassID)|ezurl} method="post" name="ClassRemove">
-<h1>Remove class - {$ClassName}</h1>
-
+<form action={concat($module.functions.removeobject.uri,"/",$NodeID)|ezurl} method="post" name="ObjectRemove">
+<h1>Remove - {$NodeName}</h1>
 
 <table width="100%">
 <tr>

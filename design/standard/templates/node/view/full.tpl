@@ -84,7 +84,7 @@
 	{switch name=sw match=$Child:item.object.can_remove}
         {case match=1}
 	<td class="{$Child:sequence}" align="right" width="1%">
-             <input type="checkbox" name="DeleteIDArray[]" value="{$Child:item.object.id}" />
+             <input type="checkbox" name="DeleteIDArray[]" value="{$Child:item.node_id}" />
 	</td>
 	<td width="1%" class="{$Child:sequence}"><img src={"editdelete.png"|ezimage} border="0"></td>
 	{/case}
