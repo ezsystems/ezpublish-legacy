@@ -105,7 +105,6 @@ class eZTSTranslator extends eZTranslatorHandler
     function load( $file )
     {
         $root = $this->rootDir();
-        $override = eZTSTranslator::overrideDir();
         include_once( 'lib/ezutils/classes/ezdir.php' );
         $path = eZDir::path( array( $root, '/', $file ) );
         if ( !file_exists( $path ) )
@@ -119,19 +118,19 @@ class eZTSTranslator extends eZTranslatorHandler
         {
             $tsTimeStamp = filemtime( $path );
             $key = 'cachecontexts';
-            if ( eZTranslationCache::canRestoreCache( $key, $tsTimeStamp ) )
+            if ( eZTranslationCache::canRestoreCache( $root, $key, $tsTimeStamp ) )
             {
-                eZTranslationCache::restoreCache( $key );
-                $contexts = eZTranslationCache::contextCache( $key );
+                eZTranslationCache::restoreCache( $root, $key );
+                $contexts = eZTranslationCache::contextCache( $root, $key );
                 if ( !is_array( $contexts ) )
                     $contexts = array();
                 foreach ( $contexts as $context_name )
                 {
-                    if ( eZTranslationCache::canRestoreCache( $context_name, $tsTimeStamp ) )
+                    if ( eZTranslationCache::canRestoreCache( $root, $context_name, $tsTimeStamp ) )
                     {
-                        eZTranslationCache::restoreCache( $context_name );
+                        eZTranslationCache::restoreCache( $root, $context_name );
                         $this->CachedMessages[$context_name] =
-                             eZTranslationCache::contextCache( $context_name );
+                             eZTranslationCache::contextCache( $root, $context_name );
 
                         foreach ( $this->CachedMessages[$context_name] as $key => $msg )
                         {
@@ -204,8 +203,8 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
 
 //         $schema->validate( $tree );
 
-        $root =& $tree->Root;
-        $children =& $root->Children;
+        $treeRoot =& $tree->Root;
+        $children =& $treeRoot->Children;
         foreach( $children as $child )
         {
             if ( $child->type() == 1 )
@@ -227,18 +226,18 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
         // Save translation cache
         if ( $this->UseCache == true && $this->BuildCache == true )
         {
-            if ( eZTranslationCache::contextCache( 'cachecontexts' ) == null )
+            if ( eZTranslationCache::contextCache( $root, 'cachecontexts' ) == null )
             {
-                eZTranslationCache::setContextCache( 'cachecontexts',
+                eZTranslationCache::setContextCache( $root, 'cachecontexts',
                                                      array_keys( $this->CachedMessages ) );
-                eZTranslationCache::storeCache( 'cachecontexts' );
+                eZTranslationCache::storeCache( $root, 'cachecontexts' );
             }
 
             foreach ( $this->CachedMessages as $context_name => $context )
             {
-                if ( eZTranslationCache::contextCache( $context_name ) == null )
-                    eZTranslationCache::setContextCache( $context_name, $context );
-                eZTranslationCache::storeCache( $context_name );
+                if ( eZTranslationCache::contextCache( $root, $context_name ) == null )
+                    eZTranslationCache::setContextCache( $root, $context_name, $context );
+                eZTranslationCache::storeCache( $root, $context_name );
             }
             $this->BuildCache = false;
         }

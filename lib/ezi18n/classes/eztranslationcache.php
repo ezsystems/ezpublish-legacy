@@ -44,9 +44,9 @@ class eZTranslationCache
      \static
      \return the cache table which has cache keys and cache data.
     */
-    function &cacheTable()
+    function &cacheTable( $root )
     {
-        $translationCache =& $GLOBALS['eZTranslationCacheTable'];
+        $translationCache =& $GLOBALS['eZTranslationCacheTable'][$root];
         if ( !is_array( $translationCache ) )
             $translationCache = array();
         return $translationCache;
@@ -57,9 +57,9 @@ class eZTranslationCache
      \return the cache translation context which is stored with the cache key \a $context_name.
              Returns \c null if no cache data was found.
     */
-    function contextCache( $context_name )
+    function contextCache( $root, $context_name )
     {
-        $translationCache =& eZTranslationCache::cacheTable();
+        $translationCache =& eZTranslationCache::cacheTable( $root );
         $context = null;
         if ( isset( $translationCache[$context_name] ) )
         {
@@ -78,11 +78,11 @@ class eZTranslationCache
      Sets the translation context \a $context to be cached with the cache key $context_name.
      \note Trying to overwrite and existing cache key will give a warning and fail.
     */
-    function setContextCache( $context_name, $context )
+    function setContextCache( $root, $context_name, $context )
     {
         if ( $context === null )
             return;
-        $translationCache =& eZTranslationCache::cacheTable();
+        $translationCache =& eZTranslationCache::cacheTable( $root );
         if ( isset( $translationCache[$context_name] ) )
         {
             eZDebug::writeWarning( "Translation cache for context '$context_name' already exists",
@@ -100,9 +100,9 @@ class eZTranslationCache
      \static
      \return the cache directory for translation cache files.
     */
-    function cacheDirectory()
+    function cacheDirectory( $root )
     {
-        $cacheDirectory =& $GLOBALS['eZTranslationCacheDirectory'];
+        $cacheDirectory =& $GLOBALS['eZTranslationCacheDirectory'][$root];
         if ( !isset( $cacheDirectory ) )
         {
             include_once( 'lib/ezutils/classes/ezini.php' );
@@ -111,7 +111,8 @@ class eZTranslationCache
 
             $ini =& eZINI::instance();
             $locale = $ini->variable( 'RegionalSettings', 'Locale' );
-            $cacheDirectory = eZDir::path( array( eZSys::cacheDirectory(), 'translation/' . $locale ) );
+            $rootName = 'root-' . md5( $root );
+            $cacheDirectory = eZDir::path( array( eZSys::cacheDirectory(), 'translation', $rootName, $locale ) );
         }
         return $cacheDirectory;
     }
@@ -122,9 +123,9 @@ class eZTranslationCache
              A cache file is found restorable when it exists and has a timestamp
              higher or equal to \a $timestamp.
     */
-    function canRestoreCache( $key, $timestamp )
+    function canRestoreCache( $root, $key, $timestamp )
     {
-        $translationCache =& eZTranslationCache::cacheTable();
+        $translationCache =& eZTranslationCache::cacheTable( $root );
         if ( isset( $translationCache[$key] ) )
         {
             return false;
@@ -135,7 +136,7 @@ class eZTranslationCache
 
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
-        $php = new eZPHPCreator( eZTranslationCache::cacheDirectory(), $cacheFileName );
+        $php = new eZPHPCreator( eZTranslationCache::cacheDirectory( $root ), $cacheFileName );
         return $php->canRestore( $timestamp );
     }
 
@@ -144,9 +145,9 @@ class eZTranslationCache
      Loads the cache with the key \a $key from a file and sets the result in the cache table.
      \return true if the cache was successfully restored.
     */
-    function restoreCache( $key )
+    function restoreCache( $root, $key )
     {
-        $translationCache =& eZTranslationCache::cacheTable();
+        $translationCache =& eZTranslationCache::cacheTable( $root );
         if ( isset( $translationCache[$key] ) )
         {
             eZDebug::writeWarning( "Translation cache for key '$key' already exist, cannot restore cache", 'eZTranslationCache::restoreCache' );
@@ -158,7 +159,7 @@ class eZTranslationCache
 
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
-        $php = new eZPHPCreator( eZTranslationCache::cacheDirectory(), $cacheFileName );
+        $php = new eZPHPCreator( eZTranslationCache::cacheDirectory( $root ), $cacheFileName );
         $variables =& $php->restore( array( 'info' => 'TranslationInfo',
                                             'root' => 'TranslationRoot',
                                             'cache-date' => 'eZTranslationCacheCodeDate' ) );
@@ -175,9 +176,9 @@ class eZTranslationCache
      Stores the data of the cache with the key \a $key to a file.
      \return false if the cache does not exist.
     */
-    function storeCache( $key )
+    function storeCache( $root, $key )
     {
-        $translationCache =& eZTranslationCache::cacheTable();
+        $translationCache =& eZTranslationCache::cacheTable( $root );
         if ( !isset( $translationCache[$key] ) )
         {
             eZDebug::writeWarning( "Translation cache for key '$key' does not exist, cannot store cache", 'eZTranslationCache::storeCache' );
@@ -191,7 +192,7 @@ class eZTranslationCache
 
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
-        $php = new eZPHPCreator( eZTranslationCache::cacheDirectory(), $cacheFileName );
+        $php = new eZPHPCreator( eZTranslationCache::cacheDirectory( $root ), $cacheFileName );
         $php->addVariable( 'eZTranslationCacheCodeDate', EZ_TRANSLATION_CACHE_CODE_DATE );
         $php->addSpace();
         $php->addVariable( 'TranslationInfo', $cache['info'] );

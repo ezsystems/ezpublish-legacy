@@ -1,15 +1,15 @@
 Changes from 3.1-1 to 3.1-2
 
 *Kernel:
-- Fixed problem with related object datatype causing input validation error
-- Added function for returning the authors of a content object
-- Fixed numerous problems with eZKeyword datatype
+- Fixed problem with related object datatype causing input validation error.
+- Added function for returning the authors of a content object.
+- Fixed numerous problems with eZKeyword datatype.
 - Added function for initializing an array of content object nodes from object id's
 - Fixed permissons on override.ini.append and templeate overrides when creating them from Setup
   Now sets permission StorageDirPermissions and StorageFilePermissions from [FileSettings]
-- Fixed updating of URLs when moving or renaming a node
-- Fixed HTML compatibility problem in tipafriend.tpl
-- Fixed bug in user group template, form inside form
+- Fixed updating of URLs when moving or renaming a node.
+- Fixed HTML compatibility problem in tipafriend.tpl.
+- Fixed bug in user group template, form inside form.
 - Fixed bug for xml datatype which can't be validate if content only has header.
 - Fixed bug for wrong conversion of tiff and gif image.
 - Fixed bug of wrong MAX_FILE_SIZE for QuickTime and Windows Media in datatype ezmedia.
@@ -17,5 +17,6 @@ Changes from 3.1-1 to 3.1-2
 - Improved google and simple navigator to allow url suffix data (eg. ?Search=)
 - Improved search templates to use google navigator.
 - Fixed bug of unable to create new related objects.
-- Fixed database query concerning phrase search
-
+- Fixed database query concerning phrase search.
+- Fixed bug with translations and extensions. Now translations for extensions are
+  properly read from the cache.
