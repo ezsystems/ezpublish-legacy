@@ -327,7 +327,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 </form>
 {section-else}
 <form method="post" action={'content/action'|ezurl}>
-<input class="button-disabled" type="submit" name="" value="{'Add to bookmarks'|i18n( 'design/admin/pagelayout' )}" disabled="disabled" />
+<input class="button-disabled" type="submit" value="{'Add to bookmarks'|i18n( 'design/admin/pagelayout' )}" disabled="disabled" />
 </form>
 {/section}
 </div>

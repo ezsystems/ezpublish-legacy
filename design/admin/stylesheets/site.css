@@ -1583,9 +1583,20 @@ div.date label, div.time label
     font-size: 0.85em;
     font-weight: normal;
 }
+
 fieldset label
 {
     font-weight: normal;
+}
+
+div.content-viewindex ul
+{
+    margin-left: 22px;
+}
+
+div.content-viewindex li
+{
+    list-style-type: none;    
 }
 
 /*! Package listing in Look&Feel */

@@ -25,6 +25,8 @@
 
 <div class="block">
 
+<div class="content-viewindex">
+
 {let children=fetch( 'content', 'list',
                      hash( parent_node_id, $node.node_id,
                            sort_by, $node.sort_array,
@@ -55,6 +57,8 @@
 {/section}
 
 {/let}
+
+</div>
 
 </div>
 
