@@ -196,7 +196,7 @@ class eZImageShell
         else
             $str = '$this->Exec';
 
-        $str = str_replace( ' ', '\ ', $str )
+        $str = str_replace( ' ', '\ ', $str );
 
         $params = array_merge( $this->PreParams, $pre );
         foreach ( $params as $param )
