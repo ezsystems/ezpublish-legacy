@@ -44,12 +44,13 @@ $tpl =& templateInit();
 $offset = $Params['Offset'];
 $limit = 15;
 
+
 if( eZPreferences::value( 'admin_orderlist_sortfield' ) )
 {
     $sortField = eZPreferences::value( 'admin_orderlist_sortfield' );
 }
 
-if ( ( $sortField != 'created' ) && ( $sortField!= 'user_name' ) )
+if ( !isset( $sortField ) || ( ( $sortField != 'created' ) && ( $sortField!= 'user_name' ) ) )
 {
     $sortField = 'created';
 }
@@ -59,7 +60,7 @@ if( eZPreferences::value( 'admin_orderlist_sortorder' ) )
     $sortOrder = eZPreferences::value( 'admin_orderlist_sortorder' );
 }
 
-if ( ( $sortOrder != 'asc' ) && ( $sortOrder!= 'desc' ) )
+if ( !isset( $sortOrder ) || ( ( $sortOrder != 'asc' ) && ( $sortOrder!= 'desc' ) ) )
 {
     $sortOrder = 'asc';
 }
