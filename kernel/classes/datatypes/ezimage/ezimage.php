@@ -122,6 +122,11 @@ class eZImage extends eZPersistentObject
                     $width = $ini->variable( "ImageSettings" , "ReferenceSizeWidth" );
                     $height = $ini->variable( "ImageSettings" , "ReferenceSizeHeight" );
                 }
+                else
+                {
+                    $width = false;
+                    $height = false;
+                }
 
                 $cacheString = $this->ContentObjectAttributeID . '-' . $attr . "-" . $width . "-" . $height;
                 if ( $attr == "original" )

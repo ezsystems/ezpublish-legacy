@@ -55,6 +55,7 @@ class eZImageVariation extends eZPersistentObject
     function eZImageVariation( $row )
     {
         $this->eZPersistentObject( $row );
+        $this->IsOriginal = false;
     }
 
     function &definition()
@@ -77,26 +78,34 @@ class eZImageVariation extends eZPersistentObject
 
     function &createOriginal( $contentObjectAttributeID, $version, $filename, $additionalPath )
     {
+        $additionalPath = false;
         $row = array( 'contentobject_attribute_id' => $contentObjectAttributeID,
                       'version' => $version,
                       'filename' => $filename,
                       'additional_path' => $additionalPath );
         $variation = new eZImageVariation( $row );
+        $variation->IsOriginal = true;
         $fullPath = $variation->attribute( 'full_path' );
-        if ( file_exists( $fullPath ) and
-             function_exists( 'getimagesize' ) )
+        if ( file_exists( $fullPath ) )
         {
-            $info = getimagesize( $fullPath );
-            if ( $info )
+            if ( function_exists( 'getimagesize' ) )
             {
-                $width = $info[0];
-                $height = $info[1];
-                $variation->setAttribute( 'width', $width );
-                $variation->setAttribute( 'height', $height );
-                $variation->setAttribute( 'requested_width', $width );
-                $variation->setAttribute( 'requested_height', $height );
+                $info = getimagesize( $fullPath );
+                if ( $info )
+                {
+                    $width = $info[0];
+                    $height = $info[1];
+                    $variation->setAttribute( 'width', $width );
+                    $variation->setAttribute( 'height', $height );
+                    $variation->setAttribute( 'requested_width', $width );
+                    $variation->setAttribute( 'requested_height', $height );
+                }
             }
+            else
+                eZDebug::writeError( "Unknown function 'getimagesize' cannot get image size", 'eZImageVariation::createOriginal' );
         }
+        else
+            eZDebug::writeError( "Unknown imagefile '$fullPath'", 'eZImageVariation::createOriginal' );
         return $variation;
     }
 
@@ -239,9 +248,12 @@ class eZImageVariation extends eZPersistentObject
         $category = $img_obj->attribute( "mime_type_category" );
         $additionalPath = $this->attribute( "additional_path" );
         $filename = $this->attribute( "filename" );
-        $variationPath = $ini->variable( "ImageSettings", "VariationsDir" );
+        if ( $this->IsOriginal )
+            $variationPath = $ini->variable( "ImageSettings", "OriginalDir" );
+        else
+            $variationPath = $ini->variable( "ImageSettings", "VariationsDir" );
 
-        return( $storageDir . '/' . $variationPath . '/' . $category . '/' . $additionalPath . '/' . $filename );
+        return eZDir::path( array( $storageDir, $variationPath, $category, $additionalPath, $filename ) );
     }
 
     var $Version;
@@ -251,6 +263,7 @@ class eZImageVariation extends eZPersistentObject
     var $RequestedHeight;
     var $Width;
     var $Height;
+    var $IsOriginal;
 }
 
 ?>
