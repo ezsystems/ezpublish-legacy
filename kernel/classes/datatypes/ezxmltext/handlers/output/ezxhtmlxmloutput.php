@@ -233,7 +233,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                                 $imageVariation = $content->attribute( $size );
                                 $path = $imageVariation->attribute( 'additional_path' );
                                 $filename = $imageVariation->attribute( 'filename' );
-                                $srcString = $URL . "/var/storage/variations/" .  $mimeCategory . "/" . $path . $filename;
+                                $storageDir =  eZSys::storageDirectory();
+                                $srcString = $URL . "/" . $storageDir . "/variations/" . $mimeCategory . "/" . $path . $filename;
+                                // $srcString = $URL . "/var/storage/variations/" .  $mimeCategory . "/" . $path . $filename;
                                 $image =& eZImage::fetch( $contentObjectAttributeID, $contentObjectAttributeVersion );
                                 $imageObject = $image->attribute( $size );
                             }
