@@ -245,14 +245,20 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 </form>
 {/section}
 
+
 <h4>Interface mode</h4>
 {section show=eq(ezpreference('interface_mode'),'simple')}
 <p>{"Current mode"|i18n("design/admin/layout")}: {"Simple"|i18n("design/admin/layout")}</p>
-<p><a href={"/user/preferences/set/interface_mode/advanced"|ezurl}>{"Change to advanced"|i18n("/design/admin/layout")}</a></p>
+<form method="post" action={"/user/preferences/set/interface_mode/advanced"|ezurl}>
+<input type="submit" name="SetInterfaceModeAdvanced" value="{'Change to advanced'|i18n('/design/admin/layout')}" />
+</form>
 {section-else}
-<p>{"Current mode"|i18n("design/admin/layout")}:{"Advanced"|i18n("design/admin/layout")}</p>
-<p><a href={"/user/preferences/set/interface_mode/simple"|ezurl}>{"Change to simple"|i18n("/design/admin/layout")}</a></p>
+<p>{"Current mode"|i18n("design/admin/layout")}: {"Advanced"|i18n("design/admin/layout")}</p>
+<form method="post" action={"/user/preferences/set/interface_mode/simple"|ezurl}>
+<input type="submit" name="SetInterfaceModeAdvanced" value="{'Change to simple'|i18n('/design/admin/layout')}" />
+</form>
 {/section}
+
 
 </div>
 </div>
