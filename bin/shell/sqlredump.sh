@@ -10,6 +10,8 @@ SCHEMAFILES=""
 USE_MYSQL=""
 USE_POSTGRESQL=""
 
+SOCKET=""
+
 if ! which php &>/dev/null; then
     echo "No PHP executable found, please add it to the path"
     exit 1
@@ -27,7 +29,9 @@ function help
 	    echo "         --clean                    Cleanup various data entries before dumping (e.g. session, drafts)"
 	    echo "         --clean-search             Cleanup search index (implies --clean)"
 	    echo "         --mysql                    Redump using MySQL"
+	    echo "         --socket=SOCK              Use SOCK as MySQL socket"
 	    echo "         --postgresql               Redump using PostgreSQL"
+	    echo "         --postgresql-user=USER     Use USER as login for PostgreSQL"
 	    echo "         --schema-sql=FILE          Schema sql file to use before the SQLFILE,"
 	    echo "                                    useful for data only redumping"
 	    echo "         --setval-file=FILE         File to write setval statements to*"
@@ -71,7 +75,12 @@ for arg in $*; do
 	--pause)
 	    USE_PAUSE="yes"
 	    ;;
-	--setval-file=*)
+        --socket=*)
+            if echo $arg | grep -e "--socket=" >/dev/null; then
+                SOCKET=`echo $arg | sed 's/--socket=//'`
+            fi
+            ;;
+        --setval-file=*)
 	    if echo $arg | grep -e "--setval-file=" >/dev/null; then
 		SETVALFILE=`echo $arg | sed 's/--setval-file=//'`
 	    fi
@@ -107,6 +116,11 @@ for arg in $*; do
     esac;
 done
 
+if [ "$SOCKET"x != "x" ]; then
+    SOCKETARG="--socket=$SOCKET"
+    echo "socket: '$SOCKET', '$SOCKETARG'"
+fi
+
 if [ -z $DBNAME ]; then
     echo "Missing database name"
     help
@@ -136,17 +150,17 @@ fi
 USERARG="-u$USER"
 
 if [ "$USE_MYSQL" != "" ]; then
-    mysqladmin "$USERARG" -f drop "$DBNAME"
-    mysqladmin "$USERARG" create "$DBNAME" || exit 1
+    mysqladmin "$USERARG" $SOCKETARG -f drop "$DBNAME"
+    mysqladmin "$USERARG" $SOCKETARG create "$DBNAME" || exit 1
     for sql in $SCHEMAFILES; do
 	echo "Importing schema SQL file $sql"
-	mysql "$USERARG" "$DBNAME" < "$sql" || exit 1
+	mysql "$USERARG" $SOCKETARG "$DBNAME" < "$sql" || exit 1
     done
     echo "Importing SQL file $SQLFILE"
-    mysql "$USERARG" "$DBNAME" < "$SQLFILE" || exit 1
+    mysql "$USERARG" $SOCKETARG "$DBNAME" < "$SQLFILE" || exit 1
     for sql in $SQLFILES; do
 	echo "Importing SQL file $sql"
-	mysql "$USERARG" "$DBNAME" < "$sql" || exit 1
+	mysql "$USERARG" $SOCKETARG "$DBNAME" < "$sql" || exit 1
     done
 
     if [ ! -z $USE_PAUSE ]; then
@@ -163,11 +177,11 @@ if [ "$USE_MYSQL" != "" ]; then
     echo "Dumping to SQL file $SQLFILE"
 # mysqldump "$USERARG" -c --quick "$NODATAARG" "$NOCREATEINFOARG" -B"$DBNAME" > "$SQLFILE".0
     if [ "$SQLDUMP" == "schema" ]; then
-	mysqldump "$USERARG" -c --quick -d "$DBNAME" | perl -pi -e "s/(^--.*$)|(^#.*$)//g" > "$SQLFILE".0
+	mysqldump "$USERARG" $SOCKETARG -c --quick -d "$DBNAME" | perl -pi -e "s/(^--.*$)|(^#.*$)//g" > "$SQLFILE".0
     elif [ "$SQLDUMP" == "data" ]; then
-	mysqldump "$USERARG" -c --quick -t "$DBNAME" | perl -pi -e "s/(^--.*$)|(^#.*$)//g" > "$SQLFILE".0
+	mysqldump "$USERARG" $SOCKETARG -c --quick -t "$DBNAME" | perl -pi -e "s/(^--.*$)|(^#.*$)//g" > "$SQLFILE".0
     else
-	mysqldump "$USERARG" -c --quick "$DBNAME" | perl -pi -e "s/(^--.*$)|(^#.*$)//g" > "$SQLFILE".0
+	mysqldump "$USERARG" $SOCKETARG -c --quick "$DBNAME" | perl -pi -e "s/(^--.*$)|(^#.*$)//g" > "$SQLFILE".0
     fi
     perl -pi -e "s/(^--.*$)|(^#.*$)//g" "$SQLFILE".0
 else
@@ -176,17 +190,21 @@ else
 	echo "You cannot run this command on your PostgreSQL version, requires 7.3"
 	exit 1
     fi
-    dropdb "$DBNAME"
-    createdb "$DBNAME" || exit 1
+    if [ "$POST_USER"x != "x" ]; then
+        USERARG="-U"
+        USERARGVAL="$POST_USER"
+    fi
+    dropdb $USERARG $USERARGVAL "$DBNAME"
+    createdb $USERARG $USERARGVAL "$DBNAME" || exit 1
     for sql in $SCHEMAFILES; do
 	echo "Importing schema SQL file $sql"
-	psql "$DBNAME" < "$sql" &>/dev/null || exit 1
+	psql $USERARG $USERARGVAL "$DBNAME" < "$sql" &>/dev/null || exit 1
     done
     echo "Importing SQL file $SQLFILE"
-    psql "$DBNAME" < "$SQLFILE" &>/dev/null || exit 1
+    psql $USERARG $USERARGVAL "$DBNAME" < "$SQLFILE" &>/dev/null || exit 1
     for sql in $SQLFILES; do
 	echo "Importing SQL file $sql"
-	psql "$DBNAME" < "$sql" &>/dev/null || exit 1
+	psql $USERARG $USERARGVAL "$DBNAME" < "$sql" &>/dev/null || exit 1
     done
 
     if [ ! -z $USE_PAUSE ]; then
@@ -203,11 +221,11 @@ else
     echo "Dumping to SQL file $SQLFILE"
 # mysqldump "$USERARG" -c --quick "$NODATAARG" "$NOCREATEINFOARG" -B"$DBNAME" > "$SQLFILE".0
     if [ "$SQLDUMP" == "schema" ]; then
-	pg_dump --no-owner --inserts --schema-only "$DBNAME" > "$SQLFILE".0
+	pg_dump --no-owner --inserts --schema-only $USERARG $USERARGVAL "$DBNAME" > "$SQLFILE".0
     elif [ "$SQLDUMP" == "data" ]; then
-	pg_dump --no-owner --inserts --data-only "$DBNAME" > "$SQLFILE".0
+	pg_dump --no-owner --inserts --data-only $USERARG $USERARGVAL "$DBNAME" > "$SQLFILE".0
     else
-	pg_dump --no-owner --inserts "$DBNAME" > "$SQLFILE".0
+	pg_dump --no-owner --inserts $USERARG $USERARGVAL "$DBNAME" > "$SQLFILE".0
     fi
     if [ -n $SETVALFILE ]; then
 	(echo "select 'SELECT setval(\'' || relname || '_s\',max(id)+1) FROM ' || relname || ';' as query from pg_class where relname in (  select trim(  trailing '_s' from relname) from pg_class where relname like 'ez%\_s' and  relname != 'ezcontentobject_tree_s'  and relkind='S' );" | psql "$DBNAME" -P format=unaligned -t > "$SETVALFILE".0 && echo "SELECT setval('ezcontentobject_tree_s', max(node_id)+1) FROM ezcontentobject_tree;" >> "$SETVALFILE".0) || exit 1

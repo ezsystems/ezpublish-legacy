@@ -19,6 +19,8 @@ function help
     echo "         --data                     Redump data files"
     echo "         --clean                    Cleanup various data entries before dumping (e.g. session, drafts)"
     echo "         --clean-search             Cleanup search index (implies --clean)"
+    echo "         --postgresql-user=USER     Use USER as login on postgresql database"
+    echo "         --socket=SOCK              Use socket SOCK to connect to database"
     echo
     echo "Example:"
     echo "$0 tmp"
@@ -30,6 +32,7 @@ DUMP_DATA=""
 PAUSE=""
 
 POST_USER="root"
+SOCKET=""
 
 # Check parameters
 for arg in $*; do
@@ -46,6 +49,11 @@ for arg in $*; do
 	    ;;
 	--data)
 	    DUMP_DATA="yes"
+	    ;;
+	--socket=*)
+	    if echo $arg | grep -e "--socket=" >/dev/null; then
+		SOCKET=`echo $arg | sed 's/--socket=//'`
+	    fi
 	    ;;
 	--postgresql-user=*)
 	    if echo $arg | grep -e "--postgresql-user=" >/dev/null; then
@@ -75,6 +83,10 @@ for arg in $*; do
 	    ;;
     esac;
 done
+
+if [ "$SOCKET"x != "x" ]; then
+    SOCKETARG="--socket=$SOCKET"
+fi
 
 if [ -z $DBNAME ]; then
     echo "Missing database name"
@@ -124,7 +136,7 @@ if [ "$USE_MYSQL" != "" ]; then
 	exit 1
     fi
 
-    ./bin/shell/sqlredump.sh --mysql $PAUSE --sql-schema-only $DBNAME $KERNEL_MYSQL_SCHEMA_FILE $MYSQL_SCHEMA_UPDATES
+    ./bin/shell/sqlredump.sh --mysql $PAUSE $SOCKETARG --sql-schema-only $DBNAME $KERNEL_MYSQL_SCHEMA_FILE $MYSQL_SCHEMA_UPDATES
     if [ $? -ne 0 ]; then
 	echo "Failed re-dumping SQL file $KERNEL_MYSQL_SCHEMA_FILE"
 	exit 1
@@ -139,7 +151,7 @@ if [ "$USE_POSTGRESQL" != "" ]; then
 	exit 1
     fi
 
-    ./bin/shell/sqlredump.sh --postgresql $PAUSE --postgresql-user=$POST_USER --sql-schema-only --setval-file=$KERNEL_POSTGRESQL_SETVAL_FILE $DBNAME $KERNEL_POSTGRESQL_SCHEMA_FILE $POSTGRESQL_SCHEMA_UPDATES
+    ./bin/shell/sqlredump.sh --postgresql $PAUSE $SOCKETARG --postgresql-user=$POST_USER --sql-schema-only --setval-file=$KERNEL_POSTGRESQL_SETVAL_FILE $DBNAME $KERNEL_POSTGRESQL_SCHEMA_FILE $POSTGRESQL_SCHEMA_UPDATES
     if [ $? -ne 0 ]; then
 	echo "Failed re-dumping SQL file $KERNEL_POSTGRESQL_SCHEMA_FILE"
 	exit 1
@@ -154,7 +166,7 @@ if [ "$DUMP_DATA" != "" ]; then
 	exit 1
     fi
 
-    ./bin/shell/sqlredump.sh --mysql $CLEAN $CLEAN_SEARCH $PAUSE --sql-data-only $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $KERNEL_SQL_DATA_FILE $DATA_UPDATES
+    ./bin/shell/sqlredump.sh --mysql $CLEAN $CLEAN_SEARCH $PAUSE $SOCKETARG --sql-data-only $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $KERNEL_SQL_DATA_FILE $DATA_UPDATES
     if [ $? -ne 0 ]; then
 	echo "Failed re-dumping SQL file $KERNEL_SQL_DATA_FILE"
 	exit 1
