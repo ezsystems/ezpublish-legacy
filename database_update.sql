@@ -182,6 +182,7 @@ create table ezorder_item(
 
 alter table ezorder add order_nr int not null default 0;
 
+
 create table ezpublishontimevalue(
     id int(11) NOT NULL auto_increment,
     workflow_event_id int(11) NOT NULL default '0',
