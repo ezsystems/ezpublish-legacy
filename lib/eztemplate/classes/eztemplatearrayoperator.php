@@ -1327,7 +1327,7 @@ class eZTemplateArrayOperator
         else
         {
             $values[] = $parameters[0];
-            $code = ( "if ( is_string( %1% ) )\n" .
+            $code = ( "if ( is_string( %" . count( $values ) . "% ) )\n" .
                       "    %output% = substr( %" . count( $values ) . "%, " . $code . " );\n" .
                       "else\n" .
                       "    %output% = array_slice( %" . count( $values ) . "%, " . $code . " );" );
