@@ -139,7 +139,7 @@ class eZTemplateUnitOperator
             $prefix_var = "";
             foreach ( $prefixes as $prefix )
             {
-                $val = pow( 2, $prefix[0] );
+                $val = pow( 2, (int)$prefix[0] );
                 if ( $val <= $operatorValue )
                 {
                     $prefix_var = $prefix[1];
@@ -167,7 +167,7 @@ class eZTemplateUnitOperator
                 $tpl->warning( $operatorName, "Prefix \"$prefix\" for unit \"$unit\" not found" );
             if ( is_array( $prefix_var ) )
             {
-                $val = pow( $prefix_base, $prefix_var[0] );
+                $val = pow( $prefix_base, (int)$prefix_var[0] );
                 $operatorValue = number_format( $operatorValue / $val, 2 );
                 $prefix_var = $prefix_var[1];
             }

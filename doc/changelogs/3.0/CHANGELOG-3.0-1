@@ -35,6 +35,7 @@ eZ template:
 - New function append-block which works like set-block but instead creates an
   array out of all appended items.
 - New function run-once which will run the children once per session.
+- Fixed call to pow() to explicitly cast to int, required for newer PHP versions.
 
 eZ image:
 - Image object and layer classes has been moved from eZ template to eZ image
