@@ -141,6 +141,7 @@ alter table ezcontentobject_tree  drop right_margin;
 alter table eznode_assignment rename column main to is_main;
 alter table ezcontentobject drop main_node_id;
 alter table ezcontentobject drop permission_id;
+alter table ezcontentobject_tree add column main_node_id integer;
 
 CREATE TABLE ezdiscountrule (
     id int(11) NOT NULL auto_increment,
