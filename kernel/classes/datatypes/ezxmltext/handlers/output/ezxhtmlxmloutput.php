@@ -103,6 +103,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 {
                    // Add the anchor tag before the header.
                    $name = $sectionNode->attributeValue( 'anchor_name' );
+                   $class = $sectionNode->attributeValue( 'class' );
+
+                   $res =& eZTemplateDesignResource::instance();
+                   $res->setKeys( array( array( 'classification', $class ) ) );
 
                    if ( $name )
                    {
@@ -117,10 +121,14 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                    $level = $sectionLevel;
                    $tpl->setVariable( 'content', $sectionNode->textContent(), 'xmltagns' );
                    $tpl->setVariable( 'level', $level, 'xmltagns' );
+                   $tpl->setVariable( 'classification', $class, 'xmltagns' );
                    $uri = "design:content/datatype/view/ezxmltags/header.tpl";
                    $textElements = array();
                    eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
                    $output .= implode( '', $textElements );
+
+                   // Remove the design key, so it will not override other tags
+                   $res->removeKey( 'classification' );
                 }break;
 
                 case 'paragraph' :
@@ -242,6 +250,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $size = $tag->attributeValue( 'size' );
                 $src = "";
                 $classID = $object->attribute( 'contentclass_id' );
+                $class = $tag->attributeValue( 'class' );
+
+                $res =& eZTemplateDesignResource::instance();
+                $res->setKeys( array( array( 'classification', $class ) ) );
 
                 $hasLink = false;
                 $linkID = $tag->attributeValueNS( 'ezurl_id', "http://ez.no/namespaces/ezpublish3/image/" );
@@ -268,6 +280,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
                 if ( strlen( $view ) == 0 )
                     $view = "embed";
+                $tpl->setVariable( 'classification', $class, 'xmltagns' );
                 $tpl->setVariable( 'object', $object, 'xmltagns' );
                 $tpl->setVariable( 'view', $view, 'xmltagns' );
                 $tpl->setVariable( 'object_parameters', $objectParameters, 'xmltagns' );
@@ -275,6 +288,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
                 $tagText = implode( '', $textElements );
+                // Remove the design key, so it will not override other tags
+                $res->removeKey( 'classification' );
             }break;
 
             case 'table' :
@@ -305,6 +320,11 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                         $colspan = $tableCell->attributeValueNS( 'colspan', "http://ez.no/namespaces/ezpublish3/xhtml/" );
                         $rowspan = $tableCell->attributeValueNS( 'rowspan', "http://ez.no/namespaces/ezpublish3/xhtml/" );
 
+                        $class = $tableCell->attributeValue( 'class' );
+
+                        $res =& eZTemplateDesignResource::instance();
+                        $res->setKeys( array( array( 'classification', $class ) ) );
+
                         if ( $tableCell->Name == "th" )
                             $uri = "design:content/datatype/view/ezxmltags/th.tpl";
                         else
@@ -316,15 +336,24 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                         $tpl->setVariable( 'width', $rowspan, 'xmltagns' );
                         eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
                         $tableData .= implode( '', $textElements );
+
+                        // Remove the design key, so it will not override other tags
+                        $res->removeKey( 'classification' );
                     }
                     $tpl->setVariable( 'content', $tableData, 'xmltagns' );
                     $tpl->setVariable( 'row_count', $rowCount, 'xmltagns' );
                     $uri = "design:content/datatype/view/ezxmltags/tr.tpl";
                     $textElements = array();
                     eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
-                    $tableRows .= implode( '', $textElements );
+                     $tableRows .= implode( '', $textElements );
                     $rowCount++;
                 }
+                $class = $tag->attributeValue( 'class' );
+
+                $res =& eZTemplateDesignResource::instance();
+                $res->setKeys( array( array( 'classification', $class ) ) );
+
+                $tpl->setVariable( 'classification', $class, 'xmltagns' );
                 $tpl->setVariable( 'rows', $tableRows, 'xmltagns' );
                 $tpl->setVariable( 'border', $border, 'xmltagns' );
                 $tpl->setVariable( 'width', $width, 'xmltagns' );
@@ -333,11 +362,19 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
                 $tagText .= implode( '', $textElements );
                 $isBlockTag = true;
+
+                // Remove the design key, so it will not override other tags
+                $res->removeKey( 'classification' );
             }break;
 
             case 'ul' :
             case 'ol' :
             {
+                $class = $tag->attributeValue( 'class' );
+
+                $res =& eZTemplateDesignResource::instance();
+                $res->setKeys( array( array( 'classification', $class ) ) );
+
                 $isBlockTag = true;
 
                 $listContent = "";
@@ -358,6 +395,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 }
 
                 $className = $tag->attributeValue( 'class' );
+                $tpl->setVariable( 'classification', $class, 'xmltagns' );
                 $tpl->setVariable( 'content', $listContent, 'xmltagns' );
                 $tpl->setVariable( 'class', $className, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
@@ -365,21 +403,31 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
                 $tagText .= implode( '', $textElements );
+                // Remove the design key, so it will not override other tags
+                $res->removeKey( 'classification' );
             }break;
 
             // Literal text which allows xml specific caracters < >
             case 'literal' :
             {
+                $class = $tag->attributeValue( 'class' );
+
+                $res =& eZTemplateDesignResource::instance();
+                $res->setKeys( array( array( 'classification', $class ) ) );
+
                 // Get class of literal tag.
                 $className = $tag->attributeValue( 'class' );
 
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
 
+                $tpl->setVariable( 'classification', $class, 'xmltagns' );
                 $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
                 $tpl->setVariable( 'class', $className, 'xmltagns' );
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
                 $tagText .= implode( '', $textElements );
+                // Remove the design key, so it will not override other tags
+                $res->removeKey( 'classification' );
             }break;
 
             // normal content tags
@@ -387,6 +435,13 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             case 'strong' :
             case 'line' :
             {
+                $class = $tag->attributeValue( 'class' );
+
+                $res =& eZTemplateDesignResource::instance();
+                $res->setKeys( array( array( 'classification', $class ) ) );
+
+                $tpl->setVariable( 'classification', $class, 'xmltagns' );
+
                 $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
 
@@ -394,6 +449,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
                 $tagText .= implode( '', $textElements );
                 $tagText = trim( $tagText );
+
+                // Remove the design key, so it will not override other tags
+                $res->removeKey( 'classification' );
             }break;
 
             // custom tags which could added for special custom needs.
@@ -433,6 +491,11 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             }
             case 'link' :
             {
+                $class = $tag->attributeValue( 'class' );
+
+                $res =& eZTemplateDesignResource::instance();
+                $res->setKeys( array( array( 'classification', $class ) ) );
+
                 include_once( 'lib/ezutils/classes/ezmail.php' );
                 $linkID = $tag->attributeValue( 'id' );
                 $target = $tag->attributeValue( 'target' );
@@ -449,11 +512,15 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
                 $tpl->setVariable( 'href', $href, 'xmltagns' );
                 $tpl->setVariable( 'target', $target, 'xmltagns' );
+                $tpl->setVariable( 'classification', $class, 'xmltagns' );
 
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
 
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
                 $tagText .= implode( '', $textElements );
+
+                // Remove the design key, so it will not override other tags
+                $res->removeKey( 'classification' );
             }break;
 
             case 'anchor' :
