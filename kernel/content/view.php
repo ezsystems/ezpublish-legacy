@@ -133,6 +133,7 @@ switch( $operationResult['status'] )
                                   array( 'class', $object->attribute( 'contentclass_id' ) ), // Class ID
                                   array( 'view_offset', $Offset ),
                                   array( 'viewmode', $ViewMode ),
+                                  array( 'depth', $node->attribute( 'depth' ) )
                                   ) );
 
             include_once( 'kernel/classes/ezsection.php' );
