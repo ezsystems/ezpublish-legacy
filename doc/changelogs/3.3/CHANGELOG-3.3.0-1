@@ -50,6 +50,7 @@ eZImage
 - created templates to override standard browse page when browsing in media folder.
 - Added missing link target in embed_image.tpl
 - Added templates for generating PDF
+- Added advanced dropdown menu under setup to hide the most advanced features.
 
 *Library :
 - Added basic PDF library. This will be extended in the following weeks.
