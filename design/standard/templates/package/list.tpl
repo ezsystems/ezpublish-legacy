@@ -1,6 +1,6 @@
 {let page_limit=15
      package_list=fetch(package,list,
-                        hash(filter_array,array(array(type,css)),offset,$view_parameters.offset,
+                        hash(offset,$view_parameters.offset,
                              limit,$page_limit))}
 <form method="post" action={concat('package/list',
                             $view_parameters.offset|gt(0)
