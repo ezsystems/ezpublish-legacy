@@ -31,6 +31,11 @@ eZPersistentObject:
 *Shop:
 
 *Libraries:
+eZDebug
+- Added the possibility to put "commandline" to your IP list settings to
+  receive debug information. This will make debug messages show up when starting
+  scripts from the command line. Implements workaround for:
+  http://ez.no/community/bug_reports/ezdebug_trigger_error
 eZImage
 - Added GIF support to the eZImageInterface
 eZUtils:
