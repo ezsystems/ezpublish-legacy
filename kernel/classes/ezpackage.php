@@ -799,6 +799,9 @@ class eZPackage
     {
         $thumbnails = array();
         $fileList = $this->fileList( $collectionName );
+        if ( !is_array( $fileList ) )
+            return $thumbnails;
+
         foreach ( $fileList as $fileItem )
         {
             if ( $fileItem['type'] == 'thumbnail' )
