@@ -419,13 +419,17 @@ class eZLocale
         if ( !is_array( $this->LongDayNames ) )
             $this->LongDayNames = array();
 
-        $tmpShortDayNames = $languageINI->variableMulti( 'ShortDayNames', $this->DayNames );
-        $tmpLongDayNames = $languageINI->variableMulti( 'LongDayNames', $this->DayNames );
+        $tmpShortDayNames = array();
+        if ( $languageINI->hasGroup( 'ShortDayNames' ) )
+            $tmpShortDayNames = $languageINI->variableMulti( 'ShortDayNames', $this->DayNames );
+        $tmpLongDayNames = array();
+        if ( $languageINI->hasGroup( 'LongDayNames' ) )
+            $tmpLongDayNames = $languageINI->variableMulti( 'LongDayNames', $this->DayNames );
         foreach ( $this->DayNames as $key => $day )
         {
-            if ( $tmpShortDayNames[$key] !== null )
+            if ( isset( $tmpShortDayNames[$key] ) )
                 $this->ShortDayNames[$day] = $tmpShortDayNames[$key];
-            if ( $tmpLongDayNames[$key] !== null )
+            if ( isset( $tmpLongDayNames[$key] ) )
                 $this->LongDayNames[$day] = $tmpLongDayNames[$key];
         }
 
@@ -435,13 +439,17 @@ class eZLocale
         if ( !is_array( $this->ShortMonthNames ) )
             $this->LongMonthNames = array();
 
-        $tmpShortMonthNames = $languageINI->variableMulti( 'ShortMonthNames', $this->MonthNames );
-        $tmpLongMonthNames = $languageINI->variableMulti( 'LongMonthNames', $this->MonthNames );
+        $tmpShortMonthNames = array();
+        if ( $languageINI->hasGroup( 'ShortMonthNames' ) )
+            $tmpShortMonthNames = $languageINI->variableMulti( 'ShortMonthNames', $this->MonthNames );
+        $tmpLongMonthNames = array();
+        if ( $languageINI->hasGroup( 'LongMonthNames' ) )
+            $tmpLongMonthNames = $languageINI->variableMulti( 'LongMonthNames', $this->MonthNames );
         foreach ( $this->MonthNames as $key => $day )
         {
-            if ( $tmpShortMonthNames[$key] !== null )
+            if ( isset( $tmpShortMonthNames[$key] ) )
                 $this->ShortMonthNames[$day] = $tmpShortMonthNames[$key];
-            if ( $tmpLongMonthNames[$key] !== null )
+            if ( isset( $tmpLongMonthNames[$key] ) )
                 $this->LongMonthNames[$day] = $tmpLongMonthNames[$key];
         }
 
@@ -453,9 +461,9 @@ class eZLocale
 
         foreach ( $this->WeekDays as $key => $day )
         {
-            if ( $tmpShortDayNames[$key] !== null )
+            if ( isset( $tmpShortDayNames[$key] ) )
                 $this->ShortWeekDayNames[$day] = $tmpShortDayNames[$key];
-            if ( $tmpLongDayNames[$key] !== null )
+            if ( isset( $tmpLongDayNames[$key] ) )
                 $this->LongWeekDayNames[$day] = $tmpLongDayNames[$key];
         }
     }
