@@ -65,6 +65,8 @@ Changes from 3.2-3 to 3.2-4
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/typo_in_custom_tag_removes_all_content_in_xml_text_field
 - Removed unneeded template user variable instantiation in kernel/notification/runfilter.php
 - Fixed wrong variable name in kernel/classes/notification/ezmailnotificationtransport.php
+- Fixed missing argument 1 for ezuser() in kernel\classes\datatypes\ezuser\ezuser.php bug 
+  http://www.ez.no/developer/ez_publish_3/bug_reports/ezuserloginhandler_php_warning
 
 *Library :
 

@@ -57,7 +57,7 @@ class eZUserLoginHandler
         if ( $protocol == "standard" )
         {
             include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-            $impl = new eZUser();
+            $impl = new eZUser( 0 );
             return $impl;
         }
         else
