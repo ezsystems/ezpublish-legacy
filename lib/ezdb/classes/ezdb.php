@@ -230,6 +230,7 @@ class eZDB
                                                 'builtin_encoding' => $builtinEncoding,
                                                 'connect_retries' => $retries,
                                                 'use_persistent_connection' => $usePersistentConnection );
+            $b = $databaseParameters;
             $databaseParameters = $defaultDatabaseParameters;
             if ( isset( $b['server'] ) )
                 $databaseParameters['server'] = $b['server'];
@@ -237,6 +238,8 @@ class eZDB
                 $databaseParameters['user'] = $b['user'];
             if ( isset( $b['password'] ) )
                 $databaseParameters['password'] = $b['password'];
+            if ( isset( $b['database'] ) )
+                $databaseParameters['database'] = $b['database'];
             if ( isset( $b['use_slave_server'] ) )
                 $databaseParameters['use_slave_server'] = $b['use_slave_server'];
             if ( isset( $b['slave_server'] ) )
