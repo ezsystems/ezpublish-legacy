@@ -71,3 +71,6 @@ Changes from 3.5.0rc1 to 3.5.0rc2
   http://ez.no/community/bug_reports/treemenu_top_folder_icon_disappears_when_no_content_is_present
 
 *Library:
+
+eZURI:
+- Added originalURIString() method which returns the original URI with user parameters.
