@@ -39,6 +39,7 @@ define( 'EZ_PDF_EXPORT_GENERATE_STRING', 'generate' );
 include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( 'kernel/classes/ezpdfexport.php' );
+include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
 
 $Module =& $Params['Module'];
 

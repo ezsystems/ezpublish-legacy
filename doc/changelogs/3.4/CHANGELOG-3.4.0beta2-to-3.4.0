@@ -22,6 +22,8 @@ Changes from 3.4.0beta2 to 3.4.0
   http://ez.no/community/bug_reports/ezcontentobjectattribute_validateinput_missing_parameter_3_at_translation
 - Fixed bug when creating related objects and strict user rights.
   http://ez.no/community/bug_reports/unable_to_create_related_object_without_very_relaxing_privileges
+- Fixed broken pdf export: applied the suggested solution.
+  http://ez.no/community/bug_reports/pdf_export_fails
 
 *Library:
 
