@@ -144,7 +144,8 @@ eZTime:
   http://ez.no/community/bug_reports/ezsubtreesubscription_datatype_broken
 - Fixed bug of incorrectly defined name for pending_list in function_collection.php.
   http://ez.no/community/bug_reports/pending_list_is_defined_incorrectly_in_ezcontentfunctioncollection_php
-
+- Fixed bug of package creating doesn't handle names with spaces. Changed spaces to "_".
+  http://ez.no/community/bug_reports/package_export_doesn_t_handle_names_with_spaces
 
 *Library:
 
