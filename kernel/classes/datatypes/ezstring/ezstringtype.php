@@ -140,6 +140,25 @@ class eZStringType extends eZDataType
         return false;
     }
 
+
+    /*!
+     Fetches the http post variables for collected information
+    */
+    function fetchCollectionAttributeHTTPInput( &$collection, &$http, $base, &$contentObjectAttribute )
+    {
+        $optionValue =& $http->postVariable( $base . "_ezstring_data_text_" . $contentObjectAttribute->attribute( "id" ) );
+
+        print( "value: $optionValue<br/> " );
+
+        $collectionAttribute = eZInformationCollectionAttribute::create( $collection->attribute( 'id' ) );
+        $collectionAttribute->setAttribute( 'data_text', $optionValue );
+        $attr =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
+        $collectionAttribute->setAttribute( 'contentclass_attribute_id', $attr->attribute( 'id' ) );
+        $collectionAttribute->store();
+
+        return true;
+    }
+
     /*!
      Does nothing since it uses the data_text field in the content object attribute.
      See fetchObjectAttributeHTTPInput for the actual storing.

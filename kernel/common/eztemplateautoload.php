@@ -144,7 +144,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                                          'matches' => array( array( false,
                                                                                                     'content/datatype/view' ),
                                                                                              array( true,
-                                                                                                    'content/datatype/edit' ) ) ),
+                                                                                                    'content/datatype/collect' ) ) ),
                                                'render_mode' => false,
                                                'input_name' => 'attribute',
                                                'output_name' => 'attribute',

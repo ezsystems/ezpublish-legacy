@@ -302,7 +302,9 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &contentClassAttribute()
     {
+        eZDebug::accumulatorStart( 'instantiate_class_attribute', 'class_abstraction', 'Instantiating content class attribute' );
         $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
+        eZDebug::accumulatorStop( 'instantiate_class_attribute' );
         return $classAttribute;
     }
 
@@ -436,6 +438,16 @@ class eZContentObjectAttribute extends eZPersistentObject
     }
 
     /*!
+     Collects the information entered by the user from http post vars
+    */
+    function collectInformation( &$collection, &$http, $base )
+    {
+        $classAttribute =& $this->contentClassAttribute();
+        $dataType =& $classAttribute->dataType();
+        return $dataType->fetchCollectionAttributeHTTPInput( $collection, $http, $base, $this );
+    }
+
+    /*!
      Executes the custom HTTP action
     */
     function customHTTPAction( &$http, $action, $parameters = array() )
@@ -522,8 +534,11 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &dataType()
     {
+        eZDebug::accumulatorStart( 'instantiate_datatype', 'class_abstraction', 'Instantiating datatype' );
+
         $classAttribute =& $this->contentClassAttribute();
         $dataType =& $classAttribute->dataType();
+        eZDebug::accumulatorStop( 'instantiate_datatype' );
 
         return $dataType;
     }

@@ -297,7 +297,7 @@ class eZDataType
     {
     }
 
-    
+
     function storeDefinedClassAttribute( &$classAttribute )
     {
     }
@@ -383,6 +383,14 @@ class eZDataType
      \note Default implementation does nothing.
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$objectAttribute )
+    {
+    }
+
+    /*!
+     Fetches the HTTP collected information for the content object attribute.
+     \note Default implementation does nothing.
+    */
+    function fetchCollectionAttributeHTTPInput( &$collection, &$http, $base, &$objectAttribute )
     {
     }
 

@@ -61,17 +61,10 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
 
         if ( $contentClassAttribute->attribute( 'is_information_collector' ) )
         {
+            print( "Collecting<br>" );
             // Collect the information for the current attribute
-            if ( $contentObjectAttribute->fetchInput( $http, "ContentObjectAttribute" ) )
+            if ( $contentObjectAttribute->collectInformation( $collection, $http, "ContentObjectAttribute" ) )
             {
-                // \todo add abstraction for data types
-                $content =& $contentObjectAttribute->content();
-
-                $collectionAttribute = eZInformationCollectionAttribute::create( $collection->attribute( 'id' ) );
-                $collectionAttribute->setAttribute( 'data_text', $content );
-                $attr =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
-                $collectionAttribute->setAttribute( 'contentclass_attribute_id', $attr->attribute( 'id' ) );
-                $collectionAttribute->store();
             }
         }
     }

@@ -125,7 +125,6 @@ class eZOptionType extends eZDataType
         return $option;
     }
 
-
     /*!
      Returns the meta data used for storing search indeces.
     */
@@ -154,6 +153,23 @@ class eZOptionType extends eZDataType
             $i++;
         }
         $contentObjectAttribute->setContent( $option );
+        return true;
+    }
+
+
+    /*!
+     Fetches the http post variables for collected information
+    */
+    function fetchCollectionAttributeHTTPInput( &$collection, &$http, $base, &$contentObjectAttribute )
+    {
+        $optionValue =& $http->postVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) );
+
+        $collectionAttribute = eZInformationCollectionAttribute::create( $collection->attribute( 'id' ) );
+        $collectionAttribute->setAttribute( 'data_int', $optionValue );
+        $attr =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
+        $collectionAttribute->setAttribute( 'contentclass_attribute_id', $attr->attribute( 'id' ) );
+        $collectionAttribute->store();
+
         return true;
     }
 
@@ -286,6 +302,14 @@ class eZOptionType extends eZDataType
         $classAttribute->setAttribute( 'data_text1', $defaultValue );
     }
 
+
+    /*!
+     \reimp
+    */
+    function isInformationCollector()
+    {
+        return true;
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_OPTION, "ezoptiontype" );
