@@ -76,9 +76,9 @@
 </tr>
 
 <tr>
-
+<td></td>
 <!-- Attribute input Start -->
-<td colspan="4">
+<td colspan="3">
 <input type="hidden" name="ContentAttribute_id[]" value="{$Attributes.item.id}" />
 <input type="hidden" name="ContentAttribute_position[]" value="{$Attributes.item.placement}" />
 
