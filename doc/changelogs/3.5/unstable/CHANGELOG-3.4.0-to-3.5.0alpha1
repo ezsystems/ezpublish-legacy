@@ -196,7 +196,9 @@ eztc.php:
 - Fixed bug with extract operator when input value was a variable and when both
   input and parameters are static values.
   http://ez.no/community/bug_reports/extract_doesn_t_work_properly
-
+- Fixed bug with class filter in treemenu operator.
+  http://ez.no/community/bug_reports/menu_management_contact_us_missing_from_some_menu_types
+  Merged from stable/3.4 rev.7032
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
 

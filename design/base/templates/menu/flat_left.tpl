@@ -5,7 +5,7 @@
 
 {let docs=treemenu( $module_result.path,
                     $module_result.node_id,
-                    array( 'folder' ), 0, 5 )
+                    false, 0, 5 )
                     depth=1}
         <ul>
         {section var=menu loop=$:docs last-value}
