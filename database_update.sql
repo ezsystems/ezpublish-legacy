@@ -181,3 +181,13 @@ create table ezorder_item(
     );
 
 alter table ezorder add order_nr int not null default 0;
+
+create table ezpublishontimevalue(
+    id int(11) NOT NULL auto_increment,
+    workflow_event_id int(11) NOT NULL default '0',
+    workflow_event_version int(11) NOT NULL default '0',
+    contentclass_id int(11) NOT NULL default '0',
+    contentclass_attribute_id int(11) NOT NULL default '0',
+    PRIMARY KEY  (id,workflow_event_id,workflow_event_version),
+    KEY ezpublishontimevalue_wf_ev_id_wf_ver (workflow_event_id,workflow_event_version)
+    );

@@ -44,6 +44,7 @@ include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 include_once( "lib/ezutils/classes/ezmodule.php" );
 include_once( "lib/ezutils/classes/ezoperationmemento.php" );
 include_once( "lib/ezutils/classes/ezoperationhandler.php" );
+include_once( "lib/ezutils/classes/ezsession.php" );
 
 include_once( "lib/ezutils/classes/ezdebug.php" );
 
@@ -89,7 +90,8 @@ foreach( array_keys( $workflowProcessList ) as $key )
     flush();
 }
 
-eZDebug::printReport(false,false);
+//eZDebug::printReport(false,false);
+eZDebug::printReport( );
 
 
 

@@ -83,10 +83,8 @@ class eZApproveType extends eZWorkflowEventType
         return array( 'selected_sections',
                       'selected_users',
                       'selected_usergroups' );
-
     }
 
-    
     function &attribute( $attr )
     {
         switch( $attr )
@@ -115,7 +113,6 @@ class eZApproveType extends eZWorkflowEventType
                     $user['value'] = $user['contentobject_id'];
                 }
                 return $users;
-                
             }break;
             case 'usergroups':
             {
@@ -217,7 +214,6 @@ class eZApproveType extends eZWorkflowEventType
             {
                 $sectionsArray = array( -1 );
             }
-            
             $sectionsString = implode( ',', $sectionsArray );
 //            $userGroupList = explode( ',', $userGroupsString );
             $event->setAttribute( "data_text1", $sectionsString );

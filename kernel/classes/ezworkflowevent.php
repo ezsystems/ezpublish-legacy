@@ -49,6 +49,8 @@ class eZWorkflowEvent extends eZPersistentObject
     function eZWorkflowEvent( $row )
     {
         $this->eZPersistentObject( $row );
+        $this->Content = null;
+
     }
 
     function &definition()
@@ -68,6 +70,7 @@ class eZWorkflowEvent extends eZPersistentObject
                                          "data_text4" => "DataText4",
                                          "placement" => "Placement" ),
                       "keys" => array( "id", "version" ),
+                      "function_attributes" => array( "content" => "content" ),
                       "increment_key" => "id",
                       "sort" => array( "placement" => "asc" ),
                       "class_name" => "eZWorkflowEvent",
@@ -146,7 +149,10 @@ class eZWorkflowEvent extends eZPersistentObject
     function hasAttribute( $attr )
     {
         $eventType =& $this->eventType();
-        return $attr == "workflow_type" or eZPersistentObject::hasAttribute( $attr ) || in_array( $attr, $eventType->typeFunctionalAttributes() );
+        return $attr == "workflow_type" or
+            $attr == 'content' or
+            eZPersistentObject::hasAttribute( $attr ) or
+            in_array( $attr, $eventType->typeFunctionalAttributes() );
     }
 
     function &attribute( $attr )
@@ -154,6 +160,8 @@ class eZWorkflowEvent extends eZPersistentObject
         $eventType =& $this->eventType();
         if ( $attr == "workflow_type" )
             return $this->eventType();
+        else if ( $attr == "content" )
+            return $this->content( );
         else if ( in_array( $attr, $eventType->typeFunctionalAttributes( ) ) )
         {
             return $eventType->attributeDecoder( $this, $attr );
@@ -171,12 +179,47 @@ class eZWorkflowEvent extends eZPersistentObject
     }
 
     /*!
+     Returns the content for this event.
+
+    */
+    function content()
+    {
+        if ( $this->Content === null )
+        {
+            $eventType =& $this->eventType();
+            $this->Content =& $eventType->workflowEventContent( $this );
+        }
+
+        return $this->Content;
+    }
+
+    /*!
+     Sets the content for the current event
+    */
+
+    function setContent( $content )
+    {
+        $this->Content =& $content;
+    }
+
+
+    /*!
      Executes the custom HTTP action
     */
     function customHTTPAction( &$http, $action )
     {
         $eventType =& $this->eventType();
         $eventType->customWorkflowEventHTTPAction( $http, $action, $this );
+    }
+
+    function store()
+    {
+        $stored = eZPersistentObject::store();
+
+        $eventType =& $this->eventType();
+        $eventType->storeEventData( $this, $this->attribute( 'version' ) );
+
+        return $stored;
     }
 
     /// \privatesection
@@ -194,6 +237,7 @@ class eZWorkflowEvent extends eZPersistentObject
     var $DataText2;
     var $DataText3;
     var $DataText4;
+    var $Content;
 }
 
 ?>

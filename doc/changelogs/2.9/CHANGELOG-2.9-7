@@ -38,7 +38,7 @@ Changes from 2.9-6 to 2.9-7
 - Added next/previous navigation on browse page
 - Made ezurl operator convert empty strings to / url's.
 - Improved validation for datetime datatype.
-
+- Added new workflow event type publishontime it allows to create workflow which will delay publishing of objects.
 contentclass:
 - Moving attributes up in class edit now moves one step instead of two.
 - Classes can now be copied, a new function in eZDataType was added which

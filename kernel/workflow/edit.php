@@ -204,6 +204,25 @@ $user =& eZUser::currentUser();
 $user_id = $user->attribute( "contentobject_id" );
 $workflow->setAttribute( "modifier_id", $user_id );
 
+
+
+
+/********** Custom Action Code Start ***************/
+$customAction = false;
+$customActionAttributeID = null;
+// Check for custom actions
+if ( $http->hasPostVariable( "CustomActionButton" ) )
+{
+    $customActionArray = $http->postVariable( "CustomActionButton" );
+    $customActionString = key( $customActionArray );
+
+    $customActionAttributeID = preg_match( "#^([0-9]+)_(.*)$#", $customActionString, $matchArray );
+    $customActionAttributeID = $matchArray[1];
+    $customAction = $matchArray[2];
+}
+/********** Custom Action Code End ***************/
+
+
 // Fetch HTTP input
 reset( $event_list );
 while( ( $key = key( $event_list ) ) !== null )
@@ -211,6 +230,10 @@ while( ( $key = key( $event_list ) ) !== null )
     $event =& $event_list[$key];
     $eventType =& $event->eventType();
     $eventType->fetchHTTPInput( $http, "WorkflowEvent", $event );
+    if ( $customActionAttributeID == $event->attribute( "id" ) )
+    {
+        $event->customHTTPAction( $http, $customAction );
+    }
     next( $event_list );
 }
 

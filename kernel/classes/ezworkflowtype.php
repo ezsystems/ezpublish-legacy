@@ -308,20 +308,31 @@ class eZWorkflowType
     {
         return false;
     }
+
     function cleanup( &$process, &$event )
     {
     }
+
     function attributeDecoder( &$event, $attr )
     {
     }
+
     function typeFunctionalAttributes( )
     {
         return array();
     }
+
     function customWorkflowEventHTTPAction( &$http, $action, &$workflowEvent )
     {
     }
 
+    function workflowEventContent()
+    {
+        return "";
+    }
+    function storeEventData( &$event, $version )
+    {
+    }
     /// \privatesection
     var $Group;
     var $Type;
