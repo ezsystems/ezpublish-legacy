@@ -1,3 +1,4 @@
+<a href="/manual/user/everyday#Sections" target="_ezpublishmanual"><img src="/design/standard/images/help.gif" align="right"> </a>
 <form method="post" action={"/section/list/"|ezurl}>
 <div class="maincontentheader">
 <h1>{"Section list"|i18n("design/standard/section")}</h1>
