@@ -13,7 +13,7 @@ one is called the root namespace and defines the global namespace for one templa
 is the current namespace. The current namespace will start out being the same as the root but
 will change when a function is used which has namespace support. The current namespace is
 used by functions to create new variables and avoid clashes, while the root namespace is
-used to lookup the correct variable (That's why variable use must always include the full namespace*).
+used to lookup the correct variable.
 </p>
 
 <p>
@@ -64,25 +64,24 @@ The following table displays how the root and current namespace behaves.
 </tr>
 </table>
 
-<h2>The using function</h2>
+<h2>Relative and absolute addressing</h2>
 <p>
-The <i>using</i> function allows for changing the root namespace, the current root namespace will be stored
-and restored when the function is done. This is useful when you have a lot of namespaces and need to access
-variables with their full namespace
+To address a variable in the current namespace, you can use a \$: (dollar colon). Use \$# (dollar hash)
+to address a variable in the root namespace (absolute addressing).
 </p>
 
 <pre class=\"example\">
-{section name=Space}
-  {using name=Space}
-    {\$item.first}
-    {\$item.second}
-    {\$item.third}
-  {/using}
-  {\$Space:item}
-{/section}
+{let var='hi all!'}
+  {section name=Space}
+    {* Local namespace *}
+    {\$Space:item.first}
+    {* Also local namespace *}
+    {\$:item.first}
+    {* Root namespace *}
+    {\$#var}
+  {/section}
+{/let}
 </pre>
-
-<p class=\"footnote\">* A special syntax might be added to support local variable lookup</p>
 " );
 
 ?>

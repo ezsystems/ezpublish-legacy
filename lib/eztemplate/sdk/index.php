@@ -89,19 +89,19 @@ $featureArray[] = array( "level" => 0,
                          "name" => "Functions" );
 $featureArray[] = array( "uri" => "function_delimit",
                          "level" => 0,
-                         "name" => "Delimit" );
+                         "name" => "Delimiter" );
 $featureArray[] = array( "uri" => "function_include",
                          "level" => 0,
-                         "name" => "Includes" );
+                         "name" => "Include" );
 $featureArray[] = array( "uri" => "function_sequence",
                          "level" => 0,
-                         "name" => "Sequences" );
+                         "name" => "Sequence" );
 $featureArray[] = array( "uri" => "function_section",
                          "level" => 0,
-                         "name" => "Sections" );
+                         "name" => "Section" );
 $featureArray[] = array( "uri" => "function_switch",
                          "level" => 0,
-                         "name" => "Switching" );
+                         "name" => "Switch" );
 
 $infoArray["features"] =& $featureArray;
 
