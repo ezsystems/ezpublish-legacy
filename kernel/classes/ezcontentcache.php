@@ -163,14 +163,22 @@ class eZContentCache
         $cachedArray = unserialize( $contents );
         fclose( $fp );
 
+        $cacheTTL = false;
+        if ( isset( $cachedArray['cache_ttl'] ) )
+            $cacheTTL = $cachedArray['cache_ttl'];
+
+        $navigationPartIdentifier = false;
+        if ( isset( $cachedArray['navigation_part_identifier'] ) )
+            $navigationPartIdentifier = $cachedArray['navigation_part_identifier'];
+
         $values = array( 'content_info' => $cachedArray['content_info'],
                          'content_path' => $cachedArray['path'],
                          'content_data' => $cachedArray['content'],
                          'node_id' => $cachedArray['node_id'],
                          'section_id' => $cachedArray['section_id'],
-                         'cache_ttl' => $cachedArray['cache_ttl'],
+                         'cache_ttl' => $cacheTTL,
                          'cache_code_date' => $cachedArray['cache_code_date'],
-                         'navigation_part_identifier' => $cachedArray['navigation_part_identifier']
+                         'navigation_part_identifier' => $navigationPartIdentifier
                          );
 
         // Check if ttl is expired
