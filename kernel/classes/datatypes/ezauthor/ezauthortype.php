@@ -127,7 +127,10 @@ class eZAuthorType extends eZDataType
         {
             $user =& eZUser::currentUser();
             $userobject =& $user->attribute( 'contentobject' );
-            $author->addAuthor( $userobject->attribute( 'name' ), $user->attribute( 'email' ) );
+            if ( $userobject )
+            {
+                $author->addAuthor( $userobject->attribute( 'name' ), $user->attribute( 'email' ) );
+            }
          }
 
         if ( count( $author->attribute( 'author_list' ) ) == 0 )
