@@ -298,6 +298,9 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
         $module->redirectToView( 'browse', array( $nodeID, $objectID, $editVersion ) );
 */
         eZContentBrowse::browse( array( 'action_name' => 'AddNodeAssignment',
+                                        'description_template' => 'design:content/browse_placement.tpl',
+                                        'content' => array( 'object_id' => $objectID,
+                                                            'object_version' => $editVersion ),
                                         'from_page' => "/content/edit/$objectID/$editVersion/" ),
                                  $module );
 

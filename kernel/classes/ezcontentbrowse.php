@@ -51,62 +51,31 @@ class eZContentBrowse
     function eZContentBrowse( $params = false )
     {
         $http =& eZHTTPTool::instance();
-        if ( !$params && $http->hasSessionVariable( 'BrowseParams' ) )
+        if ( !$params && $http->hasSessionVariable( 'BrowseParameters' ) )
         {
-            $this->Params =& $http->sessionVariable( 'BrowseParams' );
+            $this->Parameters =& $http->sessionVariable( 'BrowseParameters' );
         }
         else
         {
-            $this->Params = $params;
+            $this->Parameters = $params;
         }
     }
 
-    function hasAttribute( $attr )
+    function hasAttribute( $attributeName )
     {
-        return in_array( $attr, array( 'selection', 'return_type', 'action_name', 'type', 'from_page', 'start_node', 'browse_custom_action', 'custom_action_data' ) );
+        return array_key_exists( $attributeName, $this->Parameters );
     }
 
-    function &attribute( $attr )
+    function &attribute( $attributeName )
     {
-        if ( $attr == 'selection' )
-        {
-            return $this->Params['selection'];
-        }
-        elseif ( $attr == 'return_type' )
-        {
-            return $this->Params['return_type'];
-        }
-        elseif ( $attr == 'action_name' )
-        {
-            return $this->Params['action_name'];
-        }
-        elseif ( $attr == 'type' )
-        {
-            return $this->Params['type'];
-        }
-        elseif ( $attr == 'from_page')
-        {
-            return $this->Params['from_page'];
-        }
-        elseif ( $attr == 'start_node')
-        {
-            return $this->Params['start_node'];
-        }
-        elseif ( $attr == 'browse_custom_action')
-        {
-            return $this->Params['browse_custom_action'];
-        }
-        elseif ( $attr == 'custom_action_data' )
-        {
-            return $this->Params['custom_action_data'];
-        }
-        return false;
+        if ( isset( $this->Parameters[$attributeName] ) )
+            return $this->Parameters[$attributeName];
+        return null;
     }
 
     function browse( $params = array(), &$module )
     {
         $ini =& eZINI::instance( 'browse.ini' );
-
 
         if ( !isset( $params['action_name'] ) )
         {
@@ -153,6 +122,9 @@ class eZContentBrowse
             $params['custom_action_data'] = false;
         }
 
+        if ( !isset( $params['description_template'] ) )
+            $params['description_template'] = false;
+
         $params['start_node'] = $ini->variable( $params['type'], 'StartNode' );
 
         if ( !isset( $params['from_page'] ) )
@@ -162,7 +134,7 @@ class eZContentBrowse
         }
 
         $http =& eZHTTPTool::instance();
-        $http->setSessionVariable( 'BrowseParams', $params );
+        $http->setSessionVariable( 'BrowseParameters', $params );
 
         if ( is_null( $module ) )
         {
@@ -177,10 +149,10 @@ class eZContentBrowse
 
     function setStartNode( $nodeID )
     {
-        $this->Params['start_node'] = $nodeID;
+        $this->Parameters['start_node'] = $nodeID;
     }
 
-    var $Params = false;
+    var $Parameters = false;
 }
 
 ?>
