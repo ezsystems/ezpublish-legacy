@@ -13,6 +13,9 @@
 <div class="buttonblock">
 <input class="button" type="submit" name="LoginButton" value="{'Login'|i18n('logon','Button')}" />
 </div>
+<div class="buttonblock">
+<input class="button" type="submit" name="RegisterButton" value="{'Sign Up'|i18n('signup','Button')}" />
+</div>
 
 <input type="hidden" name="RedirectURI" value="{$User:redirect_uri}" />
 

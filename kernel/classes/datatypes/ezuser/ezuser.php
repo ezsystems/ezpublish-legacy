@@ -44,6 +44,7 @@
 include_once( 'kernel/classes/ezpersistentobject.php' );
 include_once( 'kernel/classes/ezrole.php' );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
+include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
 
 $ini =& eZINI::instance();
 define( 'EZ_USER_ANONYMOUS_ID', $ini->variable( 'UserSettings', 'AnonymousUserID' ) );
@@ -206,6 +207,7 @@ class eZUser extends eZPersistentObject
     {
         return $this->ContentObjectID;
     }
+
     /*!
     \static
      Logs in the user if applied username and password is
@@ -222,14 +224,16 @@ class eZUser extends eZPersistentObject
         $exists = false;
         if ( count( $users ) >= 1 )
         {
-//             eZDebug::writeNotice( $users, "ezuser" );
             include_once( 'lib/ezutils/classes/ezini.php' );
             $ini =& eZINI::instance();
+            $userID = $users[0]['contentobject_id'];
             $hashType = $users[0]['password_hash_type'];
             $hash = $users[0]['password_hash'];
             $exists = eZUser::authenticateHash( $login, $password, eZUser::site(),
                                                 $hashType,
                                                 $hash );
+            $userSetting = eZUserSetting::fetch( $userID );
+            $isEnabled = $userSetting->attribute( "is_enabled" );
             if ( $hashType != eZUser::hashType() and
                  strtolower( $ini->variable( 'UserSettings', 'UpdateHash' ) ) == 'true' )
             {
@@ -239,7 +243,7 @@ class eZUser extends eZPersistentObject
                 $db->query( "UPDATE ezuser SET password_hash='$hash', password_hash_type='$hashType' WHERE login='$login'" );
             }
         }
-        if ( $exists )
+        if ( $exists and $isEnabled )
         {
             $user =& new eZUser( $users[0] );
             $GLOBALS["eZUserGlobalInstance"] =& $user;

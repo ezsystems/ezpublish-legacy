@@ -45,11 +45,18 @@
 	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.contentobject.current_version}</span></td>
 	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.contentobject.section_id}</span></td>
 	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.contentobject.class_name}</span></td>
-    <td class="{$Tree:sequence}">
+	<td class="{$Tree:sequence}">
 	{switch name=sw1 match=$Tree:item.contentobject.can_edit}
         {case match=1}  
-            <a class="normal"href="/content/edit/{$Tree:item.contentobject.id}"><img src={"edit.png"|ezimage} border="0"></a>
-	{/case}
+	{switch name=cidsw match=$Tree:item.contentobject.contentclass_id}
+	    {case match=4}
+	    <a class="normal" href="/user/edit/{$Tree:item.contentobject.id}"><img src={"edit.png"|ezimage} border="0"></a>
+	    {/case}
+	    {case}
+            <a class="normal" href="/content/edit/{$Tree:item.contentobject.id}"><img src={"edit.png"|ezimage} border="0"></a>
+	    {/case}
+        {/switch}
+        {/case}
         {case} 
         {/case}
         {/switch} 

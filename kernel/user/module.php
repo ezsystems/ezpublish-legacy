@@ -38,13 +38,25 @@ $Module = array( "name" => "User management",
 $ViewList = array();
 $ViewList["logout"] = array(
     "script" => "logout.php",
-    "params" => array(  ) );
+    "params" => array( ) );
 $ViewList["login"] = array(
     "script" => "login.php",
     'single_post_actions' => array( 'LoginButton' => 'Login' ),
     'post_action_parameters' => array( 'Login' => array( 'UserLogin' => 'Login',
                                                          'UserPassword' => 'Password',
                                                          'UserRedirectURI' => 'RedirectURI' ) ),
-    "params" => array(  ) );
+    "params" => array( ) );
+$ViewList["setting"] = array(
+    "script" => "setting.php",
+    "params" => array( "UserID" ) );
+$ViewList["password"] = array(
+    "script" => "password.php",
+    "params" => array( "UserID" ) );
+$ViewList["edit"] = array(
+    "script" => "edit.php",
+    "params" => array( "UserID" ) );
+$ViewList["register"] = array(
+    "script" => "register.php",
+    "params" => array( ) );
 
 ?>

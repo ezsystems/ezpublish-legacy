@@ -97,6 +97,11 @@ else
     }
 }
 
+if( $http->hasPostVariable( "RegisterButton" ) )
+{
+    $http->setSessionVariable( 'eZUserLoggedInID', 1 );
+    $Module->redirectTo( "/user/register" );
+}
 $tpl =& templateInit();
 
 $tpl->setVariable( 'login', $userLogin, 'User' );

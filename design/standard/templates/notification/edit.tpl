@@ -72,12 +72,11 @@ Send time:
 </tr>
 </table>
 
-
 <br />
 <table width="100%">
 <tr>
 <input type="hidden" name="CurrentRuleID" value="{$rule_id}">
-<td>{include uri="design:gui/button.tpl" name=Store id_name=StorRuleButton value=Register}</td>
+<td>{include uri="design:gui/button.tpl" name=Store id_name=StoreRuleButton value=Register}</td>
 <td>{include uri="design:gui/button.tpl" name=Discard id_name=DiscardRuleButton value=Discard}</td>
 <td width="99%"></td>
 </tr>

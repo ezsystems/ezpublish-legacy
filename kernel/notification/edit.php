@@ -79,7 +79,7 @@ if ( $http->hasPostVariable( "DiscardRuleButton" ) )
     return;
 }
 
-if ( $http->hasPostVariable( "StorRuleButton" ) )
+if ( $http->hasPostVariable( "StoreRuleButton" ) )
 {
     $idChanged = false;
     $email = $user->attribute( "email" );

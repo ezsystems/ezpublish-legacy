@@ -1,0 +1,102 @@
+<?php
+//
+// Created on: <01-Aug-2002 09:58:09 bf>
+//
+// Copyright (C) 1999-2002 eZ systems as. All rights reserved.
+//
+// This source file is part of the eZ publish (tm) Open Source Content
+// Management System.
+//
+// This file may be distributed and/or modified under the terms of the
+// "GNU General Public License" version 2 as published by the Free
+// Software Foundation and appearing in the file LICENSE.GPL included in
+// the packaging of this file.
+//
+// Licencees holding valid "eZ publish professional licences" may use this
+// file in accordance with the "eZ publish professional licence" Agreement
+// provided with the Software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING
+// THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+// PURPOSE.
+//
+// The "eZ publish professional licence" is available at
+// http://ez.no/home/licences/professional/. For pricing of this licence
+// please contact us via e-mail to licence@ez.no. Further contact
+// information is available at http://ez.no/home/contact/.
+//
+// The "GNU General Public License" (GPL) is available at
+// http://www.gnu.org/copyleft/gpl.html.
+//
+// Contact licence@ez.no if any conditions of this licencing isn't clear to
+// you.
+//
+
+include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+include_once( "lib/ezutils/classes/ezhttptool.php" );
+
+$currentUser =& eZUser::currentUser();
+$currentUserID = $currentUser->attribute( "contentobject_id" );
+$http =& eZHTTPTool::instance();
+$Module =& $Params["Module"];
+$message = null;
+
+if ( isset( $Params["UserID"] ) )
+    $UserID = $Params["UserID"];
+
+$user =& eZUser::fetch( $UserID );
+
+if ( $http->hasPostVariable( "OKButton" ) )
+{
+    if ( $http->hasPostVariable( "old_password" ) )
+    {
+        $oldPassword = $http->postVariable( "old_password" );
+    }
+    if ( $http->hasPostVariable( "new_password" ) )
+    {
+        $newPassword = $http->postVariable( "new_password" );
+    }
+    if ( $http->hasPostVariable( "confirm_password" ) )
+    {
+        $confirmPassword = $http->postVariable( "confirm_password" );
+    }
+
+    $login = $user->attribute( "login" );
+    $type = $user->attribute( "password_hash_type" );
+    $hash = $user->attribute( "password_hash" );
+    $site = $user->site();
+    if ( $user->authenticateHash( $login, $oldPassword, $site, $type, $hash ) )
+    {
+        if (  $newPassword ==  $confirmPassword )
+        {
+            $message = "Password successfully updated";
+            $newHash = $user->createHash( $login, $newPassword, $site, $type );
+            $user->setAttribute( "password_hash", $newHash );
+            $user->store();
+        }
+        else
+            $message = "Password didn't match, please retype your new password";
+    }
+    else
+        $message = "Please retype your old password";
+}
+
+if ( $http->hasPostVariable( "CancelButton" ) )
+{
+    $Module->redirectTo( '/content/sitemap/5/' );
+    return;
+}
+
+$Module->setTitle( "Edit user information" );
+// Template handling
+include_once( "kernel/common/template.php" );
+$tpl =& templateInit();
+$tpl->setVariable( "module", $Module );
+$tpl->setVariable( "http", $http );
+$tpl->setVariable( "userID", $UserID );
+$tpl->setVariable( "userAccount", $user );
+$tpl->setVariable( "message", $message );
+
+$Result =& $tpl->fetch( "design:user/password.tpl" );
+
+?>
