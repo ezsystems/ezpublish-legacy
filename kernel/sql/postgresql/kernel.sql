@@ -3,22 +3,22 @@ CREATE SEQUENCE ezworkflow_group_s;
 
 DROP TABLE  ezworkflow_group;
 CREATE TABLE ezworkflow_group (
-id int NOT NULL DEFAULT nextval('ezworkflow_group'),
-name varchar( 255 ) NOT NULL,
-creator_id int NOT NULL,
-modifier_id int NOT NULL,
-created int NOT NULL,
-modified int NOT NULL,
-PRIMARY KEY(id) );
+    id int NOT NULL DEFAULT nextval('ezworkflow_group'),
+    name varchar( 255 ) NOT NULL,
+    creator_id int NOT NULL,
+    modifier_id int NOT NULL,
+    created int NOT NULL,
+    modified int NOT NULL,
+    PRIMARY KEY(id) );
 
 INSERT INTO ezworkflow_group (id, name, creator_id, modifier_id, created, modified) VALUES( 1, 'Standard', -1, -1, 1024392098, 1024392098);
 INSERT INTO ezworkflow_group (id, name, creator_id, modifier_id, created, modified) VALUES( 2, 'Custom', -1, -1, 1024392098, 1024392098);
 
 DROP TABLE  ezworkflow_group_link;
 CREATE TABLE ezworkflow_group_link (
-workflow_id int NOT NULL,
-group_id int NOT NULL,
-PRIMARY KEY(workflow_id, group_id) );
+    workflow_id int NOT NULL,
+    group_id int NOT NULL,
+    PRIMARY KEY(workflow_id, group_id) );
 
 INSERT INTO ezworkflow_group_link (workflow_id, group_id) VALUES( 1, 1 );
 INSERT INTO ezworkflow_group_link (workflow_id, group_id) VALUES( 2, 1 );
@@ -33,15 +33,15 @@ CREATE SEQUENCE ezworkflow_s;
 
 drop table   ezworkflow;
 CREATE TABLE ezworkflow (
-id int not null DEFAULT nextval('ezworkflow_s'),
-version int not null,
-workflow_type_string varchar(50) not null,
-name varchar( 255 ) not null,
-creator_id int not null,
-modifier_id int not null,
-created int not null,
-modified int not null,
-primary key(id,version) );
+    id int not null DEFAULT nextval('ezworkflow_s'),
+    version int not null,
+    workflow_type_string varchar(50) not null,
+    name varchar( 255 ) not null,
+    creator_id int not null,
+    modifier_id int not null,
+    created int not null,
+    modified int not null,
+    primary key(id,version) );
 
 /*-------------*/
 insert into ezworkflow (id, version, workflow_type_string, name, creator_id, modifier_id, created, modified) values( 1, 0, 'group_ezserial', 'Publish', -1, -1, 1024392098, 1024392098);
@@ -56,12 +56,12 @@ CREATE SEQUENCE ezworkflow_assign_s;
 
 drop table  ezworkflow_assign;
 CREATE TABLE ezworkflow_assign (
-id int not null DEFAULT nextval('ezworkflow_assign_s'),
-workflow_id int not null,
-node_id int not null,
-access_type int not null,
-as_tree int not null,
-primary key(id) );
+    id int not null DEFAULT nextval('ezworkflow_assign_s'),
+    workflow_id int not null,
+    node_id int not null,
+    access_type int not null,
+    as_tree int not null,
+    primary key(id) );
 
 
 /*
@@ -73,21 +73,21 @@ CREATE SEQUENCE ezworkflow_event_s;
 
 drop table  ezworkflow_event;
 CREATE TABLE ezworkflow_event (
-id int not null DEFAULT nextval('ezworkflow_event_s'),
-version int not null,
-workflow_id int not null,
-workflow_type_string varchar(50) not null,
-description varchar(50) not null,
-data_int1 int,
-data_int2 int,
-data_int3 int,
-data_int4 int,
-data_text1 varchar(50),
-data_text2 varchar(50),
-data_text3 varchar(50),
-data_text4 varchar(50),
-placement int not null,
-primary key(id,version) );
+    id int not null DEFAULT nextval('ezworkflow_event_s'),
+    version int not null,
+    workflow_id int not null,
+    workflow_type_string varchar(50) not null,
+    description varchar(50) not null,
+    data_int1 int,
+    data_int2 int,
+    data_int3 int,
+    data_int4 int,
+    data_text1 varchar(50),
+    data_text2 varchar(50),
+    data_text3 varchar(50),
+    data_text4 varchar(50),
+    placement int not null,
+    primary key(id,version) );
 
 drop index ezworkflow_event_id;
 create unique index ezworkflow_event_id on ezworkflow_event( id );
@@ -118,22 +118,22 @@ CREATE SEQUENCE ezworkflow_process_s;
 
 drop table ezworkflow_process;
 CREATE TABLE ezworkflow_process (
-id int not null DEFAULT nextval('ezworkflow_process_s'),
-workflow_id int not null,
-user_id int not null,
-content_id int not null,
-content_version int not null,
-content_parent_id int not null,
-event_id int not null,
-event_position int not null,
-last_event_id int not null,
-last_event_position int not null,
-last_event_status int not null,
-status int not null,
-created int not null,
-modified int not null,
-activation_date int,
-primary key(id) );
+    id int not null DEFAULT nextval('ezworkflow_process_s'),
+    workflow_id int not null,
+    user_id int not null,
+    content_id int not null,
+    content_version int not null,
+    content_parent_id int not null,
+    event_id int not null,
+    event_position int not null,
+    last_event_id int not null,
+    last_event_position int not null,
+    last_event_status int not null,
+    status int not null,
+    created int not null,
+    modified int not null,
+    activation_date int,
+    primary key(id) );
 
 drop index ezworkflow_process_id;
 create unique index ezworkflow_process_id on ezworkflow_process( id );
@@ -149,16 +149,16 @@ CREATE SEQUENCE ezcontentclass_s;
 
 drop table   ezcontentclass;
 CREATE TABLE ezcontentclass (
-id int NOT NULL DEFAULT nextval('ezcontentclass_s'), 
-version int not null,
-name varchar( 255 ),
-identifier varchar(50) not null,
-contentobject_name varchar(255),
-creator_id int not null,
-modifier_id int not null,
-created int not null,
-modified int not null,
-primary key(id,version) );
+    id int NOT NULL DEFAULT nextval('ezcontentclass_s'),
+    version int not null,
+    name varchar( 255 ),
+    identifier varchar(50) not null,
+    contentobject_name varchar(255),
+    creator_id int not null,
+    modifier_id int not null,
+    created int not null,
+    modified int not null,
+    primary key(id,version) );
 
 CREATE INDEX ezcontentclass_id  ON ezcontentclass ( id );
 /*--------------------------------*/
@@ -181,27 +181,29 @@ CREATE SEQUENCE ezcontentclass_attribute_s;
 
 drop table   ezcontentclass_attribute;
 CREATE TABLE ezcontentclass_attribute (
-id int not null DEFAULT nextval('ezcontentclass_attribute_s'),
-version int not null,
-contentclass_id int not null,
-identifier varchar(50) not null,
-name varchar( 255 ) not null,
-data_type_string varchar(50) not null,
-placement int not null,
-is_searchable smallint,
-data_int1 int,
-data_int2 int,
-data_int3 int,
-data_int4 int,
-data_float1 float,
-data_float2 float,
-data_float3 float,
-data_float4 float,
-data_text1 varchar(50),
-data_text2 varchar(50),
-data_text3 varchar(50),
-data_text4 varchar(50),
-primary key(id,version) );
+    id int not null DEFAULT nextval('ezcontentclass_attribute_s'),
+    version int not null,
+    contentclass_id int not null,
+    identifier varchar(50) not null,
+    name varchar( 255 ) not null,
+    data_type_string varchar(50) not null,
+    placement int not null,
+    is_searchable smallint DEFAULT '0',
+    is_required smallint DEFAULT '0',
+    data_int1 int,
+    data_int2 int,
+    data_int3 int,
+    data_int4 int,
+    data_float1 float,
+    data_float2 float,
+    data_float3 float,
+    data_float4 float,
+    data_text1 varchar(50),
+    data_text2 varchar(50),
+    data_text3 varchar(50),
+    data_text4 varchar(50),
+    primary key(id,version)
+    );
 
 /* article attributes */
 insert into ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, placement) values(1, 0, 2, 'title', 'Title', 'ezstring', 1);
@@ -229,18 +231,18 @@ CREATE SEQUENCE ezcontentobject_s;
 
 
 drop table   ezcontentobject;
-CREATE TABLE ezcontentobject ( 
-id int not null primary key DEFAULT nextval('ezcontentobject_s'), 
-parent_id int not null,
-owner_id int not null,
-section_id int not null,
-main_node_id int not null,
-contentclass_id int not null,
-name varchar( 255 ),
-current_version int,
-is_published int,
-permission_id int
-);
+CREATE TABLE ezcontentobject (
+    id int not null primary key DEFAULT nextval('ezcontentobject_s'),
+    parent_id int not null,
+    owner_id int not null default '0',
+    section_id int not null default '0',
+    main_node_id int not null,
+    contentclass_id int not null,
+    name varchar( 255 ),
+    current_version int,
+    is_published int,
+    permission_id int
+    );
 create unique index ezcontentobject_id on ezcontentobject(id);
 create index ezcontentobject_parent_id on ezcontentobject(parent_id);
 
@@ -264,12 +266,12 @@ CREATE SEQUENCE ezcontentobject_link_s;
 
 
 drop table   ezcontentobject_link;
-CREATE TABLE ezcontentobject_link ( 
-id int not null  primary key DEFAULT nextval('ezcontentobject_link_s'), 
-from_contentobject_id int not null, 
-from_contentobject_version int not null,
-to_contentobject_id int
-);
+CREATE TABLE ezcontentobject_link (
+    id int not null  primary key DEFAULT nextval('ezcontentobject_link_s'),
+    from_contentobject_id int not null,
+    from_contentobject_version int not null,
+    to_contentobject_id int
+    );
 
 
 
@@ -279,17 +281,17 @@ drop SEQUENCE ezcontentobject_version_s;
 CREATE SEQUENCE ezcontentobject_version_s;
 
 drop table   ezcontentobject_version;
-CREATE TABLE ezcontentobject_version ( 
-id int not null primary key DEFAULT nextval('ezcontentobject_version_s'), 
-contentobject_id int, 
-creator_id int not null,
-version int not null default '0',
-created int not null default '0',
-modified int not null default '0',
-status int not null default '0',
-workflow_event_pos int not null default '0',
-user_id int not null default '0'
-);
+CREATE TABLE ezcontentobject_version (
+    id int not null primary key DEFAULT nextval('ezcontentobject_version_s'),
+    contentobject_id int,
+    creator_id int not null default '0',
+    version int not null default '0',
+    created int not null default '0',
+    modified int not null default '0',
+    status int not null default '0',
+    workflow_event_pos int not null default '0',
+    user_id int not null default '0'
+    );
 /*----------------------------------------------------*/
 insert into ezcontentobject_version(contentobject_id, version, status, workflow_event_pos) values ( 1, 1, 1, 1 );
 insert into ezcontentobject_version(contentobject_id, version, status, workflow_event_pos) values ( 2, 1, 1, 1 );
@@ -306,15 +308,15 @@ CREATE SEQUENCE ezcontentobject_attribute_s;
 drop table   ezcontentobject_attribute;
 
 CREATE TABLE ezcontentobject_attribute (
-id int DEFAULT nextval('ezcontentobject_attribute_s') not null,
-language_code varchar( 20 ) not null,
-version int not null,
-contentobject_id int not null,
-contentclassattribute_id int not null,
-data_text text,
-data_int int,
-data_float float,
-primary key( id, version ) );
+    id int DEFAULT nextval('ezcontentobject_attribute_s') not null,
+    language_code varchar( 20 ) not null,
+    version int not null,
+    contentobject_id int not null,
+    contentclassattribute_id int not null,
+    data_text text,
+    data_int int,
+    data_float float,
+    primary key( id, version ) );
 
 /*-------------------------------------------------------------------------------------*/
 
@@ -347,89 +349,30 @@ drop SEQUENCE ezcontentobject_perm_set_s;
 CREATE SEQUENCE ezcontentobject_perm_set_s;
 
 drop table   ezcontentobject_perm_set;
-CREATE TABLE ezcontentobject_perm_set ( 
-id int not null primary key DEFAULT nextval('ezcontentobject_perm_set_s'), 
-name  varchar(255)
-);
+CREATE TABLE ezcontentobject_perm_set (
+    id int not null primary key DEFAULT nextval('ezcontentobject_perm_set_s'),
+    name  varchar(255)
+    );
 insert into  ezcontentobject_perm_set( name ) values( 'test set' );
 insert into  ezcontentobject_perm_set( name ) values( 'test set 2' );
 
 
 
 
-drop SEQUENCE ezcontentobject_permission_s;
-CREATE SEQUENCE ezcontentobject_permission_s;
-
-drop table   ezcontentobject_permission;
-CREATE TABLE ezcontentobject_permission ( 
-id int not null primary key DEFAULT nextval('ezcontentobject_permission_s'), 
-permission_id int not null,
-user_group_id int not null,
-read_permission int not null,
-create_permission int not null,
-edit_permission int not null,
-remove_permission int not null
-);
-
-create index ezcontentobject_permission_permission_id on ezcontentobject_permission(permission_id);
-create index ezcontentobject_permission_user_group_id on ezcontentobject_permission(user_group_id);
-
-/*  */
-insert into ezcontentobject_permission( permission_id,user_group_id,read_permission,create_permission,edit_permission,remove_permission) values ( 1, 2, 0, 1, 1, 0 );
-insert into ezcontentobject_permission( permission_id,user_group_id,read_permission,create_permission,edit_permission,remove_permission) values ( 1, 3, 0, 1, 1, 1 );
-insert into ezcontentobject_permission ( permission_id,user_group_id,read_permission,create_permission,edit_permission,remove_permission) values(1,4,1,1,1,1);
-
-/*# check permissions for anonymous 
-*/
-select * from ezcontentobject_permission where permission_id='1' AND ( user_group_id='-1' );
-
-/*# check permissions for anonymous and group 2
-*/
-select max( read_permission ),  max( create_permission ), max( edit_permission ), max( remove_permission )
-from ezcontentobject_permission where permission_id='1' AND ( user_group_id='2' or user_group_id='-1' );
-
-/*# check permissions for anonymous,  group 2 and group 3
-*/
-select max( read_permission ),  max( create_permission ), max( edit_permission ), max( remove_permission )
-from ezcontentobject_permission where permission_id='1' AND ( user_group_id='2' or user_group_id='3' or user_group_id='-1' );
-
-
 /* Users */
 drop table   ezuser;
-CREATE TABLE ezuser ( 
-contentobject_id int not null,
-login varchar( 150 ) not null,
-email varchar( 150 ) not null,
-password_hash_type int not null default 1,
-password_hash varchar( 50 )
-);
+CREATE TABLE ezuser (
+    contentobject_id int not null,
+    login varchar( 150 ) not null,
+    email varchar( 150 ) not null,
+    password_hash_type int not null default 1,
+    password_hash varchar( 50 )
+    );
 
-insert into ezuser ( contentobject_id, login, email, password_hash_type, password_hash ) VALUES ( '1', 'anonymous', 'anon@anon.com', 1, '' ); 
+insert into ezuser ( contentobject_id, login, email, password_hash_type, password_hash ) VALUES ( '1', 'anonymous', 'anon@anon.com', 1, '' );
 
 
 
-select a.id,a.name, max(b.read_permission),max(b.edit_permission)  from ezcontentobject a, ezcontentobject_permission  b where a.permission_id=b.permission_id and b.user_group_id in (1)  group by a.id,a.name;
-
-SELECT
-ezcontentobject.*,
-ezcontentclass.name as class_name,
-max( ezcontentobject_permission.read_permission ) as can_read,
-max( ezcontentobject_permission.create_permission ) as can_create,
-max( ezcontentobject_permission.edit_permission ) as can_edit,
-max( ezcontentobject_permission.remove_permission ) as can_remove
-FROM
-ezcontentobject,
-ezcontentobject_permission,
-ezcontentclass
-WHERE
-ezcontentobject.contentclass_id=ezcontentclass.id
-AND
-ezcontentobject.permission_id=ezcontentobject_permission.permission_id
-AND
-ezcontentobject.parent_id='37'
-AND
- ezcontentobject_permission.user_group_id IN ( 8 )
-GROUP BY ezcontentobject.id, ezcontentobject.name,ezcontentobject.parent_id,ezcontentobject.contentclass_id,ezcontentobject.current_version,ezcontentobject.is_published,ezcontentobject.permission_id,ezcontentclass.name;
 
 /*
  Search
@@ -440,16 +383,16 @@ CREATE SEQUENCE  ezsearch_object_word_link_s;
 DROP TABLE  ezsearch_object_word_link;
 CREATE TABLE ezsearch_object_word_link
 (
-id int not null primary key  DEFAULT nextval('ezsearch_object_word_link_s'),
-contentobject_id int not null,
-word_id int not null,
-frequency float not null,
-placement int not null,
-prev_word_id int not null,
-next_word_id int not null,
-contentclass_id int not null,
-contentclass_attribute_id int not null
-);
+    id int not null primary key  DEFAULT nextval('ezsearch_object_word_link_s'),
+    contentobject_id int not null,
+    word_id int not null,
+    frequency float not null,
+    placement int not null,
+    prev_word_id int not null,
+    next_word_id int not null,
+    contentclass_id int not null,
+    contentclass_attribute_id int not null
+    );
 
 drop SEQUENCE ezsearch_word_s;
 CREATE SEQUENCE ezsearch_word_s;
@@ -457,10 +400,10 @@ CREATE SEQUENCE ezsearch_word_s;
 drop table ezsearch_word;
 CREATE TABLE ezsearch_word
 (
-id int not null  primary key DEFAULT nextval('ezsearch_word_s'),
-word varchar( 150 ),
-object_count int not null
-);
+    id int not null  primary key DEFAULT nextval('ezsearch_word_s'),
+    word varchar( 150 ),
+    object_count int not null
+    );
 
 CREATE INDEX ezsearch_object_word_link_object ON ezsearch_object_word_link (object_id);
 CREATE INDEX ezsearch_object_word_link_word ON ezsearch_object_word_link (word_id);
@@ -477,9 +420,9 @@ CREATE SEQUENCE ezsearch_search_phrase_s;
 drop table  ezsearch_search_phrase;
 CREATE TABLE ezsearch_search_phrase
 (
-id int primary key  DEFAULT nextval('ezsearch_search_phrase_s'),
-phrase varchar( 250 )
-);
+    id int primary key  DEFAULT nextval('ezsearch_search_phrase_s'),
+    phrase varchar( 250 )
+    );
 
 drop SEQUENCE ezsearch_return_count_s ;
 CREATE SEQUENCE ezsearch_return_count_s;
@@ -487,35 +430,35 @@ CREATE SEQUENCE ezsearch_return_count_s;
 drop table ezsearch_return_count;
 CREATE TABLE ezsearch_return_count
 (
-id int primary key  DEFAULT nextval('ezsearch_return_count_s'),
-phrase_id int not null,
-time int not null,
-count int not null
-);
+    id int primary key  DEFAULT nextval('ezsearch_return_count_s'),
+    phrase_id int not null,
+    time int not null,
+    count int not null
+    );
 
 /*
 Image
 */
 drop table ezimage;
 CREATE TABLE ezimage (
-contentobject_attribute_id int not null,
-version int not null,
-filename varchar(255) not null,
-original_filename varchar(255) not null,
-mime_type varchar(50) not null,
-primary key(contentobject_attribute_id,version) );
+    contentobject_attribute_id int not null,
+    version int not null,
+    filename varchar(255) not null,
+    original_filename varchar(255) not null,
+    mime_type varchar(50) not null,
+    primary key(contentobject_attribute_id,version) );
 
 drop table ezimagevariation;
 create table ezimagevariation (
-contentobject_attribute_id int not null,
-version int not null,
-filename varchar( 255 ) not null,
-additional_path varchar( 255 ),
-requested_width int not null,
-requested_height int not null,
-width int not null,
-height int not null,
-primary key( contentobject_attribute_id,version,requested_width,requested_height) );
+    contentobject_attribute_id int not null,
+    version int not null,
+    filename varchar( 255 ) not null,
+    additional_path varchar( 255 ),
+    requested_width int not null,
+    requested_height int not null,
+    width int not null,
+    height int not null,
+    primary key( contentobject_attribute_id,version,requested_width,requested_height) );
 
 
 /*
@@ -524,12 +467,12 @@ Binary File
 
 drop table ezbinaryfile;
 CREATE TABLE ezbinaryfile (
-contentobject_attribute_id int not null,
-version int not null,
-filename varchar(255) not null,
-original_filename varchar(255) not null,
-mime_type varchar(50) not null,
-primary key( contentobject_attribute_id, version ) );
+    contentobject_attribute_id int not null,
+    version int not null,
+    filename varchar(255) not null,
+    original_filename varchar(255) not null,
+    mime_type varchar(50) not null,
+    primary key( contentobject_attribute_id, version ) );
 
 
 
@@ -542,25 +485,25 @@ CREATE SEQUENCE ezenumvalue_s;
 
 drop table  ezenumvalue;
 CREATE TABLE ezenumvalue (
-id int not null  DEFAULT nextval('ezenumvalue_s'),
-contentclass_attribute_id int not null,
-contentclass_attribute_version int not null,
-enumelement varchar(50) not null,
-enumvalue varchar(50) not null,
-placement int not null,
-primary key( id, contentclass_attribute_id, contentclass_attribute_version ) );
+    id int not null  DEFAULT nextval('ezenumvalue_s'),
+    contentclass_attribute_id int not null,
+    contentclass_attribute_version int not null,
+    enumelement varchar(50) not null,
+    enumvalue varchar(50) not null,
+    placement int not null,
+    primary key( id, contentclass_attribute_id, contentclass_attribute_version ) );
 
 /*
  EnumObjectValue
 */
 drop table  ezenumobjectvalue;
 CREATE TABLE ezenumobjectvalue (
-contentobject_attribute_id int not null,
-contentobject_attribute_version int not null,
-enumid int not null,
-enumelement varchar(50) not null,
-enumvalue varchar(50) not null,
-primary key( contentobject_attribute_id, contentobject_attribute_version, enumid ) );
+    contentobject_attribute_id int not null,
+    contentobject_attribute_version int not null,
+    enumid int not null,
+    enumelement varchar(50) not null,
+    enumvalue varchar(50) not null,
+    primary key( contentobject_attribute_id, contentobject_attribute_version, enumid ) );
 
 
 /*
@@ -571,24 +514,24 @@ CREATE SEQUENCE ezcontentclassgroup_s;
 
 drop table ezcontentclassgroup;
 CREATE TABLE ezcontentclassgroup (
-id int DEFAULT nextval('ezcontentclassgroup_s') not null,
-name varchar( 255 ),
-creator_id int not null,
-modifier_id int not null,
-created int not null,
-modified int not null,
-primary key( id ) );
+    id int DEFAULT nextval('ezcontentclassgroup_s') not null,
+    name varchar( 255 ),
+    creator_id int not null,
+    modifier_id int not null,
+    created int not null,
+    modified int not null,
+    primary key( id ) );
 
 /*
  ContentClass_ClassGroup
 */
 drop table ezcontentclass_classgroup;
 CREATE TABLE ezcontentclass_classgroup (
-contentclass_id int not null,
-contentclass_version int not null,
-group_id int not null,
-group_name  varchar( 255 ),
-primary key( contentclass_id, contentclass_version, group_id ) );
+    contentclass_id int not null,
+    contentclass_version int not null,
+    group_id int not null,
+    group_name  varchar( 255 ),
+    primary key( contentclass_id, contentclass_version, group_id ) );
 
 
 
@@ -600,62 +543,62 @@ CREATE SEQUENCE ezproductcollection_s;
 
 drop table  ezproductcollection;
 CREATE TABLE ezproductcollection (
-id int not null DEFAULT nextval('ezproductcollection_s'),
-primary key(id) );
+    id int not null DEFAULT nextval('ezproductcollection_s'),
+    primary key(id) );
 
 drop SEQUENCE ezproductcollection_item_s;
 CREATE SEQUENCE ezproductcollection_item_s;
 
 drop table  ezproductcollection_item;
 CREATE TABLE ezproductcollection_item (
-id int not null DEFAULT nextval('ezproductcollection_item_s'),
-productcollection_id int not null,
-contentobject_id int not null,
-item_count int not null,
-price_is_inc_vat int not null,
-price int not null,
-primary key(id) );
+    id int not null DEFAULT nextval('ezproductcollection_item_s'),
+    productcollection_id int not null,
+    contentobject_id int not null,
+    item_count int not null,
+    price_is_inc_vat int not null,
+    price int not null,
+    primary key(id) );
 
 drop SEQUENCE ezcart_s;
 CREATE SEQUENCE ezcart_s;
 
 drop table  ezcart;
 CREATE TABLE ezcart (
-id int not null DEFAULT nextval('ezcart_s'),
-session_id varchar(255) not null,
-productcollection_id int not null,
-primary key(id) );
+    id int not null DEFAULT nextval('ezcart_s'),
+    session_id varchar(255) not null,
+    productcollection_id int not null,
+    primary key(id) );
 
 drop SEQUENCE ezorder_s;
 CREATE SEQUENCE ezorder_s;
 
 drop table  ezorder;
 CREATE TABLE ezorder (
-id int not null DEFAULT nextval('ezorder_s'),
-user_id int not null,
-productcollection_id int not null,
-created int not null,
-primary key(id) );
+    id int not null DEFAULT nextval('ezorder_s'),
+    user_id int not null,
+    productcollection_id int not null,
+    created int not null,
+    primary key(id) );
 
 drop SEQUENCE ezwishlist_s;
 CREATE SEQUENCE ezwishlist_s;
 
 drop table  ezwishlist;
 CREATE TABLE ezwishlist (
-id int not null DEFAULT nextval('ezwishlist_s'),
-user_id int not null,
-productcollection_id int not null,
-primary key(id) );
+    id int not null DEFAULT nextval('ezwishlist_s'),
+    user_id int not null,
+    productcollection_id int not null,
+    primary key(id) );
 /*
 # Session
 */
 drop table ezsession;
 create table ezsession(
- session_key char(32) not null,
- expiration_time int not null,
- data text not null,
- primary key (session_key)
-);
+    session_key char(32) not null,
+    expiration_time int not null,
+    data text not null,
+    primary key (session_key)
+    );
 
 /*
 # Section
@@ -665,19 +608,19 @@ CREATE SEQUENCE ezsection_s;
 drop table ezsection;
 create table ezsection
 (
- id int not null DEFAULT nextval('ezsection_s'),
- name varchar(255),
- locale varchar(255),
- primary key (id)
-);
+    id int not null DEFAULT nextval('ezsection_s'),
+    name varchar(255),
+    locale varchar(255),
+    primary key (id)
+    );
 
 
 
 /*
 ###### Tree test ###########3
-#                    0 
+#                    0
 #                    |
-#                   Root 
+#                   Root
 #                 /      \
 #             Sports       News
 #            /           /      \
@@ -693,17 +636,20 @@ CREATE SEQUENCE ezcontentobject_tree_s;
 
 drop table ezcontentobject_tree;
 create table ezcontentobject_tree(
-node_id int not null primary key DEFAULT nextval('ezcontentobject_tree_s'),
-parent_node_id int not null,
-contentobject_id int,
-depth int not null,
-path_string varchar(255) not null,
-md5_path varchar(15),
-left_margin int not null,
-right_margin int not null
-);
+    node_id int not null primary key DEFAULT nextval('ezcontentobject_tree_s'),
+    parent_node_id int not null,
+    contentobject_id int,
+    contentobject_version int,
+    contentobject_is_published int,
+    crc32_path int,
+    depth int not null,
+    path_string varchar(255) not null,
+    md5_path varchar(15),
+    left_margin int not null,
+    right_margin int not null
+    );
 
-create index ezcontentobject_tree_path on ezcontentobject_tree( path_string ); 
+create index ezcontentobject_tree_path on ezcontentobject_tree( path_string );
 create index ezcontentobject_tree_p_node_id on ezcontentobject_tree( parent_node_id );
 create index ezcontentobject_tree_co_id  on ezcontentobject_tree( contentobject_id );
 create index ezcontentobject_tree_depth  on ezcontentobject_tree( depth );
@@ -726,3 +672,125 @@ select nextval('ezcontentobject_tree_s');
 select nextval('ezcontentobject_tree_s');
 select nextval('ezcontentobject_tree_s');
 select nextval('ezcontentobject_tree_s');
+
+
+
+
+
+/*
+Role system
+ */
+
+drop SEQUENCE ezrole_s;
+CREATE SEQUENCE ezrole_s;
+drop table ezrole;
+create table ezrole(
+id int not null primary key DEFAULT nextval('ezrole_s'),
+version int DEFAULT '0',
+name varchar not null,
+value char(1)
+);
+insert into ezrole(name, value) values('Anonimous', '');  
+insert into ezrole(name, value) values('Admin', '*');
+insert into ezrole(name, value) values('editor', '');
+insert into ezrole(name, value) values('advanced editor','');
+  
+
+drop SEQUENCE ezuser_role_s;
+CREATE SEQUENCE ezuser_role_s;
+drop table ezuser_role;
+create table ezuser_role(
+id int not null primary key DEFAULT nextval('ezuser_role_s'),
+role_id int,
+contentobject_id int
+);
+insert into ezuser_role( role_id, contentobject_id ) values(1,49);
+insert into ezuser_role( role_id, contentobject_id ) values(2,50);
+insert into ezuser_role( role_id, contentobject_id ) values(3,51);
+insert into ezuser_role( role_id, contentobject_id ) values(3,53);
+insert into ezuser_role( role_id, contentobject_id ) values(4,53);
+insert into ezuser_role( role_id, contentobject_id ) values(1,8);
+insert into ezuser_role( role_id, contentobject_id ) values(1,4);
+insert into ezuser_role( role_id, contentobject_id ) values(3,8);
+
+
+drop SEQUENCE ezpolicy_s;
+CREATE SEQUENCE ezpolicy_s;
+drop table ezpolicy;
+create table ezpolicy(
+id int not null primary key DEFAULT nextval('ezpolicy_s'),
+role_id int,
+function_name varchar,
+module_name varchar,
+limitation char(1)
+);
+insert into ezpolicy(role_id,module_name,function_name,limitation) values(1, 'content', 'sitemap', '');
+insert into ezpolicy(role_id,module_name,function_name,limitation) values(1, 'search' , 'search' , '');
+
+insert into ezpolicy(role_id,module_name,function_name,limitation) values(2, '*'      , '*'      , '*' );
+insert into ezpolicy(role_id,module_name,function_name,limitation) values(2, 'class'  ,  '*'     , '*');
+insert into ezpolicy(role_id,module_name,function_name,limitation) values(2, 'content', '*'      , '*');
+insert into ezpolicy(role_id,module_name,function_name,limitation) values(2, 'search' , '*'      , '*');
+
+insert into ezpolicy(role_id,module_name,function_name,limitation) values(3, 'class'  , 'list'   , '*');
+insert into ezpolicy(role_id,module_name,function_name,limitation) values(3, 'class'  , 'edit'   , '' );
+insert into ezpolicy(role_id,module_name,function_name,limitation) values(3, 'content', 'sitemap', '*');
+insert into ezpolicy(role_id,module_name,function_name,limitation) values(3, 'content', 'delete' , '*');
+insert into ezpolicy(role_id,module_name,function_name,limitation) values(3, 'content', 'edit'   , '*');
+insert into ezpolicy(role_id,module_name,function_name,limitation) values(3, 'content', 'view'   , '*');
+insert into ezpolicy(role_id,module_name,function_name,limitation) values(3, 'search' , '*'      , '*');
+
+insert into ezpolicy(role_id,module_name,function_name,limitation) values(4, 'content', 'sitemap', '*');
+insert into ezpolicy(role_id,module_name,function_name,limitation) values(4, 'class'  , 'edit'   , '*');
+insert into ezpolicy(role_id,module_name,function_name,limitation) values(4, 'search' , 'search' , '*');
+insert into ezpolicy(role_id,module_name,function_name,limitation) values(4, 'content', '*'      , '*');
+insert into ezpolicy(role_id,module_name,function_name,limitation) values(4, 'search' , '*'      , '*');
+
+drop SEQUENCE ezpolicy_limitation_s;
+CREATE SEQUENCE ezpolicy_limitation_s;
+
+drop table ezpolicy_limitation;
+create table ezpolicy_limitation(
+id int not null primary key DEFAULT nextval('ezpolicy_limitation_s'),
+policy_id int,
+identifier varchar not null,
+role_id int,
+function_name varchar,
+module_name varchar
+);
+
+insert into ezpolicy_limitation(policy_id,identifier,role_id,function_name,module_name) values(1,'ClassID', 1,  'content', 'sitemap');
+insert into ezpolicy_limitation(policy_id,identifier,role_id,function_name,module_name) values(1,'ObjectID', 1,  'content', 'sitemap');
+insert into ezpolicy_limitation(policy_id,identifier,role_id,function_name,module_name) values(2,'ClassID', 1, 'search', 'search');
+insert into ezpolicy_limitation(policy_id,identifier,role_id,function_name,module_name) values(2,'ObjectID',1, 'search', 'search');
+insert into ezpolicy_limitation(policy_id,identifier,role_id,function_name,module_name) values(8,'ClassID', 3, 'edit', 'class');
+
+
+drop SEQUENCE ezpolicy_limitation_value_s;
+CREATE SEQUENCE ezpolicy_limitation_value_s;
+drop table ezpolicy_limitation_value;
+create table ezpolicy_limitation_value(
+id int not null primary key DEFAULT nextval('ezpolicy_limitation_value_s'),
+limitation_id int,
+value int
+);
+
+insert into ezpolicy_limitation_value(limitation_id,value) values(1,'2');
+insert into ezpolicy_limitation_value(limitation_id,value) values(2,'1');
+insert into ezpolicy_limitation_value(limitation_id,value) values(2,'17');
+insert into ezpolicy_limitation_value(limitation_id,value) values(2,'45');
+insert into ezpolicy_limitation_value(limitation_id,value) values(2,'3');
+insert into ezpolicy_limitation_value(limitation_id,value) values(2,'46');
+insert into ezpolicy_limitation_value(limitation_id,value) values(3,'2');
+
+insert into ezpolicy_limitation_value(limitation_id,value) values(4,'1');
+insert into ezpolicy_limitation_value(limitation_id,value) values(4,'17');
+insert into ezpolicy_limitation_value(limitation_id,value) values(4,'45');
+insert into ezpolicy_limitation_value(limitation_id,value) values(4,'3');
+insert into ezpolicy_limitation_value(limitation_id,value) values(4,'46');
+insert into ezpolicy_limitation_value(limitation_id,value) values(5,'2'); 
+
+
+/*
+END
+*/
