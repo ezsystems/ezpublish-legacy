@@ -142,7 +142,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/manual/install/without_installers"|ezurl}>{"Without installers"|i18n("design/standard/layout")}</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/manual/install/without_installer"|ezurl}>{"Without installer"|i18n("design/standard/layout")}</a></p>
     </td>
 </tr>
 <tr>
@@ -186,7 +186,7 @@
 <table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <th class="menuheaddark" colspan="2">
-    <p class="menuhead">Everyday functions</p>
+    <p class="menuhead">User Manual</p>
     </th>
 </tr>
 <tr>
@@ -194,7 +194,15 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>Premissions</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/manual/user/everyday"|ezurl}>Everyday functions</a></p>
+    </td>
+</tr>
+<tr>
+    <td class="bullet" width="1">
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
+    </td>
+    <td class="menu" width="99%">
+    <p class="menuitem"><a class="menuitem" href={"/manual/user/permissions"|ezurl}>Permissions</a></p>
     </td>
 </tr>
 
@@ -203,7 +211,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>E-commerce functions and settings</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/manual/user/e-commerce"|ezurl}>E-commerce functions and settings</a></p>
     </td>
 </tr>
 <tr>
@@ -211,7 +219,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>Workflows</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/manual/user/workflows"|ezurl}>Workflows</a></p>
     </td>
 </tr>
 <tr>
@@ -219,7 +227,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>Tasks</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/manual/user/tasks"|ezurl}>Tasks</a></p>
     </td>
 </tr>
 <tr>
@@ -227,7 +235,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>Information collector</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/manual/user/informationcollectors"|ezurl}>Information collector</a></p>
     </td>
 </tr>
 </table>
