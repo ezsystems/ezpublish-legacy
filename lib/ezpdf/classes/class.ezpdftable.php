@@ -137,7 +137,8 @@ class eZPDFTable extends Cezpdf
         }
     }
 
-    /** add a table of information to the pdf document
+    /*!
+     * add a table of information to the pdf document
      * $data is a two dimensional array
      * $cols (optional) is an associative array, the keys are the names of the columns from $data
      * to be presented (and in that order), the values are the titles to be given to the columns
@@ -151,6 +152,7 @@ class eZPDFTable extends Cezpdf
      *            Coord 'x,0' is table header
      * 'showLines'=> 0,1,2, default is 1 (show outside and top lines only), 2=> lines on each row
      * 'showHeadings' => 0 or 1
+     * 'repeatTableHeader' => 0 or 1, if set to 1, the table header will be repeated when a table stretches over multiple pages. ( default 0 )
      * 'shaded'=> 0,1,2,3 default is 1 (1->alternate lines are shaded, 0->no shading, 2-> both shaded, second uses shadeCol2)
      * 'shadeCol' => (CMYK) array, defining the colour of the shading
      * 'shadeCol2' => (CMYK) array, defining the colour of the shading of the other blocks
@@ -222,6 +224,7 @@ class eZPDFTable extends Cezpdf
             'showLines' => 1,
             'shadeCol' => eZMath::rgbToCMYK2( 0.8, 0.8, 0.8 ),
             'shadeCol2' => eZMath::rgbToCMYK2( 0.7, 0.7, 0.7 ),
+            'repeatTableHeader' => 0,
             'fontSize' => 10,
             'titleFontSize' => 12,
             'titleGap' => 5,
@@ -538,7 +541,18 @@ class eZPDFTable extends Cezpdf
             $cnt=0;
             $newPage=0;
             $newPageLine = 0;
-            foreach($data as $rowCount => $row){
+            $tableHeaderRow = array();
+            $maxRowCount = count( $data );
+            $oldRowCount = -1;
+
+            for ( $rowCount = 0; $rowCount < $maxRowCount; ++$rowCount )
+            {
+                if ( $oldRowCount != -1)
+                {
+                    $rowCount = $oldRowCount;
+                    $oldRowCount = -1;
+                }
+
                 $cnt++;
                 // the transaction support will be used to prevent rows being split
                 if ($options['splitRows']==0){
@@ -550,7 +564,7 @@ class eZPDFTable extends Cezpdf
                     {
                         $this->transaction('start');
                     }
-                    $row_orig = $row;
+                    $row_orig = $data[$rowCount];
                     $y_orig = $y;
                     $y0_orig = $y0;
                     $y1_orig = $y1;
@@ -612,7 +626,17 @@ class eZPDFTable extends Cezpdf
                             }
                             $firstLine=1;
                             $y -= $height;
+
+                            if ( $options['repeatTableHeader'] && $oldRowCount == -1)
+                            {
+                                $oldRowCount = $rowCount;
+                                $rowCount = 0;
+                                $row = $data[$rowCount];
+                            }
                         }
+
+                        $row = $data[$rowCount];
+
                         $newRow=0;
                         // write the actual data
                         // if these cells need to be split over a page, then $newPage will be set, and the remaining
@@ -895,8 +919,6 @@ class eZPDFTable extends Cezpdf
         }
 
         $this->y=$y;
-        if ( $maxRowHeight != 4 );
-//        exit(0);
         return $y;
     }
 
