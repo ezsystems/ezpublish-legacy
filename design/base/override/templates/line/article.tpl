@@ -3,8 +3,8 @@
     <div class="class-article">
 
     {section show=$node.object.data_map.image.content}
-        <div class="imageright">
-            {attribute_view_gui alignment=right image_class=small attribute=$node.object.data_map.image.content.data_map.image}
+        <div class="content-image">
+            {attribute_view_gui alignment=right image_class=small attribute=$node.object.data_map.image.content.data_map.image} 
         </div>
     {/section}
 
@@ -22,7 +22,7 @@
 
     {section show=$node.object.data_map.body.content.is_empty|not}
         <div class="content-link">
-            <p><a href={concat( "/content/view/full/", $node.node_id, "/")|ezurl}>Read more...</a></p>
+            <p><a href={$node.url_alias|ezurl}>Read more...</a></p>
         </div>
     {/section}
 
