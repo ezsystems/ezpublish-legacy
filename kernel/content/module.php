@@ -125,7 +125,7 @@ $ViewList['copysubtree'] = array(
     'functions' => array( 'create' ),
     'default_navigation_part' => 'ezcontentnavigationpart',
     'script' => 'copysubtree.php',
-    'ui_context' => 'edit',
+    'ui_context' => 'administration',
     'single_post_actions' => array( 'CopyButton' => 'Copy',
                                     'CancelButton' => 'Cancel' ),
     'post_action_parameters' => array( 'Copy' => array( 'VersionChoice' => 'VersionChoice',
