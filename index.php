@@ -558,7 +558,7 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
 
     $moduleRedirectUri = $module->redirectURI();
 
-    if ( preg_match( '#^(\w+:)|//#', $moduleRedirectUri ) )
+    if ( preg_match( '#^(\w+:)|^//#', $moduleRedirectUri ) )
     {
         $redirectURI = $module->redirectURI();
     }
