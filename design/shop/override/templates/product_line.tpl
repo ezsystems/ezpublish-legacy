@@ -1,6 +1,6 @@
 <div class="productline">
 
-<h2><a href={$node.url_alias|ezurl}>{$node.name}</a></h2>
+<h2><a href={$node.url_alias|ezurl}>{$node.name|wash}</a></h2>
 
 {attribute_view_gui attribute=$node.object.data_map.image image_class=small href=$node.url_alias|ezurl css_class="listimage"}
 

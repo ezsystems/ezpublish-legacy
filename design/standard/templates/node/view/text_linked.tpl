@@ -1,3 +1,3 @@
 {default node_name=$node.name}
-<a href={$node.url_alias|ezurl}>{$node_name}</a>
+<a href={$node.url_alias|ezurl}>{$node.name|wash}</a>
 {/default}

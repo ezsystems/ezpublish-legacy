@@ -8,7 +8,7 @@ children=fetch('content', 'list', hash(
 )
 }
 
-<h1>{$node.name}</h1>
+<h1>{$node.name|wash}</h1>
 <p>{attribute_view_gui attribute=$node.data_map.description}</p>
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">

@@ -3,7 +3,7 @@
 {let image_content=$node.data_map.image.content}
 
 <div class="album_search">
-    <h2><a href={$node.url_alias|ezurl}>{$node.name} [Album]</a></h2>
+    <h2><a href={$node.url_alias|ezurl}>{$node.name|wash} [Album]</a></h2>
 
     <div class="image">
     {section show=$image_content.original.is_valid}

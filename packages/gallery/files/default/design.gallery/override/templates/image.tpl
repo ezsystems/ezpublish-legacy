@@ -60,7 +60,7 @@
 
 <form method="post" action={"content/action/"|ezurl}>
 
-    <h1>{$node.name}</h1>
+    <h1>{$node.name|wash}</h1>
 
     {section show=$is_preview|not}
         <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />

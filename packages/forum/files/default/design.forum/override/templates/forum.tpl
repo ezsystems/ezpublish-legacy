@@ -4,7 +4,7 @@
                                              sort_by, array( array( attribute, false(), 190 ), array(published,false()))))
      child_count=fetch('content','list_count',hash(parent_node_id,$node.node_id))}
 
-<h1>{$node.name}</h1>
+<h1>{$node.name|wash}</h1>
 
 {attribute_view_gui attribute=$node.object.data_map.description}
 

@@ -7,7 +7,7 @@
 <input type="hidden" name="ViewMode" value="full" />
 
 <div class="object_title">
-    <h1>{$node.name}</h1>
+    <h1>{$node.name|wash}</h1>
 </div>
 
 {section show=$node.object.can_edit}

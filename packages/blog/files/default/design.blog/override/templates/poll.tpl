@@ -5,7 +5,7 @@
 <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
 <input type="hidden" name="ViewMode" value="full" />
 
-<h4>{$node.name}</h4>
+<h4>{$node.name|wash}</h4>
 {attribute_view_gui attribute=$node.object.data_map.option}
 {section name=ContentAction loop=$node.object.content_action_list show=$content_object.content_action_list}
       <div class="block">

@@ -9,7 +9,7 @@
 {default content_object=$node.object
          content_version=$node.contentobject_version_object}
 
-<h1>{$node.name}</h1>
+<h1>{$node.name|wash}</h1>
 
 {section show=$node.object.can_edit}
    <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />

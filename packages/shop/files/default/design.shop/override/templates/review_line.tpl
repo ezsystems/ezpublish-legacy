@@ -1,6 +1,6 @@
 <div class="review">
 
-<h3>{$node.name}</h3>
+<h3>{$node.name|wash}</h3>
 <div class="byline">
 {section show=$node.object.published}
 <p class="date">{$node.object.published|l10n(shortdatetime)}</p>

@@ -6,7 +6,7 @@
 <div class="product">
 <form method="post" action={"content/action"|ezurl}> 
 
-<h1>{$node.name}</h1>
+<h1>{$node.name|wash}</h1>
 
 {attribute_view_gui attribute=$node.object.data_map.image}
 
@@ -36,7 +36,7 @@
     <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
     <input type="hidden" name="ViewMode" value="full" /> 
 
-    <input class="button" type="submit" name="ActionAddToNotification" value="{"Notify me about updates"|i18n("design/shop/layout")}{*to {$node.name}*}" />
+    <input class="button" type="submit" name="ActionAddToNotification" value="{"Notify me about updates"|i18n("design/shop/layout")}{*to {$node.name|wash}*}" />
 
     <div class="rightobject"><p><a href={concat( '/layout/set/print/', $node.url_alias )|ezurl}>{"Printerfriendly version"|i18n("design/shop/layout")}</a></p></div>
 </div>
