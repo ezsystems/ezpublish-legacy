@@ -404,7 +404,8 @@ class eZContentCacheManager
         eZDebug::accumulatorStart( 'check_cache', '', 'Check cache' );
 
         $ini =& eZINI::instance();
-        if ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' )
+        if ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' ||
+             $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' )
         {
             $viewCacheINI =& eZINI::instance( 'viewcache.ini' );
             if ( $viewCacheINI->variable( 'ViewCacheSettings', 'SmartCacheClear' ) == 'enabled' )

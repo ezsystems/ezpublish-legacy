@@ -147,8 +147,8 @@ if ( $module->isCurrentAction( 'RemoveOverride' ) )
         $overrideINI->save( "siteaccess/$siteAccess/override.ini.append" );
 
         // Expire content view cache
-        $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
-        if ( $viewCacheEnabled )
+        if ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' ||
+             $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' )
         {
             eZContentObject::expireAllCache();
         }

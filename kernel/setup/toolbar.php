@@ -413,7 +413,8 @@ function removeRelatedCache( $siteAccess )
 
     // Expire content view cache
     $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
-    if ( $viewCacheEnabled )
+    if ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' ||
+         $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' )
     {
         eZContentObject::expireAllCache();
     }

@@ -197,13 +197,14 @@ class eZContentOperationCollection
     */
     function clearObjectViewCache( $objectID, $versionNum, $additionalNodeList = false )
     {
-        // AHTUNG!! modifing this function don't forget to modify
+        // WARNING !! modifing this function don't forget to modify
         // eZContentCacheManager::clearObjectViewCache() too.
 
         eZDebug::accumulatorStart( 'check_cache', '', 'Check cache' );
 
         $ini =& eZINI::instance();
-        if ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' )
+        if ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' ||
+             $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' )
         {
             $viewCacheINI =& eZINI::instance( 'viewcache.ini' );
             if ( $viewCacheINI->variable( 'ViewCacheSettings', 'SmartCacheClear' ) == 'enabled' )

@@ -181,6 +181,8 @@ Changes from 3.4.4 to 3.4.5
   $site.original_uri attribute added.
   (Manually merged from trunk/3.6 rev. 10497)
 - Fixed bug #6057: calendar toolbox with only 1. and last week of Jan 2005
+- Fixed bug using template caching, and not viewcache. Template cache is now cleared properly.
+  Example : {cache-block} would not expire properly earlier when content cache was disabled. 
 
 *Library:
 
