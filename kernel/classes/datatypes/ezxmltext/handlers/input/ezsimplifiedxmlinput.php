@@ -1643,6 +1643,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             $xml = new eZXML();
             $dom =& $xml->domTree( $this->XMLData, array( 'CharsetConversion' => false ) );
 
+            unset( $links );
+            unset( $node );
+            $links = array();
+            $node = array();
             if ( $dom )
             {
                 $node =& $dom->elementsByName( "section" );

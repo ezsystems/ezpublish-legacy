@@ -212,6 +212,8 @@ eZINI:
 - Fixed bug with template parser not allowing whitespace after the single tag
   marker.
   http://ez.no/community/bug_reports/wrong_case_syntax_causes_template_compile_error
+- Fixed some of the issues in this bugreport.
+  http://ez.no/community/bug_reports/bugs_in_kernel__2
 
 *Library:
 
