@@ -1,3 +1,7 @@
+
+<div id="advancedsearch">
+
+
 {let search=false()}
 {section show=$use_template_search}
     {set page_limit=10}
@@ -34,96 +38,27 @@
 {/section}
 
 <form action={"/content/advancedsearch/"|ezurl} method="get">
-<div class="maincontentheader">
+<div class="title">
 <h1>{"Advanced search"|i18n("design/standard/content/search")}</h1>
 </div>
 
-<div class="block">
+<div class="search_description">
 <label>{"Search all the words"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
 <input class="box" type="text" size="40" name="SearchText" value="{$full_search_text|wash}" />
 </div>
-<div class="block">
-<label>{"Search the exact phrase"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
-<input class="box" type="text" size="40" name="PhraseSearchText" value="{$phrase_search_text|wash}" />
-</div>
-{*<div class="block">
-<label>{"Search with at least one of the words"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
-<input class="box" type="text" size="40" name="AnyWordSearchText" value="" />
-</div>*}
-<div class="block">
 
-<div class="element">
-<label>{"Class"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
-<select name="SearchContentClassID">
-<option value="-1">{"Any class"|i18n("design/standard/content/search")}</option>
-{section name=ContentClass loop=$content_class_array }
+<div class="search_contentclass">
+    <input type="radio" value="2" name="SearchContentClassID" {section show=eq($search_contentclass_id,2)}checked="checked"{/section}/> Article
 
-<option {switch name=sw match=$search_contentclass_id}
-{case match=$ContentClass:item.id}
-selected="selected"
-{/case}
-{case}
-{/case}
-{/switch} value="{$ContentClass:item.id}">{$ContentClass:item.name|wash}</option>
+    <input type="radio" value="7" name="SearchContentClassID" {section show=eq($search_contentclass_id,7)}checked="checked"{/section}/> Forum message
 
-{/section}
-</select>
+    <input type="radio" value="16" name="SearchContentClassID" {section show=eq($search_contentclass_id,16)}checked="checked"{/section}/> Company
 
-</div>
-<div class="element">
-
-<label>{"Class attribute"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
-
-{section name=Attribute show=$search_contentclass_id|gt(0)}
-
-<select name="SearchContentClassAttributeID">
-<option value="-1">Any attribute</option>
-{section name=ClassAttribute loop=$search_content_class_attribute_array}
-<option value="{$Attribute:ClassAttribute:item.id}" 
-        {section show=eq($search_contentclass_attribute_id,$Attribute:ClassAttribute:item.id)}
-            selected="selected"
-        {/section}>{$Attribute:ClassAttribute:item.name|wash}</option>
-{/section}
-</select>
-
-&nbsp;
-
-{/section}
-<input class="smallbutton" type="submit" name="SelectClass" value="{'Update attributes'|i18n('design/standard/content/search')}"/>
+    <input type="radio" value="17" name="SearchContentClassID" {section show=eq($search_contentclass_id,17)}checked="checked"{/section}/> Person
 </div>
 
-<div class="break"></div>
-</div>
-<div class="block">
-<div class="element">
 
-<label>{"In"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
-<select name="SearchSectionID">
-<option value="-1">{"Any section"|i18n("design/standard/content/search")}</option>
-{section name=Section loop=$section_array }
-<option {switch name=sw match=$search_section_id}
-     {case match=$Section:item.id}
-selected="selected"
-{/case}
-{case}
-{/case}
-{/switch} value="{$Section:item.id}">{$Section:item.name|wash}</option>
-{/section}
-</select>
-
-</div>
-<div class="element">
-
-<label>{"Published"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
-<select name="SearchDate">
-<option value="-1" {section show=eq($search_date,-1)}selected="selected"{/section}>{"Any time"|i18n("design/standard/content/search")}</option>
-<option value="1" {section show=eq($search_date,1)}selected="selected"{/section}>{"Last day"|i18n("design/standard/content/search")}</option>
-<option value="2" {section show=eq($search_date,2)}selected="selected"{/section}>{"Last week"|i18n("design/standard/content/search")}</option>
-<option value="3" {section show=eq($search_date,3)}selected="selected"{/section}>{"Last month"|i18n("design/standard/content/search")}</option>
-<option value="4" {section show=eq($search_date,4)}selected="selected"{/section}>{"Last three months"|i18n("design/standard/content/search")}</option>
-<option value="5" {section show=eq($search_date,5)}selected="selected"{/section}>{"Last year"|i18n("design/standard/content/search")}</option>
-</select>
-</div>
+<div class="search_itemsperpage">
 
 {section show=$use_template_search}
 <div class="element">
@@ -137,17 +72,19 @@ selected="selected"
 </select>
 </div>
 {/section}
-
 <div class="break"></div>
+
 </div>
 
-<div class="buttonblock'">
+<div class="buttonblock">
 <input class="button" type="submit" name="SearchButton" value="{'Search'|i18n('design/standard/content/search')}" />
 </div>
 
 
 {section show=$search_text}
-<br/>
+<div class="search_result">
+<div class="break"></div>
+
 {switch name=Sw match=$search_count}
   {case match=0}
 <div class="warning">
@@ -161,10 +98,13 @@ selected="selected"
   {/case}
 {/switch}
 
+
 {include name=Result
          uri='design:content/searchresult.tpl'
          search_result=$search_result}
 {/section}
+
+</div>
 
 {include name=navigator
          uri='design:navigator/google.tpl'
@@ -176,3 +116,5 @@ selected="selected"
 
 </form>
 {/let}
+
+</div>
