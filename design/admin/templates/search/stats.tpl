@@ -76,7 +76,7 @@
 </table>
 {section-else}
 <div class="block">
-<p>{'The statistics list is empty.'|i18n( 'design/admin/search/stats' )}</p>
+<p>{'The list is empty.'|i18n( 'design/admin/search/stats' )}</p>
 </div>
 {/section}
 
@@ -96,9 +96,9 @@
 <div class="block">
 
 {section show=$most_frequent_phrase_array|count}
-    <input class="button" type="submit" name="ResetSearchStatsButton" value="{'Reset statistics'|i18n( 'design/admin/search/stats' )}" />
+    <input class="button" type="submit" name="ResetSearchStatsButton" value="{'Reset statistics'|i18n( 'design/admin/search/stats' )}" title="{'Clear the search log.'|i18n( 'design/admin/search/stats' )}" />
 {section-else}
-    <input class="button" type="submit" name="ResetSearchStatsButton" value="{'Reset statistics'|i18n( 'design/admin/search/stats' )}" disabled="disabled" />
+    <input class="button-disabled" type="submit" name="ResetSearchStatsButton" value="{'Reset statistics'|i18n( 'design/admin/search/stats' )}" disabled="disabled" />
 {/section}
 
 </div>
