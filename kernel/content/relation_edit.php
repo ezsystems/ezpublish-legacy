@@ -118,37 +118,41 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
             if ( !( $nodeID >= 0 ) )
                 $nodeID = 2;
             $node =& eZContentObjectTreeNode::fetch( $nodeID );
-            $parentContentObject =& $node->attribute( 'object' );
 
-            if ( $parentContentObject->checkAccess( 'create', $http->postVariable( 'ClassID' ), $parentContentObject->attribute( 'contentclass_id' ) ) == '1' )
+            if ( $node != null )
             {
-                $user =& eZUser::currentUser();
-                $userID =& $user->attribute( 'contentobject_id' );
-                $sectionID = $parentContentObject->attribute( 'section_id' );
-                $contentClassID = $http->postVariable( 'ClassID' );
-                $class =& eZContentClass::fetch( $contentClassID );
-                $editVersion = $object->attribute( 'current_version' );
-                $language = $object->attribute( 'current_language' );
-                $parentObjectID = $object->attribute( 'id' );
+                $parentContentObject =& $node->attribute( 'object' );
 
-                $contentObject =& $class->instantiate( $userID, $sectionID );
-                $nodeAssignment =& eZNodeAssignment::create( array(
-                                                                 'contentobject_id' => $contentObject->attribute( 'id' ),
-                                                                 'contentobject_version' => $contentObject->attribute( 'current_version' ),
-                                                                 'parent_node' => $node->attribute( 'node_id' ),
-                                                                 'main' => 1
-                                                                 )
-                                                             );
-                $nodeAssignment->store();
+                if ( $parentContentObject->checkAccess( 'create', $http->postVariable( 'ClassID' ), $parentContentObject->attribute( 'contentclass_id' ) ) == '1' )
+                {
+                    $user =& eZUser::currentUser();
+                    $userID =& $user->attribute( 'contentobject_id' );
+                    $sectionID = $parentContentObject->attribute( 'section_id' );
+                    $contentClassID = $http->postVariable( 'ClassID' );
+                    $class =& eZContentClass::fetch( $contentClassID );
+                    $editVersion = $object->attribute( 'current_version' );
+                    $language = $object->attribute( 'current_language' );
+                    $parentObjectID = $object->attribute( 'id' );
 
-                $http->setSessionVariable( 'ParentObject', array( $parentObjectID, $editVersion, $language ) );
-                $http->setSessionVariable( 'NewObjectID', $contentObject->attribute( 'id' ) );
-                $module->redirectTo( $module->functionURI( 'edit' ) . '/' . $contentObject->attribute( 'id' ) );
-                return;
+                    $contentObject =& $class->instantiate( $userID, $sectionID );
+                    $nodeAssignment =& eZNodeAssignment::create( array(
+                                                                     'contentobject_id' => $contentObject->attribute( 'id' ),
+                                                                     'contentobject_version' => $contentObject->attribute( 'current_version' ),
+                                                                     'parent_node' => $node->attribute( 'node_id' ),
+                                                                     'main' => 1
+                                                                     )
+                                                                 );
+                    $nodeAssignment->store();
+
+                    $http->setSessionVariable( 'ParentObject', array( $parentObjectID, $editVersion, $language ) );
+                    $http->setSessionVariable( 'NewObjectID', $contentObject->attribute( 'id' ) );
+                    $module->redirectTo( $module->functionURI( 'edit' ) . '/' . $contentObject->attribute( 'id' ) );
+                    return;
+                }
             }
             else
             {
-                $Module->redirectTo( '/error/403' );
+                $module->redirectTo( '/error/403' );
                 return;
             }
         }
