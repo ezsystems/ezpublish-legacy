@@ -56,3 +56,14 @@ eZ template:
 
 eZPHPCreator
 - New class for generating PHP cache files.
+
+eZ setup:
+- setup tool for eZ publish. Set the setting CheckValidity in site.ini to true and install eZ
+  publish.
+- tests if eZ publish can work: PHP version, DB modules, PHP modules, ImageMagick, File
+  permissions
+- helps with suggestions what to do if any steps fail
+- installs the database: DB type, DB server, DB name, DB charset, creates new DB user if wanted
+- installs demo data: unpacks it (if zlib module is available) and install database content
+- sets some initial configuration settings (title, domain, charset)
+- sends (if wanted) register email to eZ szstems. Can use SMTP server (w/ login) to send email.
