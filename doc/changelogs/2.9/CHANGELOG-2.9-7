@@ -66,6 +66,7 @@ Changes from 2.9-6 to 2.9-7
   and session variables and ini files.
 - User login can now be done with email address as well as username.
 - Bug with correct fetchTree count when using limitations is fixed
+- Cleaned up eZXMLText class interface
 
 contentclass:
 - Moving attributes up in class edit now moves one step instead of two.
