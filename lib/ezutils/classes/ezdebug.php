@@ -379,18 +379,23 @@ class eZDebug
       Writes a debug notice.
 
       The global variable \c 'eZDebugNotice' will be set to \c true if the notice is added.
+      \param $label This label will be associated with the notice, e.g. to say where the notice came from.
+      \param $backgroundClass A string defining the class to use in the HTML debug output.
     */
-    function writeNotice( $string, $label="", $backgroundClass="")
+    function writeNotice( $string, $label = "", $backgroundClass = "" )
     {
         $alwaysLog = eZDebug::alwaysLogMessage( EZ_LEVEL_NOTICE );
         $enabled = eZDebug::isDebugEnabled();
         if ( !$alwaysLog and !$enabled )
             return;
+
         $show = eZDebug::showMessage( EZ_SHOW_NOTICE );
         if ( !$alwaysLog and !$show )
             return;
+
         if ( is_object( $string ) || is_array( $string ) )
              $string =& eZDebug::dumpVariable( $string );
+
         $GLOBALS['eZDebugNotice'] = true;
         if ( !isset( $GLOBALS['eZDebugNoticeCount'] ) )
             $GLOBALS['eZDebugNoticeCount'] = 0;
@@ -408,7 +413,9 @@ class eZDebug
             }
         }
         else
+        {
             $debug->write( $string, EZ_LEVEL_NOTICE, $label, $backgroundClass, $alwaysLog );
+        }
     }
 
     /*!
@@ -416,18 +423,22 @@ class eZDebug
       Writes a debug warning.
 
       The global variable \c 'eZDebugWarning' will be set to \c true if the notice is added.
+      \param $label This label will be associated with the notice, e.g. to say where the notice came from.
     */
-    function writeWarning( $string, $label="" )
+    function writeWarning( $string, $label = "" )
     {
         $alwaysLog = eZDebug::alwaysLogMessage( EZ_LEVEL_WARNING );
         $enabled = eZDebug::isDebugEnabled();
         if ( !$alwaysLog and !$enabled )
             return;
+
         $show = eZDebug::showMessage( EZ_SHOW_WARNING );
         if ( !$alwaysLog and !$show )
             return;
+
         if ( is_object( $string ) || is_array( $string ) )
             $string =& eZDebug::dumpVariable( $string );
+
         $GLOBALS['eZDebugWarning'] = true;
         if ( !isset( $GLOBALS['eZDebugWarningCount'] ) )
             $GLOBALS['eZDebugWarningCount'] = 0;
@@ -445,7 +456,9 @@ class eZDebug
             }
         }
         else
+        {
             $debug->write( $string, EZ_LEVEL_WARNING, $label, '', $alwaysLog );
+        }
     }
 
     /*!
@@ -453,18 +466,22 @@ class eZDebug
       Writes a debug error.
 
       The global variable \c 'eZDebugError' will be set to \c true if the notice is added.
+      \param $label This label will be associated with the notice, e.g. to say where the notice came from.
     */
-    function writeError( $string, $label="" )
+    function writeError( $string, $label = "" )
     {
         $alwaysLog = eZDebug::alwaysLogMessage( EZ_LEVEL_ERROR );
         $enabled = eZDebug::isDebugEnabled();
         if ( !$alwaysLog and !$enabled )
             return;
+
         $show = eZDebug::showMessage( EZ_SHOW_ERROR );
         if ( !$alwaysLog and !$show )
             return;
+
         if ( is_object( $string ) || is_array( $string ) )
             $string =& eZDebug::dumpVariable( $string );
+
         $GLOBALS['eZDebugError'] = true;
         if ( !isset( $GLOBALS['eZDebugErrorCount'] ) )
             $GLOBALS['eZDebugErrorCount'] = 0;
@@ -492,18 +509,22 @@ class eZDebug
       Writes a debug message.
 
       The global variable \c 'eZDebugDebug' will be set to \c true if the notice is added.
+      \param $label This label will be associated with the notice, e.g. to say where the notice came from.
     */
-    function writeDebug( $string, $label="" )
+    function writeDebug( $string, $label = "" )
     {
         $alwaysLog = eZDebug::alwaysLogMessage( EZ_LEVEL_DEBUG );
         $enabled = eZDebug::isDebugEnabled();
         if ( !$alwaysLog and !$enabled )
             return;
+
         $show = eZDebug::showMessage( EZ_SHOW_DEBUG );
         if ( !$alwaysLog and !$show )
             return;
+
         if ( is_object( $string ) || is_array( $string ) )
             $string =& eZDebug::dumpVariable( $string );
+
         $GLOBALS['eZDebugDebug'] = true;
         if ( !isset( $GLOBALS['eZDebugDebugCount'] ) )
             $GLOBALS['eZDebugDebugCount'] = 0;
@@ -521,7 +542,9 @@ class eZDebug
             }
         }
         else
+        {
             $debug->write( $string, EZ_LEVEL_DEBUG, $label, '', $alwaysLog );
+        }
     }
 
     /*!
@@ -616,9 +639,10 @@ class eZDebug
     }
 
     /*!
+      \private
       Writes a debug log message.
     */
-    function write( $string, $verbosityLevel = EZ_LEVEL_NOTICE, $label="", $backgroundClass="", $alwaysLog = false )
+    function write( $string, $verbosityLevel = EZ_LEVEL_NOTICE, $label = "", $backgroundClass = "", $alwaysLog = false )
     {
         $enabled = eZDebug::isDebugEnabled();
         if ( !$alwaysLog and !$enabled )
@@ -942,7 +966,7 @@ class eZDebug
      Determine if an ipaddress is in a network. E.G. 120.120.120.120 in 120.120.0.0/24.
      \return true or false.
     */
-    function isIPInNet( $ipaddress, $network, $mask=24 )
+    function isIPInNet( $ipaddress, $network, $mask = 24 )
     {
         $lnet = ip2long( $network );
         $lip = ip2long( $ipaddress );
