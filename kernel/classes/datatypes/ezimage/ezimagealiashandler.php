@@ -833,9 +833,13 @@ class eZImageAliasHandler
         $attributeID = $contentObjectAttribute->attribute( 'id' );
         $attributeVersion = $contentObjectAttribute->attribute( 'version' );
 
-        $imageRow =& $db->arrayQuery( "SELECT * FROM ezimage
+        if ( is_numeric( $attributeID ) )
+        {
+            $imageRow =& $db->arrayQuery( "SELECT * FROM ezimage
                                            WHERE contentobject_attribute_id=$attributeID AND
                                                  version=$attributeVersion" );
+        }
+
         $doc = new eZDOMDocument();
         $imageNode =& $doc->createElementNode( "ezimage" );
         $doc->setRoot( $imageNode );
