@@ -56,7 +56,7 @@
   <a id="menu-view" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )">Edit</a>
   <a id="menu-edit" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )">View</a>
   <hr />
-  <a id="menu-new" href="#" onmouseover="ezpopmenu_showSubLevel( 'submenu' )" >Create new</a>
+  <a id="menu-new" href="#" onmouseover="ezpopmenu_showSubLevel( 'submenu', 'menu-new' )" >Create new</a>
  </div>
  The submenu basically works the same way.
  <div class="menu" id="submenu">
@@ -64,12 +64,11 @@
   <a id="menu-new-folder" href="#" onmouseover="ezpopmenu_mouseOver( 'submenu')">Folder</a>
  </div>
 
- To activate the first menu call the method ezpopmenu_showTopLevel. It takes the name of the menu
- and the node id as parameter.
+ To activate the first menu call the method ezpopmenu_showTopLevel. In this case links in the setup array containing the string
+ %nodeID% will be substituted by 42.
 
  example:
- <a href="javascript: ezpopmenu_showTopLevel( 'ContextMenu', 42 )"
-   onmouseover="ezpopmenu_showTopLevel( 'ContextMenu', '42' )">show</a><br />
+ <a onmouseclick="ezpopmenu_showTopLevel( event, 'ContextMenu', ez_createAArray( array( %nodeID%, 42) ) ); return false;">show</a><br />
 
 
   Note that the menus need to have the following css properties set:
@@ -91,10 +90,10 @@
  menuArray['ContextMenu']['depth'] = 0;  // depth of menu. Toplevel = 0.
  menuArray['ContextMenu']['elements'] = new Array();
  menuArray['ContextMenu']['elements']['menu-view'] = new Array();
- menuArray['ContextMenu']['elements']['menu-view']['url'] = '/content/view/%';
+ menuArray['ContextMenu']['elements']['menu-view']['url'] = '/content/view/%nodeID%';
 
  menuArray['ContextMenu']['elements']['menu-edit'] = new Array();
- menuArray['ContextMenu']['elements']['menu-edit']['url'] = '/content/edit/%';
+ menuArray['ContextMenu']['elements']['menu-edit']['url'] = '/content/edit/%nodeID%';
  menuArray['ContextMenu']['elements']['menu-view']['disabled_for'] = new Array();
  menuArray['ContextMenu']['elements']['menu-view']['disabled_for'][35] = 'yes';
  menuArray['ContextMenu']['elements']['menu-view']['disabled_for'][55] = 'yes';
@@ -114,6 +113,7 @@
 
 //Global CONSTANS
 EZPOPMENU_OFFSET = 8;
+EZPOPMENU_SUBTOPOFFSET = 4;
 
 // Global VARS
 // CurrentNodeID holds id of current node to edit for submenu's
@@ -138,47 +138,50 @@ function ezpopmenu_showTopLevel( event, menuID, substituteValues, menuHeader, di
     ezjslib_mouseHandler( event ); // register new mouse position
 
     if ( substituteValues != -1 ) // new topmenu
-    { 
-	ezpopmenu_hideAll();
-	CurrentSubstituteValues = substituteValues;
+    {
+        ezpopmenu_hideAll();
+        CurrentSubstituteValues = substituteValues;
     }
 
     if( disableID != -1 )
     {
-	CurrentDisableID = disableID;
+        CurrentDisableID = disableID;
     }
 
-    // Do URL replace for all items in that menu
-    for ( var i in menuArray[menuID]['elements'] )
-    {
-        var hrefElement = document.getElementById( i );
-
-        // href replacement
-        var replaceString = menuArray[menuID]['elements'][i]['url'];
-	// loop though substitute values and substitute for each of them
-	for ( var substItem in CurrentSubstituteValues )
-        {
-		replaceString = replaceString.replace( substItem, CurrentSubstituteValues[substItem] );
-        }
-	hrefElement.setAttribute( "href", replaceString );
-
-        // enabled/disabled
-        if( typeof( menuArray[menuID]['elements'][i]['disabled_class'] ) != 'undefined' &&
-            menuArray[menuID]['elements'][i]['disabled_for'][CurrentDisableID] == 'yes' )
-        {
-            hrefElement.className = menuArray[menuID]['elements'][i]['disabled_class'];
-        }
-    }
-
-    // set header
-    if( menuHeader && typeof( menuArray[menuID]['headerID'] ) != 'undefined' )
-    {
-        var header = document.getElementById( menuArray[menuID]['headerID'] );
-        if( header ) header.innerHTML = menuHeader;
-    }
+    ezpopmenu_doItemSubstitution( menuID, menuHeader );
 
     // make menu visible
-    ezpopmenu_moveOnScreen( menuID );
+    ezpopmenu_moveTopLevelOnScreen( menuID );
+    ezpopmenu_makeVisible( menuID );
+}
+
+/*!
+  Show sublevel menu. The current substitute values are remembered from the last call to
+  ezpopmenu_showTopLevel().
+  Params:
+  event - Just pass the event causing the script to popup.
+  menuName - The name of the menu to popup
+  overItem - The id of the item that caused the popup. This is used to reposition the menu correctly.
+ */
+function ezpopmenu_showSubLevel( event, menuID, overItem )
+{
+    if( !document.getElementById( menuID ) ) return;
+    ezjslib_mouseHandler( event ); // register new mouse position
+    //    ezpopmenu_showTopLevel( event, menuName, -1 );
+    ezpopmenu_doItemSubstitution( menuID );
+
+    // make menu visible
+    ezpopmenu_moveSubLevelOnScreen( menuID, overItem );
+    ezpopmenu_makeVisible( menuID );
+}
+
+/*!
+  Makes a window visible for the user.
+  This method also sets the necessary variables in order to make the menu
+  disappear when appropriate.
+ */
+function ezpopmenu_makeVisible( menuID )
+{
     var styleObject = ezjslib_getStyleObject( menuID, document );
     if( styleObject ) styleObject.visibility = 'visible';
     VisibleMenus[menuArray[menuID]['depth']] = menuID;
@@ -189,41 +192,116 @@ function ezpopmenu_showTopLevel( event, menuID, substituteValues, menuHeader, di
 }
 
 /*!
+  Substitute the values of the items in the menu with the items given to the first
+  showTopLEvel call.
+ */
+function ezpopmenu_doItemSubstitution( menuID, menuHeader )
+{
+    // Do URL replace for all items in that menu
+    for ( var i in menuArray[menuID]['elements'] )
+    {
+        var hrefElement = document.getElementById( i );
+
+        // href replacement
+        var replaceString = menuArray[menuID]['elements'][i]['url'];
+	    // loop though substitute values and substitute for each of them
+	    for ( var substItem in CurrentSubstituteValues )
+        {
+		    replaceString = replaceString.replace( substItem, CurrentSubstituteValues[substItem] );
+        }
+	    hrefElement.setAttribute( "href", replaceString );
+
+        // enabled/disabled
+        if( typeof( menuArray[menuID]['elements'][i]['disabled_class'] ) != 'undefined' &&
+            menuArray[menuID]['elements'][i]['disabled_for'][CurrentDisableID] == 'yes' )
+        {
+            hrefElement.className = menuArray[menuID]['elements'][i]['disabled_class'];
+        }
+    }
+
+    // set header
+    if ( menuHeader && typeof( menuArray[menuID]['headerID'] ) != 'undefined' )
+    {
+        var header = document.getElementById( menuArray[menuID]['headerID'] );
+        if ( header ) header.innerHTML = menuHeader;
+    }
+
+}
+
+/*!
+  Reposition a toplevel menu according to the mouse position.
   Makes sure the complete menu is visible in the viewing area.
-  The menu is repositioned like most OS's do. If it doesn't fit it is moved
-  to the opposite side of the mouse pointer.
+  The menu is repositioned like most OS's do if it doesn't fit at the normal position: is moved
+  to the opposite side of the mouse pointer/menu.
 */
-function ezpopmenu_moveOnScreen( menuID )
+function ezpopmenu_moveTopLevelOnScreen( menuID )
 {
     menuElement = document.getElementById( menuID );
     screenData = ezjslib_getScreenProperties();
-    newX = 0; newY = 0;
-    if( (screenData.ScrollY + screenData.Height) < ( MouseY + EZPOPMENU_OFFSET + menuElement.offsetHeight ) )
-	newY = MouseY - EZPOPMENU_OFFSET - menuElement.offsetHeight; // compensate if we are below the screen
-    else if( screenData.ScrollY > EZPOPMENU_OFFSET + MouseY )
-	 newY = screenData.ScrollY;  // compensate if we are above the top of the screen
-    else
-	newY = MouseY + EZPOPMENU_OFFSET;
-        
-    if( (screenData.ScrollX + screenData.Width) < ( MouseX + EZPOPMENU_OFFSET + menuElement.offsetWidth ) )
-	newX = MouseX - EZPOPMENU_OFFSET - menuElement.offsetWidth;     // compensate if we are to the right of the screen
-    else if( screenData.ScrollX > EZPOPMENU_OFFSET + MouseX )
-	 newX = screenData.ScrollX;  // compensate if we are to the left
-    else
-	newX = MouseX + EZPOPMENU_OFFSET;
+    var newX = 0; var newY = 0;
 
+    // compensate if we are below the screen
+    if( (screenData.ScrollY + screenData.Height) < ( MouseY + EZPOPMENU_OFFSET + menuElement.offsetHeight ) )
+        newY = MouseY - EZPOPMENU_OFFSET - menuElement.offsetHeight;
+    // compensate if we are above the top of the screen
+    else if( screenData.ScrollY > EZPOPMENU_OFFSET + MouseY )
+        newY = screenData.ScrollY;
+    else
+        newY = MouseY + EZPOPMENU_OFFSET;
+
+    // compensate if we are to the right of the screen
+    if( (screenData.ScrollX + screenData.Width) < ( MouseX + EZPOPMENU_OFFSET + menuElement.offsetWidth ) )
+        newX = MouseX - EZPOPMENU_OFFSET - menuElement.offsetWidth;
+    // compensate if we are to the left
+    else if( screenData.ScrollX > EZPOPMENU_OFFSET + MouseX )
+        newX = screenData.ScrollX;
+    else
+        newX = MouseX + EZPOPMENU_OFFSET;
     // reposition menu
     menuElement.style.left = newX + "px";
     menuElement.style.top = newY + "px";
 }
 
+
 /*!
-  Show sublevel menu. The current nodeid is remembered from the last call to
-  ezpopmenu_showTopLevel()
- */
-function ezpopmenu_showSubLevel( event, menuName )
+  Reposition a toplevel menu according to parent window.
+  Makes sure the complete menu is visible in the viewing area.
+  The menu is repositioned like most OS's do if it doesn't fit at the normal position: is moved
+  to the opposite side of the mouse pointer/menu.
+  TODO: If you have several submenus we should store any side adjustment in order to
+  always adjust to the same side
+*/
+function ezpopmenu_moveSubLevelOnScreen( menuID, alignItem )
 {
-    ezpopmenu_showTopLevel( event, menuName, -1 );
+    menuElement = document.getElementById( menuID );
+    screenData = ezjslib_getScreenProperties();
+    var newX = 0; var newY = 0;
+
+    alignElement = document.getElementById( alignItem );
+    parentElement = document.getElementById( VisibleMenus[menuArray[menuID]['depth'] - 1] );
+
+    if( alignElement && parentElement )
+    {
+        newX = parseInt( parentElement.style.left ) + menuElement.offsetWidth - EZPOPMENU_OFFSET;
+        newY = parseInt( parentElement.style.top ) + alignElement.offsetTop + EZPOPMENU_SUBTOPOFFSET;;
+    }
+    // compensate if we are below the screen
+    if( ( screenData.ScrollY + screenData.Height ) < ( newY + menuElement.offsetHeight ) )
+        newY = screenData.ScrollY + screenData.Height - menuElement.offsetHeight;
+    // compensate if above the screen
+    else if( screenData.ScrollY > newY )
+        newY = screenData.ScrollY;
+
+    // compensate if we are to the right of the screen
+    if( ( screenData.ScrollX + screenData.Width ) < ( newX + menuElement.offsetWidth ) )
+    {
+        newX = parseInt( parentElement.style.left ) + EZPOPMENU_OFFSET - menuElement.offsetWidth;
+    }
+    // to the left is impossible
+
+    // reposition menu
+    menuElement.style.left = newX + "px";
+    menuElement.style.top = newY + "px";
 }
 
 /*!
@@ -236,12 +314,12 @@ function ezpopmenu_submitForm( formID )
     if( formElement )
     {
         // for all children do replacement
-        var children = formElement.childNodes; 
-        for( var i = 0; i < children.length; i++) 
+        var children = formElement.childNodes;
+        for( var i = 0; i < children.length; i++)
         {
-	    if( children[i].type == 'hidden' )
+            if( children[i].type == 'hidden' )
             {
-	    	for ( var substItem in CurrentSubstituteValues )
+                for ( var substItem in CurrentSubstituteValues )
                     children[i].value = children[i].value.replace( substItem, CurrentSubstituteValues[substItem] );
             }
         }
@@ -296,10 +374,10 @@ function ez_createAArray( flat )
 {
     var resultArray = new Array();
     if( flat.length % 2 != 0 ) return resultArray;
-    
+
     var len = flat.length / 2;
     for ( var i = 0; i <= len; i += 2 )
-	resultArray[flat[i]] = flat[i+1];
+        resultArray[flat[i]] = flat[i+1];
 
    return resultArray;
 }
