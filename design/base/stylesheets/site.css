@@ -284,7 +284,7 @@ div#leftmenu-design li.menu-level-1 a
 div#rightmenu 
 {
     float: right;
-    width: 14em;
+    width: 15em;
 }
 
 div#rightmenu-design
@@ -299,14 +299,14 @@ div#maincontent
 div.maincontent-bothmenus
 { 
     margin-left: 14em;
-    margin-right: 15em;
+    margin-right: 16em;
     height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
 }
 
 div.maincontent-noleftmenu
 { 
     margin-left: 10px;
-    margin-right: 15em;
+    margin-right: 16em;
     height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
 }
 
