@@ -7,7 +7,7 @@
 {section show=$db_error}
   <blockquote class="error">
   <p>
-      {$db_error.text|wash}
+      {$db_error.text}
   </p>
   </blockquote>
 {/section}
