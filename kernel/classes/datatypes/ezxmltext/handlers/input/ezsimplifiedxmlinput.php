@@ -1376,9 +1376,9 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             {
                 $pos = strpos( $data, "<", $pos + 1 );
             }
-            while( !ereg( "^[a-zA-Z_:/]$", $data[$pos+1] ) && $pos < strlen( $data ) );
+            while( $pos !== false && !ereg( "^[a-zA-Z_:/]$", $data[$pos+1] ) && $pos < strlen( $data ) );
 
-            if ( $pos == false )
+            if ( $pos === false )
             {
                 // end of document
                 $pos = strlen( $data );
@@ -1894,7 +1894,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $tagContent =& str_replace("&apos;", "'", $tagContent );
                 $tagContent =& str_replace("&quot;", '"', $tagContent );
 
-                // Sequence like '&amp;amp;' should not be converted to '&amp;' ( if not inside a literal tag ) 
+                // Sequence like '&amp;amp;' should not be converted to '&amp;' ( if not inside a literal tag )
                 $tagContent =& preg_replace("#&amp;(?!lt;|gt;|amp;|&apos;|&quot;)#", "&", $tagContent );
 
                 $output .= $tagContent;
