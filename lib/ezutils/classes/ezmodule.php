@@ -730,6 +730,7 @@ class eZModule
         {
             eZDebug::writeError( "Undefined view: " . $this->Module["name"] . "::$functionName ",
                                  "eZModule" );
+            $this->setExitStatus( EZ_MODULE_STATUS_FAILED );
             return null;
         }
         if ( $this->singleFunction() )

@@ -325,18 +325,19 @@ class eZModuleOperationInfo
                     }
                     else
                     {
-                        if ( $bodyName == 'pre_read' and
-                             $operationParameters['node_id'] == 16 )
-                        {
-                            print( "Trigger halted:$triggerName<br/>" );
-//                             print( "<pre>" );
-//                             var_dump( $currentLoopData );
-//                             print( "</pre>" );
-                            $bodyReturnValue['status'] = false;
-                            $bodyReturnValue['result'] = array( 'content' => '<h1>sadfasdfsf</h1>' );
-                            return $bodyReturnValue;
-                        }
-                        else
+                        // Hack to get trigger for node id 16
+//                         if ( $bodyName == 'pre_read' and
+//                              $operationParameters['node_id'] == 16 )
+//                         {
+//                             print( "Trigger halted:$triggerName<br/>" );
+// //                             print( "<pre>" );
+// //                             var_dump( $currentLoopData );
+// //                             print( "</pre>" );
+//                             $bodyReturnValue['status'] = false;
+//                             $bodyReturnValue['result'] = array( 'content' => '<h1>sadfasdfsf</h1>' );
+//                             return $bodyReturnValue;
+//                         }
+//                         else
                         {
                             ++$callValues['loop_run'][$bodyName];
                             print( "Trigger:$triggerName<br/>" );

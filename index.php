@@ -207,7 +207,8 @@ while ( $moduleRunRequired )
         else
         {
             $moduleResult =& $module->run( $function_name, $params );
-            if ( $moduleResult == null )
+            if ( $module->exitStatus() == EZ_MODULE_STATUS_FAILED and
+                 $moduleResult == null )
                 $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_MODULE_VIEW_NOT_FOUND, 'kernel', array( 'module' => $module_name,
                                                                                                                'view' => $function_name ) );
         }
