@@ -4,7 +4,7 @@
      node_name=$node.name
      children=$node.children}
 
-{pdf(header, hash( type, 2,
+{pdf(header, hash( level, 1,
                    text, $node_name,
 		   size, 26,
 		   align, left ) )}

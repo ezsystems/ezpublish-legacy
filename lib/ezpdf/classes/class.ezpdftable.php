@@ -766,6 +766,7 @@ class eZPDFTable extends Cezpdf
         $lbl = rawurldecode(substr($tmp,1));
         $num=$this->ezWhatPageNumber($this->ezGetCurrentPageNumber());
         $this->TOC[] = array($lbl,$num,$lvl );
+        $this->addDestination( 'toc'. ( count( $this->TOC ) - 1 ), 'FitH', $this->offsetY() );
     }
 
     /*!

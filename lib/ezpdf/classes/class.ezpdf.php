@@ -983,6 +983,7 @@ class Cezpdf extends Cpdf
                     $this->ez['links']=array();
                 }
                 $i = $info['nCallback'];
+
                 $this->ez['links'][$i] = array('x'=>$info['x'],'y'=>$info['y'],'angle'=>$info['angle'],'decender'=>$info['decender'],'height'=>$info['height'],'url'=>$info['p']);
                 if ($internal==0){
                     $this->saveState();

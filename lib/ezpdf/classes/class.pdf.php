@@ -288,13 +288,14 @@ class Cpdf
 	    switch ($options['type']){
 		case 'XYZ':
 		case 'FitR':
-		    $tmp =  ' '.$options['p3'].$tmp;
-		case 'FitH':
+		    $tmp =  ' '.sprintf('%.3f',$options['p3']).$tmp;
 		case 'FitV':
 		case 'FitBH':
 		case 'FitBV':
-		    $tmp =  ' '.$options['p1'].' '.$options['p2'].$tmp;
+		    $tmp =  ' '.sprintf('%.3f',$options['p2']).$tmp;
 		case 'Fit':
+            case 'FitH':
+                $tmp =  ' '.sprintf('%.3f',$options['p1']).$tmp;
 		case 'FitB':
 		    $tmp =  $options['type'].$tmp;
 		$this->objects[$id]['info']['string']=$tmp;
@@ -1074,8 +1075,10 @@ class Cpdf
 		$res="\n".$id." 0 obj\n<< /Type /Action";
 		switch($o['type']){
 		    case 'ilink':
-			// there will be an 'label' setting, this is the name of the destination
-			$res.="\n/S /GoTo\n/D ".$this->destinations[(string)$o['info']['label']]." 0 R";
+                // there will be an 'label' setting, this is the name of the destination
+                //$res.="\n/S /GoTo\n/D [".$this->destinations[(string)$o['info']['label']]." 0 R /Fit]";
+                $res.="\n/S /GoTo\n/D [".$this->objects[$this->destinations[(string)$o['info']['label']]]['info']['page']." 0 R /".
+                     $this->objects[$this->destinations[(string)$o['info']['label']]]['info']['string'] ."]";
 		    break;
 		    case 'URI':
 			$res.="\n/S /URI\n/URI (";
@@ -1926,6 +1929,16 @@ class Cpdf
 	    $this->setCurrentFont();
 	}
 	return $this->currentFontNum;
+    }
+
+    /**
+     Get current font
+
+     \return current font name
+    */
+    function currentFont()
+    {
+        return $this->currentBaseFont;
     }
 
 /**

@@ -96,6 +96,21 @@ class eZPDF
                 eZDebug::writeNotice( 'PDF: Generating TOC', 'eZPDF::modify' );
             } break;
 
+            case 'setfont':
+            {
+                $font = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+
+                if ( isset( $font['name'] ) )
+                {
+                    $this->PDF->selectFont( $font['name'] );
+                }
+                if ( isset( $font['size'] ) )
+                {
+                    $this->PDF->setFontSize( $font['size'] );
+                }
+                eZDebug::writeNotice( 'PDF: Changed font, name: '. $font['name'] .', size: '. $font['size'], 'eZPDF::modify' );
+            } break;
+
             case 'table':
             {
                 $table = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
@@ -110,12 +125,12 @@ class eZPDF
                 if ( !isset( $header['align'] ) )
                     $header['align'] = 'left';
                 $prevSize = $this->PDF->fontSize();
-                $this->PDF->ezText( $header['text'] .'<C:rf:'. $header['type'] .rawurlencode( $header['text'] ) .'>'. "\n",
+                $this->PDF->ezText( $header['text'] .'<C:rf:'. $header['level'] .rawurlencode( $header['text'] ) .'>'. "\n",
                                     $header['size'],
                                     array( 'justification' => $header['align'] ) );
                 $this->PDF->setFontSize( $prevSize );
                 eZDebug::writeNotice( 'PDF: Added header: '. $header['text'] .', size: '. $header['size'] .
-                                      ', align: '. $header['align'] .', level: '. $header['type'],
+                                      ', align: '. $header['align'] .', level: '. $header['level'],
                                       'eZPDF::modify' );
             } break;
 
@@ -182,18 +197,34 @@ class eZPDF
                 eZDebug::writeNotice( 'Striked text added to PDF: "'. $text .'"', 'eZPDF::modify' );
             } break;
 
+            /* usage : pdf(text, <text>, array( 'font' => <fontname>, 'size' => <fontsize> )) */
             case 'text':
             {
-                $operands = array();
-                for ( $i = 1; $i < count( $operatorParameters ); ++$i )
+                $text = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+
+                $prevFont = $this->PDF->currentFont();
+                $prevSize = $this->PDF->fontSize();
+
+                if ( count( $operatorParameters ) >= 3)
                 {
-                    $operand = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
-                    if ( !is_object( $operand ) )
-                        $operands[] = $operand;
+                    $textSettings = $tpl->elementValue( $operatorParameters[2], $rootNamespace, $currentNamespace );
+
+                    if ( isset( $textSettings ) )
+                    {
+                        if ( isset( $textSettings['font'] ) )
+                        {
+                            $this->PDF->selectFont( $textSettings['font'] );
+                        }
+                        if ( isset( $textSettings['size'] ) )
+                        {
+                            $this->PDF->setFontSize( $textSettings['size'] );
+                        }
+                    }
                 }
-                $text = eZTextTool::concat( $operands );
 
                 $this->PDF->ezText( $text );
+                $this->PDF->setFontSize( $prevSize );
+                $this->PDF->selectFont( $prevFont );
                 eZDebug::writeNotice( 'Text added to PDF: "'. $text .'"', 'eZPDF::modify' );
             } break;
 
