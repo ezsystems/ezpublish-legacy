@@ -18,7 +18,20 @@ Changes from 3.4.0alpha3 to 3.4.0alpha4
   http://ez.no/community/bug_reports/kernel_content_view_php_undefined_var_operationresult
 - Fixed removing node assignment when deleting nodes from stabel/3.3 rev 6269.
   http://ez.no/community/bug_reports/critical_node_assignments_aren_t_deleted_properly
-
+- Added the possibility of removing items in selection data type.
+  (Merged from stable/3.3, rev. 6259)
+  http://ez.no/community/bug_reports/selection_data_type_items_can_not_be_removed
+- Added file size checking while uploading files of image, media and binaryfile type.
+  (Merged from stable/3.3, rev. 6259)
+  http://ez.no/community/bug_reports/upload_file_size_checking_is_not_implemented
+- Fixed bug in ezlocale when converting negative numbers using , (comma) as the decimal
+  separator to the internal form.
+  (Merged from stable/3.3, rev. 6259)
+  http://ez.no/community/bug_reports/error_with_negative_numbers_in_float_datatype
+- Fixed removing node assignment when deleting nodes.
+  http://ez.no/community/bug_reports/critical_node_assignments_aren_t_deleted_properly
+- Fixed bug in ezuser datatype running query of the type '...where variable in ( )...'
+  http://ez.no/community/bug_reports/sql_error_user_group
 
 *Update
 

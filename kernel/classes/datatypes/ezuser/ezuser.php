@@ -1345,16 +1345,20 @@ WHERE user_id = '" . $userID . "' AND
                     }
                     $userGroupArray[] = $group['id'];
                 }
-                $pathArray = array_unique ($pathArray);
-                $extraGroups =& $db->arrayQuery( "SELECT c.contentobject_id as id
-                                                FROM ezcontentobject_tree  c,
-                                                     ezcontentobject d
-                                                WHERE c.node_id in ( " . implode( ', ', $pathArray ) . " ) AND
-                                                      d.id = c.contentobject_id
-                                                ORDER BY c.contentobject_id  ");
-                foreach ( $extraGroups as $group )
+
+                if ( count( $pathArray ) > 0 )
                 {
-                    $userGroupArray[] = $group['id'];
+                    $pathArray = array_unique ($pathArray);
+                    $extraGroups =& $db->arrayQuery( "SELECT c.contentobject_id as id
+                                                    FROM ezcontentobject_tree  c,
+                                                         ezcontentobject d
+                                                    WHERE c.node_id in ( " . implode( ', ', $pathArray ) . " ) AND
+                                                          d.id = c.contentobject_id
+                                                    ORDER BY c.contentobject_id  ");
+                    foreach ( $extraGroups as $group )
+                    {
+                        $userGroupArray[] = $group['id'];
+                    }
                 }
 
                 $http->setSessionVariable( 'eZUserGroupsCache', $userGroupArray );
