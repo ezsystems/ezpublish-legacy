@@ -1,15 +1,15 @@
 <div class="maincontentheader">
-<h1>{"Role list"|i18n('role/list')}</h1>
+<h1>{"Role list"|i18n("design/standard/role")}</h1>
 </div>
 
 <form action={concat($module.functions.list.uri,"/")|ezurl} method="post" >
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th width="97%">Name:</th>
-    <th width="1%">Assign:</th>
-    <th width="1%">Edit:</th>
-    <th width="1%">Remove:</th>
+    <th width="97%">{"Name:"|i18n("design/standard/role")}</th>
+    <th width="1%">{"Assign:"|i18n("design/standard/role")}</th>
+    <th width="1%">{"Edit:"|i18n("design/standard/role")}</th>
+    <th width="1%">{"Remove:"|i18n("design/standard/role")}</th>
 </tr>
 
 {section name=All loop=$roles sequence=array(bglight,bgdark)}
@@ -31,8 +31,8 @@
 </table>
 
 <div class="buttonblock">
-<input class="button" type="submit" name="NewButton" value="New" />
-<input class="button" type="submit" name="RemoveButton" value="Remove" />
+<input class="button" type="submit" name="NewButton" value="{'New'|i18n('design/standard/role')}" />
+<input class="button" type="submit" name="RemoveButton" value="{'Remove'|i18n('design/standard/role')}" />
 </div>
 
 </form>

@@ -1,25 +1,25 @@
 <div class="maincontentheader">
-<h1>{"create policy"|i18n('role/edit')} {$role.name}</h1>
+<h1>{"Create policy for"|i18n("design/standard/role")} {$role.name}</h1>
 </div>
 
 <form action={concat($module.functions.edit.uri,"/",$role.id,"/")|ezurl} method="post" >
 
-<h2>Step 1</h2>
+<h2>{"Step 1"|i18n("design/standard/role")}</h2>
 <div class="block">
-<label>Give access to module:</label><div class="labelbreak"></div>
+<label>{"Give access to module:"|i18n("design/standard/role")}</label><div class="labelbreak"></div>
     <select  name="Modules" size="1">
-    <option value="*"> Every module </option>
+    <option value="*">{"Every module"|i18n("design/standard/role")}</option>
     {section name=All loop=$modules }
       <option value="{$All:item}">{$All:item}</option>
     {/section}
     </select>
 </div>
 <div class="buttonblock">
-<input class="button" type="submit" name="AddModule" value="Allow all" />
-<input class="button" type="submit" name="CustomFunction" value="Allow limited" />
+<input class="button" type="submit" name="AddModule" value="{'Allow all'|i18n('design/standard/role')}" />
+<input class="button" type="submit" name="CustomFunction" value="{'Allow limited'|i18n('design/standard/role')}" />
 </div>
 <div class="buttonblock">
-<input class="button" type="submit" value="Cancel" />
+<input class="button" type="submit" value="{'Cancel'|i18n('design/standard/role')}" />
 </div>
 
 </form>

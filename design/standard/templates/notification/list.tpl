@@ -33,7 +33,7 @@
 {/section}
 </select>
 {include uri="design:gui/button.tpl" name=new id_name=NewRuleButton value="New Rule"|i18n("design/standard/notification")}
-{include uri="design:gui/button.tpl" name=delete id_name=DeleteRuleButton value="Delete"|i18n("design/standard/notification")}
+{include uri="design:gui/button.tpl" name=delete id_name=DeleteRuleButton value="Remove"|i18n("design/standard/notification")}
 {include uri="design:gui/button.tpl" name=send id_name=SendButton value="Send Message"|i18n("design/standard/notification")}
 </div>
 </form>
