@@ -30,6 +30,7 @@ eZPersistentObject:
 *DataType:
 
 *Shop:
+- Fixed link from orderlist to customerorderview 
 
 *Libraries:
 eZDebug
