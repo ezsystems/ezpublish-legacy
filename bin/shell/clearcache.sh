@@ -95,75 +95,99 @@ if [ ! -z "$VAR_SUBDIR" ]; then
     DIR="$DIR/$VAR_SUBDIR"
 fi
 
-CONTENT_CACHEDIR="$DIR/cache/content"
-IMAGE_CACHEDIR="$DIR/cache/texttoimage"
-INI_CACHEDIR="$DIR/cache/ini"
-TEMPLATE_CACHEDIR="$DIR/cache/template"
-TEMPLATE_OVERRIDE_CACHEDIR="$DIR/cache/override"
-TEMPLATE_BLOCK_CACHEDIR="$DIR/cache/template-block"
-TRANSLATION_CACHEDIR="$DIR/cache/translation"
-EXPIRY_CACHEFILE="$DIR/cache/expiry.php"
-URLALIAS_CACHEDIR="$DIR/cache/wildcard"
+SITEACCESS_DIR=""
+SETTINGS_DIR="settings"
 
-if [ "$CLEAR_CONTENT" -eq 1 ]; then
-    if [ -d "$CONTENT_CACHEDIR" ]; then
-	echo "Removing cache files in $CONTENT_CACHEDIR"
-	rm -rf "$CONTENT_CACHEDIR"
+for dir in $SETTINGS_DIR/siteaccess/*; do
+    if [ -d "$dir" ]; then
+	dirname=`basename $dir`
+	SITEACCESS_DIR="$SITEACCESS_DIR $dirname"
     fi
+done
+
+VAR_DIRS="$DIR"
+
+if [ -z "$VAR_SUBDIR" ]; then
+    for siteaccess in $SITEACCESS_DIR; do
+	VAR_DIRS="$VAR_DIRS $VAR_DIR/$siteaccess"
+    done
 fi
 
-if [ "$CLEAR_IMAGE" -eq 1 ]; then
-    if [ -d "$IMAGE_CACHEDIR" ]; then
-	echo "Removing image cache files in $IMAGE_CACHEDIR"
-	rm -rf "$IMAGE_CACHEDIR"
-    fi
-fi
+for DIR in $VAR_DIRS; do
 
-if [ "$CLEAR_INI" -eq 1 ]; then
-    if [ -d "$INI_CACHEDIR" ]; then
-	echo "Removing ini cache files in $INI_CACHEDIR"
-	rm -rf "$INI_CACHEDIR"
-    fi
-fi
+    if [ -d $DIR ]; then
 
-if [ "$CLEAR_TEMPLATE" -eq 1 ]; then
-    if [ -d "$TEMPLATE_CACHEDIR" ]; then
-	echo "Removing template cache files in $TEMPLATE_CACHEDIR"
-	rm -rf "$TEMPLATE_CACHEDIR"
-    fi
-fi
+	CONTENT_CACHEDIR="$DIR/cache/content"
+	IMAGE_CACHEDIR="$DIR/cache/texttoimage"
+	INI_CACHEDIR="$DIR/cache/ini"
+	TEMPLATE_CACHEDIR="$DIR/cache/template"
+	TEMPLATE_OVERRIDE_CACHEDIR="$DIR/cache/override"
+	TEMPLATE_BLOCK_CACHEDIR="$DIR/cache/template-block"
+	TRANSLATION_CACHEDIR="$DIR/cache/translation"
+	EXPIRY_CACHEFILE="$DIR/cache/expiry.php"
+	URLALIAS_CACHEDIR="$DIR/cache/wildcard"
 
-if [ "$CLEAR_TEMPLATE_OVERRIDE" -eq 1 ]; then
-    if [ -d "$TEMPLATE_OVERRIDE_CACHEDIR" ]; then
-	echo "Removing template override cache files in $TEMPLATE_OVERRIDE_CACHEDIR"
-	rm -rf "$TEMPLATE_OVERRIDE_CACHEDIR"
-    fi
-fi
+	if [ "$CLEAR_CONTENT" -eq 1 ]; then
+	    if [ -d "$CONTENT_CACHEDIR" ]; then
+		echo "Removing cache files in $CONTENT_CACHEDIR"
+		rm -rf "$CONTENT_CACHEDIR"
+	    fi
+	fi
 
-if [ "$CLEAR_TEMPLATE_BLOCK" -eq 1 ]; then
-    if [ -d "$TEMPLATE_BLOCK_CACHEDIR" ]; then
-	echo "Removing template-block cache files in $TEMPLATE_BLOCK_CACHEDIR"
-	rm -rf "$TEMPLATE_BLOCK_CACHEDIR"
-    fi
-fi
+	if [ "$CLEAR_IMAGE" -eq 1 ]; then
+	    if [ -d "$IMAGE_CACHEDIR" ]; then
+		echo "Removing image cache files in $IMAGE_CACHEDIR"
+		rm -rf "$IMAGE_CACHEDIR"
+	    fi
+	fi
 
-if [ "$CLEAR_TRANSLATION" -eq 1 ]; then
-    if [ -d "$TRANSLATION_CACHEDIR" ]; then
-	echo "Removing translation cache files in $TRANSLATION_CACHEDIR"
-	rm -rf "$TRANSLATION_CACHEDIR"
-    fi
-fi
+	if [ "$CLEAR_INI" -eq 1 ]; then
+	    if [ -d "$INI_CACHEDIR" ]; then
+		echo "Removing ini cache files in $INI_CACHEDIR"
+		rm -rf "$INI_CACHEDIR"
+	    fi
+	fi
 
-if [ "$CLEAR_EXPIRY" -eq 1 ]; then
-    if [ -d "$EXPIRY_CACHEFILE" ]; then
-	echo "Removing expiry cache file $EXPIRY_CACHEFILE"
-	rm -rf "$EXPIRY_CACHEFILE"
-    fi
-fi
+	if [ "$CLEAR_TEMPLATE" -eq 1 ]; then
+	    if [ -d "$TEMPLATE_CACHEDIR" ]; then
+		echo "Removing template cache files in $TEMPLATE_CACHEDIR"
+		rm -rf "$TEMPLATE_CACHEDIR"
+	    fi
+	fi
 
-if [ "$CLEAR_URLALIAS" -eq 1 ]; then
-    if [ -d "$URLALIAS_CACHEDIR" ]; then
-	echo "Removing translation cache files in $URLALIAS_CACHEDIR"
-	rm -rf "$URLALIAS_CACHEDIR"
+	if [ "$CLEAR_TEMPLATE_OVERRIDE" -eq 1 ]; then
+	    if [ -d "$TEMPLATE_OVERRIDE_CACHEDIR" ]; then
+		echo "Removing template override cache files in $TEMPLATE_OVERRIDE_CACHEDIR"
+		rm -rf "$TEMPLATE_OVERRIDE_CACHEDIR"
+	    fi
+	fi
+
+	if [ "$CLEAR_TEMPLATE_BLOCK" -eq 1 ]; then
+	    if [ -d "$TEMPLATE_BLOCK_CACHEDIR" ]; then
+		echo "Removing template-block cache files in $TEMPLATE_BLOCK_CACHEDIR"
+		rm -rf "$TEMPLATE_BLOCK_CACHEDIR"
+	    fi
+	fi
+
+	if [ "$CLEAR_TRANSLATION" -eq 1 ]; then
+	    if [ -d "$TRANSLATION_CACHEDIR" ]; then
+		echo "Removing translation cache files in $TRANSLATION_CACHEDIR"
+		rm -rf "$TRANSLATION_CACHEDIR"
+	    fi
+	fi
+
+	if [ "$CLEAR_EXPIRY" -eq 1 ]; then
+	    if [ -d "$EXPIRY_CACHEFILE" ]; then
+		echo "Removing expiry cache file $EXPIRY_CACHEFILE"
+		rm -rf "$EXPIRY_CACHEFILE"
+	    fi
+	fi
+
+	if [ "$CLEAR_URLALIAS" -eq 1 ]; then
+	    if [ -d "$URLALIAS_CACHEDIR" ]; then
+		echo "Removing translation cache files in $URLALIAS_CACHEDIR"
+		rm -rf "$URLALIAS_CACHEDIR"
+	    fi
+	fi
     fi
-fi
+done
