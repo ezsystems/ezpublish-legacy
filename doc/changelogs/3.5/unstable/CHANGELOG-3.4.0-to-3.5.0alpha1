@@ -467,6 +467,11 @@ eZ Template:
   - Optimization for {attribute_view_gui..} where we can make use of the
     available class definition.
 - Added a uniqid resource to a template to unique identify it.
+- Added an option to turn off generation of whitespace in the compiled
+  templates. This is on by default.
+
+eZPHPCreator:
+- Start using PHP's var_export function to generate all variables.
 
 eZXML:
 - Added support for PHP 4's libxml DOM parser to improve performance. This is

@@ -171,6 +171,11 @@ class eZTemplateOptimizer
             /* Analyse per node type */
             switch ( $kiddie[0] )
             {
+                case EZ_TEMPLATE_NODE_INTERNAL_SPACING_INCREASE:
+                case EZ_TEMPLATE_NODE_INTERNAL_SPACING_DECREASE:
+                    /* Removing unnecessary whitespace changes */
+                    unset( $tree[1][$key] );
+                    break;
                 case 3: /* Variable */
                     if ( isset( $tree[1][$key + 1] ) and
                          ( $tree[1][$key + 1][0] == 140 ) and

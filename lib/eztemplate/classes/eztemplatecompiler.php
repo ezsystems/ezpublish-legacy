@@ -464,7 +464,16 @@ class eZTemplateCompiler
 
         eZTemplateCompiler::createCommonCompileTemplate();
 
-        $php = new eZPHPCreator( eZTemplateCompiler::compilationDirectory(), $cacheFileName, eZTemplateCompiler::TemplatePrefix() );
+        /* Check if we need to disable the generation of spacing for the compiled templates */
+        $ini =& eZINI::instance();
+        $spacing = 'disabled';
+        if ( $ini->variable( 'TemplateSettings', 'UseFormatting' ) == 'enabled' )
+        {
+            $spacing = 'enabled';
+        }
+
+        $php = new eZPHPCreator( eZTemplateCompiler::compilationDirectory(), $cacheFileName,
+                                 eZTemplateCompiler::TemplatePrefix(), array( 'spacing' => $spacing ) );
         $php->addComment( 'URI:       ' . $resourceData['uri'] );
         $php->addComment( 'Filename:  ' . $resourceData['template-filename'] );
         $php->addComment( 'Timestamp: ' . $resourceData['time-stamp'] . ' (' . date( 'D M j G:i:s T Y', $resourceData['time-stamp'] ) . ')' );
@@ -524,7 +533,6 @@ class eZTemplateCompiler
         $transformedTree = array();
         eZTemplateCompiler::processNodeTransformation( $useComments, $php, $tpl, $rootNode, $resourceData, $transformedTree );
 
-        $ini =& eZINI::instance();
         if ( $ini->variable( 'TemplateSettings', 'TemplateOptimization' ) == 'enabled' )
         {
             require_once ('lib/eztemplate/classes/eztemplateoptimizer.php');

@@ -106,7 +106,7 @@ class eZPHPCreator
     /*!
      Initializes the creator with the directory path \a $dir and filename \a $file.
     */
-    function eZPHPCreator( $dir, $file, $prefix = '' )
+    function eZPHPCreator( $dir, $file, $prefix = '', $options = array() )
     {
         $this->PHPDir = $dir;
         $this->PHPFile = $file;
@@ -115,6 +115,14 @@ class eZPHPCreator
         $this->Elements = array();
         $this->TextChunks = array();
         $this->TemporaryCounter = 0;
+        if ( isset( $options['spacing'] ) and ( $options['spacing'] == 'disabled') )
+        {
+            $this->Spacing = false;
+        }
+        else
+        {
+            $this->Spacing = true;
+        }
     }
 
     //@{
@@ -496,6 +504,11 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
     */
     function variableText( $value, $column = 0, $iteration = 0, $maxIterations = 2 )
     {
+        if ( isset( $this->Spacing) and !$this->Spacing )
+        {
+            return var_export( $value, true );
+        }
+
         if ( is_bool( $value ) )
             $text = ( $value ? 'true' : 'false' );
         else if ( is_null( $value ) )
@@ -547,7 +560,16 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
                         $variableName = $variables[$parameter];
                         $variableValue = $value->$variableName;
                         $keyText = " ";
-                        $text .= $keyText . eZPHPCreator::variableText( $variableValue, $column + strlen( $keyText  ), $iteration + 1, $maxIterations );
+                        /* It is also used statically sometimes, so we need to
+                         * do this ugly hack */
+                        if ( $this and ( get_class( $this ) == 'ezphpcreator' ) )
+                        {
+                            $text .= $keyText . $this->variableText( $variableValue, $column + strlen( $keyText  ), $iteration + 1, $maxIterations );
+                        }
+                        else
+                        {
+                            $text .= $keyText . eZPHPCreator::variableText( $variableValue, $column + strlen( $keyText  ), $iteration + 1, $maxIterations );
+                        }
                         ++$i;
                     }
                     if ( $i > 0 )
@@ -603,7 +625,16 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
                                                            $key ) . "\"";
                         $keyText = " $keyText => ";
                     }
-                    $text .= $keyText . eZPHPCreator::variableText( $element, $column + strlen( $keyText  ), $iteration + 1, $maxIterations );
+                    /* It is also used statically sometimes, so we need to do
+                     * this ugly hack */
+                    if ( $this and ( get_class( $this ) == 'ezphpcreator' ) )
+                    {
+                        $text .= $keyText . $this->variableText( $element, $column + strlen( $keyText  ), $iteration + 1, $maxIterations );
+                    }
+                    else
+                    {
+                        $text .= $keyText . eZPHPCreator::variableText( $element, $column + strlen( $keyText  ), $iteration + 1, $maxIterations );
+                    }
                     ++$i;
                 }
                 if ( $i > 0 )
@@ -628,16 +659,16 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
     */
     function prependSpacing( $text, $spacing, $skipEmptyLines = true, $spacingString = " ", $splitString = "\n" )
     {
-        if ( $spacing == 0 )
+        if ( $spacing == 0 or !$this->Spacing )
             return $text;
         $textArray = explode( $splitString, $text );
         $newTextArray = array();
         foreach ( $textArray as $text )
         {
-            if ( trim( $text ) == '' )
-                $textLine = $text;
-            else
+            if ( trim( $text ) != '' and $this->Spacing )
                 $textLine = str_repeat( $spacingString, $spacing ) . $text;
+            else
+                $textLine = $text;
             $newTextArray[] = $textLine;
         }
         return implode( $splitString, $newTextArray );
@@ -926,10 +957,14 @@ print( $values['MyValue'] );
         $value = $element[2];
         $caseSensitive = $element[3];
         $parameters = $element[4];
-        $spacing = 0;
-        if ( isset( $parameters['spacing'] ) )
-            $spacing = $parameters['spacing'];
-        $text = str_repeat( ' ', $spacing );
+        $text = '';
+        if ( $this->Spacing )
+        {
+            $spacing = 0;
+            if ( isset( $parameters['spacing'] ) )
+                $spacing = $parameters['spacing'];
+            $text = str_repeat( ' ', $spacing );
+        }
         $nameText = $this->variableText( $name, 0 );
         $valueText = $this->variableText( $value, 0 );
         $text .= "define( $nameText, $valueText";
@@ -953,10 +988,13 @@ print( $values['MyValue'] );
             $includeName = 'include';
         $includeFileText = $this->variableText( $includeFile, 0 );
         $text = "$includeName( $includeFileText );\n";
-        $spacing = 0;
-        if ( isset( $parameters['spacing'] ) )
-            $spacing = $parameters['spacing'];
-        $text = str_repeat( ' ', $spacing ) . $text;
+        if ( $this->Spacing )
+        {
+            $spacing = 0;
+            if ( isset( $parameters['spacing'] ) )
+                $spacing = $parameters['spacing'];
+            $text = str_repeat( ' ', $spacing ) . $text;
+        }
         $this->write( $text );
     }
 
@@ -967,7 +1005,7 @@ print( $values['MyValue'] );
     {
         $elementAttributes = $element[2];
         $spacing = 0;
-        if ( isset( $elementAttributes['spacing'] ) )
+        if ( isset( $elementAttributes['spacing'] ) and $this->Spacing )
             $spacing = $elementAttributes['spacing'];
         $whitespaceHandling = $elementAttributes['whitespace-handling'];
         $eol = $elementAttributes['eol'];
@@ -1007,7 +1045,7 @@ print( $values['MyValue'] );
         $code = $element[1];
         $parameters = $element[2];
         $spacing = 0;
-        if ( isset( $parameters['spacing'] ) )
+        if ( isset( $parameters['spacing'] ) and $this->Spacing )
             $spacing = $parameters['spacing'];
         $text = eZPHPCreator::prependSpacing( $code, $spacing );
         $this->write( $text );
@@ -1036,7 +1074,7 @@ print( $values['MyValue'] );
         $parameters = $element[5];
         $text = '';
         $spacing = 0;
-        if ( isset( $parameters['spacing'] ) )
+        if ( isset( $parameters['spacing'] ) and $this->Spacing )
             $spacing = $parameters['spacing'];
         if ( is_array( $returnValue ) )
         {
@@ -1078,7 +1116,7 @@ print( $values['MyValue'] );
         $variableName = $element[1];
         $parameters = $element[2];
         $spacing = 0;
-        if ( isset( $parameters['spacing'] ) )
+        if ( isset( $parameters['spacing'] ) and $this->Spacing )
             $spacing = $parameters['spacing'];
         $text = "unset( \$$variableName );\n";
         $text = eZPHPCreator::prependSpacing( $text, $spacing );
@@ -1096,10 +1134,8 @@ print( $values['MyValue'] );
         {
             $parameters = $element[2];
             $spacing = 0;
-            if ( isset( $parameters['spacing'] ) )
-            {
+            if ( isset( $parameters['spacing'] ) and $this->Spacing )
                 $spacing = $parameters['spacing'];
-            }
             $text = 'unset( ';
             array_walk( $variableNames, create_function( '&$variableName,$key', '$variableName = "\$" . $variableName;') );
             $text .= join( ', ', $variableNames );
@@ -1127,7 +1163,7 @@ print( $values['MyValue'] );
                                                   'spacing' => 0 ),
                                            $variableParameters );
         $fullTree = $variableParameters['full-tree'];
-        $spacing = $variableParameters['spacing'];
+        $spacing = $this->Spacing ? $variableParameters['spacing'] : 0;
         $text = $this->variableNameText( $variableName, $assignmentType, $variableParameters );
         $maxIterations = 2;
         if ( $fullTree )
@@ -1158,5 +1194,6 @@ print( $values['MyValue'] );
     var $isAtomic;
     var $tmpFilename;
     var $requestedFilename;
+    var $Spacing = true;
 }
 ?>
