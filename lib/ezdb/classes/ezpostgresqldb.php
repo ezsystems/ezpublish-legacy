@@ -386,6 +386,7 @@ class eZPostgreSQLDB extends eZDBInterface
     */
     function lock( $table )
     {
+        $this->begin();
         if ( $this->isConnected() )
         {
              $this->query( "LOCK TABLE $table" );
@@ -397,6 +398,7 @@ class eZPostgreSQLDB extends eZDBInterface
     */
     function unlock()
     {
+        $this->commit();
     }
 
     /*!
@@ -404,10 +406,14 @@ class eZPostgreSQLDB extends eZDBInterface
     */
     function begin()
     {
+        $counter = $this->TransactionCounter++;
+        if ( $counter > 0 )
+            return false;
         if ( $this->isConnected() )
         {
             $this->query( "BEGIN WORK" );
         }
+        return true;
     }
 
     /*!
@@ -415,10 +421,20 @@ class eZPostgreSQLDB extends eZDBInterface
     */
     function commit()
     {
-        if ( $this->isConnected() )
+        if ( $this->TransactionCounter <= 0 )
         {
-            $this->query( "COMMIT WORK" );
+            eZDebug::writeError( 'No transaction in progress, cannot commit', 'eZPostgreSQLDB::commit' );
+            return false;
         }
+        --$this->TransactionCounter;
+        if ( $this->TransactionCounter == 0 )
+        {
+            if ( $this->isConnected() )
+            {
+                $this->query( "COMMIT WORK" );
+            }
+        }
+        return true;
     }
 
     /*!

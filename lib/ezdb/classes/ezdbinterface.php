@@ -98,6 +98,7 @@ class eZDBInterface
         $this->ConnectRetries = $connectRetries;
         $this->DBConnection = false;
         $this->DBWriteConnection = false;
+        $this->TransactionCounter = 0;
 
         if ( $this->UseBuiltinEncoding )
         {

@@ -101,6 +101,11 @@ eZ image:
 - Made sure the ImageDestroy calls are silenced in case they give out warnings which can crash
   the running PHP process.
 
+eZ db:
+- The postgresql driver now starts a transaction before it locks tables.
+- The postgresql driver now allows for recursive transactions, it does so by keeping track
+  of the number of transactions and only commits when all are done.
+
 *Translations:
 - Updated german translation (ger-DE), thanks to Björn Dieding.
 
