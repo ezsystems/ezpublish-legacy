@@ -13,18 +13,18 @@
 
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-br"><div class="box-bl"><div class="box-content">
 
-{let object=fetch( content, object, hash( object_id, $upload.content.object_id  ) )}
-
+{let content_object=fetch( content, object, hash( object_id, $upload.content.object_id  ) )
+     content_version=fetch( content, version, hash( object_id, $upload.content.object_id, version_id, $upload.content.object_version ) )}
 <p>
 <label>{'ID'|i18n( 'design/admin/content/upload' )}:</label>
-{$object.id}
+{$content_object.id}
 </p>
 
 <p>
 <label>{'Created'|i18n( 'design/admin/content/upload' )}:</label>
-{section show=$object.published}
-{$object.published|l10n( shortdatetime )}<br />
-{$object.current.creator.name}
+{section show=$content_object.published}
+{$content_object.published|l10n( shortdatetime )}<br />
+{$content_object.current.creator.name}
 {section-else}
 {'Not yet published'|i18n( 'design/admin/content/upload' )}
 {/section}
@@ -32,9 +32,9 @@
 
 <p>
 <label>{'Modified'|i18n( 'design/admin/content/upload' )}:</label>
-{section show=$object.modified}
-{$object.modified|l10n( shortdatetime )}<br />
-{fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name}
+{section show=$content_object.modified}
+{$content_object.modified|l10n( shortdatetime )}<br />
+{fetch( content, object, hash( object_id, $content_object.content_class.modifier_id ) ).name}
 {section-else}
 {'Not yet published'|i18n( 'design/admin/content/upload' )}
 {/section}
@@ -42,14 +42,54 @@
 
 <p>
 <label>{'Published version'|i18n( 'design/admin/content/upload' )}:</label>
-{section show=$object.published}
-{$object.current.version}
+{section show=$content_object.published}
+{$content_object.current.version}
 {section-else}
 {'Not yet published'|i18n( 'design/admin/content/upload ' )}
 {/section}
 </p>
 
-{/let}
+
+{* Manage versions. *}
+<div class="block">
+<input class="button-disabled" type="submit" name="" value="{'Manage versions'|i18n( 'design/admin/content/upload' )}" disabled="disabled" />
+</div>
+
+</div></div></div></div></div></div>
+
+</div>
+
+<br />
+
+<div class="drafts">
+
+<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
+<h4>{'Current draft'|i18n( 'design/admin/content/upload' )}</h4>
+
+</div></div></div></div></div></div>
+
+<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+
+{* Created. *}
+<p>
+<label>{'Created'|i18n( 'design/admin/content/upload' )}:</label>
+{$content_version.created|l10n( shortdatetime )}<br />
+{$content_version.creator.name}
+</p>
+
+{* Modified. *}
+<p>
+<label>{'Modified'|i18n( 'design/admin/content/upload' )}:</label>
+{$content_version.modified|l10n( shortdatetime )}<br />
+{$content_version.creator.name}
+</p>
+
+{* Version. *}
+<p>
+<label>{'Version'|i18n( 'design/admin/content/upload' )}:</label>
+{$content_version.version}
+</p>
 
 </div></div></div></div></div></div>
 
