@@ -197,8 +197,6 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &contentClassAttribute()
     {
-        eZDebug::writeDebug( $this, '$this' );
-        eZDebug::writeDebug( $this->ContentClassAttributeID, '$this->ContentClassAttributeID' );
         $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
         return $classAttribute;
     }
@@ -436,7 +434,6 @@ class eZContentObjectAttribute extends eZPersistentObject
     function &contentActionList()
     {
         $classAttribute =& $this->contentClassAttribute();
-        eZDebug::writeDebug( $classAttribute, 'classAttribute' );
         $dataType =& $classAttribute->dataType();
         return $dataType->contentActionList( $classAttribute );
     }

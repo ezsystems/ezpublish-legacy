@@ -33,6 +33,7 @@
 //
 
 include_once( 'kernel/classes/ezinformationcollection.php' );
+include_once( 'lib/ezutils/ezmail.php' );
 
 $Module =& $Params['Module'];
 $http =& eZHTTPTool::instance();
@@ -58,21 +59,41 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
 
         if ( $contentClassAttribute->attribute( 'is_information_collector' ) )
         {
-//            print( "Storing info:<br/>" );
+            print( "Storing info:<br/>" );
 
             // Collect the information for the current attribute
             if ( $contentObjectAttribute->fetchInput( $http, "ContentObjectAttribute" ) )
             {
                 // \todo add abstraction for data types
                 $content =& $contentObjectAttribute->content();
-                //              print( $content  . "<br/>" );
+                print( $content  . "<br/>" );
 
+                unset( $collectionAttribute );
                 $collectionAttribute =& eZInformationCollectionAttribute::create( $collection->attribute( 'id' ) );
                 $collectionAttribute->setAttribute( 'data_text', $content );
+                $attr =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
+                $collectionAttribute->setAttribute( 'contentclass_attribute_id', $attr->attribute( 'id' ) );
                 $collectionAttribute->store();
             }
         }
     }
+
+    // Send e-mail
+    $tpl =& templateInit();
+    $tpl->setVariable( 'collection', $collection );
+    $templateResult =& $tpl->fetch( 'design:content/collectedinfomail.tpl' );
+
+    $subject =& $tpl->variable( 'subject' );
+    print( $subject . "<br/>" );
+    print( $templateResult );
+    return;
+
+    $mail = new eZMail();
+    $mail->setTo( 'bf@ez.no' );
+    $mail->setSubject( $subject );
+    $mail->setBody( $templateResult );
+    $mail->send();
+
     $Module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );
     return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
 }

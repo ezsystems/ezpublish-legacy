@@ -61,9 +61,39 @@ class eZInformationCollection extends eZPersistentObject
                                          'created' => 'Created'
                                          ),
                       'keys' => array( 'id' ),
+                      "function_attributes" => array( "attributes" => "attributes",
+                                                      "object" => "object" ),
                       'increment_key' => 'id',
                       'class_name' => 'eZInformationCollection',
                       'name' => 'ezinformationcollection' );
+    }
+
+    function &attribute( $attr )
+    {
+        if ( $attr == 'attributes' )
+        {
+            return $this->informationCollectionAttributes();
+        }
+        else if ( $attr == 'object' )
+        {
+            return $this->object();
+        }
+        else
+            return eZPersistentObject::attribute( $attr );
+    }
+
+    function &informationCollectionAttributes( $asObject = true )
+    {
+        return eZPersistentObject::fetchObjectList( eZInformationCollectionAttribute::definition(),
+                                                    null,
+                                                    array( "informationcollection_id" => $this->ID ),
+                                                    null, null,
+                                                    $asObject );
+    }
+
+    function object()
+    {
+        return eZContentObject::fetch( $this->ContentObjectID );
     }
 
     /*!

@@ -54,13 +54,11 @@ class eZContentOperationCollection
 
     function readNode( $nodeID )
     {
-        eZDebug::writeDebug( "\$nodeID=$nodeID<br/>" );
+
     }
 
     function readObject( $nodeID, $languageCode )
     {
-        eZDebug::writeDebug( "\$nodeID=$nodeID<br/>" );
-
         $node =& eZContentObjectTreeNode::fetch( $nodeID );
 
         if ( $node === null )
@@ -86,15 +84,11 @@ class eZContentOperationCollection
         {
             $object->setCurrentLanguage( $languageCode );
         }
-
-
-        eZDebug::writeDebug( "\$nodeID=$nodeID<br/>" );
         return array( 'status' => true, 'object' => $object, 'node' => $node );
     }
 
     function loopNodes( $nodeID )
     {
-        eZDebug::writeDebug( "loopNodes:\$nodeID=$nodeID<br/>" );
         return array( 'parameters' => array( array( 'parent_node_id' => 3 ),
                                              array( 'parent_node_id' => 5 ),
                                              array( 'parent_node_id' => 12 ) ) );
@@ -111,13 +105,9 @@ class eZContentOperationCollection
         foreach ( array_keys( $nodeAssignmentList ) as $key )
         {
 //            $nodeAssignment =& $nodeAssignmentList[$key];
-            eZDebug::writeDebug( "loopNodeAssignment:\$parentNode=" . $nodeAssignmentList[$key]->attribute( 'parent_node' ) . "<br/>" );
 
             $parameters[] = array( 'parent_node_id' => $nodeAssignmentList[$key]->attribute( 'parent_node' ) );
         }
-
-        eZDebug::writeDebug( "loopNodeAssignment:\$objectID=$objectID<br/>" );
-        eZDebug::writeDebug( "loopNodeAssignment:\$version=$versionNum<br/>" );
 
         return array( 'parameters' => $parameters );
     }
@@ -151,9 +141,6 @@ class eZContentOperationCollection
                 $statusName = 'none';
         }
         $version->store();
-        eZDebug::writeDebug( "setVersionStatus:\$objectID=$objectID<br/>" );
-        eZDebug::writeDebug( "setVersionStatus:\$version=$versionNum<br/>" );
-        eZDebug::writeDebug( "setVersionStatus:\$status=$status($statusName)<br/>" );
     }
 
     function publishNode( $parentNodeID, $objectID, $versionNum )
@@ -224,9 +211,6 @@ class eZContentOperationCollection
         $object->store();
         $existingNode->store();
 
-        eZDebug::writeDebug( "publishNode:\$parentNodeID=$parentNodeID<br/>" );
-        eZDebug::writeDebug( "publishNode:\$objectID=$objectID<br/>" );
-        eZDebug::writeDebug( "publishNode:\$version=$version<br/>" );
     }
 
 
@@ -254,8 +238,6 @@ class eZContentOperationCollection
                 $node->remove();
             }
         }
-        eZDebug::writeDebug( "removeOldNodes:\$objectID=$objectID<br/>" );
-
     }
 
     function registerSearchObject( $objectID, $versionNum )
@@ -265,7 +247,6 @@ class eZContentOperationCollection
         // Register the object in the search engine.
         eZSearch::removeObject( $object );
         eZSearch::addObject( $object );
-        eZDebug::writeDebug( "registerSearchObject:\$objectID=$objectID<br/>" );
 
     }
 
@@ -389,7 +370,6 @@ class eZContentOperationCollection
                 }
             }
         }
-        eZDebug::writeDebug( "checkNotifications:\$objectID=$objectID<br/>" );
     }
 
 }

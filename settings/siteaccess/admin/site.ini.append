@@ -2,10 +2,10 @@
 # eZ publish configuration file.
 
 [DatabaseSettings]
-#Server=localhost##!
-#User=bf##!
-#Password=bf##!
-#Database=bf##!
+Server=localhost##!
+User=bf##!
+Password=bf##!
+Database=bf##!
 
 [SiteSettings]
 DefaultPage=/content/view/full/2
@@ -13,7 +13,7 @@ ErrorHandler=defaultpage
 LoginPage=custom
 
 [SiteAccessSettings]
-RequireUserLogin=true
+RequireUserLogin=false
 
 [DebugSettings]##!
 DebugIP=disabled##!

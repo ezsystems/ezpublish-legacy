@@ -338,7 +338,7 @@ class eZXML
     {
         $ret = false;
 
-        preg_match_all( "/([a-zA-Z0-9:-]+\s*=\s*(\"|').*?(\\2))/i",  $attributeString, $attributeArray );
+        preg_match_all( "/([a-zA-Z0-9:-_]+\s*=\s*(\"|').*?(\\2))/i",  $attributeString, $attributeArray );
 
         foreach ( $attributeArray[0] as $attributePart )
         {

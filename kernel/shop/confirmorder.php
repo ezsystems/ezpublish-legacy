@@ -41,7 +41,6 @@ include_once( 'kernel/classes/ezorder.php' );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 $tpl =& templateInit();
-$tpl->setVariable( "basket", $basket );
 
 $orderID = eZHTTPTool::sessionVariable( 'MyTemporaryOrderID' );
 
@@ -68,8 +67,6 @@ if ( get_class( $order ) == 'ezorder' )
 
 
 // Create a custom order item
-
-$items =& $order->orderItems();
 
 $orderItem = new eZOrderItem( array( 'order_id' => $orderID,
                                      'description' => 'Shipping',

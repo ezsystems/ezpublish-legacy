@@ -130,7 +130,6 @@ class eZTrigger extends eZPersistentObject
         {
             $workflowID = $trigger->attribute( 'workflow_id' );
             $workflow =& eZWorkflow::fetch( $workflowID );
-            eZDebug::writeNotice( $workflowID, "we are going to start workflow:" );
             if ( $keys != null )
             {
                 $keys[] = 'workflow_id';
@@ -191,7 +190,6 @@ class eZTrigger extends eZPersistentObject
 //                print( " $workflowID, $userID, $objectID, $version, $nodeID, \n ");
             }
             $workflowProcess =& eZWorkflowProcess::create( $processKey, $parameters );
-            eZDebug::writeDebug( $workflowProcess, "We have created new workflow process" );
 
             $workflowProcess->store();
 
@@ -200,7 +198,6 @@ class eZTrigger extends eZPersistentObject
         }
         else
         {
-            eZDebug::writeNotice( $name.$moduleName.$function, "there is no connected workflow for:" );
             return array( 'Status' => EZ_TRIGGER_NO_CONNECTED_WORKFLOWS,
                           'Result' => null );
         }
@@ -279,7 +276,6 @@ class eZTrigger extends eZPersistentObject
     {
         if ( !$name )
         {
-            eZDebug::writeDebug($connectType , "connect type" );
             if ( $connectType == 'b' )
             {
                 $name = 'pre_';

@@ -203,7 +203,6 @@ class eZHTTPTool
                 {
                     $keyClean = substr( $key, 0, -2 );
                     $matches = array();
-                    eZDebug::writeDebug( $keyClean , "Made keyClean:" );
                     if ( preg_match( "/_(\d+)$/", $keyClean, $matches ) )
                     {
                         $value =  $matches[1];

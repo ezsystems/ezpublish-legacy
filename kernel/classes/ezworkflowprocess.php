@@ -386,7 +386,6 @@ class eZWorkflowProcess extends eZPersistentObject
                 $string .= $key . $value;
             }
         }
-        eZDebug::writeDebug( $string ,"precess key string" );
         return md5( $string );
     }
 

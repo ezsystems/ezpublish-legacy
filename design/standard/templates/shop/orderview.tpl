@@ -2,6 +2,9 @@
 <h1>{"Order view"|i18n}</h1>
 </div>
 
+<b>Customer:</b> 
+{content_view_gui view=text_linked content_object=$order.user.contentobject}
+<br />
 
 <b>Product items</b>
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">

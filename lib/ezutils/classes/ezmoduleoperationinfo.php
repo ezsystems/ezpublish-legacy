@@ -176,7 +176,6 @@ class eZModuleOperationInfo
                 $operationKeys = $operationDefinition['keys'];
             $operationParameterDefinitions = $operationDefinition['parameters'];
             $this->storeOperationMemento( $operationKeys, $operationParameterDefinitions, $operationParameters, $bodyCallCount, $operationName );
-            eZDebug::writeDebug($this->Memento, "stored operation memento" );
 
             $runOperation = true;
             if ( $mementoData === null )
@@ -197,7 +196,6 @@ class eZModuleOperationInfo
 
                 $mementoList = eZOperationMemento::fetchList( $keyArray );
 
-                eZDebug::writeDebug( $mementoList, '$mementoList' );
                 if ( count( $mementoList ) > 0 )
                 {
                     $lastResultArray = array();
@@ -206,14 +204,12 @@ class eZModuleOperationInfo
                     foreach ( array_keys( $mementoList ) as $key )
                     {
                         $memento =& $mementoList[$key];
-                        eZDebug::writeDebug( $operationName, 'executing stored operation' );
                         $mementoData = $memento->data();
                         $memento->remove();
 
                         $resultArray =& $this->executeBody( $callMethod['include_file'], $callMethod['class'], $operationDefinition['body'],
                                                             $operationKeys, $operationParameterDefinitions, $operationParameters,
                                                             $mementoData, $bodyCallCount, $operationDefinition['name'] );
-                        eZDebug::writeDebug( $bodyCallCount, "bodyCallCount in loop under restoring running operation" );
                         if ( is_array( $resultArray ) )
                         {
                             $lastResultArray = array_merge( $lastResultArray, $resultArray );
@@ -226,23 +222,14 @@ class eZModuleOperationInfo
                     $runOperation = false;
                 }
             }
-            eZDebug::writeDebug( $mementoData, "mementoData" );
             if ( $runOperation )
             {
                 // start  new operation
-                eZDebug::writeDebug( $operationName, 'executing operation' );
-
                 $resultArray =& $this->executeBody( $callMethod['include_file'], $callMethod['class'], $operationDefinition['body'],
                                                     $operationKeys, $operationParameterDefinitions, $operationParameters,
                                                     $mementoData, $bodyCallCount, $operationDefinition['name'] );
 
-                eZDebug::writeDebug( $bodyCallCount, "bodyCallCount after executeBody in starting new operation" );
-
-                eZDebug::writeDebug( $resultArray, "res after executeBody in starting new operation" );
-
             }
-            eZDebug::writeDebug( $this->Memento, "memento" );
-            eZDebug::writeDebug( $resultArray, "resultArray" );
             if ( is_array( $resultArray ) and
                  $resultArray['status'] == EZ_MODULE_OPERATION_HALTED )
             {
@@ -252,7 +239,6 @@ class eZModuleOperationInfo
             else if ( $this->Memento !== null and
                       $this->Memento->attribute( 'id' ) !== null )
             {
-                eZDebug::writeDebug( $resultArray, "resultArray" );
                 $this->Memento->remove();
             }
 //            if ( $resultArray['status'] == EZ_MODULE_OPERATION_CANCELED )
@@ -375,11 +361,9 @@ class eZModuleOperationInfo
 
                     if ( $mementoData !== null )
                     {
-                        eZDebug::writeDebug( "skipped $bodyName due to trigger restore" );
                         $returnValue = $this->executeBody( $includeFile, $className, $children,
                                                            $operationKeys, $tmpOperationParameterDefinitions, $operationParameters,
                                                            $mementoData, $bodyCallCount, $operationName );
-                        eZDebug::writeDebug( "returned from loop" );
                         if ( !$returnValue['status'] )
                             return $returnValue;
                     }
@@ -408,13 +392,11 @@ class eZModuleOperationInfo
                             }
 //                            ++$tmpCallValues['run_number'];
                             ++$count;
-                            eZDebug::writeDebug( "loop " . $count  );
                             $returnValue = $this->executeBody( $includeFile, $className, $children,
                                                                $operationKeys, $tmpOperationParameterDefinitions, $tmpOperationParameters,
                                                                $mementoData, $bodyCallCount, $operationName, array( 'name' => $loopName,
                                                                                                                     'count' => count( $parameters ),
                                                                                                                     'index' => $count  ) );
-                            eZDebug::writeDebug( "after execute body returnValue['status']= " . $returnValue['status'] );
                             switch( $returnValue['status'] )
                             {
                                 case EZ_MODULE_OPERATION_CANCELED:
@@ -443,13 +425,11 @@ class eZModuleOperationInfo
                             }
                             if ( $countCanceled > 0 )
                             {
-                                eZDebug::writeDebug( "One or more loop items failed, returning<br/>" );
                                 return $bodyReturnValue;
                                 //cancel operation
                             }
                             if ( $countHalted > 0 )
                             {
-                                eZDebug::writeDebug( "One or more loop items halted, returning<br/>" );
                                 return $bodyReturnValue;                                //show tempalate
                             }
 
@@ -467,7 +447,6 @@ class eZModuleOperationInfo
                 {
                     $triggerName = $body['name'];
                     $triggerKeys = $body['keys'];
-                    eZDebug::writeDebug( $mementoData, '$mementoData' );
                     $triggerRestored = false;
                     $executeTrigger = true;
                     if ( $mementoData !== null )
@@ -480,7 +459,6 @@ class eZModuleOperationInfo
                         }
                         else
                         {
-                            eZDebug::writeDebug( "Skipping trigger:$triggerName<br/>" );
                             $executeTrigger = false;
                         }
                     }
@@ -490,7 +468,6 @@ class eZModuleOperationInfo
                                                           $operationParameterDefinitions, $operationParameters,
                                                           $bodyCallCount, $currentLoopData,
                                                           $triggerRestored, $operationName, $operationKeys );
-                        eZDebug::writeDebug( "executeTrigger returned status: $status <br/>>");
                         switch( $status )
                         {
                             case EZ_MODULE_OPERATION_CONTINUE:
@@ -540,18 +517,14 @@ class eZModuleOperationInfo
                         if ( $frequency == 'once' and
                              $bodyCallCount['loop_run'][$bodyName] != 0 )
                             $executeMethod = false;
-                        eZDebug::writeDebug( "method call #" . $bodyCallCount['loop_run'][$bodyName] . ":$bodyName" . ( $executeMethod ? "" : "(skipped)" ) . "<br/>" );
                         $tmpOperationParameterDefinitions = $operationParameterDefinitions;
                         if ( isset( $body['parameters'] ) )
                             $tmpOperationParameterDefinitions = $body['parameters'];
                         if ( $executeMethod )
                         {
-                            eZDebug::writeDebug( "method call #:". $bodyName ."<br/>" );
                             ++$bodyCallCount['loop_run'][$bodyName];
                             $result = $this->executeClassMethod( $includeFile, $className, $method,
                                                                  $tmpOperationParameterDefinitions, $operationParameters );
-                            eZDebug::writeDebug( $result, '$result' );
-
                             if ( $result != null && !$result['status'] )
                             {
                                 return $result;
@@ -564,8 +537,6 @@ class eZModuleOperationInfo
                             }
                         }
                     }
-                    else
-                        eZDebug::writeDebug( "skipped $bodyName due to trigger restore<br/>" );
                 } break;
                 default:
                 {
@@ -574,7 +545,6 @@ class eZModuleOperationInfo
             }
         }
 
-        eZDebug::writeDebug( $bodyReturnValue, "bodyreturnvalue from execute body" );
         return $bodyReturnValue;
     }
 
@@ -586,16 +556,13 @@ class eZModuleOperationInfo
         $triggerName = $body['name'];
         $triggerKeys = $body['keys'];
 
-        eZDebug::writeDebug( "Trigger name: $triggerName <br/>" );
         $status = eZTrigger::runTrigger( $triggerName, $this->ModuleName, $operationName, $operationParameters, $triggerKeys );
 
 
-        eZDebug::writeDebug( $status, "Trigger $triggerName returned  next status : " );
         if ( $status['Status'] == EZ_TRIGGER_WORKFLOW_DONE ||
              $status['Status'] == EZ_TRIGGER_NO_CONNECTED_WORKFLOWS )
         {
             ++$bodyCallCount['loop_run'][$triggerName];
-            eZDebug::writeDebug( "Trigger executed:$triggerName<br/>" );
             return EZ_MODULE_OPERATION_CONTINUE;
         }
         else if ( $status['Status'] == EZ_TRIGGER_STATUS_CRON_JOB ||
@@ -608,8 +575,6 @@ class eZModuleOperationInfo
             $workflowProcess =& $status['WorkflowProcess'];
             if ( ! is_null( $workflowProcess ) )
             {
-                eZDebug::writeDebug( $workflowProcess );
-                eZDebug::writeDebug( $bodyMemento );
                 $workflowProcess->setAttribute( 'memento_key', $bodyMemento->attribute( 'memento_key' ) );
                 $workflowProcess->store();
             }
@@ -649,7 +614,6 @@ class eZModuleOperationInfo
             $mementoData['loop_run'] = $bodyCallCount['loop_run'];
             $this->Memento->setData( $mementoData );
         }
-        eZDebug::writeDebug( $this->Memento, 'operation memento' );
     }
 
     function removeBodyMemento( $bodyName, $bodyKeys,
@@ -675,14 +639,12 @@ class eZModuleOperationInfo
         $mementoData['operation_name'] = $operationName;
         $memento =& eZOperationMemento::create( $keyArray, $mementoData, false, $this->Memento->attribute( 'memento_key' ) );
         $memento->store();
-        eZDebug::writeDebug( $memento, '$memento' );
         return $memento;
     }
 
     function restoreBodyMementoData( $bodyName, &$mementoData,
                                      &$operationParameters, &$bodyCallCount, &$currentLoopData )
     {
-        eZDebug::writeDebug( "Restoring memento:$bodyName<br/>" );
         $operationParameters = array();
         if ( isset( $mementoData['parameters'] ) )
             $operationParameters = $mementoData['parameters'];
@@ -705,7 +667,6 @@ class eZModuleOperationInfo
 //         }
         if ( isset( $mementoData['loop_data'] ) )
             $currentLoopData = $mementoData['loop_data'];
-        eZDebug::writeDebug( "Body rerun scheduled:$bodyName<br/>" );
         if ( isset( $mementoData['skip_trigger'] ) )
         {
             $mementoData = null;

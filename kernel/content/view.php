@@ -93,7 +93,6 @@ $operationResult = eZOperationHandler::execute( 'content', 'read', array( 'node_
                                                                           'language_code' => $LanguageCode ) );
 eZDebug::addTimingPoint( 'Operation end' );
 
-eZDebug::writeDebug( $operationResult );
 
 switch( $operationResult['status'] )
 {
@@ -161,12 +160,10 @@ switch( $operationResult['status'] )
         else if ( isset( $operationResult['result'] ) )
         {
             $Result['content'] =& $operationResult['result'];
-            eZDebug::writeDebug( 'operation seted result<br/>' );
         }
     }break;
     case EZ_MODULE_OPERATION_CANCELED:
     {
-        eZDebug::writeDebug( 'operation null result<br/>' );
         $Result = array();
         $Result['content'] = "- I think you are not able to view that object :) <br/>
                               - Why?<br/>

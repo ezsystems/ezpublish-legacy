@@ -74,7 +74,6 @@ class eZOperationMemento extends eZPersistentObject
         return ( $attr == 'main_memento' or
                  eZPersistentObject::hasAttribute( $attr ) );
     }
-    
 
     function &attribute( $attr )
     {
@@ -91,7 +90,7 @@ class eZOperationMemento extends eZPersistentObject
 
     function &mainMemento()
     {
-        if( !isset( $this->MainMemento ) )
+        if ( !isset( $this->MainMemento ) )
         {
             $this->MainMemento =& eZOperationMemento::fetchMain( $this->attribute( 'main_key' ) );
         }
@@ -99,7 +98,7 @@ class eZOperationMemento extends eZPersistentObject
     }
     function &fetch( $mementoKey, $asObject = true )
     {
-        if( is_array( $mementoKey ) )
+        if ( is_array( $mementoKey ) )
         {
             $mementoKey = eZOperationMemento::createKey( $mementoKey );
         }
@@ -112,7 +111,7 @@ class eZOperationMemento extends eZPersistentObject
 
     function &fetchMain( $mementoKey, $asObject = true )
     {
-        if( is_array( $mementoKey ) )
+        if ( is_array( $mementoKey ) )
         {
             $mementoKey = eZOperationMemento::createKey( $mementoKey );
         }
@@ -126,7 +125,7 @@ class eZOperationMemento extends eZPersistentObject
 
     function &fetchList( $mementoKey, $asObject = true )
     {
-        if( is_array( $mementoKey ) )
+        if ( is_array( $mementoKey ) )
         {
             $mementoKey = eZOperationMemento::createKey( $mementoKey );
         }

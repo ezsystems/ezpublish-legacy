@@ -192,8 +192,6 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
         $nodeID = $http->postVariable( 'RemoveNodeID' ) ;
 //        $mainNodeID = $http->postVariable( 'MainNodeID' );
 
-        eZDebug::writeDebug( $nodeID, "NodesID" );
-
 //        if ( $nodeID != $mainNodeID )
 //        {
         $version->removeAssignment( $nodeID );
@@ -225,15 +223,12 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
     if ( $module->isCurrentAction( 'DeleteNode' ) )
     {
 
-        eZDebug::writeDebug( $http->attribute( 'post' ), "post vars in edit" );
-        eZDebug::writeDebug( $module->currentAction(), "Action Name" );
         if ( $http->hasPostVariable( 'RemoveNodeID' ) )
         {
             $nodeID = $http->postVariable( 'RemoveNodeID' );
         }
 
         $mainNodeID = $http->postVariable( 'MainNodeID' );
-        eZDebug::writeDebug( $nodeID, "NodesID" );
 
         if ( $nodeID != $mainNodeID )
         {
@@ -291,8 +286,6 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                 $oldAssignmentParentID = $fromNodeAssignment->attribute( 'parent_node' );
             }
 
-
-            eZDebug::writeDebug( $fromNodeID, "We are going to move from node:" );
             $http->setSessionVariable( 'BrowseFromPage', $module->redirectionURI( 'content', 'edit', array( $objectID, $editVersion, $editLanguage ) ) );
             $http->setSessionVariable( 'BrowseActionName', 'MoveNodeAssignment' );
             $http->setSessionVariable( 'FromNodeID', $fromNodeID );

@@ -53,14 +53,37 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     {
         return array( 'fields' => array( 'id' => 'ID',
                                          'informationcollection_id' => 'InformationCollectionID',
+                                         'contentclass_attribute_id' => 'ContentClassAttributeID',
                                          "data_text" => "DataText",
                                          "data_int" => "DataInt",
                                          "data_float" => "DataFloat"
                                          ),
                       'keys' => array( 'id' ),
+                      "function_attributes" => array( "contentclass_attribute_name" => "ContentClassAttributeName" ),
                       'increment_key' => 'id',
                       'class_name' => 'eZInformationCollectionAttribute',
                       'name' => 'ezinformationcollection_attribute' );
+    }
+
+    function &attribute( $attr )
+    {
+        if ( $attr == 'contentclass_attribute_name' )
+        {
+            return $this->contentClassAttributeName();
+        }
+        else
+            return eZPersistentObject::attribute( $attr );
+    }
+
+    /*!
+     \todo Optimize reading
+    */
+    function &contentClassAttributeName()
+    {
+        $db =& eZDB::instance();
+        $nameArray =& $db->arrayQuery( "SELECT name FROM ezcontentclass_attribute WHERE id='$this->ContentClassAttributeID'" );
+
+        return $nameArray[0]['name'];
     }
 
     /*!
