@@ -27,6 +27,10 @@ Changes from 3.4.0 to 3.5.0alpha1
   eZContentClass::objectCount() (merged from 3.4 rev. 6774).
   http://ez.no/community/bug_reports/object_count_counts_nodes_instead_of_objects
   http://ez.no/community/bug_reports/object_count_in_class_list_view_does_not_count_related_objects
+- Fixed bugs in fetching keywords and keywords count
+  (merged from 3.3 rev. 6778, also in 3.4 rev. 6779):
+  o All object attribute versions were fetched instead of the current one;
+  o Fetching from non-published objects was posssible.
 
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that
