@@ -34,6 +34,7 @@ Changes from 3.0-? to 3.1
 - Added a new template operator, WordToImage. Replaces any given string with a link to an image.
 - Added template fetch function section_list which returns all available sections
 - Added fetch function for section objects.
+- Fixed database update files, to a new naming structure.
 
 Binary file:
 - Added support for resuming downloads.
