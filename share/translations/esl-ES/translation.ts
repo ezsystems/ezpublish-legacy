@@ -561,55 +561,55 @@
     </message>
     <message>
         <source>Add to basket</source>
-        <translation type="unfinished">Añadir a la cesta</translation>
+        <translation>Añadir a la cesta</translation>
     </message>
     <message>
         <source>Notify me about updates</source>
-        <translation type="unfinished">Notifícame las actualizaciones</translation>
+        <translation>Notifícame las actualizaciones</translation>
     </message>
     <message>
         <source>Printerfriendly version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versión imprimible</translation>
     </message>
     <message>
         <source>Main menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Menu principal</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation type="unfinished">Buscar</translation>
+        <translation>Buscar</translation>
     </message>
     <message>
         <source>Notifications</source>
-        <translation type="unfinished">Notificaciones</translation>
+        <translation>Notificaciones</translation>
     </message>
     <message>
         <source>Edit account</source>
-        <translation type="unfinished">Editar la cuenta</translation>
+        <translation>Editar la cuenta</translation>
     </message>
     <message>
         <source>View basket</source>
-        <translation type="unfinished"></translation>
+        <translation>Ver la cesta</translation>
     </message>
     <message>
         <source>Logout</source>
-        <translation type="unfinished">Desconectar</translation>
+        <translation>Desconectar</translation>
     </message>
     <message>
         <source>Register new customer</source>
-        <translation type="unfinished"></translation>
+        <translation>Registrar nuevo cliente</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Login</translation>
     </message>
     <message>
         <source>Shopping basket</source>
-        <translation type="unfinished"></translation>
+        <translation>Cesta</translation>
     </message>
     <message>
         <source>View all details</source>
-        <translation type="unfinished"></translation>
+        <translation>Ver los detalles</translation>
     </message>
 </context>
 <context>
@@ -935,11 +935,11 @@
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished">Eliminar la selección</translation>
+        <translation>Eliminar la selección</translation>
     </message>
     <message>
         <source>Make empty array</source>
-        <translation type="unfinished"></translation>
+        <translation>Hacer una tabla vacía</translation>
     </message>
 </context>
 <context>
@@ -1868,7 +1868,7 @@ Si quieres enviar comentarios al aprobador o ver el estado usa la URL de abajo.<
     </message>
     <message>
         <source>No media file is available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ningun archivo de media disponible.</translation>
     </message>
 </context>
 <context>
@@ -2898,10 +2898,6 @@ Si borras algún objeto, sólo lo borrarás de la lista.</translation>
         <translation>La id o el nombre del recurso está mal escrito, inténta cambiarlo.</translation>
     </message>
     <message>
-        <source>The resource no longer exists on the site.</source>
-        <translation>El recurso no existe en el sitio.</translation>
-    </message>
-    <message>
         <source>The requested module %module could not be found.</source>
         <translation>El módulo requerido %module no ha podido ser encontrado.</translation>
     </message>
@@ -2951,7 +2947,7 @@ Si borras algún objeto, sólo lo borrarás de la lista.</translation>
     </message>
     <message>
         <source>The object is no longer available on the site.</source>
-        <translation>El objeto no estará disponible más en este sitio.</translation>
+        <translation>El objeto no esta disponible más en este sitio.</translation>
     </message>
     <message>
         <source>Object moved</source>
@@ -2959,7 +2955,7 @@ Si borras algún objeto, sólo lo borrarás de la lista.</translation>
     </message>
     <message>
         <source>The object is no longer available at this URL.</source>
-        <translation>El objeto no estará disponible más en esta URL.</translation>
+        <translation>El objeto no esta disponible más en esta URL.</translation>
     </message>
     <message>
         <source>You should automatically be redirected to the new location. If not click %url.</source>
@@ -2968,6 +2964,10 @@ Si borras algún objeto, sólo lo borrarás de la lista.</translation>
     <message>
         <source>You are currently not logged in to the site, to get proper access create a new user or login with an existing user.</source>
         <translation>Actualmente no estás registrado en este sitio. Para obtener un acceso adecuado crea un nuevo usuario o conéctate con un usuario existente.</translation>
+    </message>
+    <message>
+        <source>The resource no longer exists on the site.</source>
+        <translation>El recurso no existe más en el sitio.</translation>
     </message>
 </context>
 <context>
@@ -3046,14 +3046,6 @@ Gracias por tu feedback</translation>
     <message>
         <source>Undefined module: </source>
         <translation>Módulo indefinido:</translation>
-    </message>
-    <message>
-        <source>Site:</source>
-        <translation type="unfinished">Sitio:</translation>
-    </message>
-    <message>
-        <source>Version:</source>
-        <translation type="unfinished">Versión:</translation>
     </message>
     <message>
         <source>Personal</source>
@@ -4160,7 +4152,7 @@ Haz clic en los nombres de ubicación para cambiar la lista de navegación.</tra
     </message>
     <message>
         <source>Remove Source</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminar fuente</translation>
     </message>
 </context>
 <context>
@@ -4381,6 +4373,14 @@ Clica en los nombres de ubicaciones para cambiar la lista de navegación.</trans
 </context>
 <context>
     <name>design/standard/setup</name>
+    <message>
+        <source>Name</source>
+        <translation>Nombre</translation>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation>Ruta</translation>
+    </message>
     <message>
         <source>Cache admin</source>
         <translation>Administrador de caché</translation>
@@ -4940,87 +4940,79 @@ El código por defecto ha sido hecho con los parámetros básicos que has elegid
     </message>
     <message>
         <source>All caches were cleared.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se ha limpiado todas las cachés.</translation>
     </message>
     <message>
         <source>Cache collections</source>
-        <translation type="unfinished"></translation>
+        <translation>Colecciónes de caché</translation>
     </message>
     <message>
         <source>Click a button to clear a collection of caches.</source>
-        <translation type="unfinished"></translation>
+        <translation>Haz click en un botón para limpiar una colección de caché.</translation>
     </message>
     <message>
         <source>All caches.</source>
-        <translation type="unfinished"></translation>
+        <translation>Todas las cachés.</translation>
     </message>
     <message>
         <source>All caches</source>
-        <translation type="unfinished"></translation>
+        <translation>Todas las caches</translation>
     </message>
     <message>
         <source>All caches are disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Todas las cachés estan desactivadas</translation>
     </message>
     <message>
         <source>Content views and template blocks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vistas de contenido y bloques de plantillas.</translation>
     </message>
     <message>
         <source>Content caches</source>
-        <translation type="unfinished"></translation>
+        <translation>Caché de contenido</translation>
     </message>
     <message>
         <source>Content caches is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>La caché de contenido esta desactivada</translation>
     </message>
     <message>
         <source>Template overrides and template compiling.</source>
-        <translation type="unfinished"></translation>
+        <translation>Plantillas sobreescritas y compilación de plantillas.</translation>
     </message>
     <message>
         <source>Template caches</source>
-        <translation type="unfinished"></translation>
+        <translation>Caché de plantilla</translation>
     </message>
     <message>
         <source>Template caches are disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>La caché de plantilla esta desactivada</translation>
     </message>
     <message>
         <source>INI caches.</source>
-        <translation type="unfinished"></translation>
+        <translation>Caché de los INI.</translation>
     </message>
     <message>
         <source>INI caches</source>
-        <translation type="unfinished"></translation>
+        <translation>Caché de los INI</translation>
     </message>
     <message>
         <source>INI cache is disabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="unfinished">Nombre</translation>
-    </message>
-    <message>
-        <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>La caché de los INI esta desactivada</translation>
     </message>
     <message>
         <source>Selection</source>
-        <translation type="unfinished">Selección</translation>
+        <translation>Selección</translation>
     </message>
     <message>
         <source>Disabled</source>
-        <translation type="unfinished">Desactivado</translation>
+        <translation>Desactivado</translation>
     </message>
     <message>
         <source>Clear selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Limpiar la selección</translation>
     </message>
     <message>
         <source>Content view cache</source>
-        <translation type="unfinished"></translation>
+        <translation>Caché de vista de contenido</translation>
     </message>
 </context>
 <context>
@@ -6169,10 +6161,6 @@ Para solucionar estos problemas tienes que hacer algo de lo que sigue:</translat
         <translation>No se almacenará ningun dato en la base de datos hasta el último paso de la configuración.</translation>
     </message>
     <message>
-        <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the %documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.</source>
-        <translation type="obsolete">Asegúrate de que el nombre de usuario y la contraseña son correctos. Verifica que tu base de datos PostgreSQL está configurada correctamente.&lt;br&gt;Mira la %documentation para más información sobre esto&lt;br&gt;. Recuerda que has de arrancar el postmaster con la opción -i.</translation>
-    </message>
-    <message>
         <source>Site packages</source>
         <translation>Paquetes del sitio</translation>
     </message>
@@ -6185,45 +6173,45 @@ Para solucionar estos problemas tienes que hacer algo de lo que sigue:</translat
         <translation>Como cada sitio web es único, cada paquete requiere una única base de datos.</translation>
     </message>
     <message>
-        <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the %documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.&lt;br&gt;Note that PostgreSQL 7.2 is not supported.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>System finetuning</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajuste preciso del sistema</translation>
     </message>
     <message>
         <source>Finetune</source>
         <comment>Finetune button in installation</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ajuste preciso</translation>
     </message>
     <message>
         <source>It is also possible to do some finetuning of your system, click &lt;i&gt;Finetune&lt;/i&gt; instead &lt;i&gt;Next&lt;/i&gt; if you want to see the finetuning hints.</source>
-        <translation type="unfinished"></translation>
+        <translation>También se puede ajustar el sistema de forma precisa, haz click en &lt;i&gt;Ajuste preciso&lt;/i&gt; en lugar de &lt;i&gt;Siguiente&lt;/i&gt; si quiere ver las opciones de ajuste preciso.</translation>
     </message>
     <message>
         <source>There are some issues that should be resolved to get maximum performance and features. A list of issues is presented below. Each section contains a description and a suggested / recommended solution.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hay algunas cuestiones que deberían estar arregladas para tener un rendimiento óptimo. Una lista esta presentada abajo. Cada sección contiene una descripción y una solución sugerida.</translation>
     </message>
     <message>
         <source>Once the issues are handled, you may click the &lt;i&gt;Finetune&lt;/i&gt; button to continue. The system check will be run again. If everything is okay, the setup will go to the next stage. If the issues are not solved the system finetune page will reappear.</source>
-        <translation type="unfinished"></translation>
+        <translation>Una vez que esos temas estan arreglados, puede hacer click en el botón &lt;i&gt;Ajuste preciso&lt;/i&gt; para continuar. Se volverá a ejecutar la comprobación del sistema. Si todo esta correcto, el configurador pasará al paso siguiente. Si los temas no estan arreglados la página de ajuste preciso del sistema volverá a aparecer.</translation>
     </message>
     <message>
         <source>If you do not want to fix these issues just click &lt;i&gt;Next&lt;/i&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Si no quiere arreglar esos temas haz click en &lt;i&gt;Next&lt;/i&gt;.</translation>
     </message>
     <message>
         <source>The system finetune page is being displayed. This means that there are some issues which can be solved to improve the performance or features.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se esta visualizando la página de ajuste preciso del sistema. Significa que unos temas podrían estar arreglado para mejorar el rendimiento o las funcionalidades.</translation>
     </message>
     <message>
         <source>These issues do not need to be resolved/fixed. eZ publish will function properly without them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Esos temas no necesitan estar arreglados. eZ publish funcionará correctamente sin ellos.</translation>
     </message>
     <message>
         <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish.&lt;br&gt;Your system is not optimal, if you wish you can click the &lt;i&gt;Finetune&lt;/i&gt; button. This will present hints on how to fix these issues.&lt;br/&gt; Click &lt;i&gt;Next&lt;/i&gt; to continue without finetuning.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bienvenido en el sistema de gestión de contenio y en el framework de desarrollo eZ publish. Este asitante le va a ayudar a configurar eZ publish.&lt;br&gt;Su sistema no es óptimo, si quiere puede hacer click en el botón &lt;i&gt;Ajuste preciso&lt;/i&gt;. Le enseñará unos trucos para arreglar esos temas.&lt;br/&gt; Haz click en &lt;i&gt;Siguiente&lt;/i&gt; para seguir sin el ajuste preciso. </translation>
+    </message>
+    <message>
+        <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the %documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.&lt;br&gt;Note that PostgreSQL 7.2 is not supported.</source>
+        <translation>Por favor, compruebe que el nombre de usuario y la contraseña estan correctos. Compruebe que su base de datos PostgreSQL esta correctamente configurada.&lt;br&gt; Lee la %documentation para tener más información. &lt;br&gt;No olvide de arrancar postmaster con la opción -i.&lt;br&gt;Toma nota de que PostgreSQL 7.2 no esta soportado.</translation>
     </message>
 </context>
 <context>
@@ -6572,48 +6560,48 @@ Para solucionar estos problemas tienes que hacer algo de lo que sigue:</translat
         <translation>Puedes descargar otra versión de PHP en</translation>
     </message>
     <message>
-        <source>Missing imagegd2 extension</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The imagegd2 extension is not available to eZ publish. Without it eZ publish will only be able to do conversion using ImageMagick and the</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>To enable imagegd2 you need to recompile PHP with support for it, more information on that subject is available at</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>AcceptPathInfo disabled or running in CGI mode</source>
-        <translation type="unfinished"></translation>
+        <translation>AcceptPathInfo esta desactivado o corriendo en modo CGI</translation>
     </message>
     <message>
         <source>You need enable AcceptPathInfo in your Apache config file, if you&apos;re using apache 2.x</source>
-        <translation type="unfinished"></translation>
+        <translation>Se necesita activar AcceptPathInfo en el archivo de configuración del Apache si esta usando apache 2.x</translation>
     </message>
     <message>
         <source>eZ publish will not run in CGI mode, if you&apos;re running apache 1.3.</source>
-        <translation type="unfinished"></translation>
+        <translation>Si esta usando apache 1.3, eZ Publish no funcionará en modo CGI.</translation>
     </message>
     <message>
         <source>enter the following into your httpd.conf file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Poner lo siguiente en el archivo httpd.conf.</translation>
     </message>
     <message>
         <source>Remember to restart your web server afterwards.</source>
-        <translation type="unfinished"></translation>
+        <translation>No olvide de reiniciar el servidor web despues.</translation>
+    </message>
+    <message>
+        <source>Missing imagegd2 extension</source>
+        <translation>La extensión imagegd2 está ausente</translation>
+    </message>
+    <message>
+        <source>The imagegd2 extension is not available to eZ publish. Without it eZ publish will only be able to do conversion using ImageMagick and the</source>
+        <translation>La extensión imagegd2 no esta disponible. Sin ella, eZ publish solo podrá hacer las converciones utilizando ImageMagick y el</translation>
+    </message>
+    <message>
+        <source>To enable imagegd2 you need to recompile PHP with support for it, more information on that subject is available at</source>
+        <translation>Para activar imagegd2 es necesario recompilar PHP con imagegd2 activado, más informaciones sobre este tema esta disponible en</translation>
     </message>
     <message>
         <source>Missing text creation functions</source>
-        <translation type="unfinished"></translation>
+        <translation>Las funciones de creación de texto estan ausentes</translation>
     </message>
     <message>
         <source>The PHP functions ImageTTFText and ImageTTFBBox is missing. Without these functions it is not possible to use the texttoimage template operator.</source>
-        <translation type="unfinished"></translation>
+        <translation>Las funciones PHP ImageTTFText y ImageTTFBBox estan ausente. Sin esas funciones no se puede usar el operador de plantilla texttoimage.</translation>
     </message>
     <message>
         <source>To enable these functions you need to recompile PHP with support for it, more information on that subject is available at</source>
-        <translation type="unfinished"></translation>
+        <translation>Para activar esas funciones es necesario recompilar PHP, más informaciones sobre este tema esta disponible en</translation>
     </message>
 </context>
 <context>
@@ -7322,7 +7310,7 @@ tu cuenta.</translation>
     </message>
     <message>
         <source>Password must be at least 3 characters long, please retype your new password.</source>
-        <translation type="unfinished"></translation>
+        <translation>La contraseña debe tener comó minimo 3 caracteres, por favor vuelve a poner la nueva contraseña.</translation>
     </message>
 </context>
 <context>
@@ -8064,14 +8052,6 @@ tu cuenta.</translation>
         <translation>Campo de texto</translation>
     </message>
     <message>
-        <source>Text field is empty, content required.</source>
-        <translation type="obsolete">El campo de texto está vacía, se requiere contenido.</translation>
-    </message>
-    <message>
-        <source>Send</source>
-        <translation type="obsolete">Enviar</translation>
-    </message>
-    <message>
         <source>Time field</source>
         <comment>Datatype name</comment>
         <translation>Campo de hora</translation>
@@ -8150,15 +8130,15 @@ tu cuenta.</translation>
     </message>
     <message>
         <source>Size of uploaded file exceeds limit set by upload_max_filesize directive in php.ini.</source>
-        <translation type="unfinished"></translation>
+        <translation>El tamaño del archivo subido supera el limite fijado por upload_max_filesize en el php.ini.</translation>
     </message>
     <message>
         <source>Size of uploaded file exceeds %1 bytes.</source>
-        <translation type="unfinished"></translation>
+        <translation>El tamaño del archivo subido supera %1 bytes.</translation>
     </message>
     <message>
         <source>Missing objectrelation input.</source>
-        <translation type="unfinished"></translation>
+        <translation>Falta entrada de relación de objeto.</translation>
     </message>
 </context>
 <context>
