@@ -111,3 +111,6 @@ Changes from 3.4.0 to 3.4.1
 - Fixed bug with incorrect user identification in ezapprove workflow event when run it from cronjobs.
   Merged from stable/3.3 rev. 6895.
   http://ez.no/community/bug_reports/workflow_approve_and_author
+- Fixed bug in sessionmanagement in admin. Showed negative session date and idletime values if clock on server was
+  changed backwards
+  http://ez.no/community/bug_reports/session_admin_date_issues_users_idle_in_the_future

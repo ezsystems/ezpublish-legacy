@@ -31,7 +31,6 @@
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
 //
-
 include_once( 'kernel/common/template.php' );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'lib/ezutils/classes/ezsession.php' );
@@ -145,7 +144,7 @@ ORDER BY $orderBy";
         $session['idle']['minute'] = (int)( ( $idleTime / 60 ) % 60 );
         $session['idle']['second'] = abs( $idleTime % 60 );
 
-        if ( $session['idle']['minute'] < 10 )
+        if ( $session['idle']['minute'] < 10 && $session['idle']['minute']>=0 )
         {
             $session['idle']['minute'] = "0" . $session['idle']['minute'];
         }
@@ -167,6 +166,7 @@ if ( isset( $viewParameters['sortby'] ) )
     $param['sortby'] = $viewParameters['sortby'];
 $sessionsActive = eZSessionCountActive();
 $sessionsList =& eZFetchActiveSessions( $param );
+
 
 if ( $param['offset'] >= $sessionsActive and $sessionsActive != 0 )
 {

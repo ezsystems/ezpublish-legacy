@@ -103,12 +103,18 @@ function checkAll()
     <td width="30%">
         {$session_user.name|wash}
     </td>
-    <td width="10%">
+
+    <td width="10%"> 
         {$session.idle.hour}:{$session.idle.minute}:{$session.idle.second}
-    </td>
+    </td> 
     <td width="19%">
-        {$session.idle_time|l10n( shortdatetime )}
+      {section show=or($session.idle.minute|lt(0), $session.idle.hour|lt(0))}
+          {"Timescrew detected"|i18n( "design/standard/setup/session")}
+      {section-else}
+          {$session.idle_time|l10n( shortdatetime )}
+      {/section}
     </td>
+
     {/let}
 </tr>
 {/section}
