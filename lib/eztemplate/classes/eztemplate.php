@@ -760,13 +760,24 @@ class eZTemplate
         $extraParameters = array();
         $resourceHandler->handleResource( $this, $resourceData, EZ_RESOURCE_FETCH, $extraParameters );
 
-        $root =& $resourceData['root-node'];
-        $root = array( EZ_TEMPLATE_NODE_ROOT, false );
-        $templateText =& $resourceData["text"];
-        $rootNamespace = '';
-        $this->parse( $templateText, $root, $rootNamespace, $resourceData );
+        $isCompiled = false;
+        if ( isset( $resourceData['compiled-template'] ) )
+            $isCompiled = $resourceData['compiled-template'];
 
-        return eZTemplateCompiler::compileTemplate( $this, $key, $resourceData );
+        if ( !$isCompiled )
+        {
+            $root =& $resourceData['root-node'];
+            $root = array( EZ_TEMPLATE_NODE_ROOT, false );
+            $templateText =& $resourceData["text"];
+            $rootNamespace = '';
+            $this->parse( $templateText, $root, $rootNamespace, $resourceData );
+
+            return eZTemplateCompiler::compileTemplate( $this, $key, $resourceData );
+        }
+        else
+        {
+            return true;
+        }
     }
 
     function compileTemplate( &$resourceData, &$extraParameters )
