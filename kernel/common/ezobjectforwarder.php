@@ -137,7 +137,7 @@ class eZObjectForwarder
         $startRoot = '/' . $templateRoot . $viewDir;
         $viewFileMatchName = '/' . $templateRoot . '/' . $viewValue . '.tpl';
         $startRootLength = strlen( $startRoot );
-        print( "startRoot='$startRoot', view='$viewFileMatchName'\n" );
+//         print( "startRoot='$startRoot', view='$viewFileMatchName'\n" );
         $matchFileArray =& eZTemplateDesignResource::overrideArray();
         $matchList = array();
         $viewFileMatch = null;
@@ -145,14 +145,17 @@ class eZObjectForwarder
         {
             $path = $matchFile['template'];
             $subPath = substr( $path, 0, $startRootLength );
-            if ( $subPath == $startRoot )
+            if ( $subPath == $startRoot and
+                 $path[$startRootLength] == '/' )
             {
-                $matchFile['match_part'] = substr( $path, $startRootLength );
+//                 print( "startRoot=$startRoot, subPath=$subPath, path=$path\n" );
+                $matchFile['match_part'] = substr( $path, $startRootLength + 1 );
                 $matchList[] = $matchFile;
             }
             if ( $path == $viewFileMatchName )
                 $viewFileMatch = $matchFile;
         }
+//         var_dump( $matchList );
 //         print( "matchList\n" );
 //         print_r( $matchList );
         $designKeysName = 'dKeys';
@@ -190,6 +193,8 @@ class eZObjectForwarder
                 foreach ( $matchList as $matchItem )
                 {
                     $matchPart = $matchItem['match_part'];
+                    if ( preg_match( "/^(.+)\.tpl$/", $matchPart, $matches ) )
+                        $matchPart = $matches[1];
                     $code = "if ( \$attributeAccess == '$matchPart' )\n{\n";
                     if ( $templateCounter > 0 )
                         $code = "else " . $code;

@@ -67,9 +67,9 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             return false;
         $file = $resourceData['template-name'];
         $overrideKeys =& eZTemplateDesignResource::overrideKeys();
-        print( "keys\n" );
-        print_r( $overrideKeys );
-        print( "matches\n" );
+//         print( "keys\n" );
+//         print_r( $overrideKeys );
+//         print( "matches\n" );
         $matchFileArray =& eZTemplateDesignResource::overrideArray();
         $matchList = array();
         foreach ( $matchFileArray as $matchFile )
@@ -79,21 +79,21 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                 $matchList[] = $matchFile;
             }
         }
-        print_r( $matchList );
+//         print_r( $matchList );
 //         if ( !file_exists( $file ) )
 //             return false;
 
         $resourceName = $resourceData['resource'];
         $resourceNameText = eZPHPCreator::variableText( $resourceName );
 
-        print_r( $node );
+//         print_r( $node );
 
         $designKeysName = 'dKeys';
         if ( $resourceName == 'standard' )
             $designKeysName = 'rKeys';
 
         $newNodes = array();
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( !isset( \$$designKeysName ) )\n{\n    \$resH =& \$tpl->resourceFor( $resourceNameText );\n    \$$designKeysName =& \$resH->Keys;\n}\n" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( !isset( \$$designKeysName ) )\n{\n    \$resH =& \$tpl->resourceHandler( $resourceNameText );\n    \$$designKeysName =& \$resH->Keys;\n}\n" );
         foreach ( $matchList as $match )
         {
             $basedir = $match['base_dir'];

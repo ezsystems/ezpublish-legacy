@@ -147,6 +147,18 @@ class eZTemplateCompiler
 
     /*!
      \static
+     \return true if resource fallback code should be included.
+    */
+    function isFallbackResourceCodeEnabled()
+    {
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini =& eZINI::instance();
+        $enabled = $ini->variable( 'TemplateSettings', 'CompileResourceFallback' ) == 'enabled';
+        return $enabled;
+    }
+
+    /*!
+     \static
      \return true if template compilation should include comments.
     */
     function isNodePlacementEnabled()
@@ -548,7 +560,7 @@ class eZTemplateCompiler
                 if ( is_object( $operator ) )
                 {
                     $hasStats = false;
-                    print( $operatorName . "::" . get_class( $operator ) . "\n" );
+//                     print( $operatorName . "::" . get_class( $operator ) . "\n" );
                     if ( method_exists( $operator, 'operatorTemplateHints' ) )
                     {
                         $hints = $operator->operatorTemplateHints();
@@ -1522,7 +1534,7 @@ class eZTemplateCompiler
                 return $text;
             }
             else
-            {  
+            {
                 return '';
             }
         }
@@ -1856,8 +1868,11 @@ $rbracket
                         }
                     }
                     $textName = eZTemplateCompiler::currentTextName( $parameters );
+                    $useFallbackCode = true;
                     if ( $resourceData['compiled-template'] )
                     {
+                        if ( !eZTemplateCompiler::isFallbackResourceCodeEnabled() )
+                            $useFallbackCode = false;
                         $keyData = $resourceData['key-data'];
                         $templatePath = $resourceData['template-name'];
                         $key = $resourceObject->cacheKey( $keyData, $resourceData, $templatePath, $node[5] );
@@ -1867,21 +1882,27 @@ $rbracket
                         $phpScript = eZDir::path( array( $directory, $cacheFileName ) );
                         $phpScriptText = $php->variableText( $phpScript, 0 );
                         $keyText = $php->variableText( $key, 0 );
-                        $php->addCodePiece( "if ( file_exists( $phpScriptText ) )\n{\n", array( 'spacing' => $spacing ) );
+                        $php->addCodePiece( "\$includeFound = false;\nif ( file_exists( $phpScriptText ) )\n{\n", array( 'spacing' => $spacing ) );
 
 //                         $php->addCodePiece( "compiledAcquireResource( $phpScriptText, $keyText,
 //                          \$$textName, \$tpl, \$rootNamespace, \$currentNamespace );\n", array( 'spacing' => $spacing + 4 ) );
-                        $php->addCodePiece( "array_push( \$namespaceStack, array( \$rootNamespace, \$currentNamespace ) );
+                        $php->addCodePiece( "\$includeFound = true;\narray_push( \$namespaceStack, array( \$rootNamespace, \$currentNamespace ) );
 \$currentNamespace = \$rootNamespace;
 include( $phpScriptText );
 list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n", array( 'spacing' => $spacing + 4 ) );
-                        $php->addCodePiece( "}\nelse\n{\n", array( 'spacing' => $spacing ) );
+                        if ( $useFallbackCode )
+                            $php->addCodePiece( "}\nelse\n{\n    \$includeFound = true;\n", array( 'spacing' => $spacing ) );
+                        else
+                            $php->addCodePiece( "}\n", array( 'spacing' => $spacing ) );
                         $subSpacing = 4;
                     }
 
-                    $php->addCodePiece( "\$textElements = array();\n\$extraParameters = array();\n$spacer\$tpl->processURI( $uriText, true, \$extraParameters, \$textElements, \$rootNamespace, \$currentNamespace );\n$spacer\$$textName .= implode( '', \$textElements );\n", array( 'spacing' => $spacing + $subSpacing ) );
+                    if ( $useFallbackCode )
+                    {
+                        $php->addCodePiece( "\$textElements = array();\n\$extraParameters = array();\n$spacer\$tpl->processURI( $uriText, true, \$extraParameters, \$textElements, \$rootNamespace, \$currentNamespace );\n$spacer\$$textName .= implode( '', \$textElements );\n", array( 'spacing' => $spacing + $subSpacing ) );
+                    }
 
-                    if ( $resourceData['compiled-template'] )
+                    if ( $resourceData['compiled-template'] and $useFallbackCode )
                     {
                         $php->addCodePiece( "}\n", array( 'spacing' => $spacing ) );
                     }
