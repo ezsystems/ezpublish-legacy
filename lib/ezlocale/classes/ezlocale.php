@@ -792,7 +792,7 @@ class eZLocale
     /*!
      \return the decimal symbol for normal numbers.
     */
-    function decimalSymbol()
+    function &decimalSymbol()
     {
         return $this->DecimalSymbol;
     }
@@ -800,7 +800,7 @@ class eZLocale
     /*!
      \return the thousand separator for normal numbers.
     */
-    function thousandsSeparator()
+    function &thousandsSeparator()
     {
         return $this->ThousandsSeparator;
     }
@@ -808,7 +808,7 @@ class eZLocale
     /*!
      \return the number of decimals for normal numbers.
     */
-    function decimalCount()
+    function &decimalCount()
     {
         return $this->FractDigits;
     }
@@ -816,7 +816,7 @@ class eZLocale
     /*!
      \return the negative symbol for normal numbers.
     */
-    function negativeSymbol()
+    function &negativeSymbol()
     {
         return $this->NegativeSymbol;
     }
@@ -824,7 +824,7 @@ class eZLocale
     /*!
      \return the positive symbol for normal numbers.
     */
-    function positiveSymbol()
+    function &positiveSymbol()
     {
         return $this->PositiveSymbol;
     }
@@ -832,7 +832,7 @@ class eZLocale
     /*!
      \return the decimal symbol for currencies.
     */
-    function currencyDecimalSymbol()
+    function &currencyDecimalSymbol()
     {
         return $this->CurrencyDecimalSymbol;
     }
@@ -840,7 +840,7 @@ class eZLocale
     /*!
      \return the thousand separator for currencies.
     */
-    function currencyThousandsSeparator()
+    function &currencyThousandsSeparator()
     {
         return $this->CurrencyThousandsSeparator;
     }
@@ -848,7 +848,7 @@ class eZLocale
     /*!
      \return the number of decimals for currencies.
     */
-    function currencyDecimalCount()
+    function &currencyDecimalCount()
     {
         return $this->CurrencyFractDigits;
     }
@@ -856,7 +856,7 @@ class eZLocale
     /*!
      \return the negative symbol for currencies.
     */
-    function currencyNegativeSymbol()
+    function &currencyNegativeSymbol()
     {
         return $this->CurrencyNegativeSymbol;
     }
@@ -864,7 +864,7 @@ class eZLocale
     /*!
      \return the positive symbol for currencies.
     */
-    function currencyPositiveSymbol()
+    function &currencyPositiveSymbol()
     {
         return $this->CurrencyPositiveSymbol;
     }
