@@ -80,6 +80,8 @@ Changes from 3.2-2 to 3.2-3
 - http://ez.no/developer/ez_publish_3/bug_reports/iteration_count_advances_even_when_item_is_excluded_with_sectionexclude
   The maximum value now only applies to used elements, some sanity checks were added to the
   'max' and 'offset' parameter.
+- http://ez.no/developer/ez_publish_3/bug_reports/advanced_search_template_doesnt_show_stop_words
+  Added stop words to advanced search template.
 
 *Setup:
 

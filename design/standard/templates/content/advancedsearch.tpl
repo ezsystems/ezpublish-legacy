@@ -38,6 +38,19 @@
 <h1>{"Advanced search"|i18n("design/standard/content/search")}</h1>
 </div>
 
+{section show=$stop_word_array}
+<p>
+{"The following words were excluded from the search:"|i18n("design/standard/content/search")} 
+{section name=StopWord loop=$stop_word_array}
+{$StopWord:item.word|wash}
+{delimiter}, {/delimiter}
+
+{/section}
+</p>
+
+{/section}
+
+
 <div class="block">
 <label>{"Search all the words"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
 <input class="box" type="text" size="40" name="SearchText" value="{$full_search_text|wash}" />
