@@ -70,10 +70,8 @@ class eZXMLText
         {
             case 'input' :
             {
-                 include_once( 'kernel/classes/datatypes/ezxmltext/ezsimpifiedxmlinput.php' );
-                 return new eZSimplifiedXMLInput( $this->XMLData );
-//                include_once( 'extension/xmleditor/dhtml/ezdhtmlinput.php' );
-//                return new eZDHTMLInput( $this->XMLData );
+                include_once( 'kernel/classes/datatypes/ezxmltext/ezsimpifiedxmlinput.php' );
+                return new eZSimplifiedXMLInput( $this->XMLData );
             }break;
 
             case 'output' :
