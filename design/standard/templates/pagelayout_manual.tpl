@@ -157,6 +157,22 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
+    <p class="menuitem"><a class="menuitem" href={"/manual/install/siteaccess"|ezurl}>{"Site access"|i18n("design/standard/layout")}</a></p>
+    </td>
+</tr>
+<tr>
+    <td class="bullet" width="1">
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
+    </td>
+    <td class="menu" width="99%">
+    <p class="menuitem"><a class="menuitem" href={"/manual/install/multisite"|ezurl}>{"Multi site configuration"|i18n("design/standard/layout")}</a></p>
+    </td>
+</tr>
+<tr>
+    <td class="bullet" width="1">
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
+    </td>
+    <td class="menu" width="99%">
     <p class="menuitem"><a class="menuitem" href={"/manual/install/uninstall"|ezurl}>{"Uninstall"|i18n("design/standard/layout")}</a></p>
     </td>
 </tr>
