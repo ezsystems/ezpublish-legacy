@@ -53,7 +53,7 @@ class eZFilePackageHandler extends eZPackageHandler
     */
     function eZFilePackageHandler()
     {
-        $this->eZPackageHandler();
+        $this->eZPackageHandler( 'ezfile' );
     }
 
     function install( &$package, $parameters,
@@ -66,11 +66,14 @@ class eZFilePackageHandler extends eZPackageHandler
     /*!
      \reimp
     */
-    function add( &$package, &$cli, $parameters )
+    function add( $packageType, &$package, &$cli, $parameters )
     {
         foreach ( $parameters['file-list'] as $fileItem )
         {
-            $cli->notice( "Adding file " . $fileItem['file'] . " (" . $fileItem['type'] . ", " . $fileItem['design'] . ", " . $fileItem['role'] . ") to package" );
+            $package->appendFile( $fileItem['file'], $fileItem['type'], $fileItem['role'],
+                                  $fileItem['design'], $fileItem['path'], $fileItem['collection'],
+                                  null, null, true, null );
+            $cli->notice( "Adding file " . $cli->style( 'file' ) . $fileItem['file'] . $cli->style( 'file-end' ) . " (" . $fileItem['type'] . ", " . $fileItem['design'] . ", " . $fileItem['role'] . ") to package" );
 //             $package->appendInstall( 'ezfile', false, false, true,
 //                                      'class-' . $classID, 'ezfile',
 //                                      array( 'content' => $classNode ) );
@@ -81,17 +84,27 @@ class eZFilePackageHandler extends eZPackageHandler
         }
     }
 
-    function handleAddParameters( &$package, &$cli, $arguments )
+    function handleAddParameters( $packageType, &$package, &$cli, $arguments )
     {
-        return $this->handleParameters( $package, $cli, 'add', $arguments );
+        return $this->handleParameters( $packageType, $package, $cli, 'add', $arguments );
     }
 
-    function handleParameters( &$package, &$cli, $type, $arguments )
+    function handleParameters( $packageType, &$package, &$cli, $type, $arguments )
     {
         $fileList = array();
         $currentType = 'file';
         $currentRole = false;
         $currentDesign = false;
+        $currentCollection = 'default';
+        if ( $packageType == 'design' )
+        {
+            $currentType = 'design';
+        }
+        else if ( $packageType == 'template' )
+        {
+            $currentType = 'design';
+            $currentRole = 'template';
+        }
         for ( $i = 0; $i < count( $arguments ); ++$i )
         {
             $argument = $arguments[$i];
@@ -106,7 +119,8 @@ class eZFilePackageHandler extends eZPackageHandler
                     $flag = substr( $argument, 1, 1 );
                     if ( $flag == 't' or
                          $flag == 'r' or
-                         $flag == 'd' )
+                         $flag == 'd' or
+                         $flag == 'c' )
                     {
                         if ( strlen( $argument ) > 2 )
                         {
@@ -161,21 +175,34 @@ class eZFilePackageHandler extends eZPackageHandler
                             }
                             $currentDesign = $data;
                         }
+                        else if ( $flag == 'c' )
+                        {
+                            $currentCollection = $data;
+                        }
                     }
                 }
             }
             else
             {
                 $file = $argument;
-                if ( !$this->fileExists( $file, $currentType, $currentRole, $currentDesign ) )
+                $type = $currentType;
+                $role = $currentRole;
+                $design = $currentDesign;
+                $realFilePath = $this->fileExists( $file, $type, $role, $design,
+                                                   $triedFiles );
+                if ( !$realFilePath )
                 {
-                    $cli->error( "File $file does not exist" );
+                    $cli->error( "File " . $cli->style( 'file' ) . $file . $cli->style( 'file-end' ) . " does not exist\n" .
+                                 "The following files were searched for:\n" .
+                                 implode( "\n", $triedFiles ) );
                     return false;
                 }
                 $fileList[] = array( 'file' => $file,
-                                     'type' => $currentType,
-                                     'role' => $currentRole,
-                                     'design' => $currentDesign );
+                                     'type' => $type,
+                                     'role' => $role,
+                                     'design' => $design,
+                                     'collection' => $currentCollection,
+                                     'path' => $realFilePath );
             }
         }
         if ( count( $fileList ) == 0 )
@@ -199,13 +226,17 @@ class eZFilePackageHandler extends eZPackageHandler
         return file_exists( 'design/' . $design );
     }
 
-    function fileExists( $file, $type, $role, $design )
+    function fileExists( &$file, &$type, &$role, &$design,
+                         &$triedFiles )
     {
+        $triedFiles = array();
         switch ( $type )
         {
             case 'file':
             {
-                return file_exists( $file );
+                if ( file_exists( $file ) )
+                    return $file;
+                $triedFiles[] = $file;
             } break;
             case 'design':
             {
@@ -228,12 +259,114 @@ class eZFilePackageHandler extends eZPackageHandler
                         $roleFileName = 'fonts';
                     } break;
                 }
-                return file_exists( 'design/' . $design . '/' . $roleFileName . '/' . $file );
+                $designDirectories = array( 'design' );
+                $extensionBaseDirectory = eZExtension::baseDirectory();
+                $ini =& eZINI::instance( 'design.ini' );
+                $extensionDesigns = $ini->variable( 'ExtensionSettings', 'DesignExtensions' );
+                foreach ( $extensionDesigns as $extensionDesign )
+                {
+                    $designDirectories[] = $extensionBaseDirectory . '/' . $extensionDesign . '/design';
+                }
+                if ( file_exists( $file ) )
+                {
+                    $preg = '#^';
+                    $i = 0;
+                    foreach ( $designDirectories as $designDirectory )
+                    {
+                        if ( $i > 0 )
+                            $preg .= '|';
+                        $preg .= '(?:' . $designDirectory . ')';
+                        ++$i;
+                    }
+                    $preg .= '/([^/]+)/(.+)$#';
+                    $realFile = $file;
+                    if ( preg_match( $preg, $file, $matches ) )
+                    {
+                        $design = $matches[1];
+                        if ( preg_match( '#^(template(?:s)|image(?:s)|stylesheet(?:s)|font(?:s))/(.+)$#', $matches[2], $matches ) )
+                        {
+                            $role = $matches[1];
+                            $file = $matches[2];
+                        }
+                        else
+                        {
+                            $file = $matches[2];
+                            $role = false;
+                        }
+                    }
+                    else
+                    {
+                        $type = 'file';
+                        $role = false;
+                        $design = false;
+                    }
+                    return $realFile;
+                }
+                $triedFiles[] = $file;
+                if ( !$design )
+                {
+                    foreach ( $designDirectories as $designDirectory )
+                    {
+                        $filePath = $designDirectory . '/standard/' . $roleFileName . '/' . $file;
+                        if ( file_exists( $filePath ) )
+                        {
+                            $design = 'standard';
+                            return $filePath;
+                        }
+                        $triedFiles[] = $filePath;
+                        if ( !file_exists( $designDirectory ) or
+                             !is_dir( $designDirectory ) )
+                            continue;
+                        $dirHandler = @opendir( $designDirectory );
+                        if ( !$dirHandler )
+                            continue;
+                        while ( ( $designSubDirectory = @readdir( $dirHandler ) ) !== false )
+                        {
+                            if ( $designSubDirectory == '.' or $designSubDirectory == '..' )
+                                continue;
+                            $filePath = $designDirectory . '/' . $designSubDirectory . '/' . $roleFileName . '/' . $file;
+                            if ( file_exists( $filePath ) )
+                            {
+                                @closedir( $dirHandler );
+                                $design = $designSubDirectory;
+                                return $filePath;
+                            }
+                            $triedFiles[] = $filePath;
+                        }
+                        @closedir( $dirHandler );
+                    }
+                }
+                foreach ( $designDirectories as $designDirectory )
+                {
+                    if ( !file_exists( $designDirectory ) or
+                         !is_dir( $designDirectory ) )
+                        continue;
+
+                    $filePath = $designDirectory . '/' . $file;
+                    if ( file_exists( $filePath ) )
+                    {
+                        if ( preg_match( "#^([^/]+)/(.+)$#", $file, $matches ) )
+                        {
+                            $design = $matches[1];
+                            $file = $matches[2];
+                        }
+                        else
+                        {
+                            $design = $file;
+                            $file = false;
+                        }
+                        return $filePath;
+                    }
+
+                    $filePath = $designDirectory . '/' . $design . '/' . $roleFileName . '/' . $file;
+                    if ( file_exists( $filePath ) )
+                        return $filePath;
+                    $triedFiles[] = $filePath;
+                }
             } break;
         }
         return false;
     }
-
 }
 
 ?>

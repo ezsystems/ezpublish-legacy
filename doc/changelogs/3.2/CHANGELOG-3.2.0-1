@@ -243,3 +243,4 @@ eZ log:
 
 *eZ file:
 - New library for dealing with files, directories, archives and compressed files.
+- Added support for recursive directory copy in eZDir.

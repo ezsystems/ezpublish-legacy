@@ -380,25 +380,111 @@ class eZDir
      \static
      Returns all subdirectories in a folder
     */
-    function &findSubdirs( $dir )
+    function &findSubdirs( $dir, $includeHidden = false, $excludeItems = false )
     {
+        return eZDir::findSubitems( $dir, 'd', false, $includeHidden, $excludeItems );
+    }
+
+    /*!
+     \static
+     Returns all subdirectories in a folder
+    */
+    function &findSubitems( $dir, $types = false, $fullPath = false, $includeHidden = false, $excludeItems = false )
+    {
+        if ( !$types )
+            $types = 'dfl';
         $dirArray = array();
         if ( $handle = @opendir( $dir ) )
         {
             while ( ( $element = readdir( $handle ) ) !== false )
             {
-                if ( $element[0] == "." )
-                {
+                if ( $element == '.' or $element == '..' )
                     continue;
-                }
-                if ( is_dir( $dir . '/' . $element ) )
+                if ( !$includeHidden and $element[0] == "." )
+                    continue;
+                if ( $excludeItems and preg_match( $excludeItems, $element ) )
+                    continue;
+                if ( is_dir( $dir . '/' . $element ) and strpos( $types, 'd' ) === false )
+                    continue;
+                if ( is_link( $dir . '/' . $element ) and strpos( $types, 'l' ) === false )
+                    continue;
+                if ( is_file( $dir . '/' . $element ) and strpos( $types, 'f' ) === false )
+                    continue;
+                if ( $fullPath )
                 {
-                    $dirArray[] = $element;
+                    if ( is_string( $fullPath ) )
+                        $dirArray[] = $fullPath . '/' . $element;
+                    else
+                        $dirArray[] = $dir . '/' . $element;
                 }
+                else
+                    $dirArray[] = $element;
             }
             @closedir( $handle );
         }
         return $dirArray;
+    }
+
+    /*!
+     Copies a directory (and optionally all it's subitems) to another directory.
+    */
+    function copy( $sourceDirectory, $destinationDirectory,
+                   $asChild = true, $recursive = true, $includeHidden = false, $excludeItems = false )
+    {
+        if ( !is_dir( $sourceDirectory ) )
+        {
+            eZDebug::writeError( "Source $sourceDirectory is not a directory, cannot copy from it",
+                                 'eZDir::copy' );
+            return false;
+        }
+        if ( !is_dir( $destinationDirectory ) )
+        {
+            eZDebug::writeError( "Destination $destinationDirectory is not a directory, cannot copy to it",
+                                 'eZDir::copy' );
+            return false;
+        }
+        if ( $asChild )
+        {
+            if ( preg_match( "#^.+/([^/]+)$#", $sourceDirectory, $matches ) )
+            {
+                eZDir::mkdir( $destinationDirectory . '/' . $matches[1], eZDir::directoryPermission(), false );
+                $destinationDirectory .= '/' . $matches[1];
+            }
+        }
+        $items = eZDir::findSubitems( $sourceDirectory, 'df', false, $includeHidden, $excludeItems );
+        while ( count( $items ) > 0 )
+        {
+            $currentItems = $items;
+            $items = array();
+            foreach ( $currentItems as $item )
+            {
+                $fullPath = $sourceDirectory . '/' . $item;
+                if ( is_file( $fullPath ) )
+                    eZFileHandler::copy( $fullPath, $destinationDirectory . '/' . $item );
+                else if ( is_dir( $fullPath ) )
+                {
+                    eZDir::mkdir( $destinationDirectory . '/' . $item, eZDir::directoryPermission(), false );
+                    $items = array_merge( $items, eZDir::findSubitems( $fullPath, 'df', $item, $includeHidden, $excludeItems ) );
+                }
+            }
+        }
+        eZDebugSetting::writeNotice( 'lib-ezfile-copy',
+                                     "Copied directory $sourceDirectory to destination $destinationDirectory",
+                                     'eZDir::copy' );
+    }
+
+    /*!
+     \return a regexp which will match certain temporary files.
+    */
+    function temporaryFileRegexp( $standalone = true )
+    {
+        $preg = '';
+        if ( $standalone )
+            $preg .= "/^";
+        $preg .= "(.*~|#.+#|.*\.bak|.svn|CVS|.revive.el|.cvsignore)";
+        if ( $standalone )
+            $preg .= "$/";
+        return $preg;
     }
 }
 

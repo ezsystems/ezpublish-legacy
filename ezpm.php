@@ -514,7 +514,7 @@ foreach ( $commandList as $commandItem )
         if ( !$commandItem['name'] and
              !$commandItem['item'] )
         {
-            helpSet();
+            helpAdd();
             exit();
         }
     }
@@ -652,10 +652,11 @@ foreach ( $commandList as $commandItem )
                     $handler =& $package->packageHandler( $itemType );
                     if ( is_object( $handler ) )
                     {
-                        $parameters = $handler->handleAddParameters( $package, $cli, $commandItem['item-parameters'] );
+                        $realItemType = $handler->handlerType();
+                        $parameters = $handler->handleAddParameters( $itemType, $package, $cli, $commandItem['item-parameters'] );
                         if ( $parameters )
                         {
-                            $handler->add( $package, $cli, $parameters );
+                            $handler->add( $itemType, $package, $cli, $parameters );
                             $package->store();
                         }
                     }

@@ -152,7 +152,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
     /*!
      \reimp
     */
-    function add( &$package, &$cli, $parameters )
+    function add( $packageType, &$package, &$cli, $parameters )
     {
         foreach ( $parameters['class-list'] as $classItem )
         {
@@ -178,12 +178,12 @@ class eZContentClassPackageHandler extends eZPackageHandler
         }
     }
 
-    function handleAddParameters( &$package, &$cli, $arguments )
+    function handleAddParameters( $packageType, &$package, &$cli, $arguments )
     {
-        return $this->handleParameters( $package, $cli, 'add', $arguments );
+        return $this->handleParameters( $packageType, $package, $cli, 'add', $arguments );
     }
 
-    function handleParameters( &$package, &$cli, $type, $arguments )
+    function handleParameters( $packageType, &$package, &$cli, $type, $arguments )
     {
         $classList = false;
         foreach ( $arguments as $argument )

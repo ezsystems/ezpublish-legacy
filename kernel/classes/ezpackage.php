@@ -95,6 +95,7 @@ class eZPackage
                            'documents' => array(),
                            'groups' => array(),
                            'changelog' => array(),
+                           'file-list' => array(),
                            'version-number' => false,
                            'release-number' => false,
                            'release-timestamp' => false,
@@ -242,6 +243,7 @@ class eZPackage
                                 'extension', 'source',
                                 'version-number', 'release-number', 'release-timestamp',
                                 'maintainers', 'documents', 'groups',
+                                'file-list',
                                 'changelog', 'dependencies',
                                 'install', 'uninstall',
                                 'licence', 'state',
@@ -260,6 +262,7 @@ class eZPackage
                               'extension', 'source',
                               'version-number', 'release-number', 'release-timestamp',
                               'maintainers', 'documents', 'groups',
+                              'file-list',
                               'changelog', 'dependencies',
                               'install', 'uninstall',
                               'licence', 'state' ) ) )
@@ -426,6 +429,61 @@ class eZPackage
         $this->appendDependency( $dependencySection, 'bugfix',
                                  $name, $bugID,
                                  $parameters, $modified );
+    }
+
+    function md5sum( $file )
+    {
+        if ( function_exists( 'md5_file' ) )
+            return md5_file( $file );
+        else
+        {
+            $fd = @fopen( $file, 'r' );
+            if ( $fd )
+            {
+                $data = '';
+                while ( !@feof( $fd ) )
+                {
+                    $data .= @fread( $fd, 4096 );
+                }
+                @fclose( $fd );
+                return md5( $data );
+            }
+        }
+        return false;
+    }
+
+    function appendFile( $file, $type, $role,
+                         $design, $filePath, $collection,
+                         $subDirectory = null, $md5 = null,
+                         $copyFile = false, $modified = null )
+    {
+        if ( $modified === null )
+            $modified = mktime();
+        if ( !$collection )
+            $collection = 'default';
+        if ( $subDirectory === null )
+        {
+            $subDirectory = false;
+            if ( preg_match( '#^(.+)/([^/]+)$#', $file, $matches ) )
+            {
+                $subDirectory = $matches[1];
+                $file = $matches[2];
+            }
+        }
+        $fileItem = array( 'name' => $file,
+                           'subdirectory' => $subDirectory,
+                           'type' => $type,
+                           'role' => $role,
+                           'path' => $filePath,
+                           'design' => $design,
+                           'copy-file' => $copyFile,
+                           'modified' => $modified );
+        if ( $md5 === null )
+        {
+            $md5 = $this->md5sum( $filePath );
+        }
+        $fileItem['md5'] = $md5;
+        $this->Parameters['file-list'][$collection][] = $fileItem;
     }
 
     /*!
@@ -985,6 +1043,15 @@ class eZPackage
     }
 
     /*!
+     \static
+     \return the name of the documents directory for cached package data.
+    */
+    function filesDirectory()
+    {
+        return 'files';
+    }
+
+    /*!
      Locates all packages in the repository and returns an array with eZPackage objects.
     */
     function fetchPackages( $parameters = array() )
@@ -1131,6 +1198,38 @@ class eZPackage
             $changelogChangeList = $changelogEntryNode->elementsTextContentByName( 'change' );
             $this->appendChange( $changelogPerson, $changelogEmail, $changelogChangeList,
                                  $changelogRelease, $changelogTimestamp, $changelogModified );
+        }
+
+        // Read files
+        $filesList =& $root->elementChildrenByName( 'files' );
+        if ( $filesList )
+        {
+            foreach ( array_keys( $filesList ) as $fileCollectionKey )
+            {
+                $fileCollectionNode =& $filesList[$fileCollectionKey];
+                $fileCollectionName = $fileCollectionNode->attributeValue( 'name' );
+                $fileLists =& $fileCollectionNode->elementsByName( 'file-list' );
+                foreach ( array_keys( $fileLists ) as $fileListKey )
+                {
+                    $fileListNode =& $fileLists[$fileListKey];
+                    $fileType = $fileListNode->attributeValue( 'type' );
+                    $fileDesign = $fileListNode->attributeValue( 'design' );
+                    $fileRole = $fileListNode->attributeValue( 'role' );
+                    $files =& $fileListNode->elementsByName( 'file' );
+                    foreach ( array_keys( $files ) as $fileKey )
+                    {
+                        $fileNode =& $files[$fileKey];
+                        $fileName = $fileNode->attributeValue( 'name' );
+                        $fileSubDirectory = $fileNode->attributeValue( 'sub-directory' );
+                        $filePath = $fileNode->attributeValue( 'path' );
+                        $fileMD5 = $fileNode->attributeValue( 'md5sum' );
+                        $fileModified = $fileNode->attributeValue( 'modified' );
+                        $this->appendFile( $fileName, $fileType, $fileRole,
+                                           $fileDesign, $filePath, $fileCollectionName,
+                                           $fileSubDirectory, $fileMD5, false, $fileModified );
+                    }
+                }
+            }
         }
 
         // Read release info
@@ -1336,6 +1435,7 @@ class eZPackage
         $licence = $this->attribute( 'licence' );
         $state = $this->attribute( 'state' );
 
+        $fileList = $this->attribute( 'file-list' );
         $dependencies = $this->attribute( 'dependencies' );
         $install = $this->attribute( 'install' );
         $uninstall = $this->attribute( 'uninstall' );
@@ -1476,6 +1576,78 @@ class eZPackage
             }
             $root->appendChild( $changelogNode );
         }
+
+        $filesNode =& $dom->createElementNode( 'files' );
+        $hasFileItems = false;
+        foreach ( $fileList as $fileCollectionName => $fileCollection )
+        {
+            if ( count( $fileCollection ) > 0 )
+            {
+                $hasFileItems = true;
+                $collectionAttributes = array();
+                if ( $fileCollectionName )
+                    $collectionAttributes['name'] = $fileCollectionName;
+                $fileCollectionNode =& $dom->createElementNode( 'collection',
+                                                                $collectionAttributes );
+                unset( $fileLists );
+                unset( $fileDesignLists );
+                $fileList = array();
+                $fileDesignList = array();
+                foreach ( $fileCollection as $fileItem )
+                {
+                    if ( $fileItem['type'] == 'design' )
+                        $fileListNode =& $fileDesignLists[$fileItem['design']][$fileItem['role']];
+                    else
+                        $fileListNode =& $fileLists[$fileItem['type']][$fileItem['role']];
+                    if ( !isset( $fileListNode ) )
+                    {
+                        $fileListAttributes = array( 'type' => $fileItem['type'] );
+                        if ( $fileItem['type'] == 'design' )
+                            $fileListAttributes['design'] = $fileItem['design'];
+                        if ( $fileItem['role'] )
+                            $fileListAttributes['role'] = $fileItem['role'];
+                        $fileListNode = $dom->createElementNode( 'file-list',
+                                                                 $fileListAttributes );
+                        $fileCollectionNode->appendChild( $fileListNode );
+                    }
+                    $fileAttributes = array( 'name' => $fileItem['name'] );
+                    if ( $fileItem['subdirectory'] )
+                        $fileAttributes['sub-directory'] = $fileItem['subdirectory'];
+                    if ( !$exportFormat )
+                        $fileAttributes['path'] = $fileItem['path'];
+                    if ( $fileItem['md5'] )
+                        $fileAttributes['md5sum'] = $fileItem['md5'];
+                    if ( $fileItem['modified'] and !$exportFormat )
+                         $fileAttributes['modified'] = $fileItem['modified'];
+                    if ( $fileItem['name'] )
+                    {
+                        $fileListNode->appendChild( $dom->createElementNode( 'file', $fileAttributes ) );
+                    }
+                    $copyFile = $fileItem['copy-file'];
+                    if ( $copyFile )
+                    {
+                        $typeDir = $fileItem['type'];
+                        if ( $fileItem['type'] == 'design' )
+                            $typeDir .= '.' . $fileItem['design'];
+                        if ( $fileItem['role'] )
+                            $typeDir .= '.' . $fileItem['role'];
+                        $path = $this->path() . '/' . eZPackage::filesDirectory() . '/' . $fileCollectionName . '/' . $typeDir;
+                        if ( $fileItem['subdirectory'] )
+                            $path .= '/' . $fileItem['subdirectory'];
+                        if ( !file_exists( $path ) )
+                            eZDir::mkdir( $path, eZDir::directoryPermission(), true );
+                        if ( is_dir( $fileItem['path'] ) )
+                            eZDir::copy( $fileItem['path'], $path,
+                                         $fileItem['name'] != false, true, false, eZDir::temporaryFileRegexp() );
+                        else
+                            eZFileHandler::copy( $fileItem['path'], $path . '/' . $fileItem['name'] );
+                    }
+                }
+                $filesNode->appendChild( $fileCollectionNode );
+            }
+        }
+        if ( $hasFileItems )
+            $root->appendChild( $filesNode );
 
         $versionNode =& $dom->createElementNode( 'version' );
         $versionNode->appendAttribute( $dom->createAttributeNode( 'ezversion', 'http://ez.no/ezpackage', 'xmlns' ) );
@@ -1647,23 +1819,40 @@ class eZPackage
         $handlers =& $GLOBALS['eZPackageHandlers'];
         if ( !isset( $handlers ) )
             $handlers = array();
-        $ini =& eZINI::instance( 'package.ini' );
-        $repository = $ini->variable( 'PackageSettings', 'PackageHandlerRepository' );
-        $handlerFile = $repository . '/' . $handlerName . '/' . $handlerName . 'packagehandler.php';
         $handler = false;
-        if ( file_exists( $handlerFile ) )
+        if ( eZExtension::findExtensionType( array( 'ini-name' => 'package.ini',
+                                                    'repository-group' => 'PackageSettings',
+                                                    'repository-variable' => 'RepositoryDirectories',
+                                                    'extension-group' => 'PackageSettings',
+                                                    'extension-variable' => 'ExtensionDirectories',
+                                                    'subdir' => 'packagehandlers',
+                                                    'extension-subdir' => 'packagehandlers',
+                                                    'suffix-name' => 'packagehandler.php',
+                                                    'type-directory' => true,
+                                                    'type' => $handlerName,
+                                                    'alias-group' => 'PackageSettings',
+                                                    'alias-variable' => 'HandlerAlias' ),
+                                             $result ) )
         {
-            include_once( $handlerFile );
-            $handlerClassName = $handlerName . 'PackageHandler';
-            if ( isset( $handlers[$handlerName] ) )
+//         $ini =& eZINI::instance( 'package.ini' );
+//         $repository = $ini->variable( 'PackageSettings', 'PackageHandlerRepository' );
+//         $handlerFile = $repository . '/' . $handlerName . '/' . $handlerName . 'packagehandler.php';
+//         $handler = false;
+            $handlerFile = $result['found-file-path'];
+            if ( file_exists( $handlerFile ) )
             {
-                $handler =& $handlers[$handlerName];
-                $handler->reset();
-            }
-            else
-            {
-                $handler =& new $handlerClassName;
-                $handlers[$handlerName] =& $handler;
+                include_once( $handlerFile );
+                $handlerClassName = $result['type'] . 'PackageHandler';
+                if ( isset( $handlers[$result['type']] ) )
+                {
+                    $handler =& $handlers[$result['type']];
+                    $handler->reset();
+                }
+                else
+                {
+                    $handler =& new $handlerClassName;
+                    $handlers[$result['type']] =& $handler;
+                }
             }
         }
         return $handler;

@@ -169,7 +169,8 @@ class eZExtension
      - alias-variable - The INI variable which defines type aliases.
 
      Type aliases allows overriding a specific type to use another type handler,
-     this is useful when extensions want to take control of some specific types.
+     this is useful when extensions want to take control of some specific types
+     or you want multiple names (aliases) for one type.
 
      On success the \a $out parameter will contain:
      - type - The current type used.

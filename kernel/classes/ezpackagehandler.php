@@ -86,7 +86,21 @@ class eZPackageHandler
      \pure
      Adds items defined in \a $parameters to the package \a $package.
     */
-    function add( &$package, $parameters )
+    function add( $packageType, &$package, $parameters )
+    {
+    }
+
+    /*!
+     \pure
+     Called when command line parameters must be handled by the package handler.
+     This function must return an array with values which can easily be used in the add() function.
+     \param $packageType The type that was specified when using the add command,
+                         which is either the name of this handler or an alias for it.
+     \param $package     The package object.
+     \param $cli         Command line interface object, can be used to output errors etc.
+     \param $arguments   An array with string values taken from the command line after the add command.
+    */
+    function handleAddParameters( $packageType, &$package, &$cli, $arguments )
     {
     }
 
