@@ -13,7 +13,7 @@
     </groups>
     <id>20</id>
     <created>1082533585</created>
-    <modified>1082534021</modified>
+    <modified>1084890059</modified>
     <creator>
       <user-id>14</user-id>
       <user-login>admin</user-login>
@@ -87,16 +87,29 @@
       </datatype-parameters>
     </attribute>
     <attribute datatype="ezemail"
+               required="true"
+               searchable="false"
+               information-collector="true"
+               translatable="false">
+      <remote>
+        <id>239</id>
+      </remote>
+      <name>Email</name>
+      <identifier>email</identifier>
+      <placement>5</placement>
+      <datatype-parameters />
+    </attribute>
+    <attribute datatype="ezemail"
                required="false"
-               searchable="true"
+               searchable="false"
                information-collector="false"
-               translatable="true">
+               translatable="false">
       <remote>
         <id>199</id>
       </remote>
       <name>Recipient</name>
       <identifier>recipient</identifier>
-      <placement>5</placement>
+      <placement>6</placement>
       <datatype-parameters />
     </attribute>
   </attributes>

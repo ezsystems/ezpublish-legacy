@@ -11,39 +11,39 @@ Upgrades to the development format will not be supported.</warning>
   <description>Adds feedback form functionality.</description>
   <type value="contentobject" />
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
-    <version>3.4.0beta1</version>
-    <named-version>3.4.0beta1-beta1</named-version>
+    <version>3.4.0beta2</version>
+    <named-version>3.4beta2</named-version>
   </ezpublish>
   <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
     <maintainer>
-      <name>Administrator User</name>
+      <name>Anonymous User</name>
       <email>nospam@ez.no</email>
       <role>lead</role>
     </maintainer>
   </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1083917992</timestamp>
-    <host>trunk.ezpublish.drakhendvh1.ez.no</host>
+    <timestamp>1084894399</timestamp>
+    <host></host>
   </packaging>
   <documents>
     <document mime-type="text/plain"
               name="LICENCE" />
   </documents>
   <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry timestamp="1083917992"
-           person="Administrator User"
+    <entry timestamp="1084894399"
+           person="Anonymous User"
            email="nospam@ez.no"
            release="1">
-      <change>Created package for 3.4.0beta1.</change>
+      <change>Creation of package</change>
     </entry>
   </changelog>
   <simple-files />
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number>3.4.0beta1</number>
+    <number>3.4.0beta2</number>
     <release>1</release>
   </version>
   <licence>GPL</licence>
-  <state>stable</state>
+  <state>alpha</state>
   <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
     <provides>
       <provide type="ezcontentclass"
@@ -59,7 +59,7 @@ Upgrades to the development format will not be supported.</warning>
           filename="class-feedback_form"
           sub-directory="ezcontentclass" />
     <item type="ezcontentobject"
-          filename="33624e3b"
+          filename="a42cb416"
           sub-directory="ezcontentobject" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
@@ -67,7 +67,7 @@ Upgrades to the development format will not be supported.</warning>
           filename="class-feedback_form"
           sub-directory="ezcontentclass" />
     <item type="ezcontentobject"
-          filename="33624e3b"
+          filename="a42cb416"
           sub-directory="ezcontentobject" />
   </uninstall>
 </package>

@@ -47,6 +47,12 @@
                                 type="eztext">
               <text></text>
             </ezobject:attribute>
+            <ezobject:attribute ezremote:id="405"
+                                ezremote:identifier="email"
+                                name="Email"
+                                type="ezemail">
+              <email></email>
+            </ezobject:attribute>
             <ezobject:attribute ezremote:id="207"
                                 ezremote:identifier="recipient"
                                 name="Recipient"
