@@ -44,24 +44,24 @@
             $expiredTimeStamp = 0;
             if ( $handler->hasTimestamp( 'user-class-cache' ) )
                 $expiredTimeStamp = $handler->timestamp( 'user-class-cache' );
-            print( "expired time stamp = '$expiredTimeStamp'<br/>" );
+//             print( "expired time stamp = '$expiredTimeStamp'<br/>" );
 
             $classesCachedForUser = $http->sessionVariable( 'ClassesCachedForUser' );
             $classesCachedTimestamp = $http->sessionVariable( 'ClassesCachedTimestamp' );
 
-            print( "\$classesCachedForUser='$classesCachedForUser'<br/>" );
-            print( "\$classesCachedTimestamp='$classesCachedTimestamp'<br/>" );
+//             print( "\$classesCachedForUser='$classesCachedForUser'<br/>" );
+//             print( "\$classesCachedTimestamp='$classesCachedTimestamp'<br/>" );
 
             $cacheVar = 'CanInstantiateClassList';
             if ( is_array( $groupList ) and $fetchID !== false )
             {
                 $cacheVar = 'CanInstantiateClassListGroup';
             }
-            print( "\$cacheVar='$cacheVar'<br/>" );
+//             print( "\$cacheVar='$cacheVar'<br/>" );
 
             $user =& eZUser::currentUser();
             $userID = $user->id();
-            print( "\$userID='$userID'<br/>" );
+//             print( "\$userID='$userID'<br/>" );
             if ( ( $classesCachedTimestamp >= $expiredTimeStamp ) && $classesCachedForUser == $userID )
             {
                 if ( $http->hasSessionVariable( $cacheVar ) )
@@ -72,13 +72,13 @@
                         $groupArray = $http->sessionVariable( $cacheVar );
                         if ( isset( $groupArray[$fetchID] ) )
                         {
-                            print( "returning cached class list in group<br/>" );
+//                             print( "returning cached class list in group<br/>" );
                             return $groupArray[$fetchID];
                         }
                     }
                     else
                     {
-                        print( "returning cached class list<br/>" );
+//                         print( "returning cached class list<br/>" );
                         return $http->sessionVariable( $cacheVar );
                     }
                 }
@@ -175,7 +175,7 @@
             $db = eZDb::instance();
             $classString = implode( ',', $classIDArray );
             $classList =& $db->arrayQuery( "SELECT DISTINCT cc.id, cc.name\n" .
-                                           "FROM cc.ezcontentclass$filterTableSQL\n" .
+                                           "FROM ezcontentclass cc$filterTableSQL\n" .
                                            "WHERE cc.id IN ( $classString  ) AND\n" .
                                            "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n",
                                            "ORDER BY cc.name ASC" );

@@ -431,7 +431,7 @@ class eZContentClass extends eZPersistentObject
             $db = eZDb::instance();
             $classString = implode( ',', $classIDArray );
             $classList =& $db->arrayQuery( "SELECT DISTINCT cc.id, cc.name\n" .
-                                           "FROM cc.ezcontentclass$filterTableSQL\n" .
+                                           "FROM ezcontentclass cc$filterTableSQL\n" .
                                            "WHERE cc.id IN ( $classString  ) AND\n" .
                                            "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n",
                                            "ORDER BY cc.name ASC" );
