@@ -75,6 +75,47 @@ MatchFile=datatype/ezobjectrelation/image.tpl
 Subdir=templates
 Match[class_identifier]=article
 
+[pdf_article_main]
+Source=node/view/pdf.tpl
+MatchFile=pdf/article/main.tpl
+Match[class_identifier]=article
+Subdir=templates
+
+[pdf_article_title]
+Source=content/datatype/pdf/ezstring.tpl
+MatchFile=pdf/article/title.tpl
+Match[class_identifier]=article
+Match[attribute_identifier]=title
+Subdir=templates
+
+[pdf_article_author]
+Source=content/datatype/pdf/ezauthor.tpl
+MatchFile=pdf/article/author.tpl
+Match[class_identifier]=article
+Match[attribute_identifier]=author
+Subdir=templates
+
+[pdf_article_xml_headers]
+Source=content/datatype/pdf/ezxmltags/header.tpl
+MatchFile=pdf/article/xml_header.tpl
+Match[class_identifier]=article
+Subdir=templates
+
+[pdf_article_xml_paragraph]
+Source=content/datatype/pdf/ezxmltags/paragraph.tpl
+MatchFile=pdf/article/xml_paragraph.tpl
+Match[class_identifier]=article
+Subdir=templates
+
+[pdf_article_footer]
+Source=content/pdf/footer.tpl
+MatchFile=pdf/article/footer.tpl
+Match[class_identifier]=article
+
+[pdf_article_embed_image]
+Source=content/pdf/embed.tpl
+MatchFile=pdf/article/image.tpl
+Match[class_identifier]=article
 
 # Comment templates
 
