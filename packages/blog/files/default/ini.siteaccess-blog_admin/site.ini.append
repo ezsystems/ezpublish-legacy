@@ -1,0 +1,21 @@
+
+[DatabaseSettings]
+DatabasePluginPath=
+# Use either ezmysql or ezpostgresql
+DatabaseImplementation=ezmysql
+Server=bf.ez.no
+User=root
+Password=mofser
+Database=blog
+
+
+[DesignSettings]
+StandardDesign=standard
+SiteDesign=admin
+
+[FileSettings]
+VarDir=var/blog
+
+[SiteAccessSettings]
+AvailableSiteAccessList[]=blog_admin
+AvailableSiteAccessList[]=blog_user
