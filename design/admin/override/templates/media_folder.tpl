@@ -96,26 +96,22 @@
         <tr>
         {section loop=$:children sequence=array( bglight, bgdark )}
 
-                <td valign="top">
-                {section show=$:can_edit}
-                        {section show=$:item.object.can_edit}
-                            <a href={concat( "content/edit/", $Child:item.contentobject_id )|ezurl}><img src={"edit.png"|ezimage} alt="Edit" /></a>
-                        {/section}
-                {/section}
-
+                <td valign="top" width="25%">
                 {section show=$:can_remove}
                         {section show=$:item.object.can_remove}
                             <input type="checkbox" name="DeleteIDArray[]" value="{$Child:item.node_id}" />
                         {/section}
                 {/section}
-
-                    {node_view_gui view=thumbnail content_node=$:item}
-
+                {section show=$:can_edit}
+                        {section show=$:item.object.can_edit}
+                            <a href={concat( "content/edit/", $Child:item.contentobject_id )|ezurl}><img src={"edit.png"|ezimage} alt="Edit" /></a>
+                        {/section}
+                {/section}
                 {section show=eq( $node.sort_array[0][0], 'priority' )}
                         <input type="text" name="Priority[]" size="2" value="{$Child:item.priority}">
                         <input type="hidden" name="PriorityID[]" value="{$Child:item.node_id}">
                 {/section}
-
+                    {node_view_gui view=thumbnail content_node=$:item}
                 </td>
                 {delimiter modulo=4}
                 </tr><tr>

@@ -14,11 +14,10 @@
 {/section}
 
 <div class="objectheader">
-    <h2>{'Product'|i18n('design/admin/node/view')}</h2>
+    <h2>{$node_name|wash} [{'Product'|i18n('design/admin/node/view')}]</h2>
 </div>
 
 <div class="object">
-    <h1>{$node_name|wash}</h1>
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
     <p class="small">{$node.object.data_map.product_nr.contentclass_attribute.name} {attribute_view_gui attribute=$node.object.data_map.product_nr}</p>
     

@@ -30,26 +30,27 @@ a:hover
 
 td.topline
 {
-        background-color: #4272b4;
-        border-bottom: solid 1px #000000;
+  background-color: #4272b4;
+  border-bottom: solid 1px #000000;
 }
 
 label.topline, a.topline, a.topline:hover
 {
-        color: #ffffff;
+  color: #ffffff;
 }
 
 td.pathline
 {
-    padding-top: 4px;
-    color: #000000; 
-    background-color: #ffffff; 
+  padding-top: 0px;
+  padding-bottom: 6px;
+  color: #000000; 
+  background-color: #ffffff;
 }
 
 table.path td.bullet
 {
-        padding-top: 2px;
-        padding-left: 2px;
+  padding-top: 2px;
+  padding-left: 2px;
 }
 
 p.path
