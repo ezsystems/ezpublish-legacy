@@ -220,28 +220,12 @@
         <translation>Endret av</translation>
     </message>
     <message>
-        <source>Object name:</source>
-        <translation>Objektnavn:</translation>
-    </message>
-    <message>
         <source>Identifier:</source>
         <translation>Identifikator:</translation>
     </message>
     <message>
         <source>Name:</source>
         <translation>Navn:</translation>
-    </message>
-    <message>
-        <source>In group:</source>
-        <translation>Tilhører gruppe:</translation>
-    </message>
-    <message>
-        <source>Add group</source>
-        <translation>Legg til gruppe</translation>
-    </message>
-    <message>
-        <source>Remove group</source>
-        <translation>Fjern gruppe</translation>
     </message>
     <message>
         <source>Input did not validate</source>
@@ -343,6 +327,26 @@
         <source>Removing class group %1 will remove the classes %2!</source>
         <translation>Hvis du fjerner klassegruppen %1 vil også klassene %2 bli fjernet!</translation>
     </message>
+    <message>
+        <source>Object name pattern:</source>
+        <translation>Objektnavn-mønster:</translation>
+    </message>
+    <message>
+        <source>Member of groups:</source>
+        <translation>Medlem av grupper:</translation>
+    </message>
+    <message>
+        <source>Remove:</source>
+        <translation>Fjern:</translation>
+    </message>
+    <message>
+        <source>Add to group</source>
+        <translation>Legg til i gruppe</translation>
+    </message>
+    <message>
+        <source>Remove from groups</source>
+        <translation>Fjern fra grupper</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class/list</name>
@@ -365,10 +369,6 @@
     <message>
         <source>New</source>
         <translation>Ny</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Fjern</translation>
     </message>
     <message>
         <source>Edit:</source>
@@ -603,10 +603,6 @@
         <translation>Stedsinformasjon</translation>
     </message>
     <message>
-        <source>Remove</source>
-        <translation>Fjern</translation>
-    </message>
-    <message>
         <source>New</source>
         <translation>Ny</translation>
     </message>
@@ -659,12 +655,24 @@
         <translation>Innholdsoversettelse</translation>
     </message>
     <message>
-        <source>Language</source>
-        <translation>Språk</translation>
+        <source>Language:</source>
+        <translation>Språk:</translation>
     </message>
     <message>
-        <source>Country</source>
-        <translation>Land</translation>
+        <source>Country:</source>
+        <translation>Land:</translation>
+    </message>
+    <message>
+        <source>Locale:</source>
+        <translation>Stedsinformasjon:</translation>
+    </message>
+    <message>
+        <source>Edit:</source>
+        <translation>Rediger:</translation>
+    </message>
+    <message>
+        <source>Remove:</source>
+        <translation>Fjern:</translation>
     </message>
 </context>
 <context>
@@ -938,6 +946,10 @@
     <message>
         <source>Yes</source>
         <translation>Ja</translation>
+    </message>
+    <message>
+        <source>User ID:</source>
+        <translation>Bruker ID:</translation>
     </message>
 </context>
 <context>
@@ -1284,10 +1296,6 @@
         <translation>Navn:</translation>
     </message>
     <message>
-        <source>Version:</source>
-        <translation>Versjon:</translation>
-    </message>
-    <message>
         <source>Restore:</source>
         <translation>Hent tilbake:</translation>
     </message>
@@ -1298,6 +1306,22 @@
     <message>
         <source>Trash is empty</source>
         <translation>Papirkurven er tom</translation>
+    </message>
+    <message>
+        <source>Class:</source>
+        <translation>Klasse:</translation>
+    </message>
+    <message>
+        <source>Section:</source>
+        <translation>Seksjon:</translation>
+    </message>
+    <message>
+        <source>Current version:</source>
+        <translation>Gjeldende versjon:</translation>
+    </message>
+    <message>
+        <source>Remove:</source>
+        <translation>Fjern:</translation>
     </message>
 </context>
 <context>
@@ -1437,6 +1461,18 @@
         <source>Versions</source>
         <translation>Versjoner</translation>
     </message>
+    <message>
+        <source>Class:</source>
+        <translation>Klasse:</translation>
+    </message>
+    <message>
+        <source>Section:</source>
+        <translation>Seksjon:</translation>
+    </message>
+    <message>
+        <source>Remove:</source>
+        <translation>Fjern:</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/error/kernel</name>
@@ -1563,6 +1599,14 @@
         <source>Personal</source>
         <translation>Personlig</translation>
     </message>
+    <message>
+        <source>Site:</source>
+        <translation>Nettsted:</translation>
+    </message>
+    <message>
+        <source>Version:</source>
+        <translation>Versjon:</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/navigator</name>
@@ -1675,6 +1719,14 @@
     <message>
         <source>Copy</source>
         <translation>Kopier</translation>
+    </message>
+    <message>
+        <source>User</source>
+        <translation>Bruker</translation>
+    </message>
+    <message>
+        <source>User group</source>
+        <translation>Brukergruppe</translation>
     </message>
 </context>
 <context>
@@ -1922,10 +1974,6 @@
         <translation>Gjeldende tilgangsregler:</translation>
     </message>
     <message>
-        <source>Limitation list:</source>
-        <translation>Begrensninger:</translation>
-    </message>
-    <message>
         <source>Remove:</source>
         <translation>Fjern:</translation>
     </message>
@@ -1936,14 +1984,6 @@
     <message>
         <source>Remove</source>
         <translation>Fjern</translation>
-    </message>
-    <message>
-        <source>Apply</source>
-        <translation>Aktiver</translation>
-    </message>
-    <message>
-        <source>Discard</source>
-        <translation>Forkast</translation>
     </message>
     <message>
         <source>Role list</source>
@@ -1960,10 +2000,6 @@
     <message>
         <source>Role view</source>
         <translation>Rollevisning</translation>
-    </message>
-    <message>
-        <source>edit</source>
-        <translation>rediger</translation>
     </message>
     <message>
         <source>Role policies</source>
@@ -1984,6 +2020,22 @@
     <message>
         <source>Assign</source>
         <translation>Tilordne</translation>
+    </message>
+    <message>
+        <source>Limitations:</source>
+        <translation>Begrensninger:</translation>
+    </message>
+    <message>
+        <source>Store</source>
+        <translation>Lagre</translation>
+    </message>
+    <message>
+        <source>Discard changes</source>
+        <translation>Forkast endringer</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Rediger</translation>
     </message>
 </context>
 <context>
@@ -2050,14 +2102,6 @@
     <message>
         <source>Remove:</source>
         <translation>Fjern:</translation>
-    </message>
-    <message>
-        <source>edit</source>
-        <translation>rediger</translation>
-    </message>
-    <message>
-        <source>assign</source>
-        <translation>tilordne</translation>
     </message>
     <message>
         <source>New</source>
@@ -3731,6 +3775,14 @@
         <source>Your account was successfully created.</source>
         <translation>Brukerkontoen din er registrert.</translation>
     </message>
+    <message>
+        <source>Access not allowed</source>
+        <translation>Du har ikke tilgang</translation>
+    </message>
+    <message>
+        <source>You are not allowed to access %1.</source>
+        <translation>Du har ikke tilgang til å aksessere %1.</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/workflow</name>
@@ -4164,6 +4216,13 @@
     </message>
 </context>
 <context>
+    <name>kernel/classes/datatype/ezbinaryfiletype</name>
+    <message>
+        <source>File uploading is not enabled, no file handling can be performed.</source>
+        <translation>Filopplasting er ikke satt opp. Kan ikke utføre filoperasjoner.</translation>
+    </message>
+</context>
+<context>
     <name>kernel/classes/datatypes</name>
     <message>
         <source>At least one author is requied.</source>
@@ -4328,20 +4387,12 @@
         <translation>Klokkeslett er ikke oppgitt.</translation>
     </message>
     <message>
-        <source>Object %1 does not exist.</source>
-        <translation>Objektet %1 finnes ikke.</translation>
+        <source>Object </source>
+        <translation>Objekt</translation>
     </message>
     <message>
-        <source>Link %1 does not exist.</source>
-        <translation>Lenken %1 finnes ikke.</translation>
-    </message>
-    <message>
-        <source>Tag &apos;%1&apos; is not allowed to be the child of &apos;%2&apos; (removed).</source>
-        <translation>Tagen &apos;%1&apos; kan ikke være barn av &apos;%2&apos; (fjernet).</translation>
-    </message>
-    <message>
-        <source>Tag &apos;%1&apos; does not have an end tag &apos;%2&apos; (fixed).</source>
-        <translation>Tagen &apos;%1&apos; mangler slutt-tag &apos;%2&apos; (ordnet).</translation>
+        <source>Link </source>
+        <translation>Lenke</translation>
     </message>
 </context>
 <context>
