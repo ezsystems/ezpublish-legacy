@@ -442,27 +442,27 @@ class eZXMLTextType extends eZDataType
          * attribute to be removed */
         if ( $version == null )
         {
-            $db->query( "DELETE FROM ezurl_object_link
-                         WHERE contentobject_attribute_id='$contentObjectAttributeID'" );
+            eZPersistentObject::removeObject( eZURLObjectLink::definition(),
+                                              array( 'contentobject_attribute_id' => $contentObjectAttributeID ) );
         }
         else
         {
-            $db->query( "DELETE FROM ezurl_object_link
-                         WHERE contentobject_attribute_id='$contentObjectAttributeID'
-                            AND contentobject_attribute_version='$version'" );
+            eZPersistentObject::removeObject( eZURLObjectLink::definition(),
+                                              array( 'contentobject_attribute_id' => $contentObjectAttributeID,
+                                                     'contentobject_attribute_version' => $version ) );
         }
 
         /* Here we figure out which which URLs are not in use at all */
         if ( $db->databaseName() == 'oracle' )
         {
             $res = $db->arrayQuery( "SELECT DISTINCT id
-                                     FROM ezurl, ezurl_object_link 
-                                     WHERE ezurl.id = ezurl_object_link.url_id(+) 
+                                     FROM ezurl, ezurl_object_link
+                                     WHERE ezurl.id = ezurl_object_link.url_id(+)
                                          AND url_id IS NULL" );
         }
         else
         {
-            $res = $db->arrayQuery(" SELECT DISTINCT id 
+            $res = $db->arrayQuery(" SELECT DISTINCT id
                                      FROM ezurl LEFT JOIN ezurl_object_link ON (ezurl.id  = ezurl_object_link.url_id)
                                      WHERE url_id IS NULL" );
         }

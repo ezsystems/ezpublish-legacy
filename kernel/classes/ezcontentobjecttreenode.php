@@ -589,7 +589,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 $sortKey = 'sort_key_int';
                             }
                             $sortingFields .= "a$attributeJoinCount.$sortKey";
-                            $attributeFromSQL .= ", ezcontentobject_attribute as a$attributeJoinCount";
+                            $attributeFromSQL .= ", ezcontentobject_attribute a$attributeJoinCount";
                             $attributeWereSQL .= "
                                    a$attributeJoinCount.contentobject_id = ezcontentobject.id AND
                                    a$attributeJoinCount.contentclassattribute_id = $sortClassID AND
@@ -796,7 +796,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         // if more attributes are filtered by we will append them
                         if ( $filterCount >= $attributeJoinCount )
                         {
-                            $attributeFilterFromSQL .= ", ezcontentobject_attribute as a$filterCount ";
+                            $attributeFilterFromSQL .= ", ezcontentobject_attribute a$filterCount ";
                             $attributeFilterWhereSQL .= "
                                a$filterCount.contentobject_id = ezcontentobject.id AND
                                a$filterCount.contentclassattribute_id = $filterAttributeID AND
@@ -1394,7 +1394,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                         // Use the same joins as we do when sorting,
                         // if more attributes are filtered by we will append them
-                        $attributeFilterFromSQL .= ", ezcontentobject_attribute as a$filterCount ";
+                        $attributeFilterFromSQL .= ", ezcontentobject_attribute a$filterCount ";
                         $attributeFilterWhereSQL .= "
                             a$filterCount.contentobject_id = ezcontentobject.id AND
                                a$filterCount.version = ezcontentobject.current_version AND

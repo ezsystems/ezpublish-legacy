@@ -79,7 +79,15 @@ function eZSessionWrite( $key, $value )
     $ini =& eZIni::instance();
     $expirationTime = time() + $ini->variable( 'Session', 'SessionTimeout' );
 
-    $value =& $db->escapeString( $value );
+    if ( $db->bindingType() != EZ_DB_BINDING_NO )
+    {
+        $value = $db->bindVariable( $value, array( 'name' => 'data' ) );
+    }
+    else
+    {
+        $value = '\'' . $db->escapeString( $value ) . '\'';
+
+    }
     $key =& $db->escapeString( $key );
     // check if session already exists
 
@@ -88,7 +96,7 @@ function eZSessionWrite( $key, $value )
     if ( count( $sessionRes ) == 1 )
     {
         $updateQuery = "UPDATE ezsession
-                    SET expiration_time='$expirationTime', data='$value'
+                    SET expiration_time='$expirationTime', data=$value
                     WHERE session_key='$key'";
 
         $ret = $db->query( $updateQuery );
@@ -97,7 +105,7 @@ function eZSessionWrite( $key, $value )
     {
         $insertQuery = "INSERT INTO ezsession
                     ( session_key, expiration_time, data )
-                    VALUES ( '$key', '$expirationTime', '$value' )";
+                    VALUES ( '$key', '$expirationTime', $value )";
 
         $ret = $db->query( $insertQuery );
     }
