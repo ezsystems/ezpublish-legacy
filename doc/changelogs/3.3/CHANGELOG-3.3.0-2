@@ -61,6 +61,8 @@
   http://ez.no/developer/ez_publish_3/bug_reports/related_objects_are_shown_even_if_they_are_archived
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/ezkeyword_deleting_object_node_does_not_remove_keyword_reference ( merged from stable 4383 )
 - Fixed http://ez.no/developer/ez_publish_3/bug_reports/bugs_in_templates ( merged from stable 4387 )
+- Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/flaws_in_the_file_docinstall
+  Refered to online installation guide and PDF version.
 
 
 *Kernel:
