@@ -30,7 +30,28 @@
     <option value="{$charsets:item}">{$charsets:item}</option>
     {/section}
     </select>
-    
+	<hr />
+	<p>eZ systems would like you to register this installation of eZ publish. No confidential data
+	will be transmitted and you will not get any emails of eZ systems because of this. This data
+	will help to improve eZ publish.</p>
+
+	<p>The following data will be send to eZ systems:</p>
+	<ul>
+		<li>The test results of the first test page (PHP version, modules, programs)</li>
+		<li>The database type you are using<li>
+		<li>The name of your site as you enter above</li>
+		<li>The domain of your site</li>
+		<li>The charset you choose to use</li>
+	</ul>
+
+	Please enter your email address: <input type="text" size="20" name="emailAddress" /><br />
+	If you can't send emails from your web server, please enter a mail server: <input type="text"
+	size="20" name="emailServer" /><br />
+	If you need to enter a login to be able to send emails, please enter it here:<br />
+	Username: <input type="text" size="20" name="emailUser" /><br />
+	Password: <input type="password" size="20" name="emailPassword" /><br />
+	Send register email to eZ systems? <input type="checkbox" name="sendEmail" value="sendEmail" />
+	
     <input type="hidden" name="nextStep" value="{$nextStep}" />
     <p><button name="buttonNextStep" type="submit">Next step</button></p>
 </form>
