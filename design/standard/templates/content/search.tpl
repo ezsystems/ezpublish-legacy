@@ -3,9 +3,10 @@
 </div>
 
 <div class="block">
-<label>{"For more options try the %1advanced search%2"|i18n("design/standard/content/search","The parameters are link start and end tags.",array("<a href='/content/advancedsearch/'|ezurl>","</a>"))}</label>
+{let adv_url='/content/advancedsearch/'|ezurl}
+<label>{"For more options try the %1advanced search%2"|i18n("design/standard/content/search","The parameters are link start and end tags.",array(concat("<a href=",$adv_url,">"),"</a>"))}</label>
 </div>
-
+{/let}
 
 {switch name=Sw match=$search_count}
   {case match=0}
