@@ -7,14 +7,14 @@
 {* Messages *}
 {section show=$sessions_removed}
 <div class="message-feedback">
-{"The sessions were successfully removed."|i18n( "design/standard/setup/session" )}
+{"The sessions were successfully removed."|i18n( "design/admin/setup/session" )}
 </div>
 {/section}
 
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{"Session admin"|i18n( "design/standard/setup/session" )}</h1>
+<h1 class="context-title">{"Session admin"|i18n( "design/admin/setup/session" )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -24,15 +24,15 @@
 
 <div class="context-attributes">
 
-<label>{"Sessions"|i18n( "design/standard/setup/session" )}:</label>
-    <p>{"Total number of sessions"|i18n( "design/standard/setup/session" )}: {$sessions_active}<br/>
+<label>{"Sessions"|i18n( "design/admin/setup/session" )}:</label>
+    <p>{"Total number of sessions"|i18n( "design/admin/setup/session" )}: {$sessions_active}<br/>
         {let logged_in_count=fetch( user, logged_in_count )
              anonymous_count=fetch( user, anonymous_count )}
         {'There are %logged_in_count registered and %anonymous_count anonymous users online.'|i18n( 'design/standard/toolbar',,
           hash( '%logged_in_count', $logged_in_count, '%anonymous_count', $anonymous_count ) )}
         {/let}
     </p>
-    <p>{"WARNING! When you remove sessions, users that are logged in will be logged out from the system."|i18n( "design/standard/setup/session" )}</p>
+    <p>{"WARNING! When you remove sessions, users that are logged in will be logged out from the system."|i18n( "design/admin/setup/session" )}</p>
 
 
 </div>
@@ -42,8 +42,8 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-<input class="button" type="submit" name="RemoveAllSessionsButton" value="{"Remove all sessions"|i18n( "design/standard/setup/session" )}" />&nbsp;
-<input class="button" type="submit" name="RemoveTimedOutSessionsButton" value="{"Remove timed out / old sessions"|i18n( "design/standard/setup/session" )}" />
+<input class="button" type="submit" name="RemoveAllSessionsButton" value="{"Remove all sessions"|i18n( "design/admin/setup/session" )}" />&nbsp;
+<input class="button" type="submit" name="RemoveTimedOutSessionsButton" value="{"Remove timed out / old sessions"|i18n( "design/admin/setup/session" )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
@@ -56,7 +56,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h2 class="context-title">{'Filtered sessions'|i18n( 'design/standard/setup/session' )}</h2>
+<h2 class="context-title">{'Filtered sessions'|i18n( 'design/admin/setup/session' )}</h2>
 
 {* DESIGN: Subline *}<div class="header-subline"></div>
 
@@ -68,19 +68,19 @@
     {* List of sessions for a specific user *}
     {section show=$user_id}
         {let session_user=fetch( content,object, hash( 'object_id', $user_id ) )}
-        <p>{'Displaying sessions for %username'|i18n( 'design/standard/setup/session',, hash( '%username', $session_user.name ) )}</p>
+        <p>{'Displaying sessions for %username'|i18n( 'design/admin/setup/session',, hash( '%username', $session_user.name ) )}</p>
         {/let}
         <div class="buttonblock">
-            <input class="button" type="submit" name="ShowAllUsersButton" value="{"Sessions for all users"|i18n( "design/standard/setup/session" )}" />
+            <input class="button" type="submit" name="ShowAllUsersButton" value="{"Sessions for all users"|i18n( "design/admin/setup/session" )}" />
         </div>
     {section-else}
             <select class="combobox" name="FilterType">
-                <option value="everyone"{cond( eq( $filter_type, 'everyone' ), ' selected="selected"', '' )}>{"Everyone"|i18n( "design/standard/setup/session" )}</option>
-                <option value="registered"{cond( eq( $filter_type, 'registered' ), ' selected="selected"', '' )}>{"Registered users"|i18n( "design/standard/setup/session" )}</option>
-                <option value="anonymous"{cond( eq( $filter_type, 'anonymous' ), ' selected="selected"', '' )}>{"Anonymous users"|i18n( "design/standard/setup/session" )}</option>
+                <option value="everyone"{cond( eq( $filter_type, 'everyone' ), ' selected="selected"', '' )}>{"Everyone"|i18n( "design/admin/setup/session" )}</option>
+                <option value="registered"{cond( eq( $filter_type, 'registered' ), ' selected="selected"', '' )}>{"Registered users"|i18n( "design/admin/setup/session" )}</option>
+                <option value="anonymous"{cond( eq( $filter_type, 'anonymous' ), ' selected="selected"', '' )}>{"Anonymous users"|i18n( "design/admin/setup/session" )}</option>
             </select>
-           <input class="button" type="submit" name="ChangeFilterButton" value="{"Update list"|i18n( "design/standard/setup/session" )}" /><br />
-<label>{'Include inactive users'|i18n( 'design/standard/setup/session' )}</label>
+           <input class="button" type="submit" name="ChangeFilterButton" value="{"Update list"|i18n( "design/admin/setup/session" )}" /><br />
+<label>{'Include inactive users'|i18n( 'design/admin/setup/session' )}</label>
            <input class="checkbox" type="checkbox" name="InactiveUsersCheck" id="InactiveUsersCheck" {cond( eq( $expiration_filter_type, 'all' ), ' checked="checked"', '' )} value="active" /> 
 
 
@@ -93,29 +93,29 @@
 
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
-<th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.trashaction,
+<th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection'|i18n( 'design/admin/setup/session' )}" onclick="ezjs_toggleCheckboxes( document.trashaction,
 {section show=$user_id}'SessionKeyArray[]'{section-else}'UserIDArray[]'{/section}
 ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/trash' )}" /></th>
 
 <th>
-    <a class="topline" href={concat( '/setup/session/(offset)/', $view_parameters.offset, '/(sortby)/login' )|ezurl}>{"Login"|i18n( "design/standard/setup/session" )}</a>
+    <a class="topline" href={concat( '/setup/session/(offset)/', $view_parameters.offset, '/(sortby)/login' )|ezurl}>{"Login"|i18n( "design/admin/setup/session" )}</a>
 </th>
 {section show=$user_id|not}
 <th>
-    {"Count"|i18n( "design/standard/setup/session" )}
+    {"Count"|i18n( "design/admin/setup/session" )}
 </th>
 {/section}
 <th>
-    <a class="topline" href={concat( '/setup/session/(offset)/', $view_parameters.offset, '/(sortby)/email' )|ezurl}>{"E-mail"|i18n( "design/standard/setup/session" )}</a>
+    <a class="topline" href={concat( '/setup/session/(offset)/', $view_parameters.offset, '/(sortby)/email' )|ezurl}>{"E-mail"|i18n( "design/admin/setup/session" )}</a>
 </th>
 <th>
-    <a class="topline" href={concat( '/setup/session/(offset)/', $view_parameters.offset, '/(sortby)/name' )|ezurl}>{"Full name"|i18n( "design/standard/setup/session" )}</a>
+    <a class="topline" href={concat( '/setup/session/(offset)/', $view_parameters.offset, '/(sortby)/name' )|ezurl}>{"Full name"|i18n( "design/admin/setup/session" )}</a>
 </th>
 <th>
-    <a class="topline" href={concat( '/setup/session/(offset)/', $view_parameters.offset, '/(sortby)/idle' )|ezurl}>{"Idle time"|i18n( "design/standard/setup/session" )}</a>
+    <a class="topline" href={concat( '/setup/session/(offset)/', $view_parameters.offset, '/(sortby)/idle' )|ezurl}>{"Idle time"|i18n( "design/admin/setup/session" )}</a>
 </th>
 <th>
-    <a class="topline" href={concat( '/setup/session/(offset)/', $view_parameters.offset, '/(sortby)/idle' )|ezurl}>{"Idle since"|i18n( "design/standard/setup/session" )}</a>
+    <a class="topline" href={concat( '/setup/session/(offset)/', $view_parameters.offset, '/(sortby)/idle' )|ezurl}>{"Idle since"|i18n( "design/admin/setup/session" )}</a>
 </th>
 
 {section var=session loop=$sessions_list sequence=array('bgdark', 'bglight')}
@@ -148,7 +148,7 @@
     </td>
     <td width="19%">
       {section show=or($session.idle.minute|lt(0), $session.idle.hour|lt(0))}
-          {"Time skew detected"|i18n( "design/standard/setup/session")}
+          {"Time skew detected"|i18n( "design/admin/setup/session")}
       {section-else}
           {$session.idle_time|l10n( shortdatetime )}
       {/section}
@@ -167,7 +167,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-  <input class="button" type="submit" name="RemoveSelectedSessionsButton" value="{"Remove"|i18n( "design/standard/setup/session ")}" />
+  <input class="button" type="submit" name="RemoveSelectedSessionsButton" value="{"Remove"|i18n( "design/admin/setup/session ")}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>

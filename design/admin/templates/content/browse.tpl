@@ -20,8 +20,8 @@
 {section-else}
     <h1>{'Browse'|i18n('design/admin/content/browse')} - {$main_node.name|wash}</h1>
 
-    <p>{'To select objects, choose the appropriate radiobutton or checkbox(es), and click the "Choose" button.'|i18n('design/standard/content/view')}</p>
-    <p>{'To select an object that is a child of one of the displayed objects, click the object name and you will get a list of the children of the object.'|i18n('design/standard/content/view')}</p>
+    <p>{'To select objects, choose the appropriate radiobutton or checkbox(es), and click the "Choose" button.'|i18n('design/admin/content/browse')}</p>
+    <p>{'To select an object that is a child of one of the displayed objects, click the object name and you will get a list of the children of the object.'|i18n('design/admin/content/browse')}</p>
 {/section}
 
 <div class="context-block">
@@ -33,7 +33,7 @@
 {let current_node=fetch( content, node, hash( node_id, $browse.start_node ) )}
 {section show=$browse.start_node|gt(1)}
     <h1 class="context-title">
-    <a href={concat("/content/browse/",$main_node.parent_node_id,"/")|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="Back" /></a>
+    <a href={concat("/content/browse/",$main_node.parent_node_id,"/")|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Back'|i18n( 'design/admin/content/browse' )}" /></a>
     {$current_node.object.content_class.identifier|class_icon( small, $current_node.object.content_class.name )}&nbsp;{$current_node.name|wash}&nbsp;[{$current_node.children_count}]</h1>
 {section-else}
     <h1 class="context-title"><img src={'back-button-16x16.gif'|ezimage} alt="Back" /> {'folder'|class_icon( small, $current_node.object.content_class.name )}&nbsp;{'Top level'|i18n( 'design/admin/content/browse' )}&nbsp;[{$current_node.children_count}]</h1>
@@ -85,10 +85,10 @@
     &nbsp;
     </th>
     <th class="wide">
-    {'Name'|i18n('design/standard/content/view')}
+    {'Name'|i18n('design/admin/content/browse')}
     </th>
     <th class="tight">
-    {'Type'|i18n('design/standard/content/view')}
+    {'Type'|i18n('design/admin/content/browse')}
     </th>
 </tr>
 <!--
@@ -124,7 +124,7 @@
     <td>
     {node_view_gui view=line content_node=$main_node node_url=false()}
     {section show=$main_node.depth|gt(1)}
-        <a href={concat("/content/browse/",$main_node.parent_node_id,"/")|ezurl}>[{'Up one level'|i18n('design/standard/content/view')}]</a>
+        <a href={concat("/content/browse/",$main_node.parent_node_id,"/")|ezurl}>[{'Up one level'|i18n('design/admin/content/browse')}]</a>
     {/section}
     </td>
 
@@ -195,8 +195,8 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-<input class="button" type="submit" name="SelectButton" value="{'OK'|i18n('design/standard/content/view')}" />
-<input class="button" type="submit" name="BrowseCancelButton" value="{'Cancel'|i18n( 'design/standard/content/view' )}" />
+<input class="button" type="submit" name="SelectButton" value="{'OK'|i18n('design/admin/content/browse')}" />
+<input class="button" type="submit" name="BrowseCancelButton" value="{'Cancel'|i18n( 'design/admin/content/browse' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
