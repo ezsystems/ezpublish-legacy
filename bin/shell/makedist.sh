@@ -127,6 +127,7 @@ for arg in $*; do
 	    echo "         --with-release=NAME        Checkout a previous release, default is trunk"
 	    echo "         --skip-site-creation       Do not build sites*"
 	    echo "         --skip-php-check           Do not check PHP for syntax correctnes*"
+	    echo "         --skip-unit-tests          Do not run unit tests*"
 	    echo
 	    echo "* Warning: Using these options will not make a valid distribution"
             echo
@@ -158,6 +159,9 @@ for arg in $*; do
 	    ;;
 	--skip-php-check)
 	    SKIPCHECKPHP="1"
+	    ;;
+	--skip-unit-tests)
+	    SKIPUNITTESTS="1"
 	    ;;
 	*)
 	    echo "$arg: unkown option specified"
@@ -208,6 +212,17 @@ if [ -z $SKIPCHECKPHP ]; then
     fi
 fi
 
+if [ -z $SKIPUNITTESTS ]; then
+    echo "Running unit tests"
+    ./tests/testunits.php -q eztemplate
+    if [ $? -ne 0 ]; then
+	echo "Some unit tests failed"
+	echo "Run the following command to find out which one failed"
+	echo "./tests/testunits.php eztemplate"
+	exit 1
+    fi
+fi
+
 echo "Making distribution in `$SETCOLOR_DIR`$DEST`$SETCOLOR_NORMAL`"
 
 if [ -d $DEST ]; then
@@ -224,6 +239,10 @@ echo -n "`$SETCOLOR_COMMENT`Copying`$SETCOLOR_NORMAL` "
 
 (cd $DIST_SRC && scan_dir .)
 echo
+
+echo "Copying `$SETCOLOR_FILE`kernel/sql/common/cleandata.sql`$SETCOLOR_NORMAL` to MySQL and PostgreSQL"
+cat kernel/sql/common/cleandata.sql >$DEST/kernel/sql/mysql/cleandata.sql || exit 1
+cat kernel/sql/common/cleandata.sql kernel/sql/postgresql/setval.sql >$DEST/kernel/sql/postgresql/cleandata.sql || exit 1
 
 EXTRA_DIRS=""
 if [ "$DIST_TYPE" == "sdk" ]; then

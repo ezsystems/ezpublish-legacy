@@ -17,6 +17,8 @@ function help
     echo "         --mysql                    Redump MySQL schema files"
     echo "         --postgresql               Redump PostgreSQL schema files"
     echo "         --data                     Redump data files"
+    echo "         --clean                    Cleanup various data entries before dumping (e.g. session, drafts)"
+    echo "         --clean-search             Cleanup search index (implies --clean)"
     echo
     echo "Example:"
     echo "$0 tmp"
@@ -53,6 +55,13 @@ for arg in $*; do
 	--pause)
 	    USE_PAUSE="yes"
             PAUSE="--pause"
+	    ;;
+	--clean)
+	    CLEAN="--clean"
+	    ;;
+	--clean-search)
+	    CLEAN="--clean"
+	    CLEAN_SEARCH="--clean-search"
 	    ;;
 	-*)
 	    echo "$arg: unkown option specified"
@@ -143,14 +152,14 @@ if [ "$DUMP_DATA" != "" ]; then
 	exit 1
     fi
 
-    ./bin/shell/sqlredump.sh --mysql $PAUSE --sql-data-only $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $KERNEL_SQL_DATA_FILE $DATA_UPDATES
+    ./bin/shell/sqlredump.sh --mysql $CLEAN $CLEAN_SEARCH $PAUSE --sql-data-only $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $KERNEL_SQL_DATA_FILE $DATA_UPDATES
     if [ $? -ne 0 ]; then
 	echo "Failed re-dumping SQL file $KERNEL_SQL_DATA_FILE"
 	exit 1
     fi
 
     for sql in $PACKAGE_DATA_FILES; do
-	./bin/shell/sqlredump.sh --mysql $PAUSE --sql-data-only $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $sql $DATA_UPDATES
+	./bin/shell/sqlredump.sh --mysql $CLEAN $CLEAN_SEARCH $PAUSE --sql-data-only $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $sql $DATA_UPDATES
 	if [ $? -ne 0 ]; then
 	    "Failed re-dumping SQL file $sql"
 	    exit 1

@@ -24,11 +24,15 @@ function help
 	    echo "         --sql-data-only            Only dump table data"
 	    echo "         --sql-schema-only          Only dump table definitions"
 	    echo "         --sql-full                 Dump table definition and data (default)"
+	    echo "         --clean                    Cleanup various data entries before dumping (e.g. session, drafts)"
+	    echo "         --clean-search             Cleanup search index (implies --clean)"
 	    echo "         --mysql                    Redump using MySQL"
 	    echo "         --postgresql               Redump using PostgreSQL"
 	    echo "         --schema-sql=FILE          Schema sql file to use before the SQLFILE,"
 	    echo "                                    useful for data only redumping"
+	    echo "         --setval-file=FILE         File to write setval statements to*"
             echo
+	    echo "* Postgresql only"
             echo "Example:"
             echo "$0 tmp data.sql"
 }
@@ -53,6 +57,13 @@ for arg in $*; do
 	    SQLDUMP=""
 	    NODATAARG=""
 	    NOCREATEINFOARG=""
+	    ;;
+	--clean)
+	    CLEAN="1"
+	    ;;
+	--clean-search)
+	    CLEAN="1"
+	    CLEAN_SEARCH="1"
 	    ;;
 	--mysql)
 	    USE_MYSQL="yes"
@@ -142,9 +153,9 @@ if [ "$USE_MYSQL" != "" ]; then
 	read -p "`$SETCOLOR_EMPHASIZE`SQL dump paused, press any key to continue.`$SETCOLOR_NORMAL`" TMP
     fi
 
-    if [ "$SQLDUMP" != "schema" ]; then
+    if [[ "$SQLDUMP" != "schema" && -n $CLEAN ]]; then
 	./update/common/scripts/flatten.php --db-driver=ezmysql --db-server=localhost --db-database=$DBNAME --db-user=$USER all
-	./update/common/scripts/updatesearchindex.php --db-driver=ezmysql --db-server=localhost --db-database=$DBNAME --db-user=$USER --clean
+	[ $CLEAN_SEARCH ] && ./update/common/scripts/updatesearchindex.php --db-driver=ezmysql --db-server=localhost --db-database=$DBNAME --db-user=$USER --clean
 	./update/common/scripts/updateniceurls.php --db-driver=ezmysql --db-server=localhost --db-database=$DBNAME --db-user=$USER
 	./update/common/scripts/cleanup.php --db-driver=ezmysql --db-server=localhost --db-database=$DBNAME --db-user=$USER all
     fi
@@ -160,6 +171,11 @@ if [ "$USE_MYSQL" != "" ]; then
     fi
     perl -pi -e "s/(^--.*$)|(^#.*$)//g" "$SQLFILE".0
 else
+    psql --version | grep 'psql (PostgreSQL) 7.3' &>/dev/null
+    if [ $? -ne 0 ]; then
+	echo "You cannot run this command on your PostgreSQL version, requires 7.3"
+	exit 1
+    fi
     dropdb "$DBNAME"
     createdb "$DBNAME" || exit 1
     for sql in $SCHEMAFILES; do
@@ -177,9 +193,9 @@ else
 	read -p "`$SETCOLOR_EMPHASIZE`SQL dump paused, press any key to continue.`$SETCOLOR_NORMAL`" TMP
     fi
 
-    if [ "$SQLDUMP" != "schema" ]; then
+    if [[ "$SQLDUMP" != "schema" && -n $CLEAN ]]; then
 	./update/common/scripts/flatten.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME --db-user=$POST_USER all
-	./update/common/scripts/updatesearchindex.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME --db-user=$POST_USER --clean
+	[ $CLEAN_SEARCH ] && ./update/common/scripts/updatesearchindex.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME --db-user=$POST_USER --clean
 	./update/common/scripts/updateniceurls.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME --db-user=$POST_USER
 	./update/common/scripts/cleanup.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME --db-user=$POST_USER all
     fi
