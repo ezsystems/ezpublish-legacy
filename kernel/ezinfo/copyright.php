@@ -34,7 +34,7 @@
 
 $Module =& $Params['Module'];
 
-$text = "<p>Copyright (C) 1999-2004 eZ systems as. All rights reserved.</p>
+$text = "<p>Copyright (C) 1999-2005 eZ systems as. All rights reserved.</p>
 
 <p>This file may be distributed and/or modified under the terms of the
 \"GNU General Public License\" version 2 as published by the Free

@@ -96,7 +96,7 @@
 
    <div id="footer">
        <p>
-            Copyright &copy; <a href="http://ez.no">eZ systems as</a> 1999-2004
+            Copyright &copy; <a href="http://ez.no">eZ systems as</a> 1999-2005
             <a href="http://ez.no/">Powered by eZ publish Content Management System</a>
        </p>
    </div>
