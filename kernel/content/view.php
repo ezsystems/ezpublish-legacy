@@ -91,7 +91,7 @@ include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 $user =& eZUser::currentUser();
 
 eZDebug::addTimingPoint( 'Operation start' );
-$operationResult = eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID,
+$operationResult =& eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID,
                                                                           'user_id' => $user->id(),
                                                                           'language_code' => $LanguageCode ) );
 eZDebug::addTimingPoint( 'Operation end' );
@@ -119,14 +119,15 @@ switch( $operationResult['status'] )
                     return $Result;
                 }
             }
+
             $viewParameters = array( 'offset' => $Offset );
             $object = $operationResult[ 'object' ];
 
             if ( !get_class( $object ) == 'ezcontentobject' )
                 return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
+            $node =& $operationResult[ 'node' ];
 
-                $node = $operationResult[ 'node' ];
             if ( ! is_object( $object ) )
             {
                 eZDebug::printReport();
@@ -179,7 +180,6 @@ switch( $operationResult['status'] )
 //                     eZDebug::writeDebug( 'cache written', 'content/view' );
                 }
             }
-
         }
     }break;
     case EZ_MODULE_OPERATION_HALTED:

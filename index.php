@@ -44,7 +44,7 @@ $noCacheAdviced = false;
 
 $siteDesignOverride = false;
 
-$useHIOCode = true;
+$useHIOCode = false;
 
 // List of module names which will skip policy checking
 $policyCheckOmitList = array();
@@ -625,7 +625,7 @@ if ( $show_page_layout )
             $nodeID = $elements[4];
 
             $excludeNode = false;
-            $node = eZContentObjectTreeNode::fetch( $nodeID );
+            $node =& eZContentObjectTreeNode::fetch( $nodeID );
             if ( $node )
             {
                 $obj = $node->attribute('object');
@@ -650,6 +650,9 @@ if ( $show_page_layout )
                                                                           'ClassFilterArray' => array( 6, 25 )
                                                                           ),
                                                                    $nodeID );
+
+                /// Fill objects with attributes, speed boost
+                eZContentObject::fillNodeListAttributes( $menuChildren );
 
                 $tmpPathArray = array();
                 foreach ( $menuChildren as $child )
@@ -718,6 +721,10 @@ if ( $show_page_layout )
                                                                               'ClassFilterArray' => array( 6,25 )
                                                                               ),
                                                                        2 );
+
+                    /// Fill objects with attributes, speed boost
+                    eZContentObject::fillNodeListAttributes( $menuChildren );
+
                     $pathArray = array();
                 foreach ( $menuChildren as $child )
                 {
