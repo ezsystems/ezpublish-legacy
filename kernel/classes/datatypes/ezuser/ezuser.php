@@ -966,10 +966,17 @@ WHERE user_id = '" . $userID . "' AND
         if ( $id <> $anonymousUserID )
         {
             $sessionInactivityTimeout = $ini->variable( 'Session', 'ActivityTimeout' );
-            $sessionIdle = $GLOBALS['eZSessionIdleTime'];
-            if ( $sessionIdle > $sessionInactivityTimeout )
+            if ( !isset( $GLOBALS['eZSessionIdleTime'] ) )
             {
                 eZUser::updateLastVisit( $id );
+            }
+            else
+            {
+                $sessionIdle = $GLOBALS['eZSessionIdleTime'];
+                if ( $sessionIdle > $sessionInactivityTimeout )
+                {
+                    eZUser::updateLastVisit( $id );
+                }
             }
         }
 
