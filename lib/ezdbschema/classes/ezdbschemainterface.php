@@ -228,7 +228,7 @@ class eZDBSchemaInterface
 				{
 					foreach ( $table_diff['removed_indexes'] as $index_name => $removed_index)
 					{
-						$sql .= $this->generateDropIndexSql( $table, $index_name );
+						$sql .= $this->generateDropIndexSql( $table, $index_name, $removed_index );
 					}
 				}
 			}

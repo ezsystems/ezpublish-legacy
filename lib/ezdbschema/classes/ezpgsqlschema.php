@@ -439,7 +439,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 	/*!
 	 * \private
 	 */
-	function generateDropIndexSql( $table_name, $index_name )
+	function generateDropIndexSql( $table_name, $index_name, $def )
 	{
 		if ($def['type'] == 'primary' )
 		{

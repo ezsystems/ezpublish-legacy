@@ -225,7 +225,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
 	/*!
 	 * \private
 	 */
-	function generateDropIndexSql( $table_name, $index_name )
+	function generateDropIndexSql( $table_name, $index_name, $def )
 	{
 		$sql = "ALTER TABLE $table_name DROP ";
 
