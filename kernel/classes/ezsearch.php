@@ -41,7 +41,7 @@
 
 */
 
-include_once( "lib/ezutils/classes/ezini.php" );
+include_once( 'lib/ezutils/classes/ezini.php' );
 
 class eZSearch
 {
@@ -60,14 +60,14 @@ class eZSearch
     {
         $ini =& eZINI::instance();
 
-        $searchEngineString = "ezsearch";
-        if ( $ini->hasVariable( "SearchSettings", "SearchEngine" ) == true )
+        $searchEngineString = 'ezsearch';
+        if ( $ini->hasVariable( 'SearchSettings', 'SearchEngine' ) == true )
         {
-            $searchEngineString = $ini->variable( "SearchSettings", "SearchEngine" );
+            $searchEngineString = $ini->variable( 'SearchSettings', 'SearchEngine' );
         }
 
         // fetch the correct search engine implementation
-        include_once( "kernel/search/plugins/" . strToLower( $searchEngineString ) . "/" . strToLower( $searchEngineString ) . ".php" );
+        include_once( 'kernel/search/plugins/' . strToLower( $searchEngineString ) . '/' . strToLower( $searchEngineString ) . '.php' );
         $searchEngine = new $searchEngineString;
 
         $searchEngine->removeObject( $contentObject );
@@ -81,17 +81,17 @@ class eZSearch
     {
         $ini =& eZINI::instance();
 
-        $searchEngineString = "ezsearch";
-        if ( $ini->hasVariable( "SearchSettings", "SearchEngine" ) == true )
+        $searchEngineString = 'ezsearch';
+        if ( $ini->hasVariable( 'SearchSettings', 'SearchEngine' ) == true )
         {
-            $searchEngineString = $ini->variable( "SearchSettings", "SearchEngine" );
+            $searchEngineString = $ini->variable( 'SearchSettings', 'SearchEngine' );
         }
 
         // fetch the correct search engine implementation
-        include_once( "kernel/search/plugins/" . strToLower( $searchEngineString ) . "/" . strToLower( $searchEngineString ) . ".php" );
+        include_once( 'kernel/search/plugins/' . strToLower( $searchEngineString ) . '/' . strToLower( $searchEngineString ) . '.php' );
         $searchEngine = new $searchEngineString;
 
-        $searchEngine->addObject( $contentObject, "/content/view/" /*, $metaData*/ );
+        $searchEngine->addObject( $contentObject, '/content/view/' /*, $metaData*/ );
     }
 
     /*!
@@ -102,13 +102,13 @@ class eZSearch
     {
         $ini =& eZINI::instance();
 
-        $searchEngineString = "ezsearch";
-        if ( $ini->hasVariable( "SearchSettings", "SearchEngine" ) == true )
+        $searchEngineString = 'ezsearch';
+        if ( $ini->hasVariable( 'SearchSettings', 'SearchEngine' ) == true )
         {
-            $searchEngineString = $ini->variable( "SearchSettings", "SearchEngine" );
+            $searchEngineString = $ini->variable( 'SearchSettings', 'SearchEngine' );
         }
 
-        include_once( "kernel/search/plugins/" . strToLower( $searchEngineString ) . "/" . strToLower( $searchEngineString ) . ".php" );
+        include_once( 'kernel/search/plugins/' . strToLower( $searchEngineString ) . '/' . strToLower( $searchEngineString ) . '.php' );
         $searchEngine = new $searchEngineString;
 
         return $searchEngine->search( $searchText, $params, $searchTypes );
@@ -121,13 +121,13 @@ class eZSearch
     {
         $ini =& eZINI::instance();
 
-        $searchEngineString = "ezsearch";
-        if ( $ini->hasVariable( "SearchSettings", "SearchEngine" ) == true )
+        $searchEngineString = 'ezsearch';
+        if ( $ini->hasVariable( 'SearchSettings', 'SearchEngine' ) == true )
         {
-            $searchEngineString = $ini->variable( "SearchSettings", "SearchEngine" );
+            $searchEngineString = $ini->variable( 'SearchSettings', 'SearchEngine' );
         }
 
-        include_once( "kernel/search/plugins/" . strToLower( $searchEngineString ) . "/" . strToLower( $searchEngineString ) . ".php" );
+        include_once( 'kernel/search/plugins/' . strToLower( $searchEngineString ) . '/' . strToLower( $searchEngineString ) . '.php' );
         $searchEngine = new $searchEngineString;
 
         return $searchEngine->normalizeText( $text );
@@ -141,13 +141,13 @@ class eZSearch
     {
         $ini =& eZINI::instance();
 
-        $searchEngineString = "ezsearch";
-        if ( $ini->hasVariable( "SearchSettings", "SearchEngine" ) == true )
+        $searchEngineString = 'ezsearch';
+        if ( $ini->hasVariable( 'SearchSettings', 'SearchEngine' ) == true )
         {
-            $searchEngineString = $ini->variable( "SearchSettings", "SearchEngine" );
+            $searchEngineString = $ini->variable( 'SearchSettings', 'SearchEngine' );
         }
 
-        include_once( "kernel/search/plugins/" . strToLower( $searchEngineString ) . "/" . strToLower( $searchEngineString ) . ".php" );
+        include_once( 'kernel/search/plugins/' . strToLower( $searchEngineString ) . '/' . strToLower( $searchEngineString ) . '.php' );
         $searchEngine = new $searchEngineString;
 
         $searchTypesDefinition =& $searchEngine->suportedSearchTypes();
@@ -168,51 +168,119 @@ class eZSearch
             $valuesMissing = false;
             foreach ( $searchType['params'] as $parameter )
             {
-                eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $postVariablePrefix . $parameter, "post var to check" );
+                eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $postVariablePrefix . $parameter,
+                                            'post variable to check' );
 
                 if ( $http->hasVariable( $postVariablePrefix . $parameter ) )
                 {
                     $values = $http->variable( $postVariablePrefix . $parameter );
-                    eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $values, "fetched values" );
-                    $valuesCount = count( $values );
+                    eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $values, 'fetched values' );
 
-                    for ( $i = 0; $i < $valuesCount; $i++ )
+                    foreach ( $values as $i => $value )
                     {
-                        // Empty values are excluded from the search
-                        // Need to add more cases here
-                        if ( ( $searchType['subtype'] == 'byrange' && $values[$i] == '' ) ||
-                             ( $searchType['subtype'] == 'byidentifierrange' && $values[$i] == '' ) )
-                        {
-                            eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $values, "empty value" );
-                            $valuesMissing = true;
-                            break;
-                        }
-                        $searchArrayPartForType[$i][$parameter] = $values[$i] ;
+                        $searchArrayPartForType[$i][$parameter] = $values[$i];
                         $valuesFetched = true;
                     }
                 }
                 else
                 {
-                    eZDebugSetting::writeDebug( 'kernel-search-ezsearch', "variable does not exist" );
+                    eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $postVariablePrefix . $parameter,
+                                                'post variable does not exist' );
                     $valuesMissing = true;
                     break;
                 }
             }
+
             if ( $valuesFetched == true && $valuesMissing == false )
             {
-                eZDebugSetting::writeDebug( 'kernel-search-ezsearch', "adding values to search" );
+                eZDebugSetting::writeDebug( 'kernel-search-ezsearch', 'adding values to search' );
                 foreach ( array_keys( $searchArrayPartForType ) as $key )
                 {
                     $part =& $searchArrayPartForType[$key];
                     $part['type'] = $searchType['type'];
                     $part['subtype'] = $searchType['subtype'];
+
+                    if ( $part['type'] == 'attribute' )
+                    {
+                        // Remove incomplete search parts from the search.
+                        // An incomplete search part is for instance an empty text field,
+                        // or a select box with no selected values.
+                        $removePart = false;
+                        switch ( $part['subtype'] )
+                        {
+                            case 'fulltext':
+                            {
+                                if ( !isSet( $part['value'] ) || $part['value'] == '' )
+                                    $removePart = true;
+                            }
+                            break;
+
+                            case 'patterntext':
+                            {
+                                if ( !isSet( $part['value'] ) || $part['value'] == '' )
+                                    $removePart = true;
+                            }
+                            break;
+
+                            case 'integer':
+                            {
+                                if ( !isSet( $part['value'] ) || $part['value'] == '' )
+                                    $removePart = true;
+                            }
+                            break;
+
+                            case 'integers':
+                            {
+                                if ( !isSet( $part['values'] ) || count( $part['values'] ) == 0 )
+                                    $removePart = true;
+                            }
+                            break;
+
+                            case 'byrange':
+                            {
+                                if ( !isSet( $part['from'] ) || $part['from'] == '' ||
+                                     !isSet( $part['to'] ) || $part['to'] == '' )
+                                    $removePart = true;
+                            }
+                            break;
+
+                            case 'byidentifier':
+                            {
+                                if ( !isSet( $part['value'] ) || $part['value'] == '' )
+                                    $removePart = true;
+                            }
+                            break;
+
+                            case 'byidentifierrange':
+                            {
+                                if ( !isSet( $part['from'] ) || $part['from'] == '' ||
+                                     !isSet( $part['to'] ) || $part['to'] == '' )
+                                    $removePart = true;
+                            }
+                            break;
+
+                            case 'integersbyidentifier':
+                            {
+                                if ( !isSet( $part['values'] ) || count( $part['values'] ) == 0 )
+                                    $removePart = true;
+                            }
+                            break;
+                        }
+
+                        if ( $removePart )
+                        {
+                            eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $searchArrayPartForType[$key],
+                                                        'removing incomplete search part' );
+                            unSet( $searchArrayPartForType[$key] );
+                        }
+                    }
                 }
                 $andSearchParts = array_merge( $andSearchParts, $searchArrayPartForType );
             }
         }
 
         $searchArray['and'] =& $andSearchParts;
-        eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $searchArray, "search array" );
+        eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $searchArray, 'search array' );
         return $searchArray;
     }
 

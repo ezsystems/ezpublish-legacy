@@ -1630,7 +1630,7 @@ class eZSearchEngine
                 $wordsCount++;
             }
         }
-        
+
         // create the word hash
         $wordIDArray = array();
         $wordIDHash = array();
@@ -1682,7 +1682,7 @@ class eZSearchEngine
         }
 
         $wordIDArrayRes =& $db->arrayQuery( "SELECT id, word, object_count FROM ezsearch_word where $wordQueryString order by object_count" );
-        
+
         // create the word hash
         $wordIDArray = array();
         $wordIDHash = array();
@@ -1731,7 +1731,7 @@ class eZSearchEngine
                 //
                 //
     }
-    
+
 
     var $UseOldCall = false;
     var $TempTablesCount = 0;
