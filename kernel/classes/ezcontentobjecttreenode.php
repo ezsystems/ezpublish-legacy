@@ -1827,6 +1827,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     }
 
+    /*!
+     \deprecated This function should no longer be used, use the eZContentClass::instantiate and eZNodeAssignment::create instead.
+    */
     function createObject( $contentClassID, $parentNodeID = 2 )
     {
         $user =& eZUser::currentUser();
@@ -1834,7 +1837,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $class =& eZContentClass::fetch( $contentClassID );
         $parentNode =& eZContentObjectTreeNode::fetch( $parentNodeID );
-        $parentContentObject =& $parentNode->attribute( 'contentobject' );
+        $parentContentObject =& $parentNode->attribute( 'object' );
         $sectionID = $parentContentObject->attribute( 'section_id' );
         $object =& $class->instantiate( $userID, $sectionID );
 
