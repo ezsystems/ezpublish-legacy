@@ -646,8 +646,11 @@ class eZDebug
         {
             if ( ! eZDebug::isLogOnlyEnabled() and $enabled )
             {
+                $ip = eZSys::serverVariable( 'REMOTE_ADDR', true );
+                if ( !$ip )
+                    $ip = eZSys::serverVariable( 'HOSTNAME', true );
                 $this->DebugStrings[] = array( "Level" => $verbosityLevel,
-                                               "IP" => eZSys::serverVariable( 'REMOTE_ADDR', true ),
+                                               "IP" => $ip,
                                                "Time" => time(),
                                                "Label" => $label,
                                                "String" => $string,
@@ -792,7 +795,10 @@ class eZDebug
         if ( $logFile )
         {
             $time = strftime( "%b %d %Y %H:%M:%S", strtotime( "now" ) );
-            $notice = "[ " . $time . " ] [" . eZSys::serverVariable( 'REMOTE_ADDR', true ) . "] " . $string . "\n";
+            $ip = eZSys::serverVariable( 'REMOTE_ADDR', true );
+            if ( !$ip )
+                $ip = eZSys::serverVariable( 'HOSTNAME', true );
+            $notice = "[ " . $time . " ] [" . $ip . "] " . $string . "\n";
             @fwrite( $logFile, $notice );
             @fclose( $logFile );
             if ( !$fileExisted )

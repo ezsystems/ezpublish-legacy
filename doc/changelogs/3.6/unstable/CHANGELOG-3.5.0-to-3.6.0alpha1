@@ -207,6 +207,8 @@ eZDebug:
 - Added "templates usage statistics".
 - Added support for choosing which debug levels to always log. By default it
   will always log errors even if debug output is off.
+- When logging IP address the current hostname will be used if a remote address
+  is missing (e.g running a script).
 
 *SOAP:
 - Added authentication support.
