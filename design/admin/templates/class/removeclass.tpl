@@ -27,21 +27,22 @@
 {/section}
 
 {section show=$already_removed}
-{let class_list=''}
-{section var=class loop=$already_removed}
-{set class_list=concat( $class_list, $class.name )}
-{delimiter}{set class_list=concat( $class_list, " ," )}{/delimiter}
-{/section}
-{section show=count( $already_removed )|eq( 1 )}
-{"The class %1 was already removed from the group but still exists in others."|i18n( "design/admin/class/removeclass",, array( $class_list ) )}
-{section-else}
-{"The classes %1 were already removed from the group but still exist in others."|i18n( "design/admin/class/removeclass",, array( $class_list ) )}
-{/section}
+    {let class_list=''}
+    {section var=class loop=$already_removed}
+        {set class_list=concat( $class_list, $class.name )}
+        {delimiter}{set class_list=concat( $class_list, " ," )}{/delimiter}
+    {/section}
+    {section show=count( $already_removed )|eq( 1 )}
+        {"The class %1 was already removed from the group but still exists in others."|i18n( "design/admin/class/removeclass",, array( $class_list ) )}
+    {section-else}
+        {"The classes %1 were already removed from the group but still exist in others."|i18n( "design/admin/class/removeclass",, array( $class_list ) )}
+    {/section}
 {/let}
 {/section}
 
-<ul>
 {section var=Classes loop=$DeleteResult}
+    <h3>{"Class %class_name"|i18n( 'design/admin/class/removeclass',,hash( '%class_name', concat( '<', $Classes.item.className, '>' )|wash ) )}</h3>
+    <ul>
     {section show=$Classes.item.objectCount|gt( 0 )}
         {section show=$Classes.item.objectCount|eq( 1 )}
             <li>{"Removing class '%1' will result in the removal of %2 object!"|i18n( 'design/admin/class/removeclass',, array( $Classes.item.className|wash, $Classes.item.objectCount ) )}</li>
@@ -68,9 +69,8 @@
         </ul>
     </li>
     {/section}
-{*    <li>{"Class '%1' can NOT be removed since one of its object is used as system node!"|i18n( 'design/admin/class/removeclass',, array( $Classes.item.className|wash ) )}</li>*}
+    </ul>
 {/section}
-</ul>
 
 </div>
 

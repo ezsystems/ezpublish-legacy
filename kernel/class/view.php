@@ -75,6 +75,15 @@ $attributes =& $class->fetchAttributes();
 include_once( "kernel/classes/ezdatatype.php" );
 $datatypes =& eZDataType::registeredDataTypes();
 
+$mainGroupID = false;
+$mainGroupName = false;
+$groupList =& $class->fetchGroupList();
+if ( count( $groupList ) > 0 )
+{
+    $mainGroupID = $groupList[0]->attribute( 'group_id' );
+    $mainGroupName = $groupList[0]->attribute( 'group_name' );
+}
+
 $Module->setTitle( "Edit class " . $class->attribute( "name" ) );
 
 include_once( "kernel/common/template.php" );
@@ -94,5 +103,12 @@ $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:class/view.tpl' );
 $Result['path'] = array( array( 'url' => '/class/grouplist/',
                                 'text' => ezi18n( 'kernel/class', 'Classes' ) ) );
+if ( $mainGroupID !== false )
+{
+    $Result['path'][] = array( 'url' => '/class/classlist/' . $mainGroupID,
+                               'text' => $mainGroupName );
+}
+$Result['path'][] = array( 'url' => false,
+                           'text' => $class->attribute( 'name' ) );
 
 ?>

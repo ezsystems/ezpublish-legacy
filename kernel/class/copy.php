@@ -46,10 +46,11 @@ if ( !$class )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE );
 
 $classCopy =& $class->clone();
-$classCopy->setAttribute( 'name', 'Copy of ' . $classCopy->attribute( 'name' ) );
+$classCopy->initializeCopy( $class );
 $classCopy->setAttribute( 'version', 1 );
 $classCopy->store();
 
+$mainGroupID = false;
 $classGroups =& eZContentClassClassGroup::fetchGroupList( $class->attribute( 'id' ),
                                                           $class->attribute( 'version' ) );
 for ( $i = 0; $i < count( $classGroups ); ++$i )
@@ -58,8 +59,11 @@ for ( $i = 0; $i < count( $classGroups ); ++$i )
     $classGroup->setAttribute( 'contentclass_id', $classCopy->attribute( 'id' ) );
     $classGroup->setAttribute( 'contentclass_version', $classCopy->attribute( 'version' ) );
     $classGroup->store();
+    if ( $mainGroupID === false )
+        $mainGroupID = $classGroup->attribute( 'group_id' );
 }
 
+$classAttributeCopies = array();
 $classAttributes =& $class->fetchAttributes();
 foreach ( array_keys( $classAttributes ) as $classAttributeKey )
 {
@@ -70,8 +74,41 @@ foreach ( array_keys( $classAttributes ) as $classAttributeKey )
     $classAttributeCopy->store();
     $datatype =& $classAttributeCopy->dataType();
     $datatype->cloneClassAttribute( $classAttribute, $classAttributeCopy );
+    $classAttributeCopies[] =& $classAttributeCopy;
 }
 
-$Module->redirectToView( 'edit', array( $classCopy->attribute( 'id' ) ) );
+$ini =& eZINI::instance( 'content.ini' );
+$classRedirect = strtolower( trim( $ini->variable( 'CopySettings', 'ClassRedirect' ) ) );
+
+switch ( $classRedirect )
+{
+    case 'grouplist':
+    {
+        $classCopy->storeDefined( $classAttributeCopies );
+        return $Module->redirectToView( 'grouplist', array() );
+    } break;
+
+    case 'classlist':
+    {
+        $classCopy->storeDefined( $classAttributeCopies );
+        return $Module->redirectToView( 'classlist', array( $mainGroupID ) );
+    } break;
+
+    case 'classview':
+    {
+        $classCopy->storeDefined( $classAttributeCopies );
+        return $Module->redirectToView( 'view', array( $classCopy->attribute( 'id' ) ) );
+    } break;
+
+    default:
+    {
+        eZDebug::writeWarning( "Invalid ClassRedirect value '$classRedirect', use one of: grouplist, classlist, classedit or classview" );
+    }
+
+    case 'classedit':
+    {
+        return $Module->redirectToView( 'edit', array( $classCopy->attribute( 'id' ) ) );
+    } break;
+}
 
 ?>

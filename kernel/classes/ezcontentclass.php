@@ -671,6 +671,41 @@ You will need to change the class of the node by using the swap functionality.' 
         eZPersistentObject::store();
     }
 
+    /*!
+     Initializes this class as a copy of \a $originalClass by
+     creating new a new name and identifier.
+     It will check if there are other classes already with this name
+     in which case it will append a unique number to the name and identifier.
+    */
+    function initializeCopy( &$originalClass )
+    {
+        $name = ezi18n( 'kernel/class', 'Copy of %class_name', null,
+                        array( '%class_name' => $originalClass->attribute( 'name' ) ) );
+        $identifier = 'copy_of_' . $originalClass->attribute( 'identifier' );
+        $db =& eZDB::instance();
+        $sql = "SELECT count( name ) AS count FROM ezcontentclass WHERE name like '" . $db->escapeString( $name ) . "%'";
+        $rows = $db->arrayQuery( $sql );
+        $count = $rows[0]['count'];
+        if ( $count > 0 )
+        {
+            ++$count;
+            $name .= $count;
+            $identifier .= $count;
+        }
+        $this->setAttribute( 'name', $name );
+        $this->setAttribute( 'identifier', $identifier );
+        $this->setAttribute( 'created', time() );
+        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+        $user =& eZUser::currentUser();
+        $userID = $user->attribute( "contentobject_id" );
+        $this->setAttribute( 'creator_id', $userID );
+    }
+
+    /*!
+     Stores the current class as a defined version, updates the contentobject_name
+     attribute and recreates the class group entries.
+     \note It will remove any existing temporary or defined classes before storing.
+    */
     function storeDefined( &$attributes )
     {
         eZContentClass::removeAttributes( false, $this->attribute( "id" ), EZ_CLASS_VERSION_STATUS_DEFINED );
@@ -689,6 +724,28 @@ You will need to change the class of the node by using the swap functionality.' 
             $attribute =& $attributes[$i];
             $attribute->storeDefined();
         }
+
+        // Set contentobject_name to something sensible if it is missing
+        if ( count( $attributes ) > 0 )
+        {
+            $identifier = $attributes[0]->attribute( 'identifier' );
+            $identifier = '<' . $identifier . '>';
+            if ( trim( $this->attribute( 'contentobject_name' ) ) == '' )
+            {
+                $this->setAttribute( 'contentobject_name', $identifier );
+            }
+        }
+
+        // Recreate class member entries
+        eZContentClassClassGroup::removeClassMembers( $this->ID, EZ_CLASS_VERSION_STATUS_DEFINED );
+        $classgroups =& eZContentClassClassGroup::fetchGroupList( $this->ID, EZ_CLASS_VERSION_STATUS_TEMPORARY );
+        for ( $i = 0; $i < count( $classgroups ); $i++ )
+        {
+            $classgroup =& $classgroups[$i];
+            $classgroup->setAttribute( 'contentclass_version', EZ_CLASS_VERSION_STATUS_DEFINED );
+            $classgroup->store();
+        }
+        eZContentClassClassGroup::removeClassMembers( $this->ID, EZ_CLASS_VERSION_STATUS_TEMPORARY );
 
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();

@@ -485,45 +485,6 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
         $class->storeDefined( $attributes );
     }
 
-    // Set the object name to the first attribute, if not set
-    $classAttributes = $class->fetchAttributes();
-
-    // Fetch the first attribute
-    if ( count( $classAttributes ) > 0 )
-    {
-        $identifier = $classAttributes[0]->attribute( 'identifier' );
-        $identifier = '<' . $identifier . '>';
-        if ( trim( $class->attribute( 'contentobject_name' ) ) == '' )
-        {
-            $class->setAttribute( 'contentobject_name', $identifier );
-            $class->store();
-        }
-    }
-
-    // Remove old version 0 first
-    eZContentClassClassGroup::removeClassMembers( $ClassID, EZ_CLASS_VERSION_STATUS_DEFINED );
-
-    $classgroups =& eZContentClassClassGroup::fetchGroupList( $ClassID, EZ_CLASS_VERSION_STATUS_TEMPORARY );
-    for ( $i=0;$i<count(  $classgroups );$i++ )
-    {
-        $classgroup =& $classgroups[$i];
-        $classgroup->setAttribute('contentclass_version', EZ_CLASS_VERSION_STATUS_DEFINED );
-        $classgroup->store();
-    }
-//     eZContentClass::removeAttributes( false, $ClassID, EZ_CLASS_VERSION_STATUS_DEFINED );
-//     $class->remove( true );
-//     $class->setVersion( EZ_CLASS_VERSION_STATUS_DEFINED, $attributes );
-//     include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-//     $user =& eZUser::currentUser();
-//     $user_id = $user->attribute( 'contentobject_id' );
-//     $class->setAttribute( 'modifier_id', $user_id );
-//     $class->setAttribute( 'modified', time() );
-//     $class->adjustAttributePlacements( $attributes );
-//     $class->store( $attributes );
-
-    // Remove version 1
-    eZContentClassClassGroup::removeClassMembers( $ClassID, EZ_CLASS_VERSION_STATUS_TEMPORARY );
-
     $http->removeSessionVariable( 'CanStoreTicket' );
     return $Module->redirectToView( 'view', array( $ClassID ) );
 }
