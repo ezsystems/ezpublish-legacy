@@ -498,8 +498,11 @@ class eZMail
             $email = $matches[1];
             $name = $matches[2];
         }
-        $email = $text;
-        $name = false;
+        else
+        {
+            $email = $text;
+            $name = false;
+        }
     }
 
     /*!
@@ -652,7 +655,7 @@ class eZMail
         {
             $charset = $this->usedCharset();
             $headers[] = array( 'name' => 'Content-Type',
-                                'content' => array( $this->ContentType['type'], "charset=\"$charset\"" ) );
+                                'content' => array( $this->ContentType['type'], 'charset='. $charset ) );
             $headerNames[] = 'content-type';
         }
         if ( !in_array( 'content-transfer-encoding', $excludeHeaders ) )
@@ -719,15 +722,17 @@ class eZMail
             $convert = $parameters['convert'];
         $text = '';
         $headers = $this->headers( $parameters );
+        $headerCount = 0;
         foreach ( $headers as $header )
         {
+            if ( $headerCount++ > 0 )
+                $text .= EZ_MAIL_LINE_SEPARATOR;
             $text .= $this->blankNewlines( $header['name'] ) . ': ';
             $contentText = $this->blankNewlines( $this->contentString( $header['content'] ) );
             if ( $convert )
                 $text .= $this->convertHeaderText( $contentText );
             else
                 $text .= $contentText;
-            $text .= EZ_MAIL_LINE_SEPARATOR;
         }
         return $text;
     }
