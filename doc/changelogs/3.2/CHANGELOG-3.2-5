@@ -83,7 +83,8 @@ Changes from 3.2-4 to 3.2-5
   http://ez.no/community/bug_reports/typo_in_ezcontentobjecttreenode_php
 - Fixed bug, doing a list_count fetch on a nonexisting node caused crash
   http://ez.no/community/bug_reports/fatal_error_fetch_list_count_in_tpls
-
+- Removed event_ezpaynet workflow event from the standard workflow.ini file.
+  http://ez.no/community/bug_reports/workflow_type_not_found_event_ezpaynet
 
 *Setup:
 - Fixed setup to only check for existing eZ publish tables.
