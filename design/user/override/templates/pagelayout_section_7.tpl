@@ -38,7 +38,7 @@
 
 <table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-    <td class="tight" colspan="2"><img class="toplogo" {"intranet-top-logo.gif"|ezimage} width="142" height="32" alt="Intranet" /></td>
+    <td class="tight" colspan="2"><img class="toplogo" src={"intranet-top-logo.gif"|ezimage} width="142" height="32" alt="Intranet" /></td>
 </tr>
 <tr>
     <td class="topline" width="1%">
@@ -48,7 +48,7 @@
     <td class="topline" width="1%">
     <input name="SearchButton" type="submit" value="{"Search"|i18n('pagelayout')}" />
     </td>
-    <td class="topline" width="98%" align="right"><img {"top-background-image.gif"|ezimage} width="160" height="48" alt="" /></td>
+    <td class="topline" width="98%" align="right"><img src={"intranet-top-background-image.gif"|ezimage} width="160" height="48" alt="" /></td>
 </tr>
 </table>
 </form>
