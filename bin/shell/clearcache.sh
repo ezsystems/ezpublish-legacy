@@ -101,6 +101,11 @@ SETTINGS_DIR="settings"
 for dir in $SETTINGS_DIR/siteaccess/*; do
     if [ -d "$dir" ]; then
 	dirname=`basename $dir`
+	if echo $dirname | grep -e "_user$" >/dev/null; then
+	    dirname=`echo $dirname | sed 's/_user//'`
+	elif echo $dirname | grep -e "_admin$" >/dev/null; then
+	    dirname=`echo $dirname | sed 's/_admin//'`
+	fi
 	SITEACCESS_DIR="$SITEACCESS_DIR $dirname"
     fi
 done
