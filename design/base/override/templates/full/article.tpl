@@ -40,7 +40,6 @@
           </p>
         </div>
 
-
         <div class="attribute-pdf">
           <p>
              <a href={concat('/content/pdf/',$node.node_id)|ezurl}>{"Download PDF"|i18n("design/news/layout")}</a>
