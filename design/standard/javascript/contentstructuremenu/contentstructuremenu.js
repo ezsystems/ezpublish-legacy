@@ -57,6 +57,7 @@
         ezcst_unfoldNode.
 
     Functions which initializes menu:
+        ezcst_setFoldUnfoldIcons,
         ezcst_initializeMenuState,
         ezcst_resetMenuState,
         ezcst_restoreMenuState.
@@ -71,6 +72,13 @@
     Global array of unfolded nodes
 */
 var gUnfoldedNodesList                          = new Array(0);
+
+/*!
+    Pathes to fold/unfold icons
+*/
+var gUseFoldUnfoldIcons                         = false;
+var gFoldIcon                                   = '';
+var gUnfoldIcon                                 = '';
 
 /*!
     Global identifier of the Root Node
@@ -228,8 +236,13 @@ function ezcst_setUnfoldedState( node_id, ul_node, link_node )
     {
         // fold state => make it unfold
             ul_node.style.display = "";
-        // change label
-            ezjslib_setTextToHTMLChildTextNode( link_node, "[-]" );
+
+       // change label
+            if ( gUseFoldUnfoldIcons )
+                ezjslib_setImageSourceToHTMLChildImageNode( link_node, gUnfoldIcon );
+            else
+                ezjslib_setTextToHTMLChildTextNode( link_node, "[-]" );
+
         // update cookie
             ezcst_cookie_addNode( node_id );
     }
@@ -247,8 +260,13 @@ function ezcst_setFoldedState( node_id, ul_node, link_node )
     {
         // unfold state => make it fold
             ul_node.style.display = "none";
-        //Change label
-            ezjslib_setTextToHTMLChildTextNode( link_node, "[+]" );
+
+       //Change label
+            if ( gUseFoldUnfoldIcons )
+                ezjslib_setImageSourceToHTMLChildImageNode( link_node, gFoldIcon );
+            else
+                ezjslib_setTextToHTMLChildTextNode( link_node, "[+]" );
+
         // update cookie
             ezcst_cookie_removeNode( node_id );
     }
@@ -276,9 +294,9 @@ function ezcst_onItemClicked( ezpublish_nodeID, defaultItemClickAction )
 /*!
     Fold/unfold \a node. If \a bUpdateCookie sets to
     \a true then cookie will be updated.
-    \a bInitNodesText - initialize HTML nodes( e.g sets text [-]/[ ])
+    \a bInitFoldUnfoldLabels - initialize HTML nodes( e.g sets text [-]/[ ])
 */
-function ezcst_foldUnfold( node, bUpdateCookie, bInitNodesText, bForceFold, bForceUnfold )
+function ezcst_foldUnfold( node, bUpdateCookie, bInitFoldUnfoldLabels, bForceFold, bForceUnfold )
 {
     for ( var i = 0; i < node.childNodes.length; ++i )
     {
@@ -289,13 +307,13 @@ function ezcst_foldUnfold( node, bUpdateCookie, bInitNodesText, bForceFold, bFor
             var node_id     = bUpdateCookie ? node.getAttribute( "id" ) : null;
             var link_node   = ezjslib_getHTMLChildNodeByTag( node, "a" );
 
-            if( bInitNodesText == true)
-                ezjslib_createHTMLChildTextNode( link_node, "[-]" );
+            if( bInitFoldUnfoldLabels == true)
+                ezcst_createUnfoldedLabel( link_node );
 
             ezcst_changeState( node_id, child, link_node, bForceFold, bForceUnfold );
             break;
         }
-        else if ( bInitNodesText && child["tagName"] && child.tagName.toLowerCase() == "span" )
+        else if ( bInitFoldUnfoldLabels && child["tagName"] && child.tagName.toLowerCase() == "span" )
         {
             ezjslib_createHTMLChildTextNode( child, "[ ]" );
         }
@@ -306,12 +324,12 @@ function ezcst_foldUnfold( node, bUpdateCookie, bInitNodesText, bForceFold, bFor
     Fold/unfold subtree by recursive calls.
     \a root_node is a root node of subtree.
     \a bUpdateCookie - if sets to \a true, then cookie will be updated.
-    \a bInitNodesText - initialize HTML nodes( e.g sets text [-]/[ ])
+    \a bInitFoldUnfoldLabels - initialize HTML nodes( e.g sets text [-]/[ ])
     \a bForceFold - if node was folded then its state will be unchanged
     \a bForceUnfold - if node was unfolded then its state will be unchanged
     \a bExludeRootNode - If true then state of root node will be unchanged.
 */
-function ezcst_foldUnfoldSubtree( rootNode, bUpdateCookie, bInitNodesText, bForceFold, bForceUnfold, bExcludeRootNode )
+function ezcst_foldUnfoldSubtree( rootNode, bUpdateCookie, bInitFoldUnfoldLabels, bForceFold, bForceUnfold, bExcludeRootNode )
 {
     var root_ul_node = ezjslib_getHTMLChildNodeByTag( rootNode, "ul" );
 
@@ -323,7 +341,7 @@ function ezcst_foldUnfoldSubtree( rootNode, bUpdateCookie, bInitNodesText, bForc
             var li_node = root_ul_node.childNodes[i];
             if ( li_node["tagName"] && li_node.tagName.toLowerCase() == "li" )
             {
-                ezcst_foldUnfoldSubtree( li_node, bUpdateCookie, bInitNodesText, bForceFold, bForceUnfold, false );
+                ezcst_foldUnfoldSubtree( li_node, bUpdateCookie, bInitFoldUnfoldLabels, bForceFold, bForceUnfold, false );
             }
         }
     }
@@ -331,7 +349,7 @@ function ezcst_foldUnfoldSubtree( rootNode, bUpdateCookie, bInitNodesText, bForc
     // fold/unfold current subtree.
     if ( !bExcludeRootNode )
     {
-        ezcst_foldUnfold( rootNode, bUpdateCookie, bInitNodesText, bForceFold, bForceUnfold );
+        ezcst_foldUnfold( rootNode, bUpdateCookie, bInitFoldUnfoldLabels, bForceFold, bForceUnfold );
     }
 }
 
@@ -413,6 +431,31 @@ function ezcst_restoreMenuState( rootNode )
 }
 
 /*!
+    Creates initial text for [-] label.
+*/
+function ezcst_createUnfoldedLabel( node )
+{
+    if ( gUseFoldUnfoldIcons )
+        ezjslib_createHTMLChildImageNode( node, gUnfoldIcon );
+    else
+        ezjslib_createHTMLChildTextNode( node, "[-]" );
+}
+
+
+/*!
+    Sets icons instead of text labels [-]/[+]
+*/
+function ezcst_setFoldUnfoldIcons( foldIcon, unfoldIcon )
+{
+    if ( foldIcon && unfoldIcon )
+    {
+        gFoldIcon = foldIcon;
+        gUnfoldIcon = unfoldIcon;
+        gUseFoldUnfoldIcons = true;
+    }
+}
+
+/*!
     Restores menu state from cookie, adds current location from
     \a additionalNodesList.
 */
@@ -440,7 +483,10 @@ function ezcst_initializeMenuState( additionalNodesList, menuNodeID, autoopenCur
 
             // Remove [-]/[+] text of root node.
             var root_link_node = ezjslib_getHTMLChildNodeByTag( rootNode, "a" );
-            ezjslib_removeHTMLChildTextNode( root_link_node );
+            if ( gUseFoldUnfoldIcons )
+                ezjslib_removeHTMLChildImageNode( root_link_node );
+            else
+                ezjslib_removeHTMLChildTextNode( root_link_node );
 
             if ( ezcst_getUnfoldedNodesListSize() > 0 )
             {

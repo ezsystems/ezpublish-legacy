@@ -55,11 +55,27 @@
 */
 function ezjslib_findHTMLChildTextNode( node )
 {
+    return ezjslib_findHTMLChildNodeByType( node, 3 );
+}
+
+/*!
+    Finds the image of \a node
+*/
+function ezjslib_findHTMLChildImageNode( node )
+{
+    return ezjslib_findHTMLChildNodeByType( node, 1 );
+}
+
+/*!
+    Finds child node of \a node by \a type
+*/
+function ezjslib_findHTMLChildNodeByType( node, type )
+{
     if( node )
     {
         for ( var i = 0; i < node.childNodes.length; i++ )
         {
-            if ( node.childNodes[i].nodeType == 3 )
+            if ( node.childNodes[i].nodeType == type )
             {
                 return node.childNodes[i];
             }
@@ -82,11 +98,38 @@ function ezjslib_setTextToHTMLChildTextNode( node, text )
 }
 
 /*!
+*/
+function ezjslib_setImageSourceToHTMLChildImageNode( node, imageSource )
+{
+    var imageNode = ezjslib_findHTMLChildImageNode( node );
+    if( imageNode != null )
+    {
+        imageNode.src = imageSource;
+    }
+}
+
+/*!
     Finds text of \a node and removes it
 */
 function ezjslib_removeHTMLChildTextNode( node )
 {
-    var textNode = ezjslib_findHTMLChildTextNode( node );
+    ezjslib_removeHTMLChildNodeByType( node, 3 );
+}
+
+/*!
+    Finds image of \a node and removes it
+*/
+function ezjslib_removeHTMLChildImageNode( node )
+{
+    ezjslib_removeHTMLChildNodeByType( node, 1 );
+}
+
+/*!
+    Finds a child of \a node by \a type and removes it
+*/
+function ezjslib_removeHTMLChildNodeByType( node, type )
+{
+    var textNode = ezjslib_findHTMLChildNodeByType( node, type );
     if( textNode != null )
     {
         node.removeChild( textNode );
@@ -102,6 +145,18 @@ function ezjslib_createHTMLChildTextNode( node, text )
     {
         var textNode = document.createTextNode( text );
         node.appendChild( textNode );
+    }
+}
+
+/*!
+*/
+function  ezjslib_createHTMLChildImageNode( node, imageSource )
+{
+    if ( node != null )
+    {
+        var imageNode = document.createElement( 'img' );
+        imageNode.src = imageSource;
+        node.appendChild( imageNode );
     }
 }
 
