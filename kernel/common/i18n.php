@@ -2,6 +2,9 @@
 
 include_once( 'lib/ezutils/classes/ezini.php' );
 
+/*!
+ \return the current language used.
+*/
 function ezcurrentLanguage()
 {
     $locale =& eZLocale::instance();
@@ -9,11 +12,26 @@ function ezcurrentLanguage()
     return $language;
 }
 
+/*!
+ Replaces keys found in \a $text with values in \a $arguments.
+ If \a $arguments is an associative array it will use the argument
+ keys as replacement keys. If not it will convert the index to
+ a key looking like %n, where n is a number between 1 and 9.
+ Returns the new string.
+*/
 function &ezinsertarguments( $text, $arguments )
 {
     if ( is_array( $arguments ) )
     {
-        $text = strtr( $text, $arguments );
+        $replaceList = array();
+        foreach ( $arguments as $argumentKey => $argumentItem )
+        {
+            if ( is_int( $argumentKey ) )
+                $replaceList['%' . ( ($argumentKey%9) + 1 )] = $argumentItem;
+            else
+                $replaceList[$argumentKey] = $argumentItem;
+        }
+        $text = strtr( $text, $replaceList );
     }
     return $text;
 }
