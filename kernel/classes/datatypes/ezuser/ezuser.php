@@ -567,10 +567,14 @@ class eZUser extends eZPersistentObject
         {
             $table[] = "$i";
         }
-        $specialCharacters = '!#%&{[]}+?;:*';
-        for ( $i = 0; $i < strlen( $specialCharacters ); ++$i )
+        $ini =& eZINI::instance();
+        if ( $ini->variable( 'UserSettings', 'UseSpecialCharacters' ) == true )
         {
-            $table[] = $specialCharacters[$i];
+            $specialCharacters = '!#%&{[]}+?;:*';
+            for ( $i = 0; $i < strlen( $specialCharacters ); ++$i )
+            {
+                $table[] = $specialCharacters[$i];
+            }
         }
         // Remove some characters that are too similar visually
         $table = array_diff( $table, array( 'I', 'l', 'o', 'O', '0' ) );

@@ -403,3 +403,11 @@ alter table ezorder_item add vat_value int not null default '0';
 # Missing indexes
 alter table ezcontentobject_tree add index ( md5_path );  
 alter table ezsession drop cache_mask_1;
+
+create table ezforgot_password(
+    id int NOT NULL auto_increment,
+    user_id int not null,
+    hash_key varchar(32) not null,
+    time int not null,
+    PRIMARY KEY  (id)
+    );

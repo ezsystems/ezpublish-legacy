@@ -98,6 +98,10 @@ links to clickable links.
 - Fixed rendering of custom tag as a block tag
 - Added next/prev to search template
 - Made integer datatype searchable
+- Fixed forget password functionality
+- Added possibility to insert options in ezoption datatype
+- Added site.ini variable to allow special characters in created password
+- Fixed bug with sending user information feedback to you, password is not empty
 
 *SDK :
 

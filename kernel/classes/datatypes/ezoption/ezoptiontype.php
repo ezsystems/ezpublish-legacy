@@ -92,7 +92,7 @@ class eZOptionType extends eZDataType
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
 
                     }
-                    if ( !preg_match( "#^[-|+]?[0-9]+(\.){0,1}[0-9]{0,2}$#", $optionAdditionalPriceList[$i] ) )
+                    if ( strlen( $optionAdditionalPriceList[$i] ) && !preg_match( "#^[-|+]?[0-9]+(\.){0,1}[0-9]{0,2}$#", $optionAdditionalPriceList[$i] ) )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'Additional price for option value is invalid.',
@@ -170,6 +170,18 @@ class eZOptionType extends eZDataType
             {
                 $option =& $contentObjectAttribute->content( );
 
+                $postvarname = "ContentObjectAttribute" . "_data_option_remove_" . $contentObjectAttribute->attribute( "id" );
+                if ( $http->hasPostVariable( $postvarname ) )
+                {
+                    $idArray = $http->postVariable( $postvarname );
+                    $beforeID = array_shift( $idArray );
+                    if ( $beforeID >= 0 )
+                    {
+                        $option->insertOption( array(), $beforeID );
+                        $contentObjectAttribute->setContent( $option );
+                        return;
+                    }
+                }
                 $option->addOption( "" );
                 $contentObjectAttribute->setContent( $option );
             }break;

@@ -95,6 +95,15 @@ class eZOption
         $this->OptionCount += 1;
     }
 
+    function insertOption( $valueArray, $beforeID )
+    {
+        array_splice( $this->Options, $beforeID, 0 ,  array( array( "id" => $this->OptionCount,
+                                                                    "value" => $valueArray['value'],
+                                                                    'additional_price' => $valueArray['additional_price'],
+                                                                    "is_default" => false ) ) );
+        $this->OptionCount += 1;
+    }
+
     function removeOptions( $array_remove )
     {
         $options =& $this->Options;
@@ -189,7 +198,7 @@ class eZOption
         foreach ( $this->Options as $option )
         {
             $optionNode =& $doc->createElementNode( "option" );
-            $optionNode->appendAttribute( $doc->createAttributeNode( "id", $id++ ) );
+            $optionNode->appendAttribute( $doc->createAttributeNode( "id", $option['id'] ) );
             $optionNode->appendAttribute( $doc->createAttributeNode( 'additional_price', $option['additional_price'] ) );
             $optionValueNode =& $doc->createTextNode( $option["value"] );
             $optionNode->appendChild( $optionValueNode );
