@@ -366,7 +366,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         return eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
                                                 null,
-                                                array( 'data_text' => $identifier ),
+                                                array( 'sort_key_string' => $identifier, 'data_type_string' => 'ezstring' ),
                                                 $asObject );
     }
 
