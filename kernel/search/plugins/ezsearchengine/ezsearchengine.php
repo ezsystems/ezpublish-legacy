@@ -75,28 +75,7 @@ class eZSearchEngine
                 // strip tags
                 $text =& strip_tags( $attribute->metaData() );
 
-                // Strip multiple whitespaces
-                $text =& str_replace(".", " ", $text );
-                $text =& str_replace(":", " ", $text );
-                $text =& str_replace(",", " ", $text );
-                $text =& str_replace(";", " ", $text );
-                $text =& str_replace("'", " ", $text );
-                $text =& str_replace("\"", " ", $text );
-                $text =& str_replace("(", " ", $text );
-                $text =& str_replace(")", " ", $text );
-                $text =& str_replace("-", " ", $text );
-                $text =& str_replace("+", " ", $text );
-                $text =& str_replace("/", " ", $text );
-                $text =& str_replace("!", " ", $text );
-                $text =& str_replace("?", " ", $text );
-                $text =& str_replace("[", " ", $text );
-                $text =& str_replace("]", " ", $text );
-                $text =& str_replace("$", " ", $text );
-
-                $text =& str_replace("\n", " ", $text );
-                $text =& str_replace("\r", " ", $text );
-                $text =& preg_replace("(\s+)", " ", $text );
-                $text =& strtolower( $text );
+                $text = eZSearchEngine::normalizeText( $text );
 
                 // Split text on whitespace
                 $wordArray =& split( " ", $text );
@@ -136,20 +115,12 @@ class eZSearchEngine
         $dbName = $db->databaseName();
         if ( $dbName == 'mysql' )
         {
+            // Fetch already indexed words from database
             $wordArray = array();
             $wordsString = implode( '\',\'', $indexArrayOnlyWords );
-            $wordResTmp =& $db->arrayQuery( "SELECT * FROM ezsearch_word WHERE word IN ( '$wordsString' ) " );
-            $wordRes = array();
-            $wordMapArray = array();
-            foreach ( $wordResTmp as $wordResTmpValue )
-            {
-                $tmpWord = strtolower( $wordResTmpValue['word'] );
-                if ( !isset( $wordMapArray[$tmpWord] ) )
-                {
-                    $wordMapArray[$tmpWord] = true;
-                    $wordRes[] = $wordResTmpValue;
-                }
-            }
+            $wordRes =& $db->arrayQuery( "SELECT * FROM ezsearch_word WHERE word IN ( '$wordsString' ) " );
+
+            // Build a has of the existing words
             $wordResCount = count( $wordRes );
             $wordIDArray = array();
             $existingWordArray = array();
@@ -157,18 +128,17 @@ class eZSearchEngine
             {
                 $wordIDArray[] = $wordRes[$i]['id'];
                 $existingWordArray[] = $wordRes[$i]['word'];
-                $wordLowercase = strtolower( $wordRes[$i]['word'] );
-                $wordArray[$wordLowercase] = $wordRes[$i]['id'];
+                $wordArray[$wordRes[$i]['word']] = $wordRes[$i]['id'];
             }
 
+            // Update the object count of existing words by one
             $wordIDString = implode( ',', $wordIDArray );
             if ( count( $wordIDArray ) > 0 )
                 $db->query( " UPDATE ezsearch_word SET object_count=( object_count + 1 ) WHERE id IN ( $wordIDString )" );
 
+            // Insert if there is any news words
             if ( count( $indexArrayOnlyWords ) > $wordResCount )
             {
-                eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $indexArrayOnlyWords, 'indexArrayOnlyWords' );
-                eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $existingWordArray, "existingWordArray" );
                 $newWordArray = array_diff( $indexArrayOnlyWords, $existingWordArray );
                 $newWordString = implode( "', '1' ), ('", $newWordArray );
                 $db->query( "INSERT INTO
@@ -180,7 +150,7 @@ class eZSearchEngine
                 for ( $i=0;$i<$newWordCount;++$i )
                 {
                     $wordLowercase = strtolower( $newWordRes[$i]['word'] );
-                    $wordArray[$wordLowercase] = $newWordRes[$i]['id'];
+                    $wordArray[$newWordRes[$i]['word']] = $newWordRes[$i]['id'];
                 }
             }
             $wordIDArray = $wordArray;
@@ -894,21 +864,32 @@ class eZSearchEngine
         $text =& strToLower( $text );
 
         // Strip multiple whitespaces
-        $text = str_replace(".", " ", $text );
-        $text = str_replace(":", " ", $text );
-        $text = str_replace(",", " ", $text );
-        $text = str_replace(";", " ", $text );
-        $text = str_replace("'", " ", $text );
-        $text = str_replace("(", " ", $text );
-        $text = str_replace(")", " ", $text );
-        $text = str_replace("-", " ", $text );
-        $text = str_replace("!", " ", $text );
-        $text = str_replace("?", " ", $text );
-        $text = str_replace("$", " ", $text );
+        $text =& str_replace(".", " ", $text );
+        $text =& str_replace(":", " ", $text );
+        $text =& str_replace(",", " ", $text );
+        $text =& str_replace(";", " ", $text );
+        $text =& str_replace("'", " ", $text );
+        $text =& str_replace("\"", " ", $text );
+        $text =& str_replace("(", " ", $text );
+        $text =& str_replace(")", " ", $text );
+        $text =& str_replace("-", " ", $text );
+        $text =& str_replace("+", " ", $text );
+        $text =& str_replace("/", " ", $text );
+        $text =& str_replace("!", " ", $text );
+        $text =& str_replace("?", " ", $text );
+        $text =& str_replace("[", " ", $text );
+        $text =& str_replace("]", " ", $text );
+        $text =& str_replace("$", " ", $text );
+        $text =& str_replace("\\", " ", $text );
+        $text =& str_replace("<", " ", $text );
+        $text =& str_replace(">", " ", $text );
+        $text =& str_replace("*", " ", $text );
 
-        $text = str_replace("\n", " ", $text );
-        $text = str_replace("\r", " ", $text );
-        $text = preg_replace("(\s+)", " ", $text );
+        $text =& str_replace("\n", " ", $text );
+        $text =& str_replace("\t", " ", $text );
+        $text =& str_replace("\r", " ", $text );
+        $text =& preg_replace("(\s+)", " ", $text );
+        $text =& strtolower( $text );
 
         return $text;
     }

@@ -77,6 +77,13 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
 
     // Send e-mail
     $tpl =& templateInit();
+
+    // Set override keys for template
+    $res =& eZTemplateDesignResource::instance();
+    $res->setKeys( array( array( 'class', $object->attribute( 'contentclass_id' ) ),
+                          array( 'object', $object->attribute( 'id' ) )
+                          ) );
+
     $tpl->setVariable( 'collection', $collection );
     $tpl->setVariable( 'object', $object );
     $templateResult =& $tpl->fetch( 'design:content/collectedinfomail.tpl' );
