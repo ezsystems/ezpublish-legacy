@@ -87,9 +87,9 @@ $viewParameters = array( 'offset' => $Offset );
 
 $res =& eZTemplateDesignResource::instance();
 $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
+                      array( 'node', $node->attribute( 'node_id' ) ), // Node ID
                       array( 'class', $object->attribute( 'contentclass_id' ) ), // Class ID
                       array( 'section', $object->attribute( 'section_id' ) ), // Section ID
-                      array( 'node', $node->attribute( 'node_id' ) ), // Node ID
                       array( 'view_offset', $Offset ),
                       array( 'viewmode', $ViewMode ),
                       ) );

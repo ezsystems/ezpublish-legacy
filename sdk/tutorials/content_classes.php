@@ -1,6 +1,6 @@
 <?php
 //
-// Created on: <29-May-2002 10:38:45 bf>
+// Created on: <28-Oct-2002 12:43:53 bf>
 //
 // Copyright (C) 1999-2002 eZ systems as. All rights reserved.
 //
@@ -32,47 +32,12 @@
 // you.
 //
 
-/*!
-  \brief contains the eZ publish SDK version.
-
-*/
-
-class eZPublishSDK
-{
-    /*!
-      \return the SDK version as a string
-    */
-    function version( /*! If true the release version is appended */ $with_release = true )
-    {
-        $ver = eZPublishSDK::majorVersion() . "." . eZPublishSDK::minorVersion();
-        if ( $with_release )
-            $ver .= "-" . eZPublishSDK::release();
-        return $ver;
-    }
-
-    /*!
-     \return the major version
-    */
-    function majorVersion()
-    {
-        return 2;
-    }
-
-    /*!
-     \return the minor version
-    */
-    function minorVersion()
-    {
-        return 9;
-    }
-
-    /*!
-     \return the release number
-    */
-    function release()
-    {
-        return 3;
-    }
-}
 
 ?>
+
+<h1>Content Classes Howto</h1>
+
+<p>
+One of the basic building blocks in eZ publish 3 is the content class. You use content classes
+to define your own structure. Article, folder and image are typical examples of content classes.
+</p>

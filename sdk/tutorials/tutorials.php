@@ -1,6 +1,6 @@
 <?php
 //
-// Created on: <29-May-2002 10:38:45 bf>
+// Created on: <28-Oct-2002 12:46:33 bf>
 //
 // Copyright (C) 1999-2002 eZ systems as. All rights reserved.
 //
@@ -32,47 +32,37 @@
 // you.
 //
 
-/*!
-  \brief contains the eZ publish SDK version.
+$baseURI = $Params["base_uri"];
+$docName = $Params["part"];
 
-*/
+$error = false;
 
-class eZPublishSDK
+$docFile = "sdk/tutorials/$docName.php";
+
+if ( $docFile == "sdk/tutorials/tutorials.php" )
 {
-    /*!
-      \return the SDK version as a string
-    */
-    function version( /*! If true the release version is appended */ $with_release = true )
-    {
-        $ver = eZPublishSDK::majorVersion() . "." . eZPublishSDK::minorVersion();
-        if ( $with_release )
-            $ver .= "-" . eZPublishSDK::release();
-        return $ver;
-    }
+    $content = "PHP self include detected, avoiding recursive includes.";
+}
+else
+{
+    ob_start();
+    if ( file_exists( $docFile ) )
+        include( $docFile );
+    $content = ob_get_contents();
+    ob_end_clean();
 
-    /*!
-     \return the major version
-    */
-    function majorVersion()
+    if ( isset( $DocResult ) and
+         is_array( $DocResult ) )
     {
-        return 2;
-    }
-
-    /*!
-     \return the minor version
-    */
-    function minorVersion()
-    {
-        return 9;
-    }
-
-    /*!
-     \return the release number
-    */
-    function release()
-    {
-        return 3;
+        if ( isset( $DocResult["title"] ) )
+            $docName = $DocResult["title"];
     }
 }
+
+$Result = array();
+$Result["title"] = "Document $docName";
+$Result["content"] = $content;
+$Result["pagelayout"] = false;
+$Result["external_css"] = true;
 
 ?>

@@ -54,6 +54,11 @@ function sdkElements()
                          "root" => "changes",
                          "name" => "What's New" ),
                   array( "dir" => "sdk",
+
+                         "variable" => "tutorials_items",
+                         "root" => "tutorials",
+                         "name" => "Tutorials" ),
+                  array( "dir" => "sdk",
                          "variable" => "kernel_items",
                          "root" => "kernel",
                          "name" => "Kernel" ),
@@ -156,6 +161,11 @@ send feedback on this release to sdk@ez.no.
 	<td valign="top"><h2>%doc_items_name%</h2>
 	<ul>
 	%doc_items%
+	</ul>
+	</td>
+	<td valign="top"><h2>%tutorials_items_name%</h2>
+	<ul>
+	%tutorials_items%
 	</ul>
 	</td>
 	<td valign="top"><h2>%changes_items_name%</h2>

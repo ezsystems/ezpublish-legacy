@@ -1,6 +1,6 @@
 <?php
 //
-// Created on: <29-May-2002 10:38:45 bf>
+// Created on: <28-Oct-2002 12:44:43 bf>
 //
 // Copyright (C) 1999-2002 eZ systems as. All rights reserved.
 //
@@ -32,47 +32,29 @@
 // you.
 //
 
-/*!
-  \brief contains the eZ publish SDK version.
+include_once( "lib/ezutils/classes/ezsys.php" );
 
-*/
+$indexPathPrepend = eZSys::wwwDir() .  eZSys::indexFile();
 
-class eZPublishSDK
-{
-    /*!
-      \return the SDK version as a string
-    */
-    function version( /*! If true the release version is appended */ $with_release = true )
-    {
-        $ver = eZPublishSDK::majorVersion() . "." . eZPublishSDK::minorVersion();
-        if ( $with_release )
-            $ver .= "-" . eZPublishSDK::release();
-        return $ver;
-    }
+$infoArray = array();
+$infoArray["name"] = "Tutorials";
+$infoArray["description"] = '<h1>Introduction</h1>
+<p>
+These tutorials will help you get started with eZ publish.
+</p>
+';
+$infoArray["partfile"] = "tutorials.php";
+$infoArray["trademark"] = false;
 
-    /*!
-     \return the major version
-    */
-    function majorVersion()
-    {
-        return 2;
-    }
+$featureArray = array();
 
-    /*!
-     \return the minor version
-    */
-    function minorVersion()
-    {
-        return 9;
-    }
+$featureArray[] = array( "level" => 0,
+                         "name" => "Key concepts" );
 
-    /*!
-     \return the release number
-    */
-    function release()
-    {
-        return 3;
-    }
-}
+$featureArray[] = array( "uri" => "module_system",
+                         "level" => 0,
+                         "name" => "Module system" );
+
+$infoArray["features"] =& $featureArray;
 
 ?>
