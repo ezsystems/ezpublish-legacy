@@ -160,6 +160,7 @@ class eZWebDAVServer
     function processClientRequest()
     {
         $this->appendLogEntry( "WebDAV server started...", 'processClientRequest' );
+        $this->XMLBodyRead = false;
 
         // Dump some custom header/info.
 //		header( "WebDAV-Powered-By: eZ publish" );
@@ -303,6 +304,10 @@ class eZWebDAVServer
                 // __FIX_ME__
             } break;
         }
+        // Read the XML body if it is not used yet,
+        // PHP should discard it but it's a bug in some PHP versions
+        if ( !$this->XMLBodyRead )
+            $this->flushXMLBody();
 
         // Handle the returned status code (post necessary/matching headers, etc.).
         $this->handle( $status );
@@ -568,10 +573,20 @@ class eZWebDAVServer
     */
     function xmlBody()
     {
-        // Read the XML body, PHP should discard it but it's a bug in some PHP versions
         $xmlBody = file_get_contents( "php://input" );
 //        $this->appendLogEntry( $xmlBody, 'xmlBody' );
+        $this->XMLBodyRead = true;
         return $xmlBody;
+    }
+
+    /*!
+      \return The XML body text for the current request.
+    */
+    function flushXMLBody()
+    {
+        // Flush the XML body by reading it,
+        // PHP should discard it but it's a bug in some PHP versions
+        $xmlBody = file_get_contents( "php://input" );
     }
 
     /*!
@@ -820,5 +835,6 @@ class eZWebDAVServer
 
     /// \privatesection
     var $ServerRootDir = "";
+    var $XMLBodyRead = false;
 }
 ?>
