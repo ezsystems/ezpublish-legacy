@@ -144,12 +144,25 @@ class eZApproveType extends eZWorkflowEventType
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $process, 'eZApproveType::execute' );
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, 'eZApproveType::execute' );
         $parameters = $process->attribute( 'parameter_list' );
-//        var_dump( $parameters );
         $versionID =& $parameters['version'];
         $object =& eZContentObject::fetch( $parameters['object_id'] );
-        $user =& eZUser::currentUser(); //fetch( $parameters['user_id'] );
-        $userGroups = $user->attribute( 'groups' );
 
+        /*
+          If we run event first time ( when we click publish in admin ) we do not have user_id set in workflow process,
+          so we take current user and store it in workflow process, so next time when we run event from cronjob we fetch
+'         user_id from there.
+         */
+        if ( $process->attribute( 'user_id' ) == 0 )
+        {
+            $user =& eZUser::currentUser();
+            $process->setAttribute( 'user_id', $user->id() );
+        }
+        else
+        {
+            $user =& eZUser::instance( $process->attribute( 'user_id' ) );
+        }
+
+        $userGroups = $user->attribute( 'groups' );
         $workflowSections = explode( ',', $event->attribute( 'data_text1' ) );
         $workflowGroups = explode( ',', $event->attribute( 'data_text2' ) );
         $editor = $event->attribute( 'data_int1' );

@@ -86,7 +86,7 @@ Changes from 3.4.0 to 3.4.1
 - Fixed bug with missing user/selfedit and user/password policies in forum package.
 - Fixed bug: names for .ini.append* files were sometimes incorrectly
   chosen when saving from admin interface.
-  http://ez.no/community/bug_reports/admin_interface_writes_override_ini_append_rather_than_override_ini_append_php
+  http://ez.no/community/bug_reports/admin_interface_writes_override_ini_append_rather_than_override_ini_append_php	 
 - Fixed bug in kernel/sql/postgresql/sequence.sql.
   Merged from stable/3.3 rev. 6873.
   http://ez.no/community/bug_reports/postgres_setval
@@ -108,3 +108,6 @@ Changes from 3.4.0 to 3.4.1
   http://ez.no/community/bug_reports/problem_with_sql_update_file_dbupdate_3_3_5_to_3_3_6_sql
 - Fixed bug in  eZContentClassClassGroup::fetchClassListByGroups on postgresql.
   http://ez.no/community/bug_reports/error_in_postgresql_with_ezcontentclassclassgroup_fetchclasslistbygroups
+- Fixed bug with incorrect user identification in ezapprove workflow event when run it from cronjobs.
+  Merged from stable/3.3 rev. 6895.
+  http://ez.no/community/bug_reports/workflow_approve_and_author
