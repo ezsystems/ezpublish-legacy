@@ -456,7 +456,7 @@ class eZTextCodec
             $realOutputCharsetCode = $outputCharsetCode = $internalCharset;
 
         $check =& $GLOBALS["eZTextCodecCharsetCheck"]["$realOutputCharsetCode-$realOutputCharsetCode"];
-        if ( isset( $check ) and !$check )
+        if ( !$alwaysReturn and isset( $check ) and !$check )
         {
             return null;
         }
