@@ -6,7 +6,9 @@
 <form name="draftaction" action={concat( 'content/draft/' )|ezurl} method="post">
 
 <div class="context-block">
+
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
 <h1 class="context-title">{'My drafts [%draft_count]'|i18n(  'design/admin/content/draft',, hash( '%draft_count', $list_count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
@@ -64,7 +66,7 @@
     <td>{$Drafts.item.contentobject.content_class.name|wash}</td>
     <td>{fetch( section, object, hash( section_id, $Drafts.item.contentobject.section_id ) ).name|wash}</td>
     <td>{$Drafts.item.modified|l10n( shortdatetime )}</td>
-    <td><a href={concat( '/content/edit/', $Drafts.item.contentobject.id, '/', $Drafts.item.version, '/' )|ezurl} title="{'Edit <%draft_name>.'|i18n( 'design/admin/content/draft',, hash( '%draft_name', $Drafts.item.name ) )|wash}" ><img src={'edit.png'|ezimage} border="0"></a></td>
+    <td><a href={concat( '/content/edit/', $Drafts.item.contentobject.id, '/', $Drafts.item.version, '/' )|ezurl} title="{'Edit <%draft_name>.'|i18n( 'design/admin/content/draft',, hash( '%draft_name', $Drafts.item.name ) )|wash}" ><img src={'edit.png'|ezimage} border="0" alt="{'Edit'|i18n( 'design/admin/content/draft' )}" /></a></td>
 </tr>
 {/section}
 </table>
@@ -100,5 +102,7 @@
 </div>
 
 </div>
+
+</form>
 
 {/let}
