@@ -195,7 +195,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $domString = str_replace ( "<paragraph />" , "", $domString );
                 $domString = str_replace ( "<line />" , "", $domString );
                 $domString = str_replace ( "<paragraph></paragraph>" , "", $domString );
-                $domString = preg_replace( "#>[\W]+<#", "><", $domString );
+                //$domString = preg_replace( "#>[W]+<#", "><", $domString );
                 $domString = preg_replace( "#<paragraph>&nbsp;</paragraph>#", "<paragraph />", $domString );
                 $domString = preg_replace( "#<paragraph></paragraph>#", "", $domString );
 
