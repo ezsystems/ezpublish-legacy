@@ -1,7 +1,7 @@
 <h1>Install eZ publish 3</h1>
 
 <ul>
-	<li><a href="#Requirements">Requirements</a></li>
+
 	<li><a href="#Installers">Install eZ publish 3 with installers</a></li>
 	<ul>
 		<li><a href="#Windows">Windows installer</a></li>
@@ -23,25 +23,6 @@
 	install the software for you. You can also buy a ready hosted eZ publish 3 solution.
 </p>
 
-<h2 id="Requirements"> eZ publish 3 requirements</h2>
-<p>
-	You need to have apache and php installed to run eZ publish 3.
-	PHP needs to have compiled in support for either MySQL or PostgreSQL.
-	For image conversion support you need to have GD compiled in PHP or
-	ImageMagick installed on your system.
-</p>
-
-<ul>
-	<li>PHP >= 4.1.x <br /><a href="http://www.php.net">http://www.php.net </a> </li>
-	<li>Apache 1.3 (apache 2.0 might/might not work) <br /><a href="http://www.apache.org">http://www.apache.org</a></li>
-	<li>Either MySQL or PostgreSQL <br /><a href="http://www.mysql.org">http://www.mysql.org</a><br /><a href="http://www.postgresql.org">http://www.postgresql.org</a></li>
-	<li> ImageMagick and/or GD compiled in PHP for image conversion (not required) <br /><a href="http://www.imagemagick.org">http://www.imagemagick.org</a></li>
-</ul>
-
-<p>
-	The installation process for the above programs are very well documented on
-	their homepage, so we will not include that here.
-</p>
 
 
 <h2 id="Installers">Install eZ publish 3 with installers</h2>
@@ -115,6 +96,6 @@
 </ol>
 
 <p>
-	Installation of eZ publish 3is now done. You can access the demo site at:
+	Installation of eZ publish 3 is now done. You can access the demo site at:
 	http://localhost:1337 and the default admin site at http://localhost:1338
 </p>
