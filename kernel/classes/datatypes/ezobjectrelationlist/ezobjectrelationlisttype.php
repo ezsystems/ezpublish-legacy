@@ -699,7 +699,6 @@ class eZObjectRelationListType extends eZDataType
         else if ( $action == 'set_object_relation_list' )
         {
             $selectedObjectIDArray = $http->postVariable( "SelectedObjectIDArray" );
-            $objectID = $selectedObjectIDArray[0];
             $content = $contentObjectAttribute->content();
             $priority = 0;
             for ( $i = 0; $i < count( $content['relation_list'] ); ++$i )
@@ -707,9 +706,15 @@ class eZObjectRelationListType extends eZDataType
                 if ( $content['relation_list'][$i]['priority'] > $priority )
                     $priority = $content['relation_list'][$i]['priority'];
             }
-            $content['relation_list'][] =& $this->appendObject( $objectID, $priority + 1, $contentObjectAttribute );
-            $contentObjectAttribute->setContent( $content );
-            $contentObjectAttribute->store();
+
+            $objectID = $selectedObjectIDArray[0];
+            foreach ( $selectedObjectIDArray as $objectID )
+            {
+                ++$priority;
+                $content['relation_list'][] =& $this->appendObject( $objectID, $priority, $contentObjectAttribute );
+                $contentObjectAttribute->setContent( $content );
+                $contentObjectAttribute->store();
+            }
         }
         else
         {

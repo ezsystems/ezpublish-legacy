@@ -9,6 +9,8 @@ Changes from 3.3-3 to 3.3-4
 - Fixed wrong matchfile settings for shop templates.
 - Added CGI warning text to accept path info test, since the test will detect both.
 - Added check if basket item exists before we remove it ( merged from stable/3.2 r5177 )
+- Added possibility to add multiple objects to a objectrelationlist in the browse view
+  http://ez.no/community/bug_reports/ezobjectrelationlist_doesn_t_support_multiple_values
 
 
 *Setup:
