@@ -16,7 +16,7 @@
     {* Title. *}
     <div class="block">
         <label>{"Name"|i18n( 'design/admin/rss/edit_import' )}:</label>
-        <input class="halfbox" type="text" name="name" value="{$rss_import.name|wash}" title="{'Name of the rss import. This name is used in the administration interface only to distinguish the different imports from eachother.'|i18n('design/admin/rss/edit_import')}" />
+        <input class="halfbox" type="text" name="name" value="{$rss_import.name|wash}" title="{'Name of the rss import. This name is used in the administration interface only, to distinguish the different imports from eachother.'|i18n('design/admin/rss/edit_import')}" />
     </div>
 
     {* URL. *}
