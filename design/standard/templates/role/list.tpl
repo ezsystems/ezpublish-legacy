@@ -23,10 +23,10 @@
 	<a href={concat("/role/edit/",$All:item.id)|ezurl}><img src={"edit.gif"|ezimage} alt="{'Edit'|i18n('design/standard/role')}" title="{'Edit role'|i18n('design/standard/role')}" /></a>
     </td>
     <td class="{$All:sequence}">
-	<a href={concat("/role/assign/",$All:item.id)|ezurl}><img src={"attach.png"|ezimage} alt="{'Assign'|i18n('design/standard/role')}" title="{'Assign role to user or group'|i18n('design/standard/role')}" /></a>
+	<a href={concat("/role/assign/",$All:item.id)|ezurl}><img src={"assign.gif"|ezimage} alt="{'Assign'|i18n('design/standard/role')}" title="{'Assign role to user or group'|i18n('design/standard/role')}" /></a>
     </td>
 {*    <td class="{$All:sequence}">
-	<a href={concat("/role/assign/",$All:item.id,"/subtree")|ezurl}><img src={"attach.png"|ezimage} alt="{'Assign'|i18n('design/standard/role')}" title="{'Assign role to user or group to subtree'|i18n('design/standard/role')}" /></a>
+	<a href={concat("/role/assign/",$All:item.id,"/subtree")|ezurl}><img src={"assign.gif"|ezimage} alt="{'Assign'|i18n('design/standard/role')}" title="{'Assign role to user or group to subtree'|i18n('design/standard/role')}" /></a>
     </td> *}
     <td class="{$All:sequence}" align="right" width="1">
 	<input type="checkbox" name="DeleteIDArray[]" value="{$All:item.id}" />
