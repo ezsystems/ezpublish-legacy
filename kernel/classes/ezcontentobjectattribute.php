@@ -123,6 +123,7 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                       "contentclass_attribute_name" => "contentClassAttributeName",
                                                       "can_translate" => "contentClassAttributeCanTranslate",
                                                       "is_information_collector" => "contentClassAttributeIsInformationCollector",
+                                                      "is_required" => "contentClassAttributeIsRequired",
                                                       "content" => "content",
                                                       'has_http_value' => 'hasHTTPValue',
                                                       'value' => 'value',
@@ -136,9 +137,9 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                       "validation_error" => "validationError",
                                                       "validation_log" => "validationLog",
                                                       "language" => "language",
-                                                      "is_a" => "isA",
-                                                      'xml' => 'xml',
-                                                      'xml_editor' => 'xmlEditor'
+                                                      "is_a" => "isA"//,
+                                                      //'xml' => 'xml',
+                                                      //'xml_editor' => 'xmlEditor'
                                                       ),
                       "increment_key" => "id",
                       "class_name" => "eZContentObjectAttribute",
@@ -389,6 +390,23 @@ class eZContentObjectAttribute extends eZPersistentObject
     function setContentClassAttributeName( $name )
     {
         $this->ContentClassAttributeName = $name;
+    }
+
+    /*!
+     \returns the cached value of the IsRequired value
+    */
+    function contentClassAttributeIsRequired()
+    {
+        if ( $this->ContentClassAttributeIsRequired === null )
+        {
+            eZDebug::accumulatorStart( 'class_a_is_req', 'Sytem overhead', 'Fetch class attribute is_required' );
+
+            $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
+            $this->ContentClassAttributeIsRequired = $classAttribute->attribute( 'is_required' );
+            eZDebug::accumulatorStart( 'class_a_is_req' );
+        }
+
+        return $this->ContentClassAttributeIsRequired;
     }
 
     /*!
@@ -1111,6 +1129,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     var $ContentClassAttributeCanTranslate;
     var $ContentClassAttributeName;
     var $ContentClassAttributeIsInformationCollector;
+    var $ContentClassAttributeIsRequired;
 }
 
 ?>
