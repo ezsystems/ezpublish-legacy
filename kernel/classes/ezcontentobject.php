@@ -526,11 +526,18 @@ class eZContentObject extends eZPersistentObject
     /*!
       \return an array of versions for the current object.
     */
-    function versions( $asObject = true )
+    function versions( $asObject = true, $parameters = array() )
     {
+        $conditions = array( "contentobject_id" => $this->ID );
+        if ( isset( $parameters['conditions'] ) )
+        {
+            if ( isset( $parameters['conditions']['status'] ) )
+                $conditions['status'] = $parameters['conditions']['status'];
+            if ( isset( $parameters['conditions']['creator_id'] ) )
+                $conditions['creator_id'] = $parameters['conditions']['creator_id'];
+        }
         return eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
-                                                    null, array( "contentobject_id" => $this->ID
-                                                                 ),
+                                                    null, $conditions,
                                                     null, null,
                                                     $asObject );
     }

@@ -45,7 +45,56 @@ if ( !$obj )
 if ( !$obj->attribute( 'can_edit' ) )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
-if ( !function_exists ( 'checkForExistingVersion'  ) )
+$classID = $obj->attribute( 'contentclass_id' );
+$class =& eZContentClass::fetch( $classID );
+
+$http =& eZHTTPTool::instance();
+
+if ( $http->hasPostVariable( 'EditButton' ) )
+{
+    if ( $http->hasPostVariable( 'SelectedVersion' ) )
+    {
+        $selectedVersion = $http->postVariable( 'SelectedVersion' );
+        return $Module->redirectToView( "edit", array( $ObjectID, $selectedVersion, $EditLanguage ) );
+    }
+}
+else if ( $http->hasPostVariable( 'NewButton' ) )
+{
+    $version =& $obj->createNewVersion();
+    return $Module->redirectToView( "edit", array( $ObjectID, $version->attribute( "version" ), $EditLanguage ) );
+}
+
+if ( is_numeric( $EditVersion ) )
+{
+    $version =& $obj->version( $EditVersion );
+    if ( $version === null )
+    {
+        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    }
+}
+else
+{
+    $draftVersions =& $obj->versions( true, array( 'conditions' => array( 'status' => EZ_VERSION_STATUS_DRAFT ) ) );
+    if ( count( $draftVersions ) > 0 )
+    {
+        include_once( 'kernel/common/template.php' );
+        $tpl =& templateInit();
+
+        $res =& eZTemplateDesignResource::instance();
+        $res->setKeys( array( array( 'object', $obj->attribute( 'id' ) ),
+                              array( 'class', $class->attribute( 'id' ) ) ) );
+
+        $tpl->setVariable( 'object', $obj );
+        $tpl->setVariable( 'class', $class );
+        $tpl->setVariable( 'draft_versions', $draftVersions );
+
+        $Result = array();
+        $Result['content'] =& $tpl->fetch( 'design:content/edit_draft.tpl' );
+        return $Result;
+    }
+}
+
+if ( !function_exists( 'checkForExistingVersion'  ) )
 {
     function checkForExistingVersion( &$module, $objectID, &$editVersion, &$editLanguage )
     {

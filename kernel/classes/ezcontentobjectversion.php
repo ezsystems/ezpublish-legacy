@@ -68,6 +68,7 @@ class eZContentObjectVersion extends eZPersistentObject
         $this->DataMap = false;
         $this->TempNode = null;
         $this->VersionName = null;
+        $this->VersionNameCache = array();
         $this->eZPersistentObject( $row );
     }
 
@@ -109,6 +110,7 @@ class eZContentObjectVersion extends eZPersistentObject
                       'function_attributes' => array( // 'data' => 'fetchData',
                                                       'creator' => 'creator',
                                                       "name" => "name",
+                                                      "version_name" => "versionName",
                                                       'main_parent_node_id' => 'mainParentNodeID',
                                                       "contentobject_attributes" => "contentObjectAttributes",
                                                       "related_contentobject_array" => "relatedContentObjectArray",
@@ -144,6 +146,7 @@ class eZContentObjectVersion extends eZPersistentObject
     {
         return $attr == 'creator'
             or $attr == 'name'
+            or $attr == 'version_name'
             or $attr == 'main_parent_node_id'
             or $attr == 'parent_nodes'
             or $attr == 'node_assignments'
@@ -177,6 +180,10 @@ class eZContentObjectVersion extends eZPersistentObject
         else if ( $attr == 'name' )
         {
             return $this->name();
+        }
+        else if ( $attr == 'version_name' )
+        {
+            return $this->versionName();
         }
         elseif ( $attr == 'main_parent_node_id' )
         {
@@ -276,6 +283,27 @@ class eZContentObjectVersion extends eZPersistentObject
             $this->VersionName = $contentObject->name( $lang );
         }
         return $this->VersionName;
+    }
+
+    /*!
+     \return the name of the current version, optionally in the specific language \a $lang
+    */
+    function &versionName( $lang = false )
+    {
+        if ( !$lang )
+            $lang = eZContentObject::defaultLanguage();
+        if ( isset( $this->VersionNameCache[$lang] ) )
+            return $this->VersionNameCache[$lang];
+        $object =& $this->attribute( 'contentobject' );
+        if ( !$object )
+            return false;
+        $class =& $object->attribute( 'content_class' );
+        if ( !$class )
+            return false;
+        $this->VersionNameCache[$lang] = $class->contentObjectName( $object,
+                                                                    $this->attribute( 'version' ),
+                                                                    $lang );
+        return $this->VersionNameCache[$lang];
     }
 
     /*!
