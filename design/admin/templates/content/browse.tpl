@@ -141,9 +141,9 @@
 
     {* Replaces node_view_gui... *}
     {section show=$browse.ignore_nodes_click|contains( $Object:item.node_id )|not}
-        {$Object:item.object.class_name|class_icon( small, $Object:item.object.class_identifier )}&nbsp;<a href={concat( '/content/browse/', $Object:item.node_id )|ezurl}>{$Object:item.name|wash}</a>
+        {$Object:item.object.class_identifier|class_icon( small, $Object:item.object.class_name )}&nbsp;<a href={concat( '/content/browse/', $Object:item.node_id )|ezurl}>{$Object:item.name|wash}</a>
     {section-else}
-        {$Object:item.object.class_name|class_icon( small, $Object:item.object.class_identifier )}&nbsp;{$Object:item.name|wash}
+        {$Object:item.object.class_identifier|class_icon( small, $Object:item.object.class_name )}&nbsp;{$Object:item.name|wash}
     {/section}
 
     {* node_view_gui view=line content_node=$Object:item node_url=cond( $browse.ignore_nodes_click|contains($Object:item.node_id)|not(), concat( 'content/browse/', $Object:item.node_id, '/' ), false() )*}
