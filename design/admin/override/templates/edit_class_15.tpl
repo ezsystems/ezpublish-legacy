@@ -20,12 +20,6 @@
     </div>
 
     <div class="block">
-    <label>Meta data:</label><div class="labelbreak"></div>
-        <input type="hidden" name="ContentObjectAttribute_id[]" value="{$content_attributes[1].id}" />
-        {attribute_edit_gui attribute=$object.data_map.meta_data}
-    </div>
-
-    <div class="block">
     <label>Logo:</label><div class="labelbreak"></div>
         <input type="hidden" name="ContentObjectAttribute_id[]" value="{$content_attributes[2].id}" />
         {attribute_edit_gui attribute=$object.data_map.image}
@@ -35,6 +29,18 @@
     <label>Appearance:</label><div class="labelbreak"></div>
         <input type="hidden" name="ContentObjectAttribute_id[]" value="{$content_attributes[3].id}" />
         {attribute_edit_gui attribute=$object.data_map.css}
+    </div>
+
+    <div class="block">
+    <label>Meta data:</label><div class="labelbreak"></div>
+        <input type="hidden" name="ContentObjectAttribute_id[]" value="{$content_attributes[1].id}" />
+        {attribute_edit_gui attribute=$object.data_map.meta_data}
+    </div>
+
+    <div class="block">
+    <label>Admin Email:</label><div class="labelbreak"></div>
+        <input type="hidden" name="ContentObjectAttribute_id[]" value="{$content_attributes[5].id}" />
+        {attribute_edit_gui attribute=$object.data_map.email}
     </div>
 
     <input type="hidden" name="ContentObjectAttribute_id[]" value="{$content_attributes[4].id}" />
