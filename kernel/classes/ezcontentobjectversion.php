@@ -124,18 +124,28 @@ class eZContentObjectVersion extends eZPersistentObject
     function &mainParentNodeID()
     {
         $temp =& eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ), $this->attribute( 'version' ), 1 );
+        if( $temp == null )
+        {
+            return 1;
+        }
         return $temp[0]->attribute( 'parent_node' );
+        
     }
 
     function &parentNodes( )
     {
         $retNodes = array();
         $nodeAssignmentList =& eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ),$this->attribute( 'version' ) );
+
         foreach ( array_keys( $nodeAssignmentList ) as $key )
         {
             $nodeAssignment =& $nodeAssignmentList[$key];
-            $retNodes[] =& $nodeAssignment->attribute( 'parent_node_obj' );
+            if( $nodeAssignment->attribute( 'parent_node' ) != '1' )
+            {
+                $retNodes[] =& $nodeAssignment->attribute( 'parent_node_obj' );
+            }
         }
+        
         return $retNodes;
     }
     function &nodeAssignments()
@@ -173,12 +183,16 @@ class eZContentObjectVersion extends eZPersistentObject
      Returns the attributes for the current content object version. The wanted language
      must be specified.
     */
-    function attributes( $language = false, $as_object = true )
+/*    function contentObjectAtributes( $language = false, $as_object = true )
     {
+        print( "inside attributes<br>" );
+        flush();
+
         if ( $language === false )
         {
             $language = eZContentObject::defaultLanguage();
         }
+
         return eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
                                                     null, array( "version" => $this->Version,
                                                                  "contentobject_id" => $this->ContentObjectID,
@@ -187,7 +201,7 @@ class eZContentObjectVersion extends eZPersistentObject
                                                     null, null,
                                                     $as_object );
     }
-
+*/
     function &fetch( $id, $as_object = true )
     {
         return eZPersistentObject::fetchObject( eZContentObjectVersion::definition(), $id, $as_object );
@@ -272,12 +286,13 @@ class eZContentObjectVersion extends eZPersistentObject
      Returns the attributes for the current content object version.
      If \a $language is not specified it will use eZContentObject::defaultLanguage.
     */
-    function attributes( $language = false, $asObject = true )
+    function &contentObjectAttributes( $language = false, $asObject = true )
     {
         if ( $language === false )
         {
             $language = eZContentObject::defaultLanguage();
         }
+
         return eZContentObjectVersion::fetchAttributes( $this->Version, $this->ContentObjectID, $language, $asObject );
     }
 
@@ -287,11 +302,12 @@ class eZContentObjectVersion extends eZPersistentObject
      \static
      \sa attributes
     */
-    function fetchAttributes( $version, $contentObjectID, $language, $asObject = true )
+    function &fetchAttributes( $version, $contentObjectID, $language, $asObject = true )
     {
+
         return eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
-                                                    null, array( "version" => $this->Version,
-                                                                 "contentobject_id" => $this->ContentObjectID,
+                                                    null, array( "version" => $version,
+                                                                 "contentobject_id" => $contentObjectID,
                                                                  "language_code" => $language
                                                                  ),
                                                     null, null,

@@ -34,7 +34,6 @@
 include_once( 'kernel/classes/eztrigger.php' );
 
 $Module =& $Params["Module"];
-
 include_once( 'kernel/content/node_edit.php' );
 initializeNodeEdit( $Module );
 include_once( 'kernel/content/relation_edit.php' );
@@ -88,11 +87,14 @@ function checkContentActions( &$module, &$class, &$object, &$version, &$contentO
 
     if ( $module->isCurrentAction( 'Publish' ) )
     {
-
         $nodeAssignmentList =& $version->attribute( 'node_assignments' );
+//            exit();
+
+
         $count = 0;
         foreach ( array_keys( $nodeAssignmentList ) as $key )
         {
+        
             $nodeAssignment =& $nodeAssignmentList[$key];
             $status = eZTrigger::runTrigger( 'content',
                                              'publish',
@@ -111,22 +113,41 @@ function checkContentActions( &$module, &$class, &$object, &$version, &$contentO
 //                print( "<br> we are going to publish in check action" );
 //                flush();
 
+                
                 $object->setAttribute( 'current_version', $EditVersion );
                 $object->setAttribute( 'modified', mktime() );
                 $object->setAttribute( 'published', mktime() );
+
                 $object->store();
 
+
                 $nodeID = $nodeAssignment->attribute( 'parent_node' );
+
                 $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
-                if ( ( $existingNode =& $parentNode->findNode( $parentNode->attribute( 'node_id' ), $object->attribute( 'id' ), true ) ) == null )
+/*
+                var_dump( $existingNode );
+                print("<br>");
+                var_dump( $nodeAssignment );
+                print("<br>");
+                print( $version->attribute( 'main_parent_node_id' ) . "\n bbbb" );
+                print("<br>");
+                exit();
+*/
+
+                $existingNode =& eZContentObjectTreeNode::findNode( $nodeID, $object->attribute( 'id' ), true );
+
+
+                if ( $existingNode  == null )
                 {
+
+                    $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
                     $existingNode =&  $parentNode->addChild( $object->attribute( 'id' ), 0, true );
+
                 }
+  
+ 
                 $existingNode->setAttribute( 'contentobject_version', $version->attribute( 'version' ) );
                 $existingNode->setAttribute( 'contentobject_is_published', 1 );
-//                var_dump( $version );
-//                print( $version->attribute( 'main_parent_node_id' ) . "\n bbbb" );
-//                var_dump( $existingNode );
                 
                 if ( $version->attribute( 'main_parent_node_id' ) == $existingNode->attribute( 'parent_node_id' ) )
                 {
@@ -139,6 +160,7 @@ function checkContentActions( &$module, &$class, &$object, &$version, &$contentO
 //                if ( $status )
 //                    return $status;
                 $count++;
+
             }
         }
         if( !$count )
@@ -193,6 +215,7 @@ function checkContentActions( &$module, &$class, &$object, &$version, &$contentO
                     }*/
                     }
                 }
+
             }
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }

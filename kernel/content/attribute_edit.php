@@ -75,7 +75,8 @@ eZDebug::writeNotice( $version , "object version" );
 $classID = $object->attribute( 'contentclass_id' );
 
 $class =& eZContentClass::fetch( $classID );
-$contentObjectAttributes =& $version->attributes();
+$contentObjectAttributes =& $version->contentObjectAttributes();
+
 eZDebug::writeNotice($contentObjectAttributes,"obj attributes" );
 
 

@@ -62,7 +62,7 @@ class eZSearchEngine
         $currentVersion =& $contentObject->currentVersion();
 
         $indexArray = array();
-        foreach ( $currentVersion->attributes() as $attribute )
+        foreach ( $currentVersion->contentObjectAttributes() as $attribute )
         {
             $classAttribute =& $attribute->contentClassAttribute();
             if ( $classAttribute->attribute( "is_searchable" ) == 1 )

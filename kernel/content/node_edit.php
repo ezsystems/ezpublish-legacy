@@ -166,16 +166,22 @@ function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentOb
 {
 //$nodes =& eZContentObjectTreeNode::fetchList( true, $object->attribute( 'id' ) );
 
+    
+
     $assignedNodeArray =& $version->attribute( 'parent_nodes' );
 
     // just for debug should be removed
 //    $publishedNodeList
 //         $assignedNodeArray  =& $object->parentNodes( $editVersion  );
     
+
+
     $mainParentNodeID = $version->attribute( 'main_parent_node_id' );
+
 
     $tpl->setVariable( 'assigned_node_array', $assignedNodeArray );
     $tpl->setVariable( 'main_node_id', $mainParentNodeID );
+
 }
 
 function initializeNodeEdit( &$module )

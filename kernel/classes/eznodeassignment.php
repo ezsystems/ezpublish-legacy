@@ -107,7 +107,7 @@ class eZNodeAssignment extends eZPersistentObject
     {
         $cond = array( 'contentobject_id' => $contentObjectID,
                        'contentobject_version' => $version );
-        if( $main )
+        if( $main > 0 )
         {
             $cond['main'] = 1;
         }

@@ -945,9 +945,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
                           ezcontentclass.version=0  AND
                           ezcontentclass.id = ezcontentobject.contentclass_id ";
+
+
             $nodeListArray = $db->arrayQuery( $query );
             $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
-            return $retNodeArray[0];
+
+            if ( count( $retNodeArray ) > 0 )
+            {
+                return $retNodeArray[0];
+            }
+            else
+            {
+                return null;
+            }
         }else{
             $getNodeQuery = "SELECT node_id
                            FROM ezcontentobject_tree

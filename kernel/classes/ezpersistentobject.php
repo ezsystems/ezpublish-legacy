@@ -434,7 +434,6 @@ class eZPersistentObject
         }
 
         $sqlText = "SELECT $field_text\nFROM   $table" . $where_text . $grouping_text . $sort_text;
-
         $rows =& $db->arrayQuery( $sqlText,
                                   $db_params );
 
