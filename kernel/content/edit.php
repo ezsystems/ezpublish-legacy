@@ -390,81 +390,9 @@ if ( !function_exists( 'checkContentActions' ) )
                     $module->redirectToView( 'view', array( 'full', $version->attribute( 'main_parent_node_id' ) ) );
                 }
             }
-            $ini =& eZINI::instance();
-            $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
-            $templateBlockCacheEnabled = ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' );
-
-            if ( $templateBlockCacheEnabled )
-            {
-                eZContentObject::expireTemplateBlockCache();
-            }
-
-            eZDebug::accumulatorStart( 'check_cache', '', 'Check cache' );
-            if ( $viewCacheEnabled )
-            {
-
-                include_once( 'kernel/classes/ezcontentcache.php' );
-                $nodeList = array();
-                $nodeAliasList = array();
-
-                $parentNodes =& $object->parentNodes( $EditVersion );
-                foreach ( array_keys( $parentNodes ) as $parentNodeKey )
-                {
-                    $parentNode =& $parentNodes[$parentNodeKey];
-                    $nodeList[] = $parentNode->attribute( 'node_id' );
-                }
-
-                $assignedNodes =& $object->assignedNodes();
-                foreach ( array_keys( $assignedNodes ) as $assignedNodeKey )
-                {
-                    $assignedNode =& $assignedNodes[$assignedNodeKey];
-                    $nodeList[] = $assignedNode->attribute( 'node_id' );
-                    $nodeAliasList[] = $assignedNode->attribute( 'url_alias' );
-
-                    if ( $oldObjectName != $newObjectName )
-                    {
-                        $children =& eZContentObjectTreeNode::subTree( false, $assignedNode->attribute( 'node_id' ) );
-                        foreach ( array_keys( $children ) as $childKey )
-                        {
-                            $child =& $children[$childKey];
-                            $nodeList[] = $child->attribute( 'node_id' );
-                        }
-                    }
-                }
-                $relatedObjects =& $object->contentObjectListRelatingThis();
-                foreach ( array_keys( $relatedObjects ) as $relatedObjectKey )
-                {
-                    $relatedObject =& $relatedObjects[$relatedObjectKey];
-                    $assignedNodes =& $relatedObject->assignedNodes();
-                    foreach ( array_keys( $assignedNodes ) as $assignedNodeKey )
-                    {
-                        $assignedNode =& $assignedNodes[$assignedNodeKey];
-                        $nodeList[] = $assignedNode->attribute( 'node_id' );
-                    }
-                }
-                eZDebugSetting::writeDebug( 'kernel-content-edit', count( $nodeList ), "count in nodeList " );
-                eZDebug::accumulatorStart( 'node_cleanup', '', 'Node cleanup' );
-                eZContentObject::expireComplexViewModeCache();
-                eZContentCache::subtreeCleanup( $nodeAliasList );
-                $cleanupValue = eZContentCache::calculateCleanupValue( count( $nodeList ) );
-                if ( eZContentCache::inCleanupThresholdRange( $cleanupValue ) )
-                {
-//                     eZDebug::writeDebug( 'cache file cleanup' );
-                    if ( eZContentCache::cleanup( $nodeList ) )
-                    {
-//                     eZDebug::writeDebug( 'cache cleaned up', 'content' );
-                    }
-                }
-                else
-                {
-//                     eZDebug::writeDebug( 'expire all cache files' );
-                    eZContentObject::expireAllCache();
-                }
-                eZDebug::accumulatorStop( 'node_cleanup' );
-            }
-            eZDebug::accumulatorStop( 'check_cache' );
 
             // Generate the view cache
+            $ini =& eZINI::instance();
             include_once( 'kernel/classes/eznodeviewfunctions.php' );
             eZDebug::accumulatorStart( 'generate_cache', '', 'Generating view cache' );
             if ( $ini->variable( 'ContentSettings', 'PreViewCache' ) == 'enabled' )
