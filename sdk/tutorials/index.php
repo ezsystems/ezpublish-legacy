@@ -48,9 +48,6 @@ $infoArray["trademark"] = false;
 
 $featureArray = array();
 
-$featureArray[] = array( "level" => 0,
-                         "name" => "Key concepts" );
-
 $featureArray[] = array( "uri" => "main_concepts",
                          "level" => 0,
                          "name" => "Main concepts" );
