@@ -84,6 +84,7 @@ $versions34 = array( 'unstable' => array( array( '3.3-3', '3.4.0alpha1' )
                                           ,array( '3.4.0alpha1', '3.4.0alpha2' )
                                           ,array( '3.4.0alpha2', '3.4.0alpha3' )
                                           ,array( '3.4.0alpha3', '3.4.0alpha4' )
+                                          ,array( '3.4.0alpha4', '3.4.0beta1' )
                                           ),
                      'unstable_subdir' => 'unstable',
                      'stable' => array() );
