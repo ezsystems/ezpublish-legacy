@@ -420,6 +420,9 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
                                  "eZTSTranslator::handleContextNode" );
             return false;
         }
+        if ( !isset( $this->CachedMessages[$contextName] ) )
+            $this->CachedMessages[$contextName] = array();
+
         return true;
     }
 
