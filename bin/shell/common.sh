@@ -1,12 +1,12 @@
 #!/bin/bash
 
-VERSION="3.4.0beta2"
+VERSION="3.4.0"
 VERSION_ONLY="3.4"
-VERSION_STATE="beta2"
-VERSION_PREVIOUS="3.4.0beta1"
+VERSION_STATE=""
+VERSION_PREVIOUS="3.4.0beta2"
 VERSION_BRANCH="$VERSION_ONLY"
 VERSION_NICK="$VERSION"
-DEVELOPMENT="true"
+DEVELOPMENT="false"
 
 # URLs for the various repositories
 REPOSITORY_BASE_URL="http://zev.ez.no/svn/nextgen"
