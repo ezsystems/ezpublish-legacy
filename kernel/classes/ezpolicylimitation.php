@@ -247,12 +247,15 @@ class eZPolicyLimitation extends eZPersistentObject
             foreach ( $valueList as $value )
             {
                 $subtreeObject =& eZContentObjectTreeNode::fetchByPath( $value );
-                $subtreeID = $subtreeObject->attribute( 'node_id' );
-                $subtree =& eZContentObjectTreeNode::fetch( $subtreeID );
-                $limitationValuePair = array();
-                $limitationValuePair['Name'] = $subtree->attribute( 'name' );;
-                $limitationValuePair['value'] = $value;
-                $limitationValueArray[] = $limitationValuePair;
+                if ( $subtreeObject != null )
+                {
+                    $subtreeID = $subtreeObject->attribute( 'node_id' );
+                    $subtree =& eZContentObjectTreeNode::fetch( $subtreeID );
+                    $limitationValuePair = array();
+                    $limitationValuePair['Name'] = $subtree->attribute( 'name' );;
+                    $limitationValuePair['value'] = $value;
+                    $limitationValueArray[] = $limitationValuePair;
+                }
             }
         }
         else
