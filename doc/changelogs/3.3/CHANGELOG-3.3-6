@@ -143,7 +143,10 @@ eZINI:
   (Merged from stable/3.4 rev. 7167)
 - Removed unused checkboxes and commented template code in 'url management'
   http://ez.no/community/bug_reports/unused_url_list_checkboxes
-    
+- Fixed problem with the subtree notification handler not including the ID of
+  the changed node when finding subscribed users.
+  http://ez.no/community/bug_reports/bug_notifications_still_not_working_properly
+
 *Library:
 
 eZ Locale:

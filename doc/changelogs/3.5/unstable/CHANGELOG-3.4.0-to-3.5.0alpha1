@@ -304,6 +304,10 @@ Workflow:
 - Removed unused checkboxes and commented template code in 'url management'
   http://ez.no/community/bug_reports/unused_url_list_checkboxes
   (Merged from stable/3.4 rev. 7239, 7240)
+- Fixed problem with the subtree notification handler not including the ID of
+  the changed node when finding subscribed users.
+  http://ez.no/community/bug_reports/bug_notifications_still_not_working_properly
+  (Merged from stable/3.4 rev. 7248)
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
