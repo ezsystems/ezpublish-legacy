@@ -35,22 +35,20 @@
 //
 
 
-
 /*!
-
     Step 5: Write site.ini
-
 */
-function stepFive( &$tpl, &$http, &$ini )
+function eZSetupStep( &$tpl, &$http, &$ini )
 {
     // Get our configuration
 	$testItems = configuration();
 
  	// Complete testItems with the test results
-	completeItems( $testItems, $http );
+	$nothing = array();
+	completeItems( $testItems, $http, $nothing );
+	unset( $nothing );
 
 
-	//
     // Get our variables from the post form
     $dbType      = $http->postVariable( "dbType" );
     $dbServer    = $http->postVariable( "dbServer" );
@@ -69,11 +67,24 @@ function stepFive( &$tpl, &$http, &$ini )
     $ini->setVariable( "DatabaseSettings", "Database", $dbName );
     $ini->setVariable( "DatabaseSettings", "User", $dbUser );
     $ini->setVariable( "DatabaseSettings", "Password", $dbPass );
-    $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
+    //$ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
                         
+	// Set values in i18n ini
+	$i18n = eZIni::instance( "i18n.ini", "" );
+	$i18n->setVariable( "CharacterSettings", "Charset", $siteCharset );
+	if ( $testItems["mbstring"]["pass"] == true )
+		$mbstring = "enabled";
+	else
+		$mbstring = "disabled";
+	$i18n->setVariable( "CharacterSettings", "MBStringExtension", $mbstring );
+	$savingStatus = writeIni( $i18n );
     
 	// Write ini file
-    $savingStatus = writeIni( $ini );
+	if ( $savingStatus )
+	    $savingStatus = writeIni( $ini );
+	else
+		$errorMessage = "unsuccessful (i18n.ini writing)!";
+	
     if ( $savingStatus )
     {
         $tpl->setVariable( "configWrite", "successful" );
@@ -82,7 +93,9 @@ function stepFive( &$tpl, &$http, &$ini )
     }
     else
     {
-        $tpl->setVariable( "configWrite", "unsuccessful" );
+		if ( ! isset( $errorMessage ) )
+			$errorMessage = "unsuccessful (site.ini writing)!";
+        $tpl->setVariable( "configWrite", $errorMessage );
         $tpl->setVariable( "continue", false );
     }
     
@@ -92,32 +105,9 @@ function stepFive( &$tpl, &$http, &$ini )
 
 
 
-
-/*!
-	Complete the testItems array with the values that we got of the former post form
-*/
-function completeItems( &$testItems, &$http )
-{
-	foreach( array_keys( $testItems ) as $key )
-	{
-		if ( $http->hasVariable( $key ) )
-		{
-			// Transform "true" to true and "false" to false
-			switch( $http->postVariable( $key ) )
-			{
-				case "true":
-				{
-					$testItems[$key]["pass"] = true;
-				}break;
-
-				case "false":
-				{
-					$testItems[$key]["pass"] = false;
-				}break;
-			}
-		}
-	}   
-}
+/***************************************************************/
+/****** Helping functions that are only used by this file ******/
+/***************************************************************/
 
 
 
@@ -170,10 +160,5 @@ function backupFile( $filePath )
 	// Backup the file with the right extension
 	if ( file_exists( $filePath . ".php" ) )
         $backup = rename( $filePath . ".php", $filePath . $ext ); 
-    else
-        $backup = rename( $filePath, $filePath . $ext ); 
-	
-	return $backup;
 }
-
 ?>

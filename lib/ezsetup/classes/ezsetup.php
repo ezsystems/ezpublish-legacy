@@ -40,23 +40,15 @@
 Yes, this file still needs A LOT of work.
 
 Here a short todo list (in no order):
-    - create new user for database
     - use internationalization    
     - more tests: 
-        + modules (libxml?) <- not needed
-        + functions (mbstring, ttftextbox, ...)
-        + programs (imagemagick)
         + critical combinations (winxp + php_isapi + ezsession = crash)
         + redhat: multipart/form-data
         + security tests (.htaccess, admin password) 
     - set nVH variables (siteDir, wwwDir, indexFile, includeDir)
-    - catching of more errors
-    - better dealing with errors: try to fix them!
-    - more config options for first site.ini
     - create classes
     - installation of demo data (problem: convert .tgz package to phpzip? doesnt work.)
     - register email to ez systems
-    - set charsets!
     - download of ez publish by php script
     - upgrade option
 
@@ -71,6 +63,9 @@ include_once( "lib/eztemplate/classes/eztemplateincludefunction.php" );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 
 
+// Include common functions
+include_once( "lib/ezsetup/classes/ezsetupcommon.php" );
+
 
 // Initialize template
 $tpl =& eZTemplate::instance();
@@ -78,81 +73,39 @@ $tpl->registerFunction( "section", new eZTemplateSectionFunction( "section" ) );
 $tpl->registerFunction( "include", new eZTemplateIncludeFunction() );
 
 
-// Initialize HTTP variables, etc.
+// Initialize HTTP variables
 $http =& eZHttpTool::instance();
 
-//
+
 // Test at what step we are
-//
 if ( $http->hasVariable( "nextStep" ) )
     $step = $http->postVariable( "nextStep" );
 else
     $step = 1; 
 
+
+// Some common variables for all steps
 $tpl->setVariable( "script", eZSys::serverVariable( 'PHP_SELF' ) );
 $tpl->setVariable( "step", $step );
 $tpl->setVariable( "nextStep", $step+1 );
 if ( $step > 1 )
     $tpl->setVariable( "prevStep", $step-1 );
 
-switch( $step )
+
+// Try to include the relevant file
+$includeFile = "lib/ezsetup/classes/ezsetupstep" . $step . ".php";
+if ( file_exists( $includeFile ) )
 {
-    case "5":
-    {
-		include( "ezsetupstep5.php" );
-        stepFive( $tpl, $http, $ini );
-    }break;
-    case "4":
-    {
-		include( "ezsetupstep4.php" );
-        stepFour( $tpl, $http, $ini );
-    }break;
-    case "3":
-    { 
-		include( "ezsetupstep3.php" );
-        stepThree( $tpl, $http );
-    }break;
-    case "2":
-    { 
-		include( "ezsetupstep2.php" );
-        stepTwo( $tpl, $http );
-    }break;    
-    case "1":
-    default:
-    {
-		include( "ezsetupstep1.php" );
-        stepOne( $tpl, $http );
-    }
+	include_once( $includeFile );
+    eZSetupStep( $tpl, $http, $ini );
+
+}
+else
+{
+	print "<h1>Step $step is not valid. I'm exiting...</h1>";
+	exit;
 }
 
-
-/*!
-
-    Define the test items. Also define error messages. These should later be internationalized.
-    TODO: Maybe using an .ini file would be good too? 
-
-*/
-function configuration()
-{
-	$config = eZINI::instance( "setup.ini" );
-	$namedArray = $config->getNamedArray();
-
-	// Convert the pseudo array (like "item1;item2;item3") to real arrays 
-	// and convert "true" and "false" to real true and false
-	foreach( array_keys( $namedArray ) as $mainKey )
-	{
-		foreach( array_keys( $namedArray[$mainKey] ) as $key )
-		{
-			if ( preg_match( "/;/", $namedArray[$mainKey][$key] ) )
-				$namedArray[$mainKey][$key] = preg_split( "/;/", $namedArray[$mainKey][$key] );
-			else if ( $namedArray[$mainKey][$key] == "true" )
-			    $namedArray[$mainKey][$key] = true;
-			else if ( $namedArray[$mainKey][$key] == "false" )
-			    $namedArray[$mainKey][$key] = false;
-		}
-	}
-	return $namedArray;
-}
 
 // Print debug information and exit.
 eZDebug::addTimingPoint( "End" );

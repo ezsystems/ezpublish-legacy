@@ -45,12 +45,14 @@ include_once( "lib/ezdb/classes/ezdbinterface.php" );
     Step 3: Try to create the database etc.
 
 */
-function stepThree( &$tpl, &$http )
+function eZSetupStep( &$tpl, &$http )
 {
+	// Get our configuration
     $testItems = configuration();
 
 	// Set variables to handover to next step
 	$handoverResult = array();
+    completeItems( $testItems, $http, $handoverResult );
 
     // Get our variables
 	$dbParams = array();
@@ -76,33 +78,10 @@ function stepThree( &$tpl, &$http )
 		$tpl->setVariable( "step", "2" );
 		$tpl->setVariable( "nextStep", "3" );
 		include_once( "lib/ezsetup/classes/ezsetupstep2.php" );
-		stepTwo( $tpl, $http );
+		step( $tpl, $http );
 		return;
 	}
 
-
-	// Complete testItems with the test results
-	foreach( array_keys( $testItems ) as $key )
-	{
-		if ( $http->hasVariable( $key ) )
-		{
-			switch( $http->postVariable( $key ) )
-			{
-				case "true":
-				{
-					$testItems[$key]["pass"] = true;
-				}break;
-
-				case "false":
-				{
-					$testItems[$key]["pass"] = false;
-				}break;
-			}
-		}
-		$handoverResult[] = array( "name" => $key, "value" => $testItems[$key]["pass"] ? "true" : "false" );
-	}
-
-	
     // Set template variables
     $handoverResult[] = array( "name" => "dbType", "value" => $dbParams["type"] );
     $handoverResult[] = array( "name" => "dbServer", "value" => $dbParams["server"] );    
@@ -114,13 +93,13 @@ function stepThree( &$tpl, &$http )
     $handoverResult[] = array( "name" => "dbCharset", "value" => $dbParams["charset"] );
     $handoverResult[] = array( "name" => "dbBuiltinEncoding", "value" => $dbParams["builtin_encoding"] );    
 
-    //
+    // Unfortunately we have to set them again to report it to the user
     $tpl->setVariable( "dbType", $dbParams["type"] );
     $tpl->setVariable( "dbServer", $dbParams["server"] );
     $tpl->setVariable( "dbName", $dbParams["database"] );
     $tpl->setVariable( "dbMainUser", $dbParams["main_user"] );
     $tpl->setVariable( "dbCreateUser", $dbParams["create_user"] );    
-    
+
     // The different sections	
     $tpl->setVariable( "createDb", false );
     $tpl->setVariable( "createSql", false );
@@ -136,16 +115,17 @@ function stepThree( &$tpl, &$http )
 	if ( file_exists( $dbModuleFile ) )
 		include_once( $dbModuleFile );
 	
-	
 	// Try to get a connection to the database
 	eZDebug::writeError( "Please ignore possible error message concerning connection errors of eZDB. We take care of this.", "eZSetup" ); 
 
-	// Set the right user to use
+	// Set the right user to use. We first need the main_user.
 	$dbParams["user"] = $dbParams["main_user"];
 	$dbParams["password"] = $dbParams["main_pass"];
 	
+	// Create a database object.
 	$dbObject = new $dbModule( $dbParams );
 	
+	// TODO: The error number thing is no goooood!
 	if ( $dbObject->isConnected() == false && $dbObject->errorNumber() != "1049" )
 	{
    		$tpl->setVariable( "dbConnect", "unsuccessful." );
@@ -189,13 +169,16 @@ function stepThree( &$tpl, &$http )
 
 		// Get all tables (TODO: Is this just mysql or for all dbs?)
 		$sqlQuery = "SHOW TABLES LIKE 'ez%'";
+		$dbObject->OutputSQL = false;
 		$sqlResult = $dbObject->arrayQuery( $sqlQuery );
+		$dbObject->OutputSQL = true;
 
 		// Continue, if we were successful
 		$dbError = false;
 		if ( $dbObject->errorNumber() == 0 )
 		{
 			$i = 0;
+			$dbObject->OutputSQL = false;
 			while( $i < count( $sqlResult ) )
 			{
 				$sqlQuery = "DROP TABLE " . $sqlResult[$i][0];
@@ -207,6 +190,7 @@ function stepThree( &$tpl, &$http )
 				}
 				$i++;
 			}
+			$dbObject->OutputSQL = true;
 		}
 		else
 			$dbError = true;
@@ -236,9 +220,11 @@ function stepThree( &$tpl, &$http )
 		$dbParams["user"] = $dbParams["create_user"];
 		$dbParams["password"] = $dbParams["create_pass"];
 		
-		// Try to create user
+		// Try to create user TODO: Does this work on other databases?
 		$sqlQuery = "grant all on ". $dbParams["database"] . ".* to " . $dbParams["user"] . "@localhost identified by \"" . $dbParams["password"] . "\"";
+		$dbObject->OutputSQL = false;
 		$dbObject->query( $sqlQuery );
+		$dbObject->OutputSQL = true;
 
 		// Reconnect to database with new user
 		if ( $dbObject->errorNumber() == 0 )
@@ -329,6 +315,11 @@ function stepThree( &$tpl, &$http )
 
 
 
+/***************************************************************/
+/****** Helping functions that are only used by this file ******/
+/***************************************************************/
+
+
 /*!
 	Try to get some error explanations from config or show database error
 */
@@ -350,10 +341,8 @@ function errorHandling( $testItems, $dbParams, $dbObject )
 
 
 
-/*
-
+/*!
 	Prepare the sql file so we can create the database.
- 
 */
 function prepareSqlQuery( $sqlFile )
 {

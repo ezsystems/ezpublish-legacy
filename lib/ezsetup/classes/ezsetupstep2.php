@@ -36,13 +36,18 @@
 
 
 /*!
-
     Step 2: Do some tests on the database and ask for db information
-
 */
-function stepTwo( &$tpl, &$http )
+function eZSetupStep( &$tpl, &$http )
 {
+    // Get our configuration
     $testItems = configuration();
+
+    // Set variables to handover to next step
+    $handoverResult = array();
+    completeItems( $testItems, $http, $handoverResult );
+    $tpl->setVariable( "handover", $handoverResult );
+
 
     // Get our variables
     if ( $http->hasVariable( "dbServer" ) )
@@ -57,14 +62,14 @@ function stepTwo( &$tpl, &$http )
         $dbMainUser    = $http->postVariable( "dbMainUser" );
     else
         $dbMainUser    = "root";
-    /* if ( $http->hasVariable( "dbCharset" ) )
-        $dbCharset     = $http->postVariable( "dbCharset" );
-    else
-        $dbCharset     = "iso-8859-1"; */
     if ( $http->hasVariable( "dbDeleteTables" ) && $http->postVariable( "dbDeleteTables" ) == "yes" )
         $dbDeleteTables = "checked";
     else
         $dbDeleteTables = "";
+    if ( $http->hasVariable( "dbCharset" ) )
+        $dbCharset     = $http->postVariable( "dbCharset" );
+    else
+        $dbCharset     = "iso-8859-1";
     if ( $http->hasVariable( "builtin_encoding" ) )
         $dbEncoding    = $http->postVariable( "builtin_encoding" );
     else
@@ -79,92 +84,36 @@ function stepTwo( &$tpl, &$http )
     $tpl->setVariable( "dbName", $dbName );
     $tpl->setVariable( "dbServer", $dbServer );
     $tpl->setVariable( "dbMainUser", $dbMainUser );        
-    //$tpl->setVariable( "dbCharset", $dbCharset );        
+    $tpl->setVariable( "dbCharset", $dbCharset );        
     $tpl->setVariable( "dbEncoding", $dbEncoding );        
     $tpl->setVariable( "dbCreateUser", $dbCreateUser );
     $tpl->setVariable( "dbDeleteTables", $dbDeleteTables );
 
 
-	// Get our values from the step before and set the in testItems
-	// also set our available Databases
-	$databasesArray = array();
-	foreach( array_keys( $testItems ) as $key )
-	{
-		if ( $http->hasVariable( $key ) )
-		{
-			switch( $http->postVariable( $key ) )
-			{
-				case "true":
-				{
-					$testItems[$key]["pass"] = true;
-					if ( isset( $testItems[$key]["type"] ) && $testItems[$key]["type"] == "db" )
-					{
-						$databasesArray[] = array( "name" => $testItems[$key]["modulename"], "desc" => $testItems[$key]["selectname"] );
-						if ( isset( $testItems[$key]["charsets"] ) )
-							$charsetArray = $testItems[$key]["charsets"];
-						else
-							$charsetArray[] = array( "iso-8859-1" );
-					}
-				}break;
+    // Set available databases and charsets
+    $databasesArray = array();
+    $charsetArray = array();
+    foreach( array_keys( $testItems ) as $key )
+    {
+        if ( $testItems[$key]["pass"] === true 
+             && isset( $testItems[$key]["type"] ) 
+             && $testItems[$key]["type"] == "db" )
+        {
+            $databasesArray[] = array( "name" => $testItems[$key]["modulename"], 
+                                       "desc" => $testItems[$key]["selectname"] );
+            if ( isset( $testItems[$key]["charsets"] ) )
+                $charsetArray = $testItems[$key]["charsets"];
+            else
+                $charsetArray[] = array( "iso-8859-1" );
+        }
+    }
+    $tpl->setVariable( "databasesArray", $databasesArray );
+    $tpl->setVariable( "charsetArray", $charsetArray );
 
-				case "false":
-				{
-					$testItems[$key]["pass"] = false;
-				}break;
-			}
-		}
-	}
-	$tpl->setVariable( "databasesArray", $databasesArray );
-	$tpl->setVariable( "charsetArray", $charsetArray );
-
-/* // This is a nice help for a user, but we should use eZDB for this. so commented out at the moment
-
-            switch ( $item["modulename"] )
-            {
-                case "mysql":
-                {
-                    $databaseTest = @mysql_connect( "localhost" );
-                    $tpl->setVariable( "dbServerExpl", "no server on \"localhost\" detected" );
-                    $tpl->setVariable( "dbServer", "" );
-                    switch( mysql_errno() )
-                    {
-                        case 1045: // Server runs
-                        case 0:    // Successful login (without username...tststs)
-                        {
-                            $tpl->setVariable( "dbServer", "localhost" );
-                            $tpl->setVariable( "dbServerExpl", "server detected" );
-                        }break;
-                    }
-                }break;
-                default:
-                {
-                    $tpl->setVariable( "dbserver", "localhost" );
-                    $tpl->setVariable( "dbServerExpl", "no server detected" );
-                }break;
-            }
-*/
-	
     
-    if ( $http->hasVariable( "dbServer" ) )
-        $tpl->setVariable( "dbServer", $http->postVariable( "dbServer" ) );
-    if ( $http->hasVariable( "dbName" ) )
-        $tpl->setVariable( "dbName", $http->postVariable( "dbName" ) );
-    if ( $http->hasVariable( "dbMainUser" ) )
-        $tpl->setVariable( "dbMainUser", $http->postVariable( "dbMainUser" ) );            
-    if ( $http->hasVariable( "dbCreateUser" ) )
-        $tpl->setVariable( "dbCreateUser", $http->postVariable( "dbCreateUser" ) );
-    if ( $http->hasVariable( "dbCharset" ) )
-        $tpl->setVariable( "dbCharset", $http->postVariable( "dbCharset" ) );
-    if ( $http->hasVariable( "dbEncoding" ) )
-        $tpl->setVariable( "dbEncoding", $http->postVariable( "dbEncoding" ) );
-
-	// Set variables to handover to next step
-	$handoverResult = array();
-	foreach( array_keys( $testItems ) as $key )
-		$handoverResult[] = array( "name" => $key, "pass" => $testItems[$key]["pass"] ? "true" : "false" );
-	$tpl->setVariable( "handover", $handoverResult );
-
+	// Show the template
     $tpl->display( "design/standard/templates/setup/step2.tpl" );        
 }
 
+    
 ?>

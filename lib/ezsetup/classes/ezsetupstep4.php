@@ -35,17 +35,19 @@
 //
 
 
-
 /*!
-
-    Step 4: Write site.ini
-
+    Step 4: Ask for some more input
 */
-function stepFour( &$tpl, &$http, &$ini )
+function eZSetupStep( &$tpl, &$http, &$ini )
 {
+    // Get our configuration
     $testItems = configuration();
 
-    // Get our variables
+    // Complete testItems with the test results and set the handover array
+    $handoverResult = array();
+    completeItems( $testItems, $http, $handoverResult );
+
+    // Get our variables from the form
     $dbParams["type"]     = $http->postVariable( "dbType" );
     $dbParams["server"]   = $http->postVariable( "dbServer" );
     $dbParams["database"] = $http->postVariable( "dbName" );
@@ -53,43 +55,21 @@ function stepFour( &$tpl, &$http, &$ini )
     $dbParams["password"] = $http->postVariable( "dbPass" );
     $dbParams["charset"]  = $http->postVariable( "dbCharset" );
           
-	// Complete testItems with the test results and set the handover array
-	$handoverResult = array();
-	foreach( array_keys( $testItems ) as $key )
-	{
-		if ( $http->hasVariable( $key ) )
-		{
-			switch( $http->postVariable( $key ) )
-			{
-				case "true":
-				{
-					$testItems[$key]["pass"] = true;
-				}break;
+    // Database values for the handover form
+    $handoverResult[] = array( "name" => "dbType",    "value" => $dbParams["type"]     );
+    $handoverResult[] = array( "name" => "dbServer",  "value" => $dbParams["server"]   );
+    $handoverResult[] = array( "name" => "dbName",    "value" => $dbParams["database"] );    
+    $handoverResult[] = array( "name" => "dbUser",    "value" => $dbParams["user"]     );    
+    $handoverResult[] = array( "name" => "dbPass",    "value" => $dbParams["password"] );    
+    $handoverResult[] = array( "name" => "dbCharset", "value" => $dbParams["charset"]  );    
 
-				case "false":
-				{
-					$testItems[$key]["pass"] = false;
-				}break;
-			}
-			$handoverResult[] = array( "name" => $key, "value" => $testItems[$key]["pass"] ? "true" : "false" );
-		}
-	}
-
-    // Database values
-    $handoverResult[] = array( "name" => "dbType", "value" => $dbParams["type"] );
-    $handoverResult[] = array( "name" => "dbServer", "value" => $dbParams["server"] );
-    $handoverResult[] = array( "name" => "dbName", "value" => $dbParams["database"] );    
-    $handoverResult[] = array( "name" => "dbUser", "value" => $dbParams["user"] );    
-    $handoverResult[] = array( "name" => "dbPass", "value" => $dbParams["password"] );    
-    $handoverResult[] = array( "name" => "dbCharset", "value" => $dbParams["charset"] );    
-
-	$tpl->setVariable( "handover", $handoverResult );
-	
+    // Set the template variables
+    $tpl->setVariable( "handover", $handoverResult );
+    
+    // Fill the template fields with defaults
     $tpl->setVariable( "siteName", $ini->variable( "SiteSettings", "SiteName" ) );
     $tpl->setVariable( "siteURL", $ini->variable( "SiteSettings", "SiteURL" ) );    
-
-    $charsetArray = getCharsets();
-    $tpl->setVariable( "charsetArray", $charsetArray );
+    $tpl->setVariable( "charsetArray", getCharsets() );
 
     // Show template
     $tpl->display( "design/standard/templates/setup/step4.tpl" );    
@@ -97,13 +77,20 @@ function stepFour( &$tpl, &$http, &$ini )
 
 
 
+/***************************************************************/
+/****** Helping functions that are only used by this file ******/
+/***************************************************************/
+
+
+/*!
+	Get all charsets that we support. We use the directory share/codepages for this.
+*/
 function getCharsets()
 {
     $fileArray = array();
-    $codepagesDir = eZSys::siteDir() . "/share/codepages/";
+    $codepagesDir = "share/codepages/";
     if ( $handle = opendir( $codepagesDir ) ) 
     {
-        // This is the correct way to loop over the directory.
         while ( false !== ( $file = readdir( $handle ) ) ) 
         { 
             if ( is_file( $codepagesDir . $file ) )       
@@ -114,8 +101,7 @@ function getCharsets()
         return $fileArray;
     }
     else
-    {
         return false;   
-    }
 }
+
 ?>

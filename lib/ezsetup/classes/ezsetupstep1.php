@@ -34,39 +34,67 @@
 // you.
 //
 
+// All test functions should be defined in ezsetuptests
+include( "lib/ezsetup/classes/ezsetuptests.php" );
+
+
 
 /*!
-
     Step 1: General tests and information for the databases
-
 */
-function stepOne( &$tpl, &$http )
+function eZSetupStep( &$tpl, &$http, &$ini )
 {
-    $testItems = configuration();
+	// Get our configuration
+	$testItems = configuration();
 
 	// Some variables which we need for the testing of the databases
 	$dbAvailable = false;
 	$databaseArray = array();
-    
-
-    //
+	$handoverResult = array();
+   
     // Start testing
-    //
     $resultArray = array();
     
-	// Test all items in general.ini
+	// Loop through all test items doing the tests
+	$continue = true;
 	foreach( array_keys( $testItems ) as $key )
 	{
+		// Execute the function that was defined in the configuration file
 		$resultArray[$key] = $testItems[$key]["function"]( $testItems[$key] );
+		
+		// Fill array with databases, because we have to test if one is available
 		if ( isset( $testItems[$key]["type"] ) && $testItems[$key]["type"] == "db" )
 		{
-			// Tricky reference stuff
 			$databaseArray[$key] =& $testItems[$key];
 			if ( $resultArray[$key]["pass"] == true )
 				$dbAvailable = true;
 		}
+		
+		// Set the error messages
+		if ( $resultArray[$key]["pass"] == false && $testItems[$key]["req"] == true )
+		{
+			// Don't show error message for failed db module if we have a working db module
+			if ( isset( $testItems[$key]["type"] ) && $testItems[$key]["type"] == "db" && $dbAvailable )
+			{
+			}
+			else
+			{
+				// Set the error messages on the first error not the last
+				if ( $errorSet )
+				{
+					$tpl->setVariable( "errorDescription", $testItems[$key]["error_msg"] );
+					$tpl->setVariable( "errorSuggestion", $testItems[$key]["error_sol"] );
+					$continue = false;
+				}
+			}
+		}
+
+		// Array for hidden form fields
+		$handoverResult[] = array( "name" => $key, "value" => $resultArray[$key]["pass"] ? "true" : "false" );
 	}
-	
+	$tpl->setVariable( "handover", $handoverResult );
+
+
 	// Now set the requirement of failed databases to false, because we need only one!
 	if ( $dbAvailable )
 	{
@@ -74,38 +102,18 @@ function stepOne( &$tpl, &$http )
 		{
 			if ( $resultArray[$key]["pass"] == false )
 				$databaseArray[$key]["req"] = false;
-
 		}
 	}
 	
 
-	//
 	// Loop over items for output
+	// Notice: Separate loop to keep first loop simpler. 
+	//         Maybe this should be put in first loop too.
 	$outputArray = array();
 	foreach( array_keys( $testItems ) as $key )
 	{
 		$result   =& $resultArray[$key];
 		$testItem =& $testItems[$key];
-
-		// Convert strings "true" and "false" to proper true and false
-		if ( is_string( $testItem["req"] ) )
-		{
-			switch( $testItem["req"] )
-			{
-				case "true":
-				case "yes":
-				{
-					$testItem["req"] = true;
-				}break;
-
-				case "false":
-				case "no":
-				{
-					$testItem["req"] = false;
-				}break;
-
-			}
-		}
 
 		// Title for test item
 		$desc = $testItem["desc"];
@@ -146,7 +154,7 @@ function stepOne( &$tpl, &$http )
 			}
 		}
 
-		// Put in array for template
+		// Create array for template
 		$outputArray[] = array( "desc"   => $desc,
 								"req"    => $req,
 								"status" => $status,
@@ -155,47 +163,7 @@ function stepOne( &$tpl, &$http )
 	}
 	$tpl->setVariable( "itemsResult", $outputArray );
 
-
-
-    //
-    // Now see if we have a problem
-    //
-    $continue = true;
-    
-
-	// Error reporting
-	foreach( array_keys( $testItems ) as $key)
-	{
-		if ( $resultArray[$key]["pass"] == false && $testItems[$key]["req"] == true )
-		{
-			// Don't show error message for failed db module if we have a working db module
-			if ( isset( $testItems[$key]["type"] ) && $testItems[$key]["type"] == "db" && $dbAvailable )
-			{
-				continue;
-			}
-			else
-			{
-				$tpl->setVariable( "errorDescription", $testItems[$key]["error_msg"] );
-				$tpl->setVariable( "errorSuggestion", $testItems[$key]["error_sol"] );
-				$continue = false;
-				break;
-			}
-		}
-	}
-
-
-	// Set variables to handover to next step
-	$handoverResult = array();
-	foreach( array_keys( $testItems ) as $key )
-	{
-		$handoverResult[] = array( "name" => $key, "pass" => $resultArray[$key]["pass"] ? "true" : "false" );
-	}
-	$tpl->setVariable( "handover", $handoverResult );
-
-
-    //
-    // Set handover variables and continue
-    //
+    // Set continue
     $tpl->setVariable( "continue", $continue );
     
     // Display template
@@ -205,171 +173,4 @@ function stepOne( &$tpl, &$http )
 
 
 
-/*!
-    
-    Test if PHP version is equal or greater than required version
-     
-*/
-function testPhpVersion( $argArray )
-{ 
-	$minVersion = $argArray["min_version"];
-
-    /*
-    // Get the operating systems name
-    $operatingSystem = split( " ", php_uname() );
-    $operatingSystem = strtolower( $operatingSystem[0] );
-    
-	// Find out if there is an os specific version needed
-    if ( isset( $argArray["req"][$operatingSystem] ) )
-        $neededVersion = $argArray["req"][$operatingSystem];
-    else if ( isset( $argArray["req"] ) )
-        $neededVersion = $argArray["req"];
-    else
-        $neededVersion = $argArray["req"]; 
-	*/
-
-	$neededVersion = $minVersion;
-
-    // compare the versions
-    $currentVersion = phpversion();
-    $compCurrentVersion = str_replace( ".", "", $currentVersion );
-    $compNeededVersion = str_replace( ".", "", $neededVersion );
-    if ( $compCurrentVersion >= $compNeededVersion )
-        $pass = true;
-    else
-        $pass = false;
-    
-    return array( "status" => $currentVersion, "pass"   => $pass );     
-}
-
-
-/*!
-    Test if a module is loaded
-*/
-function testModule( $argArray )
-{
-    if ( (bool) extension_loaded( $argArray["modulename"] ) )
-        $pass = true;
-    else
-        $pass = false;
-
-    return array( "status" => $pass, "pass"   => $pass );         
-}
-
-
-
-
-/*!
-	Test file permissions
-*/
-function testPermissions( $argArray )
-{
-	// Make sure, we are working in the right directory.
-	$file = eZSys::siteDir() . $argArray["file"];
-
-	if ( ! file_exists( $file ) && file_exists( $file . ".php" ) )
-        $file = $file . ".php";
-	
-	// Directories: Test, if we can create a file
-	// Files: Test, if we can open a file in writing mode
-	$pass = true;
-	if ( ! file_exists( $file ) )
-	{
-	    $pass = false;	    
-	}
-	else if ( is_dir( $file ) )
-	{
-		// TODO: Better temporary file name!
-		$tmpfname = $file . "/ezsetup.tmp";
-		$fp = fopen( $tmpfname, "w" );
-		if ( ! $fp )
-			$pass = false;
-			
-		if ( $pass )
-			$test = fwrite( $fp, "this file can be deleted. It gets created by the eZ setup module of eZ publish." );
-		if ( $pass && ! $test )
-			$pass = false;
-
-		if ( $pass )
-			$test = fclose( $fp );
-		
-		if ( $pass )
-			$test = unlink( $tmpfname );
-		if ( $pass && ! $test )
-			$pass = false;
-	}
-	else if ( is_file( $file ) )
-	{
-		$test = touch( $file );
-		if ( ! $test )
-			$pass = false;
-	}
-
-    return array( "status" => $pass, "pass"   => $pass );         
-}
-
-
-
-function testProgram( $parameters )
-{
-	$program = $parameters["program"];
-	$searchPaths = $parameters["search_paths"];
-
-	// In case we got it from ini file
-	if ( !is_array( $searchPaths ) )
-		$searchPaths = preg_split( "/;/", $searchPaths );
-
-	$pass = false;
-	$status = "not found";
-	foreach( $searchPaths as $path )
-	{
-		$pathProgram = $path . "/" . $program;
-		if ( file_exists( $pathProgram ) ) 
-		{
-			if ( function_exists( "is_executable" ) )
-			{
-				if ( is_executable( $pathProgram ) )
-				{
-					$pass = true;
-					$status = "found";
-					break;
-				}
-			}
-			else
-			{
-				// Windows system
-				$status = "found";
-				$pass = true;
-				break;
-			}
-		}
-	}
-
-	return array( "status" => $status, "pass" => $pass );
-}
-
-
-function testPHPIni( $parameters )
-{
-	$setting = $parameters["setting"];
-    $state = $parameters["state"];
-    
-    if ( (bool) ini_get( $setting ) == $state )
-        $pass = true;
-    else
-        $pass = false;
-    
-    $status = $pass;
-	return array( "status" => $status, "pass" => $pass );
-}
-
-
-function testMBString( $parameters )
-{
-    include_once( "lib/ezi18n/classes/ezmbstringmapper.php" );
-    $pass = eZMBStringMapper::hasMBStringExtension();
-    $status = $pass;
-
-    return array( "status" => $status, "pass" => $pass );
-}
 ?>
