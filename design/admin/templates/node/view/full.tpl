@@ -1,43 +1,4 @@
-{* Window controls. *}
-<div class="menu-block">
-<ul>
-    {* Content preview. *}
-    <li>
-    {section show=ezpreference( 'admin_navigation_content' )}
-        <a class="enabled" href={'/user/preferences/set/admin_navigation_content/0'|ezurl} title="{'Hide preview of content.'|i18n( 'design/admin/node/view/full' )}">{'Content preview'|i18n( 'design/admin/node/view/full' )}</a>
-    {section-else}
-        <a href={'/user/preferences/set/admin_navigation_content/1'|ezurl} title="{'Show preview of content.'|i18n( 'design/admin/node/view/full' )}">{'Content preview'|i18n( 'design/admin/node/view/full' )}</a>
-    {/section}
-    </li>
-
-    {* Additional information. *}
-    <li>
-    {section show=ezpreference( 'admin_navigation_information' )}
-        <a class="enabled" href={'/user/preferences/set/admin_navigation_information/0'|ezurl} title="{'Hide additional information.'|i18n( 'design/admin/node/view/full' )}">{'Additional information'|i18n( 'design/admin/node/view/full' )}</a>
-    {section-else}
-        <a href={'/user/preferences/set/admin_navigation_information/1'|ezurl} title="{'Show additional information.'|i18n( 'design/admin/node/view/full' )}">{'Additional information'|i18n( 'design/admin/node/view/full' )}</a>
-    {/section}
-    </li>
-
-    {* Locations. *}
-    <li>
-    {section show=ezpreference( 'admin_navigation_locations' )}
-        <a class="enabled" href={'/user/preferences/set/admin_navigation_locations/0'|ezurl} title="{'Hide location overview.'|i18n( 'design/admin/node/view/full' )}">{'Locations'|i18n( 'design/admin/node/view/full' )}</a>
-    {section-else}
-        <a href={'/user/preferences/set/admin_navigation_locations/1'|ezurl} title="{'Show location overview.'|i18n('design/admin/node/view/full')}">{'Locations'|i18n( 'design/admin/node/view/full' )}</a>
-    {/section}
-    </li>
-
-    {* Relations. *}
-    <li>
-    {section show=ezpreference( 'admin_navigation_relations' )}
-        <a class="enabled" href={'/user/preferences/set/admin_navigation_relations/0'|ezurl} title="{'Hide relation overview.'|i18n( 'design/admin/node/view/full' )}">{'Relations'|i18n( 'design/admin/node/view/full' )}</a>
-    {section-else}
-        <a href={'/user/preferences/set/admin_navigation_relations/1'|ezurl} title="{'Show relation overview.'|i18n( 'design/admin/node/view/full' )}">{'Relations'|i18n( 'design/admin/node/view/full' )}</a>
-    {/section}
-    </li>
-</ul>
-</div>
+{include uri="design:window_controls.tpl"}
 
 {* Content window. *}
 <div class="context-block">
@@ -93,28 +54,6 @@
 </div>
 
 
-{* Information window. *}
-{section show=ezpreference( 'admin_navigation_information'  )}
-    {include uri='design:information.tpl'}
-{/section}
+{include uri="design:windows.tpl"}
 
-{* Locations window. *}
-{section show=ezpreference( 'admin_navigation_locations'  )}
-    {include uri='design:locations.tpl'}
-{/section}
-
-{* Related objects window. *}
-{section show=ezpreference( 'admin_navigation_relations'  )}
-    {include uri='design:related_objects.tpl'}
-{/section}
-
-{* Children window.*}
-
-{section show=$node.object.content_class.is_container}
-    {include uri='design:children.tpl'}
-{section-else}
-    <div class="context-block">
-        <h2 class="context-title"><a href={$node.parent.url_alias|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Up one level'|i18n( 'design/admin/node/view/full' )}" title="{'Up one level'|i18n( 'design/admin/node/view/full' )}" /></a> {'This type of item can not contain any sub items.'|i18n( 'design/admin/layout' )}</h2>
-    </div>
-{/section}
 

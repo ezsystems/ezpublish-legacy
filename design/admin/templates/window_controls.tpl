@@ -1,0 +1,40 @@
+{* Window controls. *}
+<div class="menu-block">
+<ul>
+    {* Content preview. *}
+    <li>
+    {section show=ezpreference( 'admin_navigation_content' )}
+        <a class="enabled" href={'/user/preferences/set/admin_navigation_content/0'|ezurl} title="{'Hide preview of content.'|i18n( 'design/admin/node/view/full' )}">{'Content preview'|i18n( 'design/admin/node/view/full' )}</a>
+    {section-else}
+        <a href={'/user/preferences/set/admin_navigation_content/1'|ezurl} title="{'Show preview of content.'|i18n( 'design/admin/node/view/full' )}">{'Content preview'|i18n( 'design/admin/node/view/full' )}</a>
+    {/section}
+    </li>
+
+    {* Additional information. *}
+    <li>
+    {section show=ezpreference( 'admin_navigation_information' )}
+        <a class="enabled" href={'/user/preferences/set/admin_navigation_information/0'|ezurl} title="{'Hide additional information.'|i18n( 'design/admin/node/view/full' )}">{'Additional information'|i18n( 'design/admin/node/view/full' )}</a>
+    {section-else}
+        <a href={'/user/preferences/set/admin_navigation_information/1'|ezurl} title="{'Show additional information.'|i18n( 'design/admin/node/view/full' )}">{'Additional information'|i18n( 'design/admin/node/view/full' )}</a>
+    {/section}
+    </li>
+
+    {* Locations. *}
+    <li>
+    {section show=ezpreference( 'admin_navigation_locations' )}
+        <a class="enabled" href={'/user/preferences/set/admin_navigation_locations/0'|ezurl} title="{'Hide location overview.'|i18n( 'design/admin/node/view/full' )}">{'Locations'|i18n( 'design/admin/node/view/full' )}</a>
+    {section-else}
+        <a href={'/user/preferences/set/admin_navigation_locations/1'|ezurl} title="{'Show location overview.'|i18n('design/admin/node/view/full')}">{'Locations'|i18n( 'design/admin/node/view/full' )}</a>
+    {/section}
+    </li>
+
+    {* Relations. *}
+    <li>
+    {section show=ezpreference( 'admin_navigation_relations' )}
+        <a class="enabled" href={'/user/preferences/set/admin_navigation_relations/0'|ezurl} title="{'Hide relation overview.'|i18n( 'design/admin/node/view/full' )}">{'Relations'|i18n( 'design/admin/node/view/full' )}</a>
+    {section-else}
+        <a href={'/user/preferences/set/admin_navigation_relations/1'|ezurl} title="{'Show relation overview.'|i18n( 'design/admin/node/view/full' )}">{'Relations'|i18n( 'design/admin/node/view/full' )}</a>
+    {/section}
+    </li>
+</ul>
+</div>
