@@ -173,8 +173,7 @@ else
                            array( 'server' => $host,
                                   'user' => $user,
                                   'password' => $password,
-                                  'database' => $database ),
-                           true );
+                                  'database' => $database ) );
 
     if ( !$db or !$db->isConnected() )
     {
