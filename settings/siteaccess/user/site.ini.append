@@ -11,7 +11,7 @@ Database=bf
 Charset=iso-8859-1
 UseBuiltinEncoding=true
 Socket=disabled
-SQLOutput=enabled
+SQLOutput=enabled##!
 #!SQLOutput=disabled
 UsePersistentConnection=disabled
 

@@ -18,6 +18,8 @@ RESET_MARKERS=""
 
 NO_OUTPUT=""
 
+. ./bin/shell/common.sh
+
 # Check parameters
 for arg in $*; do
     case $arg in
@@ -134,12 +136,18 @@ if [ -z $RESET_MARKERS ]; then
 	OLD_PROP=`svn propget $DIST_PROP $SVN_FILE 2>/dev/null | grep -v $DIST_TYPE`
 	OLD_PROP=`echo $OLD_PROP && echo $DIST_TYPE`
 	svn propset $DIST_PROP "$OLD_PROP" $SVN_FILE &>/dev/null
-	echo -n " $file"
+	if [ -d "$file" ]; then
+	    echo -n " "`$SETCOLOR_DIR`"$file"`$SETCOLOR_NORMAL`
+	elif [ -f "$file" ]; then
+	    echo -n " "`$SETCOLOR_FILE`"$file"`$SETCOLOR_NORMAL`
+	else
+	    echo -n " $file"
+	fi
 	if [ ! -z $DIST_ALL ]; then
 	    OLD_PROP=`svn propget $DIST_DIR_PROP $SVN_FILE 2>/dev/null | grep -v $DIST_TYPE`
 	    OLD_PROP=`echo $OLD_PROP && echo $DIST_TYPE`
 	    svn propset $DIST_DIR_PROP "$OLD_PROP" $SVN_FILE &>/dev/null
-	    echo -n "[A]"
+	    echo -n "/*"
 	fi
     done
     echo

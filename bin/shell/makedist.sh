@@ -13,6 +13,10 @@ DIST_SRC=`pwd`
 FULL_EXTRA_DIRS="settings/override var/cache var/storage"
 SDK_EXTRA_DIRS="settings/override var/carhe var/storage doc/generated/html"
 
+FILTER_FILES="settings/site.ini settings/i18n.ini settings/layout.ini settings/template.ini settings/texttoimage.ini settings/units.ini settings/siteaccess/user/site.ini.append settings/siteaccess/admin/site.ini.append settings/siteaccess/sdk/site.ini.append"
+
+. ./bin/shell/common.sh
+
 function make_dir
 {
     DIR=`echo $1 | sed 's#^\./##'`
@@ -70,16 +74,16 @@ function scan_dir
 			fi
 		    fi
 		    if [ -d "$file" ]; then
-			echo -n " $file[D]"
+			echo -n " "`$SETCOLOR_DIR`"$file"`$SETCOLOR_NORMAL`"/"
 			make_dir $file
 			if [ -z $DIST_DIR_RECURSIVE ]; then
 			    scan_dir $file
 			else
-			    echo -n "[A]"
+			    echo -n "*"
 			    scan_dir_normal $file
 			fi
 		    else
-			echo -n " $file"
+			echo -n " "`$SETCOLOR_FILE`"$file"`$SETCOLOR_NORMAL`
 			copy_file $file
 		    fi
 		fi
@@ -198,6 +202,11 @@ if [ "$DIST_TYPE" == "sdk" ]; then
     echo "Copying generated documentation"
     cp -f "doc/generated/html"/* $DEST/doc/generated/html
 fi
+
+echo "Applying filters"
+for filter in $FILTER_FILES; do
+    cat $DEST/$filter | sed 's,^#!\(.*\)$,\1,' | grep -v '^..*##!' > $DEST/$filter.tmp && mv -f $DEST/$filter.tmp $DEST/$filter
+done
 
 # cat index.php | sed 's/index.php/index_sdk.php/' > $DEST/index_sdk.php
 # cp -f index.php $DEST/index.php
