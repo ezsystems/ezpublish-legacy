@@ -473,6 +473,7 @@ eZ Template:
 - Added a uniqid resource to a template to unique identify it.
 - Added an option to turn off generation of whitespace in the compiled
   templates. This is on by default.
+- Fixed faulty index on table ezurl_object_link, merged from stable/3.4 rev. 7696.
 
 eZPHPCreator:
 - Start using PHP's var_export function to generate all variables.

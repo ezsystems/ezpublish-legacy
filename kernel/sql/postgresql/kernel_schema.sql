@@ -2338,7 +2338,9 @@ CREATE TABLE ezsubtree_expiry (
 
 
 
-
+CREATE INDEX ezurl_ol_url_id ON ezurl_object_link USING btree (url_id);
+CREATE INDEX ezurl_ol_coa_id ON ezurl_object_link USING btree (contentobject_attribute_id);
+CREATE INDEX ezurl_ol_coa_version ON ezurl_object_link USING btree (contentobject_attribute_version);
 
 
 CREATE SEQUENCE ezpaymentobject_s
@@ -3345,15 +3347,6 @@ ALTER TABLE ONLY eztrigger
 
 ALTER TABLE ONLY ezurl
     ADD CONSTRAINT ezurl1023_key PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezurl_object_link
-    ADD CONSTRAINT ezurl_object_link1039_key PRIMARY KEY (url_id, contentobject_attribute_id, contentobject_attribute_version);
 
 
 
