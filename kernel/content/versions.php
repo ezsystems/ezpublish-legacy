@@ -54,6 +54,7 @@ $viewParameters = array( 'offset' => $Offset );
 $object =& eZContentObject::fetch( $ObjectID );
 $editWarning = false;
 
+$canEdit = false;
 $canRemove = false;
 
 if ( $object === null )
@@ -61,8 +62,9 @@ if ( $object === null )
 
 if ( !$object->attribute( 'can_read' ) )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
-if ( !$object->attribute( 'can_edit' ) )
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
+if ( $object->attribute( 'can_edit' ) )
+    $canEdit = true;
 
 if ( $object->attribute( 'can_remove' ) )
     $canRemove = true;
@@ -78,6 +80,8 @@ if ( $http->hasSessionVariable( 'ExcessVersionHistoryLimit' ) )
 
 if ( $http->hasPostVariable( 'RemoveButton' )  )
 {
+    if ( !$canEdit )
+        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
         $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
@@ -92,7 +96,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
 
 if ( $Module->isCurrentAction( 'Edit' )  )
 {
-    if ( !$object->attribute( 'can_edit' ) )
+    if ( !$canEdit )
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
     $versionID = false;
@@ -129,7 +133,7 @@ $versions =& $object->versions();
 
 if ( $Module->isCurrentAction( 'CopyVersion' )  )
 {
-    if ( !$object->attribute( 'can_edit' ) )
+    if ( !$canEdit )
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
     $contentINI =& eZINI::instance( 'content.ini' );
@@ -224,6 +228,7 @@ $tpl->setVariable( 'edit_version', $EditVersion );
 $tpl->setVariable( 'edit_language', $EditLanguage );
 $tpl->setVariable( 'versions', $versions );
 $tpl->setVariable( 'edit_warning', $editWarning );
+$tpl->setVariable( 'can_edit', $canEdit );
 $tpl->setVariable( 'can_remove', $canRemove );
 
 $Result = array();

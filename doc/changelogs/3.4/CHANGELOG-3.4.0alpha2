@@ -75,6 +75,8 @@ eZ PHP creator:
   http://ez.no/community/bug_reports/shop_customlist_sql_error
 - Fixed missing {section} start in ezrangeoption.tpl. (merged from 3.2 stable rev. 5487)
   http://ez.no/community/bug_reports/design_standard_content_datatype_view_plain_ezrangeoption_tpl_missing_section
+- Fixed bug in permissions for versionview. (Merged from 3.2 rev. 5501)
+  http://ez.no/community/bug_reports/unable_to_use_versionview_without_create_permission
 
 *Update
 - Added script addorderemail.php which will add email field content to table ezorder.
