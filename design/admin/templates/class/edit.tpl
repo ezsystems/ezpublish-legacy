@@ -27,7 +27,7 @@
 
 {/section}
 
-{section show=$bacis_class_attributes_initialized|not()}
+{section show=$basic_class_attributes_initialized|not()}
 <div class="message-warning">
 <h2>{"The class should have at least one attribute and nonempty 'Name' attribute"|i18n("design/admin/class/edit")}</h2>
 </div>
