@@ -89,7 +89,7 @@ class eZURLOperator
                      $value[0] != '/' )
                     $value = '/' . $value;
                 $value = $this->Sys->indexDir() . $value;
-                $value = str_replace( "//", "/", $value );
+                $value = preg_replace( "#^(//)#", "/", $value );
             } break;
 
             case $this->URLRootName:
