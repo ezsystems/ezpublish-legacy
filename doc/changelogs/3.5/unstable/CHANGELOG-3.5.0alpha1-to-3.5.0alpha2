@@ -28,3 +28,6 @@ Payment:
 - Fixed bug: Fatal Error with non-existing properties in attribute_gui_view
   with template optimization turned on.
   http://ez.no/community/bug_reports/3_5alpha1_fatal_error_if_an_attribute_don_t_exists
+- Fixed bug: Wrong check for "content/edit" privilege in user/setting.
+  (Merged from stable/3.3 rev. 8468, also in stable/3.4 rev. 8469)
+  http://ez.no/community/bug_reports/user_settings_and_no_access_canedit
