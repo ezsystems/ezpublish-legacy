@@ -16,24 +16,9 @@
 	<td>
 {*	{$node.name|texttoimage('archtura')}  *}
  	<div class="maincontentheader">
-    <h1>{$node_name}</h1>
-    </div>
+        <h1>{$node_name}</h1>
+        </div>
 	<input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
-	</td>
-	<td align="left">
-        {section show=$is_editable}
-          {switch match=$content_object.can_edit}
-	    {case match=1}
-	    <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
-	    <input class="button" type="submit" name="EditButton" value="Edit" />
-	    {/case}
-            {case match=0}
-            <div class="warning">
-            <h2>You are not allowed to edit this object</h2>
-            </div>
-            {/case}
-          {/switch}
-        {/section}
 	</td>
 </tr>
 </table>
@@ -82,9 +67,49 @@
 </tr>
 </table>
 
+{section show=$is_editable}
+   {switch match=$content_object.can_edit}
+   {case match=1}
+   <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
+   <input class="button" type="submit" name="EditButton" value="Edit" />
+   {/case}
+   {case match=0}
+   <div class="warning">
+   <h2>You are not allowed to edit this object</h2>
+   </div>
+   {/case}
+   {/switch}
+{/section}
+
+<hr noshade="noshade" />
+
 {section show=$with_children}
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <th>
+    Name
+    </th>
+    <th>
+    Class    
+    </th>
+    <th>
+    {switch match=$content_object.can_edit}
+        {case match=1}
+        {section show=eq($node.sort_array[0][0],'priority')}
+         <input class="button" type="submit"  name="UpdatePriorityButton" value="Update" />
+        {/section}
+        {/case}
+        {case match=0}
+        {/case}
+    {/switch}
+    </th>
+    <th colspan="2" align="right">
+    {section show=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
+    <input class="button" type="submit" name="RemoveButton" value="Remove" />
+    {/section}
+    </th>
+</tr>
 {section name=Child loop=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset)) sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$Child:sequence}">
@@ -114,7 +139,6 @@
 	<td class="{$Child:sequence}" align="right" width="1%">
              <input type="checkbox" name="DeleteIDArray[]" value="{$Child:item.node_id}" />
 	</td>
-	<td width="1%" class="{$Child:sequence}"><img src={"editdelete.png"|ezimage} alt="Edit" border="0" /></td>
 	{/case}
         {case} 
 	<td class="{$Child:sequence}" align="right" width="1%">
@@ -151,22 +175,9 @@
 </div>
 {/case}
 {/switch}
-{section show=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
 
-&nbsp;
-<input class="button" type="submit" name="RemoveButton" value="Remove" />
-{/section}
 <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
 
-{switch match=$content_object.can_edit}
-{case match=1}
-{section show=eq($node.sort_array[0][0],'priority')}
-         <input class="button" type="submit" align="right" name="UpdatePriorityButton" value="Update Sorting Priority" />
-{/section}
-{/case}
-{case match=0}
-{/case}
-{/switch}
 </div>
 
 {/section}

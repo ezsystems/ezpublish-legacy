@@ -33,6 +33,8 @@
 //
 
 $indexes = array();
+$indexes[] = array( "identifier" => "view/main_concepts",
+                    "name" => "Main concepts" );
 $indexes[] = array( "identifier" => "view/content_classes",
                     "name" => "Custom content" );
 $indexes[] = array( "identifier" => "view/workflows",

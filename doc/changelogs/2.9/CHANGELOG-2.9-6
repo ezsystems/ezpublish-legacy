@@ -38,6 +38,10 @@ pre_check.php:
    and fixed the validity check.
 - Validity check will now turn off policy checking, url translation, user objects, session and database.
 
+*SDK :
+- Added main concepts tutorial
+
+
 eZ setup:
 - Moved the setup code as a module, overriding the already existing setup module.
 - Added the notion of part and started work on the 'init' part which is the

@@ -61,7 +61,7 @@ interface. Then click on the apropriate group, e.g. content, where you want to p
 is just a method of categorizing your content classes for simpler administration of larger sites. Then you
 click on the "New class" button. You will then be presented to the class edit window as shown below:
 </p>
-<img src="/doc/images/class_edit.jpg" alt="Class edit" />
+<img src="/doc/images/class_edit.jpg" alt="Class edit" border="1" />
 
 <p>
 Every class has 3 attributes; object name, identifier and name. The name is the alias for the class. The
