@@ -246,13 +246,13 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 {/section}
 
 <h4>Interface mode</h4>
-<select name="InterfaceMode">
-<option>Simple</option>
-<option>Advanced</option>
-</select>
-<input type="button" name="UpdateInterfaceMode" value="OK" >
-</form>
-
+{section show=eq(ezpreference('interface_mode'),'simple')}
+<p>{"Current mode"|i18n("design/admin/layout")}:{"Simple"|i18n("design/admin/layout")}</p>
+<p><a href={"/user/preferences/set/interface_mode/advanced"|ezurl}>{"Change to advanced"|i18n("/design/admin/layout")}</a></p>
+{section-else}
+<p>{"Current mode"|i18n("design/admin/layout")}:{"Advanced"|i18n("design/admin/layout")}</p>
+<p><a href={"/user/preferences/set/interface_mode/simple"|ezurl}>{"Change to simple"|i18n("/design/admin/layout")}</a></p>
+{/section}
 
 </div>
 </div>
