@@ -1,31 +1,3 @@
-{literal}
-<script language="JavaScript1.2" type="text/javascript">
-<!--
-function toggleCheckboxes( formname, checkboxname )
-{
-    with( formname )
-        {
-        for( var i=0; i<elements.length; i++ )
-        {
-            if( elements[i].type == 'checkbox' && elements[i].name == checkboxname && elements[i].disabled == "" )
-            {
-                if( elements[i].checked == true )
-                {
-                    elements[i].checked = false;
-                }
-                else
-                {
-                    elements[i].checked = true;
-                }
-            }
-            }
-    }
-}
-//-->
-</script>
-{/literal}
-
-
 {section show=$forward_info.error}
     <div class="message-error">
         <h2>{'The requested URL forwarding could not be created.'|i18n( 'design/admin/content/urltranslator' )}<span class="time">{currentdate()|l10n(shortdatetime)}</span></h2>
@@ -151,7 +123,7 @@ function toggleCheckboxes( formname, checkboxname )
 {section show=$alias_list}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="toggleCheckboxes( document.urltranslator, 'URLAliasSelection[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/trash' )}" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.urltranslator, 'URLAliasSelection[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/trash' )}" /></th>
     <th>{'Virtual URL'|i18n( 'design/admin/content/urltranslator' )}</th>
     <th>{'System URL'|i18n( 'design/admin/content/urltranslator' )}</th>
     <th>{'Type'|i18n( 'design/admin/content/urltranslator' )}</th>

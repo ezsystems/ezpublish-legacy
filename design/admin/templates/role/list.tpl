@@ -1,30 +1,3 @@
-{literal}
-<script language="JavaScript1.2" type="text/javascript">
-<!--
-function toggleCheckboxes( formname, checkboxname )
-{
-    with( formname )
-	{
-        for( var i=0; i<elements.length; i++ )
-        {
-            if( elements[i].type == 'checkbox' && elements[i].name == checkboxname && elements[i].disabled == "" )
-            {
-                if( elements[i].checked == true )
-                {
-                    elements[i].checked = false;
-                }
-                else
-                {
-                    elements[i].checked = true;
-                }
-            }
-	    }
-    }
-}
-//-->
-</script>
-{/literal}
-
 {let number_of_items=min( ezpreference( 'admin_role_list_limit' ), 3)|choose( 10, 10, 25, 50 )}
 
 <div class="context-block">
@@ -65,7 +38,7 @@ function toggleCheckboxes( formname, checkboxname )
 
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="toggleCheckboxes( document.roles, 'DeleteIDArray[]' ); return false;"/></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="ezjs_toggleCheckboxes( document.roles, 'DeleteIDArray[]' ); return false;"/></th>
     <th>{'Name'|i18n( 'design/admin/role/list' )}</th>
     <th class="tight"> &nbsp; </th>
     <th class="tight"> &nbsp; </th>

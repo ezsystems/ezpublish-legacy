@@ -1,32 +1,3 @@
-{* Generic script for toggling the status of a bunch of checkboxes. *}
-{literal}
-<script language="JavaScript1.2" type="text/javascript">
-<!--
-function toggleCheckboxes( formname, checkboxname )
-{
-    with( formname )
-	{
-        for( var i=0; i<elements.length; i++ )
-        {
-            if( elements[i].type == 'checkbox' && elements[i].name == checkboxname && elements[i].disabled == "" )
-            {
-                if( elements[i].checked == true )
-                {
-                    elements[i].checked = false;
-                }
-                else
-                {
-                    elements[i].checked = true;
-                }
-            }
-	    }
-    }
-}
-//-->
-</script>
-{/literal}
-
-
 <div class="content-view-children">
 
 <!-- Children START -->

@@ -1,33 +1,3 @@
-{* Generic script for toggling the status of a bunch of checkboxes. *}
-{literal}
-<script language="JavaScript1.2" type="text/javascript">
-<!--
-function toggleCheckboxes( formname, checkboxname )
-{
-    with( formname )
-	{
-        for( var i=0; i<elements.length; i++ )
-        {
-            if( elements[i].type == 'checkbox' && elements[i].name == checkboxname && elements[i].disabled == "" )
-            {
-                if( elements[i].checked == true )
-                {
-                    elements[i].checked = false;
-                }
-                else
-                {
-                    elements[i].checked = true;
-                }
-            }
-	    }
-    }
-}
-//-->
-</script>
-{/literal}
-
-
-
 {let item_type=ezpreference( 'items' )
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
      list_count=fetch('content','draft_count')
@@ -74,7 +44,7 @@ function toggleCheckboxes( formname, checkboxname )
 
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" onclick="toggleCheckboxes( document.draftaction, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" onclick="ezjs_toggleCheckboxes( document.draftaction, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" /></th>
     <th>{'Name'|i18n( 'design/standard/content/draft' )}</th>
     <th>{'Type'|i18n( 'design/standard/content/draft' )}</th>
     <th>{'Section'|i18n( 'design/standard/content/draft' )}</th>

@@ -1,30 +1,3 @@
-{literal}
-<script language="JavaScript1.2" type="text/javascript">
-<!--
-function toggleCheckboxes( formname, checkboxname )
-{
-    with( formname )
-        {
-        for( var i=0; i<elements.length; i++ )
-        {
-            if( elements[i].type == 'checkbox' && elements[i].name == checkboxname && elements[i].disabled == "" )
-            {
-                if( elements[i].checked == true )
-                {
-                    elements[i].checked = false;
-                }
-                else
-                {
-                    elements[i].checked = true;
-                }
-            }
-            }
-    }
-}
-//-->
-</script>
-{/literal}
-
 <form name="grouplistform" action={concat($module.functions.grouplist.uri)|ezurl} method="post" name="GroupList">
 
 <div class="context-block">
@@ -33,7 +6,7 @@ function toggleCheckboxes( formname, checkboxname )
 <table class="list" cellspacing="0">
 {section show=$groups|count}
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="toggleCheckboxes( document.grouplistform, 'ContentClass_id_checked[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/trash' )}" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.grouplistform, 'ContentClass_id_checked[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/trash' )}" /></th>
     <th>{'Name'|i18n( 'design/admin/workflow/grouplist' )}</th>
     <th class="tight">&nbsp;</th>
 

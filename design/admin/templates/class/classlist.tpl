@@ -1,31 +1,3 @@
-{* Generic script for toggling the status of a bunch of checkboxes. *}
-{literal}
-<script language="JavaScript1.2" type="text/javascript">
-<!--
-function toggleCheckboxes( formname, checkboxname )
-{
-    with( formname )
-	{
-        for( var i=0; i<elements.length; i++ )
-        {
-            if( elements[i].type == 'checkbox' && elements[i].name == checkboxname && elements[i].disabled == "" )
-            {
-                if( elements[i].checked == true )
-                {
-                    elements[i].checked = false;
-                }
-                else
-                {
-                    elements[i].checked = true;
-                }
-            }
-	    }
-    }
-}
-//-->
-</script>
-{/literal}
-
 <div class="context-block">
 <h2 class="context-title">{$group.name|classgroup_icon( 'normal', $group.name )}&nbsp;{'%group_name [Class group]'|i18n( 'design/admin/class/classlist',, hash( '%group_name', $group.name ) )|wash}</h2>
 
@@ -70,7 +42,7 @@ function toggleCheckboxes( formname, checkboxname )
 {section show=$class_count}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" title="{'Invert selection.'|i18n( 'design/admin/class/classlist' )}" onclick="toggleCheckboxes( document.ClassList, 'DeleteIDArray[]' ); return false;" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" title="{'Invert selection.'|i18n( 'design/admin/class/classlist' )}" onclick="ezjs_toggleCheckboxes( document.ClassList, 'DeleteIDArray[]' ); return false;" /></th>
     <th>{'Name'|i18n('design/admin/class/classlist')}</th>
     <th>{'ID'|i18n('design/admin/class/classlist')}</th>
     <th>{'Identifier'|i18n('design/admin/class/classlist')}</th>

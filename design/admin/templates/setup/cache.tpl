@@ -35,7 +35,7 @@
     </div>
 {/section}
 
-<form method="post" action={"/setup/cache/"|ezurl}>
+<form name="clearcacheform" method="post" action={"/setup/cache/"|ezurl}>
 
 {* Clear caches... *}
 <div class="context-block">
@@ -63,7 +63,7 @@
 <h2 class="context-title">{'Cache overview'|i18n( 'design/admin/setup/cache' )}</h2>
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight">&nbsp;</th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.clearcacheform, 'CacheList[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/trash' )}" /></th>
     <th>{'Name'|i18n( 'design/admin/setup/cache' )}</th>
     <th>{'Path'|i18n( 'design/admin/setup/cache' )}</th>
 </tr>

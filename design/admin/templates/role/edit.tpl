@@ -1,30 +1,3 @@
-{literal}
-<script language="JavaScript1.2" type="text/javascript">
-<!--
-function toggleCheckboxes( formname, checkboxname )
-{
-    with( formname )
-	{
-        for( var i=0; i<elements.length; i++ )
-        {
-            if( elements[i].type == 'checkbox' && elements[i].name == checkboxname && elements[i].disabled == "" )
-            {
-                if( elements[i].checked == true )
-                {
-                    elements[i].checked = false;
-                }
-                else
-                {
-                    elements[i].checked = true;
-                }
-            }
-	    }
-    }
-}
-//-->
-</script>
-{/literal}
-
 <form name="roleedit" action={concat( $module.functions.edit.uri, '/', $role.id, '/' )|ezurl} method="post" >
 <div class="context-block">
 
@@ -43,7 +16,7 @@ function toggleCheckboxes( formname, checkboxname )
     <label>{'Policies'|i18n( 'design/admin/role/edit' )}</label><div class="labelbreak" />
 <table class="list" cellspacing="0">
 <tr>
-    <th><a href="" onclick="toggleCheckboxes( document.roleedit, 'DeleteIDArray[]' ); return false;"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/role/edit' )}" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" /></a></th>
+    <th><a href="" onclick="ezjs_toggleCheckboxes( document.roleedit, 'DeleteIDArray[]' ); return false;"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/role/edit' )}" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" /></a></th>
     <th>{'Module'|i18n( 'design/admin/role/edit' )}</th>
     <th>{'Function'|i18n( 'design/admin/role/edit' )}</th>
     <th>{'Limitations'|i18n( 'design/admin/role/edit' )}</th>
