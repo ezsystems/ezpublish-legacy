@@ -301,8 +301,7 @@ class eZXML
                     if ( $isCDATASection == false )
                         if ( $tagName[strlen($tagName) - 1]  != "/" )
                         {
-                            array_push( $TagStack,
-                            array( "TagName" => $justName, "ParentNodeObject" => &$currentNode ) );
+                            $TagStack[] = array( "TagName" => $justName, "ParentNodeObject" => &$currentNode );
 
                             unset( $currentNode );
                             $currentNode =& $subNode;
@@ -422,7 +421,7 @@ class eZXML
                     $attributeNamespaceURI = $attributeValue;
 
                     // change the default namespace
-                    array_push( $this->NamespaceStack, $attributeNamespaceURI );
+                    $this->NamespaceStack[] = $attributeNamespaceURI;
                 }
 
                 unset( $attrNode );

@@ -1646,9 +1646,9 @@ class eZPDFTable extends Cezpdf
      */
     function initPreStack()
     {
-        array_push( $this->PreStack, array( 'justification' => $this->justification(),
-                                            'fontSize' => $this->fontSize(),
-                                            'fontName' => 'lib/ezpdf/classes/fonts/Helvetica' ) );
+        $this->PreStack[] = array( 'justification' => $this->justification(),
+                                   'fontSize' => $this->fontSize(),
+                                   'fontName' => 'lib/ezpdf/classes/fonts/Helvetica' );
     }
 
     /**
@@ -1661,7 +1661,7 @@ class eZPDFTable extends Cezpdf
         $docSpec = array_pop( $this->PreStack );
         $this->DocSpecification[] = array ( 'docSpec' => $docSpec,
                                             'text' => $text );
-        array_push( $this->PreStack, $docSpec );
+        $this->PreStack[] = $docSpec;
     }
 
     /**
@@ -1676,7 +1676,7 @@ class eZPDFTable extends Cezpdf
                                             'isFunction' => true,
                                             'functionName' => $functionName,
                                             'parameters' => $parameters );
-        array_push( $this->PreStack, $docSpec );
+        $this->PreStack[] = $docSpec;
     }
 
 
@@ -1721,8 +1721,8 @@ class eZPDFTable extends Cezpdf
             $currentElement['fontName'] = $prevElement['fontName'];
         }
 
-        array_push( $this->PreStack, $prevElement );
-        array_push( $this->PreStack, $currentElement );
+        $this->PreStack[] = $prevElement;
+        $this->PreStack[] = $currentElement;
     }
 
     /*!

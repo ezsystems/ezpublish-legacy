@@ -2003,7 +2003,7 @@ $rbracket
                     $textName = eZTemplateCompiler::currentTextName( $parameters );
                     $php->addCodePiece( "if ( !isset( \$textStack ) )\n" .
                                         "    \$textStack = array();\n" .
-                                        "array_push( \$textStack, \$$textName );\n" .
+                                        "\$textStack[] = \$$textName;\n" .
                                         "\$$textName = '';", array( 'spacing' => $spacing ) );
                 }
                 else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_DECREASE )
@@ -2153,7 +2153,7 @@ $rbracket
                         $keyText = $php->variableText( $key, 0 );
                         $php->addCodePiece( "\$resourceFound = false;\nif ( file_exists( $phpScriptText ) )\n{\n", array( 'spacing' => $spacing ) );
 
-                        $code = "\$resourceFound = true;\narray_push( \$namespaceStack, array( \$rootNamespace, \$currentNamespace ) );\n";
+                        $code = "\$resourceFound = true;\n\$namespaceStack[] = array( \$rootNamespace, \$currentNamespace );\n";
                         if ( $newRootNamespace )
                         {
                             $newRootNamespaceText = $php->variableText( $newRootNamespace, 0, 0, false );
@@ -2186,7 +2186,7 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
                     $spacing = $currentParameters['spacing'];
                     if ( isset( $node[2]['spacing'] ) )
                         $spacing += $node[2]['spacing'];
-                    $php->addCodePiece( "array_push( \$namespaceStack, \$currentNamespace );\n", array( 'spacing' => $spacing ) );
+                    $php->addCodePiece( "\$namespaceStack[] = \$currentNamespace;\n", array( 'spacing' => $spacing ) );
                     $php->addCodePiece( '$currentNamespace .= ( $currentNamespace ? ":" : "" ) . \''. $variableData[0][1] . '\';' . "\n", array( 'spacing' => $spacing ) );
                 }
                 else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_NAMESPACE_RESTORE )

@@ -177,7 +177,7 @@ function eZTextTool_array_flatten_helper( $flattened, $input )
 {
     if ( is_array( $input ) )
         return array_merge( $flattened, array_reduce( $input, "eZTextTool_array_flatten_helper", array() ) );
-    array_push( $flattened, $input );
+    $flattened[] = $input;
     return $flattened;
 }
 */
