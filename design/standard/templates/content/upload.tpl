@@ -13,7 +13,7 @@
 
 {section show=$errors|count|gt( 0 )}
     <div class="error">
-        <h2>{"Some errors occured"|i18n( "design/standard/content/upload" )}</h2>
+        <h2>{"Some errors occurred"|i18n( "design/standard/content/upload" )}</h2>
         <ul>
             {section var=error loop=$errors}
                 <li>{$error.description}</li>

@@ -57,7 +57,7 @@ function checkAll()
 
 <p>
     {"These are the current objects you are working on. The drafts are owned by you and can only be seen by you.
-      You can either edit the drafts or remove them if you don't need them anymore."|i18n("design/standard/content/view")|nl2br}
+      You can either edit the drafts or remove them if you don't need them any more."|i18n("design/standard/content/view")|nl2br}
 </p>
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">

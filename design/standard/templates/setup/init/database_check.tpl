@@ -10,8 +10,8 @@
 {section show=$database_info.info.has_demo_data}
   {section show=$demo_data.can_unpack}
 <p>
- {"If you want you can let the setup add some demo data to your database, this demo data will give a good demonstration of the capabilites of eZ publish"|i18n("design/standard/setup/init")} {$#version.major}.{$#version.minor}.
- {"First time users are adviced to install the demo data."|i18n("design/standard/setup/init")}
+ {"If you want you can let the setup add some demo data to your database, this demo data will give a good demonstration of the capabilities of eZ publish"|i18n("design/standard/setup/init")} {$#version.major}.{$#version.minor}.
+ {"First time users are advised to install the demo data."|i18n("design/standard/setup/init")}
 </p>
 <div class="input_highlight">
 <p>

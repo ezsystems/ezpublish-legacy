@@ -5,7 +5,7 @@
 
 {section show=$filter_proccessed}
 <div class="feedback">
-{'Notification filter proccessed all available notification events'|i18n('design/standard/notification')}
+{'Notification filter processed all available notification events'|i18n('design/standard/notification')}
 </div>
 {/section}
 

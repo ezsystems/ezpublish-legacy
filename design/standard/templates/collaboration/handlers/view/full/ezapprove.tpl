@@ -43,12 +43,12 @@
   {section show=$collab_item.is_creator}
     <p>{"The content object %1 was not accepted but is available as a draft again."|i18n('design/standard/collaboration/approval',,array($contentobject_link))}</p>
     {section show=$content_version|null()|not()}
-      <p>{"You may reedit the draft and publish it, in which case an approval is required again."|i18n('design/standard/collaboration/approval')}</p>
+      <p>{"You may re-edit the draft and publish it, in which case an approval is required again."|i18n('design/standard/collaboration/approval')}</p>
       <p><a href={concat("content/edit/",$content_version.contentobject_id)|ezurl}>{"Edit the object"|i18n('design/standard/collaboration/approval')}</a></p>
     {/section}
   {section-else}
     <p>{"The content object %1 was not accepted but will be available as a draft for the author."|i18n('design/standard/collaboration/approval',,array($contentobject_link))}</p>
-    <p>{"The author can reedit the draft and publish it again, in which a new approval item is made."|i18n('design/standard/collaboration/approval')}</p>
+    <p>{"The author can re-edit the draft and publish it again, in which a new approval item is made."|i18n('design/standard/collaboration/approval')}</p>
   {/section}
 {/case}
 {case/}

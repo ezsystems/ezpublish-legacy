@@ -4,8 +4,8 @@
 <div class="element">
 <label>{'Selection method'|i18n( 'design/standard/class/datatype' )}</label><div class="labelbreak"></div>
     <p>{$content.selection_type|choose( 'Browse'|i18n( 'design/standard/class/datatype' ),
-                                        'Dropdown list'|i18n( 'design/standard/class/datatype' ),
-                                        'Dropdown tree'|i18n( 'design/standard/class/datatype' ) )}</p>
+                                        'Drop-down list'|i18n( 'design/standard/class/datatype' ),
+                                        'Drop-down tree'|i18n( 'design/standard/class/datatype' ) )}</p>
 </div>
 
 <div class="element">

@@ -3,8 +3,8 @@
 <h1>{'Information on URL'|i18n('design/standard/url')}</h1>
 {section show=$url_object.is_valid|not}
 <div class="warning">
-<p>{"The URL is not considered valid anymore."|i18n('design/standard/url')}</p>
-<p>{"This means that the url is no longer available or has been moved."|i18n('design/standard/url')}</p>
+<p>{"The URL is not considered valid any more."|i18n('design/standard/url')}</p>
+<p>{"This means that the URL is no longer available or has been moved."|i18n('design/standard/url')}</p>
 </div>
 {/section}
 <p>{"The URL points to %1."|i18n('design/standard/url',,array(concat('<a href="',$full_url,'">',$full_url,"</a>")))}</p>

@@ -9,7 +9,7 @@
     {section-else}
     <li>{"You are currently not logged in to the site, to get proper access create a new user or login with an existing user."|i18n("design/standard/error/kernel")}</li>
     {/section}
-    <li>{"You misspelled some parts of your url, try changing it."|i18n("design/standard/error/kernel")}</li>
+    <li>{"You misspelled some parts of your URL, try changing it."|i18n("design/standard/error/kernel")}</li>
 </ul>
 {section show=is_set($module_required)}
 <p>{"Permission required"|i18n("design/standard/error/kernel")}</p>
