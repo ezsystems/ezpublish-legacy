@@ -491,7 +491,14 @@ class eZTemplateCompiler
 
         $php->addCodePiece("\$oldSetArray_{$resourceData['uniqid']} = isset( \$setArray ) ? \$setArray : array();\n".
                            "\$setArray = array();\n");
-
+// Code to decrement include level of the templates
+        $php->addCodePiece( "\$tpl->Level++;\n" );
+        $php->addCodePiece( "if ( \$tpl->Level > $tpl->MaxLevel )\n".
+                            "{\n".
+                            "\$text = \$tpl->MaxLevelWarning;".
+                            "\$tpl->Level--;\n".
+                            "return;\n".
+                            "}\n" );
         if ( $resourceData['locales'] && count( $resourceData['locales'] ) )
         {
             $php->addComment( 'Locales:   ' . join( ', ', $resourceData['locales'] ) );
@@ -590,6 +597,9 @@ class eZTemplateCompiler
             );
         }
         $php->addCodePiece('$setArray = $oldSetArray_'. $resourceData['uniqid']. ";\n");
+
+// Code to decrement include level of the templates
+        $php->addCodePiece("\$tpl->Level--;\n" );
 
         $php->store( true );
 

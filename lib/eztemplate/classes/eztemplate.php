@@ -370,6 +370,12 @@ class eZTemplate
         $this->Variables = array();
         $this->Functions = array();
         $this->FunctionAttributes = array();
+
+        $ini = eZINI::instance( 'template.ini' );
+        if ( $ini->hasVariable( 'ControlSettings', 'MaxLevel' ) )
+             $this->MaxLevel = $ini->variable( 'ControlSettings', 'MaxLevel' );
+        $this->MaxLevelWarning = ezi18n( 'lib/template',
+                                         'Thee maximum nesting level of 40 has been reached. The execution is stopped to avoid infinite recursion.' );
         eZDebug::createAccumulatorGroup( 'template_total', 'Template Total' );
     }
 
@@ -577,6 +583,7 @@ class eZTemplate
                 eZDebug::writeError( "Textelements is no longer array: '$textElements'",
                                      "eztemplate::processNode::function( '$functionName' )" );
         }
+
     }
 
     function processVariable( &$textElements, $variableData, $variablePlacement, $rootNamespace, $currentNamespace )
@@ -752,6 +759,14 @@ class eZTemplate
     function processURI( $uri, $displayErrors = true, &$extraParameters,
                          &$textElements, $rootNamespace, $currentNamespace )
     {
+        $this->Level++;
+        if ( $this->Level > $this->MaxLevel )
+        {
+            eZDebug::writeError( $this->MaxLevelWarning,  "eZTemplate:processURI Level: $this->Level @ $uri" );
+            $textElements[] = $this->MaxLevelWarning;
+            $this->Level--;
+            return;
+        }
         $resourceData =& $this->loadURIRoot( $uri, $displayErrors, $extraParameters );
         if ( !$resourceData or
              ( !$resourceData['compiled-template'] and
@@ -790,6 +805,8 @@ class eZTemplate
         {
             setlocale( LC_CTYPE, $savedLocale );
         }
+        $this->Level--;
+
     }
 
     function canCompileTemplate( &$resourceData, &$extraParameters )
@@ -2465,6 +2482,9 @@ class eZTemplate
     var $WarningCount;
 
     var $AutoloadPathList;
+    /// include level
+    var $Level = 0;
+    var $MaxLevel = 40;
 
 //     var $CurrentRelatedResource;
 //     var $CurrentRelatedTemplateName;
