@@ -294,7 +294,7 @@ if ( $inputValidated == true )
             $http->setSessionVariable( "BrowseActionName", "CustomAction" );
         }
 
-        $NodeID = 1;
+        $NodeID = 2;
         $Module->redirectTo( $Module->functionURI( "browse" ) . "/" . $NodeID . "/" . $ObjectID . "/" . $EditVersion );
         return;
     }

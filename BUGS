@@ -1,0 +1,7 @@
+Known bugs in eZ publish 3.0
+----------------------------
+
+
+Versioning
+----------
+Object relations are lost when reverting to another version of the object.

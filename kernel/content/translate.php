@@ -43,7 +43,7 @@ include_once( "kernel/common/template.php" );
 
 $ObjectID = $Params["ObjectID"];
 $EditVersion = $Params["EditVersion"];
-eZDebug::writeError("####################".$node_id);
+
 $http =& eZHTTPTool::instance();
 
 if ( $http->hasPostVariable( "BackButton" )  )
@@ -77,7 +77,6 @@ $class =& eZContentClass::fetch( $classID );
 
 $originalContentAttributes =& $version->attributes();
 $translateContentAttributes =& $version->attributes( $translateToLanguage );
-
 
 if ( $http->hasPostVariable( "StoreButton" )  )
 {

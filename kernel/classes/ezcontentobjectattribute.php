@@ -125,7 +125,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             return eZPersistentObject::attribute( $attr );
     }
 
-    function &language( $languageCode = "nor-NO", $as_object=true )
+    function &language( $languageCode = "no_NO", $as_object=true )
     {
         return eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
                                                 $field_filters,

@@ -3,8 +3,7 @@
 <form action="/content/translate/{$object.id}/{$edit_version}/" method="post">
 
 <select name="TranslateToLanguage" >
-<option value="no_NO">no_NO</option>
-<option value="de_DE">de_DE</option>
+<option value="no_NO">nor-NO</option>
 </select>
 <input type="submit"  name="SelectLanguageButton" value="{"Select"|i18n}" />
 
