@@ -95,7 +95,7 @@ class eZTestSuite extends eZTestUnit
         else
         {
             eZDebug::writeWarning( "Tried to add test unit for an object which is not subclassed from eZTestUnit",
-                                   'eZTestSuit::addUnit' );
+                                   'eZTestSuite::addUnit' );
         }
     }
 }

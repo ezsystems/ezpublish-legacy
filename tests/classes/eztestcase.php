@@ -119,7 +119,7 @@ class eZTestCase extends eZTestUnit
      Adds a new test function \a $function. If \a $name is empty the function name is used as name.
      \note If the function does not exist a warning is issued and the test will not be added the unit.
     */
-    function addFunctionTest( $function, $name = false )
+    function addFunctionTest( $function, $name = false, $parameter = false )
     {
         if ( !function_exists( $function ) )
         {
@@ -127,9 +127,10 @@ class eZTestCase extends eZTestUnit
                                    'eZTestCase::addFunctionTest' );
         }
         if ( !$name )
-            $name = $method;
+            $name = $function;
         $this->addTestEntry( array( 'name' => $name,
-                                    'function' => $method ) );
+                                    'function' => $function,
+                                    'parameter' => $parameter ) );
     }
 }
 
