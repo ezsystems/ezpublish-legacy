@@ -50,11 +50,15 @@ ALTER TABLE ezrss_export_item DROP COLUMN description_tmp;
 ALTER TABLE ezsession RENAME COLUMN expiration_time TO expiration_time_tmp;
 ALTER TABLE ezsession ADD COLUMN expiration_time integer ;
 ALTER TABLE ezsession ALTER expiration_time SET DEFAULT 0 ;
+UPDATE ezsession SET expiration_time=0;
 ALTER TABLE ezsession ALTER expiration_time SET NOT NULL ;
 UPDATE ezsession SET expiration_time=expiration_time_tmp;
 ALTER TABLE ezsession DROP COLUMN expiration_time_tmp;
 CREATE INDEX expiration_time986 ON ezsession USING btree (expiration_time);
 
--- Run these two if you installed kernel_schema.sql from 3.4.0alpha1, they were missing
--- ALTER TABLE ezuser_role ADD COLUMN limit_identifier varchar(255) default '';
--- ALTER TABLE ezuser_role ADD COLUMN limit_value varchar(255) default '';
+-- Run these four if you installed kernel_schema.sql from 3.4.0alpha1, they were missing
+-- ALTER TABLE ezuser_role ADD COLUMN limit_identifier varchar(255);
+-- ALTER TABLE ezuser_role ALTER limit_identifier SET DEFAULT '';
+-- ALTER TABLE ezuser_role ADD COLUMN limit_value varchar(255);
+-- ALTER TABLE ezuser_role ALTER limit_value SET DEFAULT '';
+

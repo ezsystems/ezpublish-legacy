@@ -11,8 +11,10 @@ UPDATE ezcontentobject_tree SET modified_subnode=(SELECT max( ezcontentobject.mo
        WHERE ezcontentobject.id = tree.contentobject_id AND
              tree.path_string like ezcontentobject_tree.path_string||'%');
 
-ALTER TABLE ezuser_role ADD COLUMN limit_identifier varchar(255) default '';
-ALTER TABLE ezuser_role ADD COLUMN limit_value varchar(255) default '';
+ALTER TABLE ezuser_role ADD COLUMN limit_identifier varchar(255);
+ALTER TABLE ezuser_role ALTER limit_identifier SET DEFAULT '';
+ALTER TABLE ezuser_role ADD COLUMN limit_value varchar(255);
+ALTER TABLE ezuser_role ALTER limit_value SET DEFAULT '';
 
 ALTER TABLE ezpolicy DROP COLUMN limitation;
 
