@@ -100,8 +100,8 @@ class eZSubtreeNotificationRule extends eZPersistentObject
     function &create( $nodeID, $userID, $useDigest = 0 )
     {
         $rule =& new eZSubtreeNotificationRule( array( 'user_id' => $userID,
-                                                        'use_digest' => $useDigest,
-                                                        'node_id' => $nodeID ) );
+                                                       'use_digest' => $useDigest,
+                                                       'node_id' => $nodeID ) );
         return $rule;
     }
 

@@ -115,6 +115,9 @@ eZTime:
   http://ez.no/community/bug_reports/typo_in_kernel_content_node_edit_php
 - Fixed redirecting bug after editing classes.
   http://ez.no/community/bug_reports/no_classes_in
+- Merged error message fix in eZTemplateDesignResource from stable/3.2 rev. 4959.
+  http://ez.no/community/bug_reports/debug_output
+
 
 
 *Library:
