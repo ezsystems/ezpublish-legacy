@@ -49,3 +49,6 @@ Changes from 3.2.0-2 to 3.2-1
 
 *Misc:
 - Added the ezpublish.cron crontab file that takes care of running the runcronjobs.php script every 15th minute.
+
+*WebDAV:
+- Misc. webdav fixes: NVH compatibility; support for foreign languages (content) + some other stuff
