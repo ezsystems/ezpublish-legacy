@@ -54,6 +54,7 @@
 {/section}
 <tr>
   <td colspan="4">
+
     {include uri="design:gui/button.tpl" name=new id_name=NewWorkflowButton value="New"|i18n("design/standard/workflow")}
   </td>
   <td align="right">
