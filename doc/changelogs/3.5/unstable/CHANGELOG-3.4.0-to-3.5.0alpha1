@@ -29,6 +29,8 @@ Class:
 - Simplified creation of classes by having a 'New class' button on the group
   listing. Radio buttons were added to select the group to place the class
   in (default is the first, usually Content).
+- Storing a class will now jump to the class view instead of the group/class listing.
+  (Merged from stable/3.4 rev. 7186)
 
 *Scripts:
 eztc.php:

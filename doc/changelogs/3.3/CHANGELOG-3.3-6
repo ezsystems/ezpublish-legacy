@@ -9,6 +9,9 @@ Changes from 3.3-5 to 3.3-6
   versions and not drafts.
 - Added detection of APC in the system information page.
 
+Class:
+- Storing a class will now jump to the class view instead of the group/class listing.
+
 *Setup:
 
 *Design:
