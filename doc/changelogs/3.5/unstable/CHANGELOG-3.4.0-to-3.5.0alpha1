@@ -242,6 +242,7 @@ eZ Template:
 - Added template override for class_group.
 - Added classification as classname in xmltags
   http://ez.no/community/bug_reports/many_of_the_ezxmltags_templates_lacks_class
+- Fixed problem with array/hash creation in template compiler.
 
 *Templates:
 - Added the red color marking of titles of attributes with invalid content.
