@@ -162,6 +162,8 @@ eZINI:
   http://ez.no/community/bug_reports/admin_doesn_t_show_more_than_15_items_google_tpl_doesn_t_work
 - Fixed bug for extract in  lib/eztemplate/classes/eztemplatearrayoperator.php.
   http://ez.no/community/bug_reports/extract_doesn_t_work_properly
+- Fixed bug with not using an entered MySQL socket during setup
+  http://ez.no/community/bug_reports/setup_wizard_mysql_socket_field_is_omitted
 *Library:
 
 eZ Locale:
