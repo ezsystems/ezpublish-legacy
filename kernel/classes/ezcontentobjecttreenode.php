@@ -254,6 +254,22 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             return $this->url();
         }
+        else if ( $attr == 'can_read' )
+        {
+            return $this->canRead();
+        }
+        else if ( $attr == 'can_create' )
+        {
+            return $this->canCreate();
+        }
+        else if ( $attr == 'can_edit' )
+        {
+            return $this->canEdit();
+        }
+        else if ( $attr == 'can_remove' )
+        {
+            return $this->canRemove();
+        }
         else
             return eZPersistentObject::attribute( $attr );
     }
@@ -398,6 +414,36 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $this->Permissions["can_read"] = $this->checkAccess( 'read' );
         }
         $p = ( $this->Permissions["can_read"] == 1 );
+        return $p;
+    }
+
+    function canEdit( )
+    {
+        if ( !isset( $this->Permissions["can_edit"] ) )
+        {
+            $this->Permissions["can_edit"] = $this->checkAccess( 'edit' );
+        }
+        $p = ( $this->Permissions["can_edit"] == 1 );
+        return $p;
+    }
+
+    function canCreate( )
+    {
+        if ( !isset( $this->Permissions["can_create"] ) )
+        {
+            $this->Permissions["can_create"] = $this->checkAccess( 'create' );
+        }
+        $p = ( $this->Permissions["can_create"] == 1 );
+        return $p;
+    }
+
+    function canRemove( )
+    {
+        if ( !isset( $this->Permissions["can_remove"] ) )
+        {
+            $this->Permissions["can_remove"] = $this->checkAccess( 'remove' );
+        }
+        $p = ( $this->Permissions["can_remove"] == 1 );
         return $p;
     }
 

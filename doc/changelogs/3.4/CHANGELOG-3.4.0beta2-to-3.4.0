@@ -11,6 +11,8 @@ Changes from 3.4.0beta2 to 3.4.0
   http://ez.no/community/bug_reports/ezsoap_registerfunction_is_useless_invalid_code
 - Fixed bug with cleaning up subtree-expiry affected cache-blocks.
   http://ez.no/community/bug_reports/cache_block_subtree_expiry_table_won_t_be_cleaned_if_an_object_is_deleted
+- Fixed bug of missing function canEdit(), canCreate(), canRemove() in eZContentObjectTreeNode.
+  http://ez.no/community/bug_reports/missing_permission_functoins_in_ezcontentobjecttreenode
 
 *Library:
 
