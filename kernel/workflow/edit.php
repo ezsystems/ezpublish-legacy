@@ -137,26 +137,28 @@ if ( $http->hasPostVariable( "DiscardButton" ) )
     else
         return $Module->redirectToView( 'grouplist' );
 }
-if ( $http->hasPostVariable( "AddGroupButton" ) )
+
+$validation = array( 'processed' => false,
+                     'groups' => array(),
+                     'attributes' => array() );
+
+if ( $http->hasPostVariable( "AddGroupButton" ) && $http->hasPostVariable( "Workflow_group") )
 {
-    if ( $http->hasPostVariable( "Workflow_group") )
-    {
-        $selectedGroup = $http->postVariable( "Workflow_group" );
-        list ( $groupID, $groupName ) = split( "/", $selectedGroup );
-        $ingroup =& eZWorkflowGroupLink::create( $WorkflowID, $WorkflowVersion, $groupID, $groupName );
-        $ingroup->store();
-    }
+    include_once( "kernel/workflow/ezworkflowfunctions.php" );
+
+    $selectedGroup = $http->postVariable( "Workflow_group" );
+    eZWorkflowFunctions::addGroup( $WorkflowID, $WorkflowVersion, $selectedGroup );
 }
 
-if ( $http->hasPostVariable( "DeleteGroupButton" ) )
+if ( $http->hasPostVariable( "DeleteGroupButton" ) && $http->hasPostVariable( "group_id_checked" ) )
 {
-    if ( $http->hasPostVariable( "group_id_checked") )
+    include_once( "kernel/workflow/ezworkflowfunctions.php" );
+
+    $selectedGroup = $http->postVariable( "group_id_checked" );
+    if ( !eZWorkflowFunctions::removeGroup( $WorkflowID, $WorkflowVersion, $selectedGroup ) )
     {
-        $selectedGroup = $http->postVariable( "group_id_checked" );
-        foreach(  $selectedGroup as $group_id )
-        {
-            eZWorkflowGroupLink::remove( $WorkflowID, $WorkflowVersion , $group_id );
-        }
+        $validation['groups'][] = array( 'text' => ezi18n( 'kernel/workflow', 'You have to have at least one group that the workflow belongs to!' ) );
+        $validation['processed'] = true;
     }
 }
 
@@ -328,6 +330,7 @@ $tpl->setVariable( "workflow", $workflow );
 $tpl->setVariable( "event_list", $event_list );
 $tpl->setVariable( "workflow_type_list", $type_list );
 $tpl->setVariable( "workflow_type", $cur_type );
+$tpl->setVariable( 'validation', $validation );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:workflow/edit.tpl" );

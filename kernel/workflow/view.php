@@ -38,6 +38,9 @@ include_once( "kernel/classes/ezworkflowgrouplink.php" );
 include_once( "kernel/common/template.php" );
 
 $Module =& $Params["Module"];
+$http =& eZHTTPTool::instance();
+$validation = array( 'processed' => false,
+                     'groups' => array() );
 
 $WorkflowID = $Params["WorkflowID"];
 if ( !is_int( $WorkflowID ) )
@@ -47,6 +50,25 @@ $workflow =& eZWorkflow::fetch( $WorkflowID );
 if ( !$workflow )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
+if ( $http->hasPostVariable( "AddGroupButton" ) && $http->hasPostVariable( "Workflow_group") )
+{
+    include_once( "kernel/workflow/ezworkflowfunctions.php" );
+
+    $selectedGroup = $http->postVariable( "Workflow_group" );
+    eZWorkflowFunctions::addGroup( $WorkflowID, 0, $selectedGroup );
+}
+if ( $http->hasPostVariable( "DeleteGroupButton" ) && $http->hasPostVariable( "group_id_checked" ) )
+{
+    include_once( "kernel/workflow/ezworkflowfunctions.php" );
+
+    $selectedGroup = $http->postVariable( "group_id_checked" );
+    if ( !eZWorkflowFunctions::removeGroup( $WorkflowID, 0, $selectedGroup ) )
+    {
+        $validation['groups'][] = array( 'text' => ezi18n( 'kernel/workflow', 'You have to have at least one group that the workflow belongs to!' ) );
+        $validation['processed'] = true;
+    }
+}
+
 $event_list =& $workflow->fetchEvents();
 
 $tpl =& templateInit();
@@ -55,6 +77,7 @@ $res->setKeys( array( array( "workflow", $workflow->attribute( "id" ) ) ) );
 
 $tpl->setVariable( "workflow", $workflow );
 $tpl->setVariable( "event_list", $event_list );
+$tpl->setVariable( 'validation', $validation );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:workflow/view.tpl" );

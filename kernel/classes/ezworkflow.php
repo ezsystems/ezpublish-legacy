@@ -438,6 +438,7 @@ class eZWorkflow extends eZPersistentObject
                                    "creator",
                                    "modifier",
                                    "ingroup_list",
+                                   "ingroup_id_list",
                                    "group_list" ) );
     }
 
@@ -446,7 +447,7 @@ class eZWorkflow extends eZPersistentObject
         return ( $attr == "version_status" or $attr == "version_count" or
                  $attr == "creator" or $attr == "modifier" or $attr == "workflow_type" or
                  $attr == "event_count" or $attr == "ordered_event_list" or
-                 $attr == "ingroup_list" or  $attr == "group_list" or
+                 $attr == "ingroup_list" or $attr == "ingroup_id_list" or  $attr == "group_list" or
                  eZPersistentObject::hasAttribute( $attr ) );
     }
 
@@ -482,8 +483,20 @@ class eZWorkflow extends eZPersistentObject
             {
                 $this->InGroups =& eZWorkflowGroupLink::fetchGroupList( $this->attribute("id"),
                                                                         $this->attribute("version"),
-                                                                        $asObject = true );
+                                                                        true );
                 return $this->InGroups;
+            } break;
+            case "ingroup_id_list":
+            {
+                $list =& eZWorkflowGroupLink::fetchGroupList( $this->attribute("id"),
+                                                              $this->attribute("version"),
+                                                              false );
+                $this->InGroupIDs = array();
+                foreach ( $list as $item )
+                {
+                    $this->InGroupIDs[] = $item['group_id'];
+                }
+                return $this->InGroupIDs;
             } break;
             case "group_list":
             {
@@ -519,6 +532,7 @@ class eZWorkflow extends eZPersistentObject
     var $Created;
     var $Modified;
     var $InGroups;
+    var $InGroupIDs;
     var $AllGroups;
 }
 

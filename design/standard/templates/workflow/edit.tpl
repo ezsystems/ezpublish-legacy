@@ -5,6 +5,17 @@
 <h1>{"Editing workflow"|i18n("design/standard/workflow")} - {$workflow.name}</h1>
 </div>
 
+{section show=and($validation.processed,$validation.groups)}
+<div class="warning">
+<h2>{"Input did not validate"|i18n("design/standard/workflow")}</h2>
+<ul>
+{section var=item loop=$validation.groups}
+    <li>{$item.text}</li>
+{/section}
+</ul>
+</div>
+{/section}
+
 {section show=$can_store}
 <div class="feedback">
 <h2>{"Workflow stored"|i18n("design/standard/workflow")}</h2>
