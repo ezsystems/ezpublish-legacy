@@ -40,7 +40,7 @@
 
 <div class="context-block">
 
-<h2 class="title">{$node.object.content_class.identifier|class_icon( normal, $node.object.content_class.name )} {$node.name} [{$node.object.class_name}]</h2>
+<h2 class="context-title">{$node.object.content_class.identifier|class_icon( normal, $node.object.content_class.name )} {$node.name} [{$node.object.class_name}]</h2>
 
 {* Content preview. *}
 {section show=ezpreference( 'admin_navigation_content'  )}

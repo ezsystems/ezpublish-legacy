@@ -28,7 +28,7 @@ function togglestuff( formname, checkboxname )
 
 <div class="context-block">
 
-<h2 class="title">Children</h2>
+<h2 class="context-title">Children</h2>
 
 {* Generic children list for admin interface. *}
 {let item_type=ezpreference( 'items' )

@@ -11,7 +11,7 @@
 
 <div class="context-block">
 
-<h2 class="title">Locations</h2>
+<h2 class="context-title">Locations</h2>
 
 <table class="list" cellspacing="0">
 <tr>

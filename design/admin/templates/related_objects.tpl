@@ -1,5 +1,5 @@
 <div class="context-block">
-<h2 class="title">Relations</h2>
+<h2 class="context-title">Relations</h2>
 
 {* Show related objects *}
 <table class="list" cellspacing="0">

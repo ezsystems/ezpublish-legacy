@@ -1,6 +1,6 @@
 <div class="context-block">
 
-<h2 class="title">Additional information</h2>
+<h2 class="context-title">Additional information</h2>
 
 <table class="list" cellspacing="0">
 <tr>

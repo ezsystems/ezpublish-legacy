@@ -538,6 +538,12 @@ div.context-block
     margin: 1em 0 2em 0;
 }
 
+div.context-attributes
+{
+    background-color: #f8f8f8;
+    padding: 0.5em;
+}
+
 div.menu-block
 {
     padding: 0.1em 0.2em 0.1em 0.2em;
@@ -582,7 +588,7 @@ div.menu-block a:hover
     text-decoration: none;
 }
 
-div.context-block h2.title
+h2.context-title
 {
     font-size: 1.3em;
     font-weight: bold;

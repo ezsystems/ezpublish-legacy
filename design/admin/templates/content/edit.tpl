@@ -35,15 +35,24 @@
     <input type="hidden" name="UseNodeAssigments" value="0" />
     {/section}
 
-    {include uri="design:content/edit_attribute.tpl"}
+    <div class="context-block">
+    <h2 class="context-title">Attributes</h2>
 
+    <div class="context-attributes"">
+    {include uri="design:content/edit_attribute.tpl"}
+    </div>
+    
     <div class="controlbar">
+    <div class="block">
     <input class="button" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('design/standard/content/edit')}" />
     <input class="button" type="submit" name="StoreButton" value="{'Store draft'|i18n('design/standard/content/edit')}" />
     <input class="button" type="submit" name="DiscardButton" value="{'Cancel'|i18n('design/standard/content/edit')}" onclick="return confirmDiscard( '{'Are you sure that you want to discard the changes?'|i18n( '/design/admin/layout' )}' );" />
     <input type="hidden" name="DiscardConfirm" value="1" />
     </div>
+    </div>
 
+    </div>
+    
     {include uri="design:content/edit_related.tpl"}
 
 </form>
