@@ -30,11 +30,19 @@
 </table>
 </div>
 
+<br/>
+<blockquote class="note">
+<p>
+ <b>{"Note:"|i18n("design/standard/setup/init")}</b>
+ {"Sending out the email might take a couple of seconds so please wait until the next page loads. Clicking the button again will only send out duplicate emails."|i18n("design/standard/setup/init")}
+</p>
+</blockquote>
+<br/>
 
   <div class="buttonblock">
     <input type="hidden" name="ChangeStepAction" value="" />
-    <input class="defaultbutton" type="submit" name="StepButton_12" value="{'Send Registration'|i18n('design/standard/setup/init')} >" />
-    <input class="button" type="submit" name="StepButton_13" value="{'Skip Registration'|i18n('design/standard/setup/init')} >>" />
+    <input class="defaultbutton" type="submit" name="StepButton_13" value="{'Send Registration'|i18n('design/standard/setup/init')} >" />
+    <input class="button" type="submit" name="StepButton_14" value="{'Skip Registration'|i18n('design/standard/setup/init')} >>" />
   </div>
   {include uri='design:setup/persistence.tpl'}
 </form>

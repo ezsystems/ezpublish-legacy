@@ -162,7 +162,8 @@ do
     $tpl->setVariable( "version", array( "text" => eZPublishSDK::version(),
                                          "major" => eZPublishSDK::majorVersion(),
                                          "minor" => eZPublishSDK::minorVersion(),
-                                         "release" => eZPublishSDK::release() ) );
+                                         "release" => eZPublishSDK::release(),
+                                         "alias" => eZPublishSDK::alias() ) );
 
     if ( $persistenceList === null )
         $persistenceList = eZSetupFetchPersistenceList();

@@ -4,12 +4,12 @@
 <form method="post" action="{$script}">
 
 <p>
- {"The database is ready for initialization, click the"|i18n("design/standard/setup/init")} <i>{"Create Database"|i18n("design/standard/setup/init")}</i> {"button when ready."|i18n("design/standard/setup/init")}
+ {"The database is ready for initialization, click the %1 button when ready."|i18n("design/standard/setup/init",,array(concat("<i>","Continue"|i18n("design/standard/setup/init"),"</i>")))}
 </p>
 {section show=$database_info.info.has_demo_data}
   {section show=$demo_data.can_unpack}
 <p>
- {"If you want you can let the setup add some demo data to your database, this demo data will give a good demonstration of the capabilites of eZ publish"|i18n("design/standard/setup/init")} {$#version.text}.
+ {"If you want you can let the setup add some demo data to your database, this demo data will give a good demonstration of the capabilites of eZ publish"|i18n("design/standard/setup/init")} {$#version.major}.{$#version.minor}.
  {"First time users are adviced to install the demo data."|i18n("design/standard/setup/init")}
 </p>
 <div class="input_highlight">
@@ -88,7 +88,7 @@
 </tr>
 <tr>
  <td class="normal">
-  <p>{"Continue and remove the data."|i18n("design/standard/setup/init")}</p>
+  <p>{"Continue but remove the data first."|i18n("design/standard/setup/init")}</p>
  </td>
  <td class="normal">
   <input type="radio" name="eZSetupDatabaseDataChoice" value="2"  checked="checked" />
@@ -96,7 +96,7 @@
 </tr>
 <tr>
  <td class="normal">
-  <p>{"Continue and skip database initialization."|i18n("design/standard/setup/init")}</p>
+  <p>{"Keep data and skip database initialization."|i18n("design/standard/setup/init")}</p>
  </td>
  <td class="normal">
   <input type="radio" name="eZSetupDatabaseDataChoice" value="3" />
@@ -120,7 +120,7 @@
 <blockquote class="note">
 <p>
  <b>{"Note:"|i18n("design/standard/setup/init")}</b>
- {"It can take some time creating the database so please be patient and wait until the new page is finished."|i18n("design/standard/setup/init")}
+ {"It can take some time initializing the database so please be patient and wait until the new page is finished."|i18n("design/standard/setup/init")}
 </p>
 </blockquote>
 
@@ -128,7 +128,7 @@
   <div class="buttonblock">
     <input type="hidden" name="eZSetupDatabaseReady" value="" />
     <input type="hidden" name="ChangeStepAction" value="" />
-    <input class="defaultbutton" type="submit" name="StepButton_8" value="{'Create Database'|i18n('design/standard/setup/init')} >>" />
+    <input class="defaultbutton" type="submit" name="StepButton_8" value="{'Continue'|i18n('design/standard/setup/init')} >>" />
   </div>
   {include uri='design:setup/persistence.tpl'}
 </form>

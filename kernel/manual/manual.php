@@ -40,9 +40,11 @@ $Chapter = $Params['Chapter'];
 $includeFile = "kernel/manual/$Part/$Chapter.php";
 
 include_once( "lib/eztemplate/classes/eztemplate.php" );
+include_once( "kernel/common/template.php" );
 
 // Init template
-$tpl =& eZTemplate::instance();
+// $tpl =& eZTemplate::instance();
+$tpl =& templateInit();
 $tpl->setShowDetails( false );
 
 

@@ -47,9 +47,12 @@ function eZSetupTestTable()
                   'database_extensions' => array( 'eZSetupTestExtension' ),
                   'database_all_extensions' => array( 'eZSetupTestExtension' ),
                   'php_magicquotes' => array( 'eZSetupCheckMagicQuotes' ),
+                  'php_register_globals' => array( 'eZSetupCheckRegisterGlobals' ),
                   'mbstring_extension' => array( 'eZSetupMBStringExtension' ),
                   'zlib_extension' => array( 'eZSetupTestExtension' ),
                   'file_upload' => array( 'eZSetupTestFileUpload' ),
+                  'open_basedir' => array( 'eZSetupTestOpenBasedir' ),
+                  'safe_mode' => array( 'eZSetupTestSafeMode' ),
                   'image_conversion' => array( 'eZSetupCheckTestFunctions' ),
                   'imagegd_extension' => array( 'eZSetupTestExtension' ),
                   'imagemagick_program' => array( 'eZSetupCheckExecutable' ) );
@@ -75,6 +78,8 @@ function eZSetupRunTests( $testList, &$arguments, $client )
     $persistenceResults = array();
     $testResult = EZ_SETUP_TEST_SUCCESS;
     $successCount = 0;
+    include_once( 'lib/ezutils/classes/ezhttptool.php' );
+    $http =& eZHTTPTool::instance();
     foreach ( $testList as $testItem )
     {
         $testName = $testItem;
@@ -83,6 +88,11 @@ function eZSetupRunTests( $testList, &$arguments, $client )
         if ( !isset( $testTable[$testItem] ) )
         {
             eZDebug::writeError( "The setup test '$testName' is not defined", $client );
+            continue;
+        }
+        if ( $http->hasPostVariable( $testItem . '_Ignore' ) and
+             $http->postVariable( $testItem . '_Ignore' ) != 0 )
+        {
             continue;
         }
         $testInfo = $testTable[$testItem];
@@ -336,8 +346,10 @@ function eZSetupTestFilePermissions( $type, &$arguments )
             }
     	}
     }
+    $safeMode = ini_get( 'safe_mode' );
 
     return array( 'result' => $result,
+                  'safe_mode' => $safeMode,
                   'persistent_data' => array( 'result' => array( 'value' => $result ) ),
                   'current_path' => realpath( '.' ),
                   'result_elements'   => $resultElements );
@@ -478,5 +490,45 @@ function eZSetupMBStringExtension( $type, &$arguments )
 }
 
 
+function eZSetupCheckRegisterGlobals( $type, &$arguments )
+{
+    $registerGlobals = ini_get( 'register_globals' );
+    $result = ( $registerGlobals == 0 );
+    return array( 'result' => $result,
+                  'persistent_data' => array() );
+}
+
+function eZSetupTestOpenBasedir( $type, &$arguments )
+{
+    $openBasedir = ini_get( 'open_basedir' );
+    $returnData = array( 'result' => true,
+                         'persistent_data' => array() );
+    if ( $openBasedir != '' and
+         $openBasedir != '.' )
+    {
+        $returnData['warnings'] = array( array( 'name' => 'open_basedir',
+                                                'text' => array( 'open_basedir is in use and can give problems running eZ publish due to bugs in some PHP versions.',
+                                                                 'It\'s recommended that it is turned off if you experience problems running eZ publish.' ) ) );
+    }
+    return $returnData;
+}
+
+function eZSetupTestSafeMode( $type, &$arguments )
+{
+    $safeMode = ini_get( 'safe_mode' );
+//     print( "safe_mode=$safeMode<br/>" );
+    $safeModeIncludeDir = ini_get( 'safe_mode_include_dir' );
+//     print( "safe_mode_include_dir=$safeModeIncludeDir<br/>" );
+    $safeModeGID = ini_get( 'safe_mode_gid' );
+//     print( "safe_mode_gid=$safeModeGID<br/>" );
+    $result = true;
+    if ( $safeMode )
+    {
+        $result = false;
+    }
+    return array( 'result' => $result,
+                  'current_path' => realpath( '.' ),
+                  'persistent_data' => array() );
+}
 
 ?>

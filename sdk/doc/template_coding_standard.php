@@ -86,3 +86,54 @@ Namespaces should be named with capital first letters.
 '
 ) );?>
 </pre>
+
+<h1 id="security">Security in templates</h1>
+<p>
+All templates shipped with eZ publish are designed with security in mind, this means that have proper
+output washing to avoid XSS exploits. However for those of you who create new templates it's important
+that steps are taken to secure the templates.
+</p>
+
+<h2>Output washing</h2>
+<p>
+Before displaying stored data in an HTML page you must make sure that it's presentable, especially
+to avoid cross-site scripting (XSS). This might mean
+escaping the data or converting it to a different form, however this washing must not be done until
+the data is just about to be shown to the user. This means that the code for escaping must not be
+placed in the class or function which returns the input data but rather in the template code, this
+because it's not known what the client code wants to do with the data.
+</p>
+
+<h3>Example using wash operator</h3>
+<pre class="example"><? print( eZTextTool::highlightHTML(
+'$obj = new eZObject( $id );
+
+$tpl->setVariable( "obj", $obj );
+$tpl->display( "view.tpl" );
+
+// view.tpl
+{$obj.title|wash}
+{$obj.description|wash}
+{$obj.price}
+{$obj.email|wash(email)}
+'
+) );?>
+</pre>
+
+<p>
+It is also important to make sure that all generated urls is washed properly, for instance it is possible
+to input special characters in the url and have alter the generated HTML code in such a way that it will
+run javascripts.
+</p>
+<p>In eZ publish escaping urls are done with the <i>ezurl</i> operator which will make sure the resulting url
+is properly escaped as well as have correct form for non-virtual hosts.</p>
+
+<h3>Example using ezurl operator</h3>
+<pre class="example"><? print( eZTextTool::highlightHTML(
+'$viewmode = $Params["ViewMode"];
+
+// view.tpl
+<a href={concat("module/view/",$viewmode)|ezurl}>
+'
+) );?>
+</pre>

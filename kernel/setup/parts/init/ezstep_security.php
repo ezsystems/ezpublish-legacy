@@ -2,7 +2,7 @@
 //
 // eZSetup
 //
-// Created on: <08-Nov-2002 11:00:54 kd>
+// Created on: <23-Apr-2003 15:05:11 amos>
 //
 // Copyright (C) 1999-2003 eZ systems as. All rights reserved.
 //
@@ -37,30 +37,25 @@
 // All test functions should be defined in ezsetuptests
 include( "kernel/setup/ezsetuptests.php" );
 
-/*!
-    Step 1: General tests and information for the databases
-*/
-function eZSetupStep_registration( &$tpl, &$http, &$ini, &$persistenceList )
+function eZSetupStep_security( &$tpl, &$http, &$ini, &$persistenceList )
 {
     $databaseMap = eZSetupDatabaseMap();
 
     include_once( 'lib/ezutils/classes/ezhttptool.php' );
-    $installHTAccess = false;
-    if ( $http->hasPostVariable( 'eZSetupInstallHTAccess' ) and
-         $http->postVariable( 'eZSetupInstallHTAccess' ) != 0 )
-        $installHTAccess = true;
-    $persistenceList['security']['install_htaccess'] = $installHTAccess;
+    if ( $http->hasPostVariable( 'eZSetupSiteTitle' ) )
+        $persistenceList['site_info']['title'] = $http->postVariable( 'eZSetupSiteTitle' );
+    if ( $http->hasPostVariable( 'eZSetupSiteURL' ) )
+        $persistenceList['site_info']['url'] = $http->postVariable( 'eZSetupSiteURL' );
 
-    $databaseInfo = $persistenceList['database_info'];
-    $regionalInfo = $persistenceList['regional_info'];
-    $demoData = $persistenceList['demo_data'];
-    $emailInfo = $persistenceList['email_info'];
-    $siteInfo = $persistenceList['site_info'];
+    include_once( 'lib/ezutils/classes/ezsys.php' );
+    $security = array( 'virtualhost_mode' => eZSys::indexFileName() == '' );
+
+    $tpl->setVariable( 'security', $security );
 
     $result = array();
     // Display template
-    $result['content'] = $tpl->fetch( "design:setup/init/registration.tpl" );
-    $result['path'] = array( array( 'text' => 'Registration',
+    $result['content'] = $tpl->fetch( "design:setup/init/security.tpl" );
+    $result['path'] = array( array( 'text' => 'Security',
                                     'url' => false ) );
     return $result;
 }

@@ -190,6 +190,7 @@ class eZURLOperator
                     $operatorValue = '/' . $operatorValue;
                 $operatorValue = $this->Sys->indexDir() . $operatorValue;
                 $operatorValue = preg_replace( "#^(//)#", "/", $operatorValue );
+                $operatorValue = htmlspecialchars( $operatorValue );
 
                 if ( $operatorValue == "" )
                     $operatorValue = "/";
@@ -204,6 +205,7 @@ class eZURLOperator
                      $operatorValue[0] != '/' )
                     $operatorValue = '/' . $operatorValue;
                 $operatorValue = $this->Sys->wwwDir() . $operatorValue;
+                $operatorValue = htmlspecialchars( $operatorValue );
             } break;
 
             case $this->SysName:
@@ -241,6 +243,7 @@ class eZURLOperator
                         $operatorValue = $site_file;
                     else
                         $operatorValue = $this->Sys->wwwDir() . "/$site_file";
+                    $operatorValue = htmlspecialchars( $operatorValue );
                 }
                 else if ( file_exists( $std_file ) )
                 {
@@ -248,6 +251,7 @@ class eZURLOperator
                         $operatorValue = $std_file;
                     else
                         $operatorValue = $this->Sys->wwwDir() . "/$std_file";
+                    $operatorValue = htmlspecialchars( $operatorValue );
                 }
                 else
                     $tpl->warning( $operatorName, "Image '$operatorValue' does not exist in any design" );
@@ -283,6 +287,7 @@ class eZURLOperator
 
                 $file = $match["file"];
                 $operatorValue = $this->Sys->wwwDir() . "/$file";
+                $operatorValue = htmlspecialchars( $operatorValue );
 
 //                 $ini =& eZINI::instance();
 //                 $std_base = eZTemplateDesignResource::designSetting( 'standard' );

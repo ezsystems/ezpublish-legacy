@@ -54,11 +54,13 @@ $stepTable = array( 1 => array( 'name' => 'welcome',
                                 'description' => 'Email Settings' ),
                     10 => array( 'name' => 'site_details',
                                  'description' => 'Site Details' ),
-                    11 => array( 'name' => 'registration',
+                    11 => array( 'name' => 'security',
+                                 'description' => 'Securing Site' ),
+                    12 => array( 'name' => 'registration',
                                  'description' => 'Registration' ),
-                    12 => array( 'name' => 'send_registration',
+                    13 => array( 'name' => 'send_registration',
                                  'description' => 'Send Registration' ),
-                    13 => array( 'name' => 'finished',
+                    14 => array( 'name' => 'finished',
                                  'description' => 'Finished' ) );
 
 $mainStepTable = array( array( 'name_id' => 1,
@@ -73,8 +75,8 @@ $mainStepTable = array( array( 'name_id' => 1,
                                'id_list' => array( 8 ) ),
                         array( 'name' => 'Post Configuration',
                                'name_id' => false,
-                               'id_list' => array( 9, 10, 11, 12 ) ),
-                        array( 'name_id' => 13,
-                               'id_list' => array( 13 ) ) );
+                               'id_list' => array( 9, 10, 11, 12, 13 ) ),
+                        array( 'name_id' => 14,
+                               'id_list' => array( 14 ) ) );
 
 ?>

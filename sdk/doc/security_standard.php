@@ -40,7 +40,13 @@ $DocResult["title"] = "Security Standard";
 ?>
 
 <p>
+This document explains guidelines for PHP programmers on how to create secure code.
+If you are a template designers or an end user you might want to try these documents instead.
 </p>
+<ul>
+ <li><a href="/sdk/doc/view/template_coding_standard#security">Template designers</a></li>
+ <li><a href="">End users</a></li>
+</ul>
 
 <h2>Passwords</h2>
 <p>
@@ -70,6 +76,36 @@ function authenticateHash( $user, $password, $siteid, $stored_hash )
 '
 ) );?>
 </pre>
+
+<h3>Implementation</h3>
+<p>This method has been implemented in the <i>eZUser</i> datatype. See <i>kernel/classes/datatypes/ezuser/ezuser.php</i> for more details.</p>
+
+<h2>Input validation</h2>
+<p>
+All input from the user should be validated before storing it. For instance when expecting
+integer or date data always check to see if it is actually of the wanted type, if not
+issue a warning to the user. The input may then be converted to a more reasonable state, for instance
+dates should be converted to integers, but do not perform any escaping of text or similar text washing.
+When the input is valid and in an acceptable form, store it as it is.
+</p>
+
+<h3>Reasons for not escaping input data</h3>
+<ul>
+<li>The data may not only be used for HTML output but may be sent to other clients which require them in their original form.</li>
+<li>There's no way to know if the data is escaped or not after it has been saved, this means that inputting data from other sources than HTML needs escaping as well.</li>
+</ul>
+
+<pre class="example"><? print( eZTextTool::highlightHTML(
+'$date = eZHTTPTool::postVariable( "Date" );
+$date_obj = new eZDate( $date );
+$date_num = $date_obj->value(); // Returns integer value
+'
+) );?>
+</pre>
+
+
+<?php
+/* This is commented for now, do not remove!
 
 <h2>Form tickets</h2>
 <p>
@@ -118,51 +154,9 @@ else
 ) );?>
 </pre>
 
-<h2>Input validation</h2>
-<p>
-All input from the user should be validated before storing it. For instance when expecting
-integer or date data always check to see if it is actually of the wanted type, if not
-issue a warning to the user. The input may then be converted to a more reasonable state, for instance
-dates should be converted to integers, but do not perform any escaping of text or similar text washing.
-When the input is valid and in an acceptable form, store it as it is.
-</p>
 
-<h3>Reasons for not escaping input data</h3>
-<ul>
-<li>The data may not only be used for HTML output but may be sent to other clients which require them in their original form.</li>
-<li>There's no way to know if the data is escaped or not after it has been saved, this means that inputting data from other sources than HTML needs escaping as well.</li>
-</ul>
-
-<pre class="example"><? print( eZTextTool::highlightHTML(
-'$date = eZHTTPTool::postVariable( "Date" );
-$date_obj = new eZDate( $date );
-$date_num = $date_obj->value(); // Returns integer value
-'
-) );?>
-</pre>
-
-<h2>Output washing</h2>
-<p>
-Before displaying stored data in an HTML page you must make sure that it's presentable, especially
-to avoid cross-site scripting (XSS). This might mean
-escaping the data or converting it to a different form, however this washing must not be done until
-the data is just about to be shown to the user. This means that the code for escaping must not be
-placed in the class or function which returns the input data but rather in the template code, this
-because it's not known what the client code wants to do with the data.
-</p>
-
-<pre class="example"><? print( eZTextTool::highlightHTML(
-'$obj = new eZObject( $id );
-
-$tpl->setVariable( "obj", $obj );
-$tpl->display( "view.tpl" );
-// view.tpl
-{$obj.title|escape}
-{$obj.description|escape}
-{$obj.price}
-'
-) );?>
-</pre>
+*/
+?>
 
 <h3>References</h3>
 <ul>

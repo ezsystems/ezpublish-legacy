@@ -4,7 +4,10 @@
 <form method="post" action="{$script}">
 
 <p>
- {"The database was succesfully initialized, you are now ready for some post configuration of the site. Click the"|i18n("design/standard/setup/init")} <i>{"Configure"|i18n("design/standard/setup/init")}</i> {"button to start the configuration process."|i18n("design/standard/setup/init")}
+ {"The database was succesfully initialized. You are now ready for some post configuration of the site."|i18n("design/standard/setup/init")}
+</p>
+<p>
+ {"Click the %1 button to start the configuration process."|i18n("design/standard/setup/init",,array(concat("<i>","Configure"|i18n("design/standard/setup/init"),"</i>")))}
 </p>
 
   <div class="buttonblock">

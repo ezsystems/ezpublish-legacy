@@ -51,9 +51,6 @@ Shop:
 - Fixed problem with updating prices in basket after user login and if user has discounts.
 - Fixed bug with missing include in wrapping workflow event type.
 
-Setup tool:
-- Fixed problem with correct separating for queries.
-
 Browser:
 - Made sure children are indented one level to it's parent in the list.
 - Added section information to list.
@@ -65,6 +62,8 @@ Collaboration:
 Security:
 - Made sure that the text string is washed before being presented in the HTML code.
   Fixed search, advanced search and search stats.
+- Made sure ezurl, ezroot and ezdesign returns properly html escaped data which
+  can be inserted directly into HTML code.
 
 *SDK :
 - Swaped the last two images in the main concepts tutorial.
@@ -91,6 +90,8 @@ eZ DB:
 - doc/FAQ, answers to common questions, missing in 3.0-1 release.
 
 *New files :
+- Added .htaccess_root file which can be used for securing a non-virtualhost setup. The file
+  should be copied to .htaccess.
 
 *Changed files :
 - runcronjobs.php was made executable which means it can be run from
@@ -113,13 +114,23 @@ eZ DB:
   Expands all view parameters to the generated url.
 
 *New documentation :
+- Added template and install security document.
 
 *Changed documentation :
 - Improved cache-block entry in function_list.tpl
-
-Setup :
-- Added example to magic quotes template on how to disable magic quotes with a .htaccess file.
+- Updated PHP security standard.
 
 *Settings:
 site.ini:
 - Fixed wrong spelling of NodeTranslation in site.ini.
+
+*Setup:
+- Fixed problem with queries not being separaed properly.
+- Added checks for open_basedir restriction, safe mode and register_globals.
+- Added security check for virtual/non-virtual host.
+- Added example to magic quotes template on how to disable magic quotes with a .htaccess file.
+
+*Changed shell scripts:
+
+clearcache.sh:
+- Added support for a subdir when clearing, the subdir is relative to var.

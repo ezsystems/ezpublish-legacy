@@ -2,7 +2,7 @@
 {include uri='design:setup/setup_header.tpl' setup=$setup step_header=false()}
 
 <p>
- {"Welcome to the setup program for eZ publish"|i18n("design/standard/setup/init")} {$#version.text}.
+ {"Welcome to the setup program for eZ publish %1."|i18n("design/standard/setup/init",,array($#version.alias))}
  {"This part of the setup system will guide you trough the necessary steps to make sure eZ publish is properly initialized"|i18n("design/standard/setup/init")}.
 </p>
 <p>

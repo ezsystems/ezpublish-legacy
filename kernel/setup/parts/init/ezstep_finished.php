@@ -229,8 +229,26 @@ WHERE
             $saveResult = $i18nINI->save( false, '.php', 'append', true );
     }
 
+    $htaccess = array( 'required' => false,
+                       'installed' => false );
+    if ( $persistenceList['security']['install_htaccess'] )
+    {
+        $htaccess['required'] = true;
+        if ( file_exists( ".htaccess" ) )
+        {
+            if ( @copy( '.htaccess_root', '.htaccess.setupnew' ) )
+                $htaccess['installed'] = '.htaccess.setupnew';
+        }
+        else
+        {
+            if ( @copy( '.htaccess_root', '.htaccess' ) )
+                $htaccess['installed'] = true;
+        }
+    }
+
     $tpl->setVariable( 'site_info', $siteInfo );
     $tpl->setVariable( 'email_info', $emailInfo );
+    $tpl->setVariable( 'htaccess', $htaccess );
 
     $result = array();
     // Display template

@@ -122,7 +122,7 @@ function eZSetupStep_send_registration( &$tpl, &$http, &$ini, &$persistenceList 
     $persistenceList['email_info']['sent'] = true;
     $persistenceList['email_info']['result'] = $mailResult;
 
-    $result = array( 'change_step' => 13 );
+    $result = array( 'change_step' => 14 );
     return $result;
 }
 
