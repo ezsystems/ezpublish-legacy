@@ -76,8 +76,16 @@ class eZXML
       $params["TrimWhiteSpace"] = false/true : if the XML parser should ignore whitespace between tags.
       $params["CharsetConversion"] = false/true : Whether charset conversion is done or not, default is true.
     */
-    function &domTree( $xmlDoc, $params = array() )
+    function &domTree( $xmlDoc, $params = array(), $native = false )
     {
+        if ( $native and function_exists( 'domxml_open_mem' ) )
+        {
+            /* We remove all control chars from the text, although they
+             * should have not be there in the first place. This is
+             * iso-8859-1 and UTF-8 safe. */
+            $xmlDoc = preg_replace('/[\x00-\x09\x0b-\x0c\x0e-\x1f]/', '', $xmlDoc);
+            return domxml_open_mem( $xmlDoc );
+        }
         $params["TrimWhiteSpace"] = true;
 
         $schema = false;

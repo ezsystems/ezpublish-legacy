@@ -439,58 +439,56 @@ class eZImageAliasHandler
         }
         if ( !is_array( $contentObjectAttribute->DataTypeCustom ) )
             $contentObjectAttribute->DataTypeCustom = array();
-
+        eZDebug::AccumulatorStart('imageparse', 'XML', 'Image XML parsing' );
         $xml = new eZXML();
         $xmlString =& $contentObjectAttribute->attribute( 'data_text' );
-        $domTree =& $xml->domTree( $xmlString );
+        $domTree =& $xml->domTree( $xmlString, array(), true );
 
         if ( $domTree == false )
         {
             $this->generateXMLData();
-            $domTree =& $xml->domTree( $xmlString );
+            $domTree =& $xml->domTree( $xmlString, array(), false );
         }
 
         $contentObjectAttribute->DataTypeCustom['dom_tree'] =& $domTree;
-
-        $imageNodeArray =& $domTree->elementsByName( "ezimage" );
-        $imageInfoNodeArray =& $domTree->elementsByName( "information" );
-        $imageVariationNodeArray =& $domTree->elementsByName( "alias" );
-        $imageOriginalArray =& $domTree->elementsByName( "original" );
+        $imageNodeArray =& $domTree->get_elements_by_tagname( "ezimage" );
+        $imageInfoNodeArray =& $domTree->get_elements_by_tagname( "information" );
+        $imageVariationNodeArray =& $domTree->get_elements_by_tagname( "alias" );
+        $imageOriginalArray =& $domTree->get_elements_by_tagname( "original" );
 
         $aliasList = array();
 
         $aliasEntry = array();
-
-        $alternativeText = $imageNodeArray[0]->attributeValue( 'alternative_text' );
-        $originalFilename = $imageNodeArray[0]->attributeValue( 'original_filename' );
-        $basename = $imageNodeArray[0]->attributeValue( 'basename' );
+        $alternativeText = $imageNodeArray[0]->get_attribute( 'alternative_text' );
+        $originalFilename = $imageNodeArray[0]->get_attribute( 'original_filename' );
+        $basename = $imageNodeArray[0]->get_attribute( 'basename' );
         $displayText = $this->displayText( $alternativeText );
 
         if ( isset( $imageOriginalArray[0] ) )
         {
-            $originalData = array( 'attribute_id' => $imageOriginalArray[0]->attributeValue( 'attribute_id' ),
-                                   'attribute_version' => $imageOriginalArray[0]->attributeValue( 'attribute_version' ),
-                                   'attribute_language' => $imageOriginalArray[0]->attributeValue( 'attribute_language' ) );
-//                                    'has_file_copy' => $imageOriginalArray[0]->attributeValue( 'has_file_copy' ) );
+            $originalData = array( 'attribute_id' => $imageOriginalArray[0]->get_attribute( 'attribute_id' ),
+                                   'attribute_version' => $imageOriginalArray[0]->get_attribute( 'attribute_version' ),
+                                   'attribute_language' => $imageOriginalArray[0]->get_attribute( 'attribute_language' ) );
+//                                    'has_file_copy' => $imageOriginalArray[0]->get_attribute( 'has_file_copy' ) );
             $this->setOriginalAttributeData( $originalData );
         }
 
         $aliasEntry['name'] = 'original';
-        $aliasEntry['width'] = $imageNodeArray[0]->attributeValue( 'width' );
-        $aliasEntry['height'] = $imageNodeArray[0]->attributeValue( 'height' );
-        $aliasEntry['mime_type'] = $imageNodeArray[0]->attributeValue( 'mime_type' );
-        $aliasEntry['filename'] = $imageNodeArray[0]->attributeValue( 'filename' );
-        $aliasEntry['suffix'] = $imageNodeArray[0]->attributeValue( 'suffix' );
-        $aliasEntry['dirpath'] = $imageNodeArray[0]->attributeValue( 'dirpath' );
+        $aliasEntry['width'] = $imageNodeArray[0]->get_attribute( 'width' );
+        $aliasEntry['height'] = $imageNodeArray[0]->get_attribute( 'height' );
+        $aliasEntry['mime_type'] = $imageNodeArray[0]->get_attribute( 'mime_type' );
+        $aliasEntry['filename'] = $imageNodeArray[0]->get_attribute( 'filename' );
+        $aliasEntry['suffix'] = $imageNodeArray[0]->get_attribute( 'suffix' );
+        $aliasEntry['dirpath'] = $imageNodeArray[0]->get_attribute( 'dirpath' );
         $aliasEntry['basename'] = $basename;
         $aliasEntry['alternative_text'] = $alternativeText;
         $aliasEntry['text'] = $displayText;
         $aliasEntry['original_filename'] = $originalFilename;
-        $aliasEntry['url'] = $imageNodeArray[0]->attributeValue( 'url' );
-        $aliasEntry['alias_key'] = $imageNodeArray[0]->attributeValue( 'alias_key' );
-        $aliasEntry['timestamp'] = $imageNodeArray[0]->attributeValue( 'timestamp' );
+        $aliasEntry['url'] = $imageNodeArray[0]->get_attribute( 'url' );
+        $aliasEntry['alias_key'] = $imageNodeArray[0]->get_attribute( 'alias_key' );
+        $aliasEntry['timestamp'] = $imageNodeArray[0]->get_attribute( 'timestamp' );
         $aliasEntry['full_path'] =& $aliasEntry['url'];
-        $aliasEntry['is_valid'] = $imageNodeArray[0]->attributeValue( 'is_valid' );
+        $aliasEntry['is_valid'] = $imageNodeArray[0]->get_attribute( 'is_valid' );
         $aliasEntry['is_new'] = false;
 
         $imageInformation = false;
@@ -501,7 +499,7 @@ class eZImageAliasHandler
         }
         $aliasEntry['info'] =& $imageInformation;
 
-        $serialNumber = $imageNodeArray[0]->attributeValue( 'serial_number' );
+        $serialNumber = $imageNodeArray[0]->get_attribute( 'serial_number' );
         if ( $serialNumber )
             $this->setImageSerialNumber( $serialNumber );
 
@@ -512,23 +510,23 @@ class eZImageAliasHandler
             foreach ( $imageVariationNodeArray as $imageVariation )
             {
                 $aliasEntry = array();
-                $aliasEntry['name'] = $imageVariation->attributeValue( 'name' );
-                $aliasEntry['width'] = $imageVariation->attributeValue( 'width' );
-                $aliasEntry['height'] = $imageVariation->attributeValue( 'height' );
-                $aliasEntry['mime_type'] = $imageVariation->attributeValue( 'mime_type' );
-                $aliasEntry['filename'] = $imageVariation->attributeValue( 'filename' );
-                $aliasEntry['suffix'] = $imageVariation->attributeValue( 'suffix' );
-                $aliasEntry['dirpath'] = $imageVariation->attributeValue( 'dirpath' );
-                $aliasEntry['alias_key'] = $imageVariation->attributeValue( 'alias_key' );
-                $aliasEntry['timestamp'] = $imageVariation->attributeValue( 'timestamp' );
+                $aliasEntry['name'] = $imageVariation->get_attribute( 'name' );
+                $aliasEntry['width'] = $imageVariation->get_attribute( 'width' );
+                $aliasEntry['height'] = $imageVariation->get_attribute( 'height' );
+                $aliasEntry['mime_type'] = $imageVariation->get_attribute( 'mime_type' );
+                $aliasEntry['filename'] = $imageVariation->get_attribute( 'filename' );
+                $aliasEntry['suffix'] = $imageVariation->get_attribute( 'suffix' );
+                $aliasEntry['dirpath'] = $imageVariation->get_attribute( 'dirpath' );
+                $aliasEntry['alias_key'] = $imageVariation->get_attribute( 'alias_key' );
+                $aliasEntry['timestamp'] = $imageVariation->get_attribute( 'timestamp' );
+                $aliasEntry['is_valid'] = $imageVariation->get_attribute( 'is_valid' );
+                $aliasEntry['url'] = $imageVariation->get_attribute( 'url' );
                 $aliasEntry['basename'] = $basename;
                 $aliasEntry['alternative_text'] = $alternativeText;
                 $aliasEntry['text'] = $displayText;
                 $aliasEntry['original_filename'] = $originalFilename;
-                $aliasEntry['url'] = $imageVariation->attributeValue( 'url' );
                 $aliasEntry['full_path'] =& $aliasEntry['url'];
                 $aliasEntry['is_new'] = false;
-                $aliasEntry['is_valid'] = $imageVariation->attributeValue( 'is_valid' );
                 $aliasEntry['info'] =& $imageInformation;
 
                 include_once( 'kernel/common/image.php' );
@@ -540,6 +538,7 @@ class eZImageAliasHandler
             }
         }
         $contentObjectAttribute->DataTypeCustom['alias_list'] =& $aliasList;
+        eZDebug::AccumulatorStop( 'imageparse' );
         return $aliasList;
     }
 
@@ -695,11 +694,10 @@ class eZImageAliasHandler
     */
     function createOriginalAttributeXMLData( &$originalNode, $originalData )
     {
-        $originalNode->removeAttributes();
-        $originalNode->appendAttribute( eZDOMDocument::createAttributeNode( 'attribute_id', $originalData['attribute_id'] ) );
-        $originalNode->appendAttribute( eZDOMDocument::createAttributeNode( 'attribute_version', $originalData['attribute_version'] ) );
-        $originalNode->appendAttribute( eZDOMDocument::createAttributeNode( 'attribute_language', $originalData['attribute_language'] ) );
-//         $originalNode->appendAttribute( eZDOMDocument::createAttributeNode( 'has_file_copy', $originalData['has_file_copy'] ) );
+        $originalNode->set_attribute( 'attribute_id', $originalData['attribute_id'] );
+        $originalNode->set_attribute( 'attribute_version', $originalData['attribute_version'] );
+        $originalNode->set_attribute( 'attribute_language', $originalData['attribute_language'] );
+//         $originalNode->set_attribute( 'has_file_copy', $originalData['has_file_copy'] );
     }
 
     /*!
@@ -806,28 +804,38 @@ class eZImageAliasHandler
         $attributes =& $imageInfoNode->attributes();
         foreach ( $attributes as $attribute )
         {
-            $imageInformation[$attribute->name()] = $attribute->content();
+     /* CHECK FOR EZXML */
+            $imageInformation[$attribute->name()] = $attribute->value;
         }
         $children =& $imageInfoNode->children();
         foreach ( $children as $child )
         {
-            if ( $child->name() == 'array' )
+     /* CHECK FOR EZXML */
+            if ( isset ( $child->name ) )
             {
-                $name = $child->attributeValue( 'name' );
-                $items = $child->elementsByName( 'item' );
-                $array = array();
-                foreach ( $items as $item )
+                $childName = $child->name;
+                if ( $childName == 'array' )
                 {
-                    $array[$item->attributeValue( 'key' )] = $item->textContent();
+    //                $name = $child->attributeValue( 'name' );
+    //                $items = $child->elementsByName( 'item' );
+                    $name = $child->get_attribute( 'name' );
+                    $items = $child->get_elements_by_tagname( 'item' );
+                    $array = array();
+                    foreach ( $items as $item )
+                    {
+                        $array[$item->attributeValue( 'key' )] = $item->textContent();
+                    }
+                    ksort( $array );
+                    $imageInformation[$name] = $array;
                 }
-                ksort( $array );
-                $imageInformation[$name] = $array;
-            }
-            else if ( $child->name() == 'serialized' )
-            {
-                $name = $child->attributeValue( 'name' );
-                $data = $child->attributeValue( 'data' );
-                $imageInformation[$name] = unserialize( $data );
+                else if ( $childName == 'serialized' )
+                {
+    //                $name = $child->attributeValue( 'name' );
+    //                $data = $child->attributeValue( 'data' );
+                    $name = $child->get_attribute( 'name' );
+                    $data = $child->get_attribute( 'data' );
+                    $imageInformation[$name] = unserialize( $data );
+                }
             }
         }
     }
@@ -1106,14 +1114,14 @@ class eZImageAliasHandler
     */
     function addImageAliasToXML( &$domTree, $imageAlias )
     {
-        $imageVariationNodeArray =& $domTree->elementsByName( 'alias' );
+        $imageVariationNodeArray =& $domTree->get_elements_by_tagname( 'alias' );
         $imageNode = false;
         if ( is_array( $imageVariationNodeArray ) )
         {
             foreach ( array_keys( $imageVariationNodeArray ) as $imageVariationKey )
             {
                 $imageVariation =& $imageVariationNodeArray[$imageVariationKey];
-                $aliasEntryName = $imageVariation->attributeValue( 'name' );
+                $aliasEntryName = $imageVariation->get_attribute( 'name' );
                 if ( $aliasEntryName == $imageAlias['name'] )
                 {
                     $imageNode =& $imageVariation;
@@ -1124,34 +1132,37 @@ class eZImageAliasHandler
         if ( !$imageNode )
         {
             $rootNode =& $domTree->root();
-            $imageNode =& $domTree->createElementNode( "alias" );
-            $rootNode->appendChild( $imageNode );
+# CHECK FOR EZXML PARSER
+            $imageNode =& $domTree->create_element( "alias" );
+            $rootNode->append_child( $imageNode );
         }
         else
         {
-            $imageNode->removeNamedAttribute( 'name' );
-            $imageNode->removeNamedAttribute( 'filename' );
-            $imageNode->removeNamedAttribute( 'suffix' );
-            $imageNode->removeNamedAttribute( 'dirpath' );
-            $imageNode->removeNamedAttribute( 'url' );
-            $imageNode->removeNamedAttribute( 'mime_type' );
-            $imageNode->removeNamedAttribute( 'width' );
-            $imageNode->removeNamedAttribute( 'height' );
-            $imageNode->removeNamedAttribute( 'alias_key' );
-            $imageNode->removeNamedAttribute( 'timestamp' );
-            $imageNode->removeNamedAttribute( 'is_valid' );
+            $imageNode->remove_attribute( 'name' );
+            $imageNode->remove_attribute( 'filename' );
+            $imageNode->remove_attribute( 'suffix' );
+            $imageNode->remove_attribute( 'dirpath' );
+            $imageNode->remove_attribute( 'url' );
+            $imageNode->remove_attribute( 'mime_type' );
+            $imageNode->remove_attribute( 'width' );
+            $imageNode->remove_attribute( 'height' );
+            $imageNode->remove_attribute( 'alias_key' );
+            $imageNode->remove_attribute( 'timestamp' );
+            $imageNode->remove_attribute( 'is_valid' );
         }
-        $imageNode->appendAttribute( $domTree->createAttributeNode( 'name', $imageAlias['name']) );
-        $imageNode->appendAttribute( $domTree->createAttributeNode( 'filename', $imageAlias['filename']) );
-        $imageNode->appendAttribute( $domTree->createAttributeNode( 'suffix', $imageAlias['suffix']) );
-        $imageNode->appendAttribute( $domTree->createAttributeNode( 'dirpath', $imageAlias['dirpath'] ) );
-        $imageNode->appendAttribute( $domTree->createAttributeNode( 'url', $imageAlias['url'] ) );
-        $imageNode->appendAttribute( $domTree->createAttributeNode( 'mime_type', $imageAlias['mime_type'] ) );
-        $imageNode->appendAttribute( $domTree->createAttributeNode( 'width', $imageAlias['width'] ) );
-        $imageNode->appendAttribute( $domTree->createAttributeNode( 'height', $imageAlias['height'] ) );
-        $imageNode->appendAttribute( $domTree->createAttributeNode( 'alias_key', $imageAlias['alias_key']) );
-        $imageNode->appendAttribute( $domTree->createAttributeNode( 'timestamp', $imageAlias['timestamp']) );
-        $imageNode->appendAttribute( $domTree->createAttributeNode( 'is_valid', $imageAlias['is_valid']) );
+        $imageNode->set_attribute( 'name', $imageAlias['name'] );
+        $imageNode->set_attribute( 'filename', $imageAlias['filename'] );
+        $imageNode->set_attribute( 'suffix', $imageAlias['suffix'] );
+        $imageNode->set_attribute( 'dirpath', $imageAlias['dirpath'] );
+        $imageNode->set_attribute( 'url', $imageAlias['url'] );
+        $imageNode->set_attribute( 'mime_type', $imageAlias['mime_type'] );
+        $imageNode->set_attribute( 'width', $imageAlias['width'] );
+        $imageNode->set_attribute( 'height', $imageAlias['height'] );
+        $imageNode->set_attribute( 'alias_key', $imageAlias['alias_key'] );
+        $imageNode->set_attribute( 'timestamp', $imageAlias['timestamp'] );
+        $imageNode->set_attribute( 'is_valid', $imageAlias['is_valid'] );
+
+//        var_dump($imageNode);
     }
 
     /*!
@@ -1178,8 +1189,7 @@ class eZImageAliasHandler
             $contentObjectAttribute->DataTypeCustom = array();
         $contentObjectAttribute->DataTypeCustom['dom_tree'] =& $domTree;
         $contentObjectAttribute->DataTypeCustom['is_storage_required'] = false;
-
-        $xmlString = $domTree->toString();
+        $xmlString = $domTree->dump_mem();
         $contentObjectAttribute->setAttribute( 'data_text', $xmlString );
         if ( $storeAttribute )
             $contentObjectAttribute->storeData();
@@ -1269,7 +1279,7 @@ class eZImageAliasHandler
         $contentObjectAttribute->DataTypeCustom['original_data'] =& $originalData;
 
         $domTree =& $this->domTree();
-        $imageOriginalArray =& $domTree->elementsByName( "original" );
+        $imageOriginalArray =& $domTree->get_elements_by_tagname( "original" );
         if ( isset( $imageOriginalArray[0] ) )
             $this->createOriginalAttributeXMLData( $imageOriginalArray[0], $originalData );
     }

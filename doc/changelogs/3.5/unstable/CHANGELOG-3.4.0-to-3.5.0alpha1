@@ -451,6 +451,10 @@ eZ Template:
 - Fixed problem with fetch() and fetch_alias() operators when the parameter
   hash was a dynamic expression (e.g. cond).
 
+eZXML:
+- Added support for PHP 4's libxml DOM parser to improve performance. This is
+  now used for translation files and the image alias handler.
+
 *Templates:
 - Added the red color marking of titles of attributes with invalid content.
 

@@ -77,6 +77,8 @@ class eZDOMNode
     */
     function eZDOMNode()
     {
+        $this->Content =& $this->content;
+        $this->Type =& $this->type;
     }
 
     /*!
@@ -354,6 +356,15 @@ class eZDOMNode
     }
 
     /*!
+     Alias for libxml compatibility
+    */
+/*   function &get_elements_by_tagname( $name )
+    {
+        return $this->elementByName( $name );
+    }
+*/
+
+    /*!
       Finds the first element named \a $name and returns the text content of that node.
       If no element node is found or no text content exists it returns \c false.
 
@@ -444,6 +455,14 @@ class eZDOMNode
         }
 
         return $returnValue;
+    }
+
+    /*!
+      Alias for libxml compatibility
+    */
+    function &get_attribute( $attributeName )
+    {
+        return $this->attributeValue( $attributeName );
     }
 
     /*!
@@ -568,6 +587,14 @@ class eZDOMNode
     }
 
     /*!
+     Alias for libXML compatibility
+    */
+    function &append_child( &$node )
+    {
+        return $this->appendChild( $node );
+    }
+
+    /*!
       Appends the attribute node \a $node as an attribute of the current node.
 
       \return The attribute node that was just inserted or \c false if it failed to insert an attribute.
@@ -582,6 +609,11 @@ class eZDOMNode
             return $node;
         }
         return false;
+    }
+
+    function &set_attribute( $name, $value )
+    {
+        return $this->appendAttribute( eZDOMDocument::createAttributeNode( $name, $value ) );
     }
 
     /*!
@@ -652,6 +684,14 @@ class eZDOMNode
         unset( $this->Attributes );
         $this->Attributes =& $attributeArray;
         return $removed;
+    }
+
+    /*!
+     Alias for libxml compatibility
+    */
+    function remove_attribute( $name )
+    {
+        return $this->removeNamedAttribute( $name );
     }
 
     /*!
@@ -864,15 +904,25 @@ class eZDOMNode
         return $ret;
     }
 
+    /*!
+     Alias for libxml compatibility
+    */
+    function &dump_mem( $format, $charset = false )
+    {
+        return $this->toString( 0, $charset);
+    }
+
     /// \privatesection
 
     /// Name of the node
     var $Name = false;
 
     /// Type of the DOM node. ElementNode=1, AttributeNode=2, TextNode=3, CDATASectionNode=4
+    var $type;
     var $Type = EZ_XML_NODE_ELEMENT;
 
     /// Content of the node
+    var $content = "";
     var $Content = "";
 
     /// Subnodes

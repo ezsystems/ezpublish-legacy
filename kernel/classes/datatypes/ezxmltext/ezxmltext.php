@@ -114,9 +114,11 @@ class eZXMLText
                 if ( $dom )
                 {
                     $node =& $dom->elementsByName( "section" );
+//                    $node =& $dom->get_elements_by_tagname( "section" );
 
                     $sectionNode =& $node[0];
-                    if ( get_class( $sectionNode ) == "ezdomnode" )
+                    if ( ( get_class( $sectionNode ) == "ezdomnode" ) or
+                         ( get_class( $sectionNode ) == "domelement" ) )
                     {
                         $children =& $sectionNode->children();
                         if ( count( $children ) > 0 )

@@ -139,6 +139,15 @@ class eZDOMDocument
     }
 
     /*!
+      \return The document root node if it exists, if not \c false is returned.
+      Extra method for libxml compatibility.
+    */
+    function &get_root()
+    {
+        return $this->Root;
+    }
+
+    /*!
       Sets the document root node to \a $node.
       If the parameter is not an eZDOMNode it will not be set.
     */
@@ -170,6 +179,14 @@ class eZDOMDocument
     function &elementsByName( $name )
     {
         return $this->NamedNodes[$name];
+    }
+
+    /*!
+     Alias for libxml compatibility
+    */
+    function &get_elements_by_tagname( $name )
+    {
+        return $this->elementsByName( $name );
     }
 
     /*!
@@ -330,6 +347,14 @@ class eZDOMDocument
         }
 
         return $node;
+    }
+
+    /*!
+     Alias for libXML compatibility
+    */
+    function &create_element( $name, $attributes = array() )
+    {
+        return $this->createElementNode( $name, $attributes );
     }
 
     /*!
@@ -552,6 +577,14 @@ class eZDOMDocument
         }
 
         return $text;
+    }
+
+    /*!
+     Alias for libxml compatibility
+    */
+    function &dump_mem( $charset = true, $conversion = true )
+    {
+        return $this->toString( $charset, $conversion );
     }
 
     /*!

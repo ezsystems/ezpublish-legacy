@@ -199,7 +199,6 @@ class eZTSTranslator extends eZTranslatorHandler
                     $contexts = $this->HasRestoredCache;
                 if ( !$this->BuildCache )
                 {
-//                     foreach ( $contexts as $contextName )
                     $contextName = $requestedContext;
                     if ( !isset( $this->CachedMessages[$contextName] ) )
                     {
@@ -209,7 +208,6 @@ class eZTSTranslator extends eZTranslatorHandler
                             if ( !eZTranslationCache::restoreCache( $contextName ) )
                             {
                                 $this->BuildCache = true;
-//                                 break;
                             }
                             $this->CachedMessages[$contextName] =
                                  eZTranslationCache::contextCache( $contextName );
@@ -257,7 +255,7 @@ class eZTSTranslator extends eZTranslatorHandler
             include_once( "lib/ezxml/classes/ezxml.php" );
             $xml = new eZXML();
 
-            $tree =& $xml->domTree( $trans_xml );
+            $tree =& $xml->domTree( $trans_xml, array(), true );
 
             if ( !$this->validateDOMTree( $tree ) )
             {
@@ -266,11 +264,11 @@ class eZTSTranslator extends eZTranslatorHandler
             }
             $status = true;
 
-            $treeRoot =& $tree->Root;
-            $children =& $treeRoot->Children;
+            $treeRoot =& $tree->get_root();
+            $children =& $treeRoot->children();
             foreach( $children as $child )
             {
-                if ( $child->type() == 1 )
+                if ( $child->type == 1 )
                 {
                     if ( $child->name() == "context" )
                     {
@@ -281,9 +279,6 @@ class eZTSTranslator extends eZTranslatorHandler
                         eZDebug::writeError( "Unknown element name: " . $child->name(),
                                              "eZTSTranslator::loadTranslationFile" );
                 }
-                else
-                    eZDebug::writeError( "Unknown DOMnode type: " . $child->type(),
-                                         "eZTSTranslator::loadTranslationFile" );
             }
             eZDebug::accumulatorStop( 'tstranslator_load' );
         }
@@ -376,9 +371,10 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
         $contextName = null;
         $messages = array();
         $context_children =& $context->children();
+
         foreach( $context_children as $context_child )
         {
-            if ( $context_child->type() == 1 )
+            if ( $context_child->type == 1 )
             {
                 if ( $context_child->name() == "name" )
                 {
@@ -386,31 +382,43 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
                     if ( count( $name_el ) > 0 )
                     {
                         $name_el = $name_el[0];
-                        $contextName = $name_el->content();
+                        $contextName = $name_el->content;
                     }
                 }
-                else if ( $context_child->name() == "message" )
+                break;
+            }
+        }
+        if ( !$contextName )
+        {
+            eZDebug::writeError( "No context name found, skipping context",
+                                 "eZTSTranslator::handleContextNode" );
+            return false;
+        }
+        foreach( $context_children as $context_child )
+        {
+            if ( $context_child->type == 1 )
+            {
+                $childName = $context_child->name();
+                if ( $childName == "message" )
                 {
-                    $messages[] = $context_child;
+                    $this->handleMessageNode( $contextName, $context_child );
+                }
+                else if ( $childName == "name" )
+                {
+                    /* Skip name tags */
                 }
                 else
-                    eZDebug::writeError( "Unknown element name: " . $context_child->name(),
+                {
+                    eZDebug::writeError( "Unknown element name: $childName",
                                          "eZTSTranslator::handleContextNode" );
+                }
             }
-            else
-                eZDebug::writeError( "Unknown DOMnode type: " . $context_child->type(),
-                                     "eZTSTranslator::handleContextNode" );
         }
         if ( $contextName === null )
         {
             eZDebug::writeError( "No context name found, skipping context",
                                  "eZTSTranslator::handleContextNode" );
             return false;
-        }
-
-        foreach( $messages as $message )
-        {
-            $this->handleMessageNode( $contextName, $message );
         }
         return true;
     }
@@ -421,16 +429,15 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
         $translation = null;
         $comment = null;
         $message_children =& $message->children();
-        $codec =& eZTextCodec::instance( "utf8" );
         foreach( $message_children as $message_child )
         {
-            if ( $message_child->type() == 1 )
+            if ( $message_child->type == 1 )
             {
                 if ( $message_child->name() == "source" )
                 {
                     $source_el = $message_child->children();
                     $source_el = $source_el[0];
-                    $source = $source_el->content();
+                    $source = $source_el->content;
                 }
                 else if ( $message_child->name() == "translation" )
                 {
@@ -438,22 +445,19 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
                     if ( count( $translation_el ) > 0 )
                     {
                         $translation_el = $translation_el[0];
-                        $translation = $translation_el->content();
+                        $translation = $translation_el->content;
                     }
                 }
                 else if ( $message_child->name() == "comment" )
                 {
                     $comment_el = $message_child->children();
                     $comment_el = $comment_el[0];
-                    $comment = $comment_el->content();
+                    $comment = $comment_el->content;
                 }
                 else
                     eZDebug::writeError( "Unknown element name: " . $message_child->name(),
                                          "eZTSTranslator::handleMessageNode" );
             }
-            else
-                eZDebug::writeError( "Unknown DOMnode type: " . $message_child->type(),
-                                     "eZTSTranslator::handleMessageNode" );
         }
         if ( $source === null )
         {
@@ -466,6 +470,15 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
 //             eZDebug::writeError( "No translation, skipping message", "eZTSTranslator::messageNode" );
             return false;
         }
+        /* we need to convert ourselves if we're using libxml stuff here */
+        if ( get_class( $message ) == 'domelement' )
+        {
+            $codec =& eZTextCodec::instance( "utf8" );
+            $source = $codec->convertString( $source );
+            $translation = $codec->convertString( $translation );
+            $comment = $codec->convertString( $comment );
+        }
+
         $this->insert( $contextName, $source, $translation, $comment );
         return true;
     }
