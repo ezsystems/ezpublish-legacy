@@ -443,7 +443,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             eZDebug::accumulatorStart( 'class_a_is_ic', 'Sytem overhead', 'Fetch class attribute name' );
 
             $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
-            $this->ContentClassAttributeCanTranslate = $classAttribute->attribute( 'is_information_collector' );
+            $this->ContentClassAttributeIsInformationCollector = $classAttribute->attribute( 'is_information_collector' );
             eZDebug::accumulatorStart( 'class_a_is_ic' );
         }
 
