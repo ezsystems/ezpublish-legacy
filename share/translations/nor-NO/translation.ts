@@ -1536,6 +1536,10 @@
         <source>Trash</source>
         <translation>Papirkurv</translation>
     </message>
+    <message>
+        <source>Translations</source>
+        <translation>Oversettelser</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/navigator</name>
@@ -4142,10 +4146,86 @@
     </message>
 </context>
 <context>
-    <name>kernel/classes/collaborationhandlers/ezapprove</name>
+    <name>kernel/classes</name>
     <message>
         <source>Approval</source>
         <translation>Godkjenning</translation>
+    </message>
+    <message>
+        <source>Standard</source>
+        <translation>Standard</translation>
+    </message>
+    <message>
+        <source>Observer</source>
+        <translation>Observatør</translation>
+    </message>
+    <message>
+        <source>Owner</source>
+        <translation>Eier</translation>
+    </message>
+    <message>
+        <source>Approver</source>
+        <translation>Godkjennes av</translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <translation>Forfatter</translation>
+    </message>
+    <message>
+        <source>Inbox</source>
+        <translation>Innboks</translation>
+    </message>
+    <message>
+        <source>No state yet</source>
+        <translation>Ingen status ennå</translation>
+    </message>
+    <message>
+        <source>Workflow running</source>
+        <translation>Arbeidsflyt kjører</translation>
+    </message>
+    <message>
+        <source>Workflow done</source>
+        <translation>Arbeidsflyt er ferdig</translation>
+    </message>
+    <message>
+        <source>Workflow failed an event</source>
+        <translation>Arbeidsflyt ble ikke kjørt ved en hendelse</translation>
+    </message>
+    <message>
+        <source>Workflow event deferred to cron job</source>
+        <translation>Arbeidsflyt ble sendt til cron jobb</translation>
+    </message>
+    <message>
+        <source>Workflow was cancelled</source>
+        <translation>Arbeidsflyt ble avbrutt</translation>
+    </message>
+    <message>
+        <source>Workflow was reset for reuse</source>
+        <translation>Arbeidsflyt ble nullstilt for senere bruk</translation>
+    </message>
+    <message>
+        <source>Accepted event</source>
+        <translation>Aksepterte hendelsen</translation>
+    </message>
+    <message>
+        <source>Rejected event</source>
+        <translation>Avviste hendelsen</translation>
+    </message>
+    <message>
+        <source>Event deferred to cron job</source>
+        <translation>Hendelsen ble sendt til cron jobb</translation>
+    </message>
+    <message>
+        <source>Event deferred to cron job, event will be rerun</source>
+        <translation>Hendelsen ble sendt til cron jobb, den vil bli kjørt om igjen</translation>
+    </message>
+    <message>
+        <source>Event runs a sub event</source>
+        <translation>Hendelsen kjører en under-hendelse</translation>
+    </message>
+    <message>
+        <source>Cancelled whole workflow</source>
+        <translation>Avbrøt hele arbeidsflyten</translation>
     </message>
 </context>
 <context>
@@ -4302,102 +4382,6 @@
     <message>
         <source>Link </source>
         <translation>Lenke</translation>
-    </message>
-</context>
-<context>
-    <name>kernel/classes/ezcollaborationitemparticipantlink</name>
-    <message>
-        <source>Standard</source>
-        <translation>Standard</translation>
-    </message>
-    <message>
-        <source>Observer</source>
-        <translation>Observatør</translation>
-    </message>
-    <message>
-        <source>Owner</source>
-        <translation>Eier</translation>
-    </message>
-    <message>
-        <source>Approver</source>
-        <translation>Godkjennes av</translation>
-    </message>
-    <message>
-        <source>Author</source>
-        <translation>Forfatter</translation>
-    </message>
-</context>
-<context>
-    <name>kernel/classes/ezcollaborationprofile</name>
-    <message>
-        <source>Inbox</source>
-        <translation>Innboks</translation>
-    </message>
-</context>
-<context>
-    <name>kernel/classes/ezworkflow</name>
-    <message>
-        <source>No state yet</source>
-        <translation>Ingen status ennå</translation>
-    </message>
-    <message>
-        <source>Workflow running</source>
-        <translation>Arbeidsflyt kjører</translation>
-    </message>
-    <message>
-        <source>Workflow done</source>
-        <translation>Arbeidsflyt er ferdig</translation>
-    </message>
-    <message>
-        <source>Workflow failed an event</source>
-        <translation>Arbeidsflyt ble ikke kjørt ved en hendelse</translation>
-    </message>
-    <message>
-        <source>Workflow event deferred to cron job</source>
-        <translation>Arbeidsflyt ble sendt til cron jobb</translation>
-    </message>
-    <message>
-        <source>Workflow was cancelled</source>
-        <translation>Arbeidsflyt ble avbrutt</translation>
-    </message>
-    <message>
-        <source>Workflow was reset for reuse</source>
-        <translation>Arbeidsflyt ble nullstilt for senere bruk</translation>
-    </message>
-</context>
-<context>
-    <name>kernel/classes/ezworkflowtype</name>
-    <message>
-        <source>No state yet</source>
-        <translation>Ingen status ennå</translation>
-    </message>
-    <message>
-        <source>Accepted event</source>
-        <translation>Aksepterte hendelsen</translation>
-    </message>
-    <message>
-        <source>Rejected event</source>
-        <translation>Avviste hendelsen</translation>
-    </message>
-    <message>
-        <source>Event deferred to cron job</source>
-        <translation>Hendelsen ble sendt til cron jobb</translation>
-    </message>
-    <message>
-        <source>Event deferred to cron job, event will be rerun</source>
-        <translation>Hendelsen ble sendt til cron jobb, den vil bli kjørt om igjen</translation>
-    </message>
-    <message>
-        <source>Event runs a sub event</source>
-        <translation>Hendelsen kjører en under-hendelse</translation>
-    </message>
-    <message>
-        <source>Cancelled whole workflow</source>
-        <translation>Avbrøt hele arbeidsflyten</translation>
-    </message>
-    <message>
-        <source>Workflow was reset for reuse</source>
-        <translation>Arbeidsflyten ble nullstilt for senere bruk</translation>
     </message>
 </context>
 <context>

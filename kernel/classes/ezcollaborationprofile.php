@@ -114,7 +114,7 @@ class eZCollaborationProfile extends eZPersistentObject
             $instance = eZCollaborationProfile::fetchByUser( $userID );
             if ( $instance === null )
             {
-                $group =& eZCollaborationGroup::instantiate( $userID, ezi18n( 'kernel/classes/ezcollaborationprofile', 'Inbox' ) );
+                $group =& eZCollaborationGroup::instantiate( $userID, ezi18n( 'kernel/classes', 'Inbox' ) );
                 $instance = eZCollaborationProfile::create( $userID, $group->attribute( 'id' ) );
                 $instance->store();
             }

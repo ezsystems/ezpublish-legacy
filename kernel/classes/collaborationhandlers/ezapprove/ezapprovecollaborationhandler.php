@@ -81,7 +81,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     function eZApproveCollaborationHandler()
     {
         $this->eZCollaborationItemHandler( 'ezapprove',
-                                           ezi18n( 'kernel/classes/collaborationhandlers/ezapprove', 'Approval' ),
+                                           ezi18n( 'kernel/classes', 'Approval' ),
                                            array( 'use-messages' => true ) );
     }
 
@@ -90,7 +90,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     */
     function title( &$collaborationItem )
     {
-        return ezi18n( 'kernel/classes/collaborationhandlers/ezapprove', 'Approval' );
+        return ezi18n( 'kernel/classes', 'Approval' );
     }
 
     /*!

@@ -247,11 +247,11 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
             if ( !isset( $roleNameMap ) )
             {
                 include_once( 'kernel/common/i18n.php' );
-                $roleNameMap = array( EZ_COLLABORATION_PARTICIPANT_ROLE_STANDARD => ezi18n( 'kernel/classes/ezcollaborationitemparticipantlink', 'Standard' ),
-                                      EZ_COLLABORATION_PARTICIPANT_ROLE_OBSERVER => ezi18n( 'kernel/classes/ezcollaborationitemparticipantlink', 'Observer' ),
-                                      EZ_COLLABORATION_PARTICIPANT_ROLE_OWNER => ezi18n( 'kernel/classes/ezcollaborationitemparticipantlink', 'Owner' ),
-                                      EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER => ezi18n( 'kernel/classes/ezcollaborationitemparticipantlink', 'Approver' ),
-                                      EZ_COLLABORATION_PARTICIPANT_ROLE_AUTHOR => ezi18n( 'kernel/classes/ezcollaborationitemparticipantlink', 'Author' ) );
+                $roleNameMap = array( EZ_COLLABORATION_PARTICIPANT_ROLE_STANDARD => ezi18n( 'kernel/classes', 'Standard' ),
+                                      EZ_COLLABORATION_PARTICIPANT_ROLE_OBSERVER => ezi18n( 'kernel/classes', 'Observer' ),
+                                      EZ_COLLABORATION_PARTICIPANT_ROLE_OWNER => ezi18n( 'kernel/classes', 'Owner' ),
+                                      EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER => ezi18n( 'kernel/classes', 'Approver' ),
+                                      EZ_COLLABORATION_PARTICIPANT_ROLE_AUTHOR => ezi18n( 'kernel/classes', 'Author' ) );
             }
             if ( isset( $roleNameMap[$roleID] ) )
                 return $roleNameMap[$roleID];
