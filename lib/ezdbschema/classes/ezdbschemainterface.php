@@ -685,6 +685,10 @@ class eZDBSchemaInterface
         $diffFriendly = isset( $params['diff_friendly'] ) ? $params['diff_friendly'] : false;
         $multiInsert = ( isset( $params['allow_multi_insert'] ) and $params['allow_multi_insert'] ) ? $this->isMultiInsertSupported() : false;
 
+        // Make sure we don't generate SQL when there are no rows
+        if ( count( $dataEntries['rows'] ) == 0 )
+            return '';
+
         $sqlList = array();
         $sql = '';
         $defText = '';
