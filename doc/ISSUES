@@ -44,6 +44,9 @@ foreach ( array_keys( $list ) as $key )
   $item =& $list[$key];
 }
 
+Section issue:
+Problem when having two node placements in different "sections". The main node section
+will force the design. Makes it harder to share content between sitedesigns.
 
 
 Module:
