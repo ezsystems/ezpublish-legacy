@@ -491,45 +491,43 @@ class eZXMLTextType extends eZDataType
              * After that, remove "href" attribute, add new "id" attribute.
              * This new 'id' will always refer to the existing url object.
              */
+            include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
+            include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+
+            $xml = new eZXML();
+            $domDocument =& $xml->domTree( $rootNode->toString( 0 ), array ( 'CharsetConversion' => false ) );
+
+            if ( $domDocument )
             {
-                include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
-                include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+                $links =& $domDocument->elementsByName( 'link' );
+                if ( !is_array( $links ) )
+                    $links = array();
 
-                $xml = new eZXML();
-                $domDocument =& $xml->domTree( $rootNode->toString( 0 ) );
-
-                if ( $domDocument )
+                foreach ( array_keys( $links ) as $index )
                 {
-                    $links =& $domDocument->elementsByName( 'link' );
-                    if ( !is_array( $links ) )
-                        $links = array();
+                    $linkRef =& $links[$index];
+                    $href    =  $linkRef->attributeValue( 'href' );
 
-                    foreach ( array_keys( $links ) as $index )
+                    $urlObj =& eZURL::urlByURL( $href );
+
+                    if ( !$urlObj )
                     {
-                        $linkRef =& $links[$index];
-                        $href    =  $linkRef->attributeValue( 'href' );
-
-                        $urlObj =& eZURL::urlByURL( $href );
-
-                        if ( !$urlObj )
-                        {
-                            $urlObj =& eZURL::create( $href );
-                            $urlObj->store();
-                        }
-
-                        $linkRef->remove_attribute( 'href' );
-                        $linkRef->set_attribute( 'id', $urlObj->attribute( 'id' ) );
-                        $urlObjectLink =& eZURLObjectLink::create( $urlObj->attribute( 'id' ),
-                                                                   $objectAttribute->attribute( 'id' ),
-                                                                   $objectAttribute->attribute( 'version' ) );
-                        $urlObjectLink->store();
-
+                        $urlObj =& eZURL::create( $href );
+                        $urlObj->store();
                     }
-                    $rootNode =& $domDocument->root();
+
+                    $linkRef->remove_attribute( 'href' );
+                    $linkRef->set_attribute( 'id', $urlObj->attribute( 'id' ) );
+                    $urlObjectLink =& eZURLObjectLink::create( $urlObj->attribute( 'id' ),
+                                                               $objectAttribute->attribute( 'id' ),
+                                                               $objectAttribute->attribute( 'version' ) );
+                    $urlObjectLink->store();
+
                 }
+                $rootNode =& $domDocument->root();
             }
 
-            $objectAttribute->setAttribute( 'data_text', $rootNode->toString( 0 ) );
+            $objectAttribute->setAttribute( 'data_text', eZXMLTextType::domString( $domDocument ) );
         }
     }
 
