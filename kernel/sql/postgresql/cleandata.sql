@@ -2,6 +2,103 @@
 
 
 
+SET search_path = public, pg_catalog;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -672,7 +769,7 @@ INSERT INTO ezworkflow_group_link VALUES (1, 1, 0, 'Standard');
 
 
 INSERT INTO ezsite_data VALUES ('ezpublish-version', '3.2');
-INSERT INTO ezsite_data VALUES ('ezpublish-release', '2');
+INSERT INTO ezsite_data VALUES ('ezpublish-release', '4');
 
 
 
