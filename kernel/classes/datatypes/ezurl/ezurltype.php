@@ -270,8 +270,7 @@ class eZURLType extends eZDataType
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
         $urlNode = $attributeNode->elementByName( 'url' );
-        if ( is_object( $urlNode ) )
-            $urlTextNode = $urlNode->firstChild();
+        $urlTextNode = is_object( $urlNode ) ? $urlNode->firstChild() : null;
         if ( is_object( $urlTextNode ) )
         {
             unset( $url );
