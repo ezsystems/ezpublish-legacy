@@ -204,7 +204,7 @@ class eZStepDatabaseInit extends eZStepInstaller
                                                         'Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.'
                                                         .'<br>See the %documentation for more information about this.'
                                                         .'<br>Remember to start postmaster with the -i option.'
-                                                        .'<br>Note that Postgre 7.2 and 7.4 are not supported.', null,
+                                                        .'<br>Note that PostgreSQL 7.2 is not supported.', null,
                                                         array( '%documentation' => '<a href="http://www.php.net/manual/en/ref.pgsql.php">PHP documentation</a>' ) ),
                                       'number' => EZ_SETUP_DB_ERROR_CONNECTION_FAILED );
                 }

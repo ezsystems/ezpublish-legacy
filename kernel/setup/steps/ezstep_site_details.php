@@ -153,7 +153,7 @@ class eZStepSiteDetails extends eZStepInstaller
 
             if ( $dbVersion != null )
             {
-                if ( $dbVersion['values'][0] == 7 and $dbVersion['values'][1] != 3 )
+                if ( $dbVersion['values'][0] == 7 and $dbVersion['values'][1] == 2 )
                 {
                     $dbStatus['connected'] = false;
                 }

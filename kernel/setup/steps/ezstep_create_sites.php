@@ -323,6 +323,10 @@ class eZStepCreateSites extends eZStepInstaller
                 $result = $db->insertFile( 'kernel/sql/', $sqlSchemaFile );
 //                 print( "inserting SQL $sqlFile!<br/>\n" );
                 $result = $result && $db->insertFile( 'kernel/sql/common', $sqlFile, false );
+                if ( $db->databaseName() == 'postgresql' )
+                {
+                    $db->correctSequenceValues();
+                }
             }
             $installParameters = array( 'path' => '.' );
             $installParameters['ini'] = array();
