@@ -60,6 +60,18 @@ MatchFile=forumtopic_line.tpl
 Subdir=templates
 Match[class]=21
 
+[forumreply]
+Source=node/view/full.tpl
+MatchFile=forumreply.tpl
+Subdir=templates
+Match[class]=22
+
+[forumtopic_line]
+Source=node/view/line.tpl
+MatchFile=forumreply_line.tpl
+Subdir=templates
+Match[class]=22
+
 [forumreply_line]
 Source=node/view/line.tpl
 MatchFile=forumreply_line.tpl
