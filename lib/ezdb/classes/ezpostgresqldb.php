@@ -574,9 +574,8 @@ class eZPostgreSQLDB extends eZDBInterface
     */
     function &escapeString( $str )
     {
-        $str = str_replace ("'", "\'", $str );
-        $str = str_replace ("\"", "\\\"", $str );
-        return $str;
+        $str = str_replace("\0", '', $str);
+        return pg_escape_string( $str );
     }
 
     /*!

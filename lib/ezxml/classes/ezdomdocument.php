@@ -212,6 +212,14 @@ class eZDOMDocument
     */
     function &createTextNode( $text )
     {
+        /* We remove all control chars from the text, although they
+         * should have not be there in the first place. This is
+         * iso-8859-1 and UTF-8 safe. Those characters might also never exist
+         * in an XML document in the first place
+         * (http://w3.org/TR/2004/REC-xml-20040204/#NT-Char) so it's safe to
+         * remove them */
+        $text = preg_replace('/[\x00-\x08\x0b-\x0c\x0e-\x1f]/', '', $text);
+
         $node = new eZDOMNode();
         $node->setName( "#text" );
         $node->setContent( $text );
