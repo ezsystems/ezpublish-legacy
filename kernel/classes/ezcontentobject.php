@@ -66,6 +66,12 @@ class eZContentObject extends eZPersistentObject
     function eZContentObject( $row )
     {
         $this->eZPersistentObject( $row );
+        $this->ClassIdentifier = false;
+        if ( isset( $row['contentclass_identifier'] ) )
+            $this->ClassIdentifier = $row['contentclass_identifier'];
+        $this->ClassName = false;
+        if ( isset( $row['contentclass_name'] ) )
+            $this->ClassName = $row['contentclass_name'];
         $this->CurrentLanguage = eZContentObject::defaultLanguage();
     }
 
@@ -426,12 +432,29 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-     \return the content class identifier for the current content object
+     \return the content class identifer for the current content object
+
+     \note The object will cache the class name information so multiple calls will be fast.
     */
     function &contentClassIdentifier()
     {
-        $contentClass =& $this->contentClass();
-        return $contentClass->attribute( 'identifier' );
+        if ( !is_numeric( $this->ClassID ) )
+        {
+            return null;
+        }
+
+        if ( $this->ClassIdentifier !== false )
+            return $this->ClassIdentifier;
+
+        $db =& eZDB::instance();
+        $id = (int)$this->ClassID;
+        $sql = "SELECT identifier FROM ezcontentclass WHERE id=$id and version=0";
+        $rows = $db->arrayQuery( $sql );
+        if ( count( $rows ) > 0 )
+        {
+            $this->ClassIdentifier = $rows[0]['identifier'];
+        }
+        return $this->ClassIdentifier;
     }
 
     /*!
@@ -2211,8 +2234,29 @@ class eZContentObject extends eZPersistentObject
         return $p;
     }
 
+    /*!
+     \return The name of the class which this object was created from.
+
+     \note The object will cache the class name information so multiple calls will be fast.
+    */
     function &className()
     {
+        if ( !is_numeric( $this->ClassID ) )
+        {
+            return null;
+        }
+
+        if ( $this->ClassName !== false )
+            return $this->ClassName;
+
+        $db =& eZDB::instance();
+        $id = (int)$this->ClassID;
+        $sql = "SELECT name FROM ezcontentclass WHERE id=$id and version=0";
+        $rows = $db->arrayQuery( $sql );
+        if ( count( $rows ) > 0 )
+        {
+            $this->ClassName = $rows[0]['name'];
+        }
         return $this->ClassName;
     }
 
@@ -2708,6 +2752,9 @@ class eZContentObject extends eZPersistentObject
 
     /// Stores the current class name
     var $ClassName;
+
+    /// Cached class identifier
+    var $ClassIdentifier;
 
     /// Contains the datamap for content object attributes
     var $DataMap = array();
