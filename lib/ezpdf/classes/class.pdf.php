@@ -2476,7 +2476,7 @@ class Cpdf
                     case 'i':
                         ++$j;
                     if ($text[$j]=='>'){
-                        if ( $final )
+                        if ( $final === true )
                             $this->currentTextState = substr($this->currentTextState,0,$p).substr($this->currentTextState,$p+1);
                         $directive=$j-$i+1;
                     }
@@ -2504,7 +2504,7 @@ class Cpdf
                                 $directive=0;
                             } else {
                                 // only call the function if this is the final call
-                                if ($final){
+                                if ( $final === 1 ){
                                     // need to assess the text position, calculate the text width to this point
                                     // can use getTextWidth to find the text width I think
                                     $tmp = $this->PRVTgetTextPosition($x,$y,$angle,$size,$wordSpaceAdjust,substr($text,0,$i));
@@ -2540,7 +2540,7 @@ class Cpdf
                     ++$j;
 
                 if ($text[$j]=='>'){
-                    if (  $final )
+                    if (  $final === true )
                         $this->currentTextState .= $text[$j-1];
                     $directive=$j-$i+1;
                 }
@@ -2569,7 +2569,7 @@ class Cpdf
                         $directive=0;
                     } else {
                         // only call the function if this is the final call, ie, the one actually doing printing, not measurement
-                        if ($final){
+                        if ($final === 1){
                             // need to assess the text position, calculate the text width to this point
                             // can use getTextWidth to find the text width I think
                             // also add the text height and decender
@@ -2643,7 +2643,7 @@ class Cpdf
         $start=0;
         for ($i=0;$i<$len;$i++){
             $f=1;
-            $directiveArray = $this->PRVTcheckTextDirective($text,$i,$f, 1);
+            $directiveArray = $this->PRVTcheckTextDirective( $text,$i,$f, true );
             $directive = $directiveArray['directive'];
             if ($directive){
                 // then we should write what we need to
