@@ -10,16 +10,17 @@
 DefaultPage=/content/view/full/2
 IndexPage=/content/view/full/2
 ErrorHandler=displayerror
-LoginPage=custom
-
+LoginPage=embedded
 
 [SiteAccessSettings]
 RequireUserLogin=false
 
 [DesignSettings]
-SiteDesign=mysite
+SiteDesign=bookshop
 # AdditionalSiteDesignArray contains an array
 # of sitedesigns. These sitedesigns will be used
 # if the design was not found in the main 
 # sitedesign. StandardDesign is the fallback design.
 AdditionalSiteDesignList[]=
+
+
