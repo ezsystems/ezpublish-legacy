@@ -138,7 +138,8 @@
     <th colspan="2">{'Location'|i18n( 'design/admin/content/removelocation' )}</th>
     <th>{'Sub items'|i18n( 'design/admin/content/removelocation' )}</th>
 </tr>
-{section var=remove_item loop=$remove_list sequence=array( bglight, bgdark )}
+
+{section var=remove_item loop=$assignment_data.remove_list sequence=array( bglight, bgdark )}
 <tr class="{$remove_item.sequence}{section show=$remove_item.can_remove|not} object-cannot-remove{/section}">
     {* Object icon. *}
     <td class="tight">{$remove_item.class.identifier|class_icon( small, $remove_item.class.name )}</td>
