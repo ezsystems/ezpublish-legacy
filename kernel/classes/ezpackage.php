@@ -1315,6 +1315,11 @@ class eZPackage
         {
             fwrite( $file, $data );
             fclose( $file );
+
+            $siteConfig =& eZINI::instance( 'site.ini' );
+            $filePermissions = $siteConfig->variable( 'FileSettings', 'StorageFilePermissions');
+            @chmod( $file, octdec( $filePermissions ) );
+
             eZDebugSetting::writeNotice( 'kernel-ezpackage-store',
                                          "Stored file $filename",
                                          'eZPackage::storeString' );
