@@ -80,7 +80,7 @@ function OpenWindow ( URL, WinName, Features ) {
     <td bgcolor="#e8e8e8">
     {section name=Gallery loop=$gallery_list}
   {section show=and(eq($DesignKeys:used.node,$Gallery:item.node_id),eq($DesignKeys:used.viewmode,'slideshow'))}
-{*  &nbsp;<a href="/content/view/thumbnail/{$Gallery:item.node_id}">{$Gallery:item.name}</a>*}
+{*  &nbsp;<a href={concat("/content/view/thumbnail/",$Gallery:item.node_id)|ezurl}>{$Gallery:item.name}</a>*}
   <strong class="small">&nbsp;&nbsp;{$Gallery:item.name}</strong>
   {/section}
 {/section}
@@ -143,7 +143,7 @@ function OpenWindow ( URL, WinName, Features ) {
 </tr>
 {section-else}
                 <tr>
-                  <td bgcolor="#e2e2e2" class="small">&nbsp;<a href="/content/view/thumbnail/{$Gallery:item.node_id}">{$Gallery:item.name}</a></td>
+                  <td bgcolor="#e2e2e2" class="small">&nbsp;<a href={concat("/content/view/thumbnail/",$Gallery:item.node_id)|ezurl}>{$Gallery:item.name}</a></td>
                 </tr>
 {/section}
 
@@ -156,7 +156,7 @@ function OpenWindow ( URL, WinName, Features ) {
 {*
     <td bgcolor="#cccccc" valign="top" width="150">
     <form action="/content/search/" method="get">
-    <label class="topline" for="Search">Search:</label><a class="topline" href="/content/advancedsearch/"><span class="small">Advanced search</span></a><div class="labelbreak"></div>
+    <label class="topline" for="Search">Search:</label><a class="topline" href={"/content/advancedsearch/"|ezurl}><span class="small">Advanced search</span></a><div class="labelbreak"></div>
     <input type="text" size="10" name="SearchText" id="Search" value="" />
     <input class="button" name="SearchButton" type="submit" value="{"Search"|i18n('pagelayout')}" />
     </form>
