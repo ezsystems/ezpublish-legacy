@@ -134,7 +134,7 @@
     <td width="120" valign="top" style="padding-right: 4px; padding-left: 15px; padding-top: 15px;">
     <table>
 <tr>
-    </td>
+    <td>
 
 
 {* Left menu START *}
