@@ -202,10 +202,11 @@ class eZTemplateSetFunction
                     }
                     $parameterData =& $parameters[$parameterName];
 
-                    $setVarNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameterData, eZTemplateNodeTool::extractFunctionNodePlacement( $node ), array(),
-                                                                             array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $parameterName ),
-                                                                             ( $functionName == $this->SetName ), ( $functionName != $this->DefaultName ),
-                                                                             false, ( $functionName == $this->DefaultName ) );
+                    $setVarNodes[] = eZTemplateNodeTool::createVariableNode(
+                            false, $parameterData, eZTemplateNodeTool::extractFunctionNodePlacement( $node ), array(),
+                            array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $parameterName ),
+                            ( $functionName == $this->SetName ), ( $functionName != $this->DefaultName ),
+                            false, ( $functionName == $this->DefaultName ) );
 
                     if ( $functionName == $this->LetName or $functionName == $this->DefaultName )
                     {
