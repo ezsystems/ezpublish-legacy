@@ -66,7 +66,44 @@ if ( $http->hasPostVariable( 'NewWorkflowButton' ) )
 if ( $http->hasPostVariable( 'DeleteButton' ) and
      $http->hasPostVariable( 'Workflow_id_checked' ) )
 {
-    eZWorkflow::setIsEnabled( false, $http->postVariable( 'Workflow_id_checked' ) );
+    if ( $http->hasPostVariable( 'CurrentGroupID' ) )
+    {
+        // If CurrentGroupID variable exist, delete in that group only:
+        $groupID =& $http->postVariable( 'CurrentGroupID' );
+        $workflowIDs =& $http->postVariable( 'Workflow_id_checked' );
+        foreach ( $workflowIDs as $workflowID )
+        {
+            // for all workflows which are tagged for deleting:
+            $workflow = eZWorkflow::fetch( $workflowID );
+            if ( $workflow )
+            {
+                $workflowInGroups = $workflow->attribute( 'ingroup_list' );
+                if ( count( $workflowInGroups ) == 1 )
+                {
+                    // if there is only one group which the workflow belongs to, delete (=disable) it:
+                    eZWorkflow::setIsEnabled( false, $workflowID );
+                }
+                else
+                {
+                    // if there is more than 1 group, remove only from the group:
+                    include_once( "kernel/workflow/ezworkflowfunctions.php" );
+
+                    eZWorkflowFunctions::removeGroup( $workflowID, 0, array( $groupID ) );
+                }
+            
+            }
+            else
+            {
+                // just for sure :-)
+                eZWorkflow::setIsEnabled( false, $workflowID );
+            }
+        }
+    }
+    else
+    {
+        // if there is no CurrentGroupID variable, disable every group in variable Workflow_id_checked:
+        eZWorkflow::setIsEnabled( false, $http->postVariable( 'Workflow_id_checked' ) );
+    }
 }
 
 if ( $http->hasPostVariable( 'DeleteButton' ) and
