@@ -87,8 +87,8 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
 <div class="block">
-<input class="button" type="submit" name="ConfirmButton" value="{'Yes'|i18n( 'design/admin/content/removeeditversion' )}" />
-<input class="button" type="submit" name="CancelButton" value="{'No'|i18n( 'design/admin/content/removeeditversion' )}" />
+<input class="button" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/content/removeeditversion' )}" />
+<input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n( 'design/admin/content/removeeditversion' )}" />
 </div>
 
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>

@@ -51,8 +51,8 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package/list')|b
 
 <div class="block">
 
-    <input class="button" type="submit" name="ConfirmRemovePackageButton" value="{'Confirm removal'|i18n('design/admin/package/list')}" />
-    <input class="button" type="submit" name="CancelRemovePackageButton" value="{'Keep packages'|i18n('design/admin/package/list')}" />
+    <input class="button" type="submit" name="ConfirmRemovePackageButton" value="{'OK'|i18n('design/admin/package/list')}" />
+    <input class="button" type="submit" name="CancelRemovePackageButton" value="{'Cancel'|i18n('design/admin/package/list')}" />
 
 </div>
 

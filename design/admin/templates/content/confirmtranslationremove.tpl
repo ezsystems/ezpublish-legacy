@@ -37,7 +37,7 @@
 
 <div class="block">
 
-{include uri="design:gui/button.tpl" name=Store id_name=ConfirmButton value="Confirm"|i18n("design/admin/content/confirmtranslationremove")}
+{include uri="design:gui/button.tpl" name=Store id_name=ConfirmButton value="OK"|i18n("design/admin/content/confirmtranslationremove")}
 {include uri="design:gui/button.tpl" name=Discard id_name=CancelButton value="Cancel"|i18n("design/admin/content/confirmtranslationremove")}
 
 </div>

@@ -34,7 +34,7 @@
 
 <form enctype="multipart/form-data" method="post" action={concat("/content/removenode/",$object.id,"/",$edit_version,"/",$node.node_id,"/")|ezurl}>
     <input type="hidden" name=RemoveNodeID value={$node.node_id} />
-    {include uri="design:gui/button.tpl" name=Store id_name=ConfirmButton value="Confirm"|i18n("design/admin/node/removenode")}
+    {include uri="design:gui/button.tpl" name=Store id_name=ConfirmButton value="OK"|i18n("design/admin/node/removenode")}
     {include uri="design:gui/button.tpl" name=Discard id_name=CancelButton value="Cancel"|i18n("design/admin/node/removenode")}
 </form>
 
