@@ -10,11 +10,15 @@
         </div>
 
         <div class="content-price">
+         <p>
            {attribute_view_gui attribute=$node.object.data_map.price}
+         </p>
         </div>
 
         <div class="content-link">
-            <a href={$node.url_alias|ezurl}>Details</a>
+           <p>
+            <a href={$node.url_alias|ezurl}>More information</a>
+           </p>
         </div>
    </div>
 </div>

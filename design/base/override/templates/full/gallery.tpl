@@ -5,6 +5,12 @@
 
         <h1>{$node.name|wash()}</h1>
 
+    {section show=$node.object.data_map.image.content}
+        <div class="content-image">
+            {attribute_view_gui alignment=right image_class=medium attribute=$node.object.data_map.image.content.data_map.image}
+        </div>
+    {/section}
+
         <div class="content-short">
            {attribute_view_gui attribute=$node.object.data_map.short_description}
         </div>
@@ -13,7 +19,11 @@
            {attribute_view_gui attribute=$node.object.data_map.description}
         </div>
 
-        <a href={concat('/content/view/slideshow/',$node.node_id)|ezurl}>Slideshow</a>
+        <div class="content-link">
+            <p>
+            <a href={concat('/content/view/slideshow/',$node.node_id)|ezurl}>&gt;View as slideshow</a>
+            </p>
+        </div>
 
         {let page_limit=10
              children=fetch_alias( children, hash( parent_node_id, $node.node_id,
@@ -27,7 +37,7 @@
                <tr>
                {section var=child loop=$children sequence=array(bglight,bgdark)}
                    <td>
-                      {node_view_gui view=line content_node=$child}
+                      {node_view_gui view=galleryline content_node=$child}
                    </td>
                    {delimiter modulo=4}
                    </tr>

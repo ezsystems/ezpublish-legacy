@@ -1,8 +1,9 @@
-<div class="design">
+<div class="toolbox">
+    <div class="toolbox-design">
 {let basket=fetch( shop, basket )
      use_urlalias=ezini( 'URLTranslator', 'Translation' )|eq( 'enabled' )
      basket_items=$basket.items}
-<h4>{"Shopping basket"|i18n("design/shop/layout")}</h4>
+    <h2>{"Shopping basket"|i18n("design/shop/layout")}</h2>
 {section show=$basket_items}
     <ul>
         {section var=product loop=$basket_items sequence=array( odd, even )}
@@ -18,4 +19,5 @@
         <p>{"Your basket is empty"|i18n("design/shop/layout")}</p>
     {/section}
     {/let}
+    </div>
 </div>

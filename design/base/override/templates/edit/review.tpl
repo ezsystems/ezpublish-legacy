@@ -11,9 +11,8 @@
 
         <input type="hidden" name="MainNodeID" value="{$main_node_id}" />
         {include uri="design:content/edit_attribute.tpl"}
-        <br/>
 
-        <div class="buttonblock">
+        <div class="content-action">
             <input class="defaultbutton" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('design/standard/content/edit')}" />
             <input class="button" type="submit" name="DiscardButton" value="{'Discard'|i18n('design/standard/content/edit')}" />
             <input type="hidden" name="DiscardConfirm" value="0" />

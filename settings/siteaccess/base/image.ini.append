@@ -5,6 +5,8 @@ AliasList[]=small
 AliasList[]=medium
 AliasList[]=listitem
 AliasList[]=articleimage
+AliasList[]=gallerythumbnail
+AliasList[]=imagelarge
 AliasList[]=large
 AliasList[]=rss
 
@@ -19,6 +21,12 @@ Filters[]=geometry/scaledownonly=155;200
 
 [articleimage]
 Filters[]=geometry/scaledownonly=170;350
+
+[gallerythumbnail]
+Filters[]=geometry/scaledownonly=70;150
+
+[imagelarge]
+Filters[]=geometry/scaledownonly=370;450
 
 [large]
 Filters[]=geometry/scaledownonly=300;300

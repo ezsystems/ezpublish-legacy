@@ -17,8 +17,10 @@
         <div class="break"></div>
     </div>
 
-    <div class="content-long">
+    <div class="content-message">
+        <p>
         {$node.object.data_map.message.content|wash(xhtml)|break|wordtoimage|autolink}
+        </p>
     </div>
 
     {section show=$node.object.data_map.rating.content.0|gt(0)}

@@ -14,7 +14,9 @@
         </div>
 
         <div class="content-price">
+          <p>
            {attribute_view_gui attribute=$node.object.data_map.price}
+          </p>
         </div>
 
         <div class="content-action">
@@ -23,7 +25,6 @@
             <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
             <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
             <input type="hidden" name="ViewMode" value="full" />
-            <input class="button" type="submit" name="ActionAddToNotification" value="{"Notify me about updates"|i18n("design/shop/layout")}{*to {$node.name|wash}*}" />
         </form>
         </div>
 
@@ -36,11 +37,13 @@
 
         {* Are we allowed to create new object under this node? *}
         {section show=$node.object.can_create}
+        <div class="content-action">
             <form method="post" action={"content/action"|ezurl}>
                 <input type="hidden" name="ClassIdentifier" value="review" />
                 <input type="hidden" name="NodeID" value="{$node.node_id}" />
                 <input class="button" type="submit" name="NewButton" value="New review" />
             </form>
+        </div>
         {section-else}
             <div class="message-warning">
                <h3>You are not allowed to create comments.</h3>

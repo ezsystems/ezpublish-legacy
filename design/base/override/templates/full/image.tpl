@@ -6,7 +6,7 @@
     <h1>{$node.name}</h1>
 
     <div class="content-image">
-        <p>{attribute_view_gui attribute=$node.object.data_map.image image_class=large}</p>
+        <p>{attribute_view_gui attribute=$node.object.data_map.image image_class=imagelarge}</p>
     </div>
 
     <div class="content-caption">
