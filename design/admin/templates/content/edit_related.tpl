@@ -2,6 +2,8 @@
 
 {section show=$related_contentobjects|count|gt( 0 )}
 
+    <h3>{'Related objects'|i18n( 'design/standard/content/edit' )}</h3>
+
     {section show=$grouped_related_contentobjects.images|count|gt( 0 )}
 
         <div class="image-thumbnail-list">
@@ -20,16 +22,16 @@
 
     {section show=$grouped_related_contentobjects.files|count|gt( 0 )}
         <div class="file-detail-list">
-            <h3>{'Attachments'|i18n( 'design/standard/content/edit' )}</h3>
+            <h3>{'Files'|i18n( 'design/standard/content/edit' )}</h3>
 
             <table class="list" cellspacing="0">
             <tr>
                 <th class="checkbox"></th>
                 <th class="icon"></th>
-                <th class="name">{'Attached file'|i18n( 'design/standard/content/edit' )}</th>
-                <th class="class">{'File type'|i18n( 'design/standard/content/edit' )}</th>
+                <th class="name">{'Name'|i18n( 'design/standard/content/edit' )}</th>
+                <th class="class">{'Type'|i18n( 'design/standard/content/edit' )}</th>
                 <th class="filesize">{'Size'|i18n( 'design/standard/content/edit' )}</th>
-                <th class="code">{'Code'|i18n( 'design/standard/content/edit' )}</th>
+                <th class="code">{'XML code'|i18n( 'design/standard/content/edit' )}</th>
             </tr>
 
             {section var=related loop=$grouped_related_contentobjects.files sequence=array( bglight, bgdark )}
@@ -42,15 +44,14 @@
 
     {section show=$grouped_related_contentobjects.objects|count|gt( 0 )}
         <div class="related-detail-list">
-            <h3>{'Related objects'|i18n( 'design/standard/content/edit' )}</h3>
-
+            <h3>{'Content'|i18n( 'design/standard/content/edit' )}</h3>
             <table class="list" cellspacing="0">
             <tr>
                 <th class="checkbox"></th>
                 <th class="icon"></th>
-                <th class="name">{'Related content'|i18n( 'design/standard/content/edit' )}</th>
-                <th class="class">{'Class type'|i18n( 'design/standard/content/edit' )}</th>
-                <th class="code">{'Code'|i18n( 'design/standard/content/edit' )}</th>
+                <th class="name">{'Name'|i18n( 'design/standard/content/edit' )}</th>
+                <th class="class">{'Type'|i18n( 'design/standard/content/edit' )}</th>
+                <th class="code">{'XML code'|i18n( 'design/standard/content/edit' )}</th>
             </tr>
 
             {section var=related loop=$grouped_related_contentobjects.objects sequence=array( bglight, bgdark )}
@@ -65,16 +66,17 @@
 
 <div class="controlbar">
     <div class="editblock">
-        <input class="button" type="submit" name="DeleteRelationButton" value="{'Remove'|i18n('design/standard/content/edit')}" />
-        <input class="button" type="Submit" name="BrowseObjectButton" value="{'Find'|i18n('design/standard/content/edit')}" />
+        <input class="button" type="submit" name="DeleteRelationButton" value="{'Remove selected'|i18n('design/standard/content/edit')}" title="{'Click here to remove the selected items from the list(s) above. The items will only be removed from the list, but not from the system.'|i18n( 'design/admin/layout' )}" />
+        <input class="button" type="Submit" name="BrowseObjectButton" value="{'Add existing'|i18n('design/standard/content/edit')}" title="{'Click here to add an existing item as a related object.'|i18n( 'design/admin/layout' )}" />
     </div>
     <div class="createblock">
+        Location:
         <select	name="ClassID" class="classcreate">
             {section name=Classes loop=$object.can_create_class_list}
                 <option value="{$Classes:item.id}">{$Classes:item.name}</option>
             {/section}
      	</select>
-	    <input class="button" type="submit" name="NewButton" value="{'New'|i18n('design/standard/content/edit')}" />
+	    <input class="button" type="submit" name="NewButton" value="{'Add new'|i18n('design/standard/content/edit')}" title="{'Click here to upload a file. The file will be placed within the location that is specified using the dropdown menu to the left. In addition, the file will be automatically related to the item that is currently being edited.'|i18n( 'design/admin/layout' )}" />
     </div>
 </div>
 
