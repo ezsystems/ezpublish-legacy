@@ -42,7 +42,7 @@
 </map>
 
 {let folder_list=fetch(content,list,hash(parent_node_id,24,sort_by,array(array(priority))))
-     news_list=fetch(content,tree,hash(parent_node_id,24,limit,5,sort_by,array(array(published)),class_filter_type,include,class_filter_array,array(2)))}
+     news_list=fetch(content,tree,hash(parent_node_id,24,limit,5,sort_by,array(published,false()),class_filter_type,include,class_filter_array,array(2)))}
 
 <table width="700" border="0" cellpadding="0" cellspacing="0">
 <tr> 

@@ -14,7 +14,6 @@ SiteDesign=user
 IndexPage=/content/view/full/26
 LoginPage=embedded
 
-
 [SiteAccessSettings]
 RequireUserLogin=false
 

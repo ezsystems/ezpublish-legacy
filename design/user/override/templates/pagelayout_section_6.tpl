@@ -65,11 +65,11 @@ function OpenWindow ( URL, WinName, Features ) {
 <AREA SHAPE="RECT" COORDS="248,3,317,24" href={"content/view/full/82/"|ezurl} />
 <AREA SHAPE="RECT" COORDS="320,3,392,23" href={"content/view/full/62/"|ezurl} />
 </map>
-<br />
-
 {let folder_list=fetch(content,list,hash(parent_node_id,158,sort_by,array(array(priority))))
-     news_list=fetch(content,list,hash(parent_node_id,159,limit,5,sort_by,array(published),class_filter_type,include,class_filter_array,array(2)))}
+     news_list=fetch(content,list,hash(parent_node_id,159,limit,5,sort_by,array(published,false()),class_filter_type,include,class_filter_array,array(2)))}
 
+
+<br clear="all" />
 
 <table width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>

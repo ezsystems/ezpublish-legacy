@@ -86,13 +86,13 @@ include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 //                                                                'version' => 1 ) ) )
 //     return;
 eZDebug::addTimingPoint( 'Operation start' );
-$operationResult = eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID ) );
+//$operationResult = eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID ) );
 eZDebug::addTimingPoint( 'Operation end' );
-if ( !$operationResult['status'] )
-{
-    $Result = $operationResult['result'];
-    return;
-}
+//if ( !$operationResult['status'] )
+//{
+//    $Result = $operationResult['result'];
+//    return;
+//}
 
 $node =& eZContentObjectTreeNode::fetch( $NodeID );
 

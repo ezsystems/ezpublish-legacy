@@ -123,7 +123,7 @@ $show_page_layout = true;
 $moduleRunRequired = true;
 
 include_once( 'kernel/classes/ezsection.php' );
-// eZSection::initGlobalID();
+eZSection::initGlobalID();
 
 while ( $moduleRunRequired )
 {
@@ -202,7 +202,9 @@ while ( $moduleRunRequired )
         if ( $accessResult['accessWord'] == 'no' &&
 //             $module->attribute( 'name' ) != 'role' &&
 //             $module->attribute( 'name' ) != 'error' &&
-             $module->attribute( 'name' ) != 'user'
+             $module->attribute( 'name' ) != 'user' &&
+             $module->attribute( 'name' ) != 'layout' &&
+             $module->attribute( 'name' ) != 'dhtml'
 //             !( $module->attribute( 'name' ) == 'content'  &&  $function_name == 'browse' )
              )
         {
@@ -313,6 +315,8 @@ if ( $show_page_layout )
     $tpl =& templateInit();
     if ( !isset( $moduleResult['path'] ) )
         $moduleResult['path'] = false;
+    $moduleResult['uri'] = eZSys::serverVariable( 'REQUEST_URI' );
+
     $tpl->setVariable( "module_result", $moduleResult );
 
     $site = array(
