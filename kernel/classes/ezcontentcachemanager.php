@@ -80,7 +80,10 @@ class eZContentCacheManager
         foreach ( array_keys( $parentNodes ) as $parentNodeKey )
         {
             $parentNode =& $parentNodes[$parentNodeKey];
-            $nodeIDList[] = $parentNode->attribute( 'node_id' );
+            if ( is_object ( $parentNode ) )
+            {
+                $nodeIDList[] = $parentNode->attribute( 'node_id' );
+            }
         }
     }
 
