@@ -407,7 +407,7 @@ class eZTemplateElementParser
                 {
                     if ( $variableName === false )
                     {
-                        eZDebug::writeError( 'No variable name found', 'eZTemplateElementParser::variableEndPos' );
+                        eZDebug::writeError( "No variable name found", 'eZTemplateElementParser::variableEndPos' );
                         return $startPosition;
                     }
                     break;
