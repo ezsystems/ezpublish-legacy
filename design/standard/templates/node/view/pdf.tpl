@@ -29,11 +29,17 @@
 
 {/let}
 
-{pdf(createIndex)}
-{pdf(pageNumber, hash( identifier, "main",
-                       stop, 1 ) )}
-{include uri="design:content/pdf/footer.tpl"}
 
+{section show=$generate_toc|eq(1)}
+  {pdf(pageNumber, hash( identifier, "main",
+                         stop, 1 ) )}
+{/section}
+
+{section show=$pdf_root_template|eq(1)}
+  {*  {pdf(createIndex)}  *} {* Index is based on the keyword datatype, and is not used in most setups *}
+
+  {include uri="design:content/pdf/footer.tpl"}
+{/section}
 
 {* Insert frontpage *}
 {section show=$show_frontpage|eq(1)}

@@ -206,6 +206,7 @@ function generatePDF( &$pdfExport, $toFile = false )
                                        $pdf_definition );
 
         $tpl->setVariable( 'pdf_definition', $pdf_definition );
+        $tpl->setVariable( 'pdf_root_template', 1 );
 
         $uri = 'design:node/view/execute_pdf.tpl';
         $textElements = '';
