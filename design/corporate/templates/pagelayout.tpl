@@ -5,11 +5,6 @@
 <head>
 {include uri="design:page_head.tpl" enable_glossary=false() enable_help=false()}
 
-{*
-<link rel="stylesheet" type="text/css" href={"stylesheets/corporate.css"|ezdesign} />
-*}
-
-{*<link rel="stylesheet" type="text/css" href={"stylesheets/corporate.css"|ezdesign} />*}
 <link rel="stylesheet" type="text/css" href={$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot} />
 
 </head>
@@ -55,8 +50,8 @@
    </div>
 
    <div id="mainmenu">
-    {let MainMenu=treemenu($module_result.path,$module_result.node_id,1,array('folder','info_page'))}
-        {section name=Menu loop=$MainMenu}
+    {let mainMenu=treemenu($module_result.path,$module_result.node_id,1,array('folder','info_page'))}
+        {section name=Menu loop=$mainMenu}
             <div class="item">
 	    {section show=$:item.is_selected}
                <div class="selected">
@@ -72,7 +67,6 @@
             </div>
         {/section}
     {/let}
-    
    </div>
 
    <div id="info_bar">
