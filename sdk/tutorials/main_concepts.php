@@ -79,7 +79,7 @@ you need in the installation manual.
 
 <p>
 Once you've gotten eZ publish up and running on a server you need to configure the system.
-You can have several different sites running on the same eZ publish installation to distinguish
+You can have several different sites running on the same eZ publish installation, to distinguish
 between these sites you need to set up something called site access. The site access defines
 how eZ publish will recognize which site you're accessing. eZ publish will then know which database
 to use, which design to show etc. There are four ways of letting eZ publish recognize a site access,
