@@ -168,6 +168,7 @@ eZTemplate:
 - Added string support for comparison operators.
 - Added missing ne operator to autoload list.
 - Fixed si operator to work again.
+- Template debug output now works properly with tree caching enabled.
 
 eZINI:
 - Added support for override directories which are not a subdir

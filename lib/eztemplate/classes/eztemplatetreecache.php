@@ -45,7 +45,7 @@
 
 include_once( 'lib/ezutils/classes/ezdebug.php' );
 
-define( 'EZ_TEMPLATE_TREE_CACHE_CODE_DATE', 1041857934 );
+define( 'EZ_TEMPLATE_TREE_CACHE_CODE_DATE', 1044440833 );
 
 class eZTemplateTreeCache
 {
@@ -62,6 +62,23 @@ class eZTemplateTreeCache
     }
 
     /*!
+     \private
+     \static
+     \return a new key from \a $key which has some additional info.
+    */
+    function internalKey( $key )
+    {
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini =& eZINI::instance();
+        $debug = $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled';
+        if ( $debug )
+            $key = $key . '-debug';
+        else
+            $key = $key . '-clean';
+        return $key;
+    }
+
+    /*!
      \static
      \return the cache node tree which is stored with the cache key \a $key.
              Returns \c null if no cache data was found.
@@ -69,14 +86,15 @@ class eZTemplateTreeCache
     function &cachedTree( $key, $uri, $res, $templatePath, &$extraParameters )
     {
         $templateCache =& eZTemplateTreeCache::cacheTable();
+        $key = eZTemplateTreeCache::internalKey( $key );
         $root = null;
         if ( isset( $templateCache[$key] ) )
         {
             $root =& $templateCache[$key]['root'];
-//             eZDebug::writeDebug( "Cache hit for uri '$uri' with key '$key'", 'eZTemplateTreeCache::cachedTree' );
+            eZDebugSetting::writeDebug( 'eztemplate-tree-cache', "Cache hit for uri '$uri' with key '$key'", 'eZTemplateTreeCache::cachedTree' );
         }
-//         else
-//             eZDebug::writeDebug( "Cache miss for uri '$uri' with key '$key'", 'eZTemplateTreeCache::cachedTree' );
+        else
+            eZDebugSetting::writeDebug( 'eztemplate-tree-cache', "Cache miss for uri '$uri' with key '$key'", 'eZTemplateTreeCache::cachedTree' );
 
         return $root;
     }
@@ -85,11 +103,12 @@ class eZTemplateTreeCache
      Sets the template tree node \a $root to be cached with the cache key $root.
      \note Trying to overwrite and existing cache key will give a warning and fail.
     */
-    function setCachedTree( $key, $uri, $res, $templatePath, &$extraParameters, &$root )
+    function setCachedTree( $originalKey, $uri, $res, $templatePath, &$extraParameters, &$root )
     {
         if ( $root === null )
             return;
         $templateCache =& eZTemplateTreeCache::cacheTable();
+        $key = eZTemplateTreeCache::internalKey( $originalKey );
         if ( isset( $templateCache[$key] ) )
         {
             eZDebug::writeWarning( "Template cache for key '$key', created from uri '$uri', already exists", 'eZTemplateTreeCache::setCachedTree' );
@@ -98,9 +117,14 @@ class eZTemplateTreeCache
         {
             $templateCache[$key] = array();
         }
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini =& eZINI::instance();
+        $debug = $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled';
         $templateCache[$key]['root'] =& $root;
-        $templateCache[$key]['info'] = array( 'key' => $key,
+        $templateCache[$key]['info'] = array( 'original_key' => $originalKey,
+                                              'key' => $key,
                                               'uri' => $uri,
+                                              'debug' => $debug,
                                               'resource' => $res,
                                               'template_path' => $templatePath,
                                               'resource_parameters' => $extraParameters );
@@ -156,6 +180,7 @@ class eZTemplateTreeCache
             return false;
 
         $templateCache =& eZTemplateTreeCache::cacheTable();
+        $key = eZTemplateTreeCache::internalKey( $key );
         if ( isset( $templateCache[$key] ) )
         {
             return false;
@@ -181,6 +206,7 @@ class eZTemplateTreeCache
             return false;
 
         $templateCache =& eZTemplateTreeCache::cacheTable();
+        $key = eZTemplateTreeCache::internalKey( $key );
         if ( isset( $templateCache[$key] ) )
         {
             eZDebug::writeWarning( "Template cache for key '$key' already exist, cannot restore cache", 'eZTemplateTreeCache::restoreCache' );
@@ -214,6 +240,7 @@ class eZTemplateTreeCache
         if ( !eZTemplateTreeCache::isCacheEnabled() )
             return false;
         $templateCache =& eZTemplateTreeCache::cacheTable();
+        $key = eZTemplateTreeCache::internalKey( $key );
         if ( !isset( $templateCache[$key] ) )
         {
             eZDebug::writeWarning( "Template cache for key '$key' does not exist, cannot store cache", 'eZTemplateTreeCache::storeCache' );

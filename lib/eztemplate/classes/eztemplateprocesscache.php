@@ -112,7 +112,13 @@ class eZTemplateProcessCache
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
         $php = new eZPHPCreator( eZTemplateProcessCache::cacheDirectory(), $cacheFileName );
-        return $php->canRestore( $timestamp );
+        $canRestore = $php->canRestore( $timestamp );
+        $uri = false;
+        if ( $canRestore )
+            eZDebugSetting::writeDebug( 'eztemplate-process-cache', "Cache hit for uri '$uri' with key '$key'", 'eZTemplateProcessCache::hasProcessCache' );
+        else
+            eZDebugSetting::writeDebug( 'eztemplate-process-cache', "Cache miss for uri '$uri' with key '$key'", 'eZTemplateProcessCache::hasProcessCache' );
+        return $canRestore;
     }
 
     /*!
