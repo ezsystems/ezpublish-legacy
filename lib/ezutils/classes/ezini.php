@@ -341,12 +341,11 @@ class eZINI
         }
 
 
-        $md5Files = array();
+        $md5_input = '';
         foreach ( $inputFiles as $inputFile )
         {
-            $md5Files[] = $inputFile;
+            $md5_input .= $inputFile. "\n";
         }
-        $md5_input = implode( "\n", $md5Files );
         if ( $this->UseTextCodec )
         {
             include_once( "lib/ezi18n/classes/eztextcodec.php" );
@@ -368,9 +367,10 @@ class eZINI
 
         $loadCache = false;
         $cacheTime = false;
-        if ( file_exists( $cachedFile ) )
+		$fileInfo = @stat( $cachedFile );
+        if ( $fileInfo )
         {
-            $cacheTime = filemtime( $cachedFile );
+            $cacheTime = $fileInfo['mtime'];
             $loadCache = true;
             if ( $cacheTime < $inputTime )
             {
@@ -1016,6 +1016,44 @@ class eZINI
             $ret = $this->BlockValues[$blockName][$varName];
         else
             eZDebug::writeError( "Undefined variable: '$varName' in group '$blockName'", "eZINI" );
+
+        return $ret;
+    }
+
+    /*!
+      Reads multiple variables from the ini file.
+      false is returned if the variable was not found.
+    */
+    function variableMulti( $blockName, $varNames, $signatures = array() )
+    {
+        $ret = array();
+
+        if ( !isset( $this->BlockValues[$blockName] ) )
+        {
+            eZDebug::writeError( "Undefined group: '$blockName'", "eZINI" );
+            return false;
+        }
+        foreach ( $varNames as $key => $varName )
+        {
+            if ( isset( $this->BlockValues[$blockName][$varName] ) )
+            {
+                $ret[$key] = $this->BlockValues[$blockName][$varName];
+
+                if ( isset( $signatures[$key] ) )
+                {
+                    switch ( $signatures[$key] )
+                    {
+                        case 'enabled':
+                            $ret[$key] = $this->BlockValues[$blockName][$varName] == 'enabled';
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                $ret[] = null;
+            }
+        }
 
         return $ret;
     }

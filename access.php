@@ -58,12 +58,11 @@ function accessType( &$uri, $host, $port, $file )
         }
     }
 
-    $siteAccessList = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
-
+    list( $siteAccessList, $order ) =
+        $ini->variableMulti( 'SiteAccessSettings', array( 'AvailableSiteAccessList', 'MatchOrder' ) );
     $access = array( 'name' => $ini->variable( 'SiteSettings', 'DefaultAccess' ),
                      'type' => EZ_ACCESS_TYPE_DEFAULT );
 
-    $order = $ini->variable( 'SiteAccessSettings', 'MatchOrder' );
 
     if ( $order == 'none' )
         return $access;

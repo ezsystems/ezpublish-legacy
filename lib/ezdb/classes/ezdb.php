@@ -148,7 +148,7 @@ class eZDB
         $class = get_class( $impl );
 
         $fetchInstance = false;
-        if ( !preg_match( '/.*?db/', $class ) )
+        if ( strstr( $class, 'db' ) === false )
             $fetchInstance = true;
 
         if ( $forceNewInstance  )
@@ -165,11 +165,9 @@ class eZDB
             if ( $databaseImplementation === false )
                 $databaseImplementation = $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' );
 
-            $server = $ini->variable( 'DatabaseSettings', 'Server' );
-            $user = $ini->variable( 'DatabaseSettings', 'User' );
-            $pwd = $ini->variable( 'DatabaseSettings', 'Password' );
-            $db = $ini->variable( 'DatabaseSettings', 'Database' );
-            $usePersistentConnection = $ini->variable( 'DatabaseSettings', 'UsePersistentConnection' );
+            list( $server, $user, $pwd, $db, $usePersistentConnection ) =
+                $ini->variableMulti( 'DatabaseSettings', array( 'Server', 'User', 'Password', 'Database', 'UsePersistentConnection' ) );
+
             $socketPath = false;
             $socket = $ini->variable( 'DatabaseSettings', 'Socket' );
             if ( trim( $socket != "" ) and $socket != "disabled" )
@@ -202,15 +200,15 @@ class eZDB
                 $slaveServerDatabase = $slaveServerDatabases[$index];
             }
 
+            list( $charset, $retries ) =
+                $ini->variableMulti( 'DatabaseSettings', array( 'Charset', 'ConnectRetries' ) );
 
-            $charset = $ini->variable( 'DatabaseSettings', 'Charset' );
-			$isInternalCharset = false;
-			if ( trim( $charset ) == '' )
-			{
-				$charset = eZTextCodec::internalCharset();
-				$isInternalCharset = true;
-			}
-            $retries = $ini->variable( 'DatabaseSettings', 'ConnectRetries' );
+            $isInternalCharset = false;
+            if ( trim( $charset ) == '' )
+            {
+                $charset = eZTextCodec::internalCharset();
+                $isInternalCharset = true;
+            }
             $builtinEncoding = ( $ini->variable( 'DatabaseSettings', 'UseBuiltinEncoding' ) == 'true' );
 
             $extraPluginPathArray = $ini->variableArray( 'DatabaseSettings', 'DatabasePluginPath' );

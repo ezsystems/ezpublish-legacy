@@ -88,10 +88,9 @@ eZDebugSetting::setDebugINI( $debugINI );
 function eZUpdateDebugSettings()
 {
     $ini =& eZINI::instance();
-    $debugSettings = array();
-    $debugSettings['debug-enabled'] = $ini->variable( 'DebugSettings', 'DebugOutput' ) == 'enabled';
-    $debugSettings['debug-by-ip'] = $ini->variable( 'DebugSettings', 'DebugByIP' ) == 'enabled';
-    $debugSettings['debug-ip-list'] = $ini->variable( 'DebugSettings', 'DebugIPList' );
+
+    list( $debugSettings['debug-enabled'], $debugSettings['debug-by-ip'], $debugSettings['debug-ip-list'] ) =
+        $ini->variableMulti( 'DebugSettings', array( 'DebugOutput', 'DebugByIP', 'DebugIPList' ), array ( 'enabled', 'enabled' ) );
     eZDebug::updateSettings( $debugSettings );
 }
 
@@ -101,10 +100,10 @@ function eZUpdateDebugSettings()
 function eZUpdateTextCodecSettings()
 {
     $ini =& eZINI::instance( 'i18n.ini' );
-    $i18nSettings = array();
-    $i18nSettings['internal-charset'] = $ini->variable( 'CharacterSettings', 'Charset' );
-    $i18nSettings['http-charset'] = $ini->variable( 'CharacterSettings', 'HTTPCharset' );
-    $i18nSettings['mbstring-extension'] = $ini->variable( 'CharacterSettings', 'MBStringExtension' ) == 'enabled';
+
+    list( $i18nSettings['internal-charset'], $i18nSettings['http-charset'], $i18nSettings['mbstring-extension'] ) =
+        $ini->variableMulti( 'CharacterSettings', array( 'Charset', 'HTTPCharset', 'MBStringExtension' ), array( false, false, 'enabled' ) );
+
     include_once( 'lib/ezi18n/classes/eztextcodec.php' );
     eZTextCodec::updateSettings( $i18nSettings );
 }
@@ -118,8 +117,10 @@ eZUpdateDebugSettings();
 
 // Set the different permissions/settings.
 $ini =& eZINI::instance();
-$iniFilePermission = $ini->variable( 'FileSettings', 'StorageFilePermissions' );
-$iniDirPermission = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
+
+list( $iniFilePermission, $iniDirPermission ) =
+    $ini->variableMulti( 'FileSettings', array( 'StorageFilePermissions', 'StorageDirPermissions' ) );
+
 $iniVarDirectory = eZSys::cacheDirectory() ;
 
 eZCodepage::setPermissionSetting( array( 'file_permission' => octdec( $iniFilePermission ),
