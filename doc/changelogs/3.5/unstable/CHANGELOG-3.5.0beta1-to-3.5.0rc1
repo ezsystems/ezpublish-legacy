@@ -100,6 +100,9 @@ Datatype:
 - Fixed rendering of bullet and numbered lists in PDF.
 - Fixed bug: Conditonal role assignment bug.
   http://ez.no/community/bug_reports/conditonal_role_assignment_bug
+- Fixed bug of inconsistency between template and fetchalias.ini.
+  http://ez.no/community/bug_reports/inconsistency_between_template_and_fetchalias_ini
+  (Merged from stable/3.4, rev. 9599)
 
 *Library:
 
