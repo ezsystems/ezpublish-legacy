@@ -40,7 +40,7 @@ $cli =& eZCLI::instance();
 $script =& eZScript::instance( array( 'description' => ( "eZ publish PHP tag checker\n\n" .
                                                          "Checks for characters before the PHP start tag and after the PHP end tag\n" .
                                                          "and sets exit code based on the result\n" .
-                                                         "PATH can either be a file or a directory\n"
+                                                         "PATH can either be a file or a directory\n" .
                                                          "\n" .
                                                          "ezcheckphptag.php lib" ),
                                       'use-session' => false,
@@ -86,8 +86,12 @@ foreach ( $pathList as $path )
     {
         $files[] = $path;
     }
-    else
+    else if ( !file_exists( $path ) )
     {
+        if ( $print )
+        {
+            $cli->output( $cli->stylize( 'file', $path ) . ": file does not exist" );
+        }
     }
     foreach ( $files as $file )
     {
