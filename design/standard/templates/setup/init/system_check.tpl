@@ -82,11 +82,7 @@
 
   {/section}
   </table>
-
-    <div class="buttonblock">
-      {include uri='design:setup/init/steps.tpl'}
-      <input class="defaultbutton" type="submit" name="StepButton_2" value="{'Check Again'|i18n('design/standard/setup/init')}" />
-    </div>
+    {include uri='design:setup/init/navigation.tpl'}
     {include uri='design:setup/persistence.tpl'}
   </form>
 

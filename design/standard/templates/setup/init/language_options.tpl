@@ -45,11 +45,10 @@ To fix this problem you must do one of the following:"|i18n('design/standard/set
 
 </p>
 
-{include uri="design:setup/init/steps.tpl"}
 {include uri="design:setup/persistence.tpl"}
 
 <div class="buttonblock">
-  <input class="defaultbutton" type="submit" name="StepButton" value="{"Next"|i18n("design/standard/setup/init", "next button in installation")} &gt;&gt;" />
+  {include uri='design:setup/init/navigation.tpl'}
 </div>
 
 

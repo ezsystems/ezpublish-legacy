@@ -22,10 +22,8 @@
   {/section}
 </p>
 
-  <div class="buttonblock">
-    {include uri="design:setup/init/steps.tpl"}
-    <input class="defaultbutton" type="submit" name="button" value="{"Next"|i18n("design/standard/setup/init", "next button in installation")} &gt;&gt;" />
-  </div>
+  {include uri='design:setup/init/navigation.tpl' dont_show_back=1}
+
 </form>
 
 
