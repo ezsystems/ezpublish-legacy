@@ -361,9 +361,16 @@ class eZPersistentObject
         {
             $use_fields = array_diff( array_keys( $fields ), $exclude_fields );
             $use_field_names = $use_fields;
-            eZPersistentObject::replaceFieldsWithShortNames( $db, $fields, $use_field_names );
+            if ( $db->useShortNames() )
+            {
+                $use_short_field_names = $use_field_names;
+                eZPersistentObject::replaceFieldsWithShortNames( $db, $fields, $use_short_field_names );
+                $field_text = implode( ', ', $use_short_field_names );
+                unset( $use_short_field_names );
+            }
+            else
+                $field_text = implode( ', ', $use_field_names );
 
-            $field_text = implode( ", ", $use_field_names );
             $use_values_hash = array();
             $escapeFields = array_diff( $use_fields, $doNotEscapeFields );
             foreach ( $escapeFields as $key )
@@ -375,14 +382,13 @@ class eZPersistentObject
             {
                 $value =& $changedValueFields[$key];
                 $use_values_hash[$key] = $value;
-
             }
-
             $use_values = array();
             foreach ( $use_field_names as $field )
                 $use_values[] = $use_values_hash[$field];
             unset( $use_values_hash );
             $value_text = implode( ", ", $use_values );
+
             $sql = "INSERT INTO $table ($field_text) VALUES($value_text)";
             $db->query( $sql );
 
