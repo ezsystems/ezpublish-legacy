@@ -418,14 +418,15 @@ WARN_LOGFILE           =
 # with spaces.
 
 INPUT                  = lib/ezdb/classes \
-                         lib/ezi18n/classes \
+                         lib/ezdbschema/classes \
                          lib/ezfile/classes \
+                         lib/ezi18n/classes \
                          lib/ezimage/classes \
                          lib/ezlocale/classes \
                          lib/ezpdf/classes \
                          lib/ezsoap/classes \
-                         lib/ezutils/classes \
                          lib/eztemplate/classes \
+                         lib/ezutils/classes \
                          lib/ezwebdav/classes \
                          lib/ezxml/classes \
                          tests/classes \
