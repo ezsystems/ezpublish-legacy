@@ -126,11 +126,20 @@ $ViewList['systemupgrade'] = array(
     'single_post_actions' => array( 'MD5CheckButton' => 'MD5Check' ),
     'params' => array( ) );
 
+$ViewList["toolbarlist"] = array(
+    "script" => "toolbarlist.php",
+    "default_navigation_part" => 'ezsetupnavigationpart',
+    "params" => array( 'SiteAccess' ) );
+
+$ViewList["toolbar"] = array(
+    "script" => "toolbar.php",
+    "default_navigation_part" => 'ezsetupnavigationpart',
+    "params" => array( 'SiteAccess', 'Position' ) );
+
 $ViewList["menu"] = array(
     "script" => "menuconfig.php",
     'default_navigation_part' => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'StoreButton' => 'Store',
                                     'SelectCurrentSiteAccessButton' => 'SelectCurrentSiteAccess' ),
     "params" => array() );
-
 ?>
