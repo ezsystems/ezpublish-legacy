@@ -20,6 +20,14 @@
     <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
     </td>
     <td class="menu" width="99%">
+    <p class="menuitem"><a class="menuitem" href={"/setup/templatelist/"|ezurl}>{"Templates"|i18n("design/admin/layout")}</a></p>
+    </td>
+</tr>
+<tr>
+    <td class="bullet" width="1">
+    <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
+    </td>
+    <td class="menu" width="99%">
     <p class="menuitem"><a class="menuitem" href={"/workflow/grouplist/"|ezurl}>{"Workflows"|i18n("design/admin/layout")}</a></p>
     </td>
 </tr>
@@ -53,6 +61,14 @@
     </td>
     <td class="menu" width="99%">
     <p class="menuitem"><a class="menuitem"  href={"/search/stats/"|ezurl}>{"Search stats"|i18n("design/admin/layout")}</a></p>
+    </td>
+</tr>
+<tr>
+    <td class="bullet" width="1">
+    <img src={"arrow.gif"|ezimage} width="8" height="11" alt="" /><br />
+    </td>
+    <td class="menu" width="99%">
+    <p class="menuitem"><a class="menuitem"  href={"/setup/info/"|ezurl}>{"System information"|i18n("design/admin/layout")}</a></p>
     </td>
 </tr>
 </table>
