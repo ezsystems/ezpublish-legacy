@@ -514,8 +514,10 @@ class eZSys
             $includePath = $siteDir;
         ini_set( "include_path", $includePath );
 
+        $scriptName = eZSys::serverVariable( 'SCRIPT_NAME' );
+        $scriptName = "/index.php";
         // Get the webdir.
-        if ( ereg( "(.*)/([^\/]+\.php)$", eZSys::serverVariable( 'SCRIPT_NAME' ), $regs ) )
+        if ( ereg( "(.*)/([^\/]+\.php)$", $scriptName, $regs ) )
             $wwwDir = $regs[1];
 		else if ( ereg( "(.*)/([^\/]+\.php)$", $phpSelf, $regs ) )
 			$wwwDir = $regs[1];
@@ -543,6 +545,12 @@ class eZSys
 
         // Remove url parameters
         if ( ereg( "([^?]+)", $requestURI, $regs ) )
+        {
+            $requestURI = $regs[1];
+        }
+
+        // Remove internal links
+        if ( ereg( "([^#]+)", $requestURI, $regs ) )
         {
             $requestURI = $regs[1];
         }
