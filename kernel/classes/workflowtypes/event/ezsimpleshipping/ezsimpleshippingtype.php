@@ -66,14 +66,28 @@ class eZSimpleShippingType extends eZWorkflowEventType
         $parameters = $process->attribute( 'parameter_list' );
         $orderID = $parameters['order_id'];
 
-        $orderItem = new eZOrderItem( array( 'order_id' => $orderID,
-                                     'description' => 'Shipping',
-                                     'price' => $cost,
-                                     'vat_is_included' => true,
-                                     'vat_type_id' => 1 )
-                              );
-        $orderItem->store();
-
+        $order =& eZOrder::fetch( $orderID );
+        $orderItems = $order->attribute( 'order_items' );
+        $addShipping = true;
+        foreach ( array_keys( $orderItems ) as $key )
+        {
+            $orderItem =& $orderItems[$key];
+            if ( $orderItem->attribute( 'description' ) == 'Shipping' )
+            {
+                $addShipping = false;
+                break;
+            }
+        }
+        if ( $addShipping )
+        {
+            $orderItem = new eZOrderItem( array( 'order_id' => $orderID,
+                                                 'description' => 'Shipping',
+                                                 'price' => $cost,
+                                                 'vat_is_included' => true,
+                                                 'vat_type_id' => 1 )
+                                          );
+            $orderItem->store();
+        }
         return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
     }
 }
