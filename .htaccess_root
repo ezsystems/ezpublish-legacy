@@ -2,6 +2,8 @@
 # to make the site more secure in non-virtualhost mode (index.php used in urls).
 #
 
+php_value allow_call_time_pass_reference 0
+
 <FilesMatch ".">
 order allow,deny
 deny from all
