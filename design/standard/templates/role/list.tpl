@@ -9,8 +9,8 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <th width="97%">{"Name"|i18n("design/standard/role")}</th>
-    <th width="1%">{"Assign"|i18n("design/standard/role")}</th>
     <th width="1%">{"Edit"|i18n("design/standard/role")}</th>
+    <th width="1%">{"Assign"|i18n("design/standard/role")}</th>
     <th>{"Remove"|i18n("design/standard/role")}</th>
 </tr>
 
@@ -20,10 +20,10 @@
     <a href={concat("/role/view/",$All:item.id)|ezurl}>{$All:item.name}</a>
     </td>
     <td class="{$All:sequence}">
-	<a href={concat("/role/assign/",$All:item.id)|ezurl}><img src={"attach.png"|ezimage} alt="" /></a>
+	<a href={concat("/role/edit/",$All:item.id)|ezurl}><img src={"edit.png"|ezimage} alt="" /></a>
     </td>
     <td class="{$All:sequence}">
-	<a href={concat("/role/edit/",$All:item.id)|ezurl}><img src={"edit.png"|ezimage} alt="" /></a>
+	<a href={concat("/role/assign/",$All:item.id)|ezurl}><img src={"attach.png"|ezimage} alt="" /></a>
     </td>
     <td class="{$All:sequence}" align="right" width="1">
 	<input type="checkbox" name="DeleteIDArray[]" value="{$All:item.id}" />

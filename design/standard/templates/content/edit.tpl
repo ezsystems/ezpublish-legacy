@@ -19,7 +19,7 @@
     {include uri="design:content/edit_attribute.tpl"}
 
     <div class="buttonblock">
-    <input class="button" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('design/standard/content/edit')}" />
+    <input class="defaultbutton" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('design/standard/content/edit')}" />
     <input class="button" type="submit" name="StoreButton" value="{'Store Draft'|i18n('design/standard/content/edit')}" />
     <input class="button" type="submit" name="DiscardButton" value="{'Discard'|i18n('design/standard/content/edit')}" />
     </div>
