@@ -857,41 +857,58 @@ div.attribute-file
 
 }
 
-/* Special formatting in XML fields */
-div.factbox-design, div.object-right, div.object-left, div.object-center
+/* Embedded tags in XML fields */
+div.factbox-design, div.content-view-embed div.class-folder
 { 
-    padding-right: 6px;
-    padding-left: 6px;
     width: 178px;
+    padding-top: 0px;
+    padding-left: 10px;
     background-color: #fff;
     border: 1px solid #369;
 }
 
+div.quote
+{ 
+    width: 178px;
+    padding: 0px;
+}
+
+div#maincontent-design div.quote p
+{ 
+    display: inline;
+    clear: none;
+    font-size: 10pt;
+    font-weight: bold;
+    width: 178px;
+}
+
 div.object-right
 { 
+    margin: 3px;
     float: right;
 }
 
 div.object-left
 { 
+    margin: 3px;
     float: left;
 }
 div.object-center
 { 
+    margin: 3px;
     clear: both;
     margin-left: auto;
     margin-right: auto;
 }
 
-
-div#maincontent-design div.factbox-design h2, div#maincontent-design div.object-right h2, div#maincontent-design div.object-left h2, div#maincontent-design div.object-center h2
+div#maincontent-design div.factbox-design h2, div#maincontent-design div.content-view-embed div.class-folder h2
 { 
     width: 100%;
     position: relative;
-    left: -6px;
+    left: -10px;
     padding-left: 10px;
-    padding-top: 0px;
     margin-top: 0px;
+    padding-top: 2px;
     padding-bottom: 3px;
     font: 12px regular;
     background-color: #336699;

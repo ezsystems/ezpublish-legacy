@@ -421,6 +421,11 @@ Source=content/datatype/view/ezxmltags/factbox.tpl
 MatchFile=datatype/ezxmltext/factbox.tpl
 Subdir=templates
 
+[quote]
+Source=content/datatype/view/ezxmltags/quote.tpl
+MatchFile=datatype/ezxmltext/quote.tpl
+Subdir=templates
+
 [price]
 Source=content/datatype/view/ezprice.tpl
 MatchFile=datatype/price.tpl
