@@ -60,6 +60,21 @@
 </ol>
 
 <h2 id="Windows">Using the setup guide on Windows</h2>
+
+<h4>MySQL</h4>
+<p>
+	We need to login, create a new database, grant permissions to a user and insert a database.
+</p>
+
+<ol>
+	<li>Open a console window (start->run->cmd.exe or start->run->command.exe depending on the windows version)</li>
+	<li>Go to your the location of mysql and find the mysql.exe file (should be under bin\)</li>
+	<li>Run <pre class="example">mysql.exe -u root -p &lt;your_mysql_password&gt;</pre></li>
+	<li>You should now have have a mysql&gt; prompt. Type these mysql statements <pre class="example">mysql&gt; create database &lt;name_of_database&gt;;</pre></li>
+	<li>Grant permissions <pre class="example"> mysql&gt; grant all on <name_of_database>.* to &lt;user&gt;@localhost identified
+	by '&lt;password&gt;';</pre>
+</ol>
+
 <ol>
 	<li>Make sure you have met the eZ publish requirements</li>
 	<li>Go to <a href="http://ez.no/download">http://ez.no/download</a> and download the latest release of eZ publish</li>
