@@ -43,8 +43,11 @@
 
 */
 include_once( 'kernel/classes/notification/eznotificationeventtype.php' );
+include_once( 'kernel/classes/ezpersistentobject.php' );
+
 define( 'EZ_NOTIFICATIONEVENT_STATUS_CREATED', 0 );
 define( 'EZ_NOTIFICATIONEVENT_STATUS_HANDLED', 1 );
+
 class eZNotificationEvent extends eZPersistentObject
 {
     /*!
