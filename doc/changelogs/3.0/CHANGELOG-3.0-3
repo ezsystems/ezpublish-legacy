@@ -24,3 +24,7 @@ eZ XML:
   anyone to edit the user content of a specific user.
   Now the only users who have content/edit permission on
   the user object can change the settings and profile.
+
+* Changed files:
+- All sql update files in update/database/ has been given the suffix .sql and
+  the name now reflects the from and to version.
