@@ -137,7 +137,8 @@ for arg in $*; do
 	    echo "         --help                     This message"
 	    echo "         --final                    Makes the release a final release"
 	    echo "         --build-root=DIR           Set build root, default is /tmp"
-	    echo "         --build-rc                 Make a release candidate, this will add a build number to the name"
+# 	    echo "         --build-rc                 Make a release candidate, this will add a build number to the name"
+	    echo "         --build-snapshot           Make a snapshot, this will add a build number to the name"
 	    echo "         --with-svn-server[=SERVER] Checkout fresh repository"
 	    echo "         --with-release=NAME        Checkout a previous release, default is trunk"
 #	    echo "         --skip-site-creation       Do not build sites*"
@@ -166,8 +167,11 @@ for arg in $*; do
 		DEST_ROOT=`echo $arg | sed 's/--build-root=//'`
 	    fi
 	    ;;
-	--build-rc)
-	    BUILD_RC="1"
+#	--build-rc)
+#	    BUILD_RC="1"
+#	    ;;
+	--build-snapshot)
+	    BUILD_SNAPSHOT="1"
 	    ;;
 	--final)
 	    FINAL="1"
@@ -267,7 +271,7 @@ fi
 
 # We append a build number when creating RCs (release candidate)
 # The build number is also increase and stored at the end if everything was successful
-if [ "$BUILD_RC" == "1" ]; then
+if [ "$BUILD_SNAPSHOT" == "1" ]; then
     echo "Creating RC build #$BUILD_NUMBER"
     CURRENT_BUILD_NUMBER=$BUILD_NUMBER
     BASE="$BASE-build$CURRENT_BUILD_NUMBER"
@@ -862,7 +866,7 @@ else
     echo "`SETCOLOR_WARNING`Could not create `$SETCOLOR_FILE`zip`$SETCOLOR_WARNING` file, `$SETCOLOR_EXE`zip`$SETCOLOR_NORMAL` program not found.`SETCOLOR_NORMAL`"
 fi
 
-if [ "$BUILD_RC" == "1" ]; then
+if [ "$BUILD_SNAPSHOT" == "1" ]; then
     DISTROOT="$HOME/ezpublish-dist"
     VERSIONROOT="$DISTROOT/$VERSION_ONLY/$VERSION"
     mkdir -p $VERSIONROOT
