@@ -269,6 +269,9 @@ eZDB:
 - The reading of INI settings can now be disabled by passing the 'use_default'
   entry to the database parameter array in eZDB.
   (Merged from stable/3.5 (3.5.2) rev. 11143)
+- PostgreSQL driver will no longer send false/null parameters to the connect
+  function.
+  (Merged from stable/3.5 (3.5.2) rev. 11242)
 
 *SOAP:
 - Added authentication support.
