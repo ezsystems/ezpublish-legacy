@@ -502,7 +502,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $phpCache->store();
         }
 
-        if ( !isset( $attributeTypeArray[$classAttributeID] ) ) 
+        if ( !isset( $attributeTypeArray[$classAttributeID] ) )
             return false;
 
         return $dataTypeArray[$attributeTypeArray[$classAttributeID]];
@@ -1417,7 +1417,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       $showInvisibleNodesCond
                       $sqlPermissionCheckingString
                 $groupByText";
-        
+
         if ( $sortingInfo['sortingFields'] )
             $query .= " ORDER BY $sortingInfo[sortingFields]";
 
@@ -2023,7 +2023,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       $mainNodeOnlyCond
                       $classCondition
                       ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
-                      ezcontentclass.id = ezcontentobject.contentclass_id 
+                      ezcontentclass.id = ezcontentobject.contentclass_id
                       $showInvisibleNodesCond
                       $sqlPermissionCheckingString
                 $groupByText ";
@@ -2838,7 +2838,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             if ( $oldPathString != "" )
             {
                 $oldUrlAlias = eZURLAlias::fetchBySourceURL( $oldPathString );
-                var_dump( $oldUrlAlias );
             }
 
             // Update old url alias and old forwarding urls
