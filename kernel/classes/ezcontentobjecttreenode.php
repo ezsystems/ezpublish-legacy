@@ -568,6 +568,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                    a$attributeJoinCount.version = ezcontentobject_name.content_version AND";
 
                             $attributeJoinCount++;
+
                         }break;
 
                         default:
@@ -684,7 +685,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
 
             $attibuteFilterJoinSQL = "";
-            $filterCount = 0;
+            $filterCount = $sortCount;
 
             if ( is_array( $filterArray ) )
             {
@@ -824,7 +825,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     }
                     if ( $hasFilterOperator )
                     {
-                        if ( $filterCount > 0 )
+                        if ( ( $filterCount - $sortCount ) > 0 )
                             $attibuteFilterJoinSQL .= " $filterJoinType ";
                         $attibuteFilterJoinSQL .= "$filterField $filterOperator '$filterValue' ";
                         $filterCount++;
@@ -1262,6 +1263,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         }
 
                         $filterField = "a$filterCount.$sortKey";
+
                     }
 
                     $hasFilterOperator = true;
