@@ -1,0 +1,202 @@
+# Rules related to greek
+#
+# The following charsets uses characters from greek:
+# cp437, cp737, cp860, cp861, cp862, cp863, cp864, cp865, cp869, cp932,
+# iso-8859-7, macintosh, windows-1253
+#
+# See basic.tr for formatting options
+
+greek_uppercase:
+U+03AC               - U+0026
+U+03AD - U+03AF      - U+0025
+
+U+03B1 - U+03C1      - U+0020
+U+03C3 - U+03CB      - U+0020
+
+U+03CC               - U+0040
+U+03CD - U+03CE      - U+003F
+
+U+03DB - U+03EF % 02 - U+0001
+
+# One way:
+U+03D0 = U+0392
+U+03D1 = U+0398
+U+03D5 = U+03A6
+U+03D6 = U+03A0
+
+greek_lowercase:
+U+0386               + U+0026
+U+0388 - U+038A      + U+0025
+
+U+0391 - U+03A1      + U+0020
+U+03A3 - U+03AB      + U+0020
+
+U+038C               + U+0040
+U+038E - U+038F      + U+003F
+
+U+03DA - U+03EE % 02 + U+0001
+
+greek_diacritical:
+U+0386 = U+0391
+U+0388 = U+0395
+U+0389 = U+0397
+U+038A = U+0399
+U+038C = U+039F
+U+038E = U+03A5
+U+038F = U+03A9
+U+0390 = U+03CA
+
+U+03AA = U+0399
+U+03AB = U+03A5
+U+03AC = U+03B1
+U+03AD = U+03B5
+U+03AE = U+03B7
+U+03AF = U+03B9
+U+03B0 = U+03CB
+
+U+03CA = U+03B9
+U+03CB = U+03C5
+U+03CC = U+03BF
+U+03CD = U+03C5
+U+03CE = U+03C9
+
+# Variant letterforms
+U+03D4 = U+03D2
+
+greek_normalize:
+U+037A = U+0020 # Greek ypogegrammeni
+U+037E = U+003F # Greek question mark
+U+0384 = U+0020 # Greek tonos
+U+0385 = U+00A8 # Greek dialytika tonos
+U+0387 = U+00B7 # Greek ano teleia
+
+# Transliteration of greek, is used in URLs and identifiers
+greek_transliterate_ascii:
+U+0374 = "\'"
+U+0375 = "\'"
+U+037A = ""
+U+037E = ";"
+
+U+0384 = "\'"
+U+0385 = ";"
+U+0386 = "Ha"
+U+0388 = "He"
+U+0389 = "He"
+U+038A = "Hi"
+U+038C = "Ho"
+U+038E = "Hu"
+U+038F = "Ho"
+
+U+0390 = "I"
+U+0391 = "A"
+U+0392 = "V"
+U+0393 = "G"
+U+0394 = "D"
+U+0395 = "E"
+U+0396 = "Z"
+U+0397 = "E"
+U+0398 = "Th"
+U+0399 = "I"
+U+039A = "K"
+U+039B = "L"
+U+039C = "M"
+U+039D = "N"
+U+039E = "X"
+U+039F = "O"
+
+U+03A0 = "P"
+U+03A1 = "R"
+
+U+03A3 = "S"
+U+03A4 = "T"
+U+03A5 = "Y"
+U+03A6 = "Ph"
+U+03A7 = "Ch"
+U+03A8 = "Ps"
+U+03A9 = "O"
+U+03AA = "I"
+U+03AB = "Y"
+U+03AC = "ha"
+U+03AD = "he"
+U+03AE = "he"
+U+03AF = "hi"
+
+U+03B0 = "y"
+U+03B1 = "a"
+U+03B2 = "v"
+U+03B3 = "g"
+U+03B4 = "d"
+U+03B5 = "e"
+U+03B6 = "z"
+U+03B7 = "e"
+U+03B8 = "th"
+U+03B9 = "i"
+U+03BA = "k"
+U+03BB = "l"
+U+03BC = "m"
+U+03BD = "n"
+U+03BE = "x"
+U+03BF = "o"
+
+U+03C0 = "p"
+U+03C1 = "r"
+U+03C2 = "s"
+U+03C3 = "s"
+U+03C4 = "t"
+U+03C5 = "y"
+U+03C6 = "ph"
+U+03C7 = "ch"
+U+03C8 = "ps"
+U+03C9 = "o"
+U+03CA = "i"
+U+03CB = "y"
+U+03CC = "ho"
+U+03CD = "hu"
+U+03CE = "ho"
+
+U+03D0 = "b"
+U+03D1 = "th"
+U+03D2 = "Y"
+U+03D3 = "Y"
+U+03D4 = "Y"
+U+03D5 = "phi"
+U+03D6 = "pi"
+U+03D7 = "&"
+U+03D8 = "K"
+U+03D9 = "k"
+U+03DA = "6"
+U+03DB = "s"
+U+03DC = "F"
+U+03DD = "f"
+U+03DE = "K"
+U+03DF = "90"
+
+U+03E0 = "S"
+U+03E1 = "900"
+U+03E2 = ""
+U+03E3 = ""
+U+03E4 = ""
+U+03E5 = ""
+U+03E6 = ""
+U+03E7 = ""
+U+03E8 = ""
+U+03E9 = ""
+U+03EA = ""
+U+03EB = ""
+U+03EC = ""
+U+03ED = ""
+U+03EE = ""
+U+03EF = ""
+
+U+03F0 = ""
+U+03F1 = "r"
+U+03F2 = ""
+U+03F3 = "j"
+U+03F4 = ""
+U+03F5 = "e"
+U+03F6 = "e"
+U+03F7 = ""
+U+03F8 = ""
+U+03F9 = ""
+U+03FA = ""
+U+03FB = ""
