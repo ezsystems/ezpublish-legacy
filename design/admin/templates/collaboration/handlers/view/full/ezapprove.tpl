@@ -24,9 +24,9 @@
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-<div class="block">
+<div class="context-attributes">
 
 {switch match=$collab_item.data_int3}
 {case match=0}
@@ -58,32 +58,48 @@
 {case/}
 {/switch}
 
+{section show=eq($collab_item.data_int3,0)}
+    <label>{"Comment"|i18n('design/admin/collaboration/handler/view/full/ezapprove')}:</label>
+    <textarea class="box" name="Collaboration_ApproveComment" cols="40" rows="5"></textarea>
+{/section}
+</div>
+
+
+{* DESIGN: Content END *}</div></div></div>
+
+<div class="controlbar">
+
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+
 <input type="hidden" name="CollaborationActionCustom" value="custom" />
 <input type="hidden" name="CollaborationTypeIdentifier" value="ezapprove" />
 
 <input type="hidden" name="CollaborationItemID" value="{$collab_item.id}" />
 
-<br/>
-
+<div class="block">
 {section show=eq($collab_item.data_int3,0)}
-<label>{"Comment"|i18n('design/admin/collaboration/handler/view/full/ezapprove')}</label><div class="break"/>
-<textarea name="Collaboration_ApproveComment" cols="40" rows="5"></textarea>
-
-<div class="buttonblock">
-<input type="submit" name="CollaborationAction_Comment" value="{'Add Comment'|i18n('design/admin/collaboration/handler/view/full/ezapprove')}" />
-
-&nbsp;
-
-{section show=$collab_item.is_creator|not}
-<input type="submit" name="CollaborationAction_Accept" value="{'Approve'|i18n('design/admin/collaboration/handler/view/full/ezapprove')}" />
-<input type="submit" name="CollaborationAction_Deny" value="{'Deny'|i18n('design/admin/collaboration/handler/view/full/ezapprove')}" />
+   
+    <input class="button" type="submit" name="CollaborationAction_Comment" value="{'Add Comment'|i18n('design/admin/collaboration/handler/view/full/ezapprove')}" />
+    
+    {section show=$collab_item.is_creator|not}
+    <input class="button" type="submit" name="CollaborationAction_Accept" value="{'Approve'|i18n('design/admin/collaboration/handler/view/full/ezapprove')}" />
+    <input class="button" type="submit" name="CollaborationAction_Deny" value="{'Deny'|i18n('design/admin/collaboration/handler/view/full/ezapprove')}" />
+    {section-else}
+    <input class="button-disabled" type="submit" name="CollaborationAction_Accept" value="{'Approve'|i18n('design/admin/collaboration/handler/view/full/ezapprove')}" disabled="disabled" />
+    <input class="button-disabled" type="submit" name="CollaborationAction_Deny" value="{'Deny'|i18n('design/admin/collaboration/handler/view/full/ezapprove')}" disabled="disabled" />
+    {/section}
+  
+{section-else}
+   
+    <input class="button-disabled" type="submit" name="CollaborationAction_Comment" value="{'Add Comment'|i18n('design/admin/collaboration/handler/view/full/ezapprove')}" disabled="disabled" />
+    
+    <input class="button-disabled" type="submit" name="CollaborationAction_Accept" value="{'Approve'|i18n('design/admin/collaboration/handler/view/full/ezapprove')}" disabled="disabled" />
+    <input class="button-disabled" type="submit" name="CollaborationAction_Deny" value="{'Deny'|i18n('design/admin/collaboration/handler/view/full/ezapprove')}" disabled="disabled" />
 {/section}
 </div>
-{/section}
 
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
-
-{* DESIGN: Content END *}</div></div></div></div></div></div>
 
 </div>
 
