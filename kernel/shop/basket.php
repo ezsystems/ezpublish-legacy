@@ -44,6 +44,7 @@ include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 include_once( "kernel/classes/ezproductcollection.php" );
 include_once( "kernel/classes/ezproductcollectionitem.php" );
 include_once( "kernel/common/template.php" );
+include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 if ( $http->hasPostVariable( "ActionAddToBasket" ) )
 {
@@ -133,12 +134,15 @@ if ( $http->hasPostVariable( "CheckoutButton" ) )
 
     $order = new eZOrder( array( 'productcollection_id' => $productCollectionID,
                                  'user_id' => $userID,
+                                 'is_temporary' => 1,
                                  'created' => mktime() ) );
     $order->store();
 
-    $basket->remove();
+//    $basket->remove();
 
-    $module->redirectTo( '/shop/orderview/' . $order->attribute( 'id' ) );
+    eZHTTPTool::setSessionVariable( 'MyTemporaryOrderID', $order->attribute( 'id' ) );
+
+    $module->redirectTo( '/shop/confirmorder/' );
     return;
 }
 

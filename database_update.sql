@@ -119,3 +119,5 @@ CREATE TABLE ezdiscountrule (
  name varchar(255) NOT NULL,
  PRIMARY KEY  (id)
 ) TYPE=MyISAM;
+
+alter table ezorder add is_temporary int not null default 1;

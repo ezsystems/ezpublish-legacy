@@ -52,6 +52,10 @@ $ViewList["orderlist"] = array(
     "script" => "orderlist.php",
     "params" => array(  ) );
 
+$ViewList["confirmorder"] = array(
+    "script" => "confirmorder.php",
+    "params" => array(  ) );
+
 $ViewList["vattype"] = array(
     "script" => "vattype.php",
     "params" => array(  ) );

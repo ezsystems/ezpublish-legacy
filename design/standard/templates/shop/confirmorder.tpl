@@ -1,50 +1,9 @@
-<div class="maincontentheader">
-<h1>{"Order view"|i18n}</h1>
-</div>
+<form method="post" action={"/shop/confirmorder/"|ezurl}>
 
-<div class="block">
-<div class="element">
-<label>Order ID:</label><div class="labelbreak"></div>
-<p class="box">{$order.id}</p>
-</div>
-<div class="element">
-<label>User:</label><div class="labelbreak"></div>
-<p class="box">{$order.user.login}</p>
-</div>
-<div class="element">
-<label>Created:</label><div class="labelbreak"></div>
-<p class="box">{$order.created|l10n(date)}</p>
-</div>
-<div class="break"></div>
-</div>
+<h1>Confirm order</h1>
 
+Products:
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<th>
-	Product:
-	</th>
-	<th>
-	Count:
-	</th>
-	<th>
-	VAT:
-	</th>
-	<th>
-	Price ex. VAT:
-	</th>
-	<th>
-	Price inc. VAT:
-	</th>
-	<th>
-	Discount:
-	</th>
-	<th>
-	Total Price ex. VAT:
-	</th>
-	<th>
-	Total Price inc. VAT:
-	</th>
- </tr>
 {section name=ProductItem loop=$order.items show=$order.items sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$ProductItem:sequence}">
@@ -75,17 +34,9 @@
 	{$ProductItem:item.total_price_inc_vat|l10n(currency)}
 	</td>
 </tr>
-{section-else}
-<tr>
-    <td colspan="7">
-<div class="feedback">
-<h2>Empty order</h2>
-</div>
-    </td>
-</tr>
 {/section}
 </table>
 
-<p class="comment">To be done: The structure of this template needs to be changed so that the headers of the table don't print if the basket is empty, and the "Empty..." message isn't inside the table at all. th[eZ]</p>
+<input class="button" type="submit" name="ConfirmOrderButton" value="Confirm" /> &nbsp;
 
 </form>

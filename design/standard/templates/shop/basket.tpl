@@ -6,17 +6,6 @@
 
 {section name=Basket show=$basket.items|gt(0)}
 
-<div class="block">
-<div class="element">
-<label>Basket ID:</label><div class="labelbreak"></div>
-<p class="box">{$basket.id}</p>
-</div>
-<div class="element">
-<label>Session ID:</label><div class="labelbreak"></div>
-<p class="box">{$basket.session_id}</p>
-</div>
-<div class="break"></div>
-</div>
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>

@@ -61,6 +61,7 @@ class eZOrder extends eZPersistentObject
     function &definition()
     {
         return array( "fields" => array( "id" => "ID",
+                                         "is_temporary" => "IsTemporary",
                                          "user_id" => "UserID",
                                          "productcollection_id" => "ProductCollectionID",
                                          "created" => "Created"

@@ -57,7 +57,7 @@ class eZHTTPTool
     function eZHTTPTool()
     {
 		$magicQuote = get_magic_quotes_gpc();
-		
+
 		if ( $magicQuote == 1 )
 		{
 			eZHTTPTool::removeMagicQuotes();
@@ -185,9 +185,9 @@ class eZHTTPTool
 				$GLOBALS["HTTP_POST_VARS"][$key] = str_replace( "\'", "'", $GLOBALS["HTTP_POST_VARS"][$key] );
 				$GLOBALS["HTTP_POST_VARS"][$key] = str_replace( '\"', '"', $GLOBALS["HTTP_POST_VARS"][$key] );
 			}
-         }	
+         }
 	}
-	
+
     function createPostVarsFromImageButtons()
     {
         foreach ( array_keys( $GLOBALS["HTTP_POST_VARS"] ) as $key )
