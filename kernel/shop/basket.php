@@ -248,6 +248,7 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
         $productCollectionID = $basket->attribute( 'productcollection_id' );
 
         $verifyResult =& eZProductCollection::verify( $productCollectionID  );
+        $basket->updatePrices();
 
         if ( $verifyResult === true )
         {
