@@ -60,9 +60,7 @@
 
     {* Limitations. *}
     <td>
-    {section show=is_set( $Policy.item.limitations )}
-        <i>{'No limitations'|i18n( 'design/admin/node/view/full' )}</i>
-        {section-else}
+    {section show=ne( $Policy.item.limitations|count, 0 )}
         {section var=Limitation loop=$Policy.item.limitations}
             {$Limitation.identifier|wash}(
             {section var=LimitationValues loop=$Limitation.values_as_array_with_names}
@@ -71,6 +69,8 @@
         {/section})
         {delimiter}, {/delimiter}
         {/section}
+    {section-else}
+        <i>{'No limitations'|i18n( 'design/admin/node/view/full' )}</i>
     {/section}
     </td>
 
