@@ -337,6 +337,8 @@ class eZPersistentObject
             $value =& $obj->attribute( $key );
             $key_conds[$key] = $value;
         }
+        unset( $value );
+
         $important_keys = $keys;
         if ( is_array( $relations ) )
         {
@@ -387,7 +389,7 @@ class eZPersistentObject
             foreach ( $escapeFields as $key )
             {
                 $value = $obj->attribute( $key );
-  
+
                 if ( $fields[$key]['datatype'] == 'float' )
                 {
                     $value = ezsprintf( '%F', $value );
