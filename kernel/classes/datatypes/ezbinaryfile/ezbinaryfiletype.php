@@ -408,6 +408,91 @@ class eZBinaryFileType extends eZDataType
         $unitSize = $sizeNode->attributeValue( 'unit-size' );
         $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_FIELD, $maxSize );
     }
+
+    /*!
+     \param package
+     \param content attribute
+
+     \return a DOM representation of the content object attribute
+    */
+    function &serializeContentObjectAttribute( &$package, &$objectAttribute )
+    {
+        $node = new eZDOMNode();
+
+        $node->setPrefix( 'ezobject' );
+        $node->setName( 'attribute' );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $objectAttribute->attribute( 'id' ), 'ezremote' ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'identifier', $objectAttribute->contentClassAttributeIdentifier(), 'ezremote' ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
+        $node->appendAttribute( eZDomDocument::createAttributeNode( 'sort-key-int', (string)$objectAttribute->attribute( 'sort_key_int' ) ) );
+        $node->appendAttribute( eZDomDocument::createAttributeNode( 'sort-key-string', $objectAttribute->attribute( 'sort_key_string' ) ) );
+
+        $binaryFile =& $objectAttribute->attribute( 'content' );
+        $fileKey = md5( mt_rand() );
+        $package->appendSimpleFile( $fileKey, $binaryFile->attribute( 'filepath' ) );
+
+        $fileNode =& eZDOMDocument::createElementNode( 'binary-file' );
+        $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'filesize', $binaryFile->attribute( 'filesize' ) ) );
+        $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'filename', $binaryFile->attribute( 'filename' ) ) );
+        $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'mime_type', $binaryFile->attribute( 'mime_type' ) ) );
+        $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'mime_type_category', $binaryFile->attribute( 'mime_type_category' ) ) );
+        $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'file_key', $fileKey ) );
+        $node->appendChild( $fileNode );
+
+        return $node;
+    }
+
+    /*!
+     \reimp
+     \param package
+     \param contentobject attribute object
+     \param ezdomnode object
+    */
+    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    {
+        $objectAttribute->setAttribute( 'sort_key_int', (int)$attributeNode->attributeValue( 'sort-key-int' ) );
+        $objectAttribute->setAttribute( 'sort_key_string', $attributeNode->attributeValue( 'sort-key-float' ) );
+        $objectAttribute->setAttribute( 'data_int', (int)$attributeNode->elementTextContentByName( 'data-int' ) );
+
+        $fileNode = $attributeNode->elementByName( 'binary-file' );
+        $binaryFile =& eZBinaryFile::create( $objectAttribute->attribute( 'id' ), $objectAttribute->attribute( 'version' ) );
+
+        $sourcePath = $package->simpleFilePath( $fileNode->attributeValue( 'file_key' ) );
+
+        include_once( 'lib/ezfile/classes/ezdir.php' );
+        $ini =& eZINI::instance();
+        $destinationPath = eZSys::storageDirectory() . '/original/' . $fileNode->attributeValue( 'mime_type_category' ) . '/';
+        if ( !file_exists( $destinationPath ) )
+        {
+            $oldumask = umask( 0 );
+            if ( !eZDir::mkdir( $destinationPath, eZDir::directoryPermission(), true ) )
+            {
+                umask( $oldumask );
+                return false;
+            }
+            umask( $oldumask );
+        }
+
+        $basename = basename( $fileNode->attributeValue( 'filename' ) );
+        while ( file_exists( $destinationPath . $basename ) )
+        {
+            $basename = substr( md5( mt_rand() ), 0, 8 ) . '.' . eZFile::suffix( $fileNode->attributeValue( 'filename' ) );
+        }
+
+        include_once( 'lib/ezfile/classes/ezfilehandler.php' );
+        eZFileHandler::copy( $sourcePath, $destinationPath . $basename );
+        eZDebug::writeNotice( 'Copied: ' . $sourcePath . ' to: ' . $destinationPath . $basename,
+                              'eZBinaryFileType::unserializeContentObjectAttribute()' );
+
+        $binaryFile->setAttribute( 'contentobject_attribute_id', $objectAttribute->attribute( 'id' ) );
+        $binaryFile->setAttribute( 'filename', $basename );
+        $binaryFile->setAttribute( 'original_filename', basename( $sourcePath ) );
+        $binaryFile->setAttribute( 'mime_type', $fileNode->attributeValue( 'mime_type' ) );
+
+        $binaryFile->store();
+    }
+
 }
 
 eZDataType::register( EZ_DATATYPESTRING_BINARYFILE, "ezbinaryfiletype" );

@@ -756,7 +756,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         }
 
         $fetchAliasINIArray = array();
-        foreach( $fetchAliasListNode->elementsByName( 'fetch-alies' ) as $blockNode )
+        foreach( $fetchAliasListNode->elementsByName( 'fetch-alias' ) as $blockNode )
         {
             $newSiteAccess = $parameters['site_access_map'][$blockNode->attributeValue( 'site-access' )];
             if ( !isset( $fetchAliasINIArray[$newSiteAccess] ) )
