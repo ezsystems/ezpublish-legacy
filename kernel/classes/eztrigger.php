@@ -309,7 +309,7 @@ class eZTrigger extends eZPersistentObject
             {
                 return array( 'Status' => EZ_TRIGGER_STATUS_CRON_JOB,
                               'WorkflowProcess' => &$workflowProcess,
-                              'Result' => array( 'content' => 'Operation halted during execution.<br/>Refresh page to continue<br/><br/><b>Note: The halt is just a temporary test</b><br/>',
+                              'Result' => array( 'content' => 'Deffered to cron. Operation halted during execution. <br/>Refresh page to continue<br/><br/><b>Note: The halt is just a temporary test</b><br/>',
                                                  'path' => array( array( 'text' => 'Operation halt',
                                                                          'url' => false ) ) ) );
 /*

@@ -527,7 +527,11 @@ if ( !function_exists( 'checkContentActions' ) )
                             }
                             else
                                 $resultContent =& $result;
-                            $Result['content'] =& $resultContent;
+                            // Temporary fix to make approval workflow work with edit.
+                            if ( strpos( $resultContent, 'Deffered to cron' ) === 0 )
+                                $Result = null;
+                            else
+                                $Result['content'] =& $resultContent;
                         }
                     }break;
                     case EZ_MODULE_OPERATION_CANCELED:
