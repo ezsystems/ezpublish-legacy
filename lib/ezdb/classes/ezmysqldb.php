@@ -194,6 +194,12 @@ class eZMySQLDB extends eZDBInterface
                 $isWriteQuery = false;
             }
 
+            // Send temporary create queries to slave server
+            if ( preg_match( "/create\s+temporary/i", $sql ) )
+            {
+                $isWriteQuery = false;
+            }
+
             if ( $isWriteQuery )
             {
                 $connection = $this->DBWriteConnection;
