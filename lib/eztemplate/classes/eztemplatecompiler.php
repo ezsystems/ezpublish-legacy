@@ -2743,7 +2743,8 @@ else
                 if ( !is_string( $namespaceText ) )
                     $namespaceText = "\$namespace";
                 $variableNameText = $php->variableText( $variableName, 0 );
-                $code = "\$$variableAssignmentName = ( array_key_exists( $namespaceText, \$vars ) and array_key_exists( $variableNameText, \$vars[$namespaceText] ) ) ? \$vars[$namespaceText][$variableNameText] : null;\n";
+                $code = "unset( \$$variableAssignmentName );\n";
+                $code .= "\$$variableAssignmentName = ( array_key_exists( $namespaceText, \$vars ) and array_key_exists( $variableNameText, \$vars[$namespaceText] ) ) ? \$vars[$namespaceText][$variableNameText] : null;\n";
                 $php->addCodePiece( $code,
                                     array( 'spacing' => $spacing ) );
             }

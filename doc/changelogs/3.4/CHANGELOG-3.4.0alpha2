@@ -40,7 +40,8 @@ eZ PHP creator:
   http://ez.no/community/bug_reports/error_in_confirmorder_php
 - Made sure the SubTreeArray parameter is remembered on next/previous links in advanced search.
   http://ez.no/community/bug_reports/ez_no_documentation_search_problem
-
+- Made sure assigment to PHP variables unsets the PHP variable before
+  the assignment is applied in compiled template code.
 
 *Update
 - Added script addorderemail.php which will add email field content to table ezorder.
