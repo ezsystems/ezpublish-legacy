@@ -104,9 +104,7 @@
             <td>
                 <img src={"1x1.gif"|ezimage} width="{mul(sub($:item.depth,$main_node.depth),$browse_indentation)}" height="1" alt="" border="0" />
             <img src={"class_2.png"|ezimage} border="0" alt="{'Document'|i18n('design/standard/node/view')}" />
-	    {section show=$browse.ignore_nodes|contains($Object:item.node_id)|not()}<a href={concat("/content/browse/",$Object:item.node_id,"/")|ezurl}>{/section}
-                {$Object:item.name|wash}
-	    {section show=$browse.ignore_nodes|contains($Object:item.node_id)|not()}</a>{/section}
+	    <a href={concat("/content/browse/",$Object:item.node_id,"/")|ezurl}>{$Object:item.name|wash}</a>
             </td>
         
             <td>
@@ -204,7 +202,7 @@
         
             <td>
                 <img src={"class_2.png"|ezimage} border="0" alt="{'Document'|i18n('design/standard/node/view')}" />
-                {section show=or(eq($:item.node_id,$main_node.node_id),$browse.ignore_nodes|contains($:item.node_id))}
+                {section show=eq($:item.node_id,$main_node.node_id)}
                     {$:item.node.name|wash}
                 {section-else}
                     <a href={concat("/content/browse/",$:item.node_id,"/")|ezurl}>
@@ -252,7 +250,7 @@
             
                 <td>
                     <img src={"class_2.png"|ezimage} border="0" alt="{'Document'|i18n('design/standard/node/view')}" />
-                    {section show=or(eq($:item.node_id,$main_node.node_id),$browse.ignore_nodes|contains($:item.node_id))}
+                    {section show=eq($:item.node_id,$main_node.node_id)}
                         {$:item.name|wash}
                     {section-else}
                         <a href={concat("/content/browse/",$:item.node_id,"/")|ezurl}>
