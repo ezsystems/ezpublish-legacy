@@ -14,13 +14,13 @@
 
 <body style="background-color: #638ecf; margin: 0px; padding: 0px; background-image:url('{"setup/eZ_setup_bg_image.png"|ezimage(no)}'); background-repeat: repeat-x;">
 
-<table class="layout" width="800" cellpadding="0" cellspacing="0" border="0">
+<table class="layout" width="780" cellpadding="0" cellspacing="0" border="0">
   <tr>
 
 {* Top image START *}
 
-    <td class="setup_noborder" colspan="2" width="800">
-      <img src={"/design/standard/images/setup/eZ_setup_top.png"|ezroot} width="800" height="70" alt=""/>
+    <td class="setup_noborder" colspan="2" width="780">
+      <img src={"/design/standard/images/setup/eZ_setup_top.png"|ezroot} width="780" height="70" alt=""/>
     </td>
 
 {* Top image END *}
@@ -36,7 +36,7 @@
 {* Left bar END *}
 
     <td class="setup_noborder">
-      <table class="layout" width="780" cellpadding="0" cellspacing="0" border="0">
+      <table class="layout" width="760" cellpadding="0" cellspacing="0" border="0">
 
 {* Top view area START *}
 
@@ -44,10 +44,10 @@
           <td class="setup_noborder" width="11">
             <img src={"/design/standard/images/setup/eZ_setup_top_left_corner.png"|ezroot} alt="" width="11" /></td>
 
-          <td class="setup_noborder_white" width="549">
+          <td class="setup_noborder_white" width="539">
           </td>
 
-          <td class="setup_noborder_blue" width="209">
+          <td class="setup_noborder_blue" width="199">
           </td>
 
           <td class="setup_noborder" width="11">
@@ -58,13 +58,13 @@
 
 {* Main view area START *}
 
-        <tr height="521">
-          <td class="setup_main_area" width="560" colspan="2">
+        <tr height="421">
+          <td class="setup_main_area" width="550" colspan="2">
             {* Main stuff goes here *}
 	    {$module_result.content}
           </td>
         
-          <td class="setup_noborder_blue" width="220" colspan="2">
+          <td class="setup_noborder_blue" width="210" colspan="2">
 	    <div class="setup_help">
 	      {* Setup help *}
 	      <h1 class="setup_help_summary">{"Help"|i18n("design/standard/setup")}</h1>
@@ -86,10 +86,10 @@
           <td class="setup_noborder" width="11">
             <img src={"/design/standard/images/setup/eZ_setup_bottom_left_corner.png"|ezroot} alt="" width="11" /></td>
 
-          <td class="setup_noborder_white" width="549">
+          <td class="setup_noborder_white" width="539">
           </td>
 
-          <td class="setup_noborder_blue" width="209">
+          <td class="setup_noborder_blue" width="199">
           </td>
 
           <td class="setup_noborder" width="11">

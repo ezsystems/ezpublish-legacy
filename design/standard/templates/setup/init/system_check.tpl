@@ -35,7 +35,6 @@
 
 {section show=$test.result|eq(1)}
   <p>{"No problems was found with your system, you can continue by clicking the"|i18n("design/standard/setup/init")} <i>{"Next &gt;"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}</p>
-  <p>{"However if you wish to finetune your system you should click the"|i18n("design/standard/setup/init")} <i>{"Finetune System"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}</p>
 
     <div class="buttonblock">
       <input type="hidden" name="ChangeStepAction" value="" />
@@ -48,11 +47,17 @@
 
   <h1>{"System check"|i18n("design/standard/setup/init")}</h1>
   <p>
-  {"The system check found some issues that need to be resolved before the setup can continue."|i18n("design/standard/setup/init")}
+{"There are some important issues that have to be resolved. A list of issues/problems is presented below. Each section contains a description and a suggested/recommended solution."|i18n("design/standard/setup/init")}
+</p><p>
+{"Once the problems/issues are fixed, you may click the <i>Next</i> button to continue. The system check will be run again. If everything is okay, the setup will go to the next stage. If there are problems, the system check page will reappear."|i18n("design/standard/setup/init")}
+</p><p>
+{"Some issues may be ignored by checking the <i>Ignore this test</i> checkbox(es); however, this is not recommended."|i18n("design/standard/setup/init")}
+</p>
+{*  {"The system check found some issues that need to be resolved before the setup can continue."|i18n("design/standard/setup/init")}
   {"Please have a look through the results below for more information on what the problems are."|i18n("design/standard/setup/init")}
   {"Each problem will give you instructions on how to fix the problem."|i18n("design/standard/setup/init")}
-  </p>
-  <p>{"After you have fixed the problems click the %1 button to re-run the system checking. You may also ignore specific tests by clicking the check boxes."|i18n("design/standard/setup/init",,array(concat("<i>","Next"|i18n("design/standard/setup/init"),"</i>")))}</p>
+  </p> 
+  <p>{"After you have fixed the problems click the %1 button to re-run the system checking. You may also ignore specific tests by clicking the check boxes."|i18n("design/standard/setup/init",,array(concat("<i>","Next"|i18n("design/standard/setup/init"),"</i>")))}</p> *}
 
   <h1>{"Issues"|i18n("design/standard/setup/init")}</h1>
   <table width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -62,8 +67,7 @@
     <td>{include uri=concat('design:setup/tests/',$:item[1],'_error.tpl') test_result=$:item result_number=$:number}</td>
   </tr>
   <tr>
-    <td><label>{"Ignore this test"|i18n("design/standard/setup/init")}</label>
-        <input type="checkbox" name="{$:item[1]}_Ignore" value="1" />
+    <td><input type="checkbox" name="{$:item[1]}_Ignore" value="1">{"Ignore this test"|i18n("design/standard/setup/init")}</input>
     </td>
   </tr>
 
