@@ -54,9 +54,13 @@
     <td>
         {section show=$:item.is_modified}
             {let object=fetch(content,object,hash(object_id,$:item.contentobject_id,
-                                                  object_version,$:item.contentobject_version))}
+                                                  object_version,$:item.contentobject_version))
+                 version=fetch(content,version,hash(object_id,$:item.contentobject_id,
+                                                    version_id,$:item.contentobject_version))}
                 <table cellspacing="0" cellpadding="0" border="0">
-                {section name=Attribute loop=$:object.contentobject_attributes}
+{*                {section name=Attribute loop=$:object.contentobject_attributes} 
+*}
+                {section name=Attribute loop=$:version.contentobject_attributes} 
 <tr>
 <td>
                     {$:item.contentclass_attribute.name}
