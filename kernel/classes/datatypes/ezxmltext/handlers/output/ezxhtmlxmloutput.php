@@ -243,16 +243,31 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $src = "";
                 $classID = $object->attribute( 'contentclass_id' );
 
+                $hasLink = false;
+                $linkID = $tag->attributeValueNS( 'ezurl_id', "http://ez.no/namespaces/ezpublish3/image/" );
+
+                if ( $linkID != null )
+                {
+                    $href =& eZURL::url( $linkID );
+                    $target = $tag->attributeValueNS( 'ezurl_target', "http://ez.no/namespaces/ezpublish3/image/" );
+                    if ( $target == null )
+                        $target = "_self";
+                    $hasLink = true;
+                }
+
                 $objectParameters = array();
                 foreach ( $objectAttributes as $attribute )
                 {
-                    $objectParameters[$attribute->name()] = $attribute->content();
+                    if ( $attribute->name() == "ezurl_id" )
+                        $objectParameters['href'] = $href;
+                    else if ( $attribute->name() == "ezurl_target" )
+                        $objectParameters['target'] = $target;
+                    else
+                        $objectParameters[$attribute->name()] = $attribute->content();
                 }
 
-                $parameters[] = $item;
                 if ( strlen( $view ) == 0 )
                     $view = "embed";
-
                 $tpl->setVariable( 'object', $object, 'xmltagns' );
                 $tpl->setVariable( 'view', $view, 'xmltagns' );
                 $tpl->setVariable( 'object_parameters', $objectParameters, 'xmltagns' );
@@ -285,13 +300,20 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                         $cellContent .= $this->renderXHTMLSection( $tpl, $tableCell, $currentSectionLevel, $tdSctionLevel );
 
                         $tpl->setVariable( 'content', $cellContent, 'xmltagns' );
+                        $className = $tableCell->attributeValue( 'class' );
+                        $width = $tableCell->attributeValueNS( 'width', "http://ez.no/namespaces/ezpublish3/xhtml/" );
+                        $colspan = $tableCell->attributeValueNS( 'colspan', "http://ez.no/namespaces/ezpublish3/xhtml/" );
+                        $rowspan = $tableCell->attributeValueNS( 'rowspan', "http://ez.no/namespaces/ezpublish3/xhtml/" );
+
                         if ( $tableCell->Name == "th" )
                             $uri = "design:content/datatype/view/ezxmltags/th.tpl";
                         else
                             $uri = "design:content/datatype/view/ezxmltags/td.tpl";
                         $textElements = array();
-                        $tpl->setVariable( 'border', $border, 'xmltagns' );
-                        $tpl->setVariable( 'row_count', $rowCount, 'xmltagns' );
+                        $tpl->setVariable( 'class', $className, 'xmltagns' );
+                        $tpl->setVariable( 'colspan', $colspan, 'xmltagns' );
+                        $tpl->setVariable( 'rowspan', $rowspan, 'xmltagns' );
+                        $tpl->setVariable( 'width', $rowspan, 'xmltagns' );
                         eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
                         $tableData .= implode( '', $textElements );
                     }
@@ -335,7 +357,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $listContent .= implode( '', $textElements );
                 }
 
+                $className = $tag->attributeValue( 'class' );
                 $tpl->setVariable( 'content', $listContent, 'xmltagns' );
+                $tpl->setVariable( 'class', $className, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
 
                 $textElements = array();
@@ -346,10 +370,13 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             // Literal text which allows xml specific caracters < >
             case 'literal' :
             {
-                $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
-                eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', "ooo" . $childTagText);
+                // Get class of literal tag.
+                $className = $tag->attributeValue( 'class' );
+
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
 
+                $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
+                $tpl->setVariable( 'class', $className, 'xmltagns' );
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
                 $tagText .= implode( '', $textElements );
@@ -372,17 +399,37 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             // custom tags which could added for special custom needs.
             case 'custom' :
             {
-                $childContent = $this->renderXHTMLSection( $tpl, $tag, $currentSectionLevel, $tdSectionLevel );
-                $tpl->setVariable( 'content',  $childContent, 'xmltagns' );
-
                 // Get the name of the custom tag.
                 $name = $tag->attributeValue( 'name' );
+                $isInline = false;
+                include_once( "lib/ezutils/classes/ezini.php" );
+                $ini =& eZINI::instance( 'content.ini' );
 
+                $isInlineTagList =& $ini->variable( 'CustomTagSettings', 'IsInline' );
+                foreach ( array_keys ( $isInlineTagList ) as $key )
+                {
+                    $isInlineTagValue =& $isInlineTagList[$key];
+                    if ( $isInlineTagValue )
+                    {
+                        if ( $name == $key )
+                            $isInline = true;
+                    }
+                }
+
+                if ( $isInline )
+                {
+                    $childContent = $childTagText;
+                }
+                else
+                {
+                    $childContent = $this->renderXHTMLSection( $tpl, $tag, $currentSectionLevel, $tdSectionLevel );
+                    $isBlockTag = true;
+                }
+                $tpl->setVariable( 'content',  $childContent, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/$name.tpl";
 
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-                $isBlockTag = true;
             }
             case 'link' :
             {
