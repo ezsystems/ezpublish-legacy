@@ -196,10 +196,11 @@ class eZImageShell
         else
             $str = $this->Exec;
 
+        $str = escapeshellcmd( $str );
 
         // Check if convert string contains spaces
-        if ( strstr( $str, " " ) !== false )
-            $str = "\"".$str."\"";
+//        if ( strstr( $str, " " ) !== false )
+//            $str = "\"".$str."\"";
 
         $params = array_merge( $this->PreParams, $pre );
         foreach ( $params as $param )
@@ -215,7 +216,7 @@ class eZImageShell
         $params = array_merge( $this->PostParams, $post );
         foreach ( $params as $param )
         {
-            $str .= " $param";
+            $str .= ' '.escapeshellarg( $param );
         }
 
         return $str;
@@ -309,6 +310,7 @@ class eZImageShell
     function run( &$execstr, $dest_str )
     {
         eZDebugSetting::writeDebug( 'lib-ezimage-shell', "Executing shell command '$execstr'", 'eZImageShell::run' );
+
         $err = system( $execstr, $ret_code );
         if ( $ret_code == 0 )
         {
