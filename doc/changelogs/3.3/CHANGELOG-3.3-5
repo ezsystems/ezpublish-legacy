@@ -67,6 +67,8 @@ eZINI:
   http://ez.no/community/bug_reports/redirectafteruserregister_set_by_ezdefaultshopaccounthandler_but_never_used
 - Fixed bug, missing check for invalid class identifiers
   http://ez.no/community/bug_reports/problem_with_fetch_tree_in_php_v_4_3_4_or_msql_depth_query_resolved
+- Fixed bug no feedback when using the wishlist without beeing logged in
+  http://ez.no/community/bug_reports/wishlist
 
 
 *Library:
