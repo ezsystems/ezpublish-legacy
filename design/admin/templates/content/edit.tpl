@@ -68,7 +68,7 @@
 <div class="block">
     <input class="button" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('design/standard/content/edit')}" />
     <input class="button" type="submit" name="StoreButton" value="{'Store draft'|i18n('design/standard/content/edit')}" title="{'Store the contents of the draft that is being edited and continue editing. Use this button to periodically save your work while editing.'|i18n( 'design/admin/content/edit' )}" />
-    <input class="button" type="submit" name="DiscardButton" value="{'Discard draft'|i18n('design/standard/content/edit')}" onclick="return confirmDiscard( '{'Are you sure that you want to discard the changes?'|i18n( '/design/admin/layout' )}' );" title="{'Discard the draft that is being edited. This will also get rid of the translations that belong to the draft (if any).'}" />
+    <input class="button" type="submit" name="DiscardButton" value="{'Discard draft'|i18n('design/standard/content/edit')}" onclick="return confirmDiscard( '{'Are you sure that you want to discard the changes?'|i18n( '/design/admin/layout' )}' );" title="{'Discard the draft that is being edited. This action will also remove the translations that belong to the draft (if any).'}" />
     <input type="hidden" name="DiscardConfirm" value="1" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
