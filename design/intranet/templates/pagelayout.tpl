@@ -3,7 +3,7 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 
-{let pagedesign=fetch_alias(by_identifier, hash(attr_id, foo678))}
+{let pagedesign=fetch_alias(by_identifier,hash(attr_id,foo678))}
 
 <head>
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
@@ -16,7 +16,7 @@
 
 <body>
 
-        <a href={"/"|ezurl}>{attribute_view_gui attribute=$pagedesign.data_map.title_image}</a>
+        <a href={"/"|ezurl}>{attribute_view_gui attribute=$pagedesign.data_map.image}</a>
 
 {* Top box START *}
 {include uri="design:page_topbox.tpl"}
