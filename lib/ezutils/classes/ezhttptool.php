@@ -342,6 +342,15 @@ class eZHTTPTool
 				$GLOBALS["HTTP_POST_VARS"][$key] = str_replace( '\"', '"', $GLOBALS["HTTP_POST_VARS"][$key] );
 				$GLOBALS["HTTP_POST_VARS"][$key] = str_replace( '\\\\', '\\', $GLOBALS["HTTP_POST_VARS"][$key] );
 			}
+            else
+            {
+                foreach ( array_keys( $GLOBALS["HTTP_POST_VARS"][$key] as $arrayKey ) )
+                {
+                    $GLOBALS["HTTP_POST_VARS"][$key][$arrayKey] = str_replace( "\'", "'", $GLOBALS["HTTP_POST_VARS"][$key][$arrayKey] );
+                    $GLOBALS["HTTP_POST_VARS"][$key][$arrayKey] = str_replace( '\"', '"', $GLOBALS["HTTP_POST_VARS"][$key][$arrayKey] );
+                    $GLOBALS["HTTP_POST_VARS"][$key][$arrayKey] = str_replace( '\\\\', '\\', $GLOBALS["HTTP_POST_VARS"][$key][$arrayKey] );
+                }
+            }
         }
         foreach ( array_keys( $GLOBALS["_GET"] ) as $key )
         {
@@ -351,7 +360,16 @@ class eZHTTPTool
 				$GLOBALS["_GET"][$key] = str_replace( '\"', '"', $GLOBALS["_GET"][$key] );
 				$GLOBALS["_GET"][$key] = str_replace( '\\\\', '\\', $GLOBALS["_GET"][$key] );
 			}
-         }
+            else
+            {
+                foreach ( array_keys( $GLOBALS["_GET"][$key] as $arrayKey ) )
+                {
+                    $GLOBALS["_GET"][$key][$arrayKey] = str_replace( "\'", "'", $GLOBALS["_GET"][$key][$arrayKey] );
+                    $GLOBALS["_GET"][$key][$arrayKey] = str_replace( '\"', '"', $GLOBALS["_GET"][$key][$arrayKey] );
+                    $GLOBALS["_GET"][$key][$arrayKey] = str_replace( '\\\\', '\\', $GLOBALS["_GET"][$key][$arrayKey] );
+                }
+            }
+        }
 	}
 
     function createPostVarsFromImageButtons()
