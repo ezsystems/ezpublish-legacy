@@ -1,11 +1,17 @@
 <?xml version="1.0"?>
-<package version="3.2" xmlns:ezpackage="http://ez.no/ezpackage">
+<package version="3.2-1" development="true" xmlns:ezpackage="http://ez.no/ezpackage">
   <name>forum</name>
   <summary>Simple forum</summary>
   <description>Creates a simple forum:
 * Straight lists</description>
   <vendor>eZ systems</vendor>
-  <maintainers xmlns:ezmaintainer="http://ez.no/ezmaintainer">
+  <priority type='9' /> // 1 - 10, 5 is normal
+  <type></type> // hotfix, feature, bugfix
+  <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
+    <version>3.2-2</version>
+    <named-version>3.2 release 2</named-version>
+  </ezpublish>
+  <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
     <maintainer>
       <name>Jan Borsodi</name>
       <email>jb@ez.no</email>
@@ -31,14 +37,14 @@
    <group name="community/forum" />
   </groups>
   <release>
-    <version xmlns:ezversion="http://ez.no/ezversion">
+    <version xmlns:ezversion="http://ez.no/ezpackage">
       <number>1.5.0</number>
       <release>1</release>
     </version>
     <timestamp>21342345435</timestamp>
     <license>GPL</license>
     <state>stable</state>
-    <changelog xmlns:ezchangelog="http://ez.no/ezchangelog">
+    <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
       <entry>
         <timestamp>293459235</timestamp>
         <person>Jan Borsodi</person>
@@ -46,11 +52,13 @@
         <change>Next/previous on forum lists</change>
       </entry>
     </changelog>
-    <dependencies xmlns:ezdependency="http://ez.no/">
+    <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
       <provides>
         <function name="array_reverse" />
+        <symbol name="ezsimpleforum" value="1" />
       </provides>
       <requires>
+        <symbol name="ezsimpleforum" value="0" />
         <package name="ezpublish" version="3.2" />
         <file name="index.php" md5sum="" />
         <library name="eztemplate" version="3.0" />
@@ -63,7 +71,6 @@
             <module name="content" />
           </all>
         </any>
-        
       </requires>
       <obsoletes>
        <package name="vbulletin" />
@@ -73,18 +80,20 @@
       </conflicts>
     <dependencies>
 
-    <provides type="function" name="array_change_key_case" />
-    <filelist role="template" design="standard">
-      <file role="override" md5sum="60f4bee62caad5819386a7083cdf8bef" name="forum.tpl" />
-    </filelist>
-    <filelist role="image" design="standard">
-      <file md5sum="60f4bee62caad5819386a7083cdf8bef" name="size.png"/>
-    </filelist>
-    <filelist role="css" design="standard">
-      <file md5sum="60f4bee62caad5819386a7083cdf8bef" name="forum.css"/>
-    </filelist>
+    <provides xmlns:ezprovision="http://ez.no/ezpackage">
+      <function name="array_change_key_case" />
+      <file-list role="template" design="standard">
+        <file role="override" md5sum="60f4bee62caad5819386a7083cdf8bef" name="forum.tpl" />
+      </file-list>
+      <file-list role="image" design="standard">
+        <file md5sum="60f4bee62caad5819386a7083cdf8bef" name="size.png"/>
+      </file-list>
+      <file-list role="css" design="standard">
+        <file md5sum="60f4bee62caad5819386a7083cdf8bef" name="forum.css"/>
+      </file-list>
+    </provides>
   </release>
-  <install>
+  <install xmlns:ezinstall="http://ez.no/ezpackage">
     <pre>
       <run type="php" name="setup.php" />
       <run type="shell" os='unix' name="init.sh" />
@@ -100,17 +109,24 @@
           <field name='name'>First forum</field>
         </insert>
       </database>
-      <create type='contentobject' class='folder' >
-       <placement node='root' />
-        <attribute name='title'>Forums</attribute>
-      </create>
+      <part os='unix'>
+       <content-object class='folder'>
+          <placement node='root' />
+          <attribute name='title'>Forums</attribute>
+        </content-object>
+      </part>
     </pre>
     <post>
       <operation name="clearcache" clear="template-override" />
     </post>
   </install>
-  <uninstall>
+  <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
     <pre>
+      <part>
+        <content-class>
+          <identifier>ezforum</identifier>
+        </content-class>
+      </part>
     </pre>
     <post>
       <run type="php" name="uninstall.php" />
@@ -121,7 +137,8 @@
 
 
 
-<class version="3.2">
+<content-class version="3.2-1" development="true"
+               xmlns:ezcontentclass="http://ez.no/ezcontentclass">
   <remote>
     <url>http://nextgen.amos.dvh1.ez.no/class/view/2</url>
     <site-url>http://nextgen.amos.dvh1.ez.no</site-url>
@@ -139,7 +156,7 @@
     <creator user-id='14' user-login='admin' />
     <modifier user-id='14' user-login='admin' />
   </meta-data>
-  <attributes>
+  <attributes xmlns:ezcontentclass-attribute="http://ez.no/ezcontentclass/attribute">
     <attribute datatype="ezstring" required="true" searchable="true" />
       <name>Title</name>
       <identifier>title</identifier>
@@ -183,11 +200,11 @@
   </attributes>
 </class>
 
-
-<template-override>
+<template-override version="3.2" development="true"
+                   xmlns:eztemplate-override="http://ez.no/eztemplate/override">
   <remote>
     <site-url>http://nextgen.amos.dvh1.ez.no</site-url>
-    <siteaccess>admin</siteaccess>
+    <site-access>admin</site-access>
   </remote>
   <override name='folder'>
     <source>node/view/full.tpl</source>
@@ -221,7 +238,3 @@
     </destination>
   </override>
 </template-override>
-
-
-
-
