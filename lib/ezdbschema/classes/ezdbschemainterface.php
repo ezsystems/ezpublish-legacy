@@ -349,6 +349,12 @@ class eZDBSchemaInterface
             if ( $includeSchema )
             {
                 fputs( $fp, "// This array contains the database schema\n" );
+                if ( isset( $schema['_info'] ) )
+                {
+                    $info = $schema['_info'];
+                    unset( $schema['_info'] );
+                    $schema['_info'] = $info;
+                }
                 fputs( $fp, '$schema = ' . var_export( $schema, true ) . ";\n" );
             }
             if ( $includeData )
