@@ -123,7 +123,7 @@ The setup can continue with the initialization but may damage the present data."
                 </tr>
 
                 <tr>
-                    <td{section show=eq( $db_not_empty, 1 )} class="invalid"{/section}>{"Database"|i18n("design/standard/setup/init")}{section show=eq( $site.db_already_chosen, 1 )}<div style="color: #ff7f00;">*</div>{/section}: </td>
+                    <td{section show=or( eq( $db_not_empty, 1 ), eq( $db_charset_differs, 1 ) )} class="invalid"{/section}>{"Database"|i18n("design/standard/setup/init")}{section show=eq( $site.db_already_chosen, 1 )}<div style="color: #ff7f00;">*</div>{/section}: </td>
                     <td>
                     {section show=$database_available|count|gt( 0 )}
                         <select name="eZSetup_site_templates_{$site.index}_database">

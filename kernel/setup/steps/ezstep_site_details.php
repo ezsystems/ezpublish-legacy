@@ -92,6 +92,7 @@ class eZStepSiteDetails extends eZStepInstaller
         $siteAccessValues['user'] = 1;
 
         $siteTypes = $this->chosenSiteTypes();
+        unset( $this->PersistenceList['regional_info']['site_charset'] );
 
         $counter = 0;
         foreach ( array_keys( $siteTypes ) as $siteTypeKey )
@@ -142,6 +143,12 @@ class eZStepSiteDetails extends eZStepInstaller
                                                 'error_code' => $result['error_code'] );
                 continue;
             }
+            // Store charset if found
+            if ( $result['site_charset'] )
+            {
+                $this->PersistenceList['regional_info']['site_charset'] = $result['site_charset'];
+            }
+
             $db =& $result['db_instance'];
 
             $dbStatus['connected'] = $result['connected'];
@@ -241,6 +248,12 @@ class eZStepSiteDetails extends eZStepInstaller
                     $this->Error[$counter] = array( 'type' => 'db',
                                                     'error_code' => $result['error_code'] );
                     continue;
+                }
+
+                // Store charset if found
+                if ( $result['site_charset'] )
+                {
+                    $this->PersistenceList['regional_info']['site_charset'] = $result['site_charset'];
                 }
 
                 ++$counter;
@@ -347,6 +360,7 @@ class eZStepSiteDetails extends eZStepInstaller
 
         $this->Tpl->setVariable( 'db_not_empty', 0 );
         $this->Tpl->setVariable( 'db_already_chosen', 0 );
+        $this->Tpl->setVariable( 'db_charset_differs', 0 );
         $this->Tpl->setVariable( 'site_access_illegal', 0 );
         $this->Tpl->setVariable( 'site_access_illegal_name', 0 );
         foreach ( $this->Error as $key => $error )
@@ -388,6 +402,8 @@ class eZStepSiteDetails extends eZStepInstaller
             }
             else if ( $type == 'db' )
             {
+                if ( $error == EZ_SETUP_DB_ERROR_CHARSET_DIFFERS )
+                    $this->Tpl->setVariable( 'db_charset_differs', 1 );
                 $siteTypes[$key]['errors'][] = $this->databaseErrorInfo( array( 'error_code' => $error,
                                                                                 'database_info' => $this->PersistenceList['database_info'] ) );
             }

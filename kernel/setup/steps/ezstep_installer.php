@@ -51,6 +51,7 @@ define( 'EZ_SETUP_DB_ERROR_NOT_EMPTY', 4 );
 define( 'EZ_SETUP_DB_ERROR_NO_DATABASES', 5 );
 define( 'EZ_SETUP_DB_ERROR_NO_DIGEST_PROC', 6 );
 define( 'EZ_SETUP_DB_ERROR_VERSION_INVALID', 7 );
+define( 'EZ_SETUP_DB_ERROR_CHARSET_DIFFERS', 8 );
 
 class eZStepInstaller
 {
@@ -295,6 +296,7 @@ class eZStepInstaller
                          'use_unicode' => false,
                          'db_version' => false,
                          'db_require_version' => false,
+                         'site_charset' => false,
                          'status' => false );
 
         $databaseMap = eZSetupDatabaseMap();
@@ -359,6 +361,76 @@ class eZStepInstaller
         if ( $db->isCharsetSupported( 'utf-8' ) )
         {
             $result['use_unicode'] = true;
+        }
+
+        // If we regional info we can start checking the charset
+        if ( isset( $this->PersistenceList['regional_info'] ) )
+        {
+            if ( isset( $this->PersistenceList['regional_info']['site_charset'] ) and
+                 strlen( $this->PersistenceList['regional_info']['site_charset'] ) > 0 )
+            {
+                $charset = $this->PersistenceList['regional_info']['site_charset'];
+            }
+            else
+            {
+                // Figure out charset automatically if it is not set yet
+                include_once( 'lib/ezlocale/classes/ezlocale.php' );
+                $primaryLanguage = null;
+                $allLanguages = array();
+                $allLanguageCodes = array();
+                $extraLanguages = array();
+                $primaryLanguageCode = $this->PersistenceList['regional_info']['primary_language'];
+                $extraLanguageCodes = array();
+                if ( isset( $this->PersistenceList['regional_info']['languages'] ) )
+                    $extraLanguageCodes = $this->PersistenceList['regional_info']['languages'];
+                $extraLanguageCodes = array_diff( $extraLanguageCodes, array( $primaryLanguageCode ) );
+                if ( isset( $this->PersistenceList['regional_info']['variations'] ) )
+                {
+                    $variations = $this->PersistenceList['regional_info']['variations'];
+                    foreach ( $variations as $variation )
+                    {
+                        $locale = eZLocale::create( $variation );
+                        if ( $locale->localeCode() == $primaryLanguageCode )
+                        {
+                            $primaryLanguage = $locale;
+                        }
+                        else
+                        {
+                            $extraLanguages[] = $locale;
+                        }
+                    }
+                }
+                $allLanguages[] =& $primaryLanguage;
+                foreach ( $extraLanguageCodes as $extraLanguageCode )
+                {
+                    $allLanguages[] =& eZLocale::create( $extraLanguageCode );
+                    $allLanguageCodes[] = $extraLanguageCode;
+                }
+
+                if ( $primaryLanguage === null )
+                    $primaryLanguage = eZLocale::create( $this->PersistenceList['regional_info']['primary_language'] );
+                $charset = $this->findAppropriateCharset( $primaryLanguage, $allLanguages, $result['use_unicode'] );
+                $result['site_charset'] = $charset;
+            }
+
+            if ( !$db->checkCharset( $charset, $currentCharset ) )
+            {
+                // If the current charset is utf-8 we use that instead
+                // since it can represent any character possible in the chosen languages
+                if ( $currentCharset == 'utf-8' )
+                {
+                    $charset = 'utf-8';
+                    $result['site_charset'] = $charset;
+                }
+                else
+                {
+                    $result['connected'] = false;
+                    $this->PersistenceList['database_info']['requested_charset'] = $charset;
+                    $this->PersistenceList['database_info']['current_charset'] = $currentCharset;
+                    $result['error_code'] = EZ_SETUP_DB_ERROR_CHARSET_DIFFERS;
+                    return $result;
+                }
+            }
         }
 
         $result['status'] = true;
@@ -442,6 +514,19 @@ See the requirements page for more information.",
                                   'url' => array( 'href' => 'http://ez.no/ez_publish/documentation/general_information/what_is_ez_publish/ez_publish_requirements',
                                                   'text' => 'eZ publish requirements' ),
                                   'number' => EZ_SETUP_DB_ERROR_NO_DATABASES );
+                break;
+            }
+
+            case EZ_SETUP_DB_ERROR_CHARSET_DIFFERS:
+            {
+                $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
+                                                    "The database %database_name cannot be used, it uses the character set %charset which is different from the requested charset %req_charset.",
+                                                    null,
+                                                    array( '%database_name' => $errorInfo['database_info']['database'],
+                                                           '%charset' => $errorInfo['database_info']['current_charset'],
+                                                           '%req_charset' => $errorInfo['database_info']['requested_charset'] ) ),
+                                  'url' => false,
+                                  'number' => EZ_SETUP_DB_ERROR_CHARSET_DIFFERS );
                 break;
             }
         }

@@ -49,6 +49,7 @@ include_once( 'lib/ezdb/classes/ezdb.php' );
   EZSW-002: Failed to load database data file
   EZSW-003: Failed to initialize database schema
   EZSW-004: Failed to initialize database data
+  EZSW-005: Failed to connect to database
 
   EZSW-020: Failed to fetch administrator user object
   EZSW-021: Failed to fetch administrator content object
@@ -149,7 +150,17 @@ class eZStepCreateSites extends eZStepInstaller
 
         $canUseUnicode = $this->PersistenceList['database_info']['use_unicode'];
 
-        $charset = $this->findAppropriateCharset( $primaryLanguage, $allLanguages, $canUseUnicode );
+        // If we have already figured out charset we used that
+        if ( isset( $this->PersistenceList['regional_info']['site_charset'] ) and
+             strlen( $this->PersistenceList['regional_info']['site_charset'] ) > 0 )
+        {
+            $charset = $this->PersistenceList['regional_info']['site_charset'];
+        }
+        else
+        {
+            $charset = $this->findAppropriateCharset( $primaryLanguage, $allLanguages, $canUseUnicode );
+        }
+
         if ( !$charset )
         {
             // Make sure kickstart functionality stops
@@ -418,6 +429,13 @@ class eZStepCreateSites extends eZStepInstaller
                                'database' => $dbName,
                                'charset' => $dbCharset );
         $db =& eZDB::instance( $dbDriver, $dbParameters, true );
+        if ( !$db->isConnected() )
+        {
+            $resultArray['errors'][] = array( 'code' => 'EZSW-005',
+                                              'text' => ( "Failed connecting to database $dbName\n" .
+                                                          $db->errorMessage() ) );
+            return false;
+        }
         eZDB::setInstance( $db );
 
         $result = true;

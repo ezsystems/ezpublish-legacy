@@ -114,12 +114,27 @@ class eZStepLanguageOptions extends eZStepInstaller
             if ( $primaryLanguage === null )
                 $primaryLanguage = eZLocale::create( $this->PersistenceList['regional_info']['primary_language'] );
 
-            $charset = $this->findAppropriateCharset( $primaryLanguage, $allLanguages, false );
+            // If we have already figured out charset and it is utf-8
+            // we don't have to check the new languages
+            if ( isset( $this->PersistenceList['regional_info']['site_charset'] ) and
+                 strlen( $this->PersistenceList['regional_info']['site_charset'] ) > 0 and
+                 $this->PersistenceList['regional_info']['site_charset'] == 'utf-8' )
+            {
+                $charset = 'utf-8';
+            }
+            else
+            {
+                $charset = $this->findAppropriateCharset( $primaryLanguage, $allLanguages, false );
+            }
+
             if ( !$charset )
             {
                 $this->Error = 1;
                 return false;
             }
+
+            // Store the charset for later handling
+            $this->PersistenceList['regional_info']['site_charset'] = $charset;
         }
 
         return true;
