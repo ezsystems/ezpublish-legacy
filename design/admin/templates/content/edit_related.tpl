@@ -102,9 +102,9 @@
     {/section}
 
 {section-else}
-
+<div class="block">
 <p>{'There are no objects related to the one that is currently being edited.'|i18n( 'design/admin/content/edit' )}</p>
-
+</div>
 {/section}
 
 {* DESIGN: Content END *}</div></div></div>
