@@ -109,6 +109,12 @@ MatchFile=file.tpl
 Subdir=templates
 Match[class_identifier]=file
 
+[file_line]
+Source=node/view/line.tpl
+MatchFile=file_line.tpl
+Subdir=templates
+Match[class_identifier]=file
+
 [file_plain]
 Source=node/view/plain.tpl
 MatchFile=file_plain.tpl
