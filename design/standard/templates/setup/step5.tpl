@@ -3,7 +3,7 @@
     <title>eZ publish Setup - Step {$step}</title>
     <link rel="stylesheet" type="text/css" href="design/standard/stylesheets/core.css" />
     <link rel="stylesheet" type="text/css" href="design/standard/stylesheets/admin.css" />
-    <link rel="stylesheet" type="text/css" href="design/standard/stylesheets/debug.css" />	
+    <link rel="stylesheet" type="text/css" href="design/standard/stylesheets/debug.css" />
 </head>
 <body>
 
@@ -11,24 +11,39 @@
 <div align="center">
     <h1>eZ publish setup</h1>
     <h3>- Step {$step} -</h3>
+    <hr width="600" />
 
-    <p>
-    <table border="0" cellspacing="5" cellpadding="0">
+    <table width="600" border="0" cellspacing="0" cellpadding="0">
     <tr>
-        <td>Writing the new configuration to "site.ini":</td>
-        <td>{$configWrite}</td>
+        <td class="normal">Writing the new configuration to "settings/site.ini.php":</td>
+        <td class="normal">{$configWrite}</td>
+    </tr>
+    <tr>
+        <td>
+        {section name=continue show=$continue}
+            <h2>Congratulations! eZ publish should now run on your system.</h2>
+            <p>
+            If you need help with eZ publish, you can go to the <a href="http://developer.ez.no">eZ publish website</a>. If you find bugs (errors),
+            please go to <a href="http://developer.ez.no/developer/bugreports/">eZ publish bug reports</a> and report this error. Only with your help
+            we can fix the errors eZ publish might have and implement new features.
+            </p>
+            <p>
+            If you ever want to restart this setup, change in the file "site.ini.php" the value "CheckValidity" under the block
+            "SiteAccessSettings" to "true".
+            </p>
+            <p>
+            You can find your new eZ publish website <a href="{$url}">here</a>. Enjoy one of the most successful web content management systems that exist!
+            </p>
+        {section-else}
+            <p>
+            Sorry, but it was not successful. This situation should not occur because we tested everything before, but it did happen.
+            Try to find the problem and then reload this page.
+            </p>
+        {/section}
+        </td>
     </tr>
     </table>
-{section name=continue show=$continue}
-    <h3>eZ publish should now run on this system.</h3>
-    <a href="{$url}">Go here to see eZ publish</a>
-{section-else}
-Sorry, but it was not successful.
-{/section}
 </div>
 
-
-
-
 </body>
-</html>    
+</html>
