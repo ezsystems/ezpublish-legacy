@@ -265,6 +265,9 @@ eztc.php:
 - Fixed clearing of subtree expiry caches when clearing template block cache in admin.
   http://ez.no/community/bug_reports/clear_cache_cache_blocks_table_ezsubtree_expiry_isn_t_cleared
   (Merged from stable/3.4 rev. 7199)
+- Fixed bug in base templates (concat vs array)
+  http://ez.no/community/bug_reports/edit_language_problem_in_base_templates
+  (Merged from stable/3.4 rev. 7206)
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
