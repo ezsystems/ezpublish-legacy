@@ -1,8 +1,8 @@
 #!/bin/bash
 
-VERSION="3.3-5"
+VERSION="3.3-6"
 VERSION_ONLY="3.3"
-VERSION_NICK="3.3 release 5"
+VERSION_NICK="3.3 release 6"
 
 RES_COL=60
 # terminal sequence to move to that column. You could change this
