@@ -75,6 +75,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
         $this->tagAttributeArray['custom'] = array( 'name' => array( 'required' => true ) );
 
+        $this->tagAttributeArray['header'] = array( 'level' => array( 'required' => false ) );
+
         $this->isInputValid = true;
         $this->originalInput = "";
     }
@@ -108,8 +110,13 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             {
                 // Set session variable to store input
                 $http->setSessionVariable( 'isInputValid', "false" );
+                $errorMessage = null;
+                foreach ( $message as $line )
+                {
+                    $errorMessage .= $line;
+                }
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                     $message,
+                                                                     $errorMessage,
                                                                      'ezXMLTextType' ) );
                 return EZ_INPUT_VALIDATOR_STATE_INVALID;
             }
@@ -355,7 +362,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     {
                         //Set input invalid
                         $this->isInputValid = false;
-                        $message .= "<li>Attribute '" . $key . "' in tag " . $currentTag . " not found (need fix)</li>";
+                        $message[] = "Attribute '" . $key . "' in tag " . $currentTag . " not found (need fix)";
                     }
                 }
             }
@@ -369,7 +376,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             {
                 //Set input invalid
                 $this->isInputValid = false;
-                $message .= "<li>Tag 'link' must have attribute 'href' or valid 'id' (need fix)</li>";
+                $message[] = "Tag 'link' must have attribute 'href' or valid 'id' (need fix)";
             }
 
             $domDocument->registerElement( $subNode );
@@ -389,7 +396,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         {
             if ( $currentTag != "paragraph" )
             // Tag does not exist in the array
-            $message .= "<li>Tag '" . $currentTag . "' is not allowed to be the child of '" . $parentNodeTag ."' (removed).</li>";
+            $message[] = "Tag '" . $currentTag . "' is not allowed to be the child of '" . $parentNodeTag ."' (removed)";
         }
         return $currentNode;
     }
@@ -399,7 +406,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
     */
     function &convertInput( &$text )
     {
-        $message = null;
+        $message = array();
         // fix newlines
         // Convet windows newlines
         $text =& preg_replace( "#\r\n#", "\n", $text );
@@ -519,12 +526,12 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         {
                             //Set input invalid
                             // $this->isInputValid = false;
-                            $message .= "<li>Unmatched tag " . $convertedTag . "(removed)</li>";
+                            $message[] = "Unmatched tag " . $convertedTag . "(removed)";
                         }
                         if ( in_array( $lastInsertedNodeTag, $this->supportedInputTagArray ) and in_array( $convertedTag, $this->supportedTagArray ) )
                         {
                             if ( $this->isInputValid == true )
-                                $message .= "<li>Unmatched tag " . $lastInsertedNodeTag . "</li>";
+                                $message[] = "Unmatched tag " . $lastInsertedNodeTag;
                             //Set input invalid
                             $this->isInputValid = false;
                         }
@@ -593,7 +600,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     }
                     elseif ( !in_array( $justName, $this->supportedTagArray ) )
                     {
-                        $message .= "<li>Unsupported tag " . $justName .  "(removed)</li>";
+                        $message[] = "Unsupported tag " . $justName .  "(removed)";
                     }
                     elseif ( $justName == "header" )
                     {
@@ -705,7 +712,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         }
                         else
                         {
-                            $message .= "<li>Tag '" . $justName . "' is not allowed to be the child of '" . $lastInsertedNodeTag ."' (removed).</li>";
+                            $message[] = "Tag '" . $justName . "' is not allowed to be the child of '" . $lastInsertedNodeTag ."' (removed)";
                         }
                     }
                     else
@@ -757,25 +764,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         }
         $output = array( $domDocument, $message );
         return $output;
-    }
-
-    // Add an paragrph node to current node
-    function addParagraphNode( &$domDocument, &$TagStack, &$currentNode )
-    {
-        // create the new XML element node
-        //unset( $subNode );
-        $subNode = new eZDOMNode();
-        $subNode->Name = "paragraph";
-        $subNode->LocalName = "paragraph";
-        $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-        $domDocument->registerElement( $subNode );
-        $currentNode->appendChild( $subNode );
-        $childTag = $childTagForParagraph;
-        array_push( $TagStack,
-                    array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-        $currentNode =& $subNode;
-        $lastInsertedTag = "paragraph";
-        $lastInsertedChildTag = $childTag;
     }
 
     // Get section level and reset cuttent node according to input header.

@@ -28,7 +28,9 @@
           {section name=ValidationLog loop=$validation_log show=$validation_log}
           <h4>{$:item.name}:</h4>
           <ul>
-            {$:item.description}
+	    {section name=LogMessage loop=$:item.description}
+	      <li>{$:item}</li>
+	    {/section}
           </ul>
           {/section}
           </div>
