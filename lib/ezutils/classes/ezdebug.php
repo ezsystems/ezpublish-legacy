@@ -55,6 +55,9 @@
   \code
   include_once( "lib/ezutils/classes/ezdebug.php" );
 
+  // write a temporary debug message
+  eZDebug::writeDebug( "Test" );
+
   // write a notice
   eZDebug::writeNotice( "Image found" );
 
@@ -651,11 +654,10 @@ class eZDebug
             return true;
         $ini =& eZINI::instance();
 
-        $debugIPArray = $ini->variableArray( "DebugSettings", "DebugIP" );
-
+//        $debugIPArray = $ini->variable( "DebugSettings", "DebugIPList" );
+        $debugIPArray = $ini->variableArray( "DebugSettings", "DebugIPList" );
         $debugEnabled = true;
-
-        if ( !in_array( "enabled", $debugIPArray ) )
+        if ( !in_array( "any", $debugIPArray ) )
         {
             if ( in_array( eZSys::serverVariable( 'REMOTE_ADDR', true ), $debugIPArray ) )
             {
