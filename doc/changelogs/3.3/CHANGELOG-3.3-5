@@ -35,6 +35,8 @@ eZINI:
   http://ez.no/community/bug_reports/critical_node_assignments_aren_t_deleted_properly
 - Fixed bug with user redirection in basket with default account handler
   http://ez.no/community/bug_reports/redirectafteruserregister_set_by_ezdefaultshopaccounthandler_but_never_used
+- Fixed bug no feedback when using the wishlist without beeing logged in
+  http://ez.no/community/bug_reports/wishlist
 
 *Library:
 
