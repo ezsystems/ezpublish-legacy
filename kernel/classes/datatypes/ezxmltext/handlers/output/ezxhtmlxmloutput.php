@@ -285,6 +285,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         $paragraphContentArray = array();
 
         $sectionLevel = $currentSectionLevel;
+        $class = $paragraph->attributeValue( 'class' );
         foreach ( $paragraph->children() as $paragraphNode )
         {
             $isBlockTag = false;
@@ -308,11 +309,19 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         {
             if ( !$paragraphContent['IsBlock'] )
             {
+                $res =& eZTemplateDesignResource::instance();
+                $res->setKeys( array( array( 'classification', $class ) ) );
+
+                $tpl->setVariable( 'classification', $class, 'xmltagns' );
                 $tpl->setVariable( 'content', $paragraphContent['Content'], 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/paragraph.tpl";
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
                 $output .= implode( '', $textElements );
+
+                // Remove the design key, so it will not override other tags
+                $res->removeKey( 'classification' );
+                $tpl->unsetVariable( 'classification', 'xmltagns' );
             }
             else
             {
@@ -815,7 +824,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
                 $tagText .= implode( '', $textElements );
-
                 // Remove the design key, so it will not override other tags
                 $res->removeKey( 'classification' );
                 $tpl->unsetVariable( 'classification', 'xmltagns' );
