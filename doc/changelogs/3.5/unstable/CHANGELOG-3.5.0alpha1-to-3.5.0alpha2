@@ -86,6 +86,7 @@ Payment:
 - Fixed bug: No title and description in RSS 1 exports
   (Merged from stable/3.4 rev. 8668)
   http://ez.no/community/bug_reports/rss_1_0_export_items_only_contain_url
+- Fixed bug of imported folders from addons get wrong priority number.
 	
 *Library:
 

@@ -2666,6 +2666,7 @@ class eZContentObject extends eZPersistentObject
         $contentObject->store();
         $activeVersion = 1;
         $firstVersion = true;
+        $versionListActiveVersion = $versionListNode->attributeValue( 'active_version' );
 
         $versionList = array();
         foreach( $versionListNode->elementsByName( 'version' ) as $versionDOMNode )
@@ -2676,7 +2677,7 @@ class eZContentObject extends eZPersistentObject
                                                                          $contentObject,
                                                                          $ownerID,
                                                                          $sectionID,
-                                                                         $versionListNode->attributeValue( 'active_version' ),
+                                                                         $versionListActiveVersion,
                                                                          $firstVersion,
                                                                          $nodeList,
                                                                          $options,
@@ -2684,7 +2685,7 @@ class eZContentObject extends eZPersistentObject
             $versionList[$versionDOMNode->attributeValue( 'version' )] = array( 'node_list' => $nodeList );
 
             $firstVersion = false;
-            if ( $versionDOMNode->attributeValue( 'version' ) == $versionListNode->attributeValue( 'active_version' ) )
+            if ( $versionDOMNode->attributeValue( 'version' ) == $versionListActiveVersion )
             {
                 $activeVersion = $contentObjectVersion->attribute( 'version' );
             }
@@ -2706,7 +2707,7 @@ class eZContentObject extends eZPersistentObject
         eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObject->attribute( 'id' ),
                                                                   'version' => $activeVersion ) );
 
-        foreach ( $versionList[$activeVersion]['node_list'] as $nodeInfo )
+        foreach ( $versionList[$versionListActiveVersion]['node_list'] as $nodeInfo )
         {
             unset( $parentNode );
             $parentNode =& eZContentObjectTreeNode::fetchNode( $contentObject->attribute( 'id' ),
