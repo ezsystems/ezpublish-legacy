@@ -37,6 +37,9 @@
 - Fixed the adding of new object attributes to add attributes for all translations.
   http://ez.no/developer/ez_publish_3/bug_reports/translated_attributes_are_not_added_when_class_is_extended
 - Fixed update attribute filter script bug : http://ez.no/developer/ez_publish_3/bug_reports/incorrect_searched_field_in_script_updateattributefilterphp ( merged from stable 4346 )
+- Fixed missing parameter bug in kernel/classes/datatypes/ezxmltext/handlers/output/ezxhtmlxmloutput.php:443 (merged from stable 4348 )
+  http://ez.no/developer/ez_publish_3/bug_reports/renderxhtmltag_in_ol_or_ul
+
 
 *Kernel:
 - Fixed editing PDF exports : http://ez.no/developer/ez_publish_3/bug_reports/pdf_export_must_be_editable_and_schedulable

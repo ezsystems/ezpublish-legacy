@@ -440,7 +440,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $listItemContent = "";
                     foreach ( $listItemNode->children() as $itemChildNode )
                     {
-                        $listItemContent .= $this->renderXHTMLTag( $tpl, $itemChildNode, 0 );
+                        $listItemContent .= $this->renderXHTMLTag( $tpl, $itemChildNode, 0, $isBlockTag );
                     }
                     $tpl->setVariable( 'content', $listItemContent, 'xmltagns' );
                     $uri = "design:content/datatype/view/ezxmltags/li.tpl";
