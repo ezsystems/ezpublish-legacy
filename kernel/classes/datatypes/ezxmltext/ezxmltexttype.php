@@ -107,12 +107,13 @@ class eZXMLTextType extends eZDataType
     {
         $inputType =& eZXMLInputType::instance();
         $isValid = $inputType->validateInput( $http, $base, $contentObjectAttribute );
+
         return $isValid;
     }
 
     function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
     {
-        $column = $base .EZ_DATATYPESTRING_XML_TEXT_COLS_VARIABLE . $classAttribute->attribute( 'id' );
+        $column = $base . EZ_DATATYPESTRING_XML_TEXT_COLS_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $column ) )
         {
             $columnValue = $http->postVariable( $column );
@@ -179,8 +180,16 @@ class eZXMLTextType extends eZDataType
     */
     function &inputXML( &$contentObjectAttribute )
     {
-        $inputType =& eZXMLInputType::instance();
-        $output =& $inputType->inputXML( $contentObjectAttribute );
+        // TMP hack
+        if ( !$contentObjectAttribute->isValid() == 1)
+        {
+            $inputType =& eZXMLInputType::instance();
+            $output =& $inputType->inputXML( $contentObjectAttribute );
+        }
+        else
+        {
+            $output =& $contentObjectAttribute->originalInput();
+        }
         return $output;
     }
 

@@ -222,12 +222,13 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
       Validates the data contents, returns true on success false if the data
       does not validate.
-     */
+    */
     function validateInput( &$http, $base )
     {
         $classAttribute =& $this->contentClassAttribute();
         $definition =& $classAttribute->dataType();
-        return $definition->validateObjectAttributeHTTPInput( $http, $base, $this );
+        $this->IsValid = $definition->validateObjectAttributeHTTPInput( $http, $base, $this );
+        return $this->IsValid;
     }
 
     /*!
@@ -245,6 +246,14 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function fetchInput( &$http, $base )
     {
+        // TMP code
+        $column = $base . "_data_text_" . $this->attribute( 'id' );
+        if ( $http->hasPostVariable( $column ) )
+        {
+            $columnValue = $http->postVariable( $column );
+            $this->OriginalInput = $columnValue;
+        }
+
         $classAttribute =& $this->contentClassAttribute();
         $dataType =& $classAttribute->dataType();
         return $dataType->fetchObjectAttributeHTTPInput( $http, $base, $this );
@@ -440,8 +449,31 @@ class eZContentObjectAttribute extends eZPersistentObject
         return $this->ValidationError;
     }
 
+    /*!
+      TMP hack will be rewritten
+    */
+    function &originalInput()
+    {
+        eZDebug::writeWarning( "Tempoarary code in ezcontentobjectattribute.php originalInput()" );
+        return $this->OriginalInput;
+    }
+
+    /*!
+     TMP
+    */
+    function isValid()
+    {
+        return $this->IsValid;
+    }
+
     /// Contains the content for this attribute
     var $Content;
+
+    /// Stores the is valid
+    var $IsValid;
+
+    // TMP
+    var $OriginalInput;
 
     /// Contains the XML for this attribute
     var $XML;
@@ -453,7 +485,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     var $InputXML;
 
     var $ContentClassAttributeID;
-    
+
     /// Contains the last validation error
     var $ValidationError;
 
