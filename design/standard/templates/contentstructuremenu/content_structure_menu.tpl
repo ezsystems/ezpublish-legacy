@@ -13,9 +13,12 @@
      menuHeight             = ezini( 'TreeMenu', 'MenuHeight'       , 'contentstructuremenu.ini' )
      contentStructureTree   = false
      menuID                 = "content_tree_menu" }
+
+    {section show=$custom_root_node_id|is_set()}
+        {set rootNodeID=$custom_root_node_id}
+    {/section}
      
-     
-    {cache-block}     
+    {cache-block keys=array($rootNodeID)}     
         {* Fetch content structure. *}
         {set contentStructureTree = content_structure_tree( $:rootNodeID, 
                                                             $:classFilter,
