@@ -6,6 +6,14 @@
 0={0|si(byte,kibi)}
 0={0|si(byte,kilo)}
 
+3={3|si(byte)}
+3={3|si(byte,binary)}
+3={3|si(byte,decimal)}
+3={3|si(byte,none)}
+3={3|si(byte,auto)}
+3={3|si(byte,kibi)}
+3={3|si(byte,kilo)}
+
 25={25|si(byte)}
 25={25|si(byte,binary)}
 25={25|si(byte,decimal)}

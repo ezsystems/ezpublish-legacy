@@ -184,14 +184,21 @@ class eZTemplateUnitOperator
 
             if ( $hasInput )
             {
-                foreach ( $prefixes as $prefix )
+                if ( $output >= 0 and $output < 10 )
                 {
-                    $val = pow( 10, (int)$prefix[0] );
-                    if ( $val <= $output )
+                    $prefix_var = '';
+                }
+                else
+                {
+                    foreach ( $prefixes as $prefix )
                     {
-                        $prefix_var = $prefix[1];
-                        $output = number_format( $output / $val, $decimalCount, $decimalSymbol, $decimalThousandsSeparator );
-                        break;
+                        $val = pow( 10, (int)$prefix[0] );
+                        if ( $val <= $output )
+                        {
+                            $prefix_var = $prefix[1];
+                            $output = number_format( $output / $val, $decimalCount, $decimalSymbol, $decimalThousandsSeparator );
+                            break;
+                        }
                     }
                 }
             }
@@ -202,15 +209,22 @@ class eZTemplateUnitOperator
                 $values[] = array( eZTemplateNodeTool::createArrayElement( $prefixes ) );
                 $values[] = array( eZTemplateNodeTool::createStringElement( $base ) );
 
-                $code = 'foreach ( %2% as %tmp1% )' . "\n" .
+                $code = 'if ( %1% >= 0 and %1% < 10 )' . "\n" .
                      '{' . "\n" .
-                     '  %tmp2% = pow( 10, (int)%tmp1%[0] );' . "\n" .
-                     '  if ( %tmp2% <= %1% )' . "\n" .
-                     '  {' . "\n" .
-                     '    %tmp3% = %tmp1%[1];' . "\n" .
-                     '    %1% = number_format( %1% / %tmp2%, ' . $decimalCount . ', ' . $decimalSymbolText . ', ' . $decimalThousandsSeparatorText . ' );' . "\n" .
-                     '    break;' . "\n" .
-                     '  }' . "\n" .
+                     '    %tmp3% = \'\';' . "\n" .
+                     '}' . "\n" .
+                     'else' . "\n" .
+                     '{' . "\n" .
+                     '    foreach ( %2% as %tmp1% )' . "\n" .
+                     '    {' . "\n" .
+                     '        %tmp2% = pow( 10, (int)%tmp1%[0] );' . "\n" .
+                     '        if ( %tmp2% <= %1% )' . "\n" .
+                     '        {' . "\n" .
+                     '            %tmp3% = %tmp1%[1];' . "\n" .
+                     '            %1% = number_format( %1% / %tmp2%, ' . $decimalCount . ', ' . $decimalSymbolText . ', ' . $decimalThousandsSeparatorText . ' );' . "\n" .
+                     '            break;' . "\n" .
+                     '        }' . "\n" .
+                     '    }' . "\n" .
                      '}' . "\n" .
                      '%output% = %1% . \' \' . %tmp3% . %3%;';
 
@@ -230,14 +244,20 @@ class eZTemplateUnitOperator
 
             if ( $hasInput )
             {
-                foreach ( $prefixes as $prefix )
+                if ( $output >= 0 and $output < 10 )
                 {
-                    $val = pow( 2, (int)$prefix[0] );
-                    if ( $val <= $output )
+                    $prefix_var = '';
+                }
+                {
+                    foreach ( $prefixes as $prefix )
                     {
-                        $prefix_var = $prefix[1];
-                        $output = number_format( $output / $val, $decimalCount, $decimalSymbol, $decimalThousandsSeparator );
-                        break;
+                        $val = pow( 2, (int)$prefix[0] );
+                        if ( $val <= $output )
+                        {
+                            $prefix_var = $prefix[1];
+                            $output = number_format( $output / $val, $decimalCount, $decimalSymbol, $decimalThousandsSeparator );
+                            break;
+                        }
                     }
                 }
             }
@@ -248,15 +268,22 @@ class eZTemplateUnitOperator
                 $values[] = array( eZTemplateNodeTool::createArrayElement( $prefixes ) );
                 $values[] = array( eZTemplateNodeTool::createStringElement( $base ) );
 
-                $code = 'foreach ( %2% as %tmp1% )' . "\n" .
+                $code = 'if ( %1% >= 0 and %1% < 10 )' . "\n" .
                      '{' . "\n" .
-                     '  %tmp2% = pow( 2, (int)%tmp1%[0] );' . "\n" .
-                     '  if ( %tmp2% <= %1% )' . "\n" .
-                     '  {' . "\n" .
-                     '    %tmp3% = %tmp1%[1];' . "\n" .
-                     '    %1% = number_format( %1% / %tmp2%, ' . $decimalCount . ', ' . $decimalSymbolText . ', ' . $decimalThousandsSeparatorText . ' );' . "\n" .
-                     '    break;' . "\n" .
-                     '  }' . "\n" .
+                     '    %tmp3% = \'\';' . "\n" .
+                     '}' . "\n" .
+                     'else' . "\n" .
+                     '{' . "\n" .
+                     '    foreach ( %2% as %tmp1% )' . "\n" .
+                     '    {' . "\n" .
+                     '      %tmp2% = pow( 2, (int)%tmp1%[0] );' . "\n" .
+                     '      if ( %tmp2% <= %1% )' . "\n" .
+                     '      {' . "\n" .
+                     '        %tmp3% = %tmp1%[1];' . "\n" .
+                     '        %1% = number_format( %1% / %tmp2%, ' . $decimalCount . ', ' . $decimalSymbolText . ', ' . $decimalThousandsSeparatorText . ' );' . "\n" .
+                     '        break;' . "\n" .
+                     '      }' . "\n" .
+                     '    }' . "\n" .
                      '}' . "\n" .
                      '%output% = %1% . \' \' . %tmp3% . %3%;';
 
@@ -399,44 +426,58 @@ class eZTemplateUnitOperator
         $prefix_var = "";
         if ( $prefix == "decimal" )
         {
-            $prefix_group = $unit_ini->group( "DecimalPrefixes" );
-            $prefixes = array();
-            foreach ( $prefix_group as $prefix_item )
+            if ( $operatorValue >= 0 and $operatorValue < 10 )
             {
-                $prefixes[] = explode( ";", $prefix_item );
+                $prefix_var = '';
             }
-            usort( $prefixes, "eZTemplateUnitCompareFactor" );
-            $prefix_var = "";
-            $divider = false;
-            foreach ( $prefixes as $prefix )
+            else
             {
-                $val = pow( 10, (int)$prefix[0] );
-                if ( $val <= $operatorValue )
+                $prefix_group = $unit_ini->group( "DecimalPrefixes" );
+                $prefixes = array();
+                foreach ( $prefix_group as $prefix_item )
                 {
-                    $prefix_var = $prefix[1];
-                    $operatorValue = number_format( $operatorValue / $val, $decimalCount, $decimalSymbol, $decimalThousandsSeparator );
-                    break;
+                    $prefixes[] = explode( ";", $prefix_item );
+                }
+                usort( $prefixes, "eZTemplateUnitCompareFactor" );
+                $prefix_var = "";
+                $divider = false;
+                foreach ( $prefixes as $prefix )
+                {
+                    $val = pow( 10, (int)$prefix[0] );
+                    if ( $val <= $operatorValue )
+                    {
+                        $prefix_var = $prefix[1];
+                        $operatorValue = number_format( $operatorValue / $val, $decimalCount, $decimalSymbol, $decimalThousandsSeparator );
+                        break;
+                    }
                 }
             }
         }
         else if ( $prefix == "binary" )
         {
-            $prefix_group = $unit_ini->group( $fake . "BinaryPrefixes" );
-            $prefixes = array();
-            foreach ( $prefix_group as $prefix_item )
+            if ( $operatorValue >= 0 and $operatorValue < 10 )
             {
-                $prefixes[] = explode( ";", $prefix_item );
+                $prefix_var = '';
             }
-            usort( $prefixes, "eZTemplateUnitCompareFactor" );
-            $prefix_var = "";
-            foreach ( $prefixes as $prefix )
+            else
             {
-                $val = pow( 2, (int)$prefix[0] );
-                if ( $val <= $operatorValue )
+                $prefix_group = $unit_ini->group( $fake . "BinaryPrefixes" );
+                $prefixes = array();
+                foreach ( $prefix_group as $prefix_item )
                 {
-                    $prefix_var = $prefix[1];
-                    $operatorValue = number_format( $operatorValue / $val, $decimalCount, $decimalSymbol, $decimalThousandsSeparator );
-                    break;
+                    $prefixes[] = explode( ";", $prefix_item );
+                }
+                usort( $prefixes, "eZTemplateUnitCompareFactor" );
+                $prefix_var = "";
+                foreach ( $prefixes as $prefix )
+                {
+                    $val = pow( 2, (int)$prefix[0] );
+                    if ( $val <= $operatorValue )
+                    {
+                        $prefix_var = $prefix[1];
+                        $operatorValue = number_format( $operatorValue / $val, $decimalCount, $decimalSymbol, $decimalThousandsSeparator );
+                        break;
+                    }
                 }
             }
         }
