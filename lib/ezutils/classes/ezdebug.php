@@ -1088,18 +1088,18 @@ td.debugheader
 
 td.timingpoint1
 \{
-	background-color : #ffffff;
-	border-top : 1px solid #444488;
-	font-size : 65%;
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+    background-color : #ffffff;
+    border-top : 1px solid #444488;
+    font-size : 65%;
+    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 \}
 
 td.timingpoint2
 \{
-	background-color : #eeeeee;
-	border-top : 1px solid #444488;
-	font-size : 65%;
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+    background-color : #eeeeee;
+    border-top : 1px solid #444488;
+    font-size : 65%;
+    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 \}
 
 -->
@@ -1219,6 +1219,16 @@ td.timingpoint2
                     $returnText .= "<tr><td> No timing points defined</td><td>";
                 else
                     $returnText .= "No timing points defined\n";
+            }
+            if ( function_exists('xdebug_peak_memory_usage') )
+            {
+                $peakMemory = xdebug_peak_memory_usage();
+                if ( $as_html )
+                    $returnText .= "<tr><td><b>Peak memory usage:</b></td><td><b>" .
+                        number_format( $peakMemory / 1024, $this->TimingAccuracy ) . "KB</b></tr></tr>";
+                else
+                    $returnText .= "Peak memory usage: " .
+                        number_format( $peakMemory / 1024, $this->TimingAccuracy ) . "KB\n";
             }
         }
         if ( $as_html )
