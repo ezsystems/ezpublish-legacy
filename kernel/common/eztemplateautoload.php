@@ -70,6 +70,9 @@ $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezwordtoimageoper
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatephpoperator.php',
                                     'function' => 'eZPHPOperatorInit',
                                     'operator_names_function' => 'eZPHPOperatorNameInit' );
+$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezmoduleparamsoperator.php',
+                                    'class' => 'eZModuleParamsOperator',
+                                    'operator_names' => array( 'module_params' ) );
 
 // Function autoloading
 
