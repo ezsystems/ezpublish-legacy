@@ -92,16 +92,16 @@ class eZSOAPClient
         {
             $fp = fsockopen( $this->Server,
             $this->Port,
-            &$this->errorNumber,
-            &$this->errorString,
+            $this->errorNumber,
+            $this->errorString,
             $this->TimeOut );
         }
         else
         {
             $fp = fsockopen( $this->Server,
             $this->Port,
-            &$this->errorNumber,
-            &$this->errorString );
+            $this->errorNumber,
+            $this->errorString );
         }
 
         $payload =& $request->payload();

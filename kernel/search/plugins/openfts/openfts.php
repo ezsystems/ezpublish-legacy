@@ -121,7 +121,7 @@ class openFts
         $contentObjectID = $contentObject->attribute( "id" );
         eZDebugSetting::writeDebug( 'kernel-search-openfts', "/home/sp/projects/php/ezpublish3/bin/openfts/delete.pl nextgen_test $contentObjectID " , "delete error string" );
 
-        $retStr = system( "/home/sp/projects/php/ezpublish3/bin/openfts/delete.pl nextgen_test $contentObjectID " , &$foo);
+        $retStr = system( "/home/sp/projects/php/ezpublish3/bin/openfts/delete.pl nextgen_test $contentObjectID " , $foo );
         eZDebugSetting::writeDebug( 'kernel-search-openfts', $retStr.$foo, "delete error string" );
 
 
