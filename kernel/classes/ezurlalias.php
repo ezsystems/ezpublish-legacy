@@ -240,7 +240,7 @@ class eZURLAlias extends eZPersistentObject
                                            "_",
                                            "_" ),
                                       $urlElement );
-        return $pathURL;
+        return $urlElement;
     }
 
 
