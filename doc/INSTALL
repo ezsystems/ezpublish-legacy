@@ -75,13 +75,9 @@ insert a database.
    mysql> create database <name_of_database>;
 3. mysql> grant all on <name_of_database>.* to <user>@localhost identified by '<password>';
    (This command will also create the specified user, in addition to granting permissions.)
-4. If you don't want demodata:
+4. Install the definitions and basic data.
    $ mysql -u<user> -p<password> <name_of_database> < <httproot>/ezpublish-xxx/kernel/sql/mysql/kernel_schema.sql
    $ mysql -u<user> -p<password> <name_of_database> < <httproot>/ezpublish-xxx/kernel/sql/mysql/cleandata.sql
-
-   If you do want demodata:
-   $ mysql -u<user> -p<password> <name_of_database> < <httproot>/ezpublish-xxx/kernel/sql/mysql/kernel_schema.sql
-   $ mysql -u<user> -p<password> <name_of_database> < <httproot>/ezpublish-xxx/kernel/sql/mysql/demodata.sql
 
 2.1.2 PosgreSQL
 We need to login, create a new database, grant permissions to a user and
@@ -90,31 +86,24 @@ insert a database.
 1. $ su <postgres_super_user>
 2. $ createuser <user>
 3. $ createdb <name_of_database>
-4. If you don't want demodata:
-4. $ psql -U<user> <name_of_database> < <httproot>/ezpublish-xxx/kernel/sql/postgresql/kernel_schema.sql
+4.
+   To be able to run ezpubish on postgresql you need to have "digest" function from pgcrypto contribution
+   from postgresql-contrib pakage.If you don't have it you need to install postgresql-contrib rpm pakage and to
+   run command on your database:
+
+   psql -U<user> <name_of_database> < /usr/share/pgsql/contrib/pgcrypto.sql
+
+5. Install the definitions and basic data.
+   $ psql -U<user> <name_of_database> < <httproot>/ezpublish-xxx/kernel/sql/postgresql/kernel_schema.sql
    $ psql -U<user> <name_of_database> < <httproot>/ezpublish-xxx/kernel/sql/postgresql/cleandata.sql
-
-To be able to run ezpubish on postgresql you need to have "digest" function from pgcrypto contribution
-from postgresql-contrib pakage.If you don't have it you need to install postgresql-contrib rpm pakage and to
-run command on your database:
-
-5. psql -U<user> <name_of_database> < /usr/share/pgsql/contrib/pgcrypto.sql
-
-
-   
-   If you do want demodata:
-   Demodata is not available for PostgreSQL at the moment.
 
 
 2.2 Demo data
 -------------
-Demodata is only for MySQL. Before you proceed make sure you
-installed the demodata.sql file.
-To install the demodata all you have to do is unpack the var.tgz file:
-
-1. $ cd <httproot>/ezpublish-xxx/
-2. $ tar xfvz var.tgz
-3. $ bin/modfix.sh
+The demo data is no longer available as an SQL file, the reason for
+this is that it has been split up into several packages each with
+it own set of settings. Currently you have use the web based setup
+to get these packages.
 
 
 2.3 Configure eZ publish
@@ -185,22 +174,16 @@ and insert a database.
    mysql> create database <name_of_database>;
 4. mysql> grant all on <name_of_database>.* to <user>@localhost identified by '<password>';
    (This command will also create the specified user, in addition to granting permissions.)
-5. If you don't want demodata:
+5. Install the definitions and basic data.
    $ mysql.exe -u<user> -p<password> <name_of_database> < <httproot>\ezpublish-xxx\kernel\sql\mysql\kernel_schema.sql
    $ mysql.exe -u<user> -p<password> <name_of_database> < <httproot>\ezpublish-xxx\kernel\sql\mysql\cleandata.sql
-   If you do want demodata:
-   $ mysql.exe -u<user> -p<password> <name_of_database> < <httproot>\ezpublish-xxx\kernel\sql\mysql\kernel_schema.sql
-   $ mysql.exe -u<user> -p<password> <name_of_database> < <httproot>\ezpublish-xxx\kernel\sql/mysql\demokernel.sql
-
 
 3.2 Demo data
 -------------
-Demodata is only available for MySQL. Before you proceed make sure you have
-installed the demokernel.sql file and NOT the kernel_clean.sql file.
-
-To install the demodata all you have to do is unpack the var.tgz file:
-1. goto <httproot>\ezpublish-xxx
-2. unpack var.tgz into <httproot>\ezpublish-xxx
+The demo data is no longer available as an SQL file, the reason for
+this is that it has been split up into several packages each with
+it own set of settings. Currently you have use the web based setup
+to get these packages.
 
 
 3.3 Configure eZ publish
