@@ -8,7 +8,7 @@
 // Created on: <23-Jan-2003 10:19:26 gl>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
