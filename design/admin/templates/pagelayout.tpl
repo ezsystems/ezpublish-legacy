@@ -50,6 +50,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 </form>
 </div>
 
+
 <div class="break"></div>
 
 </div>
@@ -201,7 +202,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 {/section}
 </div>
 
-{* Show bookmark button if we're looking at a node. *}
+{* Show "Add to bookmarks" button if we're viewing an actual node. *}
 {section show=$node.node_id|is_set()}
 <form method="post" action={"content/action"|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
@@ -223,6 +224,16 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
  <h4>{"History"|i18n("design/admin/layout")} <a class="showhide" href={"/user/preferences/set/history_menu/on"|ezurl}>[+]</a></h4>
 {/section}
 </div>
+
+
+{* Show "Add to notification" button if we're viewing an actual node. *}
+{section show=$node.node_id|is_set()}
+<form method="post" action={"content/action"|ezurl}>
+<input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
+<input class="button" type="submit" name="ActionAddToNotification" value="{'Add to notifications'|i18n('design/standard/node/view')}" />
+</form>
+{/section}
+
 
 </div>
 </div>
