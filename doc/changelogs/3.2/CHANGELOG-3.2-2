@@ -1,0 +1,27 @@
+Changes from 3.2-1 to 3.2-2
+
+*Kernel:
+
+*DataType:
+
+*Optimizations:
+
+*Bugfixes:
+
+*Files:
+- Made sure ezpublish.cron is included in the release (Was missing in 3.2-1).
+
+*Setup:
+
+*WebDAV:
+
+*Templates:
+
+*Package system:
+
+*Library :
+
+
+*Translations:
+
+*Miscellaneous:
