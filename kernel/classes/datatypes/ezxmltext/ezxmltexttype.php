@@ -605,7 +605,7 @@ class eZXMLTextType extends eZDataType
     */
     function &renderXHTMLTag( &$tpl, &$tag, $currentSectionLevel, &$isBlockTag )
     {
-        // Set to true if tag breaks pagragraph flow
+        // Set to true if tag breaks paragraph flow
         $isBlockTag = false;
         $tagText = "";
         $childTagText = "";
@@ -629,17 +629,51 @@ class eZXMLTextType extends eZDataType
             case 'object' :
             {
                 $objectID = $tag->attributeValue( 'id' );
+                $object =& eZContentObject::fetch( $objectID );
                 $view = $tag->attributeValue( 'view' );
                 $alignment = $tag->attributeValue( 'align' );
-                //$size = $tag->attributeValue( 'size' );
-                $src = $tag->attributeValue( 'src' );
+                $size = $tag->attributeValue( 'size' );
+                $src = "";
+                $classID = $object->attribute( 'contentclass_id' );
+
+                $domain = getenv( 'HTTP_HOST' );
+                $URL = "http://" . $domain;
+                $URL .= eZSys::wwwDir();
+                if ( $classID == 5 )
+                {
+                    $contentObjectAttributes =& $object->contentObjectAttributes();
+                    foreach ( $contentObjectAttributes as $contentObjectAttribute )
+                    {
+                        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+                        $dataTypeString = $classAttribute->attribute( 'data_type_string' );
+                        if ( $dataTypeString == "ezimage" )
+                        {
+                            $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
+                            $contentObjectAttributeVersion = $contentObjectAttribute->attribute( 'version' );
+                            $content = $contentObjectAttribute->content();
+                            if ( $content != null )
+                            {
+                                $mimeCategory = $content->attribute( 'mime_type_category' );
+                                $imageVariation = $content->attribute( $size );
+                                $path = $imageVariation->attribute( 'additional_path' );
+                                $filename = $imageVariation->attribute( 'filename' );
+                                $srcString = $URL . "/var/storage/variations/" .  $mimeCategory . "/" . $path . $filename;
+                                $image =& eZImage::fetch( $contentObjectAttributeID, $contentObjectAttributeVersion );
+                                $imageObject = $image->attribute( $size );
+                            }
+                            else
+                            {
+                                $srcString = "";
+                            }
+                        }
+                    }
+                }
                 $parameters = array();
                 $item = array( "alignment" => $alignment ,
-                               "src" => $src );
+                               "src" => $srcString );
                 $parameters[] = $item;
                 if ( strlen( $view ) == 0 )
                     $view = "embed";
-                $object =& eZContentObject::fetch( $objectID );
 
                 $tpl->setVariable( 'object', $object, 'xmltagns' );
                 $tpl->setVariable( 'view', $view, 'xmltagns' );
@@ -664,6 +698,7 @@ class eZXMLTextType extends eZDataType
                     foreach ( $tableRow->children() as $tableCell )
                     {
                         $cellContent = "";
+                        $sectionLevel -= 1;
                         $cellContent .= $this->renderXHTMLSection( $tpl, $tableCell, $sectionLevel );
 
                         $tpl->setVariable( 'content', $cellContent, 'xmltagns' );
