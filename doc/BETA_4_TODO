@@ -97,4 +97,7 @@ Browsers:
 - Create a framework for checking browser type, version and OS and make it
   accessible from templates.
 - Create template operators/functions which will input HTML data according to
-  browser data. For instance checked="checked" vs checked.
+  browser data. For instance
+  checked="checked" vs checked.
+  multiple="multiple" vs multiple
+  selected="selected" vs selected
