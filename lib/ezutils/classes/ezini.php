@@ -644,6 +644,8 @@ class eZINI
     {
         include_once( 'lib/ezutils/classes/ezdir.php' );
         $lineSeparator = eZSys::lineSeparator();
+        include_once( "lib/ezi18n/classes/eztextcodec.php" );
+        $codec =& eZTextCodec::instance( eZTextCodec::internalCharset(), $this->Charset );
         $pathArray = array();
         $dirArray = array();
         if ( $fileName === false )
@@ -714,13 +716,13 @@ class eZINI
                 }
                 $written = 0;
                 if ( $i > 0 )
-                    $written = fwrite( $fp, "$lineSeparator" );
+                    $this->writeToFP( $fp, $codec, "$lineSeparator" );
                 if ( $written === false )
                 {
                     $writeOK = false;
                     break;
                 }
-                $written = fwrite( $fp, "[$blockName]$lineSeparator" );
+                $written = $this->writeToFP( $fp, $codec, "[$blockName]$lineSeparator" );
                 if ( $written === false )
                 {
                     $writeOK = false;
@@ -741,23 +743,23 @@ class eZINI
                         if ( count( $varValue ) > 0 )
                         {
                             if ( $resetArrays )
-                                $written = fwrite( $fp, "$varKey" . "[]$lineSeparator" );
+                                $written = $this->writeToFP( $fp, $codec, "$varKey" . "[]$lineSeparator" );
                             foreach ( $varValue as $varArrayKey => $varArrayValue )
                             {
                                 if ( is_string( $varArrayKey ) )
-                                    $written = fwrite( $fp, "$varKey" . "[$varArrayKey]=$varArrayValue$lineSeparator" );
+                                    $written = $this->writeToFP( $fp, $codec, "$varKey" . "[$varArrayKey]=$varArrayValue$lineSeparator" );
                                 else
-                                    $written = fwrite( $fp, "$varKey" . "[]=$varArrayValue$lineSeparator" );
+                                    $written = $this->writeToFP( $fp, $codec, "$varKey" . "[]=$varArrayValue$lineSeparator" );
                                 if ( $written === false )
                                     break;
                             }
                         }
                         else
-                            $written = fwrite( $fp, "$varKey" . "[]$lineSeparator" );
+                            $written = $this->writeToFP( $fp, $codec, "$varKey" . "[]$lineSeparator" );
                     }
                     else
                     {
-                        $written = fwrite( $fp, "$varKey=$varValue$lineSeparator" );
+                        $written = $this->writeToFP( $fp, $codec, "$varKey=$varValue$lineSeparator" );
                     }
                     if ( $written === false )
                     {
@@ -1140,6 +1142,23 @@ class eZINI
     {
         $impl = new eZINI( $fileName, $rootDir, $useTextCodec, $useCache, $useLocalOverrides );
         return $impl;
+    }
+
+    /*!
+     \private
+
+     Write ini information to file using specified character coded for encoding.
+
+     \param file pointer
+     \param codec
+     \param text
+
+     \return result of fwrite
+    */
+    function writeToFP( &$fp, &$codec, $text )
+    {
+        $text = $codec->convertString( $text );
+        return fwrite ( $fp, $text );
     }
 
     /// \privatesection
