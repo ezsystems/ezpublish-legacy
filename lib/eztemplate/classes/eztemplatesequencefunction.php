@@ -87,14 +87,14 @@ class eZTemplateSequenceFunction
         }
         if ( $loop !== null and !is_array( $loop ) )
         {
-            $tpl->error( $func_name, "Can only loop arrays" );
+            $tpl->error( $functionName, "Can only loop arrays" );
             return;
         }
 
         $name = "";
         if ( !isset( $params["name"] ) )
         {
-            $tpl->missingVariable( $func_name, "name" );
+            $tpl->missingParameter( $functionName, "name" );
             return;
         }
         $name = $tpl->elementValue( $params["name"], $rootNamespace, $currentNamespace, $functionPlacement );

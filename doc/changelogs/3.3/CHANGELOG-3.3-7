@@ -27,6 +27,9 @@ Changes from 3.3-6 to 3.3-7
   http://ez.no/community/bug_reports/xhtml_output_and_attribute_target
 - Fixed bug: Set preference does return to different location.
   http://ez.no/community/bug_reports/set_preference_does_return_to_different_location
+- Fixed bug: Call to undefined function: missingvariable()
+  http://ez.no/community/bug_reports/call_to_undefined_function_missingvariable
+- Fixed some PHP warnings in the template system's sequence function
 
 *Library:
 
