@@ -100,7 +100,10 @@ class eZPrice
             }break;
             case "vat_percent" :
             {
-                return $this->VATType->attribute( 'percentage' );
+                if ( $this->VATType != null )
+                    return $this->VATType->attribute( 'percentage' );
+                else
+                    return 0;
             }break;
             case "inc_vat_price" :
             {
@@ -110,7 +113,10 @@ class eZPrice
                 }
                 else
                 {
-                    $vatPercent = $this->VATType->attribute( 'percentage' );
+                    if ( $this->VATType != null )
+                        $vatPercent = $this->VATType->attribute( 'percentage' );
+                    else
+                        $vatPercent = 0;
                     $incVATPrice = $this->Price * ( $vatPercent + 100 ) / 100;
                     return $incVATPrice;
                 }
@@ -119,7 +125,10 @@ class eZPrice
             {
                 if ( $this->IsVATIncluded )
                 {
-                    $vatPercent = $this->VATType->attribute( 'percentage' );
+                    if ( $this->VATType != null )
+                        $vatPercent = $this->VATType->attribute( 'percentage' );
+                    else
+                        $vatPercent = 0;
                     $exVATPrice = $this->Price / ( $vatPercent + 100 ) * 100;
                     return $exVATPrice;
                 }
@@ -138,7 +147,10 @@ class eZPrice
                     $incVATPrice = $this->Price;
                 else
                 {
-                    $vatPercent = $this->VATType->attribute( 'percentage' );
+                    if ( $this->VATType != null )
+                        $vatPercent = $this->VATType->attribute( 'percentage' );
+                    else
+                        $vatPercent = 0;
                     $incVATPrice = $this->Price * ( $vatPercent + 100 ) / 100;
                 }
                 $discountPrice = $incVATPrice * ( 100 - $discountPercent ) / 100;
@@ -149,7 +161,10 @@ class eZPrice
                 $discountPercent = $this->Discount;
                 if ( $this->IsVATIncluded )
                 {
-                    $vatPercent = $this->VATType->attribute( 'percentage' );
+                    if ( $this->VATType != null )
+                        $vatPercent = $this->VATType->attribute( 'percentage' );
+                    else
+                        $vatPercent = 0;
                     $exVATPrice = $this->Price / ( $vatPercent + 100 ) * 100;
                 }
                 else
