@@ -11,17 +11,11 @@
     <h1>{"Edit"|i18n("design/standard/content/edit")} {$class.name} - {$object.name}</h1>
     </div>
 
-    <!-- Validation start -->
     {include uri="design:content/edit_validation.tpl"}
-    <!-- Validation end -->
 
-    <!-- Placement start -->
     {include uri="design:content/edit_placement.tpl"}
-    <!-- Placement end -->
 
-    <!-- Attribute edit start -->
     {include uri="design:content/edit_attribute.tpl"}
-    <!-- Attribute edit start -->
 
     <div class="buttonblock">
     <input class="button" type="submit" name="PreviewButton" value="{'Preview'|i18n('design/standard/content/edit')}" />

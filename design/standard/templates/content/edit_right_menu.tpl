@@ -100,12 +100,10 @@
     </tr>
     {section name=Object loop=$related_contentobjects sequence=array(bglight,bgdark)}
     <tr>
-        <td class="{$Object:sequence}" align="left">
+        <td class="{$Object:sequence}" align="left" colspan="2">
           {content_view_gui view=text_linked content_object=$Object:item}
-	  <span class="small">&lt;object id='{$Object:item.id}' /&gt;</span>
-        </td>
-	<td>
           <input type="checkbox" name="DeleteRelationIDArray[]" value="{$Object:item.id}" />
+	  <span class="small">&lt;object id='{$Object:item.id}' /&gt;</span>
 	</td>
     </tr>
     {/section}
