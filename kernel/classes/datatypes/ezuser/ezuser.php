@@ -508,7 +508,10 @@ class eZUser extends eZPersistentObject
         $db =& eZDB::instance();
 
         if ( $asObject == true )
+        {
+            $this->Groups = array();
             eZDebug::writeError( 'Returning user groups as objects not implemented', 'ezuser' );
+        }
         else
         {
             if( !isset( $this->Groups ) )

@@ -201,9 +201,7 @@ switch( $operationResult['status'] )
     case EZ_MODULE_OPERATION_CANCELED:
     {
         $Result = array();
-        $Result['content'] = "- I think you are not able to view that object :) <br/>
-                              - Why?<br/>
-                              - Because I think so :)";
+        $Result['content'] = "Content view cancelled<br/>";
     }
 }
 

@@ -587,6 +587,7 @@ class eZTemplateImageOperator
             $infile =& $namedParameters['filename'];
             $infiledirs = preg_split( "/\//", $infile, -1, PREG_SPLIT_NO_EMPTY );
             $i = 0;
+            $infilepath = '';
             while( $i < count( $infiledirs ) - 1 )
             {
                 $infilepath = $infilepath . '/' . $infiledirs[$i];
@@ -700,23 +701,21 @@ class eZTemplateImageOperator
 
                 // Create label image
                 $fontDir = false;
-                foreach ( $this->FontDir as $fontPath )
+//                 eZDebug::writeDebug( $this->FontDir, '$this->FontDir' );
+                if ( !eZTemplateImageFont::exists( $family, $this->FontDir ) )
                 {
-                    if ( eZTemplateImageFont::exists( $family, $fontPath ) )
-                    {
-                        $fontDir = $fontPath;
-                        break;
-                    }
-                }
-                if ( !$fontDir )
+                    $tpl->error( "Font '$family' not found in path list: " . implode( ', ', $this->FontDir ),
+                                 $operatorName );
                     return;
-                $font =& new eZTemplateImageFont( $family, $size, $fontDir );
+                }
+                $font =& new eZTemplateImageFont( $family, $size, $this->FontDir );
 
                 if ( is_string( $usecache ) )
                     $cnt = $usecache;
                 else
                     $cnt = md5( $inputValue . $family . $size . $angle . $xadj . $yadj . $wadj . $hadj .
                                 implode( ",", $bgcol ) . implode( ",", $textcol ) );
+                $usecache = false;
                 if ( $usecache )
                     $file = "image-$cnt.png";
                 else
@@ -738,6 +737,9 @@ class eZTemplateImageOperator
                     $bbox = $layer2->textBoundingBox();
 
                     $layer2->drawText( $inputValue, $bbox[6] + $xadj, -$bbox[7] + $yadj, $angle );
+//                     eZDebug::writeDebug( $layer1->width(), 'layer1 w' );
+//                     eZDebug::writeDebug( $layer2->width(), 'layer2 w' );
+//                     $layer2->setX( $layer1->width() - $layer2->width() );
 
                     $layer2->store( $file, $this->CacheDir, 'png' );
                     $layer2->destroy();

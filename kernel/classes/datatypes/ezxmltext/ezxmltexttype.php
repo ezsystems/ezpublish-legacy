@@ -516,7 +516,7 @@ class eZXMLTextType extends eZDataType
     function &renderXHTMLSection( &$tpl, &$section, $currentSectionLevel )
     {
         $output = "";
-         eZDebug::writeDebug("level ". $section->toString() );
+         eZDebug::writeDebug("level ". $section->toString( 0 ) );
         foreach ( $section->children() as $sectionNode )
         {
             $sectionLevel = $currentSectionLevel;
