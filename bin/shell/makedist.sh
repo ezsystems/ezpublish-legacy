@@ -590,15 +590,15 @@ echo -n "Updating PostgreSQL SQL schema"
 ez_result_file $? .dump.log || exit 1
 
 echo -n "Updating generic cleandata SQL"
-./bin/php/ezsqldumpschema.php --type=mysql --compatible-sql --output-sql --format=generic --output-types=data --schema-file "share/db_schema.dba" "share/db_data.dba" "$DEST/kernel/sql/common/cleandata.sql" 2>.dump.log
+./bin/php/ezsqldumpschema.php --type=mysql --compatible-sql --output-sql --format=generic --output-types=data --schema-file="share/db_schema.dba" "share/db_data.dba" "$DEST/kernel/sql/common/cleandata.sql" 2>.dump.log
 ez_result_file $? .dump.log || exit 1
 
 echo -n "Updating MySQL cleandata SQL"
-./bin/php/ezsqldumpschema.php --type=mysql --compatible-sql --output-sql --format=generic --output-types=data --schema-file "share/db_schema.dba" "share/db_data.dba" "$DEST/kernel/sql/mysql/cleandata.sql" 2>.dump.log
+./bin/php/ezsqldumpschema.php --type=mysql --compatible-sql --output-sql --allow-multi-insert --format=local --output-types=data --schema-file="share/db_schema.dba" "share/db_data.dba" "$DEST/kernel/sql/mysql/cleandata.sql" 2>.dump.log
 ez_result_file $? .dump.log || exit 1
 
 echo -n "Updating PostgreSQL cleandata SQL"
-./bin/php/ezsqldumpschema.php --type=postgresql --compatible-sql --output-sql --format=generic --output-types=data --schema-file "share/db_schema.dba" "share/db_data.dba" "$DEST/kernel/sql/postgresql/cleandata.sql" 2>.dump.log
+./bin/php/ezsqldumpschema.php --type=postgresql --compatible-sql --output-sql --format=local --output-types=data --schema-file="share/db_schema.dba" "share/db_data.dba" "$DEST/kernel/sql/postgresql/cleandata.sql" 2>.dump.log
 ez_result_file $? .dump.log || exit 1
 
 
