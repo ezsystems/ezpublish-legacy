@@ -46,6 +46,8 @@ function eZSetupStep_security( &$tpl, &$http, &$ini, &$persistenceList )
         $persistenceList['site_info']['title'] = $http->postVariable( 'eZSetupSiteTitle' );
     if ( $http->hasPostVariable( 'eZSetupSiteURL' ) )
         $persistenceList['site_info']['url'] = $http->postVariable( 'eZSetupSiteURL' );
+    if ( $http->hasPostVariable( 'eZSetupSiteAdminEmail' ) )
+        $persistenceList['site_info']['admin_email'] = $http->postVariable( 'eZSetupSiteAdminEmail' );
 
     include_once( 'lib/ezutils/classes/ezsys.php' );
     $security = array( 'virtualhost_mode' => eZSys::indexFileName() == '' );

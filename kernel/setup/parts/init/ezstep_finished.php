@@ -83,6 +83,13 @@ function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
         {
             $url = $matches[1];
         }
+        if ( $siteInfo['admin_email'] )
+        {
+            $ini->setVariable( 'InformationCollectionSettings', 'EmailReceiver', $siteInfo['admin_email'] );
+            $ini->setVariable( 'UserSettings', 'RegistrationEmail', $siteInfo['admin_email'] );
+            $ini->setVariable( 'MailSettings', 'AdminEmail', $siteInfo['admin_email'] );
+            $ini->setVariable( 'MailSettings', 'EmailSender', $siteInfo['admin_email'] );
+        }
         $ini->setVariable( "SiteSettings", "SiteURL", $url );
 
         $ini->setVariable( "DatabaseSettings", "DatabaseImplementation", $databaseInfo['info']['driver'] );
