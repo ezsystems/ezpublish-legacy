@@ -1199,8 +1199,8 @@ CREATE TABLE ezcontentobject_attribute (
     data_float double precision,
     attribute_original_id integer DEFAULT 0,
     sort_key_int integer DEFAULT 0 NOT NULL,
-    data_type_string character varying(50),
-    sort_key_string character varying(255) DEFAULT ''::character varying NOT NULL
+    sort_key_string character varying(50) DEFAULT ''::character varying,
+    data_type_string character varying(50)
 );
 
 
@@ -2610,10 +2610,166 @@ INSERT INTO ezcontentobject VALUES (10, 14, 2, 4, 'Anonymous User', 3, 0, 103392
 
 
 
+INSERT INTO ezcontentobject_attribute VALUES (1090, 'eng-GB', 1, 279, 1, 'Will he become President?', 0, 0, 0, 0, 'will he become president?', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1095, 'eng-GB', 1, 279, 123, '', 0, 0, 0, 0, '', 'ezboolean');
+INSERT INTO ezcontentobject_attribute VALUES (933, 'eng-GB', 5, 249, 123, '', 1, 0, 0, 1, '', 'ezboolean');
+INSERT INTO ezcontentobject_attribute VALUES (28, 'eng-GB', 5, 14, 8, 'Administrator', 0, 0, 0, 0, 'administrator', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (29, 'eng-GB', 5, 14, 9, 'User', 0, 0, 0, 0, 'user', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (828, 'eng-GB', 2, 240, 4, 'Polls', 0, 0, 0, 0, 'polls', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1, 'eng-GB', 7, 1, 4, 'News', 0, 0, 0, 0, 'news', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (2, 'eng-GB', 7, 1, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (927, 'eng-GB', 1, 248, 4, 'News', 0, 0, 0, 0, 'news', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (323, 'eng-GB', 5, 115, 152, 'Cache', 0, 0, 0, 0, 'cache', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (102, 'eng-GB', 10, 43, 152, 'Classes', 0, 0, 0, 0, 'classes', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (327, 'eng-GB', 4, 116, 152, 'URL translator', 0, 0, 0, 0, 'url translator', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (325, 'eng-GB', 5, 115, 154, '', 0, 0, 0, 0, '', 'eztext');
+INSERT INTO ezcontentobject_attribute VALUES (935, 'eng-GB', 3, 250, 1, 'Leauge champion', 0, 0, 0, 0, 'leauge champion', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (936, 'eng-GB', 3, 250, 120, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <paragraph>eZpool is the internal champion and was never close to loosing to anybody else. Undefeated through the whole year it was never any doubt about it.</paragraph>
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (988, 'eng-GB', 2, 261, 123, '', 0, 0, 0, 0, '', 'ezboolean');
+INSERT INTO ezcontentobject_attribute VALUES (929, 'eng-GB', 5, 249, 1, 'Breaking news', 0, 0, 0, 0, 'breaking news', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1083, 'eng-GB', 1, 278, 1, 'Entertainment weekly', 0, 0, 0, 0, 'entertainment weekly', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1104, 'eng-GB', 1, 281, 1, 'Final release of ABC', 0, 0, 0, 0, 'final release of abc', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1118, 'eng-GB', 1, 283, 1, 'Dons Jonas goes down', 0, 0, 0, 0, 'dons jonas goes down', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (978, 'eng-GB', 4, 260, 1, 'Latest business update', 0, 0, 0, 0, 'latest business update', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1041, 'eng-GB', 2, 271, 1, 'Business as usual', 0, 0, 0, 0, 'business as usual', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (984, 'eng-GB', 2, 261, 1, 'Arnold for governor', 0, 0, 0, 0, 'arnold for governor', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (962, 'eng-GB', 3, 254, 1, 'Google indexes', 0, 0, 0, 0, 'google indexes', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1125, 'eng-GB', 2, 284, 1, 'Rider wins dart competition', 0, 0, 0, 0, 'rider wins dart competition', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1139, 'eng-GB', 2, 290, 1, 'New top fair', 0, 0, 0, 0, 'new top fair', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (98, 'eng-GB', 1, 41, 4, 'Media', 0, 0, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (100, 'eng-GB', 1, 42, 4, 'Setup', 0, 0, 0, 0, 'setup', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (106, 'eng-GB', 1, 44, 4, 'Setup links', 0, 0, 0, 0, 'setup links', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (112, 'eng-GB', 2, 46, 4, 'Look and feel', 0, 0, 0, 0, 'look and feel', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (968, 'eng-GB', 1, 255, 4, 'Technology', 0, 0, 0, 0, 'technology', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (970, 'eng-GB', 1, 256, 4, 'Politics', 0, 0, 0, 0, 'politics', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (972, 'eng-GB', 1, 257, 4, 'Sports', 0, 0, 0, 0, 'sports', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (974, 'eng-GB', 1, 258, 4, 'Business', 0, 0, 0, 0, 'business', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (976, 'eng-GB', 1, 259, 4, 'Entertainment', 0, 0, 0, 0, 'entertainment', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (8, 'eng-GB', 1, 4, 6, 'Users', NULL, NULL, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (22, 'eng-GB', 1, 11, 6, 'Guest accounts', 0, 0, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (24, 'eng-GB', 1, 12, 6, 'Administrator users', 0, 0, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (26, 'eng-GB', 1, 13, 6, 'Editors', 0, 0, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (7, 'eng-GB', 1, 4, 7, 'Main group', NULL, NULL, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (23, 'eng-GB', 1, 11, 7, '', 0, 0, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (25, 'eng-GB', 1, 12, 7, '', 0, 0, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (27, 'eng-GB', 1, 13, 7, '', 0, 0, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (30, 'eng-GB', 5, 14, 12, '', 0, 0, 0, 0, '', 'ezuser');
+INSERT INTO ezcontentobject_attribute VALUES (99, 'eng-GB', 1, 41, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (101, 'eng-GB', 1, 42, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (107, 'eng-GB', 1, 44, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (113, 'eng-GB', 2, 46, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, '', 'ezxmltext');
 INSERT INTO ezcontentobject_attribute VALUES (829, 'eng-GB', 2, 240, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
 <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
          xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, 'ezxmltext', '');
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (928, 'eng-GB', 1, 248, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (969, 'eng-GB', 1, 255, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (971, 'eng-GB', 1, 256, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (973, 'eng-GB', 1, 257, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (975, 'eng-GB', 1, 258, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (977, 'eng-GB', 1, 259, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (1092, 'eng-GB', 1, 279, 120, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <paragraph>The word is out there but it is not possible to say if it is a fact or not. Will he be the first to become president from his state?</paragraph>
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (930, 'eng-GB', 5, 249, 120, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <paragraph>
+    <line>latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf</line>
+  </paragraph>
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (1085, 'eng-GB', 1, 278, 120, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <paragraph>Every week we will have an update of the news around in the entertainment world. For the latest gossip this is the place to be.</paragraph>
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (1106, 'eng-GB', 1, 281, 120, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <paragraph>Publish ABC finally released their long awaited software last friday. But was it all worth waiting for? We will let you know right now.</paragraph>
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (1120, 'eng-GB', 1, 283, 120, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <paragraph>One of the largest companies in the country today went out of business. It is the result of to many good diners says the CEO Jonas.</paragraph>
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (979, 'eng-GB', 4, 260, 120, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <paragraph>The news department has created a new service for all local readers. Let us know what happens in your neighborhood and you will serve others.</paragraph>
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (1043, 'eng-GB', 2, 271, 120, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <paragraph>Where have we heard this before? Business as usual is becoming a slang for we have problems but will not close down.</paragraph>
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (985, 'eng-GB', 2, 261, 120, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <paragraph>The latest movie from hollywood. As we all know Arnold was selected for governor. But what will happen to T4?</paragraph>
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (963, 'eng-GB', 3, 254, 120, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <paragraph>
+    <line>All the content on the web and stores it on one singe cd-rom!! Pretty nasty stuff. What if this cd breakes? </line>
+  </paragraph>
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (1127, 'eng-GB', 2, 284, 120, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <paragraph>The very close competition was finished late last night after 3 am. Rider the underdog beat the favourite and let the celebrations start with his familiy and friends as soon as it was decided.</paragraph>
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
 INSERT INTO ezcontentobject_attribute VALUES (1141, 'eng-GB', 2, 290, 120, '<?xml version="1.0" encoding="iso-8859-1"?>
 <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
          xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
@@ -2621,13 +2777,315 @@ INSERT INTO ezcontentobject_attribute VALUES (1141, 'eng-GB', 2, 290, 120, '<?xm
   <paragraph>
     <line>This week, some members of the crew are reporting live from Hall A, attending &quot;Top fair 2003&quot;. Top fair 2003 is an international trade fair for Information Technology and Telecommunications. The trade fair is held for the 5th time.</line>
   </paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
 INSERT INTO ezcontentobject_attribute VALUES (1086, 'eng-GB', 1, 278, 121, '<?xml version="1.0" encoding="iso-8859-1"?>
 <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
          xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
          xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
   <paragraph>The latest releases, the most beautiful faces, the best contracts, the best payed persons, the latest divorce etc. You will find it all here.</paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (931, 'eng-GB', 5, 249, 121, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <paragraph>latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf</paragraph>
+  <paragraph>latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf</paragraph>
+  <paragraph>
+    <line>latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf</line>
+  </paragraph>
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (1093, 'eng-GB', 1, 279, 121, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <paragraph>It is way to early to say but he is the name in all newspapers this week. Will he be able to do what nobody else has? </paragraph>
+  <paragraph>Stay tuned for more updates.</paragraph>
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (1107, 'eng-GB', 1, 281, 121, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <paragraph>We have been waiting for Publish ABC for more than five years and they have told us over and over again that this will be the best software ever. But how often have we heard this before? Publish ABC has nothing new to tell.</paragraph>
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (1121, 'eng-GB', 1, 283, 121, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (980, 'eng-GB', 4, 260, 121, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <paragraph>This is a service that will be benefitial to all your friends and locals. It will also be a good service for the people that have moved away but wants to know what is going on in their old neighborhood.</paragraph>
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (1044, 'eng-GB', 2, 271, 121, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <paragraph>Write in the rest of the text here</paragraph>
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (986, 'eng-GB', 2, 261, 121, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <paragraph>Many fans are asking this question. Will there be no more movies with the man himself? No more strange quotes? No more entertaining movies? This is not good, not good at all. </paragraph>
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (964, 'eng-GB', 3, 254, 121, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <paragraph>All the content on the web and stores it on one singe cd-rom!! Pretty nasty stuff. What if this cd breakes? </paragraph>
+  <paragraph>It is just a chanse you have to take. That is more or less it.</paragraph>
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (937, 'eng-GB', 3, 250, 121, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <paragraph>
+    <line>The final standings:</line>
+    <line>1. eZpool</line>
+    <line>2. Dudes</line>
+    <line>3. Giverns</line>
+    <line>4. Stakes</line>
+    <line>5. Heads before brains</line>
+  </paragraph>
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (1128, 'eng-GB', 2, 284, 121, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <paragraph>The very close competition was finished late last night after 3 am. Rider the underdog beat the favourite and let the celebrations start with his familiy and friends as soon as it was decided.</paragraph>
+  <paragraph>This was fun was all he had to say when it was over. I will just have a small dring and then go to bed and sleep like a champion. It will be a nice feeling.</paragraph>
+  <paragraph>Rider today insisted he will face a &quot;big summer&quot; as he will attempt to piece together a season which can make a stronger challenge for next season&apos;s Premiership crown. </paragraph>
+  <paragraph>Rider was disappointed with his finish in the league last season and he is working hard, like everyone else, to bid for the title next year as well. </paragraph>
+  <paragraph>&quot;It&apos;s been the greatest of seasons on the league front, and in Europe,&quot; he said. </paragraph>
+  <paragraph>&quot;I won the league now and also won the Open Cup but set my sights much higher than that and, overall, it&apos;s been an ok season. </paragraph>
+  <paragraph>&quot;Hopefully I will get even better next year. It&apos;s a really important summer for me and my mates. But it&apos;s certainly a big summer.&quot;</paragraph>
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (1142, 'eng-GB', 2, 290, 121, '<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <paragraph>Four crew members are on-site from the 20th to the 24th reporting live from the hall. The following text contains a live report from the fair.</paragraph>
+  <paragraph>Our first impressions are very positive; exceeding all expectations. We have barely been here a day, and a lot of people have visited us already. It seems that there are many people who already have some knowledge of our main product, which is an open source content management system and development framework. The visitors are mostly from Germany and Austria, many of them are representing various organizations and companies, large and small.</paragraph>
+  <paragraph>Despite the enormous success of GNU/Linux, some people are still unfamiliar with open source software and public licenses. However, they sure seem impressed when they realize just how powerful an open source product can be; not to mention the benefits of having a huge and open community with creative minds who are working together to achieve great things.</paragraph>
+  <paragraph>Speaking of community, we&apos;re happy that the community show up. It is always interesting and inspiring to meet face to face and to discuss various topics. We certainly hope that more community people will show up during the rest of the week.</paragraph>
+  <paragraph>Anyway, we were talking about the benefits of open and free software. As mentioned, some people still don&apos;t get it; however, when explained, we&apos;re met by replies such as:</paragraph>
+  <paragraph>&quot;Amazing!&quot; - big smile...</paragraph>
+  <paragraph>&quot;I would have to pay a lot of money for this feature from company...&quot;</paragraph>
+  <paragraph>- from a guy who came to us from one of the neighboring stands (right after watching a presentation there).</paragraph>
+  <paragraph>
+    <line>Some companies are just interested in talking to potential customers who are willing to spend millions on rigid solutions. This is not our policy. We&apos;re very flexible and eager to talk to a wide range of people. If you have the chance visit the fair, feel free to stop by. Our stand is open and prepared for everyone. Anybody can sit down together with our representatives and receive an on-site, hands-on demonstration of the system.</line>
+  </paragraph>
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
+INSERT INTO ezcontentobject_attribute VALUES (1094, 'eng-GB', 1, 279, 122, '<?xml version="1.0" encoding="UTF-8"?>
+<ezimage serial_number="1"
+         is_valid=""
+         filename="will_he_become_president."
+         suffix=""
+         basename="will_he_become_president"
+         dirpath="var/news/storage/images/news/entertainment/will_he_become_president/1094-1-eng-GB"
+         url="var/news/storage/images/news/entertainment/will_he_become_president/1094-1-eng-GB/will_he_become_president."
+         original_filename=""
+         mime_type=""
+         width=""
+         height=""
+         alternative_text=""
+         alias_key="1293033771"
+         timestamp="1069680749">
+  <original attribute_id=""
+            attribute_version=""
+            attribute_language="" />
+</ezimage>', 0, 0, 0, 0, '', 'ezimage');
+INSERT INTO ezcontentobject_attribute VALUES (1087, 'eng-GB', 1, 278, 122, '<?xml version="1.0" encoding="UTF-8"?>
+<ezimage serial_number="1"
+         is_valid=""
+         filename="entertainment_weekly."
+         suffix=""
+         basename="entertainment_weekly"
+         dirpath="var/news/storage/images/news/entertainment/entertainment_weekly/1087-1-eng-GB"
+         url="var/news/storage/images/news/entertainment/entertainment_weekly/1087-1-eng-GB/entertainment_weekly."
+         original_filename=""
+         mime_type=""
+         width=""
+         height=""
+         alternative_text=""
+         alias_key="1293033771"
+         timestamp="1069680587">
+  <original attribute_id=""
+            attribute_version=""
+            attribute_language="" />
+</ezimage>', 0, 0, 0, 0, '', 'ezimage');
+INSERT INTO ezcontentobject_attribute VALUES (932, 'eng-GB', 5, 249, 122, '<?xml version="1.0" encoding="UTF-8"?>
+<ezimage serial_number="1"
+         is_valid=""
+         filename="breaking_news."
+         suffix=""
+         basename="breaking_news"
+         dirpath="var/news/storage/images/news/politics/breaking_news/932-5-eng-GB"
+         url="var/news/storage/images/news/politics/breaking_news/932-5-eng-GB/breaking_news."
+         original_filename=""
+         mime_type=""
+         width=""
+         height=""
+         alternative_text=""
+         alias_key="1293033771"
+         timestamp="1069071356">
+  <original attribute_id="932"
+            attribute_version="4"
+            attribute_language="eng-GB" />
+</ezimage>', 0, 0, 0, 0, '', 'ezimage');
+INSERT INTO ezcontentobject_attribute VALUES (1108, 'eng-GB', 1, 281, 122, '<?xml version="1.0" encoding="UTF-8"?>
+<ezimage serial_number="1"
+         is_valid=""
+         filename="final_release_of_abc."
+         suffix=""
+         basename="final_release_of_abc"
+         dirpath="var/news/storage/images/news/technology/final_release_of_abc/1108-1-eng-GB"
+         url="var/news/storage/images/news/technology/final_release_of_abc/1108-1-eng-GB/final_release_of_abc."
+         original_filename=""
+         mime_type=""
+         width=""
+         height=""
+         alternative_text=""
+         alias_key="1293033771"
+         timestamp="1069681154">
+  <original attribute_id=""
+            attribute_version=""
+            attribute_language="" />
+</ezimage>', 0, 0, 0, 0, '', 'ezimage');
+INSERT INTO ezcontentobject_attribute VALUES (1122, 'eng-GB', 1, 283, 122, '<?xml version="1.0" encoding="UTF-8"?>
+<ezimage serial_number="1"
+         is_valid=""
+         filename="dons_jonas_goes_down."
+         suffix=""
+         basename="dons_jonas_goes_down"
+         dirpath="var/news/storage/images/news/business/dons_jonas_goes_down/1122-1-eng-GB"
+         url="var/news/storage/images/news/business/dons_jonas_goes_down/1122-1-eng-GB/dons_jonas_goes_down."
+         original_filename=""
+         mime_type=""
+         width=""
+         height=""
+         alternative_text=""
+         alias_key="1293033771"
+         timestamp="1069681346">
+  <original attribute_id=""
+            attribute_version=""
+            attribute_language="" />
+</ezimage>', 0, 0, 0, 0, '', 'ezimage');
+INSERT INTO ezcontentobject_attribute VALUES (981, 'eng-GB', 4, 260, 122, '<?xml version="1.0" encoding="UTF-8"?>
+<ezimage serial_number="1"
+         is_valid=""
+         filename="latest_business_update."
+         suffix=""
+         basename="latest_business_update"
+         dirpath="var/news/storage/images/news/business/latest_business_update/981-4-eng-GB"
+         url="var/news/storage/images/news/business/latest_business_update/981-4-eng-GB/latest_business_update."
+         original_filename=""
+         mime_type=""
+         width=""
+         height=""
+         alternative_text=""
+         alias_key="1293033771"
+         timestamp="1069147445">
+  <original attribute_id="981"
+            attribute_version="3"
+            attribute_language="eng-GB" />
+</ezimage>', 0, 0, 0, 0, '', 'ezimage');
+INSERT INTO ezcontentobject_attribute VALUES (1045, 'eng-GB', 2, 271, 122, '<?xml version="1.0" encoding="UTF-8"?>
+<ezimage serial_number="1"
+         is_valid=""
+         filename="business_as_usual."
+         suffix=""
+         basename="business_as_usual"
+         dirpath="var/news/storage/images/news/business/business_as_usual/1045-2-eng-GB"
+         url="var/news/storage/images/news/business/business_as_usual/1045-2-eng-GB/business_as_usual."
+         original_filename=""
+         mime_type=""
+         width=""
+         height=""
+         alternative_text=""
+         alias_key="1293033771"
+         timestamp="1069242999">
+  <original attribute_id="1045"
+            attribute_version="1"
+            attribute_language="eng-GB" />
+</ezimage>', 0, 0, 0, 0, '', 'ezimage');
+INSERT INTO ezcontentobject_attribute VALUES (987, 'eng-GB', 2, 261, 122, '<?xml version="1.0" encoding="UTF-8"?>
+<ezimage serial_number="1"
+         is_valid=""
+         filename="arnold_for_governor."
+         suffix=""
+         basename="arnold_for_governor"
+         dirpath="var/news/storage/images/news/politics/arnold_for_governor/987-2-eng-GB"
+         url="var/news/storage/images/news/politics/arnold_for_governor/987-2-eng-GB/arnold_for_governor."
+         original_filename=""
+         mime_type=""
+         width=""
+         height=""
+         alternative_text=""
+         alias_key="1293033771"
+         timestamp="1069147875">
+  <original attribute_id="987"
+            attribute_version="1"
+            attribute_language="eng-GB" />
+</ezimage>', 0, 0, 0, 0, '', 'ezimage');
+INSERT INTO ezcontentobject_attribute VALUES (965, 'eng-GB', 3, 254, 122, '<?xml version="1.0" encoding="UTF-8"?>
+<ezimage serial_number="1"
+         is_valid=""
+         filename="google_indexes."
+         suffix=""
+         basename="google_indexes"
+         dirpath="var/news/storage/images/news/technology/google_indexes/965-3-eng-GB"
+         url="var/news/storage/images/news/technology/google_indexes/965-3-eng-GB/google_indexes."
+         original_filename=""
+         mime_type=""
+         width=""
+         height=""
+         alternative_text=""
+         alias_key="1293033771"
+         timestamp="1069077395">
+  <original attribute_id="965"
+            attribute_version="2"
+            attribute_language="eng-GB" />
+</ezimage>', 0, 0, 0, 0, '', 'ezimage');
+INSERT INTO ezcontentobject_attribute VALUES (938, 'eng-GB', 3, 250, 122, '<?xml version="1.0" encoding="UTF-8"?>
+<ezimage serial_number="1"
+         is_valid=""
+         filename="leauge_champion."
+         suffix=""
+         basename="leauge_champion"
+         dirpath="var/news/storage/images/news/sports/leauge_champion/938-3-eng-GB"
+         url="var/news/storage/images/news/sports/leauge_champion/938-3-eng-GB/leauge_champion."
+         original_filename=""
+         mime_type=""
+         width=""
+         height=""
+         alternative_text=""
+         alias_key="1293033771"
+         timestamp="1069072375">
+  <original attribute_id="938"
+            attribute_version="2"
+            attribute_language="eng-GB" />
+</ezimage>', 0, 0, 0, 0, '', 'ezimage');
+INSERT INTO ezcontentobject_attribute VALUES (1129, 'eng-GB', 2, 284, 122, '<?xml version="1.0" encoding="UTF-8"?>
+<ezimage serial_number="1"
+         is_valid=""
+         filename="rider_wins_dart_competition."
+         suffix=""
+         basename="rider_wins_dart_competition"
+         dirpath="var/news/storage/images/news/sports/rider_wins_dart_competition/1129-2-eng-GB"
+         url="var/news/storage/images/news/sports/rider_wins_dart_competition/1129-2-eng-GB/rider_wins_dart_competition."
+         original_filename=""
+         mime_type=""
+         width=""
+         height=""
+         alternative_text=""
+         alias_key="1293033771"
+         timestamp="1069683256">
+  <original attribute_id="1129"
+            attribute_version="1"
+            attribute_language="eng-GB" />
+</ezimage>', 0, 0, 0, 0, '', 'ezimage');
 INSERT INTO ezcontentobject_attribute VALUES (1143, 'eng-GB', 2, 290, 122, '<?xml version="1.0" encoding="UTF-8"?>
 <ezimage serial_number="1"
          is_valid="1"
@@ -2679,484 +3137,25 @@ INSERT INTO ezcontentobject_attribute VALUES (1143, 'eng-GB', 2, 290, 122, '<?xm
          alias_key="-1588460780"
          timestamp="1069841064"
          is_valid="1" />
-</ezimage>', 0, 0, 0, 0, 'ezimage', '');
-INSERT INTO ezcontentobject_attribute VALUES (108, 'eng-GB', 11, 45, 152, 'Look and feel', 0, 0, 0, 0, 'ezstring', 'look and feel');
-INSERT INTO ezcontentobject_attribute VALUES (1090, 'eng-GB', 1, 279, 1, 'Will he become President?', 0, 0, 0, 0, 'ezstring', 'will he become president?');
-INSERT INTO ezcontentobject_attribute VALUES (1095, 'eng-GB', 1, 279, 123, '', 0, 0, 0, 0, 'ezboolean', '');
-INSERT INTO ezcontentobject_attribute VALUES (933, 'eng-GB', 5, 249, 123, '', 1, 0, 0, 1, 'ezboolean', '');
-INSERT INTO ezcontentobject_attribute VALUES (28, 'eng-GB', 5, 14, 8, 'Administrator', 0, 0, 0, 0, 'ezstring', 'administrator');
-INSERT INTO ezcontentobject_attribute VALUES (29, 'eng-GB', 5, 14, 9, 'User', 0, 0, 0, 0, 'ezstring', 'user');
-INSERT INTO ezcontentobject_attribute VALUES (828, 'eng-GB', 2, 240, 4, 'Polls', 0, 0, 0, 0, 'ezstring', 'polls');
-INSERT INTO ezcontentobject_attribute VALUES (1, 'eng-GB', 7, 1, 4, 'News', 0, 0, 0, 0, 'ezstring', 'news');
-INSERT INTO ezcontentobject_attribute VALUES (2, 'eng-GB', 7, 1, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (927, 'eng-GB', 1, 248, 4, 'News', 0, 0, 0, 0, 'ezstring', 'news');
-INSERT INTO ezcontentobject_attribute VALUES (323, 'eng-GB', 5, 115, 152, 'Cache', 0, 0, 0, 0, 'ezstring', 'cache');
-INSERT INTO ezcontentobject_attribute VALUES (102, 'eng-GB', 10, 43, 152, 'Classes', 0, 0, 0, 0, 'ezstring', 'classes');
-INSERT INTO ezcontentobject_attribute VALUES (327, 'eng-GB', 4, 116, 152, 'URL translator', 0, 0, 0, 0, 'ezstring', 'url translator');
-INSERT INTO ezcontentobject_attribute VALUES (325, 'eng-GB', 5, 115, 154, '', 0, 0, 0, 0, 'eztext', '');
-INSERT INTO ezcontentobject_attribute VALUES (935, 'eng-GB', 3, 250, 1, 'Leauge champion', 0, 0, 0, 0, 'ezstring', 'leauge champion');
-INSERT INTO ezcontentobject_attribute VALUES (936, 'eng-GB', 3, 250, 120, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-  <paragraph>eZpool is the internal champion and was never close to loosing to anybody else. Undefeated through the whole year it was never any doubt about it.</paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (988, 'eng-GB', 2, 261, 123, '', 0, 0, 0, 0, 'ezboolean', '');
-INSERT INTO ezcontentobject_attribute VALUES (929, 'eng-GB', 5, 249, 1, 'Breaking news', 0, 0, 0, 0, 'ezstring', 'breaking news');
-INSERT INTO ezcontentobject_attribute VALUES (1083, 'eng-GB', 1, 278, 1, 'Entertainment weekly', 0, 0, 0, 0, 'ezstring', 'entertainment weekly');
-INSERT INTO ezcontentobject_attribute VALUES (1104, 'eng-GB', 1, 281, 1, 'Final release of ABC', 0, 0, 0, 0, 'ezstring', 'final release of abc');
-INSERT INTO ezcontentobject_attribute VALUES (1118, 'eng-GB', 1, 283, 1, 'Dons Jonas goes down', 0, 0, 0, 0, 'ezstring', 'dons jonas goes down');
-INSERT INTO ezcontentobject_attribute VALUES (978, 'eng-GB', 4, 260, 1, 'Latest business update', 0, 0, 0, 0, 'ezstring', 'latest business update');
-INSERT INTO ezcontentobject_attribute VALUES (1041, 'eng-GB', 2, 271, 1, 'Business as usual', 0, 0, 0, 0, 'ezstring', 'business as usual');
-INSERT INTO ezcontentobject_attribute VALUES (984, 'eng-GB', 2, 261, 1, 'Arnold for governor', 0, 0, 0, 0, 'ezstring', 'arnold for governor');
-INSERT INTO ezcontentobject_attribute VALUES (962, 'eng-GB', 3, 254, 1, 'Google indexes', 0, 0, 0, 0, 'ezstring', 'google indexes');
-INSERT INTO ezcontentobject_attribute VALUES (1125, 'eng-GB', 2, 284, 1, 'Rider wins dart competition', 0, 0, 0, 0, 'ezstring', 'rider wins dart competition');
-INSERT INTO ezcontentobject_attribute VALUES (1139, 'eng-GB', 2, 290, 1, 'New top fair', 0, 0, 0, 0, 'ezstring', 'new top fair');
-INSERT INTO ezcontentobject_attribute VALUES (98, 'eng-GB', 1, 41, 4, 'Media', 0, 0, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (100, 'eng-GB', 1, 42, 4, 'Setup', 0, 0, 0, 0, 'ezstring', 'setup');
-INSERT INTO ezcontentobject_attribute VALUES (106, 'eng-GB', 1, 44, 4, 'Setup links', 0, 0, 0, 0, 'ezstring', 'setup links');
-INSERT INTO ezcontentobject_attribute VALUES (112, 'eng-GB', 2, 46, 4, 'Look and feel', 0, 0, 0, 0, 'ezstring', 'look and feel');
-INSERT INTO ezcontentobject_attribute VALUES (968, 'eng-GB', 1, 255, 4, 'Technology', 0, 0, 0, 0, 'ezstring', 'technology');
-INSERT INTO ezcontentobject_attribute VALUES (970, 'eng-GB', 1, 256, 4, 'Politics', 0, 0, 0, 0, 'ezstring', 'politics');
-INSERT INTO ezcontentobject_attribute VALUES (972, 'eng-GB', 1, 257, 4, 'Sports', 0, 0, 0, 0, 'ezstring', 'sports');
-INSERT INTO ezcontentobject_attribute VALUES (974, 'eng-GB', 1, 258, 4, 'Business', 0, 0, 0, 0, 'ezstring', 'business');
-INSERT INTO ezcontentobject_attribute VALUES (976, 'eng-GB', 1, 259, 4, 'Entertainment', 0, 0, 0, 0, 'ezstring', 'entertainment');
-INSERT INTO ezcontentobject_attribute VALUES (8, 'eng-GB', 1, 4, 6, 'Users', NULL, NULL, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (22, 'eng-GB', 1, 11, 6, 'Guest accounts', 0, 0, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (24, 'eng-GB', 1, 12, 6, 'Administrator users', 0, 0, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (26, 'eng-GB', 1, 13, 6, 'Editors', 0, 0, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (7, 'eng-GB', 1, 4, 7, 'Main group', NULL, NULL, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (23, 'eng-GB', 1, 11, 7, '', 0, 0, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (25, 'eng-GB', 1, 12, 7, '', 0, 0, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (27, 'eng-GB', 1, 13, 7, '', 0, 0, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (30, 'eng-GB', 5, 14, 12, '', 0, 0, 0, 0, 'ezuser', '');
-INSERT INTO ezcontentobject_attribute VALUES (99, 'eng-GB', 1, 41, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (101, 'eng-GB', 1, 42, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (107, 'eng-GB', 1, 44, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (113, 'eng-GB', 2, 46, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (928, 'eng-GB', 1, 248, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (969, 'eng-GB', 1, 255, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (971, 'eng-GB', 1, 256, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (973, 'eng-GB', 1, 257, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (975, 'eng-GB', 1, 258, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (977, 'eng-GB', 1, 259, 119, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (1092, 'eng-GB', 1, 279, 120, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-  <paragraph>The word is out there but it is not possible to say if it is a fact or not. Will he be the first to become president from his state?</paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (930, 'eng-GB', 5, 249, 120, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-  <paragraph>
-    <line>latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf</line>
-  </paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (1085, 'eng-GB', 1, 278, 120, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-  <paragraph>Every week we will have an update of the news around in the entertainment world. For the latest gossip this is the place to be.</paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (1106, 'eng-GB', 1, 281, 120, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-  <paragraph>Publish ABC finally released their long awaited software last friday. But was it all worth waiting for? We will let you know right now.</paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (1120, 'eng-GB', 1, 283, 120, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-  <paragraph>One of the largest companies in the country today went out of business. It is the result of to many good diners says the CEO Jonas.</paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (979, 'eng-GB', 4, 260, 120, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-  <paragraph>The news department has created a new service for all local readers. Let us know what happens in your neighborhood and you will serve others.</paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (1043, 'eng-GB', 2, 271, 120, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-  <paragraph>Where have we heard this before? Business as usual is becoming a slang for we have problems but will not close down.</paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (985, 'eng-GB', 2, 261, 120, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-  <paragraph>The latest movie from hollywood. As we all know Arnold was selected for governor. But what will happen to T4?</paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (963, 'eng-GB', 3, 254, 120, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-  <paragraph>
-    <line>All the content on the web and stores it on one singe cd-rom!! Pretty nasty stuff. What if this cd breakes? </line>
-  </paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (1127, 'eng-GB', 2, 284, 120, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-  <paragraph>The very close competition was finished late last night after 3 am. Rider the underdog beat the favourite and let the celebrations start with his familiy and friends as soon as it was decided.</paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (931, 'eng-GB', 5, 249, 121, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-  <paragraph>latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf</paragraph>
-  <paragraph>latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf</paragraph>
-  <paragraph>
-    <line>latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf latest dfgds fgsdfg sdgf</line>
-  </paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (1093, 'eng-GB', 1, 279, 121, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-  <paragraph>It is way to early to say but he is the name in all newspapers this week. Will he be able to do what nobody else has? </paragraph>
-  <paragraph>Stay tuned for more updates.</paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (1107, 'eng-GB', 1, 281, 121, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-  <paragraph>We have been waiting for Publish ABC for more than five years and they have told us over and over again that this will be the best software ever. But how often have we heard this before? Publish ABC has nothing new to tell.</paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (1121, 'eng-GB', 1, 283, 121, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (980, 'eng-GB', 4, 260, 121, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-  <paragraph>This is a service that will be benefitial to all your friends and locals. It will also be a good service for the people that have moved away but wants to know what is going on in their old neighborhood.</paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (1044, 'eng-GB', 2, 271, 121, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-  <paragraph>Write in the rest of the text here</paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (986, 'eng-GB', 2, 261, 121, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-  <paragraph>Many fans are asking this question. Will there be no more movies with the man himself? No more strange quotes? No more entertaining movies? This is not good, not good at all. </paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (964, 'eng-GB', 3, 254, 121, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-  <paragraph>All the content on the web and stores it on one singe cd-rom!! Pretty nasty stuff. What if this cd breakes? </paragraph>
-  <paragraph>It is just a chanse you have to take. That is more or less it.</paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (937, 'eng-GB', 3, 250, 121, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-  <paragraph>
-    <line>The final standings:</line>
-    <line>1. eZpool</line>
-    <line>2. Dudes</line>
-    <line>3. Giverns</line>
-    <line>4. Stakes</line>
-    <line>5. Heads before brains</line>
-  </paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (1128, 'eng-GB', 2, 284, 121, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-  <paragraph>The very close competition was finished late last night after 3 am. Rider the underdog beat the favourite and let the celebrations start with his familiy and friends as soon as it was decided.</paragraph>
-  <paragraph>This was fun was all he had to say when it was over. I will just have a small dring and then go to bed and sleep like a champion. It will be a nice feeling.</paragraph>
-  <paragraph>Rider today insisted he will face a &quot;big summer&quot; as he will attempt to piece together a season which can make a stronger challenge for next season&apos;s Premiership crown. </paragraph>
-  <paragraph>Rider was disappointed with his finish in the league last season and he is working hard, like everyone else, to bid for the title next year as well. </paragraph>
-  <paragraph>&quot;It&apos;s been the greatest of seasons on the league front, and in Europe,&quot; he said. </paragraph>
-  <paragraph>&quot;I won the league now and also won the Open Cup but set my sights much higher than that and, overall, it&apos;s been an ok season. </paragraph>
-  <paragraph>&quot;Hopefully I will get even better next year. It&apos;s a really important summer for me and my mates. But it&apos;s certainly a big summer.&quot;</paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (1142, 'eng-GB', 2, 290, 121, '<?xml version="1.0" encoding="iso-8859-1"?>
-<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-  <paragraph>Four crew members are on-site from the 20th to the 24th reporting live from the hall. The following text contains a live report from the fair.</paragraph>
-  <paragraph>Our first impressions are very positive; exceeding all expectations. We have barely been here a day, and a lot of people have visited us already. It seems that there are many people who already have some knowledge of our main product, which is an open source content management system and development framework. The visitors are mostly from Germany and Austria, many of them are representing various organizations and companies, large and small.</paragraph>
-  <paragraph>Despite the enormous success of GNU/Linux, some people are still unfamiliar with open source software and public licenses. However, they sure seem impressed when they realize just how powerful an open source product can be; not to mention the benefits of having a huge and open community with creative minds who are working together to achieve great things.</paragraph>
-  <paragraph>Speaking of community, we&apos;re happy that the community show up. It is always interesting and inspiring to meet face to face and to discuss various topics. We certainly hope that more community people will show up during the rest of the week.</paragraph>
-  <paragraph>Anyway, we were talking about the benefits of open and free software. As mentioned, some people still don&apos;t get it; however, when explained, we&apos;re met by replies such as:</paragraph>
-  <paragraph>&quot;Amazing!&quot; - big smile...</paragraph>
-  <paragraph>&quot;I would have to pay a lot of money for this feature from company...&quot;</paragraph>
-  <paragraph>- from a guy who came to us from one of the neighboring stands (right after watching a presentation there).</paragraph>
-  <paragraph>
-    <line>Some companies are just interested in talking to potential customers who are willing to spend millions on rigid solutions. This is not our policy. We&apos;re very flexible and eager to talk to a wide range of people. If you have the chance visit the fair, feel free to stop by. Our stand is open and prepared for everyone. Anybody can sit down together with our representatives and receive an on-site, hands-on demonstration of the system.</line>
-  </paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
-INSERT INTO ezcontentobject_attribute VALUES (1094, 'eng-GB', 1, 279, 122, '<?xml version="1.0" encoding="UTF-8"?>
-<ezimage serial_number="1"
-         is_valid=""
-         filename="will_he_become_president."
-         suffix=""
-         basename="will_he_become_president"
-         dirpath="var/news/storage/images/news/entertainment/will_he_become_president/1094-1-eng-GB"
-         url="var/news/storage/images/news/entertainment/will_he_become_president/1094-1-eng-GB/will_he_become_president."
-         original_filename=""
-         mime_type=""
-         width=""
-         height=""
-         alternative_text=""
-         alias_key="1293033771"
-         timestamp="1069680749">
-  <original attribute_id=""
-            attribute_version=""
-            attribute_language="" />
-</ezimage>', 0, 0, 0, 0, 'ezimage', '');
-INSERT INTO ezcontentobject_attribute VALUES (1087, 'eng-GB', 1, 278, 122, '<?xml version="1.0" encoding="UTF-8"?>
-<ezimage serial_number="1"
-         is_valid=""
-         filename="entertainment_weekly."
-         suffix=""
-         basename="entertainment_weekly"
-         dirpath="var/news/storage/images/news/entertainment/entertainment_weekly/1087-1-eng-GB"
-         url="var/news/storage/images/news/entertainment/entertainment_weekly/1087-1-eng-GB/entertainment_weekly."
-         original_filename=""
-         mime_type=""
-         width=""
-         height=""
-         alternative_text=""
-         alias_key="1293033771"
-         timestamp="1069680587">
-  <original attribute_id=""
-            attribute_version=""
-            attribute_language="" />
-</ezimage>', 0, 0, 0, 0, 'ezimage', '');
-INSERT INTO ezcontentobject_attribute VALUES (932, 'eng-GB', 5, 249, 122, '<?xml version="1.0" encoding="UTF-8"?>
-<ezimage serial_number="1"
-         is_valid=""
-         filename="breaking_news."
-         suffix=""
-         basename="breaking_news"
-         dirpath="var/news/storage/images/news/politics/breaking_news/932-5-eng-GB"
-         url="var/news/storage/images/news/politics/breaking_news/932-5-eng-GB/breaking_news."
-         original_filename=""
-         mime_type=""
-         width=""
-         height=""
-         alternative_text=""
-         alias_key="1293033771"
-         timestamp="1069071356">
-  <original attribute_id="932"
-            attribute_version="4"
-            attribute_language="eng-GB" />
-</ezimage>', 0, 0, 0, 0, 'ezimage', '');
-INSERT INTO ezcontentobject_attribute VALUES (1108, 'eng-GB', 1, 281, 122, '<?xml version="1.0" encoding="UTF-8"?>
-<ezimage serial_number="1"
-         is_valid=""
-         filename="final_release_of_abc."
-         suffix=""
-         basename="final_release_of_abc"
-         dirpath="var/news/storage/images/news/technology/final_release_of_abc/1108-1-eng-GB"
-         url="var/news/storage/images/news/technology/final_release_of_abc/1108-1-eng-GB/final_release_of_abc."
-         original_filename=""
-         mime_type=""
-         width=""
-         height=""
-         alternative_text=""
-         alias_key="1293033771"
-         timestamp="1069681154">
-  <original attribute_id=""
-            attribute_version=""
-            attribute_language="" />
-</ezimage>', 0, 0, 0, 0, 'ezimage', '');
-INSERT INTO ezcontentobject_attribute VALUES (1122, 'eng-GB', 1, 283, 122, '<?xml version="1.0" encoding="UTF-8"?>
-<ezimage serial_number="1"
-         is_valid=""
-         filename="dons_jonas_goes_down."
-         suffix=""
-         basename="dons_jonas_goes_down"
-         dirpath="var/news/storage/images/news/business/dons_jonas_goes_down/1122-1-eng-GB"
-         url="var/news/storage/images/news/business/dons_jonas_goes_down/1122-1-eng-GB/dons_jonas_goes_down."
-         original_filename=""
-         mime_type=""
-         width=""
-         height=""
-         alternative_text=""
-         alias_key="1293033771"
-         timestamp="1069681346">
-  <original attribute_id=""
-            attribute_version=""
-            attribute_language="" />
-</ezimage>', 0, 0, 0, 0, 'ezimage', '');
-INSERT INTO ezcontentobject_attribute VALUES (981, 'eng-GB', 4, 260, 122, '<?xml version="1.0" encoding="UTF-8"?>
-<ezimage serial_number="1"
-         is_valid=""
-         filename="latest_business_update."
-         suffix=""
-         basename="latest_business_update"
-         dirpath="var/news/storage/images/news/business/latest_business_update/981-4-eng-GB"
-         url="var/news/storage/images/news/business/latest_business_update/981-4-eng-GB/latest_business_update."
-         original_filename=""
-         mime_type=""
-         width=""
-         height=""
-         alternative_text=""
-         alias_key="1293033771"
-         timestamp="1069147445">
-  <original attribute_id="981"
-            attribute_version="3"
-            attribute_language="eng-GB" />
-</ezimage>', 0, 0, 0, 0, 'ezimage', '');
-INSERT INTO ezcontentobject_attribute VALUES (1045, 'eng-GB', 2, 271, 122, '<?xml version="1.0" encoding="UTF-8"?>
-<ezimage serial_number="1"
-         is_valid=""
-         filename="business_as_usual."
-         suffix=""
-         basename="business_as_usual"
-         dirpath="var/news/storage/images/news/business/business_as_usual/1045-2-eng-GB"
-         url="var/news/storage/images/news/business/business_as_usual/1045-2-eng-GB/business_as_usual."
-         original_filename=""
-         mime_type=""
-         width=""
-         height=""
-         alternative_text=""
-         alias_key="1293033771"
-         timestamp="1069242999">
-  <original attribute_id="1045"
-            attribute_version="1"
-            attribute_language="eng-GB" />
-</ezimage>', 0, 0, 0, 0, 'ezimage', '');
-INSERT INTO ezcontentobject_attribute VALUES (987, 'eng-GB', 2, 261, 122, '<?xml version="1.0" encoding="UTF-8"?>
-<ezimage serial_number="1"
-         is_valid=""
-         filename="arnold_for_governor."
-         suffix=""
-         basename="arnold_for_governor"
-         dirpath="var/news/storage/images/news/politics/arnold_for_governor/987-2-eng-GB"
-         url="var/news/storage/images/news/politics/arnold_for_governor/987-2-eng-GB/arnold_for_governor."
-         original_filename=""
-         mime_type=""
-         width=""
-         height=""
-         alternative_text=""
-         alias_key="1293033771"
-         timestamp="1069147875">
-  <original attribute_id="987"
-            attribute_version="1"
-            attribute_language="eng-GB" />
-</ezimage>', 0, 0, 0, 0, 'ezimage', '');
-INSERT INTO ezcontentobject_attribute VALUES (965, 'eng-GB', 3, 254, 122, '<?xml version="1.0" encoding="UTF-8"?>
-<ezimage serial_number="1"
-         is_valid=""
-         filename="google_indexes."
-         suffix=""
-         basename="google_indexes"
-         dirpath="var/news/storage/images/news/technology/google_indexes/965-3-eng-GB"
-         url="var/news/storage/images/news/technology/google_indexes/965-3-eng-GB/google_indexes."
-         original_filename=""
-         mime_type=""
-         width=""
-         height=""
-         alternative_text=""
-         alias_key="1293033771"
-         timestamp="1069077395">
-  <original attribute_id="965"
-            attribute_version="2"
-            attribute_language="eng-GB" />
-</ezimage>', 0, 0, 0, 0, 'ezimage', '');
-INSERT INTO ezcontentobject_attribute VALUES (938, 'eng-GB', 3, 250, 122, '<?xml version="1.0" encoding="UTF-8"?>
-<ezimage serial_number="1"
-         is_valid=""
-         filename="leauge_champion."
-         suffix=""
-         basename="leauge_champion"
-         dirpath="var/news/storage/images/news/sports/leauge_champion/938-3-eng-GB"
-         url="var/news/storage/images/news/sports/leauge_champion/938-3-eng-GB/leauge_champion."
-         original_filename=""
-         mime_type=""
-         width=""
-         height=""
-         alternative_text=""
-         alias_key="1293033771"
-         timestamp="1069072375">
-  <original attribute_id="938"
-            attribute_version="2"
-            attribute_language="eng-GB" />
-</ezimage>', 0, 0, 0, 0, 'ezimage', '');
-INSERT INTO ezcontentobject_attribute VALUES (1129, 'eng-GB', 2, 284, 122, '<?xml version="1.0" encoding="UTF-8"?>
-<ezimage serial_number="1"
-         is_valid=""
-         filename="rider_wins_dart_competition."
-         suffix=""
-         basename="rider_wins_dart_competition"
-         dirpath="var/news/storage/images/news/sports/rider_wins_dart_competition/1129-2-eng-GB"
-         url="var/news/storage/images/news/sports/rider_wins_dart_competition/1129-2-eng-GB/rider_wins_dart_competition."
-         original_filename=""
-         mime_type=""
-         width=""
-         height=""
-         alternative_text=""
-         alias_key="1293033771"
-         timestamp="1069683256">
-  <original attribute_id="1129"
-            attribute_version="1"
-            attribute_language="eng-GB" />
-</ezimage>', 0, 0, 0, 0, 'ezimage', '');
-INSERT INTO ezcontentobject_attribute VALUES (1088, 'eng-GB', 1, 278, 123, '', 1, 0, 0, 1, 'ezboolean', '');
-INSERT INTO ezcontentobject_attribute VALUES (1109, 'eng-GB', 1, 281, 123, '', 1, 0, 0, 1, 'ezboolean', '');
-INSERT INTO ezcontentobject_attribute VALUES (1123, 'eng-GB', 1, 283, 123, '', 1, 0, 0, 1, 'ezboolean', '');
-INSERT INTO ezcontentobject_attribute VALUES (982, 'eng-GB', 4, 260, 123, '', 1, 0, 0, 1, 'ezboolean', '');
-INSERT INTO ezcontentobject_attribute VALUES (1046, 'eng-GB', 2, 271, 123, '', 1, 0, 0, 1, 'ezboolean', '');
-INSERT INTO ezcontentobject_attribute VALUES (966, 'eng-GB', 3, 254, 123, '', 1, 0, 0, 1, 'ezboolean', '');
-INSERT INTO ezcontentobject_attribute VALUES (939, 'eng-GB', 3, 250, 123, '', 0, 0, 0, 0, 'ezboolean', '');
-INSERT INTO ezcontentobject_attribute VALUES (1130, 'eng-GB', 2, 284, 123, '', 1, 0, 0, 1, 'ezboolean', '');
-INSERT INTO ezcontentobject_attribute VALUES (1144, 'eng-GB', 2, 290, 123, '', 1, 0, 0, 1, 'ezboolean', '');
-INSERT INTO ezcontentobject_attribute VALUES (1006, 'eng-GB', 1, 264, 140, 'Help', 0, 0, 0, 0, 'ezstring', 'help');
-INSERT INTO ezcontentobject_attribute VALUES (522, 'eng-GB', 4, 161, 140, 'About this website', 0, 0, 0, 0, 'ezstring', 'about this website');
-INSERT INTO ezcontentobject_attribute VALUES (1003, 'eng-GB', 2, 263, 140, 'Contact information', 0, 0, 0, 0, 'ezstring', 'contact information');
+</ezimage>', 0, 0, 0, 0, '', 'ezimage');
+INSERT INTO ezcontentobject_attribute VALUES (1088, 'eng-GB', 1, 278, 123, '', 1, 0, 0, 1, '', 'ezboolean');
+INSERT INTO ezcontentobject_attribute VALUES (1109, 'eng-GB', 1, 281, 123, '', 1, 0, 0, 1, '', 'ezboolean');
+INSERT INTO ezcontentobject_attribute VALUES (1123, 'eng-GB', 1, 283, 123, '', 1, 0, 0, 1, '', 'ezboolean');
+INSERT INTO ezcontentobject_attribute VALUES (982, 'eng-GB', 4, 260, 123, '', 1, 0, 0, 1, '', 'ezboolean');
+INSERT INTO ezcontentobject_attribute VALUES (1046, 'eng-GB', 2, 271, 123, '', 1, 0, 0, 1, '', 'ezboolean');
+INSERT INTO ezcontentobject_attribute VALUES (966, 'eng-GB', 3, 254, 123, '', 1, 0, 0, 1, '', 'ezboolean');
+INSERT INTO ezcontentobject_attribute VALUES (939, 'eng-GB', 3, 250, 123, '', 0, 0, 0, 0, '', 'ezboolean');
+INSERT INTO ezcontentobject_attribute VALUES (1130, 'eng-GB', 2, 284, 123, '', 1, 0, 0, 1, '', 'ezboolean');
+INSERT INTO ezcontentobject_attribute VALUES (1144, 'eng-GB', 2, 290, 123, '', 1, 0, 0, 1, '', 'ezboolean');
+INSERT INTO ezcontentobject_attribute VALUES (1006, 'eng-GB', 1, 264, 140, 'Help', 0, 0, 0, 0, 'help', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (522, 'eng-GB', 4, 161, 140, 'About this website', 0, 0, 0, 0, 'about this website', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1003, 'eng-GB', 2, 263, 140, 'Contact information', 0, 0, 0, 0, 'contact information', 'ezstring');
 INSERT INTO ezcontentobject_attribute VALUES (1007, 'eng-GB', 1, 264, 141, '<?xml version="1.0" encoding="iso-8859-1"?>
 <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
          xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
          xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
   <paragraph>Information on how to use this service.</paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
 INSERT INTO ezcontentobject_attribute VALUES (523, 'eng-GB', 4, 161, 141, '<?xml version="1.0" encoding="iso-8859-1"?>
 <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
          xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
@@ -3164,7 +3163,7 @@ INSERT INTO ezcontentobject_attribute VALUES (523, 'eng-GB', 4, 161, 141, '<?xml
   <paragraph>This is where you let people know what your site is about and why it is there. You can also use these information pages all kinds of general information like contact forms etc.</paragraph>
   <paragraph>Like this: This website was created to help share information about whats going on in the world. We will keep you updated in several areas.</paragraph>
   <paragraph>Phasellus elementum, velit at vehicula accumsan, lacus nunc rhoncus lectus, et tempor magna mi vitae velit. Aliquam erat volutpat. In ut libero eget lorem vestibulum fermentum. Sed sed tellus ut diam nonummy fringilla. In hac habitasse platea dictumst. Duis diam. Aenean interdum. Sed scelerisque ornare dolor. Phasellus neque magna, ullamcorper id, tincidunt non, scelerisque ut, sapien. Nulla facilisi. Suspendisse vel wisi nec velit dapibus vestibulum. Mauris fringilla, mi a congue dapibus, lacus sem viverra quam, vel tristique lacus dolor consequat diam. Vestibulum et libero. Donec adipiscing sagittis diam. Nam bibendum dui porttitor lacus. Morbi dignissim. Integer tempor. Vestibulum est elit, cursus quis, laoreet vitae, interdum vel, diam</paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
 INSERT INTO ezcontentobject_attribute VALUES (1004, 'eng-GB', 2, 263, 141, '<?xml version="1.0" encoding="iso-8859-1"?>
 <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
          xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
@@ -3172,7 +3171,7 @@ INSERT INTO ezcontentobject_attribute VALUES (1004, 'eng-GB', 2, 263, 141, '<?xm
   <paragraph>A contact page is where you let your readers, customers, partners etc find information on how to get in touch with you.</paragraph>
   <paragraph>Normal info to have here is: telephone numbers, fax numbers, e-mail addresses, visitors address and snail mail address. </paragraph>
   <paragraph>This site is also often used for people that wants to tip the site on news, updates etc. </paragraph>
-</section>', 1045487555, 0, 0, 0, 'ezxmltext', '');
+</section>', 1045487555, 0, 0, 0, '', 'ezxmltext');
 INSERT INTO ezcontentobject_attribute VALUES (1008, 'eng-GB', 1, 264, 142, '<?xml version="1.0" encoding="UTF-8"?>
 <ezimage serial_number="1"
          is_valid=""
@@ -3191,7 +3190,7 @@ INSERT INTO ezcontentobject_attribute VALUES (1008, 'eng-GB', 1, 264, 142, '<?xm
   <original attribute_id=""
             attribute_version=""
             attribute_language="" />
-</ezimage>', 0, 0, 0, 0, 'ezimage', '');
+</ezimage>', 0, 0, 0, 0, '', 'ezimage');
 INSERT INTO ezcontentobject_attribute VALUES (1005, 'eng-GB', 2, 263, 142, '<?xml version="1.0" encoding="UTF-8"?>
 <ezimage serial_number="1"
          is_valid=""
@@ -3210,7 +3209,7 @@ INSERT INTO ezcontentobject_attribute VALUES (1005, 'eng-GB', 2, 263, 142, '<?xm
   <original attribute_id="1005"
             attribute_version="1"
             attribute_language="eng-GB" />
-</ezimage>', 0, 0, 0, 0, 'ezimage', '');
+</ezimage>', 0, 0, 0, 0, '', 'ezimage');
 INSERT INTO ezcontentobject_attribute VALUES (524, 'eng-GB', 4, 161, 142, '<?xml version="1.0" encoding="UTF-8"?>
 <ezimage serial_number="1"
          is_valid=""
@@ -3229,7 +3228,8 @@ INSERT INTO ezcontentobject_attribute VALUES (524, 'eng-GB', 4, 161, 142, '<?xml
   <original attribute_id="524"
             attribute_version="3"
             attribute_language="eng-GB" />
-</ezimage>', 0, 0, 0, 0, 'ezimage', '');
+</ezimage>', 0, 0, 0, 0, '', 'ezimage');
+INSERT INTO ezcontentobject_attribute VALUES (108, 'eng-GB', 11, 45, 152, 'Look and feel', 0, 0, 0, 0, 'look and feel', 'ezstring');
 INSERT INTO ezcontentobject_attribute VALUES (109, 'eng-GB', 11, 45, 153, '<?xml version="1.0" encoding="UTF-8"?>
 <ezimage serial_number="1"
          is_valid="1"
@@ -3292,7 +3292,7 @@ INSERT INTO ezcontentobject_attribute VALUES (109, 'eng-GB', 11, 45, 153, '<?xml
          alias_key="-1095359119"
          timestamp=""
          is_valid="1" />
-</ezimage>', 0, 0, 0, 0, 'ezimage', '');
+</ezimage>', 0, 0, 0, 0, '', 'ezimage');
 INSERT INTO ezcontentobject_attribute VALUES (324, 'eng-GB', 5, 115, 153, '<?xml version="1.0" encoding="UTF-8"?>
 <ezimage serial_number="1"
          is_valid="1"
@@ -3344,7 +3344,7 @@ INSERT INTO ezcontentobject_attribute VALUES (324, 'eng-GB', 5, 115, 153, '<?xml
          alias_key="1446888826"
          timestamp=""
          is_valid="1" />
-</ezimage>', 0, 0, 0, 0, 'ezimage', '');
+</ezimage>', 0, 0, 0, 0, '', 'ezimage');
 INSERT INTO ezcontentobject_attribute VALUES (103, 'eng-GB', 10, 43, 153, '<?xml version="1.0" encoding="UTF-8"?>
 <ezimage serial_number="1"
          is_valid="1"
@@ -3396,7 +3396,7 @@ INSERT INTO ezcontentobject_attribute VALUES (103, 'eng-GB', 10, 43, 153, '<?xml
          alias_key="1446888826"
          timestamp=""
          is_valid="1" />
-</ezimage>', 0, 0, 0, 0, 'ezimage', '');
+</ezimage>', 0, 0, 0, 0, '', 'ezimage');
 INSERT INTO ezcontentobject_attribute VALUES (328, 'eng-GB', 4, 116, 153, '<?xml version="1.0" encoding="UTF-8"?>
 <ezimage serial_number="1"
          is_valid="1"
@@ -3448,19 +3448,22 @@ INSERT INTO ezcontentobject_attribute VALUES (328, 'eng-GB', 4, 116, 153, '<?xml
          alias_key="1446888826"
          timestamp=""
          is_valid="1" />
-</ezimage>', 0, 0, 0, 0, 'ezimage', '');
-INSERT INTO ezcontentobject_attribute VALUES (104, 'eng-GB', 10, 43, 154, '', 0, 0, 0, 0, 'eztext', '');
-INSERT INTO ezcontentobject_attribute VALUES (110, 'eng-GB', 11, 45, 154, '', 0, 0, 0, 0, 'eztext', '');
-INSERT INTO ezcontentobject_attribute VALUES (329, 'eng-GB', 4, 116, 154, '', 0, 0, 0, 0, 'eztext', '');
-INSERT INTO ezcontentobject_attribute VALUES (326, 'eng-GB', 5, 115, 155, 'setup/cache', 0, 0, 0, 0, 'ezstring', 'setup/cache');
-INSERT INTO ezcontentobject_attribute VALUES (105, 'eng-GB', 10, 43, 155, 'class/grouplist', 0, 0, 0, 0, 'ezstring', 'class/grouplist');
-INSERT INTO ezcontentobject_attribute VALUES (111, 'eng-GB', 11, 45, 155, 'content/edit/56', 0, 0, 0, 0, 'ezstring', 'content/edit/56');
-INSERT INTO ezcontentobject_attribute VALUES (330, 'eng-GB', 4, 116, 155, 'content/urltranslator/', 0, 0, 0, 0, 'ezstring', 'content/urltranslator/');
-INSERT INTO ezcontentobject_attribute VALUES (150, 'eng-GB', 65, 56, 157, 'News', 0, 0, 0, 0, 'ezinisetting', '');
+</ezimage>', 0, 0, 0, 0, '', 'ezimage');
+INSERT INTO ezcontentobject_attribute VALUES (104, 'eng-GB', 10, 43, 154, '', 0, 0, 0, 0, '', 'eztext');
+INSERT INTO ezcontentobject_attribute VALUES (110, 'eng-GB', 11, 45, 154, '', 0, 0, 0, 0, '', 'eztext');
+INSERT INTO ezcontentobject_attribute VALUES (329, 'eng-GB', 4, 116, 154, '', 0, 0, 0, 0, '', 'eztext');
+INSERT INTO ezcontentobject_attribute VALUES (326, 'eng-GB', 5, 115, 155, 'setup/cache', 0, 0, 0, 0, 'setup/cache', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (105, 'eng-GB', 10, 43, 155, 'class/grouplist', 0, 0, 0, 0, 'class/grouplist', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (111, 'eng-GB', 11, 45, 155, 'content/edit/56', 0, 0, 0, 0, 'content/edit/56', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (330, 'eng-GB', 4, 116, 155, 'content/urltranslator/', 0, 0, 0, 0, 'content/urltranslator/', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (150, 'eng-GB', 65, 56, 157, 'News', 0, 0, 0, 0, '', 'ezinisetting');
 INSERT INTO ezcontentobject_attribute VALUES (151, 'eng-GB', 65, 56, 158, 'author=eZ systems package team
 copyright=eZ systems
 description=Content Management System
-keywords=cms', 0, 0, 0, 0, 'ezinisetting', '');
+keywords=cms', 0, 0, 0, 0, '', 'ezinisetting');
+INSERT INTO ezcontentobject_attribute VALUES (152, 'eng-GB', 7, 56, 159, '', 0, 0, 0, 0, '', 'ezimage');
+INSERT INTO ezcontentobject_attribute VALUES (437, 'eng-GB', 65, 56, 180, 'nospam@ez.no', 0, 0, 0, 0, '', 'ezinisetting');
+INSERT INTO ezcontentobject_attribute VALUES (671, 'eng-GB', 65, 56, 196, 'ez.no', 0, 0, 0, 0, '', 'ezinisetting');
 INSERT INTO ezcontentobject_attribute VALUES (152, 'eng-GB', 65, 56, 159, '<?xml version="1.0" encoding="UTF-8"?>
 <ezimage serial_number="1"
          is_valid="1"
@@ -3512,19 +3515,16 @@ INSERT INTO ezcontentobject_attribute VALUES (152, 'eng-GB', 65, 56, 159, '<?xml
          alias_key="-447475028"
          timestamp="1069841394"
          is_valid="1" />
-</ezimage>', 0, 0, 0, 0, 'ezimage', '');
-INSERT INTO ezcontentobject_attribute VALUES (152, 'eng-GB', 7, 56, 159, '', 0, 0, 0, 0, 'ezimage', '');
-INSERT INTO ezcontentobject_attribute VALUES (437, 'eng-GB', 65, 56, 180, 'nospam@ez.no', 0, 0, 0, 0, 'ezinisetting', '');
-INSERT INTO ezcontentobject_attribute VALUES (671, 'eng-GB', 65, 56, 196, 'ez.no', 0, 0, 0, 0, 'ezinisetting', '');
-INSERT INTO ezcontentobject_attribute VALUES (153, 'eng-GB', 65, 56, 160, 'news_brown', 0, 0, 0, 0, 'ezpackage', 'intranet1');
-INSERT INTO ezcontentobject_attribute VALUES (153, 'eng-GB', 7, 56, 160, 'left_menu', 0, 0, 0, 0, 'ezpackage', 'intranet1');
-INSERT INTO ezcontentobject_attribute VALUES (153, 'eng-GB', 5, 56, 160, 'intranet1', 0, 0, 0, 0, 'ezpackage', 'intranet1');
-INSERT INTO ezcontentobject_attribute VALUES (153, 'eng-GB', 4, 56, 160, 'intranet1', 0, 0, 0, 0, 'ezpackage', 'intranet1');
-INSERT INTO ezcontentobject_attribute VALUES (154, 'eng-GB', 65, 56, 161, 'news_package', 0, 0, 0, 0, 'ezstring', 'intranet888');
-INSERT INTO ezcontentobject_attribute VALUES (154, 'eng-GB', 7, 56, 161, 'intranet888', 0, 0, 0, 0, 'ezstring', 'intranet888');
-INSERT INTO ezcontentobject_attribute VALUES (695, 'eng-GB', 5, 14, 197, 'Uberguru', 0, 0, 0, 0, 'ezstring', 'uberguru');
-INSERT INTO ezcontentobject_attribute VALUES (707, 'eng-GB', 5, 14, 198, 'Skien/Norway', 0, 0, 0, 0, 'ezstring', 'skien/norway');
-INSERT INTO ezcontentobject_attribute VALUES (719, 'eng-GB', 5, 14, 199, 'developer... ;)', 0, 0, 0, 0, 'eztext', '');
+</ezimage>', 0, 0, 0, 0, '', 'ezimage');
+INSERT INTO ezcontentobject_attribute VALUES (153, 'eng-GB', 4, 56, 160, 'intranet1', 0, 0, 0, 0, 'intranet1', 'ezpackage');
+INSERT INTO ezcontentobject_attribute VALUES (153, 'eng-GB', 5, 56, 160, 'intranet1', 0, 0, 0, 0, 'intranet1', 'ezpackage');
+INSERT INTO ezcontentobject_attribute VALUES (153, 'eng-GB', 7, 56, 160, 'left_menu', 0, 0, 0, 0, 'left_menu', 'ezpackage');
+INSERT INTO ezcontentobject_attribute VALUES (153, 'eng-GB', 65, 56, 160, 'news_brown', 0, 0, 0, 0, 'news_brown', 'ezpackage');
+INSERT INTO ezcontentobject_attribute VALUES (154, 'eng-GB', 7, 56, 161, 'intranet888', 0, 0, 0, 0, 'intranet888', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (154, 'eng-GB', 65, 56, 161, 'news_package', 0, 0, 0, 0, 'news_package', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (695, 'eng-GB', 5, 14, 197, 'Uberguru', 0, 0, 0, 0, 'uberguru', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (707, 'eng-GB', 5, 14, 198, 'Skien/Norway', 0, 0, 0, 0, 'skien/norway', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (719, 'eng-GB', 5, 14, 199, 'developer... ;)', 0, 0, 0, 0, '', 'eztext');
 INSERT INTO ezcontentobject_attribute VALUES (731, 'eng-GB', 5, 14, 200, '<?xml version="1.0" encoding="UTF-8"?>
 <ezimage serial_number="1"
          is_valid="1"
@@ -3572,9 +3572,9 @@ INSERT INTO ezcontentobject_attribute VALUES (731, 'eng-GB', 5, 14, 200, '<?xml 
          height="150"
          alias_key="1874955560"
          is_valid="1" />
-</ezimage>', 0, 0, 0, 0, 'ezimage', '');
-INSERT INTO ezcontentobject_attribute VALUES (830, 'eng-GB', 1, 241, 207, 'Which one is the best of matrix movies?', 0, 0, 0, 0, 'ezstring', 'which one is the best of matrix movies?');
-INSERT INTO ezcontentobject_attribute VALUES (1137, 'eng-GB', 1, 289, 207, 'What season is the best?', 0, 0, 0, 0, 'ezstring', 'what season is the best?');
+</ezimage>', 0, 0, 0, 0, '', 'ezimage');
+INSERT INTO ezcontentobject_attribute VALUES (830, 'eng-GB', 1, 241, 207, 'Which one is the best of matrix movies?', 0, 0, 0, 0, 'which one is the best of matrix movies?', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1137, 'eng-GB', 1, 289, 207, 'What season is the best?', 0, 0, 0, 0, 'what season is the best?', 'ezstring');
 INSERT INTO ezcontentobject_attribute VALUES (831, 'eng-GB', 1, 241, 208, '<?xml version="1.0" encoding="UTF-8"?>
 <ezoption>
   <name></name>
@@ -3586,7 +3586,7 @@ INSERT INTO ezcontentobject_attribute VALUES (831, 'eng-GB', 1, 241, 208, '<?xml
     <option id="2"
             additional_price="">Matrix revoluaton</option>
   </options>
-</ezoption>', 0, 0, 0, 0, 'ezoption', '');
+</ezoption>', 0, 0, 0, 0, '', 'ezoption');
 INSERT INTO ezcontentobject_attribute VALUES (1138, 'eng-GB', 1, 289, 208, '<?xml version="1.0" encoding="UTF-8"?>
 <ezoption>
   <name></name>
@@ -3600,68 +3600,68 @@ INSERT INTO ezcontentobject_attribute VALUES (1138, 'eng-GB', 1, 289, 208, '<?xm
     <option id="3"
             additional_price="">Winter</option>
   </options>
-</ezoption>', 0, 0, 0, 0, 'ezoption', '');
-INSERT INTO ezcontentobject_attribute VALUES (808, 'eng-GB', 1, 235, 209, 'kjh', 0, 0, 0, 0, 'ezstring', 'kjh');
-INSERT INTO ezcontentobject_attribute VALUES (772, 'eng-GB', 1, 219, 209, 'Bård Farstad', 0, 0, 0, 0, 'ezstring', 'bård farstad');
-INSERT INTO ezcontentobject_attribute VALUES (1064, 'eng-GB', 1, 275, 209, 'ddd', 0, 0, 0, 0, 'ezstring', 'ddd');
-INSERT INTO ezcontentobject_attribute VALUES (824, 'eng-GB', 1, 239, 209, 'Bård', 0, 0, 0, 0, 'ezstring', 'bård');
-INSERT INTO ezcontentobject_attribute VALUES (1049, 'eng-GB', 1, 272, 209, 'dgdf', 0, 0, 0, 0, 'ezstring', 'dgdf');
-INSERT INTO ezcontentobject_attribute VALUES (1032, 'eng-GB', 1, 269, 209, 'wenyue', 0, 0, 0, 0, 'ezstring', 'wenyue');
-INSERT INTO ezcontentobject_attribute VALUES (801, 'eng-GB', 1, 233, 209, 'bård', 0, 0, 0, 0, 'ezstring', 'bård');
-INSERT INTO ezcontentobject_attribute VALUES (832, 'eng-GB', 1, 242, 209, 'ghghj', 0, 0, 0, 0, 'ezstring', 'ghghj');
-INSERT INTO ezcontentobject_attribute VALUES (776, 'eng-GB', 1, 220, 209, 'båbåb', 0, 0, 0, 0, 'ezstring', 'båbåb');
-INSERT INTO ezcontentobject_attribute VALUES (947, 'eng-GB', 1, 252, 209, 'Bård', 0, 0, 0, 0, 'ezstring', 'bård');
-INSERT INTO ezcontentobject_attribute VALUES (841, 'eng-GB', 1, 245, 209, 'kjlh', 0, 0, 0, 0, 'ezstring', 'kjlh');
-INSERT INTO ezcontentobject_attribute VALUES (845, 'eng-GB', 1, 246, 209, 'kjhkjh', 0, 0, 0, 0, 'ezstring', 'kjhkjh');
-INSERT INTO ezcontentobject_attribute VALUES (809, 'eng-GB', 1, 235, 210, 'kjlh', 0, 0, 0, 0, 'ezstring', 'kjlh');
-INSERT INTO ezcontentobject_attribute VALUES (773, 'eng-GB', 1, 219, 210, 'nospam@ez.no', 0, 0, 0, 0, 'ezstring', 'nospam@ez.no');
-INSERT INTO ezcontentobject_attribute VALUES (1065, 'eng-GB', 1, 275, 210, 'sdfsdf@yahoo.com', 0, 0, 0, 0, 'ezstring', 'sdfsdf@yahoo.com');
-INSERT INTO ezcontentobject_attribute VALUES (1050, 'eng-GB', 1, 272, 210, 'dg', 0, 0, 0, 0, 'ezstring', 'dg');
-INSERT INTO ezcontentobject_attribute VALUES (825, 'eng-GB', 1, 239, 210, 'nospam@ez.no', 0, 0, 0, 0, 'ezstring', 'nospam@ez.no');
-INSERT INTO ezcontentobject_attribute VALUES (802, 'eng-GB', 1, 233, 210, 'nospam@ez.no', 0, 0, 0, 0, 'ezstring', 'nospam@ez.no');
-INSERT INTO ezcontentobject_attribute VALUES (1033, 'eng-GB', 1, 269, 210, 'nospam@ez.no', 0, 0, 0, 0, 'ezstring', 'nospam@ez.no');
-INSERT INTO ezcontentobject_attribute VALUES (833, 'eng-GB', 1, 242, 210, 'nospam@ez.no', 0, 0, 0, 0, 'ezstring', 'nospam@ez.no');
-INSERT INTO ezcontentobject_attribute VALUES (777, 'eng-GB', 1, 220, 210, 'nospam@ez.no', 0, 0, 0, 0, 'ezstring', 'nospam@ez.no');
-INSERT INTO ezcontentobject_attribute VALUES (948, 'eng-GB', 1, 252, 210, 'nospam@ez.no', 0, 0, 0, 0, 'ezstring', 'nospam@ez.no');
-INSERT INTO ezcontentobject_attribute VALUES (842, 'eng-GB', 1, 245, 210, 'kjh', 0, 0, 0, 0, 'ezstring', 'kjh');
-INSERT INTO ezcontentobject_attribute VALUES (846, 'eng-GB', 1, 246, 210, 'nospam@ez.no', 0, 0, 0, 0, 'ezstring', 'nospam@ez.no');
-INSERT INTO ezcontentobject_attribute VALUES (810, 'eng-GB', 1, 235, 211, 'kljh', 0, 0, 0, 0, 'ezstring', 'kljh');
-INSERT INTO ezcontentobject_attribute VALUES (949, 'eng-GB', 1, 252, 211, 'http://ez.no', 0, 0, 0, 0, 'ezstring', 'http://ez.no');
-INSERT INTO ezcontentobject_attribute VALUES (774, 'eng-GB', 1, 219, 211, 'http://ez.no', 0, 0, 0, 0, 'ezstring', 'http://ez.no');
-INSERT INTO ezcontentobject_attribute VALUES (1066, 'eng-GB', 1, 275, 211, 'fsf', 0, 0, 0, 0, 'ezstring', 'fsf');
-INSERT INTO ezcontentobject_attribute VALUES (1051, 'eng-GB', 1, 272, 211, 'dfgd', 0, 0, 0, 0, 'ezstring', 'dfgd');
-INSERT INTO ezcontentobject_attribute VALUES (803, 'eng-GB', 1, 233, 211, 'http://ez.no', 0, 0, 0, 0, 'ezstring', 'http://ez.no');
-INSERT INTO ezcontentobject_attribute VALUES (1034, 'eng-GB', 1, 269, 211, 'http://ez.no', 0, 0, 0, 0, 'ezstring', 'http://ez.no');
-INSERT INTO ezcontentobject_attribute VALUES (834, 'eng-GB', 1, 242, 211, 'fghvmbnmbvnm', 0, 0, 0, 0, 'ezstring', 'fghvmbnmbvnm');
-INSERT INTO ezcontentobject_attribute VALUES (826, 'eng-GB', 1, 239, 211, 'sdfgsd', 0, 0, 0, 0, 'ezstring', 'sdfgsd');
-INSERT INTO ezcontentobject_attribute VALUES (778, 'eng-GB', 1, 220, 211, 'http://piranha.no', 0, 0, 0, 0, 'ezstring', 'http://piranha.no');
-INSERT INTO ezcontentobject_attribute VALUES (843, 'eng-GB', 1, 245, 211, 'kjh', 0, 0, 0, 0, 'ezstring', 'kjh');
-INSERT INTO ezcontentobject_attribute VALUES (847, 'eng-GB', 1, 246, 211, 'sdfgsdfg', 0, 0, 0, 0, 'ezstring', 'sdfgsdfg');
+</ezoption>', 0, 0, 0, 0, '', 'ezoption');
+INSERT INTO ezcontentobject_attribute VALUES (808, 'eng-GB', 1, 235, 209, 'kjh', 0, 0, 0, 0, 'kjh', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (772, 'eng-GB', 1, 219, 209, 'Bård Farstad', 0, 0, 0, 0, 'bård farstad', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1064, 'eng-GB', 1, 275, 209, 'ddd', 0, 0, 0, 0, 'ddd', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (824, 'eng-GB', 1, 239, 209, 'Bård', 0, 0, 0, 0, 'bård', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1049, 'eng-GB', 1, 272, 209, 'dgdf', 0, 0, 0, 0, 'dgdf', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1032, 'eng-GB', 1, 269, 209, 'wenyue', 0, 0, 0, 0, 'wenyue', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (801, 'eng-GB', 1, 233, 209, 'bård', 0, 0, 0, 0, 'bård', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (832, 'eng-GB', 1, 242, 209, 'ghghj', 0, 0, 0, 0, 'ghghj', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (776, 'eng-GB', 1, 220, 209, 'båbåb', 0, 0, 0, 0, 'båbåb', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (947, 'eng-GB', 1, 252, 209, 'Bård', 0, 0, 0, 0, 'bård', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (841, 'eng-GB', 1, 245, 209, 'kjlh', 0, 0, 0, 0, 'kjlh', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (845, 'eng-GB', 1, 246, 209, 'kjhkjh', 0, 0, 0, 0, 'kjhkjh', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (809, 'eng-GB', 1, 235, 210, 'kjlh', 0, 0, 0, 0, 'kjlh', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (773, 'eng-GB', 1, 219, 210, 'nospam@ez.no', 0, 0, 0, 0, 'nospam@ez.no', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1065, 'eng-GB', 1, 275, 210, 'sdfsdf@yahoo.com', 0, 0, 0, 0, 'sdfsdf@yahoo.com', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1050, 'eng-GB', 1, 272, 210, 'dg', 0, 0, 0, 0, 'dg', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (825, 'eng-GB', 1, 239, 210, 'nospam@ez.no', 0, 0, 0, 0, 'nospam@ez.no', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (802, 'eng-GB', 1, 233, 210, 'nospam@ez.no', 0, 0, 0, 0, 'nospam@ez.no', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1033, 'eng-GB', 1, 269, 210, 'nospam@ez.no', 0, 0, 0, 0, 'nospam@ez.no', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (833, 'eng-GB', 1, 242, 210, 'nospam@ez.no', 0, 0, 0, 0, 'nospam@ez.no', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (777, 'eng-GB', 1, 220, 210, 'nospam@ez.no', 0, 0, 0, 0, 'nospam@ez.no', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (948, 'eng-GB', 1, 252, 210, 'nospam@ez.no', 0, 0, 0, 0, 'nospam@ez.no', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (842, 'eng-GB', 1, 245, 210, 'kjh', 0, 0, 0, 0, 'kjh', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (846, 'eng-GB', 1, 246, 210, 'nospam@ez.no', 0, 0, 0, 0, 'nospam@ez.no', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (810, 'eng-GB', 1, 235, 211, 'kljh', 0, 0, 0, 0, 'kljh', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (949, 'eng-GB', 1, 252, 211, 'http://ez.no', 0, 0, 0, 0, 'http://ez.no', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (774, 'eng-GB', 1, 219, 211, 'http://ez.no', 0, 0, 0, 0, 'http://ez.no', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1066, 'eng-GB', 1, 275, 211, 'fsf', 0, 0, 0, 0, 'fsf', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1051, 'eng-GB', 1, 272, 211, 'dfgd', 0, 0, 0, 0, 'dfgd', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (803, 'eng-GB', 1, 233, 211, 'http://ez.no', 0, 0, 0, 0, 'http://ez.no', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1034, 'eng-GB', 1, 269, 211, 'http://ez.no', 0, 0, 0, 0, 'http://ez.no', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (834, 'eng-GB', 1, 242, 211, 'fghvmbnmbvnm', 0, 0, 0, 0, 'fghvmbnmbvnm', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (826, 'eng-GB', 1, 239, 211, 'sdfgsd', 0, 0, 0, 0, 'sdfgsd', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (778, 'eng-GB', 1, 220, 211, 'http://piranha.no', 0, 0, 0, 0, 'http://piranha.no', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (843, 'eng-GB', 1, 245, 211, 'kjh', 0, 0, 0, 0, 'kjh', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (847, 'eng-GB', 1, 246, 211, 'sdfgsdfg', 0, 0, 0, 0, 'sdfgsdfg', 'ezstring');
 INSERT INTO ezcontentobject_attribute VALUES (811, 'eng-GB', 1, 235, 212, '< >
 
 :)
 
-http://ez.no', 0, 0, 0, 0, 'eztext', '');
+http://ez.no', 0, 0, 0, 0, '', 'eztext');
 INSERT INTO ezcontentobject_attribute VALUES (950, 'eng-GB', 1, 252, 212, 'sdfg sdfgsdfg
 sdfg
 sdfg
 sdf
-gsdfg', 0, 0, 0, 0, 'eztext', '');
+gsdfg', 0, 0, 0, 0, '', 'eztext');
 INSERT INTO ezcontentobject_attribute VALUES (775, 'eng-GB', 1, 219, 212, 'I''ve seen more speacial things.. dsfgljk sdfg jsdklgj sdlfgj skldg sd gfdsfgljk sdfg jsdklgj sdlfgj skldg sd gfdsfgljk sdfg jsdklgj sdlfgj skldg sd gfdsfgljk sdfg jsdklgj sdlfgj skldg sd gfdsfgljk sdfg jsdklgj sdlfgj skldg sd gfdsfgljk sdfg jsdklgj sdlfgj skldg sd gfdsfgljk sdfg jsdklgj sdlfgj skldg sd gfdsfgljk sdfg jsdklgj sdlfgj skldg sd gfdsfgljk sdfg jsdklgj sdlfgj skldg sd gf
 
-dsfgljk sdfg jsdklgj sdlfgj skldg sd gfdsfgljk sdfg jsdklgj sdlfgj skldg sd gfdsfgljk sdfg jsdklgj sdlfgj skldg sd gf', 0, 0, 0, 0, 'eztext', '');
+dsfgljk sdfg jsdklgj sdlfgj skldg sd gfdsfgljk sdfg jsdklgj sdlfgj skldg sd gfdsfgljk sdfg jsdklgj sdlfgj skldg sd gf', 0, 0, 0, 0, '', 'eztext');
 INSERT INTO ezcontentobject_attribute VALUES (1067, 'eng-GB', 1, 275, 212, 'sdfsdfsdf
 sd
-fsdf', 0, 0, 0, 0, 'eztext', '');
-INSERT INTO ezcontentobject_attribute VALUES (1052, 'eng-GB', 1, 272, 212, 'dfgfd', 0, 0, 0, 0, 'eztext', '');
+fsdf', 0, 0, 0, 0, '', 'eztext');
+INSERT INTO ezcontentobject_attribute VALUES (1052, 'eng-GB', 1, 272, 212, 'dfgfd', 0, 0, 0, 0, '', 'eztext');
 INSERT INTO ezcontentobject_attribute VALUES (804, 'eng-GB', 1, 233, 212, 'dfgl sdflg sdiofg usdoigfu osdigu iosdgf sdgfsd
 fg
 sdfg
 sdfg
-sdg', 0, 0, 0, 0, 'eztext', '');
+sdg', 0, 0, 0, 0, '', 'eztext');
 INSERT INTO ezcontentobject_attribute VALUES (1035, 'eng-GB', 1, 269, 212, 'jgslfjs
 sdfklsfløsk
-', 0, 0, 0, 0, 'eztext', '');
+', 0, 0, 0, 0, '', 'eztext');
 INSERT INTO ezcontentobject_attribute VALUES (835, 'eng-GB', 1, 242, 212, 'fgn fdgh fdgh fdgh
 kløæ
 ølæ
@@ -3669,66 +3669,66 @@ løæ
 løæ
 løæ
 hjlh
-hj', 0, 0, 0, 0, 'eztext', '');
+hj', 0, 0, 0, 0, '', 'eztext');
 INSERT INTO ezcontentobject_attribute VALUES (827, 'eng-GB', 1, 239, 212, 'sdfgsdgsd
 sdg
-sdf', 0, 0, 0, 0, 'eztext', '');
+sdf', 0, 0, 0, 0, '', 'eztext');
 INSERT INTO ezcontentobject_attribute VALUES (779, 'eng-GB', 1, 220, 212, 'sdfgsd fgsdgsd
 gf
 sdfg
 sdfgdsg
 sdgf
-', 0, 0, 0, 0, 'eztext', '');
-INSERT INTO ezcontentobject_attribute VALUES (844, 'eng-GB', 1, 245, 212, 'kjlhkhkjhklhj', 0, 0, 0, 0, 'eztext', '');
+', 0, 0, 0, 0, '', 'eztext');
+INSERT INTO ezcontentobject_attribute VALUES (844, 'eng-GB', 1, 245, 212, 'kjlhkhkjhklhj', 0, 0, 0, 0, '', 'eztext');
 INSERT INTO ezcontentobject_attribute VALUES (848, 'eng-GB', 1, 246, 212, 'sdfgsdfgsdfgds
 fgsd
 fg
-sdfg', 0, 0, 0, 0, 'eztext', '');
-INSERT INTO ezcontentobject_attribute VALUES (957, 'eng-GB', 1, 245, 217, '', 0, 0, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (958, 'eng-GB', 1, 246, 217, '', 0, 0, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (959, 'eng-GB', 1, 252, 217, 'Kewl news', 0, 0, 0, 0, 'ezstring', 'kewl news');
-INSERT INTO ezcontentobject_attribute VALUES (951, 'eng-GB', 1, 219, 217, '', 0, 0, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (952, 'eng-GB', 1, 220, 217, '', 0, 0, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (953, 'eng-GB', 1, 233, 217, '', 0, 0, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (954, 'eng-GB', 1, 235, 217, '', 0, 0, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (1063, 'eng-GB', 1, 275, 217, 'sdsdd', 0, 0, 0, 0, 'ezstring', 'sdsdd');
-INSERT INTO ezcontentobject_attribute VALUES (1048, 'eng-GB', 1, 272, 217, 'fgdfg', 0, 0, 0, 0, 'ezstring', 'fgdfg');
-INSERT INTO ezcontentobject_attribute VALUES (1031, 'eng-GB', 1, 269, 217, 'Amazing', 0, 0, 0, 0, 'ezstring', 'amazing');
-INSERT INTO ezcontentobject_attribute VALUES (955, 'eng-GB', 1, 239, 217, '', 0, 0, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (956, 'eng-GB', 1, 242, 217, '', 0, 0, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (996, 'eng-GB', 5, 249, 218, '', 0, 0, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (1091, 'eng-GB', 1, 279, 218, '', 0, 0, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (1084, 'eng-GB', 1, 278, 218, '', 0, 0, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (1105, 'eng-GB', 1, 281, 218, '', 0, 0, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (1119, 'eng-GB', 1, 283, 218, '', 0, 0, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (1001, 'eng-GB', 4, 260, 218, 'Bård Farstad', 0, 0, 0, 0, 'ezstring', 'bård farstad');
-INSERT INTO ezcontentobject_attribute VALUES (1042, 'eng-GB', 2, 271, 218, 'Kjell Mann', 0, 0, 0, 0, 'ezstring', 'kjell mann');
-INSERT INTO ezcontentobject_attribute VALUES (1002, 'eng-GB', 2, 261, 218, '', 0, 0, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (1000, 'eng-GB', 3, 254, 218, '', 0, 0, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (998, 'eng-GB', 3, 250, 218, '', 0, 0, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (1126, 'eng-GB', 2, 284, 218, 'Terje Gunrell', 0, 0, 0, 0, 'ezstring', 'terje gunrell');
-INSERT INTO ezcontentobject_attribute VALUES (1140, 'eng-GB', 2, 290, 218, 'Tim Gunny', 0, 0, 0, 0, 'ezstring', 'tim gunny');
-INSERT INTO ezcontentobject_attribute VALUES (1018, 'eng-GB', 5, 249, 219, '', 1, 0, 0, 1, 'ezboolean', '');
-INSERT INTO ezcontentobject_attribute VALUES (1096, 'eng-GB', 1, 279, 219, '', 1, 0, 0, 1, 'ezboolean', '');
-INSERT INTO ezcontentobject_attribute VALUES (1089, 'eng-GB', 1, 278, 219, '', 1, 0, 0, 1, 'ezboolean', '');
-INSERT INTO ezcontentobject_attribute VALUES (1110, 'eng-GB', 1, 281, 219, '', 1, 0, 0, 1, 'ezboolean', '');
-INSERT INTO ezcontentobject_attribute VALUES (1124, 'eng-GB', 1, 283, 219, '', 1, 0, 0, 1, 'ezboolean', '');
-INSERT INTO ezcontentobject_attribute VALUES (1024, 'eng-GB', 4, 260, 219, '', 1, 0, 0, 1, 'ezboolean', '');
-INSERT INTO ezcontentobject_attribute VALUES (1047, 'eng-GB', 2, 271, 219, '', 1, 0, 0, 1, 'ezboolean', '');
-INSERT INTO ezcontentobject_attribute VALUES (1025, 'eng-GB', 2, 261, 219, '', 1, 0, 0, 1, 'ezboolean', '');
-INSERT INTO ezcontentobject_attribute VALUES (1022, 'eng-GB', 3, 254, 219, '', 1, 0, 0, 1, 'ezboolean', '');
-INSERT INTO ezcontentobject_attribute VALUES (1020, 'eng-GB', 3, 250, 219, '', 1, 0, 0, 1, 'ezboolean', '');
-INSERT INTO ezcontentobject_attribute VALUES (1131, 'eng-GB', 2, 284, 219, '', 1, 0, 0, 1, 'ezboolean', '');
-INSERT INTO ezcontentobject_attribute VALUES (1145, 'eng-GB', 2, 290, 219, '', 1, 0, 0, 1, 'ezboolean', '');
-INSERT INTO ezcontentobject_attribute VALUES (1076, 'eng-GB', 65, 56, 220, 'Copyright &copy; eZ systems as 1999-2004', 0, 0, 0, 0, 'ezstring', 'copyright &copy; ez systems as 1999-2004');
-INSERT INTO ezcontentobject_attribute VALUES (1146, 'eng-GB', 1, 291, 6, 'Anonymous Users', 0, 0, 0, 0, 'ezstring', 'anonymous users');
-INSERT INTO ezcontentobject_attribute VALUES (1147, 'eng-GB', 1, 291, 7, 'User group for the anonymous user', 0, 0, 0, 0, 'ezstring', 'user group for the anonymous user');
-INSERT INTO ezcontentobject_attribute VALUES (19, 'eng-GB', 3, 10, 8, 'Anonymous', 0, 0, 0, 0, 'ezstring', 'anonymous');
-INSERT INTO ezcontentobject_attribute VALUES (20, 'eng-GB', 3, 10, 9, 'User', 0, 0, 0, 0, 'ezstring', 'user');
-INSERT INTO ezcontentobject_attribute VALUES (21, 'eng-GB', 3, 10, 12, '', 0, 0, 0, 0, 'ezuser', '');
-INSERT INTO ezcontentobject_attribute VALUES (692, 'eng-GB', 3, 10, 197, '', 0, 0, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (704, 'eng-GB', 3, 10, 198, '', 0, 0, 0, 0, 'ezstring', '');
-INSERT INTO ezcontentobject_attribute VALUES (716, 'eng-GB', 3, 10, 199, '', 0, 0, 0, 0, 'eztext', '');
+sdfg', 0, 0, 0, 0, '', 'eztext');
+INSERT INTO ezcontentobject_attribute VALUES (957, 'eng-GB', 1, 245, 217, '', 0, 0, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (958, 'eng-GB', 1, 246, 217, '', 0, 0, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (959, 'eng-GB', 1, 252, 217, 'Kewl news', 0, 0, 0, 0, 'kewl news', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (951, 'eng-GB', 1, 219, 217, '', 0, 0, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (952, 'eng-GB', 1, 220, 217, '', 0, 0, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (953, 'eng-GB', 1, 233, 217, '', 0, 0, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (954, 'eng-GB', 1, 235, 217, '', 0, 0, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1063, 'eng-GB', 1, 275, 217, 'sdsdd', 0, 0, 0, 0, 'sdsdd', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1048, 'eng-GB', 1, 272, 217, 'fgdfg', 0, 0, 0, 0, 'fgdfg', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1031, 'eng-GB', 1, 269, 217, 'Amazing', 0, 0, 0, 0, 'amazing', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (955, 'eng-GB', 1, 239, 217, '', 0, 0, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (956, 'eng-GB', 1, 242, 217, '', 0, 0, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (996, 'eng-GB', 5, 249, 218, '', 0, 0, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1091, 'eng-GB', 1, 279, 218, '', 0, 0, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1084, 'eng-GB', 1, 278, 218, '', 0, 0, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1105, 'eng-GB', 1, 281, 218, '', 0, 0, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1119, 'eng-GB', 1, 283, 218, '', 0, 0, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1001, 'eng-GB', 4, 260, 218, 'Bård Farstad', 0, 0, 0, 0, 'bård farstad', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1042, 'eng-GB', 2, 271, 218, 'Kjell Mann', 0, 0, 0, 0, 'kjell mann', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1002, 'eng-GB', 2, 261, 218, '', 0, 0, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1000, 'eng-GB', 3, 254, 218, '', 0, 0, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (998, 'eng-GB', 3, 250, 218, '', 0, 0, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1126, 'eng-GB', 2, 284, 218, 'Terje Gunrell', 0, 0, 0, 0, 'terje gunrell', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1140, 'eng-GB', 2, 290, 218, 'Tim Gunny', 0, 0, 0, 0, 'tim gunny', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1018, 'eng-GB', 5, 249, 219, '', 1, 0, 0, 1, '', 'ezboolean');
+INSERT INTO ezcontentobject_attribute VALUES (1096, 'eng-GB', 1, 279, 219, '', 1, 0, 0, 1, '', 'ezboolean');
+INSERT INTO ezcontentobject_attribute VALUES (1089, 'eng-GB', 1, 278, 219, '', 1, 0, 0, 1, '', 'ezboolean');
+INSERT INTO ezcontentobject_attribute VALUES (1110, 'eng-GB', 1, 281, 219, '', 1, 0, 0, 1, '', 'ezboolean');
+INSERT INTO ezcontentobject_attribute VALUES (1124, 'eng-GB', 1, 283, 219, '', 1, 0, 0, 1, '', 'ezboolean');
+INSERT INTO ezcontentobject_attribute VALUES (1024, 'eng-GB', 4, 260, 219, '', 1, 0, 0, 1, '', 'ezboolean');
+INSERT INTO ezcontentobject_attribute VALUES (1047, 'eng-GB', 2, 271, 219, '', 1, 0, 0, 1, '', 'ezboolean');
+INSERT INTO ezcontentobject_attribute VALUES (1025, 'eng-GB', 2, 261, 219, '', 1, 0, 0, 1, '', 'ezboolean');
+INSERT INTO ezcontentobject_attribute VALUES (1022, 'eng-GB', 3, 254, 219, '', 1, 0, 0, 1, '', 'ezboolean');
+INSERT INTO ezcontentobject_attribute VALUES (1020, 'eng-GB', 3, 250, 219, '', 1, 0, 0, 1, '', 'ezboolean');
+INSERT INTO ezcontentobject_attribute VALUES (1131, 'eng-GB', 2, 284, 219, '', 1, 0, 0, 1, '', 'ezboolean');
+INSERT INTO ezcontentobject_attribute VALUES (1145, 'eng-GB', 2, 290, 219, '', 1, 0, 0, 1, '', 'ezboolean');
+INSERT INTO ezcontentobject_attribute VALUES (1076, 'eng-GB', 65, 56, 220, 'Copyright &copy; eZ systems as 1999-2004', 0, 0, 0, 0, 'copyright &copy; ez systems as 1999-2004', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1146, 'eng-GB', 1, 291, 6, 'Anonymous Users', 0, 0, 0, 0, 'anonymous users', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (1147, 'eng-GB', 1, 291, 7, 'User group for the anonymous user', 0, 0, 0, 0, 'user group for the anonymous user', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (19, 'eng-GB', 3, 10, 8, 'Anonymous', 0, 0, 0, 0, 'anonymous', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (20, 'eng-GB', 3, 10, 9, 'User', 0, 0, 0, 0, 'user', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (21, 'eng-GB', 3, 10, 12, '', 0, 0, 0, 0, '', 'ezuser');
+INSERT INTO ezcontentobject_attribute VALUES (692, 'eng-GB', 3, 10, 197, '', 0, 0, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (704, 'eng-GB', 3, 10, 198, '', 0, 0, 0, 0, '', 'ezstring');
+INSERT INTO ezcontentobject_attribute VALUES (716, 'eng-GB', 3, 10, 199, '', 0, 0, 0, 0, '', 'eztext');
 INSERT INTO ezcontentobject_attribute VALUES (728, 'eng-GB', 3, 10, 200, '<?xml version="1.0" encoding="UTF-8"?>
 <ezimage serial_number="1"
          is_valid=""
@@ -3747,7 +3747,7 @@ INSERT INTO ezcontentobject_attribute VALUES (728, 'eng-GB', 3, 10, 200, '<?xml 
   <original attribute_id=""
             attribute_version=""
             attribute_language="" />
-</ezimage>', 0, 0, 0, 0, 'ezimage', '');
+</ezimage>', 0, 0, 0, 0, '', 'ezimage');
 
 
 
@@ -8978,6 +8978,14 @@ CREATE INDEX sort_key_int366 ON ezcontentobject_attribute USING btree (sort_key_
 
 
 
+CREATE INDEX sort_key_string367 ON ezcontentobject_attribute USING btree (sort_key_string);
+
+
+
+
+
+
+
 CREATE INDEX ezcontentobject_tree_path416 ON ezcontentobject_tree USING btree (path_string);
 
 
@@ -9251,14 +9259,6 @@ CREATE INDEX ezsubtree_notification_rule_id ON ezsubtree_notification_rule USING
 
 
 CREATE INDEX ezsubtree_notification_rule_user_id ON ezsubtree_notification_rule USING btree (user_id);
-
-
-
-
-
-
-
-CREATE INDEX sort_key_string367 ON ezcontentobject_attribute USING btree (sort_key_string);
 
 
 
