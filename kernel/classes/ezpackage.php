@@ -100,7 +100,7 @@ class eZPackage
                             'packager' => false );
         include_once( 'lib/version.php' );
         $ezpublishVersion = eZPublishSDK::version( true );
-        $ezpublishNamedVersion = eZPublishSDK::version( false, true );
+        $ezpublishNamedVersion = eZPublishSDK::version( false, false, true );
         $ezpublish = array( 'version' => $ezpublishVersion,
                             'named-version' => $ezpublishNamedVersion );
         $defaults = array( 'name' => false,
