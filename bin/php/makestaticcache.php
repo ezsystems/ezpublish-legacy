@@ -196,6 +196,11 @@ include_once( 'kernel/classes/ezstaticcache.php' );
 $staticCache = new eZStaticCache();
 $staticCache->generateCache( $force );
 
+if ( !$force )
+{
+    $staticCache->generateAlwaysUpdatedCache();
+}
+
 $script->shutdown();
 
 ?>

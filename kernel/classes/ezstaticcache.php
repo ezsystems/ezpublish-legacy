@@ -137,16 +137,19 @@ class eZStaticCache
                 }
             }
 
-            /* Generate new content */
-            $fileName = "http://$hostname$dir$url";
-            $content = @file_get_contents( $fileName );
-
             /* Store new content */
-            if ( $content !== false )
+            $content = false;
+            foreach ( $cacheFiles as $file )
             {
-                foreach ( $cacheFiles as $file )
+                if ( !file_exists( $file ) )
                 {
-                    if ( !file_exists( $file ) )
+                    /* Generate content, if required */
+                    if ( $content === false )
+                    {
+                        $fileName = "http://$hostname$dir$url";
+                        $content = @file_get_contents( $fileName );
+                    }
+                    if ( $content !== false )
                     {
                         $this->storeCachedFile( $file, $content );
                     }
