@@ -18,7 +18,7 @@
       <a href={concat($module.functions.workflowlist.uri,"/",$Groups:item.id)|ezurl}>{$Groups:item.name}</a>
     </td>
     <td class="{$Groups:sequence}">
-      <div class="listbutton"><a href={concat($module.functions.groupedit.uri,"/",$Groups:item.id)|ezurl}><img name="edit" src={"edit.png"|ezimage} width="16" height="16" alt="{'Edit'|i18n('design/standard/workflow')}" title="{'Edit workflow'|i18n('design/standard/workflow')}" /></a></div>
+      <div class="listbutton"><a href={concat($module.functions.groupedit.uri,"/",$Groups:item.id)|ezurl}><img name="edit" src={"edit.gif"|ezimage} width="16" height="16" alt="{'Edit'|i18n('design/standard/workflow')}" title="{'Edit workflow'|i18n('design/standard/workflow')}" /></a></div>
     </td>
     <td class="{$Groups:sequence}" width="1" align="right">
       <input type="checkbox" name="ContentClass_id_checked[]" value="{$Groups:item.id}">

@@ -75,7 +75,7 @@
     {let section_object=fetch( section, object, hash( section_id, $Objects.item.section_id ) )}{section show=$section_object}{$section_object.name|wash}{section-else}<i>{'Unknown'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}</i>{/section}{/let}
     </td>
     <td>
-    <a href={concat( '/content/edit/', $Objects.item.id, '/' )|ezurl}><img src={'edit.png'|ezimage} border="0" alt="{'Edit'|i18n( 'design/admin/content/trash' )}" /></a>
+    <a href={concat( '/content/edit/', $Objects.item.id, '/' )|ezurl}><img src={'edit.gif'|ezimage} border="0" alt="{'Edit'|i18n( 'design/admin/content/trash' )}" /></a>
     </td>
 </tr>
 {/section}

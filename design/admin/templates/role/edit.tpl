@@ -77,7 +77,7 @@
 
     {* Edit. *}
     <td>
-        <a href={concat( 'role/policyedit/', $Policies.item.id )|ezurl}><img class="button" src={'edit.png'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/role/edit' )}" title="{"Edit the policy's function limitations."|i18n( 'design/admin/role/edit' )}" /></a>
+        <a href={concat( 'role/policyedit/', $Policies.item.id )|ezurl}><img class="button" src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/role/edit' )}" title="{"Edit the policy's function limitations."|i18n( 'design/admin/role/edit' )}" /></a>
     </td>
 </tr>
 {/section}

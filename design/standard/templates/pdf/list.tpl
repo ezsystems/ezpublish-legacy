@@ -25,7 +25,7 @@
     {/section}
     <td class="{$PDFExport:sequence}">{content_view_gui view=text_linked content_object=$PDFExport:item.modifier.contentobject}</td>
     <td class="{$PDFExport:sequence}"><span class="small">{$PDFExport:item.modified|l10n(shortdatetime)}</span></td>
-    <td class="{$PDFExport:sequence}" width="1"><div class="listbutton"><a href={concat("pdf/edit/",$PDFExport:item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="Edit" /></a></div></td>
+    <td class="{$PDFExport:sequence}" width="1"><div class="listbutton"><a href={concat("pdf/edit/",$PDFExport:item.id)|ezurl}><img class="button" src={"edit.gif"|ezimage} width="16" height="16" alt="Edit" /></a></div></td>
     <td class="{$PDFExport:sequence}" width="1" align="right"><input type="checkbox" name="DeleteIDArray[]" value="{$PDFExport:item.id}"></td>
 </tr>
 {/section}

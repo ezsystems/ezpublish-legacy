@@ -4,7 +4,7 @@
 </div>
 
 
-<a href={concat( "class/edit/", $class.id )|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="{'Edit'|i18n('design/standard/class/view')}" /></a>
+<a href={concat( "class/edit/", $class.id )|ezurl}><img class="button" src={"edit.gif"|ezimage} width="16" height="16" alt="{'Edit'|i18n('design/standard/class/view')}" /></a>
 
 <div class="byline">
 <p class="date">{"Last modified by %username on %time"|i18n("design/standard/class/view",,
@@ -147,7 +147,7 @@
 {let test=fetch( class, override_template_list, hash( class_id, $class.id ) )}
 
 {section loop=$test}
-<tr><td>{$:item.siteaccess}</td><td>{$:item.block}</td><td><a href={concat( "/setup/templateview/", $:item.source )|ezurl}>{$:item.source}</td><td>{$:item.target}</td><td><a href={concat("/setup/templateedit/",$:item.target)|ezurl}><img src={"edit.png"|ezimage} alt="Edit" /></a></td></tr>
+<tr><td>{$:item.siteaccess}</td><td>{$:item.block}</td><td><a href={concat( "/setup/templateview/", $:item.source )|ezurl}>{$:item.source}</td><td>{$:item.target}</td><td><a href={concat("/setup/templateedit/",$:item.target)|ezurl}><img src={"edit.gif"|ezimage} alt="Edit" /></a></td></tr>
 {/section}
 
 {/let}

@@ -66,7 +66,7 @@
     <td>{$Rules.item.name|wash}</td>
     <td>{$Rules.item.discount_percent|l10n( number )}%</td>
     <td>{$Rules.item.limitation}</td>
-    <td><a href={concat( $module.functions.discountruleedit.uri, '/', $discountgroup.id, '/', $Rules.item.id)|ezurl}><img class="button" src={'edit.png'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" title="{'Edit the <%discount_rule_name> discount rule.'|i18n( 'design/admin/shop/discountgroupmembershipview',, hash( '%discount_rule_name', $Rules.item.name ) )|wash}" /></a></td>
+    <td><a href={concat( $module.functions.discountruleedit.uri, '/', $discountgroup.id, '/', $Rules.item.id)|ezurl}><img class="button" src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" title="{'Edit the <%discount_rule_name> discount rule.'|i18n( 'design/admin/shop/discountgroupmembershipview',, hash( '%discount_rule_name', $Rules.item.name ) )|wash}" /></a></td>
 </tr>
 {/section}
 </table>

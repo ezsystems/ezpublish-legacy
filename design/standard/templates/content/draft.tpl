@@ -92,7 +92,7 @@ function checkAll()
         {$:item.modified|l10n(datetime)}
     </td>
     <td width="1">
-        <a href={concat("/content/edit/",$Draft:item.contentobject.id,"/",$Draft:item.version,"/")|ezurl}><img src={"edit.png"|ezimage} border="0"></a>
+        <a href={concat("/content/edit/",$Draft:item.contentobject.id,"/",$Draft:item.version,"/")|ezurl}><img src={"edit.gif"|ezimage} border="0"></a>
     </td>
 </tr>
 {/section}

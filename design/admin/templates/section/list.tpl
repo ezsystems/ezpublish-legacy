@@ -58,7 +58,7 @@
     <td>{'section'|icon( 'small', 'section'|i18n( 'design/admin/section/list' ) )}&nbsp;<a href={concat( '/section/view/', $Sections.item.id )|ezurl}>{$Sections.item.name}</a></td>
     <td>{$Sections.item.id}</td>
     <td><a href={concat( '/section/assign/', $Sections.item.id, '/')|ezurl}><img src={'attach.png'|ezimage} alt="{'Assign'|i18n( 'design/admin/section/list' )}" title="{'Assign the <%section_name> section to a subtree.'|i18n( 'design/admin/section/list',, hash( '%section_name', $Sections.item.name ) )|wash}" /></a></td>
-    <td><a href={concat( '/section/edit/',   $Sections.item.id, '/')|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/section/list' )}" title="{'Edit the <%section_name> section.'|i18n( 'design/admin/section/list',, hash( '%section_name', $Sections.item.name ) )|wash}" /></a></td>
+    <td><a href={concat( '/section/edit/',   $Sections.item.id, '/')|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/section/list' )}" title="{'Edit the <%section_name> section.'|i18n( 'design/admin/section/list',, hash( '%section_name', $Sections.item.name ) )|wash}" /></a></td>
 </tr>
 {/section}
 </table>

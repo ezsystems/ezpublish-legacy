@@ -21,7 +21,7 @@
     <td><a href={concat($module.functions.classlist.uri,"/",$Group:item.id)|ezurl}>{$Group:item.name|classgroup_icon( small, $Group:item.name )}&nbsp;{$Group:item.name|wash}</a></td>
     <td>{content_view_gui view=text_linked content_object=$Group:item.modifier.contentobject}</td>
     <td><span class="small">{$Group:item.modified|l10n(shortdatetime)}</span></td>
-    <td width="1"><div class="listbutton"><a href={concat($module.functions.groupedit.uri,"/",$Group:item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="Edit" /></a></div></td>
+    <td width="1"><div class="listbutton"><a href={concat($module.functions.groupedit.uri,"/",$Group:item.id)|ezurl}><img class="button" src={"edit.gif"|ezimage} width="16" height="16" alt="Edit" /></a></div></td>
     <td width="1" align="right"><input type="checkbox" name="DeleteIDArray[]" value="{$Group:item.id}"></td>
 </tr>
 {/section}
@@ -60,7 +60,7 @@
             <td>{$class.item.identifier|wash}</td>
             <td>{content_view_gui view=text_linked content_object=$class.item.modifier.contentobject}</td>
             <td><span class="small">{$class.item.modified|l10n(shortdatetime)}</span></td>
-            <td width="1%"><div class="listbutton"><a href={concat("class/edit/",$class.item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="edit" /></a></div></td>
+            <td width="1%"><div class="listbutton"><a href={concat("class/edit/",$class.item.id)|ezurl}><img class="button" src={"edit.gif"|ezimage} width="16" height="16" alt="edit" /></a></div></td>
             <td width="1%"><div class="listbutton"><a href={concat("class/copy/",$class.item.id)|ezurl}><img class="button" src={"copy.gif"|ezimage} width="16" height="16" alt="edit" /></a></div></td>
         </tr>
     {/section}

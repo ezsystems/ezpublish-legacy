@@ -22,7 +22,7 @@
     <td class="{$WorkflowSequence:item}">{$Workflow:item.name}</td>
     <td class="{$WorkflowSequence:item}">{$Workflow:item.modifier_id}</td>
     <td class="{$WorkflowSequence:item}"><span class="small">{$Workflow:item.modified|l10n(shortdatetime)}</span></td>
-    <td class="{$WorkflowSequence:item}"><div class="listbutton"><a href={concat($module.functions.edit.uri,"/",$Workflow:item.id)|ezurl}><img name="edit"  src={"edit.png"|ezimage} width="16" height="16" alt="{'Edit'|i18n('design/standard/workflow')}" /></a></div></td>
+    <td class="{$WorkflowSequence:item}"><div class="listbutton"><a href={concat($module.functions.edit.uri,"/",$Workflow:item.id)|ezurl}><img name="edit"  src={"edit.gif"|ezimage} width="16" height="16" alt="{'Edit'|i18n('design/standard/workflow')}" /></a></div></td>
     <td class="{$WorkflowSequence:item}" align="right"><input type="checkbox" name="Workflow_id_checked[]" value="{$Workflow:item.id}"></td>
 </tr>
     {sequence name=WorkflowSequence}

@@ -47,7 +47,7 @@
 
 {* Edit. *}
 {section show=$:item.is_modified|not}
-    <input type="image" name="CustomActionButton[{$attribute.id}_edit_objects_{$:item.contentobject_id}]" value="{'Edit'|i18n( 'design/standard/content/datatype' )}" src={'edit.png'|ezimage} />
+    <input type="image" name="CustomActionButton[{$attribute.id}_edit_objects_{$:item.contentobject_id}]" value="{'Edit'|i18n( 'design/standard/content/datatype' )}" src={'edit.gif'|ezimage} />
 {section-else}
     &nbsp;
 {/section}

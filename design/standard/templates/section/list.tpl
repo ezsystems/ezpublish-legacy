@@ -22,7 +22,7 @@
         {$Section:item.name}
     </td>
     <td>
-        <a href={concat("/section/edit/",$Section:item.id,"/")|ezurl}><img src={"edit.png"|ezimage} alt="{'Edit'|i18n('design/standard/section')}" /></a>
+        <a href={concat("/section/edit/",$Section:item.id,"/")|ezurl}><img src={"edit.gif"|ezimage} alt="{'Edit'|i18n('design/standard/section')}" /></a>
     </td>
     <td>
         <a href={concat("/section/assign/",$Section:item.id,"/")|ezurl}><img src={"attach.png"|ezimage} alt="{'Assign'|i18n('design/standard/section')}" /></a>

@@ -70,7 +70,7 @@
     {section show=$can_edit}
         <td width="1">
             {section show=$:item.node.object.can_edit}
-                <a href={concat("content/edit/",$:item.node.contentobject_id)|ezurl}><img src={"edit.png"|ezimage} alt="{'Edit'|i18n('design/standard/content/view')}" /></a>
+                <a href={concat("content/edit/",$:item.node.contentobject_id)|ezurl}><img src={"edit.gif"|ezimage} alt="{'Edit'|i18n('design/standard/content/view')}" /></a>
             {/section}
         </td>
     {/section}

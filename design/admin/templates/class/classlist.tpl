@@ -80,7 +80,7 @@
     <td>{$Classes.item.modified|l10n( shortdatetime )}</td>
     <td>{$Classes.item.object_count}</td>
     <td><a href={concat( 'class/copy/', $Classes.item.id )|ezurl} title="{'Create a copy of the <%class_name> class.'|i18n( 'design/admin/class/classlist',, hash( '%class_name', $Classes.item.name ) )|wash}"><img class="button" src={'copy.gif'|ezimage} width="16" height="16" alt="edit" /></a></td>
-    <td><a href={concat( 'class/edit/', $Classes.item.id )|ezurl} title="{'Edit the <%class_name> class.'|i18n( 'design/admin/class/classlist',, hash( '%class_name', $Classes.item.name ) )|wash}"><img class="button" src={'edit.png'|ezimage} width="16" height="16" alt="edit" /></a></td>
+    <td><a href={concat( 'class/edit/', $Classes.item.id )|ezurl} title="{'Edit the <%class_name> class.'|i18n( 'design/admin/class/classlist',, hash( '%class_name', $Classes.item.name ) )|wash}"><img class="button" src={'edit.gif'|ezimage} width="16" height="16" alt="edit" /></a></td>
 </tr>
 {/section}
 </table>

@@ -63,7 +63,7 @@
         <input type="text" name="PriorityArray[{$CustomMatch:item.override_name}]" size="2" value="{$CustomMatch:number}" />
     </td>
     <td valign="top">
-        <a href={concat('/setup/templateedit/',$CustomMatch:item.match_file)|ezurl}><img src={"edit.png"|ezimage} alt="Edit" /></a>
+        <a href={concat('/setup/templateedit/',$CustomMatch:item.match_file)|ezurl}><img src={"edit.gif"|ezimage} alt="Edit" /></a>
     </td>
     <td valign="top">
         <input type="checkbox" name="RemoveOverrideArray[]" value="{$CustomMatch:item.override_name}" />

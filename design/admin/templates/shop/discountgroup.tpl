@@ -21,7 +21,7 @@
 <tr class="{$Groups.sequence}">
     <td><input type="checkbox" name="discountGroupIDList[]" value="{$Groups.item.id}" title="{'Select discount group for removal.'|i18n( 'design/admin/shop/discountgroup' )}" /></td>
     <td><a href={concat( $module.functions.discountgroupview.uri, '/', $Groups.item.id )|ezurl}>{$Groups.item.name}</a></td>
-    <td><a href={concat( $module.functions.discountgroupedit.uri, '/', $Groups.item.id )|ezurl}><img class="button" src={'edit.png'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/shop/discountgroup' )}" title="{'Edit the <%discountgroup_name> discount group.'|i18n( 'design/admin/shop/discountgroup',, hash( '%discountgroup_name', $Groups.item.name ) )|wash}" /></a></td>
+    <td><a href={concat( $module.functions.discountgroupedit.uri, '/', $Groups.item.id )|ezurl}><img class="button" src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/shop/discountgroup' )}" title="{'Edit the <%discountgroup_name> discount group.'|i18n( 'design/admin/shop/discountgroup',, hash( '%discountgroup_name', $Groups.item.name ) )|wash}" /></a></td>
 </tr>
 {/section}
 </table>

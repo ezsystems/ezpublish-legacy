@@ -82,7 +82,7 @@ function checkAll()
     {$Draft:item.current_version}
     </td>
     <td class="{$Draft:sequence}">
-    <a href={concat("/content/edit/",$Draft:item.id,"/" )|ezurl}><img src={"edit.png"|ezimage} border="0"></a>
+    <a href={concat("/content/edit/",$Draft:item.id,"/" )|ezurl}><img src={"edit.gif"|ezimage} border="0"></a>
     </td>
     <td class="{$Draft:sequence}" align="right" width="1">
     <input type="checkbox" name="DeleteIDArray[]" value="{$Draft:item.id}" />

@@ -219,7 +219,7 @@ function checkAll()
         {section show=$:can_edit}
             <td width="1">
                 {section show=$:item.object.can_edit}
-                    <a href={concat("content/edit/",$Child:item.contentobject_id)|ezurl}><img src={"edit.png"|ezimage} alt="Edit" /></a>
+                    <a href={concat("content/edit/",$Child:item.contentobject_id)|ezurl}><img src={"edit.gif"|ezimage} alt="Edit" /></a>
                 {/section}
             </td>
         {/section}

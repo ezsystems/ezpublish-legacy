@@ -43,7 +43,7 @@
         </td>
 
         {* Edit. *}
-        <td><a href={concat( '/role/edit/', $Roles.item.id )|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit role.'|i18n( 'design/admin/node/view/full' )}" title="{'Edit role.'|i18n( 'design/admin/node/view/full' )}" /></a></td>
+        <td><a href={concat( '/role/edit/', $Roles.item.id )|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit role.'|i18n( 'design/admin/node/view/full' )}" title="{'Edit role.'|i18n( 'design/admin/node/view/full' )}" /></a></td>
 
     </tr>
 {/section}

@@ -146,11 +146,11 @@
                 {switch match=$Settings.item.type}
                     {case match='array'}
 	                    <a href={concat('settings/edit/', $current_siteaccess, '/', $ini_file, '/', $Blocks.key, '/', $Settings.key, '/', 'siteaccess')|ezurl}>
-                        <img src={"edit.png"|ezimage} alt="{'Edit'|i18n('design/admin/settings')}" /></a>
+                        <img src={"edit.gif"|ezimage} alt="{'Edit'|i18n('design/admin/settings')}" /></a>
                     {/case}
                     {case}
                         <a href={concat('settings/edit/', $current_siteaccess, '/', $ini_file, '/', $Blocks.key, '/', $Settings.key, '/', $Settings.item.placement)|ezurl}>
-                        <img src={"edit.png"|ezimage} alt="{'Edit'|i18n('design/admin/settings')}" /></a>
+                        <img src={"edit.gif"|ezimage} alt="{'Edit'|i18n('design/admin/settings')}" /></a>
                     {/case}
                 {/switch}
             </td>

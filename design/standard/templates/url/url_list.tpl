@@ -16,7 +16,7 @@
   {set item_class="status_inactive"}
 {/section}
   <td class="{$:sequence}" width="1">
-    <nobr><a href={concat("url/edit/",$:item.id)|ezurl}><img src={"edit.png"|ezimage} alt="{'Edit'|i18n('design/standard/url')}" /></a></nobr>
+    <nobr><a href={concat("url/edit/",$:item.id)|ezurl}><img src={"edit.gif"|ezimage} alt="{'Edit'|i18n('design/standard/url')}" /></a></nobr>
   </td>
   <td class="{$:sequence}" width="1">
     <nobr><a class="{$:item_class}" href={concat("url/view/",$:item.id)|ezurl}>{$:item.url}</a></nobr>

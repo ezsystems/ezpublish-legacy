@@ -66,7 +66,7 @@
     <td>{$Drafts.item.contentobject.content_class.name|wash}</td>
     <td>{let section_object=fetch( section, object, hash( section_id, $Drafts.item.contentobject.section_id ) )}{section show=$section_object}{$section_object.name|wash}{section-else}<i>{'Unknown'|i18n( 'design/admin/content/draft' )}</i>{/section}{/let}</td>
     <td>{$Drafts.item.modified|l10n( shortdatetime )}</td>
-    <td><a href={concat( '/content/edit/', $Drafts.item.contentobject.id, '/', $Drafts.item.version, '/' )|ezurl} title="{'Edit <%draft_name>.'|i18n( 'design/admin/content/draft',, hash( '%draft_name', $Drafts.item.name ) )|wash}" ><img src={'edit.png'|ezimage} border="0" alt="{'Edit'|i18n( 'design/admin/content/draft' )}" /></a></td>
+    <td><a href={concat( '/content/edit/', $Drafts.item.contentobject.id, '/', $Drafts.item.version, '/' )|ezurl} title="{'Edit <%draft_name>.'|i18n( 'design/admin/content/draft',, hash( '%draft_name', $Drafts.item.name ) )|wash}" ><img src={'edit.gif'|ezimage} border="0" alt="{'Edit'|i18n( 'design/admin/content/draft' )}" /></a></td>
 </tr>
 {/section}
 </table>

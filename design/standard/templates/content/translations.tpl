@@ -20,7 +20,7 @@
 	<td class="{$Translation:sequence}">{$:item.locale_object.country_name|wash}</td>
 	<td class="{$Translation:sequence}">{$:item.locale_object.locale_code|wash}</td>
 {*	<td class="{$Translation:sequence}" align="right" >
-          <input class="button" type="image" src={"edit.png"|ezimage} name="EditButton_{$:item.id}" value="{'Edit'|i18n('design/standard/content')}" />
+          <input class="button" type="image" src={"edit.gif"|ezimage} name="EditButton_{$:item.id}" value="{'Edit'|i18n('design/standard/content')}" />
         </td>  *}
 	<td class="{$Translation:sequence}" align="right" >
            <input type="checkbox" name="DeleteIDArray[]" value="{$Translation:item.id}" />

@@ -7,7 +7,7 @@
     <h2>{"Group Name"|i18n("design/standard/shop")}</h2>
 </div>
 <div class="object">
-    {$discountgroup.name} <a href={concat("/shop/discountgroupedit/",$discountgroup.id,"/")|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="{'Edit'|i18n('design/standard/shop')}" /></a><br/>
+    {$discountgroup.name} <a href={concat("/shop/discountgroupedit/",$discountgroup.id,"/")|ezurl}><img class="button" src={"edit.gif"|ezimage} width="16" height="16" alt="{'Edit'|i18n('design/standard/shop')}" /></a><br/>
 </div>
 
 <h2>{"Defined rules"|i18n("design/standard/shop")}</h2> 
@@ -42,7 +42,7 @@
     </td>
     <td width="1">
         <div class="listbutton">
-            <a href={concat($module.functions.discountruleedit.uri,"/",$discountgroup.id,"/",$Rule:item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="Edit" /></a>
+            <a href={concat($module.functions.discountruleedit.uri,"/",$discountgroup.id,"/",$Rule:item.id)|ezurl}><img class="button" src={"edit.gif"|ezimage} width="16" height="16" alt="Edit" /></a>
         </div>
     </td>
     <td width="1">

@@ -42,7 +42,7 @@
     <td>{$PDFExports.item.modified|l10n( shortdatetime )}</td>
 
     {* Edit. *}
-    <td><a href={concat( 'pdf/edit/', $PDFExports.item.id )|ezurl}><img class="button" src={'edit.png'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/pdf/list' )}" title="{'Edit the <%pdf_export_name> PDF export.'|i18n( 'design/admin/pdf/list',, hash( '%pdf_export_name', $PDFExports.item.title ) )|wash}" /></a></td>
+    <td><a href={concat( 'pdf/edit/', $PDFExports.item.id )|ezurl}><img class="button" src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/pdf/list' )}" title="{'Edit the <%pdf_export_name> PDF export.'|i18n( 'design/admin/pdf/list',, hash( '%pdf_export_name', $PDFExports.item.title ) )|wash}" /></a></td>
 
 </tr>
 {/section}
