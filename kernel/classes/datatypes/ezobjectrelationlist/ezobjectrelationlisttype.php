@@ -1181,13 +1181,16 @@ class eZObjectRelationListType extends eZDataType
         if ( $relationList )
         {
             $relationItems =& $relationList->elementsByName( 'relation-item' );
-            foreach( $relationItems as $key=>$relationItem )
+            if ( count( $relationItems ) )
             {
-                 if ( $relationItem->attributeValue( 'contentobject-id' ) == $objectID )
-                 {
-                     $relationList->removeChild( $relationItem );
-                     $return = true;
-                 }
+                foreach( $relationItems as $relationItem )
+                {
+                     if ( $relationItem->attributeValue( 'contentobject-id' ) == $objectID )
+                     {
+                         $relationList->removeChild( $relationItem );
+                         $return = true;
+                     }
+                }
             }
         }
         eZObjectRelationListType::storeObjectDOMDocument( $doc, $contentObjectAttribute );
