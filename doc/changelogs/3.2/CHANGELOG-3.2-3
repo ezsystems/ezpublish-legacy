@@ -40,6 +40,8 @@ Changes from 3.2-2 to 3.2-3
 - Fixed object deletion to go include all attributes of all languages not just the main language.
 - Changed the contentObjectAttributes function of eZContentObject to allow it to return unique attribute entries.
 - Made sure all attributes for new languages in objects are properly initialized (eg. for images)
+- http://ez.no/developer/ez_publish_3/bug_reports/div_should_be_div_
+  Fixed typo in HTML.
 
 *Setup:
 
