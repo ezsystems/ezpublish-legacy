@@ -98,7 +98,7 @@ class eZBooleanType extends eZDataType
 
     function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
     {
-    
+
         if( $http->hasPostVariable( $base . "_ezboolean_default_value_" . $classAttribute->attribute( "id" ) ))
 	{
             $data = $http->postVariable( $base . "_ezboolean_default_value_" . $classAttribute->attribute( "id" ) );
@@ -109,11 +109,10 @@ class eZBooleanType extends eZDataType
         {
             $data = 0;
         }
-	
+
         $classAttribute->setAttribute( "data_int3", $data );
-   
+
     }
-   
 
 /*!
      Returns the content.

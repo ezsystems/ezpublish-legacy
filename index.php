@@ -29,9 +29,8 @@
 // you.
 //
 
-ob_start();
-
 $scriptStartTime = microtime();
+ob_start();
 
 $use_external_css = true;
 $show_page_layout = true;
@@ -151,7 +150,10 @@ function &eZDisplayDebug()
     $type = $ini->variable( "DebugSettings", "Debug" );
     eZDebug::setHandleType( EZ_HANDLE_NONE );
     if ( $type == "inline" or $type == "popup" )
-        return eZDebug::printReport( $type == "popup", true, true );
+    {
+        $text =& eZDebug::printReport( $type == "popup", true, true );
+        return $text;
+    }
     return null;
 }
 
@@ -574,7 +576,6 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
 
     eZExecution::cleanExit();
 }
-
 
 eZDebug::addTimingPoint( "Module end '" . $module->attribute( 'name' ) . "'" );
 if ( !is_array( $moduleResult ) )

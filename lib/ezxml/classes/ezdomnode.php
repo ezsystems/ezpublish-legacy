@@ -172,7 +172,7 @@ class eZDOMNode
     /*!
       Returns the node attributes.
     */
-    function attributes()
+    function &attributes()
     {
         return $this->Attributes;
     }

@@ -385,6 +385,8 @@ class eZXHTMLOutput
                 include_once( 'lib/ezutils/classes/ezmail.php' );
                 $linkID = $tag->attributeValue( 'id' );
                 $target = $tag->attributeValue( 'target' );
+                if ( $target == '_self' )
+                    $target = false;
                 if ( $linkID != null )
                     $href =& eZURL::url( $linkID, true );
                 else

@@ -436,3 +436,17 @@ Classes
 -----------
 - Group names should not be cached in the group/class link table, it should be taken from the
   group list.
+
+Binary files
+---------------
+Possiblity to calculate md5, use md5_file to calculate it. (Requires PHP 4.2.0 or higher, should be optional)
+
+Datatypes
+---------------
+Make it easier to create new datatypes by having mapping of attribute names (data_int, data_text etc.) to
+more sensible names for the datatype.
+Also helper functions for post variable fetching, validation etc.. should be made.
+Allow one datatype class to handle multiple datatype strings, for instance all date datatypes could
+be handled by one class. (Maybe create a proxy class which inherits from eZDataType, it takes a class/object
+as constructor parameter and forwards all requests to that class, could be useful shared code).
+

@@ -42,10 +42,10 @@
 set_time_limit( 0 );
 
 $showDebug = false;
-$fixErrors = true;
+$fixErrors = false;
 
 $fixAttribute = true;
-$fixURL = true;
+$fixURL = false;
 
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
@@ -135,6 +135,7 @@ function findAndReplaceLinks( &$doc, &$node )
     $children =& $node->children();
     for ( $i = 0; $i < count( $children ); ++$i )
     {
+        unset( $child );
         $child =& $children[$i];
         if ( $child->name() == 'link' )
         {
@@ -142,8 +143,10 @@ function findAndReplaceLinks( &$doc, &$node )
             $linkAttributes =& $child->attributes();
             unset( $hrefAttribute );
             unset( $idAttribute );
+            unset( $targetAttribute );
             $hrefAttribute = null;
             $idAttribute = null;
+            $targetAttribute = null;
             for ( $j = 0; $j < count( $linkAttributes ); ++$j )
             {
                 $linkAttribute =& $linkAttributes[$j];
@@ -151,6 +154,8 @@ function findAndReplaceLinks( &$doc, &$node )
                     $hrefAttribute =& $linkAttributes[$j];
                 else if ( $linkAttribute->name() == 'id' )
                     $idAttribute =& $linkAttributes[$j];
+                else if ( $linkAttribute->name() == 'target' )
+                    $targetAttribute =& $linkAttributes[$j];
             }
             if ( $idAttribute === null and
                  $hrefAttribute !== null )
@@ -164,6 +169,17 @@ function findAndReplaceLinks( &$doc, &$node )
                     $idAttribute = $doc->createAttributeNode( 'id', $url->attribute( 'id' ) );
                     $child->appendAttribute( $idAttribute );
                     $child->removeNamedAttribute( 'href' );
+                    $foundLinks = true;
+                }
+            }
+            if ( $targetAttribute !== null )
+            {
+                $target = $targetAttribute->content();
+                if ( $target == '_self' )
+                {
+                    if ( $showDebug )
+                        print( "Found '$target'\n" );
+                    $child->removeNamedAttribute( 'target' );
                     $foundLinks = true;
                 }
             }
@@ -181,7 +197,7 @@ $fixedURLCount = 0;
 $wrongLinkCount = 0;
 
 $attributeOffset = 0;
-$attributeLimit = 50;
+$attributeLimit = 140;
 
 $dotCount = 0;
 $dotTotalCount = 0;
@@ -220,8 +236,12 @@ if ( $fixAttribute )
             $lastID = $objectAttribute->attribute( 'id' );
             $dataType =& $objectAttribute->dataType();
             $handleAttribute = true;
+            $badDataType = false;
             if ( !$dataType or get_class( $dataType ) != 'ezxmltexttype' )
+            {
                 $handleAttribute = false;
+                $badDataType = true;
+            }
             unset( $content );
             $content = null;
             if ( $handleAttribute )
@@ -236,14 +256,14 @@ if ( $fixAttribute )
             {
 //                 if ( !is_object( $content ) )
 //                     print( get_class( $dataType ) . ", " . gettype( $content ) . " [$content]" . "\n" );
-                if ( is_object( $content ) )
-                {
-                    $xmlData = $content->attribute( 'xml_data' );
-                    if ( !$xmlData )
-                        $handleAttribute = false;
-                }
-                else
+//                 if ( is_object( $content ) )
+//                 {
+                $xmlData = $content->attribute( 'xml_data' );
+                if ( !$xmlData )
                     $handleAttribute = false;
+//                 }
+//                 else
+//                     $handleAttribute = false;
             }
             unset( $doc );
             $doc = null;
@@ -288,7 +308,12 @@ if ( $fixAttribute )
                     $objectAttribute->sync();
             }
             else
-                print( '.' );
+            {
+                if ( $badDataType )
+                    print( 'x' );
+                else
+                    print( '.' );
+            }
             ++$dotCount;
             ++$dotTotalCount;
             if ( $dotCount >= $dotMax or $dotTotalCount >= $attributeCount )
@@ -297,7 +322,7 @@ if ( $fixAttribute )
                 $dotSpace = '';
                 if ( $dotTotalCount > $dotMax )
                     $dotSpace = str_repeat( ' ', $dotMax - $dotCount );
-                print( $dotSpace . " " . $percent . "%\n" );
+                print( $dotSpace . " " . $percent . "% ( $dotTotalCount )\n" );
                 $dotCount = 0;
             }
 //             if ( $percent > 27.76 )
@@ -311,6 +336,7 @@ if ( $fixAttribute )
     print( "* Fixed url usage\n" );
     print( "- Invalid XML data\n" );
     print( "0 Empty XML data\n" );
+    print( "x Wrong datatype, should be ezxmltext\n" );
     if ( count( $badXMLArray ) > 0 )
     {
         print( "The following attributes had bad XML\n" );
@@ -430,7 +456,7 @@ print( "Number of urls      : $urlCount\n" );
 print( "Number of bad urls  : $wrongURLCount\n" );
 print( "Number of fixed urls: $fixedURLCount\n" );
 
-if ( $showDebug )
+// if ( $showDebug )
     eZDebug::printReport( false, false );
 
 eZExecution::cleanup();
