@@ -13,13 +13,11 @@
     <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />
 
 {literal}
-
 <!--[if lt IE 6.0]>
 <style>
 div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE 5.5 */
 </style>
 <![endif]-->
-
 {/literal}
 </head>
 
@@ -34,17 +32,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 <a href="/"><img src={"ezpublish-logo-200x40.gif"|ezimage} width="200" height="40" alt="" border="0" /></a>
 </div>
 
-{*
-<div id="userstatus">
-{section show=eq($current_user.contentobject_id,$anonymous_user_id)}
-<p><a href={"/user/login/"|ezurl}>{'Login'|i18n('design/standard/layout')}</a></p>
-{section-else}
-<p><a href={"/user/logout/"|ezurl}>{'Logout'|i18n('design/standard/layout')} ({$current_user.contentobject.name|wash})</a></p>
-{/section}
-</div>
-*}
-
-
+{* --- Search ---*}
 <div id="search">
 <form action={"/content/search/"|ezurl} method="get">
     <input id="searchtext" type="text" size="20" name="SearchText" id="Search" value="" />
@@ -52,7 +40,6 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
     <p><label><input type="radio" checked="checked" />All content</label> <label><input type="radio" />Current location</label> <a href="/content/advancedsearch/">Advanced</a></p>
 </form>
 </div>
-
 
 <div class="break"></div>
 
@@ -178,20 +165,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 
 <h3 class="hide">Right</h3>
 
-<!--
-
-	        {section show=fetch('content', 'can_instantiate_classes')}
-	        <form method="post" action={"content/action"|ezurl}>
-                        <select name="ClassID" class="classcreate">
-	                    {section name=Classes loop=fetch('content', 'can_instantiate_class_list')}
-                            <option value="{$Classes:item.id}">{$Classes:item.name|wash}</option>
-                            {/section}
-                         </select>
-                            <input class="classbutton" type="submit" name="NewButton" value="{'New'|i18n('design/standard/node/view')}" />
-                </form>
-                {/section}
--->
-
+{* --- Current user ---*}
 <h4>Current user</h4>
 <p>{$current_user.contentobject.name|wash}</p>
 <ul>
@@ -199,9 +173,10 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
     <li><a href={"/user/logout"|ezurl}>Logout</a></li>
 </ul>
 
+{* --- Bookmarks --- *}
 <div id="bookmarks">
 {section show=eq(ezpreference('bookmark_menu'),'on')}
- <h4><a href={"/content/bookmark/"|ezurl}>{"Bookmarks"|i18n("design/admin/layout")}</a> <a class="showhide" href={"/user/preferences/set/bookmark_menu/off"|ezurl}>[-]</a></h4> 
+ <h4><a href={"/content/bookmark/"|ezurl}>{"My bookmarks"|i18n("design/admin/layout")}</a> <a class="showhide" href={"/user/preferences/set/bookmark_menu/off"|ezurl}>[-]</a></h4> 
 <ul>
 {let bookmark_list=fetch(content,bookmarks)}
 {section name=BookMark loop=$bookmark_list}
@@ -218,13 +193,14 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 {section show=$node.node_id|is_set()}
 <form method="post" action={"content/action"|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-<input class="button" type="submit" name="ActionAddToBookmarks" value="{'Add to bookmarks'|i18n('design/standard/node/view')}" />
+<input class="button" type="submit" name="ActionAddToBookmarks" value="{'Add to my bookmarks'|i18n('design/standard/node/view')}" />
 </form>
 {/section}
 
+{* --- History --- *}
 <div id="history">
 {section show=eq(ezpreference('history_menu'),'on')}
-<h4>{"History"|i18n("design/admin/layout")} <a class="showhide" href={"/user/preferences/set/history_menu/off"|ezurl}>[-]</a></h4> 
+<h4>{"My history"|i18n("design/admin/layout")} <a class="showhide" href={"/user/preferences/set/history_menu/off"|ezurl}>[-]</a></h4> 
 <ul>
 {let history_list=fetch(content,recent)}
 {section name=History loop=$history_list}
@@ -237,27 +213,27 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 {/section}
 </div>
 
-
-<h4><a href={"/notification/settings"|ezurl}>{"Notifications"|i18n("design/admin/layout")}</a></h4> 
+{* --- Notifications --- *}
+<h4><a href={"/notification/settings"|ezurl}>{"My notifications"|i18n("design/admin/layout")}</a></h4> 
 {* Show "Add to notification" button if we're viewing an actual node. *}
 {section show=$node.node_id|is_set()}
 <form method="post" action={"content/action"|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-<input class="button" type="submit" name="ActionAddToNotification" value="{'Add to notifications'|i18n('design/standard/node/view')}" />
+<input class="button" type="submit" name="ActionAddToNotification" value="{'Add to my notifications'|i18n('design/standard/node/view')}" />
 </form>
 {/section}
 
-
+{* --- Interface mode --- *}
 <h4>Interface mode</h4>
 {section show=eq(ezpreference('interface_mode'),'simple')}
 <p>{"Current mode"|i18n("design/admin/layout")}: {"Simple"|i18n("design/admin/layout")}</p>
 <form method="post" action={"/user/preferences/set/interface_mode/advanced"|ezurl}>
-<input type="submit" name="SetInterfaceModeAdvanced" value="{'Change to advanced'|i18n('/design/admin/layout')}" />
+<input class="button" type="submit" name="SetInterfaceModeAdvanced" value="{'Switch to advanced'|i18n('/design/admin/layout')}" />
 </form>
 {section-else}
 <p>{"Current mode"|i18n("design/admin/layout")}: {"Advanced"|i18n("design/admin/layout")}</p>
 <form method="post" action={"/user/preferences/set/interface_mode/simple"|ezurl}>
-<input type="submit" name="SetInterfaceModeAdvanced" value="{'Change to simple'|i18n('/design/admin/layout')}" />
+<input class="button" type="submit" name="SetInterfaceModeAdvanced" value="{'Switch to simple'|i18n('/design/admin/layout')}" />
 </form>
 {/section}
 
