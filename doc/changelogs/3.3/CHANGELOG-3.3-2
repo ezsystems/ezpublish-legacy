@@ -4,3 +4,4 @@ Changes from 3.3-1 to 3.3-2
 - Fixed creating new classes using postgresql database. http://ez.no/developer/ez_publish_3/bug_reports/incorrect_work_in_classes
 - Fixed showing users in approve event when creating workflow. http://ez.no/developer/ez_publish_3/bug_reports/no_users_in_editor_list_in_new_workflow
 - Fixed keyword bug when discarding drafts. ( merged from 3.2 stable rev. 4655 ) http://ez.no/developer/ez_publish_3/bug_reports/keywords_cannot_be_edited__1
+- Fixed mysql server and client version information. ( merged from 3.2 stable rev. 4658 ) http://ez.no/developer/ez_publish_3/bug_reports/mysqldb_class

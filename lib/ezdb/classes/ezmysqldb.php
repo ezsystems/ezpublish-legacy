@@ -614,7 +614,7 @@ class eZMySQLDB extends eZDBInterface
     */
     function databaseServerVersion()
     {
-        $versionInfo = mysql_get_client_info();
+        $versionInfo = mysql_get_server_info();
 
         $versionArray = explode( '.', $versionInfo );
 
@@ -627,7 +627,7 @@ class eZMySQLDB extends eZDBInterface
     */
     function databaseClientVersion()
     {
-        $versionInfo = mysql_get_server_info();
+        $versionInfo = mysql_get_client_info();
 
         $versionArray = explode( '.', $versionInfo );
 
