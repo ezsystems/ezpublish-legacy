@@ -8,8 +8,8 @@
 <head>
 <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
 {*<link rel="stylesheet" type="text/css" href={"stylesheets/intranet_red.css"|ezdesign} />*}
-{*<link rel="stylesheet" type="text/css" href="/{$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")}" />*}
-<link rel="stylesheet" type="text/css" href="/var/intranet/storage/packages/intranet2/files/default/file/design/intranet/stylesheets/intranet_blue.css" />
+<link rel="stylesheet" type="text/css" href="/{$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")}" />
+{*<link rel="stylesheet" type="text/css" href="/var/intranet/storage/packages/intranet2/files/default/file/design/intranet/stylesheets/intranet_blue.css" />*}
 <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />
 
 {* page header start *}
@@ -69,11 +69,21 @@
 	    <a href="/"><img src={$pagedesign.data_map.image.content[original].full_path|ezroot} /></a>
 	</div>
 	<div id="searchbox">
-	    <input class="halfbox" type="text" size="20" name="SearchText" id="Search" value="" />
-	    <a class="topline" href={"/content/advancedsearch/"|ezurl}><span class="small">{"Advanced search"|i18n("design/standard/layout")}</span></a>
-	</div>
-	<div id="searchbutton">
-	    <input class="button" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
+	<table width="100%" cellpadding="1" cellspacing="1" border="0">
+	<tr>
+	    <td>
+	        <input class="halfbox" type="text" size="20" name="SearchText" id="Search" value="" />
+	    </td>
+	    <td>
+	        <input class="button" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
+	    </td>
+	</tr>
+	<tr>
+	    <td rowspan="2">
+	        <a class="topline" href={"/content/advancedsearch/"|ezurl}><span class="small">{"Advanced search"|i18n("design/standard/layout")}</span></a>
+	    </td>
+	</tr>
+	</table>
 	</div>
 	<div id="sitelogo">
 	    <img src={"06_intranet_logo.png"|ezimage} />
@@ -84,37 +94,23 @@
 
     {* Top menu START *}
     <div id="topmenu">
-	<table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
+	<table class="layout" width="100%" cellpadding="5" cellspacing="0" border="0">
 	<tr>
 	{* Menubox start *}
-	{let  top_menu_level1=fetch( content, list, hash( parent_node_id, 2, 
+	{let  top_menu=fetch( content, list, hash( parent_node_id, 2, 
 				     limit, 6, 
 				     sort_by, array( priority, true() ),
 				     class_filter_type, include,
 				     class_filter_array, array( 'folder' ) ) ) }
 
-	{section name=Mitem1 loop=$top_menu_level1}
-	    <td class="topmenu" background="/design/intranet/images/intranet-top-background-repeat.gif" colspan="2">
-	        <a href={concat("/content/view/full/",$Mitem1:item.node_id,"/")|ezurl}>{$Mitem1:item.name|wash}</a>
+	{section name=item loop=$top_menu}
+	    <td class="topmenu">
+	        <a href={concat("/content/view/full/",$:item.node_id,"/")|ezurl}>{$:item.name|wash}</a>
 	    </td>
 	{/section}
 	{/let}
 	{* Menubox stop *}    
 	<tr/>
-	<tr>
-	    {let  top_menu_level2=fetch( content, list, hash( parent_node_id, $node.node_id, 
-					 limit, 6, 
-					 sort_by, array( priority, true() ),
-					 class_filter_type, include,
-					 class_filter_array, array( 'info_page' ) ) ) }
-
-	    {section name=Mitem1 loop=$top_menu_level2}
-		<td class="topmenu" background="/design/intranet/images/intranet-top-background-repeat.gif" colspan="2">
-		    <a href={concat("/content/view/full/",$Mitem1:item.node_id,"/")|ezurl}>{$Mitem1:item.name|wash}</a>
-		</td>
-	    {/section}
-	    {/let}
-	</tr>
 	</table>
     </div>
     {* Top menu END *}
@@ -143,33 +139,94 @@
     {* Main part START *}
     <div id="mainframe">
 
-    {* Left menu START *}
-    <div id="leftmenu">
-    {cache-block keys=array('left_menu',$uri_string)}
-    {let children=fetch('content',list,hash(parent_node_id,2))}
+    {* Main menu START *}
+    <div id="mainmenu">
+    {*{$MainMenu|attribute(show)}*}
+    {switch match=$DesignKeys:used.section}
+    {case match=7}
+        {let MainMenu=fetch( content,list,
+                             hash( parent_node_id, 68,
+		             sort_by, array( 'priority', 1),
+		             class_filter_type, include,
+		             class_filter_array, array( 6 ) ) )}
+        <table class="leftmenu" width="100%" cellpadding="0" cellspacing="0" border="0">
+        {section name=Menu loop=$MainMenu}
+        <tr>
+            <td class="menuitem">
+            <a href={$Menu:item.url_alias|ezurl}>{$Menu:item.name}</a>
+            </td>
+	</tr>
+        {/section}
+        </table>
+        {/let}
+    {/case}
+    {case match=8}
+        {let MainMenu=fetch( content,list,
+                             hash( parent_node_id, 73,
+		             sort_by, array( 'priority', 1),
+		             class_filter_type, include,
+		             class_filter_array, array( 18 ) ) )}
+        <table class="leftmenu" width="100%" cellpadding="0" cellspacing="0" border="0">
+        {section name=Menu loop=$MainMenu}
+        <tr>
+            <td class="menuitem">
+            <a href={$Menu:item.url_alias|ezurl}>{$Menu:item.name}</a>
+            </td>
+	</tr>
+        {/section}
+        </table>
+        {/let}
+    {/case}
+    {case}
+        {let MainMenu=treemenu($module_result.path,$module_result.node_id)}
+    
+        <table class="leftmenu" width="100%" cellpadding="0" cellspacing="0" border="0">
+        {section name=Menu loop=$MainMenu}
+        <tr>
+            {switch match=$:item.level}
 
-    {* loop children and print name with link *}
-    {section name=Child loop=$children}
-    <a href={$Child:item.url_alias|ezurl}>{$Child:item.name|wash}</a><br />
-    {/section}
-    {/let}
-    {/cache-block}
+            {case match=0}
+            <td class="menuitem">
+            <a href={$Menu:item.url_alias|ezurl}>{$Menu:item.text}</a>
+            </td>
+            {/case}
+            {case}
+	    <td class="submenuitem">
+	    {section show=eq( $:item.id, $module_result.node_id ) }
+	    <a class="submenuitem" href={$:item.url_alias|ezurl}>{$:item.text}</a>
+	    {section-else}
+            <a href={$:item.url_alias|ezurl}>{$:item.text}</a>
+	    {/section}
+            </td>
+            {/case}
+	    {/switch}
+	</tr>
+        {/section}
+        </table>
+        {/let}
+    {/case}
+    {/switch}
+    
     </div>
 
-    {* Left menu END *}
+    {* Main menu END *}
 
     {* Main area START *}
 
     <div id="mainarea">
     {$module_result.content}
     </div>
+    
+    <div id="copyright">
+<p class="small"><a href="http://ez.no">eZ publish&trade;</a> copyright &copy; 1999-2003 <a href="http://ez.no">eZ systems as</a></p>
+</div>
     {* Main area END *}
-    </div>
-    {* Main part END *}
+</div>
+{* Main part END *}
 
-    <div  id="copyright" align="center">
-    <p class="small"><a href="http://ez.no">eZ publish&trade;</a> copyright &copy; 1999-2003 <a href="http://ez.no">eZ systems as</a></p>
-    </div>
+<div id="copyright">
+<p class="small"><a href="http://ez.no">eZ publish&trade;</a> copyright &copy; 1999-2003 <a href="http://ez.no">eZ systems as</a></p>
+</div>
 </div>
 <!--DEBUG_REPORT-->
 
