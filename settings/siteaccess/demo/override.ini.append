@@ -1,53 +1,58 @@
 <?php /* #?ini charset="utf8"?
 
+[node_forum]
+Source=node/view/full.tpl
+MatchFile=node_forum.tpl
+Subdir=templates
+Match[node]=49
+
 [pagelayout_standard]
 Source=pagelayout.tpl
-Matchfile=pagelayout_standard.tpl
+MatchFile=pagelayout_standard.tpl
 Subdir=templates
 Match[section]=1
 
 [pagelayout_whitebox]
 Source=pagelayout.tpl
-Matchfile=pagelayout_whitebox.tpl
+MatchFile=pagelayout_whitebox.tpl
 Subdir=templates
 Match[section]=2
 
 [pagelayout_news]
 Source=pagelayout.tpl
-Matchfile=pagelayout_news.tpl
+MatchFile=pagelayout_news.tpl
 Subdir=templates
 Match[section]=3
 
 [pagelayout_forum]
 Source=pagelayout.tpl
-Matchfile=pagelayout_forum.tpl
+MatchFile=pagelayout_forum.tpl
 Subdir=templates
 Match[section]=4
 
 [pagelayout_book_corner]
 Source=pagelayout.tpl
-Matchfile=pagelayout_book_corner.tpl
+MatchFile=pagelayout_book_corner.tpl
 Subdir=templates
 Match[section]=5
 
 [pagelayout_my_company]
 Source=pagelayout.tpl
-Matchfile=pagelayout_my_company.tpl
+MatchFile=pagelayout_my_company.tpl
 Subdir=templates
 Match[section]=6
 
 [pagelayout_intranet]
 Source=pagelayout.tpl
-Matchfile=pagelayout_intranet.tpl
+MatchFile=pagelayout_intranet.tpl
 Subdir=templates
 Match[section]=7
 
 [pagelayout_mysite]
 Source=pagelayout.tpl
-Matchfile=pagelayout_mysite.tpl
+MatchFile=pagelayout_mysite.tpl
 Subdir=templates
 Match[section]=8
-
 
 [folder]
 Source=node/view/full.tpl

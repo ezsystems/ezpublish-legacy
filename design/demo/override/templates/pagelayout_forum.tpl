@@ -1,5 +1,4 @@
 {*?template charset=utf8?*}
-FORUM
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
@@ -24,13 +23,13 @@ FORUM
         <table class="topmenu" width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
             <td class="menuitem" width="25%">
-	        <a href={"content/view/full/FIXME_PAGELAYOUT_4/"|ezurl}>home</a>
+	        <a href={"content/view/full/49/"|ezurl}>home</a>
 	    </td>
             <td class="menuitem" width="25%">
-	        <a href={"content/view/full/FIXME_PAGELAYOUT_4/"|ezurl}>links</a>
+	        <a href={"content/view/full/47/"|ezurl}>links</a>
     	    </td>
             <td class="menuitem" width="25%">
-	        <a href={"content/view/full/FIXME_PAGELAYOUT_4/"|ezurl}>about</a>
+	        <a href={"content/view/full/48/"|ezurl}>about</a>
 	    </td>
             <td class="menuitem" width="25%">
 	        <a href={"user/login/"|ezurl}>login</a>
