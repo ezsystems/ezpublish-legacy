@@ -40,6 +40,14 @@ Changes from 3.2-2 to 3.2-3
 eZ template:
 - Fixed missing comma (,) in eztemplatenl2broperator.php (nl2br).
 
+eZFile:
+- Made sure eZDir::mkdir returned true when succesful and made sure it skips empty dir elements.
+- New function cleanupEmptyDirectories in eZDir, it will remove empty directories in a path.
+- Implemented the missing doRename function in eZFileHandler.
+- Added move function to eZFileHandler, it can move (rename or copy/delete) a file from one place to another.
+- Added symlink function to eZFileHandler, it can create a symbolic link to a file or directory.
+- Added linkCopy function to eZFileHandler, it will either do a symlink or copy depending on the OS type.
+
 *Translations:
 - Updated Portuguese translation, thanks to Miguel Angelo Gouveia Saturnino.
 - Fixed correct HTTP content language to zh-CH for chinese.

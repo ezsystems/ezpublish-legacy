@@ -94,8 +94,6 @@ class eZDir
     function mkdir( $dir, $perm, $parents = false )
     {
         $dir = eZDir::cleanPath( $dir, EZ_DIR_SEPARATOR_UNIX );
-//        print( "About to mkdir( '$dir' )<br/>" );
-//        exit;
         if ( !$parents )
             return eZDir::doMkdir( $dir, $perm );
         else
@@ -113,6 +111,8 @@ class eZDir
             for ( $i = 1; $i < count( $dirElements ); ++$i )
             {
                 $dirElement = $dirElements[$i];
+                if ( !$dirElement )
+                    continue;
                 $currentDir .= '/' . $dirElement;
                 $result = true;
                 if ( !file_exists( $currentDir ) )
@@ -120,7 +120,56 @@ class eZDir
                 if ( !$result )
                     return false;
             }
+            return true;
         }
+    }
+
+    /*!
+     \static
+     Goes trough the directory path \a $dir and removes empty directories.
+     \note This is just the opposite of mkdir() with \a $parents set to \c true.
+    */
+    function cleanupEmptyDirectories( $dir )
+    {
+        $dir = eZDir::cleanPath( $dir, EZ_DIR_SEPARATOR_UNIX );
+        $dirElements = explode( '/', $dir );
+        if ( count( $dirElements ) == 0 )
+            return true;
+        $currentDir = $dirElements[0];
+        $result = true;
+        if ( !file_exists( $currentDir ) and $currentDir != "" )
+            $result = eZDir::doMkdir( $currentDir, $perm );
+        if ( !$result )
+            return false;
+
+        for ( $i = count( $dirElements ); $i > 0; --$i )
+        {
+            $dirpath = implode( '/', array_slice( $dirElements, 0, $i ) );
+            if ( file_exists( $dirpath ) and
+                 is_dir( $dirpath ) )
+            {
+                $rmdirStatus = @rmdir( $dirpath );
+                if ( !$rmdirStatus )
+                    return true;
+            }
+        }
+        return true;
+    }
+
+    /*!
+     \return the dirpath portion of the filepath \a $filepath.
+     \code
+     $dirpath = eZDir::dirpath( "path/to/some/file.txt" );
+     print( $dirpath ); // prints out path/to/some
+     \endcode
+    */
+    function dirpath( $filepath )
+    {
+        $filepath = eZDir::cleanPath( $filepath, EZ_DIR_SEPARATOR_UNIX );
+        $dirPosition = strrpos( $filepath, '/' );
+        if ( $dirPosition !== false )
+            return substr( $filepath, 0, $dirPosition );
+        return $filepath;
     }
 
     /*!
@@ -166,9 +215,6 @@ class eZDir
     function doMkdir( $dir, $perm )
     {
         include_once( "lib/ezutils/classes/ezdebugsetting.php" );
-//         eZDebugSetting::writeDebug( 'lib-ezutils-dir', "Make dir $dir with perms 0" . decoct( $perm ) );
-//        print( "About to doMkdir( '$dir' )<br/>" );
-//        exit;
 
         $oldumask = umask( 0 );
         if ( ! @mkdir( $dir, $perm ) )
