@@ -134,6 +134,7 @@ for arg in $*; do
 	    echo
 	    echo "Options: -h"
 	    echo "         --help                     This message"
+	    echo "         --final                    Makes the release a final release"
 	    echo "         --build-root=DIR           Set build root, default is /tmp"
 	    echo "         --build-rc                 Make a release candidate, this will add a build number to the name"
 	    echo "         --with-svn-server[=SERVER] Checkout fresh repository"
@@ -833,16 +834,20 @@ echo "Creating MD5 check sums"
 
 
 # Create archives
+TGZFILE="$BASE.tar.gz"
+TBZFILE="$BASE.tar.bz2"
+ZIPFILE="$BASE.zip"
+
 echo -n "Creating `$SETCOLOR_FILE`tar.gz`$SETCOLOR_NORMAL` file"
 (cd $DEST_ROOT
-    tar cfz $BASE.tar.gz $BASE
+    tar cfz $TGZFILE $BASE
     echo ",  `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$BASE.tar.gz`$SETCOLOR_NORMAL`")
 
 echo -n "Creating `$SETCOLOR_FILE`tar.bz2`$SETCOLOR_NORMAL` file"
 (cd $DEST_ROOT
     tar cf $BASE.tar $BASE
-    if [ -f $BASE.tar.bz2 ]; then
-	rm -f $BASE.tar.bz2
+    if [ -f $TBZFILE ]; then
+	rm -f $TBZFILE
     fi
     bzip2 $BASE.tar
     echo ", `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$BASE.tar.bz2`$SETCOLOR_NORMAL`")
@@ -850,7 +855,7 @@ echo -n "Creating `$SETCOLOR_FILE`tar.bz2`$SETCOLOR_NORMAL` file"
 if [ "which zip &>/dev/null" ]; then
     echo -n "Creating `$SETCOLOR_FILE`zip`$SETCOLOR_NORMAL` file"
     (cd $DEST_ROOT
-	zip -9 -r -q $BASE.zip $BASE
+	zip -9 -r -q $ZIPFILE $BASE
 	echo ",     `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$BASE.zip`$SETCOLOR_NORMAL`")
 else
     echo "`SETCOLOR_WARNING`Could not create `$SETCOLOR_FILE`zip`$SETCOLOR_WARNING` file, `$SETCOLOR_EXE`zip`$SETCOLOR_NORMAL` program not found.`SETCOLOR_NORMAL`"
@@ -907,3 +912,4 @@ fi
 
 echo '' > $CACHE
 echo "BUILD_NUMBER=\"$BUILD_NUMBER\"" >> $CACHE
+
