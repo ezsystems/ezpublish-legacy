@@ -665,21 +665,23 @@ if ( $show_page_layout )
                     $tmpObj = $child->attribute( 'object' );
                     $className = $tmpObj->attribute( 'class_name' );
 
+                    unset( $map );
                     $addToMenu = true;
                     if ( $className == "Vevside" )
                     {
-                        $map = $tmpObj->attribute( "data_map" );
-                        $enum = $map['type']->content();
-                        $values = $enum->attribute( "enumobject_list" );
-                        $value = $values[0];
+                        $map =& $tmpObj->attribute( "data_map" );
+
+                        $enum =& $map['type']->content();
+                        $values =& $enum->attribute( "enumobject_list" );
+                        $value =& $values[0];
                         if ( get_class( $value ) == 'ezenumobjectvalue' and  $value->attribute( 'enumvalue' ) <> 2 )
                             $addToMenu = false;
                     }
 
                     if ( $className == "Link" )
                     {
-                        $map = $tmpObj->attribute( "data_map" );
-                        $tmpURL = $map['url']->content();
+                        $map =& $tmpObj->attribute( "data_map" );
+                        $tmpURL =& $map['url']->content();
                         $url = "$tmpURL";
                     }
                     else

@@ -143,6 +143,12 @@ class eZContentFunctionCollection
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
 
         /// Fill objects with attributes
+        $keys = array_keys( $children );
+        foreach ( $keys as $key )
+        {
+            $object =& $children[$key]->attribute( 'object' );
+        }
+
         eZContentObject::fillNodeListAttributes( $children );
 
         return array( 'result' => &$children );

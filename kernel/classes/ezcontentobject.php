@@ -672,7 +672,6 @@ class eZContentObject extends eZPersistentObject
     */
     function setContentObjectAttributes( &$attributes, $version, $language )
     {
-//         print( "set" );
         $this->ContentObjectAttributes[$version][$language] =& $attributes;
     }
 
@@ -686,29 +685,31 @@ class eZContentObject extends eZPersistentObject
     {
         $db =& eZDB::instance();
 
-        $keys = array_keys( $nodeList );
-        $objectArray = array();
-        $whereSQL = '';
-        $count = count( $nodeList );
-        $i = 0;
-        foreach ( $keys as $key )
+        if ( count( $nodeList ) > 0 )
         {
-            $object =& $nodeList[$key]->attribute( 'object' );
+            $keys = array_keys( $nodeList );
+            $objectArray = array();
+            $whereSQL = '';
+            $count = count( $nodeList );
+            $i = 0;
+            foreach ( $keys as $key )
+            {
+                $object =& $nodeList[$key]->attribute( 'object' );
 
-            $objectArray = array( 'id' => $object->attribute( 'id' ),
-                                  'language' => eZContentObject::defaultLanguage(),
-                                  'version' => $nodeList[$key]->attribute( 'contentobject_version' ) );
+                $objectArray = array( 'id' => $object->attribute( 'id' ),
+                                      'language' => eZContentObject::defaultLanguage(),
+                                      'version' => $nodeList[$key]->attribute( 'contentobject_version' ) );
 
-            $whereSQL .= "( ezcontentobject_attribute.version = '" . $nodeList[$key]->attribute( 'contentobject_version' ) . "' AND
+                $whereSQL .= "( ezcontentobject_attribute.version = '" . $nodeList[$key]->attribute( 'contentobject_version' ) . "' AND
                     ezcontentobject_attribute.contentobject_id = '" . $object->attribute( 'id' ) . "' AND
                     ezcontentobject_attribute.language_code = '" . eZContentObject::defaultLanguage() . "' ) ";
 
-            $i++;
-            if ( $i < $count )
-                $whereSQL .= ' OR ';
-        }
+                $i++;
+                if ( $i < $count )
+                    $whereSQL .= ' OR ';
+            }
 
-        $query = "SELECT ezcontentobject_attribute.*, ezcontentclass_attribute.identifier as identifier FROM
+            $query = "SELECT ezcontentobject_attribute.*, ezcontentclass_attribute.identifier as identifier FROM
                     ezcontentobject_attribute, ezcontentclass_attribute
                   WHERE
                     ezcontentclass_attribute.version = '0' AND
@@ -717,36 +718,34 @@ class eZContentObject extends eZPersistentObject
                   ORDER BY
                     ezcontentobject_attribute.contentobject_id, ezcontentclass_attribute.placement ASC";
 
-        $attributeArray =& $db->arrayQuery( $query );
+            $attributeArray =& $db->arrayQuery( $query );
 
-        $tmpAttributeObjectList = array();
-        $returnAttributeArray = array();
-        foreach ( $attributeArray as $attribute )
-        {
-            unset( $attr );
-            $attr = new eZContentObjectAttribute( $attribute );
-            $attr->setContentClassAttributeIdentifier( $attribute['identifier'] );
+            $tmpAttributeObjectList = array();
+            $returnAttributeArray = array();
+            foreach ( $attributeArray as $attribute )
+            {
+                unset( $attr );
+                $attr = new eZContentObjectAttribute( $attribute );
+                $attr->setContentClassAttributeIdentifier( $attribute['identifier'] );
 
-//            print( $attr->attribute( 'contentobject_id' ) . "<br>" );
-            $tmpAttributeObjectList[$attr->attribute( 'contentobject_id' )] = $attr;
+                $tmpAttributeObjectList[$attr->attribute( 'contentobject_id' )][] = $attr;
+            }
+
+            $keys = array_keys( $nodeList );
+            foreach ( $keys as $key )
+            {
+                unset( $node );
+                $node = $nodeList[$key];
+
+                unset( $object );
+                $object = $node->attribute( 'object' );
+                $attributes =& $tmpAttributeObjectList[$object->attribute( 'id' )];
+                $object->setContentObjectAttributes( $attributes, $node->attribute( 'contentobject_version' ), eZContentObject::defaultLanguage() );
+                $node->setContentObject( $object );
+
+                $nodeList[$key] =& $node;
+            }
         }
-
-        $keys = array_keys( $nodeList );
-        foreach ( $keys as $key )
-        {
-            unset( $node );
-            $node = $nodeList[$key];
-
-            unset( $object );
-            $object = $node->attribute( 'object' );
-            $object->setContentObjectAttributes( $tmpAttributeObjectList, $nodeList[$key]->attribute( 'contentobject_version' ), eZContentObject::defaultLanguage() );
-            $node->setContentObject( $object );
-
-
-            $nodeList[$key] =& $node;
-        }
-
-        return $nodeList;
     }
 
     /*!
