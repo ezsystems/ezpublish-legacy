@@ -206,9 +206,9 @@ Database=&lt;name_of_database&gt;
     Options FollowSymLinks Indexes ExecCGI
     AllowOverride None
   &lt;/Directory&gt;
-
+  
   RewriteEngine On
-  RewriteRule !\.(gif|css|jpg|png)$ &lt;httproot&gt;/ezpublish-xxx/index.php
+  RewriteRule !\.(gif|css|jpg|png|jar)$ /index.php
 
   ServerAdmin root@localhost
   DocumentRoot &lt;httproot&gt;/ezpublish-xxx
@@ -216,3 +216,4 @@ Database=&lt;name_of_database&gt;
 &lt;/VirtualHost&gt;
 </pre>
 
+<p class="important"> <b>Note:</b>The rewrite rule is releative to the http root and we must use '/' (slash) not '\' (backslash)</p>
