@@ -232,6 +232,13 @@ class eZPaymentCallbackChecker
         $remoteHostIP   = eZSys::serverVariable( 'REMOTE_ADDR' );
         $serverIPList   = $this->ini->variable( 'ServerSettings', 'ServerIP');
 
+        if ($serverIPList === false) 
+        {
+            $this->logger->writeTimedString( "Skipped the IP check because ServerIP is not set in the settings. Remote host is: $remoteHostIP.", 'checkServerIP' );
+            return true;
+        }
+        
+
         if ( is_array( $serverIPList ) && in_array( $remoteHostIP, $serverIPList ) )
         {
             return true;
