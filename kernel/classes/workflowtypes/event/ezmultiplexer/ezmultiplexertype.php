@@ -172,6 +172,7 @@ class eZMultiplexerType extends eZWorkflowEventType
     function execute( &$process, &$event )
     {
         $processParameters = $process->attribute( 'parameter_list' );
+        $storeProcessParameters = false;
         $classID = false;
         $objectID = false;
         $sectionID = false;
@@ -194,10 +195,26 @@ class eZMultiplexerType extends eZWorkflowEventType
         $userArray = explode( ',', $event->attribute( 'data_text2' ) );
         $classArray = explode( ',', $event->attribute( 'data_text3' ) );
 
-        $user =& eZUser::currentUser();
-        $userID = $user->id();
+        if ( !isset( $processParameters['user_id'] ) )
+        {
+            $user =& eZUser::currentUser();
+            $userID = $user->id();
+            $processParameters['user_id'] = $userID;
+            $storeProcessParameters = true;
+        }
+        else
+        {
+            $userID = $processParameters['user_id'];
+            $user =& eZUser::fetch( $userID );
+        }
         $userGroups = $user->attribute( 'groups' );
         $inExcludeGroups = count( array_intersect( $userGroups, $userArray ) ) != 0;
+
+        if ( $storeProcessParameters )
+        {
+            $process->setParameters( $processParameters );
+            $process->store();
+        }
 
         if ( ( !$inExcludeGroups ) &&
              ( in_array( -1, $classArray ) ||
@@ -208,7 +225,6 @@ class eZMultiplexerType extends eZWorkflowEventType
             if ( in_array( $sectionID, $sectionArray ) ||
                  in_array( -1, $sectionArray ) )
             {
-                $sessionKey = $processParameters['session_key'];
                 $workflowToRun = $event->attribute( 'data_int1' );
 
                 if ( isSet( $processParameters['node_id'] ) )

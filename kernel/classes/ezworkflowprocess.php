@@ -223,7 +223,17 @@ class eZWorkflowProcess extends eZPersistentObject
             {
                 $activationDate = $this->attribute( "activation_date" );
                 eZDebugSetting::writeDebug( 'workflow-process', "Checking activation date" );
-                if ( eZDateTime::currentTimeStamp() < $activationDate )
+                if ( $activationDate == 0  )
+                {
+                    $eventType =& $workflowEvent->eventType();
+                    $eventLog[] = array( "status" => $lastEventStatus,
+                                         "status_text" => eZWorkflowType::statusName( $lastEventStatus ),
+                                         "information" => $eventType->attribute( "information" ),
+                                         "description" => $workflowEvent->attribute( "description" ),
+                                         "type_name" => $eventType->attribute( "name" ),
+                                         "type_group" => $eventType->attribute( "group_name" ) );
+                }
+                else if ( eZDateTime::currentTimeStamp() < $activationDate )
                 {
                     eZDebugSetting::writeDebug( 'workflow-process', "Date failed, not running events" );
                     $eventType =& $workflowEvent->eventType();
@@ -258,7 +268,6 @@ class eZWorkflowProcess extends eZPersistentObject
         {
 //            var_dump( $done );
 //            var_dump( $runCurrentEvent );
-            flush();
             if ( $runCurrentEvent )
             {
                 eZDebugSetting::writeDebug( 'workflow-process', "runCurrentEvent is true" );
@@ -492,7 +501,8 @@ class eZWorkflowProcess extends eZPersistentObject
     }
     function &fetchForStatus( $status = EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON,  $asObject = true )
     {
-        $conds = array( 'status' => $status );
+        $conds = array( 'status' => $status,
+                        'memento_key' => array( '!=', '' ) );
         return eZPersistentObject::fetchObjectList( eZWorkflowProcess::definition(),
                                                     null, $conds, null, null,
                                                     $asObject );

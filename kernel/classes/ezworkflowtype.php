@@ -269,6 +269,12 @@ class eZWorkflowType
             return null;
     }
 
+    function setAttribute( $attr, $value )
+    {
+        if ( array_key_exists( $attr, $this->Attributes ) )
+            $this->Attributes[$attr] = $value;
+    }
+
     function &eventDescription()
     {
         return $this->Attributes["name"];

@@ -7,7 +7,7 @@ Changes from 3.2-5 to 3.2-6
   (e.g. on when creating a new version).
 - Made sure eZImage, eZMedia and eZENUM only copies attribute data when
   supplied version is non-false.
-
+- Added the possibility to set attributes in eZWorkflowType.
 
 *Bugfixes:
 - Made sure shop/confirmorder does not crash when order ID is missing or wrong.
@@ -24,6 +24,12 @@ Changes from 3.2-5 to 3.2-6
   http://ez.no/community/bug_reports/error_in_ezsimpletagsoperator_php
 - Fixed a warning in content/browse.php
   http://ez.no/community/bug_reports/warning_in_browse_php_when_assign_a_section
+- Made sure deferred workflow processes with activation_date set to 0 are continued
+  as normal. This makes sure that a deferred multiplexer works properly.
+- Made sure the workflow cronjob will only lookup master workflow processes
+  and not child processes.
+- Made sure the multiplexer workflow handler stores the current user ID and restores
+  it if it was previously deferred.
 
 *Setup:
 
