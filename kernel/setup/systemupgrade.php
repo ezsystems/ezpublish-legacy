@@ -62,7 +62,7 @@ if ( $Module->isCurrentAction( 'DBCheck' ) )
 
     $dbSchema = eZDBSchema::instance();
 
-    $differences = eZDbSchemaChecker::diff( $dbSchema->schema(), eZDBSchema::read( 'share/db_schema.dat' ) );
+    $differences = eZDbSchemaChecker::diff( $dbSchema->schema(), eZDBSchema::read( 'share/db_' . $db->databaseName() . '_schema.dat' ) );
     $sqlDiff = $dbSchema->generateUpgradeFile( $differences );
 
     if ( strlen( $sqlDiff ) == 0 )
