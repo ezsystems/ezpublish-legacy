@@ -8,7 +8,7 @@
 <pre class="example">cd {$file_results.current_path}<br/>
 {section name=File loop=$file_results.result_elements}
 {section-exclude match=$:item.result}
-chmod {$:item.permission} {$:item.file}<br/>
+chmod {$:item.permission} {$:item.file} {chr(13)}{chr(10)} <br/>
 {/section}
 </pre>
 

@@ -112,6 +112,7 @@ Changes from 3.3.0-1 to 3.3.0-2
 
 *Setup:
 - Added check for specific unstable PHP versions. ( merged from stable 4425 )
+- Added \r\n to chmod commands
 
 *DataTypes:
 
