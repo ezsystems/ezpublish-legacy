@@ -29,9 +29,9 @@
 <div class="block">
 <div class="left">
     <p>
-    {let url10=concat( '/user/preferences/set/admin_url_list_limit/1/url/list/', $view_mode )
-         url25=concat( '/user/preferences/set/admin_url_list_limit/2/url/list/', $view_mode )
-	 url50=concat( '/user/preferences/set/admin_url_list_limit/3/url/list/', $view_mode )}
+    {let url10='/user/preferences/set/admin_url_list_limit/1'
+         url25='/user/preferences/set/admin_url_list_limit/2'
+         url50='/user/preferences/set/admin_url_list_limit/3'}
     {switch match=$number_of_items}
     {case match=25}
         <a href={$url10|ezurl}>10</a>
