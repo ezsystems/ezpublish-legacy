@@ -43,6 +43,8 @@
 
 */
 
+include_once( 'lib/ezutils/classes/ezsys.php' );
+
 class eZSiteAccess
 {
     /*!
@@ -64,6 +66,13 @@ class eZSiteAccess
             $siteAccessItem = array();
             $siteAccessItem['name'] =& $siteAccessArray[$key];
             $siteAccessItem['id'] = crc32( $siteAccessArray[$key] );
+            $siteAccessList[] = $siteAccessItem;
+        }
+        if ( $serversiteaccess = eZSys::serverVariable( $ini->variable( 'SiteAccessSettings', 'ServerVariableName' ), true ) )
+        {
+            $siteAccessItem = array();
+            $siteAccessItem['name'] =& $serversiteaccess;
+            $siteAccessItem['id'] = crc32( $serversiteaccess );
             $siteAccessList[] = $siteAccessItem;
         }
         return $siteAccessList;

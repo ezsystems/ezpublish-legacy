@@ -36,6 +36,7 @@ define( 'EZ_ACCESS_TYPE_PORT', 3 );
 define( 'EZ_ACCESS_TYPE_HTTP_HOST', 4 );
 define( 'EZ_ACCESS_TYPE_INDEX_FILE', 5 );
 define( 'EZ_ACCESS_TYPE_STATIC', 6 );
+define( 'EZ_ACCESS_TYPE_SERVER_VAR', 7 );
 
 define( 'EZ_ACCESS_SUBTYPE_PRE', 1 );
 define( 'EZ_ACCESS_SUBTYPE_POST', 2 );
@@ -77,6 +78,17 @@ function accessType( &$uri, $host, $port, $file )
 
         switch( $matchprobe )
         {
+            case 'servervar':
+            {
+                if ( $serversiteaccess = $ini->variable( 'SiteAccessSettings', 'ServerVariableName' ) )
+                {
+                    $access['name'] = $serversiteaccess;
+                    $access['type'] = EZ_ACCESS_TYPE_SERVER_VAR;
+                    return $access;
+                }
+                else
+                    continue;
+            } break;
             case 'port':
             {
                 if ( $ini->hasVariable( 'PortAccessSettings', $port ) )

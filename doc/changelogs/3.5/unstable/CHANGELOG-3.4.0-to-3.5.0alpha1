@@ -1,5 +1,9 @@
 Changes from 3.4.0 to 3.5.0alpha1
 
+*Kernel:
+- Added siteaccess match type 'servervar' that will use a server variable to match a siteaccess.
+  Mod_rewrite maps or a mod_perl redirector could be good examples of usage.
+
 *Bugs
 - Fixed bug with non-required ContentObjectID for adding notifications
   http://ez.no/index.php/community/bug_reports/adding_a_notification_shouldnt_need_a_content_object_id
