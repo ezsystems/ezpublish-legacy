@@ -50,17 +50,17 @@
 
 <hr />
 
-{section name=Event loop=$event_list}
+{section var=Events loop=$event_list}
 <table class="list" cellspacing="0">
 <tr>
 <th>
 <input type="checkbox" name="WorkflowEvent_id_checked[]" value="{$Event:item.id}" />
 &nbsp;
-{$Event:number}({$Event:item.placement})&nbsp;{$Event:item.workflow_type.group_name}/{$Event:item.workflow_type.name}
+{$Events.number}({$Events.item.placement})&nbsp;{$Events.item.workflow_type.group_name}/{$Events.item.workflow_type.name}
 <div class="right">
-<a href={concat($module.functions.down.uri,"/",$workflow.id,"/",$Event:item.id)|ezurl}><img src={"button-move_down.gif"|ezimage} height="16" width="16" alt="Move down" /></a>
+<a href={concat($module.functions.down.uri,"/",$workflow.id,"/",$Events.item.id)|ezurl}><img src={"button-move_down.gif"|ezimage} height="16" width="16" alt="Move down" /></a>
 &nbsp;
-<a href={concat($module.functions.up.uri,"/",$workflow.id,"/",$Event:item.id)|ezurl}><img src={"button-move_up.gif"|ezimage} height="16" width="16" alt="Move up" /></a>
+<a href={concat($module.functions.up.uri,"/",$workflow.id,"/",$Events.item.id)|ezurl}><img src={"button-move_up.gif"|ezimage} height="16" width="16" alt="Move up" /></a>
 </div>
 </th>
 </tr>
@@ -68,15 +68,15 @@
 <tr><td>
 <div class="block">
 <label>{'Description'|i18n( 'design/admin/workflow/edit' )}</label>
-<input class="halfbox" type="text" name="WorkflowEvent_description[]" value="{$Event:item.description}" />
+<input class="halfbox" type="text" name="WorkflowEvent_description[]" value="{$Events.item.description}" />
 </div>
 
 <div class="block">
-{event_edit_gui event=$Event:item}
+{event_edit_gui event=$Events.item}
 </div>
 
-<input type="hidden" name="WorkflowEvent_id[]" value="{$Event:item.id}" />
-<input type="hidden" name="WorkflowEvent_placement[]" value="{$Event:item.placement}" />
+<input type="hidden" name="WorkflowEvent_id[]" value="{$Events.item.id}" />
+<input type="hidden" name="WorkflowEvent_placement[]" value="{$Events.item.placement}" />
 </td>
 </tr>
 </table>
