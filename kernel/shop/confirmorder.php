@@ -60,6 +60,12 @@ if ( get_class( $order ) == 'ezorder' )
         return;
     }
 
+    if ( $http->hasPostVariable( "CancelButton" ) )
+    {
+        $module->redirectTo( '/shop/basket/' );
+        return;
+    }
+
     $tpl->setVariable( "order", $order );
 }
 

@@ -107,5 +107,6 @@
 </table>
 
 <input class="button" type="submit" name="ConfirmOrderButton" value="Confirm" /> &nbsp;
+<input class="button" type="submit" name="CancelButton" value="Cancel" /> &nbsp;
 
 </form>
