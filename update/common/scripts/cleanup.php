@@ -72,7 +72,7 @@ function help()
                   "\n" .
                   "Possible values for NAME is:\n" .
                   "session, preferences, browse, tipafriend, shop, forgotpassword, workflow,\n" .
-                  "collaboration, collectedinformation, notification or all (for all items)\n" );
+                  "collaboration, collectedinformation, notification, searchstats or all (for all items)\n" );
 }
 
 function changeSiteAccessSetting( &$siteaccess, $optionData )
@@ -113,7 +113,8 @@ $clean = array( 'session' => false,
                 'workflow' => false,
                 'collaboration' => false,
                 'collectedinformation' => false,
-                'notification' => false );
+                'notification' => false,
+                'searchstats' => false );
 
 $optionsWithData = array( 's' );
 $longOptionsWithData = array( 'siteaccess' );
@@ -400,6 +401,13 @@ if ( $clean['notification'] )
     eZNotificationEvent::cleanup();
     eZNotificationCollection::cleanup();
     eZNotificationEventFilter::cleanup();
+}
+
+if ( $clean['searchstats'] )
+{
+    include_once( 'kernel/classes/ezsearchlog.php' );
+    $cli->output( "Removing all search statistics" );
+    eZSearchLog::removeStatistics();
 }
 
 

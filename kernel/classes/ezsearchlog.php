@@ -106,6 +106,7 @@ class eZSearchLog
     }
 
     /*!
+     \static
      Removes all stored phrases and search match counts from the database.
     */
     function removeStatistics()
