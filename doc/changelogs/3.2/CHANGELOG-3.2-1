@@ -4,6 +4,7 @@ Changes from 3.2.0-2 to 3.2-1
 
 *Bugfixes:
 - Fixed sitemap bug (the links didn't work in non-virtual-host mode), changed template to handle this.
+- Fixed using datatype enum as object pattern name in classes
 
 *Setup:
 
