@@ -96,6 +96,8 @@ $operationResult =& eZOperationHandler::execute( 'content', 'read', array( 'node
                                                                           'language_code' => $LanguageCode ) );
 eZDebug::addTimingPoint( 'Operation end' );
 
+eZDebug::writeNotice( $NodeID, "Fetching node" );
+
 
 switch( $operationResult['status'] )
 {
