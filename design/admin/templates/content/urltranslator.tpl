@@ -1,6 +1,6 @@
 {section show=$forward_info}
     <div class="message-error">
-        <h2>{'The requested URL forwarding could not be created.'|i18n( 'design/admin/content/urltranslator' )}<span class="time">{currentdate()|l10n(shortdatetime)}</span></h2>
+        <h2>{'The requested URL forwarding could not be created.'|i18( 'design/admin/content/urltranslator' )}<span class="time">{currentdate()|l10n(shortdatetime)}</span></h2>
          <ul>
              <li>
                 {'The destination URL <%destination_url> does not exist in the system.'|i18n( 'design/admin/content/urltranslator',, hash( '%destination_url', $forward_info.destination ) )|wash}
@@ -155,7 +155,7 @@
 {* Custom URL translations  *}
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h2 class="context-title">{'Custom URL translations [%alias_count]'|i18n(  'design/admin/content/urltranslator' ,, hash( '%alias_count', $alias_list|count ) )}</h2>
+<h2 class="context-title">{'Custom URL translations [%alias_count]'|i18n( 'design/admin/content/urltranslator' ,, hash( '%alias_count', $alias_list|count ) )}</h2>
 
 {* DESIGN: Mainline *}<div class="header-subline"></div>
 
@@ -222,8 +222,13 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-<input class="button" type="submit" name="RemoveURLAliasButton" value="{'Remove selected'|i18n( 'design/admin/content/urltranslator' )}" {section show=$alias_list|not}disabled="disabled"{/section} />
-<input class="button" type="submit" name="StoreURLAliasButton"  value="{'Apply changes'|i18n( 'design/admin/content/urltranslator' )}" {section show=$alias_list|not}disabled="disabled"{/section} />
+{section show=$alias_list}
+<input class="button" type="submit" name="RemoveURLAliasButton" value="{'Remove selected'|i18n( 'design/admin/content/urltranslator' )}" />
+<input class="button" type="submit" name="StoreURLAliasButton"  value="{'Apply changes'|i18n( 'design/admin/content/urltranslator' )}" />
+{section-else}
+<input class="button-disabled" type="submit" name="RemoveURLAliasButton" value="{'Remove selected'|i18n( 'design/admin/content/urltranslator' )}" disabled="disabled" />
+<input class="button-disabled" type="submit" name="StoreURLAliasButton"  value="{'Apply changes'|i18n( 'design/admin/content/urltranslator' )}" disabled="disabled" />
+{/section}
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
