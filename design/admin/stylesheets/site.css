@@ -723,6 +723,8 @@ a.showhide, div#rightmenu span.openclose
     border: 1px solid #f0f0f0;
     border-right-color: #202020;
     border-bottom-color: #202020;
+    display: block;
+    float: right;
 }
 
 a.showhide span.bracket, div#rightmenu span.openclose span.bracket

@@ -17,7 +17,7 @@ menuArray['Advanced']['depth'] = 1; // this is a first level submenu of ContextM
 menuArray['Advanced']['elements'] = new Array();
 menuArray['Advanced']['elements']['menu-hide'] = new Array();
 menuArray['Advanced']['elements']['menu-hide']['url'] = {"/content/hide/%nodeID%"|ezurl};
-menuArray['Advanced']['elements']['menu-map'] = new Array();
+menuArray['Advanced']['elements']['menu-list'] = new Array();
 menuArray['Advanced']['elements']['menu-list']['url'] = {"content/view/sitemap/%nodeID%"|ezurl};
 
 
@@ -94,7 +94,7 @@ menuArray['BookmarkMenu']['elements']['bookmark-edit']['url'] = {"/content/edit/
        onclick="ezpopmenu_submitForm( 'menu-form-move' ); return false;">{"Move"|i18n("design/admin/popupmenu")}</a>
     <a id="child-menu-remove" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )"
        onclick="ezpopmenu_submitForm( 'menu-form-remove' ); return false;">{"Remove"|i18n("design/admin/popupmenu")}</a>
-    <a id="child-menu-advanced" href="#" onmouseover="ezpopmenu_showSubLevel( event, 'Advanced', 'child-menu-advanced' ); return false;">{'Advanced'|i18n( 'design/admin/popupmenu' )}</a>
+    <a id="child-menu-advanced" class="more" href="#" onmouseover="ezpopmenu_showSubLevel( event, 'Advanced', 'child-menu-advanced' ); return false;">{'Advanced'|i18n( 'design/admin/popupmenu' )}</a>
     <hr />
     <a id="child-menu-bookmark" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )"
        onclick="ezpopmenu_submitForm( 'menu-form-addbookmark' ); return false;">{"Add to my bookmarks"|i18n("design/admin/popupmenu")}</a>
@@ -110,7 +110,7 @@ menuArray['BookmarkMenu']['elements']['bookmark-edit']['url'] = {"/content/edit/
     </div> *}
     <a id="menu-swap" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )" onclick="ezpopmenu_submitForm( 'menu-form-swap' ); return false;">{'Swap with another node'|i18n( 'design/admin/popupmenu' )}</a>
     <a id="menu-hide" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )">{'Hide / unhide'|i18n( 'design/admin/popupmenu' )}</a>
-    <a id="menu-list" href="#"  onmouseover="ezpopmenu_mouseOver( 'Advanced' )">{'Content map'|i18n( 'design/admin/popupmenu' )}</a>
+    <a id="menu-list" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )">{'Content list'|i18n( 'design/admin/popupmenu' )}</a>
 </div>
 
 
