@@ -2012,14 +2012,14 @@ class eZContentObject extends eZPersistentObject
                         break;
                     }
                 }
-                if ( $access == 'denied' )
-                {
-                    return 0;
-                }
-                else
-                {
-                    return 1;
-                }
+            }
+            if ( $access == 'denied' )
+            {
+                return 0;
+            }
+            else
+            {
+                return 1;
             }
         }
     }
