@@ -16,6 +16,7 @@ Shop:
 - Added support for sorting of order list.
 
 *SDK :
+- Swaped the last two images in the main concepts tutorial.
 
 *Library :
 eZDB:
