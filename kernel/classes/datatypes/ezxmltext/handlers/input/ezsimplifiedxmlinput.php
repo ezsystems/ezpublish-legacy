@@ -1591,7 +1591,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $objectAttr .= " size=\"$size\"";
                 if ( $alignment != null )
                     $objectAttr .= " align=\"$alignment\"";
-                if ( $size != null and $hasLink )
+                if ( $hasLink )
                 {
                     $objectAttr .= " href=\"$href\"";
                     if ( $target != null )
