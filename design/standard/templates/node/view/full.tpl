@@ -66,6 +66,9 @@
         </span>
 	</td>
         <td class="{$Child:sequence}"><span class="normal">{$Child:item.object.class_name}</span></td>
+	{section show=eq($node.sort_array[0][0],'priority')}<td width="40" align="left">
+	<input type="text" name="Priority[]" size="2" value="{$Child:item.priority}">
+	<input type="hidden" name="PriorityID[]" value="{$Child:item.node_id}"></td>{/section}
         <td width="1%">
         <a class="normal" href={concat("content/edit/",$Child:item.contentobject_id)|ezurl}><img src={"edit.png"|ezimage} border="0"></a>
         </td>
@@ -118,6 +121,16 @@
 {/case}
 {/switch}
 <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
+
+{switch match=$node.object.can_edit}
+{case match=1}
+{section show=eq($node.sort_array[0][0],'priority')}
+         <input class="button" type="submit" align="right" name="UpdatePriorityButton" value="Update Sorting Priority" />
+{/section}
+{/case}
+{case match=0}
+{/case}
+{/switch}
 </div>
 
 </form>

@@ -157,6 +157,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                          "depth" => "Depth",
                                          'sort_field' => 'SortField',
                                          'sort_order' => 'SortOrder',
+                                         'priority' => 'Priority',
                                          "path_string" => "PathString",
                                          "crc32_path" => "CRC32Path",
                                          "path_identification_string" => "PathIdentificationString",
@@ -287,7 +288,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $limitationList =& $params['Limitation'];
         }
-        $te= $params['SortBy'];
         $sortCount = 0;
         if ( isset( $params['SortBy'] ) and
              is_array( $params['SortBy'] ) and
@@ -330,6 +330,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         case 'class_name':
                         {
                             $sortingFields .= 'ezcontentclass.name';
+                        } break;
+                        case 'priority':
+                        {
+                            $sortingFields .= 'ezcontentobject_tree.priority';
                         } break;
                         default:
                         {
@@ -386,7 +390,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         $fromNode = $nodeID ;
-        $nodePath =  $node->attribute( 'path_string' );
+        if ( count( $node ) != 0 )
+        {
+            $nodePath =  $node->attribute( 'path_string' );
+            $nodeDepth = $node->attribute( 'depth' );
+        }
 //        $childrensPath = $nodePath . $fromNode . '/';
         $childrensPath = $nodePath ;
         $pathLength = strlen( $childrensPath );
@@ -395,8 +403,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db =& eZDB::instance();
         $subStringString = $db->subString( 'path_string', 1, $pathLength );
         $pathString = " $subStringString = '$childrensPath' and ";
-
-        $nodeDepth = $node->attribute( 'depth' );
         $depthCond = '';
         if ( $depth )
         {
@@ -603,8 +609,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function &children( )
     {
         return $this->subTree( array( 'Depth' => 1,
-                               'Limitation' => $limitationList
-                                             ) );
+                                      'Limitation' => $limitationList
+                                      ) );
     }
 
     /*!
@@ -613,8 +619,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function &childrenCount( )
     {
         return $this->subTreeCount( array( 'Depth' => 1,
-                                             'Limitation' => $limitationList
-                                             ) );
+                                           'Limitation' => $limitationList
+                                           ) );
     }
 
     /*!
@@ -641,6 +647,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 return 'class_identifier';
             case 7:
                 return 'class_name';
+            case 8:
+                return 'priority';
         }
     }
 
@@ -654,7 +662,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $sort = array( eZContentObjectTreeNode::sortFieldName( $this->attribute( 'sort_field' ) ),
                        $this->attribute( 'sort_order' ) );
         return array( $sort );
-        //return $sort;
     }
 
     /*!

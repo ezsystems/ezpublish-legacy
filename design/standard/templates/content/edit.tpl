@@ -28,7 +28,7 @@
 
     <table class="list" width="100%" border="0" cellspacing="0" cellpadding="1">
     <tr><th>{"Name"|i18n('content/object')}</th><th>{"Sort by"|i18n('content/object')}</th><th colspan="2">{"Sort ascending"|i18n('content/object')}</th></tr>
-    {let name=Node sort_fields=hash(1,"Path"|i18n('content/object'),2,"Published"|i18n('content/object'),3,"Modified"|i18n('content/object'),4,"Section"|i18n('content/object'),5,"Depth"|i18n('content/object'),6,"Class Identifier"|i18n('content/object'),7,"Class Name"|i18n('content/object'))}
+    {let name=Node sort_fields=hash(1,"Path"|i18n('content/object'),2,"Published"|i18n('content/object'),3,"Modified"|i18n('content/object'),4,"Section"|i18n('content/object'),5,"Depth"|i18n('content/object'),6,"Class Identifier"|i18n('content/object'),7,"Class Name"|i18n('content/object'),8,"Priority"|i18n('content/object'))}
     {section loop=$assigned_node_array sequence=array(bglight,bgdark)}
     {let parent_node=$Node:item.parent_node_obj}
     <tr>

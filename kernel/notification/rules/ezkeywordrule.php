@@ -71,7 +71,7 @@ class eZKeywordRule extends eZNotificationRuleType
                                   FROM ezsearch_word, ezsearch_object_word_link
                                   WHERE word = '$keyword'
                                         AND contentobject_id = $contentObjectID
-                                        AND ezsearch_word.id = word_id" );
+                                        AND ezsearch_word.id = word_id " );
         if ( count( $res ) != 0  )
         {
             return true;
