@@ -46,15 +46,15 @@ $editLanguage = $http->sessionVariable( "DiscardObjectLanguage" );
 
 if ( $http->hasPostVariable( "ConfirmButton" ) )
 {
+    $object =& eZContentObject::fetch( $objectID );
+    if ( $object === null )
+        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
     $db =& eZDB::instance();
     $db->query( "DELETE FROM ezcontentobject_link
 		         WHERE from_contentobject_id=$objectID AND from_contentobject_version=$version" );
     $db->query( "DELETE FROM eznode_assignment
 	             WHERE contentobject_id=$objectID AND contentobject_version=$version" );
 
-    $object =& eZContentObject::fetch( $objectID );
-    if ( $object === null )
-        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
     $versionObject =& $object->version( $version );
     $contentObjectAttributes =& $versionObject->contentObjectAttributes( $editLanguage );
     foreach ( $contentObjectAttributes as $contentObjectAttribute )
@@ -66,10 +66,12 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
     $nodeID = $object->attribute( 'main_node_id' );
     if ( $versionCount == 1 )
     {
-        $object->remove();
+        $object->purge();
     }
-
-    $versionObject->remove();
+    else
+    {
+        $versionObject->remove();
+    }
 
     $hasRedirected = false;
     if ( $http->hasSessionVariable( 'ParentObject' ) && $http->sessionVariable( 'NewObjectID' ) == $objectID )

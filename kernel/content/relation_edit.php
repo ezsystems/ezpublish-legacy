@@ -116,56 +116,26 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
     {
         if ( $http->hasPostVariable( 'ClassID' ) )
         {
-            $ini =& eZINI::instance();
-            $nodeID = $ini->variable( "ContentSettings", "SurplusNode" );
-            if ( ( $nodeID <= 0 ) )
-            {
-                eZDebugSetting::writeDebug( 'kernel-content-edit', "SurplusNode variable is not found in ContentSetting. Falling back on root folder" );
-                $nodeID = 2;
-            }
-            $node =& eZContentObjectTreeNode::fetch( $nodeID );
-            if ( $node == null )
-            {
-                eZDebugSetting::writeDebug( 'kernel-content-edit', "SurplusNode variable is not refering to a valid node. Falling back on root folder" );
-                $nodeID = 2;
-                $node =& eZContentObjectTreeNode::fetch( $nodeID );
-            }
-            if ( $node != null )
-            {
-                $parentContentObject =& $node->attribute( 'object' );
+            include_once( 'kernel/classes/ezcontentobjectassignmenthandler.php' );
+            $user =& eZUser::currentUser();
+            $userID =& $user->attribute( 'contentobject_id' );
+            $sectionID = 0;
+            $contentClassID = $http->postVariable( 'ClassID' );
+            $class =& eZContentClass::fetch( $contentClassID );
+            $relatedContentObject =& $class->instantiate( $userID, $sectionID );
+            $relatedContentVersion =& $relatedContentObject->attribute( 'current' );
 
-                if ( $parentContentObject->checkAccess( 'create', $http->postVariable( 'ClassID' ), $parentContentObject->attribute( 'contentclass_id' ) ) == '1' )
-                {
-                    $user =& eZUser::currentUser();
-                    $userID =& $user->attribute( 'contentobject_id' );
-                    $sectionID = $parentContentObject->attribute( 'section_id' );
-                    $contentClassID = $http->postVariable( 'ClassID' );
-                    $class =& eZContentClass::fetch( $contentClassID );
-                    $editVersion = $object->attribute( 'current_version' );
-                    $language = $object->attribute( 'current_language' );
-                    $parentObjectID = $object->attribute( 'id' );
+            $assignmentHandler = new eZContentObjectAssignmentHandler( $relatedContentObject, $relatedContentVersion );
+            $assignmentHandler->setupAssignments( array( 'group-name' => 'RelationAssignmentSettings',
+                                                         'default-variable-name' => 'DefaultAssignment',
+                                                         'specific-variable-name' => 'ClassSpecificAssignment' ) );
 
-                    $contentObject =& $class->instantiate( $userID, $sectionID );
-                    $nodeAssignment =& eZNodeAssignment::create( array(
-                                                                     'contentobject_id' => $contentObject->attribute( 'id' ),
-                                                                     'contentobject_version' => $contentObject->attribute( 'current_version' ),
-                                                                     'parent_node' => $node->attribute( 'node_id' ),
-                                                                     'is_main' => 1
-                                                                     )
-                                                                 );
-                    $nodeAssignment->store();
-
-                    $http->setSessionVariable( 'ParentObject', array( $parentObjectID, $editVersion, $language ) );
-                    $http->setSessionVariable( 'NewObjectID', $contentObject->attribute( 'id' ) );
-                    $module->redirectTo( $module->functionURI( 'edit' ) . '/' . $contentObject->attribute( 'id' ) );
-                    return;
-                }
-            }
-            else
-            {
-                $module->redirectTo( '/error/403' );
-                return;
-            }
+            $http->setSessionVariable( 'ParentObject', array( $object->attribute( 'id' ), $editVersion, $editLanguage ) );
+            $http->setSessionVariable( 'NewObjectID', $relatedContentObject->attribute( 'id' ) );
+            $module->redirectToView( 'edit', array( $relatedContentObject->attribute( 'id' ),
+                                                    $relatedContentObject->attribute( 'current_version' ),
+                                                    false ) );
+            return;
         }
     }
 }

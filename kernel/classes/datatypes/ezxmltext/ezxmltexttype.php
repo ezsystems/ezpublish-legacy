@@ -250,6 +250,7 @@ class eZXMLTextType extends eZDataType
     }
 
     /*!
+     \static
      \return the XML structure in \a $domDocument as text.
              It will take of care of the necessary charset conversions
              for content storage.

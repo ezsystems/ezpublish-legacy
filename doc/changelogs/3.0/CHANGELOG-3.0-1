@@ -80,6 +80,10 @@ links to clickable links.
 - Moved eZExtension class into eZUtils library.
 - Added support for storing XML format in native charset, this makes it a lot faster.
 - Made sure the search engine works even with bad data in the database with case problems.
+- If an draft is discarded and there is no other versions available for an object
+  the object is purged from the system.
+- Controlling the assignments for newly created related objects are not possible, see
+  content.ini for more information.
 
 *SDK :
 

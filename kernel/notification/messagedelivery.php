@@ -40,9 +40,11 @@ $current = getdate();
 $weekday = $current['wday'];
 $hour = $current['hours'];
 
-$ini = eZINI::instance( "i18n.ini" );
-$charset = $ini->variable( "CharacterSettings", "Charset" );
+$i18nINI = eZINI::instance( "i18n.ini" );
+$charset = $i18nINI->variable( "CharacterSettings", "Charset" );
 $codec =& eZTextCodec::instance( $charset, "ISO-8859-1" );  // This should be more general
+
+$ini =& eZINI::instance();
 
 $emailMessages = eZMessage::fetchEmailMessages();
 foreach ( $emailMessages as $emailMessage )
@@ -73,10 +75,13 @@ foreach ( $emailMessages as $emailMessage )
 
         $email = new eZMail();
         $email->setReceiverText( $destinationAddress );
-        $mail->setSenderText( $ini->variable( 'MailSettings', 'AdminEmail' ) );
+        $email->setSenderText( $ini->variable( 'MailSettings', 'AdminEmail' ) );
 //         $email->setSender( "admin@ez.no", "Administrator" );
         $email->setSubject( $title );
         $email->setBody( $body );
+
+        print( 'headers:<pre>' . htmlspecialchars( $email->headerText() ) . "</pre>" );
+        print( 'body:<pre>' . htmlspecialchars( $email->body() ) . "</pre>" );
 
         $mailResult = eZMailTransport::send( $email );
     }
