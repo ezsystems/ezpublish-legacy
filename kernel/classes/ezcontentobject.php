@@ -482,7 +482,9 @@ class eZContentObject extends eZPersistentObject
     {
         global $eZContentObjectContentObjectCache;
 
-        if ( !isset( $eZContentObjectContentObjectCache[$id] ) and $asObject )
+        // If the object given by its id is not cached or should be returned as array
+        // then we fetch it from the DB (objects are always cached as arrays).
+        if ( !isset( $eZContentObjectContentObjectCache[$id] ) or $asObject === false )
         {
             $language = eZContentObject::defaultLanguage();
 
