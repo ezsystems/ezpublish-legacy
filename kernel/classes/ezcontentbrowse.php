@@ -150,6 +150,18 @@ class eZContentBrowse
         if ( !isset( $parameters['ignore_nodes'] ) )
             $parameters['ignore_nodes'] = array();
 
+        if ( !isset( $parameters['class_identifier'] ) )
+        {
+            if ( $ini->hasVariable( $parameters['type'], 'Class' ) )
+            {
+                $parameters['class_array'] = $ini->variable( $parameters['type'], 'Class' );
+            }
+            else
+            {
+                $parameters['class_array'] = false;
+            }
+        }
+
         if ( isset( $parameters['keys'] ) )
         {
             $overrideStartNode = false;

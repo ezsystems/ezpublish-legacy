@@ -20,6 +20,13 @@
     {include uri="design:gui/lineedit.tpl" id_name=url value=$rss_export.url}
     <br/>
 
+    <input type="hidden" name="RSSImageID" value="{$rss_export.image_id}" />
+    <label>{"Source path"|i18n("design/standard/rss/edit")}:</label><div class="labelbreak"></div>
+    <input type="text" readonly="readonly" size="45" value="{$rss_export.image_path|wash}" maxlength="50" />
+    {include uri="design:gui/button.tpl" id_name="BrowseImageButton" value="Browse"|i18n("design/standard/rss/edit")}
+    <br/>
+
+
     <label>{"Site Access"|i18n("design/standard/rss/edit")}:</label><div class="labelbreak"></div>
     <select name="SiteAccess">
 

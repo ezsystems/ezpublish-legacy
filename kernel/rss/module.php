@@ -49,8 +49,9 @@ $ViewList['edit_export'] = array(
     'single_post_actions' => array( 'StoreButton' => 'Store',
                                     'Update_Item_Class' => 'UpdateItem',
                                     'AddSourceButton' => 'AddItem',
-                                    'RemoveButton' => 'Remove' ),
-    'params' => array( 'RSSExportID', 'RSSExportItemID' ) );
+                                    'RemoveButton' => 'Remove',
+                                    'BrowseImageButton' => 'BrowseImage' ),
+    'params' => array( 'RSSExportID', 'RSSExportItemID', 'BrowseType' ) );
 
 $ViewList['edit_import'] = array(
     'script' => 'edit_import.php',

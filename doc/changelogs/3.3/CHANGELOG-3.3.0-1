@@ -95,6 +95,7 @@ eZImage
 - Added missing link target in embed_image.tpl
 - Added templates for generating PDF
 - Added advanced dropdown menu under setup to hide the most advanced features.
+- Added class specification limit to browse settings.
 
 *Library :
 - Added basic PDF library. This will be extended in the following weeks.

@@ -249,7 +249,9 @@ class eZRSSExport extends eZPersistentObject
         return array_merge( eZPersistentObject::attributes(),
                             'item_list',
                             'modifier',
-                            'rss-xml' );
+                            'rss-xml',
+                            'image_path',
+                            'image_node' );
     }
 
     /*!
@@ -257,7 +259,7 @@ class eZRSSExport extends eZPersistentObject
     */
     function hasAttribute( $attr )
     {
-        return ( $attr == 'item_list' or $attr == 'modifier' or 'rss-xml' or
+        return ( $attr == 'item_list' or $attr == 'modifier' or $attr == 'rss-xml' or $attr == 'image_path' or $attr == 'image_node' or
                  eZPersistentObject::hasAttribute( $attr ) );
     }
 
@@ -271,6 +273,31 @@ class eZRSSExport extends eZPersistentObject
             case 'item_list':
             {
                 return $this->fetchItems();
+            } break;
+
+            case 'image_node':
+            {
+                include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+                return eZContentObjectTreeNode::fetch( $this->ImageID );
+            }
+
+            case 'image_path':
+            {
+                include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+                $objectNode =& eZContentObjectTreeNode::fetch( $this->ImageID );
+                if ( !isset( $objectNode ) )
+                    return null;
+                $path_array =& $objectNode->attribute( 'path_array' );
+                for ( $i = 0; $i < count( $path_array ); $i++ )
+                {
+                    $treenode = eZContentObjectTreeNode::fetch( $path_array[$i] );
+                    if( $i == 0 )
+                        $return = $treenode->attribute( 'name' );
+                    else
+                        $return .= '/'.$treenode->attribute( 'name' );
+                }
+                return $return;
+
             } break;
 
             case 'modifier':
@@ -367,6 +394,16 @@ class eZRSSExport extends eZPersistentObject
         $channel->appendChild( $doc->createElementTextNode( 'description', $this->attribute( 'description' ) ) );
         $channel->appendChild( $doc->createElementTextNode( 'language', $this->attribute( 'language' ) ) );
 
+        $imageURL = $this->fetchImageURL();
+        if ( $imageURL !== false )
+        {
+            $image =& $doc->createElementNode( 'image' );
+            $image->appendChild( $doc->createElementTextNode( 'url', $imageURL ) );
+            $image->appendChild( $doc->createElementTextNode( 'title', $this->attribute( 'title' ) ) );
+            $image->appendChild( $doc->createElementTextNode( 'link', $this->attribute( 'url' ) ) );
+            $channel->appendChild( $image );
+        }
+
         $rssItemArray =& $this->fetchItems();
         foreach ( $rssItemArray as $rssItem )
         {
@@ -446,6 +483,8 @@ class eZRSSExport extends eZPersistentObject
 
         include_once( 'lib/ezxml/classes/ezdomdocument.php' );
 
+        $imageURL = $this->fetchImageURL();
+
         // Get URL Translation settings.
         $config =& eZINI::instance( 'site.ini' );
         if ( $config->variable( 'URLTranslator', 'Translation' ) == 'enabled' )
@@ -467,17 +506,19 @@ class eZRSSExport extends eZPersistentObject
         $channel =& $doc->createElementNode( 'channel' );
         $root->appendChild( $channel );
 
-        $title =& $doc->createElementNode( 'title' );
-        $title->appendChild( $doc->createTextNode( $this->attribute( 'title' ) ) );
-        $channel->appendChild( $title );
+        $channel->appendChild( $doc->createElementTextNode( 'title', $this->attribute( 'title' ) ) );
+        $channel->appendChild( $doc->createElementTextNode( 'link', $this->attribute( 'url' ) ) );
+        $channel->appendChild( $doc->createElementTextNode( 'description', $this->attribute( 'description' ) ) );
 
-        $link =& $doc->createElementNode( 'link' );
-        $link->appendChild( $doc->createTextNode( $this->attribute( 'url' ) ) );
-        $channel->appendChild( $link );
-
-        $description =& $doc->createElementNode( 'description' );
-        $description->appendChild( $doc->createTextNode( $this->attribute( 'description' ) ) );
-        $channel->appendChild( $description );
+        if ( $imageURL !== false )
+        {
+            $channel->appendChild( $doc->createElementNode( 'image', array( 'rdf:resource' => $imageURL ) ) );
+            $image =& $doc->createElementNode( 'image', array( 'rdf:about' => $imageURL ) );
+            $image->appendChild( $doc->createElementTextNode( 'title', $this->attribute( 'title' ) ) );
+            $image->appendChild( $doc->createElementTextNode( 'link', $this->attribute( 'url' ) ) );
+            $image->appendChild( $doc->createElementTextNode( 'url', $imageURL ) );
+            $root->appendChild( $image );
+        }
 
         $items =& $doc->createElementNode( 'items' );
         $channel->appendChild( $items );
@@ -542,6 +583,46 @@ class eZRSSExport extends eZPersistentObject
             }
         }
         return $doc;
+    }
+
+    /*!
+     \private
+
+     Fetch Image from current ezrss export object. If non exist, or invalid, return false
+
+     \return valid image url
+    */
+    function fetchImageURL()
+    {
+
+        $imageNode =& $this->attribute( 'image_node' );
+        if ( !$imageNode )
+            return false;
+
+        $imageObject =& $imageNode->attribute( 'object' );
+        if ( !$imageObject )
+            return false;
+
+        $dataMap =& $imageObject->attribute( 'data_map' );
+        if ( !$dataMap )
+            return false;
+
+        $imageAttribute =& $dataMap['image'];
+        if ( !$imageAttribute )
+            return false;
+
+        $imageHandler =& $imageAttribute->attribute( 'content' );
+        if ( !$imageHandler )
+            return false;
+
+        $imageAlias =& $imageHandler->imageAlias( 'rss' );
+        if( !$imageAlias )
+            return false;
+
+        $url = eZSys::hostname() . eZSys::wwwDir() .'/'. $imageAlias['url'];
+        $url = preg_replace( "#^(//)#", "/", $url );
+
+        return 'http://'.$url;
     }
 }
 ?>

@@ -53,7 +53,15 @@
         <tr>
             <td class="bglight">
 	    {section show=$browse.ignore_nodes|contains($main_node.node_id)|not()}
-                <input type="{$select_type}" name="{$select_name}[]" value="{$main_node[$select_attribute]}" {section show=eq($browse.selection,'single')}checked="checked"{/section} />
+	      {section show=is_array($browse.class_array)}
+	        {section show=$browse.class_array|contains($main_node.object.content_class.identifier)}
+		  <input type="{$select_type}" name="{$select_name}[]" value="{$main_node[$select_attribute]}" {section show=eq($browse.selection,'single')}checked="checked"{/section} />
+		{section-else}
+		    &nbsp;
+		{/section}
+	      {section-else}
+	        <input type="{$select_type}" name="{$select_name}[]" value="{$main_node[$select_attribute]}" {section show=eq($browse.selection,'single')}checked="checked"{/section} />
+	      {/section}
 	    {section-else}
 	        &nbsp;
             {/section}
@@ -81,7 +89,15 @@
         <tr class="{$Object:sequence}">
             <td>
 	        {section show=$browse.ignore_nodes|contains($:item.node_id)|not()}
-                    <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
+		  {section show=is_array($browse.class_array)}
+	            {section show=$browse.class_array|contains($:item.object.content_class.identifier)}
+		      <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
+  		    {section-else}
+		      &nbsp;
+		    {/section}
+		  {section-else}
+		    <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
+		  {/section}
                 {/section}
             </td>
         
@@ -139,7 +155,11 @@
         <tr class="{$:sequence}">
             <td width="1">
                 {section show=$browse.ignore_nodes|contains($:item)|not()}
-                    <input type="{$select_type}" name="{$select_name}[]" value="{$:item}" />
+		  {section show=is_array($browse.class_array)|not()}
+		    <input type="{$select_type}" name="{$select_name}[]" value="{$:item}" />
+		  {section-else}
+		    &nbsp;
+		  {/section}
                 {section-else}
                     &nbsp;
                 {/section}
@@ -168,7 +188,15 @@
         <tr class="{$:sequence}">
             <td width="1">
 	        {section show=$browse.ignore_nodes|contains($:item.node_id)|not()}
-                    <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
+		  {section show=is_array($browse.class_array)}
+	            {section show=$browse.class_array|contains($:item.object.content_class.identifier)}
+		      <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
+		    {section-else}
+		      &nbsp;
+		    {/section}
+		  {section-else}
+		    <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
+		  {/section}
                 {section-else}
                     &nbsp;
 		{/section}
@@ -212,7 +240,11 @@
             <tr class="{$:sequence}">
                 <td width="1">
 		    {section show=$browse.ignore_nodes|contains($:item.node_id)|not()}
-                        <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
+		      {section show=is_array($browse.class_array)|not()}
+			<input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
+		      {section-else}
+		        &nbsp;
+		      {/section}
                     {section-else}
 		        &nbsp;
 		    {/section}

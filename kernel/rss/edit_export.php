@@ -72,6 +72,16 @@ else if ( $Module->isCurrentAction( 'Remove' ) )
     $rssExport->remove();
     return $Module->run( 'list', array() );
 }
+else if ( $Module->isCurrentAction( 'BrowseImage' ) )
+{
+    storeRSSExport( $Module, $http );
+    include_once( 'kernel/classes/ezcontentbrowse.php' );
+    eZContentBrowse::browse( array( 'action_name' => 'RSSExportImageBrowse',
+                                    'description_template' => 'design:rss/browse_image.tpl',
+                                    'from_page' => '/rss/edit_export/'. $RSSExportID .'/0/ImageSource' ),
+                             $Module );
+}
+
 
 if ( $http->hasPostVariable( 'Item_Count' ) )
 {
@@ -83,7 +93,7 @@ if ( $http->hasPostVariable( 'Item_Count' ) )
             include_once( 'kernel/classes/ezcontentbrowse.php' );
             eZContentBrowse::browse( array( 'action_name' => 'RSSObjectBrowse',
                                             'description_template' => 'design:rss/browse_source.tpl',
-                                            'from_page' => '/rss/edit_export/'.$RSSExportID.'/'.$http->postVariable( 'Item_ID_'.$itemCount ) ),
+                                            'from_page' => '/rss/edit_export/'. $RSSExportID .'/'. $http->postVariable( 'Item_ID_'.$itemCount ) .'/NodeSource' ),
                                      $Module );
             break;
         }
@@ -95,16 +105,29 @@ if ( is_numeric( $RSSExportID ) )
     $rssExport =& eZRSSExport::fetch( $RSSExportID );
     $rssExportID = $RSSExportID;
 
-    if ( isset( $Params['RSSExportItemID'] ) && $http->hasPostVariable( 'SelectedNodeIDArray' ) )
+    include_once( 'kernel/classes/ezcontentbrowse.php' );
+
+    switch ( $Params['BrowseType'] )
     {
-        include_once( 'kernel/classes/ezcontentbrowse.php' );
-        $nodeIDArray = $http->postVariable( 'SelectedNodeIDArray' );
-        if ( isset( $nodeIDArray ) )
+        case 'NodeSource':
         {
-            $rssExportItem = eZRSSExportItem::fetch( $Params['RSSExportItemID'] );
-            $rssExportItem->setAttribute( 'source_node_id', $nodeIDArray[0] );
-            $rssExportItem->store();
-        }
+            $nodeIDArray = $http->postVariable( 'SelectedNodeIDArray' );
+            if ( isset( $nodeIDArray ) )
+            {
+                $rssExportItem = eZRSSExportItem::fetch( $Params['RSSExportItemID'] );
+                $rssExportItem->setAttribute( 'source_node_id', $nodeIDArray[0] );
+                $rssExportItem->store();
+            }
+        } break;
+
+        case 'ImageSource':
+        {
+            $imageNodeIDArray = $http->postVariable( 'SelectedNodeIDArray' );
+            if ( isset( $imageNodeIDArray ) )
+            {
+                $rssExport->setAttribute( 'image_id', $imageNodeIDArray[0] );
+            }
+        } break;
     }
 }
 else // New RSSExport
