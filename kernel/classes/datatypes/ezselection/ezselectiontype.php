@@ -85,13 +85,8 @@ class eZSelectionType extends eZDataType
         }
 
         $currentOptions = $attributeContent['options'];
-        if ( $http->hasPostVariable( $base . "_ezselection_newoption_button_" . $classAttributeID ) )
-        {
-            $currentOptions[] = array( 'id' => count( $currentOptions ) + 1,
-                                       'name' => '' );
-        }
-
         $hasPostData = false;
+
         if ( $http->hasPostVariable( $base . "_ezselection_option_name_array_" . $classAttributeID ) )
         {
             $nameArray = $http->postVariable( $base . "_ezselection_option_name_array_" . $classAttributeID );
@@ -100,7 +95,20 @@ class eZSelectionType extends eZDataType
             {
                 $currentOptions[$key]['name'] = $nameArray[$currentOptions[$key]['id']];
             }
+                    $hasPostData = true;
+
         }
+
+        if ( $http->hasPostVariable( $base . "_ezselection_newoption_button_" . $classAttributeID ) )
+        {
+            eZDebug::writeDebug( $currentOptions, '$currentOptions' );
+            $currentOptions[] = array( 'id' => count( $currentOptions ) + 1,
+                                       'name' => '' );
+            eZDebug::writeDebug( $currentOptions, '$currentOptions' );
+                    $hasPostData = true;
+
+        }
+
 
         if ( $hasPostData )
         {
