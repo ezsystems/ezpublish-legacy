@@ -8,7 +8,6 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th width="1%">ID:</th>
     <th>Name:</th>
     <th>Version:</th>
     <th>Edit:</th>
@@ -21,7 +20,6 @@
 
 {section name=Draft loop=$draft_list sequence=array(bglight,bgdark)}
 <tr>
-    <td class="{$Draft:sequence}">{$Draft:item.contentobject.id}</td>
     <td class="{$Draft:sequence}">
     <a href={concat("/content/versionview/",$Draft:item.contentobject.id,"/",$Draft:item.version,"/")|ezurl}>
     {$Draft:item.contentobject.name}</a>
