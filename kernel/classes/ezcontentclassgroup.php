@@ -130,6 +130,21 @@ class eZContentClassGroup extends eZPersistentObject
                                           array( "id" => $id ) );
     }
 
+    /*!
+     Fetch Class group by name, and return first result.
+
+     \param name
+     \param asObject
+    */
+    function &fetchByName( $name, $asObject = true )
+    {
+        $conds = array( 'name' => $name );
+        return eZPersistentObject::fetchObject( eZContentClassGroup::definition(),
+                                                null,
+                                                $conds,
+                                                $asObject );
+    }
+
     function &fetch( $id, $user_id = false, $asObject = true )
     {
         $conds = array( "id" => $id );

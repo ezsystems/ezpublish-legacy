@@ -208,11 +208,9 @@ class eZContentClassPackageHandler extends eZPackageHandler
         foreach ( array_keys( $classGroupsList ) as $classGroupNodeKey )
         {
             $classGroupNode =& $classGroupsList[$classGroupNodeKey];
-            $classGroupID = $classGroupNode->attributeValue( 'id' );
             $classGroupName = $classGroupNode->attributeValue( 'name' );
-            $classGroup =& eZContentClassGroup::fetch( $classGroupID );
-            if ( !$classGroup or
-                 $classGroup->attribute( 'name' ) != $classGroupName )
+            $classGroup =& eZContentClassGroup::fetchByName( $classGroupName );
+            if ( !$classGroup )
             {
                 $classGroup =& eZContentClassGroup::create();
                 $classGroup->setAttribute( 'name', $classGroupName );
