@@ -15,7 +15,7 @@
 
 <body>
 
-<img src={"toppmeny.gif"|ezimage} alt="" border="" USEMAP="#map" />
+<img src={"topmenu.gif"|ezimage} alt="" border="" USEMAP="#map" />
 
 <map name="map">
 <area SHAPE="RECT" COORDS="2,1,103,27" href={"content/view/full/159/"|ezurl} />

@@ -39,7 +39,7 @@ function OpenWindow ( URL, WinName, Features ) {
 
 {* Top box START *}
 
-<img src={"toppmeny.gif"|ezimage} alt="" border="0" usemap="#map" />
+<img src={"topmenu.gif"|ezimage} alt="" border="0" usemap="#map" />
 <br />
 
 

@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<img src={"toppmeny.gif"|ezimage} alt="" border="" USEMAP="#map" />
+<img src={"topmenu.gif"|ezimage} alt="" border="" USEMAP="#map" />
 
 <MAP NAME="map">
 <AREA SHAPE="RECT" COORDS="1,1,71,25" href={"content/view/full/26/"|ezurl}>
