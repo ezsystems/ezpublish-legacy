@@ -1,0 +1,13 @@
+*Title: Allowing objects to control VAT information
+
+*Incentive:
+Make it possible to change VAT selections at object level.
+
+*Documentation:
+Up until eZ Publish v. 3.5, it has only been possible to make selections with
+regards to VAT at class level. This modification allows the user to specify
+VAT type and whether the specific price is ex or inc VAT at object level,
+allowing products with different VAT types to be a part of the same class.
+
+The VAT selections made at class level will be the default selections when
+creating objects based on an attribute of the ezprice datatype.

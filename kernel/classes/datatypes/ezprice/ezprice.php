@@ -47,6 +47,7 @@
   - vat_type
   - current_user
   - is_vat_included
+  - selected_vat_type
   - vat_percent
   - inc_vat_price
   - ex_vat_price
@@ -99,7 +100,8 @@ class eZPrice
                       'discount_price_inc_vat',
                       'discount_price_ex_vat',
                       'has_discount',
-                      'price' );
+                      'price',
+                      'selected_vat_type' );
     }
 
     /*!
@@ -117,10 +119,35 @@ class eZPrice
              $attr == 'discount_price_inc_vat' or
              $attr == 'discount_price_ex_vat' or
              $attr == 'has_discount' or
-             $attr == 'price' )
+             $attr == 'price' or
+             $attr == 'selected_vat_type' )
             return true;
         else
             return false;
+    }
+
+    /*!
+      Sets the attribute named \a $attr to value \a $value.
+    */
+    function setAttribute( $attr, $value )
+    {
+        switch ( $attr )
+        {
+            case 'selected_vat_type':
+            {
+                $this->VATType =& eZVatType::fetch( $value );
+            } break;
+
+            case 'is_vat_included':
+            {
+                $this->IsVATIncluded = ( $value == '1' );
+            } break;
+
+            default:
+            {
+                eZDebug::writeError( "Unspecified attribute: " . $attr, 'eZPrice::setAttribute' );
+            } break;
+        }
     }
 
     /*!
@@ -239,6 +266,11 @@ class eZPrice
             case "price" :
             {
                 return $this->Price;
+            } break;
+
+            case 'selected_vat_type':
+            {
+                return $this->VATType;
             } break;
 
             default :

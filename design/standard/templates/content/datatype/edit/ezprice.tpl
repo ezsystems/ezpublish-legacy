@@ -4,6 +4,24 @@
 {section show=$attribute.class_content.is_vat_included}
 {* Entered price already includes VAT. *}
 {section-else}
-&nbsp;(+ {$attribute.class_content.vat_type[0].name}, {$attribute.class_content.vat_type[0].percentage}%)
+&nbsp;(+ {$attribute.content.selected_vat_type.name}, {$attribute.content.selected_vat_type.percentage}%)
 {/section}
+
+<div class="block">
+<label>{'VAT'|i18n( 'design/standard/class/datatype' )}:</label>
+<select name="{$attribute_base}_ezprice_inc_ex_vat_{$attribute.id}">
+<option value="1" {section show=eq( $attribute.content.is_vat_included, true() )}selected="selected"{/section}>{'Price inc. VAT'|i18n( 'design/standard/class/datatype' )}</option>
+<option value="2" {section show=eq( $attribute.content.is_vat_included, false() )}selected="selected"{/section}>{'Price ex. VAT'|i18n( 'design/standard/class/datatype' )}</option>
+</select>
+</div>
+
+<div class="block">
+<label>{'VAT type'|i18n( 'design/standard/class/datatype' )}:</label>
+<select name="{$attribute_base}_ezprice_vat_id_{$attribute.id}">
+{section var=vat_type loop=$attribute.content.vat_type}
+<option value="{$vat_type.item.id}" {section show=eq( $vat_type.item.id, $attribute.content.selected_vat_type.id )}selected="selected"{/section}>{$vat_type.item.name|wash}, {$vat_type.item.percentage}%</option>
+{/section}
+</select>
+</div>
+
 {/default}

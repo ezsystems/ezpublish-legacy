@@ -133,12 +133,18 @@ class eZPriceType extends eZDataType
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
         $data = $http->postVariable( $base . "_data_price_" . $contentObjectAttribute->attribute( "id" ) );
+        $vatType = $http->postVariable( $base . '_ezprice_vat_id_' . $contentObjectAttribute->attribute( 'id' ) );
+        $vatExInc = $http->postVariable( $base . '_ezprice_inc_ex_vat_' . $contentObjectAttribute->attribute( 'id' ) );
 
         include_once( 'lib/ezlocale/classes/ezlocale.php' );
         $locale =& eZLocale::instance();
         $data =& $locale->internalCurrency( $data );
 
+        $data_text = $vatType . ',' . $vatExInc;
+
         $contentObjectAttribute->setAttribute( "data_float", $data );
+        $contentObjectAttribute->setAttribute( 'data_text', $data_text );
+
         return true;
     }
 
@@ -151,6 +157,15 @@ class eZPriceType extends eZDataType
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
         $storedPrice = $contentObjectAttribute->attribute( "data_float" );
         $price = new eZPrice( $classAttribute, $contentObjectAttribute, $storedPrice );
+
+        if ( $contentObjectAttribute->attribute( 'data_text' ) != '' )
+        {
+            list( $vatType, $vatExInc ) = explode( ',', $contentObjectAttribute->attribute( "data_text" ), 2 );
+
+            $price->setAttribute( 'selected_vat_type', $vatType );
+            $price->setAttribute( 'is_vat_included', $vatExInc );
+        }
+
         return $price;
     }
 

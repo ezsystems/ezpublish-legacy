@@ -50,6 +50,9 @@ Changes from 3.5.0 to 3.6.0alpha1
 
 *DataType:
 
+eZ Price:
+- Added enhancement #2155: VAT selections can now be changed at object level.
+
 eZ Xmltext:
 - Modified: Handling of special characters.
   (Merged from stable/3.5 (3.5.1) rev. 10831)
