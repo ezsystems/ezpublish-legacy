@@ -20,7 +20,7 @@
 {section var=Translations loop=$node.object.current.language_list sequence=array( bglight, bgdark )}
 <tr class="{$Translations.sequence}">
 <td>
-<img src={concat( '/share/icons/flags/', $Translations.item.language_code, '.gif' )|ezroot} alt="{$Translations.item.language_code}" />
+<img src="{$Translations.item.language_code|flag_icon}" alt="{$Translations.item.language_code}" />
 &nbsp;
 {section show=and( eq( $Translations.item.language_code, $language_code ), $node.object.current.language_list|gt( 1 ) )}
 <b><a href={concat( '/content/view/full/', $node.node_id, '/language/', $Translations.item.language_code )|ezurl}>{$Translations.item.locale.intl_language_name}</a></b>

@@ -126,7 +126,7 @@
 
     <td>
     {section show=$Translations.item.locale.is_valid}
-        <img src={concat( '/share/icons/flags/', $Translations.item.language_code, '.gif')|ezroot}>&nbsp;{$Translations.item.locale.intl_language_name}
+        <img src="{$Translations.item.language_code|flag_icon}" alt="{$Translations.item.language_code}" />&nbsp;{$Translations.item.locale.intl_language_name}
     {section-else}
         {'(Unable to display because of unknown locale!)'|i18n( 'design/admin/content/translate' )}
     {/section}

@@ -98,9 +98,14 @@ class eZWordToImageOperator
                 $iconFormat = $ini->variable( 'FlagIcons', 'IconFormat' );
                 $icon = $operatorValue . "." . $iconFormat;
                 $iconPath = '/' . $repository . '/' . $icon;
+                if ( !is_readable( $iconPath ) )
+                {
+                    $defaultIcon = $ini->variable( 'FlagIcons', 'DefaultIcon' );
+                    $iconPath = '/' . $repository . '/' . $defaultIcon;
+                }
                 $wwwDirPrefix = "";
                 if ( strlen( eZSys::wwwDir() ) > 0 )
-                    $wwwDirPrefix = eZSys::wwwDir() . "/";
+                    $wwwDirPrefix = eZSys::wwwDir();
                 $operatorValue = $wwwDirPrefix . $iconPath;
             }break;
 

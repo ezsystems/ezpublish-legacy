@@ -137,7 +137,7 @@
 	<td>
 	{section var=Languages loop=$Versions.item.language_list}
         {delimiter}<br />{/delimiter}
-	<img src={concat( '/share/icons/flags/', $Languages.item.language_code, '.gif' )|ezroot} />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $Versions.item.version, '/', $Languages.item.language_code, '/' )|ezurl}>{$Languages.item.locale.intl_language_name}</a>{/section}
+	<img src="{$Languages.item.language_code|flag_icon}" alt="{$Languages.item.language_code}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $Versions.item.version, '/', $Languages.item.language_code, '/' )|ezurl}>{$Languages.item.locale.intl_language_name}</a>{/section}
 	</td>
 
     <td>

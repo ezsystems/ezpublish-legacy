@@ -26,7 +26,7 @@
 
     {* Language. *}
 	<td>
-    <img src={concat( '/share/icons/flags/', $Translations.item.translation.locale_object.locale_code, '.gif' )|ezroot} alt="{$Translations.item.translation.locale_object.intl_language_name}" /> 
+    <img src="{$Translations.item.translation.locale_object.locale_code|flag_icon}" alt="{$Translations.item.translation.locale_object.intl_language_name}" /> 
     <a href={concat( '/content/translations/', $Translations.item.translation.id )|ezurl}>{section show=$Translations.item.translation.name}{$Translations.item.translation.name|wash}{section-else}{$Translations.item.translation.locale_object.intl_language_name|wash}{/section}</a>
     </td>
 

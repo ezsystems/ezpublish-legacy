@@ -65,7 +65,7 @@
 <p>
 <input type="radio" name="SelectedLanguage" value="{$Translations.item.language_code}" {section show=eq( $Translations.item.locale.locale_code, $object_languagecode )}checked="checked"{/section} />
 {section show=$Translations.item.locale.is_valid}
-<img src={concat( '/share/icons/flags/', $Translations.item.language_code, '.gif' )|ezroot} alt="($Translations.item.language_code)" style="vertical-align: middle;" /> {$Translations.item.locale.intl_language_name|shorten( 16 )}
+<img src="{$Translations.item.language_code|flag_icon}" alt="{$Translations.item.language_code}" style="vertical-align: middle;" /> {$Translations.item.locale.intl_language_name|shorten( 16 )}
 {section-else}
 {'%1 (No locale information available)'|i18n( 'design/admin/content/view/versionview',, array( $Translations.item.language_code ) )}
 {/section}
@@ -145,7 +145,7 @@
 <div class="context-information">
 <p class="modified">&nbsp;</p>
 <p class="translation">
-{$object_languagecode|locale().intl_language_name} <img src={concat( '/share/icons/flags/', $object_languagecode, '.gif' )|ezroot} alt="{$object_languagecode}" style="vertical-align: middle;" />
+{$object_languagecode|locale().intl_language_name} <img src="{$object_languagecode|flag_icon}" alt="{$object_languagecode}" style="vertical-align: middle;" />
 </p>
 <div class="break"></div>
 </div>

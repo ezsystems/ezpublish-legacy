@@ -56,7 +56,7 @@
   {/section}
 {/section}
 
-{$translation_list[$language_index].locale.intl_language_name}&nbsp;<img src={concat( '/share/icons/flags/', $translation_list[$language_index].language_code, '.gif' )|ezroot} style="vertical-align: middle;" />
+{$translation_list[$language_index].locale.intl_language_name}&nbsp;<img src="{$translation_list[$language_index].language_code|flag_icon}" style="vertical-align: middle;" alt="{$translation_list[$language_index].language_code}" />
 
 {/let}
 </p>
