@@ -1,0 +1,9 @@
+This results in empty data structure for parameter
+array('abc',)
+while this result in correct data structure
+array('abc',,'')
+
+Whitespace should be allowed between any types, like:
+array('abc',
+      'def')
+
