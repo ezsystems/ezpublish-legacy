@@ -4,7 +4,8 @@
          haveChildren   = count($contentStructureTree.children)|gt(0)
          showToolTips   = ezini( 'TreeMenu', 'ToolTips'         , 'contentstructuremenu.ini' )
          classIconsSize = ezini( 'TreeMenu', 'ClassIconsSize'   , 'contentstructuremenu.ini' )
-         toolTip        = "" }
+         toolTip        = ""
+         visibility     = 'Visible' }
 
          <li id="n{$:parentNode.node.node_id}">
 
@@ -29,10 +30,15 @@
             {* Label *}
                 {* Tooltip *}
                 {section show=$:showToolTips|eq('enabled')}
-                    {set toolTip = 'Node ID: %node_id Created: %created Children num: %children_num' |
+                    {section show=$:parentNode.node.is_invisible}
+                        {set visibility = 'Hidden by superior'}
+                    {/section}
+                    {section show=$:parentNode.node.is_hidden}
+                        {set visibility = 'Hidden'}
+                    {/section}
+                    {set toolTip = 'Node ID: %node_id Visibility: %visibility' |
                                     i18n("contentstructuremenu/show_content_structure", , hash( '%node_id'      , $:parentNode.node.node_id,
-                                                                                                '%created'      , $:parentNode.object.published|l10n(shortdatetime),
-                                                                                                '%children_num' , $:parentNode.node.children_count ) ) }
+                                                                                                '%visibility'   , $:visibility ) ) }
                 {section-else}
                     {set toolTip = ''}
                 {/section}
