@@ -336,7 +336,7 @@ function changeAccess( $access )
     }
     if ( file_exists( "settings/siteaccess/$name" ) )
     {
-        $ini->setOverrideDir( "siteaccess/$name" );
+        $ini->prependOverrideDir( "siteaccess/$name" );
         $ini->loadCache();
 //         $ini->parse( 'site.ini' );
     }

@@ -40,6 +40,11 @@ pre_check.php:
    and fixed the validity check.
 - Validity check will now turn off policy checking, url translation, user objects, session and database.
 
+access.php:
+- Siteaccess has been changed to prepend as an override dir instead of overwriting,
+  that way personal overrides will always work.
+
+
 *SDK :
 - Added main concepts tutorial
 
@@ -116,8 +121,11 @@ eZ locale:
 
 eZ ini:
 - No cache is created or used if the /no-cache-adviced/ in site basics is true.
-- New feature, the database now supports real arrays.
-  They are input with a [] after the keyname.
+- New feature, the ini files now supports real arrays.
+  They are input with a [] after the keyname. An empty entry will create an
+  empty array, like Item[]
+- Some changes to the way override dir is handled, it now supports multiple override
+  dirs each being parsed in order.
 
 eZ codepage:
 - No cache is created or used if the /no-cache-adviced/ in site basics is true.

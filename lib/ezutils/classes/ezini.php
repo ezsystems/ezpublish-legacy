@@ -198,33 +198,6 @@ class eZINI
         return file_exists( $rootDir . '/' . $fileName );
     }
 
-    function isLoaded( $fileName = "site.ini", $rootDir = "settings" )
-    {
-        $isLoaded =& $GLOBALS["eZINIGlobalIsLoaded-$rootDir-$fileName"];
-        if ( !isset( $isLoaded ) )
-            return false;
-        return $isLoaded;
-    }
-
-    /*!
-      \static
-      Returns the current instance of the given .ini file
-    */
-    function &instance( $fileName = "site.ini", $rootDir = "settings", $useTextCodec = null, $useCache = null )
-    {
-        $impl =& $GLOBALS["eZINIGlobalInstance-$rootDir-$fileName"];
-        $isLoaded =& $GLOBALS["eZINIGlobalIsLoaded-$rootDir-$fileName"];
-
-        $class =& get_class( $impl );
-        if ( $class != "ezini" )
-        {
-            $isLoaded = false;
-            $impl = new eZINI( $fileName, $rootDir, $useTextCodec, $useCache );
-            $isLoaded = true;
-        }
-        return $impl;
-    }
-
     /*!
      Tries to load the ini file specified in the constructor or instance() function.
      If cache files should be used and a cache file is found it loads that instead.
@@ -244,6 +217,30 @@ class eZINI
         }
     }
 
+    function findInputFiles( &$inputFiles, &$iniFile )
+    {
+        include_once( 'lib/ezutils/classes/ezdir.php' );
+        $inputFiles = array();
+        $iniFile = eZDir::path( array( $this->RootDir, $this->FileName ) );
+        if ( file_exists( $iniFile . '.php' ) )
+            $iniFile .= '.php';
+        $inputFiles[] = $iniFile;
+        $overrideDirs = $this->overrideDirs();
+        foreach ( $overrideDirs as $overrideDir )
+        {
+            $overrideFile = eZDir::path( array( $this->RootDir, $overrideDir, $this->FileName ) );
+            if ( file_exists( $overrideFile . '.php' ) )
+                $overrideFile .= '.php';
+            else if ( file_exists( $overrideFile ) )
+                $inputFiles[] = $overrideFile;
+            $overrideFile = eZDir::path( array( $this->RootDir, $overrideDir, $this->FileName . '.append' ) );
+            if ( file_exists( $overrideFile . '.php' ) )
+                $overrideFile .= '.php';
+            else if ( file_exists( $overrideFile ) )
+                $inputFiles[] = $overrideFile;
+        }
+    }
+
     /*!
       \private
       Will load a cached version of the ini file if it exists,
@@ -260,58 +257,40 @@ class eZINI
                 eZDebug::writeError( "Couldn't create cache directory $cachedDir, perhaps wrong permissions", "eZINI" );
             }
         }
-        $override_dir = $this->overrideDir();
-        $overrideName = $this->RootDir . "/$override_dir/" . $this->FileName;
-        $appendName = $this->RootDir . "/$override_dir/" . $this->FileName . ".append";
-        $override_file = "";
-        if ( file_exists( $appendName ) )
-            $override_file = $appendName;
-        else if ( file_exists( $overrideName ) )
-            $override_file = $overrideName;
-        $md5_input = ( $override_dir . $override_file .
-                       realpath( $this->RootDir . "/" . $this->FileName ) );
+
+        $this->findInputFiles( $inputFiles, $iniFile );
+
+        $md5Files = array();
+        foreach ( $inputFiles as $inputFile )
+        {
+            $md5Files[] = $inputFile;
+        }
+        $md5_input = implode( "\n", $md5Files );
         if ( $this->UseTextCodec )
         {
             include_once( "lib/ezi18n/classes/eztextcodec.php" );
-            $md5_input .= eZTextCodec::internalCharset();
+            $md5_input .= '-' . eZTextCodec::internalCharset();
         }
         $cachedFile = $cachedDir . md5( $md5_input ) . ".php";
         $this->CacheFile = $cachedFile;
 
+        $inputTime = false;
         // check for modifications
-        if ( file_exists( $this->RootDir . "/" . $this->FileName . ".php" ) )
-            $origTime = filemtime( $this->RootDir . "/" . $this->FileName . ".php" );
-        else
-            $origTime = filemtime( $this->RootDir . "/" . $this->FileName );
-//        $overrideTime = filemtime( "override/" . $this->FileName );
-//        $appendTime = filemtime( "override/" . $this->FileName . ".append" );
+        foreach ( $inputFiles as $inputFile )
+        {
+            $fileTime = filemtime( $inputFile );
+            if ( $inputTime === false or
+                 $fileTime > $inputTime )
+                $inputTime = $fileTime;
+        }
 
         $loadCache = false;
+        $cacheTime = false;
         if ( file_exists( $cachedFile ) )
         {
             $cacheTime = filemtime( $cachedFile );
             $loadCache = true;
-            if ( $cacheTime < $origTime )
-            {
-                $loadCache = false;
-            }
-//             if ( file_exists( $overrideName ) )
-//             {
-//                 $overrideTime = filemtime( $overrideName );
-//                 print( "\$overrideTime=$overrideTime<br/>" );
-//             }
-            if ( file_exists( $overrideName ) and
-                 $cacheTime < filemtime( $overrideName ) )
-            {
-                $loadCache = false;
-            }
-//             if ( file_exists( $appendName ) )
-//             {
-//                 $appendTime = filemtime( $appendName );
-//                 print( "\$appendTime=$appendTime<br/>" );
-//             }
-            if ( file_exists( $appendName ) and
-                 $cacheTime < filemtime( $appendName ) )
+            if ( $cacheTime < $inputTime )
             {
                 $loadCache = false;
             }
@@ -343,7 +322,7 @@ class eZINI
         }
         if ( !$useCache )
         {
-            $this->parse();
+            $this->parse( $inputFiles, $iniFile );
             $this->saveCache( $cachedFile );
         }
     }
@@ -367,13 +346,13 @@ class eZINI
                 return;
             }
             fwrite( $fp, "<?php\n\$eZIniCacheCodeDate = " . EZ_INI_CACHE_CODE_DATE . ";\n" );
+//             exit;
 
             fwrite( $fp, "\$charset = \"$this->Charset\";\n" );
             reset( $this->BlockValues );
             while ( list( $groupKey, $groupVal ) = each ( $this->BlockValues ) )
             {
                 reset( $groupVal );
-//                fwrite( $fp, "\$groupArray = array();\n\$orderedGroupArray = array();\n" );
                 while ( list( $key, $val ) = each ( $groupVal ) )
                 {
                     if ( is_array( $val ) )
@@ -392,18 +371,9 @@ class eZINI
                         fwrite( $fp, "\$groupArray[\"$key\"] = \"$tmpVal\";\n" );
                     }
                 }
-/*                while ( list( $key, $val ) = each ( $this->OrderedBlockValues[$groupKey] ) )
-                {
-                    $tmpKey = $val[0];
-                    $tmpVal = str_replace( "\"", "\\\"", $val[1] );
-
-                    fwrite( $fp, "\$orderedGroupArray[] = array(\"$tmpKey\", \"$tmpVal\");\n" );
-                }*/
 
                 fwrite( $fp, "\$blockValues[\"$groupKey\"] =& \$groupArray;\n" );
-//                fwrite( $fp, "\$orderedBlockValues[\"$groupKey\"] =& \$orderedGroupArray;\n" );
                 fwrite( $fp, "unset( \$groupArray );\n" );
-//                 fwrite( $fp, "unset( \$orderedGroupArray );\n" );
                 $i++;
             }
             fwrite( $fp, "\n?>" );
@@ -411,6 +381,7 @@ class eZINI
             if ( eZINI::isDebugEnabled() )
                 eZDebug::writeNotice( "Wrote cache file '$cachedFile'", "eZINI" );
         }
+//         exit;
     }
 
     /*!
@@ -418,33 +389,18 @@ class eZINI
       Parses either the override ini file or the standard file and then the append
       override file if it exists.
      */
-    function &parse( $file = false )
+    function &parse( $inputFiles = false, $iniFile = false )
     {
-        if ( $file == false )
-            $file = $this->FileName;
-        $override_dir = $this->overrideDir();
-        $overrideName = $this->RootDir . "/$override_dir/" . $file;
-        if ( file_exists( $overrideName . ".php" ) )
-        {
-            $this->parseFile( $overrideName . ".php" );
-        }
-        else if ( file_exists( $overrideName ) )
-        {
-            $this->parseFile( $overrideName );
-        }
-        else
-        {
-            $filePath = $this->RootDir . "/" . $file;
-            if ( file_exists( $filePath . ".php" ) )
-                $this->parseFile( $filePath . ".php" );
-            else if ( file_exists( $filePath ) )
-                $this->parseFile( $filePath );
+        if ( $inputFiles === false or
+             $iniFile === false )
+            $this->findInputFiles( $inputFiles, $iniFile );
 
-            $appendName = $this->RootDir . "/$override_dir/" . $file . ".append";
-            if ( file_exists( $appendName . ".php" ) )
-                $this->parseFile( $appendName . ".php" );
-            else if ( file_exists( $appendName ) )
-                $this->parseFile( $appendName );
+        foreach ( $inputFiles as $inputFile )
+        {
+            if ( file_exists( $inputFile ) )
+            {
+                $this->parseFile( $inputFile );
+            }
         }
     }
 
@@ -541,8 +497,6 @@ class eZINI
                 {
                     $this->BlockValues[$currentBlock][$varName] = $varValue;
                 }
-//                 $this->OrderedBlockValues[$currentBlock][] = array( $varName,
-//                                                                     $varValue );
             }
         }
 
@@ -567,13 +521,16 @@ class eZINI
     */
     function &save( $fileName = false, $suffix = false, $useOverride = false )
     {
-        $sep = eZSys::lineSeparator();
+        $lineSeparator = eZSys::lineSeparator();
         $pathArray = array();
         if ( $fileName === false )
             $fileName = $this->FileName;
         $pathArray[] = $this->RootDir;
         if ( $useOverride )
-            $pathArray[] = $this->overrideDir();
+        {
+            $overrideDirs = $this->overrideDir();
+            $pathArray[] = $overrideDirs[0];
+        }
         if ( is_string( $useOverride ) and
              $useOverride == "append" )
             $fileName .= ".append";
@@ -597,7 +554,7 @@ class eZINI
 
         $writeOK = true;
         $written = 0;
-        $written = fwrite( $fp, "<?php /* #?ini charset=\"" . $this->Charset . "\"?$sep$sep" );
+        $written = fwrite( $fp, "<?php /* #?ini charset=\"" . $this->Charset . "\"?$lineSeparator$lineSeparator" );
         if ( $written === false )
             $writeOK = false;
         $i = 0;
@@ -607,13 +564,13 @@ class eZINI
             {
                 $written = 0;
                 if ( $i > 0 )
-                    $written = fwrite( $fp, "$sep" );
+                    $written = fwrite( $fp, "$lineSeparator" );
                 if ( $written === false )
                 {
                     $writeOK = false;
                     break;
                 }
-                $written = fwrite( $fp, "[$blockName]$sep" );
+                $written = fwrite( $fp, "[$blockName]$lineSeparator" );
                 if ( $written === false )
                 {
                     $writeOK = false;
@@ -623,7 +580,19 @@ class eZINI
                 {
                     $varKey = $blockVariable;
                     $varValue = $this->BlockValues[$blockName][$blockVariable];
-                    $written = fwrite( $fp, "$varKey=$varValue$sep" );
+                    if ( is_array( $varValue ) )
+                    {
+                        foreach ( $varValue as $varArrayValue )
+                        {
+                            $written = fwrite( $fp, "$varKey" . "[]=$varArrayValue$lineSeparator" );
+                            if ( $written === false )
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        $written = fwrite( $fp, "$varKey=$varValue$lineSeparator" );
+                    }
                     if ( $written === false )
                     {
                         $writeOK = false;
@@ -670,7 +639,6 @@ class eZINI
     function reset()
     {
         $this->BlockValues = array();
-//         $this->OrderedBlockValues = array();
     }
 
     /*!
@@ -684,26 +652,44 @@ class eZINI
     }
 
     /*!
-     \return the override directory, if no directory has been set "override" is returned.
+     \return the override directories, if no directories has been set "override" is returned.
 
-     The override directory is relative to the rootDir().
+     The override directories are relative to the rootDir().
     */
-    function overrideDir()
+    function overrideDirs()
     {
-        $dir =& $GLOBALS["eZINIOverrideDir"];
-        if ( !isset( $dir ) or !is_string( $dir ) )
-            $dir = "override";
-        return $dir;
+        $dirs =& $GLOBALS["eZINIOverrideDirList"];
+        if ( !isset( $dirs ) or !is_array( $dirs ) )
+            $dirs = array( "override" );
+        return $dirs;
     }
 
     /*!
-     Sets the override directory to $dir.
+     Appends the override directory \a $dir to the override directory list.
     */
-    function setOverrideDir( $dir )
+    function prependOverrideDir( $dir )
     {
         if ( eZINI::isDebugEnabled() )
             eZDebug::writeNotice( "Changing override dir to '$dir'", "eZINI" );
-        $GLOBALS["eZINIOverrideDir"] = $dir;
+        $dirs =& $GLOBALS["eZINIOverrideDirList"];
+        if ( !isset( $dirs ) or !is_array( $dirs ) )
+            $dirs = array( 'override' );
+        $dirs = array_merge( array( $dir ), $dirs );
+        $this->CacheFile = false;
+     }
+
+    /*!
+     Appends the override directory \a $dir to the override directory list.
+    */
+    function appendOverrideDir( $dir )
+    {
+        if ( eZINI::isDebugEnabled() )
+            eZDebug::writeNotice( "Changing override dir to '$dir'", "eZINI" );
+        $dirs =& $GLOBALS["eZINIOverrideDirList"];
+        if ( !isset( $dirs ) or !is_array( $dirs ) )
+            $dirs = array( 'override' );
+        $dirs[] = $dir;
+        $this->CacheFile = false;
     }
 
     /*!
@@ -779,24 +765,12 @@ class eZINI
      */
     function &group( $blockName )
     {
-//         if ( $ordered )
-//         {
-//             if ( !isset( $this->OrderedBlockValues[$blockName] ) )
-//             {
-//                 eZDebug::writeError( "Unknown group: '$origBlockName'", "eZINI" );
-//                 return null;
-//             }
-//             $ret = $this->OrderedBlockValues[$blockName];
-//         }
-//         else
-//         {
         if ( !isset( $this->BlockValues[$blockName] ) )
         {
             eZDebug::writeError( "Unknown group: '$origBlockName'", "eZINI" );
             return null;
         }
         $ret = $this->BlockValues[$blockName];
-//         }
 
         return $ret;
     }
@@ -815,6 +789,37 @@ class eZINI
     function getNamedArray()
     {
         return $this->BlockValues;
+    }
+
+    /*!
+     \static
+     \return true if the ini file \a $fileName has been loaded yet.
+    */
+    function isLoaded( $fileName = "site.ini", $rootDir = "settings" )
+    {
+        $isLoaded =& $GLOBALS["eZINIGlobalIsLoaded-$rootDir-$fileName"];
+        if ( !isset( $isLoaded ) )
+            return false;
+        return $isLoaded;
+    }
+
+    /*!
+      \static
+      Returns the current instance of the given .ini file
+    */
+    function &instance( $fileName = "site.ini", $rootDir = "settings", $useTextCodec = null, $useCache = null )
+    {
+        $impl =& $GLOBALS["eZINIGlobalInstance-$rootDir-$fileName"];
+        $isLoaded =& $GLOBALS["eZINIGlobalIsLoaded-$rootDir-$fileName"];
+
+        $class =& get_class( $impl );
+        if ( $class != "ezini" )
+        {
+            $isLoaded = false;
+            $impl = new eZINI( $fileName, $rootDir, $useTextCodec, $useCache );
+            $isLoaded = true;
+        }
+        return $impl;
     }
 
     /// \privatesection
