@@ -82,6 +82,8 @@ eZ Locale:
 - Fixed eZPrice to handle locale settings correctly.
 - Fixed shop->discount to handle locale settings correctly.
   http://ez.no/community/bug_reports/floats_and_decimal_point_separator
+- Removed space between dollar sign and pricevalue in eng-US
+  http://ez.no/community/bug_reports/space_after_dollar_sign_should_be_removed
 
 eZ template:
 - Some changes to the compiled templates. Removed the references when accessing attributes which fixed some of the problems with the image system.
