@@ -61,8 +61,6 @@ Changes from 3.4.0beta2 to 3.4.0
   http://ez.no/community/bug_reports/missing_function_duplicate_in_ezarchivehandler_detachhandler
 - Fixed bug in input-transforming code for the template compiler.
   http://ez.no/community/bug_reports/problems_with_input_parameter
-- Fixed problem with ezlupdate and non-ASCII characters. (Merged from stable/3.3 rev. 6660)
-  http://ez.no/community/bug_reports/i18n_operator_problems_with_comments
 
 *Library:
 
