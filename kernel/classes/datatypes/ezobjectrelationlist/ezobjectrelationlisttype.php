@@ -408,6 +408,12 @@ class eZObjectRelationListType extends eZDataType
         return false;
     }
 
+    function storeClassDOMDocument( &$doc, &$classAttribute )
+    {
+        $docText = eZObjectRelationListType::domString( $doc );
+        $classAttribute->setAttribute( 'data_text5', $docText );
+    }
+
     function storeObjectDOMDocument( &$doc, &$objectAttribute )
     {
         $docText = eZObjectRelationListType::domString( $doc );
