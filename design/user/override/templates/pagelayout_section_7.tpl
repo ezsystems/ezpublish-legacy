@@ -72,7 +72,7 @@
 &gt;
      {section name=Path loop=$module_result.path offset=2 show=eq($DesignKeys:used.viewmode,'full')}
         {section show=$Path:item.url}
-        <a class="small" href="{$Path:item.url}">{$Path:item.text}</a>
+        <a class="small" href={$Path:item.url|ezurl}>{$Path:item.text}</a>
         {section-else}
 	<span class="small">{$Path:item.text}</span>
         {/section}

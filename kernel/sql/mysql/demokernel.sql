@@ -1,6 +1,6 @@
 # MySQL dump 8.13
 #
-# Host: localhost    Database: sp
+# Host: localhost    Database: bf
 #--------------------------------------------------------
 # Server version	3.23.36-log
 
@@ -12589,6 +12589,7 @@ CREATE TABLE ezsession (
 #
 
 INSERT INTO ezsession VALUES ('0469f0a3452c469845a3e1211b56a03a',1039959460,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}eZUserLoggedInID|s:2:\"14\";FromGroupID|s:1:\"5\";');
+INSERT INTO ezsession VALUES ('d6cf9e974e8bee781433154af9ccefec',1039972184,'eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}BrowseFromPage|s:15:\"/role/assign/1/\";BrowseActionName|s:10:\"AssignRole\";BrowseReturnType|s:8:\"ObjectID\";CustomActionButton|N;BrowseSelectionType|N;');
 
 #
 # Table structure for table 'eztask'
@@ -12728,6 +12729,7 @@ CREATE TABLE ezuser_role (
 
 INSERT INTO ezuser_role VALUES (24,1,4);
 INSERT INTO ezuser_role VALUES (25,2,12);
+INSERT INTO ezuser_role VALUES (26,1,11);
 
 #
 # Table structure for table 'ezuser_setting'
