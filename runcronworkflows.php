@@ -39,6 +39,9 @@
 
 $runInBrowser = true;
 
+include_once( "lib/ezutils/classes/ezdebug.php" );
+include_once( "lib/ezutils/classes/ezini.php" );
+
 include_once( "kernel/classes/ezworkflowprocess.php" );
 include_once( "kernel/classes/ezcontentobject.php" );
 include_once( "kernel/classes/ezmodulerun.php" );
@@ -47,8 +50,6 @@ include_once( "lib/ezutils/classes/ezmodule.php" );
 include_once( "lib/ezutils/classes/ezoperationmemento.php" );
 include_once( "lib/ezutils/classes/ezoperationhandler.php" );
 include_once( "lib/ezutils/classes/ezsession.php" );
-
-include_once( "lib/ezutils/classes/ezdebug.php" );
 
 // eZDebug::setHandleType( $runInBrowser ? EZ_HANDLE_FROM_PHP : EZ_HANDLE_TO_PHP );
 eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );

@@ -148,6 +148,12 @@ class eZDB
             $user = $ini->variable( 'DatabaseSettings', 'User' );
             $pwd = $ini->variable( 'DatabaseSettings', 'Password' );
             $db = $ini->variable( 'DatabaseSettings', 'Database' );
+            $socketPath = false;
+            $socket = $ini->variable( 'DatabaseSettings', 'Socket' );
+            if ( trim( $socket != "" ) and $socket != "disabled" )
+            {
+                $socketPath = $socket;
+            }
             $charset = $ini->variable( 'DatabaseSettings', 'Charset' );
             $retries = $ini->variable( 'DatabaseSettings', 'ConnectRetries' );
             $builtinEncoding = ( $ini->variable( 'DatabaseSettings', 'UseBuiltinEncoding' ) == 'true' );
@@ -162,6 +168,7 @@ class eZDB
                                                 'password' => $pwd,
                                                 'database' => $db,
                                                 'charset' => $charset,
+                                                'socket' => $socketPath,
                                                 'builtin_encoding' => $builtinEncoding,
                                                 'connect_retries' => $retries );
             if ( $databaseParameters === false )

@@ -23,7 +23,8 @@
   <td class="normal">{"Type:"|i18n("design/standard/setup/init")}</td>
   <td rowspan="3" class="normal">&nbsp;&nbsp;</td>
   <td class="normal">{$:item.name}</td>
-  <td class="normal">
+  <td rowspan="3" class="normal">&nbsp;&nbsp;</td>
+  <td class="normal" rowspan="3" valign="top">
   {section show=$database_list|gt(1)}
    <input type="radio" name="eZSetupDatabaseType" value="{$:item.type}" />
   {section-else}
@@ -33,11 +34,11 @@
 </tr>
 <tr>
   <td class="normal">{"Driver:"|i18n("design/standard/setup/init")}</td>
-  <td colspan="2" class="normal">{$:item.driver}</td>
+  <td class="normal">{$:item.driver}</td>
 </tr>
 <tr>
   <td class="normal">{"Unicode support:"|i18n("design/standard/setup/init")}</td>
-  <td colspan="2" class="normal">{$:item.supports_unicode|choose("no"|i18n("design/standard/setup/init"),"yes"|i18n("design/standard/setup/init"))}</td>
+  <td class="normal">{$:item.supports_unicode|choose("no"|i18n("design/standard/setup/init"),"yes"|i18n("design/standard/setup/init"))}</td>
 </tr>
 {/section}
 </table>

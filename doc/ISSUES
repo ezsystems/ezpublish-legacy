@@ -407,12 +407,6 @@ Search / binaryfile datatype metadata
 We need to add a plugin system which generates meta data for binary files based
 on mime. E.g. we need a word and PDF indexer.
 
-
-Link XML TAG
------------
-Store links in link database ( ezlink ). Make upgrade script which will convert
-all links stored without this reference to correct.
-
 Locale
 -------
 Add documents explaining how to write locale files and how to use them.
@@ -425,19 +419,10 @@ Add function support to all modules that could use it.
 Add doc on howto read the currently selected sitedesign.
 
 
-
 eZ Setup System
 -----------------------------------------------
 
-- Fix problems with languages not being set correctly, create some common functions
-  which extracts settings from the persistence list and any post variables and use
-  those functions in the different steps.
-
-- Make sure the user site is activated, instead of the admin, if demo data is installed.
-
-- Add mysql socket to db init page.
-
-- Possible bug: When no password is used the username is blank.
+# Possible bug: When no password is used the username is blank.
 
 - See if the demo data installation can be done differently, ie less memory usage and cpu time.
 
@@ -445,9 +430,6 @@ eZ Setup System
 
 - See if it's possible to implement array_key_exists with pure PHP and see if we can lower
   the min requirements because of this.
-
-- Check if file uploading is enabled, if not give clues on how to enabled it.
-  See php.ini file_uploads = Off
 
 
 Classes

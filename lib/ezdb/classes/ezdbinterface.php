@@ -67,12 +67,14 @@ class eZDBInterface
         $user = $parameters['user'];
         $password = $parameters['password'];
         $db = $parameters['database'];
+        $socketPath = $parameters['socket'];
         $charset = $parameters['charset'];
         $builtinEncoding = $parameters['builtin_encoding'];
         $connectRetries = $parameters['connect_retries'];
 
         $this->DB = $db;
         $this->Server = $server;
+        $this->SocketPath = $socketPath;
         $this->User = $user;
         $this->Password = $password;
         $this->Charset = $charset;
@@ -178,6 +180,14 @@ class eZDBInterface
     function databaseName()
     {
         return '';
+    }
+
+    /*!
+     \return the socket path for the database or \c false if no socket path was defined.
+    */
+    function socketPath()
+    {
+        return $this->SocketPath;
     }
 
     /*!
@@ -423,6 +433,8 @@ class eZDBInterface
     /// \protectedsection
     /// Contains the current server
     var $Server;
+    /// The socket path, used by MySQL
+    var $SocketPath;
     /// The current database name
     var $DB;
     /// Stores the database connection user

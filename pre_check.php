@@ -82,18 +82,33 @@ function eZCheckUser( &$siteBasics )
     if ( !$requireUserLogin )
         return null;
     $uri =& $GLOBALS['eZRequestedURI'];
-    if ( $uri->element() == 'user' and
-         $uri->element( 1 ) == 'register' )
-        return null;
     $check = array( "module" => "user",
                     "function" => "login" );
-    if ( !$http->hasSessionVariable( "eZUserLoggedInID" ) )
-        return $check;
-    if ( $http->sessionVariable( "eZUserLoggedInID" ) == '' )
-        return $check;
-    if ( $http->sessionVariable( "eZUserLoggedInID" ) == $ini->variable( 'UserSettings', 'AnonymousUserID' ) )
-        return $check;
-    return null;
+    if ( $http->hasSessionVariable( "eZUserLoggedInID" ) and
+         $http->sessionVariable( "eZUserLoggedInID" ) != '' and
+         $http->sessionVariable( "eZUserLoggedInID" ) != $ini->variable( 'UserSettings', 'AnonymousUserID' ) )
+        return null;
+    $moduleName =  $uri->element();
+    $viewName = $uri->element( 1 );
+    $anonymousAccessList = $ini->variable( "SiteAccessSettings", "AnonymousAccessList" );
+    $anonymousAccessList[] = 'user/register';
+    $anonymousAccessList[] = 'ezinfo';
+    foreach ( $anonymousAccessList as $anonymousAccess )
+    {
+        $elements = explode( '/', $anonymousAccess );
+        if ( count( $elements ) == 1 )
+        {
+            if ( $moduleName == $elements[0] )
+                return null;
+        }
+        else
+        {
+            if ( $moduleName == $elements[0] and
+                 $viewName == $elements[1] )
+                return null;
+        }
+    }
+    return $check;
 }
 
 /*!

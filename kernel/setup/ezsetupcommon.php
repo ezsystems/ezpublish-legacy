@@ -139,12 +139,12 @@ function eZSetupChangeEmailSetting( $emailInfo )
     $ini =& eZINI::instance();
     if ( $emailInfo['type'] == 1 )
     {
-        eZDebug::writeDebug( 'Changing to sendmail' );
+//         eZDebug::writeDebug( 'Changing to sendmail' );
         $ini->setVariable( 'MailSettings', 'Transport', 'sendmail' );
     }
     else
     {
-        eZDebug::writeDebug( 'Changing to SMTP' );
+//         eZDebug::writeDebug( 'Changing to SMTP' );
         $ini->setVariable( 'MailSettings', 'Transport', 'SMTP' );
         $ini->setVariable( 'MailSettings', 'TransportServer', $emailInfo['server'] );
         $ini->setVariable( 'MailSettings', 'TransportUser', $emailInfo['user'] );

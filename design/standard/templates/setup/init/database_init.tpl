@@ -79,7 +79,7 @@
 </tr>
 <tr>
   <td class="normal">{"Type:"|i18n("design/standard/setup/init")}</td>
-  <td rowspan="8" class="normal">&nbsp;&nbsp;</td>
+  <td rowspan="{eq($database_info.info.driver,'ezmysql')|choose(8,9)}" class="normal">&nbsp;&nbsp;</td>
   <td class="normal">
   {$database_info.info.name}
   </td>
@@ -101,6 +101,12 @@
   <td class="normal">{"Servername:"|i18n("design/standard/setup/init")}</td>
   <td class="normal"><input type="text" name="eZSetupDatabaseServer" size="16" value="{$database_info.server}" /></td>
 </tr>
+{section show=eq($database_info.info.driver,'ezmysql')}
+<tr>
+  <td class="normal">{"Socket:"|i18n("design/standard/setup/init")}</td>
+  <td class="normal"><input type="text" name="eZSetupDatabaseSocket" size="16" value="{$database_info.socket}" /></td>
+</tr>
+{/section}
 <tr>
   <td class="normal">{"Databasename:"|i18n("design/standard/setup/init")}</td>
   <td class="normal"><input type="text" name="eZSetupDatabaseName" size="16" value="{$database_info.name}" maxlength="60" /></td>

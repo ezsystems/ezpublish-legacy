@@ -42,12 +42,13 @@
 set_time_limit( 0 );
 
 $showDebug = false;
-$fixErrors = false;
+$fixErrors = true;
 
 $fixAttribute = true;
-$fixURL = false;
+$fixURL = true;
 
 include_once( "lib/ezutils/classes/ezdebug.php" );
+include_once( "lib/ezutils/classes/ezini.php" );
 include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
 
 // eZDebug::setHandleType( EZ_HANDLE_TO_PHP );
@@ -218,60 +219,84 @@ if ( $fixAttribute )
 //                 print( "Found duplicate " . $objectAttribute->attribute( 'id' ) . "\n" );
             $lastID = $objectAttribute->attribute( 'id' );
             $dataType =& $objectAttribute->dataType();
+            $handleAttribute = true;
             if ( !$dataType or get_class( $dataType ) != 'ezxmltexttype' )
-                continue;
+                $handleAttribute = false;
             unset( $content );
-            $content =& $objectAttribute->content();
-            if ( !$content )
-                continue;
-            unset( $xmlData );
-            $xmlData = $content->attribute( 'xml_data' );
-            if ( !$xmlData )
-                continue;
-            unset( $doc );
-            $doc =& $xml->domTree( $xmlData );
-            if ( $doc )
+            $content = null;
+            if ( $handleAttribute )
             {
-                if ( findAndReplaceLinks( $doc, $doc->root() ) )
+                $content =& $objectAttribute->content();
+                if ( !$content or !is_object( $content ) )
+                    $handleAttribute = false;
+            }
+            unset( $xmlData );
+            $xmlData = null;
+            if ( $handleAttribute )
+            {
+//                 if ( !is_object( $content ) )
+//                     print( get_class( $dataType ) . ", " . gettype( $content ) . " [$content]" . "\n" );
+                if ( is_object( $content ) )
+                {
+                    $xmlData = $content->attribute( 'xml_data' );
+                    if ( !$xmlData )
+                        $handleAttribute = false;
+                }
+                else
+                    $handleAttribute = false;
+            }
+            unset( $doc );
+            $doc = null;
+            if ( $handleAttribute )
+            {
+                $doc =& $xml->domTree( $xmlData );
+                if ( $doc )
+                {
+                    if ( findAndReplaceLinks( $doc, $doc->root() ) )
+                    {
+                        if ( $showDebug )
+                            print( "Links found and replaced\n" );
+//                 print( $doc->toString() . "\n" );
+                        $objectAttribute->setAttribute( 'data_text', $doc->toString() );
+                        ++$wrongLinkCount;
+                        print( '*' );
+                    }
+                    else
+                        print( '.' );
+                }
+                else
                 {
                     if ( $showDebug )
-                        print( "Links found and replaced\n" );
-//                 print( $doc->toString() . "\n" );
-                    $objectAttribute->setAttribute( 'data_text', $doc->toString() );
-                    ++$wrongLinkCount;
-                    print( '*' );
+                        print( "Invalid XML data: $xmlData\n" );
+                    if ( trim( $xmlData ) == '' )
+                    {
+                        unset( $doc );
+                        $doc = new eZDOMDocument();
+                        $doc->setRoot( $doc->createElementNode( 'section' ) );
+                        $objectAttribute->setAttribute( 'data_text', $doc->toString() );
+                        ++$wrongLinkCount;
+                        print( '0' );
+                    }
+                    else
+                    {
+                        print( '-' );
+                        $badXMLArray[] = array( 'id' => $objectAttribute->attribute( 'id' ),
+                                                'version' => $objectAttribute->attribute( 'version' ) );
+                    }
                 }
-                else
-                    print( '.' );
+                if ( $fixErrors )
+                    $objectAttribute->sync();
             }
             else
-            {
-                if ( $showDebug )
-                    print( "Invalid XML data: $xmlData\n" );
-                if ( trim( $xmlData ) == '' )
-                {
-                    unset( $doc );
-                    $doc = new eZDOMDocument();
-                    $doc->setRoot( $doc->createElementNode( 'section' ) );
-                    $objectAttribute->setAttribute( 'data_text', $doc->toString() );
-                    ++$wrongLinkCount;
-                    print( '0' );
-                }
-                else
-                {
-                    print( '-' );
-                    $badXMLArray[] = array( 'id' => $objectAttribute->attribute( 'id' ),
-                                            'version' => $objectAttribute->attribute( 'version' ) );
-                }
-            }
-            if ( $fixErrors )
-                $objectAttribute->sync();
+                print( '.' );
             ++$dotCount;
             ++$dotTotalCount;
-            if ( $dotCount >= $dotMax or $dotTotalCount >= $attributeCount - 1 )
+            if ( $dotCount >= $dotMax or $dotTotalCount >= $attributeCount )
             {
-                $percent = number_format( ( $dotTotalCount * 100.0 ) / ( $attributeCount - 1 ), 2 );
-                $dotSpace = str_repeat( ' ', $dotMax - $dotCount );
+                $percent = number_format( ( $dotTotalCount * 100.0 ) / ( $attributeCount ), 2 );
+                $dotSpace = '';
+                if ( $dotTotalCount > $dotMax )
+                    $dotSpace = str_repeat( ' ', $dotMax - $dotCount );
                 print( $dotSpace . " " . $percent . "%\n" );
                 $dotCount = 0;
             }
@@ -310,6 +335,7 @@ if ( $fixAttribute )
             $len += strlen( $text );
             ++$i;
         }
+        print( "\n" );
     }
     print( "\n" );
 }

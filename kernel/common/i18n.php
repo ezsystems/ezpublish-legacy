@@ -85,8 +85,12 @@ if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
         // Bork translation: Makes it easy to see what is not translated.
         // If no translation is found in the eZTSTranslator, a Bork translation will be returned.
         // Bork is different than, but similar to, eng-GB, and is enclosed in square brackets [].
-        include_once( 'lib/ezi18n/classes/ezborktranslator.php' );
-        eZBorkTranslator::initialize();
+        $developmentMode = $ini->variable( 'RegionalSettings', 'DevelopmentMode' ) != 'disabled';
+        if ( $developmentMode )
+        {
+            include_once( 'lib/ezi18n/classes/ezborktranslator.php' );
+            eZBorkTranslator::initialize();
+        }
 
         $man =& eZTranslatorManager::instance();
         $trans =& $man->translate( $context, $source, $comment );

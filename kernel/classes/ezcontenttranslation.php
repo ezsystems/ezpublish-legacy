@@ -43,6 +43,8 @@
 
 */
 
+include_once( 'kernel/classes/ezcontentobject.php' );
+
 class eZContentTranslation extends eZPersistentObject
 {
     /*!
@@ -110,7 +112,6 @@ class eZContentTranslation extends eZPersistentObject
         $translationList =& eZPersistentObject::fetchObjectList( eZContentTranslation::definition(),
                                                                  null, array( 'locale' => $translation ), null,null,
                                                                  false );
-        eZDebug::writeDebug( $translationList, 'translationList' );
         return $translationList !== null and count( $translationList ) > 0;
     }
 
@@ -205,7 +206,6 @@ class eZContentTranslation extends eZPersistentObject
         $db->query( "DELETE from ezcontentobject_name WHERE content_translation = '$locale' " );
         $db->query( "DELETE from ezcontentobject_attribute WHERE language_code = '$locale'" );
         eZPersistentObject::remove();
-        eZDebug::writeDebug( $id, 'removed translation' );
     }
 }
 

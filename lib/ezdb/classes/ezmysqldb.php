@@ -47,10 +47,11 @@ class eZMySQLDB extends eZDBInterface
     {
         $this->eZDBInterface( $parameters );
 
-        $ini =& eZINI::instance();
-        $socketPath =& $ini->variable( "DatabaseSettings", "Socket" );
+//         $ini =& eZINI::instance();
+//         $socketPath =& $ini->variable( "DatabaseSettings", "Socket" );
+        $socketPath = $this->socketPath();
 
-        if ( trim( $socketPath != "" ) && $socketPath != "disabled" )
+        if ( $socketPath !== false )
         {
             ini_set( "mysql.default_socket", $socketPath );
         }

@@ -622,12 +622,20 @@ class eZINI
                     $varValue = $this->BlockValues[$blockName][$blockVariable];
                     if ( is_array( $varValue ) )
                     {
-                        foreach ( $varValue as $varArrayValue )
+                        if ( count( $varValue ) > 0 )
                         {
-                            $written = fwrite( $fp, "$varKey" . "[]=$varArrayValue$lineSeparator" );
-                            if ( $written === false )
-                                break;
+                            foreach ( $varValue as $varArrayKey => $varArrayValue )
+                            {
+                                if ( is_string( $varArrayKey ) )
+                                    $written = fwrite( $fp, "$varKey" . "[$varArrayKey]=$varArrayValue$lineSeparator" );
+                                else
+                                    $written = fwrite( $fp, "$varKey" . "[]=$varArrayValue$lineSeparator" );
+                                if ( $written === false )
+                                    break;
+                            }
                         }
+                        else
+                            $written = fwrite( $fp, "$varKey" . "[]$lineSeparator" );
                     }
                     else
                     {

@@ -117,6 +117,15 @@ contentclass:
 - Added new plain design for quicker starting a new site design
 - Added template fetch functions for user, the current user can be fetched with
   current_user.
+- site.ini now has a list of modules and module/views which will always
+  work even when login is required. They will still use policy rules.
+- Bork translation may now be enabled with a site.ini setting.
+
+eZ setup:
+- Languages are now set in the translation table.
+- A check for file uploading has been added, if not a warning is given/
+- Now the demo siteaccess is set if demodata is installed, if not admin is used.
+- Added mysql socket to db init page.
 
 persistentobject:
 - Added support for between in conditions, it is passed as an array with two elements

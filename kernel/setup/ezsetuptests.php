@@ -49,6 +49,7 @@ function eZSetupTestTable()
                   'php_magicquotes' => array( 'eZSetupCheckMagicQuotes' ),
                   'mbstring_extension' => array( 'eZSetupMBStringExtension' ),
                   'zlib_extension' => array( 'eZSetupTestExtension' ),
+                  'file_upload' => array( 'eZSetupTestFileUpload' ),
                   'image_conversion' => array( 'eZSetupCheckTestFunctions' ),
                   'imagegd_extension' => array( 'eZSetupTestExtension' ),
                   'imagemagick_program' => array( 'eZSetupCheckExecutable' ) );
@@ -136,6 +137,14 @@ function eZSetupCheckTestFunctions( $type, &$arguments )
     return array( 'result' => $result,
                   'persistence_list' => $persistenceData,
                   'test_results' => $testResults );
+}
+
+function eZSetupTestFileUpload( $type, &$arguments )
+{
+    $fileUploads = ini_get( 'file_uploads' );
+    $result = $fileUploads == "1";
+    return array( 'result' => $result,
+                  'persistent_data' => array( 'result' => array( 'value' => $result ) ) );
 }
 
 function eZSetupCheckMagicQuotes( $type, &$arguments )

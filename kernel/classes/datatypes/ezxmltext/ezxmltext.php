@@ -48,6 +48,8 @@ class eZXMLText
     function eZXMLText( &$xmlData )
     {
         $this->XMLData =& $xmlData;
+        $this->XMLInputHandler = null;
+        $this->XMLOutputHandler = null;
     }
 
     function hasAttribute( $name )
@@ -70,14 +72,22 @@ class eZXMLText
         {
             case 'input' :
             {
-                include_once( 'kernel/classes/datatypes/ezxmltext/ezsimpifiedxmlinput.php' );
-                return new eZSimplifiedXMLInput( $this->XMLData );
+                if ( $this->XMLInputHandler === null )
+                {
+                    include_once( 'kernel/classes/datatypes/ezxmltext/ezsimpifiedxmlinput.php' );
+                    $this->XMLInputHandler = new eZSimplifiedXMLInput( $this->XMLData );
+                }
+                return $this->XMLInputHandler;
             }break;
 
             case 'output' :
             {
-                include_once( 'kernel/classes/datatypes/ezxmltext/ezxhtmloutput.php' );
-                return new eZXHTMLOutput( $this->XMLData );
+                if ( $this->XMLOutputHandler === null )
+                {
+                    include_once( 'kernel/classes/datatypes/ezxmltext/ezxhtmloutput.php' );
+                    $this->XMLOutputHandler = new eZXHTMLOutput( $this->XMLData );
+                }
+                return $this->XMLOutputHandler;
             }break;
 
             case 'xml_data' :
@@ -89,6 +99,8 @@ class eZXMLText
 
     /// Contains the XML data
     var $XMLData;
+    var $XMLInputHandler;
+    var $XMLOutputHandler;
 }
 
 ?>

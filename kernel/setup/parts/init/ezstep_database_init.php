@@ -99,11 +99,14 @@ function eZSetupStep_database_init( &$tpl, &$http, &$ini, &$persistenceList )
     $template = "design:setup/init/database_init.tpl";
 
     $config =& eZINI::instance( 'setup.ini' );
-    if ( !$persistenceList['database_info']['server'] )
+    if ( !isset( $persistenceList['database_info']['server'] ) or
+         !$persistenceList['database_info']['server'] )
         $persistenceList['database_info']['server'] = $config->variable( 'DatabaseSettings', 'DefaultServer' );
-    if ( !$persistenceList['database_info']['name'] )
+    if ( !isset( $persistenceList['database_info']['name'] ) or
+         !$persistenceList['database_info']['name'] )
         $persistenceList['database_info']['name'] = $config->variable( 'DatabaseSettings', 'DefaultName' );
-    if ( !$persistenceList['database_info']['user'] )
+    if ( !isset( $persistenceList['database_info']['user'] ) or
+         !$persistenceList['database_info']['user'] )
         $persistenceList['database_info']['user'] = $config->variable( 'DatabaseSettings', 'DefaultUser' );
     if ( !isset( $persistenceList['database_info']['password'] ) or
          !$persistenceList['database_info']['password'] )
@@ -117,6 +120,10 @@ function eZSetupStep_database_init( &$tpl, &$http, &$ini, &$persistenceList )
         $persistenceList['database_info']['name'] = $http->postVariable( 'eZSetupDatabaseName' );
     if ( $http->hasPostVariable( 'eZSetupDatabaseUser' ) )
         $persistenceList['database_info']['user'] = $http->postVariable( 'eZSetupDatabaseUser' );
+    if ( $http->hasPostVariable( 'eZSetupDatabaseSocket' ) )
+        $persistenceList['database_info']['socket'] = $http->postVariable( 'eZSetupDatabaseSocket' );
+    if ( !isset( $persistenceList['database_info']['socket'] ) )
+        $persistenceList['database_info']['socket'] = false;
 
     $error = 0;
 
@@ -162,6 +169,7 @@ function eZSetupStep_database_init( &$tpl, &$http, &$ini, &$persistenceList )
     $databaseInfo['info'] = $databaseMap[$databaseInfo['type']];
     $regionalInfo = $persistenceList['regional_info'];
 
+    $demoDataResult = false;
     if ( $databaseReady )
     {
         $dbStatus = array();
@@ -169,11 +177,15 @@ function eZSetupStep_database_init( &$tpl, &$http, &$ini, &$persistenceList )
         $dbServer = $databaseInfo['server'];
         $dbName = $databaseInfo['name'];
         $dbUser = $databaseInfo['user'];
+        $dbSocket = $databaseInfo['socket'];
+        if ( trim( $dbSocket ) == '' )
+            $dbSocket = false;
         $dbPwd = $password;
         $dbCharset = 'iso-8859-1';
         $dbParameters = array( 'server' => $dbServer,
                                'user' => $dbUser,
                                'password' => $dbPwd,
+                               'socket' => $dbSocket,
                                'database' => $dbName,
                                'charset' => $dbCharset );
         $db =& eZDB::instance( $dbDriver, $dbParameters );

@@ -42,6 +42,9 @@ include_once( "kernel/setup/ezsetuptests.php" );
 */
 function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
 {
+    // Set to false to avoid files being written to.
+    $saveData = true;
+
     $databaseMap = eZSetupDatabaseMap();
     $databaseInfo = $persistenceList['database_info'];
     $databaseInfo['info'] = $databaseMap[$databaseInfo['type']];
@@ -63,7 +66,11 @@ function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
     {
         $imageINI->setVariable( 'ConverterSettings', 'UseGD', 'true' );
     }
-    $saveResult = $imageINI->save( false, '.php', false );
+    $saveResult = false;
+    if ( !$saveData )
+        $saveResult = true;
+    if ( $saveData )
+        $saveResult = $imageINI->save( false, '.php', false );
 
     $charset = false;
     if ( $saveResult )
@@ -81,6 +88,10 @@ function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
         $ini->setVariable( "DatabaseSettings", "DatabaseImplementation", $databaseInfo['info']['driver'] );
         $ini->setVariable( "DatabaseSettings", "Server", $databaseInfo['server'] );
         $ini->setVariable( "DatabaseSettings", "Database", $databaseInfo['name'] );
+        if ( trim( $databaseInfo['socket'] ) != '' )
+            $ini->setVariable( "DatabaseSettings", "Socket", $databaseInfo['socket'] );
+        else
+            $ini->setVariable( "DatabaseSettings", "Socket", 'disabled' );
         $ini->setVariable( "DatabaseSettings", "User", $databaseInfo['user'] );
         $ini->setVariable( "DatabaseSettings", "Password", $databaseInfo['password'] );
 
@@ -128,17 +139,39 @@ function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
         $ini->setVariable( 'DatabaseSettings', 'Charset', $charset );
 
         $languages = array( $primaryLanguage->localeFullCode() );
-        foreach ( $extraLanguages as $extraLanguage )
+        $languageObjects = array();
+        $languageObjects[] =& $primaryLanguage;
+        foreach ( array_keys( $extraLanguages ) as $extraLanguageKey )
         {
+            $extraLanguage =& $extraLanguages[$extraLanguageKey];
             $languages[] = $extraLanguage->localeFullCode();
+            $languageObjects[] =& $extraLanguage;
         }
         $ini->setVariable( 'ContentSettings', 'TranslationList', implode( ';', $languages ) );
+        include_once( 'kernel/classes/ezcontenttranslation.php' );
+        foreach ( array_keys( $languageObjects ) as $languageObjectKey )
+        {
+            $languageObject =& $languageObjects[$languageObjectKey];
+            $languageLocale = $languageObject->localeCode();
+            if ( !eZContentTranslation::hasTranslation( $languageLocale ) )
+            {
+                $translation =& eZContentTranslation::createNew( $languageObject->languageName(), $languageLocale );
+                $translation->store();
+                $translation->updateObjectNames();
+            }
+        }
 
         $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
 
-        $saveResult = $ini->save( false, '.php', false );
+        if ( $demoData['use'] )
+            $ini->setVariable( 'SiteSettings', 'DefaultAccess', 'demo' );
+        else
+            $ini->setVariable( 'SiteSettings', 'DefaultAccess', 'admin' );
+
+        if ( $saveData )
+            $saveResult = $ini->save( false, '.php', false );
     }
-    
+
     if ( $saveResult )
     {
         $setupINI =& eZINI::instance( 'setup.ini' );
@@ -146,7 +179,8 @@ function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
         $setupINI->setVariable( "DatabaseSettings", "DefaultName", $databaseInfo['name'] );
         $setupINI->setVariable( "DatabaseSettings", "DefaultUser", $databaseInfo['user'] );
         $setupINI->setVariable( "DatabaseSettings", "DefaultPassword", $databaseInfo['password'] );
-        $saveResult = $setupINI->save( false, '.php', false );
+        if ( $saveData )
+            $saveResult = $setupINI->save( false, '.php', false );
     }
 
     if ( $saveResult and
@@ -154,7 +188,8 @@ function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
     {
         $i18nINI =& eZINI::instance( 'i18n.ini' );
         $i18nINI->setVariable( 'CharacterSettings', 'Charset', $charset );
-        $saveResult = $i18nINI->save( false, '.php', false );
+        if ( $saveData )
+            $saveResult = $i18nINI->save( false, '.php', false );
     }
 
     $tpl->setVariable( 'site_info', $siteInfo );
