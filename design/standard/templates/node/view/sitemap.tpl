@@ -40,7 +40,7 @@
 {section name=Tree loop=$tree sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$Tree:sequence}">
-       	<img src={"1x1-transparent.gif"|ezimage} width="{mul(sub($Tree:item.depth,$node.depth)|dec,$sitemap_indentation)}" height="1" alt="" border="0" />
+       	<img src={"1x1.gif"|ezimage} width="{mul(sub($Tree:item.depth,$node.depth)|dec,$sitemap_indentation)}" height="1" alt="" border="0" />
 	<a href={concat("content/view/full/",$Tree:item.node_id)|ezurl}><img src={"class_1.png"|ezimage} alt="Folder" border="0"> &nbsp;{$Tree:item.name}</a>
 	</td>
 	<td class="{$Tree:sequence}">{$Tree:item.object.section_id}</td>
