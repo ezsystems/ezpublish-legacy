@@ -26,11 +26,27 @@
         {* Limitation. *}
         <td>
         {section show=$Roles.item.limit_identifier}
+         {section show=$Roles.item.limit_value|begins_with( '/' )}
+              {let  limit_location_array=$Roles.item.limit_value|explode( '/' )
+                    limit_location_pinpoint=$limit_location_array|count|sub(2)
+                    limit_node_id=$limit_location_array[$limit_location_pinpoint]}
+              <a href={concat( '/content/view/full/', $limit_node_id )|ezurl}>{$Roles.item.limit_identifier|wash}&nbsp;({$Roles.item.limit_value|wash})</a>
+              {/let}
+          {section-else}
+              <a href={concat( '/section/view/', $Roles.item.limit_value )|ezurl}>{$Roles.item.limit_identifier|wash}&nbsp;({$Roles.item.limit_value|wash})</a>
+          {/section}
+        {section-else}
+        <i>{'No limitation'|i18n( 'design/admin/node/view/full' )}</i>
+        {/section}
+
+
+{*
+        {section show=$Roles.item.limit_identifier}
             {$Roles.item.limit_identifier|wash} ({$Roles.item.limit_value|wash})
         {section-else}
             <i>{'No limitation'|i18n( 'design/admin/node/view/full' )}</i>
         {/section}
-
+*}
         </td>
 
         {* Edit. *}

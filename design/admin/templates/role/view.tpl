@@ -119,10 +119,10 @@
               {let  limit_location_array=$Users.item.limit_value|explode( '/' )
                     limit_location_pinpoint=$limit_location_array|count|sub(2)
                     limit_node_id=$limit_location_array[$limit_location_pinpoint]}
-              <a href={concat( '/content/view/full/', $limit_node_id )|ezurl}>{$Users.item.limit_ident|wash}( {$Users.item.limit_value|wash} )</a>
+              <a href={concat( '/content/view/full/', $limit_node_id )|ezurl}>{$Users.item.limit_ident|wash}&nbsp;({$Users.item.limit_value|wash})</a>
               {/let}
           {section-else}
-              <a href={concat( '/section/view/', $Users.item.limit_value )|ezurl}>{$Users.item.limit_ident|wash}( {$Users.item.limit_value|wash} )</a>
+              <a href={concat( '/section/view/', $Users.item.limit_value )|ezurl}>{$Users.item.limit_ident|wash}&nbsp;({$Users.item.limit_value|wash})</a>
           {/section}
         {section-else}
         <i>{'No limitations'|i18n( 'design/admin/role/view' )}</i>
