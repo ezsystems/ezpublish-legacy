@@ -2336,9 +2336,31 @@ CREATE TABLE ezsubtree_expiry (
 
 
 
+
+
+
 CREATE INDEX ezurl_ol_url_id ON ezurl_object_link USING btree (url_id);
+
+
+
+
+
+
+
 CREATE INDEX ezurl_ol_coa_id ON ezurl_object_link USING btree (contentobject_attribute_id);
+
+
+
+
+
+
+
 CREATE INDEX ezurl_ol_coa_version ON ezurl_object_link USING btree (contentobject_attribute_version);
+
+
+
+
+
 
 
 CREATE INDEX ezcollab_group_path62 ON ezcollab_group USING btree (path_string);
@@ -2605,14 +2627,6 @@ CREATE INDEX ezproductcollection_item_opt_item_id ON ezproductcollection_item_op
 
 
 
-CREATE INDEX ezproductcollection_item_contentobject_id ON ezproductcollection_item USING btree (productcollection_id);
-
-
-
-
-
-
-
 CREATE INDEX ezbasket_session_id ON ezbasket USING btree (session_id);
 
 
@@ -2693,14 +2707,6 @@ CREATE INDEX ezsubtree_expiry_subtree ON ezsubtree_expiry USING btree (subtree);
 
 
 
-CREATE INDEX ezsubtree_notification_rule_id ON ezsubtree_notification_rule USING btree (id);
-
-
-
-
-
-
-
 CREATE INDEX ezsubtree_notification_rule_user_id ON ezsubtree_notification_rule USING btree (user_id);
 
 
@@ -2742,6 +2748,14 @@ CREATE INDEX ezuser_role_role_id ON ezuser_role USING btree (role_id);
 
 
 CREATE INDEX idx_object_version_objver ON ezcontentobject_version USING btree (contentobject_id, "version");
+
+
+
+
+
+
+
+CREATE INDEX ezproductcollection_item_contentobject_id ON ezproductcollection_item USING btree (contentobject_id);
 
 
 

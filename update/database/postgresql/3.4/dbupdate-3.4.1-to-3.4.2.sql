@@ -1,6 +1,11 @@
 UPDATE ezsite_data SET value='3.4.2' WHERE name='ezpublish-version';
 UPDATE ezsite_data SET value='9' WHERE name='ezpublish-release';
 
+-- Fix typos in the indexes creation queries.
+
+DROP   INDEX ezproductcollection_item_contentobject_id;
+CREATE INDEX ezproductcollection_item_contentobject_id ON ezproductcollection_item USING btree ( "contentobject_id" );
+DROP   INDEX ezsubtree_notification_rule_id;
 
 -- Fix faulty index on ezurl_object_link
 ALTER TABLE DROP CONSTRAINT ezurl_object_link1039_key;
