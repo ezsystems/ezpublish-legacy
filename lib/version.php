@@ -83,7 +83,7 @@ class eZPublishSDK
     }
 
     /*!
-     \return the development version or \c false if this is not a development version
+     \return the development version or \c false if this is not a development version.
     */
     function developmentVersion()
     {
