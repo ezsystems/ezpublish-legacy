@@ -942,6 +942,14 @@ class eZINI
     }
 
     /*!
+      Removes the group and all it's settings from the .ini file
+    */
+    function hasGroup( $blockName )
+    {
+        unset( $this->BlockValues[$blockName] );
+    }
+
+    /*!
      Fetches all defined groups and returns them as an associative array
     */
     function &groups()
