@@ -22,16 +22,16 @@ Skriv dette fra http://admin.bf.dvh1.ez.no/content/view/full/200
 <h2 id="VAT">VAT types</h2>
 <p>
 Very often you are in need of having different VAT types on different products or product groups in your shop. To save time and make the whole thing as easy as possible this is all done within "VAT types" in the "Shop box.  
-<img src="/kernel/manual/user/images/vattypes.gif">
-When you want to add a VAT type to a product or edit the VAT you go into this window. 
+</p><p><img src="/kernel/manual/user/images/vattypes.gif"></p>
+<p>When you want to add a VAT type to a product or edit the VAT you go into this window. 
 Let's say that you run a grocery store and you have several products with different VAT types. You have vegetables (20% VAT), bread (15% VAT) and fish (30% VAT). Click the "VAT types". This will take you to the VAT types window where you now see an "Add VAT type" button. When clicking this button you will see a "Name" window and a "Percentage" window. Simply add the name of the product and what percentage of VAT this product should have. In our example we write in.:
-<img src="/kernel/manual/user/images/vattypes2.gif"> 
+</p><p><img src="/kernel/manual/user/images/vattypes2.gif"></p> 
 
-Then click the "Store" button. if you want to add more VAT types simply click the "Add VAT types" button and go through the process again.
+<p>Then click the "Store" button. if you want to add more VAT types simply click the "Add VAT types" button and go through the process again.
 	
 </p>
-
-<h3 id="Adding">Adding a class to your VAT types</h3>
+<br>
+<h2 id="Adding">Adding a class to your VAT types</h2>
 
 <p>
 To get to use the VAT types in the way that it is meant to be used it is important that you make the VAT type before you add any products. 
@@ -42,7 +42,7 @@ You can always test this out in the "Shopping basket" in the "MY" window.
 	
 </p>
 
-<h3 id="Order">Order list</h3>
+<h2 id="Order">Order list</h2>
 
 <p>
 In the order list you will se the orders your customers have sent in to your shop. Here you will be able to see who bought, what they bought and when they bought. You can alter this list the way you want to suit your needs better. 
@@ -50,29 +50,29 @@ Test ut på http://admin.bf.dvh1.ez.no/content/view/full/200
 
 </p>
 
-<h3 id ="Shopping">Shopping basket</h3>
+<h2 id ="Shopping">Shopping basket</h2>
 <p>
 This shopping basket we have put here to test out . In this window you can test out how your shop works before you release products. You will be able to 
 Test ut på http://admin.bf.dvh1.ez.no/content/view/full/200
 
 </p>
 
-<h3 id ="Shipping">Shipping</h3>
+<h2 id ="Shipping">Shipping</h2>
 <p>
 Bård
 </p>
 
-<h3 id ="Currency">Currency</h3>
+<h2 id ="Currency">Currency</h2>
 <p>
 Bård
 </p>
 
-<h3 id ="Wishlist">Wishlist</h3>
+<h2 id ="Wishlist">Wishlist</h2>
 <p>
 Bård
 </p>
 
-<h3 id ="Vouchers">Vouchers</h3>
+<h2 id ="Vouchers">Vouchers</h2>
 <p>
 Hvordan skal vi sette opp denne? Tar vi kun med de enkle som blir med i std pakka? Og hvor forklarer vi dem i såfall hvor de lager nye funksjoner
 </p>
