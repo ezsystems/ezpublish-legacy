@@ -1,6 +1,5 @@
 <?php
 //
-// Definition of Orderstatistic class
 //
 // Created on: <01-Mar-2004 15:35:18 wy>
 //
@@ -34,7 +33,7 @@
 // you.
 //
 
-/*! \file orderstatistic.php
+/*! \file orderstatistics.php
 */
 
 
@@ -59,10 +58,10 @@ if ( $http->hasPostVariable( "Month" ) )
 
 if ( $http->hasPostVariable( "View" ) )
 {
-    $module->redirectTo( "/shop/statistic/" . $year . '/' . $month );
+    $module->redirectTo( "/shop/statistics/" . $year . '/' . $month );
 }
 
-$statisticArray =& eZOrder::orderStatistic( $year, $month );
+$statisticArray =& eZOrder::orderStatistics( $year, $month );
 $yearList = array();
 $currentDate = new eZDate();
 $currentYear = $currentDate->attribute( 'year' );
@@ -81,12 +80,12 @@ $tpl->setVariable( "month_list", $monthList );
 $tpl->setVariable( "statistic_result", $statisticArray );
 
 $path = array();
-$path[] = array( 'text' => ezi18n( 'kernel/shop', 'Statistic' ),
+$path[] = array( 'text' => ezi18n( 'kernel/shop', 'Statistics' ),
                  'url' => false );
 
 $Result = array();
 $Result['path'] =& $path;
 
-$Result['content'] =& $tpl->fetch( "design:shop/orderstatistic.tpl" );
+$Result['content'] =& $tpl->fetch( "design:shop/orderstatistics.tpl" );
 
 ?>

@@ -98,9 +98,9 @@ $ViewList["customerorderview"] = array(
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array( "CustomerID", "Email" ) );
 
-$ViewList["statistic"] = array(
+$ViewList["statistics"] = array(
     "functions" => array( 'adminstrate' ),
-    "script" => "orderstatistic.php",
+    "script" => "orderstatistics.php",
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array( 'Year', 'Month' ) );
 
