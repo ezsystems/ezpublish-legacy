@@ -1,0 +1,244 @@
+Tasks which needs to be done before 3.0 release:
+
+-------
+General
+-------
+Design
+------- 
+We need to make a professional design for the standard admin and
+user site. 
+
+Demo data
+---------
+A good demo data package must be created to demonstrate: Article publishing,
+shopping, forum and image gallery.
+
+UI
+--
+We need to work alot with the user interface. Placement, menues etc..
+
+Installers
+----------
+There should be made ready installers for:
+ - linux
+ - freebsd
+ - windows
+ - osx
+
+Create a policy for releases, it will explain how to do a release ie test
+procedure, packaging, PR etc.. Define how each release should explain what has
+been changed. For instance it's important to know if a new release requires
+updates to it's language files, template files etc..
+Create a good test list for a release, this can be done by using eZ publish
+itself, create one or more classes which works as a checklist.
+
+Implement the "ticket" system for secure forms (and doubleclick detection).
+
+Secure pages (HTTPS), for instance login page and payment page.
+
+Global notification/hook system, for instance the content object system would
+add a hook entry to the class system, when a class definition changes the
+content object hook entry would be run and it could updates to the affected
+objects. This is extremely useful for third-party modules which might need
+notification on changes.
+
+Implement the execution stack in more places, see eZExecutionStack in
+lib/ezutils/classes and workflow/list workfloe/edit for it's use.
+
+Rename current eZPersistentObject class to eZPersistentSQLObject and make a new
+eZPersistentObject which uses the SQL one. Then create new persistent class for
+instance eZPersistentFileObject, eZPersistentLDAPObject,
+eZPersistentSOAPObject, and then specify for each object what persistent type
+is to be used. Could be used for caching rarely changed objects on file or in
+shared memory/session , ie no interface changes to existing classes.
+
+Figure out where object placement (in tree nodes) should be placed, is it
+somethings that should be versioned? or should it be controlled on an object
+level? Probably needs more discussion.
+
+
+Updates
+-------
+Discuss how future updates should be handled, will probably be done using the
+setup page. Maybe even add support for checking for new versions on
+developer.ez.no and fetching them. Give overview of all changes in different
+versions. How this affects SOAP/DE should also be considered.
+
+Digital signing of libraries/kernel/plugins using PGP/GPG. That way it's
+possible to create third level plugings and let them be signed by eZ thus
+ensuring users that this is the real deal( no viruses, trojan horses etc.)
+
+
+Translation
+-----------
+Translation system must be 100% finished.
+- Added caching of XML files into PHP files.
+- Create utilities which scan templates/code for translation elements and
+  create the necessary translation files.
+
+
+
+
+--------------
+Implementation
+--------------
+
+Forum
+-----
+Forum, look at popular forums(eg. vBulletin) and see how they can be solved
+with 3.0 release functionality. Write a good documentation on how to implement
+forums(simple and advanced). Documents for how to deal with bugs, supports and
+project management might also be need, probably others as well.
+
+
+Error
+-----
+Error system, don't use redirection but instead use module-run on the same
+page, that way the URL doesn't change and the user can login and get back to
+where he/she was.
+
+
+Workflows
+--------
+- Workflows / triggers
+  We need to finish the workflow and trigger system which will handle content 
+approval, shop payment etc..
+
+Tasks
+------
+- Task / message system
+The messaging or task system will be closely related to the workflows, since 
+workflows can generate tasks for users. Messages can be used for internal 
+messaging.
+- My tasks page
+A page with overview of the current users tasks, drafts and messages.
+- All tasks page
+A page with overview of all the users open tasks, drafts and messages ( need 
+to be root - mabye we should not have the messages here "privacy" ? )
+
+Content class
+-------------
+  - Add default view mode to classes, this default view mode is copied when
+creating an object and may be changed again. Used where no view mode is
+specified.
+
+
+Content object
+--------------
+
+See how we can solve sorting, maybe using a separate table for sorting is good,
+the table would have n columns, one for each sort type (excluding
+asc/desc). All columns uses simple integers for sorting, that way it's possible
+to cache advanced sorting algorithms (Unicode sorting or multiple column sorting).
+
+ - Solve object name, there should exist one per version/language instead of just
+ one per object.
+
+Translate
+  - Add permission
+  - Add  select lang and default lang ( based on section, or manually - needs 
+   discussion )
+  - User personslized settings for language
+Version
+  - Support for named versions, and comment on each version ( will work as a log )
+  - Add version alias - needs to be speced. Though is multiple revert to  
+ "before release" etc..
+  
+Search
+  - Add - and multiple "" and OR operator
+  - Add time and section limitation on advanced search
+  - Index speedup
+
+Trash can
+  - Add trash can functionality. Mabye this should be implemented in the version system. 
+    V1, v2, v3... v5 == deleted. This will enable rollback of deleted objects.
+
+Copy support
+ - Copy content object
+ - Copy content class
+   - Copy attribute
+ - Copy content object subtree.
+
+- Change sitemap into a view mode.
+
+- Implement the "prepare" (maybe a new name?) for most views, now it's only used
+in class/list. Maybe it's better to allow templates run various listings
+directly and then process that data.
+
+Newsletter
+----------
+  We need to possiblity for users to subscribe to new published objects ( can 
+be just "e-mail" objects ) based on the following:
+ - Section, Class, Node, Keywords e.g. "linux" and fulltext phrase match.
+ - Newsletters can be sent as internal messages or e-mail/SMS...
+
+User management
+---------------
+  - Add/test user registration 
+  - Add e-mail verification
+  - Add forgot password
+  - here we need some IP settings for domain checks/limitation... need to
+  discuss.
+ - Defining default pages per user, group and/or role. For instance partners would
+ get a special page while anon users gets another.  Sugg. impl: add setting on main user group.
+
+
+Shop:
+-----
+  - Add option support with prices
+  - Add VAT settings
+  - Add price groups ( need to set up ez.no ) with partner price. Here we need
+   both % setting and specific price for each group. Needs to be speced.
+  - Add shipping setting
+  - Add order search
+  - Add customer list
+  - Add order export, need to implement e-mail for now. ( plugin )
+  - Add/test payment workflow
+  - Add/test buy license product (pre and post workflow)
+
+Image
+-----
+Go over the image systems, there are some bugs with it in certain cases. A good
+idea is to do some refactoring here as well(internal).
+Make a .ini file(or similar) for configuring the image system, mime-types and
+which conversions types to use.
+Solve the mime-type system which is also used by the filehandling.
+
+  
+Template
+--------
+Template enginge refactoring, change some of the internals of the template
+engine before optimization and cache is done. Some of the missing features
+are(which require some refactoring) operator return value dereferencing and
+attribute functions which can take parameters(would solve the "prepare" issue
+above).
+See if the names "functions" and "operators" should have new names.
+
+  - Add compling / speed enhancements
+  - Add caching ( included functions and views )
+  - Add delimiter functionality skip ( needed to generate n column views )
+  - Add object list with different parameter: Section, Class, Node, Time,    
+ Random
+
+
+Content action ( needs a meeting for discussion )
+-------------------------------------------------
+  - Add send as e-mail "form" functionality ( feedback )
+  - Add store form to db ( feedback with archive and statistics functions
+   later )
+  - Add poll/quiz functionality
+Datatypes:
+  - Add media datatypes like flash, mpeg, mp3, avi, asf, mov...
+
+
+Some crazy ideas we could think about:
+--------------------------------------
+- Move class relation from objects to object versions, that way it's possible
+  for an object to change class in a new version. That way all version history
+  is preserved. This would also require a convert utility where one can specify
+  which source field is to moved to which destination field (maybe even
+  automatic rules?).
+  Add better versioning for classes, that way when a class gets new(or changes)
+  attributes and objects already use that class they won't be affected until a
+  new version is created, ie they link to the class id and class version in an
+  object version. Again version history is preserved.
