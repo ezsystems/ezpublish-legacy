@@ -93,17 +93,17 @@ class eZIntegerType extends eZDataType
                 case EZ_INTEGER_NO_MIN_MAX_VALUE:
                 {
                     $state = $this->IntegerValidator->validate( $data );
-                    if( $state===1 )
-                        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-                    else
+                    if( $state === EZ_INPUT_VALIDATOR_STATE_INVALID )
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'Input is not integer.' ) );
+                    else
+                        return $state;
                 } break;
                 case EZ_INTEGER_HAS_MIN_VALUE:
                 {
                     $this->IntegerValidator->setRange( $min, false );
                     $state = $this->IntegerValidator->validate( $data );
-                    if( $state===1 )
+                    if( $state === EZ_INPUT_VALIDATOR_STATE_ACCEPTED )
                         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
                     else
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',

@@ -17,11 +17,15 @@ Changes from 3.3-2 to 3.3-3
   (also used in eZObjectRelationList)
 - Added support for cleanup of class attribute cache for clearcache.sh.
 - Added quick updated of eZEmail datatype to updateattributefilter.php update script.
+- Changed text_linked.tpl to use url_alias attribute instead of hardcoded content/view/full/*
 
 *Setup:
 - Added check for AcceptPathInfo setting in apache.
 
 *DataTypes:
+
+eZInteger:
+- Fixed the input validation, with no min/max value it will accept both ACCEPT and INTERMEDIATE validations.
 
 eZObjectRelation:
 - Added support for search indexing
