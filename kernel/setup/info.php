@@ -46,6 +46,7 @@ $tpl =& templateInit();
 $db =& eZDB::instance();
 
 $tpl->setVariable( 'ezpublish_version', eZPublishSDK::version() . " (" . eZPublishSDK::alias() . ")" );
+$tpl->setVariable( 'ezpublish_revision', eZPublishSDK::revision() );
 $tpl->setVariable( 'ezpublish_extensions', eZExtension::activeExtensions() );
 $tpl->setVariable( 'php_version', phpversion() );
 $tpl->setVariable( 'apache_version', eZPublishSDK::version() . " (" . eZPublishSDK::alias() . ")" );
