@@ -19,7 +19,7 @@
 <tr>
     <th class="tight"><input type="checkbox" name="deleteToolArray[]" value="{$Tool.index}" /></th>
     <th class="wide">{$Tool.name}</th>
-    <th class="tight" cellspacing="2"><input type="text" name="placement_{$Tool.index}" size="2" value="{sum($Tool.index,1)}"></th>
+    <th class="tight"><input type="text" name="placement_{$Tool.index}" size="2" value="{sum($Tool.index,1)}" /></th>
 </tr>
 
 <tr>
@@ -83,7 +83,7 @@
                 {/section}
                 {/let}
                 <input type="submit" name="BrowseButton[{$Tool.index}_parameter_{$Parameter.name}]" value="{'Browse'|i18n( 'design/admin/visual/toolbar' )}" />
-                <input type="hidden" name="{$Tool.index}_parameter_{$Parameter.name}" size="20" value="{$Parameter.value|wash}">
+                <input type="hidden" name="{$Tool.index}_parameter_{$Parameter.name}" size="20" value="{$Parameter.value|wash}" />
             {/case}
             {case match=5}
                 {section show=array( 'true', 'false' )|contains( $Parameter.value )}
@@ -94,12 +94,12 @@
                       <label for="{$Tool.index}_parameter_{$Parameter.name}_true"><input type="radio" name="{$Tool.index}_parameter_{$Parameter.name}" id="{$Tool.index}_parameter_{$Parameter.name}_true" value="yes" {section show=$Parameter.value|ne( 'no' )}checked="checked"{/section} />{'Yes'|i18n( 'design/admin/visual/toolbar' )}</label>
                       <label for="{$Tool.index}_parameter_{$Parameter.name}_false"><input type="radio" name="{$Tool.index}_parameter_{$Parameter.name}" id="{$Tool.index}_parameter_{$Parameter.name}_false" value="no" {section show=$Parameter.value|eq( 'no' )}checked="checked"{/section} />{'No'|i18n( 'design/admin/visual/toolbar' )}</label>
                   {section-else}
-                      <input type="text" name="{$Tool.index}_parameter_{$Parameter.name}" size="20" value="{$Parameter.value|wash}">
+                      <input type="text" name="{$Tool.index}_parameter_{$Parameter.name}" size="20" value="{$Parameter.value|wash}" />
                   {/section}
                 {/section}
             {/case}
             {case}
-                <input type="text" name="{$Tool.index}_parameter_{$Parameter.name}" size="20" value="{$Parameter.value}">
+                <input type="text" name="{$Tool.index}_parameter_{$Parameter.name}" size="20" value="{$Parameter.value}" />
             {/case}
             {/switch}
 
@@ -114,8 +114,6 @@
 {section-else}
 {'There are currently no tools in this toolbar'|i18n( 'design/admin/visual/toolbar' )}
 {/section}
-
-<hr />
 
 <div class="block">
 <div class="left">
