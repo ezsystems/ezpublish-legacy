@@ -58,21 +58,11 @@ Type: {$node.object.class_name}<br />
 <tr>
     <th class="delete">&nbsp;</th>
     <th class="path">{'Location'|i18n( 'design/admin/location' )}</th>
-    <th class="main">{'Main'|i18n( 'design/admin/location' )}:</th>
+    <th class="main">{'Main'|i18n( 'design/admin/location' )}</th>
 </tr>
 {section var=assignment loop=$assigned_nodes}
 {let assignment_node=$assignment.node
      assignment_path=$assignment_node.path|append( $assignment_node )}
-{*<tr class="bglight">
-    <td class="delete">&nbsp;</td>
-    <td class="path">&gt; <a href="/">Top node</a> / <a href="/">First sub node</a> / <a href="/">Another sub node</a> / This node</td>
-    <td class="main"><input type="radio" checked="checked" /></td>
-</tr>
-<tr class="bgdark">
-    <td class="delete"><input type="checkbox" /></td>
-    <td class="path">&gt; <a href="/">Top node</a> / <a href="/">First sub node</a> / <a href="/">Another sub node</a> / Another node</td>
-    <td class="main"><input type="radio" /></td>
-</tr>*}
 <tr class="bgdark">
     <td class="delete"><input type="checkbox" name="AssignmentIDSelection[]" {section show=or( $assignment_node.can_remove|not, eq( $assignment.parent_node, $node.parent_node_id ) )}disabled="disabled"{/section} value="{$assignment.id}" /></td>
     <td class="path">{section var=node_path loop=$assignment_path}<a href={$node_path.url|ezurl}>{$node_path.name|wash}</a>{delimiter} / {/delimiter}{/section}</td>
