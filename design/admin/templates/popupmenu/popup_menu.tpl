@@ -159,6 +159,9 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
     </div>
     <a id="bookmark-view" href="#" onmouseover="ezpopmenu_mouseOver( 'BookmarkMenu' )">{"View"|i18n("design/admin/popupmenu")}</a>
     <a id="bookmark-edit" href="#" onmouseover="ezpopmenu_mouseOver( 'BookmarkMenu' )">{"Edit"|i18n("design/admin/popupmenu")}</a>
+    <hr />
+    <a id="bookmark-remove" href="#" onmouseover="ezpopmenu_mouseOver( 'BookmarkMenu' )"
+        onclick="ezpopmenu_submitForm( 'menu-form-removebookmark' ); return false;">{"Remove bookmark"|i18n("design/admin/popupmenu")}</a>
 </div>
 
 <!-- Site access for override popup menu -->
@@ -207,6 +210,13 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
 <form id="menu-form-addbookmark" method="post" action={"/content/action"|ezurl}>
   <input type="hidden" name="ContentNodeID" value="%nodeID%" />
   <input type="hidden" name="ActionAddToBookmarks" value="x" />
+</form>
+
+{* Remove bookmark *}
+<form id="menu-form-removebookmark" method="post" action={"/content/bookmark"|ezurl}>
+  <input type="hidden" name="DeleteIDArray[]" value="%bookmarkID%" />
+  <input type="hidden" name="RemoveButton" value="x" />
+  <input type="hidden" name="NeedRedirectBack" value="x" />
 </form>
 
 {* Remove node. *}

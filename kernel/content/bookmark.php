@@ -56,6 +56,7 @@ if ( $Module->isCurrentAction( 'Remove' )  )
     if ( $Module->hasActionParameter( 'DeleteIDArray' ) )
     {
         $deleteIDArray =& $Module->actionParameter( 'DeleteIDArray' );
+
         foreach ( $deleteIDArray as $deleteID )
         {
             $bookmark =& eZContentBrowseBookmark::fetch( $deleteID );
@@ -63,6 +64,10 @@ if ( $Module->isCurrentAction( 'Remove' )  )
                 continue;
             $bookmark->remove();
         }
+    }
+    if ( $http->hasPostVariable( 'NeedRedirectBack' ) and $http->hasSessionVariable( "LastAccessesURI" ) )
+    {
+        $Module->redirectTo( $http->sessionVariable( "LastAccessesURI" ) );
     }
 }
 else if ( $Module->isCurrentAction( 'Add' )  )

@@ -81,3 +81,5 @@ eZDebug:
   design/admin/templates/content/browse_mode_list.tpl
   design/admin/templates/content/browse_mode_thumbnail.tpl
 - Added "Override Template" popup menu when clicking on the big icon during viewing a node 
+- Added "Remove bookmark" menu item in popup menu when clicking on the icon of
+  bookmark in the "Bookmarks" list in admin interface.
