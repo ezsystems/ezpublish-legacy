@@ -1322,7 +1322,6 @@ else if ( $module->isCurrentAction( 'ClearViewCache' ) or
 
     if ( $module->hasActionParameter( 'CurrentURL' ) )
     {
-        var_dump( $_POST );
         $currentURL = $module->actionParameter( 'CurrentURL' );
         return $module->redirectTo( $currentURL );
     }
