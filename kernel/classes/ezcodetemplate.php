@@ -173,6 +173,15 @@ class eZCodeTemplate
                     $parameters[$key] = trim( $parameter );
                 }
 
+                if ( !file_exists( $templateFile ) )
+                {
+                    eZDebug::writeError( "Template file $templateFile was not found while workin on $filePath at offset $offset",
+                                         'eZCodeTemplate::apply' );
+                    $offset = $end;
+                    $error = true;
+                    continue;
+                }
+
                 // Load the template file and split it into the blocks
                 // available blocks in the file
                 $templateText = file_get_contents( $templateFile );
