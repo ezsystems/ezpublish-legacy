@@ -510,7 +510,34 @@ class eZUser extends eZPersistentObject
         if ( $asObject == true )
         {
             $this->Groups = array();
-            eZDebug::writeError( 'Returning user groups as objects not implemented', 'ezuser' );
+            if( !isset( $this->GroupsAsObjects ) )
+            {
+                if ( $userID )
+                {
+                    $contentobjectID = $userID;
+                }
+                else
+                {
+                    $contentobjectID = $this->attribute( 'contentobject_id' );
+                }
+                $userGroups = $db->arrayQuery( "SELECT d.*
+                                                FROM ezcontentobject_tree  b,
+                                                     ezcontentobject_tree  c,
+                                                     ezcontentobject d
+                                                WHERE b.contentobject_id='$contentobjectID' AND
+                                                      b.parent_node_id = c.node_id AND
+                                                      d.id = c.contentobject_id
+                                                ORDER BY c.contentobject_id  ");
+                $userGroupArray = array();
+
+                foreach ( $userGroups as $group )
+                {
+                    $userGroupArray[] = new eZContentObject( $group );
+                }
+                $this->GroupsAsObjects =& $userGroupArray;
+                
+            }
+            return $this->GroupsAsObjects;
         }
         else
         {
@@ -538,8 +565,8 @@ class eZUser extends eZPersistentObject
                 }
                 $this->Groups = $userGroupArray;
             }
+            return $this->Groups;
         }
-        return $this->Groups;
     }
 
     /// \privatesection
