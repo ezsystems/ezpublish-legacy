@@ -15,12 +15,12 @@ div#allcontent
 
 /* HEADERS */
 
-div#top-content
+div#topcontent
 { 
     background-color: #333;
 }
 
-div#top-content div#header
+div#header
 { 
     color: #fff;
     background-color: #333;

@@ -33,7 +33,7 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
 
 <div id="allcontent">
 
-<div id="top-content">
+<div id="topcontent">
 
 {let pagedesign=fetch_alias(by_identifier,hash(attr_id,sitestyle_identifier))}
 <div id="header">
