@@ -65,9 +65,10 @@ Changes from 3.1-1 to 3.2.0-1
 - Moved search result list with navigator into a separate template, there's now a normal
   search result template and an 'edit' search result template.
 - Added support for specifying result items per page for advanced search.
+- Made sitemap template more useful
 - Added support for search for objects which are published between two dates, the dates are
   specfyied using timestamps.
-- Added posibilty to limit filter results of advanced search thrue general search filter. Filter works for classes and subtree. 
+- Added posibilty to limit filter results of advanced search thru general search filter. Filter works for classes and subtree. 
 
 *Templates:
 - Made sure that the new $attribute_base variable is used to generate post variable names in datatype edit templates.
