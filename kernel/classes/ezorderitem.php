@@ -63,8 +63,7 @@ class eZOrderItem extends eZPersistentObject
                                          'order_id' => 'OrderID',
                                          'description' => 'Description',
                                          'price' => 'Price',
-                                         'vat_is_included' => 'VATIsIncluded',
-                                         'vat_type_id' => 'VATTypeID'
+                                         'vat_value' => 'VATValue'
                                          ),
                       'keys' => array( 'id' ),
                       'increment_key' => 'id',
