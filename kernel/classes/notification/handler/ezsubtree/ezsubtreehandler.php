@@ -203,7 +203,9 @@ class eZSubTreeHandler extends eZNotificationEventHandler
                     $hours = $settings->attribute( 'time' );
                     $hoursArray = explode( ':', $hours );
                     $hours = $hoursArray[0];
-                    eZNotificationSchedule::setDateForItem( $item, array( 'frequency' => 'week', 'day' => $weekday, 'time' => $hours ) );
+                    eZNotificationSchedule::setDateForItem( $item, array( 'frequency' => 'week',
+                                                                          'day' => $settings->attribute( 'day' ),
+                                                                          'time' => $hours ) );
                     $item->store();
                 }
             }
