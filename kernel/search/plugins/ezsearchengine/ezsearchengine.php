@@ -738,7 +738,6 @@ class eZSearchEngine
             $i = $this->TempTablesCount;
 
 // Loop every word and insert result in temporary table
-
             foreach ( $searchPartsArray as $searchPart )
             {
 //                $wordID = $searchWord['id'];
@@ -1084,10 +1083,11 @@ class eZSearchEngine
      \return Returns an sql query part for a phrase
     */
 
-    function &buildPhraseSqlQueryPart( $phraseIDArray )
+    /*  function &buildPhraseSqlQueryPart( $phraseIDArray )
     {
         $phraseSearchSQL = '';
         $wordCount = count( $phraseIDArray );
+        eZDebug::writeDebug( $phraseIDArray, "888");
         for ( $i = 0; $i < $wordCount; $i++ )
         {
             $wordID = $phraseIDArray[$i];
@@ -1116,6 +1116,41 @@ class eZSearchEngine
         }
 //        $phraseSearchSQLArray[] = $phraseSearchSQL;
         return $phraseSearchSQL;
+    }*/
+
+    function &buildPhraseSqlQueryPart( $phraseIDArray )
+    {
+        $phraseSearchSQLArray = array();
+        $wordCount = count( $phraseIDArray );
+        for ( $i = 0; $i < $wordCount; $i++ )
+        {
+            $wordID = $phraseIDArray[$i];
+            $phraseSearchSQL = "";
+            if ( is_numeric( $wordID ) and ( $wordID > 0 ) )
+            {
+                $phraseSearchSQL = " ( ezsearch_object_word_link.word_id='$wordID' ";
+                if ( $i < ( $wordCount - 1 ) )
+                {
+                    $nextWordID = $phraseIDArray[$i+1];
+                    $phraseSearchSQL .= " AND ezsearch_object_word_link.next_word_id='$nextWordID' ";
+                }
+                if ( $i > 0 )
+                {
+                    $prevWordID = $phraseIDArray[$i-1];
+                    $phraseSearchSQL .= " AND ezsearch_object_word_link.prev_word_id='$prevWordID' ";
+                }
+                $phraseSearchSQL .= "  ) ";
+            }
+            else
+            {
+                $nonExistingWordArray[] = $searchWord;
+            }
+            $prevWord = $wordID;
+            $phraseSearchSQLArray[] = $phraseSearchSQL;
+        }
+
+        eZDebug::writeDebug( $phraseSearchSQLArray, "888");
+        return $phraseSearchSQLArray;
     }
 
     /*!
@@ -1796,12 +1831,15 @@ class eZSearchEngine
         $i = 0;
         foreach ( $phraseTextArray as $phraseText )
         {
-            $searchPart = array();
-            $searchPart['text'] = $phraseText;
-            $searchPart['sql_part'] = ' ( ' . $phraseSearchSQLArray[$i] . ' ) AND';
-            $searchPart['is_phrase'] = 1;
-            $searchPart['object_count'] = 0;
-            $searchPartsArray[] =& $searchPart;
+            foreach ( $phraseSearchSQLArray[$i] as $phraseSearchSubSQL )
+            {
+                $searchPart = array();
+                $searchPart['text'] = $phraseText;
+                $searchPart['sql_part'] = ' ( ' . $phraseSearchSubSQL . ' ) AND';
+                $searchPart['is_phrase'] = 1;
+                $searchPart['object_count'] = 0;
+                $searchPartsArray[] = $searchPart;
+            }
             unset( $searchPart );
             $i++;
         }
