@@ -75,6 +75,8 @@ Changes from 3.2-3 to 3.2-4
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/others_can_see_my_wishlist_
 - Fixed bug with long object names generating invalid SQL : http://www.ez.no/developer/ez_publish_3/bug_reports/too_long_textline_attribute_doesnt_give_an_error_message
 - Fixed eZContentBrowseRecent count SQL.
+- Fixed missing workflow_event_pos in ezcontentobject_version table definition, plain package postgresql:
+  http://www.ez.no/developer/ez_publish_3/bug_reports/sql_error_with_postgresql_database
 
 *Library :
 
