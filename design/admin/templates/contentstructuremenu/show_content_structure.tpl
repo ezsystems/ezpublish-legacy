@@ -3,7 +3,7 @@
      haveChildren   = count($contentStructureTree.children)|gt(0)
      showToolTips   = ezini( 'TreeMenu', 'ToolTips', 'contentstructuremenu.ini' )
      toolTip        = "" }
-
+            
     <li id="n{$:parentNode.node.node_id}">
 
         {* Fold/Unfold/Empty: [-]/[+]/[ ] *}
@@ -29,7 +29,13 @@
 
             {* Text *}
             {let defaultItemClickAction = $:parentNode.node.path_identification_string|ezurl(no)}
-                <a class="nodetext" href="#" onclick="this.href='javascript:ezcst_onItemClicked( {$:parentNode.node.node_id}, \'{$:defaultItemClickAction}\' )'" title="{$:toolTip}">{$:parentNode.object.name|wash}</a>
+                <script language="JavaScript"><!--
+                    document.write( "<a class=\"nodetext\" href=\"#\" onclick=\"this.href='javascript:ezcst_onItemClicked( {$:parentNode.node.node_id}, \\'{$:defaultItemClickAction}\\' )'\" title=\"{$:toolTip}\">{$:parentNode.object.name|wash}</a>" );
+                // -->
+                </script>
+                <noscript>
+                    <a class="nodetext" href="{$:defaultItemClickAction}" title="{$:toolTip}" >{$:parentNode.object.name|wash}</a>
+                </noscript>
             {/let}
 
         {* Show children *}
