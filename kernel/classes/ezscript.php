@@ -1062,7 +1062,6 @@ class eZScript
             $debugSettings['debug-styles'] = $cli->terminalStyles();
         }
         $logList = $ini->variable( 'DebugSettings', 'AlwaysLog' );
-        $logList = explode( ';', $logList );
         $logMap = array( 'notice' => EZ_LEVEL_NOTICE,
                          'warning' => EZ_LEVEL_WARNING,
                          'error' => EZ_LEVEL_ERROR,

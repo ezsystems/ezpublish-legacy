@@ -120,7 +120,6 @@ function eZUpdateDebugSettings()
         $ini->variableMulti( 'DebugSettings',
                              array( 'DebugOutput', 'DebugByIP', 'DebugLogOnly', 'DebugIPList', 'AlwaysLog' ),
                              array( 'enabled', 'enabled', 'disabled' ) );
-    $logList = explode( ';', $logList );
     $logMap = array( 'notice' => EZ_LEVEL_NOTICE,
                      'warning' => EZ_LEVEL_WARNING,
                      'error' => EZ_LEVEL_ERROR,
