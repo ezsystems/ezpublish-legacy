@@ -128,7 +128,8 @@ class eZCache
                                        'id' => 'template-block',
                                        'tag' => array( 'template', 'content' ),
                                        'enabled' => $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled',
-                                       'path' => 'template-block' ),
+                                       'path' => 'template-block',
+                                       'function' => 'eZCacheClearTemplateBlockCache' ),
                                 array( 'name' => 'Template override cache',
                                        'id' => 'template-override',
                                        'tag' => array( 'template' ),
@@ -229,6 +230,7 @@ class eZCache
     }
 
     /*!
+     \private
      Sets the image alias timestamp to the current timestamp,
      this causes all image aliases to be recreated on viewing.
     */
@@ -240,6 +242,47 @@ class eZCache
     }
 
     /*!
+     \private
+     Removes all template block cache files and subtree entries.
+    */
+    function clearTemplateBlockCache( $cacheItem )
+    {
+        $cachePath = eZSys::cacheDirectory() . "/" . $cacheItem['path'];
+        if ( is_file( $cachePath ) )
+        {
+            $handler =& eZFileHandler::instance( false );
+            $handler->unlink( $cachePath );
+        }
+        else
+        {
+            eZDir::recursiveDelete( $cachePath );
+        }
+
+        include_once( 'lib/ezdb/classes/ezdb.php' );
+        $db =& eZDB::instance();
+
+        $rows = $db->arrayQuery( "SELECT count( cache_file ) AS count FROM ezsubtree_expiry" );
+        $count = $rows[0]['count'];
+        $offset = 0;
+        $limit = 50;
+        while ( $offset < $count )
+        {
+            $entries = $db->arrayQuery( "SELECT cache_file FROM ezsubtree_expiry", array( 'offset' => $offset, 'limit' => $limit ) );
+            if ( count( $entries ) == 0 )
+                break;
+            foreach ( $entries as $entry )
+            {
+                @unlink( $entry['cache_file'] );
+            }
+            $offset += count( $entries );
+        }
+
+        $db->query( "DELETE FROM ezsubtree_expiry" );
+    }
+
+    /*!
+     \private
+     Clears all content class identifier cache files from var/cache.
     */
     function clearClassID( $cacheItem )
     {
@@ -266,6 +309,8 @@ class eZCache
     }
 
     /*!
+     \private
+     Clears all datatype sortkey cache files from var/cache.
     */
     function clearSortKey( $cacheItem )
     {
@@ -302,7 +347,8 @@ class eZCache
 }
 
 /*!
- Helper function for eZCache::clearImageAlias
+  Helper function for eZCache::clearImageAlias.
+  \note Static functions in classes cannot be used as callback functions in PHP 4, that is why we need this helper.
 */
 function eZCacheClearImageAlias( $cacheItem )
 {
@@ -310,14 +356,18 @@ function eZCacheClearImageAlias( $cacheItem )
 }
 
 /*!
- */
+  Helper function for eZCache::clearClassID.
+  \note Static functions in classes cannot be used as callback functions in PHP 4, that is why we need this helper.
+*/
 function eZCacheClearClassID( $cacheItem )
 {
     eZCache::clearClassID( $cacheItem );
 }
 
 /*!
- */
+  Helper function for eZCache::clearGlobalINICache.
+  \note Static functions in classes cannot be used as callback functions in PHP 4, that is why we need this helper.
+*/
 function eZCacheClearGlobalINI( $cacheItem )
 {
     eZCache::clearGlobalINICache();
@@ -325,10 +375,21 @@ function eZCacheClearGlobalINI( $cacheItem )
 
 
 /*!
- */
+  Helper function for eZCache::clearSortKey.
+  \note Static functions in classes cannot be used as callback functions in PHP 4, that is why we need this helper.
+*/
 function eZCacheClearSortKey( $cacheItem )
 {
     eZCache::clearSortKey( $cacheItem );
+}
+
+/*!
+  Helper function for eZCache::clearTemplateBlockCache.
+  \note Static functions in classes cannot be used as callback functions in PHP 4, that is why we need this helper.
+*/
+function eZCacheClearTemplateBlockCache( $cacheItem )
+{
+    eZCache::clearTemplateBlockCache( $cacheItem );
 }
 
 ?>
