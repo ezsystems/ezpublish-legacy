@@ -2139,6 +2139,11 @@ class eZPDFTable extends Cezpdf
         $params = array();
         $this->extractParameters( $info['p'], 0, $params, true );
 
+        foreach( array_keys( $params ) as $key )
+        {
+            $params[$key] = urldecode( $params[$key] );
+        }
+
         $text = $params['text'];
         $y = $params['y'];
         $x = $params['x'];
@@ -2424,7 +2429,7 @@ class eZPDFTable extends Cezpdf
 
         $location = $parameters['location'];
         $yOffset = $parameters['margin'];
-        if ( $location == 'header' )
+        if ( $location == 'frame_header' )
         {
             $yOffset = $this->ez['pageHeight'] - $parameters['margin'];
         }

@@ -984,7 +984,7 @@ class eZPDF
 
                 foreach( array_keys( $parameters ) as $key )
                 {
-                    $operatorValue .= ':' . $key . ':' . $parameters[$key];
+                    $operatorValue .= ':' . $key . ':' . urlencode( $parameters[$key] );
                 }
 
                 $operatorValue .= '>';
