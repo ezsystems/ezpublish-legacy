@@ -15,21 +15,25 @@
 <tr>
 {section name=Child loop=fetch('content','list',hash(parent_node_id,$node.node_id,limit,$page_limit,offset,$view_parameters.offset))}
 	<td>
+          <center>
             <table border="1" align="center" cellpadding="4" cellspacing="6" bordercolor="#000000" bgcolor="#E2E2E2">
               <tr bordercolor="#000000" bgcolor="#000000"> 
                 <td colspan="3" valign="top" bgcolor="#ffffff">
 {*	<a href="{$module.functions.view.uri}/full/{$Child:item.node_id}">*}
         <a href="{concat('/content/view/slideshow/',$node.node_id,'/offset/',sum($view_parameters.offset,$Child:index))}">
-	{content_view_gui view=small content_node=$Child:item}
+	{content_view_gui view=image_small content_node=$Child:item}
         </a>
 {*	</a>*}
                 </td>
               </tr>
             </table>
+          </center>
 	</td>
 {delimiter modulo=ceil(div($list_count,2))}
-<tr>
 </tr>
+<tr><td>&nbsp;</td>
+</tr>
+<tr>
 {/delimiter}
 {/section}
 </tr>
@@ -42,6 +46,7 @@
          view_parameters=$view_parameters
          item_limit=$page_limit}
 
+{*
 {switch match=$node.object.can_create}
 {case match=1}
          <input type="hidden" name="NodeID" value="{$node.node_id}" />
@@ -60,5 +65,6 @@
 <input class="button" type="submit" name="RemoveButton" value="Remove object(s)" />
 
 <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
+*}
 
 </form>

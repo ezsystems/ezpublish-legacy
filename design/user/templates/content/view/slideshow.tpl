@@ -5,13 +5,15 @@
 
 <form method="post" action={"/content/action/"|ezurl}>
 
-<table width="100%" cellspacing="0" cellpadding="0">
+<table width="100%">
+<tr><td><center>
+{*<table width="100%" cellspacing="0" cellpadding="0">
 <tr>
 	<td>
 	{$node.object.name|texttoimage('archtura')}
 	</td>
 </tr>
-</table>
+</table>*}
             <table border="1" align="center" cellpadding="4" cellspacing="6" bordercolor="#000000" bgcolor="#E2E2E2">
 
 {section name=Child loop=$item_list}
@@ -50,5 +52,7 @@
 
 {/let}
             </table>
+</center></td></tr>
+</table>
 
 </form>
