@@ -108,8 +108,7 @@ class eZObjectRelationType extends eZDataType
                     if ( $classContent['default_selection_node'] )
                     {
                         $nodeID = $classContent['default_selection_node'];
-                        $nodeList =& eZContentObjectTreeNode::subTree( array( 'Depth', 1 ),
-                                                                       $nodeID );
+                        $nodeList =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1 ), $nodeID );
                         $lastDiff = false;
                         $matchObjectID = false;
                         foreach ( $nodeList as $node )

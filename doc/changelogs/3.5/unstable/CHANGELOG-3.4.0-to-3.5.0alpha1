@@ -490,6 +490,9 @@ Workflow:
 - Fixed bug with {set} in template compiler. (Merged from stable/3.4, rev. 7950)
   http://ez.no/community/bug_reports/set_statement_does_not_work_in_some_cases
   http://www.ez.no/community/bug_reports/template_compiling_problem
+- Fixed bug in ezcontentrelationtype's usage of
+  ezcontentobjecttreenode::subtree(). (Merged from stable/3.4, rev. 7955)
+  http://www.ez.no/community/bug_reports/objectrelationtype_and_fuzzy_match
 
 
 *Library:
