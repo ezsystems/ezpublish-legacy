@@ -18,29 +18,29 @@ div#allcontent
 
 div#toolbar-top li.toolbar-item
 {
-    color: #336699;
-    border-color: #336699;
+    color: #000;
+    border-color: #000;
 }
 
 div#toolbar-top li.toolbar-item a
 { 
-    color: #336699;
+    color: #000;
 }
 
 div#toolbar-bottom div.toolbar-design
 {
-    background-color: #e5e5e5;
+    background-color: #000;
 }
 
 div#toolbar-bottom li.toolbar-item
 {
-    color: #003399;
-    border-color: #003399;
+    color: #fff;
+    border-color: #fff;
 }
 
 div#toolbar-bottom li.toolbar-item a
 { 
-    color: #003399;
+    color: #fff;
 }
 
 
@@ -123,37 +123,37 @@ div#path p a:hover
 
 div#leftmenu-design li.menu-level-0
 { 
-    border-color: #cccc99;
+    border-color: #000;
 }
 
 div#leftmenu-design li.menu-level-0 a
 { 
-    color: #333333;
+    color: #000;
 }
 
 div#leftmenu-design li.menu-level-0 a:hover
 {
-    color: #003399;
+    color: #000;
 }
 
 div#leftmenu-design li.menu-level-0 a.selected
 {
-    color: #003399;
+    color: #000;
 }
 
 div#leftmenu-design li.menu-level-1 a
 { 
-    color: #999999;
+    color: #ff0101;
 }
 
 div#leftmenu-design li.menu-level-1 a:hover
 {
-    color: #003399;
+    color: #ff0101;
 }
 
 div#leftmenu-design li.menu-level-1 a.selected
 {
-    color: #003399;
+    color: #000;
 }
 
 
@@ -257,7 +257,7 @@ div.toollist-design div.class-article div.attribute-link-disabled p
 div#footer-design 
 {
     color: #003366;
-    background-color: #ffffff;
+    background-color: #feb705;
 }
 
 div#footer-design a:hover
@@ -269,7 +269,7 @@ div#footer-design a:hover
 
 a
 { 
-    color: #626262;
+  color: #ff0101;
 }
 
 li
@@ -279,32 +279,32 @@ li
 
 div#maincontent h1
 { 
-    color: #003399;
+    color: #ff0101;
 }
 
 div#maincontent h2
 { 
-    color: #003399;
+    color: #000;
 }
 
 div#maincontent h2 a
 { 
-    color: #003399;
+    color: #000;
 }
 
 div#maincontent h3
 { 
-    color: #003399;
+    color: #000;
 }
 
 div#maincontent h4
 { 
-    color: #666;
+    color: #000;
 }
 
 div#maincontent-design h5
 { 
-    color: #666;
+    color: #000;
 }
 
 
