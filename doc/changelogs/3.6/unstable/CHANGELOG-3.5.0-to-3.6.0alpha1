@@ -90,6 +90,8 @@ Changes from 3.5.0 to 3.6.0alpha1
 - Fixed bug #4033: <literal> tag removes heading whitespace.
   (Merged from stable/3.3 (3.3-7) rev. 10697, also in stable/3.4 (3.4.5) rev.10706,
   also in stable/3.5 (3.5.1) rev. 10707)
+- Fixed bug #6144: URL management page counter faulty.
+  ( Merged from stable/3.4 rev. 10711)
 - Fixed bug #6040: URLS are stored incorrectly into ezstring attributes.
   (Merged from stable/3.3 (3.3-7) rev. 10709)
 
