@@ -51,7 +51,7 @@ if ( isset( $Params['TaskID'] ) and
     $task =& eZTask::fetch( $TaskID );
     if ( $task->attribute( 'status' ) != EZ_TASK_STATUS_TEMPORARY )
     {
-        $errorModule =& eZModule::exists( array( "kernel" ), "error" );
+        $errorModule =& eZModule::exists( "error" );
         return $errorModule->run( "403", array() );
     }
 }
@@ -151,7 +151,9 @@ if ( $storeTask )
     $task->store();
 
 
-if ( $http->hasPostVariable( 'SelectReceiverButton' ) )
+if ( ( $task->attribute( 'status' ) == EZ_TASK_STATUS_TEMPORARY and
+       $task->attribute( 'receiver_id' ) == 0 ) or
+     $http->hasPostVariable( 'SelectReceiverButton' ) )
 {
     $http->setSessionVariable( "BrowseFromPage", $Module->functionURI( 'edit' ) . "/$TaskID" );
     $http->removeSessionVariable( "CustomBrowseActionAttributeID" );
@@ -160,7 +162,7 @@ if ( $http->hasPostVariable( 'SelectReceiverButton' ) )
     $http->setSessionVariable( "BrowseReturnType", "ContentObjectID" );
 
     $NodeID = 4;
-    $contentModule =& eZModule::exists( array( "kernel" ), "content" );
+    $contentModule =& eZModule::exists( "content" );
     return $Module->redirectTo( $contentModule->functionURI( "browse" ) . "/" . $NodeID . "/" . $ObjectID . "/" . $EditVersion );
 }
 
@@ -173,7 +175,7 @@ if ( $http->hasPostVariable( 'SelectObjectButton' ) )
     $http->setSessionVariable( "BrowseReturnType", "ContentObjectID" );
 
     $NodeID = 1;
-    $contentModule =& eZModule::exists( array( "kernel" ), "content" );
+    $contentModule =& eZModule::exists( "content" );
     return $Module->redirectTo( $contentModule->functionURI( "browse" ) . "/" . $NodeID . "/" . $ObjectID . "/" . $EditVersion );
 }
 

@@ -262,14 +262,75 @@ class eZModule
         return $Return;
     }
 
-    function &exists( $path_list, $module )
+    /*!
+     \static
+     \return the global path list which is used for finding modules. Returns \c null if no
+             list is available.
+     \sa setGlobalPathList, addGlobalPathList
+    */
+    function globalPathList()
     {
-        foreach ( $path_list as $path )
+        if ( !isset( $GLOBALS['eZModuleGlobalPathList'] ) )
+            return null;
+        return $GLOBALS['eZModuleGlobalPathList'];
+    }
+
+    /*!
+     \static
+     Sets the global path list which is used for finding modules.
+     \param $pathList Is either an array with path strings or a single path string
+     \sa addGlobalPathList
+    */
+    function setGlobalPathList( $pathList )
+    {
+        $globalPathList =& $GLOBALS['eZModuleGlobalPathList'];
+        if ( !is_array( $pathList ) )
+            $pathList = array( $pathList );
+        $globalPathList = $pathList;
+    }
+
+    /*!
+     \static
+     Adds the pathlist entries \a $pathList to the global path list which is used for finding modules.
+     \param $pathList Is either an array with path strings or a single path string
+     \sa setGlobalPathList
+    */
+    function addGlobalPathList( $pathList )
+    {
+        $globalPathList =& $GLOBALS['eZModuleGlobalPathList'];
+        if ( !is_array( $globalPathList ) )
+            $globalPathList = array();
+        if ( !is_array( $pathList ) )
+            $pathList = array( $pathList );
+        $globalPathList = array_merge( $globalPathList, $pathList );
+    }
+
+    /*!
+     \static
+     Tries to locate the module named \a $moduleName and returns an eZModule object
+     for it. Returns \c null if no module can be found.
+
+     It uses the globalPathList() to search for modules, use \a $pathList to add
+     additional path.
+     \param $moduleName The name of the module to find
+     \param $pathList Is either an array with path strings or a single path string
+    */
+    function &exists( $moduleName, $pathList = null )
+    {
+        if ( $pathList === null )
+            $pathList = array();
+        else if ( !is_array( $pathList ) )
+            $pathList = array( $pathList );
+        $searchPathList = eZModule::globalPathList();
+        if ( $searchPathList === null )
+            $searchPathList = array();
+        $searchPathList = array_merge( $searchPathList, $pathList );
+        foreach ( $searchPathList as $path )
         {
-            $file = "$path/$module/module.php";
+            $file = "$path/$moduleName/module.php";
             if ( file_exists( $file ) )
             {
-                $mod = new eZModule( $path, $file, $module );
+                $mod = new eZModule( $path, $file, $moduleName );
                 return $mod;
             }
         }

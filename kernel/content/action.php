@@ -78,7 +78,7 @@ if ( $http->hasPostVariable( "ContentObjectID" )  )
     // Check which action to perform
     if ( $http->hasPostVariable( "ActionAddToCart" ) )
     {
-        $shopModule =& eZModule::exists( array( "kernel" ), "shop" );
+        $shopModule =& eZModule::exists( "shop" );
 
         $result =& $shopModule->run( "cart", array() );
         $module->setExitStatus( $shopModule->exitStatus() );
@@ -86,7 +86,7 @@ if ( $http->hasPostVariable( "ContentObjectID" )  )
     }
     else if ( $http->hasPostVariable( "ActionAddToWishList" ) )
     {
-        $shopModule =& eZModule::exists( array( "kernel" ), "shop" );
+        $shopModule =& eZModule::exists( "shop" );
 
         $result =& $shopModule->run( "wishlist", array() );
         $module->setExitStatus( $shopModule->exitStatus() );

@@ -128,7 +128,7 @@ if ( $http->hasPostVariable( "AddLimitation" ) )
                                                     'FunctionName' => $currentFunction,
                                                     'Limitation' => '') );
 
-    $mod = & eZModule::exists( array('kernel'), $currentModule );
+    $mod = & eZModule::exists( $currentModule );
     $functions =& $mod->attribute( 'aviable_functions' );
     $currentFunctionLimitations = $functions[ $currentFunction ];
     eZDebug::writeNotice($currentFunctionLimitations, 'currentFunctionLimitations');
@@ -162,7 +162,7 @@ if ( $http->hasPostVariable( "RemovePolicy" ) )
 if ( $http->hasPostVariable( "CustomFunction" )  )
 {
     $currentModule = $http->postVariable( 'Modules' );
-    $mod = & eZModule::exists( array('kernel'), $currentModule );
+    $mod = & eZModule::exists( $currentModule );
     var_dump( $currentModule );
     flush();
     $functions =& $mod->attribute( 'aviable_functions' );
@@ -185,7 +185,7 @@ if ( $http->hasPostVariable( "DiscardFunction" )  )
 if ( $http->hasPostVariable( "Limitation" )  )
 {
     $currentModule = $http->postVariable( 'CurrentModule' );
-    $mod = & eZModule::exists( array('kernel'), $currentModule );
+    $mod = & eZModule::exists( $currentModule );
     $functions =& $mod->attribute( 'aviable_functions' );
     $functionNames = array_keys( $functions );
 
@@ -227,7 +227,7 @@ if ( $http->hasPostVariable( "Limitation" )  )
 if ( $http->hasPostVariable( "DiscardLimitation" )  )
 {
     $currentModule = $http->postVariable( 'CurrentModule' );
-    $mod = & eZModule::exists( array('kernel'), $currentModule );
+    $mod = & eZModule::exists( $currentModule );
     $functions =& $mod->attribute( 'aviable_functions' );
     $functionNames = array_keys( $functions );
 

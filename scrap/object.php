@@ -3,7 +3,7 @@
 
 include_once( "lib/ezutils/classes/ezmodule.php" );
 
-$module = eZModule::exists( array( "kernel" ), "content" );
+$module = eZModule::exists( "content" );
 $result =& $module->run( "view", array( "full", 1 ) );
 
 

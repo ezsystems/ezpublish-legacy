@@ -81,6 +81,8 @@ eZ module :
 - Added support for creating empty module objects.
 - Added support for creating "features" which allows for dynamic retrieval of objects, lists etc.
 - Added support for freely placed parameters in URI.
+- Added setGlobalPathList function to set the path list once and swapped the parameter positions of the
+  /exists/ function, this means that only the module name is required.
 
 eZ file :
 - New class for handling file operations

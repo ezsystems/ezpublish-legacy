@@ -559,11 +559,11 @@ created int NOT NULL,
 modified int NOT NULL,
 PRIMARY KEY(id) );
 
-INSERT INTO eztask (id, task_type, status, connection_type, creator_id, receiver_id, created,    modified)
-             VALUES(1,  1,         2,      1,               92,         92,          1031214781, 1031214781);
-INSERT INTO eztask (id, task_type, status, connection_type, creator_id, receiver_id, created,    modified)
-             VALUES(2,  1,         1,      1,               92,         121,         1031215781, 1031215781);
-INSERT INTO eztask (id, task_type, status, connection_type, creator_id, receiver_id, created,    modified)
-             VALUES(3,  1,         2,      1,               92,         155,         1031216781, 1031216781);
-INSERT INTO eztask (id, task_type, status, connection_type, creator_id, receiver_id, created,    modified)
-             VALUES(4,  1,         2,      1,               149,         92,         1031217781, 1031217781);
+-- INSERT INTO eztask (id, task_type, status, connection_type, creator_id, receiver_id, created,    modified)
+--              VALUES(1,  1,         2,      1,               92,         92,          1031214781, 1031214781);
+-- INSERT INTO eztask (id, task_type, status, connection_type, creator_id, receiver_id, created,    modified)
+--              VALUES(2,  1,         1,      1,               92,         8,         1031215781, 1031215781);
+-- INSERT INTO eztask (id, task_type, status, connection_type, creator_id, receiver_id, created,    modified)
+--              VALUES(3,  1,         2,      1,               92,         155,         1031216781, 1031216781);
+-- INSERT INTO eztask (id, task_type, status, connection_type, creator_id, receiver_id, created,    modified)
+--              VALUES(4,  1,         2,      1,               11,         92,         1031217781, 1031217781);

@@ -14,7 +14,7 @@ function eZDisplayDebug()
         eZDebug::printReport( $type == "popup" );
 }
 
-function fetchModule( &$uri, &$check, $module_path_list, &$module, &$module_name, &$function_name, &$params )
+function fetchModule( &$uri, &$check, &$module, &$module_name, &$function_name, &$params )
 {
     eZDebug::writeNotice( $uri, "in fetch module" );
     $module_name = $uri->element();
@@ -23,7 +23,7 @@ function fetchModule( &$uri, &$check, $module_path_list, &$module, &$module_name
         $module_name = $check["module"];
 
     // Try to fetch the module object
-    $module = eZModule::exists( $module_path_list, $module_name );
+    $module = eZModule::exists( $module_name );
     if ( get_class( $module ) != "ezmodule" )
         return false;
 
@@ -121,8 +121,6 @@ if ( !accessAllowed( $uri ) )
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 $http =& eZHTTPTool::instance();
 
-$module_path_list = array( "kernel" );
-
 // $UserID =& $http->sessionVariable( "eZUserLoggedInID" );
 
 // eZDebug::addTimingPoint( "Pre checks" );
@@ -140,6 +138,7 @@ $check = eZHandlePreChecks();
 
 include_once( "lib/ezutils/classes/ezmodule.php" );
 
+eZModule::setGlobalPathList( array( "kernel" ) );
 
 // Initialize module name and override it if required
 // $module_name = $uri->element();
@@ -147,7 +146,7 @@ include_once( "lib/ezutils/classes/ezmodule.php" );
 //     $module_name = $check["module"];
 
 // Try to fetch the module object
-// $module =& eZModule::exists( $module_path_list, $module_name );
+// $module =& eZModule::exists( $module_name );
 
 
 $displayMissingModule = false;
@@ -155,16 +154,16 @@ if ( $uri->isEmpty() )
 {
     $tmp_uri = new eZURI( $ini->variable( "SiteSettings", "IndexPage" ) );
     $check = null;
-    if ( !fetchModule( $tmp_uri, $check, $module_path_list, $module, $module_name, $function_name, $params ) )
+    if ( !fetchModule( $tmp_uri, $check, $module, $module_name, $function_name, $params ) )
         $displayMissingModule = true;
 }
-else if ( !fetchModule( $uri, $check, $module_path_list, $module, $module_name, $function_name, $params ) )
+else if ( !fetchModule( $uri, $check, $module, $module_name, $function_name, $params ) )
 {
     if ( $ini->variable( "SiteSettings", "ErrorHandler" ) == "defaultpage" )
     {
         $tmp_uri = new eZURI( $ini->variable( "SiteSettings", "DefaultPage" ) );
         $check = null;
-        if ( !fetchModule( $tmp_uri, $check, $module_path_list, $module, $module_name, $function_name, $params ) )
+        if ( !fetchModule( $tmp_uri, $check, $module, $module_name, $function_name, $params ) )
             $displayMissingModule = true;
     }
     else
