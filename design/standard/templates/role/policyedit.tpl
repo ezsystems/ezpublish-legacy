@@ -111,6 +111,6 @@
     <input type="hidden" name="CurrentModule" value="{$current_module}" />
     <input type="hidden" name="CurrentFunction" value="{$current_function}" />
 
-    <input class="button" type="submit" value="{'Cancel'|i18n('design/standard/role')}" />
+    <input class="button" type="submit" name="DiscardChange" value="{'Cancel'|i18n('design/standard/role')}" />
 </div>
 </form>

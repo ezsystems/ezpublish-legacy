@@ -182,6 +182,11 @@ if ( $subtreeLimitation != null )
 }
 
 $http->setSessionVariable( 'DisableRoleCache', 1 );
+
+if ( $http->hasPostVariable( "DiscardChange" ) )
+{
+    $Module->redirectTo( $Module->functionURI( "edit" ) . "/" . $roleID . '/');
+}
 if ( $http->hasPostVariable( "UpdatePolicy" ) )
 {
     $hasNodeLimitation = false;
