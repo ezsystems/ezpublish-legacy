@@ -87,20 +87,20 @@ $user =& eZUser::currentUser();
 foreach( $TemplateData as $tpldata )
 {
     $tplname = $tpldata["name"];
-    //$data = $tpldata["data"];
-    //$asObject = isset( $data["as_object"] ) ? $data["as_object"] : true;
-    //$sort = isset( $data["sort"] ) ? $data["sort"] : null;
-    //$fields = isset( $data["fields"] ) ? $data["fields"] : null;
-    //$base = $tpldata["http_base"];
+    
     $list = & eZContentClassClassGroup::fetchClassList( 0, $GroupID, $asObject = true );
+
+    if( !$list )
+    {
+       return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    }
+       
+    $groupInfo = & eZContentClassGroup::fetch( $GroupID );
+    $groupModifier =& eZContentObject::fetch( $groupInfo->attribute( 'modifier_id') );
     $tpl->setVariable( $tplname, $list );
     $tpl->setVariable( "class_count", count( $list ) );
     $tpl->setVariable( "GroupID", $GroupID );
-    $groupInfo = & eZContentClassGroup::fetch( $GroupID );
     $tpl->setVariable( "group", $groupInfo );
-
-    $groupModifier =& eZContentObject::fetch( $groupInfo->attribute( 'modifier_id') );
-
     $tpl->setVariable( "group_modifier", $groupModifier );
 }
 
