@@ -626,7 +626,7 @@ if ( !function_exists( 'checkContentActions' ) )
                     $siteini = eZINI::instance( 'site.ini', 'settings', null, null, false );
                     $siteini->prependOverrideDir( "siteaccess/$changeToSiteAccess", false, 'siteaccess' );
                     $siteini->loadCache();
-                    $designSetting =& $siteini->variable( "DesignSettings", "SiteDesign" );
+                    $designSetting = $siteini->variable( "DesignSettings", "SiteDesign" );
                     $res->setDesignSetting( $designSetting, 'site' );
 
                     $res->setOverrideAccess( $changeToSiteAccess );
