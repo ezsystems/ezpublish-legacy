@@ -95,6 +95,7 @@ $useColors = false;
 $isQuiet = false;
 $useLogFiles = false;
 $showSQL = false;
+$cronPart = false;
 
 $optionsWithData = array( 's' );
 $longOptionsWithData = array( 'siteaccess' );
@@ -258,8 +259,6 @@ $script->setDebugMessage( "\n\n" . str_repeat( '#', 36 ) . $cli->style( 'emphasi
 $script->setUseSiteAccess( $siteaccess );
 
 $script->initialize();
-
-$cronPart = false;
 
 if ( $cronPart )
 {
