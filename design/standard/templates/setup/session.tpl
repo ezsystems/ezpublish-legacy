@@ -116,7 +116,7 @@ function checkAll()
 <table>
 <tr>
     <td>
-        <input type="button" name="RemoveSelectedSessionsButton" value="{"Remove"|i18n( "design/standard/setup/session ")}" />
+        <input type="submit" name="RemoveSelectedSessionsButton" value="{"Remove"|i18n( "design/standard/setup/session ")}" />
     </td>
     <td colspan="5">
         <input name="selectall" onclick=checkAll() type="button" value="Select all">
