@@ -18,6 +18,8 @@ Changes from 3.5.0alpha1 to 3.5.0alpha2
 - Translating of content objects can now be done in the normal edit page instead
   of the separate content/translate page. The old system is kept but will not
   be shown with in the new admin interface.
+- Added cache clearing based on ezkeyword attributes, will clear cache for all objects with the same keyword.
+  Configurable in viewcache.ini, see clear_keyword_caches_only.
 
 *Datatype:
 - Added default function canRemovable( $contentClassAttribute ) in ezdatatype.php. This 

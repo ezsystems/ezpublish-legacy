@@ -55,7 +55,8 @@
 define( 'EZ_VCSC_CLEAR_NODE_CACHE'      , 1 );
 define( 'EZ_VCSC_CLEAR_PARENT_CACHE'    , 2 );
 define( 'EZ_VCSC_CLEAR_RELATING_CACHE'  , 4 );
-define( 'EZ_VCSC_CLEAR_ALL_CACHE'       , 7 );
+define( 'EZ_VCSC_CLEAR_KEYWORD_CACHE'   , 8 );
+define( 'EZ_VCSC_CLEAR_ALL_CACHE'       , 15 );
 
 include_once( 'kernel/classes/ezcontentobject.php' );
 
@@ -135,6 +136,59 @@ class eZContentCacheManager
         }
     }
 
+    /*!
+     \static
+     Appends node ids of objects with the same keyword(s) as \a $object to \a $nodeIDList array.
+     \param $versionNum The version of the object to use or \c true for current version
+     \param[out] $nodeIDList Array with node IDs
+    */
+    function appendKeywordNodeIDs( &$object, $versionNum, &$nodeIDList )
+    {
+        if ( $versionNum === true )
+            $versionNum = false;
+        $keywordArray = array();
+        $attributes =& $object->contentObjectAttributes( true, $versionNum );
+        foreach ( array_keys( $attributes ) as $key )  // Looking for ezkeyword attributes
+        {
+            if ( get_class( $attributes[$key] ) == 'ezcontentobjectattribute' and
+                 $attributes[$key]->attribute( 'data_type_string' ) == 'ezkeyword' )  // Found one
+            {
+                $keywordObject =& $attributes[$key]->content();
+                if ( get_class( $keywordObject ) == 'ezkeyword' )
+                {
+                    foreach ( $keywordObject->attribute( 'keywords' ) as $keyword )
+                    {
+                        $keywordArray[] = $keyword;
+                    }
+                }
+            }
+        }
+
+        // Find all nodes that have the given keywords
+        if ( count( $keywordArray ) > 0 )
+        {
+            $keywordString = "'" . implode( "', '", $keywordArray ) . "'";
+            include_once( 'lib/ezdb/classes/ezdb.php' );
+            $db = eZDB::instance();
+            $rows =& $db->arrayQuery( "SELECT DISTINCT ezcontentobject_tree.node_id
+                                       FROM
+                                         ezcontentobject_tree,
+                                         ezcontentobject_attribute,
+                                         ezkeyword_attribute_link,
+                                         ezkeyword
+                                       WHERE
+                                         ezcontentobject_tree.contentobject_id = ezcontentobject_attribute.contentobject_id AND
+                                         ezcontentobject_attribute.id = ezkeyword_attribute_link.objectattribute_id AND
+                                         ezkeyword_attribute_link.keyword_id = ezkeyword.id AND
+                                         ezkeyword.keyword IN ( $keywordString )" );
+
+            foreach ( $rows as $row )
+            {
+                $nodeIDList[] = $row['node_id'];
+            }
+        }
+    }
+
     /*
      \static
      Reads 'viewcache.ini' file and determines relation between
@@ -192,6 +246,11 @@ class eZContentCacheManager
                     {
                         $info['clear_cache_type'] |= EZ_VCSC_CLEAR_RELATING_CACHE;
                     }
+
+                    if ( $type == 'clear_keyword_caches_only' )
+                    {
+                        $info['clear_cache_type'] |= EZ_VCSC_CLEAR_KEYWORD_CACHE;
+                    }
                 }
             }
             else
@@ -220,6 +279,7 @@ class eZContentCacheManager
                             - EZ_VCSC_CLEAR_NODE_CACHE - Clear the nodes of the object
                             - EZ_VCSC_CLEAR_PARENT_CACHE - Clear the parent nodes of the object
                             - EZ_VCSC_CLEAR_RELATING_CACHE - Clear nodes of objects that relate this object
+                            - EZ_VCSC_CLEAR_KEYWORD_CACHE - Clear nodes of objects that have the same keyword as this object
                             - EZ_VCSC_CLEAR_ALL_CACHE - Enables all of the above
      \param[out] $nodeList An array with node IDs that are affected by the current object change.
 
@@ -242,6 +302,11 @@ class eZContentCacheManager
         if ( $clearCacheType & EZ_VCSC_CLEAR_RELATING_CACHE )
         {
             eZContentCacheManager::appendRelatingNodeIDs( $contentObject, $nodeList );
+        }
+
+        if ( $clearCacheType & EZ_VCSC_CLEAR_KEYWORD_CACHE )
+        {
+            eZContentCacheManager::appendKeywordNodeIDs( $contentObject, $versionNum, $nodeList );
         }
 
         // determine if $contentObject has dependent objects for which cache should be cleared too.
@@ -368,6 +433,7 @@ class eZContentCacheManager
         if ( eZContentCache::inCleanupThresholdRange( $cleanupValue ) )
         {
 //                     eZDebug::writeDebug( 'cache file cleanup' );
+print( "clearing " ); print_r( $nodeList ); print( "<br>" );
             if ( eZContentCache::cleanup( $nodeList ) )
             {
 //                     eZDebug::writeDebug( 'cache cleaned up', 'content' );
