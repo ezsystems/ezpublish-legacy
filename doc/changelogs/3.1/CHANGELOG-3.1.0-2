@@ -2,4 +2,5 @@ Changes from 3.1.0-1 to 3.1.0-2
 
 * Kernel:
 - Added function is_empty to eZXMLText datatype- Added function is_empty to eZXMLText datatype
+- Improved ezmultiplexer event to let the user select workflow id to be run and class id
 

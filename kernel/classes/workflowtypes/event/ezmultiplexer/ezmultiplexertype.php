@@ -59,7 +59,6 @@ class eZMultiplexerType extends eZWorkflowEventType
         $processParameters = $process->attribute( 'parameter_list' );
         $nodeID = $processParameters['node_id'];
         $node = & eZContentObjectTreeNode::fetch( $nodeID );
-        eZDebug::writeNotice( "jhe- execute kjører" );
         $objectID = $node->attribute( 'contentobject_id' );
         $object =& $node->attribute( 'object');
         $class =& $object->attribute( 'content_class' );
