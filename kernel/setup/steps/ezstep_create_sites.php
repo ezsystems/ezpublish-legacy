@@ -545,6 +545,10 @@ class eZStepCreateSites extends eZStepInstaller
                                                   'text' => "Could not fetch administrator user object" );
                 return false;
             }
+            // Make sure Admin is the currently logged in user
+            // This makes sure all new/changed objects get this as creator
+            $user->loginCurrent();
+
             $ini =& eZINI::instance();
             $ini->setVariable( 'FileSettings', 'VarDir', $siteINIChanges['FileSettings']['VarDir'] );
 
@@ -883,7 +887,7 @@ WHERE
 
             if ( trim( $admin['first_name'] ) or trim( $admin['last_name'] ) )
             {
-                $newUserObject =& $userObject->createNewVersion( 1, false );
+                $newUserObject =& $userObject->createNewVersion( false, false );
                 if ( !is_object( $newUserObject ) )
                 {
                     $resultArray['errors'][] = array( 'code' => 'EZSW-022',
