@@ -74,6 +74,7 @@ Changes from 3.4.2 to 3.5.0alpha1
 - Fixed correct image sizes in PDF articles
 - Added google navigator for Search statistics.
 - Added possibility to hide particular nodes (as well as subtrees) in the content tree.
+- Added support for placing cronjobs in extension.
 
 Database:
 - Added index on ezcontentobject_tree( path_identification_string ),

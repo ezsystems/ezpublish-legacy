@@ -271,6 +271,12 @@ if ( $cronPart )
 
 $ini =& eZINI::instance( 'cronjob.ini' );
 $scriptDirectories = $ini->variable( 'CronjobSettings', 'ScriptDirectories' );
+
+/* Include extension directories */
+include_once( 'lib/ezutils/classes/ezextension.php' );
+$extensionDirectories = $ini->variable( 'CronjobSettings', 'ExtensionDirectories' );
+$scriptDirectories = array_merge( $scriptDirectories, eZExtension::expandedPathList( $extensionDirectories, 'cronjobs' ) );
+
 $scriptGroup = 'CronjobSettings';
 if ( $cronPart !== false )
     $scriptGroup = "CronjobPart-$cronPart";
