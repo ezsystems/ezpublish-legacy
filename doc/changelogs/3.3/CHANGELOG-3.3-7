@@ -5,6 +5,8 @@ Changes from 3.3-6 to 3.3-7
 - Fixed a problem in redirection when the redirect url did not start with a
   slash.
   (Merged from stable/3.4 (3.4.5) rev. 10390)
+- Fixed problem with updateniceurls.php which would not create a forwarding
+  url when it created a new nice url for a node.
 
 *Bugfixes:
 - Made sure the sortKeyByClassAttributeID() doesn't crash when a datatype is missing.
