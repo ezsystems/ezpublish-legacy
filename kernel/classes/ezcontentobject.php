@@ -1565,7 +1565,7 @@ class eZContentObject extends eZPersistentObject
             if ( $this->Permissions["can_edit"] != 1 )
             {
                  $user =& eZUser::currentUser();
-                 if ( $user->id() == $ObjectID )
+                 if ( $user->id() == $this->attribute( 'id' ) )
                  {
                      $access = $user->hasAccessTo( 'user', 'selfedit' );
                      if ( $access['accessWord'] == 'yes' )
