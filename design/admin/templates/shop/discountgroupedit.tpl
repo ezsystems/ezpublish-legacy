@@ -13,7 +13,7 @@
 
 <div class="block">
     <label>{'Name'|i18n( 'design/admin/shop/discountgroupedit' )}:</label>
-    <input class="box" type="text" name="discount_group_name" value="{$discount_group.name|wash}" />
+    <input class="box" id="discountgroupName" type="text" name="discount_group_name" value="{$discount_group.name|wash}" />
 </div>
 
 </div>
@@ -32,3 +32,15 @@
 </div>
 
 </form>
+
+{literal}
+<script language="JavaScript" type="text/javascript">
+<!--
+    window.onload=function()
+    {
+        document.getElementById('discountgroupName').select();
+        document.getElementById('discountgroupName').focus();
+    }
+-->
+</script>
+{/literal}
