@@ -311,6 +311,14 @@ class eZIdentifierType extends eZDataType
     }
 
     /*!
+    \reimp
+    */
+    function &sortKeyType()
+    {
+        return 'string';
+    }
+
+    /*!
       \private
       Store the new value to the attribute.
     */
