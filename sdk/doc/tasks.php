@@ -52,6 +52,10 @@ The contents of a task are.
 <p>
 The status can be one of the following values.
 </p>
+<h3>Temporary</h3>
+<p>
+The task was just created but is not finished.
+</p>
 <h3>Open</h3>
 <p>
 The task was just created and is active.
@@ -60,9 +64,9 @@ The task was just created and is active.
 <p>
 The task was closed by the receiver, meaning that it is done.
 </p>
-<h3>Canceled</h3>
+<h3>Cancelled</h3>
 <p>
-The task was either canceled(denied) by the receiver or removed by the creator.
+The task was either cancelled(denied) by the receiver or removed by the creator.
 </p>
 
 <h2>Connection Type</h2>
@@ -82,7 +86,12 @@ The user who created the task and is the one managing the task, this user will s
 <h2>Receiver</h2>
 <p>
 The user which receives the task and thus should do it. This user will see the task
-as ingoing.
+as ingoing. Only used when connection type is set to User.
+</p>
+
+<h2>Session Hash</h2>
+<p>
+The hash of the session which the task is connected. Only used when connection type is set to Session.
 </p>
 
 <h2>Parent Type</h2>
@@ -143,7 +152,48 @@ Roles are determined by an ID.
 The object which was assigned.
 </p>
 
+<h1>Class Diagram</h1>
+<p>
+This diagram shows a conceptual design for tasks, the classes are very abstract and may not be implemented like this.
+</p>
 <img src="/doc/design/uml/eztask.png">
+
+<h1>Database Diagram</h1>
+<p>
+Here the class task and assignment has been merged together in one table. Some of the fields which represents special
+behaviour are present below.
+</p>
+<img src="/doc/design/uml/eztask_db.png">
+<h2>eztask</h2>
+<h3>task_type</h3>
+<p>
+Will contain either 1 or 2, 1 meaning Task and 2 Assignment.
+</p>
+<h3>status</h3>
+<p>
+Will contain either 1,2 or 3, 1 meaning Open, 2 meaning Closed and 3 Cancelled.
+</p>
+<h3>connection_type</h3>
+<p>
+Will contain either 1 or 2, 1 meaning User and 2 Session.
+</p>
+<h3>parent_type</h3>
+<p>
+Will contain either 0, 1, 2 or 3, 0 meaning None, 1 Task, 2 Assignment and 3 Work-Flow process.
+</p>
+<h3>access_type</h3>
+<p>
+Will contain either 0, 1 or 2, 0 meaning None, 1 Read and 2 Read/Write.
+</p>
+<h3>object_type</h3>
+<p>
+Will contain either 0, 1, 2, 3 or 4, 0 meaning None, 1 ContentObject, 2 ContentClass, 3 Work-Flow and 4 Role.
+</p>
+<h2>eztask_message</h2>
+<h3>creator_type</h3>
+<p>
+Will contain either 1 or 2, 1 meaning Task Creator and 2 Task Receiver.
+</p>
 
 <h1>Example</h1>
 
