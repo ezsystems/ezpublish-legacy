@@ -1,7 +1,7 @@
 {* Warnings *}
 {section show=$User:warning.bad_login}
 <div class="message-warning">
-<h2>{'The system could not log you in.'|i18n( 'design/admin/user/login' )}</h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The system could not log you in.'|i18n( 'design/admin/user/login' )}</h2>
 <ul>
     <li>{'Make sure that the username and password is correct.'|i18n( 'design/admin/user/login' )}</li>
     <li>{'All letters must be typed in using the correct case.'|i18n( 'design/admin/user/login' )}</li>
@@ -11,7 +11,7 @@
 {section-else}
 {section show=$site_access.allowed|not}
 <div class="message-warning">
-<h2>{'Access denied!'|i18n( 'design/admin/user/login' )}</h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Access denied!'|i18n( 'design/admin/user/login' )}</h2>
 <ul>
     <li>{'You do not have permissions to access <%siteaccess_name>.'|i18n( 'design/admin/user/login',, hash( '%siteaccess_name', $site_access.name ) )|wash}</li>
     <li>{'Please contact the site administrator.'|i18n( 'design/admin/user/login' )}</li>

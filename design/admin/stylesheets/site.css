@@ -1375,7 +1375,7 @@ a.nodeicon
   text-decoration: none;
 }
 
-span.required
+span.required, span.nontranslatable, span.collector
 {
     font-style: italic;
     font-weight: normal;

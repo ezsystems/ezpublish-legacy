@@ -1,7 +1,7 @@
 {* Feedback if some items were removed by the system. *}
 {section show=$removed_items}
 <div class="message-warning">
-<h2>{'Items removed'|i18n( 'design/admin/shop/basket' )}</h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Items removed'|i18n( 'design/admin/shop/basket' )}</h2>
 <p>{'The following items were removed from your basket because the products have changed:'|i18n( 'design/admin/shop/basket' )}</p>
 <ul>
 {section var=RemovedItems loop=$removed_items}

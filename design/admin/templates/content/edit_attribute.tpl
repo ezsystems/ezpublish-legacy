@@ -3,7 +3,7 @@
 
 {* Only show edit GUI if we can edit, oterwise: show view GUI. *}
 {section show=and( eq( $attributes.item.can_translate, 0 ), ne( $object.default_language, $attributes.item.language_code ) )}
-    <label>{$attributes.item.contentclass_attribute_name|wash}{section show=$attributes.item.can_translate|not}<span class="non-translatable">({'not translatable'|i18n( 'admin/content/edit' )})</span>{/section}:</label>
+    <label>{$attributes.item.contentclass_attribute_name|wash}{section show=$attributes.item.can_translate|not}<span class="nontranslatable">({'not translatable'|i18n( 'admin/content/edit' )})</span>{/section}:</label>
 
     {section show=$is_translating_content}
     <div class="translation">

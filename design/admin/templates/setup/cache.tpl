@@ -1,31 +1,31 @@
 {* Feedbacks. *}
 {section show=$cache_cleared.content}
     <div class="message-feedback">
-        <h2>{'Content view cache was cleared'|i18n( 'design/admin/setup/cache' )} <span class="time">[{currentdate()|l10n( shortdatetime )}]</span></h2>
+        <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Content view cache was cleared'|i18n( 'design/admin/setup/cache' )}</h2>
     </div>
 {/section}
 
 {section show=$cache_cleared.all}
     <div class="message-feedback">
-        <h2>{'All caches were cleared'|i18n( 'design/admin/setup/cache' )} <span class="time">[{currentdate()|l10n( shortdatetime )}]</span></h2>
+        <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'All caches were cleared'|i18n( 'design/admin/setup/cache' )}</h2>
     </div>
 {/section}
 
 {section show=$cache_cleared.ini}
     <div class="message-feedback">
-        <h2>{'Ini file cache was cleared'|i18n( 'design/admin/setup/cache' )} <span class="time">[{currentdate()|l10n( shortdatetime )}]</span></h2>
+        <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Ini file cache was cleared'|i18n( 'design/admin/setup/cache' )}</h2>
     </div>
 {/section}
 
 {section show=$cache_cleared.template}
     <div class="message-feedback">
-        <h2>{'Template cache was cleared'|i18n( 'design/admin/setup/cache' )} <span class="time">[{currentdate()|l10n( shortdatetime )}]</span></h2>
+        <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Template cache was cleared'|i18n( 'design/admin/setup/cache' )}</h2>
     </div>
 {/section}
 
 {section show=$cache_cleared.list}
     <div class="message-feedback">
-        <h2>{'The following caches were cleared:'|i18n( 'design/admin/setup/cache' )} <span class="time">[{currentdate()|l10n( shortdatetime )}]</span></h2>
+        <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The following caches were cleared:'|i18n( 'design/admin/setup/cache' )}</h2>
         <ul>
         {section var=Caches loop=$cache_cleared.list}
             <li>{'%name was cleared'|i18n( 'design/admin/setup/cache',, hash( '%name', $Caches.item.name ) )}</li>

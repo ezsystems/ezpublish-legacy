@@ -1,7 +1,7 @@
 {* Warning *}
 {section show=$validation.processed}
 <div class="message-warning">
-<h2>{'The information could not be stored...'|i18n( 'design/admin/user/register' )}</h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The information could not be stored...'|i18n( 'design/admin/user/register' )}</h2>
 <p>{'The following information is either incorrect or missing:'|i18n( 'design/admin/user/register' )}</p>
 <ul>
 {section name=UnvalidatedAttributes loop=$validation.attributes show=$validation.attributes}

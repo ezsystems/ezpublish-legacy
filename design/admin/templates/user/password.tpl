@@ -3,7 +3,7 @@
 
 {section show=or( $oldPasswordNotValid, $newPasswordNotMatch )}
     <div class="message-warning">
-    <h2>{'The password could not be changed.'|i18n( 'design/admin/user/password' )}<span class="time">{currentdate()|l10n( shortdatetime )}</span></h2>
+    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The password could not be changed.'|i18n( 'design/admin/user/password' )}</h2>
     {section show=$oldPasswordNotValid}
         <ul>
             <li>{'The old password was either missing or incorrect.'|i18n( 'design/admin/user/password' )}</li>
@@ -19,7 +19,7 @@
     </div>
 {section-else}
     <div class="message-feedback">
-        <h2>{'The password was successfully changed.'|i18n( 'design/admin/user/password' )}<span class="time">{currentdate()|l10n( shortdatetime )}</span></h2>
+        <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The password was successfully changed.'|i18n( 'design/admin/user/password' )}</h2>
     </div>
 {/section}
 {/section}

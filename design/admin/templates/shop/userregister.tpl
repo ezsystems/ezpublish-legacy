@@ -1,7 +1,7 @@
 {* Warning. *}
 {section show=$input_error}
 <div class="message-warning">
-<h2>{'Required information is missing...'|i18n( 'design/admin/shop/userregister' )}</h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Required information is missing...'|i18n( 'design/admin/shop/userregister' )}</h2>
 <ul>
 <li>
 {'Please please fill in the fields that are marked with a star.'|i18n( 'design/admin/shop/userregister' )}
