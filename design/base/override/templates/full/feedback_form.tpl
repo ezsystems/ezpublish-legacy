@@ -5,6 +5,10 @@
 
         <h1>{$node.name|wash()}</h1>
 
+        {include name=Validation uri='design:content/collectedinfo_validation.tpl'
+                 class='message-warning'
+                 validation=$validation collection_attributes=$collection_attributes}
+
         <div class="attribute-short">
                 {attribute_view_gui attribute=$node.object.data_map.description}
         </div>
