@@ -4,6 +4,7 @@ Changes from 3.4.0alpha3 to 3.4.0alpha4
 - Fixed extension of view cache files. They were named .php which is obsolete and broke the clearing of view cache.
 - New setting DebugSettings/ShellDebugOutput which controls whether scripts should show
   debug or not. It is turned off by default.
+- Made sure the design override cache is unique per siteaccess not just designs.
 
 *Design:
 - Fixed wrong forum color in theme 8

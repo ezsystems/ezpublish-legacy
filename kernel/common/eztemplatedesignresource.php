@@ -635,6 +635,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $overrideINI->loadCache();
 
             $standardBase =& $ini->variable( "DesignSettings", "StandardDesign" );
+            $keys[] = "siteaccess/$siteAccess";
             $keys[] = $standardBase;
             if ( !$this->OnlyStandard )
             {
@@ -650,14 +651,21 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                 $overrideINI = eZINI::instance( 'override.ini', 'settings', null, null, true );
                 $overrideINI->prependOverrideDir( "siteaccess/$this->OverrideSiteAccess", false, 'siteaccess' );
                 $overrideINI->loadCache();
+                $keys[] = "siteaccess/$this->OverrideSiteAccess";
             }
             else
             {
                 $overrideINI =& eZINI::instance( 'override.ini' );
+                $currentAccess = $GLOBALS['eZCurrentAccess'];
+                $siteAccess = $currentAccess['name'];
+                $keys[] = "siteaccess/$siteAccess";
             }
 
             $standardBase =& eZTemplateDesignResource::designSetting( 'standard' );
+            $keys[] = $standardBase;
             $siteBase =& eZTemplateDesignResource::designSetting( 'site' );
+            if ( !$this->OnlyStandard )
+                $keys[] = $siteBase;
         }
 
 
