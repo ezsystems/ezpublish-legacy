@@ -19,13 +19,19 @@
 	<b>Original:</b><br />
 	{attribute_view_gui attribute=$ContentAttribute:item}<br />
 	<b>Translation:</b><br />
-	{attribute_edit_gui attribute=$ContentAttribute:item.language}<br />
-
+	{section name=ContentAttributeLanguage loop=$content_attributes_language sequence=array(bglight,bgdark)}
+	{switch name=SW match=$ContentAttribute:item.contentclassattribute_id}
+	{case  match=$ContentAttribute:ContentAttributeLanguage:item.contentclassattribute_id}	
+	{attribute_edit_gui attribute=$ContentAttribute:ContentAttributeLanguage:item}<br />
+	{/case}
+	{case}
+	{/case}
+	{/switch}
+	{/section}
 	</td>
 </tr>
 	{/section}
 </table>
-
 <br />
 
 <input type="submit" name="StoreButton" value="Store" />

@@ -76,6 +76,7 @@ $classID = $object->attribute( "contentclass_id" );
 $class =& eZContentClass::fetch( $classID );
 $originalContentAttributes =& $version->contentObjectAttributes();
 $translateContentAttributes =& $version->contentObjectAttributes( $translateToLanguage );
+eZDebug::writeError($translateContentAttributes,"wwwwwwwwwww".$translateContentAttributes);
 if ( $http->hasPostVariable( "StoreButton" )  )
 {
     $inputValidated = true;
@@ -95,7 +96,7 @@ if ( $http->hasPostVariable( "StoreButton" )  )
             eZDebug::writeNotice( "Validating " . $data->attribute( "id" ) . " success" );
         }
         $data->fetchInput( $http, "ContentObjectAttribute" );
-        $data->store();
+        // $data->store();
         next( $translateContentAttributes );
     }
 
@@ -147,7 +148,7 @@ if ( count( $translateContentAttributes ) == 0 )
 $tpl->setVariable( "object", $object );
 $tpl->setVariable( "edit_version", $EditVersion );
 $tpl->setVariable( "content_attributes", $originalContentAttributes );
-//$tpl->setVariable( "content_attributes", $translateContentAttributes );
+$tpl->setVariable( "content_attributes_language", $translateContentAttributes );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:content/translate.tpl" );
