@@ -29,14 +29,6 @@ ALTER TABLE ezbasket ADD COLUMN order_id integer NOT NULL DEFAULT 0;
 
 ALTER TABLE ezcontentclass ADD is_container int NOT NULL DEFAULT 0;
 
--- Fix typos in the indexes creation queries.
-DROP   INDEX ezproductcollection_item_contentobject_id ON
-             ezproductcollection_item;                 
-CREATE INDEX ezproductcollection_item_contentobject_id ON
-             ezproductcollection_item (contentobject_id);
-
-DROP INDEX ezsubtree_notification_rule_id ON ezsubtree_notification_rule;
-
 -- New table for storing the users last visit
 
 create table ezuservisit
