@@ -325,22 +325,27 @@ class eZContentCache
         return ( $value < $threshold );
     }
 
-    function subtreeCleanup( $nodeList )
+    /*!
+     \static
+     Removes all cache files for the node aliases in the list \a $nodeAliasList.
+     An alias entry consists of a path to the node using node IDs.
+    */
+    function subtreeCleanup( $nodeAliasList )
     {
         include_once( 'lib/ezdb/classes/ezdb.php' );
         $db =& eZDB::instance();
 
-        foreach ( $nodeList as $node )
+        foreach ( $nodeAliasList as $node )
         {
-            $branch = preg_replace('@/[^/]+$@', '', $node);
+            $branch = preg_replace( '@/[^/]+$@', '', $node );
             $alias = $db->escapeString( $branch );
 
-            $entries = $db->arrayQuery( "SELECT cache_file FROM ezsubtree_expiry WHERE subtree LIKE '$alias/%'");
+            $entries = $db->arrayQuery( "SELECT cache_file FROM ezsubtree_expiry WHERE subtree LIKE '$alias/%'" );
             foreach ( $entries as $entry )
             {
                 @unlink( $entry['cache_file'] );
             }
-            $db->query( "DELETE FROM ezsubtree_expiry WHERE subtree LIKE '$alias/%'");
+            $db->query( "DELETE FROM ezsubtree_expiry WHERE subtree LIKE '$alias/%'" );
         }
     }
 

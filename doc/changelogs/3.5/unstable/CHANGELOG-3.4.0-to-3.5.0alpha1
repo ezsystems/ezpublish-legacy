@@ -258,6 +258,9 @@ eztc.php:
 - Fixed use of uninitialized variable for si operator.
   http://ez.no/community/bug_reports/binary_file_size_display
   (Merged from stable/3.4 rev. 7188)
+- Fixed clearing of subtree expiry caches when clearing template block cache in admin.
+  http://ez.no/community/bug_reports/clear_cache_cache_blocks_table_ezsubtree_expiry_isn_t_cleared
+  (Merged from stable/3.4 rev. 7199)
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
