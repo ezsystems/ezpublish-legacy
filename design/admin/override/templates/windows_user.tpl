@@ -3,9 +3,9 @@
     {include uri='design:details.tpl'}
 {/section}
 
-{* Languages window. *}
-{section show=ezpreference( 'admin_navigation_languages'  )}
-    {include uri='design:languages.tpl'}
+{* Translations window. *}
+{section show=ezpreference( 'admin_navigation_translations'  )}
+    {include uri='design:translations.tpl'}
 {/section}
 
 {* Locations window. *}
