@@ -15,14 +15,46 @@
 
 <h2 id="Discount"> Discount rules</h2>
 <p>
-Bård
+Very often we want to have discounts on a special product og give discounts to to a group of customers.
+Again, this is easy to with eZ publish 3</p>
+
+<p>We do this by making different user groups that we assign the discount to. Then we add users in that 
+discount group.</p>
+
+<p>To do this you click on the "Discount" link in the "Shop" box. This will take you to the 
+"Defined discount groups" page.Here you will find a liist of the different Discount groups you have 
+set on your site. Now we want to add a new User group in that list.
 </p>
-<br></br>
+<p>Click the "New" button. Now you will see the "Editing discount group - New group" page where you 
+type in the name of the discount group you want to add, for instance "Partner". Then you must click "Apply".
+This is the first step of adding discount groups.</p>
+
+<p>In step two we have to add the discounts the partners will get.</p> 
+<p>Click on the "Partner" link that will take you into another page: "Group view". This is where we 
+assign the actual discount to the Partner group. The next few steps really explain itselves. </p>
+
+<p><img src="/kernel/manual/user/images/discoun1.gif"></p>
+
+<p>Click the "Add rule" button to assign the discount. In the "Editing rule" window you write in "Computer store"
+in the "Name" field and type in how much they shall get in discount. next you decide if they are to get the same 
+discount for all products in the "Computer store" or a selected range of products, e.g. CD's. You can also 
+go down another step to decide what kind of CD's they get the discount for.</p>
+
+<p>When you click "Store" you are done. At any time you can add or remove discount rules in this window. </p>
+
+<p>You can now include the users you want in the "Partner" through the "Add customer" button. Check the groups, 
+users or persons you want to include. You can go deeper into the customer tree by clicking the "User" links
+untill you find the user you want to add.
+
+</p>
+<br />
 
 <h2 id="VAT">VAT types</h2>
 <p>
-Very often you are in need of having different VAT types on different products or product groups in your shop.
-To save time and make the whole thing as easy as possible this is all done within "VAT types" in the "Shop box.  
+Very often you are in need of having different VAT types on different products or product groups in your 
+shop.
+To save time and make the whole thing as easy as possible this is all done within "VAT types" in the 
+"Shop box.  
 </p><p><img src="/kernel/manual/user/images/vattypes.gif"></p>
 
 <p>When you want to add a VAT type to a product or edit the VAT you go into this window. Let's say that you 
