@@ -414,7 +414,7 @@ class eZHTTPTool
                     $matches = array();
                     if ( preg_match( "/_(\d+)$/", $keyClean, $matches ) )
                     {
-                        $value =  $matches[1];
+                        $value = $matches[1];
                         $keyClean = preg_replace( "/(_\d+)$/","", $keyClean );
                         $GLOBALS["HTTP_POST_VARS"][$keyClean] = $value;
 //                         eZDebug::writeDebug( $GLOBALS["HTTP_POST_VARS"][$keyClean], "We have create new  Post Var with name $keyClean and value $value:" );

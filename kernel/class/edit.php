@@ -51,15 +51,6 @@ if ( isset( $Params['GroupName'] ) )
 $ClassVersion = null;
 switch ( $Params['FunctionName'] )
 {
-    case 'up':
-    case 'down':
-    {
-        $attribute =& eZContentClassAttribute::fetch( $Params['AttributeID'], true, EZ_CLASS_VERSION_STATUS_TEMPORARY,
-                                                      array( 'contentclass_id', 'version', 'placement' ) );
-        $attribute->move( $Params['FunctionName'] == 'down' ? true : false );
-        $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $ClassID );
-        return;
-    } break;
     case 'edit':
     {
     } break;
@@ -187,7 +178,9 @@ $validation = array( 'processed' => false,
                      'attributes' => array() );
 $unvalidatedAttributes = array();
 
-$storeActions = array( 'StoreButton',
+$storeActions = array( 'MoveUp',
+                       'MoveDown',
+                       'StoreButton',
                        'ApplyButton',
                        'NewButton',
                        'CustomActionButton');
@@ -506,6 +499,22 @@ if ( $http->hasPostVariable( 'NewButton' ) )
     $dataType->initializeClassAttribute( $new_attribute );
     $new_attribute->store();
     $attributes[] =& $new_attribute;
+}
+else if ( $http->hasPostVariable( 'MoveUp' ) )
+{
+    $attribute =& eZContentClassAttribute::fetch( $http->postVariable( 'MoveUp' ), true, EZ_CLASS_VERSION_STATUS_TEMPORARY,
+                                                  array( 'contentclass_id', 'version', 'placement' ) );
+    $attribute->move( false );
+    $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $ClassID );
+    return;
+}
+else if ( $http->hasPostVariable( 'MoveDown' ) )
+{
+    $attribute =& eZContentClassAttribute::fetch( $http->postVariable( 'MoveDown' ), true, EZ_CLASS_VERSION_STATUS_TEMPORARY,
+                                                  array( 'contentclass_id', 'version', 'placement' ) );
+    $attribute->move( true );
+    $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $ClassID );
+    return;
 }
 
 $Module->setTitle( 'Edit class ' . $class->attribute( 'name' ) );
