@@ -1,3 +1,51 @@
+{section show=or( $view_parameters.day, $view_parameters.month, $view_parameters.year )}
+
+{let log_limit=5
+     log_count=fetch( content, tree_count, hash( parent_node_id, $node.node_id,
+                                                 class_filter_type, include,
+                                                 class_filter_array, array( 23 ),
+                                                 attribute_filter, array( and, array( 'published', '=>', maketime( 0, 0, 0, $view_parameters.month, $view_parameters.day, $view_parameters.year ) ),
+                                                                               array( 'published', '<=', maketime( 23, 59, 59, $view_parameters.month, $view_parameters.day, $view_parameters.year ) ) ) ) )
+     log_list=fetch( content, tree, hash( parent_node_id, $node.node_id,
+                                          class_filter_type, include,
+                                          class_filter_array, array( 23 ),
+                                          attribute_filter, array( and, array( 'published', '=>', maketime( 0, 0, 0, $view_parameters.month, $view_parameters.day, $view_parameters.year ) ),
+                                                                        array( 'published', '<=', maketime( 23, 59, 59, $view_parameters.month, $view_parameters.day, $view_parameters.year ) ) ),
+                                          offset, $view_parameters.offset,
+                                          limit, $log_limit,
+                                          sort_by, array( 'published', false() ) ) )}
+
+<div id="dayarchive">
+
+  <div class="header">
+    <h1><span>Log Archive by Day</span></h1>
+
+    <p>
+{*<strong class="arrow">&laquo;</strong> <a href="http://www.stopdesign.com/log/2003/10/22/index.html" title="October 22, 2003">Previous day</a>*}
+<span class="sub">|</span>
+<strong>{maketime( 0, 0, 0, $view_parameters.month, $view_parameters.day, $view_parameters.year )|datetime( custom, '%d %M %Y' )}</strong>
+<span class="sub">|</span>
+{*<a href="http://www.stopdesign.com/log/2003/10/30/index.html" title="October 30, 2003">Next day</a> <strong class="arrow">&raquo;</strong>*}
+</p>
+  </div>
+
+</div>
+
+  {section var=log loop=$log_list}
+    {node_view_gui view=line content_node=$log.item}
+  {/section}
+
+  {include name=navigator
+           uri='design:navigator/google.tpl'
+           page_uri=concat( '/content/view/full/', $node.node_id )
+           item_count=$log_count
+           view_parameters=$view_parameters
+           item_limit=$log_limit}
+
+{/let}
+
+{section-else}
+
 {let log_limit=10
      log_list=fetch( content, tree, hash( parent_node_id, $node.node_id,
                                           class_filter_type, include,
@@ -42,3 +90,5 @@
 </div>
 
 {/let}
+
+{/section}

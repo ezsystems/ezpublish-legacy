@@ -41,6 +41,12 @@ MatchFile=log.tpl
 Subdir=templates
 Match[class]=23
 
+[log_navigation]
+Source=navigationbar.tpl
+MatchFile=log_navigationbar.tpl
+Subdir=templates
+Match[class]=23
+
 [comment_line]
 Source=node/view/line.tpl
 MatchFile=comment_line.tpl

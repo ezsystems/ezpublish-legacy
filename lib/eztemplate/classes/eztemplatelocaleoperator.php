@@ -64,14 +64,16 @@ class eZTemplateLocaleOperator
     function eZTemplateLocaleOperator( $localeName = 'l10n',
                                        $dateTimeName = 'datetime',
                                        $currentDateName = 'currentdate',
-                                       $makeTimeName = 'maketime' )
+                                       $makeTimeName = 'maketime',
+                                       $makeDateName = 'makedate' )
     {
         $this->Operators = array( $localeName, $dateTimeName,
-                                  $currentDateName, $makeTimeName );
+                                  $currentDateName, $makeTimeName, $makeDateName );
         $this->LocaleName = $localeName;
         $this->DateTimeName = $dateTimeName;
         $this->CurrentDateName = $currentDateName;
         $this->MakeTimeName = $makeTimeName;
+        $this->MakeDateName = $makeDateName;
     }
 
     /*!
@@ -124,6 +126,18 @@ class eZTemplateLocaleOperator
                                                             'default' => false ),
                                            'dst' => array( 'type' => 'integer',
                                                            'required' => false,
+                                                           'default' => false ) ),
+                      'makedate' => array( 'month' => array( 'type' => 'integer',
+                                                            'required' => false,
+                                                            'default' => false ),
+                                           'day' => array( 'type' => 'integer',
+                                                            'required' => false,
+                                                            'default' => false ),
+                                           'year' => array( 'type' => 'integer',
+                                                            'required' => false,
+                                                            'default' => false ),
+                                           'dst' => array( 'type' => 'integer',
+                                                           'required' => false,
                                                            'default' => false ) ) );
     }
 
@@ -139,6 +153,22 @@ class eZTemplateLocaleOperator
                 $parameters[] = $namedParameters['minute'];
             if ( $namedParameters['second'] !== false )
                 $parameters[] = $namedParameters['second'];
+            if ( $namedParameters['month'] !== false )
+                $parameters[] = $namedParameters['month'];
+            if ( $namedParameters['day'] !== false )
+                $parameters[] = $namedParameters['day'];
+            if ( $namedParameters['year'] !== false )
+                $parameters[] = $namedParameters['year'];
+            if ( $namedParameters['dst'] !== false )
+                $parameters[] = $namedParameters['dst'];
+            $operatorValue = call_user_func_array( 'mktime', $parameters );
+        }
+        else if ( $operatorName == $this->MakeDateName )
+        {
+            $parameters = array();
+            $parameters[] = 0;
+            $parameters[] = 0;
+            $parameters[] = 0;
             if ( $namedParameters['month'] !== false )
                 $parameters[] = $namedParameters['month'];
             if ( $namedParameters['day'] !== false )

@@ -91,6 +91,7 @@ eZ template:
 - Added wash operator for pdf generation ( for escaping linebreaks, tabs and spaces in pdf definition ). Usage : |wash(pdf)
 - Added line/column information to the error messages from the template parser.
 - New template operator 'maketime' for creating timestamp from hour, minutes, seconds, month, day and year.
+- New template operator 'makedate' for creating timestamp from month, day and year.
 
 eZ xml:
 - Added the functions removeAttributes and removeChildren in eZDOMNode.

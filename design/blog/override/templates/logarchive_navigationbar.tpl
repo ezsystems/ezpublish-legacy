@@ -15,8 +15,12 @@
                                 43, array( hash( "day", 20, link, "/" ), 21, hash( "day", 22, link, "/" ), hash( "day", 23, link, "/" ), 24, 25, 26 ),
                                 44, array( 27, 28, 29, hash( "day", 30, link, "/" ), hash( "day", 31, link, "/", "class", "selected", "highlight", true() ), false(), false() ) ) )*}
 {let show_week=false()
-     list=fetch( content, list, hash( parent_node_id, 2, depth, false(), group_by, array( "published", "day" ), as_object, false() ) )
-     month=$list|month_overview( 'published', maketime( 0, 0, 0, 11, 1, 2003 ),
+     month_list=fetch( content, tree, hash( parent_node_id, 2,
+                                            class_filter_type, include,
+                                            class_filter_array, array( 'log' ),
+                                            group_by, array( "published", "day" ),
+                                            as_object, false() ) )
+     month=$month_list|month_overview( 'published', maketime( 0, 0, 0, 11, 1, 2003 ),
                                   hash( current, maketime( 0, 0, 0, 11, 13, 2003 ),
                                         current_class, 'selected',
                                         link, concat( "content/view/full/", $module_result.content_info.node_id ),
