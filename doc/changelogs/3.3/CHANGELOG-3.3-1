@@ -20,10 +20,12 @@ Changes from 3.3.0-2 to 3.3-1
   http://ez.no/developer/ez_publish_3/bug_reports/ezkeyword_lastserialid
 - Fixed bookmark links in admin menu template. ( merged from stable 4528 )
   http://ez.no/developer/ez_publish_3/bug_reports/typo_in_designadmintemplatespartsmediamenutpl
-- Fixed max recent browse items fetch from ini file. ( merged from stable 4530 ) 
+- Fixed max recent browse items fetch from ini file. ( merged from stable 4530 )
   http://ez.no/developer/ez_publish_3/bug_reports/class_ezcontentbrowserecentphp_bug
 - Fixed module handler for append unordered parameters to redirect uri bug. ( merged from stable 4534 )
   http://ez.no/developer/ez_publish_3/bug_reports/modulehandler_utility_fails_to_append_unordered_parameters_to_redirecturis
+- Fixed hard coded page limit doing search in php code. ( merged from stable 4536 )
+  http://ez.no/developer/ez_publish_3/bug_reports/advancedsearchphp_uses_hardwired_pagination_parameter
 
 *RSS:
 
