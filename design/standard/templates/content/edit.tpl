@@ -27,24 +27,32 @@
     {/section}
 
     <table class="list" width="100%" border="0" cellspacing="0" cellpadding="1">
-    {section name=Node loop=$assigned_node_array sequence=array(bglight,bgdark)}
+    <tr><th>{"Name"|i18n('content/object')}</th><th>{"Sort by"|i18n('content/object')}</th><th colspan="2">{"Sort ascending"|i18n('content/object')}</th></tr>
+    {let name=Node sort_fields=hash(1,"Path"|i18n('content/object'),2,"Published"|i18n('content/object'),3,"Modified"|i18n('content/object'),4,"Section"|i18n('content/object'),5,"Depth"|i18n('content/object'),6,"Class Identifier"|i18n('content/object'),7,"Class Name"|i18n('content/object'))}
+    {section loop=$assigned_node_array sequence=array(bglight,bgdark)}
+    {let parent_node=$Node:item.parent_node_obj}
     <tr>
         <td class="{$Node:sequence}">
-        <span class="normal">{$Node:item.name}</span>
+        <span class="normal">{$Node:parent_node.name}</span>
         </td>
+        <td class="{$Node:sequence}">
+        <span class="normal">
+          <select name="SortFieldMap[{$Node:item.id}]">
+          {section name=Sort loop=$Node:sort_fields}
+            <option value="{$Node:Sort:key}" {section show=eq($Node:Sort:key,$Node:item.sort_field)}selected="selected"{/section}>{$Node:Sort:item}</option>
+          {/section}
+          </select>
+        </span>
+        </td>
+        <td class="{$Node:sequence}"><span class="normal"><input type="checkbox" name="SortOrderMap[{$Node:item.id}]" value="1" {section show=eq($Node:item.sort_order,1)}checked="checked"{/section} /></span></td>
         <td class="{$Node:sequence}" align="right">
-        {switch name=sw match=$main_node_id}
-            {case match=$Node:item.node_id}
-            <input type="radio" name="MainNodeID" checked="checked" value="{$Node:item.node_id}" />
-            {/case}
-            {case}
-            <input type="radio" name="MainNodeID" value="{$Node:item.node_id}" />
-            {/case}
-       {/switch}
-       <input type="checkbox" name="DeleteParentIDArray[]" value="{$Node:item.node_id}" />
+        <input type="radio" name="MainNodeID" {section show=eq($main_node_id,$Node:item.parent_node)}checked="checked"{/section} value="{$Node:item.parent_node}" />
+        <input type="checkbox" name="DeleteParentIDArray[]" value="{$Node:item.parent_node}" />
        </td>
     </tr>
+    {/let}
     {/section}
+    {/let}
     </table>
 
     <div class="buttonblock">
@@ -82,9 +90,9 @@
     </tr>
     <tr>
         <td class="menu">
-	    <p class="menufieldlabel">{"Editing version"|i18n}:</p>
+	    <p class="menufieldlabel">{"Editing version"|i18n('content/object')}:</p>
 	    <p class="menufield">{$edit_version}</p>
-	    <p class="menufieldlabel">{"Current version"|i18n}:</p>
+	    <p class="menufieldlabel">{"Current version"|i18n('content/object')}:</p>
 	    <p class="menufield">{$object.current_version}</p>
         </td>
     </tr>

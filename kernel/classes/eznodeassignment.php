@@ -61,7 +61,9 @@ class eZNodeAssignment extends eZPersistentObject
                                          'contentobject_id' => 'ContentobjectID',
                                          'contentobject_version' => 'ContentObjectVersion',
                                          'parent_node' => 'ParentNode',
-                                         'main' => 'main'
+                                         'sort_field' => 'SortField',
+                                         'sort_order' => 'SortOrder',
+                                         'main' => 'Main'
                                          ),
                       'keys' => array( 'id' ),
                       "function_attributes" => array( "parent_node_obj" => "getParentNode" ),
@@ -75,9 +77,8 @@ class eZNodeAssignment extends eZPersistentObject
     function &attribute( $attr )
     {
         if ( $attr == 'parent_node_obj' )
-        {
             return $this->getParentNode();
-        }else
+        else
             return eZPersistentObject::attribute( $attr );
     }
 
@@ -100,6 +101,8 @@ class eZNodeAssignment extends eZPersistentObject
         {
             $parameters['main'] = 0;
         }
+        $parameters['sort_field'] = 1;
+        $parameters['sort_order'] = 1;
         return new eZNodeAssignment( $parameters );
     }
 
@@ -123,6 +126,8 @@ class eZNodeAssignment extends eZPersistentObject
         return eZNodeAssignment::create( array( 'contentobject_id' => $this->attribute( 'contentobject_id' ),
                                                 'contentobject_version' => $nextVersionNumber,
                                                 'parent_node' => $this->attribute( 'parent_node' ),
+                                                'sort_field' => $this->attribute( 'sort_field' ),
+                                                'sort_order' => $this->attribute( 'sort_order' ),
                                                 'main' => $this->attribute( 'main' )
                                                 )
                                          );
@@ -132,6 +137,15 @@ class eZNodeAssignment extends eZPersistentObject
     {
         return eZContentObjectTreeNode::fetch( $this->attribute( 'parent_node' ) );
     }
+
+    /// \privatesection
+    var $ID;
+    var $ContentobjectID;
+    var $ContentObjectVersion;
+    var $ParentNode;
+    var $SortField;
+    var $SortOrder;
+    var $Main;
 }
 
 ?>

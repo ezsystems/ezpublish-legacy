@@ -56,9 +56,11 @@
 </tr>
 </table>
 
+{$node.sort_array|attribute(show)}
+
 <h2>Children</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
-{section name=Child loop=fetch('content','list',hash(parent_node_id,$node.node_id,limit,$page_limit,offset,$view_parameters.offset)) sequence=array(bglight,bgdark)}
+{section name=Child loop=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset)) sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$Child:sequence}">
         <span class="normal">

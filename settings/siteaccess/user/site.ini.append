@@ -5,13 +5,12 @@
 DatabasePluginPath=
 DatabaseImplementation=ezmysql
 Server=localhost
-User=publish
-Password=secret
-Database=publish
+User=bf
+Password=bf
+Database=bf
 Charset=iso-8859-1
 UseBuiltinEncoding=true
 Socket=disabled
-Socket=/opt/ezpublish/mysql.sock
 SQLOutput=disabled
 UsePersistentConnection=disabled
 

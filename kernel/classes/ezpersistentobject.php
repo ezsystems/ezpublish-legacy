@@ -373,7 +373,18 @@ class eZPersistentObject
                 $field_array[] = $custom_text;
             }
         }
-        $field_text = implode( ", ", $field_array );
+        $field_text = '';
+        $i = 0;
+        foreach ( $field_array as $field_item )
+        {
+            if ( ( $i % 7 ) == 0 and
+                 $i > 0 )
+                $field_text .= ",\n       ";
+            else if ( $i > 0 )
+                $field_text .= ', ';
+            $field_text .= $field_item;
+            ++$i;
+        }
 
         $where_text = eZPersistentObject::conditionText( $conds );
         $sort_text = "";

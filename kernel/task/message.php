@@ -127,7 +127,9 @@ $tpl->setVariable( 'message', $message );
 $tpl->setVariable( 'module', $Module );
 $Params['TemplateObject'] =& $tpl;
 
-include( 'kernel/content/attribute_edit.php' );
+$includeResult = include( 'kernel/content/attribute_edit.php' );
+if ( $includeResult != 1 )
+    return $includeResult;
 
 if ( $Module->isCurrentAction( 'Preview' ) )
 {

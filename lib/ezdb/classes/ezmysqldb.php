@@ -72,13 +72,16 @@ class eZMySQLDB extends eZDBInterface
             $this->IsConnected = false;
         }
 
-        $ret = @mysql_select_db( $this->DB, $this->DBConnection );
-
-        if ( !$ret )
+        if ( $this->IsConnected )
         {
-            eZDebug::writeError( "Connection error: " . @mysql_errno( $this->DBConnection ) . ": " . @mysql_error( $this->DBConnection ), "eZMySQLDB" );
+            $ret = @mysql_select_db( $this->DB, $this->DBConnection );
 
-            $this->IsConnected = false;
+            if ( !$ret )
+            {
+                eZDebug::writeError( "Connection error: " . @mysql_errno( $this->DBConnection ) . ": " . @mysql_error( $this->DBConnection ), "eZMySQLDB" );
+
+                $this->IsConnected = false;
+            }
         }
     }
 

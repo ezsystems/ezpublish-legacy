@@ -155,6 +155,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                          'contentobject_version' => 'ContentObjectVersion',
                                          'contentobject_is_published' => 'ContentObjectIsPublished',
                                          "depth" => "Depth",
+                                         'sort_field' => 'SortField',
+                                         'sort_order' => 'SortOrder',
                                          "path_string" => "PathString",
                                          "crc32_path" => "CRC32Path",
                                          "path_identification_string" => "PathIdentificationString",
@@ -168,6 +170,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       "subtree" => "subTree",
                                                       "children" => "children",
                                                       "children_count" => "childrenCount",
+                                                      'sort_array' => 'sortArray',
                                                       "path"     => "fetchPath",
                                                       "parent"   => "fetchParent"
                                                       ),
@@ -205,6 +208,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         elseif ( $attr == 'children_count' )
         {
             return $this->childrenCount();
+        }
+        elseif ( $attr == 'sort_array' )
+        {
+            return $this->sortArray();
         }
         elseif ( $attr == 'path' )
         {
@@ -295,6 +302,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     $sortField = $sortBy[0];
                     switch ( $sortField )
                     {
+                        case 'path':
+                        {
+                            $sortingFields .= 'path_string';
+                        } break;
                         case 'published':
                         {
                             $sortingFields .= 'ezcontentobject.published';
@@ -303,17 +314,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         {
                             $sortingFields .= 'ezcontentobject.modified';
                         } break;
-                        case 'path':
-                        {
-                            $sortingFields .= 'path_string';
-                        } break;
                         case 'section':
                         {
                             $sortingFields .= 'ezcontentobject.section';
-                        } break;
-                        case 'path':
-                        {
-                            $sortingFields .= 'path_string';
                         } break;
                         case 'depth':
                         {
@@ -566,6 +569,45 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $this->subTreeCount( array( 'Depth' => 1,
                                              'Limitation' => $limitationList
                                              ) );
+    }
+
+    /*!
+     \return the field name for the sort order number \a $sortOrder.
+             Gives a warning if the number is unknown and return \c 'path'.
+    */
+    function sortFieldName( $sortOrder )
+    {
+        switch ( $sortOrder )
+        {
+            default:
+                eZDebug::writeWarning( 'Unknown sort order: ' . $sortOrder, 'eZContentObjectTreeNode::sortFieldName' );
+            case 1:
+                return 'path';
+            case 2:
+                return 'published';
+            case 3:
+                return 'modified';
+            case 4:
+                return 'section';
+            case 5:
+                return 'depth';
+            case 6:
+                return 'class_identifier';
+            case 7:
+                return 'class_name';
+        }
+    }
+
+    /*!
+     \return an array which defines the sorting method for this node.
+     The array will contain one element which is an array with sort field
+     and sort order.
+    */
+    function sortArray()
+    {
+        $sort = array( eZContentObjectTreeNode::sortFieldName( $this->attribute( 'sort_field' ) ),
+                       $this->attribute( 'sort_order' ) );
+        return array( $sort );
     }
 
     /*!

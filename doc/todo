@@ -98,3 +98,6 @@ eZ image :
   Cropped versions would require user handling for each image. Note! Cropped images might be solved
   by having two images for an object, the first being the cropped one and the second the
   original, the rest is just template magic.
+
+index.php :
+- Move redirection HTML code into a template file

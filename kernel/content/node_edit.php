@@ -88,22 +88,27 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
     $nodeAssignments =& eZNodeAssignment::fetchForObject( $object->attribute( 'id' ), $version->attribute( 'version' ) ) ;
     eZDebug::writeNotice( $mainNodeID, "mainNodeID" );
 
+    $sortfieldMap = $http->postVariable( 'SortFieldMap' );
+    $sortorderMap = $http->postVariable( 'SortOrderMap' );
     foreach( array_keys( $nodeAssignments ) as $key )
     {
         $nodeAssignment =& $nodeAssignments[$key];
         eZDebug::writeNotice( $nodeAssignment, "nodeAssignment" );
+        $nodeAssignment->setAttribute( 'sort_field', $sortfieldMap[$nodeAssignment->attribute( 'id' )] );
+        $sortorder = 0;
+        if ( isset( $sortorderMap[$nodeAssignment->attribute( 'id' )] ) )
+            $sortorder = 1;
+        $nodeAssignment->setAttribute( 'sort_order', $sortorder );
         if ( $nodeAssignment->attribute( 'main' ) == 1 && $nodeAssignment->attribute( 'parent_node' ) != $mainNodeID )
         {
 
             $nodeAssignment->setAttribute( 'main', 0 );
-            $nodeAssignment->store();
         }
         elseif ( $nodeAssignment->attribute( 'main' ) == 0 && $nodeAssignment->attribute( 'parent_node' ) == $mainNodeID )
         {
             $nodeAssignment->setAttribute( 'main', 1 );
-            $nodeAssignment->store();
         }
-
+        $nodeAssignment->store();
     }
 //    $version->setAttribute( 'parent_node', $mainNodeID );
 //    $version->store();
@@ -164,19 +169,12 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
 function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, &$tpl )
 {
 //$nodes =& eZContentObjectTreeNode::fetchList( true, $object->attribute( 'id' ) );
-
-    
-
     $assignedNodeArray =& $version->attribute( 'parent_nodes' );
 
     // just for debug should be removed
 //    $publishedNodeList
 //         $assignedNodeArray  =& $object->parentNodes( $editVersion  );
-    
-
-
     $mainParentNodeID = $version->attribute( 'main_parent_node_id' );
-
 
     $tpl->setVariable( 'assigned_node_array', $assignedNodeArray );
     $tpl->setVariable( 'main_node_id', $mainParentNodeID );

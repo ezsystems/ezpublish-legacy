@@ -597,6 +597,8 @@ parent_node_id int not null,
 contentobject_id int,
 contentobject_version int,
 contentobject_is_published int,
+sort_field int default 1,
+sort_order int(1) default 1,
 crc32_path int,
 depth int not null,
 path_string varchar(255) not null,
@@ -693,6 +695,8 @@ create table eznode_assignment(
     contentobject_id int,
     contentobject_version int,
     parent_node int,
+    sort_field int default 1,
+    sort_order int(1) default 1,
     main int,
     primary key (id)
     );

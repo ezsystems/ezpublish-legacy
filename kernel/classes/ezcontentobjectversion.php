@@ -144,7 +144,8 @@ class eZContentObjectVersion extends eZPersistentObject
             $nodeAssignment =& $nodeAssignmentList[$key];
             if( $nodeAssignment->attribute( 'parent_node' ) != '1' )
             {
-                $retNodes[] =& $nodeAssignment->attribute( 'parent_node_obj' );
+//                 $retNodes[] =& $nodeAssignment->attribute( 'parent_node_obj' );
+                $retNodes[] =& $nodeAssignment;
             }
         }
         
