@@ -10,8 +10,8 @@
 
 <style>
     @import url({"stylesheets/core.css"|ezdesign});
-    @import url({$pagedesign.data_map.sitestyle.content|ezpackage(filepath,"cssfile")|ezroot});
-   {*   @import url("/design/shop/stylesheets/shop-blue.css");*}
+   {*    @import url({$pagedesign.data_map.sitestyle.content|ezpackage(filepath,"cssfile")|ezroot}); *}
+   @import url("/design/shop/stylesheets/shop.css");
 </style>
 
 {literal}
@@ -41,13 +41,15 @@ div#maincontent div.design { width: 100%; }
     </div>
 {/let}
 
+    <div id="topmenubackground">
+
     <div id="mainmenu">
         <div class="design">
 
             <h3 class="invisible">Main menu</h3>
             <ul>
             {let folder_list=fetch( content, list, hash( parent_node_id, 2, sort_by, array( array( priority ) ) ) )}
-            {section name=Folder loop=$folder_list}<li><a href={concat( "/content/view/full/", $Folder:item.node_id, "/" )|ezurl}>{$Folder:item.name|wash}</a></li>{/section}
+            {section name=Folder loop=$folder_list}<li><span class="corner"><a href={concat( "/content/view/full/", $Folder:item.node_id, "/" )|ezurl}>{$Folder:item.name|wash}</a></span></li>{/section}
             {/let}
             </ul>
         
@@ -91,6 +93,8 @@ div#maincontent div.design { width: 100%; }
         </div>
     </div>
 
+    </div>
+    
     <div id="maincolumns">
     <div id="leftmenu">
 
@@ -269,8 +273,9 @@ div#maincontent div.design { width: 100%; }
 
     </div>
 
+<div id="innercontent">
             {$module_result.content}
-        
+</div>        
             <div class="break"></div>
         </div>
     </div>
