@@ -52,7 +52,6 @@ body
   clear: right;
   width: 15%;
   float: left;
-  margin: 20px 15px 10px 10px;       
 }
 
 #searchbox
@@ -64,7 +63,8 @@ body
 
 #sitelogo
 {  
-  width: 20%;
+  width: 200px;
+  height: 50px;
   margin: 0px;
   float: right;
   background: url("/design/intranet/images/06_intranet_logo.png") no-repeat;
