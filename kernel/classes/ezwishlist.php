@@ -121,7 +121,8 @@ class eZWishList extends eZPersistentObject
         }
         return $discountPercent;
     }
-    function &items( $asObject=true )
+
+    function &items( $asObject = true )
     {
         $productItems =& eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
                                                        null, array( "productcollection_id" => $this->ProductCollectionID
@@ -172,7 +173,8 @@ class eZWishList extends eZPersistentObject
                                        "price_inc_vat" => $priceIncVAT,
                                        "discount_percent" => $discountPercent,
                                        "total_price_ex_vat" => $totalPriceExVAT,
-                                       "total_price_inc_vat" => $totalPriceIncVAT );
+                                       "total_price_inc_vat" => $totalPriceIncVAT,
+                                       'item_object' =>$productItem );
                 $addedProducts[] = $addedProduct;
             }
 

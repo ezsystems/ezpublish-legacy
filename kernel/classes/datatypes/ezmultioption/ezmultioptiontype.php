@@ -236,6 +236,31 @@ class eZMultiOptionType extends eZDataType
     }
 
     /*!
+     \reimp
+     Finds the option which has the correct ID , if found it returns an option structure.
+
+     \param $optionString must contain the multioption ID an underscore (_) and a the option ID.
+    */
+    function productOptionInformation( &$objectAttribute, $optionID, &$productItem )
+    {
+        $multioption =& $objectAttribute->attribute( 'content' );
+
+        foreach ( $multioption->attribute( 'multioption_list' ) as $multioptionElement )
+        {
+            foreach ( $multioptionElement['optionlist'] as $option )
+            {
+                if ( $option['option_id'] != $optionID )
+                    continue;
+
+                return array( 'id' => $option['option_id'],
+                              'name' => $multioptionElement['name'],
+                              'value' => $option['value'],
+                              'additional_price' => $option['additional_price'] );
+            }
+        }
+    }
+
+    /*!
      Returns the integer value.
     */
     function title( &$contentObjectAttribute, $name = "name" )

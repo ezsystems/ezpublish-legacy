@@ -57,7 +57,6 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
     $objectID = $http->postVariable( "ContentObjectID" );
 
     $optionList =& $http->postVariable( "eZOption" );
-    $multiOptionList =& $http->postVariable("eZMultiOption");
 
     $object = eZContentObject::fetch( $objectID );
     $nodeID = $object->attribute( 'main_node_id' );
@@ -93,57 +92,45 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
     $item->setAttribute( "discount", $priceObj->attribute( 'discount_percent' ) );
     $item->store();
     $priceWithoutOptions = $price;
-    if(is_null($multiOptionList))
-    {
-        eZDebug::writeDebug( $optionList, 'optionlist' );
-        foreach ( array_keys( $optionList ) as $key )
-        {
-            $attributeID = $key;
-            $optionSelected = $optionList[$key];
-            $attribute =& eZContentObjectAttribute::fetch( $attributeID, $object->attribute( 'current_version' ) );
-            $option =& $attribute->attribute( 'content' );
-            eZDebug::writeDebug( $option->attribute( 'option_list' ), "optionitems" );
-            foreach( $option->attribute( 'option_list' ) as $optionArray )
-            {
-                if( $optionArray['id'] == $optionSelected )
-                {
-                    $optionItem =& eZProductCollectionItemOption::create( $item->attribute( 'id' ), $optionArray['id'], $option->attribute( 'name' ),
-                                                                          $optionArray['value'], $optionArray['additional_price'], $attributeID );
-                    $optionItem->store();
-                    $price += $optionArray['additional_price'];
-                    break;
-                }
-            }
-        }
-    }
-    else
-    {
-        eZDebug::writeDebug( $multiOptionList, 'multioptionlist' );
-        foreach( array_keys( $multiOptionList ) as $key )
-        {
-            list( $attributeID, $multioptionID ) = explode( '_', $key, 2 );
-            $optionID = $multiOptionList[$key];
-            $attribute =& eZContentObjectAttribute::fetch( $attributeID, $object->attribute( 'current_version' ) );
-            $multioption =& $attribute->attribute( 'content' );
-            eZDebug::writeDebug( $multioption->attribute( 'multioption_list' ), "optionitems" );
-            foreach( $multioption->attribute('multioption_list') as $multioptionElement )
-            {
-                if ( $multioptionElement['id'] == $multioptionID )
-                {
-                    foreach ( $multioptionElement['optionlist'] as $option )
-                    {
-                        if($option['id'] == $optionID )
-                        {
-                            $optionItem =& eZProductCollectionItemOption::create( $item->attribute( 'id' ), $option['option_id'], $multioption->attribute( 'name' ),                                                                                 $option['value'], $option['additional_price'], $attributeID );
-                            $optionItem->store();
-                            $price += $option['additional_price'];
-                        }
-                    }
-                }
-            }
 
+    $optionIDList = array();
+    foreach ( array_keys( $optionList ) as $key )
+    {
+        $attributeID = $key;
+        $optionString = $optionList[$key];
+        if ( is_array( $optionString ) )
+        {
+            foreach ( $optionString as $optionID )
+            {
+                $optionIDList[] = array( 'attribute_id' => $attributeID,
+                                         'option_string' => $optionID );
+            }
+        }
+        else
+        {
+            $optionIDList[] = array( 'attribute_id' => $attributeID,
+                                     'option_string' => $optionString );
         }
     }
+
+    foreach ( $optionIDList as $optionIDItem )
+    {
+        $attributeID = $optionIDItem['attribute_id'];
+        $optionString = $optionIDItem['option_string'];
+
+        $attribute =& eZContentObjectAttribute::fetch( $attributeID, $object->attribute( 'current_version' ) );
+        $dataType =& $attribute->dataType();
+        $optionData = $dataType->productOptionInformation( $attribute, $optionString, $item );
+        if ( $optionData )
+        {
+            $optionItem =& eZProductCollectionItemOption::create( $item->attribute( 'id' ), $optionData['id'], $optionData['name'],
+                                                                  $optionData['value'], $optionData['additional_price'], $attributeID );
+            $optionItem->store();
+            $price += $optionData['additional_price'];
+        }
+
+    }
+
     if ( $price != $priceWithoutOptions )
     {
         $item->setAttribute( "price", $price );

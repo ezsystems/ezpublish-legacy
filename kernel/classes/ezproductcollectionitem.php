@@ -214,6 +214,11 @@ class eZProductCollectionItem extends eZPersistentObject
         eZPersistentObject::remove();
     }
 
+    /*!
+     Goes trough all options and finds the attribute they points to and calls productOptionInformation()
+     to fetch the option data.
+     \return The total price of all options.
+    */
     function calculatePriceWithOptions()
     {
         $optionList =& eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
@@ -228,49 +233,15 @@ class eZProductCollectionItem extends eZPersistentObject
                 $optionsPrice += 0.0;
                 continue;
             }
-            $optionContent = $objectAttribute->content();
-            $optionContentItems =& $optionContent->attribute( 'option_list' );
-            $optionFound = false;
-            if( is_null( $optionContentItems ) )
-            {
-                $multioptionContentItems =& $optionContent->attribute( 'multioption_list' );
-                foreach( $multioptionContentItems as $multioptionContentItem )
-                {
-                    foreach( $multioptionContentItem['optionlist'] as $optionItem )
-                    {
-                        {
-                            if( $optionItem['option_id'] == $option->attribute( 'option_item_id' ) )
-                            {
-                                $optionsPrice += $optionItem['additional_price'];
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                foreach( $optionContentItems as $optionContentItem )
-                {
-                    if ( $optionContentItem['id'] == $option->attribute( 'option_item_id' ) &&
-                         $optionContent->name() == $option->attribute( 'name' ) &&
-                         $optionContentItem['value'] == $optionList[0]->attribute( 'value' ) )
-                        $optionFound = true;
-                    $optionsPrice += $optionContentItem['additional_price'];
 
-/*                     if ( $optionContentItem[ 'additional_price' ] == $option->attribute( 'price' ) )
-                     {
-                         $optionFound = true;
-                         $optionsPrice += $optionContentItem['additional_price'];
-                     }
-                     else
-                     {
-                         $optionFound = false;
-                         return false;
+            $dataType =& $objectAttribute->dataType();
+            $optionData = $dataType->productOptionInformation( $objectAttribute, $option->attribute( 'option_item_id' ), $this, $option );
 
-                     }
-*/
-                }
+            if ( $optionData )
+            {
+                $optionsPrice += $optionData['additional_price'];
             }
+
         }
         return $optionsPrice;
     }

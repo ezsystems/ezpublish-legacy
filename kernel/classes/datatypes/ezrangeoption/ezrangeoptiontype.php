@@ -107,6 +107,26 @@ class eZRangeOptionType extends eZDataType
         return $option;
     }
 
+    /*!
+     Finds the option which has the ID that matches \a $optionID, if found it returns
+     an option structure.
+    */
+    function productOptionInformation( &$objectAttribute, $optionID, &$productItem )
+    {
+        $option =& $objectAttribute->attribute( 'content' );
+        foreach( $option->attribute( 'option_list' ) as $optionArray )
+        {
+            if ( $optionArray['id'] == $optionID )
+            {
+                return array( 'id' => $optionArray['id'],
+                              'name' => $option->attribute( 'name' ),
+                              'value' => $optionArray['value'],
+                              'additional_price' => $optionArray['additional_price'] );
+            }
+        }
+        return false;
+    }
+
     function metaData( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( "data_text" );

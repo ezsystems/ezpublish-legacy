@@ -310,7 +310,7 @@ class eZDataType
                              &$objectAttribute, &$httpFile, $mimeData,
                              &$result )
     {
-        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " does not support insertion of HTTP files",
+        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of HTTP files",
                                'eZDataType::insertHTTPFile' );
         return null;
     }
@@ -338,7 +338,7 @@ class eZDataType
                                 &$objectAttribute, $filePath,
                                 &$result )
     {
-        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " does not support insertion of regular files",
+        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of regular files",
                                'eZDataType::insertRegularFile' );
         return null;
     }
@@ -366,8 +366,32 @@ class eZDataType
                                  &$objectAttribute, $string,
                                  &$result )
     {
-        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " does not support insertion of simple strings",
+        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of simple strings",
                                'eZDataType::insertSimplestring' );
+        return null;
+    }
+
+    /*!
+     Fetches the product option information for option with ID \a $optionID and returns this information.
+     This will be called from the basket when a new product with an option is added, it is then up to the
+     specific datatype to return proper data. It will also be used to recalcuate prices.
+
+     \param $objectAttribute The attribute that the datatype controls.
+     \param $optionID The ID of the option which information should be returned from.
+     \param $productItem The product item object which contains the option, is available for reading only.
+     \return An array structure which contains:
+             - id - The unique ID of the selected option, this must be unique in the attribute and will later on
+                    be used to recalculate prices.
+             - name - The name of the option list
+             - value - The display string of the selected option
+             - additional_price - A value which is added to the total product price, set to 0 or \c false if no price is used.
+             If the option could not be found it should return \c false, if not supported it should return \c null.
+     \sa handleProductOption
+    */
+    function productOptionInformation( &$objectAttribute, $optionID, &$productItem )
+    {
+        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support product options",
+                               'eZDataType::productOptionInformation' );
         return null;
     }
 
