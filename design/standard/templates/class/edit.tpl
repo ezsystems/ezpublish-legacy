@@ -23,7 +23,7 @@
     </div>
 
     <div class="block">
-    <label>{"Object name:"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
+    <label>{"Object name pattern:"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
     {include uri="design:gui/lineedit.tpl" name=ObjectName id_name=ContentClass_contentobject_name value=$class.contentobject_name}
     </div>
   </td>
@@ -33,7 +33,8 @@
 <!-- Class group Start -->
 <table class="list" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-    <th colspan="2">{"In group:"|i18n("design/standard/class/edit")}</th>
+    <th colspan="1">{"Member of groups:"|i18n("design/standard/class/edit")}</th>
+    <th colspan="1">{"Remove:"|i18n("design/standard/class/edit")}</th>
 </tr>
 {section name=InGroups loop=$class.ingroup_list sequence=array(bglight,bgdark)}
 <tr>
@@ -49,10 +50,13 @@
     <option name="ContentClass_group[]" value="{$AllGroup:item.id}/{$AllGroup:item.name}">{$AllGroup:item.name}</option>
     {/section}
     </select>
-    {include uri="design:gui/button.tpl" name=AddGroup id_name=AddGroupButton value="Add group"|i18n("design/standard/class/edit")}
+    {include uri="design:gui/button.tpl" name=AddGroup id_name=AddGroupButton value="Add to group"|i18n("design/standard/class/edit")}
     </div>
   </td>
-  <td align="right">{include uri="design:gui/button.tpl" name=RemoveGroup id_name=RemoveGroupButton value="Remove group"|i18n("design/standard/class/edit")}</td>
+  <td align="right">
+{*    {include uri="design:gui/button.tpl" name=RemoveGroup id_name=RemoveGroupButton value="Remove from groups"|i18n("design/standard/class/edit")}*}
+    <input class="button" type="image" name="RemoveGroupButton" value="{'Remove from groups'|i18n('design/standard/class/edit')}" src={"trash.png"|ezimage} />
+  </td>
 </tr>
 </table>
 <!-- Class group End -->
