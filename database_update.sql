@@ -51,3 +51,27 @@ PRIMARY KEY(id, memento_key) );
 
 # After beta 3
 alter table ezcontentclass_attribute add is_information_collector int not null default 0;
+
+
+CREATE TABLE ezvattype (
+  id int(11) NOT NULL auto_increment,
+  name varchar(255) NOT NULL,
+  percentage float default NULL,
+  PRIMARY KEY  (id) );
+
+
+alter table ezproductcollection_item drop price_is_inc_vat;
+
+
+CREATE TABLE ezdiscountrule (
+  id int(11) NOT NULL auto_increment,
+  name varchar(255) NOT NULL,
+  discount_percent float default NULL,
+  PRIMARY KEY  (id) );
+
+
+CREATE TABLE ezuser_discountrule (
+  id int(11) NOT NULL auto_increment,
+  discountrule_id int(11) default NULL,
+  contentobject_id int(11) default NULL,
+  PRIMARY KEY  (id) );
