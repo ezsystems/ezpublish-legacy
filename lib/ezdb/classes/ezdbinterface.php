@@ -214,10 +214,14 @@ class eZDBInterface
       Checks if the requested character set matches the one used in the database.
 
       \return \c true if it matches or \c false if it differs.
+      \param[out] $currentCharset The charset that the database uses,
+                                  will only be set if the match fails.
+                                  Note: This will be specific to the database.
+
       \note The default is to always return \c true, see the specific database handler
             for more information.
     */
-    function checkCharset( $charset )
+    function checkCharset( $charset, &$currentCharset )
     {
         return true;
     }

@@ -162,6 +162,7 @@ class eZMySQLDB extends eZDBInterface
 
         if ( $charset !== null )
         {
+            $originalCharset = $charset;
             include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
             $charset = eZCharsetInfo::realCharsetCode( $charset );
             // Convert charset names into something MySQL will understand
@@ -193,7 +194,7 @@ class eZMySQLDB extends eZDBInterface
                 /* Currently disabled, this will fail the connection if the database charset differs.
                 if ( $db != '' )
                 {
-                    if ( !$this->checkCharsetPriv( $charset ) )
+                    if ( !$this->checkCharsetPriv( $originalCharset, $currentCharset ) )
                     {
                         $this->ErrorMessage = "Character sets differ, database uses $currentCharset while eZDB requested $charset";
                         $this->ErrorCode = false;
@@ -246,12 +247,19 @@ class eZMySQLDB extends eZDBInterface
       Checks if the requested character set matches the one used in the database.
 
       \return \c true if it matches or \c false if it differs.
+      \param[out] $currentCharset The charset that the database uses.
+                                  will only be set if the match fails.
+                                  Note: This will be specific to the database.
 
       \note There will be no check for databases using MySQL 4.1.0 or lower since
             they do not have proper character set handling.
     */
-    function checkCharset( $charset )
+    function checkCharset( $charset, &$currentCharset )
     {
+        // If we don't have a database yet we shouldn't check it
+        if ( !$this->DB )
+            return true;
+
         $versionInfo = $this->databaseServerVersion();
 
         // We require MySQL 4.1.1 to use the new character set functionality,
@@ -263,29 +271,14 @@ class eZMySQLDB extends eZDBInterface
 
         include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
         $charset = eZCharsetInfo::realCharsetCode( $charset );
-        // Convert charset names into something MySQL will understand
-        $charsetMapping = array( 'iso-8859-1' => 'latin1',
-                                 'iso-8859-2' => 'latin2',
-                                 'iso-8859-8' => 'hebrew',
-                                 'iso-8859-7' => 'greek',
-                                 'iso-8859-9' => 'latin5',
-                                 'iso-8859-13' => 'latin7',
-                                 'windows-1250' => 'cp1250',
-                                 'windows-1251' => 'cp1251',
-                                 'windows-1256' => 'cp1256',
-                                 'windows-1257' => 'cp1257',
-                                 'utf-8' => 'utf8',
-                                 'koi8-r' => 'koi8r' );
-        if ( isset( $charsetMapping[$charset] ) )
-            $charset = $charsetMapping[$charset];
 
-        return $this->checkCharsetPriv( $charset );
+        return $this->checkCharsetPriv( $charset, $currentCharset );
     }
 
     /*!
      \private
     */
-    function checkCharsetPriv( $charset )
+    function checkCharsetPriv( $charset, &$currentCharset )
     {
         $query = "SHOW CREATE DATABASE " . $this->DB;
         $status = @mysql_query( $query, $this->DBConnection );
@@ -310,6 +303,8 @@ class eZMySQLDB extends eZDBInterface
                 if ( preg_match( '#DEFAULT CHARACTER SET ([a-zA-Z0-9_-]+)#', $createText, $matches ) )
                 {
                     $currentCharset = $matches[1];
+                    include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
+                    $currentCharset = eZCharsetInfo::realCharsetCode( $currentCharset );
                     if ( $currentCharset != $charset )
                     {
                         return false;
