@@ -1,0 +1,341 @@
+/* SITE-COLORS CSS 20040415 */
+
+/* This CSS only contains color codes and background image details for pagelayout and other main styles */
+
+body
+{
+    background-color: #ddd;
+}
+
+div#allcontent
+{
+    background-color: #fff;
+    border: 1px solid #666;
+}
+
+/* HEADERS */
+
+div#topcontent
+{ 
+    background-color: #333;
+}
+
+div#header
+{ 
+    color: #fff;
+    background-color: #333;
+}
+
+/* TOOLBARS */
+
+div#toolbar-top li.toolbar-item
+{
+    color: #fff;
+    border-color: #fff;
+}
+
+div#toolbar-top li.toolbar-item a
+{ 
+    color: #fff;
+}
+
+div#toolbar-bottom div.toolbar-design
+{
+    background-color: #ddd;
+}
+
+div#toolbar-bottom li.toolbar-item
+{
+    color: #ff6531;
+    border-color: #ff6531;
+}
+
+div#toolbar-bottom li.toolbar-item a
+{ 
+    color: #ff6531;
+}
+
+
+/* TOP MENU */
+
+div#topmenu
+{
+    background-color: #666;
+    border-color: #666;
+}
+
+div.topmenu-line
+{
+    border-color: #666;
+}
+
+div#topmenu li
+{
+    background-color: #666;
+    border-color: #ffffff;
+}
+
+div#topmenu li.selected
+{
+    background-color: #ff6531;
+}
+
+div#topmenu li div.spacing
+{
+}
+
+div#topmenu li a
+{
+    color: #ffffff;
+}
+
+div#topmenu li.selected div.spacing
+{
+}
+
+div#topmenu li.selected a
+{
+    color: #ffffff;
+}
+
+
+/* SUB MENU */
+
+div#submenu
+{
+    background-color: #ff6531;
+    border-color: #ff6531;
+    border-bottom: 5px solid #ee5520;
+}
+
+div#submenu li a
+{
+    color: #ffffff;
+}
+
+
+/* PATH */
+
+div#path p
+{
+    color: #999;
+}
+
+div#path p a
+{
+    color: #999;
+}
+
+
+/* MENUES */
+
+div#leftmenu-design li.menu-level-0
+{ 
+    border-color: #ff6531;
+}
+
+div#leftmenu-design li.menu-level-0 a
+{ 
+    color: #339999;
+}
+
+div#leftmenu-design li.menu-level-0 a:hover
+{
+    color: #003399;
+}
+
+div#leftmenu-design li.menu-level-0 a.selected
+{
+    color: #003399;
+}
+
+div#leftmenu-design li.menu-level-1 a
+{ 
+    color: #66cccc;
+}
+
+div#leftmenu-design li.menu-level-1 a:hover
+{
+    color: #003399;
+}
+
+div#leftmenu-design li.menu-level-1 a.selected
+{
+    color: #003399;
+}
+
+
+/* NAVIGATORS */
+
+div.content-navigator div.content-navigator-previous-disabled
+{
+    color: #777777;
+}
+
+div.content-navigator div.content-navigator-next-disabled
+{
+    color: #777777;
+}
+
+div.content-navigator div.content-navigator-arrow
+{
+    color: #ff8800;
+}
+
+
+/* TOOLBOXES */
+
+div.toolbox-design
+{ 
+    background-color: #ddd;
+}
+
+div.toolbox-design h2
+{ 
+    color: #ffffff;
+    background-color: #ff6531;
+}
+
+div.toolbox-design input.searchtext, div.toolbox-design input.textinput
+{
+    background-color: #ffffff;
+    border-color: #aaa;
+}
+
+div.toolbox-design label
+{
+    color: #000000;
+}
+
+div.toolbox-design div.info-text p
+{ 
+    color: #000000;
+}
+
+div.toolbox-design div.attribute-link p
+{ 
+    background-image: url(../../images/t7/arrow.gif);
+    background-position: center left;
+    background-repeat: no-repeat;
+}
+
+div.toolbox-design div.attribute-link-disabled p
+{ 
+    color: #666666;
+}
+
+
+/* TOOL LISTS */
+
+div.toollist-design
+{ 
+    background-color: #ffffff;
+    border-color: #ff6531;
+}
+
+div.toollist-design h2
+{ 
+    color: #ffffff;
+    background-color: #ff6531;
+}
+
+div.toollist-design h3
+{ 
+    color: #ff6531;
+}
+
+div.toollist-design div.class-article div.attribute-short p
+{ 
+    color: #666666;
+}
+
+div.toollist-design div.class-article div.attribute-link p
+{ 
+    color: #666;
+}
+
+div.toollist-design div.class-article div.attribute-link-disabled p
+{ 
+    color: #666666;
+}
+
+
+/* FOOTER */
+
+div#footer-design 
+{
+    color: #666;
+    background-color: #ffffff;
+}
+
+div#footer-design a:hover
+{
+    color: #003399;
+}
+
+/* GENERAL ELEMENTS */
+
+a
+{ 
+    color: #ff6531;
+}
+
+li
+{ 
+    color: #333;
+}
+
+div#maincontent h1
+{ 
+    color: #ff6531;
+}
+
+div#maincontent h2
+{ 
+    color: #333;
+}
+
+div#maincontent h2 a
+{ 
+    color: #333;
+}
+
+div#maincontent h3
+{ 
+    color: #333;
+}
+
+div#maincontent h4
+{ 
+    color: #333;
+}
+
+div#maincontent-design h5
+{ 
+    color: #003366;
+}
+
+
+/* SUBMIT BUTTONS */
+
+input.defaultbutton
+{
+    color: #fff;
+    background-color: #ff6531;
+    border-color: #333;
+}
+
+input.button
+{
+    color: #fff;
+    background-color: #ff6531;
+    border-color: #333;
+}
+
+input.searchbutton
+{
+    color: #fff;
+    background-color: #ff6531;
+    border-color: #333;
+}
+

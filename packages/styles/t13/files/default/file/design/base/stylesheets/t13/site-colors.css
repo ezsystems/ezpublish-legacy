@@ -1,0 +1,345 @@
+/* SITE-COLORS CSS 20040415 */
+
+/* This CSS only contains color codes and background image details for pagelayout and other main styles */
+
+body
+{
+    background-color: #c1c1c1;
+}
+
+div#allcontent
+{
+    background-color: #ffffff;
+    border: 1px solid #666;
+}
+
+
+/* TOOLBARS */
+
+div#toolbar-top li.toolbar-item
+{
+    color: #000;
+    border-color: #000;
+}
+
+div#toolbar-top li.toolbar-item a
+{ 
+    color: #000;
+}
+
+div#toolbar-bottom div.toolbar-design
+{
+    background-color: #003466;
+}
+
+div#toolbar-bottom li.toolbar-item
+{
+    color: #fff;
+    border-color: #fff;
+}
+
+div#toolbar-bottom li.toolbar-item a
+{ 
+    color: #fff;
+}
+
+
+/* TOP MENU */
+
+div#topmenu
+{
+    background-color: #ff740d;
+    border-color: #ff740d;
+}
+
+div.topmenu-line
+{
+    border-color: #ff740d;
+}
+
+div#topmenu li
+{
+    background-color: #ff740d;
+    border-color: #ffffff;
+}
+
+div#topmenu li.selected
+{
+    background-color: #0d4168;
+}
+
+div#topmenu li div.spacing
+{
+}
+
+div#topmenu li a
+{
+    color: #ffffff;
+}
+
+div#topmenu li.selected div.spacing
+{
+}
+
+div#topmenu li.selected a
+{
+    color: #ffffff;
+}
+
+
+/* SUB MENU */
+
+div#submenu
+{
+    background-color: #0d4168;
+    border-color: #0d4168;
+}
+
+div#submenu li a
+{
+    color: #ffffff;
+}
+
+
+/* PATH */
+
+div#path p
+{
+    color: #336699;
+}
+
+div#path p a
+{
+    color: #336699;
+}
+
+div#path p a:hover
+{
+    color: #3366cc;
+}
+
+
+/* MENUES */
+
+div#leftmenu-design li.menu-level-0
+{ 
+    border-color: #000;
+}
+
+div#leftmenu-design li.menu-level-0 a
+{ 
+    color: #0c4065;
+}
+
+div#leftmenu-design li.menu-level-0 a:hover
+{
+    color: #0c4065;
+}
+
+div#leftmenu-design li.menu-level-0 a.selected
+{
+    color: #0c4065;
+}
+
+div#leftmenu-design li.menu-level-1 a
+{ 
+    color: #333;
+}
+
+div#leftmenu-design li.menu-level-1 a:hover
+{
+    color: #333;
+}
+
+div#leftmenu-design li.menu-level-1 a.selected
+{
+    color: #333;
+}
+
+
+/* NAVIGATORS */
+
+div.content-navigator div.content-navigator-previous-disabled
+{
+    color: #777777;
+}
+
+div.content-navigator div.content-navigator-next-disabled
+{
+    color: #777777;
+}
+
+div.content-navigator div.content-navigator-arrow
+{
+    color: #ff8800;
+}
+
+
+/* TOOLBOXES */
+
+div.toolbox-design
+{ 
+    background-color: #f5f5f5;
+}
+
+div.toolbox-design h2
+{ 
+    color: #ffffff;
+    background-color: #003466;
+}
+
+div.toolbox-design input.searchtext, div.toolbox-design input.textinput
+{
+    background-color: #ffffff;
+    border-color: #626262;
+}
+
+div.toolbox-design label
+{
+    color: #000000;
+}
+
+div.toolbox-design div.info-text p
+{ 
+    color: #000000;
+}
+
+div.toolbox-design div.attribute-link p
+{ 
+    background-image: url(../../images/t13/arrow.gif);
+    background-position: center left;
+    background-repeat: no-repeat;
+}
+
+div.toolbox-design div.attribute-link-disabled p
+{ 
+    color: #666666;
+}
+
+
+/* TOOL LISTS */
+
+div.toollist-design
+{ 
+    background-color: #ffffff;
+    border-color: #000;
+}
+
+div.toollist-design h2
+{ 
+    color: #ffffff;
+    background-color: #003466;
+}
+
+div.toollist-design h3
+{ 
+    color: #626262;
+}
+
+div.toollist-design div.class-article div.attribute-short p
+{ 
+    color: #666666;
+}
+
+div.toollist-design div.class-article div.attribute-link p
+{ 
+    color: #336699;
+}
+
+div.toollist-design div.class-article div.attribute-link-disabled p
+{ 
+    color: #666666;
+}
+
+
+/* FOOTER */
+
+div#footer-design 
+{
+    color: #003366;
+    background-color: #ffffff;
+}
+
+div#footer-design a:hover
+{
+    color: #003399;
+}
+
+/* GENERAL ELEMENTS */
+
+a
+{ 
+  color: #0f4068;
+}
+
+li
+{ 
+    color: #336699;
+}
+
+div#maincontent h1
+{ 
+    color: #ff6600;
+}
+
+div#maincontent h2
+{ 
+    color: #366599;
+}
+
+div#maincontent h2 a
+{ 
+    color: #366599;
+}
+
+div#maincontent h3
+{ 
+    color: #366599;
+}
+
+div#maincontent h4
+{ 
+    color: #366599;
+}
+
+div#maincontent-design h5
+{ 
+    color: #366599;
+}
+
+
+/* SUBMIT BUTTONS */
+
+input.defaultbutton
+{
+    color: #fff;
+    background-color: #626262;
+    border-color: #ddd;
+}
+
+input.button
+{
+    color: #fff;
+    background-color: #626262;
+    border-color: #ddd;
+}
+
+input.searchbutton
+{
+    color: #fff;
+    background-color: #626262;
+    border-color: #ddd;
+}
+
+input.shopbutton
+{
+    color: #484848;
+    background-color: #bbd8ed;
+    border-color: #484848;
+}
+
+input.searchimage
+{
+    background-image: url(../../images/t13/button.gif);
+    background-repeat: no-repeat;
+}
