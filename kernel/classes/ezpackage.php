@@ -2080,6 +2080,7 @@ class eZPackage
             // If it has a warning we don't read it in production mode
             if ( $root->elementByName( 'warning' ) )
             {
+                eZDebug::writeError( "Package not accepted, it has been build with a warning." );
                 return false;
             }
         }
