@@ -59,7 +59,7 @@ $ViewList["password"] = array(
     "params" => array( "UserID" ) );
 
 $ViewList["forgetpassword"] = array(
-    "script" => "forgetpassword.php",
+    "script" => "forgotpassword.php",
     "params" => array( ),
     'single_post_actions' => array( 'GenerateButton' => 'Generate' ),
     'post_action_parameters' => array( 'Generate' => array( 'Login' => 'UserLogin',
@@ -68,7 +68,7 @@ $ViewList["forgetpassword"] = array(
 
 /// Note the function above is misspelled and should be removed
 $ViewList["forgotpassword"] = array(
-    "script" => "forgetpassword.php",
+    "script" => "forgotpassword.php",
     "params" => array( ),
     'single_post_actions' => array( 'GenerateButton' => 'Generate' ),
     'post_action_parameters' => array( 'Generate' => array( 'Login' => 'UserLogin',

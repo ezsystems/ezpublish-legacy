@@ -32,7 +32,7 @@
 // you.
 //
 
-/*! \file forgetpassword.php
+/*! \file forgotpassword.php
 */
 
 include_once( "lib/ezutils/classes/ezhttptool.php" );
@@ -81,7 +81,7 @@ if ( strlen( $hashKey ) == 32 )
     $tpl->setVariable( 'password', $password );
 
     eZDebug::writeDebug( $password, "New Password" );
-    $templateResult =& $tpl->fetch( 'design:user/forgetpasswordmail.tpl' );
+    $templateResult =& $tpl->fetch( 'design:user/forgotpasswordmail.tpl' );
     $mail->setReceiver( $receiver );
     $subject = ezi18n( 'kernel/user/register', 'Registration info' );
     if ( $tpl->hasVariable( 'subject' ) )
@@ -148,7 +148,7 @@ if ( $module->isCurrentAction( "Generate" ) )
             include_once( 'lib/ezutils/classes/ezhttptool.php' );
             $http =& eZHTTPTool::instance();
             $http->UseFullUrl = true;
-            $templateResult =& $tpl->fetch( 'design:user/forgetpasswordmail.tpl' );
+            $templateResult =& $tpl->fetch( 'design:user/forgotpasswordmail.tpl' );
             $http->UseFullUrl = false;
             $mail->setReceiver( $receiver );
             $subject = ezi18n( 'kernel/user/register', 'Registration info' );
@@ -166,7 +166,13 @@ if ( $module->isCurrentAction( "Generate" ) )
         }
     }
 }
-eZDebug::writeDebug( "forgetPassword" );
-$Result['content'] =& $tpl->fetch( 'design:user/forgetpassword.tpl' );
+
+$Result = array();
+$Result['content'] =& $tpl->fetch( 'design:user/forgotpassword.tpl' );
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/user', 'User' ),
+                                'url' => false ),
+                         array( 'text' => ezi18n( 'kernel/user', 'Login' ),
+                                'url' => false ) );
+
 
 ?>
