@@ -108,7 +108,7 @@
     </td>
     <td class="menu" width="99%">
     <p class="menuitem">
-    Shop
+    User
     </p>
     </td>
 </tr>
