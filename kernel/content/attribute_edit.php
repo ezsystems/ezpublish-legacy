@@ -78,7 +78,21 @@ if ( $Module->runHooks( 'post_fetch', array( &$class, &$object, &$version, &$con
 $validation = array( 'processed' => false,
                      'attributes' => array() );
 
-/********** Custom Action Code Placeholder ***************/
+/********** Custom Action Code Start ***************/
+$customAction = false;
+$customActionAttributeID = null;
+// Check for custom actions
+if ( $http->hasPostVariable( "CustomActionButton" ) )
+{
+    $customActionArray = $http->postVariable( "CustomActionButton" );
+    $customActionString = key( $customActionArray );
+
+    $customActionAttributeID = preg_match( "#^([0-9]+)_(.*)$#", $customActionString, $matchArray );
+
+    $customActionAttributeID = $matchArray[1];
+    $customAction = $matchArray[2];
+}
+/********** Custom Action Code End ***************/
 
 $storeActions = array( 'Preview',
                        'Translate',
@@ -131,7 +145,12 @@ if ( $storingAllowed )
         $contentObjectAttribute =& $contentObjectAttributes[$key];
         $contentObjectAttribute->fetchInput( $http, "ContentObjectAttribute" );
 
-/********** Custom Action Code Placeholder ***************/
+/********** Custom Action Code Start ***************/
+        if ( $customActionAttributeID == $contentObjectAttribute->attribute( "id" ) )
+        {
+            $contentObjectAttribute->customHTTPAction( $http, $customAction );
+        }
+/********** Custom Action Code End ***************/
 
     }
 
