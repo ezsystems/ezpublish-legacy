@@ -55,7 +55,8 @@ if ( $url )
 else
 {
     include_once( 'kernel/classes/ezredirectmanager.php' );
-    eZRedirectManager::redirectTo( $Module, $_SERVER['HTTP_REFERER'] );
+    $preferredRedirectionURI = isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : false;
+    eZRedirectManager::redirectTo( $module, /* $default = */ false, /* $view = */ true, /* $disallowed = */ false, $preferredRedirectionURI );
     return;
 }
 

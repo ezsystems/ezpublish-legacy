@@ -60,15 +60,19 @@ class eZRedirectManager
                      If set to \c false then it will return false.
      \param $view If true it will try to redirect to last accessed view URI.
      \param $disallowed An array with urls not allowed to redirect to or \c false to allow all
+     \param $preferredURI An URI that is preferred for the caller. If that URI is valid, it's returned.
 
      \note All URLs must start with a slash \c /
 
      \sa redirectTo()
     */
-    function redirectURI( &$module, $default, $view = true, $disallowed = false )
+    function redirectURI( &$module, $default, $view = true, $disallowed = false, $preferredURI = false )
     {
         $uri = false;
         $http =& eZHTTPTool::instance();
+
+        if ( $preferredURI ) // check if $preferredURI is a valid URI
+            return $preferredURI;
 
         if ( $view )
         {
@@ -129,15 +133,17 @@ class eZRedirectManager
                      but instead it will return false.
      \param $view If true it will try to redirect to last accessed view URI.
      \param $disallowed An array with urls not allowed to redirect to or \c false to allow all
+     \param $preferredURI An URI that is preferred for the caller.
+            We redirect to that URI if it's specified and is valid.
 
      \return \c true if the module was redirected or \c false if not.
 
      \note All URLs must start with a slash \c /
      \sa redirectURI()
     */
-    function redirectTo( &$module, $default, $view = true, $disallowed = false )
+    function redirectTo( &$module, $default, $view = true, $disallowed = false, $preferredURI = false )
     {
-        $uri = eZRedirectManager::redirectURI( $module, $default, $view, $disallowed );
+        $uri = eZRedirectManager::redirectURI( $module, $default, $view, $disallowed, $preferredURI );
         if ( $uri === false )
             return false;
         $module->redirectTo( $uri );
