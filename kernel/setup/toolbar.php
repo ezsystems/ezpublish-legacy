@@ -116,6 +116,7 @@ if ( $http->hasPostVariable( 'NewToolButton' ) )
         }
         $toolList[] = array( 'name' => $toolName, 'parameters' => $toolParameters );
     }
+    removeRelatedCache( $currentSiteAccess );
 }
 
 if ( $http->hasPostVariable( 'UpdatePlacementButton' ) )
@@ -209,6 +210,7 @@ if ( $http->hasPostVariable( 'UpdatePlacementButton' ) )
         }
         $toolList[] = array( 'name' => $toolName, 'parameters' => $toolParameters );
     }
+    removeRelatedCache( $currentSiteAccess );
 }
 
 if ( $http->hasPostVariable( 'RemoveButton' ) )
@@ -271,6 +273,7 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
 
     $iniAppend->setVariable( "Toolbar_" . $toolbarPosition, "Tool", $updatedToolArray );
     $succeed = $iniAppend->save(  false, false, false, false, true, true );
+    removeRelatedCache( $currentSiteAccess );
 }
 
 if ( $http->hasPostVariable( 'StoreButton' ) )
@@ -341,6 +344,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) )
         }
     }
     $succeed = $iniAppend->save(  false, false, false, false, true, true );
+    removeRelatedCache( $currentSiteAccess );
 }
 
 $ini =& eZINI::instance( "toolbar.ini", 'settings', null, false, null, false );
@@ -410,5 +414,40 @@ $Result = array();
 $Result['content'] =& $tpl->fetch( "design:setup/toolbar.tpl" );
 $Result['path'] = array( array( 'url' => 'setup/toolbarlist',
                                 'text' => ezi18n( 'kernel/setup', 'Toolbar list' ) ) );
+
+function removeRelatedCache( $siteAccess )
+{
+    $ini =& eZINI::instance();
+    $iniPath = "settings/siteaccess/$siteAccess";
+    $siteINI = eZINI::instance( 'site.ini.append', $iniPath );
+    if ( $siteINI->hasVariable( 'FileSettings', 'CacheDir' ) )
+    {
+        $cacheDir = $siteINI->variable( 'FileSettings', 'CacheDir' );
+        if ( $cacheDir[0] == "/" )
+        {
+            $cacheDir = eZDir::path( array( $cacheDir ) );
+        }
+        else
+        {
+            if ( $siteINI->hasVariable( 'FileSettings', 'VarDir' ) )
+            {
+                $varDir = $siteINI->variable( 'FileSettings', 'VarDir' );
+                $cacheDir = eZDir::path( array( $varDir, $cacheDir ) );
+            }
+        }
+    }
+    else if ( $siteINI->hasVariable( 'FileSettings', 'VarDir' ) )
+    {
+         $varDir = $siteINI->variable( 'FileSettings', 'VarDir' );
+         $cacheDir = $ini->variable( 'FileSettings', 'CacheDir' );
+         $cacheDir = eZDir::path( array( $varDir, $cacheDir ) );
+    }
+    else
+    {
+        $cacheDir =  eZSys::cacheDirectory();
+    }
+    $compiledTemplateDir = $cacheDir ."/template/compiled";
+    eZDir::unlinkWildcard( $compiledTemplateDir . "/","pagelayout*.*" );
+}
 
 ?>

@@ -63,6 +63,110 @@ class eZTemplateToolbarFunction
         return array( $this->BlockName );
     }
 
+    function functionTemplateHints()
+    {
+        return array( $this->BlockName => array( 'parameters' => true,
+                                                 'static' => false,
+                                                 'transform-children' => false,
+                                                 'tree-transformation' => true,
+                                                 'transform-parameters' => true ) );
+    }
+
+    function templateNodeTransformation( $functionName, &$node,
+                                         &$tpl, $parameters, $privateData )
+    {
+        if ( $functionName != $this->BlockName )
+            return false;
+
+        $parameters = eZTemplateNodeTool::extractFunctionNodeParameters( $node );
+
+        if ( !isset( $parameters['name'] ) )
+            return false;
+
+        // Read ini file
+        $toolbarIni =& eZINI::instance( "toolbar.ini" );
+
+        if ( isset( $parameters["view"] ) )
+        {
+            $viewData = $parameters["view"];
+            $viewMode = eZTemplateNodeTool::elementStaticValue( $viewData );
+        }
+        else
+        {
+            $viewMode = "full";
+        }
+
+        $params = $parameters;
+        $namespaceValue = false;
+        if ( isset( $parameters["name"] ) )
+        {
+            $nameData = $parameters["name"];
+            if ( !eZTemplateNodeTool::isStaticElement( $nameData ) )
+                return false;
+
+            $nameValue = eZTemplateNodeTool::elementStaticValue( $nameData );
+
+            $toolbarPosition = $nameValue;
+            $toolbarName = "Toolbar_" . $toolbarPosition;
+            $toolArray = $toolbarIni->variable( $toolbarName, 'Tool' );
+
+            $newNodes = array();
+            foreach ( array_keys( $toolArray ) as $toolKey )
+            {
+                $tool = $toolArray[$toolKey];
+                $placement = $toolKey + 1;
+
+                $uriString = "design:toolbar/$viewMode/$tool.tpl";
+
+                $resourceName = "";
+                $templateName = "";
+                $resource =& $tpl->resourceFor( $uriString, $resourceName, $templateName );
+                $resourceData =& $tpl->resourceData( $resource, $uriString, $resourceName, $templateName );
+
+                $includeNodes = $resource->templateNodeTransformation( $functionName, $node, $tpl, $resourceData, $parameters, $namespaceValue );
+                if ( $includeNodes === false )
+                    return false;
+
+                $variableList = array();
+                foreach ( array_keys( $parameters ) as $parameterName )
+                {
+                    if ( $parameterName == 'name' or
+                         $parameterName == 'view' )
+                        continue;
+                    $parameterData =& $parameters[$parameterName];
+                    $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameterData, false, array(),
+                                                                          array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $parameterName ) );
+                    $variableList[] = $parameterName;
+                }
+
+                $actionParameters = array();
+                if ( $toolbarIni->hasGroup( "Tool_" . $tool ) )
+                {
+                    $actionParameters = $toolbarIni->group( "Tool_" . $tool );
+                }
+                if ( $toolbarIni->hasGroup( "Tool_" . $toolbarPosition . "_" . $tool . "_" . $placement ) )
+                {
+                    $actionParameters = $toolbarIni->group( "Tool_" . $toolbarPosition . "_" . $tool . "_" . $placement );
+                }
+                foreach ( array_keys( $actionParameters ) as $key )
+                {
+                    $itemValue = $actionParameters[$key];
+                    $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $itemValue, false, array(),
+                                                                          array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $key ) );
+                    $variableList[] = $itemValue;
+                }
+
+                $newNodes = array_merge( $newNodes, $includeNodes );
+
+                foreach ( $variableList as $variableName )
+                {
+                    $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $variableName ) );
+                }
+            }
+        }
+        return $newNodes;
+    }
+
     /*!
      Processes the function with all it's children.
     */
