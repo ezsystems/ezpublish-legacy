@@ -10,10 +10,9 @@
     @import url({"stylesheets/core.css"|ezdesign});
 {*    @import url({ezini('StylesheetSettings','MainCSS','design.ini')|ezdesign}); *}
     @import url({"stylesheets/site.css"|ezdesign});
-    @import url({"stylesheets/t6/site-colors.css"|ezdesign}); {* todo -> read from design settings  *}
-
+    @import url({"stylesheets/t1/site-colors.css"|ezdesign}); {* todo -> read from design settings  *}
     @import url({"stylesheets/classes.css"|ezdesign});
-    @import url({"stylesheets/t6/classes-colors.css"|ezdesign}); {* todo -> read from design settings  *}
+    @import url({"stylesheets/t1/classes-colors.css"|ezdesign}); {* todo -> read from design settings  *}
     @import url({"stylesheets/debug.css"|ezdesign});
 
     {section show=eq(ezini('SelectedMenu','LeftMenu','menu.ini'),'')}
@@ -42,6 +41,8 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
 
 <div id="allcontent">
 
+<div id="top-content">
+
 {let pagedesign=fetch_alias(by_identifier,hash(attr_id,sitestyle_identifier))}
 <div id="header">
     <div id="header-design">
@@ -68,6 +69,8 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
 
 {cache-block keys=$module_result.path[1]}
 <div class="break"></div>
+
+</div>
 
 <hr class="hide" />
 
