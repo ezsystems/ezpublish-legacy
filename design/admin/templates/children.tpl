@@ -4,7 +4,7 @@
 {literal}
 <script language="JavaScript1.2" type="text/javascript">
 <!--
-function togglestuff( formname, checkboxname )
+function toggleCheckboxes( formname, checkboxname )
 {
     with( formname )
 	{
@@ -27,10 +27,11 @@ function togglestuff( formname, checkboxname )
 //-->
 </script>
 {/literal}
+
+
 <!-- Children START -->
 
 <div class="context-block">
-
 <form name="children" method="post" action={'content/action'|ezurl}>
 
 {* Generic children list for admin interface. *}

@@ -2,7 +2,7 @@
     <table class="list" cellspacing="0">
     <tr>
         {* Remove column *}
-        <th class="remove"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="togglestuff( document.children, 'DeleteIDArray[]' ); return false;"/></th>
+        <th class="remove"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="toggleCheckboxes( document.children, 'DeleteIDArray[]' ); return false;"/></th>
         {* Name column *}
         <th class="name">{'Name'|i18n( 'design/admin/layout ')}:</th>
 
