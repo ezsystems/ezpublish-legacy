@@ -169,7 +169,7 @@ class eZTreeMenuOperator
                 {
                     $menuChildren =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
                                                                               'Offset' => 0,
-                                                                              'SortBy' => array( array('priority') ),
+                                                                              'SortBy' => $node->sortArray(),
                                                                               'ClassFilterType' => 'include',
                                                                               'ClassFilterArray' => $classFilter
                                                                               ),

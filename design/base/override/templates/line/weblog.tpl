@@ -31,7 +31,9 @@
             <p><a href={$node.url_alias|ezurl}>{'Comments'|i18n( 'design/base/weblog' )}</a><p>
         </div>
         {section-else}
+        <div class="attribute-link-disabled">
             <p>{'Comments off'|i18n( 'design/base/weblog' )}</p>
+        </div>
         {/section}
    </div>
 </div>

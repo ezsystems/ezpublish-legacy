@@ -3,7 +3,7 @@
 
 <div class="calendar">
 
-<table summary="{'Monthly calendar with links to each day's posts'|i18n( 'design/standard/navigator' )}">
+<table>
 <tr class="calendar-navigator">
     <th colspan="{sum( $month.weekdays|count, $show_week|choose( 0, 1 ) )}">
     <table class="calendar-navigator">
