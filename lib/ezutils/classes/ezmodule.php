@@ -843,19 +843,22 @@ class eZModule
         $params = array();
         $i = 0;
         $parameterValues = array();
-        foreach ( $functionParameterDefinitions as $param )
+        if ( isset( $functionParameterDefinitions ) )
         {
-            if ( isset( $parameters[$i] ) )
+            foreach ( $functionParameterDefinitions as $param )
             {
-                $params[$param] = $parameters[$i];
-                $parameterValues[] = $parameters[$i];
+                if ( isset( $parameters[$i] ) )
+                {
+                    $params[$param] = $parameters[$i];
+                    $parameterValues[] = $parameters[$i];
+                }
+                else
+                {
+                    $params[$param] = null;
+                    $parameterValues[] = null;
+                }
+                ++$i;
             }
-            else
-            {
-                $params[$param] = null;
-                $parameterValues[] = null;
-            }
-            ++$i;
         }
         $this->ViewParameters =& $parameters;
         $this->OriginalParameters = $parameters;

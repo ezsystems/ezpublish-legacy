@@ -10,6 +10,8 @@ Changes from 3.2.2 to 3.2-3
 - http://ez.no/developer/ez_publish_3/bug_reports/matchorderhosturi_does_not_work
   The accessType() and changeAccess() functions were rewritten by using the patches
   from Volker Lenz.
+- Made sure the form/process module is turned off by default, it is also controlled by
+  a separate setting to avoid it being enabled by a mistake.
 
 *Setup:
 
