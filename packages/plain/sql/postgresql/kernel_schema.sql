@@ -9,16 +9,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
 CREATE SEQUENCE ezapprove_items_s
     START 1
     INCREMENT 1
@@ -1258,7 +1248,8 @@ CREATE TABLE ezcontentobject_tree (
     sort_order integer DEFAULT 1,
     priority integer DEFAULT 0 NOT NULL,
     path_identification_string text,
-    main_node_id integer
+    main_node_id integer,
+    modified_subnode integer DEFAULT 0
 );
 
 
@@ -2663,6 +2654,14 @@ CREATE INDEX ezsubtree_notification_rule_user_id ON ezsubtree_notification_rule 
 
 
 
+CREATE INDEX ezcontentobject_tree_mod_sub ON ezcontentobject_tree USING btree (modified_subnode);
+
+
+
+
+
+
+
 ALTER TABLE ONLY ezapprove_items
     ADD CONSTRAINT ezapprove_items12_key PRIMARY KEY (id);
 
@@ -3457,13 +3456,5 @@ ALTER TABLE ONLY ezview_counter
 
 ALTER TABLE ONLY ezsubtree_notification_rule
     ADD CONSTRAINT tmp_notification_rule_pkey PRIMARY KEY (id);
-
-
-
-
-
-
-
-COMMENT ON SCHEMA public IS 'Standard public namespace';
 
 

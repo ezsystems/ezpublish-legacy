@@ -391,11 +391,13 @@ CREATE TABLE ezcontentobject_tree (
   priority int(11) NOT NULL default '0',
   path_identification_string text,
   main_node_id int(11) default NULL,
+  modified_subnode int(11) NOT NULL default '0',
   PRIMARY KEY  (node_id),
   KEY ezcontentobject_tree_path (path_string),
   KEY ezcontentobject_tree_p_node_id (parent_node_id),
   KEY ezcontentobject_tree_co_id (contentobject_id),
-  KEY ezcontentobject_tree_depth (depth)
+  KEY ezcontentobject_tree_depth (depth),
+  KEY modified_subnode (modified_subnode)
 ) TYPE=MyISAM;
 
 

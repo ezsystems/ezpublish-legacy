@@ -9,16 +9,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
 CREATE SEQUENCE ezapprove_items_s
     START 1
     INCREMENT 1
@@ -124,6 +114,7 @@ CREATE SEQUENCE ezcollab_simple_message_s
 
 
 CREATE SEQUENCE ezcontent_translation_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -149,6 +140,7 @@ CREATE SEQUENCE ezcontentbrowsebookmark_s
 
 
 CREATE SEQUENCE ezcontentbrowserecent_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -174,6 +166,7 @@ CREATE SEQUENCE ezcontentclass_s
 
 
 CREATE SEQUENCE ezcontentclass_attribute_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -186,6 +179,7 @@ CREATE SEQUENCE ezcontentclass_attribute_s
 
 
 CREATE SEQUENCE ezcontentclassgroup_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -198,6 +192,7 @@ CREATE SEQUENCE ezcontentclassgroup_s
 
 
 CREATE SEQUENCE ezcontentobject_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -210,6 +205,7 @@ CREATE SEQUENCE ezcontentobject_s
 
 
 CREATE SEQUENCE ezcontentobject_attribute_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -222,6 +218,7 @@ CREATE SEQUENCE ezcontentobject_attribute_s
 
 
 CREATE SEQUENCE ezcontentobject_link_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -234,6 +231,7 @@ CREATE SEQUENCE ezcontentobject_link_s
 
 
 CREATE SEQUENCE ezcontentobject_tree_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -246,6 +244,7 @@ CREATE SEQUENCE ezcontentobject_tree_s
 
 
 CREATE SEQUENCE ezcontentobject_version_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -323,6 +322,7 @@ CREATE SEQUENCE ezgeneral_digest_user_settings_s
 
 
 CREATE SEQUENCE ezinfocollection_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -335,6 +335,7 @@ CREATE SEQUENCE ezinfocollection_s
 
 
 CREATE SEQUENCE ezinfocollection_attribute_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -399,6 +400,7 @@ CREATE SEQUENCE ezmodule_run_s
 
 
 CREATE SEQUENCE eznode_assignment_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -437,6 +439,7 @@ CREATE SEQUENCE eznotificationcollection_item_s
 
 
 CREATE SEQUENCE eznotificationevent_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -488,6 +491,7 @@ CREATE SEQUENCE ezorder_item_s
 
 
 CREATE SEQUENCE ezpolicy_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -500,6 +504,7 @@ CREATE SEQUENCE ezpolicy_s
 
 
 CREATE SEQUENCE ezpolicy_limitation_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -512,6 +517,7 @@ CREATE SEQUENCE ezpolicy_limitation_s
 
 
 CREATE SEQUENCE ezpolicy_limitation_value_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -576,6 +582,7 @@ CREATE SEQUENCE ezproductcollection_item_opt_s
 
 
 CREATE SEQUENCE ezrole_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -588,6 +595,7 @@ CREATE SEQUENCE ezrole_s
 
 
 CREATE SEQUENCE ezsearch_object_word_link_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -626,6 +634,7 @@ CREATE SEQUENCE ezsearch_search_phrase_s
 
 
 CREATE SEQUENCE ezsearch_word_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -638,6 +647,7 @@ CREATE SEQUENCE ezsearch_word_s
 
 
 CREATE SEQUENCE ezsection_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -650,6 +660,7 @@ CREATE SEQUENCE ezsection_s
 
 
 CREATE SEQUENCE ezsubtree_notification_rule_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -675,6 +686,7 @@ CREATE SEQUENCE eztrigger_s
 
 
 CREATE SEQUENCE ezurl_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -687,6 +699,7 @@ CREATE SEQUENCE ezurl_s
 
 
 CREATE SEQUENCE ezurlalias_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -699,6 +712,7 @@ CREATE SEQUENCE ezurlalias_s
 
 
 CREATE SEQUENCE ezuser_accountkey_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -724,6 +738,7 @@ CREATE SEQUENCE ezuser_discountrule_s
 
 
 CREATE SEQUENCE ezuser_role_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -736,6 +751,7 @@ CREATE SEQUENCE ezuser_role_s
 
 
 CREATE SEQUENCE ezvattype_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -813,6 +829,7 @@ CREATE SEQUENCE ezworkflow_event_s
 
 
 CREATE SEQUENCE ezworkflow_group_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -1231,7 +1248,8 @@ CREATE TABLE ezcontentobject_tree (
     sort_order integer DEFAULT 1,
     priority integer DEFAULT 0 NOT NULL,
     path_identification_string text,
-    main_node_id integer
+    main_node_id integer,
+    modified_subnode integer DEFAULT 0
 );
 
 
@@ -2225,6 +2243,7 @@ CREATE TABLE ezrss_import (
 
 
 CREATE SEQUENCE ezimagefile_s
+    START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
@@ -3955,53 +3974,53 @@ INSERT INTO ezcontentobject_name VALUES (10, 'Anonymous User', 3, 'eng-GB', 'eng
 
 
 
-INSERT INTO ezcontentobject_tree VALUES (1, 1, 0, 1, 1, 0, '/1/', 1, 1, 0, NULL, 1);
-INSERT INTO ezcontentobject_tree VALUES (2, 1, 1, 7, 1, 1, '/1/2/', 9, 1, 0, '', 2);
-INSERT INTO ezcontentobject_tree VALUES (127, 2, 161, 4, 1, 2, '/1/2/127/', 9, 1, 0, 'about_this_website', 127);
-INSERT INTO ezcontentobject_tree VALUES (173, 2, 240, 2, 1, 2, '/1/2/173/', 8, 1, 0, 'polls', 173);
-INSERT INTO ezcontentobject_tree VALUES (174, 173, 241, 1, 1, 3, '/1/2/173/174/', 9, 1, 0, 'polls/which_one_is_the_best_of_matrix_movies', 174);
-INSERT INTO ezcontentobject_tree VALUES (207, 173, 289, 1, 1, 3, '/1/2/173/207/', 9, 1, 0, 'polls/what_season_is_the_best', 207);
-INSERT INTO ezcontentobject_tree VALUES (181, 2, 248, 1, 1, 2, '/1/2/181/', 9, 1, 0, 'news', 181);
-INSERT INTO ezcontentobject_tree VALUES (187, 181, 255, 1, 1, 3, '/1/2/181/187/', 9, 1, 0, 'news/technology', 187);
-INSERT INTO ezcontentobject_tree VALUES (186, 187, 254, 3, 1, 4, '/1/2/181/187/186/', 9, 1, 0, 'news/technology/google_indexes', 186);
-INSERT INTO ezcontentobject_tree VALUES (202, 187, 281, 1, 1, 4, '/1/2/181/187/202/', 9, 1, 0, 'news/technology/final_release_of_abc', 202);
-INSERT INTO ezcontentobject_tree VALUES (208, 187, 290, 2, 1, 4, '/1/2/181/187/208/', 9, 1, 0, 'news/technology/new_top_fair', 208);
-INSERT INTO ezcontentobject_tree VALUES (188, 181, 256, 1, 1, 3, '/1/2/181/188/', 9, 1, 0, 'news/politics', 188);
-INSERT INTO ezcontentobject_tree VALUES (182, 188, 249, 5, 1, 4, '/1/2/181/188/182/', 9, 1, 0, 'news/politics/breaking_news', 182);
-INSERT INTO ezcontentobject_tree VALUES (184, 182, 252, 1, 1, 5, '/1/2/181/188/182/184/', 9, 1, 0, 'news/politics/breaking_news/kewl_news', 184);
-INSERT INTO ezcontentobject_tree VALUES (196, 182, 269, 1, 1, 5, '/1/2/181/188/182/196/', 1, 1, 0, 'news/politics/breaking_news/amazing', 196);
-INSERT INTO ezcontentobject_tree VALUES (198, 182, 272, 1, 1, 5, '/1/2/181/188/182/198/', 1, 1, 0, 'news/politics/breaking_news/fgdfg', 198);
-INSERT INTO ezcontentobject_tree VALUES (199, 182, 275, 1, 1, 5, '/1/2/181/188/182/199/', 1, 1, 0, 'news/politics/breaking_news/sdsdd', 199);
-INSERT INTO ezcontentobject_tree VALUES (204, 188, 261, 2, 1, 4, '/1/2/181/188/204/', 9, 1, 0, 'news/politics/arnold_for_governor', 193);
-INSERT INTO ezcontentobject_tree VALUES (189, 181, 257, 1, 1, 3, '/1/2/181/189/', 9, 1, 0, 'news/sports', 189);
-INSERT INTO ezcontentobject_tree VALUES (183, 189, 250, 3, 1, 4, '/1/2/181/189/183/', 9, 1, 0, 'news/sports/leauge_champion', 183);
-INSERT INTO ezcontentobject_tree VALUES (205, 189, 284, 2, 1, 4, '/1/2/181/189/205/', 9, 1, 0, 'news/sports/rider_wins_dart_competition', 205);
-INSERT INTO ezcontentobject_tree VALUES (190, 181, 258, 1, 1, 3, '/1/2/181/190/', 9, 1, 0, 'news/business', 190);
-INSERT INTO ezcontentobject_tree VALUES (192, 190, 260, 4, 1, 4, '/1/2/181/190/192/', 9, 1, 0, 'news/business/latest_business_update', 192);
-INSERT INTO ezcontentobject_tree VALUES (197, 190, 271, 2, 1, 4, '/1/2/181/190/197/', 9, 1, 0, 'news/business/business_as_usual', 197);
-INSERT INTO ezcontentobject_tree VALUES (203, 190, 283, 1, 1, 4, '/1/2/181/190/203/', 9, 1, 0, 'news/business/dons_jonas_goes_down', 203);
-INSERT INTO ezcontentobject_tree VALUES (191, 181, 259, 1, 1, 3, '/1/2/181/191/', 9, 1, 0, 'news/entertainment', 191);
-INSERT INTO ezcontentobject_tree VALUES (193, 191, 261, 2, 1, 4, '/1/2/181/191/193/', 9, 1, 0, 'news/entertainment/arnold_for_governor', 193);
-INSERT INTO ezcontentobject_tree VALUES (200, 191, 278, 1, 1, 4, '/1/2/181/191/200/', 9, 1, 0, 'news/entertainment/entertainment_weekly', 200);
-INSERT INTO ezcontentobject_tree VALUES (201, 191, 279, 1, 1, 4, '/1/2/181/191/201/', 9, 1, 0, 'news/entertainment/will_he_become_president', 201);
-INSERT INTO ezcontentobject_tree VALUES (194, 2, 263, 2, 1, 2, '/1/2/194/', 9, 1, 0, 'contact_information', 194);
-INSERT INTO ezcontentobject_tree VALUES (195, 2, 264, 1, 1, 2, '/1/2/195/', 9, 1, 0, 'help', 195);
-INSERT INTO ezcontentobject_tree VALUES (5, 1, 4, 1, 0, 1, '/1/5/', 1, 1, 0, 'users', 5);
-INSERT INTO ezcontentobject_tree VALUES (12, 5, 11, 1, 1, 2, '/1/5/12/', 1, 1, 0, 'users/guest_accounts', 12);
-INSERT INTO ezcontentobject_tree VALUES (13, 5, 12, 1, 1, 2, '/1/5/13/', 1, 1, 0, 'users/administrator_users', 13);
-INSERT INTO ezcontentobject_tree VALUES (15, 13, 14, 5, 1, 3, '/1/5/13/15/', 9, 1, 0, 'users/administrator_users/administrator_user', 15);
-INSERT INTO ezcontentobject_tree VALUES (14, 5, 13, 1, 1, 2, '/1/5/14/', 1, 1, 0, 'users/editors', 14);
-INSERT INTO ezcontentobject_tree VALUES (209, 5, 291, 1, 1, 2, '/1/5/209/', 9, 1, 0, 'users/anonymous_users', 209);
-INSERT INTO ezcontentobject_tree VALUES (11, 209, 10, 3, 1, 3, '/1/5/209/11/', 9, 1, 0, 'users/anonymous_users/anonymous_user', 11);
-INSERT INTO ezcontentobject_tree VALUES (43, 1, 41, 1, 1, 1, '/1/43/', 9, 1, 0, 'media', 43);
-INSERT INTO ezcontentobject_tree VALUES (44, 1, 42, 1, 1, 1, '/1/44/', 9, 1, 0, 'setup', 44);
-INSERT INTO ezcontentobject_tree VALUES (46, 44, 44, 1, 1, 2, '/1/44/46/', 9, 1, 0, 'setup/setup_links', 46);
-INSERT INTO ezcontentobject_tree VALUES (45, 46, 43, 10, 1, 3, '/1/44/46/45/', 9, 1, 0, 'setup/setup_links/classes', 45);
-INSERT INTO ezcontentobject_tree VALUES (47, 46, 45, 11, 1, 3, '/1/44/46/47/', 9, 1, 0, 'setup/setup_links/look_and_feel', 47);
-INSERT INTO ezcontentobject_tree VALUES (95, 46, 115, 5, 1, 3, '/1/44/46/95/', 9, 1, 0, 'setup/setup_links/cache', 95);
-INSERT INTO ezcontentobject_tree VALUES (96, 46, 116, 4, 1, 3, '/1/44/46/96/', 9, 1, 0, 'setup/setup_links/url_translator', 96);
-INSERT INTO ezcontentobject_tree VALUES (48, 44, 46, 2, 1, 2, '/1/44/48/', 9, 1, 0, 'setup/look_and_feel', 48);
-INSERT INTO ezcontentobject_tree VALUES (54, 48, 56, 65, 1, 3, '/1/44/48/54/', 9, 1, 0, 'setup/look_and_feel/news', 54);
+INSERT INTO ezcontentobject_tree VALUES (1, 1, 0, 1, 1, 0, '/1/', 1, 1, 0, NULL, 1, 1072187012);
+INSERT INTO ezcontentobject_tree VALUES (2, 1, 1, 7, 1, 1, '/1/2/', 9, 1, 0, '', 2, 1069757298);
+INSERT INTO ezcontentobject_tree VALUES (127, 2, 161, 4, 1, 2, '/1/2/127/', 9, 1, 0, 'about_this_website', 127, 1069683989);
+INSERT INTO ezcontentobject_tree VALUES (173, 2, 240, 2, 1, 2, '/1/2/173/', 8, 1, 0, 'polls', 173, 1069684665);
+INSERT INTO ezcontentobject_tree VALUES (174, 173, 241, 1, 1, 3, '/1/2/173/174/', 9, 1, 0, 'polls/which_one_is_the_best_of_matrix_movies', 174, 1068720802);
+INSERT INTO ezcontentobject_tree VALUES (207, 173, 289, 1, 1, 3, '/1/2/173/207/', 9, 1, 0, 'polls/what_season_is_the_best', 207, 1069684665);
+INSERT INTO ezcontentobject_tree VALUES (181, 2, 248, 1, 1, 2, '/1/2/181/', 9, 1, 0, 'news', 181, 1069757298);
+INSERT INTO ezcontentobject_tree VALUES (187, 181, 255, 1, 1, 3, '/1/2/181/187/', 9, 1, 0, 'news/technology', 187, 1069757298);
+INSERT INTO ezcontentobject_tree VALUES (186, 187, 254, 3, 1, 4, '/1/2/181/187/186/', 9, 1, 0, 'news/technology/google_indexes', 186, 1069682589);
+INSERT INTO ezcontentobject_tree VALUES (202, 187, 281, 1, 1, 4, '/1/2/181/187/202/', 9, 1, 0, 'news/technology/final_release_of_abc', 202, 1069681297);
+INSERT INTO ezcontentobject_tree VALUES (208, 187, 290, 2, 1, 4, '/1/2/181/187/208/', 9, 1, 0, 'news/technology/new_top_fair', 208, 1069757298);
+INSERT INTO ezcontentobject_tree VALUES (188, 181, 256, 1, 1, 3, '/1/2/181/188/', 9, 1, 0, 'news/politics', 188, 1069682497);
+INSERT INTO ezcontentobject_tree VALUES (182, 188, 249, 5, 1, 4, '/1/2/181/188/182/', 9, 1, 0, 'news/politics/breaking_news', 182, 1069245323);
+INSERT INTO ezcontentobject_tree VALUES (184, 182, 252, 1, 1, 5, '/1/2/181/188/182/184/', 9, 1, 0, 'news/politics/breaking_news/kewl_news', 184, 1069074891);
+INSERT INTO ezcontentobject_tree VALUES (196, 182, 269, 1, 1, 5, '/1/2/181/188/182/196/', 1, 1, 0, 'news/politics/breaking_news/amazing', 196, 1069239748);
+INSERT INTO ezcontentobject_tree VALUES (198, 182, 272, 1, 1, 5, '/1/2/181/188/182/198/', 1, 1, 0, 'news/politics/breaking_news/fgdfg', 198, 1069244422);
+INSERT INTO ezcontentobject_tree VALUES (199, 182, 275, 1, 1, 5, '/1/2/181/188/182/199/', 1, 1, 0, 'news/politics/breaking_news/sdsdd', 199, 1069245323);
+INSERT INTO ezcontentobject_tree VALUES (204, 188, 261, 2, 1, 4, '/1/2/181/188/204/', 9, 1, 0, 'news/politics/arnold_for_governor', 193, 1069682497);
+INSERT INTO ezcontentobject_tree VALUES (189, 181, 257, 1, 1, 3, '/1/2/181/189/', 9, 1, 0, 'news/sports', 189, 1069685384);
+INSERT INTO ezcontentobject_tree VALUES (183, 189, 250, 3, 1, 4, '/1/2/181/189/183/', 9, 1, 0, 'news/sports/leauge_champion', 183, 1069683166);
+INSERT INTO ezcontentobject_tree VALUES (205, 189, 284, 2, 1, 4, '/1/2/181/189/205/', 9, 1, 0, 'news/sports/rider_wins_dart_competition', 205, 1069685384);
+INSERT INTO ezcontentobject_tree VALUES (190, 181, 258, 1, 1, 3, '/1/2/181/190/', 9, 1, 0, 'news/business', 190, 1069682292);
+INSERT INTO ezcontentobject_tree VALUES (192, 190, 260, 4, 1, 4, '/1/2/181/190/192/', 9, 1, 0, 'news/business/latest_business_update', 192, 1069681784);
+INSERT INTO ezcontentobject_tree VALUES (197, 190, 271, 2, 1, 4, '/1/2/181/190/197/', 9, 1, 0, 'news/business/business_as_usual', 197, 1069682292);
+INSERT INTO ezcontentobject_tree VALUES (203, 190, 283, 1, 1, 4, '/1/2/181/190/203/', 9, 1, 0, 'news/business/dons_jonas_goes_down', 203, 1069681443);
+INSERT INTO ezcontentobject_tree VALUES (191, 181, 259, 1, 1, 3, '/1/2/181/191/', 9, 1, 0, 'news/entertainment', 191, 1069682497);
+INSERT INTO ezcontentobject_tree VALUES (193, 191, 261, 2, 1, 4, '/1/2/181/191/193/', 9, 1, 0, 'news/entertainment/arnold_for_governor', 193, 1069682497);
+INSERT INTO ezcontentobject_tree VALUES (200, 191, 278, 1, 1, 4, '/1/2/181/191/200/', 9, 1, 0, 'news/entertainment/entertainment_weekly', 200, 1069680733);
+INSERT INTO ezcontentobject_tree VALUES (201, 191, 279, 1, 1, 4, '/1/2/181/191/201/', 9, 1, 0, 'news/entertainment/will_he_become_president', 201, 1069680908);
+INSERT INTO ezcontentobject_tree VALUES (194, 2, 263, 2, 1, 2, '/1/2/194/', 9, 1, 0, 'contact_information', 194, 1069684196);
+INSERT INTO ezcontentobject_tree VALUES (195, 2, 264, 1, 1, 2, '/1/2/195/', 9, 1, 0, 'help', 195, 1069237025);
+INSERT INTO ezcontentobject_tree VALUES (5, 1, 4, 1, 0, 1, '/1/5/', 1, 1, 0, 'users', 5, 1072187012);
+INSERT INTO ezcontentobject_tree VALUES (12, 5, 11, 1, 1, 2, '/1/5/12/', 1, 1, 0, 'users/guest_accounts', 12, 1033920746);
+INSERT INTO ezcontentobject_tree VALUES (13, 5, 12, 1, 1, 2, '/1/5/13/', 1, 1, 0, 'users/administrator_users', 13, 1068468219);
+INSERT INTO ezcontentobject_tree VALUES (15, 13, 14, 5, 1, 3, '/1/5/13/15/', 9, 1, 0, 'users/administrator_users/administrator_user', 15, 1068468219);
+INSERT INTO ezcontentobject_tree VALUES (14, 5, 13, 1, 1, 2, '/1/5/14/', 1, 1, 0, 'users/editors', 14, 1033920794);
+INSERT INTO ezcontentobject_tree VALUES (209, 5, 291, 1, 1, 2, '/1/5/209/', 9, 1, 0, 'users/anonymous_users', 209, 1072187012);
+INSERT INTO ezcontentobject_tree VALUES (11, 209, 10, 3, 1, 3, '/1/5/209/11/', 9, 1, 0, 'users/anonymous_users/anonymous_user', 11, 1072187012);
+INSERT INTO ezcontentobject_tree VALUES (43, 1, 41, 1, 1, 1, '/1/43/', 9, 1, 0, 'media', 43, 1060695457);
+INSERT INTO ezcontentobject_tree VALUES (44, 1, 42, 1, 1, 1, '/1/44/', 9, 1, 0, 'setup', 44, 1069841357);
+INSERT INTO ezcontentobject_tree VALUES (46, 44, 44, 1, 1, 2, '/1/44/46/', 9, 1, 0, 'setup/setup_links', 46, 1069159040);
+INSERT INTO ezcontentobject_tree VALUES (45, 46, 43, 10, 1, 3, '/1/44/46/45/', 9, 1, 0, 'setup/setup_links/classes', 45, 1069159004);
+INSERT INTO ezcontentobject_tree VALUES (47, 46, 45, 11, 1, 3, '/1/44/46/47/', 9, 1, 0, 'setup/setup_links/look_and_feel', 47, 1069159022);
+INSERT INTO ezcontentobject_tree VALUES (95, 46, 115, 5, 1, 3, '/1/44/46/95/', 9, 1, 0, 'setup/setup_links/cache', 95, 1069158933);
+INSERT INTO ezcontentobject_tree VALUES (96, 46, 116, 4, 1, 3, '/1/44/46/96/', 9, 1, 0, 'setup/setup_links/url_translator', 96, 1069159040);
+INSERT INTO ezcontentobject_tree VALUES (48, 44, 46, 2, 1, 2, '/1/44/48/', 9, 1, 0, 'setup/look_and_feel', 48, 1069841357);
+INSERT INTO ezcontentobject_tree VALUES (54, 48, 56, 65, 1, 3, '/1/44/48/54/', 9, 1, 0, 'setup/look_and_feel/news', 54, 1069841357);
 
 
 
@@ -9248,6 +9267,14 @@ CREATE INDEX ezsubtree_notification_rule_user_id ON ezsubtree_notification_rule 
 
 
 
+CREATE INDEX ezcontentobject_tree_mod_sub ON ezcontentobject_tree USING btree (modified_subnode);
+
+
+
+
+
+
+
 ALTER TABLE ONLY ezapprove_items
     ADD CONSTRAINT ezapprove_items12_key PRIMARY KEY (id);
 
@@ -10049,7 +10076,7 @@ ALTER TABLE ONLY ezsubtree_notification_rule
 
 
 
-SELECT pg_catalog.setval('ezapprove_items_s', 1, false);
+SELECT pg_catalog.setval ('ezapprove_items_s', 1, false);
 
 
 
@@ -10057,7 +10084,7 @@ SELECT pg_catalog.setval('ezapprove_items_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezbasket_s', 1, false);
+SELECT pg_catalog.setval ('ezbasket_s', 1, false);
 
 
 
@@ -10065,7 +10092,7 @@ SELECT pg_catalog.setval('ezbasket_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezcollab_group_s', 1, false);
+SELECT pg_catalog.setval ('ezcollab_group_s', 1, false);
 
 
 
@@ -10073,7 +10100,7 @@ SELECT pg_catalog.setval('ezcollab_group_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezcollab_item_s', 1, false);
+SELECT pg_catalog.setval ('ezcollab_item_s', 1, false);
 
 
 
@@ -10081,7 +10108,7 @@ SELECT pg_catalog.setval('ezcollab_item_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezcollab_item_message_link_s', 1, false);
+SELECT pg_catalog.setval ('ezcollab_item_message_link_s', 1, false);
 
 
 
@@ -10089,7 +10116,7 @@ SELECT pg_catalog.setval('ezcollab_item_message_link_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezcollab_notification_rule_s', 1, false);
+SELECT pg_catalog.setval ('ezcollab_notification_rule_s', 1, false);
 
 
 
@@ -10097,7 +10124,7 @@ SELECT pg_catalog.setval('ezcollab_notification_rule_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezcollab_profile_s', 1, false);
+SELECT pg_catalog.setval ('ezcollab_profile_s', 1, false);
 
 
 
@@ -10105,7 +10132,7 @@ SELECT pg_catalog.setval('ezcollab_profile_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezcollab_simple_message_s', 1, false);
+SELECT pg_catalog.setval ('ezcollab_simple_message_s', 1, false);
 
 
 
@@ -10113,7 +10140,7 @@ SELECT pg_catalog.setval('ezcollab_simple_message_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezcontent_translation_s', 1, true);
+SELECT pg_catalog.setval ('ezcontent_translation_s', 1, true);
 
 
 
@@ -10121,7 +10148,7 @@ SELECT pg_catalog.setval('ezcontent_translation_s', 1, true);
 
 
 
-SELECT pg_catalog.setval('ezcontentbrowsebookmark_s', 1, false);
+SELECT pg_catalog.setval ('ezcontentbrowsebookmark_s', 1, false);
 
 
 
@@ -10129,7 +10156,7 @@ SELECT pg_catalog.setval('ezcontentbrowsebookmark_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezcontentbrowserecent_s', 110, true);
+SELECT pg_catalog.setval ('ezcontentbrowserecent_s', 110, true);
 
 
 
@@ -10137,7 +10164,7 @@ SELECT pg_catalog.setval('ezcontentbrowserecent_s', 110, true);
 
 
 
-SELECT pg_catalog.setval('ezcontentclass_s', 27, false);
+SELECT pg_catalog.setval ('ezcontentclass_s', 27, false);
 
 
 
@@ -10145,7 +10172,7 @@ SELECT pg_catalog.setval('ezcontentclass_s', 27, false);
 
 
 
-SELECT pg_catalog.setval('ezcontentclass_attribute_s', 220, true);
+SELECT pg_catalog.setval ('ezcontentclass_attribute_s', 220, true);
 
 
 
@@ -10153,7 +10180,7 @@ SELECT pg_catalog.setval('ezcontentclass_attribute_s', 220, true);
 
 
 
-SELECT pg_catalog.setval('ezcontentclassgroup_s', 4, true);
+SELECT pg_catalog.setval ('ezcontentclassgroup_s', 4, true);
 
 
 
@@ -10161,7 +10188,7 @@ SELECT pg_catalog.setval('ezcontentclassgroup_s', 4, true);
 
 
 
-SELECT pg_catalog.setval('ezcontentobject_s', 291, true);
+SELECT pg_catalog.setval ('ezcontentobject_s', 291, true);
 
 
 
@@ -10169,7 +10196,7 @@ SELECT pg_catalog.setval('ezcontentobject_s', 291, true);
 
 
 
-SELECT pg_catalog.setval('ezcontentobject_attribute_s', 1147, true);
+SELECT pg_catalog.setval ('ezcontentobject_attribute_s', 1147, true);
 
 
 
@@ -10177,7 +10204,7 @@ SELECT pg_catalog.setval('ezcontentobject_attribute_s', 1147, true);
 
 
 
-SELECT pg_catalog.setval('ezcontentobject_link_s', 7, true);
+SELECT pg_catalog.setval ('ezcontentobject_link_s', 7, true);
 
 
 
@@ -10185,7 +10212,7 @@ SELECT pg_catalog.setval('ezcontentobject_link_s', 7, true);
 
 
 
-SELECT pg_catalog.setval('ezcontentobject_tree_s', 209, true);
+SELECT pg_catalog.setval ('ezcontentobject_tree_s', 209, true);
 
 
 
@@ -10193,7 +10220,7 @@ SELECT pg_catalog.setval('ezcontentobject_tree_s', 209, true);
 
 
 
-SELECT pg_catalog.setval('ezcontentobject_version_s', 952, true);
+SELECT pg_catalog.setval ('ezcontentobject_version_s', 952, true);
 
 
 
@@ -10201,7 +10228,7 @@ SELECT pg_catalog.setval('ezcontentobject_version_s', 952, true);
 
 
 
-SELECT pg_catalog.setval('ezdiscountrule_s', 1, false);
+SELECT pg_catalog.setval ('ezdiscountrule_s', 1, false);
 
 
 
@@ -10209,7 +10236,7 @@ SELECT pg_catalog.setval('ezdiscountrule_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezdiscountsubrule_s', 1, false);
+SELECT pg_catalog.setval ('ezdiscountsubrule_s', 1, false);
 
 
 
@@ -10217,7 +10244,7 @@ SELECT pg_catalog.setval('ezdiscountsubrule_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezenumvalue_s', 1, false);
+SELECT pg_catalog.setval ('ezenumvalue_s', 1, false);
 
 
 
@@ -10225,7 +10252,7 @@ SELECT pg_catalog.setval('ezenumvalue_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezforgot_password_s', 1, false);
+SELECT pg_catalog.setval ('ezforgot_password_s', 1, false);
 
 
 
@@ -10233,7 +10260,7 @@ SELECT pg_catalog.setval('ezforgot_password_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezgeneral_digest_user_settings_s', 1, false);
+SELECT pg_catalog.setval ('ezgeneral_digest_user_settings_s', 1, false);
 
 
 
@@ -10241,7 +10268,7 @@ SELECT pg_catalog.setval('ezgeneral_digest_user_settings_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezinfocollection_s', 46, true);
+SELECT pg_catalog.setval ('ezinfocollection_s', 46, true);
 
 
 
@@ -10249,7 +10276,7 @@ SELECT pg_catalog.setval('ezinfocollection_s', 46, true);
 
 
 
-SELECT pg_catalog.setval('ezinfocollection_attribute_s', 50, true);
+SELECT pg_catalog.setval ('ezinfocollection_attribute_s', 50, true);
 
 
 
@@ -10257,7 +10284,7 @@ SELECT pg_catalog.setval('ezinfocollection_attribute_s', 50, true);
 
 
 
-SELECT pg_catalog.setval('ezkeyword_s', 1, false);
+SELECT pg_catalog.setval ('ezkeyword_s', 1, false);
 
 
 
@@ -10265,7 +10292,7 @@ SELECT pg_catalog.setval('ezkeyword_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezkeyword_attribute_link_s', 1, false);
+SELECT pg_catalog.setval ('ezkeyword_attribute_link_s', 1, false);
 
 
 
@@ -10273,7 +10300,7 @@ SELECT pg_catalog.setval('ezkeyword_attribute_link_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezmessage_s', 1, false);
+SELECT pg_catalog.setval ('ezmessage_s', 1, false);
 
 
 
@@ -10281,7 +10308,7 @@ SELECT pg_catalog.setval('ezmessage_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezmodule_run_s', 1, false);
+SELECT pg_catalog.setval ('ezmodule_run_s', 1, false);
 
 
 
@@ -10289,7 +10316,7 @@ SELECT pg_catalog.setval('ezmodule_run_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('eznode_assignment_s', 654, true);
+SELECT pg_catalog.setval ('eznode_assignment_s', 654, true);
 
 
 
@@ -10297,7 +10324,7 @@ SELECT pg_catalog.setval('eznode_assignment_s', 654, true);
 
 
 
-SELECT pg_catalog.setval('eznotificationcollection_s', 1, false);
+SELECT pg_catalog.setval ('eznotificationcollection_s', 1, false);
 
 
 
@@ -10305,7 +10332,7 @@ SELECT pg_catalog.setval('eznotificationcollection_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('eznotificationcollection_item_s', 1, false);
+SELECT pg_catalog.setval ('eznotificationcollection_item_s', 1, false);
 
 
 
@@ -10313,7 +10340,7 @@ SELECT pg_catalog.setval('eznotificationcollection_item_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('eznotificationevent_s', 342, true);
+SELECT pg_catalog.setval ('eznotificationevent_s', 342, true);
 
 
 
@@ -10321,7 +10348,7 @@ SELECT pg_catalog.setval('eznotificationevent_s', 342, true);
 
 
 
-SELECT pg_catalog.setval('ezoperation_memento_s', 1, false);
+SELECT pg_catalog.setval ('ezoperation_memento_s', 1, false);
 
 
 
@@ -10329,7 +10356,7 @@ SELECT pg_catalog.setval('ezoperation_memento_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezorder_s', 1, false);
+SELECT pg_catalog.setval ('ezorder_s', 1, false);
 
 
 
@@ -10337,7 +10364,7 @@ SELECT pg_catalog.setval('ezorder_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezorder_item_s', 1, false);
+SELECT pg_catalog.setval ('ezorder_item_s', 1, false);
 
 
 
@@ -10345,7 +10372,7 @@ SELECT pg_catalog.setval('ezorder_item_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezpolicy_s', 395, true);
+SELECT pg_catalog.setval ('ezpolicy_s', 395, true);
 
 
 
@@ -10353,7 +10380,7 @@ SELECT pg_catalog.setval('ezpolicy_s', 395, true);
 
 
 
-SELECT pg_catalog.setval('ezpolicy_limitation_s', 313, true);
+SELECT pg_catalog.setval ('ezpolicy_limitation_s', 313, true);
 
 
 
@@ -10361,7 +10388,7 @@ SELECT pg_catalog.setval('ezpolicy_limitation_s', 313, true);
 
 
 
-SELECT pg_catalog.setval('ezpolicy_limitation_value_s', 648, true);
+SELECT pg_catalog.setval ('ezpolicy_limitation_value_s', 648, true);
 
 
 
@@ -10369,7 +10396,7 @@ SELECT pg_catalog.setval('ezpolicy_limitation_value_s', 648, true);
 
 
 
-SELECT pg_catalog.setval('ezpreferences_s', 1, false);
+SELECT pg_catalog.setval ('ezpreferences_s', 1, false);
 
 
 
@@ -10377,7 +10404,7 @@ SELECT pg_catalog.setval('ezpreferences_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezproductcollection_s', 1, false);
+SELECT pg_catalog.setval ('ezproductcollection_s', 1, false);
 
 
 
@@ -10385,7 +10412,7 @@ SELECT pg_catalog.setval('ezproductcollection_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezproductcollection_item_s', 1, false);
+SELECT pg_catalog.setval ('ezproductcollection_item_s', 1, false);
 
 
 
@@ -10393,7 +10420,7 @@ SELECT pg_catalog.setval('ezproductcollection_item_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezproductcollection_item_opt_s', 1, false);
+SELECT pg_catalog.setval ('ezproductcollection_item_opt_s', 1, false);
 
 
 
@@ -10401,7 +10428,7 @@ SELECT pg_catalog.setval('ezproductcollection_item_opt_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezrole_s', 8, true);
+SELECT pg_catalog.setval ('ezrole_s', 8, true);
 
 
 
@@ -10409,7 +10436,7 @@ SELECT pg_catalog.setval('ezrole_s', 8, true);
 
 
 
-SELECT pg_catalog.setval('ezsearch_object_word_link_s', 27306, true);
+SELECT pg_catalog.setval ('ezsearch_object_word_link_s', 27306, true);
 
 
 
@@ -10417,7 +10444,7 @@ SELECT pg_catalog.setval('ezsearch_object_word_link_s', 27306, true);
 
 
 
-SELECT pg_catalog.setval('ezsearch_return_count_s', 1, false);
+SELECT pg_catalog.setval ('ezsearch_return_count_s', 1, false);
 
 
 
@@ -10425,7 +10452,7 @@ SELECT pg_catalog.setval('ezsearch_return_count_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezsearch_search_phrase_s', 1, false);
+SELECT pg_catalog.setval ('ezsearch_search_phrase_s', 1, false);
 
 
 
@@ -10433,7 +10460,7 @@ SELECT pg_catalog.setval('ezsearch_search_phrase_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezsearch_word_s', 6082, true);
+SELECT pg_catalog.setval ('ezsearch_word_s', 6082, true);
 
 
 
@@ -10441,7 +10468,7 @@ SELECT pg_catalog.setval('ezsearch_word_s', 6082, true);
 
 
 
-SELECT pg_catalog.setval('ezsection_s', 13, true);
+SELECT pg_catalog.setval ('ezsection_s', 13, true);
 
 
 
@@ -10449,7 +10476,7 @@ SELECT pg_catalog.setval('ezsection_s', 13, true);
 
 
 
-SELECT pg_catalog.setval('ezsubtree_notification_rule_s', 6, true);
+SELECT pg_catalog.setval ('ezsubtree_notification_rule_s', 6, true);
 
 
 
@@ -10457,7 +10484,7 @@ SELECT pg_catalog.setval('ezsubtree_notification_rule_s', 6, true);
 
 
 
-SELECT pg_catalog.setval('eztrigger_s', 1, false);
+SELECT pg_catalog.setval ('eztrigger_s', 1, false);
 
 
 
@@ -10465,7 +10492,7 @@ SELECT pg_catalog.setval('eztrigger_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezurl_s', 4, true);
+SELECT pg_catalog.setval ('ezurl_s', 4, true);
 
 
 
@@ -10473,7 +10500,7 @@ SELECT pg_catalog.setval('ezurl_s', 4, true);
 
 
 
-SELECT pg_catalog.setval('ezurlalias_s', 2, true);
+SELECT pg_catalog.setval ('ezurlalias_s', 2, true);
 
 
 
@@ -10481,7 +10508,7 @@ SELECT pg_catalog.setval('ezurlalias_s', 2, true);
 
 
 
-SELECT pg_catalog.setval('ezuser_accountkey_s', 3, true);
+SELECT pg_catalog.setval ('ezuser_accountkey_s', 3, true);
 
 
 
@@ -10489,7 +10516,7 @@ SELECT pg_catalog.setval('ezuser_accountkey_s', 3, true);
 
 
 
-SELECT pg_catalog.setval('ezuser_discountrule_s', 1, false);
+SELECT pg_catalog.setval ('ezuser_discountrule_s', 1, false);
 
 
 
@@ -10497,7 +10524,7 @@ SELECT pg_catalog.setval('ezuser_discountrule_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezuser_role_s', 34, true);
+SELECT pg_catalog.setval ('ezuser_role_s', 34, true);
 
 
 
@@ -10505,7 +10532,7 @@ SELECT pg_catalog.setval('ezuser_role_s', 34, true);
 
 
 
-SELECT pg_catalog.setval('ezvattype_s', 1, true);
+SELECT pg_catalog.setval ('ezvattype_s', 1, true);
 
 
 
@@ -10513,7 +10540,7 @@ SELECT pg_catalog.setval('ezvattype_s', 1, true);
 
 
 
-SELECT pg_catalog.setval('ezwaituntildatevalue_s', 1, false);
+SELECT pg_catalog.setval ('ezwaituntildatevalue_s', 1, false);
 
 
 
@@ -10521,7 +10548,7 @@ SELECT pg_catalog.setval('ezwaituntildatevalue_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezwishlist_s', 1, false);
+SELECT pg_catalog.setval ('ezwishlist_s', 1, false);
 
 
 
@@ -10529,7 +10556,7 @@ SELECT pg_catalog.setval('ezwishlist_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezworkflow_s', 1, false);
+SELECT pg_catalog.setval ('ezworkflow_s', 1, false);
 
 
 
@@ -10537,7 +10564,7 @@ SELECT pg_catalog.setval('ezworkflow_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezworkflow_assign_s', 1, false);
+SELECT pg_catalog.setval ('ezworkflow_assign_s', 1, false);
 
 
 
@@ -10545,7 +10572,7 @@ SELECT pg_catalog.setval('ezworkflow_assign_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezworkflow_event_s', 1, false);
+SELECT pg_catalog.setval ('ezworkflow_event_s', 1, false);
 
 
 
@@ -10553,7 +10580,7 @@ SELECT pg_catalog.setval('ezworkflow_event_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezworkflow_group_s', 1, true);
+SELECT pg_catalog.setval ('ezworkflow_group_s', 1, true);
 
 
 
@@ -10561,7 +10588,7 @@ SELECT pg_catalog.setval('ezworkflow_group_s', 1, true);
 
 
 
-SELECT pg_catalog.setval('ezworkflow_process_s', 1, false);
+SELECT pg_catalog.setval ('ezworkflow_process_s', 1, false);
 
 
 
@@ -10569,7 +10596,7 @@ SELECT pg_catalog.setval('ezworkflow_process_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezpdf_export_s', 1, false);
+SELECT pg_catalog.setval ('ezpdf_export_s', 1, false);
 
 
 
@@ -10577,7 +10604,7 @@ SELECT pg_catalog.setval('ezpdf_export_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezrss_export_s', 1, false);
+SELECT pg_catalog.setval ('ezrss_export_s', 1, false);
 
 
 
@@ -10585,7 +10612,7 @@ SELECT pg_catalog.setval('ezrss_export_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezrss_export_item_s', 1, false);
+SELECT pg_catalog.setval ('ezrss_export_item_s', 1, false);
 
 
 
@@ -10593,7 +10620,7 @@ SELECT pg_catalog.setval('ezrss_export_item_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezrss_import_s', 1, false);
+SELECT pg_catalog.setval ('ezrss_import_s', 1, false);
 
 
 
@@ -10601,14 +10628,6 @@ SELECT pg_catalog.setval('ezrss_import_s', 1, false);
 
 
 
-SELECT pg_catalog.setval('ezimagefile_s', 50, true);
-
-
-
-
-
-
-
-COMMENT ON SCHEMA public IS 'Standard public namespace';
+SELECT pg_catalog.setval ('ezimagefile_s', 50, true);
 
 
