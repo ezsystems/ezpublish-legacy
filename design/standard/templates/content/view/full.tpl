@@ -96,7 +96,7 @@
 
 {switch match=$node.object.can_create}
 {case match=1}
-         <input type="hidden" name="NodeID" value="{$nodeID}" />
+         <input type="hidden" name="NodeID" value="{$node.node_id}" />
          <input type="submit" name="NewButton" value="New" />
          <select name="ClassID">
 	      {section name=Classes loop=$node.object.can_create_class_list}

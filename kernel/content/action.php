@@ -39,12 +39,14 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
 
+
 if ( $http->hasPostVariable( 'NewButton' )  )
 {
-    if ( $http->hasPostVariable( 'ClassID' )  && $http->hasPostVariable( 'NodeID' ) )
+    if ( $http->hasPostVariable( 'ClassID' ) && $http->hasPostVariable( 'NodeID' ) )
     {
-        $node =& eZContentObjectTreeNode::fetch( $http->postVariable( 'NodeID' )  );
-        $parentContentObject = $node->attribute( 'contentobject' );
+        $node =& eZContentObjectTreeNode::fetch( $http->postVariable( 'NodeID' ) );
+        $parentContentObject =& $node->attribute( 'object' );
+
         if ( $parentContentObject->checkAccess( 'create', $http->postVariable( 'ClassID' ),  $parentContentObject->attribute( 'contentclass_id' ) ) == '1' )
         {
             $user =& eZUser::currentUser();
