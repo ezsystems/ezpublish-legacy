@@ -5,7 +5,7 @@
 
 {section show=$link}
 {"Click here to get new password:"|i18n('design/standard/user/forgotpassword')}
-{concat("user/forgetpassword/", $hash_key, '/')|ezurl}
+{concat("user/forgotpassword/", $hash_key, '/')|ezurl}
 {section-else}
 
 
