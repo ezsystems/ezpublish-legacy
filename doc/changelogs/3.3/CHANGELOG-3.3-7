@@ -23,6 +23,8 @@ Changes from 3.3-6 to 3.3-7
 - Added some more clean-up code for when users are deleted.
   Part of: http://ez.no/community/bug_reports/3_5_deleting_objects_dirty_tables_after_deleting_process
   (Merged from stable/3.4, rev. 10083)
+- Fixed bug: "target" object parameter was sometimes unset in ezxhtmlxmloutput.php.
+  http://ez.no/community/bug_reports/xhtml_output_and_attribute_target
 
 *Library:
 
