@@ -90,6 +90,8 @@ eZTime:
   http://ez.no/community/bug_reports/admin_loginpagelayout_tpl_wrong_url
 - Fixed discount group link in discount group view in shop.
   http://ez.no/community/bug_reports/wrong_link_in_discount_system
+- Removed old and unnecessary filename showing in edit/ezimage.tpl.
+  http://ez.no/community/bug_reports/imagealias_error_and_image_tpl_error
 
 *Library:
 
