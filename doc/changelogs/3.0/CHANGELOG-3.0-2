@@ -60,6 +60,8 @@ eZ mail:
 *Changed templates:
 - Fixed the problem with creating objects in design/admin/override/templates/node/view/full_class_3.tpl.
   This means that it will no longer ask for placement when using Create Here button.
+- Added missing dollar symbol in design/standard/templates/content/datatype/view/ezdate.tpl,
+  thus fixing date display.
 
 *New documentation :
 
