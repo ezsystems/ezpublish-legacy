@@ -41,9 +41,7 @@ Here a short todo list (more or less in order of importance):
     - more tests (these are not trivial):
         + critical combinations (winxp + php_isapi + ezsession = crash)
         + redhat: multipart/form-data
-    - use internationalization
     - set nVH variables (siteDir, wwwDir, indexFile, includeDir)
-    - create classes (?)
     - download of ez publish by php script
     - upgrade option
 

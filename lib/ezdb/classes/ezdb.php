@@ -257,7 +257,7 @@ class eZDB
                 $b = $databaseParameters;
                 $c = $defaultDatabaseParameters;
 
-                $databaseParameters =& array_merge( $b, $c );
+                $databaseParameters =& array_merge( $c, $b );
 
             }
             foreach( $pluginPathArray as $pluginPath )

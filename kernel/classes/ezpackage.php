@@ -1316,9 +1316,9 @@ class eZPackage
                                 $dirSubDirectory = $dirNode->attributeValue( 'sub-directory' );
                                 $dirPath = $dirNode->attributeValue( 'path' );
                                 $dirModified = $dirNode->attributeValue( 'modified' );
-                                $this->appendDir( $dirName, $dirType, $dirRole,
-                                                  $dirDesign, $dirPath, $dirCollectionName,
-                                                  $dirSubDirectory, false, false, $dirModified );
+                                $this->appendFile( $dirName, $fileType, $fileRole,
+                                                   $fileDesign, $dirPath, $fileCollectionName,
+                                                   $dirSubDirectory, false, false, $dirModified );
                             }
                         }
                     }

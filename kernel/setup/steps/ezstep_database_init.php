@@ -92,20 +92,10 @@ class eZStepDatabaseInit extends eZStepInstaller
             $password = $this->PersistenceList['database_info']['password'];
         }
 
-        if ( $this->Http->hasPostVariable( 'eZSetupDatabasePassword' ) ||
-             $this->Http->hasPostVariable( 'eZSetupDatabasePasswordConfirm' ) )
+        if ( $this->Http->hasPostVariable( 'eZSetupDatabasePassword' ) )
         {
             $password = $this->Http->postVariable( 'eZSetupDatabasePassword' );
-            $passwordConfirm = $this->Http->postVariable( 'eZSetupDatabasePasswordConfirm' );
-            if ( $password != $passwordConfirm ) // passwords don't match
-            {
-                $this->Error = EZ_SETUP_DB_ERROR_NONMATCH_PASSWORD;
-                return false;
-            }
-            else
-            {
-                $this->PersistenceList['database_info']['password'] = $password;
-            }
+            $this->PersistenceList['database_info']['password'] = $password;
         }
 
         $databaseChoice = false;

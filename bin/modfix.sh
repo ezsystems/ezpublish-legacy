@@ -34,6 +34,12 @@ if [ ! -d var/cache/texttoimage ]; then
 fi
 chmod $DIR_MODE var/cache/texttoimage
 
+if [ ! -d var/cache/codepages ]; then
+    mkdir var/cache/codepages
+    echo "Created var/cache/codepages"
+fi
+chmod $DIR_MODE var/cache/codepages
+
 if [ ! -d var/cache/translation ]; then
     mkdir var/cache/translation
     echo "Created var/cache/translation"
@@ -75,6 +81,15 @@ for LOGFILE in $LOGFILES; do
 	chmod $FILE_MODE $LOGPATH
     fi
 done
+
+if [ -d design/admin/override/templates ]; then
+    chmod $DIR_MODE design/admin/override/templates
+fi
+
+if [ -d design/demo/override/templates ]; then
+    chmod $DIR_MODE design/demo/override/templates
+fi
+
 
 chmod $DIR_MODE var
 

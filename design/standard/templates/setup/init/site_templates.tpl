@@ -21,7 +21,7 @@
           <img src={concat( "/design/standard/images/setup/", $:item.image_file_name )|ezroot}>
         </div>
         <div align="bottom">
-          <input type="checkbox" name="eZSetup_site_templates[]" value="{$:item.name}">{$:item.name}</input>
+          <input type="checkbox" name="eZSetup_site_templates[]" value="{$:item.identifier}">{$:item.name}</input>
         </div>
       </td>
 

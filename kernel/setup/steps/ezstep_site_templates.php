@@ -72,8 +72,8 @@ class eZStepSiteTemplates extends eZStepInstaller
 
             foreach ( $siteTemplates as $key => $template )
             {
-                $this->PersistenceList['site_templates_'.$key]['name'] = $template;
-                $this->PersistenceList['site_templates_'.$key]['image_file_name'] = $thumbnailBase.'_'.$template.'.'.$thumbnailExtension;
+                $this->PersistenceList['site_templates_' . $key]['identifier'] = $template;
+//                 $this->PersistenceList['site_templates_' . $key]['image_file_name'] = $thumbnailBase.'_'.$template.'.'.$thumbnailExtension;
             }
         }
         else
@@ -100,15 +100,27 @@ class eZStepSiteTemplates extends eZStepInstaller
     {
         // Get site templates from setup.ini
         $config =& eZINI::instance( 'setup.ini' );
-        $templatesConfig = $config->variable( 'SiteTemplates', 'Name' );
+//         $templatesConfig = $config->variable( 'SiteTemplates', 'Name' );
         $thumbnailBase = $config->variable( 'SiteTemplates', 'ThumbnailBase' );
         $thumbnailExtension = $config->variable( 'SiteTemplates', 'ThumbnailExtension' );
 
         $site_templates = array();
-        foreach ( $templatesConfig as $key => $template )
+//         foreach ( $templatesConfig as $key => $template )
+//         {
+//             $site_templates[$key]['name'] = $template;
+//             $site_templates[$key]['identifier'] = $template;
+//             $site_templates[$key]['image_file_name'] = $thumbnailBase.'_'.$template.'.'.$thumbnailExtension;
+//         }
+
+        include_once( 'kernel/classes/ezpackage.php' );
+
+        $packages =& eZPackage::fetchPackages( array( 'path' => 'kernel/setup/packages' ) );
+        for ( $key = 0; $key < count( $packages ); ++$key )
         {
-            $site_templates[$key]['name'] = $template;
-            $site_templates[$key]['image_file_name'] = $thumbnailBase.'_'.$template.'.'.$thumbnailExtension;
+            $package =& $packages[$key];
+            $site_templates[$key]['name'] = $package->attribute( 'summary' );
+            $site_templates[$key]['identifier'] = $package->attribute( 'name' );
+            $site_templates[$key]['image_file_name'] = $thumbnailBase.'_' . $package->attribute( 'name' ) . '.' . $thumbnailExtension;
         }
 
         $this->Tpl->setVariable( 'site_templates', $site_templates );
