@@ -83,6 +83,22 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id, is_container) VALUES (1,0,'Folder','folder','<short_name|name>',14,14,1024392098,1082454875,'a3d405b81be900468eb153d774f4f0d2',1);
 INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id, is_container) VALUES (2,0,'Article','article','<short_title|title>',14,14,1024392098,1082454989,'c15b600eb9198b1924063b5a68758232',0);
 INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id, is_container) VALUES (3,0,'User group','user_group','<name>',14,14,1024392098,1048494743,'25b4268cdcd01921b808a0d854b877ef',1);
@@ -93,6 +109,7 @@ INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, c
 INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id, is_container) VALUES (13,0,'Comment','comment','<subject>',14,14,1052385685,1082455144,'000c14f4f475e9f2955dedab72799941',0);
 INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id, is_container) VALUES (14,0,'Common ini settings','common_ini_settings','<name>',14,14,1081858024,1081858024,'ffedf2e73b1ea0c3e630e42e2db9c900',0);
 INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id, is_container) VALUES (15,0,'Template look','template_look','<title>',14,14,1081858045,1081858045,'59b43cd9feaaf0e45ac974fb4bbd3f92',0);
+
 
 
 
@@ -154,6 +171,7 @@ INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, 
 
 
 
+
 INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) VALUES (1,0,1,'Content');
 INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) VALUES (2,0,1,'Content');
 INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) VALUES (4,0,2,'Content');
@@ -173,10 +191,12 @@ INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, gr
 
 
 
+
 INSERT INTO ezcontentclassgroup (id, name, creator_id, modifier_id, created, modified) VALUES (1,'Content',1,14,1031216928,1033922106);
 INSERT INTO ezcontentclassgroup (id, name, creator_id, modifier_id, created, modified) VALUES (2,'Users',1,14,1031216941,1033922113);
 INSERT INTO ezcontentclassgroup (id, name, creator_id, modifier_id, created, modified) VALUES (3,'Media',8,14,1032009743,1033922120);
 INSERT INTO ezcontentclassgroup (id, name, creator_id, modifier_id, created, modified) VALUES (4,'Setup',14,14,1081858024,1081858024);
+
 
 
 
@@ -199,6 +219,7 @@ INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, cu
 INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (53,14,4,14,'New Common ini settings',1,0,0,0,0,'27437f3547db19cf81a33c92578b2c89');
 INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (54,14,4,15,'eZ publish',1,0,1082016652,1082016652,1,'8b8b22fe3c6061ed500fbd2b377b885f');
 INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (55,14,4,15,'New Template look',1,0,0,0,0,'8b8b22fe3c6061ed500fbd2b377b885f');
+
 
 
 
@@ -284,6 +305,8 @@ INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject
 
 
 
+
+
 INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (1,'Root folder',1,'eng-GB','eng-GB');
 INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (4,'Users',1,'eng-GB','eng-GB');
 INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (10,'Anonymous User',1,'eng-GB','eng-GB');
@@ -306,24 +329,26 @@ INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, conte
 
 
 
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id) VALUES (1,1,0,1,1,0,'/1/',1,1,0,'',1,1082368572,'629709ba256fe317c3ddcee35453a96a');
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id) VALUES (2,1,1,2,1,1,'/1/2/',8,1,0,'',2,1082368572,'f3e90596361e31d496d4026eb624c983');
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id) VALUES (5,1,4,1,0,1,'/1/5/',1,1,0,'users',5,1081860719,'3f6d92f8044aed134f32153517850f5a');
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id) VALUES (12,5,11,1,1,2,'/1/5/12/',1,1,0,'users/guest_accounts',12,1081860719,'602dcf84765e56b7f999eaafd3821dd3');
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id) VALUES (13,5,12,1,1,2,'/1/5/13/',1,1,0,'users/administrator_users',13,1081860719,'769380b7aa94541679167eab817ca893');
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id) VALUES (14,5,13,1,1,2,'/1/5/14/',1,1,0,'users/editors',14,1081860719,'f7dda2854fc68f7c8455d9cb14bd04a9');
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id) VALUES (15,13,14,1,1,3,'/1/5/13/15/',1,1,0,'users/administrator_users/administrator_user',15,1081860719,'e5161a99f733200b9ed4e80f9c16187b');
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id) VALUES (43,1,41,1,1,1,'/1/43/',9,1,0,'media',43,1081860720,'75c715a51699d2d309a924eca6a95145');
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id) VALUES (44,5,42,1,1,2,'/1/5/44/',9,1,0,'users/anonymous_users',44,1081860719,'4fdf0072da953bb276c0c7e0141c5c9b');
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id) VALUES (45,44,10,2,1,3,'/1/5/44/45/',9,1,0,'users/anonymous_users/anonymous_user',45,1081860719,'2cf8343bee7b482bab82b269d8fecd76');
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id) VALUES (48,1,45,1,1,1,'/1/48/',9,1,0,'setup',48,1082016653,'182ce1b5af0c09fa378557c462ba2617');
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id) VALUES (51,43,49,1,1,2,'/1/43/51/',9,1,0,'media/images',51,1081860720,'1b26c0454b09bb49dfb1b9190ffd67cb');
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id) VALUES (52,43,50,1,1,2,'/1/43/52/',9,1,0,'media/files',52,1081860720,'0b113a208f7890f9ad3c24444ff5988c');
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id) VALUES (53,43,51,1,1,2,'/1/43/53/',9,1,0,'media/multimedia',53,1081860720,'4f18b82c75f10aad476cae5adf98c11f');
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id) VALUES (54,48,52,1,1,2,'/1/48/54/',1,1,0,'setup/common_ini_settings',54,1082016591,'fa9f3cff9cf90ecfae335718dcbddfe2');
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id) VALUES (55,48,52,0,0,2,'/TEMPPATH',1,1,0,'',0,0,'fa9f3cff9cf90ecfae335718dcbddfe2');
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id) VALUES (56,48,54,1,1,2,'/1/48/56/',1,1,0,'setup/ez_publish',56,1082016653,'772da20ecf88b3035d73cbdfcea0f119');
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id) VALUES (57,48,54,0,0,2,'/TEMPPATH',1,1,0,'',0,0,'772da20ecf88b3035d73cbdfcea0f119');
+
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id, hidden, invisible) VALUES (1,1,0,1,1,0,'/1/',1,1,0,'',1,1082368572,'629709ba256fe317c3ddcee35453a96a',0,0);
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id, hidden, invisible) VALUES (2,1,1,2,1,1,'/1/2/',8,1,0,'',2,1082368572,'f3e90596361e31d496d4026eb624c983',0,0);
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id, hidden, invisible) VALUES (5,1,4,1,0,1,'/1/5/',1,1,0,'users',5,1081860719,'3f6d92f8044aed134f32153517850f5a',0,0);
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id, hidden, invisible) VALUES (12,5,11,1,1,2,'/1/5/12/',1,1,0,'users/guest_accounts',12,1081860719,'602dcf84765e56b7f999eaafd3821dd3',0,0);
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id, hidden, invisible) VALUES (13,5,12,1,1,2,'/1/5/13/',1,1,0,'users/administrator_users',13,1081860719,'769380b7aa94541679167eab817ca893',0,0);
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id, hidden, invisible) VALUES (14,5,13,1,1,2,'/1/5/14/',1,1,0,'users/editors',14,1081860719,'f7dda2854fc68f7c8455d9cb14bd04a9',0,0);
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id, hidden, invisible) VALUES (15,13,14,1,1,3,'/1/5/13/15/',1,1,0,'users/administrator_users/administrator_user',15,1081860719,'e5161a99f733200b9ed4e80f9c16187b',0,0);
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id, hidden, invisible) VALUES (43,1,41,1,1,1,'/1/43/',9,1,0,'media',43,1081860720,'75c715a51699d2d309a924eca6a95145',0,0);
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id, hidden, invisible) VALUES (44,5,42,1,1,2,'/1/5/44/',9,1,0,'users/anonymous_users',44,1081860719,'4fdf0072da953bb276c0c7e0141c5c9b',0,0);
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id, hidden, invisible) VALUES (45,44,10,2,1,3,'/1/5/44/45/',9,1,0,'users/anonymous_users/anonymous_user',45,1081860719,'2cf8343bee7b482bab82b269d8fecd76',0,0);
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id, hidden, invisible) VALUES (48,1,45,1,1,1,'/1/48/',9,1,0,'setup',48,1082016653,'182ce1b5af0c09fa378557c462ba2617',0,0);
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id, hidden, invisible) VALUES (51,43,49,1,1,2,'/1/43/51/',9,1,0,'media/images',51,1081860720,'1b26c0454b09bb49dfb1b9190ffd67cb',0,0);
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id, hidden, invisible) VALUES (52,43,50,1,1,2,'/1/43/52/',9,1,0,'media/files',52,1081860720,'0b113a208f7890f9ad3c24444ff5988c',0,0);
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id, hidden, invisible) VALUES (53,43,51,1,1,2,'/1/43/53/',9,1,0,'media/multimedia',53,1081860720,'4f18b82c75f10aad476cae5adf98c11f',0,0);
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id, hidden, invisible) VALUES (54,48,52,1,1,2,'/1/48/54/',1,1,0,'setup/common_ini_settings',54,1082016591,'fa9f3cff9cf90ecfae335718dcbddfe2',0,0);
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id, hidden, invisible) VALUES (55,48,52,0,0,2,'/TEMPPATH',1,1,0,'',0,0,'fa9f3cff9cf90ecfae335718dcbddfe2',0,0);
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id, hidden, invisible) VALUES (56,48,54,1,1,2,'/1/48/56/',1,1,0,'setup/ez_publish',56,1082016653,'772da20ecf88b3035d73cbdfcea0f119',0,0);
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id, hidden, invisible) VALUES (57,48,54,0,0,2,'/TEMPPATH',1,1,0,'',0,0,'772da20ecf88b3035d73cbdfcea0f119',0,0);
+
 
 
 
@@ -389,7 +414,25 @@ INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, 
 
 
 
+
+
+
+
+
+
+
+
+
 INSERT INTO ezimagefile (id, contentobject_attribute_id, filepath) VALUES (1,172,'var/storage/images/setup/ez_publish/172-1-eng-GB/ez_publish.');
+
+
+
+
+
+
+
+
+
 
 
 
@@ -501,6 +544,16 @@ INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, pare
 
 
 
+
+
+
+
+
+
+
+
+
+
 INSERT INTO ezpolicy (id, role_id, function_name, module_name) VALUES (317,3,'*','content');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name) VALUES (308,2,'*','*');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name) VALUES (319,3,'login','user');
@@ -512,8 +565,10 @@ INSERT INTO ezpolicy (id, role_id, function_name, module_name) VALUES (329,1,'pd
 
 
 
+
 INSERT INTO ezpolicy_limitation (id, policy_id, identifier) VALUES (251,328,'Section');
 INSERT INTO ezpolicy_limitation (id, policy_id, identifier) VALUES (252,329,'Section');
+
 
 
 
@@ -546,9 +601,18 @@ INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (477,251
 
 
 
+
+
+
+
+
 INSERT INTO ezrole (id, version, name, value) VALUES (1,0,'Anonymous','');
 INSERT INTO ezrole (id, version, name, value) VALUES (2,0,'Administrator','*');
 INSERT INTO ezrole (id, version, name, value) VALUES (3,0,'Editor','');
+
+
+
+
 
 
 
@@ -1378,6 +1442,9 @@ INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency,
 
 
 
+
+
+
 INSERT INTO ezsearch_word (id, word, object_count) VALUES (57,'guest',1);
 INSERT INTO ezsearch_word (id, word, object_count) VALUES (58,'accounts',1);
 INSERT INTO ezsearch_word (id, word, object_count) VALUES (61,'administrator',2);
@@ -1576,6 +1643,7 @@ INSERT INTO ezsearch_word (id, word, object_count) VALUES (277,'ez.no',1);
 
 
 
+
 INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (1,'Standard','','ezcontentnavigationpart');
 INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (2,'Users','','ezusernavigationpart');
 INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (3,'Media','','ezmedianavigationpart');
@@ -1590,8 +1658,15 @@ INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (4,'
 
 
 
+
+
 INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-version','3.5.0alpha1');
 INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-release','1');
+
+
+
+
+
 
 
 
@@ -1630,6 +1705,7 @@ INSERT INTO ezurl (id, url, created, modified, is_valid, last_checked, original_
 
 
 
+
 INSERT INTO ezurl_object_link (url_id, contentobject_attribute_id, contentobject_attribute_version) VALUES (1,104,2);
 INSERT INTO ezurl_object_link (url_id, contentobject_attribute_id, contentobject_attribute_version) VALUES (2,104,2);
 INSERT INTO ezurl_object_link (url_id, contentobject_attribute_id, contentobject_attribute_version) VALUES (3,104,2);
@@ -1638,6 +1714,7 @@ INSERT INTO ezurl_object_link (url_id, contentobject_attribute_id, contentobject
 INSERT INTO ezurl_object_link (url_id, contentobject_attribute_id, contentobject_attribute_version) VALUES (6,104,2);
 INSERT INTO ezurl_object_link (url_id, contentobject_attribute_id, contentobject_attribute_version) VALUES (7,104,2);
 INSERT INTO ezurl_object_link (url_id, contentobject_attribute_id, contentobject_attribute_version) VALUES (8,104,2);
+
 
 
 
@@ -1664,8 +1741,12 @@ INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal
 
 
 
+
 INSERT INTO ezuser (contentobject_id, login, email, password_hash_type, password_hash) VALUES (10,'anonymous','nospam@ez.no',2,'4e6f6184135228ccd45f8233d72a0363');
 INSERT INTO ezuser (contentobject_id, login, email, password_hash_type, password_hash) VALUES (14,'admin','nospam@ez.no',2,'c78e3b0f3d9244ed8c6d1c29464bdff9');
+
+
+
 
 
 
@@ -1691,10 +1772,13 @@ INSERT INTO ezuser_role (id, role_id, contentobject_id, limit_identifier, limit_
 
 
 
+
 INSERT INTO ezuser_setting (user_id, is_enabled, max_login) VALUES (10,1,1000);
 INSERT INTO ezuser_setting (user_id, is_enabled, max_login) VALUES (14,1,10);
 INSERT INTO ezuser_setting (user_id, is_enabled, max_login) VALUES (23,1,0);
 INSERT INTO ezuser_setting (user_id, is_enabled, max_login) VALUES (40,1,0);
+
+
 
 
 
@@ -1741,13 +1825,22 @@ INSERT INTO ezvattype (id, name, percentage) VALUES (1,'Std',0);
 
 
 
+
+
+
+
+
+
+
 INSERT INTO ezworkflow_group (id, name, creator_id, modifier_id, created, modified) VALUES (1,'Standard',14,14,1024392098,1024392098);
 
 
 
 
 
+
 INSERT INTO ezworkflow_group_link (workflow_id, group_id, workflow_version, group_name) VALUES (1,1,0,'Standard');
+
 
 
 
