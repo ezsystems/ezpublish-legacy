@@ -323,17 +323,20 @@ CODEPIECE;
                     return array( eZTemplateNodeTool::createStringElement( $path ) );
                 }
 
-                $code = '%tmp1% =& eZTemplateDesignResource::instance();' . "\n" .
-                         'include_once( \'kernel/common/ezoverride.php\' );' . "\n" .
-                         '%tmp2% = array();' . "\n" .
-                         '%tmp1% = eZOverride::selectFile( eZTemplateDesignResource::fileMatchingRules( false, %1% ), %tmp1%->keys(), %tmp2%, "#^(.+)/(.+)(\.[a-zA-Z0-9]+)$#" );' . "\n" .
-                         'if ( %tmp1% === null )' . "\n" .
-                         '{' . "\n" .
-                         '  %tmp1% = array();' . "\n" .
-                         '}' . "\n" .
-                         '%1% = %tmp1%["file"];' . "\n" .
-                         '%1% = %2% . "/" . %1%;' . "\n" .
-                         '%1% = htmlspecialchars( %1% );' . "\n";
+                $code = ( '%tmp1% =& eZTemplateDesignResource::instance();' . "\n" .
+                          'include_once( \'kernel/common/ezoverride.php\' );' . "\n" .
+                          '%tmp2% = array();' . "\n" .
+                          '%tmp1% =& eZOverride::selectFile( eZTemplateDesignResource::fileMatchingRules( false, %1% ), %tmp1%->keys(), %tmp2%, "#^(.+)/(.+)(\.[a-zA-Z0-9]+)$#" );' . "\n" .
+                          'if ( %tmp1% === null )' . "\n" .
+                          '{' . "\n" .
+                          '    %tmp1% = array();' . "\n" .
+                          '}' . "\n" .
+                          'else' . "\n" .
+                          '{' . "\n" .
+                          '    %1% = %tmp1%["file"];' . "\n" .
+                          '    %1% = %2% . "/" . %1%;' . "\n" .
+                          '    %1% = htmlspecialchars( %1% );' . "\n" .
+                          '}' . "\n" );
 
                 $values[] = $parameters[0];
                 $values[] = array( eZTemplateNodeTool::createStringElement( $this->Sys->wwwDir() ) );
