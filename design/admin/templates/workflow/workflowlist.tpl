@@ -75,7 +75,9 @@
    {/section}
 </table>
 {section-else}
+<div class="block">
 <p>{'There are no workflows in this group.'|i18n( 'design/admin/workflow/workflowlist' )}</p>
+</div>
 {/section}
 
 
