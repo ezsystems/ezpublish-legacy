@@ -1,9 +1,13 @@
 <p>
 {section name=Path loop=$module_result.path}
-    {section show=$:item.url}
-        <a href={$:item.url_alias|ezurl}>{$Path:item.text|wash}</a> /
+    {section show=$Path:item.url}
+        {section show=is_set($Path:item.url_alias)}
+            <a href={$Path:item.url_alias|ezurl}>{$Path:item.text|wash}</a> /
+        {section-else}
+            <a href={$Path:item.url|ezurl}>{$Path:item.text|wash}</a> /
+        {/section}
     {section-else}
-        {$:item.text|wash}
+        {$Path:item.text|wash}
     {/section}
 {section-else}
 {/section}
