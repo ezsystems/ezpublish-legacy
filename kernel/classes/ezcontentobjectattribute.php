@@ -524,6 +524,19 @@ class eZContentObjectAttribute extends eZPersistentObject
     }
 
     /*!
+     \return \c true if 'is_required' validation should be done otherwise \c false;
+    */
+    function validateIsRequired()
+    {
+        $classAttribute =& $this->contentClassAttribute();
+        $validationParameters =& $this->validationParameters();
+        if ( !( isset( $validationParameters['skip-isRequired'] ) && $validationParameters['skip-isRequired'] === true ) && $classAttribute->attribute( "is_required" ) )
+            return true;
+
+        return false;
+    }
+
+    /*!
       Tries to fixup the input text to be acceptable.
      */
     function fixupInput( &$http, $base )

@@ -67,8 +67,7 @@ class eZISBNType extends eZDataType
         $isbn = $field1 . '-' . $field2 . '-' . $field3 . '-' . $field4;
 
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-        if ( !$classAttribute->attribute( "is_required" ) and
-             $isbn == "---" )
+        if ( !$contentObjectAttribute->validateIsRequired() and $isbn == "---" )
         {
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         }

@@ -68,18 +68,23 @@ class eZDateType extends eZDataType
         $day = $http->postVariable( $base . "_date_day_" . $contentObjectAttribute->attribute( "id" ) );
         $date = $year.$month.$day;
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-        if ( ( $classAttribute->attribute( "is_required" ) == false ) and
-             $year == '' and $month == '' and $day == '' )
+        if ( $contentObjectAttribute->validateIsRequired() )
         {
-            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-        }
-        if ( $classAttribute->attribute( "is_required" ) and
-             ( $year == '' or $month == '' or $day == '') )
-        {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+            if ( $year == '' or $month == '' or $day == '' )
+            {
+                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                  'Missing date input.' ) );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            }
         }
+        else
+        {
+            if ( $year == '' and $month == '' and $day == '' )
+            {
+                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            }
+        }
+
         $datetime = mktime( 0, 0, 0, $month, $day, $year );
         if ( $datetime !== false )
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;

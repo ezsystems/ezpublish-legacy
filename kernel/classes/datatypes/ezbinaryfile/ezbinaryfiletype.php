@@ -237,7 +237,7 @@ class eZBinaryFileType extends eZDataType
         $httpFileName = $base . "_data_binaryfilename_" . $contentObjectAttribute->attribute( "id" );
         $maxSize = 1024 * 1024 * $classAttribute->attribute( EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_FIELD );
 
-        if ( $classAttribute->attribute( "is_required" ) == true )
+        if ( $contentObjectAttribute->validateIsRequired() )
         {
             $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
             $version = $contentObjectAttribute->attribute( "version" );

@@ -152,7 +152,7 @@ class eZMediaType extends eZDataType
         $maxSize = 1024 * 1024 * $classAttribute->attribute( EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD );
         $mustUpload = false;
 
-        if ( $classAttribute->attribute( "is_required" ) == true )
+        if ( $contentObjectAttribute->validateIsRequired() )
         {
             $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
             $version = $contentObjectAttribute->attribute( "version" );

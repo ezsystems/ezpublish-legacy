@@ -144,7 +144,7 @@ class eZImageType extends eZDataType
         $maxSize = 1024 * 1024 * $classAttribute->attribute( EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_FIELD );
         $mustUpload = false;
 
-        if( $classAttribute->attribute( "is_required" ) == true )
+        if( $contentObjectAttribute->validateIsRequired() )
         {
             $tmpImgObj =& $contentObjectAttribute->attribute( 'content' );
             $original =& $tmpImgObj->attribute( 'original' );
@@ -161,7 +161,7 @@ class eZImageType extends eZDataType
                 'A valid file is required.' ) );
             return EZ_INPUT_VALIDATOR_STATE_INVALID;
         }
-        if ( $canFetchResult == EZ_UPLOADEDFILE_EXCEEDS_PHP_LIMIT ) 
+        if ( $canFetchResult == EZ_UPLOADEDFILE_EXCEEDS_PHP_LIMIT )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                 'Size of uploaded file exceeds limit set by upload_max_filesize directive in php.ini.' ) );

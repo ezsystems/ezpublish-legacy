@@ -113,7 +113,7 @@ class eZStringType extends eZDataType
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
             if ( $isInformationCollector == $classAttribute->attribute( 'is_information_collector' ) )
             {
-                if ( $classAttribute->attribute( "is_required" ) )
+                if ( $contentObjectAttribute->validateIsRequired() )
                 {
                     if ( $data == "" )
                     {

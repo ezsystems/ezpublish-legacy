@@ -124,7 +124,8 @@ class eZFloatType extends eZDataType
             $min = $classAttribute->attribute( EZ_DATATYPESTRING_MIN_FLOAT_FIELD );
             $max = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_FLOAT_FIELD );
             $input_state = $classAttribute->attribute( EZ_DATATYPESTRING_FLOAT_INPUT_STATE_FIELD );
-            if( ( $classAttribute->attribute( "is_required" ) == false ) &&  ( $data == "" ) )
+
+            if ( !$contentObjectAttribute->validateIsRequired() &&  ( $data == "" ) )
             {
                 return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
             }

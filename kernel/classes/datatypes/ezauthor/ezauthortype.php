@@ -68,7 +68,7 @@ class eZAuthorType extends eZDataType
             $idList = $http->postVariable( $base . "_data_author_id_" . $contentObjectAttribute->attribute( "id" ) );
             $nameList = $http->postVariable( $base . "_data_author_name_" . $contentObjectAttribute->attribute( "id" ) );
             $emailList = $http->postVariable( $base . "_data_author_email_" . $contentObjectAttribute->attribute( "id" ) );
-            if ( $classAttribute->attribute( "is_required" ) == true )
+            if ( $contentObjectAttribute->validateIsRequired() )
             {
                 if ( trim( $nameList[0] ) == "" )
                 {

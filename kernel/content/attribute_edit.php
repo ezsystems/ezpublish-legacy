@@ -153,15 +153,19 @@ $validatedAttributes = array();
 
 if ( $storingAllowed && $hasObjectInput)
 {
+    // Disable checking 'is_required' flag for some actions.
+    $validationParameters = array( 'skip-isRequired' => false );
+    if ( $Module->isCurrentAction( 'Store' ) )
+    {
+        $validationParameters['skip-isRequired'] = true;
+    }
+
     // Validate input
     include_once( 'lib/ezutils/classes/ezinputvalidator.php' );
-    $validationResult = $object->validateInput( $contentObjectAttributes, $attributeDataBaseName );
+    $validationResult = $object->validateInput( $contentObjectAttributes, $attributeDataBaseName, false, $validationParameters );
     $unvalidatedAttributes = $validationResult['unvalidated-attributes'];
     $validatedAttributes = $validationResult['validated-attributes'];
     $inputValidated = $validationResult['input-validated'];
-//     print( "<pre>" );
-//     var_dump( $validationResult );
-//     print( "</pre>" );
 
     // Fixup input
     if ( $validationResult['require-fixup'] )
@@ -176,9 +180,6 @@ if ( $storingAllowed && $hasObjectInput)
                                         array( 'module' => &$Module,
                                                'current-redirection-uri' => $currentRedirectionURI ) );
     $attributeInputMap =& $fetchResult['attribute-input-map'];
-//     print( "<pre>" );
-//     var_dump( $fetchResult );
-//     print( "</pre>" );
     if ( $Module->isCurrentAction( 'Discard' ) )
         $inputValidated = true;
 

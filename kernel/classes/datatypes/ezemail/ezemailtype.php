@@ -66,7 +66,7 @@ class eZEmailType extends eZDataType
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
 
             // we require user to enter an address only if the attribute is not an informationcollector
-            if ( $classAttribute->attribute( "is_required" ) && !$classAttribute->attribute( 'is_information_collector' ) )
+            if ( $contentObjectAttribute->validateIsRequired() && !$classAttribute->attribute( 'is_information_collector' ) )
             {
                 if ( trim( $email ) == "" )
                 {

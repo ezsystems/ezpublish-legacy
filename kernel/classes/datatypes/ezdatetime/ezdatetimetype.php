@@ -72,19 +72,21 @@ class eZDateTimeType extends eZDataType
         $minute = $http->postVariable( $base . "_datetime_minute_" . $contentObjectAttribute->attribute( "id" ) );
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
 
-        if ( ( $classAttribute->attribute( "is_required" ) == false ) and
-             $year == '' and $month == '' and $day == '' and
-             $hour == '' and $minute == '' )
+        if ( $contentObjectAttribute->validateIsRequired() )
         {
-            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-        }
-        if ( $classAttribute->attribute( "is_required" ) and
-             ( $year == '' or $month == '' or $day == '' or
-               $hour == '' or $minute == '' ) )
-        {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+            if ( $year == '' or $month == '' or $day == '' or $hour == '' or $minute == '' )
+            {
+                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                  'Missing datetime input.' ) );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            }
+        }
+        else
+        {
+            if ( $year == '' and $month == '' and $day == '' and $hour == '' and $minute == '' )
+            {
+                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            }
         }
 
         $datetime = mktime( $hour, $minute, 0, $month, $day, $year );

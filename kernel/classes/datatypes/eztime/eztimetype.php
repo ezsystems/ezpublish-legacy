@@ -67,8 +67,7 @@ class eZTimeType extends eZDataType
         $minute = $http->postVariable( $base . "_time_minute_" . $contentObjectAttribute->attribute( "id" ) );
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
 
-        if ( ( $classAttribute->attribute( "is_required" ) == false ) and
-             $hour == '' and $minute == '' )
+        if ( !$contentObjectAttribute->validateIsRequired() and $hour == '' and $minute == '' )
         {
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         }

@@ -84,7 +84,7 @@ class eZObjectRelationType extends eZDataType
             $relatedObjectID =& $http->postVariable( $postVariableName );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
 
-            if ( $classAttribute->attribute( "is_required" ) and $relatedObjectID == 0 )
+            if ( $contentObjectAttribute->validateIsRequired() and $relatedObjectID == 0 )
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                      'Missing objectrelation input.' ) );
