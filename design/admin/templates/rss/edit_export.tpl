@@ -24,7 +24,7 @@
 
     <div class="block">
     <label>{'Name'|i18n( 'design/admin/rss/edit_export' )}:</label>
-    <input class="halfbox" type="text" name="title" value="{$rss_export.title|wash}" title="{'Name of the RSS export. This name is used in the administration interface only, to distinguish the different exports from each other.'|i18n('design/admin/rss/edit_export')}" />
+    <input class="halfbox" id="exportName" type="text" name="title" value="{$rss_export.title|wash}" title="{'Name of the RSS export. This name is used in the administration interface only, to distinguish the different exports from each other.'|i18n('design/admin/rss/edit_export')}" />
     </div>
 
     <div class="block">
@@ -159,4 +159,14 @@
 </div>
 </form>
 
-
+{literal}
+<script language="JavaScript" type="text/javascript">
+<!--
+    window.onload=function()
+    {
+        document.getElementById('exportName').select();
+        document.getElementById('exportName').focus();
+    }
+-->
+</script>
+{/literal}

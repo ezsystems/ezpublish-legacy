@@ -16,7 +16,7 @@
     {* Title. *}
     <div class="block">
         <label>{"Name"|i18n( 'design/admin/rss/edit_import' )}:</label>
-        <input class="halfbox" type="text" name="name" value="{$rss_import.name|wash}" title="{'Name of the RSS import. This name is used in the administration interface only, to distinguish the different imports from each other.'|i18n('design/admin/rss/edit_import')}" />
+        <input class="halfbox" id="importName" type="text" name="name" value="{$rss_import.name|wash}" title="{'Name of the RSS import. This name is used in the administration interface only, to distinguish the different imports from each other.'|i18n('design/admin/rss/edit_import')}" />
     </div>
 
     {* URL. *}
@@ -132,3 +132,15 @@
 
 </div>
 </form>
+
+{literal}
+<script language="JavaScript" type="text/javascript">
+<!--
+    window.onload=function()
+    {
+        document.getElementById('importName').select();
+        document.getElementById('importName').focus();
+    }
+-->
+</script>
+{/literal}

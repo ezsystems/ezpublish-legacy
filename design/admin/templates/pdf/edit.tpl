@@ -16,7 +16,7 @@
     {* Title. *}
     <div class="block">
         <label>{'Title'|i18n( 'design/admin/pdf/edit' )}:</label>
-        <input class="box" type="text" name="Title" value="{$pdf_export.title|wash}" />
+        <input class="box" id="pdfTitle" type="text" name="Title" value="{$pdf_export.title|wash}" />
     </div>
 
     <fieldset>
@@ -121,3 +121,15 @@
 </div>
 
 </form>
+
+{literal}
+<script language="JavaScript" type="text/javascript">
+<!--
+    window.onload=function()
+    {
+        document.getElementById('pdfTitle').select();
+        document.getElementById('pdfTitle').focus();
+    }
+-->
+</script>
+{/literal}

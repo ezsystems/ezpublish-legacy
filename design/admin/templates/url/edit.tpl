@@ -13,7 +13,7 @@
     <div class="context-attributes">
         <div class="block">
             <label>{'Address'|i18n( 'design/admin/url/edit' )}:</label>
-            <input class="box" type="text" name="link" value="{$url.url}" />
+            <input class="box" id="address" type="text" name="link" value="{$url.url}" />
         </div>
     </div>
 
@@ -29,3 +29,15 @@
     </div>
 </div>
 </form>
+
+{literal}
+<script language="JavaScript" type="text/javascript">
+<!--
+    window.onload=function()
+    {
+        document.getElementById('address').select();
+        document.getElementById('address').focus();
+    }
+-->
+</script>
+{/literal}

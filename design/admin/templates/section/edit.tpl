@@ -17,7 +17,7 @@
 {* Name. *}
 <div class="block">
 <label>{'Name'|i18n( 'design/admin/section/edit' )}:</label>
-<input class="box" type="text" name="Name" value="{$section.name}" />
+<input class="box" id="sectionName" type="text" name="Name" value="{$section.name}" />
 </div>
 
 {* Navigation part. *}
@@ -46,3 +46,16 @@
 </div>
 
 </form>
+
+{literal}
+<script language="JavaScript" type="text/javascript">
+<!--
+    window.onload=function()
+    {
+        document.getElementById('sectionName').select();
+        document.getElementById('sectionName').focus();
+    }
+-->
+</script>
+{/literal}
+
