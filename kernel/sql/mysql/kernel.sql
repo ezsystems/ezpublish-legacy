@@ -540,3 +540,30 @@ insert into ezcontentobject_tree  ( node_id, parent_node_id, contentobject_id, c
 insert into ezcontentobject_tree  ( node_id, parent_node_id, contentobject_id, contentobject_version, depth, path_string, left_margin, right_margin) values ( 7, 5, 7, 1, 3, '/0/4/5/7/', 10, 11);
 
 
+
+DROP TABLE IF EXISTS eztask;
+CREATE TABLE eztask (
+id int AUTO_INCREMENT NOT NULL,
+task_type int NOT NULL,
+status int NOT NULL,
+connection_type int NOT NULL,
+session_hash varchar(80) NOT NULL,
+creator_id int NOT NULL,
+receiver_id int NOT NULL,
+parent_task_type int NOT NULL,
+parent_task_id int NOT NULL,
+access_type int NOT NULL,
+object_type int NOT NULL,
+object_id int NOT NULL,
+created int NOT NULL,
+modified int NOT NULL,
+PRIMARY KEY(id) );
+
+INSERT INTO eztask (id, task_type, status, connection_type, creator_id, receiver_id, created,    modified)
+             VALUES(1,  1,         2,      1,               92,         92,          1031214781, 1031214781);
+INSERT INTO eztask (id, task_type, status, connection_type, creator_id, receiver_id, created,    modified)
+             VALUES(2,  1,         1,      1,               92,         121,         1031215781, 1031215781);
+INSERT INTO eztask (id, task_type, status, connection_type, creator_id, receiver_id, created,    modified)
+             VALUES(3,  1,         2,      1,               92,         155,         1031216781, 1031216781);
+INSERT INTO eztask (id, task_type, status, connection_type, creator_id, receiver_id, created,    modified)
+             VALUES(4,  1,         2,      1,               149,         92,         1031217781, 1031217781);
