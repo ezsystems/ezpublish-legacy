@@ -11,6 +11,24 @@
     {"You need to specify some information about every site you've chosen to install."|i18n("design/standard/setup/init")}
   </p>
 
+{section show=eq( $db_already_chosen, 1 )}
+<h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
+<p>
+  {"You have chosen the same database for two or more site templates. Please change where indicated by *"|i18n("design/standard/setup/init")}
+</p>
+{/section}
+
+{section show=eq( $db_not_empty, 1 )}
+<h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
+<p>
+ {"One or more of your databases already contain data."|i18n("design/standard/setup/init")}
+ {"The setup can continue with the initialization but may damage the present data."|i18n("design/standard/setup/init")}
+</p>
+<p>
+ {"Select what to do from the dropdown box(es)."|i18n("design/standard/setup/init")}
+</p>
+{/section}
+
   <p>
   <table border="0" cellspacing="0" cellpadding="0">
     
@@ -56,12 +74,12 @@
 	      <td><input type="text" size="30" name="eZSetup_site_templates_{$:index}_value" value="{$:item.access_type_value|wash}" /></td>
 	    </tr>
 	    <tr>
-	      <td>{"Database"|i18n("design/standard/setup/init")}: </td>
+	      <td>{"Database"|i18n("design/standard/setup/init")}{section show=eq( $:item.already_chosen, 1 )}*{/section}: </td>
 	      <td>
 	        {section show=count( $database_available )|gt(0) }
 		  <select name="eZSetup_site_templates_{$:index}_database">
-		  {section loop=$database_available}
-		    <option value="{$:item}">{$:item|wash}</option>
+		  {section name=Database loop=$database_available}
+		    <option value="{$:item}" {section show=$:item|eq( $SiteTemplate:item.database )}selected="selected"{/section}>{$:item|wash}</option>
 		  {/section}
 		  </select>
 		{section-else}
@@ -69,6 +87,18 @@
 		{/section}
 	      </td>
 	    </tr>
+	    {section show=eq( $:item.database_not_empty, 1 )}
+	      <tr>
+	        <td>{"Database not empty"|i18n("design/standard/setup/init")}</td>
+		<td><select name="eZSetup_site_templates_{$SiteTemplate:index}_existing_database">
+		      <option value="1">{"Leave the data and add new"|i18n("design/standard/setup/init")}</option>
+		      <option value="2">{"Remove existing data"|i18n("design/standard/setup/init")}</option>
+		      <option value="3">{"Leave the data and do nothing"|i18n("design/standard/setup/init")}</option>
+		      <option value="4">{"I've chosen a new database"|i18n("design/standard/setup/init")}</option>
+		    </select>
+		</td>
+	      </tr>
+	    {/section}
 	  </table>
 
         </div>

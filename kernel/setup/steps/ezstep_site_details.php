@@ -95,10 +95,12 @@ class eZStepSiteDetails extends eZStepInstaller
             $this->PersistenceList['site_templates_'.$counter]['database'] =
                  $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_database' );
 
-            if ( issst( $chosenDatabases[$this->PersistenceList['site_templates_'.$counter]['database']] ) )
+            if ( isset( $chosenDatabases[$this->PersistenceList['site_templates_'.$counter]['database']] ) )
             {
                 $this->Error[$counter] = EZ_SETUP_DB_ERROR_ALREADY_CHOSEN;
             }
+
+            $chosenDatabases[$this->PersistenceList['site_templates_'.$counter]['database']] = 1;
 
             // Check database connection
             $dbName = $this->PersistenceList['site_templates_'.$counter]['database'];
@@ -116,26 +118,20 @@ class eZStepSiteDetails extends eZStepInstaller
             $demoDataResult = true;
             if ( $dbStatus['connected'] )
             {
-                $this->DBEmpty = eZDBTool::isEmpty( $db );
 
-                if ( $this->DBEmpty === false )
+                if ( eZDBTool::isEmpty( $db ) === false )
                 {
-                    if ( $this->Http->hasPostVariable( 'eZSetupDatabaseDataChoice' ) &&
-                         $this->Http->postVariable( 'eZSetupDatabaseDataChoice' ) != '4' )
+                    if ( $this->Http->hasPostVariable( 'eZSetup_site_templates_'.$counter.'_existing_database' ) &&
+                         $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_existing_database' ) != '4' )
                     {
-                        $this->PersistenceList['database_info']['existing_database'] =
-                             $this->Http->postVariable( 'eZSetupDatabaseDataChoice' );
+                        $this->PersistenceList['site_templates_'.$counter]['existing_database'] =
+                             $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_existing_database' );
                     }
                     else
                     {
                         $this->Error[$counter] = EZ_SETUP_DB_ERROR_NOT_EMPTY ;
                     }
                 }
-
-                $this->DBEmpty = eZDBTool::isEmpty( $db );
-
-                
-
             }
             else
             {
@@ -169,6 +165,26 @@ class eZStepSiteDetails extends eZStepInstaller
                 $templates[$counter]['url'] = eZSys::hostName() . eZSys::indexDir();
             if ( !isset( $templates[$counter]['email'] ) )
                 $templates[$counter]['email'] = 'admin@localhost';
+        }
+
+        foreach ( $this->Error as $key => $error )
+        {
+            switch ( $error )
+            {
+                case EZ_SETUP_DB_ERROR_NOT_EMPTY:
+                {
+                    $this->Tpl->setVariable( 'db_not_empty', 1 );
+                    $templates[$key]['database_not_empty'] = 1;
+                    break;
+                }
+
+                case EZ_SETUP_DB_ERROR_ALREADY_CHOSEN:
+                {
+                    $this->Tpl->setVariable( 'db_already_chosen', 1 );
+                    $templates[$key]['already_chosen'] = 1;
+                    break;
+                }
+            }
         }
 
         $this->Tpl->setVariable( 'database_default', $config->variable( 'DatabaseSettings', 'DefaultName' ) );
