@@ -109,3 +109,8 @@ eZXML:
 - Fixed bug in content view cache where class_identifier is not cached.
 
 *Update
+
+*Admin:
+- Added "Session admin" (clear all sessions or timed out/old sessions)
+- Reorganized setup menu (alphabetic list + some elements moved to advanced)
+

@@ -56,6 +56,18 @@ $ViewList["cache"] = array(
     'post_action_parameters' => array( 'ClearCache' => array( 'CacheList' => 'CacheList' ) ),
     "params" => array( ) );
 
+
+
+
+$ViewList['session'] = array(
+    'script'                  => 'session.php',
+    'default_navigation_part' => 'ezsetupnavigationpart',
+    'single_post_actions'     => array( 'RemoveAllSessionsButton' => 'RemoveAllSessions',
+                                        'RemoveTimedOutSessionsButton' => 'RemoveTimedOutSessions' ),
+    'params' => array( ) );
+
+
+
 $ViewList["info"] = array(
     "script" => "info.php",
     "default_navigation_part" => 'ezsetupnavigationpart',
