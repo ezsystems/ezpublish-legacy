@@ -1,4 +1,5 @@
 <form action={concat( $module.functions.password.uri, '/', $userID )|ezurl} method="post" name="Password">
+<input type="hidden" name="RedirectOnCancel" value="/content/draft" />
 
 {section show=$message}
 {section show=or($oldPasswordNotValid,$newPasswordNotMatch)}

@@ -564,6 +564,8 @@ Workflow:
 - Fixed bug: dirty cache after node where moved.
   ( manually merged from stable/3.4 rev. 8060 )
 - Fixed bug: incorrect value of eZNodeAssignment after node was moved.
+- Removed hardcoded redirect in kernel/user/password.php. You can now control the redirect with the hidden variable
+  "RedirectOnCancel".
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.

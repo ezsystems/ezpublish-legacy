@@ -110,6 +110,10 @@ if ( $http->hasPostVariable( "CancelButton" ) )
     {
         $Module->redirectTo( $http->postVariable( "RedirectOnCancel" ) );
     }
+    else if( $http->hasSessionVariable( "LastAccessesURI" ) )
+    {
+        $Module->redirectTo( $http->sessionVariable( "LastAccessesURI" ) );
+    }
     else
     {
         $Module->redirectTo( '/content/view/sitemap/2/' );
