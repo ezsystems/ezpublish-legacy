@@ -176,4 +176,3 @@ class eZMedia extends eZPersistentObject
 }
 
 ?>
-

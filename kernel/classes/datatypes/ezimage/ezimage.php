@@ -208,4 +208,3 @@ class eZImage extends eZPersistentObject
 }
 
 ?>
-
