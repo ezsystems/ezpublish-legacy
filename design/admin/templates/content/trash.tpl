@@ -31,10 +31,10 @@ function toggleCheckboxes( formname, checkboxname )
                                                           offset, $view_parameters.offset ) )
      list_count=fetch( 'content', 'trash_count' ) }
 
-
-<form name="trashform" action={'content/trash/'|ezurl} method="post" >
+{section show=$object_list}
 
 <div class="context-block">
+<form name="trashform" action={'content/trash/'|ezurl} method="post" >
 <h2 class="context-title">{'Trash'|i18n( 'design/admin/content/trash' )} [{$list_count}]</h2>
 
 {* Items per page selector. *}
@@ -69,7 +69,6 @@ function toggleCheckboxes( formname, checkboxname )
 </div>
 </div>
 
-{section show=$object_list}
 <table class="list" cellspacing="0">
 <tr>
     <th><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="toggleCheckboxes( document.trashform, 'DeleteIDArray[]' ); return false;"/></th>
@@ -110,19 +109,19 @@ function toggleCheckboxes( formname, checkboxname )
 
 <div class="controlbar">
 <div class="block">
-
-<input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/trash' )}"  title="{'Permanently remove selected items.'|i18n( 'design/admin/content/trash' )}" />
+<input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/trash' )}"  title="{'Permanently remove the selected items.'|i18n( 'design/admin/content/trash' )}" />
 <input class="button" type="submit" name="EmptyButton"  value="{'Empty trash'|i18n( 'design/admin/content/trash' )}" title="{'Permanently remove all items from the trash.'|i18n( 'design/admin/content/trash' )}" />
 </div>
+</div>
+</form>
 </div>
 
 {section-else}
 
 <div class="feedback">
-<h2>{'Trash is empty'|i18n('design/admin/content/trash')}</h2>
+<h2>{'There are no items in the trash.'|i18n( 'design/admin/content/trash' )}</h2>
 </div>
 
 {/section}
 
-</div>
 {/let}
