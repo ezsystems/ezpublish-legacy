@@ -36,3 +36,4 @@ Changes from 3.3-1 to 3.3-2
 - Fixed sorting by datatype identifier. http://ez.no/developer/ez_publish_3/bug_reports/attribute_sort_on_an_identifier_datatype_doesn_t_work
 - Fixed using ini datatype and storing characters with correcr character settings.
   http://ez.no/developer/ez_publish_3/bug_reports/special_chars_in_ini_data_edit_with_look_and_feel
+- Fixed typo in lib/ezpdf/classes/class.pdf.php line 2306. http://ez.no/developer/ez_publish_3/bug_reports/typo_in_lib_ezpdf_classes_class_pdf_php_line_2306

@@ -2303,7 +2303,7 @@ class Cpdf
 
 	echo $tmp;
 
-    include_once( 'lib/ezutils/classes/ezexecution.pdf' );
+    include_once( 'lib/ezutils/classes/ezexecution.php' );
     eZExecution::cleanExit();
     }
 
