@@ -842,6 +842,60 @@ CREATE TABLE ezuser_setting (
 
 
 #
+# Table structure for table 'eznotification_rule'
+#
+
+CREATE TABLE eznotification_rule (
+id int auto_increment not null,
+type varchar(250) not null,
+contentclass_name varchar(250) not null,
+path varchar(250),
+keyword varchar(250),
+has_constraint int(1) not null,
+primary key( id ) );
+
+#
+# Dumping data for table 'eznotification_rule'
+#
+
+#
+# Table structure for table 'eznotification_user_link'
+#
+
+CREATE TABLE eznotification_user_link (
+rule_id int not null,
+user_id int not null,
+send_method varchar(50) not null,
+send_weekday varchar(50) not null,
+send_time varchar(50) not null,
+destination_address varchar(50) not null,
+primary key( rule_id, user_id ) );
+
+#
+# Dumping data for table 'eznotification_user_link'
+#
+
+#
+# Table structure for table 'ezmessage'
+#
+
+CREATE TABLE ezmessage (
+id int auto_increment not null,
+send_method varchar(50) not null,
+send_weekday varchar(50) not null,
+send_time varchar(50) not null,
+destination_address varchar(50) not null,
+title varchar(50) not null,
+body varchar(50),
+is_sent int(1) not null,
+primary key( id ) );
+
+#
+# Dumping data for table 'ezmessage'
+#
+
+
+#
 # Table structure for table 'ezwishlist'
 #
 

@@ -1,6 +1,7 @@
 <form action="{$module.functions.register.uri}" method="post" name="Register">
 <h1>Sign up form:</h1>
 
+<h2>{$message}</h2>
 <table width="100%" cellpadding="2" cellspacing="0">
 <tr>
 <td>
@@ -13,7 +14,7 @@
 <b>{$UserAttributes:item.name}</b>
 </td>
 <td>
-<input type="text" name="{$UserAttributes:item.name}" size="11" value="">
+<input type="text" name="ContentObjectAttribute_{$UserAttributes:item.classAttribute_id}" size="20" value="">
 </td>
 {/section}
 <tr>
@@ -27,7 +28,7 @@
 <b>Login ID</b>:
 </td>
 <td>
-<input type="text" name="Login_id" size="11" value="">
+<input type="text" name="Login_id" size="20" value="">
 </td>
 </tr>
 <tr>
@@ -35,14 +36,14 @@
 <b>e-mail</b>
 </td>
 <td>
-<input type="text" name="Email" size="11" value="">
+<input type="text" name="Email" size="20" value="">
 </td>
 <tr>
 <td>
 <b>Password</b>
 </td>
 <td>
-<input type="password" name="Password" size="11" value="">
+<input type="password" name="Password" size="20" value="">
 </td>
 </tr>
 <tr>
@@ -50,7 +51,7 @@
 <b>Password confirm</b>
 </td>
 <td>
-<input type="password" name="Password_confirm" size="11" value="">
+<input type="password" name="Password_confirm" size="20" value="">
 </td>
 </tr>
 <tr>

@@ -58,5 +58,8 @@ $ViewList["edit"] = array(
 $ViewList["register"] = array(
     "script" => "register.php",
     "params" => array( ) );
+$ViewList["activate"] = array(
+    "script" => "activate.php",
+    "params" => array( "LoginID","UserIDHash" ) );
 
 ?>

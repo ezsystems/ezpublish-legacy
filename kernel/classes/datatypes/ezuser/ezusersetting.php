@@ -55,15 +55,17 @@ class eZUserSetting extends eZPersistentObject
                                          "is_enabled" => "IsEnabled",
                                          "max_login" => "MaxLogin" ),
                       "keys" => array( "user_id" ),
+                      'relations' => array( 'user_id' => array( 'class' => 'ezuser',
+                                                                 'field' => 'contentobject_id' ) ),
                       "class_name" => "eZUserSetting",
                       "name" => "ezuser_setting" );
     }
 
-    function &create( $userID, $isEnabled, $maxLogin )
+    function &create( $userID, $isEnabled )
     {
         $row = array( "user_id" => $userID,
                       "is_enabled" => $isEnabled,
-                      "max_login" => $maxLogin );
+                      "max_login" => null );
         return new eZUserSetting( $row );
     }
 

@@ -16,7 +16,7 @@
 <b>{$ClassAttribute:item.name}</b>
 </td>
 <td>
-<input type="text" name="ContentclassAttribute_{$ClassAttribute:item.classAttribute_id}" size="11" value="{$ClassAttribute:item.value}">
+<input type="text" name="ContentclassAttribute_{$ClassAttribute:item.classAttribute_id}" size="20" value="{$ClassAttribute:item.value}">
 </td>
 {/section}
 <tr>
@@ -24,7 +24,7 @@
 <b>{"e-mail"|i18n}</b>:<br/>	
 </td>
 <td>
-<input type="text" name="email" size="11" value="{$userAccount.email}">
+<input type="text" name="email" size="20" value="{$userAccount.email}">
 </td>
 </tr>
 </table>

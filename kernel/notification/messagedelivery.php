@@ -40,10 +40,8 @@ $weekday = $current['wday'];
 $hour = $current['hours'];
 
 $emailMessages = eZMessage::fetchEmailMessages();
- eZDebug::writeError("fsfsfdf1");
 foreach ( $emailMessages as $emailMessage )
 {
-     eZDebug::writeError("fsfsfdf2");
     $send = false;
     $sendWeekday = $emailMessage->attribute( "send_weekday" );
     $sendHour =  $emailMessage->attribute( "send_time" );
@@ -59,14 +57,13 @@ foreach ( $emailMessages as $emailMessage )
         $send = false;
     if( $send == true )
     {
-        eZDebug::writeError("fsfsfdf");
         $destinationAddress = $emailMessage->attribute( "destination_address" );
         $title = $emailMessage->attribute( "title" );
         $body = $emailMessage->attribute( "body" );
         $emailMessage->setAttribute( "is_sent", true );
         $emailMessage->store();
         $email = new eZMail();
-        $email->setReceiver( "wy@ez.no" );
+        $email->setReceiver( $destinationAddress );
         $email->setSender( "admin@ez.no" );
         $email->setFromName( "Administrator" );
         $email->setSubject( $title );

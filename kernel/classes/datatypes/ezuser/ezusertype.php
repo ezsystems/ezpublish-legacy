@@ -43,6 +43,8 @@
 
 include_once( "kernel/classes/ezdatatype.php" );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
+include_once( "lib/ezutils/classes/ezmail.php" );
 
 define( "EZ_DATATYPESTRING_USER", "ezuser" );
 
@@ -89,6 +91,14 @@ class eZUserType extends eZDataType
             }
             if ( trim( $loginName ) != "" )
             {
+                $existUser =& eZUser::fetchByName( $loginName );
+                if ( $existUser != null )
+                {
+                    $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                                                                         'eZUserType',
+                                                                         'Login name exist, please choose another one.' ) );
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                }
                 $isValidate =  eZMail::validate( $email );
                 if ( ! $isValidate )
                 {
@@ -133,7 +143,9 @@ class eZUserType extends eZDataType
 
         $user =& $contentObjectAttribute->content();
         if ( $user === null )
+        {
             $user =& eZUser::create( $contentObjectID );
+        }
 
         eZDebug::writeNotice( "setInformation", "ezusertype" );
         if ( $password != "password" )
@@ -147,10 +159,13 @@ class eZUserType extends eZDataType
         if ( get_class( $user ) != "ezuser" )
         {
             // create a default user account
-            $user = eZUser::create( $contentObjectAttribute->attribute( "contentobject_id" ) );
+            $user =& eZUser::create( $contentObjectAttribute->attribute( "contentobject_id" ) );
+            $userID = $contentObjectAttribute->attribute( "contentobject_id" );
+            $isEnabled = 0;
+            $userSetting =& eZUserSetting::create( $userID, $isEnabled );
+            $userSetting->store();
         }
         $user->store();
-        //  eZDebug::writeError( $this->title( &$contentObjectAttribute, "email" ) );
     }
 
     /*!

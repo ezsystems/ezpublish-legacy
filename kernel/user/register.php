@@ -34,6 +34,7 @@
 
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+include_once( "lib/ezutils/classes/ezmail.php" );
 
 $Module =& $Params["Module"];
 $message = null;
@@ -55,21 +56,8 @@ $http =& eZHTTPTool::instance();
 
 if ( $http->hasPostVariable( "StoreButton" ) )
 {
-    foreach ( $userAttributes as $userAttribute )
-    {
-        if ( $http->hasPostVariable( $userAttribute['name'] ) )
-        {
-            $name = $userAttribute['name'];
-            $classAttributeID = $userAttribute['classAttribute_id'];
-            $value = $http->postVariable( $userAttribute['name'] );
-            $objectAttribute =& eZContentObjectAttribute::fetchObject( eZContentObjectAttribute::definition(),
-                                                                       null,
-                                                                       array( 'contentclassattribute_id' => $classAttributeID,
-                                                                              'version' => $currentVersion ) );
-            $objectAttribute->setAttribute( 'data_text', $value );
-            $objectAttribute->store();
-        }
-    }
+    $validate = true;
+    $userID = null;
     if ( ( $http->hasPostVariable( "Login_id" ) ) and
          ( $http->hasPostVariable( "Email" ) ) and
          ( $http->hasPostVariable( "Password" ) ) and
@@ -78,15 +66,96 @@ if ( $http->hasPostVariable( "StoreButton" ) )
         $login = $http->postVariable( "Login_id" );
         $email = $http->postVariable( "Email" );
         $password = $http->postVariable( "Password" );
-        $password_confirm = $http->postVariable( "Password_confirm" );
-        if ( ( $password != $passwodConfirm ) || ( $password == "" ) )
+        $passwordConfirm = $http->postVariable( "Password_confirm" );
+        $existUser =& eZUser::fetchByName( $login);
+        $isEmailValidate =  eZMail::validate( $email );
+        if ( $existUser != null )
+        {
+            $message = "User exist, please choose another user name";
+            $validate = false;
+        }
+        elseif ( ! $isEmailValidate )
+        {
+            $message = "Email address is not valid";
+            $validate = false;
+        }
+        elseif ( ( $password != $passwordConfirm ) || ( $password == "" ) )
+        {
             $message = "Password not match.";
+            $validate = false;
+        }
+        else
+        {
+            $message = "Your registration information has been send, you will receive a confirmation email in a short time";
+            $validate = true;
+        }
+        if ( $validate )
+        {
+            $class =& eZContentClass::fetch( 4 );
+            //Todo which owner id should use?
+            $object =& $class->instantiate( 14, 0 );
+            $object->store();
+            $objectName = null;
+            $objectAttributes =& $object->contentObjectAttributes();
+            foreach (  $objectAttributes as $objectAttribute )
+            {
+                $classAttributeID = $objectAttribute->attribute('contentclassattribute_id');
+                foreach ( $userClassAttributes as $userClassAttribute )
+                {
+                    $cID = $userClassAttribute->attribute( 'id' );
+                    $classAttributeName = $userClassAttribute->attribute( 'name' );
+                    if ( $cID == $classAttributeID )
+                    {
+                         if( $classAttributeName != "User account" )
+                         {
+                              if ( $http->hasPostVariable( 'ContentObjectAttribute_' . $cID  ) )
+                              {
+                                  $value = $http->postVariable( 'ContentObjectAttribute_' . $cID  );
+                                  $objectAttribute->setAttribute( 'data_text', $value );
+                                  $objectAttribute->store();
+                                  //Todo change objectName according to defination such as<first name> <last name>
+                                  $objectName .= $value . ' ';
+                              }
+                         }
+                         else
+                         {
+                             $user =& eZUser::fetch( $objectAttribute->attribute('contentobject_id' ) );
+                             $userID = $user->attribute( 'contentobject_id' );
+                             $user->setInformation( $userID, $login, $email, $password );
+                             $user->store();
+                             $isEnabled = 0;
+                             $userSetting =& eZUserSetting::create( $userID, $isEnabled );
+                             $userSetting->store();
+                         }
+                    }
+                }
+            }
+            $object->setAttribute( 'name', $objectName );
+            $object->store();
+
+            $userIDHash = md5( "$login\n$userID" );
+            include_once( "lib/ezutils/classes/ezmail.php" );
+            $mail = new eZMail();
+            $title = "User registration confirmation";
+            $body .= "Your account profile:\n";
+            $body .= "Login ID: " . $login;
+            $body .= "\nPassword: " . $password;
+            $body .= "\n\nPlease go to the link below to activate your account:\n";;
+            $body .= "\nhttp://nextgen.wy.dvh1.ez.no/user/activate/" . $login . '/' . $userIDHash;
+            $body .= "\n\n\neZ System AS";
+            $mail->setReceiver( $email );
+            $mail->setSender( "admin@ez.no" );
+            $mail->setFromName( "Administrator" );
+            $mail->setSubject( $title );
+            $mail->setBody( $body );
+            $mail->send();
+        }
     }
-    return;
 }
 
 if ( $http->hasPostVariable( "CancelButton" ) )
 {
+    $Module->redirectTo( "/user/login" );
     return;
 }
 
