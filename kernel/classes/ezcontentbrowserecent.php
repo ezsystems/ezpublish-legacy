@@ -215,7 +215,9 @@ class eZContentBrowseRecent extends eZPersistentObject
             $oldItem->store();
             return $oldItem;
         }
-        $recentCount = $recentCountList[0]['count'];
+        $recentCount = 0;
+        if ( count( $recentCountList[0] ) > 0 )
+            $recentCount = $recentCountList[0]['count'];
         $maximumCount = eZContentBrowseRecent::maximumRecentItems( $userID );
         // Remove oldest item
         if ( $recentCount > $maximumCount )
