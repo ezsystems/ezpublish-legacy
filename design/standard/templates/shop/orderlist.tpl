@@ -77,7 +77,7 @@
 
 {include name=navigator
          uri='design:navigator/google.tpl'
-         page_uri=concat('/shop/orderlist/')
+         page_uri='/shop/orderlist'
          item_count=$order_list_count
          view_parameters=$view_parameters
          item_limit=$limit}

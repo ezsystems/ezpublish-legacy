@@ -49,7 +49,7 @@
 
 {include name=navigator
          uri='design:navigator/google.tpl'
-         page_uri=concat('/setup/templatelist')
+         page_uri='/setup/templatelist'
          item_count=$template_count
          view_parameters=$view_parameters
          item_limit=20}

@@ -100,7 +100,7 @@ function checkAll()
 </table>
 {include name=navigator
          uri='design:navigator/google.tpl'
-         page_uri=concat('/content/trash/')
+         page_uri='/content/trash'
          item_count=$list_count
          view_parameters=$view_parameters
          item_limit=$page_limit}
