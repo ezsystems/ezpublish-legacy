@@ -107,15 +107,18 @@ class eZSOAPResponse extends eZSOAPEnvelope
       \private
 	  Decodes a DOM node and returns the PHP datatype instance of it.
     */
-    function &decodeDataTypes( &$node )
+    function &decodeDataTypes( &$node, $type="" )
     {
         $returnValue = false;
 
         $attr = $node->attributeValueNS( "type", EZ_SOAP_SCHEMA_INSTANCE );
 
-        $dataType = false;
+        $dataType = $type;
         $attrParts = explode( ":", $attr );
-        $dataType = $attrParts[1];
+        if ( $attrParts[1] )
+        {
+            $dataType = $attrParts[1];
+        }
 
         $typeNamespacePrefix = $this->DOMDocument->namespaceByAlias( $attrParts[0] );
 
@@ -173,7 +176,7 @@ TODO: add encoding checks with schema validation.
                     $children =& $node->children();
                     for ( $i=0; $i<$count; $i++ )
                     {
-                        $returnValue[] =& $this->decodeDataTypes( $children[$i] );
+                        $returnValue[] =& $this->decodeDataTypes( $children[$i], $type );
                     }
                 }break;
 
