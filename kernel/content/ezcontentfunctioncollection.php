@@ -493,6 +493,13 @@ class eZContentFunctionCollection
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
         return array( 'result' => $contentObjectAttribute->attribute( 'object' ) );
     }
+
+    function &fetchObjectCountByUserID( $classID, $userID )
+    {
+        include_once( 'kernel/classes/ezcontentobject.php' );
+        $objectCount = eZContentObject::fetchObjectCountByUserID( $classID, $userID );
+        return array( 'result' => $objectCount );
+    }
 }
 
 ?>

@@ -594,4 +594,19 @@ $FunctionList['object_by_attribute'] = array( 'name' => 'object_by_attribute',
                                                                             'type' => 'string',
                                                                             'required' => true,
                                                                             'default' => false ) ) );
+
+$FunctionList['object_count_by_user_id'] = array( 'name' => 'object_count_by_user_id',
+                                                  'operation_types' => array( 'read' ),
+                                                  'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                                      'class' => 'eZContentFunctionCollection',
+                                                                      'method' => 'fetchObjectCountByUserID' ),
+                                              'parameter_type' => 'standard',
+                                              'parameters' => array( array( 'name' => 'class_id',
+                                                                            'type' => 'integer',
+                                                                            'required' => true,
+                                                                            'default' => false ),
+                                                                     array( 'name' => 'user_id',
+                                                                            'type' => 'integer',
+                                                                            'required' => true,
+                                                                            'default' => false ) ) );
 ?>
