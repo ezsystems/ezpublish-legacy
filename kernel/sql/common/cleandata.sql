@@ -249,7 +249,6 @@ INSERT INTO ezcontentclass (
   0
 );
 
-
 INSERT INTO ezcontentclass_attribute (
   can_translate,
   contentclass_id,
@@ -2852,7 +2851,6 @@ INSERT INTO ezcontentclass_attribute (
   0
 );
 
-
 INSERT INTO ezcontentclass_classgroup (
   contentclass_id,
   contentclass_version,
@@ -3008,7 +3006,6 @@ INSERT INTO ezcontentclass_classgroup (
   'Setup'
 );
 
-
 INSERT INTO ezcontentclassgroup (
   created,
   creator_id,
@@ -3069,7 +3066,6 @@ INSERT INTO ezcontentclassgroup (
   14,
   'Setup'
 );
-
 
 INSERT INTO ezcontentobject (
   contentclass_id,
@@ -3496,7 +3492,6 @@ INSERT INTO ezcontentobject (
   4,
   0
 );
-
 
 INSERT INTO ezcontentobject_attribute (
   attribute_original_id,
@@ -5389,7 +5384,6 @@ INSERT INTO ezcontentobject_attribute (
   2
 );
 
-
 INSERT INTO ezcontentobject_name (
   content_translation,
   content_version,
@@ -5611,7 +5605,6 @@ INSERT INTO ezcontentobject_name (
   'eZ publish',
   'eng-GB'
 );
-
 
 INSERT INTO ezcontentobject_tree (
   contentobject_id,
@@ -6244,7 +6237,6 @@ INSERT INTO ezcontentobject_tree (
   1
 );
 
-
 INSERT INTO ezcontentobject_version (
   contentobject_id,
   created,
@@ -6561,7 +6553,6 @@ INSERT INTO ezcontentobject_version (
   1
 );
 
-
 INSERT INTO ezimagefile (
   contentobject_attribute_id,
   filepath,
@@ -6571,7 +6562,6 @@ INSERT INTO ezimagefile (
   'var/storage/images/setup/ez_publish/172-1-eng-GB/ez_publish.',
   1
 );
-
 
 INSERT INTO eznode_assignment (
   contentobject_id,
@@ -6942,7 +6932,6 @@ INSERT INTO eznode_assignment (
   1
 );
 
-
 INSERT INTO ezpolicy (
   function_name,
   id,
@@ -7010,7 +6999,6 @@ INSERT INTO ezpolicy (
   1
 );
 
-
 INSERT INTO ezpolicy_limitation (
   id,
   identifier,
@@ -7030,7 +7018,6 @@ INSERT INTO ezpolicy_limitation (
   329
 );
 
-
 INSERT INTO ezpolicy_limitation_value (
   id,
   limitation_id,
@@ -7049,7 +7036,6 @@ INSERT INTO ezpolicy_limitation_value (
   251,
   '1'
 );
-
 
 INSERT INTO ezrole (
   id,
@@ -7090,7 +7076,6 @@ INSERT INTO ezrole (
   ' ',
   0
 );
-
 
 INSERT INTO ezsearch_object_word_link (
   contentclass_attribute_id,
@@ -30119,7 +30104,6 @@ INSERT INTO ezsearch_object_word_link (
   86
 );
 
-
 INSERT INTO ezsearch_word (
   id,
   object_count,
@@ -31858,7 +31842,6 @@ INSERT INTO ezsearch_word (
   'ez.no'
 );
 
-
 INSERT INTO ezsection (
   id,
   locale,
@@ -31904,7 +31887,6 @@ INSERT INTO ezsection (
   'ezsetupnavigationpart'
 );
 
-
 INSERT INTO ezsite_data (
   name,
   value
@@ -31919,7 +31901,6 @@ INSERT INTO ezsite_data (
   'ezpublish-release',
   '3'
 );
-
 
 INSERT INTO ezurl (
   created,
@@ -32058,7 +32039,6 @@ INSERT INTO ezurl (
   'http://ez.no'
 );
 
-
 INSERT INTO ezurl_object_link (
   contentobject_attribute_id,
   contentobject_attribute_version,
@@ -32131,7 +32111,6 @@ INSERT INTO ezurl_object_link (
   2,
   8
 );
-
 
 INSERT INTO ezurlalias (
   destination_url,
@@ -32406,7 +32385,6 @@ INSERT INTO ezurlalias (
   'setup/ez_publish'
 );
 
-
 INSERT INTO ezuser (
   contentobject_id,
   email,
@@ -32433,7 +32411,6 @@ INSERT INTO ezuser (
   'c78e3b0f3d9244ed8c6d1c29464bdff9',
   2
 );
-
 
 INSERT INTO ezuser_role (
   contentobject_id,
@@ -32501,7 +32478,6 @@ INSERT INTO ezuser_role (
   3
 );
 
-
 INSERT INTO ezuser_setting (
   is_enabled,
   max_login,
@@ -32539,7 +32515,6 @@ INSERT INTO ezuser_setting (
   40
 );
 
-
 INSERT INTO ezvattype (
   id,
   name,
@@ -32549,7 +32524,6 @@ INSERT INTO ezvattype (
   'Std',
   0
 );
-
 
 INSERT INTO ezworkflow_group (
   created,
@@ -32567,7 +32541,6 @@ INSERT INTO ezworkflow_group (
   'Standard'
 );
 
-
 INSERT INTO ezworkflow_group_link (
   group_id,
   group_name,
@@ -32579,3 +32552,4 @@ INSERT INTO ezworkflow_group_link (
   1,
   0
 );
+
