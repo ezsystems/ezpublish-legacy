@@ -507,6 +507,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $nodeDepth = $this->attribute( 'depth' );
         $depthCond = '';
 
+//         $limitationList = array();
         if ( isset( $params['Limitation'] ) )
         {
             $limitationList =& $params['Limitation'];
@@ -604,7 +605,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         $nodeListArray = $db->arrayQuery( $query );
-        eZDebug::writeNotice( $nodeListArray[0]['count'], 'childrenCount' );
+//         eZDebug::writeDebug( $nodeListArray[0]['count'], 'childrenCount' );
         return $nodeListArray[0]['count'];
     }
 
