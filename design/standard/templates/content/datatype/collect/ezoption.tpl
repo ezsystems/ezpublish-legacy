@@ -6,7 +6,7 @@
 
 {section show=$attribute.content.option_list|count|lt( 6 )}
 
-{section va=Options loop=$attribute.content.option_list}
+{section var=Options loop=$attribute.content.option_list}
 <label>
 <input type="radio" name="ContentObjectAttribute_data_option_value_{$attribute.id}" value="{$Options.item.id}" {section show=$Options.item.id|eq( $option_id )}checked="checked"{/section} />
 {$Options.item.value}
