@@ -111,7 +111,7 @@ else
     $workflow =& eZWorkflow::create( $user_id );
     $workflowCount = eZWorkflow::fetchListCount();
     ++$workflowCount;
-    $workflow->setAttribute( "name", "New Workflow$workflowCount" );
+    $workflow->setAttribute( "name", ezi18n( 'kernel/workflow/edit', "New Workflow" ) . "$workflowCount" );
     $workflow->store();
     $WorkflowID = $workflow->attribute( "id" );
     $WorkflowVersion = $workflow->attribute( "version" );
