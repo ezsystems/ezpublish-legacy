@@ -1,2 +1,2 @@
 <h3>{$node.name|wash}</h3>
-<a href={$node.url_alias|ezurl}><img src={"folder_blue.gif"|ezimage} width="64" height="64" alt="{$node.name|wash()}" /></a>
+<a href={$node.url_alias|ezurl}>{$node.object.content_class.identifier|class_icon( normal, $node.object.content_class.name )}</a>
