@@ -51,7 +51,7 @@ $ViewList['edit_export'] = array(
     'single_post_actions' => array( 'StoreButton' => 'Store',
                                     'Update_Item_Class' => 'UpdateItem',
                                     'AddSourceButton' => 'AddItem',
-                                    'RemoveButton' => 'Remove',
+                                    'RemoveButton' => 'Cancel',
                                     'BrowseImageButton' => 'BrowseImage' ),
     'params' => array( 'RSSExportID', 'RSSExportItemID', 'BrowseType' ) );
 
@@ -61,7 +61,7 @@ $ViewList['edit_import'] = array(
     'ui_context' => 'edit',
     'default_navigation_part' => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'StoreButton' => 'Store',
-                                    'RemoveButton' => 'Remove',
+                                    'RemoveButton' => 'Cancel',
                                     'Update_Class' => 'UpdateClass',
                                     'DestinationBrowse' => 'BrowseDestination',
                                     'UserBrowse' => 'BrowseUser' ),

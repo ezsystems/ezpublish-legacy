@@ -47,9 +47,9 @@ function storeRSSExport( &$Module, &$http, $publish = false )
     unlink( $cacheFile );
 
     /* Create the new RSS feed */
-    for ( $itemCount = 0; $itemCount < $http->postVariable( 'Item_Count' ); $itemCount++)
+    for ( $itemCount = 0; $itemCount < $http->postVariable( 'Item_Count' ); $itemCount++ )
     {
-        $rssExportItem =& eZRSSExportItem::fetch( $http->postVariable( 'Item_ID_'.$itemCount ) );
+        $rssExportItem =& eZRSSExportItem::fetch( $http->postVariable( 'Item_ID_'.$itemCount ), true, EZ_RSSEXPORT_STATUS_DRAFT );
         if( $rssExportItem == null )
             continue;
         $rssExportItem->setAttribute( 'class_id', $http->postVariable( 'Item_Class_'.$itemCount ) );
@@ -57,7 +57,7 @@ function storeRSSExport( &$Module, &$http, $publish = false )
         $rssExportItem->setAttribute( 'description', $http->postVariable( 'Item_Class_Attribute_Description_'.$itemCount ) );
         $rssExportItem->store();
     }
-    $rssExport =& eZRSSExport::fetch( $http->postVariable( 'RSSExport_ID' ) );
+    $rssExport =& eZRSSExport::fetch( $http->postVariable( 'RSSExport_ID' ), true, EZ_RSSEXPORT_STATUS_DRAFT );
     $rssExport->setAttribute( 'title', $http->postVariable( 'title' ) );
     $rssExport->setAttribute( 'url', $http->postVariable( 'url' ) );
 //    $rssExport->setAttribute( 'site_access', $http->postVariable( 'SiteAccess' ) );
@@ -70,18 +70,22 @@ function storeRSSExport( &$Module, &$http, $publish = false )
         $rssExport->setAttribute( 'active', 0 );
     $rssExport->setAttribute( 'access_url', $http->postVariable( 'Access_URL' ) );
 
-    if ( $publish !== false )
+    if ( $publish )
     {
-        $rssExport->setAttribute( 'status', '1' );
+        $rssExport->store( true );
+        // remove draft
+        $rssExport->remove();
+        return $Module->redirectTo( '/rss/list' );
     }
-    $rssExport->store();
-    if ( $publish !== false )
-        return $Module->run( 'list', array() );
+    else
+    {
+        $rssExport->store();
+    }
 }
 
 function storeRSSImport( &$Module, &$http, $publish = false )
 {
-    $rssImport =& eZRSSImport::fetch( $http->postVariable( 'RSSImport_ID' ) );
+    $rssImport =& eZRSSImport::fetch( $http->postVariable( 'RSSImport_ID' ), true, EZ_RSSIMPORT_STATUS_DRAFT );
     $rssImport->setAttribute( 'name', $http->postVariable( 'name' ) );
     $rssImport->setAttribute( 'url', $http->postVariable( 'url' ) );
     if ( $http->hasPostVariable( 'active' ) )
@@ -93,14 +97,19 @@ function storeRSSImport( &$Module, &$http, $publish = false )
     $rssImport->setAttribute( 'class_url', $http->postVariable( 'Class_Attribute_Link' ) );
     $rssImport->setAttribute( 'class_description', $http->postVariable( 'Class_Attribute_Description' ) );
 
-    if ( $publish !== false )
+    if ( $publish )
     {
-        $rssImport->setAttribute( 'status', '1' );
+        $rssImport->setAttribute( 'status', EZ_RSSIMPORT_STATUS_VALID );
+        $rssImport->store();
+        // remove draft
+        $rssImport->setAttribute( 'status', EZ_RSSIMPORT_STATUS_DRAFT );
+        $rssImport->remove();
+        return $Module->redirectTo( '/rss/list' );
     }
-    $rssImport->store();
-    if ( $publish !== false )
-        return $Module->run( 'list', array() );
+    else
+    {
+        $rssImport->store();
+    }
 }
-
 
 ?>

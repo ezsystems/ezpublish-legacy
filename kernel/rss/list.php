@@ -53,10 +53,16 @@ else if ( $http->hasPostVariable( 'RemoveExportButton' ) )
     $deleteArray =& $http->postVariable( 'DeleteIDArray' );
     foreach ( $deleteArray as $deleteID )
     {
-        $rssExport =& eZRSSExport::fetch( $deleteID );
-        if ( $rssExport === null )
-            continue;
-        $rssExport->remove();
+        $rssExport =& eZRSSExport::fetch( $deleteID, true, EZ_RSSEXPORT_STATUS_DRAFT );
+        if ( $rssExport )
+        {
+            $rssExport->remove();
+        }
+        $rssExport =& eZRSSExport::fetch( $deleteID, true, EZ_RSSEXPORT_STATUS_VALID );
+        if ( $rssExport )
+        {
+            $rssExport->remove();
+        }
     }
 }
 else if ( $http->hasPostVariable( 'NewImportButton' ) )
@@ -68,10 +74,16 @@ else if ( $http->hasPostVariable( 'RemoveImportButton' ) )
     $deleteArray =& $http->postVariable( 'DeleteIDArrayImport' );
     foreach ( $deleteArray as $deleteID )
     {
-        $rssImport =& eZRSSImport::fetch( $deleteID );
-        if ( $rssImport === null )
-            continue;
-        $rssImport->remove();
+        $rssImport =& eZRSSImport::fetch( $deleteID, true, EZ_RSSIMPORT_STATUS_DRAFT );
+        if ( $rssImport )
+        {
+            $rssImport->remove();
+        }
+        $rssImport =& eZRSSImport::fetch( $deleteID, true, EZ_RSSIMPORT_STATUS_VALID );
+        if ( $rssImport )
+        {
+            $rssImport->remove();
+        }
     }
 }
 

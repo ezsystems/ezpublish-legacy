@@ -56,7 +56,7 @@ if ( $http->hasPostVariable( 'RSSExport_ID' ) )
 
 if ( $Module->isCurrentAction( 'Store' ) )
 {
-    if( $_POST[active] == "on" and strlen( trim( $_POST[Access_URL] ) ) == 0 )
+    if( $_POST['active'] == "on" and strlen( trim( $_POST['Access_URL'] ) ) == 0 )
     {
          storeRSSExport( $Module, $http );
          $validated = true;
@@ -64,7 +64,7 @@ if ( $Module->isCurrentAction( 'Store' ) )
     else
     {
         return storeRSSExport( $Module, $http, true );
-    }  
+    }
 }
 else if ( $Module->isCurrentAction( 'UpdateItem' ) )
 {
@@ -76,11 +76,11 @@ else if ( $Module->isCurrentAction( 'AddItem' ) )
     $rssExportItem->store();
     storeRSSExport( $Module, $http );
 }
-else if ( $Module->isCurrentAction( 'Remove' ) )
+else if ( $Module->isCurrentAction( 'Cancel' ) )
 {
-    $rssExport =& eZRSSExport::fetch( $RSSExportID );
+    $rssExport =& eZRSSExport::fetch( $RSSExportID, true, EZ_RSSEXPORT_STATUS_DRAFT );
     $rssExport->remove();
-    return $Module->run( 'list', array() );
+    return $Module->redirectTo( '/rss/list' );
 }
 else if ( $Module->isCurrentAction( 'BrowseImage' ) )
 {
@@ -112,7 +112,7 @@ if ( $http->hasPostVariable( 'Item_Count' ) )
         if ( $http->hasPostVariable( 'RemoveSource_'.$itemCount ) )
         {
             $itemID = $http->postVariable( 'Item_ID_'.$itemCount );
-            if ( ( $rssExportItem = eZRSSExportItem::fetch( $itemID ) ) )
+            if ( ( $rssExportItem = eZRSSExportItem::fetch( $itemID, true, EZ_RSSEXPORT_STATUS_DRAFT ) ) )
             {
                 $rssExportItem->remove();
                 storeRSSExport( $Module, $http );
@@ -125,8 +125,57 @@ if ( $http->hasPostVariable( 'Item_Count' ) )
 
 if ( is_numeric( $RSSExportID ) )
 {
-    $rssExport =& eZRSSExport::fetch( $RSSExportID );
     $rssExportID = $RSSExportID;
+    $rssExport =& eZRSSExport::fetch( $RSSExportID, true, EZ_RSSEXPORT_STATUS_DRAFT );
+
+    if ( $rssExport )
+    {
+        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+        $user =& eZUser::currentUser();
+        $contentIni =& eZIni::instance( 'content.ini' );
+        $timeOut =& $contentIni->variable( 'RSSExportSettings', 'DraftTimeout' );
+        if ( $rssExport->attribute( 'modifier_id' ) != $user->attribute( 'contentobject_id' ) &&
+             $rssExport->attribute( 'modified' ) + $timeOut > time() )
+        {
+            // locked editing
+            $tpl =& templateInit();
+
+            $tpl->setVariable( 'rss_export', $rssExport );
+            $tpl->setVariable( 'rss_export_id', $rssExportID );
+            $tpl->setVariable( 'lock_timeout', $timeOut );
+
+            $Result = array();
+            $Result['content'] =& $tpl->fetch( 'design:rss/edit_export_denied.tpl' );
+            $Result['path'] = array( array( 'url' => false,
+                                            'text' => ezi18n( 'kernel/rss', 'Really Simple Syndication' ) ) );
+            return $Result;
+        }
+        else if ( $timeOut > 0 && $rssExport->attribute( 'modified' ) + $timeOut < time() )
+        {
+            $rssExport->remove();
+            $rssExport = false;
+        }
+    }
+    if ( !$rssExport )
+    {
+        $rssExport =& eZRSSExport::fetch( $RSSExportID, true, EZ_RSSEXPORT_STATUS_VALID );
+        if ( $rssExport )
+        {
+            $rssItems = $rssExport->fetchItems();
+            $rssExport->setAttribute( 'status', EZ_RSSEXPORT_STATUS_DRAFT );
+            $rssExport->store();
+            foreach( array_keys( $rssItems ) as $key )
+            {
+                $rssItem =& $rssItems[$key];
+                $rssItem->setAttribute( 'status', EZ_RSSEXPORT_STATUS_DRAFT );
+                $rssItem->store();
+            }
+        }
+        else
+        {
+            return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        }
+    }
 
     include_once( 'kernel/classes/ezcontentbrowse.php' );
 
@@ -137,7 +186,7 @@ if ( is_numeric( $RSSExportID ) )
             $nodeIDArray = $http->postVariable( 'SelectedNodeIDArray' );
             if ( isset( $nodeIDArray ) && !$http->hasPostVariable( 'BrowseCancelButton' ) )
             {
-                $rssExportItem = eZRSSExportItem::fetch( $Params['RSSExportItemID'] );
+                $rssExportItem = eZRSSExportItem::fetch( $Params['RSSExportItemID'], true, EZ_RSSEXPORT_STATUS_DRAFT );
                 $rssExportItem->setAttribute( 'source_node_id', $nodeIDArray[0] );
                 $rssExportItem->store();
             }

@@ -86,8 +86,12 @@ class eZRSSExportItem extends eZPersistentObject
                                          'title' => array( 'name' => 'Title',
                                                            'datatype' => 'string',
                                                            'default' => '',
-                                                           'required' => true ) ),
-                      "keys" => array( "id" ),
+                                                           'required' => true ),
+                                         'status' => array( 'name' => 'Status',
+                                                            'datatype' => 'integer',
+                                                            'default' => 0,
+                                                            'required' => true ) ),
+                      "keys" => array( "id", 'status' ),
                       "increment_key" => "id",
                       "class_name" => "eZRSSExportItem",
                       "name" => "ezrss_export_item" );
@@ -108,7 +112,8 @@ class eZRSSExportItem extends eZPersistentObject
                       'class_id' => 1,
                       'url_id' => '',
                       'description' => '',
-                      'title' => '' );
+                      'title' => '',
+                      'status' => 0 );
         return new eZRSSExportItem( $row );
     }
 
@@ -191,11 +196,12 @@ class eZRSSExportItem extends eZPersistentObject
 
      \param RSS Export ID
     */
-    function &fetch( $id, $asObject = true )
+    function &fetch( $id, $asObject = true, $status = EZ_RSSEXPORT_STATUS_VALID )
     {
         return eZPersistentObject::fetchObject( eZRSSExportItem::definition(),
                                                 null,
-                                                array( "id" => $id ),
+                                                array( "id" => $id,
+                                                       'status' => $status ),
                                                 $asObject );
     }
 
@@ -207,10 +213,11 @@ class eZRSSExportItem extends eZPersistentObject
 
      \return array containing RSSExport Items
     */
-    function &fetchFilteredList( $cond, $asObject = true )
+    function &fetchFilteredList( $cond, $asObject = true, $status = EZ_RSSEXPORT_STATUS_VALID )
     {
         return eZPersistentObject::fetchObjectList( eZRSSExportItem::definition(),
-                                                    null, $cond, array( 'id' => 'asc' ), null,
+                                                    null, $cond, array( 'id' => 'asc',
+                                                                        'status' => $status ), null,
                                                     $asObject );
     }
 

@@ -48,6 +48,9 @@
 include_once( 'kernel/classes/ezpersistentobject.php' );
 include_once( 'kernel/classes/ezrssexportitem.php' );
 
+define( "EZ_RSSEXPORT_STATUS_VALID", 1 );
+define( "EZ_RSSEXPORT_STATUS_DRAFT", 0 );
+
 class eZRSSExport extends eZPersistentObject
 {
     /*!
@@ -119,7 +122,7 @@ class eZRSSExport extends eZPersistentObject
                                                                 'datatype' => 'string',
                                                                 'default' => 'rss_feed',
                                                                 'required' => false ) ),
-                      "keys" => array( "id" ),
+                      "keys" => array( "id", 'status' ),
                       "increment_key" => "id",
                       "sort" => array( "title" => "asc" ),
                       "class_name" => "eZRSSExport",
@@ -156,41 +159,46 @@ class eZRSSExport extends eZPersistentObject
 
     /*!
      Store Object to database
-
-     \param export item array
     */
-    function store( $export_items = null )
+    function store( $storeAsValid = false )
     {
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
         $dateTime = time();
         $user =& eZUser::currentUser();
 
-        if ( isset( $export_items ) && is_array( $export_items ) )
+        $exportItems = $this->fetchItems();
+        if ( $storeAsValid )
         {
-            foreach ( $export_items as $export_item )
+            $oldStatus = $this->attribute( 'status' );
+            $this->setAttribute( 'status', EZ_RSSEXPORT_STATUS_VALID );
+            $removeItems = $this->fetchItems();
+            foreach ( $removeItems as $item )
             {
-                $export_item->store();
+                $item->remove();
             }
+        }
+        foreach ( $exportItems as $item )
+        {
+            if ( $storeAsValid )
+            {
+                $item->setAttribute( 'status', EZ_RSSEXPORT_STATUS_VALID );
+            }
+            $item->store();
         }
         $this->setAttribute( 'modified', $dateTime );
         $this->setAttribute( 'modifier_id', $user->attribute( "contentobject_id" ) );
         eZPersistentObject::store();
+        if ( $storeAsValid )
+        {
+            $this->setAttribute( 'status', $oldStatus );
+        }
     }
 
     /*!
      Remove the RSS Export.
-
-     \param export item array also to be removed
     */
-    function remove( $export_items )
+    function remove()
     {
-        if ( isset( $export_items ) && is_array( $export_items ) )
-        {
-            foreach ( $export_items as $export_item )
-            {
-                $export_item->remove();
-            }
-        }
         $exportItems = $this->fetchItems();
         foreach ( $exportItems as $item )
         {
@@ -205,11 +213,12 @@ class eZRSSExport extends eZPersistentObject
 
      \param RSS Export ID
     */
-    function &fetch( $id, $asObject = true )
+    function &fetch( $id, $asObject = true, $status = EZ_RSSEXPORT_STATUS_VALID )
     {
         return eZPersistentObject::fetchObject( eZRSSExport::definition(),
                                                 null,
-                                                array( "id" => $id ),
+                                                array( "id" => $id,
+                                                       'status' => $status ),
                                                 $asObject );
     }
 
@@ -335,19 +344,20 @@ class eZRSSExport extends eZPersistentObject
 
       \return RSSExportItem list. null if no RSS Export items found
     */
-    function &fetchItems( $id = false )
+    function &fetchItems( $id = false, $status = EZ_RSSEXPORT_STATUS_VALID )
     {
         if ( $id === false )
         {
             if ( isset( $this ) )
             {
                 $id = $this->ID;
+                $status = $this->Status;
             }
             else
                 return null;
         }
 
-        return eZRSSExportItem::fetchFilteredList( array( 'rssexport_id' => $id ) );
+        return eZRSSExportItem::fetchFilteredList( array( 'rssexport_id' => $id, 'status' => $status ) );
     }
 
     /*!

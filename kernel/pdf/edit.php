@@ -35,7 +35,7 @@
 // you.
 //
 
-define( 'EZ_PDF_EXPORT_GENERATE_STRING', 'generate' );
+define( 'EZ_PDFEXPORT_GENERATE_STRING', 'generate' );
 
 include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
@@ -43,10 +43,55 @@ include_once( 'kernel/classes/ezpdfexport.php' );
 include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
 
 $Module =& $Params['Module'];
+$http =& eZHTTPTool::instance();
+
+if ( isset( $Params['PDFGenerate'] ) && $Params['PDFGenerate'] == EZ_PDFEXPORT_GENERATE_STRING )
+{
+    $pdfExport =& eZPDFExport::fetch( $Params['PDFExportID'] );
+    if ( $pdfExport && $pdfExport->attribute( 'status' ) == 2 ) // only generate OnTheFly if status set correctly
+    {
+        include_once( 'lib/ezutils/classes/ezexecution.php' );
+        generatePDF( $pdfExport );
+        eZExecution::cleanExit();
+    }
+    return;
+}
 
 if ( isset( $Params['PDFExportID'] ) )
 {
-    $pdfExport =& eZPDFExport::fetch( $Params['PDFExportID'] );
+    $pdfExport =& eZPDFExport::fetch( $Params['PDFExportID'], true, EZ_PDFEXPORT_VERSION_DRAFT );
+
+    if ( $pdfExport )
+    {
+        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+
+        $user =& eZUser::currentUser();
+        $contentIni =& eZIni::instance( 'content.ini' );
+        $timeOut =& $contentIni->variable( 'PDFExportSettings', 'DraftTimeout' );
+        if ( $pdfExport->attribute( 'modifier_id' ) != $user->attribute( 'contentobject_id' ) &&
+             $pdfExport->attribute( 'modified' ) + $timeOut > time() )
+        {
+            // TODO: In 3.6
+            // // locked editing
+            // $tpl =& templateInit();
+            // $tpl->setVariable ...
+            // $Result = array();
+            // $Result['content'] =& $tpl->fetch( 'design:pdf/edit_denied.tpl' );
+            // $Result['path'] = ...
+            // return $Result;
+        }
+        else if ( $timeOut > 0 && $pdfExport->attribute( 'modified' ) + $timeOut < time() )
+        {
+            $pdfExport->remove();
+            $pdfExport = false;
+        }
+    }
+    if ( !$pdfExport )
+    {
+        $pdfExport =& eZPDFExport::fetch( $Params['PDFExportID'] );
+        $pdfExport->setAttribute( 'version', EZ_PDFEXPORT_VERSION_DRAFT );
+        $pdfExport->store();
+    }
 }
 else
 {
@@ -58,26 +103,11 @@ else
     $pdfExport->store();
 }
 
-if ( isset( $Params['PDFGenerate'] ) && $Params['PDFGenerate'] == EZ_PDF_EXPORT_GENERATE_STRING )
-{
-    generatePDF( $pdfExport );
-
-    if ( $pdfExport->attribute( 'status' ) == 2 ) // only generate OnTheFly if status set correctly
-    {
-        include_once( 'lib/ezutils/classes/ezexecution.php' );
-    }
-
-    eZExecution::cleanExit();
-
-}
-
-$http =& eZHTTPTool::instance();
-
 if ( $http->hasPostVariable( 'SelectedNodeIDArray' ) && !$http->hasPostVariable( 'BrowseCancelButton' ) ) // Get Source node ID from browse
 {
     $selectedNodeIDArray = $http->postVariable( 'SelectedNodeIDArray' );
     $pdfExport->setAttribute( 'source_node_id', $selectedNodeIDArray[0] );
-    $pdfExport->store( );
+    $pdfExport->store();
 }
 
 if ( $Module->isCurrentAction( 'BrowseSource' ) || // Store PDF export objects
@@ -90,13 +120,14 @@ if ( $Module->isCurrentAction( 'BrowseSource' ) || // Store PDF export objects
     $pdfExport->setAttribute( 'export_structure', $Module->actionParameter( 'ExportType' ) );
     $pdfExport->setAttribute( 'export_classes', implode( ':', $Module->actionParameter( 'ClassList' ) ) );
     $pdfExport->setAttribute( 'pdf_filename', basename( $Module->actionParameter( 'DestinationFile' ) ) );
+    $pdfExport->setAttribute( 'status', ( basename( $Module->actionParameter( 'DestinationType' ) ) != 'download' )? 1: 2 );
 
     if ( $Module->isCurrentAction( 'Export' ) )
     {
         $pdfExport->setAttribute( 'source_node_id', $Module->actionParameter( 'SourceNode' ) );
     }
 
-    $pdfExport->store( );
+    $pdfExport->store();
 }
 
 $setWarning = false; // used to set missing options during export
@@ -111,16 +142,26 @@ if ( $Module->isCurrentAction( 'BrowseSource' ) )
 }
 else if ( $Module->isCurrentAction( 'Export' ) )
 {
-    if ( $Module->actionParameter( 'DestinationType' ) != 'download' )
+    // remove the old file ( user may changed the filename )
+    $originalPdfExport =& eZPDFExport::fetch( $Params['PDFExportID'] );
+    if ( $originalPdfExport && $originalPdfExport->attribute( 'status' ) == 1 )
+    {
+        $filename =& $originalPdfExport->attribute( 'filepath' );
+        if ( file_exists( $filename ) )
+        {
+            unlink( $filename );
+        }
+    }
+
+    if ( $pdfExport->attribute( 'status' ) == 1 )
     {
         generatePDF( $pdfExport, $pdfExport->attribute( 'filepath' ) );
-        $pdfExport->store( 1 );
-
+        $pdfExport->store( true );
         return $Module->redirect( 'pdf', 'list' );
     }
     else
     {
-        $pdfExport->store( 2 );
+        $pdfExport->store( true );
         return $Module->redirect( 'pdf', 'list' );
     }
 }

@@ -51,10 +51,18 @@ else if ( $Module->isCurrentAction( 'RemoveExport' ) )
     $deleteArray =& $Module->actionParameter( 'DeleteIDArray' );
     foreach ( $deleteArray as $deleteID )
     {
+        // remove draft if it exists:
+        $pdfExport =& eZPDFExport::fetch( $deleteID, true, EZ_PDFEXPORT_STATUS_DRAFT );
+        if ( $pdfExport )
+        {
+            $pdfExport->remove();
+        }
+        // remove default version:
         $pdfExport =& eZPDFExport::fetch( $deleteID );
-        if ( $pdfExport === null )
-            continue;
-        $pdfExport->remove();
+        if ( $pdfExport )
+        {
+            $pdfExport->remove();
+        }
     }
 }
 

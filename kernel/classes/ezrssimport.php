@@ -47,6 +47,9 @@
 
 include_once( 'kernel/classes/ezpersistentobject.php' );
 
+define( "EZ_RSSIMPORT_STATUS_VALID", 1 );
+define( "EZ_RSSIMPORT_STATUS_DRAFT", 0 );
+
 class eZRSSImport extends eZPersistentObject
 {
     /*!
@@ -114,7 +117,6 @@ class eZRSSImport extends eZPersistentObject
                                                            'datatype' => 'string',
                                                            'default' => '',
                                                            'required' => false ),
-
                                          'class_description' => array( 'name' => 'ClassDescription',
                                                            'datatype' => 'string',
                                                            'default' => '',
@@ -123,7 +125,7 @@ class eZRSSImport extends eZPersistentObject
                                                             'datatype' => 'integer',
                                                             'default' => 1,
                                                             'required' => true ) ),
-                      "keys" => array( "id" ),
+                      "keys" => array( "id", 'status' ),
                       "increment_key" => "id",
                       "class_name" => "eZRSSImport",
                       "name" => "ezrss_import" );
@@ -178,11 +180,12 @@ class eZRSSImport extends eZPersistentObject
 
      \param RSS Import ID
     */
-    function &fetch( $id, $asObject = true )
+    function &fetch( $id, $asObject = true, $status = EZ_RSSIMPORT_STATUS_VALID )
     {
         return eZPersistentObject::fetchObject( eZRSSImport::definition(),
                                                 null,
-                                                array( "id" => $id ),
+                                                array( "id" => $id,
+                                                       'status' => $status ),
                                                 $asObject );
     }
 

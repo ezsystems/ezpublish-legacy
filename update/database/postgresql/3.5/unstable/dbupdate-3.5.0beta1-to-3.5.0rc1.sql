@@ -266,3 +266,61 @@ ALTER TABLE ezrss_export_item ADD COLUMN description character varying(255);
 ALTER TABLE ezrss_export_item ALTER description SET DEFAULT NULL ;
 UPDATE ezrss_export_item SET description=description_tmp;
 ALTER TABLE ezrss_export_item DROP COLUMN description_tmp;
+
+--- ezpdf_export
+
+ALTER TABLE ezpdf_export
+    DROP CONSTRAINT ezpdf_export_pkey;
+
+ALTER TABLE ezpdf_export
+    ADD COLUMN version integer;
+
+ALTER TABLE ezpdf_export ALTER version SET DEFAULT 0;
+ALTER TABLE ezpdf_export ALTER version SET NOT NULL;
+
+UPDATE ezpdf_export SET version=0;
+
+ALTER TABLE ezpdf_export
+    ADD CONSTRAINT ezpdf_export_pkey PRIMARY KEY (id,version);
+
+--- ezrss_import
+
+ALTER TABLE ezrss_import
+    DROP CONSTRAINT ezrss_import_pkey;
+
+UPDATE ezrss_import SET status=1 WHERE status=NULL;
+
+ALTER TABLE ezrss_import ALTER status SET DEFAULT 0;
+ALTER TABLE ezrss_import ALTER status SET NOT NULL;
+
+ALTER TABLE ezrss_import
+    ADD CONSTRAINT ezrss_import_pkey PRIMARY KEY (id,status);
+
+--- ezrss_export
+
+ALTER TABLE ezrss_export
+    DROP CONSTRAINT ezrss_export_pkey;
+
+UPDATE ezrss_export SET status=1 WHERE status=NULL;
+
+ALTER TABLE ezrss_export ALTER status SET DEFAULT 0;
+ALTER TABLE ezrss_export ALTER status SET NOT NULL;
+
+ALTER TABLE ezrss_export
+    ADD CONSTRAINT ezrss_export_pkey PRIMARY KEY (id,status);
+
+--- ezrss_export_item
+
+ALTER TABLE ezrss_export_item
+    DROP CONSTRAINT ezrss_export_item_pkey;
+
+ALTER TABLE ezrss_export_item
+    ADD COLUMN status integer;
+
+UPDATE ezrss_export_item SET status=1;
+
+ALTER TABLE ezrss_export_item ALTER status SET DEFAULT 0;
+ALTER TABLE ezrss_export_item ALTER status SET NOT NULL;
+
+ALTER TABLE ezrss_export_item
+    ADD CONSTRAINT ezrss_export_item_pkey PRIMARY KEY (id,status);

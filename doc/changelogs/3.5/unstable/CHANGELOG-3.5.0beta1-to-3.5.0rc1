@@ -14,6 +14,7 @@ Changes from 3.5.0beta1 to 3.5.0rc1
   and content/tree_count can now pass the parameter 'limitation' which controls
   the permission handling of the list.
 - Added possibility top configure top admin menu thrue menu.ini. 
+- Added class-type versioning for PDF export and RSS import/export.
 
 Datatype:
 - Added the possibility for datatypes to return information on how they should
@@ -103,6 +104,8 @@ Datatype:
 - Fixed bug of inconsistency between template and fetchalias.ini.
   http://ez.no/community/bug_reports/inconsistency_between_template_and_fetchalias_ini
   (Merged from stable/3.4, rev. 9599)
+- Fixed bug when canceling editation of existing PDF export removes it.
+  http://ez.no/community/bug_reports/pdf_crash
 
 *Library:
 
@@ -159,6 +162,7 @@ eZDBSchema:
 - Fixed key generation in SQL files for MySQL, now it will have a KEY /
   UNIQUE KEY / PRIMARY KEY( ... ) entry in the table schema instead
   of separate ALTER TABLE entries.
+
 
 eZDB:
 - Database implementations can now have aliases, currently mysql points to

@@ -57,11 +57,14 @@ if ( $Module->isCurrentAction( 'Store' ) )
 {
     return storeRSSImport( $Module, $http, true );
 }
-else if ( $Module->isCurrentAction( 'Remove' ) )
+else if ( $Module->isCurrentAction( 'Cancel' ) )
 {
-    $rssImport =& eZRSSImport::fetch( $RSSImportID );
-    $rssImport->remove();
-    return $Module->run( 'list', array() );
+    $rssImport =& eZRSSImport::fetch( $RSSImportID, true, EZ_RSSIMPORT_STATUS_DRAFT );
+    if ( $rssImport )
+    {
+        $rssImport->remove();
+    }
+    return $Module->redirectTo( '/rss/list' );
 }
 else if ( $Module->isCurrentAction( 'UpdateClass' ) )
 {
@@ -89,8 +92,50 @@ else if ( $Module->isCurrentAction( 'BrowseUser' ) )
 // If RSSImport id specified, fetch it and use it, else create new RSSImport object
 if ( is_numeric( $RSSImportID ) )
 {
-    $rssImport =& eZRSSImport::fetch( $RSSImportID );
     $rssImportID = $RSSImportID;
+    $rssImport =& eZRSSImport::fetch( $RSSImportID, true, EZ_RSSIMPORT_STATUS_DRAFT );
+
+    if ( $rssImport )
+    {
+        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+        $user =& eZUser::currentUser();
+        $contentIni =& eZIni::instance( 'content.ini' );
+        $timeOut =& $contentIni->variable( 'RSSImportSettings', 'DraftTimeout' );
+        if ( $rssImport->attribute( 'modifier_id' ) != $user->attribute( 'contentobject_id' ) &&
+             $rssImport->attribute( 'modified' ) + $timeOut > time() )
+        {
+            // locked editing
+            $tpl =& templateInit();
+
+            $tpl->setVariable( 'rss_import', $rssImport );
+            $tpl->setVariable( 'rss_import_id', $rssImportID );
+            $tpl->setVariable( 'lock_timeout', $timeOut );
+
+            $Result = array();
+            $Result['content'] =& $tpl->fetch( 'design:rss/edit_import_denied.tpl' );
+            $Result['path'] = array( array( 'url' => false,
+                                            'text' => ezi18n( 'kernel/rss', 'Really Simple Syndication' ) ) );
+            return $Result;
+        }
+        else if ( $timeOut > 0 && $rssImport->attribute( 'modified' ) + $timeOut < time() )
+        {
+            $rssImport->remove();
+            $rssImport = false;
+        }
+    }
+    if ( !$rssImport )
+    {
+        $rssImport =& eZRSSImport::fetch( $RSSImportID, true, EZ_RSSIMPORT_STATUS_VALID );
+        if ( $rssImport )
+        {
+            $rssImport->setAttribute( 'status', EZ_RSSIMPORT_STATUS_DRAFT );
+            $rssImport->store();
+        }
+        else
+        {
+            return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        }
+    }
 
     // Check if coming from browse, if so store result
     if ( isset( $Params['BrowseType'] ) )
@@ -146,6 +191,5 @@ $Result = array();
 $Result['content'] =& $tpl->fetch( "design:rss/edit_import.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/rss', 'Really Simple Syndication' ) ) );
-
 
 ?>
