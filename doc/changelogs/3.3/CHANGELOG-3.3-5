@@ -27,6 +27,8 @@ eZINI:
   http://ez.no/community/bug_reports/checkbox_looses_default_state_when_class_is_edited
 - Fixed bug of fetching content tree/list function not working if parent node is array.
   http://ez.no/community/bug_reports/problems_with_fetching_from_multiple_nodes
+- Fixed bug of datatype objectrelationlist where related objects will not be published.
+  http://ez.no/community/bug_reports/objectrelationlist_doesn_t_work_properly
 
 *Library:
 
