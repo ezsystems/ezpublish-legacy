@@ -219,7 +219,8 @@ class eZContentCache
                     $nodeID, $parentNodeID, $nodeDepth, $urlAlias, $viewMode, $sectionID,
                     $language, $offset, $roleList, $discountList, $layout, $navigationPartIdentifier,
                     $result, $cacheTTL = 0,
-                    $parameters = array() )
+                    $parameters = array(),
+                    $classIdentifier )
     {
         $cachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout, false,
                                                         $parameters );
@@ -239,6 +240,7 @@ class eZContentCache
                               'url_alias' => $urlAlias,
                               'object_id' => $objectID,
                               'class_id' => $classID,
+                              'class_identifier' => $classIdentifier,
                               'section_id' => $sectionID,
                               'navigation_part_identifier' => $navigationPartIdentifier,
                               'viewmode' => $viewMode,

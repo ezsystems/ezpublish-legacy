@@ -182,7 +182,8 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                              'namespace' => 'ContentView',
                                              'attribute_keys' => array( 'object' => array( 'id' ),
                                                                         'class' => array( 'contentclass_id' ),
-                                                                        'section' => array( 'section_id' ) ),
+                                                                        'section' => array( 'section_id' ),
+                                                                        'class_identifier' => array( 'content_class', 'identifier' ) ),
                                              'attribute_access' => array(),
                                              'use_views' => 'view' ),
 
@@ -193,7 +194,8 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                              'namespace' => 'ContentView',
                                              'attribute_keys' => array( 'object' => array( 'id' ),
                                                                         'class' => array( 'contentclass_id' ),
-                                                                        'section' => array( 'section_id' ) ),
+                                                                        'section' => array( 'section_id' ),
+                                                                        'class_identifier' => array( 'content_class', 'identifier' ) ),
                                              'attribute_access' => array(),
                                              'use_views' => 'view' ),
 
@@ -201,7 +203,10 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                      'input_name' => 'content_version',
                                                      'output_name' => 'version',
                                                      'namespace' => 'VersionView',
-                                                     'attribute_keys' => array( 'object' => array( 'contentobject_id' ) ),
+                                                     'attribute_keys' => array( 'object' => array( 'contentobject_id' ),
+                                                                                'class' => array( 'contentobject', 'contentclass_id' ),
+                                                                                'section' => array( 'contentobject', 'section_id' ),
+                                                                                'class_identifier' => array( 'contentobject', 'content_class', 'identifier' ) ),
                                                      'attribute_access' => array(),
                                                      'use_views' => 'view' ),
 
@@ -216,7 +221,8 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                                      'section' => array( 'object', 'section_id' ),
                                                                      'parent_node' => array( 'parent_node_id' ),
                                                                      'depth' => array( 'depth' ),
-                                                                     'url_alias' => array( 'url_alias' ) ),
+                                                                     'url_alias' => array( 'url_alias' ),
+                                                                     'class_identifier' => array( 'object', 'content_class', 'identifier' ) ),
                                           'attribute_access' => array(),
                                           'use_views' => 'view' ),
 
