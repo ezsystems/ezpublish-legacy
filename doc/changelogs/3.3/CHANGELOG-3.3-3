@@ -139,6 +139,9 @@ eZTime:
 - Fixed bug of eZ publish might crash using browse function.
   http://ez.no/community/bug_reports/ez_publish_3_3_might_crash_in_browse_functionality
 - Fixed class_array input parameter in eZContentBrowse for limiting allowed selections.
+- Fixed bug of datatype ezsubtreesubscription. It creates notification rule 
+  according to email, which should be user id.
+  http://ez.no/community/bug_reports/ezsubtreesubscription_datatype_broken
 
 *Library:
 

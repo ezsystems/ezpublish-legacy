@@ -66,6 +66,7 @@ class eZSubtreeSubscriptionType extends eZDataType
         include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
         $user =& eZUser::currentUser();
         $address = $user->attribute( 'email' );
+        $userID = $user->attribute( 'contentobject_id' );
 
         $nodeIDList =& eZSubtreeNotificationRule::fetchNodesForUserID( $user->attribute( 'contentobject_id' ), false );
 
@@ -85,7 +86,7 @@ class eZSubtreeSubscriptionType extends eZDataType
             foreach ( $newSubscriptions as $nodeID )
             {
 
-                $rule =& eZSubtreeNotificationRule::create( $nodeID, $address );
+                $rule =& eZSubtreeNotificationRule::create( $nodeID, $userID );
                 $rule->store();
             }
         }
