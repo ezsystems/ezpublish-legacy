@@ -1,0 +1,14 @@
+<?php /* #?ini charset="iso-8859-1"?
+
+[sortlist]
+Source=node/view/full.tpl
+MatchFile=sortlist.tpl
+Subdir=templates
+Match[class]=1
+
+[view]
+Source=node/view/full.tpl
+MatchFile=view.tpl
+Subdir=templates
+Match[class]=2
+*/ ?>
