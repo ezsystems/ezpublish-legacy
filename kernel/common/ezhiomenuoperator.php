@@ -185,6 +185,13 @@ class eZHiOMenuOperator
                             $tmpURL = $map['url']->content();
                             $url = "$tmpURL";
                             $urlAlias = $tmpURL;
+
+                            $type = $map['type']->content();
+                            $values =& $enum->attribute( "enumobject_list" );
+                            $value =& $values[0];
+
+                            if ( get_class( $value ) == 'ezenumobjectvalue' and  $value->attribute( 'enumvalue' ) == 1 )
+                                $addToMenu = false;
                         }
                         else
                         {
