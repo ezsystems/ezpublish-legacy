@@ -47,7 +47,7 @@ $tpl =& templateInit();
 
 $menuObjects =& eZContentObjectTreeNode::fetchObjectList( eZContentObjectTreeNode::definition(),
                                                           null,
-                                                          array( 'parent_node_id' => $contentIni->variable( 'NodeSettings', 'SetupRootNode' ) ) );
+                                                          46 );
 
 $tpl->setVariable( 'menu_objects', $menuObjects );
 $tpl->setVariable( 'module', $Module );
