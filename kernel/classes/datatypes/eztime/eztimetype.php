@@ -79,7 +79,7 @@ class eZTimeType extends eZDataType
         $minute = $http->postVariable( $base . "_time_minute_" . $contentObjectAttribute->attribute( "id" ) );
 
         $time = new eZTime();
-        $time->setHMS( ($hour+1), $minute, 0 );
+        $time->setHMS( $hour, $minute, 0 );
 
         $contentObjectAttribute->setAttribute( "data_int", $time->timeStamp() );
     }
