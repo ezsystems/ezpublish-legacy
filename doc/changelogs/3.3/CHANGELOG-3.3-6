@@ -24,14 +24,6 @@ edit_placement.tpl:
   remote ID. This means that when editing an object in admin interface
   without a special override will work.
 
-*DataTypes:
-
-eZAuthor
-
-
-eZINI:
-
-
 *Bugfixes:
 - Fixed bug of unable to remove node assignment when moving node or remove node assignment.
   http://ez.no/community/bug_reports/3_4alpha4_moving_a_node_won_t_work
@@ -279,6 +271,7 @@ eZINI:
 - Fixed bug: Apache crashes or suddenly stops on some pages, e.g on content/edit page with
   a translation chosen or using attribute( show, 2 ) on a node.
   http://ez.no/community/bug_reports/fatal_error_when_using_attribute_show_2_at_node_data_map
+- Fixed template warning with ISBN datatype when no number is entered.
 
 *Library:
 
