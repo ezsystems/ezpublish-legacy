@@ -157,6 +157,7 @@ class eZTextCodec
 
         // Is to true if the charsets are the same and they have singlebyte encoding
         $isSinglebyteSame = false;
+        $isSame = false;
 
         // First detect conversion type
         if ( $this->InputCharsetCode == $this->OutputCharsetCode ) // Direct match, no conversion
@@ -165,7 +166,10 @@ class eZTextCodec
             $encodingConvertInitFunction = 'initializeInputCodepage';
             $inpenc = $this->InputCharacterEncodingScheme;
             if ( $inpenc == 'singlebyte' )
+            {
                 $isSinglebyteSame = true;
+            }
+            $isSame = true;
         }
         else if ( $useMBString and
                   isset( $mbStringCharsets[$this->InputCharsetCode] ) and
@@ -200,10 +204,12 @@ class eZTextCodec
             }
         }
 
-        if ( !$isSinglebyteSame and
+        if ( !$isSame and
              $conversionFunction and
              $strlenFunction )
+        {
             $this->initializeConversionFunction( $encodingConvertInitMap, $encodingConvertInitFunction );
+        }
         if ( !$conversionFunction or
              !$strlenFunction )
         {
@@ -219,7 +225,6 @@ class eZTextCodec
         $this->ConversionFunction = $conversionFunction;
         $this->StrlenFunction = $strlenFunction;
         $this->RequireConversion = $conversionFunction != $noneConversionFunction;
-//         print( "inp=$inputCharsetCode ($realInputCharsetCode), out=$outputCharsetCode ($realOutputCharsetCode), conv=$conversionFunction, strlen=$strlenFunction, req=" . $this->RequireConversion . "<br/>" );
     }
 
     function initializeConversionFunction( $encodingConvertInitMap, $encodingConvertInitFunction )
@@ -230,7 +235,9 @@ class eZTextCodec
         if ( $encodingConvertInitFunction !== null )
         {
             if ( $encodingConvertInitFunction )
+            {
                 $initFunction = $encodingConvertInitFunction;
+            }
         }
         else if ( isset( $encodingConvertInitMap[$inpenc][$outenc] ) )
         {
@@ -238,7 +245,6 @@ class eZTextCodec
         }
         if ( $initFunction )
         {
-//             print( "init=$initFunction, " );
             $this->$initFunction();
         }
     }
@@ -447,20 +453,32 @@ class eZTextCodec
         if ( $inputCharsetCode === false or $outputCharsetCode === false )
         {
             if ( isset( $GLOBALS['eZTextCodecInternalCharsetReal'] ) )
+            {
                 $internalCharset = $GLOBALS['eZTextCodecInternalCharsetReal'];
+            }
             else
+            {
                 $internalCharset = eZTextCodec::internalCharset();
+            }
         }
 
         if ( $inputCharsetCode === false )
+        {
             $realInputCharsetCode = $inputCharsetCode = $internalCharset;
+        }
         else
+        {
             $realInputCharsetCode = eZCharsetInfo::realCharsetCode( $inputCharsetCode );
-            
+        }
+
         if ( $outputCharsetCode === false )
+        {
             $realOutputCharsetCode = $outputCharsetCode = $internalCharset;
+        }
         else
+        {
             $realOutputCharsetCode = eZCharsetInfo::realCharsetCode( $outputCharsetCode );
+        }
 
         $check =& $GLOBALS["eZTextCodecCharsetCheck"]["$realInputCharsetCode-$realOutputCharsetCode"];
         if ( !$alwaysReturn and isset( $check ) and !$check )

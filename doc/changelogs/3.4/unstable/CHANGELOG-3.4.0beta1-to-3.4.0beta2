@@ -24,7 +24,9 @@ Changes from 3.4.0beta1 to 3.4.0beta2
   http://ez.no/community/bug_reports/3_4_checking_of_offset_needed
 - Fixed bug of can't add datatype after datatype object relation list if template compiling is enabled.
   http://ez.no/index.php/community/bug_reports/can_t_add_float_attribute_after_object_relation_list_attribute
-  
+- Fixed problem with 'Couldn't load codepage file share/codepages/utf-8' being displayed when UTF-8 was used as charset.
+  http://ez.no/community/bug_reports/warning_couldn_t_load_codepage_file_share_codepages_utf_8  
+
 *Update:
 
 *Admin:
