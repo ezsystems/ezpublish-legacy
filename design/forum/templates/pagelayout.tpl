@@ -5,12 +5,11 @@
 {let pagedesign=fetch_alias(by_identifier,hash(attr_id,forum_package))}
 <head>
 {include uri="design:page_head.tpl" enable_glossary=false() enable_help=false()}
-{*<link rel="stylesheet" type="text/css" href={$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot} /> *}
 
 <style>
-    @import url("/design/forum/stylesheets/core.css");
+    @import url({"stylesheets/core.css"|ezdesign});
 {*    @import url("/design/forum/stylesheets/forum_blue.css"); *}
-    @import url("/design/forum/stylesheets/forum.css");
+    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});
 </style>
 </head>
 
