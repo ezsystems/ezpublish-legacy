@@ -91,26 +91,26 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
 {section name=Child loop=$child_list sequence=array(bgdarkforum,bglightforum)}
 <tr class="{$Child:sequence}">
     <td class="author">
-    <p>{$node.object.owner.name|wash}<br />
-    {$node.object.owner.data_map.title.content|wash}</p>
+    <p>{$Child:item.object.owner.name|wash}<br />
+    {$Child:item.object.owner.data_map.title.content|wash}</p>
 
     <p>
-    {attribute_view_gui attribute=$node.object.owner.data_map.user_image image_class=small}
+    {attribute_view_gui attribute=$Child:item.object.owner.data_map.user_image image_class=small}
     </p>
 
     <p>
     Topics:&nbsp;{fetch('content', 'object_count_by_user_id', hash( 'class_id', 22,
-                                                       'user_id', $node.object.owner.id ) )}
-						       
+                                                       'user_id', $Child:item.object.owner.id ) )}
+
     Replies:&nbsp;{fetch('content', 'object_count_by_user_id', hash( 'class_id', 21,
-                                                       'user_id', $node.object.owner.id ) )}<br />
-    Location:{$node.object.owner.data_map.location.content|wash}<br />
+                                                       'user_id', $Child:item.object.owner.id ) )}<br />
+    Location:{$Child:item.object.owner.data_map.location.content|wash}<br />
     </p>
-    <p> 	
-    {let owner_id=$node.object.owner.id}
-        {section name=Author loop=$node.object.author_array}
-            {section  show=eq($owner_id,$Author:item.contentobject_id)|not()}
-                Moderated by: {$Author:item.contentobject.name}
+    <p>
+    {let owner_id=$Child:item.object.owner.id}
+        {section name=Author loop=$Child:item.object.author_array}
+            {section  show=eq($Child:owner_id,$Child:Author:item.contentobject_id)|not()}
+                Moderated by: {$Author:item.contentobject.name} 
              {/section}
          {/section}
     {/let}

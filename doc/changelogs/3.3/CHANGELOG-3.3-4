@@ -68,6 +68,10 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/typo_in_norwegian_translation
 - Fixed bug in gallery templates, pagenavigator could cause template erros in debug
   http://ez.no/community/bug_reports/typo_in_design_gallery_override_templates_album_tpl
+- Fixed bug in forum template, in forumtopic template topic owner was shown instead of message
+  owner for each message
+  http://ez.no/community/bug_reports/ez_forums_demo_site_forumtopic_tpl_does_not_show_correct_users
+
 
 *Library:
 
