@@ -37,7 +37,8 @@ include_once( "kernel/common/template.php" );
 
 $http =& eZHTTPTool::instance();
 $Module =& $Params["Module"];
-
+$tpl =& templateInit();
+$tpl->setVariable( 'module', $Module );
 if ( $http->hasPostVariable( 'CreateSectionButton' ) )
 {
     $section = new eZSection( array( 'name' => 'New section' ) );
@@ -48,16 +49,32 @@ if ( $http->hasPostVariable( 'CreateSectionButton' ) )
 
 if ( $http->hasPostVariable( 'RemoveSectionButton' ) )
 {
-    $sectionIDArray = $http->postVariable( 'SectionIDArray' );
+    $sectionIDArray =& $http->postVariable( 'SectionIDArray' );
+    $http->setSessionVariable( 'SectionIDArray', $sectionIDArray );
+    $sections = array();
+    foreach ( $sectionIDArray as $sectionID )
+    {
+        $section =& eZSection::fetch( $sectionID );
+        $sections[] =& $section;
+    }
+    $tpl->setVariable( 'delete_result', $sections );
+    $Result = array();
+    $Result['content'] =& $tpl->fetch( "design:section/confirmremove.tpl" );
+    $Result['path'] = array( array( 'url' => false,
+                                    'text' => 'Section List' ) );
+    return;
 
+}
+
+if ( $http->hasPostVariable( 'ConfirmRemoveSectionButton' ) )
+{
+    $sectionIDArray =& $http->sessionVariable( 'SectionIDArray' );
     foreach ( $sectionIDArray as $sectionID )
     {
         $section =& eZSection::fetch( $sectionID );
         $section->remove( );
     }
 }
-
-$tpl =& templateInit();
 
 $sectionArray =& eZSection::fetchList();
 
