@@ -157,9 +157,7 @@
 
 </div>
 
-<div class="block">
-  {class_attribute_edit_gui class_attribute=$Attributes.item}
-</div>
+{class_attribute_edit_gui class_attribute=$Attributes.item}
 
 </td>
 <!-- Attribute flags End -->
