@@ -223,6 +223,9 @@ eZ ini:
 - Added support for fetching an ini file by supplying the full path thus ignoring
   overrides and cache files.
 
+eZ sys:
+- Added the possibility to return indexDir and indexFile without siteaccess at the end.
+
 eZ module:
 - Added function to return the current redirection URI which is built from module, view and parameters.
 - Made sure it's possible to do redirections and reruns from the error module.

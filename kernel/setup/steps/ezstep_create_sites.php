@@ -94,7 +94,7 @@ class eZStepCreateSites extends eZStepInstaller
         $regionalInfo = $this->PersistenceList['regional_info'];
 //         $demoData = $this->PersistenceList['demo_data'];
         $emailInfo = $this->PersistenceList['email_info'];
-        $siteInfo = $this->PersistenceList['site_info'];
+//         $siteInfo = $this->PersistenceList['site_info'];
 
         $imageINI = eZINI::create( 'image.ini' );
         $imageINI->setVariable( 'ConverterSettings', 'UseConvert', 'false' );
@@ -173,7 +173,10 @@ class eZStepCreateSites extends eZStepInstaller
         $ini->setVariable( 'SiteAccessSettings', 'SiteAccessList', $accessMap['accesses'] );
         $ini->setVariable( 'SiteAccessSettings', 'AvailableSiteAccessList', $accessMap['accesses'] );
         $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
-        $ini->setVariable( 'SiteSettings', 'DefaultAccess', 'admin' );
+        $defaultAccess = 'admin';
+        if ( isset( $accessMap['accesses'][0] ) )
+            $defaultAccess = $accessMap['accesses'][0];
+        $ini->setVariable( 'SiteSettings', 'DefaultAccess', $defaultAccess );
 
         if ( $saveData )
         {
@@ -386,14 +389,14 @@ class eZStepCreateSites extends eZStepInstaller
             $installParameters = array( 'path' => '.' );
             $installParameters['ini'] = array();
             $siteINIChanges = array();
-            $siteInfo = $this->PersistenceList['site_info'];
-            $url = $siteInfo['url'];
+//             $siteInfo = $this->PersistenceList['site_info'];
+            $url = $sitePackage['url'];
             if ( preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url, $matches ) )
             {
                 $url = $matches[1];
             }
             $siteINIChanges['ContentSettings'] = array( 'TranslationList' => implode( ';', $languages ) );
-            $siteINIChanges['SiteSettings'] = array( 'SiteName' => $siteInfo['title'],
+            $siteINIChanges['SiteSettings'] = array( 'SiteName' => $sitePackage['title'],
                                                      'SiteURL' => $url );
             $siteINIChanges['DatabaseSettings'] = array( 'DatabaseImplementation' => $dbDriver,
                                                          'Server' => $dbServer,
@@ -405,12 +408,12 @@ class eZStepCreateSites extends eZStepInstaller
                 $siteINIChanges['DatabaseSettings']['Socket'] = $dbSocket;
             else
                 $siteINIChanges['DatabaseSettings']['Socket'] = 'disabled';
-            if ( $siteInfo['admin_email'] )
+            if ( $sitePackage['email'] )
             {
-                $siteINIChanges['InformationCollectionSettings'] = array( 'EmailReceiver' => $siteInfo['admin_email'] );
-                $siteINIChanges['UserSettings'] = array( 'RegistrationEmail' => $siteInfo['admin_email'] );
-                $siteINIChanges['MailSettings'] = array( 'AdminEmail' => $siteInfo['admin_email'],
-                                                         'EmailSender' => $siteInfo['admin_email'] );
+                $siteINIChanges['InformationCollectionSettings'] = array( 'EmailReceiver' => $sitePackage['email'] );
+                $siteINIChanges['UserSettings'] = array( 'RegistrationEmail' => $sitePackage['email'] );
+                $siteINIChanges['MailSettings'] = array( 'AdminEmail' => $sitePackage['email'],
+                                                         'EmailSender' => $sitePackage['email'] );
             }
             $siteINIChanges['RegionalSettings'] = array( 'Locale' => $primaryLanguage->localeFullCode(),
                                                          'ContentObjectLocale' => $primaryLanguage->localeCode() );

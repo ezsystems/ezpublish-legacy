@@ -17,7 +17,7 @@
 	    <td class="setup_progress_right" width="{mul( 549, div( sub( 100, $progress ), 100 ) )}"></td>
           {/section}
 	  <td width="209" class="setup_progress_right">
-	    <div class="setup_progress_bar_text">{$progress}% {"complemete"|i18n("design/standard/setup")}</div>
+	    <div class="setup_progress_bar_text">{"&percent% completed"|i18n("design/standard/setup",,hash('&percent',$progress))}</div>
           </td>
  	  <td><img src={"/design/standard/images/setup/eZ_setup_progress_bar_right.png"|ezroot} alt=""/></td>
 

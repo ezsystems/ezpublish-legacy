@@ -18,11 +18,13 @@
 
       <td class="setup_site_templates">
         <div align="top">
+          <a href="{$:item.url|wash}">
           {section show=$:item.image_file_name}
             <img src={$:item.image_file_name|ezroot} alt="{$:item.name|wash}" />
           {section-else}
             <img src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$:item.name|wash}" />
           {/section}
+          </a>
         </div>
         <div align="bottom">
 	  <table border="0" cellspacing="0" cellpadding="0">
@@ -38,19 +40,19 @@
 	      <td>{"Admin e-mail"|i18n("design/standard/setup/init")}: </td>
 	      <td>{$:item.email|wash}</td>
 	    </tr>
-	    <tr>
+{*	    <tr>
 	      <td>{"Site access"|i18n("design/standard/setup/init")} {$:item.access_type|wash}: </td>
 	      <td>{$:item.access_type_value|wash}</td>
-	    </tr>
+	    </tr>*}
 	  </table>
 
         </div>
       </td>
 
-      {section show=eq( mod( $:index, 2 ), 1 )}
+      {delimiter module=2}
         </tr>
         <tr>
-      {/section}
+      {/delimiter}
 
     {/section}
     </tr>

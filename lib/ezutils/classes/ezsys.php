@@ -259,11 +259,11 @@ class eZSys
      The filepath for the index file.
      \static
     */
-    function indexDir()
+    function indexDir( $withAccessList = true )
     {
         if ( !isset( $this ) or get_class( $this ) != "ezsys" )
             $this =& eZSys::instance();
-        return $this->wwwDir() . $this->indexFile();
+        return $this->wwwDir() . $this->indexFile( $withAccessList );
     }
 
     /*!
@@ -271,12 +271,12 @@ class eZSys
      \static
      \sa indexFileName
     */
-    function indexFile()
+    function indexFile( $withAccessList = true )
     {
         if ( !isset( $this ) or get_class( $this ) != "ezsys" )
             $this =& eZSys::instance();
         $text = $this->IndexFile;
-        if ( count( $this->AccessPath ) > 0 )
+        if ( $withAccessList and count( $this->AccessPath ) > 0 )
         {
 //             if ( $text != "" )
                 $text .= "/";

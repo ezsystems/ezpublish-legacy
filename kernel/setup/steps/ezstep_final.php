@@ -80,6 +80,12 @@ class eZStepFinal extends eZStepInstaller
         for ( $counter = 0; $counter < $this->PersistenceList['site_templates']['count']; $counter++ )
         {
             $templates[$counter] = $this->PersistenceList['site_templates_'.$counter];
+            $url = $templates[$counter]['url'];
+            if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url ) )
+            {
+                $url = 'http://' . $url;
+            }
+            $templates[$counter]['url'] = $url;
         }
 
         $this->Tpl->setVariable( 'site_templates', $templates );

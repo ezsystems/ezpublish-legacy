@@ -76,10 +76,10 @@ class eZStepSiteTemplates extends eZStepInstaller
                 if ( !isset( $template['checked'] ) or
                      $template['checked'] != $template['identifier'] )
                     continue;
-                $this->PersistenceList['site_templates_' . $key]['identifier'] = $template['identifier'];
-                $this->PersistenceList['site_templates_' . $key]['name'] = $template['name'];
-                $this->PersistenceList['site_templates_' . $key]['image_file_name'] = $template['image'];
-//                 $this->PersistenceList['site_templates_' . $key]['image_file_name'] = $thumbnailBase.'_'.$template.'.'.$thumbnailExtension;
+                $this->PersistenceList['site_templates_' . $siteTemplatesCount]['identifier'] = $template['identifier'];
+                $this->PersistenceList['site_templates_' . $siteTemplatesCount]['name'] = $template['name'];
+                $this->PersistenceList['site_templates_' . $siteTemplatesCount]['image_file_name'] = $template['image'];
+//                 $this->PersistenceList['site_templates_' . $siteTemplatesCount]['image_file_name'] = $thumbnailBase.'_'.$template.'.'.$thumbnailExtension;
                 ++$siteTemplatesCount;
             }
             $this->PersistenceList['site_templates']['count'] = $siteTemplatesCount;
