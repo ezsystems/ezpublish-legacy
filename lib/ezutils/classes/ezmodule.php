@@ -42,7 +42,6 @@
 */
 
 include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "lib/ezutils/classes/ezmodulefeatures.php" );
 
 define( "EZ_MODULE_STATUS_IDLE", 0 );
 define( "EZ_MODULE_STATUS_OK", 1 );
@@ -81,10 +80,6 @@ class eZModule
             $this->Name = $moduleName;
             $this->Path = $path;
             $this->Title = "";
-            $this->Features = array();
-            $this->FeatureObj = null;
-            if ( isset( $FeatureArray ) )
-                $this->Features =& $FeatureArray;
             reset( $this->Functions );
             while( ( $key = key( $this->Functions ) ) !== null )
             {
@@ -96,7 +91,6 @@ class eZModule
         else
         {
             $this->Functions = array();
-            $this->Features = array();
             $this->Module = array( "name" => "null",
                                    "variable_params" => false,
                                    "function" => array() );
@@ -436,7 +430,7 @@ class eZModule
     */
     function attributes()
     {
-        return array( "uri", "functions", "name", "path", "info", "features", "aviable_functions" );
+        return array( "uri", "functions", "name", "path", "info", "aviable_functions" );
     }
 
     /*!
@@ -468,16 +462,6 @@ class eZModule
                 return $this->Module;
             case "aviable_functions":
                 return $this->FunctionList;
-            case "features":
-            {
-                $features =& $this->FeatureObj;
-                if ( get_class( $features ) != "ezmodulefeatures" )
-                {
-                    include_once( "lib/ezutils/classes/ezmodulefeatures.php" );
-                    $features = new eZModuleFeatures( $this, $this->Features );
-                }
-                return $features;
-            }
         }
         return null;
     }
@@ -1081,8 +1065,6 @@ class eZModule
     }
     /// \privatesection
     var $Functions;
-    var $Features;
-    var $FeatureObj;
     var $Module;
     var $Name;
     var $Path;

@@ -75,7 +75,4 @@ $ViewList["groupedit"] = array(
     "script" => "groupedit.php",
     "default_navigation_part" => 'ezsetupnavigationpart',
     "params" => array( "GroupID" ) );
-$FeatureArray = array();
-$FeatureArray["class"] = array( "type" => "class",
-                                "classname" => "eZContentClassFeature" );
 ?>

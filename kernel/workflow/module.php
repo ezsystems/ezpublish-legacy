@@ -72,10 +72,4 @@ $ViewList["event"] = array(
     "default_navigation_part" => 'ezsetupnavigationpart',
     "params" => array( "WorkflowID", "EventID" ) );
 
-$FeatureArray = array();
-$FeatureArray["workflow"] = array( "type" => "class",
-                                   "classname" => "eZWorkflowFeature" );
-$FeatureArray["workflow_event"] = array( "type" => "class",
-                                         "classname" => "eZWorkflowEventFeature" );
-
 ?>
