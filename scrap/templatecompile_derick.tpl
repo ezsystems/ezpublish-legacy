@@ -1,3 +1,4 @@
+10000
 {*{include name=NS uri="design:b.tpl"}*}
 {*{attribute_edit_gui attribute=$obj}*}
 {*{my_gui attribute=$obj}*}
