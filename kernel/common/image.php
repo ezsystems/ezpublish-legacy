@@ -86,7 +86,7 @@ function &imageInit()
                                                                 eZImageShell::createRule( '-colorspace GRAY',
                                                                                           'colorspace/gray' ) ),
                                                          EZ_IMAGE_KEEP_SUFFIX,
-                                                         EZ_IMAGE_PREPEND_SUFFIX_TAG ) );
+                                                         EZ_IMAGE_PREPEND_AND_REPLACE_SUFFIX_TAG ) );
     }
     if ( $useGD )
     {
