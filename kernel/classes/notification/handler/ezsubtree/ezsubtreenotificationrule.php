@@ -177,6 +177,18 @@ class eZSubtreeNotificationRule extends eZPersistentObject
 
     /*!
      \static
+
+     Remove notifications by user id
+
+     \param userID
+    */
+    function removeByUserID( $userID )
+    {
+        eZPersistentObject::removeObject( eZSubtreeNotificationRule::definition(), array( 'user_id' => $userID ) );
+    }
+
+    /*!
+     \static
      Cleans up all notification rules for all users.
     */
     function cleanup()
