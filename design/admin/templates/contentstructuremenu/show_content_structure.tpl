@@ -15,8 +15,7 @@
             {/section}
 
         {* Icon *}
-            <a class="nodeicon" href="#" onclick="ezpopmnu_showTopLevel( 'ContextMenu','{$:parentNode.node.node_id}' , '{$:parentNode.object.id}' )">{$:parentNode.object.class_identifier|class_icon( small, "Show 'Edit' menu" )}</a>
-
+            <a class="nodeicon" href="#" onclick="ezpopmnu_showTopLevel( 'ContextMenu','{$:parentNode.node.node_id}' , '{$:parentNode.object.id}' ); return false;">{$:parentNode.object.class_identifier|class_icon( small, "Show 'Edit' menu" )}</a>
         {* Label *}
             {* Tooltip *}
             {section show=$:showToolTips|eq('enabled')}

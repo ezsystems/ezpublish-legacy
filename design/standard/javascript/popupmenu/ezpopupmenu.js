@@ -160,6 +160,29 @@ function ezpopmnu_showTopLevel( menuName, nodeID, objectID )
     VisibleMenus[menuArray[menuName]['depth']] = menuName;
 }
 
+/*!
+  Submit the form with id formID. All fields of type hidden will have the texts %nodeID%
+  and %objectID% replaced with the corresponding real values.
+*/
+function ezpopmnu_submitForm( formID )
+{
+    var formElement = document.getElementById( formID );
+    if( formElement )
+    {
+        // for all children do replacement
+        var children = formElement.childNodes; 
+        for( var i = 0; i < children.length; i++) 
+        {
+	    if( children[i].type == 'hidden' )
+            {
+                children[i].value = children[i].value.replace( '%nodeID%', CurrentNodeID );
+                children[i].value = children[i].value.replace( '%objectID%', CurrentObjectID );
+            }
+        }
+        formElement.submit();
+    }
+}
+
 /*
  * Show sublevel menu. The current nodeid is remembered from the last call to
  * ezpopmnu_showTopLevel()
