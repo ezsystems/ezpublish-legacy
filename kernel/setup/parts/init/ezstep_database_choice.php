@@ -60,7 +60,7 @@ function eZSetupStep_database_choice( &$tpl, &$http, &$ini, &$persistenceList )
     $result = array();
     // Display template
     $result['content'] = $tpl->fetch( "design:setup/init/database_choice.tpl" );
-    $result['path'] = array( array( 'text' => 'Database setup',
+    $result['path'] = array( array( 'text' => 'Database choice',
                                     'url' => false ) );
     return $result;
 }

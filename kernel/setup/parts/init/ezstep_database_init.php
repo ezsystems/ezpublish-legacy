@@ -190,7 +190,7 @@ function eZSetupStep_database_init( &$tpl, &$http, &$ini, &$persistenceList )
             if ( !isset( $persistenceList['demo_data']['use'] ) )
                 $persistenceList['demo_data']['use'] = false;
             if ( $http->hasPostVariable( 'eZSetupDemoData' ) )
-                $persistenceList['demo_data']['use'] = true;
+                $persistenceList['demo_data']['use'] = $http->postVariable( 'eZSetupDemoData' );
             $demoData = $persistenceList['demo_data'];
             $tpl->setVariable( 'demo_data', $demoData );
 
@@ -201,7 +201,7 @@ function eZSetupStep_database_init( &$tpl, &$http, &$ini, &$persistenceList )
             if ( $databaseChoice == 2 )
             {
                 set_time_limit( 0 );
-//                 $db->OutputSQL = false;
+                $db->OutputSQL = false;
                 if ( !eZDBTool::cleanup( $db ) )
                     $dbError = true;
             }

@@ -59,7 +59,7 @@ function eZSetupStep_registration( &$tpl, &$http, &$ini, &$persistenceList )
     $result = array();
     // Display template
     $result['content'] = $tpl->fetch( "design:setup/init/registration.tpl" );
-    $result['path'] = array( array( 'text' => 'Site details',
+    $result['path'] = array( array( 'text' => 'Registration',
                                     'url' => false ) );
     return $result;
 }

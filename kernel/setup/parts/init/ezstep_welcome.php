@@ -66,7 +66,6 @@ function eZSetupStep_welcome( &$tpl, &$http, &$ini, &$persistenceList )
                                           'results' => $testResults ) );
         $tpl->setVariable( 'persistence_data', $persistenceList );
 
-        print( "testresult=$testResult" );
         $saveResult = true;
         if ( $testResult == 1 )
         {

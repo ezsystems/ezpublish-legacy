@@ -163,7 +163,7 @@ function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
     $result = array();
     // Display template
     $result['content'] = $tpl->fetch( "design:setup/init/finished.tpl" );
-    $result['path'] = array( array( 'text' => 'Database initalization',
+    $result['path'] = array( array( 'text' => 'Setup finished',
                                     'url' => false ) );
 
     return $result;

@@ -83,8 +83,13 @@ class eZDBTool
             foreach ( $relationItems as $relationItem )
             {
                 if ( !$db->removeRelation( $relationItem, $relationType ) )
+                {
                     $result = false;
+                    break;
+                }
             }
+            if ( !$result )
+                break;
         }
         return $result;
     }
