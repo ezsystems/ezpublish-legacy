@@ -144,7 +144,7 @@ class eZImageType extends eZDataType
         $maxSize = 1024 * 1024 * $classAttribute->attribute( EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_FIELD );
         $mustUpload = false;
 
-        if( $classAttribute->attribute( "is_required" ) == true )
+        if( $contentObjectAttribute->validateIsRequired() )
         {
             $tmpImgObj =& $contentObjectAttribute->attribute( 'content' );
             $original =& $tmpImgObj->attribute( 'original' );

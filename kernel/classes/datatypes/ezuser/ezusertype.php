@@ -91,8 +91,7 @@ class eZUserType extends eZDataType
             $passwordConfirm = $http->postVariable( $base . "_data_user_password_confirm_" . $contentObjectAttribute->attribute( "id" ) );
             if ( trim( $loginName ) == '' )
             {
-                if ( $classAttribute->attribute( 'is_required' ) == true
-                  || trim( $email ) != '' )
+                if ( $contentObjectAttribute->validateIsRequired() || trim( $email ) != '' )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'The username must be specified.' ) );

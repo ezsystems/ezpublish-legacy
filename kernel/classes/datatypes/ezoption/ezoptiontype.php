@@ -71,7 +71,7 @@ class eZOptionType extends eZDataType
             $valueList = $http->postVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) );
             $optionAdditionalPriceList =& $http->postVariable( $base . "_data_option_additional_price_" . $contentObjectAttribute->attribute( "id" ) );
 
-            if ( $classAttribute->attribute( "is_required" ) and
+            if ( $contentObjectAttribute->validateIsRequired() and
                  !$classAttribute->attribute( 'is_information_collector' ) )
             {
                 if ( trim( $valueList[0] ) == "" )
