@@ -77,6 +77,13 @@ Changes from 3.5.1 to 3.5.2
   they are false.
 - Fixed bug #6443: New bug: Cached view preference list is not used when user
   does not have any preferences set.
+- Fixed bug: Content cache pregeneration: The DesignSetting of the selected
+  siteaccess were not used.
+  (Submitted by: Bruce Morrison)
+- Fixed bug: Content cache pregeneration: The cache was generated for the 
+  currently logged in user instead of the anonymous user or another specific
+  user.
+  (Submitted by: Bruce Morrison)
   
 *WebDAV:
 - Fixed discarding of XML payload when user needs to authenticate.
