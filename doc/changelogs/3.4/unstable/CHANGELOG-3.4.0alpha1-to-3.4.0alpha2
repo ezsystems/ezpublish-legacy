@@ -153,6 +153,8 @@ eZ PHP creator:
   increase exponentially. (Merged from stable/3.3 rev. 5648)
 - Fixed a bug with charset conversion.
   http://ez.no/community/bug_reports/all_translations_special_characters
+- Fixed a bug with eZDebug and references to string offsets.
+  http://ez.no/community/bug_reports/ezdebug_fatal_error
 
 *Update
 - Added script addorderemail.php which will add email field content to table ezorder.

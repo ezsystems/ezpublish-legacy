@@ -795,9 +795,10 @@ class eZDebug
     */
     function isDebugEnabled()
     {
-        $debugEnabled =& $GLOBALS['eZDebugEnabled'];
-        if ( isset( $debugEnabled ) )
-            return $debugEnabled;
+        if ( isset( $GLOBALS['eZDebugEnabled'] ) )
+        {
+            return &$GLOBALS['eZDebugEnabled'];
+        }
 
         return false;
     }
