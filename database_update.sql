@@ -47,3 +47,7 @@ main_key int NOT NULL default 0,
 memento_key varchar(32) NOT NULL,
 memento_data text NOT NULL,
 PRIMARY KEY(id, memento_key) );
+
+
+# After beta 3
+alter table ezcontentclass_attribute add is_information_collector int not null default 0;

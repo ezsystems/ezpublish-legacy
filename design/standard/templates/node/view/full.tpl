@@ -57,7 +57,7 @@
     <p>None</p>
     {/section}
 
-    {section show=$is_editable}
+    {section show=$is_standalone}
       <h2>Content actions</h2>
       {section name=ContentAction loop=$content_object.content_action_list show=$content_object.content_action_list}
       <div class="block">

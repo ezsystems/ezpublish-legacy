@@ -99,6 +99,10 @@
 <input type="checkbox" name="ContentAttribute_is_required_checked[]" value="{$Attributes:item.id}"  {section show=$Attributes:item.is_required}checked{/section} /><label>Required</label>
 </div>
 
+<div class="block">
+<input type="checkbox" name="ContentAttribute_is_information_collector_checked[]" value="{$Attributes:item.id}"  {section show=$Attributes:item.is_information_collector}checked{/section} /><label>Information collector</label>
+</div>
+
 {* {include uri="design:class/datatypes.tpl" name=DataTypes id_name="ContentAttribute_data_type_string[]" datatypes=$datatypes current=$Attributes:item.data_type.information.string} *}
 </td>
         <td class="{$Attributes:sequence}" width="1%"><div class="listbutton"><a href={concat($module.functions.down.uri,"/",$class.id,"/",$Attributes:item.id)|ezurl}><img class="button" src={"button-move_down.gif"|ezimage} height="16" width="16" alt="Down" /></a></div></td>

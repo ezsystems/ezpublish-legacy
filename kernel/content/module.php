@@ -121,6 +121,11 @@ $ViewList["action"] = array(
     "script" => "action.php",
     "params" => array(  ) );
 
+$ViewList["collectinformation"] = array(
+    "functions" => array( 'read' ),
+    "script" => "collectinformation.php",
+    "params" => array(  ) );
+
 $ViewList["versions"] = array(
     "functions" => array( 'read', 'edit' ),
     "script" => "versions.php",

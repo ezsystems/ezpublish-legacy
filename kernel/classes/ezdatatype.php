@@ -333,9 +333,17 @@ class eZDataType
      \return the content action(s) which can be performed on object containing
      the current datatype.
     */
-    function contentActionList( )
+    function contentActionList( &$classAttribute )
     {
         return array();
+    }
+
+    /*!
+     \return true if the data type can do information collection
+    */
+    function hasInformationCollection()
+    {
+        return false;
     }
 
     /*!

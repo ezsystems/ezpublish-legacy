@@ -79,6 +79,11 @@ $featureArray[] = array( "uri" => "xml_handling",
 $featureArray[] = array( "uri" => "content_classes",
                          "level" => 2,
                          "name" => "Content classes" );
+
+$featureArray[] = array( "uri" => "information_collector",
+                         "level" => 2,
+                         "name" => "Information collector" );
+
 $featureArray[] = array( "uri" => "content_objects",
                          "level" => 2,
                          "name" => "Content objects" );

@@ -234,9 +234,24 @@ class eZStringType extends eZDataType
     /*!
      Returns the meta data used for storing search indeces.
     */
-    function metaData( $contentObjectAttribute )
+    function metaData( &$contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_text' );
+    }
+
+    /*!
+     \reuturn the collect information action if enabled
+    */
+    function contentActionList( &$classAttribute )
+    {
+        if ( $classAttribute->attribute( 'is_information_collector' ) == true )
+        {
+            return array( array( 'name' => 'Send',
+                                 'action' => 'ActionCollectInformation'
+                                 ) );
+        }
+        else
+            return array();
     }
 
     /*!

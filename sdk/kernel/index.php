@@ -25,6 +25,9 @@ $featureArray[] = array( "uri" => "module_system",
 $featureArray[] = array( "uri" => "content_classes",
                          "level" => 0,
                          "name" => "Content classes" );
+$featureArray[] = array( "uri" => "information_collector",
+                         "level" => 0,
+                         "name" => "Information collector" );
 $featureArray[] = array( "uri" => "content_objects",
                          "level" => 0,
                          "name" => "Content objects" );

@@ -423,7 +423,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         $classAttribute =& $this->contentClassAttribute();
         $dataType =& $classAttribute->dataType();
-        return $dataType->contentActionList();
+        return $dataType->contentActionList( $classAttribute );
     }
 
     function setValidationError()

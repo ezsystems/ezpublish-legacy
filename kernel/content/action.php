@@ -228,6 +228,10 @@ if ( $http->hasPostVariable( "ContentObjectID" )  )
         $module->setExitStatus( $shopModule->exitStatus() );
         $module->setRedirectURI( $shopModule->redirectURI() );
     }
+    else if ( $http->hasPostVariable( "ActionCollectInformation" ) )
+    {
+        $result =& $module->run( "collectinformation", array() );
+    }
     else
     {
         eZDebug::writeError( "Unknown content object action", "kernel/content/action.php" );

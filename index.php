@@ -450,7 +450,6 @@ if ( $show_page_layout )
         }
 
 
-        /*
         /// HiO special menu code tmp
         eZDebug::writeWarning( "Temporary HiO specific code, remove", "index.php" );
 
@@ -630,7 +629,6 @@ if ( $show_page_layout )
 //      }
         $tpl->setVariable( 'menuitems', $pathArray );
         /// end HiO code
-        */
 
         $templateResult =& $tpl->fetch( $resource . $show_page_layout );
     }
