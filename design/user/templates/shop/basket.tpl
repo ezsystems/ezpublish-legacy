@@ -21,7 +21,8 @@
 <tr>
 	<td bgcolor="#{$Basket:ProductItem:sequence}">
 	<input type="hidden" name="ProductItemIDList[]" value="{$Basket:ProductItem:item.id}" />
-	<a class="small" href={concat("/content/view/full/",$Basket:ProductItem:item.contentobject.main_node_id,"/")|ezurl}>{$Basket:ProductItem:item.contentobject.name}</a>
+
+	<a href={concat("/content/view/full/",$Basket:ProductItem:item.node_id,"/")|ezurl}>{$Basket:ProductItem:item.object_name}</a>
 	</td>
 	<td bgcolor="#{$Basket:ProductItem:sequence}">
 	<input type="text" name="ProductItemCountList[]" value="{$Basket:ProductItem:item.item_count}" size="3" />
@@ -42,7 +43,7 @@
 	</td>
 	<td bgcolor="#ECF9DF" align="right">
 	<span class="small">
-	{$basket.total|l10n(currency)}
+	{$basket.total_inc_vat|l10n(currency)}
 	</span>
 	</td>
 	<td bgcolor="#ECF9DF" align="right">

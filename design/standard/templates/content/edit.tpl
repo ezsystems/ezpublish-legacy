@@ -239,15 +239,14 @@
         </td>
     </tr>
     <tr>
-        <td colspan="1" align="left">
-	<input class="menubutton" type="submit" name="NewButton" value="{'New'|i18n('design/standard/content/edit')}" />
-	</td>
-        <td colspan="1" align="right">
+        <td colspan="2" align="right">
+	<br />
 	<select	name="ClassID">
 	    {section name=Classes loop=$object.can_create_class_list}
 	    <option value="{$Classes:item.id}">{$Classes:item.name}</option>
 	    {/section}
 	</select>
+	<input class="menubutton" type="submit" name="NewButton" value="{'New'|i18n('design/standard/content/edit')}" />
 	<input type="hidden" name="NodeID" value="{$surplus_node}" />
 	</td>
     </tr>
