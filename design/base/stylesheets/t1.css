@@ -444,7 +444,7 @@ div#maincontent
     height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
 }
 
-/* Toolbar design */
+/* Toolbax design */
 div.toolbox
 { 
     margin-bottom: 8px;
@@ -453,6 +453,7 @@ div.toolbox
 
 div.toolbox-design
 { 
+    padding-top: 6px;
     padding-left: 10px;
     padding-bottom: 10px;
     background-color: #d9e5f2;
@@ -470,6 +471,30 @@ div.toolbox-design h2
     background-color: #336699;
     color: #fff;
 }
+
+div.toolbox-design input.searchtext
+{
+    height: 18px;
+    width: 120px;
+    font: 9pt;
+    border: 1px solid #839dbd;
+    background-color: #fff;
+}
+
+div.toolbox-design label
+{
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    font: 9pt;
+    color: #000;
+    font-weight: normal;
+}
+
+div.toolbox-design form
+{
+    vertical-align: bottom;
+}
+
 
 /* Tool list design */
 div.toollist
