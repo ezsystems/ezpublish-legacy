@@ -291,60 +291,37 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             }
             elseif ( $lastInsertedNodeTag == "line" )
             {
-                while ( $parentNodeTag != "section" )
-                {
-                    $lastNodeArray = array_pop( $TagStack );
-                    $lastNode =& $lastNodeArray["ParentNodeObject"];
-                    unset( $currentNode );
-                    $currentNode =& $lastNode;
-
-                    $parentNodeArray = array_pop( $TagStack );
-                    if ( $parentNodeArray !== null )
-                    {
-                        $parentNodeTag = $parentNodeArray["TagName"];
-                        $parentNode =& $parentNodeArray["ParentNodeObject"];
-                        $parentChildTag = $parentNodeArray["ChildTag"];
-                        array_push( $TagStack,
-                                    array( "TagName" => $parentNodeTag, "ParentNodeObject" => &$parentNode, "ChildTag" => $parentChildTag ) );
-                    }
-                }
-
-                // Add paragraph tag
-                $subNode->Name = "paragraph";
-                $subNode->LocalName = "paragraph";
-                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-                $domDocument->registerElement( $subNode );
-                $currentNode->appendChild( $subNode );
-                $childTag = $this->subTagArray['paragraph'];
-                array_push( $TagStack,
-                            array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                $currentNode =& $subNode;
-                $parentNodeTag = "paragraph";
-                unset( $subNode );
-                $subNode = new eZDOMNode();
-            }
-            elseif ( $lastInsertedNodeTag == "paragraph" )
-            {
-                // pop up paragraph tag
+                // Pop up line tag
                 $lastNodeArray = array_pop( $TagStack );
-                $parentNodeTag = $lastNodeArray["TagName"];
                 $lastNode =& $lastNodeArray["ParentNodeObject"];
                 unset( $currentNode );
                 $currentNode =& $lastNode;
 
-                // Add paragraph tag
-                $subNode->Name = "paragraph";
-                $subNode->LocalName = "paragraph";
-                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-                $domDocument->registerElement( $subNode );
-                $currentNode->appendChild( $subNode );
-                $childTag = $this->subTagArray['paragraph'];
-                array_push( $TagStack,
-                            array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                $currentNode =& $subNode;
-                $parentNodeTag = "paragraph";
-                unset( $subNode );
-                $subNode = new eZDOMNode();
+                $parentNodeArray = array_pop( $TagStack );
+                if ( $parentNodeArray !== null )
+                {
+                    $parentNodeTag = $parentNodeArray["TagName"];
+                    $parentNode =& $parentNodeArray["ParentNodeObject"];
+                    $parentChildTag = $parentNodeArray["ChildTag"];
+                    array_push( $TagStack,
+                                array( "TagName" => $parentNodeTag, "ParentNodeObject" => &$parentNode, "ChildTag" => $parentChildTag ) );
+                }
+                if ( $parentNodeTag == "section" )
+				{
+					// Add paragraph tag
+					$subNode->Name = "paragraph";
+					$subNode->LocalName = "paragraph";
+					$subNode->Type = EZ_NODE_TYPE_ELEMENT;
+					$domDocument->registerElement( $subNode );
+					$currentNode->appendChild( $subNode );
+					$childTag = $this->subTagArray['paragraph'];
+					array_push( $TagStack,
+								array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
+					$currentNode =& $subNode;
+					$parentNodeTag = "paragraph";
+					unset( $subNode );
+					$subNode = new eZDOMNode();
+                }
             }
         }
 
@@ -368,30 +345,27 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
              }
         }
 
-        // Deal with line tag.
-        if ( $currentTag == "line" and $lastInsertedNodeTag == "line" )
-        {
-             //pop up line tag
-             $lastNodeArray = array_pop( $TagStack );
-             $lastNode =& $lastNodeArray["ParentNodeObject"];
-             unset( $currentNode );
-             $currentNode =& $lastNode;
-
-             $parentNodeArray = array_pop( $TagStack );
-             if ( $parentNodeArray !== null )
-             {
-                 $parentNodeTag = $parentNodeArray["TagName"];
-                 $parentNode =& $parentNodeArray["ParentNodeObject"];
-                 $parentChildTag = $parentNodeArray["ChildTag"];
-                 array_push( $TagStack,
-                             array( "TagName" => $parentNodeTag, "ParentNodeObject" => &$parentNode, "ChildTag" => $parentChildTag ) );
-             }
-        }
-
-        // Must stop line tag if a paragraph tag find
+        // Pop up line tag if a paragraph tag find
         if ( $currentTag == "paragraph" and $lastInsertedNodeTag == "line" )
         {
-            while ( $parentNodeTag != "paragraph" )
+            // Pop up line tag
+            $lastNodeArray = array_pop( $TagStack );
+            $lastNode =& $lastNodeArray["ParentNodeObject"];
+            unset( $currentNode );
+            $currentNode =& $lastNode;
+
+            $parentNodeArray = array_pop( $TagStack );
+            if ( $parentNodeArray !== null )
+            {
+                $parentNodeTag = $parentNodeArray["TagName"];
+                $parentNode =& $parentNodeArray["ParentNodeObject"];
+                $parentChildTag = $parentNodeArray["ChildTag"];
+                array_push( $TagStack,
+                            array( "TagName" => $parentNodeTag, "ParentNodeObject" => &$parentNode, "ChildTag" => $parentChildTag ) );
+            }
+
+            // If last inserted tag is paragraph, pop up it.
+            if ( $parentNodeTag == "paragraph" )
             {
                 $lastNodeArray = array_pop( $TagStack );
                 $lastNode =& $lastNodeArray["ParentNodeObject"];
@@ -408,37 +382,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 array( "TagName" => $parentNodeTag, "ParentNodeObject" => &$parentNode, "ChildTag" => $parentChildTag ) );
                 }
             }
-
-            //pop up paragraph tag
-            $lastNodeArray = array_pop( $TagStack );
-            $lastNode =& $lastNodeArray["ParentNodeObject"];
-            unset( $currentNode );
-            $currentNode =& $lastNode;
-
-            $parentNodeArray = array_pop( $TagStack );
-            if ( $parentNodeArray !== null )
-            {
-                $parentNodeTag = $parentNodeArray["TagName"];
-                $parentNode =& $parentNodeArray["ParentNodeObject"];
-                $parentChildTag = $parentNodeArray["ChildTag"];
-                array_push( $TagStack,
-                            array( "TagName" => $parentNodeTag, "ParentNodeObject" => &$parentNode, "ChildTag" => $parentChildTag ) );
-            }
-
-            // Add paragraph tag
-            unset( $subNode );
-            $subNode = new eZDOMNode();
-
-            $subNode->Name = "paragraph";
-            $subNode->LocalName = "paragraph";
-            $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-            $domDocument->registerElement( $subNode );
-            $currentNode->appendChild( $subNode );
-            $childTag = $this->subTagArray['paragraph'];
-            array_push( $TagStack,
-                        array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-            $currentNode =& $subNode;
-            $parentNodeTag = "paragraph";
         }
 
         if ( in_array( $currentTag, $this->subTagArray[$parentNodeTag] ) and $currentTag != $parentNodeTag )
@@ -555,7 +498,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $text =& preg_replace( "#\n[\n]+#", "\n\n", $text );
 
         $text =& preg_replace( "#\n[\n]+#", "<paragraph>", $text );
-        $text =& preg_replace( "#\n#", "<line>", $text );
+        $text =& preg_replace( "#\n#", "</line>", $text );
 
         // Convert headers
         $text =& preg_replace( "#<header>#", "<header level='1'>", $text );
@@ -663,6 +606,41 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         $lastInsertedChildTag = $lastInsertedNodeArray["ChildTag"];
                     }
 
+                    $withNewLine = false;
+                    if ( $convertedTag == 'line' and $lastInsertedNodeTag == "paragraph" )
+                    {
+                        $isValidTag = true;
+                        $deletedNodeArray = array();
+                        while( $isValidTag )
+                        {
+                            $lastChild =& $currentNode->lastChild();
+                            if ( $lastChild->Name == "#text" or in_array( $lastChild->Name, $this->lineTagArray ) )
+                            {
+                                $deletedNodeArray[] = $lastChild;
+                                $currentNode->removeLastChild();
+                            }
+                            else
+                                $isValidTag = false;
+                        }
+                        if ( $deletedNodeArray != null )
+                        {
+                            unset( $insertedNode );
+                            $insertedNode = new eZDOMNode();
+                            $insertedNode->Name = "line";
+                            $insertedNode->LocalName = "line";
+                            $insertedNode->Type = EZ_NODE_TYPE_ELEMENT;
+                            $domDocument->registerElement( $insertedNode );
+                            $currentNode->appendChild( $insertedNode );
+                            $childTag = $this->lineTagArray;
+
+                            for ( $i = count( $deletedNodeArray ); $i > 0; $i--)
+                            {
+                                $domDocument->registerElement( $deletedNodeArray[$i-1] );
+                                $insertedNode->appendChild( $deletedNodeArray[$i-1] );
+                            }
+                            $withNewLine = true;
+                        }
+                    }
                     if ( $convertedTag == 'td' or $convertedTag == 'th' or $convertedTag == 'custom' )
                     {
                         while ( $lastInsertedNodeTag == "section" or $lastInsertedNodeTag == "paragraph" )
@@ -682,7 +660,26 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         array_push( $TagStack,
                                     array( "TagName" => $lastInsertedNodeTag, "ParentNodeObject" => &$lastInsertedNode, "ChildTag" => $lastInsertedChildTag ) );
 
-                        if ( in_array( $lastInsertedNodeTag, $this->supportedInputTagArray ) and in_array( $convertedTag, $this->supportedTagArray ) )
+                        if ( $convertedTag == "line" and  $withNewLine )
+                        {
+                            //Add line tag
+                            unset( $subNode );
+                            $subNode = new eZDOMNode();
+                            $subNode->Name = "line";
+                            $subNode->LocalName = "line";
+                            $subNode->Type = EZ_NODE_TYPE_ELEMENT;
+                            $domDocument->registerElement( $subNode );
+                            $currentNode->appendChild( $subNode );
+                            $childTag = $this->lineTagArray;
+                            array_push( $TagStack,
+                                        array( "TagName" => "line", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
+                            unset( $currentNode );
+                            $currentNode =& $subNode;
+                            $lastInsertedNodeTag = "line";
+                            $lastInsertedChildTag = $childTag;
+                            eZDebug::writeDebug( "line tag added");
+                        }
+                        if ( in_array( $lastInsertedNodeTag, $this->supportedInputTagArray ) and in_array( $convertedTag, $this->supportedInputTagArray ) )
                         {
                             if ( $this->isInputValid == true )
                                 $message[] = "Unmatched tag " . $lastInsertedNodeTag;
@@ -694,6 +691,26 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     {
                         unset( $currentNode );
                         $currentNode =& $lastInsertedNode ;
+
+                        if ( $convertedTag == "line" )
+                        {
+                            //Add line tag
+                            unset( $subNode );
+                            $subNode = new eZDOMNode();
+                            $subNode->Name = "line";
+                            $subNode->LocalName = "line";
+                            $subNode->Type = EZ_NODE_TYPE_ELEMENT;
+                            $domDocument->registerElement( $subNode );
+                            $currentNode->appendChild( $subNode );
+                            $childTag = $this->lineTagArray;
+                            array_push( $TagStack,
+                                        array( "TagName" => "line", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
+                            unset( $currentNode );
+                            $currentNode =& $subNode;
+                            $lastInsertedNodeTag = "line";
+                            $lastInsertedChildTag = $childTag;
+                            eZDebug::writeDebug( "line tag added");
+                        }
 
                         // If end tag header found, add paragraph node.
                         if ( $convertedTag == "header" or $convertedTag == "paragraph" )
@@ -1411,7 +1428,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
             case 'line' :
             {
-                $output .= "\n" . $childTagText;
+                $output .= $childTagText . "\n";
             }break;
 
             case 'tr' :
@@ -1434,13 +1451,16 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
     var $inlineTagArray = array( 'emphasize', 'strong', 'link', 'anchor', 'line' );
 
+    var $lineTagArray = array( 'emphasize', 'strong', 'link', 'anchor' );
+
     var $tagAliasArray = array( 'strong' => array( 'b', 'bold', 'strong' ), 'emphasize' => array( 'em', 'i', 'emphasize' ), 'link' => array( 'link', 'a' ) , 'header' => array( 'header', 'h' ) );
 
     // Contains all supported tag for xml parse
     var $supportedTagArray = array( 'paragraph', 'section', 'header', 'table', 'ul', 'ol', 'literal', 'custom', 'object', 'emphasize', 'strong', 'link', 'anchor', 'tr', 'td', 'th', 'li', 'line' );
 
     // Contains all supported input tag
-    var $supportedInputTagArray = array( 'header', 'table', 'ul', 'ol', 'literal', 'custom', 'object', 'emphasize', 'strong', 'link', 'anchor', 'tr', 'td', 'th', 'li' , 'line' );
+    var $supportedInputTagArray = array( 'header', 'table', 'ul', 'ol', 'literal', 'custom', 'object', 'emphasize', 'strong', 'link', 'anchor', 'tr', 'td', 'th', 'li' );
 }
 
 ?>
+
