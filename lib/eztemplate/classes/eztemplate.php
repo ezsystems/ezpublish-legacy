@@ -615,11 +615,11 @@ class eZTemplate
         return $resourceData['root-node'];
     }
 
-    function parse( &$sourceText, &$rootElement, $rootNamespace, &$relation )
+    function parse( &$sourceText, &$rootElement, $rootNamespace, &$resourceData )
     {
         include_once( 'lib/eztemplate/classes/eztemplatemultipassparser.php' );
         $parser =& eZTemplateMultiPassParser::instance();
-        $parser->parse( $this, $sourceText, $rootElement, $rootNamespace, &$relation );
+        $parser->parse( $this, $sourceText, $rootElement, $rootNamespace, $resourceData );
     }
 
     function &loadURIData( &$resourceObject, $uri, $resourceName, $template, &$extraParameters, $displayErrors = true )

@@ -64,10 +64,10 @@ class eZTemplateMultiPassParser extends eZTemplateParser
      for more information on the parsing process.
 
     */
-    function parse( &$tpl, &$sourceText, &$rootElement, $rootNamespace, $relation )
+    function parse( &$tpl, &$sourceText, &$rootElement, $rootNamespace, &$resourceData )
     {
-        $relatedResource = $relation['resource'];
-        $relatedTemplateName = $relation['template-filename'];
+        $relatedResource = $resourceData['resource'];
+        $relatedTemplateName = $resourceData['template-filename'];
 
         $currentRoot =& $rootElement;
         $leftDelimiter = $tpl->LDelim;
