@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 . ./bin/shell/common.sh
@@ -6,13 +7,13 @@
 # The last version which changelogs and db updates are related to
 # For the first development release this should be empty, in
 # wich case $LAST_STABLE is used.
-PREVIOUS_VERSION="3.3-3"
+PREVIOUS_VERSION="3.3-4"
 # The last version of the newest stable branch
-LAST_STABLE="3.3-3"
+LAST_STABLE="3.3-4"
 
 MAJOR=3
 MINOR=3
-RELEASE=4
+RELEASE=5
 REAL_RELEASE=$RELEASE
 STATE=""
 DEVELOPMENT="false"
