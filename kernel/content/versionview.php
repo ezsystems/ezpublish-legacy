@@ -302,6 +302,7 @@ $node->setAttribute( 'contentobject_id', $ObjectID );
 $node->setAttribute( 'parent_node_id', $parentNodeID );
 $node->setAttribute( 'main_node_id', $virtualNodeID );
 $node->setAttribute( 'node_id', $virtualNodeID );
+$node->setAttribute( 'path', array() );
 $node->setName( $objectName );
 
 $node->setContentObject( $contentObject );

@@ -42,6 +42,7 @@ Changes from 3.2-3 to 3.2-4
 - Added extension support for notification event handlers.
   http://ez.no/developer/ez_publish_3/bug_reports/custom_notification_handler_in_extension_wont_work
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/typos_in_designstandardcontentbrowsetpl
+- Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/kernelcontentversionviewphp_missing_node_pseudo_path_attribute
 
 *Library :
 
