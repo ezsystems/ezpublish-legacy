@@ -78,6 +78,10 @@ class eZContentClassClassGroup extends eZPersistentObject
 
     function &create( $contentclass_id, $contentclass_version, $group_id, $group_name )
     {
+        if( $contentclass_version == null )
+        {
+            $contentclass_version = 0;
+        }
         $row = array("contentclass_id" => $contentclass_id,
                      "contentclass_version" => $contentclass_version,
                      "group_id" => $group_id,
@@ -87,10 +91,19 @@ class eZContentClassClassGroup extends eZPersistentObject
 
     function &remove( $contentclass_id, $contentclass_version, $group_id )
     {
-        eZPersistentObject::removeObject( eZContentClassClassGroup::definition(),
-                                          array("contentclass_id" => $contentclass_id,
-                                                "contentclass_version" =>$contentclass_version,
-                                                "group_id" => $group_id ) );
+        if ( $contentclass_version == null )
+        {
+            eZPersistentObject::removeObject( eZContentClassClassGroup::definition(),
+                                              array("contentclass_id" => $contentclass_id,
+                                                    "group_id" => $group_id ) );
+        }
+        else
+        {
+            eZPersistentObject::removeObject( eZContentClassClassGroup::definition(),
+                                              array("contentclass_id" => $contentclass_id,
+                                                    "contentclass_version" =>$contentclass_version,
+                                                    "group_id" => $group_id ) );
+        }
     }
 
     function &removeGroupMembers( $group_id )
