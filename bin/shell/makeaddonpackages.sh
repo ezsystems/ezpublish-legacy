@@ -216,10 +216,11 @@ fi
 for addon in $ADDON_PACKAGES; do
     [[ -z $ADDON || $ADDON = $addon ]] || continue
 
-    if [ -d "$OUTPUT_REPOSITORY/$addon" ]; then
+    if [ ! -d "$OUTPUT_REPOSITORY/$addon" ]; then
+        mkdir "$OUTPUT_REPOSITORY/$addon" || exit 1
+    fi
 	$PMBIN -r "$OUTPUT_REPOSITORY" $QUIET \
             -ladmin -ppublish \
 	    export $addon -d "$EXPORT_PATH" || exit 1
-    fi
 
 done
