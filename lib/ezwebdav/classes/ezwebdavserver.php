@@ -82,8 +82,8 @@ $varDir = eZSys::varDirectory();
 
 
 // Temporary (uploaded) file stuff:
-define( "EZ_WEBDAV_TEMP_DIRECTORY",   $varDir."/webdav/tmp" );
-define( "EZ_WEBDAV_ROOT_DIRECTORY",   $varDir."/webdav/root" );
+define( "EZ_WEBDAV_TEMP_DIRECTORY",   $varDir . "/webdav/tmp" );
+define( "EZ_WEBDAV_ROOT_DIRECTORY",   $varDir . "/webdav/root" );
 define( "EZ_WEBDAV_TEMP_FILE_PREFIX", "eZWebDAVUpload_" );
 
 
@@ -159,7 +159,7 @@ class eZWebDAVServer
      */
     function processClientRequest()
     {
-        append_to_log( "WebDAV server started..." );
+        $this->appendLogEntry( "WebDAV server started...", 'processClientRequest' );
 
         // Dump some custom header/info.
 //		header( "WebDAV-Powered-By: eZ publish" );
@@ -170,10 +170,10 @@ class eZWebDAVServer
         // Convert the requested URI string to non-bogus format.
         $target = urldecode( $_SERVER["REQUEST_URI"] );
 
-        append_to_log( "----------------------------------------" );
-        append_to_log( "Client says: ".$_SERVER["REQUEST_METHOD"] );
-        append_to_log( "Target: ".$_SERVER["REQUEST_URI"] );
-        append_to_log( "----------------------------------------" );
+        $this->appendLogEntry( "----------------------------------------", 'processClientRequest' );
+        $this->appendLogEntry( "Client says: " . $_SERVER["REQUEST_METHOD"], 'processClientRequest' );
+        $this->appendLogEntry( "Target: " . $_SERVER["REQUEST_URI"], 'processClientRequest' );
+        $this->appendLogEntry( "----------------------------------------", 'processClientRequest' );
 
         // Read the XML body, PHP should discard it but it's a bug in some PHP versions
         $xmlBody = file_get_contents( "php://input" );
@@ -183,7 +183,7 @@ class eZWebDAVServer
             // OPTIONS  (Server ID reply.)
             case "OPTIONS":
             {
-                append_to_log( "OPTIONS was issued from client." );
+                $this->appendLogEntry( "OPTIONS was issued from client.", 'processClientRequest' );
                 $options = $this->options( $target );
                 $status  = $this->outputOptions( $options );
             } break;
@@ -191,12 +191,12 @@ class eZWebDAVServer
             // PROPFIND (Show dir/collection content.)
             case "PROPFIND":
             {
-                append_to_log( "PROPFIND was issued from client." );
+                $this->appendLogEntry( "PROPFIND was issued from client.", 'processClientRequest' );
 
                 $depth = $_SERVER['HTTP_DEPTH'];
                 if ( $depth != 0 and $depth != 1 and $depth != "infinity" )
                     $depth = "infinity";
-                append_to_log( "Depth: $depth." );
+                $this->appendLogEntry( "Depth: $depth.", 'processClientRequest' );
 
                 $collection = $this->getCollectionContent( $target, $depth );
                 $status = $this->outputCollectionContent( $collection, $xmlBody );
@@ -205,7 +205,7 @@ class eZWebDAVServer
             // HEAD (Check if file/resource exists.)
             case "HEAD":
             {
-                append_to_log( "HEAD was issued from client." );
+                $this->appendLogEntry( "HEAD was issued from client.", 'processClientRequest' );
                 $data   = $this->get( $target );
                 $status = $this->outputSendDataToClient( $data, true );
             } break;
@@ -213,7 +213,7 @@ class eZWebDAVServer
             // GET (Download a file/resource from server to client.)
             case "GET":
             {
-                append_to_log( "GET was issued from client." );
+                $this->appendLogEntry( "GET was issued from client.", 'processClientRequest' );
                 $data   = $this->get( $target );
                 $status = $this->outputSendDataToClient( $data );
             } break;
@@ -221,7 +221,7 @@ class eZWebDAVServer
             // PUT (Upload a file/resource from client to server.)
             case "PUT":
             {
-                append_to_log( "PUT was issued from client." );
+                $this->appendLogEntry( "PUT was issued from client.", 'processClientRequest' );
                 $status = EZ_WEBDAV_OK_CREATED;
 
                 // Attempt to get file/resource sent from client/browser.
@@ -246,10 +246,10 @@ class eZWebDAVServer
             // MKCOL (Create a directory/collection.)
             case "MKCOL":
             {
-                append_to_log( "MKCOL was issued from client." );
+                $this->appendLogEntry( "MKCOL was issued from client.", 'processClientRequest' );
                 if ( strlen( $xmlBody ) > 0 )
                 {
-                    append_to_log( "MKCOL body error." );
+                    $this->appendLogEntry( "MKCOL body error.", 'processClientRequest' );
                     $status = EZ_WEBDAV_FAILED_FORBIDDEN;
                 }
                 else
@@ -261,7 +261,7 @@ class eZWebDAVServer
             // COPY (Copy a resource/collection from one location to another.)
             case "COPY":
             {
-                append_to_log( "COPY was issued from client." );
+                $this->appendLogEntry( "COPY was issued from client.", 'processClientRequest' );
 
                 $source      = $target;
                 $url         = parse_url( $_SERVER["HTTP_DESTINATION"] );
@@ -272,7 +272,7 @@ class eZWebDAVServer
             // MOVE (Move a resource/collection from one location to another.)
             case "MOVE":
             {
-                append_to_log( "MOVE was issued from client." );
+                $this->appendLogEntry( "MOVE was issued from client.", 'processClientRequest' );
                 $source      = $target;
                 $url         = parse_url( $_SERVER["HTTP_DESTINATION"] );
                 $destination = urldecode( $url["path"] );
@@ -282,7 +282,7 @@ class eZWebDAVServer
             // DELETE (Remove a resource/collection.)
             case "DELETE":
             {
-                append_to_log( "DELETE was issued from client." );
+                $this->appendLogEntry( "DELETE was issued from client.", 'processClientRequest' );
                 $status = $this->delete( $target );
             } break;
 
@@ -403,9 +403,9 @@ class eZWebDAVServer
         $xml = new eZXML();
         $domTree = $xml->domTree( $xmlText );
         if ( $domTree )
-            append_to_log( "XML was parsed" );
+            $this->appendLogEntry( "XML was parsed", 'outputCollectionContent' );
         else
-            append_to_log( "XML was NOT parsed $xmlText" );
+            $this->appendLogEntry( "XML was NOT parsed $xmlText", 'outputCollectionContent' );
 
         // If we got this far: everything is OK.
         return EZ_WEBDAV_OK_SILENT;
@@ -424,18 +424,18 @@ class eZWebDAVServer
         // Check if we are dealing with custom data.
         if ( $output["data"] )
         {
-            append_to_log( "outputData: DATA is a string..." );
+            $this->appendLogEntry( "outputData: DATA is a string...", 'outputSendDataToClient' );
         }
         // Else: we need to output a file.
         elseif ( $output["file"] )
         {
-            append_to_log( "outputData: DATA is a file..." );
+            $this->appendLogEntry( "outputData: DATA is a file...", 'outputSendDataToClient' );
             $realPath = $output["file"];
 
             // Check if the file/dir actually exists and is readable (permission):
             if ( ( file_exists( $realPath ) ) && ( is_readable( $realPath ) ) )
             {
-                append_to_log( "outputData: file exists on server..." );
+                $this->appendLogEntry( "outputData: file exists on server...", 'outputSendDataToClient' );
 
                 // Get misc. file info.
                 $eTag = md5_file( $realPath );
@@ -482,13 +482,13 @@ class eZWebDAVServer
             // Else: file/dir doesn't exist!
             else
             {
-                append_to_log( "outputData: file DOES NOT exists on server...");
+                $this->appendLogEntry( "outputData: file DOES NOT exists on server...", 'outputSendDataToClient' );
                 return EZ_WEBDAV_FAILED_NOT_FOUND;
             }
         }
         else
         {
-            append_to_log( "outputData: No file specified");
+            $this->appendLogEntry( "outputData: No file specified", 'outputSendDataToClient' );
 
             while ( @ob_end_clean() );
 
@@ -606,7 +606,7 @@ class eZWebDAVServer
     */
     function handle( $status )
     {
-        append_to_log( "handle function was called with status: $status" );
+        $this->appendLogEntry( "handle function was called with status: $status", 'handle' );
 
         // Check and translate status to HTTP:WebDAV reply.
         switch ( $status )
@@ -692,7 +692,7 @@ class eZWebDAVServer
             // Default case: something went wrong...
             default:
             {
-                append_to_log( "HTTP 500, THIS SHOULD NOT HAPPEN!" );
+                $this->appendLogEntry( "HTTP 500, THIS SHOULD NOT HAPPEN!", 'handle' );
                 header( "HTTP/1.1 500 Internal Server Error" );
             } break;
         }
@@ -721,10 +721,9 @@ class eZWebDAVServer
 
         $logFile = fopen( $fileName, 'a' );
         $nowTime = date( "Y-m-d H:i:s : " );
-        $text = $nowTime;
+        $text = $nowTime . $logString;
         if ( $label )
-            $text .= '[' . $label . '] ';
-        $text .= $logString;
+            $text .= ' [' . $label . ']';
         fwrite( $logFile, $text . "\n" );
         fclose( $logFile );
     }
