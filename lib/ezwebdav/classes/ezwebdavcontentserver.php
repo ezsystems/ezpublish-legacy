@@ -297,6 +297,10 @@ function getContent( $target )
  */
 function putImage ( $target, $tempFile, $parentNodeID )
 {
+    // Attempt to get the current user ID.
+    $user = eZUser::currentUser();
+    $userID = $user->id();
+
     $imageFileName = basename( $target );
     $imageOriginalFileName = $imageFileName;
     $imageCaption = $imageFileName;
@@ -367,6 +371,10 @@ function putImage ( $target, $tempFile, $parentNodeID )
  */
 function putFile( $target, $tempFile, $parentNodeID )
 {
+    // Attempt to get the current user ID.
+    $user = eZUser::currentUser();
+    $userID = $user->id();
+
     // Fetch the file class.
     $class =& eZContentClass::fetch( 12 );
 
@@ -599,6 +607,10 @@ function storeFile( $fileFileName, $fileOriginalFileName, &$contentObjectAttribu
  */
 function createFolder( $node, $target )
 {
+    // Attempt to get the current user ID.
+    $user = eZUser::currentUser();
+    $userID = $user->id();
+
     // Set the parent node ID.
     $parentNodeID = $node->attribute( 'node_id' );
 
@@ -915,10 +927,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
             return( EZ_WEBDAV_FAILED_FORBIDDEN );
         }
 
-        // Attempt to get the current user ID.
-        $user = eZUser::currentUser();
-        $userID = $user->id();
-
         // If we're browsing content:
         if ( stristr( $target, VIRTUAL_CONTENT_FOLDER_NAME ) )
         {
@@ -997,10 +1005,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
         {
             return( FALSE );
         }
-
-        // Attempt to get the current user ID.
-        $user = eZUser::currentUser();
-        $userID = $user->id();
 
         // If we're browsing content:
         if ( stristr( $target, VIRTUAL_CONTENT_FOLDER_NAME ) )
