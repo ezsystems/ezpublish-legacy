@@ -1,7 +1,7 @@
 {let item_type=ezpreference( 'admin_list_limit' )
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
      browse_list_count=fetch( content, list_count, hash( parent_node_id, $node_id, depth, 1))
-     object_array=fetch( content, list, hash( parent_node_id, $node_id, depth, 1, offset, $view_parameters.offset, limit, $number_of_items, sort_by, $main_node.sort_array ) )
+     node_array=fetch( content, list, hash( parent_node_id, $node_id, depth, 1, offset, $view_parameters.offset, limit, $number_of_items, sort_by, $main_node.sort_array ) )
      select_name='SelectedObjectIDArray'
      select_type='checkbox'
      select_attribute='contentobject_id'}
@@ -117,7 +117,7 @@
     </th>
 </tr>
 
-{section var=Nodes loop=$object_array sequence=array( bglight, bgdark )}
+{section var=Nodes loop=$node_array sequence=array( bglight, bgdark )}
     <tr class="{$Nodes.sequence}">
     <td>
     {section show=and( or( $browse.permission|not,

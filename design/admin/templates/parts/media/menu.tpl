@@ -4,7 +4,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h4><a class="showhide" href={'/user/preferences/set/admin_treemenu/0'|ezurl} title="Hide media library."><span class="bracket">[</span>-<span class="bracket">]</span></a> {'Media library'|i18n( 'design/admin/parts/media/menu' )}</h4>
+<h4><a class="showhide" href={concat( '/user/preferences/set/admin_treemenu/0/', $uri_string )|ezurl} title="Hide media library."><span class="bracket">[</span>-<span class="bracket">]</span></a> {'Media library'|i18n( 'design/admin/parts/media/menu' )}</h4>
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 
@@ -18,7 +18,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h4><a class="showhide" href={'/user/preferences/set/admin_treemenu/1'|ezurl} title="Show media library."><span class="bracket">[</span>+<span class="bracket">]</span></a> {'Media library'|i18n( 'design/admin/parts/media/menu' )}</h4>
+<h4><a class="showhide" href={concat( '/user/preferences/set/admin_treemenu/1/', $uri_string )|ezurl} title="Show media library."><span class="bracket">[</span>+<span class="bracket">]</span></a> {'Media library'|i18n( 'design/admin/parts/media/menu' )}</h4>
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 
