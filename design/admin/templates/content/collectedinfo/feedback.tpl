@@ -1,0 +1,52 @@
+{default collection=cond( $collection_id, fetch( content, collected_info_collection, hash( collection_id, $collection_id ) ),
+                          fetch( content, collected_info_collection, hash( contentobject_id, $node.contentobject_id ) ) )}
+
+{set-block scope=global variable=title}{'Feedback for %feedbackname'|i18n('design/standard/content/feedback',,hash('%feedbackname',$node.name))}{/set-block}
+
+<div class="context-block">
+
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
+<h1 class="context-title">{$object.name}</h1>
+
+{* DESIGN: Mainline *}<div class="header-mainline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+
+<div class="block">
+
+{section show=$error}
+
+{section show=$error_existing_data}
+<p>{'You have already submitted data to this feedback. The previously submitted data was the following.'|i18n('design/standard/content/feedback')}</p>
+{/section}
+
+{section-else}
+
+<p>{'Thanks for your feedback, the following information was collected.'|i18n('design/standard/content/feedback')}</p>
+
+{/section}
+
+<div class="block">
+{section loop=$collection.attributes}
+
+<h3>{$:item.contentclass_attribute_name}</h3>
+
+{attribute_result_gui view=info attribute=$:item}
+
+{/section}
+</div>
+
+<p/>
+
+<a href={$node.parent.url|ezurl}>{'Return to site'|i18n('design/standard/content/feedback')}</a>
+
+</div>
+
+{* DESIGN: Content END *}</div></div></div></div></div></div>
+
+</div>
+
+{/default}
