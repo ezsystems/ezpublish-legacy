@@ -131,6 +131,9 @@ Payment:
   http://ez.no/community/bug_reports/browsing_for_a_related_object_shows_checkboxes
 - Fixed bug: Sort order ASC/Desc is swapped in admin view template.
   http://ez.no/community/bug_reports/3_5alpha1_sort_order_ascending_and_descending_is_swapped
+- Fixed bug: Cancel when creating new discount rule does not work.
+  (Merged from stable/3.4 rev. 8870)
+  http://ez.no/community/bug_reports/cancel_in_new_discount_rule_does_not_work
 
 *Library:
 
