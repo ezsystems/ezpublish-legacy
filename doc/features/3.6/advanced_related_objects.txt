@@ -39,5 +39,9 @@ object.
 {def $objects_count=fetch( content, reverse_related_objects_count, hash( object_id, $node.contentobject_id, attribute_identifier, 233 ) )}
 
 *Upgrade database:
-Don't forget to upgrade your database before using this feature. You can find
-scripts in update/database directory.
+If you are using database created with the previous version of eZ publish (3.5 or
+ lower), follow these steps:
+1. Upgrade database structure using SQL script that you can find in update/database
+directory.
+2. Run update/common/scripts/updaterelatedobjectslinks.php script to update existing
+related objects links.
