@@ -227,6 +227,7 @@ class eZXMLTextType extends eZDataType
                     $level = $sectionNode->attributeValue( 'level' );
 
                     $tpl->setVariable( 'content', $sectionNode->textContent(), 'xmltagns' );
+                    $tpl->setVariable( 'level', $level, 'xmltagns' );
                     $uri = "design:content/datatype/view/ezxmltags/header.tpl";
                     eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, 'foo', 'xmltagns' );
                     $output .= $text;

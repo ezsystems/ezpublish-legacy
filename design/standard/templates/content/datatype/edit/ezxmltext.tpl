@@ -1,7 +1,7 @@
 {switch name=Sw match=$attribute.xml_editor}
   {case match="dhtml"}
   <!-- WYSIWYG editor textarea field -->
-  <textarea name="ContentObjectAttribute_data_text_{$attribute.id}" cols="76.5" rows="{$attribute.contentclass_attribute.data_int1}">
+  <textarea name="ContentObjectAttribute_data_text_{$attribute.id}" cols="102" rows="{$attribute.contentclass_attribute.data_int1}">
   {$attribute.input_xml}
   </textarea>
   <script language="javascript">
