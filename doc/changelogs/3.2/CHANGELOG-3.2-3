@@ -64,6 +64,8 @@ Changes from 3.2-2 to 3.2-3
   Added missing function findMainNodeArray in eZContentObjectTreeNode.
 - http://ez.no/developer/ez_publish_3/bug_reports/httplocale_etc_get_loaded_with_original_siteini
   Fixed reading locale settings after siteaccess initializing.
+- http://ez.no/developer/ez_publish_3/bug_reports/embedded_object_inline_view_bug
+  Fixed correct namespace.
 - Made sure redirects only use reverse url translation if the translation system is enabled.
 
 *Setup:
