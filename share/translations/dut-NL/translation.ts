@@ -150,16 +150,16 @@
     <message>
         <source>RSS</source>
         <comment>Really Simple Syndication</comment>
-        <translation type="unfinished"></translation>
+        <translation>RSS</translation>
     </message>
     <message>
         <source>Advanced</source>
-        <translation type="unfinished">Geavanceerd</translation>
+        <translation>Uitgebreid</translation>
     </message>
     <message>
         <source>PDF export</source>
         <comment>PDF export</comment>
-        <translation type="unfinished"></translation>
+        <translation>PDF export</translation>
     </message>
 </context>
 <context>
@@ -229,395 +229,395 @@
     <name>design/blog/layout</name>
     <message>
         <source>Log entries</source>
-        <translation type="unfinished"></translation>
+        <translation>Weblog berichten</translation>
     </message>
     <message>
         <source>Description:</source>
-        <translation type="unfinished"></translation>
+        <translation>Beschrijving:</translation>
     </message>
     <message>
         <source>Categories</source>
-        <translation type="unfinished"></translation>
+        <translation>Categorieën</translation>
     </message>
     <message>
         <source>Create new blog entry</source>
-        <translation type="unfinished"></translation>
+        <translation>Maak een nieuw bericht aan</translation>
     </message>
     <message>
         <source>Latest blogs</source>
-        <translation type="unfinished"></translation>
+        <translation>Recente blogs</translation>
     </message>
     <message>
         <source>Log Archive by Entry</source>
-        <translation type="unfinished"></translation>
+        <translation>Gearchiveerde weblog berichten</translation>
     </message>
     <message>
         <source>Comments disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Het is niet mogelijk om op dit bericht te reageren</translation>
     </message>
     <message>
         <source>Result</source>
-        <translation type="unfinished"></translation>
+        <translation>Resultaat</translation>
     </message>
     <message>
         <source>Poll</source>
-        <translation type="unfinished"></translation>
+        <translation>Poll</translation>
     </message>
     <message>
         <source>Recent links</source>
-        <translation type="unfinished"></translation>
+        <translation>Recente links</translation>
     </message>
 </context>
 <context>
     <name>design/corporate/layout</name>
     <message>
         <source>Read more</source>
-        <translation type="unfinished"></translation>
+        <translation>Lees verder</translation>
     </message>
     <message>
         <source>Send</source>
-        <translation type="unfinished">Verzenden</translation>
+        <translation>Verzenden</translation>
     </message>
     <message>
         <source>Latest news</source>
-        <translation type="unfinished"></translation>
+        <translation>Laatste nieuws</translation>
     </message>
 </context>
 <context>
     <name>design/forum/layout</name>
     <message>
         <source>Read more</source>
-        <translation type="unfinished"></translation>
+        <translation>Lees verder</translation>
     </message>
     <message>
         <source>Subject</source>
-        <translation type="unfinished">Onderwerp</translation>
+        <translation>Onderwerp</translation>
     </message>
     <message>
         <source>Message</source>
-        <translation type="unfinished">Bericht</translation>
+        <translation>Bericht</translation>
     </message>
     <message>
         <source>Post</source>
-        <translation type="unfinished"></translation>
+        <translation>Bijdrage</translation>
     </message>
     <message>
         <source>Author</source>
-        <translation type="unfinished">Auteur</translation>
+        <translation>Auteur</translation>
     </message>
     <message>
         <source>Replies</source>
-        <translation type="unfinished"></translation>
+        <translation>Reacties</translation>
     </message>
     <message>
         <source>Last reply</source>
-        <translation type="unfinished"></translation>
+        <translation>Recente reactie</translation>
     </message>
     <message>
         <source>Latest posts</source>
-        <translation type="unfinished"></translation>
+        <translation>Recente berichten</translation>
     </message>
     <message>
         <source>Number of Topics:</source>
-        <translation type="unfinished"></translation>
+        <translation>Aantal onderwerpen:</translation>
     </message>
     <message>
         <source>Number of Posts:</source>
-        <translation type="unfinished"></translation>
+        <translation>Aantal bijdragen:</translation>
     </message>
     <message>
         <source>Latest news</source>
-        <translation type="unfinished"></translation>
+        <translation>Laatste nieuws</translation>
     </message>
     <message>
         <source>Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Notificatie</translation>
     </message>
     <message>
         <source>Edit account</source>
-        <translation type="unfinished"></translation>
+        <translation>Wijzig profiel</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation type="unfinished">Login</translation>
+        <translation>Login</translation>
     </message>
     <message>
         <source>Logout</source>
-        <translation type="unfinished">Uitloggen</translation>
+        <translation>Uitloggen</translation>
     </message>
 </context>
 <context>
     <name>design/gallery/layout</name>
     <message>
         <source>Read more</source>
-        <translation type="unfinished"></translation>
+        <translation>Lees verder</translation>
     </message>
     <message>
         <source>Galleries</source>
-        <translation type="unfinished"></translation>
+        <translation>Galerieën</translation>
     </message>
     <message>
         <source>Latest images</source>
-        <translation type="unfinished"></translation>
+        <translation>Recente afbeeldingen</translation>
     </message>
     <message>
         <source>Latest news</source>
-        <translation type="unfinished"></translation>
+        <translation>Laatste nieuws</translation>
     </message>
     <message>
         <source>Latest comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Recente reacties</translation>
     </message>
     <message>
         <source>Edit gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Bewerk galerie</translation>
     </message>
     <message>
         <source>Create a new gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Maak een nieuwe galerie aan</translation>
     </message>
     <message>
         <source>Name of your album</source>
-        <translation type="unfinished"></translation>
+        <translation>Albumnaam</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Omschrijving</translation>
+        <translation>Omschrijving</translation>
     </message>
     <message>
         <source>Number of columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Aantal kolommen</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation type="unfinished"></translation>
+        <translation>Albums</translation>
     </message>
     <message>
         <source>Gallery list</source>
-        <translation type="unfinished"></translation>
+        <translation>Lijst van galerieën</translation>
     </message>
     <message>
         <source>Logout</source>
-        <translation type="unfinished">Uitloggen</translation>
+        <translation>Uitloggen</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation type="unfinished">Login</translation>
+        <translation>Login</translation>
     </message>
 </context>
 <context>
     <name>design/intranet/layout</name>
     <message>
         <source>Comment this article!</source>
-        <translation type="unfinished"></translation>
+        <translation>Reageer!</translation>
     </message>
     <message>
         <source>Read more</source>
-        <translation type="unfinished"></translation>
+        <translation>Lees verder</translation>
     </message>
     <message>
         <source>Latest news</source>
-        <translation type="unfinished"></translation>
+        <translation>Laatste nieuws</translation>
     </message>
     <message>
         <source>Contact information</source>
-        <translation type="unfinished"></translation>
+        <translation>Contactinformatie</translation>
     </message>
 </context>
 <context>
     <name>design/news/content/poll</name>
     <message>
         <source>Results</source>
-        <translation type="unfinished"></translation>
+        <translation>Resultaten</translation>
     </message>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="unfinished"></translation>
+        <translation>Anonieme gebruikers moeten eerst inloggen om mee te kunnen stemmen met deze poll. </translation>
     </message>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation>U hebt reeds gestemd.</translation>
     </message>
 </context>
 <context>
     <name>design/news/layout</name>
     <message>
         <source>Related stories</source>
-        <translation type="unfinished"></translation>
+        <translation>Gerelateerde artikelen</translation>
     </message>
     <message>
         <source>Tip a friend</source>
-        <translation type="unfinished">Vertel een vriend</translation>
+        <translation>Vertel een vriend</translation>
     </message>
     <message>
         <source>Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Reacties</translation>
     </message>
     <message>
         <source>Comment this article!</source>
-        <translation type="unfinished"></translation>
+        <translation>Reageer!</translation>
     </message>
     <message>
         <source>Read more</source>
-        <translation type="unfinished"></translation>
+        <translation>Lees verder</translation>
     </message>
     <message>
         <source>Latest news</source>
-        <translation type="unfinished"></translation>
+        <translation>Laatste nieuws</translation>
     </message>
     <message>
         <source>Result</source>
-        <translation type="unfinished"></translation>
+        <translation>Resultaat</translation>
     </message>
     <message>
         <source>View all polls</source>
-        <translation type="unfinished"></translation>
+        <translation>Bekijk alle polls</translation>
     </message>
     <message>
         <source>News</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuws</translation>
     </message>
     <message>
         <source>Most popular</source>
-        <translation type="unfinished"></translation>
+        <translation>Meest bekeken</translation>
     </message>
     <message>
         <source>Poll</source>
-        <translation type="unfinished"></translation>
+        <translation>Poll</translation>
     </message>
 </context>
 <context>
     <name>design/shop/layout</name>
     <message>
         <source>login</source>
-        <translation type="unfinished"></translation>
+        <translation>Login</translation>
     </message>
     <message>
         <source>logout</source>
-        <translation type="unfinished"></translation>
+        <translation>Uitloggen</translation>
     </message>
     <message>
         <source>Read more</source>
-        <translation type="unfinished"></translation>
+        <translation>Lees verder</translation>
     </message>
     <message>
         <source>Write your own review</source>
-        <translation type="unfinished"></translation>
+        <translation>Schrijf uw eigen recensie</translation>
     </message>
     <message>
         <source>Write a review and share your opinion. Please make sure your comments are devoted to the product.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schrijf een recensie en deel uw mening over het product.</translation>
     </message>
     <message>
         <source>How do you rate the product?</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoe beoordeelt u het product?</translation>
     </message>
     <message>
         <source>Title of your review:</source>
-        <translation type="unfinished"></translation>
+        <translation>Titel van uw recensie:</translation>
     </message>
     <message>
         <source>Your review:</source>
-        <translation type="unfinished"></translation>
+        <translation>Uw recensie:</translation>
     </message>
     <message>
         <source>Related products</source>
-        <translation type="unfinished"></translation>
+        <translation>Gerelateerde producten</translation>
     </message>
     <message>
         <source>Add to basket</source>
-        <translation type="unfinished">Voeg toe aan boodschappenmandje</translation>
+        <translation>Voeg toe aan boodschappenmandje</translation>
     </message>
     <message>
         <source>Notify me about updates</source>
-        <translation type="unfinished">Informeer mij over updates</translation>
+        <translation>Informeer mij over updates</translation>
     </message>
     <message>
         <source>Printerfriendly version</source>
-        <translation type="unfinished"></translation>
+        <translation>Printversie</translation>
     </message>
     <message>
         <source>People who bought this also bought</source>
-        <translation type="unfinished"></translation>
+        <translation>Klanten die dit product kochten, kochten ook</translation>
     </message>
     <message>
         <source>Reviews</source>
-        <translation type="unfinished"></translation>
+        <translation>Recensies</translation>
     </message>
     <message>
         <source>Write a review</source>
-        <translation type="unfinished"></translation>
+        <translation>Schrijf uw eigen recensie</translation>
     </message>
     <message>
         <source>No rating</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen beoordeling</translation>
     </message>
     <message>
         <source>Main menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoofdmenu</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation type="unfinished">Zoeken</translation>
+        <translation>Zoeken</translation>
     </message>
     <message>
         <source>Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Notificatie</translation>
     </message>
     <message>
         <source>Edit account</source>
-        <translation type="unfinished"></translation>
+        <translation>Wijzig profiel</translation>
     </message>
     <message>
         <source>View basket</source>
-        <translation type="unfinished"></translation>
+        <translation>Bekijk boodschappenmandje</translation>
     </message>
     <message>
         <source>Logout</source>
-        <translation type="unfinished">Uitloggen</translation>
+        <translation>Uitloggen</translation>
     </message>
     <message>
         <source>Register new customer</source>
-        <translation type="unfinished"></translation>
+        <translation>Registreer nieuwe klant</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation type="unfinished">Login</translation>
+        <translation>Login</translation>
     </message>
     <message>
         <source>Products</source>
-        <translation type="unfinished"></translation>
+        <translation>Producten</translation>
     </message>
     <message>
         <source>Latest products</source>
-        <translation type="unfinished"></translation>
+        <translation>Recente producten</translation>
     </message>
     <message>
         <source>Shopping basket</source>
-        <translation type="unfinished"></translation>
+        <translation>Boodschappenmandje</translation>
     </message>
     <message>
         <source>View all details</source>
-        <translation type="unfinished"></translation>
+        <translation>Bekijk alle gegevens</translation>
     </message>
     <message>
         <source>Your basket is empty</source>
-        <translation type="unfinished"></translation>
+        <translation>Uw boodschappenmandje is leeg</translation>
     </message>
     <message>
         <source>Best sellers</source>
-        <translation type="unfinished"></translation>
+        <translation>Bestsellers</translation>
     </message>
     <message>
         <source>Latest news</source>
-        <translation type="unfinished"></translation>
+        <translation>Laatste nieuws</translation>
     </message>
 </context>
 <context>
     <name>design/standard/class</name>
     <message>
         <source>Class is locked</source>
-        <translation type="unfinished"></translation>
+        <translation>Klasse is vergrendeld</translation>
     </message>
 </context>
 <context>
@@ -640,7 +640,7 @@
     </message>
     <message>
         <source>Option style</source>
-        <translation>Lijst</translation>
+        <translation>Stijl</translation>
     </message>
     <message>
         <source>Checkbox style</source>
@@ -784,155 +784,155 @@
     </message>
     <message>
         <source>Pretext</source>
-        <translation type="unfinished"></translation>
+        <translation>Pre-tekst</translation>
     </message>
     <message>
         <source>Posttext</source>
-        <translation type="unfinished"></translation>
+        <translation>Post-tekst</translation>
     </message>
     <message>
         <source>Current value: </source>
-        <translation type="unfinished"></translation>
+        <translation>Huidige waarde:</translation>
     </message>
     <message>
         <source> (This value are the current identifier)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Deze waarde is de huidige identifier)</translation>
     </message>
     <message>
         <source>Current temporary value: </source>
-        <translation type="unfinished"></translation>
+        <translation>Huidige tijdelijke waarde:</translation>
     </message>
     <message>
         <source> (This value is a copy of the original identifier)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Deze waarde is een kopie van de oorspronkelijke identifier)</translation>
     </message>
     <message>
         <source>Digits</source>
-        <translation type="unfinished"></translation>
+        <translation>Nummers</translation>
     </message>
     <message>
         <source>Start value</source>
-        <translation type="unfinished">Beginwaarde</translation>
+        <translation>Beginwaarde</translation>
     </message>
     <message>
         <source>Update identifier</source>
-        <translation type="unfinished"></translation>
+        <translation>Actualiseer identifiers</translation>
     </message>
     <message>
         <source>Ini file</source>
-        <translation type="unfinished"></translation>
+        <translation>Ini bestand</translation>
     </message>
     <message>
         <source>Ini Section</source>
-        <translation type="unfinished"></translation>
+        <translation>Ini sectie</translation>
     </message>
     <message>
         <source>Ini Parameter</source>
-        <translation type="unfinished"></translation>
+        <translation>Ini parameter</translation>
     </message>
     <message>
         <source>Ini file location</source>
-        <translation type="unfinished"></translation>
+        <translation>Ini bestandlocatie</translation>
     </message>
     <message>
         <source>Ini setting type</source>
-        <translation type="unfinished"></translation>
+        <translation>Soort van Ini instelling</translation>
     </message>
     <message>
         <source>Text</source>
-        <translation type="unfinished">Tekst</translation>
+        <translation>Tekst</translation>
     </message>
     <message>
         <source>Enable/Disable</source>
-        <translation type="unfinished"></translation>
+        <translation>Inschakelen/Uitschakelen</translation>
     </message>
     <message>
         <source>True/False</source>
-        <translation type="unfinished"></translation>
+        <translation>Waar/Onwaar</translation>
     </message>
     <message>
         <source>Integer</source>
-        <translation type="unfinished">Integer (geheel getal)</translation>
+        <translation>Integer (geheel getal)</translation>
     </message>
     <message>
         <source>Float</source>
-        <translation type="unfinished">Float (getal)</translation>
+        <translation>Float (getal)</translation>
     </message>
     <message>
         <source>Array</source>
-        <translation type="unfinished"></translation>
+        <translation>Array</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Soort</translation>
     </message>
     <message>
         <source>Create or browse objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Maak objecten aan of bekijk ze </translation>
     </message>
     <message>
         <source>New and existing objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuwe en bestaande objecten</translation>
     </message>
     <message>
         <source>Only new objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Alleen nieuwe objecten</translation>
     </message>
     <message>
         <source>Only existing objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Alleen bestaande objecten</translation>
     </message>
     <message>
         <source>Select which classes user can create</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer de klassen die de gebruiker mag aanmaken</translation>
     </message>
     <message>
         <source>Package Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Pakketsoort</translation>
     </message>
     <message>
         <source>Checked</source>
-        <translation type="unfinished"></translation>
+        <translation>Aangevinkt</translation>
     </message>
     <message>
         <source>Unchecked</source>
-        <translation type="unfinished"></translation>
+        <translation>Niet aangevinkt</translation>
     </message>
     <message>
         <source>Single choice</source>
-        <translation type="unfinished"></translation>
+        <translation>Unieke keuze</translation>
     </message>
     <message>
         <source>Warning, the ini file settings value and object value does not match.</source>
-        <translation type="unfinished"></translation>
+        <translation>Let op! De ini bestand instellingswaarde en de objectwaarde komen niet overeen.</translation>
     </message>
     <message>
         <source>The ini file has probably been modified manually since last time.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het ini bestand is sinds de vorige keer waarschijnlijk handmatig aangepast. </translation>
     </message>
     <message>
         <source>Ini File : </source>
-        <translation type="unfinished"></translation>
+        <translation>Ini bestand:</translation>
     </message>
     <message>
         <source>Ini Value: </source>
-        <translation type="unfinished"></translation>
+        <translation>Ini waarde:</translation>
     </message>
     <message>
         <source>Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingeschakeld</translation>
     </message>
     <message>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Uitgeschakeld</translation>
     </message>
     <message>
         <source>True</source>
-        <translation type="unfinished"></translation>
+        <translation>Waar</translation>
     </message>
     <message>
         <source>False</source>
-        <translation type="unfinished"></translation>
+        <translation>Onwaar</translation>
     </message>
     <message>
         <source>Make empty array</source>
@@ -1067,7 +1067,7 @@
     </message>
     <message>
         <source>Last modified by %username on %time</source>
-        <translation>Laatste keer gewijzigd door %username om %time</translation>
+        <translation>Laatste keer aangepast door %username op %time</translation>
     </message>
     <message>
         <source>Disable translation</source>
@@ -1075,55 +1075,51 @@
     </message>
     <message>
         <source>Modified by %username on %time</source>
-        <translation>Gewijzigd door %username om %time</translation>
+        <translation>Aangepast door %username om %time</translation>
     </message>
     <message>
         <source>Retry</source>
-        <translation type="unfinished"></translation>
+        <translation>Probeer opnieuw</translation>
     </message>
     <message>
         <source>Class - %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Klasse -%1</translation>
     </message>
     <message>
         <source>Is required</source>
-        <translation type="unfinished"></translation>
+        <translation>Is vereist</translation>
     </message>
     <message>
         <source>Is not required</source>
-        <translation type="unfinished"></translation>
+        <translation>Is niet vereist</translation>
     </message>
     <message>
         <source>Is searchable</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan doorzocht worden</translation>
     </message>
     <message>
         <source>Is not searchable</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan niet doorzocht worden</translation>
     </message>
     <message>
         <source>Collects information</source>
-        <translation type="unfinished"></translation>
+        <translation>Verzamelt informatie</translation>
     </message>
     <message>
         <source>Does not collect information</source>
-        <translation type="unfinished"></translation>
+        <translation>Verzamelt geen informatie</translation>
     </message>
     <message>
         <source>Translation is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Vertaling is uitgeschakeld</translation>
     </message>
     <message>
         <source>Translation is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Vertaling is ingeschakeld</translation>
     </message>
 </context>
 <context>
     <name>design/standard/class/list</name>
-    <message>
-        <source>Help</source>
-        <translation type="obsolete">Help</translation>
-    </message>
     <message>
         <source>Class groups</source>
         <translation>Klassegroepen</translation>
@@ -1154,11 +1150,11 @@
     </message>
     <message>
         <source>Last modified classes</source>
-        <translation type="unfinished"></translation>
+        <translation>Voor het laatst aangepaste klassen</translation>
     </message>
     <message>
         <source>Setup menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuratiemenu</translation>
     </message>
 </context>
 <context>
@@ -1193,7 +1189,7 @@
     </message>
     <message>
         <source>Modified</source>
-        <translation>Veranderd</translation>
+        <translation>Aangepast </translation>
     </message>
     <message>
         <source>Edit</source>
@@ -1209,7 +1205,7 @@
     </message>
     <message>
         <source>Click on the &apos;New&apos; button to create a class.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klik op de knop &apos;Nieuw&apos; om een klasse aan te maken.</translation>
     </message>
 </context>
 <context>
@@ -1268,7 +1264,7 @@
     </message>
     <message>
         <source>Posted: %1</source>
-        <translation>Opgestuurd: %1</translation>
+        <translation>BijdrageVerstuurOpgestuurd: %1</translation>
     </message>
     <message>
         <source>No new items to be handled.</source>
@@ -1280,7 +1276,7 @@
     </message>
     <message>
         <source>[more]</source>
-        <translation type="unfinished"></translation>
+        <translation>[meer]</translation>
     </message>
 </context>
 <context>
@@ -1477,70 +1473,70 @@ of de status van de publicatie wil zien.</translation>
     </message>
     <message>
         <source>PDF Export</source>
-        <translation type="unfinished"></translation>
+        <translation>PDF Uitvoer</translation>
     </message>
     <message>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Titel</translation>
     </message>
     <message>
         <source>Intro text</source>
-        <translation type="unfinished"></translation>
+        <translation>Inleiding</translation>
     </message>
     <message>
         <source>Sub text</source>
-        <translation type="unfinished"></translation>
+        <translation>Additionele tekst</translation>
     </message>
     <message>
         <source>Source node</source>
-        <translation type="unfinished"></translation>
+        <translation>Bronknoop</translation>
     </message>
     <message>
         <source>Browse</source>
-        <translation type="unfinished">Bladeren</translation>
+        <translation>Bladeren</translation>
     </message>
     <message>
         <source>Export structure</source>
-        <translation type="unfinished"></translation>
+        <translation>Structuur uitvoeren</translation>
     </message>
     <message>
         <source>Tree</source>
-        <translation type="unfinished"></translation>
+        <translation>Boom</translation>
     </message>
     <message>
         <source>Node</source>
-        <translation type="unfinished">Knoop</translation>
+        <translation>Knoop</translation>
     </message>
     <message>
         <source>Export classes</source>
-        <translation type="unfinished"></translation>
+        <translation>Klassen uitvoeren</translation>
     </message>
     <message>
         <source>Site access</source>
-        <translation type="unfinished"></translation>
+        <translation>Site toegang</translation>
     </message>
     <message>
         <source>Export destination</source>
-        <translation type="unfinished"></translation>
+        <translation>Uitvoeren naar</translation>
     </message>
     <message>
         <source>Export to URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Uitvoeren naar URL</translation>
     </message>
     <message>
         <source>Export for direct download</source>
-        <translation type="unfinished"></translation>
+        <translation>Uitvoeren voor directe download</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished"></translation>
+        <translation>Uitvoeren</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/browse</name>
     <message>
         <source>Create new</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuw aanmaken</translation>
     </message>
 </context>
 <context>
@@ -1728,10 +1724,6 @@ of de status van de publicatie wil zien.</translation>
         <translation>Minuut</translation>
     </message>
     <message>
-        <source>Image filename</source>
-        <translation type="obsolete">Bestandsnaam van de afbeelding </translation>
-    </message>
-    <message>
         <source>Alternative image text</source>
         <translation>Alternatieve tekst voor afbeelding</translation>
     </message>
@@ -1764,10 +1756,6 @@ of de status van de publicatie wil zien.</translation>
         <translation>Bestaande bestandsnaam</translation>
     </message>
     <message>
-        <source>Existing orignal filename</source>
-        <translation type="obsolete">Bestaande originele bestandsnaam</translation>
-    </message>
-    <message>
         <source>Existing mime/type</source>
         <translation>Bestaande mime/soort</translation>
     </message>
@@ -1778,18 +1766,6 @@ of de status van de publicatie wil zien.</translation>
     <message>
         <source>Remove object</source>
         <translation>Verwijder object</translation>
-    </message>
-    <message>
-        <source>Create new %classname</source>
-        <translation type="obsolete">Maak een nieuwe %classname aan</translation>
-    </message>
-    <message>
-        <source>Add %classname</source>
-        <translation type="obsolete">Voeg %classname toe</translation>
-    </message>
-    <message>
-        <source>Edit objects</source>
-        <translation type="obsolete">Bewerk objecten</translation>
     </message>
     <message>
         <source>Remove objects</source>
@@ -1848,44 +1824,44 @@ of de status van de publicatie wil zien.</translation>
         <translation>MIME-soort</translation>
     </message>
     <message>
-        <source>View Mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Local image file for upload</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokaal  beeldbestand om op te loaden</translation>
     </message>
     <message>
         <source>Image preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Beeld weergave</translation>
     </message>
     <message>
         <source>Original filename for image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Existing original filename</source>
-        <translation type="unfinished"></translation>
+        <translation>Oorspronkelijke bestandsnaam van beeld</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished">Bewerken</translation>
+        <translation>Bewerken</translation>
     </message>
     <message>
         <source>Open objects for edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Open objecten om te bewerken</translation>
     </message>
     <message>
         <source>Browse for objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Bekijk objecten</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Toevoegen</translation>
+        <translation>Toevoegen</translation>
+    </message>
+    <message>
+        <source>View Mode</source>
+        <translation>Weergave-modus</translation>
+    </message>
+    <message>
+        <source>Existing original filename</source>
+        <translation>Bestaande oorspronkelijke bestandsnaam</translation>
     </message>
     <message>
         <source>Value (optional)</source>
-        <translation type="unfinished"></translation>
+        <translation>Waarde (optioneel)</translation>
     </message>
 </context>
 <context>
@@ -2008,19 +1984,15 @@ of de status van de publicatie wil zien.</translation>
     </message>
     <message>
         <source>Input did not validate</source>
-        <translation>Input werd niet gevalideerd</translation>
+        <translation>Input is ongeldig</translation>
     </message>
     <message>
         <source>Location did not validate</source>
-        <translation>Locartie werd niet gevalideerd</translation>
+        <translation>Locatie is ongeldig</translation>
     </message>
     <message>
         <source>Input was stored successfully</source>
         <translation>Inputs werd met succes opgeslagen</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to discard the draft?</source>
-        <translation type="obsolete">Bent u er zeker van dat u de draft niet meer nodig heeft?</translation>
     </message>
     <message>
         <source>Confirm</source>
@@ -2063,177 +2035,180 @@ of de status van de publicatie wil zien.</translation>
         <translation>%1 (Geen taal/land informatie beschikbaar)</translation>
     </message>
     <message>
-        <source>Store</source>
-        <translation type="unfinished">Opslaan</translation>
+        <source>Post</source>
+        <translation>Verstuur</translation>
     </message>
     <message>
-        <source>Post</source>
-        <translation type="unfinished"></translation>
+        <source>Store</source>
+        <translation>Opslaan</translation>
     </message>
     <message>
         <source>Feedback from %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Reactie van %1</translation>
     </message>
     <message>
         <source>The following feedback was collected:</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn de volgende reacties binnengekomen:</translation>
     </message>
     <message>
         <source>The currently published version is %version and was published at %time.</source>
-        <translation type="unfinished"></translation>
+        <translation>De huidige versie is %version en gepubliceerd op %time.</translation>
     </message>
     <message>
         <source>The last modification was done at %modified.</source>
-        <translation type="unfinished"></translation>
+        <translation>Laatste keer aangepast op %modified.</translation>
     </message>
     <message>
         <source>The object is owned by %owner.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dit object is het eigendom van %owner.</translation>
     </message>
     <message>
         <source>This object is already being edited by someone else including you.
     You can either continue editing one of your drafts or you can create a new draft.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dit object wordt momenteel naast u al door iemand anders aangepast.
+U kunt doorgaan met het aanpassen van één van uw voorlopige versies of ervoor kiezen een nieuwe voorlopige versie aan te maken.</translation>
     </message>
     <message>
         <source>This object is already being edited by you.
         You can either continue editing one of your drafts or you can create a new draft.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dit object wordt momenteel al door u aangepast.
+U kunt doorgaan met het aanpassen van één van uw voorlopige versies of ervoor kiezen een nieuwe voorlopige versie aan te maken.</translation>
     </message>
     <message>
         <source>This object is already being edited by someone else.
         You should either contact the person about the draft or create a new draft for personal editing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dit object wordt momenteel al door iemand anders aangepast.
+Neem contact op met deze persoon over de voorlopige versie of maak een nieuwe voorlopige versie aan voor eigen gebruik.</translation>
     </message>
     <message>
         <source>Current drafts</source>
-        <translation type="unfinished"></translation>
+        <translation>Huidige voorlopige versies</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versie</translation>
     </message>
     <message>
         <source>Owner</source>
-        <translation type="unfinished">Eigenaar</translation>
+        <translation>Eigenaar</translation>
     </message>
     <message>
         <source>Last modified</source>
-        <translation type="unfinished">Voor het laatst gewijzigd </translation>
+        <translation>Voor het laatst aangepast </translation>
     </message>
     <message>
         <source>Input was partially stored</source>
-        <translation type="unfinished"></translation>
+        <translation>Invoer is gedeeltelijk opgeslagen</translation>
     </message>
     <message>
         <source>Are you sure you want to discard the draft %versionname?</source>
-        <translation type="unfinished"></translation>
+        <translation>Weet u zeker dat u de voorlopige versie van %versionname niet meer nodig heeft?</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/ezoption</name>
     <message>
         <source>No value chosen</source>
-        <translation type="unfinished"></translation>
+        <translation>U heeft geen waarde opgegeven</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/feedback</name>
     <message>
         <source>Feedback for %feedbackname</source>
-        <translation type="unfinished"></translation>
+        <translation>Reactie voor %feedbackname</translation>
     </message>
     <message>
         <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
+        <translation>U hebt hier reeds als volgt op gereageerd.</translation>
     </message>
     <message>
         <source>Thanks for your feedback, the following information was collected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bedankt voor de onderstaande reactie.</translation>
     </message>
     <message>
         <source>Return to site</source>
-        <translation type="unfinished"></translation>
+        <translation>Terug naar de site</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/form</name>
     <message>
         <source>Form %formname</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulier %formname</translation>
     </message>
     <message>
         <source>You have already submitted data to this form. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
+        <translation>U hebt reeds de onderstaande informatie aan dit formulier toegevoegd.</translation>
     </message>
     <message>
         <source>Return to site</source>
-        <translation type="unfinished"></translation>
+        <translation>Terug naar de site</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/pdf</name>
     <message>
         <source>eZ publish PDF export</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish PDF uitvoer</translation>
     </message>
     <message>
         <source>#page of #total</source>
-        <translation type="unfinished"></translation>
+        <translation>#page van #total</translation>
     </message>
     <message>
         <source>#level1 - #level2</source>
-        <translation type="unfinished"></translation>
+        <translation>#level1 - #level2</translation>
     </message>
     <message>
         <source>#levelIndex1:#levelIndex2</source>
-        <translation type="unfinished"></translation>
+        <translation>#levelIndex1:#levelIndex2</translation>
     </message>
     <message>
         <source>Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Inhoud</translation>
     </message>
     <message>
         <source>Versionview not supported in PDF yet</source>
-        <translation type="unfinished"></translation>
+        <translation>Versie weergave wordt nog niet door PDF ondersteund</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/poll</name>
     <message>
         <source>Poll %pollname</source>
-        <translation type="unfinished"></translation>
+        <translation>Poll %pollname</translation>
     </message>
     <message>
         <source>Results</source>
-        <translation type="unfinished"></translation>
+        <translation>Resultaten</translation>
     </message>
     <message>
         <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="unfinished"></translation>
+        <translation>Anonieme gebruikers moeten eerst inloggen om mee te kunnen stemmen met deze poll. </translation>
     </message>
     <message>
         <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
+        <translation>U hebt reeds gestemd.</translation>
     </message>
     <message>
         <source>%count total votes</source>
-        <translation type="unfinished"></translation>
+        <translation>%count stemmen in totaal</translation>
     </message>
     <message>
         <source>Poll results</source>
-        <translation type="unfinished"></translation>
+        <translation>Poll resultaten</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/search</name>
     <message>
         <source>Advanced search</source>
-        <translation>Geavanceerd zoeken</translation>
+        <translation>Uitgebreid zoeken</translation>
     </message>
     <message>
         <source>Any class</source>
-        <translation>Alle klasse</translation>
+        <translation>Alle klassen</translation>
     </message>
     <message>
         <source>Update attributes</source>
@@ -2274,7 +2249,7 @@ of de status van de publicatie wil zien.</translation>
     <message>
         <source>For more options try the %1Advanced search%2</source>
         <comment>The parameters are link start and end tags.</comment>
-        <translation>Voor meer opties probeer %1Advanced search%2
+        <translation>Voor meer opties probeer %1geavanceerd zoeken%2
 
 </translation>
     </message>
@@ -2288,7 +2263,7 @@ of de status van de publicatie wil zien.</translation>
     </message>
     <message>
         <source>Search for &quot;%1&quot; returned %2 matches</source>
-        <translation>Het zoeken op &quot;%1&quot;  resulteerde in %2 passende resultaten</translation>
+        <translation>Het zoeken op &quot;%1&quot;  resulteerde in &quot;%2&quot; passende resultaten</translation>
     </message>
     <message>
         <source>Search all the words</source>
@@ -2513,7 +2488,7 @@ of de status van de publicatie wil zien.</translation>
     </message>
     <message>
         <source>Empty Trash</source>
-        <translation>Ledig de prullenbak</translation>
+        <translation>Prullenbak legen</translation>
     </message>
     <message>
         <source>Name</source>
@@ -2548,7 +2523,7 @@ of de status van de publicatie wil zien.</translation>
     <name>design/standard/content/version</name>
     <message>
         <source>Version not a draft</source>
-        <translation>Versie, niet een draft</translation>
+        <translation>Deze versie is geen draft</translation>
     </message>
     <message>
         <source>To edit this version create a copy of it.</source>
@@ -2576,7 +2551,7 @@ of de status van de publicatie wil zien.</translation>
     </message>
     <message>
         <source>Modified:</source>
-        <translation>Gewijzigd:</translation>
+        <translation>Aangepast:</translation>
     </message>
     <message>
         <source>Versions for: %1</source>
@@ -2584,11 +2559,11 @@ of de status van de publicatie wil zien.</translation>
     </message>
     <message>
         <source>Version %1 is not available for editing anymore, only drafts can be edited.</source>
-        <translation>Versie %1 is niet meer beschikbaar om te bewerken, slechts drafts kunnen worden bewerkt.</translation>
+        <translation>Versie %1 is niet meer beschikbaar om te bewerken. U kunt alleen voorlopige versies bewerken.</translation>
     </message>
     <message>
         <source>Version %1 was not created by you, only your own drafts can be edited.</source>
-        <translation>Versie %1 werd niet door u aangemaakt. U kunt alleen uw eigen drafts bewerken.</translation>
+        <translation>Versie %1 werd niet door u aangemaakt. U kunt alleen uw eigen voorlopige versies bewerken.</translation>
     </message>
     <message>
         <source>Unable to create new version</source>
@@ -2608,7 +2583,7 @@ of de status van de publicatie wil zien.</translation>
     </message>
     <message>
         <source>You can change your version history settings in content.ini, remove draft versions or edit existing drafts.</source>
-        <translation>U kunt instellingen voor het monitoren van de opeenvolgende versies veranderen, draft versies verwijderen en bestaande drafts wijzigen in content.ini.</translation>
+        <translation>U kunt de instellingen voor het bijhouden van opeenvolgende versies veranderen in het content.ini bestand, voorlopige versies verwijderen of deze wijzigen.</translation>
     </message>
 </context>
 <context>
@@ -2623,7 +2598,7 @@ of de status van de publicatie wil zien.</translation>
     </message>
     <message>
         <source>My drafts</source>
-        <translation>Mijn drafts</translation>
+        <translation>Mijn voorlopige versies</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -2631,7 +2606,7 @@ of de status van de publicatie wil zien.</translation>
     </message>
     <message>
         <source>You have no drafts</source>
-        <translation>U hebt geen drafts</translation>
+        <translation>U hebt geen voorlopige versies</translation>
     </message>
     <message>
         <source>Related objects</source>
@@ -2659,7 +2634,7 @@ of de status van de publicatie wil zien.</translation>
     </message>
     <message>
         <source>Choose initial placement</source>
-        <translation>Kiezen initiële locatie</translation>
+        <translation>Beginlocatie kiezen</translation>
     </message>
     <message>
         <source>Please choose where you want to place the new %classname.
@@ -2675,17 +2650,6 @@ Click op naam van een locatie om verder te zoeken binnen die locatie.</translati
     <message>
         <source>My bookmarks</source>
         <translation>Mijn favorieten</translation>
-    </message>
-    <message>
-        <source>These are the objects you have bookmarked. Click on an object to view it or if you have sufficient permission you can to edit the object by clicking the edit button.
-      If you want to add more objects to this list click the %addbutton button.
-
-      Removing objects will only remove them from this list.</source>
-        <translation type="obsolete">Hieronder is uw lijst van favorieten. Click op een favoriet om het object te bekijken. 
-Indien u toestemming hebt, kunt u het object ook bewerken. Click hiervoor op de knop &quot;Bewerken&quot;. 
-Indien u favorieten wenst toe te voegen click dan op de %addbutton knop.
-
-Door items uit deze lijst te verwijderen, verwijdert u alleen de favorieten, niet de objecten zelf.</translation>
     </message>
     <message>
         <source>Add bookmarks</source>
@@ -2709,7 +2673,7 @@ Door items uit deze lijst te verwijderen, verwijdert u alleen de favorieten, nie
     </message>
     <message>
         <source>To select objects, choose the appriate radiobutton or checkbox(es), and click the &quot;Choose&quot; button.</source>
-        <translation>Om objecten te selecteren, selecteer de juiste radioknop of checkbox(es) en click op de &quot;Selecteren&quot; knop. </translation>
+        <translation>Om objecten te selecteren, selecteer de juiste radioknop of checkbox(es) en click op de knop &apos;Selecteren&apos; . </translation>
     </message>
     <message>
         <source>To select an object that is a child of one of the displayed objects, click the object name and you will get a list of the children of the object.</source>
@@ -2806,13 +2770,13 @@ Click op een objectnamen om verder te zoeken binnen die objectnaam.</translation
     </message>
     <message>
         <source>Empty Draft</source>
-        <translation>Al uw drafts verwijderen</translation>
+        <translation>Al uw voorlopige versies verwijderen</translation>
     </message>
     <message>
         <source>These are the current objects you are working on. The drafts are owned by you and can only be seen by you.
       You can either edit the drafts or remove them if you don&apos;t need them anymore.</source>
-        <translation>Dit zijn de objecten waar u op dit moment aan werkt. U bent de eigenaar van deze drafts. Zij zijn alleen voor u zichtbaar.
-U kunt de drafts bewerken. Indien u drafts niet meer nodig hebt, kunt u ze ook verwijderen. </translation>
+        <translation>Dit zijn de objecten waar u op dit moment aan werkt. U bent de eigenaar van deze voorlopige versies. Zij zijn alleen voor u zichtbaar.
+U kunt de voorlopige versies bewerken. Indien u deze niet meer nodig hebt, kunt u ze ook verwijderen. </translation>
     </message>
     <message>
         <source>Version</source>
@@ -2820,7 +2784,7 @@ U kunt de drafts bewerken. Indien u drafts niet meer nodig hebt, kunt u ze ook v
     </message>
     <message>
         <source>Last modified</source>
-        <translation>Voor het laatst gewijzigd </translation>
+        <translation>Voor het laatst aangepast </translation>
     </message>
     <message>
         <source>Current version</source>
@@ -2859,11 +2823,11 @@ U kunt de drafts bewerken. Indien u drafts niet meer nodig hebt, kunt u ze ook v
       If you want to add more objects to this list click the %emphasize_startAdd bookmarks%emphasize_stop button.
 
       Removing objects will only remove them from this list.</source>
-        <translation type="unfinished"></translation>
+        <translation>U heeft de volgende objecten in uw lijst met favorieten staan. U kunt op een object klikken om deze te bekijken.  Indien u hiervoor de nodige toestemming hebt, kunt u een object bewerken door op de knop &apos;Bewerken&apos; te klikken.</translation>
     </message>
     <message>
         <source>To select objects, choose the appropriate radiobutton or checkbox(es), and click the &quot;Choose&quot; button.</source>
-        <translation type="unfinished"></translation>
+        <translation>Om objecten te selecteren kunt u de bijbehorende radioknop of aanvinkvak gebruiken en op de knop &apos;Kiezen&apos; klikken.</translation>
     </message>
 </context>
 <context>
@@ -2878,7 +2842,7 @@ U kunt de drafts bewerken. Indien u drafts niet meer nodig hebt, kunt u ze ook v
     </message>
     <message>
         <source>Click the Login button to login.</source>
-        <translation>Clock op de Login knop om in te loggen.</translation>
+        <translation>Klik op de Login knop om in te loggen.</translation>
     </message>
     <message>
         <source>Not found</source>
@@ -2894,11 +2858,11 @@ U kunt de drafts bewerken. Indien u drafts niet meer nodig hebt, kunt u ze ook v
     </message>
     <message>
         <source>View is disabled</source>
-        <translation>Weergave is buiten werking gesteld</translation>
+        <translation>Weergave is uitgeschakeld</translation>
     </message>
     <message>
         <source>Module is disabled</source>
-        <translation>Module is buiten werking gesteld</translation>
+        <translation>Module is uitgeschakeld</translation>
     </message>
     <message>
         <source>Possible reasons for this is.</source>
@@ -2907,10 +2871,6 @@ U kunt de drafts bewerken. Indien u drafts niet meer nodig hebt, kunt u ze ook v
     <message>
         <source>Your current user does not have the proper privileges to access this page.</source>
         <translation>Op basis van de rechten die bij uw usersaccount behoren, hebt u geen toegang to deze pagina.</translation>
-    </message>
-    <message>
-        <source>You&apos;re currently not logged in on the site, to get proper access create a new user or login with an existing user.</source>
-        <translation type="obsolete">U bent op dit moment niet ingelogd. Om toegang te krijgen, maak een nieuwe gebruikersaccount aan of log in met de gebruikersnaam en wachtwoord van een bestaande gebruiker.</translation>
     </message>
     <message>
         <source>You misspelled some parts of your url, try changing it.</source>
@@ -2958,11 +2918,11 @@ U kunt de drafts bewerken. Indien u drafts niet meer nodig hebt, kunt u ze ook v
     </message>
     <message>
         <source>The view %module/%view is disabled and cannot be accessed.</source>
-        <translation>De weergave %module/%view is buiten werking gesteld. </translation>
+        <translation>De weergave %module/%view is uitgeschakeld. </translation>
     </message>
     <message>
         <source>The module %module is disabled and cannot be accessed.</source>
-        <translation>De module %module is buiten werking gesteld.</translation>
+        <translation>De module %module is uitgeschakeld.</translation>
     </message>
     <message>
         <source>Object is unavailable</source>
@@ -2994,7 +2954,7 @@ U kunt de drafts bewerken. Indien u drafts niet meer nodig hebt, kunt u ze ook v
     </message>
     <message>
         <source>You are currently not logged in to the site, to get proper access create a new user or login with an existing user.</source>
-        <translation type="unfinished"></translation>
+        <translation>U bent momenteel niet ingelogd op de site. Maak eerst een nieuwe gebruikersnaam aan of log in onder een bestaande gebruikersnaam.</translation>
     </message>
 </context>
 <context>
@@ -3023,19 +2983,11 @@ U kunt de drafts bewerken. Indien u drafts niet meer nodig hebt, kunt u ze ook v
     </message>
     <message>
         <source>To log in enter a valid login and password.</source>
-        <translation>Een geldige gebruikersnaam en wachtwoord is vereist om in te loggen.</translation>
+        <translation>Een geldige gebruikersnaam en wachtwoord zijn vereist om in te loggen.</translation>
     </message>
     <message>
         <source>Search</source>
         <translation>Zoeken</translation>
-    </message>
-    <message>
-        <source>Site:</source>
-        <translation>Site:</translation>
-    </message>
-    <message>
-        <source>Version:</source>
-        <translation>Versie:</translation>
     </message>
     <message>
         <source>Login</source>
@@ -3101,6 +3053,14 @@ U kunt de drafts bewerken. Indien u drafts niet meer nodig hebt, kunt u ze ook v
         <source>Redirecting to %url</source>
         <translation>U wordt omgeleid naar %url</translation>
     </message>
+    <message>
+        <source>Site:</source>
+        <translation type="unfinished">Site:</translation>
+    </message>
+    <message>
+        <source>Version:</source>
+        <translation type="unfinished">Versie:</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/navigator</name>
@@ -3128,10 +3088,6 @@ U kunt de drafts bewerken. Indien u drafts niet meer nodig hebt, kunt u ze ook v
         <translation>Annuleren</translation>
     </message>
     <message>
-        <source>Are you sure you want to remove these nodes?</source>
-        <translation type="obsolete">Bent u zeker dat u deze knopen wil verwijderen?</translation>
-    </message>
-    <message>
         <source>The following items were removed from your basket, because the products were changed</source>
         <translation>De volgende item werden uit uw boodschappenmandje verwijderd omdat de producten niet meer bestaan</translation>
     </message>
@@ -3144,40 +3100,32 @@ U kunt de drafts bewerken. Indien u drafts niet meer nodig hebt, kunt u ze ook v
         <translation>Verwijderde knopen kunnen later worden weer worden hersteld. U kunt ze uit de prullenmand halen.</translation>
     </message>
     <message>
-        <source>Removing this assignment will also remove it&apos;s %1 children.</source>
-        <translation type="obsolete">Verwijderen van deze opdracht heeft tot gevolg dat bijbehorende %1 kinderen ook worden verwijderd.</translation>
-    </message>
-    <message>
         <source>Removing node assignment of %1</source>
         <translation>%1 verwijderen</translation>
     </message>
     <message>
-        <source>Removing %1 will remove the node itself and it&apos;s %2 children. %3</source>
-        <translation type="obsolete">Verwijderen van %1 heeft tot gevolg dat de knoop zelf en de daarbij behorende %2 kinderen ook worden verwijderd.%3</translation>
-    </message>
-    <message>
         <source>Removing this assignment will also remove its %1 children.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijdering van deze opdracht zal tevens de %1 kinderen verwijderen.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove these items?</source>
-        <translation type="unfinished"></translation>
+        <translation>Weet u zeker dat u deze elementen wil verwijderen?</translation>
     </message>
     <message>
         <source>%nodename and its %childcount children. %additionalwarning</source>
-        <translation type="unfinished"></translation>
+        <translation>%nodename en de bijbehorende %childcount kinderen. %additionalwarning</translation>
     </message>
     <message>
         <source>%nodename %additionalwarning</source>
-        <translation type="unfinished"></translation>
+        <translation>%nodename %additionalwarning</translation>
     </message>
     <message>
         <source>Move to trash</source>
-        <translation type="unfinished"></translation>
+        <translation>Verplaats naar prullenbak </translation>
     </message>
     <message>
         <source>If %trashname is checked you will find the removed items in the trash afterwards.</source>
-        <translation type="unfinished"></translation>
+        <translation>Indien %trashname is aangevinkt vind u dadelijk de verwijderde elementen in de prullenbak.</translation>
     </message>
 </context>
 <context>
@@ -3271,52 +3219,52 @@ U kunt de drafts bewerken. Indien u drafts niet meer nodig hebt, kunt u ze ook v
         <translation>Click om een een speciaal ontworpen template aan te maken</translation>
     </message>
     <message>
-        <source>Node ID</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Object ID</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>New log</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuwe weblog</translation>
     </message>
     <message>
         <source>New image</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuwe afbeelding</translation>
     </message>
     <message>
         <source>New gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuwe galerie</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuw album</translation>
     </message>
     <message>
         <source>New file</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuw bestand</translation>
     </message>
     <message>
         <source>New article</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuw artikel</translation>
     </message>
     <message>
         <source>New person</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuw persoon</translation>
     </message>
     <message>
         <source>New company</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuw bedrijf</translation>
+    </message>
+    <message>
+        <source>Node ID</source>
+        <translation>Knoop ID</translation>
+    </message>
+    <message>
+        <source>Object ID</source>
+        <translation>Object ID</translation>
     </message>
     <message>
         <source>Input did not validate</source>
-        <translation type="unfinished"></translation>
+        <translation>Input is ongeldig</translation>
     </message>
     <message>
         <source>Default object view.</source>
-        <translation type="unfinished"></translation>
+        <translation>Standaard object weergave.</translation>
     </message>
 </context>
 <context>
@@ -3378,15 +3326,6 @@ The item can viewed by using the URL below.</source>
     <message>
         <source>New</source>
         <translation>Nieuw</translation>
-    </message>
-    <message>
-        <source>[%sitename] %classname &quot;%itemname&quot; was published</source>
-        <translation type="obsolete">(%sitename] %classname &quot;%itemname&quot; werd gepubliceerd</translation>
-    </message>
-    <message>
-        <source>This email is to inform you that a new item has been publish at %sitename.
-The item can viewed by using the URL below.</source>
-        <translation type="obsolete">Een nieuw item is gepubliceerd op %sitenamet. Met de volgende URL kunt het item oproepen.</translation>
     </message>
     <message>
         <source>Store</source>
@@ -3480,264 +3419,271 @@ The item can viewed by using the URL below.</source>
     </message>
     <message>
         <source>Please provide information on the changes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geef aan welke veranderingen zijn gemaakt.</translation>
     </message>
     <message>
         <source>E-Mail</source>
-        <translation type="unfinished">Email</translation>
+        <translation>Email</translation>
     </message>
     <message>
         <source>Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Veranderingen</translation>
     </message>
     <message>
         <source>Start an entry with a marker ( %emstart-%emend (dash) or %emstart*%emend (asterix) ) at the beginning of the line.
 The change will continue to the next change marker.</source>
-        <translation type="unfinished"></translation>
+        <translation>Begin commentaar met een teken ( %emstart-%emend (dash) of %emstart*%emend (asterix) ) 
+Het commentaar loopt door tot het volgende teken.</translation>
     </message>
     <message>
         <source>Please provide some basic information for your package.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vul hier enige basisinformatie in over uw pakket.</translation>
     </message>
     <message>
         <source>Package name</source>
-        <translation type="unfinished"></translation>
+        <translation>Pakketnaam</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Omschrijving</translation>
+        <translation>Omschrijving</translation>
     </message>
     <message>
         <source>Licence</source>
-        <translation type="unfinished"></translation>
+        <translation>Licentie</translation>
     </message>
     <message>
         <source>Package host</source>
-        <translation type="unfinished"></translation>
+        <translation>Pakket host</translation>
     </message>
     <message>
         <source>Packager</source>
-        <translation type="unfinished"></translation>
+        <translation>Packager</translation>
     </message>
     <message>
         <source>Please provide information on the maintainer of the package.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vul hier enige basinformatie in over de pakketbeheerder.</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Maintainer name</comment>
-        <translation type="unfinished">Naam</translation>
+        <translation>Naam</translation>
     </message>
     <message>
         <source>Role</source>
         <comment>Maintainer role</comment>
-        <translation type="unfinished">Rol</translation>
+        <translation>Rol</translation>
     </message>
     <message>
         <source>Please select a thumbnail file to be included in the package,
 if you do not wish to have a thumbnail simply click Next.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer een miniatuurweergave bestand dat in het pakket dient te worden opgenomen.
+Wilt u geen miniatuurweergave opnemen, klik dan op &apos;Volgende&apos;.</translation>
     </message>
     <message>
         <source>Create package</source>
-        <translation type="unfinished"></translation>
+        <translation>Maak pakket aan</translation>
     </message>
     <message>
         <source>Available wizards</source>
-        <translation type="unfinished"></translation>
+        <translation>Beschikbare wizards</translation>
     </message>
     <message>
         <source>Choose one of the following wizards for creating a package</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer één van de volgende wizards om een pakket aan te maken</translation>
     </message>
     <message>
         <source>Please choose the content classes you wish to be included in the package.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer de content klassen die u in het pakket wil opnemen.</translation>
     </message>
     <message>
         <source>Class list</source>
-        <translation type="unfinished">Klasselijst</translation>
+        <translation>Klasselijst</translation>
     </message>
     <message>
         <source>Please select a CSS file to be included in the package.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer een CSS bestand om in het pakket op te nemen.</translation>
     </message>
     <message>
         <source>Select an image file to be included in the package and click Next.
 When you are done with adding images click Next without choosing an image.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer een beeldbestand om in het pakket op te nemen en kik op Volgende.
+Als u eenmaal klaar bent met het toevoegen van beelden, klikt u op Volgende zonder verder een beeld te selecteren.</translation>
     </message>
     <message>
         <source>Currently added image files</source>
-        <translation type="unfinished"></translation>
+        <translation>Reeds toegevoegde beeldbestanden</translation>
     </message>
     <message>
         <source>Package wizard: %wizardname</source>
-        <translation type="unfinished"></translation>
+        <translation>Pakket wizard: %wizardname</translation>
     </message>
     <message>
         <source>The package can be installed on your system, installing the package will copy files, create content classes etc. all depending on the package.
 If you do not wish to install the package at this time you can do so later on the view page for the package.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dit pakket kan op uw systeem geïnstalleerd worden. De installatie zal, afhankelijk van het pakket, bestanden kopieëren, content klassen aanmaken, enz. Indien u nu nog niet het pakket wilt installeren, kunt u dit alsnog op een later tijdstip doen via de weergave pagina voor het pakket.</translation>
     </message>
     <message>
         <source>Install items</source>
-        <translation type="unfinished"></translation>
+        <translation>Installeer elementen</translation>
     </message>
     <message>
         <source>Skip installation</source>
-        <translation type="unfinished"></translation>
+        <translation>Installatie overslaan</translation>
     </message>
     <message>
         <source>Removal of packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Pakketten verwijderen</translation>
     </message>
     <message>
         <source>Are you sure you wish to remove the following packages?
 The packages will be lost forever.
 Note: The packages will not be uninstalled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Weet u zeker dat u de volgende pakketten wil verwijderen?
+De pakketten zullen voorgoed verwijderd worden.
+Let op: de pakketten zullen niet worden gedeïnstalleerd.</translation>
     </message>
     <message>
         <source>Confirm removal</source>
-        <translation type="unfinished"></translation>
+        <translation>Bevestig verwijdering</translation>
     </message>
     <message>
         <source>Keep packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Bewaar pakketten</translation>
     </message>
     <message>
         <source>Package removal was cancelled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het verwijderen van het pakket is geannuleerd.</translation>
     </message>
     <message>
         <source>Selection</source>
-        <translation type="unfinished">Selectie</translation>
+        <translation>Selectie</translation>
     </message>
     <message>
         <source>Installed</source>
-        <translation type="unfinished"></translation>
+        <translation>Geïnstalleerd</translation>
     </message>
     <message>
         <source>Not installed</source>
-        <translation type="unfinished"></translation>
+        <translation>Niet geïnstalleerd</translation>
     </message>
     <message>
         <source>Imported</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingevoerd</translation>
     </message>
     <message>
         <source>Remove package</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder pakket</translation>
     </message>
     <message>
         <source>Import package</source>
-        <translation type="unfinished"></translation>
+        <translation>Pakket invoeren</translation>
     </message>
     <message>
         <source>Next %arrowright</source>
-        <translation type="unfinished"></translation>
+        <translation>Volgende %arrowright</translation>
     </message>
     <message>
         <source>Finish</source>
-        <translation type="unfinished"></translation>
+        <translation>Afsluiten</translation>
     </message>
     <message>
         <source>Uninstall package</source>
-        <translation type="unfinished"></translation>
+        <translation>Deïnstalleer pakket</translation>
     </message>
     <message>
         <source>The package can be uninstalled from your system, uninstalling the package will remove any installed files, content classes etc. all depending on the package.
 If you do not wish to uninstall the package at this time you can do so later on the view page for the package.
 You may also remove the package without uninstalling it from the package list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het pakket kan van uw systeem verwijderd worden. Afhankelijk van het pakket zullen dan alle geconfigureerde bestanden, content klassen enz. verwijderd worden. 
+Indien u nu nog niet het pakket wilt verwijderen, kunt u dit alsnog op een later tijdstip doen via de weergave pagina voor het pakket.
+U kunt het pakket deïnstalleren zonder het te verwijderen van uw pakketlijst.</translation>
     </message>
     <message>
         <source>Uninstall items</source>
-        <translation type="unfinished"></translation>
+        <translation>Deïnstalleer elementen</translation>
     </message>
     <message>
         <source>Skip uninstallation</source>
-        <translation type="unfinished"></translation>
+        <translation>Sla deïnstallatie over</translation>
     </message>
     <message>
         <source>Files [%collectionname]</source>
-        <translation type="unfinished"></translation>
+        <translation>Bestanden [%collectionname]</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle gegevens</translation>
     </message>
     <message>
         <source>Uninstall</source>
-        <translation type="unfinished"></translation>
+        <translation>Deïnstalleren</translation>
     </message>
     <message>
         <source>Install</source>
-        <translation type="unfinished"></translation>
+        <translation>Installeren</translation>
     </message>
     <message>
         <source>Export to file</source>
-        <translation type="unfinished"></translation>
+        <translation>Uitvoeren naar bestand</translation>
     </message>
     <message>
         <source>State</source>
-        <translation type="unfinished"></translation>
+        <translation>Staat</translation>
     </message>
     <message>
         <source>Maintainers</source>
-        <translation type="unfinished"></translation>
+        <translation>Beheerder</translation>
     </message>
     <message>
         <source>Regarding eZ publish package &apos;%packagename&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Betreffende eZ publish pakket &apos;%packagename&apos;</translation>
     </message>
     <message>
         <source>Send E-Mail to the maintainer</source>
-        <translation type="unfinished"></translation>
+        <translation>Stuur een email naar de beheerder</translation>
     </message>
     <message>
         <source>Documents</source>
-        <translation type="unfinished"></translation>
+        <translation>Documenten</translation>
     </message>
     <message>
         <source>Changelog</source>
-        <translation type="unfinished"></translation>
+        <translation>Changelog</translation>
     </message>
     <message>
         <source>File list</source>
-        <translation type="unfinished">Lijst met bestanden</translation>
+        <translation>Lijst met bestanden</translation>
     </message>
 </context>
 <context>
     <name>design/standard/pdf/list</name>
     <message>
         <source>PDF Exports</source>
-        <translation type="unfinished"></translation>
+        <translation>PDF Uitvoer</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Naam</translation>
+        <translation>Naam</translation>
     </message>
     <message>
         <source>Creator</source>
-        <translation type="unfinished"></translation>
+        <translation>Auteur</translation>
     </message>
     <message>
         <source>Created</source>
-        <translation type="unfinished">Aangemaakt</translation>
+        <translation>Aangemaakt</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished">Bewerken</translation>
+        <translation>Bewerken</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <source>New Export</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuwe Uitvoer</translation>
     </message>
 </context>
 <context>
@@ -4001,14 +3947,6 @@ Via het menu bovenaan op deze pagina kunt u de secties openen.</translation>
         <translation>Verwijder geselecteerd regels</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="obsolete">Help</translation>
-    </message>
-    <message>
-        <source>Help on roles</source>
-        <translation type="obsolete">Help t.a.v. rollen</translation>
-    </message>
-    <message>
         <source>Edit role</source>
         <translation>Bewerk rol</translation>
     </message>
@@ -4033,7 +3971,7 @@ Via het menu bovenaan op deze pagina kunt u de secties openen.</translation>
     <name>design/standard/rss</name>
     <message>
         <source>Choose export node</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer uitvoerknoop</translation>
     </message>
     <message>
         <source>Please choose where to export from.
@@ -4041,15 +3979,20 @@ Via het menu bovenaan op deze pagina kunt u de secties openen.</translation>
     Select your placements and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer de export locatie.
+
+Bepaal de plaats en click op de %buttonname knop.
+Door favorieten en recente items te gebruiken kunt u snel selecteren.
+Click op de naam van een locatie om verder te zoeken binnen dat item.
+</translation>
     </message>
     <message>
         <source>Select</source>
-        <translation type="unfinished">Selecteren</translation>
+        <translation>Selecteren</translation>
     </message>
     <message>
         <source>Choose import destination</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer invoerbestemming</translation>
     </message>
     <message>
         <source>Please choose where to store imported items.
@@ -4057,11 +4000,16 @@ Via het menu bovenaan op deze pagina kunt u de secties openen.</translation>
     Select your placements and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bepaal waar u de geimporteerde items wil opslaan.
+
+Bepaal de plaats en click op de %buttonname knop.
+Door favorieten en recente items te gebruiken kunt u snel selecteren.
+Click op de naam van een locatie om verder te zoeken binnen dat item.
+</translation>
     </message>
     <message>
         <source>Choose RSS image</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer RSS afbeelding</translation>
     </message>
     <message>
         <source>Please choose image to use in RSS export.
@@ -4069,15 +4017,21 @@ Via het menu bovenaan op deze pagina kunt u de secties openen.</translation>
     Select your placements and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer een afbeelding voor de RSS uitvoer.
+
+Bepaal de plaats en click op de %buttonname knop.
+Door favorieten en recente items te gebruiken kunt u snel selecteren.
+Click op de naam van een locatie om verder te zoeken binnen dat item.
+
+</translation>
     </message>
     <message>
         <source>Choose export source</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer de bron die u wilt uitvoeren</translation>
     </message>
     <message>
         <source>Choose owner of imported objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer de eigenaar van de ingevoerde objecten</translation>
     </message>
     <message>
         <source>Please select the owner of the objects to import
@@ -4085,172 +4039,177 @@ Via het menu bovenaan op deze pagina kunt u de secties openen.</translation>
     Select the user and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer de eigenaar van de objecten die geimporteerd moeten worden
+
+Bepaal de plaats en click op de %buttonname knop.
+Door favorieten en recente items te gebruiken kunt u snel selecteren.
+Click op de naam van een locatie om verder te zoeken binnen dat item.
+</translation>
     </message>
 </context>
 <context>
     <name>design/standard/rss/edit</name>
     <message>
         <source>Display frontpage</source>
-        <translation type="unfinished"></translation>
+        <translation>Voorpagina weergeven</translation>
     </message>
     <message>
         <source>RSS Export</source>
-        <translation type="unfinished"></translation>
+        <translation>RSS Uitvoer</translation>
     </message>
     <message>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Titel</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Omschrijving</translation>
+        <translation>Omschrijving</translation>
     </message>
     <message>
         <source>Site URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Site URL</translation>
     </message>
     <message>
         <source>Image</source>
-        <translation type="unfinished">Afbeelding</translation>
+        <translation>Afbeelding</translation>
     </message>
     <message>
         <source>Browse</source>
-        <translation type="unfinished">Bladeren</translation>
+        <translation>Bladeren</translation>
     </message>
     <message>
         <source>Site Access</source>
-        <translation type="unfinished"></translation>
+        <translation>Site toegang</translation>
     </message>
     <message>
         <source>RSS version</source>
-        <translation type="unfinished"></translation>
+        <translation>RSS versie</translation>
     </message>
     <message>
         <source>Active</source>
-        <translation type="unfinished"></translation>
+        <translation>Actief</translation>
     </message>
     <message>
         <source>Access URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Ga naar URL</translation>
     </message>
     <message>
         <source>Note. Each source only fetch 5 objects from 1 level below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Let op! Elke bron kan slechts 5 objecten van een 1 nivea kager opnemen.</translation>
     </message>
     <message>
         <source>Source path</source>
-        <translation type="unfinished"></translation>
+        <translation>Bronpad</translation>
     </message>
     <message>
         <source>Class</source>
-        <translation type="unfinished">Klasse</translation>
+        <translation>Klasse</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation type="unfinished">Actualiseren</translation>
+        <translation>Actualiseren</translation>
     </message>
     <message>
         <source>Store</source>
-        <translation type="unfinished">Opslaan</translation>
+        <translation>Opslaan</translation>
     </message>
     <message>
         <source>Add Source</source>
-        <translation type="unfinished"></translation>
+        <translation>Bron toevoegen</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <source>RSS Import</source>
-        <translation type="unfinished"></translation>
+        <translation>RSS Invoer</translation>
     </message>
     <message>
         <source>URL</source>
-        <translation type="unfinished"></translation>
+        <translation>URL</translation>
     </message>
     <message>
         <source>Destination path</source>
-        <translation type="unfinished"></translation>
+        <translation>Bestemmingspad</translation>
     </message>
     <message>
         <source>Imported objects owner</source>
-        <translation type="unfinished"></translation>
+        <translation>Eigenaar van de ingevoerde objecten</translation>
     </message>
     <message>
         <source>Select</source>
-        <translation type="unfinished">Selecteren</translation>
+        <translation>Selecteren</translation>
     </message>
     <message>
         <source>Ignore</source>
-        <translation type="unfinished"></translation>
+        <translation>Negeren</translation>
     </message>
 </context>
 <context>
     <name>design/standard/rss/list</name>
     <message>
         <source>RSS Feeds</source>
-        <translation type="unfinished"></translation>
+        <translation>RSS Feeds</translation>
     </message>
     <message>
         <source>RSS Exports</source>
-        <translation type="unfinished"></translation>
+        <translation>RSS Uitvoer</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Naam</translation>
+        <translation>Naam</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versie</translation>
     </message>
     <message>
         <source>Active</source>
-        <translation type="unfinished"></translation>
+        <translation>Actief</translation>
     </message>
     <message>
         <source>Modifier</source>
-        <translation type="unfinished"></translation>
+        <translation>Aangepast door</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation type="unfinished"></translation>
+        <translation>Aangepast</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished">Bewerken</translation>
+        <translation>Bewerken</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished">Ja</translation>
+        <translation>Ja</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="unfinished">Nee</translation>
+        <translation>Nee</translation>
     </message>
     <message>
         <source>New Export</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuwe Uitvoer</translation>
     </message>
     <message>
         <source>RSS Imports</source>
-        <translation type="unfinished"></translation>
+        <translation>RSS Invoer</translation>
     </message>
     <message>
         <source>New Import</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuwe Invoer</translation>
     </message>
 </context>
 <context>
     <name>design/standard/rss/view</name>
     <message>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijderen</translation>
     </message>
 </context>
 <context>
@@ -4399,24 +4358,12 @@ Click op namen van locaties om verder te bladeren.</translation>
         <translation>Media</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="obsolete">Help</translation>
-    </message>
-    <message>
-        <source>Help on sections</source>
-        <translation type="obsolete">Help t.a.v. secties</translation>
-    </message>
-    <message>
         <source>Remove selected sections</source>
         <translation>Verwijder geselecteerde secties</translation>
     </message>
 </context>
 <context>
     <name>design/standard/setup</name>
-    <message>
-        <source>setup</source>
-        <translation type="obsolete">Configureren</translation>
-    </message>
     <message>
         <source>Cache admin</source>
         <translation>Cache management</translation>
@@ -4460,7 +4407,7 @@ Click op namen van locaties om verder te bladeren.</translation>
     </message>
     <message>
         <source>Datatype wizard</source>
-        <translation type="unfinished"></translation>
+        <translation>Datatype wizard</translation>
     </message>
     <message>
         <source>Start</source>
@@ -4469,7 +4416,7 @@ Click op namen van locaties om verder te bladeren.</translation>
     </message>
     <message>
         <source>Basic information</source>
-        <translation type="unfinished"></translation>
+        <translation>Standaard informatie</translation>
     </message>
     <message>
         <source>Name of datatype</source>
@@ -4489,7 +4436,7 @@ Click op namen van locaties om verder te bladeren.</translation>
     <message>
         <source>Handle input on class level</source>
         <comment>Datatype</comment>
-        <translation type="unfinished"></translation>
+        <translation>Bewerk invoer op klasse niveau</translation>
     </message>
     <message>
         <source>Next</source>
@@ -4518,7 +4465,7 @@ Click op namen van locaties om verder te bladeren.</translation>
     <message>
         <source>The creator of the datatype</source>
         <comment>Datatype</comment>
-        <translation type="unfinished"></translation>
+        <translation>De auteur van het datatype</translation>
     </message>
     <message>
         <source>Description of your datatype</source>
@@ -4528,18 +4475,19 @@ Click op namen van locaties om verder te bladeren.</translation>
     <message>
         <source>The first line will be used as the brief description and the rest are operator documentation.</source>
         <comment>Datatype</comment>
-        <translation type="unfinished"></translation>
+        <translation>De eerste regel zal worden gebruikt als korte beschrijving, en de rest als operator documentatie.</translation>
     </message>
     <message>
         <source>Handles the datatype %datatypename
 By using %datatypename you can ...</source>
         <comment>Datatype default description</comment>
-        <translation type="unfinished"></translation>
+        <translation>Handles het datatype %datatypename
+Door %datatypename te gebruiken kunt u ...</translation>
     </message>
     <message>
         <source>Once the download button is clicked the code will be generated and the browser will ask you to store the generated file.</source>
         <comment>Datatype</comment>
-        <translation type="unfinished"></translation>
+        <translation>Zodra u op de download knop klikt, zal de code worden gegenereerd en zal de browser u vragen het bestand op te slaan.</translation>
     </message>
     <message>
         <source>Download</source>
@@ -4629,7 +4577,7 @@ By using %datatypename you can ...</source>
     </message>
     <message>
         <source>Maximum execution time is %1 seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximale tijd voor het uitvoeren van een script is %1 seconden.</translation>
     </message>
     <message>
         <source>Database</source>
@@ -4647,60 +4595,60 @@ By using %datatypename you can ...</source>
     </message>
     <message>
         <source>Rapid Application Development Tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Rapid Application Development Hulpmiddelen</translation>
     </message>
     <message>
         <source>The rapid application development (RAD) tools allow you to easily get started with creating new functionality for eZ publish.</source>
-        <translation type="unfinished"></translation>
+        <translation>The rapid application development (RAD) hulpmiddelen maken het mogelijk om eenvoudig nieuwe functionaliteit aan eZ publish toe te voegen.</translation>
     </message>
     <message>
         <source>Tools</source>
         <comment>RAD Tools</comment>
-        <translation type="unfinished"></translation>
+        <translation>Hulpmiddelen</translation>
     </message>
     <message>
         <source>Template operator wizard</source>
-        <translation type="unfinished">Template operator wizard</translation>
+        <translation>Template operator wizard</translation>
     </message>
     <message>
         <source>Create new template override for</source>
-        <translation type="unfinished"></translation>
+        <translation>Maak een nieuw vervangings template voor</translation>
     </message>
     <message>
         <source>Could not create template, permission denied.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kon het template niet aanmaken. Geen permissie.</translation>
     </message>
     <message>
         <source>Invalid name. You can only use the characters a-z, numbers and _.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ongeldige naam. Alleen de letters a-z, cijfers en _ zijn toegestaan.</translation>
     </message>
     <message>
         <source>Template will be placed in</source>
-        <translation type="unfinished"></translation>
+        <translation>Template zal worden geplaatst in</translation>
     </message>
     <message>
         <source>Template name</source>
-        <translation type="unfinished"></translation>
+        <translation>Naam van het template</translation>
     </message>
     <message>
         <source>Override keys</source>
-        <translation type="unfinished"></translation>
+        <translation>Vervangings keys</translation>
     </message>
     <message>
         <source>Class</source>
-        <translation type="unfinished">Klasse</translation>
+        <translation>Klasse</translation>
     </message>
     <message>
         <source>Section</source>
-        <translation type="unfinished">Sectie</translation>
+        <translation>Sectie</translation>
     </message>
     <message>
         <source>Node</source>
-        <translation type="unfinished">Knoop</translation>
+        <translation>Knoop</translation>
     </message>
     <message>
         <source>Base template on</source>
-        <translation type="unfinished"></translation>
+        <translation>Standaard template op</translation>
     </message>
     <message>
         <source>Empty file</source>
@@ -4708,15 +4656,15 @@ By using %datatypename you can ...</source>
     </message>
     <message>
         <source>Copy of default template</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopie van het standaard template</translation>
     </message>
     <message>
         <source>Container ( with children )</source>
-        <translation type="unfinished"></translation>
+        <translation>Container ( met kinderen )</translation>
     </message>
     <message>
         <source>View ( without children )</source>
-        <translation type="unfinished"></translation>
+        <translation>Weergave ( zonder kinderen )</translation>
     </message>
     <message>
         <source>Object</source>
@@ -4736,7 +4684,7 @@ By using %datatypename you can ...</source>
     </message>
     <message>
         <source>Design Resource</source>
-        <translation type="unfinished">Locatie</translation>
+        <translation>Design Resource</translation>
     </message>
     <message>
         <source>Complete template list</source>
@@ -4745,12 +4693,12 @@ By using %datatypename you can ...</source>
     <message>
         <source>Start</source>
         <comment>Template operator start</comment>
-        <translation type="unfinished">Start</translation>
+        <translation>Start</translation>
     </message>
     <message>
         <source>Name of operator</source>
         <comment>Template operator</comment>
-        <translation type="unfinished"></translation>
+        <translation>Naam van de operator</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -4760,32 +4708,32 @@ By using %datatypename you can ...</source>
     <message>
         <source>One operator in class</source>
         <comment>Template operator</comment>
-        <translation type="unfinished"></translation>
+        <translation>Eén operator in klasse</translation>
     </message>
     <message>
         <source>Handles operator input</source>
         <comment>Template operator</comment>
-        <translation type="unfinished"></translation>
+        <translation>Handles operator input</translation>
     </message>
     <message>
         <source>Generates operator output</source>
         <comment>Template operator</comment>
-        <translation type="unfinished"></translation>
+        <translation>Genereert operator output</translation>
     </message>
     <message>
         <source>Parameter handling</source>
         <comment>Template operator</comment>
-        <translation type="unfinished"></translation>
+        <translation>Parameter handling</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>Template operator next</comment>
-        <translation type="unfinished"></translation>
+        <translation>Volgende</translation>
     </message>
     <message>
         <source>Restart</source>
         <comment>Template operator restart</comment>
-        <translation type="unfinished">Herstart</translation>
+        <translation>Herstart</translation>
     </message>
     <message>
         <source>Name of class</source>
@@ -4795,44 +4743,46 @@ By using %datatypename you can ...</source>
     <message>
         <source>The creator of the operator</source>
         <comment>Template operator</comment>
-        <translation type="unfinished"></translation>
+        <translation>De auteur van de operator</translation>
     </message>
     <message>
         <source>Description of your operator</source>
         <comment>Template operator</comment>
-        <translation type="unfinished"></translation>
+        <translation>Beschrijving van uw operator</translation>
     </message>
     <message>
         <source>The first line will be used as the brief description and the rest are operator documentation.</source>
         <comment>Template operator</comment>
-        <translation type="unfinished"></translation>
+        <translation>De eerste regel zal worden gebruikt als korte beschrijving, en de rest als operator documentatie.</translation>
     </message>
     <message>
         <source>Handles template operator %operatorname
 By using %operatorname you can ...</source>
         <comment>Template operator default description</comment>
-        <translation type="unfinished"></translation>
+        <translation>Handles template operator %operatorname
+Door %operatorname te gebruiken kunt u ...</translation>
     </message>
     <message>
         <source>Example code</source>
         <comment>Template operator</comment>
-        <translation type="unfinished"></translation>
+        <translation>Voorbeeld code</translation>
     </message>
     <message>
         <source>If you wish you can add some example code to explain how your operator should work.
 The default code was made from the basic parameters you chose.</source>
         <comment>Template operator</comment>
-        <translation type="unfinished"></translation>
+        <translation>Indien u wenst kunt u een voorbeeld van de code toevoegen om uit te leggen hoe de operator werkt.
+De standaard code word gegenereerd op basis van de standaard parameters die u kiest.</translation>
     </message>
     <message>
         <source>Once the download button is clicked the code will be generated and the browser will ask you to store the generated file.</source>
         <comment>Template operator</comment>
-        <translation type="unfinished"></translation>
+        <translation>Zodra u op de download knop klikt, zal de code worden gegenereerd en zal de browser u vragen het bestand op te slaan.</translation>
     </message>
     <message>
         <source>Download</source>
         <comment>Template operator download</comment>
-        <translation type="unfinished">Datatype download</translation>
+        <translation>Datatype download</translation>
     </message>
     <message>
         <source>Template view</source>
@@ -4840,15 +4790,15 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Default template resource</source>
-        <translation type="unfinished"></translation>
+        <translation>Standaard template resource</translation>
     </message>
     <message>
         <source>Set</source>
-        <translation type="unfinished"></translation>
+        <translation>Set</translation>
     </message>
     <message>
         <source>Override</source>
-        <translation type="unfinished"></translation>
+        <translation>Vervanging</translation>
     </message>
     <message>
         <source>File</source>
@@ -4856,7 +4806,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Match conditions</source>
-        <translation type="unfinished"></translation>
+        <translation>Voldoe aan de voorwaarden</translation>
     </message>
     <message>
         <source>Edit</source>
@@ -4868,7 +4818,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Create new</source>
-        <translation>Maak aan</translation>
+        <translation>Nieuw aanmaken</translation>
     </message>
     <message>
         <source>Site:</source>
@@ -4880,40 +4830,12 @@ The default code was made from the basic parameters you chose.</source>
         <translation>PHP Accelerator versie</translation>
     </message>
     <message>
-        <source>PHP Accelerator is enabled.</source>
-        <translation type="obsolete">PHP Accelerator is ingeschakeld.</translation>
-    </message>
-    <message>
-        <source>PHP Accelerator is disabled.</source>
-        <translation type="obsolete">PHP Accelerator is uitgeschakeld.</translation>
-    </message>
-    <message>
         <source>There is no known PHP accelerator active.</source>
         <translation>Er is geen bekende PHP accelerator actief.</translation>
     </message>
     <message>
         <source>&amp;percent% completed</source>
         <translation>&amp;percent% voltooid</translation>
-    </message>
-    <message>
-        <source>System check</source>
-        <translation type="obsolete">Systeem controle</translation>
-    </message>
-    <message>
-        <source>Ok</source>
-        <translation type="obsolete">Ok</translation>
-    </message>
-    <message>
-        <source>Languages</source>
-        <translation type="obsolete">Talen</translation>
-    </message>
-    <message>
-        <source>Mail server</source>
-        <translation type="obsolete">Mail server</translation>
-    </message>
-    <message>
-        <source>Sitedesign</source>
-        <translation type="obsolete">Sitedesign</translation>
     </message>
     <message>
         <source>Help</source>
@@ -4924,8 +4846,81 @@ The default code was made from the basic parameters you chose.</source>
         <translation>Samenvatting</translation>
     </message>
     <message>
-        <source>Image processing</source>
-        <translation type="obsolete"></translation>
+        <source>Name</source>
+        <comment>PHP Accelerator name</comment>
+        <translation>Naam</translation>
+    </message>
+    <message>
+        <source>Could not detect version</source>
+        <translation>Versie onbekend</translation>
+    </message>
+    <message>
+        <source>The PHP Accelerator is enabled.</source>
+        <translation>De PHP Accelerator is ingeschakeld.</translation>
+    </message>
+    <message>
+        <source>The PHP Accelerator is disabled.</source>
+        <translation>De PHP Accelerator is uitgeschakeld.</translation>
+    </message>
+    <message>
+        <source>Server</source>
+        <comment>Database server</comment>
+        <translation>Server</translation>
+    </message>
+    <message>
+        <source>Socket path</source>
+        <comment>Database socket path</comment>
+        <translation>Socket pad</translation>
+    </message>
+    <message>
+        <source>Database</source>
+        <comment>Database name</comment>
+        <translation>Database</translation>
+    </message>
+    <message>
+        <source>Connection retry count</source>
+        <comment>Database retry count</comment>
+        <translation>Aantal keer dat de database opnieuw heeft geprobeerd om een verbinding te maken </translation>
+    </message>
+    <message>
+        <source>Internal</source>
+        <translation>Intern</translation>
+    </message>
+    <message>
+        <source>Current read-only database (Slave)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>System:</source>
+        <translation>Systeem:</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Image system:</source>
+        <translation>Beeldsysteem:</translation>
+    </message>
+    <message>
+        <source>Mail:</source>
+        <translation>Email:</translation>
+    </message>
+    <message>
+        <source>Database:</source>
+        <translation>Database:</translation>
+    </message>
+    <message>
+        <source>Language:</source>
+        <translation>Taal:</translation>
+    </message>
+    <message>
+        <source>Priority</source>
+        <translation>Prioriteit</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation>Actualiseren</translation>
     </message>
     <message>
         <source>All caches were cleared.</source>
@@ -5001,7 +4996,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Uitgeschakeld</translation>
     </message>
     <message>
         <source>Clear selected</source>
@@ -5011,1502 +5006,1206 @@ The default code was made from the basic parameters you chose.</source>
         <source>Content view cache</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Name</source>
-        <comment>PHP Accelerator name</comment>
-        <translation type="unfinished">Naam</translation>
-    </message>
-    <message>
-        <source>Could not detect version</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The PHP Accelerator is enabled.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The PHP Accelerator is disabled.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Server</source>
-        <comment>Database server</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Socket path</source>
-        <comment>Database socket path</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Database</source>
-        <comment>Database name</comment>
-        <translation type="unfinished">Database</translation>
-    </message>
-    <message>
-        <source>Connection retry count</source>
-        <comment>Database retry count</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Internal</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Current read-only database (Slave)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>System:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation type="unfinished">OK</translation>
-    </message>
-    <message>
-        <source>Image system:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Mail:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Database:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Language:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Priority</source>
-        <translation type="unfinished">Prioriteit</translation>
-    </message>
-    <message>
-        <source>Update</source>
-        <translation type="unfinished">Actualiseren</translation>
-    </message>
 </context>
 <context>
     <name>design/standard/setup/datatypecode</name>
     <message>
         <source>Constructor</source>
-        <translation type="unfinished"></translation>
+        <translation>Constructor</translation>
     </message>
 </context>
 <context>
     <name>design/standard/setup/db</name>
     <message>
         <source>If you are having problems connecting to your database you should take a look at</source>
-        <translation type="unfinished"></translation>
+        <translation>Indien de database niet kan worden bereikt, kan worden gekeken naar</translation>
     </message>
     <message>
         <source>at</source>
-        <translation type="unfinished"></translation>
+        <translation>op</translation>
     </message>
     <message>
         <source>MySQL</source>
-        <translation type="unfinished"></translation>
+        <translation>MySQL</translation>
     </message>
     <message>
         <source>Introduction</source>
-        <translation type="unfinished">Introductie</translation>
+        <translation>Introductie</translation>
     </message>
     <message>
         <source>MySQL is a database management system created by MySQL AB.</source>
-        <translation type="unfinished"></translation>
+        <translation>MySQL is een database management systeem dat is ontwikkeld door MySQL AB.</translation>
     </message>
     <message>
         <source>It&apos;s currently one of the most popular databases in the Open Source community and most often on by default in PHP.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het is op dit moment één van de meest populaire databases in de Open Source gemeenschap en vaak standaard ingeschakeld in PHP.</translation>
     </message>
     <message>
         <source>From their homepage:</source>
-        <translation type="unfinished"></translation>
+        <translation>Van de homepage:</translation>
     </message>
     <message>
         <source>MySQL is the world&apos;s most popular Open Source Database, designed for speed, power and precision in mission critical, heavy load use.</source>
-        <translation type="unfinished"></translation>
+        <translation>MySQL is een van s´werelds populairste Open Source Databases, ontworpen met het oog op snelheid, prestatievermogen en precisie bij zware belasting.</translation>
     </message>
     <message>
         <source>More information can be found on</source>
-        <translation type="unfinished"></translation>
+        <translation>Meer informatie is beschikbaar op</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Details</translation>
     </message>
     <message>
         <source>MySQL is a good choice for handling most western languages, however it&apos;s currently not the best choice for Unicode or non-western languages.</source>
-        <translation type="unfinished"></translation>
+        <translation>MySQL is een goede keuze omdat het bijna alle westerse talen ondersteunt. MySQL is echter niet de beste keuze voor ondersteuning van Unicode of niet-westerse talen.</translation>
     </message>
     <message>
         <source>Installation</source>
-        <translation type="unfinished"></translation>
+        <translation>Installatie</translation>
     </message>
     <message>
         <source>By using the</source>
-        <translation type="unfinished"></translation>
+        <translation>Door het gebruik van de</translation>
     </message>
     <message>
         <source>configuration option you enable PHP to access MySQL databases. If you use this option without specifying the path to MySQL, PHP will use the built-in MySQL client libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>configuratie mogelijkheid maakt u het mogelijk dat PHP toegang heeft to de MySQL databases. Als u deze optie gebruikt zonder een pad te specificeren naar MySQL, zal PHP de ingebouwde MySQL client libraries gebruiken.</translation>
     </message>
     <message>
         <source>More information on the MySQL extension can be found at</source>
-        <translation type="unfinished"></translation>
+        <translation>Meer informatie over de MySQL extensie kan worden gevonden op</translation>
     </message>
     <message>
         <source>PostgreSQL</source>
-        <translation type="unfinished"></translation>
+        <translation>PostgreSQL</translation>
     </message>
     <message>
         <source>PostgreSQL is a database management system developed at the University of California at Berkeley Computer Science Department.</source>
-        <translation type="unfinished"></translation>
+        <translation>PostgreSQL is een database management systeem dat is ontwikkeld door de University of California, Berkeley Computer Science Department.</translation>
     </message>
     <message>
         <source>It&apos;s a very popular database in the Open Source community and provides highly advanced database functionality.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het is een erg populaire database in de Open Source gemeenschap en voorziet in geavanceerde database functionaliteit.</translation>
     </message>
     <message>
         <source>PostgreSQL is a sophisticated Object-Relational DBMS, supporting almost all SQL constructs, including subselects, transactions, and user-defined types and functions. It is the most advanced open-source database available anywhere.</source>
-        <translation type="unfinished"></translation>
+        <translation>PostgreSQL is een geavanceerd Object-Relational DBMS, dat vrijwel alle SQL functionaliteit ondersteunt, zoals subselects, transacties en door de gebruiker gedefinieerde typen en functies. Het is het meest geavanceerde open-source database systeem dat op dit moment beschikbaar is.</translation>
     </message>
     <message>
         <source>PostgreSQL is a good choice for handling most languages, including Unicode, but may require some configuration to get good speed.</source>
-        <translation type="unfinished"></translation>
+        <translation>PostgreSQL is een goede keuze omdat het vrijwel alle talen ondersteunt, inclusief Unicode, maar vereist uitvoerige configuratie om het prestatievermogen te optimaliseren.</translation>
     </message>
     <message>
         <source>In order to enable PostgreSQL support,</source>
-        <translation type="unfinished"></translation>
+        <translation>Om PostgresSQL support in te schakelen,</translation>
     </message>
     <message>
         <source>is required when you compile PHP.</source>
-        <translation type="unfinished"></translation>
+        <translation>is noodzakelijk wanneer u PHP compilieert.</translation>
     </message>
     <message>
         <source>More information on the PostgreSQL extension can be found at</source>
-        <translation type="unfinished"></translation>
+        <translation>Meer informatie over de PostgreSQL extensie kan worden gevonden op</translation>
     </message>
 </context>
 <context>
     <name>design/standard/setup/init</name>
     <message>
         <source>If you want you can let the setup add some demo data to your database, this demo data will give a good demonstration of the capabilites of eZ publish</source>
-        <translation type="unfinished"></translation>
+        <translation>Indien u wenst kunt u de setup demo data aan uw database laten toevoegen. Deze demo data geeft een goed beeld van de mogelijkheden ven eZ publish</translation>
     </message>
     <message>
         <source>First time users are adviced to install the demo data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Indien u eZ publish voor het eerst gebruikt, is het aan te raden de demo data te installeren.</translation>
     </message>
     <message>
         <source>Install demo data?</source>
-        <translation type="unfinished"></translation>
+        <translation>Installeer de demo data?</translation>
     </message>
     <message>
         <source>Cannot install demo data, the zlib extension is missing from your PHP installation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan de demo data niet installeren, de zlib extensie ontbreekt in uw PHP installatie.</translation>
     </message>
     <message>
         <source>does not support installing demo data at this point.</source>
-        <translation type="unfinished"></translation>
+        <translation>ondersteunt de installatie van de demo data hier niet.</translation>
     </message>
     <message>
         <source>Demo data failure</source>
-        <translation type="unfinished"></translation>
+        <translation>Kritieke demo data fout</translation>
     </message>
     <message>
         <source>Could not unpack the demo data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kon de demo data niet uitpakken.</translation>
     </message>
     <message>
         <source>You should try to install without demo data.</source>
-        <translation type="unfinished"></translation>
+        <translation>U zou ook kunnen proberen te installeren zonder gebruik van de demo data.</translation>
     </message>
     <message>
         <source>Initialization failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Initialisatie onderbroken door een fout</translation>
     </message>
     <message>
         <source>The database could not be properly initialized.</source>
-        <translation type="unfinished"></translation>
+        <translation>De database kon niet worden geinitialiseerd.</translation>
     </message>
     <message>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Waarschuwing</translation>
     </message>
     <message>
         <source>Your database already contains data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uw database bevat al data.</translation>
     </message>
     <message>
         <source>The setup can continue with the initialization but may damage the present data.</source>
-        <translation type="unfinished"></translation>
+        <translation>De setup kan verder met de initialisatie, maar zal mogelijk de bestaande data beschadigen.</translation>
     </message>
     <message>
         <source>What do you want the setup to do?</source>
-        <translation type="unfinished"></translation>
+        <translation>Wat wilt u dat de setup doet?</translation>
     </message>
     <message>
         <source>Continue but leave the data as it is.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ga door maar pas de data niet aan.</translation>
     </message>
     <message>
         <source>Let me choose a new database.</source>
-        <translation type="unfinished"></translation>
+        <translation>Laat mij een nieuwe database kiezen.</translation>
     </message>
     <message>
         <source>Note:</source>
-        <translation type="unfinished">Opgelet:</translation>
+        <translation>Opgelet:</translation>
     </message>
     <message>
         <source>Language Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Taal opties</translation>
     </message>
     <message>
         <source>no</source>
-        <translation type="unfinished"></translation>
+        <translation>nee</translation>
     </message>
     <message>
         <source>yes</source>
-        <translation type="unfinished"></translation>
+        <translation>ja</translation>
     </message>
     <message>
         <source>Configure</source>
-        <translation type="unfinished"></translation>
+        <translation>Configureer</translation>
     </message>
     <message>
         <source>button.</source>
-        <translation type="unfinished"></translation>
+        <translation>knop.</translation>
     </message>
     <message>
         <source>No finetuning is required on your system, you can continue by clicking the</source>
-        <translation type="unfinished"></translation>
+        <translation>Finetuning van uw systeem is niet noodzakelijk. U kunt doorgaan door te klikken op de</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Volgende</translation>
     </message>
     <message>
         <source>The system check found some issues that, when resolved, may give improved performance or more features. Please have a look through the results below for more information on what might be done. Each issue will give you instructions on how to do the finetuning.</source>
-        <translation type="unfinished"></translation>
+        <translation>De systeem check bracht enkele issues aan het licht die, indien opgelost, de performance verbeteren of waardoor additionele functionaliteit beschikbaar komt. Het onderstaande overzicht geeft informatie over hoe deze issues opgelost kunnen worden.</translation>
     </message>
     <message>
         <source>After you have fixed the problems click the</source>
-        <translation type="unfinished"></translation>
+        <translation>Nadat deze problemen zijn opgelost, kunt u klikken op de</translation>
     </message>
     <message>
         <source>Rerun System Check</source>
-        <translation type="unfinished"></translation>
+        <translation>Herhaal de System Check</translation>
     </message>
     <message>
         <source>button to re-run the system checking. This is recommended after system changes to check for critical failures. You can also click the</source>
-        <translation type="unfinished"></translation>
+        <translation>knop om het systeem nogmaals te checken. Het is aan te raden deze controles na veranderingen aan het systeem uit te voeren om kritieke fouten op te sporen. U kunt ook klikken op de</translation>
     </message>
     <message>
         <source>Check Again</source>
-        <translation type="unfinished"></translation>
+        <translation>Controleer opnieuw</translation>
     </message>
     <message>
         <source>button to rerun the finetuning checks. However if you wish you can skip straight to the next step by clicking the</source>
-        <translation type="unfinished"></translation>
+        <translation>knop om de fine-tuning checks nogmaals uit te voeren. Indien gewenst kun u deze checks overslaan en direct doorgaan naar de volgende stap. Dit doet u door te klikken op de</translation>
     </message>
     <message>
         <source>Issues</source>
-        <translation type="unfinished"></translation>
+        <translation>Issues</translation>
     </message>
     <message>
         <source>Failed writing</source>
-        <translation type="unfinished"></translation>
+        <translation>Kon niet schrijven</translation>
     </message>
     <message>
         <source>The setup could not write to the file.</source>
-        <translation type="unfinished"></translation>
+        <translation>De setup kon niet nar het bestand schrijven.</translation>
     </message>
     <message>
         <source>The setup could not get write access to the</source>
-        <translation type="unfinished"></translation>
+        <translation>De setup kreeg geen toestemming om te schrijven naar</translation>
     </message>
     <message>
         <source>directory. This is required to disable the initialization. Following the instructions found in</source>
-        <translation type="unfinished"></translation>
+        <translation>directory. Dit is niet een vereiste om de initialisatie uit te schakelen. Volg de aanwijzingen op</translation>
     </message>
     <message>
         <source>to enable write access and click the</source>
-        <translation type="unfinished"></translation>
+        <translation>Om schrijftoegang in te schakelen en klik op de</translation>
     </message>
     <message>
         <source>Try Again</source>
-        <translation type="unfinished"></translation>
+        <translation>Opnieuw proberen</translation>
     </message>
     <message>
         <source>Optionally you may disable this manually, edit the &lt;i&gt;settings/site.ini&lt;/i&gt; file and look for a line that says:</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt dit ook handmatig uitschakelen. Pas hiervoor het &lt;i&gt;settings/site.ini&lt;/i&gt; bestand aan en zoek de volgende regel op: </translation>
     </message>
     <message>
         <source>Change the second line from</source>
-        <translation type="unfinished"></translation>
+        <translation>Verander de tweede regel van</translation>
     </message>
     <message>
         <source>to</source>
-        <translation type="unfinished"></translation>
+        <translation>in</translation>
     </message>
     <message>
         <source>The setup is now disabled, click</source>
-        <translation type="unfinished"></translation>
+        <translation>De setup is nu uitgeschakeld, klik</translation>
     </message>
     <message>
         <source>to get back to the site.</source>
-        <translation type="unfinished"></translation>
+        <translation>om terug te keren naar de site.</translation>
     </message>
     <message>
         <source>You can choose from either</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt kiezen tussen</translation>
     </message>
     <message>
         <source>sendmail</source>
-        <translation type="unfinished"></translation>
+        <translation>sendmail</translation>
     </message>
     <message>
         <source>SMTP</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Server name</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>User name</source>
-        <translation type="obsolete"></translation>
+        <translation>SMTP</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished">Wachtwoord</translation>
+        <translation>Wachtwoord</translation>
     </message>
     <message>
         <source>Email sending failed</source>
-        <translation type="unfinished"></translation>
+        <translation>De e-mail werd niet verzonden</translation>
     </message>
     <message>
         <source>Failed sending registration email using</source>
-        <translation type="unfinished"></translation>
+        <translation>De registratie e-mail kon niet worden verzonden met behulp van</translation>
     </message>
     <message>
         <source>Congratulations, eZ publish should now run on your system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gefeliciteerd, eZ publish is nu geinstalleerd op uw systeem.</translation>
     </message>
     <message>
         <source>eZ publish website</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish website</translation>
     </message>
     <message>
         <source>eZ publish bug reports</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish bug reports</translation>
     </message>
     <message>
         <source>Done</source>
-        <translation type="unfinished"></translation>
+        <translation>Gedaan</translation>
     </message>
     <message>
         <source>It&apos;s time to select the language this site should support.</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt nu de talen kiezen die deze site moet ondersteunen.</translation>
     </message>
     <message>
         <source>Select your language and click the</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer uw taal en klik op de</translation>
     </message>
     <message>
         <source>Summary</source>
-        <translation type="unfinished">Samenvatting</translation>
+        <translation>Samenvatting</translation>
     </message>
     <message>
         <source>button, or the</source>
-        <translation type="unfinished"></translation>
+        <translation>knop, of de</translation>
     </message>
     <message>
         <source>Language Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Taal details</translation>
     </message>
     <message>
         <source>button to select language variations.</source>
-        <translation type="unfinished"></translation>
+        <translation>knop om taal  variaties te kiezen.</translation>
     </message>
     <message>
         <source>It&apos;s time to select the languages this site should support. Select your primary language and check any additional languages.</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt nu de talen kiezen die deze site moet ondersteunen. Kies de standaard taal en eventuele additionale talen.</translation>
     </message>
     <message>
         <source>Once you&apos;re done click the</source>
-        <translation type="unfinished"></translation>
+        <translation>Wanneer u klaar bent, klik dan op</translation>
     </message>
     <message>
         <source>The languages you choose will help determine the charset to use on the site.</source>
-        <translation type="unfinished"></translation>
+        <translation>De door u gekozen talen worden gebruikt om de karakter set te bepalen die gebruikt moet worden op de site.</translation>
     </message>
     <message>
         <source>Language name</source>
-        <translation type="unfinished"></translation>
+        <translation>Naam van de taal</translation>
     </message>
     <message>
         <source>Selection</source>
-        <translation type="unfinished">Selectie</translation>
+        <translation>Selectie</translation>
     </message>
     <message>
         <source>It&apos;s now possible to select a variation for your language. A variation does small adjustments to the language, such as adding Euro support or date format changes. Using variations are optional so you may safely skip this step. Once your&apos;re done click the</source>
-        <translation type="unfinished"></translation>
+        <translation>Het is nu mogelijk om een variatie op uw taal te kiezen. Een variatie maakt kleine aanpassingen aan de taal, zoals het toevoegen van Euro ondersteuning of aanpassingen in het formaat van de datum. Het gebruik van variaties is optioneel. Wanneer u klaar bent klik dan op de</translation>
     </message>
     <message>
         <source>It&apos;s now possible to select variations for your languages. Variations do small adjustments to the language, such as adding Euro support or date format changes. Using variations are optional so you may safely skip this step. Once you are done click the</source>
-        <translation type="unfinished"></translation>
+        <translation>Het is nu mogelijk om een variatie op uw taal te kiezen. Een variatie maakt kleine aanpassingen aan de taal, zoals het toevoegen van Euro ondersteuning of aanpassingen in het formaat van de datum. Het gebruik van variaties is optioneel. Wanneer u klaar bent klik dan op de</translation>
     </message>
     <message>
         <source>Default</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Details of your system, like OS type etc.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>The test results for your system</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>The database type you are using</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>The name of your site</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>The url of your site</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>The languages you chose</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>If you wish you can also add some comments which will be included in the registration.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Comments</source>
-        <translation type="obsolete"></translation>
+        <translation>Standaard</translation>
     </message>
     <message>
         <source>Send Registration</source>
-        <translation type="unfinished"></translation>
+        <translation>Stuur registratie</translation>
     </message>
     <message>
         <source>Skip Registration</source>
-        <translation type="unfinished"></translation>
+        <translation>Sla registratie over</translation>
     </message>
     <message>
         <source>What kind of language support should this site have. The type of support determines the language selection and charset.</source>
-        <translation type="unfinished"></translation>
+        <translation>Welke taal ondersteuning moet deze site hebben. Het type ondersteuning bepaalt de taal selectie en de charset.</translation>
     </message>
     <message>
         <source>Monolingual (one language)</source>
-        <translation type="unfinished"></translation>
+        <translation>Eentalig (één taal)</translation>
     </message>
     <message>
         <source>Multilingual (multiple languages with one charset)</source>
-        <translation type="unfinished"></translation>
+        <translation>Meertalig (meerdere talen met één charset)</translation>
     </message>
     <message>
         <source>Multilingual (Unicode, no limit)</source>
-        <translation type="unfinished"></translation>
+        <translation>Meertalig (Unicode, geen beperking)</translation>
     </message>
     <message>
         <source>Regional Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Regionale Opties</translation>
     </message>
     <message>
         <source>Here you will see a summary of the basic settings for your site. If you are satisfied with the settings you can click the</source>
-        <translation type="unfinished"></translation>
+        <translation>Hier ziet u een overzicht van de configuratie details van uw site. Indien u tevreden bent met deze waarden kun u klikken op de</translation>
     </message>
     <message>
         <source>Setup Database</source>
-        <translation type="unfinished"></translation>
+        <translation>Database Installatie</translation>
     </message>
     <message>
         <source>However if you want to change your settings click the</source>
-        <translation type="unfinished"></translation>
+        <translation>Indien u de configuratie wil wijzigen klik dan op</translation>
     </message>
     <message>
         <source>Start Over</source>
-        <translation type="unfinished"></translation>
+        <translation>Begin overnieuw</translation>
     </message>
     <message>
         <source>button which will restart the collecting of information (Existing settings are kept).</source>
-        <translation type="unfinished"></translation>
+        <translation>knop om de benodigde informatie nogmaals te verzamelen ( bestaande settings blijven behouden).</translation>
     </message>
     <message>
         <source>Database settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Database configuratie</translation>
     </message>
     <message>
         <source>Database</source>
-        <translation type="unfinished">Database</translation>
+        <translation>Database</translation>
     </message>
     <message>
         <source>Driver</source>
-        <translation type="unfinished"></translation>
+        <translation>Driver</translation>
     </message>
     <message>
         <source>Unicode support</source>
-        <translation type="unfinished"></translation>
+        <translation>Unicode ondersteuning</translation>
     </message>
     <message>
         <source>Language settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Taal configuratie</translation>
     </message>
     <message>
         <source>Language type</source>
-        <translation type="unfinished"></translation>
+        <translation>Taal type</translation>
     </message>
     <message>
         <source>Monolingual</source>
-        <translation type="unfinished"></translation>
+        <translation>Eentalig</translation>
     </message>
     <message>
         <source>Multilingual</source>
-        <translation type="unfinished"></translation>
+        <translation>Meertalig</translation>
     </message>
     <message>
         <source>Languages</source>
-        <translation type="unfinished">Talen</translation>
+        <translation>Talen</translation>
     </message>
     <message>
         <source>No problems was found with your system, you can continue by clicking the</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>However if you wish to finetune your system you should click the</source>
-        <translation type="obsolete"></translation>
+        <translation>Er werden geen problemen gevonden, u kunt doorgaan door te klikken op de</translation>
     </message>
     <message>
         <source>Finetune System</source>
-        <translation type="unfinished"></translation>
+        <translation>Finetune Systeem</translation>
     </message>
     <message>
         <source>Please have a look through the results below for more information on what the problems are.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bekijk de onderstaande resultaten voor meer informatie over de aard van de problemen.</translation>
     </message>
     <message>
         <source>Each problem will give you instructions on how to fix the problem.</source>
-        <translation type="unfinished"></translation>
+        <translation>De instructies bij elk probleem beschrijven hoe dit probleem moet worden opgelost.</translation>
     </message>
     <message>
         <source>The database is ready for initialization, click the %1 button when ready.</source>
-        <translation type="unfinished"></translation>
+        <translation>De database is klaar voor initialisatie, klik op de %1 knop wanneer u klaar bent.</translation>
     </message>
     <message>
         <source>Continue</source>
-        <translation type="unfinished"></translation>
+        <translation>Ga verder</translation>
     </message>
     <message>
         <source>The setup will not do an upgrade from older eZ publish versions (such as 2.2.7) if you leave the data as it is. This is only meant for people who have existing data that they don&apos;t want to lose. If you have existing eZ publish 3.0 data (such as from an RC release) you should skip DB initialization, however you will then need to do a manual upgrade.</source>
-        <translation type="unfinished"></translation>
+        <translation>De setup zal geen upgrade uitvoeren van oudere versies van eZ publish (zoals versie 2.2.7) indien u de data niet wilt wijzigen. Dit is alleen bedoelt voor personen die hun huidige data niet willen verliezen. Indien u data uit eerdere eZ publish 3.0 versies heeft (zoals uit een RC release) moet u de database initialisatie overslaan. U dient daarna wel een handmatige upgrade uit te voeren.</translation>
     </message>
     <message>
         <source>Continue but remove the data first.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ga door maar verwijder de data eerst.</translation>
     </message>
     <message>
         <source>Keep data and skip database initialization.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruik de bestaande data en sla de database initialisatie over.</translation>
     </message>
     <message>
         <source>It can take some time initializing the database so please be patient and wait until the new page is finished.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het kan enige tijd duren voordat de database initialisatie is voltooid. Wacht totdat de nieuwe pagina is geladen.</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Type</translation>
     </message>
     <message>
         <source>The database was succesfully initialized. You are now ready for some post configuration of the site.</source>
-        <translation type="unfinished"></translation>
+        <translation>De database initialisatie was succesvol. U kunt de configuratie van de site nu voltooien.</translation>
     </message>
     <message>
         <source>Click the %1 button to start the configuration process.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Servername</source>
-        <translation type="obsolete"></translation>
+        <translation>Klik op de %1 knop om met de configuratie te beginnen.</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruikersnaam</translation>
     </message>
     <message>
         <source>which must be available on the server or</source>
-        <translation type="unfinished"></translation>
+        <translation>dat beschikbaar moet zijn op de server of</translation>
     </message>
     <message>
         <source>If you need help with eZ publish, you can go to %ezlink and get help in the forums.
   If you find a bug (error), please go to %buglink and report it.
   With your help we can fix the errors eZ publish might have and implement new features.</source>
-        <translation type="unfinished"></translation>
+        <translation>Indien u hulp nodig heeft met eZ publish, kunt u naar de forums op %ezlink gaan.
+Indien u een bug (fout) ontdekt, kunt u deze melden op %buglink.
+Met uw hulp kunnen wij deze bugs in eZ publish oplossen en nieuwe functionaliteit ontwikkelen.</translation>
     </message>
     <message>
         <source>ez.no</source>
-        <translation type="unfinished"></translation>
+        <translation>ez.no</translation>
     </message>
     <message>
         <source>Click on the URL to access your new %ezlink or click the %donebutton button. Enjoy one of the most successful web content management systems!</source>
-        <translation type="unfinished"></translation>
+        <translation>Klik op de URL om door te gaan naar uw nieuwe %ezlink of klik op de %donebutton knop. Geniet van één van de meest succesvolle web content management systemen!</translation>
     </message>
     <message>
         <source>If you ever want to restart this setup, edit the file %filename and look for a line that says:</source>
-        <translation type="unfinished"></translation>
+        <translation>Indien u deze setup ooit opnieuw wilt uitvoeren, dan kunt u in het bestand %filename de volgende regel aanpassen:</translation>
     </message>
     <message>
         <source>Change the second line from %false to %true.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verander de tweede regel van %false naar %true.</translation>
     </message>
     <message>
         <source>The default username for the administrator is %1 and the default password is %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>De standaard gebruikersnaam voor de beheerder is %1 en het standaard wachtwoord is %2.</translation>
     </message>
     <message>
         <source>Database choice</source>
-        <translation type="unfinished"></translation>
+        <translation>Database keuze</translation>
     </message>
     <message>
         <source>The database would not accept the connection, please review your settings and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er kon geen verbinding worden gemaakt met de database. Controleer uw instellingen en probeer het nogmaals.</translation>
     </message>
     <message>
         <source>Password entries did not match.</source>
-        <translation type="unfinished"></translation>
+        <translation>De wachtwoorden kwamen niet overeen.</translation>
     </message>
     <message>
         <source>The selected database was not empty, please choose from the alternatives below.</source>
-        <translation type="unfinished"></translation>
+        <translation>De geselecteerde database was niet leeg, kies één van de onderstaande alternatieven.</translation>
     </message>
     <message>
         <source>The selected selected user has not got access to any databases. Change user or create a database for the user.</source>
-        <translation type="unfinished"></translation>
+        <translation>De geselecteerde gebruiker heeft geen toegang tot een database. Verander de gebruiker of maak een nieuwe database voor deze gebruiker aan.</translation>
     </message>
     <message>
         <source>Database initalization</source>
-        <translation type="unfinished"></translation>
+        <translation>Database initialisatie</translation>
     </message>
     <message>
         <source>Email settings</source>
-        <translation type="unfinished"></translation>
+        <translation>E-mail configuratie</translation>
     </message>
     <message>
         <source>Finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Voltooid</translation>
     </message>
     <message>
         <source>Language options</source>
-        <translation type="unfinished"></translation>
+        <translation>Taal opties</translation>
     </message>
     <message>
         <source>Registration</source>
-        <translation type="unfinished"></translation>
+        <translation>Registratie</translation>
     </message>
     <message>
         <source>Securing site</source>
-        <translation type="unfinished"></translation>
+        <translation>Site beveiligen</translation>
     </message>
     <message>
         <source>Site access</source>
-        <translation type="unfinished"></translation>
+        <translation>Toegang tot de site</translation>
     </message>
     <message>
         <source>Site details</source>
-        <translation type="unfinished"></translation>
+        <translation>Details</translation>
     </message>
     <message>
         <source>No templates choosen.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen template gekozen.</translation>
     </message>
     <message>
         <source>Site template selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Selectie van het site template</translation>
     </message>
     <message>
         <source>System check</source>
-        <translation type="unfinished">Systeem controle</translation>
+        <translation>Systeem controle</translation>
     </message>
     <message>
         <source>Welcome to eZ publish</source>
-        <translation type="unfinished"></translation>
+        <translation>Welkom bij eZ publish</translation>
     </message>
     <message>
         <source>Choose database system</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>We detected both MySQL and PostgreSQL support on your system. Which database system would you like to use?</source>
-        <translation type="obsolete"></translation>
+        <translation>Kies een database systeem</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>next button in installation</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>eZ publish support both MySQL and PostgreSQL.</source>
-        <translation type="obsolete"></translation>
+        <translation>Volgende</translation>
     </message>
     <message>
         <source>PostgreSQL or MySQL &gt;= 4.1 are required for unicode support in eZ publish.</source>
-        <translation type="unfinished"></translation>
+        <translation>PostgreSQL of MySQL &gt;=4.1 is vereist voor unicode ondersteuning in eZ publish.</translation>
     </message>
     <message>
         <source>More information about eZ publish and unicode support can be found %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Meer informatie betreffende eZ publish en unicode ondersteuning kan worden gevonden %1.</translation>
     </message>
     <message>
         <source>here</source>
         <comment>link to unicode info</comment>
-        <translation type="unfinished"></translation>
+        <translation>hier</translation>
     </message>
     <message>
         <source>Database initialization</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enter database system user information in the boxes below</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Socket (optional)</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>It is recommended to create the databases for eZ publish now. If you are uncertain on how to do this, see the database system user manual.</source>
-        <translation type="obsolete"></translation>
+        <translation>Database initialisatie</translation>
     </message>
     <message>
         <source>PostgreSQL user name and password is not tested until database names are selected.</source>
-        <translation type="unfinished"></translation>
+        <translation>PostgreSQL gebruikersnaam en wachtwoord worden niet getest totdat de database namen zijn geselecteerd.</translation>
     </message>
     <message>
         <source>If you are using MySQL and do not know what to enter in the socket field, leave it blank</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>E-mail settings</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Specify email settings for eZ publish</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>SMTP is recommended for MS Windows users</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Mail system</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Email transport by SMTP requires a server name. If the server requires authentication you must enter a user name and password as well.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Finished!</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>eZ publish has been installed with the following site(s)</source>
-        <translation type="obsolete"></translation>
+        <translation>Indien u MySQL gebruikt en niet weet welke waarde u dient in te vullen in het socket veld, laat dit veld dan leeg</translation>
     </message>
     <message>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Titel</translation>
     </message>
     <message>
         <source>URL</source>
-        <translation type="unfinished"></translation>
+        <translation>URL</translation>
     </message>
     <message>
         <source>User site</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruikers site</translation>
     </message>
     <message>
         <source>Admin site</source>
-        <translation type="unfinished"></translation>
+        <translation>Admin site</translation>
     </message>
     <message>
         <source>Admin e-mail</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Tip: Store this page as an html file by clicking Save-As in your web browser, alternatively you may write down the urls for your sites.</source>
-        <translation type="obsolete"></translation>
+        <translation>Admin e-mail</translation>
     </message>
     <message>
         <source>Make sure to visit the %1 and the %2 web site.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>forum</source>
-        <comment>forum link</comment>
-        <translation type="obsolete"></translation>
+        <translation>Bezoek ook de %1 en %2 web site.</translation>
     </message>
     <message>
         <source>eZ publish</source>
         <comment>eZ publish 3 link</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Language and country selection</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Use the radio button to choose primary language, and check boxes to choose additional languages. You may choose more than one additional language.</source>
-        <translation type="obsolete"></translation>
+        <translation>eZ publish</translation>
     </message>
     <message>
         <source>No Unicode support</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen Unicode support</translation>
     </message>
     <message>
         <source>The database server you connected to does not support Unicode which means that you cannot choose all the languages as you did.
 To fix this problem you must do one of the following:</source>
-        <translation type="unfinished"></translation>
+        <translation>De database server waarmee u verbinding heeft ondersteunt geen Unicode, waardoor u niet alle talen zoals gekozen kunt gebruiken.
+Om dit probleem op te lossten kunt u het volgende doen:</translation>
     </message>
     <message>
         <source>Choose only languages that use similar characters, for instance: English and Norwegian will work together while English and Russian won&apos;t work.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kies alleen talen die gelijke karakters gebruiken, zoals bijvoorbeeld Engels en Noors. De combinatie van bijvoorbeeld Engels en Russisch zal niet werken.</translation>
     </message>
     <message>
         <source>Make sure the database server is configured to use Unicode or that it has the latest software which supports Unicode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verzeker u ervan dat de database zodanig is geconfigureerd dat deze Unicode kan gebruiken of recente software gebruikt die Unicode ondersteunt.</translation>
     </message>
     <message>
         <source>Primary/Additional</source>
-        <translation type="unfinished"></translation>
+        <translation>Standaard/Additioneel</translation>
     </message>
     <message>
         <source>eZ publish supports multiple languages.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The selected languages are used to determine character sets, date format, number format, etc.</source>
-        <translation type="obsolete"></translation>
+        <translation>eZ publish ondersteunt meerdere talen.</translation>
     </message>
     <message>
         <source>These and other additional languages can also be installed later.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>For more information about language customization, see the %1.</source>
-        <translation type="obsolete"></translation>
+        <translation>Deze en andere additionele talen kunnen ook later worden geïnstalleerd.</translation>
     </message>
     <message>
         <source>documentation</source>
         <comment>language information link</comment>
-        <translation type="unfinished"></translation>
+        <translation>Documentatie</translation>
     </message>
     <message>
         <source>Site registration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>If you wish you can register your installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your personal details for unsolicited emails.</source>
-        <translation type="obsolete"></translation>
+        <translation>Registratie van de site</translation>
     </message>
     <message>
         <source>The registration email:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sending out the email and generating your site might take a couple of seconds so please wait until the next page loads. Clicking the button again will only send out duplicate emails, and may corrupt your installation.</source>
-        <translation type="obsolete"></translation>
+        <translation>De registratie e-mail:</translation>
     </message>
     <message>
         <source>By sending registration the following data will be sent to eZ systems</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This data will help to improve eZ publish for future releases.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Your site is running in non-virtualhost mode which is considered an unsecure mode. It&apos;s recommended to run eZ publish in virtualhost mode.
-If you do not have the possibility to use virtualhost mode you should follow the instructions below on howto install a .htaccess file, the file tells the webserver to only give access to certain files.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>If you have shell access to the site you can run the following commmand to install the file.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>If you do not have shell access you will have to copy the file using the ftp client or ask your hosting provider to do this for you.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>This security measure is to ensure that your settings are not accessible for other users.</source>
-        <translation type="obsolete"></translation>
+        <translation>Door de registratie te verzenden stuurt u de volgende informatie naar eZ systems</translation>
     </message>
     <message>
         <source>Site access configuration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Choose which access method you would like to use for your site(s).The access method determines how people will access your site.
- If unsure choose URL.</source>
-        <translation type="obsolete"></translation>
+        <translation>Configuratie van toegang tot de site</translation>
     </message>
     <message>
         <source>URL (recommended)</source>
-        <translation type="unfinished"></translation>
+        <translation>URL (aanbevolen)</translation>
     </message>
     <message>
         <source>Port. Note: Requires web server configuration </source>
-        <translation type="unfinished"></translation>
+        <translation>Poort. Let op: dit vereist configuratie van de web server</translation>
     </message>
     <message>
         <source>Hostname. Note: Requires DNS setup.</source>
-        <translation type="unfinished"></translation>
+        <translation>Naam van de host. Opgelet: dit vereist DNS configuratie.</translation>
     </message>
     <message>
         <source>The path determines access.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het pad bepaald de toegang.</translation>
     </message>
     <message>
         <source>e.g. %adminsite and %usersite</source>
-        <translation type="unfinished"></translation>
+        <translation>bijvoorbeeld %adminsite en %usersite</translation>
     </message>
     <message>
         <source>Port</source>
-        <translation type="unfinished"></translation>
+        <translation>Poort</translation>
     </message>
     <message>
         <source>The port number determines access.*</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>* This requires that your web server is setup to handle the port numbers.</source>
-        <translation type="obsolete"></translation>
+        <translation>Het nummer van de port bepaald de toegang.*</translation>
     </message>
     <message>
         <source>Hostname</source>
-        <translation type="unfinished"></translation>
+        <translation>Naam van de host</translation>
     </message>
     <message>
         <source>The hostname determines access.*</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>* This requires that you have a DNS setup for your hostname.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>For more detailed information on site access see the %1</source>
-        <translation type="obsolete"></translation>
+        <translation>De naam van de host bepaald de toegang.*</translation>
     </message>
     <message>
         <source>online documentation</source>
         <comment>site access documentation link</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You need to specify some information about every site you&apos;ve chosen to install.</source>
-        <translation type="obsolete"></translation>
+        <translation>Online documentatie</translation>
     </message>
     <message>
         <source>Do not use &apos;admin&apos;, &apos;user&apos; or equal site access values. Please change site illegal access values on sites indicated by *</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruik geen &apos;admin&apos;, &apos;user&apos; of soortgelijke site access waarden. De * geeft aan welke ongeldige waarden u dient te wijzigen</translation>
     </message>
     <message>
         <source>You have chosen the same database for two or more site templates. Please change where indicated by *</source>
-        <translation type="unfinished"></translation>
+        <translation>U gebruikt dezelfde database voor twee of meerdere site templates. De * geeft aan waar u aanpassingen dient te maken</translation>
     </message>
     <message>
         <source>One or more of your databases already contain data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Eén of meerdere van uw databases bevat al data.</translation>
     </message>
     <message>
         <source>Select what to do from the drop down box(es).</source>
-        <translation type="unfinished"></translation>
+        <translation>Geef door middel van de drop down box(en) aan wat gedaan moet worden.</translation>
     </message>
     <message>
         <source>Site url</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>URL for access</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Port for access</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Hostname for access</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>URL for admin access</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Port for admin access</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Hostname for admin access</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Database not empty</source>
-        <translation type="obsolete"></translation>
+        <translation>Site url</translation>
     </message>
     <message>
         <source>Leave the data and add new</source>
-        <translation type="unfinished"></translation>
+        <translation>Bestaande data behouden en nieuwe toevoegen</translation>
     </message>
     <message>
         <source>Remove existing data</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder de bestaande data</translation>
     </message>
     <message>
         <source>Leave the data and do nothing</source>
-        <translation type="unfinished"></translation>
+        <translation>Bewaar de bestaande data en doe niets</translation>
     </message>
     <message>
         <source>I&apos;ve chosen a new database</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>For more information on how to configure site access, see the %1</source>
-        <translation type="obsolete"></translation>
+        <translation>Ik heb een nieuwe database gekozen</translation>
     </message>
     <message>
         <source>documentation</source>
         <comment>site access documentation link</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Choose site templates</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Choose one or more site templates for your site</source>
-        <translation type="obsolete"></translation>
+        <translation>Documentatie</translation>
     </message>
     <message>
         <source>Select which sites you would like to install on your system.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Each site template will create a unique web site.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Since each web site is unique, each site template require a unique database.</source>
-        <translation type="obsolete"></translation>
+        <translation>Selecteer de sites die u wil installeren op uw systeem.</translation>
     </message>
     <message>
         <source>After you have fixed the problems click the %1 button to re-run the system checking. You may also ignore specific tests by clicking the check boxes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klik nadat u de problemen hebt opgelost op de %1 knop en herhaal de systeem check. U kunt door middel van de checkboxen aangeven welke tests u wil overslaan. </translation>
     </message>
     <message>
         <source>Ignore this test</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The setup has detected some system settings which must be changed.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>If this is not corrected, eZ publish will probably not install correctly and work properly.</source>
-        <translation type="obsolete"></translation>
+        <translation>Negeer deze test</translation>
     </message>
     <message>
         <source>Welcome to eZ publish %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>No data will be stored in the database until the final step of the installation.</source>
-        <translation type="obsolete"></translation>
+        <translation>Welkom bij eZ publish %1</translation>
     </message>
     <message>
         <source>which will relay the emails. If unsure what to use, ask your webhost. Some webhosts do not support</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Email is used for sending out important notices such as user registration and content approval, and it is used to send the site registration.</source>
-        <translation type="obsolete"></translation>
+        <translation>zal de e-mail relayen. Neem contact op met uw webhost indien u niet zeker weet welke te gebruiken. Sommige webhosts bieden geen ondersteuning voor</translation>
     </message>
     <message>
         <source>Back</source>
         <comment>back button in installation</comment>
-        <translation type="unfinished"></translation>
+        <translation>Terug</translation>
     </message>
     <message>
         <source>Refresh</source>
         <comment>Refresh button in installation</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Fill out the details for each site.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Use the refresh button to update database list.</source>
-        <translation type="obsolete"></translation>
+        <translation>Vernieuwen</translation>
     </message>
     <message>
         <source>The system check found some issues that need to be resolved before the setup can continue.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish. Please read the requirements section below and click next to proceed.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Requirements</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>You will need to have information about a database server eZ publish can connect to. The following database servers are supported (both are free):</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>recommended</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Click &quot;Next&quot; to start the configuration of up eZ publish.</source>
-        <translation type="obsolete"></translation>
+        <translation>De systeem check bracht enkele issues aan het licht die eerst moeten worden opgelost voordat u verder kunt met de installatie.</translation>
     </message>
     <message>
         <source>This section will contain information/help about each step in the setup wizard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dit gedeelte bevat informatie over iedere stap in de setup wizard.</translation>
     </message>
     <message>
         <source>The summary section below will contain information about configured settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>De onderstaande samenvatting bevat informatie over de configuratie instellingen.</translation>
     </message>
     <message>
         <source>Information about how to set up eZ publish manually is available %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Informatie over hoe eZ publish handmatig kan worden opgezet is beschikbaar %1.</translation>
     </message>
     <message>
         <source>here</source>
         <comment>manual installation link</comment>
-        <translation type="unfinished"></translation>
+        <translation>hier</translation>
+    </message>
+    <message>
+        <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the %documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.</source>
+        <translation type="obsolete">Controleer of gebruikersnaam en wachtwoord juist zijn. Controleer of uw PostgreSQL database juist is geconfigureerd.&lt;br&gt; Lees de %documentation voor meer informatie hierover. &lt;br&gt;Start de postmaster met de -i optie.</translation>
+    </message>
+    <message>
+        <source>Both MySQL and PostgreSQL support was detected on your system. Please choose the database system you would like to use.</source>
+        <translation>Uw systeem ondersteunt zowel MySQL als PostgreSQL. Kies het database systeem dat u wenst te gebruiken.</translation>
+    </message>
+    <message>
+        <source>eZ publish supports both MySQL and PostgreSQL.</source>
+        <translation>eZ publish ondersteunt zowel MySQL als PostgreSQL.</translation>
+    </message>
+    <message>
+        <source>Please input database access information in the form below.</source>
+        <translation>Voer de informatie over de database permissies in in het onderstaande formulier.</translation>
+    </message>
+    <message>
+        <source>Servername:</source>
+        <translation>Naam van de server:</translation>
+    </message>
+    <message>
+        <source>Username:</source>
+        <translation>Gebruikersnaam:</translation>
+    </message>
+    <message>
+        <source>Password:</source>
+        <translation>Wachtwoord:</translation>
+    </message>
+    <message>
+        <source>Socket (optional):</source>
+        <translation>Socket (niet verplicht):</translation>
+    </message>
+    <message>
+        <source>If you don&apos;t have access to a database, you should obtain access now. eZ publish is capable of running multiple sites, each site needs its own database. This means that you need to create several databases if you plan to run multiple sites. Please refer to the database system user manual if you&apos;re unsure about how to create a database.</source>
+        <translation>Indien u geen toegang tot een database heeft, moet u dit nu opzetten. eZ publish ondersteunt meerdere sites, en iedere site gebruikt een eigen database. Om meerdere sites te kunnen draaiten heeft u toegang nodig tot meerdere databases. Raadpleeg de handleiding van uw database systeem indien u niet weet hoe u een database moet aanmaken.</translation>
+    </message>
+    <message>
+        <source>Outgoing E-mail</source>
+        <translation>Uitgaande e-mail</translation>
+    </message>
+    <message>
+        <source>This section is used to configure how eZ publish delivers its outgoing E-mail.</source>
+        <translation>In dit onderdeel zal eZ publish worden geconfigureerd om uitgaande e-mail te bezorgen.</translation>
+    </message>
+    <message>
+        <source>There are two options:&lt;br&gt;- Direct delivery through sendmail (must be available on the server).&lt;br&gt;- Indirect delivery using an SMTP relay server.</source>
+        <translation>Er zijn twee mogelijkheden:&lt;br&gt; - Verzending via sendmail (moet beschikbaar zijn op de server).&lt;br&gt; - Indirecte verzending met behulp van een SMTP relay server.</translation>
+    </message>
+    <message>
+        <source>SMTP is recommended for MS Windows users.</source>
+        <translation>Het gebruik van SMTP is aanbevolen voor MS Windows gebruikers.</translation>
+    </message>
+    <message>
+        <source>E-mail delivery</source>
+        <translation>E-mail bezorging</translation>
+    </message>
+    <message>
+        <source>Server name: </source>
+        <translation>Naam van de server:</translation>
+    </message>
+    <message>
+        <source>Username (optional): </source>
+        <translation>Gebruikersnaam (niet verplicht):</translation>
+    </message>
+    <message>
+        <source>Password (optional): </source>
+        <translation>Wachtwoord (niet verplicht):</translation>
+    </message>
+    <message>
+        <source>The eZ publish system uses E-mail to send out important notices such as user registration and content approval. On Linux/UNIX: try to use sendmail. On Windows: use an SMTP server.</source>
+        <translation>Het eZ publish systeem gebruikt e-mail om belangrijke berichten te versturen, zoals bijvoorbeeld e-mails met de registratie informatie van gebruikers en workflow berichten. Op Linux/Unix systemen: gebruik sendmail. Op Windows: gebruik een SMTP server.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Sendmail:&lt;/b&gt;&lt;br&gt;Mail is delivered directly using the sendmail transfer agent. The sendmail binary is usually available on most Linux/UNIX systems. If sendmail is not available then SMTP should be used.</source>
+        <translation>&lt;b&gt;Sendmail&lt;/b&gt;&lt;br&gt;Mail wordt verzonden via de sendmail transfer agent. De sendmail binary is beschikbaar op vrijwel alle Linux/UNIX systemen. Indien sendmail niet beschikbaar is, moet SMTP worden gebruikt.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;SMTP:&lt;/b&gt;&lt;br&gt;Mail is delivered through an SMTP server. At the minimum, the hostname of the SMTP server must be specified. Hint: check the SMTP settings in your E-mail application.</source>
+        <translation>&lt;b&gt;SMTP&lt;/b&gt;&lt;br&gt;E-mail wordt verzonden via een SMTP server. U moet tenminste de hostnaam van de SMTP server specificeren. Hint: controleer de SMTP settings in uw e-mail applicatie.</translation>
+    </message>
+    <message>
+        <source>Email is used for sending out important notices such as user registration and content approval.</source>
+        <translation>E-mail zal worden gebruikt om belangrijke berichten te versturen, zoals meldingen betreffende de registratie van gebruikers en content approval.</translation>
+    </message>
+    <message>
+        <source>Most Unix systems support sendmail, while windows users must choose SMTP.</source>
+        <translation>De meeste Unix systemen gebruiken sendmail, Windows gebruikers moeten SMTP kiezen.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;SMTP&lt;/b&gt;: If you&apos;re unsure what to enter, take a look at the settings in your e-mail application.</source>
+        <translation>&lt;b&gt;SMTP&lt;/b&gt;: indien u niet weet wat u in moet vullen, raadpleeg de settings in uw e-mail applicatie.</translation>
+    </message>
+    <message>
+        <source>eZ publish has been installed with the following sites. You will find the username and password mentioned for each site.</source>
+        <translation>eZ publish is geïnstalleerd met de volgende sites. Gebruikersnaam en wachtwoord staan per site aangegeven.</translation>
+    </message>
+    <message>
+        <source>Tip: Store this page as an html file by clicking Save-As in your web browser menu, alternatively you may write down the urls for your sites.</source>
+        <translation>Tip: Sla deze pagina op als een html bestand door te klikken op &apos; Bewaar als&apos; in het menu van de web browser. U kunt natuurlijk ook de urls van uw sites opschrijven.</translation>
+    </message>
+    <message>
+        <source>forums</source>
+        <comment>forum link</comment>
+        <translation>forums</translation>
+    </message>
+    <message>
+        <source>Language support</source>
+        <translation>Taal ondersteuning</translation>
+    </message>
+    <message>
+        <source>Use the radio buttons to choose the primary language, and the checkboxes to choose additional languages. You may choose more than one additional language.</source>
+        <translation>Gebruik de radio buttons om de standaard taal te kiezen, en de checkboxen om additionele talen toe te voegen. U kunt meer dan één additionele taal toevoegen.</translation>
+    </message>
+    <message>
+        <source>The selected languages are used to determine character sets, date / number formats, etc.</source>
+        <translation>De geselecteerde talen worden gebruikt om vast te stellen welke karaktersets, datum en nummer formats moeten worden gebruikt.</translation>
+    </message>
+    <message>
+        <source>For more information about language customization, please refer to the %1.</source>
+        <translation>Kijk voor meer informatie over de configuratie van de taal naar %1.</translation>
+    </message>
+    <message>
+        <source>If you wish, you can register this installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your details for unsolicited emails.</source>
+        <translation>Indien gewenst kunrt u deze installatie registreren door enige informatie door te sturen naar eZ systems. Er zal geen vertrouwelijke data worden verstuurd en eZ systems zal uw details niet verkopen of gebruiken voor ongewenste e-mails.</translation>
+    </message>
+    <message>
+        <source>If you wish, you can also add some comments, which will be included in the registration E-mail.</source>
+        <translation>Indien gewenst kunt u commentaar toevoegen dat aan de registratie e-mail zal worden toegevoegd.</translation>
+    </message>
+    <message>
+        <source>Comments:</source>
+        <translation>Reacties:</translation>
+    </message>
+    <message>
+        <source>Sending out the email and generating your site might take a couple of seconds. Please wait until the next page loads. Clicking the button again will only send out duplicate emails, and may corrupt the installation.</source>
+        <translation>Het versturen van de email en het aanmaken van uw site kan enkele seconden duren. Wacht tot de volgende pagina is geladen. Door opnieuw op de knop te drukken verstuurt u een dubbele email en kan de configuratie mislukken.</translation>
+    </message>
+    <message>
+        <source>Send registration</source>
+        <translation>Aanmelding versturen</translation>
+    </message>
+    <message>
+        <source>System details (OS type, etc)</source>
+        <translation>Systeemgegevens (OS type, enz.)</translation>
+    </message>
+    <message>
+        <source>The test results</source>
+        <translation>De testresultaten</translation>
+    </message>
+    <message>
+        <source>The database type</source>
+        <translation>Het database-type</translation>
+    </message>
+    <message>
+        <source>The site name</source>
+        <translation>De naam van de website</translation>
+    </message>
+    <message>
+        <source>The url of the site</source>
+        <translation>De URL van de website</translation>
+    </message>
+    <message>
+        <source>Languages chosen</source>
+        <translation>Geselecteerde talen</translation>
+    </message>
+    <message>
+        <source>This data will help to improve future releases of eZ publish.</source>
+        <translation>Deze gegevens zullen gebruikt worden om toekomstige versies van eZ publish te verbeteren.</translation>
+    </message>
+    <message>
+        <source>Site security</source>
+        <translation>Veiligheid van de website</translation>
+    </message>
+    <message>
+        <source>Your site is not running in a virtual host mode, this is insecure. It is recommended to run eZ publish in virtual host mode. If you do not have the possibility to use virtual host mode, you should follow the instructions below about how to install an .htaccess file. The .htaccess file tells the web server to restrict the access to certain files.</source>
+        <translation>Uw site wordt niet in virtual host modus beheerd. Het wordt aangeraden eZ Publish in virtual host modus te beheren. Indien u hiervoor geen mogelijkheid ziet, dient u de onderstaande aanwijzingen te volgen om een .htaccess bestand te configureren. Dit bestand zorgt ervoor dat de web server de toegang tot bepaalde bestanden beperkt.</translation>
+    </message>
+    <message>
+        <source>If you have shell access, you can run the following commmands.</source>
+        <translation>Indien u shell toegang hebt, kunt u de volgende commands uitvoeren.</translation>
+    </message>
+    <message>
+        <source>If you do not have shell access, you will have to copy the file using an FTP client or ask your hosting provider to do this for you.</source>
+        <translation>Indient u geen shell toegang hebt, dient u of uw hosting-aanbieder een kopie van het bestand te maken met behulp van een FTP programma.</translation>
+    </message>
+    <message>
+        <source>This security tweak takes care of protecting configuration files and other important files.</source>
+        <translation>Deze veiligheidsaanpassing beschermt configuratie- en andere belangrijke bestanden.</translation>
+    </message>
+    <message>
+        <source>Please choose the access method you wish to use for your site. The access method determines how the site will be accessed from within a web browser. If unsure: choose URL.</source>
+        <translation>Selecteer de toegangsmethode die u voor uw site wilt gebruiken. De toegangsmethode bepaalt hoe uw site vanuit een web browser wordt betreden. Selecteer URL indien u niet zeker bent.</translation>
+    </message>
+    <message>
+        <source>Port*</source>
+        <translation>Poort*</translation>
+    </message>
+    <message>
+        <source>* Requires web server setup.</source>
+        <translation>Web server configuratie vereist.</translation>
+    </message>
+    <message>
+        <source>Hostname*</source>
+        <translation>Naam van de host*</translation>
+    </message>
+    <message>
+        <source>* Requires DNS setup.</source>
+        <translation>* DNS configuratie vereist.</translation>
+    </message>
+    <message>
+        <source>For more detailed information on site access, please refer to the %1</source>
+        <translation>Kijk voor meer informatie over website-toegang naar %1</translation>
+    </message>
+    <message>
+        <source>This page lets you modify information about the sites you&apos;ve chosen to install. In addition, it also lets you choose a database for each site.</source>
+        <translation>Op deze pagina kunt u informatie aanpassen over websites die u wilt installeren. U kunt hier ook voor elke website een database selecteren. </translation>
+    </message>
+    <message>
+        <source>User path</source>
+        <translation>Gebruikerspad</translation>
+    </message>
+    <message>
+        <source>User port</source>
+        <translation>Gebruikerspoort</translation>
+    </message>
+    <message>
+        <source>User hostname</source>
+        <translation>Naam van de gebruiker host</translation>
+    </message>
+    <message>
+        <source>Admin path</source>
+        <translation>Administratie-pad</translation>
+    </message>
+    <message>
+        <source>Admin port</source>
+        <translation>Administratie-poort</translation>
+    </message>
+    <message>
+        <source>Admin hostname</source>
+        <translation>Naam van de administratie-host </translation>
+    </message>
+    <message>
+        <source>Database not empty: </source>
+        <translation>Database bevat gegevens:</translation>
+    </message>
+    <message>
+        <source>You may modify the details for each site.</source>
+        <translation>U kunt de gegevens voor elke website aanpassen.</translation>
+    </message>
+    <message>
+        <source>For more information about how to configure site access, please refer to the %1</source>
+        <translation>Kijk voor meer informatie over hoe u uw website-toegang kunt configureren op %1</translation>
+    </message>
+    <message>
+        <source>Use the refresh button to update the database listing.</source>
+        <translation>Klik op de knop Verversen om uw databasegegevens te actualiseren.</translation>
+    </message>
+    <message>
+        <source>Site packages</source>
+        <translation>Website pakketen</translation>
+    </message>
+    <message>
+        <source>Each package will create a unique web site.</source>
+        <translation>Elk pakket zal een unieke website aanmaken.</translation>
+    </message>
+    <message>
+        <source>Since each web site is unique, each package requires a unique database.</source>
+        <translation>Aangezien elke website uniek is, vereist elk pakket een unieke database.</translation>
+    </message>
+    <message>
+        <source>Next &amp;gt;</source>
+        <translation>Volgende &amp;gt;</translation>
+    </message>
+    <message>
+        <source>There are some important issues that have to be resolved. A list of issues / problems is presented below. Each section contains a description and a suggested / recommended solution.</source>
+        <translation>Zie hieronder voor een aantal belangrijke problemen die opgelost dienen te worden. Elke sectie bevat een beschrijving en suggesties/aanbevelingen voor een oplossing. </translation>
+    </message>
+    <message>
+        <source>Once the problems / issues are fixed, you may click the &lt;i&gt;Next&lt;/i&gt; button to continue. The system check will be run again. If everything is okay, the setup will go to the next stage. If there are problems, the system check page will reappear.</source>
+        <translation>Als de problemen eenmaal zijn opgelost kunt u op de knop &lt;i&gt;Volgende&lt;/i&gt; drukken om door te gaan. Uw systeem wordt nogmaals gecontroleerd. Als alles in orde is zal de configuratie worden voortgezet. Als zich problemen voordoen, verschijnt de systeemcontrole pagina weer.</translation>
+    </message>
+    <message>
+        <source>Some issues may be ignored by checking the &lt;i&gt;Ignore this test&lt;/i&gt; checkbox(es); however, this is not recommended.</source>
+        <translation>Sommige problemen kunt u negeren door het vakje &lt;i&gt;Deze test negeren&lt;/i&gt; aan te vinken. Dit wordt echter niet aanbevolen.</translation>
+    </message>
+    <message>
+        <source>The system check page is being displayed. This means that there are some problems/issues present.</source>
+        <translation>De systeemcontrole pagina wordt weergegeven. Dit is een indicatie dat zich een probleem heeft voorgedaan.</translation>
+    </message>
+    <message>
+        <source>These issues have to be resolved/fixed, or else, eZ publish will not function properly.</source>
+        <translation>Deze problemen dienen opgelost te worden om eZ publish te kunnen gebruiken.</translation>
+    </message>
+    <message>
+        <source>The problems are usually file-system related and can be easily fixed by copy / paste / run-ing the suggested commands in a system shell.</source>
+        <translation>De problemen zijn meestal gerelateerd aan het bestandssysteem en kunnen makkelijk verholpen worden door de aanbevolen commands te knippen, plakken en activeren in een shell op het systeem.</translation>
+    </message>
+    <message>
+        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish.&lt;br&gt;Click &lt;i&gt;Next&lt;/i&gt; to continue.</source>
+        <translation>Welkom op het eZ publish content management en ontwikkelingssysteem. Deze wizard helpt u eZ publish te installeren. &lt;br&gt;Klik op &lt;i&gt;Volgende&lt;/i&gt; om verder te gaan.</translation>
+    </message>
+    <message>
+        <source>No data will be stored in the database until the final step of the setup.</source>
+        <translation>Gegevens worden pas in de laatste configuratiestap opgeslagen in de database.</translation>
     </message>
     <message>
         <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the %documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.&lt;br&gt;Note that Postgre 7.2 and 7.4 are not supported.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Both MySQL and PostgreSQL support was detected on your system. Please choose the database system you would like to use.</source>
+        <source>System finetuning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>eZ publish supports both MySQL and PostgreSQL.</source>
+        <source>Finetune</source>
+        <comment>Finetune button in installation</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Please input database access information in the form below.</source>
+        <source>It is also possible to do some finetuning of your system, click &lt;i&gt;Finetune&lt;/i&gt; instead &lt;i&gt;Next&lt;/i&gt; if you want to see the finetuning hints.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Servername:</source>
+        <source>There are some issues that should be resolved to get maximum performance and features. A list of issues is presented below. Each section contains a description and a suggested / recommended solution.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Username:</source>
+        <source>Once the issues are handled, you may click the &lt;i&gt;Finetune&lt;/i&gt; button to continue. The system check will be run again. If everything is okay, the setup will go to the next stage. If the issues are not solved the system finetune page will reappear.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Password:</source>
+        <source>If you do not want to fix these issues just click &lt;i&gt;Next&lt;/i&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Socket (optional):</source>
+        <source>The system finetune page is being displayed. This means that there are some issues which can be solved to improve the performance or features.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>If you don&apos;t have access to a database, you should obtain access now. eZ publish is capable of running multiple sites, each site needs its own database. This means that you need to create several databases if you plan to run multiple sites. Please refer to the database system user manual if you&apos;re unsure about how to create a database.</source>
+        <source>These issues do not need to be resolved/fixed. eZ publish will function properly without them.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Outgoing E-mail</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This section is used to configure how eZ publish delivers its outgoing E-mail.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>There are two options:&lt;br&gt;- Direct delivery through sendmail (must be available on the server).&lt;br&gt;- Indirect delivery using an SMTP relay server.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>SMTP is recommended for MS Windows users.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>E-mail delivery</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Server name: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Username (optional): </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Password (optional): </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The eZ publish system uses E-mail to send out important notices such as user registration and content approval. On Linux/UNIX: try to use sendmail. On Windows: use an SMTP server.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Sendmail:&lt;/b&gt;&lt;br&gt;Mail is delivered directly using the sendmail transfer agent. The sendmail binary is usually available on most Linux/UNIX systems. If sendmail is not available then SMTP should be used.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;SMTP:&lt;/b&gt;&lt;br&gt;Mail is delivered through an SMTP server. At the minimum, the hostname of the SMTP server must be specified. Hint: check the SMTP settings in your E-mail application.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Email is used for sending out important notices such as user registration and content approval.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Most Unix systems support sendmail, while windows users must choose SMTP.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;SMTP&lt;/b&gt;: If you&apos;re unsure what to enter, take a look at the settings in your e-mail application.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>eZ publish has been installed with the following sites. You will find the username and password mentioned for each site.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Tip: Store this page as an html file by clicking Save-As in your web browser menu, alternatively you may write down the urls for your sites.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>forums</source>
-        <comment>forum link</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Language support</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Use the radio buttons to choose the primary language, and the checkboxes to choose additional languages. You may choose more than one additional language.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The selected languages are used to determine character sets, date / number formats, etc.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>For more information about language customization, please refer to the %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>If you wish, you can register this installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your details for unsolicited emails.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>If you wish, you can also add some comments, which will be included in the registration E-mail.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Comments:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sending out the email and generating your site might take a couple of seconds. Please wait until the next page loads. Clicking the button again will only send out duplicate emails, and may corrupt the installation.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Send registration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>System details (OS type, etc)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The test results</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The database type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The site name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The url of the site</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Languages chosen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This data will help to improve future releases of eZ publish.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Site security</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Your site is not running in a virtual host mode, this is insecure. It is recommended to run eZ publish in virtual host mode. If you do not have the possibility to use virtual host mode, you should follow the instructions below about how to install an .htaccess file. The .htaccess file tells the web server to restrict the access to certain files.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>If you have shell access, you can run the following commmands.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>If you do not have shell access, you will have to copy the file using an FTP client or ask your hosting provider to do this for you.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This security tweak takes care of protecting configuration files and other important files.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please choose the access method you wish to use for your site. The access method determines how the site will be accessed from within a web browser. If unsure: choose URL.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Port*</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>* Requires web server setup.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hostname*</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>* Requires DNS setup.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>For more detailed information on site access, please refer to the %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This page lets you modify information about the sites you&apos;ve chosen to install. In addition, it also lets you choose a database for each site.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>User path</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>User port</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>User hostname</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Admin path</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Admin port</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Admin hostname</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Database not empty: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You may modify the details for each site.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>For more information about how to configure site access, please refer to the %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Use the refresh button to update the database listing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Site packages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Each package will create a unique web site.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Since each web site is unique, each package requires a unique database.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Next &amp;gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>There are some important issues that have to be resolved. A list of issues / problems is presented below. Each section contains a description and a suggested / recommended solution.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Once the problems / issues are fixed, you may click the &lt;i&gt;Next&lt;/i&gt; button to continue. The system check will be run again. If everything is okay, the setup will go to the next stage. If there are problems, the system check page will reappear.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Some issues may be ignored by checking the &lt;i&gt;Ignore this test&lt;/i&gt; checkbox(es); however, this is not recommended.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The system check page is being displayed. This means that there are some problems/issues present.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>These issues have to be resolved/fixed, or else, eZ publish will not function properly.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The problems are usually file-system related and can be easily fixed by copy / paste / run-ing the suggested commands in a system shell.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish.&lt;br&gt;Click &lt;i&gt;Next&lt;/i&gt; to continue.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>No data will be stored in the database until the final step of the setup.</source>
+        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish.&lt;br&gt;Your system is not optimal, if you wish you can click the &lt;i&gt;Finetune&lt;/i&gt; button. This will present hints on how to fix these issues.&lt;br/&gt; Click &lt;i&gt;Next&lt;/i&gt; to continue without finetuning.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6514,298 +6213,358 @@ If you do not have the possibility to use virtualhost mode you should follow the
     <name>design/standard/setup/operatorcode</name>
     <message>
         <source>Example</source>
-        <translation type="unfinished"></translation>
+        <translation>Voorbeeld</translation>
     </message>
     <message>
         <source>Constructor, does nothing by default.</source>
-        <translation type="unfinished"></translation>
+        <translation>Constructor, staat standaard ingesteld op non-actief.</translation>
     </message>
     <message>
         <source>\return an array with the template operator name.</source>
-        <translation type="unfinished"></translation>
+        <translation>\geeft een array met de template operator naam.</translation>
     </message>
     <message>
         <source>Executes the PHP function for the operator cleanup and modifies \a $operatorValue.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voert de PHP functie uit voor de operator cleanup en past het $operatorValue aan.</translation>
     </message>
     <message>
         <source>Example code, this code must be modified to do what the operator should do, currently it only trims text.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voorbeeld code. Deze code dient aangepast te worden aan de eisen die aan de operator gesteld worden (momenteel kort de code slechts tekst in).</translation>
     </message>
 </context>
 <context>
     <name>design/standard/setup/tests</name>
     <message>
         <source>Missing database handlers</source>
-        <translation type="unfinished"></translation>
+        <translation>Database handlers ontbreken</translation>
     </message>
     <message>
         <source>Your PHP does not have support for all databases that eZ publish support.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uw PHP versie ondersteunt niet alle databases die eZ publish ondersteunt.</translation>
     </message>
     <message>
         <source>Allthough eZ publish will work without it, it might be that you want to have support for this database.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoewel eZ publish zonder de database gebruikt kan worden, verdient het toch aanbeveling deze te ondersteunen.</translation>
     </message>
     <message>
         <source>Also some databases has more advanced features, such as charset, than others.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sommige databases beschikken over meer geavanceerde opties, zoals charset, dan anderen.</translation>
     </message>
     <message>
         <source>To obtain more database support you need to recompile PHP, the exact recompile options are specified below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Om uw database beter te kunnen ondersteunen dient u PHP opnieuw te compileren. Zie onderstaande mogelijkheden om dit te doen.</translation>
     </message>
     <message>
         <source>Missing database handler</source>
-        <translation type="unfinished"></translation>
+        <translation>Database handler ontbreekt</translation>
     </message>
     <message>
         <source>No supported database handlers were found. eZ publish requires a database to store it&apos;s data, without one the system will fail.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er werden geen ondersteunde database handlers gevonden. eZ publish heeft een database nodig om gegevens in op te slaan. Het systeem kan niet werken zonder database.</translation>
     </message>
     <message>
         <source>To obtain database support you need to recompile PHP, the exact recompile options are specified below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Om uw database te kunnen ondersteunen dient u PHP opnieuw te compileren. Zie onderstaande mogelijkheden om dit te doen.</translation>
     </message>
     <message>
         <source>Insufficient directory permissions</source>
-        <translation type="unfinished"></translation>
+        <translation>Onvoldoende rechten voor deze bewerking</translation>
     </message>
     <message>
         <source>eZ publish cannot write to some important directories, without this the setup cannot finish and parts of eZ publish will fail.</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish kan enkele belangrijke directories niet aanmaken. Hierdoor kan de installatie niet worden voltooid en zullen bepaalde onderdelen van eZ publish niet werken.</translation>
     </message>
     <message>
         <source>It&apos;s recommended that you fix this by running the commands below.</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt dit repareren door de onderstaande opdrachten te geven.</translation>
     </message>
     <message>
         <source>Shell commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Shell opdrachten</translation>
     </message>
     <message>
         <source>File uploading is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Het opladen van bestanden is niet mogelijk</translation>
     </message>
     <message>
         <source>File uploading is not enabled which means that it&apos;s impossible for eZ publish to handle file uploading. All other parts of eZ publish will still work fine but it&apos;s recommended to enable file uploads.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het opladen van bestanden is niet mogelijk, ook niet binnen eZ publish. Andere onderdelen van eZ publish zijn nog steeds te gebruiken, maar het is aan te raden om het opladen van bestanden mogelijk te maken. </translation>
     </message>
     <message>
         <source>Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuratie</translation>
     </message>
     <message>
         <source>Enabling file uploads is done by setting %1 in php.ini. Refer to the PHP manual for how to set configuration switches</source>
-        <translation type="unfinished"></translation>
+        <translation>Het opladen van bestanden is mogelijk door %1 aan te passen in php.ini. Meer informatie over de configuratie vindt u in de PHP manual</translation>
     </message>
     <message>
         <source>More information on enabling the extension can be found by reading %1 and %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Meer informatie over het activeren van de extensie kan worden gevonden in %1 en %2</translation>
     </message>
     <message>
         <source>Missing image conversion support</source>
-        <translation type="unfinished"></translation>
+        <translation>Ondersteuning voor het bewerken van afbeeldingen ontbreekt</translation>
     </message>
     <message>
         <source>No image conversion capabilities was detected, this means that eZ publish cannot scale any images or detect their type. This is vital functionality in eZ publish and must be supported.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Missing imagegd extension</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>The imagegd extension is not available to eZ publish. Without it eZ publish will only be able to do conversion using ImageMagick and the</source>
-        <translation type="obsolete"></translation>
+        <translation>Omdat er geen ondersteuning is voor het bewerken van afbeeldingen, kan eZ publish de grootte van afbeeldingen niet aanpassen, of het formaat van afbeeldingen vaststellen. Deze functionaliteit is van kritisch belang en moet worden ondersteunt.</translation>
     </message>
     <message>
         <source>template operator will not be available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Template operators zullen niet beschikbaar zijn.</translation>
     </message>
     <message>
         <source>Note:</source>
-        <translation type="unfinished">Opgelet:</translation>
+        <translation>Opgelet:</translation>
     </message>
     <message>
         <source>Future releases of eZ publish will have more advanced image support by using the imagegd extension.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>To enable imagegd you need to recompile PHP with support for it, more information on that subject is available at</source>
-        <translation type="obsolete"></translation>
+        <translation>Toekomstige versies van eZ publish zullen de beschikking hebben over geavanceerde functies voor het bewerken van afbeeldingen door het gebruik van de imagegd extensie.</translation>
     </message>
     <message>
         <source>Missing ImageMagick program</source>
-        <translation type="unfinished"></translation>
+        <translation>De ImageMagick applicatie ontbreekt</translation>
     </message>
     <message>
         <source>The ImageMagick program is not available to eZ publish. Without it eZ publish will not be able to do image conversion unless the imagegd extension is available.</source>
-        <translation type="unfinished"></translation>
+        <translation>De ImageMagick applicatie is niet beschikbaar in eZ publish. Zonder deze extensie kan eZ publish afbeeldingen niet bewerken tenzij de imagegd extensie beschikbaar is. </translation>
     </message>
     <message>
         <source>If you known where the program is installed (the executable is called</source>
-        <translation type="unfinished"></translation>
+        <translation>Indien u weet waar de applicatie is geinstalleerd (de executable heeft de naam</translation>
     </message>
     <message>
         <source>or</source>
-        <translation type="unfinished"></translation>
+        <translation>of</translation>
     </message>
     <message>
         <source>)then enter the directory in the input field below and do a recheck (Separate multiple directories with a</source>
-        <translation type="unfinished"></translation>
+        <translation>) voer dan de directory in in het invoervenster beneden en herhaal de check (Meerdere directories kunt u scheiden door een</translation>
     </message>
     <message>
         <source>colon</source>
-        <translation type="unfinished"></translation>
+        <translation>dubbele punt</translation>
     </message>
     <message>
         <source>semicolon</source>
-        <translation type="unfinished"></translation>
+        <translation>punt komma</translation>
     </message>
     <message>
         <source>Installation</source>
-        <translation type="unfinished"></translation>
+        <translation>Installatie</translation>
     </message>
     <message>
         <source>ImageMagick may be downloaded from</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt ImageMagick downloaden van</translation>
     </message>
     <message>
         <source>Missing MBString extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Ontbrekende MBString extensie</translation>
     </message>
     <message>
         <source>eZ publish comes with a good list of supported charsets by default, however they can be a bit slow due to being made in pure PHP code. Luckily eZ publish supports the mbstring extension for handling some of the charsets.</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish ondersteunt een lange lijst charsets, maar sommige van deze kunnen de performance negatief beinvloeden doordat deze in pure PHP code zijn gemaakt . Gelukkig ondersteunt eZ publish ook de mbstring extensie.</translation>
     </message>
     <message>
         <source>By enabling the mbstring extension eZ publish will have access to more charsets and also be able to process some of them faster, such as Unicode and iso-8859-*. This is recommended for multilingual sites and sites with more exotic charsets.</source>
-        <translation type="unfinished"></translation>
+        <translation>Door het inschakelen van de mbstring extensie zal eZ publish toegang hebben tot meer charsets, en sommige van deze sneller verwerken, zoals Unicode en iso-8859-*. Meertalige sites en sites met &apos;exotische&apos;  charsets kunnen het de mbstring extensie inschakelen.</translation>
     </message>
     <message>
         <source>The complete list of charsets mbstring supports are:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zie onderstaande lijst met chatsets mbstring ondersteuningen:</translation>
     </message>
     <message>
         <source>Installation of the mbstring extension is done by compiling PHP with the</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt de mbstring extensie configureren door PHP te compileren met de</translation>
     </message>
     <message>
         <source>option.</source>
-        <translation type="unfinished"></translation>
+        <translation>optie.</translation>
     </message>
     <message>
         <source>More information on enabling the extension can be found at</source>
-        <translation type="unfinished"></translation>
+        <translation>Meer informatie over het inschakelen van de extensie is te vinden op</translation>
     </message>
     <message>
         <source>Do not enable mbstring function overloading, eZ publish will only use the extension whenever it&apos;s needed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakel mbstring funtie overloading niet in, eZ publish zal de extensie alleen gebruiken indien nodig.</translation>
     </message>
     <message>
         <source>PHP option</source>
-        <translation type="unfinished"></translation>
+        <translation>PHP optie</translation>
     </message>
     <message>
         <source>is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>is ingeschakeld</translation>
     </message>
     <message>
         <source>eZ publish will work with this option on however it will lead to some minor performance issues since all input variables need to be be converted back to</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish kan worden gebruikt als u deze optie inschakelt. Let wel dat dit kleine prestatieproblemen tot gevolg heeft omdat alle invoer variabelen terug moeten worden geconverteerd naar</translation>
     </message>
     <message>
         <source>normal</source>
-        <translation type="unfinished"></translation>
+        <translation>normaal</translation>
     </message>
     <message>
         <source>Insufficient PHP version</source>
-        <translation type="unfinished"></translation>
+        <translation>PHP versie voldoet niet</translation>
     </message>
     <message>
         <source>Your PHP version, which is </source>
-        <translation type="unfinished"></translation>
+        <translation>Uw PHP versie is</translation>
     </message>
     <message>
         <source>, does not meet the minimum requirements of</source>
-        <translation type="unfinished"></translation>
+        <translation>, voldoet niet aan de minimum eisen van</translation>
     </message>
     <message>
         <source>A newer version of PHP can be download at</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt een recentere PHP versie downloaden van</translation>
     </message>
     <message>
         <source>You must upgrade to at least version </source>
-        <translation type="unfinished"></translation>
+        <translation>U dient uw versie te updaten naar tenminste versie </translation>
     </message>
     <message>
         <source>, but an even newer version, such as 4.2.3, is highly recommended.</source>
-        <translation type="unfinished"></translation>
+        <translation>maar een meer recente versie, zoals 4.2.3, wordt sterk aanbevolen.</translation>
     </message>
     <message>
         <source>eZ publish cannot write to the</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish kan niet schrijven naar de</translation>
     </message>
     <message>
         <source>directory, without this the setup cannot disable itself.</source>
-        <translation type="unfinished"></translation>
+        <translation>directory, hierdoor kan de setup zichzelf niet uitschakelen.</translation>
     </message>
     <message>
         <source>Missing zlib extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Zlib extensie ontbreekt</translation>
     </message>
     <message>
         <source>The zlib extension is not available to eZ publish. Without it eZ publish will not be able to install the demo data, however if you do not wish the demo data you can safely ignore this.</source>
-        <translation type="unfinished"></translation>
+        <translation>De zlib extensie is niet beschikbaar in eZ publish. Zonder deze extensie kan eZ publish de demo gegevens niet installeren. Indien u geen behoefte hebt aan deze demo gegevens kunt u gewoon verder gaan.</translation>
     </message>
     <message>
         <source>To enable zlib you need to recompile PHP with support for it. You will need to configure PHP with</source>
-        <translation type="unfinished"></translation>
+        <translation>Om zlib in te schakelen dient u PHP opnieuw te compileren en ervoor te zorgen dat deze zlib ondersteunt. U dient PHP te configureren met</translation>
     </message>
     <message>
         <source>More information on that subject is available at</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>It&apos;s recommended that the option is turned off. To turn it off edit your %1 configuration and set %2 and %3 to %4.</source>
-        <translation type="obsolete"></translation>
+        <translation>Meer informatie over dit onderwerp is te vinden op</translation>
     </message>
     <message>
         <source>More information on the subject can be found at %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Meer informatie over dit onderwerp is te vinden op %1.</translation>
     </message>
     <message>
         <source>php.ini example:</source>
-        <translation type="unfinished"></translation>
+        <translation>php.ini voorbeeld:</translation>
     </message>
     <message>
         <source>Alternatively you may create a file called %1 in your eZ publish root folder and add the following:</source>
-        <translation type="unfinished"></translation>
+        <translation>U kunt ook een bestand aanmaken onder de naam %1 in uw eZ publish hoofdmap en het volgende toevoegen: </translation>
     </message>
     <message>
         <source>.htaccess example:</source>
-        <translation type="unfinished"></translation>
+        <translation>.htaccess voorbeeld:</translation>
     </message>
     <message>
         <source>PHP option %1 is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>PHP optie %1 is ingeschakeld</translation>
     </message>
     <message>
         <source>eZ publish will work with this option on however it will lead to some minor performance issues since all input variables will be made global on each script execution.</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish kan worden gebruikt als u deze optie inschakelt. Dit kan wel leiden tot kleine prestatieproblemen omdat alle invoer variabelen voor iedere script uitvoer global beschikbaar worden gemaakt.</translation>
     </message>
     <message>
         <source>It&apos;s recommended that the option is turned off. To turn it off edit your %1 configuration and set %2 to %3.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het wordt aangeraden deze optie uit te schakelen. Pas hiervoor uw %1 configuratie aan en stel %2 in op %3.</translation>
     </message>
     <message>
         <source>PHP safe mode is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>PHP veilige modus is ingeschakeld</translation>
     </message>
     <message>
         <source>eZ publish may work with safe mode on, however there might be several features that will be unavailable. Some of the things that might occur are:</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish mag in veilige modus gebruikt worden maar enkele functies kunnen hierdoor onbeschikbaar worden. Veel voorkomende verschijnselen zijn:</translation>
+    </message>
+    <message>
+        <source>Insufficient execution time allowed to install eZ publish</source>
+        <translation>Onvoldoende executietijd om eZ publish te installeren</translation>
+    </message>
+    <message>
+        <source>eZ publish will not work correctly with a execution time limit of %1.</source>
+        <translation>eZ publish zal niet naar behoren functioneren met een tijdslimiet voor de executie van %1.</translation>
+    </message>
+    <message>
+        <source>It&apos;s highly recommended that you fix this.</source>
+        <translation>Het wordt aanbevolen dit te corrigeren.</translation>
+    </message>
+    <message>
+        <source>Locate the php.ini settings file for your PHP installation. On unix systems, this is normally located at /etc/php.ini, on windows systems check the PHP installation path.</source>
+        <translation>Zoek het php.ini configuratiebestand op voor uw PHP installatie. Op unix systemen bevindt zich dit bestand meestal op /etc/php.ini. Op windows systemen dient u het PHP installatie pad te volgen.</translation>
+    </message>
+    <message>
+        <source>Open the php.ini file and change the max_execution_time value to at least %1, and press %2</source>
+        <translation>Open het php.ini bestand, verander de max_execution_time waarde naar minstens %1 en druk op %2</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Volgende</translation>
+    </message>
+    <message>
+        <source>If you are running eZ publish in a shared host environment, contant your ISP to perform the changes</source>
+        <translation>Indien u eZ publish in een gedeelde host omgeving </translation>
+    </message>
+    <message>
+        <source>Missing imagegd2 extension</source>
+        <translation>Imagegd2 extensie ontbreekt</translation>
+    </message>
+    <message>
+        <source>The imagegd2 extension is not available to eZ publish. Without it eZ publish will only be able to do conversion using ImageMagick and the</source>
+        <translation>De imagegd2 extensie is niet beschikbaar in eZ publish. Zonder deze extensie kan eZ publish alleen beelden converteren met ImageMagick en </translation>
+    </message>
+    <message>
+        <source>To enable imagegd2 you need to recompile PHP with support for it, more information on that subject is available at</source>
+        <translation>Om imagegd2 in te schakelen dient u PHP opnieuw te compileren en ervoor te zorgen dat deze imagegd2 ondersteunt. Kijk voor meer informatie op</translation>
+    </message>
+    <message>
+        <source>Insufficient memory allocated to install eZ publish</source>
+        <translation>Onvoldoende geheugen om eZ publish te installeren</translation>
+    </message>
+    <message>
+        <source>eZ publish will not work correctly with a memory limit of %1.</source>
+        <translation>eZ publish zal niet naar behoren functioneren met een geheugenlimiet van %1.</translation>
+    </message>
+    <message>
+        <source>Open the php.ini file and change the memory_limit value to at least %1, and press %2</source>
+        <translation>Open het php.ini bestand, verander de memory_limit waarde naar minstens %1 en druk op %2</translation>
+    </message>
+    <message>
+        <source>It&apos;s recommended that the option is turned off. To turn it off edit your %phpini configuration and set %magic_quotes_gpc and %magic_quotes_runtime to %offtext.</source>
+        <translation>Het wordt aangeraden deze functie uit te schakelen. Hiervoor dient u uw %phpini configuratie aan te passen en %magic_quotes_gpc en %magic_quotes_runtime om te zetten naar %offtext.</translation>
+    </message>
+    <message>
+        <source>eZ publish will not work properly with this option on.</source>
+        <translation>eZ publish zal niet naar behoren functioneren als deze functie is ingeschakeld.</translation>
+    </message>
+    <message>
+        <source>To turn it off edit your %phpini configuration and set %magic_quotes_runtime to %offtext.</source>
+        <translation>Om deze uit te schakelen dient u uw %phpini configuratie aan te passen en %magic_quotes_runtime om te zetten naar %offtext.</translation>
+    </message>
+    <message>
+        <source>Unstable PHP version</source>
+        <translation>Onstabiele PHP versie</translation>
+    </message>
+    <message>
+        <source>, is known to be unstable</source>
+        <translation>, is onstabiel</translation>
+    </message>
+    <message>
+        <source>Another version of PHP can be download at</source>
+        <translation>U kunt een nieuwe PHP versie downloaden van </translation>
     </message>
     <message>
         <source>AcceptPathInfo disabled or running in CGI mode</source>
@@ -6828,79 +6587,15 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Insufficient execution time allowed to install eZ publish</source>
+        <source>Missing text creation functions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>eZ publish will not work correctly with a execution time limit of %1.</source>
+        <source>The PHP functions ImageTTFText and ImageTTFBBox is missing. Without these functions it is not possible to use the texttoimage template operator.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>It&apos;s highly recommended that you fix this.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Locate the php.ini settings file for your PHP installation. On unix systems, this is normally located at /etc/php.ini, on windows systems check the PHP installation path.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open the php.ini file and change the max_execution_time value to at least %1, and press %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>If you are running eZ publish in a shared host environment, contant your ISP to perform the changes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Missing imagegd2 extension</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The imagegd2 extension is not available to eZ publish. Without it eZ publish will only be able to do conversion using ImageMagick and the</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>To enable imagegd2 you need to recompile PHP with support for it, more information on that subject is available at</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Insufficient memory allocated to install eZ publish</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>eZ publish will not work correctly with a memory limit of %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open the php.ini file and change the memory_limit value to at least %1, and press %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>It&apos;s recommended that the option is turned off. To turn it off edit your %phpini configuration and set %magic_quotes_gpc and %magic_quotes_runtime to %offtext.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>eZ publish will not work properly with this option on.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>To turn it off edit your %phpini configuration and set %magic_quotes_runtime to %offtext.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unstable PHP version</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>, is known to be unstable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Another version of PHP can be download at</source>
+        <source>To enable these functions you need to recompile PHP with support for it, more information on that subject is available at</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7008,7 +6703,7 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Subtotal of items</source>
-        <translation>Subtotaal van items</translation>
+        <translation>Subtotaal producten</translation>
     </message>
     <message>
         <source>Order list</source>
@@ -7053,10 +6748,6 @@ If you do not have the possibility to use virtualhost mode you should follow the
     <message>
         <source>Wish list</source>
         <translation>Wensenlijst</translation>
-    </message>
-    <message>
-        <source>Remove item(s)</source>
-        <translation type="obsolete">Verwijder item(s)</translation>
     </message>
     <message>
         <source>Empty wish list</source>
@@ -7193,11 +6884,7 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Order summary</source>
-        <translation>Samenvatting van de bestelling</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="obsolete">Help</translation>
+        <translation>Overzicht van de bestelling</translation>
     </message>
     <message>
         <source>Sort Result by</source>
@@ -7241,27 +6928,27 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>Excuus, de opgegeven sleutel was niet geldig. De account werd niet geactiveerd.</translation>
+        <translation>De opgegeven sleutel is niet geldig. Uw account is niet geactiveerd.</translation>
     </message>
     <message>
         <source>Order summary:</source>
-        <translation type="unfinished"></translation>
+        <translation>Overzicht van de bestelling:</translation>
     </message>
     <message>
         <source>Subtotal of items:</source>
-        <translation type="unfinished"></translation>
+        <translation>Subtotaal producten:</translation>
     </message>
     <message>
         <source>Order total:</source>
-        <translation type="unfinished"></translation>
+        <translation>Totaal bestelling:</translation>
     </message>
     <message>
         <source>ez.no: Orderconfirmation %1</source>
-        <translation type="unfinished"></translation>
+        <translation>ez.no: bestellingsbevestiging %1</translation>
     </message>
     <message>
         <source>Remove items</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder producten</translation>
     </message>
 </context>
 <context>
@@ -7303,11 +6990,11 @@ Click op een productnaam om verder te zoeken binnen die productnaam.</translatio
     <name>design/standard/templates/</name>
     <message>
         <source>Logout</source>
-        <translation type="unfinished">Uitloggen</translation>
+        <translation>Uitloggen</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation type="unfinished">Login</translation>
+        <translation>Login</translation>
     </message>
 </context>
 <context>
@@ -7327,10 +7014,6 @@ Click op een productnaam om verder te zoeken binnen die productnaam.</translatio
     <message>
         <source>Workflow</source>
         <translation>Workflow</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="obsolete">Help</translation>
     </message>
     <message>
         <source>Module name</source>
@@ -7373,7 +7056,7 @@ Click op een productnaam om verder te zoeken binnen die productnaam.</translatio
     </message>
     <message>
         <source>Last modified at %1</source>
-        <translation>Voor het laatst gewijzigd op %1</translation>
+        <translation>Voor het laatst aangepast op %1</translation>
     </message>
     <message>
         <source>URL has no modification date</source>
@@ -7413,7 +7096,7 @@ Click op een productnaam om verder te zoeken binnen die productnaam.</translatio
     </message>
     <message>
         <source>Modified</source>
-        <translation>Gewijzigd</translation>
+        <translation>Aangepast </translation>
     </message>
     <message>
         <source>Popup</source>
@@ -7453,7 +7136,7 @@ Click op een productnaam om verder te zoeken binnen die productnaam.</translatio
     </message>
     <message>
         <source>version</source>
-        <translation type="unfinished"></translation>
+        <translation>versie</translation>
     </message>
 </context>
 <context>
@@ -7483,7 +7166,7 @@ Click op een productnaam om verder te zoeken binnen die productnaam.</translatio
     </message>
     <message>
         <source>A valid username and password is required to login.</source>
-        <translation>Een geldige gebruikersnaam en wachtwoord is vereist om in te loggen.</translation>
+        <translation>Een geldige gebruikersnaam en wachtwoord zijn vereist om in te loggen.</translation>
     </message>
     <message>
         <source>Access not allowed</source>
@@ -7507,7 +7190,7 @@ Click op een productnaam om verder te zoeken binnen die productnaam.</translatio
     </message>
     <message>
         <source>Input did not validate</source>
-        <translation>Input werd onjuist bevonden</translation>
+        <translation>Input is ongeldig</translation>
     </message>
     <message>
         <source>Input was stored successfully</source>
@@ -7531,7 +7214,7 @@ Click op een productnaam om verder te zoeken binnen die productnaam.</translatio
     </message>
     <message>
         <source>Is enabled</source>
-        <translation>Is geactiveerd</translation>
+        <translation>Is ingeschakeld</translation>
     </message>
     <message>
         <source>Update</source>
@@ -7616,7 +7299,7 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
     </message>
     <message>
         <source>You need to log in to get access to the intranet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Om het intranet te bezoeken dient u eerst in te loggen.</translation>
     </message>
 </context>
 <context>
@@ -7934,14 +7617,6 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
         <translation>Aangepast door %username om %time</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="obsolete">Help</translation>
-    </message>
-    <message>
-        <source>Help on workflows</source>
-        <translation type="obsolete">Help bij workflows</translation>
-    </message>
-    <message>
         <source>Edit workflow</source>
         <translation>Bewerk workflow</translation>
     </message>
@@ -7955,49 +7630,10 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
     </message>
 </context>
 <context>
-    <name>design/standard/workflow/event</name>
-    <message>
-        <source>Checkout</source>
-        <translation type="obsolete">Chekout</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="obsolete">Volgende</translation>
-    </message>
-    <message>
-        <source>Wrapping</source>
-        <translation type="obsolete">Pakpapier</translation>
-    </message>
-    <message>
-        <source>Do you want wrapping in Christmas paper?</source>
-        <translation type="obsolete">Wens uw Kerstpakpapier?</translation>
-    </message>
-    <message>
-        <source>No</source>
-        <translation type="obsolete">Nee</translation>
-    </message>
-    <message>
-        <source>Yes</source>
-        <translation type="obsolete">Ja</translation>
-    </message>
-    <message>
-        <source>Hello</source>
-        <translation type="obsolete">Hallo</translation>
-    </message>
-</context>
-<context>
     <name>design/standard/workflow/eventtype/edit</name>
     <message>
         <source>Any</source>
         <translation>Alle</translation>
-    </message>
-    <message>
-        <source>Unpublish object</source>
-        <translation type="obsolete">Annuleer publicatie van object</translation>
-    </message>
-    <message>
-        <source>Publish object</source>
-        <translation type="obsolete">Publiceer object</translation>
     </message>
     <message>
         <source>Class Attributes:</source>
@@ -8016,16 +7652,8 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
         <translation>Gebruikers zonder toestemming</translation>
     </message>
     <message>
-        <source>Checkout text</source>
-        <translation type="obsolete">Checkout tekst</translation>
-    </message>
-    <message>
-        <source>Message</source>
-        <translation type="obsolete">Bericht</translation>
-    </message>
-    <message>
         <source>Classes to run workflow</source>
-        <translation>Klasse om workflow te runnen</translation>
+        <translation>Klasse om workflow uit te voeren</translation>
     </message>
     <message>
         <source>Users without workflow IDs</source>
@@ -8033,19 +7661,7 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
     </message>
     <message>
         <source>Workflow to run</source>
-        <translation>Workflow uit te voeren</translation>
-    </message>
-    <message>
-        <source>Days</source>
-        <translation type="obsolete">Dagen</translation>
-    </message>
-    <message>
-        <source>Hours</source>
-        <translation type="obsolete">Uren</translation>
-    </message>
-    <message>
-        <source>Minutes</source>
-        <translation type="obsolete">Minuten</translation>
+        <translation>Uit te voeren workflow</translation>
     </message>
     <message>
         <source>Class</source>
@@ -8053,7 +7669,7 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
     </message>
     <message>
         <source>New entry</source>
-        <translation>Nieuwe inschrijving</translation>
+        <translation>Nieuwe workflow</translation>
     </message>
     <message>
         <source>Remove selected</source>
@@ -8065,7 +7681,7 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
     </message>
     <message>
         <source>Modify publish date</source>
-        <translation type="unfinished"></translation>
+        <translation>Wijzig publicatiedatum</translation>
     </message>
 </context>
 <context>
@@ -8249,7 +7865,7 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
     </message>
     <message>
         <source>File uploading is not enabled, no file handling can be performed.</source>
-        <translation>File upload is niet in werking gesteld.</translation>
+        <translation>File upload is niet ingeschakeld.</translation>
     </message>
     <message>
         <source>A valid file is required.</source>
@@ -8315,10 +7931,6 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
         <translation>Afbeelding</translation>
     </message>
     <message>
-        <source>A valid image is required.</source>
-        <translation type="obsolete">Een geldige afbeelding is vereist.</translation>
-    </message>
-    <message>
         <source>Integer</source>
         <comment>Datatype name</comment>
         <translation>Integer (geheel getal)</translation>
@@ -8330,7 +7942,7 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
     <message>
         <source>ISBN</source>
         <comment>Datatype name</comment>
-        <translation></translation>
+        <translation>ISBN</translation>
     </message>
     <message>
         <source>The ISBN number is not correct. Please recheck the input</source>
@@ -8343,7 +7955,7 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
     <message>
         <source>Keyword</source>
         <comment>Datatype name</comment>
-        <translation>Sleutelwoord</translation>
+        <translation>Trefwoord</translation>
     </message>
     <message>
         <source>Matrix</source>
@@ -8487,31 +8099,31 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
     <message>
         <source>Identifier</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Identifier</translation>
     </message>
     <message>
         <source>image</source>
         <comment>Default image name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Afbeelding</translation>
     </message>
     <message>
         <source>Ini Setting</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ini instelling</translation>
     </message>
     <message>
         <source>Could not locate ini file</source>
-        <translation type="unfinished"></translation>
+        <translation>Ini bestand werd niet gevonden</translation>
     </message>
     <message>
         <source>Package</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Pakket</translation>
     </message>
     <message>
         <source>Send</source>
         <comment>Datatype information collector action</comment>
-        <translation type="unfinished">Verzenden</translation>
+        <translation>Verzenden</translation>
     </message>
 </context>
 <context>
@@ -8533,7 +8145,7 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
     </message>
     <message>
         <source>Advanced</source>
-        <translation>Geavanceerd</translation>
+        <translation>Uitgebreid</translation>
     </message>
     <message>
         <source>No main node selected, please select one.</source>
@@ -8542,10 +8154,6 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
     <message>
         <source>Content</source>
         <translation>Inhoud</translation>
-    </message>
-    <message>
-        <source>Edit</source>
-        <translation type="obsolete">Bewerken</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -8617,7 +8225,7 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
     </message>
     <message>
         <source>Keywords</source>
-        <translation type="unfinished"></translation>
+        <translation>Trefwoorden</translation>
     </message>
 </context>
 <context>
@@ -8638,16 +8246,6 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
     <message>
         <source>And also it will remove the nodes:</source>
         <translation>En het zal ook de knopen verwijderen:</translation>
-    </message>
-    <message>
-        <source>child</source>
-        <comment>1 child</comment>
-        <translation type="obsolete">kind</translation>
-    </message>
-    <message>
-        <source>children</source>
-        <comment>several children</comment>
-        <translation type="obsolete">kinderen</translation>
     </message>
 </context>
 <context>
@@ -8705,142 +8303,142 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
     </message>
     <message>
         <source>Package information</source>
-        <translation type="unfinished"></translation>
+        <translation>Pakketinformatie</translation>
     </message>
     <message>
         <source>Package maintainer</source>
-        <translation type="unfinished"></translation>
+        <translation>Pakketbeheerder</translation>
     </message>
     <message>
         <source>Package changelog</source>
-        <translation type="unfinished"></translation>
+        <translation>Pakket changelog</translation>
     </message>
     <message>
         <source>Package thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Pakket afbeelding (klein)</translation>
     </message>
     <message>
         <source>Package name</source>
-        <translation type="unfinished"></translation>
+        <translation>Pakketnaam</translation>
     </message>
     <message>
         <source>Package name is missing</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen Pakketnaam</translation>
     </message>
     <message>
         <source>A package named %packagename already exists, please give another name</source>
-        <translation type="unfinished"></translation>
+        <translation>Een pakket met de naam %packagename is reeds in gebruik, geef een andere naam</translation>
     </message>
     <message>
         <source>Summary</source>
-        <translation type="unfinished">Samenvatting</translation>
+        <translation>Samenvatting</translation>
     </message>
     <message>
         <source>Summary is missing</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen samenvatting</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versie</translation>
     </message>
     <message>
         <source>The version must only contain numbers and must be delimited by dots (.), e.g. 1.0</source>
-        <translation type="unfinished"></translation>
+        <translation>De versionering dient enkel uit nummers te zijn opgemaakt, afgescheiden door een punt (.), bijv. 1.0</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Naam</translation>
+        <translation>Naam</translation>
     </message>
     <message>
         <source>You must enter a name for the changelog</source>
-        <translation type="unfinished"></translation>
+        <translation>U dient een naam aan de changelog te geven</translation>
     </message>
     <message>
         <source>E-Mail</source>
-        <translation type="unfinished">Email</translation>
+        <translation>E-mail</translation>
     </message>
     <message>
         <source>You must enter an e-mail for the changelog</source>
-        <translation type="unfinished"></translation>
+        <translation>U dient een e-mail adres aan te geven voor de changelog</translation>
     </message>
     <message>
         <source>Changelog</source>
-        <translation type="unfinished"></translation>
+        <translation>Changelog</translation>
     </message>
     <message>
         <source>You must supply some text for the changelog entry</source>
-        <translation type="unfinished"></translation>
+        <translation>U dient tekst aan te maken voor het changelog bericht</translation>
     </message>
     <message>
         <source>You must enter a name of the maintainer</source>
-        <translation type="unfinished"></translation>
+        <translation>U dient de naam van de beheerder in te vullen</translation>
     </message>
     <message>
         <source>You must enter an e-mail address of the maintainer</source>
-        <translation type="unfinished"></translation>
+        <translation>U dient het e-mail adres van de beheerder in te vullen</translation>
     </message>
     <message>
         <source>Content classes to include</source>
-        <translation type="unfinished"></translation>
+        <translation>Op te nemen content klasse</translation>
     </message>
     <message>
         <source>Content class export</source>
-        <translation type="unfinished"></translation>
+        <translation>Uitvoer content klasse </translation>
     </message>
     <message>
         <source>Class list</source>
-        <translation type="unfinished">Klasselijst</translation>
+        <translation>Klasselijst</translation>
     </message>
     <message>
         <source>You must select at least one class for inclusion</source>
-        <translation type="unfinished"></translation>
+        <translation>U dient in ieder geval één klasse ter opname te selecteren</translation>
     </message>
     <message>
         <source>CSS file</source>
-        <translation type="unfinished"></translation>
+        <translation>CSS bestand</translation>
     </message>
     <message>
         <source>Image files</source>
-        <translation type="unfinished"></translation>
+        <translation>Beeldbestanden</translation>
     </message>
     <message>
         <source>Site style</source>
-        <translation type="unfinished"></translation>
+        <translation>Site-opmaak</translation>
     </message>
     <message>
         <source>You must upload a CSS file</source>
-        <translation type="unfinished"></translation>
+        <translation>U dient een CSS bestand op te laden</translation>
     </message>
     <message>
         <source>File did not have a .css suffix, this is most likely not a CSS file</source>
-        <translation type="unfinished"></translation>
+        <translation>Dit is waarschijnlijk geen CSS bestand; het heeft geen .css extensie</translation>
     </message>
     <message>
         <source>Content class %classname (%classidentifier)</source>
-        <translation type="unfinished"></translation>
+        <translation>Content klasse %classname (%classidentifier)</translation>
     </message>
     <message>
         <source>Create package</source>
-        <translation type="unfinished"></translation>
+        <translation>Maak pakket aan</translation>
     </message>
     <message>
         <source>Install</source>
-        <translation type="unfinished"></translation>
+        <translation>Installeren</translation>
     </message>
     <message>
         <source>Uninstall</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <source>Package %packagename already exists, cannot import the package</source>
-        <translation type="unfinished"></translation>
+        <translation>Het pakket met de naam %packagename is reeds in gebruik en kan niet worden geïmporeerd</translation>
     </message>
 </context>
 <context>
     <name>kernel/pdf</name>
     <message>
         <source>PDF Export</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporteer PDF</translation>
     </message>
 </context>
 <context>
@@ -8877,7 +8475,7 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
     <name>kernel/rss</name>
     <message>
         <source>Really Simple Syndication</source>
-        <translation type="unfinished"></translation>
+        <translation>Really Simple Syndication</translation>
     </message>
 </context>
 <context>
@@ -8942,7 +8540,7 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
     </message>
     <message>
         <source>Setup menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuratiemenu</translation>
     </message>
 </context>
 <context>
@@ -8973,7 +8571,7 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
     </message>
     <message>
         <source>Order view</source>
-        <translation>Bestel weergave</translation>
+        <translation>Bestellingsweergave</translation>
     </message>
     <message>
         <source>Enter account information</source>
@@ -9106,44 +8704,16 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
         <translation>Goedkeuren</translation>
     </message>
     <message>
-        <source>Checkout</source>
-        <translation type="obsolete">Checkout</translation>
-    </message>
-    <message>
         <source>Multiplexer</source>
         <translation>Mutliplexer</translation>
-    </message>
-    <message>
-        <source>Publish</source>
-        <translation type="obsolete">Publiceren</translation>
-    </message>
-    <message>
-        <source>Publish on time</source>
-        <translation type="obsolete">Publiceren op tijdstip</translation>
     </message>
     <message>
         <source>Simple shipping</source>
         <translation>Eenvoudige verzending</translation>
     </message>
     <message>
-        <source>Timing</source>
-        <translation type="obsolete">Timing</translation>
-    </message>
-    <message>
-        <source>Unpublish</source>
-        <translation type="obsolete">Make publiceren ongedaan</translation>
-    </message>
-    <message>
         <source>Wait until date</source>
         <translation>Wacht tot datum</translation>
-    </message>
-    <message>
-        <source>Wrapping</source>
-        <translation type="obsolete">Pakpapier</translation>
-    </message>
-    <message>
-        <source>Hello User</source>
-        <translation type="obsolete">Hallo gebruiker</translation>
     </message>
 </context>
 <context>
@@ -9152,22 +8722,18 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
         <source>Group</source>
         <translation>Groep</translation>
     </message>
-    <message>
-        <source>Serial</source>
-        <translation type="obsolete">Opeenvolgend</translation>
-    </message>
 </context>
 <context>
     <name>lib/ezpdf/classes</name>
     <message>
         <source>Contents</source>
         <comment>Table of contents</comment>
-        <translation type="unfinished"></translation>
+        <translation>Inhoudsopgave</translation>
     </message>
     <message>
         <source>Index</source>
         <comment>Keyword index name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Index</translation>
     </message>
 </context>
 <context>
@@ -9181,7 +8747,7 @@ email adres. U dient de aanwijzigingen in deze email te volgen om uw account te 
     <name>pdf/edit</name>
     <message>
         <source>PDF Export</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporteer PDF</translation>
     </message>
 </context>
 <context>
