@@ -58,7 +58,7 @@ class eZBinaryFileType extends eZDataType
 {
     function eZBinaryFileType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_BINARYFILE, ezi18n( 'kernel/classes/datatypes', "BinaryFile", 'Datatype name' ),
+        $this->eZDataType( EZ_DATATYPESTRING_BINARYFILE, ezi18n( 'kernel/classes/datatypes', "Binary file", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 

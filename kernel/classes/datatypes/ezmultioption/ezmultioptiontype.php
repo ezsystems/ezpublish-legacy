@@ -66,7 +66,7 @@ class eZMultiOptionType extends eZDataType
     */
     function eZMultiOptionType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_MULTIOPTION, ezi18n( 'kernel/classes/datatypes', "MultiOption", 'Datatype name' ),
+        $this->eZDataType( EZ_DATATYPESTRING_MULTIOPTION, ezi18n( 'kernel/classes/datatypes', "Multi-option", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
