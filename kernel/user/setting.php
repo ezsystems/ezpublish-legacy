@@ -67,6 +67,10 @@ if ( $http->hasPostVariable( "UpdateSettingButton" ) )
     }
     $userSetting->setAttribute( "is_enabled", $isEnabled );
     $userSetting->store();
+    if ( !$isEnabled )
+    {
+        eZUser::removeSessionData( $UserID );
+    }
     $Module->redirectTo( '/content/view/full/' . $userObject->attribute( 'main_node_id' ) );
     return;
 }

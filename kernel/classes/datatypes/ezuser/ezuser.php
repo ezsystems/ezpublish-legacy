@@ -338,7 +338,7 @@ class eZUser extends eZPersistentObject
                 {
                     $sessionList[] = "'" . $db->escapeString( $sessionKey ) . "'";
                 }
-                $sessionKeyText = 'IN ( ' . implode( ', ', $sessionList ) . '\'';
+                $sessionKeyText = 'IN ( ' . implode( ', ', $sessionList ) . ' )';
             }
             else
             {
