@@ -408,6 +408,18 @@ class eZUser extends eZPersistentObject
 
     /*!
      \static
+     Returns the ID of the currently logged in user.
+    */
+    function &currentUserID()
+    {
+        $user =& eZUser::instance();
+        if ( !$user )
+            return 0;
+        return $user->attribute( 'contentobject_id' );
+    }
+
+    /*!
+     \static
      Creates a hash out of \a $user, \a $password and \a $site according to the type \a $type.
      \return true if the generated hash is equal to the supplied hash \a $hash.
     */
