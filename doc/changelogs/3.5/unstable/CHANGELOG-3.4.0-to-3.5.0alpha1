@@ -225,6 +225,10 @@ eztc.php:
   http://ez.no/community/bug_reports/fail_installation_with_postgresql_db
 - Fixed bug with variables set by toolbar template function not being unset.
   http://ez.no/community/bug_reports/bug_in_template_compiler
+  (Merged from stable/3.4, rev. 7161)
+- Fixed tip-a-friend email to generate proper links to the object (including www-dir and index-file)
+  http://ez.no/community/bug_reports/missing_ezurl_in_template_design_standard_templates_content_tipafriendmail_tpl
+  (Merged from stable/3.4, rev. 7163)
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
