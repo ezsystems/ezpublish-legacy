@@ -67,7 +67,9 @@ class eZPolicyLimitation extends eZPersistentObject
                       "keys" => array( "id" ),
                       "function_attributes" => array( 'values' => 'valueList',
                                                       'values_as_array' => 'allValues',
-                                                      'values_as_string' => 'allValuesAsString'),
+                                                      'values_as_string' => 'allValuesAsString',
+                                                      'values_as_array_with_names' => 'allValuesAsArrayWithNames'
+                                                      ),
                       "increment_key" => "id",
                       "sort" => array( "id" => "asc" ),
                       "class_name" => "eZPolicyLimitation",
@@ -90,15 +92,20 @@ class eZPolicyLimitation extends eZPersistentObject
         }elseif ( $attr == "values_as_array" )
         {
             return $this->allValues();
+        }elseif ( $attr == "values_as_array_with_names" )
+        {
+            return $this->allValuesAsArrayWithNames();
         }
         return eZPersistentObject::attribute( $attr );
     }
 
-    function createNew( $policyID, $identifier )
+    function createNew( $policyID, $identifier, $moduleName, $functionName )
     {
         $policyParameter = new eZPolicyLimitation( array() );
         $policyParameter->setAttribute( 'policy_id', $policyID );
         $policyParameter->setAttribute( 'identifier', $identifier );
+        $policyParameter->setAttribute( 'function_name', $functionName );
+        $policyParameter->setAttribute( 'module_name', $moduleName );
         $policyParameter->store();
 
         return $policyParameter;
@@ -106,7 +113,7 @@ class eZPolicyLimitation extends eZPersistentObject
 
     function copy( $policyID )
     {
-        $newParameter = eZPolicyLimitation::createNew( $policyID, $this->attribute( 'identifier' ) );
+        $newParameter = eZPolicyLimitation::createNew( $policyID, $this->attribute( 'identifier' ),$this->attribute( 'module_name' ),$this->attribute( 'function_name' ) );
         foreach( $this->attribute( 'values' ) as $value )
         {
             $value->copy( $newParameter->attribute( 'id' ) );
@@ -148,6 +155,54 @@ class eZPolicyLimitation extends eZPersistentObject
             }
         }
         return $str;
+    }
+    function &allValuesAsArrayWithNames()
+    {
+        $valueList =& $this->attribute( 'values_as_array' );
+        $names = array();
+//        if ( $this->attribute( 'identifier' );
+        $currentModule = $this->attribute( 'module_name' );
+        $mod = & eZModule::exists( $currentModule );
+        $functions =& $mod->attribute( 'aviable_functions' );
+        $functionNames = array_keys( $functions );
+
+
+        $currentFunction = $this->attribute( 'function_name' );
+        $limitationValueArray =  array();
+
+        $limitation =& $functions[ $currentFunction ][$this->attribute( 'identifier' )];
+        eZDebug::writeNotice(  $limitation, "limitation" );
+        if( count( $limitation[ 'values' ] == 0 ) && array_key_exists( 'class', $limitation ) )
+        {
+            include_once( 'kernel/' . $limitation['path'] . $limitation['file']  );
+            $obj = new $limitation['class']( array() );
+            $limitationValueList = call_user_func_array ( array( &$obj , $limitation['function']) , $limitation['parameter'] );
+            eZDebug::writeNotice( $limitationValueList, "limitationList" );
+            foreach( $limitationValueList as $limitationValue )
+            {
+                $limitationValuePair = array();
+                $limitationValuePair['Name'] = $limitationValue[ 'name' ];
+                $limitationValuePair['value'] = $limitationValue[ 'id' ];
+                $limitationValueArray[] = $limitationValuePair;
+            }
+        }
+        
+        $limitationValuesWithNames = array();
+        foreach ( array_keys( $valueList ) as $key )
+        {
+            $value = $valueList[$key];
+            eZDebug::writeNotice( $value, "value" );
+
+            reset ( $limitationValueArray );
+            foreach ( array_keys( $limitationValueArray ) as $ckey )
+            {
+                if ( $value == $limitationValueArray[$ckey]['value'] )
+                {
+                    $limitationValuesWithNames[] =& $limitationValueArray[$ckey];
+                }
+            }
+        }
+        return $limitationValuesWithNames;
     }
     function & allValues()
     {

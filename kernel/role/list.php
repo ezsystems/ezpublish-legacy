@@ -54,6 +54,30 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
         }
     }
 }
+// Redirect to content node browse in the user tree
+if ( $http->hasPostVariable( "Assign" )  )
+{
+    $http->setSessionVariable( "BrowseFromPage", "/role/list/" . $roleID . "/" );
+
+    $http->setSessionVariable( "BrowseActionName", "AssignRole" );
+    $http->setSessionVariable( "BrowseReturnType", "ObjectID" );
+
+    $Module->redirectTo( "/content/browse/5/" );
+    return;
+}
+
+// Assign the role for a user or group
+if ( $http->hasPostVariable( "BrowseActionName" ) and
+     $http->postVariable( "BrowseActionName" ) == "AssignRole"
+     )
+{
+    $selectedObjectIDArray = $http->postVariable( "SelectedObjectIDArray" );
+
+    foreach ( $selectedObjectIDArray as $objectID )
+    {
+        $role->assignToUser( $objectID );
+    }
+}
 
 if ( $http->hasPostVariable( 'NewButton' )  )
 {

@@ -49,7 +49,7 @@ $http =& eZHTTPTool::instance();
 $Module =& $Params["Module"];
 $roleID =& $Params["RoleID"];
 
-$role = eZRole::fetch( $roleID );
+$role =& eZRole::fetch( $roleID );
 
 // Redirect to content node browse in the user tree
 if ( $http->hasPostVariable( "AssignRoleButton" )  )

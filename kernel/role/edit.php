@@ -80,6 +80,8 @@ if ($http->hasPostVariable( 'NewName' ) && $role->attribute( 'name' ) != $http->
 $showModules = true;
 $showFunctions = false;
 $showLimitations = false;
+$noFunctions = false;
+$noLimitations = false;
 
 if ( $http->hasPostVariable( 'Apply' )  )
 {
@@ -141,7 +143,7 @@ if ( $http->hasPostVariable( "AddLimitation" ) )
 
             if ( !in_array('-1', $limitationValues ) )
             {
-                $policyLimitation = eZPolicyLimitation::createNew( $policy->attribute('id'), $functionLimitation['name'] );
+                $policyLimitation = eZPolicyLimitation::createNew( $policy->attribute('id'), $functionLimitation['name'], $currentModule, $currentFunction);
                 foreach ( $limitationValues as $limitationValue )
                 {
                     eZPolicyLimitationValue::createNew( $policyLimitation->attribute( 'id' ), $limitationValue );
@@ -158,6 +160,15 @@ if ( $http->hasPostVariable( "RemovePolicy" ) )
     eZPolicy::remove( $policyID );
 
 }
+if ( $http->hasPostVariable( "RemovePolicies" )  )
+{
+    foreach( $http->postVariable( 'DeleteIDArray' ) as $deleteID)
+    {
+        eZDebug::writeNotice( $deleteID, 'trying to remove policy' );
+        eZPolicy::remove( $deleteID );
+    }
+}
+
 
 if ( $http->hasPostVariable( "CustomFunction" )  )
 {
@@ -170,6 +181,14 @@ if ( $http->hasPostVariable( "CustomFunction" )  )
 
     $showModules = false;
     $showFunctions = true;
+    if ( count( $functionNames ) < 1 )
+    {
+        $showModules = true;
+        $showFunctions = false;
+        $showLimitations = false;
+        $noFunctions = true;
+    }
+
 //    eZDebug::writeNotice( $functions, 'Functions' );
     $tpl->setVariable( "current_module", $currentModule );
     $tpl->setVariable( "functions", $functionNames );
@@ -214,7 +233,13 @@ if ( $http->hasPostVariable( "Limitation" )  )
         }
         $currentFunctionLimitations[] = $limitation;
     }
-
+    if ( count( $currentFunctionLimitations ) < 1 )
+    {
+        $showModules = false;
+        $showFunctions = true;
+        $showLimitations = false;
+        $noLimitations = true;
+    }
 //    eZDebug::writeNotice( $functions, 'Functions' );
     $tpl->setVariable( "current_function", $currentFunction );
     $tpl->setVariable( "function_limitations", $currentFunctionLimitations );
@@ -239,6 +264,8 @@ if ( $http->hasPostVariable( "DiscardLimitation" )  )
 }
 
 $policies = $role->attribute( 'policies' );
+$tpl->setVariable( "no_functions", $noFunctions );
+$tpl->setVariable( "no_limitations", $noLimitations );
 
 $tpl->setVariable( "show_modules", $showModules );
 $tpl->setVariable( "show_limitations", $showLimitations );

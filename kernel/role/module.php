@@ -45,6 +45,10 @@ $ViewList["view"] = array(
     "script" => "view.php",
     "params" => array( "RoleID" ) );
 
+$ViewList["assign"] = array(
+    "script" => "assign.php",
+    "params" => array( "RoleID" ) );
+
 
 
 

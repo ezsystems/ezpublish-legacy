@@ -155,7 +155,7 @@ $SectionID = array(
     "parameter" => array(  false )
     );
 $Assigned = array(
-    'name'=> 'Assigned',
+    'name'=> 'Owner',
     'values'=> array(
         array(
             'Name' => 'Self',
@@ -177,17 +177,17 @@ $Assigned = array(
 
 $FunctionList['read'] = array( 'ClassID' => $ClassID,
                                  'SectionID' => $SectionID,
-                                 'Assigned' => $Assigned );
+                                 'Owner' => $Assigned );
 $FunctionList['create'] = array( 'ClassID' => $ClassID,
                                  'SectionID' => $SectionID,
                                  'ParentClassID' => $ParentClassID
                                 );
 $FunctionList['edit'] = array( 'ClassID' => $ClassID,
                                  'SectionID' => $SectionID,
-                                 'Assigned' => $Assigned );
+                                 'Owner' => $Assigned );
 $FunctionList['remove'] = array( 'ClassID' => $ClassID,
                                  'SectionID' => $SectionID,
-                                 'Assigned' => $Assigned );
+                                 'Owner' => $Assigned );
 
 $FunctionList['publish'] = array();
 /*
