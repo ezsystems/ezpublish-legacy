@@ -1,1 +1,1 @@
-UPDATE ezsite_data value='1' WHERE name='ezpublish-release';
+UPDATE ezsite_data SET value='1' WHERE name='ezpublish-release';

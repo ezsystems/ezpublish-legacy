@@ -43,7 +43,7 @@
         <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
         <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/standard/node/view' )}" />
     {/section}
-    <input class="button" type="submit" name="ActionRemove" value="Remove" />
+    <input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/standard/node/view')}" />
     </div>
 </div>
 

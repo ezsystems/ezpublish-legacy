@@ -190,7 +190,7 @@
                                                sort_by, $node.sort_array,
                                                limit, $page_limit,
                                                offset, $view_parameters.offset ) )}
-                <input type="submit" name="RemoveButton" value="Remove" />
+                <input type="submit" name="RemoveButton" value="{'Remove'|i18n('design/standard/node/view')}" />
             {/section}
         {/section}
     {/section}

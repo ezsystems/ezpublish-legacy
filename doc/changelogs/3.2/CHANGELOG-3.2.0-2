@@ -2,6 +2,8 @@ Changes from 3.2.0-1 to 3.2.0-2
 
 *Kernel:
 - Added support for turning debug includes on and off in eZScript and ezpm.php.
+- Made sure the bork translator didn't translate words that start with a % (percent).
+- Added master control switch for template cache, if disabled all template based caches will be turned off.
 
 *Setup:
 - Made sure the password is used when connecting to database.

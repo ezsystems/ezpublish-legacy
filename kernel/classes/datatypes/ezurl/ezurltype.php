@@ -56,7 +56,7 @@ class eZURLType extends eZDataType
     */
     function eZURLType()
     {
-        $this->eZDataType( EZ_DATATYPEURL_URL, 'URL',
+        $this->eZDataType( EZ_DATATYPEURL_URL, ezi18n( 'kernel/classes/datatypes', 'URL' ),
                            array( 'serialize_supported' => true ) );
         $this->MaxLenValidator = new eZIntegerValidator();
     }

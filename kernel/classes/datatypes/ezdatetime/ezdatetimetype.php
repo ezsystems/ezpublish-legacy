@@ -52,7 +52,7 @@ class eZDateTimeType extends eZDataType
 {
     function eZDateTimeType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_DATETIME, "Datetime field",
+        $this->eZDataType( EZ_DATATYPESTRING_DATETIME, ezi18n( 'kernel/classes/datatypes', "Datetime field" ),
                            array( 'serialize_supported' => true ) );
     }
 

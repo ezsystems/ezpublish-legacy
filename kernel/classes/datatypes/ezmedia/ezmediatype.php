@@ -58,7 +58,7 @@ class eZMediaType extends eZDataType
 {
     function eZMediaType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_MEDIA, "Media",
+        $this->eZDataType( EZ_DATATYPESTRING_MEDIA, ezi18n( 'kernel/classes/datatypes', "Media" ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -155,8 +155,7 @@ class eZMediaType extends eZDataType
                 if ( $file === null )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'A valid file is required.',
-                                                                         'eZMediaType' ) );
+                                                                         'A valid file is required.' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }

@@ -55,7 +55,7 @@ class eZImageType extends eZDataType
 {
     function eZImageType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_IMAGE, "Image",
+        $this->eZDataType( EZ_DATATYPESTRING_IMAGE, ezi18n( 'kernel/classes/datatypes', "Image" ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -177,8 +177,7 @@ class eZImageType extends eZDataType
                 if ( $file === null )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'A valid image is required.',
-                                                                         'eZImageType' ) );
+                                                                         'A valid image is required.' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }

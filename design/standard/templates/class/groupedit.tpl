@@ -5,7 +5,7 @@
 <div>
 
 <div class="byline">
-<p class="modified">{"Modified by"|i18n("design/standard/class/edit")} {content_view_gui view=text_linked content_object=$classgroup.modifier.contentobject} {"on"|i18n("design/standard/class/edit")} {$classgroup.modified|l10n(shortdatetime)}</p>
+<p class="modified">{"Modified by %username on %time"|i18n("design/standard/class/edit",,hash('%username',$classgroup.modifier.contentobject.name,'%time',$classgroup.modified|l10n(shortdatetime)))}</p>
 </div>
 
 <div class="block">

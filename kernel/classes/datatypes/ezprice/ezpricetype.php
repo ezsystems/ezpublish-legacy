@@ -55,7 +55,7 @@ class eZPriceType extends eZDataType
 {
     function eZPriceType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_PRICE, "Price",
+        $this->eZDataType( EZ_DATATYPESTRING_PRICE, ezi18n( 'kernel/classes/datatypes', "Price" ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -149,10 +149,10 @@ class eZPriceType extends eZDataType
 
     function contentActionList( )
     {
-        return array( array( 'name' => 'Add to basket',
+        return array( array( 'name' => ezi18n( 'kernel/classes/datatypes', 'Add to basket' ),
                              'action' => 'ActionAddToBasket'
                              ),
-                      array( 'name' => 'Add to wish list',
+                      array( 'name' => ezi18n( 'kernel/classes/datatypes', 'Add to wish list' ),
                              'action' => 'ActionAddToWishList'
                              ) );
     }

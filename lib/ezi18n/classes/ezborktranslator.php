@@ -109,28 +109,40 @@ class eZBorkTranslator extends eZTranslatorHandler
     */
     function &borkify( $text )
     {
-        $orgtext = $text;
-        $text = preg_replace( "/a\B/", "e", $text );
-        $text = preg_replace( "/an/", "un", $text );
-        $text = preg_replace( "/au/", "oo", $text );
-        $text = preg_replace( "/en\b/", "ee", $text );
-        $text = preg_replace( "/\Bew/", "oo", $text );
-        $text = preg_replace( "/\Bf/", "ff", $text );
-        $text = preg_replace( "/\Bi/", "ee", $text );
-        $text = preg_replace( "/\Bir/", "ur", $text );
-        $text = preg_replace( "/\bo/", "oo", $text );
-        $text = preg_replace( "/ow/", "oo", $text );
-        $text = preg_replace( "/ph/", "f", $text );
-        $text = preg_replace( "/th\b/", "t", $text );
-        $text = preg_replace( "/\Btion/", "shun", $text );
-        $text = preg_replace( "/\Bu/", "oo", $text );
-        $text = preg_replace( "/\bU/", "Oo", $text );
-        $text = preg_replace( "/y\b/", "ai", $text );
-        $text = preg_replace( "/v/", "f", $text );
-        $text = preg_replace( "/w/", "v", $text );
-        $text = preg_replace( "/ooo/", "oo", $text );
-        if ( $orgtext == $text )
-            $text = $text . "-a";
+        $textBlocks = preg_split( "/(%[^ ]+)/", $text, -1, PREG_SPLIT_DELIM_CAPTURE );
+        $newTextBlocks = array();
+        foreach ( $textBlocks as $text )
+        {
+            if ( $text[0] == '%' )
+            {
+                $newTextBlocks[] = $text;
+                continue;
+            }
+            $orgtext = $text;
+            $text = preg_replace( "/a\B/", "e", $text );
+            $text = preg_replace( "/an/", "un", $text );
+            $text = preg_replace( "/au/", "oo", $text );
+            $text = preg_replace( "/en\b/", "ee", $text );
+            $text = preg_replace( "/\Bew/", "oo", $text );
+            $text = preg_replace( "/\Bf/", "ff", $text );
+            $text = preg_replace( "/\Bi/", "ee", $text );
+            $text = preg_replace( "/\Bir/", "ur", $text );
+            $text = preg_replace( "/\bo/", "oo", $text );
+            $text = preg_replace( "/ow/", "oo", $text );
+            $text = preg_replace( "/ph/", "f", $text );
+            $text = preg_replace( "/th\b/", "t", $text );
+            $text = preg_replace( "/\Btion/", "shun", $text );
+            $text = preg_replace( "/\Bu/", "oo", $text );
+            $text = preg_replace( "/\bU/", "Oo", $text );
+            $text = preg_replace( "/y\b/", "ai", $text );
+            $text = preg_replace( "/v/", "f", $text );
+            $text = preg_replace( "/w/", "v", $text );
+            $text = preg_replace( "/ooo/", "oo", $text );
+            if ( $orgtext == $text )
+                $text = $text . "-a";
+            $newTextBlocks[] = $text;
+        }
+        $text = implode( '', $newTextBlocks );
         $text = preg_replace( "/([:.?!])(.*)/", "\\2\\1", $text );
         $text = "[" . $text . "]";
         return $text;

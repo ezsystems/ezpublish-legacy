@@ -48,7 +48,7 @@ class eZEmailType extends eZDataType
 {
     function eZEmailType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_EMAIL, "Email",
+        $this->eZDataType( EZ_DATATYPESTRING_EMAIL, ezi18n( 'kernel/classes/datatypes', "Email" ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -67,8 +67,7 @@ class eZEmailType extends eZDataType
                 if( $email == "" )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'A valid email account is required.',
-                                                                         'eZEmailType' ) );
+                                                                         'A valid email account is required.' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }
@@ -78,8 +77,7 @@ class eZEmailType extends eZDataType
                 if ( ! $isValidate )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'Email address is not valid.',
-                                                                         'eZEmailType' ) );
+                                                                         'Email address is not valid.' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }

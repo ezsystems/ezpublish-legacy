@@ -52,7 +52,7 @@ class eZOptionType extends eZDataType
 {
     function eZOptionType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_OPTION, "Option",
+        $this->eZDataType( EZ_DATATYPESTRING_OPTION, ezi18n( 'kernel/classes/datatypes', "Option" ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -74,8 +74,7 @@ class eZOptionType extends eZDataType
                 if ( trim( $valueList[0] ) == "" )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'At least one option is required.',
-                                                                         'eZOptionType' ) );
+                                                                         'At least one option is required.' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }
@@ -87,16 +86,14 @@ class eZOptionType extends eZDataType
                     if ( trim( $value )== "" )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Option value should be provided.',
-                                                                             'eZOptionType' ) );
+                                                                             'Option value should be provided.' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
 
                     }
                     if ( strlen( $optionAdditionalPriceList[$i] ) && !preg_match( "#^[-|+]?[0-9]+(\.){0,1}[0-9]{0,2}$#", $optionAdditionalPriceList[$i] ) )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Additional price for option value is invalid.',
-                                                                             'eZOptionType' ) );
+                                                                             'Additional price for option value is invalid.' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     }
 

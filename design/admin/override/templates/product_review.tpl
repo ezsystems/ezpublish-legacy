@@ -30,8 +30,8 @@
             <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
             <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
         {/section}
-    <input class="button" type="submit" name="ActionPreview" value="Preview" />
-    <input class="button" type="submit" name="ActionRemove" value="Remove" />
+    <input class="button" type="submit" name="ActionPreview" value="{'Preview'|i18n('design/standard/node/view')}" />
+    <input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/standard/node/view')}" />
     <input class="button" type="submit" name="ActionAddToBookmarks" value="{'Bookmark'|i18n('design/standard/node/view')}" />
     <input class="button" type="submit" name="ActionAddToNotification" value="{'Keep me updated'|i18n('design/standard/node/view')}" />
 

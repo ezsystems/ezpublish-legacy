@@ -50,7 +50,7 @@ class eZTextType extends eZDataType
 {
     function eZTextType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_TEXT, "Text field",
+        $this->eZDataType( EZ_DATATYPESTRING_TEXT, ezi18n( 'kernel/classes/datatypes', "Text field" ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -92,8 +92,7 @@ class eZTextType extends eZDataType
                 if( $data == "" )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'Text field is empty, content required.',
-                                                                         'eZStringType' ) );
+                                                                         'Text field is empty, content required.' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }
@@ -181,7 +180,7 @@ class eZTextType extends eZDataType
     {
         if ( $classAttribute->attribute( 'is_information_collector' ) == true )
         {
-            return array( array( 'name' => 'Send',
+            return array( array( 'name' => ezi18n( 'kernel/classes/datatypes', 'Send' ),
                                  'action' => 'ActionCollectInformation'
                                  ) );
         }

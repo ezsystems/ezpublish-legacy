@@ -53,7 +53,7 @@ class eZSubtreeSubscriptionType extends eZDataType
     */
     function eZSubtreeSubscriptionType()
     {
-        $this->eZDataType(  EZ_DATATYPESTRING_SUBTREESUBSCRIPTION, "Subtree subscription",
+        $this->eZDataType(  EZ_DATATYPESTRING_SUBTREESUBSCRIPTION, ezi18n( 'kernel/classes/datatypes', "Subtree subscription" ),
                             array( 'serialize_supported' => true ) );
     }
 
@@ -80,7 +80,7 @@ class eZSubtreeSubscriptionType extends eZDataType
                     $newSubscriptions[] = $node->attribute( 'node_id' );
                 }
             }
-            eZDebug::writeDebug( $newSubscriptions, "New subscriptions shell be created" );
+//             eZDebug::writeDebug( $newSubscriptions, "New subscriptions shell be created" );
 
             foreach ( $newSubscriptions as $nodeID )
             {

@@ -60,7 +60,7 @@ class eZEnumType extends eZDataType
     */
     function eZEnumType()
     {
-         $this->eZDataType( EZ_DATATYPESTRING_ENUM, "Enum",
+         $this->eZDataType( EZ_DATATYPESTRING_ENUM, ezi18n( 'kernel/classes/datatypes', "Enum" ),
                             array( 'serialize_supported' => true ) );
     }
 
@@ -206,8 +206,7 @@ class eZEnumType extends eZDataType
                  ( !$http->hasPostVariable( $base . "_select_data_enumelement_" . $contentObjectAttribute->attribute( "id" ) ) ) )
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                     'At least one field should be chosen.',
-                                                                     'eZEnumType' ) );
+                                                                     'At least one field should be chosen.' ) );
                 return EZ_INPUT_VALIDATOR_STATE_INVALID;
             }
         }

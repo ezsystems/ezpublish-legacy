@@ -170,8 +170,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $errorMessage .= $line .";";
                 }
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                     $errorMessage,
-                                                                     'ezXMLTextType' ) );
+                                                                     $errorMessage ) );
                 return EZ_INPUT_VALIDATOR_STATE_INVALID;
             }
             else
@@ -215,8 +214,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         $GLOBALS[$isInputValid] = false;
                         $objectIDString = implode( ', ', array_diff( $relatedObjectIDArray, $existingObjectIDArray ) );
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Object '. $objectIDString .' does not exist.',
-                                                                             'ezXMLTextType' ) );
+                                                                             'Object %1 does not exist.', false, array( $objectIDString ) ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     }
 
@@ -273,8 +271,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             {
                                 $GLOBALS[$isInputValid] = false;
                                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                                     'Link '. $urlID .' does not exist.',
-                                                                                     'ezXMLTextType' ) );
+                                                                                     'Link %1 does not exist.',
+                                                                                     false, array( $urlID ) ) );
                                 return EZ_INPUT_VALIDATOR_STATE_INVALID;
                             }
                             else
@@ -307,8 +305,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             {
                                 $GLOBALS[$isInputValid] = false;
                                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                                     'Link '. $linkID .' does not exist.',
-                                                                                     'ezXMLTextType' ) );
+                                                                                     'Link %1 does not exist.',
+                                                                                     false, array( $linkID ) ) );
                                 return EZ_INPUT_VALIDATOR_STATE_INVALID;
                             }
                             else

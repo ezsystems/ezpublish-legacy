@@ -51,7 +51,7 @@ class eZAuthorType extends eZDataType
 {
     function eZAuthorType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_AUTHOR, "Author",
+        $this->eZDataType( EZ_DATATYPESTRING_AUTHOR, ezi18n( 'kernel/classes/datatypes', "Author" ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -72,8 +72,7 @@ class eZAuthorType extends eZDataType
                 if ( trim( $nameList[0] ) == "" )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'At least one author is required.',
-                                                                         'eZAuthorType' ) );
+                                                                         'At least one author is required.' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }
@@ -86,8 +85,7 @@ class eZAuthorType extends eZDataType
                     if ( trim( $name )== "" )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Author name should be provided.',
-                                                                             'eZAuthorType' ) );
+                                                                             'Author name should be provided.' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
 
                     }
@@ -95,8 +93,7 @@ class eZAuthorType extends eZDataType
                     if ( ! $isValidate )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Email address is not valid.',
-                                                                             'eZAuthorType' ) );
+                                                                             'Email address is not valid.' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     }
                 }

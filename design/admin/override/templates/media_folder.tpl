@@ -104,7 +104,7 @@
                 {/section}
                 {section show=$:can_edit}
                         {section show=$:item.object.can_edit}
-                            <a href={concat( "content/edit/", $Child:item.contentobject_id )|ezurl}><img src={"edit.png"|ezimage} alt="Edit" /></a>
+                            <a href={concat( "content/edit/", $Child:item.contentobject_id )|ezurl}><img src={"edit.png"|ezimage} alt="{'Edit'|i18n('design/standard/node/view')}" /></a>
                         {/section}
                 {/section}
                 {section show=eq( $node.sort_array[0][0], 'priority' )}
@@ -135,7 +135,7 @@
                                                sort_by, $node.sort_array,
                                                limit, $page_limit,
                                                offset, $view_parameters.offset ) )}
-                <input type="submit" name="RemoveButton" value="Remove" />
+                <input type="submit" name="RemoveButton" value="{'Remove'|i18n('design/standard/node/view')}" />
             {/section}
         {/section}
     {/section}

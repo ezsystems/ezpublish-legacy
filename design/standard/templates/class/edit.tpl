@@ -7,7 +7,9 @@
 </div>
 
 <div class="byline">
-<p class="date">{"Last modified by"|i18n("design/standard/class/edit")} {content_view_gui view=text_linked content_object=$class.modifier.contentobject} {"on"|i18n("design/standard/class/edit")} {$class.modified|l10n(shortdatetime)}</p>
+<p class="date">{"Last modified by %username on %time"|i18n("design/standard/class/edit",,
+                                                            hash('%username',$class.modifier.contentobject.name,
+                                                                 '%time',$class.modified|l10n(shortdatetime)))}</p>
 </div>
 
 <table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">

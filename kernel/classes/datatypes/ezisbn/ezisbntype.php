@@ -48,7 +48,7 @@ class eZISBNType extends eZDataType
 {
     function eZISBNType( )
     {
-        $this->eZDataType( EZ_DATATYPESTRING_ISBN, "ISBN",
+        $this->eZDataType( EZ_DATATYPESTRING_ISBN, ezi18n( 'kernel/classes/datatypes', "ISBN" ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -78,15 +78,13 @@ class eZISBNType extends eZDataType
             }else
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                     'The ISBN number is not correct. Please recheck the input',
-                                                                     'eZISBNType' ) );
+                                                                     'The ISBN number is not correct. Please recheck the input' ) );
                 return EZ_INPUT_VALIDATOR_STATE_INVALID;
             }
         }else
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                 'The ISBN format is not valid.',
-                                                                 'eZISBNType' ) );
+                                                                 'The ISBN format is not valid.' ) );
             return EZ_INPUT_VALIDATOR_STATE_INVALID;
         }
         return EZ_INPUT_VALIDATOR_STATE_INVALID;

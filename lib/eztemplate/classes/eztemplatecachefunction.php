@@ -71,7 +71,8 @@ class eZTemplateCacheFunction
             {
                 // Check for disabled cache.
                 $ini =& eZINI::instance();
-                if ( $ini->variable( 'TemplateSettings', 'TemplateCompile' ) != 'enabled' )
+                if ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'disabled' or
+                     $ini->variable( 'TemplateSettings', 'TemplateCompile' ) != 'enabled' )
                 {
                     $children = $functionChildren;
 

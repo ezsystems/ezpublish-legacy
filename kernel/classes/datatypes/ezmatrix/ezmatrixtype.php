@@ -61,7 +61,7 @@ class eZMatrixType extends eZDataType
     */
     function eZMatrixType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_MATRIX, 'Matrix',
+        $this->eZDataType( EZ_DATATYPESTRING_MATRIX, ezi18n( 'kernel/classes/datatypes', 'Matrix' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -129,7 +129,7 @@ class eZMatrixType extends eZDataType
                                           'text' => $row );
             }
         }
-        eZDebug::writeDebug( $metaDataArray, 'metaDataArray for matrix' );
+//         eZDebug::writeDebug( $metaDataArray, 'metaDataArray for matrix' );
         return $metaDataArray;
     }
 

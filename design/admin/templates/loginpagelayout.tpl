@@ -84,7 +84,7 @@
     {* This is the main content *}
     <td rowspan="2" width="120" valign="top" style="padding-right: 0px; padding-left: 0px; padding-top: 0px; background-image:url('{"bgtilelight.gif"|ezimage(no)}'); background-repeat: repeat;">
     <div style="padding-right: 4px; padding-left: 15px; padding-top: 4px; padding-bottom: 4px; margin-bottom:1px; background-image:url('{"bgtiledark.gif"|ezimage(no)}'); background-repeat: repeat;">
-    <a class="leftmenuitem" href={"/class/grouplist/"|ezurl}>Login</a>
+    <a class="leftmenuitem" href={"/class/grouplist/"|ezurl}>{"Login"|i18n('design/standard/layout')}</a>
     </div>
     </td>
     <td rowspan="2" valign="top"  style="background-color: #ffffff; background-image:url('{"corner.gif"|ezimage(no)}'); background-repeat: no-repeat;">

@@ -57,7 +57,7 @@ class eZBinaryFileType extends eZDataType
 {
     function eZBinaryFileType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_BINARYFILE, "BinaryFile",
+        $this->eZDataType( EZ_DATATYPESTRING_BINARYFILE, ezi18n( 'kernel/classes/datatypes', "BinaryFile" ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -216,7 +216,7 @@ class eZBinaryFileType extends eZDataType
             {
                 eZAppendWarningItem( array( 'error' => array( 'type' => 'kernel',
                                                               'number' => EZ_ERROR_KERNEL_NOT_AVAILABLE ),
-                                            'text' => ezi18n( 'kernel/classes/datatype/ezbinaryfiletype',
+                                            'text' => ezi18n( 'kernel/classes/datatypes',
                                                               'File uploading is not enabled, no file handling can be performed.' ) ) );
                 $isFileWarningAdded = true;
             }
@@ -242,8 +242,7 @@ class eZBinaryFileType extends eZDataType
                 if ( $file === null )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'A valid file is required.',
-                                                                         'eZBinaryFileType' ) );
+                                                                         'A valid file is required.' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }

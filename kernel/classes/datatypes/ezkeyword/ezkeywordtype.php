@@ -55,7 +55,7 @@ class eZKeywordType extends eZDataType
     */
     function eZKeywordType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_KEYWORD, 'Keyword',
+        $this->eZDataType( EZ_DATATYPESTRING_KEYWORD, ezi18n( 'kernel/classes/datatypes', 'Keyword' ),
                            array( 'serialize_supported' => true ) );
     }
 

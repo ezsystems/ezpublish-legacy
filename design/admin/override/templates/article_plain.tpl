@@ -1,4 +1,4 @@
-{* Articke admin plain view template *}
+{* Article admin plain view template *}
 
 {default content_object=$node.object
          content_version=$node.contentobject_version_object
