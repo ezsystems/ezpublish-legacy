@@ -19,7 +19,7 @@ Changes from 2.9-3 to 2.9-4
 - Added translation overview to object edit.
 - Fixed single selection in browse object/node.
 - Fixed bug in list stylesheet.
-
+- Changed node assignment interface when editing objects.
 Datatypes:
 - Datatypes can now report if the are non-translateable.
 
@@ -42,3 +42,5 @@ eZ debug:
 eZ module:
 - Added support for parameters to handleError, this parameters are read by the error module
   and set as template variables for the template.
+eZ http:
+- Added suport for images buttons
