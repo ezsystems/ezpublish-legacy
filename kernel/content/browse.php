@@ -118,8 +118,6 @@ if (isset( $GLOBALS['eZDesignKeys']['section'] ))
     unset($GLOBALS['eZDesignKeys']['section']);
 }
 
-ezDebug::writeDebug( $object->attribute( 'class_identifier' ), 'rush: class_identifier' );
-
 $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
                       array( 'node', $node->attribute( 'node_id' ) ), // Node ID
                       array( 'parent_node', $node->attribute( 'parent_node_id' ) ), // Parent Node ID
