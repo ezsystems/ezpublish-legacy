@@ -449,10 +449,20 @@ $str
 \$max_char = " . $this->MaxCharValue . ";
 ?" . ">";
             if ( !file_exists( $cache_dir ) )
-                mkdir( $cache_dir, 0777 );
-            $fd = fopen( $cache, "w+" );
-            fwrite( $fd, $str );
-            fclose( $fd );
+			{
+                if ( ! @mkdir( $cache_dir, 0777 ) )
+					eZDebug::writeError( "Couldn't create cache directory $cache_dir, perhaps wrong permissions", "eZCodepage" );					
+			}
+            $fd = @fopen( $cache, "w+" );
+			if ( ! $fd )
+			{
+				eZDebug::writeError( "Couldn't write cache file $cache, perhaps wrong permissions or leading directories not created", "eZCodepage" );
+			}
+			else
+			{
+            	fwrite( $fd, $str );
+            	fclose( $fd );
+			}
         }
     }
 
