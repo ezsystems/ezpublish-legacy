@@ -96,7 +96,8 @@ class eZExpiryHandler
 
             fwrite( $fp, $storeString );
             fclose( $fp );
-            rename( "$cacheDirectory/.expiry.php.$uniqid.tmp", "$cacheDirectory/expiry.php" );
+            include "lib/ezutils/classes/ezfile.php";
+            eZFile::rename( "$cacheDirectory/.expiry.php.$uniqid.tmp", "$cacheDirectory/expiry.php" );
 
             $this->IsModified = false;
         }

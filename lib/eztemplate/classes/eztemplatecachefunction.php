@@ -278,8 +278,13 @@ ENDADDCODE;
                   "eZDir::mkdir( $filedirText, $perm, true );\n" .
                   "\$fd = fopen( $filedirText. '/'. \$uniqid, 'w' );\n" .
                   "fwrite( \$fd, \$cachedText );\n" .
-                  "fclose( \$fd );\n".
-                  "rename( $filedirText. '/'. \$uniqid, $filepathText );\n" );
+                  "fclose( \$fd );\n" );
+        /* On windows we need to unlink the destination file first */
+        if ( strtolower( substr( PHP_OS, 0, 3 ) ) == 'win' )
+        {
+            $code .= "@unlink( $filepathText );\n";
+        }
+        $code .= "rename( $filedirText. '/'. \$uniqid, $filepathText );\n";
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => 4 ) );
         $newNodes[] = eZTemplateNodeTool::createOutputVariableDecreaseNode( array( 'spacing' => 4 ) );
         $newNodes[] = eZTemplateNodeTool::createWriteToOutputVariableNode( 'cachedText', array( 'spacing' => 4 ) );
@@ -408,6 +413,7 @@ ENDADDCODE;
                         $textElements[] = $text;
 
                         include_once( 'lib/ezfile/classes/ezdir.php' );
+                        include_once( 'lib/ezfile/classes/ezfile.php' );
                         $ini =& eZINI::instance();
                         $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
                         $uniqid = md5( uniqid( 'ezpcache'. getmypid(), true ) );
@@ -415,7 +421,7 @@ ENDADDCODE;
                         $fd = fopen( "$phpDir/$uniqid", 'w' );
                         fwrite( $fd, $text );
                         fclose( $fd );
-                        rename( "$phpDir/$uniqid", $phpPath );
+                        eZFile::rename( "$phpDir/$uniqid", $phpPath );
                         if ( isset( $functionParameters['subtree_expiry'] ) )
                         {
                             include_once( 'lib/ezdb/classes/ezdb.php' );
