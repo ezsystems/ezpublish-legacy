@@ -1,1 +1,1 @@
-{"This security measure is to ensure that your settings are not accessible for other users."|i18n("design/standard/setup/init")}
+{"This security tweak takes care of protecting configuration files and other important files."|i18n("design/standard/setup/init")}

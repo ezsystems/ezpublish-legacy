@@ -7,8 +7,7 @@
 </div>
 
 <p>
-{"Your site is running in non-virtualhost mode which is considered an unsecure mode. It's recommended to run eZ publish in virtualhost mode.
-If you do not have the possibility to use virtualhost mode you should follow the instructions below on howto install a .htaccess file, the file tells the webserver to only give access to certain files."|i18n("design/standard/setup/init")}
+{"Your site is not running in a virtual host mode, this is insecure. It is recommended to run eZ publish in virtual host mode. If you do not have the possibility to use virtual host mode, you should follow the instructions below about how to install an .htaccess file. The .htaccess file tells the web server to only give access to certain files."|i18n("design/standard/setup/init")}
 </p>
 
 <p>
