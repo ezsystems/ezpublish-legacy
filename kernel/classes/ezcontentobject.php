@@ -1113,7 +1113,7 @@ class eZContentObject extends eZPersistentObject
 
                 // Clean up subtree limitations related to this object
                 $limitationArray = $db->arrayQuery( "SELECT l.id AS limitation_id, v.id AS value_id
-                                                     FROM ezpolicy_limitation AS l, ezpolicy_limitation_value AS v
+                                                     FROM ezpolicy_limitation l, ezpolicy_limitation_value v
                                                      WHERE v.limitation_id=l.id AND l.identifier='Subtree' AND v.value LIKE '$pathString%'" );
 
                 foreach ( $limitationArray as $limitation )
@@ -1148,7 +1148,7 @@ class eZContentObject extends eZPersistentObject
 
                     // Clean up subtree limitations related to this object
                     $limitationArray = $db->arrayQuery( "SELECT l.id AS limitation_id, v.id AS value_id
-                                                     FROM ezpolicy_limitation AS l, ezpolicy_limitation_value AS v
+                                                     FROM ezpolicy_limitation l, ezpolicy_limitation_value v
                                                      WHERE v.limitation_id=l.id AND l.identifier='Subtree' AND v.value LIKE '$pathString%'" );
 
                     foreach ( $limitationArray as $limitation )
