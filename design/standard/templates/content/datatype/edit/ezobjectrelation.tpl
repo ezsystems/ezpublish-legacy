@@ -24,7 +24,7 @@
 
 {case match=1} {* Dropdown list *}
     <div class="buttonblock">
-    <select name="{$attribute_base}_data_object_relation_id_{$attribute.id}" />
+    <select name="{$attribute_base}_data_object_relation_id_{$attribute.id}">
         {section show=$attribute.contentclass_attribute.is_required|not}
             <option value="" {section show=eq( $attribute.data_int, '' )}selected="selected"{/section}>{'No relation'|i18n( 'design/standard/content/datatype' )}</option>
         {/section}
