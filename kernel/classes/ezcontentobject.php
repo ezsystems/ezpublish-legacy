@@ -166,11 +166,14 @@ class eZContentObject extends eZPersistentObject
              $attr == "data_map" or
              $attr == "default_language" or
              $attr == "content_action_list" or
-             $attr == "class_identifier"
+             $attr == "class_identifier" or
+             $attr == 'remote_id'
              )
         {
             if ( $attr == "current" )
                 return $this->currentVersion();
+            else if ( $attr == 'remote_id' )
+                return $this->remoteID();
             else if ( $attr == 'versions' )
                 return $this->versions();
             else if ( $attr == 'author_array' )
@@ -508,6 +511,22 @@ class eZContentObject extends eZPersistentObject
         }
 
         return eZContentClass::fetch( $this->ClassID );
+    }
+
+    /*!
+     Get remote id of content node
+    */
+    function remoteID()
+    {
+        $remoteID = eZPersistentObject::attribute( 'remote_id' );
+        if ( !$remoteID )
+        {
+            $this->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)mktime() ) );
+            $this->store();
+            $remoteID = eZPersistentObject::attribute( 'remote_id' );
+        }
+
+        return $remoteID;
     }
 
     function &mainParentNodeID()

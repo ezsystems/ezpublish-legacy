@@ -384,6 +384,10 @@ class eZContentClass extends eZPersistentObject
             {
                 $user_id = $this->ModifierID;
             } break;
+            case 'remote_id':
+            {
+                return $this->remoteID();
+            } break;
             case "ingroup_list":
             {
                 $this->InGroups =& eZContentClassClassGroup::fetchGroupList( $this->attribute( "id" ),
@@ -440,6 +444,22 @@ class eZContentClass extends eZPersistentObject
         }
         eZPersistentObject::removeObject( eZContentClassAttribute::definition(),
                                           array( 'version' => $version ) );
+    }
+
+    /*!
+     Get remote id of content node
+    */
+    function remoteID()
+    {
+        $remoteID = eZPersistentObject::attribute( 'remote_id' );
+        if ( !$remoteID )
+        {
+            $this->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)mktime() ) );
+            $this->store();
+            $remoteID = eZPersistentObject::attribute( 'remote_id' );
+        }
+
+        return $remoteID;
     }
 
     function remove( $remove_childs = false, $version = EZ_CLASS_VERSION_STATUS_DEFINED )
