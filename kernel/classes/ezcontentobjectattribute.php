@@ -362,9 +362,10 @@ class eZContentObjectAttribute extends eZPersistentObject
         }
         return eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
                                                 $field_filters,
-                                                array( "contentclassattribute_id" => $this->ContentClassAttributeID ,
-                                                       "version" => $this->Version ,
-                                                       "language_code" => $languageCode
+                                                array( "contentclassattribute_id" => $this->ContentClassAttributeID,
+                                                       "contentobject_id" => $this->ContentObjectID,
+                                                       "version" => $this->Version,
+                                                       "language_code" => $languageCode,
                                                        ),
                                                 $asObject );
     }
