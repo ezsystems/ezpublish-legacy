@@ -51,7 +51,7 @@
    - EZ_IMAGE_NO_SUFFIX - removes the suffix
 
 \code
-$img->registerType( "convert", new eZImageShell( "convert", array(), array(),
+$img->registerType( 'convert', new eZImageShell( '', 'convert', array(), array(),
                                                  array( eZImageShell::createRule( "-geometry %wx%h>",
                                                                                   "modify/scale" ),
                                                         eZImageShell::createRule( "-colorspace GRAY",
@@ -81,9 +81,10 @@ class eZImageShell
      $from_type specifies what happens with the source filename and $to_type
      specifies what happens with the destination filename.
     */
-    function eZImageShell( $exec, $pre_params, $post_params, $rules,
+    function eZImageShell( $execPath, $exec, $pre_params, $post_params, $rules,
                            $from_type = EZ_IMAGE_KEEP_SUFFIX, $to_type = EZ_IMAGE_REPLACE_SUFFIX )
     {
+        $this->ExecPath = $execPath;
         $this->Exec = $exec;
         $this->PreParams = $pre_params;
         $this->PostParams = $post_params;
@@ -177,6 +178,9 @@ class eZImageShell
     */
     function conversionString( &$from, &$to, $pre, $post, &$to_dir, &$to_file, &$dest_str )
     {
+        $str = '';
+        if ( $this->ExecPath != '' )
+            $str = $this->ExecPath . '/';
         $str = $this->Exec;
         $params = array_merge( $this->PreParams, $pre );
         foreach ( $params as $param )
@@ -273,7 +277,8 @@ class eZImageShell
     */
     function parseScaleRule( $rule, $scale )
     {
-        $str = preg_quote( $rule["expression"] );
+//         $str = preg_quote( $rule["expression"] );
+        $str = $rule["expression"];
         $str = preg_replace( "/%w/", $scale["width"], $str );
         $str = preg_replace( "/%h/", $scale["height"], $str );
         return $str;
@@ -307,6 +312,8 @@ class eZImageShell
         return $ret;
     }
 
+    /// The path to the executable
+    var $ExecPath;
     /// The file to execute for image conversion
     var $Exec;
     /// Array of parameters which are added before the files

@@ -48,9 +48,9 @@ function &imageInit()
 
     $ini =& eZINI::instance();
     if ( $ini->variable( 'ImageSettings', 'ScaleLargerThenOriginal' ) == 'true' )
-        $geometry = '-geometry %wx%h';
+        $geometry = '-geometry "%wx%h"';
     else
-        $geometry = '-geometry %wx%h>';
+        $geometry = '-geometry "%wx%h>"';
 
     $imgINI =& eZINI::instance( 'image.ini' );
 
@@ -82,7 +82,8 @@ function &imageInit()
     // Register convertors
     if ( $useConvert )
     {
-        $img->registerType( 'convert', new eZImageShell( 'convert', array(), array(),
+        $img->registerType( 'convert', new eZImageShell( $imgINI->variable( 'ShellSettings', 'ConvertPath' ), $imgINI->variable( 'ShellSettings', 'ConvertExecutable' ),
+                                                         array(), array(),
                                                          array( eZImageShell::createRule( $geometry,
                                                                                           'modify/scale' ),
                                                                 eZImageShell::createRule( '-colorspace GRAY',

@@ -80,7 +80,7 @@
   Example:
 \code
 $img =& eZImageManager::instance();
-$img->registerType( "convert", new eZImageShell( "convert", array(), array(),
+$img->registerType( "convert", new eZImageShell( '', "convert", array(), array(),
                                                  array( eZImageShell::createRule( "-geometry %wx%h>", // Scale rule
                                                                                   "modify/scale" ),
                                                         eZImageShell::createRule( "-colorspace GRAY", // Grayscale rule
