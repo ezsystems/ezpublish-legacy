@@ -14,6 +14,17 @@
 
 <h1>{$node.name}</h1>
 
+{let folder_list=fetch('content','list',hash( parent_node_id, $node.node_id,
+                                          sort_by ,$node.sort_array,
+                                          class_filter_type, 'include',
+                                          class_filter_array, array( 'folder' ) ))}
+{section loop=$folder_list}
+    {$:item.name|wash}
+    <a href={$:item.url_alias|ezurl}><img src={"folder_open_large.png"|ezimage} width="35" height="36" alt="{$:item.name|wash}" /></a>
+{/section}
+
+{/let}
+
 
 <div class="object_content">
 {attribute_view_gui attribute=$node.object.data_map.description}
