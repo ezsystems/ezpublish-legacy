@@ -119,7 +119,7 @@ $show_page_layout = true;
 $moduleRunRequired = true;
 
 include_once( 'kernel/classes/ezsection.php' );
-eZSection::initGlobalID();
+// eZSection::initGlobalID();
 
 while ( $moduleRunRequired )
 {
@@ -359,7 +359,7 @@ if ( $show_page_layout )
             $show_page_layout = "pagelayout.tpl";
         }
 
-        /*
+
         /// HiO special menu code tmp
         eZDebug::writeWarning( "Temporary HiO specific code, remove", "index.php" );
 
@@ -402,7 +402,7 @@ if ( $show_page_layout )
                                                                           'Offset' => 0,
                                                                           'SortBy' => array( array('priority') ),
                                                                           'ClassFilterType' => 'include',
-                                                                          'ClassFilterArray' => array( 1,6,20,25 )
+                                                                          'ClassFilterArray' => array( 6, 25 )
                                                                           ),
                                                                    $nodeID );
 
@@ -427,8 +427,8 @@ if ( $show_page_layout )
                         $enum = $map['type']->content();
                         $values = $enum->attribute( "enumobject_list" );
                         $value = $values[0];
-                        if ( $value->attribute( 'enumvalue' ) <> 2 )
-                            $addToMenu = false;
+                        //if ( $value->attribute( 'enumvalue' ) <> 2 )
+                           //$addToMenu = false;
                     }
 
                     if ( $className == "Link" )
@@ -468,7 +468,7 @@ if ( $show_page_layout )
                                                                               'Offset' => 0,
                                                                               'SortBy' => array( array('priority') ),
                                                                               'ClassFilterType' => 'include',
-                                                                              'ClassFilterArray' => array( 1,6,20,25 )
+                                                                              'ClassFilterArray' => array( 6,25 )
                                                                               ),
                                                                        2 );
                     $pathArray = array();
@@ -492,8 +492,8 @@ if ( $show_page_layout )
                         $enum = $map['type']->content();
                         $values = $enum->attribute( "enumobject_list" );
                         $value = $values[0];
-                        if ( $value->attribute( 'enumvalue' ) <> 2 )
-                            $addToMenu = false;
+                        //if ( $value->attribute( 'enumvalue' ) <> 2 )
+                          //  $addToMenu = false;
                     }
 
                     if ( $className == "Link" )
@@ -524,7 +524,7 @@ if ( $show_page_layout )
 //      }
         $tpl->setVariable( 'menuitems', $pathArray );
         /// end HiO code
-        */
+
 
         $tpl->display( $resource . $show_page_layout );
     }
