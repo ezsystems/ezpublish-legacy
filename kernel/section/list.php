@@ -63,6 +63,9 @@ $sectionArray =& eZSection::fetchList();
 
 $tpl->setVariable( 'section_array', $sectionArray );
 
-$Result =& $tpl->fetch( "design:section/list.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:section/list.tpl" );
+$Result['path'] = array( array( 'url' => false,
+                                'text' => 'Section List' ) );
 
 ?>
