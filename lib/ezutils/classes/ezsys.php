@@ -517,7 +517,13 @@ class eZSys
         // Setting the right include_path
         $includePath = ini_get( "include_path" );
         if ( trim( $includePath ) != "" )
-            $includePath .= $this->envSeparator() . $siteDir;
+
+            // Old line:
+            //$includePath .= $this->envSeparator() . $siteDir;
+
+            // New line:
+            $includePath = $siteDir . $this->envSeparator() . $includePath;
+
         else
             $includePath = $siteDir;
         ini_set( "include_path", $includePath );
