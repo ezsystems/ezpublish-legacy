@@ -56,7 +56,8 @@ eZINI:
   http://ez.no/community/bug_reports/moving_object_in_object_itself
 - Fixed bug when creating related objects and strict user rights.
   http://ez.no/community/bug_reports/unable_to_create_related_object_without_very_relaxing_privileges
-
+- Fixed bug of ignoring user's permissions when working with ezkeyword.
+  http://ez.no/community/bug_reports/ezkeyword_related_array_shows_content_which_is_not_readable
 *Library:
 
 eZ Locale:
