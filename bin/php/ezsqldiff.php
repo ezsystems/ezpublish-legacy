@@ -199,21 +199,21 @@ include_once( 'lib/ezdbschema/classes/ezdbschemachecker.php' );
 
 if ( $options['reverse'] )
 {
-    $differences = eZDbSchemaChecker::diff( $matchSchema, $sourceSchema, $matchType, $sourceType );
-    if ( !$options['check-only'] )
-    {
-        $cli->output( "-- Difference in SQL commands for " . SQLName( $matchType ) );
-        $sql = generateSQLChanges( $matchType, $differences );
-        $cli->output( $sql );
-    }
-}
-else
-{
     $differences = eZDbSchemaChecker::diff( $sourceSchema, $matchSchema, $sourceType, $matchType );
     if ( !$options['check-only'] )
     {
         $cli->output( "-- Difference in SQL commands for " . SQLName( $sourceType ) );
         $sql = generateSQLChanges( $sourceType, $differences );
+        $cli->output( $sql );
+    }
+}
+else
+{
+    $differences = eZDbSchemaChecker::diff( $matchSchema, $sourceSchema, $matchType, $sourceType );
+    if ( !$options['check-only'] )
+    {
+        $cli->output( "-- Difference in SQL commands for " . SQLName( $matchType ) );
+        $sql = generateSQLChanges( $matchType, $differences );
         $cli->output( $sql );
     }
 }

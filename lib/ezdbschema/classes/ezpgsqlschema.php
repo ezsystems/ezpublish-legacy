@@ -104,6 +104,7 @@ class eZPgsqlSchema
 		while ( $row = pg_fetch_assoc( $res ) )
 		{
 			$table_name = $row['Name'];
+            $schema_table['name'] = $table_name;
 			$schema_table['fields'] = $this->fetchTableFields( $table_name, $con );
 			$schema_table['indexes'] = $this->fetchTableIndexes( $table_name, $con );
 
@@ -139,20 +140,55 @@ class eZPgsqlSchema
 			{
 				$field['not_null'] = '1';
 			}
-			if ( !empty( $row['default'] ) )
+
+            $field['default'] = false;
+            if ( !isset( $field['not_null'] ) )
+            {
+                if ( $row['default'] === null )
+                    $field['default'] = null;
+                else
+                    $field['default'] = (string)$this->parseDefault ( $row['default'], $autoinc );
+            }
+            else
 			{
-				$field['default'] = $this->parseDefault ( $row['default'], $autoinc );
+                $field['default'] = (string)$this->parseDefault ( $row['default'], $autoinc );
 			}
-			if ( ( empty( $field['default'] ) ) && ( $field['type'] == 'float' ) )
-			{
-				$field['default'] = '0';
-			}
+            $numericTypes = array( 'float', 'int' );
+            $blobTypes = array( 'tinytext', 'text', 'mediumtext', 'longtext' );
+            if ( $field['type'] == 'varchar' )
+            {
+                if ( $field['default'] === false or
+                     $field['default'] === null )
+                {
+                    $field['default'] = '';
+                }
+            }
+            else if ( in_array( $field['type'], $numericTypes ) )
+            {
+                if ( $field['default'] == false)
+                {
+                    $field['default'] = '0';
+                }
+                else if ( $field['type'] == 'integer' )
+                {
+                    $field['default'] = (int)$field['default'];
+                }
+                else if ( $field['type'] == 'float' )
+                {
+                    $field['default'] = (float)$field['default'];
+                }
+            }
+            else if ( in_array( $field['type'], $blobTypes ) )
+            {
+                // We do not want default for blobs.
+                $field['default'] = false;
+            }
 
 			if ( $autoinc )
 			{
-				unset ($field['length']);
-				unset ($field['not_null']);
-				unset ($field['default']);
+				unset( $field['length'] );
+				unset( $field['not_null'] );
+				$field['default'] = false;
 				$field['type'] = 'auto_increment';
 			}
 			$fields[$row['attname']] = $field;
@@ -218,6 +254,20 @@ class eZPgsqlSchema
 		$type = $this->convertToStandardType ( $matches[1], $length_info );
 		return $type;
 	}
+
+    function isTypeLengthSupported( $pgType )
+    {
+        switch ( $pgType )
+        {
+            case 'integer':
+            case 'double precision':
+            case 'real':
+            {
+                return false;
+            } break;
+        }
+        return true;
+    }
 
 	function convertFromStandardType( $type, &$length )
 	{
@@ -312,6 +362,11 @@ class eZPgsqlSchema
 			return $matches[1];
 		}
 
+		if ( preg_match( "@^(.*)::bigint@", $default, $matches ) )
+		{
+			return $matches[1];
+		}
+
 		if ( preg_match( "@^'(.*)'::character\ varying$@", $default, $matches ) )
 		{
 			return $matches[1];
@@ -382,8 +437,9 @@ class eZPgsqlSchema
 
 		if ( $def['type'] != 'auto_increment' )
 		{
-			$sql_def .= eZPgsqlSchema::convertFromStandardType( $def['type'], $def['length'] );
-			if ( isset( $def['length'] ) && $def['length'] )
+			$pgType = eZPgsqlSchema::convertFromStandardType( $def['type'], $def['length'] );
+            $sql_def .= $pgType;
+			if ( eZPgsqlSchema::isTypeLengthSupported( $pgType ) and isset( $def['length'] ) && $def['length'] )
 			{
 				$sql_def .= "({$def['length']})";
 			}
@@ -411,9 +467,16 @@ class eZPgsqlSchema
         {
             $sql_def .= "ALTER TABLE $table_name ALTER $field_name SET ";
         }
-        if ( isset( $def['default'] ) )
+        if ( array_key_exists( 'default', $def ) )
         {
-            $sql_def .= "DEFAULT '{$def['default']}' ";
+            if ( $def['default'] === null )
+            {
+                $sql_def .= "DEFAULT NULL ";
+            }
+            else if ( $def['default'] !== false )
+            {
+                $sql_def .= "DEFAULT '{$def['default']}' ";
+            }
         }
         else if ( $table_name and $field_name )
         {

@@ -43,6 +43,7 @@ class eZMysqlSchema
 		while ( $row = mysql_fetch_row ( $res ) )
 		{
 			$table_name = $row[0];
+            $schema_table['name'] = $table_name;
 			$schema_table['fields'] = $this->fetchTableFields( $table_name, $con );
 			$schema_table['indexes'] = $this->fetchTableIndexes( $table_name, $con );
 
@@ -73,18 +74,53 @@ class eZMysqlSchema
 			{
 				$field['not_null'] = '1';
 			}
-			if ( ( !empty( $row['Default'] ) ) || ( $field['type'] == 'varchar' ) )
+            $field['default'] = false;
+            if ( !isset( $field['not_null'] ) )
+            {
+                if ( $row['Default'] === null )
+                    $field['default'] = null;
+                else
+                    $field['default'] = (string)$row['Default'];
+            }
+            else
 			{
-				$field['default'] = $row['Default'];
+				$field['default'] = (string)$row['Default'];
 			}
-			if ( ( empty( $row['Default'] ) ) && ( $field['type'] == 'float' ) )
-			{
-				$field['default'] = '0';
-			}
+            $numericTypes = array( 'float', 'int' );
+            $blobTypes = array( 'tinytext', 'text', 'mediumtext', 'longtext' );
+            if ( $field['type'] == 'varchar' )
+            {
+                if ( $field['default'] === false or
+                     $field['default'] === null )
+                {
+                    $field['default'] = '';
+                }
+            }
+            else if ( in_array( $field['type'], $numericTypes ) )
+            {
+                if ( $field['default'] == false )
+                {
+                    $field['default'] = 0;
+                }
+                else if ( $field['type'] == 'integer' )
+                {
+                    $field['default'] = (int)$field['default'];
+                }
+                else if ( $field['type'] == 'float' )
+                {
+                    $field['default'] = (float)$field['default'];
+                }
+            }
+            else if ( in_array( $field['type'], $blobTypes ) )
+            {
+                // We do not want default for blobs.
+                $field['default'] = false;
+            }
 
 			if ( substr ( $row['Extra'], 'auto_increment' ) !== false )
 			{
 				unset( $field['length'] );
+				$field['default'] = false;
 				unset( $field['not_null'] );
 				$field['type'] = 'auto_increment';
 			}
@@ -197,9 +233,16 @@ class eZMysqlSchema
             {
 				$sql_def .= 'NOT NULL ';
 			}
-			if ( isset( $def['default'] ) )
+            if ( array_key_exists( 'default', $def ) )
             {
-				$sql_def .= "DEFAULT '{$def['default']}' ";
+                if ( $def['default'] === null )
+                {
+                    $sql_def .= "DEFAULT NULL ";
+                }
+                else if ( $def['default'] !== false )
+                {
+                    $sql_def .= "DEFAULT '{$def['default']}' ";
+                }
 			}
 			else if ( $def['type'] == 'varchar' )
 			{
