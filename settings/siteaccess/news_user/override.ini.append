@@ -28,6 +28,17 @@ Source=content/search.tpl
 MatchFile=search.tpl
 Subdir=templates
 
+[poll_line]
+Source=node/view/line.tpl
+MatchFile=poll_line.tpl
+Subdir=templates
+Match[class]=25
+
+[poll_result]
+Source=content/collectedinfo/poll.tpl
+MatchFile=poll_result.tpl
+Subdir=templates
+
 [info_page]
 Source=node/view/full.tpl
 MatchFile=infopage.tpl
