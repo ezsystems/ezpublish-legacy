@@ -62,13 +62,14 @@ class eZModuleOperationInfo
     /*!
      Constructor
     */
-    function eZModuleOperationInfo( $moduleName )
+    function eZModuleOperationInfo( $moduleName, $useTriggers = true )
     {
         $this->ModuleName = $moduleName;
         $this->IsValid = false;
         $this->OperationList = array();
         $this->UseOldCall = false;
         $this->Memento = null;
+        $this->UseTriggers = $useTriggers;
     }
 
     function isValid()
@@ -182,7 +183,9 @@ class eZModuleOperationInfo
             {
                 $keyArray = $this->makeOperationKeyArray( $operationDefinition, $operationParameters );
                 $keyArray['session_key'] = eZHTTPTool::getSessionKey();
-                $mainMemento =& eZOperationMemento::fetchMain( $keyArray );
+                $mainMemento = null;
+                if ( $this->UseTriggers )
+                    $mainMemento =& eZOperationMemento::fetchMain( $keyArray );
 
                 if ( $mainMemento !== null )
                 {
@@ -194,7 +197,9 @@ class eZModuleOperationInfo
                 else
                     eZDebug::writeWarning( 'Missing main operation memento for key: ' . $this->Memento->attribute( 'memento_key' ), 'eZModuleOperationInfo::execute' );
 
-                $mementoList = eZOperationMemento::fetchList( $keyArray );
+                $mementoList = null;
+                if ( $this->UseTriggers )
+                    $mementoList = eZOperationMemento::fetchList( $keyArray );
 
                 if ( count( $mementoList ) > 0 )
                 {
@@ -368,7 +373,7 @@ class eZModuleOperationInfo
                     {
                         $returnValue = $this->executeBody( $includeFile, $className, $children,
                                                            $operationKeys, $tmpOperationParameterDefinitions, $operationParameters,
-                                                           $mementoData, $bodyCallCount, $operationName );
+                                                           $mementoData, $bodyCallCount, $operationName, null );
                         if ( !$returnValue['status'] )
                             return $returnValue;
                     }
@@ -450,6 +455,13 @@ class eZModuleOperationInfo
                 } break;
                 case 'trigger':
                 {
+                    if ( !$this->UseTriggers )
+                    {
+                        $bodyReturnValue['status'] = EZ_MODULE_OPERATION_CONTINUE;
+                        continue;
+
+                    }
+
                     $triggerName = $body['name'];
                     $triggerKeys = $body['keys'];
                     $triggerRestored = false;
@@ -768,6 +780,7 @@ class eZModuleOperationInfo
     var $FunctionList;
     var $IsValid;
     var $UseOldCall;
+    var $UseTriggers = false;
 }
 
 ?>

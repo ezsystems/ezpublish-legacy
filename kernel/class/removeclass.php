@@ -53,7 +53,7 @@ foreach ( $deleteIDArray as $deleteID )
         $ClassName = $class->attribute( 'name' );
         $classObjects =&  eZContentObject::fetchSameClassList( $ClassID );
         $ClassObjectsCount = count( $classObjects );
-        if ( $ClassObjectsCount = 1 )
+        if ( $ClassObjectsCount == 1 )
             $ClassObjectsCount .= ezi18n( 'kernel/class', ' object' );
         else
             $ClassObjectsCount .= ezi18n( 'kernel/class', ' objects' );

@@ -72,9 +72,18 @@ include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 $user =& eZUser::currentUser();
 
 eZDebugSetting::addTimingPoint( 'kernel-content-view', 'Operation start' );
+$workflowINI =& eZINI::instance( 'workflow.ini' );
+if ( in_array( 'content_read', $workflowINI->variableArray( 'OperationSettings', 'AvailableOperations') ) )
+{
+    $useTriggers = true;
+}
+else
+{
+    $useTriggers = false;
+}
 $operationResult =& eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID,
                                                                           'user_id' => $user->id(),
-                                                                          'language_code' => $LanguageCode ) );
+                                                                          'language_code' => $LanguageCode ), null, $useTriggers );
 eZDebugSetting::writeDebug( 'kernel-content-view', $operationResult, 'operationResult' );
 eZDebugSetting::addTimingPoint( 'kernel-content-view', 'Operation end' );
 
@@ -152,6 +161,7 @@ switch( $operationResult['status'] )
             eZSection::setGlobalID( $object->attribute( 'section_id' ) );
 
             $tpl->setVariable( 'node', $node );
+            $tpl->setVariable( 'language_code', $LanguageCode );
             $tpl->setVariable( 'view_parameters', $viewParameters );
 
             // create path
@@ -169,7 +179,8 @@ switch( $operationResult['status'] )
             }
             $path[] = array( 'text' => $object->attribute( 'name' ),
                              'url' => false,
-                             'url_alias' => false );
+                             'url_alias' => false,
+                             'node_id' => $node->attribute( 'node_id' ) );
 
             array_shift( $parents );
             foreach ( $parents as $parent )

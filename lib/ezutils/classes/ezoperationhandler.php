@@ -54,29 +54,29 @@ class eZOperationHandler
     {
     }
 
-    function &moduleOperationInfo( $moduleName )
+    function &moduleOperationInfo( $moduleName, $useTriggers = true )
     {
         $globalModuleOperationList =& $GLOBALS['eZGlobalModuleOperationList'];
         if ( !isset( $globalModuleOperationList ) )
             $globalModuleOperationList = array();
         if ( isset( $globalModuleOperationList[$moduleName] ) )
             return $globalModuleOperationList[$moduleName];
-        $moduleOperationInfo = new eZModuleOperationInfo( $moduleName );
+        $moduleOperationInfo = new eZModuleOperationInfo( $moduleName, $useTriggers );
         $moduleOperationInfo->loadDefinition();
         $globalModuleOperationList[$moduleName] =& $moduleOperationInfo;
         return $moduleOperationInfo;
     }
 
-    function &execute( $moduleName, $operationName, $operationParameters, $lastTriggerName = null )
+    function &execute( $moduleName, $operationName, $operationParameters, $lastTriggerName = null, $useTriggers = false )
     {
-        $moduleOperationInfo =& eZOperationHandler::moduleOperationInfo( $moduleName );
+        $moduleOperationInfo =& eZOperationHandler::moduleOperationInfo( $moduleName, $useTriggers );
         if ( !$moduleOperationInfo->isValid() )
         {
             eZDebug::writeError( "Cannot execute operation '$operationName' in module '$moduleName', no valid data",
                                   'eZOperationHandler::execute' );
             return null;
         }
-        return $moduleOperationInfo->execute( $operationName, $operationParameters, $lastTriggerName );
+        return $moduleOperationInfo->execute( $operationName, $operationParameters, $lastTriggerName, $useTriggers );
     }
 }
 
