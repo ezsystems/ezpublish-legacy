@@ -112,6 +112,7 @@ class eZKeyword
         // Get already existing keywords
         $wordArray = array();
         $wordsString = implode( '\',\'', $this->KeywordArray );
+        $wordsString = $db->escapeString( $wordsString );
         $existingWords =& $db->arrayQuery( "SELECT * FROM ezkeyword WHERE keyword IN ( '$wordsString' ) AND class_id='$classID' " );
 
         $newWordArray = array();
