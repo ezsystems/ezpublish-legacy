@@ -59,9 +59,9 @@ class eZMailNotificationTransport extends eZNotificationTransport
         include_once( 'lib/ezutils/classes/ezmailtransport.php' );
         $ini =& eZINI::instance();
         $mail = new eZMail();
-        $address = $this->prepareAddressString( $addressList, $mail );
+        $addressList = $this->prepareAddressString( $addressList, $mail );
 
-        if ( $address == false )
+        if ( $addressList == false )
         {
             eZDebug::writeError( 'Error with reciever', 'eZMailNotificationTransport::send()' );
             return false;
@@ -74,7 +74,12 @@ class eZMailNotificationTransport extends eZNotificationTransport
         if ( !$emailSender )
             $emailSender = $ini->variable( "MailSettings", "AdminEmail" );
 
-        $mail->setReceiver( $address );
+        foreach ( $addressList as $addressItem )
+        {
+            $mail->extractEmail( $addressItem, $email, $name );
+            $mail->addBcc( $email, $name );
+        }
+        $mail->setReceiver( '' );
         $mail->setSender( $emailSender );
         $mail->setSubject( $subject );
         $mail->setBody( $body );
@@ -95,18 +100,19 @@ class eZMailNotificationTransport extends eZNotificationTransport
                     $validatedAddressList[] = $address;
                 }
             }
-            $addressString = '';
-            if ( count( $validatedAddressList ) > 0 )
-            {
-                $addressString = implode( ',', $validatedAddressList );
-                return $addressString;
-            }
+//             $addressString = '';
+//             if ( count( $validatedAddressList ) > 0 )
+//             {
+//                 $addressString = implode( ',', $validatedAddressList );
+//                 return $addressString;
+//             }
+            return $validatedAddressList;
         }
         else if ( strlen( $addressList ) > 0 )
         {
             if ( $mail->validate( $address ) )
             {
-                return $address;
+                return array( $address );
             }
         }
         return false;
