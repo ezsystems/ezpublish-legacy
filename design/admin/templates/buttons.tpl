@@ -9,7 +9,7 @@
     <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/standard/node/view' )}" />
 {section-else}
     <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/standard/node/view' )}" disabled="disabled" />
-{/secttion}
+{/section}
 
 {* Alloe remove button if this is not a root node and if the user is allowed to remove it: *}
 {section show=or( eq( $node.node_id, ezini( 'NodeSettings', 'RootNode',      'content.ini' ) ),
