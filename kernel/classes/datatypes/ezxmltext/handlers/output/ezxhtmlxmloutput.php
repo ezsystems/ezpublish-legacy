@@ -331,7 +331,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                         $cellContent .= $this->renderXHTMLSection( $tpl, $tableCell, $currentSectionLevel, $tdSctionLevel );
 
                         $tpl->setVariable( 'content', $cellContent, 'xmltagns' );
-                        $width = $tableCell->attributeValueNS( 'width', "http://ez.no/namespaces/ezpublish3/xhtml/" );
+                        $cellWidth = $tableCell->attributeValueNS( 'width', "http://ez.no/namespaces/ezpublish3/xhtml/" );
                         $colspan = $tableCell->attributeValueNS( 'colspan', "http://ez.no/namespaces/ezpublish3/xhtml/" );
                         $rowspan = $tableCell->attributeValueNS( 'rowspan', "http://ez.no/namespaces/ezpublish3/xhtml/" );
 
@@ -348,7 +348,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                         $tpl->setVariable( 'classification', $class, 'xmltagns' );
                         $tpl->setVariable( 'colspan', $colspan, 'xmltagns' );
                         $tpl->setVariable( 'rowspan', $rowspan, 'xmltagns' );
-                        $tpl->setVariable( 'width', $rowspan, 'xmltagns' );
+                        $tpl->setVariable( 'width', $cellWidth, 'xmltagns' );
                         eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
                         $tableData .= implode( '', $textElements );
 
