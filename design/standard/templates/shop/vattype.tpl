@@ -1,5 +1,3 @@
-<a href={"/manual/user/e-commerce#VAT"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} align="right"> </a>
-
 <form action={"shop/vattype"|ezurl} method="post" name="VatType">
 
 <h1>{"VAT Types"|i18n("design/standard/shop")}</h1>
