@@ -56,13 +56,19 @@ class eZCodeMapper
     function eZCodeMapper()
     {
         $this->TransformationTables = array();
+        $this->TransformationFiles = array();
     }
 
-    function mappingTable2( $identifier )
+    function mappingTable( $identifier )
     {
         if ( isset( $this->TransformationTables[$identifier] ) )
             return $this->TransformationTables[$identifier];
         return false;
+    }
+
+    function ruleNames()
+    {
+        return array_keys( $this->TransformationTables );
     }
 
     function identifiers()
@@ -100,7 +106,15 @@ class eZCodeMapper
         $cli->warning( $str );
     }
 
-    function parseTransformationFile( $filename )
+    /*!
+     \return \c true if the transformation file is already loaded.
+    */
+    function isTranformationLoaded( $name )
+    {
+        return in_array( $name, $this->TransformationFiles );
+    }
+
+    function parseTransformationFile( $filename, $name )
     {
 //         $tbl =& $this->TransformationTables;
         eZDebug::writeDebug( "Parsing file $filename" );
@@ -112,6 +126,8 @@ class eZCodeMapper
             $this->error( "Failed opening $filename" );
             return false;
         }
+
+        $this->TransformationFiles[] = $name;
 
         include_once( 'lib/ezi18n/classes/eztextcodec.php' );
         include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
@@ -789,7 +805,7 @@ class eZCodeMapper
         return array();
     }
 
-    function mappingTable( $identifier )
+    function mappingTable2( $identifier )
     {
         // Note: This is currently hardcoded but will be moved to configurable
         //       text files, the syntax will be something like:
@@ -1388,14 +1404,9 @@ class eZCodeMapper
 
     function generateMappingCode( $identifier )
     {
-        if ( is_array( $identifier ) )
-        {
-            $table = $identifier;
-        }
-        else
-        {
-            $table = $this->mappingTable( $identifier );
-        }
+        if ( !is_array( $identifier ) )
+            $identifier = array( $identifier );
+        $table = $this->expandInheritance( $identifier );
         $table = $this->expandInheritance( $table );
         // Currently hard coded range, should be defined by the current charset
         $allowedRanges = array( array( 0, 2000 ) );
@@ -1435,6 +1446,11 @@ class eZCodeMapper
             }
             $charsetTable[$matchLocal] = $replacementLocal;
         }
+
+        // Make sure longer string entries are placed before the shorter ones
+        // This is very important when working with utf8 which have
+        // variable length for characters
+        krsort( $charsetTable );
         return $charsetTable;
     }
 

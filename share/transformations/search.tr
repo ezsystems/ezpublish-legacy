@@ -1,0 +1,35 @@
+# Search normalization rules
+#
+# See basic.tr for formatting options
+
+endline_search_normalize:
+# Turns endlines \n, \r and \r\n into a space
+U+000A = U+0020
+U+000D = U+0020
+
+tab_search_normalize:
+# Turns tabs \t into a space
+U+0008 = U+0020
+
+nonwords_search_normalize:
+# Turns some special characters into spaces
+U+003A = U+0020 # colon :
+U+003B = U+0020 # semi-colon ;
+U+002C = U+0020 # comma ,
+U+0028 = U+0020 # parenthesis start (
+U+0029 = U+0020 # parenthesis end )
+U+002D = U+0020 # minus sign -
+U+002B = U+0020 # plus sign +
+U+002F = U+0020 # slash /
+U+0021 = U+0020 # exclamation mark !
+U+003F = U+0020 # question mark ?
+U+005B = U+0020 # square bracket start [
+U+005D = U+0020 # square bracket end ]
+U+002F = U+0020 # dollar sign $
+U+005C = U+0020 # back slash \
+U+003C = U+0020 # angular bracket start <
+U+003E = U+0020 # angular bracket end
+U+003D = U+0020 # equal sign =
+U+0027 = U+0020 # apostrophe '
+U+00B4 = U+0020 # accute accent ´
+U+0060 = U+0020 # grave accent `
