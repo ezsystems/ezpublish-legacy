@@ -7,4 +7,4 @@
 {'Email'|i18n('design/standard/user/register')}: {$user.email}
 
 {'Link to user information'|i18n('design/standard/user/register')}:
-http://{ezini('SiteSettings','SiteURL')}{concat('content/view/full/',$object.main_node_id)|ezurl(no)}
+http://{$hostname}{concat('content/view/full/',$object.main_node_id)|ezurl(no)}
