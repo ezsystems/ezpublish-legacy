@@ -72,7 +72,7 @@ class eZMySQLDB extends eZDBInterface
             $this->IsConnected = false;
         }
 
-        if ( $this->IsConnected )
+        if ( $this->isConnected() )
         {
             $ret = @mysql_select_db( $this->DB, $this->DBConnection );
 
@@ -131,6 +131,10 @@ class eZMySQLDB extends eZDBInterface
                 return false;
             }
             mysql_free_result( $result );
+        }
+        else
+        {
+            eZDebug::writeError( "Trying to do a query without being connected to a database!", "eZMySQLDB"  );
         }
     }
 
