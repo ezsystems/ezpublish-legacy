@@ -529,44 +529,45 @@ fi
 # *****   Handle translations and locale   *****
 #
 
+if [ ! -f bin/linux/ezlupdate ]; then
+    echo "You do not have the ezlupdate program compiled"
+    echo "this is required to create a distribution"
+    echo
+    echo "cd support/lupdate-ezpublish3"
+    echo "qmake ezlupdate.pro"
+    echo "make"
+    echo
+    echo "NOTE: qmake may in some cases not be in PATH, provide the full path in those cases"
+    exit 1
+fi
+
+echo
+echo "Copying translations and locale"
+rm -rf "$DEST/share/translations"
+echo -n "`$POSITION_STORE`translations"
+svn export "$TRANSLATION_URL" "$DEST/share/translations" &>/dev/null
+if [ $? -ne 0 ]; then
+    echo
+    echo "svn export $TRANSLATION_URL $DEST/share/translations &>/dev/null"
+    echo "Failed to check out translations from trunk"
+    exit 1
+fi
+echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`translations`$SETCOLOR_NORMAL`"
+
+rm -rf "$DEST/share/locale"
+echo -n " `$POSITION_STORE`locale"
+svn export "$LOCALE_URL" "$DEST/share/locale" &>/dev/null
+if [ $? -ne 0 ]; then
+    echo
+    echo "svn export $LOCALE_URL $DEST/share/locale &>/dev/null"
+    echo "Failed to check out locale from trunk"
+    exit 1
+fi
+echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`locale`$SETCOLOR_NORMAL`"
+echo
+
+# We do not validate the translations if SKIPTRANSLATION is set
 if [ -z "$SKIPTRANSLATION" ]; then
-    if [ ! -f bin/linux/ezlupdate ]; then
-	echo "You do not have the ezlupdate program compiled"
-	echo "this is required to create a distribution"
-	echo
-	echo "cd support/lupdate-ezpublish3"
-	echo "qmake ezlupdate.pro"
-	echo "make"
-	echo
-	echo "NOTE: qmake may in some cases not be in PATH, provide the full path in those cases"
-	exit 1
-    fi
-
-    echo
-    echo "Copying translations and locale"
-    rm -rf "$DEST/share/translations"
-    echo -n "`$POSITION_STORE`translations"
-    svn export "$TRANSLATION_URL" "$DEST/share/translations" &>/dev/null
-    if [ $? -ne 0 ]; then
-	echo
-	echo "svn export $TRANSLATION_URL $DEST/share/translations &>/dev/null"
-	echo "Failed to check out translations from trunk"
-	exit 1
-    fi
-    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`translations`$SETCOLOR_NORMAL`"
-
-    rm -rf "$DEST/share/locale"
-    echo -n " `$POSITION_STORE`locale"
-    svn export "$LOCALE_URL" "$DEST/share/locale" &>/dev/null
-    if [ $? -ne 0 ]; then
-	echo
-	echo "svn export $LOCALE_URL $DEST/share/locale &>/dev/null"
-	echo "Failed to check out locale from trunk"
-	exit 1
-    fi
-    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`locale`$SETCOLOR_NORMAL`"
-    echo
-
     dir=`pwd`
     cp -R -f $DEST/share/translations $DEST/share/translations.org &>/dev/null
     if [ $? -ne 0 ]; then
@@ -608,28 +609,28 @@ if [ -z "$SKIPTRANSLATION" ]; then
     fi
 
     rm -rf $DEST/share/translations.org
+fi
 
-    echo "Removing obsolete translation strings"
-    cd $DEST/share/translations
-    for translation in *; do
-	if [ -z $SKIPTRANSLATION ]; then
-	    if [ "$translation" == "untranslated" ]; then
-		(cd  $DEST && $dir/bin/linux/ezlupdate -no -d "$dir/design" -u &>/dev/null)
-		if [ $? -ne 0 ]; then
-		    echo "Error removing obsolete entries"
-		    exit 1
-		fi
-	    else
-		(cd  $DEST && $dir/bin/linux/ezlupdate -no -d "$dir/design" "$translation" &>/dev/null)
-		if [ $? -ne 0 ]; then
-		    echo "Error removing obsolete entries"
-		    exit 1
-		fi
+echo "Removing obsolete translation strings"
+cd $DEST/share/translations
+for translation in *; do
+    if [ -z $SKIPTRANSLATION ]; then
+	if [ "$translation" == "untranslated" ]; then
+	    (cd  $DEST && $dir/bin/linux/ezlupdate -no -d "$dir/design" -u &>/dev/null)
+	    if [ $? -ne 0 ]; then
+		echo "Error removing obsolete entries"
+		exit 1
+	    fi
+	else
+	    (cd  $DEST && $dir/bin/linux/ezlupdate -no -d "$dir/design" "$translation" &>/dev/null)
+	    if [ $? -ne 0 ]; then
+		echo "Error removing obsolete entries"
+		exit 1
 	    fi
 	fi
-    done
-    cd $dir
-fi
+    fi
+done
+cd $dir
 
 #
 # *****   Handle changelogs from earlier versions   *****
