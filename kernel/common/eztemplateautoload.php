@@ -186,7 +186,8 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                              'namespace' => 'ContentView',
                                              'attribute_keys' => array( 'object' => array( 'id' ),
                                                                         'class' => array( 'contentclass_id' ),
-                                                                        'section' => array( 'section_id' ) ),
+                                                                        'section' => array( 'section_id' ),
+                                                                        'class_identifier' => array( 'class_identifier' ) ),
                                              'attribute_access' => array(),
                                              'use_views' => 'view' ),
 
@@ -197,7 +198,8 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                              'namespace' => 'ContentView',
                                              'attribute_keys' => array( 'object' => array( 'id' ),
                                                                         'class' => array( 'contentclass_id' ),
-                                                                        'section' => array( 'section_id' ) ),
+                                                                        'section' => array( 'section_id' ),
+                                                                        'class_identifier' => array( 'class_identifier' ) ),
                                              'attribute_access' => array(),
                                              'use_views' => 'view' ),
 
@@ -205,7 +207,10 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                      'input_name' => 'content_version',
                                                      'output_name' => 'version',
                                                      'namespace' => 'VersionView',
-                                                     'attribute_keys' => array( 'object' => array( 'contentobject_id' ) ),
+                                                     'attribute_keys' => array( 'object' => array( 'contentobject_id' ),
+                                                                                'class' => array( 'contentobject', 'contentclass_id' ),
+                                                                                'section' => array( 'contentobject', 'section_id' ),
+                                                                                'class_identifier' => array( 'contentobject', 'class_identifier' ) ),
                                                      'attribute_access' => array(),
                                                      'use_views' => 'view' ),
 
