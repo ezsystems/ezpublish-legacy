@@ -1,4 +1,4 @@
-{set-block scope=global variable=title}{'Poll %pollname'|i18n('design/admin/content/collectedinfo/poll',,hash('%pollname',$node.name))}{/set-block}
+{set-block scope=global variable=title}{'Poll %pollname'|i18n( 'design/admin/content/collectedinfo/poll',, hash( '%pollname', $node.name ) )|wash}{/set-block}
 
 {section show=$error}
 
@@ -32,7 +32,7 @@
     {section show=$Attributes.item.contentclass_attribute.is_information_collector}
 
         <div class="block">
-        <label>{$Attributes.item.contentclass_attribute.name}:</label>
+        <label>{$Attributes.item.contentclass_attribute.name|wash}:</label>
         {attribute_result_gui view=count attribute=$Attributes.item}
         </div>
 
@@ -40,7 +40,7 @@
 
         {section show=$attribute_hide_list|contains( $Attributes.item.contentclass_attribute.identifier )|not}
             <div class="block">
-            <label>{$Attributes.item.contentclass_attribute.name}:</label>
+            <label>{$Attributes.item.contentclass_attribute.name|wash}:</label>
             {attribute_view_gui attribute=$Attributes.item}
             </div>
         {/section}

@@ -1,13 +1,13 @@
 {default collection=cond( $collection_id, fetch( content, collected_info_collection, hash( collection_id, $collection_id ) ),
                           fetch( content, collected_info_collection, hash( contentobject_id, $node.contentobject_id ) ) )}
 
-{set-block scope=global variable=title}{'Feedback for %feedbackname'|i18n('design/admin/content/collectedinfo/feedback',,hash('%feedbackname',$node.name))}{/set-block}
+{set-block scope=global variable=title}{'Feedback for %feedbackname'|i18n( 'design/admin/content/collectedinfo/feedback',, hash( '%feedbackname', $node.name ) )|wash}{/set-block}
 
 <div class="context-block">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{$object.name}</h1>
+<h1 class="context-title">{$object.name|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
