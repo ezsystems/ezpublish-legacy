@@ -21,7 +21,7 @@
 {/section}
 </p>
 <p>
-<label>{'Last Modified'|i18n( 'design/admin/content/translate' )}:</label>
+<label>{'Last modified'|i18n( 'design/admin/content/translate' )}:</label>
 {section show=$object.modified}
 {$object.modified|l10n(shortdatetime)}<br />
 {fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name}
@@ -45,18 +45,20 @@
 
 {* Validation feedback *}
 {section show=$validation.processed}
-    {section var=UnvalidatedAttributes loop=$validation.attributes show=$validation.attributes}
-    <div class="message-warning">
-    <h2>{'Input did not validate'|i18n( 'design/admin/content/translate' )}</h2>
-    <ul>
-    	<li>{$UnvalidatedAttributes.item.name|wash}: {$UnvalidatedAttributes.item.description}</li>
-    </ul>
-    </div>
-    {section-else}
-    <div class="message-feedback">
-    <h2>{'%language input was stored successfully'|i18n( 'design/admin/content/translate',, hash( '%language', $validation.locale.intl_language_name ) )}</h2>
-    </div>
-    {/section}
+{section show=$validation.attributes}
+<div class="message-warning">
+<h2>{'The translation of <%object_name> could not be stored because of invalid or missing input:'|i18n( 'design/admin/content/translate',, hash( '%object_name', $object.name ) )|wash}</h2>
+<ul>
+{section var=UnvalidatedAttributes loop=$validation.attributes}
+<li>{$UnvalidatedAttributes.item.name|wash}: {$UnvalidatedAttributes.item.description}</li>
+{/section}
+</ul>
+</div>
+{section-else}
+<div class="message-feedback">
+<h2>{'The translated version of <%object_name> was successfully stored.'|i18n( 'design/admin/content/translate',, hash( '%object_name', $object.name ) )|wash}</h2>
+</div>
+{/section}
 {/section}
 
 
