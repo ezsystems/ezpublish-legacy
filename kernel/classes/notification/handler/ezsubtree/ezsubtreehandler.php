@@ -138,7 +138,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
                               array( 'class_identifier', $contentClass->attribute( 'identifier' ) ),
                               array( 'parent_node', $contentNode->attribute( 'parent_node_id' ) ),
                               array( 'parent_class', $parentContentObject->attribute( 'contentclass_id' ) ),
-                              array( 'parent_class_identifier', $parentContentClass->attribute( 'identifier' ) ),
+                              array( 'parent_class_identifier', ( $parentContentClass != null ? $parentContentClass->attribute( 'identifier' ) : 0 ) ),
                               array( 'depth', $contentNode->attribute( 'depth' ) ),
                               array( 'url_alias', $contentNode->attribute( 'url_alias' ) )
                               ) );
