@@ -41,7 +41,7 @@
 <table class="list" cellspacing="0">
 <tr>
     <th>{'Name'|i18n( 'design/admin/content/pendinglist' )}</th>
-    <th>{'Class'|i18n( 'design/admin/content/pendinglist' )}</th>
+    <th>{'Type'|i18n( 'design/admin/content/pendinglist' )}</th>
     <th>{'Section'|i18n( 'design/admin/content/pendinglist' )}</th>
     <th>{'Version'|i18n( 'design/admin/content/pendinglist' )}</th>
     <th>{'Modified'|i18n( 'design/admin/content/pendinglist' )}</th>
@@ -51,9 +51,9 @@
 <tr class="{$PendingItems.sequence}">
     <td>{$PendingItems.item.contentobject.content_class.identifier|class_icon( small, $PendingItems.item.contentobject.content_class.name )}&nbsp;<a href={concat( '/content/versionview/', $PendingItems.item.contentobject.id, '/', $PendingItems.item.version, '/' )|ezurl}>{$PendingItems.item.contentobject.name|wash}</a></td>
     <td>{$PendingItems.item.contentobject.content_class.name|wash}</td>
-    <td>{$PendingItems.item.contentobject.section_id}</td>
+    <td>{fetch( section, object, hash( section_id, $PendingItems.item.contentobject.section_id ) ).name|wash}</td>
     <td>{$PendingItems.item.version}</td>
-    <td>{$PendingItems.item.modified|l10n( datetime )}</td>
+    <td>{$PendingItems.item.modified|l10n( shortdatetime )}</td>
 </tr>
 {/section}
 </table>
