@@ -2299,6 +2299,12 @@ CREATE TABLE ezview_counter (
 
 
 
+CREATE SEQUENCE tmp_notification_rule_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
 
 
 

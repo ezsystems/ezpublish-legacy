@@ -119,6 +119,10 @@ eztc.php:
   added to the list of files that need checking, along with modified files.
   Merged from stable/3.4 rev. 6881.
   http://ez.no/community/bug_reports/check_files_gives_no_feedback
+- Fixed bug: inability to create new notification under
+  "Peronal->Notification settings" when using PostgreSQL.
+  Merged from stable/3.4 rev. 6883.
+  http://ez.no/community/bug_reports/node_notification
 
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that
