@@ -105,13 +105,16 @@ class eZSection extends eZPersistentObject
         if ( eZHTTPTool::hasSessionVariable( 'eZGlobalSection' ) )
             $sectionArray = eZHTTPTool::sessionVariable( 'eZGlobalSection' );
         if ( !isset( $sectionArray['id'] ) )
+        {
+            print( "no section id<br/>" );
             return false;
+        }
         $sectionID = $sectionArray['id'];
 
         include_once( 'kernel/common/eztemplatedesignresource.php' );
         $res =& eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'section', $sectionID ) ) );
-//         print( "init section=$sectionID<br/>" );
+//         eZDebug::writeNotice( $sectionID, 'eZSection::initGlobalID' );
         return true;
     }
 
@@ -131,7 +134,7 @@ class eZSection extends eZPersistentObject
         include_once( 'kernel/common/eztemplatedesignresource.php' );
         $res =& eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'section', $sectionID ) ) );
-//         print( "section=$sectionID<br/>" );
+//         eZDebug::writeNotice( $sectionID, 'eZSection::setGlobalID' );
     }
 
     /*!
