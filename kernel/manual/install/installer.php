@@ -48,7 +48,7 @@
 	<li>Now the installation will start. This can take a few minutes</li>
 	<li>When the installation is done you need to start eZ publish by clicking on the eZ publish icon
 	on the desktop. This will open eZ publish in your default browser. eZ publish will open at the User site.
-	To start the Admin site simply write /admin after the rest in the address. Log in with <i>admin</i>
+	To start the Admin site simply write /admin after the rest in the URL. Log in with <i>admin</i>
 	and <i>publish</i>.</li>
 	<li>You are ready to start using eZ publish.</li>
 </ol>

@@ -55,7 +55,7 @@ HostMatchSubtextPost=\.mybookstore\.com
 	corresponds to our matches ( 'www' and 'admin' ). In both these folder you need to create a file
 	called site.ini.append. This is the configuration file which will be used to override any of
 	the standard settings in eZ publish. We will keep our example simple and have just made a few
-	settings distinguish bewteen the two sites. You can see the two configuration files below.
+	settings distinguish between the two sites. You can see the two configuration files below.
 </p>
 
 <pre class="example">
@@ -137,7 +137,7 @@ MatchOrder=uri
 	With the DefaultAccess variable we told eZ publish to use the 'user' site if it is unable to match a site.
 	Now eZ publish will take the last part of the entered URL and map it do a directory under settings/siteaccess/.
 	If we now enter http://www.mybookstore.com/index.php/admin, eZ publish will look for a directory called 'admin'.
-	Using URI is usefull when you want multiple sites but dont have a domain for each site or don't have the ability
+	Using URI is useful when you want multiple sites but don't have a domain for each site or don't have the ability
 	to setup virtualhosts for each site. This is the configuration the eZ publish Windows installer use.
 </p>
 

@@ -1,8 +1,8 @@
 <h1>Multi site configuration</h1>
 
 <p>
-If you are settings up serveral sites with one eZ publish 3 installation using site access you might want to
-seperate the cache and storage directory. This will make things less cluttered and easy to manage when having
+If you are settings up several sites with one eZ publish 3 installation using site access you might want to
+separate the cache and storage directory. This will make things less cluttered and easy to manage when having
 many sites per installation.
 </p>
 
@@ -46,7 +46,7 @@ CacheDir=mysecond/cache
 </pre>
 
 <p>
-Now we told eZ publish to store myfirsts cache in var/myfirst/cache and myfirsts files in var/mysecond/storage. Same goes
+Now we told eZ publish to store myfirsts cache in var/myfirst/cache and myfirsts files in var/mysecond/storage. The same goes
 for the mysecond site.
 </p>
 
