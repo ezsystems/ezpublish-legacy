@@ -60,7 +60,7 @@ Changes from 3.3.0-2 to 3.3-1
 - Removed maxlength from design/standard/templates/gui/lineedit.tpl http://ez.no/developer/ez_publish_3/bug_reports/rss_url_input_is_not_long_enough
 - Fixed bug http://www.ez.no/developer/ez_publish_3/bug_reports/datatype_function_metadata_isnt_part_of_the_datatype_api ( merged from stable 4574 )
 - Fixed bug in hostmatching in eZHTTPTool::redirectURL, it did not find host names without . in them, e.g. localhost. ( merged from stable 4578 )
-
+- Fixed showing embeded images in blog package. http://ez.no/developer/ez_publish_3/bug_reports/picture_does_not_show_in_package
 
 *ezlupdate:
 - Added check for newlines in the context field for templates, usually this means a missing quote.

@@ -112,3 +112,9 @@ Match[class]=25
 Source=content/collectedinfo/poll.tpl
 MatchFile=poll_result.tpl
 Subdir=templates
+
+[embed_image]
+Source=content/view/embed.tpl
+MatchFile=image.tpl
+Subdir=templates
+Match[class]=5
