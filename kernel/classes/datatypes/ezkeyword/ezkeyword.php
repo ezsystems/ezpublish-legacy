@@ -114,7 +114,7 @@ class eZKeyword
         $escapedKeywordArray = array();
         foreach( $this->KeywordArray as $keyword )
         {
-            $keyword = str_replace( "'", "\'", $keyword );
+            $keyword = $db->escapeString( $keyword );
             $escapedKeywordArray[] = $keyword;
         }
         $wordsString = implode( '\',\'', $escapedKeywordArray );
