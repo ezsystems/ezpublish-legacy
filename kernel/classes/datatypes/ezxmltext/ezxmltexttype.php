@@ -654,6 +654,10 @@ class eZXMLTextType extends eZDataType
                             if ( $content != null )
                             {
                                 $mimeCategory = $content->attribute( 'mime_type_category' );
+                                if ( $size != "small" and  $size != "medium" and $size != "large" )
+                                {
+                                    $size = "small";
+                                }
                                 $imageVariation = $content->attribute( $size );
                                 $path = $imageVariation->attribute( 'additional_path' );
                                 $filename = $imageVariation->attribute( 'filename' );
