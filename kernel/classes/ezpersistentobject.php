@@ -395,9 +395,13 @@ class eZPersistentObject
 
             foreach ( $escapeFields as $key )
             {
-                $value =& $obj->attribute( $key );
+                $value = $obj->attribute( $key );
                 $field_def = $fields[$key];
 
+                if ( $field_def['datatype'] == 'float' )
+                {
+                    $value = ezsprintf( '%F', $value );
+                }
                 if (is_null($value) &&
                     $key == 'data_int' )
                 {
@@ -449,7 +453,13 @@ class eZPersistentObject
 
             foreach ( $use_fields as $key )
             {
-                $value =& $obj->attribute( $key );
+                $value = $obj->attribute( $key );
+
+                if ( $fields[$key]['datatype'] == 'float' )
+                {
+                    $value = ezsprintf( '%F', $value );
+                }
+
 
                 if (is_null($value) && $key == 'data_int' )
                 {
