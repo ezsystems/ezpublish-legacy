@@ -31,6 +31,10 @@ Changes from 3.2-1 to 3.2-2
   and logging out.
 
 *DataType:
+eZURL:
+- Fixed bug with the URL datatype creating empty entries in the URL database
+  the first time an object is created.
+  http://ez.no/developer/ez_publish_3/bug_reports/url_management_bug_for_link_datatype
 
 *Optimizations:
 
