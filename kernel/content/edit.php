@@ -225,7 +225,7 @@ if ( $storingAllowed || ( $customAction != false ) )
         // !! this function should be moved to a publish function to
         // !! work with workflows
         $currentVersion =& $object->attribute( "current_version" );
-        
+
         $nodeID = eZContentObjectTreeNode::findNode( $mainNodeID, $object->attribute('id') );
         eZDebug::writeNotice( $nodeID, "nodeID" );
         $object->setAttribute( "main_node_id", $nodeID );
@@ -248,7 +248,6 @@ if ( $storingAllowed || ( $customAction != false ) )
         $object->store();
 
         $node = eZContentObjectTreeNode::fetch( $nodeID );
-        var_dump( $nodeID );
         $node->setAttribute( 'path_identification_string', $node->pathWithNames() );
         $node->setAttribute( 'crc32_path', crc32 ( $node->attribute( 'path_identification_string' ) ) );
         eZDebug::writeNotice( $node->attribute( 'path_identification_string' ), 'path_identification_string' );

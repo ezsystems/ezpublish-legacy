@@ -830,12 +830,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     function findNode( $parentNode, $id )
     {
-
-        if ( !isset($parentNode) )
+        if ( !isset( $parentNode) || $parentNode == NULL  )
         {
-            $parentNode = 0;
+            $parentNode = 1;
         }
-
+        var_dump( $parentNode );
         $db =& eZDB::instance();
         $getNodeQuery = "SELECT node_id
                            FROM ezcontentobject_tree
