@@ -390,13 +390,9 @@ class eZIniSettingType extends eZDataType
             {
                 $outputArray[] = $lineElements[0];
             }
-            else if ( count( $lineElements ) == 3 )
-            {
-                $outputArray[$lineElements[0]] = $lineElements[1] . "=" . $lineElements[2] ;
-            }
             else
             {
-                $outputArray[$lineElements[0]] = $lineElements[1];
+                $outputArray[$lineElements[0]] = implode( '=', array_slice( $lineElements, 1 ) );
             }
         }
         return true;
