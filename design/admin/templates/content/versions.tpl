@@ -15,7 +15,6 @@
 <label>{'ID'|i18n( 'design/admin/content/versions' )}:</label>
 {$object.id}
 </p>
-
 <p>
 <label>{'Created'|i18n( 'design/admin/content/versions' )}:</label>
 {section show=$object.published}
@@ -30,6 +29,14 @@
 {section show=$object.modified}
 {$object.modified|l10n( shortdatetime )}<br />
 {fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name}
+{section-else}
+{'Not yet published'|i18n( 'design/admin/content/versions' )}
+{/section}
+</p>
+<p>
+<label>{'Published version'|i18n( 'design/admin/content/versions' )}:</label>
+{section show=$object.published}
+{$object.current_version}
 {section-else}
 {'Not yet published'|i18n( 'design/admin/content/versions' )}
 {/section}
