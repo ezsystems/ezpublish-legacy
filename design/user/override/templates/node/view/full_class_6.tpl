@@ -1,30 +1,30 @@
 <form method="post" action={"/content/action/"|ezurl}>
 
-<h1>{$node.name}</h1>
+<strong>{$node.name}</strong>
 
-<table width="100%">
+<table width="100%" cellspacing="1" cellpadding="4" bgcolor="#000000">
 <tr>
-    <th bgcolor="#ffffff">
-    {"Topic"|i18n}
+    <th bgcolor="#FF9900">
+    <span class="small">{"Topic"|i18n}</span>
     </th>
-    <th bgcolor="#ffffff">
-    {"Posted"|i18n}
+    <th bgcolor="#FF9900">
+    <span class="small">{"Posted"|i18n}</span>
     </th>
 </tr>
-{section name=Message loop=fetch('content','list',hash(parent_node_id,$node.node_id,limit,$page_limit,offset,$view_parameters.offset)) sequence=array(bglight,bgdark)}
+{section name=Message loop=fetch('content','list',hash(parent_node_id,$node.node_id,limit,$page_limit,offset,$view_parameters.offset)) sequence=array(FDF4D9,FDF1CE)}
 <tr>
-    <td bgcolor="#efefef" width="60%">
+    <td bgcolor="#{$Message:sequence}" width="60%">
     <a href={concat('content/view/full/',$Message:item.node_id,'/')|ezurl}>{$Message:item.name}</a>
     </td>
-    <td bgcolor="#efefef" width="40%">
-    {$Message:item.object.published|l10n(datetime)}
+    <td bgcolor="#{$Message:sequence}" width="40%">
+    <span class="small">{$Message:item.object.published|l10n(datetime)}</span>
     </td>
 </tr>
 {/section}
 
 </table>
 
-
+<br />
 <input type="hidden" name="NodeID" value="{$node.node_id}" />
 <input class="button" type="submit" name="NewButton" value="{"New topic"|i18n}" />
 <input type="hidden" name="ClassID" value="8" />

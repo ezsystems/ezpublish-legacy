@@ -2,7 +2,7 @@
 
 <h1>{$node.name}</h1>
 
-<table bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
+<table width="100%" cellspacing="1" cellpadding="4" bgcolor="#000000">
 <tr>
     <th width="70%" valign="top">
     {attribute_view_gui attribute=$node.object.data_map.topic}
@@ -18,8 +18,7 @@
 </tr>
 </table>
 
-
-{section name=Child loop=fetch('content','list',hash(parent_node_id,$node.node_id,limit,$page_limit,offset,$view_parameters.offset)) sequence=array(efefef,ffffff)}
+{section name=Child loop=fetch('content','list',hash(parent_node_id,$node.node_id,limit,$page_limit,offset,$view_parameters.offset))  sequence=array(FDF4D9,FDF1CE)}
 <table bgcolor="#{$Child:sequence}" width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
     <th width="70%" valign="top">

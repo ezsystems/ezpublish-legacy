@@ -89,6 +89,8 @@
         <tr> 
         <td>
         {$module_result.content}
+	<br />
+	<br />
 	</td>
 	</tr>
 	</table>
@@ -98,13 +100,18 @@
         <h2><font color="#ffffff">New books</font></h2>
 
         {section name=Product loop=$product_list}
-        <a class="small" href="/content/view/full/{$Product:item.node_id}"><font color="#ffffff"><b>{$Product:item.name}</b></font></a><br />
+        <a class="small" href="/content/view/full/{$Product:item.node_id}"><font color="#ffffff"><b>{$Product:item.name}</b></font></a><br /><br />
         {/section}
         </td>
-        </tr>
-        </table>
-        </td>
     </tr>
+    </table>
+    </td>
+</tr>
+<tr>
+    <td bgcolor="#333333">
+    &nbsp;
+    </td>
+</tr>
 </table>
 
 {/let}
