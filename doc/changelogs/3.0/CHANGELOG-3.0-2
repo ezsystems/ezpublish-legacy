@@ -32,6 +32,7 @@ Binary file:
 
 User:
 - Fixed bug in password change, the wrong user ID was used which caused the operation to crash.
+- Fixed user indexing bug, old user object was cached in memory causing wrong indexing
 
 Shop:
 - Change date in list to datetime since it can be quite important for shops.
