@@ -268,14 +268,18 @@ class eZImageAliasHandler
             $text = $this->attribute( 'alternative_text' );
         else
             $text = $alternativeText;
-        if ( !$text )
-        {
-            $contentVersion =& eZContentObjectVersion::fetchVersion( $contentObjectAttribute->attribute( 'version' ),
-                                                                     $contentObjectAttribute->attribute( 'contentobject_id' ),
-                                                                     true );
-            if ( $contentVersion )
-                $text = $contentVersion->versionName( $contentObjectAttribute->attribute( 'language_code' ) );
-        }
+        // The following code may cause recursion, see:
+        //   http://ez.no/community/bug_reports/creating_the_content_of_a_class_with_object_name_pattern_derived_from_image_attribute_crashes
+        // and thus is commented.
+        //
+        // if ( !$text )
+        // {
+        //     $contentVersion =& eZContentObjectVersion::fetchVersion( $contentObjectAttribute->attribute( 'version' ),
+        //                                                              $contentObjectAttribute->attribute( 'contentobject_id' ),
+        //                                                              true );
+        //     if ( $contentVersion )
+        //         $text = $contentVersion->versionName( $contentObjectAttribute->attribute( 'language_code' ) );
+        // }
         return $text;
     }
 
