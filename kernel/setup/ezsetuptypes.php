@@ -1651,6 +1651,23 @@ function eZSetupContentINISettings( $siteType, $parameters, $isAdmin )
     return $image;
 }
 
+function eZSetupIconINISettings( $siteType, $parameters, $isAdmin )
+{
+    if ( $isAdmin )
+    {
+        $image = array( 'name' => 'icon.ini',
+                        'reset_arrays' => true,
+                        'settings' => array( 'IconSettings' => array( 'Theme' => 'crystal-admin',
+                                                                      'Size' => 'normal' ) ) );
+    }
+    else
+    {
+        $image = false;
+    }
+
+    return $image;
+}
+
 function eZSetupCommonRoles( &$roles, $siteType, $parameters )
 {
     $guestAccountsID = eZSetupRemoteObjectID( $parameters, '5f7f0bdb3381d6a461d8c29ff53d908f' );
@@ -1794,6 +1811,7 @@ function eZSetupINISettings( $siteType, $parameters )
     $settings[] = eZSetupSiteINISettings( $siteType, $parameters, false );
     $settings[] = eZSetupImageINISettings( $siteType, $parameters, false );
     $settings[] = eZSetupContentINISettings( $siteType, $parameters, false );
+    $settings[] = eZSetupIconINISettings( $siteType, $parameters, false );
 
     return $settings;
 }
@@ -1807,6 +1825,7 @@ function eZSetupAdminINISettings( $siteType, $parameters )
     $settings[] = eZSetupAdminOverrideINISettings( $siteType, $parameters );
     $settings[] = eZSetupSiteINISettings( $siteType, $parameters, true );
     $settings[] = eZSetupContentINISettings( $siteType, $parameters, true );
+    $settings[] = eZSetupIconINISettings( $siteType, $parameters, true );
 
     return $settings;
 }
