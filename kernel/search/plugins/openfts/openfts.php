@@ -105,7 +105,7 @@ class openFts
         fclose( $fp );
         $tmpFname = realpath( $tmpFname );
         eZDebugSetting::writeDebug( 'kernel-search-openfts', "/home/sp/projects/php/ezpublish3/bin/openfts/index.pl nextgen_test $contentObjectID $tmpFname","indexing command");
-        $retStr = system( "/home/sp/projects/php/ezpublish3/bin/openfts/index.pl nextgen_test $contentObjectID $tmpFname", &$foo );
+        $retStr = system( "/home/sp/projects/php/ezpublish3/bin/openfts/index.pl nextgen_test $contentObjectID $tmpFname", $foo );
         eZDebugSetting::writeDebug( 'kernel-search-openfts', $retStr.$foo, "error string" );
         //  unlink($tmpFname);
 
@@ -121,7 +121,7 @@ class openFts
         $contentObjectID = $contentObject->attribute( "id" );
         eZDebugSetting::writeDebug( 'kernel-search-openfts', "/home/sp/projects/php/ezpublish3/bin/openfts/delete.pl nextgen_test $contentObjectID " , "delete error string" );
 
-        $retStr = system( "/home/sp/projects/php/ezpublish3/bin/openfts/delete.pl nextgen_test $contentObjectID " , &$foo);
+        $retStr = system( "/home/sp/projects/php/ezpublish3/bin/openfts/delete.pl nextgen_test $contentObjectID " , $foo );
         eZDebugSetting::writeDebug( 'kernel-search-openfts', $retStr.$foo, "delete error string" );
 
 
