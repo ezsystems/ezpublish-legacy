@@ -256,7 +256,7 @@ if ( !function_exists( 'checkContentActions' ) )
                         $nodeList[] = $child->attribute( 'node_id' );
                     }
                 }
-                
+
                 $relatedObjects =& $object->contentObjectListRelatingThis();
                 foreach ( array_keys( $relatedObjects ) as $relatedObjectKey )
                 {
@@ -269,8 +269,7 @@ if ( !function_exists( 'checkContentActions' ) )
                     }
                 }
 
-                $designSetting = eZTemplateDesignResource::designSetting( 'site' );
-                if ( eZContentCache::cleanup( $designSetting, $nodeList ) )
+                if ( eZContentCache::cleanup( $nodeList ) )
                 {
 //                     eZDebug::writeDebug( 'cache cleaned up', 'content' );
                 }

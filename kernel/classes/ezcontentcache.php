@@ -131,43 +131,47 @@ class eZContentCache
         return $php->store();
     }
 
-    function cleanup( $siteDesign, $nodeList )
+    function cleanup( $nodeList )
     {
         $ini =& eZINI::instance();
-        $cacheBaseDir = eZDir::path( array( eZSys::cacheDirectory(), $ini->variable( 'ContentSettings', 'CacheDir' ), $siteDesign ) );
+        $cacheBaseDir = eZDir::path( array( eZSys::cacheDirectory(), $ini->variable( 'ContentSettings', 'CacheDir' ) ) );
         $viewModes = $ini->variableArray( 'ContentSettings', 'CachedViewModes' );
         $languages = $ini->variableArray( 'ContentSettings', 'TranslationList' );
+        $siteDesigns = $contentINI->variableArray( 'VersionView', 'AvailableSiteDesigns' );
 //         eZDebug::writeDebug( $viewModes, 'viewmodes' );
 //         eZDebug::writeDebug( $languages, 'languages' );
 //         eZDebug::writeDebug( $nodeList, 'nodeList' );
-        foreach ( $viewModes as $viewMode )
+        foreach ( $siteDesigns as $siteDesign )
         {
-            foreach ( $languages as $language )
+            foreach ( $viewModes as $viewMode )
             {
-                foreach ( $nodeList as $nodeID )
+                foreach ( $languages as $language )
                 {
-                    $extraPath = eZDir::filenamePath( "$nodeID" );
-                    $cacheDir = eZDir::path( array( $cacheBaseDir, $viewMode, $language, $extraPath ) );
-//                     eZDebug::writeDebug( $cacheDir, 'cacheDir' );
-                    if ( !file_exists( $cacheDir ) )
-                        continue;
-//                     eZDebug::writeDebug( "$cacheDir exists", 'cacheDir' );
-                    $dir = opendir( $cacheDir );
-                    if ( !$dir )
-                        continue;
-                    while ( ( $file = readdir( $dir ) ) !== false )
+                    foreach ( $nodeList as $nodeID )
                     {
-                        if ( $file == '.' or
-                             $file == '..' )
+                        $extraPath = eZDir::filenamePath( "$nodeID" );
+                        $cacheDir = eZDir::path( array( $cacheBaseDir, $siteDesign, $viewMode, $language, $extraPath ) );
+//                     eZDebug::writeDebug( $cacheDir, 'cacheDir' );
+                        if ( !file_exists( $cacheDir ) )
                             continue;
-                        if ( preg_match( "/^$nodeID" . "-.*\\.php$/", $file ) )
+//                     eZDebug::writeDebug( "$cacheDir exists", 'cacheDir' );
+                        $dir = opendir( $cacheDir );
+                        if ( !$dir )
+                            continue;
+                        while ( ( $file = readdir( $dir ) ) !== false )
                         {
-                            $cacheFile = eZDir::path( array( $cacheDir, $file ) );
-                            eZDebug::writeNotice( "Removing cache file '$cacheFile'", 'eZContentCache::cleanup' );
-                            unlink( $cacheFile );
+                            if ( $file == '.' or
+                                 $file == '..' )
+                                continue;
+                            if ( preg_match( "/^$nodeID" . "-.*\\.php$/", $file ) )
+                            {
+                                $cacheFile = eZDir::path( array( $cacheDir, $file ) );
+                                eZDebug::writeNotice( "Removing cache file '$cacheFile'", 'eZContentCache::cleanup' );
+                                unlink( $cacheFile );
+                            }
                         }
+                        closedir( $dir );
                     }
-                    closedir( $dir );
                 }
             }
         }
