@@ -1422,8 +1422,12 @@ class eZPackage
                 $development = $package->attribute( 'development' );
                 if ( $development )
                 {
-                    $cli =& eZCLI::instance();
-                    $cli->warning( "Could not load package from file " . $cli->stylize( 'emphasize', $filename ) );
+                    include_once( 'lib/ezutils/classes/ezcli.php' );
+                    if ( eZCLI::hasInstance() )
+                    {
+                        $cli =& eZCLI::instance();
+                        $cli->warning( "Could not load package from file " . $cli->stylize( 'emphasize', $filename ) );
+                    }
                     return false;
                 }
             }
@@ -1476,13 +1480,16 @@ class eZPackage
                     return $package;
                 }
                 $package =& eZPackage::fetchFromFile( $filePath );
-                $package->setCurrentRepositoryInformation( $packageRepository );
-                if ( $packagePath )
-                    $package->RepositoryPath = $packagePath;
-                if ( $cacheExpired and
-                     eZPackage::useCache() )
+                if ( $package )
                 {
-                    $package->storeCache( $path . '/' . eZPackage::cacheDirectory() );
+                    $package->setCurrentRepositoryInformation( $packageRepository );
+                    if ( $packagePath )
+                        $package->RepositoryPath = $packagePath;
+                    if ( $cacheExpired and
+                         eZPackage::useCache() )
+                    {
+                        $package->storeCache( $path . '/' . eZPackage::cacheDirectory() );
+                    }
                 }
                 return $package;
             }
@@ -1526,7 +1533,12 @@ class eZPackage
                         if ( !isset( $Parameters['development'] ) or
                              $Parameters['development'] )
                         {
-                            $cli->warning( "Could not load package from cache " . $cli->stylize( 'emphasize', $packageName ) );
+                            include_once( 'lib/ezutils/classes/ezcli.php' );
+                            if ( eZCLI::hasInstance() )
+                            {
+                                $cli =& eZCLI::instance();
+                                $cli->warning( "Could not load package from cache " . $cli->stylize( 'emphasize', $packageName ) );
+                            }
                             return false;
                         }
                     }
