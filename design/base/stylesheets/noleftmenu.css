@@ -1,0 +1,11 @@
+div#maincontent
+{
+    margin-left: 22px;
+    margin-right: 184px;
+    height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
+}
+
+div.class-article div.content-image div.imagecaption
+{
+    width: 100%;
+}
