@@ -63,6 +63,7 @@ include_once( "kernel/common/template.php" );
 include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
 include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
 include_once( "lib/ezutils/classes/ezini.php" );
+include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputtype.php' );
 
 define( "EZ_DATATYPESTRING_XML_TEXT", "ezxmltext" );
 define( 'EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD', 'data_int1' );
@@ -104,90 +105,9 @@ class eZXMLTextType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        $enableEditor =& $this->showEditor( $contentObjectAttribute );
-        if ( $http->hasPostVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) ) )
-        {
-            $data =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
-
-            if ( $enableEditor )
-            {
-                // Convert the input to eZ XML sloppy input if input is generated from DHTML
-                include_once( "extension/editor/ezconverthtml.php" );
-                $convert = new eZConvertHTML( $data );
-                $inputXML = $convert->convertTags();
-                $data =& $this->convertInput( $inputXML );
-            }else
-            {
-                $data =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
-
-                $data =& $this->convertInput( $data );
-
-            }
-            $xml = new eZXML();
-            $dom =& $xml->domTree( $data );
-
-            if ( $dom )
-            {
-                $contentObjectAttribute->setAttribute( "data_text", $dom->toString() );
-                $objects =& $dom->elementsByName( 'object' );
-                foreach ( $objects as $object )
-                {
-                    $objectID = $object->attributeValue( 'id' );
-                    $currentObject =& eZContentObject::fetch( $objectID );
-                    $editVersion = $contentObjectAttribute->attribute('version');
-                    $editObjectID = $contentObjectAttribute->attribute('contentobject_id');
-                    $editObject =& eZContentObject::fetch( $editObjectID );
-                    if (  $currentObject == null )
-                    {
-                        $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
-                                                                             'ezXMLTextType',
-                                                                             'Object '. $objectID .' does not exist.' ) );
-                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                    }else
-                    {
-                        $relatedObjects =& $editObject->relatedContentObjectArray( $editVersion );
-                        $relatedObjectIDArray = array();
-                        foreach (  $relatedObjects as  $relatedObject )
-                        {
-                            $relatedObjectID =  $relatedObject->attribute( 'id' );
-                            $relatedObjectIDArray[] =  $relatedObjectID;
-                        }
-                        if ( !in_array(  $objectID, $relatedObjectIDArray ) )
-                        {
-                            $editObject->addContentObjectRelation( $objectID, $editVersion );
-                        }
-                    }
-                }
-                $links =& $dom->elementsByName( 'link' );
-                foreach ( $links as $link )
-                {
-                    if ( $link->attributeValue( 'id' ) != null )
-                    {
-                        $linkID = $link->attributeValue( 'id' );
-                        $url =& eZURL::url( $linkID );
-                        if (  $url == null )
-                        {
-                            $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
-                                                                                 'ezXMLTextType',
-                                                                                 'Link '. $linkID .' does not exist.' ) );
-                            return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                        }
-                    }
-                    if ( $link->attributeValue( 'href' ) != null )
-                    {
-                        $url = $link->attributeValue( 'href' );
-                        $linkID =& eZURL::registerURL( $url );
-                    }
-                }
-                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-            }
-            else
-            {
-                $contentObjectAttribute->setAttribute( "data_text", "test" );
-            }
-            eZDebug::writeDebug( $data, "eZXMLTextType::XML text" );
-        }
-        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        $inputType =& eZXMLInputType::instance();
+        $isValid = $inputType->validateInput( $http, $base, $contentObjectAttribute );
+        return $isValid;
     }
 
     function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
@@ -208,73 +128,6 @@ class eZXMLTextType extends eZDataType
     }
 
     /*!
-     \private
-    */
-    function &convertInput( &$text )
-    {
-        // fix newlines
-        // Convet windows newlines
-        $text =& preg_replace( "#\r\n#", "\n", $text );
-        // Convet mac newlines
-        $text =& preg_replace( "#\r#", "\n", $text );
-
-        $data =& preg_replace( "#\n[\n]+#", "\n\n", $text );
-
-        // Convert headers
-        $data =& preg_replace( "#<header>#", "<header level='1'>", $data );
-
-        // split on headers
-        $sectionData = "<section>";
-        $sectionArray =& preg_split( "#(<header.*?>.*?</header>)#", $data, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
-        $sectionLevel = 1;
-        foreach ( $sectionArray as $sectionPart )
-        {
-            // check for header
-            if ( preg_match( "#(<header\s+level=[\"|'](.*?)[\"|']\s*>.*?</header>)#", $sectionPart, $matchArray ) )
-            {
-                // get level for header
-                $newSectionLevel = $matchArray[2];
-
-                if ( $newSectionLevel > $sectionLevel )
-                {
-                    $sectionData .= "<section>\n";
-                }
-
-                if ( $newSectionLevel < $sectionLevel )
-                {
-                    $sectionData .= "\n</section>\n";
-                }
-
-                $sectionLevel = $newSectionLevel;
-                $sectionData .= $sectionPart;
-            }
-            else
-            {
-                $paragraphArray = explode( "\n\n", $sectionPart );
-
-                foreach ( $paragraphArray as $paragraph )
-                {
-                    if ( trim( $paragraph ) != "" )
-                    {
-                        $sectionData .= "<paragraph>" . trim( $paragraph ) . "</paragraph>\n";
-                    }
-                }
-            }
-        }
-        if ( $sectionLevel > 1 )
-        {
-            $sectionData .= str_repeat( "\n</section>\n", $sectionLevel - 1 );
-        }
-        $sectionData .= "</section>";
-
-//        print( nl2br( htmlspecialchars( $sectionData ) ). "<br>" );
-
-        $data  = '<?xml version="1.0" encoding="utf-8" ?>' . $sectionData;
-
-        return $data;
-    }
-
-    /*!
      Store the content.
     */
     function storeObjectAttribute( &$attribute )
@@ -287,7 +140,6 @@ class eZXMLTextType extends eZDataType
     function &objectAttributeContent( &$contentObjectAttribute )
     {
         $tpl =& templateInit();
-
         $xml = new eZXML();
         $dom =& $xml->domTree( $contentObjectAttribute->attribute( "data_text" ) );
         if ( $dom )
@@ -305,31 +157,12 @@ class eZXMLTextType extends eZDataType
     }
 
     /*!
-     Returns the boolean value of whether or not showing the virtual editor.
+     Returns name of the editor which will be used..
     */
-    function &showEditor( &$contentObjectAttribute )
+    function &xmlEditor( &$contentObjectAttribute )
     {
-        $isEditorEnabled = false;
-        $isEditorAvailable = false;
-        $ini =& eZINI::instance();
-        $editor = $ini->variable( "ExtensionSettings", "XMLEditor" );
-        if ( $editor == "DHTMLEditor" )
-        {
-            $isEditorAvailable = true;
-        }
-        $isCorrectBrowser = false;
-        $userAgent = getenv( 'HTTP_USER_AGENT' );
-        if (eregi('MSIE[ \/]([0-9\.]+)', $userAgent, $browserInfo ) )
-        {
-            $version = $browserInfo[1];
-            if ( $version >= 5.5 )
-            {
-                $isCorrectBrowser = true;
-            }
-        }
-        if ( $isEditorAvailable and  $isCorrectBrowser )
-            $isEditorEnabled = true;
-        return $isEditorEnabled;
+        $editorName =& eZXMLInputType::getEditorName();
+        return $editorName;
     }
 
     /*!
@@ -346,27 +179,9 @@ class eZXMLTextType extends eZDataType
     */
     function &inputXML( &$contentObjectAttribute )
     {
-        $enableEditor =& $this->showEditor( $contentObjectAttribute );
-        if ( $enableEditor )
-        {
-            eZDebug::writeError($this->objectAttributeContent( $contentObjectAttribute ), "Temporary code for DHTML" );
-            return $this->objectAttributeContent( $contentObjectAttribute );
-        }
-        else
-        {
-            $xml = new eZXML();
-            $dom = $xml->domTree( $contentObjectAttribute->attribute( "data_text" ) );
-
-            if ( $dom )
-                $node = $dom->elementsByName( "section" );
-            eZDebug::writeDebug( $contentObjectAttribute->attribute( "data_text" ), "eZXMLTextType::inputXML" );
-            if ( count( $node ) > 0 )
-            {
-                $output = "";
-                $children =& $node[0]->children();
-                $output .= $this->inputSectionXML( $node[0], $contentObjectAttribute );
-            }
-        }
+        $inputType =& eZXMLInputType::instance();
+        $output =& $inputType->inputXML( $contentObjectAttribute );
+        return $output;
     }
 
     /*!
@@ -566,148 +381,6 @@ class eZXMLTextType extends eZDataType
             }break;
         }
         return $tagText;
-    }
-
-    /*!
-     \private
-     \return the user input format for the given section
-    */
-    function &inputSectionXML( &$section )
-    {
-        $output = "";
-        foreach ( $section->children() as $sectionNode )
-        {
-            $tagName = $sectionNode->name();
-            switch ( $tagName )
-            {
-                case 'header' :
-                {
-                    $level = $sectionNode->attributeValue( 'level' );
-                    if ( is_numeric( $level ) )
-                        $level = $sectionNode->attributeValue( 'level' );
-                    else
-                        $level = 1;
-                    $output .= "<$tagName level='$level'>" . $sectionNode->textContent(). "</$tagName>\n";
-                }break;
-
-                case 'paragraph' :
-                {
-                    $output .= trim( $this->inputParagraphXML( $sectionNode ) ) . "\n\n";
-                }break;
-
-                case 'section' :
-                {
-                    $output .= $this->inputSectionXML( $sectionNode );
-                }break;
-
-                default :
-                {
-                    eZDebug::writeError( "Unsupported tag at this level: $tagName", "eZXMLTextType::inputSectionXML()" );
-                }break;
-            }
-        }
-        return $output;
-    }
-
-    /*!
-     \return the input xml of the given paragraph
-    */
-    function &inputParagraphXML( &$paragraph )
-    {
-        $output = "";
-        foreach ( $paragraph->children() as $paragraphNode )
-        {
-            $output .= $this->inputTagXML( $paragraphNode );
-        }
-        return $output;
-    }
-
-    /*!
-     \return the input xml for the given tag
-    */
-    function &inputTagXML( &$tag )
-    {
-        $output = "";
-        $tagName = $tag->name();
-
-        switch ( $tagName )
-        {
-            case '#text' :
-            {
-                $output .= $tag->content();
-            }break;
-
-            case 'object' :
-            {
-                $view = $tag->attributeValue( 'view' );
-                if ( strlen( $view ) == 0 )
-                    $view = "embed";
-
-                $objectID = $tag->attributeValue( 'id' );
-                $output .= "<$tagName id='$objectID' view='$view'/>" . $tag->textContent();
-            }break;
-
-            case 'ul' :
-            case 'ol' :
-            {
-                $listContent = "";
-                // find all list elements
-                foreach ( $tag->children() as $listItemNode )
-                {
-                    $listItemContent = "";
-                    foreach ( $listItemNode->children() as $itemChildNode )
-                    {
-                        $listItemContent .= $this->inputTagXML( $itemChildNode );
-                    }
-                    $listContent .= "  <li>$listItemContent</li>\n";
-                }
-                $output .= "<$tagName>\n$listContent</$tagName>";
-            }break;
-
-            case 'table' :
-            {
-                $tableRows = "";
-                // find all table rows
-                foreach ( $tag->children() as $tableRow )
-                {
-                    $tableData = "";
-                    foreach ( $tableRow->children() as $tableCell )
-                    {
-                        $cellContent = "";
-                        foreach ( $tableCell->children() as $tableCellChildNode )
-                        {
-                            $cellContent .= $this->inputTagXML( $tableCellChildNode );
-                        }
-                        $tableData .= "  <td>\n" . trim( $cellContent ) . "\n  </td>\n";
-                    }
-                    $tableRows .= "<tr>\n $tableData</tr>\n";
-                }
-                $output .= "<table>\n$tableRows</table>\n";
-            }break;
-
-            // normal content tags
-            case 'emphasize' :
-            case 'strong' :
-            {
-                $output .= "<$tagName>" . $childTagText . $tag->textContent() . "</$tagName>";
-            }break;
-
-            case 'link' :
-            {
-                $linkID = $tag->attributeValue( 'id' );
-                if ( $linkID != null )
-                    $href =& eZURL::url( $linkID );
-                else
-                    $href = $tag->attributeValue( 'href' );
-                $output .= "<$tagName href='$href'>" . $childTagText . $tag->textContent() . "</$tagName>";
-            }break;
-
-            default :
-            {
-                eZDebug::writeError( "Unsupported tag: $tagName", "eZXMLTextType::inputParagraphXML()" );
-            }break;
-        }
-        return $output;
     }
 
     /*!

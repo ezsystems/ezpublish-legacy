@@ -77,7 +77,7 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                       "content" => "content",
                                                       "xml" => "xml",
                                                       "input_xml" => "inputXML",
-                                                      "show_editor" => "showEditor",
+                                                      "xml_editor" => "xmlEditor",
                                                       "validation_error" => "validationError",
                                                       "language" => "language"
                                                       ),
@@ -156,8 +156,8 @@ class eZContentObjectAttribute extends eZPersistentObject
             return $this->xml( );
         else if ( $attr == "input_xml" )
             return $this->inputXML( );
-        else if ( $attr == "show_editor" )
-            return $this->showEditor( );
+        else if ( $attr == "xml_editor" )
+            return $this->xmlEditor( );
         else if ( $attr == "validation_error" )
             return $this->validationError( );
         else if  ( $attr == "language" )
@@ -360,15 +360,15 @@ class eZContentObjectAttribute extends eZPersistentObject
      Returns the XML for this attribute
      \todo instantiate the data type instance directly
     */
-    function showEditor()
+    function xmlEditor()
     {
-        if ( $this->ShowEditor === null )
+        if ( $this->XMLEditor === null )
         {
             $attribute =& $this->contentClassAttribute();
             $dataType =& $attribute->dataType();
-            $this->ShowEditor =& $dataType->showEditor( $this );
+            $this->XMLEditor =& $dataType->xmlEditor( $this );
         }
-        return $this->ShowEditor;
+        return $this->XMLEditor;
     }
 
     /*!
@@ -447,7 +447,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     var $XML;
 
     /// Contains the boolean value for whether or not showing virtual editor
-    var $ShowEditor;
+    var $XMLEditor;
 
     /// Contains the input XML for this attribute
     var $InputXML;
