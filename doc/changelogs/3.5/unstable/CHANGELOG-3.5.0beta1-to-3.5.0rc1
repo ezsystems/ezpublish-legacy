@@ -44,4 +44,5 @@ Changes from 3.5.0beta1 to 3.5.0rc1
 - Fixed bug in matrix datatype. now it will remove all selected columns from ezmatrix datatype after clicking on remove selected button.
   http://ez.no/community/bug_reports/matrix_datatype_odd_behavior_in_class_edit_mode
   (merged from stable/3.4/rev. 9278)
-
+- Fixed bug:  Cancel button in browse doesn't work in  old_admin.
+  http://ez.no/community/bug_reports/old_admin_cancel_button_in_browse_doesn_t_work

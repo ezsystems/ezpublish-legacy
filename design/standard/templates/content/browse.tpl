@@ -320,11 +320,13 @@
 {/section}
 
         <input class="button" type="submit" name="SelectButton" value="{'Select'|i18n('design/standard/content/browse')}" />
-</form>
 
-        <form class="blockpart" name="test" method="post" action={"content/browse"|ezurl}>
-            <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n( 'design/standard/content/browse' )}" />
-        </form>
+
+{section show=$cancel_action}
+<input type="hidden" name="BrowseCancelURI" value="{$cancel_action}" />
+{/section}
+ <input class="button" type="submit" name="BrowseCancelButton" value="{'Cancel'|i18n( 'design/standard/content/browse' )}" />
+</form>
 
 <form name="test" method="post" action={"content/action"|ezurl}>
 <table>
