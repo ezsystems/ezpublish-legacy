@@ -651,7 +651,7 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
      \note The file name and path is supplied to the constructor of this class.
      \note Multiple calls to this method will only open the file once.
     */
-    function open()
+    function open( $atomic = false )
     {
         if ( !$this->FileResource )
         {
@@ -665,6 +665,14 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
             $path = $this->PHPDir . '/' . $this->PHPFile;
             $oldumask = umask( 0 );
             $pathExisted = file_exists( $path );
+            if ( $atomic )
+            {
+                $this->isAtomic = true;
+                $this->requestedFilename = $path;
+                $uniqid = md5( uniqid( "ezp". getmypid(), true ) );
+                $path .= ".$uniqid";
+                $this->tmpFilename = $path;
+            }
             $ini =& eZINI::instance();
             $perm = octdec( $ini->variable( 'FileSettings', 'StorageFilePermissions' ) );
             $this->FileResource = @fopen( $this->FilePrefix . $path, "w" );
@@ -686,6 +694,11 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
         if ( $this->FileResource )
         {
             fclose( $this->FileResource );
+
+            if ( $this->isAtomic )
+            {
+                rename( $this->tmpFilename, $this->requestedFilename );
+            }
             $this->FileResource = false;
         }
     }
@@ -770,9 +783,9 @@ print( $values['MyValue'] );
     /*!
      Stores the PHP cache, returns false if the cache file could not be created.
     */
-    function store()
+    function store( $atomic = false )
     {
-        if ( $this->open() )
+        if ( $this->open( $atomic ) )
         {
             $this->write( "<?php\n" );
 
@@ -1142,5 +1155,8 @@ print( $values['MyValue'] );
     var $FileResource;
     var $Elements;
     var $TextChunks;
+    var $isAtomic;
+    var $tmpFilename;
+    var $requestedFilename;
 }
 ?>

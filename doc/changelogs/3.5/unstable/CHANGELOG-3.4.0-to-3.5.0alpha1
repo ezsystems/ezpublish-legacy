@@ -118,6 +118,8 @@ Workflow:
 *eZPHPCreator
 - Added addRawVariable for much improved performance for generating PHP code for
   a PHP variable.
+- Added a new parameter to the store() method to allow for atomic updates of
+  files in order to stop concurrency problems.
 
 *eZTranslationCache
 - Implemented usage of the new addRawVariable method.
