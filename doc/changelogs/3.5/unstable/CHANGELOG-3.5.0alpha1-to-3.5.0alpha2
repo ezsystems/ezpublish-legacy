@@ -83,7 +83,9 @@ Payment:
 - Fixed bug: PDF Undefined variables
   (Merged from stable/3.4 rev. 8651)
   http://ez.no/community/bug_reports/pdf_undefined_variables
-
+- Fixed bug: No title and description in RSS 1 exports
+  (Merged from stable/3.4 rev. 8668)
+  http://ez.no/community/bug_reports/rss_1_0_export_items_only_contain_url
 	
 *Library:
 
