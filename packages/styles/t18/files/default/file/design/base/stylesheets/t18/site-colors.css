@@ -1,0 +1,373 @@
+/* SITE-COLORS CSS 20040415 */
+
+/* This CSS only contains color codes and background image details for pagelayout and other main styles */
+
+body
+{
+    background-color: #dddddd;
+    background-image: url(../../images/t18/background.png);
+    background-attachment: fixed;
+}
+
+div#allcontent
+{
+    background-color: #e6eeff;
+    border: #cccccc 1px solid;
+}
+
+div#topcontent
+{
+    background-color: #527ccc;
+    background-image: url(../../images/t18/background-top.png);
+    color: #ffffff;
+}
+
+div#maincontent-design
+{
+    padding-right: 10px;
+    margin-bottom: 10px;
+    background-image: url(../../images/t18/vline.gif);
+    background-repeat: repeat-y;
+    background-position: right top;
+}
+
+/* TOOLBARS */
+
+div#toolbar-top li.toolbar-item
+{
+    color: #ffffff;
+}
+
+div#toolbar-top li.toolbar-item a
+{ 
+    color: #ffffff;
+}
+
+div#toolbar-bottom div.toolbar-design
+{
+    background-color: #d9e5f2;
+}
+
+div#toolbar-bottom li.toolbar-item
+{
+    color: #666666;
+    border-color: #666666;
+}
+
+div#toolbar-bottom li.toolbar-item a
+{ 
+    color: #666666;
+}
+
+
+/* TOP MENU */
+
+div#topmenu
+{
+    background-image: url(../../images/t18/background-menu.png);
+    background-repeat: repeat-x;
+    background-position: top left;
+    background-color: #ffc757;
+    border-color: #e6eeff;
+}
+
+div#topmenu li
+{
+    border-color: #ffffff;
+}
+
+div#topmenu li.selected
+{
+    background-image: url(../../images/t18/background-menu-over.png);
+    background-repeat: repeat-x;
+    background-position: top left;
+    background-color: #ffc757;
+}
+
+div#topmenu li a
+{
+    color: #000000;
+}
+
+div#topmenu li a:hover
+{
+    text-decoration: none;
+}
+
+/* SUB MENU */
+
+div#submenu
+{
+    background-color: #7b92bc;
+    border-color: #e6eeff;
+    height: 20px;
+}
+
+div#submenu li
+{
+    height: 100%;
+    border-right: #ffffff 1px solid;
+}
+
+div#submenu li a
+{
+    color: #ffffff;
+}
+
+div#submenu li a:hover
+{
+    text-decoration: none;
+}
+
+/* PATH */
+
+div#path p
+{
+    padding-top: 10px;
+    color: #666666;
+}
+
+div#path p a
+{
+    color: #666666;
+}
+
+
+/* MENUES */
+
+div#leftmenu-design
+{
+    padding-right: 5px;
+}
+
+div#leftmenu-design li.menu-level-0
+{ 
+    border-color: #e6eeff;
+}
+
+div#leftmenu-design li.menu-level-0 a
+{
+    display: block;
+    text-align: left;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 100%;
+    background-color: #d5dcea;
+    font-weight: normal;
+    color: #666666;
+}
+
+div#leftmenu-design li.menu-level-0 a:hover
+{
+    background-color: #527ccc;
+    color: #ffffff;
+}
+
+div#leftmenu-design li.menu-level-1 a
+{
+    display: block;
+    text-align: left;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 100%;
+    border-top: #d5dcea 1px solid;
+    border-bottom: #d5dcea 1px solid;
+    color: #666666;
+}
+
+div#leftmenu-design li.menu-level-1 a:hover
+{
+    background-color: #527ccc;
+    color: #ffffff;
+}
+
+div#leftmenu-design li.menu-level-1 a.selected
+{
+    color: #666666;
+}
+
+/* NAVIGATORS */
+
+div.content-navigator div.content-navigator-previous-disabled
+{
+    color: #777777;
+}
+
+div.content-navigator div.content-navigator-next-disabled
+{
+    color: #777777;
+}
+
+div.content-navigator div.content-navigator-arrow
+{
+    color: #ff8800;
+}
+
+
+/* TOOLBOXES */
+
+div.toolbox-design
+{ 
+    background-color: #d9e5f2;
+}
+
+div.toolbox-design h2
+{ 
+    color: #ffffff;
+    background-color: #336699;
+}
+
+div.toolbox-design input.searchtext, div.toolbox-design input.textinput
+{
+    background-color: #ffffff;
+    border-color: #839dbd;
+}
+
+div.toolbox-design label
+{
+    color: #000000;
+}
+
+div.toolbox-design div.info-text p
+{ 
+    color: #000000;
+}
+
+div.toolbox-design div.attribute-link p
+{ 
+    old-background-image: url(../../images/t1/t1-arrow.gif);
+    background-position: center left;
+    background-repeat: no-repeat;
+}
+
+div.toolbox-design div.attribute-link-disabled p
+{ 
+    color: #666666;
+}
+
+
+/* TOOL LISTS */
+
+div.toollist-design
+{ 
+    background-color: #dee6f4;
+    border-color: #e6eeff;
+}
+
+div.toollist-design h2
+{ 
+    color: #666666;
+    letter-spacing: 2px;
+    padding-left: 0px;
+    font-weight: normal;
+    text-align: right;
+    background-color: #e6eeff;
+}
+
+div.toollist-design h3
+{ 
+    color: #336699;
+}
+
+div.toollist-design div.class-article div.attribute-short p
+{ 
+    color: #666666;
+}
+
+div.toollist-design div.class-article div.attribute-link p
+{ 
+    color: #336699;
+}
+
+div.toollist-design div.class-article div.attribute-link-disabled p
+{ 
+    color: #666666;
+}
+
+
+/* FOOTER */
+
+div#footer-design 
+{
+    color: #003366;
+    background-color: #e6eeff;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+div#footer-design a:hover
+{
+    color: #003399;
+}
+
+/* GENERAL ELEMENTS */
+
+a
+{ 
+    color: #336699;
+}
+
+a:hover
+{
+    color: #336699;
+}
+
+li
+{ 
+    color: #336699;
+}
+
+div#maincontent h1
+{ 
+    old-color: #003399;
+    color: #527ccc;
+}
+
+div#maincontent h2
+{ 
+    color: #527ccc;
+}
+
+div#maincontent h2 a
+{ 
+    color: #527ccc;
+}
+
+div#maincontent h3
+{ 
+    color: #009999;
+}
+
+div#maincontent h4
+{ 
+    color: #003366;
+}
+
+div#maincontent-design h5
+{ 
+    color: #003366;
+}
+
+
+/* SUBMIT BUTTONS */
+
+input.defaultbutton
+{
+    color: #003399;
+    background-color: #99ccff;
+    border-color: #336699;
+}
+
+input.button
+{
+    color: #003399;
+    background-color: #99ccff;
+    border-color: #336699;
+}
+
+input.searchbutton
+{
+    color: #003399;
+    background-color: #99cfcf;
+    border-color: #336699;
+}

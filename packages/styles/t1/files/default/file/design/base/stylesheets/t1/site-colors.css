@@ -1,0 +1,346 @@
+/* SITE-COLORS CSS 20040415 */
+
+/* This CSS only contains color codes and background image details for pagelayout and other main styles */
+
+body
+{
+    background-color: #6699cc;
+}
+
+div#allcontent
+{
+    background-color: #ffffff;
+}
+
+
+/* TOOLBARS */
+
+div#toolbar-top li.toolbar-item
+{
+    color: #339999;
+    border-color: #339999;
+}
+
+div#toolbar-top li.toolbar-item a
+{ 
+    color: #339999;
+}
+
+div#toolbar-bottom div.toolbar-design
+{
+    background-color: #d9e5f2;
+}
+
+div#toolbar-bottom li.toolbar-item
+{
+    color: #003366;
+    border-color: #003366;
+}
+
+div#toolbar-bottom li.toolbar-item a
+{ 
+    color: #003399;
+}
+
+
+/* TOP MENU */
+
+div#topmenu
+{
+    background-color: #336699;
+    border-color: #336699;
+}
+
+div.topmenu-line
+{
+    border-color: #7b92bc;
+}
+
+div#topmenu li
+{
+    background-image: url(../../images/t1/t1-tab-normal-left.gif);
+    background-repeat: no-repeat;
+    background-position: top left;
+    background-color: #336699;
+    border-color: #ffffff;
+}
+
+div#topmenu li.selected
+{
+    background-image: url(../../images/t1/t1-tab-selected-left.gif);
+    background-repeat: no-repeat;
+    background-position: top left;
+    background-color: #7b92bc;
+}
+
+div#topmenu li div.spacing
+{
+    background-image: url(../../images/t1/t1-tab-normal-right.gif);
+    background-repeat: no-repeat;
+    background-position: top right;
+}
+
+div#topmenu li a
+{
+    color: #ffffff;
+}
+
+div#topmenu li.selected div.spacing
+{
+    background-image: url(../../images/t1/t1-tab-selected-right.gif);
+    background-repeat: no-repeat;
+    background-position: top right;
+}
+
+div#topmenu li.selected a
+{
+    color: #ffffff;
+}
+
+
+/* SUB MENU */
+
+div#submenu
+{
+    background-color: #7b92bc;
+    border-color: #7b92bc;
+}
+
+div#submenu li a
+{
+    color: #ffffff;
+}
+
+
+/* PATH */
+
+div#path p
+{
+    color: #6699cc;
+}
+
+div#path p a
+{
+    color: #6699cc;
+}
+
+
+/* MENUES */
+
+div#leftmenu-design li.menu-level-0
+{ 
+    border-color: #99ccff;
+}
+
+div#leftmenu-design li.menu-level-0 a
+{ 
+    color: #339999;
+}
+
+div#leftmenu-design li.menu-level-0 a:hover
+{
+    color: #003399;
+}
+
+div#leftmenu-design li.menu-level-0 a.selected
+{
+    color: #003399;
+}
+
+div#leftmenu-design li.menu-level-1 a
+{ 
+    color: #66cccc;
+}
+
+div#leftmenu-design li.menu-level-1 a:hover
+{
+    color: #003399;
+}
+
+div#leftmenu-design li.menu-level-1 a.selected
+{
+    color: #003399;
+}
+
+
+/* NAVIGATORS */
+
+div.content-navigator div.content-navigator-previous-disabled
+{
+    color: #777777;
+}
+
+div.content-navigator div.content-navigator-next-disabled
+{
+    color: #777777;
+}
+
+div.content-navigator div.content-navigator-arrow
+{
+    color: #ff8800;
+}
+
+
+/* TOOLBOXES */
+
+div.toolbox-design
+{ 
+    background-color: #d9e5f2;
+}
+
+div.toolbox-design h2
+{ 
+    color: #ffffff;
+    background-color: #336699;
+}
+
+div.toolbox-design input.searchtext, div.toolbox-design input.textinput
+{
+    background-color: #ffffff;
+    border-color: #839dbd;
+}
+
+div.toolbox-design label
+{
+    color: #000000;
+}
+
+div.toolbox-design div.info-text p
+{ 
+    color: #000000;
+}
+
+div.toolbox-design div.attribute-link p
+{ 
+    background-image: url(../../images/t1/t1-arrow.gif);
+    background-position: center left;
+    background-repeat: no-repeat;
+}
+
+div.toolbox-design div.attribute-link-disabled p
+{ 
+    color: #666666;
+}
+
+
+/* TOOL LISTS */
+
+div.toollist-design
+{ 
+    background-color: #ffffff;
+    border-color: #336699;
+}
+
+div.toollist-design h2
+{ 
+    color: #ffffff;
+    background-color: #336699;
+}
+
+div.toollist-design h3
+{ 
+    color: #336699;
+}
+
+div.toollist-design div.class-article div.attribute-short p
+{ 
+    color: #666666;
+}
+
+div.toollist-design div.class-article div.attribute-link p
+{ 
+    color: #336699;
+}
+
+div.toollist-design div.class-article div.attribute-link-disabled p
+{ 
+    color: #666666;
+}
+
+
+/* FOOTER */
+
+div#footer-design 
+{
+    color: #003366;
+    background-color: #ffffff;
+}
+
+div#footer-design a:hover
+{
+    color: #003399;
+}
+
+/* GENERAL ELEMENTS */
+
+a
+{ 
+    color: #336699;
+}
+
+li
+{ 
+    color: #336699;
+}
+
+div#maincontent h1
+{ 
+    color: #003399;
+}
+
+div#maincontent h2
+{ 
+    color: #009999;
+}
+
+div#maincontent h2 a
+{ 
+    color: #009999;
+}
+
+div#maincontent h3
+{ 
+    color: #009999;
+}
+
+div#maincontent h4
+{ 
+    color: #003366;
+}
+
+div#maincontent-design h5
+{ 
+    color: #003366;
+}
+
+
+/* SUBMIT BUTTONS */
+
+input.defaultbutton
+{
+    color: #003399;
+    background-color: #99ccff;
+    border-color: #336699;
+}
+
+input.button
+{
+    color: #003399;
+    background-color: #99ccff;
+    border-color: #336699;
+}
+
+input.shopbutton
+{
+    color: #333;
+    background-color: #bbd8ed;
+    border-color: #666;
+}
+
+input.searchbutton
+{
+    color: #003399;
+    background-color: #7b92bc;
+    border-color: #336699;
+}
+

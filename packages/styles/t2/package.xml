@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="3.4.0alpha1"
+         development="true"
+         xmlns:ezpackage="http://ez.no/ezpackage"
+         install_type="import">
+  <warning>This format was made with a development version and will not work with any release versions.
+The format of this file is also subject to change until the release version.
+Upgrades to the development format will not be supported.</warning>
+  <name>t2</name>
+  <summary>T2 CSS</summary>
+  <type value="sitestyle" />
+  <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
+    <version>3.4.0alpha3</version>
+    <named-version>3.4.0alpha3-alpha3</named-version>
+  </ezpublish>
+  <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
+    <maintainer>
+      <name>Anonymous User</name>
+      <email>nospam@ez.no</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
+    <timestamp>1082670824</timestamp>
+    <host>amos.ez.no</host>
+  </packaging>
+  <documents>
+    <document mime-type="text/plain"
+              name="README" />
+  </documents>
+  <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
+    <entry timestamp="1082670824"
+           person="Anonymous User"
+           email="nospam@ez.no"
+           release="1">
+      <change>Creation of package</change>
+    </entry>
+  </changelog>
+  <simple-files />
+  <files xmlns:ezfile="http://ez.no/ezpackage">
+    <collection name="default">
+      <file-list type="file"
+                 variable-name="sitecssfile">
+        <file name="site-colors.css"
+              sub-directory="design/base/stylesheets/t2"
+              md5sum="463e497afe6509be0c864c7889d3bf96" />
+      </file-list>
+      <file-list type="file"
+                 variable-name="classescssfile">
+        <file name="classes-colors.css"
+              sub-directory="design/base/stylesheets/t2"
+              md5sum="dfa108673785516e6c01bf34eeb34b21" />
+      </file-list>
+      <file-list type="thumbnail"
+                 variable-name="thumbnail">
+        <file name="thumbnail.png"
+              md5sum="7697252dbdb3765ae8d6523aaa9d2a5c" />
+      </file-list>
+      <file-list type="file"
+                 variable-name="image">
+        <file name="ratingstar.png"
+              sub-directory="design/base/images/t2"
+              md5sum="b59ab8a9897361abf0a95251edfd887b" />
+        <file name="arrow.gif"
+              sub-directory="design/base/images/t2"
+              md5sum="c597c2acbc40cb4c1454d46891807169" />
+        <file name="bin.gif"
+              sub-directory="design/base/images/t2"
+              md5sum="87c1f6880ddcc87e7c352e193dc93676" />
+        <file name="button.gif"
+              sub-directory="design/base/images/t2"
+              md5sum="86fff651cfbbcf360ef78737c6523d64" />
+      </file-list>
+    </collection>
+  </files>
+  <version xmlns:ezversion="http://ez.no/ezpackage">
+    <number>3.4.0alpha3</number>
+    <release>1</release>
+  </version>
+  <licence>GPL</licence>
+  <state>alpha</state>
+  <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
+    <provides>
+      <provide type="ezfile"
+               name="collection"
+               value="default" />
+    </provides>
+    <requires />
+    <obsoletes />
+    <conflicts />
+  </dependencies>
+  <install xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          collection="default" />
+  </install>
+  <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          collection="default" />
+  </uninstall>
+</package>
