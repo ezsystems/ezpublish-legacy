@@ -61,6 +61,17 @@ else
     $tpl->setVariable( "anonymous_user_id", false );
 }
 
+if ( $Type == 'kernel' )
+{
+    if ( $Number == EZ_ERROR_KERNEL_NOT_FOUND or
+         $Number == EZ_ERROR_KERNEL_NOT_AVAILABLE or
+         $Number == EZ_ERROR_KERNEL_MODULE_NOT_FOUND or
+         $Number == EZ_ERROR_KERNEL_MODULE_VIEW_NOT_FOUND )
+    {
+        header( "Status: 404 Not Found" );
+    }
+}
+
 $userRedirectURI = '';
 $requestedURI =& $GLOBALS['eZRequestedURI'];
 if ( get_class( $requestedURI ) == 'ezuri' )

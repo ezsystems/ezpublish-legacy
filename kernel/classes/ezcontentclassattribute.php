@@ -191,25 +191,40 @@ class eZContentClassAttribute extends eZPersistentObject
         return $object;
     }
 
-    function &fetchList( $asObject = true )
+    function &fetchList( $asObject = true, $parameters = array() )
     {
+        $parameters = array_merge( array( 'data_type' => false,
+                                          'version' => false ),
+                                   $parameters );
+        $dataType = $parameters['data_type'];
+        $version = $parameters['version'];
         $objects = null;
-        if ( $asObject )
+        if ( $asObject and $dataType === false and $version === false )
         {
             $objects =& $GLOBALS['eZContentClassAttributeCacheListFull'];
         }
         if ( !isset( $objects ) or
              $objects === null )
         {
+            $conditions = null;
+            if ( $dataType !== false or
+                 $version !== false )
+            {
+                $conditions = array();
+                if ( $dataType !== false )
+                    $conditions['data_type_string'] = $dataType;
+                if ( $version !== false )
+                    $conditions['version'] = $version;
+            }
             $objectList =& eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
-                                                                null, null, null, null,
+                                                                null, $conditions, null, null,
                                                                 $asObject );
             foreach ( array_keys( $objectList ) as $objectKey )
             {
                 $objectItem =& $objectList[$objectKey];
                 $objectID = $objectItem->ID;
                 $objectVersion = $objectItem->Version;
-                $GLOBALS['eZContentClassAttributeCache'][$id][$version] =& $objectItem;
+                $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] =& $objectItem;
             }
             $objects = $objectList;
         }

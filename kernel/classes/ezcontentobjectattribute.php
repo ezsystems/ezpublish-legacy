@@ -98,6 +98,35 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                 $asObject );
     }
 
+    function &fetchListByClassID( $id, $version = false, $limit = null, $asObject = true, $asCount = false )
+    {
+        $conditions = array();
+        if ( is_array( $id ) )
+            $conditions['contentclassattribute_id'] = array( $id );
+        else
+            $conditions['contentclassattribute_id'] = $id;
+        if ( $version !== false )
+            $conditions["version"] = $version;
+        $fieldFilters = null;
+        $customFields = null;
+        if ( $asCount )
+        {
+            $limit = null;
+            $asObject = false;
+            $fieldFilters = array();
+            $customFields = array( array( 'operation' => 'count( id )',
+                                          'name' => 'count' ) );
+        }
+        $objectList =& eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
+                                                            $fieldFilters, $conditions,
+                                                            null, $limit, $asObject,
+                                                            null, $customFields );
+        if ( $asCount )
+            return $objectList[0]['count'];
+        else
+            return $objectList;
+    }
+
     function &fetchSameClassAttributeIDList( $contentClassAttributeID, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),

@@ -259,6 +259,26 @@ class eZDOMNode
     }
 
     /*!
+      Removes the attribute node named \a $name.
+    */
+    function removeNamedAttribute( $name )
+    {
+        $removed = false;
+        $attributeArray = array();
+        for ( $i = 0; $i < count( $this->Attributes ); ++$i )
+        {
+            $attribute =& $this->Attributes[$i];
+            if ( $attribute->name() != $name )
+                $attributeArray[] =& $attribute;
+            else
+                $removed = true;
+        }
+        unset( $this->Attributes );
+        $this->Attributes =& $attributeArray;
+        return $removed;
+    }
+
+    /*!
      Returns the contents of the node if it has one child which is a #text node.
      False is returned if unsuccessful.
     */

@@ -485,12 +485,12 @@ class eZPersistentObject
     {
         if ( $asObject )
         {
-            $classes = array();
+            $objects = array();
             foreach ( $rows as $row )
             {
-                $classes[] = new $class_name( $row );
+                $objects[] = new $class_name( $row );
             }
-            return $classes;
+            return $objects;
         }
         else
             return $rows;

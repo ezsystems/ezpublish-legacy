@@ -51,8 +51,8 @@ define( "EZ_BINARY_FILE_HANDLE_DOWNLOAD", 0x2 );
 define( "EZ_BINARY_FILE_HANDLE_ALL", EZ_BINARY_FILE_HANDLE_UPLOAD |
                                      EZ_BINARY_FILE_HANDLE_DOWNLOAD );
 
-define( "EZ_BINARY_FILE_TYPE_FILE", 1 );
-define( "EZ_BINARY_FILE_TYPE_MEDIA", 2 );
+define( "EZ_BINARY_FILE_TYPE_FILE", 'file' );
+define( "EZ_BINARY_FILE_TYPE_MEDIA", 'media' );
 
 define( "EZ_BINARY_FILE_RESULT_OK", 1 );
 define( "EZ_BINARY_FILE_RESULT_UNAVAILABLE", 2 );
@@ -122,6 +122,65 @@ class eZBinaryFileHandler
     function handleUpload()
     {
         return false;
+    }
+
+    /*!
+     \return the file object which corresponds to \a $contentObject and \a $contentObjectAttribute.
+    */
+    function downloadFileObject( &$contentObject, &$contentObjectAttribute )
+    {
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
+        $version = $contentObject->attribute( 'current_version' );
+        $fileObject =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
+        if ( $fileObject )
+            return $fileObject;
+        $fileObject =& eZMedia::fetch( $contentObjectAttributeID, $version );
+        return $fileObject;
+    }
+
+    /*!
+     \return the file object type which corresponds to \a $contentObject and \a $contentObjectAttribute.
+    */
+    function downloadType( &$contentObject, &$contentObjectAttribute )
+    {
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
+        $version = $contentObject->attribute( 'current_version' );
+        $fileObject =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
+        if ( $fileObject )
+            return EZ_BINARY_FILE_TYPE_FILE;
+        $fileObject =& eZMedia::fetch( $contentObjectAttributeID, $version );
+        if ( $fileObject )
+            return EZ_BINARY_FILE_TYPE_MEDIA;
+        return false;
+    }
+
+    /*!
+     \return the download url for the file object which corresponds to \a $contentObject and \a $contentObjectAttribute.
+    */
+    function downloadURL( &$contentObject, &$contentObjectAttribute )
+    {
+        $contentObjectID = $contentObject->attribute( 'id' );
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
+        $downloadType = eZBinaryFileHandler::downloadType( $contentObject, $contentObjectAttribute );
+        $downloadObject = eZBinaryFileHandler::downloadFileObject( $contentObject, $contentObjectAttribute );
+        $name = '';
+        switch ( $downloadType )
+        {
+            case EZ_BINARY_FILE_TYPE_FILE:
+            {
+                $name = $downloadObject->attribute( 'original_filename' );
+            } break;
+            case EZ_BINARY_FILE_TYPE_MEDIA:
+            {
+                $name = $downloadObject->attribute( 'original_filename' );
+            } break;
+            default:
+            {
+                eZDebug::writeWarning( "Unknown binary file type '$downloadType'", 'eZBinaryFileHandler::downloadURL' );
+            } break;
+        }
+        $url = "/content/download/$contentObjectID/$contentObjectAttributeID/$downloadType/$name";
+        return $url;
     }
 
     function handleDownload( &$contentObject, &$contentObjectAttribute, $type )

@@ -76,14 +76,26 @@ class eZXML
 
         $TagStack = array();
 
+        $xmlAttributes = array();
+
+        // strip header
+        if ( preg_match( "#<\?xml(.*?)\?>#", $xmlDoc, $matches ) )
+        {
+            $xmlAttributeText = $matches[1];
+            $xmlAttributes = $this->parseAttributes( $xmlAttributeText );
+        }
+        else if ( !preg_match( "#<[a-zA-Z0-9_-]+>#", $xmlDoc ) )
+        {
+            return null;
+        }
+
+        $xmlDoc =& preg_replace( "#<\?.*?\?>#", "", $xmlDoc );
+
         // get document version
         $xmlDoc =& preg_replace( "%<\!DOCTYPE.*?>%is", "", $xmlDoc );
 
-        // strip header
-        $xmlDoc =& preg_replace( "#<\?.*?\?>#", "", $xmlDoc );
-
-        // strip windows newlines
-        $xmlDoc =& str_replace( "\r", "", $xmlDoc );
+        // convert all newline types to unix newlines
+        $xmlDoc =& preg_replace( "#\n|\r\n|\r#", "\n", $xmlDoc );
 
         // strip comments
         $xmlDoc =& eZXML::stripComments( $xmlDoc );
