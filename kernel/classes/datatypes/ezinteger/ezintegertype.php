@@ -408,6 +408,30 @@ class eZIntegerType extends eZDataType
             $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'max-value', $maxValue ) );
     }
 
+    /*!
+     \reimp
+    */
+    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $defaultValue = $attributeParametersNode->elementTextContentByName( 'default-value' );
+        $minValue = $attributeParametersNode->elementTextContentByName( 'min-value' );
+        $maxValue = $attributeParametersNode->elementTextContentByName( 'max-value' );
+
+        if ( $minValue and $maxValue )
+            $minMaxState = EZ_INTEGER_HAS_MIN_MAX_VALUE;
+        else if ( $minValue )
+            $minMaxState = EZ_INTEGER_HAS_MIN_VALUE;
+        else if ( $maxValue )
+            $minMaxState = EZ_INTEGER_HAS_MAX_VALUE;
+        else
+            $minMaxState = EZ_INTEGER_NO_MIN_MAX_VALUE;
+
+        $classAttribute->setAttribute( EZ_DATATYPESTRING_DEFAULT_VALUE_FIELD, $defaultValue );
+        $classAttribute->setAttribute( EZ_DATATYPESTRING_MIN_VALUE_FIELD, $minValue );
+        $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_VALUE_FIELD, $maxValue );
+        $classAttribute->setAttribute( EZ_DATATYPESTRING_INTEGER_INPUT_STATE_FIELD, $minMaxState );
+    }
+
     /// \privatesection
     /// The integer value validator
     var $IntegerValidator;

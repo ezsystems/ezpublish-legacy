@@ -191,6 +191,40 @@ class eZPriceType extends eZDataType
                 $attributeParametersNode->appendChild( $vatTypeNode );
         }
     }
+
+    /*!
+     \reimp
+    */
+    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $vatNode =& $attributeParametersNode->elementByName( 'vat-included' );
+        $vatIncluded = strtolower( $vatNode->attributeValue( 'is-set' ) ) == 'true';
+        $classAttribute->setAttribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD, $vatIncluded );
+        $vatTypeNode =& $attributeParametersNode->elementByName( 'vat-type' );
+        $vatName = $vatTypeNode->attributeValue( 'name' );
+        $vatPercentage = $vatTypeNode->attributeValue( 'percentage' );
+        $vatID = false;
+        $vatTypes =& eZVATType::fetchList();
+        foreach ( array_keys( $vatTypes ) as $vatTypeKey )
+        {
+            $vatType =& $vatTypes[$vatTypeKey];
+            if ( $vatType->attribute( 'name' ) == $vatName and
+                 $vatType->attribute( 'percentage' ) == $vatPercentage )
+            {
+                $vatID = $vatType->attribute( 'id' );
+                break;
+            }
+        }
+        if ( !$vatID )
+        {
+            $vatType =& eZVATType::create();
+            $vatType->setAttribute( 'name', $vatName );
+            $vatType->setAttribute( 'percentage', $vatPercentage );
+            $vatType->store();
+            $vatID = $vatType->attribute( 'id' );
+        }
+        $classAttribute->setAttribute( EZ_DATATYPESTRING_VAT_ID_FIELD, $vatID );
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_PRICE, "ezpricetype" );

@@ -344,6 +344,30 @@ class eZFloatType extends eZDataType
             $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'max-value', $maxValue ) );
     }
 
+    /*!
+     \reimp
+    */
+    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $defaultValue = $attributeParametersNode->elementTextContentByName( 'default-value' );
+        $minValue = $attributeParametersNode->elementTextContentByName( 'min-value' );
+        $maxValue = $attributeParametersNode->elementTextContentByName( 'max-value' );
+
+        if ( $minValue and $maxValue )
+            $minMaxState = EZ_FLOAT_HAS_MIN_MAX_VALUE;
+        else if ( $minValue )
+            $minMaxState = EZ_FLOAT_HAS_MIN_VALUE;
+        else if ( $maxValue )
+            $minMaxState = EZ_FLOAT_HAS_MAX_VALUE;
+        else
+            $minMaxState = EZ_FLOAT_NO_MIN_MAX_VALUE;
+
+        $classAttribute->setAttribute( EZ_DATATYPESTRING_DEFAULT_FLOAT_FIELD, $defaultValue );
+        $classAttribute->setAttribute( EZ_DATATYPESTRING_MIN_FLOAT_FIELD, $minValue );
+        $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_FLOAT_FIELD, $maxValue );
+        $classAttribute->setAttribute( EZ_DATATYPESTRING_FLOAT_INPUT_STATE_FIELD, $minMaxState );
+    }
+
     /// \privatesection
     /// The float value validator
     var $FloatValidator;

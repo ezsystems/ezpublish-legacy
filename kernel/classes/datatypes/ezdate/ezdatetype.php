@@ -204,6 +204,26 @@ class eZDateType extends eZDataType
             } break;
         }
     }
+
+    /*!
+     \reimp
+    */
+    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $defaultNode =& $attributeParametersNode->elementByName( 'default-value' );
+        $defaultValue = strtolower( $defaultNode->attributeValue( 'type' ) );
+        switch ( $defaultValue )
+        {
+            case 'empty':
+            {
+                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATE_DEFAULT, EZ_DATATYPESTRING_DATE_DEFAULT_EMTPY );
+            } break;
+            case 'current-date':
+            {
+                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATE_DEFAULT, EZ_DATATYPESTRING_DATE_DEFAULT_CURRENT_DATE );
+            } break;
+        }
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_DATE, "ezdatetype" );

@@ -82,17 +82,19 @@ class eZContentClassGroup extends eZPersistentObject
                       "name" => "ezcontentclassgroup" );
     }
 
-    function &create( $user_id )
+    function &create( $userID )
     {
         include_once( "lib/ezlocale/classes/ezdatetime.php" );
-        $date_time = eZDateTime::currentTimeStamp();
+        $dateTime = eZDateTime::currentTimeStamp();
+        if ( !$userID )
+            $userID = eZUser::currentUserID();
         $row = array(
             "id" => null,
             "name" => "",
-            "creator_id" => $user_id,
-            "modifier_id" => $user_id,
-            "created" => $date_time,
-            "modified" => $date_time );
+            "creator_id" => $userID,
+            "modifier_id" => $userID,
+            "created" => $dateTime,
+            "modified" => $dateTime );
         return new eZContentClassGroup( $row );
     }
 
@@ -147,6 +149,27 @@ class eZContentClassGroup extends eZPersistentObject
         return eZPersistentObject::fetchObjectList( eZContentClassGroup::definition(),
                                                     null, $conds, null, null,
                                                     $asObject );
+    }
+
+    /*!
+     Appends the class \a $class to this group.
+     \param $class Can either be an eZContentClass object or a class ID.
+     \return the class group link object.
+    */
+    function &appendClass( &$class, $version = false )
+    {
+        if ( get_class( $class ) == 'ezcontentclass' )
+        {
+            $classID = $class->attribute( 'id' );
+            $version = $class->attribute( 'version' );
+        }
+        else
+            $classID = $class;
+        $classGroupLink =& eZContentClassClassGroup::create( $classID, $version,
+                                                             $this->attribute( 'id' ),
+                                                             $this->attribute( 'name' ) );
+        $classGroupLink->store();
+        return $classGroupLink;
     }
 
     var $ID;

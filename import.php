@@ -52,13 +52,11 @@ if ( isset( $argv ) )
     $webOutput = false;
 }
 
-$exportType = false;
-$exportParameters = array();
+$packageFile = false;
 $siteaccess = false;
 $debugOutput = false;
 $useColors = false;
 $isQuiet = false;
-$outputFile = false;
 
 $colors = array( 'warning' => "\033[1;35m",
                  'error' => "\033[1;31m",
@@ -71,8 +69,8 @@ $longOptionsWithData = array( 'siteaccess' );
 
 function help()
 {
-    print( "Usage: " . $argv[0] . " [OPTION]... TYPE [PARAMETERS]\n" .
-           "Exports ezpublish packages.\n\n" .
+    print( "Usage: " . $argv[0] . " [OPTION]... PACKAGE\n" .
+           "Imports ezpublish packages.\n\n" .
            "  -h,--help          display this help and exit \n" .
            "  -q,--quiet         do not give any output except errors occur\n" .
            "  -s,--siteaccess    selected siteaccess for operations, if not specified default siteaccess is used\n" .
@@ -183,17 +181,14 @@ for ( $i = 1; $i < count( $argv ); ++$i )
     }
     else
     {
-        if ( $exportType === false )
+        if ( $packageFile === false )
         {
-            $readOptions = false;
-            $exportType = $arg;
+            $packageFile = $arg;
         }
-        else
-            $exportParameters[] = $arg;
     }
 }
 
-if ( !$exportType )
+if ( !$packageFile )
 {
     help();
     exit();
@@ -340,49 +335,25 @@ eZModule::setGlobalPathList( $moduleRepositories );
 
 include_once( 'kernel/classes/ezpackagehandler.php' );
 
-$packageName = 'mytest';
-$packageSummary = 'hm';
-$packageExtension = 'myext';
-
-$package =& eZPackageHandler::create( $packageName, array( 'summary' => $packageSummary,
-                                                           'extension' => $packageExtension ) );
-
-$package->appendMaintainer( 'Jan Borsodi', 'jb@ez.no', 'lead' );
-
-$package->appendDocument( 'README' );
-$package->appendDocument( 'readme.html', 'text/html', false, 'end-user' );
-$package->appendDocument( 'INSTALL', false, 'unix', 'site-admin' );
-
-$package->appendGroup( 'design' );
-$package->appendGroup( 'community/forum' );
-
-$package->appendChange( 'Jan Borsodi', 'jb@ez.no', 'Added some stuff' );
-
-$package->setRelease( '1.0.5', '2', false, 'GPL', 'beta' );
-
-// $package->appendFileList( array( array( 'role' => 'override',
-//                                         'md5sum' => false,
-//                                         'name' => 'forum.tpl' ) ),
-//                           'template', false,
-//                           array( 'design' => 'standard' ) );
-
-// $package->appendInstall( 'part', 'Classes', false, true,
-//                          array( 'content' => 'yup' ) );
-
-$exportList = array();
-$exportList[] = array( 'type' => $exportType,
-                       'parameters' => $exportParameters );
-$package->handleExportList( $exportList );
-
-if ( $outputFile )
+$package =& eZPackageHandler::fetchFromFile( $packageFile );
+if ( $package )
 {
-    $package->storeToFile( $outputFile );
+    $package->install();
+//     var_dump( $package->Parameters );
 }
 else
 {
-    print( $package->toString() . "\n" );
+    print( "Could not open package file $packageFile\n" );
 }
 
+// $importHandler = 'kernel/classes/packagehandlers/' . $exportType . '/' . $exportType . 'importhandler.php';
+// if ( file_exists( $exportHandler ) )
+// {
+//     include_once( $exportHandler );
+//     $exportClass = $exportType . 'ExportHandler';
+//     $handler =& new $exportClass;
+//     $handler->handle( $package, $exportParameters );
+// }
 
 if ( $debugOutput or
      eZDebug::isDebugEnabled() )

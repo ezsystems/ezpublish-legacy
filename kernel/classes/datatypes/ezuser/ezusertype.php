@@ -53,7 +53,8 @@ class eZUserType extends eZDataType
     function eZUserType( )
     {
         $this->eZDataType( EZ_DATATYPESTRING_USER, "User account",
-                           array( 'translation_allowed' => false ) );
+                           array( 'translation_allowed' => false,
+                                  'serialize_supported' => true ) );
     }
 
 

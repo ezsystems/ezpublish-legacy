@@ -349,6 +349,17 @@ class eZImageType extends eZDataType
         $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'max-size', $maxSize,
                                                                                      array( 'unit-size' => 'mega' ) ) );
     }
+
+    /*!
+     \reimp
+    */
+    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $maxSize = $attributeParametersNode->elementTextContentByName( 'max-size' );
+        $sizeNode = $attributeParametersNode->elementByName( 'max-size' );
+        $unitSize = $sizeNode->attributeValue( 'unit-size' );
+        $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_FIELD, $maxSize );
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_IMAGE, "ezimagetype" );

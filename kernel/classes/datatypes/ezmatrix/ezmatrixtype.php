@@ -423,6 +423,29 @@ class eZMatrixType extends eZDataType
             }
         }
     }
+
+    /*!
+     \reimp
+    */
+    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $defaultName = $attributeParametersNode->elementTextContentByName( 'default-name' );
+        $defaultRowCount = $attributeParametersNode->elementTextContentByName( 'default-row-count' );
+        $classAttribute->setAttribute( 'data_text1', $defaultName );
+        $classAttribute->setAttribute( 'data_int1', $defaultRowCount );
+
+        $matrixDefinition =& new eZMatrixDefinition();
+        $columnsNode =& $attributeParametersNode->elementByName( 'columns' );
+        $columnsList =& $columnsNode->children();
+        foreach ( array_keys( $columnsList ) as $columnKey )
+        {
+            $columnNode =& $columnsList[$columnKey];
+            $columnName = $columnNode->attributeValue( 'name' );
+            $columnIdentifier = $columnNode->attributeValue( 'identifier' );
+            $matrixDefinition->addColumn( $columnName, $columnIdentifier );
+        }
+        $classAttribute->setAttribute( 'data_text5', $matrixDefinition->xmlString() );
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_MATRIX, 'ezmatrixtype' );

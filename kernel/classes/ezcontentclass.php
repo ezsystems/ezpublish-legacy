@@ -127,26 +127,25 @@ class eZContentClass extends eZPersistentObject
         return $tmpClass;
     }
 
-    function &create( $user_id )
+    function &create( $userID = false, $optionalValues = array() )
     {
         include_once( "lib/ezlocale/classes/ezdatetime.php" );
-        $date_time = eZDateTime::currentTimeStamp();
+        $dateTime = eZDateTime::currentTimeStamp();
+        if ( !$userID )
+            $userID = eZUser::currentUserID();
         $row = array(
             "id" => null,
-//            "contentclass_id" => null,
             "version" => 1,
             "name" => "",
             "identifier" => "",
             "contentobject_name" => "",
-            "creator_id" => $user_id,
-            "modifier_id" => $user_id,
-            "created" => $date_time,
-            "modified" => $date_time );
-        // We need it because we don't know the id of class until we've created it.
-        $tempClass = new eZContentClass( $row );
-//        $tempClass->setAttribute( "contentclass_id", $tempClass->attribute( "id" ) );
-//        $tempClass->store();
-        return $tempClass;
+            "creator_id" => $userID,
+            "modifier_id" => $userID,
+            "created" => $dateTime,
+            "modified" => $dateTime );
+        $row = array_merge( $row, $optionalValues );
+        $contentClass = new eZContentClass( $row );
+        return $contentClass;
     }
 
     /*!

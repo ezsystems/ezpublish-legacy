@@ -56,6 +56,14 @@ class eZPackageHandler
     */
     function eZPackageHandler( $parameters = array() )
     {
+        $this->setParameters( $parameters );
+    }
+
+    /*!
+     \private
+    */
+    function setParameters( $parameters = array() )
+    {
         $timestamp = mktime();
         $packaging = array( 'timestamp' => $timestamp,
                             'host' => $_SERVER['HOSTNAME'],
@@ -88,6 +96,139 @@ class eZPackageHandler
                            'install' => $install,
                            'uninstall' => $uninstall );
         $this->Parameters = array_merge( $defaults, $parameters );
+    }
+
+    /*!
+     \private
+    */
+    function &parseDOMTree( &$dom )
+    {
+        $root =& $dom->root();
+        if ( !$root )
+            return false;
+        $parameters = array();
+        $parameters['name'] = $root->elementTextContentByName( 'name' );
+        $parameters['summary'] = $root->elementTextContentByName( 'summary' );
+        $extensionNode =& $root->elementByName( 'extension' );
+        if ( $extensionNode )
+            $parameters['extension'] = $extensionNode->attributeValue( 'name' );
+        $this->setParameters( $parameters );
+
+        $releaseNode =& $root->elementByName( 'release' );
+        $installNode =& $releaseNode->elementByName( 'install' );
+        $installPreNode =& $installNode->elementByName( 'pre' );
+        $installPreChildren =& $installPreNode->children();
+        for ( $i = 0; $i < count( $installPreChildren ); ++$i )
+        {
+            $installPreChild =& $installPreChildren[$i];
+            $this->importInstallPart( $installPreChild, true );
+        }
+    }
+
+    /*!
+     \private
+    */
+    function importInstallPart( &$child, $isPre )
+    {
+        $installType = $child->name();
+        switch ( $installType )
+        {
+            case 'run':
+            {
+            } break;
+            case 'database':
+            {
+            } break;
+            case 'part':
+            {
+                $os = $child->attributeValue( 'os' );
+                $name = $child->attributeValue( 'name' );
+                $type = $child->attributeValue( 'type' );
+                $filename = $child->attributeValue( 'filename' );
+                $subdirectory = $child->attributeValue( 'sub-directory' );
+                $content = false;
+                if ( !$filename )
+                {
+                    $content =& $child->firstChild();
+                }
+                $this->appendInstall( 'part', $name, $os, $isPre,
+                                      $filename, $subdirectory,
+                                      array( 'type' => $type,
+                                             'content' => $content ) );
+            } break;
+            case 'operation':
+            {
+            } break;
+        }
+    }
+
+    function install()
+    {
+        $installs = $this->Parameters['install']['pre'];
+        foreach ( $installs as $install )
+        {
+            $type = $install['type'];
+            switch( $type )
+            {
+                case 'run':
+                {
+                } break;
+                case 'database':
+                {
+                } break;
+                case 'part':
+                {
+                    $name = $install['name'];
+                    $os = $install['os'];
+                    $filename = $install['filename'];
+                    $subdirectory = $install['subdirectory'];
+                    $parameters = $install['parameters'];
+                    $partType = $parameters['type'];
+                    $content = $parameters['content'];
+                    $importHandler = 'kernel/classes/packagehandlers/' . $partType . '/' . $partType . 'exporthandler.php';
+                    print( $importHandler . "<br/>\n" );
+                    if ( file_exists( $importHandler ) )
+                    {
+                        include_once( $importHandler );
+                        $importClass = $partType . 'ExportHandler';
+                        if ( isset( $handlers[$partType] ) )
+                        {
+                            $handler =& $handlers[$partType];
+                            $handler->reset();
+                        }
+                        else
+                        {
+                            $handler =& new $importClass;
+                            $handlers[$partType] =& $handler;
+                        }
+                        if ( $handler->extractContentBeforeInstall() )
+                        {
+                            if ( !$content and
+                                 $filename )
+                            {
+                                if ( $subdirectory )
+                                    $filepath = $subdirectory . '/' . $filename . '.xml';
+                                else
+                                    $filepath = $filename . '.xml';
+
+                                print( $filepath . "\n" );
+                                $dom =& $this->fetchDOMFromFile( $filepath );
+                                if ( $dom )
+                                    $content =& $dom->root();
+                                else
+                                    print( "Failed fetching dom from file $filepath\n" );
+                            }
+                        }
+                        $handler->install( $this, $parameters,
+                                           $name, $os, $filename, $subdirectory,
+                                           $content );
+                    }
+                } break;
+                case 'operation':
+                {
+                } break;
+            }
+        }
     }
 
     function &create( $name, $parameters = array() )
@@ -157,7 +298,7 @@ class eZPackageHandler
                                                                           'parameters' => $parameters );
     }
 
-    function appendInstall( $type, $name, $os = false, $pre = true,
+    function appendInstall( $type, $name, $os = false, $isPre = true,
                             $filename = false, $subdirectory = false,
                             $parameters = false )
     {
@@ -168,9 +309,33 @@ class eZPackageHandler
                                'subdirectory' => $subdirectory,
                                'parameters' => $parameters );
         $prePost = 'pre';
-        if ( !$pre )
+        if ( !$isPre )
             $prePost = 'post';
         $this->Parameters['install'][$prePost][] = $installEntry;
+        if ( $installEntry['filename'] )
+        {
+            $content = $installEntry['parameters']['content'];
+            if ( get_class( $content ) == 'ezdomnode' )
+            {
+                $partContentNode =& $content;
+                $subdirectory = false;
+                if ( $installEntry['subdirectory'] )
+                {
+                    $subdirectory = $installEntry['subdirectory'];
+                }
+                $filePath = $installEntry['filename'] . '.xml';
+                if ( $subdirectory )
+                {
+                    if ( !file_exists( $subdirectory ) )
+                        eZDir::mkdir( $subdirectory, 0777, true );
+                    $filePath = $subdirectory . '/' . $filePath;
+                }
+                $partDOM = new eZDOMDocument();
+                $partDOM->setRoot( $partContentNode );
+                print( "Storing $filePath\n" );
+                $this->storeDOM( $filePath, $partDOM );
+            }
+        }
     }
 
     function setPackager( $timestamp = false, $host = false, $packager = false )
@@ -392,6 +557,8 @@ class eZPackageHandler
                     {
                         $content = $item['parameters']['content'];
                         $partNode =& $dom->createElementNode( 'part' );
+                        $partType = $item['parameters']['type'];
+                        $partNode->appendAttribute( $dom->createAttributeNode( 'type', $partType ) );
                         if ( $item['os'] )
                             $partNode->appendAttribute( $dom->createAttributeNode( 'os', $item['os'] ) );
                         if ( $item['name'] )
@@ -403,22 +570,10 @@ class eZPackageHandler
                         if ( $item['filename'] )
                         {
                             $partNode->appendAttribute( $dom->createAttributeNode( 'filename', $item['filename'] ) );
-                            $subdirectory = false;
                             if ( $item['subdirectory'] )
                             {
-                                $subdirectory = $item['subdirectory'];
-                                $partNode->appendAttribute( $dom->createAttributeNode( 'sub-directory', $subdirectory ) );
+                                $partNode->appendAttribute( $dom->createAttributeNode( 'sub-directory', $item['subdirectory'] ) );
                             }
-                            $filePath = $item['filename'] . '.xml';
-                            if ( $subdirectory )
-                            {
-                                if ( !file_exists( $subdirectory ) )
-                                    eZDir::mkdir( $subdirectory, 0777, true );
-                                $filePath = $subdirectory . '/' . $filePath;
-                            }
-                            $partDOM = new eZDOMDocument();
-                            $partDOM->setRoot( $partContentNode );
-                            $this->storeDOM( $filePath, $partDOM );
                         }
                         else
                         {
@@ -441,8 +596,9 @@ class eZPackageHandler
         return $string;
     }
 
-    function store( $filename )
+    function storeToFile( $filename )
     {
+        print( "Storing package $filename\n" );
         return $this->storeString( $filename, $this->toString() );
     }
 
@@ -462,6 +618,76 @@ class eZPackageHandler
             return true;
         }
         return false;
+    }
+
+
+    function &fetchDOMFromFile( $filename )
+    {
+        if ( file_exists( $filename ) )
+        {
+            $fd = fopen( $filename, 'r' );
+            if ( $fd )
+            {
+                $xmlText = fread( $fd, filesize( $filename ) );
+                fclose( $fd );
+
+                $xml = new eZXML();
+                $dom =& $xml->domTree( $xmlText );
+                return $dom;
+            }
+        }
+        return false;
+    }
+
+    function &fetchFromFile( $filename )
+    {
+        if ( !file_exists( $filename ) )
+        {
+            $filename .= '.ezpkg';
+            if ( !file_exists( $filename ) )
+                return false;
+        }
+        $fd = fopen( $filename, 'r' );
+        if ( $fd )
+        {
+            $xmlText = fread( $fd, filesize( $filename ) );
+            fclose( $fd );
+
+            $xml = new eZXML();
+            $dom =& $xml->domTree( $xmlText );
+
+            $package =& new eZPackageHandler();
+            $parameters = $package->parseDOMTree( $dom );
+
+            return $package;
+        }
+    }
+
+    function handleExportList( $exportList )
+    {
+        $handlers = array();
+        foreach ( $exportList as $exportItem )
+        {
+            $exportType = $exportItem['type'];
+            $exportParameters = $exportItem['parameters'];
+            $exportHandler = 'kernel/classes/packagehandlers/' . $exportType . '/' . $exportType . 'exporthandler.php';
+            if ( file_exists( $exportHandler ) )
+            {
+                include_once( $exportHandler );
+                $exportClass = $exportType . 'ExportHandler';
+                if ( isset( $handlers[$exportType] ) )
+                {
+                    $handler =& $handlers[$exportType];
+                    $handler->reset();
+                }
+                else
+                {
+                    $handler =& new $exportClass;
+                    $handlers[$exportType] =& $handler;
+                }
+                $handler->handle( $this, $exportParameters );
+            }
+        }
     }
 }
 

@@ -269,6 +269,19 @@ class eZDOMNode
     }
 
     /*!
+     \returns the text contemt of first element that is named \a $name.
+              If multiple elements with that name is found \c false is returned.
+     \sa textContent
+    */
+    function &elementTextContentByName( $name )
+    {
+        $element =& $this->elementByName( $name );
+        if ( !$element )
+            return false;
+        return $element->textContent();
+    }
+
+    /*!
      \returns An array with elements that is named \a $name.
      \sa elementByName
     */

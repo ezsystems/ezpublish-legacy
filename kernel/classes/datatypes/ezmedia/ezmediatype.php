@@ -380,6 +380,19 @@ class eZMediaType extends eZDataType
                                                                                      array( 'unit-size' => 'mega' ) ) );
         $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'type', $type ) );
     }
+
+    /*!
+     \reimp
+    */
+    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $maxSize = $attributeParametersNode->elementTextContentByName( 'max-size' );
+        $sizeNode = $attributeParametersNode->elementByName( 'max-size' );
+        $unitSize = $sizeNode->attributeValue( 'unit-size' );
+        $type = $attributeParametersNode->elementTextContentByName( 'type' );
+        $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD, $maxSize );
+        $classAttribute->attribute( EZ_DATATYPESTRING_TYPE_FIELD, $type );
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_MEDIA, "ezmediatype" );

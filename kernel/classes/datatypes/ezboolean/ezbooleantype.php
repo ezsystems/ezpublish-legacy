@@ -164,6 +164,15 @@ class eZBooleanType extends eZDataType
         $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-value',
                                                                                  array( 'is-set' => $defaultValue ? 'true' : 'false' ) ) );
     }
+
+    /*!
+     \reimp
+    */
+    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $defaultValue = strtolower( $attributeParametersNode->elementTextContentByName( 'default-value' ) ) == 'true';
+        $classAttribute->setAttribute( 'data_int', $defaultValue );
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_BOOLEAN, "ezbooleantype" );

@@ -458,6 +458,34 @@ class eZEnumType extends eZDataType
             $elementListNode->appendChild( $elementNode );
         }
     }
+
+    /*!
+     \reimp
+    */
+    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $isOption = strtolower( $attributeParametersNode->attributeValue( 'is-option' ) ) == 'true';
+        $isMultiple = strtolower( $attributeParametersNode->attributeValue( 'is-multiple' ) ) == 'true';
+        $classAttribute->setAttribute( EZ_DATATYPESTRING_ENUM_ISOPTION_FIELD, $isOption );
+        $classAttribute->setAttribute( EZ_DATATYPESTRING_ENUM_ISMULTIPLE_FIELD, $isMultiple );
+
+        $elementListNode =& $attributeParametersNode->elementByName( 'elements' );
+        $elementList =& $elementListNode->children();
+        print( "elementlist\n" );
+        print_r( $elementList );
+        foreach ( array_keys( $elementList ) as $elementKey )
+        {
+            $element =& $elementList[$elementKey];
+            $elementID = $element->attributeValue( 'id' );
+            $elementName = $element->attributeValue( 'name' );
+            $elementValue = $element->attributeValue( 'value' );
+            $value =& eZEnumValue::create( $classAttribute->attribute( 'id' ),
+                                           $classAttribute->attribute( 'version' ),
+                                           $elementName );
+            $value->setAttribute( 'enumvalue', $elementValue );
+            $value->store();
+        }
+    }
 }
 eZDataType::register( EZ_DATATYPESTRING_ENUM, "ezenumtype" );
 

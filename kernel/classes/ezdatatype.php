@@ -491,7 +491,7 @@ class eZDataType
     }
 
     /*!
-     \return adds the necessary dom structure to the attribute parameters.
+     Adds the necessary dom structure to the attribute parameters.
      \note The default is to add unsupported='true' to the attribute node,
            meaning that the datatype does not support serializing.
     */
@@ -499,6 +499,15 @@ class eZDataType
     {
         if ( !$this->Attributes['properties']['serialize_supported'] )
             $attributeNode->appendAttribute( eZDOMDocument::createAttributeNode( 'unsupported', 'true' ) );
+    }
+
+    /*!
+     Extracts values from the attribute parameters and sets it in the class attribute.
+     \note This function is called after the attribute has been stored and a second store is
+           called after this function is done.
+    */
+    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
     }
 
     /*!

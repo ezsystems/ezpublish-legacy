@@ -300,6 +300,17 @@ class eZStringType extends eZDataType
     }
 
     /*!
+     \reimp
+    */
+    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $maxLength = $attributeParametersNode->elementTextContentByName( 'max-length' );
+        $defaultString = $attributeParametersNode->elementTextContentByName( 'default-string' );
+        $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_LEN_FIELD, $maxLength );
+        $classAttribute->setAttribute( EZ_DATATYPESTRING_DEFAULT_STRING_FIELD, $defaultString );
+    }
+
+    /*!
      \return a DOM representation of the content object attribute
     */
     function &serializeContentObjectAttribute( $objectAttribute )

@@ -192,7 +192,7 @@ class eZContentClassAttribute extends eZPersistentObject
         return new eZContentClassAttribute( $row );
     }
 
-    function &create( $class_id, $data_type_string )
+    function &create( $class_id, $data_type_string, $optionalValues = array() )
     {
         $row = array(
             'id' => null,
@@ -209,6 +209,7 @@ class eZContentClassAttribute extends eZPersistentObject
                                                               'placement',
                                                               array( 'version' => 1,
                                                                      'contentclass_id' => $class_id ) ) );
+        $row = array_merge( $row, $optionalValues );
         return new eZContentClassAttribute( $row );
     }
 

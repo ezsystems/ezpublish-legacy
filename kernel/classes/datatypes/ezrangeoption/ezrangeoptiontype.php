@@ -175,6 +175,15 @@ class eZRangeOptionType extends eZDataType
         $defaultName = $classAttribute->attribute( 'data_text1' );
         $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-name', $defaultName ) );
     }
+
+    /*!
+     \reimp
+    */
+    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $defaultName = $attributeParametersNode->elementTextContentByName( 'default-name' );
+        $classAttribute->setAttribute( 'data_text1', $defaultName );
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_RANGEOPTION, "ezrangeoptiontype" );

@@ -45,14 +45,108 @@
 
 include_once( 'lib/ezxml/classes/ezxml.php' );
 include_once( 'kernel/classes/ezcontentclass.php' );
+include_once( 'kernel/classes/ezexporthandler.php' );
 
-class eZContentClassExportHandler
+class eZContentClassExportHandler extends eZExportHandler
 {
     /*!
      Constructor
     */
     function eZContentClassExportHandler()
     {
+        $this->eZExportHandler();
+    }
+
+    function extractContentBeforeInstall()
+    {
+        return true;
+    }
+
+    function install( &$package, $parameters,
+                      $name, $os, $filename, $subdirectory,
+                      &$content )
+    {
+        print( "name=$name, os=$os, filename=$filename, subdirectory=$subdirectory, $content\n" );
+        $className = $content->elementTextContentByName( 'name' );
+        $classIdentifier = $content->elementTextContentByName( 'identifier' );
+        $classObjectNamePattern = $content->elementTextContentByName( 'object-name-pattern' );
+
+        $classRemoteNode = $content->elementByName( 'remote' );
+        $classID = $classRemoteNode->elementTextContentByName( 'id' );
+        $classGroupsNode = $classRemoteNode->elementByName( 'groups' );
+        $classCreated = $classRemoteNode->elementTextContentByName( 'created' );
+        $classModified = $classRemoteNode->elementTextContentByName( 'modified' );
+        $classCreatorNode = $classRemoteNode->elementByName( 'creator' );
+        $classModifierNode = $classRemoteNode->elementByName( 'modifier' );
+
+        $classAttributesNode = $content->elementByName( 'attributes' );
+
+        include_once( "lib/ezlocale/classes/ezdatetime.php" );
+        $dateTime = eZDateTime::currentTimeStamp();
+        $classCreated = $dateTime;
+        $classModified = $dateTime;
+
+        $userID = false;
+
+        $class =& eZContentClass::create( $userID,
+                                          array( 'version' => 0,
+                                                 'name' => $className,
+                                                 'identifier' => $classIdentifier,
+                                                 'contentobject_name' => $classObjectNamePattern,
+                                                 'created' => $classCreated,
+                                                 'modified' => $classModified ) );
+        $class->store();
+        print( "Created class " . $class->attribute( 'id' ) . "\n" );
+
+        $classAttributeList =& $classAttributesNode->children();
+        foreach ( array_keys( $classAttributeList ) as $classAttributeKey )
+        {
+            $classAttributeNode =& $classAttributeList[$classAttributeKey];
+            $isNotSupported = strtolower( $classAttributeNode->attributeValue( 'unsupported' ) ) == 'true';
+            if ( $isNotSupported )
+                continue;
+
+            $attributeDatatype = $classAttributeNode->attributeValue( 'datatype' );
+            $attributeIsRequired = strtolower( $classAttributeNode->attributeValue( 'required' ) ) == 'true';
+            $attributeIsSearchable = strtolower( $classAttributeNode->attributeValue( 'searchable' ) ) == 'true';
+            $attributeIsInformationCollector = strtolower( $classAttributeNode->attributeValue( 'information-collector' ) ) == 'true';
+            $attributeIsTranslatable = strtolower( $classAttributeNode->attributeValue( 'translatable' ) ) == 'true';
+            $attributeName = $classAttributeNode->elementTextContentByName( 'name' );
+            $attributeIdentifier = $classAttributeNode->elementTextContentByName( 'identifier' );
+            $attributeDatatypeParameterNode = $classAttributeNode->elementByName( 'datatype-parameters' );
+
+            $classAttribute =& eZContentClassAttribute::create( $class->attribute( 'id' ),
+                                                                $attributeDatatype,
+                                                                array( 'version' => 0,
+                                                                       'identifier' => $attributeIdentifier,
+                                                                       'name' => $attributeName,
+                                                                       'is_required' => $attributeIsRequired,
+                                                                       'is_searchable' => $attributeIsSearchable,
+                                                                       'is_information_collector' => $attributeIsInformationCollector,
+                                                                       'can_translate' => $attributeIsTranslatable ) );
+            $dataType =& $classAttribute->dataType();
+            $classAttribute->store();
+            $dataType->unserializeContentClassAttribute( $classAttribute, $classAttributeNode, $attributeDatatypeParameterNode );
+            $classAttribute->sync();
+        }
+
+        $classGroupsList =& $classGroupsNode->children();
+        foreach ( array_keys( $classGroupsList ) as $classGroupNodeKey )
+        {
+            $classGroupNode =& $classGroupsList[$classGroupNodeKey];
+            $classGroupID = $classGroupNode->attributeValue( 'id' );
+            $classGroupName = $classGroupNode->attributeValue( 'name' );
+            $classGroup =& eZContentClassGroup::fetch( $classGroupID );
+            if ( !$classGroup or
+                 $classGroup->attribute( 'name' ) != $classGroupName )
+            {
+                $classGroup =& eZContentClassGroup::create();
+                $classGroup->setAttribute( 'name', $classGroupName );
+                $classGroup->store();
+            }
+            print( "Linked to class group " . $classGroup->attribute( 'id' ) . "\n" );
+            $classGroup->appendClass( $class );
+        }
     }
 
     function handle( &$package, $parameters )
@@ -85,15 +179,46 @@ class eZContentClassExportHandler
                                                                                $class->attribute( 'identifier' ) ) );
                 $classNode->appendChild( eZDOMDocument::createElementTextNode( 'object-name-pattern',
                                                                                $class->attribute( 'contentobject_name' ) ) );
-                $metaNode =& eZDOMDocument::createElementNode( 'meta-data' );
-                $classNode->appendChild( $metaNode );
-                $metaNode->appendChild( eZDOMDocument::createElementTextNode( 'created',
-                                                                              $class->attribute( 'created' ) ) );
-                $metaNode->appendChild( eZDOMDocument::createElementTextNode( 'modified',
-                                                                              $class->attribute( 'modified' ) ) );
+
+                // Remote data start
+                $remoteNode =& eZDOMDocument::createElementNode( 'remote' );
+                $classNode->appendChild( $remoteNode );
+
+                $ini =& eZINI::instance();
+                $siteName = $ini->variable( 'SiteSettings', 'SiteURL' );
+
+                $classURL = 'http://' . $siteName . '/class/view/' . $class->attribute( 'id' );
+                $siteURL = 'http://' . $siteName . '/';
+
+                $remoteNode->appendChild( eZDOMDocument::createElementTextNode( 'site-url',
+                                                                                $siteURL ) );
+                $remoteNode->appendChild( eZDOMDocument::createElementTextNode( 'url',
+                                                                                $classURL ) );
+
+                $classGroupsNode =& eZDOMDocument::createElementNode( 'groups' );
+
+                $classGroupList =& eZContentClassClassGroup::fetchGroupList( $class->attribute( 'id' ),
+                                                                             $class->attribute( 'version' ) );
+                foreach ( array_keys( $classGroupList ) as $classGroupKey )
+                {
+                    $classGroupLink =& $classGroupList[$classGroupKey];
+                    $classGroup =& eZContentClassGroup::fetch( $classGroupLink->attribute( 'group_id' ) );
+                    if ( $classGroup )
+                        $classGroupsNode->appendChild( eZDOMDocument::createElementNode( 'group',
+                                                                                         array( 'id' => $classGroup->attribute( 'id' ),
+                                                                                                'name' => $classGroup->attribute( 'name' ) ) ) );
+                }
+                $remoteNode->appendChild( $classGroupsNode );
+
+                $remoteNode->appendChild( eZDOMDocument::createElementTextNode( 'id',
+                                                                                $class->attribute( 'id' ) ) );
+                $remoteNode->appendChild( eZDOMDocument::createElementTextNode( 'created',
+                                                                                $class->attribute( 'created' ) ) );
+                $remoteNode->appendChild( eZDOMDocument::createElementTextNode( 'modified',
+                                                                                $class->attribute( 'modified' ) ) );
 
                 $creatorNode =& eZDOMDocument::createElementNode( 'creator' );
-                $metaNode->appendChild( $creatorNode );
+                $remoteNode->appendChild( $creatorNode );
                 $creatorNode->appendChild( eZDOMDocument::createElementTextNode( 'user-id',
                                                                                  $class->attribute( 'creator_id' ) ) );
                 $creator =& $class->attribute( 'creator' );
@@ -102,13 +227,14 @@ class eZContentClassExportHandler
                                                                                      $creator->attribute( 'login' ) ) );
 
                 $modifierNode =& eZDOMDocument::createElementNode( 'modifier' );
-                $metaNode->appendChild( $modifierNode );
+                $remoteNode->appendChild( $modifierNode );
                 $modifierNode->appendChild( eZDOMDocument::createElementTextNode( 'user-id',
                                                                                   $class->attribute( 'modifier_id' ) ) );
                 $modifier =& $class->attribute( 'modifier' );
                 if ( $modifier )
                     $modifierNode->appendChild( eZDOMDocument::createElementTextNode( 'user-login',
                                                                                       $modifier->attribute( 'login' ) ) );
+                // Remote data end
 
                 $attributesNode =& eZDOMDocument::createElementNode( 'attributes' );
                 $attributesNode->appendAttribute( eZDOMDocument::createAttributeNode( 'ezcontentclass-attribute',
@@ -124,7 +250,8 @@ class eZContentClassExportHandler
                                                                         array( 'datatype' => $attribute->attribute( 'data_type_string' ),
                                                                                'required' => $attribute->attribute( 'is_required' ) ? 'true' : 'false',
                                                                                'searchable' => $attribute->attribute( 'is_searchable' ) ? 'true' : 'false',
-                                                                               'information-collector' => $attribute->attribute( 'is_information_collector' ) ? 'true' : 'false' ) );
+                                                                               'information-collector' => $attribute->attribute( 'is_information_collector' ) ? 'true' : 'false',
+                                                                               'translatable' => $attribute->attribute( 'can_translate' ) ? 'true' : 'false' ) );
                     $attributeRemoteNode =& eZDOMDocument::createElementNode( 'remote' );
                     $attributeNode->appendChild( $attributeRemoteNode );
                     $attributeRemoteNode->appendChild( eZDOMDocument::createElementTextNode( 'id',
@@ -144,7 +271,8 @@ class eZContentClassExportHandler
 
                 $package->appendInstall( 'part', false, false, true,
                                          'class-' . $classID, 'contentclass',
-                                         array( 'content' => $classNode ) );
+                                         array( 'type' => 'ezcontentclass',
+                                                'content' => $classNode ) );
             }
         }
     }

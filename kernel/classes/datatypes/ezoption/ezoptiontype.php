@@ -280,6 +280,15 @@ class eZOptionType extends eZDataType
         $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-value', $defaultValue ) );
     }
 
+    /*!
+     \reimp
+    */
+    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $defaultValue = $attributeParametersNode->elementTextContentByName( 'default-value' );
+        $classAttribute->setAttribute( 'data_text1', $defaultValue );
+    }
+
 }
 
 eZDataType::register( EZ_DATATYPESTRING_OPTION, "ezoptiontype" );

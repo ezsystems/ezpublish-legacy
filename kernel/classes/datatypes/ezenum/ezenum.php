@@ -143,20 +143,20 @@ class eZEnum
     function setValue( $array_enumid, $array_enumelement, $array_enumvalue, $version )
     {
         for ($i=0;$i<count( $array_enumid );$i++ )
-    	{
+        {
             $enumvalue =& eZEnumValue::fetch( $array_enumid[$i], $version );
             $enumvalue->setAttribute( "enumelement", $array_enumelement[$i] );
-    		$enumvalue->setAttribute( "enumvalue", $array_enumvalue[$i] );
+            $enumvalue->setAttribute( "enumvalue", $array_enumvalue[$i] );
             $enumvalue->store();
             $this->Enumerations =& eZEnumValue::fetchAllElements( $this->ClassAttributeID, $this->ClassAttributeVersion );
-    	}
+        }
     }
 
     function setVersion( $version )
     {
         eZEnumValue::removeAllElements( $this->ClassAttributeID, 0 );
-    	for ( $i=0;$i<count( $this->Enumerations );$i++ )
-    	{
+        for ( $i=0;$i<count( $this->Enumerations );$i++ )
+        {
             $enum = $this->Enumerations[$i];
             $oldversion = $enum->attribute ( "contentclass_attribute_version" );
             $id = $enum->attribute( "id" );
@@ -176,7 +176,7 @@ class eZEnum
                 $enum->setAttribute("contentclass_attribute_version", $version );
                 $enum->store();
             }
-    	}
+        }
     }
 
     function removeOldVersion( $id, $version )

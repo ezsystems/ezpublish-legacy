@@ -143,22 +143,20 @@
 <content-class version="3.2-1" development="true"
                xmlns:ezcontentclass="http://ez.no/ezcontentclass">
   <remote>
-    <url>http://nextgen.amos.dvh1.ez.no/class/view/2</url>
     <site-url>http://nextgen.amos.dvh1.ez.no</site-url>
-    <class-id value="2" />
-    <class-groups>
-      <class-group id="1" name="Content" />
-    </class-groups>
-  </remote>
-  <name>Article</name>
-  <identifier>article</name>
-  <object-name-pattern>&lt;title&gt;</object-name-pattern>
-  <meta-data>
+    <url>http://nextgen.amos.dvh1.ez.no/class/view/2</class-url>
+    <id value="2" />
+    <groups>
+      <group id="1" name="Content" />
+    </groups>
     <created>1024392098</created>
     <modified>1024392098</modified>
     <creator><user-id>14</user-id><user-login>admin</user-login></creator>
     <modifier><user-id>14</user-id><user-login>admin</user-login></modifier>
-  </meta-data>
+  </remote>
+  <name>Article</name>
+  <identifier>article</name>
+  <object-name-pattern>&lt;title&gt;</object-name-pattern>
   <attributes xmlns:ezcontentclass-attribute="http://ez.no/ezpublish/contentclassattribute">
     <attribute datatype="ezstring" required="true" searchable="true" />
       <remote>

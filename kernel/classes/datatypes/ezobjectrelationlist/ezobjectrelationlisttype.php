@@ -782,6 +782,28 @@ class eZObjectRelationListType extends eZDataType
         }
     }
 
+    /*!
+     \reimp
+    */
+    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $content =& $classAttribute->content();
+        $defaultPlacementNode = $attributeParametersNode->elementByName( 'default-placement' );
+        $content['default_placement'] = false;
+        if ( $defaultPlacementNode )
+            $content['default_placement'] = $defaultPlacementNode->attributeValue( 'node-id' );
+        $classConstraintsNode =& $attributeParametersNode->elementByName( 'class-constraints' );
+        $classConstraintList =& $classConstraintsNode->children();
+        $content['class_constraint_list'] = array();
+        foreach ( array_keys( $classConstraintList ) as $classConstraintKey )
+        {
+            $classConstraintNode =& $classConstraintList[$classConstraintKey];
+            $classIdentifier = $classConstraintNode->attributeValue( 'class-identifier' );
+            $content['class_constraint_list'][] = $classIdentifier;
+        }
+        $this->storeClassAttributeContent( $classAttribute, $content );
+    }
+
     /// \privatesection
 }
 
