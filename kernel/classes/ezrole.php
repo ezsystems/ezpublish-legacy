@@ -489,11 +489,15 @@ class eZRole extends eZPersistentObject
         }
     }
 
-    function &fetchByOffset( $offset, $limit, $asObject = true )
+    function &fetchByOffset( $offset, $limit, $asObject = true, $ignoreTemp = false )
     {
+        if ( $ignoreTemp )
+            $igTemp = array( 'version' => '0' );
+        else
+            $igTemp = null;
         return eZPersistentObject::fetchObjectList( eZRole::definition(),
                                                     null,
-                                                    null,
+                                                    $igTemp,
                                                     array( 'name' => 'ASC' ),
                                                     array( 'offset' => $offset, 'length' => $limit ),
                                                     $asObject );

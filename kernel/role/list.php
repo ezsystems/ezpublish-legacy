@@ -80,9 +80,9 @@ $viewParameters = array( 'offset' => $offset );
 $tpl =& templateInit();
 
 //$roles =& eZRole::fetchList();
-$roles =& eZRole::fetchByOffset( $offset, $limit, $asObject = true );
+$roles =& eZRole::fetchByOffset( $offset, $limit, $asObject = true, $ignoreTemp = true );
 $roleCount =& eZRole::roleCount();
-$tempRoles = & eZRole::fetchList( 'temporaryVersions' );
+$tempRoles = & eZRole::fetchList( $temporaryVersions = true );
 $tpl->setVariable( 'roles', $roles );
 $tpl->setVariable( 'role_count', $roleCount );
 $tpl->setVariable( 'temp_roles', $tempRoles );
