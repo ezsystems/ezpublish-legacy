@@ -356,7 +356,7 @@ div.box-content
     padding: 0 2px 3px 1px;
 }
 
-div.box-content p
+div.box-content div.block
 {
     margin-top: 0;
     margin-bottom: 0;
