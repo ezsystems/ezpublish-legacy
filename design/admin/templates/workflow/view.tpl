@@ -60,7 +60,7 @@
 
 
 {* Groups *}
-<form name="workflowgroups" action={concat( $module.functions.view.uri, '/', $workflow.id )|ezurl} method="post">
+<form name="workflowgroups" action={concat( '/workflow/view/', $workflow.id )|ezurl} method="post">
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 <h2 class="context-title">{'Member of groups [%group_count]'|i18n( 'design/admin/workflow/view',, hash( '%group_count', $workflow.ingroup_list|count ) )}</h2>
