@@ -81,6 +81,28 @@ class eZBooleanType extends eZDataType
         }
     }
 
+    /*!
+      Validates the http post var integer input.
+    */
+    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    {
+        if ( $contentObjectAttribute->validateIsRequired() )
+        {
+            if ( $http->hasPostVariable( $base . "_data_boolean_" . $contentObjectAttribute->attribute( "id" ) ) )
+            {
+                $data = $http->postVariable( $base . "_data_boolean_" . $contentObjectAttribute->attribute( "id" ) );
+                if ( isset( $data ) )
+                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            }
+            else
+            {
+                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                     'Input required.' ) );
+                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            }
+        }
+        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+    }
 
     /*!
      Fetches the http post var integer input and stores it in the data instance.
