@@ -65,11 +65,12 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 {* --- Search ---*}
 <div id="search">
 <form action={'/content/search/'|ezurl} method="get">
-    <input id="searchtext" name="SearchText" type="text" size="20" value="{section show=is_set($search_text)}{$search_text|wash}{/section}"{section show=eq($ui_context,'edit')} disabled="disabled"{/section} />
 
-{section show=eq($ui_context,'edit')}
+{section show=eq( $ui_context, 'edit' )}
+    <input id="searchtext" name="SearchText" type="text" size="20" value="{section show=is_set( $search_text )}{$search_text|wash}{/section}" disabled="disabled" />
     <input id="searchbutton" class="button-disabled" name="SearchButton" type="submit" value="{'Search'|i18n( 'design/admin/pagelayout' )}" disabled="disabled" />
 {section-else}
+    <input id="searchtext" name="SearchText" type="text" size="20" value="{section show=is_set( $search_text )}{$search_text|wash}{/section}" />
     <input id="searchbutton" class="button" name="SearchButton" type="submit" value="{'Search'|i18n( 'design/admin/pagelayout' )}" />
 {/section}
     <p>
@@ -100,13 +101,13 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
             {/section}
         {/section}
     {/section}
-    <label{section show=$disabled} class="disabled"{/section}><input type="radio" name="SubTreeArray" value="1" checked="checked"{section show=$disabled} disabled="disabled"{/section} />{'All content'|i18n( 'design/admin/pagelayout' )}</label>
-    <label{section show=$disabled} class="disabled"{/section}><input type="radio" name="SubTreeArray" value="{$nd}"{section show=$disabled} disabled="disabled"{/section}{section show=not($left_checked)} checked="checked"{/section} />{section show=$current_loc}{'Current location'|i18n('design/admin/pagelayout')}{section-else}{'The same location'|i18n('design/admin/pagelayout')}{/section}</label>
+    <label{section show=$disabled} class="disabled"{/section}><input type="radio" name="SubTreeArray" value="1" checked="checked"{section show=$disabled} disabled="disabled"{section-else} title="{'Search within the entire site.'|i18n( 'design/admin/pagelayout' )}"{/section} />{'All content'|i18n( 'design/admin/pagelayout' )}</label>
+    <label{section show=$disabled} class="disabled"{/section}><input type="radio" name="SubTreeArray" value="{$nd}"{section show=$disabled} disabled="disabled"{section-else} title="{'Search only from within the current location.'|i18n( 'design/admin/pagelayout' )}"{/section}{section show=not( $left_checked )} checked="checked"{/section} />{section show=$current_loc}{'Current location'|i18n( 'design/admin/pagelayout' )}{section-else}{'The same location'|i18n( 'design/admin/pagelayout' )}{/section}</label>
     {/let}
-    {section show=eq($ui_context,'edit')}
+    {section show=eq( $ui_context, 'edit' )}
     <span class="disabled">{'Advanced'|i18n( 'design/admin/pagelayout' )}</span>
     {section-else}
-    <a href={'/content/advancedsearch'|ezurl}>{'Advanced'|i18n( 'design/admin/pagelayout' )}</a>
+        <a href={'/content/advancedsearch'|ezurl} title="{'Advanced search.'|i18n( 'design/admin/pagelayout' )}">{'Advanced'|i18n( 'design/admin/pagelayout' )}</a>
     {/section}
     </p>
 </form>
@@ -333,17 +334,18 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 <ul>
 {let basket=fetch( shop, basket )}
 {section show=ne( $ui_context, 'edit' )}
-    <li><a href={concat( '/content/edit/',  $current_user.contentobject_id, '/' )|ezurl}>{'Change information'|i18n( 'design/admin/pagelayout' )}</a></li>
-    <li><a href={concat( '/user/password/', $current_user.contentobject_id )|ezurl}>{'Change password'|i18n( 'design/admin/pagelayout' )}</a></li>
+    <li><a href={concat( '/content/edit/',  $current_user.contentobject_id, '/' )|ezurl} title="{'Change name, e-mail, password, etc.'|i18n( 'design/admin/pagelayout' )}">{'Change information'|i18n( 'design/admin/pagelayout' )}</a></li>
+    <li><a href={concat( '/user/password/', $current_user.contentobject_id )|ezurl} title="{'Change password for <%username>.'|i18n( 'design/admin/pagelayout',, hash( '%username', $current_user.contentobject.name ) )|wash}">{'Change password'|i18n( 'design/admin/pagelayout' )}</a></li>
 
 {section show=$basket.is_empty|not}
-<li><a href={'shop/basket'|ezurl}>{'Webshop basket (%basket_count)'|i18n( 'design/admin/pagelayout',, hash( '%basket_count', $basket.items|count ) )}</a></li>
+<li><a href={'shop/basket'|ezurl}>{'Shopping basket (%basket_count)'|i18n( 'design/admin/pagelayout',, hash( '%basket_count', $basket.items|count ) )}</a></li>
 {/section}
 
-        <li><a href={'/user/logout'|ezurl}>{'Logout'|i18n( 'design/admin/pagelayout' )}</a></li>
+        <li><a href={'/user/logout'|ezurl} title="{'Log out from the system.'|i18n( 'design/admin/pagelayout' )}">{'Log out'|i18n( 'design/admin/pagelayout' )}</a></li>
 {section-else}
     <li><span class="disabled">{'Change user info'|i18n( 'design/admin/pagelayout' )}</span></li>
-    <li><span class="disabled">{'Logout'|i18n( 'design/admin/pagelayout' )}</span></li>
+    <li><span class="disabled">{'Change password'|i18n( 'design/admin/pagelayout' )}</span></li>
+    <li><span class="disabled">{'Log out'|i18n( 'design/admin/pagelayout' )}</span></li>
 {/section}
 {/let}
 </ul>
@@ -359,7 +361,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 
 {section show=ezpreference( 'admin_bookmark_menu' )}
     {section show=ne( $ui_context, 'edit' )}
-     <h4><a href={'/content/bookmark/'|ezurl} title="{'Manage your personal bookmarks.'|i18n( '/design/admin/pagelayout' )}">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</a> <a class="showhide" href={'/user/preferences/set/admin_bookmark_menu/0'|ezurl}>[-]</a></h4>
+     <h4><a href={'/content/bookmark/'|ezurl} title="{'Manage your personal bookmarks.'|i18n( '/design/admin/pagelayout' )}">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</a> <a class="showhide" href={'/user/preferences/set/admin_bookmark_menu/0'|ezurl} title="{'Hide bookmarks.'|i18n( 'design/admin/pagelayout' )}">[-]</a></h4>
     {section-else}
      <h4><span class="disabled">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</span> <span class="disabled openclose">[-]</span></h4>
     {/section}
@@ -382,65 +384,41 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 </ul>
 
 {section-else}
-    {section show=ne( $ui_context,'edit' )}
-    <h4><a href={'/content/bookmark/'|ezurl}>{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</a> <a class="showhide" href={'/user/preferences/set/admin_bookmark_menu/1'|ezurl}>[+]</a></h4>
-    {section-else}
-     <h4><span class="disabled">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</span> <span class="disabled openclose">[+]</span></h4>
-    {/section}
-
-</div></div></div></div>
-
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-content">
-
-{/section}
-
-{* Show "Add to bookmarks" button if we're viewing an actual node. *}
-{section show=is_set($node.node_id)}
-<form method="post" action={'content/action'|ezurl}>
-<input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-<input class="button" type="submit" name="ActionAddToBookmarks" value="{'Bookmark item'|i18n( 'design/admin/pagelayout' )}" title="{'Add the current item to your bookmarks.'|i18n( '/design/admin/pagelayout' )}" />
-</form>
-{/section}
-
-</div></div></div></div>
-
-</div>
-
-{* --- Notifications --- *}
-<div id="notifications">
-
-<div class="box-header"><div class="box-ml"><div class="box-mr">
-
-{section show=ne( $ui_context, 'edit' )}
-<h4><a href={'/notification/settings'|ezurl} title="{'Manage your personal notification settings.'|i18n( '/design/admin/pagelayout' )}">{'Notifications'|i18n( 'design/admin/pagelayout' )}</a></h4>
+{section show=ne( $ui_context,'edit' )}
+<h4><a href={'/content/bookmark/'|ezurl}>{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</a> <a class="showhide" href={'/user/preferences/set/admin_bookmark_menu/1'|ezurl} title="{'Show bookmarks.'|i18n( 'design/admin/pagelayout' )}">[+]</a></h4>
 {section-else}
-<h4><span class="disabled">{'Notifications'|i18n( 'design/admin/pagelayout' )}</span></h4>
+<h4><span class="disabled">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</span> <span class="disabled openclose">[+]</span></h4>
 {/section}
 
-</div></div></div>
+</div></div></div></div>
 
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
-{* Show "Add to notification" button if we're viewing an actual node. *}
-{section show=is_set($node.node_id)}
+{/section}
+
+<div class="block">
+{* Show "Add to bookmarks" button if we're viewing an actual node. *}
+{section show=and( is_set( $node.node_id ), $ui_context|ne( 'edit' ) )}
 <form method="post" action={'content/action'|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-<input class="button" type="submit" name="ActionAddToNotification" value="{'Add notification'|i18n( 'design/admin/pagelayout' )}" title="{'Add the current item to your personal notification list.'|i18n( 'design/admin/pagelayout' )}" />
+<input class="button" type="submit" name="ActionAddToBookmarks" value="{'Add to bookmarks'|i18n( 'design/admin/pagelayout' )}" title="{'Add the current item to your bookmarks.'|i18n( '/design/admin/pagelayout' )}" />
+</form>
+{section-else}
+<form method="post" action={'content/action'|ezurl}>
+<input class="button-disabled" type="submit" name="" value="{'Add to bookmarks'|i18n( 'design/admin/pagelayout' )}" disabled="disabled" />
 </form>
 {/section}
+</div>
 
 </div></div></div></div></div></div>
 
 </div>
 
-</div>
-</div>
 
 
 <hr class="hide" />
 
-{section show=and( eq( $ui_context, 'edit' ), eq( $ui_component, 
-'content' ) )}
+{section show=and( eq( $ui_context, 'edit' ), eq( $ui_component, 'content' ) )}
 
 {* Main area START *}
 
@@ -482,13 +460,6 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 <div class="break"></div>
 </div>
 
-{* __FIX_ME__ Temporary debug stuff - to be removed later. *}
-{*
-<h2>Temporary debug stuff (from pagelayout.tpl):</h2>
-$navigation_part.identifier: {$navigation_part.identifier}<br />
-$ui_context:   {$ui_context}<br />
-$ui_component: {$ui_component}<br />
-*}
 {* The popup menu include must be outside all divs. It is hidden by default. *}
 {include uri='design:popupmenu/popup_menu.tpl'}
 
