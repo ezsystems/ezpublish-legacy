@@ -442,7 +442,6 @@ class eZRSSExport extends eZPersistentObject
         foreach ( $rssItemArray as $rssItem )
         {
             $rssItem->setObjectListFilter( $this->getObjectListFilter() );
-            $rssItem->setMainNodeOnly(  );
             $nodeArray =& $rssItem->attribute( 'object_list' );
             foreach ( $nodeArray as $node )
             {
