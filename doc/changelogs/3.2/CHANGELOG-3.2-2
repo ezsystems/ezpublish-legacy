@@ -48,6 +48,7 @@ Changes from 3.2-1 to 3.2-2
 - Added urlalias cache to clearcache and internal cache system.
 - Fixed the updateniceurl.php script to work with the new ezurlalias system.
 - Fixed small typo (missing global $isQuiet) in all update scripts.
+- Added parent_node, depth and navigation_part_identifier to versionview design keys.
 
 *Notification:
 - Made sure the subtree handlers sets some design keys for template overriding.
