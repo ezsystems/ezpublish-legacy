@@ -320,6 +320,11 @@ $GLOBALS['eZCurrentAccess'] =& $access;
 eZExtension::activateExtensions( 'access' );
 // Siteaccess extension check end
 
+// Make sure template.ini reloads its cache incase
+// siteaccess or extensions override it
+$tplINI =& eZINI::instance( 'template.ini' );
+$tplINI->loadCache();
+
 $check = eZHandlePreChecks( $siteBasics, $uri );
 
 include_once( 'kernel/common/i18n.php' );
