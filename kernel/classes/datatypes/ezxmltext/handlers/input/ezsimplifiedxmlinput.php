@@ -1052,6 +1052,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
     */
     function &convertInput( &$text )
     {
+        eZDebug::writeDebug( $text );
+
         $message = array();
         // fix newlines
         // Convet windows newlines
@@ -1073,8 +1075,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 //         // text like & &#200; the text is kept when its output again
 //         $text =& preg_replace( "/&/", "&amp;", $text );
         // Convert the < character followed by anything but a character that tags start with (letter, :, _, /) into &lt;
-        // ( Temporary changed to &foo; to prevent symbol conversion inside <literal> tags. )
-        $text =& preg_replace( "#<([^a-zA-Z_:/])#", "&foo;$1", $text );
+//        $text =& preg_replace( "#<([^a-zA-Z_:/])#", "&foo;$1", $text );
 
         $data = $text;
         $domDocument = new eZDOMDocument();
@@ -1093,8 +1094,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         while ( $pos < strlen( $data ) )
         {
             //$isUnsupportedTag = false;
-            $char = $data[$pos];
-            if ( $char == "<" )
+            $chars = substr( $data, $pos, 2 );
+            if ( ereg( "^<[a-zA-Z_:/]$", $chars ) )
             {
                 $parentTag =null;
                 $lastInsertedNodeArray = array_pop( $TagStack );
@@ -1634,7 +1635,11 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 }
             }
 
-            $pos = strpos( $data, "<", $pos + 1 );
+            do
+            {
+                $pos = strpos( $data, "<", $pos + 1 );
+            }
+            while( !ereg( "^[a-zA-Z_:/]$", $data[$pos+1] ) && $pos < strlen( $data ) );
 
             if ( $pos == false )
             {
@@ -1666,7 +1671,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         $tagContent =& str_replace("&apos;", "'", $tagContent );
                         $tagContent =& str_replace("&quot;", '"', $tagContent );
                         $tagContent =& str_replace("&amp;", "&", $tagContent );
-                        $tagContent =& str_replace("&nbsp;", " ", $tagContent );
+                //        $tagContent =& str_replace("&nbsp;", " ", $tagContent );
                     }
 
                     $subNode->Content = $tagContent;
@@ -1920,7 +1925,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         else
         {
             $xml = new eZXML();
-            $dom =& $xml->domTree( $this->XMLData, array( 'CharsetConversion' => false, 'ConvertSpecialChars' => true ) );
+            $dom =& $xml->domTree( $this->XMLData, array( 'CharsetConversion' => false, 'ConvertSpecialChars' => false ) );
             $links = array();
             $node = array();
 
@@ -2126,14 +2131,40 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $tagChildren = $tag->children();
         foreach ( $tagChildren as $childTag )
         {
-            $childTagText .= $this->inputTagXML( $childTag, $currentSectionLevel, $tdSectionLevel );
+            if ( $tagName == 'literal' )
+            {
+                $tagContent = $childTag->content();
+                $tagContent =& str_replace("&lt;", "<", $tagContent );
+                $tagContent =& str_replace("&gt;", ">", $tagContent );
+                $tagContent =& str_replace("&apos;", "'", $tagContent );
+                $tagContent =& str_replace("&quot;", '"', $tagContent );
+                $tagContent =& str_replace("&amp;", "&", $tagContent );
+
+                $childTagText .= $tagContent;
+            }
+            else
+                $childTagText .= $this->inputTagXML( $childTag, $currentSectionLevel, $tdSectionLevel );
         }
 
         switch ( $tagName )
         {
             case '#text' :
             {
-                $output .= $tag->content();
+                $tagContent =& $tag->content();
+
+                // If there is a character after '&lt;', we should not convert it to '<' to avoid conflicts.
+                // ( if this is not a literal tag )
+
+                $tagContent =& preg_replace( "#&lt;(?![a-zA-Z_:/])#", "<", $tagContent );
+
+                $tagContent =& str_replace("&gt;", ">", $tagContent );
+                $tagContent =& str_replace("&apos;", "'", $tagContent );
+                $tagContent =& str_replace("&quot;", '"', $tagContent );
+
+                // Sequence like '&amp;amp;' should not be converted to '&amp;' ( if not inside a literal tag ) 
+                $tagContent =& preg_replace("#&amp;(?!lt;|gt;|amp;|&apos;|&quot;)#", "&", $tagContent );
+
+                $output .= $tagContent;
                 // Get rid of linebreak and spaces stored in xml file
                 $output = preg_replace( "#[\n]+#", "", $output );
                 $output = preg_replace( "#    #", "", $output );
@@ -2319,15 +2350,16 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             case 'literal' :
             {
                 $className = $tag->attributeValue( 'class' );
-				$literalText = '';
-                foreach ( $tagChildren as $childTag )
-                {
-                    $literalText .= $childTag->content();
-                }
+		//		$literalText = '';
+        //        foreach ( $tagChildren as $childTag )
+        //        {
+        //            $literalText .= $childTag->content();
+        //        }
+
                 if ( $className != null )
-                    $output .= "<$tagName class='$className'>" . $literalText . "</$tagName>";
+                    $output .= "<$tagName class='$className'>" . $childTagText . "</$tagName>";
                 else
-                    $output .= "<$tagName>" . $literalText . "</$tagName>";
+                    $output .= "<$tagName>" . $childTagText . "</$tagName>";
             }break;
 
             // normal content tags
