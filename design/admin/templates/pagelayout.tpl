@@ -129,7 +129,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 <div id="leftmenu">
 <div id="leftmenu-design">
 
-{section show=and( $ui_context|contains( 'edit' ), $ui_component|contains( 'content' ) )}
+{section show=and( $ui_context|eq( 'edit' ), $ui_component|eq( 'content' ) )}
 {include uri="design:edit_menu.tpl"}
 {section-else}
 
