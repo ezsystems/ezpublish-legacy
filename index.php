@@ -412,13 +412,16 @@ while ( $moduleRunRequired )
     $objectHasMovedError = false;
     $objectHasMovedURI = false;
     $actualRequestedURI = $uri->uriString();
+
+    // Extract user specified parameters
+    $userParameters = $uri->userParameters();
+
     // Check for URL translation
     if ( $urlTranslatorAllowed and
          $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled' and
          !$uri->isEmpty() )
     {
         include_once( 'kernel/classes/ezurlalias.php' );
-        $userParameters = $uri->userParameters();
         $translateResult =& eZURLAlias::translate( $uri );
 
 
