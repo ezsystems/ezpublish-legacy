@@ -481,9 +481,44 @@ class eZDBSchemaInterface
     /*!
      \pure
      \protected
+     Generates the necessary SQLs to create the table and returns them all in an array.
+
+     \param $tableName The table name
+     \param $table The table structure, see class definition for more details
+     \param $params An associative array with optional parameters which controls the output of SQLs
+     \param $separateTypes If \c true then the returned array must be an associative array
+                           containing the SQL arrays split into multiple groups.
+                           The groups are:
+                           - sequences - List of sequences
+                           - tables - List of tables
+                           - indexes - List of indexes
+                           - constraints - List of constraints/primary keys
+                           - other - Other SQLs that doesn't fit into the above
+                           .
+                           Each group can be omitted and will be run in order.
+
+     \note Each SQL in the array will be without a semi-colon
+     \sa generateTableSchema()
 	 */
-	function generateTableSchema( $table, $table_def )
+	function generateTableSQLList( $tableName, $table, $params, $separateTypes )
     {
+        return false;
+    }
+
+    /*!
+     \pure
+     \protected
+     Generates the necessary SQLs to create the table and returns them all in a string.
+
+     \param $tableName The table name
+     \param $table The table structure, see class definition for more details
+
+     \note The SQLs will be ended with a semi-colon.
+     \sa generateTableSQLList()
+    */
+	function generateTableSchema( $tableName, $table, $params )
+    {
+        return false;
     }
 
     /*!

@@ -446,12 +446,46 @@ class eZMysqlSchema extends eZDBSchemaInterface
 	}
 
 	/*!
-	 \private
+     \reimp
+     \note Calls generateTableSQL() with \a $asArray set to \c false
     */
-	function generateTableSchema( $tableName, $tableDef, $params )
+	function generateTableSchema( $tableName, $table, $params )
+	{
+        return $this->generateTableSQL( $tableName, $table, $params, false, false );
+    }
+
+	/*!
+	 \reimp
+     \note Calls generateTableSQL() with \a $asArray set to \c true
+    */
+	function generateTableSQLList( $tableName, $table, $params, $separateTypes )
+	{
+        return $this->generateTableSQL( $tableName, $table, $params, true, $separateTypes );
+    }
+
+	/*!
+	 \private
+
+     \param $asArray If \c true all SQLs are return in an array,
+                     if not they are returned as a string.
+     \note When returned as array the SQLs will not have a semi-colon to end the statement
+    */
+	function generateTableSQL( $tableName, $tableDef, $params, $asArray, $separateTypes = false )
 	{
         $diffFriendly = $params['diff_friendly'];
         $mysqlCompatible = isset( $params['compatible_sql'] ) ? $params['compatible_sql'] : false;
+
+        if ( $asArray )
+        {
+            if ( $separateTypes )
+            {
+                $sqlList = array( 'tables' => array() );
+            }
+            else
+            {
+                $sqlList = array();
+            }
+        }
 
 		$sql = '';
         $skip_pk = false;
@@ -469,23 +503,18 @@ class eZMysqlSchema extends eZDBSchemaInterface
             }
         }
 
-        $embeddedIndexList = array();
-
         // Make sure the order is as defined by 'offset'
         $indexes = $tableDef['indexes'];
 
-        // We need to add primary key in table definition
-//        if ( $skip_pk )
+        // We need to add all keys in table definition
+        foreach ( $indexes as $index_name => $index_def )
         {
-            foreach ( $indexes as $index_name => $index_def )
-            {
-                $embeddedIndexList[] = $index_name;
-                $sql_fields[] = ( $diffFriendly ? '' : '  ' ) . eZMysqlSchema::generateAddIndexSql( $tableName, $index_name, $index_def, $params, true );
-            }
+            $sql_fields[] = ( $diffFriendly ? '' : '  ' ) . eZMysqlSchema::generateAddIndexSql( $tableName, $index_name, $index_def, $params, true );
         }
         $sql .= join( ",\n", $sql_fields );
         $sql .= "\n)";
 
+        // Add some extra table options if they are required
         $extraOptions = array();
         if ( isset( $params['table_type'] ) and $params['table_type'] )
         {
@@ -517,22 +546,29 @@ class eZMysqlSchema extends eZDBSchemaInterface
         {
             $sql .= " " . implode( $diffFriendly ? "\n" : " ", $extraOptions );
         }
-        $sql .= ";\n";
-        if ( $mysqlCompatible )
-        {
-            $sql .= "\n\n\n";
-        }
 
-        foreach ( $indexes as $index_name => $index_def )
+        if ( $asArray )
         {
-//             if ( $index_def['type'] != 'primary' or
-//                  ( $index_def['type'] == 'primary' ) && ( !$skip_pk ) )
-            if ( !in_array( $index_name, $embeddedIndexList ) )
+            if ( $separateTypes )
             {
-                $sql .= eZMysqlSchema::generateAddIndexSql( $tableName, $index_name, $index_def, $params );
+                $sqlList['tables'][] = $sql;
+            }
+            else
+            {
+                $sqlList[] = $sql;
             }
         }
-		return $sql;
+        else
+        {
+            $sql .= ";\n";
+
+            if ( $mysqlCompatible )
+            {
+                $sql .= "\n\n\n";
+            }
+        }
+
+		return $asArray ? $sqlList : $sql;
 	}
 
     /*!

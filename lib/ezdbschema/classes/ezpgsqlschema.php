@@ -484,9 +484,14 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 	}
 
 	/*!
-	 * \private
-	 */
-	function generateAddIndexSql( $table_name, $index_name, $def, $params )
+	 \private
+     \param $table_name The table name
+     \param $index_name The index name
+     \param $def The index structure, see eZDBSchemaInterface for more details
+     \param $params An associative array with optional parameters which controls the output of SQLs
+     \param $withClosure If \c true then the SQLs will contain semi-colons to close them.
+    */
+	function generateAddIndexSql( $table_name, $index_name, $def, $params, $withClosure )
 	{
         $diffFriendly = $params['diff_friendly'];
         $postgresqlCompatible = isset( $params['compatible_sql'] ) ? $params['compatible_sql'] : false;
@@ -544,13 +549,13 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 
         $sql .= ( $diffFriendly ? "\n)" : ( $postgresqlCompatible ? ')' : ' )' ) );
 
-		return $sql . ";\n";
+		return $sql . ( $withClosure ? ";\n" : "" );
 	}
 
 	/*!
 	 * \private
 	 */
-	function generateDropIndexSql( $table_name, $index_name, $def )
+	function generateDropIndexSql( $table_name, $index_name, $def, $withClosure )
 	{
 		if ($def['type'] == 'primary' )
 		{
@@ -560,7 +565,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 		{
 			$sql = "DROP INDEX $index_name";
 		}
-		return $sql . ";\n";
+		return $sql . ( $withClosure ? ";\n" : "" );
 	}
 
 	/*!
@@ -726,11 +731,11 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 	}
 
 	/*!
-	 * \private
-	 */
+	 \reimp
+    */
 	function generateTableSchema( $table, $table_def, $params )
 	{
-        $arrays = $this->generateTableArrays( $table, $table_def, $params );
+        $arrays = $this->generateTableArrays( $table, $table_def, $params, true );
         $sql = ( join( "\n\n", $arrays['sequences'] ) . "\n" .
                  join( "\n\n", $arrays['tables'] ) . "\n" .
                  join( "\n\n", $arrays['indexes'] ) . "\n" .
@@ -738,9 +743,29 @@ class eZPgsqlSchema extends eZDBSchemaInterface
     }
 
 	/*!
-	 \private
+	 \reimp
     */
-	function generateTableArrays( $table, $table_def, $params )
+	function generateTableSQLList( $table, $table_def, $params, $separateTypes )
+	{
+        $arrays = $this->generateTableArrays( $table, $table_def, $params, false );
+
+        // If we have to separate the types the current array is sufficient
+        if ( $separateTypes )
+            return $arrays;
+        return array_merge( $arrays['sequences'],
+                            $arrays['tables'],
+                            $arrays['indexes'],
+                            $arrays['constraints'] );
+    }
+
+	/*!
+	 \private
+     \param $table The table name
+     \param $table_def The table structure, see eZDBSchemaInterface for more details
+     \param $params An associative array with optional parameters which controls the output of SQLs
+     \param $withClosure If \c true then the SQLs will contain semi-colons to close them.
+    */
+	function generateTableArrays( $table, $table_def, $params, $withClosure )
 	{
         $diffFriendly = $params['diff_friendly'];
         $postgresqlCompatible = isset( $params['compatible_sql'] ) ? $params['compatible_sql'] : false;
@@ -754,8 +779,8 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 
         $spacing = $postgresqlCompatible ? '    ' : '  ';
 
-        /* First we need to check if we use auto increment fields as
-         * sequences need to exist before we use them */
+        // First we need to check if we use auto increment fields as
+        // sequences need to exist before we use them
         foreach ( $table_def['fields'] as $field_name => $field_def )
         {
             if ( $field_def['type'] == 'auto_increment' )
@@ -766,7 +791,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
                                          "MAXVALUE 9223372036854775807",
                                          "MINVALUE 1",
                                          "CACHE 1" );
-                $arrays['sequences'][] = join( "\n$spacing", $sequenceFields ) . ";";
+                $arrays['sequences'][] = join( "\n$spacing", $sequenceFields ) . ( $withClosure ? ';' : '' );
             }
         }
 
@@ -776,21 +801,21 @@ class eZPgsqlSchema extends eZDBSchemaInterface
         {
             $sql_fields[] = $spacing . eZPgsqlSchema::generateFieldDef( $table, $field_name, $field_def, true, $params );
         }
-        $sql .= join( ",\n", $sql_fields ) . "\n);";
+        $sql .= join( ",\n", $sql_fields ) . ( $withClosure ? "\n);" : "\n)" );
         $arrays['tables'][] = $sql;
 
         foreach ( $table_def['indexes'] as $index_name => $index_def )
         {
             if ( $index_def['type'] != 'primary' )
             {
-                $arrays['indexes'][] = eZPgsqlSchema::generateAddIndexSql( $table, $index_name, $index_def, $params );
+                $arrays['indexes'][] = eZPgsqlSchema::generateAddIndexSql( $table, $index_name, $index_def, $params, $withClosure );
             }
         }
         foreach ( $table_def['indexes'] as $index_name => $index_def )
         {
             if ( $index_def['type'] == 'primary' )
             {
-                $arrays['constraints'][] = eZPgsqlSchema::generateAddIndexSql( $table, $index_name, $index_def, $params );
+                $arrays['constraints'][] = eZPgsqlSchema::generateAddIndexSql( $table, $index_name, $index_def, $params, $withClosure );
             }
         }
 
