@@ -61,6 +61,29 @@ class eZAutoLinkOperator
                                             'default' => null ) );
     }
 
+    function formatUri($url, $max)
+    {
+        $text = $url;
+        if (strlen($text) > $max)
+        {
+            $text = substr($text, 0, ($max / 2) - 3). '...'. substr($text, strlen($text) - ($max / 2));
+        }
+        return "<a href=\"$url\" title=\"$url\">$text</a>";
+    }
+
+    /*!
+     \static
+    */
+    function addURILinks($text, $max, $methods = 'http|https|ftp')
+    {
+        return preg_replace(
+            "!($methods):\/\/[\w]+(.[\w]+)([\w\-\.,@?^=%&:\/~\+#]*[\w\-\@?^=%&\/~\+#])?!e",
+            'eZAutoLinkOperator::formatUri("$0", '. $max. ')',
+            $text
+        );
+    }
+
+
     /*!
      \reimp
     */
@@ -72,7 +95,6 @@ class eZAutoLinkOperator
         {
             $max = $namedParameters['max_chars'];
         }
-        $maxHalf = (int)($max / 2);
 
         $methods = $ini->variable( 'AutoLinkOperator', 'Methods' );
         $methodText = implode( '|', $methods );
@@ -81,40 +103,7 @@ class eZAutoLinkOperator
         $operatorValue = preg_replace( "#(([a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+@([a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+)#", "<a href='mailto:\\1'>\\1</a>", $operatorValue );
 
         // Replace http/ftp etc. links
-        $elements = preg_split( "#((?:(?:$methodText)://)(?:(?:[a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+(?:(?:[\/a-zA-Z0-9_+$-]+\\.)*(?:[\/a-zA-Z0-9_+$-])*))(?:\#[a-zA-Z0-9-]+)?\?*(?:[a-zA-Z0-9_-]+=[a-zA-Z0-9_-]+&*)*)#m",
-                                $operatorValue,
-                                false,
-                                PREG_SPLIT_DELIM_CAPTURE );
-        $newElements = array();
-        $i = 0;
-        $lastElement = false;
-        foreach ( $elements as $element )
-        {
-            if ( ( $i % 2 ) == 1 )
-            {
-                if ( strlen( $lastElement ) > 0 and
-                     in_array( $lastElement[strlen( $lastElement ) - 1], array( " ", "\t", "\n", "\r" ) ) )
-                {
-                    if ( $max )
-                    {
-                        $text = $element;
-                        if ( strlen( $text ) > $max - 3 )
-                        {
-                            $text = substr( $text, 0, $maxHalf - 3 ) . '...' . substr( $text, strlen( $text ) - $maxHalf );
-                        }
-                        $element = "<a href=\"$element\" title=\"$element\">$text</a>";
-                    }
-                    else
-                    {
-                        $element = "<a href=\"$element\" title=\"$element\">$element</a>";
-                    }
-                }
-            }
-            $newElements[] = $element;
-            $lastElement = $element;
-            ++$i;
-        }
-        $operatorValue = implode( '', $newElements );
+        $operatorValue = eZAutoLinkOperator::addURILinks($operatorValue, $max, $methodText);
     }
 
     /// \privatesection
