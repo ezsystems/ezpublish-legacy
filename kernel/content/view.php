@@ -48,7 +48,7 @@ $tpl =& templateInit();
 $ViewMode = $Params['ViewMode'];
 $NodeID = $Params['NodeID'];
 $Module =& $Params['Module'];
-$LanguageCode = $Params['LanguageCode'];
+$LanguageCode = $Params['Language'];
 $Offset = $Params['Offset'];
 
 if ( !is_numeric( $Offset ) )

@@ -1,6 +1,6 @@
 Changes from 3.0-2 to 3.0-3
 
 *Kernel :
-- Fixed cache bug in eZ user. instance() returned a common user object for all instances
-- Fixed bug of unable to deselect all enum elements in datatype enum. 
-
+- Fixed cache bug in eZ user. instance() returned a common user object for all instances.
+- Fixed bug of unable to deselect all enum elements in datatype enum.
+- Fixed bug with next and previous in sitemap and full view.
