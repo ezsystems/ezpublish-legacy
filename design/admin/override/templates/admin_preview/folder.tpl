@@ -1,6 +1,7 @@
 {* Folder - Admin preview *}
 <div class="content-view-full">
     <div class="class-folder">
+
         <h1>{$node.object.data_map.name.content|wash()}</h1>
 
         {* Short description. *}
@@ -19,7 +20,7 @@
 
         {* Children. *}
         <div class="content-control">
-            <label>{'Show children:'|i18n( 'design/admin/preview/folder' )}</label>
+            <label>{'Show children'|i18n( 'design/admin/preview/folder' )}:</label>
             {section show=$node.object.data_map.show_children.has_content}
                 <p>{'Yes'|i18n( 'design/admin/preview/folder' )}</p>
                 {section-else}

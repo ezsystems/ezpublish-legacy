@@ -2,6 +2,7 @@
 
 <div class="content-view-full">
     <div class="class-poll">
+
         <h1>{$node.name|wash()}</h1>
 
         <div class="attribute-short">
@@ -18,15 +19,15 @@
         </div>
 
         {section show=is_unset( $versionview_mode )}
+        <div class="block">
         <input class="button" type="submit" name="ActionCollectInformation" value="Vote" />
+        </div>
         {/section}
 
         </form>
 
         <div class="attribute-link">
             <p><a href={concat( "/content/collectedinfo/", $node.node_id, "/" )|ezurl}>{"Result"|i18n("design/base")}</a></p>
-        </div>
-
         </div>
 
     </div>

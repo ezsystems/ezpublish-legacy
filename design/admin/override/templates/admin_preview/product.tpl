@@ -24,16 +24,12 @@
 
         {* Price. *}
         <div class="attribute-price">
-          <p>
-           {attribute_view_gui attribute=$node.object.data_map.price}
-          </p>
+          <p>{attribute_view_gui attribute=$node.object.data_map.price}</p>
         </div>
 
         {* PDF. *}
         <div class="attribute-pdf">
-          <p>
-             <a href={concat( '/content/pdf/', $node.node_id )|ezurl}>{'Download this product sheet as PDF'|i18n( 'design/admin/preview/product' )}</a>
-          </p>
+          <p><a href={concat( '/content/pdf/', $node.node_id )|ezurl}>{'Download this product sheet as PDF'|i18n( 'design/admin/preview/product' )}</a></p>
         </div>
 
        {* Related products. *}

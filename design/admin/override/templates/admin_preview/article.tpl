@@ -1,6 +1,7 @@
 {* Article - Admin preview *}
 <div class="content-view-full">
     <div class="class-article">
+
         <h1>{$node.object.data_map.title.content|wash()}</h1>
 
         {* Author. *}
@@ -8,6 +9,7 @@
             <div class="attribute-byline">
                 <p class="author">{attribute_view_gui attribute=$node.object.data_map.author}</p>
                 <p class="date">{$node.object.published|l10n(date)}</p>
+                <div class="break"></div>
             </div>
         {/section}
 

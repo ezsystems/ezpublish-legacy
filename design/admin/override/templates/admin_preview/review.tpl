@@ -1,6 +1,6 @@
-{* Comment - Admin preview *}
+{* Review - Admin preview *}
 <div class="content-view-full">
-    <div class="class-comment">
+    <div class="class-review">
 
     <h1>{$node.name}</h1>
 
@@ -12,6 +12,13 @@
 
     <div class="attribute-long">
         <p>{$node.object.data_map.message.content|wash(xhtml)|break|wordtoimage|autolink}</p>
+    </div>
+
+    <div class="attribute-rating">
+        <p>
+        <label>Rating:</label>
+        {attribute_view_gui attribute=$node.object.data_map.rating}
+        </p>
     </div>
 
     </div>

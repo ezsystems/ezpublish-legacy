@@ -14,7 +14,11 @@
     {* URL/Link. *}
     {section show=$node.object.data_map.location.has_content}
         <div class="attribute-link">
+            {section show=$node.object.data_map.location.data_text}
             <p><a href="{$node.object.data_map.location.content}">{$node.object.data_map.location.data_text}</a></p>
+            {section-else}
+            <p><a href="{$node.object.data_map.location.content}">{$node.object.data_map.location.content}</a></p>
+            {/section}
         </div>
     {/section}
 

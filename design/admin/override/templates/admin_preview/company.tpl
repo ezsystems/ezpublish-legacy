@@ -1,6 +1,7 @@
 {* Company - Admin preview *}
 <div class="content-view-full">
     <div class="class-company">
+
     <h1>{$node.name|wash} ( {attribute_view_gui attribute=$node.object.data_map.company_number} )</h1>
 
     {section show=$node.object.data_map.logo.content}
@@ -25,8 +26,10 @@
     </div>
 
     <div class="attribute-objectrelationlist">
+
         <h2>{'Contacts'|i18n( 'design/admin/preview/company' )}</h2>
-        <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+
+        <table class="list" cellspacing="0">
         {section name=Relation loop=$node.object.data_map.contacts.content.relation_list}
             <tr>
                 <td>
@@ -35,7 +38,8 @@
             </tr>
         {/section}
         </table>
+
     </div>
 
-</div>
+    </div>
 </div>
