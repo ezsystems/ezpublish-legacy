@@ -33,8 +33,9 @@
 // you.
 //
 
-include_once( "kernel/classes/ezsection.php" );
-include_once( "kernel/common/template.php" );
+include_once( 'kernel/classes/ezsection.php' );
+include_once( 'kernel/common/template.php' );
+include_once( 'kernel/classes/ezpreferences.php' );
 
 $http =& eZHTTPTool::instance();
 $Module =& $Params["Module"];
@@ -42,7 +43,20 @@ $tpl =& templateInit();
 $tpl->setVariable( 'module', $Module );
 
 $offset = $Params['Offset'];
-$limit = 10;
+
+if( eZPreferences::value( 'admin_section_list_limit' ) )
+{
+    switch( eZPreferences::value( 'admin_section_list_limit' ) )
+    {
+        case '2': { $limit = 25; } break;
+        case '3': { $limit = 50; } break;
+        default:  { $limit = 10; } break;
+    }
+}
+else
+{
+    $limit = 10;
+}
 
 if ( $http->hasPostVariable( 'CreateSectionButton' ) )
 {
