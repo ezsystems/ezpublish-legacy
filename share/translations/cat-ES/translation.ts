@@ -29,6 +29,13 @@
     </message>
 </context>
 <context>
+    <name>content/pdf</name>
+    <message>
+        <source>PDF Export</source>
+        <translation type="obsolete">Exporta a PDF</translation>
+    </message>
+</context>
+<context>
     <name>design/admin/layout</name>
     <message>
         <source>Content</source>
@@ -179,6 +186,20 @@
         <source>Packages</source>
         <translation>Paquets</translation>
     </message>
+    <message>
+        <source>RSS</source>
+        <comment>Really Simple Syndication</comment>
+        <translation>Sindicació per RSS</translation>
+    </message>
+    <message>
+        <source>Advanced</source>
+        <translation>Avançat</translation>
+    </message>
+    <message>
+        <source>PDF export</source>
+        <comment>PDF export</comment>
+        <translation>Exporta a PDF</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
@@ -244,10 +265,383 @@
     </message>
 </context>
 <context>
+    <name>design/blog/layout</name>
+    <message>
+        <source>Log entries</source>
+        <translation>Entrades de diari</translation>
+    </message>
+    <message>
+        <source>Description:</source>
+        <translation>Descripció:</translation>
+    </message>
+    <message>
+        <source>Categories</source>
+        <translation>Categories</translation>
+    </message>
+    <message>
+        <source>Latest blogs</source>
+        <translation>Darreres bitàcoles</translation>
+    </message>
+    <message>
+        <source>Log Archive by Entry</source>
+        <translation>Arxiu de diari per entrada</translation>
+    </message>
+    <message>
+        <source>Comments disabled</source>
+        <translation>Comentaris desactivats</translation>
+    </message>
+    <message>
+        <source>Result</source>
+        <translation>Resultat</translation>
+    </message>
+    <message>
+        <source>Poll</source>
+        <translation>Enquesta</translation>
+    </message>
+    <message>
+        <source>Recent links</source>
+        <translation>Enllaços recents</translation>
+    </message>
+    <message>
+        <source>Create new blog entry</source>
+        <translation>Crea una nova entrada de bitàcola</translation>
+    </message>
+</context>
+<context>
+    <name>design/corporate/layout</name>
+    <message>
+        <source>Read more</source>
+        <translation>Llegeix més</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation>Tramet</translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation>Darreres notícies</translation>
+    </message>
+</context>
+<context>
+    <name>design/forum/layout</name>
+    <message>
+        <source>Read more</source>
+        <translation>Llegeix més</translation>
+    </message>
+    <message>
+        <source>Subject</source>
+        <translation>Assumpte</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Missatge</translation>
+    </message>
+    <message>
+        <source>Post</source>
+        <translation>Tramet</translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <translation>Autor</translation>
+    </message>
+    <message>
+        <source>Replies</source>
+        <translation>Respostes</translation>
+    </message>
+    <message>
+        <source>Last reply</source>
+        <translation>Darrera resposta</translation>
+    </message>
+    <message>
+        <source>Number of Topics:</source>
+        <translation>Nombre de temes:</translation>
+    </message>
+    <message>
+        <source>Number of Posts:</source>
+        <translation>Nombre de trameses:</translation>
+    </message>
+    <message>
+        <source>Notifications</source>
+        <translation>Notificacions</translation>
+    </message>
+    <message>
+        <source>Edit account</source>
+        <translation>Edita el compte</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation>Connecta</translation>
+    </message>
+    <message>
+        <source>Logout</source>
+        <translation>Desconnecta</translation>
+    </message>
+    <message>
+        <source>Latest posts</source>
+        <translation>Darreres trameses</translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation>Darreres notícies</translation>
+    </message>
+</context>
+<context>
+    <name>design/gallery/layout</name>
+    <message>
+        <source>Read more</source>
+        <translation>Llegeix més</translation>
+    </message>
+    <message>
+        <source>Galleries</source>
+        <translation>Galeries</translation>
+    </message>
+    <message>
+        <source>Latest images</source>
+        <translation>Darreres imatges</translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation>Darreres notícies</translation>
+    </message>
+    <message>
+        <source>Latest comments</source>
+        <translation>Darrers comentaris</translation>
+    </message>
+    <message>
+        <source>Edit gallery</source>
+        <translation>Edita la galeria</translation>
+    </message>
+    <message>
+        <source>Create a new gallery</source>
+        <translation>Crea una nova galeria</translation>
+    </message>
+    <message>
+        <source>Name of your album</source>
+        <translation>Nom del teu àlbum</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Descripció</translation>
+    </message>
+    <message>
+        <source>Number of columns</source>
+        <translation>Nombre de columnes</translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation>Àlbums</translation>
+    </message>
+    <message>
+        <source>Gallery list</source>
+        <translation>Llista de galeries</translation>
+    </message>
+    <message>
+        <source>Logout</source>
+        <translation>Desconnecta</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation>Connecta</translation>
+    </message>
+</context>
+<context>
+    <name>design/intranet/layout</name>
+    <message>
+        <source>Comment this article!</source>
+        <translation>Comenta aquest article!</translation>
+    </message>
+    <message>
+        <source>Read more</source>
+        <translation>Llegeix més</translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation>Darreres notícies</translation>
+    </message>
+    <message>
+        <source>Contact information</source>
+        <translation>Infromació de contacte</translation>
+    </message>
+</context>
+<context>
+    <name>design/news/content/poll</name>
+    <message>
+        <source>Results</source>
+        <translation>Resultats</translation>
+    </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation>Els usuaris anònims no tenen permís per fer votacions en aquesta enquesta. Si us plau, registra&apos;t.</translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation>Ja has votat en aquesta enquesta.</translation>
+    </message>
+</context>
+<context>
+    <name>design/news/content/poll)}&lt;/p&gt;
+&lt;/div&gt;
+{/section}
+
+{/section}
+
+&lt;div id=&quot;poll_result&quot;&gt;
+{section loop=$object.contentobject_attributes}
+    {section show=$:item.contentclass_attribute.is_information_collector}
+<byte value="x9"/>{let  attribute=$:item
+<byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation type="obsolete">Ja has votat en aquesta enquesta.</translation>
+    </message>
+</context>
+<context>
+    <name>design/news/content/poll)}&lt;/p&gt;
+&lt;/div&gt;
+{/section}
+
+{section show=$error_existing_data}
+&lt;div class=&quot;warning&quot;&gt;
+    &lt;p&gt;{</name>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation type="obsolete">Els usuars anònims no poden votar en aquesta enquesta. Registra&apos;t abans.</translation>
+    </message>
+</context>
+<context>
+    <name>design/news/layout</name>
+    <message>
+        <source>Related stories</source>
+        <translation>Notícies relacionades</translation>
+    </message>
+    <message>
+        <source>Tip a friend</source>
+        <translation>Recomana a un amic</translation>
+    </message>
+    <message>
+        <source>Comments</source>
+        <translation>Comentaris</translation>
+    </message>
+    <message>
+        <source>Comment this article!</source>
+        <translation>Comenta aquest article!</translation>
+    </message>
+    <message>
+        <source>Read more</source>
+        <translation>Llegeix més</translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation>Darreres notícies</translation>
+    </message>
+    <message>
+        <source>Result</source>
+        <translation>Resultat</translation>
+    </message>
+    <message>
+        <source>View all polls</source>
+        <translation>Veure totes les enquestes</translation>
+    </message>
+    <message>
+        <source>News</source>
+        <translation>Notícies</translation>
+    </message>
+    <message>
+        <source>Most popular</source>
+        <translation>Els més populars</translation>
+    </message>
+    <message>
+        <source>Poll</source>
+        <translation>Enquesta</translation>
+    </message>
+</context>
+<context>
     <name>design/shop</name>
     <message>
         <source>Payment was canceled. Try to buy again.</source>
         <translation type="obsolete">S&apos;ha cancel·lat el pagament. Prova de fer de nou la compra.</translation>
+    </message>
+</context>
+<context>
+    <name>design/shop/layout</name>
+    <message>
+        <source>login</source>
+        <translation>connecta</translation>
+    </message>
+    <message>
+        <source>logout</source>
+        <translation>desconnecta</translation>
+    </message>
+    <message>
+        <source>Read more</source>
+        <translation>Llegeix més</translation>
+    </message>
+    <message>
+        <source>Write your own review</source>
+        <translation>Dóna la teva opinió</translation>
+    </message>
+    <message>
+        <source>Write a review and share your opinion. Please make sure your comments are devoted to the product.</source>
+        <translation>Comparteix la teva opinió. Assegura&apos;t que els teus comentaris es refereixen al producte escollit.</translation>
+    </message>
+    <message>
+        <source>How do you rate the product?</source>
+        <translation>Com valores el producte?</translation>
+    </message>
+    <message>
+        <source>Title of your review:</source>
+        <translation>Posa-li un títol a la teva opinió:</translation>
+    </message>
+    <message>
+        <source>Your review:</source>
+        <translation>La teva opinió:</translation>
+    </message>
+    <message>
+        <source>Related products</source>
+        <translation>Productes relacionats</translation>
+    </message>
+    <message>
+        <source>People who bought this also bought</source>
+        <translation>Les persones que han comprat això també van comprar</translation>
+    </message>
+    <message>
+        <source>Reviews</source>
+        <translation>Opinions</translation>
+    </message>
+    <message>
+        <source>Write a review</source>
+        <translation>Dóna la teva opinió</translation>
+    </message>
+    <message>
+        <source>No rating</source>
+        <translation>Sense valorar</translation>
+    </message>
+    <message>
+        <source>Products</source>
+        <translation>Productes</translation>
+    </message>
+    <message>
+        <source>Latest products</source>
+        <translation>Els productes més nous</translation>
+    </message>
+    <message>
+        <source>Your basket is empty</source>
+        <translation>La teva cistella és buida</translation>
+    </message>
+    <message>
+        <source>Best sellers</source>
+        <translation>Els més venuts</translation>
+    </message>
+    <message>
+        <source>Latest news</source>
+        <translation>Darreres notícies</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/class</name>
+    <message>
+        <source>Class is locked</source>
+        <translation>La classe està bloquejada</translation>
     </message>
 </context>
 <context>
@@ -412,6 +806,162 @@
         <source>New option</source>
         <translation>Nova opció</translation>
     </message>
+    <message>
+        <source>Pretext</source>
+        <translation>Text previ</translation>
+    </message>
+    <message>
+        <source>Posttext</source>
+        <translation>Text posterior</translation>
+    </message>
+    <message>
+        <source>Current value: </source>
+        <translation>Valor actual:</translation>
+    </message>
+    <message>
+        <source> (This value are the current identifier)</source>
+        <translation>(Aquest valor és l&apos;identificador actual)</translation>
+    </message>
+    <message>
+        <source>Current temporary value: </source>
+        <translation>Valor temporal actual:</translation>
+    </message>
+    <message>
+        <source> (This value is a copy of the original identifier)</source>
+        <translation>(Aquest valor és una còpia de l&apos;identificador original)</translation>
+    </message>
+    <message>
+        <source>Digits</source>
+        <translation>Dígits</translation>
+    </message>
+    <message>
+        <source>Start value</source>
+        <translation>Valor d&apos;inici</translation>
+    </message>
+    <message>
+        <source>Update identifier</source>
+        <translation>Identificador de la actualització</translation>
+    </message>
+    <message>
+        <source>Ini file</source>
+        <translation>Arxiu Ini</translation>
+    </message>
+    <message>
+        <source>Ini Section</source>
+        <translation>Secció Ini</translation>
+    </message>
+    <message>
+        <source>Ini Parameter</source>
+        <translation>Paràmetre Ini</translation>
+    </message>
+    <message>
+        <source>Ini file location</source>
+        <translation>Ubicació de l&apos;arxiu Ini</translation>
+    </message>
+    <message>
+        <source>Ini setting type</source>
+        <translation>Tipus de configuració Ini</translation>
+    </message>
+    <message>
+        <source>Text</source>
+        <translation>Text</translation>
+    </message>
+    <message>
+        <source>Enable/Disable</source>
+        <translation>Activat/Desactivat</translation>
+    </message>
+    <message>
+        <source>True/False</source>
+        <translation>Verdader/Fals</translation>
+    </message>
+    <message>
+        <source>Integer</source>
+        <translation>Enter</translation>
+    </message>
+    <message>
+        <source>Float</source>
+        <translation>Decimal</translation>
+    </message>
+    <message>
+        <source>Array</source>
+        <translation>Taula</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Tipus</translation>
+    </message>
+    <message>
+        <source>Create or browse objects</source>
+        <translation>Crear o explorar objectes</translation>
+    </message>
+    <message>
+        <source>New and existing objects</source>
+        <translation>Objectes nous i existents</translation>
+    </message>
+    <message>
+        <source>Only new objects</source>
+        <translation>Només objectes nous</translation>
+    </message>
+    <message>
+        <source>Only existing objects</source>
+        <translation>Només objectes existents</translation>
+    </message>
+    <message>
+        <source>Select which class user can create</source>
+        <translation type="obsolete">Selecciona quina classe pot crear l&apos;usuari</translation>
+    </message>
+    <message>
+        <source>Package Type</source>
+        <translation>Tipus de paquet</translation>
+    </message>
+    <message>
+        <source>Checked</source>
+        <translation>Comprovat</translation>
+    </message>
+    <message>
+        <source>Unchecked</source>
+        <translation>No comprovat</translation>
+    </message>
+    <message>
+        <source>Single choice</source>
+        <translation>Elecció senzilla</translation>
+    </message>
+    <message>
+        <source>Warning, the ini file settings value and object value does not match.</source>
+        <translation>Atenció: el valor de la configuració de l&apos;arxiu Ini i el valor de l&apos;objecte no coincideixen.</translation>
+    </message>
+    <message>
+        <source>The ini file has probably been modified manually since last time.</source>
+        <translation>Probablement, l&apos;arxiu Ini s&apos;ha modificat manualment des de la darrera vegada.</translation>
+    </message>
+    <message>
+        <source>Ini File : </source>
+        <translation>Arxiu Ini:</translation>
+    </message>
+    <message>
+        <source>Ini Value: </source>
+        <translation>Valor Ini:</translation>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation>Activat</translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation>Desactivat</translation>
+    </message>
+    <message>
+        <source>True</source>
+        <translation>Verdader</translation>
+    </message>
+    <message>
+        <source>False</source>
+        <translation>Fals</translation>
+    </message>
+    <message>
+        <source>Select which classes user can create</source>
+        <translation>Tria quines classes pot crear un usuari</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class/edit</name>
@@ -575,6 +1125,46 @@
         <source>URL</source>
         <translation>URL</translation>
     </message>
+    <message>
+        <source>Class - %1</source>
+        <translation>Classe - %1</translation>
+    </message>
+    <message>
+        <source>Is required</source>
+        <translation>És requerit</translation>
+    </message>
+    <message>
+        <source>Is not required</source>
+        <translation>No és requerit</translation>
+    </message>
+    <message>
+        <source>Is searchable</source>
+        <translation>Es permet la cerca</translation>
+    </message>
+    <message>
+        <source>Is not searchable</source>
+        <translation>No permet la cerca</translation>
+    </message>
+    <message>
+        <source>Collects information</source>
+        <translation>Recull informació</translation>
+    </message>
+    <message>
+        <source>Does not collect information</source>
+        <translation>No recull informació</translation>
+    </message>
+    <message>
+        <source>Translation is disabled</source>
+        <translation>La traducció està desactivada</translation>
+    </message>
+    <message>
+        <source>Translation is enabled</source>
+        <translation>La traducció està activada</translation>
+    </message>
+    <message>
+        <source>Retry</source>
+        <translation>Intenta-ho de nou</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class/list</name>
@@ -609,6 +1199,38 @@
     <message>
         <source>Help</source>
         <translation type="obsolete">Ajuda</translation>
+    </message>
+    <message>
+        <source>Last modified classes</source>
+        <translation>Darreres classes modificades</translation>
+    </message>
+    <message>
+        <source>PDF Exports</source>
+        <translation type="obsolete">Exportacions PDF</translation>
+    </message>
+    <message>
+        <source>New Export</source>
+        <translation type="obsolete">Nova exportació</translation>
+    </message>
+    <message>
+        <source>RSS Feeds</source>
+        <translation type="obsolete">Subministraments RSS</translation>
+    </message>
+    <message>
+        <source>RSS Exports</source>
+        <translation type="obsolete">Exportacions RSS</translation>
+    </message>
+    <message>
+        <source>RSS Imports</source>
+        <translation type="obsolete">Importacions RSS</translation>
+    </message>
+    <message>
+        <source>New Import</source>
+        <translation type="obsolete">Nova importació</translation>
+    </message>
+    <message>
+        <source>Setup menu</source>
+        <translation>Menú de configuració</translation>
     </message>
 </context>
 <context>
@@ -656,6 +1278,10 @@
     <message>
         <source>New class</source>
         <translation>Nova classe</translation>
+    </message>
+    <message>
+        <source>Click on the &apos;New&apos; button to create a class.</source>
+        <translation>Fes clic en el botó &apos;Nou&apos; per crear una classe.</translation>
     </message>
 </context>
 <context>
@@ -727,6 +1353,10 @@
     <message>
         <source>Summary</source>
         <translation>Sumari</translation>
+    </message>
+    <message>
+        <source>[more]</source>
+        <translation>[més]</translation>
     </message>
 </context>
 <context>
@@ -969,6 +1599,73 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
         <source>Add</source>
         <translation>Afegeix</translation>
     </message>
+    <message>
+        <source>PDF Export</source>
+        <translation>Exportació  PDF</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Títol</translation>
+    </message>
+    <message>
+        <source>Intro text</source>
+        <translation>Text introductori</translation>
+    </message>
+    <message>
+        <source>Sub text</source>
+        <translation>Text secundari</translation>
+    </message>
+    <message>
+        <source>Source node</source>
+        <translation>Node d&apos;origen</translation>
+    </message>
+    <message>
+        <source>Browse</source>
+        <translation>Explora</translation>
+    </message>
+    <message>
+        <source>Export structure</source>
+        <translation>Estructura d&apos;exportació</translation>
+    </message>
+    <message>
+        <source>Tree</source>
+        <translation>Arbre</translation>
+    </message>
+    <message>
+        <source>Node</source>
+        <translation>Node</translation>
+    </message>
+    <message>
+        <source>Export classes</source>
+        <translation>Exporta les classes</translation>
+    </message>
+    <message>
+        <source>Site access</source>
+        <translation>Accés al lloc</translation>
+    </message>
+    <message>
+        <source>Export destination</source>
+        <translation>Destinació de l&apos;exportació</translation>
+    </message>
+    <message>
+        <source>Export to URL</source>
+        <translation>Exporta a URL</translation>
+    </message>
+    <message>
+        <source>Export for direct download</source>
+        <translation>Exporta per a una descàrrega directa</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Exporta</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/browse</name>
+    <message>
+        <source>Create new</source>
+        <translation>Crea&apos;n un de nou</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/copy</name>
@@ -1152,7 +1849,7 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
     </message>
     <message>
         <source>Image filename</source>
-        <translation>Nom de l&apos;arxiu de la imatge</translation>
+        <translation type="obsolete">Nom de l&apos;arxiu de la imatge</translation>
     </message>
     <message>
         <source>Alternative image text</source>
@@ -1184,7 +1881,7 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
     </message>
     <message>
         <source>Existing orignal filename</source>
-        <translation>Nom del fitxer original</translation>
+        <translation type="obsolete">Nom del fitxer original</translation>
     </message>
     <message>
         <source>Existing mime/type</source>
@@ -1268,19 +1965,63 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
     </message>
     <message>
         <source>Create new %classname</source>
-        <translation>Crea un nou %classname</translation>
+        <translation type="obsolete">Crea un nou %classname</translation>
     </message>
     <message>
         <source>Add %classname</source>
-        <translation>Afegeix %classname</translation>
+        <translation type="obsolete">Afegeix %classname</translation>
     </message>
     <message>
         <source>Edit objects</source>
-        <translation>Edita els objectes</translation>
+        <translation type="obsolete">Edita els objectes</translation>
     </message>
     <message>
         <source>Remove objects</source>
         <translation>Esborra els objectes</translation>
+    </message>
+    <message>
+        <source>View Mode</source>
+        <translation>Tipus de vista</translation>
+    </message>
+    <message>
+        <source>Local image file for upload</source>
+        <translation>Arxiu d&apos;imatge local per carregar</translation>
+    </message>
+    <message>
+        <source>Image preview</source>
+        <translation>Previsualització de la imatge</translation>
+    </message>
+    <message>
+        <source>Original filename for image</source>
+        <translation>Nom de l&apos;arxiu original per a la imatge</translation>
+    </message>
+    <message>
+        <source>Browse objects</source>
+        <translation type="obsolete">Explora objectes</translation>
+    </message>
+    <message>
+        <source>Existing original filename</source>
+        <translation>El nom de l&apos;arxiu original ja existeix</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Edita</translation>
+    </message>
+    <message>
+        <source>Open objects for edit</source>
+        <translation>Obre objectes per editar</translation>
+    </message>
+    <message>
+        <source>Browse for objects</source>
+        <translation>Explorar objectes</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>Afegeix</translation>
+    </message>
+    <message>
+        <source>Value (optional)</source>
+        <translation>Valor (opcional)</translation>
     </message>
 </context>
 <context>
@@ -1403,7 +2144,7 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
     </message>
     <message>
         <source>Are you sure you want to discard the draft?</source>
-        <translation>Estàs segur que vols descartar l&apos;esborrany?</translation>
+        <translation type="obsolete">Estàs segur que vols descartar l&apos;esborrany?</translation>
     </message>
     <message>
         <source>Confirm</source>
@@ -1456,6 +2197,269 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
     <message>
         <source>New draft</source>
         <translation>Nou esborrany</translation>
+    </message>
+    <message>
+        <source>Post</source>
+        <translation>Tramet</translation>
+    </message>
+    <message>
+        <source>Store</source>
+        <translation>Emmagatzema</translation>
+    </message>
+    <message>
+        <source>Feedback from %1</source>
+        <translation>Feedback de %1</translation>
+    </message>
+    <message>
+        <source>The following feedback was collected:</source>
+        <translation>S&apos;ha recollit el següent feedback:</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to discard the draft %versionname?</source>
+        <translation>Estàs segur que vols descartar l&apos;esborrany %versionname?</translation>
+    </message>
+    <message>
+        <source>The currently published version is %version and was published at %time.</source>
+        <translation>La versió publicada actualment és la %version i va ser publicada el %time.</translation>
+    </message>
+    <message>
+        <source>The last modification was done at %modified.</source>
+        <translation>La darrera modificació va ser el %modified.</translation>
+    </message>
+    <message>
+        <source>The object is owned by %owner.</source>
+        <translation>L&apos;objecte és propietat de %owner.</translation>
+    </message>
+    <message>
+        <source>This object is already being edited by someone else including you.
+    You can either continue editing one of your drafts or you can create a new draft.</source>
+        <translation>Aquest objecte ja està sent editat per algú més, a banda de tu mateix.
+Pots continuar editant un dels teus esborranys o en pots crear un de nou.</translation>
+    </message>
+    <message>
+        <source>This object is already being edited by you.
+        You can either continue editing one of your drafts or you can create a new draft.</source>
+        <translation>Aquest objecte ja està sent editat per tu.
+Pots continuar editant un dels teus esborranys o en pots crear un de nou.</translation>
+    </message>
+    <message>
+        <source>This object is already being edited by someone else.
+        You should either contact the person about the draft or create a new draft for personal editing.</source>
+        <translation>Aquest objecte ja està sent editat per algú altre.
+Posa&apos;t en contacte amb aquesta persona per l&apos;esborrany o crea&apos;n un de nou per editar-lo personalment.</translation>
+    </message>
+    <message>
+        <source>Current drafts</source>
+        <translation>Esborranys actuals</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Versió</translation>
+    </message>
+    <message>
+        <source>Owner</source>
+        <translation>Propietari</translation>
+    </message>
+    <message>
+        <source>Last modified</source>
+        <translation>Última modificació</translation>
+    </message>
+    <message>
+        <source>Input was partially stored</source>
+        <translation>L&apos;entrada s&apos;ha emmagatzemat parcialment</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/ezoption</name>
+    <message>
+        <source>No value chosen</source>
+        <translation>No s&apos;ha escollit cap valor</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/feedback</name>
+    <message>
+        <source>Feedback for %feedbackname</source>
+        <translation>Feedback per a %feedbackname</translation>
+    </message>
+    <message>
+        <source>Thanks for your feedback, the following information was collected.</source>
+        <translation>Gràcies pel teu feedback. S&apos;ha recollit la següent informació.</translation>
+    </message>
+    <message>
+        <source>Return to site</source>
+        <translation>Torna al lloc</translation>
+    </message>
+    <message>
+        <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
+        <translation>Ja has tramès dades a aquest feedback. Les dades que s&apos;han tramès prèviament han estat les següents.</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/feedback)}&lt;/p&gt;
+{/section}
+
+{section-else}
+
+&lt;p&gt;{</name>
+    <message>
+        <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
+        <translation>Ja has tramès dades a aquest feedback. Les dades que s&apos;han tramès prèviament han estat les següents.</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/form</name>
+    <message>
+        <source>Form %formname</source>
+        <translation>Formulari %formname</translation>
+    </message>
+    <message>
+        <source>Return to site</source>
+        <translation>Torna al lloc</translation>
+    </message>
+    <message>
+        <source>You have already submitted data to this form. The previously submitted data was the following.</source>
+        <translation>Ja has tramès dades a aquest formulari. Les dades que s&apos;han tramès prèviament han estat les següents.</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/form)}&lt;/p&gt;
+{/section}
+
+{/section}
+
+{section loop=$collection.attributes}
+
+&lt;h3&gt;{$:item.contentclass_attribute_name}&lt;/h3&gt;
+
+{attribute_result_gui view=info attribute=$:item}
+
+{/section}
+
+&lt;p/&gt;
+
+&lt;a href={$node.parent.url|ezurl}&gt;{</name>
+    <message>
+        <source>You have already submitted data to this form. The previously submitted data was the following.</source>
+        <translation type="obsolete">Ja has tramès dades a aquest formulari. Les dades que s&apos;han tramès prèviament han estat les següents.</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/pdf</name>
+    <message>
+        <source>eZ publish PDF export</source>
+        <translation>Exportació PDF d&apos;eZ publish</translation>
+    </message>
+    <message>
+        <source>#page of #total</source>
+        <translation>#page de #total</translation>
+    </message>
+    <message>
+        <source>#level1 - #level2</source>
+        <translation>#level1 - #level2</translation>
+    </message>
+    <message>
+        <source>#levelIndex1:#levelIndex2</source>
+        <translation>#levelIndex1:#levelIndex2</translation>
+    </message>
+    <message>
+        <source>Content</source>
+        <translation>Contingut</translation>
+    </message>
+    <message>
+        <source>Versionview not supported in PDF yet</source>
+        <translation>La vista de versions (versionview) no està encara suportada en PDF</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/poll</name>
+    <message>
+        <source>Poll %pollname</source>
+        <translation>Enquesta %pollname</translation>
+    </message>
+    <message>
+        <source>Results</source>
+        <translation>Resultats</translation>
+    </message>
+    <message>
+        <source>%count total votes</source>
+        <translation>el %count del total de vots </translation>
+    </message>
+    <message>
+        <source>Poll results</source>
+        <translation>Resultats de l&apos;enquesta</translation>
+    </message>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation>Els usuaris anònims no tenen permís per fer votacions en aquesta enquesta. Si us plau, registra&apos;t.</translation>
+    </message>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation>Ja has votat en aquesta enquesta.</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/poll)}&lt;/p&gt;
+&lt;/div&gt;
+{/section}
+
+{/section}
+
+&lt;div id=&quot;poll_result&quot;&gt;
+{section loop=$object.contentobject_attributes}
+    {section show=$:item.contentclass_attribute.is_information_collector}
+<byte value="x9"/>{let  attribute=$:item
+<byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation type="obsolete">Ja has votat en aquesta enquesta.</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/poll)}&lt;/p&gt;
+&lt;/div&gt;
+{/section}
+
+{/section}
+
+&lt;h2&gt;{$node.name}&lt;/h2&gt;
+
+{section loop=$object.contentobject_attributes}
+    {section show=$:item.contentclass_attribute.is_information_collector}
+
+        &lt;h3&gt;{$:item.contentclass_attribute.name}&lt;/h3&gt;
+        {attribute_result_gui view=count attribute=$:item}
+
+    {section-else}
+
+        {section show=$attribute_hide_list|contains($:item.contentclass_attribute.identifier)|not}
+            &lt;h3&gt;{$:item.contentclass_attribute.name}&lt;/h3&gt;
+            {attribute_view_gui attribute=$:item}
+        {/section}
+
+    {/section}
+
+{/section}
+
+&lt;br/&gt;
+
+{&quot;%count total votes&quot;|i18n( </name>
+    <message>
+        <source>You have already voted for this poll.</source>
+        <translation type="obsolete">Ja has votat en aquesta enquesta.</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/poll)}&lt;/p&gt;
+&lt;/div&gt;
+{/section}
+
+{section show=$error_existing_data}
+&lt;div class=&quot;warning&quot;&gt;
+    &lt;p&gt;{</name>
+    <message>
+        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
+        <translation type="obsolete">Els usuaris anònims no poden votar en aquesta enquesta. Si us plau, registra&apos;t.</translation>
     </message>
 </context>
 <context>
@@ -2023,7 +3027,7 @@ Fes clic en els noms d&apos;ubicació per canviar la llista de navegació.</tran
       If you want to add more objects to this list click the %addbutton button.
 
       Removing objects will only remove them from this list.</source>
-        <translation>Aquests són els objectes que tu has marcat com a preferits. Fes clic sobre un objecte per veure&apos;l o, si tens prou permisos, pots editar-lo fent clic en el botó corresponent.
+        <translation type="obsolete">Aquests són els objectes que tu has marcat com a preferits. Fes clic sobre un objecte per veure&apos;l o, si tens prou permisos, pots editar-lo fent clic en el botó corresponent.
 Si vols afegir més objectes a aquesta llista, fes clic al botó %addbutton.
 
 L&apos;esborrat d&apos;objectes només ho afectarà aquesta llista.</translation>
@@ -2119,6 +3123,32 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.
         <source>Your pending list is empty</source>
         <translation>La teva llista de coses pendents és buida</translation>
     </message>
+    <message>
+        <source>These are the objects you have bookmarked. Click on an object to view it or if you have sufficient permission you can to edit the object by clicking the edit button.
+      If you want to add more objects to this list click the %emphasize_startAdd bookmarks%emphasize_stop button.
+
+      Removing objects will only remove them from this list.</source>
+        <translation>Aquests són objectes que tu has marcat. Fes clic en l&apos;objecte per veure&apos;l; si tens suficients privilegis, pots editar-lo fent clic en el botó d&apos;edició.
+Si vols afegir més objectes a aquesta llista, fes clic al botó %emphasize_startAfegeix preferit%emphasize_stop.
+
+Si esborres cap objecte, només s&apos;esborrarà de la llista.</translation>
+    </message>
+    <message>
+        <source>Creator</source>
+        <translation type="obsolete">Creat per</translation>
+    </message>
+    <message>
+        <source>Created</source>
+        <translation type="obsolete">Creat</translation>
+    </message>
+    <message>
+        <source>Regenerate</source>
+        <translation type="obsolete">Regenera</translation>
+    </message>
+    <message>
+        <source>To select objects, choose the appropriate radiobutton or checkbox(es), and click the &quot;Choose&quot; button.</source>
+        <translation>Per seleccionar objectes, tria l&apos;opció més adient, i fes clic al botó &quot;Tria&quot;.</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/error/kernel</name>
@@ -2192,7 +3222,7 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.
     </message>
     <message>
         <source>You&apos;re currently not logged in on the site, to get proper access create a new user or login with an existing user.</source>
-        <translation>En aquests moments no estàs identificat en aquest lloc. Per disposar de l&apos;accés adequat crea un nou usuari o connecta&apos;t amb un usuari existent.</translation>
+        <translation type="obsolete">En aquests moments no estàs identificat en aquest lloc. Per disposar de l&apos;accés adequat crea un nou usuari o connecta&apos;t amb un usuari existent.</translation>
     </message>
     <message>
         <source>You misspelled some parts of your url, try changing it.</source>
@@ -2273,6 +3303,10 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.
     <message>
         <source>You should automatically be redirected to the new location. If not click %url.</source>
         <translation>Estàs a punt de ser redireccionat cap a la nova ubicació. Si no funciona, fes clic a %url.</translation>
+    </message>
+    <message>
+        <source>You are currently not logged in to the site, to get proper access create a new user or login with an existing user.</source>
+        <translation>Actualment, no estàs registrat en aquest lloc. Per tenir un accés adequat crea un nou usuari o connecta&apos;t amb un usuari existent.</translation>
     </message>
 </context>
 <context>
@@ -2439,7 +3473,7 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.
     </message>
     <message>
         <source>Are you sure you want to remove these nodes?</source>
-        <translation>Estàs segur que vols esborrar aquests nodes?</translation>
+        <translation type="obsolete">Estàs segur que vols esborrar aquests nodes?</translation>
     </message>
     <message>
         <source>Note:</source>
@@ -2459,7 +3493,7 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.
     </message>
     <message>
         <source>Removing this assignment will also remove it&apos;s %1 children.</source>
-        <translation>Si esborres aquesta assignació també esborraràs els seus %1 fills.</translation>
+        <translation type="obsolete">Si esborres aquesta assignació també esborraràs els seus %1 fills.</translation>
     </message>
     <message>
         <source>Removing node assignment of %1</source>
@@ -2467,7 +3501,43 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.
     </message>
     <message>
         <source>Removing %1 will remove the node itself and it&apos;s %2 children. %3</source>
-        <translation>Si esborres %1 esborraràs el mateix node i també els seus %2 fills. %3</translation>
+        <translation type="obsolete">Si esborres %1 esborraràs el mateix node i també els seus %2 fills. %3</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove these items?</source>
+        <translation>Estàs segur de voler esborrar aquests ítems?</translation>
+    </message>
+    <message>
+        <source>%nodename and it&apos;s %childcount children. %additionalwarning</source>
+        <translation type="obsolete">%nodename i els seus %childcount fills. %additionalwarning</translation>
+    </message>
+    <message>
+        <source>%nodename %additionalwarning</source>
+        <translation>%nodename %additionalwarning</translation>
+    </message>
+    <message>
+        <source>Move to trash</source>
+        <translation>Mou a la paperera</translation>
+    </message>
+    <message>
+        <source>If %trashname is checked you will find the removed items in the trash afterwards.</source>
+        <translation>Si %trashname ha passat la comprovació, trobaràs els ítems esborrats a la paperera més tard.</translation>
+    </message>
+    <message>
+        <source>Removing this assignment will also remove its %1 children.</source>
+        <translation>Si esborres aquesta assignació també esborraràs el(s) seu(s) %1 fill(s).</translation>
+    </message>
+    <message>
+        <source>%nodename and its %childcount children. %additionalwarning</source>
+        <translation>%nodename i el(s) seu(s) %childcount fill(s). %additionalwarning</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/node/v
+iew</name>
+    <message>
+        <source>Create here</source>
+        <translation type="obsolete">Crea aquí</translation>
     </message>
 </context>
 <context>
@@ -2559,6 +3629,54 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.
     <message>
         <source>Click to create a custom template</source>
         <translation>Fes clic per crear una plantilla personalitzada</translation>
+    </message>
+    <message>
+        <source>New image</source>
+        <translation>Nova imatge</translation>
+    </message>
+    <message>
+        <source>New gallery</source>
+        <translation>Nova galeria</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation>Nou àlbum</translation>
+    </message>
+    <message>
+        <source>New file</source>
+        <translation>Nou arxiu</translation>
+    </message>
+    <message>
+        <source>New article</source>
+        <translation>Nou article</translation>
+    </message>
+    <message>
+        <source>New person</source>
+        <translation>Nova persona</translation>
+    </message>
+    <message>
+        <source>New company</source>
+        <translation>Nova empresa</translation>
+    </message>
+    <message>
+        <source>Input did not validate</source>
+        <translation>L&apos;entrada no s&apos;ha validat</translation>
+    </message>
+    <message>
+        <source>Default object view.</source>
+        <translation>Vista d&apos;objecte predeterminada.</translation>
+    </message>
+    <message>
+        <source>Node ID</source>
+        <translation>ID del node</translation>
+    </message>
+    <message>
+        <source>Object ID</source>
+        <translation>ID de l&apos;objecte</translation>
+    </message>
+    <message>
+        <source>New log</source>
+        <translation>Nou diari</translation>
     </message>
 </context>
 <context>
@@ -2654,12 +3772,12 @@ Pots veure l&apos;objecte en la URL de sota.</translation>
     </message>
     <message>
         <source>[%sitename] %classname &quot;%itemname&quot; was published</source>
-        <translation>[%sitename] S&apos;ha publicat %classname &quot;%itemname&quot;</translation>
+        <translation type="obsolete">[%sitename] S&apos;ha publicat %classname &quot;%itemname&quot;</translation>
     </message>
     <message>
         <source>This email is to inform you that a new item has been publish at %sitename.
 The item can viewed by using the URL below.</source>
-        <translation>Aquest correu és per informar-te que s&apos;ha publicat un nou objecte a %sitename.
+        <translation type="obsolete">Aquest correu és per informar-te que s&apos;ha publicat un nou objecte a %sitename.
 Pots veure l&apos;objecte en la URL de sota.</translation>
     </message>
     <message>
@@ -2743,6 +3861,276 @@ Pots veure l&apos;objecte en la URL de sota.</translation>
     <message>
         <source>Install package</source>
         <translation>Instal·la el paquet</translation>
+    </message>
+    <message>
+        <source>Please provide information on the changes.</source>
+        <translation>Si us plau, subministra informació sobre els canvis.</translation>
+    </message>
+    <message>
+        <source>E-Mail</source>
+        <translation>Correu electrònic</translation>
+    </message>
+    <message>
+        <source>Changes</source>
+        <translation>Canvis</translation>
+    </message>
+    <message>
+        <source>Start an entry with a marker ( %emstart-%emend (dash) or %emstart*%emend (asterix) ) at the beginning of the line.
+The change will continue to the next change marker.</source>
+        <translation>Comença una entrada amb un marcador (%emstart-%emend (guionet) o %emstart*%emend (asterisc)) a l&apos;inici de la línia.
+
+El canvi es mantindrà fins al proper marcador de canvi.</translation>
+    </message>
+    <message>
+        <source>Please provide some basic information for your package.</source>
+        <translation>Si us plau, subministra alguna informació bàsica d&apos;aquest paquet.</translation>
+    </message>
+    <message>
+        <source>Package name</source>
+        <translation>Nom del paquet</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Descripció</translation>
+    </message>
+    <message>
+        <source>Licence</source>
+        <translation>Llicència</translation>
+    </message>
+    <message>
+        <source>Package host</source>
+        <translation>Allotjament del paquet</translation>
+    </message>
+    <message>
+        <source>Packager</source>
+        <translation>Empaquetador</translation>
+    </message>
+    <message>
+        <source>Please provide information on the maintainer of the package.</source>
+        <translation>Si us plau, subministra informació sobre el qui manté el paquet.</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <comment>Maintainer name</comment>
+        <translation>Cognom</translation>
+    </message>
+    <message>
+        <source>Role</source>
+        <comment>Maintainer role</comment>
+        <translation>Rol</translation>
+    </message>
+    <message>
+        <source>Please select a thumbnail file to be included in the package,
+if you do not wish to have a thumbnail simply click Next.</source>
+        <translation>Selecciona un fitxer de miniatura perquè sigui inclòs en el paquet.
+Si no desitges tenir una miniatura, només cal que facis clic a Següent.</translation>
+    </message>
+    <message>
+        <source>Create package</source>
+        <translation>Crea el paquet</translation>
+    </message>
+    <message>
+        <source>Available wizards</source>
+        <translation>Assistents disponibles</translation>
+    </message>
+    <message>
+        <source>Choose one of the following wizards for creating a package</source>
+        <translation>Tria un dels següents assistents per crear un paquet</translation>
+    </message>
+    <message>
+        <source>Please choose the content classes you wish to be included in the package.</source>
+        <translation>Tria les classes de contingut que vols incloure en el paquet.</translation>
+    </message>
+    <message>
+        <source>Class list</source>
+        <translation>Llista de classes</translation>
+    </message>
+    <message>
+        <source>Please select a CSS file to be included in the package.</source>
+        <translation>Selecciona un arxiu CSS per incloure en el paquet.</translation>
+    </message>
+    <message>
+        <source>Select an image file to be included in the package and click Next.
+When you are done with adding images click Next without choosing an image.</source>
+        <translation>Tria un arxiu d&apos;imatge per incloure en el paquet i fes clic a Següent.
+Quan hagis acabat d&apos;afegir imatges, fes clic a Següent sense escollir una imatge.</translation>
+    </message>
+    <message>
+        <source>Currently added image files</source>
+        <translation>Arxius d&apos;imatge afegits actualment</translation>
+    </message>
+    <message>
+        <source>Package wizard: %wizardname</source>
+        <translation>Assistent de paquets: %wizardname</translation>
+    </message>
+    <message>
+        <source>The package can be installed on your system, installing the package will copy files, create content classes etc. all depending on the package.
+If you do not wish to install the package at this time you can do so later on the view page for the package.</source>
+        <translation>El paquet es pot instal·lar en el teu sistema. Amb la instal·lació, es copiaran arxius, es crearan classes de contingut, etc., depenent del paquet.
+Si no vols instal·lar ara el paquet, ho pots fer més tard en la pàgina de vista per al paquet.</translation>
+    </message>
+    <message>
+        <source>Install items</source>
+        <translation>Instal·la els ítems</translation>
+    </message>
+    <message>
+        <source>Skip installation</source>
+        <translation>Salta la instal·lació</translation>
+    </message>
+    <message>
+        <source>Removal of packages</source>
+        <translation>Eliminació de paquets</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to remove the following packages?
+The packages will be lost forever.
+Note: The packages will not be uninstalled.</source>
+        <translation>Estàs segur de voler esborrar els següents paquets?
+Els paquets es perdran definitivament.
+Nota: Els paquets no seran desinstal·lats.</translation>
+    </message>
+    <message>
+        <source>Confirm removal</source>
+        <translation>Confirma l&apos;eliminació</translation>
+    </message>
+    <message>
+        <source>Keep packages</source>
+        <translation>Manté els paquets</translation>
+    </message>
+    <message>
+        <source>Package removal was cancelled.</source>
+        <translation>S&apos;ha cancel·lat l&apos;eliminació de paquets.</translation>
+    </message>
+    <message>
+        <source>Selection</source>
+        <translation>Selecció</translation>
+    </message>
+    <message>
+        <source>Installed</source>
+        <translation>Instal·lat</translation>
+    </message>
+    <message>
+        <source>Not installed</source>
+        <translation>No instal·lat</translation>
+    </message>
+    <message>
+        <source>Imported</source>
+        <translation>Importat</translation>
+    </message>
+    <message>
+        <source>Remove package</source>
+        <translation>Esborra paquet</translation>
+    </message>
+    <message>
+        <source>Import package</source>
+        <translation>Importa paquet</translation>
+    </message>
+    <message>
+        <source>Next %arrowright</source>
+        <translation>Següent %arrowright</translation>
+    </message>
+    <message>
+        <source>Finish</source>
+        <translation>Finalitza</translation>
+    </message>
+    <message>
+        <source>Uninstall package</source>
+        <translation>Desinstal·la el paquet</translation>
+    </message>
+    <message>
+        <source>The package can be uninstalled from your system, uninstalling the package will remove any installed files, content classes etc. all depending on the package.
+If you do not wish to uninstall the package at this time you can do so later on the view page for the package.
+You may also remove the package without uninstalling it from the package list.</source>
+        <translation>El paquet es pot desinstal·lar del teu sistema. En desinstal·lar-lo, s&apos;esborraran els arxius copiats, les classes de contingut, etc., depenent del paquet.
+Si no vols desintal·lar ara el paquet, ho pots fer més tard en la pàgina de vista del paquet.
+També pots esborrar el paquet sense desinstal·lar-lo de la llista de paquets.</translation>
+    </message>
+    <message>
+        <source>Uninstall items</source>
+        <translation>Desinstal·la els ítems</translation>
+    </message>
+    <message>
+        <source>Skip uninstallation</source>
+        <translation>Salta la desinstal·lació</translation>
+    </message>
+    <message>
+        <source>Files [%collectionname]</source>
+        <translation>Arxius [%collectionname]</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>Detalls</translation>
+    </message>
+    <message>
+        <source>Uninstall</source>
+        <translation>Desinstal·la</translation>
+    </message>
+    <message>
+        <source>Install</source>
+        <translation>Instal·la</translation>
+    </message>
+    <message>
+        <source>Export to file</source>
+        <translation>Exporta a un arxiu</translation>
+    </message>
+    <message>
+        <source>State</source>
+        <translation>Estat</translation>
+    </message>
+    <message>
+        <source>Maintainers</source>
+        <translation>Mantenidors</translation>
+    </message>
+    <message>
+        <source>Regarding eZ publish package &apos;%packagename&apos;</source>
+        <translation>En relació al paquet eZ publish &apos;%packagename&apos;</translation>
+    </message>
+    <message>
+        <source>Send E-Mail to the maintainer</source>
+        <translation>Tramet un correu electrònic al mantenidor</translation>
+    </message>
+    <message>
+        <source>Documents</source>
+        <translation>Documents</translation>
+    </message>
+    <message>
+        <source>Changelog</source>
+        <translation>Registre de canvis</translation>
+    </message>
+    <message>
+        <source>File list</source>
+        <translation>Seguretat del lloc</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/pdf/list</name>
+    <message>
+        <source>PDF Exports</source>
+        <translation>Exportacions PDF</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Nom</translation>
+    </message>
+    <message>
+        <source>Creator</source>
+        <translation>Creat per</translation>
+    </message>
+    <message>
+        <source>Created</source>
+        <translation>Creat</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Edita</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Esborra</translation>
+    </message>
+    <message>
+        <source>New Export</source>
+        <translation>Nova exportació</translation>
     </message>
 </context>
 <context>
@@ -3041,6 +4429,247 @@ en el menú superior.</translation>
     <message>
         <source>Remove selected assignments</source>
         <translation>Esborra les assignacions seleccionades</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/rss</name>
+    <message>
+        <source>Choose export node</source>
+        <translation>Tria un node d&apos;exportació</translation>
+    </message>
+    <message>
+        <source>Please choose where to export from.
+
+    Select your placements and click the %buttonname button.
+    Using the recent and bookmark items for quick placement is also possible.
+    Click on placement names to change the browse listing.</source>
+        <translation>Tria des d&apos;on vols exportar.
+
+Selecciona les teves ubicacions i fes clic al botó %buttonname.
+També pots fer servir les opcions de Recents i Preferits per fer seleccions de forma ràpida.
+Fes clic en els noms d&apos;ubicació per canviar la llista de navegació.
+</translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation>Selecciona</translation>
+    </message>
+    <message>
+        <source>Choose import destination</source>
+        <translation>Tria la destinació de la importació</translation>
+    </message>
+    <message>
+        <source>Please choose where to store imported items.
+
+    Select your placements and click the %buttonname button.
+    Using the recent and bookmark items for quick placement is also possible.
+    Click on placement names to change the browse listing.</source>
+        <translation>Tria on vols emmagatzemar els ítems importats.
+
+Selecciona les teves ubicacions i fes clic al botó %buttonname.
+També pots fer servir les opcions de Recents i Preferits per fer ubicacions de forma ràpida.
+Fes clic en els noms d&apos;ubicació per canviar la llista de navegació.</translation>
+    </message>
+    <message>
+        <source>Choose RSS image</source>
+        <translation>Tria la imatge RSS</translation>
+    </message>
+    <message>
+        <source>Please choose image to use in RSS export.
+
+    Select your placements and click the %buttonname button.
+    Using the recent and bookmark items for quick placement is also possible.
+    Click on placement names to change the browse listing.</source>
+        <translation>Tria la imatge que vols usar en la exportació RSS.
+
+Selecciona les teves ubicacions i fes clic al botó %buttonname.
+També pots fer servir les opcions de Recents i Preferit per fer ubicacions de forma ràpida.
+Fes clic en els noms d&apos;ubicació per canviar la llista de navegació.</translation>
+    </message>
+    <message>
+        <source>Choose export source</source>
+        <translation>Tria l&apos;origen de l&apos;exportació</translation>
+    </message>
+    <message>
+        <source>Choose owner of imported objects</source>
+        <translation>Tria el propietari dels objectes importats</translation>
+    </message>
+    <message>
+        <source>Please select the owner of the objects to import
+
+    Select the user and click the %buttonname button.
+    Using the recent and bookmark items for quick selection is also possible.
+    Click on placement names to change the browse listing.</source>
+        <translation>Tria el propietari dels objectes per importar.
+
+Selecciona les teves ubicacions i fes clic al botó %buttonname.
+També pots fer servir les opcions de Recents i Preferit per fer ubicacions de forma ràpida.
+Fes clic en els noms d&apos;ubicació per canviar la llista de navegació.</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/rss/edit</name>
+    <message>
+        <source>Display frontpage</source>
+        <translation>Mostra portada</translation>
+    </message>
+    <message>
+        <source>RSS Export</source>
+        <translation>Exportació RSS</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Títol</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Descripció</translation>
+    </message>
+    <message>
+        <source>Site URL</source>
+        <translation>URL del lloc</translation>
+    </message>
+    <message>
+        <source>Image</source>
+        <translation>Imatge</translation>
+    </message>
+    <message>
+        <source>Browse</source>
+        <translation>Explora</translation>
+    </message>
+    <message>
+        <source>Site Access</source>
+        <translation>Accés al lloc</translation>
+    </message>
+    <message>
+        <source>RSS version</source>
+        <translation>Versió del RSS</translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation>Actiu</translation>
+    </message>
+    <message>
+        <source>Access URL</source>
+        <translation>URL d&apos;accés</translation>
+    </message>
+    <message>
+        <source>Source path</source>
+        <translation>Ruta d&apos;origen</translation>
+    </message>
+    <message>
+        <source>Class</source>
+        <translation>Classe</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation>Actualitza</translation>
+    </message>
+    <message>
+        <source>Store</source>
+        <translation>Emmagatzema</translation>
+    </message>
+    <message>
+        <source>Add Source</source>
+        <translation>Afegeix origen</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Esborra</translation>
+    </message>
+    <message>
+        <source>RSS Import</source>
+        <translation>Importació de RSS</translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>Destination path</source>
+        <translation>Ruta de destinació</translation>
+    </message>
+    <message>
+        <source>Imported objects owner</source>
+        <translation>Propietari dels objectes importats</translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation>Selecciona</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignora</translation>
+    </message>
+    <message>
+        <source>Note. Each source only fetch 5 objects from 1 level below.</source>
+        <translation>Nota: Cada origen només abasta 5 objectes d&apos;un nivell inferior.</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/rss/list</name>
+    <message>
+        <source>Name</source>
+        <translation>Nom</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Versió</translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation>Actiu</translation>
+    </message>
+    <message>
+        <source>Modifier</source>
+        <translation>Modificador</translation>
+    </message>
+    <message>
+        <source>Modified</source>
+        <translation>Modificat</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Edita</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Esborra</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Sí</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>No</translation>
+    </message>
+    <message>
+        <source>RSS Feeds</source>
+        <translation>Subministraments RSS</translation>
+    </message>
+    <message>
+        <source>RSS Exports</source>
+        <translation>Exportacions RSS</translation>
+    </message>
+    <message>
+        <source>New Export</source>
+        <translation>Nova exportació</translation>
+    </message>
+    <message>
+        <source>RSS Imports</source>
+        <translation>Importacions RSS</translation>
+    </message>
+    <message>
+        <source>New Import</source>
+        <translation>Nova importació</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/rss/view</name>
+    <message>
+        <source>Remove</source>
+        <translation>Esborra</translation>
     </message>
 </context>
 <context>
@@ -3800,11 +5429,11 @@ Fent servir  %datatypename pots...</translation>
     </message>
     <message>
         <source>PHP Accelerator is enabled.</source>
-        <translation>L&apos;accelerador PHP està activat.</translation>
+        <translation type="obsolete">L&apos;accelerador PHP està activat.</translation>
     </message>
     <message>
         <source>PHP Accelerator is disabled.</source>
-        <translation>L&apos;accelerador PHP està desactivat.</translation>
+        <translation type="obsolete">L&apos;accelerador PHP està desactivat.</translation>
     </message>
     <message>
         <source>There is no known PHP accelerator active.</source>
@@ -3851,11 +5480,11 @@ Fent servir  %datatypename pots...</translation>
     </message>
     <message>
         <source>Language(s):</source>
-        <translation>Idioma/es:</translation>
+        <translation type="obsolete">Idioma/es:</translation>
     </message>
     <message>
         <source>Site(s):</source>
-        <translation>Lloc/s:</translation>
+        <translation type="obsolete">Lloc/s:</translation>
     </message>
     <message>
         <source>Start</source>
@@ -3958,6 +5587,63 @@ El codi predeterminat s&apos;ha fet a partir dels paràmetres bàsics que tu vas
     <message>
         <source>Summary</source>
         <translation>Sumari</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <comment>PHP Accelerator name</comment>
+        <translation>Nom</translation>
+    </message>
+    <message>
+        <source>Could not detect version</source>
+        <translation>No s&apos;ha pogut detectar la versió</translation>
+    </message>
+    <message>
+        <source>The PHP Accelerator is enabled.</source>
+        <translation>L&apos;accelerador PHP està actiu.</translation>
+    </message>
+    <message>
+        <source>The PHP Accelerator is disabled.</source>
+        <translation>L&apos;accelerador PHP està inactiu.</translation>
+    </message>
+    <message>
+        <source>Server</source>
+        <comment>Database server</comment>
+        <translation>Servidor</translation>
+    </message>
+    <message>
+        <source>Socket path</source>
+        <comment>Database socket path</comment>
+        <translation>Ruta del sòcol</translation>
+    </message>
+    <message>
+        <source>Database</source>
+        <comment>Database name</comment>
+        <translation>Base de dades</translation>
+    </message>
+    <message>
+        <source>Connection retry count</source>
+        <comment>Database retry count</comment>
+        <translation>Comptador de reintents de connexió</translation>
+    </message>
+    <message>
+        <source>Internal</source>
+        <translation>Intern</translation>
+    </message>
+    <message>
+        <source>Current read-only database (Slave)</source>
+        <translation>Base de dades actualment només de lectura (esclau)</translation>
+    </message>
+    <message>
+        <source>Language:</source>
+        <translation>Idioma:</translation>
+    </message>
+    <message>
+        <source>Priority</source>
+        <translation>Prioritat</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation>Actualitza</translation>
     </message>
 </context>
 <context>
@@ -4987,7 +6673,7 @@ El correu de l&apos;administrador es fa servir com a remitent de tots els correu
     </message>
     <message>
         <source>eZ publish has been installed with the following site(s). You will find the username and password mentioned for each site.</source>
-        <translation>eZ publish s&apos;ha instal·lat amb el/s següent/s lloc/s. Hi trobaràs el nom d&apos;usuari i la contrasenya per a cada lloc.</translation>
+        <translation type="obsolete">eZ publish s&apos;ha instal·lat amb el/s següent/s lloc/s. Hi trobaràs el nom d&apos;usuari i la contrasenya per a cada lloc.</translation>
     </message>
     <message>
         <source>Title</source>
@@ -5195,7 +6881,7 @@ Per solucionar aquest problema cal que facis el següent:</translation>
     </message>
     <message>
         <source>Please choose the access method you wish to use for your site(s). The access method determines how the site will be accessed from within a web browser. If unsure: choose URL.</source>
-        <translation>Tria quin dels mètodes d&apos;accés vols fer servir per al teu lloc/s. El mètode d&apos;accés determina com s&apos;accedirà al teu lloc des d&apos;un navegador web. Si no n&apos;estàs segur, tria una URL.</translation>
+        <translation type="obsolete">Tria quin dels mètodes d&apos;accés vols fer servir per al teu lloc/s. El mètode d&apos;accés determina com s&apos;accedirà al teu lloc des d&apos;un navegador web. Si no n&apos;estàs segur, tria una URL.</translation>
     </message>
     <message>
         <source>URL (recommended)</source>
@@ -5341,7 +7027,7 @@ Per solucionar aquest problema cal que facis el següent:</translation>
     </message>
     <message>
         <source>Use the refresh button to update the database listing(s).</source>
-        <translation>Fes servir el botó per actualizar per posar al dia el/s llistat/s de la base de dades.</translation>
+        <translation type="obsolete">Fes servir el botó per actualizar per posar al dia el/s llistat/s de la base de dades.</translation>
     </message>
     <message>
         <source>Site templates</source>
@@ -5427,6 +7113,22 @@ Per solucionar aquest problema cal que facis el següent:</translation>
         <source>here</source>
         <comment>manual installation link</comment>
         <translation>aquí</translation>
+    </message>
+    <message>
+        <source>eZ publish has been installed with the following sites. You will find the username and password mentioned for each site.</source>
+        <translation>eZ publish s&apos;ha instal·lat amb els següents llocs. Trobaràs el nom d&apos;usuari i la contrasenya esmentats per a cada lloc.</translation>
+    </message>
+    <message>
+        <source>Site security</source>
+        <translation>Seguretat del lloc</translation>
+    </message>
+    <message>
+        <source>Please choose the access method you wish to use for your site. The access method determines how the site will be accessed from within a web browser. If unsure: choose URL.</source>
+        <translation>Tria el mètode d&apos;accés que vols fer servir per al teu lloc. Aquest mètode determina com s&apos;accedirà al lloc amb un navegador web. Si no n&apos;estàs segur, tria URL.</translation>
+    </message>
+    <message>
+        <source>Use the refresh button to update the database listing.</source>
+        <translation>Fes servir el botó de refresc per actualitzar la llista de la base de dades.</translation>
     </message>
 </context>
 <context>
@@ -5712,7 +7414,7 @@ Per solucionar aquest problema cal que facis el següent:</translation>
     </message>
     <message>
         <source>It&apos;s recommended that the option is turned off. To turn it off edit your %1 configuration and set %2 and %3 to %4.</source>
-        <translation>Es recomana que l&apos;opció estigui desactivada. Per fer-ho edita la teva configuració de %1 i posa-la a %2 i %3 a %4.</translation>
+        <translation type="obsolete">Es recomana que l&apos;opció estigui desactivada. Per fer-ho edita la teva configuració de %1 i posa-la a %2 i %3 a %4.</translation>
     </message>
     <message>
         <source>More information on the subject can be found at %1.</source>
@@ -5752,43 +7454,67 @@ Per solucionar aquest problema cal que facis el següent:</translation>
     </message>
     <message>
         <source>Insufficient execution time allowed to install eZ publish</source>
-        <translation type="unfinished"></translation>
+        <translation>Temps permès insuficient per instal·lar eZ publish</translation>
     </message>
     <message>
         <source>eZ publish will not work correctly with a execution time limit of %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish no funcionarà correctament amb un temps límit d&apos;execució de %1.</translation>
     </message>
     <message>
         <source>It&apos;s highly recommended that you fix this.</source>
-        <translation type="unfinished"></translation>
+        <translation>És molt recomanable que solucionis això.</translation>
     </message>
     <message>
         <source>Locate the php.ini settings file for your PHP installation. On unix systems, this is normally located at /etc/php.ini, on windows systems check the PHP installation path.</source>
-        <translation type="unfinished"></translation>
+        <translation>Localitza l&apos;arxiu de configuració php.ini per a la teva instal·lació PHP. En sistemes Unix, normalment és a /etc/php.ini; en Windows, comprova la ruta d&apos;instal·lació de PHP.</translation>
     </message>
     <message>
         <source>Open the php.ini file and change the max_execution_time value to at least %1, and press %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Obre l&apos;arxiu php.ini i canvia el valor del temps màxim d&apos;execució (max_execution_time) a un mínim de %1, i prem %2</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Següent</translation>
+        <translation>Següent</translation>
     </message>
     <message>
         <source>If you are running eZ publish in a shared host environment, contant your ISP to perform the changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Si estàs fent anar eZ publish en un entorn d&apos;allotjament compartit, posa&apos;t en contacte amb el teu ISP per efectuar els canvis</translation>
     </message>
     <message>
         <source>Insufficient memory allocated to install eZ publish</source>
-        <translation type="unfinished"></translation>
+        <translation>Memòria assignada insuficient per instal·lar eZ publish</translation>
     </message>
     <message>
         <source>eZ publish will not work correctly with a memory limit of %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish no funcionarà correctament amb un límit de memòria de %1.</translation>
     </message>
     <message>
         <source>Open the php.ini file and change the memory_limit value to at least %1, and press %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Obre l&apos;arxiu php.ini i canvia el valor del límit de memòria (memory_limit) a un mínim de %1, i prem %2</translation>
+    </message>
+    <message>
+        <source>It&apos;s recommended that the option is turned off. To turn it off edit your %phpini configuration and set %magic_quotes_gpc and %magic_quotes_runtime to %offtext.</source>
+        <translation>És recomanable que l&apos;opció estigui deshabilitada. Per fer-ho, edita la configuració %phpini i posa %magic_quotes_gpc i %magic_quotes_runtime a %offtext.</translation>
+    </message>
+    <message>
+        <source>eZ publish will not work properly with this option on.</source>
+        <translation>eZ publish no funcionarà correctament amb l&apos;opció habilitada.</translation>
+    </message>
+    <message>
+        <source>To turn it off edit your %phpini configuration and set %magic_quotes_runtime to %offtext.</source>
+        <translation>Per deshabilitar-la, edita la configuració %phpini i posa %magic_quotes_runtime a %offtext.</translation>
+    </message>
+    <message>
+        <source>Unstable PHP version</source>
+        <translation>Versió PHP inestable</translation>
+    </message>
+    <message>
+        <source>, is known to be unstable</source>
+        <translation>, és coneguda per ser inestable</translation>
+    </message>
+    <message>
+        <source>Another version of PHP can be download at</source>
+        <translation>Pots descarregar una altra versió de PHP a</translation>
     </message>
 </context>
 <context>
@@ -5835,15 +7561,15 @@ Per solucionar aquest problema cal que facis el següent:</translation>
     </message>
     <message>
         <source>Order summary:</source>
-        <translation type="obsolete">Resum de comanda:</translation>
+        <translation>Resum de comanda:</translation>
     </message>
     <message>
         <source>Subtotal of items:</source>
-        <translation type="obsolete">Subtotal d&apos;articles:</translation>
+        <translation>Subtotal d&apos;articles:</translation>
     </message>
     <message>
         <source>Order total:</source>
-        <translation type="obsolete">Total comanda:</translation>
+        <translation>Total comanda:</translation>
     </message>
     <message>
         <source>Confirm</source>
@@ -5947,7 +7673,7 @@ Per solucionar aquest problema cal que facis el següent:</translation>
     </message>
     <message>
         <source>Remove item(s)</source>
-        <translation>Esborra el(s) article(s)</translation>
+        <translation type="obsolete">Esborra el(s) article(s)</translation>
     </message>
     <message>
         <source>Empty wish list</source>
@@ -6150,6 +7876,14 @@ Per solucionar aquest problema cal que facis el següent:</translation>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
         <translation>La clau enviada no és vàlida. El compte no ha estat activat.</translation>
     </message>
+    <message>
+        <source>ez.no: Orderconfirmation %1</source>
+        <translation>ez.no: Confirmació de comanda %1</translation>
+    </message>
+    <message>
+        <source>Remove items</source>
+        <translation>Esborra els ítems</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/shop/view</name>
@@ -6184,6 +7918,17 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.</transl
 Selecciona els productes i fes clic al botó %buttonname.
 També pots fer servir les opcions de Recents i Preferits per fer les seleccions de forma ràpida.
 Fes clic en els noms d&apos;objecte per canviar la llista de navegació.</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/templates/</name>
+    <message>
+        <source>Logout</source>
+        <translation>Desconnecta</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation>Connecta</translation>
     </message>
 </context>
 <context>
@@ -6334,6 +8079,10 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.</transl
     <message>
         <source>No object available</source>
         <translation>No hi ha objectes disponibles</translation>
+    </message>
+    <message>
+        <source>version</source>
+        <translation>versió</translation>
     </message>
 </context>
 <context>
@@ -6530,6 +8279,10 @@ your account.</source>
         <translation>El teu compte s&apos;ha creat amb èxit. S&apos;enviarà un missatge al compte de correu
 especificat. Cal que segueixis les instruccions d&apos;aquest missatge
 per activar el teu compte.</translation>
+    </message>
+    <message>
+        <source>You need to log in to get access to the intranet.</source>
+        <translation>Cal que et registris per tenir accés a la intranet.</translation>
     </message>
 </context>
 <context>
@@ -6903,31 +8656,31 @@ per activar el teu compte.</translation>
     <name>design/standard/workflow/event</name>
     <message>
         <source>Checkout</source>
-        <translation>Caixa</translation>
+        <translation type="obsolete">Caixa</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Següent</translation>
+        <translation type="obsolete">Següent</translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation>Embolicar</translation>
+        <translation type="obsolete">Embolicar</translation>
     </message>
     <message>
         <source>Do you want wrapping in Christmas paper?</source>
-        <translation>El vols embolicar en paper de regal?</translation>
+        <translation type="obsolete">El vols embolicar en paper de regal?</translation>
     </message>
     <message>
         <source>No</source>
-        <translation>No</translation>
+        <translation type="obsolete">No</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation>Sí</translation>
+        <translation type="obsolete">Sí</translation>
     </message>
     <message>
         <source>Hello</source>
-        <translation>Hola</translation>
+        <translation type="obsolete">Hola</translation>
     </message>
 </context>
 <context>
@@ -6938,11 +8691,11 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Unpublish object</source>
-        <translation>No publiquis l&apos;objecte</translation>
+        <translation type="obsolete">No publiquis l&apos;objecte</translation>
     </message>
     <message>
         <source>Publish object</source>
-        <translation>Publica l&apos;objecte</translation>
+        <translation type="obsolete">Publica l&apos;objecte</translation>
     </message>
     <message>
         <source>New Entry</source>
@@ -6974,11 +8727,11 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Checkout text</source>
-        <translation>Text de caixa</translation>
+        <translation type="obsolete">Text de caixa</translation>
     </message>
     <message>
         <source>Message</source>
-        <translation>Missatge</translation>
+        <translation type="obsolete">Missatge</translation>
     </message>
     <message>
         <source>Users without workflow IDs</source>
@@ -6986,15 +8739,15 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Days</source>
-        <translation>Dies</translation>
+        <translation type="obsolete">Dies</translation>
     </message>
     <message>
         <source>Hours</source>
-        <translation>Hores</translation>
+        <translation type="obsolete">Hores</translation>
     </message>
     <message>
         <source>Minutes</source>
-        <translation>Minuts</translation>
+        <translation type="obsolete">Minuts</translation>
     </message>
     <message>
         <source>Class</source>
@@ -7019,6 +8772,10 @@ per activar el teu compte.</translation>
     <message>
         <source>Load attributes</source>
         <translation>Carrega els atributs</translation>
+    </message>
+    <message>
+        <source>Modify publish date</source>
+        <translation>Modifica la data de publicació</translation>
     </message>
 </context>
 <context>
@@ -7453,7 +9210,7 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>A valid image is required.</source>
-        <translation>Cal una imatge vàlida.</translation>
+        <translation type="obsolete">Cal una imatge vàlida.</translation>
     </message>
     <message>
         <source>Integer</source>
@@ -7621,6 +9378,35 @@ per activar el teu compte.</translation>
         <source>Link %1 does not exist.</source>
         <translation>L&apos;enllaç %1 no existeix.</translation>
     </message>
+    <message>
+        <source>Identifier</source>
+        <comment>Datatype name</comment>
+        <translation>Identificador</translation>
+    </message>
+    <message>
+        <source>image</source>
+        <comment>Default image name</comment>
+        <translation>imatge</translation>
+    </message>
+    <message>
+        <source>Ini Setting</source>
+        <comment>Datatype name</comment>
+        <translation>Configuració Ini</translation>
+    </message>
+    <message>
+        <source>Could not locate ini file</source>
+        <translation>No s&apos;ha pogut localitzar l&apos;arxiu Ini</translation>
+    </message>
+    <message>
+        <source>Package</source>
+        <comment>Datatype name</comment>
+        <translation>Paquet</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <comment>Datatype information collector action</comment>
+        <translation>Tramet</translation>
+    </message>
 </context>
 <context>
     <name>kernel/collaboration</name>
@@ -7661,7 +9447,7 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Edita</translation>
+        <translation type="obsolete">Edita</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -7723,6 +9509,14 @@ per activar el teu compte.</translation>
         <source>URL translator</source>
         <translation>Traductor d&apos;URL</translation>
     </message>
+    <message>
+        <source>Keywords</source>
+        <translation>Paraules clau</translation>
+    </message>
+    <message>
+        <source>PDF Export</source>
+        <translation type="obsolete">Exportació  PDF</translation>
+    </message>
 </context>
 <context>
     <name>kernel/content/removenode</name>
@@ -7746,12 +9540,12 @@ per activar el teu compte.</translation>
     <message>
         <source>child</source>
         <comment>1 child</comment>
-        <translation>fill</translation>
+        <translation type="obsolete">fill</translation>
     </message>
     <message>
         <source>children</source>
         <comment>several children</comment>
-        <translation>fills</translation>
+        <translation type="obsolete">fills</translation>
     </message>
 </context>
 <context>
@@ -7807,6 +9601,145 @@ per activar el teu compte.</translation>
         <source>Upload</source>
         <translation>Càrrega</translation>
     </message>
+    <message>
+        <source>Package information</source>
+        <translation>Informació del paquet</translation>
+    </message>
+    <message>
+        <source>Package maintainer</source>
+        <translation>Mantenidor del paquet</translation>
+    </message>
+    <message>
+        <source>Package changelog</source>
+        <translation>Registre de canvis del paquet</translation>
+    </message>
+    <message>
+        <source>Package thumbnail</source>
+        <translation>Miniatura del paquet</translation>
+    </message>
+    <message>
+        <source>Package name</source>
+        <translation>Nom del paquet</translation>
+    </message>
+    <message>
+        <source>Package name is missing</source>
+        <translation>No es troba el nom del paquet</translation>
+    </message>
+    <message>
+        <source>A package named %packagename already exists, please give another name</source>
+        <translation>Ja existeix un paquet anomenat %packagename. Dóna-li un altre nom</translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation>Resum</translation>
+    </message>
+    <message>
+        <source>Summary is missing</source>
+        <translation>No s&apos;ha trobat el resum</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Versió</translation>
+    </message>
+    <message>
+        <source>The version must only contain numbers and must be delimited by dots (.), e.g. 1.0</source>
+        <translation>La versió només pot contenir números, i han d&apos;estar delimitats per punts. Per exemple, 1.0</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Nom</translation>
+    </message>
+    <message>
+        <source>You must enter a name for the changelog</source>
+        <translation>Cal que introdueixis un nom per al registre de canvis</translation>
+    </message>
+    <message>
+        <source>E-Mail</source>
+        <translation>Correu electrònic</translation>
+    </message>
+    <message>
+        <source>You must enter an e-mail for the changelog</source>
+        <translation>Cal que introdueixis un correu electrònic per al registre de canvis</translation>
+    </message>
+    <message>
+        <source>Changelog</source>
+        <translation>Registre de canvis</translation>
+    </message>
+    <message>
+        <source>You must supply some text for the changelog entry</source>
+        <translation>Cal que posis algun text per a l&apos;entrada del registre de canvis</translation>
+    </message>
+    <message>
+        <source>You must enter a name of the maintainer</source>
+        <translation>Cal que introdueixis el nom del mantenidor</translation>
+    </message>
+    <message>
+        <source>You must enter an e-mail address of the maintainer</source>
+        <translation>Cal que introdueixis una adreça de correu electrònic del mantenidor</translation>
+    </message>
+    <message>
+        <source>Content classes to include</source>
+        <translation>Classes de contingut per incloure</translation>
+    </message>
+    <message>
+        <source>Content class export</source>
+        <translation>Exportació de classes de contingut</translation>
+    </message>
+    <message>
+        <source>Class list</source>
+        <translation>Llista de classes</translation>
+    </message>
+    <message>
+        <source>You must select at least one class for inclusion</source>
+        <translation>Cal que seleccionis almenys una classe per incloure</translation>
+    </message>
+    <message>
+        <source>CSS file</source>
+        <translation>Arxiu CSS</translation>
+    </message>
+    <message>
+        <source>Image files</source>
+        <translation>Arxius d&apos;imatge</translation>
+    </message>
+    <message>
+        <source>Site style</source>
+        <translation>Estil del lloc</translation>
+    </message>
+    <message>
+        <source>You must upload a CSS file</source>
+        <translation>Cal que carreguis un arxiu CSS</translation>
+    </message>
+    <message>
+        <source>File did not have a .css suffix, this is most likely not a CSS file</source>
+        <translation>L&apos;arxiu no té un sufix .css. Probablement no és un arxiu CSS</translation>
+    </message>
+    <message>
+        <source>Content class %classname (%classidentifier)</source>
+        <translation>Classe de contingut %classname (%classidentifier)</translation>
+    </message>
+    <message>
+        <source>Create package</source>
+        <translation>Crea el paquet</translation>
+    </message>
+    <message>
+        <source>Install</source>
+        <translation>Instal·la</translation>
+    </message>
+    <message>
+        <source>Uninstall</source>
+        <translation>Desinstal·la</translation>
+    </message>
+    <message>
+        <source>Package %packagename already exists, cannot import the package</source>
+        <translation>El paquet %packagename ja existeix. El paquet no es pot importar</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/pdf</name>
+    <message>
+        <source>PDF Export</source>
+        <translation>Exporta a PDF</translation>
+    </message>
 </context>
 <context>
     <name>kernel/reference</name>
@@ -7836,6 +9769,13 @@ per activar el teu compte.</translation>
     <message>
         <source>Editing policy</source>
         <translation>Polítiques en edició</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/rss</name>
+    <message>
+        <source>Really Simple Syndication</source>
+        <translation>Really Simple Syndication (RSS)</translation>
     </message>
 </context>
 <context>
@@ -7897,6 +9837,10 @@ per activar el teu compte.</translation>
     <message>
         <source>Activate extensions</source>
         <translation>Activa extensions</translation>
+    </message>
+    <message>
+        <source>Setup menu</source>
+        <translation>Menú de configuració</translation>
     </message>
 </context>
 <context>
@@ -8061,7 +10005,7 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Checkout</source>
-        <translation>Caixa</translation>
+        <translation type="obsolete">Caixa</translation>
     </message>
     <message>
         <source>Multiplexer</source>
@@ -8069,11 +10013,11 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Publish</source>
-        <translation>Publica</translation>
+        <translation type="obsolete">Publica</translation>
     </message>
     <message>
         <source>Publish on time</source>
-        <translation>Publica en data</translation>
+        <translation type="obsolete">Publica en data</translation>
     </message>
     <message>
         <source>Simple shipping</source>
@@ -8081,11 +10025,11 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Timing</source>
-        <translation>Temporalització</translation>
+        <translation type="obsolete">Temporalització</translation>
     </message>
     <message>
         <source>Unpublish</source>
-        <translation>No el publiquis</translation>
+        <translation type="obsolete">No el publiquis</translation>
     </message>
     <message>
         <source>Wait until date</source>
@@ -8093,11 +10037,11 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation>Embolicar</translation>
+        <translation type="obsolete">Embolicar</translation>
     </message>
     <message>
         <source>Hello User</source>
-        <translation>Hola usuari</translation>
+        <translation type="obsolete">Hola usuari</translation>
     </message>
 </context>
 <context>
@@ -8108,7 +10052,20 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Serial</source>
-        <translation>Sèrie</translation>
+        <translation type="obsolete">Sèrie</translation>
+    </message>
+</context>
+<context>
+    <name>lib/ezpdf/classes</name>
+    <message>
+        <source>Contents</source>
+        <comment>Table of contents</comment>
+        <translation>Continguts</translation>
+    </message>
+    <message>
+        <source>Index</source>
+        <comment>Keyword index name</comment>
+        <translation>Índex</translation>
     </message>
 </context>
 <context>
@@ -8116,6 +10073,13 @@ per activar el teu compte.</translation>
     <message>
         <source>Some template errors occured, see debug for more information.</source>
         <translation>Hi ha hagut alguns errors de plantilla. Per a més informació mira el depurador.</translation>
+    </message>
+</context>
+<context>
+    <name>pdf/edit</name>
+    <message>
+        <source>PDF Export</source>
+        <translation>Exporta a PDF</translation>
     </message>
 </context>
 <context>
