@@ -575,9 +575,10 @@ class eZPackageCreationHandler
         $collections = array();
         $cleanupFiles = array();
 
-		$thumbnail= $persistentData['thumbnail'];
-		if ( $thumbnail )
+        if ( isset( $persistentData['thumbnail'] ) and
+             $persistentData['thumbnail'] )
 		{
+            $thumbnail = $persistentData['thumbnail'];
             $fileItem = array( 'file' => $thumbnail['filename'],
                                'type' => 'thumbnail',
                                'role' => false,
@@ -653,6 +654,11 @@ class eZPackageCreationHandler
 			$packager = $userObject->attribute( 'name' );
         $persistentData['packager'] = $packager;
 		$this->generatePackageInformation( $persistentData, $package, $http, $step, $persistentData );
+
+        // Make sure the package name contains only valid characters
+        include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+        $trans =& eZCharTransform::instance();
+        $persistentData['name'] = $trans->transformByGroup( $persistentData['name'], 'urlalias' );
     }
 
     /*!
@@ -672,12 +678,6 @@ class eZPackageCreationHandler
         if ( $http->hasPostVariable( 'PackageName' ) )
         {
             $packageName = trim( $http->postVariable( 'PackageName' ) );
-
-            /* Make sure to generate a package name that can be called through
-             * a urlalias */
-            include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-            $trans =& eZCharTransform::instance();
-            $packageName = $trans->transformByGroup( $packageName, 'urlalias' );
         }
         if ( $http->hasPostVariable( 'PackageSummary' ) )
             $packageSummary = $http->postVariable( 'PackageSummary' );
@@ -715,6 +715,19 @@ class eZPackageCreationHandler
                 $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'Package name' ),
                                       'description' => ezi18n( 'kernel/package', 'A package named %packagename already exists, please give another name', false, array( '%packagename' => $packageName ) ) );
                 $result = false;
+            }
+            else
+            {
+                // Make sure the package name contains only valid characters
+                include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+                $trans =& eZCharTransform::instance();
+                $validPackageName = $trans->transformByGroup( $packageName, 'urlalias' );
+                if ( strcmp( $validPackageName, $packageName ) != 0 )
+                {
+                    $errorList[] = array( 'field' => 'Package name',
+                                          'description' => "The package name $packageName is not valid, we recommend using $validPackageName." );
+                    $result = false;
+                }
             }
         }
         if ( !$packageSummary )

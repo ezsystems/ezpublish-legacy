@@ -293,10 +293,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
 
 		if ( $cssfile )
 		{
-            include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-            $trans =& eZCharTransform::instance();
-
-            $packageInformation['name'] = $trans->transformByGroup( $cssfile['basename'], 'urlalias' );
+            $packageInformation['name'] = $cssfile['basename'];
 			$packageInformation['summary'] = $cssfile['basename'] . ' site style';
 			$packageInformation['description'] = 'A site style called ' . $cssfile['basename'];
 		}
