@@ -79,7 +79,8 @@ class eZExpiryHandler
     {
         $cacheDirectory = eZSys::cacheDirectory();
 
-        $fp = @fopen( $cacheDirectory . "/" . 'expiry.php', 'w' );
+        $uniqid = md5( uniqid( "ezp". getmypid(), true ) );
+        $fp = @fopen( "$cacheDirectory/.expiry.php.$uniqid.tmp", 'w' );
         if ( $fp )
         {
             $storeString = "<?php\n\$Timestamps = array( ";
@@ -95,6 +96,7 @@ class eZExpiryHandler
 
             fwrite( $fp, $storeString );
             fclose( $fp );
+            rename( "$cacheDirectory/.expiry.php.$uniqid.tmp", "$cacheDirectory/expiry.php" );
 
             $this->IsModified = false;
         }
