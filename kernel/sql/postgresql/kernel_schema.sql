@@ -1918,7 +1918,9 @@ CREATE TABLE ezuser_discountrule (
 CREATE TABLE ezuser_role (
     id integer DEFAULT nextval('ezuser_role_s'::text) NOT NULL,
     role_id integer,
-    contentobject_id integer
+    contentobject_id integer,
+    limit_identifier character varying(255) DEFAULT '',
+    limit_value character varying(255) DEFAULT ''
 );
 
 
@@ -2137,10 +2139,12 @@ CREATE TABLE ezpdf_export (
 
 
 
+
 CREATE TABLE ezpending_actions (
-  action character varying(64) NOT NULL,
-  param text
+    "action" character varying(64) NOT NULL,
+    param text
 );
+
 
 
 
@@ -2305,10 +2309,18 @@ CREATE TABLE ezsubtree_notification_rule (
 
 
 
+
+
+
 CREATE TABLE ezsubtree_expiry (
     subtree character varying(255) NOT NULL,
     cache_file character varying(255) NOT NULL
 );
+
+
+
+
+
 
 
 CREATE TABLE ezuser_session_link (
@@ -2657,7 +2669,9 @@ CREATE INDEX ezimagefile_file ON ezimagefile USING btree (filepath);
 
 
 
-CREATE INDEX ezpending_actions_action ON ezpending_actions USING btree (action);
+
+CREATE INDEX ezpending_actions_action ON ezpending_actions USING btree ("action");
+
 
 
 
