@@ -3,7 +3,7 @@
 <ul>
 	<li>{"You don't have permission to access this area."|i18n("design/standard/error/kernel")}</li>
 {section show=eq($current_user.contentobject_id,$anonymous_user_id)}
-	<li>{"Login with a user to get proper permissions."|i18n("design/standard/error/kernel")}</li>
+	<li>{"Login to get proper permissions."|i18n("design/standard/error/kernel")}</li>
 {/section}
 </ul>
 </div>
@@ -12,7 +12,7 @@
 
 <form method="post" action={"/user/login/"|ezurl}>
 
-<p>{"Click the Login button to login as a user."|i18n("design/standard/error/kernel")}</p>
+<p>{"Click the Login button to login."|i18n("design/standard/error/kernel")}</p>
 <div class="buttonblock">
 <input class="button" type="submit" name="LoginButton" value="{'Login'|i18n('design/standard/user','Button')}" />
 </div>

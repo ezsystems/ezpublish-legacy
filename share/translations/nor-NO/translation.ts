@@ -201,28 +201,12 @@
         <translation>Redigerer klassegruppe</translation>
     </message>
     <message>
-        <source>Are you sure you want to remove this(these) class(es)?</source>
-        <translation>Er du sikker på at du vil fjerne disse klassene?</translation>
-    </message>
-    <message>
-        <source>Remove class</source>
-        <translation>Fjern klasse</translation>
-    </message>
-    <message>
-        <source>will remove</source>
-        <translation>vil fjerne</translation>
-    </message>
-    <message>
         <source>Confirm</source>
         <translation>Bekreft</translation>
     </message>
     <message>
         <source>Cancel</source>
         <translation>Avbryt</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to remove this(these) group(s)?</source>
-        <translation>Er du sikker på at du vil fjerne disse klassegruppene?</translation>
     </message>
     <message>
         <source>Editing class</source>
@@ -239,6 +223,22 @@
     <message>
         <source>Discard Changes</source>
         <translation>Forkast endringer</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove these classes?</source>
+        <translation>Er du sikker på at du vil fjerne disse klassene?</translation>
+    </message>
+    <message>
+        <source>Removing class %1 will remove %2!</source>
+        <translation>Hvis du fjerner klassen %1 vil også %2 bli fjernet!</translation>
+    </message>
+    <message>
+        <source>Removing group %1 will remove %2!</source>
+        <translation>Hvis du fjerner klassegruppen %1 vil også %2 bli fjernet!</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove these class groups?</source>
+        <translation>Er du sikker på at du vil fjerne disse klassegruppene?</translation>
     </message>
 </context>
 <context>
@@ -330,22 +330,6 @@
 <context>
     <name>design/standard/content</name>
     <message>
-        <source>Are you sure you want to remove this(these) translations(s)?</source>
-        <translation>Er du sikker på at du vil fjerne disse oversettelsene?</translation>
-    </message>
-    <message>
-        <source>Removing</source>
-        <translation>Fjerning av</translation>
-    </message>
-    <message>
-        <source>will remove the translation itself and </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>translated versions!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Confirm</source>
         <translation>Bekreft</translation>
     </message>
@@ -358,24 +342,8 @@
         <translation>Ny oversettelse av innhold</translation>
     </message>
     <message>
-        <source>Translations list</source>
-        <translation>Oversettelsesliste</translation>
-    </message>
-    <message>
-        <source>Translations editing</source>
-        <translation>Oversettelsesredigering</translation>
-    </message>
-    <message>
-        <source>Translation Name</source>
-        <translation>Navn på oversettelse</translation>
-    </message>
-    <message>
         <source>Locale</source>
         <translation>Stedsinformasjon</translation>
-    </message>
-    <message>
-        <source>Remove:</source>
-        <translation>Fjern:</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -384,6 +352,50 @@
     <message>
         <source>New</source>
         <translation>Ny</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove this translation?</source>
+        <translation>Er du sikker på at du vil fjerne denne oversettelsen?</translation>
+    </message>
+    <message>
+        <source>Pick one of the translations from the list to add or enter a new custom one in the input fields.</source>
+        <translation>Velg en av oversettelsene i listen, eller skriv inn en ny spesialtilpasset oversettelse.</translation>
+    </message>
+    <message>
+        <source>Translations</source>
+        <translation>Oversettelser</translation>
+    </message>
+    <message>
+        <source>Custom</source>
+        <translation>Spesialtilpasset</translation>
+    </message>
+    <message>
+        <source>Name of translation</source>
+        <translation>Navn på oversettelsen</translation>
+    </message>
+    <message>
+        <source>Create</source>
+        <translation>Lag</translation>
+    </message>
+    <message>
+        <source>Active translations</source>
+        <translation>Aktive oversettelser</translation>
+    </message>
+    <message>
+        <source>Below you&apos;ll find a list of active translations which content objects may be translated into.</source>
+        <translation>Under finner du en liste over aktive oversettelser som innholdsobjekter kan bli oversatt til.</translation>
+    </message>
+    <message>
+        <source>Language name</source>
+        <translation>Språknavn</translation>
+    </message>
+    <message>
+        <source>Locale code</source>
+        <translation>Stedskode</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Rediger</translation>
     </message>
 </context>
 <context>
@@ -1109,24 +1121,8 @@
         <translation>Modulen ble ikke funnet</translation>
     </message>
     <message>
-        <source>The requested module</source>
-        <translation>Modulen</translation>
-    </message>
-    <message>
-        <source>could not be found.</source>
-        <translation>ble ikke funnet.</translation>
-    </message>
-    <message>
         <source>View not found</source>
         <translation>Visning ikke funnet</translation>
-    </message>
-    <message>
-        <source>The requested view</source>
-        <translation>Visningen</translation>
-    </message>
-    <message>
-        <source>could not be found in module:</source>
-        <translation>ble ikke funnet i modulen:</translation>
     </message>
     <message>
         <source>Unavailable</source>
@@ -1137,12 +1133,20 @@
         <translation>Objektet er ikke tilgjengelig.</translation>
     </message>
     <message>
-        <source>Login with a user to get proper permissions.</source>
-        <translation type="unfinished"></translation>
+        <source>Login to get proper permissions.</source>
+        <translation>Logg inn for å få tilgang.</translation>
     </message>
     <message>
-        <source>Click the Login button to login as a user.</source>
-        <translation type="unfinished"></translation>
+        <source>Click the Login button to login.</source>
+        <translation>Klikk Logg inn-knappen for å logge inn.</translation>
+    </message>
+    <message>
+        <source>The requested module &apos;%1&apos; could not be found.</source>
+        <translation>Modulen &apos;%1&apos; ble ikke funnet.</translation>
+    </message>
+    <message>
+        <source>The requested view &apos;%1&apos; could not be found in module: &apos;%2&apos;</source>
+        <translation>Visningen &apos;%1&apos; ble ikke funnet i modulen &apos;%2&apos;</translation>
     </message>
 </context>
 <context>
@@ -1314,26 +1318,6 @@
 <context>
     <name>design/standard/node</name>
     <message>
-        <source>Are you sure you want to remove</source>
-        <translation>Er du sikker på at du vil fjerne</translation>
-    </message>
-    <message>
-        <source>from node</source>
-        <translation>fra noden</translation>
-    </message>
-    <message>
-        <source>?</source>
-        <translation>?</translation>
-    </message>
-    <message>
-        <source>Removing this assignment will also remove it&apos;s</source>
-        <translation>Fjerning av noden vil også fjerne dens</translation>
-    </message>
-    <message>
-        <source>!</source>
-        <translation>!</translation>
-    </message>
-    <message>
         <source>Removing node assignment of</source>
         <translation>Fjerner nodetilordning av</translation>
     </message>
@@ -1346,16 +1330,20 @@
         <translation>Avbryt</translation>
     </message>
     <message>
-        <source>Are you sure you want to remove this(these) node(s)?</source>
-        <translation>Er du sikker på at du vil fjerne denne (disse) noden(e)?</translation>
+        <source>Are you sure you want to remove %1 from node %2?</source>
+        <translation>Er du sikker på at du vil fjerne %1 fra noden %2?</translation>
     </message>
     <message>
-        <source>Removing</source>
-        <translation>Fjerning av</translation>
+        <source>Removing this assignment will also remove it&apos;s %1 children!</source>
+        <translation>Hvis du fjerner denne tilordningen blir også %1 barn av denne fjernet!</translation>
     </message>
     <message>
-        <source>will remove the node itself and it&apos;s</source>
-        <translation>vil også fjerne dens</translation>
+        <source>Are you sure you want to remove these nodes?</source>
+        <translation>Er du sikker på at du vil fjerne disse nodene?</translation>
+    </message>
+    <message>
+        <source>Removing %1 will remove the node itself and it&apos;s %2 children!</source>
+        <translation>Hvis du fjerner noden %1 blir også %2 barn av denne fjernet!</translation>
     </message>
 </context>
 <context>
@@ -2518,7 +2506,7 @@
     </message>
     <message>
         <source>Language name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Språknavn</translation>
     </message>
     <message>
         <source>Selection</source>
