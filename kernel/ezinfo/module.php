@@ -46,4 +46,9 @@ $ViewList["about"] = array(
     "script" => "about.php",
     "params" => array() );
 
+$ViewList["is_alive"] = array(
+    "functions" => array( 'read' ),
+    "script" => "isalive.php",
+    "params" => array() );
+
 ?>
