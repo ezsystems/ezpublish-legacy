@@ -80,7 +80,7 @@ class eZMessageType extends eZWorkflowEventType
         }
         else
         {
-            $recieverID = 8;
+            $recieverID = 14;
         }
         $message =& eZTaskMessage::create( $taskID, $creatorType, $recieverID, $contentObject->attribute( 'id' ) );
         $message->store();

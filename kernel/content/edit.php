@@ -38,172 +38,181 @@ include_once( 'kernel/content/node_edit.php' );
 initializeNodeEdit( $Module );
 include_once( 'kernel/content/relation_edit.php' );
 initializeRelationEdit( $Module );
-
-function checkForExistingVersion( &$module, $objectID, $editVersion )
+if ( !function_exists ( 'checkForExistingVersion'  ) )
 {
-    if ( !is_numeric( $editVersion ) )
+    function checkForExistingVersion( &$module, $objectID, $editVersion )
     {
-        // Fetch and create new version
-        $object =& eZContentObject::fetch( $objectID );
-        $version =& $object->createNewVersion();
-        $module->redirectToView( "edit", array( $objectID, $version->attribute( "version" ) ) );
-        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+        if ( !is_numeric( $editVersion ) )
+        {
+            // Fetch and create new version
+            $object =& eZContentObject::fetch( $objectID );
+            $version =& $object->createNewVersion();
+            $module->redirectToView( "edit", array( $objectID, $version->attribute( "version" ) ) );
+            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+        }
     }
 }
 $Module->addHook( 'pre_fetch', 'checkForExistingVersion' );
 
-function registerSearchObject( &$module, $parameters )
+if ( !function_exists ( 'registerSearchObject'  ) )
 {
-    include_once( "kernel/classes/ezsearch.php" );
-    $object =& $parameters[1];
-    //   print( "<br>parameters in registerSerchObject<br>" );
-//    var_dump( $parameters );
-    // Register the object in the search engine.
-    eZSearch::removeObject( $object );
-    eZSearch::addObject( $object );
+    function registerSearchObject( &$module, $parameters )
+    {
+        include_once( "kernel/classes/ezsearch.php" );
+        $object =& $parameters[1];
+        // Register the object in the search engine.
+        eZSearch::removeObject( $object );
+        eZSearch::addObject( $object );
+    }
 }
 $Module->addHook( 'post_publish', 'registerSearchObject', 1, false );
 
-function checkContentActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion )
+if ( !function_exists ( 'checkContentActions'  ) )
 {
 
-    if ( $module->isCurrentAction( 'Preview' ) )
+    function checkContentActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion )
     {
-        $module->redirectToView( 'versionview', array( $object->attribute('id'), $EditVersion ) );
-        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
-    }
-
-    if ( $module->isCurrentAction( 'Translate' ) )
-    {
-        $module->redirectToView( 'translate', array( $object->attribute('id'), $EditVersion ) );
-        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
-    }
-
-    if ( $module->isCurrentAction( 'VersionEdit' ) )
-    {
-        $module->redirectToView( 'versions', array( $object->attribute('id') ) );
-        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
-    }
-
-    if ( $module->isCurrentAction( 'Publish' ) )
-    {
-        $nodeAssignmentList =& $version->attribute( 'node_assignments' );
-//            exit();
-
-
-        $count = 0;
-        foreach ( array_keys( $nodeAssignmentList ) as $key )
+        if ( $module->isCurrentAction( 'Preview' ) )
         {
-        
-            $nodeAssignment =& $nodeAssignmentList[$key];
-            $status = eZTrigger::runTrigger( 'content',
-                                             'publish',
-                                             'b',
-                                             array( 'object'  => $object,
-                                                    'version' => $version->attribute( 'version' ),
-                                                    'parent_node_id' => $nodeAssignment->attribute( 'parent_node' )
-                                                    ),
-                                             $module
-                                             );
+            $module->redirectToView( 'versionview', array( $object->attribute('id'), $EditVersion ) );
+            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+        }
 
-            if ( $status == EZ_TRIGGER_NO_CONNECTED_WORKFLOWS || $status == EZ_TRIGGER_WORKFLOW_DONE )
+        if ( $module->isCurrentAction( 'Translate' ) )
+        {
+            $module->redirectToView( 'translate', array( $object->attribute('id'), $EditVersion ) );
+            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+        }
+
+        if ( $module->isCurrentAction( 'VersionEdit' ) )
+        {
+            $module->redirectToView( 'versions', array( $object->attribute('id') ) );
+            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+        }
+
+        if ( $module->isCurrentAction( 'Publish' ) )
+        {
+
+            $nodeAssignmentList =& $version->attribute( 'node_assignments' );
+
+            $count = 0;
+            foreach ( array_keys( $nodeAssignmentList ) as $key )
             {
 
-                
-//                print( "<br> we are going to publish in check action" );
-//                flush();
+                $nodeAssignment =& $nodeAssignmentList[$key];
+                $existingNode =& eZContentObjectTreeNode::findNode( $nodeAssignment->attribute( 'parent_node' ) , $object->attribute( 'id' ), true );
+                $runTrigger = true;
+                if ( get_class( $existingNode ) == 'ezcontentobjecttreenode' )
+                {
+                    if ( $existingNode->attribute( 'contentobject_version' ) == $version->attribute( 'version' ) )
+                    {
+                        $runTrigger = false;
+                    }
+                }
 
-                
-                $object->setAttribute( 'current_version', $EditVersion );
-                $object->setAttribute( 'modified', mktime() );
-                $object->setAttribute( 'published', mktime() );
+                if ( $runTrigger )
+                {
+                    $status = eZTrigger::runTrigger( 'content',
+                                                     'publish',
+                                                     'b',
+                                                     array( 'object'  => $object,
+                                                            'version' => $version->attribute( 'version' ),
+                                                            'parent_node_id' => $nodeAssignment->attribute( 'parent_node' )
+                                                            ),
+                                                     $module
+                                                     );
+                }
 
-                $object->store();
-
-
-                $nodeID = $nodeAssignment->attribute( 'parent_node' );
-
-                $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
-/*
-                var_dump( $existingNode );
-                print("<br>");
-                var_dump( $nodeAssignment );
-                print("<br>");
-                print( $version->attribute( 'main_parent_node_id' ) . "\n bbbb" );
-                print("<br>");
-                exit();
-*/
-
-                $existingNode =& eZContentObjectTreeNode::findNode( $nodeID, $object->attribute( 'id' ), true );
-
-
-                if ( $existingNode  == null )
+                if ( $status == EZ_TRIGGER_NO_CONNECTED_WORKFLOWS || $status == EZ_TRIGGER_WORKFLOW_DONE || !$runTrigger )
                 {
 
+
+
+                    $object->setAttribute( 'current_version', $EditVersion );
+                    $object->setAttribute( 'modified', mktime() );
+                    $object->setAttribute( 'published', mktime() );
+                    $object->store();
+
+                    $nodeID = $nodeAssignment->attribute( 'parent_node' );
                     $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
-                    $existingNode =&  $parentNode->addChild( $object->attribute( 'id' ), 0, true );
 
-                }
-  
- 
-                $existingNode->setAttribute( 'contentobject_version', $version->attribute( 'version' ) );
-                $existingNode->setAttribute( 'contentobject_is_published', 1 );
-                
-                if ( $version->attribute( 'main_parent_node_id' ) == $existingNode->attribute( 'parent_node_id' ) )
-                {
-                    print( $version->attribute( 'main_parent_node_id' ) . "\n inside if" );
-                    $object->setAttribute( 'main_node_id', $existingNode->attribute( 'node_id' ) );
-                }
-                $object->store();
-                $existingNode->store();
+                    if ( $existingNode  == null )
+                    {
+                        $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
+                        $existingNode =&  $parentNode->addChild( $object->attribute( 'id' ), 0, true );
+                    }
+                    $existingNode->setAttribute( 'contentobject_version', $version->attribute( 'version' ) );
+                    $existingNode->setAttribute( 'contentobject_is_published', 1 );
+                    if ( $version->attribute( 'main_parent_node_id' ) == $existingNode->attribute( 'parent_node_id' ) )
+                    {
+//                    print( $version->attribute( 'main_parent_node_id' ) . "\n inside if" );
+                        $object->setAttribute( 'main_node_id', $existingNode->attribute( 'node_id' ) );
+                    }
+                    $object->store();
+                    $existingNode->store();
 
 //                if ( $status )
 //                    return $status;
-                $count++;
+                    $count++;
 
+                }
             }
-        }
-        if( !$count )
-        {
-            $module->redirectToView( 'sitemap', array(2) );
-            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
-        }
-        else
-        {
-            $status = $module->runHooks( 'post_publish', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion ) );
+            if( !$count )
+            {
+
+                $module->redirectToView( 'sitemap', array(2) );
+                return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+            }
+            else
+            {
+
+                $status = $module->runHooks( 'post_publish', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion ) );
+
+                /*  clean up nodes for old versions      */
+                $assignedNodes =& $object->attribute( 'assigned_nodes' );
+                foreach ( array_keys( $assignedNodes )  as $key )
+                {
+                    $node =& $assignedNodes[$key];
+                    if ( $node->attribute( 'contentobject_version' ) < $version->attribute( 'version' ) )
+                    {
+                        $node->remove();
+                    }
+                }
+
 //            if ( $status )
 //                return $status;
 //         eZDebug::writeNotice( $object, 'object' );
-            $module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );
 
-            include_once( "kernel/notification/eznotificationrule.php" );
-            include_once( "kernel/notification/eznotificationruletype.php" );
-            include_once( "kernel/notification/eznotificationuserlink.php" );
-            include_once( "kernel/notification/ezmessage.php" );
-            $allrules =& eZNotificationRule::fetchList( null );
-            foreach ( $allrules as $rule )
-            {
-                $ruleClass = $rule->attribute("rule_type");
-                $ruleID = $rule->attribute( "id" );
-                if ( $ruleClass->match( &$object, &$rule ) )
+                $module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );
+
+                include_once( "kernel/notification/eznotificationrule.php" );
+                include_once( "kernel/notification/eznotificationruletype.php" );
+                include_once( "kernel/notification/eznotificationuserlink.php" );
+                include_once( "kernel/notification/ezmessage.php" );
+                $allrules =& eZNotificationRule::fetchList( null );
+                foreach ( $allrules as $rule )
                 {
-                    $users =& eZNotificationUserLink::fetchUserList( $ruleID );
-                    foreach ( $users as $user )
+                    $ruleClass = $rule->attribute("rule_type");
+                    $ruleID = $rule->attribute( "id" );
+                    if ( $ruleClass->match( &$object, &$rule ) )
                     {
-                        $sendMethod = $user->attribute( "send_method" );
-                        $sendWeekday = $user->attribute( "send_weekday" );
-                        $sendTime = $user->attribute( "send_time" );
-                        $destinationAddress = $user->attribute( "destination_address" );
-                        $title = "New publishing notification";
-                        $body = $object->attribute( "name" );
-                        $body .= "\nhttp://nextgen.wy.dvh1.ez.no/content/view/full/";
-                        $body .=  $object->attribute( "main_node_id" );
-                        $body .= "\n\n\neZ System AS";
-                        $message =& eZMessage::create( $sendMethod, $sendWeekday, $sendTime, $destinationAddress, $title, $body );
-                        $message->store();
+                        $users =& eZNotificationUserLink::fetchUserList( $ruleID );
+                        foreach ( $users as $user )
+                        {
+                            $sendMethod = $user->attribute( "send_method" );
+                            $sendWeekday = $user->attribute( "send_weekday" );
+                            $sendTime = $user->attribute( "send_time" );
+                            $destinationAddress = $user->attribute( "destination_address" );
+                            $title = "New publishing notification";
+                            $body = $object->attribute( "name" );
+                            $body .= "\nhttp://nextgen.wy.dvh1.ez.no/content/view/full/";
+                            $body .=  $object->attribute( "main_node_id" );
+                            $body .= "\n\n\neZ System AS";
+                            $message =& eZMessage::create( $sendMethod, $sendWeekday, $sendTime, $destinationAddress, $title, $body );
+                            $message->store();
 
-                        //include_once( "lib/ezutils/classes/ezmail.php" );
-                        /* if( $sendMethod == "email" )
+                            //include_once( "lib/ezutils/classes/ezmail.php" );
+                            /* if( $sendMethod == "email" )
                     {
                         $email = new eZMail();
                         $email->setReceiver( "wy@ez.no" );
@@ -213,11 +222,12 @@ function checkContentActions( &$module, &$class, &$object, &$version, &$contentO
                         $email->setBody( $body );
                         $email->send();
                     }*/
+                        }
                     }
-                }
 
+                }
+                return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
             }
-            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
     }
 }

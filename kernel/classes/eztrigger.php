@@ -43,6 +43,7 @@
 
 */
 include_once( 'kernel/classes/ezworkflowprocess.php' );
+include_once( 'kernel/classes/ezworkflow.php' );
 include_once( 'kernel/classes/ezmodulerun.php' );
 define( "EZ_TRIGGER_STATUS_CRON_JOB", 0 );
 define( "EZ_TRIGGER_WORKFLOW_DONE", 1 );
@@ -126,13 +127,19 @@ class eZTrigger extends eZPersistentObject
             $version = $parameters[ 'version' ];
             $nodeID= $parameters[ 'parent_node_id' ];
             $objectID = $contentObject->attribute( 'id' );
-            if ( count( eZWorkflowProcess::fetchForContent( $workflowID, $userID,
+            $workflowProcessList =& eZWorkflowProcess::fetchForContent( $workflowID, $userID,
                                                                          $objectID, $version, $nodeID,
-                                                                         true ) ) > 0 )
+                                                                        true );
+            if ( count( $workflowProcessList ) > 0 )
             {
-                print( "already running trigger");
-                eZDebug::writeNotice( "already running trigger" );
-                return EZ_TRIGGER_NO_CONNECTED_WORKFLOWS;
+//                var_dump ( $workflowProcessList );
+                if ( $workflowProcessList[0]->attribute( 'status' ) == EZ_WORKFLOW_STATUS_DONE )
+                {
+                    print( "already running trigger");
+                    eZDebug::writeNotice( "already running trigger" );
+                    return EZ_TRIGGER_NO_CONNECTED_WORKFLOWS;
+                }else
+                    return EZ_TRIGGER_STATUS_CRON_JOB;
             }else
             {
                 print( "\n starting new workflow process \n");

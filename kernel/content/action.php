@@ -111,7 +111,21 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
         }
         unset( $contentObject );
     }
-    $module->redirectTo( $module->functionURI( 'view' ) . '/' . $http->postVariable( 'ContentObjectID' ) . '/' );
+    if( $http->hasPostVariable( 'ViewMode' ) )
+    {
+        $viewMode = $http->postVariable( 'ViewMode' );
+    }else
+    {
+        $viewMode = 'full';
+    }
+    if( $http->hasPostVariable( 'TopLevelNode' ) )
+    {
+        $topLevelNode = $http->postVariable( 'TopLevelNode' );
+    }else
+    {
+        $topLevelNode = '2';
+    }
+    $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $topLevelNode . '/' );
     return;
 }
 

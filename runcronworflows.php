@@ -38,18 +38,20 @@
 */
 
 include_once( "kernel/classes/ezworkflowprocess.php" );
+include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 include_once( "lib/ezutils/classes/ezmodule.php" );
 include_once( "lib/ezutils/classes/ezdebug.php" );
 
 
 $workflowProcessList = & eZWorkflowProcess::fetchForStatus( EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON );
-var_dump( $workflowProcessList  );
-$user =& eZUser::instance( 8 );
+//var_dump( $workflowProcessList  );
+$user =& eZUser::instance( 14 );
 eZModule::setGlobalPathList( array( "kernel" ) );
 foreach( array_keys( $workflowProcessList ) as $key )
 {
     $process =& $workflowProcessList[ $key ];
     $workflow =& eZWorkflow::fetch( $process->attribute( "workflow_id" ) );
+
     if ( $process->attribute( "event_id" ) != 0 )
         $workflowEvent =& eZWorkflowEvent::fetch( $process->attribute( "event_id" ) );
     $process->run( $workflow, $workflowEvent, $eventLog );

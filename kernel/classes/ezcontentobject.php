@@ -351,6 +351,10 @@ class eZContentObject extends eZPersistentObject
 
         $db->query( "DELETE FROM ezcontentobject_version
 					      WHERE contentobject_id='$this->ID' AND version>'$version'" );
+
+        $db->query( "DELETE FROM eznode_assignment
+					      WHERE contentobject_id='$this->ID' AND contentobject_version > '$version'" );
+
         $this->CurrentVersion = $version;
         $this->store();
     }
@@ -369,7 +373,7 @@ class eZContentObject extends eZPersistentObject
     /*!
       Will remove object from database. All versions and translations of this object will be lost.
     */
-    function remove( $id=false)
+    function remove( $id = false )
     {
         $delID = $this->ID;
         if ( is_numeric( $id ) )

@@ -56,11 +56,7 @@ if ( isset( $Module ) )
 $ObjectID =& $Params['ObjectID'];
 if ( !isset( $EditVersion ) )
     $EditVersion =& $Params['EditVersion'];
-//print_r($Params );
 
-//eZDebug::writeNotice( $Module, "Module" );
-//print( "O_id = $ObjectID  E_version = $EditVersion <br> " );
-//flush();
 if ( $Module->runHooks( 'pre_fetch', array( $ObjectID, $EditVersion ) ) )
     return;
 
@@ -71,7 +67,6 @@ if ( !$object->attribute( 'can_edit' ) )
 
 
 $version =& $object->version( $EditVersion );
-//var_dump( $version );
 eZDebug::writeNotice( $version , "object version" );
 $classID = $object->attribute( 'contentclass_id' );
 
@@ -113,13 +108,11 @@ $storeActions = array( 'Preview',
                        'Store' );
 $storingAllowed = in_array( $Module->currentAction(), $storeActions );
 
-//print( "<br> we are going to publish" . $Module->currentAction() );
-//flush();
 
 // These variables will be modified according to validation
 $inputValidated = true;
 $requireFixup = false;
-// if ( $storingAllowed || ( $customAction != false ) )
+
 if ( $storingAllowed )
 {
     // Validate input
@@ -197,12 +190,8 @@ if ( $storingAllowed )
 }
 
 // After the object has been validated we can check for other actions
-
 if ( $inputValidated == true )
 {
-//print( "<br> we are going to publish" );
-//flush();
-
     if ( $Module->runHooks( 'action_check', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion ) ) )
         return;
 }

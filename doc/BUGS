@@ -67,7 +67,12 @@ FROM   ezcontentclass_classgroup
 WHERE  group_id IN ( '7' )  AND contentclass_version='0'
 GROUP BY contentclass_id
 ORDER BY contentclass_id ASC ERROR:  Attribute ezcontentclass_classgroup.contentclass_version must be GROUPed or used in an aggregate function
-    on postgressql 
+    on postgressql
+
+Removing Objects
+--------------------------------------
+    It seems like when you remove objects his children are not deleted.
+Fixed(sp)
 
 Deprecated function in PHP 4.1.0
 ---------------------------------------------

@@ -68,7 +68,7 @@ class eZContentObjectVersion extends eZPersistentObject
                                          'workflow_event_pos' => 'WorkflowEventPos'
                                          ),
                       'keys' => array( 'id' ),
-                      'function_attributes' => array( 'data' => 'fetchData',
+                      'function_attributes' => array( // 'data' => 'fetchData',
                                                       'creator' => 'creator',
                                                       'main_parent_node_id' => 'mainParentNodeID',
                                                       'parent_nodes' => 'parentNodes',
@@ -96,6 +96,7 @@ class eZContentObjectVersion extends eZPersistentObject
         return eZPersistentObject::fetchObject( eZContentObjectVersion::definition(), $id, $asObject );
     }
 
+
     /*!
      \return the attribute with the requested name.
     */
@@ -118,10 +119,12 @@ class eZContentObjectVersion extends eZPersistentObject
             return  $this->nodeAssignments();
         }
         else
+        {
             return eZPersistentObject::attribute( $attr );
+        }
     }
 
-    function &mainParentNodeID()
+    function mainParentNodeID()
     {
         $temp =& eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ), $this->attribute( 'version' ), 1 );
         if( $temp == null )
@@ -129,7 +132,6 @@ class eZContentObjectVersion extends eZPersistentObject
             return 1;
         }
         return $temp[0]->attribute( 'parent_node' );
-        
     }
 
     function &parentNodes( )
@@ -273,14 +275,6 @@ class eZContentObjectVersion extends eZPersistentObject
                                                      $asObject );
         return $ret[0];
     }
-    /*!
-     \return true if the requested attribute exists in object.
-    */
-    function hasAttribute( $attr )
-    {
-        return $attr == 'creator' or eZPersistentObject::hasAttribute( $attr );
-    }
-
 
     /*!
      Returns the attributes for the current content object version.

@@ -83,6 +83,19 @@ class eZApproveType extends eZWorkflowEventType
 
     function fetchHTTPInput( &$http, $base, &$event )
     {
+        $editorVar = $base . "_event_ezapprove_editor_id_" . $event->attribute( "id" );
+        if ( $http->hasPostVariable( $editorVar ) )
+        {
+            $editorID = $http->postVariable( $editorVar );
+            $event->setAttribute( "data_int1", $editorID );
+        }
+        $editorVar = $base . "_event_ezapprove_not_approve_id_" . $event->attribute( "id" );
+        if ( $http->hasPostVariable( $editorVar ) )
+        {
+            $editorID = $http->postVariable( $editorVar );
+            $event->setAttribute( "data_int2", $editorID );
+        }
+
     }
 
     function createTask( &$process, &$event )
@@ -96,7 +109,7 @@ class eZApproveType extends eZWorkflowEventType
         }
         else
         {
-            $task->setAttribute( 'receiver_id', 8 );
+            $task->setAttribute( 'receiver_id', 14 );
         }
         $task->setAttribute( 'status',  EZ_TASK_STATUS_OPEN  );
         $task->store();

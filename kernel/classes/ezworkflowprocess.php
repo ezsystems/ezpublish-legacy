@@ -292,6 +292,7 @@ class eZWorkflowProcess extends eZPersistentObject
 
         if ( $workflowStatus == EZ_WORKFLOW_STATUS_DONE )
         {
+            $this->store();
             eZModuleRun::runFromDB( $this->attribute( 'id' ) );
             print( "Going to remove workflow process" );
             $this->remove();

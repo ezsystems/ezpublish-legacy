@@ -563,7 +563,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $ini =& eZINI::instance();
         $db =& eZDB::instance();
-
+/*
         if ( $ini->variable( "AccessSetings", "Access" ) == 'GroupBased' )
         {
             eZContentObjectTreeNode::makePermissionTable( $db );
@@ -587,8 +587,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         else
         {
-
-
+*/
+        if ( $nodeID != 1 )
+        {
+            
             $query="SELECT ezcontentobject.*,
                            ezcontentobject_tree.*,
                            ezcontentclass.name as class_name
@@ -599,10 +601,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
                           ezcontentclass.version=0  AND
                           ezcontentclass.id = ezcontentobject.contentclass_id  ";
-
-
-
+        }else
+        {
+            $query="SELECT *
+                    FROM ezcontentobject_tree
+                    WHERE node_id = $nodeID ";
         }
+
+
+//        }
         $nodeListArray = $db->arrayQuery( $query );
         $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
         return $retNodeArray[0];
@@ -802,7 +809,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $nodePath = $node->attribute( 'path_string' );
         $childrensPath = $nodePath ; //. $nodeID . '/';
-        $pathLength = strlen( $childrensPath ) + 1;
+        $pathLength = strlen( $childrensPath ); + 1;
 
 /*        $query = "delete from ezcontentobject_tree
                   where substring( path_string from 1 for $pathLength ) = '$childrensPath' or
@@ -880,25 +887,33 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $object->setName($node['name']);
             if ( $with_contentobject )
             {
-                $contentObject =& new eZContentObject( $node );
-                if ( $ini->variable( "AccessSetings", "Access" ) == 'GroupBased' )
+                if ( array_key_exists( 'class_name', $node ) )
                 {
-                    $permissions['can_read'] = $node['can_read'];
-                    $permissions['can_create'] = $node['can_create'];
-                    $permissions['can_edit'] = $node['can_edit'];
-                    $permissions['can_remove'] = $node['can_remove'];
+                    $contentObject =& new eZContentObject( $node );
+                    
+/*                    if ( $ini->variable( "AccessSetings", "Access" ) == 'GroupBased' )
+                    {
+                        $permissions['can_read'] = $node['can_read'];
+                        $permissions['can_create'] = $node['can_create'];
+                        $permissions['can_edit'] = $node['can_edit'];
+                        $permissions['can_remove'] = $node['can_remove'];
+                    }
+                    else
+                    {
+                        $permissions['can_read'] = 1;
+                        $permissions['can_create'] = 1;
+                        $permissions['can_edit'] = 1;
+                        $permissions['can_remove'] = 1;
+                    }
+*/                  $permissions = array();
+                    $contentObject->setPermissions( $permissions );
+                    $contentObject->setClassName( $node['class_name'] );
                 }
                 else
                 {
-                    $permissions['can_read'] = 1;
-                    $permissions['can_create'] = 1;
-                    $permissions['can_edit'] = 1;
-                    $permissions['can_remove'] = 1;
-               }
-                $permissions = array();
-                $contentObject->setPermissions( $permissions );
-                $contentObject->setClassName( $node['class_name'] );
-
+                    $contentObject =& new eZContentObject( array());
+                }
+                
                 $object->setContentObject( $contentObject );
             }
             $retNodes[] =& $object;

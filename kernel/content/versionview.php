@@ -48,7 +48,7 @@ $EditVersion = $Params['EditVersion'];
 
 $contentObject =& eZContentObject::fetch( $ObjectID );
 $versionObject =& $contentObject->version( $EditVersion );
-$versionAttributes = $versionObject->contentobjectAttributes();
+$versionAttributes = $versionObject->contentObjectAttributes();
 
 if ( $contentObject === null )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_FOUND, 'kernel' );
@@ -61,6 +61,7 @@ else
 {
     $LanguageCode = $contentObject->defaultLanguage();
 }
+
 
 $relatedObjectArray =& $contentObject->relatedContentObjectArray( $contentObject->attribute( 'current_version' ) );
 

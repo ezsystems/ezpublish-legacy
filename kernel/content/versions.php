@@ -65,7 +65,34 @@ if ( $http->hasPostVariable( "RevertButton" )  )
         $Module->redirectTo( '/error/403' );
         return;
     }
+    $assignedNodes =& $object->attribute( 'assigned_nodes' );
+    $versionNodes = array();
     $object->revertTo( $http->postVariable( "RevertToVersionID" )  );
+    $version =& $object->version( $http->postVariable( "RevertToVersionID" ) );
+    $versionParentNodes =& $version->attribute( 'node_assignments' );
+    foreach ( array_keys($versionParentNodes ) as $key )
+    {
+        $nodeAssignment =& $versionParentNodes[$key];
+        $node =& eZContentObjectTreeNode::findNode( $nodeAssignment->attribute( 'parent_node' ), $object->attribute( 'id' ), true );
+        if ( $node == null )
+        {
+            $parentNode = eZContentObjectTreeNode::fetch( $nodeAssignment->attribute( 'parent_node' ) );
+            $node =& $parentNode->addChild( $object->attribute( 'id' ), $parentNode->attribute( 'id' ), true );
+        }
+        $node->setAttribute( 'contentobject_version', $version->attribute( 'version' ) );
+        $node->store();
+        $versionNodes[] = $node->attribute( 'node_id' );
+
+    }
+    foreach( array_keys( $assignedNodes ) as $key )
+    {
+        $node =& $assignedNodes[$key];
+        if ( !in_array( $node->attribute( 'node_id' ), $versionNodes ) )
+        {
+            $node->remove();
+        }
+    }
+    
     $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $ObjectID . '/' );
     return;
 }
