@@ -521,6 +521,13 @@ if ( $show_page_layout )
 
     $meta = $ini->variable( 'SiteSettings', 'MetaDataArray' );
 
+    $metaDescription = "";
+    foreach ( $moduleResult['path'] as $pathPart )
+    {
+        $metaDescription .= $pathPart['text'] . " ";
+    }
+    $meta['description'] = $metaDescription;
+
     $http_equiv = array( 'Content-Type' => 'text/html; charset=' . $httpCharset,
                          'Content-language' => $languageCode );
 
