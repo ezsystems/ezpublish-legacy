@@ -9,4 +9,6 @@
 $arr|array_prepend(3)|implode(',')='{$arr|array_prepend(3)|implode(',')}'
 $arr|array_append(3)|implode(',')='{$arr|array_append(3)|implode(',')}'
 $arr|array_merge(3,4)|implode(',')='{$arr|array_merge(3,4)|implode(',')}'
+$arr|merge( array( 3, 4 ) )|implode( ',' )='{$arr|merge( array( 3, 4 ) )|implode( ',' )}'
+merge( $arr, array( 3, 4 ) )|implode( ',' )='{merge( $arr, array( 3, 4 ) )|implode( ',' )}'
 {/let}

@@ -1336,7 +1336,11 @@ class eZTemplateArrayOperator
             {
                 $values[] = $parameters[$i];
                 ++$paramCount;
-                $code .= 'array( %' . $paramCount . '% )';
+                if ( $operatorName == $this->MergeName or
+                     $operatorName == $this->ArrayMergeName )
+                    $code .= '%' . $paramCount . '%';
+                else
+                    $code .= 'array( %' . $paramCount . '% )';
                 $stringCode .= '%' . $paramCount . '%';
             }
             else
@@ -1345,7 +1349,11 @@ class eZTemplateArrayOperator
                 {
                     $staticArray[] = eZTemplateNodeTool::elementStaticValue( $parameters[$i] );
                 }
-                $code .= 'array( ' . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false ) . ' )';
+                if ( $operatorName == $this->MergeName or
+                     $operatorName == $this->ArrayMergeName )
+                    $code .= '' . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false ) . '';
+                else
+                    $code .= 'array( ' . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false ) . ' )';
                 $stringCode .= eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false );
             }
         }
@@ -1378,8 +1386,10 @@ class eZTemplateArrayOperator
 
         if ( $paramCount == 0 )
         {
-            if ( $operatorName == $this->AppendName ||
-                 $operatorName == $this->MergeName )
+            if ( $operatorName == $this->AppendName or
+                 $operatorName == $this->ArrayAppendName or
+                 $operatorName == $this->MergeName or
+                 $operatorName == $this->ArrayMergeName )
             {
                 if ( $isString )
                 {
@@ -1401,7 +1411,8 @@ class eZTemplateArrayOperator
                     return array( eZTemplateNodeTool::createArrayElement( $returnArray ) );
                 }
             }
-            else if ( $operatorName == $this->PrependName )
+            else if ( $operatorName == $this->PrependName or
+                      $operatorName == $this->ArrayPrependName )
             {
                 if ( $isString )
                 {
@@ -1649,7 +1660,7 @@ class eZTemplateArrayOperator
                     $tmpArray   = array();
                     $tmpArray[] = $operatorValue;
 
-                    if ( count( $operatorParameters ) < 2 )
+                    if ( count( $operatorParameters ) < 1 )
                     {
                         $tpl->error( $operatorName, "Requires an array (and at least one item!)" );
                         return;

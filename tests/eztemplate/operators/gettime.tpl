@@ -1,1 +1,8 @@
-{gettime( 1077552775 )|attribute( show, 10, 0 )}
+{let time=gettime( 1077552775 )}
+
+{section loop=$time}
+{$key} = {$item}
+
+{/section}
+
+{/let}

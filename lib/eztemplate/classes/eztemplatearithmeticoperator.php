@@ -454,7 +454,7 @@ class eZTemplateArithmeticOperator
         $function = $operatorName;
         $direction = $this->DecName == $function ? -1 : 1;
 
-        if ( count( $parameters ) != 1 )
+        if ( count( $parameters ) < 1 )
             return false;
         $newElements = array();
 
@@ -628,7 +628,7 @@ class eZTemplateArithmeticOperator
             case $this->IncName:
             case $this->DecName:
             {
-                if ( $namedParameters['value'] === false )
+                if ( $operatorValue !== null )
                     $value = $operatorValue;
                 else
                     $value = $namedParameters['value'];

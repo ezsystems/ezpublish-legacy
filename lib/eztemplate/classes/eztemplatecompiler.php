@@ -2806,9 +2806,12 @@ else
                         $knownTypes[] = 'static';
                 }
 
-                $php->addCodePiece( "\$tpl->processOperator( $operatorNameText,
+                $php->addCodePiece( "\$" . $variableAssignmentName . "Data = array( 'value' => \$$variableAssignmentName );
+\$tpl->processOperator( $operatorNameText,
                        $operatorParametersText,
-                       \$rootNamespace, \$currentNamespace, \$$variableAssignmentName, false, false );\n",
+                       \$rootNamespace, \$currentNamespace, \$" . $variableAssignmentName . "Data, false, false );
+\$$variableAssignmentName = \$" . $variableAssignmentName . "Data['value'];
+unset( \$" . $variableAssignmentName . "Data );\n",
                                     array( 'spacing' => $spacing ) );
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_VOID )

@@ -1010,8 +1010,11 @@ class eZTemplate
                     $operatorParameters = $dataElement[1];
                     $operatorName = $operatorParameters[0];
                     $operatorParameters = array_splice( $operatorParameters, 1 );
+                    $valueData = array( 'value' => $value );
                     $this->processOperator( $operatorName, $operatorParameters, $rootNamespace, $currentNamespace,
-                                            $value, $placement, $checkExistance );
+                                            $valueData, $placement, $checkExistance );
+                    unset( $value );
+                    $value = $valueData['value'];
                 } break;
                 default:
                 {
@@ -1063,7 +1066,7 @@ class eZTemplate
     }
 
     function processOperator( $operatorName, $operatorParameters, $rootNamespace, $currentNamespace,
-                              &$value, $placement = false, $checkExistance = false )
+                              &$valueData, $placement = false, $checkExistance = false )
     {
         $namedParameters = array();
         $operatorParameterDefinition = $this->operatorParameterList( $operatorName );
@@ -1102,7 +1105,11 @@ class eZTemplate
         if ( isset( $op ) )
         {
             if ( is_object( $op ) and method_exists( $op, 'modify' ) )
+            {
+                $value = $valueData['value'];
                 $op->modify( $this, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, $value, $namedParameters );
+                $valueData['value'] = $value;
+            }
             else
                 $this->error( '', "Object problem with operator '$operatorName' ",
                               $placement );

@@ -3,3 +3,5 @@
 $arr|array_prepend(3)|implode(',')='3,1,2'
 $arr|array_append(3)|implode(',')='1,2,3'
 $arr|array_merge(3,4)|implode(',')='1,2,3,4'
+$arr|merge( array( 3, 4 ) )|implode( ',' )='1,2,3,4'
+merge( $arr, array( 3, 4 ) )|implode( ',' )='1,2,3,4'

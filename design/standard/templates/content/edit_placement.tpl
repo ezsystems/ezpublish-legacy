@@ -37,9 +37,9 @@
                    sort_fields=hash(9,"Name"|i18n("design/standard/content/edit"),2,"Published"|i18n("design/standard/content/edit"),3,"Modified"|i18n("design/standard/content/edit"),4,"Section"|i18n("design/standard/content/edit"),5,"Depth"|i18n("design/standard/content/edit"),6,"Class Identifier"|i18n("design/standard/content/edit"),7,"Class Name"|i18n("design/standard/content/edit"),8,"Priority"|i18n("design/standard/content/edit"))
                    has_top_levels=false()}
     {section loop=$assigned_node_array}
-        {section show=$Node:item.parent_node|le( 1 )}
-            {set has_top_levels=true()}
-        {/section}
+         {section show=$Node:item.parent_node|le( 1 )}
+             {set has_top_levels=true()}
+         {/section}
     {/section}
 
     <table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
