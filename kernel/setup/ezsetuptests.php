@@ -172,6 +172,45 @@ function eZSetupTestFileUpload( $type, &$arguments )
     $uploadDirExists = true;
     $uploadDirWriteable = true;
     $uploadDirCreateFile = true;
+    // Empty upload_tmp_dir variable means that the system
+    // default is used. However the system default variable is hidden
+    // from PHP code and must be guessed.
+    // See: http://www.php.net/manual/en/ini.sect.file-uploads.php#ini.upload-tmp-dir
+    if ( strlen( trim( $uploadDir ) ) == 0 )
+    {
+        $osType = eZSys::osType();
+        if ( $osType == 'win32' )
+        {
+            // Windows machines use the TEMP and TMP env variable.
+            // TEMP is checked first.
+            $uploadDir = isset( $_ENV['TEMP'] ) ? $_ENV['TEMP'] : '';
+            if ( strlen( $uploadDir ) == 0 )
+            {
+                $uploadDir = isset( $_ENV['TMP'] ) ? $_ENV['TMP'] : '';
+            }
+            // When TEMP/TMP is not set we have to guess the directory
+            // The only valid guess is %SYSTEMROOT%/TEMP
+            // If %SYSTEMROOT% is missing we keep the string empty
+            if ( strlen( $uploadDir ) == 0 )
+            {
+                if ( isset( $_ENV['SYSTEMROOT'] ) )
+                {
+                    $uploadDir = $_ENV['SYSTEMROOT'] . '/TEMP';
+                }
+            }
+        }
+        else if ( $osType == 'unix' or
+                  $osType == 'mac' )
+        {
+            $uploadDir = isset( $_ENV['TMPDIR'] ) ? $_ENV['TMPDIR'] : '';
+            // When TMPDIR is not set we have to guess the directory
+            // On Unix systems we expect /tmp to be used
+            if ( strlen( $uploadDir ) == 0 )
+            {
+                $uploadDir = '/tmp';
+            }
+        }
+    }
     if ( strlen( $uploadDir ) > 0 )
     {
         $uploadDirExists = file_exists( $uploadDir );
