@@ -278,7 +278,10 @@ class eZDOMDocument
         {
             if ( is_array( $value ) )
             {
-                $node->appendChild( eZDOMDocument::createElementNodeFromArray( $arrayKey, $value ) );
+                foreach( $value as $child )
+                {
+                    $node->appendChild( eZDOMDocument::createElementNodeFromArray( $arrayKey, $child ) );
+                }
             }
             else
             {
@@ -303,7 +306,11 @@ class eZDOMDocument
         $retArray = array();
         foreach ( $domNode->children() as $childNode )
         {
-            $retArray[$childNode->name()] = eZDOMDocument::createArrayFromDOMNode( $childNode );
+            if ( !isset( $retArray[$childNode->name()] ) )
+            {
+                $retArray[$childNode->name()] = array();
+            }
+            $retArray[$childNode->name()][] = eZDOMDocument::createArrayFromDOMNode( $childNode );
         }
         foreach( $domNode->attributes() as $attributeNode )
         {
