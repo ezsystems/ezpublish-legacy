@@ -277,11 +277,19 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
     else
     {
         $redirectURI = $module->redirectURI();
-        print( "
-<form action=\"$redirectURI\" method=\"post\" name=\"Redirect\">
-Redirecting to: <b>$redirectURI</b><br/>
-<input class=\"stdbutton\" type=\"submit\" Name=\"RedirectButton\" value=\"Redirect\"/>
-</form>
+        print( "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
+    \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
+<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"no\" lang=\"no\">
+<head>
+    <title>eZ publish redirection - $redirectURI</title>
+</head>
+<body>
+  <form action=\"$redirectURI\" method=\"post\" name=\"Redirect\">
+  Redirecting to: <b>$redirectURI</b><br/>
+  <input class=\"stdbutton\" type=\"submit\" Name=\"RedirectButton\" value=\"Redirect\"/>
+  </form>
+</body>
+</html>
 " );
         eZDebug::addTimingPoint( "End" );
 

@@ -40,6 +40,9 @@ include_once( 'kernel/common/template.php' );
 $http =& eZHTTPTool::instance();
 
 $Module =& $Params['Module'];
+return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+/**************** Sitemap is no longer in use ***********/
+
 $Module->setTitle( 'Sitemap' );
 
 $TopObjectID = $Params['TopObjectID'];

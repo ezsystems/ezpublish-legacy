@@ -93,6 +93,7 @@ $tpl->setVariable( "edit_version", $EditVersion );
 $tpl->setVariable( "object_array", $objectArray );
 $tpl->setVariable( "parents", $parents );
 
-$Result =& $tpl->fetch( "design:content/browse.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:content/browse.tpl" );
 
 ?>

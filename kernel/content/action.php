@@ -158,6 +158,7 @@ if ( $http->hasPostVariable( "ContentObjectID" )  )
 }
 
 // return module contents
-$Result =& $result;
+$Result = array();
+$Result['content'] =& $result;
 
 ?>
