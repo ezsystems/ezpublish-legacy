@@ -158,10 +158,13 @@ if ( $storingAllowed )
             $dataType =& $contentObjectAttribute->dataType();
             $attributeName = $dataType->attribute( 'information' );
             $attributeName = $attributeName['name'];
+            $description = $contentObjectAttribute->attribute( 'validation_error' );
+            if ( !$description )
+                $description = false;
             $unvalidatedAttributes[] = array( 'id' => $contentObjectAttribute->attribute( 'id' ),
                                               'identifier' => $contentClassAttribute->attribute( 'identifier' ),
                                               'name' => $contentClassAttribute->attribute( 'name' ),
-                                              'description' => $contentObjectAttribute->attribute( 'validation_error' ) );
+                                              'description' => $description );
         }
         else if ( $status == EZ_INPUT_VALIDATOR_STATE_ACCEPTED )
         {
@@ -171,10 +174,13 @@ if ( $storingAllowed )
             $attributeName = $attributeName['name'];
             if ( $contentObjectAttribute->attribute( 'validation_log' ) != null )
             {
+                $description = $contentObjectAttribute->attribute( 'validation_log' );
+                if ( !$description )
+                    $description = false;
                 $validatedAttributesLog[] = array(  'id' => $contentObjectAttribute->attribute( 'id' ),
                                                     'identifier' => $contentClassAttribute->attribute( 'identifier' ),
                                                     'name' => $contentClassAttribute->attribute( 'name' ),
-                                                    'description' => $contentObjectAttribute->attribute( 'validation_log' ) );
+                                                    'description' => $description );
             }
         }
     }

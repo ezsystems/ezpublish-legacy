@@ -318,6 +318,8 @@ class eZImageType extends eZDataType
         {
             $image =& $GLOBALS[$cacheString];
         }
+        if ( !$image )
+            return false;
         return $image;
     }
 
