@@ -2,7 +2,20 @@
 
 {* Content window. *}
 <div class="context-block">
+
+<div class="box-header">
+<div class="box-tc"><div class="box-ml"><div class="box-mr">
+<div class="box-tl"><div class="box-tr">
+
 <h2 class="context-title"><a href={concat( '/class/view/', $node.object.contentclass_id )|ezurl} onclick="ezpopmenu_showTopLevel( 'ClassMenu', ez_createAArray( new Array( '%classID%', {$node.object.contentclass_id}) ), '{$node.class_name}', -1 ); return false;">{$node.class_identifier|class_icon( normal, $node.class_name )}</a> {$node.name|wash} [{$node.class_name|wash}]</h2>
+
+<div class="header-mainline"></div>
+
+</div></div>
+</div></div></div>
+</div>
+
+<div class="box-ml"><div class="box-mr">
 
 <div class="context-information">
 <p>{'Last modified'|i18n( 'design/admin/node/view/full' )}: {$node.object.modified|l10n(shortdatetime)}, <a href={$node.object.current.creator.main_node.url_alias|ezurl}>{$node.object.current.creator.name}</a></p>
@@ -10,10 +23,16 @@
 
 {* Content preview in content window. *}
 {section show=ezpreference( 'admin_navigation_content'  )}
-<div class="mainobject-vindow" title="{$node.name|wash} {'Node ID'|i18n( 'design/admin/node/view/full' )}: {$node.node_id}, {'Object ID'|i18n( 'design/admin/node/view/full' )}: {$node.object.id}">
+<div class="mainobject-window" title="{$node.name|wash} {'Node ID'|i18n( 'design/admin/node/view/full' )}: {$node.node_id}, {'Object ID'|i18n( 'design/admin/node/view/full' )}: {$node.object.id}">
     {node_view_gui content_node=$node view=admin_preview}
 </div>
 {/section}
+
+</div></div>
+
+<div class="box-bc"><div class="box-ml"><div class="box-mr">
+<div class="box-tc">
+<div class="box-bl"><div class="box-br">
 
 {* Buttonbar for content window. *}
 <div class="controlbar">
@@ -62,6 +81,10 @@
 </div>
 </form>
 </div>
+
+</div></div>
+</div>
+</div></div></div>
 
 </div>
 
