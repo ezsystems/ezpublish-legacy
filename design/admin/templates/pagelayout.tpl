@@ -23,21 +23,33 @@
     <img src={"logo.gif"|ezimage} alt="" />&nbsp;&nbsp;<img src={"admin.gif"|ezimage} alt="" /></td>
     <td class="headlink" width="66">
     {* Content menu *}
+    {section show=eq($navigation_part.identifier,'ezcontentnavigationpart')}
+    {include uri="design:page_menuheadselected.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}</td>
+    {section-else}
     {include uri="design:page_menuheadgray.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}</td>
+    {/section}
 
     <td class="menuheadspacer" width="3">
     <img src={"1x1.gif"|ezimage} alt="" width="3" height="1" /></td>
     <td class="headlink" width="66">
     {* Shop menu *}
+    {section show=eq($navigation_part.identifier,'ezshopnavigationpart')}
     {include uri="design:page_menuheadselected.tpl" menu_text='Shop'|i18n('design/admin/layout') menu_url="/shop/orderlist/"}</td>
-
+    {section-else}
+    {include uri="design:page_menuheadgray.tpl" menu_text='Shop'|i18n('design/admin/layout') menu_url="/shop/orderlist/"}</td>
+    {/section}
+    
     <td class="menuheadspacer" width="3">
     <img src={"1x1.gif"|ezimage} alt="" width="3" height="1" /></td>
 
     <td class="headlink" width="66">
 
     {* Users menu *}
+    {section show=eq($navigation_part.identifier,'ezusernavigationpart')}
+    {include uri="design:page_menuheadselected.tpl" menu_text='Users'|i18n('design/admin/layout') menu_url="/content/view/full/5/"}
+    {section-else}
     {include uri="design:page_menuheadgray.tpl" menu_text='Users'|i18n('design/admin/layout') menu_url="/content/view/full/5/"}
+    {/section}
     
     </td>
 
@@ -47,7 +59,11 @@
     <td class="headlink" width="66">
 
     {* Set up menu *}
+    {section show=eq($navigation_part.identifier,'ezsetupnavigationpart')}
+    {include uri="design:page_menuheadselected.tpl" menu_text='Set up'|i18n('design/admin/layout') menu_url="/class/grouplist/"}
+    {section-else}
     {include uri="design:page_menuheadgray.tpl" menu_text='Set up'|i18n('design/admin/layout') menu_url="/class/grouplist/"}
+    {/section}
 
     </td>
 
@@ -57,7 +73,11 @@
     <td class="headlink" width="66">
 
     {* My *}
+    {section show=eq($navigation_part.identifier,'ezmynavigationpart')}
+    {include uri="design:page_menuheadselected.tpl" menu_text='My drafts'|i18n('design/admin/layout') menu_url="/content/draft/"}
+    {section-else}
     {include uri="design:page_menuheadgray.tpl" menu_text='My drafts'|i18n('design/admin/layout') menu_url="/content/draft/"}
+    {/section}
 
     </td>
    <td class="headlogo" width="50%">
@@ -103,26 +123,32 @@
     <td width="120" valign="top" style="padding-right: 4px; padding-left: 15px; padding-top: 15px;">
     <table>
 <tr>
-{section show=fetch('content', 'can_instantiate_classes')}
-    <td>
-
-<form method="post" action={"content/action"|ezurl}>
-         <select name="ClassID" class="classcreate">
-	      {section name=Classes loop=fetch('content', 'can_instantiate_class_list')}
-	      <option value="{$Classes:item.id}">{$Classes:item.name}</option>
-	      {/section}
-         </select>
-	 <br />
-         <input class="classbutton" type="submit" name="NewButton" value="{'New'|i18n('design/standard/node/view')}" />
-</form>
     </td>
-{/section}
-    </tr>
-    </table>
+
 
 {* Left menu START *}
 
-{include uri="design:left_menu.tpl"}
+{section show=eq($navigation_part.identifier,'ezcontentnavigationpart')}
+{include uri="design:parts/content/menu.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}</td>
+{/section}
+
+{section show=eq($navigation_part.identifier,'ezshopnavigationpart')}
+{include uri="design:parts/shop/menu.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}</td>
+{/section}
+
+{section show=eq($navigation_part.identifier,'ezusernavigationpart')}
+{include uri="design:parts/user/menu.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}</td>
+{/section}
+
+{section show=eq($navigation_part.identifier,'ezsetupnavigationpart')}
+{include uri="design:parts/setup/menu.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}</td>
+{/section}
+
+{section show=eq($navigation_part.identifier,'ezmynavigationpart')}
+{include uri="design:parts/my/menu.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}</td>
+{/section}
+
+{* {include uri="design:left_menu.tpl"} *}
 
 {* Left menu END *}
 
