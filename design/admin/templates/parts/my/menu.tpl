@@ -29,7 +29,7 @@
 
 <div class="settings">
 <ul>
-    <li class="nobullet">{'Locations'}:
+    <li class="nobullet">{'Locations'|i18n( 'design/admin/parts/my/menu')}:
     {section show=ezpreference( 'admin_edit_show_locations' )}
         <span class="current">{'on'|i18n( 'design/admin/parts/my/menu' )}</span>&nbsp;<a href={'/user/preferences/set/admin_edit_show_locations/0'|ezurl} title="{'Disable location window when editing content.'|i18n( 'design/admin/parts/my/menu' )}">{'off'|i18n( 'design/admin/parts/my/menu' )}</a>
     {section-else}
