@@ -1,8 +1,6 @@
 #!/usr/bin/env php
 <?php
 //
-// Definition of Sqldiff class
-//
 // Created on: <19-Mar-2004 09:51:56 amos>
 //
 // Copyright (C) 1999-2004 eZ systems as. All rights reserved.
@@ -43,7 +41,7 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish SQL diff\n\
                                                          "Displays differences between two database schemas,\n" .
                                                          "and sets exit code based whether there is a difference or not\n" .
                                                          "\n" .
-                                                         "sqldiff.php --type mysql --user=root stable32 stable33" ),
+                                                         "ezsqldiff.php --type mysql --user=root stable32 stable33" ),
                                       'use-session' => false,
                                       'use-modules' => true,
                                       'use-extensions' => true ) );
