@@ -45,8 +45,20 @@ include_once( "kernel/classes/datatypes/ezmedia/ezmedia.php" );
 $contentObjectID = $Params['ContentObjectID'];
 $contentObjectAttributeID = $Params['ContentObjectAttributeID'];
 $contentObject = eZContentObject::fetch( $contentObjectID );
+if ( !is_object( $contentObject ) )
+{
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE );
+}
 $version = $contentObject->attribute( 'current_version' );
+if ( !is_object( $version ) )
+{
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE );
+}
 $contentObjectAttribute = eZContentObjectAttribute::fetch( $contentObjectAttributeID, $version, true );
+if ( !is_object( $contentObjectAttribute ) )
+{
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE );
+}
 $contentObjectID = $contentObjectAttribute->attribute( 'contentobject_id' );
 
 if ( ! $contentObject->attribute( 'can_read' ) )
