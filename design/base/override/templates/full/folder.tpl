@@ -53,7 +53,7 @@
 
             {include name=navigator
                      uri='design:navigator/google.tpl'
-                     page_uri=$node.url_alias|ezurl(no)
+                     page_uri=$node.url_alias
                      item_count=$list_count
                      view_parameters=$view_parameters
                      item_limit=$page_limit}
