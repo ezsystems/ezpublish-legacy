@@ -18,7 +18,7 @@
         {set rootNodeID=$custom_root_node_id}
     {/section}
      
-    {cache-block keys=array($rootNodeID)}     
+    {cache-block keys=array($rootNodeID, $ui_context)}     
         {* Fetch content structure. *}
         {set contentStructureTree = content_structure_tree( $:rootNodeID, 
                                                             $:classFilter,

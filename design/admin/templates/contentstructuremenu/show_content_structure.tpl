@@ -28,7 +28,13 @@
             {/section}
 
             {* Text *}
+	    {section show=eq( $ui_context, 'browse' )}
+ 	    <a class="nodetext" href={concat( '/content/browse/', $:parentNode.node.node_id )|ezurl} title="{$:toolTip}">{$:parentNode.object.name|wash}</a>
+            {section-else}
             <a class="nodetext" href={$:parentNode.node.path_identification_string|ezurl} title="{$:toolTip}">{$:parentNode.object.name|wash}</a>
+	    {/section}
+
+
 
         {* Show children *}
             {section show=$:haveChildren}
