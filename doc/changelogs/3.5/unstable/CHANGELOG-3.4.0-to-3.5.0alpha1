@@ -416,7 +416,9 @@ Workflow:
   http://ez.no/community/bug_reports/un_wanted_line_breaks_added_in_xml_text_field ( Merged from stable 3.4 r7588 )
 - Fixed bug with missing ul start tag ( Merged from stable/3.4 rev. 7618 )
   http://ez.no/community/bug_reports/missing_ul_in_eztemplatetoolbarfunction_php
-
+- Fixed bug with incorrect fetching of user roles when user is more then in one user group.
+  http://ez.no/community/bug_reports/adding_a_user_to_a_user_group_doesn_t_automatically_apply_all_roles 
+  (Merged from stable/3.4 rev. 7829)
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.

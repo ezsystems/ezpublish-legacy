@@ -361,7 +361,10 @@ class eZRole extends eZPersistentObject
             foreach( $idArray as $id )
             {
                 $nodeDefinition = eZContentObjectTreeNode::fetchByContentObjectID( $id );
-                $userNodeIDArray = array_merge( $nodeDefinition[0]->attribute( 'path_array' ), $userNodeIDArray );
+                foreach ( $nodeDefinition as $nodeDefinitionElement )
+                {
+                    $userNodeIDArray = array_merge( $nodeDefinitionElement->attribute( 'path_array' ), $userNodeIDArray );
+                }
             }
 
             $query = 'SELECT DISTINCT ezrole.id,
