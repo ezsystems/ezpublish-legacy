@@ -273,6 +273,7 @@ class eZUser extends eZPersistentObject
     }
 
     /*!
+     \static
      \return a list of the logged in users.
      \param $asObject If false it will return a list with only the names of the users as elements and user ID as key,
                       otherwise each entry is a eZUser object.
@@ -367,10 +368,15 @@ $sortText";
 
     /*!
      \return the number of logged in users in the system.
+     \note The count will be cached for the current page if caching is allowed.
      \sa fetchAnonymousCount
     */
     function fetchLoggedInCount()
     {
+        if ( isset( $GLOBALS['eZSiteBasics']['no-cache-adviced'] ) and
+             !$GLOBALS['eZSiteBasics']['no-cache-adviced'] and
+             isset( $GLOBALS['eZUserLoggedInCount'] ) )
+            return $GLOBALS['eZUserLoggedInCount'];
         $db =& eZDB::instance();
         $time = mktime();
         $sql = "SELECT count( DISTINCT user_id ) as count
@@ -379,15 +385,22 @@ WHERE user_id != '" . EZ_USER_ANONYMOUS_ID . "' AND
       user_id > 0 AND
       expiration_time > '$time'";
         $rows = $db->arrayQuery( $sql );
-        return $rows[0]['count'];
+        $count = $rows[0]['count'];
+        $GLOBALS['eZUserLoggedInCount'] = $count;
+        return $count;
     }
 
     /*!
+     \static
      \return the number of anonymous users in the system.
      \sa fetchLoggedInCount
     */
     function fetchAnonymousCount()
     {
+        if ( isset( $GLOBALS['eZSiteBasics']['no-cache-adviced'] ) and
+             !$GLOBALS['eZSiteBasics']['no-cache-adviced'] and
+             isset( $GLOBALS['eZUserAnonymousCount'] ) )
+            return $GLOBALS['eZUserAnonymousCount'];
         $db =& eZDB::instance();
         $time = mktime();
         $sql = "SELECT count( session_key ) as count
@@ -395,31 +408,57 @@ FROM ezsession
 WHERE user_id = '" . EZ_USER_ANONYMOUS_ID . "' AND
       expiration_time > '$time'";
         $rows = $db->arrayQuery( $sql );
-        return $rows[0]['count'];
+        $count = $rows[0]['count'];
+        $GLOBALS['eZUserAnonymousCount'] = $count;
+        return $count;
     }
 
     /*!
+     \static
      \return true if the user with ID $userID is currently logged into the system.
+     \note The information will be cached for the current page if caching is allowed.
      \sa fetchLoggedInList
     */
     function isUserLoggedIn( $userID )
     {
+        $userID = (int)$userID;
+        if ( isset( $GLOBALS['eZSiteBasics']['no-cache-adviced'] ) and
+             !$GLOBALS['eZSiteBasics']['no-cache-adviced'] and
+             isset( $GLOBALS['eZUserLoggedInMap'][$userID] ) )
+            return $GLOBALS['eZUserLoggedInMap'][$userID];
         $db =& eZDB::instance();
         $time = mktime();
-        $userID = (int)$userID;
         $sql = "SELECT DISTINCT user_id
 FROM ezsession
 WHERE user_id = '" . $userID . "' AND
       expiration_time > '$time'";
         $rows = $db->arrayQuery( $sql, array( 'limit' => 2 ) );
-        return count( $rows ) > 0;
+        $isLoggedIn = count( $rows ) > 0;
+        $GLOBALS['eZUserLoggedInMap'][$userID] = $isLoggedIn;
+        return $isLoggedIn;
     }
 
     /*!
+     \static
+     Removes any cached session information, this is:
+     - logged in user count
+     - anonymous user count
+     - logged in user map
+    */
+    function clearSessionCache()
+    {
+        unset( $GLOBALS['eZUserLoggedInCount'] );
+        unset( $GLOBALS['eZUserAnonymousCount'] );
+        unset( $GLOBALS['eZUserLoggedInMap'] );
+    }
+
+    /*!
+     \static
      Remove session data for user \a $userID.
     */
     function removeSessionData( $userID )
     {
+        eZUser::clearSessionCache();
         $db =& eZDB::instance();
         $userID = (int)$userID;
         $db->query( 'DELETE FROM ezsession WHERE user_id = \'' . $userID . '\'' );

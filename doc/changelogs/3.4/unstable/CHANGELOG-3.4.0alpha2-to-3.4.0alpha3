@@ -30,6 +30,7 @@ Changes from 3.4.0alpha2 to 3.4.0alpha3
   removes this comment when creating an override based on a standard template.
 - Added object_count attribute to eZContentClass
 - Added object count in class list and class view
+- Merged the ezuser_session_link table into the ezsession table.
 
 Updates:
 - Fixed cleanup.php script to cleanup the user/session link table when
