@@ -772,7 +772,11 @@ class eZSearchEngine
             $and = " AND ";
 
             // Fetch data from table
-            $searchQuery = "SELECT DISTINCT ezcontentobject.*, ezcontentclass.name as class_name, ezcontentobject_tree.*
+            $searchQuery ='';
+            $dbName = $db->databaseName();
+            if ( $dbName == 'mysql' )
+            {
+                $searchQuery = "SELECT DISTINCT ezcontentobject.*, ezcontentclass.name as class_name, ezcontentobject_tree.*
                             $versionNameTargets
                     FROM
                        $tmpTablesFrom,
@@ -789,7 +793,28 @@ class eZSearchEngine
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                     $versionNameJoins
                     ORDER BY ezsearch_tmp_0.published DESC ";
-
+            }
+            else
+            {
+                $searchQuery = "SELECT DISTINCT ezcontentobject.*, ezcontentclass.name as class_name, ezcontentobject_tree.*
+                            $versionNameTargets
+                    FROM
+                       $tmpTablesFrom,
+                       ezcontentobject,
+                       ezcontentclass,
+                       ezcontentobject_tree
+                       $versionNameTables
+                    WHERE
+                    $tmpTablesWhere $and
+                    ezcontentobject.id=ezsearch_tmp_0.contentobject_id and
+                    ezcontentobject.contentclass_id = ezcontentclass.id and
+                    ezcontentclass.version = '0' and
+                    ezcontentobject.id = ezcontentobject_tree.contentobject_id and
+                    ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
+                    $versionNameJoins
+                     ";
+                
+            }
             // Count query
             $where = "WHERE";
             if ( $tmpTableCount == 1 )
@@ -815,7 +840,7 @@ class eZSearchEngine
             // Drop tmp tables
             for ( $i = 0; $i < $tmpTableCount; $i++ )
             {
-                $db->query( "DROP TABLE IF EXISTS ezsearch_tmp_$i" );
+                $db->query( "DROP TABLE ezsearch_tmp_$i" );
             }
 
 
