@@ -1605,6 +1605,7 @@ class eZSearchEngine
 
 
         $this->buildTempTablesForFullTextSearch( $searchPartsArray, array() );
+        $this->GeneralFilter['classAttributeQuery'] = '';
         return true;
 
     }
