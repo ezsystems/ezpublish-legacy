@@ -83,16 +83,16 @@
 
 
 
-INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id) VALUES (1,0,'Folder','folder','<short_name|name>',14,14,1024392098,1082454875,'a3d405b81be900468eb153d774f4f0d2');
-INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id) VALUES (2,0,'Article','article','<short_title|title>',14,14,1024392098,1082454989,'c15b600eb9198b1924063b5a68758232');
-INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id) VALUES (3,0,'User group','user_group','<name>',14,14,1024392098,1048494743,'25b4268cdcd01921b808a0d854b877ef');
-INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id) VALUES (4,0,'User','user','<first_name> <last_name>',14,14,1024392098,1082018364,'40faa822edc579b02c25f6bb7beec3ad');
-INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id) VALUES (5,0,'Image','image','<name>',8,14,1031484992,1048494784,'f6df12aa74e36230eb675f364fccd25a');
-INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id) VALUES (11,0,'Link','link','<name>',14,14,1052385361,1082455072,'74ec6507063150bc813549b22534ad48');
-INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id) VALUES (12,0,'File','file','<name>',14,14,1052385472,1052385669,'637d58bfddf164627bdfd265733280a0');
-INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id) VALUES (13,0,'Comment','comment','<subject>',14,14,1052385685,1082455144,'000c14f4f475e9f2955dedab72799941');
-INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id) VALUES (14,0,'Common ini settings','common_ini_settings','<name>',14,14,1081858024,1081858024,'ffedf2e73b1ea0c3e630e42e2db9c900');
-INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id) VALUES (15,0,'Template look','template_look','<title>',14,14,1081858045,1081858045,'59b43cd9feaaf0e45ac974fb4bbd3f92');
+INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id, is_container) VALUES (1,0,'Folder','folder','<short_name|name>',14,14,1024392098,1082454875,'a3d405b81be900468eb153d774f4f0d2',0);
+INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id, is_container) VALUES (2,0,'Article','article','<short_title|title>',14,14,1024392098,1082454989,'c15b600eb9198b1924063b5a68758232',0);
+INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id, is_container) VALUES (3,0,'User group','user_group','<name>',14,14,1024392098,1048494743,'25b4268cdcd01921b808a0d854b877ef',0);
+INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id, is_container) VALUES (4,0,'User','user','<first_name> <last_name>',14,14,1024392098,1082018364,'40faa822edc579b02c25f6bb7beec3ad',0);
+INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id, is_container) VALUES (5,0,'Image','image','<name>',8,14,1031484992,1048494784,'f6df12aa74e36230eb675f364fccd25a',0);
+INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id, is_container) VALUES (11,0,'Link','link','<name>',14,14,1052385361,1082455072,'74ec6507063150bc813549b22534ad48',0);
+INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id, is_container) VALUES (12,0,'File','file','<name>',14,14,1052385472,1052385669,'637d58bfddf164627bdfd265733280a0',0);
+INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id, is_container) VALUES (13,0,'Comment','comment','<subject>',14,14,1052385685,1082455144,'000c14f4f475e9f2955dedab72799941',0);
+INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id, is_container) VALUES (14,0,'Common ini settings','common_ini_settings','<name>',14,14,1081858024,1081858024,'ffedf2e73b1ea0c3e630e42e2db9c900',0);
+INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id, is_container) VALUES (15,0,'Template look','template_look','<title>',14,14,1081858045,1081858045,'59b43cd9feaaf0e45ac974fb4bbd3f92',0);
 
 
 
@@ -451,6 +451,11 @@ INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, pare
 INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, parent_remote_id) VALUES (30,52,1,48,1,1,1,0,0,'');
 INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, parent_remote_id) VALUES (31,54,1,48,1,1,1,0,0,'');
 INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, parent_remote_id) VALUES (32,1,2,1,8,1,1,0,0,'');
+
+
+
+
+
 
 
 
@@ -1690,6 +1695,11 @@ INSERT INTO ezuser_setting (user_id, is_enabled, max_login) VALUES (10,1,1000);
 INSERT INTO ezuser_setting (user_id, is_enabled, max_login) VALUES (14,1,10);
 INSERT INTO ezuser_setting (user_id, is_enabled, max_login) VALUES (23,1,0);
 INSERT INTO ezuser_setting (user_id, is_enabled, max_login) VALUES (40,1,0);
+
+
+
+
+
 
 
 
