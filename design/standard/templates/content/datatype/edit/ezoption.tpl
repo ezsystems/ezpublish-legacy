@@ -14,7 +14,7 @@
 <tr>
     <th class="tight">&nbsp;</th>
     <th>{'Option'|i18n( 'design/standard/content/datatype' )}</td>
-    <th>{'Value (optional)'|i18n( 'design/standard/content/datatype' )}</th>
+    <th>{'Additional price'|i18n( 'design/standard/content/datatype' )}</th>
 </tr>
 
 {section var=Options loop=$attribute.content.option_list sequence=array( bglight, bgdark )}
