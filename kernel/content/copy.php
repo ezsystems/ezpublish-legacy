@@ -224,7 +224,7 @@ else if ( $Module->isCurrentAction( 'CopyNode' ) )
     {
         // redirect to the page with choice of versions to copy
         $Result = array();
-        chooseObjectVersionsToCopy( $Module, $Result, &$object );
+        chooseObjectVersionsToCopy( $Module, $Result, $object );
     }
     else
     {
@@ -241,7 +241,7 @@ else // default, initial action
     Browse for target node.
     We get here when a user clicks "copy" button when viewing some node.
     */
-    browse( &$Module, &$object );
+    browse( $Module, $object );
 }
 
 ?>

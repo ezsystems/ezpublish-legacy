@@ -3582,6 +3582,8 @@ WHERE
             if ( $modifyRootNode )
                 $db->query( "UPDATE ezcontentobject_tree SET is_hidden=1 WHERE node_id=$nodeID" );
         }
+
+        eZContentObjectTreeNode::clearViewCacheForSubtree( $node, $modifyRootNode );
     }
 
     /*!
@@ -3635,6 +3637,8 @@ WHERE
             if ( $modifyRootNode )
                 $db->query( "UPDATE ezcontentobject_tree SET is_hidden=0 WHERE node_id=$nodeID" );
         }
+
+        eZContentObjectTreeNode::clearViewCacheForSubtree( $node, $modifyRootNode );
     }
 
     /*!
@@ -3658,6 +3662,58 @@ WHERE
             else
                 eZContentObjectTreeNode::unhideSubTree( $node, $modifyRootNode = false );
         }
+    }
+
+    /*!
+     \a static
+     \return true on success, false otherwise
+    */
+    function clearViewCacheForSubtree( &$node, $clearForRootNode = true )
+    {
+        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+
+        // Max nodes to fetch at a time
+        static $limit = 50;
+
+        if ( !$node )
+        {
+            eZDebug::writeWarning( "No such subtree to clear view cache for" );
+            return false;
+        }
+
+        if ( $clearForRootNode )
+        {
+            $objectID = $node->attribute( 'contentobject_id' );
+            eZContentCacheManager::clearViewCache( $objectID, true );
+        }
+
+        $offset = 0;
+        $params = array( 'AsObject' => false,
+                         'Depth' => false,
+                         'Limitation' => array() ); // Empty array means no permission checking
+        $subtreeCount = $node->subTreeCount( $params );
+        while ( $offset < $subtreeCount )
+        {
+            $params['Offset'] = $offset;
+            $params['Limit'] = $limit;
+
+            $subtreeChunk =& $node->subTree( $params );
+            $nNodesInChunk = count( $subtreeChunk );
+            $offset += $nNodesInChunk;
+            if ( $nNodesInChunk == 0 )
+                break;
+
+            $objectIDList = array();
+            foreach ( $subtreeChunk as $curNode )
+                $objectIDList[] = $curNode['contentobject_id'];
+            $objectIDList = array_unique( $objectIDList );
+            unset( $subtreeChunk );
+
+            foreach ( $objectIDList as $objectID )
+                eZContentCacheManager::clearViewCache( $objectID, true );
+        }
+
+        return true;
     }
 
     /// The current language for the node

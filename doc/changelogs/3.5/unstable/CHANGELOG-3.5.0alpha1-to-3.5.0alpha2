@@ -8,6 +8,8 @@ Changes from 3.5.0alpha1 to 3.5.0alpha2
 - Template function fetch( 'content', 'list|list_count|tree|tree_count', ... ) now accepts new
   boolean parameter 'ignore_visibility'.
   This might be useful to fetch/count invisible nodes disregarding the ini setting.
+- Added new method eZContentObjectTreeNode::clearViewCacheForSubtree()
+  that clears view cache for a given subtree.
 
 Scripts:
 - New script bin/php/ezcontentcache.php which can be used to clear the

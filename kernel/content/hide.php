@@ -44,11 +44,9 @@ if( $curNodeHidden )
 else
     eZContentObjectTreeNode::hideSubTree( $curNode );
 
-
 if( ( $parentNodeID = $curNode->attribute( 'parent_node_id' ) ) == 1 )
     $redirectNodeID = $NodeID;
 else
     $redirectNodeID = $parentNodeID;
 return $Module->redirectToView( 'view', array( 'full', $redirectNodeID ) );
-
 ?>
