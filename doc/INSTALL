@@ -91,7 +91,8 @@ insert a database.
 2. $ createuser <user>
 3. $ createdb <name_of_database>
 4. If you don't want demodata:
-4. $ psql -U<ezpublish  user>  <name_of_database> < <httproot>/ezpublish-xxx/kernel/sql/postgresql/kernel_clean.sql
+4. $ psql -U<user> <name_of_database> < <httproot>/ezpublish-xxx/kernel/sql/postgresql/kernel_schema.sql
+   $ psql -U<user> <name_of_database> < <httproot>/ezpublish-xxx/kernel/sql/postgresql/cleandata.sql
 
    If you do want demodata:
    Demodata is not available for PostgreSQL at the moment.
