@@ -46,5 +46,7 @@ else
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:user/success.tpl" );
+if ( $ini->variable( 'SiteSettings', 'LoginPage' ) == 'custom' )
+    $Result['pagelayout'] = 'loginpagelayout.tpl';
 
 ?>

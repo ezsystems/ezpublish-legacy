@@ -6,5 +6,5 @@
 {'Email'|i18n('design/standard/user/register')}: {$user.email}
 
 {'Click the following URL to confirm your account'|i18n('design/standard/user/register')}
-http://{ezini("SiteSettings","SiteURL")}{concat("user/activate/",$hash)|ezurl(no)}
+http://{$hostname)}{concat("user/activate/",$hash)|ezurl(no)}
 

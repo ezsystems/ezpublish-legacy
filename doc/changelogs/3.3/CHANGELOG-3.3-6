@@ -8,6 +8,8 @@ Changes from 3.3-5 to 3.3-6
   the eZContentObject::reverseRelatedObjectList function.
 - eZContentObject::reverseRelatedObjectList now only lists relations from published
   versions and not drafts.
+- Made sure the user/success page follows the SiteSettings/LoginPage setting.
+  (Merged from stable/3.4 rev. 7167)
 
 *Setup:
 
@@ -194,6 +196,9 @@ eZINI:
   http://ez.no/community/bug_reports/related_object_added_to_article_set_to_section_0
 - Fixed bogus PostGreSQL version check.
   http://ez.no/community/bug_reports/fail_installation_with_postgresql_db
+- Fixed wrong urls in registration emails.
+  http://ez.no/community/bug_reports/user_confirmation_e_mail_sends_bugged_link
+  (Merged from stable/3.4 rev. 7167)
     
 *Library:
 
