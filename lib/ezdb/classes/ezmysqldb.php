@@ -399,7 +399,7 @@ class eZMySQLDB extends eZDBInterface
             return false;
         }
         $count = false;
-        if ( $this->isConnected() )
+        if ( $this->IsConnected )
         {
             $result =& mysql_list_tables( $this->DB, $this->DBConnection );
             $count = mysql_num_rows( $result );
@@ -419,7 +419,7 @@ class eZMySQLDB extends eZDBInterface
             return false;
         }
         $tables = array();
-        if ( $this->isConnected() )
+        if ( $this->IsConnected )
         {
             $result =& mysql_list_tables( $this->DB, $this->DBConnection );
             $count = mysql_num_rows( $result );
@@ -438,7 +438,7 @@ class eZMySQLDB extends eZDBInterface
     function eZTableList()
     {
         $tables = array();
-        if ( $this->isConnected() )
+        if ( $this->IsConnected )
         {
             $result =& mysql_list_tables( $this->DB, $this->DBConnection );
             $count = mysql_num_rows( $result );
@@ -467,7 +467,7 @@ class eZMySQLDB extends eZDBInterface
             return false;
         }
 
-        if ( $this->isConnected() )
+        if ( $this->IsConnected )
         {
             $sql = "DROP $relationTypeName $relationName";
             return $this->query( $sql );
@@ -480,7 +480,7 @@ class eZMySQLDB extends eZDBInterface
     */
     function lock( $table )
     {
-        if ( $this->isConnected() )
+        if ( $this->IsConnected )
         {
             if ( is_array( $table ) )
             {
@@ -508,7 +508,7 @@ class eZMySQLDB extends eZDBInterface
     */
     function unlock()
     {
-        if ( $this->isConnected() )
+        if ( $this->IsConnected )
         {
             $this->query( "UNLOCK TABLES" );
         }
@@ -519,7 +519,7 @@ class eZMySQLDB extends eZDBInterface
     */
     function begin()
     {
-        if ( $this->isConnected() )
+        if ( $this->IsConnected )
         {
             $this->query( "BEGIN WORK" );
         }
@@ -530,7 +530,7 @@ class eZMySQLDB extends eZDBInterface
     */
     function commit()
     {
-        if ( $this->isConnected() )
+        if ( $this->IsConnected )
         {
             $this->query( "COMMIT" );
         }
@@ -541,7 +541,7 @@ class eZMySQLDB extends eZDBInterface
     */
     function rollback()
     {
-        if ( $this->isConnected() )
+        if ( $this->IsConnected )
         {
             $this->query( "ROLLBACK" );
         }
@@ -552,7 +552,7 @@ class eZMySQLDB extends eZDBInterface
     */
     function lastSerialID( $table = false, $column = false )
     {
-        if ( $this->isConnected() )
+        if ( $this->IsConnected )
         {
             $id = mysql_insert_id( $this->DBWriteConnection );
             return $id;
@@ -574,7 +574,7 @@ class eZMySQLDB extends eZDBInterface
     */
     function close()
     {
-        if ( $this->isConnected() )
+        if ( $this->IsConnected )
         {
             @mysql_close( $this->DBConnection );
             @mysql_close( $this->DBWriteConnection );
