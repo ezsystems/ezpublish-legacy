@@ -1,7 +1,7 @@
 {section show=$validation.processed}
 {section show=$validation.groups}
 <div class="message-warning">
-<h2>{'Input did not validate'|i18n( 'design/admin/class/edit' )}</h2>
+<h2>{'Input did not validate'|i18n( 'design/admin/class/view' )}</h2>
 <ul>
 {section var=item loop=$validation.groups}
     <li>{$item.text}</li>
@@ -10,7 +10,6 @@
 </div>
 {/section}
 {/section}
-
 
 
 <div class="context-block">
@@ -140,9 +139,9 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
     <div class="block">
-        <form>
-            <input class="button" type="submit" name="" value="{'Edit'|i18n( 'design/admin/class/edit' )}" />
-            <input class="button" type="submit" name="" value="{'Remove'|i18n( 'design/admin/class/edit' )}" />
+        <form action={concat( '/class/edit/', $class.id )|ezurl} method="post">
+            <input class="button" type="submit" name="" value="{'Edit'|i18n( 'design/admin/class/view' )}" />
+            {* <input class="button" type="submit" name="" value="{'Remove'|i18n( 'design/admin/class/view' )}" /> *}
         </form>
     </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
@@ -174,7 +173,7 @@
 {section var=Groups loop=$class.ingroup_list sequence=array( bglight, bgdark )}
 <tr class="{$Groups.sequence}">
     <td class="tight"><input type="checkbox" name="group_id_checked[]" value="{$Groups.item.group_id}" /></td>
-    <td class="wide">{$Groups.item.group_name|wash}</td>
+    <td class="wide">{$Groups.item.group_name|classgroup_icon( small, $Groups.item.group_name )}&nbsp;<a href={concat( '/class/classlist/', $Groups.item.group_id )|ezurl}>{$Groups.item.group_name|wash}</a></td>
 </tr>
 {/section}
 </table>
@@ -222,7 +221,7 @@
 
 <table class="list" cellspacing="0">
 <tr>
-    <th>{'SiteAccess'|i18n( 'design/admin/class/view' )}</th>
+    <th>{'Siteaccess'|i18n( 'design/admin/class/view' )}</th>
     <th>{'Override'|i18n( 'design/admin/class/view' )}</th>
     <th>{'Source template'|i18n( 'design/admin/class/view' )}</th>
     <th>{'Override template'|i18n( 'design/admin/class/view' )}</th>
@@ -233,9 +232,9 @@
 <tr class="{$Overrides.sequence}">
     <td>{$Overrides.item.siteaccess}</td>
     <td>{$Overrides.item.block}</td>
-    <td><a href={concat( '/setup/templateview/', $Overrides.item.source )|ezurl}>{$Overrides.item.source}</td>
+    <td><a href={concat( '/design/templateview/', $Overrides.item.source )|ezurl}>{$Overrides.item.source}</td>
     <td>{$Overrides.item.target}</td>
-    <td><a href={concat( '/setup/templateedit/', $Overrides.item.target)|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/class/view' )}" /></a></td>
+    <td><a href={concat( '/design/templateedit/', $Overrides.item.target)|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/class/view' )}" /></a></td>
 </tr>
 {/section}
 </table>
