@@ -1620,7 +1620,7 @@ function eZSetupImageINISettings( $siteType, $parameters )
                                          'medium' => array( 'Reference' => false,
                                                             'Filters' => array( 'geometry/scaledownonly=200;290' ) ),
                                          'large' => array( 'Reference' => false,
-                                                            'Filters' => array( 'geometry/scaledownonly=370;450' ) ),
+                                                            'Filters' => array( 'geometry/scaledownonly=360;440' ) ),
                                          'listitem' => array( 'Reference' => false,
                                                             'Filters' => array( 'geometry/scaledownonly=155;200' ) ),
                                          'articleimage' => array( 'Reference' => false,
@@ -1630,7 +1630,7 @@ function eZSetupImageINISettings( $siteType, $parameters )
                                          'gallerythumbnail' => array( 'Reference' => false,
                                                             'Filters' => array( 'geometry/scaledownonly=70;150' ) ),
                                          'imagelarge' => array( 'Reference' => false,
-                                                            'Filters' => array( 'geometry/scaledownonly=370;450' ) ),
+                                                            'Filters' => array( 'geometry/scaledownonly=360;440' ) ),
                                          'rss' => array( 'Reference' => false,
                                                             'Filters' => array( 'geometry/scale=88;31' ) )
                                          ) );
