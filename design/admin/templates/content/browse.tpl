@@ -76,7 +76,7 @@
 </div>
 </div>
 
-<form action={$browse.from_page|ezurl} method="post">
+<form class="content-browse" action={$browse.from_page|ezurl} method="post">
 
 {* Browse listing start *}
 <table class="list" cellspacing="0">
@@ -194,8 +194,12 @@
 <input class="button" type="submit" name="SelectButton" value="{'OK'|i18n('design/standard/content/view')}" />
 </form>
 
-<form name="test" method="post" action={"content/browse"|ezurl}>
-    <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n( 'design/standard/content/view' )}" />
+
+<form class="content-browse" method="post" action={$cancel_action|ezurl}>
+    <input class="button" type="submit" name="BrowseCancelButton" value="{'Cancel'|i18n( 'design/standard/content/view' )}" />
+{section name=Persistent show=$browse.persistent_data loop=$browse.persistent_data}
+    <input type="hidden" name="{$:key|wash}" value="{$:item|wash}" />
+{/section}
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>

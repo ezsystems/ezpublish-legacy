@@ -71,15 +71,14 @@ if ( !$contentObject )
 if ( !$contentObject->attribute( 'can_read' ) )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
-if ( $Module->isCurrentAction( 'Cancel' ) )
+$cancelAction = trim( $browse->attribute( 'cancel_page' ) );
+if ( !$cancelAction )
 {
-    $cancelPage = $browse->attribute( 'cancel_page' );
-    if ( trim( $cancelPage ) != '' )
-        return $Module->redirectTo( $cancelPage );
-    $fromPage = $browse->attribute( 'from_page' );
-    if ( trim( $fromPage ) != '' )
-        return $Module->redirectTo( $fromPage );
-    return $Module->redirectToView( 'view', array( 'full', 2 ) );
+    $cancelAction = trim( $browse->attribute( 'from_page' ) );
+    if ( !$cancelAction )
+    {
+        $cancelAction = '/content/view/full/2';
+    }
 }
 
 $res =& eZTemplateDesignResource::instance();
@@ -102,6 +101,7 @@ $tpl->setVariable( 'main_node', $node );
 $tpl->setVariable( 'node_id', $NodeID );
 $tpl->setVariable( 'parents', $parents );
 $tpl->setVariable( 'csm_menu_item_click_action', '/content/browse' );
+$tpl->setVariable( 'cancel_action', $cancelAction );
 
 
 $viewParameters = array( 'offset' => $Offset );

@@ -222,6 +222,11 @@ form
     margin: 0;
 }
 
+form.content-browse
+{
+    display: inline;
+}
+
 label
 {
     font-weight: bold;

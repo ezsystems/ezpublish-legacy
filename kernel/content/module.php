@@ -165,7 +165,6 @@ $ViewList['browse'] = array(
     'default_navigation_part' => 'ezcontentnavigationpart',
     'ui_context' => 'browse',
     'script' => 'browse.php',
-    'single_post_actions' => array( 'CancelButton' => 'Cancel' ),
     'params' => array( 'NodeID', 'ObjectID', 'EditVersion' ),
     'unordered_params' => array( 'offset' => 'Offset' ) );
 

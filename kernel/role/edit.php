@@ -76,7 +76,7 @@ $role->turnOffCaching();
 $tpl->setVariable( 'role', $role );
 $Module->setTitle( 'Edit ' . $role->attribute( 'name' ) );
 
-if ($http->hasPostVariable( 'NewName' ) && $role->attribute( 'name' ) != $http->postVariable( 'NewName' )  )
+if ( $http->hasPostVariable( 'NewName' ) && $role->attribute( 'name' ) != $http->postVariable( 'NewName' ) )
 {
     $role->setAttribute( 'name' , $http->postVariable( 'NewName' ) );
     $role->store();
@@ -88,7 +88,7 @@ $showLimitations = false;
 $noFunctions = false;
 $noLimitations = false;
 
-if ( $http->hasPostVariable( 'Apply' )  )
+if ( $http->hasPostVariable( 'Apply' ) )
 {
     $originalRole = eZRole::fetch( $role->attribute( 'version' ) );
     $originalRole->revertFromTemporaryVersion();
@@ -97,7 +97,7 @@ if ( $http->hasPostVariable( 'Apply' )  )
     $Module->redirectTo( $Module->functionURI( 'view' ) . '/' . $originalRole->attribute( 'id' ) . '/');
 }
 
-if ( $http->hasPostVariable( 'Discard' )  )
+if ( $http->hasPostVariable( 'Discard' ) )
 {
     $originalRole = eZRole::fetch( $roleID ) ;
     $originalRole->remove();
@@ -105,11 +105,11 @@ if ( $http->hasPostVariable( 'Discard' )  )
 
 }
 
-if ( $http->hasPostVariable( 'ChangeRoleName' )  )
+if ( $http->hasPostVariable( 'ChangeRoleName' ) )
 {
     $role->setAttribute( 'name', $http->postVariable( 'NewName' ) );
 }
-if ( $http->hasPostVariable( 'AddModule' )  )
+if ( $http->hasPostVariable( 'AddModule' ) )
 {
     $currentModule = $http->postVariable( 'Modules' );
     $policy =& eZPolicy::createNew( $roleID, array( 'ModuleName'=> $currentModule,
@@ -195,7 +195,7 @@ if ( $http->hasPostVariable( 'AddLimitation' ) )
         $currentFunction = $http->postVariable( 'CurrentFunction' );
         $policy =& eZPolicy::createNew( $roleID, array( 'ModuleName'=> $currentModule,
                                                         'FunctionName' => $currentFunction,
-                                                        'Limitation' => '') );
+                                                        'Limitation' => '' ) );
 
         $mod = & eZModule::exists( $currentModule );
         $functions =& $mod->attribute( 'available_functions' );
@@ -203,14 +203,14 @@ if ( $http->hasPostVariable( 'AddLimitation' ) )
         eZDebug::writeNotice($currentFunctionLimitations, 'currentFunctionLimitations');
         foreach ( $currentFunctionLimitations as $functionLimitation )
         {
-            if ( $http->hasPostVariable( $functionLimitation['name'] ))
+            if ( $http->hasPostVariable( $functionLimitation['name'] ) )
             {
                 $limitationValues = $http->postVariable( $functionLimitation['name'] );
                 eZDebug::writeNotice( $limitationValues, 'limitationValues');
 
                 if ( !in_array('-1', $limitationValues ) )
                 {
-                    $policyLimitation = eZPolicyLimitation::createNew( $policy->attribute('id'), $functionLimitation['name'], $currentModule, $currentFunction);
+                    $policyLimitation = eZPolicyLimitation::createNew( $policy->attribute('id'), $functionLimitation['name'], $currentModule, $currentFunction );
                     foreach ( $limitationValues as $limitationValue )
                     {
                         eZPolicyLimitationValue::createNew( $policyLimitation->attribute( 'id' ), $limitationValue );
@@ -284,7 +284,9 @@ if ( $http->hasPostVariable( 'DiscardFunction' ) )
 
 }
 
-if ( $http->hasPostVariable( 'Limitation' ) or
+if ( $http->hasPostVariable( 'SelectButton' ) or
+     $http->hasPostVariable( 'BrowseCancelButton' ) or
+     $http->hasPostVariable( 'Limitation' ) or
      $http->hasPostVariable( 'SelectedNodeIDArray' ) or
      $http->hasPostVariable( 'BrowseLimitationNodeButton' ) or
      $http->hasPostVariable( 'DeleteNodeButton' ) or
