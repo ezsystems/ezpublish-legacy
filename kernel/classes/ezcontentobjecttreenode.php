@@ -689,6 +689,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $classIDString =  implode( ', ', $classIDArray );
                 $classCondition .= ' ( ' . $classIDString . ' ) AND';
             }
+            else
+            {
+                if ( count( $classIDArray ) == 0 and $classCount > 0 and  $params['ClassFilterType']  == 'include' )
+                {
+                    $retNodeList = array();
+                    eZDebug::writeNotice( "Class filter returned false" );
+                    return $retNodeList;
+                }
+            }
         }
 
 
@@ -823,6 +832,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     {
                         if ( !is_numeric( $filterAttributeID ) )
                             $filterAttributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $filterAttributeID );
+
+                        if ( $filterAttributeID === false )
+                        {
+                            $retNodeList = array();
+                            eZDebug::writeNotice( "Attribute filter returned false" );
+                            return $retNodeList;
+                        }
 
                         // Use the same joins as we do when sorting,
                         // if more attributes are filtered by we will append them
