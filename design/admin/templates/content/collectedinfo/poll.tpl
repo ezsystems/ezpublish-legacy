@@ -28,30 +28,28 @@
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
-<div class="block">
+{section var=Attributes loop=$object.contentobject_attributes}
+    {section show=$Attributes.item.contentclass_attribute.is_information_collector}
 
-<h2>{$node.name|wash}</h2>
-
-{section loop=$object.contentobject_attributes}
-    {section show=$:item.contentclass_attribute.is_information_collector}
-
-        <h3>{$:item.contentclass_attribute.name}</h3>
-        {attribute_result_gui view=count attribute=$:item}
+        <div class="block">
+        <label>{$Attributes.item.contentclass_attribute.name}</label>
+        {attribute_result_gui view=count attribute=$Attributes.item}
+        </div>
 
     {section-else}
 
-        {section show=$attribute_hide_list|contains($:item.contentclass_attribute.identifier)|not}
-            <h3>{$:item.contentclass_attribute.name}</h3>
-            {attribute_view_gui attribute=$:item}
+        {section show=$attribute_hide_list|contains( $Attributes.item.contentclass_attribute.identifier )|not}
+            <div class="block">
+            <label>{$Attributes.item.contentclass_attribute.name}</label>
+            {attribute_view_gui attribute=$Attributes.item}
+            </div>
         {/section}
 
     {/section}
 
 {/section}
-
-<p>{"%count total votes"|i18n( 'design/admin/content/collectedinfo/poll' ,,
-                             hash( '%count', fetch( content, collected_info_count, hash( object_id, $object.id ) ) ) )}</p>
-
+<div class="block">
+<p>{'%count total votes'|i18n( 'design/admin/content/collectedinfo/poll',, hash( '%count', fetch( content, collected_info_count, hash( object_id, $object.id ) ) ) )}</p>
 </div>
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
