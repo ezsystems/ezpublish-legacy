@@ -383,6 +383,8 @@ class eZEnumType extends eZDataType
         $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
         $id = $contentClassAttribute->attribute( "id" );
         $version = $contentClassAttribute->attribute( "version" );
+        $ismultiple = $contentClassAttribute->attribute( "data_int1" );
+        $isoption = $contentClassAttribute->attribute( "data_int2" );
 
         $enum = new eZEnum( $id, $version );
         $enum->setIsmultipleValue( $ismultiple );
@@ -421,6 +423,7 @@ class eZEnumType extends eZDataType
         $version = $contentClassAttribute->attribute( "version" );
         $ismultiple = $contentClassAttribute->attribute( "data_int1" );
         $isoption = $contentClassAttribute->attribute( "data_int2" );
+
         $enum = new eZEnum( $id, $version );
         $enum->setIsmultipleValue( $ismultiple );
         $enum->setIsoptionValue( $isoption );
