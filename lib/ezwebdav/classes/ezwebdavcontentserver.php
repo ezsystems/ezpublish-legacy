@@ -179,6 +179,7 @@ function getPathToReferenceImageDir()
  */
 function getNodeByTranslation( $nodePathString )
 {
+    $indexDir = eZSys::indexDir();
     // Remove indexDir if used in non-virtualhost mode
     if ( preg_match( "#^$indexDir/(.+)$#", $nodePathString, $matches ) )
         $nodePathString = $matches[1];
