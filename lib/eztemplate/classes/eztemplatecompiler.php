@@ -2181,67 +2181,70 @@ $rbracket
                         }
                     }
 
-                    if ( $resourceVariableName )
+                    if ( $hasCompiledCode )
                     {
-                        $phpScriptText = $php->variableText( $phpScript, 0 );
-                        $phpScriptText = '$phpScript';
-                        $phpScriptArray = array();
-                        foreach ( $resourceMap as $resourceMapItem )
+                        if ( $resourceVariableName )
                         {
-                            $phpScriptArray[$resourceMapItem['key']] = $resourceMapItem['phpscript'];
-                        }
-                        $php->addVariable( "phpScriptArray", $phpScriptArray, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'spacing' => $spacing ) );
-                        $resourceVariableNameText = "\$$resourceVariableName";
-                        $php->addCodePiece( "\$phpScript = isset( \$phpScriptArray[$resourceVariableNameText] ) ? \$phpScriptArray[$resourceVariableNameText] : false;\n", array( 'spacing' => $spacing ) );
-                        $php->addCodePiece( "\$resourceFound = false;\nif ( $phpScriptText !== false and file_exists( $phpScriptText ) )\n{\n", array( 'spacing' => $spacing ) );
+                            $phpScriptText = $php->variableText( $phpScript, 0 );
+                            $phpScriptText = '$phpScript';
+                            $phpScriptArray = array();
+                            foreach ( $resourceMap as $resourceMapItem )
+                            {
+                                $phpScriptArray[$resourceMapItem['key']] = $resourceMapItem['phpscript'];
+                            }
+                            $php->addVariable( "phpScriptArray", $phpScriptArray, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'spacing' => $spacing ) );
+                            $resourceVariableNameText = "\$$resourceVariableName";
+                            $php->addCodePiece( "\$phpScript = isset( \$phpScriptArray[$resourceVariableNameText] ) ? \$phpScriptArray[$resourceVariableNameText] : false;\n", array( 'spacing' => $spacing ) );
+                            $php->addCodePiece( "\$resourceFound = false;\nif ( $phpScriptText !== false and file_exists( $phpScriptText ) )\n{\n", array( 'spacing' => $spacing ) );
 
-                        $code = "\$resourceFound = true;\n\$namespaceStack[] = array( \$rootNamespace, \$currentNamespace );\n";
-                        if ( $newRootNamespace )
-                        {
-                            $newRootNamespaceText = $php->variableText( $newRootNamespace, 0, 0, false );
-                            $code .= "\$currentNamespace = \$rootNamespace = !\$currentNamespace ? $newRootNamespaceText : ( \$currentNamespace . ':' . $newRootNamespaceText );\n";
-                        }
-                        else
-                        {
-                            $code .= "\$currentNamespace = \$rootNamespace;\n";
-                        }
-                        $code .= "include( $phpScriptText );
+                            $code = "\$resourceFound = true;\n\$namespaceStack[] = array( \$rootNamespace, \$currentNamespace );\n";
+                            if ( $newRootNamespace )
+                            {
+                                $newRootNamespaceText = $php->variableText( $newRootNamespace, 0, 0, false );
+                                $code .= "\$currentNamespace = \$rootNamespace = !\$currentNamespace ? $newRootNamespaceText : ( \$currentNamespace . ':' . $newRootNamespaceText );\n";
+                            }
+                            else
+                            {
+                                $code .= "\$currentNamespace = \$rootNamespace;\n";
+                            }
+                            $code .= "include( $phpScriptText );
 list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
-                        $php->addCodePiece( $code, array( 'spacing' => $spacing + 4 ) );
-                        if ( $useFallbackCode )
-                            $php->addCodePiece( "}\nelse\n{\n    \$resourceFound = true;\n", array( 'spacing' => $spacing ) );
+                            $php->addCodePiece( $code, array( 'spacing' => $spacing + 4 ) );
+                            if ( $useFallbackCode )
+                                $php->addCodePiece( "}\nelse\n{\n    \$resourceFound = true;\n", array( 'spacing' => $spacing ) );
+                            else
+                                $php->addCodePiece( "}\n", array( 'spacing' => $spacing ) );
+                            $subSpacing = 4;
+                        }
                         else
-                            $php->addCodePiece( "}\n", array( 'spacing' => $spacing ) );
-                        $subSpacing = 4;
-                    }
-                    else
-                    {
-                        $php->addCodePiece( "\$resourceFound = false;\n", array( 'spacing' => $spacing ) );
-                        $phpScript = $resourceMap[0]['phpscript'];
-                        $phpScriptText = $php->variableText( $phpScript, 0 );
-                        // Not sure where this should come from
+                        {
+                            $php->addCodePiece( "\$resourceFound = false;\n", array( 'spacing' => $spacing ) );
+                            $phpScript = $resourceMap[0]['phpscript'];
+                            $phpScriptText = $php->variableText( $phpScript, 0 );
+                            // Not sure where this should come from
 //                         if ( $resourceIndex > 0 )
 //                             $php->addCodePiece( "else " );
-                        $php->addCodePiece( "if ( file_exists( $phpScriptText ) )\n{\n", array( 'spacing' => $spacing ) );
+                            $php->addCodePiece( "if ( file_exists( $phpScriptText ) )\n{\n", array( 'spacing' => $spacing ) );
 
-                        $code = "\$resourceFound = true;\n\$namespaceStack[] = array( \$rootNamespace, \$currentNamespace );\n";
-                        if ( $newRootNamespace )
-                        {
-                            $newRootNamespaceText = $php->variableText( $newRootNamespace, 0, 0, false );
-                            $code .= "\$currentNamespace = \$rootNamespace = !\$currentNamespace ? $newRootNamespaceText : ( \$currentNamespace . ':' . $newRootNamespaceText );\n";
-                        }
-                        else
-                        {
-                            $code .= "\$currentNamespace = \$rootNamespace;\n";
-                        }
-                        $code .= "include( $phpScriptText );
+                            $code = "\$resourceFound = true;\n\$namespaceStack[] = array( \$rootNamespace, \$currentNamespace );\n";
+                            if ( $newRootNamespace )
+                            {
+                                $newRootNamespaceText = $php->variableText( $newRootNamespace, 0, 0, false );
+                                $code .= "\$currentNamespace = \$rootNamespace = !\$currentNamespace ? $newRootNamespaceText : ( \$currentNamespace . ':' . $newRootNamespaceText );\n";
+                            }
+                            else
+                            {
+                                $code .= "\$currentNamespace = \$rootNamespace;\n";
+                            }
+                            $code .= "include( $phpScriptText );
 list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
-                        $php->addCodePiece( $code, array( 'spacing' => $spacing + 4 ) );
-                        if ( $useFallbackCode )
-                            $php->addCodePiece( "}\nelse\n{\n    \$resourceFound = true;\n", array( 'spacing' => $spacing ) );
-                        else
-                            $php->addCodePiece( "}\n", array( 'spacing' => $spacing ) );
-                        $subSpacing = 4;
+                            $php->addCodePiece( $code, array( 'spacing' => $spacing + 4 ) );
+                            if ( $useFallbackCode )
+                                $php->addCodePiece( "}\nelse\n{\n    \$resourceFound = true;\n", array( 'spacing' => $spacing ) );
+                            else
+                                $php->addCodePiece( "}\n", array( 'spacing' => $spacing ) );
+                            $subSpacing = 4;
+                        }
                     }
 
                     if ( $useFallbackCode )

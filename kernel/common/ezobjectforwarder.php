@@ -308,7 +308,7 @@ class eZObjectForwarder
                     $matchPart = $matchItem['match_part'];
                     if ( preg_match( "/^(.+)\.tpl$/", $matchPart, $matches ) )
                         $matchPart = $matches[1];
-                    $code = "if ( \$attributeAccess == '$matchPart' ) //abc $templateCounter \n{\n";
+                    $code = "if ( \$attributeAccess == '$matchPart' )\n{\n";
                     if ( $templateCounter > 0 )
                         $code = "else " . $code;
                     $tmpAcquisitionNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => $spacing ) );
@@ -395,10 +395,10 @@ class eZObjectForwarder
                                                                                                         $node[4], array( 'spacing' => $defaultMatchSpacing + 4 ),
                                                                                                         $rule['namespace'] );
                             $hasAcquisitionNodes = true;
-                            ++$templateCounter;
                             if ( isset( $matchItem['custom_match'] ) )
                                 $tmpAcquisitionNodes[] = eZTemplateNodeTool::createCodePieceNode( "}", array( 'spacing' => $customSpacing ) );
                         }
+                        ++$templateCounter;
                         $tmpAcquisitionNodes[] = eZTemplateNodeTool::createCodePieceNode( "}", array( 'spacing' => $spacing ) );
                         $acquisitionNodes = array_merge( $acquisitionNodes, $tmpAcquisitionNodes );
                     }
@@ -509,7 +509,8 @@ class eZObjectForwarder
                     ++$matchCount;
                     if ( $matchConditionCount == 0 )
                     {
-                        $addFileResource = false;
+                        if ( $matchCount == 1 )
+                            $addFileResource = false;
                         break;
                     }
                 }

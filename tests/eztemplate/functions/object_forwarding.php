@@ -308,11 +308,12 @@ $designResource->setKeys( array( array( 'object' => $object1->attribute( 'id' ) 
 if ( !isset( $GLOBALS['TestTemplateOverride'] ) )
 {
     $GLOBALS['TestTemplateOverride'] = true;
+    eZTemplateDesignResource::addGlobalOverride( 'folder3', 'node/view/element.tpl', 'folder_element.tpl', 'templates', array() );
     eZTemplateDesignResource::addGlobalOverride( 'folder', 'node/view/line.tpl', 'folder.tpl', 'templates', array( 'class' => 2 ) );
 //    eZTemplateDesignResource::addGlobalOverride( 'folder3', 'node/view/listitem.tpl', 'folder2.tpl', 'templates', array( 'class' => 5 ) );
     eZTemplateDesignResource::addGlobalOverride( 'folder2', 'node/view/listitem.tpl', 'folder2.tpl', 'templates', array() );
     eZTemplateDesignResource::addGlobalOverride( 'ezstring', 'content/datatype/view/ezstring.tpl', 'ezstring_view.tpl', 'templates', array() );
-    eZTemplateDesignResource::addGlobalOverride( 'ezfile2', 'content/datatype/view/ezfile.tpl', 'ezfile_view2.tpl', 'templates', array( 'class' => 2 ) );
+//    eZTemplateDesignResource::addGlobalOverride( 'ezfile2', 'content/datatype/view/ezfile.tpl', 'ezfile_view2.tpl', 'templates', array( 'class' => 2 ) );
     eZTemplateDesignResource::addGlobalOverride( 'ezfile', 'content/datatype/view/ezfile.tpl', 'ezfile_view.tpl', 'templates', array() );
 }
 
