@@ -64,6 +64,41 @@ class eZUserFunctionCollection
         return array( 'result' => $user );
     }
 
+    function &fetchIsLoggedIn( $userID )
+    {
+        include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+        $isLoggedIn =& eZUser::isUserLoggedIn( $userID );
+        return array( 'result' => $isLoggedIn );
+    }
+
+    function &fetchLoggedInCount()
+    {
+        include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+        $count =& eZUser::fetchLoggedInCount();
+        return array( 'result' => $count );
+    }
+
+    function &fetchAnonymousCount()
+    {
+        include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+        $count =& eZUser::fetchAnonymousCount();
+        return array( 'result' => $count );
+    }
+
+    function fetchLoggedInList( $sortBy, $offset, $limit )
+    {
+        include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+        $list =& eZUser::fetchLoggedInList( false, $offset, $limit, $sortBy );
+        return array( 'result' => $list );
+    }
+
+    function fetchLoggedInUsers( $sortBy, $offset, $limit )
+    {
+        include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+        $list =& eZUser::fetchLoggedInList( true, $offset, $limit, $sortBy );
+        return array( 'result' => $list );
+    }
+
 }
 
 ?>

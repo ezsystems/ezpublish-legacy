@@ -273,6 +273,152 @@ class eZUser extends eZPersistentObject
     }
 
     /*!
+     \return a list of the logged in users.
+     \param $asObject If false it will return a list with only the names of the users as elements and user ID as key,
+                      otherwise each entry is a eZUser object.
+     \sa fetchLoggedInCount
+    */
+    function fetchLoggedInList( $asObject = false, $offset = false, $limit = false, $sortBy = false )
+    {
+        $db =& eZDB::instance();
+        $time = mktime();
+        $parameters = array();
+        if ( $offset )
+            $parameters['offset'] = $offset;
+        if ( $limit )
+            $parameters['limit'] = $limit;
+        $sortText = '';
+        if ( $sortBy !== false )
+        {
+            $sortElements = array();
+            if ( !is_array( $sortBy ) )
+            {
+                $sortBy = array( array( $sortBy, true ) );
+            }
+            else if ( !is_array( $sortBy[0] ) )
+                $sortBy = array( $sortBy );
+            $sortColumns = array();
+            foreach ( $sortBy as $sortElements )
+            {
+                $sortColumn = $sortElements[0];
+                $sortOrder = $sortElements[1];
+                $orderText = $sortOrder ? 'asc' : 'desc';
+                switch ( $sortColumn )
+                {
+                    case 'user_id':
+                    {
+                        $sortColumn = "ezuser.contentobject_id $orderText";
+                    } break;
+
+                    case 'login':
+                    {
+                        $sortColumn = "ezuser.login $orderText";
+                    } break;
+
+                    case 'email':
+                    {
+                        $sortColumn = "ezuser.email $orderText";
+                    } break;
+
+                    default:
+                    {
+                        $sortColumn = false;
+                    } break;
+                }
+                if ( $sortColumn )
+                    $sortColumns[] = $sortColumn;
+            }
+            if ( count( $sortColumns ) > 0 )
+                $sortText = "ORDER BY " . implode( ', ', $sortColumns );
+        }
+        if ( $asObject )
+        {
+            $sql = "SELECT ezuser.*
+FROM ezuser_session_link, ezsession, ezuser
+WHERE ezuser_session_link.user_id != '" . EZ_USER_ANONYMOUS_ID . "' AND
+      ezsession.expiration_time > '$time' AND
+      ezuser_session_link.session_key = ezsession.session_key AND
+      ezuser.contentobject_id = ezuser_session_link.user_id
+$sortText";
+            $rows = $db->arrayQuery( $sql, $parameters );
+            $list = array();
+            foreach ( $rows as $row )
+            {
+                $list[] = new eZUser( $row );
+            }
+        }
+        else
+        {
+            $sql = "SELECT ezuser.contentobject_id as user_id, ezcontentobject.name
+FROM ezuser_session_link, ezsession, ezuser, ezcontentobject
+WHERE ezuser_session_link.user_id != '" . EZ_USER_ANONYMOUS_ID . "' AND
+      ezsession.expiration_time > '$time' AND
+      ezuser_session_link.session_key = ezsession.session_key AND
+      ezuser.contentobject_id = ezuser_session_link.user_id AND
+      ezcontentobject.id = ezuser.contentobject_id
+$sortText";
+            $rows = $db->arrayQuery( $sql, $parameters );
+            $list = array();
+            foreach ( $rows as $row )
+            {
+                $list[$row['user_id']] = $row['name'];
+            }
+        }
+        return $list;
+    }
+
+    /*!
+     \return the number of logged in users in the system.
+     \sa fetchAnonymousCount
+    */
+    function fetchLoggedInCount()
+    {
+        $db =& eZDB::instance();
+        $time = mktime();
+        $sql = "SELECT count( ezuser_session_link.user_id ) as count
+FROM ezuser_session_link, ezsession
+WHERE ezuser_session_link.user_id != '" . EZ_USER_ANONYMOUS_ID . "' AND
+      ezsession.expiration_time > '$time' AND
+      ezuser_session_link.session_key = ezsession.session_key";
+        $rows = $db->arrayQuery( $sql );
+        return $rows[0]['count'];
+    }
+
+    /*!
+     \return the number of anonymous users in the system.
+     \sa fetchLoggedInCount
+    */
+    function fetchAnonymousCount()
+    {
+        $db =& eZDB::instance();
+        $time = mktime();
+        $sql = "SELECT count( ezuser_session_link.session_key ) as count
+FROM ezuser_session_link, ezsession
+WHERE ezuser_session_link.user_id = '" . EZ_USER_ANONYMOUS_ID . "' AND
+      ezsession.expiration_time > '$time' AND
+      ezuser_session_link.session_key = ezsession.session_key";
+        $rows = $db->arrayQuery( $sql );
+        return $rows[0]['count'];
+    }
+
+    /*!
+     \return true if the user with ID $userID is currently logged into the system.
+     \sa fetchLoggedInList
+    */
+    function isUserLoggedIn( $userID )
+    {
+        $db =& eZDB::instance();
+        $time = mktime();
+        $sql = "SELECT DISTINCT ezuser_session_link.user_id
+FROM ezuser_session_link, ezsession
+WHERE ezuser_session_link.user_id = '" . $userID . "' AND
+      ezsession.expiration_time > '$time' AND
+      ezuser_session_link.session_key = ezsession.session_key";
+        $rows = $db->arrayQuery( $sql );
+        return count( $rows ) > 0;
+    }
+
+    /*!
      Remove session data for user \a $userID.
     */
     function removeSessionData( $userID )

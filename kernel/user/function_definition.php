@@ -44,4 +44,62 @@ $FunctionList['current_user'] = array( 'name' => 'current_user',
                                        'parameter_type' => 'standard',
                                        'parameters' => array() );
 
+$FunctionList['is_logged_in'] = array( 'name' => 'is_logged_in',
+                                       'operation_types' => array( 'read' ),
+                                       'call_method' => array( 'include_file' => 'kernel/user/ezuserfunctioncollection.php',
+                                                               'class' => 'eZUserFunctionCollection',
+                                                               'method' => 'fetchIsLoggedIn' ),
+                                       'parameter_type' => 'standard',
+                                       'parameters' => array( array( 'name' => 'user_id',
+                                                                     'type' => 'integer',
+                                                                     'required' => true ) ) );
+
+$FunctionList['logged_in_count'] = array( 'name' => 'logged_in_count',
+                                          'operation_types' => array( 'read' ),
+                                          'call_method' => array( 'include_file' => 'kernel/user/ezuserfunctioncollection.php',
+                                                                  'class' => 'eZUserFunctionCollection',
+                                                                  'method' => 'fetchLoggedInCount' ),
+                                          'parameter_type' => 'standard',
+                                          'parameters' => array() );
+
+$FunctionList['anonymous_count'] = array( 'name' => 'anonymous_count',
+                                          'operation_types' => array( 'read' ),
+                                          'call_method' => array( 'include_file' => 'kernel/user/ezuserfunctioncollection.php',
+                                                                  'class' => 'eZUserFunctionCollection',
+                                                                  'method' => 'fetchAnonymousCount' ),
+                                          'parameter_type' => 'standard',
+                                          'parameters' => array() );
+
+$FunctionList['logged_in_list'] = array( 'name' => 'logged_in_list',
+                                         'operation_types' => array( 'read' ),
+                                         'call_method' => array( 'include_file' => 'kernel/user/ezuserfunctioncollection.php',
+                                                                 'class' => 'eZUserFunctionCollection',
+                                                                 'method' => 'fetchLoggedInList' ),
+                                         'parameter_type' => 'standard',
+                                         'parameters' => array( array( 'name' => 'sort_by',
+                                                                       'type' => 'mixed',
+                                                                       'required' => false ),
+                                                                array( 'name' => 'offset',
+                                                                       'type' => 'integer',
+                                                                       'required' => false ),
+                                                                array( 'name' => 'limit',
+                                                                       'type' => 'integer',
+                                                                       'required' => false ) ) );
+
+$FunctionList['logged_in_users'] = array( 'name' => 'logged_in_users',
+                                          'operation_types' => array( 'read' ),
+                                          'call_method' => array( 'include_file' => 'kernel/user/ezuserfunctioncollection.php',
+                                                                  'class' => 'eZUserFunctionCollection',
+                                                                  'method' => 'fetchLoggedInUsers' ),
+                                          'parameter_type' => 'standard',
+                                          'parameters' => array( array( 'name' => 'sort_by',
+                                                                        'type' => 'mixed',
+                                                                        'required' => false ),
+                                                                 array( 'name' => 'offset',
+                                                                        'type' => 'integer',
+                                                                        'required' => false ),
+                                                                 array( 'name' => 'limit',
+                                                                        'type' => 'integer',
+                                                                        'required' => false ) ) );
+
 ?>
