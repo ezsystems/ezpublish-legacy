@@ -9,6 +9,7 @@ Changes from 3.2-3 to 3.2-4
 - Fixed the empty entry for AdditionalSiteDesignList in site.ini.
 - Added check if node_id is numeric when fetching content objects.
 - Made sure the attribute_base variable is used for all edit datatype templates.
+- Added check when published content has warning ( validation log ), content can't be published before user has seen the warning.
 
 *Bugfixes:
 - Fixed copy object bug. Current version was not set, multiple version copy did not set object name and redirect did not contain version number.
