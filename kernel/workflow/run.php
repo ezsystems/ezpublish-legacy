@@ -73,8 +73,14 @@ if ( $process->attribute( "event_id" ) != 0 )
 
 $process->run( $workflow, $workflowEvent, $eventLog );
 // Store changes to process
-$process->store();
-
+if ( $process->attribute( 'status' ) != EZ_WORKFLOW_STATUS_DONE )
+{
+    $process->store();
+}
+if ( $process->attribute( 'status' ) == EZ_WORKFLOW_STATUS_DONE )
+{
+//    list ( $module, $function, $parameters ) = $process->getModuleInfo();
+}
 $tpl->setVariable( "event_log", $eventLog );
 $tpl->setVariable( "current_workflow", $workflow );
 

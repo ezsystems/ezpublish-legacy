@@ -67,13 +67,29 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
 
 if ( $http->hasPostVariable( 'NewButton' )  )
 {
-    if ( $http->hasPostVariable( 'ClassID' ) )
+    if ( $http->hasPostVariable( 'ClassID' )  )
     {
-        $parentNode = eZContentObjectTreeNode::fetch( $TopObjectID );
-        $parentContentObject = $parentNode->attribute( 'contentobject' );
-        if ( $parentContentObject->checkAccess( 'create', $http->postVariable( 'ClassID' ), $parentContentObject->attribute( 'contentclass_id' ) ) == '1' )
+        $node =& eZContentObjectTreeNode::fetch( 2  );
+        $parentContentObject = $node->attribute( 'contentobject' );
+        if ( $parentContentObject->checkAccess( 'create', $http->postVariable( 'ClassID' ),  $parentContentObject->attribute( 'contentclass_id' ) ) == '1' )
         {
-            $contentObject =& eZContentObjectTreeNode::createObject( $http->postVariable( 'ClassID' ), $TopObjectID );
+            $user =& eZUser::currentUser();
+            $userID =& $user->attribute( 'contentobject_id' );
+            $sectionID = $parentContentObject->attribute( 'section_is' );
+            $contentClassID = $http->postVariable( 'ClassID' );
+            $class =& eZContentClass::fetch( $contentClassID );
+            $contentObject =& $class->instantiate( $userID, $sectionID );
+            $nodeAssignment =& eZNodeAssignment::create( array(
+                                                             'contentobject_id' => $contentObject->attribute( 'id' ),
+                                                             'contentobject_version' => $contentObject->attribute( 'current_version' ),
+                                                             'parent_node' => $node->attribute( 'node_id' ),
+                                                             'main' => 1
+                                                             )
+                                                         );
+            $nodeAssignment->store();
+
+//            $contentObject =& eZContentObjectTreeNode::createObject( $http->postVariable( 'ClassID' ), $http->postVariable( 'NodeID' ) );
+
             $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $contentObject->attribute( 'id' ) . '/' . $contentObject->attribute( 'current_version' ) );
             return;
         }else
@@ -81,7 +97,9 @@ if ( $http->hasPostVariable( 'NewButton' )  )
             $Module->redirectTo( '/error/403' );
             return;
         }
+
     }
+
 }
 
 

@@ -369,7 +369,7 @@ class eZSearchEngine
                 $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$searchContentClassAttributeID' AND ";
             }
 
-            $searchQuery = "SELECT DISTINCT ezcontentobject.id, ezcontentobject.*
+            $searchQuery = "SELECT DISTINCT ezcontentobject.id, ezcontentobject.*, ezsearch_object_word_link.frequency
                     FROM
                        ezcontentobject,
                        ezsearch_object_word_link

@@ -747,6 +747,7 @@ class eZModule
                 $params[$param] = null;
             ++$i;
         }
+        $this->ViewParameters =& $parameters;
         if ( array_key_exists( 'Limitation', $parameters  ) )
         {
             $params['Limitation'] =& $parameters[ 'Limitation' ];
@@ -920,6 +921,7 @@ class eZModule
         if ( $searchPathList === null )
             $searchPathList = array();
         $searchPathList = array_merge( $searchPathList, $pathList );
+//        print_r( $searchPathList );
         foreach ( $searchPathList as $path )
         {
             $file = "$path/$moduleName/module.php";
@@ -949,6 +951,7 @@ class eZModule
     var $HookList;
     var $ViewActions;
     var $ViewResult;
+    var $ViewParameters;
 }
 
 ?>

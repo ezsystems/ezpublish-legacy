@@ -163,7 +163,7 @@ if ( $http->hasPostVariable( "CustomFunction" )  )
 {
     $currentModule = $http->postVariable( 'Modules' );
     $mod = & eZModule::exists( $currentModule );
-    var_dump( $currentModule );
+//    var_dump( $currentModule );
     flush();
     $functions =& $mod->attribute( 'aviable_functions' );
     $functionNames = array_keys( $functions );

@@ -51,8 +51,8 @@ function checkNodeCorrectness( &$module, $objectID, $editVersion )
         return;
     if ( $object->attribute( 'main_node_id' ) == 0 )
     {
-        $module->setViewResult( $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' ) );
-        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+//        $module->setViewResult( $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' ) );
+//        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
     }
 }
 
@@ -67,8 +67,9 @@ function checkNodeAssignments( &$module, &$class, &$object, &$version, &$content
 
         foreach ( $selectedNodeIDArray as $nodeID )
         {
-            $node = eZContentObjectTreeNode::fetch( $nodeID );
-            $node->addChild( $ObjectID );
+//            $node = eZContentObjectTreeNode::fetch( $nodeID );
+//            $node->addChild( $ObjectID );
+            $version->assigneToNode( $nodeID );
         }
     }
 }
@@ -77,23 +78,46 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
 {
     $http =& eZHTTPTool::instance();
     $mainNodeID = $http->postVariable( 'MainNodeID' );
-
     $nodesID = array();
     if ( $http->hasPostVariable( 'NodesID' ) )
         $nodesID = $http->postVariable( 'NodesID' );
 
     $nodeID = eZContentObjectTreeNode::findNode( $mainNodeID, $object->attribute('id') );
     eZDebug::writeNotice( $nodeID, 'nodeID' );
-    $object->setAttribute( 'main_node_id', $nodeID );
+//    $object->setAttribute( 'main_node_id', $nodeID );
+    $nodeAssignments =& eZNodeAssignment::fetchForObject( $object->attribute( 'id' ), $version->attribute( 'version' ) ) ;
+    eZDebug::writeNotice( $mainNodeID, "mainNodeID" );
+
+    foreach( array_keys( $nodeAssignments ) as $key )
+    {
+        
+        $nodeAssignment =& $nodeAssignments[$key];
+        eZDebug::writeNotice( $nodeAssignment, "nodeAssignment" );
+        if ( $nodeAssignment->attribute( 'main' ) == 1 && $nodeAssignment->attribute( 'parent_node' ) != $mainNodeID )
+        {
+
+            $nodeAssignment->setAttribute( 'main', 0 );
+            $nodeAssignment->store();
+        }
+        elseif ( $nodeAssignment->attribute( 'main' ) == 0 && $nodeAssignment->attribute( 'parent_node' ) == $mainNodeID )
+        {
+            $nodeAssignment->setAttribute( 'main', 1 );
+            $nodeAssignment->store();
+        }
+
+    }
+//    $version->setAttribute( 'parent_node', $mainNodeID );
+//    $version->store();
 //         $object->store();
 
-    $node = eZContentObjectTreeNode::fetch( $nodeID );
-    $node->setAttribute( 'path_identification_string', $node->pathWithNames() );
-    $node->setAttribute( 'crc32_path', crc32 ( $node->attribute( 'path_identification_string' ) ) );
-    eZDebug::writeNotice( $node->attribute( 'path_identification_string' ), 'path_identification_string' );
-    eZDebug::writeNotice( $node->attribute( 'crc32_path' ), 'CRC32' );
+//    $node = eZContentObjectTreeNode::fetch( $nodeID );
 
-    $node->store();
+//    $node->setAttribute( 'path_identification_string', $node->pathWithNames() );
+//    $node->setAttribute( 'crc32_path', crc32 ( $node->attribute( 'path_identification_string' ) ) );
+//    eZDebug::writeNotice( $node->attribute( 'path_identification_string' ), 'path_identification_string' );
+//    eZDebug::writeNotice( $node->attribute( 'crc32_path' ), 'CRC32' );
+
+//    $node->store();
 }
 
 function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion )
@@ -107,7 +131,7 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
         $http->setSessionVariable( 'BrowseActionName', 'AddNodeAssignment' );
         $http->setSessionVariable( 'BrowseReturnType', 'NodeID' );
 
-        $node = eZContentObjectTreeNode::fetch( $object->attribute( 'main_node_id' ) );
+        $node = eZContentObjectTreeNode::fetch( $version->attribute( 'main_parent_node_id' ) );
         $nodePath =  $node->attribute( 'path' );
         $rootNodeForObject = $nodePath[0];
         $nodeID = $rootNodeForObject->attribute( 'node_id' );
@@ -130,7 +154,8 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
         {
             if ( $node != $mainNodeID )
             {
-                eZContentObjectTreeNode::deleteNodeWhereParent( $node, $objectID );
+//                eZContentObjectTreeNode::deleteNodeWhereParent( $node, $objectID );
+                $version->removeAssignment( $node );
             }
         }
 
@@ -140,8 +165,14 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
 function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, &$tpl )
 {
 //$nodes =& eZContentObjectTreeNode::fetchList( true, $object->attribute( 'id' ) );
-    $assignedNodeArray =& $object->parentNodes( );
-    $mainParentNodeID = $object->attribute( 'main_parent_node_id' );
+
+    $assignedNodeArray =& $version->attribute( 'parent_nodes' );
+
+    // just for debug should be removed
+//    $publishedNodeList
+//         $assignedNodeArray  =& $object->parentNodes( $editVersion  );
+    
+    $mainParentNodeID = $version->attribute( 'main_parent_node_id' );
 
     $tpl->setVariable( 'assigned_node_array', $assignedNodeArray );
     $tpl->setVariable( 'main_node_id', $mainParentNodeID );

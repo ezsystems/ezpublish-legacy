@@ -93,6 +93,7 @@ last_event_id int not null,
 last_event_position int not null,
 last_event_status int not null,
 event_status int not null,
+event_state int,
 created int not null,
 modified int not null,
 activation_date int,
@@ -555,8 +556,8 @@ create table ezsession
  session_key char(32) not null,
  expiration_time int(11) unsigned not null,
  data text not null,
- primary key (session_key), 
- key (expiration_time) 
+ primary key (session_key),
+ key (expiration_time)
 );
 
 # Section
@@ -648,3 +649,57 @@ PRIMARY KEY(id) );
 
 -- INSERT INTO eztask_message (id, task_id, contentobject_id, created,    creator_type)
 --                      VALUES(1,  16,      24,               1031214781, 1);
+
+
+
+DROP TABLE IF EXISTS ezapprovetasks;
+create table ezapprovetasks(
+    id int AUTO_INCREMENT,
+    workflow_process_id int,
+    task_id int,
+    PRIMARY KEY(id)
+    );
+
+
+drop table if exists ezmodule_run;
+create table ezmodule_run(
+    id int AUTO_INCREMENT,
+    workflow_process_id int,
+    module_name varchar(255),
+    function_name varchar(255),
+    module_data text,
+    primary key (id)
+    );
+create unique index  ezmodule_run_workflow_process_id_s on ezmodule_run(workflow_process_id);
+
+drop table if exists eznode_assignment;
+create table eznode_assignment(
+    id int AUTO_INCREMENT,
+    contentobject_id int,
+    contentobject_version int,
+    parent_node int,
+    main int,
+    primary key (id)
+    );
+
+drop table if exists eztrigger;
+create table eztrigger(
+    id integer AUTO_INCREMENT,
+    module_name varchar(200) not null,
+    function_name varchar(200) not null,
+    connect_type char(1) not null,
+    workflow_id integer,
+    primary key( id )
+    );
+create unique index eztrigger_def_id on  eztrigger(module_name,function_name,connect_type);
+
+
+
+
+
+
+
+
+
+
+

@@ -31,12 +31,13 @@
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
 //
+include_once( 'kernel/classes/eztrigger.php' );
 
 $Module =& $Params["Module"];
 
-include( 'kernel/content/node_edit.php' );
+include_once( 'kernel/content/node_edit.php' );
 initializeNodeEdit( $Module );
-include( 'kernel/content/relation_edit.php' );
+include_once( 'kernel/content/relation_edit.php' );
 initializeRelationEdit( $Module );
 
 function checkForExistingVersion( &$module, $objectID, $editVersion )
@@ -56,6 +57,8 @@ function registerSearchObject( &$module, $parameters )
 {
     include_once( "kernel/classes/ezsearch.php" );
     $object =& $parameters[1];
+    //   print( "<br>parameters in registerSerchObject<br>" );
+//    var_dump( $parameters );
     // Register the object in the search engine.
     eZSearch::removeObject( $object );
     eZSearch::addObject( $object );
@@ -64,6 +67,7 @@ $Module->addHook( 'post_publish', 'registerSearchObject', 1, false );
 
 function checkContentActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion )
 {
+
     if ( $module->isCurrentAction( 'Preview' ) )
     {
         $module->redirectToView( 'versionview', array( $object->attribute('id'), $EditVersion ) );
@@ -84,46 +88,100 @@ function checkContentActions( &$module, &$class, &$object, &$version, &$contentO
 
     if ( $module->isCurrentAction( 'Publish' ) )
     {
-        $object->setAttribute( 'current_version', $EditVersion );
-        $object->setAttribute( 'modified', mktime() );
-        $object->setAttribute( 'published', mktime() );
-        $object->store();
 
-        $status = $module->runHooks( 'post_publish', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion ) );
-        if ( $status )
-            return $status;
-
-//         eZDebug::writeNotice( $object, 'object' );
-        $module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );
-
-        include_once( "kernel/notification/eznotificationrule.php" );
-        include_once( "kernel/notification/eznotificationruletype.php" );
-        include_once( "kernel/notification/eznotificationuserlink.php" );
-        include_once( "kernel/notification/ezmessage.php" );
-        $allrules =& eZNotificationRule::fetchList( null );
-        foreach ( $allrules as $rule )
+        $nodeAssignmentList =& $version->attribute( 'node_assignments' );
+        $count = 0;
+        foreach ( array_keys( $nodeAssignmentList ) as $key )
         {
-            $ruleClass = $rule->attribute("rule_type");
-            $ruleID = $rule->attribute( "id" );
-            if ( $ruleClass->match( &$object, &$rule ) )
-            {
-                $users =& eZNotificationUserLink::fetchUserList( $ruleID );
-                foreach ( $users as $user )
-                {
-                    $sendMethod = $user->attribute( "send_method" );
-                    $sendWeekday = $user->attribute( "send_weekday" );
-                    $sendTime = $user->attribute( "send_time" );
-                    $destinationAddress = $user->attribute( "destination_address" );
-                    $title = "New publishing notification";
-                    $body = $object->attribute( "name" );
-                    $body .= "\nhttp://nextgen.wy.dvh1.ez.no/content/view/full/";
-                    $body .=  $object->attribute( "main_node_id" );
-                    $body .= "\n\n\neZ System AS";
-                    $message =& eZMessage::create( $sendMethod, $sendWeekday, $sendTime, $destinationAddress, $title, $body );
-                    $message->store();
+            $nodeAssignment =& $nodeAssignmentList[$key];
+            $status = eZTrigger::runTrigger( 'content',
+                                             'publish',
+                                             'b',
+                                             array( 'object'  => $object,
+                                                    'version' => $version->attribute( 'version' ),
+                                                    'parent_node_id' => $nodeAssignment->attribute( 'parent_node' )
+                                                    ),
+                                             $module
+                                             );
 
-                    //include_once( "lib/ezutils/classes/ezmail.php" );
-                    /* if( $sendMethod == "email" )
+            if ( $status == EZ_TRIGGER_NO_CONNECTED_WORKFLOWS || $status == EZ_TRIGGER_WORKFLOW_DONE )
+            {
+
+                
+//                print( "<br> we are going to publish in check action" );
+//                flush();
+
+                $object->setAttribute( 'current_version', $EditVersion );
+                $object->setAttribute( 'modified', mktime() );
+                $object->setAttribute( 'published', mktime() );
+                $object->store();
+
+                $nodeID = $nodeAssignment->attribute( 'parent_node' );
+                $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
+                if ( ( $existingNode =& $parentNode->findNode( $parentNode->attribute( 'node_id' ), $object->attribute( 'id' ), true ) ) == null )
+                {
+                    $existingNode =&  $parentNode->addChild( $object->attribute( 'id' ), 0, true );
+                }
+                $existingNode->setAttribute( 'contentobject_version', $version->attribute( 'version' ) );
+                $existingNode->setAttribute( 'contentobject_is_published', 1 );
+//                var_dump( $version );
+//                print( $version->attribute( 'main_parent_node_id' ) . "\n bbbb" );
+//                var_dump( $existingNode );
+                
+                if ( $version->attribute( 'main_parent_node_id' ) == $existingNode->attribute( 'parent_node_id' ) )
+                {
+                    print( $version->attribute( 'main_parent_node_id' ) . "\n inside if" );
+                    $object->setAttribute( 'main_node_id', $existingNode->attribute( 'node_id' ) );
+                }
+                $object->store();
+                $existingNode->store();
+
+//                if ( $status )
+//                    return $status;
+                $count++;
+            }
+        }
+        if( !$count )
+        {
+            $module->redirectToView( 'sitemap', array(2) );
+            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+        }
+        else
+        {
+            $status = $module->runHooks( 'post_publish', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion ) );
+//            if ( $status )
+//                return $status;
+//         eZDebug::writeNotice( $object, 'object' );
+            $module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );
+
+            include_once( "kernel/notification/eznotificationrule.php" );
+            include_once( "kernel/notification/eznotificationruletype.php" );
+            include_once( "kernel/notification/eznotificationuserlink.php" );
+            include_once( "kernel/notification/ezmessage.php" );
+            $allrules =& eZNotificationRule::fetchList( null );
+            foreach ( $allrules as $rule )
+            {
+                $ruleClass = $rule->attribute("rule_type");
+                $ruleID = $rule->attribute( "id" );
+                if ( $ruleClass->match( &$object, &$rule ) )
+                {
+                    $users =& eZNotificationUserLink::fetchUserList( $ruleID );
+                    foreach ( $users as $user )
+                    {
+                        $sendMethod = $user->attribute( "send_method" );
+                        $sendWeekday = $user->attribute( "send_weekday" );
+                        $sendTime = $user->attribute( "send_time" );
+                        $destinationAddress = $user->attribute( "destination_address" );
+                        $title = "New publishing notification";
+                        $body = $object->attribute( "name" );
+                        $body .= "\nhttp://nextgen.wy.dvh1.ez.no/content/view/full/";
+                        $body .=  $object->attribute( "main_node_id" );
+                        $body .= "\n\n\neZ System AS";
+                        $message =& eZMessage::create( $sendMethod, $sendWeekday, $sendTime, $destinationAddress, $title, $body );
+                        $message->store();
+
+                        //include_once( "lib/ezutils/classes/ezmail.php" );
+                        /* if( $sendMethod == "email" )
                     {
                         $email = new eZMail();
                         $email->setReceiver( "wy@ez.no" );
@@ -133,10 +191,11 @@ function checkContentActions( &$module, &$class, &$object, &$version, &$contentO
                         $email->setBody( $body );
                         $email->send();
                     }*/
+                    }
                 }
             }
+            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
-        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
     }
 }
 

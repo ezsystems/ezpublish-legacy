@@ -54,7 +54,12 @@ include_once( 'kernel/common/template.php' );
 if ( isset( $Module ) )
     $Module =& $Params['Module'];
 $ObjectID =& $Params['ObjectID'];
+$EditVersion =& $Params['EditVersion'];
+//print_r($Params );
 
+//eZDebug::writeNotice( $Module, "Module" );
+//print( "O_id = $ObjectID  E_version = $EditVersion <br> " );
+//flush();
 if ( $Module->runHooks( 'pre_fetch', array( $ObjectID, $EditVersion ) ) )
     return;
 
@@ -63,12 +68,16 @@ $object =& eZContentObject::fetch( $ObjectID );
 if ( !$object->attribute( 'can_edit' ) )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
+
 $version =& $object->version( $EditVersion );
-
+//var_dump( $version );
+eZDebug::writeNotice( $version , "object version" );
 $classID = $object->attribute( 'contentclass_id' );
-$class =& eZContentClass::fetch( $classID );
 
+$class =& eZContentClass::fetch( $classID );
 $contentObjectAttributes =& $version->attributes();
+eZDebug::writeNotice($contentObjectAttributes,"obj attributes" );
+
 
 $http =& eZHTTPTool::instance();
 
@@ -102,6 +111,9 @@ $storeActions = array( 'Preview',
                        'Store' );
 $storingAllowed = in_array( $Module->currentAction(), $storeActions );
 
+//print( "<br> we are going to publish" . $Module->currentAction() );
+//flush();
+
 // These variables will be modified according to validation
 $inputValidated = true;
 $requireFixup = false;
@@ -129,7 +141,6 @@ if ( $storingAllowed )
                                               'name' => $contentObjectAttribute->attribute( 'validation_error' ) );
         }
     }
-
     // Fixup input
     if ( $requireFixup )
     {
@@ -139,11 +150,14 @@ if ( $storingAllowed )
             $contentObjectAttribute->fixupInput( $http, 'ContentObjectAttribute' );
         }
     }
-
-    foreach ( array_keys( $contentObjectAttributes ) as $key )
+    $requreStoreAction= false;
+    foreach( array_keys( $contentObjectAttributes ) as $key )
     {
         $contentObjectAttribute =& $contentObjectAttributes[$key];
-        $contentObjectAttribute->fetchInput( $http, "ContentObjectAttribute" );
+        if( $contentObjectAttribute->fetchInput( $http, "ContentObjectAttribute" ) )
+        {
+            $requreStoreAction= true;
+        }
 
 /********** Custom Action Code Start ***************/
         if ( $customActionAttributeID == $contentObjectAttribute->attribute( "id" ) )
@@ -154,8 +168,9 @@ if ( $storingAllowed )
 
     }
 
-    if ( $inputValidated == true )
+    if ( $inputValidated == true && $requreStoreAction )
     {
+
         if ( $Module->runHooks( 'pre_commit', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion ) ) )
             return;
 
@@ -180,8 +195,12 @@ if ( $storingAllowed )
 }
 
 // After the object has been validated we can check for other actions
+
 if ( $inputValidated == true )
 {
+//print( "<br> we are going to publish" );
+//flush();
+
     if ( $Module->runHooks( 'action_check', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion ) ) )
         return;
 }
@@ -190,7 +209,7 @@ if ( $inputValidated == true )
 if ( isset( $Params['TemplateObject'] ) )
     $tpl =& $Params['TemplateObject'];
 
-if ( get_class( $tpl ) != 'eztemplate' )
+if ( !isset( $tpl ) || get_class( $tpl ) != 'eztemplate' )
     $tpl =& templateInit();
 
 $tpl->setVariable( 'validation', $validation );
@@ -209,12 +228,15 @@ $tpl->setVariable( 'content_attributes', $contentObjectAttributes );
 $tpl->setVariable( 'class', $class );
 $tpl->setVariable( 'object', $object );
 
+
 if ( $Module->runHooks( 'pre_template', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, &$tpl ) ) )
     return;
 
 $templateName = 'design:content/edit.tpl';
+
 if ( isset( $Params['TemplateName'] ) )
     $templateName = $Params['TemplateName'];
+
 
 $Result =& $tpl->fetch( $templateName );
 
