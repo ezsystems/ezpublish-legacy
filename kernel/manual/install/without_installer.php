@@ -198,6 +198,13 @@ Database=&lt;name_of_database&gt;
 <h3 id="Windows_VirtualHost">Virtualhost setup</h3>
 <p>
 	You can use eZ publish with a virtualhost setup. When using a virtualhost you don't need to specify the index.php in the URL.
+</p>
+<p>
+	Make sure these lines exists in your apache configfile and is not commented out
+</p>
+<pre class="example">LoadModule rewrite_module modules/mod_rewrite.so
+AddModule mod_rewrite.c</pre>
+<p>
 	Below is a sample configuration for virtualhost setup. Include this in your apache config file and restart apache when you are done.
 </p>
 
