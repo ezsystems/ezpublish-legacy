@@ -1238,6 +1238,7 @@ WHERE user_id = '" . $userID . "' AND
             if ( $http->hasSessionVariable( 'AccessArray' ) )
             {
                 $expiredTimeStamp = 0;
+                include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
                 $handler =& eZExpiryHandler::instance();
                 if ( $handler->hasTimestamp( 'user-access-cache' ) )
                 {
@@ -1255,6 +1256,7 @@ WHERE user_id = '" . $userID . "' AND
         {
             /* Figure out when the last update was done */
             $expiredTimestamp = 0;
+            include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
             $handler =& eZExpiryHandler::instance();
             if ( $handler->hasTimestamp( 'user-access-cache' ) )
             {
@@ -1641,7 +1643,7 @@ WHERE user_id = '" . $userID . "' AND
     {
         $sys =& eZSys::instance();
         $dir = $sys->cacheDirectory() . '/user-info' . eZDir::createMultilevelPath( $id, 2 );
-        
+
         if ( !is_dir( $dir ) )
         {
             eZDir::mkdir( $dir, false, true );
@@ -1666,7 +1668,7 @@ WHERE user_id = '" . $userID . "' AND
     function getCacheFilename( $id )
     {
         $ini =& eZINI::instance();
-        $cacheUserPolicies = $ini->variable( 'RoleSettings', 'UserPolicyCache' ); 
+        $cacheUserPolicies = $ini->variable( 'RoleSettings', 'UserPolicyCache' );
         if ( $cacheUserPolicies == 'enabled' )
         {
             // var_dump("BUILD FILENAME FOR $id");
@@ -1684,7 +1686,7 @@ WHERE user_id = '" . $userID . "' AND
         // var_dump("NO CACHE FOR $id");
         return false;
     }
-     
+
 
     /// \privatesection
     var $Login;
