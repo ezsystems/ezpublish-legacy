@@ -73,9 +73,9 @@
 {/section}
 </table>
 {section-else}
-
+<div class="block">
 <p>{'There are no drafts.'|i18n( 'design/admin/content/draft' )}</p>
-
+</div>
 {/section}
 
 <div class="context-toolbar">

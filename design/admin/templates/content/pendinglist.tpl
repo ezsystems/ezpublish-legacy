@@ -75,9 +75,9 @@
 </div>
 
 {section-else}
-
+<div class="block">
 <p>{'The pending list is empty.'|i18n( 'design/admin/content/pendinglist' )}</p>
-
+</div>
 {/section}
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
