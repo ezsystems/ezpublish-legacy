@@ -1050,7 +1050,7 @@ CREATE TABLE ezworkflow_process (
   content_id int(11) NOT NULL default '0',
   content_version int(11) NOT NULL default '0',
   node_id int(11) NOT NULL default '0',
-  session_key NOT NULL varchar(32) default '0',
+  session_key varchar(32) NOT NULL default '0',
   event_id int(11) NOT NULL default '0',
   event_position int(11) NOT NULL default '0',
   last_event_id int(11) NOT NULL default '0',
