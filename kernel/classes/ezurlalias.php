@@ -274,7 +274,7 @@ class eZURLAlias extends eZPersistentObject
     /*!
      \static
      Transforms the URI if there exists an alias for it.
-     \return \c false is if successful.
+     \return \c true is if successful, \c false otherwise
      \return The eZURLAlias object of the new url is returned if the translation was found, but the resource has moved.
     */
     function translate( &$uri )
@@ -303,11 +303,11 @@ class eZURLAlias extends eZPersistentObject
             {
                 $uriString = 'error/301';
 
-                return eZURLAlias::fetch( $urlAliasArray[0]['forward_to_id'] );
+                $return = eZURLAlias::fetch( $urlAliasArray[0]['forward_to_id'] );
             }
             else
             {
-                return 1;
+                $return = true;
             }
         }
 
