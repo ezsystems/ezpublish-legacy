@@ -72,6 +72,9 @@ eZ template:
 - New class eZTemplateMenuFunction which support template syntac {menu name=$menuName}.
 - Added the subtree_expiry option to {cache-block}.
 
+eZ cli:
+- Added 'failure' style which is similar to error.
+
 eZ file:
 - Added function to remove files match a given pattern in class eZDir.
 
