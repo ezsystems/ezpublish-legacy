@@ -164,6 +164,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       'can_read' => 'canRead',
                                                       'can_create' => 'canCreate',
                                                       'can_edit' => 'canEdit',
+                                                      'can_hide' => 'canHide',
                                                       'can_remove' => 'canRemove',
                                                       'can_move' => 'canMove',
                                                       'creator' => 'creator',
@@ -391,6 +392,22 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $this->Permissions["can_edit"] = $this->checkAccess( 'edit' );
         }
         $p = ( $this->Permissions["can_edit"] == 1 );
+        return $p;
+    }
+
+    /*!
+     \return \c true if the node can be hidden by the current user.
+     \sa checkAccess().
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
+    */
+    function &canHide( )
+    {
+        if ( !isset( $this->Permissions["can_hide"] ) )
+        {
+            $this->Permissions["can_hide"] = $this->checkAccess( 'hide' );
+        }
+        $p = ( $this->Permissions["can_hide"] == 1 );
         return $p;
     }
 

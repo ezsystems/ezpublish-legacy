@@ -140,7 +140,7 @@ content tree after:
            X
 
 Required privileges:
-To (un)hide a node the 'content/edit' permission is required.
+To (un)hide a node the 'content/hide' permission is required.
 
 New INI settings:
 site.ini:
@@ -156,3 +156,6 @@ New parameter for template function fetch():
 - fetch( 'content', 'list|list_count|tree|tree_count', ... )
   now accepts new boolean parameter 'ignore_visibility'.
   This might be useful to fetch/count invisible nodes disregarding the ini setting.
+
+New access function:
+ - content/hide. Note that it is possible to limit (un)hide access only to a subtree.
