@@ -2,7 +2,7 @@
      {section show=$validation.processed}
         {section show=or($validation.attributes,$validation.placement)}
 
-          <div class="warning">
+          <div class="message-warning">
           {section show=and($validation.attributes,$validation.placement)}
             <h2>{"Validation failed"|i18n("design/standard/content/edit")}</h2>
           {section-else}
@@ -24,10 +24,10 @@
 
         {section-else}
 	  {section show=$validation_log}
-	  <div class="warning">
+	  <div class="message-warning">
           <h2>{"Input was partially stored"|i18n("design/standard/content/edit")}</h2>
 	      {section name=ValidationLog loop=$validation_log}
-                  <h4>{$:item.name|wash}:</h4>
+                  <h3>{$:item.name|wash}:</h3>
 	          <ul>
 	          {section name=LogMessage loop=$:item.description}
 	              <li>{$:item}</li>
@@ -36,7 +36,7 @@
               {/section}
           </div>
 	  {section-else}
-          <div class="feedback">
+          <div class="message-feedback">
           <h2>{"Input was stored successfully"|i18n("design/standard/content/edit")}</h2>
           </div>
 	  {/section}

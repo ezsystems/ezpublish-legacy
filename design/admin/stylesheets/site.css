@@ -315,8 +315,25 @@ div.admin-childlist table.list th
     width: 1%;
 }
 
-div.admin-childlist table.list th.name
+div.admin-childlist table.list th.name, div.content-edit table.list th.name
 {
     width: 99%;
+}
+
+div.admin-childlist table.list img
+{
+    vertical-align: middle;
+}
+
+div.content-edit table.list td.filesize
+{
+    white-space: nowrap;
+}
+
+div.image-thumbnail-item
+{
+    width: 130px;
+    margin: 0 1em 1em 0;
+    float: left;
 }
 

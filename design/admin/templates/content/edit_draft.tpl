@@ -11,11 +11,8 @@
 {/section}
 <form method="post" action={concat('content/edit/',$object.id)|ezurl}>
 
-<div class="objectheader">
-<h2>{$object.name|wash}</h2>
-</div>
+<h1>{$object.name|wash}</h1>
 
-<div class="object">
 <p>
 {"The currently published version is %version and was published at %time."|i18n('design/standard/content/edit',,hash('%version',$object.current_version,'%time',$object.published|l10n(datetime) ))}
 </p>
@@ -25,7 +22,6 @@
 <p>
 {"The object is owned by %owner."|i18n('design/standard/content/edit',,hash('%owner',$object.owner.name))}
 </p>
-</div>
 
 {section show=and($has_own_drafts,$has_other_drafts)}
 <p>
@@ -49,7 +45,7 @@
 
 <h2>{'Current drafts'|i18n('design/standard/content/edit')}</h2>
 
-<table class="list" width="100%" cellspacing="0" cellpadding="0">
+<table class="list" cellspacing="0">
 <tr>
     {section show=$has_own_drafts}
         <th>
@@ -75,7 +71,7 @@
 {section name=Draft loop=$draft_versions sequence=array(bglight,bgdark)}
 <tr class="{$:sequence}">
     {section show=$has_own_drafts}
-        <td width="1">
+        <td>
             {section show=eq($:item.creator_id,$current_creator.contentobject_id)}
                 <input type="radio" name="SelectedVersion" value="{$:item.version}"
                     {run-once}
@@ -85,7 +81,7 @@
             {/section}
         </td>
     {/section}
-    <td width="1">
+    <td>
         {$:item.version}
     </td>
     <td>
@@ -105,15 +101,15 @@
 </table>
 
 {section show=and($has_own_drafts,$has_other_drafts)}
-    <input class="defaultbutton" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/content/edit')}" />
+    <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/content/edit')}" />
     <input class="button" type="submit" name="NewDraftButton" value="{'New draft'|i18n('design/standard/content/edit')}" />
 {section-else}
     {section show=$has_own_drafts}
-        <input class="defaultbutton" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/content/edit')}" />
+        <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/content/edit')}" />
         <input class="button" type="submit" name="NewDraftButton" value="{'New draft'|i18n('design/standard/content/edit')}" />
     {/section}
     {section show=$has_other_drafts}
-        <input class="defaultbutton" type="submit" name="NewDraftButton" value="{'New draft'|i18n('design/standard/content/edit')}" />
+        <input class="button" type="submit" name="NewDraftButton" value="{'New draft'|i18n('design/standard/content/edit')}" />
     {/section}
 {/section}
 

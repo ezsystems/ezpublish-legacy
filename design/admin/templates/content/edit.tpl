@@ -3,6 +3,8 @@
          content_version=$node.contentobject_version_object
          node_name=$node.name}*}
 
+<div class="content-edit">
+
 <form enctype="multipart/form-data" method="post" action={concat("/content/edit/",$object.id,"/",$edit_version,"/",$edit_language|not|choose(concat($edit_language,"/"),''))|ezurl}>
 
     <h1>{"Edit %1"|i18n("design/standard/content/edit",,array($class.name|wash))}</h1>
@@ -59,7 +61,6 @@
 
 <div class="break"></div>
 </div>
-
 
 <table class="list" cellspacing="0">
 <tr>
@@ -128,3 +129,5 @@
 <!-- Dummy list END -->
 
 </form>
+
+</div>
