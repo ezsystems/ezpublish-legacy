@@ -1502,6 +1502,16 @@ span.defaulttranslation
     font-weight: bold;
 }
 
+div.date label, div.time label
+{
+    font-size: 0.85em;
+    font-weight: normal;
+}
+fieldset label
+{
+    font-weight: normal;
+}
+
 /*! Package listing in Look&Feel */
 
 div.package_element

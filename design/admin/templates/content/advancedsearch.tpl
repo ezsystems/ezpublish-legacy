@@ -152,8 +152,8 @@ selected="selected"
   {case}
   {/case}
 {/switch}
-</div>
 {/section}
+</div>
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
