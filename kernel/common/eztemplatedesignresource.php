@@ -251,6 +251,11 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             {
                 $matches[] = array( 'file' => "$designStartPath/$additionalSiteDesign/override/$elementText$path",
                                     'type' => 'override' );
+                foreach ( $extensions as $extension )
+                {
+                    $matches[] = array( 'file' => "$extensionDirectory/$extension/$designStartPath/$additionalSiteDesign/override/$elementText$path",
+                                        'type' => 'override' );
+                }
             }
         }
 
@@ -272,6 +277,12 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             {
                 $matches[] = array( "file" => "$designStartPath/$additionalSiteDesign/$elementText$path",
                                     'type' => 'normal' );
+
+                foreach ( $extensions as $extension )
+                {
+                    $matches[] = array( 'file' => "$extensionDirectory/$extension/$designStartPath/$additionalSiteDesign/$elementText$path",
+                                        'type' => 'normal' );
+                }
             }
         }
 
