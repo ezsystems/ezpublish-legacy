@@ -72,6 +72,13 @@
   <td>{include uri="design:gui/button.tpl" name=NewAssignment id_name=NewAssignmentButton value="New Assignment"|i18n('task')}</td>
   <td>&nbsp;&nbsp;&nbsp;</td>
   <td>{include uri="design:gui/button.tpl" name=NewMessage id_name=NewMessageButton value="New Message"|i18n('task')}</td>
+  <td>
+<select name="ClassID">
+{section name=Classes loop=$class_list}
+<option value="{$Classes:item.id}">{$Classes:item.name}</option>
+{/section}
+</select>
+  </td>
   <td>{include uri="design:gui/button.tpl" name=CloseTask id_name=CloseTaskButton value="Close Task"|i18n('task')}</td>
   <td>{include uri="design:gui/button.tpl" name=CancelTask id_name=CancelTaskButton value="Cancel Task"|i18n('task')}</td>
   <td width="99%"></td>

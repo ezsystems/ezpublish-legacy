@@ -32,13 +32,25 @@
 // you.
 //
 
-$Module = array( "name" => "eZTask" );
+$Module = array( 'name' => 'eZTask' );
 
 $ViewList = array();
-$ViewList["edit"] = array(
-    "script" => "edit.php",
-    "params" => array( "TaskID" ) );
-$ViewList["view"] = array(
-    "script" => "view.php",
-    "params" => array( 'TaskID' ) );
+$ViewList['edit'] = array(
+    'script' => 'edit.php',
+    'params' => array( 'TaskID' ) );
+$ViewList['view'] = array(
+    'script' => 'view.php',
+    'single_post_actions' => array( 'CancelTaskButton' => 'CancelTask',
+                                    'CloseTaskButton' => 'CloseTask',
+                                    'NewTaskButton' => 'NewTask',
+                                    'NewAssignmentButton' => 'NewAssignment',
+                                    'NewMessageButton' => 'NewMessage' ),
+    'post_action_parameters' => array( 'CancelTask' => array( 'SelectedIDList' => 'Task_id_checked' ),
+                                       'CloseTask' => array( 'SelectedIDList' => 'Task_id_checked' ),
+                                       'NewMessage' => array( 'SelectedIDList' => 'Task_id_checked',
+                                                              'ClassID' => 'ClassID' ) ),
+    'params' => array( 'TaskID' ) );
+$ViewList['message'] = array(
+    'script' => 'message.php',
+    'params' => array( 'TaskID', 'MessageID' ) );
 ?>

@@ -84,6 +84,9 @@ eZ module :
 - Added setGlobalPathList function to set the path list once and swapped the parameter positions of the
   /exists/ function, this means that only the module name is required.
 - Added support for running an error module directly with an error code.
+- Added support for turning post variables into actions, no more need for post variable checking. They
+  can even have post variable parameters.
+- Added support for easier redirection using module, view and parameters.
 
 eZ file :
 - New class for handling file operations

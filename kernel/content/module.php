@@ -38,6 +38,15 @@ $Module = array( "name" => "eZContentObject",
 $ViewList = array();
 $ViewList["edit"] = array(
     "functions" => array( 'edit' ),
+    'single_post_actions' => array( 'PreviewButton' => 'Preview',
+                                    'TranslateButton' => 'Translate',
+                                    'VersionsButton' => 'VersionEdit',
+                                    'PublishButton' => 'Publish',
+                                    'BrowseNodeButton' => 'BrowseForNodes',
+                                    'DeleteNodeButton' => 'DeleteNode',
+                                    'BrowseObjectButton' => 'BrowseForObjects',
+                                    'StoreButton' => 'Store' ),
+    'post_actions' => array( 'BrowseActionName' ),
     "script" => "edit.php",
     "params" => array( "ObjectID", "EditVersion" ) );
 

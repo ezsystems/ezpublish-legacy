@@ -222,9 +222,12 @@ class eZTask extends eZPersistentObject
 
     function updateTaskStatus( $taskList, $status, $userID )
     {
+        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+        $date_time = eZDateTime::currentTimeStamp();
         eZPersistentObject::updateObjectList( array(
                                                   "definition" => eZTask::definition(),
-                                                  "update_fields" => array( "status" => $status ),
+                                                  "update_fields" => array( "status" => $status,
+                                                                            'modified' => $date_time ),
                                                   "conditions" => array( "id" => $taskList )
                                                   )
                                               );

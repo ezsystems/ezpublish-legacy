@@ -577,6 +577,7 @@ id int AUTO_INCREMENT NOT NULL,
 task_id int NOT NULL,
 contentobject_id int NOT NULL,
 created int NOT NULL,
+creator_id int NOT NULL,
 creator_type int NOT NULL,
 PRIMARY KEY(id) );
 
