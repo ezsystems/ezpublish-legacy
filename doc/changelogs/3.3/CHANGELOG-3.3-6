@@ -274,6 +274,8 @@ eZINI:
 - Fixed bug: Fixed SQL error that happened when removing classes along with removing class group.
 - Fixed bug: Deleting user account that is not yet activated caused fatal error when activating the account.
   http://ez.no/community/bug_reports/deleting_user_account_not_activated
+- Fixed bug: New password was not checked for validity when changing a user's password.
+  http://ez.no/community/bug_reports/password_change_blank_passwords_allowed
 
 *Library:
 

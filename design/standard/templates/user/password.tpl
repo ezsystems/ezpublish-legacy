@@ -5,7 +5,7 @@
 </div>
 
 {section show=$message}
-{section show=or($oldPasswordNotValid,$newPasswordNotMatch)}
+{section show=or( $oldPasswordNotValid,$newPasswordNotMatch, $newPasswordTooShort )}
     {section show=$oldPasswordNotValid}
         <div class="warning">
             <h2>{'Please retype your old password.'|i18n('design/standard/user')}</h2>
@@ -14,6 +14,11 @@
     {section show=$newPasswordNotMatch}
         <div class="warning">
             <h2>{"Password didn't match, please retype your new password."|i18n('design/standard/user')}</h2>
+        </div>
+    {/section}
+    {section show=$newPasswordTooShort}
+        <div class="warning">
+            <h2>{"Password must be at least 3 characters long, please retype your new password."|i18n('design/standard/user')}</h2>
         </div>
     {/section}
 
