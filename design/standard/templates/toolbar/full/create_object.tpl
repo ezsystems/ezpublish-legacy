@@ -3,11 +3,11 @@
 
 <div class="toolbox">
     <div class="toolbox-design">
-    <h2>Weblog actions</h2>
+    <h2>{$title}</h2>
 
         <div class="toolbox-content">
         <form method="post" action={"content/action/"|ezurl}>
-            <input class="button" type="submit" name="NewButton" value="New weblog" />
+            <input class="button" type="submit" name="NewButton" value="New {$class_identifier}" />
             <input type="hidden" name="NodeID" value="{$node_placement}" />
             <input type="hidden" name="ClassIdentifier" value="{$class_identifier}" />
          </form>
