@@ -161,7 +161,7 @@ class eZDB
             $slaveServerUser = null;
             $slaveServerPassword = null;
             $slaveServerDatabase = null;
-            $useSlave = $ini->variable( 'DatabaseSettings', 'SlaveServers' );
+            $useSlave = $ini->variable( 'DatabaseSettings', 'UseSlaveServer' );
             if ( $useSlave == "enabled" )
             {
                 $slaveServers = $ini->variable( 'DatabaseSettings', 'SlaveServerArray' );
@@ -191,10 +191,15 @@ class eZDB
                                             $extraPluginPathArray );
 //             eZDebug::writeDebug( $pluginPathArray, 'pluginPath' );
             $impl = null;
+
+            $useSlaveServer = false;
+            if ( $useSlave == "enabled" )
+                $useSlaveServer = true;
             $defaultDatabaseParameters = array( 'server' => $server,
                                                 'user' => $user,
                                                 'password' => $pwd,
                                                 'database' => $db,
+                                                'use_slave_server' => $useSlaveServer,
                                                 'slave_server' => $slaveServer,
                                                 'slave_user' => $slaveServerUser,
                                                 'slave_password' => $slaveServerPassword,
