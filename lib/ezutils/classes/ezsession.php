@@ -69,6 +69,13 @@ function &eZSessionRead( $key )
         $GLOBALS['eZSessionUserID'] = $sessionRes[0]['user_id'];
         $GLOBALS['eZSessionIdleTime'] = $sessionIdle;
 
+        /*
+         * The line below is needed to correctly load list of content classes saved
+         * in the CanInstantiateClassList session variable.
+         * Without this we get incomplete classes loaded (__PHP_Incomplete_Class).
+         */
+        require_once( 'kernel/classes/ezcontentclass.php' );
+
         return $data;
     }
     else

@@ -80,11 +80,13 @@ else if ( strpos( $template, "pagelayout.tpl" ) )
     $templateType = 'pagelayout';
 }
 
+$error = false;
+$templateName = false;
+
 if ( $module->isCurrentAction( 'CreateOverride' ) )
 {
     $templateName = trim( $http->postVariable( 'TemplateName' ) );
 
-    $error = false;
     if ( preg_match( "#^[0-9a-z_]+$#", $templateName ) )
     {
         $templateName = trim( $http->postVariable( 'TemplateName' ) );

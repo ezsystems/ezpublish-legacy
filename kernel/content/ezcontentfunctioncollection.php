@@ -420,6 +420,8 @@ class eZContentFunctionCollection
 
     function canInstantiateClassList( $groupID, $parentNode, $filterType = 'include', $fetchID, $asObject )
     {
+        $ClassGroupIDs = false;
+
         if ( is_numeric( $groupID ) && ( $groupID > 0 ) )
         {
             $ClassGroupIDs = array( $groupID );
@@ -427,11 +429,6 @@ class eZContentFunctionCollection
         else if( is_array( $groupID ) )
         {
             $ClassGroupIDs = $groupID;
-        }
-        else
-        {
-            include_once( 'kernel/classes/ezcontentclass.php' );
-            return array( 'result' => $canInstantiateClassList );
         }
 
         if ( is_object( $parentNode ) )

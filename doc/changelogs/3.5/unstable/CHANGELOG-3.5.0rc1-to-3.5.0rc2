@@ -59,5 +59,7 @@ Changes from 3.5.0rc1 to 3.5.0rc2
   (Manual merge from stable/3.4 rev. 10144)
   http://ez.no/community/bug_reports/call_to_undefined_function_missingvariable
 - Fixed some PHP warnings in the template system's sequence function
+- Fixed bug: Empty class list when creating new template override.
+  http://ez.no/community/bug_reports/3_5_rc1_template_overriding_gui_seems_broken
 
 *Library:
