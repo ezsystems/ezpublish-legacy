@@ -2166,7 +2166,10 @@ $rbracket
                     $resourceVariableName = $node[9];
                     $resourceFilename = isset( $node[10] ) ? $node[10] : false;
 
-//                    $templateNameText = $php->variableText( $node[2], 0, 0, false );
+                    /* We can only use fallback code if we know upfront which
+                     * template is included; it does not work if we are using
+                     * something from the ezobjectforwarder which makes the
+                     * uriMap an array */
                     $useFallbackCode = true;
                     $uriMap = $node[2];
                     if ( is_string( $uriMap ) )
@@ -2228,34 +2231,35 @@ $rbracket
                                     $tpl->parse( $templateText, $root, $rootNamespace, $tmpResourceData );
                                     $hasResourceData = false;
                                 }
-/* FIXME: We should be able to remove this stuff, but for some reason it fails then */
+
+                                /* We always DO need to execute this part if we
+                                 * don't have any fallback code. If we can
+                                 * generate the fallback code we make the
+                                 * included template compile on demand */
                                 if ( !$tmpResourceData['compiled-template'] and
                                      $resourceCanCache and
-                                     $tpl->canCompileTemplate( $tmpResourceData, $node[5] ) )
+                                     $tpl->canCompileTemplate( $tmpResourceData, $node[5] ) and
+                                     !$useFallbackCode )
                                 {
                                     $generateStatus = $tpl->compileTemplate( $tmpResourceData, $node[5] );
 
                                     // Time limit #2:
-                                    // We reset the time limit to 20 seconds to ensure that remaining
-                                    // template has enough time to compile.
-                                    // However if time limit is unlimited (0) we leave it be
+                                    /* We reset the time limit to 60 seconds to
+                                     * ensure that remaining template has
+                                     * enough time to compile. However if time
+                                     * limit is unlimited (0) we leave it be */
                                     if ( ini_get( 'max_execution_time' ) != 0  )
                                     {
-                                        @set_time_limit( 30 );
+                                        @set_time_limit( 60 );
                                     }
 
                                     if ( $generateStatus )
                                         $tmpResourceData['compiled-template'] = true;
                                 }
-/* ***** */
                             }
                             $GLOBALS['eZTemplateCompilerResourceCache'][$tmpResourceData['template-filename']] =& $tmpResourceData;
                         }
                         setlocale( LC_CTYPE, $savedLocale );
-//                         $tmpResourceData2 = $tmpResourceData;
-//                         unset( $tmpResourceData2['text'] );
-//                         unset( $tmpResourceData2['root-node'] );
-//                         var_dump( $tmpResourceData2 );
                         $textName = eZTemplateCompiler::currentTextName( $parameters );
                         if ( $tmpResourceData['compiled-template'] )
                         {
@@ -2273,9 +2277,6 @@ $rbracket
                             $resourceMap[$uriKey] = array( 'key' => $uriKey,
                                                            'uri' => $uri,
                                                            'phpscript' => $phpScript );
-                        }
-                        else
-                        {
                         }
                     }
 
@@ -2327,6 +2328,7 @@ $rbracket
 
                         }
 
+                        /* Generate code to do a namespace switch and includes the template */
                         $code = "\$resourceFound = true;\n\$namespaceStack[] = array( \$rootNamespace, \$currentNamespace );\n";
                         if ( $newRootNamespace )
                         {
@@ -2349,12 +2351,32 @@ $rbracket
                     }
                     else
                     {
+                        /* Yes, this is a hack, but it is required because
+                         * sometimes the generated nodes after this one emit an
+                         * else statement while there is no accompanied if */
                         $php->addCodePiece( "\nif (false)\n{\n}\n" );
                     }
 
+                    /* The fallback code will be added if we need to process an
+                     * URI, this will also compile a template then. We need to
+                     * do the namespace switch manually here otherwise the
+                     * processed template will be run on the node from which
+                     * the template was included from. */
                     if ( $useFallbackCode )
                     {
+                        $code = "\$resourceFound = true;\n\$namespaceStack[] = array( \$rootNamespace, \$currentNamespace );\n";
+                        if ( $newRootNamespace )
+                        {
+                            $newRootNamespaceText = $php->variableText( $newRootNamespace, 0, 0, false );
+                            $code .= "\$currentNamespace = \$rootNamespace = !\$currentNamespace ? $newRootNamespaceText : ( \$currentNamespace . ':' . $newRootNamespaceText );\n";
+                        }
+                        else
+                        {
+                            $code .= "\$currentNamespace = \$rootNamespace;\n";
+                        }
+                        $php->addCodePiece( $code );
                         $php->addCodePiece( "\$textElements = array();\n\$extraParameters = array();\n\$tpl->processURI( $uriText, true, \$extraParameters, \$textElements, \$rootNamespace, \$currentNamespace );\n\$$textName .= implode( '', \$textElements );\n", array( 'spacing' => $spacing + $subSpacing ) );
+                        $php->addCodePiece( "list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n" );
                     }
 
                     if ( $hasCompiledCode and $useFallbackCode )
