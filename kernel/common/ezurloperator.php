@@ -34,11 +34,16 @@
 // you.
 //
 
-//!! eZKernel
-//! The class eZURLOperator does
+
 /*!
+ \class eZURLOperator ezurloperator.php
+ \brief Collection of url modifying operators
 
 */
+
+define( 'EZ_HTTP_OPERATOR_TYPE_POST', 1 );
+define( 'EZ_HTTP_OPERATOR_TYPE_GET', 2 );
+define( 'EZ_HTTP_OPERATOR_TYPE_SESSION', 3 );
 
 class eZURLOperator
 {
@@ -50,15 +55,19 @@ class eZURLOperator
                             $ezsys_name = 'ezsys',
                             $design_name = 'ezdesign',
                             $image_name = 'ezimage',
-                            $ext_name = 'exturl' )
+                            $ext_name = 'exturl',
+                            $httpName = 'ezhttp',
+                            $iniName = 'ezini' )
     {
-        $this->Operators = array( $url_name, $urlroot_name, $ezsys_name, $design_name, $image_name, $ext_name );
+        $this->Operators = array( $url_name, $urlroot_name, $ezsys_name, $design_name, $image_name, $ext_name, $httpName, $iniName );
         $this->URLName = $url_name;
         $this->URLRootName = $urlroot_name;
         $this->SysName = $ezsys_name;
         $this->DesignName = $design_name;
         $this->ImageName = $image_name;
         $this->ExtName = $ext_name;
+        $this->HTTPName = $httpName;
+        $this->ININame=  $iniName;
         $this->Sys =& eZSys::instance();
     }
 
@@ -79,27 +88,113 @@ class eZURLOperator
 
     /*!
      */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters )
+    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
         switch ( $operatorName )
         {
+            case $this->ININame:
+            {
+                if ( count( $operatorParameters ) > 0 )
+                {
+                    $iniGroup = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
+                    if ( count( $operatorParameters ) > 1 )
+                    {
+                        $iniVariable = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+                        $iniName = false;
+                        if ( count( $operatorParameters ) > 2 )
+                        {
+                            $iniName = $tpl->elementValue( $operatorParameters[2], $rootNamespace, $currentNamespace );
+                        }
+                        include_once( 'lib/ezutils/classes/ezini.php' );
+                        if ( $iniName !== false )
+                            $ini =& eZINI::instance( $iniName );
+                        else
+                            $ini =& eZINI::instance();
+                        if ( $ini->hasVariable( $iniGroup, $iniVariable ) )
+                            $operatorValue = $ini->variable( $iniGroup, $iniVariable );
+                        else
+                        {
+                            if ( $iniName === false )
+                                $iniName = 'site.ini';
+                            $tpl->error( $operatorValue, "No such variable '$iniVariable' in group '$iniGroup' for $iniName" );
+                        }
+                    }
+                    else
+                        $tpl->error( $operatorName, "Missing variable name parameter" );
+                }
+                else
+                    $tpl->error( $operatorName, "Missing group name parameter" );
+            } break;
+
+            case $this->HTTPName:
+            {
+                include_once( 'lib/ezutils/classes/ezhttptool.php' );
+                $http =& eZHTTPTool::instance();
+                if ( count( $operatorParameters ) > 0 )
+                {
+                    $httpType = EZ_HTTP_OPERATOR_TYPE_POST;
+                    $httpName = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
+                    if ( count( $operatorParameters ) > 1 )
+                    {
+                        $httpTypeName = strtolower( $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace ) );
+                        if ( $httpTypeName == 'post' )
+                            $httpType = EZ_HTTP_OPERATOR_TYPE_POST;
+                        else if ( $httpTypeName == 'get' )
+                            $httpType = EZ_HTTP_OPERATOR_TYPE_GET;
+                        else if ( $httpTypeName == 'session' )
+                            $httpType = EZ_HTTP_OPERATOR_TYPE_SESSION;
+                        else
+                            $tpl->warning( $operatorName, "Unknown http type '$httpTypeName'" );
+                    }
+                    switch( $httpType )
+                    {
+                        case EZ_HTTP_OPERATOR_TYPE_POST:
+                        {
+                            if ( $http->hasPostVariable( $httpName ) )
+                                $operatorValue = $http->postVariable( $httpName );
+                            else
+                                $tpl->error( $operatorName, "Unknown post variable '$httpName'" );
+                        } break;
+                        case EZ_HTTP_OPERATOR_TYPE_GET:
+                        {
+                            if ( $http->hasGetVariable( $httpName ) )
+                                $operatorValue = $http->getVariable( $httpName );
+                            else
+                                $tpl->error( $operatorName, "Unknown get variable '$httpName'" );
+                        } break;
+                        case EZ_HTTP_OPERATOR_TYPE_SESSION:
+                        {
+                            if ( $http->hasSessionVariable( $httpName ) )
+                                $operatorValue = $http->sessionVariable( $httpName );
+                            else
+                                $tpl->error( $operatorName, "Unknown session variable '$httpName'" );
+                        } break;
+                    }
+                }
+                else
+                {
+                    $operatorValue = $http;
+                }
+                return;
+            } break;
+
             case $this->URLName:
             {
-                if ( $value[0] != '/' )
-                    $value = '/' . $value;
-                $value = $this->Sys->indexDir() . $value;
-                $value = preg_replace( "#^(//)#", "/", $value );
+                if ( $operatorValue[0] != '/' )
+                    $operatorValue = '/' . $operatorValue;
+                $operatorValue = $this->Sys->indexDir() . $operatorValue;
+                $operatorValue = preg_replace( "#^(//)#", "/", $operatorValue );
 
-                if ( $value == "" )
-                    $value = "/";
+                if ( $operatorValue == "" )
+                    $operatorValue = "/";
             } break;
 
             case $this->URLRootName:
             {
-                if ( strlen( $value ) > 0 and
-                     $value[0] != '/' )
-                    $value = '/' . $value;
-                $value = $this->Sys->wwwDir() . $value;
+                if ( strlen( $operatorValue ) > 0 and
+                     $operatorValue[0] != '/' )
+                    $operatorValue = '/' . $operatorValue;
+                $operatorValue = $this->Sys->wwwDir() . $operatorValue;
             } break;
 
             case $this->SysName:
@@ -112,7 +207,7 @@ class eZURLOperator
                     if ( !$this->Sys->hasAttribute( $sysAttribute ) )
                         $tpl->warning( 'eZURLOperator' . $operatorName, "No such attribute '$sysAttribute' for eZSys" );
                     else
-                        $value = $this->Sys->attribute( $sysAttribute );
+                        $operatorValue = $this->Sys->attribute( $sysAttribute );
                 }
             } break;
 
@@ -121,24 +216,24 @@ class eZURLOperator
                 $ini =& eZINI::instance();
                 $std_base = eZTemplateDesignResource::designSetting( 'standard' );
                 $site_base = eZTemplateDesignResource::designSetting( 'site' );
-                $std_file = "design/$std_base/images/$value";
-                $site_file = "design/$site_base/images/$value";
+                $std_file = "design/$std_base/images/$operatorValue";
+                $site_file = "design/$site_base/images/$operatorValue";
                 if ( file_exists( $site_file ) )
                 {
-                    $value = $this->Sys->wwwDir() . "/$site_file";
+                    $operatorValue = $this->Sys->wwwDir() . "/$site_file";
                 }
                 else if ( file_exists( $std_file ) )
                 {
-                    $value = $this->Sys->wwwDir() . "/$std_file";
+                    $operatorValue = $this->Sys->wwwDir() . "/$std_file";
                 }
                 else
-                    $tpl->warning( $operatorName, "Image '$value' does not exist in any design" );
+                    $tpl->warning( $operatorName, "Image '$operatorValue' does not exist in any design" );
             } break;
 
             case $this->ExtName:
             {
                 // TODO: Do something with external URLs.
-                $value = "/$value";
+                $operatorValue = "/$operatorValue";
             } break;
 
             case $this->DesignName:
@@ -146,15 +241,14 @@ class eZURLOperator
                 $ini =& eZINI::instance();
                 $std_base = eZTemplateDesignResource::designSetting( 'standard' );
                 $site_base = eZTemplateDesignResource::designSetting( 'site' );
-                $std_file = "design/$std_base/$value";
-                $site_file = "design/$site_base/$value";
+                $std_file = "design/$std_base/$operatorValue";
+                $site_file = "design/$site_base/$operatorValue";
                 if ( file_exists( $site_file ) )
-                    $value = $this->Sys->wwwDir() . "/$site_file";
+                    $operatorValue = $this->Sys->wwwDir() . "/$site_file";
                 else if ( file_exists( $std_file ) )
-                    $value = $this->Sys->wwwDir() . "/$std_file";
+                    $operatorValue = $this->Sys->wwwDir() . "/$std_file";
                 else
-                    $tpl->warning( 'eZURLOperator', "Design element $value does not exist in any design" );
-//                 $value = $this->Sys->wwwDir() . '/design/' . $tpl->variableValue( '$site.design', $rootNamespace ) . "/$value";
+                    $tpl->warning( 'eZURLOperator', "Design element $operatorValue does not exist in any design" );
             } break;
         }
         $quote = "\"";
@@ -164,7 +258,7 @@ class eZURLOperator
         else if ( $val == 'no' )
             $quote = false;
         if ( $quote !== false )
-            $value = $quote . $value . $quote;
+            $operatorValue = $quote . $operatorValue . $quote;
     }
 
     var $Operators;

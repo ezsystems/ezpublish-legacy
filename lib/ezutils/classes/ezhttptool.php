@@ -102,6 +102,42 @@ class eZHTTPTool
     }
 
     /*!
+     Sets the get variable \a $var to \a $value.
+     \sa getVariable
+    */
+    function setGetVariable( $var, $value )
+    {
+        $get_vars =& $GLOBALS["_GET"];
+        $get_vars[$var] =& $value;
+    }
+
+    /*!
+     \return a reference to the HTTP get variable $var, or null if it does not exist.
+     \sa variable
+    */
+    function &getVariable( $var )
+    {
+        $get_vars =& $GLOBALS["_GET"];
+        $ret = null;
+        if ( isset( $get_vars[$var] ) )
+            $ret =& $get_vars[$var];
+        else
+            eZDebug::writeWarning( "Undefined get variable: $var",
+                                   "eZHTTPTool" );
+        return $ret;
+    }
+
+    /*!
+     \return true if the HTTP get variable $var exist.
+     \sa hasVariable
+    */
+    function &hasGetVariable( $var )
+    {
+        $get_vars =& $GLOBALS["_GET"];
+        return isset( $get_vars[$var] );
+    }
+
+    /*!
      \return true if the HTTP post/get variable $var exist.
      \sa hasPostVariable
     */
@@ -208,12 +244,12 @@ class eZHTTPTool
                         $value =  $matches[1];
                         $keyClean = preg_replace( "/(_\d+)$/","", $keyClean );
                         $GLOBALS["HTTP_POST_VARS"][$keyClean] = $value;
-                        eZDebug::writeNotice( $GLOBALS["HTTP_POST_VARS"][$keyClean], "We have create new  Post Var with name $keyClean and value $value:" );
+                        eZDebug::writeDebug( $GLOBALS["HTTP_POST_VARS"][$keyClean], "We have create new  Post Var with name $keyClean and value $value:" );
                     }
                     else
                     {
                         $GLOBALS["HTTP_POST_VARS"][$keyClean] = true;
-                        eZDebug::writeNotice( $GLOBALS["HTTP_POST_VARS"][$keyClean], "We have create new  Post Var with name $keyClean and value true:" );
+                        eZDebug::writeDebug( $GLOBALS["HTTP_POST_VARS"][$keyClean], "We have create new  Post Var with name $keyClean and value true:" );
                     }
                 }
             }
