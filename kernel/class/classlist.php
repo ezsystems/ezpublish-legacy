@@ -147,9 +147,15 @@ foreach( $TemplateData as $tpldata )
         }
     }
     removeSelectedClasses( $http, $list, $base, $Module, $GroupID );
-    $tpl->setVariable( $tplname, $list );
     removeSelectedClasses( $http, $temp_list, $temp_base, $Module, $GroupID );
+    $classCount = count( $list );
+    $tempClassCount = count( $temp_list );
+    $count = $classCount + $tempClassCount;
+    $tpl->setVariable( $tplname, $list );
     $tpl->setVariable( "temp_groupclasses", $temp_list );
+    $tpl->setVariable( "class_count", $classCount );
+    $tpl->setVariable( "temp_class_count", $tempClassCount );
+    $tpl->setVariable( "count", $count );
     $tpl->setVariable( "GroupID", $GroupID );
     $groupInfo = & eZContentClassGroup::fetch( $GroupID );
     $GroupName = $groupInfo->attribute("name");

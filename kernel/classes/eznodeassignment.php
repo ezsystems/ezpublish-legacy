@@ -101,8 +101,14 @@ class eZNodeAssignment extends eZPersistentObject
         {
             $parameters['main'] = 0;
         }
-        $parameters['sort_field'] = 1;
-        $parameters['sort_order'] = 1;
+        if ( !isset( $parameters['sort_field'] ) )
+        {
+            $parameters['sort_field'] = 1;
+        }
+        if ( !isset( $parameters['sort_order'] ) )
+        {
+            $parameters['sort_order'] = 1;
+        }
         return new eZNodeAssignment( $parameters );
     }
 

@@ -1,8 +1,21 @@
 {*?template charset=iso-8859-1 ?*}
-<form action="{$module.functions.classlist.uri}/{$GroupID}" method="post" name="ClassEdit">
-
-<h1>{"Defined class types for "|i18n('content/class')}{$group_name} </h1>
-
+<form action="{$module.functions.classlist.uri}/{$GroupID}" method="post" name="ClassList">
+{switch name=Sw1 match=$count}
+  {case match=0}
+  <h3>{"No classes have been defined for "|i18n('content/class')}{$group_name}.</h3>
+  <h3>{"Click on 'New Class' button to creat a class."}</h3>
+  {/case}
+  {case}
+      {switch name=Sw2 match=$class_count}
+      {case match=0}
+      <h3>{"No classes have been defined for "|i18n('content/class')}{$group_name}.</h3>
+      {/case}
+      {case}
+      <h1>{"Defined class types for "|i18n('content/class')}{$group_name} </h1>
+      {/case}
+      {/switch}
+  {/case}
+{/switch}
 {section show=$groupclasses}
 <table width="100%" cellspacing="0">
 <tr>
@@ -15,7 +28,6 @@
   <th align="left"><a href="{$module.functions.classlist.uri}/{$GroupID}/created">{"Created"|i18n('content/class')}</a></th>
   <th align="left"><a href="{$module.functions.classlist.uri}/{$GroupID}/modified">{"Modified"|i18n('content/class')}</a></th>
 </tr>
-
 {section name=Classes loop=$groupclasses sequence=array(bglight,bgdark)}
 <tr>
   <td class="{$Classes:sequence}" width="3%">{$Classes:item.id}</td>
@@ -32,7 +44,6 @@
 {/section}
 </table>
 {/section}
-
 {section show=$temp_groupclasses}
 <br/>
 <br/>
@@ -50,7 +61,6 @@
   <th align="left"><a href="{$module.functions.classlist.uri}/{$GroupID}/created">{"Created"|i18n('content/class')}</a></th>
   <th align="left"><a href="{$module.functions.classlist.uri}/{$GroupID}/modified">{"Modified"|i18n('content/class')}</a></th>
 </tr>
-
 {section name=TempClasses loop=$temp_groupclasses sequence=array(bglight,bgdark)}
 <tr>
   <td class="{$TempClasses:sequence}" width="1%">{$TempClasses:item.id}</td>
@@ -72,7 +82,13 @@
 <tr>
   <td width="99%"></td>
   <td>{include uri="design:gui/button.tpl" name=new id_name=NewButton value="New Class"|i18n('content/class')}</td>
+{switch name=Sw match=$count}
+  {case match=0}
+  {/case}
+  {case}
   <td>{include uri="design:gui/button.tpl" name=delete id_name=DeleteButton value="Delete"|i18n('content/class')}</td>
+  {/case}
+{/switch}
 </tr>
 </table>
 <input type="hidden" name = "CurrentGroupID" value="{$GroupID}">

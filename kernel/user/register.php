@@ -35,7 +35,6 @@
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 include_once( "lib/ezutils/classes/ezmail.php" );
-
 $Module =& $Params["Module"];
 $message = null;
 $userClassAttributes =& eZContentClassAttribute::fetchFilteredList( array( 'contentclass_id' => 4, 'version' => 0 ) );
@@ -140,11 +139,13 @@ if ( $http->hasPostVariable( "StoreButton" ) )
             $body .= "Your account profile:\n";
             $body .= "Login ID: " . $login;
             $body .= "\nPassword: " . $password;
+            $domain = getenv( 'HTTP_HOST' );
+            $admin = getenv( 'SERVER_ADMIN' );
             $body .= "\n\nPlease go to the link below to activate your account:\n";;
-            $body .= "\nhttp://nextgen.wy.dvh1.ez.no/user/activate/" . $login . '/' . $userIDHash;
-            $body .= "\n\n\neZ System AS";
+            $body .= "\nhttp://" .  $domain . '/user/activate/' . $login . '/' . $userIDHash;
+            $body .= "\n\n\n";
             $mail->setReceiver( $email );
-            $mail->setSender( "admin@ez.no" );
+            $mail->setSender( $admin );
             $mail->setFromName( "Administrator" );
             $mail->setSubject( $title );
             $mail->setBody( $body );

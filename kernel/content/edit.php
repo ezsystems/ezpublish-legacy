@@ -94,7 +94,13 @@ if ( !function_exists ( 'checkContentActions'  ) )
         {
             $module->redirectTo( '/content/view/full/2/' );
 
+            $objectID = $object->attribute( 'id' );
             $versionCount= $object->getVersionCount();
+            $db =& eZDB::instance();
+            $db->query( "DELETE FROM ezcontentobject_link
+		                 WHERE from_contentobject_id=$objectID AND from_contentobject_version=$EditVersion" );
+            $db->query( "DELETE FROM eznode_assignment
+		                 WHERE contentobject_id=$objectID AND contentobject_version=$EditVersion" );
             $version->remove();
             foreach ( $contentObjectAttributes as $contentObjectAttribute )
             {
@@ -230,9 +236,10 @@ if ( !function_exists ( 'checkContentActions'  ) )
                             $destinationAddress = $user->attribute( "destination_address" );
                             $title = "New publishing notification";
                             $body = $object->attribute( "name" );
-                            $body .= "\nhttp://nextgen.wy.dvh1.ez.no/content/view/full/";
+                            $domain = getenv( 'HTTP_HOST' );
+                            $body .= "\nhttp://" .  $domain . "/content/view/full/";
                             $body .=  $object->attribute( "main_node_id" );
-                            $body .= "\n\n\neZ System AS";
+                            $body .= "\n\n\nAdministrator";
                             $message =& eZMessage::create( $sendMethod, $sendWeekday, $sendTime, $destinationAddress, $title, $body );
                             $message->store();
                         }

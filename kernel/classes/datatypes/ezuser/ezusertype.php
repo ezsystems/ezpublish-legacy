@@ -177,7 +177,7 @@ class eZUserType extends eZDataType
             // create a default user account
             $user =& eZUser::create( $contentObjectAttribute->attribute( "contentobject_id" ) );
             $userID = $contentObjectAttribute->attribute( "contentobject_id" );
-            $isEnabled = 0;
+            $isEnabled = 1;
             $userSetting =& eZUserSetting::create( $userID, $isEnabled );
             $userSetting->store();
         }

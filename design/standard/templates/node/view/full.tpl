@@ -107,8 +107,16 @@
 {/case}
 {/switch}
 
-<input class="button" type="submit" name="RemoveButton" value="Remove object(s)" />
-
+{switch match=$node.object.can_remove}
+{case match=1}
+    {section show=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
+    <input class="button" type="submit" name="RemoveButton" value="Remove object(s)" />
+    {/section}
+{/case}
+{case match=0}
+ <p>You are not allowed to remove child objects</p>
+{/case}
+{/switch}
 <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
 </div>
 

@@ -73,7 +73,7 @@ class eZUser extends eZPersistentObject
     {
         return array( 'fields' => array( 'contentobject_id' => 'ContentObjectID',
                                          'login' => 'Login',
-                                         'email' => 'Version',
+                                         'email' => 'Email',
                                          'password_hash' => 'PasswordHash',
                                          'password_hash_type' => 'PasswordHashType'
                                          ),
