@@ -226,19 +226,19 @@
     </message>
     <message>
         <source>Editing class</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigerer klassen</translation>
     </message>
     <message>
         <source>Last modified by</source>
-        <translation type="unfinished"></translation>
+        <translation>Sist endret av</translation>
     </message>
     <message>
         <source>Datatypes:</source>
-        <translation type="unfinished"></translation>
+        <translation>Datatyper:</translation>
     </message>
     <message>
         <source>Discard Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Forkast endringer</translation>
     </message>
 </context>
 <context>
@@ -316,42 +316,101 @@
     </message>
     <message>
         <source>No classes in </source>
-        <translation type="unfinished"></translation>
+        <translation>Ingen klasser i</translation>
     </message>
     <message>
         <source>Classes in</source>
-        <translation type="unfinished"></translation>
+        <translation>Klasser i</translation>
     </message>
     <message>
         <source>Copy:</source>
+        <translation>Kopier:</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content</name>
+    <message>
+        <source>Are you sure you want to remove this(these) translations(s)?</source>
+        <translation>Er du sikker på at du vil fjerne disse oversettelsene?</translation>
+    </message>
+    <message>
+        <source>Removing</source>
+        <translation>Fjerning av</translation>
+    </message>
+    <message>
+        <source>will remove the translation itself and </source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>translated versions!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation>Bekreft</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Avbryt</translation>
+    </message>
+    <message>
+        <source>New translation for content</source>
+        <translation>Ny oversettelse av innhold</translation>
+    </message>
+    <message>
+        <source>Translations list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translations editing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translation Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Locale</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove:</source>
+        <translation>Fjern:</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Fjern</translation>
+    </message>
+    <message>
+        <source>New</source>
+        <translation>Ny</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/copy</name>
     <message>
         <source>Copying:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopierer:</translation>
     </message>
     <message>
         <source>Versions</source>
-        <translation type="unfinished">Versjoner</translation>
+        <translation>Versjoner</translation>
     </message>
     <message>
         <source>Copy all versions</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopier alle versjoner</translation>
     </message>
     <message>
         <source>Copy current version</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopier gjeldende versjon</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Kopier</translation>
+        <translation>Kopier</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
 </context>
 <context>
@@ -728,7 +787,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Navn</translation>
+        <translation>Navn</translation>
     </message>
 </context>
 <context>
@@ -1238,7 +1297,7 @@
     </message>
     <message>
         <source>Install using the setup guide</source>
-        <translation type="unfinished"></translation>
+        <translation>Installer med hjelp av installasjonsguiden</translation>
     </message>
 </context>
 <context>
@@ -1363,11 +1422,11 @@
     </message>
     <message>
         <source>Copy:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopier:</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Kopier</translation>
+        <translation>Kopier</translation>
     </message>
 </context>
 <context>
@@ -3728,11 +3787,11 @@
     </message>
     <message>
         <source>Remove Selected</source>
-        <translation type="unfinished">Fjern markerte</translation>
+        <translation>Fjern markerte</translation>
     </message>
     <message>
         <source>Load Attributes</source>
-        <translation type="unfinished"></translation>
+        <translation>Hent attributter</translation>
     </message>
 </context>
 <context>
@@ -3791,11 +3850,11 @@
     </message>
     <message>
         <source>Class:</source>
-        <translation type="unfinished">Klasse:</translation>
+        <translation>Klasse:</translation>
     </message>
     <message>
         <source>Class Attributes:</source>
-        <translation type="unfinished"></translation>
+        <translation>Klasseattributter:</translation>
     </message>
 </context>
 <context>
