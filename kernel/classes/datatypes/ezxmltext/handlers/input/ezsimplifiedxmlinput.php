@@ -117,6 +117,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
     */
     function &validateInput( &$http, $base, &$contentObjectAttribute )
     {
+        $contentObjectID = $contentObjectAttribute->attribute( "contentobject_id" );
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
         $contentObjectAttributeVersion = $contentObjectAttribute->attribute('version');
         if ( $http->hasPostVariable( $base . "_data_text_" . $contentObjectAttributeID ) )
@@ -164,33 +165,69 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $editVersion = $contentObjectAttribute->attribute('version');
                     $editObjectID = $contentObjectAttribute->attribute('contentobject_id');
                     $editObject =& eZContentObject::fetch( $editObjectID );
+                    // Fetch ID's of all embeded objects
+                    $relatedObjectIDArray = array();
+                    foreach ( array_keys( $objects ) as $objectKey )
+                    {
+                        $object =& $objects[$objectKey];
+                        $objectID = $object->attributeValue( 'id' );
+                        if ( !in_array( $objectID, $relatedObjectIDArray ) )
+                            $relatedObjectIDArray[] = $objectID;
+                    }
+                    // Check that all embeded objects exists in database
+                    $db =& eZDB::instance();
+
+                    $objectIDInSQL = implode( ', ', $relatedObjectIDArray );
+                    $objectQuery = "SELECT id FROM ezcontentobject WHERE id IN ( $objectIDInSQL )";
+                    $objectRowArray =& $db->arrayQuery( $objectQuery );
+
+                    $existingObjectIDArray = array();
+                    if ( count( $objectRowArray ) > 0 )
+                    {
+                        foreach ( array_keys( $objectRowArray ) as $key )
+                        {
+                            $existingObjectIDArray[] = $objectRowArray[$key]['id'];
+                        }
+                    }
+
+                    if ( count( array_diff( $relatedObjectIDArray, $existingObjectIDArray ) ) > 0 )
+                    {
+                        $GLOBALS[$isInputValid] = false;
+                        $objectIDString = implode( ', ', array_diff( $relatedObjectIDArray, $existingObjectIDArray ) );
+                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                             'Object '. $objectIDString .' does not exist.',
+                                                                             'ezXMLTextType' ) );
+                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    }
+
+                    // Fetch existing related objects
+                    $relatedObjectQuery = "SELECT to_contentobject_id
+                                           FROM ezcontentobject_link
+                                           WHERE from_contentobject_id = $contentObjectID AND
+                                                 from_contentobject_version = $editVersion";
+
+                    $relatedObjectRowArray =& $db->arrayQuery( $relatedObjectQuery );
+                    // Add existing embeded objects to object relation list if it is not already
+                    $existingRelatedObjectIDArray = array();
+                    foreach ( $relatedObjectRowArray as $relatedObjectRow )
+                    {
+                        $existingRelatedObjectIDArray[] = $relatedObjectRow['to_contentobject_id'];
+                    }
+
+                    if ( array_diff( $relatedObjectIDArray, $existingRelatedObjectIDArray ) )
+                    {
+                        $diffIDArray = array_diff( $relatedObjectIDArray, $existingRelatedObjectIDArray );
+                        foreach ( $diffIDArray as $relatedObjectID )
+                        {
+                            $editObject->addContentObjectRelation( $relatedObjectID, $editVersion );
+                        }
+                    }
+
                     foreach ( array_keys( $objects ) as $objectKey )
                     {
                         $object =& $objects[$objectKey];
                         $objectID = $object->attributeValue( 'id' );
                         $currentObject =& eZContentObject::fetch( $objectID );
-                        if (  $currentObject == null )
-                        {
-                            $GLOBALS[$isInputValid] = false;
-                            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                                 'Object '. $objectID .' does not exist.',
-                                                                                 'ezXMLTextType' ) );
-                            return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                        }
-                        else
-                        {
-                            $relatedObjects =& $editObject->relatedContentObjectArray( $editVersion );
-                            $relatedObjectIDArray = array();
-                            foreach (  $relatedObjects as  $relatedObject )
-                            {
-                                $relatedObjectID =  $relatedObject->attribute( 'id' );
-                                $relatedObjectIDArray[] =  $relatedObjectID;
-                            }
-                            if ( !in_array(  $objectID, $relatedObjectIDArray ) )
-                            {
-                                $editObject->addContentObjectRelation( $objectID, $editVersion );
-                            }
-                        }
 
                         // If there are any image object with links.
                         $href = $object->attributeValueNS( 'ezurl_href', "http://ez.no/namespaces/ezpublish3/image/" );
@@ -305,7 +342,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     }
                 }
 
-                $domString = $dom->toString( true, false );
+                $domString =& eZXMLTextType::domString( $dom );
 
                 eZDebug::writeDebug( $domString, "unprocessed xml" );
                 $domString = preg_replace( "#<paragraph> </paragraph>#", "<paragraph>&nbsp;</paragraph>", $domString );
@@ -561,6 +598,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 {
                     $attrName = $attrbute->Name;
                     $existAttrNameArray[] = $attrName;
+
                     if ( isset( $this->TagAttributeArray[$currentTag][$attrName] ) )
                     {
                         $allowedAttr[] = $attrbute;
@@ -1492,7 +1530,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         else
         {
             $xml = new eZXML();
-            $dom =& $xml->domTree( $this->XMLData );
+            $dom =& $xml->domTree( $this->XMLData, array( 'CharsetConversion' => false ) );
 
             if ( $dom )
             {
