@@ -50,7 +50,7 @@ class eZPublishSDK
         $ver = eZPublishSDK::majorVersion() . "." . eZPublishSDK::minorVersion();
         if ( $withRelease )
             $ver .= "-" . eZPublishSDK::release();
-        if ( $withAlias )
+        if ( $asAlias )
             $ver = eZPublishSDK::alias();
         return $ver;
     }
