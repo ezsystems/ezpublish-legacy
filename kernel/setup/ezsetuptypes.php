@@ -37,35 +37,35 @@ function eZSetupTypes()
     return array( 'news' => array( 'name' => 'News',
                                    'identifier' => 'news',
                                    'summary' => 'With the eZ publish open source News site solution you can publish articles and news and communicate with your readers in a online newspaper containing the features you would normally need.',
-                                   'thumbnail' => 'news_thumbnail.png' ),
+                                   'thumbnail' => 't1.png' ),
                   'blog' => array( 'name' => 'Blog',
                                    'identifier' => 'blog',
                                    'summary' => '',
-                                   'thumbnail' => 'blog_thumbnail.png' ),
+                                   'thumbnail' => 't3.png' ),
                   'corporate' => array( 'name' => 'Corporate',
                                         'identifier' => 'corporate',
                                         'summary' => '',
-                                        'thumbnail' => 'corporate_thumbnail.png' ),
+                                        'thumbnail' => 't1.png' ),
                   'forum' => array( 'name' => 'Forum',
                                     'identifier' => 'forum',
                                     'summary' => '',
-                                    'thumbnail' => 'forum_thumbnail.png' ),
+                                    'thumbnail' => 't8.png' ),
                   'gallery' => array( 'name' => 'Gallery',
                                       'identifier' => 'gallery',
                                       'summary' => '',
-                                      'thumbnail' => 'gallery_thumbnail.png' ),
+                                      'thumbnail' => 't20.png' ),
                   'intranet' => array( 'name' => 'Intranet',
                                        'identifier' => 'intranet',
                                        'summary' => '',
-                                       'thumbnail' => 'intranet_thumbnail.png' ),
+                                       'thumbnail' => 't19.png' ),
                   'shop' => array( 'name' => 'Shop',
                                    'identifier' => 'shop',
                                    'summary' => '',
-                                   'thumbnail' => 'shop_thumbnail.png' ),
+                                   'thumbnail' => 't4.png' ),
                   'plain' => array( 'name' => 'Plain',
                                     'identifier' => 'plain',
                                     'summary' => "Stripped install.\nContains no special toolbar or menu choices",
-                                    'thumbnail' => 'plain_thumbnail.png' )
+                                    'thumbnail' => 't2.png' )
                   );
 }
 
@@ -1099,6 +1099,36 @@ function eZSetupOverrideINISettings( $siteType )
         );
 }
 
+function eZSetupImageINISettings( $siteType )
+{
+    $image = array( 'name' => 'image.ini',
+                    'reset_arrays' => true,
+                    'settings' => array( 'AliasSettings' => array( 'AliasList' => array( 'small', 'medium', 'listitem', 'articleimage', 'articlethumbnail', 'gallerythumbnail', 'imagelarge', 'large', 'rss', 'logo' ) ),
+                                         'logo' => array( 'Reference' => false,
+                                                          'Filters' => array( 'geometry/scaledownonly=250;58' ) ),
+                                         'small' => array( 'Reference' => false,
+                                                           'Filters' => array( 'geometry/scaledownonly=100;160' ) ),
+                                         'medium' => array( 'Reference' => false,
+                                                            'Filters' => array( 'geometry/scaledownonly=200;290' ) ),
+                                         'large' => array( 'Reference' => false,
+                                                            'Filters' => array( 'geometry/scaledownonly=370;450' ) ),
+                                         'listitem' => array( 'Reference' => false,
+                                                            'Filters' => array( 'geometry/scaledownonly=155;200' ) ),
+                                         'articleimage' => array( 'Reference' => false,
+                                                            'Filters' => array( 'geometry/scaledownonly=170;350' ) ),
+                                         'articlethumbnail' => array( 'Reference' => false,
+                                                            'Filters' => array( 'geometry/scaledownonly=70;150' ) ),
+                                         'gallerythumbnail' => array( 'Reference' => false,
+                                                            'Filters' => array( 'geometry/scaledownonly=70;150' ) ),
+                                         'imagelarge' => array( 'Reference' => false,
+                                                            'Filters' => array( 'geometry/scaledownonly=370;450' ) ),
+                                         'rss' => array( 'Reference' => false,
+                                                            'Filters' => array( 'geometry/scale=88;31' ) )
+                                         ) );
+
+    return $image;
+}
+
 function eZSetupINISettings( $siteType )
 {
     $settings = array();
@@ -1107,6 +1137,7 @@ function eZSetupINISettings( $siteType )
     $settings[] = eZSetupOverrideINISettings( $siteType );
     $settings[] = eZSetupToolbarINISettings( $siteType );
     $settings[] = eZSetupSiteINISettings( $siteType );
+    $settings[] = eZSetupImageINISettings( $siteType );
 
     return $settings;
 }

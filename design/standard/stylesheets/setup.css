@@ -101,10 +101,10 @@ td.setup_noborder_blue
 
 td.setup_site_templates
 {
-  padding-top: 5px;
-  padding-left: 5px;
-  padding-bottom: 5px;
-  padding-right: 5px;
+  padding-top: 1px;
+  padding-left: 0px;
+  padding-bottom: 1px;
+  padding-right: 1px;
   border-bottom: 0px;
 }
 
