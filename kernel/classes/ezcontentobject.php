@@ -951,7 +951,7 @@ class eZContentObject extends eZPersistentObject
      If version number is given as argument that version is used to create a copy.
      \note transaction unsafe.
     */
-    function &copyVersion( &$object, &$version, $newVersionNumber, $contentObjectID = false, $status = EZ_VERSION_STATUS_DRAFT )
+    function &copyVersion( &$newObject, &$version, $newVersionNumber, $contentObjectID = false, $status = EZ_VERSION_STATUS_DRAFT )
     {
         $user =& eZUser::currentUser();
         $userID =& $user->attribute( 'contentobject_id' );
@@ -994,12 +994,13 @@ class eZContentObject extends eZPersistentObject
             }
         }
 
-        $relatedObjects =& $object->relatedContentObjectArray( $currentVersionNumber );
+        $relatedObjects =& $this->relatedContentObjectArray( $currentVersionNumber );
+
         foreach ( array_keys( $relatedObjects ) as $key )
         {
             $relatedObject =& $relatedObjects[$key];
             $objectID = $relatedObject->attribute( 'id' );
-            $object->addContentObjectRelation( $objectID, $newVersionNumber );
+            $newObject->addContentObjectRelation( $objectID, $newVersionNumber );
             eZDebugSetting::writeDebug( 'kernel-content-object-copy', 'Add object relation', 'copyVersion' );
         }
         $db->commit();
@@ -1080,7 +1081,7 @@ class eZContentObject extends eZPersistentObject
         foreach ( $versionKeys as $versionNumber )
         {
             $currentContentObjectVersion =& $versionList[$versionNumber];
-            $contentObjectVersion =& $contentObject->copyVersion( $contentObject, $currentContentObjectVersion,
+            $contentObjectVersion =& $this->copyVersion( $contentObject, $currentContentObjectVersion,
                                                                   $versionNumber, $contentObject->attribute( 'id' ),
                                                                   false );
 
@@ -1091,7 +1092,7 @@ class eZContentObject extends eZPersistentObject
         // Set version number
         $contentObject->setAttribute( 'current_version', $this->attribute( 'current_version' ) );
         $contentObject->store();
-        
+
         $db->commit();
 
         eZDebugSetting::writeDebug( 'kernel-content-object-copy', 'Copy done', 'copy' );
