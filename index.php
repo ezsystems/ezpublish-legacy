@@ -150,20 +150,11 @@ while ( $moduleRunRequired )
 
     eZModule::setGlobalPathList( array( "kernel" ) );
 
-// Initialize module name and override it if required
-// $module_name = $uri->element();
-// if ( $check !== null and isset( $check["module"] ) )
-//     $module_name = $check["module"];
-
-// Try to fetch the module object
-// $module =& eZModule::exists( $module_name );
-
-
     $displayMissingModule = false;
     if ( $uri->isEmpty() )
     {
         $tmp_uri = new eZURI( $ini->variable( "SiteSettings", "IndexPage" ) );
-        $check = null;
+//         $check = null;
         if ( !fetchModule( $tmp_uri, $check, $module, $module_name, $function_name, $params ) )
             $displayMissingModule = true;
     }
@@ -172,7 +163,7 @@ while ( $moduleRunRequired )
         if ( $ini->variable( "SiteSettings", "ErrorHandler" ) == "defaultpage" )
         {
             $tmp_uri = new eZURI( $ini->variable( "SiteSettings", "DefaultPage" ) );
-            $check = null;
+//             $check = null;
             if ( !fetchModule( $tmp_uri, $check, $module, $module_name, $function_name, $params ) )
                 $displayMissingModule = true;
         }

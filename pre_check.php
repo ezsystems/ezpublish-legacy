@@ -59,7 +59,9 @@ function eZCheckUser()
     $requireUseLogin = ( $ini->variable( "SiteAccessSettings", "RequireUserLogin" ) == "true" );
     $check = null;
     $http =& eZHttpTool::instance();
-    if ( $requireUseLogin and !$http->hasSessionVariable( "eZUserLoggedInID" ) )
+    if ( $requireUseLogin and ( !$http->hasSessionVariable( "eZUserLoggedInID" ) or
+                                $http->sessionVariable( "eZUserLoggedInID" ) == '' or
+                                $http->sessionVariable( "eZUserLoggedInID" ) == $ini->variable( 'UserSettings', 'AnonymousUserID' ) ) )
     {
         $check = array( "module" => "user",
                         "function" => "login" );
