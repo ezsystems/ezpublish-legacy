@@ -56,7 +56,6 @@ class helloUserType extends eZWorkflowEventType
 
     function execute( &$process, &$event )
     {
-
         $user =& eZUser::currentUser();
         $userName =& $user->attribute( 'login' );
         $localhostAddr = eZSys::hostname();

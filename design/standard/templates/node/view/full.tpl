@@ -58,12 +58,13 @@
 
     </td>
     <td width="120" valign="top">
-    {let name=Object
-         related_objects=$content_version.related_contentobject_array}
-      {section loop=$Object:related_objects show=$Object:related_objects sequence=array(bglight,bgdark)}
+
+    {let name=Object  related_objects=$content_version.related_contentobject_array}
+
+      {section name=ContentObject  loop=$Object:related_objects show=$Object:related_objects  sequence=array(bglight,bgdark)}
 
         <div class="block">
-        {content_view_gui view=text_linked content_object=$content_object:item}
+        {content_view_gui view=text_linked content_object=$Object:ContentObject:item}
         </div>
     
       {section-else}

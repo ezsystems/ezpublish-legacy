@@ -190,16 +190,15 @@ if ( !function_exists( 'checkContentActions' ) )
 
         if ( $module->isCurrentAction( 'Publish' ) )
         {
-            $http =& eZHttpTool::instance();
-            $nodeAssignmentList =& $version->attribute( 'node_assignments' );
+//            $nodeAssignmentList =& $version->attribute( 'node_assignments' );
 
-            $count = 0;
+//            $count = 0;
             $user =& eZUser::currentUser();
             include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
                                                                                          'version' => $version->attribute( 'version' ) ) );
-
             $object = eZContentObject::fetch( $object->attribute( 'id' ) );
+            $http =& eZHttpTool::instance();
             if ( $object->attribute( 'main_node_id' ) != null )
             {
                 if ( $http->hasSessionVariable( 'ParentObject' ) && $http->sessionVariable( 'NewObjectID' ) == $object->attribute( 'id' ) )

@@ -87,6 +87,42 @@ if ( $Module->isCurrentAction( 'Publish' ) and
      $contentObject->attribute( 'can_edit' ) and
      $isCreator )
 {
+
+            $user =& eZUser::currentUser();
+            include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+            $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $ObjectID,
+                                                                                         'version' => $EditVersion ) );
+            $object = eZContentObject::fetch( $ObjectID );
+            $http =& eZHttpTool::instance();
+            if ( $object->attribute( 'main_node_id' ) != null )
+            {
+                if ( $http->hasSessionVariable( 'ParentObject' ) && $http->sessionVariable( 'NewObjectID' ) == $object->attribute( 'id' ) )
+                {
+                    $parentArray = $http->sessionVariable( 'ParentObject' );
+                    $parentURL = $Module->redirectionURI( 'content', 'edit', $parentArray );
+                    $parentObject = eZContentObject::fetch( $parentArray[0] );
+                    $parentObject->addContentObjectRelation( $object->attribute( 'id' ), $parentArray[1] );
+                    $http->removeSessionVariable( 'ParentObject' );
+                    $http->removeSessionVariable( 'NewObjectID' );
+                    $Module->redirectTo( $parentURL );
+                }
+                else
+                {
+                    $Module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );
+                }
+            }
+            else
+            {
+                $Module->redirectToView( 'view', array( 'sitemap', 2 ) );
+            }
+
+            return;
+
+
+
+
+
+    
     $Module->setCurrentAction( 'Publish', 'edit' );
     return $Module->run( 'edit', array( $ObjectID, $EditVersion, $LanguageCode ) );
 //     return $Module->redirectToView( 'edit', array( $ObjectID, $EditVersion, $LanguageCode ) );

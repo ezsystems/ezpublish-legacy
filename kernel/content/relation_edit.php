@@ -155,15 +155,6 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
 function handleRelationTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, &$tpl )
 {
     $relatedObjects =& $object->relatedContentObjectArray( $editVersion );
-    if ( ( $relatedObjects == null ) and ( !$module->isCurrentAction( 'DeleteRelation' ) ) )
-    {
-        $relatedObjects =& $object->relatedContentObjectArray();
-        foreach ( $relatedObjects as $relatedObject )
-        {
-            $objectID = $relatedObject->attribute( 'id' );
-            $object->addContentObjectRelation( $objectID, $editVersion );
-        }
-    }
     $tpl->setVariable( 'related_contentobjects', $relatedObjects );
 }
 

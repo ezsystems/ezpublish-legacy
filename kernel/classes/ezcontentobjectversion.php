@@ -475,7 +475,10 @@ class eZContentObjectVersion extends eZPersistentObject
     */
     function &relatedContentObjectArray()
     {
-        return eZContentObject::relatedContentObjectArray( $this->Version );
+        $objectID = $this->attribute( 'contentobject_id' );
+        eZDebug::writeDebug( $objectID, "contentobject_id1111111111" );
+//        eZDebug::writeDebug( eZContentObject::relatedContentObjectArray( $this->Version ), "related objects" );
+        return eZContentObject::relatedContentObjectArray( $this->Version, $objectID );
     }
 
     function create( $contentobjectID, $userID = false, $version = 1 )
@@ -627,7 +630,7 @@ class eZContentObjectVersion extends eZPersistentObject
                                                                        'contentobject_id' => $objectID,
                                                                        'status' => array( array( EZ_VERSION_STATUS_DRAFT, EZ_VERSION_STATUS_DRAFT ) )
                                                                        ),
-                                                          array( 'version' => 'desc' ), null,
+                                                          array( 'version' => 'asc' ), null,
                                                           true );
         return $versions[0];
     }

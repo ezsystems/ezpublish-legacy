@@ -405,6 +405,15 @@ class eZContentObject extends eZPersistentObject
                 $clonedAttribute->store();
             }
         }
+
+        $relatedObjects =& $this->relatedContentObjectArray( $version->attribute( 'version' ) );
+        foreach ( array_keys( $relatedObjects ) as $key  )
+        {
+            $relatedObject =& $relatedObjects[$key];
+            $objectID = $relatedObject->attribute( 'id' );
+            $this->addContentObjectRelation( $objectID, $editVersion );
+        }
+
         return $version;
     }
 
@@ -651,11 +660,15 @@ class eZContentObject extends eZPersistentObject
     /*!
      Returns the related objects.
     */
-    function &relatedContentObjectArray( $version = false )
+    function &relatedContentObjectArray( $version = false, $objectID = false )
     {
+        eZDebug::writeDebug( $objectID, "objectID1111" );
         if ( $version == false )
             $version = $this->CurrentVersion;
-
+        if( ! $objectID )
+        {
+            $objectID = $this->ID;
+        }
         $db =& eZDB::instance();
         $relatedObjects =& $db->arrayQuery( "SELECT
 					       ezcontentobject.*
@@ -663,7 +676,7 @@ class eZContentObject extends eZPersistentObject
 					       ezcontentobject, ezcontentobject_link
 					     WHERE
 					       ezcontentobject.id=ezcontentobject_link.to_contentobject_id AND
-					       ezcontentobject_link.from_contentobject_id='$this->ID' AND
+					       ezcontentobject_link.from_contentobject_id='$objectID' AND
 					       ezcontentobject_link.from_contentobject_version='$version'" );
 
         $return = array();
@@ -671,6 +684,7 @@ class eZContentObject extends eZPersistentObject
         {
             $return[] = new eZContentObject( $object );
         }
+        eZDebug::writeDebug( $return, "related objects" );
         return $return;
     }
 
