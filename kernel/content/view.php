@@ -75,6 +75,7 @@ eZDebugSetting::addTimingPoint( 'kernel-content-view', 'Operation start' );
 $operationResult =& eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID,
                                                                           'user_id' => $user->id(),
                                                                           'language_code' => $LanguageCode ) );
+eZDebug::writeDebug( $operationResult, "operationResult" );
 eZDebugSetting::addTimingPoint( 'kernel-content-view', 'Operation end' );
 
 eZDebugSetting::writeDebug( 'kernel-content-view', $NodeID, "Fetching node" );
@@ -106,10 +107,20 @@ switch( $operationResult['status'] )
             $viewParameters = array( 'offset' => $Offset );
             $object = $operationResult[ 'object' ];
 
+           
             if ( !get_class( $object ) == 'ezcontentobject' )
                 return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
             $node =& $operationResult[ 'node' ];
+
+            if ( $node === null )
+                return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+
+            if ( $object === null )
+                return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
+            if ( !$object->attribute( 'can_read' ) )
+                return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
             if ( ! is_object( $object ) )
             {

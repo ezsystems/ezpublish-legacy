@@ -73,13 +73,13 @@ class eZContentOperationCollection
         {
             return false;
         }
-
+/*
         if ( !$object->attribute( 'can_read' ) )
         {
 //            return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
             return false;
         }
-
+*/
         if ( $languageCode != '' )
         {
             $object->setCurrentLanguage( $languageCode );
