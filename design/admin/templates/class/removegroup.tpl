@@ -2,7 +2,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'Remove group?'|i18n( 'design/admin/class/removegroup' )}</h1>
+<h1 class="context-title">{'Confirm class group removal'|i18n( 'design/admin/class/removegroup' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -12,17 +12,34 @@
 
 <div class="message-confirmation">
 
-{section show=$DeleteResult|count|gt(1)}
-    <h2>{'Are you sure you want to remove these class groups?'|i18n( 'design/admin/class/removegroup' )}</h2>
+{section show=$DeleteResult|count|eq(1)}
+    <h2>{'Are you sure you want to remove the class group?'|i18n( 'design/admin/class/removegroup' )}</h2>
 {section-else}
-    <h2>{'Are you sure you want to remove this class group?'|i18n( 'design/admin/class/removegroup' )}</h2>
+    <h2>{'Are you sure you want to remove the class groups?'|i18n( 'design/admin/class/removegroup' )}</h2>
 {/section}
 
+
+{section var=ClassGroups loop=$TmpData}
+<p>{'The following classes will be removed from the <%group_name> class group'|i18n( 'design/admin/class/removegroup',, hash( '%group_name', $ClassGroups.item.group_name ) )|wash}:</p>
+
 <ul>
-{section var=ClassGroups loop=$DeleteResult}
-	<li>{"Removing class group '%1' will result in the removal of classes %2!"|i18n( 'design/admin/class/removegroup',,array( $ClassGroups.item.groupName, $ClassGroups.item.deletedClassName ) )}</li>
+{section var=Classes loop=$ClassGroups.item.class_list}
+<li>
+{$Classes.class_name}&nbsp;({'%objects objects will be removed'|i18n( 'design/admin/class/removegroup',, hash( '%objects', $Classes.item.object_count ) )|wash})
+</li>
 {/section}
 </ul>
+
+{/section}
+
+{*
+
+<ul>
+{section var=DeletedClasses loop=$deleted_classes}
+	<li>{$DeletedClasses.item|wash}</li>
+{/section}
+</ul>
+*}
 
 </div>
 
