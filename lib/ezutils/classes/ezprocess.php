@@ -78,6 +78,7 @@ class eZProcess
 
         if ( file_exists( $file ) )
         {
+
             $includeResult = include( $file );
             if ( !isset( $Result ) and $includeResult != 1 )
                 $Result = $includeResult;

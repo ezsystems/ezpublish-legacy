@@ -891,6 +891,7 @@ class eZModule
         $Return =& eZProcess::run( $this->Path . "/" . $this->Name . "/" . $function["script"],
                                    $params,
                                    $params_as_var );
+
         if ( $this->hasViewResult( $functionName ) )
         {
             $Return = $this->viewResult( $functionName );
