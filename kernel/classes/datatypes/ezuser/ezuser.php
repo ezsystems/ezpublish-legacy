@@ -198,12 +198,12 @@ class eZUser extends eZPersistentObject
      Logs in the user if applied username and password is
      valid. The userID is returned if succesful, false if not.
     */
-    function loginUser( $login, $password )
+    function &loginUser( $login, $password )
     {
         $http =& eZHTTPTool::instance();
         $db =& eZDB::instance();
 
-        $query = "SELECT contentobject_id, password_hash, password_hash_type FROM ezuser WHERE login='$login'";
+        $query = "SELECT contentobject_id, password_hash, password_hash_type, email,login FROM ezuser WHERE login='$login'";
 
         $users =& $db->arrayQuery( $query );
         $exists = false;
@@ -228,8 +228,10 @@ class eZUser extends eZPersistentObject
         }
         if ( $exists )
         {
+            $user =& new eZUser( $users[0] );
+            $GLOBALS["eZUserGlobalInstance"] =& $user;
             $http->setSessionVariable( 'eZUserLoggedInID', $users[0]['contentobject_id'] );
-            return $users[0]['contentobject_id'];
+            return $user;
         }
         else
             return false;
@@ -243,20 +245,26 @@ class eZUser extends eZPersistentObject
      The instance is then returned.
      If \a $id is false then the current user is fetched.
     */
-    function instance( $id = false )
+    function & instance( $id = false )
     {
-        $http =& eZHTTPTool::instance();
+        $currentUser =& $GLOBALS["eZUserGlobalInstance"];
+        if( get_class( $currentUser ) == 'ezuser' )
+        {
+            return $currentUser;
+        }
 
+        $http =& eZHTTPTool::instance();
         // If not specified get the current user
         if ( $id === false )
         {
             $id = $http->sessionVariable( 'eZUserLoggedInID' );
+            eZDebug::writeNotice( $id, "userID" );
 
             if ( !is_numeric( $id ) )
                 $id = EZ_USER_ANONYMOUS_ID;
         }
 
-        $currentUser =& eZUser::fetch( $id );
+        $currentUser = eZUser::fetch( $id );
         if ( !$currentUser )
         {
             $currentUser =& eZUser::fetchBuiltin( $id );
@@ -319,13 +327,17 @@ class eZUser extends eZPersistentObject
 
     function &hasAccessTo( $module, $function )
     {
-        $roles = $this->attribute( 'roles' );
+        $roles =& $this->attribute( 'roles' );
         $access = 'no';
         $limitationPolicyList = array();
-        foreach ( $roles as $role )
+        reset( $roles );
+        foreach ( array_keys( $roles ) as $key )
         {
-            foreach ( $role->attribute( 'policies') as $policy )
+            $role =& $roles[$key];
+            $policies =& $role->attribute( 'policies');
+            foreach ( array_keys( $policies ) as $policy_key )
             {
+                $policy =& $policies[$policy_key];
                 if ( $policy->attribute( 'module_name' ) == '*' )
                 {
                     return array( 'accessWord' => 'yes' );
@@ -345,7 +357,7 @@ class eZUser extends eZPersistentObject
                         else
                         {
                             $access = 'limited';
-                            $limitationPolicyList[] = $policy;
+                            $limitationPolicyList[] =& $policy;
                         }
                     }
                 }
@@ -363,7 +375,7 @@ class eZUser extends eZPersistentObject
         {
             $groups = $this->attribute( 'groups' );
             $groups[] = $this->attribute( 'contentobject_id' );
-            $roles = eZRole::fetchByUser( $groups );
+            $roles =& eZRole::fetchByUser( $groups );
             $this->Roles =& $roles;
         }
         return $this->Roles;
@@ -372,7 +384,7 @@ class eZUser extends eZPersistentObject
     /*!
      \return an array of id's with all the groups the user belongs to.
     */
-    function groups( $as_object = false, $userID = false )
+    function &  groups( $as_object = false, $userID = false )
     {
         $db =& eZDB::instance();
 
@@ -380,29 +392,32 @@ class eZUser extends eZPersistentObject
             eZDebug::writeError( 'Returning user groups as objects not implemented', 'ezuser' );
         else
         {
-            if ( $userID )
+            if( !isset( $this->Groups ) )
             {
-                $contentobjectID = $userID;
-            }
-            else
-            {
-                $contentobjectID = $this->attribute( 'contentobject_id' );
-            }
-            $userGroups = $db->arrayQuery( "SELECT  c.contentobject_id as id
-                              FROM ezcontentobject_tree  b,
-                                   ezcontentobject_tree  c
-                              WHERE b.contentobject_id='$contentobjectID' AND
-                                    b.parent_node_id = c.node_id
-                              ORDER BY c.contentobject_id  ");
-            $userGroupArray = array();
+                if ( $userID )
+                {
+                    $contentobjectID = $userID;
+                }
+                else
+                {
+                    $contentobjectID = $this->attribute( 'contentobject_id' );
+                }
+                $userGroups = $db->arrayQuery( "SELECT  c.contentobject_id as id
+                                                FROM ezcontentobject_tree  b,
+                                                     ezcontentobject_tree  c
+                                                WHERE b.contentobject_id='$contentobjectID' AND
+                                                      b.parent_node_id = c.node_id
+                                                ORDER BY c.contentobject_id  ");
+                $userGroupArray = array();
 
-            foreach ( $userGroups as $group )
-            {
-                $userGroupArray[] = $group['id'];
+                foreach ( $userGroups as $group )
+                {
+                    $userGroupArray[] = $group['id'];
+                }
+                $this->Groups = $userGroupArray;
             }
-
         }
-        return $userGroupArray;
+        return $this->Groups;
     }
 
     /// \privatesection
@@ -410,6 +425,8 @@ class eZUser extends eZPersistentObject
     var $Email;
     var $PasswordHash;
     var $PasswordHashType;
+    var $Groups;
+    var $Roles;
 }
 
 ?>

@@ -75,7 +75,7 @@ class eZRole extends eZPersistentObject
         return eZPersistentObject::attributes();
     }
 
-    function attribute( $attr )
+    function & attribute( $attr )
     {
         if ( $attr == "policies" )
             return $this->policyList();
@@ -83,7 +83,7 @@ class eZRole extends eZPersistentObject
         return eZPersistentObject::attribute( $attr );
     }
 
-    function  policyList()
+    function & policyList()
     {
         if ( !isset( $this->Policies) )
         {
@@ -212,7 +212,7 @@ class eZRole extends eZPersistentObject
         $roles = array();
         foreach ( $roleArray as $roleRow )
         {
-            $roles[] = new eZRole( $roleRow );
+            $roles[] =& new eZRole( $roleRow );
         }
         return $roles;
     }

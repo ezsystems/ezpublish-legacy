@@ -632,7 +632,7 @@ class eZContentObject extends eZPersistentObject
 
     function checkAccess( $functionName, $classID = false, $parentClassID = false )
     {
-        $user = eZUser::currentUser();
+        $user =& eZUser::currentUser();
         $accessResult =  $user->hasAccessTo( 'content' , $functionName );
         $accessWord = $accessResult['accessWord'];
         if ( ! $classID )
@@ -649,23 +649,26 @@ class eZContentObject extends eZPersistentObject
         }
         else
         {
-            $policies  = $accessResult['policies'];
-            foreach ( $policies as $policy )
+            $policies  =& $accessResult['policies'];
+            foreach ( array_keys( $policies ) as $key  )
             {
-                $limitationList[] = $policy->attribute( 'limitations' );
+                $policy =& $policies[$key];
+                $limitationList[] =& $policy->attribute( 'limitations' );
             }
             if ( count( $limitationList ) > 0 )
             {
                 $access = 'denied';
-
-                foreach ( $limitationList as $limitationArray )
+                foreach ( array_keys( $limitationList ) as $key  )
                 {
+                    $limitationArray =& $limitationList[ $key ];
                     if ( $access == 'allowed' )
                     {
                         break;
                     }
+                    foreach ( array_keys( $limitationArray ) as $key  )
                     foreach ( $limitationArray as $limitation )
                     {
+                        $limitation =& $limitationArray[$key];
                         if ( $functionName == 'remove' )
                         {
                             eZDebug::writeNotice( $limitation, 'limitation in check access' );
@@ -679,14 +682,14 @@ class eZContentObject extends eZPersistentObject
                             }
                             elseif ( in_array( $this->attribute( 'contentclass_id' ), $limitation->attribute( 'values_as_array' )  )  )
                             {
-                                eZDebug::writeNotice( $this->attribute( 'contentclass_id' ), 'contentclass_id' );
-                                eZDebug::writeNotice( $limitation->attribute( 'values_as_array' ), 'values_as_array' );
+                                //         eZDebug::writeNotice( $this->attribute( 'contentclass_id' ), 'contentclass_id' );
+                                //         eZDebug::writeNotice( $limitation->attribute( 'values_as_array' ), 'values_as_array' );
                                 $access = 'allowed';
                             }
                             else
                             {
-                                eZDebug::writeNotice( $this->attribute( 'contentclass_id' ), 'contentclass_id' );
-                                eZDebug::writeNotice( $limitation->attribute( 'values_as_array' ), 'values_as_array' );
+//                                eZDebug::writeNotice( $this->attribute( 'contentclass_id' ), 'contentclass_id' );
+//                                eZDebug::writeNotice( $limitation->attribute( 'values_as_array' ), 'values_as_array' );
                                 $access = 'denied';
                                 break;
                             }
@@ -718,8 +721,8 @@ class eZContentObject extends eZPersistentObject
                         }
                         elseif ( $limitation->attribute( 'identifier' ) == 'Assigned' )
                         {
-                            eZDebug::writeNotice( $this->attribute( 'owner_id' ), 'owner_id'  );
-                            eZDebug::writeNotice( $user->attribute( 'contentobject_id' ), 'contentobject_id'  );
+                            //                          eZDebug::writeNotice( $this->attribute( 'owner_id' ), 'owner_id'  );
+                            //                          eZDebug::writeNotice( $user->attribute( 'contentobject_id' ), 'contentobject_id'  );
                             if ( $this->attribute( 'owner_id' ) == $user->attribute( 'contentobject_id' )  )
                             {
                                 $access = 'allowed';
@@ -796,12 +799,12 @@ class eZContentObject extends eZPersistentObject
         if ( $accessWord == 'yes' )
         {
             $classList =& eZContentClass::fetchList( 0, false,false, null, array( 'id', 'name' ) );
-            eZDebug::writeNotice( $classList, 'can create everithing' );
+//            eZDebug::writeNotice( $classList, 'can create everithing' );
             return $classList;
         }
         elseif ( $accessWord == 'no' )
         {
-            eZDebug::writeNotice( array(), 'can create nothing' );
+//            eZDebug::writeNotice( array(), 'can create nothing' );
             return array();
         }
         else
@@ -816,7 +819,7 @@ class eZContentObject extends eZPersistentObject
                 if ( $classIDArrayPart == '*' )
                 {
                     $classList =& eZContentClass::fetchList( 0, false,false, null, array( 'id', 'name' ) );
-                    eZDebug::writeNotice( $classList, 'can create everything' );
+//                    eZDebug::writeNotice( $classList, 'can create everything' );
                     return $classList;
                 }else
                 {
@@ -827,7 +830,7 @@ class eZContentObject extends eZPersistentObject
         }
         if( count( $classIDArray ) == 0  )
         {
-            eZDebug::writeNotice( array(), 'can create nothing' );
+//            eZDebug::writeNotice( array(), 'can create nothing' );
             return array();
         }
         $classList = array();
@@ -835,7 +838,7 @@ class eZContentObject extends eZPersistentObject
         $db = eZDb::instance();
         $classString = implode( ',', $classIDArray );
         $classList = $db->arrayQuery( "select id, name from ezcontentclass where id in ( $classString  )  and version = 0" );
-        eZDebug::writeNotice( $classList, 'can create some classes' );
+//        eZDebug::writeNotice( $classList, 'can create some classes' );
         return $classList;
     }
 

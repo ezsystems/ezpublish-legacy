@@ -34,7 +34,7 @@
 
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 
-$http =& eZHttpTool::instance();
+$http =& eZHTTPTool::instance();
 
 $http->removeSessionVariable( "eZUserLoggedInID" );
 

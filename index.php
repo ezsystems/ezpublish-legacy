@@ -78,6 +78,13 @@ include_once( "lib/ezutils/classes/ezuri.php" );
 
 $uri =& eZURI::instance( $REQUEST_URI );
 
+include_once( "pre_check.php" );
+
+// include ezsession override implementation
+include( "lib/ezutils/classes/ezsession.php" );
+ob_start();
+session_start();
+
 
 $nodePathString = $uri->elements();
 eZDebug::writeNotice( $nodePathString, 'nodePathString' );
@@ -123,19 +130,16 @@ $http =& eZHTTPTool::instance();
 
 $UserID =& $http->sessionVariable( "eZUserLoggedInID" );
 
-$currentUser =& eZUser::currentUser();
+eZDebug::writeNotice( "Current user id:" . $UserID . "<br>" );
+eZDebug::writeNotice( $http->sessionVariable( 'eZUserLoggedInID' ), "Current user id: <br>" );
 
+$currentUser =& eZUser::currentUser();
+eZDebug::writeNotice( $currentUser, "currentUser" );
 eZDebug::writeNotice( "Current user id:" . $UserID . "<br>" );
 
 
 // eZDebug::addTimingPoint( "Pre checks" );
 
-include_once( "pre_check.php" );
-
-// include ezsession override implementation
-include( "lib/ezutils/classes/ezsession.php" );
-ob_start();
-session_start();
 
 $check = eZHandlePreChecks();
 
@@ -209,7 +213,6 @@ if ( !$displayMissingModule and get_class( $module ) == "ezmodule" )
     else
     {
         eZDebug::writeNotice( $params, 'module parameters' );
-
         $result =& $module->run( $function_name, $params );
     }
 }

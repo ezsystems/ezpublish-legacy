@@ -38,15 +38,25 @@ include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 $Module->setExitStatus( EZ_MODULE_STATUS_SHOW_LOGIN_PAGE );
 
 $ini =& eZINI::instance();
-$http =& eZHttpTool::instance();
+$http =& eZHTTPTool::instance();
+eZDebug::writeNotice( $http->postVariable( "Login" ), "login");
+eZDebug::writeNotice( $http->postVariable( "Password" ), "password");
+
 if ( $http->hasPostVariable( "Login" ) &&
      $http->hasPostVariable( "Password" )
      )
 {
-    $userID = eZUser::loginUser( $http->postVariable( "Login" ), $http->postVariable( "Password" ) );
+    eZDebug::writeNotice( $http->postVariable( "Login" ), "userobject");
 
+    $user = eZUser::loginUser( $http->postVariable( "Login" ), $http->postVariable( "Password" ) );
+
+    eZDebug::writeNotice( $user, "user");
+    $userID = $user->id();
     if ( $userID > 0 )
     {
+        $http->removeSessionVariable( "eZUserLoggedInID" );
+        $http->setSessionVariable( "eZUserLoggedInID", $userID );
+        eZDebug::writeNotice( $http->sessionVariable( 'eZUserLoggedInID' ), "user");
         $Module->redirectTo( $ini->variable( "SiteSettings", "DefaultPage" ) );
         return;
     }
@@ -54,7 +64,6 @@ if ( $http->hasPostVariable( "Login" ) &&
     if ( $http->postVariable( "Login" ) == "admin" &&
          $http->postVariable( "Password" ) == "publish" )
     {
-
         $http->setSessionVariable( "eZUserLoggedInID", 1 );
 
         $Module->redirectTo( $ini->variable( "SiteSettings", "DefaultPage" ) );

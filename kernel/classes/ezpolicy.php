@@ -55,7 +55,6 @@ class eZPolicy extends eZPersistentObject
     {
           $this->eZPersistentObject( $row );
     }
-    
     function &definition()
     {
         return array( "fields" => array( "id" => "ID",
@@ -85,7 +84,7 @@ class eZPolicy extends eZPersistentObject
         return eZPersistentObject::attribute( $attr );
     }
 
-    function createNew( $roleID , $params = array() )
+    function & createNew( $roleID , $params = array() )
     {
         $policy = new eZPolicy( array() );
         $policy->setAttribute( 'role_id', $roleID );
@@ -147,7 +146,7 @@ class eZPolicy extends eZPersistentObject
                      WHERE id='$delID'" );
     }
 
-    function limitationList()
+    function & limitationList()
     {
         if ( !isset( $this->Limitations ) )
         {
@@ -155,12 +154,11 @@ class eZPolicy extends eZPersistentObject
                                                                 null, array( 'policy_id' => $this->attribute( 'id') ), null, null,
                                                                 true );
             $this->Limitations =& $limitations;
-            
         }
 
         return $this->Limitations;
     }
-    function fetch( $policyID )
+    function &fetch( $policyID )
     {
         return eZPersistentObject::fetchObject( eZPolicy::definition(),
                                                 null, array('id' => $policyID ), true);
