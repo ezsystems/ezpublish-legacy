@@ -59,13 +59,22 @@ We were trying to find {$:foobar}
 {$arr|array_merge(3,4)|implode(',')}
 {/let}*}
 
+{let a=false() b=0 c="text"
+     d=true() e=1 f="text"}
+'{or( $a, $b, $c )}'
+'{and( $a, $b, $c )}'
+'{and( $d, $e, $f )}'
+{/let}
+
+
 {*{include name=navigator
          uri='design:navigator/google.tpl'
          page_uri=concat('/content/view','/full/',1)
          item_count=30
-         view_parameters=array()
-         item_limit=6}*}
+         view_parameters=hash(offset,6)
+         item_limit=6}}*
 
+{*
 sub:
 
 {let page_count=6 current_page=0}
@@ -122,7 +131,7 @@ div:
 0.125={div( 2, 2, $:page_count, $:current_page )}
 0.5={div( 2, 2, 2 )}
 2={div( 2 )}
-{/let}
+{/let}*}
 
 
 
