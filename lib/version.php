@@ -34,7 +34,6 @@
 
 /*!
   \brief contains the eZ publish SDK version.
-
 */
 
 define( "EZ_SDK_VERSION_MAJOR", 3 );
