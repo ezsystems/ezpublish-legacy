@@ -128,6 +128,7 @@ class eZStepDatabaseInit extends eZStepInstaller
         $db =& eZDB::instance( $dbDriver, $dbParameters, true );
         $availDatabases = $db->availableDatabases();
         $this->PersistenceList['database_use_unicode'] = false;
+        print( "<pre>" ); print_r( $db->databaseServerVersion() ); print( "</pre>" );
         if ( $db->isCharsetSupported( 'utf-8' ) )
         {
             print( "Can use Unicode<br/>" );

@@ -386,7 +386,10 @@ class eZStepCreateSites extends eZStepInstaller
         eZDB::setInstance( $db );
         if ( $package )
         {
-//             eZDBTool::cleanup( $db );
+            if ( $sitePackage['existing_database'] == 2 )
+            {
+                eZDBTool::cleanup( $db );
+            }
             $installParameters = array( 'path' => '.' );
             $installParameters['ini'] = array();
             $siteINIChanges = array();

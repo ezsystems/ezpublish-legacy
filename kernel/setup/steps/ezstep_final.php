@@ -85,7 +85,24 @@ class eZStepFinal extends eZStepInstaller
             {
                 $url = 'http://' . $url;
             }
+            $adminURL = $url;
+            if ( $templates[$counter]['access_type'] == 'url' )
+            {
+                $url .= '/' . $templates[$counter]['access_type_value'];
+                $adminURL .= '/' . $templates[$counter]['admin_access_type_value'];
+            }
+            else if ( $templates[$counter]['access_type'] == 'hostname' )
+            {
+                $url = eZHTTPTool::createRedirectURL( $url, array( 'host' => $templates[$counter]['access_type_value'] ) );
+                $adminURL = eZHTTPTool::createRedirectURL( $url, array( 'host' => $templates[$counter]['admin_access_type_value'] ) );
+            }
+            else if ( $templates[$counter]['access_type'] == 'port' )
+            {
+                $url = eZHTTPTool::createRedirectURL( $url, array( 'port' => $templates[$counter]['access_type_value'] ) );
+                $adminURL = eZHTTPTool::createRedirectURL( $url, array( 'port' => $templates[$counter]['admin_access_type_value'] ) );
+            }
             $templates[$counter]['url'] = $url;
+            $templates[$counter]['admin_url'] = $adminURL;
         }
 
         $this->Tpl->setVariable( 'site_templates', $templates );
