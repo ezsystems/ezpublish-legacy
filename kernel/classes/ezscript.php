@@ -109,6 +109,8 @@ class eZScript
         $this->UseExtensions = $settings['use-extensions'];
         $this->User = $settings['user'];
         $this->SiteAccess = $settings['site-access'];
+        $this->InitializationErrorMessage = 'unknown error';
+        $this->IsInitialized = false;
     }
 
     /*!
@@ -197,6 +199,12 @@ class eZScript
             {
                 eZSessionStart();
             }
+            else
+            {
+                $this->IsInitialized = false;
+                $this->InitializationErrorMessage = 'database error: ' . $db->errorMessage();
+                return;
+            }
         }
 
         if ( $this->User )
@@ -240,6 +248,18 @@ class eZScript
             include_once( 'lib/ezutils/classes/ezmodule.php' );
             eZModule::setGlobalPathList( $moduleRepositories );
         }
+
+        $this->IsInitialized = true;
+    }
+
+    function isInitialized()
+    {
+        return $this->IsInitialized;
+    }
+
+    function initializationError()
+    {
+        return $this->InitializationErrorMessage;
     }
 
     function shutdown()
@@ -340,6 +360,8 @@ class eZScript
     }
 
     /// \privatesection
+    var $IsInitialized;
+    var $InitializationErrorMessage;
     var $DebugMessage;
     var $UseDebugOutput;
     var $UseSession;

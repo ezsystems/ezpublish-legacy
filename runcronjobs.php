@@ -259,6 +259,12 @@ $script->setDebugMessage( "\n\n" . str_repeat( '#', 36 ) . $cli->style( 'emphasi
 $script->setUseSiteAccess( $siteaccess );
 
 $script->initialize();
+if ( !$script->isInitialized() )
+{
+    $cli->error( 'Error initializing script: ' . $script->initializationError() . '.' );
+    $script->shutdown();
+    exit();
+}
 
 if ( $cronPart )
 {
