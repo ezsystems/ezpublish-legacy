@@ -7,6 +7,7 @@ Changes from 3.1.0-1 to 3.1
 - Added support for setting cachedir with full path ( CacheDir=/var/ezpublish/cache )
 - Fixed a typo in the article template
 - Added missing tables to mysql kernel_schema.sql ezkeyword and ezkeyword_attribute_link.
+- Added removeKey function to the eZTemplateDesignResource class
 
 *Library :
 eZ xml:
