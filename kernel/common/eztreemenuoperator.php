@@ -199,7 +199,7 @@ class eZTreeMenuOperator
                                                                               'ClassFilterType' => 'include',
                                                                               'ClassFilterArray' => $classFilter
                                                                               ),
-                                                                       17 );
+                                                                       2 );
 
                     /// Fill objects with attributes, speed boost
                     eZContentObject::fillNodeListAttributes( $menuChildren );
@@ -223,7 +223,8 @@ class eZTreeMenuOperator
                                               'level' => $i,
                                               'url_alias' => $urlAlias,
                                               'url' => $url,
-                                              'text' => $name );
+                                              'text' => $name,
+                                              'is_selected' => false );
                     }
                 }
                 $done = true;
