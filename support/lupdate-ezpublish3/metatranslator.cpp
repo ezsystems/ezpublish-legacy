@@ -367,7 +367,8 @@ bool MetaTranslator::save( const QString& filename ) const
 	return FALSE;
 
     QTextStream t( &f );
-    t.setCodec( QTextCodec::codecForName("ISO-8859-1") );
+//    t.setCodec( QTextCodec::codecForName("ISO-8859-1") );
+    t.setEncoding( QTextStream::UnicodeUTF8 );
 
     t << "<!DOCTYPE TS><TS>\n";
     if ( codecName != "ISO-8859-1" )

@@ -188,7 +188,7 @@ static void parse( MetaTranslator *tor, const QString &filename )
             continue;
 
         tor->insert( MetaTranslatorMessage( context.latin1(), source.latin1(), comment,
-                                            QString::null, false ) );
+                                            QString::null, true ) );
     }
 }
 
