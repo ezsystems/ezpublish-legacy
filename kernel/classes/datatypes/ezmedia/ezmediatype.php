@@ -317,6 +317,15 @@ class eZMediaType extends eZDataType
 
     /*!
      \reimp
+     Regular file insertion is supported.
+    */
+    function isRegularFileInsertionSupported()
+    {
+        return true;
+    }
+
+    /*!
+     \reimp
      Inserts the file using the eZMedia class.
     */
     function insertHTTPFile( &$object, $objectVersion, $objectLanguage,
@@ -378,6 +387,8 @@ class eZMediaType extends eZDataType
         $hasController = true;
         // Don't play automatically
         $isAutoplay = false;
+        // Don't loop movie
+        $isLoop = false;
 
         $media->setAttribute( "width", $width );
         $media->setAttribute( "height", $height );
@@ -392,6 +403,127 @@ class eZMediaType extends eZDataType
 
         $objectAttribute->setContent( $media );
         return true;
+    }
+
+    /*!
+     \reimp
+     Inserts the file using the eZMedia class.
+    */
+    function insertRegularFile( &$object, $objectVersion, $objectLanguage,
+                                &$objectAttribute, $filePath,
+                                &$result )
+    {
+        $result = array( 'errors' => array(),
+                         'require_storage' => false );
+        $errors =& $result['errors'];
+        $attributeID = $objectAttribute->attribute( 'id' );
+
+        $media =& eZMedia::fetch( $attributeID, $objectVersion );
+        if ( $media === null )
+            $media =& eZMedia::create( $attributeID, $objectVersion );
+
+        $fileName = basename( $filePath );
+        $mimeData = eZMimeType::findByFileContents( $filePath );
+        $storageDir = eZSys::storageDirectory();
+        list( $group, $type ) = explode( '/', $mimeData['name'] );
+        $destination = $storageDir . '/original/' . $group;
+        $oldumask = umask( 0 );
+        if ( !eZDir::mkdir( $destination, false, true ) )
+        {
+            umask( $oldumask );
+            return false;
+        }
+        umask( $oldumask );
+        $destination = $destination . '/' . $fileName;
+        copy( $filePath, $destination );
+
+        $classAttribute =& $objectAttribute->contentClassAttribute();
+        $player = $classAttribute->attribute( "data_text1" );
+        switch( $player )
+        {
+            case 'flash':
+                $plugin = "http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash";
+            break;
+            case 'quick_time':
+                $plugin = "http://quicktime.apple.com";
+            break;
+            case 'real_player' :
+                $plugin = "http://www.real.com/";
+            break;
+            case 'windows_media_player' :
+                $plugin = "http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,7,1112" ;
+            break;
+            default:
+                $plugin = "";
+            break;
+        }
+
+        $media->setAttribute( "contentobject_attribute_id", $attributeID );
+        $media->setAttribute( "version", $objectVersion );
+        $media->setAttribute( "filename", $fileName );
+        $media->setAttribute( "original_filename", $fileName );
+        $media->setAttribute( "mime_type", $mimeData['name'] );
+
+        // Setting width and height to zero means that the browser/player must find the size itself.
+        // In the future we will probably analyze the media file and find this information
+        $width = $height = 0;
+        // Quality is not known, so we don't set any
+        $quality = false;
+        // Not sure what this is for, set to false
+        $controls = false;
+        // We want to show controllers by default
+        $hasController = true;
+        // Don't play automatically
+        $isAutoplay = false;
+        // Don't loop movie
+        $isLoop = false;
+
+        $media->setAttribute( "width", $width );
+        $media->setAttribute( "height", $height );
+        $media->setAttribute( "quality", $quality );
+        $media->setAttribute( "controls", $controls );
+        $media->setAttribute( "pluginspage", $plugin );
+        $media->setAttribute( "is_autoplay", $isAutoplay );
+        $media->setAttribute( "has_controller", $hasController );
+        $media->setAttribute( "is_loop", $isLoop );
+
+        $media->store();
+
+        $objectAttribute->setContent( $media );
+        return true;
+    }
+
+    /*!
+      \reimp
+      We support file information
+    */
+    function hasStoredFileInformation( &$object, $objectVersion, $objectLanguage,
+                                       &$objectAttribute )
+    {
+        return true;
+    }
+
+    /*!
+      \reimp
+      Extracts file information for the media entry.
+    */
+    function storedFileInformation( &$object, $objectVersion, $objectLanguage,
+                                    &$objectAttribute )
+    {
+        $mediaFile =& eZMedia::fetch( $objectAttribute->attribute( "id" ),
+                                      $objectAttribute->attribute( "version" ) );
+        if ( $mediaFile )
+        {
+            $fileName = $mediaFile->attribute( 'filename' );
+            $mimeType = $mediaFile->attribute( 'mime_type' );
+            $storageDir = eZSys::storageDirectory();
+            list( $group, $type ) = explode( '/', $mimeType );
+            $filePath = $storageDir . '/original/' . $group . '/' . $fileName;
+            return array( 'filename' => $fileName,
+                          'filepath' => $filePath,
+                          'mime_type' => $mimeType );
+        }
+        return false;
     }
 
     function storeClassAttribute( &$attribute, $version )

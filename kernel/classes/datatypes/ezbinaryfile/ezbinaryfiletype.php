@@ -437,6 +437,39 @@ class eZBinaryFileType extends eZDataType
         return true;
     }
 
+    /*!
+      \reimp
+      We support file information
+    */
+    function hasStoredFileInformation( &$object, $objectVersion, $objectLanguage,
+                                       &$objectAttribute )
+    {
+        return true;
+    }
+
+    /*!
+      \reimp
+      Extracts file information for the binaryfile entry.
+    */
+    function storedFileInformation( &$object, $objectVersion, $objectLanguage,
+                                    &$objectAttribute )
+    {
+        $binaryFile =& eZBinaryFile::fetch( $objectAttribute->attribute( "id" ),
+                                            $objectAttribute->attribute( "version" ) );
+        if ( $binaryFile )
+        {
+            $fileName = $binaryFile->attribute( 'filename' );
+            $mimeType = $binaryFile->attribute( 'mime_type' );
+            $storageDir = eZSys::storageDirectory();
+            list( $group, $type ) = explode( '/', $mimeType );
+            $filePath = $storageDir . '/original/' . $group . '/' . $fileName;
+            return array( 'filename' => $fileName,
+                          'filepath' => $filePath,
+                          'mime_type' => $mimeType );
+        }
+        return false;
+    }
+
     function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
     {
         $filesizeName = $base . EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_VARIABLE . $classAttribute->attribute( 'id' );

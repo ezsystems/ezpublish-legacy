@@ -374,6 +374,51 @@ class eZDataType
     }
 
     /*!
+     \virtual
+     Checks if the datatype supports returning file information.
+
+     \param $object The contentobject in which the attribute is contained
+     \param $objectVersion The current version of the object it is being worked on
+     \param $objectLanguage The current language being worked on
+     \param $objectAttribute The attribute which stored the file
+
+     \return \c true if file information is supported or \c false if it doesn't.
+    */
+    function hasStoredFileInformation( &$object, $objectVersion, $objectLanguage,
+                                       &$objectAttribute )
+    {
+        return false;
+    }
+
+    /*!
+     \virtual
+     Returns file information for the filed stored by the attribute.
+
+     \param $object The contentobject in which the attribute is contained
+     \param $objectVersion The current version of the object it is being worked on
+     \param $objectLanguage The current language being worked on
+     \param $objectAttribute The attribute which stored the file
+
+     \return An array structure with information or \c false (default) if no
+             information could be found.
+             The structure must contain:
+             - filepath - The full path to the file
+
+             The structure can contain:
+             - filename - The name of the file, if not supplied it will
+                           be figured out from the filepath
+             - filesize - The size of the file, if not supplied it will
+                           be figured out from the filepath
+             - mime_type - The MIME type for the file, if not supplied it will
+                           be figured out from the filepath
+    */
+    function storedFileInformation( &$object, $objectVersion, $objectLanguage,
+                                    &$objectAttribute )
+    {
+        return false;
+    }
+
+    /*!
      Fetches the product option information for option with ID \a $optionID and returns this information.
      This will be called from the basket when a new product with an option is added, it is then up to the
      specific datatype to return proper data. It will also be used to recalcuate prices.

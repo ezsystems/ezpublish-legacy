@@ -307,6 +307,38 @@ class eZImageType extends eZDataType
     }
 
     /*!
+      \reimp
+      We support file information
+    */
+    function hasStoredFileInformation( &$object, $objectVersion, $objectLanguage,
+                                       &$objectAttribute )
+    {
+        return true;
+    }
+
+    /*!
+      \reimp
+      Extracts file information for the image entry.
+    */
+    function storedFileInformation( &$object, $objectVersion, $objectLanguage,
+                                    &$objectAttribute )
+    {
+        $content =& $objectAttribute->content();
+        if ( $content )
+        {
+            $original = $content->attribute( 'original' );
+            $fileName = $original['filename'];
+            $filePath = $original['full_path'];
+            $mimeType = $original['mime_type'];
+
+            return array( 'filename' => $fileName,
+                          'filepath' => $filePath,
+                          'mime_type' => $mimeType );
+        }
+        return false;
+    }
+
+    /*!
      \reimp
     */
     function onPublish( &$contentObjectAttribute, &$contentObject, &$publishedNodes )
