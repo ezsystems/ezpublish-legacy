@@ -97,6 +97,7 @@ menuArray['BookmarkMenu']['elements']['bookmark-edit']['url'] = {"/content/edit/
     </div>
     <a id="class-view" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{"View class"|i18n("design/standard/popupmenu")}</a>
     <a id="class-edit" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{"Edit class"|i18n("design/standard/popupmenu")}</a>
+<!--
     <hr />
     <a id="view-cache-delete" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{"Delete view cache"|i18n("design/standard/popupmenu")}</a>
     <a id="template-cache-delete" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{"Delete template cache"|i18n("design/standard/popupmenu")}</a>
@@ -105,6 +106,7 @@ menuArray['BookmarkMenu']['elements']['bookmark-edit']['url'] = {"/content/edit/
     <a id="override-view" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{"Template overrides"|i18n("design/standard/popupmenu")}</a>
     <a id="override-view" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{"New class override"|i18n("design/standard/popupmenu")}</a>
     <a id="override-view" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{"New node override"|i18n("design/standard/popupmenu")}</a>
+-->
 </div>
 
 
