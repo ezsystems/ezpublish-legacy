@@ -111,7 +111,11 @@ class eZContentClass extends eZPersistentObject
                                          "modified" => array( 'name' => "Modified",
                                                               'datatype' => 'integer',
                                                               'default' => 0,
-                                                              'required' => true ) ),
+                                                              'required' => true ),
+                                         "is_container" => array( 'name' => "IsContainer",
+                                                                  'datatype' => 'integer',
+                                                                  'default' => 0,
+                                                                  'required' => true )),
                       "keys" => array( "id", "version" ),
                       "function_attributes" => array( "data_map" => "dataMap" ),
                       "increment_key" => "id",
@@ -131,7 +135,8 @@ class eZContentClass extends eZPersistentObject
             "creator_id" => $this->attribute( 'creator_id' ),
             "modifier_id" => $this->attribute( 'modifier_id' ),
             "created" => $this->attribute( 'created' ),
-            "modified" => $this->attribute( 'modified' ) );
+            "modified" => $this->attribute( 'modified' ),
+            "is_container" => $this->attribute( 'is_container' ) );
         $tmpClass = new eZContentClass( $row );
         return $tmpClass;
     }
@@ -151,7 +156,8 @@ class eZContentClass extends eZPersistentObject
             "modifier_id" => $userID,
             "created" => $dateTime,
             'remote_id' => md5( (string)mt_rand() . (string)mktime() ),
-            "modified" => $dateTime );
+            "modified" => $dateTime,
+            "is_container" => 0 );
         $row = array_merge( $row, $optionalValues );
         $contentClass = new eZContentClass( $row );
         return $contentClass;
@@ -259,9 +265,7 @@ class eZContentClass extends eZPersistentObject
         if ( $enableCaching == 'true' )
         {
             $http =& eZHTTPTool::instance();
-
             //$permissionExpired = $http->sessionVariable( 'roleExpired' );
-
             include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
             $handler =& eZExpiryHandler::instance();
             $expiredTimeStamp = 0;
@@ -355,6 +359,7 @@ class eZContentClass extends eZPersistentObject
 
     function hasAttribute( $attr )
     {
+
         return ( $attr == "object_count" or $attr == "version_status" or $attr == "version_count" or
                  $attr == "creator" or $attr == "modifier" or
                  $attr == "ingroup_list" or $attr == "ingroup_id_list" or  $attr == "group_list" or
@@ -655,10 +660,13 @@ class eZContentClass extends eZPersistentObject
 
     function &fetch( $id, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
     {
+
         $conds = array( "id" => $id,
                         "version" => $version );
+
         if ( $user_id !== false and is_numeric( $user_id ) )
             $conds["creator_id"] = $user_id;
+
         $version_sort = "desc";
         if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
             $version_sort = "asc";
@@ -669,6 +677,7 @@ class eZContentClass extends eZPersistentObject
                                                       array( "offset" => 0,
                                                              "length" => 2 ),
                                                       false );
+
         $row =& $rows[0];
         $row["version_count"] = count( $rows );
         return new eZContentClass( $row );
@@ -851,6 +860,7 @@ class eZContentClass extends eZPersistentObject
 
     function versionStatus()
     {
+
         if ( $this->VersionCount == 1 )
         {
             if ( $this->Version == EZ_CLASS_VERSION_STATUS_TEMPORARY )
@@ -868,6 +878,7 @@ class eZContentClass extends eZPersistentObject
     */
     function contentObjectName( &$contentObject, $version = false, $translation = false )
     {
+
         $contentObjectName = $this->ContentObjectName;
         $dataMap =& $contentObject->fetchDataMap( $version, $translation );
 
@@ -930,6 +941,7 @@ class eZContentClass extends eZPersistentObject
     var $Modified;
     var $InGroups;
     var $AllGroups;
+    var $IsContainer;
 }
 
 ?>

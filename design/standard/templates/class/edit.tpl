@@ -28,6 +28,13 @@
     <div class="block">
     <label>{"Object name pattern"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
     <input type="text" name="ContentClass_contentobject_name" size="30" value="{$class.contentobject_name|wash}" />
+    <label>{"Is Container Class"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
+    <input type="hidden" name="ContentClass_is_container_exists" value="1" />
+    {section show=$class.is_container|eq(1)}
+        <input type="checkbox" name="ContentClass_is_container_checked" value="{$class.is_container}" checked />
+    {section-else}
+        <input type="checkbox" name="ContentClass_is_container_checked" value="{$class.is_container}" />  
+    {/section}
     </div>
   </td>
 

@@ -39,6 +39,8 @@ include_once( 'kernel/classes/ezcontentclassclassgroup.php' );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
 
+
+
 $Module =& $Params['Module'];
 $ClassID = null;
 if ( isset( $Params['ClassID'] ) )
@@ -50,6 +52,7 @@ $GroupName = null;
 if ( isset( $Params['GroupName'] ) )
     $GroupName = $Params['GroupName'];
 $ClassVersion = null;
+
 switch ( $Params['FunctionName'] )
 {
     case 'edit':
@@ -62,7 +65,6 @@ switch ( $Params['FunctionName'] )
         return;
     };
 }
-
 if ( is_numeric( $ClassID ) )
 {
     $class =& eZContentClass::fetch( $ClassID, true, EZ_CLASS_VERSION_STATUS_TEMPORARY );
@@ -121,6 +123,7 @@ else
     $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $ClassID );
     return;
 }
+
 $http =& eZHttpTool::instance();
 $contentClassHasInput = true;
 if ( $http->hasPostVariable( 'ContentClassHasInput' ) )
@@ -129,10 +132,12 @@ if ( $http->hasPostVariable( 'ContentClassHasInput' ) )
 // Find out the group where class is created or edited from.
 if ( $http->hasSessionVariable( 'FromGroupID' ) )
 {
-     $fromGroupID = $http->sessionVariable( 'FromGroupID' );
+    $fromGroupID = $http->sessionVariable( 'FromGroupID' );
 }
 $ClassID = $class->attribute( 'id' );
 $ClassVersion = $class->attribute( 'version' );
+
+
 if ( $http->hasPostVariable( 'DiscardButton' ) )
 {
     eZSessionDestroy( $http->sessionVariable( 'CanStoreTicket' ) );
@@ -150,7 +155,6 @@ if ( $http->hasPostVariable( 'DiscardButton' ) )
     }
     return;
 }
-
 if ( $http->hasPostVariable( 'AddGroupButton' ) )
 {
     if ( $http->hasPostVariable( 'ContentClass_group') )
@@ -173,9 +177,9 @@ if ( $http->hasPostVariable( 'RemoveGroupButton' ) )
         }
     }
 }
-
 // Fetch attributes and definitions
 $attributes =& $class->fetchAttributes();
+
 include_once( 'kernel/classes/ezdatatype.php' );
 eZDataType::loadAndRegisterAllTypes();
 $datatypes =& eZDataType::registeredDataTypes();
@@ -255,6 +259,7 @@ if ( $contentClassHasInput )
             $informationCollectorCheckedArray = $http->postVariable( $informationCollectorVariable );
         if ( $http->hasPostVariable( $canTranslateVariable ) )
             $canTranslateCheckedArray = $http->postVariable( $canTranslateVariable );
+
         foreach ( array_keys( $attributes ) as $key )
         {
             $attribute =& $attributes[$key];
@@ -267,7 +272,6 @@ if ( $contentClassHasInput )
         }
     }
 }
-
 // Fixup input
 if ( $requireFixup )
 {
@@ -287,6 +291,17 @@ if ( $contentClassHasInput )
                               $attributes, $http, true );
     eZHttpPersistence::fetch( 'ContentClass', eZContentClass::definition(),
                               $class, $http, false );
+    if ( $http->hasVariable( 'ContentClass_is_container_exists' ) )
+    {
+    	if ( $http->hasVariable( 'ContentClass_is_container_checked' ) )
+        {
+            $class->setAttribute( "is_container", 1 );
+        }
+        else
+        {
+            $class->setAttribute( "is_container", 0 );
+        }
+    }
     if ( $http->hasPostVariable( 'DataTypeString' ) )
         $cur_datatype = $http->postVariable( 'DataTypeString' );
 }
@@ -340,7 +355,6 @@ if ( $customAction )
         }
     }
 }
-
 // Set new modification date
 $date_time = time();
 $class->setAttribute( 'modified', $date_time );
@@ -499,7 +513,6 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
     eZContentClassClassGroup::removeClassMembers( $ClassID, EZ_CLASS_VERSION_STATUS_TEMPORARY );
 
     $http->removeSessionVariable( 'CanStoreTicket' );
-
     return $Module->redirectToView( 'view', array( $ClassID ) );
 }
 
@@ -540,7 +553,6 @@ if ( !$http->hasSessionVariable( 'CanStoreTicket' ) )
     $http->setSessionVariable( 'CanStoreTicket', md5( (string)rand() ) );
     eZSessionWrite( $http->sessionVariable( 'CanStoreTicket' ), 1 );
 }
-
 // Template handling
 include_once( 'kernel/common/template.php' );
 $tpl =& templateInit();
