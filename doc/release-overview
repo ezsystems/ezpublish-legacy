@@ -141,10 +141,15 @@ Datatype branch:
 - Version url=http://zev.ez.no/svn/nextgen/versions/3.3-2
 - Date 16-Jan-2003
 
-
 3.4.0alpha1:
 - AKA 3.4.0 alpha 1
 - Revision=5347
 - From revision=5346
 - Version url=http://zev.ez.no/svn/nextgen/versions/3.4.0alpha1
 - Date 27-Feb-2004
+
+3.2-5
+- AKA 3.2 release 5
+- Revision=5405
+- Version url=http://zev.ez.no/svn/nextgen/versions/3.2-5/
+- Date 3-Mar-2004
