@@ -84,7 +84,7 @@
         {/section}
 	{section show=$:can_copy}
         <td class="{$Tree:sequence}">
-          <a href={concat("content/copy/",$Tree:item.object.id)|ezurl}><img src={"copy.png"|ezimage} alt="{'Copy'|i18n('design/standard/node/view')}" border="0"></a>
+          <a href={concat("content/copy/",$Tree:item.object.id)|ezurl}><img src={"copy.gif"|ezimage} alt="{'Copy'|i18n('design/standard/node/view')}" border="0"></a>
         </td>
         {/section}
 	{section show=$:can_remove}
