@@ -176,7 +176,7 @@ class eZRole extends eZPersistentObject
     function createNew()
     {
         $role = new eZRole( array() );
-        $role->setAttribute( 'name', 'New Role' );
+        $role->setAttribute( 'name', ezi18n( 'kernel/role/edit', 'New role' ) );
         $role->store();
         return $role;
     }
