@@ -176,7 +176,6 @@ class eZMatrixType extends eZDataType
                 $contentObjectAttribute->setAttribute( 'data_text', $matrix->xmlString() );
                 $matrix->decodeXML( $contentObjectAttribute->attribute( 'data_text' ) );
                 $contentObjectAttribute->setContent( $matrix );
-                
             }break;
             case "remove_selected" :
             {
