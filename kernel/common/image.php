@@ -36,70 +36,141 @@
 
 function &imageInit()
 {
-    include_once( "lib/ezimage/classes/ezimagemanager.php" );
-    include_once( "lib/ezimage/classes/ezimageshell.php" );
-    include_once( "lib/ezimage/classes/ezimagegd.php" );
+    include_once( 'lib/ezimage/classes/ezimagemanager.php' );
+    include_once( 'lib/ezimage/classes/ezimageshell.php' );
+    include_once( 'lib/ezimage/classes/ezimagegd.php' );
 
-    $img =& $GLOBALS["eZPublishImage"];
-    if ( get_class( $img ) == "ezimagemanager" )
+    $img =& $GLOBALS['eZPublishImage'];
+    if ( get_class( $img ) == 'ezimagemanager' )
         return $img;
 
     $img =& eZImageManager::instance();
 
-
     $ini =& eZINI::instance();
-    if ( $ini->variable( "ImageSettings", "ScaleLargerThenOriginal" ) == 'true' )
-    {
-
-        $img->registerType( "convert", new eZImageShell( "convert", array(), array(),
-                                                         array( eZImageShell::createRule( "-geometry %wx%h",
-                                                                                          "modify/scale" ),
-                                                                eZImageShell::createRule( "-colorspace GRAY",
-                                                                                          "colorspace/gray" ) ),
-                                                         EZ_IMAGE_KEEP_SUFFIX,
-                                                         EZ_IMAGE_PREPEND_SUFFIX_TAG ) );
-        $img->registerType( "gd", new eZImageGD( EZ_IMAGE_KEEP_SUFFIX,
-                                                 EZ_IMAGE_PREPEND_SUFFIX_TAG ) );
-    }
+    if ( $ini->variable( 'ImageSettings', 'ScaleLargerThenOriginal' ) == 'true' )
+        $geometry = '-geometry %wx%h';
     else
+        $geometry = '-geometry %wx%h>';
+
+    $imgINI =& eZINI::instance( 'image.ini' );
+
+    $useConvert = $imgINI->variable( 'ConverterSettings', 'UseConvert' ) == 'true';
+    $useGD = $imgINI->variable( 'ConverterSettings', 'UseGD' ) == 'true';
+
+    if ( $useConvert and
+         !eZImageShell::isAvailable( 'convert' ) )
     {
-        $img->registerType( "convert", new eZImageShell( "convert", array(), array(),
-                                                         array( eZImageShell::createRule( "-geometry %wx%h>",
-                                                                                          "modify/scale" ),
-                                                                eZImageShell::createRule( "-colorspace GRAY",
-                                                                                          "colorspace/gray" ) ),
+        eZDebug::writeError( "Convert is not available, disabling", 'imageInit' );
+        $useConvert = false;
+    }
+    if ( $useGD and
+         !eZImageGD::isAvailable() )
+    {
+        eZDebug::writeError( "ImageGD is not available, disabling", 'imageInit' );
+        $useGD = false;
+    }
+
+    if ( !$useConvert and
+         !$useGD )
+    {
+        eZDebug::writeError( "No conversion types available", 'imageInit' );
+    }
+
+//     print( "Convert is " . ( $useConvert ? "supported" : "not supported" ) . "<br/>" );
+//     print( "GD is " . ( $useGD ? "supported" : "not supported" ) . "<br/>" );
+
+    // Register convertors
+    if ( $useConvert )
+    {
+        $img->registerType( 'convert', new eZImageShell( 'convert', array(), array(),
+                                                         array( eZImageShell::createRule( $geometry,
+                                                                                          'modify/scale' ),
+                                                                eZImageShell::createRule( '-colorspace GRAY',
+                                                                                          'colorspace/gray' ) ),
                                                          EZ_IMAGE_KEEP_SUFFIX,
                                                          EZ_IMAGE_PREPEND_SUFFIX_TAG ) );
-        $img->registerType( "gd", new eZImageGD( EZ_IMAGE_KEEP_SUFFIX,
+    }
+    if ( $useGD )
+    {
+        $img->registerType( 'gd', new eZImageGD( EZ_IMAGE_KEEP_SUFFIX,
                                                  EZ_IMAGE_PREPEND_SUFFIX_TAG ) );
     }
 
     // Output types
-    $types = array( "image/jpeg",
-                    "image/png" );
+    $types = $imgINI->variableArray( 'OutputSettings', 'AvailableMimeTypes' );
+    if ( count( $types ) == 0 )
+        $types = array( 'image/jpeg',
+                        'image/png' );
 
-    $rules = array( $img->createRule( "image/jpeg", "image/jpeg", "convert", true, true ),
-                    $img->createRule( "image/png", "image/png", "convert", true, true ),
-                    $img->createRule( "image/gif", "image/png", "convert", true, true ),
-                    $img->createRule( "image/xpm", "image/png", "convert", true, true ) );
-//     $rules = array( $img->createRule( "image/jpeg", "image/jpeg", "gd", true, true ),
-//                     $img->createRule( "image/png", "image/png", "gd", true, true ),
-//                     $img->createRule( "image/gif", "image/png", "convert", true, true ),
-//                     $img->createRule( "image/xpm", "image/png", "convert", true, true ) );
+    $rules = array();
+    $defaultRule = null;
+    $ruleGroup = $imgINI->group( 'Rules', true );
+    foreach ( $ruleGroup as $rule )
+    {
+        $items = explode( ';', $rule[1] );
+        if ( $rule[0] == 'Rule' )
+        {
+            $sourceMIME = $items[0];
+            $destMIME = $items[1];
+            $type = $items[2];
+            if ( $type == 'convert' or
+                 $type == 'gd' )
+            {
+//                 print( "\$img->createRule( '$sourceMIME', '$destMIME', '$type', true, true )<br/>" );
+                $rules[] = $img->createRule( $sourceMIME, $destMIME, $type, true, true );
+            }
+        }
+        else if ( $rule[0] == 'DefaultRule' )
+        {
+            $destMIME = $items[0];
+            $type = $items[1];
+            if ( $type == 'convert' or
+                 $type == 'gd' )
+            {
+//                 print( "DefaultRule=\$img->createRule( '*', '$destMIME', '$type', true, true )<br/>" );
+                $defaultRule = $img->createRule( '*', $destMIME, $type, true, true );
+            }
+        }
+    }
 
-    $mime_rules = array( $img->createMIMEType( "image/jpeg", "\.jpe?g$", "jpg" ),
-                         $img->createMIMEType( "image/png", "\.png$", "png" ),
-                         $img->createMIMEType( "image/gif", "\.gif$", "gif" ),
-                         $img->createMIMEType( "image/xpm", "\.xpm$", "xpm" ),
-                         $img->createMIMEType( "image/tiff", "\.tiff$", "tiff" ),
-                         $img->createMIMEType( "image/ppm", "\.ppm$", "ppm" ),
-                         $img->createMIMEType( "image/tga", "\.tga$", "tga" ),
-                         $img->createMIMEType( "image/svg", "\.svg$", "svg" ),
-                         $img->createMIMEType( "image/wml", "\.wml$", "wml" ),
-                         $img->createMIMEType( "image/bmp", "\.bmp$", "bmp" ) );
+//     $rules = array( $img->createRule( 'image/jpeg', 'image/jpeg', 'convert', true, true ),
+//                     $img->createRule( 'image/png', 'image/png', 'convert', true, true ),
+//                     $img->createRule( 'image/gif', 'image/png', 'convert', true, true ),
+//                     $img->createRule( 'image/xpm', 'image/png', 'convert', true, true ) );
+
+//     $rules = array( $img->createRule( 'image/jpeg', 'image/jpeg', 'gd', true, true ),
+//                     $img->createRule( 'image/png', 'image/png', 'gd', true, true ),
+//                     $img->createRule( 'image/gif', 'image/png', 'convert', true, true ),
+//                     $img->createRule( 'image/xpm', 'image/png', 'convert', true, true ) );
+
+    $mime_rules = array();
+    $mimeGroup = $imgINI->group( 'MimeTypes', true );
+    foreach ( $mimeGroup as $mime )
+    {
+        $items = explode( ';', $mime[1] );
+        $mimeType = $items[0];
+        $regexp = $items[1];
+        $suffix = $items[2];
+//         print( "\$img->createMIMEType( '$mimeType', '$regexp', '$suffix' )<br/>" );
+        $mime_rules[] = $img->createMIMEType( $mimeType, $regexp, $suffix );
+    }
+
+//     $mime_rules = array( $img->createMIMEType( 'image/jpeg', '\.jpe?g$', 'jpg' ),
+//                          $img->createMIMEType( 'image/png', '\.png$', 'png' ),
+//                          $img->createMIMEType( 'image/gif', '\.gif$', 'gif' ),
+//                          $img->createMIMEType( 'image/xpm', '\.xpm$', 'xpm' ),
+//                          $img->createMIMEType( 'image/tiff', '\.tiff$', 'tiff' ),
+//                          $img->createMIMEType( 'image/ppm', '\.ppm$', 'ppm' ),
+//                          $img->createMIMEType( 'image/tga', '\.tga$', 'tga' ),
+//                          $img->createMIMEType( 'image/svg', '\.svg$', 'svg' ),
+//                          $img->createMIMEType( 'image/wml', '\.wml$', 'wml' ),
+//                          $img->createMIMEType( 'image/bmp', '\.bmp$', 'bmp' ) );
 
     $img->setOutputTypes( $types );
-    $img->setRules( $rules, $img->createRule( "*", "image/jpeg", "convert", true, true ) );
+    if ( $defaultRule === null )
+        $defaultRule = $img->createRule( '*', 'image/jpeg', 'convert', true, true );
+    $img->setRules( $rules, $defaultRule );
+//     $img->setRules( $rules, $img->createRule( '*', 'image/jpeg', 'convert', true, true ) );
     $img->setMIMETypes( $mime_rules );
 
     return $img;

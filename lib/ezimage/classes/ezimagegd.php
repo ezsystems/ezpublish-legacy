@@ -85,6 +85,14 @@ class eZImageGD
     }
 
     /*!
+     \static
+    */
+    function isAvailable()
+    {
+        return function_exists( "imagegd" );
+    }
+
+    /*!
      Converts the filename $from according to $type. See class documentation
      or different types you can use.
     */

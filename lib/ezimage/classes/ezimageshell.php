@@ -97,6 +97,14 @@ class eZImageShell
     }
 
     /*!
+     \static
+    */
+    function isAvailable( $type )
+    {
+        return true;
+    }
+
+    /*!
      Creates a new operation rule and returns it.
      $expr is the text parameter which is added to the commandline,
      $rule_type is a string representing the name of the current rule
