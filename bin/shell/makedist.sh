@@ -523,7 +523,7 @@ done
 cd $dir
 echo
 
-diff -U3 -r $DEST/share/translations.org $DEST/share/translations &>/dev/null
+diff -U3 -r --exclude=".svn" $DEST/share/translations.org $DEST/share/translations &>/dev/null
 if [ $? -ne 0 ]; then
     echo "The translations are not up to date"
     echo "You must update the translations in the repository using the ezlupdate program"
