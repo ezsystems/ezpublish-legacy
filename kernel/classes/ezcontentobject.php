@@ -224,6 +224,20 @@ class eZContentObject extends eZPersistentObject
             return eZPersistentObject::attribute( $attr );
     }
 
+    /*!
+     Store the object
+    */
+    function store()
+    {
+        // Unset the cache
+        global $eZContentObjectContentObjectCache;
+        unset( $eZContentObjectContentObjectCache[$this->ID] );
+        global $eZContentObjectDataMapCache;
+        unset( $eZContentObjectDataMapCache[$this->ID] );
+
+        eZPersistentObject::store();
+    }
+
     function &name( $version = false , $lang = false )
     {
         if ( isset( $this->Name ) && !$version && !$lang )

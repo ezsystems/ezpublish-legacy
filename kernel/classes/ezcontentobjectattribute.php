@@ -188,6 +188,12 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function store()
     {
+        // Unset the cache
+        global $eZContentObjectContentObjectCache;
+        unset( $eZContentObjectContentObjectCache[$this->ContentObjectID] );
+        global $eZContentObjectDataMapCache;
+        unset( $eZContentObjectDataMapCache[$this->ContentObjectID] );
+
         $classAttr =& $this->contentClassAttribute();
         $dataType =& $classAttr->dataType();
 
