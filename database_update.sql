@@ -157,8 +157,9 @@ create table ezcontentobject_name(
     real_translation varchar(20),
     primary key (contentobject_id,content_version, content_translation )
     );
-
+#you need to do it for each language you have
 insert into ezcontentobject_name select id,name,current_version,  'eng-GB', 'eng-GB' from ezcontentobject, ezcontentobject_tree where ezcontentobject.id = ezcontentobject_tree.contentobject_id;
+insert into ezcontentobject_name select id,name,current_version,  'nor-NO', 'eng-GB' from ezcontentobject, ezcontentobject_tree where ezcontentobject.id = ezcontentobject_tree.contentobject_id;
 
 CREATE TABLE ezdiscountrule (
     id int(11) NOT NULL auto_increment,
