@@ -111,7 +111,7 @@ class eZTrigger extends eZPersistentObject
             $filterArray['name'] = $parameters['name'];
         }
         $triggers =& eZPersistentObject::fetchObjectList( eZTrigger::definition(),
-                                                          null, $filterArray, array( 'module_name' , 'function_name', 'connect_type'), null,
+                                                          null, $filterArray, array( 'module_name' => 'asc' , 'function_name' => 'asc', 'connect_type' => 'asc' ), null,
                                                           $asObject );
         return $triggers;
     }
