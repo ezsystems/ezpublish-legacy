@@ -52,9 +52,19 @@ function checkRelationAssignments( &$module, &$class, &$object, &$version, &$con
     {
         $selectedObjectIDArray = $http->postVariable( 'SelectedObjectIDArray' );
 
+        $relatedObjects =& $object->relatedContentObjectArray( $editVersion );
+        $relatedObjectIDArray = array();
+        foreach (  $relatedObjects as  $relatedObject )
+        {
+            $relatedObjectID =  $relatedObject->attribute( 'id' );
+            $relatedObjectIDArray[] =  $relatedObjectID;
+        }
         foreach ( $selectedObjectIDArray as $objectID )
         {
-            $object->addContentObjectRelation( $objectID, $editVersion );
+            if ( !in_array(  $objectID, $relatedObjectIDArray ) )
+            {
+                $object->addContentObjectRelation( $objectID, $editVersion );
+            }
         }
     }
 }
@@ -86,12 +96,25 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
         $module->redirectToView( 'browse', array( $nodeID, $objectID, $editVersion ) );
         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
     }
+    if ( $module->isCurrentAction( 'DeleteRelation' ) )
+    {
+        $objectID = $object->attribute( 'id' );
+        if ( $http->hasPostVariable( 'DeleteRelationIDArray' ) )
+        {
+            $relationObjectIDs = $http->postVariable( 'DeleteRelationIDArray' );
+        }
+        foreach ( $relationObjectIDs as $relationObjectID )
+        {
+            $object->removeContentObjectRelation( $relationObjectID, $editVersion );
+        }
+
+    }
 }
 
 function handleRelationTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, &$tpl )
 {
     $relatedObjects =& $object->relatedContentObjectArray( $editVersion );
-    if ( $relatedObjects == null )
+    if ( ( $relatedObjects == null ) and ( !$module->isCurrentAction( 'DeleteRelation' ) ) )
     {
         $relatedObjects =& $object->relatedContentObjectArray();
         foreach ( $relatedObjects as $relatedObject )

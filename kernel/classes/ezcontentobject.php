@@ -561,6 +561,15 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
+     Removes a link to the given content object id.
+    */
+    function removeContentObjectRelation( $objectID, $version = null )
+    {
+        $db =& eZDB::instance();
+        $db->query( "DELETE FROM ezcontentobject_link WHERE from_contentobject_id='$this->ID' AND  from_contentobject_version='$version' AND to_contentobject_id='$objectID'" );
+    }
+
+    /*!
      Returns the related objects.
     */
     function &relatedContentObjectArray( $version = false )

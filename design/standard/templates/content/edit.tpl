@@ -87,6 +87,8 @@
         <th class="menuheaddark">
         <p class="menuhead">{"Object info"|i18n('content/object')}</p>
         </th>
+	<th class="menuheaddark">
+        </th>
     </tr>
     <tr>
         <td class="menu">
@@ -96,12 +98,11 @@
 	    <p class="menufield">{$object.current_version}</p>
         </td>
     </tr>
-    </table>
-
-    <table class="menuboxright" width="120" cellpadding="1" cellspacing="0" border="0">
     <tr>
         <th class="menuheaddark">
         <p class="menuhead">{"Related objects"|i18n('content/object')}</p>
+        </th>
+	<th class="menuheaddark">
         </th>
     </tr>
     {section name=Object loop=$related_contentobjects sequence=array(bglight,bgdark)}
@@ -109,6 +110,9 @@
         <td class="menu">
         {content_view_gui view=text_linked content_object=$Object:item}
         </td>
+	<td>
+	<input type="checkbox" name="DeleteRelationIDArray[]" value="{$Object:item.id}" />
+	</td>
     </tr>
     {/section}
     <tr>
@@ -116,7 +120,13 @@
         <input class="menubutton" type="submit" name="BrowseObjectButton" value="{'Find object'|i18n('content/object')}" />
         </td>
     </tr>
+    <tr>
+        <td>
+        <input class="button" type="submit" name="DeleteRelationButton" value="{'Delete object'|i18n('content/object')}" />
+        </td>
+    </tr>
     </table>
+    
     <!-- Right part end -->
     </td>
 </tr>

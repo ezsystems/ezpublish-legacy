@@ -46,6 +46,7 @@ $ViewList["edit"] = array(
                                     'BrowseNodeButton' => 'BrowseForNodes',
                                     'DeleteNodeButton' => 'DeleteNode',
                                     'BrowseObjectButton' => 'BrowseForObjects',
+                                    'DeleteRelationButton' => 'DeleteRelation',
                                     'StoreButton' => 'Store',
                                     'CustomActionButton' => 'CustomAction' ),
     'post_actions' => array( 'BrowseActionName' ),
