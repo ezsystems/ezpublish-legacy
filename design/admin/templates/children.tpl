@@ -48,15 +48,42 @@ function deSelectAll()
 {* Items per page and view mode selector. *}
 <div class="viewbar">
 <div class="left">
-        Items:
+Items:
+    {switch match=$number_of_items}
+    {case match=25}
+        <a href={'/user/preferences/set/items/1'|ezurl}>10</a>
+        25
+        <a href={'/user/preferences/set/items/3'|ezurl}>50</a>
+        {/case}
+
+        {case match=50}
         <a href={'/user/preferences/set/items/1'|ezurl}>10</a>
         <a href={'/user/preferences/set/items/2'|ezurl}>25</a>
+        50
+        {/case}
+
+        {case}
+        10
+        <a href={'/user/preferences/set/items/2'|ezurl}>25</a>
         <a href={'/user/preferences/set/items/3'|ezurl}>50</a>
+        {/case}
+
+        {/swtich}
+
 </div>
 <div class="right">
         View:
+        {switch match=ezpreference( 'viewmode' )}
+        {case match='thumbnail'}
         <a href={'/user/preferences/set/viewmode/list'|ezurl}>List</a>
+        Thumbnail
+        {/case}
+
+        {case}
+        List
         <a href={'/user/preferences/set/viewmode/thumbnail'|ezurl}>Thumbnail</a>
+        {/case}
+        {/switch}
 </div>
 <div class="break"></div>
 {include name=navigator
