@@ -1,4 +1,4 @@
-\<?php
+<?php
 //
 // Created on: <09-Oct-2002 15:33:01 amos>
 //
