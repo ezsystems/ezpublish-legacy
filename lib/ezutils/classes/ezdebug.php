@@ -352,7 +352,8 @@ class eZDebug
         // save the buffer contents
         $variableContents = "";
         $buffer =& ob_get_contents();
-        ob_end_clean();
+        if ( strlen( $buffer ) > 0 )
+            ob_end_clean();
 
         ob_start();
         var_dump( $var );
