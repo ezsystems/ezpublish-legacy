@@ -197,6 +197,23 @@ fi
 
 echo "Distribution source files taken from `$SETCOLOR_DIR`$DIST_SRC`$SETCOLOR_NORMAL`"
 
+if [ -z $SKIPCHECKVERSION ]; then
+    echo "Checking version numbers"
+    ./bin/shell/checkversionnumbers.sh --exit-at-once &>/dev/null
+    if [ $? -ne 0 ]; then
+	echo
+	echo "`$SETCOLOR_FAILURE`************** WARNING **************`$SETCOLOR_NORMAL`"
+	echo
+	echo "There are problems with the version numbers"
+	echo "Run the following command to see what must be fixed"
+	echo "`$SETCOLOR_EXE`./bin/shell/checkversionnumbers.sh`$SETCOLOR_EXE`"
+	echo
+	echo "`$SETCOLOR_FAILURE`************** WARNING **************`$SETCOLOR_NORMAL`"
+	echo
+	exit 1
+    fi
+fi
+
 if [ -z $SKIPCHECKPHP ]; then
     echo "Checking syntax of PHP files"
     ./bin/shell/phpcheck.sh --exit-on-error -q cronjobs kernel lib support update tests

@@ -177,11 +177,27 @@ if [ -n "$SQL_ERROR" ]; then
     echo
     echo "To fix this the following should be done:"
     echo
-    echo "Create a file called `$SETCOLOR_FILE`data.sql`$SETCOLOR_NORMAL` and add the following"
+    echo "Create the file called `$SETCOLOR_FILE`mysql_data.sql`$SETCOLOR_NORMAL` and `$SETCOLOR_FILE`postgresql_data.sql`$SETCOLOR_NORMAL`"
+    echo "Then add the following to both files"
     echo "`$SETCOLOR_EMPHASIZE`UPDATE ezsite_data set value='$VERSION_NORELEASE' WHERE name='ezpublish-version';`$SETCOLOR_NORMAL`"
     echo "`$SETCOLOR_EMPHASIZE`UPDATE ezsite_data set value='$REAL_RELEASE' WHERE name='ezpublish-release';`$SETCOLOR_NORMAL`"
-    echo "then run `$SETCOLOR_EXE`./bin/shell/redumpall.sh --data tmp`$SETCOLOR_NORMAL`,"
+    echo "then run `$SETCOLOR_EXE`./bin/shell/redumpall.sh --mysql tmp`$SETCOLOR_NORMAL`,"
+    echo "         `$SETCOLOR_EXE`./bin/shell/redumpall.sh --postgresql tmp`$SETCOLOR_NORMAL`,"
     echo "check the changes with `$SETCOLOR_EXE`svn diff`$SETCOLOR_NORMAL` and them commit them if everything is ok"
+    echo
+    echo "You can copy and paste the following in your shell"
+    echo "--------------------------------------8<----------------------------------------"
+    echo
+    echo "rm -f mysql_schema.sql mysql_data.sql postgresql_schema.sql postgresql_data.sql"
+    echo "echo '' > mysql_schema.sql; echo '' > postgresql_schema.sql"
+    echo "echo \"`$SETCOLOR_EMPHASIZE`UPDATE ezsite_data set value='$VERSION_NORELEASE' WHERE name='ezpublish-version';`$SETCOLOR_NORMAL`\" > mysql_data.sql"
+    echo "echo \"`$SETCOLOR_EMPHASIZE`UPDATE ezsite_data set value='$REAL_RELEASE' WHERE name='ezpublish-release';`$SETCOLOR_NORMAL`\" >> mysql_data.sql"
+    echo "cp mysql_data.sql postgresql_data.sql"
+    echo
+    echo "`$SETCOLOR_EXE`./bin/shell/redumpall.sh --mysql tmp`$SETCOLOR_NORMAL`"
+    echo "`$SETCOLOR_EXE`./bin/shell/redumpall.sh --postgresql tmp`$SETCOLOR_NORMAL`"
+    echo
+    echo "--------------------------------------8<----------------------------------------"
     echo
     [ -n "$EXIT_AT_ONCE" ] && exit 1
 fi
