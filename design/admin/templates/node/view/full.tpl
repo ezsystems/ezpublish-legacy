@@ -30,12 +30,13 @@
 
 </div></div>
 
+{* Buttonbar for content window. *}
+<div class="controlbar">
+
 <div class="box-bc"><div class="box-ml"><div class="box-mr">
 <div class="box-tc">
 <div class="box-bl"><div class="box-br">
 
-{* Buttonbar for content window. *}
-<div class="controlbar">
 <form method="post" action={"content/action"|ezurl}>
 <input type="hidden" name="TopLevelNode" value="{$node.object.main_node_id}" />
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
@@ -79,12 +80,15 @@
 <div class="break"></div>
 
 </div>
+
 </form>
-</div>
 
 </div></div>
 </div>
 </div></div></div>
+
+</div>
+
 
 </div>
 

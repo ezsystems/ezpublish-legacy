@@ -9,7 +9,21 @@
 <input type="hidden" name="ContentObjectLanguageCode" value="{$language_code|wash}" />
 
 <div class="context-block">
+
+<div class="box-header">
+<div class="box-tc"><div class="box-ml"><div class="box-mr">
+<div class="box-tl"><div class="box-tr">
+
 <h2 class="context-title">{'Locations'|i18n( 'design/admin/node/view/full' )}</h2>
+
+<div class="header-subline"></div>
+
+</div></div>
+</div></div></div>
+</div>
+
+<div class="box-ml"><div class="box-mr">
+<div class="box-content">
 
 <table class="list" cellspacing="0">
 <tr>
@@ -36,11 +50,19 @@
 {/section}
 </table>
 
+</div>
+</div></div>
+
 {* Required to get the main node selection to work,
    unchecked radiobuttons will not be sent by browser. *}
 <input type="hidden" name="HasMainAssignment" value="1" />
 
 <div class="controlbar">
+
+<div class="box-bc"><div class="box-ml"><div class="box-mr">
+<div class="box-tc">
+<div class="box-bl"><div class="box-br">
+
 <div class="block">
 <div class="button-left">
 {section show=$node.can_edit}
@@ -62,6 +84,11 @@
 
 <div class="break"></div>
 </div>
+
+</div></div>
+</div>
+</div></div></div>
+
 </div>
 </div>
 

@@ -152,7 +152,7 @@ div#topmenu li.selected a
     display: block;
     float: left;
     font-weight: bold;
-    padding: 0.3em 16px 0.3em 16px /* Must be set on a-level, not li-level, to work correctly in konqueror */
+    padding: 0.3em 16px 0.3em 16px; /* Must be set on a-level, not li-level, to work correctly in konqueror */
     text-decoration: none;
 }
 
@@ -168,7 +168,7 @@ div#topmenu div.break
     margin-top: -2px;
 }
 
-span.disabled
+span.disabled, label.disabled
 {
     color: #d0c0c0;
 }
@@ -256,14 +256,6 @@ div#leftmenu div.box-bc, div#rightmenu div.box-bc
     background-repeat: repeat-x;
 }
 
-div#maincontent div.box-bc
-{
-    background-image: url(../images/controlbar-background.gif);
-    background-position: bottom;
-    background-repeat: repeat-x;
-    background-color: #E7E8E0;
-}
-
 div#leftmenu div.box-ml, div#rightmenu div.box-ml, div#maincontent div.box-ml
 {
     background-image: url(../images/box-edge.gif);
@@ -306,7 +298,6 @@ div#leftmenu div.box-br, div#rightmenu div.box-br, div#maincontent div.box-br
     background-repeat: no-repeat;
 }
 
-
 div#leftmenu div.box-content
 {
     padding: 0 1px 0 0.5em;  
@@ -314,9 +305,29 @@ div#leftmenu div.box-content
 
 div#maincontent div.box-content
 {
-    padding: 0 1px 0 1px;  
+    padding: 0 1px 3px 1px;  
 }
 
+div.controlbar div.box-br
+{
+    padding: 0.2em 0.5em 0.4em 0.5em;
+}
+
+div#maincontent div.box-bc
+{
+    background-image: url(../images/box-bc.gif);
+    background-position: bottom;
+    background-repeat: repeat-x;
+    background-color: #e7e8e0;
+}
+
+div#maincontent div.controlbar div.box-bc
+{
+    background-image: url(../images/controlbar-background.gif);
+    background-position: bottom;
+    background-repeat: repeat-x;
+    background-color: #e7e8e0;
+}
 
 div#rightmenu div.box-content
 {
@@ -669,6 +680,11 @@ div.context-toolbar input.button
     font-size: 0.85em;
 }
 
+div.context-toolbar div.break
+{
+    margin-bottom: -2px;
+}
+
 div.context-information
 {
     background-color: #fefefb;
@@ -734,10 +750,9 @@ div.context-controlbar select
     font-size: 0.85em;
 }
 */
+
 div.viewbar, div.controlbar
 {
-    padding: 0.5em;
-    margin: 0;
 }
 
 /*

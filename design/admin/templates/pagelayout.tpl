@@ -16,7 +16,7 @@
 {literal}
 <!--[if lt IE 6.0]>
 <style>
-div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE 5.5 */
+div#maincontent div#maincontent-design { width: 99%; } /* Avoid width bug in IE 5.5 */
 div#maincontent div.context-block { width: 100%; } /* Avoid width bug in IE 5.5 */
 </style>
 <![endif]-->

@@ -142,12 +142,13 @@
     <p>{'The current item does not contain any sub items.'|i18n( 'design/admin/node/view/full' )}
 {/section}
 
+{* Button bar for remove and update priorities buttons. *}
+<div class="controlbar">
+
 <div class="box-bc"><div class="box-ml"><div class="box-mr">
 <div class="box-tc">
 <div class="box-bl"><div class="box-br">
 
-{* Button bar for remove and update priorities buttons. *}
-<div class="controlbar">
 <div class="block">
     {* Remove button *}
     <div class="left">
@@ -242,15 +243,16 @@
 
 
 </div>
-<div class="break"></div>
 
-</div>
+<div class="break"></div>
 
 </div>
 
 </div></div>
 </div>
 </div></div></div>
+
+</div>
 
 </form>
 

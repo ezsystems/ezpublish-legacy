@@ -1,6 +1,22 @@
 {* Additional information window. *}
 <div class="context-block">
+
+<div class="box-header">
+<div class="box-tc"><div class="box-ml"><div class="box-mr">
+<div class="box-tl"><div class="box-tr">
+
 <h2 class="context-title">{'Additional information'|i18n( 'design/admin/node/view/full')}</h2>
+
+<div class="header-subline"></div>
+
+</div></div>
+</div></div></div>
+</div>
+
+<div class="box-bc"><div class="box-ml"><div class="box-mr">
+<div class="box-bl"><div class="box-br">
+<div class="box-content">
+
 <table class="list" cellspacing="0">
 <tr>
     <th>{'Creator'|i18n( 'design/admin/node/view/full' )}</th>
@@ -21,4 +37,9 @@
     <td>{$node.object.id}</td>
 </tr>
 </table>
+
+</div>
+</div></div>
+</div></div></div>
+
 </div>

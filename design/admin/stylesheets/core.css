@@ -103,6 +103,8 @@ table.list
 {
     width: 100%;
     margin: 1em 0 1em 0;
+    border-left: 1px solid #ecece4;
+    border-right: 1px solid #ecece4;
     border-bottom: 1px solid #f0f0f0;
 }
 
@@ -115,9 +117,11 @@ table.list th, table.list td
 
 table.list th
 {
+    color: #254b71;
     background-color: #b5bec7;
-    border-right: 1px solid #ffffff;
-    font-weight: bold;
+    border: 1px solid #ecece4;
+    border-top-width: 2px;
+    font-weight: normal;
     white-space: nowrap;
 }
 
@@ -129,17 +133,17 @@ table.list td
 
 tr.bglight
 {
-    background-color: #fcfcfc;
+    background-color: #f8f8f4;
 }
 
 tr.bgdark
 {
-    background-color: #f8f8f8;
+    background-color: #f4f4ec;
 }
 
 tr.bglight:hover, tr.bgdark:hover
 {
-    background-color: #f0f0f0;
+    background-color: #ffffff;
 }
 
 th.tight

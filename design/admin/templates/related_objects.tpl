@@ -1,6 +1,21 @@
 {* Related objects window. *}
 <div class="context-block">
+
+<div class="box-header">
+<div class="box-tc"><div class="box-ml"><div class="box-mr">
+<div class="box-tl"><div class="box-tr">
+
 <h2 class="context-title">{'Relations'|i18n( 'design/admin/node/view/full')}</h2>
+
+<div class="header-subline"></div>
+
+</div></div>
+</div></div></div>
+</div>
+
+<div class="box-bc"><div class="box-ml"><div class="box-mr">
+<div class="box-bl"><div class="box-br">
+<div class="box-content">
 
 {* Related objects list. *}
 <table class="list" cellspacing="0">
@@ -33,4 +48,9 @@
 <tr><td>{'The item being viewed is not in use by any other objects.'|i18n( 'design/admin/node/view/full' )}</td></tr>
 {/section}
 </table>
+
+</div>
+</div></div>
+</div></div></div>
+
 </div>

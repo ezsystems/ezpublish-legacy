@@ -1,5 +1,20 @@
 <div class="context-block">
+
+<div class="box-header">
+<div class="box-tc"><div class="box-ml"><div class="box-mr">
+<div class="box-tl"><div class="box-tr">
+
 <h2 class="context-title">{'Languages [%translations]'|i18n( 'design/admin/node/view/full',, hash( '%translations', $node.object.current.language_list|count ) )}</h2>
+
+<div class="header-subline"></div>
+
+</div></div>
+</div></div></div>
+</div>
+
+<div class="box-bc"><div class="box-ml"><div class="box-mr">
+<div class="box-bl"><div class="box-br">
+<div class="box-content">
 
 <table class="list" cellspacing="0">
 <tr>
@@ -18,4 +33,9 @@
 </tr>
 {/section}
 </table>
+
+</div>
+</div></div>
+</div></div></div>
+
 </div>
