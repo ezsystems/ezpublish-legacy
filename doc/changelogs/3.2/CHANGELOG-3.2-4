@@ -114,7 +114,8 @@ Changes from 3.2-3 to 3.2-4
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/search_sorting_error_typo_in_ezsearchenginephp
 - Fixed Apache 2 problem when redirecting to url with two or more / at end of url.
 - Fixed urlalias to create correct regexp code for wildcard cache file, previous regexps could match in the middle of the url.
-- Foxed bug when editing objects using workflows in apache 2. http://ez.no/developer/ez_publish_3/bug_reports/empty_page_after_editing_if_you_have_a_workflow_on_apache_2
+- Fixed bug when editing objects using workflows in apache 2. http://ez.no/developer/ez_publish_3/bug_reports/empty_page_after_editing_if_you_have_a_workflow_on_apache_2
+- Fixed pressing store button multiple times when editing classes. Will no longer cause strange behaviour in objects.
 
 *Setup:
 - Added check for specific unstable PHP versions.
