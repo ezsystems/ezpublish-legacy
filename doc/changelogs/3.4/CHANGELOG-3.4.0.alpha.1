@@ -9,6 +9,28 @@ Changes from 3.3 to 3.4.0-alpha-1
   http://ez.no/developer/ez_publish_3/bug_reports/missing_error_message_for_empty_required_ezxmltext_attribute
 - Added wildcard search to eZSearchPlugin. This feature is disabled by
   default, but can be enabled in site.ini->SearchSettings->EnableWildcard.
+- Added edit button link for class view.
+- Added support for fetching a class by the identifier
+  (fetchByIdentifier) eZContentClass.
+- Added support for class identifiers in addition to the existing class ids in
+  content/action. Use ClassIdentifier instead of ClassID to get
+  this functionality.
+- New fetch function in content module for checking access types on an object
+  called access.
+- Added support for the new variable system in the URLs for google.tpl, that
+  means (offset)/10 instead of offset/10, this also works with nice urls.
+- Added class_identifier as design/override key to content/view.
+
+*DataType:
+- New function hasObjectAttributeContent (attribute.has_content in template)
+  which returns true if the attribute is to be considered to have any content.
+- Fixed a define typo in ezurltype.php
+
+eZObjectRelation:
+- Added support for choosing relation in a dropdown (combobox) where items
+  are taken from a specific folder (list or tree)
+- Added support for text field when having dropdown, the text field will allow
+  for fuzzy matches with the names in the dropdown.
 
 *Libraries:
 

@@ -1035,6 +1035,12 @@ class eZObjectRelationListType extends eZDataType
         return $metaDataArray;
     }
 
+    function hasObjectAttributeContent( &$contentObjectAttribute )
+    {
+        $content =& $contentObjectAttribute->content();
+        return count( $content['relation_list'] ) > 0;
+    }
+
     /*!
      \reimp
     */

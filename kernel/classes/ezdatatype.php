@@ -251,6 +251,14 @@ class eZDataType
     }
 
     /*!
+     \return \c true if the datatype finds any content in the attribute \a $contentObjectAttribute.
+    */
+    function hasObjectAttributeContent( &$contentObjectAttribute )
+    {
+        return false;
+    }
+
+    /*!
      Returns the content data for the given content class attribute.
     */
     function &classAttributeContent( &$classAttribute )

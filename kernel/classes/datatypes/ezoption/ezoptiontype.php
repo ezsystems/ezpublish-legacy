@@ -233,6 +233,12 @@ class eZOptionType extends eZDataType
         return $value;
     }
 
+    function hasObjectAttributeContent( &$contentObjectAttribute )
+    {
+        $option =& $contentObjectAttribute->content( );
+        $options = $option->attribute( 'option_list' );
+        return count( $options ) > 0;
+    }
 
     /*!
      \return a DOM representation of the content object attribute

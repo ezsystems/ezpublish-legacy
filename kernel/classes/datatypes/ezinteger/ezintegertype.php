@@ -354,6 +354,11 @@ class eZIntegerType extends eZDataType
         return $contentObjectAttribute->attribute( "data_int" );
     }
 
+    function hasObjectAttributeContent( &$contentObjectAttribute )
+    {
+        return true;
+    }
+
     /*!
      \return true if the datatype can be indexed
     */

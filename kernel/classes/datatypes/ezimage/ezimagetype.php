@@ -269,6 +269,14 @@ class eZImageType extends eZDataType
         return $value;
     }
 
+    function hasObjectAttributeContent( &$contentObjectAttribute )
+    {
+        $handler =& $contentObjectAttribute->content();
+        if ( !$handler )
+            return false;
+        return $handler->attribute( 'is_valid' );
+    }
+
     /*!
      \reimp
     */

@@ -91,7 +91,7 @@ class eZURLType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_VALID;
+        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
 
     /*!
@@ -183,7 +183,7 @@ class eZURLType extends eZDataType
     */
     function validateClassAttributeHTTPInput( &$http, $base, &$classAttribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_VALID;
+        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
 
     /*!
@@ -192,6 +192,16 @@ class eZURLType extends eZDataType
     function &objectAttributeContent( &$contentObjectAttribute )
     {
         return eZURL::url( $contentObjectAttribute->attribute( 'data_int' ) );
+    }
+
+    function hasObjectAttributeContent( &$contentObjectAttribute )
+    {
+        $url =& eZURL::fetch( $contentObjectAttribute->attribute( 'data_int' ) );
+        if ( is_object( $url ) and
+             trim( $url->attribute( 'url' ) ) != '' and
+             $url->attribute( 'is_valid' ) )
+            return true;
+        return false;
     }
 
     /*!

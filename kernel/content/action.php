@@ -44,7 +44,26 @@ $module =& $Params["Module"];
 
 if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObjectAddNodeAssignment' )  )
 {
-    if ( ( $http->hasPostVariable( 'ClassID' ) && $http->hasPostVariable( 'NodeID' ) ) || $module->isCurrentAction( 'NewObjectAddNodeAssignment' ) )
+    $hasClassInformation = false;
+    $contentClassID = false;
+    $contentClassIdentifier = false;
+    $class = false;
+    if ( $http->hasPostVariable( 'ClassID' ) )
+    {
+        $contentClassID = $http->postVariable( 'ClassID' );
+        $hasClassInformation = true;
+    }
+    else if ( $http->hasPostVariable( 'ClassIdentifier' ) )
+    {
+        $contentClassIdentifier = $http->postVariable( 'ClassIdentifier' );
+        $class =& eZContentClass::fetchByIdentifier( $contentClassIdentifier );
+        if ( is_object( $class ) )
+        {
+            $contentClassID = $class->attribute( 'id' );
+            $hasClassInformation = true;
+        }
+    }
+    if ( ( $hasClassInformation && $http->hasPostVariable( 'NodeID' ) ) || $module->isCurrentAction( 'NewObjectAddNodeAssignment' ) )
     {
         if (  $module->isCurrentAction( 'NewObjectAddNodeAssignment' ) )
         {
@@ -52,22 +71,21 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
             if ( count( $selectedNodeIDArray ) == 0 )
                 return $module->redirectToView( 'view', array( 'full', 2 ) );
             $node =& eZContentObjectTreeNode::fetch( $selectedNodeIDArray[0] );
-            $contentClassID = $http->postVariable( 'ClassID' );
         }
         else
         {
             $node =& eZContentObjectTreeNode::fetch( $http->postVariable( 'NodeID' ) );
-            $contentClassID = $http->postVariable( 'ClassID' );
         }
         $parentContentObject =& $node->attribute( 'object' );
 
-        if ( $parentContentObject->checkAccess( 'create', $http->postVariable( 'ClassID' ),  $parentContentObject->attribute( 'contentclass_id' ) ) == '1' )
+        if ( $parentContentObject->checkAccess( 'create', $contentClassID,  $parentContentObject->attribute( 'contentclass_id' ) ) == '1' )
         {
             $user =& eZUser::currentUser();
             $userID =& $user->attribute( 'contentobject_id' );
             $sectionID = $parentContentObject->attribute( 'section_id' );
 
-            $class =& eZContentClass::fetch( $contentClassID );
+            if ( !is_object( $class ) )
+                $class =& eZContentClass::fetch( $contentClassID );
             $contentObject =& $class->instantiate( $userID, $sectionID );
             $nodeAssignment =& eZNodeAssignment::create( array(
                                                              'contentobject_id' => $contentObject->attribute( 'id' ),
@@ -76,6 +94,10 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
                                                              'is_main' => 1
                                                              )
                                                          );
+            if ( $http->hasPostVariable( 'AssignmentRemoteID' ) )
+            {
+                $nodeAssignment->setAttribute( 'remote_id', $http->postVariable( 'AssignmentRemoteID' ) );
+            }
             $nodeAssignment->store();
 
             if ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )
@@ -92,16 +114,16 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
         }
 
     }
-    else if ( $http->hasPostVariable( 'ClassID' ) )
+    else if ( $hasClassInformation )
     {
-        $class =& eZContentClass::fetch( $http->postVariable( 'ClassID' ) );
-        print( "classid=" . $http->postVariable( 'ClassID' ) . "<br/>" );
+        if ( !is_object( $class ) )
+            $class =& eZContentClass::fetch( $contentClassID );
         eZContentBrowse::browse( array( 'action_name' => 'NewObjectAddNodeAssignment',
                                         'description_template' => 'design:content/browse_first_placement.tpl',
                                         'keys' => array( 'class' => $class->attribute( 'id' ),
                                                          'classgroup' => $class->attribute( 'ingroup_id_list' ) ),
                                         'persistent_data' => array( 'ClassID' => $class->attribute( 'id' ) ),
-                                        'content' => array( 'class_id' => $http->postVariable( 'ClassID' ) ),
+                                        'content' => array( 'class_id' => $class->attribute( 'id' ) ),
                                         'from_page' => "/content/action" ),
                                  $module );
     }

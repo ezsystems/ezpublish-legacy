@@ -323,6 +323,11 @@ class eZFloatType extends eZDataType
         return $contentObjectAttribute->attribute( "data_float" );
     }
 
+    function hasObjectAttributeContent( &$contentObjectAttribute )
+    {
+        return true;
+    }
+
     /*!
      \reimp
     */

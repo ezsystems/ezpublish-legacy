@@ -357,6 +357,15 @@ class eZXMLTextType extends eZDataType
         return eZXMLTextType::rawXMLText( $contentObjectAttribute );
     }
 
+    function hasObjectAttributeContent( &$contentObjectAttribute )
+    {
+        $content =& $this->objectAttributeContent( $contentObjectAttribute );
+        if ( is_object( $content ) and
+             !$content->attribute( 'is_empty' ) )
+            return true;
+        return false;
+    }
+
     /*!
      \reimp
     */

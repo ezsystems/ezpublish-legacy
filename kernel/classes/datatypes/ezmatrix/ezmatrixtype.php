@@ -110,6 +110,19 @@ class eZMatrixType extends eZDataType
     }
 
 
+    function hasObjectAttributeContent( &$contentObjectAttribute )
+    {
+        $matrix =& $contentObjectAttribute->content();
+        $columnsArray =& $matrix->attribute( 'columns' );
+        $columns =& $columnsArray['sequential'];
+        $count = 0;
+        foreach ( $columns as $column )
+        {
+            $count += count( $column['rows'] );
+        }
+        return $count > 0;
+    }
+
     /*!
      Returns the meta data used for storing search indeces.
     */

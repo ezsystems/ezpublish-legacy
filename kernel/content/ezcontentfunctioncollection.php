@@ -763,6 +763,17 @@ class eZContentFunctionCollection
         }
         return array( 'result' => $resultNodeArray );
     }
+
+    function checkAccess( $access, &$contentObject, $contentClassID, $parentContentClassID )
+    {
+        if ( get_class( $contentObject ) == 'ezcontentobjecttreenode' )
+            $contentObject =& $contentObject->attribute( 'object' );
+        if ( $access and get_class( $contentObject ) == 'ezcontentobject' )
+        {
+            $result = $contentObject->checkAccess( $access, $contentClassID, $parentContentClassID );
+            return array( 'result' => $result );
+        }
+    }
 }
 
 ?>

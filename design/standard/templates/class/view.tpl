@@ -2,6 +2,8 @@
     <h1>{"Class - %1"|i18n("design/standard/class/edit",,array( $class.name|wash) )}</h1>
 </div>
 
+<a href={concat( "class/edit/", $class.id )|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="{'Edit'|i18n('design/standard/class/view')}" /></a>
+
 <div class="byline">
 <p class="date">{"Last modified by %username on %time"|i18n("design/standard/class/edit",,
                                                             hash('%username',$class.modifier.contentobject.name,

@@ -196,6 +196,13 @@ class eZAuthorType extends eZDataType
         }
     }
 
+    function hasObjectAttributeContent( &$contentObjectAttribute )
+    {
+        $author =& $contentObjectAttribute->content( );
+        $authorList = $author->attribute( 'author_list' );
+        return count( $authorList ) > 0;
+    }
+
     /*!
      Returns the integer value.
     */

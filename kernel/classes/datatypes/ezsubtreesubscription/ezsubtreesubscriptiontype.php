@@ -122,6 +122,10 @@ class eZSubtreeSubscriptionType extends eZDataType
         return true;
     }
 
+    function hasObjectAttributeContent( &$contentObjectAttribute )
+    {
+        return true;
+    }
 
 }
 

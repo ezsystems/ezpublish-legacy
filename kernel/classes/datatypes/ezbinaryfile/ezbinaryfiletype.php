@@ -344,6 +344,15 @@ class eZBinaryFileType extends eZDataType
         return $value;
     }
 
+    function hasObjectAttributeContent( &$contentObjectAttribute )
+    {
+        $binaryFile =& eZBinaryFile::fetch( $contentObjectAttribute->attribute( "id" ),
+                                            $contentObjectAttribute->attribute( "version" ) );
+        if ( !$binaryFile )
+            return false;
+        return true;
+    }
+
     function &objectAttributeContent( $contentObjectAttribute )
     {
         $binaryFile =& eZBinaryFile::fetch( $contentObjectAttribute->attribute( "id" ),

@@ -439,6 +439,11 @@ class eZIniSettingType extends eZDataType
         return $contentObjectAttribute->attribute( 'data_text' );
     }
 
+    function hasObjectAttributeContent( &$contentObjectAttribute )
+    {
+        return true;
+    }
+
     /*!
      \return a DOM representation of the content object attribute
     */

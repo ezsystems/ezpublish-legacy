@@ -350,6 +350,16 @@ class eZMediaType extends eZDataType
         return $value;
     }
 
+    function hasObjectAttributeContent( &$contentObjectAttribute )
+    {
+        $mediaFile =& eZMedia::fetch( $contentObjectAttribute->attribute( "id" ),
+                                      $contentObjectAttribute->attribute( "version" ) );
+
+        if ( $mediaFile != null )
+            return true;
+        return false;
+    }
+
     function &objectAttributeContent( $contentObjectAttribute )
     {
         $mediaFile =& eZMedia::fetch( $contentObjectAttribute->attribute( "id" ),

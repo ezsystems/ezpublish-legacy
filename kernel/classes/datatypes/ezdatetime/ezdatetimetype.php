@@ -184,6 +184,11 @@ class eZDateTimeType extends eZDataType
         return $contentObjectAttribute->attribute( "data_int" );
     }
 
+    function hasObjectAttributeContent( &$contentObjectAttribute )
+    {
+        return $contentObjectAttribute->attribute( "data_int" ) != 0;
+    }
+
     /*!
      \reimp
     */

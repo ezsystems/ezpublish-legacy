@@ -111,6 +111,12 @@ class eZIdentifierType extends eZDataType
         return $content;
     }
 
+    function hasObjectAttributeContent( &$contentObjectAttribute )
+    {
+        $content = $contentObjectAttribute->attribute( "data_text" );
+        return ( trim( $content ) != '' );
+    }
+
     /*!
       Validates the input and returns true if the input was
       valid for this datatype.

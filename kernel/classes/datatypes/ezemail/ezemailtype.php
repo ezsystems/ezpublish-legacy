@@ -135,6 +135,11 @@ class eZEmailType extends eZDataType
         return $contentObjectAttribute->attribute( "data_text" );
     }
 
+    function hasObjectAttributeContent( &$contentObjectAttribute )
+    {
+        return trim( $contentObjectAttribute->attribute( "data_text" ) ) != '';
+    }
+
     /*!
      \reimp
     */

@@ -255,6 +255,11 @@ class eZSelectionType extends eZDataType
         return $return;
     }
 
+    function hasObjectAttributeContent( &$contentObjectAttribute )
+    {
+        return true;
+    }
+
     /*!
      \reimp
     */

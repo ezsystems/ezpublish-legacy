@@ -81,7 +81,8 @@ class eZISBNType extends eZDataType
                                                                      'The ISBN number is not correct. Please recheck the input' ) );
                 return EZ_INPUT_VALIDATOR_STATE_INVALID;
             }
-        }else
+        }
+        else
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                  'The ISBN format is not valid.' ) );
@@ -158,6 +159,11 @@ class eZISBNType extends eZDataType
     function title( &$data_instance )
     {
         return $data_instance->attribute( "data_text" );
+    }
+
+    function hasObjectAttributeContent( &$contentObjectAttribute )
+    {
+        return trim( $contentObjectAttribute->attribute( "data_text" ) ) != '';
     }
 }
 

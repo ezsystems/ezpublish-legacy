@@ -114,6 +114,7 @@ class eZContentObjectAttribute extends eZPersistentObject
                       "function_attributes" => array( "contentclass_attribute" => "contentClassAttribute",
                                                       "contentclass_attribute_identifier" => "contentClassAttributeIdentifier",
                                                       "content" => "content",
+                                                      'has_content' => 'hasContent',
                                                       "class_content" => "classContent",
                                                       "object" => "object",
                                                       'view_template' => 'viewTemplateName',
@@ -301,6 +302,8 @@ class eZContentObjectAttribute extends eZPersistentObject
             return $this->contentClassAttributeIdentifier();
         else if ( $attr == "content" )
             return $this->content( );
+        else if ( $attr == "has_content" )
+            return $this->hasContent( );
         else if ( $attr == "class_content" )
             return $this->classContent( );
         else if ( $attr == "object" )
@@ -671,6 +674,21 @@ class eZContentObjectAttribute extends eZPersistentObject
                 $this->Content =& $dataType->objectAttributeContent( $this );
         }
         return $this->Content;
+    }
+
+    /*!
+     \return \c true if the attribute is considered to have any content at all (ie. non-empty).
+
+     It will call the hasObjectAttributeContent() for the current datatype to figure this out.
+    */
+    function hasContent()
+    {
+        $dataType =& $this->dataType();
+        if ( is_object( $dataType ) )
+        {
+            return $dataType->hasObjectAttributeContent( $this );
+        }
+        return false;
     }
 
     /*!

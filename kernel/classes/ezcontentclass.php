@@ -626,6 +626,27 @@ class eZContentClass extends eZPersistentObject
         return new eZContentClass( $row );
     }
 
+    function &fetchByIdentifier( $identifier, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
+    {
+        $conds = array( "identifier" => $identifier,
+                        "version" => $version );
+        if ( $user_id !== false and is_numeric( $user_id ) )
+            $conds["creator_id"] = $user_id;
+        $version_sort = "desc";
+        if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
+            $version_sort = "asc";
+        $rows =& eZPersistentObject::fetchObjectList( eZContentClass::definition(),
+                                                      null,
+                                                      $conds,
+                                                      array( "version" => $version_sort ),
+                                                      array( "offset" => 0,
+                                                             "length" => 2 ),
+                                                      false );
+        $row =& $rows[0];
+        $row["version_count"] = count( $rows );
+        return new eZContentClass( $row );
+    }
+
     /*!
      \static
     */

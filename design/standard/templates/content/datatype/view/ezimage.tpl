@@ -28,7 +28,9 @@
      {section show=$css_class}
          <div class="{$css_class|wash}">
      {/section}
-
+             {$attribute.content.original.url}
+             {$attribute.content.original.url}
+             {$attribute.content.original.url}
      {section show=$href}<a href={$href}>{/section}<img src={$image.url|ezroot} width="{$image.width}" height="{$image.height}" {section show=$hspace}hspace="{$hspace}"{/section} border="{$border_size}" alt="{$image.text|wash(xhtml)}" title="{$image.text|wash(xhtml)}" />{section show=$href}</a>{/section}
 
      {section show=$css_class}

@@ -182,6 +182,11 @@ class eZBooleanType extends eZDataType
         return $contentObjectAttribute->attribute( "data_int" );
     }
 
+    function hasObjectAttributeContent( &$contentObjectAttribute )
+    {
+        return true;
+    }
+
     /*!
      \reimp
     */

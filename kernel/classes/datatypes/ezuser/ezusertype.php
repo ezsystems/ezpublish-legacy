@@ -248,6 +248,15 @@ class eZUserType extends eZDataType
         return $value;
     }
 
+    function hasObjectAttributeContent( &$contentObjectAttribute )
+    {
+        $user = $this->objectAttributeContent( $contentObjectAttribute );
+        if ( is_object( $user ) and
+             $user->isEnabled() )
+            return true;
+        return false;
+    }
+
     /*!
      Returns the user object.
     */
