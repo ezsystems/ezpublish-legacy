@@ -1,9 +1,9 @@
 <div class="maincontentheader">
-<h1>{"RSS Feeds"|i18n("design/standard/class/list")}</h1>
+<h1>{"RSS Feeds"|i18n("design/standard/rss/list")}</h1>
 </div>
 
 <div class="maincontentheader">
-<h2>{"RSS Exports"|i18n("design/standard/class/list")}</h2>
+<h2>{"RSS Exports"|i18n("design/standard/rss/list")}</h2>
 </div>
 
 <form action={"rss/list"|ezurl} method="post" name="RSSExport">
@@ -32,10 +32,10 @@
 {/section}
 <tr>
   <td colspan="6">
-    {include uri="design:gui/button.tpl" name=newgroup id_name=NewExportButton value="New Export"|i18n("design/standard/class/list")}
+    {include uri="design:gui/button.tpl" name=newgroup id_name=NewExportButton value="New Export"|i18n("design/standard/rss/list")}
   </td>
   <td align="right">
-    <input type="image" name="RemoveExportButton" value="{'Remove'|i18n('design/standard/class/view')}" src={"trash.png"|ezimage} />
+    <input type="image" name="RemoveExportButton" value="{'Remove'|i18n('design/standard/rss/view')}" src={"trash.png"|ezimage} />
   </td>
 </tr>
 </table>
@@ -43,7 +43,7 @@
 </form>
 
 <div class="maincontentheader">
-<h2>{"RSS Imports"|i18n("design/standard/class/list")}</h2>
+<h2>{"RSS Imports"|i18n("design/standard/rss/list")}</h2>
 </div>
 
 <form action={"rss/list"|ezurl} method="post" name="RSSImport">
@@ -70,10 +70,10 @@
 {/section}
 <tr>
   <td colspan="5">
-    {include uri="design:gui/button.tpl" name=newgroup id_name=NewImportButton value="New Import"|i18n("design/standard/class/list")}
+    {include uri="design:gui/button.tpl" name=newgroup id_name=NewImportButton value="New Import"|i18n("design/standard/rss/list")}
   </td>
   <td align="right">
-    <input type="image" name="RemoveImportButton" value="{'Remove'|i18n('design/standard/class/list')}" src={"trash.png"|ezimage} />
+    <input type="image" name="RemoveImportButton" value="{'Remove'|i18n('design/standard/rss/list')}" src={"trash.png"|ezimage} />
   </td>
 </tr>
 </table>

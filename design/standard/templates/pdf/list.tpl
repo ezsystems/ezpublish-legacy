@@ -1,5 +1,5 @@
 <div class="maincontentheader">
-<h1>{"PDF Exports"|i18n("design/standard/class/list")}</h2>
+<h1>{"PDF Exports"|i18n("design/standard/pdf/list")}</h2>
 </div>
 
 <form action={"pdf/list"|ezurl} method="post" name="PDFList">
@@ -30,10 +30,10 @@
 {/section}
 <tr>
   <td colspan="4">
-    {include uri="design:gui/button.tpl" name=newgroup id_name=NewPDFExport value="New Export"|i18n("design/standard/class/list")}
+    {include uri="design:gui/button.tpl" name=newgroup id_name=NewPDFExport value="New Export"|i18n("design/standard/pdf/list")}
   </td>
   <td align="right">
-    <input type="image" name="RemoveExportButton" value="{'Remove'|i18n('design/standard/class/view')}" src={"trash.png"|ezimage} />
+    <input type="image" name="RemoveExportButton" value="{'Remove'|i18n('design/standard/pdf/list')}" src={"trash.png"|ezimage} />
   </td>
 </tr>
 </table>
