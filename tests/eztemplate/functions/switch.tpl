@@ -99,3 +99,35 @@ Not in array
 {/case}
 {/switch}
 {/let}
+
+=========================================================
+
+{let var=1}
+Var: {$var}
+Default case match:
+
+{switch name=sw match=$var}
+{case match=2}
+Value is 2
+{/case}
+{case}
+Default case: {$sw:match}
+{/case}
+{/switch}
+
+Empty default case match:
+
+{switch name=sw match=$var}
+{case match=2}
+Value is 2
+{/case}
+{case/}
+{/switch}
+Empty default case with space match:
+
+{switch name=sw match=$var}
+{case match=2}
+Value is 2
+{/case}
+{case   /     }
+{/switch}

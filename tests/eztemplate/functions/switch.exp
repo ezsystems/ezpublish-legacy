@@ -13,3 +13,9 @@ First(2):
 In array
 Second():
 Not in array
+=========================================================
+Var: 1
+Default case match:
+Default case: 1
+Empty default case match:
+Empty default case with space match:
