@@ -56,7 +56,9 @@ eZ publish message/task, e-mail, sms etc..
 </p>
 
 <p>
-Messages can be sent in bulk or when the message event occurs.
+Messages can be sent in bulk or when the message event occurs. For example, it is possible
+for a user to specify that he will receive an overview of all articles published recently which
+he is interested in every freday 12:00 o'clock.
 </p>
 
 Setting: Send notification in bulk. E.g. once a week. Or immediately.
@@ -70,12 +72,20 @@ Every registered and logged in user can create their own notification rules.
 
 <h2>Notification rules</h2>
 
+<p>
+Notification rules are created by the user. A user could make his general rule for notification by filling a advanced
+form where he could specify exactly what he want and when he want. It is also possible to associate the rule with class type
+and sub directories. For example, when a user is viewing an article, a message in a forum, a product, he could
+register notifications for related staff which either is the child or the parent of what he is viewing.
+</p>
+
+
 <h3>Examples</h3>
 <table class="example">
 <tr>
     <td>
-    Check of "I want to receive news from this site". This can then
-    be used to send notification whenever articles are published.
+    Check of "I want to receive news from this site on every tuesday". This can then
+    be used to send notification of new publishing of articles at user specified time.
     Can also be used to send "manual" newsletters to registered users.
     </td>
 </tr>
@@ -100,8 +110,15 @@ Every registered and logged in user can create their own notification rules.
 </tr>
 </table>
 
-
 <h2>Notification triggers</h2>
-
 <p>
+Notification triggers are closely related to workflows. The actual notification process could
+be triggered by publishing article, adding new products or any other message publishing in the
+website.
 </p>
+
+<h2>State diagram</h2>
+<img src="/doc/images/notification_state.png" alt="Notification databse diagram" />
+
+<h2>Database diagrams</h2>
+<img src="/doc/images/notification_database.png" alt="Notification databse diagram" />
