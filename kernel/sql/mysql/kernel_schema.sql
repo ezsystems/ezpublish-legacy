@@ -792,7 +792,6 @@ CREATE TABLE ezpolicy (
   role_id int(11) default NULL,
   function_name varchar(255) default NULL,
   module_name varchar(255) default NULL,
-  limitation char(1) default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -804,9 +803,6 @@ CREATE TABLE ezpolicy_limitation (
   id int(11) NOT NULL auto_increment,
   policy_id int(11) default NULL,
   identifier varchar(255) NOT NULL default '',
-  role_id int(11) default NULL,
-  function_name varchar(255) default NULL,
-  module_name varchar(255) default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -1173,6 +1169,8 @@ CREATE TABLE ezuser_role (
   id int(11) NOT NULL auto_increment,
   role_id int(11) default NULL,
   contentobject_id int(11) default NULL,
+  limit_identifier varchar(255) default '',
+  limit_value varchar(255) default '',
   PRIMARY KEY  (id),
   KEY ezuser_role_contentobject_id (contentobject_id)
 ) TYPE=MyISAM;

@@ -34,5 +34,11 @@ DROP TABLE ezcontentobject_tree;
 RENAME TABLE tmp_ezcontentobject_tree TO ezcontentobject_tree;
 
 
+ALTER TABLE ezuser_role ADD COLUMN limit_identifier varchar(255) default '';
+ALTER TABLE ezuser_role ADD COLUMN limit_value varchar(255) default '';
 
+ALTER TABLE ezpolicy DROP COLUMN limitation;
 
+ALTER TABLE ezpolicy_limitation DROP COLUMN role_id;
+ALTER TABLE ezpolicy_limitation DROP COLUMN function_name;
+ALTER TABLE ezpolicy_limitation DROP COLUMN module_name;

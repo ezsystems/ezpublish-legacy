@@ -1628,8 +1628,7 @@ CREATE TABLE ezpolicy (
     id integer DEFAULT nextval('ezpolicy_s'::text) NOT NULL,
     role_id integer,
     function_name character varying(255),
-    module_name character varying(255),
-    limitation character(1)
+    module_name character varying(255)
 );
 
 
@@ -1641,10 +1640,7 @@ CREATE TABLE ezpolicy (
 CREATE TABLE ezpolicy_limitation (
     id integer DEFAULT nextval('ezpolicy_limitation_s'::text) NOT NULL,
     policy_id integer,
-    identifier character varying(255) DEFAULT ''::character varying NOT NULL,
-    role_id integer,
-    function_name character varying(255),
-    module_name character varying(255)
+    identifier character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
