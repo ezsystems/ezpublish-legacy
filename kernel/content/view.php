@@ -140,6 +140,8 @@ eZDebugSetting::addTimingPoint( 'kernel-content-view', 'Operation start' );
 
 include_once( 'lib/ezutils/classes/ezmoduleoperationdefinition.php' );
 
+$operationResult = array();
+
 if ( $useTriggers == true )
 {
     include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
@@ -148,6 +150,42 @@ if ( $useTriggers == true )
     $operationResult =& eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID,
                                                                                'user_id' => $user->id(),
                                                                                'language_code' => $LanguageCode ), null, $useTriggers );
+}
+
+if ( ( array_key_exists(  'status', $operationResult ) && $operationResult['status'] != EZ_MODULE_OPERATION_CONTINUE ) )
+{
+    switch( $operationResult['status'] )
+    {
+        case EZ_MODULE_OPERATION_HALTED:
+        {
+            if ( isset( $operationResult['redirect_url'] ) )
+            {
+                $Module->redirectTo( $operationResult['redirect_url'] );
+                return;
+            }
+            else if ( isset( $operationResult['result'] ) )
+            {
+                $result =& $operationResult['result'];
+                $resultContent = false;
+                if ( is_array( $result ) )
+                {
+                    if ( isset( $result['content'] ) )
+                        $resultContent = $result['content'];
+                    if ( isset( $result['path'] ) )
+                        $Result['path'] = $result['path'];
+                }
+                else
+                    $resultContent =& $result;
+                $Result['content'] =& $resultContent;
+            }
+        }break;
+        case EZ_MODULE_OPERATION_CANCELED:
+        {
+            $Result = array();
+            $Result['content'] = "Content view cancelled<br/>";
+        }
+    }
+    return $Result;
 }
 else
 {
@@ -278,47 +316,6 @@ else
                                                      $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], $viewCacheEnabled, $viewParameters,
                                                      $collectionAttributes, $validation );
     return $Result;
-}
-
-switch( $operationResult['status'] )
-{
-    case EZ_MODULE_OPERATION_CONTINUE:
-    {
-        if ( $operationResult != null &&
-             !isset( $operationResult['result'] ) &&
-             ( !isset( $operationResult['redirect_url'] ) || $operationResult['redirect_url'] == null ) )
-        {
-            // TODO make it work with workflows
-        }
-    }break;
-    case EZ_MODULE_OPERATION_HALTED:
-    {
-        if ( isset( $operationResult['redirect_url'] ) )
-        {
-            $Module->redirectTo( $operationResult['redirect_url'] );
-            return;
-        }
-        else if ( isset( $operationResult['result'] ) )
-        {
-            $result =& $operationResult['result'];
-            $resultContent = false;
-            if ( is_array( $result ) )
-            {
-                if ( isset( $result['content'] ) )
-                    $resultContent = $result['content'];
-                if ( isset( $result['path'] ) )
-                    $Result['path'] = $result['path'];
-            }
-            else
-                $resultContent =& $result;
-            $Result['content'] =& $resultContent;
-        }
-    }break;
-    case EZ_MODULE_OPERATION_CANCELED:
-    {
-        $Result = array();
-        $Result['content'] = "Content view cancelled<br/>";
-    }
 }
 
 

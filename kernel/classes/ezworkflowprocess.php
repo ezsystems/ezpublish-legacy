@@ -233,6 +233,12 @@ class eZWorkflowProcess extends eZPersistentObject
                                              "description" => $workflowEvent->attribute( "description" ),
                                              "type_name" => $eventType->attribute( "name" ),
                                              "type_group" => $eventType->attribute( "group_name" ) );
+                        if ( $lastEventStatus == EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON ||
+                             $lastEventStatus == EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE   ||
+                             $lastEventStatus == EZ_WORKFLOW_TYPE_STATUS_REDIRECT )
+                        {
+                            $runCurrentEvent = false;
+                        }
                     }
                     else if ( time() < $activationDate )
                     {
