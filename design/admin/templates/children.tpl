@@ -1,26 +1,24 @@
+{* Generic script for toggling the status of a bunch of checkboxes. *}
 {literal}
 <script language="JavaScript1.2" type="text/javascript">
 <!--
-function selectAll()
+function togglestuff( formname, checkboxname )
 {
-    with (document.childList)
+    with( formname )
 	{
-        for (var i=0; i < elements.length; i++)
+        for( var i=0; i<elements.length; i++ )
         {
-            if (elements[i].type == 'checkbox' && elements[i].name == 'DeleteIDArray[]' && elements[i].disabled == "")
-            elements[i].checked = true;
-	    }
-    }
-}
-
-function deSelectAll()
-{
-    with (document.childList)
-	{
-        for (var i=0; i < elements.length; i++)
-	    {
-            if (elements[i].type == 'checkbox' && elements[i].name == 'DeleteIDArray[]' && elements[i].disabled == "")
-            elements[i].checked = false;
+            if( elements[i].type == 'checkbox' && elements[i].name == checkboxname && elements[i].disabled == "" )
+            {
+                if( elements[i].checked == true )
+                {
+                    elements[i].checked = false;
+                }
+                else
+                {
+                    elements[i].checked = true;
+                }
+            }
 	    }
     }
 }
@@ -33,7 +31,6 @@ function deSelectAll()
 <h2 class="title">Children</h2>
 
 {* Generic children list for admin interface. *}
-<form name="childList" method="post" action={"content/action"|ezurl}>
 {let item_type=ezpreference( 'items' )
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
      can_remove=false()
@@ -59,7 +56,7 @@ function deSelectAll()
         <a href={'/user/preferences/set/items/1'|ezurl}>10</a>
         <span class="current">25</span>
         <a href={'/user/preferences/set/items/3'|ezurl}>50</a>
-        
+
         {/case}
 
         {case match=50}
@@ -126,7 +123,7 @@ function deSelectAll()
 <a href={$node.parent.url_alias|ezurl}>[Up one level]</a>
 {/section}
 -->
-
+<form name="children" method="post" action={'content/action'|ezurl}>
 {* Display the actual list of nodes. *}
 {switch match=ezpreference( 'viewmode' )}
 
@@ -142,16 +139,10 @@ function deSelectAll()
     {include uri='design:children_list.tpl'}
 {/case}
 {/switch}
-<!--
+
 {* Select/deselect all links: *}
-{section show=$can_remove}
-<a href="" onclick="selectAll(); return false;" title="{'Click here to select all the items that you are allowed to remove. Use the "Remove Selected" button to carry out the actual removal.'|i18n( 'design/admin/layout' )|wash()}">[ {'Select all'|i18n( 'design/admin/layout' )} ]</a>
-<a href="" onclick="deSelectAll(); return false;" title="{'Click here to deselect the items that are selected in the list above.'|i18n( 'design/admin/layout' )}">[ {'Deselect all'|i18n( 'design/admin/layout' )} ]</a>
-{section-else}
-[ {'Select all'|i18n( 'design/admin/layout' )} ] 
-[ {'Deselect all'|i18n( 'design/admin/layout' )} ]
-{/section}
--->
+<img src={''|ezimage} onclick="togglestuff( document.children, 'DeleteIDArray[]' ); return false;">
+
 <div class="context-toolbar">
 {include name=navigator
          uri='design:navigator/google.tpl'
