@@ -155,6 +155,7 @@ class eZObjectRelationType extends eZDataType
 //                     $contentObjectAttribute->setContent( $objectID );
                     $contentObjectAttribute->setAttribute( 'data_int', $objectID );
                     $contentObjectAttribute->store();
+                    $http->removeSessionVariable( 'BrowseCustomAction' );
                 }
             } break;
             default :

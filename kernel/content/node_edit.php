@@ -317,7 +317,8 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
 {
     $http =& eZHTTPTool::instance();
 
-
+    // Remove custom actions from attribute editing.
+    $http->removeSessionVariable( 'BrowseCustomAction' );
 
     if ( $module->isCurrentAction( 'ConfirmAssignmentDelete' ) && $http->hasPostVariable( 'RemoveNodeID' ) )
     {
