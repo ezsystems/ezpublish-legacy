@@ -90,14 +90,6 @@
         <translation>Maksimum tekstlengde:</translation>
     </message>
     <message>
-        <source>Prefered number of rows</source>
-        <translation type="obsolete">Foretrukket antall rader</translation>
-    </message>
-    <message>
-        <source>Prefered number of rows:</source>
-        <translation type="obsolete">Foretrukket antall rader:</translation>
-    </message>
-    <message>
         <source>Preferred number of rows:</source>
         <translation>Foretrukket antall rader:</translation>
     </message>
@@ -254,14 +246,6 @@
     <message>
         <source>Remove</source>
         <translation>Fjern</translation>
-    </message>
-    <message>
-        <source>Rediger:</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Fjern:</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Edit:</source>
@@ -917,7 +901,7 @@
     <name>design/standard/content/view</name>
     <message>
         <source>Browse</source>
-        <translation>Utforsk</translation>
+        <translation>Bla igjennom</translation>
     </message>
     <message>
         <source>Name:</source>
@@ -1225,229 +1209,229 @@
     <name>design/standard/node</name>
     <message>
         <source>Are you sure you want to remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Er du sikker på at du vil fjerne</translation>
     </message>
     <message>
         <source>from node</source>
-        <translation type="unfinished"></translation>
+        <translation>fra noden</translation>
     </message>
     <message>
         <source>?</source>
-        <translation type="unfinished"></translation>
+        <translation>?</translation>
     </message>
     <message>
         <source>Removing this assignment will also remove it&apos;s</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjerning av noden vil også fjerne dens</translation>
     </message>
     <message>
         <source>!</source>
-        <translation type="unfinished"></translation>
+        <translation>!</translation>
     </message>
     <message>
         <source>Removing node assignment of</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjerner nodetilordning av</translation>
     </message>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished">Bekreft</translation>
+        <translation>Bekreft</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <source>Are you sure you want to remove this(these) node(s)?</source>
-        <translation type="unfinished"></translation>
+        <translation>Er du sikker på at du vil fjerne denne (disse) noden(e)?</translation>
     </message>
     <message>
         <source>Removing</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjerning av</translation>
     </message>
     <message>
         <source>will remove the node itself and it&apos;s</source>
-        <translation type="unfinished"></translation>
+        <translation>vil også fjerne dens</translation>
     </message>
 </context>
 <context>
     <name>design/standard/node/view</name>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Rediger</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished">Navn:</translation>
+        <translation>Navn:</translation>
     </message>
     <message>
         <source>Class:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sorting:</source>
-        <translation type="unfinished"></translation>
+        <translation>Klasse:</translation>
     </message>
     <message>
         <source>Remove:</source>
-        <translation type="unfinished">Fjern:</translation>
+        <translation>Fjern:</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Oppdater</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Fjern</translation>
+        <translation>Fjern</translation>
     </message>
     <message>
         <source>New</source>
-        <translation type="unfinished">Ny</translation>
+        <translation>Ny</translation>
     </message>
     <message>
         <source>Document</source>
-        <translation type="unfinished"></translation>
+        <translation>Dokument</translation>
     </message>
     <message>
         <source>Site map</source>
-        <translation type="unfinished"></translation>
+        <translation>Nettstedskart</translation>
     </message>
     <message>
         <source>Object:</source>
-        <translation type="unfinished"></translation>
+        <translation>Objekt:</translation>
     </message>
     <message>
         <source>Section ID:</source>
-        <translation type="unfinished"></translation>
+        <translation>Seksjons-ID:</translation>
     </message>
     <message>
         <source>Edit:</source>
-        <translation type="unfinished">Rediger:</translation>
+        <translation>Rediger:</translation>
     </message>
     <message>
         <source>You are not allowed to create child objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Du har ikke tilgang til å redigere underobjekter</translation>
     </message>
     <message>
         <source>m.nam</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Priority:</source>
+        <translation>Prioritet:</translation>
     </message>
 </context>
 <context>
     <name>design/standard/notification</name>
     <message>
         <source>Notification registration form</source>
-        <translation type="unfinished"></translation>
+        <translation>Registrering av meldingsregel</translation>
     </message>
     <message>
         <source>Send Method:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sendingsmåte:</translation>
     </message>
     <message>
         <source>Email</source>
-        <translation type="unfinished"></translation>
+        <translation>E-post</translation>
     </message>
     <message>
         <source>SMS</source>
-        <translation type="unfinished"></translation>
+        <translation>SMS</translation>
     </message>
     <message>
         <source>Internal message</source>
-        <translation type="unfinished"></translation>
+        <translation>Intern melding</translation>
     </message>
     <message>
         <source>Send day:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dag:</translation>
     </message>
     <message>
         <source>Immediately</source>
-        <translation type="unfinished"></translation>
+        <translation>Med en gang</translation>
     </message>
     <message>
         <source>Monday</source>
-        <translation type="unfinished"></translation>
+        <translation>Mandag</translation>
     </message>
     <message>
         <source>Tuesday</source>
-        <translation type="unfinished"></translation>
+        <translation>Tirsdag</translation>
     </message>
     <message>
         <source>Wednesday</source>
-        <translation type="unfinished"></translation>
+        <translation>Onsdag</translation>
     </message>
     <message>
         <source>Thursday</source>
-        <translation type="unfinished"></translation>
+        <translation>Torsdag</translation>
     </message>
     <message>
         <source>Friday</source>
-        <translation type="unfinished"></translation>
+        <translation>Fredag</translation>
     </message>
     <message>
         <source>Saturday</source>
-        <translation type="unfinished"></translation>
+        <translation>Lørdag</translation>
     </message>
     <message>
         <source>Sunday</source>
-        <translation type="unfinished"></translation>
+        <translation>Søndag</translation>
     </message>
     <message>
         <source>Send time:</source>
-        <translation type="unfinished"></translation>
+        <translation>Klokkeslett:</translation>
     </message>
     <message>
         <source>Register</source>
-        <translation type="unfinished"></translation>
+        <translation>Registrer</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation type="unfinished">Forkast</translation>
+        <translation>Forkast</translation>
     </message>
     <message>
         <source>ID:</source>
-        <translation type="unfinished">ID:</translation>
+        <translation>ID:</translation>
     </message>
     <message>
         <source>Rule Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Regeltype:</translation>
     </message>
     <message>
         <source>Class Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Klassenavn:</translation>
     </message>
     <message>
         <source>Path:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sti:</translation>
     </message>
     <message>
         <source>Keyword:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nøkkelord:</translation>
     </message>
     <message>
         <source>Additional constraint:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilleggsberensning:</translation>
     </message>
     <message>
         <source>New Rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Ny regel</translation>
     </message>
     <message>
         <source>Send Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Send Melding</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Fjern</translation>
+        <translation>Fjern</translation>
     </message>
     <message>
         <source>Edit:</source>
-        <translation type="unfinished">Rediger:</translation>
+        <translation>Rediger:</translation>
     </message>
     <message>
         <source>Remove:</source>
-        <translation type="unfinished">Fjern:</translation>
+        <translation>Fjern:</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Rediger</translation>
     </message>
 </context>
 <context>
@@ -1473,171 +1457,171 @@
     <name>design/standard/role</name>
     <message>
         <source>Create policy for</source>
-        <translation type="unfinished"></translation>
+        <translation>Lag tilgangsregel for</translation>
     </message>
     <message>
         <source>Step 1</source>
-        <translation type="unfinished"></translation>
+        <translation>Steg 1</translation>
     </message>
     <message>
         <source>Give access to module:</source>
-        <translation type="unfinished"></translation>
+        <translation>Gi tilgang til modulen:</translation>
     </message>
     <message>
         <source>Every module</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle moduler</translation>
     </message>
     <message>
         <source>Allow all</source>
-        <translation type="unfinished"></translation>
+        <translation>Ubegrenset tilgang</translation>
     </message>
     <message>
         <source>Allow limited</source>
-        <translation type="unfinished"></translation>
+        <translation>Begrenset tilgang</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <source>Module:</source>
-        <translation type="unfinished"></translation>
+        <translation>Modul:</translation>
     </message>
     <message>
         <source>Access:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilgang:</translation>
     </message>
     <message>
         <source>Limited</source>
-        <translation type="unfinished"></translation>
+        <translation>Begrenset</translation>
     </message>
     <message>
         <source>Go back to step 1</source>
-        <translation type="unfinished"></translation>
+        <translation>Gå tilbake til steg 1</translation>
     </message>
     <message>
         <source>You are not able to give access to limited functions of module</source>
-        <translation type="unfinished"></translation>
+        <translation>Du kan ikke gi tilgang til begrensede funksjoner i modulen</translation>
     </message>
     <message>
         <source>because function list for it is not defined.</source>
-        <translation type="unfinished"></translation>
+        <translation>fordi det ikke er definert en funksjonsliste for denne modulen.</translation>
     </message>
     <message>
         <source>Step 2</source>
-        <translation type="unfinished"></translation>
+        <translation>Steg 2</translation>
     </message>
     <message>
         <source>Specify function in module</source>
-        <translation type="unfinished"></translation>
+        <translation>Spesifiser funksjon i modulen</translation>
     </message>
     <message>
         <source>Function:</source>
-        <translation type="unfinished"></translation>
+        <translation>Funksjon:</translation>
     </message>
     <message>
         <source>Go back to step 2</source>
-        <translation type="unfinished"></translation>
+        <translation>Gå tilbake til steg 2</translation>
     </message>
     <message>
         <source>Step 3</source>
-        <translation type="unfinished"></translation>
+        <translation>Steg 3</translation>
     </message>
     <message>
         <source>Specify limitations in function</source>
-        <translation type="unfinished"></translation>
+        <translation>Spesifiser begrensninger i funksjonen</translation>
     </message>
     <message>
         <source>in module</source>
-        <translation type="unfinished"></translation>
+        <translation>i modulen</translation>
     </message>
     <message>
         <source>&apos;Any&apos; means no limitation by this parameter.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;Alle&apos; betyr ingen begrensninger.</translation>
     </message>
     <message>
         <source>Any</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle</translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>Ok</translation>
     </message>
     <message>
         <source>Role edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Rolleredigering</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished">Navn:</translation>
+        <translation>Navn:</translation>
     </message>
     <message>
         <source>Current policies:</source>
-        <translation type="unfinished"></translation>
+        <translation>Gjeldende tilgangsregler:</translation>
     </message>
     <message>
         <source>Limitation list:</source>
-        <translation type="unfinished"></translation>
+        <translation>Begrensninger:</translation>
     </message>
     <message>
         <source>Remove:</source>
-        <translation type="unfinished">Fjern:</translation>
+        <translation>Fjern:</translation>
     </message>
     <message>
         <source>New</source>
-        <translation type="unfinished">Ny</translation>
+        <translation>Ny</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Fjern</translation>
+        <translation>Fjern</translation>
     </message>
     <message>
         <source>Apply</source>
-        <translation type="unfinished">Aktiver</translation>
+        <translation>Aktiver</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation type="unfinished">Forkast</translation>
+        <translation>Forkast</translation>
     </message>
     <message>
         <source>Role list</source>
-        <translation type="unfinished"></translation>
+        <translation>Rolleliste</translation>
     </message>
     <message>
         <source>Assign:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilordne:</translation>
     </message>
     <message>
         <source>Edit:</source>
-        <translation type="unfinished">Rediger:</translation>
+        <translation>Rediger:</translation>
     </message>
     <message>
         <source>Role view</source>
-        <translation type="unfinished"></translation>
+        <translation>Rollevisning</translation>
     </message>
     <message>
         <source>edit</source>
-        <translation type="unfinished"></translation>
+        <translation>rediger</translation>
     </message>
     <message>
         <source>Role policies</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilgangsregler</translation>
     </message>
     <message>
         <source>Limitation:</source>
-        <translation type="unfinished"></translation>
+        <translation>Begrensninger:</translation>
     </message>
     <message>
         <source>Users and groups assigned to this role</source>
-        <translation type="unfinished"></translation>
+        <translation>Brukere og grupper tilordnet denne rollen</translation>
     </message>
     <message>
         <source>User:</source>
-        <translation type="unfinished"></translation>
+        <translation>Bruker:</translation>
     </message>
     <message>
         <source>Assign</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilordne</translation>
     </message>
 </context>
 <context>
@@ -1667,59 +1651,59 @@
     <name>design/standard/section</name>
     <message>
         <source>Assign section</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilordne seksjon</translation>
     </message>
     <message>
         <source>Assign section to node</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilordne seksjon til node</translation>
     </message>
     <message>
         <source>Section edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigere seksjon</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished">Navn:</translation>
+        <translation>Navn:</translation>
     </message>
     <message>
         <source>Store</source>
-        <translation type="unfinished">Lagre</translation>
+        <translation>Lagre</translation>
     </message>
     <message>
         <source>Section list</source>
-        <translation type="unfinished"></translation>
+        <translation>Seksjonsliste</translation>
     </message>
     <message>
         <source>ID:</source>
-        <translation type="unfinished">ID:</translation>
+        <translation>ID:</translation>
     </message>
     <message>
         <source>Edit:</source>
-        <translation type="unfinished">Rediger:</translation>
+        <translation>Rediger:</translation>
     </message>
     <message>
         <source>Assign:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilordne:</translation>
     </message>
     <message>
         <source>Remove:</source>
-        <translation type="unfinished">Fjern:</translation>
+        <translation>Fjern:</translation>
     </message>
     <message>
         <source>edit</source>
-        <translation type="unfinished"></translation>
+        <translation>rediger</translation>
     </message>
     <message>
         <source>assign</source>
-        <translation type="unfinished"></translation>
+        <translation>tilordne</translation>
     </message>
     <message>
         <source>New</source>
-        <translation type="unfinished">Ny</translation>
+        <translation>Ny</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Fjern</translation>
+        <translation>Fjern</translation>
     </message>
 </context>
 <context>
@@ -1746,7 +1730,7 @@
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Versjon</translation>
     </message>
     <message>
         <source>OS info:</source>
@@ -1818,7 +1802,7 @@
     </message>
     <message>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sti</translation>
     </message>
     <message>
         <source>Executable</source>
@@ -2192,7 +2176,7 @@
     </message>
     <message>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Passord</translation>
     </message>
     <message>
         <source>Confirm password:</source>
@@ -2204,7 +2188,7 @@
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Neste</translation>
     </message>
     <message>
         <source>The system check found some issues that, when resolved, may give improved performance or more features. Please have a look through the results below for more information on what might be done. Each issue will give you instructions on how to do the finetuning.</source>
@@ -2862,878 +2846,878 @@
     <name>design/standard/shop</name>
     <message>
         <source>Basket</source>
-        <translation type="unfinished"></translation>
+        <translation>Handlekurv</translation>
     </message>
     <message>
         <source>Product:</source>
-        <translation type="unfinished"></translation>
+        <translation>Produkt:</translation>
     </message>
     <message>
         <source>Count:</source>
-        <translation type="unfinished"></translation>
+        <translation>Antall:</translation>
     </message>
     <message>
         <source>VAT:</source>
-        <translation type="unfinished"></translation>
+        <translation>MVA:</translation>
     </message>
     <message>
         <source>Price ex. VAT:</source>
-        <translation type="unfinished"></translation>
+        <translation>Pris eks. MVA:</translation>
     </message>
     <message>
         <source>Price inc. VAT:</source>
-        <translation type="unfinished"></translation>
+        <translation>Pris inkl. MVA:</translation>
     </message>
     <message>
         <source>Discount:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilbud:</translation>
     </message>
     <message>
         <source>Total Price ex. VAT:</source>
-        <translation type="unfinished"></translation>
+        <translation>Totalpris eks. MVA:</translation>
     </message>
     <message>
         <source>Total Price inc. VAT:</source>
-        <translation type="unfinished"></translation>
+        <translation>Totalpris inkl. MVA:</translation>
     </message>
     <message>
         <source>Subtotal Ex. VAT:</source>
-        <translation type="unfinished"></translation>
+        <translation>Subtotal eks. MVA:</translation>
     </message>
     <message>
         <source>Subtotal Inc. VAT:</source>
-        <translation type="unfinished"></translation>
+        <translation>Subtotal inkl. MVA:</translation>
     </message>
     <message>
         <source>You have no products in your basket</source>
-        <translation type="unfinished"></translation>
+        <translation>Handlekurven din er tom</translation>
     </message>
     <message>
         <source>Confirm order</source>
-        <translation type="unfinished"></translation>
+        <translation>Bekreft ordre</translation>
     </message>
     <message>
         <source>Product items</source>
-        <translation type="unfinished"></translation>
+        <translation>Varer</translation>
     </message>
     <message>
         <source>Order summary:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordresummering:</translation>
     </message>
     <message>
         <source>Subtotal of items:</source>
-        <translation type="unfinished"></translation>
+        <translation>Subtotal av varer:</translation>
     </message>
     <message>
         <source>Order total:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordretotal:</translation>
     </message>
     <message>
         <source>Defined discount groups</source>
-        <translation type="unfinished"></translation>
+        <translation>Definerte tilbudsgrupper</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished">Navn:</translation>
+        <translation>Navn:</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Rediger</translation>
     </message>
     <message>
         <source>New</source>
-        <translation type="unfinished">Ny</translation>
+        <translation>Ny</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Fjern</translation>
+        <translation>Fjern</translation>
     </message>
     <message>
         <source>Editing discount group</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigerer tilbudsgrupper</translation>
     </message>
     <message>
         <source>Apply</source>
-        <translation type="unfinished">Aktiver</translation>
+        <translation>Aktiver</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation type="unfinished">Forkast</translation>
+        <translation>Forkast</translation>
     </message>
     <message>
         <source>Group Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Gruppenavn:</translation>
     </message>
     <message>
         <source>Defined rules:</source>
-        <translation type="unfinished"></translation>
+        <translation>Definerte regler:</translation>
     </message>
     <message>
         <source>Percent</source>
-        <translation type="unfinished"></translation>
+        <translation>Prosent</translation>
     </message>
     <message>
         <source>Apply to:</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiver for:</translation>
     </message>
     <message>
         <source>Add Rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Legg til regel</translation>
     </message>
     <message>
         <source>Remove Rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern regel</translation>
     </message>
     <message>
         <source>Customers</source>
-        <translation type="unfinished"></translation>
+        <translation>Kunder</translation>
     </message>
     <message>
         <source>Add customer</source>
-        <translation type="unfinished"></translation>
+        <translation>Legg til kunde</translation>
     </message>
     <message>
         <source>Remove customer</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern kunde</translation>
     </message>
     <message>
         <source>Editing rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigerer regel</translation>
     </message>
     <message>
         <source>Discount percent:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilbudsprosent:</translation>
     </message>
     <message>
         <source>Choose which classes or sections applied to this sub rule, &apos;Any&apos; means the rule will applied to all.</source>
-        <translation type="unfinished"></translation>
+        <translation>Velg hvilke klasser eller seksjoner som tilordnes denne underregelen. &apos;Alle&apos; betyr at regelen gjelder for alt.</translation>
     </message>
     <message>
         <source>Class:</source>
-        <translation type="unfinished"></translation>
+        <translation>Klasse:</translation>
     </message>
     <message>
         <source>Any</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle</translation>
     </message>
     <message>
         <source>Section:</source>
-        <translation type="unfinished"></translation>
+        <translation>Seksjon:</translation>
     </message>
     <message>
         <source>Store</source>
-        <translation type="unfinished">Lagre</translation>
+        <translation>Lagre</translation>
     </message>
     <message>
         <source>Order list</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordreliste</translation>
     </message>
     <message>
         <source>ID</source>
-        <translation type="unfinished"></translation>
+        <translation>ID</translation>
     </message>
     <message>
         <source>Date</source>
-        <translation type="unfinished"></translation>
+        <translation>Dato</translation>
     </message>
     <message>
         <source>Customer</source>
-        <translation type="unfinished"></translation>
+        <translation>Kunde</translation>
     </message>
     <message>
         <source>Total ex. VAT</source>
-        <translation type="unfinished"></translation>
+        <translation>Totalpris eks. MVA</translation>
     </message>
     <message>
         <source>Total inc. VAT</source>
-        <translation type="unfinished"></translation>
+        <translation>Totalpris inkl. MVA</translation>
     </message>
     <message>
         <source>Order</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordre</translation>
     </message>
     <message>
         <source>Customer:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kunde:</translation>
     </message>
     <message>
         <source>VAT Types</source>
-        <translation type="unfinished"></translation>
+        <translation>MVA-typer</translation>
     </message>
     <message>
         <source>Percentage:</source>
-        <translation type="unfinished"></translation>
+        <translation>Prosent:</translation>
     </message>
     <message>
         <source>Wish list</source>
-        <translation type="unfinished"></translation>
+        <translation>Ønskeliste</translation>
     </message>
     <message>
         <source>Remove item(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern varer</translation>
     </message>
     <message>
         <source>Empty wish list</source>
-        <translation type="unfinished"></translation>
+        <translation>Tøm ønskelisten</translation>
     </message>
     <message>
         <source>Continue shopping</source>
-        <translation type="unfinished"></translation>
+        <translation>Fortsett å handle</translation>
     </message>
     <message>
         <source>Checkout</source>
-        <translation type="unfinished"></translation>
+        <translation>Betaling</translation>
     </message>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished">Bekreft</translation>
+        <translation>Bekreft</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <source>Group view</source>
-        <translation type="unfinished"></translation>
+        <translation>Gruppevisning</translation>
     </message>
 </context>
 <context>
     <name>design/standard/task</name>
     <message>
         <source>Creating new task</source>
-        <translation type="unfinished"></translation>
+        <translation>Oppretter ny oppgave</translation>
     </message>
     <message>
         <source>Task</source>
-        <translation type="unfinished"></translation>
+        <translation>Oppgave</translation>
     </message>
     <message>
         <source>Assignment</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilordnet</translation>
     </message>
     <message>
         <source>Date:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dato:</translation>
     </message>
     <message>
         <source>From:</source>
-        <translation type="unfinished"></translation>
+        <translation>Fra:</translation>
     </message>
     <message>
         <source>To:</source>
-        <translation type="unfinished"></translation>
+        <translation>Til:</translation>
     </message>
     <message>
         <source>Please select receiver</source>
-        <translation type="unfinished"></translation>
+        <translation>Velg mottaker</translation>
     </message>
     <message>
         <source>Parent type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Foreldetype:</translation>
     </message>
     <message>
         <source>Parent ID:</source>
-        <translation type="unfinished"></translation>
+        <translation>Foreldre-ID:</translation>
     </message>
     <message>
         <source>Access Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilgangstype:</translation>
     </message>
     <message>
         <source>Read</source>
-        <translation type="unfinished"></translation>
+        <translation>Les</translation>
     </message>
     <message>
         <source>Read/Write</source>
-        <translation type="unfinished"></translation>
+        <translation>Les/Skriv</translation>
     </message>
     <message>
         <source>Object Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Objekttype:</translation>
     </message>
     <message>
         <source>Content Object</source>
-        <translation type="unfinished"></translation>
+        <translation>Innholdsobjekt</translation>
     </message>
     <message>
         <source>Content Class</source>
-        <translation type="unfinished"></translation>
+        <translation>Innholdsklasse</translation>
     </message>
     <message>
         <source>Work Flow</source>
-        <translation type="unfinished"></translation>
+        <translation>Arbeidsflyt</translation>
     </message>
     <message>
         <source>Role</source>
-        <translation type="unfinished"></translation>
+        <translation>Rolle</translation>
     </message>
     <message>
         <source>Assignment for object:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilordning for objekt:</translation>
     </message>
     <message>
         <source>Choose Object</source>
-        <translation type="unfinished"></translation>
+        <translation>Velg objekt</translation>
     </message>
     <message>
         <source>Convert To Assignment</source>
-        <translation type="unfinished"></translation>
+        <translation>Konverter til tilordning</translation>
     </message>
     <message>
         <source>Convert To Task</source>
-        <translation type="unfinished"></translation>
+        <translation>Konverter til oppgave</translation>
     </message>
     <message>
         <source>Change Receiver</source>
-        <translation type="unfinished"></translation>
+        <translation>Endre mottaker</translation>
     </message>
     <message>
         <source>Activate</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiver</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation type="unfinished">Forkast</translation>
+        <translation>Forkast</translation>
     </message>
     <message>
         <source>Edit task message</source>
-        <translation type="unfinished"></translation>
+        <translation>Rediger oppgavens melding</translation>
     </message>
     <message>
         <source>Input did not validate</source>
-        <translation type="unfinished">Den innlagte informasjonen ble ikke godkjent</translation>
+        <translation>Den innlagte informasjonen ble ikke godkjent</translation>
     </message>
     <message>
         <source>Input was stored successfully</source>
-        <translation type="unfinished">Den innlagte informasjonen er lagret</translation>
+        <translation>Den innlagte informasjonen er lagret</translation>
     </message>
     <message>
         <source>Preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Forhåndsvis</translation>
     </message>
     <message>
         <source>Apply</source>
-        <translation type="unfinished">Aktiver</translation>
+        <translation>Aktiver</translation>
     </message>
     <message>
         <source>Send</source>
-        <translation type="unfinished"></translation>
+        <translation>Send</translation>
     </message>
     <message>
         <source>Find object</source>
-        <translation type="unfinished"></translation>
+        <translation>Finn objekt</translation>
     </message>
     <message>
         <source>Task message</source>
-        <translation type="unfinished"></translation>
+        <translation>Oppgavemelding</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Rediger</translation>
     </message>
     <message>
         <source>Task view</source>
-        <translation type="unfinished"></translation>
+        <translation>Oppgavevisning</translation>
     </message>
     <message>
         <source>Task list</source>
-        <translation type="unfinished"></translation>
+        <translation>Oppgaveliste</translation>
     </message>
     <message>
         <source>Status:</source>
-        <translation type="unfinished"></translation>
+        <translation>Status:</translation>
     </message>
     <message>
         <source>Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Melding</translation>
     </message>
     <message>
         <source>Messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Meldinger</translation>
     </message>
     <message>
         <source>Incoming</source>
-        <translation type="unfinished"></translation>
+        <translation>Inngående</translation>
     </message>
     <message>
         <source>Title:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tittel:</translation>
     </message>
     <message>
         <source>Type:</source>
-        <translation type="unfinished">Type:</translation>
+        <translation>Type:</translation>
     </message>
     <message>
         <source>Creator:</source>
-        <translation type="unfinished"></translation>
+        <translation>Opprettet av:</translation>
     </message>
     <message>
         <source>Created:</source>
-        <translation type="unfinished"></translation>
+        <translation>Opprettet tidspunkt:</translation>
     </message>
     <message>
         <source>Modified:</source>
-        <translation type="unfinished">Endret tidspunkt:</translation>
+        <translation>Endret tidspunkt:</translation>
     </message>
     <message>
         <source>Outgoing</source>
-        <translation type="unfinished"></translation>
+        <translation>Utgående</translation>
     </message>
     <message>
         <source>Sub tasks</source>
-        <translation type="unfinished"></translation>
+        <translation>Underoppgaver</translation>
     </message>
     <message>
         <source>Receiver:</source>
-        <translation type="unfinished"></translation>
+        <translation>Mottaker:</translation>
     </message>
     <message>
         <source>New Task</source>
-        <translation type="unfinished"></translation>
+        <translation>Ny oppgave</translation>
     </message>
     <message>
         <source>New Assignment</source>
-        <translation type="unfinished"></translation>
+        <translation>Ny tilordning</translation>
     </message>
     <message>
         <source>New Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Ny melding</translation>
     </message>
     <message>
         <source>Close Task</source>
-        <translation type="unfinished"></translation>
+        <translation>Lukk oppgave</translation>
     </message>
     <message>
         <source>Cancel Task</source>
-        <translation type="unfinished"></translation>
+        <translation>Avbryt oppgave</translation>
     </message>
     <message>
         <source>Object list</source>
-        <translation type="unfinished"></translation>
+        <translation>Objektliste</translation>
     </message>
 </context>
 <context>
     <name>design/standard/trigger</name>
     <message>
         <source>Triggers list</source>
-        <translation type="unfinished"></translation>
+        <translation>Utløserliste</translation>
     </message>
     <message>
         <source>Triggers editing</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigering av utløsere</translation>
     </message>
     <message>
         <source>Module Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Modulnavn</translation>
     </message>
     <message>
         <source>Function Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Funksjonsnavn</translation>
     </message>
     <message>
         <source>Connect Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilkoblingstype</translation>
     </message>
     <message>
         <source>Workflow ID</source>
-        <translation type="unfinished"></translation>
+        <translation>Arbeidsflyt-ID</translation>
     </message>
     <message>
         <source>No workflow</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingen arbeidsflyt</translation>
     </message>
     <message>
         <source>Store</source>
-        <translation type="unfinished">Lagre</translation>
+        <translation>Lagre</translation>
     </message>
 </context>
 <context>
     <name>design/standard/user</name>
     <message>
         <source>Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Logg inn</translation>
     </message>
     <message>
         <source>Sign Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Registrer</translation>
     </message>
     <message>
         <source>Activate account</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiver konto</translation>
     </message>
     <message>
         <source>Login ID:</source>
-        <translation type="unfinished"></translation>
+        <translation>Innloggings-ID:</translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Passord:</translation>
     </message>
     <message>
         <source>Activate</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiver</translation>
     </message>
     <message>
         <source>Registed user profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Registrert brukerprofil</translation>
     </message>
     <message>
         <source>Login:</source>
-        <translation type="unfinished"></translation>
+        <translation>Brukernavn:</translation>
     </message>
     <message>
         <source>e-mail:</source>
-        <translation type="unfinished"></translation>
+        <translation>E-post:</translation>
     </message>
     <message>
         <source>Update Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Oppdater profil</translation>
     </message>
     <message>
         <source>Change Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Bytt passord</translation>
     </message>
     <message>
         <source>Change Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>Endre innstillinger</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <source>Could not login</source>
-        <translation type="unfinished"></translation>
+        <translation>Kunne ikke logge inn</translation>
     </message>
     <message>
         <source>A valid username and password is required to login.</source>
-        <translation type="unfinished"></translation>
+        <translation>Du trenger gyldig brukernavn og passord for å logge inn.</translation>
     </message>
     <message>
         <source>Change password for user</source>
-        <translation type="unfinished"></translation>
+        <translation>Bytt passord for bruker</translation>
     </message>
     <message>
         <source>Old Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Gammelt passord:</translation>
     </message>
     <message>
         <source>New Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nytt passord:</translation>
     </message>
     <message>
         <source>Retype Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Gjenta passord:</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>Ok</translation>
     </message>
     <message>
         <source>Register user</source>
-        <translation type="unfinished"></translation>
+        <translation>Registrer bruker</translation>
     </message>
     <message>
         <source>Input did not validate</source>
-        <translation type="unfinished">Den innlagte informasjonen ble ikke godkjent</translation>
+        <translation>Den innlagte informasjonen ble ikke godkjent</translation>
     </message>
     <message>
         <source>Input was stored successfully</source>
-        <translation type="unfinished">Den innlagte informasjonen er lagret</translation>
+        <translation>Den innlagte informasjonen er lagret</translation>
     </message>
     <message>
         <source>Register</source>
-        <translation type="unfinished"></translation>
+        <translation>Registrer</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation type="unfinished">Forkast</translation>
+        <translation>Forkast</translation>
     </message>
     <message>
         <source>User setting</source>
-        <translation type="unfinished"></translation>
+        <translation>Brukerinstillinger</translation>
     </message>
     <message>
         <source>Maximum login</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksimalt antall samtidige innlogginger</translation>
     </message>
     <message>
         <source>Is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Er aktivert</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Oppdater</translation>
     </message>
     <message>
         <source>User registered</source>
-        <translation type="unfinished"></translation>
+        <translation>Brukeren er registrert</translation>
     </message>
     <message>
         <source>Your account was successfully created.</source>
-        <translation type="unfinished"></translation>
+        <translation>Brukerkontoen din er registrert.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/workflow</name>
     <message>
         <source>Editing workflow</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigerer arbeidsflyt</translation>
     </message>
     <message>
         <source>Workflow stored</source>
-        <translation type="unfinished"></translation>
+        <translation>Arbeidsflyt er lagret</translation>
     </message>
     <message>
         <source>Data requires fixup</source>
-        <translation type="unfinished"></translation>
+        <translation>De oppgitte data ble ikke godkjent</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished">Navn:</translation>
+        <translation>Navn:</translation>
     </message>
     <message>
         <source>Groups</source>
-        <translation type="unfinished"></translation>
+        <translation>Grupper</translation>
     </message>
     <message>
         <source>Events</source>
-        <translation type="unfinished"></translation>
+        <translation>Hendelser</translation>
     </message>
     <message>
         <source>Pos:</source>
-        <translation type="unfinished"></translation>
+        <translation>Pos:</translation>
     </message>
     <message>
         <source>Description:</source>
-        <translation type="unfinished"></translation>
+        <translation>Beskrivelse:</translation>
     </message>
     <message>
         <source>Type:</source>
-        <translation type="unfinished">Type:</translation>
+        <translation>Type:</translation>
     </message>
     <message>
         <source>New</source>
-        <translation type="unfinished">Ny</translation>
+        <translation>Ny</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Fjern</translation>
+        <translation>Fjern</translation>
     </message>
     <message>
         <source>Store</source>
-        <translation type="unfinished">Lagre</translation>
+        <translation>Lagre</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation type="unfinished">Forkast</translation>
+        <translation>Forkast</translation>
     </message>
     <message>
         <source>Editing workflow group</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigerer arbeidsflytgruppe</translation>
     </message>
     <message>
         <source>Created by</source>
-        <translation type="unfinished">Laget av</translation>
+        <translation>Laget av</translation>
     </message>
     <message>
         <source>on</source>
-        <translation type="unfinished"> den</translation>
+        <translation> den</translation>
     </message>
     <message>
         <source>Modified by</source>
-        <translation type="unfinished">Endret av</translation>
+        <translation>Endret av</translation>
     </message>
     <message>
         <source>Defined workflow groups</source>
-        <translation type="unfinished"></translation>
+        <translation>Definerte arbeidsflytgrupper</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Rediger</translation>
     </message>
     <message>
         <source>Workflow process</source>
-        <translation type="unfinished"></translation>
+        <translation>Arbeidsflytprosess</translation>
     </message>
     <message>
         <source>Workflow process was created at</source>
-        <translation type="unfinished"></translation>
+        <translation>Arbeidsflytprosess ble opprettet</translation>
     </message>
     <message>
         <source>and modified at</source>
-        <translation type="unfinished"></translation>
+        <translation>og endret</translation>
     </message>
     <message>
         <source>Workflow</source>
-        <translation type="unfinished"></translation>
+        <translation>Arbeidsflyt</translation>
     </message>
     <message>
         <source>Using workflow</source>
-        <translation type="unfinished"></translation>
+        <translation>Bruker arbeidsflyt</translation>
     </message>
     <message>
         <source>for processing.</source>
-        <translation type="unfinished"></translation>
+        <translation>for prosessering.</translation>
     </message>
     <message>
         <source>User</source>
-        <translation type="unfinished"></translation>
+        <translation>Bruker</translation>
     </message>
     <message>
         <source>This workflow is running for user</source>
-        <translation type="unfinished"></translation>
+        <translation>Denne arbeidsflyten kjører for brukeren</translation>
     </message>
     <message>
         <source>Content object</source>
-        <translation type="unfinished"></translation>
+        <translation>Innholdsobjekt</translation>
     </message>
     <message>
         <source>Workflow was created for content</source>
-        <translation type="unfinished"></translation>
+        <translation>Arbeidsflytprosess ble opprettet for innhold</translation>
     </message>
     <message>
         <source>using version</source>
-        <translation type="unfinished"></translation>
+        <translation>versjon</translation>
     </message>
     <message>
         <source>in parent</source>
-        <translation type="unfinished"></translation>
+        <translation>under forelder</translation>
     </message>
     <message>
         <source>Workflow event</source>
-        <translation type="unfinished"></translation>
+        <translation>Arbeidsflythendelse</translation>
     </message>
     <message>
         <source>Workflow has not started yet, number of main events in workflow is</source>
-        <translation type="unfinished"></translation>
+        <translation>Arbeidsflyten er ikke startet ennå, antall hovedhendelser i arbeidsflyten er</translation>
     </message>
     <message>
         <source>Current event position is</source>
-        <translation type="unfinished"></translation>
+        <translation>Gjeldende hendelsesposisjon er</translation>
     </message>
     <message>
         <source>Event to be run is</source>
-        <translation type="unfinished"></translation>
+        <translation>Hendelsen som skal kjøre er</translation>
     </message>
     <message>
         <source>event</source>
-        <translation type="unfinished"></translation>
+        <translation>hendelse</translation>
     </message>
     <message>
         <source>Last event returned status</source>
-        <translation type="unfinished"></translation>
+        <translation>Siste hendelse returnerte status</translation>
     </message>
     <message>
         <source>Workflow event list</source>
-        <translation type="unfinished"></translation>
+        <translation>Arbeidsflythendelser</translation>
     </message>
     <message>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation>Nullstill</translation>
     </message>
     <message>
         <source>Next step</source>
-        <translation type="unfinished"></translation>
+        <translation>Neste steg</translation>
     </message>
     <message>
         <source>Workflow event log</source>
-        <translation type="unfinished"></translation>
+        <translation>Hendelseslogg for arbeidsflyt</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Navn</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Beskrivelse</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Status</translation>
     </message>
     <message>
         <source>Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informasjon</translation>
     </message>
     <message>
         <source>Defined workflows for</source>
-        <translation type="unfinished"></translation>
+        <translation>Definert arbeidsflyt for</translation>
     </message>
     <message>
         <source>Modifier:</source>
-        <translation type="unfinished">Endret av:</translation>
+        <translation>Endret av:</translation>
     </message>
     <message>
         <source>Modified:</source>
-        <translation type="unfinished">Endret tidspunkt:</translation>
+        <translation>Endret tidspunkt:</translation>
     </message>
     <message>
         <source>Edit:</source>
-        <translation type="unfinished">Rediger:</translation>
+        <translation>Rediger:</translation>
     </message>
     <message>
         <source>Remove:</source>
-        <translation type="unfinished">Fjern:</translation>
+        <translation>Fjern:</translation>
     </message>
     <message>
         <source>Temporary workflows for</source>
-        <translation type="unfinished"></translation>
+        <translation>Midlertidig arbeidsflyt for</translation>
     </message>
 </context>
 <context>
     <name>design/standard/workflow/eventtype/edit</name>
     <message>
         <source>Editor:</source>
-        <translation type="unfinished"></translation>
+        <translation>Redaktør:</translation>
     </message>
     <message>
         <source>Sections:</source>
-        <translation type="unfinished"></translation>
+        <translation>Seksjoner:</translation>
     </message>
     <message>
         <source>Any</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle</translation>
     </message>
     <message>
         <source>Users without approval:</source>
-        <translation type="unfinished"></translation>
+        <translation>Brukere med tillatelse:</translation>
     </message>
     <message>
         <source>Checkout text:</source>
-        <translation type="unfinished"></translation>
+        <translation>Betalingstekst:</translation>
     </message>
     <message>
         <source>Message:</source>
-        <translation type="unfinished"></translation>
+        <translation>Melding:</translation>
     </message>
     <message>
         <source>Section IDs:</source>
-        <translation type="unfinished"></translation>
+        <translation>Seksjons-IDer:</translation>
     </message>
     <message>
         <source>Users without workflow IDs:</source>
-        <translation type="unfinished"></translation>
+        <translation>Brukere med arbeidsflyt-IDer:</translation>
     </message>
     <message>
         <source>Unpublish object</source>
-        <translation type="unfinished"></translation>
+        <translation>Depubliser objekt</translation>
     </message>
     <message>
         <source>Publish object</source>
-        <translation type="unfinished"></translation>
+        <translation>Publiser objekt</translation>
     </message>
     <message>
         <source>Days:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dager:</translation>
     </message>
     <message>
         <source>Hours:</source>
-        <translation type="unfinished"></translation>
+        <translation>Timer:</translation>
     </message>
     <message>
         <source>Minutes:</source>
-        <translation type="unfinished"></translation>
+        <translation>Minutter:</translation>
     </message>
 </context>
 <context>
@@ -3750,168 +3734,193 @@
         <source>Hello</source>
         <translation>Hallo</translation>
     </message>
+    <message>
+        <source>Wrapping</source>
+        <translation>Innpakking</translation>
+    </message>
 </context>
 <context>
     <name>kernel/classes/datatypes</name>
     <message>
         <source>At least one author is requied.</source>
         <comment>eZAuthorType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Oppgi minst en forfatter.</translation>
     </message>
     <message>
         <source>Author name should be provided.</source>
         <comment>eZAuthorType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Oppgi forfatternavn.</translation>
     </message>
     <message>
         <source>Email address is not valid.</source>
         <comment>eZAuthorType</comment>
-        <translation type="unfinished"></translation>
+        <translation>E-postadressen er ikke gyldig.</translation>
     </message>
     <message>
         <source>A valid file is required.</source>
         <comment>eZBinaryFileType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Oppgi en gyldig fil.</translation>
     </message>
     <message>
         <source>A valid email account is required.</source>
         <comment>eZEmailType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Oppgi en gyldig e-postadresse.</translation>
     </message>
     <message>
         <source>Email address is not valid.</source>
         <comment>eZEmailType</comment>
-        <translation type="unfinished"></translation>
+        <translation>E-postadressen er ikke gyldig.</translation>
     </message>
     <message>
         <source>At least one field should be chosen.</source>
         <comment>eZEnumType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Velg minst ett felt.</translation>
     </message>
     <message>
         <source>Input is not float.</source>
         <comment>eZFloatType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Oppgitt verdi er ikke et flyttall.</translation>
     </message>
     <message>
         <source>Input must be greater than %1</source>
         <comment>eZFloatType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Oppgitt verdi må være større enn %1</translation>
     </message>
     <message>
         <source>Input must be less than %1</source>
         <comment>eZFloatType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Oppgitt verdi må være mindre enn %1</translation>
     </message>
     <message>
         <source>Input is not in defined range %1 - %2</source>
         <comment>eZFloatType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Oppgitt verdi må være innenfor området %1 - %2</translation>
     </message>
     <message>
         <source>A valid image is required.</source>
         <comment>eZImageType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Oppgi navn på et gyldig bilde.</translation>
     </message>
     <message>
         <source>Input is not integer.</source>
         <comment>eZIntegerType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Oppgitt verdi er ikke et heltall.</translation>
     </message>
     <message>
         <source>Input must be greater than %1</source>
         <comment>eZIntegerType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Oppgitt verdi må være større enn %1</translation>
     </message>
     <message>
         <source>Input must be less than %1</source>
         <comment>eZIntegerType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Oppgitt verdi må være mindre enn %1</translation>
     </message>
     <message>
         <source>Input is not in defined range %1 - %2</source>
         <comment>eZIntegerType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Oppgitt verdi må være innenfor området %1 - %2</translation>
     </message>
     <message>
         <source>The ISBN number is not correct. Please recheck the input</source>
         <comment>eZISBNType</comment>
-        <translation type="unfinished"></translation>
+        <translation>ISBN-nummeret er ikke gyldig, kontroller oppgitt nummer</translation>
     </message>
     <message>
         <source>The ISBN format is not valid.</source>
         <comment>eZISBNType</comment>
-        <translation type="unfinished"></translation>
+        <translation>ISBN-nummeret er ikke gyldig.</translation>
     </message>
     <message>
         <source>A valid file is required.</source>
         <comment>eZMediaType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Oppgi en gyldig fil.</translation>
     </message>
     <message>
         <source>At least one option is requied.</source>
         <comment>eZOptionType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Oppgi minst en opsjon.</translation>
     </message>
     <message>
         <source>Option value should be provided.</source>
         <comment>eZOptionType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Oppgi opsjonsverdi.</translation>
     </message>
     <message>
         <source>Text line is empty, content required.</source>
         <comment>eZStringType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tekstlinjen er tom, oppgi en verdi.</translation>
     </message>
     <message>
         <source>Text line too long, maximum allowed is %1.</source>
         <comment>eZStringType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tekstlinjen er for lang, største tillatte lengde er %1.</translation>
     </message>
     <message>
         <source>Text field is empty, content required.</source>
         <comment>eZStringType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tekstfeltet er tomt, oppgi en verdi.</translation>
     </message>
     <message>
         <source>An user account must be filled up</source>
         <comment>eZUserType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Opprett en brukerkonto</translation>
     </message>
     <message>
         <source>Login name exist, please choose another one.</source>
         <comment>eZUserType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Brukernavnet er opptatt, vennligst velg et annet brukernavn.</translation>
     </message>
     <message>
         <source>Email address is not valid.</source>
         <comment>eZUserType</comment>
-        <translation type="unfinished"></translation>
+        <translation>E-postadressen er ikke gyldig.</translation>
     </message>
     <message>
         <source>Please confirm your password.</source>
         <comment>eZUserType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Bekreft passordet.</translation>
     </message>
     <message>
         <source>The minimum length of password should be 3.</source>
         <comment>eZUserType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Passord bør være minst 3 tegn lange.</translation>
     </message>
     <message>
         <source>Object </source>
-        <translation type="unfinished"></translation>
+        <translation>Objekt</translation>
     </message>
     <message>
         <source>Link </source>
-        <translation type="unfinished"></translation>
+        <translation>Lenke</translation>
     </message>
 </context>
 <context>
-    <name>workflow/eventtype/result/event_ezcheckout</name>
+    <name>kernel/content/removenode</name>
+    <comment>child</comment>
     <message>
-        <source>Wrapping</source>
-        <translation>Innpakking</translation>
+        <source>child</source>
+        <comment>1 child</comment>
+        <translation>barn</translation>
+    </message>
+    <message>
+        <source>children</source>
+        <comment>several children</comment>
+        <translation>barn</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/content/removeobject</name>
+    <comment>child</comment>
+    <message>
+        <source>child</source>
+        <comment>1 child</comment>
+        <translation>barn</translation>
+    </message>
+    <message>
+        <source>children</source>
+        <comment>several children</comment>
+        <translation>barn</translation>
     </message>
 </context>
 </TS>
