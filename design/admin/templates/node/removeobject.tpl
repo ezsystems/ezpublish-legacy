@@ -34,9 +34,11 @@
 <table class="list" cellspacing="0">
 <tr>
     <th colspan="2">{'Item'|i18n( 'design/admin/node/removeobject' )}</th>
+    <th>{'Type'|i18n( 'design/admin/node/removeobject' )}</th>
     <th>{'Sub items'|i18n( 'design/admin/node/removeobject' )}</th>
 </tr>
 {section var=remove_item loop=$remove_list sequence=array( bglight, bgdark )}
+
 <tr class="{$remove_item.sequence}{section show=$remove_item.can_remove|not} object-cannot-remove{/section}">
     {* Object icon. *}
     <td class="tight">{$remove_item.class.identifier|class_icon( small, $remove_item.class.name )}</td>
@@ -49,7 +51,13 @@
     {/section}
     </td>
 
-    {* Sub items. *}
+
+    {* Type. *}
+    <td>
+    {$remove_item.object.class_name|wash}
+     </td>
+
+{* Sub items. *}
     <td>
     {section show=$remove_item.child_count|eq( 1 )}
         {'%child_count item'
@@ -69,7 +77,7 @@
 {section show=$remove_info.can_remove_all}
     {section show=$move_to_trash_allowed}
         <input type="hidden" name="SupportsMoveToTrash" value="1" />
-        <p><input type="checkbox" name="MoveToTrash" value="1" checked="checked" title="{'If "Move to trash" is checked you will find the removed items in the trash afterwards.'|i18n( 'design/admin/node/removeobject' )|wash}" />{'Move to trash'|i18n('design/admin/node/removeobject')}</p>
+        <p><input type="checkbox" name="MoveToTrash" value="1" checked="checked" title="{'If "Move to trash" is checked, the items will be moved to the trash instead of being permanently deleted.'|i18n( 'design/admin/node/removeobject' )|wash}" />{'Move to trash'|i18n('design/admin/node/removeobject')}</p>
     {/section}
 {/section}
 </div>
