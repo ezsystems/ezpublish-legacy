@@ -197,7 +197,8 @@ class eZHTTPTool
         if ( $attr == "session" )
         {
             eZSessionStart();
-            return $GLOBALS["HTTP_SESSION_VARS"];
+            return $_SESSION;
+//             return $GLOBALS["HTTP_SESSION_VARS"];
         }
         return null;
     }
@@ -440,9 +441,8 @@ class eZHTTPTool
     function setSessionVariable( $name, $value )
     {
         eZSessionStart();
-        global $HTTP_SESSION_VARS;
-        session_register( $name );
-        $HTTP_SESSION_VARS[$name] =& $value;
+//         session_register( $name );
+        $_SESSION[$name] =& $value;
     }
 
     /*!
@@ -451,7 +451,8 @@ class eZHTTPTool
     function removeSessionVariable( $name )
     {
         eZSessionStart();
-        session_unregister( $name );
+//         session_unregister( $name );
+        unset( $_SESSION[$name] );
     }
 
     /*!
@@ -460,8 +461,8 @@ class eZHTTPTool
     function hasSessionVariable( $name )
     {
         eZSessionStart();
-        global $HTTP_SESSION_VARS;
-        return isset( $HTTP_SESSION_VARS[$name] );
+//         global $HTTP_SESSION_VARS;
+        return isset( $_SESSION[$name] );
     }
 
     /*!
@@ -470,8 +471,8 @@ class eZHTTPTool
     function &sessionVariable( $name )
     {
         eZSessionStart();
-        global $HTTP_SESSION_VARS;
-        return $HTTP_SESSION_VARS[$name];
+//         global $HTTP_SESSION_VARS;
+        return $_SESSION[$name];
     }
 
     /*!

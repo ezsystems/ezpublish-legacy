@@ -4,6 +4,8 @@ Changes from 3.2.0-2 to 3.2-1
 - Added mapping from class/attribute string to attribute id in attribute filtering and sorting.
 - Added alphabetic sorting of role list.
 - Made sure tiff files support the .tif extension as well.
+- Made sure removal of objects cleaned up the url alias table correctly.
+- Made sure newly created objects would remove old aliases with the same name from the alias table.
 
 *Bugfixes:
 - Fixed malfunctioning string/array operators
@@ -45,6 +47,8 @@ Changes from 3.2.0-2 to 3.2-1
 
 eZ utils:
 - The session will now listen to the session-required in the site basics when it decides to start the session or not.
+- Made sure the superglobal $_SESSION variable is used instead of session_register etc.
+  for handling session variables in eZHTTPTool.
 
 *Translations:
 - Fixed and added Hungarian translation

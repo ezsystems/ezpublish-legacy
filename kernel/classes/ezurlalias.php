@@ -41,18 +41,32 @@
   \class eZURLAlias ezurlalias.php
   \brief Handles URL aliases in eZ publish
 
-  Handles storing, fetching, moving of eZ publish URL aliases
+  URL aliases are different names for existing URLs in eZ publish.
+  Using URL aliases allows for having better looking urls on the webpage
+  as well as having fixed URLs pointing to various locations.
+
+  This class handles storing, fetching, moving and subtree updates on eZ publish URL aliases.
+
+  Creating a new alias is done by using the create() function and passing the correct parameters.
+  Fetching an url can either be done with it's ID using fetch() or by it's URL string by using fetchBySourceURL.
+  To fetch the original URL you must use the translate() function.
 */
 
 include_once( "kernel/classes/ezpersistentobject.php" );
 
 class eZURLAlias extends eZPersistentObject
 {
+    /*!
+     Initializes a new URL alias.
+    */
     function eZURLAlias( $row )
     {
         $this->eZPersistentObject( $row );
     }
 
+    /*!
+     \reimp
+    */
     function &definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
@@ -85,6 +99,24 @@ class eZURLAlias extends eZPersistentObject
                       "name" => "ezurlalias" );
     }
 
+    /*!
+     \static
+     Creates a new URL alias with the new URL \a $sourceURL and the original URL \a $destinationURL
+     \param $isInternal decides if the url is internal or not (user created).
+     \return the URL alias object
+    */
+    function &create( $sourceURL, $destinationURL, $isInternal = true )
+    {
+        $row = array( 'source_url' => $sourceURL,
+                      'destination_url' => $destinationURL,
+                      'is_internal' => $isInternal );
+        $alias = new eZURLAlias( $row );
+        return $alias;
+    }
+
+    /*!
+     Generates the md5 for the alias and stores the values.
+    */
     function store()
     {
         $this->SourceMD5 = md5( $this->SourceURL );
@@ -92,6 +124,54 @@ class eZURLAlias extends eZPersistentObject
     }
 
     /*!
+     Removes this url alias as well as all other aliases that relate to it,
+     for instance forwarding aliases.
+     \note If you want to remove just this alias you must use remove()
+    */
+    function cleanup()
+    {
+        $id = $this->attribute( 'id' );
+        $db =& eZDB::instance();
+        $sql = "DELETE FROM ezurlalias WHERE forward_to_id = '" . $db->escapeString( $id ) . "' AND is_internal = '1'";
+        $db->query( $sql );
+        $this->remove();
+    }
+
+    /*!
+     \static
+     Makes sure all aliases which are children of the alias \a $oldPathString is updated
+     to have the correct \a $newPathString.
+    */
+    function updateChildAliases( $newPathString, $oldPathString )
+    {
+        $oldPathStringLength = strlen( $oldPathString );
+        $db =& eZDB::instance();
+        $subStringQueryPart = $db->subString( 'source_url', $oldPathStringLength + 1 );
+        $newPathStringQueryPart = $db->concatString( array( "'$newPathString'", $subStringQueryPart ) );
+        // Update children
+        $sql = "UPDATE
+             ezurlalias
+         SET
+             source_url =  $newPathStringQueryPart
+         WHERE
+             is_internal = 1 AND
+             source_url LIKE '$oldPathString/%'";
+
+        $db->query( $sql );
+
+        $md5QueryPart = $db->md5( 'source_url' );
+        $sql = "UPDATE
+                    ezurlalias
+                SET
+                    source_md5 = $md5QueryPart
+                WHERE
+                    source_url like '$oldPathString%'";
+
+        $db->query( $sql );
+    }
+
+    /*!
+     \static
       Fetches the URL alias by ID.
     */
     function &fetch( $id, $asObject = true )
@@ -104,6 +184,7 @@ class eZURLAlias extends eZPersistentObject
     }
 
     /*!
+     \static
       Fetches non-internal URL alias by offset and limit
     */
     function &fetchByOffset( $offset, $limit, $asObject = true )
@@ -117,6 +198,7 @@ class eZURLAlias extends eZPersistentObject
     }
 
     /*!
+     \static
       Counts the non-internal URL alias
     */
     function &totalCount( )
@@ -142,18 +224,22 @@ class eZURLAlias extends eZPersistentObject
 
     /*!
      \static
+     Converts the path \a $urlElement into a new alias url which only conists of characters
+     in the range a-z, numbers and _.
+     All other characters are converted to _.
+     \return the converted element
     */
-    function convertToAlias( $pathURL )
+    function convertToAlias( $urlElement )
     {
 
-        $pathURL = strtolower( $pathURL );
-        $pathURL = preg_replace( array( "#[^a-z0-9_ ]#" ,
-                                             "/ /",
-                                             "/__+/" ),
-                                      array( "",
-                                             "_",
-                                             "_" ),
-                                      $pathURL );
+        $urlElement = strtolower( $urlElement );
+        $urlElement = preg_replace( array( "#[^a-z0-9_ ]#" ,
+                                           "/ /",
+                                           "/__+/" ),
+                                    array( "",
+                                           "_",
+                                           "_" ),
+                                      $urlElement );
         return $pathURL;
     }
 
@@ -162,6 +248,10 @@ class eZURLAlias extends eZPersistentObject
 
     /*!
      \static
+     Converts the path \a $pathURL into a new alias path with limited characters.
+     For more information on the conversion see convertToAlias().
+     \note each element in the path (separated by / (slash) ) is converted separately.
+     \return the converted path
     */
     function convertPathToAlias( $pathURL )
     {
@@ -184,45 +274,34 @@ class eZURLAlias extends eZPersistentObject
     /*!
      \static
      Transforms the URI if there exists an alias for it.
-     false is returned if successful
-     The eZURLAlias object of the new url is returned if the translation was found, but the resource has moved
+     \return \c false is if successful.
+     \return The eZURLAlias object of the new url is returned if the translation was found, but the resource has moved.
     */
     function translate( &$uri )
     {
-        $db =& eZDB::instance();
         if ( get_class( $uri ) == "ezuri" )
         {
-            $query = "SELECT destination_url, forward_to_id
-                  FROM ezurlalias
-                  WHERE source_md5 = '" . md5( $uri->elements() ) . "' ORDER BY forward_to_id ASC";
+            $uriString = $uri->elements();
         }
         else
         {
-            $query = "SELECT destination_url, forward_to_id
-                  FROM ezurlalias
-                  WHERE source_md5 = '" . md5( $uri ) . "' ORDER BY forward_to_id ASC";
+            $uriString = $uri;
         }
+
+        $db =& eZDB::instance();
+        $query = "SELECT destination_url, forward_to_id
+                  FROM ezurlalias
+                  WHERE source_md5 = '" . md5( $uriString ) . "' ORDER BY forward_to_id ASC";
 
         $return = false;
         $urlAliasArray = $db->arrayQuery( $query );
         if ( count( $urlAliasArray ) > 0 )
         {
-            if ( get_class( $uri ) == "ezuri" )
-            {
-                $uri->setURIString( $urlAliasArray[0]['destination_url'] );
-            }
-            else
-                $uri = $urlAliasArray[0]['destination_url'];
-
+            $uriString = $urlAliasArray[0]['destination_url'];
 
             if ( $urlAliasArray[0]['forward_to_id'] != 0 )
             {
-                if ( get_class( $uri ) == "ezuri" )
-                {
-                    $uri->setURIString( "error/301" );
-                }
-                else
-                    $uri = "error/301" ;
+                $uriString = 'error/301';
 
                 return eZURLAlias::fetch( $urlAliasArray[0]['forward_to_id'] );
             }
@@ -232,6 +311,14 @@ class eZURLAlias extends eZPersistentObject
             }
         }
 
+        if ( get_class( $uri ) == "ezuri" )
+        {
+            $uri->setURIString( $uriString );
+        }
+        else
+        {
+            $uri = $uriString;
+        }
         return $return;
     }
 }
