@@ -657,9 +657,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
              ( $classFilterType == 'include' or $classFilterType == 'exclude' ) and
              count( $classFilterArray ) > 0 )
         {
-            $classCondition = ' ( ';
+            $classCondition = '  ';
             $i = 0;
             $classCount = count( $classFilterArray );
+            $classIDArray = array();
             foreach ( $classFilterArray as $classID )
             {
                 $originalClassID = $classID;
@@ -667,30 +668,28 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 if ( is_string( $classID ) && !is_numeric( $classID ) )
                 {
                     $classID = eZContentObjectTreeNode::classIDByIdentifier( $classID );
-                    if ( is_numeric( $classID ) )
-                    {
-                        if ( $i > 0 )
-                        {
-                            if ( $classFilterType == 'include' )
-                                $classCondition .= " OR ";
-                            else
-                                $classCondition .= " AND ";
-                        }
-
-                        if ( $classFilterType == 'include' )
-                            $classCondition .= " ezcontentobject.contentclass_id = '$classID' ";
-                        else
-                            $classCondition .= " ezcontentobject.contentclass_id <> '$classID' ";
-
-                        $i++;
-                    }
-                    else
-                    {
-                        eZDebug::writeError("Invalid class identifier in subTree() classfilterarray, classID : " . $originalClassID );
-                    }
+                }
+                if ( is_numeric( $classID ) )
+                {
+                    $classIDArray[] = $classID;
+                }
+                else
+                {
+                    eZDebug::writeError("Invalid class identifier in subTree() classfilterarray, classID : " . $originalClassID );
                 }
             }
-            $classCondition .= ' ) AND ';
+
+            if ( count( $classIDArray ) > 0  )
+            {
+                $classCondition .= " ezcontentobject.contentclass_id ";
+                if ( $classFilterType == 'include' )
+                    $classCondition .= " IN ";
+                else
+                    $classCondition .= " NOT IN ";
+
+                $classIDString =  implode( ', ', $classIDArray );
+                $classCondition .= ' ( ' . $classIDString . ' ) AND';
+            }
         }
 
         return $classCondition;
@@ -1003,14 +1002,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $node           =& eZContentObjectTreeNode::fetch( $nodeID );
                 $nodePath       = $node->attribute( 'path_string' );
                 $nodeDepth      = $node->attribute( 'depth' );
-                
                 $depthCond      = '';
                 if ( $depth )
                 {
                     $nodeDepth += $depth;
                     $depthCond = ' and depth = ' . $nodeDepth . ' ';
                 }
-                
+
                 $outNotEqParentStr          = " and node_id != $nodeID ";
                 $sqlPartForOneNodeList[]    = " ( path_string like '$nodePath%'   $depthCond $outNotEqParentStr ) ";
                 $outNotEqParentStr          = '';
@@ -1032,7 +1030,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             $nodePath   = $node->attribute( 'path_string' );
             $nodeDepth  = $node->attribute( 'depth' );
-            
+
             $outNotEqParentStr   = eZContentObjectTreeNode::createNotEqParentSQLString( $nodeID, $depth, $depthOperator );
             $outPathConditionStr = eZContentObjectTreeNode::createPathConditionSQLString( $nodePath, $nodeDepth, $depth, $depthOperator );
         }
@@ -1081,7 +1079,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $versionNameTables = ', ezcontentobject_name ';
         }
-        
+
         return $versionNameTables;
     }
 
@@ -1097,7 +1095,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
         }
 
-        
+
         return $versionNameTargets;
     }
 
@@ -1111,7 +1109,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( $useVersionName )
         {
             $lang = eZContentObject::defaultLanguage();
-    
+
             $versionNameJoins   = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
                                     ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
                                     ezcontentobject_name.content_translation = '$lang' ";
@@ -1126,7 +1124,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function &createPermissionCheckingSQLString( &$limitationList )
     {
         $sqlPermissionCheckingString = '';
-        
+
         $db =& eZDB::instance();
 
         if ( count( $limitationList ) > 0 )
@@ -1198,13 +1196,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( $includingLastNodeInThePath == false )
             $pathArray = array_slice( $pathArray, 0, count($pathArray)-1 );
-        
+
         if ( count( $pathArray ) > 0 )
         {
             foreach ( $pathArray as $node )
             {
                 $pathString .= 'or node_id = ' . $node . ' ';
-    
+
             }
             if ( strlen( $pathString) > 0 )
             {
@@ -1281,7 +1279,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $attributeFilter         =& eZContentObjectTreeNode::createAttributeFilterSQLStrings( $params['AttributeFilter'], $sortingInfo );
         $extendedAttributeFilter =& eZContentObjectTreeNode::createExtendedAttributeFilterSQLStrings( $params['ExtendedAttributeFilter'] );
         $mainNodeOnlyCond        =& eZContentObjectTreeNode::createMainNodeConditionSQLString( $mainNodeOnly );
-        
+
         $pathStringCond     = '';
         $notEqParentString  = '';
         eZContentObjectTreeNode::createPathConditionAndNotEqParentSQLStrings( $pathStringCond, $notEqParentString, $this, $nodeID, $depth, $depthOperator );
@@ -1294,7 +1292,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $versionNameTables  =& eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
         $versionNameTargets =& eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
         $versionNameJoins   =& eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName );
-        
+
         $limitationList              =& eZContentObjectTreeNode::getLimitationList( $params['Limitation'] );
         $sqlPermissionCheckingString =& eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
 
@@ -1327,7 +1325,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       $sqlPermissionCheckingString
                 $groupByText
                 ORDER BY $sortingInfo[sortingFields]";
-        
+
 
         $db =& eZDB::instance();
 
@@ -1451,46 +1449,48 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         $ini =& eZINI::instance();
-        $classCondition = "";
+
+        // Check for class filtering
+        $classCondition = '';
+
         if ( isset( $params['ClassFilterType'] ) and isset( $params['ClassFilterArray'] ) and
              ( $params['ClassFilterType'] == 'include' or $params['ClassFilterType'] == 'exclude' )
              and count( $params['ClassFilterArray'] ) > 0 )
         {
-            $gotInvalidClassIdentifier = false;
-            $classCondition = ' ( ';
+            $classCondition = '  ';
             $i = 0;
             $classCount = count( $params['ClassFilterArray'] );
+            $classIDArray = array();
             foreach ( $params['ClassFilterArray'] as $classID )
             {
+                $originalClassID = $classID;
+                // Check if classes are recerenced by identifier
                 if ( is_string( $classID ) && !is_numeric( $classID ) )
                 {
                     $classID = eZContentObjectTreeNode::classIDByIdentifier( $classID );
-                    if ( !is_numeric( $classID ) )
-                    {
-                        $gotInvalidClassIdentifier = true;
-                    }
-
                 }
-                if ( $params['ClassFilterType'] == 'include' )
-                    $classCondition .= " ezcontentobject.contentclass_id = '$classID' ";
-                else
-                    $classCondition .= " ezcontentobject.contentclass_id <> '$classID' ";
-
-                $i++;
-                if ( $i < $classCount )
+                if ( is_numeric( $classID ) )
                 {
-                    if ( $params['ClassFilterType'] == 'include' )
-                        $classCondition .= " OR ";
-                    else
-                        $classCondition .= " AND ";
+                    $classIDArray[] = $classID;
+                }
+                else
+                {
+                    eZDebug::writeError("Invalid class identifier in subTree() classfilterarray, classID : " . $originalClassID );
                 }
             }
-            $classCondition .= ' ) AND ';
+            if ( count( $classIDArray ) > 0  )
+            {
+                $classCondition .= " ezcontentobject.contentclass_id ";
+                if ( $params['ClassFilterType'] == 'include' )
+                    $classCondition .= " IN ";
+                else
+                    $classCondition .= " NOT IN ";
 
-            // Do not include class conditions if the translated class ID is empty
-            if ( $gotInvalidClassIdentifier == true )
-                $classCondition = "";
+                $classIDString =  implode( ', ', $classIDArray );
+                $classCondition .= ' ( ' . $classIDString . ' ) AND';
+            }
         }
+
 
         // Main node check
         $mainNodeOnlyCond = '';
