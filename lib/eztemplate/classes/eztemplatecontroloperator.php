@@ -161,18 +161,19 @@ class eZTemplateControlOperator
                 {
                     if ( $i != 0 )
                     {
-                        $code .= 'else ';
+                        $code .= "}\nelse\n{\n";
                     }
 
                     if ( eZTemplateNodeTool::isStaticElement( $parameters[$i] ) )
                     {
-                        $code .= '%output% = ' . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false ) . ';';
+                        $code .= "\t%output% = " . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false ) . ";\n";
                         break;
                     }
 
                     $values[] = $parameters[$i];
-                    $code .= 'if ( isset( %' . count( $values ) . '% ) ) %output% = %' . count( $values ) . '%;' . "\n";
+                    $code .= 'if ( isset( %' . count( $values ) . "% ) )\n{\n\t%output% = %" . count( $values ) . '%;' . "\n";
                 }
+                $code .= "}\n";
 
                 return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
             } break;
