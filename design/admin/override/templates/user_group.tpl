@@ -9,10 +9,10 @@
          content_version=$node.contentobject_version_object
          node_name=$node.name}
 
+
 {section show=$is_standalone}
     <form method="post" action={"content/action"|ezurl}>
 {/section}
-
 
 <div class="objectheader">
     <h2>User group</h2>
@@ -64,7 +64,6 @@
      user_class_list=fetch('content','can_instantiate_class_list',hash(group_id,$user_class_group_id,parent_node,$node))}
 {section show=$user_class_list_allowed}
 <div class="buttonblock">
-    <form method="post" action={"content/action"|ezurl}>
          <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
          <input type="hidden" name="NodeID" value="{$node.node_id}" />
          <select name="ClassID" class="create">
@@ -73,7 +72,6 @@
 	      {/section}
          </select>
          <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n('design/standard/node/view')}" />
-    </form>
 </div>
 {/section}
 {/let}
