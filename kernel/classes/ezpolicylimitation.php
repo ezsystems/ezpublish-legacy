@@ -185,8 +185,10 @@ class eZPolicyLimitation extends eZPersistentObject
                 $limitationValuePair['value'] = $limitationValue[ 'id' ];
                 $limitationValueArray[] = $limitationValuePair;
             }
+        }else
+        {
+            $limitationValueArray = $limitation[ 'values' ];
         }
-        
         $limitationValuesWithNames = array();
         foreach ( array_keys( $valueList ) as $key )
         {
