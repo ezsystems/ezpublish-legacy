@@ -22,7 +22,7 @@
 
 <ul>
 {section name=Result loop=$delete_result}
-    <li>{$Result:item.name}</li>
+    <li>{$Result:item.name|wash}</li>
 {/section}
 </ul>
 

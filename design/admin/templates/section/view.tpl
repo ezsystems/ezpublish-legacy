@@ -3,7 +3,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'section'|icon( 'normal', 'Section'|i18n( 'design/admin/section/view' ) )}&nbsp;{'%section_name [Section]'|i18n( 'design/admin/section/view',, hash( '%section_name', $section.name ) )}</h1>
+<h1 class="context-title">{'section'|icon( 'normal', 'Section'|i18n( 'design/admin/section/view' ) )}&nbsp;{'%section_name [Section]'|i18n( 'design/admin/section/view',, hash( '%section_name', $section.name ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -15,7 +15,7 @@
 
 <div class="block">
 <label>{'Name'|i18n( 'design/admin/section/view' )}:</label>
-{$section.name}
+{$section.name|wash}
 </div>
 
 <div class="block">
@@ -72,7 +72,7 @@
 
 {section var=Roles loop=$roles sequence=array( bglight, bgdark )}
 <tr class="{$Roles.sequence}">
-<td>{'role'|icon( 'small', 'Role'|i18n( 'design/admin/section/view' ) )}&nbsp;<a href={concat( '/role/view/', $Roles.item.id )|ezurl}>{$Roles.item.name}</a></td>
+<td>{'role'|icon( 'small', 'Role'|i18n( 'design/admin/section/view' ) )}&nbsp;<a href={concat( '/role/view/', $Roles.item.id )|ezurl}>{$Roles.item.name|wash}</a></td>
 <td>
 {section var=Policies loop=$limited_policies[$Roles.id]}
 {$Policies.module_name}/{$Policies.function_name}
@@ -120,8 +120,8 @@
 
 {section var=UserRoles loop=$user_roles sequence=array( bglight, bgdark )}
 <tr class="{$UserRoles.sequence}">
-    <td>{$UserRoles.user.main_node.class_identifier|class_icon( 'small', $UserRoles.user.main_node.class_name )}&nbsp;<a href={$UserRoles.user.main_node.url_alias|ezurl}>{$UserRoles.user.name}</a></td>
-    <td>{'role'|icon( 'small', 'Role'|i18n( 'design/admin/section/view' ) )}&nbsp;<a href={concat( '/role/view/', $UserRoles.role.id )|ezurl}>{$UserRoles.role.name}</a></td>
+    <td>{$UserRoles.user.main_node.class_identifier|class_icon( 'small', $UserRoles.user.main_node.class_name )}&nbsp;<a href={$UserRoles.user.main_node.url_alias|ezurl}>{$UserRoles.user.name|wash}</a></td>
+    <td>{'role'|icon( 'small', 'Role'|i18n( 'design/admin/section/view' ) )}&nbsp;<a href={concat( '/role/view/', $UserRoles.role.id )|ezurl}>{$UserRoles.role.name|wash}</a></td>
 </tr>
 {/section}
 </table>

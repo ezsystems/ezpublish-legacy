@@ -82,11 +82,4 @@ else
     return;
 }
 
-$tpl =& templateInit();
-
-$tpl->setVariable( "section", $section );
-
-$Result = array();
-$Result['content'] =& $tpl->fetch( "design:section/assign.tpl" );
-
 ?>
