@@ -360,7 +360,7 @@ class eZContentClass extends eZPersistentObject
                  eZPersistentObject::hasAttribute( $attr ) );
     }
 
-    function attribute( $attr )
+    function &attribute( $attr )
     {
         switch( $attr )
         {
@@ -852,7 +852,7 @@ class eZContentClass extends eZPersistentObject
                                                                   "version" => $version ) );
     }
 
-    function versionStatus()
+    function &versionStatus()
     {
         if ( $this->VersionCount == 1 )
         {

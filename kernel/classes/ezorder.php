@@ -999,7 +999,7 @@ class eZOrder extends eZPersistentObject
     /*!
      \return the template to use for account view
     */
-    function accountViewTemplate()
+    function &accountViewTemplate()
     {
         return $this->AccountIdentifier;
     }

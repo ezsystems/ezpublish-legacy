@@ -83,7 +83,7 @@ class eZBasket extends eZPersistentObject
                       "name" => "ezbasket" );
     }
 
-    function attribute( $attr )
+    function &attribute( $attr )
     {
         if ( $attr == "items" )
             return $this->items();

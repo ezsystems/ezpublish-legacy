@@ -130,7 +130,7 @@ class eZXMLInputHandler
     /*!
      \return the template name for this input handler, includes the edit suffix if any.
     */
-    function editTemplateName()
+    function &editTemplateName()
     {
         $name = 'ezxmltext';
         $suffix = $this->editTemplateSuffix();
@@ -142,7 +142,7 @@ class eZXMLInputHandler
     /*!
      \return the template name for this input handler, includes the information suffix if any.
     */
-    function informationTemplateName()
+    function &informationTemplateName()
     {
         $name = 'ezxmltext';
         $suffix = $this->informationTemplateSuffix();

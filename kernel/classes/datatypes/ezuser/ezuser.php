@@ -117,7 +117,7 @@ class eZUser extends eZPersistentObject
                       'name' => 'ezuser' );
     }
 
-    function attribute( $name )
+    function &attribute( $name )
     {
         if ( $name == 'groups')
         {
@@ -271,7 +271,7 @@ class eZUser extends eZPersistentObject
         $this->OriginalPasswordConfirm = $password;
     }
 
-    function hasStoredLogin()
+    function &hasStoredLogin()
     {
         $db =& eZDB::instance();
         $contentObjectID = $this->attribute( 'contentobject_id' );

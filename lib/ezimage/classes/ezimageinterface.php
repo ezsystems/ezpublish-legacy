@@ -159,7 +159,7 @@ class eZImageInterface
     /*!
       \return true if the width and height of the image has been set.
     */
-    function hasSize()
+    function &hasSize()
     {
         return $this->Width !== false and $this->Height !== false;
     }
