@@ -212,6 +212,14 @@ class eZIdentifierType extends eZDataType
         return  $contentObjectAttribute->attribute( "data_text" );
     }
 
+    /*!
+     \reimp
+    */
+    function isIndexable()
+    {
+        return true;
+    }
+
 
     /*!
       The value should be created and incremented when the object is published.
@@ -269,13 +277,14 @@ class eZIdentifierType extends eZDataType
             }
 
             $ret[] = $db->query( $updateQuery );
+            $ret[] = eZIdentifierType::storeIdentifierValue( $contentClassAttribute, $contentObjectAttribute, $identifierValue );
+
             if ( !in_array( false, $ret ) )
-            {
-                $ret[] = eZIdentifierType::storeIdentifierValue( $contentClassAttribute, $contentObjectAttribute, $identifierValue );
-            }
+                $db->commit();
+            else
+                $db->rollback();
         
             $db->unlock();
-
         }
         else
         {
