@@ -428,6 +428,28 @@ else if ( $http->hasPostVariable( 'RedirectButton' ) )
         return;
     }
 }
+else if ( $http->hasPostVariable( 'DestinationURL' ) )
+{
+    $postVariables = $http->attribute( 'post' );
+    $destinationURL = $http->postVariable( 'DestinationURL' );
+    $additionalParams = '';
+
+    foreach( $postVariables as $key => $value )
+    {
+        if ( strpos( $key, 'Param' ) == 0 )
+        {
+            $destinationURL .= '/' . $value;
+        }
+        else if ( $key != 'DestinationURL' &&
+                  $key != 'Submit' )
+        {
+            $additionalParams .= "/$key/$value";
+        }
+    }
+
+    $module->redirectTo( '/' . $destinationURL . $additionalParams );
+    return;
+}
 /*else if ( $http->hasPostVariable( 'RemoveObject' ) )
 {
     $removeObjectID = $http->postVariable( 'RemoveObject' );
