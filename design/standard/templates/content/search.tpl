@@ -48,12 +48,12 @@
   <div class="warning">
   <h2>{'No results were found when searching for "%1"'|i18n("design/standard/content/search",,array($search_text|wash))}</h2>
   </div>
-    <p>Search tips</p>
+    <p>{'Search tips'|i18n('design/standard/content/search')}</p>
     <ul>
-        <li>Check spelling of keywords.</li>
-        <li>Try changing some keywords eg. car instead of cars.</li>
-        <li>Try more general keywords.</li>
-        <li>Fewer keywords gives more results, try reducing keywords until you get a result.</li>
+        <li>{'Check spelling of keywords.'|i18n('design/standard/content/search')}</li>
+        <li>{'Try changing some keywords eg. car instead of cars.'|i18n('design/standard/content/search')}</li>
+        <li>{'Try more general keywords.'|i18n('design/standard/content/search')}</li>
+        <li>{'Fewer keywords gives more results, try reducing keywords until you get a result.'|i18n('design/standard/content/search')}</li>
     </ul>
   {/case}
   {case}

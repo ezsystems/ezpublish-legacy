@@ -2,7 +2,7 @@
          current_depth=0
          offset=$view_parameters.offset item_limit=10
          summary_indentation=10}
-<h1>Summary</h1>
+<h1>{'Summary'|i18n('design/standard/collaboration')}</h1>
 
 {let group_tree=fetch("collaboration","group_tree",hash("parent_group_id",$parent_group_id))
      latest_item_count=fetch("collaboration","item_count")
