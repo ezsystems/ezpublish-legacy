@@ -1,0 +1,25 @@
+#?ini charset="iso-8859-1"?
+# eZ publish configuration file.
+
+[DesignSettings]
+SiteDesign=standard
+
+[SiteSettings]
+DefaultPage=/manual
+ErrorHandler=defaultpage
+IndexPage=/sdk
+
+[SiteAccessSettings]
+RequireUserLogin=false
+
+[SiteAccessRules]
+Rules[]
+Rules[]=Access;disable
+Rules[]=ModuleAll;true
+Rules[]=Access;enable
+Rules[]=Module;sdk
+
+[SitePrecheckRules]
+Rules[]
+Rules[]=Access;disable
+Rules[]=PreCheck;user
