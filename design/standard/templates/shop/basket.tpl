@@ -1,7 +1,7 @@
 <form method="post" action={"/shop/basket/"|ezurl}>
 
 <div class="maincontentheader">
-<h1>{"Basket"|i18n("shop")}</h1>
+<h1>{"Basket"|i18n("design/standard/shop")}</h1>
 </div>
 
 {section name=Basket show=$basket.items|gt(0)}
@@ -10,28 +10,28 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>
-	Product:
+	{"Product:"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	Count:
+	{"Count:"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	VAT:
+	{"VAT:"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	Price ex. VAT:
+	{"Price ex. VAT:"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	Price inc. VAT:
+	{"Price inc. VAT:"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	Discount:
+	{"Discount:"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	Total Price ex. VAT:
+	{"Total Price ex. VAT:"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	Total Price inc. VAT:
+	{"Total Price inc. VAT:"|i18n("design/standard/shop")}
 	</th>
 	<th>
 	&nbsp;
@@ -83,10 +83,10 @@
      <td colspan='6'>
      </td>
      <td>
-     <b>Subtotal Ex. VAT:</b>
+     <b>{"Subtotal Ex. VAT:"|i18n("design/standard/shop")}</b>
      </td>
      <td>
-     <b>Subtotal Inc. VAT:</b>
+     <b>{"Subtotal Inc. VAT:"|i18n("design/standard/shop")}</b>
      </td>
      <td>
      </td>
@@ -105,13 +105,13 @@
 </tr>
 </table>
 <div class="buttonblock">
-<input class="button" type="submit" name="StoreChangesButton" value="Store" /> &nbsp;
-<input class="button" type="submit" name="RemoveProductItemButton" value="Remove" />
+<input class="button" type="submit" name="StoreChangesButton" value="{'Store'|i18n('design/standard/shop)}'" /> &nbsp;
+<input class="button" type="submit" name="RemoveProductItemButton" value="{'Remove'|i18n('design/standard/shop)}'" />
 </div>
 
 <div class="buttonblock">
-<input class="button" type="submit" name="ContinueShoppingButton" value="Continue shopping" />
-<input class="button" type="submit" name="CheckoutButton" value="Checkout" /> &nbsp;
+<input class="button" type="submit" name="ContinueShoppingButton" value="{'Continue shopping'|i18n('design/standard/shop)}'" />
+<input class="button" type="submit" name="CheckoutButton" value="{'Checkout'|i18n('design/standard/shop)}'" /> &nbsp;
 </div>
 
 {/section}
@@ -120,7 +120,7 @@
 {section name=Basket show=$basket.items|lt(1) }
 
 <div class="feedback">
-<h2>You have no products in your basket</h2>
+<h2>{"You have no products in your basket"|i18n("design/standard/shop")}</h2>
 </div>
 
 {/section}

@@ -1,37 +1,37 @@
 <div class="maincontentheader">
-<h1>{"Order"|i18n("shop")} {$order.order_nr}</h1>
+<h1>{"Order"|i18n("design/standard/shop")} {$order.order_nr}</h1>
 </div>
 
-<b>Customer:</b> 
+<b>{"Customer:"|i18n("design/standard/shop")}</b> 
 {content_view_gui view=text_linked content_object=$order.user.contentobject}
 <br />
 
-<b>Product items</b>
+<b>{"Product items"|i18n("design/standard/shop")}</b>
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>
-	Product:
+	{"Product:"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	Count:
+	{"Count:"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	VAT:
+	{"VAT:"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	Price ex. VAT:
+	{"Price ex. VAT:"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	Price inc. VAT:
+	{"Price inc. VAT:"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	Discount:
+	{"Discount:"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	Total Price ex. VAT:
+	{"Total Price ex. VAT:"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	Total Price inc. VAT:
+	{"Total Price inc. VAT:"|i18n("design/standard/shop")}
 	</th>
 	<th>
 	&nbsp;
@@ -70,11 +70,11 @@
 
 
 
-<b>Order summary</b>:<br />
+<b>{"Order summary:"|i18n("design/standard/shop")}</b><br />
 <table class="list" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td class="bgdark">
-    Subtotal of items:
+    {"Subtotal of items:"|i18n("design/standard/shop")}
     </td>
     <td class="bgdark">
     {$order.product_total_ex_vat|l10n(currency)}
@@ -99,7 +99,7 @@
 {/section}
 <tr>
     <td class="bgdark">
-    <b>Order total:</b>
+    <b>{"Order total:"|i18n("design/standard/shop")}</b>
     </td>
     <td class="bgdark">
     <b>{$order.total_ex_vat|l10n(currency)}</b>

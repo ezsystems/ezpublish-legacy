@@ -1,7 +1,7 @@
 <form method="post" action={"/shop/wishlist/"|ezurl}>
 
 <div class="maincontentheader">
-<h1>{"Wish list"|i18n("shop")}</h1>
+<h1>{"Wish list"|i18n("design/standard/shop")}</h1>
 </div>
 
 {section show=$wish_list.items}
@@ -9,28 +9,28 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>
-	Product:
+	{"Product:"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	Count:
+	{"Count:"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	VAT:
+	{"VAT:"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	Price ex. VAT:
+	{"Price ex. VAT:"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	Price inc. VAT:
+	{"Price inc. VAT:"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	Discount:
+	{"Discount:"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	Total Price ex. VAT:
+	{"Total Price ex. VAT:"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	Total Price inc. VAT:
+	{"Total Price inc. VAT:"|i18n("design/standard/shop")}
 	</th>
 	<th>
     &nbsp;
@@ -74,15 +74,15 @@
 </table>
 
 <div class="buttonblock">
-<input class="button" type="submit" name="StoreChangesButton" value="Store" />
-<input class="button" type="submit" name="RemoveProductItemButton" value="Remove item(s)" />
+<input class="button" type="submit" name="StoreChangesButton" value="{'Store'|i18n('design/standard/shop')}" />
+<input class="button" type="submit" name="RemoveProductItemButton" value="{'Remove item(s)'|i18n('design/standard/shop')}" />
 </div>
 
 {section-else}
 
 
 <div class="feedback">
-<h2>Empty wish list</h2>
+<h2>{"Empty wish list"|i18n("design/standard/shop")}</h2>
 </div>
 {/section}
 

@@ -1,20 +1,20 @@
 <h1>{"Group view"|i18n('shop/discountgroupview')}</h1>
 
-<form action={concat($module.functions.discountgroupview.uri,"/",$discountgroup.id)|ezurl} method="post"  name="DiscountGroupView">
+<form action={concat($module.functions.discountgroupview.uri,"/",$discountgroup.id)|ezurl} method="post" name="DiscountGroupView">
 
-<h3>Group Name:</h3>
+<h3>{"Group Name:"|i18n("design/standard/shop")}</h3>
 {$discountgroup.name}<a href={concat("/shop/discountgroupedit/",$discountgroup.id,"/")|ezurl}>[edit]</a><br/>
-<h3>Defined rules:</h3> 
+<h3>{"Defined rules:"|i18n("design/standard/shop")}</h3> 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>
-	Name:
+	{"Name:"|i18n("design/standard/shop")}
 	</th>
 	<th>
-        Percent
+        {"Percent"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	Apply to:
+	{"Apply to:"|i18n("design/standard/shop")}
 	</th>
 	<th>
 	</th>
@@ -40,19 +40,19 @@
 {/section}
 </table>
 <div class="buttonblock">
-<input type="submit" name="AddRuleButton" value="Add Rule" /> &nbsp;
-<input type="submit" name="RemoveRuleButton" value="Remove Rule" />
+<input type="submit" name="AddRuleButton" value="{'Add Rule'|i18n('design/standard/shop')}" /> &nbsp;
+<input type="submit" name="RemoveRuleButton" value="{'Remove Rule'|i18n('design/standard/shop')}" />
 </div>
 <table width="100%" cellspacing="0">
 <tr>
-	<th>Customers</th>
+	<th>{"Customers"|i18n("design/standard/shop")}</th>
 </tr>
 {section name=Customer loop=$customers sequence=array(bglight,bgdark)}
 <tr>
-	<td  class="{$Customer:sequence}">
+	<td class="{$Customer:sequence}">
 	{$Customer:item.name}
 	</td>
-	<td  class="{$Customer:sequence}">
+	<td class="{$Customer:sequence}">
 	<input type="checkbox" value="{$Customer:item.id}" name="CustomerIDArray[]" />
 	</td>
 </tr>
@@ -60,7 +60,7 @@
 </table>
 
 <div class="buttonblock">
-<input type="submit" name="AddCustomerButton" value="Add customer" /> &nbsp;
-<input type="submit" name="RemoveCustomerButton" value="Remove customer" />
+<input type="submit" name="AddCustomerButton" value="{'Add customer'|i18n('design/standard/shop')}" /> &nbsp;
+<input type="submit" name="RemoveCustomerButton" value="{'Remove customer'|i18n('design/standard/shop')}" />
 </div>
 </form>

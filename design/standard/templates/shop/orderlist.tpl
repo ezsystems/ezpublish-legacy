@@ -1,23 +1,23 @@
 <div class="maincontentheader">
-<h1>{"Order list"|i18n("shop")}</h1>
+<h1>{"Order list"|i18n("design/standard/shop")}</h1>
 </div>
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>
-	ID
+	{"ID"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	Date
+	{"Date"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	Customer
+	{"Customer"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	Total ex. VAT
+	{"Total ex. VAT"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	Total inc. VAT
+	{"Total inc. VAT"|i18n("design/standard/shop")}
 	</th>
 </tr>
 {section name="Order" loop=$order_list sequence=array(bglight,bgdark)}

@@ -1,11 +1,11 @@
 <form action={"shop/vattype"|ezurl} method="post" name="VatType">
 
-<h1>{"VAT Types"|i18n("shop")}</h1>
+<h1>{"VAT Types"|i18n("design/standard/shop")}</h1>
 {section show=$vattype_array}
 <table width="100%">
 <tr>
-    <th>{"Name"|i18n("shop")}:</th>
-    <th>{"Percentage"|i18n("shop")}:</th>
+    <th>{"Name:"|i18n("design/standard/shop")}</th>
+    <th>{"Percentage:"|i18n("design/standard/shop")}</th>
     <th></th>
 </tr>
 {section name="VatType" loop=$vattype_array sequence=array(bglight,bgdark)}
@@ -24,9 +24,9 @@
 </table>
 {/section}
 <div class="buttonblock">
-{include uri="design:gui/button.tpl" name=newvattype id_name=AddVatTypeButton value="New"|i18n("shop")}
-{include uri="design:gui/button.tpl" name=removevattype id_name=RemoveVatTypeButton value="Remove"|i18n("shop")}
+{include uri="design:gui/button.tpl" name=newvattype id_name=AddVatTypeButton value="New"|i18n("design/standard/shop")}
+{include uri="design:gui/button.tpl" name=removevattype id_name=RemoveVatTypeButton value="Remove"|i18n("design/standard/shop")}
 </div>
 </br>
-{include uri="design:gui/button.tpl" name=savevattype id_name=SaveVatTypeButton value="Store"|i18n("shop")}
+{include uri="design:gui/button.tpl" name=savevattype id_name=SaveVatTypeButton value="Store"|i18n("design/standard/shop")}
 </form>
