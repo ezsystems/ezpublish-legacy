@@ -126,7 +126,7 @@ class eZTemplateNodeTool
     function createArrayElement( $array, $variablePlacement = false )
     {
         return array( EZ_TEMPLATE_TYPE_ARRAY,
-                      $identifier, $variablePlacement );
+                      $array, $variablePlacement );
     }
 
     /*!
@@ -138,7 +138,7 @@ class eZTemplateNodeTool
         if ( !is_bool( $boolean ) )
             $boolean = (bool)$boolean;
         return array( EZ_TEMPLATE_TYPE_BOOLEAN,
-                      $identifier, $variablePlacement );
+                      $boolean, $variablePlacement );
     }
 
     /*!
