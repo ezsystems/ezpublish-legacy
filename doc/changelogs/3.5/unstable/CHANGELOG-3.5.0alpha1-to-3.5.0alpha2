@@ -4,6 +4,7 @@ Changes from 3.5.0alpha1 to 3.5.0alpha2
 
 *Kernel:
 - Added permission check for updating priority of sorting.
+- Disabled removing class which has content object used as system/top node.
 
 Scripts:
 - New script bin/php/ezcontentcache.php which can be used to clear the

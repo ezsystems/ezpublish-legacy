@@ -35,6 +35,8 @@
 include_once( "kernel/classes/ezcontentclass.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 include_once( "kernel/classes/ezcontentclassclassgroup.php" );
+include_once( "lib/ezutils/classes/ezini.php" );
+include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 $Module =& $Params["Module"];
 $GroupID = null;
@@ -44,6 +46,27 @@ $http =& eZHTTPTool::instance();
 $deleteIDArray = $http->sessionVariable( "DeleteClassIDArray" );
 $DeleteResult = array();
 $alreadyRemoved = array();
+$systemClassArray = array();
+
+
+// Find system node and their content class ID.
+$systemNodeArray = array();
+$db =& eZDB::instance();
+$systemNodeArray =& $db->arrayQuery( "SELECT node_id from ezcontentobject_tree WHERE depth = 1" );
+foreach ( array_keys( $systemNodeArray ) as $key )
+{
+    $systemNodeID = $systemNodeArray[$key]['node_id'];
+    $systemNode =& eZContentObjectTreeNode::fetch( $systemNodeID );
+    if ( $systemNode != null )
+    {
+        $nodeObject = $systemNode->attribute( 'object' );
+        $systemClassID = $nodeObject->attribute( 'contentclass_id' );
+        if ( !in_array( $systemClassID, $systemClassArray ) )
+        {
+            $systemClassArray[] = $systemClassID;
+        }
+    }
+}
 
 if ( !$http->hasPostVariable( 'ConfirmButton' ) && !$http->hasPostVariable( 'CancelButton' ) && $GroupID != null )
 {
@@ -86,33 +109,36 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
 {
     foreach ( $deleteIDArray as $deleteID )
     {
-        eZContentClassClassGroup::removeClassMembers( $deleteID, 0 );
-        eZContentClassClassGroup::removeClassMembers( $deleteID, 1 );
-
-        // Fetch real version and remove it
-        $deleteClass =& eZContentClass::fetch( $deleteID );
-        if ( $deleteClass != null )
-            $deleteClass->remove( true );
-
-        // Fetch temp version and remove it
-        $tempDeleteClass =& eZContentClass::fetch( $deleteID, true, 1 );
-        if ( $tempDeleteClass != null )
-            $tempDeleteClass->remove( true, 1 );
-
-        //Remove all object from thrash
-        $db =& eZDB::instance();
-        $deleteID = $db->escapeString( $deleteID ); //security thing
-        while ( true )
+        if ( !in_array( $deleteID, $systemClassArray ) )
         {
-            $resArray =& $db->arrayQuery( "SELECT ezcontentobject.id FROM ezcontentobject WHERE ezcontentobject.contentclass_id='$deleteID'", array( 'length' => 50 ) );
-            if( !$resArray || count( $resArray ) == 0 )
+            eZContentClassClassGroup::removeClassMembers( $deleteID, 0 );
+            eZContentClassClassGroup::removeClassMembers( $deleteID, 1 );
+
+            // Fetch real version and remove it
+            $deleteClass =& eZContentClass::fetch( $deleteID );
+            if ( $deleteClass != null )
+                $deleteClass->remove( true );
+
+            // Fetch temp version and remove it
+            $tempDeleteClass =& eZContentClass::fetch( $deleteID, true, 1 );
+            if ( $tempDeleteClass != null )
+                $tempDeleteClass->remove( true, 1 );
+
+            //Remove all object from thrash
+            $db =& eZDB::instance();
+            $deleteID = $db->escapeString( $deleteID ); //security thing
+            while ( true )
             {
-                break;
-            }
-            foreach( $resArray as $row )
-            {
-                $object =& eZContentObject::fetch( $row['id'] );
-                $object->purge();
+                $resArray =& $db->arrayQuery( "SELECT ezcontentobject.id FROM ezcontentobject WHERE ezcontentobject.contentclass_id='$deleteID'", array( 'length' => 50 ) );
+                if( !$resArray || count( $resArray ) == 0 )
+                {
+                    break;
+                }
+                foreach( $resArray as $row )
+                {
+                    $object =& eZContentObject::fetch( $row['id'] );
+                    $object->purge();
+                }
             }
         }
     }
@@ -132,15 +158,24 @@ foreach ( $deleteIDArray as $deleteID )
         $class =& eZContentClass::fetch( $deleteID );
         $ClassID = $class->attribute( 'id' );
         $ClassName = $class->attribute( 'name' );
-        $classObjects =& eZContentObject::fetchSameClassList( $ClassID );
-        $ClassObjectsCount = count( $classObjects );
-        if ( $ClassObjectsCount == 1 )
-            $ClassObjectsCount .= ezi18n( 'kernel/class', ' object' );
+        if ( !in_array( $deleteID, $systemClassArray ) )
+        {
+            $classObjects =& eZContentObject::fetchSameClassList( $ClassID );
+            $ClassObjectsCount = count( $classObjects );
+            if ( $ClassObjectsCount == 1 )
+                $ClassObjectsCount .= ezi18n( 'kernel/class', ' object' );
+            else
+                $ClassObjectsCount .= ezi18n( 'kernel/class', ' objects' );
+            $item = array( "className" => $ClassName,
+                           "objectCount" => $ClassObjectsCount );
+            $DeleteResult[] = $item;
+        }
         else
-            $ClassObjectsCount .= ezi18n( 'kernel/class', ' objects' );
-        $item = array( "className" => $ClassName,
-                       "objectCount" => $ClassObjectsCount );
-        $DeleteResult[] = $item;
+        {
+            $item = array( "className" => $ClassName,
+                           "objectCount" => -1 );
+            $DeleteResult[] = $item;
+        }
     }
 }
 

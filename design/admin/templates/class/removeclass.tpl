@@ -22,7 +22,10 @@
 
 <ul>
 {section var=Classes loop=$DeleteResult}
-	<li>{"Removing class '%1' will result in the removal of %2!"|i18n( 'design/admin/class/removeclass',, array( $Classes.item.className|wash, $Classes.item.objectCount ) )}</li>
+    {section show=ne($Classes.item.objectCount,-1)}
+	<li>{"Removing class '%1' will result in the removal of %2!"|i18n( 'design/admin/class/removeclass',, array( $Classes.item.className|wash, $Classes.item.objectCount ) )}</li>    {section-else}
+    <li>{"Class '%1' can NOT be removed since one of its object is used as system node!"|i18n( 'design/admin/class/removeclass',, array( $Classes.item.className|wash ) )}</li>
+    {/section}
 {/section}
 </ul>
 
