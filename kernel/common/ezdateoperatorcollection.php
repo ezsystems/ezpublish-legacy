@@ -178,12 +178,50 @@ class eZDateOperatorCollection
                     $timestamp = mktime( 0, 0, 0, $dateInfo['mon'], $day, $dateInfo['year'] );
                     $info = getdate( $timestamp );
                     $weekDay = $weekDaysMap[$info['wday']];
+                    /*
+                     * Attention: date('W') returns the week number according to
+                     * ISO, which states that the week with the first Thursday
+                     * in the new year is week 1.
+                     */
                     $week = date( 'W', $timestamp );
-                    if ( $weekDay == 0 )
+                    
+                    if ($weekDay == 0)
+                    {
                         ++$week;
-                    if ( $week < $lastWeek )
-                        $week = $lastWeek;
+                    }
+                                                            
+                    /*
+                     * This checks for a year switch within a week. Routine
+                     * takes care that first days in January might still belong
+                     * to the last week of the old year (according to ISO week
+                     * number), thus be part of week 52 or 53.
+                     */
+                    if ($week >= 52 || $week == 1)
+                    {
+                        // See if it's a new year by comparing the year of the previous week with the
+                        // current one.
+                        $timestampPrevWeek = mktime( 0, 0, 0, $dateInfo['mon'], $day-7, $dateInfo['year'] );
+                        $isNewYear = date('Y', $timestampPrevWeek) < date('Y', $timestamp);
+                        if ($isNewYear && $week != 1)
+                        {
+                            // A new year with the first week having last year's final week number (52 or 53),
+                            // because the week's Thursday lies in the old year.
+                            $week = $lastWeek;
+                        }
+                        else
+                        {
+                            // The last week of December having the week number 1, because
+                            // the week's Thursday lies in the new year.
+                            $week = $lastWeek;
+                        }
+                        if ($weekDay == 0)
+                        {
+                            ++$week;
+                        }
+                    }
+                    
                     $lastWeek = $week;
+                    
                     if ( !isset( $weeks[$week] ) )
                     {
                         for ( $i = 0; $i < 7; ++$i )
