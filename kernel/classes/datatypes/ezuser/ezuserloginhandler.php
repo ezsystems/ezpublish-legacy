@@ -111,8 +111,8 @@ class eZUserLoginHandler
      */
     function &instance( $protocol = "standard" )
     {
-        eZDebug::writeNotice( 'Trying to fetch loginhandler : ' . $protocol,
-                              'eZUserLoginHandler::instance()' );
+        //eZDebug::writeNotice( 'Trying to fetch loginhandler : ' . $protocol,
+        //                      'eZUserLoginHandler::instance()' );
 
         if ( $protocol == "standard" )
         {
@@ -166,8 +166,8 @@ class eZUserLoginHandler
     */
     function checkUser( &$siteBasics, &$url )
     {
-        eZDebug::writeNotice( 'Checking user for url : ' . var_export( $url, 1),
-                              'eZUserLoginHandler::checkUser()' );
+        //eZDebug::writeNotice( 'Checking user for url : ' . var_export( $url, 1),
+        //                      'eZUserLoginHandler::checkUser()' );
 
         $http =& eZHTTPTool::instance();
 
@@ -184,8 +184,8 @@ class eZUserLoginHandler
             $loginStep = EZ_LOGIN_HANDLER_STEP_PRE_COLLECT_USER_INFO;
         }
 
-        eZDebug::writeNotice( 'Current login step : ' . $loginStep,
-                              'eZUserLoginHandler::checkUser()' );
+        //eZDebug::writeNotice( 'Current login step : ' . $loginStep,
+        //                      'eZUserLoginHandler::checkUser()' );
 
         switch( $loginStep )
         {
@@ -239,8 +239,8 @@ class eZUserLoginHandler
                         $handlerName =& $ini->variable( 'SiteSettings', 'LoginPage' );
                         $handler =& eZUserLoginHandler::instance( $handlerName );
 
-                        eZDebug::writeNotice( 'Using ' . $handlerName . ' to collect user information.',
-                                              'eZUserLoginHandler::checkUser()' );
+                        //eZDebug::writeNotice( 'Using ' . $handlerName . ' to collect user information.',
+                        //                      'eZUserLoginHandler::checkUser()' );
                         return $handler->preCollectUserInfo();
                     } break;
                 }
