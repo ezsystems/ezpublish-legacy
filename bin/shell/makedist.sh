@@ -832,10 +832,37 @@ else
     echo "`SETCOLOR_WARNING`Could not create `$SETCOLOR_FILE`zip`$SETCOLOR_WARNING` file, `$SETCOLOR_EXE`zip`$SETCOLOR_NORMAL` program not found.`SETCOLOR_NORMAL`"
 fi
 
-echo
-echo "Now remember to tag the release with:"
-# echo "`$SETCOLOR_EMPHASIZE`svn cp $DEFAULT_SVN_SERVER/trunk $DEFAULT_SVN_SERVER/$DEFAULT_SVN_RELEASE_PATH/$VERSION_NICK`$SETCOLOR_NORMAL`"
-echo "`$SETCOLOR_EMPHASIZE`svn cp $DEFAULT_SVN_SERVER/trunk $DEFAULT_SVN_SERVER/$DEFAULT_SVN_VERSION_PATH/$VERSION`$SETCOLOR_NORMAL`"
-# echo "And undeltify current version:"
-# echo "`$SETCOLOR_WARNING`svnadmin undeltify `$SETCOLOR_SUCCESS`SVNREPOSITORY`$SETCOLOR_WARNING` `$SETCOLOR_SUCCESS`REVNUM`$SETCOLOR_WARNING` `$SETCOLOR_NORMAL`"
-# echo "where `$SETCOLOR_SUCCESS`REVNUM`$SETCOLOR_NORMAL` is the revision number of the release."
+if [ -n "$FINAL" ]; then
+    DISTROOT="$HOME/ezpublish-dist"
+    VERSIONROOT="$DISTROOT/$VERSION_ONLY/$VERSION"
+    mkdir -p $VERSIONROOT
+    echo "Archiving files to directory `$SETCOLOR_DIR`$VERSIONROOT`$SETCOLOR_NORMAL`"
+    cp "$DEST_ROOT/$TGZFILE" "$VERSIONROOT/"
+    echo "Copied `$SETCOLOR_FILE`$TGZFILE`$SETCOLOR_NORMAL`"
+    cp "$DEST_ROOT/$TBZFILE" "$VERSIONROOT/"
+    echo "Copied `$SETCOLOR_FILE`$TBZFILE`$SETCOLOR_NORMAL`"
+    cp "$DEST_ROOT/$ZIPFILE" "$VERSIONROOT/"
+    echo "Copied `$SETCOLOR_FILE`$ZIPFILE`$SETCOLOR_NORMAL`"
+
+    echo
+    echo "The following command will be run to tag the release"
+    echo "`$SETCOLOR_EMPHASIZE`svn cp $DEFAULT_SVN_SERVER/trunk $DEFAULT_SVN_SERVER/$DEFAULT_SVN_VERSION_PATH/$VERSION`$SETCOLOR_NORMAL`"
+    echo -n "Do you wish to do this? "
+    read -q tag_release
+    if [ "$tag_release" == "y" ]; then
+	svn cp $DEFAULT_SVN_SERVER/trunk $DEFAULT_SVN_SERVER/$DEFAULT_SVN_VERSION_PATH/$VERSION
+    fi
+
+    current_date=`date '+%e-%b-%Y'`
+    from_rev=`svn info | grep 'Revision:' | sed 's/Revision: //'`
+    echo "The following must be added to the doc/release-overview in trunk"
+    echo
+    echo "$VERSION:"
+    echo "- From revision=$from_rev"
+    echo "- Version url=$DEFAULT_SVN_SERVER/$DEFAULT_SVN_VERSION_PATH/$VERSION"
+    echo "- Date $current_date"
+    echo
+    echo "You should also note the revision from the tag above, it should say"
+    echo "- Revision=REV"
+    echo "Where REV is the revision number
+fi
