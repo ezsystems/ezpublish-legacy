@@ -460,6 +460,11 @@ class eZBinaryFileType extends eZDataType
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
         $fileNode = $attributeNode->elementByName( 'binary-file' );
+        if ( !$fileNode->hasAttributes() )
+        {
+            return;
+        }
+
         $binaryFile =& eZBinaryFile::create( $objectAttribute->attribute( 'id' ), $objectAttribute->attribute( 'version' ) );
 
         $sourcePath = $package->simpleFilePath( $fileNode->attributeValue( 'filekey' ) );
