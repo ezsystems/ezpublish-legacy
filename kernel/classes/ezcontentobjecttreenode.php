@@ -253,8 +253,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     function &subTree( $params = array( 'Depth' => false,
-                                       'Offset' => false,
-                                       'Limit' => false ) ,$nodeID = 0)
+                                        'Offset' => false,
+                                        'Limit' => false,
+                                        'publish_sorting' => false,
+                                        'class_id' => false) ,$nodeID = 0)
     {
         $depth = false;
         $offset = false;
@@ -276,6 +278,28 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( isset( $params['Limitation'] ) )
         {
             $limitationList =& $params['Limitation'];
+        }
+
+        if ( isset( $params['publish_sorting'] ) && $params['publish_sorting']  )
+        {
+            if ( $params['publish_sorting'] == 1 )
+            {
+                $sortingFields = " ezcontentobject.published DESC ";
+            }
+            else
+            {
+                $sortingFields = " ezcontentobject.published ASC ";
+
+            }
+        }
+        else
+        {
+            $sortingFields = " path_string ";
+        }
+
+        if ( isset( $params['class_id'] ) && $params['class_id'] )
+        {
+            $classCondition = ' ezcontentobject.contentclass_id = \'' . $params['class_id'] . '\' AND ';
         }
 
         if ( $nodeID == 0 )
@@ -349,9 +373,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           ezcontentclass.version=0 AND
                           node_id != $fromNode AND
                           ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
-                          ezcontentclass.id = ezcontentobject.contentclass_id
+                          ezcontentclass.id = ezcontentobject.contentclass_id AND
+                          $classCondition
+                          ezcontentobject_tree.contentobject_is_published = 1
                           $sqlPermissionCheckingString
-                    ORDER BY path_string";
+                    ORDER BY $sortingFields";
 
         }
         else
@@ -367,8 +393,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           ezcontentclass.version=0 AND
                           node_id != $fromNode AND
                           ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
-                          ezcontentclass.id = ezcontentobject.contentclass_id
-                    ORDER BY path_string";
+                          ezcontentclass.id = ezcontentobject.contentclass_id AND
+                          $classCondition
+                          ezcontentobject_tree.contentobject_is_published = 1
+                    ORDER BY $sortingFields";
         }
         if( !$offset && !$limit )
         {

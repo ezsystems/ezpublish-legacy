@@ -70,7 +70,7 @@ function OpenWindow ( URL, WinName, Features ) {
 {section name=Gallery loop=$gallery_list}
   {section show=and(eq($DesignKeys:used.node,$Gallery:item.node_id),eq($DesignKeys:used.viewmode,'slideshow'))}
 {*  &nbsp;<a href="/content/view/thumbnail/{$Gallery:item.node_id}">{$Gallery:item.name}</a>*}
-  <strong>&nbsp;&nbsp;{$Gallery:item.name}</strong>
+  <strong>&nbsp;&nbsp;{$Gallery:item.name} ddd</strong>
   {/section}
 {/section}
     </td>

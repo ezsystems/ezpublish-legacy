@@ -62,7 +62,7 @@ class eZTemplateLocaleOperator
     */
     function eZTemplateLocaleOperator()
     {
-        $this->Operators = array( "l10n" );
+        $this->Operators = array( "l10n", 'currentdate' );
         $this->Locale =& eZLocale::instance();
     }
 
@@ -75,13 +75,21 @@ class eZTemplateLocaleOperator
     }
 
     /*!
+     \return true to tell the template engine that the parameter list exists per operator type.
+    */
+    function namedParameterPerOperator()
+    {
+        return true;
+    }
+
+    /*!
      See eZTemplateOperator::namedParameterList
     */
     function namedParameterList()
     {
-        return array( "type" => array( "type" => "string",
-                                       "required" => true,
-                                       "default" => false ) );
+        return array( 'l10n' => array( "type" => array( "type" => "string",
+                                                        "required" => true,
+                                                        "default" => false ) ) );
     }
 
     /*!
@@ -96,54 +104,62 @@ class eZTemplateLocaleOperator
     */
     function modify( &$element, &$tpl, &$op_name, &$op_params, &$namespace, &$current_nspace, &$value, &$named_params )
     {
-        $type = $named_params["type"];
-        if ( $type === null )
-            return;
-        switch ( $type )
+        if ( $op_name == 'currentdate' )
         {
-            case "time":
+            include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+            $value = eZDateTime::currentTimestamp();
+        }
+        else
+        {
+            $type = $named_params["type"];
+            if ( $type === null )
+                return;
+            switch ( $type )
             {
-                $value = $this->Locale->formatTime( $value );
-            } break;
+                case "time":
+                {
+                    $value = $this->Locale->formatTime( $value );
+                } break;
 
-            case "shorttime":
-            {
-                $value = $this->Locale->formatShortTime( $value );
-            } break;
+                case "shorttime":
+                {
+                    $value = $this->Locale->formatShortTime( $value );
+                } break;
 
-            case "date":
-            {
-                $value = $this->Locale->formatDate( $value );
-            } break;
+                case "date":
+                {
+                    $value = $this->Locale->formatDate( $value );
+                } break;
 
-            case "shortdate":
-            {
-                $value = $this->Locale->formatShortDate( $value );
-            } break;
+                case "shortdate":
+                {
+                    $value = $this->Locale->formatShortDate( $value );
+                } break;
 
-            case "datetime":
-            {
-                $value = $this->Locale->formatDateTime( $value );
-            } break;
+                case "datetime":
+                {
+                    $value = $this->Locale->formatDateTime( $value );
+                } break;
 
-            case "shortdatetime":
-            {
-                $value = $this->Locale->formatShortDateTime( $value );
-            } break;
+                case "shortdatetime":
+                {
+                    $value = $this->Locale->formatShortDateTime( $value );
+                } break;
 
-            case "currency":
-            {
-                $value = $this->Locale->formatCurrency( $value );
-            } break;
+                case "currency":
+                {
+                    $value = $this->Locale->formatCurrency( $value );
+                } break;
 
-            case "number":
-            {
-                $value = $this->Locale->formatNumber( $value );
-            } break;
+                case "number":
+                {
+                    $value = $this->Locale->formatNumber( $value );
+                } break;
 
-            default:
-                $tpl->error( $op_name, "Unknown locale type: '$type'" );
+                default:
+                    $tpl->error( $op_name, "Unknown locale type: '$type'" );
                 break;
+            }
         }
     }
 
