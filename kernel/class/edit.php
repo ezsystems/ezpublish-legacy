@@ -54,7 +54,7 @@ switch ( $Params["FunctionName"] )
     case "up":
     case "down":
     {
-        $attribute =& eZContentClassAttribute::fetch( $Params["AttributeID"], true, 1,
+        $attribute =& eZContentClassAttribute::fetch( $Params["AttributeID"], true, EZ_CLASS_VERSION_STATUS_TEMPORARY,
                                                       array( "contentclass_id", "version", "placement" ) );
         $attribute->move( $Params["FunctionName"] == "down" ? true : false );
         $Module->redirectTo( $Module->functionURI( "edit" ) . "/" . $ClassID );
@@ -73,19 +73,41 @@ switch ( $Params["FunctionName"] )
 
 if ( is_numeric( $ClassID ) )
 {
-    $class =& eZContentClass::fetch( $ClassID, true, 1 );
+    $class =& eZContentClass::fetch( $ClassID, true, EZ_CLASS_VERSION_STATUS_TEMPORARY );
 
     // If temporary version does not exist fetch the current and add temperory class to corresponding group
-    if ( $class->attribute("id") == null )
+    if ( $class->attribute( "id" ) == null )
     {
-        $class =& eZContentClass::fetch( $ClassID, true, 0 );
-        $classGroups=& eZContentClassClassGroup::fetchGroupList( $ClassID, 0);
+        $class =& eZContentClass::fetch( $ClassID, true, EZ_CLASS_VERSION_STATUS_DEFINED );
+        $classGroups=& eZContentClassClassGroup::fetchGroupList( $ClassID, EZ_CLASS_VERSION_STATUS_DEFINED );
         foreach ( $classGroups as $classGroup )
         {
             $groupID = $classGroup->attribute( "group_id" );
             $groupName = $classGroup->attribute( "group_name" );
-            $ingroup =& eZContentClassClassGroup::create( $ClassID, 1, $groupID, $groupName );
+            $ingroup =& eZContentClassClassGroup::create( $ClassID, EZ_CLASS_VERSION_STATUS_TEMPORARY, $groupID, $groupName );
             $ingroup->store();
+        }
+    }
+    else
+    {
+        $user =& eZUser::currentUser();
+        if ( $class->attribute( "modifier_id" ) != $user->attribute( "contentobject_id" ) )
+        {
+            return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
+//            include_once( "kernel/common/template.php" );
+//            $tpl =& templateInit();
+//            $lockedBy = $class->attribute( "modifier" );
+//
+//            $res =& eZTemplateDesignResource::instance();
+//            $res->setKeys( array( array( "class", $class->attribute( "id" ) ) ) ); // Class ID
+//            $tpl->setVariable( "http", $http );
+//            $tpl->setVariable( "datatype", $cur_datatype );
+//            $Result = array();
+//            $Result['content'] =& $tpl->fetch( "design:class/edit.tpl" );
+//            $Result['path'] = array( array( 'url' => '/class/edit/',
+//                                            'text' => ezi18n( 'kernel/class', 'Class edit' ) ) );
+//            return;
         }
     }
 }
@@ -118,7 +140,7 @@ $ClassID = $class->attribute( "id" );
 $ClassVersion = $class->attribute( "version" );
 if ( $http->hasPostVariable( "DiscardButton" ) )
 {
-    $class->setVersion( 1 );
+    $class->setVersion( EZ_CLASS_VERSION_STATUS_TEMPORARY );
     $class->remove( true, $ClassVersion );
     eZContentClassClassGroup::removeClassMembers( $ClassID, $ClassVersion );
     $Module->redirectTo( $Module->functionURI( "classlist" ) . '/' . $fromGroupID . '/' );
@@ -264,12 +286,12 @@ if ( $contentClassHasInput )
     if ( $http->hasPostVariable( "DataTypeString" ) )
         $cur_datatype = $http->postVariable( "DataTypeString" );
 }
-$class->setAttribute( "version", 1 );
+$class->setAttribute( "version", EZ_CLASS_VERSION_STATUS_TEMPORARY );
 // Fixed identifiers to only contain a-z0-9_
 for ( $i = 0; $i < count( $attributes ); ++$i )
 {
     $attribute =& $attributes[$i];
-    $attribute->setAttribute( "version", 1 );
+    $attribute->setAttribute( "version", EZ_CLASS_VERSION_STATUS_TEMPORARY );
     $identifier = $attribute->attribute( "identifier" );
     if ( $identifier == "" )
         $identifier = $attribute->attribute( "name" );
@@ -354,7 +376,7 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
     // Class cleanup, update existing class objects according to new changes
     include_once( "kernel/classes/ezcontentobject.php" );
     $id = $class->attribute( "id" );
-    $oldClassAttributes = $class->fetchAttributes( $id, true, 0 );
+    $oldClassAttributes = $class->fetchAttributes( $id, true, EZ_CLASS_VERSION_STATUS_DEFINED );
     $newClassAttributes = $class->fetchAttributes( );
     $objects =& eZContentObject::fetchSameClassList( $ClassID );
     if ( $objects[0] !== null )
@@ -435,18 +457,18 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
     }
 
     // Remove old version 0 first
-    eZContentClassClassGroup::removeClassMembers( $ClassID, 0 );
+    eZContentClassClassGroup::removeClassMembers( $ClassID, EZ_CLASS_VERSION_STATUS_DEFINED );
 
-    $classgroups =& eZContentClassClassGroup::fetchGroupList( $ClassID, 1 );
+    $classgroups =& eZContentClassClassGroup::fetchGroupList( $ClassID, EZ_CLASS_VERSION_STATUS_TEMPORARY );
 	for ( $i=0;$i<count(  $classgroups );$i++ )
     {
         $classgroup =& $classgroups[$i];
-        $classgroup->setAttribute("contentclass_version", 0 );
+        $classgroup->setAttribute("contentclass_version", EZ_CLASS_VERSION_STATUS_DEFINED );
         $classgroup->store();
     }
-//     eZContentClass::removeAttributes( false, $ClassID, 0 );
+//     eZContentClass::removeAttributes( false, $ClassID, EZ_CLASS_VERSION_STATUS_DEFINED );
 //     $class->remove( true );
-//     $class->setVersion( 0, $attributes );
+//     $class->setVersion( EZ_CLASS_VERSION_STATUS_DEFINED, $attributes );
 //     include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 //     $user =& eZUser::currentUser();
 //     $user_id = $user->attribute( "contentobject_id" );
@@ -456,7 +478,7 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
 //     $class->store( $attributes );
 
     // Remove version 1
-    eZContentClassClassGroup::removeClassMembers( $ClassID, 1 );
+    eZContentClassClassGroup::removeClassMembers( $ClassID, EZ_CLASS_VERSION_STATUS_TEMPORARY );
 
     $Module->redirectTo( $Module->functionURI( 'classlist' ) . '/' . $fromGroupID . '/' );
     return;

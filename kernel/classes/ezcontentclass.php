@@ -46,8 +46,8 @@ include_once( "kernel/classes/ezcontentobject.php" );
 include_once( "kernel/classes/ezcontentclassattribute.php" );
 include_once( "kernel/classes/ezcontentclassclassgroup.php" );
 
-define( "EZ_CLASS_VERSION_STATUS_TEMPORARY", 0 );
-define( "EZ_CLASS_VERSION_STATUS_DEFINED", 1 );
+define( "EZ_CLASS_VERSION_STATUS_DEFINED", 0 );
+define( "EZ_CLASS_VERSION_STATUS_TEMPORARY", 1 );
 define( "EZ_CLASS_VERSION_STATUS_MODIFED", 2 );
 
 class eZContentClass extends eZPersistentObject
@@ -275,7 +275,7 @@ class eZContentClass extends eZPersistentObject
         $classList = array();
         if ( $accessWord == 'yes' )
         {
-            $classList =& eZContentClass::fetchList( 0, false,false, null, array( 'id', 'name' ) );
+            $classList =& eZContentClass::fetchList( EZ_CLASS_VERSION_STATUS_DEFINED, false,false, null, array( 'id', 'name' ) );
             eZDebugSetting::writeDebug( 'kernel-content-class', $classList, "class list fetched from db when access is yes" );
 
             //          return $classList;
@@ -306,7 +306,7 @@ class eZContentClass extends eZPersistentObject
 
                 if ( $classIDArrayPart == '*' )
                 {
-                    $classList =& eZContentClass::fetchList( 0, false,false, null, array( 'id', 'name' ) );
+                    $classList =& eZContentClass::fetchList( EZ_CLASS_VERSION_STATUS_DEFINED, false,false, null, array( 'id', 'name' ) );
                     break;
 //                    return $classList;
                 }else
@@ -325,7 +325,7 @@ class eZContentClass extends eZPersistentObject
                 // needs to be optimized
                 $db = eZDb::instance();
                 $classString = implode( ',', $classIDArray );
-                $classList =& $db->arrayQuery( "select id, name from ezcontentclass where id in ( $classString  )  and version = 0" );
+                $classList =& $db->arrayQuery( "select id, name from ezcontentclass where id in ( $classString  )  and version = " . EZ_CLASS_VERSION_STATUS_DEFINED );
             }
 
         }
@@ -408,7 +408,7 @@ class eZContentClass extends eZPersistentObject
                                                        $groupID );
     }
 
-    function remove( $remove_childs = false, $version = 0 )
+    function remove( $remove_childs = false, $version = EZ_CLASS_VERSION_STATUS_DEFINED )
     {
         if ( is_array( $remove_childs ) or $remove_childs )
         {
@@ -423,7 +423,7 @@ class eZContentClass extends eZPersistentObject
             }
             else
             {
-                if ( $version == 0 )
+                if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
                 {
                     $contentObjects =& eZContentObject::fetchSameClassList( $this->ID );
                     foreach ( $contentObjects as $contentObject )
@@ -521,10 +521,10 @@ class eZContentClass extends eZPersistentObject
 
     function storeDefined( &$attributes )
     {
-        eZContentClass::removeAttributes( false, $this->attribute( "id" ), 0 );
-        eZContentClass::removeAttributes( false, $this->attribute( "id" ), 1 );
+        eZContentClass::removeAttributes( false, $this->attribute( "id" ), EZ_CLASS_VERSION_STATUS_DEFINED );
+        eZContentClass::removeAttributes( false, $this->attribute( "id" ), EZ_CLASS_VERSION_STATUS_TEMPORARY );
         $this->remove( false );
-        $this->setVersion( 0, $attributes );
+        $this->setVersion( EZ_CLASS_VERSION_STATUS_DEFINED, $attributes );
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
         $user =& eZUser::currentUser();
         $user_id = $user->attribute( "contentobject_id" );
@@ -564,7 +564,7 @@ class eZContentClass extends eZPersistentObject
         eZPersistentObject::setAttribute( "version", $version );
     }
 
-    function exists( $id, $version = 0, $userID = false, $useIdentifier = false )
+    function exists( $id, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $userID = false, $useIdentifier = false )
     {
         $conds = array( "version" => $version );
         if ( $useIdentifier )
@@ -574,7 +574,7 @@ class eZContentClass extends eZPersistentObject
         if ( $userID !== false and is_numeric( $userID ) )
             $conds["creator_id"] = $userID;
         $version_sort = "desc";
-        if ( $version == 0 )
+        if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
             $conds['version'] = $version;
         $rows =& eZPersistentObject::fetchObjectList( eZContentClass::definition(),
                                                       null,
@@ -588,14 +588,14 @@ class eZContentClass extends eZPersistentObject
         return false;
     }
 
-    function &fetch( $id, $asObject = true, $version = 0, $user_id = false ,$parent_id = null )
+    function &fetch( $id, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
     {
         $conds = array( "id" => $id,
                         "version" => $version );
         if ( $user_id !== false and is_numeric( $user_id ) )
             $conds["creator_id"] = $user_id;
         $version_sort = "desc";
-        if ( $version == 0 )
+        if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
             $version_sort = "asc";
         $rows =& eZPersistentObject::fetchObjectList( eZContentClass::definition(),
                                                       null,
@@ -612,7 +612,7 @@ class eZContentClass extends eZPersistentObject
     /*!
      \static
     */
-    function &fetchList( $version = 0, $asObject = true, $user_id = false,
+    function &fetchList( $version = EZ_CLASS_VERSION_STATUS_DEFINED, $asObject = true, $user_id = false,
                          $sorts = null, $fields = null, $classFilter = false )
     {
         $conds = array();
@@ -641,7 +641,7 @@ class eZContentClass extends eZPersistentObject
                                                     $asObject );
     }
 
-    function &fetchAttributes( $id = false, $asObject = true, $version = 0 )
+    function &fetchAttributes( $id = false, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED )
     {
         if ( $id === false )
         {
@@ -659,7 +659,7 @@ class eZContentClass extends eZPersistentObject
                                                                   "version" => $version ) );
     }
 
-    function fetchSearchableAttributes( $id = false, $asObject = true, $version = 0 )
+    function fetchSearchableAttributes( $id = false, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED )
     {
         if ( $id === false )
         {
@@ -682,7 +682,7 @@ class eZContentClass extends eZPersistentObject
     {
         if ( $this->VersionCount == 1 )
         {
-            if ( $this->Version == 1 )
+            if ( $this->Version == EZ_CLASS_VERSION_STATUS_TEMPORARY )
                 return EZ_CLASS_VERSION_STATUS_TEMPORARY;
             else
                 return EZ_CLASS_VERSION_STATUS_DEFINED;
