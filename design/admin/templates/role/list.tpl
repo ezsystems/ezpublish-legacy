@@ -28,7 +28,7 @@ function toggleCheckboxes( formname, checkboxname )
 {let number_of_items=min( ezpreference( 'admin_role_list_limit' ), 3)|choose( 10, 10, 25, 50 )}
 
 <div class="context-block">
-<h2 class="context-title">{'Roles'|i18n( 'design/admin/role/list' )}</h2>
+<h2 class="context-title">{'Roles'|i18n( 'design/admin/role/list' )} [{$role_count}]</h2>
 
 {* Items per page selector. *}
 <div class="context-toolbar">
@@ -81,10 +81,10 @@ function toggleCheckboxes( formname, checkboxname )
     <a href={concat( '/role/view/', $Roles.item.id)|ezurl}>{$Roles.item.name}</a>
     </td>
     <td>
-    <a href={concat( '/role/assign/', $Roles.item.id)|ezurl}><img src={"attach.png"|ezimage} alt="{'Assign'|i18n( 'design/admin/role/list ')}" title="{'Assign a user or a user group to the %quoted_role role.'|i18n( 'design/admin/role/list',, hash( '%quoted_role', $quoted_role ) )}" /></a>
+    <a href={concat( '/role/assign/', $Roles.item.id)|ezurl}><img src={'attach.png'|ezimage} alt="{'Assign'|i18n( 'design/admin/role/list ')}" title="{'Assign a user or a user group to the %quoted_role role.'|i18n( 'design/admin/role/list',, hash( '%quoted_role', $quoted_role ) )}" /></a>
     </td>
     <td>
-    <a href={concat( '/role/edit/', $Roles.item.id)|ezurl}><img src={"edit.png"|ezimage} alt="{'Edit'|i18n('design/admin/role/list')}" title="{'Edit the %quoted_role role.'|i18n( 'design/admin/role/list',, hash( '%quoted_role', $quoted_role  ) )}" /></a>
+    <a href={concat( '/role/edit/', $Roles.item.id)|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n('design/admin/role/list')}" title="{'Edit the %quoted_role role.'|i18n( 'design/admin/role/list',, hash( '%quoted_role', $quoted_role  ) )}" /></a>
     </td>
     </tr>
 {/let}
