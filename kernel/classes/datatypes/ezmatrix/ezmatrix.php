@@ -109,7 +109,7 @@ class eZMatrix
 
     function hasAttribute( $name )
     {
-        if ( $name == "name" ||  $name == "rows" ||  $name == "columns" ||  $name == "matrix" || $name == "rowCount" || $name == "columnCount" )
+        if ( $name == "name" ||  $name == "rows" ||  $name == "columns" ||  $name == "matrix"  )
             return true;
         else
             return false;
@@ -147,36 +147,41 @@ class eZMatrix
         }
     }
 
-    function addRow( $beforeIndex = false )
+    function addRow( $beforeIndex = false, $addCount = 1 )
     {
-        $newCells = array();
-        $numColumns = $this->attribute( 'columnCount' );
-        $numRows = $this->attribute( 'rowCount' );
-        for( $i = 0; $i < $numColumns; $i++ )
-        {
-            $newCells[] = '';
-        }
-        $newRow = array();
-        $newRow['columns'] = $newCells;
-        $this->NumRows++;
-        if ( $beforeIndex === false )
-        {
-            $this->Cells = array_merge( $this->Cells, $newCells );
-            $newRow['identifier'] =  'row_' . ( $numRows + 1 );
-            $newRow['name'] = 'Row_' . ( $numRows + 1 );
-            $this->Matrix['rows']['sequential'][] = $newRow;
+        $addCount = max( $addCount, 40 );
 
-        }
-        else
+        for ( $r = $addCount; $r > 0; $r-- )
         {
-            $insertIndex  = ( $beforeIndex + 1 ) * $numColumns - $numColumns;
-            array_splice( $this->Cells, $insertIndex, 0, $newCells );
-            $newRow['identifier'] =  'row_' . $beforeIndex;
-            $newRow['name'] = 'Row_' . ( $numRows + 1 );
-            array_splice( $this->Matrix['rows']['sequential'], $beforeIndex, 0,  array( $newRow ) );
+            $newCells = array();
+            $numColumns = $this->attribute( 'columnCount' );
+            $numRows = $this->attribute( 'rowCount' );
+            for( $i = 0; $i < $numColumns; $i++ )
+            {
+                $newCells[] = '';
+            }
+            $newRow = array();
+            $newRow['columns'] = $newCells;
+            $this->NumRows++;
+            if ( $beforeIndex === false )
+            {
+                $this->Cells = array_merge( $this->Cells, $newCells );
+                $newRow['identifier'] =  'row_' . ( $numRows + 1 );
+                $newRow['name'] = 'Row_' . ( $numRows + 1 );
+                $this->Matrix['rows']['sequential'][] = $newRow;
 
+            }
+            else
+            {
+                $insertIndex  = ( $beforeIndex + 1 ) * $numColumns - $numColumns;
+                array_splice( $this->Cells, $insertIndex, 0, $newCells );
+                $newRow['identifier'] =  'row_' . $beforeIndex;
+                $newRow['name'] = 'Row_' . ( $numRows + 1 );
+                array_splice( $this->Matrix['rows']['sequential'], $beforeIndex, 0,  array( $newRow ) );
+
+            }
         }
-    }
+	}
 
     function removeRow( $rowNum )
     {

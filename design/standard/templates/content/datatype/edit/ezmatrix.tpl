@@ -39,8 +39,24 @@
 
 <div class="buttonblock">
 <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new_row]" value="{'New row'|i18n('design/standard/content/datatype')}" />
+{let row_count=sub(40,count($matrix.rows.sequential)) index_var=0}
+{section show=$row_count|lt(1)}
+        {set row_count=0}
+{/section}
+<select class="matrix_cell" name="{$attribute_base}_data_matrix_add_count_{$attribute.id}">
+    {section loop=$row_count}
+        {set index_var=$index_var|inc}
+        {delimiter modulo=5}
+           <option value="{$index_var}">{$index_var}</option>
+        {/delimiter}
+   {/section}
+</select>
+
 <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_remove_selected]" value="{'Remove Selected'|i18n('design/standard/content/datatype')}" />
+
 </div>
+{/let}
 
 {/let}
 {/default}
+

@@ -179,15 +179,24 @@ class eZMatrixType extends eZDataType
                 $matrix =& $contentObjectAttribute->content( );
 
                 $postvarname = 'ContentObjectAttribute' . '_data_matrix_remove_' . $contentObjectAttribute->attribute( 'id' );
+                $addCountName = 'ContentObjectAttribute' . '_data_matrix_add_count_' . $contentObjectAttribute->attribute( 'id' );
+
+                $addCount = 1;
+                if ( $http->hasPostVariable( $addCountName ) )
+                {
+                    $addCount = $http->postVariable( $addCountName );
+                }
+
                 if ( $http->hasPostVariable( $postvarname ) )
                 {
                     $selected = $http->postVariable( $postvarname );
-                    $matrix->addRow( $selected[0] );
+                    $matrix->addRow( $selected[0], $addCount );
                 }
                 else
                 {
-                    $matrix->addRow( );
+                    $matrix->addRow( false, $addCount );
                 }
+
                 $contentObjectAttribute->setAttribute( 'data_text', $matrix->xmlString() );
                 $matrix->decodeXML( $contentObjectAttribute->attribute( 'data_text' ) );
                 $contentObjectAttribute->setContent( $matrix );
