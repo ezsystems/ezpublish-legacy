@@ -76,7 +76,7 @@ include_once( "lib/ezi18n/classes/eztranslatorhandler.php" );
 class eZBorkTranslator extends eZTranslatorHandler
 {
     /*!
-     Construct the translator and loads the translation file $file if is set and exists.
+     Construct the translator.
     */
     function eZBorkTranslator()
     {
@@ -146,6 +146,21 @@ class eZBorkTranslator extends eZTranslatorHandler
             return $msg["translation"];
         else
             return null;
+    }
+
+    /*!
+     \static
+     Initialize the bork translator if this is not allready done.
+    */
+    function &initialize()
+    {
+        $translator =& $GLOBALS["eZBorkTranslator"];
+        if ( isset( $translator ) and get_class( $translator ) == "ezborktranslator" )
+            return $translator;
+        $translator = new eZBorkTranslator();
+        $man =& eZTranslatorManager::instance();
+        $man->registerHandler( $translator );
+        return $translator;
     }
 
     /// \privatesection

@@ -82,12 +82,16 @@ class eZTSTranslator extends eZTranslatorHandler
         return file_exists( $path );
     }
 
+    /*!
+     \static
+     Initialize the ts translator if this is not allready done.
+    */
     function &initialize( $file, $root = false, $useCache = true )
     {
         $tables =& $GLOBALS["eZTSTranslationTables"];
         if ( isset( $tables[$root][$file] ) and get_class( $tables[$root][$file] ) == "eztstranslator" )
             return $tables[$root][$file];
-        $translator = null;
+//         $translator = null;
 //         if ( eZTSTranslator::exists( $file, $root ) )
 //         {
         $translator = new eZTSTranslator( $file, $root, $useCache );

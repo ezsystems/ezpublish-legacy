@@ -40,16 +40,6 @@ if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
         if ( $language == "eng-GB" ) // eng-GB does not need translation
             return $source;
 
-        $man =& eZTranslatorManager::instance();
-
-        // Bork translation: use this to verify that translation works.
-        // Will output something different than, but similar to, eng-GB.
-        // BEGIN bork translation
-//             include_once( 'lib/ezi18n/classes/ezborktranslator.php' );
-//             $borktr = new eZBorkTranslator();
-//             $man->registerHandler( $borktr );
-        // END bork translation
-
         $file = 'translation.ts';
         $root = false;
         if ( $extension !== false )
@@ -60,9 +50,18 @@ if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
                 $root = $extensionDir;
         }
 
+        // translation.ts translation
         $ini =& eZINI::instance();
         $useCache = $ini->variable( 'RegionalSettings', 'TranslationCache' ) != 'disabled';
         eZTSTranslator::initialize( $language . '/' . $file, $root, $useCache );
+
+        // Bork translation: Makes it easy to see what is not translated.
+        // If no translation is found in the eZTSTranslator, a Bork translation will be returned.
+        // Bork is different than, but similar to, eng-GB, and is enclosed in square brackets [].
+        include_once( 'lib/ezi18n/classes/ezborktranslator.php' );
+        eZBorkTranslator::initialize();
+
+        $man =& eZTranslatorManager::instance();
         $trans =& $man->translate( $context, $source, $comment );
         if ( $trans !== null )
             return $trans;

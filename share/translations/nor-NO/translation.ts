@@ -6,16 +6,16 @@
         <translation>Maksimum filstÃ¸rrelse:</translation>
     </message>
     <message>
-	<source>Default value:</source>
-	<translation>Standardverdi</translation>
+        <source>Default value:</source>
+        <translation>Standardverdi:</translation>
     </message>
     <message>
-	<source>Empty</source>
-	<translation>Ingen verdi</translation>
+        <source>Empty</source>
+        <translation>Ingen verdi</translation>
     </message>
     <message>
-	<source>Current time</source>
-	<translation>Nåværende tidspunkt</translation>
+        <source>Current time</source>
+        <translation>Nï¿½ï¿½ende tidspunkt</translation>
     </message>
     <message>
         <source>Multiple choice</source>
@@ -44,10 +44,6 @@
     <message>
         <source>Remove Selected</source>
         <translation>Fjern markerte</translation>
-    </message>
-    <message>
-        <source>Default value:</source>
-        <translation>Standardverdi:</translation>
     </message>
     <message>
         <source>Min float value:</source>
@@ -108,10 +104,6 @@
 </context>
 <context>
     <name>design/standard/class/edit</name>
-    <message>
-        <source>Editing class type</source>
-        <translation>Redigerer klasse</translation>
-    </message>
     <message>
         <source>Created by</source>
         <translation>Laget av</translation>
@@ -232,6 +224,22 @@
         <source>Are you sure you want to remove this(these) group(s)?</source>
         <translation>Er du sikker pÃ¥ at du vil fjerne disse klassegruppene?</translation>
     </message>
+    <message>
+        <source>Editing class</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Last modified by</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Datatypes:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discard Changes</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class/list</name>
@@ -271,14 +279,6 @@
 <context>
     <name>design/standard/class/view</name>
     <message>
-        <source>No classes have been defined for </source>
-        <translation>Ingen klasser er definert for</translation>
-    </message>
-    <message>
-        <source>Defined class types for</source>
-        <translation>Definerte klasser for</translation>
-    </message>
-    <message>
         <source>ID:</source>
         <translation>ID:</translation>
     </message>
@@ -313,6 +313,45 @@
     <message>
         <source>Remove:</source>
         <translation>Fjern:</translation>
+    </message>
+    <message>
+        <source>No classes in </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Classes in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/copy</name>
+    <message>
+        <source>Copying:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Versions</source>
+        <translation type="unfinished">Versjoner</translation>
+    </message>
+    <message>
+        <source>Copy all versions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy current version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Kopier</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Avbryt</translation>
     </message>
 </context>
 <context>
@@ -687,6 +726,10 @@
         <source>Editing:</source>
         <translation>Redigerer:</translation>
     </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">Navn</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/search</name>
@@ -1034,25 +1077,17 @@
         <source>The object is not available.</source>
         <translation>Objektet er ikke tilgjengelig.</translation>
     </message>
+    <message>
+        <source>Login with a user to get proper permissions.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click the Login button to login as a user.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/layout</name>
-    <message>
-        <source>Sales</source>
-        <translation>Salg</translation>
-    </message>
-    <message>
-        <source>Overview</source>
-        <translation>Oversikt</translation>
-    </message>
-    <message>
-        <source>Content</source>
-        <translation>Innhold</translation>
-    </message>
-    <message>
-        <source>List</source>
-        <translation>Liste</translation>
-    </message>
     <message>
         <source>Sitemap</source>
         <translation>Nettstedskart</translation>
@@ -1114,18 +1149,6 @@
         <translation>Mine meldinger</translation>
     </message>
     <message>
-        <source>New article</source>
-        <translation>Ny artikkel</translation>
-    </message>
-    <message>
-        <source>New link</source>
-        <translation>Ny lenke</translation>
-    </message>
-    <message>
-        <source>New product</source>
-        <translation>Nytt produkt</translation>
-    </message>
-    <message>
         <source>Restart</source>
         <translation>Restart</translation>
     </message>
@@ -1182,10 +1205,6 @@
         <translation>Avansert sÃ¸k</translation>
     </message>
     <message>
-        <source>Name:</source>
-        <translation>Navn:</translation>
-    </message>
-    <message>
         <source>Change Password</source>
         <translation>Bytt passord</translation>
     </message>
@@ -1212,6 +1231,14 @@
     <message>
         <source>Uninstall</source>
         <translation>Avinstaller</translation>
+    </message>
+    <message>
+        <source>Frontpage</source>
+        <translation>Forside</translation>
+    </message>
+    <message>
+        <source>Install using the setup guide</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1333,6 +1360,14 @@
     <message>
         <source>Priority:</source>
         <translation>Prioritet:</translation>
+    </message>
+    <message>
+        <source>Copy:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Kopier</translation>
     </message>
 </context>
 <context>
@@ -1758,7 +1793,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Navn</translation>
     </message>
     <message>
         <source>Database info:</source>
@@ -3686,6 +3721,21 @@
     </message>
 </context>
 <context>
+    <name>design/standard/workflow/eventtype</name>
+    <message>
+        <source>New Entry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove Selected</source>
+        <translation type="unfinished">Fjern markerte</translation>
+    </message>
+    <message>
+        <source>Load Attributes</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/standard/workflow/eventtype/edit</name>
     <message>
         <source>Editor:</source>
@@ -3738,6 +3788,14 @@
     <message>
         <source>Minutes:</source>
         <translation>Minutter:</translation>
+    </message>
+    <message>
+        <source>Class:</source>
+        <translation type="unfinished">Klasse:</translation>
+    </message>
+    <message>
+        <source>Class Attributes:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3917,7 +3975,6 @@
 </context>
 <context>
     <name>kernel/content/removenode</name>
-    <comment>child</comment>
     <message>
         <source>child</source>
         <comment>1 child</comment>
@@ -3931,7 +3988,6 @@
 </context>
 <context>
     <name>kernel/content/removeobject</name>
-    <comment>child</comment>
     <message>
         <source>child</source>
         <comment>1 child</comment>
