@@ -1,24 +1,13 @@
 #?ini charset="iso-8859-1"?
 # eZ publish configuration file.
-[DatabaseSettings]
-DatabasePluginPath=
-# Use either ezmysql or ezpostgresql
-DatabaseImplementation=ezmysql
-Server=localhost
-User=acta
-Password=acta
-Database=acta
+
 
 [SiteSettings]
-IndexPage=/content/view/full/17
-DefaultPage=/content/view/full/17
+IndexPage=/content/view/full/2
 LoginPage=embedded
-SiteURL=acta.no
 
 [SiteAccessSettings]
 RequireUserLogin=false
-DebugAccess=enabled
-DebugExtraAccess=enabled
 
 [SiteAccessRules]
 Rules[]
@@ -27,27 +16,5 @@ Rules[]=ModuleAll;true
 Rules[]=Access;disable
 Rules[]=Module;sdk
 
-[DebugSettings]##!
-DebugOutput=disabled
-Debug=inline##!
-DebugRedirection=disabled##!
-
 [DesignSettings]
-SiteDesign=acta
-
-
-[TemplateSettings]
-Debug=disabled
-NodeTreeCaching=disabled
-
-
-[FileSettings]
-StorageDir=acta/storage
-CacheDir=acta/cache
-
-[ContentSettings]
-ViewCaching=disabled
-
-
-
-
+SiteDesign=user

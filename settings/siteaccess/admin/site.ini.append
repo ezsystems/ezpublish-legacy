@@ -1,12 +1,6 @@
 #?ini charset="iso-8859-1"?
 # eZ publish configuration file.
 
-[DatabaseSettings]
-Server=localhost
-User=acta
-Password=acta
-Database=acta
-
 [SiteSettings]
 DefaultPage=/content/view/full/2
 ErrorHandler=defaultpage
@@ -17,15 +11,3 @@ RequireUserLogin=true
 
 [DesignSettings]
 SiteDesign=admin
-
-[TemplateSettings]
-Debug=disabled
-NodeTreeCaching=disabled
-
-
-[FileSettings]
-StorageDir=acta/storage
-CacheDir=acta/cache
-
-[ContentSettings]
-ViewCaching=enabled
