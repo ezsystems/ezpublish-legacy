@@ -1473,3 +1473,4 @@ CREATE TABLE ezworkflow_process (
 --
 
 
+alter table ezimage add alternative_text varchar(255) not null default "";

@@ -144,6 +144,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             }
 
             $paragraphContentArray[$paragraphCount] = array( "Content" => $paragraphContentArray[$paragraphCount]['Content'] . $content, "IsBlock" => $isBlockTag );
+            if ( $isBlockTag === true )
+            {
+                $paragraphCount++;
+            }
         }
 
         $output = "";
@@ -200,6 +204,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
             case 'object' :
             {
+                $isBlockTag = true;
                 $objectID = $tag->attributeValue( 'id' );
                 $object =& eZContentObject::fetch( $objectID );
                 $view = $tag->attributeValue( 'view' );
