@@ -62,26 +62,64 @@ if ( $module->isCurrentAction( 'StoreURLAlias' ) )
 
             if ( $alias )
             {
-                $alias->setAttribute( 'source_url', $sourceArray[$keyID] );
-                $alias->setAttribute( 'destination_url', $destArray[$keyID] );
-                $alias->store();
+                if ( isset( $sourceArray[$keyID] ) )
+                    $alias->setAttribute( 'source_url', $sourceArray[$keyID] );
+                if ( isset( $destArray[$keyID] ) )
+                    $alias->setAttribute( 'destination_url', $destArray[$keyID] );
+                $alias->sync();
             }
         }
     }
 }
 
+$translationInfo = false;
+
 if ( $module->isCurrentAction( 'NewURLAlias' ) )
 {
-    if ( $http->hasPostVariable( 'NewURLAliasSouce' ) and
+    if ( $http->hasPostVariable( 'NewURLAliasSource' ) and
          $http->hasPostVariable( 'NewURLAliasDestination' ) )
     {
-        $source = $http->postVariable( 'NewURLAliasSouce' );
+        $source = $http->postVariable( 'NewURLAliasSource' );
         $destination = $http->postVariable( 'NewURLAliasDestination' );
-        $alias = new eZURLAlias( array() );
-        $alias->setAttribute( 'source_url', $source );
-        $alias->setAttribute( 'destination_url', $destination );
-        $alias->setAttribute( 'is_internal', false );
+
+        $translationInfo = array( 'error' => false,
+                                  'source' => $source,
+                                  'destination' => $destination );
+
+        $alias =& eZURLAlias::create( $source, $destination, false );
         $alias->store();
+    }
+}
+
+$forwardInfo = false;
+
+if ( $module->isCurrentAction( 'NewForwardURLAlias' ) )
+{
+    if ( $http->hasPostVariable( 'NewForwardURLAliasSource' ) and
+         $http->hasPostVariable( 'NewForwardURLAliasDestination' ) )
+    {
+        $source = $http->postVariable( 'NewForwardURLAliasSource' );
+        $destination = $http->postVariable( 'NewForwardURLAliasDestination' );
+
+        $forwardInfo = array( 'error' => false,
+                              'source' => $source,
+                              'destination' => $destination );
+
+        $existingAlias =& eZURLAlias::fetchBySourceURL( $destination );
+        if ( !$existingAlias )
+        {
+            $existingAlias =& eZURLAlias::fetchByDestinationURL( $destination );
+        }
+        if ( $existingAlias )
+        {
+            $alias =& $existingAlias->createForForwarding( $source );
+            $alias->setAttribute( 'is_internal', false );
+            $alias->store();
+        }
+        else
+        {
+            $forwardInfo['error'] = true;
+        }
     }
 }
 
@@ -91,6 +129,8 @@ $aliasCount =& eZURLAlias::totalCount();
 $tpl->setVariable( 'alias_limit', $limit );
 $tpl->setVariable( 'alias_list', $aliasList );
 $tpl->setVariable( 'alias_count', $aliasCount );
+$tpl->setVariable( 'translation_info', $translationInfo );
+$tpl->setVariable( 'forward_info', $forwardInfo );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();
@@ -99,4 +139,3 @@ $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'URL transla
                                 'url' => false ) );
 
 ?>
-
