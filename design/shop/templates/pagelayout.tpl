@@ -9,8 +9,8 @@
 
 <style>
     @import url({"stylesheets/core.css"|ezdesign});
-{*    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});*}
-     @import url("/design/shop/stylesheets/shop.css");
+    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});
+  {*   @import url("/design/shop/stylesheets/shop.css");*}
 </style>
 
 {literal}
@@ -271,16 +271,14 @@ div#maincontent div.design { width: 100%; }
 </div>
 
 {cache-block}
-{let pagedesign=fetch_alias(by_identifier,hash(attr_id,shop_package))}
     <div id="footer">
         <div class="design">
             <address>
-		 {$pagedesign.data_map.footer.content|wash(html)}
-		 <br /><a href="http://ez.no/">Powered by eZ puplish E-Commerce Engine </a>
+		 {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
+		 <br /><a href="http://ez.no/">Powered by eZ publish E-Commerce Engine</a>
             </address>   
         </div>
     </div>
-{/let}
 {/cache-block}
 
 </div>

@@ -166,9 +166,16 @@
 {* Main part END *}
 
 {* Footer START *}
-<div id="footer">
-    <a href="http://ez.no">eZ publish&trade;</a> copyright &copy; 1999-2003 <a href="http://ez.no">eZ systems as</a>
-</div>
+{cache-block}
+    <div id="footer">
+        <div class="design">
+            <address>
+		 {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
+		 <br /><a href="http://ez.no/">>Powered by eZ publish Content Management System</a>
+            </address>
+        </div>
+    </div>
+{/cache-block}
 {* Copyright END *}
 
 

@@ -139,16 +139,16 @@
         
         </div>
     </div>
-
+    {cache-block}
     <div id="footer">
         <div class="design">
             <address>
-		{$pagedesign.data_map.footer.content|wash(html)}
-		 <br /><a href="http://ez.no/">Powered by eZ puplish E-Commerce Engine </a>
-            </address>   
+		 {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
+		 <br /><a href="http://ez.no/">>Powered by eZ publish Content Management System</a>
+            </address>
         </div>
     </div>
-
+    {/cache-block}
 </div>
 
 </body>
