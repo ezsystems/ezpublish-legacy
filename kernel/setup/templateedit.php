@@ -57,6 +57,22 @@ $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
 
 $overrideArray =& eZTemplatedesignresource::overrideArray( $siteAccess );
 
+
+// Check if template already exists
+$isExistingTemplate = false;
+foreach ( $overrideArray as $overrideSetting )
+{
+    if ( $overrideSetting['base_dir'] . $overrideSetting['template'] == $template )
+    {
+        $isExistingTemplate = true;
+    }
+}
+
+if ( $isExistingTemplate == false )
+{
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+}
+
 $originalTemplate = false;
 foreach ( $overrideArray as $overrideSetting )
 {
