@@ -143,7 +143,9 @@
     </td>
 
     <td>
-    {node_view_gui view=line content_node=$main_node node_url=false()}
+
+    {*$main_node.object.class_identifier|class_icon(small, $main_node.object.class_name)node_view_gui view=line content_node=$main_node node_url=false()*}
+
     {section show=$main_node.depth|gt(1)}
         <a href={concat("/content/browse/",$main_node.parent_node_id,"/")|ezurl}>[{'Up one level'|i18n('design/admin/content/browse')}]</a>
     {/section}
@@ -180,7 +182,17 @@
     {/section}
     </td>
     <td>
-    {node_view_gui view=line content_node=$Object:item node_url=cond( $browse.ignore_nodes_click|contains($Object:item.node_id)|not(), concat( 'content/browse/', $Object:item.node_id, '/' ), false() )}
+
+    {* Replaces node_view_gui... *}
+    {section show=$browse.ignore_nodes_click|contains( $Object:item.node_id )|not}
+        {$Object:item.object.class_name|class_icon( small, $Object:item.object.class_identifier )}&nbsp;<a href="{concat( '/content/browse/', $Object:item.node_id )|ezurl}">{$Object:item.name|wash}</a>
+    {section-else}
+        {$Object:item.object.class_name|class_icon( small, $Object:item.object.class_identifier )}&nbsp;{$Object:item.name|wash}
+    {/section}
+
+    {* node_view_gui view=line content_node=$Object:item node_url=cond( $browse.ignore_nodes_click|contains($Object:item.node_id)|not(), concat( 'content/browse/', $Object:item.node_id, '/' ), false() )*}
+
+
     </td>
     <td>
     {$Object:item.object.content_class.name|wash}
