@@ -98,7 +98,19 @@ if ( is_numeric( $ClassID ) )
         if ( $class->attribute( 'modifier_id' ) != $user->attribute( 'contentobject_id' ) &&
              $class->attribute( 'modified' ) + $timeOut > eZDateTime::currentTimeStamp() )
         {
-            return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+            include_once( 'kernel/common/template.php' );
+            $tpl =& templateInit();
+
+            $res =& eZTemplateDesignResource::instance();
+            $res->setKeys( array( array( 'class', $class->attribute( 'id' ) ) ) ); // Class ID
+            $tpl->setVariable( 'class', $class );
+            $tpl->setVariable( 'lock_timeout', $timeOut );
+
+            $Result = array();
+            $Result['content'] =& $tpl->fetch( 'design:class/edit_denied.tpl' );
+            $Result['path'] = array( array( 'url' => '/class/grouplist/',
+                                            'text' => ezi18n( 'kernel/class', 'Class list' ) ) );
+            return $Result;
         }
     }
 }

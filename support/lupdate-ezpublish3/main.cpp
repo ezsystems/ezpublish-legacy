@@ -47,7 +47,7 @@ extern void fetchtr_php( QFileInfo *fi, MetaTranslator *tor, bool mustExist );
 extern void fetchtr_tpl( QFileInfo *fi, MetaTranslator *tor, bool mustExist );
 
 // defined in merge.cpp
-extern void merge( MetaTranslator *tor, const MetaTranslator *virginTor, bool verbose );
+extern void merge( MetaTranslator *tor, const MetaTranslator *virginTor, const QString &language, bool verbose );
 
 static int verbose = 0;
 static QString version = "3.3-1"; // eZ publish version plus local version
@@ -286,7 +286,7 @@ int main( int argc, char **argv )
         tor.load( fi.filePath() );
         if ( verbose )
             qWarning( "Updating '%s'", fi.filePath().latin1() );
-        merge( &tor, &fetchedTor, verbose );
+        merge( &tor, &fetchedTor, language, verbose );
         if ( noObsolete )
             tor.stripObsoleteMessages();
         tor.stripEmptyContexts();

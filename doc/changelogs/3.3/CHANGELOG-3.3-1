@@ -6,6 +6,8 @@ Changes from 3.3.0-2 to 3.3-1
   http://ez.no/developer/ez_publish_3/bug_reports/datatype_ezselection_missing_default_methods_sortkey_sortkeytype
 - Removed all use of the SiteAccessList (from site.ini), instead the AvailableSiteAccessList is used everywhere.
   The setting was also removed from site.ini.
+- Added ObjectID and NodeID to all admin full class templates.
+- Added some explaining text to the class lockout functionality.
 
 *Bugfixes:
 - Fixed problem with cache block expiry when ignore_content_expiry was set

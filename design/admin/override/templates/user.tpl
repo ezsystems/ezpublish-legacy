@@ -14,7 +14,7 @@
 
 
 <div class="objectheader">
-    <h2>{$node_name|wash} &lt;{$user_attribute.content.email|wash}&gt; [{'User'|i18n('design/admin/node/view')}]</h2>
+    <h2>{$node_name|wash} &lt;{$user_attribute.content.email|wash}&gt; [{'User'|i18n('design/admin/node/view')}], {'Node ID'|i18n( 'design/standard/node/view' )}: {$node.node_id}, {'Object ID'|i18n( 'design/standard/node/view' )}: {$node.object.id}</h2>
 </div>
 
 <div class="object">
