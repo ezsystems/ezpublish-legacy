@@ -244,10 +244,9 @@ class eZPDF
                 include_once( 'lib/ezfile/classes/ezfile.php' );
                 include_once( 'lib/ezfile/classes/ezdir.php' );
                 $filename = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
-                $strpos = 1;
-                while ( strpos( $filename, '/', $strpos ) !== false )
-                    $strpos = strpos( $filename, '/', $strpos ) + 1;
-                eZDir::mkdir( substr( $filename, 0, $strpos - 1 ) );
+
+                eZDir::mkdir( eZDir::dirpath( $filename ), false, true );
+
                 eZFile::create( $filename, false, $this->PDF->ezOutput() );
                 eZDebug::writeNotice( 'PDF file closed and saved to '. $filename, 'eZPDF::modify' );
             } break;

@@ -99,6 +99,7 @@ class eZContentCache
         $cachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout, false,
                                                         $parameters );
         $cacheExists = file_exists( $cachePathInfo['path'] );
+
         if ( $cacheExists )
         {
             $timestamp = filemtime( $cachePathInfo['path'] );
@@ -147,6 +148,12 @@ class eZContentCache
             }
 
         }
+
+        if ( $viewMode == 'pdf' )
+        {
+            return $cachePath;
+        }
+
         eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'cache used #2' );
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
         $php = new eZPHPCreator( $cacheDir, $cacheFile );
@@ -225,6 +232,7 @@ class eZContentCache
                                                         $parameters );
         $cacheDir = $cachePathInfo['dir'];
         $cacheFile = $cachePathInfo['file'];
+
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
         $php = new eZPHPCreator( $cacheDir, $cacheFile );
         if ( isset( $parameters['view_parameters']['offset'] ) )

@@ -70,6 +70,17 @@ $ViewList['removenode'] = array(
     'script' => 'removenode.php',
     'params' => array( 'ObjectID', 'EditVersion', 'EditLanguage', 'NodeID' ) );
 
+$ViewList['pdf'] = array(
+    'functions' => array( 'pdf' ),
+    'default_navigation_part' => 'ezcontentnavigationpart',
+    'script' => 'pdf.php',
+    'params' => array( 'NodeID' ),
+    'unordered_params' => array( 'language' => 'Language',
+                                 'offset' => 'Offset',
+                                 'year' => 'Year',
+                                 'month' => 'Month',
+                                 'day' => 'Day' )
+    );
 
 $ViewList['view'] = array(
     'functions' => array( 'read' ),
@@ -382,6 +393,12 @@ $FunctionList['versionread'] = array( 'Class' => $ClassID,
                                       'Status' => $Status,
                                       'Node' => $Node,
                                       'Subtree' => $Subtree);
+$FunctionList['pdf'] = array( 'Class' => $ClassID,
+                              'Section' => $SectionID,
+                              'Owner' => $Assigned,
+                              'Node' => $Node,
+                              'Subtree' => $Subtree );
+
 $FunctionList['translations'] = array();
 $FunctionList['urltranslator'] = array();
 $FunctionList['pendinglist'] = array();
