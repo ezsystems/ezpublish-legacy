@@ -102,8 +102,11 @@ foreach ( $assignmentsToRemove as $ass )
 }
 unset( $assignmentsToRemove );
 
+$upload = array( 'content' => array( 'object_id' => $objectID,
+                                     'object_version' => $editVersion ) );
 $tpl =& templateInit();
 $tpl->setVariable( 'remove_list', $removeList );
+$tpl->setVariable( 'upload', $upload );
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:content/removeassignment.tpl" );
 $Result['path'] = array( array( 'url' => false,
