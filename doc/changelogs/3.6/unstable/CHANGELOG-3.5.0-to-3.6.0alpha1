@@ -57,6 +57,8 @@ Changes from 3.5.0 to 3.6.0alpha1
   'ezxmltext' type fields replacing 'id' attributes with 'url_id'.
 - Added subtree copy script to copy part of node tree from one parent node to another.
   (files: bin/php/ezsubtreecopy.php, doc/features/3.6/subtree_copy_script.txt)
+- Added ezconvertmysqldbtype.php script to convert from MyISAM tables to InnoDB tables or 
+  from InnoDB to MyISAM tables.
 
 *DataType:
 
