@@ -240,6 +240,29 @@ class eZSys
 
     /*!
      \static
+     Determins if the script got executed over the web or the shell/commandoline.
+    */
+    function isShellExecution()
+    {
+        $sapiType = php_sapi_name();
+
+        if ( $sapiType == 'cli' )
+            return true;
+
+        // For CGI we have to check, if the script has been executed over shell.
+        // Currently it looks like the HTTP_HOST variable is the most reasonable to check.
+        if ( substr( $sapiType, 0, 3 ) == 'cgi' )
+        {
+            if ( !eZSys::serverVariable( 'HTTP_HOST', true ) )
+                return true;
+            else
+                return false;
+        }
+        return false;
+    }
+
+    /*!
+     \static
      Escape a string to be used as a shell argument and return it.
     */
     function escapeShellArgument( $argument )

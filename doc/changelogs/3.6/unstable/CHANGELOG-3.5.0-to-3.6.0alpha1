@@ -227,6 +227,9 @@ PDF:
 eZFile:
 - Added a function to eZLog that appends a log message to a log file.
 
+eZSys:
+- Added a function that determins if the script got executed over the web or the shell.
+
 eZDebug:
 - Added background highlighting for the queries in a transaction section.
 - Added "templates usage statistics".
