@@ -361,7 +361,7 @@ class eZCollaborationItemHandler
      it can be used by handlers to update when the item was last read.
      \note Default implementation does nothing.
     */
-    function readItem( &$collaborationItem )
+    function readItem( &$collaborationItem, $viewMode = false )
     {
     }
 
