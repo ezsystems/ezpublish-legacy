@@ -645,12 +645,11 @@ class eZRole extends eZPersistentObject
                     $limitValue = '';
                     $limitIdent = '';
                 }
-            }
+            } break;
             case 'section':
             {
                 $limitIdent = 'Section';
-            }
-            break;
+            } break;
         }
 
         $query = "SELECT * FROM ezuser_role WHERE role_id='$this->ID' AND contentobject_id='$userID' AND limit_identifier='$limitIdent' AND limit_value='$limitValue'";
