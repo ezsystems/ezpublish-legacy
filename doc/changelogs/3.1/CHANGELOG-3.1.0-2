@@ -31,6 +31,9 @@ Changes from 3.1.0-1 to 3.1.0-2
 - Fixed clearing of override and cache-block cache when clearing cache in admin
 - Removed default wordtoimage rule for :/ which messes up URL's
 - Fixed setting correct access type when using default siteaccess
+- Fixed subtree handler to not handle objects that no longer exists, this avoids a crash.
+- Added support for some options to runcronjobs.php, for instance output can be supressed, debug turned on
+  and colors can be added.
 
 *Library :
 eZ xml:
@@ -46,6 +49,11 @@ eZ soap:
 
 eZ i18n:
 - Fixed the new and optimized convertStringFromUTF8 function, it should now create convert correctly.
+
+eZ mail:
+- Added support for Content-Type, Content-Transfer-Encoding, Content-Disposition and User-Agent which defaults
+  to some sane values.
+- Added conversion of emails to a suitable output charset, allowed output formats are defined in setting/site.ini.
 
 * Update:
 - Fixed generateoverridesettings.php to create correct Source and MatchFile entries for the .ini file.
