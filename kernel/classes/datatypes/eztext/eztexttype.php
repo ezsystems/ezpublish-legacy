@@ -108,10 +108,10 @@ class eZTextType extends eZDataType
         if ( $http->hasPostVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $data =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
-
-            print( $data );
             $contentObjectAttribute->setAttribute( "data_text", $data );
+            return true;
         }
+        return false;
     }
 
     /*!
