@@ -115,4 +115,9 @@ $ViewList["extensions"] = array(
     'single_post_actions' => array( 'ActivateExtensionsButton' => 'ActivateExtensions' ),
     "params" => array( ) );
 
+$ViewList['menu'] = array(
+    'script' => 'setupmenu.php',
+    'default_navigation_part' => 'ezsetupnavigationpart',
+    'params' => array( ) );
+
 ?>

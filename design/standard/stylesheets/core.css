@@ -379,6 +379,18 @@ div.buttonblock
     margin-bottom: 1ex;
 }
 
+div.setup_element
+/* Used to place menu items in setup beside each other. */
+{
+    float: left;
+    display: block;
+    padding-right: 1ex;
+    padding-left: 0px;
+    padding-top: 5px;
+    clear: right;
+    width: 170px;
+}
+
 div.element
 /* Used to position several elements next to each other horizontally. NOT on regular buttons. */
 {

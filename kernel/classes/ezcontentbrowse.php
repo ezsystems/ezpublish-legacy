@@ -233,6 +233,8 @@ class eZContentBrowse
             return $contentINI->variable( 'NodeSettings', 'UserRootNode' );
         else if ( $nodeName == 'media' )
             return $contentINI->variable( 'NodeSettings', 'MediaRootNode' );
+        else if ( $nodeName == 'setup' )
+            return $contentINI->variable( 'NodeSettings', 'SetupRootNode' );
         else
             return false;
     }
