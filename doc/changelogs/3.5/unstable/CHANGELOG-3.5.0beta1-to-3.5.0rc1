@@ -56,3 +56,10 @@ Datatype:
   (Merged from stable/3.3, rev. 9321, also in stable/3.4 rev. 9322)
 - Fixed bug: Broken datatype
   http://ez.no/community/bug_reports/broken_datatype
+
+*Library:
+
+eZDebug:
+- Fixed output of arrays and objects to use PHP function var_export if it is
+  available.
+  (Merged from stable/3.4 (3.4.4) rev. 9337)
