@@ -571,6 +571,7 @@ for ( $i = 1; $i < count( $argv ); ++$i )
         }
     }
 }
+$script->setIsQuiet( $isQuiet );
 $script->setUseDebugOutput( $debugOutput );
 $script->setAllowedDebugLevels( $allowedDebugLevels );
 $script->setUseDebugAccumulators( $useDebugAccumulators );

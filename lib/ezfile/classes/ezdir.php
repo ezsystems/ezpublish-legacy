@@ -354,7 +354,7 @@ class eZDir
     /*!
      \static
      Recurses through the directory and returns the files that matches the given suffix
-     Note: this function will not traverse . (hidden) folders
+     \note This function will not traverse . (hidden) folders
     */
     function &recursiveFind( $dir, $suffix )
     {

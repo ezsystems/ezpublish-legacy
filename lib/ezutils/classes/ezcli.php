@@ -216,6 +216,7 @@ class eZCLI
             $this->EmptyStyles[$styleName] = false;
         }
         $this->UseStyles = false;
+        $this->IsQuiet = false;
     }
 
     /*!
@@ -324,6 +325,8 @@ class eZCLI
     */
     function output( $string = false, $addEOL = true )
     {
+        if ( $this->isQuiet() )
+            return;
         print( $string );
         if ( $addEOL )
             print( $this->endlineString() );
@@ -335,6 +338,8 @@ class eZCLI
     */
     function notice( $string = false, $addEOL = true )
     {
+        if ( $this->isQuiet() )
+            return;
         print( $string );
         if ( $addEOL )
             print( $this->endlineString() );
@@ -346,6 +351,8 @@ class eZCLI
     */
     function warning( $string = false, $addEOL = true )
     {
+        if ( $this->isQuiet() )
+            return;
         $string = $this->stylize( 'warning', $string );
         print( $string );
         if ( $addEOL )
@@ -358,10 +365,39 @@ class eZCLI
     */
     function error( $string = false, $addEOL = true )
     {
+        if ( $this->isQuiet() )
+            return;
         $string = $this->stylize( 'error', $string );
         print( $string );
         if ( $addEOL )
             print( $this->endlineString() );
+    }
+
+    /*!
+     Sets whether the output(), notice(), warning() and error() methods should print out anything.
+     \sa isQuiet, isLoud
+    */
+    function setIsQuiet( $isQuiet )
+    {
+        $this->IsQuiet = $isQuiet;
+    }
+
+    /*!
+     \return \c true if output is not allowed.
+     \sa isLoud
+    */
+    function isQuiet()
+    {
+        return $this->IsQuiet;
+    }
+
+    /*!
+     \return \c true if output is allowed.
+     \sa isQuiet
+    */
+    function isLoud()
+    {
+        return !$this->IsQuiet;
     }
 
     /*!

@@ -110,6 +110,7 @@ class eZScript
         $this->User = $settings['user'];
         $this->SiteAccess = $settings['site-access'];
         $this->ExitCode = false;
+        $this->IsQuiet = false;
     }
 
     /*!
@@ -205,7 +206,8 @@ class eZScript
                 if ( !$userID )
                 {
                     $cli =& eZCLI::instance();
-                    $cli->warning( 'Failed to login with user ' . $userLogin );
+                    if ( $this->isLoud() )
+                        $cli->warning( 'Failed to login with user ' . $userLogin );
                     include_once( 'lib/ezutils/classes/ezexecution.php' );
                     eZExecution::cleanup();
                     eZExecution::setCleanExit();
@@ -338,6 +340,36 @@ class eZScript
         return $this->ExitCode;
     }
 
+    /*!
+     Sets whether any output should be used or not.
+     \sa isQuiet, isLoud
+     \note it will also call eZCLI::setIsQuiet()
+    */
+    function setIsQuiet( $isQuiet )
+    {
+        $cli =& eZCLI::instance();
+        $this->IsQuiet = $isQuiet;
+        $cli->setIsQuiet( $isQuiet );
+    }
+
+    /*!
+     \return \c true if output is not allowed.
+     \sa isLoud
+    */
+    function isQuiet()
+    {
+        return $this->IsQuiet;
+    }
+
+    /*!
+     \return \c true if output is allowed.
+     \sa isQuiet
+    */
+    function isLoud()
+    {
+        return !$this->IsQuiet;
+    }
+
     function &instance( $settings = array() )
     {
         $implementation =& $GLOBALS['eZScriptInstance'];
@@ -358,6 +390,7 @@ class eZScript
     var $User;
     var $SiteAccess;
     var $ExitCode;
+    var $IsQuiet;
 }
 
 function eZDBCleanup()
