@@ -62,6 +62,8 @@ eZINI:
   http://ez.no/community/bug_reports/role_policies_limit_to_a_subtree_destroyed_after_moving_subtree
 - Fixed bug related to inability of selecting source node for RSS export.
   http://ez.no/community/bug_reports/rss_export_source_1_selection_fails
+- Fixed bug of matching by 'parent_node' problem using in view_node_gui call
+  http://ez.no/community/bug_reports/matching_by_parent_node_problem
 
 *Library:
 

@@ -213,7 +213,10 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                           'attribute_keys' => array( 'node' => array( 'node_id' ),
                                                                      'object' => array( 'contentobject_id' ),
                                                                      'class' => array( 'object', 'contentclass_id' ),
-                                                                     'section' => array( 'object', 'section_id' ) ),
+                                                                     'section' => array( 'object', 'section_id' ),
+                                                                     'parent_node' => array( 'parent_node_id' ),
+                                                                     'depth' => array( 'depth' ),
+                                                                     'url_alias' => array( 'url_alias' ) ),
                                           'attribute_access' => array(),
                                           'use_views' => 'view' ),
 
