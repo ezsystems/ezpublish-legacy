@@ -21,8 +21,6 @@ U+0029 = U+0020 # parenthesis end )
 U+002D = U+0020 # minus sign -
 U+002B = U+0020 # plus sign +
 U+002F = U+0020 # slash /
-U+0021 = U+0020 # exclamation mark !
-U+003F = U+0020 # question mark ?
 U+005B = U+0020 # square bracket start [
 U+005D = U+0020 # square bracket end ]
 U+002F = U+0020 # dollar sign $
@@ -33,3 +31,21 @@ U+003D = U+0020 # equal sign =
 U+0027 = U+0020 # apostrophe '
 U+00B4 = U+0020 # accute accent ´
 U+0060 = U+0020 # grave accent `
+
+punctuation_normalize:
+# Turn some symbols which are considered punctuations marks into
+# the ASCII punctuation U+002E
+U+0021 = U+002E # exclamation mark !
+U+003F = U+002E # question mark ?
+U+002C = U+002E # comma ,
+
+special_to_space:
+# Map some special characters into spaces, may be useful for search etc.
+U+00BC - U+00BE = U+0020 # 1/4, 1/2 and 3/4
+U+00A2 - U+00A7 = U+0020 # Cent, pound, currency, yen, broken sign, section
+U+00AC = U+002D  # Not sign
+U+00AF = U+002D  # Macron
+U+00B5 = U+0020  # Micron sign
+U+00B6 = U+0020  # Pillcrow sign
+U+00B7 = U+0020  # Middle dot
+U+00B8 = U+0020  # Cedilla

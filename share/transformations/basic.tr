@@ -1,8 +1,10 @@
 # Transformation formats
-# CF = CF...        : Map from one char to one or more chars  (map)
-# CF - CF = CF...   : Map range of chars to one or more chars (replace)
-# CF - CF +- xx     : Transpose several chars by value        (transpose)
-# TI[,TI...]        :
+# CF = CF...           : Map from one char to one or more chars  (map)
+# CF - CF = CF...      : Map range of chars to one or more chars (replace)
+# CF - CF +- xx        : Transpose several chars by value xx     (transpose)
+# CF - CF % yy +- xx   : Transpose several chars by value xx, yy denotes skip value
+#                        yy equal to 1 is the same as 'transpose' (transpose-modulo)
+# TI[,TI...]           :
 #
 # CF = Character Format
 # TI = Transform Identifier
@@ -45,25 +47,8 @@ apostrophe_to_doublequote:
 # Turns apostrophe into doublequote
 U+0027 = U+0022
 
-inverted_to_normal:
-# Turns inverted characters into their normal counterparts
-U+00BF = U+003F # Inverted question mark
-U+00A1 = U+0021 # Inverted exclamation
-
-special_to_space:
-# Map some special characters into spaces, may be useful for search etc.
-U+00BC - U+00BE = U+0020
-U+00A2 - U+00A7 = U+0020 # Cent, pound, currency, yen, broken sign, section
-U+00AC = U+0020  # Not sign
-U+00AF = U+0020  # Macron
-U+00B5 = U+0020  # Micron sign
-U+00B6 = U+0020  # Pillcrow sign
-U+00B7 = U+0020  # Middle dot
-U+00B8 = U+0020  # Cedilla
-U+00BA = U+0020  # Masculine ordinal indicator
-
 special_decompose:
-U+00A8 = "(C)" # Copyright sign
+U+00A9 = "(C)" # Copyright sign
 U+00AE = "(R)" # Registered sign
 U+00B1 = "+-"  # Plus/minus sign
 U+00B2 = "2"   # Superscript two

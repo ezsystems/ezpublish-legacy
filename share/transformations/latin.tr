@@ -1,0 +1,226 @@
+# Rules related to latin (latin1, latin extended-a, latin extended-b)
+#
+# The following charsets uses characters from latin:
+# iso-8859-1, iso-8859-2, iso-8859-3, iso-8859-4, iso-8859-9, iso-8859-10,
+# iso-8859-13, iso-8859-14, iso-8859-15, cp437, cp775, cp850, cp852, cp857,
+# cp860, cp861, cp862, cp863, cp865, cp932
+#
+# Webpages of interest:
+# http://www.cs.tut.fi/~jkorpela/latin1/all.html
+#
+# See basic.tr for formatting options
+
+latin1_lowercase:
+U+00C0 - U+00D6 + 20 # Lowercase diacritical latin1 characters
+U+00D8 - U+00DE + 20 # Lowercase diacritical latin1 characters
+
+latin1_uppercase:
+U+00E0 - U+00F6 - 20 # Lowercase diacritical latin1 characters
+U+00F8 - U+00FE - 20 # Lowercase diacritical latin1 characters
+U+00DF = "SS"
+
+
+latin-exta_lowercase:
+U+0100 - U+012E % 02 + 01
+U+0132 - U+0136 % 02 + 01
+U+0139 - U+0147 % 02 + 01
+U+014A - U+0176 % 02 + 01
+U+0179 - U+017D % 02 + 01
+
+latin-exta_uppercase:
+U+0101 - U+012F % 02 - 01
+U+0133 - U+0137 % 02 - 01
+U+013A - U+0148 % 02 - 01
+U+014B - U+0177 % 02 - 01
+U+017A - U+017E % 02 - 01
+
+latin_lowercase:
+# These characters span multiple uncode sets
+U+0178 = U+00FF
+
+latin_uppercase:
+# These characters span multiple uncode sets
+U+00FF = U+0178
+
+latin1_diacritical:
+# Remove diacriticals from several latin characters
+U+00C0 - U+00C4 = "A"  # A
+U+00E0 - U+00E4 = "a"  # a
+U+00C8 - U+00CB = "E"  # E
+U+00E8 - U+00EB = "e"  # e
+U+00CC - U+00CF = "I"  # I
+U+00EC - U+00EF = "i"  # i
+U+00D2 - U+00D6 = "O"  # O
+U+00F2 - U+00F6 = "o"  # o
+U+00D9 - U+00DC = "U"  # U
+U+00F9 - U+00FC = "u"  # u
+
+U+00DD = "Y"           # Y
+U+009F = "Y"           # Y
+U+00FD = "y"           # y
+U+00FF = "y"           # y
+U+00C7 = "C"           # C
+U+00E7 = "c"           # c
+U+00D0 = "D"           # D
+U+00F0 = "d"           # d
+U+00D1 = "N"           # N
+U+00F1 = "n"           # n
+U+00DE = "TH"          # latin capital letter thorn => TH? (icelandic, runic, old english)
+U+00FE = "th"          # latin small letter thorn => th? (icelandic, runic, old english)
+U+00DF = "ss"          # latin small letter sharp s (german)
+
+latin-exta_diacritical:
+U+0100 = "A"
+U+0102 = "A"
+U+0104 = "A"
+U+0101 = "a"
+U+0103 = "a"
+U+0105 = "a"
+U+0106 = "C"
+U+0108 = "C"
+U+010A = "C"
+U+010C = "C"
+U+0107 = "c"
+U+0109 = "c"
+U+010B = "c"
+U+010D = "c"
+U+010E = "D"
+U+0110 = "D"
+U+010F = "d"
+U+0111 = "d"
+U+0112 = "E"
+U+0114 = "E"
+U+0116 = "E"
+U+0118 = "E"
+U+011A = "E"
+U+0113 = "e"
+U+0115 = "e"
+U+0117 = "e"
+U+0119 = "e"
+U+011B = "e"
+U+011C = "G"
+U+011E = "G"
+U+0120 = "G"
+U+0122 = "G"
+U+011D = "g"
+U+011F = "g"
+U+0121 = "g"
+U+0123 = "g"
+U+0124 = "H"
+U+0126 = "H"
+U+0125 = "h"
+U+0127 = "h"
+U+0128 = "I"
+U+012A = "I"
+U+012C = "I"
+U+012E = "I"
+U+0130 = "I"
+U+0129 = "i"
+U+012B = "i"
+U+012D = "i"
+U+012F = "i"
+U+0131 = "i"
+U+0134 = "J"
+U+0135 = "j"
+U+0136 = "K"
+U+0137 = "k"
+U+0139 = "L"
+U+013B = "L"
+U+013D = "L"
+U+013F = "L"
+U+0141 = "L"
+U+013A = "l"
+U+013C = "l"
+U+013E = "l"
+U+0140 = "l"
+U+0142 = "l"
+U+0143 = "N"
+U+0145 = "N"
+U+0147 = "N"
+U+0144 = "n"
+U+0146 = "n"
+U+0148 = "n"
+U+014C = "O"
+U+014E = "O"
+U+0150 = "O"
+U+014D = "o"
+U+014F = "o"
+U+0151 = "o"
+U+0154 = "R"
+U+0156 = "R"
+U+0158 = "R"
+U+0155 = "r"
+U+0157 = "r"
+U+0159 = "r"
+U+015A = "S"
+U+015C = "S"
+U+015E = "S"
+U+0160 = "S"
+U+015B = "s"
+U+015D = "s"
+U+015F = "s"
+U+0161 = "s"
+U+0162 = "T"
+U+0164 = "T"
+U+0166 = "T"
+U+0163 = "t"
+U+0165 = "t"
+U+0167 = "t"
+U+0168 = "U"
+U+016A = "U"
+U+016C = "U"
+U+016E = "U"
+U+0170 = "U"
+U+0172 = "U"
+U+0169 = "u"
+U+016B = "u"
+U+016D = "u"
+U+016F = "u"
+U+0171 = "u"
+U+0173 = "u"
+U+0174 = "W"
+U+0175 = "w"
+U+0176 = "Y"
+U+0177 = "y"
+U+0178 = "Y"
+U+0179 = "Z"
+U+017B = "Z"
+U+017D = "Z"
+U+017A = "z"
+U+017C = "z"
+U+017E = "z"
+
+# Transliteration of latin1, is used in URLs and identifiers
+latin1_transliterate_ascii:
+# Turn some latin1 characters into ASCII equivalents
+U+00E6 = "ae" # æ => ae
+U+00C6 = "AE" # Æ => AE
+U+00E5 = "aa" # å => aa
+U+00C5 = "AA" # Å => AA
+U+00F8 = "oe" # ø => oe
+U+00D8 = "OE" # Ø => OE
+U+009C = "oe" # oe ligature
+U+008C = "OE" # OE ligature
+U+00AA = "a"  # feminine ordinal indicator (spanish)
+U+00BA = "o"  # masculine ordinal indicator (spanish)
+
+latin-exta_transliterate_ascii:
+U+0132 = "IJ"
+U+0133 = "ij"
+U+0138 = "k"
+U+0149 = "'n"
+U+014A = "N"
+U+014B = "n"
+U+0152 = "AE"
+U+0153 = "ae"
+U+017F = "s"
+
+math_to_ascii:
+# Turn some special math symbols into ASCII equivalents
+U+00D7 = "*"  # multiplication sign
+U+00F7 = "/"  # division sign
+
+inverted_to_normal:
+# Turns inverted characters into their normal counterparts
+U+00BF = U+003F # Inverted question mark
+U+00A1 = U+0021 # Inverted exclamation

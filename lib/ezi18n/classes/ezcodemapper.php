@@ -219,14 +219,24 @@ class eZCodeMapper
         $hexValues = "0123456789abcdefABCDEF";
         $identifier = false;
 
+        // The big funky parser starts here
+        // It starts by reading a chunk of data from the file
+        // then splits everything into an array with lines.
+        // Then it traverses one line at a time looking for
+        // identifiers and rules. Comments will be removed before the
+        // line is parsed for identifiers and rules.
+
         while ( !feof( $fd ) or strlen( $buffer ) > 0 )
         {
             $lines = array();
             $len = strlen( $buffer );
+            // Check if we have data in the buffer yet
+            // Note: The actual buffer reading is done at the end of this while loop
             if ( $len > 0 )
             {
                 $endPos = false;
                 $eolPos = 0;
+                // Look for complete lines and append to $lines
                 while ( $eolPos !== false and $eolPos < $len )
                 {
                     $eolPos = strpos( $buffer, "\n", $endPos );
@@ -239,11 +249,15 @@ class eZCodeMapper
                         $endPos = $eolPos + 1;
                     }
                 }
+
+                // If we have leftover data place that back in $buffer
                 if ( $endPos !== false )
                 {
                     $buffer = substr( $buffer, $endPos );
                 }
             }
+
+            // Once we have some lines start parsing them one at a time
             foreach ( $lines as $lineData )
             {
                 $line = $lineData['text'];
@@ -251,11 +265,13 @@ class eZCodeMapper
                 $linePos = $lineData['line'];
                 $commentPos = strpos( $line, '#' );
                 $origLine = $line;
+                // Get rid of any comments before we check the line
                 if ( $commentPos !== false )
                 {
                     $line = substr( $line, 0, $commentPos );
                 }
                 $trimLine = trim( $line );
+                // Skip empty lines
                 if ( strlen( $trimLine ) == 0 )
                     continue;
 
@@ -268,6 +284,7 @@ class eZCodeMapper
                 $destinationValues = false;
                 $transposeValue = false;
                 $transposeAdd = true;
+                $moduloValue = 1;
                 // source, marker, range_input, range_marker, map_input, transpose_input, replace_input
                 $state = 'source';
                 // map, transpose, replace
@@ -472,7 +489,7 @@ class eZCodeMapper
                         if ( $unicodeData )
                         {
 //                             print( "data state: $state\n" );
-                            // source, marker, range_input, range_marker, map_input, transpose_input, replace_input
+                            // source, marker, range_input, range_marker, map_input, transpose_input, replace_input, transpose_modulo
                             if ( $state == 'source' )
                             {
                                 if ( $unicodeData['type'] == 'string' and
@@ -507,9 +524,10 @@ class eZCodeMapper
                                     break;
                                 }
                                 $sourceEndValue = $this->extractUnicodeValue( $unicodeData );
-                                $state = 'range_marker';
+                                $state = 'range_marker_or_modulo';
                             }
-                            else if ( $state == 'range_marker' )
+                            else if ( $state == 'range_marker_or_modulo' or
+                                      $state == 'range_marker' )
                             {
                                 $this->warning( "Range value not expected, a range value has already been extracted at $line" . "[$pos]",
                                                 array( 'file' => $filename,
@@ -546,6 +564,21 @@ class eZCodeMapper
                                 }
                                 $transposeValue = $this->extractUnicodeValue( $unicodeData );
                                 $type = 'transpose';
+                            }
+                            else if ( $state == 'transpose_modulo' )
+                            {
+                                if ( $unicodeData['type'] == 'string' and
+                                     strlen( $unicodeData['value'] ) > 1 )
+                                {
+                                    $this->warning( "Text string with more than one character cannot be used as transpose modulo value '" . $unicodeData['value'] . "'",
+                                                    array( 'file' => $filename,
+                                                           'from' => array( $linePos, $pos ) ) );
+                                    $failed = true;
+                                    break;
+                                }
+                                $moduloValue = $this->extractUnicodeValue( $unicodeData );
+//                                 print( "modulo value=$moduloValue\n" );
+                                $state = 'range_marker';
                             }
                         }
                         else if ( !$failed )
@@ -609,9 +642,18 @@ class eZCodeMapper
                                     break;
                                 }
                             }
-                            else if ( $state == 'range_marker' )
+                            else if ( $state == 'range_marker_or_modulo' or
+                                      $state == 'range_marker' )
                             {
-                                if ( $char == '=' )
+                                if ( $state == 'range_marker_or_modulo' and
+                                     $char == '%' )
+                                {
+//                                     print( "found modulo marker\n" );
+                                    // Look for modulo value
+                                    $state = 'transpose_modulo';
+                                    ++$pos;
+                                }
+                                else if ( $char == '=' )
                                 {
                                     $state = 'replace_input';
                                     ++$pos;
@@ -654,6 +696,34 @@ class eZCodeMapper
                                 else
                                 {
                                     $this->warning( "Unknown character '$char', expecting output values",
+                                                    array( 'file' => $filename,
+                                                           'from' => array( $linePos, $pos ) ) );
+                                    $failed = true;
+                                    break;
+                                }
+                            }
+                            else if ( $state == 'transpose_modulo' )
+                            {
+                                if ( $char == '%' )
+                                {
+                                    $this->warning( "Modulo marker already used, cannot use $char",
+                                                    array( 'file' => $filename,
+                                                           'from' => array( $linePos, $pos ) ) );
+                                    $failed = true;
+                                    break;
+                                }
+                                else if ( $char == '-' or
+                                          $char == '+' )
+                                {
+                                    $this->warning( "Transpose marker $char used, but no modulo value has been found yet",
+                                                    array( 'file' => $filename,
+                                                           'from' => array( $linePos, $pos ) ) );
+                                    $failed = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    $this->warning( "Unknown character '$char', expecting modulo value",
                                                     array( 'file' => $filename,
                                                            'from' => array( $linePos, $pos ) ) );
                                     $failed = true;
@@ -741,8 +811,8 @@ class eZCodeMapper
                             }
                             else if ( $type == 'transpose' )
                             {
-//                                 print( "***transposing***:\n" . $sourceValue . ' - ' . $sourceEndValue . ' + ' . $transposeValue . "\n\n" );
-                                $this->appendTransposeMapping( $tbl[$identifier], $identifier, $sourceValue, $sourceEndValue, $transposeValue, $transposeAdd );
+//                                 print( "***transposing***:\n" . $sourceValue . ' - ' . $sourceEndValue . ' % ' . $moduloValue . ' + ' . $transposeValue . "\n\n" );
+                                $this->appendTransposeMapping( $tbl[$identifier], $identifier, $sourceValue, $sourceEndValue, $transposeValue, $transposeAdd, $moduloValue );
                             }
                         }
 //                         else
@@ -758,6 +828,9 @@ class eZCodeMapper
                     }
                 }
             }
+
+            // Here we read more data from the file, appending to
+            // the $buffer variable
             if ( !feof( $fd ) )
             {
                 $buffer .= fread( $fd, 4096 );
@@ -837,19 +910,19 @@ class eZCodeMapper
      \param $transposeValue How much to transpose the values
      \param $addValue If \c true the $transposeValue is added to the range if not it is subtracted.
     */
-    function appendTransposeMapping( &$block, $identifier, $sourceValue, $sourceEndValue, $transposeValue, $addValue )
+    function appendTransposeMapping( &$block, $identifier, $sourceValue, $sourceEndValue, $transposeValue, $addValue, $moduloValue )
     {
         $count = count( $block );
         if ( isset( $block[$count - 1] ) and
              $block[$count - 1][0] == EZ_CODEMAPPER_TYPE_RANGE and
              $block[$count - 1][2] == $identifier )
         {
-            $block[$count - 1][1][] = array( $sourceValue, $sourceEndValue, $addValue ? $transposeValue : -$transposeValue );
+            $block[$count - 1][1][] = array( $sourceValue, $sourceEndValue, $addValue ? $transposeValue : -$transposeValue, $moduloValue );
         }
         else
         {
             $block[] = array( EZ_CODEMAPPER_TYPE_RANGE,
-                              array( array( $sourceValue, $sourceEndValue, $addValue ? $transposeValue : -$transposeValue ) ),
+                              array( array( $sourceValue, $sourceEndValue, $addValue ? $transposeValue : -$transposeValue, $moduloValue ) ),
                               $identifier );
 
         }
@@ -1146,7 +1219,11 @@ class eZCodeMapper
                         $start = $tmp;
                     }
                     $add = $rangeItem[2];
-                    for ( $i = $start; $i <= $stop; ++$i )
+                    $modulo = $rangeItem[3];
+                    // Sanity-check, to avoid infinite loops
+                    if ( $modulo == 0 )
+                        $modulo = 1;
+                    for ( $i = $start; $i <= $stop; $i += $modulo )
                     {
                         if ( count( $allowedRanges ) == 0 )
                         {
