@@ -71,7 +71,7 @@ class eZKeywordType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_VALID;
+        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
 
     /*!
