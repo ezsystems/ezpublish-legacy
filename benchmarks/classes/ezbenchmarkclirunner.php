@@ -90,10 +90,10 @@ class eZBenchmarkCLIRunner extends eZBenchmarkRunner
         $prime = $result['prime'];
         $repeatCount = $result['repeat_count'];
         $normalized = $result['normalized'];
-        $cli->output( $result['name'] . " ($repeatCount times)" );
+        $cli->output( $cli->stylize( 'symbol', $result['name'] ) . " " . $cli->stylize( 'mark', "($repeatCount times)" ) );
         if ( isset( $final['memory'] ) )
         {
-            $text = "Memory: " . $cli->stylize( 'emphasize', $final['memory'] ) . " bytes";
+            $text = $cli->stylize( 'bold', "Memory" ) . ": " . $cli->stylize( 'emphasize', $final['memory'] ) . " bytes";
             if ( isset( $prime['memory'] ) )
                 $text .= " (Priming: " . $cli->stylize( 'mark', $prime['memory'] ) . " bytes)";
             if ( $this->MaxMap !== false )
@@ -111,7 +111,7 @@ class eZBenchmarkCLIRunner extends eZBenchmarkRunner
             }
             $cli->output( $text );
         }
-        $text = "Time:   " . $cli->stylize( 'emphasize', number_format( $normalized['time'], 3 ) ) . "/" . $cli->stylize( 'emphasize', number_format( $final['time'], 3 ) ) . " seconds";
+        $text = "Time:   " . $cli->stylize( 'emphasize', number_format( $final['time'], 3 ) ) . " seconds (" . $cli->stylize( 'emphasize', number_format( $normalized['time'], 3 ) ) . ")";
         if ( $this->MaxMap !== false )
         {
             if ( $this->MaxMap['time'] > $normalized['time'] )
