@@ -145,76 +145,924 @@ class eZTemplateArrayOperator
     {
         return array( $this->ArrayName => array( 'input' => true,
                                                  'output' => true,
-                                                 'parameters' => true ),
+                                                 'parameters' => true,
+                                                 'element-transformation' => true,
+                                                 'transform-parameters' => true,
+                                                 'element-transformation-func' => 'arrayTrans' ),
                       $this->HashName => array( 'input' => true,
-                                                 'output' => true,
-                                                 'parameters' => true ),
+                                                'output' => true,
+                                                'parameters' => true,
+                                                'element-transformation' => true,
+                                                'transform-parameters' => true,
+                                                'element-transformation-func' => 'arrayTrans'),
                       $this->ArrayPrependName => array( 'input' => true,
                                                         'output' => true,
                                                         'parameters' => true ),
                       $this->PrependName => array( 'input' => true,
                                                    'output' => true,
-                                                   'parameters' => true ),
+                                                   'parameters' => true,
+                                                   'element-transformation' => true,
+                                                   'transform-parameters' => true,
+                                                   'input-as-parameter' => 'always',
+                                                   'element-transformation-func' => 'mergeTrans'),
                       $this->ArrayAppendName => array( 'input' => true,
                                                        'output' => true,
                                                        'parameters' => true ),
                       $this->AppendName => array( 'input' => true,
                                                   'output' => true,
-                                                  'parameters' => true ),
+                                                  'parameters' => true,
+                                                  'element-transformation' => true,
+                                                  'transform-parameters' => true,
+                                                  'input-as-parameter' => 'always',
+                                                  'element-transformation-func' => 'mergeTrans'),
                       $this->ArrayMergeName => array( 'input' => true,
                                                       'output' => true,
                                                       'parameters' => true ),
                       $this->MergeName => array( 'input' => true,
                                                  'output' => true,
-                                                 'parameters' => true ),
+                                                 'parameters' => true,
+                                                 'element-transformation' => true,
+                                                 'transform-parameters' => true,
+                                                 'input-as-parameter' => 'always',
+                                                 'element-transformation-func' => 'mergeTrans'),
                       $this->ContainsName => array( 'input' => true,
                                                     'output' => true,
-                                                    'parameters' => 1 ),
+                                                    'parameters' => 1,
+                                                    'element-transformation' => true,
+                                                    'transform-parameters' => true,
+                                                    'input-as-parameter' => 'always',
+                                                    'element-transformation-func' => 'arrayTrans'),
                       $this->CompareName => array( 'input' => true,
                                                    'output' => true,
-                                                   'parameters' => 1 ),
+                                                   'parameters' => 1,
+                                                   'element-transformation' => true,
+                                                   'transform-parameters' => true,
+                                                   'input-as-parameter' => 'always',
+                                                   'element-transformation-func' => 'arrayTrans'),
                       $this->ExtractName => array( 'input' => true,
                                                    'output' => true,
-                                                   'parameters' => 2 ),
+                                                   'parameters' => 2,
+                                                   'element-transformation' => true,
+                                                   'transform-parameters' => true,
+                                                   'input-as-parameter' => 'always',
+                                                   'element-transformation-func' => 'extractTrans'),
                       $this->ExtractLeftName => array( 'input' => true,
                                                        'output' => true,
-                                                       'parameters' => 1 ),
+                                                       'parameters' => 1,
+                                                       'element-transformation' => true,
+                                                       'transform-parameters' => true,
+                                                       'input-as-parameter' => 'always',
+                                                       'element-transformation-func' => 'extractTrans'),
                       $this->ExtractRightName => array( 'input' => true,
                                                         'output' => true,
-                                                        'parameters' => 1 ),
+                                                        'parameters' => 1,
+                                                        'element-transformation' => true,
+                                                        'transform-parameters' => true,
+                                                        'input-as-parameter' => 'always',
+                                                        'element-transformation-func' => 'extractTrans'),
                       $this->BeginsWithName => array( 'input' => true,
                                                       'output' => true,
-                                                      'parameters' => true ),
+                                                      'parameters' => true,
+                                                      'element-transformation' => true,
+                                                      'transform-parameters' => true,
+                                                      'input-as-parameter' => 'always',
+                                                      'element-transformation-func' => 'compareTrans'),
                       $this->EndsWithName => array( 'input' => true,
                                                     'output' => true,
-                                                    'parameters' => true ),
+                                                    'parameters' => true,
+                                                    'element-transformation' => true,
+                                                    'transform-parameters' => true,
+                                                    'input-as-parameter' => 'always',
+                                                    'element-transformation-func' => 'compareTrans'),
                       $this->ImplodeName => array( 'input' => true,
                                                    'output' => true,
-                                                   'parameters' => 1 ),
+                                                   'parameters' => 1,
+                                                   'element-transformation' => true,
+                                                   'transform-parameters' => true,
+                                                   'input-as-parameter' => 'always',
+                                                   'element-transformation-func' => 'arrayTrans'),
                       $this->ExplodeName => array( 'input' => true,
                                                    'output' => true,
-                                                   'parameters' => 1 ),
+                                                   'parameters' => 1,
+                                                   'element-transformation' => true,
+                                                   'transform-parameters' => true,
+                                                   'input-as-parameter' => 'always',
+                                                   'element-transformation-func' => 'arrayTrans'),
                       $this->RepeatName => array( 'input' => true,
                                                   'output' => true,
-                                                  'parameters' => 1 ),
+                                                  'parameters' => 1,
+                                                  'element-transformation' => true,
+                                                  'transform-parameters' => true,
+                                                  'input-as-parameter' => 'always',
+                                                  'element-transformation-func' => 'arrayTrans'),
                       $this->ReverseName => array( 'input' => true,
                                                    'output' => true,
-                                                   'parameters' => false ),
+                                                   'parameters' => false,
+                                                   'element-transformation' => true,
+                                                   'transform-parameters' => true,
+                                                   'input-as-parameter' => 'always',
+                                                   'element-transformation-func' => 'arrayTrans' ),
                       $this->InsertName => array( 'input' => true,
                                                   'output' => true,
-                                                  'parameters' => true ),
+                                                  'parameters' => true,
+                                                  'element-transformation' => true,
+                                                  'transform-parameters' => true,
+                                                  'input-as-parameter' => 'always',
+                                                  'element-transformation-func' => 'arrayTrans' ),
                       $this->RemoveName => array( 'input' => true,
                                                   'output' => true,
-                                                  'parameters' => 2 ),
+                                                  'parameters' => 2,
+                                                  'element-transformation' => true,
+                                                  'transform-parameters' => true,
+                                                  'input-as-parameter' => 'always',
+                                                  'element-transformation-func' => 'arrayTrans'),
                       $this->ReplaceName => array( 'input' => true,
                                                    'output' => true,
                                                    'parameters' => true ),
                       $this->UniqueName => array( 'input' => true,
                                                   'output' => true,
-                                                  'parameters' => false ),
+                                                  'parameters' => false,
+                                                  'element-transformation' => true,
+                                                  'transform-parameters' => true,
+                                                  'input-as-parameter' => 'always',
+                                                  'element-transformation-func' => 'arrayTrans'),
                       $this->ArraySumName => array( 'input' => true,
                                                     'output' => true,
-                                                    'parameters' => false ) );
+                                                    'parameters' => false,
+                                                    'element-transformation' => true,
+                                                    'transform-parameters' => true,
+                                                    'input-as-parameter' => 'always',
+                                                    'element-transformation-func' => 'arrayTrans' ) );
+    }
+
+    /*!
+     \reimp
+    */
+    function arrayTrans( $operatorName, &$node, &$tpl, &$resourceData,
+                         &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    {
+        switch( $operatorName )
+        {
+            case $this->ArrayName:
+            {
+                $code = '';
+                $paramCount = 0;
+                $values = array();
+                $staticArray = array();
+                for ( $i = 0; $i < count( $parameters ); ++$i )
+                {
+                    if ( $i != 0 )
+                    {
+                        $code .= ', ';
+                    }
+                    else
+                    {
+                        $code .= '%output% = array( ';
+                    }
+
+                    if ( !eZTemplateNodeTool::isStaticElement( $parameters[$i] ) )
+                    {
+                        $values[] = $parameters[$i];
+                        ++$paramCount;
+                        $code .= '%' . $paramCount . '%';
+                    }
+                    else
+                    {
+                        if ( $paramCount == 0 )
+                        {
+                            $staticArray[] = eZTemplateNodeTool::elementStaticValue( $parameters[$i] );
+                        }
+
+                        $code .= eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false );
+                    }
+                }
+
+                if ( $paramCount == 0 )
+                {
+                    return array( eZTemplateNodeTool::createArrayElement( $staticArray ) );
+                }
+
+                $code .= ' );';
+
+                return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
+            } break;
+
+            case $this->HashName:
+            {
+                $code = '';
+                $paramCount = 0;
+                $values = array();
+                $staticArray = array();
+                $hashCount = (int)( count( $parameters ) / 2 );
+                for ( $i = 0; $i < $hashCount; ++$i )
+                {
+                    if ( $i != 0 )
+                    {
+                        $code .= ', ';
+                    }
+                    else
+                    {
+                        $code .= '%output% = array( ';
+                    }
+
+                    if ( !eZTemplateNodeTool::isStaticElement( $parameters[$i*2] ) )
+                    {
+                        $values[] = $parameters[$i*2];
+                        ++$paramCount;
+                        $code .= '%' . $paramCount . '%';
+                    }
+                    else
+                    {
+                        $code .= eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i*2] ), 0, 0, false );
+                    }
+
+                    $code .= ' => ';
+
+                    if ( !eZTemplateNodeTool::isStaticElement( $parameters[$i*2+1] ) )
+                    {
+                        $values[] = $parameters[$i*2+1];
+                        ++$paramCount;
+                        $code .= '%' . $paramCount . '%';
+                    }
+                    else
+                    {
+                        if ( $paramCount == 0 )
+                        {
+                            $staticArray[ eZTemplateNodeTool::elementStaticValue( $parameters[$i*2] ) ] = eZTemplateNodeTool::elementStaticValue( $parameters[$i*2+1] );
+                        }
+                        $code .= eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i*2+1] ), 0, 0, false );
+                    }
+                }
+
+                if ( $paramCount == 0 )
+                {
+                    return array( eZTemplateNodeTool::createArrayElement( $staticArray ) );
+                }
+
+                $code .= ' );';
+
+                return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
+            } break;
+
+            case $this->ContainsName:
+            {
+                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) &&
+                     eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+                {
+                    $inArray = in_array( eZTemplateNodeTool::elementStaticValue( $parameters[1] ), eZTemplateNodeTool::elementStaticValue( $parameters[0] ) );
+                    return array( eZTemplateNodeTool::createBooleanElement( $inArray ) );
+                }
+
+                $code = '%output% = in_array( ';
+
+                $paramCount = 0;
+
+                if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+                {
+                    $code .= eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[1] ), 0, 0, false );
+                }
+                else
+                {
+                    $values[] = $parameters[1];
+                    $code .= '%' . count( $values ) . '%';
+                }
+
+                $code .= ', ';
+
+                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                {
+                    $code .= eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[0] ), 0, 0, false );
+                }
+                else
+                {
+                    $values[] = $parameters[0];
+                    $code .= '%' . count( $values ) . '%';
+                }
+
+                $code .= ' );';
+
+                return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
+            } break;
+
+            case $this->CompareName:
+            {
+                $values = array();
+
+                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                {
+                    $array1 = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+                    $array1Code = eZPHPCreator::variableText( $array1, 0, 0, false );
+                }
+                else
+                {
+                    $values[] = $parameters[0];
+                    $array1Code = '%' . count( $values ) . '%';
+                }
+
+                if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+                {
+                    $array2 = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
+                    $array2Code = eZPHPCreator::variableText( $array2, 0, 0, false );
+                }
+                else
+                {
+                    $values[] = $parameters[1];
+                    $array2Code = '%' . count( $values ) . '%';
+                }
+
+                if ( count( $values ) == 0 )
+                {
+                    return array( eZTemplateNodeTool::createBooleanElement( ( array_diff( $array1, $array2 ) == array_diff( $array2, $array1 ) ) ) );
+                }
+
+                $code = '%output% = ( array_diff( ' . $array1Code . ', ' . $array2Code . ' ) == array_diff( ' . $array2Code . ', ' . $array1Code . ' ) ) ;';
+
+                return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
+            } break;
+
+            case $this->ImplodeName:
+            {
+                $values = array();
+                if ( !eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+                {
+                    $values[] = $parameters[1];
+                    $code = '%1%, ';
+                }
+                else
+                {
+                    $code = eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[1] ), 0, 0, false ) . ', ';
+                }
+
+                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                {
+                    if ( count( $values ) == 0 )
+                    {
+                        return array( eZTemplateNodeTool::createStringElement( implode( eZTemplateNodeTool::elementStaticValue( $parameters[1] ),
+                                                                                        eZTemplateNodeTool::elementStaticValue( $parameters[0] ) ) ) );
+                    }
+                    else
+                    {
+                        $code .= eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[0] ), 0, 0, false );
+                    }
+                }
+                else
+                {
+                    $values[] = $parameters[0];
+                    $code .= '%' . count( $values ) . '%';
+                }
+
+                $code = '%output% = implode( ' . $code . ' );';
+
+                return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
+            } break;
+
+            case $this->UniqueName:
+            {
+                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                {
+                    return array( eZTemplateNodeTool::createArrayElement( array_unique( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) ) ) );
+                }
+
+                $values = array( $parameters[0] );
+                $code = '%output% = array_unique( %1% );';
+                return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
+            } break;
+
+            case $this->ExplodeName:
+            {
+                $values = array();
+
+                if ( !eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                {
+                    $values[] = $parameters[0];
+                    $code = '%tmp1% = %1%;' . "\n";
+                }
+                else
+                {
+                    $code = '%tmp1% = ' . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[0] ), 0, 0, false ) . ';' ."\n";
+                }
+
+                if ( !eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+                {
+                    $values[] = $parameters[1];
+                    $code .= '%output% = array( array_slice( %tmp1%, 0, %' . count( $values ) . '% ), array_slice( %tmp1%, %' . count( $values ) . '% ) );';
+                }
+                else
+                {
+                    $offset = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
+                    if ( count( $values ) == 0 )
+                    {
+                        $arrayIn = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+                        $array = array( array_slice( $arrayIn, 0, $offset ), array_slice( $arrayIn, $offset ) );
+                        return array( eZTemplateNodeTool::createArrayElement( $array ) );
+                    }
+                    else
+                    {
+                        $code .= '%output% = array( array_slice( %tmp1%, 0, ' . $offset . ' ), array_slice( %tmp1%, ' . $offset . ' ) );';
+                    }
+                }
+
+                return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 1 ) );
+            } break;
+
+            case $this->RemoveName:
+            {
+                $values = array();
+
+                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                {
+                    $inputArray = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+                    $inputArrayCode = eZPHPCreator::variableText( $inputArray, 0, 0, false );
+                }
+                else
+                {
+                    $values[] = $parameters[0];
+                    $inputArrayCode = '%' . count( $values ) . '%';
+                }
+
+                if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+                {
+                    $offset = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
+                    $offsetCode = eZPHPCreator::variableText( $offset, 0, 0, false );
+                }
+                else
+                {
+                    $values[] = $parameters[1];
+                    $offsetCode = '%' . count( $values ) . '%';
+                }
+
+                $length = 1;
+                $lengthCode = '1';
+                if ( count( $parameters ) > 2 )
+                {
+                    if ( eZTemplateNodeTool::isStaticElement( $parameters[2] ) )
+                    {
+                        $length = eZTemplateNodeTool::elementStaticValue( $parameters[2] );
+                        $lengthCode = eZPHPCreator::variableText( $offset, 0, 0, false );
+                    }
+                    else
+                    {
+                        $values[] = $parameters[2];
+                        $lengthCode = '%' . count( $values ) . '%';
+                    }
+                }
+
+                if ( count( $values ) == 0 )
+                {
+                    $array_one = array_slice( $inputArray, 0, $offset );
+                    $array_two = array_slice( $inputArray, $offset + $length );
+
+                    return array ( eZTemplateNodeTool::createArrayElement( array_merge( $array_one, $array_two ) ) );
+                }
+
+                $code = '%tmp1% = ' . $inputArrayCode . ';' . "\n" .
+                     '%output% = array_merge( array_slice( %tmp1%, 0, ' . $offsetCode . ' ), array_slice( %tmp1%, ' . $offsetCode . ' + ' . $lengthCode . ' ) );';
+
+                return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 1 ) );
+            } break;
+
+            case $this->InsertName:
+            {
+                $values = array();
+
+                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                {
+                    $inputArray = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+                    $inputArrayCode = eZPHPCreator::variableText( $inputArray, 0, 0, false );
+                }
+                else
+                {
+                    $values[] = $parameters[0];
+                    $inputArrayCode = '%' . count( $values ) . '%';
+                }
+
+                if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+                {
+                    $offset = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
+                    $offsetCode = eZPHPCreator::variableText( $offset, 0, 0, false );
+                }
+                else
+                {
+                    $values[] = $parameters[1];
+                    $offsetCode = '%' . count( $values ) . '%';
+                }
+
+                $insertElemCode = array();
+
+                for( $i = 2; $i < count( $parameters ); ++$i )
+                {
+                    if ( eZTemplateNodeTool::isStaticElement( $parameters[$i] ) )
+                    {
+                        $insertElemCode[] = eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false );
+                    }
+                    else
+                    {
+                        $values[] = $parameters[$i];
+                        $insertElemCode[] = '%' . count( $values ) . '%';
+                    }
+                }
+
+                if ( count( $values ) == 0 )
+                {
+                    $array_one = array_slice( $inputArray, 0, $offset );
+                    $array_two = array_slice( $inputArray, $offset );
+
+                    $array_to_insert = array();
+                    for ( $i = 2; $i < count( $parameters ); ++$i )
+                    {
+                        $array_to_insert[] = eZTemplateNodeTool::elementStaticValue( $parameters[$i] );
+                    }
+
+                    return array( eZTemplateNodeTool::createArrayElement( array_merge( $array_one, $array_to_insert, $array_two ) ) );
+                }
+
+                $code = '%tmp1% = ' . $inputArrayCode . ';' . "\n" .
+                     '%tmp2% = array_slice( %tmp1%, 0, ' . $offsetCode . ' );' . "\n" .
+                     '%tmp3% = array_slice( %tmp1%, ' . $offsetCode . ' );' . "\n" .
+                     '%tmp4% = array( ';
+                for( $i = 0; $i < count( $insertElemCode ); ++$i )
+                {
+                    if ( $i != 0 )
+                    {
+                        $code .= ", ";
+                    }
+                    $code .= $insertElemCode[$i];
+                }
+                $code .= ' );' . "\n" .
+                     '%output% = array_merge( %tmp2%, %tmp4%, %tmp3% );' . "\n";
+
+                return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 4 ) );
+            } break;
+
+            case $this->ReverseName:
+            {
+                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                {
+                    return array( eZTemplateNodeTool::createArrayElement( array_reverse( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) ) ) );
+                }
+
+                $values = array( $parameters[0] );
+                $code = '%output% = array_reverse( %1% );';
+
+                return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
+            } break;
+
+            case $this->ArraySumName:
+            {
+                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                {
+                    return array( eZTemplateNodeTool::createNumericElement( array_sum( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) ) ) );
+                }
+
+                $values = array( $parameters[0] );
+                $code = '%output% = array_sum( %1% );';
+
+                return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
+            } break;
+
+            case $this->RepeatName:
+            {
+                $values = array();
+
+                if ( !eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                {
+                    $values[] = $parameters[0];
+                    $arrayCode = '%' . count( $values ) . '%';
+                }
+                else
+                {
+                    $arrayCode = eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[0] ), 0, 0, false );
+                }
+
+                if ( !eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+                {
+                    $values[] = $parameters[1];
+                    $countCode = '%' . count( $values ) . '%';
+                }
+                else
+                {
+                    $count = (int)eZTemplateNodeTool::elementStaticValue( $parameters[1] );
+
+                    if ( count( $values ) == 0 )
+                    {
+                        $retArray = array();
+                        $origArray = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+                        for ( $i = 0; $i < $count; $i++)
+                        {
+                            $retArray = array_merge( $retArray, $origArray );
+                        }
+
+                        return array( eZTemplateNodeTool::createArrayElement( $retArray ) );
+                    }
+
+                    $countCode = (string)$count;
+                }
+
+                $code = '%output% = array();' . "\n" .
+                     '%tmp2% = ' . $arrayCode . ';' . "\n" .
+                     'for( %tmp1% = 0; %tmp1% < ' . $countCode . '; ++%tmp1% )' . "\n" .
+                     '{' . "\n" .
+                     '  %output% = array_merge( %output%, %tmp2% );' . "\n" .
+                     '}' . "\n";
+
+                return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 2 ) );
+            } break;
+        }
+    }
+
+    /*!
+     \reimp
+    */
+    function compareTrans( $operatorName, &$node, &$tpl, &$resourceData,
+                           &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    {
+        $offset = 0;
+        $length = count( $parameters ) - 1;
+        $values = array();
+        $values[] = array( eZTemplateNodeTool::createNumericElement( $length ) );
+        $code = '';
+        $array = null;
+
+        if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+        {
+            $array = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+            $code .= '%tmp1% = ' . eZPHPCreator::variableText( $array, 0, 0, false ) . ';';
+        }
+        else
+        {
+            $values[] = $parameters[0];
+            $code .= '%tmp1% = %'. count( $values ) . '%;';
+        }
+
+        $code .= "\n" . '%tmp2% = true;' . "\n";
+
+        if ( $operatorName == $this->EndsWithName )
+        {
+            if ( $array )
+            {
+                $offset = count( $array ) - $length;
+                $code .= '%tmp5% = ' . $offset . ';' . "\n";
+            }
+            else
+            {
+                $code .= '%tmp5% = count( %tmp1% ) - ' . $length . ';' . "\n";
+            }
+        }
+        else
+        {
+            $code .= '%tmp5% = 0;' . "\n";
+        }
+
+        $code .= '%tmp4% = array( ';
+        $match = true;
+        for( $i = 0; $i < $length; $i++ )
+        {
+            if ( $i != 0 )
+            {
+                $code .= ', ';
+            }
+
+            if ( eZTemplateNodeTool::isStaticElement( $parameters[$i + 1] ) )
+            {
+                $staticElement = eZTemplateNodeTool::elementStaticValue( $parameters[$i +1] );
+                if ( count( $values ) == 1 )
+                {
+                    if ( $array[$offset + $i] != $staticElement )
+                    {
+                        $match = false;
+                        break;
+                    }
+                }
+                $code .= eZPHPCreator::variableText( $staticElement, 0, 0, false );
+            }
+            else
+            {
+                $values[] = $parameters[$i + 1];
+                $code .= '%' . count( $values ) . '%';
+            }
+        }
+        $code .= ' );' . "\n";
+
+        if ( count( $values ) == 1 )
+        {
+            return array( eZTemplateNodeTool::createBooleanElement( $match ) );
+        }
+
+
+        $code .= 'for( %tmp3% = 0; %tmp3% < %1%; ++%tmp3% )' . "\n" .
+             '{' . "\n" .
+             '  if ( %tmp1%[%tmp5% + %tmp3%] != %tmp4%[%tmp3%] )' . "\n" .
+             '  {' . "\n" .
+             '    %tmp2% = false;' . "\n" .
+             '    break;' . "\n" .
+             '  }' . "\n" .
+             '}' . "\n" .
+             '%output% = %tmp2%;';
+
+        return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 5 ) );
+    }
+
+    /*!
+     \reimp
+    */
+    function extractTrans( $operatorName, &$node, &$tpl, &$resourceData,
+                           &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    {
+        $offset = 0;
+        $legth = 0;
+        $values = array();
+        $code = '';
+        if ( $operatorName == $this->ExtractName )
+        {
+            if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+            {
+                $offset = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
+                $code .= (string)$offset;
+            }
+            else
+            {
+                $values[] = $parameters[1];
+                $code .= '%' . count ( $values ) . '%';
+            }
+        }
+        else if ( $operatorName == $this->ExtractRightName )
+        {
+            if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+            {
+                $offset = -1 * eZTemplateNodeTool::elementStaticValue( $parameters[1] );
+                $code .= (string)$offset;
+            }
+            else
+            {
+                $values[] = $parameters[1];
+                $code .= '-1 * %' . count ( $values ) . '%';
+            }
+        }
+        else
+        {
+            $code .= '0';
+        }
+
+        if ( $operatorName == $this->ExtractName )
+        {
+            if ( eZTemplateNodeTool::isStaticElement( $parameters[2] ) )
+            {
+                $length = eZTemplateNodeTool::elementStaticValue( $parameters[2] );
+                $code .= ', ' . (string)$length;
+            }
+            else
+            {
+                $values[] = $parameters[2];
+                $code .= ', ' . '%' . count ( $values ) . '%';
+            }
+        }
+        else if ( $operatorName == $this->ExtractLeftName )
+        {
+            if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+            {
+                $length = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
+                $code .= ', ' . (string)$length;
+            }
+            else
+            {
+                $values[] = $parameters[1];
+                $code .= ', ' . '%' . count ( $values ) . '%';
+            }
+        }
+
+        if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+        {
+            if ( count( $values ) == 0 )
+            {
+                if ( $operatorName == $this->ExtractRightName )
+                {
+                    $array = array_slice( eZTemplateNodeTool::elementStaticValue( $parameters[0] ), $offset );
+                }
+                else
+                {
+                    $array = array_slice( eZTemplateNodeTool::elementStaticValue( $parameters[0] ), $offset, $length );
+                }
+                return array( eZTemplateNodeTool::createArrayElement( $array ) );
+            }
+            else
+            {
+                $code = '%output = array_slice( ' . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[0] ), 0, 0, false ) . ', ' . $code . ' );';
+            }
+        }
+        else
+        {
+            $values[] = $parameters[0];
+            $code = '%output% = array_slice( %' . count( $values ) . '%, ' . $code . ' );';
+        }
+
+        return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
+    }
+
+    /*!
+     \reimp
+    */
+    function mergeTrans( $operatorName, &$node, &$tpl, &$resourceData,
+                         &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    {
+        if ( $operatorName != $this->MergeName )
+        {
+            $code = 'array( ';
+        }
+        else
+        {
+            $code = '';
+        }
+
+        $paramCount = 0;
+        $values = array();
+        $staticArray = array();
+        for ( $i = 1; $i < count( $parameters ); ++$i )
+        {
+            if ( $i != 1 )
+            {
+                $code .= ', ';
+            }
+
+            if ( !eZTemplateNodeTool::isStaticElement( $parameters[$i] ) )
+            {
+                $values[] = $parameters[$i];
+                ++$paramCount;
+                $code .= '%' . $paramCount . '%';
+            }
+            else
+            {
+                if ( $paramCount == 0 )
+                {
+                    $staticArray[] = eZTemplateNodeTool::elementStaticValue( $parameters[$i] );
+                }
+                $code .= eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false );
+            }
+        }
+
+        if ( $operatorName != $this->MergeName )
+        {
+            $code .= ' )';
+        }
+
+        if ( $parameters[0] )
+        {
+            if ( !eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+            {
+                $values[] = $parameters[0];
+                ++$paramCount;
+                $code2 = '%' . $paramCount . '%';
+            }
+            else
+            {
+                if ( $paramCount == 0 )
+                {
+                    $staticArray[] = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+                }
+                else
+                {
+                    $code2 = eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[0] ), 0, 0, false );
+                }
+            }
+        }
+
+        if ( $paramCount == 0 )
+        {
+            if ( $operatorName == $this->AppendName ||
+                 $operatorName == $this->MergeName )
+            {
+                return array( eZTemplateNodeTool::createArrayElement( array_merge( eZTemplateNodeTool::elementStaticValue( $parameters[0] ), $staticArray ) ) );
+            }
+            else if ( $operatorName == $this->PrependName )
+            {
+                return array( eZTemplateNodeTool::createArrayElement( array_merge( $staticArray, eZTemplateNodeTool::elementStaticValue( $parameters[0] ) ) ) );
+            }
+        }
+
+        if ( $code2 )
+        {
+            if ( $operatorName == $this->AppendName ||
+                 $operatorName == $this->MergeName )
+            {
+                $code = '%output% = array_merge( ' . $code2 . ', ' . $code . ' );';
+            }
+            else if ( $operatorName == $this->PrependName )
+            {
+                $code = '%output% = array_merge( ' . $code . ', ' . $code2 . ' );';
+            }
+        }
+        else
+        {
+            if ( $operatorName == $this->MergeName )
+            {
+                $code = '%output% = array_merge( ' . $code . ' );';
+            }
+            else
+            {
+                $code = '%output% = ' . $code . ';';
+            }
+        }
+
+        return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
     }
 
     /*!
