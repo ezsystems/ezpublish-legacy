@@ -517,9 +517,8 @@ class eZXMLTextType extends eZDataType
                     $urlObjectLink->store();
 
                 }
+                $objectAttribute->setAttribute( 'data_text', eZXMLTextType::domString( $domDocument ) );
             }
-
-            $objectAttribute->setAttribute( 'data_text', eZXMLTextType::domString( $domDocument ) );
         }
     }
 
