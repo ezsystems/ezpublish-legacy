@@ -507,7 +507,7 @@ fi
 
 rm -rf $DEST/share/translations.org
 
-echo "Removing obsoletes"
+echo "Removing obsolete translation strings"
 cd $DEST/share/translations
 for translation in *; do
     if [ -z $SKIPTRANSLATION ]; then
@@ -584,7 +584,6 @@ done
 #echo
 
 if [ -z $SKIPADDONCREATION ]; then
-   echo
    echo "Creating and exporting addons"
    rm -rf "$DEST/packages/addons"
    mkdir -p "$DEST/packages/addons" || exit 1
@@ -597,10 +596,8 @@ if [ -z $SKIPADDONCREATION ]; then
        exit 1
    fi
 fi
-echo
 
 if [ -z $SKIPSTYLECREATION ]; then
-   echo
    echo "Creating and exporting styles"
    rm -rf "$DEST/packages/styles"
    mkdir -p "$DEST/packages/styles" || exit 1
@@ -815,7 +812,7 @@ echo "Creating MD5 check sums"
 echo -n "Creating `$SETCOLOR_FILE`tar.gz`$SETCOLOR_NORMAL` file"
 (cd $DEST_ROOT
     tar cfz $BASE.tar.gz $BASE
-    echo ", `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$BASE.tar.gz`$SETCOLOR_NORMAL`")
+    echo ",  `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$BASE.tar.gz`$SETCOLOR_NORMAL`")
 
 echo -n "Creating `$SETCOLOR_FILE`tar.bz2`$SETCOLOR_NORMAL` file"
 (cd $DEST_ROOT
@@ -830,13 +827,13 @@ if [ "which zip &>/dev/null" ]; then
     echo -n "Creating `$SETCOLOR_FILE`zip`$SETCOLOR_NORMAL` file"
     (cd $DEST_ROOT
 	zip -9 -r -q $BASE.zip $BASE
-	echo ", `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$BASE.zip`$SETCOLOR_NORMAL`")
+	echo ",     `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$BASE.zip`$SETCOLOR_NORMAL`")
 else
     echo "`SETCOLOR_WARNING`Could not create `$SETCOLOR_FILE`zip`$SETCOLOR_WARNING` file, `$SETCOLOR_EXE`zip`$SETCOLOR_NORMAL` program not found.`SETCOLOR_NORMAL`"
 fi
 
 echo
-echo "Now remember to create releases with:"
+echo "Now remember to tag the release with:"
 # echo "`$SETCOLOR_EMPHASIZE`svn cp $DEFAULT_SVN_SERVER/trunk $DEFAULT_SVN_SERVER/$DEFAULT_SVN_RELEASE_PATH/$VERSION_NICK`$SETCOLOR_NORMAL`"
 echo "`$SETCOLOR_EMPHASIZE`svn cp $DEFAULT_SVN_SERVER/trunk $DEFAULT_SVN_SERVER/$DEFAULT_SVN_VERSION_PATH/$VERSION`$SETCOLOR_NORMAL`"
 # echo "And undeltify current version:"
