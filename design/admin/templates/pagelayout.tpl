@@ -353,7 +353,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 
 <div class="box-ml"><div class="box-mr"><div class="box-content">
 
-<p><img src={'current-user.gif'|ezimage} height="22" width="22" alt="" style="align: left; vertical-align: middle;" /> {$current_user.contentobject.name|wash}</p>
+<p><img src={'current-user.gif'|ezimage} height="24" width="24" alt="" style="align: left; vertical-align: middle;" /> {$current_user.contentobject.name|wash}</p>
 
 <ul>
 {let basket=fetch( shop, basket )}
