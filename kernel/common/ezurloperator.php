@@ -189,23 +189,26 @@ class eZURLOperator
                     }
                     else
                     {
-                        if ( strlen( $url ) == 0 )
-                        {
-                            $url = '/';
-                        }
-                        else if ( $url[0] == '#' )
+                        if ( strlen( $url ) > 0 && $url[0] == '#' )
                         {
                             $url = htmlspecialchars( $url );
                         }
-                        else if ( $url[0] != '/' )
+                        else
                         {
-                            $url = '/' . $url;
-                        }
+                            if ( strlen( $url ) == 0 )
+                            {
+                                $url = '/';
+                            }
+                            else if ( $url[0] != '/' )
+                            {
+                                $url = '/' . $url;
+                            }
 
-                        $url = $this->Sys->indexDir() . $url;
-                        $url = preg_replace( "#(//)#", "/", $url );
-                        $url = preg_replace( "#^(.+)(/+)$#", '$1', $url );
-                        $url = htmlspecialchars( $url );
+                            $url = $this->Sys->indexDir() . $url;
+                            $url = preg_replace( "#(//)#", "/", $url );
+                            $url = preg_replace( "#^(.+)(/+)$#", '$1', $url );
+                            $url = htmlspecialchars( $url );
+                        }
                     }
                     $url = $this->applyQuotes( $url, $parameters[1] );
 
@@ -221,22 +224,25 @@ if ( preg_match( "#^[a-zA-Z0-9]+:#", %1% ) or
 }
 else
 {
-    if ( strlen( %1% ) == 0 )
-    {
-      %1% = '/';
-    }
-    else if ( %1%[0] == '#' )
+    if ( strlen( %1% ) > 0 && %1%[0] == '#' )
     {
         %1% = htmlspecialchars( %1% );
     }
-    else if ( %1%[0] != '/' )
+    else
     {
-        %1% = '/' . %1%;
-    };
-    %1% = %2% . %1%;
-    %1% = preg_replace( "#(//)#", "/", %1% );
-    %1% = preg_replace( "#^(.+)(/+)$#", "\$1", %1% );
-    %1% = htmlspecialchars( %1% );
+        if ( strlen( %1% ) == 0 )
+        {
+            %1% = '/';
+        }
+        else if ( %1%[0] != '/' )
+        {
+            %1% = '/' . %1%;
+        };
+        %1% = %2% . %1%;
+        %1% = preg_replace( "#(//)#", "/", %1% );
+        %1% = preg_replace( "#^(.+)(/+)$#", "\$1", %1% );
+        %1% = htmlspecialchars( %1% );
+    }
 }
 if ( %1% == "" )
     %1% = "/";
@@ -702,7 +708,7 @@ CODEPIECE;
                     if ( $operatorParameters[1] == true && strlen( $this->Sys->wwwDir() ) == 0 )
                         $no_slash_prefix = true;
                 }
-                
+
                 $bases = eZTemplateDesignResource::allDesignBases();
 
                 $imageFound = false;
