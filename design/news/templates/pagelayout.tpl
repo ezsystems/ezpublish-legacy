@@ -81,6 +81,7 @@
 							   class_filter_type, include, 
 							   class_filter_array, array( 'folder' ) ) )}
                                                           
+            <div id="categorylist">
             <h3>News</h3>
             <ul>
                    {section var=category loop=$category_list sequence=array(bglight,bgdark)}
@@ -89,6 +90,7 @@
                        </li>
                    {/section}
             </ul>
+            </div>
                {/let}
 
                {let news_list=fetch( content, tree, hash( parent_node_id, 2,
@@ -97,32 +99,36 @@
 							   class_filter_type, include, 
 							   class_filter_array, array( 'article' ) ) )}
                                                           
+            <div id="latestnews">
             <h3>Latest news</h3>
             <ul>
-                   {section var=News loop=$news_list sequence=array(bglight,bgdark)}
-                       <li class="{$:sequence}">
-                       <a href={$News.item.url_alias|ezurl}>{$News.item.name|wash}</a>
+                   {section var=news loop=$news_list sequence=array(bglight,bgdark)}
+                       <li class="{$news.sequence}">
+                       <a href={$news.item.url_alias|ezurl}>{$news.item.name|wash}</a>
                        <div class="date">
-                        ({$News.item.object.published|l10n( shortdate )})
+                        ({$news.item.object.published|l10n( shortdate )})
                        </div>  
                        </li>
                     {/section}
             </ul>
+            </div>
                {/let}
 
 	       {let tipsend_list=fetch('content','tipafriend_top_list',hash(limit,5,offset,0))}
 	    
+            <div id="mostpopular">
 	    <h3>Most popular</h3>
             <ul>
-                   {section var=TipsendList loop=$tipsend_list sequence=array(bglight,bgdark)}
-                       <li class="{$:sequence}">
-                       <a href={$TipsendList.item.url_alias|ezurl}>{$TipsendList.item.name|wash}</a>
+                   {section var=tipped loop=$tipsend_list sequence=array(bglight,bgdark)}
+                       <li class="{$tipped.sequence}">
+                       <a href={$tipped.item.url_alias|ezurl}>{$tipped.item.name|wash}</a>
                        <div class="date">
-                        ({$TipsendList.item.object.published|l10n( shortdate )})
+                        ({$tipped.item.object.published|l10n( shortdate )})
                        </div>
                        </li>
                    {/section}
             </ul>
+            </div>
                {/let}
         </div>
     </div>
