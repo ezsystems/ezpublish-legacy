@@ -15,7 +15,7 @@
 
 
 <div class="objectheader">
-<h2>Default object view</h2>
+<h2>Default object view. <a class="menuheadlink" href={"/setup/templateview/node/view/full.tpl"|ezurl}>Click to create a custom template</a></h2>
 </div>
 
 <div class="object">
