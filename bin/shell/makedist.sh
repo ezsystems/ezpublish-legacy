@@ -199,7 +199,8 @@ for file in $EXTRA_DIRS; do
     mkdir -p $DEST/$file
 done
 
-if [ "$DIST_TYPE" == "sdk" ]; then
+# if [ "$DIST_TYPE" == "sdk" ]; then
+if [ -d "doc/generated/html" ]; then
     echo "Copying generated documentation"
     cp -f "doc/generated/html"/* $DEST/doc/generated/html
 fi
