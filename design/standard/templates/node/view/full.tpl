@@ -54,7 +54,7 @@ function checkAll()
 
 
 <div class="objectheader">
-<h2>Default object view. <a class="menuheadlink" href={"/setup/templateview/node/view/full.tpl"|ezurl}>{'Click to create a custom template'|i18n('design/standard/node/view')}</a></h2>
+<h2>{'Default object view.'|i18n('design/standard/node/view')} <a class="menuheadlink" href={"/setup/templateview/node/view/full.tpl"|ezurl}>{'Click to create a custom template'|i18n('design/standard/node/view')}</a></h2>
 </div>
 
 <div class="object">
@@ -88,16 +88,6 @@ function checkAll()
 
 </div>
 
-{*
-<div class="block">
-
-<h2>Other locations</h2>
-<p><a href="/">Top level / Sub level / Next level</a></p>
-<p><a href="/">Top level / Sub level / Next level</a></p>
-
-</div>
-
-*}
 
     {let name=Object related_objects=$content_version.related_contentobject_array}
 

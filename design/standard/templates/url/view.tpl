@@ -12,7 +12,7 @@
 <select name="ObjectList">
 {section show=$object_list}
     {section name=ObjectArray loop=$object_list}
-    <option value="{$ObjectArray:item.id}">{$ObjectArray:item.name}-version {$ObjectArray:item.version}</option>
+    <option value="{$ObjectArray:item.id}">{$ObjectArray:item.name}-{'version'|i18n('design/standard/url')} {$ObjectArray:item.version}</option>
     {/section}
 {section-else}
 <option value="-1">{'No object available'|i18n('design/standard/url')}</option>
