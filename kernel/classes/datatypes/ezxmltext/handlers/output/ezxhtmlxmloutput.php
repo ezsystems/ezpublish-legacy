@@ -331,7 +331,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                         $cellContent .= $this->renderXHTMLSection( $tpl, $tableCell, $currentSectionLevel, $tdSctionLevel );
 
                         $tpl->setVariable( 'content', $cellContent, 'xmltagns' );
-                        $className = $tableCell->attributeValue( 'class' );
                         $width = $tableCell->attributeValueNS( 'width', "http://ez.no/namespaces/ezpublish3/xhtml/" );
                         $colspan = $tableCell->attributeValueNS( 'colspan', "http://ez.no/namespaces/ezpublish3/xhtml/" );
                         $rowspan = $tableCell->attributeValueNS( 'rowspan', "http://ez.no/namespaces/ezpublish3/xhtml/" );
@@ -346,7 +345,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                         else
                             $uri = "design:content/datatype/view/ezxmltags/td.tpl";
                         $textElements = array();
-                        $tpl->setVariable( 'class', $className, 'xmltagns' );
+                        $tpl->setVariable( 'classification', $class, 'xmltagns' );
                         $tpl->setVariable( 'colspan', $colspan, 'xmltagns' );
                         $tpl->setVariable( 'rowspan', $rowspan, 'xmltagns' );
                         $tpl->setVariable( 'width', $rowspan, 'xmltagns' );
@@ -413,7 +412,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $className = $tag->attributeValue( 'class' );
                 $tpl->setVariable( 'classification', $class, 'xmltagns' );
                 $tpl->setVariable( 'content', $listContent, 'xmltagns' );
-                $tpl->setVariable( 'class', $className, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
 
                 $textElements = array();
@@ -431,14 +429,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $res =& eZTemplateDesignResource::instance();
                 $res->setKeys( array( array( 'classification', $class ) ) );
 
-                // Get class of literal tag.
-                $className = $tag->attributeValue( 'class' );
-
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
 
                 $tpl->setVariable( 'classification', $class, 'xmltagns' );
                 $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
-                $tpl->setVariable( 'class', $className, 'xmltagns' );
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
                 $tagText .= implode( '', $textElements );
@@ -501,7 +495,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 }
                 $tpl->setVariable( 'content',  $childContent, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/$name.tpl";
-
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
             }
