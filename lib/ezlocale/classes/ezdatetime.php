@@ -226,7 +226,7 @@ class eZDateTime
     */
     function &currentTimeStamp()
     {
-        return mktime();
+        return time();
     }
 
     /*!

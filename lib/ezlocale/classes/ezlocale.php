@@ -160,6 +160,17 @@ class eZLocale
         $this->DateSlashOutputArray = preg_replace( '/.+/', '\\\\$0', $this->DatePHPArray );
         $this->DateTimeSlashOutputArray = preg_replace( '/.+/', '\\\\$0', $this->DateTimePHPArray );
         $this->HTTPLocaleCode = '';
+        $this->functionMap = array(
+            'time' => 'formatTime',
+            'shorttime' => 'formatShortTime',
+            'date' => 'formatDate',
+            'shortdate' => 'formatShortDate',
+            'datetime' => 'formatDateTime',
+            'shortdatetime' => 'formatShortDateTime',
+            'currency' => 'formatCurrency',
+            'clean_currency' => 'formatCleanCurrency',
+            'number' => 'formatNumber',
+        );
 
         $this->DayNames = array( 0 => 'sun', 1 => 'mon', 2 => 'tue',
                                  3 => 'wed', 4 => 'thu', 5 => 'fri', 6 => 'sat' );
@@ -768,6 +779,21 @@ class eZLocale
             return $this->ShortWeekDayNames;
         else
             return $this->LongWeekDayNames;
+    }
+
+    /*!
+     Returns the method name belonging to a qualifier
+    */
+    function getFormattingFunction( $qualifier )
+    {
+        if (isset ( $this->functionMap[$qualifier] ) )
+        {
+            return $this->functionMap[$qualifier];
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /*!

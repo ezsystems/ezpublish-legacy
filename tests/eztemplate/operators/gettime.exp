@@ -1,0 +1,10 @@
+seconds (integer=55)
+minutes (integer=12)
+hours (integer=17)
+day (integer=23)
+month (integer=2)
+year (integer=2004)
+weekday (string=9)
+yearday (integer=53)
+epoch (integer=1077552775)
+
