@@ -51,6 +51,65 @@ $EditLanguage = $Params['EditLanguage'];
 
 $http =& eZHTTPTool::instance();
 
+if( $http->hasPostVariable( 'TranslateArray' ) )
+{
+    $trans =& $http->postVariable( 'TranslateArray' );
+    if ( !is_array( $trans ) )
+        return; //$Module->;
+    $arrayKeys = array_keys( $trans );
+    if ( count( $arrayKeys ) == 0 )
+        return;
+    $ObjectID = $arrayKeys[0];
+    $trans =& $trans[$ObjectID];
+    if ( !is_array( $trans ) )
+        return;
+    $arrayKeys = array_keys( $trans );
+    if ( count( $arrayKeys ) == 0 )
+        return;
+    $EditVersion = $arrayKeys[0];
+    $trans =& $trans[$EditVersion];
+    if ( !is_array( $trans ) )
+        return;
+    $arrayKeys = array_keys( $trans );
+    if ( count( $arrayKeys ) == 0 )
+        return;
+    $EditLanguage = $arrayKeys[0];
+}
+
+
+if( $http->hasPostVariable( 'EditArray' ) )
+{
+    $trans =& $http->postVariable( 'EditArray' );
+    if ( !is_array( $trans ) )
+        return; //$Module->;
+    $arrayKeys = array_keys( $trans );
+    if ( count( $arrayKeys ) == 0 )
+        return;
+    $ObjectID = $arrayKeys[0];
+    $trans =& $trans[$ObjectID];
+    if ( !is_array( $trans ) )
+        return;
+    $arrayKeys = array_keys( $trans );
+    if ( count( $arrayKeys ) == 0 )
+        return;
+    $EditVersion = $arrayKeys[0];
+    $trans =& $trans[$EditVersion];
+    if ( !is_array( $trans ) )
+        return;
+    $arrayKeys = array_keys( $trans );
+    if ( count( $arrayKeys ) == 0 )
+        return;
+    $EditLanguage = $arrayKeys[0];
+    
+    return $Module->redirectToView( 'edit', array( $ObjectID, $EditVersion, $EditLanguage ) ); 
+}
+
+
+
+
+
+
+
 $redirection = false;
 if ( $Module->isCurrentAction( 'EditObject' ) )
 {

@@ -152,8 +152,18 @@
     {/section}
     </td>
     <td>{$Translations.item.language_code}</td>
-    <td><a href={concat( 'content/translate/', $content_version.contentobject.id, '/', $content_version.version, '/', $Translations.item.language_code )|ezurl}><img src={'trash.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/content/translate' )}" title="{'Translate'|i18n( 'design/admin/content/translate' )}" /></a></td>
-<td><a href={concat( 'content/edit/', $content_version.contentobject.id, '/', $content_version.version, '/', $Translations.item.language_code )|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/content/translate' )}" title="{'Edit'|i18n( 'design/admin/content/translate' )}" /></a></td>
+
+    <td>
+    {section show=ne( $Translations.item.language_code, $object.default_language )}
+        <input class="button" type="submit" name="TranslateArray[{$content_version.contentobject.id}][{$content_version.version}][{$Translations.item.language_code}]" value="Translate" />
+    {section-else}
+        <input class="button-disabled" type="submit" name="" value="Translate" disabled="disabled" />
+    {/section}
+    </td>
+
+
+    <td><input class="button" type="submit" name="EditArray[{$content_version.contentobject.id}][{$content_version.version}][{$Translations.item.language_code}]" value="Edit" /></td></td>
+
 </tr>
 {/section}
 </table>
