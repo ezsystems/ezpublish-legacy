@@ -115,6 +115,8 @@ eZ locale:
 
 eZ ini:
 - No cache is created or used if the /no-cache-adviced/ in site basics is true.
+- New feature, the database now supports real arrays.
+  They are input with a [] after the keyname.
 
 eZ codepage:
 - No cache is created or used if the /no-cache-adviced/ in site basics is true.
