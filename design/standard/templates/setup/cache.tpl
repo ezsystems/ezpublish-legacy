@@ -46,7 +46,7 @@
 
     <table>
     <tr>
-        <td><p>{"All caches."|i18n("design/standard/setup")}</p></dt>
+        <td><p>{"All caches."|i18n("design/standard/setup")}</p></td>
         <td><div class="buttonblock">
         {section show=$cache_enabled.all}
         <input type="submit" name="ClearAllCacheButton" value="{"All caches"|i18n("design/standard/setup")}" />
