@@ -171,7 +171,7 @@ else
             fclose( $fp );
 
             // Check if cache has expired when cache_ttl is set
-            $cacheTTL =$Result['cache_ttl'];;
+            $cacheTTL = isset( $Result['cache_ttl'] ) ? $Result['cache_ttl'] : -1;
             if ( $cacheTTL > 0 )
             {
                 $expiryTime = $stat['mtime'] + $cacheTTL;
