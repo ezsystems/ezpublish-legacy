@@ -108,12 +108,12 @@ class eZMail
     */
     function ccReceiverTextList( $convert = true )
     {
-        return $this->composeEmailItems( $this->CcElements, false, false, $convert );
+        return $this->composeEmailItems( $this->CcElements, false, 'email', $convert );
     }
 
     function bccReceiverTextList( $convert = true )
     {
-        return $this->composeEmailItems( $this->BccElements, false, false, $convert );
+        return $this->composeEmailItems( $this->BccElements, false, 'email', $convert );
     }
 
     /*!
@@ -121,7 +121,7 @@ class eZMail
     */
     function receiverTextList( $convert = true )
     {
-        return $this->composeEmailItems( $this->ReceiverElements, false, false, $convert );
+        return $this->composeEmailItems( $this->ReceiverElements, false, 'email', $convert );
     }
 
     /*!
