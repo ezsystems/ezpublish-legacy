@@ -3,11 +3,8 @@ Changes from 3.0-? to 3.1
 *Kernel :
 - Added cache admin page for cache status and manual clearing
 - eZPersistentObject class changed to support postgresql 7.3.x. Also all persistent classes definitions have been changed to support new syntax.
-<<<<<<< .mine
 - Added support for searching in multiple sections, classes and content class attributes
-=======
 - kernel sql files has been devided in two parts, one for schema and another for data
->>>>>>> .r2341
 Binary file:
 - Added support for resuming downloads.
 Search:
@@ -21,3 +18,4 @@ Setup tool:
 eZDB:
 - postgresql driver has been changed to support 7.3.x version. Fixed problem with limit and offset.
 - postgresql driver changed to set up correct errorMesage variables
+ 
