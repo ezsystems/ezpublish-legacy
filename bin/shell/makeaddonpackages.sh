@@ -17,7 +17,8 @@ PMBIN="./ezpm.php"
 
 SITE_PACKAGES="$TMPDIR/extra.tmp"
 SITE_PACKAGES_EXPORT="$TMPDIR/extra"
-OUTPUT_REPOSITORY="$TMPDIR/sites"
+OUTPUT_REPOSITORY="$TMPDIR/addons"
+OUTPUT_REPOSITORY_EXPORT="$TMPDIR/export/addons"
 EXPORT_PATH="packages/addons"
 
 # Check parameters
@@ -66,6 +67,9 @@ done
 
 rm -rf "$OUTPUT_REPOSITORY"
 mkdir -p "$OUTPUT_REPOSITORY" || exit 1
+
+rm -rf "$OUTPUT_REPOSITORY_EXPORT"
+mkdir -p "$OUTPUT_REPOSITORY_EXPORT" || exit 1
 
 rm -rf "$SITE_PACKAGES"
 mkdir -p "$SITE_PACKAGES" || exit 1
@@ -205,12 +209,12 @@ if [[ -z $ADDON || $ADDON = 'weblog' ]]; then
 	|| exit 1
 fi
 
-if [ -z "$ADDON" ]; then
-    if [ -n "$AUTO_COMMIT" ]; then
-	svn rm "$EXPORT_PATH/*" &>/dev/null || exit 1
-	svn ci "$EXPORT_PATH" &>/dev/null || exit 1
-    fi
-fi
+#if [ -z "$ADDON" ]; then
+#    if [ -n "$AUTO_COMMIT" ]; then
+#	svn rm "$EXPORT_PATH/*" &>/dev/null || exit 1
+#	svn ci "$EXPORT_PATH" &>/dev/null || exit 1
+#    fi
+#fi
 
 
 for addon in $ADDON_PACKAGES; do
@@ -218,29 +222,31 @@ for addon in $ADDON_PACKAGES; do
 
     if [ -n "$ADDON" ]; then
 	if [ -n "$AUTO_COMMIT" ]; then
-	    svn rm "$EXPORT_PATH/$addon" &>/dev/null || exit 1
-	    svn ci "$EXPORT_PATH"
+# 	    svn rm "$EXPORT_PATH/$addon" &>/dev/null || exit 1
+# 	    svn ci "$EXPORT_PATH"
+	    find "$EXPORT_PATH/$addon/" ! -path \*/.svn\* -exec rm -f {} \; &>/dev/null
 	fi
     fi
 
     if [ -d "$OUTPUT_REPOSITORY/$addon" ]; then
 	$PMBIN -r "$OUTPUT_REPOSITORY" $QUIET \
-	    export $addon -d "$EXPORT_PATH" || exit 1
+	    export $addon -d "$OUTPUT_REPOSITORY_EXPORT" || exit 1
     fi
 
     if [ -n "$AUTO_COMMIT" ]; then
-	svn add "$EXPORT_PATH/$addon" &>/dev/null || exit 1
+#	svn add "$EXPORT_PATH/$addon" &>/dev/null || exit 1
+	cp -R "$OUTPUT_REPOSITORY_EXPORT/$addon"/* "$EXPORT_PATH/$addon/"
     fi
-    if [ -n "$ADDON" ]; then
-	if [ -n "$AUTO_COMMIT" ]; then
-	    svn ci "$EXPORT_PATH/$addon" &>/dev/null || exit 1
-	fi
-    fi
+#    if [ -n "$ADDON" ]; then
+#	if [ -n "$AUTO_COMMIT" ]; then
+#	    svn ci "$EXPORT_PATH/$addon" &>/dev/null || exit 1
+#	fi
+#    fi
 
 done
 
-if [ -z "$ADDON" ]; then
-    if [ -n "$AUTO_COMMIT" ]; then
-	svn ci "$EXPORT_PATH" &>/dev/null || exit 1
-    fi
-fi
+#if [ -z "$ADDON" ]; then
+#    if [ -n "$AUTO_COMMIT" ]; then
+#	svn ci "$EXPORT_PATH" &>/dev/null || exit 1
+#    fi
+#fi
