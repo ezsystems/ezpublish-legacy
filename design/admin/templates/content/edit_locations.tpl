@@ -37,6 +37,7 @@
 <tr>
     <th class="tight">&nbsp;</th>
     <th>{'Location'|i18n( 'design/admin/content/edit' )}</th>
+    <th>{'Sub items'|i18n( 'design/admin/content/edit' )}</th>
     <th>{'Sorting of sub items'|i18n( 'design/admin/content/edit' )}</th>
     {section show=$:has_top_levels|not}
     <th>{'Current visibility'|i18n( 'design/admin/content/edit' )}</th>
@@ -53,7 +54,7 @@
     <tr class="{$Node:sequence}">
 
 	{* Remove. *}
-	<td><input type="checkbox" name="AssignmentIDSelection[]" {section show=and( $Node:item.node, $Node:item.node.can_remove|not )}disabled="disabled"{/section} value="{$Node:item.parent_node}" /></td>
+	<td><input type="checkbox" name="AssignmentIDSelection[]" {section show=and( $Node:item.node, $Node:item.node.can_remove|not )}disabled="disabled"{/section} value="{$Node:item.parent_node}" title="{'Select location for removal.'|i18n( 'design/admin/content/edit' )}" /></td>
 
     {* Location. *}
     <td>
@@ -70,14 +71,19 @@
     {/switch} / {$object.name|wash}
     </td>
 
+    {* Sub items. *}
+    <td>
+    {$Node:item.node.children_count}
+    </td>
+
     {* Sorting. *}
     <td>
-    <select name="SortFieldMap[{$Node:item.id}]">
+    <select name="SortFieldMap[{$Node:item.id}]" title="{'Sets the sorting method for the items below the respective location.'|i18n( 'design/admin/content/edit' )}">
     {section name=Sort loop=$Node:sort_fields}
     <option value="{$Node:Sort:key}" {section show=eq($Node:Sort:key,$Node:item.sort_field)}selected="selected"{/section}>{$Node:Sort:item}</option>
     {/section}
     </select>
-	<select name="SortOrderMap[{$Node:item.id}]">
+	<select name="SortOrderMap[{$Node:item.id}]" title="{'Sets the sorting direction for the items below the respective location.'|i18n( 'design/admin/content/edit' )}">
     <option value="1" {section show=eq( $Node:item.sort_order, 1)}selected="selected"{/section}>{'Up'|i18n( 'design/admin/content/edit' )}</option>
     <option value="0" {section show=eq( $Node:item.sort_order, 0)}selected="selected"{/section}>{'Down'|i18n( 'design/admin/content/edit' )}</option>
     </select>
@@ -113,18 +119,18 @@
 
     {* Main node. *}
     <td>
-    <input type="radio" name="MainNodeID" {section show=eq($main_node_id,$Node:item.parent_node)}checked="checked"{/section} value="{$Node:item.parent_node}" />
+    <input type="radio" name="MainNodeID" {section show=eq($main_node_id,$Node:item.parent_node)}checked="checked"{/section} value="{$Node:item.parent_node}" title="{'Use these radio buttons to specify the main location (main node) for the object being edited.'|i18n( 'design/admin/content/edit' )}" />
     </td>
 
     {* Move. *}
     <td>
     {switch match=$Node:item.parent_node}
     {case in=$Node:existingParentNodes}
-    <input type="image" name="{concat( 'MoveNodeID_', $Node:item.parent_node )}" src={'move.gif'|ezimage} value="{$Node:item.parent_node}" />
+    <input type="image" name="{concat( 'MoveNodeID_', $Node:item.parent_node )}" src={'move.gif'|ezimage} value="{$Node:item.parent_node}" title="{'Move to another location.'|i18n( 'design/admin/content/edit' )}" />
     {/case}
     {case}
     {section show=$Node:item.from_node_id|gt( 0 )}
-    <input type="image" name="{concat( 'MoveNodeID_', $Node:item.parent_node )}" src={'move.gif'|ezimage} value="{$Node:item.parent_node}" />
+    <input type="image" name="{concat( 'MoveNodeID_', $Node:item.parent_node )}" src={'move.gif'|ezimage} value="{$Node:item.parent_node}" title="{'Move to another location.'|i18n( 'design/admin/content/edit' )}" />
     {section-else}
     {/section}
     {/case}
@@ -153,7 +159,7 @@
     <input class="button-disabled" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/content/edit' )}" title="{'There are no locations that can be removed.'|i18n( 'design/admin/content/edit' )}" disabled="disabled" />
     {/section}
 
-    <input class="button" type="submit" name="BrowseNodeButton" value="{'Add locations'|i18n( 'design/admin/content/edit' )}" title="{'Add one or more locations.'|i18n( 'design/admin/content/edit' )}" />
+    <input class="button" type="submit" name="BrowseNodeButton" value="{'Add locations'|i18n( 'design/admin/content/edit' )}" title="{'Add one or more locations for the object being edited.'|i18n( 'design/admin/content/edit' )}" />
 
 {section-else}
     <input class="button-disabled" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/standard/content/edit' )}" disabled="disabled"  title="{'You can not add or remove locations because the object being edited belongs to a top node.'|i18n( 'design/admin/content/edit' )}" />
