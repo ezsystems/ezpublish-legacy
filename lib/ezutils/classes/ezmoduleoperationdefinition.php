@@ -31,7 +31,6 @@
 //
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
-
 //
 
 define( 'EZ_MODULE_OPERATION_ERROR_NO_CLASS', 5 );
