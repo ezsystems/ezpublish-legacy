@@ -62,6 +62,8 @@ Changes from 3.2-2 to 3.2-3
   Fixed expiry of user roles when moving/storing a user object.
 - http://ez.no/developer/ez_publish_3/bug_reports/related_objects_error
   Added missing function findMainNodeArray in eZContentObjectTreeNode.
+- http://ez.no/developer/ez_publish_3/bug_reports/httplocale_etc_get_loaded_with_original_siteini
+  Fixed reading locale settings after siteaccess initializing.
 
 *Setup:
 
