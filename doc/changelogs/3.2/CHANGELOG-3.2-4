@@ -19,6 +19,7 @@ Changes from 3.2-3 to 3.2-4
   locations is already set as main
 - Replaced several " with ' in kernel/content/module.php
 - Fixed the content/translations list to show the internal name of the languages instead of the local name.
+- Fixed bug of LDAP user could login with null password if anoymous access is allowed in server.
 
 *Bugfixes:
 - Fixed copy object bug. Current version was not set, multiple version copy did not set object name and redirect did not contain version number.
