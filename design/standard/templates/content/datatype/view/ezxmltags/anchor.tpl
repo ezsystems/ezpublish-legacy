@@ -1,1 +1,1 @@
-<a name='{$name}' />
+<a name='{$name}'></a>
