@@ -98,6 +98,8 @@ Datatype:
 - Fixed bug in ezkeyword datatype which will store duplicated keyword if keyword contains apostrophe (').
   (Merged from stable/3.4, rev. 9511)
 - Fixed rendering of bullet and numbered lists in PDF.
+- Fixed bug: Conditonal role assignment bug.
+  http://ez.no/community/bug_reports/conditonal_role_assignment_bug
 
 *Library:
 

@@ -257,6 +257,10 @@ class eZPolicy extends eZPersistentObject
     function &accessArray()
     {
         $limitations =& $this->attribute( 'limitations' );
+        if ( $this->Disabled === true )
+        {
+            return array();
+        }
 
         if ( !$limitations )
         {
@@ -286,19 +290,76 @@ class eZPolicy extends eZPersistentObject
             $limitations =& eZPersistentObject::fetchObjectList( eZPolicyLimitation::definition(),
                                                                  null, array( 'policy_id' => $this->attribute( 'id') ), null, null,
                                                                  true );
+
+            eZDebugSetting::writeDebug( 'kernel-policy-limitation', $limitations, "before policy limitations " . $this->ID );
+            eZDebugSetting::writeDebug( 'kernel-policy-limitation', $this, "policy itself before before limitations check"  );
+
             if ( $this->LimitIdentifier )
             {
-                $policyLimitation = new eZPolicyLimitation( array ( 'id' => -1,
-                                                                    'policy_id' => $this->attribute( 'id' ),
-                                                                    'identifier' => $this->attribute( 'limit_identifier' ) ) );
-                $policyLimitation->setAttribute( 'limit_value', $this->attribute( 'limit_value' ) );
+                $limitIdentifier =  $this->attribute( 'limit_identifier' );
+                $limitValue = $this->attribute( 'limit_value' );
+                $limitationTouched = false;
+                $checkEmptyLimitation = true;
+                foreach ( $limitations as $limitation )
+                {
+                    if ( $limitation->attribute( 'identifier' ) == $limitIdentifier )
+                    {
+                        if ( $limitIdentifier == 'Subtree' )
+                        {
+                            $limitationTouched = true;
 
-                $limitations[] = $policyLimitation;
+                            $values =& $limitation->attribute( 'values' );
+
+                            foreach ( array_keys( $values ) as $key )
+                            {
+                                $limitationValue =& $values[$key];
+                                $value = $limitationValue->attribute( 'value' );
+                                if ( strpos( $value, $limitValue ) === 0 )
+                                {
+                                    $checkEmptyLimitation = false;
+                                    eZDebugSetting::writeDebug( 'kernel-policy-limitation', $value,
+                                                                "Limitationvalue has been left in the limitation [limitValue=$limitValue]" );
+                                }
+                                else if ( strpos( $limitValue, $value ) === 0 )
+                                {
+                                    $checkEmptyLimitation = false;
+                                    $limitationValue->setAttribute( 'value', $limitValue );
+                                    eZDebugSetting::writeDebug(  'kernel-policy-limitation',
+                                                                 $value,
+                                                                 "Limitationvalue has been exchanged to the value from cond assignment [limitValue=$limitValue]" );
+                                }
+                                else
+                                {
+                                    eZDebugSetting::writeDebug(  'kernel-policy-limitation',  $value,
+                                                                 "Limitationvalue has been removed from limitation [limitValue=$limitValue]" );
+                                    //exlude limitation value from limitation..
+                                    $limitationValue = null;
+                                }
+                            }
+                            if ( $checkEmptyLimitation )
+                            {
+                                eZDebugSetting::writeDebug( 'kernel-policy-limitation', $this, 'The policy has been disabled' );
+                                $this->Disabled = true;
+                                $this->Limitations = array();
+                                return $this->Limitations;
+                            }
+                        }
+                    }
+                }
+                if ( !$limitationTouched )
+                {
+                    $policyLimitation = new eZPolicyLimitation( array ( 'id' => -1,
+                                                                        'policy_id' => $this->attribute( 'id' ),
+                                                                        'identifier' => $this->attribute( 'limit_identifier' ) ) );
+                    $policyLimitation->setAttribute( 'limit_value', $this->attribute( 'limit_value' ) );
+
+                    $limitations[] = $policyLimitation;
+                }
             }
+            eZDebugSetting::writeDebug( 'kernel-policy-limitation', $limitations, "policy limitations " . $this->ID );
 
             $this->Limitations =& $limitations;
         }
-
         return $this->Limitations;
     }
 
@@ -320,6 +381,7 @@ class eZPolicy extends eZPersistentObject
     }
 
     // Used for assign based limitations.
+    var $Disabled = false;
     var $LimitValue;
     var $LimitIdentifier;
 
