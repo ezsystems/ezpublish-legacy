@@ -23,3 +23,7 @@ eZDebug:
 - Fixed output of arrays and objects to use PHP function var_export if it is
   available.
   (Merged from stable/3.3 (3.3-7) rev. 9331)
+
+eZTemplate:
+- Added scope support to the "set" template function. Scope can be global, root or relative (default).
+  Also added unit tests for this.
