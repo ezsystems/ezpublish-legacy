@@ -205,11 +205,11 @@ class eZTemplateTextOperator
         foreach ( $parameters as $parameter )
         {
             $values[] = $parameter;
-            $code .= "%$counter%";
-            if ( $counter == 1 )
+            if ( $counter > 1 )
             {
-                $code .= '. ';
+                $code .= ' . ';
             }
+            $code .= "%$counter%";
             $counter++;
         }
         $code .= " );\n";
