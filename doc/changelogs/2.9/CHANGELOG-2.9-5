@@ -52,3 +52,7 @@ eZ template:
 - Moved template parser code into separate classes, that way it should be fairly easy to change the
   parser engine.
 - Made some changes to bring back the element tree caching.
+- Added simple element tree caching, it will store the cache in /var/cache/template/tree/
+
+eZPHPCreator
+- New class for generating PHP cache files.
