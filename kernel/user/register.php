@@ -174,8 +174,8 @@ if ( $http->hasPostVariable( "StoreButton" ) )
             $mail->setSubject( $title );
             $mail->setBody( $body );
             $mail->send();
+            return $Module->redirectTo( $Module->functionURI( "success" ) );
         }
-        return $Module->redirectTo( $Module->functionURI( "success" ) );
     }
 }
 
