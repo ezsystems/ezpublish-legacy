@@ -948,6 +948,7 @@ CREATE TABLE ezrss_export_item (
   source_node_id int(11) default NULL,
   status int(11) NOT NULL default '0',
   title varchar(255) default NULL,
+  subnodes int(11) NOT NULL default '0',
   PRIMARY KEY  (id,status),
   KEY ezrss_export_rsseid (rssexport_id)
 ) TYPE=MyISAM;

@@ -8,3 +8,4 @@ CREATE TABLE eztipafriend_request (
   KEY email_receiver (email_receiver)
 ) TYPE=MyISAM;
 
+ALTER TABLE ezrss_export_item ADD subnodes INT UNSIGNED DEFAULT '0' NOT NULL;

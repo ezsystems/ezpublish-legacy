@@ -96,7 +96,12 @@
        <input type="text" readonly="readonly" size="45" value="{$Source:item.source_path|wash}" maxlength="60" />
        <input class="button" type="submit" name="{concat( 'SourceBrowse_', $Source:index )}" value="{'Browse'|i18n( 'design/admin/rss/edit_export' )}" title="{'Click this button to select the source node for RSS export source. Objects of the type selected in the drop down below published as sub-items of the selected node will be included in the RSS export.'|i18n('design/admin/rss/edit_export')}" />
        </div>
-
+       
+        <div class="block">
+        <label>{'Subnodes'|i18n( 'design/admin/rss/edit_export' )}:</label>
+        <input type="checkbox" name="Item_Subnodes_{$Source:index}" {section show=$Source:item.subnodes|wash|eq( 1 )}checked="checked"{/section} title="{'Activate this checkbox if also objects from the subnodes of the source should be feeded.'|i18n('design/admin/rss/edit_export')}"/>
+        </div>
+    
        <div class="block">
        <label>{'Class'|i18n( 'design/admin/rss/edit_export' )}:</label>
        <select name="Item_Class_{$Source:index}" title="{'Use this drop down to select the type of object that triggers the export. Click the "Set" button to load the correct attribute types for the remaining fields.'|i18n('design/admin/rss/edit_export')|wash}">

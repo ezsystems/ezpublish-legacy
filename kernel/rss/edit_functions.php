@@ -51,7 +51,20 @@ function storeRSSExport( &$Module, &$http, $publish = false )
     {
         $rssExportItem =& eZRSSExportItem::fetch( $http->postVariable( 'Item_ID_'.$itemCount ), true, EZ_RSSEXPORT_STATUS_DRAFT );
         if( $rssExportItem == null )
+        {
             continue;
+        }
+        
+        // RSS is supposed to feed certain objects from the subnodes
+        if ( $http->hasPostVariable( 'Item_Subnodes_'.$itemCount ) )
+        {
+            $rssExportItem->setAttribute( 'subnodes', 1 );
+        }
+        else // Do not include subnodes
+        {
+            $rssExportItem->setAttribute( 'subnodes', 0 );
+        }
+        
         $rssExportItem->setAttribute( 'class_id', $http->postVariable( 'Item_Class_'.$itemCount ) );
         $rssExportItem->setAttribute( 'title', $http->postVariable( 'Item_Class_Attribute_Title_'.$itemCount ) );
         $rssExportItem->setAttribute( 'description', $http->postVariable( 'Item_Class_Attribute_Description_'.$itemCount ) );
@@ -60,14 +73,18 @@ function storeRSSExport( &$Module, &$http, $publish = false )
     $rssExport =& eZRSSExport::fetch( $http->postVariable( 'RSSExport_ID' ), true, EZ_RSSEXPORT_STATUS_DRAFT );
     $rssExport->setAttribute( 'title', $http->postVariable( 'title' ) );
     $rssExport->setAttribute( 'url', $http->postVariable( 'url' ) );
-//    $rssExport->setAttribute( 'site_access', $http->postVariable( 'SiteAccess' ) );
+    // $rssExport->setAttribute( 'site_access', $http->postVariable( 'SiteAccess' ) );
     $rssExport->setAttribute( 'description', $http->postVariable( 'Description' ) );
     $rssExport->setAttribute( 'rss_version', $http->postVariable( 'RSSVersion' ) );
     $rssExport->setAttribute( 'image_id', $http->postVariable( 'RSSImageID' ) );
     if ( $http->hasPostVariable( 'active' ) )
+    {
         $rssExport->setAttribute( 'active', 1 );
+    }
     else
+    {
         $rssExport->setAttribute( 'active', 0 );
+    }
     $rssExport->setAttribute( 'access_url', $http->postVariable( 'Access_URL' ) );
 
     if ( $publish )

@@ -90,6 +90,10 @@ class eZRSSExportItem extends eZPersistentObject
                                          'status' => array( 'name' => 'Status',
                                                             'datatype' => 'integer',
                                                             'default' => 0,
+                                                            'required' => true ),
+                                         'subnodes' => array( 'name' => 'Subnodes',
+                                                            'datatype' => 'integer',
+                                                            'default' => 0,
                                                             'required' => true ) ),
                       "keys" => array( "id", 'status' ),
                       "increment_key" => "id",
@@ -113,7 +117,8 @@ class eZRSSExportItem extends eZPersistentObject
                       'url_id' => '',
                       'description' => '',
                       'title' => '',
-                      'status' => 0 );
+                      'status' => 0,
+                      'subnodes' => 0);
         return new eZRSSExportItem( $row );
     }
 
@@ -234,8 +239,19 @@ class eZRSSExportItem extends eZPersistentObject
     */
     function &fetchObjectList( $num = 5 )
     {
+        // Do not include subnodes
+        if ( !intval( $this->attribute( 'subnodes' ) ) )
+        {
+            $depth = 1;
+        }
+        else // Fetch objects even from subnodes
+        {
+            $depth = 0;
+        }
+        
         include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-        return eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
+        
+        return eZContentObjectTreeNode::subTree( array( 'Depth' => $depth,
                                                         'DepthOperator' => 'eq',
                                                         'Limit' => $num,
                                                         'SortBy' => array( 'published', false ),
