@@ -1,0 +1,174 @@
+<?php
+//
+// Definition of eZSimpleTagsOperator class
+//
+// Created on: <07-Feb-2003 09:39:55 bf>
+//
+// Copyright (C) 1999-2003 eZ systems as. All rights reserved.
+//
+// This source file is part of the eZ publish (tm) Open Source Content
+// Management System.
+//
+// This file may be distributed and/or modified under the terms of the
+// "GNU General Public License" version 2 as published by the Free
+// Software Foundation and appearing in the file LICENSE.GPL included in
+// the packaging of this file.
+//
+// Licencees holding valid "eZ publish professional licences" may use this
+// file in accordance with the "eZ publish professional licence" Agreement
+// provided with the Software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING
+// THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+// PURPOSE.
+//
+// The "eZ publish professional licence" is available at
+// http://ez.no/products/licences/professional/. For pricing of this licence
+// please contact us via e-mail to licence@ez.no. Further contact
+// information is available at http://ez.no/home/contact/.
+//
+// The "GNU General Public License" (GPL) is available at
+// http://www.gnu.org/copyleft/gpl.html.
+//
+// Contact licence@ez.no if any conditions of this licencing isn't clear to
+// you.
+//
+
+class eZSimpleTagsOperator
+{
+    /*!
+     */
+    function eZSimpleTagsOperator( $name = 'simpletags' )
+    {
+        $this->Operators = array( $name );
+    }
+
+    /*!
+     Returns the operators in this class.
+    */
+    function &operatorList()
+    {
+        return $this->Operators;
+    }
+
+    /*!
+     See eZTemplateOperator::namedParameterList()
+    */
+    function namedParameterList()
+    {
+        return array( 'max_chars' => array( 'type' => 'integer',
+                                            'required' => false,
+                                            'default' => null ) );
+    }
+
+    /*!
+     \reimp
+    */
+    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    {
+        $elements = preg_split( "#(</?[a-zA-Z]+>)#",
+                                $operatorValue,
+                                false,
+                                PREG_SPLIT_DELIM_CAPTURE );
+        $newElements = array();
+        $i = 0;
+        $lastElement = false;
+        foreach ( $elements as $element )
+        {
+            if ( ( $i % 2 ) == 1 )
+            {
+                if ( preg_match( "#<(/?)([a-zA-Z]+)>#", $element, $matches ) )
+                {
+                    $isEndTag = false;
+                    if ( $matches[1] )
+                        $isEndTag = true;
+                    $tag = $matches[2];
+                    $element = array( $tag, $isEndTag, $element );
+                }
+            }
+            $newElements[] = $element;
+            $lastElement = $element;
+            ++$i;
+        }
+
+        $tagMap = array();
+        $ini =& eZINI::instance( 'template.ini' );
+        $tagList = $ini->variable( 'SimpleTagsOperator', 'TagList' );
+        foreach ( $tagList as $tagItem )
+        {
+            $elements = explode( ';', $tagItem );
+            $tag = $elements[0];
+            $pre = $elements[1];
+            $post = $elements[2];
+            $phpfunction = false;
+            if ( isset( $elements[3] ) )
+                $phpfunction = $elements[3];
+            $tagMap[$tag] = array( 'pre' => $pre,
+                                   'post' => $post,
+                                   'phpfunction' => $phpfunction );
+        }
+
+        $textElements = array();
+        for ( $i = 0; $i < count( $newElements ); ++$i )
+        {
+            $element = $newElements[$i];
+            if ( is_string( $element ) )
+            {
+                $textElements[] = $element;
+            }
+            else if ( is_array( $element ) )
+            {
+                $tag = $element[0];
+                $isEndTag = $element[1];
+                $originalText = $element[2];
+                if ( isset( $tagMap[$tag] ) )
+                {
+                    $tagOptions = $tagMap[$tag];
+                    $phpfunction = $tagOptions['phpfunction'];
+                    if ( !function_exists( $phpfunction ) )
+                        $phpfunction = false;
+                    if ( !$isEndTag )
+                    {
+                        $tagElements = array();
+                        for ( $j = $i + 1; $j < count( $newElements ); ++$j )
+                        {
+                            $tagElement = $newElements[$j];
+                            if ( is_string( $tagElement ) )
+                            {
+                                $tagElements[] = $tagElement;
+                            }
+                            else if ( is_array( $tagElement ) )
+                            {
+                                if ( $tagElement[0] == $tag and
+                                     $tagElement[1] )
+                                {
+                                    break;
+                                }
+                                $text = $tagElement[2];
+                                $tagElements[] = $text;
+                            }
+                        }
+                        $i = $j;
+                        $textElements[] = $tagOptions['pre'];
+                        $text = implode( '', $tagElements );
+                        if ( $phpfunction )
+                        {
+                            $text = $phpfunction( $text );
+                        }
+                        $textElements[] = $text;
+                        $textElements[] = $tagOptions['post'];
+                    }
+                }
+                else
+                    $textElements[] = htmlspecialchars( $originalText );
+            }
+        }
+
+        $operatorValue = implode( '', $textElements );
+    }
+
+    /// \privatesection
+    var $Operators;
+};
+
+?>
