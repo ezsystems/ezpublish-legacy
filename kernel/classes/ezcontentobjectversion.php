@@ -746,6 +746,41 @@ class eZContentObjectVersion extends eZPersistentObject
         return eZContentObject::fetch( $this->CreatorID );
     }
 
+    function unpublish()
+    {
+        if ( $this->attribute( 'status' ) == EZ_VERSION_STATUS_PUBLISHED )
+        {
+            $this->setAttribute( 'status', EZ_VERSION_STATUS_ARCHIVED );
+            $parentNodeList =& $this->attribute( 'parent_nodes' );
+            $parentNodeIDList = array();
+            foreach( array_keys( $parentNodeList ) as $key )
+            {
+                $parentNode =& $parentNodeList[$key];
+                $parentNodeIDList[] = $parentNode->attribute( 'parent_node' );
+            }
+            if ( count( $parentNodeIDList ) == 0 )
+            {
+                eZDebug::writeWarning( $this, "unable to get parent nodes for version" );
+                return;
+            }
+            $parentNodeIDString = implode( ',' , $parentNodeIDList );
+            $contentObjectID = $this->attribute( 'contentobject_id' );
+            $version = $this->attribute( 'version' );
+            $db =& eZDb::instance();
+            $query = "update ezcontentobject_tree
+                      set contentobject_is_published = '0'
+                      where parent_node_id in ( $parentNodeIDString ) and
+                            contentobject_id = $contentObjectID and
+                            contentobject_version = $version" ;
+            $db->query( $query );
+        }
+        else
+        {
+            eZDebug::writeWarning( $this, "trying to unpublish non published version");
+        }
+
+    }
+
     /*!
      \returns an array with locale objects, these objects represents the languages the content objects are allowed to be translated into.
               The array will not include locales that has been translated in this version.

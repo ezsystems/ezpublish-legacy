@@ -190,7 +190,7 @@ class eZPublishOnTimeType  extends eZWorkflowEventType
     {
         $id = $event->attribute( "id" );
         $version = $event->attribute( "version" );
-        $publishOnTime = new eZPublishOnTime( $id, $version );
+        $publishOnTime =& new eZPublishOnTime( $id, $version );
         return $publishOnTime;
     }
 

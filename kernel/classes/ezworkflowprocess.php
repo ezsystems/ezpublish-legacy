@@ -321,10 +321,9 @@ class eZWorkflowProcess extends eZPersistentObject
                     eZDebug::printReport();
                 }
                 $next_event_id = $workflow->fetchEventIndexed( $next_event_pos );
-                eZDebug::writeDebug( $event_pos , "workflow  not done");
-
                 if ( $next_event_id !== null )
                 {
+                    eZDebug::writeDebug( $event_pos , "workflow  not done");
                     $this->advance( $next_event_id, $next_event_pos, $lastEventStatus );
                     $workflowEvent =& eZWorkflowEvent::fetch( $next_event_id );
                 }
@@ -332,6 +331,7 @@ class eZWorkflowProcess extends eZPersistentObject
                 {
                     $done = true;
                     unset( $workflowEvent );
+                    eZDebug::writeDebug( $event_pos , "workflow done");
 //                     eZDebug::writeNotice( $this, "workflow done");
                     $workflowStatus = EZ_WORKFLOW_STATUS_DONE;
                     $this->advance();

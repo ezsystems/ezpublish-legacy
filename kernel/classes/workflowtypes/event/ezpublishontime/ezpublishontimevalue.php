@@ -87,7 +87,7 @@ class eZPublishOnTimeValue extends eZPersistentObject
             if ( $this->ClassName === null )
             {
                 $contentClass =& eZContentClass::fetch( $this->attribute( 'contentclass_id' ) );
-                $this->ClassName = $contentClass->attribute( 'name' );
+                $this->ClassName =& $contentClass->attribute( 'name' );
             }
             return $this->ClassName;
         }
@@ -96,7 +96,7 @@ class eZPublishOnTimeValue extends eZPersistentObject
             if ( $this->ClassAttributeName === null )
             {
                 $contentClassAttribute =& eZContentClassAttribute::fetch( $this->attribute( 'contentclass_attribute_id' ) );
-                $this->ClassAttributeName = $contentClassAttribute->attribute( 'name' );
+                $this->ClassAttributeName =& $contentClassAttribute->attribute( 'name' );
             }
             return $this->ClassAttributeName;
         }

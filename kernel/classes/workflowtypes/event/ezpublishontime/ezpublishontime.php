@@ -112,7 +112,8 @@ class eZPublishOnTime
        eZPublishOnTimeValue::remove( $id, $version );
        $this->Entries =& eZPublishOnTimeValue::fetchAllElements( $workflowEventID, $version );
     }
-    function classAttributeIDList()
+
+    function &classAttributeIDList()
     {
         $attributeIDList = array();
         foreach ( array_keys( $this->Entries ) as $key )

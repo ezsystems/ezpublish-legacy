@@ -72,6 +72,10 @@ foreach( array_keys( $workflowProcessList ) as $key )
     {   //restore memento and run it
         eZDebug::writeDebug( $process, '$process' );
         $bodyMemento =& eZOperationMemento::fetch( $process->attribute( 'memento_key' ) );
+        if ( is_null( $bodyMemento ) )
+        {
+            eZDebug::printReport();
+        }
         eZDebug::writeDebug( $bodyMemento->data(), '$bodyMementoData' );
         $mainMemento =& $bodyMemento->attribute( 'main_memento' );
         eZDebug::writeDebug( $mainMemento->data(), '$mainMementoData' );

@@ -533,7 +533,6 @@ class eZModuleOperationInfo
                             {
                                 $result['status'] = EZ_MODULE_OPERATION_CONTINUE;
                                 $bodyReturnValue =& $result;
-                                
                             }
                         }
                     }
