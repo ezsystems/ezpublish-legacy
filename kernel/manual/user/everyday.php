@@ -314,42 +314,49 @@ or making headers. For that we use simple tags *.</p> -->
 <p>Some of your objects, for instance articles, may have XML-formatted text fields. When editing these
 you will be using a simplified set of tags, similar to HTML.</p>
 <p>NB! If you use Internet Explorer there is a WYSIWYG editor available from
-<a href="www.ez.no">www.ez.no</a> that will make this process much easier.</p>
+<a href="http://www.ez.no/products/power_tools/online_editor">www.ez.no</a> that will make this process much easier.</p>
 
 <p>These are the tags you can use in XML-formatted text fields:</p>
 
 <ul>
-<li>&lt;em&gt;emphasize text&lt;/em&gt; (alias to emphasize)</li>
-<li>&lt;i&gt;emphasize text&lt;/i&gt;  (alias to emphasize)</li>
-<li>&lt;emphasize&gt;emphasize text&lt;/emphasize&gt;  </li>
-<li>&lt;b&gt;bold text&lt;/b&gt; (alias to strong)</li>
-<li>&lt;bold&gt;bold text&lt;/bold&gt; (alias to strong)</li>
-<li>&lt;strong&gt;bold text&lt;/strong&gt; </li>
-<li>&lt;ul&gt;unordered list&lt;/ul&gt;</li>
-<li>&lt;ol&gt;ordered list&lt;/ol&gt; </li>
+<li>&lt;em [class="foo"]&gt;emphasize text. Attribute 'class', which used to classify the tag, is optional.&lt;/em&gt; (alias to emphasize)</li>
+<li>&lt;i [class="foo"]&gt;emphasize text. Attribute 'class' is optional.&lt;/i&gt;  (alias to emphasize)</li>
+<li>&lt;emphasize [class="foo"]&gt;emphasize text. Attribute 'class' is optional.&lt;/emphasize&gt;  </li>
+<li>&lt;b [class="foo"]&gt;bold text. Attribute 'class' is optional.&lt;/b&gt; (alias to strong)</li>
+<li>&lt;bold [class="foo"]&gt;bold text. Attribute 'class' is optional.&lt;/bold&gt; (alias to strong)</li>
+<li>&lt;strong [class="foo"]&gt;bold text. Attribute 'class' is optional.t&lt;/strong&gt; </li>
+<li>&lt;ul [class="foo"]&gt;unordered list. Attribute 'class' is optional.&lt;/ul&gt;</li>
+<li>&lt;ol [class="foo"]&gt;ordered list. Attribute 'class' is optional.&lt;/ol&gt; </li>
 <li>&lt;li&gt;list element&lt;/li&gt; </li>
 
-<li>&lt;h&gt;heading text&lt;/h&gt; or
- &lt;h level="1-6"&gt; heading text with defined size&lt;/h&gt; (alias to header).</li>
+<li>&lt;h [level="1-6" class="foo"]&gt;heading text. Attribute 'level' and attribute 'class' are optional. Attribute 'level' could be used to
+define heading size, while 'class' could be used to classify the tag.&lt;/h&gt; (alias to header).</li>
 
-<li>&lt;header&gt;heading text&lt;/header&gt; or
- &lt;header level="1-6"&gt;heading text with defined size&lt;/h&gt;</li>
+<li>&lt;header [level="1-6" class="foo"]&gt;heading text. Attribute 'level' and attribute 'class' are optional. Attribute 'level' could be used to
+define heading size while 'class' could be used to classify the tag.&lt;/header&gt;</li>
 
-<li>&lt;link href="link url"&gt;link text&lt;/link&gt; or &lt;link id="id"&gt;link text&lt;/link&gt; where id is an existing eZ url id.</li>
-<li>&lt;a href="link url"&gt;link text&lt;/a&gt; or &lt;a id="id"&gt;link text&lt;/a&gt; where id is an existing eZ url id. (alias to link)</li>
+<li>&lt;link href="link url" [target="_self|_blank" class="foo"]&gt;link text&lt;/link&gt;
+or &lt;link id="id" [target="_self|_blank" class="foo"]&gt;link text&lt;/link&gt;
+where id is an existing eZ url id. Attribute 'target' and 'class' are optional.</li>
+<li>&lt;a href="link url" [target="_self|_blank" class="foo"]&gt;link text&lt;/a&gt;
+or &lt;a id="id" [target="_self|_blank" class="foo"]&gt;link text&lt;/a&gt; where id is an existing eZ url id.
+Attribute 'target' and 'class' are optional. (alias to link)</li>
 
-<li>&lt;object id="id" align="left|right|center" size="small|medium|large" view="embed|text_linked"/&gt; where 'id'
-should be an existing eZ object id and all other three attributes are optional.</li>
+<li>&lt;object id="id"[ align="left|right|center" size="small|medium|large"
+class="foo" view="embed|text_linked" href="link url" target="_self|_blank"]/&gt; where 'id'
+should be an existing eZ object id and all other attributes are optional. Attributes 'href' and 'target' are used to make object(image) as link.</li>
 
-<li>&lt;table border='0-10' width="1-100%"&gt;table content&lt;/table&gt; The attributes 'border' and 'width' are optional attributes.
-Table content should be written according to normal HTML table syntax with &lt;tr&gt; and &lt;td&gt; tags.</li>
+<li>&lt;table [class="foo" border='0-10' width="1-100%|size(in pix)"]&gt;table content&lt;/table&gt; The attributes 'class', 'border' and 'width'
+are optional attributes. Table content should be written according to normal HTML table syntax with &lt;tr&gt; and &lt;td&gt; tags.</li>
 
 <li>&lt;tr&gt;table row content&lt;/tr&gt;</li>
-<li>&lt;th&gt;table header content&lt;/th&gt;</li>
-<li>&lt;td&gt;table cell content&lt;/td&gt;</li>
-<li>&lt;literal&gt;unformatted text (html, xml source, etc.).&lt;/literal&gt;</li>
-<li>&lt;custom name="customtagName"&gt;content&lt;/custom&gt;</li>
+<li>&lt;th [class="foo" width="number" rowspan="number" colspan="number"]&gt;table header content. All attributes are optional.&lt;/th&gt;</li>
+<li>&lt;td [class="foo" width="number" rowspan="number" colspan="number"]&gt;table cell content. All attributes are optional.&lt;/td&gt;</li>
+<li>&lt;literal [class="foo"]&gt;unformatted text (html, xml source, etc.). Attribute 'class' is optional. &lt;/literal&gt;</li>
+<li>&lt;custom name="customtagName"&gt;custom tag content. A custom tag could either be bloack or inline,
+and this should be defined in [CustomTagSettings] in content.ini.&lt;/custom&gt;</li>
 </ul>
+<ul>
 
 <!--
 <h2 id="Classes">Classes</h2>
