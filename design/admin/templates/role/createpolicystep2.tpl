@@ -4,7 +4,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'Create a new policy for the <%role_name> role'|i18n( 'design/admin/role',, hash( '%role_name', $role.name ) )|wash}</h1>
+<h1 class="context-title">{'Create a new policy for the <%role_name> role'|i18n( 'design/admin/role/createpolicy',, hash( '%role_name', $role.name ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -14,38 +14,45 @@
 
 <div class="context-attributes">
 
-<h2>{'Step one: select module [completed]'|i18n( 'design/admin/role' )}</h2>
+<p>
+{'Welcome to the policy wizard. This three step wizard will help you set up a new policy. The policy will be added to the role that is currently being edited. The wizard can be aborted at any stage by using the "Cancel" button.'|i18n( 'design/admin/role/createpolicy' )}
+</p>
+
+<hr />
+
+<h2>{'Step one: select module [completed]'|i18n( 'design/admin/role/createpolicy' )}</h2>
 
 <div class="block">
-<label>{'Selected module'|i18n( 'design/admin/role' )}</label>
+<label>{'Selected module'|i18n( 'design/admin/role/createpolicy' )}</label>
 {section show=$current_module|eq( '*' )}
-{'All modules'|i18n( 'design/admin/role' )}
+{'All modules'|i18n( 'design/admin/role/createpolicy' )}
 {section-else}
 {$current_module|upfirst()}
 {/section}
 </div>
 
 <div class="block">
-<label>{'Selected access method'|i18n( 'design/admin/role' )}</label>
-{'Limited'|i18n( 'design/admin/role' )}
+<label>{'Selected access method'|i18n( 'design/admin/role/createpolicy' )}</label>
+{'Limited'|i18n( 'design/admin/role/createpolicy' )}
 </div>
 
 <hr />
 
-<h2>{'Step two: select function'|i18n( 'design/admin/role' )}</h2>
-
-<p>{'In this step you have to select the function that you wish to grant access to. Instructions:'|i18n( 'design/admin/role' )}
-<ul>
-<li>{'Use the dropdown menu below to select the function that you wish to grant access to.'|i18n( 'design/admin/role' )}</li>
-<li>{'Click on one of the "Grant.." buttons.'}</li>
-</ul>
-{'The "Grant full access" button will create a policy that grants unlimited access to the selected module and function. If you wish to limit the access method in some way, you should click the "Grant limited access" button; however, this functionality is only supported by some functions. If you click "Grant limited access" and function limitation is unsupported, eZ publish will simply set up a policy with unlimited access to the selected function within the selected module.'|i18n( 'design/admin/role' )}
-</p>
+<h2>{'Step two: select function'|i18n( 'design/admin/role/createpolicy' )}</h2>
 
 {section show=$no_functions|not}
 
+<p>
+{'Instructions:'|i18n( 'design/admin/role/createpolicy' )}
+<ul>
+<li>{'Use the dropdown menu to select the function that you wish to grant access to.'|i18n( 'design/admin/role/createpolicy' )}</li>
+<li>{'Click on one of the "Grant.." buttons (explained below) in order to go to the next step.'}</li>
+</ul>
+{'The "Grant full access" button will create a policy that grants unlimited access to the selected function within the module that was specified in step one. If you wish to limit the access method in some way, click the "Grant limited access" button. Function limitation is only supported by some functions. If unsupported, eZ publish will simply set up a policy with unlimited access to the selected function.'|i18n( 'design/admin/role/createpolicy' )}
+</p>
+
 <div class="block">
-<label>{'Function'|i18n( 'design/admin/role' )}</label>
+<label>{'Function'|i18n( 'design/admin/role/createpolicy' )}</label>
 <select name="ModuleFunction">
 {section name=Functions loop=$functions}
 <option value="{$Functions:item}">{$Functions:item}</option>
@@ -54,16 +61,18 @@
 <input type="hidden" name="CurrentModule" value="{$current_module}" />
 </div>
 
-<input class="button" type="submit" name="AddFunction" value="{'Grant full access'|i18n( 'design/admin/role' )}" />
-<input class="button" type="submit" name="Limitation" value="{'Grant limited access'|i18n( 'design/admin/role' )}" />
+<div class="block">
+<input class="button" type="submit" name="AddFunction" value="{'Grant full access'|i18n( 'design/admin/role/createpolicy' )}" />
+<input class="button" type="submit" name="Limitation" value="{'Grant limited access'|i18n( 'design/admin/role/createpolicy' )}" />
+</div>
 
 {section-else}
 
 <p>
 {section show=$current_module|eq( '*' )}
-{'It is not possible to grant limited access to all modules at once. To grant unlimited acess to all modules, go back to step one and select "Grant access to all functions"; however, be careful because this will basically allow everything. In order to grant limited access to different functions within different modules, you need to set up a collection of policies.'|i18n( 'design/admin/role',, hash( '%module_name', $current_module ) )}
+{'It is unfortunately not possible to grant limited access to all modules at once. To grant unlimited acess to all modules and their functions, go back to step one and select "Grant access to all functions". In order to grant limited access to different functions within different modules, you need to set up a collection of policies.'|i18n( 'design/admin/role/createpolicy',, hash( '%module_name', $current_module ) )}
 {section-else}
-{'The selected module (%module_name) does not support limitations on the function level. Please go back to step one and use the "Grant access to all functions" option instead.'|i18n( 'design/admin/role',, hash( '%module_name', $current_module ) )}
+{'The selected module (%module_name) does not support limitations on the function level. Please go back to step one and use the "Grant access to all functions" option instead.'|i18n( 'design/admin/role/createpolicy',, hash( '%module_name', $current_module ) )}
 {/section}
 </p>
 
@@ -71,8 +80,9 @@
 
 <hr />
 
-<input class="button" type="submit" name="Step1" value="{'Go back to step one'|i18n( 'design/admin/role' )}" />
-
+<div class="block">
+<input class="button" type="submit" name="Step1" value="{'Go back to step one'|i18n( 'design/admin/role/createpolicy' )}" />
+</div>
 
 </div>
 
@@ -81,7 +91,8 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-<input class="button" type="submit" value="{'Cancel'|i18n( 'design/admin/role' )}" />
+<input class="button" type="submit" name="" value="{'OK'|i18n( 'design/admin/role/createpolicy' )}" disabled="disabled" />
+<input class="button" type="submit" value="{'Cancel'|i18n( 'design/admin/role/createpolicy' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
