@@ -54,6 +54,7 @@ eZ template:
 - Finished the template compiling system, it will now generate PHP template files that can be properly executed.
 - New class eZTemplateNodeTool which has static tool functions for working on template nodes.
 - Renamed the process cache system to template compiling which is a better name. Updated classes, functions and files.
+- Compiled templates are now created in var/cache/compiled instead of var/cache/process.
 
 *Settings :
 site.ini:
