@@ -1,6 +1,7 @@
 <table class="list" cellspacing="0">
 <tr>
-  <th colspan="4">{"Subject"|i18n('design/standard/collaboration/item_list')}</th>
+  <th class="tight"></th>
+  <th colspan="2">{"Subject"|i18n('design/standard/collaboration/item_list')}</th>
   <th>{"Date"|i18n('design/standard/collaboration/item_list')}</th>
 </tr>
 {section name=Item loop=$item_list sequence=array(bglight,bgdark)}
@@ -29,9 +30,6 @@
     {section-else}
     &nbsp;
     {/section}
-  </td>
-  <td>
-    <a href={concat("collaboration/item/full/",$:item.id)|ezurl}>{"[more]"|i18n('design/standard/collaboration/item_list')}</a>
   </td>
   <td class="tight">
     {$:item.created|l10n(shortdatetime)}
