@@ -51,17 +51,17 @@ function eZSetupStep( &$tpl, &$http, &$ini )
 	$dbAvailable = false;
 	$databaseArray = array();
 	$handoverResult = array();
-   
+
     // Start testing
     $resultArray = array();
-    
+
 	// Loop through all test items doing the tests
 	$continue = true;
 	foreach( array_keys( $testItems ) as $key )
 	{
 		// Execute the function that was defined in the configuration file
 		$resultArray[$key] = $testItems[$key]["function"]( $testItems[$key] );
-		
+
 		// Fill array with databases, because we have to test if one is available
 		if ( isset( $testItems[$key]["type"] ) && $testItems[$key]["type"] == "db" )
 		{
@@ -69,24 +69,15 @@ function eZSetupStep( &$tpl, &$http, &$ini )
 			if ( $resultArray[$key]["pass"] == true )
 				$dbAvailable = true;
 		}
-		
-		// Set the error messages
+
+
+        // Don't continue if we had a fatal error
 		if ( $resultArray[$key]["pass"] == false && $testItems[$key]["req"] == true )
 		{
-			// Don't show error message for failed db module if we have a working db module
 			if ( !isset( $testItems[$key]["type"] ) || $testItems[$key]["type"] != "db" || ! $dbAvailable )
-			{
-				// Set the error messages on the first error not the last
-				if ( $continue )
-				{
-					$tpl->setVariable( "errorDescription", $testItems[$key]["error_msg"] );
-					$tpl->setVariable( "errorSuggestion", $testItems[$key]["error_sol"] );
-					$continue = false;
-				}
-			}
+				$continue = false;
 		}
 
-		
 
 		// Array for hidden form fields
 		$handoverResult[] = array( "name" => $key, "value" => $resultArray[$key]["pass"] ? "true" : "false" );
@@ -103,10 +94,10 @@ function eZSetupStep( &$tpl, &$http, &$ini )
 				$databaseArray[$key]["req"] = false;
 		}
 	}
-	
+
 
 	// Loop over items for output
-	// Notice: Separate loop to keep first loop simpler. 
+	// Notice: Separate loop to keep first loop simpler.
 	//         Maybe this should be put in first loop too.
 	$outputArray = array();
 	foreach( array_keys( $testItems ) as $key )
@@ -116,7 +107,7 @@ function eZSetupStep( &$tpl, &$http, &$ini )
 
 		// Title for test item
 		$desc = $testItem["desc"];
-		
+
 		// Format string for "requirement" nicer
 		if ( isset( $testItem["req_desc"] ) && is_string( $testItem["req_desc"] ) )
 			$req = $testItem["req_desc"];
@@ -132,27 +123,29 @@ function eZSetupStep( &$tpl, &$http, &$ini )
 			$status = "ok";
 		else
 			$status = "--";
-		
-		$warning = "";
+
+		$message = "";
 		// Check if it was a pass
 		if ( $result["pass"] == true )
 		{
 			$pass = "pass";
-			$class = "ezsetup_ok";
+			$class_pass = "ezsetup_pass";
 		}
 		else
 		{
 			if ( $testItem["req"] == false )
 			{
 				$pass = "uncritical";
-				$class = "ezsetup_warning";
+				$class_pass = "ezsetup_uncritical";
 				if ( isset( $testItems[$key]["warning"] ) )
-					$warning = $testItems[$key]["warning"];
+					$message = "<b>Explanation:</b><br />" . $testItems[$key]["warning"];
 			}
 			else
 			{
 				$pass = "fail";
-				$class = "ezsetup_fatal";
+				$class_pass = "ezsetup_critical";
+				$message = "<b>Error:</b><br />" . $testItems[$key]["error_msg"];
+				$message .= "<br /><b>Suggestion:</b><br />" . $testItems[$key]["error_sol"];
 			}
 		}
 
@@ -161,14 +154,14 @@ function eZSetupStep( &$tpl, &$http, &$ini )
 								"req"    => $req,
 								"status" => $status,
 								"pass"   => $pass,
-								"class"  => $class,
-								"warning"=> $warning );
+								"class_pass"  => $class_pass,
+								"message" => $message );
 	}
 	$tpl->setVariable( "itemsResult", $outputArray );
 
     // Set continue
     $tpl->setVariable( "continue", $continue );
-    
+
     // Display template
     $tpl->display( "design/standard/templates/setup/step1.tpl" );
 }

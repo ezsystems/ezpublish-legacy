@@ -84,23 +84,23 @@ function eZSetupStep( &$tpl, &$http )
 
     // Set template variables
     $handoverResult[] = array( "name" => "dbType", "value" => $dbParams["type"] );
-    $handoverResult[] = array( "name" => "dbServer", "value" => $dbParams["server"] );    
-    $handoverResult[] = array( "name" => "dbName", "value" => $dbParams["database"] );    
+    $handoverResult[] = array( "name" => "dbServer", "value" => $dbParams["server"] );
+    $handoverResult[] = array( "name" => "dbName", "value" => $dbParams["database"] );
     $handoverResult[] = array( "name" => "dbMainUser", "value" => $dbParams["main_user"] );
-    $handoverResult[] = array( "name" => "dbMainPass", "value" => $dbParams["main_pass"] );    
-    $handoverResult[] = array( "name" => "dbCreateUser", "value" => $dbParams["create_user"] );    
-    $handoverResult[] = array( "name" => "dbDeleteTables", "value" => $dbParams["delete_tables"] );    
+    $handoverResult[] = array( "name" => "dbMainPass", "value" => $dbParams["main_pass"] );
+    $handoverResult[] = array( "name" => "dbCreateUser", "value" => $dbParams["create_user"] );
+    $handoverResult[] = array( "name" => "dbDeleteTables", "value" => $dbParams["delete_tables"] );
     $handoverResult[] = array( "name" => "dbCharset", "value" => $dbParams["charset"] );
-    $handoverResult[] = array( "name" => "dbBuiltinEncoding", "value" => $dbParams["builtin_encoding"] );    
+    $handoverResult[] = array( "name" => "dbBuiltinEncoding", "value" => $dbParams["builtin_encoding"] );
 
     // Unfortunately we have to set them again to report it to the user
     $tpl->setVariable( "dbType", $dbParams["type"] );
     $tpl->setVariable( "dbServer", $dbParams["server"] );
     $tpl->setVariable( "dbName", $dbParams["database"] );
     $tpl->setVariable( "dbMainUser", $dbParams["main_user"] );
-    $tpl->setVariable( "dbCreateUser", $dbParams["create_user"] );    
+    $tpl->setVariable( "dbCreateUser", $dbParams["create_user"] );
 
-    // The different sections	
+    // The different sections
 	$tpl->setVariable( "unpackDemo", false );
     $tpl->setVariable( "createDb", false );
     $tpl->setVariable( "createSql", false );
@@ -109,20 +109,20 @@ function eZSetupStep( &$tpl, &$http )
 
     // Only continue, if we are successful
     $continue = true;
-	
+
 	// Switch if should install demo data or not.
 	if ( $http->hasVariable( "unpackDemo" ) && $http->postVariable( "unpackDemo" ) == "true" )
 		$unpackDemo = true;
 	else
 		$unpackDemo = false;
-    
+
 	if ( $unpackDemo )
 	{
 		$tpl->setVariable( "unpackDemo", true );
-		
+
 		// unpack the demo data
 		$file = eZSys::siteDir() . "var.tgz";
-		
+
 		//require_once( "lib/ezsetup/classes/PEAR.php" );
 		require_once( "lib/ezsetup/classes/Tar.php" );
 		$tarObject = new Archive_Tar ( $file, true );
@@ -149,30 +149,31 @@ function eZSetupStep( &$tpl, &$http )
 		$dbModuleFile = "lib/ezdb/classes/" . $dbModule . ".php";
 		if ( file_exists( $dbModuleFile ) )
 			include_once( $dbModuleFile );
-		
+
 		// Try to get a connection to the database
-		eZDebug::writeError( "Please ignore possible error message concerning connection errors of eZDB. We take care of this.", "eZSetup" ); 
+		eZDebug::writeError( "Please ignore possible error message concerning connection errors of eZDB. We take care of this.", "eZSetup" );
 
 		// Set the right user to use. We first need the main_user.
 		$dbParams["user"] = $dbParams["main_user"];
 		$dbParams["password"] = $dbParams["main_pass"];
-		
+
 		// Create a database object.
 		$dbObject = new $dbModule( $dbParams );
-		
+
 		// TODO: The error number thing is no goooood!
 		if ( $dbObject->isConnected() == false && $dbObject->errorNumber() != "1049" )
 		{
 			$tpl->setVariable( "dbConnect", "unsuccessful." );
 			$error = errorHandling( $testItems, $dbParams, $dbObject );
+			$continue = false;
 		}
 		else
 		{
 			$tpl->setVariable( "dbConnect", "successful." );
 			$continue = true;
-		}	
+		}
 	}
-	 
+
 	//
 	// If database doesn't exist yet, try to create the database
     if ( $continue && $dbObject->isConnected() == false )
@@ -180,12 +181,12 @@ function eZSetupStep( &$tpl, &$http )
     	$tpl->setVariable( "createDb", true );
         $continue = false;
 
-        // Try to create the database    
+        // Try to create the database
 		$dbObject->createDatabase( $dbParams["database"] );
 		if ( $dbObject->errorNumber() == "0" )
 		{
 			$tpl->setVariable( "dbCreate", "successful." );
-            $continue = true;            
+            $continue = true;
 
 			// We have to reconnect otherwise query() will fail without error message!
 			unset( $dbObject );
@@ -244,7 +245,7 @@ function eZSetupStep( &$tpl, &$http )
 		}
 	}
 
-	
+
 	//
 	// If wanted, create database user for new database
 	if ( $continue && $dbParams["create_user"] != "" )
@@ -255,7 +256,7 @@ function eZSetupStep( &$tpl, &$http )
 		// From now on we want to use the new user!
 		$dbParams["user"] = $dbParams["create_user"];
 		$dbParams["password"] = $dbParams["create_pass"];
-		
+
 		// Try to create user TODO: Does this work on other databases?
 		$sqlQuery = "grant all on ". $dbParams["database"] . ".* to " . $dbParams["user"] . "@localhost identified by \"" . $dbParams["password"] . "\"";
 		$dbObject->OutputSQL = false;
@@ -265,7 +266,7 @@ function eZSetupStep( &$tpl, &$http )
 		// Reconnect to database with new user
 		if ( $dbObject->errorNumber() == 0 )
 			$dbObject = new $dbModule( $dbParams );
-		
+
 		if ( $dbObject->errorNumber() == 0 )
 		{
 
@@ -277,10 +278,10 @@ function eZSetupStep( &$tpl, &$http )
 			$tpl->setVariable( "dbCreateUserMsg", "unsuccessful." );
 			$error = errorHandling( $testItems, $dbParams, $dbObject );
 		}
-	
+
 	}
-  
-    
+
+
     //
     // Create database structures
     //
@@ -288,14 +289,14 @@ function eZSetupStep( &$tpl, &$http )
     {
         $continue = false;
         $tpl->setVariable( "createSql", true );
-		
+
 		if ( $unpackDemo && isset( $testItems[$dbParams["type"]]["sql_demo"] ) )
 			$sqlFile = $testItems[$dbParams["type"]]["sql_demo"];
 		else
 			$sqlFile = $testItems[$dbParams["type"]]["sql_core"];
 
 		$result = doQuery( $dbObject, $sqlFile );
-		
+
 		if ( $dbObject->errorNumber() == 0 )
 	    {
 	        $tpl->setVariable( "dbCreateSql", "successful" );
@@ -305,7 +306,7 @@ function eZSetupStep( &$tpl, &$http )
 	    {
 			$tpl->setVariable( "dbCreateSql", "unsuccessful." );
 			$error = errorHandling( $testItems, $dbParams, $dbObject );
-	    }  	
+	    }
     }
 
 	//
@@ -325,13 +326,13 @@ function eZSetupStep( &$tpl, &$http )
         $tpl->setVariable( "errorDescription", $error["desc"] );
         $tpl->setVariable( "errorSuggestion", $error["suggest"] );
     }
-    
+
 
 	$tpl->setVariable( "handover", $handoverResult );
 
 
     // Display template
-    $tpl->display( "design/standard/templates/setup/step3.tpl" );    
+    $tpl->display( "design/standard/templates/setup/step3.tpl" );
 }
 
 
@@ -373,10 +374,10 @@ function prepareSqlQuery( $sqlFile )
     {
 	    // Fix SQL file by deleting all comments and newlines
 	    $sqlQuery = preg_replace( array( "/#.*" . "/", "/\n/", "/--.*" . "/" ), array( "", "", "" ), $sqlQuery );
-	
+
 	    // Split the query into an array (mysql_query doesn't like ";")
 	    $sqlQueryArray = preg_split( "/;/", $sqlQuery );
-		
+
 		return $sqlQueryArray;
 	}
 	else
@@ -400,7 +401,7 @@ function doQuery( &$dbObject, $sqlFile )
 				$dbObject->query( $singleQuery );
 				if ( $dbObject->errorNumber() != 0 )
 					return false;
-			} 
+			}
 		}
 		return true;
 	}

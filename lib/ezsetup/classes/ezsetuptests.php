@@ -40,21 +40,21 @@
     Test if PHP version is equal or greater than required version
 */
 function testPhpVersion( $argArray )
-{ 
+{
 	$minVersion = $argArray["min_version"];
 
     /*
     // Get the operating systems name
     $operatingSystem = split( " ", php_uname() );
     $operatingSystem = strtolower( $operatingSystem[0] );
-    
+
 	// Find out if there is an os specific version needed
     if ( isset( $argArray["req"][$operatingSystem] ) )
         $neededVersion = $argArray["req"][$operatingSystem];
     else if ( isset( $argArray["req"] ) )
         $neededVersion = $argArray["req"];
     else
-        $neededVersion = $argArray["req"]; 
+        $neededVersion = $argArray["req"];
 	*/
 
 	$neededVersion = $minVersion;
@@ -67,8 +67,8 @@ function testPhpVersion( $argArray )
         $pass = true;
     else
         $pass = false;
-    
-    return array( "status" => $currentVersion, "pass"   => $pass );     
+
+    return array( "status" => $currentVersion, "pass"   => $pass );
 }
 
 
@@ -82,7 +82,7 @@ function testModule( $argArray )
     else
         $pass = false;
 
-    return array( "status" => $pass, "pass"   => $pass );         
+    return array( "status" => $pass, "pass"   => $pass );
 }
 
 
@@ -96,13 +96,13 @@ function testPermissions( $argArray )
 
 	if ( ! file_exists( $file ) && file_exists( $file . ".php" ) )
         $file = $file . ".php";
-	
+
 	// Directories: Test, if we can create a file
 	// Files: Test, if we can open a file in writing mode
 	$pass = true;
 	if ( ! file_exists( $file ) )
 	{
-	    $pass = false;	    
+	    $pass = false;
 	}
 	else if ( is_dir( $file ) )
 	{
@@ -111,7 +111,7 @@ function testPermissions( $argArray )
 		$fp = fopen( $tmpfname, "w" );
 		if ( ! $fp )
 			$pass = false;
-			
+
 		if ( $pass )
 			$test = fwrite( $fp, "this file can be deleted. It gets created by the eZ setup module of eZ publish." );
 		if ( $pass && ! $test )
@@ -119,7 +119,7 @@ function testPermissions( $argArray )
 
 		if ( $pass )
 			$test = fclose( $fp );
-		
+
 		if ( $pass )
 			$test = unlink( $tmpfname );
 		if ( $pass && ! $test )
@@ -131,7 +131,7 @@ function testPermissions( $argArray )
 			$pass = false;
 	}
 
-    return array( "status" => $pass, "pass"   => $pass );         
+    return array( "status" => $pass, "pass"   => $pass );
 }
 
 
@@ -153,7 +153,7 @@ function testProgram( $parameters )
 	foreach( $searchPaths as $path )
 	{
 		$pathProgram = $path . "/" . $program;
-		if ( file_exists( $pathProgram ) ) 
+		if ( file_exists( $pathProgram ) )
 		{
 			if ( function_exists( "is_executable" ) )
 			{
@@ -186,12 +186,12 @@ function testPHPIni( $parameters )
 {
 	$setting = $parameters["setting"];
     $state = $parameters["state"];
-    
+
     if ( (bool) ini_get( $setting ) == $state )
         $pass = true;
     else
         $pass = false;
-    
+
     $status = $pass;
 	return array( "status" => $status, "pass" => $pass );
 }
