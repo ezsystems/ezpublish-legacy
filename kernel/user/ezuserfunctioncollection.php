@@ -150,7 +150,7 @@ class eZUserFunctionCollection
                                 $limitation =& $module[$limitationKey];
                                 if ( $limitationKey != '*' )
                                 {
-                                    $policyID = str_replace( 'policy_limitation_', '', $limitationKey );
+                                    $policyID = str_replace( 'p_', '', $limitationKey );
                                     $limitationValue =& eZPolicyLimitation::fetchByPolicyID( $policyID );
                                     $resultArray[] = array( 'moduleName' => $moduleName, 'functionName' => $functionName, 'limitation' =>  $limitationValue );
                                 }

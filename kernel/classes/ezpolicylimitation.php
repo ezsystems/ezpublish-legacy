@@ -354,9 +354,7 @@ class eZPolicyLimitation extends eZPersistentObject
         foreach ( $this->attribute( 'values' ) as $value )
         {
                 $values[] =  $value->attribute( 'value' );
-
         }
-
 
         return $values;
     }
