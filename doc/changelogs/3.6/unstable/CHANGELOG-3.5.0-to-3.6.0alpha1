@@ -76,3 +76,7 @@ eZDebug:
 - Added new templates for support Simplified treemenu:
   design/standard/templates/simplified_treemenu/simplified_treemenu.tpl
   design/standard/templates/simplified_treemenu/show_simplified_menu.tpl
+- Added thumbnail in browse mode for admin interface. Added new templates:
+  design/admin/override/templates/thumbnail/image_browse.tpl
+  design/admin/templates/content/browse_mode_list.tpl
+  design/admin/templates/content/browse_mode_thumbnail.tpl
