@@ -2601,33 +2601,7 @@ WHERE
         }
 
         // Clean up policies and limitations
-        $limitationsToFix =& eZPolicyLimitation::findByType( 'SubTree', $node->attribute( 'path_string' ) );
-        foreach( $limitationsToFix as $limitation )
-        {
-
-            $values =& $limitation->attribute( 'values' );
-
-            $valueCount = count( $values );
-            if ( $valueCount > 0 )
-            {
-                foreach ( $values as $value )
-                {
-                    if ( strpos( $value->attribute( 'value' ), $node->attribute( 'path_string' ) ) === 0 )
-                    {
-                        $value->remove();
-                        $valueCount--;
-                    }
-                }
-            }
-            if( $valueCount == 0 )
-            {
-                $policy =& eZPolicy::fetch( $limitation->attribute( 'policy_id' ) );
-                $policy->remove();
-                eZContentObject::expireAllCache();
-                eZRole::expireCache();
-            }
-
-        }
+        eZRole::cleanupByNode( $node );
 
         // Clean up recent items
         $nodeID = $node->attribute( 'node_id' );

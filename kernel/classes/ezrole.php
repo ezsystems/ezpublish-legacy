@@ -316,6 +316,76 @@ class eZRole extends eZPersistentObject
 
     /*!
      \static
+     Cleans up policies and role assignments related to node when this node is removed
+    */
+    function cleanupByNode( $node )
+    {
+        // Clean up role assignments with limitations related to this object
+        $db =& eZDB::instance();
+        $pathString = $node->attribute( 'path_string' );
+        $nodeID = $node->attribute( 'node_id' );
+        $db->query( "DELETE FROM ezuser_role
+                     WHERE limit_value LIKE '$pathString%' AND limit_identifier='Subtree'" );
+                        // Clean up subtree limitations related to this object
+
+
+        $limitationsToFix =& eZPolicyLimitation::findByType( 'SubTree', $node->attribute( 'path_string' ), true, true );
+
+        foreach( $limitationsToFix as $limitation )
+        {
+            $values =& $limitation->attribute( 'values' );
+            $valueCount = count( $values );
+            if ( $valueCount > 0 )
+            {
+                foreach ( $values as $value )
+                {
+                    if ( strpos( $value->attribute( 'value' ), $node->attribute( 'path_string' ) ) === 0 )
+                    {
+                        $value->remove();
+                        $valueCount--;
+                    }
+                }
+            }
+            if( $valueCount == 0 )
+            {
+                $policy =& eZPolicy::fetch( $limitation->attribute( 'policy_id' ) );
+                $policy->remove();
+                eZContentObject::expireAllCache();
+                eZRole::expireCache();
+            }
+        }
+
+        $limitationsToFixNode =& eZPolicyLimitation::findByType( 'Node', $node->attribute( 'node_id' ) );
+
+        foreach( $limitationsToFixNode as $limitation )
+        {
+            $values =& $limitation->attribute( 'values' );
+            $valueCount = count( $values );
+            if ( $valueCount > 0 )
+            {
+                foreach ( $values as $value )
+                {
+                    if ( $value->attribute( 'value' ) == $node->attribute( 'node_id' ) )
+                    {
+                        $value->remove();
+                        $valueCount--;
+                    }
+                }
+            }
+            if( $valueCount == 0 )
+            {
+                $policy =& eZPolicy::fetch( $limitation->attribute( 'policy_id' ) );
+                $policy->remove();
+                eZContentObject::expireAllCache();
+                eZRole::expireCache();
+            }
+        }
+
+
+    }
+
+    /*!
+     \static
      Returns the roles which the corresponds to the array of content object id's ( Users and user group id's ).
 
      \param recursive, default false
