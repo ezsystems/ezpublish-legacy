@@ -35,11 +35,11 @@
 $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
 
-include_once( "kernel/common/template.php" );
+include_once( 'kernel/common/template.php' );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( "kernel/classes/ezbasket.php" );
-include_once( "lib/ezxml/classes/ezxml.php" );
-include_once( "lib/ezutils/classes/ezmail.php" );
+include_once( 'kernel/classes/ezbasket.php' );
+include_once( 'lib/ezxml/classes/ezxml.php' );
+include_once( 'lib/ezutils/classes/ezmail.php' );
 
 $tpl =& templateInit();
 
@@ -160,11 +160,9 @@ if ( $module->isCurrentAction( 'Store' ) )
 
         $order->setAttribute( 'data_text_1', $doc->toString() );
         $order->setAttribute( 'account_identifier', "ez" );
-        // If country is not norway, ignore VAT settings
-        if ( $country == "Norway" )
-            $order->setAttribute( 'ignore_vat', 0 );
-        else
-            $order->setAttribute( 'ignore_vat', 1 );
+
+        $order->setAttribute( 'ignore_vat', 0 );
+
         $order->store();
 
         eZHTTPTool::setSessionVariable( 'MyTemporaryOrderID', $order->attribute( 'id' ) );
@@ -188,7 +186,7 @@ $tpl->setVariable( "zip", $zip );
 $tpl->setVariable( "place", $place );
 $tpl->setVariable( "state", $state );
 $tpl->setVariable( "country", $country );
-
+$tpl->setVariable( "comment", $comment );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:shop/userregister.tpl" );

@@ -47,10 +47,11 @@ Bugs/missing features:
 
 */
 
-include_once( "kernel/classes/ezdatatype.php" );
-include_once( "lib/ezutils/classes/ezintegervalidator.php" );
-include_once( "lib/ezutils/classes/ezinputvalidator.php" );
-include_once( "lib/ezi18n/classes/eztranslatormanager.php" );
+include_once( 'kernel/classes/ezdatatype.php' );
+include_once( 'lib/ezutils/classes/ezintegervalidator.php' );
+include_once( 'lib/ezutils/classes/ezinputvalidator.php' );
+include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
+include_once( 'lib/ezxml/classes/ezxml.php' );
 
 define( "EZ_DATATYPESTRING_OBJECT_RELATION_LIST", "ezobjectrelationlist" );
 

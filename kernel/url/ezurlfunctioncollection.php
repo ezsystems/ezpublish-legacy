@@ -57,7 +57,7 @@ class eZURLFunctionCollection
     function &fetchList( $isValid, $offset, $limit )
     {
         include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
-        $parameters = array( 'is_valid' => $isValid,
+        $parameters = array( 'is_valid' => (int) $isValid,
                              'offset' => $offset,
                              'limit' => $limit );
         $list =& eZURL::fetchList( $parameters );
@@ -70,7 +70,7 @@ class eZURLFunctionCollection
     function &fetchListCount( $isValid )
     {
         include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
-        $parameters = array( 'is_valid' => $isValid );
+        $parameters = array( 'is_valid' => (int) $isValid );
         $listCount =& eZURL::fetchListCount( $parameters );
         if ( $listCount === null )
             return array( 'error' => array( 'error_type' => 'kernel',

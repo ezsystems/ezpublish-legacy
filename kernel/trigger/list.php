@@ -213,7 +213,6 @@ $tpl->setVariable( 'show_functions', $showFunctionList );
 $tpl->setVariable( 'show_modules', $showModuleList );
 
 $tpl->setVariable( 'possible_triggers', $possibleTriggers );
-$tpl->setVariable( 'workflow_list', $workflowList );
 
 $tpl->setVariable( 'modules', $moduleList );
 $tpl->setVariable( 'functions', $functionList );

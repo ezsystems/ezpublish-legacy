@@ -188,6 +188,7 @@ class eZURL extends eZPersistentObject
     function setIsValid( $id, $isValid )
     {
         $dateTime = time();
+        $isValid = (int) $isValid;
         eZPersistentObject::updateObjectList( array( 'definition' => eZURL::definition(),
                                                      'update_fields' => array( 'is_valid' => $isValid,
                                                                                'modified' => $dateTime ),

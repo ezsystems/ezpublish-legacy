@@ -762,7 +762,7 @@ class eZContentFunctionCollection
             eZDebug::writeError( "DatatypeString not supported in fetch same_classattribute_node, use int, float or text" );
             return false;
         }
-        include_once( 'lib/ezdb/ezdb.php' );
+        include_once( 'lib/ezdb/classes/ezdb.php' );
         $db =& eZDB::instance();
         $resultNodeArray = array();
         $nodeList =& $db->arrayQuery( "SELECT ezcontentobject_tree.node_id, ezcontentobject.name, ezcontentobject_tree.parent_node_id

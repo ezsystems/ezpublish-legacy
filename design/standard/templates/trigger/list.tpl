@@ -26,6 +26,7 @@
 {/section}
 </select>
 
+    </td>
 </tr>
 {/section}
 

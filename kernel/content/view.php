@@ -182,6 +182,10 @@ else
             return $Result;
         }
     }
+    else
+    {
+        $cacheFileArray = array( 'cache_dir' => false, 'cache_path' => false );
+    }
 
     if ( $Params['Language'] != '' )
     {
