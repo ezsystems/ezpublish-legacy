@@ -84,7 +84,7 @@ class eZMailTransport
         if ( $ini->hasVariable( 'MailSettings', 'ContentType' ) )
             $mail->setContentType( $ini->variable( 'MailSettings', 'ContentType' ) );
 
-        $transportType = $ini->variable( 'MailSettings', 'Transport' );
+        $transportType = trim( $ini->variable( 'MailSettings', 'Transport' ) );
         $transportObject =& $GLOBALS['eZMailTransportHandler_' . strtolower( $transportType )];
         if ( !isset( $transportObject ) or
              !is_object( $transportObject ) )
