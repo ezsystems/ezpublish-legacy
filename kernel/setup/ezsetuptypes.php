@@ -1613,6 +1613,13 @@ function eZSetupContentINISettings( $siteType, $parameters )
     return $image;
 }
 
+function eZSetupForumRoles( $siteType, $parameters )
+{
+    return array( 'name' => 'Forum usage',
+                  'policies' => array() );
+}
+
+
 function eZSetupINISettings( $siteType, $parameters )
 {
     $settings = array();
@@ -1635,6 +1642,13 @@ function eZSetupAdminINISettings( $siteType, $parameters )
     $settings[] = eZSetupContentINISettings( $siteType, $parameters );
 
     return $settings;
+}
+
+function eZSetupRoles( $siteType, $parameters )
+{
+    $roles = array();
+//     $roles[] = eZSetupForumRoles( $siteType, $parameters );
+    return $roles;
 }
 
 ?>

@@ -80,11 +80,18 @@ class eZRole extends eZPersistentObject
                       "name" => "ezrole" );
     }
 
+    /*!
+     \reimp
+      Adds \c limit_identifier and \c limit_value.
+    */
     function attributes()
     {
         return eZPersistentObject::attributes();
     }
 
+    /*!
+     \reimp
+    */
     function &attribute( $attr )
     {
         switch( $attr )
@@ -135,6 +142,9 @@ class eZRole extends eZPersistentObject
         }
     }
 
+    /*!
+     \static
+    */
     function createTemporaryVersion()
     {
         $newRole =& eZRole::createNew();
@@ -145,6 +155,10 @@ class eZRole extends eZPersistentObject
         return $newRole;
     }
 
+    /*!
+     \static
+     Creates a new role with the name 'New role', stores it and returns it.
+    */
     function createNew()
     {
         $role = new eZRole( array() );
@@ -153,6 +167,60 @@ class eZRole extends eZPersistentObject
         return $role;
     }
 
+    /*!
+     \static
+     Crates a new role with the name \a $roleName and version \a $version and returns it.
+     \note The role is not stored.
+    */
+    function &create( $roleName, $version = 0 )
+    {
+        $row = array( 'id' => false,
+                      'name' => $roleName,
+                      'version' => 0 );
+        $role = new eZRole( $row );
+        return $role;
+    }
+
+    /*!
+     Appends a new policy to the current role and returns it.
+     \note The policy and it's limitation values will be stored to the database before returning.
+     \param $module Which module to give access to or \c true to give access to all modules.
+     \param $function Which function to give access to or \c true to give access to all functions.
+     \param $limitations An associative array with limitations and their values, use an empty array for no limitations.
+
+     \code
+     // Access to content/read
+     $policy1 =& $role->appendPolicy( 'content', 'read' );
+     // Access to content/read in section 1
+     $policy2 =& $role->appendPolicy( 'content', 'read', array( 'Section' => 1 ) );
+     // Access to content/read for class 2 and 5
+     $policy3 =& $role->appendPolicy( 'content', 'read', array( 'Class' => array( 2, 5 ) ) );
+     \encode
+    */
+    function appendPolicy( $module, $function, $limitations = array() )
+    {
+        include_once( 'kernel/classes/ezpolicy.php' );
+        $policy =& eZPolicy::create( $this->ID, $module, $function );
+        $policy->store();
+        if ( count( $limitations ) > 0 )
+        {
+            foreach ( $limitations as $limitationIdentifier => $limitationValues )
+            {
+                if ( !is_array( $limitationValues ) )
+                    $limitationValues = array( $limitationValues );
+                $policy->appendLimitation( $limitationIdentifier, $limitationValues );
+            }
+        }
+        if ( isset( $this->Policies ) )
+        {
+            $this->Policies[] =& $policy;
+        }
+        return $policy;
+    }
+
+    /*!
+     Copies all policies for this role and assigns them to the role identified by ID \a $roleID.
+    */
     function copyPolicies( $roleID )
     {
         foreach ( $this->attribute( 'policies' ) as $policy )
@@ -206,6 +274,11 @@ class eZRole extends eZPersistentObject
         }
     }
 
+    /*!
+     \static
+     Removes the role, it's policies and any assignments to users/groups.
+     \param $roleID If this is \c false then the function is not static and the ID is fetched from \c $this.
+    */
     function remove( $roleID = false )
     {
         if ( $roleID )
@@ -230,6 +303,10 @@ class eZRole extends eZPersistentObject
         $db->query( "DELETE FROM ezuser_role WHERE role_id = '$roleID'" );
     }
 
+    /*!
+     Removes the policy object list from this role.
+     \param $fromDB If \c true then the policies are removed from database.
+    */
     function removePolicies( $fromDB = true )
     {
         if ( $fromDB )
@@ -529,15 +606,30 @@ class eZRole extends eZPersistentObject
     }
 
 
+    /*!
+     Fetches the role identified by the role ID \a $roleID and returns it.
+     \param $version Which version to fetch, 0 is the published one and 1 is the temporary.
+    */
     function fetch( $roleID, $version = 0 )
     {
         if ( $version != 0 )
         {
             return eZPersistentObject::fetchObject( eZRole::definition(),
-                                                    null, array('version' => $version ), true);
+                                                    null, array( 'version' => $version ), true );
         }
         return eZPersistentObject::fetchObject( eZRole::definition(),
-                                                null, array('id' => $roleID ), true);
+                                                null, array('id' => $roleID ), true );
+    }
+
+    /*!
+     Fetches the role identified by the role name \a $roleName and returns it.
+     \param $version Which version to fetch, 0 is the published one and 1 is the temporary.
+    */
+    function fetchByName( $roleName, $version = 0 )
+    {
+        return eZPersistentObject::fetchObject( eZRole::definition(),
+                                                null, array( 'name' => $roleName,
+                                                             'version' => $version ), true );
     }
 
     function fetchList( $tempVersions = false )
@@ -570,6 +662,10 @@ class eZRole extends eZPersistentObject
                                                     $asObject );
     }
 
+    /*!
+     \static
+     \return the number of roles in the database.
+    */
     function &roleCount()
     {
         $db =& eZDB::instance();
@@ -578,27 +674,24 @@ class eZRole extends eZPersistentObject
         return $countArray[0]['count'];
     }
 
-    function checkItem( $accessItem = array() )
-    {
-
-    }
-
-    function getSql()
-    {
-
-    }
-
+    /*!
+     Sets caching of policies to off for this role.
+    */
     function turnOffCaching()
     {
         $this->CachePolicies = false;
     }
 
+    /*!
+     Sets caching of policies to on for this role.
+    */
     function turnOnCaching()
     {
         $this->CachePolicies = true;
     }
 
 
+    /// \privatesection
     var $ID;
     var $Name;
     var $Modules;

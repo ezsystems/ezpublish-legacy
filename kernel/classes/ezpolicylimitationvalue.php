@@ -98,6 +98,20 @@ class eZPolicyLimitationValue extends eZPersistentObject
         return $limitationValue;
     }
 
+    /*!
+     \static
+     Creates a new limitation value for the limitation \a $limitationID and returns it.
+     \note The value is not stored.
+    */
+    function &create( $limitationID, $value )
+    {
+        $row = array( 'id' => false,
+                      'limitation_id' => $limitationID,
+                      'value' => $value );
+        $limitationValue = new eZPolicyLimitationValue( $row );
+        return $limitationValue;
+    }
+
     function copy( $limitationID )
     {
         $newValue = eZPolicyLimitationValue::createNew( $limitationID, $this->attribute( 'value' ) );

@@ -448,6 +448,7 @@ class eZStepCreateSites extends eZStepInstaller
 
             $parameters = array( 'node_remote_map' => $nodeRemoteMap,
                                  'class_remote_map' => $classRemoteMap,
+                                 'extra_functionality' => $extraFunctionality,
                                  'design_list' => array( $userDesignName, 'admin' ) );
 
             $siteINIStored = false;
@@ -527,6 +528,28 @@ class eZStepCreateSites extends eZStepInstaller
                 if ( $classesCSS )
                     $designINI->setVariable( 'StylesheetSettings', 'ClassesCSS', $classesCSS );
                 $designINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName" );
+            }
+
+            $extraRoles = eZSetupRoles( $siteType['identifier'], $parameters );
+            include_once( 'kernel/classes/ezrole.php' );
+            foreach ( $extraRoles as $extraRole )
+            {
+                $extraRoleName = $extraRole['name'];
+                $role =& eZRole::fetchByName( $extraRoleName );
+                if ( !is_object( $role ) )
+                {
+                    $role =& eZRole::create( $extraRoleName );
+                    $role->store();
+                }
+                $roleID = $role->attribute( 'id' );
+                $extraPolicies = $extraRole['policies'];
+                foreach ( $extraPolicies as $extraPolicy )
+                {
+                    if ( isset( $extraPolicy['limitation'] ) )
+                        $role->appendPolicy( $extraPolicy['module'], $extraPolicy['function'], $extraPolicy, $extraPolicy['limitation'] );
+                    else
+                        $role->appendPolicy( $extraPolicy['module'], $extraPolicy['function'], $extraPolicy );
+                }
             }
 
             eZDir::mkdir( "design/" . $userDesignName );

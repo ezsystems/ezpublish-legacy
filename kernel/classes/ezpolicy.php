@@ -161,6 +161,58 @@ class eZPolicy extends eZPersistentObject
         return $policy;
     }
 
+    /*!
+     \static
+     Creates a new policy assigned to the role identified by ID \a $roleID  and returns it.
+     \note The policy is not stored.
+     \param $module Which module to give access to or \c true to give access to all modules.
+     \param $function Which function to give access to or \c true to give access to all functions.
+     \param $limitations An associative array with limitations and their values, use an empty array for no limitations.
+    */
+    function &create( $roleID, $module, $function )
+    {
+        if ( $module === true )
+            $module = '*';
+        if ( $function === true )
+            $function = '*';
+        $row = array( 'id' => false,
+                      'role_id' => $roleID,
+                      'module_name' => $module,
+                      'function_name' => $function );
+        $policy =& new eZPolicy( $row );
+        return $policy;
+    }
+
+    /*!
+     Appends a new policy limitation to the current policy and returns it.
+     \note The limitation and it's values will be stored to the database before returning.
+     \param $identifier The identifier for the limitation, e.g. \c 'Class'
+     \param $values Array of values to store for limitation.
+    */
+    function &appendLimitation( $identifier, $values )
+    {
+        include_once( 'kernel/classes/ezpolicylimitation.php' );
+        include_once( 'kernel/classes/ezpolicylimitationvalue.php' );
+        $limitation =& eZPolicyLimitation::create( $this->ID, $identifier );
+        $limitation->store();
+        $limitationID = $limitation->attribute( 'id' );
+        $limitations = array();
+        foreach ( $values as $value )
+        {
+            $limitationValue =& eZPolicyLimitationValue::create( $limitationID, $value );
+            $limitationValue->store();
+            if ( isset( $limitation->Values ) )
+            {
+                $limitation->Values[] =& $limitationValue;
+            }
+        }
+        if ( isset( $this->Limitations ) )
+        {
+            $this->Limitations[] =& $limitation;
+        }
+        return $limitation;
+    }
+
     function copy( $roleID )
     {
         $params = array();
