@@ -3576,7 +3576,7 @@ WHERE
     // This code is automatically generated from templates/classlistfrompolicy.ctpl
     // DO NOT EDIT THIS CODE DIRECTLY, CHANGE THE TEMPLATE FILE INSTEAD
 
-    function classListFromPolicy( $policy )
+    function &classListFromPolicy( &$policy )
     {
         $canCreateClassIDListPart = array();
         $hasClassIDLimitation = false;
@@ -3623,7 +3623,7 @@ WHERE
             foreach( $policy['Node'] as $nodeID )
             {
                 $mainNodeID = $this->attribute( 'main_node_id' );
-                $node = eZContentObjectTreeNode::fetch( $nodeID );
+                $node =& eZContentObjectTreeNode::fetch( $nodeID );
                 if ( $mainNodeID == $node->attribute( 'main_node_id' ) )
                 {
                     $allowed = true;
@@ -3636,18 +3636,18 @@ WHERE
             }
         }
 
-        if( isset( $policy['Subtree'] ) )
+        if ( isset( $policy['Subtree'] ) )
         {
             $allowed = false;
             if ( $object === false )
                 $object =& $this->attribute( 'object' );
-            $assignedNodes = $object->attribute( 'assigned_nodes' );
-            foreach ( $assignedNodes as  $assignedNode )
+            $assignedNodes =& $object->attribute( 'assigned_nodes' );
+            foreach ( $assignedNodes as $assignedNode )
             {
-                $path = $assignedNode->attribute( 'path_string' );
+                $path =& $assignedNode->attribute( 'path_string' );
                 foreach ( $policy['Subtree'] as $subtreeString )
                 {
-                    if (  strstr( $path, $subtreeString ) )
+                    if ( strstr( $path, $subtreeString ) )
                     {
                         $allowed = true;
                         break;
@@ -3714,7 +3714,7 @@ WHERE
             $policies  =& $accessResult['policies'];
             foreach ( $policies as $policyKey => $policy )
             {
-                $classIDArrayPart = $this->classListFromPolicy( $policy );
+                $classIDArrayPart =& $this->classListFromPolicy( $policy );
                 if ( $classIDArrayPart == '*' )
                 {
                     $fetchAll = true;
@@ -3747,13 +3747,13 @@ WHERE
         if ( $fetchAll )
         {
             $classList = array();
-            $db = eZDb::instance();
+            $db =& eZDb::instance();
             $classString = implode( ',', $classIDArray );
-            $classList =& $db->arrayQuery( "SELECT DISTINCT cc.id, cc.name\n" .
-                                           "FROM ezcontentclass cc$filterTableSQL\n" .
-                                           "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n" .
-                                           "ORDER BY cc.name ASC" );
-            $classList =& eZPersistentObject::handleRows( $classList, 'ezcontentclass', $asObject );
+            $rows =& $db->arrayQuery( "SELECT DISTINCT cc.id, cc.name\n" .
+                                      "FROM ezcontentclass cc$filterTableSQL\n" .
+                                      "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n" .
+                                      "ORDER BY cc.name ASC" );
+            $classList =& eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
         }
         else
         {
@@ -3762,14 +3762,14 @@ WHERE
                 return array();
 
             $classList = array();
-            $db = eZDb::instance();
+            $db =& eZDb::instance();
             $classString = implode( ',', $classIDArray );
-            $classList =& $db->arrayQuery( "SELECT DISTINCT cc.id, cc.name\n" .
-                                           "FROM ezcontentclass cc$filterTableSQL\n" .
-                                           "WHERE cc.id IN ( $classString  ) AND\n" .
-                                           "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n",
-                                           "ORDER BY cc.name ASC" );
-            $classList =& eZPersistentObject::handleRows( $classList, 'ezcontentclass', $asObject );
+            $rows =& $db->arrayQuery( "SELECT DISTINCT cc.id, cc.name\n" .
+                                      "FROM ezcontentclass cc$filterTableSQL\n" .
+                                      "WHERE cc.id IN ( $classString  ) AND\n" .
+                                      "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n",
+                                      "ORDER BY cc.name ASC" );
+            $classList =& eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
         }
 
         eZDebugSetting::writeDebug( 'kernel-content-class', $classList, "class list fetched from db" );

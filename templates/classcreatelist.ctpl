@@ -121,7 +121,7 @@
 
 /*END:code-template::class-policy-list*/
 /*START:code-template::object-policy-list*/
-                $classIDArrayPart = $this->classListFromPolicy( $policy );
+                $classIDArrayPart =& $this->classListFromPolicy( $policy );
 /*END:code-template::object-policy-list*/
                 if ( $classIDArrayPart == '*' )
                 {
@@ -155,14 +155,17 @@
         if ( $fetchAll )
         {
             $classList = array();
-            $db = eZDb::instance();
+            $db =& eZDb::instance();
             $classString = implode( ',', $classIDArray );
-            $classList =& $db->arrayQuery( "SELECT DISTINCT cc.id, cc.name\n" .
-                                           "FROM ezcontentclass cc$filterTableSQL\n" .
-                                           "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n" .
-                                           "ORDER BY cc.name ASC" );
+            $rows =& $db->arrayQuery( "SELECT DISTINCT cc.id, cc.name\n" .
+                                      "FROM ezcontentclass cc$filterTableSQL\n" .
+                                      "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n" .
+                                      "ORDER BY cc.name ASC" );
+/*START:code-template::no-object-creation*/
+            $classList =& $rows;
+/*END:code-template::no-object-creation*/
 /*START:code-template::object-creation*/
-            $classList =& eZPersistentObject::handleRows( $classList, 'ezcontentclass', $asObject );
+            $classList =& eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
 /*END:code-template::object-creation*/
         }
         else
@@ -172,15 +175,18 @@
                 return array();
 
             $classList = array();
-            $db = eZDb::instance();
+            $db =& eZDb::instance();
             $classString = implode( ',', $classIDArray );
-            $classList =& $db->arrayQuery( "SELECT DISTINCT cc.id, cc.name\n" .
-                                           "FROM ezcontentclass cc$filterTableSQL\n" .
-                                           "WHERE cc.id IN ( $classString  ) AND\n" .
-                                           "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n",
-                                           "ORDER BY cc.name ASC" );
+            $rows =& $db->arrayQuery( "SELECT DISTINCT cc.id, cc.name\n" .
+                                      "FROM ezcontentclass cc$filterTableSQL\n" .
+                                      "WHERE cc.id IN ( $classString  ) AND\n" .
+                                      "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n",
+                                      "ORDER BY cc.name ASC" );
+/*START:code-template::no-object-creation*/
+            $classList =& $rows;
+/*END:code-template::no-object-creation*/
 /*START:code-template::object-creation*/
-            $classList =& eZPersistentObject::handleRows( $classList, 'ezcontentclass', $asObject );
+            $classList =& eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
 /*END:code-template::object-creation*/
         }
 
