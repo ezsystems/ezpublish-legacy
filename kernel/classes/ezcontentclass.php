@@ -532,7 +532,7 @@ class eZContentClass extends eZPersistentObject
             $conds["creator_id"] = $user_id;
         return eZPersistentObject::fetchObjectList( eZContentClass::definition(),
                                                     $fields, $conds, $sorts, null,
-                                                    $asObject);
+                                                    $asObject );
     }
 
     function &fetchAttributes( $id = false, $asObject = true, $version = 0 )

@@ -51,7 +51,7 @@ foreach ( $deleteIDArray as $deleteID )
         $classList =& eZContentClassClassGroup::fetchClassList( null, $deleteID );
         foreach ( $classList as $class )
         {
-            $classID = $class->attribute( "contentclass_id" );
+            $classID = $class->attribute( "id" );
             $classGroups =& eZContentClassClassGroup::fetchGroupList( $classID, 0);
             if ( count( $classGroups ) == 1 )
             {

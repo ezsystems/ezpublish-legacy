@@ -239,7 +239,7 @@ class eZContentFunctionCollection
         $userID = eZUser::currentUserID();
         $draftVersionList = & eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
                                                                    array(), array( 'creator_id' => $userID,
-                                                                                'status' => EZ_VERSION_STATUS_DRAFT ),
+                                                                                   'status' => EZ_VERSION_STATUS_DRAFT ),
                                                                    array(), null,
                                                                    false,false,
                                                                    array( array( 'operation' => 'count( * )',
@@ -247,11 +247,18 @@ class eZContentFunctionCollection
         return array( 'result' => $draftVersionList[0]['count'] );
     }
 
-    function canInstantiateClassList()
+    function canInstantiateClassList( $groupID )
     {
-        include_once( 'kernel/classes/ezcontentclass.php' );
-        return array( 'result' => eZContentClass::canInstantiateClassList() );
-
+        if ( $groupID > 0 )
+        {
+            include_once( 'kernel/classes/ezcontentclassclassgroup.php' );
+            return array( 'result' => eZContentClassClassGroup::fetchClassList( 0, $groupID ) );
+        }
+        else
+        {
+            include_once( 'kernel/classes/ezcontentclass.php' );
+            return array( 'result' => eZContentClass::canInstantiateClassList() );
+        }
     }
 
     function canInstantiateClasses()

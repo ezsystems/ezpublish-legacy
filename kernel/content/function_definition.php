@@ -310,7 +310,10 @@ $FunctionList['can_instantiate_class_list'] = array( 'name' => 'can_instantiate_
                                                                              'class' => 'eZContentFunctionCollection',
                                                                              'method' => 'canInstantiateClassList' ),
                                                      'parameter_type' => 'standard',
-                                                     'parameters' => array( ) );
+                                                     'parameters' => array( array( 'name' => 'group_id',
+                                                                                   'type' => 'integer',
+                                                                                   'required' => false,
+                                                                                   'default' => 0 ) ) );
 
 $FunctionList['can_instantiate_classes'] = array( 'name' => 'can_instantiate_classes',
                                                   'operation_types' => array( 'read' ),

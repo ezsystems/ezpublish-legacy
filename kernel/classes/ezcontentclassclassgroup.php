@@ -105,13 +105,14 @@ class eZContentClassClassGroup extends eZPersistentObject
 
     function &fetchClassList( $contentclass_version, $group_id, $asObject = true )
     {
-        return eZPersistentObject::fetchObjectList( eZContentClassClassGroup::definition(),
-                                                    null,
-                                                    array( "contentclass_version" =>$contentclass_version,
-                                                           "group_id" => $group_id ),
-                                                    null,
-                                                    null,
-                                                    $asObject);
+        $db =& eZDB::instance();
+        $sql = "SELECT contentclass.* \n FROM ezcontentclass as contentclass, ezcontentclass_classgroup as class_group\n
+                WHERE contentclass.id=class_group.contentclass_id \n
+                AND class_group.contentclass_version='$contentclass_version' \n
+                AND contentclass.version='$contentclass_version' \n
+                AND class_group.group_id='$group_id'";
+        $rows =& $db->arrayQuery( $sql );
+        return eZPersistentObject::handleRows( $rows, "eZContentClass", $asObject );
     }
 
     function &fetchClassListByGroups( $contentclassVersion, $groupIDList, $asObject = true )

@@ -97,13 +97,13 @@ foreach( $TemplateData as $tpldata )
                                                  false,
                                                  $sort,
                                                  $fields );
-    $list =array();
-    for ( $i=0; $i<count( $classes_list ); $i++ )
+    $list = array();
+    for ( $i = 0; $i < count( $classes_list ); $i++ )
     {
-        for ( $j=0; $j<count( $classids ); $j++ )
+        for ( $j = 0; $j < count( $classids ); $j++ )
         {
-            $id =  $classes_list[$i]->attribute("id");
-            $contentclass_id =  $classids[$j]->attribute("contentclass_id");
+            $id = $classes_list[$i]->attribute( "id" );
+            $contentclass_id = $classids[$j]->attribute( "id" );
             if ( $id === $contentclass_id )
             {
                 $list[] =& $classes_list[$i];

@@ -86,7 +86,7 @@ class eZContentClassGroup extends eZPersistentObject
     }
     function &attribute( $attr )
     {
-        switch( $attr )
+        switch ( $attr )
         {
             case "modifier":
             {
@@ -104,7 +104,7 @@ class eZContentClassGroup extends eZPersistentObject
         return $user;
     }
 
-    function &removeSelected ( $id )
+    function &removeSelected( $id )
     {
         eZPersistentObject::removeObject( eZContentClassGroup::definition(),
                                           array( "id" => $id ) );
