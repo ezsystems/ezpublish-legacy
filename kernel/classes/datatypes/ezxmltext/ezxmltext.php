@@ -74,8 +74,10 @@ class eZXMLText
             {
                 if ( $this->XMLInputHandler === null )
                 {
-                    include_once( 'kernel/classes/datatypes/ezxmltext/ezsimpifiedxmlinput.php' );
-                    $this->XMLInputHandler = new eZSimplifiedXMLInput( $this->XMLData );
+//                    include_once( 'kernel/classes/datatypes/ezxmltext/ezsimpifiedxmlinput.php' );
+//                    $this->XMLInputHandler = new eZSimplifiedXMLInput( $this->XMLData );
+                    include_once( 'extension/xmleditor/dhtml/ezdhtmlinput.php' );
+                    $this->XMLInputHandler = new eZDHTMLInput( $this->XMLData );
                 }
                 return $this->XMLInputHandler;
             }break;
