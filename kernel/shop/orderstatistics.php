@@ -71,7 +71,12 @@ for ( $index = 0; $index < 10; $index++ )
     $yearList[] = $currentYear - $index;
 }
 
-$monthList = array( 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 );
+$locale =& eZLocale::instance();
+$monthList = array();
+for ( $monthIndex = 1; $monthIndex <= 12; $monthIndex++ )
+{
+    $monthList[] = array( 'value' => $monthIndex, 'name' => $locale->longMonthName( $monthIndex ) );
+}
 
 $tpl =& templateInit();
 $tpl->setVariable( "year", $year );

@@ -14,8 +14,8 @@
 
 <select name="Month">
     <option value="0" {section show=eq($month,0)}selected="selected"{/section}>[{"All Month"|i18n("design/standard/shop")}]</option>
-    {section var=MonthValue loop=$month_list}
-        <option value="{$MonthValue}" {section show=eq($MonthValue,$month)}selected="selected"{/section}>{$MonthValue}</option>
+    {section var=MonthItem loop=$month_list}
+        <option value="{$MonthItem.value}" {section show=eq($MonthItem.value,$month)}selected="selected"{/section}>{$MonthItem.name}</option>
     {/section}
 </select>
 &nbsp;
