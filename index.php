@@ -392,6 +392,20 @@ while ( $moduleRunRequired )
             $uri = $newURI;
     }
 
+    // Store the last URI for access history for login redirection
+    $currentURI = $uri->uriString( true );
+    $lastAccessedURI = "";
+    $http =& eZHTTPTool::instance();
+    if ( $http->hasSessionVariable( "LastAccessesURI" ) )
+         $lastAccessedURI = $http->sessionVariable( "LastAccessesURI" );
+    if ( $currentURI != $lastAccessedURI )
+    {
+        if ( !stristr( $currentURI, "/user/login" ) )
+        {
+            $http->setSessionVariable( "LastAccessesURI", $currentURI );
+        }
+    }
+
     if ( !accessAllowed( $uri ) )
     {
         $def_page = $ini->variable( "SiteSettings", "DefaultPage" );
