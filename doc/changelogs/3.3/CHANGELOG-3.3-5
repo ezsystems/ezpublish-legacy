@@ -6,6 +6,8 @@ Changes from 3.3-4 to 3.3-5
 *Setup:
 
 *DataTypes:
+eZImage
+- Fixed storing correctly with 2 or more image attributes in same class.
 
 eZINI:
 - Made sure the recreated array line includes all elements not just

@@ -41,6 +41,9 @@ eZPersistentObject:
 *Setup
 
 *DataType:
+eZImage
+- Merged bug fix storing 2 image attributes in same class from stable/3.3 rev. 5911.
+
 eZINI:
 - Made sure the recreated array line includes all elements not just
   the first and second. (Merged from stable/3.3 rev. 5872).

@@ -383,6 +383,10 @@ class eZImageAliasHandler
                 $url = $alias['url'];
                 if ( $this->isImageOwner() )
                 {
+                    if ( $oldURL == '' )
+                    {
+                        continue;
+                    }
                     eZFileHandler::move( $oldURL, $alias['url'] );
                     eZDir::cleanupEmptyDirectories( $oldDirpath );
                     eZImageFile::moveFilepath( $this->ContentObjectAttribute->attribute( 'id' ), $oldURL, $alias['url'] );
