@@ -52,15 +52,11 @@
   Example:
 
 \code
-include_once( 'lib/ezlocale/classes/ezlanguage.php' );
 include_once( 'lib/ezlocale/classes/ezlocale.php' );
 
 // Fetch the default values supplied by site.ini
-$language =& eZLanguage::instance();
 $locale =& eZLocale::instance();
 
-// Set the language for the locale, this loads some of the textual translations for dates and times.
-$locale->setLanguage( $language );
 // Make sure PHP is to the correct locale
 $locale->initPHP();
 

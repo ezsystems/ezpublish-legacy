@@ -70,7 +70,6 @@ include_once( "lib/ezlocale/classes/ezlocale.php" );
 include_once( "lib/ezlocale/classes/ezdatetime.php" );
 
 $us_locale =& eZLocale::instance( "us" );
-$us_locale->setLanguage( eZLanguage::instance( "en_US" ) );
 
 $dt1 = new eZDateTime();
 $dt2 =& eZDateTime::create();

@@ -67,7 +67,6 @@ include_once( "lib/ezlocale/classes/ezlocale.php" );
 include_once( "lib/ezlocale/classes/eztime.php" );
 
 $us_locale =& eZLocale::instance( "us" );
-$us_locale->setLanguage( eZLanguage::instance( "en_US" ) );
 
 $time1 = new eZTime();
 $time2 =& eZTime::create();
