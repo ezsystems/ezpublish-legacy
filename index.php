@@ -16,9 +16,7 @@ function eZDisplayDebug()
 
 function fetchModule( &$uri, &$check, &$module, &$module_name, &$function_name, &$params )
 {
-    eZDebug::writeNotice( $uri, "in fetch module" );
     $module_name = $uri->element();
-    eZDebug::writeNotice( $module_name, "in fetch module" );
     if ( $check !== null and isset( $check["module"] ) )
         $module_name = $check["module"];
 
@@ -87,24 +85,16 @@ session_start();
 
 
 $nodePathString = $uri->elements();
-eZDebug::writeNotice( $nodePathString, 'nodePathString' );
 $nodePathString = preg_replace( "/\.\w*$/", "", $nodePathString );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 $node = eZContentObjectTreeNode::fetchByCRC(  $nodePathString  );
-eZDebug::writeNotice( $nodePathString, 'nodePathString' );
 
 if ( get_class( $node ) == 'ezcontentobjecttreenode' )
 {
     $newURI= '/content/view/full/' . $node->attribute( 'node_id' ) . '/';
     $uri = & eZURI::instance( $newURI );
-    eZDebug::writeNotice( $uri, 'Uri IN' );
-
 }
-
-
-
-// eZDebug::addTimingPoint( "Access validation" );
 
 include_once( "access.php" );
 
@@ -123,21 +113,12 @@ if ( !accessAllowed( $uri ) )
     $uri->setURIString( $def_page );
 }
 
-// eZDebug::addTimingPoint( "Access done" );
-
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 $http =& eZHTTPTool::instance();
 $UserID =& $http->sessionVariable( "eZUserLoggedInID" );
 $currentUser =& eZUser::currentUser();
-eZDebug::writeNotice( $currentUser, "currentUser" );
-
-
-// eZDebug::addTimingPoint( "Pre checks" );
-
 
 $check = eZHandlePreChecks();
-
-// eZDebug::addTimingPoint( "Pre checks done" );
 
 include_once( "lib/ezutils/classes/ezmodule.php" );
 
@@ -188,7 +169,6 @@ if ( !$displayMissingModule and get_class( $module ) == "ezmodule" )
     $runningFunctions = $aviableViewsInModule[ $function_name ][ 'functions' ];
     $accessResult = $currentUser->hasAccessTo( $module->attribute( 'name' ), $runningFunctions[0] );
 
-    eZDebug::writeNotice( $params, 'module parameters' );
     if ( $accessResult['accessWord'] == 'limited' )
     {
         $params['Limitation'] =& $accessResult['policies'];
@@ -206,7 +186,6 @@ if ( !$displayMissingModule and get_class( $module ) == "ezmodule" )
     }
     else
     {
-        eZDebug::writeNotice( $params, 'module parameters' );
         $result =& $module->run( $function_name, $params );
     }
 }

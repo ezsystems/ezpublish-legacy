@@ -96,7 +96,6 @@ Current version: {$object.current_version}
 {/case}
 {/switch}
 
-
 <table width="100%">
 <tr>
 	<td>

@@ -32,6 +32,7 @@
      {/switch} 
   {/case}
   {case match=0}
+
       {switch match=$attribute.content.enum_isoption}
         {case match=0}
           {section name=EnumList loop=$attribute.content.enum_list sequence=array(bglight,bgdark)}

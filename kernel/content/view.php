@@ -76,7 +76,17 @@ if ( $LanguageCode != "" )
     $object->setCurrentLanguage( $LanguageCode );
 }
 
-$Limit = 15;
+
+if ( $contentObject->attribute( 'section_id' ) == 4 )
+{
+    eZDebug::writeWarning( "Object child limit is hard coded to 1", "view.php" );
+    $Limit = 1;
+}
+else
+{
+    $Limit = 15;
+}
+
 $children =& $node->subTree( array( 'Depth' => 1,
                                     'Offset' => $Offset,
                                     'Limit' => $Limit,
@@ -98,8 +108,9 @@ $Module->setTitle( "View " . $object->attribute( "class_name" ) . " - " . $objec
 
 $res =& eZTemplateDesignResource::instance();
 $res->setKeys( array( array( "object", $object->attribute( "id" ) ), // Object ID
-                      array( "class", $object->attribute( "contentclass_id" ) ), // Class ID
-                      array( "section", 0 ) ) ); // Section ID, 0 so far
+                      array( "class", $object->attribute( "contentclass_id" ) ), // Class I
+                      array( "section", $contentObject->attribute( 'section_id' ) ) // Section ID
+                      ) );
 
 $tpl->setVariable( "nodeID", $NodeID );
 $tpl->setVariable( "previous", $Offset - $Limit );

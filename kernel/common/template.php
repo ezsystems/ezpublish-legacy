@@ -103,6 +103,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                     $key_regex = "([0-9]*)";
                     if ( count( $match_keys ) > 1 )
                         $key_regex .= str_repeat( ",([0-9]*)", count( $match_keys ) - 1 );
+
                     while( ( $file = readdir( $hd ) ) !== false )
                     {
                         if ( $file == "." or
