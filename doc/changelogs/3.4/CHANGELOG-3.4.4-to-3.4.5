@@ -16,15 +16,6 @@ Changes from 3.4.4 to 3.4.5
 - Fixed problem with updateniceurls.php which would not create a forwarding
   url when it created a new nice url for a node.
   (Merged from stable/3.5 (3.5.0) rev. 10428)
-- Fixed wrong check in initialize function for eZMedia and eZEnum datatypes,
-  the variable $currentVersion must not use !== for value checking.
-  (Merged from stable/3.5 (3.5.0) rev. 10437)
-- Fixed wrong initialization of internal option array for eZRangeOption and
-  eZOption datatype.
-  (Merged from stable/3.5 (3.5.0) rev. 10437)
-- Fixed wrong SQL generation in eZURL datatype when it does not have a url ID
-  (data_int).
-  (Merged from stable/3.5 (3.5.0) rev. 10437)
 
 *Datatypes:
 
@@ -37,6 +28,12 @@ eZ Identifier:
 eZ Url:
 - Fixed: serialising/unserialising, if attribute is empty.
 - Fixed: data_text was not serialised/unserialised.
+
+eZ BinaryFile:
+- Changed: Updated mime handling with files.
+
+eZ Media:
+- Changed: Updated mime handling with files.
 
 *Bugfixes:
 - Fixed bug of updating priority does not work if parent node is not main node.
@@ -283,6 +280,9 @@ eZTarArchiveHandler:
 - Made sure directories have the ending slash when storing in tar file.
 - Made sure tar files are padded to 20 blocks (of 512 bytes) containing
   zero filled blocks.
+
+eZHttpFile:
+- Changed: Added method to allow datatypes to set mime type.
 
 *Design:
 - Removed admin.css from pagelayout.tpl and redirect.tpl in standard design.

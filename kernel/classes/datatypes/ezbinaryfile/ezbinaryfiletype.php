@@ -306,6 +306,7 @@ class eZBinaryFileType extends eZDataType
                 $mime = $binaryFile->attribute( "mime_type" );
             }
             $extension = preg_replace('/.*\.(.+?)$/', '\\1', $binaryFile->attribute( "original_filename" ) );
+            $binaryFile->setMimeType( $mime );
             if ( !$binaryFile->store( "original", $extension ) )
             {
                 eZDebug::writeError( "Failed to store http-file: " . $binaryFile->attribute( "original_filename" ),
