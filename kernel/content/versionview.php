@@ -88,6 +88,16 @@ if ( $Module->isCurrentAction( 'Edit' ) and
     return $Module->redirectToView( 'edit', array( $ObjectID, $EditVersion, $LanguageCode, $FromLanguage ) );
 }
 
+// If we have an archived version editing we cannot edit the version directly.
+// Instead we redirect to the edit page without a version, this will create
+// a new version for us and start the edit operation
+if ( $Module->isCurrentAction( 'Edit' ) and
+     $contentObject->attribute( 'status' ) == EZ_CONTENT_OBJECT_STATUS_ARCHIVED and
+     $contentObject->attribute( 'can_edit' ) )
+{
+    return $Module->redirectToView( 'edit', array( $ObjectID, false, $LanguageCode, $FromLanguage ) );
+}
+
 if ( $Module->isCurrentAction( 'Publish' ) and
      $versionObject->attribute( 'status' ) == EZ_VERSION_STATUS_DRAFT and
      $contentObject->attribute( 'can_edit' ) and
