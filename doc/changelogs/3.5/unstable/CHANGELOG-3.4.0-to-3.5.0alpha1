@@ -20,6 +20,8 @@ Changes from 3.4.0 to 3.5.0alpha1
   versions and not drafts.
 - Fixed problem with ANSI control chars for the shell scripts.
   http://ez.no/community/bug_reports/cli_scripts_in_windows_dos_box_show_ansi_control_characters
+- Made sure the user/success page follows the SiteSettings/LoginPage setting.
+  (Merged from stable/3.4 rev. 7167)
 
 *Scripts:
 eztc.php:
@@ -232,6 +234,9 @@ eztc.php:
 - Fixed missing information collector result template for ezemail datatype.
   http://ez.no/community/bug_reports/information_collection_ezemail_template_missing
   (Merged from stable/3.4, rev. 7165)
+- Fixed wrong urls in registration emails.
+  http://ez.no/community/bug_reports/user_confirmation_e_mail_sends_bugged_link
+  (Merged from stable/3.4 rev. 7167)
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.

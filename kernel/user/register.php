@@ -163,6 +163,8 @@ if ( !function_exists( 'checkContentActions' ) )
             $tpl =& templateInit();
             $tpl->setVariable( 'user', $user );
             $tpl->setVariable( 'object', $object );
+            $hostname = eZSys::hostname();
+            $tpl->setVariable( 'hostname', $hostname );
             $password = $http->sessionVariable( "GeneratedPassword" );
 
             $tpl->setVariable( 'password', $password );
@@ -191,7 +193,7 @@ if ( !function_exists( 'checkContentActions' ) )
                         $tpl->resetVariables();
                         $tpl->setVariable( 'user', $user );
                         $tpl->setVariable( 'object', $object );
-
+                        $tpl->setVariable( 'hostname', $hostname );
                         $templateResult =& $tpl->fetch( 'design:user/registrationfeedback.tpl' );
 
                         $feedbackReceiver = $ini->variable( 'UserSettings', 'RegistrationEmail' );
@@ -239,6 +241,8 @@ if ( !function_exists( 'checkContentActions' ) )
                 $tpl->setVariable( 'user', $user );
                 $tpl->setVariable( 'object', $object );
                 $tpl->setVariable( 'hash', $hash );
+                $hostname = eZSys::hostname();
+                $tpl->setVariable( 'hostname', $hostname );
 
                 $templateResult =& $tpl->fetch( 'design:user/activateaccountmail.tpl' );
 
