@@ -31,6 +31,8 @@ Admin:
 - Swaped the last two images in the main concepts tutorial.
 
 *Library :
+eZUtils:
+- Added functions to eZDir::recursiveFind() and eZDir::recursiveFindRelative() which will return files matched within a subdir
 eZDB:
 - postgresql driver has been changed to support 7.3.x version. Fixed problem with limit and offset.
 - postgresql driver changed to set up correct errorMesage variables

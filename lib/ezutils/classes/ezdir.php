@@ -290,6 +290,80 @@ class eZDir
         }
     }
 
+    /*!
+     \static
+     Recurses through the directory and returns the files that matches the given suffix
+     Note: this function will not traverse . (hidden) folders
+    */
+    function &recursiveFind( $dir, $suffix )
+    {
+        $returnFiles = array();
+        if ( $handle = @opendir( $dir ) )
+        {
+            while ( ( $file = readdir( $handle ) ) !== false )
+            {
+                if ( ( $file == "." ) || ( $file == ".." ) )
+                {
+                    continue;
+                }
+                if ( is_dir( $dir . '/' . $file ) )
+                {
+                    if ( $file[0] != "." )
+                    {
+                        $files =& eZDir::recursiveFind( $dir . '/' . $file, $suffix );
+                        $returnFiles = array_merge( $files, $returnFiles );
+                    }
+                }
+                else
+                {
+                    if ( preg_match( "/$suffix$/", $file ) )
+                        $returnFiles[] = $dir . '/' . $file;
+                }
+            }
+            @closedir( $handle );
+        }
+        return $returnFiles;
+    }
+
+    /*!
+     \static
+     Recurses through the directory and returns the files that matches the given suffix.
+     This function will store the relative path from the given base only.
+     Note: this function will not traverse . (hidden) folders
+    */
+    function &recursiveFindRelative( $baseDir, $subDir, $suffix )
+    {
+        $returnFiles = array();
+        if ( $subDir != "" )
+            $dir = $baseDir . "/" . $subDir;
+        else
+            $dir = $baseDir;
+        if ( $handle = @opendir( $dir ) )
+        {
+            while ( ( $file = readdir( $handle ) ) !== false )
+            {
+                if ( ( $file == "." ) || ( $file == ".." ) )
+                {
+                    continue;
+                }
+                if ( is_dir( $dir . '/' . $file ) )
+                {
+                    if ( $file[0] != "." )
+                    {
+                        $files =& eZDir::recursiveFindRelative( $baseDir, $subDir . '/' . $file, $suffix );
+                        $returnFiles = array_merge( $files, $returnFiles );
+                    }
+                }
+                else
+                {
+                    if ( preg_match( "/$suffix$/", $file ) )
+                        $returnFiles[] = $subDir . '/' . $file;
+                }
+            }
+            @closedir( $handle );
+        }
+        return $returnFiles;
+    }
 }
 
 ?>
