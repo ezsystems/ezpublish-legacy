@@ -1,17 +1,40 @@
+{* Treemenu. *}
+{section show=ezpreference( 'admin_treemenu' )}
+
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
+<h4>{'User accounts'|i18n( 'design/admin/parts/user/menu' )} <a class="showhide" href={'/user/preferences/set/admin_treemenu/0'|ezurl}>[-]</a></h4>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+
 {section show=ne( $ui_context, 'browse')}
 <ul>
 <li><a href={'role/list/'|ezurl}>{'Roles'|i18n( 'design/admin/parts/user/menu' )}</a></li>
 </ul>
 {/section}
 
-{* Treemenu. *}
-{section show=ezpreference( 'admin_treemenu' )}
-<h4>{'User accounts'|i18n( 'design/admin/parts/user/menu' )} <a class="showhide" href={'/user/preferences/set/admin_treemenu/0'|ezurl}>[-]</a></h4>
 <div id="contentstructure">
     {include uri='design:contentstructuremenu/content_structure_menu.tpl' custom_root_node_id=ezini( 'NodeSettings', 'UserRootNode', 'content.ini')}
 </div>
+
 {section-else}
+
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
 <h4>{'User accounts'|i18n( 'design/admin/parts/user/menu' )} <a class="showhide" href={'/user/preferences/set/admin_treemenu/1'|ezurl}>[+]</a></h4>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+
+{section show=ne( $ui_context, 'browse')}
+<ul>
+<li><a href={'role/list/'|ezurl}>{'Roles'|i18n( 'design/admin/parts/user/menu' )}</a></li>
+</ul>
+{/section}
+
 {/section}
 
 {* Trashcan. *}
@@ -25,3 +48,5 @@
 <a href={'/user/preferences/set/admin_left_menu_width/25'|ezurl}>{'Medium'|i18n( 'design/admin/parts/user/menu' )}</a>
 <a href={'/user/preferences/set/admin_left_menu_width/50'|ezurl}>{'Large'|i18n( 'design/admin/parts/user/menu' )}</a>
 </p>
+
+{* DESIGN: Content END *}</div></div></div></div></div></div>

@@ -38,135 +38,15 @@ div#path { margin-top: -1px; }
 <div id="topmenu">
 <div id="topmenu-design">
 
-<h3 class="hide">Top menu</h3>
+<div class="loginpagemenu"></div>
 
-{* Browse mode... *}
-{section show=eq( $ui_context, 'browse' )}
-<ul>
-    {* Content menu *}
-    {section show=$browse.top_level_nodes|contains( ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )}
-    {include uri='design:page_menuheadenabled.tpl' menu_text='Content structure'|i18n( 'design/admin/pagelayout' ) menu_url=concat( '/content/browse/', ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )}
-    {section-else}
-    {include uri='design:page_menuheadgray.tpl' menu_text='Content structure'|i18n( 'design/admin/pagelayout' )}
-    {/section}
-
-    {* Media menu *}
-    {section show=$browse.top_level_nodes|contains( ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) )}
-    {include uri='design:page_menuheadenabled.tpl' menu_text='Media library'|i18n( 'design/admin/pagelayout' ) menu_url=concat( '/content/browse/', ezini('NodeSettings','MediaRootNode','content.ini' ) )}
-    {section-else}
-    {include uri='design:page_menuheadgray.tpl' menu_text='Media library'|i18n( 'design/admin/pagelayout' )}
-    {/section}
-
-    {* Users menu *}
-    {section show=$browse.top_level_nodes|contains( ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) )}
-    {include uri='design:page_menuheadenabled.tpl' menu_text='User accounts'|i18n( 'design/admin/pagelayout' ) menu_url=concat( '/content/browse/', ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) )}
-    {section-else}
-    {include uri='design:page_menuheadgray.tpl' menu_text='User accounts'|i18n( 'design/admin/pagelayout' )}
-    {/section}
-
-    {* Shop menu *}
-    {include uri='design:page_menuheadgray.tpl' menu_text='Webshop'|i18n( 'design/admin/pagelayout' )}
-
-    {* Set up menu *}
-    {include uri='design:page_menuheadgray.tpl' menu_text='Setup'|i18n( 'design/admin/pagelayout' )}
-
-    {* Design menu *}
-    {include uri='design:page_menuheadgray.tpl' menu_text='Design'|i18n( 'design/admin/pagelayout' )}
-
-    {* Personal *}
-    {include uri='design:page_menuheadgray.tpl' menu_text='My account'|i18n( 'design/admin/pagelayout' )}
-</ul>
-
-{* NOT Browse mode... *}
-{section-else}
-<ul>
-    {* Content menu *}
-    {section show=ne( $ui_context, 'edit' )}
-        {section show=eq($navigation_part.identifier,'ezcontentnavigationpart')}
-        {include uri='design:page_menuheadselected.tpl' menu_text='Content structure'|i18n( 'design/admin/pagelayout' ) menu_url=concat( '/content/view/full/', ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )}
-        {section-else}
-        {include uri='design:page_menuheadenabled.tpl' menu_text='Content structure'|i18n( 'design/admin/pagelayout' ) menu_url=concat( '/content/view/full/', ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )}
-        {/section}
-    {section-else}
-        {include uri='design:page_menuheadgray.tpl' menu_text='Content structure'|i18n( 'design/admin/pagelayout' ) menu_url=concat('/content/view/full/',ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )}
-    {/section}
-
-    {* Media menu *}
-    {section show=ne( $ui_context, 'edit' )}
-        {section show=eq($navigation_part.identifier,'ezmedianavigationpart')}
-        {include uri='design:page_menuheadselected.tpl' menu_text='Media library'|i18n( 'design/admin/pagelayout' ) menu_url=concat( '/content/view/full/', ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) )}
-        {section-else}
-        {include uri='design:page_menuheadenabled.tpl' menu_text='Media library'|i18n( 'design/admin/pagelayout' ) menu_url=concat( '/content/view/full/', ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) )}
-        {/section}
-    {section-else}
-        {include uri='design:page_menuheadgray.tpl' menu_text='Media library'|i18n( 'design/admin/pagelayout' ) menu_url=concat( '/content/view/full/', ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) )}
-    {/section}
-
-    {* Users menu *}
-    {section show=ne( $ui_context, 'edit' )}
-        {section show=eq($navigation_part.identifier,'ezusernavigationpart')}
-        {include uri='design:page_menuheadselected.tpl' menu_text='User accounts'|i18n( 'design/admin/pagelayout' ) menu_url='/content/view/full/5/'}
-        {section-else}
-        {include uri='design:page_menuheadenabled.tpl' menu_text='User accounts'|i18n( 'design/admin/pagelayout' ) menu_url='/content/view/full/5/'}
-        {/section}
-    {section-else}
-        {include uri='design:page_menuheadgray.tpl' menu_text='User accounts'|i18n( 'design/admin/pagelayout' ) menu_url='/content/view/full/5/'}
-    {/section}
-
-    {* Shop menu *}
-    {section show=ne( $ui_context, 'edit' )}
-        {section show=eq($navigation_part.identifier,'ezshopnavigationpart')}
-        {include uri='design:page_menuheadselected.tpl' menu_text='Webshop'|i18n( 'design/admin/pagelayout' ) menu_url='/shop/orderlist/'}
-        {section-else}
-        {include uri='design:page_menuheadenabled.tpl' menu_text='Webshop'|i18n( 'design/admin/pagelayout' ) menu_url='/shop/orderlist/'}
-        {/section}
-    {section-else}
-        {include uri='design:page_menuheadgray.tpl' menu_text='Webshop'|i18n( 'design/admin/pagelayout' ) menu_url='/shop/orderlist/'}
-    {/section}
-
-    {* Design menu *}
-    {section show=ne( $ui_context, 'edit' )}
-        {section show=eq($navigation_part.identifier,'ezdesignnavigationpart')}
-        {include uri='design:page_menuheadselected.tpl' menu_text='Design'|i18n( 'design/admin/pagelayout' ) menu_url='/design/menuconfig'}
-        {section-else}
-        {include uri='design:page_menuheadenabled.tpl' menu_text='Design'|i18n( 'design/admin/pagelayout' ) menu_url='/design/menuconfig'}
-        {/section}
-    {section-else}
-        {include uri='design:page_menuheadgray.tpl' menu_text='Design'|i18n( 'design/admin/pagelayout' ) menu_url='/design/menuconfig'}
-    {/section}
-
-    {* Set up menu *}
-    {section show=ne( $ui_context, 'edit' )}
-        {section show=eq($navigation_part.identifier,'ezsetupnavigationpart')}
-        {include uri='design:page_menuheadselected.tpl' menu_text='Setup'|i18n( 'design/admin/pagelayout' ) menu_url='/setup/menu/'}
-        {section-else}
-        {include uri='design:page_menuheadenabled.tpl' menu_text='Setup'|i18n( 'design/admin/pagelayout' ) menu_url='/setup/menu/'}
-        {/section}
-    {section-else}
-        {include uri='design:page_menuheadgray.tpl' menu_text='Setup'|i18n( 'design/admin/pagelayout' ) menu_url='/setup/menu/'}
-    {/section}
-
-    {* Personal *}
-    {section show=ne( $ui_context, 'edit' )}
-        {section show=eq($navigation_part.identifier,'ezmynavigationpart')}
-        {include uri='design:page_menuheadselected.tpl' menu_text='My account'|i18n( 'design/admin/pagelayout' ) menu_url='/content/draft/'}
-        {section-else}
-        {include uri='design:page_menuheadenabled.tpl' menu_text='My account'|i18n( 'design/admin/pagelayout' ) menu_url='/content/draft/'}
-        {/section}
-    {section-else}
-        {include uri='design:page_menuheadgray.tpl' menu_text='My account'|i18n( 'design/admin/pagelayout' ) menu_url='/content/draft/'}
-    {/section}
-
-</ul>
-{/section}
-<div class="break"></div>
 </div>
 </div>
 
 <div id="path">
 <div id="path-design">
 
-{include uri="design:page_toppath.tpl"}
+&nbsp;
 
 </div>
 </div>

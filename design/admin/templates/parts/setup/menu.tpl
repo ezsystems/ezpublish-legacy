@@ -1,3 +1,11 @@
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
+<h4>{'Setup'|i18n( 'design/admin/parts/setup/menu' )}</h4>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+
 <ul>
     <li><a href={'/setup/cache/'|ezurl}>{'Cache management'|i18n( 'design/admin/parts/setup/menu' )}</a></li>
     <li><a href={'/search/stats/'|ezurl}>{'Search statistics'|i18n( 'design/admin/parts/setup/menu' )}</a></li>
@@ -29,3 +37,5 @@
     <a href={'/user/preferences/set/admin_setup_advanced/1'|ezurl}><img src={'up.gif'|ezimage} alt="" width="11" height="6" /></a></li>
     {/section}
 </ul>
+
+{* DESIGN: Content END *}</div></div></div></div></div></div>

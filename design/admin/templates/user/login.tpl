@@ -26,7 +26,7 @@
 <div class="box-tc"><div class="box-ml"><div class="box-mr">
 <div class="box-tl"><div class="box-tr">
 
-<h2 class="context-title">{"Welcome to eZ publish administration"|i18n("design/standard/layout")}</h2>
+<h1 class="context-title">{"Welcome to eZ publish administration"|i18n("design/standard/layout")}</h1>
 
 <div class="header-mainline"></div>
 

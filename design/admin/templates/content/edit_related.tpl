@@ -33,20 +33,15 @@ function deSelectAll()
 
 <div class="context-block">
 
-<div class="box-header">
-<div class="box-tc"><div class="box-ml"><div class="box-mr">
-<div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
 <h2 class="context-title">{'Related objects'|i18n( 'design/standard/content/edit' )}</h2>
 
-<div class="header-subline"></div>
+{* DESIGN: Subline *}<div class="header-subline"></div>
 
-</div></div>
-</div></div></div>
-</div>
+{* DESIGN: Header END *}</div></div></div></div></div></div>
 
-<div class="box-ml"><div class="box-mr">
-<div class="box-content">
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {section show=$related_contentobjects|count|gt( 0 )}
 
@@ -110,14 +105,11 @@ function deSelectAll()
 
     {/section}
 
-</div>
-</div></div>
+{* DESIGN: Content END *}</div></div></div>
 
         <div class="controlbar">
 
-<div class="box-bc"><div class="box-ml"><div class="box-mr">
-<div class="box-tc">
-<div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
             <div class="block">
                 <input class="button" type="submit" name="DeleteRelationButton" value="{'Remove selected'|i18n('design/standard/content/edit')}" title="{'Remove the selected items from the list(s) above. It is only the relations that will be removed. The items will not be deleted.'|i18n( 'design/admin/layout' )}" />
@@ -125,9 +117,7 @@ function deSelectAll()
                 <input class="button" type="submit" name="UploadFileRelationButton" value="{'Add new'|i18n('design/standard/content/edit')}" title="{'Upload a file. The file will be placed within the location that is specified using the dropdown menu to the left. In addition, the file will be automatically related to the item that is currently being edited.'|i18n( 'design/admin/layout' )}" />
             </div>
 
-</div></div>
-</div>
-</div></div></div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 
         </div>
 
@@ -150,9 +140,7 @@ function deSelectAll()
 
 <div class="controlbar">
 
-<div class="box-bc"><div class="box-ml"><div class="box-mr">
-<div class="box-tc">
-<div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
 <div class="block">
         <label>{'Location'|i18n( 'design/standard/content/edit' )}:</label>
@@ -178,9 +166,7 @@ function deSelectAll()
         <input class="button" type="submit" name="UploadFileRelationButton" value="{'Add new'|i18n('design/standard/content/edit')}" title="{'Upload a file. The file will be placed within the location that is specified using the dropdown menu to the left. In addition, the file will be automatically related to the item that is currently being edited.'|i18n( 'design/admin/layout' )}" />
 </div>
 
-</div></div>
-</div>
-</div></div></div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 
 </div>
 

@@ -84,6 +84,11 @@ div#topmenu-design
     height: 1%;
 }
 
+div#topmenu div.loginpagemenu
+{
+    height: 2em;
+}
+
 div#topmenu ul
 {
     margin: 0;
@@ -681,6 +686,15 @@ div.context-block
 div.context-block
 {
     margin: 0.5em 0 2em 0;
+}
+
+h1.context-title
+{
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #ffffff;
+    padding: 0.2em 0.2em 0.2em 0.5em;
+    margin: 0;
 }
 
 h2.context-title
