@@ -696,7 +696,7 @@ function eZSetupAdminOverrideINISettings( $siteType, $parameters )
                     'class_identifier' => 'image',
                     ),
                 ),
-            ),
+            )
         );
 }
 function eZSetupOverrideINISettings( $siteType, $parameters )
