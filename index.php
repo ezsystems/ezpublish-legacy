@@ -840,8 +840,6 @@ $moduleResult['ui_component'] = $module->uiComponentName();
 
 $templateResult = null;
 
-$a = $b;
-
 eZDebug::setUseExternalCSS( $use_external_css );
 if ( $show_page_layout )
 {
