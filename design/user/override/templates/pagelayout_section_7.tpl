@@ -107,7 +107,7 @@
     {section name=News loop=$news_list}
     <tr>
         <td class="menuchoice" colspan="2">
-        &nbsp;<a href={concat("/content/view/full/",$News:item.node_id,"/")|ezurl}>{$News:item.name}</a>
+        <a href={concat("/content/view/full/",$News:item.node_id,"/")|ezurl}>{$News:item.name}</a>
 	</td>
     </tr>
     {/section}
@@ -138,7 +138,7 @@
     {section name=File loop=$file_list}
     <tr>
         <td class="menuchoice" colspan="2">
-        &nbsp;<a href={concat("/content/view/full/",$File:item.node_id,"/")|ezurl}>{$File:item.name}</a>
+        <a href={concat("/content/view/full/",$File:item.node_id,"/")|ezurl}>{$File:item.name}</a>
 	</td>
     </tr>
     {/section}
