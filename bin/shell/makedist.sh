@@ -134,10 +134,12 @@ for arg in $*; do
 	    echo "         --skip-version-check       Do not check version numbers*"
 	    echo "         --skip-php-check           Do not check PHP for syntax correctnes*"
 	    echo "         --skip-unit-tests          Do not run unit tests*"
-	    echo "         --skip-db-schema           Do not create db schema (requires mysql and postgresql)"
-	    echo "         --skip-db-update           Do not run db update check"
-	    echo "         --skip-db-check            Do not run db schema check"
-	    echo "         --skip-translation         Do not run translation check"
+	    echo "         --skip-db-schema           Do not create db schema (requires mysql and postgresql)*"
+	    echo "         --skip-db-update           Do not run db update check*"
+	    echo "         --skip-db-check            Do not run db schema check*"
+	    echo "         --skip-translation         Do not run translation check*"
+	    echo "         --skip-styles              Do not create style packages*"
+	    echo "         --skip-addons              Do not create addon packages*"
 	    echo "         --db-server=server         Mysql DB server ( default: localhost )"
             echo "         --db-user=user             Mysql DB user ( default: root )"
             echo "         --db-name=databasename     Mysql DB name ( default: ez_tmp_makedist )"
@@ -199,6 +201,12 @@ for arg in $*; do
 	    SKIPDBUPDATE="1"
 	    SKIPUNITTESTS="1"
 	    SKIPTRANSLATION="1"
+	    ;;
+	--skip-styles)
+	    SKIPSTYLECREATION="1"
+	    ;;
+	--skip-addons)
+	    SKIPADDONCREATION="1"
 	    ;;
 	--skip-version-check)
 	    SKIPCHECKVERSION="1"
@@ -575,6 +583,22 @@ done
 #fi
 #echo
 
+if [ -z $SKIPADDONCREATION ]; then
+   echo
+   echo "Creating and exporting addons"
+   rm -rf "$DEST/packages/addons"
+   mkdir -p "$DEST/packages/addons" || exit 1
+   ./bin/shell/makeaddonpackages.sh -q --export-path="$DEST/packages/addons"
+   if [ $? -ne 0 ]; then
+       echo
+       echo "The creation of addon packages failed"
+       echo "Run the following command to see what went wrong"
+       echo "./bin/shell/makeaddonpackages.sh --export-path=\"$DEST/packages/addons\""
+       exit 1
+   fi
+fi
+echo
+
 if [ -z $SKIPSTYLECREATION ]; then
    echo
    echo "Creating and exporting styles"
@@ -583,9 +607,9 @@ if [ -z $SKIPSTYLECREATION ]; then
    ./bin/shell/makestylepackages.sh -q --export-path="$DEST/packages/styles"
    if [ $? -ne 0 ]; then
        echo
-       echo "The package creation of $site failed"
+       echo "The creation of the style packages failed"
        echo "Run the following command to see what went wrong"
-       echo "./bin/shell/makesitepackages.sh --site=$site"
+       echo "./bin/shell/makestylepackages.sh --export-path=\"$DEST/packages/styles\""
        exit 1
    fi
 fi

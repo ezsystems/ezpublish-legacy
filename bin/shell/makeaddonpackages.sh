@@ -18,7 +18,6 @@ PMBIN="./ezpm.php"
 SITE_PACKAGES="$TMPDIR/extra.tmp"
 SITE_PACKAGES_EXPORT="$TMPDIR/extra"
 OUTPUT_REPOSITORY="$TMPDIR/addons"
-OUTPUT_REPOSITORY_EXPORT="$TMPDIR/export/addons"
 EXPORT_PATH="packages/addons"
 
 # Check parameters
@@ -64,9 +63,6 @@ done
 
 rm -rf "$OUTPUT_REPOSITORY"
 mkdir -p "$OUTPUT_REPOSITORY" || exit 1
-
-rm -rf "$OUTPUT_REPOSITORY_EXPORT"
-mkdir -p "$OUTPUT_REPOSITORY_EXPORT" || exit 1
 
 rm -rf "$SITE_PACKAGES"
 mkdir -p "$SITE_PACKAGES" || exit 1
@@ -220,13 +216,10 @@ fi
 for addon in $ADDON_PACKAGES; do
     [[ -z $ADDON || $ADDON = $addon ]] || continue
 
-    find "$EXPORT_PATH/$addon/" ! -path \*/.svn\* -exec rm -f {} \; &>/dev/null
-
     if [ -d "$OUTPUT_REPOSITORY/$addon" ]; then
 	$PMBIN -r "$OUTPUT_REPOSITORY" $QUIET \
             -ladmin -ppublish \
-	    export $addon -d "$OUTPUT_REPOSITORY_EXPORT" || exit 1
+	    export $addon -d "$EXPORT_PATH" || exit 1
     fi
 
-    cp -R "$OUTPUT_REPOSITORY_EXPORT/$addon"/* "$EXPORT_PATH/$addon/"
 done
