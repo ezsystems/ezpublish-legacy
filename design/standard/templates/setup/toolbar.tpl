@@ -63,7 +63,7 @@
             {/case}
             {case match=3}
                 {let class_list=fetch( class, list ) match_list=$Parameter.value|explode( ',' )}
-                <select multiple="multiple" name="List[{$Tool.index}_parameter_{$Parameter.name}][]">
+                <select multiple="multiple" name="CustomInputList[{$Tool.index}_parameter_{$Parameter.name}][]">
                 {section var=class loop=$class_list}
                     <option value="{$class.identifier|wash}" {section show=$match_list|contains( $class.identifier )}selected="selected"{/section}>{$class.name|wash}</option>
                 {/section}
