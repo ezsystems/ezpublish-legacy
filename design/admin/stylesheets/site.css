@@ -1412,6 +1412,11 @@ span.required, span.nontranslatable, span.collector
     font-weight: normal;
 }
 
+span.defaulttranslation
+{
+    font-weight: bold;
+}
+
 /*! Package listing in Look&Feel */
 
 div.package_element
