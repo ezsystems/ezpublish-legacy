@@ -189,7 +189,7 @@
 {/cache-block}
 
 {* Top box END *}
-{cache-block keys=array($current_user.contentobject_id,ezpreference('bookmark_menu'),ezpreference('history_menu'),$navigation_part.identifier)}
+
 <tr>
     <td rowspan="2" width="130" valign="top" style="padding-right: 0px; padding-left: 0px; padding-top: 0px; background-image:url('{"bgtilelight.gif"|ezimage(no)}'); background-repeat: repeat;">
 
@@ -202,6 +202,8 @@
 {section show=eq($navigation_part.identifier,'ezmedianavigationpart')}
 {include uri="design:parts/media/menu.tpl"}
 {/section}
+
+{cache-block keys=array($current_user.contentobject_id,ezpreference('bookmark_menu'),ezpreference('history_menu'),$navigation_part.identifier)}
 
 {section show=eq($navigation_part.identifier,'ezshopnavigationpart')}
 {include uri="design:parts/shop/menu.tpl"}
