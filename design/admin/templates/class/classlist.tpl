@@ -85,9 +85,9 @@
 {/section}
 </table>
 {section-else}
-
+<div class="block">
 <p>{'There are no classes in this group.'|i18n( 'design/admin/class/classlist' )}</p>
-
+</div>
 {/section}
 
 {* DESIGN: Content END *}</div></div></div>
