@@ -12877,7 +12877,7 @@ CREATE TABLE ezuser (
 --
 
 INSERT INTO ezuser VALUES (10,'anonymous','nospam@ez.no',2,'4e6f6184135228ccd45f8233d72a0363');
-INSERT INTO ezuser VALUES (14,'admin','nospam@ez.no',1,'9b6d0bb3102b87fae57bc4a39149518e');
+INSERT INTO ezuser VALUES (14,'admin','nospam@ez.no',2,'c78e3b0f3d9244ed8c6d1c29464bdff9');
 
 --
 -- Table structure for table 'ezuser_discountrule'
