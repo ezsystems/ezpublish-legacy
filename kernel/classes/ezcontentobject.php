@@ -465,12 +465,6 @@ class eZContentObject extends eZPersistentObject
                 $versionNameTables = ', ezcontentobject_name ';
                 $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
 
-                $ini =& eZINI::instance();
-                if ( $lang == false )
-                {
-                    $lang = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
-                }
-
                 $versionNameJoins = " and  ezcontentobject.id = ezcontentobject_name.contentobject_id and
                                   ezcontentobject.current_version = ezcontentobject_name.content_version and
                                   ezcontentobject_name.content_translation = '$language' ";
