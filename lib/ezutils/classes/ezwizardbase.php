@@ -222,7 +222,12 @@ class eZWizardBase
     */
     function postCheck()
     {
-        return true;
+        if ( $this->HTTP->hasPostVariable( 'NextStepButton' ) )
+        {
+            return true;
+        }
+
+        return false;
     }
 
     /*!
@@ -258,7 +263,7 @@ class eZWizardBase
     function setVariable( $key, $value )
     {
         $this->VariableList[$key] = $value;
-        $this->HTTP->setSessionVariable( $this->StorageName . $this->VariableListName, $this->VariableList );
+        $this->savePersistentData();
     }
 
     /*!
@@ -316,6 +321,18 @@ class eZWizardBase
     }
 
     /*!
+     Go back to previous step
+    */
+    function previousStep()
+    {
+        $this->MetaData['current_stage'] = EZ_WIZARD_STAGE_PRE;
+        $this->MetaData['current_step'] = $this->CurrentStep - 1;
+        $this->savePersistentData();
+
+        return $this->Module->redirectTo( $this->WizardURL );
+    }
+
+    /*!
      Increate Step counter
     */
     function nextStep()
@@ -328,12 +345,21 @@ class eZWizardBase
         {
             $this->MetaData['current_stage'] = EZ_WIZARD_STAGE_PRE;
             $this->MetaData['current_step'] = $this->CurrentStep + 1;
-            $this->HTTP->setSessionVariable( $this->StorageName . $this->MetaDataName, $this->MetaData );
+            $this->savePersistentData();
 
             return $this->Module->redirectTo( $this->WizardURL );
         }
 
+        $this->savePersistentData();
+    }
+
+    /*!
+     Save persistent data
+    */
+    function savePersistentData()
+    {
         $this->HTTP->setSessionVariable( $this->StorageName . $this->MetaDataName, $this->MetaData );
+        $this->HTTP->setSessionVariable( $this->StorageName . $this->VariableListName, $this->VariableList );
     }
 
     /* Private messages */
@@ -366,6 +392,7 @@ class eZWizardBase
 class eZWizardBaseClassLoader
 {
     /*!
+     \static
      Create new specified class
     */
     function createClass( &$tpl, &$module, $stepArray, $basePath, $storageName = false, $metaData = false )
@@ -389,18 +416,33 @@ class eZWizardBaseClassLoader
 
         if ( count( $stepArray ) == $currentStep )
         {
+            eZDebug::writeError( 'Invalid wizard step count: ' . $currentStep,
+                                 'eZWizardBaseClassLoader::createClass()'  );
             return false;
         }
 
         $filePath = $basePath . $stepArray[$currentStep]['file'];
         if ( !file_exists( $filePath ) )
         {
+            eZDebug::writeError( 'Wizard file not found : ' . $filePath,
+                                 'eZWizardBaseClassLoader::createClass()'  );
             return false;
         }
 
         include_once( $filePath );
+
         $className = $stepArray[$currentStep]['class'];
-        return new $className( $tpl, $module, $storageName );
+        $returnClass =  new $className( $tpl, $module, $storageName );
+
+        if ( isset( $stepArray['operation'] ) )
+        {
+            $operation = $stepArray['operation'];
+            $returnClass->$operation();
+            eZDebug::writeNotice( 'Running : "' . $className . '->' . $operation . '()". Specified in StepArray',
+                                  'eZWizardBaseClassLoader::createClass()' );
+        }
+
+        return $returnClass;
     }
 }
 
