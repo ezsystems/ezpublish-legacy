@@ -106,7 +106,7 @@ class eZXML
         if ( preg_match( "#<\?xml(.*?)\?>#", $xmlDoc, $matches ) )
         {
             $xmlAttributeText = $matches[1];
-            $xmlAttributes = $this->parseAttributes( $xmlAttributeText );
+            $xmlAttributes = eZXML::parseAttributes( $xmlAttributeText );
             for ( $i = 0; $i < count( $xmlAttributes ); ++$i )
             {
                 $xmlAttribute =& $xmlAttributes[$i];
