@@ -78,6 +78,7 @@ Changes from 3.3-6 to 3.3-7
 - Fixed bug #5983: User id is not stored in workflow processes.
 - Fixed bug #6165: A Problem with Paypal Extension in Ez 3.5.0.
   (Merged from stable/3.5 (3.5.1) rev.10786)
+- Fixed bug: SQL error in some DBMSs when publishing a large article.
 
 *Library:
 

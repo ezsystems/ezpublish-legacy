@@ -178,7 +178,7 @@ class eZSearchEngine
                 // Update the object count of existing words by one
                 $wordIDString = implode( ',', $wordIDArray );
                 if ( count( $wordIDArray ) > 0 )
-                $db->query( " UPDATE ezsearch_word SET object_count=( object_count + 1 ) WHERE id IN ( $wordIDString )" );
+                    $db->query( "UPDATE ezsearch_word SET object_count=( object_count + 1 ) WHERE id IN ( $wordIDString )" );
 
                 // Insert if there is any news words
                 $newWordArray = array_diff( $wordArrayChuck, $existingWordArray );
@@ -353,19 +353,34 @@ class eZSearchEngine
     {
         $db =& eZDB::instance();
         $objectID = $contentObject->attribute( "id" );
+        $doDelete = false;
 
-        // fetch all the words and decrease the object count on all the words
-        $wordArray =& $db->arrayQuery( "SELECT word_id FROM ezsearch_object_word_link WHERE contentobject_id='$objectID'" );
-        $wordIDList = array();
-        foreach ( $wordArray as $word )
+        if ( $db->databaseName() == 'mysql' )
         {
-            $wordIDList[] = $word["word_id"];
-        }
-        if ( count( $wordIDList ) > 0 )
-        {
-            $wordIDString = implode( ',', $wordIDList );
+            // fetch all the words and decrease the object count on all the words
+            $wordArray =& $db->arrayQuery( "SELECT word_id FROM ezsearch_object_word_link WHERE contentobject_id='$objectID'" );
+            $wordIDList = array();
+            foreach ( $wordArray as $word )
+                $wordIDList[] = $word["word_id"];
             if ( count( $wordIDList ) > 0 )
+            {
+                $wordIDString = implode( ',', $wordIDList );
                 $db->query( "UPDATE ezsearch_word SET object_count=( object_count - 1 ) WHERE id in ( $wordIDString )" );
+                $doDelete = true;
+            }
+        }
+        else
+        {
+            $cnt = $db->arrayQuery( "SELECT COUNT( word_id ) AS cnt FROM ezsearch_object_word_link WHERE contentobject_id='$objectID'" );
+            if ( $cnt[0]['cnt'] > 0 )
+            {
+                $db->query( "UPDATE ezsearch_word SET object_count=( object_count - 1 ) WHERE id in ( SELECT word_id FROM ezsearch_object_word_link WHERE contentobject_id='$objectID' )" );
+                $doDelete = true;
+            }
+        }
+
+        if ( $doDelete )
+        {
             $db->query( "DELETE FROM ezsearch_word WHERE object_count='0'" );
             $db->query( "DELETE FROM ezsearch_object_word_link WHERE contentobject_id='$objectID'" );
         }
