@@ -438,7 +438,7 @@ class eZTemplateCompiler
         $php->addComment( 'Filename:  ' . $resourceData['template-filename'] );
         $php->addComment( 'Timestamp: ' . $resourceData['time-stamp'] . ' (' . date( 'D M j G:i:s T Y', $resourceData['time-stamp'] ) . ')' );
 
-        if ( $resourceData['locales'] )
+        if ( $resourceData['locales'] && count( $resourceData['locales'] ) )
         {
             $php->addComment( 'Locales:   ' . join( ', ', $resourceData['locales'] ) );
 
@@ -518,7 +518,7 @@ class eZTemplateCompiler
         if ( eZTemplateCompiler::isAccumulatorsEnabled() )
             $php->addCodePiece( "eZDebug::accumulatorStop( 'template_compiled_execution', true );\n" );
 
-        if ( $resourceData['locales'] )
+        if ( $resourceData['locales'] && count( $resourceData['locales'] ) )
         {
             $php->addCodePiece( 
                 'setlocale( LC_CTYPE, $oldLocale_'. md5( $resourceData['template-filename'] ). ' );'. "\n"
