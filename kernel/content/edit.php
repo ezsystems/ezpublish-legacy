@@ -38,6 +38,11 @@ include_once( 'kernel/content/node_edit.php' );
 initializeNodeEdit( $Module );
 include_once( 'kernel/content/relation_edit.php' );
 initializeRelationEdit( $Module );
+
+$obj =& eZContentObject::fetch( $objectID );
+if ( !$obj )
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+
 if ( !function_exists ( 'checkForExistingVersion'  ) )
 {
     function checkForExistingVersion( &$module, $objectID, $editVersion )
