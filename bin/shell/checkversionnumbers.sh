@@ -128,22 +128,25 @@ fi
 # kernel/sql/common/cleandata.sql
 
 SQL_LIST="kernel/sql/common/cleandata.sql"
-for package in PACKAGES; do
-    SQL_LIST="$SQL_LIST var/sql/data/$package.sql"
+for package in $PACKAGES; do
+    SQL_LIST="$SQL_LIST packages/sql/data/$package.sql"
 done
 SQL_ERROR_LIST=""
 
 for sql in $SQL_LIST; do
-    if ! grep -E "INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-version','$VERSION_ONLY');" $sql &>/dev/null; then
+    SQL_FILE_ERROR=""
+    if ! grep -e "INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-version','$VERSION');" $sql &>/dev/null; then
 	ERROR="1"
 	SQL_ERROR="1"
+	SQL_FILE_ERROR="1"
     fi
 
-    if ! grep -E "INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-release','$REAL_RELEASE');" $sql &>/dev/null; then
+    if ! grep -e "INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-release','$REAL_RELEASE');" $sql &>/dev/null; then
 	ERROR="1"
 	SQL_ERROR="1"
+	SQL_FILE_ERROR="1"
     fi
-    [ -n "$SQL_ERROR" ] && SQL_ERROR_LIST="$SQL_ERROR_LIST $sql"
+    [ -n "$SQL_FILE_ERROR" ] && SQL_ERROR_LIST="$SQL_ERROR_LIST $sql"
 done
 
 if [ -n "$SQL_ERROR" ]; then
@@ -157,16 +160,16 @@ if [ -n "$SQL_ERROR" ]; then
     echo "For the variable ezpublish-version"
     echo
     echo "Should be:"
-    echo "INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-version','`$SETCOLOR_EMPHASIZE`$VERSION_ONLY`$SETCOLOR_NORMAL`');"
+    echo "INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-version','`$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`');"
     echo "and"
     echo "INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-release','`$SETCOLOR_EMPHASIZE`$REAL_RELEASE`$SETCOLOR_NORMAL`');"
     echo
     echo "To fix this the following should be done:"
     echo
     echo "Create a file called `$SETCOLOR_FILE`data.sql`$SETCOLOR_NORMAL` and add the following"
-    echo "`$SETCOLOR_EMPHASIZE`UPDATE ezsite_data set value='$VERSION_ONLY' WHERE name=-'ezpublish-version'`$SETCOLOR_NORMAL`"
-    echo "`$SETCOLOR_EMPHASIZE`UPDATE ezsite_data set value='$REAL_RELEASE' WHERE name=-'ezpublish-release'`$SETCOLOR_NORMAL`"
-    echo "then run `$SETCOLOR_EXE`./bin/shell/redumpall.sh`$SETCOLOR_NORMAL`,"
+    echo "`$SETCOLOR_EMPHASIZE`UPDATE ezsite_data set value='$VERSION' WHERE name='ezpublish-version';`$SETCOLOR_NORMAL`"
+    echo "`$SETCOLOR_EMPHASIZE`UPDATE ezsite_data set value='$REAL_RELEASE' WHERE name='ezpublish-release';`$SETCOLOR_NORMAL`"
+    echo "then run `$SETCOLOR_EXE`./bin/shell/redumpall.sh --data tmp`$SETCOLOR_NORMAL`,"
     echo "check the changes with `$SETCOLOR_EXE`svn diff`$SETCOLOR_NORMAL` and them commit them if everything is ok"
     echo
     [ -n "$EXIT_AT_ONCE" ] && exit 1
