@@ -863,11 +863,40 @@ function definition()
 
         $query = "UPDATE $table SET ";
         $i = 0;
+        $valueBound = false;
+
         foreach( $updateFields as $field => $value )
         {
+            $fieldDef =& $fields[ $field ];
+            $numericDataTypes = array( 'integer', 'float', 'double' );		
+            if ( strlen( $value ) == 0 &&
+                 is_array( $fieldDef ) &&
+                 in_array( $fieldDef['datatype'], $numericDataTypes  ) &&
+                 array_key_exists( 'default', $fieldDef ) &&
+                 !is_null( $fieldDef[ 'default' ] ) )
+            {
+                $value=$fieldDef[ 'default' ];
+            }
+
+            $bindDataTypes = array( 'text' );
+            if ( $db->bindingType() != EZ_DB_BINDING_NO &&
+                 strlen( $value ) > 2000 &&
+                 is_array( $fieldDef ) &&
+                 in_array( $fieldDef['datatype'], $bindDataTypes  )
+                 )
+            {
+                $value = $db->bindVariable( $value, $fieldDef );
+                $valueBound = true;
+            }
+            else
+                $valueBound = false;
+
             if ( $i > 0 )
                 $query .= ', ';
-            $query .= $field . "='" . $db->escapeString( $value ) . "'";
+            if ( $valueBound )
+                $query .= $field . "=" . $value;
+            else
+                $query .= $field . "='" . $db->escapeString( $value ) . "'";
             ++$i;
         }
         $query .= "\n" . 'WHERE ';
