@@ -205,7 +205,7 @@ class eZURLOperator
                 }
                 $values[] = $parameters[0];
                 $values[] = array( eZTemplateNodeTool::createStringElement( $this->Sys->indexDir() ) );
-                $code .= 'if ( preg_match( "#^[a-zA-Z0-9]+:#", %1% ) or' . "\n" .
+                $code = 'if ( preg_match( "#^[a-zA-Z0-9]+:#", %1% ) or' . "\n" .
                      '    substr( %1%, 0, 2 ) == \'//\' or' . "\n" .
                      '    strlen( %1% ) == 0 )' . "\n" .
                      '  %1% = \'/\';' . "\n" .
@@ -328,7 +328,11 @@ class eZURLOperator
                 if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
                 {
                     $path = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
-                    $skipSlash = eZTemplateNodeTool::elementStaticValue( $parameters[2] );
+                    $skipSlash = false;
+                    if ( count( $parameters ) > 2 )
+                    {
+                        $skipSlash = eZTemplateNodeTool::elementStaticValue( $parameters[2] );
+                    }
 
                     $ini =& eZINI::instance();
                     $std_base = eZTemplateDesignResource::designSetting( 'standard' );
@@ -509,17 +513,20 @@ class eZURLOperator
         }
 
         $quote = '"';
-        $val = eZTemplateNodeTool::elementStaticValue( $parameters[$paramCount] );
-        ++$paramCount;
-        if ( $val == 'single' )
-            $quote = "'";
-        else if ( $val == 'no' )
-            $quote = false;
+        if ( count( $parameters ) > $paramCount )
+        {
+            $val = eZTemplateNodeTool::elementStaticValue( $parameters[$paramCount] );
+            ++$paramCount;
+            if ( $val == 'single' )
+                $quote = "'";
+            else if ( $val == 'no' )
+                $quote = false;
+        }
 
         if ( $quote !== false )
         {
             $values[] = array( eZTemplateNodeTool::createStringElement( $quote ) );
-            $code .= '%1% = %' . $paramCount . '% . %1% . %' . $paramCount . '%;' . "\n";
+            $code .= '%1% = %' . count( $values ) . '% . %1% . %' . count( $values ) . '%;' . "\n";
         }
 
         $code .= '%output% = %1%;' . "\n";

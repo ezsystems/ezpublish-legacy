@@ -114,9 +114,6 @@ class eZFunctionHandler
                     $paramstr .= $key . '=' . $functionArray[$key] . "\n";
             }
 
-//            eZDebug::writeNotice( "Executing fetchAlias with the following parameters:\n" . $paramstr,
-//                                  'eZFunctionHandler::executeAlias' );
-
             return $moduleFunctionInfo->execute( $functionName, $functionArray );
         }
         eZDebug::writeWarning( 'Could not execute. Function ' . $aliasFunctionName. ' not found.' ,
