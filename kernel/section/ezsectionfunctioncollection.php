@@ -64,6 +64,12 @@ class eZSectionFunctionCollection
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
         return array( 'result' => $sectionObject );
     }
+    function &fetchSectionList()
+    {
+        include_once( 'kernel/classes/ezsection.php' );
+        $sectionObjects =& eZSection::fetchList( );
+        return array( 'result' => $sectionObjects );
+    }
 }
 
 ?>

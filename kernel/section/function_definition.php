@@ -45,5 +45,11 @@ $FunctionList['object'] = array( 'name' => 'object',
                                  'parameters' => array( array( 'name' => 'section_id',
                                                                'type' => 'integer',
                                                                'required' => true ) ) );
+$FunctionList['list'] = array( 'name' => 'list',
+                                 'call_method' => array( 'include_file' => 'kernel/section/ezsectionfunctioncollection.php',
+                                                         'class' => 'eZSectionFunctionCollection',
+                                                         'method' => 'fetchSectionList' ),
+                                 'parameter_type' => 'standard',
+                                 'parameters' => array( ) );
 
 ?>
