@@ -148,6 +148,9 @@ class Cezpdf extends Cpdf
         // set the current writing position to the top of the first page
         $this->y = $this->ez['pageHeight']-$this->ez['topMargin'];
         $this->ez['xOffset'] = 0;
+
+        // set current text justification
+        $this->ez['justification'] = 'left';
         // and get the ID of the page that was created during the instancing process.
         $this->ezPages[1]=$this->getFirstPageId();
         $this->ezPageCount=1;
@@ -170,6 +173,24 @@ class Cezpdf extends Cpdf
     function setFontSize( $size )
     {
         $this->ez['fontSize'] = $size;
+    }
+
+// ------------------------------------------------------------------------------
+// 2003-11-06 Kåre Køhler Høvik ( eZ systems, http://ez.no )
+// Set justification
+
+    function setJustification( $align )
+    {
+        $this->ez['justification'] = $align;
+    }
+
+// ------------------------------------------------------------------------------
+// 2003-11-06 Kåre Køhler Høvik ( eZ systems, http://ez.no )
+// Get justification
+
+    function justification( )
+    {
+        return $this->ez['justification'];
     }
 
 // ------------------------------------------------------------------------------
@@ -601,7 +622,7 @@ class Cezpdf extends Cpdf
                 if (isset($options[$colName]) && isset($options[$colName]['justification'])){
                     $justification = $options[$colName]['justification'];
                 } else {
-                    $justification = 'left';
+                    $justification = $this->ez['justification'];
                 }
 //                $this->ezText($colHeading,$size,array('aleft'=> $pos[$colName],'aright'=>($maxWidth[$colName]+$pos[$colName]),'justification'=>$justification));
                 $dy = $y-$this->y;
@@ -728,7 +749,7 @@ class Cezpdf extends Cpdf
         if (is_array($options) && isset($options['justification'])){
             $just = $options['justification'];
         } else {
-            $just = 'left';
+            $just = $this->ez['justification'];
         }
 
         // modifications to give leading and spacing based on those given by Craig Heydenburg 1/1/02
@@ -742,8 +763,9 @@ class Cezpdf extends Cpdf
 
 
         $lines = explode("\n",$text);
-        foreach ($lines as $line){
+        foreach ( array_keys( $lines ) as $key ){
             $start=1;
+            $line = $lines[$key];
             while (strlen($line) || $start){
                 $start=0;
                 if ($this->y < $this->ez['bottomMargin']){
@@ -1087,6 +1109,31 @@ class Cezpdf extends Cpdf
             $this->restoreState();
             break;
         }
+    }
+
+    /**
+     * Get current line height
+     */
+    function lineHeight( $options=array() )
+    {
+        if ( is_array($options) && isset($options['size'] ) )
+        {
+            $size = $options['size'];
+        }
+        else
+        {
+            $size = $this->ez['fontSize'];
+        }
+
+        if (is_array($options) && isset($options['leading'])) { // use leading instead of spacing
+            $height = $options['leading'];
+        } else if (is_array($options) && isset($options['spacing'])) {
+            $height = $this->getFontHeight($size) * $options['spacing'];
+        } else {
+            $height = $this->getFontHeight($size);
+        }
+
+        return $height;
     }
 
 }

@@ -10,12 +10,12 @@
 {let related=$object.related_contentobject_array}
   {section show=$related}
     {pdf(header, hash( type, 3,
-                       text, "Related objects"|i18n("design/standard/content/view"),
+                       text, "Related objects"|i18n("design/standard/content/view")|wash(pdf),
 		       size, 18,
 		       align, center ) )}
     
     {section name=Object loop=$related sequence=array(bglight,bgdark)}
-      {content_view_gui view=line content_object=$Object:item}
+      {content_pdf_gui view=line content_object=$Object:item}
     {/section}
 
   {/section}

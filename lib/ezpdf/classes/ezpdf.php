@@ -92,7 +92,7 @@ class eZPDF
             {
                 $specification = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
-                $this->PDF->insertTOC();
+                $operatorValue = '<C:callTOC>';
                 eZDebug::writeNotice( 'PDF: Generating TOC', 'eZPDF::modify' );
             } break;
 
@@ -100,18 +100,23 @@ class eZPDF
             {
                 $font = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
+                $operatorValue = '<ezCall:callFont';
+
                 if ( isset( $font['name'] ) )
                 {
-                    $this->PDF->selectFont( $font['name'] );
+                    $operatorValue .= ':name:'. $font['name'];
                 }
                 if ( isset( $font['size'] ) )
                 {
-                    $this->PDF->setFontSize( $font['size'] );
+                    $operatorValue .= ':size:'. $font['size'];
                 }
+
+                $operatorValue .= '>';
+
                 eZDebug::writeNotice( 'PDF: Changed font, name: '. $font['name'] .', size: '. $font['size'], 'eZPDF::modify' );
             } break;
 
-            case 'table':
+            case 'table': //TODO
             {
                 $table = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
@@ -124,11 +129,10 @@ class eZPDF
 
                 if ( !isset( $header['align'] ) )
                     $header['align'] = 'left';
-                $prevSize = $this->PDF->fontSize();
-                $this->PDF->ezText( $header['text'] .'<C:rf:'. $header['level'] .rawurlencode( $header['text'] ) .'>'. "\n",
-                                    $header['size'],
-                                    array( 'justification' => $header['align'] ) );
-                $this->PDF->setFontSize( $prevSize );
+
+                $operatorValue = '<ezCall:callHeader:level:'. $header['level'] .':size:'. $header['size'] .':justification:'. $header['align'] .':label:'.
+                     rawurlencode( $header['text'] ) .'>'. $header['text'] .'</ezCall:callHeader><C:callSpace><C:callNewLine>';
+
                 eZDebug::writeNotice( 'PDF: Added header: '. $header['text'] .', size: '. $header['size'] .
                                       ', align: '. $header['align'] .', level: '. $header['level'],
                                       'eZPDF::modify' );
@@ -141,16 +145,17 @@ class eZPDF
 
             case 'newline':
             {
-                $this->PDF->ezText( "\n" );
+                $operatorValue = '<C:callNewLine>';
             } break;
 
             case 'newpage':
             {
-                $this->PDF->ezNewPage();
+                $operatorValue = '<C:callNewPage>';
+
                 eZDebug::writeNotice( 'PDF: New page', 'eZPDF::modify' );
             } break;
 
-            case 'image':
+            case 'image': //TODO
             {
                 $image = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
@@ -165,7 +170,7 @@ class eZPDF
             {
                 $name = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
-                $this->PDF->addDestination( $name['name'], 'FitH', $this->PDF->offsetY() );
+                $operatorValue = '<C:callAnchor:'. $name['name'] .':FitH:>';
                 eZDebug::writeNotice( 'PDF: Added anchor: '.$name['name'], 'eZPDF::modify' );
             } break;
 
@@ -173,7 +178,7 @@ class eZPDF
             {
                 $link = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
-                $this->PDF->ezText( '<c:alink:'. $link['url'] .'>'. $link['text'] .'</c:alink>' );
+                $operatorValue = '<c:alink:'. $link['url'] .'>'. $link['text'] .'</c:alink>';
                 eZDebug::writeNotice( 'PDF: Added link, url: '.$link['url'], 'eZPDF::modify' );
             } break;
 
@@ -193,8 +198,19 @@ class eZPDF
             case 'strike':
             {
                 $text = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
-                $this->PDF->ezText( '<c:strike>'. $text .'</c:strike>' );
+                $operatorValue = '<c:strike>'. $text .'</c:strike>';
                 eZDebug::writeNotice( 'Striked text added to PDF: "'. $text .'"', 'eZPDF::modify' );
+            } break;
+
+            /* usage : execute/add text to pdf file, pdf(execute,<text>) */
+            case 'execute':
+            {
+                $text = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+
+                $text = str_replace( array( ' ', "\n", "\t" ), '', $text );
+
+                $this->PDF->ezText( $text );
+                eZDebug::writeNotice( 'Execute text in PDF: "'. $text .'"', 'eZPDF::modify' );
             } break;
 
             /* usage : pdf(text, <text>, array( 'font' => <fontname>, 'size' => <fontsize> )) */
@@ -202,8 +218,8 @@ class eZPDF
             {
                 $text = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
-                $prevFont = $this->PDF->currentFont();
-                $prevSize = $this->PDF->fontSize();
+                $operatorValue = '';
+                $changeFont = false;
 
                 if ( count( $operatorParameters ) >= 3)
                 {
@@ -211,27 +227,40 @@ class eZPDF
 
                     if ( isset( $textSettings ) )
                     {
+                        $operatorValue .= '<ezCall:callText';
+                        $changeFont = true;
+
                         if ( isset( $textSettings['font'] ) )
                         {
-                            $this->PDF->selectFont( $textSettings['font'] );
+                            $operatorValue .= ':font:'. $textSettings['font'];
                         }
+
                         if ( isset( $textSettings['size'] ) )
                         {
-                            $this->PDF->setFontSize( $textSettings['size'] );
+                            $operatorValue .= ':size:'. $textSettings['size'];
                         }
+
+                        if ( isset( $textSettings['align'] ) )
+                        {
+                            $operatorValue .= ':justification:'. $textSettings['align'];
+                        }
+
+                        $operatorValue .= '>';
                     }
                 }
 
-                $this->PDF->ezText( $text );
-                $this->PDF->setFontSize( $prevSize );
-                $this->PDF->selectFont( $prevFont );
+                $operatorValue .= $text;
+                if ( $changeFont )
+                {
+                    $operatorValue .= '</ezCall:callText>';
+                }
+
                 eZDebug::writeNotice( 'Text added to PDF: "'. $text .'"', 'eZPDF::modify' );
             } break;
 
             default:
             {
-                $this->PDF->ezText( $text );
-                eZDebug::writeNotice( 'No operation defined, adding to PDF: "'.$text.'"', 'eZPDF::modify' );
+                eZDebug::writeNotice( 'No operation defined, nothing done', 'eZPDF::modify' );
             }
 
         }

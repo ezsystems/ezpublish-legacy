@@ -1077,8 +1077,8 @@ class Cpdf
 		    case 'ilink':
                 // there will be an 'label' setting, this is the name of the destination
                 //$res.="\n/S /GoTo\n/D [".$this->destinations[(string)$o['info']['label']]." 0 R /Fit]";
-                $res.="\n/S /GoTo\n/D [".$this->objects[$this->destinations[(string)$o['info']['label']]]['info']['page']." 0 R /".
-                     $this->objects[$this->destinations[(string)$o['info']['label']]]['info']['string'] ."]";
+                $res.="\n/S /GoTo\n/D [". $this->objects[$this->destinations[(string)$o['info']['label']]]['info']['page'] ." 0 R /".
+                     $this->objects[$this->destinations[(string)$o['info']['label']]]['info']['string'] .']';
 		    break;
 		    case 'URI':
 			$res.="\n/S /URI\n/URI (";
@@ -2379,149 +2379,151 @@ class Cpdf
  *
  * @access private
  */
-    function PRVTcheckTextDirective1(&$text,$i,&$f,$final,&$x,&$y,$size=0,$angle=0,$wordSpaceAdjust=0){
-	$directive = 0;
-	$j=$i;
-	if ($text[$j]=='<'){
-	    $j++;
-	    switch($text[$j]){
-		case '/':
-		    $j++;
-		if (strlen($text) <= $j){
-		    return $directive;
-		}
-		switch($text[$j]){
-		    case 'b':
-		    case 'i':
-			$j++;
-		    if ($text[$j]=='>'){
-			$p = strrpos($this->currentTextState,$text[$j-1]);
-			if ($p !== false){
-			    // then there is one to remove
-			    $this->currentTextState = substr($this->currentTextState,0,$p).substr($this->currentTextState,$p+1);
-			}
-			$directive=$j-$i+1;
-		    }
-		    break;
-		    case 'c':
-			// this this might be a callback function
-			$j++;
-		    $k = strpos($text,'>',$j);
-		    if ($k!==false && $text[$j]==':'){
-			// then this will be treated as a callback directive
-			$directive = $k-$i+1;
-			$f=0;
-			// split the remainder on colons to get the function name and the paramater
-			$tmp = substr($text,$j+1,$k-$j-1);
-			$b1 = strpos($tmp,':');
-			if ($b1!==false){
-			    $func = substr($tmp,0,$b1);
-			    $parm = substr($tmp,$b1+1);
-			} else {
-			    $func=$tmp;
-			    $parm='';
-			}
-			if (!isset($func) || !strlen(trim($func))){
-			    $directive=0;
-			} else {
-			    // only call the function if this is the final call
-			    if ($final){
-				// need to assess the text position, calculate the text width to this point
-				// can use getTextWidth to find the text width I think
-				$tmp = $this->PRVTgetTextPosition($x,$y,$angle,$size,$wordSpaceAdjust,substr($text,0,$i));
-				$info = array('x'=>$tmp[0],'y'=>$tmp[1],'angle'=>$angle,'status'=>'end','p'=>$parm,'nCallback'=>$this->nCallback);
-				$x=$tmp[0];
-				$y=$tmp[1];
-				$ret = $this->$func($info);
-				if (is_array($ret)){
-				    // then the return from the callback function could set the position, to start with, later will do font colour, and font
-				    foreach($ret as $rk=>$rv){
-					switch($rk){
-					    case 'x':
-					    case 'y':
-						$$rk=$rv;
-					    break;
-					}
-				    }
-				}
-				// also remove from to the stack
-				// for simplicity, just take from the end, fix this another day
-				$this->nCallback--;
-				if ($this->nCallback<0){
-				    $this->nCallBack=0;
-				}
-			    }
-			}
-		    }
-		    break;
-		}
-		break;
-		case 'b':
-		case 'i':
-		    $j++;
-		if ($text[$j]=='>'){
-		    $this->currentTextState.=$text[$j-1];
-		    $directive=$j-$i+1;
-		}
-		break;
-		case 'C':
-		    $noClose=1;
-		case 'c':
-		    // this this might be a callback function
-		    $j++;
-		$k = strpos($text,'>',$j);
-		if ($k!==false && $text[$j]==':'){
-		    // then this will be treated as a callback directive
-		    $directive = $k-$i+1;
-		    $f=0;
-		    // split the remainder on colons to get the function name and the paramater
+    function PRVTcheckTextDirective1(&$text,$i,&$f,$final,&$x,&$y,$size=0,$angle=0,$wordSpaceAdjust=0)
+    {
+        $directive = 0;
+        $j=$i;
+        if ($text[$j]=='<'){
+            $j++;
+            switch($text[$j]){
+                case '/':
+                    $j++;
+                if (strlen($text) <= $j){
+                    return $directive;
+                }
+                switch($text[$j]){
+                    case 'b':
+                    case 'i':
+                        $j++;
+                    if ($text[$j]=='>'){
+                        $p = strrpos($this->currentTextState,$text[$j-1]);
+                        if ($p !== false){
+                            // then there is one to remove
+                            $this->currentTextState = substr($this->currentTextState,0,$p).substr($this->currentTextState,$p+1);
+                        }
+                        $directive=$j-$i+1;
+                    }
+                    break;
+                    case 'c':
+                    {
+                        // this this might be a callback function
+                        $j++;
+                        $k = strpos($text,'>',$j);
+                        if ($k!==false && $text[$j]==':'){
+                            // then this will be treated as a callback directive
+                            $directive = $k-$i+1;
+                            $f=0;
+                            // split the remainder on colons to get the function name and the paramater
+                            $tmp = substr($text,$j+1,$k-$j-1);
+                            $b1 = strpos($tmp,':');
+                            if ($b1!==false){
+                                $func = substr($tmp,0,$b1);
+                                $parm = substr($tmp,$b1+1);
+                            } else {
+                                $func=$tmp;
+                                $parm='';
+                            }
+                            if (!isset($func) || !strlen(trim($func))){
+                                $directive=0;
+                            } else {
+                                // only call the function if this is the final call
+                                if ($final){
+                                    // need to assess the text position, calculate the text width to this point
+                                    // can use getTextWidth to find the text width I think
+                                    $tmp = $this->PRVTgetTextPosition($x,$y,$angle,$size,$wordSpaceAdjust,substr($text,0,$i));
+                                    $info = array('x'=>$tmp[0],'y'=>$tmp[1],'angle'=>$angle,'status'=>'end','p'=>$parm,'nCallback'=>$this->nCallback);
+                                    $x=$tmp[0];
+                                    $y=$tmp[1];
+                                    $ret = $this->$func($info);
+                                    if (is_array($ret)){
+                                        // then the return from the callback function could set the position, to start with, later will do font colour, and font
+                                        foreach($ret as $rk=>$rv){
+                                            switch($rk){
+                                                case 'x':
+                                                case 'y':
+                                                    $$rk=$rv;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    // also remove from to the stack
+                                    // for simplicity, just take from the end, fix this another day
+                                    $this->nCallback--;
+                                    if ($this->nCallback<0){
+                                        $this->nCallBack=0;
+                                    }
+                                }
+                            }
+                        }
+                    } break;
+                }
+                break;
+                case 'b':
+                case 'i':
+                    $j++;
+                if ($text[$j]=='>'){
+                    $this->currentTextState.=$text[$j-1];
+                    $directive=$j-$i+1;
+                }
+                break;
+                case 'C':
+                    $noClose=1;
+                case 'c':
+                    // this this might be a callback function
+                    $j++;
+                $k = strpos($text,'>',$j);
+                if ($k!==false && $text[$j]==':'){
+                    // then this will be treated as a callback directive
+                    $directive = $k-$i+1;
+                    $f=0;
+                    // split the remainder on colons to get the function name and the paramater
 //          $bits = explode(':',substr($text,$j+1,$k-$j-1));
-		    $tmp = substr($text,$j+1,$k-$j-1);
-		    $b1 = strpos($tmp,':');
-		    if ($b1!==false){
-			$func = substr($tmp,0,$b1);
-			$parm = substr($tmp,$b1+1);
-		    } else {
-			$func=$tmp;
-			$parm='';
-		    }
-		    if (!isset($func) || !strlen(trim($func))){
-			$directive=0;
-		    } else {
-			// only call the function if this is the final call, ie, the one actually doing printing, not measurement
-			if ($final){
-			    // need to assess the text position, calculate the text width to this point
-			    // can use getTextWidth to find the text width I think
-			    // also add the text height and decender
-			    $tmp = $this->PRVTgetTextPosition($x,$y,$angle,$size,$wordSpaceAdjust,substr($text,0,$i));
-			    $info = array('x'=>$tmp[0],'y'=>$tmp[1],'angle'=>$angle,'status'=>'start','p'=>$parm,'f'=>$func,'height'=>$this->getFontHeight($size),'decender'=>$this->getFontDecender($size));
-			    $x=$tmp[0];
-			    $y=$tmp[1];
-			    if (!isset($noClose) || !$noClose){
-				// only add to the stack if this is a small 'c', therefore is a start-stop pair
-				$this->nCallback++;
-				$info['nCallback']=$this->nCallback;
-				$this->callback[$this->nCallback]=$info;
-			    }
-			    $ret = $this->$func($info);
-			    if (is_array($ret)){
-				// then the return from the callback function could set the position, to start with, later will do font colour, and font
-				foreach($ret as $rk=>$rv){
-				    switch($rk){
-					case 'x':
-					case 'y':
-					    $$rk=$rv;
-					break;
-				    }
-				}
-			    }
-			}
-		    }
-		}
-		break;
-	    }
-	}
-	return $directive;
+                    $tmp = substr($text,$j+1,$k-$j-1);
+                    $b1 = strpos($tmp,':');
+                    if ($b1!==false){
+                        $func = substr($tmp,0,$b1);
+                        $parm = substr($tmp,$b1+1);
+                    } else {
+                        $func=$tmp;
+                        $parm='';
+                    }
+                    if (!isset($func) || !strlen(trim($func))){
+                        $directive=0;
+                    } else {
+                        // only call the function if this is the final call, ie, the one actually doing printing, not measurement
+                        if ($final){
+                            // need to assess the text position, calculate the text width to this point
+                            // can use getTextWidth to find the text width I think
+                            // also add the text height and decender
+                            $tmp = $this->PRVTgetTextPosition($x,$y,$angle,$size,$wordSpaceAdjust,substr($text,0,$i));
+                            $info = array('x'=>$tmp[0],'y'=>$tmp[1],'angle'=>$angle,'status'=>'start','p'=>$parm,'f'=>$func,'height'=>$this->getFontHeight($size),'decender'=>$this->getFontDecender($size));
+                            $x=$tmp[0];
+                            $y=$tmp[1];
+                            if (!isset($noClose) || !$noClose){
+                                // only add to the stack if this is a small 'c', therefore is a start-stop pair
+                                $this->nCallback++;
+                                $info['nCallback']=$this->nCallback;
+                                $this->callback[$this->nCallback]=$info;
+                            }
+                            $ret = $this->$func($info);
+                            if (is_array($ret)){
+                                // then the return from the callback function could set the position, to start with, later will do font colour, and font
+                                foreach($ret as $rk=>$rv){
+                                    switch($rk){
+                                        case 'x':
+                                        case 'y':
+                                            $$rk=$rv;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
+            }
+        }
+        return $directive;
     }
 
 /**
@@ -2558,40 +2560,40 @@ class Cpdf
 	    $f=1;
 	    $directive = $this->PRVTcheckTextDirective($text,$i,$f);
 	    if ($directive){
-		// then we should write what we need to
-		if ($i>$start){
-		    $part = substr($text,$start,$i-$start);
-		    $this->objects[$this->currentContents]['c'].=' /F'.$this->currentFontNum.' '.sprintf('%.1f',$size).' Tf ';
-		    $this->objects[$this->currentContents]['c'].=' ('.$this->filterText($part).') Tj';
-		}
-		if ($f){
-		    // then there was nothing drastic done here, restore the contents
-		    $this->setCurrentFont();
-		} else {
-		    $this->objects[$this->currentContents]['c'] .= ' ET';
-		    $f=1;
-		    $xp=$x;
-		    $yp=$y;
-		    $directive = $this->PRVTcheckTextDirective1($text,$i,$f,1,$xp,$yp,$size,$angle,$wordSpaceAdjust);
+            // then we should write what we need to
+            if ($i>$start){
+                $part = substr($text,$start,$i-$start);
+                $this->objects[$this->currentContents]['c'].=' /F'.$this->currentFontNum.' '.sprintf('%.1f',$size).' Tf ';
+                $this->objects[$this->currentContents]['c'].=' ('.$this->filterText($part).') Tj';
+            }
+            if ($f){
+                // then there was nothing drastic done here, restore the contents
+                $this->setCurrentFont();
+            } else {
+                $this->objects[$this->currentContents]['c'] .= ' ET';
+                $f=1;
+                $xp=$x;
+                $yp=$y;
+                $directive = $this->PRVTcheckTextDirective1($text,$i,$f,1,$xp,$yp,$size,$angle,$wordSpaceAdjust);
 
-		    // restart the text object
-		    if ($angle==0){
-			$this->objects[$this->currentContents]['c'].="\n".'BT '.sprintf('%.3f',$xp).' '.sprintf('%.3f',$yp).' Td';
-		    } else {
-			$a = deg2rad((float)$angle);
-			$tmp = "\n".'BT ';
-			$tmp .= sprintf('%.3f',cos($a)).' '.sprintf('%.3f',(-1.0*sin($a))).' '.sprintf('%.3f',sin($a)).' '.sprintf('%.3f',cos($a)).' ';
-			$tmp .= sprintf('%.3f',$xp).' '.sprintf('%.3f',$yp).' Tm';
-			$this->objects[$this->currentContents]['c'] .= $tmp;
-		    }
-		    if ($wordSpaceAdjust!=0 || $wordSpaceAdjust != $this->wordSpaceAdjust){
-			$this->wordSpaceAdjust=$wordSpaceAdjust;
-			$this->objects[$this->currentContents]['c'].=' '.sprintf('%.3f',$wordSpaceAdjust).' Tw';
-		    }
-		}
-		// and move the writing point to the next piece of text
-		$i=$i+$directive-1;
-		$start=$i+1;
+                // restart the text object
+                if ($angle==0){
+                    $this->objects[$this->currentContents]['c'].="\n".'BT '.sprintf('%.3f',$xp).' '.sprintf('%.3f',$yp).' Td';
+                } else {
+                    $a = deg2rad((float)$angle);
+                    $tmp = "\n".'BT ';
+                    $tmp .= sprintf('%.3f',cos($a)).' '.sprintf('%.3f',(-1.0*sin($a))).' '.sprintf('%.3f',sin($a)).' '.sprintf('%.3f',cos($a)).' ';
+                    $tmp .= sprintf('%.3f',$xp).' '.sprintf('%.3f',$yp).' Tm';
+                    $this->objects[$this->currentContents]['c'] .= $tmp;
+                }
+                if ($wordSpaceAdjust!=0 || $wordSpaceAdjust != $this->wordSpaceAdjust){
+                    $this->wordSpaceAdjust=$wordSpaceAdjust;
+                    $this->objects[$this->currentContents]['c'].=' '.sprintf('%.3f',$wordSpaceAdjust).' Tw';
+                }
+            }
+            // and move the writing point to the next piece of text
+            $i=$i+$directive-1;
+            $start=$i+1;
 	    }
 
 	}

@@ -1,1 +1,1 @@
-{pdf(text, $attribute.content)}
+{pdf(text, $attribute.content|wash(pdf))}

@@ -153,7 +153,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                         $uri = 'design:content/datatype/pdf/ezxmltags/anchor.tpl';
 
                         eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-                        $output .= implode( '', $textElements );
+                        $output .= str_replace( array( ' ', "\n" ), '', implode( '', $textElements ) );
                     }
 
                     $level = $sectionLevel;
@@ -163,7 +163,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                     $uri = 'design:content/datatype/pdf/ezxmltags/header.tpl';
                     $textElements = array();
                     eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-                    $output .= implode( '', $textElements );
+                    $output .= str_replace( array( ' ', "\n" ), '', implode( '', $textElements ) );
 
                     // Remove the design key, so it will not override other tags
                     $res->removeKey( 'classification' );
@@ -231,7 +231,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                 $uri = 'design:content/datatype/pdf/ezxmltags/paragraph.tpl';
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-                $output .= implode( '', $textElements );
+                $output .= str_replace( array( ' ', "\n" ), '', implode( '', $textElements ) );
             }
             else
             {
@@ -239,8 +239,8 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
             }
 
         }
-        if ( $paragraph->children() == null )
-            $output = "\n\n";
+//        if ( $paragraph->children() == null )
+//            $output = "\n\n";
         return $output;
     }
 
@@ -326,7 +326,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                     $uri = 'design:content/datatype/pdf/ezxmltags/'. $tagName .'.tpl';
                     $textElements = array();
                     eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-                    $tagText = implode( '', $textElements );
+                    $tagText = str_replace( array( ' ', "\n" ), '', implode( '', $textElements ) );
 
                     // Set to true if tag breaks paragraph flow as default
                     $isBlockTag = true;
@@ -389,7 +389,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                         $tpl->setVariable( 'rowspan', $rowspan, 'xmltagns' );
                         $tpl->setVariable( 'width', $cellWidth, 'xmltagns' );
                         eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-                        $tableData .= implode( '', $textElements );
+                        $tableData .= str_replace( array( ' ', "\n" ), '', implode( '', $textElements ) );
 
                         // Remove the design key, so it will not override other tags
                         $res->removeKey( 'classification' );
@@ -399,7 +399,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                     $uri = 'design:content/datatype/pdf/ezxmltags/tr.tpl';
                     $textElements = array();
                     eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-                    $tableRows .= implode( '', $textElements );
+                    $tableRows .= str_replace( array( ' ', "\n" ), '', implode( '', $textElements ) );
                     $rowCount++;
                 }
                 $class = $tag->attributeValue( 'class' );
@@ -414,7 +414,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                 $uri = 'design:content/datatype/pdf/ezxmltags/table.tpl';
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-                $tagText .= implode( '', $textElements );
+                $tagText .= str_replace( array( ' ', "\n" ), '', implode( '', $textElements ) );
                 $isBlockTag = true;
 
                 // Remove the design key, so it will not override other tags
@@ -445,7 +445,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
 
                     $textElements = array();
                     eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-                    $listContent .= implode( '', $textElements );
+                    $listContent .= str_replace( array( ' ', "\n" ), '', implode( '', $textElements ) );
                 }
 
                 $className = $tag->attributeValue( 'class' );
@@ -455,7 +455,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
 
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-                $tagText .= implode( '', $textElements );
+                $tagText .= str_replace( array( ' ', "\n" ), '', implode( '', $textElements ) );
                 // Remove the design key, so it will not override other tags
                 $res->removeKey( 'classification' );
             }break;
@@ -474,7 +474,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                 $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-                $tagText .= implode( '', $textElements );
+                $tagText .= str_replace( array( ' ', "\n" ), '', implode( '', $textElements ) );
                 // Remove the design key, so it will not override other tags
                 $res->removeKey( 'classification' );
             }break;
@@ -496,7 +496,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
 
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-                $tagText .= implode( '', $textElements );
+                $tagText .= str_replace( array( ' ', "\n" ), '', implode( '', $textElements ) );
                 $tagText = trim( $tagText );
 
                 // Remove the design key, so it will not override other tags
@@ -574,7 +574,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                 $uri = 'design:content/datatype/pdf/ezxmltags/'. $tagName .'.tpl';
 
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-                $tagText .= implode( '', $textElements );
+                $tagText .= str_replace( array( ' ', "\n" ), '', implode( '', $textElements ) );
 
                 // Remove the design key, so it will not override other tags
                 $res->removeKey( 'classification' );
@@ -589,7 +589,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                 $uri = 'design:content/datatype/pdf/ezxmltags/'. $tagName .'.tpl';
 
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-                $tagText .= implode( '', $textElements );
+                $tagText .= str_replace( array( ' ', "\n" ), '', implode( '', $textElements ) );
             }break;
 
             default :

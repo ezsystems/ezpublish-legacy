@@ -268,6 +268,17 @@ function modify( &$tpl,
                                                              $atText ),
                                                       $operatorValue );
                     } break;
+                    case 'pdf':
+                    {
+                        $operatorValue = str_replace( array( ' ', // use default callback functions in ezpdf library
+                                                             "\r\n",
+                                                             "\t" ),
+                                                      array( '<C:callSpace>',
+                                                             '<C:callNewLine>',
+                                                             '<C:callTab>' ),
+                                                      $operatorValue );
+                        $operatorValue = str_replace( "\n", '<C:callNewLine>', $operatorValue );
+                    }
                 }
             }break;
 

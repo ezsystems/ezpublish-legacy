@@ -1,1 +1,1 @@
-{pdf|text, concat( "<i>", $content, "</i>" )}
+{pdf(text, concat( "<i>", $content, "</i>" )|wash(pdf))}

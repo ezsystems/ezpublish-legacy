@@ -38,6 +38,10 @@
 
 include_once( 'lib/ezpdf/classes/class.ezpdf.php' );
 
+define( 'EZ_PDF_LIB_NEWLINE', '<C:callNewLine>' );
+define( 'EZ_PDF_LIB_SPACE', '<C:callSpace>' );
+define( 'EZ_PDF_LIB_TAB', '<C:callTab>' );
+
 /**
  This class extents Cezpdf ( class.ezpdf.php ) and adds extra support to tables.
 */
@@ -52,6 +56,12 @@ class eZPDFTable extends Cezpdf
     {
         $this->Cezpdf();
         $this->TOC = array();
+
+        $this->ez['textStack'] = array();
+
+        $this->PreStack = array();
+        $this->initPreStack();
+        $this->DocSpecification = array();
     }
 
     /**
@@ -760,13 +770,72 @@ class eZPDFTable extends Cezpdf
         $this->line($x0-$gap/2-$outer/2,$y2,$x1-$gap/2+$outer/2,$y2);
     }
 
-    function rf($info){
-        $tmp = $info['p'];
-        $lvl = $tmp[0];
-        $lbl = rawurldecode(substr($tmp,1));
-        $num=$this->ezWhatPageNumber($this->ezGetCurrentPageNumber());
-        $this->TOC[] = array($lbl,$num,$lvl );
-        $this->addDestination( 'toc'. ( count( $this->TOC ) - 1 ), 'FitH', $this->offsetY() );
+    /**
+     * Callback function to set anchor
+     */
+    function callAnchor( $info )
+    {
+        $paramArray = explode( ':', $info['p'] );
+
+        $this->addDestination( $paramArray[0], $paramArray[1], $this->offsetY() );
+    }
+
+    /**
+     * Callback function to set header
+     */
+    function callHeader( $params )
+    {
+        $options = array();
+
+        if ( isset( $params['size'] ) )
+        {
+            $options['fontSize'] = $params['size'];
+        }
+
+        if ( isset( $params['justification'] ) )
+        {
+            $options['justification'] = $params['justification'];
+        }
+
+        $this->addToPreStack( $options );
+
+        $label = $params['label'];
+        $level = $params['level'];
+
+        return '<C:callInsertTOC:'. $label .','. $level .'>';
+    }
+
+    /**
+     * function for inserting TOC
+     */
+    function callInsertTOC( $info )
+    {
+        $params = explode( ',', $info['p'] );
+
+        $label = $params[0];
+        $level = $params[1];
+
+        $tocCount = count( $this->TOC );
+        $this->TOC[] = array( $this->fixWhitespace( rawurldecode( $label ) ),
+                              $this->ezWhatPageNumber($this->ezGetCurrentPageNumber()),
+                              $level );
+        $this->addDestination( 'toc'. $tocCount, 'FitH', $this->offsetY() );
+    }
+
+    /**
+     * Callback function for inserting TOC
+     */
+    function callTOC( $info )
+    {
+        $this->insertTOC();
+    }
+
+    /**
+     * Callback function for creating new page
+     */
+    function callNewPage( $info )
+    {
+        $this->ezNewPage();
     }
 
     /*!
@@ -776,7 +845,7 @@ class eZPDFTable extends Cezpdf
      \param indent, element 0 define indent of header level 1, etc.
      \param dots, if true, generate dots between name and pagenumber
      \param level, how many header levels to generate toc form
-     */
+    */
     function insertTOC( $sizeArray = array( 20, 18, 16, 14, 12 ),
                         $indentArray = array( 0, 4, 6, 8, 10 ),
                         $dots = true,
@@ -787,28 +856,25 @@ class eZPDFTable extends Cezpdf
 
         $this->ezInsertMode(1,1,'before');
         $this->ezNewPage();
-        $this->ezText("Contents\n", 26, array('justification'=>'centre'));
-
-//        echo $this->ez['leftMargin'].': '.$this->ez['rightMargin'].': '.$this->ez['pageWidth'];
+        Cezpdf::ezText("Contents\n", 26, array('justification'=>'centre'));
 
         foreach($this->TOC as $k=>$v){
-//            echo '<br>'.$v[1];
             if ( $v[2] <= $level )
             {
                 if ( $dots )
                 {
-                    $this->ezText('<c:ilink:toc'. $k .'>'. $v[0] .'</c:ilink><C:dots:'. $sizeArray[$v[2]-1].$v[1] .'>'. "\n",
-                                  $sizeArray[$v[2]-1],
-                                  array('left' => $indentArray[$v[2]-1] ) );
+                    Cezpdf::ezText('<c:ilink:toc'. $k .'>'. $v[0] .'</c:ilink><C:dots:'. $sizeArray[$v[2]-1].$v[1] .'>'. "\n",
+                                   $sizeArray[$v[2]-1],
+                                   array('left' => $indentArray[$v[2]-1] ) );
                 }
                 else
                 {
-                    $this->ezText( '<c:ilink:toc'. $k .'>'.$v[0].'</c:ilink>',
-                                   $sizeArray[$v[2]-1],
-                                   array( 'left' => $indentArray[$v[2]-1] ) );
-                    $this->ezText( '<c:ilink:toc'. $k .'>'. $v[1] .'</c:ilink>'. "\n",
-                                   $sizeArray[$v[2]-1],
-                                   array( 'justification' => 'right' ) );
+                    Cezpdf::ezText( '<c:ilink:toc'. $k .'>'.$v[0].'</c:ilink>',
+                                    $sizeArray[$v[2]-1],
+                                    array( 'left' => $indentArray[$v[2]-1] ) );
+                    Cezpdf::ezText( '<c:ilink:toc'. $k .'>'. $v[1] .'</c:ilink>'. "\n",
+                                    $sizeArray[$v[2]-1],
+                                    array( 'justification' => 'right' ) );
                 }
             }
         }
@@ -831,9 +897,244 @@ class eZPDFTable extends Cezpdf
         $this->addText($xpos+5,$info['y'],$size,$lbl);
     }
 
+    /**
+     * Callback function to set font
+     * usage <C:font:name,<fontname>:size,<fontsize>>
+     */
+    function callFont( $params ){
+        $options = array();
+
+        if ( isset( $params['name'] ) )
+        {
+            $options['fontName'] = $params['name'];
+        }
+
+        if ( isset( $params['size'] ) )
+        {
+            $options['fontSize'] = $params['size'];
+        }
+
+        if ( isset( $params['justification'] ) )
+        {
+            $options['justification'] = $params['justification'];
+        }
+
+        $this->addToPreStack( $options );
+
+        return '';
+    }
+
+    function &fixWhitespace( &$text )
+    {
+        return str_replace( array( EZ_PDF_LIB_SPACE,
+                                   EZ_PDF_LIB_TAB,
+                                   EZ_PDF_LIB_NEWLINE ),
+                            array( ' ',
+                                   "\t",
+                                   "\n" ),
+                            $text );
+    }
+
+    /**
+     * Function overriding the default ezText function for doing preprocessing of text
+     */
+    function ezText( $text, $size=0, $options=array(), $test=0)
+    {
+        $text = $this->fixWhitespace( $text );
+
+        $textLen = strlen( $text );
+        $newText = '';
+        for ( $offSet = 0; $offSet < $textLen; $offSet++ )
+        {
+            if ( $text[$offSet] == '<' )
+            {
+                if ( strcmp( substr($text, $offSet+1, strlen( 'ezCall' ) ), 'ezCall' ) == 0 ) // ez library preprocessing call.
+                {
+                    $this->addDocSpecification( $newText );
+
+                    $offSet++;
+                    $offSet += strlen( 'ezCall:' );
+                    $funcEnd = strpos( $text, ':', $offSet );
+                    $funcName = substr( $text, $offSet, $funcEnd - $offSet );
+
+                    $offSet = $funcEnd;
+                    $endOffset = strpos( $text, '>', $offSet );
+                    $params = array();
+                    $offSet++;
+                    while ( $offSet < $endOffset )
+                    {
+                        $nameEnd = strpos( $text, ':', $offSet );
+                        $valueEnd = strpos( $text, ':', $nameEnd+1 );
+                        if ( $valueEnd > $endOffset || $valueEnd === false )
+                        {
+                            $valueEnd = $endOffset;
+                        }
+                        $paramName = substr( $text, $offSet, $nameEnd-$offSet);
+                        ++$nameEnd;
+                        $paramValue = substr( $text, $nameEnd, $valueEnd-$nameEnd );
+                        $params[$paramName] = $paramValue;
+                        $offSet = ++$valueEnd;
+                    }
+                    $newText = $this->$funcName( $params );
+                    $offSet = $endOffset;
+                    continue;
+                }
+                else if ( strcmp( substr($text, $offSet+1, strlen( '/ezCall' ) ), '/ezCall' ) == 0 )
+                {
+                    $this->addDocSpecification( $newText );
+                    array_pop( $this->PreStack );
+                    $offSet = strpos( $text, '>', $offSet );
+                    $offSet++;
+                    $newText = '';
+                    continue;
+                }
+            }
+            $newText .= $text[$offSet];
+        }
+        if ( strlen( $newText ) > 0 )
+        {
+            $this->addDocSpecification( $newText );
+        }
+
+        return $this->outputDocSpecification();
+    }
+
+    /**
+      Loop through all document specification settings and print specified text
+
+      \return new Y offset
+     */
+    function outputDocSpecification()
+    {
+        foreach( array_keys( $this->DocSpecification ) as $key )
+        {
+            $outputElement =& $this->DocSpecification[$key];
+            $documentSpec =& $outputElement['docSpec'];
+
+            if ( isset( $documentSpec['fontName'] ) )
+            {
+                $this->setCurrentFont( $documentSpec['fontName'] );
+            }
+
+            if ( isset( $documentSpec['fontSize'] ) )
+            {
+                $size = $documentSpec['fontSize'];
+            }
+            else
+            {
+                $size = $this->fontSize();
+            }
+
+            $return = Cezpdf::ezText( $outputElement['text'],
+                                      $size,
+                                      array( 'justification' => $documentSpec['justification'] ) );
+        }
+        return $return;
+    }
+
+    /**
+     * Callback function for adding text
+     * usage: <c:callText:name,<fontname>:size,<fontsize>>text</c:callText>
+     */
+    function callText( $params )
+    {
+        $options = array();
+
+        if ( isset( $params['name'] ) )
+        {
+            $options['fontName'] = $params['name'];
+        }
+
+        if ( isset( $params['size'] ) )
+        {
+            $options['fontSize'] = $params['size'];
+        }
+
+        if ( isset( $params['justification'] ) )
+        {
+            $options['justification'] = $params['justification'];
+        }
+
+        $this->addToPreStack( $options );
+
+        return '';
+    }
+
+    /**
+     * Initialize PreStack
+     */
+    function initPreStack()
+    {
+        array_push( $this->PreStack, array( 'justification' => $this->justification(),
+                                            'fontSize' => $this->fontSize(),
+                                            'fontName' => $this->currentFont() ) );
+    }
+
+    /**
+     * Function for adding text to doc specification
+     *
+     * param - text to add
+     */
+    function addDocSpecification( $text )
+    {
+        $docSpec = array_pop( $this->PreStack );
+        $this->DocSpecification[] = array ( 'docSpec' => $docSpec,
+                                            'text' => $text );
+        array_push( $this->PreStack, $docSpec );
+    }
+
+    /**
+     * function for adding font specification to PreStack array
+     *
+     * Possible $options setting:
+     * - justification
+     * - fontSize
+     * - fontName
+     */
+    function addToPreStack( $options=array() )
+    {
+        $currentElement = array();
+
+        $prevElement = array_pop( $this->PreStack );
+
+        if ( isset( $options['justification'] ) )
+        {
+            $currentElement['justification'] = $options['justification'];
+        }
+        else
+        {
+            $currentElement['justification'] = $prevElement['justification'];
+        }
+
+        if ( isset( $options['fontSize'] ) )
+        {
+            $currentElement['fontSize'] = $options['fontSize'];
+        }
+        else
+        {
+            $currentElement['fontSize'] = $prevElement['fontSize'];
+        }
+
+        if ( isset( $options['fontName'] ) )
+        {
+            $currentElement['fontName'] = $options['fontName'];
+        }
+        else
+        {
+            $currentElement['fontName'] = $prevElement['fontName'];
+        }
+
+        array_push( $this->PreStack, $prevElement );
+        array_push( $this->PreStack, $currentElement );
+    }
+
     /* --- Private --- */
 
     var $TOC;
+
+    /* Stack and array used for preprocessing document */
+    var $PreStack;
+    var $DocSpecification;
 }
 
 

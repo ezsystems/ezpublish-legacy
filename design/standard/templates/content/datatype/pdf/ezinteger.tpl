@@ -1,1 +1,1 @@
-{pdf(text, $attribute.data_int)}
+{pdf(text, $attribute.data_int|wash(pdf))}

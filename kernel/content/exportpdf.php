@@ -62,6 +62,7 @@ else if ( $Module->isCurrentAction( 'Export' ) &&
     $tpl->setVariable( 'node', eZContentObjectTreeNode::fetch( $http->postVariable( 'export_pdf_node_id' ) ) );
     $tpl->setVariable( 'class_array', $http->postVariable( 'export_pdf_class_list' ) );
     $tpl->setVariable( 'tree_traverse', ($http->postVariable( 'export_pdf_type' ) != 'node') ? 1 : -1 ); //set to 1 if recursive export
+    $tpl->setVariable( 'generate_toc', 1 );
 
     if ( $http->postVariable( 'export_pdf_destination' ) == 'download' )
     {
@@ -71,7 +72,19 @@ else if ( $Module->isCurrentAction( 'Export' ) &&
     {
         $tpl->setVariable( 'generate_file', 1 );
     }
-    $tpl->fetch( 'design:node/view/pdf.tpl' );
+    $textElements = array();
+    $uri = 'design:node/view/pdf.tpl';
+    eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, '', '' );
+    $pdf_definition = implode( '', $textElements );
+
+    $pdf_definition = str_replace( array( ' ',
+                                          "\n" ),
+                                   '',
+                                   $pdf_definition );
+
+    $tpl->setVariable( 'pdf_definition', $pdf_definition );
+
+    $tpl->fetch( 'design:node/view/execute_pdf.tpl' );
 }
 
 $tpl =& templateInit();

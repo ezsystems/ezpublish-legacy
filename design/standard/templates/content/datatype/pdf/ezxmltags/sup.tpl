@@ -1,2 +1,2 @@
 {* Not supported in PDF yet *}
-{pdf(text, $content)}
+{pdf(text, $content|wash(pdf))}

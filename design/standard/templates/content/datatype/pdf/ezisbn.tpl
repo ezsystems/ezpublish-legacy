@@ -1,1 +1,1 @@
-{pdf(text, concat( "ISBN ", $attribute.data_text ))}
+{pdf(text, concat( "ISBN ", $attribute.data_text )|wash(pdf))}

@@ -1,1 +1,1 @@
-{pdf(strike, $content)}
+{pdf(strike, $content|wash(pdf))}

@@ -5,7 +5,7 @@
      children=$node.children}
 
 {pdf(header, hash( level, 1,
-                   text, $node_name,
+                   text, $node_name|wash(pdf),
 		   size, 26,
 		   align, left ) )}
 
@@ -24,10 +24,6 @@
 
 {/let}
 
-{section show=$generate_stream|eq(1)}
-{/section}
-
-{section show=$generate_file|eq(1)}
+{section show=$generate_toc|eq(1)}
   {include uri="design:content/pdf/toc.tpl"}
-  {pdf(close)}
 {/section}
