@@ -44,6 +44,7 @@ include_once( "lib/ezutils/classes/ezdebug.php" );
 
 $workflowProcessList = & eZWorkflowProcess::fetchForStatus( EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON );
 var_dump( $workflowProcessList  );
+$user =& eZUser::instance( 8 );
 eZModule::setGlobalPathList( array( "kernel" ) );
 foreach( array_keys( $workflowProcessList ) as $key )
 {
