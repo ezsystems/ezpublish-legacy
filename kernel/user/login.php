@@ -102,10 +102,17 @@ if ( $Module->isCurrentAction( 'Login' ) and
         foreach ( array_keys ( $loginHandlers ) as $key )
         {
             $loginHandler = $loginHandlers[$key];
-            $userClass =& eZUserLoginHandler::instance( $loginHandler );
-            $user = $userClass->loginUser( $userLogin, $userPassword );
-            if ( get_class( $user ) == 'ezuser' )
+            if ( include_once( 'kernel/classes/datatypes/ezuser/ezuserloginhandler.php' ) )
+            {
+                $userClass =& eZUserLoginHandler::instance( $loginHandler );
+                $user = $userClass->loginUser( $userLogin, $userPassword );
+                if ( get_class( $user ) == 'ezuser' )
+                    break;
+            }
+            else
+            {
                 break;
+            }
         }
         if ( get_class( $user ) != 'ezuser' )
             $loginWarning = true;

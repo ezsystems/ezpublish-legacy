@@ -22,18 +22,23 @@
 
 {/section}
 
+{section show=count($content_attributes)|gt(0)}
+    {section name=ContentObjectAttribute loop=$content_attributes sequence=array(bglight,bgdark)}
+    <input type="hidden" name="ContentObjectAttribute_id[]" value="{$ContentObjectAttribute:item.id}" />
+    <div class="block">
+    <label>{$ContentObjectAttribute:item.contentclass_attribute.name}</label><div class="labelbreak"></div>
+    {attribute_edit_gui attribute=$ContentObjectAttribute:item}
+    </div>
+    {/section}
 
-{section name=ContentObjectAttribute loop=$content_attributes sequence=array(bglight,bgdark)}
-<input type="hidden" name="ContentObjectAttribute_id[]" value="{$ContentObjectAttribute:item.id}" />
-<div class="block">
-<label>{$ContentObjectAttribute:item.contentclass_attribute.name}</label><div class="labelbreak"></div>
-{attribute_edit_gui attribute=$ContentObjectAttribute:item}
+    <div class="buttonblock">
+    <input class="button" type="submit" name="PublishButton" value="{'Register'|i18n('design/standard/user')}" />
+    <input class="button" type="submit" name="CancelButton" value="{'Discard'|i18n('design/standard/user')}" />
+    </div>
+{section-else}
+<div class="warning">
+<h2>{"Unable to register new user"|i18n("design/standard/user")}</h2>
 </div>
+<input class="button" type="submit" name="CancelButton" value="{'Back'|i18n('design/standard/user')}" />
 {/section}
-
-<div class="buttonblock">
-<input class="button" type="submit" name="PublishButton" value="{'Register'|i18n('design/standard/user')}" />
-<input class="button" type="submit" name="CancelButton" value="{'Discard'|i18n('design/standard/user')}" />
-</div>
-
 </form>

@@ -509,8 +509,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             {
                 unset( $dataType );
                 $dataType =& eZDataType::create( $key );
-
-                $dataTypeArray[$key] = $dataType->sortKeyType();
+                if( is_object( $dataType ) )
+                    $dataTypeArray[$key] = $dataType->sortKeyType();
             }
             unset( $dataType );
 
@@ -3495,7 +3495,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         // Check if any URL's is pointing to this node, if so update it
-        $url =& eZURL::urlByURL( "/" . $oldPathString );
+        if ( include_once( 'kernel/classes/datatypes/ezurl/ezurltype.php' ) )
+            $url =& eZURL::urlByURL( "/" . $oldPathString );
 
         if ( $url )
         {

@@ -86,7 +86,6 @@ function eZCheckList()
 */
 function eZCheckUser( &$siteBasics, &$uri )
 {
-    include_once( 'kernel/classes/datatypes/ezuser/ezuserloginhandler.php' );
     if ( !$siteBasics['user-object-required'] )
     {
         return null;
@@ -101,6 +100,9 @@ function eZCheckUser( &$siteBasics, &$uri )
     {
         return null;
     }
+
+    if( !include_once( 'kernel/classes/datatypes/ezuser/ezuserloginhandler.php' ) )
+        return null;
 
     return eZUserLoginHandler::checkUser( $siteBasics, $uri );
 }
