@@ -1,6 +1,7 @@
 Changes from 3.3-4 to 3.3-5
 
 *Kernel:
+- Added shop/register and shop/basket to session variable LastAccessesURI.
 
 *Setup:
 
@@ -37,3 +38,7 @@ eZ MIMEType:
 eZ Debug:
 
 *Translations:
+
+*Templates:
+- Added attribute "target" in standard image template which control where to 
+  open a new link if the image has a link.
