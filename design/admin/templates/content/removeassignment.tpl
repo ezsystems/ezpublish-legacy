@@ -107,7 +107,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h2 class="context-title">{'Removal of locations with sub items'|i18n( 'design/admin/content/removeassignment' )}</h2>
+<h2 class="context-title">{'Confirm location removal'|i18n( 'design/admin/content/removeassignment' )}</h2>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 

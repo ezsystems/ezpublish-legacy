@@ -2,7 +2,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'Section removal'|i18n( 'design/admin/section/confirmremove' )}</h1>
+<h1 class="context-title">{'Confirm section removal'|i18n( 'design/admin/section/confirmremove' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -12,11 +12,13 @@
 
 <div class="message-confirmation">
 
-{section show=$delete_result|count|gt(1)}
-    <h2>{'Are you sure you want to remove these sections?'|i18n( 'design/admin/section/confirmremove' )}</h2>
+{section show=$delete_result|count|eq(1)}
+    <h2>{'Are you sure you want to remove the section?'|i18n( 'design/admin/section/confirmremove' )}</h2>
 {section-else}
-    <h2>{'Are you sure you want to remove this section?'|i18n( 'design/admin/section/confirmremove' )}</h2>
+    <h2>{'Are you sure you want to remove the sections?'|i18n( 'design/admin/section/confirmremove' )}</h2>
 {/section}
+
+<p>{'The following sections will be removed'|i18n( 'design/admin/section/confirmremove' )}:</p>
 
 <ul>
 {section name=Result loop=$delete_result}

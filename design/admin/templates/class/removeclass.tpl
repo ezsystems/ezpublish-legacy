@@ -14,7 +14,7 @@
 
 {section show=$can_remove}
     {section show=$DeleteResult|count|gt(1)}
-        <h2>{'Are you sure you want to remove these classes?'|i18n( 'design/admin/class/removeclass' )}</h2>
+        <h2>{'Are you sure you want to remove the classes?'|i18n( 'design/admin/class/removeclass' )}</h2>
         {section-else}
         <h2>{'Are you sure you want to remove this class?'|i18n( 'design/admin/class/removeclass' )}</h2>
     {/section}

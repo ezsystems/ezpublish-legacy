@@ -112,7 +112,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'Remove translations'|i18n( 'design/admin/content/translate' )|wash}</h1>
+<h1 class="context-title">{'Confirm translation removal'|i18n( 'design/admin/content/translate' )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -122,9 +122,19 @@
 
 <div class="message-confirmation">
 
+{section show=$remove_language_list|count|eq( 1 )}
+
+<h2>{'Are you sure you want to remove the translation?'|i18n( 'design/admin/content/translate' )}</h2>
+
+<p>{'The following translation (along with translated content) will be removed from the draft'|i18n( 'design/admin/content/translate' )}:</p>
+
+{section-else}
+
 <h2>{'Are you sure you want to remove the translations?'|i18n( 'design/admin/content/translate' )}</h2>
 
 <p>{'The following translations (along with translated content) will be removed from the draft'|i18n( 'design/admin/content/translate' )}:</p>
+
+{/section}
 
 <ul>
 {section var=Languages loop=$remove_language_list}
