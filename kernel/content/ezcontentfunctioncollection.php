@@ -392,12 +392,12 @@ class eZContentFunctionCollection
 
         if ( is_object( $parentNode ) )
         {
-            eZDebug::writeDebug( "can_create_class_list from node " . $parentNode->attribute( 'node_id' ) );
+            //eZDebug::writeDebug( "can_create_class_list from node " . $parentNode->attribute( 'node_id' ) );
             $classList =& $parentNode->canCreateClassList( $asObject, $filterType == 'include', $ClassGroupIDs, $fetchID );
         }
         else
         {
-            eZDebug::writeDebug( "can_create_class_list for all " );
+            //eZDebug::writeDebug( "can_create_class_list for all " );
             $classList =& eZContentClass::canInstantiateClassList( $asObject, $filterType == 'include', $ClassGroupIDs, $fetchID );
         }
 
