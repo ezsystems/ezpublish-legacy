@@ -880,18 +880,21 @@ WHERE
             // Setup user preferences based on the site chosen and addons
             include_once( 'kernel/classes/ezpreferences.php' );
             $prefs = eZSetupPreferences( $siteType['identifier'], $parameters );
-            foreach ( $prefs as $pref )
+            foreach ( $prefs as $prefEntry )
             {
-                if ( !$pref )
+                if ( !$prefEntry )
                     continue;
-                $prefUserID = $pref['user_id'];
-                $prefName = $pref['name'];
-                $prefValue = $pref['value'];
-                if ( !eZPreferences::setValue( $prefName, $prefValue, $prefUserID ) )
+                $prefUserID = $prefEntry['user_id'];
+                foreach ( $prefEntry['preferences'] as $pref )
                 {
-                    $resultArray['errors'][] = array( 'code' => 'EZSW-070',
-                                                      'text' => "Could not create ezpreference for $prefUserID" );
-                    return false;
+                    $prefName = $pref['name'];
+                    $prefValue = $pref['value'];
+                    if ( !eZPreferences::setValue( $prefName, $prefValue, $prefUserID ) )
+                    {
+                        $resultArray['errors'][] = array( 'code' => 'EZSW-070',
+                                                          'text' => "Could not create ezpreference '$prefValue' for $prefUserID" );
+                        return false;
+                    }
                 }
             }
 
