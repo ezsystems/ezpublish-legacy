@@ -3,7 +3,7 @@
 <form method="post" action={"content/action"|ezurl}>
 
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-<input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
+<input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
 <input type="hidden" name="ViewMode" value="full" />
 
 {section show=$node.object.can_edit}
