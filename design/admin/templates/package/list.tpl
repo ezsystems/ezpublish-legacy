@@ -6,7 +6,7 @@
                                repository_id, $repository_id ) )
      repository_list=fetch( package, repository_list )
      can_remove=fetch( package, can_remove )}
-<form method="post" action={concat('package/list',
+<form name="packagelist" method="post" action={concat('package/list',
                             $view_parameters.offset|gt(0)
                             |choose('',
                                     concat('/offset/',$view_parameters.offset)))|ezurl}>
@@ -74,9 +74,7 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package')|break}
 
 <table class="list" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-    {section show=$can_remove}
-    <th width="1">{'Selection'|i18n('design/admin/package')}</th>
-    {/section}
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.packagelist, 'PackageSelection[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/workflow/grouplist' )}" /></th>
     <th>{'Name'|i18n('design/admin/package')}</th>
     <th>{'Version'|i18n('design/admin/package')}</th>
     <th>{'Summary'|i18n('design/admin/package')}</th>
@@ -85,7 +83,9 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package')|break}
 {section name=Package loop=$package_list sequence=array(bglight,bgdark)}
 <tr class="{$:sequence}">
     {section show=$can_remove}
-    <td width="1">{section show=$:item.is_local}<input type="checkbox" name="PackageSelection[]" value="{$:item.name|wash}" />{/section}</td>
+    <td width="1"><input type="checkbox" name="PackageSelection[]" value="{$:item.name|wash}"{section show=$:item.is_local|not}disabled="disabled"{/section}/></td>
+    {section-else}
+      <input type="checkbox" disabled="disabled">
     {/section}
     <td><a href={concat('package/view/full/',$:item.name)|ezurl}>{$:item.name|wash}</a></td>
     <td>{$:item.version-number}-{$:item.release-number}{section show=$:item.release-timestamp}({$:item.release-timestamp|l10n( shortdatetime )}){/section}{section show=$:item.type} [{$:item.type|wash}]{/section}</td>
