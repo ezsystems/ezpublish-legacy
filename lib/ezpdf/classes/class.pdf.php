@@ -3185,6 +3185,7 @@ class Cpdf
 	// note that this function is unable to operate on a remote file.
 
 	if (!file_exists($img)){
+        echo "FILE NOT EXISTS: $img";
 	    return;
 	}
 

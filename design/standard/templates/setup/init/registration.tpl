@@ -1,6 +1,4 @@
 {*?template charset=latin1?*}
-{include uri='design:setup/setup_header.tpl' setup=$setup}
-
 
 <div align="center">
   <h1>{"Site registration"|i18n("design/standard/setup/init")}</h1>

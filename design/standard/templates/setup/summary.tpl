@@ -62,7 +62,7 @@
       <div class="setup_summary_empty">
     {/section}
 
-    {"Database settings:"|i18n("design/standard/setup")}</div></td>
+    {"Database:"|i18n("design/standard/setup")}</div></td>
 
     <td>
     {section show=count($database)}
@@ -79,7 +79,7 @@
       <div class="setup_summary_empty">
     {/section}
   
-    {"Language settings:"|i18n("design/standard/setup")}</div></td>
+    {"Language:"|i18n("design/standard/setup")}</div></td>
 
     <td>
     {section show=count($languages)}
@@ -100,7 +100,7 @@
       <div class="setup_summary_empty">
     {/section}
 
-    {"Sitedesign:"|i18n("design/standard/setup")}</td>
+    {"Site(s):"|i18n("design/standard/setup")}</td>
 
     <td>
     {section show=$sites}

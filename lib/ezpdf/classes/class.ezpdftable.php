@@ -58,7 +58,14 @@ class eZPDFTable extends Cezpdf
     */
     function offsetY()
     {
-        return $y;
+        return $this->y;
+    }
+
+    /*!
+      Add a basic XHTML table to the pdf. This funtions converts basich html, and adds to the pdf file
+    */
+    function addXHTMLTable( &$table, $options='' )
+    {
     }
 
     /** add a table of information to the pdf document

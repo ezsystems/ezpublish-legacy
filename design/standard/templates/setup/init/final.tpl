@@ -1,7 +1,5 @@
 {*?template charset=latin1?*}
-{include uri='design:setup/setup_header.tpl' setup=$setup}
 
-<form method="post" action="{$script}">
 <div align="center">
   <h1>{"Finished!"|i18n("design/standard/setup/init")}</h1>
 </div>
@@ -18,7 +16,7 @@
 
       <td class="setup_site_templates">
         <div align="top">
-          <a href="{$:item.url|wash}">{section show=$:item.image_file_name}<img src={$:item.image_file_name|ezroot} alt="{$:item.name|wash}" />{section-else}<img src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$:item.name|wash}" />{/section}</a>
+          <a href="{$:item.url|wash}" target="_blank">{section show=$:item.image_file_name}<img src={$:item.image_file_name|ezroot} alt="{$:item.name|wash}" />{section-else}<img src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$:item.name|wash}" />{/section}</a>
         </div>
         <div align="bottom">
 	  <table border="0" cellspacing="0" cellpadding="0">
@@ -28,7 +26,7 @@
 	    </tr>
 	    <tr>
 	      <td>{"URL"|i18n("design/standard/setup/init")}: </td>
-	      <td><a href="{$:item.url|wash}" target="_blank">{"User site"|i18n('design/standard/setup/init')}</a>, <a href="{$:item.admin_url|wash}" target="_blank">{"Admin site"|i18n('design/standard/setup/init')}</a></td>
+	      <td><a href="{$:item.url|wash}" target="_blank" class="setup_final">{"User site"|i18n('design/standard/setup/init')}</a>, <a href="{$:item.admin_url|wash}" target="_blank" class="setup_final">{"Admin site"|i18n('design/standard/setup/init')}</a></td>
 	    </tr>
 	    <tr>
 	      <td>{"Admin e-mail"|i18n("design/standard/setup/init")}: </td>

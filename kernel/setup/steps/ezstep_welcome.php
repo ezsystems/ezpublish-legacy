@@ -37,8 +37,6 @@
 /*! \file ezstep_welcome.php
 */
 
-include_once( "kernel/setup/ezsetuptests.php" );
-include_once( 'kernel/setup/steps/ezstep_system_check.php' );
 include_once( 'kernel/setup/steps/ezstep_installer.php');
 include_once( "kernel/common/i18n.php" );
 
@@ -54,7 +52,7 @@ class eZStepWelcome extends eZStepInstaller
      Constructor
      \reimp
     */
-    function EZStepWelcome( &$tpl, &$http, &$ini, &$persistenceList )
+    function eZStepWelcome( &$tpl, &$http, &$ini, &$persistenceList )
     {
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList );
     }
@@ -80,27 +78,6 @@ class eZStepWelcome extends eZStepInstaller
     */
     function &display()
     {
-        /* check and test system  settings */
-/*        $systemCheck = new eZStepSystemCheck( $this->Tpl, $this->Http, $this->Ini, $this->PersistenceList );
-        $systemCheckResult = $systemCheck->init();
-        $this->Tpl->setVariable( 'system_check_result', $systemCheckResult );
-
-        if( $systemCheckResult === true ) // system checks passed
-        {
-            $this->Tpl->setVariable( 'setup_next_step', 'LanguageOptions' );
-        }
-        else
-        {
-            $this->Tpl->setVariable( 'setup_next_step', 'SystemCheck' );
-        }*/
-
-/*        $criticalTests = eZSetupCriticalTests();
-//        $testTable = eZSetupTestTable();
-
-        $arguments = array();
-        $runResult = eZSetupRunTests( $criticalTests, $arguments, 'eZSetup:init:system_check' );
-        $testResult = $runResult['result'];*/
-
         $result = array();
         $result['content'] = $this->Tpl->fetch( 'design:setup/init/welcome.tpl' );
         $result['path'] = array( array( 'text' => ezi18n( 'design/standard/setup/init',

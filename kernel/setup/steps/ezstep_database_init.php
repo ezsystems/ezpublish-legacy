@@ -106,8 +106,6 @@ class eZStepDatabaseInit extends eZStepInstaller
         $databaseInfo['info'] = $databaseMap[$databaseInfo['type']];
         $regionalInfo = $this->PersistenceList['regional_info'];
 
-        $demoDataResult = false;
-
         $dbStatus = array();
         $dbDriver = $databaseInfo['info']['driver'];
         $dbServer = $databaseInfo['server'];
@@ -150,51 +148,6 @@ class eZStepDatabaseInit extends eZStepInstaller
         $this->Error = EZ_SETUP_DB_ERROR_CONNECTION_FAILED;
 
         return false;
-
-        /*
-        $dbStatus['connected'] = $db->isConnected();
-
-        $dbError = false;
-        $demoDataResult = true;
-        if ( $dbStatus['connected'] )
-        {
-            $this->PersistenceList['demo_data']['can_unpack'] = true;
-            if ( !extension_loaded( 'zlib' ) )
-                $this->PersistenceList['demo_data']['can_unpack'] = false;
-            // Do we really need this?
-//             if ( strtolower( $databaseInfo['info']['name'] ) == 'mysql' )
-//             {
-//                 $db->query( 'show tables' );
-//                 if ( $db->errorNumber() != 0 )
-//                 {
-//                     $this->Error = EZ_SETUP_DB_ERROR_CONNECTION_FAILED;
-//                 }
-//             }
-
-            $this->DBEmpty = eZDBTool::isEmpty( $db );
-
-            if ( $this->DBEmpty === false )
-            {
-                if ( $this->Http->hasPostVariable( 'eZSetupDatabaseDataChoice' ) &&
-                     $this->Http->postVariable( 'eZSetupDatabaseDataChoice' ) != '4' )
-                {
-                    $this->PersistenceList['database_info']['existing_database'] =
-                         $this->Http->postVariable( 'eZSetupDatabaseDataChoice' );
-                }
-                else
-                {
-                    $this->Error = EZ_SETUP_DB_ERROR_NOT_EMPTY;
-                }
-            }
-
-        }
-        else
-        {
-            $this->Error = EZ_SETUP_DB_ERROR_CONNECTION_FAILED;
-        }
-
-        return ( $this->Error == 0 ); // Error == 0 , no errors.
-        */
     }
 
     /*!
@@ -202,6 +155,7 @@ class eZStepDatabaseInit extends eZStepInstaller
      */
     function init()
     {
+        // If using windows installer, set standard values, and continue
         if ( eZSetupTestInstaller() == 'windows' )
         {
             $this->PersistenceList['database_info']['server'] = 'localhost';

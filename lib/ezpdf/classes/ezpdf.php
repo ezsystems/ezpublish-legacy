@@ -101,11 +101,21 @@ class eZPDF
 
             case 'image':
             {
-                $width = isset( $namedParameters['width'] ) ? $namedParameters['width']: 100;
-                $height = isset( $namedParameters['height'] ) ? $namedParameters['height']: 100;
+                $image = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
-                $this->PDF->addJpegFromFile($namedParameters['src'],0,$this->PDF->offsetY(),$width,$height);
-                eZDebug::writeNotice( 'Added Image '.$namedParameters['src'].' to PDF file' );
+                $width = isset( $image['width'] ) ? $image['width']: 100;
+                $height = isset( $image['height'] ) ? $image['height']: 100;
+
+                $this->PDF->addJpegFromFile($image['src'],0,$this->PDF->offsetY()-$height,$width,$height);
+                eZDebug::writeNotice( 'PDF: Added Image '.$image['src'].' to PDF file' );
+            } break;
+
+            case 'link':
+            {
+                $link = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+
+                $this->PDF->ezText( '<c:alink:'.$link['url'].'>'.$link['text'].'</c:alink>' );
+                eZDebug::writeNotice( 'PDF: Added link, url: '.$link['url'] );
             } break;
 
             case 'close':
@@ -119,7 +129,6 @@ class eZPDF
             case 'text':
             {
                 $operands = array();
-                $op1 = $operatorParameters[1];
                 for ( $i = 1; $i < count( $operatorParameters ); ++$i )
                 {
                     $operand = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );

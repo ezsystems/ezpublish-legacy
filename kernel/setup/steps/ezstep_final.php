@@ -95,8 +95,6 @@ class eZStepFinal extends eZStepInstaller
             }
             else if ( $templates[$counter]['access_type'] == 'hostname' )
             {
-//                 $url = eZHTTPTool::createRedirectURL( $currentURL, array( 'override_host' => $templates[$counter]['access_type_value'] ) );
-//                 $adminURL = eZHTTPTool::createRedirectURL( $currentURL, array( 'override_host' => $templates[$counter]['admin_access_type_value'] ) );
                 $url = $templates[$counter]['access_type_value'];
                 $adminURL = $templates[$counter]['admin_access_type_value'];
                 if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url ) )

@@ -36,7 +36,7 @@
 
 /*! \file ezstep_email_settings.php
 */
-include_once( 'kernel/setup/ezsetuptests.php' );
+
 include_once( 'kernel/setup/steps/ezstep_installer.php');
 include_once( 'kernel/common/i18n.php' );
 

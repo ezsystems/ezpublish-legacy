@@ -1,10 +1,7 @@
 {*?template charset=latin1?*}
 {let has_warnings=false()}
-{include uri='design:setup/setup_header.tpl' setup=$setup}
 
   <form method="post" action="{$script}">
-
-{* {$test.results|attribute(show,5)} *}
 
 {section loop=$test.results}
 {section-exclude match=true()}
@@ -40,18 +37,12 @@
   <p>{"No problems was found with your system, you can continue by clicking the"|i18n("design/standard/setup/init")} <i>{"Next &gt;"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}</p>
   <p>{"However if you wish to finetune your system you should click the"|i18n("design/standard/setup/init")} <i>{"Finetune System"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}</p>
 
-{*  <form method="post" action="{$script}"> *}
-{*                {section name=handover loop=$handover}
-                <input type="hidden" name="{$:item.name}" value="{$:item.value}" />
-                {/section} *}
-{*                <input type="hidden" name="currentStep" value="{$nextStep}" />*}
     <div class="buttonblock">
       <input type="hidden" name="ChangeStepAction" value="" />
       <input class="defaultbutton" type="submit" name="StepButton_4" value="{'Next'|i18n('design/standard/setup/init')} >>" />
       <input class="button" type="submit" name="StepButton_3" value="{'Finetune System'|i18n('design/standard/setup/init')} >" />
     </div>
     {include uri='design:setup/persistence.tpl'}
-{*  </form> *}
 
 {section-else}
 

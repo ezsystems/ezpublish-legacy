@@ -158,6 +158,16 @@ p.disabled
 	color: #cccccc;
 }
 
+a:link.setup_final
+{
+  color: #4070ff;
+}
+
+a:visited.setup_final
+{
+  color: #82c4ff;
+}
+
 a:link
 { 
   color: #82c4ff;

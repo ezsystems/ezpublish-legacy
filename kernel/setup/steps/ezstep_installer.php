@@ -53,7 +53,7 @@ class eZStepInstaller
     \param ini settings object
     \param persistencelist, all previous posted data
     */
-    function EZStepInstaller( &$tpl, &$http, &$ini, &$persistenceList )
+    function eZStepInstaller( &$tpl, &$http, &$ini, &$persistenceList )
     {
         $this->Tpl =& $tpl;
         $this->Http =& $http;

@@ -73,6 +73,8 @@ class eZStepDatabaseChoice extends eZStepInstaller
     function init()
     {
         $databaseMap = eZSetupDatabaseMap();
+
+        include_once( "kernel/setup/ezsetuptests.php" );
         if ( eZSetupTestInstaller() == 'windows' )
         {
             $this->PersistenceList['database_info'] = $databaseMap['mysql'];
