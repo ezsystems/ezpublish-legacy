@@ -53,6 +53,12 @@ MatchFile=product_line.tpl
 Subdir=templates
 Match[class]=23
 
+[embedded_product]
+Source=content/view/text_linked.tpl
+MatchFile=embedded_product.tpl
+Subdir=templates
+Match[class]=23
+
 [search]
 Source=content/search.tpl
 MatchFile=search.tpl
