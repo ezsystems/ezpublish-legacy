@@ -365,7 +365,9 @@ class eZSys
         // Get the webdir.
         if ( ereg( "(.*)/([^\/]+\.php)$", eZSys::serverVariable( 'SCRIPT_NAME' ), $regs ) )
             $wwwDir = $regs[1];
-
+		else if ( ereg( "(.*)/([^\/]+\.php)$", eZSys::serverVariable( 'PHP_SELF' ), $regs ) )
+			$wwwDir = $regs[1];
+			
         // Fallback... Finding the paths above failed, so $_SERVER['PHP_SELF'] is not set right.
         if ( $siteDir == "./" )
             eZSys::setServerVariable( 'PHP_SELF', eZSys::serverVariable( 'REQUEST_URI' ) );
