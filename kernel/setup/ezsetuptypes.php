@@ -174,6 +174,14 @@ function eZSetupSiteINISettings( $siteType, $parameters, $isAdmin )
         $settings['SiteSettings'] = array( 'LoginPage' => 'embedded' );
     }
     $settings['ContentSettings'] = array( 'CachedViewPreferences' => array( 'full' => 'admin_navigation_content=0;admin_navigation_information=0;admin_navigation_languages=0;admin_navigation_locations=0;admin_navigation_relations=0;admin_navigation_roles=0;admin_navigation_policies=0;admin_navigation_translations=0;admin_children_viewmode=list;items=1' ) );
+    if ( $isAdmin )
+    {
+        $settings['SiteAccessSettings'] = array( 'ShowHiddenNodes' => 'true' );
+    }
+    else
+    {
+        $settings['SiteAccessSettings'] = array( 'ShowHiddenNodes' => 'false' );
+    }
     return array( 'name' => 'site.ini',
                   'settings' => $settings );
 }
