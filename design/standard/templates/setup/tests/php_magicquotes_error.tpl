@@ -12,3 +12,11 @@
 magic_quotes_gpc = 0
 magic_quotes_runtime = 0
 </pre>
+<p>
+{"Alternatively you may create a file called %1 in your eZ publish root folder and add the following:"|i18n("design/standard/setup/tests",,array(concat("<i>",".htaccess","</i>")))}
+</p>
+<label>{".htaccess example:"|i18n("design/standard/setup/tests")}</label><br/>
+<pre class="example">
+php_value magic_quotes_gpc 0
+php_value magic_quotes_runtime 0
+</pre>
