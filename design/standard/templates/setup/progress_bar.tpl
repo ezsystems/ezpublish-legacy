@@ -10,7 +10,8 @@
 	        <img src={"/design/standard/images/setup/eZ_setup_progress_bar_left.png"|ezroot} alt="" width="11" height="22" /></td>
 	      {/section}
           {section show=$progress|gt(0)}
-	    <td class="setup_progress_left" width="{mul( 549, div( $progress, 100 ) )}" /></td>
+	    <td class="setup_progress_left" width="{mul( 549, div( $progress, 100 ) )}" />
+	      <img src={"1x1.gif"|ezimage} height="6" /></td>
 	  {/section}
           {section show=$progress|lt(100)}
 	    <td class="setup_progress_right" width="{mul( 549, div( sub( 100, $progress ), 100 ) )}"></td>
