@@ -33,7 +33,7 @@
     {section show=$class.is_container|eq(1)}
         <input type="checkbox" name="ContentClass_is_container_checked" value="{$class.is_container}" checked />
     {section-else}
-        <input type="checkbox" name="ContentClass_is_container_checked" value="{$class.is_container}" />  
+        <input type="checkbox" name="ContentClass_is_container_checked" value="{$class.is_container}" />
     {/section}
     </div>
   </td>
@@ -200,5 +200,4 @@
 {include uri="design:gui/button.tpl" name=Apply id_name=ApplyButton value="Apply"|i18n("design/standard/class/edit")}
 {include uri="design:gui/button.tpl" name=Discard id_name=DiscardButton value="Discard Changes"|i18n("design/standard/class/edit")}
 </div>
-
 </form>

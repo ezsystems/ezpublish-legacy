@@ -40,7 +40,6 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
 
 
-
 $Module =& $Params['Module'];
 $ClassID = null;
 if ( isset( $Params['ClassID'] ) )
@@ -293,7 +292,7 @@ if ( $contentClassHasInput )
                               $class, $http, false );
     if ( $http->hasVariable( 'ContentClass_is_container_exists' ) )
     {
-    	if ( $http->hasVariable( 'ContentClass_is_container_checked' ) )
+        if ( $http->hasVariable( 'ContentClass_is_container_checked' ) )
         {
             $class->setAttribute( "is_container", 1 );
         }
@@ -492,7 +491,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
     eZContentClassClassGroup::removeClassMembers( $ClassID, EZ_CLASS_VERSION_STATUS_DEFINED );
 
     $classgroups =& eZContentClassClassGroup::fetchGroupList( $ClassID, EZ_CLASS_VERSION_STATUS_TEMPORARY );
-	for ( $i=0;$i<count(  $classgroups );$i++ )
+    for ( $i=0;$i<count(  $classgroups );$i++ )
     {
         $classgroup =& $classgroups[$i];
         $classgroup->setAttribute('contentclass_version', EZ_CLASS_VERSION_STATUS_DEFINED );

@@ -32,6 +32,15 @@
 </div>
 
 <div class="block">
+    <label>{"Container:"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
+    {section show=$class.is_container|eq(1)}
+        {"Yes"|i18n("design/standard/class/edit")}
+    {section-else}
+        {"No"|i18n("design/standard/class/edit")}
+    {/section}
+</div>
+
+<div class="block">
     <label>{"Object count"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
     <p>{$class.object_count}</p>
 </div>
