@@ -142,11 +142,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                                'datatype' => 'string',
                                                                'default' => '',
                                                                'required' => true ),
-                                         "is_hidden" => array( 'name' => "IsHidden",       // manually hidden
+                                         "is_hidden" => array( 'name' => "IsHidden",
                                                                'datatype' => 'integer',
                                                                'default' => 0,
                                                                'required' => true ),
-                                         "is_invisible" => array( 'name' => "IsInvisible", // made invisible by parent(s)
+                                         "is_invisible" => array( 'name' => "IsInvisible",
                                                                   'datatype' => 'integer',
                                                                   'default' => 0,
                                                                   'required' => true ) ),
