@@ -48,7 +48,7 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish SQL Schema 
 $script->startup();
 
 $options = $script->getOptions( "[type:][user:][host:][password;][output-array][output-serialized][output-sql]" .
-                                "[diff-friendly][meta-data][table-type:][table-charset:]" .
+                                "[diff-friendly][meta-data][table-type:][table-charset:][compatible-sql]" .
                                 "[format:]" .
                                 "[output-types:][allow-multi-insert]",
                                 "[database][filename]",
@@ -60,6 +60,7 @@ $options = $script->getOptions( "[type:][user:][host:][password;][output-array][
                                        'output-array' => 'Create file with array structures (Human readable)',
                                        'output-serialized' => 'Create file with serialized data (Saves space)',
                                        'output-sql' => 'Create file with SQL data (DB friendly)',
+                                       'compatible-sql' => 'Will turn SQL to be more compatible to existing dumps',
                                        'table-type' => ( "The table storage type to use for SQL output when creating tables.\n" .
                                                          "MySQL: bdb, innodb and myisam\n" .
                                                          "PostgreSQL: \n" .
@@ -144,8 +145,10 @@ $dbschemaParameters = array( 'schema' => $includeSchema,
                              'meta_data' => $options['meta-data'],
                              'table_type' => $options['table-type'],
                              'table_charset' => $options['table-charset'],
+                             'compatible_sql' => $options['compatible-sql'],
                              'allow_multi_insert' => $options['allow-multi-insert'],
                              'diff_friendly' => $options['diff-friendly'] );
+
 
 $outputType = 'serialized';
 if ( $options['output-array'] )

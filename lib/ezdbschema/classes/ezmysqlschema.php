@@ -100,6 +100,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
 
         $resultArray = $this->DBInstance->arrayQuery( "DESCRIBE $table" );
 
+        $i = 0;
         foreach( $resultArray as $row )
         {
 			$field = array();
@@ -126,17 +127,27 @@ class eZMysqlSchema extends eZDBSchemaInterface
 			}
             $numericTypes = array( 'float', 'int' );
             $blobTypes = array( 'tinytext', 'text', 'mediumtext', 'longtext' );
-            if ( $field['type'] == 'varchar' )
+            $charTypes = array( 'varchar', 'char' );
+            if ( in_array( $field['type'], $charTypes ) )
             {
-                if ( $field['default'] === false or
-                     $field['default'] === null )
+                if ( !$field['not_null'] )
                 {
-                    $field['default'] = '';
+                    if ( $field['default'] === null )
+                    {
+                        $field['default'] = null;
+                    }
+                    else if ( $field['default'] === false )
+                    {
+                        $field['default'] = '';
+                    }
                 }
             }
             else if ( in_array( $field['type'], $numericTypes ) )
             {
-                if ( $field['default'] == false )
+                if ( !$field['not_null'] and $field['default'] === null )
+                {
+                }
+                else if ( $field['default'] == false )
                 {
                     $field['default'] = 0;
                 }
@@ -162,7 +173,9 @@ class eZMysqlSchema extends eZDBSchemaInterface
 				unset( $field['not_null'] );
 				$field['type'] = 'auto_increment';
 			}
+            $field['offset'] = $i;
 			$fields[$row['Field']] = $field;
+            ++$i;
 		}
         ksort( $fields );
 
@@ -179,6 +192,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
 
         $resultArray = $this->DBInstance->arrayQuery( "SHOW INDEX FROM $table" );
 
+        $i = 0;
         foreach( $resultArray as $row )
 		{
 			$kn = $row['Key_name'];
@@ -191,6 +205,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
 			{
 				$indexes[$kn]['type'] = $row['Non_unique'] ? 'non-unique' : 'unique';
 			}
+            $indexes[$kn]['offset'] = $i;
 
             $indexFieldDef = array( 'name' => $row['Column_name'] );
 
@@ -206,6 +221,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
                 $indexFieldDef = $indexFieldDef['name'];
             }
 			$indexes[$kn]['fields'][$row['Seq_in_index'] - 1] = $indexFieldDef;
+            ++$i;
 		}
         ksort( $indexes );
 
@@ -215,7 +231,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
 	function parseType( $type_info, &$length_info )
 	{
 		preg_match( "@([a-z]*)(\(([0-9]*)\))?@", $type_info, $matches );
-		if ( isset ( $matches[3] ) )
+		if ( isset( $matches[3] ) )
 		{
 			$length_info = $matches[3];
             if ( is_numeric( $length_info ) )
@@ -230,6 +246,8 @@ class eZMysqlSchema extends eZDBSchemaInterface
 	function generateAddIndexSql( $table_name, $index_name, $def, $params, $isEmbedded = false )
 	{
         $diffFriendly = $params['diff_friendly'];
+        // If the output should compatible with existing MySQL dumps
+        $mysqlCompatible = isset( $params['compatible_sql'] ) ? $params['compatible_sql'] : false;
         $sql = '';
 
         // Will be set to true when primary key is inside CREATE TABLE
@@ -244,26 +262,43 @@ class eZMysqlSchema extends eZDBSchemaInterface
             case 'primary':
             {
                 $sql .= 'PRIMARY KEY';
+                if ( $mysqlCompatible )
+                    $sql .= " ";
             } break;
 
             case 'non-unique':
             {
-                $sql .= "INDEX $index_name";
+                if ( $isEmbedded )
+                {
+                    $sql .= "KEY $index_name";
+                }
+                else
+                {
+                    $sql .= "INDEX $index_name";
+                }
             } break;
 
             case 'unique':
             {
-                $sql .= "UNIQUE $index_name";
+                if ( $isEmbedded )
+                {
+                    $sql .= "UNIQUE KEY $index_name";
+                }
+                else
+                {
+                    $sql .= "UNIQUE $index_name";
+                }
             } break;
 		}
 
-        $sql .= ( $diffFriendly ? " (\n    " : " ( " );
+        $sql .= ( $diffFriendly ? " (\n    " : ( $mysqlCompatible ? " (" : " ( " ) );
+        $fields = $def['fields'];
         $i = 0;
-        foreach ( $def['fields'] as $fieldDef )
+        foreach ( $fields as $fieldDef )
         {
             if ( $i > 0 )
             {
-                $sql .= $diffFriendly ? ",\n    " : ', ';
+                $sql .= $diffFriendly ? ",\n    " : ( $mysqlCompatible ? ',' : ', ' );
             }
             if ( is_array( $fieldDef ) )
             {
@@ -277,7 +312,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
                     }
                     else
                     {
-                        $sql .= "( ";
+                        $sql .= $mysqlCompatible ? "(" : "( ";
                     }
                     $sql .= $fieldDef['mysql:length'];
                     if ( $diffFriendly )
@@ -286,7 +321,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
                     }
                     else
                     {
-                        $sql .= " )";
+                        $sql .= $mysqlCompatible ? ")" : " )";
                     }
                 }
             }
@@ -296,7 +331,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
             }
             ++$i;
         }
-        $sql .= ( $diffFriendly ? "\n)" : " )" );
+        $sql .= ( $diffFriendly ? "\n)" : ( $mysqlCompatible ? ")" : " )" ) );
 
         if ( !$isEmbedded )
         {
@@ -334,44 +369,44 @@ class eZMysqlSchema extends eZDBSchemaInterface
 
 		if ( $def['type'] != 'auto_increment' )
 		{
-			$sql_def .= $def['type'];
+            $defList = array();
+            $type = $def['type'];
 			if ( isset( $def['length'] ) )
 			{
-				$sql_def .= "({$def['length']})";
+				$type .= "({$def['length']})";
 			}
+			$defList[] = $type;
 			if ( isset( $def['not_null'] ) && ( $def['not_null'] ) )
             {
-                $sql_def .= $diffFriendly ? "\n    " : " ";
-				$sql_def .= 'NOT NULL';
+				$defList[] = 'NOT NULL';
 			}
             if ( array_key_exists( 'default', $def ) )
             {
-                $sql_def .= $diffFriendly ? "\n    " : " ";
                 if ( $def['default'] === null )
                 {
-                    $sql_def .= "DEFAULT NULL";
+                    $defList[] = "default NULL";
                 }
                 else if ( $def['default'] !== false )
                 {
-                    $sql_def .= "DEFAULT '{$def['default']}'";
+                    $defList[] = "default '{$def['default']}'";
                 }
 			}
 			else if ( $def['type'] == 'varchar' )
 			{
-                $sql_def .= $diffFriendly ? "\n    " : " ";
-				$sql_def .= "DEFAULT ''";
+				$defList[] = "default ''";
 			}
+            $sql_def .= join( $diffFriendly ? "\n    " : " ", $defList );
 			$skip_primary = false;
 		}
 		else
 		{
             if ( $diffFriendly )
             {
-                $sql_def .= "int(11)\n    NOT NULL\n    AUTO_INCREMENT";
+                $sql_def .= "int(11)\n    NOT NULL\n    auto_increment";
             }
             else
             {
-                $sql_def .= 'int(11) NOT NULL AUTO_INCREMENT';
+                $sql_def .= 'int(11) NOT NULL auto_increment';
             }
 			$skip_primary = true;
 		}
@@ -410,7 +445,11 @@ class eZMysqlSchema extends eZDBSchemaInterface
         $skip_pk = false;
         $sql_fields = array();
         $sql .= "CREATE TABLE $tableName (\n";
-        foreach ( $tableDef['fields'] as $field_name => $field_def )
+
+        $fields = $tableDef['fields'];
+        uasort( $fields, create_function( '$a, $b', 'return ( $a["offset"] == $b["offset"]) ? 0 : ( $a["offset"] > $b["offset"] ? 1 : -1 );' ) );
+
+        foreach ( $fields as $field_name => $field_def )
         {
             $sql_fields[] = '  ' . eZMysqlSchema::generateFieldDef( $field_name, $field_def, $skip_pk_flag, $params );
             if ( $skip_pk_flag )
@@ -418,19 +457,25 @@ class eZMysqlSchema extends eZDBSchemaInterface
                 $skip_pk = true;
             }
         }
-        if ( $skip_pk )
+
+        $embeddedIndexList = array();
+
+        // Make sure the order is as defined by 'offset'
+        $indexes = $tableDef['indexes'];
+        uasort( $indexes, create_function( '$a, $b', 'return ( $a["offset"] == $b["offset"]) ? 0 : ( $a["offset"] > $b["offset"] ? 1 : -1 );' ) );
+
+        // We need to add primary key in table definition
+//        if ( $skip_pk )
         {
-            foreach ( $tableDef['indexes'] as $index_name => $index_def )
+            foreach ( $indexes as $index_name => $index_def )
             {
-                if ( $index_def['type'] != 'primary' )
-                    continue;
+                $embeddedIndexList[] = $index_name;
                 $sql_fields[] = ( $diffFriendly ? '' : '  ' ) . eZMysqlSchema::generateAddIndexSql( $tableName, $index_name, $index_def, $params, true );
-                break;
             }
         }
         $sql .= join( ",\n", $sql_fields );
-        // We need to add primary key in table definition
         $sql .= "\n)";
+
         $extraOptions = array();
         if ( isset( $params['table_type'] ) and $params['table_type'] )
         {
@@ -454,10 +499,11 @@ class eZMysqlSchema extends eZDBSchemaInterface
         }
         $sql .= ";\n";
 
-        foreach ( $tableDef['indexes'] as $index_name => $index_def )
+        foreach ( $indexes as $index_name => $index_def )
         {
-            if ( $index_def['type'] != 'primary' or
-                 ( $index_def['type'] == 'primary' ) && ( !$skip_pk ) )
+//             if ( $index_def['type'] != 'primary' or
+//                  ( $index_def['type'] == 'primary' ) && ( !$skip_pk ) )
+            if ( !in_array( $index_name, $embeddedIndexList ) )
             {
                 $sql .= eZMysqlSchema::generateAddIndexSql( $tableName, $index_name, $index_def, $params );
             }
