@@ -1,7 +1,7 @@
 <form action={$module.functions.translations.uri|ezurl} method="post" >
 
 <div class="context-block">
-<h2 class="context-title">{'Content translations'|i18n( 'design/admin/content/translations' )}&nbsp;[{$existing_translations|count}]</h2>
+<h2 class="context-title">{'Content translations [%translations_count]'|i18n( 'design/admin/content/translations',, hash( '%translations_count', $existing_translations|count ) )}</h2>
 
 <table class="list" cellspacing="0">
 <tr>

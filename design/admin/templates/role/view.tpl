@@ -32,7 +32,7 @@ function toggleCheckboxes( formname, checkboxname )
 
 <div class="context-attributes">
 <div class="block">
-<label>{'Policies'|i18n( 'design/admin/role/view' )} [{$policies|count}]</label><div class="labelbreak"></div>
+<label>{'Policies [%policies_count]'|i18n( 'design/admin/role/view',, hash( '%policies_count', $policies|count ) )}]</label><div class="labelbreak"></div>
 <table class="list" cellspacing="0">
 <tr>
     <th>{'Module'|i18n(' design/admin/role/view ')}</th>
