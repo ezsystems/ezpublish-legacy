@@ -151,21 +151,15 @@ MatchFile=embed_image.tpl
 Subdir=templates
 Match[class_identifier]=image
 
-[text_linked_image]
-Source=content/view/text_linked.tpl
-MatchFile=text_linked_image.tpl
-Subdir=templates
-Match[class_identifier]=image
-
 [image]
 Source=node/view/full.tpl
 MatchFile=image.tpl
 Subdir=templates
 Match[class_identifier]=image
 
-[thumbnail_image]
-Source=node/view/thumbnail.tpl
-MatchFile=image_thumbnail.tpl
+[thumb_image]
+Source=node/view/thumb.tpl
+MatchFile=image_thumb.tpl
 Subdir=templates
 Match[class_identifier]=image
 
@@ -216,6 +210,5 @@ Source=content/datatype/view/ezmatrix.tpl
 MatchFile=matrix_view.tpl
 Subdir=templates
 Match[class_identifier]=company
-
 
 */ ?>

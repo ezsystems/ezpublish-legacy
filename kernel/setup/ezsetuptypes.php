@@ -681,10 +681,10 @@ function eZSetupAdminOverrideINISettings( $siteType, $parameters )
                     'class_identifier' => 'image',
                     ),
                 ),
-            'text_linked_image' => 
+            'thumb_image' => 
             array (
-                'Source' => 'node/view/line.tpl',
-                'MatchFile' => 'text_linked_image.tpl',
+                'Source' => 'node/view/thumb.tpl',
+                'MatchFile' => 'image_thumb.tpl',
                 'Subdir' => 'templates',
                 'Match' => 
                 array (
@@ -695,16 +695,6 @@ function eZSetupAdminOverrideINISettings( $siteType, $parameters )
             array (
                 'Source' => 'node/view/full.tpl',
                 'MatchFile' => 'image.tpl',
-                'Subdir' => 'templates',
-                'Match' => 
-                array (
-                    'class_identifier' => 'image',
-                    ),
-                ),
-            'thumbnail_image' => 
-            array (
-                'Source' => 'node/view/thumbnail.tpl',
-                'MatchFile' => 'image_thumbnail.tpl',
                 'Subdir' => 'templates',
                 'Match' => 
                 array (

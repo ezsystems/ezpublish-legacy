@@ -116,7 +116,7 @@
     {section name=Object loop=$related_contentobjects sequence=array(bglight,bgdark)}
     <tr>
         <td class="{$Object:sequence}" align="left" colspan="1">
-          <p class="box">{node_view_gui view=line content_node=$Object:item.main_node}</p>
+          <p class="box">{node_view_gui view=thumb content_node=$Object:item.main_node}</p>
 	  <span class="small">&lt;object id='{$Object:item.id}' /&gt;</span>
 	</td>
         <td class="{$Object:sequence}" align="right" colspan="1" width="1">
