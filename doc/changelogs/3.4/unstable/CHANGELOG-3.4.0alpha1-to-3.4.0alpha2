@@ -38,6 +38,8 @@ Changes from 3.4.0alpha1 to 3.4.0alpha2
 - Made sure eZImage, eZMedia and eZENUM only copies attribute data when
   supplied version is non-false.
 - Added attribute is_enabled to eZUser.
+- Link tags in ezxml fields with empty href values are now handled properly, empty links
+  will signal a validation error. (Merged from stable/3.3 rev. 5582)
 
 *Shop:
 - Added list of customers.

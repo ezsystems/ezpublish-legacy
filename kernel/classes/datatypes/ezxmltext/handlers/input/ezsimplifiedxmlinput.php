@@ -694,11 +694,29 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $subNode->Attributes = $allowedAttr;
             }
 
-            if ( $allowedAttr == null and $currentTag == "link" )
+            if ( $currentTag == "link" )
             {
-                //Set input invalid
-                $this->IsInputValid = false;
-                $message[] = "Tag 'link' must have attribute 'href' or valid 'id' (need fix)";
+                if ( $allowedAttr == null )
+                {
+                    //Set input invalid
+                    $this->IsInputValid = false;
+                    $message[] = "Tag 'link' must have attribute 'href' or valid 'id' (need fix)";
+                }
+                else
+                {
+                    foreach ( $allowedAttr as $allowedAttrNode )
+                    {
+                        if ( $allowedAttrNode->name() == 'href' )
+                        {
+                            $content = $allowedAttrNode->content();
+                            if ( strlen( trim( $content ) ) == 0 )
+                            {
+                                $this->IsInputValid = false;
+                                $message[] = "Attribute 'href' in tag 'link' cannot be empty";
+                            }
+                        }
+                    }
+                }
             }
 
             $domDocument->registerElement( $subNode );
@@ -1606,7 +1624,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 // Find all Link id's
                 foreach ( $links as $link )
                 {
-                    if ( !in_array( $link->attributeValue( 'id' ), $linkIDArray ) )
+                    $linkIDValue = $link->attributeValue( 'id' );
+                    if ( !$linkIDValue )
+                        continue;
+                    if ( !in_array( $linkIDValue, $linkIDArray ) )
                          $linkIDArray[] = $link->attributeValue( 'id' );
                 }
 
