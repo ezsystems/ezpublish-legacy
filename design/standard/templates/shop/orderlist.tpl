@@ -30,7 +30,7 @@
 	{$Order:item.order_nr}
 	</td>
 	<td class="{$Order:sequence}">
-	{$Order:item.created|l10n(date)}
+	{$Order:item.created|l10n(shortdatetime)}
 	</td>
 	<td class="{$Order:sequence}">
 	{content_view_gui view=text_linked content_object=$Order:item.user.contentobject}
