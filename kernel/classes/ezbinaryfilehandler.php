@@ -117,9 +117,11 @@ class eZBinaryFileHandler
      Currently supports eZBinaryFile, eZMedia and eZImageAliasHandler.
      \return \c false if no file was found.
      \param $returnMimeData If this is set to \c true then it will return a mime structure, otherwise it returns the filename.
+     \deprecated
     */
     function storedFilename( &$binary, $returnMimeData = false )
     {
+
         $origDir = eZSys::storageDirectory() . '/original';
 
         $class = get_class( $binary );
@@ -174,6 +176,7 @@ class eZBinaryFileHandler
 
     /*!
      \return the file object type which corresponds to \a $contentObject and \a $contentObjectAttribute.
+     \deprecated
     */
     function downloadType( &$contentObject, &$contentObjectAttribute )
     {
@@ -190,6 +193,7 @@ class eZBinaryFileHandler
 
     /*!
      \return the download url for the file object which corresponds to \a $contentObject and \a $contentObjectAttribute.
+     \deprecated
     */
     function downloadURL( &$contentObject, &$contentObjectAttribute )
     {
@@ -223,35 +227,24 @@ class eZBinaryFileHandler
         include_once( 'kernel/classes/datatypes/ezimage/ezimagealiashandler.php' );
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $version = $contentObject->attribute( 'current_version' );
-        $fileObject =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
-        if ( $fileObject === null )
-            $fileObject =& eZMedia::fetch( $contentObjectAttributeID, $version );
-        if ( $fileObject === null )
-        {
-            if ( $contentObjectAttribute->attribute( 'data_type_string' ) == 'ezimage' )
-            {
-                $fileObject = new eZImageAliasHandler( $contentObjectAttribute );
-            }
-        }
 
-	if ( is_file( $this->storedFilename( $fileObject ) ) )
-	{
-	    $db =& eZDB::instance();
-            $db->query( "UPDATE ezbinaryfile SET download_count=(download_count+1)
-                         WHERE
-                         contentobject_attribute_id=$contentObjectAttributeID AND version=$version" );
 
-	}
-	
-        if ( $fileObject === null )
+
+        if ( !$contentObjectAttribute->hasStoredFileInformation( $contentObject, $version,
+                                                                 $contentObjectAttribute->attribute( 'language_code' ) ) )
             return EZ_BINARY_FILE_RESULT_UNAVAILABLE;
 
-        $mimeData = $this->storedFilename( $fileObject, true );
-        if ( !$mimeData )
+        $fileInfo = $contentObjectAttribute->storedFileInformation( $contentObject, $version,
+                                                                    $contentObjectAttribute->attribute( 'language_code' ) );
+        if ( !$fileInfo )
+            return EZ_BINARY_FILE_RESULT_UNAVAILABLE;
+        if ( !$fileInfo['mime_type'] )
             return EZ_BINARY_FILE_RESULT_UNAVAILABLE;
 
-//         $fileObject->attribute( 'mime_type' );
-        return $this->handleFileDownload( $contentObject, $contentObjectAttribute, $type, $mimeData );
+        $contentObjectAttribute->handleDownload( $contentObject, $version,
+                                                 $contentObjectAttribute->attribute( 'language_code' ) );
+
+        return $this->handleFileDownload( $contentObject, $contentObjectAttribute, $type, $fileInfo );
     }
 
     function handleFileDownload( &$contentObject, &$contentObjectAttribute, $type, $mimeData )

@@ -776,6 +776,22 @@ class eZContentObjectAttribute extends eZPersistentObject
     }
 
     /*!
+     Calls handleDownload() on the current datatype and returns the result.
+    */
+    function handleDownload( &$object, $objectVersion, $objectLanguage )
+    {
+        if ( !$object )
+            $object =& $this->object();
+        if ( $objectVersion === false )
+            $objectVersion = $object->attribute( 'current_version' );
+        if ( $objectLanguage === false )
+            $objectLanguage = $object->attribute( 'default_language' );
+        $dataType =& $this->dataType();
+        return $dataType->handleDownload( $object, $objectVersion, $objectLanguage,
+                                          $this );
+    }
+
+    /*!
      Initialized the attribute by using the datatype.
     */
     function initialize( $currentVersion = null, $originalContentObjectAttribute = null )

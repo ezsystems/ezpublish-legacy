@@ -330,8 +330,10 @@ class eZImageType extends eZDataType
             $fileName = $original['filename'];
             $filePath = $original['full_path'];
             $mimeType = $original['mime_type'];
+            $originalFileName = $original['original_filename'];
 
             return array( 'filename' => $fileName,
+                          'original_filename' => $originalFileName,
                           'filepath' => $filePath,
                           'mime_type' => $mimeType );
         }

@@ -486,14 +486,7 @@ class eZMediaType extends eZDataType
                                       $objectAttribute->attribute( "version" ) );
         if ( $mediaFile )
         {
-            $fileName = $mediaFile->attribute( 'filename' );
-            $mimeType = $mediaFile->attribute( 'mime_type' );
-            $storageDir = eZSys::storageDirectory();
-            list( $group, $type ) = explode( '/', $mimeType );
-            $filePath = $storageDir . '/original/' . $group . '/' . $fileName;
-            return array( 'filename' => $fileName,
-                          'filepath' => $filePath,
-                          'mime_type' => $mimeType );
+            $mediaFile->storedFileInfo();
         }
         return false;
     }
@@ -620,8 +613,9 @@ class eZMediaType extends eZDataType
 
         $mediaFile =& $objectAttribute->attribute( 'content' );
         $fileKey = md5( mt_rand() );
-        include_once( 'kernel/classes/ezbinaryfilehandler.php' );
-        $package->appendSimpleFile( $fileKey, eZBinaryFileHandler::storedFilename( $mediaFile ) );
+
+        $fileInfo = $mediaFile->storedFileInfo();
+        $package->appendSimpleFile( $fileKey, $fileInfo['filepath'] );
 
         $mediaNode =& eZDOMDocument::createElementNode( 'media-file' );
         $mediaNode->appendAttribute( eZDOMDocument::createAttributeNode( 'filesize', $mediaFile->attribute( 'filesize' ) ) );

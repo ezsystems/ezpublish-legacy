@@ -113,15 +113,16 @@ class eZBinaryFile extends eZPersistentObject
         {
             case 'filesize':
             {
-                $storedFile = eZBinaryFileHandler::storedFilename( $this );
-                if ( file_exists( $storedFile ) )
-                    return filesize( $storedFile );
+                $fileInfo = $this->storedFileInfo();
+                if ( file_exists( $fileInfo['filepath'] ) )
+                    return filesize( $fileInfo['filepath'] );
                 else
                     return 0;
             } break;
             case 'filepath':
             {
-                return eZBinaryFileHandler::storedFilename( $this );
+                $fileInfo = $this->storedFileInfo();
+                return $fileInfo['filepath'];
             } break;
             case 'mime_type_category':
             {
@@ -208,7 +209,8 @@ class eZBinaryFile extends eZPersistentObject
 
                 $parserClass = 'ez' . $handlerSettings[$this->MimeType] . 'parser';
                 $parserObject = new $parserClass();
-                $metaData =& $parserObject->parseFile( eZBinaryFileHandler::storedFilename( $this ) );
+                $fileInfo = $this->storedFileInfo();
+                $metaData =& $parserObject->parseFile( $fileInfo['filepath'] );
             }
             else
             {
@@ -221,6 +223,20 @@ class eZBinaryFile extends eZPersistentObject
         }
 
         return $metaData;
+    }
+
+    function storedFileInfo()
+    {
+        $fileName = $this->attribute( 'filename' );
+        $mimeType = $this->attribute( 'mime_type' );
+        $originalFileName = $this->attribute( 'original_filename' );
+        $storageDir = eZSys::storageDirectory();
+        list( $group, $type ) = explode( '/', $mimeType );
+        $filePath = $storageDir . '/original/' . $group . '/' . $fileName;
+        return array( 'filename' => $fileName,
+                      'original_filename' => $originalFileName,
+                      'filepath' => $filePath,
+                      'mime_type' => $mimeType );
     }
 
     var $ContentObjectAttributeID;

@@ -395,6 +395,23 @@ class eZDataType
 
     /*!
      \virtual
+     This function is called when someone tries to download the file.
+
+     \param $object The contentobject in which the attribute is contained
+     \param $objectVersion The current version of the object it is being worked on
+     \param $objectLanguage The current language being worked on
+     \param $objectAttribute The attribute which stored the file
+
+     \return \c true if any action has been don or \c false if hasn't.
+    */
+    function handleDownload( &$object, $objectVersion, $objectLanguage,
+                             &$objectAttribute )
+    {
+        return false;
+    }
+
+    /*!
+     \virtual
      Returns file information for the filed stored by the attribute.
 
      \param $object The contentobject in which the attribute is contained

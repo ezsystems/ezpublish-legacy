@@ -458,14 +458,30 @@ class eZBinaryFileType extends eZDataType
                                             $objectAttribute->attribute( "version" ) );
         if ( $binaryFile )
         {
-            $fileName = $binaryFile->attribute( 'filename' );
-            $mimeType = $binaryFile->attribute( 'mime_type' );
-            $storageDir = eZSys::storageDirectory();
-            list( $group, $type ) = explode( '/', $mimeType );
-            $filePath = $storageDir . '/original/' . $group . '/' . $fileName;
-            return array( 'filename' => $fileName,
-                          'filepath' => $filePath,
-                          'mime_type' => $mimeType );
+            return $binaryFile->storedFileInfo();
+        }
+        return false;
+    }
+    /*!
+      \reimp
+      Updates download count for binary file.
+    */
+    function handleDownload( &$object, $objectVersion, $objectLanguage,
+                             &$objectAttribute )
+    {
+        $binaryFile =& eZBinaryFile::fetch( $objectAttribute->attribute( "id" ),
+                                            $objectAttribute->attribute( "version" ) );
+
+        $contentObjectAttributeID = $objectAttribute->attribute( 'id' );
+        $version =  $objectAttribute->attribute( "version" );
+
+        if ( $binaryFile )
+        {
+            $db =& eZDB::instance();
+            $db->query( "UPDATE ezbinaryfile SET download_count=(download_count+1)
+                         WHERE
+                         contentobject_attribute_id=$contentObjectAttributeID AND version=$version" );
+            return true;
         }
         return false;
     }

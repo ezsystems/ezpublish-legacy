@@ -137,18 +137,17 @@ class eZMedia extends eZPersistentObject
         {
             case 'filesize':
             {
-                include_once( 'kernel/classes/ezbinaryfilehandler.php' );
-                $storedFile = eZBinaryFileHandler::storedFilename( $this );
-                if ( file_exists( $storedFile ) )
-                    return filesize( $storedFile );
+                $fileInfo = $this->storedFileInfo();
+                if ( file_exists( $fileInfo['filepath'] ) )
+                    return filesize( $fileInfo['filepath'] );
                 else
                     return 0;
             } break;
 
             case 'filepath':
             {
-                include_once( 'kernel/classes/ezbinaryfilehandler.php' );
-                return eZBinaryFileHandler::storedFilename( $this );
+                $fileInfo = $this->storedFileInfo();
+                return $fileInfo['filepath'];
             } break;
 
             case 'mime_type_category':
@@ -221,6 +220,24 @@ class eZMedia extends eZPersistentObject
                                               array( "contentobject_attribute_id" => $id,
                                                      "version" => $version ) );
         }
+    }
+
+    function storedFileInfo()
+    {
+        $fileName = $this->attribute( 'filename' );
+        $mimeType = $this->attribute( 'mime_type' );
+        $originalFileName = $this->attribute( 'original_filename' );
+
+        $storageDir = eZSys::storageDirectory();
+
+        list( $group, $type ) = explode( '/', $mimeType );
+
+        $filePath = $storageDir . '/original/' . $group . '/' . $fileName;
+
+        return array( 'filename' => $fileName,
+                      'original_filename' => $originalFileName,
+                      'filepath' => $filePath,
+                      'mime_type' => $mimeType );
     }
 
     var $ContentObjectAttributeID;

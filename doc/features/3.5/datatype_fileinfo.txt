@@ -16,6 +16,7 @@ methods:
    The structure looks like:
    * filepath
    * filename (optional)
+   * original_filename (optional)
    * filesize (optional)
    * mime_type (optional)
    All optional fields will be calculated if missing.

@@ -53,14 +53,14 @@ class eZFilePasstroughHandler extends eZBinaryFileHandler
     }
 
     function handleFileDownload( &$contentObject, &$contentObjectAttribute, $type,
-                                 $mimeData )
+                                 $fileInfo )
     {
-        $fileName = $mimeData['url'];
+        $fileName = $fileInfo['filepath'];
         if ( $fileName != "" and file_exists( $fileName ) )
         {
             $fileSize = filesize( $fileName );
-            $mimeType =  $mimeData['name'];
-            $originalFileName = $mimeData['original_filename'];
+            $mimeType =  $fileInfo['mime_type'];
+            $originalFileName = $fileInfo['original_filename'];
             $contentLength = $fileSize;
             $fileOffset = false;
             $fileLength = false;
