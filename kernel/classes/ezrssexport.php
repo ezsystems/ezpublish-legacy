@@ -546,28 +546,34 @@ class eZRSSExport extends eZPersistentObject
 
                 $itemTitle =& $doc->createElementNode( 'title' );
                 $title =& $object->attribute( $rssItem->attribute( 'title' ) );
-                $titleContent =& $title->attribute( 'content' );
-                if ( get_class( $titleContent ) == 'ezxmltext' )
+                if ( $title != null ) // TODO : find out why title is NULL some times ... feed, kake
                 {
-                    $outputHandler =& $titleContent->attribute( 'output' );
-                    $itemTitle->appendChild( $doc->createTextNode( $outputHandler->attribute( 'output_text' ) ) );
-                }
-                else
-                {
-                    $itemTitle->appendChild( $doc->createTextNode( $titleContent ) );
+                    $titleContent =& $title->attribute( 'content' );
+                    if ( get_class( $titleContent ) == 'ezxmltext' )
+                    {
+                        $outputHandler =& $titleContent->attribute( 'output' );
+                        $itemTitle->appendChild( $doc->createTextNode( $outputHandler->attribute( 'output_text' ) ) );
+                    }
+                    else
+                    {
+                        $itemTitle->appendChild( $doc->createTextNode( $titleContent ) );
+                    }
                 }
 
                 $itemDescription =& $doc->createElementNode( 'description' );
                 $description =& $object->attribute( $rssItem->attribute( 'description' ) );
-                $descriptionContent =& $description->attribute( 'content' );
-                if ( get_class( $descriptionContent ) == 'ezxmltext' )
+                if ( $description != null )
                 {
-                    $outputHandler =& $descriptionContent->attribute( 'output' );
-                    $itemDescription->appendChild( $doc->createTextNode( $outputHandler->attribute( 'output_text' ) ) );
-                }
-                else
-                {
-                    $itemDescription->appendChild( $doc->createTextNode( $descriptionContent ) );
+                    $descriptionContent =& $description->attribute( 'content' );
+                    if ( get_class( $descriptionContent ) == 'ezxmltext' )
+                    {
+                        $outputHandler =& $descriptionContent->attribute( 'output' );
+                        $itemDescription->appendChild( $doc->createTextNode( $outputHandler->attribute( 'output_text' ) ) );
+                    }
+                    else
+                    {
+                        $itemDescription->appendChild( $doc->createTextNode( $descriptionContent ) );
+                    }
                 }
 
                 $itemLink =& $doc->createElementNode( 'link' );

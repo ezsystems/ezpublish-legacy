@@ -33,6 +33,7 @@
   http://ez.no/developer/ez_publish_3/bug_reports/restore_from_trash_returns_error
 - Fixed cleanup bug in workflows http://ez.no/developer/ez_publish_3/bug_reports/deleted_workflow_shows_up_in_triggers ( merged from stable 4336 )
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/contentini_defaultversionhistorylimit_2_provokes_kernel_crash ( merged from stable 4339 )
+- Fixed path bug while editing top nodes : http://ez.no/developer/ez_publish_3/bug_reports/editing_root_node_fails_path_error ( merged from stable 4342 )
 
 *Kernel:
 - Fixed editing PDF exports : http://ez.no/developer/ez_publish_3/bug_reports/pdf_export_must_be_editable_and_schedulable

@@ -17,6 +17,7 @@ Changes from 3.2-3 to 3.2-4
   will use a default value from the client. (e.g node_45 from content tree nodes)
 - When you add a new location to an object it will be automatically set to main if no other
   locations is already set as main
+- Replaced several " with ' in kernel/content/module.php
 
 *Bugfixes:
 - Fixed copy object bug. Current version was not set, multiple version copy did not set object name and redirect did not contain version number.
@@ -50,6 +51,7 @@ Changes from 3.2-3 to 3.2-4
 - Fixed fetch( content, tree_count ... operator bug, http://ez.no/developer/ez_publish_3/bug_reports/missing_depth_operator_in_function_definition
 - Fixed cleanup bug in workflows http://ez.no/developer/ez_publish_3/bug_reports/deleted_workflow_shows_up_in_triggers
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/contentini_defaultversionhistorylimit_2_provokes_kernel_crash
+- Fixed path bug while editing top nodes : http://ez.no/developer/ez_publish_3/bug_reports/editing_root_node_fails_path_error
 
 *Library :
 

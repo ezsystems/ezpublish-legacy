@@ -8,19 +8,19 @@
 // Management System.
 //
 // This file may be distributed and/or modified under the terms of the
-// "GNU General Public License" version 2 as published by the Free
+// 'GNU General Public License' version 2 as published by the Free
 // Software Foundation and appearing in the file LICENSE.GPL included in
 // the packaging of this file.
 //
-// Licencees holding valid "eZ publish professional licences" may use this
-// file in accordance with the "eZ publish professional licence" Agreement
+// Licencees holding valid 'eZ publish professional licences' may use this
+// file in accordance with the 'eZ publish professional licence' Agreement
 // provided with the Software.
 //
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING
 // THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE.
 //
-// The "eZ publish professional licence" is available at
+// The 'eZ publish professional licence' is available at
 // http://ez.no/products/licences/professional/. For pricing of this licence
 // please contact us via e-mail to licence@ez.no. Further contact
 // information is available at http://ez.no/home/contact/.
@@ -283,12 +283,12 @@ $ViewList['tipafriend'] = array(
     'script' => 'tipafriend.php',
     'params' => array( 'NodeID' ) );
 
-$ViewList["keyword"] = array(
-    "functions" => array( 'read' ),
-    "default_navigation_part" => 'ezcontentnavigationpart',
-    "script" => "keyword.php",
-    "params" => array( "alphabet"=>"Alphabet" ),
-    "unordered_params" => array( "offset" => "Offset", "classid" => "ClassID" ) );
+$ViewList['keyword'] = array(
+    'functions' => array( 'read' ),
+    'default_navigation_part' => 'ezcontentnavigationpart',
+    'script' => 'keyword.php',
+    'params' => array( 'alphabet'=>'Alphabet' ),
+    'unordered_params' => array( 'offset' => 'Offset', 'classid' => 'ClassID' ) );
 
 $ViewList['collectedinfo'] = array(
     'functions' => array( 'read' ),

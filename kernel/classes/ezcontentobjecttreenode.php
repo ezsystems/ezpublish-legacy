@@ -1916,6 +1916,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $pathArray = explode( '/', trim($nodePath,'/') );
         $pathArray = array_slice( $pathArray, 0, count($pathArray)-1 );
 
+        if ( count( $pathArray ) == 0 )
+        {
+            return eZContentObjectTreeNode::makeObjectsArray( $pathArray );
+        }
+
         $pathString = '';
         foreach ( $pathArray as $node )
         {
