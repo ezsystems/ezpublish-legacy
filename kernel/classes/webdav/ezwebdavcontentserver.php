@@ -190,28 +190,9 @@ function gotPermission()
     $userObject =& $user->attribute( 'contentobject' );
     append_to_log( "gotPermission: username:".$userObject->attribute( 'name' ) );
 
-    // Get the roles assigned to this user.
-    $roles = $user->roles();
+    $status = $user->hasAccessTo( '*', '*' );
 
-    // For all the roles:
-    foreach( $roles as $role )
-    {
-        // Grab the list of policies.
-        $policies = $role->policyList();
-
-
-        // For all the policies:
-        foreach( $policies as $policy )
-        {
-            if ( $policy->attribute( 'module_name' ) == '*' and
-                 $policy->attribute( 'function_name' ) == '*' and
-                 $policy->attribute( 'limitation' ) == '*' )
-               return true;
-        }
-    }
-
-    // Still haven't found the three stars? -> permission denied!
-    return false;
+    return $status['accessWord'] == 'yes';
 }
 
 
