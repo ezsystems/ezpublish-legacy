@@ -30,6 +30,7 @@ Changes from 3.0-? to 3.1
 - Added new browse page.
 - New functionality for automatically creating template operators using a wizard. Part of the new RAD functionality
   and available at setup/templateoperator.
+- Added a new template operator, WordToImage. Replaces any given string with a link to an image.
 
 Binary file:
 - Added support for resuming downloads.
