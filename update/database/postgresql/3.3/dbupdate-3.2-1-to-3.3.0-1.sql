@@ -4,7 +4,6 @@ UPDATE ezsite_data SET value='1' WHERE name='ezpublish-release';
 ALTER TABLE ezinfocollection ADD COLUMN user_identifier VARCHAR(34);
 ALTER TABLE ezinfocollection ADD COLUMN modified INT;
 ALTER TABLE ezinfocollection ALTER modified SET DEFAULT 0;
-ALTER TABLE ezinfocollection ALTER modified SET NOT NULL;
 ALTER TABLE ezinfocollection_attribute ADD COLUMN contentobject_attribute_id INT;
 ALTER TABLE ezinfocollection_attribute ADD COLUMN contentobject_id INT;
 
@@ -136,3 +135,10 @@ CREATE TABLE ezview_counter (
   count integer NOT NULL default '0',
   PRIMARY KEY  (node_id)
 );
+
+ALTER TABLE ezcontentobject_attribute ADD COLUMN data_type_string VARCHAR(50);
+
+ALTER TABLE ezcontentobject_version ADD COLUMN workflow_event_pos INT;
+ALTER TABLE ezcontentobject_version ALTER workflow_event_pos SET DEFAULT 0;
+
+
